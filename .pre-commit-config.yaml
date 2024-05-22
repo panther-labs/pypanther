@@ -1,0 +1,35 @@
+repos:
+- repo: https://github.com/macisamuele/language-formatters-pre-commit-hooks
+  rev: v2.13.0
+  hooks:
+  - id: pretty-format-yaml
+    args: [--autofix, --indent, '2']
+- repo: local
+  hooks:
+  - id: isort
+    name: isort
+    entry: poetry run isort
+    language: system
+    types: [python]
+    args: [--profile, black]
+    exclude: (^panther_analysis/rules/|^panther_analysis/helpers/|^panther_analysis/data_models/)
+  - id: black
+    name: black
+    entry: poetry run black
+    language: system
+    require_serial: true
+    types_or: [python, pyi]
+  - id: ruff
+    name: ruff
+    entry: poetry run ruff
+    language: system
+    types: [python]
+    args: [check]
+    exclude: (^panther_analysis/rules/|^panther_analysis/helpers/|^panther_analysis/data_models/)
+  - id: mypy
+    name: mypy
+    entry: poetry run mypy
+    language: system
+    types: [python]
+    args: [.]
+    pass_filenames: false

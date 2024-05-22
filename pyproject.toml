@@ -1,0 +1,82 @@
+[tool.poetry]
+name = "panther-analysis"
+version = "0.1.0"
+description = ""
+authors = ["Panther Labs Inc <pypi@runpanther.io>"]
+readme = "README.md"
+keywords = ["Security", "CLI"]
+classifiers = [
+    "Operating System :: OS Independent",
+]
+license = "AGPL-3.0-only"
+
+[tool.poetry.dependencies]
+python = "3.11.*"
+pydantic = "^2.7.1"
+ruamel-yaml = "^0.18.6"
+ast-comments = "^1.2.2"
+black = "^24.4.2"
+panther-detection-helpers = "^0.4.0"
+panther-core = "^0.10.0"
+boto3 = "^1.34.99"
+policyuniverse = "^1.5.1.20231109"
+jsonpath-ng = "^1.6.1"
+
+[tool.poetry.group.dev.dependencies]
+mypy = "^1.10.0"
+pre-commit = "^3.7.0"
+ruff = "^0.4.4"
+isort = "^5.13.2"
+
+[tool.poetry.group.test.dependencies]
+pytest = "^8.2.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.mypy]
+ignore_missing_imports = true
+exclude = [
+    '^panther_analysis/rules/', 
+    '^panther_analysis/helpers/', 
+    '^panther_analysis/data_models/', 
+]
+
+[[tool.mypy.overrides]]
+module = "panther_detection_helpers.*"
+ignore_missing_imports = true
+
+[[tool.mypy.overrides]]
+module = "panther_analysis.data_models.*"
+follow_imports = "skip"
+
+[[tool.mypy.overrides]]
+module = "panther_analysis.helpers.*"
+follow_imports = "skip"
+
+[[tool.mypy.overrides]]
+module = "panther_analysis.rules.*"
+follow_imports = "skip"
+
+[tool.black]
+line-length = 100
+target-version = ['py311']
+include = '\.pyi?$'
+
+[tool.isort]
+line_length = 100
+profile = "black"
+skip_glob = [
+    'panther_analysis/rules/*', 
+    'panther_analysis/helpers/*', 
+    'panther_analysis/data_models/*', 
+]
+
+[tool.ruff]
+# Exclude a variety of commonly ignored directories.
+exclude = [
+    'panther_analysis/rules/', 
+    'panther_analysis/helpers/', 
+    'panther_analysis/data_models/', 
+]

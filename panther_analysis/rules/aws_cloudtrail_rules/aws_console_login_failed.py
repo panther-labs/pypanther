@@ -1,0 +1,151 @@
+from typing import List
+from panther_analysis.base import PantherRule, PantherRuleTest, Severity
+from panther_analysis.helpers.panther_base_helpers import aws_rule_context, deep_get
+from panther_analysis.helpers.panther_default import lookup_aws_account_name
+
+a_w_s_console_login_failed_tests: List[PantherRuleTest] = [
+    PantherRuleTest(
+        Name="Failed Login",
+        ExpectedResult=True,
+        Log={
+            "eventVersion": "1.05",
+            "userIdentity": {
+                "type": "IAMUser",
+                "principalId": "1111",
+                "arn": "arn:aws:iam::123456789012:user/tester",
+                "accountId": "123456789012",
+                "userName": "tester",
+            },
+            "eventTime": "2019-01-01T00:00:00Z",
+            "eventSource": "signin.amazonaws.com",
+            "eventName": "ConsoleLogin",
+            "awsRegion": "us-east-1",
+            "sourceIPAddress": "111.111.111.111",
+            "userAgent": "Mozilla",
+            "requestParameters": None,
+            "responseElements": {"ConsoleLogin": "Failure"},
+            "additionalEventData": {
+                "LoginTo": "https://console.aws.amazon.com/console/",
+                "MobileVersion": "No",
+                "MFAUsed": "No",
+            },
+            "eventID": "1",
+            "eventType": "AwsConsoleSignIn",
+            "recipientAccountId": "123456789012",
+        },
+    ),
+    PantherRuleTest(
+        Name="Successful Login",
+        ExpectedResult=False,
+        Log={
+            "eventVersion": "1.05",
+            "userIdentity": {
+                "type": "IAMUser",
+                "principalId": "1111",
+                "arn": "arn:aws:iam::123456789012:user/tester",
+                "accountId": "123456789012",
+                "userName": "tester",
+            },
+            "eventTime": "2019-01-01T00:00:00Z",
+            "eventSource": "signin.amazonaws.com",
+            "eventName": "ConsoleLogin",
+            "awsRegion": "us-east-1",
+            "sourceIPAddress": "111.111.111.111",
+            "userAgent": "Mozilla",
+            "requestParameters": None,
+            "responseElements": {"ConsoleLogin": "Success"},
+            "additionalEventData": {
+                "LoginTo": "https://console.aws.amazon.com/console/",
+                "MobileVersion": "No",
+                "MFAUsed": "No",
+            },
+            "eventID": "1",
+            "eventType": "AwsConsoleSignIn",
+            "recipientAccountId": "123456789012",
+        },
+    ),
+    PantherRuleTest(
+        Name="Non Login Event",
+        ExpectedResult=False,
+        Log={
+            "eventVersion": "1.06",
+            "userIdentity": {
+                "type": "AssumedRole",
+                "principalId": "1111:tester",
+                "arn": "arn:aws:sts::123456789012:user/tester",
+                "accountId": "123456789012",
+                "accessKeyId": "1",
+                "sessionContext": {
+                    "sessionIssuer": {
+                        "type": "Role",
+                        "principalId": "1111",
+                        "arn": "arn:aws:iam::123456789012:user/tester",
+                        "accountId": "123456789012",
+                        "userName": "tester",
+                    },
+                    "attributes": {
+                        "creationDate": "2019-01-01T00:00:00Z",
+                        "mfaAuthenticated": "true",
+                    },
+                },
+            },
+            "eventTime": "2019-01-01T00:00:00Z",
+            "eventSource": "dynamodb.amazonaws.com",
+            "eventName": "DescribeTable",
+            "awsRegion": "us-west-2",
+            "sourceIPAddress": "111.111.111.111",
+            "userAgent": "console.amazonaws.com",
+            "requestParameters": {"tableName": "table"},
+            "responseElements": None,
+            "requestID": "1",
+            "eventID": "1",
+            "readOnly": True,
+            "resources": [
+                {
+                    "accountId": "123456789012",
+                    "type": "AWS::DynamoDB::Table",
+                    "ARN": "arn::::table/table",
+                }
+            ],
+            "eventType": "AwsApiCall",
+            "apiVersion": "2012-08-10",
+            "managementEvent": True,
+            "recipientAccountId": "123456789012",
+        },
+    ),
+]
+
+
+class AWSConsoleLoginFailed(PantherRule):
+    RuleID = "AWS.Console.LoginFailed-prototype"
+    DisplayName = "--DEPRECATED-- Failed Console Login"
+    DedupPeriodMinutes = 60
+    Enabled = False
+    LogTypes = ["AWS.CloudTrail"]
+    Tags = [
+        "AWS",
+        "Identity & Access Management",
+        "Authentication",
+        "Credential Access:Brute Force",
+    ]
+    Threshold = 5
+    Reports = {"CIS": ["3.6"], "MITRE ATT&CK": ["TA0006:T1110"]}
+    Severity = Severity.Low
+    Description = "A console login failed.\n"
+    Runbook = "https://docs.runpanther.io/alert-runbooks/built-in-rules/aws-console-login-failed"
+    Reference = "https://amzn.to/3aMSmTd"
+    SummaryAttributes = ["userAgent", "sourceIpAddress", "recipientAccountId", "p_any_aws_arns"]
+    Tests = a_w_s_console_login_failed_tests
+
+    def rule(self, event):
+        return (
+            event.get("eventName") == "ConsoleLogin"
+            and deep_get(event, "userIdentity", "type") == "IAMUser"
+            and (deep_get(event, "responseElements", "ConsoleLogin") == "Failure")
+        )
+
+    def title(self, event):
+        return f"AWS logins failed in account [{lookup_aws_account_name(event.get('recipientAccountId'))}]"
+
+    def alert_context(self, event):
+        return aws_rule_context(event)
