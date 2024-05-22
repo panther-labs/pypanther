@@ -1,12 +1,8 @@
 import re
 from typing import List
 
-from panther_analysis.base import PantherRule, PantherRuleTest, Severity
-from panther_analysis.helpers.panther_auth0_helpers import (
-    auth0_alert_context,
-    is_auth0_config_event,
-)
-from panther_analysis.helpers.panther_base_helpers import deep_get
+from panther_analysis.base import PantherRuleTest, Severity
+from panther_analysis.rules.auth0_rules.auth0_base import Auth0Rule
 
 auth0_user_invitation_created_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -316,22 +312,18 @@ auth0_user_invitation_created_tests: List[PantherRuleTest] = [
 ]
 
 
-class Auth0UserInvitationCreated(PantherRule):
+class Auth0UserInvitationCreated(Auth0Rule):
     DisplayName = "Auth0 User Invitation Created"
-    Enabled = True
     Reference = (
         "https://auth0.com/docs/manage-users/organizations/configure-organizations/invite-members"
     )
     Severity = Severity.Info
-    DedupPeriodMinutes = 60
-    LogTypes = ["Auth0.Events"]
     RuleID = "Auth0.User.Invitation.Created-prototype"
-    Threshold = 1
     Tests = auth0_user_invitation_created_tests
     org_re = re.compile("^/api/v2/organizations/[^/\\s]+/invitations$")
 
     def rule(self, event):
-        if not any([True, is_auth0_config_event(event)]):
+        if not any([True, self.is_auth0_config_event(event)]):
             return False
         return self.invitation_type(event) is not None
 
@@ -339,28 +331,25 @@ class Auth0UserInvitationCreated(PantherRule):
         inv_type = self.invitation_type(event)
         if inv_type == "tenant":
             try:
-                invitee = deep_get(
-                    event, "data", "details", "request", "body", "owners", default=[]
+                invitee = event.deep_get(
+                    "data", "details", "request", "body", "owners", default=[]
                 )[0]
             except IndexError:
                 invitee = "<NO_INVITEE>"
         elif inv_type == "organization":
-            invitee = deep_get(event, "data", "details", "request", "body", "invitee", "email")
+            invitee = event.deep_get("data", "details", "request", "body", "invitee", "email")
         else:
             invitee = "<NO_INVITEE>"
-        inviter = deep_get(
-            event, "data", "details", "request", "auth", "user", "email", default="<NO_INVITER>"
+        inviter = event.deep_get(
+            "data", "details", "request", "auth", "user", "email", default="<NO_INVITER>"
         )
-        source = deep_get(event, "p_source_label", default="<NO_PSOURCE>")
+        source = event.deep_get("p_source_label", default="<NO_PSOURCE>")
         return f"Auth0 User [{inviter}] invited [{invitee}] to {inv_type.title()} [{source}]]"
 
     def invitation_type(self, event):
-        path = deep_get(event, "data", "details", "request", "path", default="")
+        path = event.deep_get("data", "details", "request", "path", default="")
         if path == "/api/v2/tenants/invitations":
             return "tenant"
         if self.org_re.match(path):
             return "organization"
         return None
-
-    def alert_context(self, event):
-        return auth0_alert_context(event)

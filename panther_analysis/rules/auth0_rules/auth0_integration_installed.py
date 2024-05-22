@@ -1,11 +1,7 @@
 from typing import List
 
-from panther_analysis.base import PantherRule, PantherRuleTest, Severity
-from panther_analysis.helpers.panther_auth0_helpers import (
-    auth0_alert_context,
-    is_auth0_config_event,
-)
-from panther_analysis.helpers.panther_base_helpers import deep_get
+from panther_analysis.base import PantherRuleTest, Severity
+from panther_analysis.rules.auth0_rules.auth0_base import Auth0Rule
 
 auth0_integration_installed_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -255,40 +251,33 @@ auth0_integration_installed_tests: List[PantherRuleTest] = [
 ]
 
 
-class Auth0IntegrationInstalled(PantherRule):
+class Auth0IntegrationInstalled(Auth0Rule):
     Description = "An Auth0 integration was installed from the auth0 action library."
     DisplayName = "Auth0 Integration Installed"
-    Enabled = True
     Runbook = "Assess if this was done by the user for a valid business reason. Be vigilant to re-enable this setting as it's in the best security interest for your organization's security posture."
     Reference = "https://auth0.com/blog/actions-integrations-are-now-ga/"
     Severity = Severity.Info
-    DedupPeriodMinutes = 60
-    LogTypes = ["Auth0.Events"]
     RuleID = "Auth0.Integration.Installed-prototype"
-    Threshold = 1
     Tests = auth0_integration_installed_tests
 
     def rule(self, event):
-        data_description = deep_get(
-            event, "data", "description", default="<NO_DATA_DESCRIPTION_FOUND>"
+        data_description = event.deep_get(
+            "data", "description", default="<NO_DATA_DESCRIPTION_FOUND>"
         )
-        request_path = deep_get(
-            event, "data", "details", "request", "path", default="<NO_REQUEST_PATH_FOUND>"
+        request_path = event.deep_get(
+            "data", "details", "request", "path", default="<NO_REQUEST_PATH_FOUND>"
         )
         return all(
             [
                 data_description == "Install an available integration",
                 request_path == "/api/v2/integrations/installed",
-                is_auth0_config_event(event),
+                self.is_auth0_config_event(event),
             ]
         )
 
     def title(self, event):
-        user = deep_get(
-            event, "data", "details", "request", "auth", "user", "email", default="<NO_USER_FOUND>"
+        user = event.deep_get(
+            "data", "details", "request", "auth", "user", "email", default="<NO_USER_FOUND>"
         )
-        p_source_label = deep_get(event, "p_source_label", default="<NO_P_SOURCE_LABEL_FOUND>")
+        p_source_label = event.deep_get("p_source_label", default="<NO_P_SOURCE_LABEL_FOUND>")
         return f"Auth0 User [{user}] installed an integration from the actions library for your organization's tenant [{p_source_label}]."
-
-    def alert_context(self, event):
-        return auth0_alert_context(event)

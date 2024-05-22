@@ -1,13 +1,9 @@
 from typing import List
 
-from panther_analysis.base import PantherRule, PantherRuleTest, Severity
-from panther_analysis.helpers.panther_auth0_helpers import (
-    auth0_alert_context,
-    is_auth0_config_event,
-)
-from panther_analysis.helpers.panther_base_helpers import deep_get
+from panther_analysis.base import PantherRuleTest, Severity
+from panther_analysis.rules.auth0_rules.auth0_base import Auth0Rule
 
-auth0_m_f_a_policy_enabled_tests: List[PantherRuleTest] = [
+auth0_mfa_policy_enabled_tests: List[PantherRuleTest] = [
     PantherRuleTest(
         Name="MFA Policy Enabled First",
         ExpectedResult=True,
@@ -576,44 +572,37 @@ auth0_m_f_a_policy_enabled_tests: List[PantherRuleTest] = [
 ]
 
 
-class Auth0MFAPolicyEnabled(PantherRule):
+class Auth0MFAPolicyEnabled(Auth0Rule):
     Description = "An Auth0 User enabled MFA Policy for your organization's tenant."
     DisplayName = "Auth0 MFA Policy Enabled"
-    Enabled = True
     Runbook = "Assess if this was done by the user for a valid business reason and was expected. This alert indicates a setting change that aligns with best security practices, follow-up may be unnecessary."
     Reference = "https://auth0.com/docs/secure/multi-factor-authentication/enable-mfa#:~:text=In%20the-,Define%20policies,-section%2C%20select%20a"
     Severity = Severity.Medium
-    DedupPeriodMinutes = 60
-    LogTypes = ["Auth0.Events"]
     RuleID = "Auth0.MFA.Policy.Enabled-prototype"
-    Threshold = 1
-    Tests = auth0_m_f_a_policy_enabled_tests
+    Tests = auth0_mfa_policy_enabled_tests
 
     def rule(self, event):
-        data_description = deep_get(
-            event, "data", "description", default="<NO_DATA_DESCRIPTION_FOUND>"
+        data_description = event.deep_get(
+            "data", "description", default="<NO_DATA_DESCRIPTION_FOUND>"
         )
-        request_path = deep_get(
-            event, "data", "details", "request", "path", default="<NO_REQUEST_PATH_FOUND>"
+        request_path = event.deep_get(
+            "data", "details", "request", "path", default="<NO_REQUEST_PATH_FOUND>"
         )
         return all(
             [
                 data_description == "Set the Multi-factor Authentication policies",
                 request_path == "/api/v2/guardian/policies",
-                is_auth0_config_event(event),
+                self.is_auth0_config_event(event),
             ]
         )
 
     def title(self, event):
-        user_email = deep_get(
-            event, "data", "details", "request", "auth", "user", "email", default="<NO_USER_FOUND>"
+        user_email = event.deep_get(
+            "data", "details", "request", "auth", "user", "email", default="<NO_USER_FOUND>"
         )
-        request_body = deep_get(event, "data", "details", "request", "body", default=[])
+        request_body = event.deep_get("data", "details", "request", "body", default=[])
         if "all-applications" in request_body:
             setting_change = "Always Require"
         if "confidence-score" in request_body:
             setting_change = "Use Adaptive MFA"
         return f"Auth0 user [{user_email}] set the mfa policies in your organization to [{setting_change}]."
-
-    def alert_context(self, event):
-        return auth0_alert_context(event)

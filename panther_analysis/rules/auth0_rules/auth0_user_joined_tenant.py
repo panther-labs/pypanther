@@ -1,11 +1,7 @@
 from typing import List
 
-from panther_analysis.base import PantherRule, PantherRuleTest, Severity
-from panther_analysis.helpers.panther_auth0_helpers import (
-    auth0_alert_context,
-    is_auth0_config_event,
-)
-from panther_analysis.helpers.panther_base_helpers import deep_get
+from panther_analysis.base import PantherRuleTest, Severity
+from panther_analysis.rules.auth0_rules.auth0_base import Auth0Rule
 
 auth0_user_joined_tenant_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -316,22 +312,19 @@ auth0_user_joined_tenant_tests: List[PantherRuleTest] = [
 ]
 
 
-class Auth0UserJoinedTenant(PantherRule):
+class Auth0UserJoinedTenant(Auth0Rule):
     DisplayName = "Auth0 User Joined Tenant"
     Description = "User accepted invitation from Auth0 member to join an Auth0 tenant."
-    Enabled = True
     RuleID = "Auth0.User.Joined.Tenant-prototype"
     Reference = "https://auth0.com/docs/manage-users/organizations/configure-organizations/invite-members#send-membership-invitations:~:text=.-,Send%20membership%20invitations,-You%20can"
     Severity = Severity.Info
-    LogTypes = ["Auth0.Events"]
     Tests = auth0_user_joined_tenant_tests
 
     def rule(self, event):
-        data_description = deep_get(
-            event, "data", "description", default="<NO_DATA_DESCRIPTION_FOUND>"
+        data_description = event.deep_get(
+            "data", "description", default="<NO_DATA_DESCRIPTION_FOUND>"
         )
-        scopes = deep_get(
-            event,
+        scopes = event.deep_get(
             "data",
             "details",
             "request",
@@ -340,22 +333,19 @@ class Auth0UserJoinedTenant(PantherRule):
             "scopes",
             default=["<NO_CREDENTIAL_SCOPE>"],
         )
-        state = deep_get(event, "data", "details", "request", "body", "state", default="<NO_STATE>")
+        state = event.deep_get("data", "details", "request", "body", "state", default="<NO_STATE>")
         return all(
             [
                 data_description == "Update an invitation",
                 "update:tenant_invitations" in scopes,
                 state == "accepted",
-                is_auth0_config_event(event),
+                self.is_auth0_config_event(event),
             ]
         )
 
     def title(self, event):
-        user = deep_get(
-            event, "data", "details", "request", "auth", "user", "email", default="<NO_USER_FOUND>"
+        user = event.deep_get(
+            "data", "details", "request", "auth", "user", "email", default="<NO_USER_FOUND>"
         )
-        p_source_label = deep_get(event, "p_source_label", default="<NO_P_SOURCE_LABEL_FOUND>")
+        p_source_label = event.deep_get("p_source_label", default="<NO_P_SOURCE_LABEL_FOUND>")
         return f"Auth0 User [{user}] has accepted an invitation to join your organization's tenant [{p_source_label}]."
-
-    def alert_context(self, event):
-        return auth0_alert_context(event)

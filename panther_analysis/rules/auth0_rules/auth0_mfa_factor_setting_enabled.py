@@ -1,13 +1,9 @@
 from typing import List
 
-from panther_analysis.base import PantherRule, PantherRuleTest, Severity
-from panther_analysis.helpers.panther_auth0_helpers import (
-    auth0_alert_context,
-    is_auth0_config_event,
-)
-from panther_analysis.helpers.panther_base_helpers import deep_get
+from panther_analysis.base import PantherRuleTest, Severity
+from panther_analysis.rules.auth0_rules.auth0_base import Auth0Rule
 
-auth0_m_f_a_factor_setting_enabled_tests: List[PantherRuleTest] = [
+auth0_mfa_factor_setting_enabled_tests: List[PantherRuleTest] = [
     PantherRuleTest(
         Name="MFA Enabled",
         ExpectedResult=True,
@@ -383,37 +379,30 @@ auth0_m_f_a_factor_setting_enabled_tests: List[PantherRuleTest] = [
 ]
 
 
-class Auth0MFAFactorSettingEnabled(PantherRule):
+class Auth0MFAFactorSettingEnabled(Auth0Rule):
     Description = "An Auth0 user enabled an mfa factor in your organization's mfa settings."
     DisplayName = "Auth0 mfa factor enabled"
-    Enabled = True
     Runbook = "Assess if this was done by the user for a valid business reason. Be vigilant to re-enable this setting as it's in the best security interest for your organization's security posture."
     Reference = "https://auth0.com/docs/secure/multi-factor-authentication/multi-factor-authentication-factors"
     Severity = Severity.Info
-    DedupPeriodMinutes = 60
-    LogTypes = ["Auth0.Events"]
     RuleID = "Auth0.MFA.Factor.Setting.Enabled-prototype"
-    Threshold = 1
-    Tests = auth0_m_f_a_factor_setting_enabled_tests
+    Tests = auth0_mfa_factor_setting_enabled_tests
 
     def rule(self, event):
-        description = deep_get(event, "data", "description", default="<NO_DESCRIPTION_FOUND>")
-        enabled = deep_get(event, "data", "details", "response", "body", "enabled")
+        description = event.deep_get("data", "description", default="<NO_DESCRIPTION_FOUND>")
+        enabled = event.deep_get("data", "details", "response", "body", "enabled")
         return all(
             [
                 description == "Update a Multi-factor Authentication Factor",
                 enabled is True,
-                is_auth0_config_event(event),
+                self.is_auth0_config_event(event),
             ]
         )
 
     def title(self, event):
-        user = deep_get(
-            event, "data", "details", "request", "auth", "user", "email", default="<NO_USER_FOUND>"
+        user = event.deep_get(
+            "data", "details", "request", "auth", "user", "email", default="<NO_USER_FOUND>"
         )
-        path = deep_get(event, "data", "details", "request", "path", default="<NO_PATH_FOUND>")
-        p_source_label = deep_get(event, "p_source_label", default="<NO_P_SOURCE_LABEL_FOUND>")
+        path = event.deep_get("data", "details", "request", "path", default="<NO_PATH_FOUND>")
+        p_source_label = event.deep_get("p_source_label", default="<NO_P_SOURCE_LABEL_FOUND>")
         return f"Auth0 User [{user}] enabled mfa factor settings for [{path}] in your organization’s tenant [{p_source_label}]."
-
-    def alert_context(self, event):
-        return auth0_alert_context(event)
