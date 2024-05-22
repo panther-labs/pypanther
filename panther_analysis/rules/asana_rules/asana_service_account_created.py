@@ -1,4 +1,5 @@
 from typing import List
+
 from panther_analysis.base import PantherRuleTest, Severity
 from panther_analysis.rules.asana_rules.asana_base import AsanaRule
 
