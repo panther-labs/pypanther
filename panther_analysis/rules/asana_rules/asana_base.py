@@ -2,7 +2,7 @@ from panther_analysis.base import PantherRule, Severity
 
 
 class AsanaRule(PantherRule):
-    RuleID = "Asana.Base-prototype"
+    RuleID = "Asana.Base"
     Enabled = True
     LogTypes = ["Asana.Audit"]
     Severity = Severity.Info
