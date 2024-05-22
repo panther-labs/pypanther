@@ -1,7 +1,6 @@
 from typing import List
-
-from panther_analysis.base import PantherRule, PantherRuleTest, Severity
-from panther_analysis.helpers.panther_base_helpers import deep_get
+from panther_analysis.base import PantherRuleTest, Severity
+from panther_analysis.rules.asana_rules.asana_base import AsanaRule
 
 asana_workspace_password_requirements_simple_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -57,21 +56,17 @@ asana_workspace_password_requirements_simple_tests: List[PantherRuleTest] = [
 ]
 
 
-class AsanaWorkspacePasswordRequirementsSimple(PantherRule):
+class AsanaWorkspacePasswordRequirementsSimple(AsanaRule):
     Description = "An asana user made your organization's password requirements less strict."
     DisplayName = "Asana Workspace Password Requirements Simple"
-    Enabled = True
     Runbook = "Confirm this user acted with valid business intent and determine whether this activity was authorized."
     Reference = "https://help.asana.com/hc/en-us/articles/14075208738587-Authentication-and-access-management-options-for-paid-plans"
     Severity = Severity.Medium
-    DedupPeriodMinutes = 60
-    LogTypes = ["Asana.Audit"]
     RuleID = "Asana.Workspace.Password.Requirements.Simple-prototype"
-    Threshold = 1
     Tests = asana_workspace_password_requirements_simple_tests
 
     def rule(self, event):
-        new_val = deep_get(event, "details", "new_value", default="<NEW_VAL_NOT_FOUND>")
+        new_val = event.deep_get("details", "new_value", default="<NEW_VAL_NOT_FOUND>")
         return all(
             [
                 event.get("event_type", "<NO_EVENT_TYPE_FOUND>")
@@ -81,7 +76,7 @@ class AsanaWorkspacePasswordRequirementsSimple(PantherRule):
         )
 
     def title(self, event):
-        actor_email = deep_get(event, "actor", "email", default="<ACTOR_NOT_FOUND>")
-        new_value = deep_get(event, "details", "new_value", default="<NEW_VAL_NOT_FOUND>")
-        old_value = deep_get(event, "details", "old_value", default="<OLD_VAL_NOT_FOUND>")
+        actor_email = event.deep_get("actor", "email", default="<ACTOR_NOT_FOUND>")
+        new_value = event.deep_get("details", "new_value", default="<NEW_VAL_NOT_FOUND>")
+        old_value = event.deep_get("details", "old_value", default="<OLD_VAL_NOT_FOUND>")
         return f"Asana user [{actor_email}] changed your organization's password requirements from [{old_value}] to [{new_value}]."

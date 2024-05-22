@@ -1,7 +1,6 @@
 from typing import List
-
-from panther_analysis.base import PantherRule, PantherRuleTest, Severity
-from panther_analysis.helpers.panther_base_helpers import deep_get
+from panther_analysis.base import PantherRuleTest, Severity
+from panther_analysis.rules.asana_rules.asana_base import AsanaRule
 
 asana_workspace_org_export_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -53,26 +52,21 @@ asana_workspace_org_export_tests: List[PantherRuleTest] = [
 ]
 
 
-class AsanaWorkspaceOrgExport(PantherRule):
+class AsanaWorkspaceOrgExport(AsanaRule):
     Description = "An Asana user started an org export."
     DisplayName = "Asana Workspace Org Export"
-    Enabled = True
     Runbook = "Confirm this user acted with valid business intent and determine whether this activity was authorized."
     Reference = "https://help.asana.com/hc/en-us/articles/14139896860955-Privacy-and-security#:~:text=like%20to%20see.-,Full%20export%20of%20an%20organization,-Available%20on%20Asana"
     Severity = Severity.Medium
-    DedupPeriodMinutes = 60
-    LogTypes = ["Asana.Audit"]
     RuleID = "Asana.Workspace.Org.Export-prototype"
-    Threshold = 1
     Tests = asana_workspace_org_export_tests
 
     def rule(self, event):
         return event.get("event_type", "<NO_EVENT_TYPE_FOUND>") == "workspace_export_started"
 
     def title(self, event):
-        actor_email = deep_get(event, "actor", "email", default="<ACTOR_NOT_FOUND>")
-        context_type = deep_get(
-            event, "context", "context_type", default="<CONTEXT_TYPE_NOT_FOUND>"
+        actor_email = event.deep_get("actor", "email", default="<ACTOR_NOT_FOUND>")
+        context_type = event.deep_get("context", "context_type", default="<CONTEXT_TYPE_NOT_FOUND>"
         )
         return (
             f"Asana user [{actor_email}] started a [{context_type}] export for your organization."

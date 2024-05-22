@@ -1,7 +1,6 @@
 from typing import List
-
-from panther_analysis.base import PantherRule, PantherRuleTest, Severity
-from panther_analysis.helpers.panther_base_helpers import deep_get
+from panther_analysis.base import PantherRuleTest, Severity
+from panther_analysis.rules.asana_rules.asana_base import AsanaRule
 
 asana_workspace_guest_invite_permissions_anyone_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -53,25 +52,21 @@ asana_workspace_guest_invite_permissions_anyone_tests: List[PantherRuleTest] = [
 ]
 
 
-class AsanaWorkspaceGuestInvitePermissionsAnyone(PantherRule):
+class AsanaWorkspaceGuestInvitePermissionsAnyone(AsanaRule):
     Description = "Typically inviting guests to Asana is permitted by few users. Enabling anyone to invite guests can potentially lead to unauthorized users gaining access to Asana."
     DisplayName = "Asana Workspace Guest Invite Permissions Anyone"
-    Enabled = True
     Reference = "https://help.asana.com/hc/en-us/articles/14109494654875-Admin-console#:~:text=Google%20SSO%20password.-,Guest%20invite%20controls,-Super%20admins%20of"
     Severity = Severity.Low
-    DedupPeriodMinutes = 60
-    LogTypes = ["Asana.Audit"]
     RuleID = "Asana.Workspace.Guest.Invite.Permissions.Anyone-prototype"
-    Threshold = 1
     Tests = asana_workspace_guest_invite_permissions_anyone_tests
 
     def rule(self, event):
         return (
             event.get("event_type") == "workspace_guest_invite_permissions_changed"
-            and deep_get(event, "details", "new_value") == "anyone"
+            and event.deep_get("details", "new_value") == "anyone"
         )
 
     def title(self, event):
-        workspace = deep_get(event, "resource", "name", default="<WORKSPACE_NOT_FOUND>")
-        actor = deep_get(event, "actor", "email", default="<ACTOR_NOT_FOUND>")
+        workspace = event.deep_get("resource", "name", default="<WORKSPACE_NOT_FOUND>")
+        actor = event.deep_get("actor", "email", default="<ACTOR_NOT_FOUND>")
         return f"Asana Workspace [{workspace}] guest invite permissions changed to anyone by [{actor}]."

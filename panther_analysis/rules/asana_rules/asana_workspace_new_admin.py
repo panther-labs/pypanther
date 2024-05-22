@@ -1,8 +1,6 @@
 from typing import List
-
-from panther_analysis.base import PantherRule, PantherRuleTest, Severity
-from panther_analysis.helpers.panther_asana_helpers import asana_alert_context
-from panther_analysis.helpers.panther_base_helpers import deep_get
+from panther_analysis.base import PantherRuleTest, Severity
+from panther_analysis.rules.asana_rules.asana_base import AsanaRule
 
 asana_workspace_new_admin_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -65,21 +63,17 @@ asana_workspace_new_admin_tests: List[PantherRuleTest] = [
 ]
 
 
-class AsanaWorkspaceNewAdmin(PantherRule):
+class AsanaWorkspaceNewAdmin(AsanaRule):
     Description = "Admin role was granted to the user who previously did not have admin permissions"
     DisplayName = "Asana Workspace New Admin"
-    Enabled = True
     Reference = "https://help.asana.com/hc/en-us/articles/14141552580635-Admin-and-super-admin-roles-in-Asana"
     Severity = Severity.High
-    DedupPeriodMinutes = 60
-    LogTypes = ["Asana.Audit"]
     RuleID = "Asana.Workspace.New.Admin-prototype"
-    Threshold = 1
     Tests = asana_workspace_new_admin_tests
 
     def rule(self, event):
-        new = deep_get(event, "details", "new_value", default="")
-        old = deep_get(event, "details", "old_value", default="")
+        new = event.deep_get("details", "new_value", default="")
+        old = event.deep_get("details", "old_value", default="")
         return all(
             [
                 event.get("event_type") == "user_workspace_admin_role_changed",
@@ -89,9 +83,6 @@ class AsanaWorkspaceNewAdmin(PantherRule):
         )
 
     def title(self, event):
-        a_c = asana_alert_context(event)
-        w_s = deep_get(event, "details", "group", "name", default="<WS_NAME_NOT_FOUND>")
+        a_c = self.alert_context(event)
+        w_s = event.deep_get("details", "group", "name", default="<WS_NAME_NOT_FOUND>")
         return f"Asana user [{a_c.get('resource_name')}] was made an admin in workspace [{w_s}] by [{a_c.get('actor')}]."
-
-    def alert_context(self, event):
-        return asana_alert_context(event)

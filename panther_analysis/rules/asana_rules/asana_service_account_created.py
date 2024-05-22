@@ -1,7 +1,6 @@
 from typing import List
-
-from panther_analysis.base import PantherRule, PantherRuleTest, Severity
-from panther_analysis.helpers.panther_base_helpers import deep_get
+from panther_analysis.base import PantherRuleTest, Severity
+from panther_analysis.rules.asana_rules.asana_base import AsanaRule
 
 asana_service_account_created_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -80,23 +79,19 @@ asana_service_account_created_tests: List[PantherRuleTest] = [
 ]
 
 
-class AsanaServiceAccountCreated(PantherRule):
+class AsanaServiceAccountCreated(AsanaRule):
     Description = "An Asana service account was created by someone in your organization."
     DisplayName = "Asana Service Account Created"
-    Enabled = True
     Runbook = "Confirm this user acted with valid business intent and determine whether this activity was authorized."
     Reference = "https://help.asana.com/hc/en-us/articles/14217496838427-Service-Accounts"
     Severity = Severity.Medium
-    DedupPeriodMinutes = 60
-    LogTypes = ["Asana.Audit"]
     RuleID = "Asana.Service.Account.Created-prototype"
-    Threshold = 1
     Tests = asana_service_account_created_tests
 
     def rule(self, event):
         return event.get("event_type", "<NO_EVENT_TYPE_FOUND>") == "service_account_created"
 
     def title(self, event):
-        actor_email = deep_get(event, "actor", "email", default="<ACTOR_NOT_FOUND>")
-        svc_acct_name = deep_get(event, "resource", "name", default="<SVC_ACCT_NAME_NOT_FOUND>")
+        actor_email = event.deep_get("actor", "email", default="<ACTOR_NOT_FOUND>")
+        svc_acct_name = event.deep_get("resource", "name", default="<SVC_ACCT_NAME_NOT_FOUND>")
         return f"Asana user [{actor_email}] created a new service account [{svc_acct_name}]."

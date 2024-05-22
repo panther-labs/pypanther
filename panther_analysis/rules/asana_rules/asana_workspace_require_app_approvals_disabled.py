@@ -1,7 +1,6 @@
 from typing import List
-
-from panther_analysis.base import PantherRule, PantherRuleTest, Severity
-from panther_analysis.helpers.panther_base_helpers import deep_get
+from panther_analysis.base import PantherRuleTest, Severity
+from panther_analysis.rules.asana_rules.asana_base import AsanaRule
 
 asana_workspace_require_app_approvals_disabled_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -53,21 +52,17 @@ asana_workspace_require_app_approvals_disabled_tests: List[PantherRuleTest] = [
 ]
 
 
-class AsanaWorkspaceRequireAppApprovalsDisabled(PantherRule):
+class AsanaWorkspaceRequireAppApprovalsDisabled(AsanaRule):
     Description = "An Asana user turned off app approval requirements for an application type for your organization."
     DisplayName = "Asana Workspace Require App Approvals Disabled"
-    Enabled = True
     Runbook = "Confirm this user acted with valid business intent and determine whether this activity was authorized."
     Reference = "https://help.asana.com/hc/en-us/articles/14109494654875-Admin-console#:~:text=used%20by%20default-,Require%20app%20approval,-Admins%20manage%20a"
     Severity = Severity.Medium
-    DedupPeriodMinutes = 60
-    LogTypes = ["Asana.Audit"]
     RuleID = "Asana.Workspace.Require.App.Approvals.Disabled-prototype"
-    Threshold = 1
     Tests = asana_workspace_require_app_approvals_disabled_tests
 
     def rule(self, event):
-        new_val = deep_get(event, "details", "new_value", default="<NEW_VAL_NOT_FOUND>")
+        new_val = event.deep_get("details", "new_value", default="<NEW_VAL_NOT_FOUND>")
         return all(
             [
                 event.get("event_type", "<NO_EVENT_TYPE_FOUND>")
@@ -77,6 +72,6 @@ class AsanaWorkspaceRequireAppApprovalsDisabled(PantherRule):
         )
 
     def title(self, event):
-        actor_email = deep_get(event, "actor", "email", default="<ACTOR_NOT_FOUND>")
-        context = deep_get(event, "context", "context_type", default="<APP_CONTEXT_NOT_FOUND>")
+        actor_email = event.deep_get("actor", "email", default="<ACTOR_NOT_FOUND>")
+        context = event.deep_get("context", "context_type", default="<APP_CONTEXT_NOT_FOUND>")
         return f"Asana user [{actor_email}] disabled application approval requirements for [{context}] type applications."

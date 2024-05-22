@@ -1,7 +1,6 @@
 from typing import List
-
-from panther_analysis.base import PantherRule, PantherRuleTest, Severity
-from panther_analysis.helpers.panther_base_helpers import deep_get
+from panther_analysis.base import PantherRuleTest, Severity
+from panther_analysis.rules.asana_rules.asana_base import AsanaRule
 
 asana_workspace_default_session_duration_never_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -53,25 +52,21 @@ asana_workspace_default_session_duration_never_tests: List[PantherRuleTest] = [
 ]
 
 
-class AsanaWorkspaceDefaultSessionDurationNever(PantherRule):
+class AsanaWorkspaceDefaultSessionDurationNever(AsanaRule):
     Description = "An Asana workspace's default session duration (how often users need to re-authenticate) has been changed to never. "
     DisplayName = "Asana Workspace Default Session Duration Never"
-    Enabled = True
     Reference = "https://help.asana.com/hc/en-us/articles/14218320495899-Manage-Session-Duration"
     Severity = Severity.Low
-    DedupPeriodMinutes = 60
-    LogTypes = ["Asana.Audit"]
     RuleID = "Asana.Workspace.Default.Session.Duration.Never-prototype"
-    Threshold = 1
     Tests = asana_workspace_default_session_duration_never_tests
 
     def rule(self, event):
         return (
             event.get("event_type") == "workspace_default_session_duration_changed"
-            and deep_get(event, "details", "new_value") == "never"
+            and event.deep_get("details", "new_value") == "never"
         )
 
     def title(self, event):
-        workspace = deep_get(event, "resource", "name", default="<WORKSPACE_NOT_FOUND>")
-        actor = deep_get(event, "actor", "email", default="<ACTOR_NOT_FOUND>")
+        workspace = event.deep_get("resource", "name", default="<WORKSPACE_NOT_FOUND>")
+        actor = event.deep_get("actor", "email", default="<ACTOR_NOT_FOUND>")
         return f"Asana workspace [{workspace}]'s default session duration has been set to never expire by [{actor}]."

@@ -1,9 +1,8 @@
 from typing import List
+from panther_analysis.base import PantherRuleTest, Severity
+from panther_analysis.rules.asana_rules.asana_base import AsanaRule
 
-from panther_analysis.base import PantherRule, PantherRuleTest, Severity
-from panther_analysis.helpers.panther_base_helpers import deep_get
-
-asana_workspace_s_a_m_l_optional_tests: List[PantherRuleTest] = [
+asana_workspace_saml_optional_tests: List[PantherRuleTest] = [
     PantherRuleTest(
         Name="SAML required",
         ExpectedResult=False,
@@ -53,22 +52,18 @@ asana_workspace_s_a_m_l_optional_tests: List[PantherRuleTest] = [
 ]
 
 
-class AsanaWorkspaceSAMLOptional(PantherRule):
+class AsanaWorkspaceSAMLOptional(AsanaRule):
     Description = "An Asana user made SAML optional for your organization."
     DisplayName = "Asana Workspace SAML Optional"
-    Enabled = True
     Runbook = "Confirm this user acted with valid business intent and determine whether this activity was authorized."
     Reference = "https://help.asana.com/hc/en-us/articles/14075208738587-Premium-Business-and-Enterprise-authentication#gl-saml:~:text=to%20your%20organization.-,SAML,-If%20your%20company"
     Severity = Severity.Medium
-    DedupPeriodMinutes = 60
-    LogTypes = ["Asana.Audit"]
     RuleID = "Asana.Workspace.SAML.Optional-prototype"
-    Threshold = 1
-    Tests = asana_workspace_s_a_m_l_optional_tests
+    Tests = asana_workspace_saml_optional_tests
 
     def rule(self, event):
-        old_val = deep_get(event, "details", "old_value", default="<OLD_VAL_NOT_FOUND>")
-        new_val = deep_get(event, "details", "new_value", default="<NEW_VAL_NOT_FOUND>")
+        old_val = event.deep_get("details", "old_value", default="<OLD_VAL_NOT_FOUND>")
+        new_val = event.deep_get("details", "new_value", default="<NEW_VAL_NOT_FOUND>")
         return all(
             [
                 event.get("event_type", "<NO_EVENT_TYPE_FOUND>")
@@ -79,5 +74,5 @@ class AsanaWorkspaceSAMLOptional(PantherRule):
         )
 
     def title(self, event):
-        actor_email = deep_get(event, "actor", "email", default="<ACTOR_NOT_FOUND>")
+        actor_email = event.deep_get("actor", "email", default="<ACTOR_NOT_FOUND>")
         return f"Asana user [{actor_email}] made SAML optional for your organization."

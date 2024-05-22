@@ -1,7 +1,6 @@
 from typing import List
-
-from panther_analysis.base import PantherRule, PantherRuleTest, Severity
-from panther_analysis.helpers.panther_base_helpers import deep_get
+from panther_analysis.base import PantherRuleTest, Severity
+from panther_analysis.rules.asana_rules.asana_base import AsanaRule
 
 asana_team_privacy_public_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -60,25 +59,21 @@ asana_team_privacy_public_tests: List[PantherRuleTest] = [
 ]
 
 
-class AsanaTeamPrivacyPublic(PantherRule):
+class AsanaTeamPrivacyPublic(AsanaRule):
     Description = "An Asana team's privacy setting was changed to public to the organization (not public to internet)"
     DisplayName = "Asana Team Privacy Public"
-    Enabled = True
     Reference = "https://help.asana.com/hc/en-us/articles/14211433439387-Team-permissions"
     Severity = Severity.Low
-    DedupPeriodMinutes = 60
-    LogTypes = ["Asana.Audit"]
     RuleID = "Asana.Team.Privacy.Public-prototype"
-    Threshold = 1
     Tests = asana_team_privacy_public_tests
 
     def rule(self, event):
         return (
             event.get("event_type") == "team_privacy_settings_changed"
-            and deep_get(event, "details", "new_value") == "public"
+            and event.deep_get("details", "new_value") == "public"
         )
 
     def title(self, event):
-        team = deep_get(event, "resource", "name", default="<TEAM_NOT_FOUND>")
-        actor = deep_get(event, "actor", "email", default="<ACTOR_NOT_FOUND>")
+        team = event.deep_get("resource", "name", default="<TEAM_NOT_FOUND>")
+        actor = event.deep_get("actor", "email", default="<ACTOR_NOT_FOUND>")
         return f"Asana team [{team}] has been made public to the org by [{actor}]."

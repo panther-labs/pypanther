@@ -1,7 +1,6 @@
 from typing import List
-
-from panther_analysis.base import PantherRule, PantherRuleTest, Severity
-from panther_analysis.helpers.panther_base_helpers import deep_get
+from panther_analysis.base import PantherRuleTest, Severity
+from panther_analysis.rules.asana_rules.asana_base import AsanaRule
 
 asana_workspace_email_domain_added_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -53,23 +52,19 @@ asana_workspace_email_domain_added_tests: List[PantherRuleTest] = [
 ]
 
 
-class AsanaWorkspaceEmailDomainAdded(PantherRule):
+class AsanaWorkspaceEmailDomainAdded(AsanaRule):
     Description = "A new email domain has been added to an Asana workspace. Reviewer should validate that the new domain is a part of the organization. "
     DisplayName = "Asana Workspace Email Domain Added"
-    Enabled = True
     Reference = "https://help.asana.com/hc/en-us/articles/15901227439515-Email-domain-management-for-Asana-organizations"
     Severity = Severity.Low
-    DedupPeriodMinutes = 60
-    LogTypes = ["Asana.Audit"]
     RuleID = "Asana.Workspace.Email.Domain.Added-prototype"
-    Threshold = 1
     Tests = asana_workspace_email_domain_added_tests
 
     def rule(self, event):
         return event.get("event_type") == "workspace_associated_email_domain_added"
 
     def title(self, event):
-        workspace = deep_get(event, "resource", "name", default="<WORKSPACE_NOT_FOUND>")
-        domain = deep_get(event, "details", "new_value", default="<DOMAIN_NOT_FOUND>")
-        actor = deep_get(event, "actor", "email", default="<ACTOR_NOT_FOUND>")
+        workspace = event.deep_get("resource", "name", default="<WORKSPACE_NOT_FOUND>")
+        domain = event.deep_get("details", "new_value", default="<DOMAIN_NOT_FOUND>")
+        actor = event.deep_get("actor", "email", default="<ACTOR_NOT_FOUND>")
         return f"Asana new email domain [{domain}] added to Workspace [{workspace}] by [{actor}]."
