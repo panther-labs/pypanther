@@ -1,6 +1,7 @@
-from typing import List
-from panther_analysis.base import PantherRule, PantherRuleTest, Severity
 from ipaddress import ip_address
+from typing import List
+
+from panther_analysis.base import PantherRule, PantherRuleTest, Severity
 from panther_analysis.helpers.panther_cloudflare_helpers import cloudflare_fw_alert_context
 from panther_analysis.helpers.panther_greynoise_helpers import (
     GetGreyNoiseObject,

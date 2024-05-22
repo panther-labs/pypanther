@@ -1,6 +1,7 @@
-from typing import List
-from panther_analysis.base import PantherRule, PantherRuleTest, Severity
 from fnmatch import fnmatch
+from typing import List
+
+from panther_analysis.base import PantherRule, PantherRuleTest, Severity
 from panther_analysis.helpers.panther_base_helpers import aws_rule_context
 
 a_w_s_s3_server_access_unknown_requester_tests: List[PantherRuleTest] = [

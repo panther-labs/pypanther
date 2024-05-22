@@ -1,7 +1,8 @@
-from typing import List
-from panther_analysis.base import PantherRule, PantherRuleTest, Severity, RuleMock
 import json
+from typing import List
 from unittest.mock import MagicMock
+
+from panther_analysis.base import PantherRule, PantherRuleTest, RuleMock, Severity
 from panther_analysis.helpers.panther_base_helpers import deep_get
 from panther_analysis.helpers.panther_base_helpers import gsuite_parameter_lookup as param_lookup
 

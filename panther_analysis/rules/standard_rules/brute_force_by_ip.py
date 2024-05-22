@@ -1,7 +1,8 @@
-from typing import List
-from panther_analysis.base import PantherRule, PantherRuleTest, Severity, RuleMock
 from json import loads
+from typing import List
+
 import panther_analysis.helpers.panther_event_type_helpers as event_type
+from panther_analysis.base import PantherRule, PantherRuleTest, RuleMock, Severity
 from panther_analysis.helpers.panther_default import lookup_aws_account_name
 from panther_analysis.helpers.panther_oss_helpers import add_parse_delay, geoinfo_from_ip
 

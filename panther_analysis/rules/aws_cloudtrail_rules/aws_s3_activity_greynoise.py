@@ -1,6 +1,7 @@
-from typing import List
-from panther_analysis.base import PantherRule, PantherRuleTest, Severity
 from ipaddress import ip_address
+from typing import List
+
+from panther_analysis.base import PantherRule, PantherRuleTest, Severity
 from panther_analysis.helpers.panther_base_helpers import deep_get, pattern_match_list
 from panther_analysis.helpers.panther_greynoise_helpers import (
     GetGreyNoiseObject,

@@ -1,4 +1,5 @@
 from typing import List
+
 from panther_analysis.base import PantherRule, PantherRuleTest, Severity
 
 g_c_p_workload_identity_pool_createdor_updated_tests: List[PantherRuleTest] = [

@@ -1,9 +1,11 @@
-from typing import List
-from panther_analysis.base import PantherRule, PantherRuleTest, Severity
 import json
+from typing import List
+
+from policyuniverse.policy import Policy
+
+from panther_analysis.base import PantherRule, PantherRuleTest, Severity
 from panther_analysis.helpers.panther_base_helpers import aws_rule_context, deep_get
 from panther_analysis.helpers.panther_default import aws_cloudtrail_success
-from policyuniverse.policy import Policy
 
 a_w_s_cloud_trail_resource_made_public_tests: List[PantherRuleTest] = [
     PantherRuleTest(

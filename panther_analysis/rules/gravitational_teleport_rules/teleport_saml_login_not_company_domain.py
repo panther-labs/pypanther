@@ -1,6 +1,7 @@
-from typing import List
-from panther_analysis.base import PantherRule, PantherRuleTest, Severity
 import re
+from typing import List
+
+from panther_analysis.base import PantherRule, PantherRuleTest, Severity
 from panther_analysis.helpers.panther_config import config
 
 teleport_s_a_m_l_login_without_company_domain_tests: List[PantherRuleTest] = [

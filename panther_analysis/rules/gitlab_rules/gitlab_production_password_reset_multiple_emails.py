@@ -1,7 +1,9 @@
 from typing import List
+
+from panther_core.immutable import ImmutableList
+
 from panther_analysis.base import PantherRule, PantherRuleTest, Severity
 from panther_analysis.helpers.panther_base_helpers import deep_get
-from panther_core.immutable import ImmutableList
 
 git_lab_production_password_reset_multiple_emails_tests: List[PantherRuleTest] = [
     PantherRuleTest(

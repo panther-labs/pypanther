@@ -1,6 +1,8 @@
 from typing import List
-from panther_analysis.base import PantherRule, PantherRuleTest, Severity, RuleMock
+
 from panther_detection_helpers.caching import get_string_set, put_string_set
+
+from panther_analysis.base import PantherRule, PantherRuleTest, RuleMock, Severity
 
 git_hub_repo_initial_access_tests: List[PantherRuleTest] = [
     PantherRuleTest(

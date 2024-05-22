@@ -1,6 +1,7 @@
-from typing import List
-from panther_analysis.base import PantherRule, PantherRuleTest, Severity
 import re
+from typing import List
+
+from panther_analysis.base import PantherRule, PantherRuleTest, Severity
 from panther_analysis.helpers.panther_base_helpers import deep_get, okta_alert_context
 
 okta_admin_role_assigned_tests: List[PantherRuleTest] = [

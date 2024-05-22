@@ -1,8 +1,10 @@
-from typing import List
-from panther_analysis.base import PantherRule, PantherRuleTest, Severity, RuleMock
 from datetime import timedelta
-import panther_analysis.helpers.panther_event_type_helpers as event_type
+from typing import List
+
 from panther_detection_helpers.caching import put_string_set
+
+import panther_analysis.helpers.panther_event_type_helpers as event_type
+from panther_analysis.base import PantherRule, PantherRuleTest, RuleMock, Severity
 from panther_analysis.helpers.panther_oss_helpers import resolve_timestamp_string
 
 standard_new_user_account_created_tests: List[PantherRuleTest] = [

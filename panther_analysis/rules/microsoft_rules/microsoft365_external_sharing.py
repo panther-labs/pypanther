@@ -1,7 +1,8 @@
-from typing import List
-from panther_analysis.base import PantherRule, PantherRuleTest, Severity
 import re
 from fnmatch import fnmatch
+from typing import List
+
+from panther_analysis.base import PantherRule, PantherRuleTest, Severity
 from panther_analysis.helpers.panther_base_helpers import m365_alert_context
 
 microsoft365_external_document_sharing_tests: List[PantherRuleTest] = [

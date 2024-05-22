@@ -1,6 +1,7 @@
-from typing import List
-from panther_analysis.base import PantherRule, PantherRuleTest, Severity
 from ipaddress import ip_address
+from typing import List
+
+from panther_analysis.base import PantherRule, PantherRuleTest, Severity
 from panther_analysis.helpers.panther_base_helpers import eks_panther_obj_ref
 
 amazon_e_k_s_audit_multiple403_tests: List[PantherRuleTest] = [

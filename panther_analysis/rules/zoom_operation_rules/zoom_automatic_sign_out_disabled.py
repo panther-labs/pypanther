@@ -1,4 +1,5 @@
 from typing import List
+
 from panther_analysis.base import PantherRule, PantherRuleTest, Severity
 
 zoom_automatic_sign_out_disabled_tests: List[PantherRuleTest] = [

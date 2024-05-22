@@ -1,6 +1,7 @@
 from typing import List
-from panther_analysis.base import PantherDataModel, PantherDataModelMapping
+
 import panther_analysis.helpers.panther_event_type_helpers as event_type
+from panther_analysis.base import PantherDataModel, PantherDataModelMapping
 
 audit_log_type_map = {
     "user_login_succeeded": event_type.SUCCESSFUL_LOGIN,

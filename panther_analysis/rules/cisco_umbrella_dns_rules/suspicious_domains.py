@@ -1,4 +1,5 @@
 from typing import List
+
 from panther_analysis.base import PantherRule, PantherRuleTest, Severity
 
 cisco_umbrella_d_n_s_suspicious_tests: List[PantherRuleTest] = [

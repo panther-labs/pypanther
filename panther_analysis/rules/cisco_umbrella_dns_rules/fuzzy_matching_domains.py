@@ -1,6 +1,7 @@
-from typing import List
-from panther_analysis.base import PantherRule, PantherRuleTest, Severity
 from difflib import SequenceMatcher
+from typing import List
+
+from panther_analysis.base import PantherRule, PantherRuleTest, Severity
 
 
 class CiscoUmbrellaDNSFuzzyMatching(PantherRule):

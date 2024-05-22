@@ -1,7 +1,9 @@
-from typing import List
-from panther_analysis.base import PantherRule, PantherRuleTest, Severity
 from datetime import timedelta
+from typing import List
+
 from panther_detection_helpers.caching import get_counter, increment_counter, reset_counter
+
+from panther_analysis.base import PantherRule, PantherRuleTest, Severity
 
 one_login_high_risk_login_tests: List[PantherRuleTest] = [
     PantherRuleTest(

@@ -1,6 +1,7 @@
 from typing import List
-from panther_analysis.base import PantherRule, PantherRuleTest, Severity
+
 import panther_analysis.helpers.panther_event_type_helpers as event_type
+from panther_analysis.base import PantherRule, PantherRuleTest, Severity
 from panther_analysis.helpers.panther_base_helpers import deep_get
 
 panther_sensitive_role_tests: List[PantherRuleTest] = [

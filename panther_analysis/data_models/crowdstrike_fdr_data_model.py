@@ -1,4 +1,5 @@
 from typing import List
+
 from panther_analysis.base import PantherDataModel, PantherDataModelMapping
 from panther_analysis.helpers.panther_base_helpers import deep_get
 

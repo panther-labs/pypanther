@@ -1,4 +1,5 @@
 from typing import List
+
 from panther_analysis.base import PantherRule, PantherRuleTest, Severity
 
 git_hub_org_auth_change_tests: List[PantherRuleTest] = [

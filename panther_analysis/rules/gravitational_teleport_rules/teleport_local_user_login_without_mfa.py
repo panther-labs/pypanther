@@ -1,4 +1,5 @@
 from typing import List
+
 from panther_analysis.base import PantherRule, PantherRuleTest, Severity
 
 teleport_local_user_login_without_m_f_a_tests: List[PantherRuleTest] = [

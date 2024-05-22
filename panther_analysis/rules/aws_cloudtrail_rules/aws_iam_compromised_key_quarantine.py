@@ -1,4 +1,5 @@
 from typing import List
+
 from panther_analysis.base import PantherRule, PantherRuleTest, Severity
 
 a_w_s_cloud_trail_i_a_m_compromised_key_quarantine_tests: List[PantherRuleTest] = [

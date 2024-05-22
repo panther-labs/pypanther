@@ -1,4 +1,5 @@
 from typing import List
+
 from panther_analysis.base import PantherRule, PantherRuleTest, Severity
 
 netskope_many_deletes_tests: List[PantherRuleTest] = [

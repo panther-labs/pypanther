@@ -1,7 +1,8 @@
-from typing import List
-from panther_analysis.base import PantherRule, PantherRuleTest, Severity, RuleMock
 from datetime import datetime, timedelta
 from json import dumps, loads
+from typing import List
+
+from panther_analysis.base import PantherRule, PantherRuleTest, RuleMock, Severity
 from panther_analysis.helpers.panther_base_helpers import deep_get
 from panther_analysis.helpers.panther_lookuptable_helpers import LookupTableMatches
 from panther_analysis.helpers.panther_oss_helpers import (

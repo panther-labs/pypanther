@@ -67,11 +67,6 @@ include = '\.pyi?$'
 [tool.isort]
 line_length = 100
 profile = "black"
-skip_glob = [
-    'panther_analysis/rules/*', 
-    'panther_analysis/helpers/*', 
-    'panther_analysis/data_models/*', 
-]
 
 [tool.ruff]
 # Exclude a variety of commonly ignored directories.

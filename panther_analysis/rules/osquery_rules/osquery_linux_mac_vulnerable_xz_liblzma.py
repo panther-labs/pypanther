@@ -1,4 +1,5 @@
 from typing import List
+
 from panther_analysis.base import PantherRule, PantherRuleTest, Severity
 
 osquery_linux_mac_vulnerable_x_zliblzma_tests: List[PantherRuleTest] = [

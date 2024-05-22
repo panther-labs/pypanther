@@ -1,4 +1,5 @@
 from typing import List
+
 from panther_analysis.base import PantherRule, PantherRuleTest, Severity
 
 osquery_mac_unwanted_chrome_extensions_tests: List[PantherRuleTest] = [

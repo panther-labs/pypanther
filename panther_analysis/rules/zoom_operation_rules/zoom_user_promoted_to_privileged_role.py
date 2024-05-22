@@ -1,6 +1,7 @@
-from typing import List
-from panther_analysis.base import PantherRule, PantherRuleTest, Severity
 import re
+from typing import List
+
+from panther_analysis.base import PantherRule, PantherRuleTest, Severity
 
 zoom_user_promotedto_privileged_role_tests: List[PantherRuleTest] = [
     PantherRuleTest(

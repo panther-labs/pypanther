@@ -1,7 +1,8 @@
-from typing import List
-from panther_analysis.base import PantherRule, PantherRuleTest, Severity
 import shlex
 from fnmatch import fnmatch
+from typing import List
+
+from panther_analysis.base import PantherRule, PantherRuleTest, Severity
 from panther_analysis.helpers.panther_base_helpers import deep_get
 
 osquery_suspicious_cron_tests: List[PantherRuleTest] = [

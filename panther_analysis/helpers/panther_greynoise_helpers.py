@@ -6,6 +6,7 @@ from collections.abc import Sequence
 from typing import Union
 
 from dateutil import parser
+
 from panther_analysis.helpers.panther_base_helpers import deep_get
 from panther_analysis.helpers.panther_lookuptable_helpers import LookupTableMatches
 

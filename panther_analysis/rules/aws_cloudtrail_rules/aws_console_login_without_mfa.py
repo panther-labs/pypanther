@@ -1,9 +1,11 @@
-from typing import List
-from panther_analysis.base import PantherRule, PantherRuleTest, Severity, RuleMock
 import logging
+from typing import List
+
+from panther_detection_helpers.caching import check_account_age
+
+from panther_analysis.base import PantherRule, PantherRuleTest, RuleMock, Severity
 from panther_analysis.helpers.panther_base_helpers import aws_rule_context, deep_get
 from panther_analysis.helpers.panther_default import lookup_aws_account_name
-from panther_detection_helpers.caching import check_account_age
 
 a_w_s_console_login_without_m_f_a_tests: List[PantherRuleTest] = [
     PantherRuleTest(

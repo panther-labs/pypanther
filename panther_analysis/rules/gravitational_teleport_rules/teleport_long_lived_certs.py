@@ -1,7 +1,7 @@
-from typing import List
-from panther_analysis.base import PantherRule, PantherRuleTest, Severity
 from datetime import datetime, timedelta
-from typing import Dict, Tuple
+from typing import Dict, List, Tuple
+
+from panther_analysis.base import PantherRule, PantherRuleTest, Severity
 from panther_analysis.helpers.panther_base_helpers import (
     golang_nanotime_to_python_datetime,
     panther_nanotime_to_python_datetime,

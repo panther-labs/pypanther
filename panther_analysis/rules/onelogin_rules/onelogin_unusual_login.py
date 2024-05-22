@@ -1,8 +1,10 @@
-from typing import List
-from panther_analysis.base import PantherRule, PantherRuleTest, Severity
 import json
+from typing import List
+
 import requests
 from panther_detection_helpers.caching import get_string_set, put_string_set
+
+from panther_analysis.base import PantherRule, PantherRuleTest, Severity
 
 one_login_unusual_login_tests: List[PantherRuleTest] = [
     PantherRuleTest(Name="Non Login", ExpectedResult=False, Log={"event_type_id": "8"})

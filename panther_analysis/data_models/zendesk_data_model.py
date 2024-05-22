@@ -1,6 +1,7 @@
 from typing import List
-from panther_analysis.base import PantherDataModel, PantherDataModelMapping
+
 import panther_analysis.helpers.panther_event_type_helpers as event_type
+from panther_analysis.base import PantherDataModel, PantherDataModelMapping
 from panther_analysis.helpers.panther_base_helpers import (
     ZENDESK_CHANGE_DESCRIPTION,
     zendesk_get_roles,

@@ -1,4 +1,5 @@
 from typing import List
+
 from panther_analysis.base import PantherRule, PantherRuleTest, Severity
 
 zendesk_new_a_p_i_token_tests: List[PantherRuleTest] = [

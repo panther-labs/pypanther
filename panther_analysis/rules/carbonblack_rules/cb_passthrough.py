@@ -1,4 +1,5 @@
 from typing import List
+
 from panther_analysis.base import PantherRule, PantherRuleTest, Severity
 
 carbon_black_alert_v2_passthrough_tests: List[PantherRuleTest] = [

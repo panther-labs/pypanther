@@ -1,10 +1,12 @@
-from typing import List
-from panther_analysis.base import PantherRule, PantherRuleTest, Severity, RuleMock
 import json
 from datetime import timedelta
 from difflib import SequenceMatcher
-from panther_analysis.helpers.panther_base_helpers import deep_get, okta_alert_context
+from typing import List
+
 from panther_detection_helpers.caching import get_string_set, put_string_set
+
+from panther_analysis.base import PantherRule, PantherRuleTest, RuleMock, Severity
+from panther_analysis.helpers.panther_base_helpers import deep_get, okta_alert_context
 
 okta_potentially_stolen_session_tests: List[PantherRuleTest] = [
     PantherRuleTest(

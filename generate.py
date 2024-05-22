@@ -3,6 +3,7 @@ import functools
 import os
 import re
 import shutil
+import subprocess
 import sys
 from multiprocessing import Pool
 from pathlib import Path
@@ -142,6 +143,10 @@ def run_black(code: str) -> str:
         )
     except black.report.NothingChanged:
         return code
+
+
+def run_isort(paths: List[Path]):
+    subprocess.run(["isort"] + list(paths), check=True, stdout=subprocess.DEVNULL)
 
 
 def to_ascii(s):
@@ -428,6 +433,7 @@ def convert_global_helpers(panther_analysis: Path) -> Set[str]:
 
         helpers.add(Path(gh["Filename"]).stem)
 
+    paths = []
     for p in (global_helpers_path).rglob("*.y*ml"):
         gh = YAML(typ="safe").load(p)
 
@@ -453,6 +459,9 @@ def convert_global_helpers(panther_analysis: Path) -> Set[str]:
             f.write(code)
 
         helpers.add(Path(gh["Filename"]).stem)
+        paths.append(helpers_path / gh["Filename"])
+
+    run_isort(paths)
 
     return helpers
 
@@ -465,6 +474,7 @@ def convert_data_models(panther_analysis: Path, helpers: Set[str]):
     imports = """from typing import List
 from panther_analysis.base import PantherDataModel, PantherDataModelMapping"""
 
+    paths = []
     for p in (data_models_path).rglob("*.y*ml"):
         with open(p, "rb") as f:
             dm = YAML(typ="safe").load(f)
@@ -553,6 +563,10 @@ from panther_analysis.base import PantherDataModel, PantherDataModelMapping"""
         with open(p.with_suffix(".py"), "w", encoding="utf-8") as f:
             f.write(code)
 
+        paths.append(p.with_suffix(".py"))
+
+    run_isort(paths)
+
     add_inits(Path("panther_analysis/data_models"))
 
 
@@ -592,12 +606,14 @@ def convert_rules(panther_analysis: Path, helpers: Set[str]):
 
     # __init__.py to all folders
     add_inits(Path("panther_analysis") / "rules")
+    run_isort([Path("panther_analysis") / "rules"])
 
 
 def convert_queries(
     panther_analysis: Path,
 ):
     queries_path = panther_analysis / "queries"
+    paths = []
     for p in queries_path.rglob("*.y*ml"):
         with open(p, "rb") as f:
             query = YAML(typ="safe").load(f)
@@ -705,6 +721,10 @@ from panther_analysis.base import PantherDataModel, PantherQuerySchedule
         p.parent.mkdir(parents=True, exist_ok=True)
         with open(p.with_suffix(".py"), "w", encoding="utf-8") as f:
             f.write(run_black(new_rule))
+
+        paths.append(p.with_suffix(".py"))
+
+    run_isort(paths)
 
     add_inits(Path("panther_analysis") / "queries")
 

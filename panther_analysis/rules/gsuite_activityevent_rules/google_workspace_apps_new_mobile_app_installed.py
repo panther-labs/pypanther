@@ -1,4 +1,5 @@
 from typing import List
+
 from panther_analysis.base import PantherRule, PantherRuleTest, Severity
 
 google_workspace_apps_new_mobile_app_installed_tests: List[PantherRuleTest] = [

@@ -1,6 +1,7 @@
-from typing import List
-from panther_analysis.base import PantherRule, PantherRuleTest, Severity
 import json
+from typing import List
+
+from panther_analysis.base import PantherRule, PantherRuleTest, Severity
 
 git_lab_audit_password_reset_multiple_emails_tests: List[PantherRuleTest] = [
     PantherRuleTest(

@@ -1,6 +1,7 @@
-from typing import List
-from panther_analysis.base import PantherRule, PantherRuleTest, Severity, RuleMock
 import time
+from typing import List
+
+from panther_analysis.base import PantherRule, PantherRuleTest, RuleMock, Severity
 from panther_analysis.helpers.panther_notion_helpers import notion_alert_context
 from panther_analysis.helpers.panther_oss_helpers import get_string_set, put_string_set
 

@@ -1,4 +1,5 @@
 from typing import List
+
 from panther_analysis.base import PantherRule, PantherRuleTest, Severity
 
 salesforce_admin_login_as_user_tests: List[PantherRuleTest] = [

@@ -1,4 +1,5 @@
 from typing import List
+
 from panther_analysis.base import PantherRule, PantherRuleTest, Severity
 
 zoom_new_meeting_passcode_required_disabled_tests: List[PantherRuleTest] = [

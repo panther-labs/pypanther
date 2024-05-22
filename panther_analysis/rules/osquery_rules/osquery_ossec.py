@@ -1,4 +1,5 @@
 from typing import List
+
 from panther_analysis.base import PantherRule, PantherRuleTest, Severity
 
 osquery_o_s_s_e_c_rootkit_detected_tests: List[PantherRuleTest] = [

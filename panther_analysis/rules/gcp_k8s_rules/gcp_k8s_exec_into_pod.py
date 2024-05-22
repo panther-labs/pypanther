@@ -1,4 +1,5 @@
 from typing import List
+
 from panther_analysis.base import PantherRule, PantherRuleTest, Severity
 from panther_analysis.helpers.gcp_base_helpers import get_k8s_info
 from panther_analysis.helpers.gcp_environment import PRODUCTION_PROJECT_IDS, rule_exceptions

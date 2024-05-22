@@ -1,6 +1,7 @@
-from typing import List
-from panther_analysis.base import PantherRule, PantherRuleTest, Severity
 from fnmatch import fnmatch
+from typing import List
+
+from panther_analysis.base import PantherRule, PantherRuleTest, Severity
 from panther_analysis.helpers.panther_base_helpers import deep_get, get_binding_deltas
 
 g_c_p_i_a_m_admin_role_assigned_tests: List[PantherRuleTest] = [

@@ -1,6 +1,7 @@
-from typing import List
-from panther_analysis.base import PantherRule, PantherRuleTest, Severity
 import re
+from typing import List
+
+from panther_analysis.base import PantherRule, PantherRuleTest, Severity
 from panther_analysis.helpers.panther_base_helpers import ZENDESK_CHANGE_DESCRIPTION
 
 zendesk_account_owner_changed_tests: List[PantherRuleTest] = [

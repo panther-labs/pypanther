@@ -1,6 +1,7 @@
-from typing import List
-from panther_analysis.base import PantherRule, PantherRuleTest, Severity
 import json
+from typing import List
+
+from panther_analysis.base import PantherRule, PantherRuleTest, Severity
 
 duo_admin_lockout_tests: List[PantherRuleTest] = [
     PantherRuleTest(
