@@ -4,7 +4,7 @@ from typing import List
 from panther_analysis.base import PantherRule, PantherRuleTest, Severity
 from panther_analysis.helpers.panther_config import config
 
-teleport_company_domain_login_without_s_a_m_l_tests: List[PantherRuleTest] = [
+teleport_company_domain_login_without_saml_tests: List[PantherRuleTest] = [
     PantherRuleTest(
         Name="A User from the company domain(s) logged in with SAML",
         ExpectedResult=False,
@@ -52,7 +52,7 @@ class TeleportCompanyDomainLoginWithoutSAML(PantherRule):
     Reference = "https://goteleport.com/docs/management/admin/"
     Runbook = "A User from the company domain(s) Logged in without SAML\n"
     SummaryAttributes = ["event", "code", "user", "method", "mfa_device"]
-    Tests = teleport_company_domain_login_without_s_a_m_l_tests
+    Tests = teleport_company_domain_login_without_saml_tests
     TELEPORT_ORGANIZATION_DOMAINS_REGEX = (
         "@(" + "|".join(config.TELEPORT_ORGANIZATION_DOMAINS) + ")$"
     )

@@ -5,7 +5,7 @@ from panther_analysis.base import PantherRule, PantherRuleTest, Severity
 from panther_analysis.helpers.gcp_base_helpers import gcp_alert_context
 from panther_analysis.helpers.panther_base_helpers import deep_get, deep_walk
 
-g_c_p_log_bucket_or_sink_deleted_tests: List[PantherRuleTest] = [
+gcp_log_bucket_or_sink_deleted_tests: List[PantherRuleTest] = [
     PantherRuleTest(
         Name="logging-bucket.deleted-should-alert",
         ExpectedResult=True,
@@ -212,7 +212,7 @@ class GCPLogBucketOrSinkDeleted(PantherRule):
     Description = "This rule detects deletions of GCP Log Buckets or Sinks.\n"
     Runbook = "Ensure that the bucket or sink deletion was expected. Adversaries may do this to cover their tracks.\n"
     Reference = "https://cloud.google.com/logging/docs"
-    Tests = g_c_p_log_bucket_or_sink_deleted_tests
+    Tests = gcp_log_bucket_or_sink_deleted_tests
 
     def rule(self, event):
         authenticated = deep_walk(

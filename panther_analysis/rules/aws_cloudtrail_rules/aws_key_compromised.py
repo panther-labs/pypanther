@@ -3,7 +3,7 @@ from typing import List
 from panther_analysis.base import PantherRule, PantherRuleTest, Severity
 from panther_analysis.helpers.panther_base_helpers import aws_rule_context, deep_get
 
-a_w_s_i_a_m_access_key_compromised_tests: List[PantherRuleTest] = [
+awsiam_access_key_compromised_tests: List[PantherRuleTest] = [
     PantherRuleTest(
         Name="An AWS Access Key was Uploaded to Github",
         ExpectedResult=True,
@@ -76,7 +76,7 @@ class AWSIAMAccessKeyCompromised(PantherRule):
     Description = "A users static AWS API key was uploaded to a public github repo."
     Runbook = "Determine the key owner, disable/delete key, and delete the user to resolve the AWS case. If user needs a new IAM give them a stern talking to first."
     Reference = "https://docs.github.com/en/code-security/secret-scanning/about-secret-scanning"
-    Tests = a_w_s_i_a_m_access_key_compromised_tests
+    Tests = awsiam_access_key_compromised_tests
     EXPOSED_CRED_POLICY = "AWSExposedCredentialPolicy_DO_NOT_REMOVE"
 
     def rule(self, event):

@@ -4,7 +4,7 @@ from typing import List
 from panther_analysis.base import PantherRule, PantherRuleTest, Severity
 from panther_analysis.helpers.panther_base_helpers import aws_rule_context, deep_get
 
-a_w_s_l_a_m_b_d_a_c_r_u_d_tests: List[PantherRuleTest] = [
+awslambdacrud_tests: List[PantherRuleTest] = [
     PantherRuleTest(
         Name="Lambda DeleteFunction Unauthorized Account",
         ExpectedResult=True,
@@ -107,7 +107,7 @@ class AWSLAMBDACRUD(PantherRule):
         "awsRegion",
         "p_any_aws_arns",
     ]
-    Tests = a_w_s_l_a_m_b_d_a_c_r_u_d_tests
+    Tests = awslambdacrud_tests
     LAMBDA_CRUD_EVENTS = {
         "AddPermission",
         "CreateAlias",

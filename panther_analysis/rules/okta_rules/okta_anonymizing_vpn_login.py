@@ -3,7 +3,7 @@ from typing import List
 from panther_analysis.base import PantherRule, PantherRuleTest, Severity
 from panther_analysis.helpers.panther_base_helpers import deep_get, okta_alert_context
 
-okta_anonymizing_v_p_n_login_tests: List[PantherRuleTest] = [
+okta_anonymizing_vpn_login_tests: List[PantherRuleTest] = [
     PantherRuleTest(
         Name="Other Event",
         ExpectedResult=False,
@@ -171,7 +171,7 @@ class OktaAnonymizingVPNLogin(PantherRule):
     Reference = "https://sec.okta.com/articles/2023/08/cross-tenant-impersonation-prevention-and-detection\n"
     DedupPeriodMinutes = 360
     Threshold = 1
-    Tests = okta_anonymizing_v_p_n_login_tests
+    Tests = okta_anonymizing_vpn_login_tests
 
     def rule(self, event):
         return event.get("eventType") == "user.session.start" and deep_get(

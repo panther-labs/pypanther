@@ -2,7 +2,7 @@ from typing import List
 
 from panther_analysis.base import PantherRule, PantherRuleTest, Severity
 
-teleport_s_a_m_l_created_tests: List[PantherRuleTest] = [
+teleport_saml_created_tests: List[PantherRuleTest] = [
     PantherRuleTest(
         Name="SAML Auth Connector modified",
         ExpectedResult=True,
@@ -33,7 +33,7 @@ class TeleportSAMLCreated(PantherRule):
     Reference = "https://goteleport.com/docs/management/admin/"
     Runbook = "When a SAML connector is modified, it can potentially change the trust model of the Teleport Cluster. Validate that these changes were expected and correct.\n"
     SummaryAttributes = ["event", "code", "user", "name"]
-    Tests = teleport_s_a_m_l_created_tests
+    Tests = teleport_saml_created_tests
 
     def rule(self, event):
         return event.get("event") == "saml.created"

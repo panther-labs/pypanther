@@ -3,7 +3,7 @@ from typing import List
 from panther_analysis.base import PantherRule, PantherRuleTest, Severity
 from panther_analysis.helpers.panther_base_helpers import deep_get
 
-d_u_o_user_action_fraudulent_tests: List[PantherRuleTest] = [
+duo_user_action_fraudulent_tests: List[PantherRuleTest] = [
     PantherRuleTest(
         Name="user_marked_fraud",
         ExpectedResult=True,
@@ -32,7 +32,7 @@ class DUOUserActionFraudulent(PantherRule):
     Description = "Alert when a user reports a Duo action as fraudulent.\n"
     Reference = "https://duo.com/docs/adminapi#authentication-logs"
     Runbook = "Follow up with the user to confirm."
-    Tests = d_u_o_user_action_fraudulent_tests
+    Tests = duo_user_action_fraudulent_tests
 
     def rule(self, event):
         return event.get("result") == "fraud"

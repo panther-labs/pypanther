@@ -3,7 +3,7 @@ from typing import List
 from panther_analysis.base import PantherRule, PantherRuleTest, Severity
 from panther_analysis.helpers.panther_base_helpers import slack_alert_context
 
-slack_audit_logs_m_f_a_settings_changed_tests: List[PantherRuleTest] = [
+slack_audit_logs_mfa_settings_changed_tests: List[PantherRuleTest] = [
     PantherRuleTest(
         Name="MFA Auth Changed",
         ExpectedResult=True,
@@ -90,7 +90,7 @@ class SlackAuditLogsMFASettingsChanged(PantherRule):
     DedupPeriodMinutes = 60
     Threshold = 1
     SummaryAttributes = ["p_any_ip_addresses", "p_any_emails"]
-    Tests = slack_audit_logs_m_f_a_settings_changed_tests
+    Tests = slack_audit_logs_mfa_settings_changed_tests
 
     def rule(self, event):
         return event.get("action") == "pref.two_factor_auth_changed"

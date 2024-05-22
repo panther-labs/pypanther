@@ -3,7 +3,7 @@ from typing import List
 from panther_analysis.base import PantherRule, PantherRuleTest, Severity
 from panther_analysis.helpers.panther_base_helpers import deep_get
 
-asana_workspace_s_a_m_l_optional_tests: List[PantherRuleTest] = [
+asana_workspace_saml_optional_tests: List[PantherRuleTest] = [
     PantherRuleTest(
         Name="SAML required",
         ExpectedResult=False,
@@ -64,7 +64,7 @@ class AsanaWorkspaceSAMLOptional(PantherRule):
     LogTypes = ["Asana.Audit"]
     RuleID = "Asana.Workspace.SAML.Optional-prototype"
     Threshold = 1
-    Tests = asana_workspace_s_a_m_l_optional_tests
+    Tests = asana_workspace_saml_optional_tests
 
     def rule(self, event):
         old_val = deep_get(event, "details", "old_value", default="<OLD_VAL_NOT_FOUND>")

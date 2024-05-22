@@ -3,7 +3,7 @@ from typing import List
 from panther_analysis.base import PantherRule, PantherRuleTest, Severity
 from panther_analysis.helpers.panther_base_helpers import deep_get
 
-a_w_s_cloud_trail_account_discovery_tests: List[PantherRuleTest] = [
+aws_cloud_trail_account_discovery_tests: List[PantherRuleTest] = [
     PantherRuleTest(
         Name="DescribeAccount",
         ExpectedResult=True,
@@ -163,7 +163,7 @@ class AWSCloudTrailAccountDiscovery(PantherRule):
     LogTypes = ["AWS.CloudTrail"]
     RuleID = "AWS.CloudTrail.Account.Discovery-prototype"
     Threshold = 1
-    Tests = a_w_s_cloud_trail_account_discovery_tests
+    Tests = aws_cloud_trail_account_discovery_tests
     DISCOVERY_EVENTS = [
         "GetAlternateContact",
         "GetContactInformation",

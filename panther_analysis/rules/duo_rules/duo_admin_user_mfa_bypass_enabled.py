@@ -6,7 +6,7 @@ from panther_analysis.helpers.panther_duo_helpers import (
     duo_alert_context,
 )
 
-duo_admin_user_m_f_a_bypass_enabled_tests: List[PantherRuleTest] = [
+duo_admin_user_mfa_bypass_enabled_tests: List[PantherRuleTest] = [
     PantherRuleTest(
         Name="Account Active",
         ExpectedResult=False,
@@ -68,7 +68,7 @@ class DuoAdminUserMFABypassEnabled(PantherRule):
     LogTypes = ["Duo.Administrator"]
     RuleID = "Duo.Admin.User.MFA.Bypass.Enabled-prototype"
     Threshold = 1
-    Tests = duo_admin_user_m_f_a_bypass_enabled_tests
+    Tests = duo_admin_user_mfa_bypass_enabled_tests
 
     def rule(self, event):
         if event.get("action") == "user_update":

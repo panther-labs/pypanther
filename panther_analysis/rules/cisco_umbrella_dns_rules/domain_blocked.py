@@ -2,7 +2,7 @@ from typing import List
 
 from panther_analysis.base import PantherRule, PantherRuleTest, Severity
 
-cisco_umbrella_d_n_s_blocked_tests: List[PantherRuleTest] = [
+cisco_umbrella_dns_blocked_tests: List[PantherRuleTest] = [
     PantherRuleTest(
         Name="Domain Blocked",
         ExpectedResult=True,
@@ -42,7 +42,7 @@ class CiscoUmbrellaDNSBlocked(PantherRule):
     Runbook = "Inspect the blocked domain and lookup for malware"
     Reference = "https://support.umbrella.com/hc/en-us/articles/230563627-How-to-determine-if-a-domain-or-resource-is-being-blocked-using-Chrome-Net-Internals"
     SummaryAttributes = ["action", "internalIp", "externalIp", "domain", "responseCode"]
-    Tests = cisco_umbrella_d_n_s_blocked_tests
+    Tests = cisco_umbrella_dns_blocked_tests
 
     def rule(self, event):
         return event.get("action") == "Blocked"

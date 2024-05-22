@@ -4,7 +4,7 @@ from panther_analysis.base import PantherRule, PantherRuleTest, Severity
 from panther_analysis.helpers.panther_base_helpers import deep_get
 from panther_analysis.helpers.panther_default import aws_cloudtrail_success, lookup_aws_account_name
 
-a_w_s_root_activity_tests: List[PantherRuleTest] = [
+aws_root_activity_tests: List[PantherRuleTest] = [
     PantherRuleTest(
         Name="Root Activity - CreateServiceLinkedRole",
         ExpectedResult=False,
@@ -244,7 +244,7 @@ class AWSRootActivity(PantherRule):
         "p_any_aws_arns",
         "p_any_ip_addresses",
     ]
-    Tests = a_w_s_root_activity_tests
+    Tests = aws_root_activity_tests
     EVENT_ALLOW_LIST = {"CreateServiceLinkedRole"}
 
     def rule(self, event):

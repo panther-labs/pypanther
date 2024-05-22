@@ -6,7 +6,7 @@ from panther_analysis.helpers.panther_duo_helpers import (
     duo_alert_context,
 )
 
-duo_admin_s_s_o_s_a_m_l_requirement_disabled_tests: List[PantherRuleTest] = [
+duo_admin_ssosaml_requirement_disabled_tests: List[PantherRuleTest] = [
     PantherRuleTest(
         Name="Enforcement Disabled",
         ExpectedResult=True,
@@ -66,7 +66,7 @@ class DuoAdminSSOSAMLRequirementDisabled(PantherRule):
     LogTypes = ["Duo.Administrator"]
     RuleID = "Duo.Admin.SSO.SAML.Requirement.Disabled-prototype"
     Threshold = 1
-    Tests = duo_admin_s_s_o_s_a_m_l_requirement_disabled_tests
+    Tests = duo_admin_ssosaml_requirement_disabled_tests
 
     def rule(self, event):
         if event.get("action") == "admin_single_sign_on_update":

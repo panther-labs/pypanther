@@ -3,7 +3,7 @@ from typing import List
 from panther_analysis.base import PantherRule, PantherRuleTest, Severity
 from panther_analysis.helpers.panther_base_helpers import deep_get
 
-g_c_p_destructive_queries_tests: List[PantherRuleTest] = [
+gcp_destructive_queries_tests: List[PantherRuleTest] = [
     PantherRuleTest(
         Name="Drop Table Event",
         ExpectedResult=True,
@@ -147,7 +147,7 @@ class GCPDestructiveQueries(PantherRule):
     LogTypes = ["GCP.AuditLog"]
     RuleID = "GCP.Destructive.Queries-prototype"
     Threshold = 1
-    Tests = g_c_p_destructive_queries_tests
+    Tests = gcp_destructive_queries_tests
     DESTRUCTIVE_STATEMENTS = ["UPDATE", "DELETE", "DROP_TABLE", "ALTER_TABLE", "TRUNCATE_TABLE"]
 
     def rule(self, event):

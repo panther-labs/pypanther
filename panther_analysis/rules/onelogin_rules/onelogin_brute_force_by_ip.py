@@ -2,7 +2,7 @@ from typing import List
 
 from panther_analysis.base import PantherRule, PantherRuleTest, Severity
 
-one_login_brute_force_by_i_p_tests: List[PantherRuleTest] = [
+one_login_brute_force_by_ip_tests: List[PantherRuleTest] = [
     PantherRuleTest(
         Name="Normal Login Event",
         ExpectedResult=False,
@@ -42,7 +42,7 @@ class OneLoginBruteForceByIP(PantherRule):
     Reference = "https://www.fortinet.com/resources/cyberglossary/brute-force-attack#:~:text=A%20brute%20force%20attack%20is,and%20organizations'%20systems%20and%20networks."
     Runbook = "Analyze the IP they came from, and other actions taken before/after. Check if a user from this ip eventually authenticated successfully."
     SummaryAttributes = ["account_id", "user_name", "user_id", "p_any_ip_addresses"]
-    Tests = one_login_brute_force_by_i_p_tests
+    Tests = one_login_brute_force_by_ip_tests
 
     def rule(self, event):
         # filter events; event type 6 is a failed authentication

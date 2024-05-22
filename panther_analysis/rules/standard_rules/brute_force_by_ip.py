@@ -6,7 +6,7 @@ from panther_analysis.base import PantherRule, PantherRuleTest, RuleMock, Severi
 from panther_analysis.helpers.panther_default import lookup_aws_account_name
 from panther_analysis.helpers.panther_oss_helpers import add_parse_delay, geoinfo_from_ip
 
-standard_brute_force_by_i_p_tests: List[PantherRuleTest] = [
+standard_brute_force_by_ip_tests: List[PantherRuleTest] = [
     PantherRuleTest(
         Name="AWS.CloudTrail - Successful Login",
         ExpectedResult=False,
@@ -409,7 +409,7 @@ class StandardBruteForceByIP(PantherRule):
     Runbook = "Analyze the IP they came from, and other actions taken before/after. Check if a user from this ip eventually authenticated successfully."
     Reference = "https://owasp.org/www-community/controls/Blocking_Brute_Force_Attacks"
     SummaryAttributes = ["p_any_ip_addresses"]
-    Tests = standard_brute_force_by_i_p_tests
+    Tests = standard_brute_force_by_ip_tests
 
     def rule(self, event):
         # filter events on unified data model field

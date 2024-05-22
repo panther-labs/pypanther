@@ -5,7 +5,7 @@ from panther_analysis.base import PantherRule, PantherRuleTest, Severity
 from panther_analysis.helpers.gcp_base_helpers import gcp_alert_context
 from panther_analysis.helpers.panther_base_helpers import deep_get
 
-g_c_p_firewall_rule_modified_tests: List[PantherRuleTest] = [
+gcp_firewall_rule_modified_tests: List[PantherRuleTest] = [
     PantherRuleTest(
         Name="compute.firewalls.update-should-alert",
         ExpectedResult=True,
@@ -174,7 +174,7 @@ class GCPFirewallRuleModified(PantherRule):
     Description = "This rule detects modifications to GCP firewall rules.\n"
     Runbook = "Ensure that the rule modification was expected. Firewall rule changes can cause service interruptions or outages.\n"
     Reference = "https://cloud.google.com/firewall/docs/about-firewalls"
-    Tests = g_c_p_firewall_rule_modified_tests
+    Tests = gcp_firewall_rule_modified_tests
 
     def rule(self, event):
         method_pattern = (

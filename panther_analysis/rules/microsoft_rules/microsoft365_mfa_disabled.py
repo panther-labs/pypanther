@@ -4,7 +4,7 @@ from typing import List
 from panther_analysis.base import PantherRule, PantherRuleTest, Severity
 from panther_analysis.helpers.panther_base_helpers import m365_alert_context
 
-microsoft365_m_f_a_disabled_tests: List[PantherRuleTest] = [
+microsoft365_mfa_disabled_tests: List[PantherRuleTest] = [
     PantherRuleTest(
         Name="MFA Add Event",
         ExpectedResult=False,
@@ -128,7 +128,7 @@ class Microsoft365MFADisabled(PantherRule):
     LogTypes = ["Microsoft365.Audit.AzureActiveDirectory"]
     RuleID = "Microsoft365.MFA.Disabled-prototype"
     Threshold = 1
-    Tests = microsoft365_m_f_a_disabled_tests
+    Tests = microsoft365_mfa_disabled_tests
 
     def rule(self, event):
         if event.get("Operation", "") == "Update user.":

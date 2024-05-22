@@ -5,7 +5,7 @@ from panther_analysis.base import PantherRule, PantherRuleTest, Severity
 from panther_analysis.helpers.gcp_base_helpers import gcp_alert_context
 from panther_analysis.helpers.panther_base_helpers import deep_get
 
-g_c_p_firewall_rule_created_tests: List[PantherRuleTest] = [
+gcp_firewall_rule_created_tests: List[PantherRuleTest] = [
     PantherRuleTest(
         Name="compute.firewalls.create-should-alert",
         ExpectedResult=True,
@@ -174,7 +174,7 @@ class GCPFirewallRuleCreated(PantherRule):
     Description = "This rule detects creations of GCP firewall rules.\n"
     Runbook = "Ensure that the rule creation was expected. Firewall rule creations can expose [vulnerable] resoures to the internet.\n"
     Reference = "https://cloud.google.com/firewall/docs/about-firewalls"
-    Tests = g_c_p_firewall_rule_created_tests
+    Tests = gcp_firewall_rule_created_tests
 
     def rule(self, event):
         method_pattern = "(?:\\w+\\.)*v\\d\\.(?:Firewall\\.Create)|(compute\\.firewalls\\.insert)"

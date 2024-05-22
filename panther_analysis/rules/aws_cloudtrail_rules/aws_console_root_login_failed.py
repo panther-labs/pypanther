@@ -4,7 +4,7 @@ from panther_analysis.base import PantherRule, PantherRuleTest, Severity
 from panther_analysis.helpers.panther_base_helpers import aws_rule_context, deep_get
 from panther_analysis.helpers.panther_default import lookup_aws_account_name
 
-a_w_s_console_root_login_failed_tests: List[PantherRuleTest] = [
+aws_console_root_login_failed_tests: List[PantherRuleTest] = [
     PantherRuleTest(
         Name="Failed Root Login",
         ExpectedResult=True,
@@ -137,7 +137,7 @@ class AWSConsoleRootLoginFailed(PantherRule):
     Runbook = "https://docs.runpanther.io/alert-runbooks/built-in-rules/aws-console-login-failed"
     Reference = "https://amzn.to/3aMSmTd"
     SummaryAttributes = ["userAgent", "sourceIpAddress", "recipientAccountId", "p_any_aws_arns"]
-    Tests = a_w_s_console_root_login_failed_tests
+    Tests = aws_console_root_login_failed_tests
 
     def rule(self, event):
         return (

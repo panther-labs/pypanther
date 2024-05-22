@@ -5,7 +5,7 @@ from panther_analysis.base import PantherRule, PantherRuleTest, Severity
 from panther_analysis.helpers.panther_base_helpers import aws_rule_context, deep_get
 from panther_analysis.helpers.panther_default import aws_cloudtrail_success
 
-a_w_s_cloud_trail_snapshot_made_public_tests: List[PantherRuleTest] = [
+aws_cloud_trail_snapshot_made_public_tests: List[PantherRuleTest] = [
     PantherRuleTest(
         Name="Snapshot Made Publicly Accessible",
         ExpectedResult=True,
@@ -154,7 +154,7 @@ class AWSCloudTrailSnapshotMadePublic(PantherRule):
     Runbook = "Adjust the snapshot configuration so that it is no longer public."
     Reference = "https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-modifying-snapshot-permissions.html"
     SummaryAttributes = ["userAgent", "sourceIpAddress", "recipientAccountId", "p_any_aws_arns"]
-    Tests = a_w_s_cloud_trail_snapshot_made_public_tests
+    Tests = aws_cloud_trail_snapshot_made_public_tests
 
     def rule(self, event):
         if not aws_cloudtrail_success(event):

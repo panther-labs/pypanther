@@ -4,7 +4,7 @@ from panther_analysis.base import PantherRule, PantherRuleTest, Severity
 from panther_analysis.helpers.panther_base_helpers import aws_rule_context
 from panther_analysis.helpers.panther_default import aws_cloudtrail_success
 
-a_w_s_e_c2_network_a_c_l_modified_tests: List[PantherRuleTest] = [
+awsec2_network_acl_modified_tests: List[PantherRuleTest] = [
     PantherRuleTest(
         Name="Network ACL Modified",
         ExpectedResult=True,
@@ -170,7 +170,7 @@ class AWSEC2NetworkACLModified(PantherRule):
         "recipientAccountId",
         "p_any_aws_arns",
     ]
-    Tests = a_w_s_e_c2_network_a_c_l_modified_tests
+    Tests = awsec2_network_acl_modified_tests
     # API calls that are indicative of an EC2 Network ACL modification
     EC2_NACL_MODIFIED_EVENTS = {
         "CreateNetworkAcl",

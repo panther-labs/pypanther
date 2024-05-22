@@ -4,7 +4,7 @@ from panther_analysis.base import PantherRule, PantherRuleTest, Severity
 from panther_analysis.helpers.gcp_base_helpers import gcp_alert_context
 from panther_analysis.helpers.panther_base_helpers import deep_get
 
-g_c_pcomputeinstancescreate_privilege_escalation_tests: List[PantherRuleTest] = [
+gc_pcomputeinstancescreate_privilege_escalation_tests: List[PantherRuleTest] = [
     PantherRuleTest(
         Name="GCP compute.instances - Potential Privilege Escalation",
         ExpectedResult=True,
@@ -346,7 +346,7 @@ class GCPcomputeinstancescreatePrivilegeEscalation(PantherRule):
     Severity = Severity.High
     DedupPeriodMinutes = 60
     Threshold = 1
-    Tests = g_c_pcomputeinstancescreate_privilege_escalation_tests
+    Tests = gc_pcomputeinstancescreate_privilege_escalation_tests
     REQUIRED_PERMISSIONS = [
         "compute.disks.create",
         "compute.instances.create",

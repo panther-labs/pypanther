@@ -4,7 +4,7 @@ from typing import List
 from panther_analysis.base import PantherRule, PantherRuleTest, Severity
 from panther_analysis.helpers.panther_base_helpers import deep_get, eks_panther_obj_ref
 
-amazon_e_k_s_audit_system_namespace_from_public_i_p_tests: List[PantherRuleTest] = [
+amazon_eks_audit_system_namespace_from_public_ip_tests: List[PantherRuleTest] = [
     PantherRuleTest(
         Name="non-system username",
         ExpectedResult=False,
@@ -333,7 +333,7 @@ class AmazonEKSAuditSystemNamespaceFromPublicIP(PantherRule):
     DedupPeriodMinutes = 1440
     Threshold = 1
     SummaryAttributes = ["user:username", "p_source_label"]
-    Tests = amazon_e_k_s_audit_system_namespace_from_public_i_p_tests
+    Tests = amazon_eks_audit_system_namespace_from_public_ip_tests
     # Explicitly ignore eks:node-manager and eks:addon-manager
     #  which are run as Lambdas and originate from public IPs
     AMZ_PUBLICS = {"eks:addon-manager", "eks:node-manager"}

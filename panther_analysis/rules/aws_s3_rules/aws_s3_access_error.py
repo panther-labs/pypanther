@@ -3,7 +3,7 @@ from typing import List
 from panther_analysis.base import PantherRule, PantherRuleTest, Severity
 from panther_analysis.helpers.panther_base_helpers import aws_rule_context, pattern_match
 
-a_w_s_s3_server_access_error_tests: List[PantherRuleTest] = [
+awss3_server_access_error_tests: List[PantherRuleTest] = [
     PantherRuleTest(
         Name="Amazon Access Error",
         ExpectedResult=False,
@@ -91,7 +91,7 @@ class AWSS3ServerAccessError(PantherRule):
     Runbook = "Investigate the specific error and determine if it is an ongoing issue that needs to be addressed or a one off or transient error that can be ignored.\n"
     Reference = "https://docs.aws.amazon.com/AmazonS3/latest/dev/ErrorCode.html"
     SummaryAttributes = ["bucket", "key", "requester", "remoteip", "operation", "errorCode"]
-    Tests = a_w_s_s3_server_access_error_tests
+    Tests = awss3_server_access_error_tests
     # https://docs.aws.amazon.com/AmazonS3/latest/API/ErrorResponses.html
     # Forbidden
     # Method Not Allowed

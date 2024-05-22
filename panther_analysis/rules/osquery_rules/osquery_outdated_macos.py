@@ -3,7 +3,7 @@ from typing import List
 from panther_analysis.base import PantherRule, PantherRuleTest, Severity
 from panther_analysis.helpers.panther_base_helpers import deep_get
 
-osquery_unsupported_mac_o_s_tests: List[PantherRuleTest] = [
+osquery_unsupported_mac_os_tests: List[PantherRuleTest] = [
     PantherRuleTest(
         Name="MacOS out of date",
         ExpectedResult=True,
@@ -86,7 +86,7 @@ class OsqueryUnsupportedMacOS(PantherRule):
     Runbook = "Update the MacOs version"
     Reference = "https://support.apple.com/en-eg/HT201260"
     SummaryAttributes = ["name", "hostIdentifier", "action"]
-    Tests = osquery_unsupported_mac_o_s_tests
+    Tests = osquery_unsupported_mac_os_tests
     SUPPORTED_VERSIONS = ["10.15.1", "10.15.2", "10.15.3"]
 
     def rule(self, event):

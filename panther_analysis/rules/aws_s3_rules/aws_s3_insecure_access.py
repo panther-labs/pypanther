@@ -3,7 +3,7 @@ from typing import List
 from panther_analysis.base import PantherRule, PantherRuleTest, Severity
 from panther_analysis.helpers.panther_base_helpers import aws_rule_context, pattern_match
 
-a_w_s_s3_server_access_insecure_tests: List[PantherRuleTest] = [
+awss3_server_access_insecure_tests: List[PantherRuleTest] = [
     PantherRuleTest(
         Name="Secure Access to S3 Bucket",
         ExpectedResult=False,
@@ -119,7 +119,7 @@ class AWSS3ServerAccessInsecure(PantherRule):
         "p_any_aws_arns",
         "p_any_aws_account_ids",
     ]
-    Tests = a_w_s_s3_server_access_insecure_tests
+    Tests = awss3_server_access_insecure_tests
 
     def rule(self, event):
         return pattern_match(event.get("operation", ""), "REST.*.OBJECT") and (

@@ -3,7 +3,7 @@ from typing import List
 from panther_analysis.base import PantherRule, PantherRuleTest, Severity
 from panther_analysis.helpers.panther_base_helpers import aws_rule_context
 
-a_w_s_e_c2_e_b_s_encryption_disabled_tests: List[PantherRuleTest] = [
+awsec2_ebs_encryption_disabled_tests: List[PantherRuleTest] = [
     PantherRuleTest(
         Name="DisableEbsEncryptionByDefault Event",
         ExpectedResult=True,
@@ -47,7 +47,7 @@ class AWSEC2EBSEncryptionDisabled(PantherRule):
     LogTypes = ["AWS.CloudTrail"]
     RuleID = "AWS.EC2.EBS.Encryption.Disabled-prototype"
     Threshold = 1
-    Tests = a_w_s_e_c2_e_b_s_encryption_disabled_tests
+    Tests = awsec2_ebs_encryption_disabled_tests
 
     def rule(self, event):
         return (

@@ -3,7 +3,7 @@ from typing import List
 from panther_analysis.base import PantherRule, PantherRuleTest, Severity
 from panther_analysis.helpers.panther_base_helpers import filter_crowdstrike_fdr_event_type
 
-standard_malicious_s_s_o_d_n_s_lookup_tests: List[PantherRuleTest] = [
+standard_malicious_ssodns_lookup_tests: List[PantherRuleTest] = [
     PantherRuleTest(
         Name="Known Good SSO Domain",
         ExpectedResult=False,
@@ -184,7 +184,7 @@ class StandardMaliciousSSODNSLookup(PantherRule):
     Runbook = "Verify if the destination domain is owned by your organization."
     Reference = "https://www.cloudns.net/wiki/article/254/#:~:text=A%20DNS%20query%20(also%20known,associated%20with%20a%20domain%20name"
     SummaryAttributes = ["p_any_ip_addresses"]
-    Tests = standard_malicious_s_s_o_d_n_s_lookup_tests
+    Tests = standard_malicious_ssodns_lookup_tests
     '\nWe highly recommend running this logic over 30 days of historical data using data replay\nbefore enabling this in your Panther instance. If ALLOWED_DOMAINS is not fully populated with\ndomains you own, that contain your company name, false positive alerts will be generated.\n\nRecommended steps to enable:\n    1. Change COMPANY_NAME to match your organization\n    2. Update the occurrences of "company_name_here" in malicious_sso_dns_lookup.yml\n    3. Add known domains containing COMPANY_NAME to ALLOWED_DOMAINS\n    4. Run local tests\n    5. Run a Data Replay test to identify unknown domains that should be in ALLOWED_DOMAINS\n'
     # *** Change this to match your company name ***
     COMPANY_NAME = "company_name_here"

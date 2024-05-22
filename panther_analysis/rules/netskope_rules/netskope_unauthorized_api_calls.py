@@ -3,7 +3,7 @@ from typing import List
 from panther_analysis.base import PantherRule, PantherRuleTest, Severity
 from panther_analysis.helpers.panther_base_helpers import deep_walk
 
-netskope_unauthorized_a_p_i_calls_tests: List[PantherRuleTest] = [
+netskope_unauthorized_api_calls_tests: List[PantherRuleTest] = [
     PantherRuleTest(
         Name="True positive",
         ExpectedResult=True,
@@ -72,7 +72,7 @@ class NetskopeUnauthorizedAPICalls(PantherRule):
     Threshold = 10
     Runbook = "An account is making many unauthorized API calls.  This could indicate brute force activity, or expired service account credentials."
     Reference = "https://docs.netskope.com/en/netskope-help/data-security/netskope-private-access/private-access-rest-apis/"
-    Tests = netskope_unauthorized_a_p_i_calls_tests
+    Tests = netskope_unauthorized_api_calls_tests
 
     def rule(self, event):
         data_values = deep_walk(event, "supporting_data", "data_values")

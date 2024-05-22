@@ -3,7 +3,7 @@ from typing import List
 from panther_analysis.base import PantherRule, PantherRuleTest, Severity
 from panther_analysis.helpers.panther_base_helpers import aws_rule_context, deep_get
 
-a_w_s_snapshot_backup_exfiltration_tests: List[PantherRuleTest] = [
+aws_snapshot_backup_exfiltration_tests: List[PantherRuleTest] = [
     PantherRuleTest(
         Name="Modified Snapshot Attribute",
         ExpectedResult=True,
@@ -119,7 +119,7 @@ class AWSSnapshotBackupExfiltration(PantherRule):
     LogTypes = ["AWS.CloudTrail"]
     RuleID = "AWS.Snapshot.Backup.Exfiltration-prototype"
     Threshold = 1
-    Tests = a_w_s_snapshot_backup_exfiltration_tests
+    Tests = aws_snapshot_backup_exfiltration_tests
 
     def rule(self, event):
         return (

@@ -3,7 +3,7 @@ from typing import List
 from panther_analysis.base import PantherRule, PantherRuleTest, Severity
 from panther_analysis.helpers.panther_base_helpers import deep_get
 
-osquery_s_s_h_listener_tests: List[PantherRuleTest] = [
+osquery_ssh_listener_tests: List[PantherRuleTest] = [
     PantherRuleTest(
         Name="SSH Listener Detected",
         ExpectedResult=True,
@@ -89,7 +89,7 @@ class OsquerySSHListener(PantherRule):
         "https://medium.com/uptycs/osquery-what-it-is-how-it-works-and-how-to-use-it-ce4e81e60dfc"
     )
     SummaryAttributes = ["action", "hostIdentifier", "name"]
-    Tests = osquery_s_s_h_listener_tests
+    Tests = osquery_ssh_listener_tests
 
     def rule(self, event):
         return (

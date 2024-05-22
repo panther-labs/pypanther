@@ -3,7 +3,7 @@ from typing import List
 from panther_analysis.base import PantherRule, PantherRuleTest, Severity
 from panther_analysis.helpers.panther_base_helpers import aws_rule_context, deep_get
 
-a_w_s_e_c_r_e_v_e_n_t_s_tests: List[PantherRuleTest] = [
+awsecrevents_tests: List[PantherRuleTest] = [
     PantherRuleTest(
         Name="Authorized account, unauthorized region",
         ExpectedResult=True,
@@ -181,7 +181,7 @@ class AWSECREVENTS(PantherRule):
     Runbook = "https://docs.aws.amazon.com/AmazonECR/latest/userguide/logging-using-cloudtrail.html"
     Reference = "https://aws.amazon.com/blogs/containers/amazon-ecr-in-multi-account-and-multi-region-architectures/"
     SummaryAttributes = ["eventSource", "recipientAccountId", "awsRegion", "p_any_aws_arns"]
-    Tests = a_w_s_e_c_r_e_v_e_n_t_s_tests
+    Tests = awsecrevents_tests
     # CONFIGURATION REQUIRED: Update with your expected AWS Accounts/Regions
     AWS_ACCOUNTS_AND_REGIONS = {
         "123456789012": {"us-west-1", "us-west-2"},

@@ -3,7 +3,7 @@ from typing import List
 from panther_analysis.base import PantherRule, PantherRuleTest, Severity
 from panther_analysis.helpers.panther_mongodb_helpers import mongodb_alert_context
 
-mongo_d_b_identity_provider_activity_tests: List[PantherRuleTest] = [
+mongo_db_identity_provider_activity_tests: List[PantherRuleTest] = [
     PantherRuleTest(Name="Random event", ExpectedResult=False, Log={"eventTypeName": "cat_jumped"}),
     PantherRuleTest(
         Name="FEDERATION_SETTINGS_CREATED",
@@ -28,7 +28,7 @@ class MongoDBIdentityProviderActivity(PantherRule):
     LogTypes = ["MongoDB.OrganizationEvent"]
     RuleID = "MongoDB.Identity.Provider.Activity-prototype"
     Threshold = 1
-    Tests = mongo_d_b_identity_provider_activity_tests
+    Tests = mongo_db_identity_provider_activity_tests
 
     def rule(self, event):
         important_event_types = {

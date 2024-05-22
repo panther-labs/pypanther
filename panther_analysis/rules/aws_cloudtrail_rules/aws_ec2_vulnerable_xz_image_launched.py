@@ -5,7 +5,7 @@ from panther_analysis.helpers.panther_base_helpers import aws_rule_context
 from panther_analysis.helpers.panther_default import aws_cloudtrail_success
 from panther_analysis.helpers.panther_iocs import XZ_AMIS
 
-a_w_s_e_c2_vulnerable_x_z_image_launched_tests: List[PantherRuleTest] = [
+awsec2_vulnerable_xz_image_launched_tests: List[PantherRuleTest] = [
     PantherRuleTest(
         Name="Single vulnerable AMI Launched",
         ExpectedResult=True,
@@ -732,7 +732,7 @@ class AWSEC2VulnerableXZImageLaunched(PantherRule):
     LogTypes = ["AWS.CloudTrail"]
     RuleID = "AWS.EC2.Vulnerable.XZ.Image.Launched-prototype"
     Threshold = 1
-    Tests = a_w_s_e_c2_vulnerable_x_z_image_launched_tests
+    Tests = awsec2_vulnerable_xz_image_launched_tests
     # AMIs published by Fedora between 2024-03-26 and 2024-04-02
     # OpenSUSE and Kali do not have any recent [public] AMIs that would be affected
 

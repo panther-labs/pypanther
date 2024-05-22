@@ -4,7 +4,7 @@ from panther_analysis.base import PantherRule, PantherRuleTest, Severity
 from panther_analysis.helpers.panther_base_helpers import aws_rule_context, deep_get
 from panther_analysis.helpers.panther_default import aws_cloudtrail_success
 
-a_w_s_cloud_trail_i_a_m_assume_role_blacklist_ignored_tests: List[PantherRuleTest] = [
+aws_cloud_trail_iam_assume_role_blacklist_ignored_tests: List[PantherRuleTest] = [
     PantherRuleTest(
         Name="IAM Blocklisted Role Assumed",
         ExpectedResult=True,
@@ -196,7 +196,7 @@ class AWSCloudTrailIAMAssumeRoleBlacklistIgnored(PantherRule):
     Runbook = "Verify that this was an approved assume role action. If not, consider revoking the access immediately and updating the AssumeRolePolicyDocument to prevent this from happening again.\n"
     Reference = "https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_boundaries.html"
     SummaryAttributes = ["userAgent", "sourceIpAddress", "recipientAccountId", "p_any_aws_arns"]
-    Tests = a_w_s_cloud_trail_i_a_m_assume_role_blacklist_ignored_tests
+    Tests = aws_cloud_trail_iam_assume_role_blacklist_ignored_tests
     # This is a list of role ARNs that should not be assumed by users in normal operations
     ASSUME_ROLE_BLOCKLIST = ["arn:aws:iam::123456789012:role/FullAdminRole"]
 

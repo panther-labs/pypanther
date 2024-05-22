@@ -4,7 +4,7 @@ from panther_analysis.base import PantherRule, PantherRuleTest, Severity
 from panther_analysis.helpers.gcp_base_helpers import gcp_alert_context
 from panther_analysis.helpers.panther_base_helpers import deep_get, deep_walk
 
-g_c_p_k8_s_service_type_node_port_deployed_tests: List[PantherRuleTest] = [
+gcpk8_s_service_type_node_port_deployed_tests: List[PantherRuleTest] = [
     PantherRuleTest(
         Name="Service Created",
         ExpectedResult=True,
@@ -229,7 +229,7 @@ class GCPK8SServiceTypeNodePortDeployed(PantherRule):
     Runbook = "Investigate the reason of creating NodePort service. Advise that it is discouraged practice.  Create ticket if appropriate.\n"
     Reference = "https://kubernetes.io/docs/tutorials/kubernetes-basics/expose/expose-intro/"
     Reports = {"MITRE ATT&CK": ["T1190"]}
-    Tests = g_c_p_k8_s_service_type_node_port_deployed_tests
+    Tests = gcpk8_s_service_type_node_port_deployed_tests
 
     def rule(self, event):
         if deep_get(event, "protoPayload", "response", "status") == "Failure":

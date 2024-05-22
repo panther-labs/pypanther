@@ -4,7 +4,7 @@ from typing import List
 from panther_analysis.base import PantherRule, PantherRuleTest, Severity
 from panther_analysis.helpers.panther_base_helpers import aws_rule_context
 
-a_w_s_s3_server_access_unknown_requester_tests: List[PantherRuleTest] = [
+awss3_server_access_unknown_requester_tests: List[PantherRuleTest] = [
     PantherRuleTest(
         Name="Expected Access",
         ExpectedResult=False,
@@ -137,7 +137,7 @@ class AWSS3ServerAccessUnknownRequester(PantherRule):
         "p_any_aws_arns",
         "p_any_aws_account_ids",
     ]
-    Tests = a_w_s_s3_server_access_unknown_requester_tests
+    Tests = awss3_server_access_unknown_requester_tests
     # pylint: disable=line-too-long
     BUCKET_ROLE_MAPPING = {
         "panther-bootstrap-processeddata-*": [

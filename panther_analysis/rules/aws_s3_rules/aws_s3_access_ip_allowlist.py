@@ -4,7 +4,7 @@ from typing import List
 from panther_analysis.base import PantherRule, PantherRuleTest, Severity
 from panther_analysis.helpers.panther_base_helpers import aws_rule_context
 
-a_w_s_s3_server_access_i_p_whitelist_tests: List[PantherRuleTest] = [
+awss3_server_access_ip_whitelist_tests: List[PantherRuleTest] = [
     PantherRuleTest(
         Name="Access From Approved IP",
         ExpectedResult=False,
@@ -36,7 +36,7 @@ class AWSS3ServerAccessIPWhitelist(PantherRule):
     Runbook = "Verify whether unapproved access of S3 objects occurred, and take appropriate steps to remediate damage (for example, informing related parties of unapproved access and potentially invalidating data that was accessed). Consider updating the access policies of the S3 bucket to prevent future unapproved access.\n"
     Reference = "https://aws.amazon.com/premiumsupport/knowledge-center/block-s3-traffic-vpc-ip/"
     SummaryAttributes = ["bucket", "key", "remoteip"]
-    Tests = a_w_s_s3_server_access_i_p_whitelist_tests
+    Tests = awss3_server_access_ip_whitelist_tests
     # Example bucket names to watch go here
     BUCKETS_TO_MONITOR = {}
     # IP addresses (in CIDR notation) indicating approved IP ranges for accessing S3 buckets}

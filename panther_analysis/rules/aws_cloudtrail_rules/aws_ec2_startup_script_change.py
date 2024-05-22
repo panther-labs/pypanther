@@ -3,7 +3,7 @@ from typing import List
 from panther_analysis.base import PantherRule, PantherRuleTest, Severity
 from panther_analysis.helpers.panther_base_helpers import aws_rule_context, deep_get
 
-a_w_s_e_c2_startup_script_change_tests: List[PantherRuleTest] = [
+awsec2_startup_script_change_tests: List[PantherRuleTest] = [
     PantherRuleTest(
         Name="ModifyInstanceAttribute-NoUserData",
         ExpectedResult=False,
@@ -112,7 +112,7 @@ class AWSEC2StartupScriptChange(PantherRule):
     LogTypes = ["AWS.CloudTrail"]
     RuleID = "AWS.EC2.Startup.Script.Change-prototype"
     Threshold = 1
-    Tests = a_w_s_e_c2_startup_script_change_tests
+    Tests = awsec2_startup_script_change_tests
 
     def rule(self, event):
         if event.get("eventName") == "ModifyInstanceAttribute" and deep_get(

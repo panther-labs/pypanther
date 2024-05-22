@@ -4,7 +4,7 @@ from typing import List
 from panther_analysis.base import PantherRule, PantherRuleTest, Severity
 from panther_analysis.helpers.panther_base_helpers import aws_rule_context, deep_get
 
-a_w_s_cloud_trail_unauthorized_a_p_i_call_tests: List[PantherRuleTest] = [
+aws_cloud_trail_unauthorized_api_call_tests: List[PantherRuleTest] = [
     PantherRuleTest(
         Name="Unauthorized API Call from Within AWS (IP)",
         ExpectedResult=True,
@@ -134,7 +134,7 @@ class AWSCloudTrailUnauthorizedAPICall(PantherRule):
         "p_any_aws_arns",
     ]
     Threshold = 20
-    Tests = a_w_s_cloud_trail_unauthorized_a_p_i_call_tests
+    Tests = aws_cloud_trail_unauthorized_api_call_tests
     # Do not alert on these access denied errors for these events.
     # Events could be exceptions because they are particularly noisy and provide little to no value,
     # or because they are expected as part of the normal operating procedure for certain tools.

@@ -3,7 +3,7 @@ from typing import List
 from panther_analysis.base import PantherRule, PantherRuleTest, Severity
 from panther_analysis.helpers.panther_mongodb_helpers import mongodb_alert_context
 
-mongo_d_b2_f_a_disabled_tests: List[PantherRuleTest] = [
+mongo_db2_fa_disabled_tests: List[PantherRuleTest] = [
     PantherRuleTest(
         Name="2FA ebabled",
         ExpectedResult=False,
@@ -75,7 +75,7 @@ class MongoDB2FADisabled(PantherRule):
     LogTypes = ["MongoDB.OrganizationEvent"]
     RuleID = "MongoDB.2FA.Disabled-prototype"
     Threshold = 1
-    Tests = mongo_d_b2_f_a_disabled_tests
+    Tests = mongo_db2_fa_disabled_tests
 
     def rule(self, event):
         return event.deep_get("eventTypeName", default="") == "ORG_TWO_FACTOR_AUTH_OPTIONAL"

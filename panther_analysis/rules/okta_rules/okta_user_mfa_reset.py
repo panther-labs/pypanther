@@ -4,7 +4,7 @@ import panther_analysis.helpers.panther_event_type_helpers as event_type
 from panther_analysis.base import PantherRule, PantherRuleTest, Severity
 from panther_analysis.helpers.panther_base_helpers import okta_alert_context
 
-okta_user_m_f_a_reset_single_tests: List[PantherRuleTest] = [
+okta_user_mfa_reset_single_tests: List[PantherRuleTest] = [
     PantherRuleTest(
         Name="User reset own MFA factor",
         ExpectedResult=True,
@@ -89,7 +89,7 @@ class OktaUserMFAResetSingle(PantherRule):
     DedupPeriodMinutes = 60
     LogTypes = ["Okta.SystemLog"]
     Threshold = 1
-    Tests = okta_user_m_f_a_reset_single_tests
+    Tests = okta_user_mfa_reset_single_tests
 
     def rule(self, event):
         return event.udm("event_type") == event_type.MFA_RESET

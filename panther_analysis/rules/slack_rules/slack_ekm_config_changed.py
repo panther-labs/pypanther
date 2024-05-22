@@ -3,7 +3,7 @@ from typing import List
 from panther_analysis.base import PantherRule, PantherRuleTest, Severity
 from panther_analysis.helpers.panther_base_helpers import slack_alert_context
 
-slack_audit_logs_e_k_m_config_changed_tests: List[PantherRuleTest] = [
+slack_audit_logs_ekm_config_changed_tests: List[PantherRuleTest] = [
     PantherRuleTest(
         Name="EKM Config Changed",
         ExpectedResult=True,
@@ -87,7 +87,7 @@ class SlackAuditLogsEKMConfigChanged(PantherRule):
     DedupPeriodMinutes = 60
     Threshold = 1
     SummaryAttributes = ["p_any_ip_addresses", "p_any_emails"]
-    Tests = slack_audit_logs_e_k_m_config_changed_tests
+    Tests = slack_audit_logs_ekm_config_changed_tests
 
     def rule(self, event):
         # Only alert on the `ekm_logging_config_set` action

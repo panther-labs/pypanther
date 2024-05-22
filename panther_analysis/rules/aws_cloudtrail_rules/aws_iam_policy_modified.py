@@ -4,7 +4,7 @@ from panther_analysis.base import PantherRule, PantherRuleTest, Severity
 from panther_analysis.helpers.panther_base_helpers import aws_rule_context
 from panther_analysis.helpers.panther_default import aws_cloudtrail_success
 
-a_w_s_i_a_m_policy_modified_tests: List[PantherRuleTest] = [
+awsiam_policy_modified_tests: List[PantherRuleTest] = [
     PantherRuleTest(
         Name="IAM Policy Change",
         ExpectedResult=True,
@@ -159,7 +159,7 @@ class AWSIAMPolicyModified(PantherRule):
         "recipientAccountId",
         "p_any_aws_arns",
     ]
-    Tests = a_w_s_i_a_m_policy_modified_tests
+    Tests = awsiam_policy_modified_tests
     # API calls that are indicative of IAM Policy changes
     # Put<Entity>Policy is for inline policies.
     # these can be moved into their own rule if inline policies are of a greater concern.

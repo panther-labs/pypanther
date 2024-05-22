@@ -3,7 +3,7 @@ from typing import List
 from panther_analysis.base import PantherRule, PantherRuleTest, Severity
 from panther_analysis.helpers.panther_iocs import SUNBURST_FQDN_IOCS, ioc_match, sanitize_domain
 
-i_o_c_sunburst_f_q_d_n_i_o_cs_tests: List[PantherRuleTest] = [
+ioc_sunburst_fqdnio_cs_tests: List[PantherRuleTest] = [
     PantherRuleTest(
         Name="Non-matching traffic",
         ExpectedResult=False,
@@ -63,7 +63,7 @@ class IOCSunburstFQDNIOCs(PantherRule):
     Reference = "https://www.fireeye.com/blog/threat-research/2020/12/evasive-attacker-leverages-solarwinds-supply-chain-compromises-with-sunburst-backdoor.html\n"
     Runbook = "Investigate the resources communicating with the matched IOC for signs of compromise or other malicious activity. Consider rotating credentials on any systems observed communicating with these known malicious systems.\n"
     SummaryAttributes = ["p_any_domain_names", "p_any_ip_addresses", "p_any_sha256_hashes"]
-    Tests = i_o_c_sunburst_f_q_d_n_i_o_cs_tests
+    Tests = ioc_sunburst_fqdnio_cs_tests
 
     def rule(self, event):
         return any(ioc_match(event.get("p_any_domain_names"), SUNBURST_FQDN_IOCS))

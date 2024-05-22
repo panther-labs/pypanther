@@ -3,7 +3,7 @@ from typing import List
 from panther_analysis.base import PantherRule, PantherRuleTest, Severity
 from panther_analysis.helpers.panther_base_helpers import deep_get
 
-g_c_p_i_a_m_custom_role_changes_tests: List[PantherRuleTest] = [
+gcpiam_custom_role_changes_tests: List[PantherRuleTest] = [
     PantherRuleTest(
         Name="Custom Role Created",
         ExpectedResult=True,
@@ -103,7 +103,7 @@ class GCPIAMCustomRoleChanges(PantherRule):
     Runbook = "No action needed, informational"
     Reference = "https://cloud.google.com/iam/docs/creating-custom-roles"
     SummaryAttributes = ["severity", "p_any_ip_addresses", "p_any_domain_names"]
-    Tests = g_c_p_i_a_m_custom_role_changes_tests
+    Tests = gcpiam_custom_role_changes_tests
     ROLE_METHODS = {
         "google.iam.admin.v1.CreateRole",
         "google.iam.admin.v1.DeleteRole",

@@ -3,7 +3,7 @@ from typing import List
 from panther_analysis.base import PantherRule, PantherRuleTest, Severity
 from panther_analysis.helpers.panther_base_helpers import aws_rule_context, deep_get
 
-a_w_s_unused_region_tests: List[PantherRuleTest] = [
+aws_unused_region_tests: List[PantherRuleTest] = [
     PantherRuleTest(
         Name="Authorized region",
         ExpectedResult=False,
@@ -169,7 +169,7 @@ class AWSUnusedRegion(PantherRule):
         "awsRegion",
         "p_any_aws_arns",
     ]
-    Tests = a_w_s_unused_region_tests
+    Tests = aws_unused_region_tests
     # Define a list of verboten or unused regions
     # Could modify to include expected user mappings: { "123456789012": { "us-west-1", "us-east-2" } }
     UNUSED_REGIONS = {"ap-east-1", "eu-west-3", "eu-central-1"}

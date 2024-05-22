@@ -3,7 +3,7 @@ from typing import List
 from panther_analysis.base import PantherRule, PantherRuleTest, Severity
 from panther_analysis.helpers.panther_base_helpers import deep_get
 
-g_c_p_big_query_large_scan_tests: List[PantherRuleTest] = [
+gcp_big_query_large_scan_tests: List[PantherRuleTest] = [
     PantherRuleTest(
         Name="small query",
         ExpectedResult=False,
@@ -185,7 +185,7 @@ class GCPBigQueryLargeScan(PantherRule):
     LogTypes = ["GCP.AuditLog"]
     RuleID = "GCP.BigQuery.Large.Scan-prototype"
     Threshold = 1
-    Tests = g_c_p_big_query_large_scan_tests
+    Tests = gcp_big_query_large_scan_tests
     # 1.07 GB
     QUERY_THRESHOLD_BYTES = 1073741824
 

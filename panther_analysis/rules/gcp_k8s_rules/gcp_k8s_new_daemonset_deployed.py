@@ -4,7 +4,7 @@ from panther_analysis.base import PantherRule, PantherRuleTest, Severity
 from panther_analysis.helpers.gcp_base_helpers import gcp_alert_context
 from panther_analysis.helpers.panther_base_helpers import deep_get, deep_walk
 
-g_c_p_k8s_new_daemonset_deployed_tests: List[PantherRuleTest] = [
+gcpk8s_new_daemonset_deployed_tests: List[PantherRuleTest] = [
     PantherRuleTest(
         Name="privilege-escalation",
         ExpectedResult=True,
@@ -60,7 +60,7 @@ class GCPK8sNewDaemonsetDeployed(PantherRule):
     Reference = "https://medium.com/snowflake/from-logs-to-detection-using-snowflake-and-panther-to-detect-k8s-threats-d72f70a504d7"
     Runbook = "Investigate a reason of creating Daemonset. Create ticket if appropriate."
     Reports = {"MITRE ATT&CK": ["TA0002:T1610"]}
-    Tests = g_c_p_k8s_new_daemonset_deployed_tests
+    Tests = gcpk8s_new_daemonset_deployed_tests
 
     def rule(self, event):
         authorization_info = deep_walk(event, "protoPayload", "authorizationInfo")

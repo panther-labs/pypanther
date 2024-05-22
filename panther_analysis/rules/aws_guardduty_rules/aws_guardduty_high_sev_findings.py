@@ -3,7 +3,7 @@ from typing import List
 from panther_analysis.base import PantherRule, PantherRuleTest, Severity
 from panther_analysis.helpers.panther_base_helpers import aws_guardduty_context, deep_get
 
-a_w_s_guard_duty_high_severity_finding_tests: List[PantherRuleTest] = [
+aws_guard_duty_high_severity_finding_tests: List[PantherRuleTest] = [
     PantherRuleTest(
         Name="High Sev Finding",
         ExpectedResult=True,
@@ -108,7 +108,7 @@ class AWSGuardDutyHighSeverityFinding(PantherRule):
         "p_any_aws_arns",
         "p_any_aws_account_ids",
     ]
-    Tests = a_w_s_guard_duty_high_severity_finding_tests
+    Tests = aws_guard_duty_high_severity_finding_tests
 
     def rule(self, event):
         if deep_get(event, "service", "additionalInfo", "sample"):

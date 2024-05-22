@@ -5,7 +5,7 @@ from panther_analysis.base import PantherRule, PantherRuleTest, Severity
 from panther_analysis.helpers.panther_base_helpers import aws_rule_context, deep_get
 from panther_analysis.helpers.panther_default import lookup_aws_account_name
 
-a_w_s_i_a_m_user_recon_access_denied_tests: List[PantherRuleTest] = [
+awsiam_user_recon_access_denied_tests: List[PantherRuleTest] = [
     PantherRuleTest(
         Name="Unauthorized API Call",
         ExpectedResult=True,
@@ -172,7 +172,7 @@ class AWSIAMUserReconAccessDenied(PantherRule):
         "errorMessage",
         "p_any_aws_arns",
     ]
-    Tests = a_w_s_i_a_m_user_recon_access_denied_tests
+    Tests = awsiam_user_recon_access_denied_tests
     # service/event patterns to monitor
     RECON_ACTIONS = {
         "dynamodb": ["List", "Describe", "Get"],

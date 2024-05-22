@@ -5,7 +5,7 @@ from panther_analysis.base import PantherRule, PantherRuleTest, Severity
 from panther_analysis.helpers.gcp_base_helpers import gcp_alert_context
 from panther_analysis.helpers.panther_base_helpers import deep_get
 
-g_c_p_logging_sink_modified_tests: List[PantherRuleTest] = [
+gcp_logging_sink_modified_tests: List[PantherRuleTest] = [
     PantherRuleTest(
         Name="logging-sink.modifed-should-alert",
         ExpectedResult=True,
@@ -132,7 +132,7 @@ class GCPLoggingSinkModified(PantherRule):
     Description = "This rule detects modifications to GCP Log Sinks.\n"
     Runbook = "Ensure that the modification was valid or expected. Adversaries may do this to exfiltrate logs or evade detection.\n"
     Reference = "https://cloud.google.com/logging/docs"
-    Tests = g_c_p_logging_sink_modified_tests
+    Tests = gcp_logging_sink_modified_tests
 
     def rule(self, event):
         method_pattern = "(?:\\w+\\.)*v\\d\\.(?:ConfigServiceV\\d\\.(?:UpdateSink))"

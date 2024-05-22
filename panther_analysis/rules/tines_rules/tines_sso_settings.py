@@ -4,7 +4,7 @@ from panther_analysis.base import PantherRule, PantherRuleTest, Severity
 from panther_analysis.helpers.panther_base_helpers import deep_get
 from panther_analysis.helpers.panther_tines_helpers import tines_alert_context
 
-tines_s_s_o_settings_tests: List[PantherRuleTest] = [
+tines_sso_settings_tests: List[PantherRuleTest] = [
     PantherRuleTest(
         Name="Tines SsoConfigurationSamlSet",
         ExpectedResult=True,
@@ -56,7 +56,7 @@ class TinesSSOSettings(PantherRule):
     DedupPeriodMinutes = 60
     Threshold = 1
     SummaryAttributes = ["user_id", "operation_name", "tenant_id", "request_ip"]
-    Tests = tines_s_s_o_settings_tests
+    Tests = tines_sso_settings_tests
     ACTIONS = ["SsoConfigurationDefaultSet", "SsoConfigurationOidcSet", "SsoConfigurationSamlSet"]
 
     def rule(self, event):

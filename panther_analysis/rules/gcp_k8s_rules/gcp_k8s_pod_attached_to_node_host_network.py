@@ -4,7 +4,7 @@ from panther_analysis.base import PantherRule, PantherRuleTest, Severity
 from panther_analysis.helpers.gcp_base_helpers import gcp_alert_context
 from panther_analysis.helpers.panther_base_helpers import deep_get, deep_walk
 
-g_c_p_k8s_pod_attached_to_node_host_network_tests: List[PantherRuleTest] = [
+gcpk8s_pod_attached_to_node_host_network_tests: List[PantherRuleTest] = [
     PantherRuleTest(
         Name="triggers",
         ExpectedResult=True,
@@ -53,7 +53,7 @@ class GCPK8sPodAttachedToNodeHostNetwork(PantherRule):
     Reports = {"MITRE ATT&CK": ["TA0004:T1611"]}
     Runbook = "Investigate a reason of creating a pod which is attached to the host's network. Advise that it is discouraged practice. Create ticket if appropriate."
     Reference = "https://medium.com/snowflake/from-logs-to-detection-using-snowflake-and-panther-to-detect-k8s-threats-d72f70a504d7"
-    Tests = g_c_p_k8s_pod_attached_to_node_host_network_tests
+    Tests = gcpk8s_pod_attached_to_node_host_network_tests
 
     def rule(self, event):
         if deep_get(event, "protoPayload", "methodName") not in (

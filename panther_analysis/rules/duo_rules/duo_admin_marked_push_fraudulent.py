@@ -5,7 +5,7 @@ from panther_analysis.helpers.panther_duo_helpers import (
     deserialize_administrator_log_event_description,
 )
 
-d_u_o_admin_action_marked_fraudulent_tests: List[PantherRuleTest] = [
+duo_admin_action_marked_fraudulent_tests: List[PantherRuleTest] = [
     PantherRuleTest(
         Name="marked_fraud",
         ExpectedResult=True,
@@ -42,7 +42,7 @@ class DUOAdminActionMarkedFraudulent(PantherRule):
     Description = "A Duo push was marked fraudulent by an admin."
     Reference = "https://duo.com/docs/adminapi#administrator-logs"
     Runbook = "Follow up with the administrator to determine reasoning for marking fraud."
-    Tests = d_u_o_admin_action_marked_fraudulent_tests
+    Tests = duo_admin_action_marked_fraudulent_tests
 
     def rule(self, event):
         event_description = deserialize_administrator_log_event_description(event)

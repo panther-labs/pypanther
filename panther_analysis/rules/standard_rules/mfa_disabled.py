@@ -3,7 +3,7 @@ from typing import List
 import panther_analysis.helpers.panther_event_type_helpers as event_type
 from panther_analysis.base import PantherRule, PantherRuleTest, Severity
 
-standard_m_f_a_disabled_tests: List[PantherRuleTest] = [
+standard_mfa_disabled_tests: List[PantherRuleTest] = [
     PantherRuleTest(
         Name="GitHub - Org MFA Disabled",
         ExpectedResult=True,
@@ -208,7 +208,7 @@ class StandardMFADisabled(PantherRule):
     Severity = Severity.High
     Description = "Detects when Multi-Factor Authentication (MFA) is disabled"
     SummaryAttributes = ["p_any_ip_addresses"]
-    Tests = standard_m_f_a_disabled_tests
+    Tests = standard_mfa_disabled_tests
 
     def rule(self, event):
         return event.udm("event_type") == event_type.MFA_DISABLED

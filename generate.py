@@ -172,8 +172,11 @@ RULE_FUNCTIONS = {
 }
 
 
+CAMEL_TO_SNAKE_RE = re.compile(r"(?<=[a-z0-9])(?=[A-Z])|(?<=[A-Z])(?=[A-Z][a-z])")
+
+
 def camel_to_snake(name: str) -> str:
-    return re.sub(r"(?<!^)(?=[A-Z])", "_", name).lower()
+    return CAMEL_TO_SNAKE_RE.sub("_", name).lower()
 
 
 def parse_py(

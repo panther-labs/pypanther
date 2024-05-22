@@ -3,7 +3,7 @@ from typing import List
 from panther_analysis.base import PantherRule, PantherRuleTest, Severity
 from panther_analysis.helpers.panther_iocs import CRYPTO_MINING_DOMAINS
 
-a_w_s_d_n_s_crypto_domain_tests: List[PantherRuleTest] = [
+awsdns_crypto_domain_tests: List[PantherRuleTest] = [
     PantherRuleTest(
         Name="Non Crypto Query",
         ExpectedResult=False,
@@ -178,7 +178,7 @@ class AWSDNSCryptoDomain(PantherRule):
     LogTypes = ["AWS.VPCDns"]
     RuleID = "AWS.DNS.Crypto.Domain-prototype"
     Threshold = 1
-    Tests = a_w_s_d_n_s_crypto_domain_tests
+    Tests = awsdns_crypto_domain_tests
 
     def rule(self, event):
         query_name = event.get("query_name")

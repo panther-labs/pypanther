@@ -4,7 +4,7 @@ from typing import List
 from panther_analysis.base import PantherRule, PantherRuleTest, Severity
 from panther_analysis.helpers.panther_base_helpers import aws_rule_context, deep_get
 
-a_w_s_e_c_r_c_r_u_d_tests: List[PantherRuleTest] = [
+awsecrcrud_tests: List[PantherRuleTest] = [
     PantherRuleTest(
         Name="Authorized account, unauthorized region",
         ExpectedResult=True,
@@ -188,7 +188,7 @@ class AWSECRCRUD(PantherRule):
         "awsRegion",
         "p_any_aws_arns",
     ]
-    Tests = a_w_s_e_c_r_c_r_u_d_tests
+    Tests = awsecrcrud_tests
     ECR_CRUD_EVENTS = {
         "BatchCheckLayerAvailability",
         "BatchDeleteImage",

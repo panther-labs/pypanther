@@ -3,7 +3,7 @@ from typing import List
 from panther_analysis.base import PantherRule, PantherRuleTest, Severity
 from panther_analysis.helpers.panther_base_helpers import aws_rule_context, deep_get
 
-a_w_s_suspicious_s_a_m_l_activity_tests: List[PantherRuleTest] = [
+aws_suspicious_saml_activity_tests: List[PantherRuleTest] = [
     PantherRuleTest(
         Name="CreateSAMLProvider",
         ExpectedResult=True,
@@ -266,7 +266,7 @@ class AWSSuspiciousSAMLActivity(PantherRule):
     LogTypes = ["AWS.CloudTrail"]
     RuleID = "AWS.Suspicious.SAML.Activity-prototype"
     Threshold = 1
-    Tests = a_w_s_suspicious_s_a_m_l_activity_tests
+    Tests = aws_suspicious_saml_activity_tests
     SAML_ACTIONS = ["UpdateSAMLProvider", "CreateSAMLProvider", "DeleteSAMLProvider"]
 
     def rule(self, event):

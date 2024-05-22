@@ -2,7 +2,7 @@ from typing import List
 
 from panther_analysis.base import PantherRule, PantherRuleTest, Severity
 
-zendesk_new_a_p_i_token_tests: List[PantherRuleTest] = [
+zendesk_new_api_token_tests: List[PantherRuleTest] = [
     PantherRuleTest(
         Name="Zendesk - API Token Updated",
         ExpectedResult=False,
@@ -57,7 +57,7 @@ class ZendeskNewAPIToken(PantherRule):
     Runbook = "Validate the api token was created for valid use case, otherwise delete the token immediately."
     Reference = "https://support.zendesk.com/hc/en-us/articles/4408889192858-Managing-access-to-the-Zendesk-API#topic_bsw_lfg_mmb:~:text=enable%20token%20access.-,Generating%20API%20tokens,-To%20generate%20an"
     SummaryAttributes = ["p_any_ip_addresses"]
-    Tests = zendesk_new_a_p_i_token_tests
+    Tests = zendesk_new_api_token_tests
     API_TOKEN_ACTIONS = {"create", "destroy"}
 
     def rule(self, event):

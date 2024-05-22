@@ -4,7 +4,7 @@ from panther_analysis.base import PantherRule, PantherRuleTest, Severity
 from panther_analysis.helpers.panther_base_helpers import aws_rule_context, deep_get
 from panther_analysis.helpers.panther_default import aws_cloudtrail_success
 
-a_w_s_cloud_trail_created_tests: List[PantherRuleTest] = [
+aws_cloud_trail_created_tests: List[PantherRuleTest] = [
     PantherRuleTest(
         Name="CloudTrail Was Created",
         ExpectedResult=True,
@@ -164,7 +164,7 @@ class AWSCloudTrailCreated(PantherRule):
         "recipientAccountId",
         "p_any_aws_arns",
     ]
-    Tests = a_w_s_cloud_trail_created_tests
+    Tests = aws_cloud_trail_created_tests
     # API calls that are indicative of CloudTrail changes
     CLOUDTRAIL_CREATE_UPDATE = {"CreateTrail", "UpdateTrail", "StartLogging"}
 

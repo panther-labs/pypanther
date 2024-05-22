@@ -4,7 +4,7 @@ from typing import List
 from panther_analysis.base import PantherRule, PantherRuleTest, Severity
 from panther_analysis.helpers.panther_base_helpers import aws_rule_context
 
-a_w_s_v_p_c_inbound_port_whitelist_tests: List[PantherRuleTest] = [
+awsvpc_inbound_port_whitelist_tests: List[PantherRuleTest] = [
     PantherRuleTest(
         Name="Public to Private IP on Restricted Port",
         ExpectedResult=True,
@@ -40,7 +40,7 @@ class AWSVPCInboundPortWhitelist(PantherRule):
     Description = "VPC Flow Logs observed inbound traffic violating the port allowlist.\n"
     Runbook = "Block the unapproved traffic, or update the approved ports list.\n"
     SummaryAttributes = ["srcaddr", "dstaddr", "dstport"]
-    Tests = a_w_s_v_p_c_inbound_port_whitelist_tests
+    Tests = awsvpc_inbound_port_whitelist_tests
     APPROVED_PORTS = {80, 443}
 
     def rule(self, event):

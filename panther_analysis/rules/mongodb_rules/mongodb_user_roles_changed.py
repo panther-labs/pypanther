@@ -3,7 +3,7 @@ from typing import List
 from panther_analysis.base import PantherRule, PantherRuleTest, Severity
 from panther_analysis.helpers.panther_mongodb_helpers import mongodb_alert_context
 
-mongo_d_b_user_roles_changed_tests: List[PantherRuleTest] = [
+mongo_db_user_roles_changed_tests: List[PantherRuleTest] = [
     PantherRuleTest(
         Name="Random event",
         ExpectedResult=False,
@@ -75,7 +75,7 @@ class MongoDBUserRolesChanged(PantherRule):
     LogTypes = ["MongoDB.OrganizationEvent"]
     RuleID = "MongoDB.User.Roles.Changed-prototype"
     Threshold = 1
-    Tests = mongo_d_b_user_roles_changed_tests
+    Tests = mongo_db_user_roles_changed_tests
 
     def rule(self, event):
         return event.deep_get("eventTypeName") == "USER_ROLES_CHANGED_AUDIT"

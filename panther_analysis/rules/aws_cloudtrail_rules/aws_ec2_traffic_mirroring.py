@@ -3,7 +3,7 @@ from typing import List
 from panther_analysis.base import PantherRule, PantherRuleTest, Severity
 from panther_analysis.helpers.panther_base_helpers import aws_rule_context, deep_get
 
-a_w_s_e_c2_traffic_mirroring_tests: List[PantherRuleTest] = [
+awsec2_traffic_mirroring_tests: List[PantherRuleTest] = [
     PantherRuleTest(
         Name="CreateTrafficMirrorFilter",
         ExpectedResult=True,
@@ -616,7 +616,7 @@ class AWSEC2TrafficMirroring(PantherRule):
     RuleID = "AWS.EC2.Traffic.Mirroring-prototype"
     SummaryAttributes = ["userIdentity.type"]
     Threshold = 1
-    Tests = a_w_s_e_c2_traffic_mirroring_tests
+    Tests = awsec2_traffic_mirroring_tests
 
     def rule(self, event):
         # Return True to match the log event and trigger an alert.

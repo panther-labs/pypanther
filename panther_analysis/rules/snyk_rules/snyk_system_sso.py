@@ -4,7 +4,7 @@ from panther_analysis.base import PantherRule, PantherRuleTest, Severity
 from panther_analysis.helpers.panther_base_helpers import deep_get
 from panther_analysis.helpers.panther_snyk_helpers import snyk_alert_context
 
-snyk_system_s_s_o_tests: List[PantherRuleTest] = [
+snyk_system_sso_tests: List[PantherRuleTest] = [
     PantherRuleTest(
         Name="Snyk System SSO Setting event happened",
         ExpectedResult=True,
@@ -48,7 +48,7 @@ class SnykSystemSSO(PantherRule):
     DedupPeriodMinutes = 60
     Threshold = 1
     SummaryAttributes = ["event", "p_any_ip_addresses", "p_any_emails"]
-    Tests = snyk_system_s_s_o_tests
+    Tests = snyk_system_sso_tests
     ACTIONS = [
         "group.sso.auth0_connection.create",
         "group.sso.auth0_connection.edit",

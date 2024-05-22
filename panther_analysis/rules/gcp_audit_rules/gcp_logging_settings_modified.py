@@ -3,7 +3,7 @@ from typing import List
 from panther_analysis.base import PantherRule, PantherRuleTest, Severity
 from panther_analysis.helpers.panther_base_helpers import deep_get
 
-g_c_p_logging_settings_modified_tests: List[PantherRuleTest] = [
+gcp_logging_settings_modified_tests: List[PantherRuleTest] = [
     PantherRuleTest(
         Name="Other Event",
         ExpectedResult=False,
@@ -133,7 +133,7 @@ class GCPLoggingSettingsModified(PantherRule):
     LogTypes = ["GCP.AuditLog"]
     RuleID = "GCP.Logging.Settings.Modified-prototype"
     Threshold = 1
-    Tests = g_c_p_logging_settings_modified_tests
+    Tests = gcp_logging_settings_modified_tests
 
     def rule(self, event):
         return all(

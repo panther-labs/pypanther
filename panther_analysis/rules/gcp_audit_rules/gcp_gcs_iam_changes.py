@@ -3,7 +3,7 @@ from typing import List
 from panther_analysis.base import PantherRule, PantherRuleTest, Severity
 from panther_analysis.helpers.panther_base_helpers import deep_get
 
-g_c_p_g_c_s_i_a_m_changes_tests: List[PantherRuleTest] = [
+gcpgcsiam_changes_tests: List[PantherRuleTest] = [
     PantherRuleTest(
         Name="GCS IAM Change",
         ExpectedResult=True,
@@ -74,7 +74,7 @@ class GCPGCSIAMChanges(PantherRule):
     Runbook = "Validate the GCS bucket change was safe."
     Reference = "https://cloud.google.com/storage/docs/access-control/iam-permissions"
     SummaryAttributes = ["severity", "p_any_ip_addresses", "p_any_domain_names"]
-    Tests = g_c_p_g_c_s_i_a_m_changes_tests
+    Tests = gcpgcsiam_changes_tests
 
     def rule(self, event):
         return (

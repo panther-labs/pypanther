@@ -4,7 +4,7 @@ from panther_analysis.base import PantherRule, PantherRuleTest, Severity
 from panther_analysis.helpers.panther_base_helpers import aws_rule_context
 from panther_analysis.helpers.panther_default import aws_cloudtrail_success
 
-a_w_s_e_c2_v_p_c_modified_tests: List[PantherRuleTest] = [
+awsec2_vpc_modified_tests: List[PantherRuleTest] = [
     PantherRuleTest(
         Name="VPC Modified",
         ExpectedResult=True,
@@ -200,7 +200,7 @@ class AWSEC2VPCModified(PantherRule):
         "recipientAccountId",
         "p_any_aws_arns",
     ]
-    Tests = a_w_s_e_c2_v_p_c_modified_tests
+    Tests = awsec2_vpc_modified_tests
     # API calls that are indicative of an EC2 VPC modification
     EC2_VPC_MODIFIED_EVENTS = {
         "CreateVpc",

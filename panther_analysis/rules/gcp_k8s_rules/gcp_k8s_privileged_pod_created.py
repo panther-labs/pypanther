@@ -4,7 +4,7 @@ from panther_analysis.base import PantherRule, PantherRuleTest, Severity
 from panther_analysis.helpers.gcp_base_helpers import gcp_alert_context
 from panther_analysis.helpers.panther_base_helpers import deep_get, deep_walk
 
-g_c_p_k8_s_privileged_pod_created_tests: List[PantherRuleTest] = [
+gcpk8_s_privileged_pod_created_tests: List[PantherRuleTest] = [
     PantherRuleTest(
         Name="Privileged Pod Created",
         ExpectedResult=True,
@@ -298,7 +298,7 @@ class GCPK8SPrivilegedPodCreated(PantherRule):
     Runbook = "Investigate the reason of creating privileged pod. Advise that it is discouraged practice.  Create ticket if appropriate.\n"
     Reference = "https://www.golinuxcloud.com/kubernetes-privileged-pod-examples/"
     Reports = {"MITRE ATT&CK": ["TA0004:T1548"]}
-    Tests = g_c_p_k8_s_privileged_pod_created_tests
+    Tests = gcpk8_s_privileged_pod_created_tests
 
     def rule(self, event):
         if deep_get(event, "protoPayload", "response", "status") == "Failure":

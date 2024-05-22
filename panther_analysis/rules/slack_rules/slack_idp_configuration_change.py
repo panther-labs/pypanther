@@ -3,7 +3,7 @@ from typing import List
 from panther_analysis.base import PantherRule, PantherRuleTest, Severity
 from panther_analysis.helpers.panther_base_helpers import slack_alert_context
 
-slack_audit_logs_i_d_p_configuration_changed_tests: List[PantherRuleTest] = [
+slack_audit_logs_idp_configuration_changed_tests: List[PantherRuleTest] = [
     PantherRuleTest(
         Name="IDP Configuration Added",
         ExpectedResult=True,
@@ -140,7 +140,7 @@ class SlackAuditLogsIDPConfigurationChanged(PantherRule):
     DedupPeriodMinutes = 60
     Threshold = 1
     SummaryAttributes = ["action", "p_any_ip_addresses", "p_any_emails"]
-    Tests = slack_audit_logs_i_d_p_configuration_changed_tests
+    Tests = slack_audit_logs_idp_configuration_changed_tests
     IDP_CHANGE_ACTIONS = {
         "idp_configuration_added": "Slack IDP Configuration Added",
         "idp_configuration_deleted": "Slack IDP Configuration Deleted",

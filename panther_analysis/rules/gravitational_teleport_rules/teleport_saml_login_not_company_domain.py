@@ -4,7 +4,7 @@ from typing import List
 from panther_analysis.base import PantherRule, PantherRuleTest, Severity
 from panther_analysis.helpers.panther_config import config
 
-teleport_s_a_m_l_login_without_company_domain_tests: List[PantherRuleTest] = [
+teleport_saml_login_without_company_domain_tests: List[PantherRuleTest] = [
     PantherRuleTest(
         Name="A user authenticated with SAML, but from a known company domain",
         ExpectedResult=False,
@@ -52,7 +52,7 @@ class TeleportSAMLLoginWithoutCompanyDomain(PantherRule):
     Reference = "https://goteleport.com/docs/management/admin/"
     Runbook = "A user authenticated with SAML, but from an unknown company domain\n"
     SummaryAttributes = ["event", "code", "user", "method", "mfa_device"]
-    Tests = teleport_s_a_m_l_login_without_company_domain_tests
+    Tests = teleport_saml_login_without_company_domain_tests
     TELEPORT_COMPANY_DOMAINS_REGEX = "@(" + "|".join(config.TELEPORT_ORGANIZATION_DOMAINS) + ")$"
 
     def rule(self, event):

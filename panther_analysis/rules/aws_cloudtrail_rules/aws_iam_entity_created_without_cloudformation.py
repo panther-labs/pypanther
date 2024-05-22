@@ -5,7 +5,7 @@ from panther_analysis.base import PantherRule, PantherRuleTest, Severity
 from panther_analysis.helpers.panther_base_helpers import aws_rule_context, deep_get
 from panther_analysis.helpers.panther_default import aws_cloudtrail_success
 
-a_w_s_cloud_trail_i_a_m_entity_created_without_cloud_formation_tests: List[PantherRuleTest] = [
+aws_cloud_trail_iam_entity_created_without_cloud_formation_tests: List[PantherRuleTest] = [
     PantherRuleTest(
         Name="IAM Entity Created Automatically",
         ExpectedResult=False,
@@ -263,7 +263,7 @@ class AWSCloudTrailIAMEntityCreatedWithoutCloudFormation(PantherRule):
     Runbook = "Verify whether IAM entity needs to exist. If so, re-create it in an appropriate CloudFormation, Terraform, or other template. Delete the original manually created entity.\n"
     Reference = "https://blog.awsfundamentals.com/aws-iam-roles-with-aws-cloudformation"
     SummaryAttributes = ["userAgent", "sourceIpAddress", "recipientAccountId", "p_any_aws_arns"]
-    Tests = a_w_s_cloud_trail_i_a_m_entity_created_without_cloud_formation_tests
+    Tests = aws_cloud_trail_iam_entity_created_without_cloud_formation_tests
     # The role dedicated for IAM administration
     IAM_ADMIN_ROLES = {"arn:aws:iam::123456789012:role/IdentityCFNServiceRole"}
     # The role patterns dedicated for IAM Service Roles

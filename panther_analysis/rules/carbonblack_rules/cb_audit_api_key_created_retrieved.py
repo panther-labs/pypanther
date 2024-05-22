@@ -2,7 +2,7 @@ from typing import List
 
 from panther_analysis.base import PantherRule, PantherRuleTest, Severity
 
-carbon_black_audit_a_p_i_key_created_retrieved_tests: List[PantherRuleTest] = [
+carbon_black_audit_api_key_created_retrieved_tests: List[PantherRuleTest] = [
     PantherRuleTest(
         Name="API Key Retrieved",
         ExpectedResult=True,
@@ -61,7 +61,7 @@ class CarbonBlackAuditAPIKeyCreatedRetrieved(PantherRule):
     Reference = "https://docs.vmware.com/en/VMware-Carbon-Black-Cloud/services/carbon-black-cloud-user-guide/GUID-F3816FB5-969F-4113-80FC-03981C65F969.html"
     Threshold = 1
     DedupPeriodMinutes = 60
-    Tests = carbon_black_audit_a_p_i_key_created_retrieved_tests
+    Tests = carbon_black_audit_api_key_created_retrieved_tests
     PATTERNS = (
         " retrieved secret for API ID ",
         "Added API ID ",

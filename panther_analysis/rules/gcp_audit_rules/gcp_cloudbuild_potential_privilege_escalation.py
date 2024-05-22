@@ -4,7 +4,7 @@ from panther_analysis.base import PantherRule, PantherRuleTest, Severity
 from panther_analysis.helpers.gcp_base_helpers import gcp_alert_context
 from panther_analysis.helpers.panther_base_helpers import deep_get, deep_walk
 
-g_c_p_cloud_build_potential_privilege_escalation_tests: List[PantherRuleTest] = [
+gcp_cloud_build_potential_privilege_escalation_tests: List[PantherRuleTest] = [
     PantherRuleTest(
         Name="GCP CloudBuild - Build with Potentially Privileged Access",
         ExpectedResult=True,
@@ -125,7 +125,7 @@ class GCPCloudBuildPotentialPrivilegeEscalation(PantherRule):
     Severity = Severity.High
     DedupPeriodMinutes = 60
     Threshold = 1
-    Tests = g_c_p_cloud_build_potential_privilege_escalation_tests
+    Tests = gcp_cloud_build_potential_privilege_escalation_tests
 
     def rule(self, event):
         if not deep_get(event, "protoPayload", "methodName", default="METHOD_NOT_FOUND").endswith(

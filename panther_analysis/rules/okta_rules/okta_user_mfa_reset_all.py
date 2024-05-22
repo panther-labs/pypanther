@@ -3,7 +3,7 @@ from typing import List
 from panther_analysis.base import PantherRule, PantherRuleTest, Severity
 from panther_analysis.helpers.panther_base_helpers import okta_alert_context
 
-okta_user_m_f_a_reset_all_tests: List[PantherRuleTest] = [
+okta_user_mfa_reset_all_tests: List[PantherRuleTest] = [
     PantherRuleTest(
         Name="Reset All Event",
         ExpectedResult=True,
@@ -126,7 +126,7 @@ class OktaUserMFAResetAll(PantherRule):
     LogTypes = ["Okta.SystemLog"]
     RuleID = "Okta.User.MFA.Reset.All-prototype"
     Threshold = 1
-    Tests = okta_user_m_f_a_reset_all_tests
+    Tests = okta_user_mfa_reset_all_tests
 
     def rule(self, event):
         return event.get("eventtype") == "user.mfa.factor.reset_all"

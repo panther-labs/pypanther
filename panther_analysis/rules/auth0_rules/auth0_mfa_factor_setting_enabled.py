@@ -7,7 +7,7 @@ from panther_analysis.helpers.panther_auth0_helpers import (
 )
 from panther_analysis.helpers.panther_base_helpers import deep_get
 
-auth0_m_f_a_factor_setting_enabled_tests: List[PantherRuleTest] = [
+auth0_mfa_factor_setting_enabled_tests: List[PantherRuleTest] = [
     PantherRuleTest(
         Name="MFA Enabled",
         ExpectedResult=True,
@@ -394,7 +394,7 @@ class Auth0MFAFactorSettingEnabled(PantherRule):
     LogTypes = ["Auth0.Events"]
     RuleID = "Auth0.MFA.Factor.Setting.Enabled-prototype"
     Threshold = 1
-    Tests = auth0_m_f_a_factor_setting_enabled_tests
+    Tests = auth0_mfa_factor_setting_enabled_tests
 
     def rule(self, event):
         description = deep_get(event, "data", "description", default="<NO_DESCRIPTION_FOUND>")

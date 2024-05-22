@@ -4,7 +4,7 @@ from panther_analysis.base import PantherRule, PantherRuleTest, Severity
 from panther_analysis.helpers.gcp_base_helpers import gcp_alert_context
 from panther_analysis.helpers.panther_base_helpers import deep_walk
 
-g_c_p_service_account_access_denied_tests: List[PantherRuleTest] = [
+gcp_service_account_access_denied_tests: List[PantherRuleTest] = [
     PantherRuleTest(
         Name="service-account.access-denied-should-alert",
         ExpectedResult=True,
@@ -137,7 +137,7 @@ class GCPServiceAccountAccessDenied(PantherRule):
     Description = "This rule detects deletions of GCP Log Buckets or Sinks.\n"
     Runbook = "Ensure that the bucket or sink deletion was expected. Adversaries may do this to cover their tracks.\n"
     Reference = "https://cloud.google.com/iam/docs/service-account-overview"
-    Tests = g_c_p_service_account_access_denied_tests
+    Tests = gcp_service_account_access_denied_tests
 
     def rule(self, event):
         reason = deep_walk(event, "protoPayload", "status", "details", "reason", default="")

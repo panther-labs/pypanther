@@ -3,7 +3,7 @@ from typing import List
 from panther_analysis.base import PantherRule, PantherRuleTest, Severity
 from panther_analysis.helpers.panther_base_helpers import deep_get
 
-g_c_p_g_c_s_public_tests: List[PantherRuleTest] = [
+gcpgcs_public_tests: List[PantherRuleTest] = [
     PantherRuleTest(
         Name="GCS AllUsers Read Permission",
         ExpectedResult=True,
@@ -74,7 +74,7 @@ class GCPGCSPublic(PantherRule):
     Runbook = "Validate the GCS bucket change was safe."
     Reference = "https://cloud.google.com/storage/docs/access-control/making-data-public"
     SummaryAttributes = ["severity", "p_any_ip_addresses", "p_any_domain_names"]
-    Tests = g_c_p_g_c_s_public_tests
+    Tests = gcpgcs_public_tests
     GCS_READ_ROLES = {
         "roles/storage.objectAdmin",
         "roles/storage.objectViewer",

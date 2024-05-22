@@ -3,7 +3,7 @@ from typing import List
 from panther_analysis.base import PantherRule, PantherRuleTest, Severity
 from panther_analysis.helpers.panther_base_helpers import defang_ioc, is_base64
 
-standard_d_n_s_base64_tests: List[PantherRuleTest] = [
+standard_dns_base64_tests: List[PantherRuleTest] = [
     PantherRuleTest(
         Name="AWS VPC DNS (Positive)",
         ExpectedResult=True,
@@ -224,7 +224,7 @@ class StandardDNSBase64(PantherRule):
     DedupPeriodMinutes = 60
     Threshold = 1
     LogTypes = ["Crowdstrike.FDREvent", "AWS.VPCDns", "CiscoUmbrella.DNS"]
-    Tests = standard_d_n_s_base64_tests
+    Tests = standard_dns_base64_tests
     DECODED = ""
 
     def rule(self, event):

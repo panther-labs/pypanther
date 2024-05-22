@@ -3,7 +3,7 @@ from typing import List
 from panther_analysis.base import PantherRule, PantherRuleTest, Severity
 from panther_analysis.helpers.panther_base_helpers import deep_get
 
-g_c_p_service_accountor_keys_created_tests: List[PantherRuleTest] = [
+gcp_service_accountor_keys_created_tests: List[PantherRuleTest] = [
     PantherRuleTest(
         Name="Created Service Account Key",
         ExpectedResult=True,
@@ -213,7 +213,7 @@ class GCPServiceAccountorKeysCreated(PantherRule):
     LogTypes = ["GCP.AuditLog"]
     RuleID = "GCP.Service.Account.or.Keys.Created-prototype"
     Threshold = 1
-    Tests = g_c_p_service_accountor_keys_created_tests
+    Tests = gcp_service_accountor_keys_created_tests
 
     def rule(self, event):
         return all(

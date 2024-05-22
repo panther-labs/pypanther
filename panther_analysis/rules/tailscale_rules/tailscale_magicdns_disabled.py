@@ -7,7 +7,7 @@ from panther_analysis.helpers.panther_tailscale_helpers import (
     tailscale_alert_context,
 )
 
-tailscale_magic_d_n_s_disabled_tests: List[PantherRuleTest] = [
+tailscale_magic_dns_disabled_tests: List[PantherRuleTest] = [
     PantherRuleTest(
         Name="Magic DNS Disabled",
         ExpectedResult=True,
@@ -90,7 +90,7 @@ class TailscaleMagicDNSDisabled(PantherRule):
     LogTypes = ["Tailscale.Audit"]
     RuleID = "Tailscale.Magic.DNS.Disabled-prototype"
     Threshold = 1
-    Tests = tailscale_magic_d_n_s_disabled_tests
+    Tests = tailscale_magic_dns_disabled_tests
 
     def rule(self, event):
         action = deep_get(event, "event", "action", default="<NO_ACTION_FOUND>")

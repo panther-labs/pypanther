@@ -3,7 +3,7 @@ from typing import List
 from panther_analysis.base import PantherRule, PantherRuleTest, Severity
 from panther_analysis.helpers.panther_base_helpers import aws_rule_context
 
-a_w_s_r_d_s_snapshot_shared_tests: List[PantherRuleTest] = [
+awsrds_snapshot_shared_tests: List[PantherRuleTest] = [
     PantherRuleTest(
         Name="Snapshot shared with another account",
         ExpectedResult=True,
@@ -131,7 +131,7 @@ class AWSRDSSnapshotShared(PantherRule):
     Runbook = "Ensure that the snapshot was shared intentionally and with an approved account. If not, remove the snapshot and quarantine the compromised IAM user.\n"
     Reference = "https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_ShareSnapshot.html"
     SummaryAttributes = ["eventSource", "recipientAccountId", "awsRegion", "p_any_aws_arns"]
-    Tests = a_w_s_r_d_s_snapshot_shared_tests
+    Tests = awsrds_snapshot_shared_tests
 
     def rule(self, event):
         if all(

@@ -3,7 +3,7 @@ from typing import List
 from panther_analysis.base import PantherRule, PantherRuleTest, Severity
 from panther_analysis.helpers.panther_base_helpers import deep_get
 
-g_c_p_s_q_l_config_changes_tests: List[PantherRuleTest] = [
+gcpsql_config_changes_tests: List[PantherRuleTest] = [
     PantherRuleTest(
         Name="Sql Instance Change",
         ExpectedResult=True,
@@ -43,7 +43,7 @@ class GCPSQLConfigChanges(PantherRule):
     Runbook = "Validate the Sql Instance configuration change was safe"
     Reference = "https://cloud.google.com/sql/docs/mysql/instance-settings"
     SummaryAttributes = ["severity", "p_any_ip_addresses", "p_any_domain_names"]
-    Tests = g_c_p_s_q_l_config_changes_tests
+    Tests = gcpsql_config_changes_tests
 
     def rule(self, event):
         return deep_get(event, "protoPayload", "methodName") == "cloudsql.instances.update"

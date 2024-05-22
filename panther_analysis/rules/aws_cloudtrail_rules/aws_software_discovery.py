@@ -3,7 +3,7 @@ from typing import List
 from panther_analysis.base import PantherRule, PantherRuleTest, Severity
 from panther_analysis.helpers.panther_base_helpers import aws_rule_context, deep_get
 
-a_w_s_software_discovery_tests: List[PantherRuleTest] = [
+aws_software_discovery_tests: List[PantherRuleTest] = [
     PantherRuleTest(
         Name="Discovery Event Names",
         ExpectedResult=True,
@@ -92,7 +92,7 @@ class AWSSoftwareDiscovery(PantherRule):
     LogTypes = ["AWS.CloudTrail"]
     RuleID = "AWS.Software.Discovery-prototype"
     Threshold = 50
-    Tests = a_w_s_software_discovery_tests
+    Tests = aws_software_discovery_tests
     DISCOVERY_EVENTS = [
         "ListDocuments",
         "ListMembers",

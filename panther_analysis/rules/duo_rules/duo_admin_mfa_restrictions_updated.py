@@ -3,7 +3,7 @@ from typing import List
 from panther_analysis.base import PantherRule, PantherRuleTest, Severity
 from panther_analysis.helpers.panther_duo_helpers import duo_alert_context
 
-duo_admin_m_f_a_restrictions_updated_tests: List[PantherRuleTest] = [
+duo_admin_mfa_restrictions_updated_tests: List[PantherRuleTest] = [
     PantherRuleTest(
         Name="Admin MFA Update Event",
         ExpectedResult=True,
@@ -41,7 +41,7 @@ class DuoAdminMFARestrictionsUpdated(PantherRule):
     LogTypes = ["Duo.Administrator"]
     RuleID = "Duo.Admin.MFA.Restrictions.Updated-prototype"
     Threshold = 1
-    Tests = duo_admin_m_f_a_restrictions_updated_tests
+    Tests = duo_admin_mfa_restrictions_updated_tests
 
     def rule(self, event):
         return event.get("action") == "update_admin_factor_restrictions"

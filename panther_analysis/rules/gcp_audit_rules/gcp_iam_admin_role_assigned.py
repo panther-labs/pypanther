@@ -4,7 +4,7 @@ from typing import List
 from panther_analysis.base import PantherRule, PantherRuleTest, Severity
 from panther_analysis.helpers.panther_base_helpers import deep_get, get_binding_deltas
 
-g_c_p_i_a_m_admin_role_assigned_tests: List[PantherRuleTest] = [
+gcpiam_admin_role_assigned_tests: List[PantherRuleTest] = [
     PantherRuleTest(
         Name="Service Admin Role Assigned",
         ExpectedResult=True,
@@ -393,7 +393,7 @@ class GCPIAMAdminRoleAssigned(PantherRule):
     Runbook = "Verify with the user who attached the role or add to a allowlist"
     Reference = "https://cloud.google.com/looker/docs/admin-panel-users-roles"
     SummaryAttributes = ["severity", "p_any_ip_addresses", "p_any_domain_names"]
-    Tests = g_c_p_i_a_m_admin_role_assigned_tests
+    Tests = gcpiam_admin_role_assigned_tests
     # Primitive Roles
     # Predefined Roles
     ADMIN_ROLES = {"roles/owner", "roles/*Admin"}

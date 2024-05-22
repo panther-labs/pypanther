@@ -4,7 +4,7 @@ from panther_analysis.base import PantherRule, PantherRuleTest, Severity
 from panther_analysis.helpers.panther_base_helpers import deep_get
 from panther_analysis.helpers.panther_notion_helpers import notion_alert_context
 
-notion_s_a_m_l_s_s_o_configuration_changed_tests: List[PantherRuleTest] = [
+notion_samlsso_configuration_changed_tests: List[PantherRuleTest] = [
     PantherRuleTest(
         Name="Other Event",
         ExpectedResult=False,
@@ -85,7 +85,7 @@ class NotionSAMLSSOConfigurationChanged(PantherRule):
     Threshold = 1
     Runbook = "Follow up with the Notion User to determine if this was done for a valid business reason and to ensure these settings get re-enabled quickly for best security practices."
     Reference = "https://www.notion.so/help/saml-sso-configuration"
-    Tests = notion_s_a_m_l_s_s_o_configuration_changed_tests
+    Tests = notion_samlsso_configuration_changed_tests
 
     def rule(self, event):
         return (

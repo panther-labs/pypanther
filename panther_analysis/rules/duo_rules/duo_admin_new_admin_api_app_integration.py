@@ -6,7 +6,7 @@ from panther_analysis.helpers.panther_duo_helpers import (
     duo_alert_context,
 )
 
-duo_admin_new_admin_a_p_i_app_integration_tests: List[PantherRuleTest] = [
+duo_admin_new_admin_api_app_integration_tests: List[PantherRuleTest] = [
     PantherRuleTest(
         Name="Admin API Integration Created",
         ExpectedResult=True,
@@ -56,7 +56,7 @@ class DuoAdminNewAdminAPIAppIntegration(PantherRule):
     LogTypes = ["Duo.Administrator"]
     RuleID = "Duo.Admin.New.Admin.API.App.Integration-prototype"
     Threshold = 1
-    Tests = duo_admin_new_admin_a_p_i_app_integration_tests
+    Tests = duo_admin_new_admin_api_app_integration_tests
 
     def rule(self, event):
         if event.get("action") == "integration_create":

@@ -8,7 +8,7 @@ from panther_analysis.helpers.panther_greynoise_helpers import (
     GetGreyNoiseRiotObject,
 )
 
-a_w_s_s3_grey_noise_activity_tests: List[PantherRuleTest] = [
+awss3_grey_noise_activity_tests: List[PantherRuleTest] = [
     PantherRuleTest(
         Name="GetObject from Malicious GreyNoise finding",
         ExpectedResult=True,
@@ -414,7 +414,7 @@ class AWSS3GreyNoiseActivity(PantherRule):
     LogTypes = ["AWS.CloudTrail"]
     RuleID = "AWS.S3.GreyNoiseActivity-prototype"
     Tags = ["AWS", "GreyNoise", "Collection:Data From Cloud Storage Object", "Deprecated"]
-    Tests = a_w_s_s3_grey_noise_activity_tests
+    Tests = awss3_grey_noise_activity_tests
     # pylint: disable=too-many-return-statements,invalid-name,unused-argument,global-at-module-level,global-variable-undefined
     # Monitor for GetObject events from S3.
     # Also check ListBucket to reveal object enumeration.

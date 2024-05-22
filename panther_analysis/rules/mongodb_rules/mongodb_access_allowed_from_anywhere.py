@@ -3,7 +3,7 @@ from typing import List
 from panther_analysis.base import PantherRule, PantherRuleTest, Severity
 from panther_analysis.helpers.panther_mongodb_helpers import mongodb_alert_context
 
-mongo_d_b_access_allowed_from_anywhere_tests: List[PantherRuleTest] = [
+mongo_db_access_allowed_from_anywhere_tests: List[PantherRuleTest] = [
     PantherRuleTest(
         Name="Allowed access from anywhere",
         ExpectedResult=True,
@@ -51,7 +51,7 @@ class MongoDBAccessAllowedFromAnywhere(PantherRule):
     Runbook = "Check if this activity was legitimate. If not, delete 0.0.0.0/0 from the list of allowed ips."
     DedupPeriodMinutes = 60
     Threshold = 1
-    Tests = mongo_d_b_access_allowed_from_anywhere_tests
+    Tests = mongo_db_access_allowed_from_anywhere_tests
 
     def rule(self, event):
         if (

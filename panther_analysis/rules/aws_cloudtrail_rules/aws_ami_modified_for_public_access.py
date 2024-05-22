@@ -4,7 +4,7 @@ from panther_analysis.base import PantherRule, PantherRuleTest, Severity
 from panther_analysis.helpers.panther_base_helpers import aws_rule_context, deep_get
 from panther_analysis.helpers.panther_default import aws_cloudtrail_success
 
-a_w_s_cloud_trail_a_m_i_modified_for_public_access_tests: List[PantherRuleTest] = [
+aws_cloud_trail_ami_modified_for_public_access_tests: List[PantherRuleTest] = [
     PantherRuleTest(
         Name="AMI Made Public",
         ExpectedResult=True,
@@ -241,7 +241,7 @@ class AWSCloudTrailAMIModifiedForPublicAccess(PantherRule):
     Runbook = "Determine if the AMI is intended to be publicly accessible. If not, first modify the AMI to not be publicly accessible then change any sensitive data stored in the block devices associated to the AMI (as they may be compromised).\n"
     Reference = "https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/sharingamis-intro.html"
     SummaryAttributes = ["userAgent", "sourceIpAddress", "recipientAccountId", "p_any_aws_arns"]
-    Tests = a_w_s_cloud_trail_a_m_i_modified_for_public_access_tests
+    Tests = aws_cloud_trail_ami_modified_for_public_access_tests
 
     def rule(self, event):
         # Only check successful ModiyImageAttribute events

@@ -4,7 +4,7 @@ from panther_analysis.base import PantherRule, PantherRuleTest, Severity
 from panther_analysis.helpers.gcp_base_helpers import gcp_alert_context
 from panther_analysis.helpers.panther_base_helpers import deep_get
 
-g_c_p_k8s_pod_using_host_p_i_d_namespace_tests: List[PantherRuleTest] = [
+gcpk8s_pod_using_host_pid_namespace_tests: List[PantherRuleTest] = [
     PantherRuleTest(
         Name="triggers",
         ExpectedResult=True,
@@ -53,7 +53,7 @@ class GCPK8sPodUsingHostPIDNamespace(PantherRule):
     Runbook = "Investigate a reason of creating a pod using the host PID namespace. Advise that it is discouraged practice. Create ticket if appropriate."
     Reports = {"MITRE ATT&CK": ["TA0004:T1611", "TA0002:T1610"]}
     Reference = "https://medium.com/snowflake/from-logs-to-detection-using-snowflake-and-panther-to-detect-k8s-threats-d72f70a504d7"
-    Tests = g_c_p_k8s_pod_using_host_p_i_d_namespace_tests
+    Tests = gcpk8s_pod_using_host_pid_namespace_tests
     METHODS_TO_CHECK = [
         "io.k8s.core.v1.pods.create",
         "io.k8s.core.v1.pods.update",

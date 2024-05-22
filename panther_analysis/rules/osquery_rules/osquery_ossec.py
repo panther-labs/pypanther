@@ -2,7 +2,7 @@ from typing import List
 
 from panther_analysis.base import PantherRule, PantherRuleTest, Severity
 
-osquery_o_s_s_e_c_rootkit_detected_tests: List[PantherRuleTest] = [
+osquery_ossec_rootkit_detected_tests: List[PantherRuleTest] = [
     PantherRuleTest(
         Name="Rootkit Detected",
         ExpectedResult=True,
@@ -84,7 +84,7 @@ class OsqueryOSSECRootkitDetected(PantherRule):
     Runbook = "Verify the presence of the rootkit and re-image the machine.\n"
     Reference = "https://panther.com/blog/osquery-log-analysis/"
     SummaryAttributes = ["name", "hostIdentifier", "action"]
-    Tests = osquery_o_s_s_e_c_rootkit_detected_tests
+    Tests = osquery_ossec_rootkit_detected_tests
 
     def rule(self, event):
         return "ossec-rootkit" in event.get("name", "") and event.get("action") == "added"

@@ -3,7 +3,7 @@ from typing import List
 from panther_analysis.base import PantherRule, PantherRuleTest, Severity
 from panther_analysis.helpers.panther_base_helpers import okta_alert_context
 
-okta_user_m_f_a_factor_suspend_tests: List[PantherRuleTest] = [
+okta_user_mfa_factor_suspend_tests: List[PantherRuleTest] = [
     PantherRuleTest(
         Name="Suspend Event",
         ExpectedResult=True,
@@ -168,7 +168,7 @@ class OktaUserMFAFactorSuspend(PantherRule):
     LogTypes = ["Okta.SystemLog"]
     RuleID = "Okta.User.MFA.Factor.Suspend-prototype"
     Threshold = 1
-    Tests = okta_user_m_f_a_factor_suspend_tests
+    Tests = okta_user_mfa_factor_suspend_tests
 
     def rule(self, event):
         return (

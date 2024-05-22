@@ -2,7 +2,7 @@ from typing import List
 
 from panther_analysis.base import PantherRule, PantherRuleTest, Severity
 
-g_c_p_inbound_s_s_o_profile_created_tests: List[PantherRuleTest] = [
+gcp_inbound_sso_profile_created_tests: List[PantherRuleTest] = [
     PantherRuleTest(
         Name="InboundSsoProfileDeleted-False",
         ExpectedResult=False,
@@ -168,7 +168,7 @@ class GCPInboundSSOProfileCreated(PantherRule):
     Threshold = 1
     Runbook = "Ensure that the SSO profile creation or modification was expected. Adversaries may use this to persist or allow additional access or escalate their privilege.\n"
     Reference = "https://medium.com/google-cloud/detection-of-inbound-sso-persistence-techniques-in-gcp-c56f7b2a588b"
-    Tests = g_c_p_inbound_s_s_o_profile_created_tests
+    Tests = gcp_inbound_sso_profile_created_tests
     METHODS = [
         "google.admin.AdminService.inboundSsoProfileCreated",
         "google.admin.AdminService.inboundSsoProfileUpdated",

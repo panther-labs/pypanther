@@ -7,7 +7,7 @@ from panther_analysis.helpers.panther_auth0_helpers import (
 )
 from panther_analysis.helpers.panther_base_helpers import deep_get
 
-auth0_m_f_a_policy_enabled_tests: List[PantherRuleTest] = [
+auth0_mfa_policy_enabled_tests: List[PantherRuleTest] = [
     PantherRuleTest(
         Name="MFA Policy Enabled First",
         ExpectedResult=True,
@@ -587,7 +587,7 @@ class Auth0MFAPolicyEnabled(PantherRule):
     LogTypes = ["Auth0.Events"]
     RuleID = "Auth0.MFA.Policy.Enabled-prototype"
     Threshold = 1
-    Tests = auth0_m_f_a_policy_enabled_tests
+    Tests = auth0_mfa_policy_enabled_tests
 
     def rule(self, event):
         data_description = deep_get(

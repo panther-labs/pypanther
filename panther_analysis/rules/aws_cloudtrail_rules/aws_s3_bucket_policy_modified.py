@@ -4,7 +4,7 @@ from panther_analysis.base import PantherRule, PantherRuleTest, Severity
 from panther_analysis.helpers.panther_base_helpers import aws_rule_context, deep_get
 from panther_analysis.helpers.panther_default import aws_cloudtrail_success
 
-a_w_s_s3_bucket_policy_modified_tests: List[PantherRuleTest] = [
+awss3_bucket_policy_modified_tests: List[PantherRuleTest] = [
     PantherRuleTest(
         Name="S3 Bucket Policy Modified",
         ExpectedResult=True,
@@ -170,7 +170,7 @@ class AWSS3BucketPolicyModified(PantherRule):
     )
     Reference = "https://docs.aws.amazon.com/AmazonS3/latest/dev/using-iam-policies.html"
     SummaryAttributes = ["eventName", "userAgent", "sourceIpAddress", "p_any_aws_arns"]
-    Tests = a_w_s_s3_bucket_policy_modified_tests
+    Tests = awss3_bucket_policy_modified_tests
     # API calls that are indicative of KMS CMK Deletion
     S3_POLICY_CHANGE_EVENTS = {
         "PutBucketAcl",

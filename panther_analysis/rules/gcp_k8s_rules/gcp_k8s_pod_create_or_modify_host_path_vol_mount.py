@@ -4,7 +4,7 @@ from panther_analysis.base import PantherRule, PantherRuleTest, Severity
 from panther_analysis.helpers.gcp_base_helpers import gcp_alert_context
 from panther_analysis.helpers.panther_base_helpers import deep_get, deep_walk
 
-g_c_p_k8_s_pot_create_or_modify_host_path_volume_mount_tests: List[PantherRuleTest] = [
+gcpk8_s_pot_create_or_modify_host_path_volume_mount_tests: List[PantherRuleTest] = [
     PantherRuleTest(
         Name="Pod With Suspicious Volume Mount Created",
         ExpectedResult=True,
@@ -231,7 +231,7 @@ class GCPK8SPotCreateOrModifyHostPathVolumeMount(PantherRule):
     Runbook = "Investigate the reason of adding hostPath volume mount. Advise that it is discouraged practice.  Create ticket if appropriate.\n"
     Reference = "https://linuxhint.com/kubernetes-hostpath-volumes/"
     Reports = {"MITRE ATT&CK": ["TA0001", "TA0002"]}
-    Tests = g_c_p_k8_s_pot_create_or_modify_host_path_volume_mount_tests
+    Tests = gcpk8_s_pot_create_or_modify_host_path_volume_mount_tests
     SUSPICIOUS_PATHS = [
         "/var/run/docker.sock",
         "/var/run/crio/crio.sock",

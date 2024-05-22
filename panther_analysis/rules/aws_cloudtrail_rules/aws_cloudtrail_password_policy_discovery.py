@@ -3,7 +3,7 @@ from typing import List
 from panther_analysis.base import PantherRule, PantherRuleTest, Severity
 from panther_analysis.helpers.panther_base_helpers import aws_rule_context, deep_get
 
-a_w_s_cloud_trail_password_policy_discovery_tests: List[PantherRuleTest] = [
+aws_cloud_trail_password_policy_discovery_tests: List[PantherRuleTest] = [
     PantherRuleTest(
         Name="Non-Discovery Event",
         ExpectedResult=False,
@@ -66,7 +66,7 @@ class AWSCloudTrailPasswordPolicyDiscovery(PantherRule):
     LogTypes = ["AWS.CloudTrail"]
     RuleID = "AWS.CloudTrail.Password.Policy.Discovery-prototype"
     Threshold = 2
-    Tests = a_w_s_cloud_trail_password_policy_discovery_tests
+    Tests = aws_cloud_trail_password_policy_discovery_tests
     PASSWORD_DISCOVERY_EVENTS = [
         "GetAccountPasswordPolicy",
         "UpdateAccountPasswordPolicy",

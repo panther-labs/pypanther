@@ -3,7 +3,7 @@ from typing import List
 from panther_analysis.base import PantherRule, PantherRuleTest, Severity
 from panther_analysis.helpers.panther_base_helpers import aws_rule_context
 
-a_w_s_s3_server_access_unauthenticated_tests: List[PantherRuleTest] = [
+awss3_server_access_unauthenticated_tests: List[PantherRuleTest] = [
     PantherRuleTest(
         Name="Authenticated Access",
         ExpectedResult=False,
@@ -37,7 +37,7 @@ class AWSS3ServerAccessUnauthenticated(PantherRule):
     Runbook = "If unauthenticated S3 access is not expected for this bucket, update its access policies.\n"
     Reference = "https://docs.aws.amazon.com/AmazonS3/latest/userguide/access-control-auth-workflow-bucket-operation.html"
     SummaryAttributes = ["bucket", "key", "requester"]
-    Tests = a_w_s_s3_server_access_unauthenticated_tests
+    Tests = awss3_server_access_unauthenticated_tests
     # A list of buckets where authenticated access is expected
     AUTH_BUCKETS = {"example-bucket"}
 

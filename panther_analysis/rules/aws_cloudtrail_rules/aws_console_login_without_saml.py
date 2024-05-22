@@ -4,7 +4,7 @@ from panther_analysis.base import PantherRule, PantherRuleTest, Severity
 from panther_analysis.helpers.panther_base_helpers import aws_rule_context, deep_get
 from panther_analysis.helpers.panther_default import lookup_aws_account_name
 
-a_w_s_console_login_without_s_a_m_l_tests: List[PantherRuleTest] = [
+aws_console_login_without_saml_tests: List[PantherRuleTest] = [
     PantherRuleTest(
         Name="Login with SAML",
         ExpectedResult=False,
@@ -88,7 +88,7 @@ class AWSConsoleLoginWithoutSAML(PantherRule):
     Runbook = "Modify the AWS account configuration."
     Reference = "https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_providers_enable-console-saml.html"
     SummaryAttributes = ["userAgent", "sourceIpAddress", "recipientAccountId", "p_any_aws_arns"]
-    Tests = a_w_s_console_login_without_s_a_m_l_tests
+    Tests = aws_console_login_without_saml_tests
 
     def rule(self, event):
         additional_event_data = event.get("additionalEventData", {})

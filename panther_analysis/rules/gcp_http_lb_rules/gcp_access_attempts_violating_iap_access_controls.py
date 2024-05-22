@@ -3,7 +3,7 @@ from typing import List
 from panther_analysis.base import PantherRule, PantherRuleTest, Severity
 from panther_analysis.helpers.panther_base_helpers import deep_get
 
-g_c_p_access_attempts_violating_i_a_p_access_controls_tests: List[PantherRuleTest] = [
+gcp_access_attempts_violating_iap_access_controls_tests: List[PantherRuleTest] = [
     PantherRuleTest(
         Name="Blocked By IAP",
         ExpectedResult=True,
@@ -113,7 +113,7 @@ class GCPAccessAttemptsViolatingIAPAccessControls(PantherRule):
     LogTypes = ["GCP.HTTPLoadBalancer"]
     RuleID = "GCP.Access.Attempts.Violating.IAP.Access.Controls-prototype"
     Threshold = 1
-    Tests = g_c_p_access_attempts_violating_i_a_p_access_controls_tests
+    Tests = gcp_access_attempts_violating_iap_access_controls_tests
 
     def rule(self, event):
         return all(

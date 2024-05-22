@@ -3,7 +3,7 @@ from typing import List
 from panther_analysis.base import PantherRule, PantherRuleTest, Severity
 from panther_analysis.helpers.panther_base_helpers import deep_get, deep_walk, okta_alert_context
 
-okta_password_extractionvia_s_c_i_m_tests: List[PantherRuleTest] = [
+okta_password_extractionvia_scim_tests: List[PantherRuleTest] = [
     PantherRuleTest(
         Name="Other Event",
         ExpectedResult=False,
@@ -170,7 +170,7 @@ class OktaPasswordExtractionviaSCIM(PantherRule):
     Reference = "https://www.authomize.com/blog/authomize-discovers-password-stealing-and-impersonation-risks-to-in-okta/\n"
     DedupPeriodMinutes = 30
     Threshold = 1
-    Tests = okta_password_extractionvia_s_c_i_m_tests
+    Tests = okta_password_extractionvia_scim_tests
 
     def rule(self, event):
         return event.get(

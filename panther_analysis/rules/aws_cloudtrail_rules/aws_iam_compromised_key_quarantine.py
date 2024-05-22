@@ -2,7 +2,7 @@ from typing import List
 
 from panther_analysis.base import PantherRule, PantherRuleTest, Severity
 
-a_w_s_cloud_trail_i_a_m_compromised_key_quarantine_tests: List[PantherRuleTest] = [
+aws_cloud_trail_iam_compromised_key_quarantine_tests: List[PantherRuleTest] = [
     PantherRuleTest(
         Name="AttachUserPolicy AWSCompromisedKeyQuarantineV2-true",
         ExpectedResult=True,
@@ -119,7 +119,7 @@ class AWSCloudTrailIAMCompromisedKeyQuarantine(PantherRule):
     Reference = "https://unit42.paloaltonetworks.com/malicious-operations-of-exposed-iam-keys-cryptojacking/"
     Threshold = 1
     DedupPeriodMinutes = 60
-    Tests = a_w_s_cloud_trail_i_a_m_compromised_key_quarantine_tests
+    Tests = aws_cloud_trail_iam_compromised_key_quarantine_tests
     IAM_ACTIONS = {"AttachUserPolicy", "AttachGroupPolicy", "AttachRolePolicy"}
     QUARANTINE_MANAGED_POLICY = "arn:aws:iam::aws:policy/AWSCompromisedKeyQuarantineV2"
 

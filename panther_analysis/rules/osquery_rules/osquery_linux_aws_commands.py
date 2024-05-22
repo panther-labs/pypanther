@@ -4,7 +4,7 @@ from typing import List
 from panther_analysis.base import PantherRule, PantherRuleTest, Severity
 from panther_analysis.helpers.panther_base_helpers import deep_get
 
-osquery_linux_a_w_s_command_executed_tests: List[PantherRuleTest] = [
+osquery_linux_aws_command_executed_tests: List[PantherRuleTest] = [
     PantherRuleTest(
         Name="AWS command executed on MacOS",
         ExpectedResult=False,
@@ -91,7 +91,7 @@ class OsqueryLinuxAWSCommandExecuted(PantherRule):
     Runbook = "See which other commands were executed, and then remove IAM role causing the access"
     Reference = "https://attack.mitre.org/techniques/T1078/"
     SummaryAttributes = ["name", "action"]
-    Tests = osquery_linux_a_w_s_command_executed_tests
+    Tests = osquery_linux_aws_command_executed_tests
     PLATFORM_IGNORE_LIST = {"darwin"}
 
     def rule(self, event):

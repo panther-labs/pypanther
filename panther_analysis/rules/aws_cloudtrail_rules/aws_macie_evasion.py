@@ -3,7 +3,7 @@ from typing import List
 from panther_analysis.base import PantherRule, PantherRuleTest, Severity
 from panther_analysis.helpers.panther_base_helpers import deep_get, pattern_match
 
-a_w_s_macie_evasion_tests: List[PantherRuleTest] = [
+aws_macie_evasion_tests: List[PantherRuleTest] = [
     PantherRuleTest(
         Name="ListMembers",
         ExpectedResult=False,
@@ -192,7 +192,7 @@ class AWSMacieEvasion(PantherRule):
         "userIdentity:type",
         "userIdentity:arn",
     ]
-    Tests = a_w_s_macie_evasion_tests
+    Tests = aws_macie_evasion_tests
     MACIE_EVENTS = {
         "ArchiveFindings",
         "CreateFindingsFilter",

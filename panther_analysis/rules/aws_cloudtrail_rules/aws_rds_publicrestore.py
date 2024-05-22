@@ -3,7 +3,7 @@ from typing import List
 from panther_analysis.base import PantherRule, PantherRuleTest, Severity
 from panther_analysis.helpers.panther_base_helpers import aws_rule_context, deep_get
 
-a_w_s_r_d_s_public_restore_tests: List[PantherRuleTest] = [
+awsrds_public_restore_tests: List[PantherRuleTest] = [
     PantherRuleTest(
         Name="Not-Restore-RDS-Request",
         ExpectedResult=False,
@@ -362,7 +362,7 @@ class AWSRDSPublicRestore(PantherRule):
     LogTypes = ["AWS.CloudTrail"]
     RuleID = "AWS.RDS.PublicRestore-prototype"
     Threshold = 1
-    Tests = a_w_s_r_d_s_public_restore_tests
+    Tests = awsrds_public_restore_tests
 
     def rule(self, event):
         if (

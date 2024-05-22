@@ -3,7 +3,7 @@ from typing import List
 from panther_analysis.base import PantherRule, PantherRuleTest, Severity
 from panther_analysis.helpers.panther_base_helpers import deep_get
 
-g_c_p_i_a_m_org_folder_i_a_m_changes_tests: List[PantherRuleTest] = [
+gcpiam_org_folder_iam_changes_tests: List[PantherRuleTest] = [
     PantherRuleTest(
         Name="Terraform User Agent",
         ExpectedResult=True,
@@ -176,7 +176,7 @@ class GCPIAMOrgFolderIAMChanges(PantherRule):
     Runbook = "Contact the party that made the change. If it was intended to be temporary, ask for a window for rollback (< 24 hours).  If it must be permanent, ask for change-management doc explaining why it was needed.  Direct them to make the change in Terraform to avoid automated rollback. Grep for google_org and google_folder in terraform repos for places to  put your new policy bindings.\n"
     Reference = "https://cloud.google.com/iam/docs/granting-changing-revoking-access"
     SummaryAttributes = ["severity", "p_any_ip_addresses"]
-    Tests = g_c_p_i_a_m_org_folder_i_a_m_changes_tests
+    Tests = gcpiam_org_folder_iam_changes_tests
 
     def rule(self, event):
         # Return True to match the log event and trigger an alert.

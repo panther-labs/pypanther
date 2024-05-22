@@ -4,7 +4,7 @@ from panther_analysis.base import PantherRule, PantherRuleTest, Severity
 from panther_analysis.helpers.panther_base_helpers import deep_get
 from panther_analysis.helpers.panther_snyk_helpers import snyk_alert_context
 
-snyk_o_u_change_tests: List[PantherRuleTest] = [
+snyk_ou_change_tests: List[PantherRuleTest] = [
     PantherRuleTest(
         Name="Snyk Org Deletion ( HIGH )",
         ExpectedResult=True,
@@ -76,7 +76,7 @@ class SnykOUChange(PantherRule):
     DedupPeriodMinutes = 60
     Threshold = 1
     SummaryAttributes = ["event"]
-    Tests = snyk_o_u_change_tests
+    Tests = snyk_ou_change_tests
     ACTIONS = [
         "group.create",
         "group.delete",

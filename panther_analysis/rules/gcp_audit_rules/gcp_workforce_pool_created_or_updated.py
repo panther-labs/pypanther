@@ -2,7 +2,7 @@ from typing import List
 
 from panther_analysis.base import PantherRule, PantherRuleTest, Severity
 
-g_c_p_workforce_pool_createdor_updated_tests: List[PantherRuleTest] = [
+gcp_workforce_pool_createdor_updated_tests: List[PantherRuleTest] = [
     PantherRuleTest(
         Name="DeleteWorkforcePool-False",
         ExpectedResult=False,
@@ -189,7 +189,7 @@ class GCPWorkforcePoolCreatedorUpdated(PantherRule):
     Threshold = 1
     Runbook = "Ensure that the Workforce Pool creation or modification was expected. Adversaries may use this to persist or allow additional access or escalate their privilege.\n"
     Reference = "https://medium.com/google-cloud/detection-of-inbound-sso-persistence-techniques-in-gcp-c56f7b2a588b"
-    Tests = g_c_p_workforce_pool_createdor_updated_tests
+    Tests = gcp_workforce_pool_createdor_updated_tests
     METHODS = [
         "google.iam.admin.v1.WorkforcePools.CreateWorkforcePool",
         "google.iam.admin.v1.WorkforcePools.UpdateWorkforcePool",

@@ -3,7 +3,7 @@ from typing import List
 from panther_analysis.base import PantherRule, PantherRuleTest, Severity
 from panther_analysis.helpers.panther_base_helpers import deep_get
 
-d_u_o_user_endpoint_failure_tests: List[PantherRuleTest] = [
+duo_user_endpoint_failure_tests: List[PantherRuleTest] = [
     PantherRuleTest(
         Name="endpoint_is_not_in_management_system",
         ExpectedResult=True,
@@ -118,7 +118,7 @@ class DUOUserEndpointFailure(PantherRule):
     Runbook = (
         "Follow up with the endpoint owner to see status. Follow up with user to verify attempts."
     )
-    Tests = d_u_o_user_endpoint_failure_tests
+    Tests = duo_user_endpoint_failure_tests
 
     def rule(self, event):
         endpoint_reasons = [

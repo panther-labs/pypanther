@@ -3,7 +3,7 @@ from typing import List
 from panther_analysis.base import PantherRule, PantherRuleTest, Severity
 from panther_analysis.helpers.panther_base_helpers import deep_get
 
-g_c_p_unused_regions_tests: List[PantherRuleTest] = [
+gcp_unused_regions_tests: List[PantherRuleTest] = [
     PantherRuleTest(
         Name="GCE Instance Terminated",
         ExpectedResult=False,
@@ -246,7 +246,7 @@ class GCPUnusedRegions(PantherRule):
     Runbook = "Validate the user making the request and the resource created."
     Reference = "https://cloud.google.com/docs/geography-and-regions"
     SummaryAttributes = ["severity", "p_any_ip_addresses", "p_any_domain_names"]
-    Tests = g_c_p_unused_regions_tests
+    Tests = gcp_unused_regions_tests
     # 'asia',
     # 'australia',
     # 'eu',

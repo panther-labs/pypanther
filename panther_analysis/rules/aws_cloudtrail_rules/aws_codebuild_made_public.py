@@ -4,7 +4,7 @@ from panther_analysis.base import PantherRule, PantherRuleTest, Severity
 from panther_analysis.helpers.panther_base_helpers import aws_rule_context, deep_get
 from panther_analysis.helpers.panther_default import lookup_aws_account_name
 
-a_w_s_cloud_trail_codebuild_project_made_public_tests: List[PantherRuleTest] = [
+aws_cloud_trail_codebuild_project_made_public_tests: List[PantherRuleTest] = [
     PantherRuleTest(
         Name="CodeBuild Project Made Public",
         ExpectedResult=True,
@@ -144,7 +144,7 @@ class AWSCloudTrailCodebuildProjectMadePublic(PantherRule):
         "recipientAccountId",
         "p_any_aws_arns",
     ]
-    Tests = a_w_s_cloud_trail_codebuild_project_made_public_tests
+    Tests = aws_cloud_trail_codebuild_project_made_public_tests
 
     def rule(self, event):
         return (

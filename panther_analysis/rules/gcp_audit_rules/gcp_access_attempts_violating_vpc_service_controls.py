@@ -3,7 +3,7 @@ from typing import List
 from panther_analysis.base import PantherRule, PantherRuleTest, Severity
 from panther_analysis.helpers.panther_base_helpers import deep_get, deep_walk
 
-g_c_p_access_attempts_violating_v_p_c_service_controls_tests: List[PantherRuleTest] = [
+gcp_access_attempts_violating_vpc_service_controls_tests: List[PantherRuleTest] = [
     PantherRuleTest(
         Name="Other Event",
         ExpectedResult=False,
@@ -179,7 +179,7 @@ class GCPAccessAttemptsViolatingVPCServiceControls(PantherRule):
     LogTypes = ["GCP.AuditLog"]
     RuleID = "GCP.Access.Attempts.Violating.VPC.Service.Controls-prototype"
     Threshold = 1
-    Tests = g_c_p_access_attempts_violating_v_p_c_service_controls_tests
+    Tests = gcp_access_attempts_violating_vpc_service_controls_tests
 
     def rule(self, event):
         severity = deep_get(event, "severity", default="")

@@ -3,7 +3,7 @@ from typing import List
 from panther_analysis.base import PantherRule, PantherRuleTest, Severity
 from panther_analysis.helpers.panther_base_helpers import deep_get
 
-g_c_p_i_a_m_corporate_email_tests: List[PantherRuleTest] = [
+gcpiam_corporate_email_tests: List[PantherRuleTest] = [
     PantherRuleTest(
         Name="Gmail account added",
         ExpectedResult=True,
@@ -298,7 +298,7 @@ class GCPIAMCorporateEmail(PantherRule):
     Runbook = "Remove the user"
     Reference = "https://cloud.google.com/iam/docs/service-account-overview"
     SummaryAttributes = ["severity", "p_any_ip_addresses", "p_any_domain_names"]
-    Tests = g_c_p_i_a_m_corporate_email_tests
+    Tests = gcpiam_corporate_email_tests
 
     def rule(self, event):
         if deep_get(event, "protoPayload", "methodName") != "SetIamPolicy":

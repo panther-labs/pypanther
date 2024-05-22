@@ -3,7 +3,7 @@ from typing import List
 from panther_analysis.base import PantherRule, PantherRuleTest, Severity
 from panther_analysis.helpers.panther_mongodb_helpers import mongodb_alert_context
 
-mongo_d_b_external_user_invited_no_config_tests: List[PantherRuleTest] = [
+mongo_db_external_user_invited_no_config_tests: List[PantherRuleTest] = [
     PantherRuleTest(
         Name="Internal Invite",
         ExpectedResult=False,
@@ -75,7 +75,7 @@ class MongoDBExternalUserInvitedNoConfig(PantherRule):
     LogTypes = ["MongoDB.OrganizationEvent"]
     RuleID = "MongoDB.External.UserInvited.NoConfig-prototype"
     Threshold = 1
-    Tests = mongo_d_b_external_user_invited_no_config_tests
+    Tests = mongo_db_external_user_invited_no_config_tests
 
     def rule(self, event):
         if event.deep_get("eventTypeName", default="") != "INVITED_TO_ORG":

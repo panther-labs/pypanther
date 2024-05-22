@@ -2,7 +2,7 @@ from typing import List
 
 from panther_analysis.base import PantherRule, PantherRuleTest, Severity
 
-g_c_p_workload_identity_pool_createdor_updated_tests: List[PantherRuleTest] = [
+gcp_workload_identity_pool_createdor_updated_tests: List[PantherRuleTest] = [
     PantherRuleTest(
         Name="DeleteWorkloadIdentityPoolProvider-False",
         ExpectedResult=False,
@@ -197,7 +197,7 @@ class GCPWorkloadIdentityPoolCreatedorUpdated(PantherRule):
     Threshold = 1
     Runbook = "Ensure that the Workload Identity Pool creation or modification was expected. Adversaries may use this to persist or allow additional access or escalate their privilege.\n"
     Reference = "https://medium.com/google-cloud/detection-of-inbound-sso-persistence-techniques-in-gcp-c56f7b2a588b"
-    Tests = g_c_p_workload_identity_pool_createdor_updated_tests
+    Tests = gcp_workload_identity_pool_createdor_updated_tests
     METHODS = [
         "google.iam.v1.WorkloadIdentityPools.CreateWorkloadIdentityPoolProvider",
         "google.iam.v1.WorkloadIdentityPools.UpdateWorkloadIdentityPoolProvider",

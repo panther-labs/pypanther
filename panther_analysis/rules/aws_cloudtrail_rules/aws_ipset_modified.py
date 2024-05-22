@@ -3,7 +3,7 @@ from typing import List
 from panther_analysis.base import PantherRule, PantherRuleTest, Severity
 from panther_analysis.helpers.panther_base_helpers import aws_rule_context
 
-a_w_s_i_p_set_modified_tests: List[PantherRuleTest] = [
+awsip_set_modified_tests: List[PantherRuleTest] = [
     PantherRuleTest(
         Name="CreateIPSet Event",
         ExpectedResult=True,
@@ -72,7 +72,7 @@ class AWSIPSetModified(PantherRule):
     LogTypes = ["AWS.CloudTrail"]
     RuleID = "AWS.IPSet.Modified-prototype"
     Threshold = 1
-    Tests = a_w_s_i_p_set_modified_tests
+    Tests = awsip_set_modified_tests
     IPSET_ACTIONS = ["CreateIPSet", "UpdateIPSet"]
 
     def rule(self, event):

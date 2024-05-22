@@ -3,7 +3,7 @@ from typing import List
 from panther_analysis.base import PantherRule, PantherRuleTest, Severity
 from panther_analysis.helpers.panther_base_helpers import deep_get
 
-dropbox_user_disabled2_f_a_tests: List[PantherRuleTest] = [
+dropbox_user_disabled2_fa_tests: List[PantherRuleTest] = [
     PantherRuleTest(
         Name="2FA Disabled",
         ExpectedResult=True,
@@ -119,7 +119,7 @@ class DropboxUserDisabled2FA(PantherRule):
     LogTypes = ["Dropbox.TeamEvent"]
     RuleID = "Dropbox.User.Disabled.2FA-prototype"
     Threshold = 1
-    Tests = dropbox_user_disabled2_f_a_tests
+    Tests = dropbox_user_disabled2_fa_tests
 
     def rule(self, event):
         return all(

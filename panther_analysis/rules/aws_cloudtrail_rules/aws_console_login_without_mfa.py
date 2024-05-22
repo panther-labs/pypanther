@@ -7,7 +7,7 @@ from panther_analysis.base import PantherRule, PantherRuleTest, RuleMock, Severi
 from panther_analysis.helpers.panther_base_helpers import aws_rule_context, deep_get
 from panther_analysis.helpers.panther_default import lookup_aws_account_name
 
-a_w_s_console_login_without_m_f_a_tests: List[PantherRuleTest] = [
+aws_console_login_without_mfa_tests: List[PantherRuleTest] = [
     PantherRuleTest(
         Name="No MFA Login - IAM User",
         ExpectedResult=True,
@@ -397,7 +397,7 @@ class AWSConsoleLoginWithoutMFA(PantherRule):
     )
     Reference = "https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_mfa.html"
     SummaryAttributes = ["userAgent", "sourceIpAddress", "recipientAccountId", "p_any_aws_arns"]
-    Tests = a_w_s_console_login_without_m_f_a_tests
+    Tests = aws_console_login_without_mfa_tests
     # Set to True for environments that permit direct role assumption via external IDP
     ROLES_VIA_EXTERNAL_IDP = False
     # pylint: disable=R0911,R0912,R1260

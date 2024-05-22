@@ -7,7 +7,7 @@ from panther_analysis.helpers.panther_auth0_helpers import (
 )
 from panther_analysis.helpers.panther_base_helpers import deep_get
 
-auth0_m_f_a_risk_assessment_enabled_tests: List[PantherRuleTest] = [
+auth0_mfa_risk_assessment_enabled_tests: List[PantherRuleTest] = [
     PantherRuleTest(
         Name="Other Event",
         ExpectedResult=False,
@@ -385,7 +385,7 @@ class Auth0MFARiskAssessmentEnabled(PantherRule):
     LogTypes = ["Auth0.Events"]
     RuleID = "Auth0.MFA.Risk.Assessment.Enabled-prototype"
     Threshold = 1
-    Tests = auth0_m_f_a_risk_assessment_enabled_tests
+    Tests = auth0_mfa_risk_assessment_enabled_tests
 
     def rule(self, event):
         data_description = deep_get(

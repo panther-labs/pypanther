@@ -3,7 +3,7 @@ from typing import List
 from panther_analysis.base import PantherRule, PantherRuleTest, Severity
 from panther_analysis.helpers.panther_base_helpers import aws_rule_context, deep_get
 
-a_w_s_cloud_trail_root_access_key_created_tests: List[PantherRuleTest] = [
+aws_cloud_trail_root_access_key_created_tests: List[PantherRuleTest] = [
     PantherRuleTest(
         Name="Root Access Key Created",
         ExpectedResult=True,
@@ -98,7 +98,7 @@ class AWSCloudTrailRootAccessKeyCreated(PantherRule):
     Runbook = "Verify that the root access key was created for legitimate reasons. If not, immediately revoke it and change the root login credentials. If it was created for legitimate reasons, monitor its use and ensure it is revoked when its need is gone.\n"
     Reference = "https://docs.aws.amazon.com/general/latest/gr/managing-aws-access-keys.html"
     SummaryAttributes = ["userAgent", "sourceIpAddress", "recipientAccountId", "p_any_aws_arns"]
-    Tests = a_w_s_cloud_trail_root_access_key_created_tests
+    Tests = aws_cloud_trail_root_access_key_created_tests
 
     def rule(self, event):
         # Only check access key creation events

@@ -3,7 +3,7 @@ from typing import List
 from panther_analysis.base import PantherRule, PantherRuleTest, Severity
 from panther_analysis.helpers.panther_base_helpers import deep_get
 
-a_w_s_w_a_f_disassociation_tests: List[PantherRuleTest] = [
+awswaf_disassociation_tests: List[PantherRuleTest] = [
     PantherRuleTest(
         Name="WAF-Disassociate",
         ExpectedResult=True,
@@ -138,7 +138,7 @@ class AWSWAFDisassociation(PantherRule):
     LogTypes = ["AWS.CloudTrail"]
     RuleID = "AWS.WAF.Disassociation-prototype"
     Threshold = 1
-    Tests = a_w_s_w_a_f_disassociation_tests
+    Tests = awswaf_disassociation_tests
 
     def rule(self, event):
         return event.get("eventName") == "DisassociateWebACL"

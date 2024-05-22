@@ -7,7 +7,7 @@ from panther_analysis.helpers.panther_tailscale_helpers import (
     tailscale_alert_context,
 )
 
-tailscale_h_t_t_p_s_disabled_tests: List[PantherRuleTest] = [
+tailscale_https_disabled_tests: List[PantherRuleTest] = [
     PantherRuleTest(
         Name="HTTPS Disabled",
         ExpectedResult=True,
@@ -90,7 +90,7 @@ class TailscaleHTTPSDisabled(PantherRule):
     LogTypes = ["Tailscale.Audit"]
     RuleID = "Tailscale.HTTPS.Disabled-prototype"
     Threshold = 1
-    Tests = tailscale_h_t_t_p_s_disabled_tests
+    Tests = tailscale_https_disabled_tests
 
     def rule(self, event):
         action = deep_get(event, "event", "action", default="<NO_ACTION_FOUND>")

@@ -3,7 +3,7 @@ from typing import List
 from panther_analysis.base import PantherRule, PantherRuleTest, Severity
 from panther_analysis.helpers.panther_base_helpers import deep_get
 
-d_u_o_user_denied_anomalous_push_tests: List[PantherRuleTest] = [
+duo_user_denied_anomalous_push_tests: List[PantherRuleTest] = [
     PantherRuleTest(
         Name="anomalous_push_occurred",
         ExpectedResult=True,
@@ -60,7 +60,7 @@ class DUOUserDeniedAnomalousPush(PantherRule):
     Description = "A Duo authentication was denied due to an anomalous 2FA push.\n"
     Reference = "https://duo.com/docs/adminapi#authentication-logs"
     Runbook = "Follow up with the user to confirm they intended several pushes in quick succession."
-    Tests = d_u_o_user_denied_anomalous_push_tests
+    Tests = duo_user_denied_anomalous_push_tests
 
     def rule(self, event):
         return event.get("reason") == "anomalous_push" and event.get("result") == "denied"

@@ -2,7 +2,7 @@ from typing import List
 
 from panther_analysis.base import PantherRule, PantherRuleTest, Severity
 
-osquery_mac_o_s_x_attacks_tests: List[PantherRuleTest] = [
+osquery_mac_osx_attacks_tests: List[PantherRuleTest] = [
     PantherRuleTest(
         Name="Valid malware discovered",
         ExpectedResult=True,
@@ -46,7 +46,7 @@ class OsqueryMacOSXAttacks(PantherRule):
     Runbook = "Check the executable against VirusTotal"
     Reference = "https://github.com/osquery/osquery/blob/master/packs/osx-attacks.conf"
     SummaryAttributes = ["name", "hostIdentifier", "action"]
-    Tests = osquery_mac_o_s_x_attacks_tests
+    Tests = osquery_mac_osx_attacks_tests
 
     def rule(self, event):
         if "osx-attacks" not in event.get("name", ""):

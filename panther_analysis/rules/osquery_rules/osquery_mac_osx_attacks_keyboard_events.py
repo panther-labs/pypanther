@@ -4,7 +4,7 @@ from typing import List
 from panther_analysis.base import PantherRule, PantherRuleTest, Severity
 from panther_analysis.helpers.panther_base_helpers import deep_get
 
-osquery_mac_o_s_x_attacks_keyboard_events_tests: List[PantherRuleTest] = [
+osquery_mac_osx_attacks_keyboard_events_tests: List[PantherRuleTest] = [
     PantherRuleTest(
         Name="App running on Desktop that is watching keyboard events",
         ExpectedResult=True,
@@ -78,7 +78,7 @@ class OsqueryMacOSXAttacksKeyboardEvents(PantherRule):
     Runbook = "Verify the Application monitoring the keyboard taps"
     Reference = "https://support.apple.com/en-us/HT204899"
     SummaryAttributes = ["name", "hostIdentifier", "action"]
-    Tests = osquery_mac_o_s_x_attacks_keyboard_events_tests
+    Tests = osquery_mac_osx_attacks_keyboard_events_tests
     # sip protects against writing malware into the paths below.
     # additional apps can be added to this list based on your environments.
     #

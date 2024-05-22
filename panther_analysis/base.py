@@ -259,6 +259,8 @@ SeverityType = Union[Severity | Literal["DEFAULT"]]
 
 # pylint: disable=unused-argument
 class PantherRule:
+    """A Panther rule class. This class should be subclassed to create a new rule."""
+
     Enabled: bool
     LogTypes: List[str]
     RuleID: str

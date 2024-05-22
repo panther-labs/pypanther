@@ -3,7 +3,7 @@ from typing import List
 from panther_analysis.base import PantherRule, PantherRuleTest, Severity
 from panther_analysis.helpers.panther_base_helpers import deep_get
 
-g_c_p_user_addedto_i_a_p_protected_service_tests: List[PantherRuleTest] = [
+gcp_user_addedto_iap_protected_service_tests: List[PantherRuleTest] = [
     PantherRuleTest(
         Name="other",
         ExpectedResult=False,
@@ -205,7 +205,7 @@ class GCPUserAddedtoIAPProtectedService(PantherRule):
     LogTypes = ["GCP.AuditLog"]
     RuleID = "GCP.User.Added.to.IAP.Protected.Service-prototype"
     Threshold = 1
-    Tests = g_c_p_user_addedto_i_a_p_protected_service_tests
+    Tests = gcp_user_addedto_iap_protected_service_tests
 
     def rule(self, event):
         return (

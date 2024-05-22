@@ -8,7 +8,7 @@ from panther_analysis.helpers.panther_base_helpers import (
 )
 from panther_analysis.helpers.panther_default import aws_cloudtrail_success
 
-a_w_s_e_c2_manual_security_group_change_tests: List[PantherRuleTest] = [
+awsec2_manual_security_group_change_tests: List[PantherRuleTest] = [
     PantherRuleTest(
         Name="AWS Console - Ingress SG Authorization",
         ExpectedResult=True,
@@ -337,7 +337,7 @@ class AWSEC2ManualSecurityGroupChange(PantherRule):
     Reference = (
         "https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/working-with-security-groups.html"
     )
-    Tests = a_w_s_e_c2_manual_security_group_change_tests
+    Tests = awsec2_manual_security_group_change_tests
     PROD_ACCOUNT_IDS = {"11111111111111", "112233445566"}
     SG_CHANGE_EVENTS = {
         "CreateSecurityGroup": {

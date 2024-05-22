@@ -3,7 +3,7 @@ from typing import List
 from panther_analysis.base import PantherRule, PantherRuleTest, Severity
 from panther_analysis.helpers.panther_iocs import LOG4J_IP_IOCS, ioc_match
 
-i_o_c_log4_j_i_ps_tests: List[PantherRuleTest] = [
+ioc_log4_ji_ps_tests: List[PantherRuleTest] = [
     PantherRuleTest(
         Name="Non-matching traffic",
         ExpectedResult=False,
@@ -45,7 +45,7 @@ class IOCLog4JIPs(PantherRule):
     Reference = "https://blog.cloudflare.com/actual-cve-2021-44228-payloads-captured-in-the-wild\n"
     Runbook = "Investigate traffic from these IP addresses and look for other IOCs associated with the LOG4J exploit CVE-2021-44228\n"
     SummaryAttributes = ["p_any_domain_names", "p_any_ip_addresses"]
-    Tests = i_o_c_log4_j_i_ps_tests
+    Tests = ioc_log4_ji_ps_tests
 
     def rule(self, event):
         return any(ioc_match(event.get("p_any_ip_addresses"), LOG4J_IP_IOCS))

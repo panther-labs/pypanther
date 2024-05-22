@@ -6,7 +6,7 @@ from panther_analysis.helpers.panther_base_helpers import (
     deep_get,
 )
 
-crowdstrike_f_d_r_l_o_l_b_a_s_tests: List[PantherRuleTest] = [
+crowdstrike_fdrlolbas_tests: List[PantherRuleTest] = [
     PantherRuleTest(
         Name="At Usage (Positive)",
         ExpectedResult=True,
@@ -183,7 +183,7 @@ class CrowdstrikeFDRLOLBAS(PantherRule):
     Enabled = False
     Severity = Severity.Info
     Tags = ["Configuration Required"]
-    Tests = crowdstrike_f_d_r_l_o_l_b_a_s_tests
+    Tests = crowdstrike_fdrlolbas_tests
     LOLBAS_EXE = {
         "AppInstaller.exe",
         "At.exe",

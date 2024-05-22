@@ -3,7 +3,7 @@ from typing import List
 from panther_analysis.base import PantherRule, PantherRuleTest, Severity
 from panther_analysis.helpers.panther_base_helpers import deep_get
 
-g_c_p_v_p_c_flow_logs_disabled_tests: List[PantherRuleTest] = [
+gcpvpc_flow_logs_disabled_tests: List[PantherRuleTest] = [
     PantherRuleTest(
         Name="Disable Flow Logs Event",
         ExpectedResult=True,
@@ -181,7 +181,7 @@ class GCPVPCFlowLogsDisabled(PantherRule):
     LogTypes = ["GCP.AuditLog"]
     RuleID = "GCP.VPC.Flow.Logs.Disabled-prototype"
     Threshold = 1
-    Tests = g_c_p_v_p_c_flow_logs_disabled_tests
+    Tests = gcpvpc_flow_logs_disabled_tests
 
     def rule(self, event):
         return all(

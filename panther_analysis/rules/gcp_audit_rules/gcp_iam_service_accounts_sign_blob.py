@@ -4,7 +4,7 @@ from panther_analysis.base import PantherRule, PantherRuleTest, Severity
 from panther_analysis.helpers.gcp_base_helpers import gcp_alert_context
 from panther_analysis.helpers.panther_base_helpers import deep_get
 
-g_c_p_i_a_mservice_accountssign_blob_tests: List[PantherRuleTest] = [
+gcpia_mservice_accountssign_blob_tests: List[PantherRuleTest] = [
     PantherRuleTest(
         Name="iam.serviceAccounts.signBlob granted",
         ExpectedResult=True,
@@ -113,7 +113,7 @@ class GCPIAMserviceAccountssignBlob(PantherRule):
     Reference = (
         "https://rhinosecuritylabs.com/gcp/privilege-escalation-google-cloud-platform-part-1/"
     )
-    Tests = g_c_p_i_a_mservice_accountssign_blob_tests
+    Tests = gcpia_mservice_accountssign_blob_tests
 
     def rule(self, event):
         authorization_info = event.deep_walk("protoPayload", "authorizationInfo")

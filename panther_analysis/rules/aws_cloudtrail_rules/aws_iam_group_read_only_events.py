@@ -3,7 +3,7 @@ from typing import List
 from panther_analysis.base import PantherRule, PantherRuleTest, Severity
 from panther_analysis.helpers.panther_base_helpers import aws_rule_context
 
-a_w_s_i_a_m_group_read_only_events_tests: List[PantherRuleTest] = [
+awsiam_group_read_only_events_tests: List[PantherRuleTest] = [
     PantherRuleTest(
         Name="Get Group",
         ExpectedResult=True,
@@ -277,7 +277,7 @@ class AWSIAMGroupReadOnlyEvents(PantherRule):
     LogTypes = ["AWS.CloudTrail"]
     RuleID = "AWS.IAM.Group.Read.Only.Events-prototype"
     Threshold = 2
-    Tests = a_w_s_i_a_m_group_read_only_events_tests
+    Tests = awsiam_group_read_only_events_tests
     # arn allow list to suppress alerts
     ARN_ALLOW_LIST = []
     GROUP_ACTIONS = [

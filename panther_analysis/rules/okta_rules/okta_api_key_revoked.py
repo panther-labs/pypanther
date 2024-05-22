@@ -3,7 +3,7 @@ from typing import List
 from panther_analysis.base import PantherRule, PantherRuleTest, Severity
 from panther_analysis.helpers.panther_base_helpers import deep_get, okta_alert_context
 
-okta_a_p_i_key_revoked_tests: List[PantherRuleTest] = [
+okta_api_key_revoked_tests: List[PantherRuleTest] = [
     PantherRuleTest(
         Name="API Key Revoked",
         ExpectedResult=True,
@@ -49,7 +49,7 @@ class OktaAPIKeyRevoked(PantherRule):
     Reference = "https://help.okta.com/en/prod/Content/Topics/Security/API.htm"
     Runbook = "Validate this action was authorized."
     SummaryAttributes = ["eventType", "severity", "displayMessage", "p_any_ip_addresses"]
-    Tests = okta_a_p_i_key_revoked_tests
+    Tests = okta_api_key_revoked_tests
 
     def rule(self, event):
         return (

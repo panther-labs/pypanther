@@ -5,7 +5,7 @@ from panther_analysis.base import PantherRule, PantherRuleTest, Severity
 from panther_analysis.helpers.gcp_base_helpers import gcp_alert_context
 from panther_analysis.helpers.panther_base_helpers import deep_get
 
-g_c_p_firewall_rule_deleted_tests: List[PantherRuleTest] = [
+gcp_firewall_rule_deleted_tests: List[PantherRuleTest] = [
     PantherRuleTest(
         Name="compute.firewalls-delete-should-alert",
         ExpectedResult=True,
@@ -130,7 +130,7 @@ class GCPFirewallRuleDeleted(PantherRule):
     Description = "This rule detects deletions of GCP firewall rules.\n"
     Runbook = "Ensure that the rule deletion was expected. Firewall rule deletions can cause service interruptions or outages.\n"
     Reference = "https://cloud.google.com/firewall/docs/about-firewalls"
-    Tests = g_c_p_firewall_rule_deleted_tests
+    Tests = gcp_firewall_rule_deleted_tests
 
     def rule(self, event):
         method_pattern = "(?:\\w+\\.)*v\\d\\.(?:Firewall\\.Delete)|(compute\\.firewalls\\.delete)"

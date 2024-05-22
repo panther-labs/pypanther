@@ -3,7 +3,7 @@ from typing import List
 import panther_analysis.helpers.panther_event_type_helpers as event_type
 from panther_analysis.base import PantherRule, PantherRuleTest, Severity
 
-okta_global_m_f_a_disabled_tests: List[PantherRuleTest] = [
+okta_global_mfa_disabled_tests: List[PantherRuleTest] = [
     PantherRuleTest(
         Name="MFA Disabled",
         ExpectedResult=True,
@@ -79,7 +79,7 @@ class OktaGlobalMFADisabled(PantherRule):
     Runbook = "Contact Admin to ensure this was sanctioned activity"
     DedupPeriodMinutes = 15
     SummaryAttributes = ["eventType", "severity", "displayMessage", "p_any_ip_addresses"]
-    Tests = okta_global_m_f_a_disabled_tests
+    Tests = okta_global_mfa_disabled_tests
 
     def rule(self, event):
         return event.udm("event_type") == event_type.ADMIN_MFA_DISABLED

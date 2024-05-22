@@ -3,7 +3,7 @@ from typing import List
 from panther_analysis.base import PantherRule, PantherRuleTest, Severity
 from panther_analysis.helpers.panther_mongodb_helpers import mongodb_alert_context
 
-mongo_d_b_alerting_disabled_or_deleted_tests: List[PantherRuleTest] = [
+mongo_db_alerting_disabled_or_deleted_tests: List[PantherRuleTest] = [
     PantherRuleTest(
         Name="Alert added",
         ExpectedResult=False,
@@ -53,7 +53,7 @@ class MongoDBAlertingDisabledOrDeleted(PantherRule):
     Runbook = "Re-enable security alerts"
     DedupPeriodMinutes = 60
     Threshold = 1
-    Tests = mongo_d_b_alerting_disabled_or_deleted_tests
+    Tests = mongo_db_alerting_disabled_or_deleted_tests
 
     def rule(self, event):
         return event.deep_get("eventTypeName", default="") in [

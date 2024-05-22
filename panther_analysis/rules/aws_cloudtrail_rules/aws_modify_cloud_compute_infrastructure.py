@@ -3,7 +3,7 @@ from typing import List
 from panther_analysis.base import PantherRule, PantherRuleTest, Severity
 from panther_analysis.helpers.panther_base_helpers import deep_get
 
-a_w_s_modify_cloud_compute_infrastructure_tests: List[PantherRuleTest] = [
+aws_modify_cloud_compute_infrastructure_tests: List[PantherRuleTest] = [
     PantherRuleTest(
         Name="Terminate Instance from AssumedRole",
         ExpectedResult=True,
@@ -476,7 +476,7 @@ class AWSModifyCloudComputeInfrastructure(PantherRule):
     LogTypes = ["AWS.CloudTrail"]
     RuleID = "AWS.Modify.Cloud.Compute.Infrastructure-prototype"
     Threshold = 1
-    Tests = a_w_s_modify_cloud_compute_infrastructure_tests
+    Tests = aws_modify_cloud_compute_infrastructure_tests
     EC2_CRUD_ACTIONS = {
         "AssociateIamInstanceProfile",
         "AssociateInstanceEventWindow",

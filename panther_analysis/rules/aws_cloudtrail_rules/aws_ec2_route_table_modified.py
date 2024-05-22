@@ -4,7 +4,7 @@ from panther_analysis.base import PantherRule, PantherRuleTest, Severity
 from panther_analysis.helpers.panther_base_helpers import aws_rule_context
 from panther_analysis.helpers.panther_default import aws_cloudtrail_success
 
-a_w_s_e_c2_route_table_modified_tests: List[PantherRuleTest] = [
+awsec2_route_table_modified_tests: List[PantherRuleTest] = [
     PantherRuleTest(
         Name="Route Table Modified",
         ExpectedResult=True,
@@ -160,7 +160,7 @@ class AWSEC2RouteTableModified(PantherRule):
         "recipientAccountId",
         "p_any_aws_arns",
     ]
-    Tests = a_w_s_e_c2_route_table_modified_tests
+    Tests = awsec2_route_table_modified_tests
     # API calls that are indicative of an EC2 Route Table modification
     EC2_RT_MODIFIED_EVENTS = {
         "CreateRoute",

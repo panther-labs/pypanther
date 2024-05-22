@@ -4,7 +4,7 @@ from panther_analysis.base import PantherRule, PantherRuleTest, Severity
 from panther_analysis.helpers.panther_base_helpers import deep_get, deep_walk
 from panther_analysis.helpers.panther_mongodb_helpers import mongodb_alert_context
 
-mongo_d_b_atlas_api_key_created_tests: List[PantherRuleTest] = [
+mongo_db_atlas_api_key_created_tests: List[PantherRuleTest] = [
     PantherRuleTest(
         Name="API Key Deleted",
         ExpectedResult=False,
@@ -80,7 +80,7 @@ class MongoDBAtlasApiKeyCreated(PantherRule):
     LogTypes = ["MongoDB.OrganizationEvent"]
     RuleID = "MongoDB.Atlas.ApiKeyCreated-prototype"
     Threshold = 1
-    Tests = mongo_d_b_atlas_api_key_created_tests
+    Tests = mongo_db_atlas_api_key_created_tests
 
     def rule(self, event):
         return deep_get(event, "eventTypeName", default="") == "API_KEY_ACCESS_LIST_ENTRY_ADDED"

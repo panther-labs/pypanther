@@ -2,7 +2,7 @@ from typing import List
 
 from panther_analysis.base import PantherRule, PantherRuleTest, Severity
 
-g_c_p_storage_hmac_keys_create_tests: List[PantherRuleTest] = [
+gcp_storage_hmac_keys_create_tests: List[PantherRuleTest] = [
     PantherRuleTest(
         Name="privilege-escalation",
         ExpectedResult=True,
@@ -53,7 +53,7 @@ class GCPStorageHmacKeysCreate(PantherRule):
     Threshold = 1
     Reference = "https://rhinosecuritylabs.com/cloud-security/privilege-escalation-google-cloud-platform-part-2/"
     Reports = {"MITRE ATT&CK": ["TA0004:T1548"]}
-    Tests = g_c_p_storage_hmac_keys_create_tests
+    Tests = gcp_storage_hmac_keys_create_tests
 
     def rule(self, event):
         auth_info = event.deep_walk("protoPayload", "authorizationInfo", default=[])

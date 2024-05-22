@@ -4,7 +4,7 @@ from panther_analysis.base import PantherRule, PantherRuleTest, Severity
 from panther_analysis.helpers.panther_base_helpers import aws_rule_context
 from panther_analysis.helpers.panther_default import aws_cloudtrail_success
 
-a_w_s_k_m_s_customer_managed_key_loss_tests: List[PantherRuleTest] = [
+awskms_customer_managed_key_loss_tests: List[PantherRuleTest] = [
     PantherRuleTest(
         Name="KMS Key Disabled",
         ExpectedResult=True,
@@ -275,7 +275,7 @@ class AWSKMSCustomerManagedKeyLoss(PantherRule):
         "recipientAccountId",
         "p_any_aws_arns",
     ]
-    Tests = a_w_s_k_m_s_customer_managed_key_loss_tests
+    Tests = awskms_customer_managed_key_loss_tests
     # API calls that are indicative of KMS CMK Deletion
     KMS_LOSS_EVENTS = {"DisableKey", "ScheduleKeyDeletion"}
     KMS_KEY_TYPE = "AWS::KMS::Key"

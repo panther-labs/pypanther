@@ -4,7 +4,7 @@ from panther_analysis.base import PantherRule, PantherRuleTest, Severity
 from panther_analysis.helpers.panther_base_helpers import aws_rule_context, deep_get
 from panther_analysis.helpers.panther_default import aws_cloudtrail_success
 
-a_w_s_cloud_trail_network_a_c_l_permissive_entry_tests: List[PantherRuleTest] = [
+aws_cloud_trail_network_acl_permissive_entry_tests: List[PantherRuleTest] = [
     PantherRuleTest(
         Name="Overly Permissive Entry Added",
         ExpectedResult=True,
@@ -168,7 +168,7 @@ class AWSCloudTrailNetworkACLPermissiveEntry(PantherRule):
     Runbook = "Remove the overly permissive Network ACL entry and add a new entry with more restrictive permissions.\n"
     Reference = "https://docs.aws.amazon.com/vpc/latest/userguide/vpc-network-acls.html#nacl-rules"
     SummaryAttributes = ["userAgent", "sourceIpAddress", "recipientAccountId", "p_any_aws_arns"]
-    Tests = a_w_s_cloud_trail_network_a_c_l_permissive_entry_tests
+    Tests = aws_cloud_trail_network_acl_permissive_entry_tests
 
     def rule(self, event):
         # Only check successful actions creating a new Network ACL entry

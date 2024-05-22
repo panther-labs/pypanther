@@ -3,7 +3,7 @@ from typing import List
 from panther_analysis.base import PantherRule, PantherRuleTest, Severity
 from panther_analysis.helpers.panther_base_helpers import aws_rule_context, deep_get
 
-a_w_s_user_login_profile_modified_tests: List[PantherRuleTest] = [
+aws_user_login_profile_modified_tests: List[PantherRuleTest] = [
     PantherRuleTest(
         Name="ChangeOwnPassword",
         ExpectedResult=False,
@@ -144,7 +144,7 @@ class AWSUserLoginProfileModified(PantherRule):
     LogTypes = ["AWS.CloudTrail"]
     RuleID = "AWS.User.Login.Profile.Modified-prototype"
     Threshold = 1
-    Tests = a_w_s_user_login_profile_modified_tests
+    Tests = aws_user_login_profile_modified_tests
 
     def rule(self, event):
         return (

@@ -3,7 +3,7 @@ from typing import List
 from panther_analysis.base import PantherRule, PantherRuleTest, Severity
 from panther_analysis.helpers.panther_base_helpers import aws_rule_context
 
-a_w_s_security_hub_finding_evasion_tests: List[PantherRuleTest] = [
+aws_security_hub_finding_evasion_tests: List[PantherRuleTest] = [
     PantherRuleTest(
         Name="CreateInsight",
         ExpectedResult=False,
@@ -120,7 +120,7 @@ class AWSSecurityHubFindingEvasion(PantherRule):
     LogTypes = ["AWS.CloudTrail"]
     RuleID = "AWS.SecurityHub.Finding.Evasion-prototype"
     Threshold = 1
-    Tests = a_w_s_security_hub_finding_evasion_tests
+    Tests = aws_security_hub_finding_evasion_tests
     EVASION_OPERATIONS = ["BatchUpdateFindings", "DeleteInsight", "UpdateFindings", "UpdateInsight"]
 
     def rule(self, event):

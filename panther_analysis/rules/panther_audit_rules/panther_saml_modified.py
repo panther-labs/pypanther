@@ -2,7 +2,7 @@ from typing import List
 
 from panther_analysis.base import PantherRule, PantherRuleTest, Severity
 
-panther_s_a_m_l_modified_tests: List[PantherRuleTest] = [
+panther_saml_modified_tests: List[PantherRuleTest] = [
     PantherRuleTest(
         Name="SAML config modified",
         ExpectedResult=True,
@@ -60,7 +60,7 @@ class PantherSAMLModified(PantherRule):
     Runbook = "Ensure this change was approved and appropriate."
     Reference = "https://docs.panther.com/system-configuration/saml"
     SummaryAttributes = ["p_any_ip_addresses", "p_any_usernames"]
-    Tests = panther_s_a_m_l_modified_tests
+    Tests = panther_saml_modified_tests
 
     def rule(self, event):
         return (

@@ -3,7 +3,7 @@ from typing import List
 from panther_analysis.base import PantherRule, PantherRuleTest, Severity
 from panther_analysis.helpers.panther_base_helpers import slack_alert_context
 
-slack_audit_logs_e_k_m_slackbot_unenrolled_tests: List[PantherRuleTest] = [
+slack_audit_logs_ekm_slackbot_unenrolled_tests: List[PantherRuleTest] = [
     PantherRuleTest(
         Name="EKM Slackbot Unenrolled",
         ExpectedResult=True,
@@ -85,7 +85,7 @@ class SlackAuditLogsEKMSlackbotUnenrolled(PantherRule):
     DedupPeriodMinutes = 60
     Threshold = 1
     SummaryAttributes = ["p_any_ip_addresses", "p_any_emails"]
-    Tests = slack_audit_logs_e_k_m_slackbot_unenrolled_tests
+    Tests = slack_audit_logs_ekm_slackbot_unenrolled_tests
 
     def rule(self, event):
         # Only alert on the `ekm_slackbot_unenroll_notification_sent` action

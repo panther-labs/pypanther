@@ -5,7 +5,7 @@ from panther_analysis.base import PantherRule, PantherRuleTest, Severity
 from panther_analysis.helpers.panther_base_helpers import aws_rule_context, deep_get
 from panther_analysis.helpers.panther_default import aws_cloudtrail_success
 
-a_w_s_cloud_trail_security_configuration_change_tests: List[PantherRuleTest] = [
+aws_cloud_trail_security_configuration_change_tests: List[PantherRuleTest] = [
     PantherRuleTest(
         Name="Security Configuration Changed",
         ExpectedResult=True,
@@ -238,7 +238,7 @@ class AWSCloudTrailSecurityConfigurationChange(PantherRule):
         "recipientAccountId",
         "p_any_aws_arns",
     ]
-    Tests = a_w_s_cloud_trail_security_configuration_change_tests
+    Tests = aws_cloud_trail_security_configuration_change_tests
     SECURITY_CONFIG_ACTIONS = {
         "DeleteAccountPublicAccessBlock",
         "DeleteDeliveryChannel",

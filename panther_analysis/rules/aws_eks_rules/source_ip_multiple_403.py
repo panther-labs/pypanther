@@ -4,7 +4,7 @@ from typing import List
 from panther_analysis.base import PantherRule, PantherRuleTest, Severity
 from panther_analysis.helpers.panther_base_helpers import eks_panther_obj_ref
 
-amazon_e_k_s_audit_multiple403_tests: List[PantherRuleTest] = [
+amazon_eks_audit_multiple403_tests: List[PantherRuleTest] = [
     PantherRuleTest(
         Name="Not 403",
         ExpectedResult=False,
@@ -176,7 +176,7 @@ class AmazonEKSAuditMultiple403(PantherRule):
     DedupPeriodMinutes = 30
     Threshold = 10
     SummaryAttributes = ["user:username", "p_any_ip_addresses", "p_source_label"]
-    Tests = amazon_e_k_s_audit_multiple403_tests
+    Tests = amazon_eks_audit_multiple403_tests
     # Alert if
     #   state is ResponseComplete
     #   sourceIPs[0] is a Public Address

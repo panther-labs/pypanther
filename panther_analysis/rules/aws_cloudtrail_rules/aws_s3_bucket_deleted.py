@@ -4,7 +4,7 @@ from panther_analysis.base import PantherRule, PantherRuleTest, Severity
 from panther_analysis.helpers.panther_base_helpers import aws_rule_context, deep_get
 from panther_analysis.helpers.panther_default import aws_cloudtrail_success
 
-a_w_s_s3_bucket_deleted_tests: List[PantherRuleTest] = [
+awss3_bucket_deleted_tests: List[PantherRuleTest] = [
     PantherRuleTest(
         Name="An S3 Bucket was deleted",
         ExpectedResult=True,
@@ -103,7 +103,7 @@ class AWSS3BucketDeleted(PantherRule):
     Runbook = "Explore if this bucket deletion was potentially destructive"
     Reference = "https://docs.aws.amazon.com/AmazonS3/latest/userguide/DeletingObjects.html"
     SummaryAttributes = ["sourceIpAddress", "userAgent", "recipientAccountId", "vpcEndpointId"]
-    Tests = a_w_s_s3_bucket_deleted_tests
+    Tests = awss3_bucket_deleted_tests
 
     def rule(self, event):
         # Capture DeleteBucket, DeleteBucketPolicy, DeleteBucketWebsite

@@ -4,7 +4,7 @@ from typing import List
 from panther_analysis.base import PantherRule, PantherRuleTest, Severity
 from panther_analysis.helpers.panther_base_helpers import aws_rule_context
 
-a_w_s_v_p_c_unapproved_outbound_d_n_s_tests: List[PantherRuleTest] = [
+awsvpc_unapproved_outbound_dns_tests: List[PantherRuleTest] = [
     PantherRuleTest(
         Name="Approved Outbound DNS Traffic",
         ExpectedResult=False,
@@ -40,7 +40,7 @@ class AWSVPCUnapprovedOutboundDNS(PantherRule):
     Description = "Alerts if outbound DNS traffic is detected to a non-approved DNS server. DNS is often used as a means to exfiltrate data or perform command and control for compromised hosts. All DNS traffic should be routed through internal DNS servers or trusted 3rd parties.\n"
     Runbook = "Investigate the host sending unapproved DNS activity for signs of compromise or other malicious activity. Update network configurations appropriately to ensure all DNS traffic is routed to approved DNS servers.\n"
     SummaryAttributes = ["srcaddr", "dstaddr", "dstport"]
-    Tests = a_w_s_v_p_c_unapproved_outbound_d_n_s_tests  # CloudFlare DNS
+    Tests = awsvpc_unapproved_outbound_dns_tests  # CloudFlare DNS
     # Google DNS
     # '10.0.0.1', # Internal DNS
     APPROVED_DNS_SERVERS = {"1.1.1.1", "8.8.8.8"}

@@ -2,7 +2,7 @@ from typing import List
 
 from panther_analysis.base import PantherRule, PantherRuleTest, Severity
 
-cisco_umbrella_d_n_s_suspicious_tests: List[PantherRuleTest] = [
+cisco_umbrella_dns_suspicious_tests: List[PantherRuleTest] = [
     PantherRuleTest(
         Name="Suspicious Domain",
         ExpectedResult=True,
@@ -42,7 +42,7 @@ class CiscoUmbrellaDNSSuspicious(PantherRule):
     Description = "Monitor suspicious or known malicious domains"
     Runbook = "Inspect the domain and check the host for other indicators of compromise"
     SummaryAttributes = ["action", "internalIp", "externalIp", "domain", "responseCode"]
-    Tests = cisco_umbrella_d_n_s_suspicious_tests
+    Tests = cisco_umbrella_dns_suspicious_tests
     DOMAINS_TO_MONITOR = {"photoscape.ch"}  # Sample malware domain
 
     def rule(self, event):

@@ -4,7 +4,7 @@ from panther_analysis.base import PantherRule, PantherRuleTest, Severity
 from panther_analysis.helpers.gcp_base_helpers import gcp_alert_context
 from panther_analysis.helpers.panther_base_helpers import deep_get, deep_walk
 
-g_c_p_g_k_e_kubernetes_cron_job_created_or_modified_tests: List[PantherRuleTest] = [
+gcpgke_kubernetes_cron_job_created_or_modified_tests: List[PantherRuleTest] = [
     PantherRuleTest(
         Name="create",
         ExpectedResult=True,
@@ -80,7 +80,7 @@ class GCPGKEKubernetesCronJobCreatedOrModified(PantherRule):
     Reference = "https://medium.com/snowflake/from-logs-to-detection-using-snowflake-and-panther-to-detect-k8s-threats-d72f70a504d7"
     Runbook = "Investigate a reason of creating or modifying a cron job in GKE. Create ticket if appropriate."
     Reports = {"MITRE ATT&CK": ["T1053.003"]}
-    Tests = g_c_p_g_k_e_kubernetes_cron_job_created_or_modified_tests
+    Tests = gcpgke_kubernetes_cron_job_created_or_modified_tests
 
     def rule(self, event):
         authorization_info = deep_walk(event, "protoPayload", "authorizationInfo")

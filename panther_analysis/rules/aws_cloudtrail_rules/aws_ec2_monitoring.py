@@ -3,7 +3,7 @@ from typing import List
 from panther_analysis.base import PantherRule, PantherRuleTest, Severity
 from panther_analysis.helpers.panther_base_helpers import deep_get
 
-a_w_s_e_c2_monitoring_tests: List[PantherRuleTest] = [
+awsec2_monitoring_tests: List[PantherRuleTest] = [
     PantherRuleTest(
         Name="CopyImage",
         ExpectedResult=True,
@@ -426,7 +426,7 @@ class AWSEC2Monitoring(PantherRule):
     LogTypes = ["AWS.CloudTrail"]
     RuleID = "AWS.EC2.Monitoring-prototype"
     Threshold = 1
-    Tests = a_w_s_e_c2_monitoring_tests
+    Tests = awsec2_monitoring_tests
     # AWS CloudTrail API eventNames for EC2 Image Actions
     EC2_IMAGE_ACTIONS = [
         "CopyFpgaImage",

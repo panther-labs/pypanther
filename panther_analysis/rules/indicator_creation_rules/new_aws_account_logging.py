@@ -8,7 +8,7 @@ import panther_analysis.helpers.panther_event_type_helpers as event_type
 from panther_analysis.base import PantherRule, PantherRuleTest, RuleMock, Severity
 from panther_analysis.helpers.panther_oss_helpers import resolve_timestamp_string
 
-standard_new_a_w_s_account_created_tests: List[PantherRuleTest] = [
+standard_new_aws_account_created_tests: List[PantherRuleTest] = [
     PantherRuleTest(
         Name="AWS Account created",
         ExpectedResult=True,
@@ -65,7 +65,7 @@ class StandardNewAWSAccountCreated(PantherRule):
     Runbook = "A new AWS account was created, ensure it was created through standard practice and is for a valid purpose."
     Reference = "https://docs.aws.amazon.com/organizations/latest/userguide/orgs_security_incident-response.html#:~:text=AWS%20Organizations%20information%20in%20CloudTrail"
     SummaryAttributes = ["p_any_aws_account_ids"]
-    Tests = standard_new_a_w_s_account_created_tests
+    Tests = standard_new_aws_account_created_tests
     # Days an account is considered new
     TTL = timedelta(days=3)
 

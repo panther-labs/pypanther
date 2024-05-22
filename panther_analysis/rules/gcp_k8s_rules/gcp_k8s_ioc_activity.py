@@ -4,7 +4,7 @@ from panther_analysis.base import PantherRule, PantherRuleTest, Severity
 from panther_analysis.helpers.gcp_base_helpers import gcp_alert_context
 from panther_analysis.helpers.panther_base_helpers import deep_get
 
-g_c_p_k8s_i_o_c_activity_tests: List[PantherRuleTest] = [
+gcpk8s_ioc_activity_tests: List[PantherRuleTest] = [
     PantherRuleTest(
         Name="triggers",
         ExpectedResult=True,
@@ -29,7 +29,7 @@ class GCPK8sIOCActivity(PantherRule):
     Reports = {"MITRE ATT&CK": ["T1573.002"]}
     Runbook = "Add IP address the request is originated from to banned addresses."
     Reference = "https://medium.com/snowflake/from-logs-to-detection-using-snowflake-and-panther-to-detect-k8s-threats-d72f70a504d7"
-    Tests = g_c_p_k8s_i_o_c_activity_tests
+    Tests = gcpk8s_ioc_activity_tests
 
     def rule(self, event):
         if deep_get(event, "operation", "producer") == "k8s.io" and deep_get(

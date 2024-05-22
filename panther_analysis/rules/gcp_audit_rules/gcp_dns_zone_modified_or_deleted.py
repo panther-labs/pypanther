@@ -4,7 +4,7 @@ from panther_analysis.base import PantherRule, PantherRuleTest, Severity
 from panther_analysis.helpers.gcp_base_helpers import gcp_alert_context
 from panther_analysis.helpers.panther_base_helpers import deep_get
 
-g_c_p_d_n_s_zone_modifiedor_deleted_tests: List[PantherRuleTest] = [
+gcpdns_zone_modifiedor_deleted_tests: List[PantherRuleTest] = [
     PantherRuleTest(
         Name="dns.managedZones.delete-should-alert",
         ExpectedResult=True,
@@ -317,7 +317,7 @@ class GCPDNSZoneModifiedorDeleted(PantherRule):
     LogTypes = ["GCP.AuditLog"]
     RuleID = "GCP.DNS.Zone.Modified.or.Deleted-prototype"
     Threshold = 1
-    Tests = g_c_p_d_n_s_zone_modifiedor_deleted_tests
+    Tests = gcpdns_zone_modifiedor_deleted_tests
 
     def rule(self, event):
         methods = (

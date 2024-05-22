@@ -4,7 +4,7 @@ from panther_analysis.base import PantherRule, PantherRuleTest, Severity
 from panther_analysis.helpers.gcp_base_helpers import gcp_alert_context
 from panther_analysis.helpers.panther_base_helpers import deep_get
 
-g_c_p_i_a_mservice_accountsget_access_token_privilege_escalation_tests: List[PantherRuleTest] = [
+gcpia_mservice_accountsget_access_token_privilege_escalation_tests: List[PantherRuleTest] = [
     PantherRuleTest(
         Name="iam.serviceAccounts.getAccessToken granted",
         ExpectedResult=True,
@@ -113,7 +113,7 @@ class GCPIAMserviceAccountsgetAccessTokenPrivilegeEscalation(PantherRule):
     Reference = (
         "https://rhinosecuritylabs.com/gcp/privilege-escalation-google-cloud-platform-part-1/"
     )
-    Tests = g_c_p_i_a_mservice_accountsget_access_token_privilege_escalation_tests
+    Tests = gcpia_mservice_accountsget_access_token_privilege_escalation_tests
 
     def rule(self, event):
         authorization_info = event.deep_walk("protoPayload", "authorizationInfo")

@@ -6,7 +6,7 @@ from panther_analysis.helpers.panther_base_helpers import (
     get_crowdstrike_field,
 )
 
-crowdstrike_d_n_s_request_tests: List[PantherRuleTest] = [
+crowdstrike_dns_request_tests: List[PantherRuleTest] = [
     PantherRuleTest(
         Name="Denylisted Domain",
         ExpectedResult=True,
@@ -255,7 +255,7 @@ class CrowdstrikeDNSRequest(PantherRule):
     Runbook = "Filter for host ID in title in Crowdstrike Host Management console to identify the system that queried the domain."
     DedupPeriodMinutes = 15
     SummaryAttributes = ["DomainName", "aid", "p_any_domain_names", "p_any_ip_addresses"]
-    Tests = crowdstrike_d_n_s_request_tests
+    Tests = crowdstrike_dns_request_tests
     # baddomain.com is present for testing purposes. Add domains you wish to be alerted on to this list
     DENYLIST = ["baddomain.com"]
 

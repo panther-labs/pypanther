@@ -6,7 +6,7 @@ from panther_analysis.helpers.panther_base_helpers import (
     deep_get,
 )
 
-crowdstrike_w_m_i_query_detection_tests: List[PantherRuleTest] = [
+crowdstrike_wmi_query_detection_tests: List[PantherRuleTest] = [
     PantherRuleTest(
         Name="Benign wmic",
         ExpectedResult=False,
@@ -349,7 +349,7 @@ class CrowdstrikeWMIQueryDetection(PantherRule):
     LogTypes = ["Crowdstrike.FDREvent"]
     RuleID = "Crowdstrike.WMI.Query.Detection-prototype"
     Threshold = 1
-    Tests = crowdstrike_w_m_i_query_detection_tests
+    Tests = crowdstrike_wmi_query_detection_tests
     WMIC_SIGNATURES = [
         "get",
         "list",

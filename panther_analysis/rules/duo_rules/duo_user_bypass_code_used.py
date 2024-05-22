@@ -3,7 +3,7 @@ from typing import List
 from panther_analysis.base import PantherRule, PantherRuleTest, Severity
 from panther_analysis.helpers.panther_base_helpers import deep_get
 
-d_u_o_user_bypass_code_used_tests: List[PantherRuleTest] = [
+duo_user_bypass_code_used_tests: List[PantherRuleTest] = [
     PantherRuleTest(
         Name="bypass_code_used",
         ExpectedResult=True,
@@ -60,7 +60,7 @@ class DUOUserBypassCodeUsed(PantherRule):
     Description = "A Duo user's bypass code was used to authenticate"
     Reference = "https://duo.com/docs/adminapi#authentication-logs"
     Runbook = "Follow up with the user to confirm they used the bypass code themselves."
-    Tests = d_u_o_user_bypass_code_used_tests
+    Tests = duo_user_bypass_code_used_tests
 
     def rule(self, event):
         return event.get("reason") == "bypass_user" and event.get("result") == "success"

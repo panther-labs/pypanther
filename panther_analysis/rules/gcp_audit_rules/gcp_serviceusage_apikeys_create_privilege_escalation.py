@@ -4,7 +4,7 @@ from panther_analysis.base import PantherRule, PantherRuleTest, Severity
 from panther_analysis.helpers.gcp_base_helpers import gcp_alert_context
 from panther_analysis.helpers.panther_base_helpers import deep_get, deep_walk
 
-g_c_pserviceusageapi_keyscreate_privilege_escalation_tests: List[PantherRuleTest] = [
+gc_pserviceusageapi_keyscreate_privilege_escalation_tests: List[PantherRuleTest] = [
     PantherRuleTest(
         Name="GCP API Key Created",
         ExpectedResult=True,
@@ -185,7 +185,7 @@ class GCPserviceusageapiKeyscreatePrivilegeEscalation(PantherRule):
     Severity = Severity.High
     DedupPeriodMinutes = 60
     Threshold = 1
-    Tests = g_c_pserviceusageapi_keyscreate_privilege_escalation_tests
+    Tests = gc_pserviceusageapi_keyscreate_privilege_escalation_tests
 
     def rule(self, event):
         if not deep_get(event, "protoPayload", "methodName", default="METHOD_NOT_FOUND").endswith(

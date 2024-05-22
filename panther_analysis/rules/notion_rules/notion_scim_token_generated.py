@@ -3,7 +3,7 @@ from typing import List
 from panther_analysis.base import PantherRule, PantherRuleTest, Severity
 from panther_analysis.helpers.panther_notion_helpers import notion_alert_context
 
-notion_workspace_s_c_i_m_token_generated_tests: List[PantherRuleTest] = [
+notion_workspace_scim_token_generated_tests: List[PantherRuleTest] = [
     PantherRuleTest(
         Name="other event",
         ExpectedResult=False,
@@ -61,7 +61,7 @@ class NotionWorkspaceSCIMTokenGenerated(PantherRule):
     Threshold = 1
     Runbook = "Possible Initial Access. Follow up with the Notion User to determine if this was done for a valid business reason."
     Reference = "https://www.notion.so/help/provision-users-and-groups-with-scim"
-    Tests = notion_workspace_s_c_i_m_token_generated_tests
+    Tests = notion_workspace_scim_token_generated_tests
 
     def rule(self, event):
         event_type = event.deep_get("event", "type", default="<NO_EVENT_TYPE_FOUND>")

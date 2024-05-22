@@ -2,7 +2,7 @@ from typing import List
 
 from panther_analysis.base import PantherRule, PantherRuleTest, Severity
 
-teleport_local_user_login_without_m_f_a_tests: List[PantherRuleTest] = [
+teleport_local_user_login_without_mfa_tests: List[PantherRuleTest] = [
     PantherRuleTest(
         Name="User logged in with MFA",
         ExpectedResult=False,
@@ -58,7 +58,7 @@ class TeleportLocalUserLoginWithoutMFA(PantherRule):
     Reference = "https://goteleport.com/docs/management/admin/"
     Runbook = "A local user logged in without Multi-Factor Authentication\n"
     SummaryAttributes = ["event", "code", "user", "success", "mfa_device"]
-    Tests = teleport_local_user_login_without_m_f_a_tests
+    Tests = teleport_local_user_login_without_mfa_tests
     SENSITIVE_LOCAL_USERS = ["breakglass"]
 
     def rule(self, event):

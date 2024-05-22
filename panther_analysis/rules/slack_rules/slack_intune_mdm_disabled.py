@@ -3,7 +3,7 @@ from typing import List
 from panther_analysis.base import PantherRule, PantherRuleTest, Severity
 from panther_analysis.helpers.panther_base_helpers import slack_alert_context
 
-slack_audit_logs_intune_m_d_m_disabled_tests: List[PantherRuleTest] = [
+slack_audit_logs_intune_mdm_disabled_tests: List[PantherRuleTest] = [
     PantherRuleTest(
         Name="Intune Disabled",
         ExpectedResult=True,
@@ -83,7 +83,7 @@ class SlackAuditLogsIntuneMDMDisabled(PantherRule):
     DedupPeriodMinutes = 60
     Threshold = 1
     SummaryAttributes = ["p_any_ip_addresses", "p_any_emails"]
-    Tests = slack_audit_logs_intune_m_d_m_disabled_tests
+    Tests = slack_audit_logs_intune_mdm_disabled_tests
 
     def rule(self, event):
         return event.get("action") == "intune_disabled"

@@ -3,7 +3,7 @@ from typing import List
 from panther_analysis.base import PantherRule, PantherRuleTest, Severity
 from panther_analysis.helpers.panther_base_helpers import deep_get
 
-g_c_p_cloud_storage_buckets_modified_or_deleted_tests: List[PantherRuleTest] = [
+gcp_cloud_storage_buckets_modified_or_deleted_tests: List[PantherRuleTest] = [
     PantherRuleTest(
         Name="other event",
         ExpectedResult=False,
@@ -126,7 +126,7 @@ class GCPCloudStorageBucketsModifiedOrDeleted(PantherRule):
     LogTypes = ["GCP.AuditLog"]
     RuleID = "GCP.Cloud.Storage.Buckets.Modified.Or.Deleted-prototype"
     Threshold = 1
-    Tests = g_c_p_cloud_storage_buckets_modified_or_deleted_tests
+    Tests = gcp_cloud_storage_buckets_modified_or_deleted_tests
     BUCKET_OPERATIONS = ["storage.buckets.delete", "storage.buckets.update"]
 
     def rule(self, event):

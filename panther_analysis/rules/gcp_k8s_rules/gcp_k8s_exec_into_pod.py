@@ -5,7 +5,7 @@ from panther_analysis.helpers.gcp_base_helpers import get_k8s_info
 from panther_analysis.helpers.gcp_environment import PRODUCTION_PROJECT_IDS, rule_exceptions
 from panther_analysis.helpers.panther_base_helpers import deep_walk
 
-g_c_p_k8s_exec_into_pod_tests: List[PantherRuleTest] = [
+gcpk8s_exec_into_pod_tests: List[PantherRuleTest] = [
     PantherRuleTest(
         Name="Allowed User",
         ExpectedResult=False,
@@ -92,7 +92,7 @@ class GCPK8sExecIntoPod(PantherRule):
     Reference = (
         "https://cloud.google.com/migrate/containers/docs/troubleshooting/executing-shell-commands"
     )
-    Tests = g_c_p_k8s_exec_into_pod_tests
+    Tests = gcpk8s_exec_into_pod_tests
 
     def rule(self, event):
         # Defaults to False (no alert) unless method is exec and principal not allowed

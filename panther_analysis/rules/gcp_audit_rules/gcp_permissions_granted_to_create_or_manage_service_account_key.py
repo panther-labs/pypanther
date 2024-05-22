@@ -3,7 +3,7 @@ from typing import List
 from panther_analysis.base import PantherRule, PantherRuleTest, Severity
 from panther_analysis.helpers.panther_base_helpers import deep_get, deep_walk
 
-g_c_p_permissions_grantedto_createor_manage_service_account_key_tests: List[PantherRuleTest] = [
+gcp_permissions_grantedto_createor_manage_service_account_key_tests: List[PantherRuleTest] = [
     PantherRuleTest(
         Name="other event",
         ExpectedResult=False,
@@ -185,7 +185,7 @@ class GCPPermissionsGrantedtoCreateorManageServiceAccountKey(PantherRule):
     LogTypes = ["GCP.AuditLog"]
     RuleID = "GCP.Permissions.Granted.to.Create.or.Manage.Service.Account.Key-prototype"
     Threshold = 1
-    Tests = g_c_p_permissions_grantedto_createor_manage_service_account_key_tests
+    Tests = gcp_permissions_grantedto_createor_manage_service_account_key_tests
     SERVICE_ACCOUNT_MANAGE_ROLES = [
         "roles/iam.serviceAccountTokenCreator",
         "roles/iam.serviceAccountUser",

@@ -4,7 +4,7 @@ from panther_analysis.base import PantherRule, PantherRuleTest, Severity
 from panther_analysis.helpers.panther_base_helpers import aws_rule_context, deep_get
 from panther_analysis.helpers.panther_default import aws_cloudtrail_success
 
-a_w_s_i_a_m_backdoor_user_keys_tests: List[PantherRuleTest] = [
+awsiam_backdoor_user_keys_tests: List[PantherRuleTest] = [
     PantherRuleTest(
         Name="user1 create keys for user1",
         ExpectedResult=False,
@@ -242,7 +242,7 @@ class AWSIAMBackdoorUserKeys(PantherRule):
     LogTypes = ["AWS.CloudTrail"]
     RuleID = "AWS.IAM.Backdoor.User.Keys-prototype"
     Threshold = 1
-    Tests = a_w_s_i_a_m_backdoor_user_keys_tests
+    Tests = awsiam_backdoor_user_keys_tests
 
     def rule(self, event):
         return (

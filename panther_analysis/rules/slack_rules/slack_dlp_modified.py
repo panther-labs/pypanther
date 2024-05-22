@@ -3,7 +3,7 @@ from typing import List
 from panther_analysis.base import PantherRule, PantherRuleTest, Severity
 from panther_analysis.helpers.panther_base_helpers import slack_alert_context
 
-slack_audit_logs_d_l_p_modified_tests: List[PantherRuleTest] = [
+slack_audit_logs_dlp_modified_tests: List[PantherRuleTest] = [
     PantherRuleTest(
         Name="Native DLP Rule Deactivated",
         ExpectedResult=True,
@@ -115,7 +115,7 @@ class SlackAuditLogsDLPModified(PantherRule):
     DedupPeriodMinutes = 60
     Threshold = 1
     SummaryAttributes = ["action", "p_any_ip_addresses", "p_any_emails"]
-    Tests = slack_audit_logs_d_l_p_modified_tests
+    Tests = slack_audit_logs_dlp_modified_tests
     DLP_ACTIONS = ["native_dlp_rule_deactivated", "native_dlp_violation_deleted"]
     # DLP violations can be removed by security engineers in the case of FPs
     # We still want to alert on these, however those should not constitute a High severity

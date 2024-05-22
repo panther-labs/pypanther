@@ -5,7 +5,7 @@ from panther_analysis.helpers.panther_base_helpers import deep_get
 from panther_analysis.helpers.panther_default import lookup_aws_account_name
 from panther_analysis.helpers.panther_oss_helpers import geoinfo_from_ip_formatted
 
-a_w_s_console_root_login_tests: List[PantherRuleTest] = [
+aws_console_root_login_tests: List[PantherRuleTest] = [
     PantherRuleTest(
         Name="Successful Root Login",
         ExpectedResult=True,
@@ -113,7 +113,7 @@ class AWSConsoleRootLogin(PantherRule):
     Runbook = "Investigate the usage of the root account. If this root activity was not authorized, immediately change the root credentials and investigate what actions the root account took.\n"
     Reference = "https://docs.aws.amazon.com/IAM/latest/UserGuide/id_root-user.html"
     SummaryAttributes = ["userAgent", "sourceIpAddress", "recipientAccountId", "p_any_aws_arns"]
-    Tests = a_w_s_console_root_login_tests
+    Tests = aws_console_root_login_tests
 
     def rule(self, event):
         return (

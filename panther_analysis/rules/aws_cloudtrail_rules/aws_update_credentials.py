@@ -4,7 +4,7 @@ from panther_analysis.base import PantherRule, PantherRuleTest, Severity
 from panther_analysis.helpers.panther_base_helpers import aws_rule_context, deep_get
 from panther_analysis.helpers.panther_default import aws_cloudtrail_success
 
-a_w_s_i_a_m_credentials_updated_tests: List[PantherRuleTest] = [
+awsiam_credentials_updated_tests: List[PantherRuleTest] = [
     PantherRuleTest(
         Name="User Password Was Changed",
         ExpectedResult=True,
@@ -134,7 +134,7 @@ class AWSIAMCredentialsUpdated(PantherRule):
         "recipientAccountId",
         "p_any_aws_arns",
     ]
-    Tests = a_w_s_i_a_m_credentials_updated_tests
+    Tests = awsiam_credentials_updated_tests
     UPDATE_EVENTS = {"ChangePassword", "CreateAccessKey", "CreateLoginProfile", "CreateUser"}
 
     def rule(self, event):

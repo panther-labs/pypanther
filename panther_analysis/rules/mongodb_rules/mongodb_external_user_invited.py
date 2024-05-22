@@ -6,7 +6,7 @@ from panther_analysis.base import PantherRule, PantherRuleTest, RuleMock, Severi
 from panther_analysis.helpers.panther_base_helpers import deep_get
 from panther_analysis.helpers.panther_mongodb_helpers import mongodb_alert_context
 
-mongo_d_b_external_user_invited_tests: List[PantherRuleTest] = [
+mongo_db_external_user_invited_tests: List[PantherRuleTest] = [
     PantherRuleTest(
         Name="Internal Invite",
         ExpectedResult=False,
@@ -81,7 +81,7 @@ class MongoDBExternalUserInvited(PantherRule):
     LogTypes = ["MongoDB.OrganizationEvent"]
     RuleID = "MongoDB.External.UserInvited-prototype"
     Threshold = 1
-    Tests = mongo_d_b_external_user_invited_tests
+    Tests = mongo_db_external_user_invited_tests
     # Set domains allowed to join the organization ie. company.com
     ALLOWED_DOMAINS = []
 
