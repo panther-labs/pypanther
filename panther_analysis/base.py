@@ -112,6 +112,30 @@ PANTHER_RULE_ALL_ATTRS = [
 ]
 
 
+PANTHER_RULE_TEST_ALL_ATTRS = [
+    "Name",
+    "ExpectedResult",
+    "Log",
+    "Mocks",
+]
+
+PANTHER_RULE_MOCK_ALL_ATTRS = [
+    "ObjectName",
+    "ReturnValue",
+    "SideEffect",
+]
+
+
+def try_asdict(item: Any) -> Any:
+    if hasattr(item, "asdict"):
+        return item.asdict()
+    if isinstance(item, list):
+        return [try_asdict(v) for v in item]
+    if isinstance(item, Enum):
+        return item.value
+    return item
+
+
 # pylint: disable=invalid-name
 @total_ordering
 class Severity(str, Enum):
@@ -138,6 +162,10 @@ class Severity(str, Enum):
             return 4
         raise ValueError(f"Unknown severity: {value}")
 
+    def __str__(self) -> str:
+        """Returns a string representation of the class' value."""
+        return self.value
+
 
 # pylint: disable=invalid-name
 @dataclass
@@ -145,6 +173,10 @@ class RuleMock:
     ObjectName: str
     ReturnValue: Any = None
     SideEffect: Any = None
+
+    def asdict(self):
+        """Returns a dictionary representation of the class."""
+        return {key: try_asdict(getattr(self, key)) for key in PANTHER_RULE_MOCK_ALL_ATTRS}
 
 
 class FileLocationMeta(type):
@@ -172,6 +204,10 @@ class PantherRuleTest(metaclass=FileLocationMeta):
 
     def location(self) -> str:
         return f"{self._file_path}:{self._line_no}"
+
+    def asdict(self):
+        """Returns a dictionary representation of the class."""
+        return {key: try_asdict(getattr(self, key)) for key in PANTHER_RULE_TEST_ALL_ATTRS}
 
 
 class PantherRuleModel(BaseModel):
@@ -307,13 +343,13 @@ class PantherRule:
         super().__init_subclass__(**kwargs)
 
     @classmethod
-    def dict(cls):
+    def asdict(cls):
         """Returns a dictionary representation of the class."""
-        return {key: getattr(cls, key) for key in PANTHER_RULE_ALL_ATTRS}
+        return {key: try_asdict(getattr(cls, key)) for key in PANTHER_RULE_ALL_ATTRS}
 
     @classmethod
     def validate(cls):
-        PantherRuleAdapter.validate_python(cls.dict())
+        PantherRuleAdapter.validate_python(cls.asdict())
 
     @classmethod
     def run_tests(
