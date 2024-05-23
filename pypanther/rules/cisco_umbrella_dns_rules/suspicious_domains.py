@@ -1,6 +1,7 @@
 from typing import List
 
 from pypanther.base import PantherRule, PantherRuleTest, Severity
+from pypanther.log_types import LogType
 
 cisco_umbrella_dns_suspicious_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -35,7 +36,7 @@ class CiscoUmbrellaDNSSuspicious(PantherRule):
     DisplayName = "Cisco Umbrella Suspicious Domains"
     Enabled = False
     DedupPeriodMinutes = 480
-    LogTypes = ["CiscoUmbrella.DNS"]
+    LogTypes = [LogType.CiscoUmbrella_DNS]
     Tags = ["DNS", "Configuration Required"]
     Reference = "https://umbrella.cisco.com/blog/abcs-of-dns"
     Severity = Severity.Low

@@ -3,6 +3,7 @@ from typing import List
 
 from pypanther.base import PantherRule, PantherRuleTest, Severity
 from pypanther.helpers.panther_base_helpers import aws_rule_context, deep_get
+from pypanther.log_types import LogType
 
 awsecrcrud_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -174,7 +175,7 @@ class AWSECRCRUD(PantherRule):
     RuleID = "AWS.ECR.CRUD-prototype"
     DisplayName = "ECR CRUD Actions"
     Enabled = False
-    LogTypes = ["AWS.CloudTrail"]
+    LogTypes = [LogType.AWS_CloudTrail]
     Tags = ["AWS", "Security Control", "Configuration Required"]
     Reports = {"CIS": ["3.12"], "MITRE ATT&CK": ["TA0005:T1525"]}
     Severity = Severity.High

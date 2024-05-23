@@ -3,6 +3,7 @@ from typing import List
 
 from pypanther.base import PantherRule, PantherRuleTest, Severity
 from pypanther.helpers.panther_base_helpers import aws_rule_context
+from pypanther.log_types import LogType
 
 awss3_server_access_ip_whitelist_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -22,7 +23,7 @@ class AWSS3ServerAccessIPWhitelist(PantherRule):
     RuleID = "AWS.S3.ServerAccess.IPWhitelist-prototype"
     DisplayName = "AWS S3 Access IP Allowlist"
     Enabled = False
-    LogTypes = ["AWS.S3ServerAccess"]
+    LogTypes = [LogType.AWS_S3ServerAccess]
     Tags = [
         "AWS",
         "Configuration Required",

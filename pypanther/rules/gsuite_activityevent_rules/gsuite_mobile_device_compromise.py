@@ -2,6 +2,7 @@ from typing import List
 
 from pypanther.base import PantherRule, PantherRuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
+from pypanther.log_types import LogType
 
 g_suite_device_compromise_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -50,7 +51,7 @@ class GSuiteDeviceCompromise(PantherRule):
     RuleID = "GSuite.DeviceCompromise-prototype"
     DisplayName = "GSuite User Device Compromised"
     Enabled = True
-    LogTypes = ["GSuite.ActivityEvent"]
+    LogTypes = [LogType.GSuite_ActivityEvent]
     Tags = ["GSuite"]
     Severity = Severity.Medium
     Description = "GSuite reported a user's device has been compromised.\n"

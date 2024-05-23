@@ -2,6 +2,7 @@ from typing import List
 
 from pypanther.base import PantherRule, PantherRuleTest, Severity
 from pypanther.helpers.panther_base_helpers import aws_rule_context, deep_get
+from pypanther.log_types import LogType
 
 aws_cloud_trail_root_access_key_created_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -90,7 +91,7 @@ class AWSCloudTrailRootAccessKeyCreated(PantherRule):
     RuleID = "AWS.CloudTrail.RootAccessKeyCreated-prototype"
     DisplayName = "Root Account Access Key Created"
     Enabled = True
-    LogTypes = ["AWS.CloudTrail"]
+    LogTypes = [LogType.AWS_CloudTrail]
     Tags = ["AWS", "Identity and Access Management", "Persistence:Account Manipulation"]
     Reports = {"MITRE ATT&CK": ["TA0003:T1098"]}
     Severity = Severity.Critical

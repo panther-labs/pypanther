@@ -2,6 +2,7 @@ from typing import List
 
 from pypanther.base import PantherRule, PantherRuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
+from pypanther.log_types import LogType
 
 gcp_service_accountor_keys_created_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -209,7 +210,7 @@ class GCPServiceAccountorKeysCreated(PantherRule):
     Enabled = True
     Reference = "https://cloud.google.com/iam/docs/keys-create-delete"
     Severity = Severity.Low
-    LogTypes = ["GCP.AuditLog"]
+    LogTypes = [LogType.GCP_AuditLog]
     RuleID = "GCP.Service.Account.or.Keys.Created-prototype"
     Tests = gcp_service_accountor_keys_created_tests
 

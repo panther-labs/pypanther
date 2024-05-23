@@ -1,6 +1,7 @@
 from typing import List
 
 from pypanther.base import PantherRule, PantherRuleTest, Severity
+from pypanther.log_types import LogType
 
 teleport_saml_created_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -24,7 +25,7 @@ class TeleportSAMLCreated(PantherRule):
     RuleID = "Teleport.SAMLCreated-prototype"
     DisplayName = "A SAML Connector was created or modified"
     Enabled = True
-    LogTypes = ["Gravitational.TeleportAudit"]
+    LogTypes = [LogType.Gravitational_TeleportAudit]
     Tags = ["Teleport"]
     Severity = Severity.High
     Description = "A SAML connector was created or modified"

@@ -4,6 +4,7 @@ import pypanther.helpers.panther_event_type_helpers as event_type
 from pypanther.base import PantherDataModel, PantherDataModelMapping
 from pypanther.helpers.panther_base_helpers import deep_get
 from pypanther.helpers.panther_base_helpers import gsuite_details_lookup as details_lookup
+from pypanther.log_types import LogType
 
 
 def get_event_type(event):
@@ -23,7 +24,7 @@ class StandardGSuiteReports(PantherDataModel):
     DataModelID: str = "Standard.GSuite.Reports"
     DisplayName: str = "GSuite Reports"
     Enabled: bool = True
-    LogTypes: List[str] = ["GSuite.Reports"]
+    LogTypes: List[str] = [LogType.GSuite_Reports]
     Mappings: List[PantherDataModelMapping] = [
         PantherDataModelMapping(Name="actor_user", Path="$.actor.email"),
         PantherDataModelMapping(

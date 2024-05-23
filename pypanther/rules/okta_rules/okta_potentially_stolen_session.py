@@ -7,6 +7,7 @@ from panther_detection_helpers.caching import get_string_set, put_string_set
 
 from pypanther.base import PantherRule, PantherRuleTest, RuleMock, Severity
 from pypanther.helpers.panther_base_helpers import deep_get, okta_alert_context
+from pypanther.log_types import LogType
 
 okta_potentially_stolen_session_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -350,7 +351,7 @@ class OktaPotentiallyStolenSession(PantherRule):
     RuleID = "Okta.PotentiallyStolenSession-prototype"
     DisplayName = "Okta Potentially Stolen Session"
     Enabled = True
-    LogTypes = ["Okta.SystemLog"]
+    LogTypes = [LogType.Okta_SystemLog]
     Tags = ["Identity & Access Management", "Okta"]
     Reports = {"MITRE ATT&CK": ["TA0006:T1539"]}
     Severity = Severity.High

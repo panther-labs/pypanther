@@ -4,6 +4,7 @@ from typing import List
 
 from pypanther.base import PantherRule, PantherRuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
+from pypanther.log_types import LogType
 
 osquery_suspicious_cron_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -127,7 +128,7 @@ class OsquerySuspiciousCron(PantherRule):
     RuleID = "Osquery.SuspiciousCron-prototype"
     DisplayName = "Suspicious cron detected"
     Enabled = True
-    LogTypes = ["Osquery.Differential"]
+    LogTypes = [LogType.Osquery_Differential]
     Tags = ["Osquery", "Execution:Scheduled Task/Job"]
     Reports = {"MITRE ATT&CK": ["TA0002:T1053"]}
     Severity = Severity.High

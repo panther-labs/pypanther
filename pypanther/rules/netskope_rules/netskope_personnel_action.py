@@ -1,6 +1,7 @@
 from typing import List
 
 from pypanther.base import PantherRule, PantherRuleTest, Severity
+from pypanther.log_types import LogType
 
 netskope_netskope_personnel_activity_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -57,7 +58,7 @@ class NetskopeNetskopePersonnelActivity(PantherRule):
     RuleID = "Netskope.NetskopePersonnelActivity-prototype"
     DisplayName = "Action Performed by Netskope Personnel"
     Enabled = True
-    LogTypes = ["Netskope.Audit"]
+    LogTypes = [LogType.Netskope_Audit]
     Tags = ["Netskope", "Supply Chain Compromise"]
     Reports = {"MITRE ATT&CK": ["TA0001:T1195"]}
     Severity = Severity.Medium

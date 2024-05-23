@@ -3,6 +3,7 @@ from typing import List
 from pypanther.base import PantherRule, PantherRuleTest, Severity
 from pypanther.helpers.panther_auth0_helpers import auth0_alert_context, is_auth0_config_event
 from pypanther.helpers.panther_base_helpers import deep_get
+from pypanther.log_types import LogType
 
 auth0_mfa_risk_assessment_enabled_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -378,7 +379,7 @@ class Auth0MFARiskAssessmentEnabled(PantherRule):
     Runbook = "Assess if this was done by the user for a valid business reason. Be vigilant when enabling this setting as it's in the best security interest for your organization's security posture."
     Reference = "https://auth0.com/docs/secure/multi-factor-authentication/enable-mfa#:~:text=Always%20policy%2C%20the-,MFA%20Risk%20Assessors,-section%20appears.%20By"
     Severity = Severity.Info
-    LogTypes = ["Auth0.Events"]
+    LogTypes = [LogType.Auth0_Events]
     RuleID = "Auth0.MFA.Risk.Assessment.Enabled-prototype"
     Tests = auth0_mfa_risk_assessment_enabled_tests
 

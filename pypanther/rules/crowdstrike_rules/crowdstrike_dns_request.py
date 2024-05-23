@@ -5,6 +5,7 @@ from pypanther.helpers.panther_base_helpers import (
     filter_crowdstrike_fdr_event_type,
     get_crowdstrike_field,
 )
+from pypanther.log_types import LogType
 
 crowdstrike_dns_request_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -246,7 +247,7 @@ class CrowdstrikeDNSRequest(PantherRule):
     RuleID = "Crowdstrike.DNS.Request-prototype"
     DisplayName = "DNS request to denylisted domain"
     Enabled = False
-    LogTypes = ["Crowdstrike.DNSRequest", "Crowdstrike.FDREvent"]
+    LogTypes = [LogType.Crowdstrike_DNSRequest, LogType.Crowdstrike_FDREvent]
     Tags = ["Crowdstrike", "Initial Access:Phishing", "Configuration Required"]
     Severity = Severity.Critical
     Reports = {"MITRE ATT&CK": ["TA0001:T1566"]}

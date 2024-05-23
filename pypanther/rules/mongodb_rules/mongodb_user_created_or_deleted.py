@@ -2,6 +2,7 @@ from typing import List
 
 from pypanther.base import PantherRule, PantherRuleTest, Severity
 from pypanther.helpers.panther_mongodb_helpers import mongodb_alert_context
+from pypanther.log_types import LogType
 
 mongo_db_user_created_or_deleted_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -100,7 +101,7 @@ class MongoDBUserCreatedOrDeleted(PantherRule):
     Enabled = True
     Severity = Severity.Medium
     Reference = "https://www.mongodb.com/docs/v4.2/tutorial/create-users/"
-    LogTypes = ["MongoDB.OrganizationEvent"]
+    LogTypes = [LogType.MongoDB_OrganizationEvent]
     RuleID = "MongoDB.User.Created.Or.Deleted-prototype"
     Tests = mongo_db_user_created_or_deleted_tests
 

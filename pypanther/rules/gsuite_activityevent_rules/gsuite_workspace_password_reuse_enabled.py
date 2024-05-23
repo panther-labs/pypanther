@@ -2,6 +2,7 @@ from typing import List
 
 from pypanther.base import PantherRule, PantherRuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
+from pypanther.log_types import LogType
 
 g_suite_workspace_password_reuse_enabled_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -92,7 +93,7 @@ class GSuiteWorkspacePasswordReuseEnabled(PantherRule):
     RuleID = "GSuite.Workspace.PasswordReuseEnabled-prototype"
     DisplayName = "GSuite Workspace Password Reuse Has Been Enabled"
     Enabled = True
-    LogTypes = ["GSuite.ActivityEvent"]
+    LogTypes = [LogType.GSuite_ActivityEvent]
     Tags = ["GSuite"]
     Severity = Severity.High
     Reports = {"MITRE ATT&CK": ["TA0006:T1110"]}

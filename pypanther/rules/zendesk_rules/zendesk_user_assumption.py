@@ -1,6 +1,7 @@
 from typing import List
 
 from pypanther.base import PantherRule, PantherRuleTest, Severity
+from pypanther.log_types import LogType
 
 zendesk_user_assumption_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -48,7 +49,7 @@ class ZendeskUserAssumption(PantherRule):
     RuleID = "Zendesk.UserAssumption-prototype"
     DisplayName = "Enabled Zendesk Support to Assume Users"
     Enabled = True
-    LogTypes = ["Zendesk.Audit"]
+    LogTypes = [LogType.Zendesk_Audit]
     Tags = ["Zendesk", "Lateral Movement:Use Alternate Authentication Material"]
     Reports = {"MITRE ATT&CK": ["TA0008:T1550"]}
     Severity = Severity.Medium

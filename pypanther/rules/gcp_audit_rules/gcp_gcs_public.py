@@ -2,6 +2,7 @@ from typing import List
 
 from pypanther.base import PantherRule, PantherRuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
+from pypanther.log_types import LogType
 
 gcpgcs_public_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -66,7 +67,7 @@ class GCPGCSPublic(PantherRule):
     DisplayName = "GCS Bucket Made Public"
     Enabled = True
     DedupPeriodMinutes = 15
-    LogTypes = ["GCP.AuditLog"]
+    LogTypes = [LogType.GCP_AuditLog]
     Tags = ["GCP", "Google Cloud Storage", "Collection:Data From Cloud Storage Object"]
     Reports = {"MITRE ATT&CK": ["TA0009:T1530"]}
     Severity = Severity.High

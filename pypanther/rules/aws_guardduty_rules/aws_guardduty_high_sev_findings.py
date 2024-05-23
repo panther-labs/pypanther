@@ -2,6 +2,7 @@ from typing import List
 
 from pypanther.base import PantherRule, PantherRuleTest, Severity
 from pypanther.helpers.panther_base_helpers import aws_guardduty_context, deep_get
+from pypanther.log_types import LogType
 
 aws_guard_duty_high_severity_finding_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -93,7 +94,7 @@ class AWSGuardDutyHighSeverityFinding(PantherRule):
     RuleID = "AWS.GuardDuty.HighSeverityFinding-prototype"
     DisplayName = "AWS GuardDuty High Severity Finding"
     Enabled = True
-    LogTypes = ["AWS.GuardDuty"]
+    LogTypes = [LogType.AWS_GuardDuty]
     Tags = ["AWS"]
     Severity = Severity.High
     Description = "A high-severity GuardDuty finding has been identified.\n"

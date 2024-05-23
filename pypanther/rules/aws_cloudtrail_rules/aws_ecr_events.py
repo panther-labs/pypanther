@@ -2,6 +2,7 @@ from typing import List
 
 from pypanther.base import PantherRule, PantherRuleTest, Severity
 from pypanther.helpers.panther_base_helpers import aws_rule_context, deep_get
+from pypanther.log_types import LogType
 
 awsecrevents_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -173,7 +174,7 @@ class AWSECREVENTS(PantherRule):
     RuleID = "AWS.ECR.EVENTS-prototype"
     DisplayName = "AWS ECR Events"
     Enabled = False
-    LogTypes = ["AWS.CloudTrail"]
+    LogTypes = [LogType.AWS_CloudTrail]
     Tags = ["AWS", "Security Control", "Configuration Required"]
     Reports = {"MITRE ATT&CK": ["TA0005:T1535"]}
     Severity = Severity.Medium

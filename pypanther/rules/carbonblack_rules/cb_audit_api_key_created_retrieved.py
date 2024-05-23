@@ -1,6 +1,7 @@
 from typing import List
 
 from pypanther.base import PantherRule, PantherRuleTest, Severity
+from pypanther.log_types import LogType
 
 carbon_black_audit_api_key_created_retrieved_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -51,7 +52,7 @@ carbon_black_audit_api_key_created_retrieved_tests: List[PantherRuleTest] = [
 
 class CarbonBlackAuditAPIKeyCreatedRetrieved(PantherRule):
     RuleID = "CarbonBlack.Audit.API.Key.Created.Retrieved-prototype"
-    LogTypes = ["CarbonBlack.Audit"]
+    LogTypes = [LogType.CarbonBlack_Audit]
     Description = "Detects when a user creates a new API key or retrieves an existing key."
     DisplayName = "Carbon Black API Key Created or Retrieved"
     Enabled = True

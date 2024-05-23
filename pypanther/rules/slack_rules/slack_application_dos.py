@@ -6,6 +6,7 @@ from panther_detection_helpers.caching import get_string_set, put_string_set
 
 from pypanther.base import PantherRule, PantherRuleTest, RuleMock, Severity
 from pypanther.helpers.panther_base_helpers import deep_get, slack_alert_context
+from pypanther.log_types import LogType
 
 slack_audit_logs_application_do_s_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -75,7 +76,7 @@ class SlackAuditLogsApplicationDoS(PantherRule):
     RuleID = "Slack.AuditLogs.ApplicationDoS-prototype"
     DisplayName = "Slack Denial of Service"
     Enabled = True
-    LogTypes = ["Slack.AuditLogs"]
+    LogTypes = [LogType.Slack_AuditLogs]
     Tags = ["Slack", "Impact", "Endpoint Denial of Service", "Application Exhaustion Flood"]
     Reports = {"MITRE ATT&CK": ["TA0040:T1499.003"]}
     Severity = Severity.Critical

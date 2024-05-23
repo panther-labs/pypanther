@@ -3,6 +3,7 @@ from typing import List
 import pypanther.helpers.panther_event_type_helpers as event_type
 from pypanther.base import PantherDataModel, PantherDataModelMapping
 from pypanther.helpers.panther_base_helpers import ZENDESK_CHANGE_DESCRIPTION, zendesk_get_roles
+from pypanther.log_types import LogType
 
 ZENDESK_TWO_FACTOR_SOURCES = {
     "Two-Factor authentication for all admins and agents",
@@ -67,7 +68,7 @@ class StandardZendeskAuditLog(PantherDataModel):
     DataModelID: str = "Standard.Zendesk.AuditLog"
     DisplayName: str = "Zendesk Audit"
     Enabled: bool = True
-    LogTypes: List[str] = ["Zendesk.Audit"]
+    LogTypes: List[str] = [LogType.Zendesk_Audit]
     Mappings: List[PantherDataModelMapping] = [
         PantherDataModelMapping(Name="actor_user", Path="actor_name"),
         PantherDataModelMapping(Name="assigned_admin_role", Method=get_assigned_admin_role),

@@ -5,6 +5,7 @@ from pypanther.helpers.panther_duo_helpers import (
     deserialize_administrator_log_event_description,
     duo_alert_context,
 )
+from pypanther.log_types import LogType
 
 duo_admin_ssosaml_requirement_disabled_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -62,7 +63,7 @@ class DuoAdminSSOSAMLRequirementDisabled(PantherRule):
     Enabled = True
     Reference = "https://duo.com/docs/sso#saml:~:text=Modify%20Authentication%20Sources"
     Severity = Severity.Medium
-    LogTypes = ["Duo.Administrator"]
+    LogTypes = [LogType.Duo_Administrator]
     RuleID = "Duo.Admin.SSO.SAML.Requirement.Disabled-prototype"
     Tests = duo_admin_ssosaml_requirement_disabled_tests
 

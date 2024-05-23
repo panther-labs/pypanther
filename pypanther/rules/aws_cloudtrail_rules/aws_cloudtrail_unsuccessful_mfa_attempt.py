@@ -2,6 +2,7 @@ from typing import List
 
 from pypanther.base import PantherRule, PantherRuleTest, Severity
 from pypanther.helpers.panther_base_helpers import aws_rule_context, deep_get
+from pypanther.log_types import LogType
 
 aws_unsuccessful_mf_aattempt_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -78,7 +79,7 @@ class AWSUnsuccessfulMFAattempt(PantherRule):
     Reports = {"MITRE ATT&CK": ["TA0006:T1621"]}
     Severity = Severity.High
     DedupPeriodMinutes = 15
-    LogTypes = ["AWS.CloudTrail"]
+    LogTypes = [LogType.AWS_CloudTrail]
     RuleID = "AWS.Unsuccessful.MFA.attempt-prototype"
     Threshold = 2
     Tests = aws_unsuccessful_mf_aattempt_tests

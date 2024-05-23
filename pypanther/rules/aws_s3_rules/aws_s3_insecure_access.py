@@ -2,6 +2,7 @@ from typing import List
 
 from pypanther.base import PantherRule, PantherRuleTest, Severity
 from pypanther.helpers.panther_base_helpers import aws_rule_context, pattern_match
+from pypanther.log_types import LogType
 
 awss3_server_access_insecure_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -95,7 +96,7 @@ class AWSS3ServerAccessInsecure(PantherRule):
     DisplayName = "AWS S3 Insecure Access"
     DedupPeriodMinutes = 720
     Enabled = True
-    LogTypes = ["AWS.S3ServerAccess"]
+    LogTypes = [LogType.AWS_S3ServerAccess]
     Tags = [
         "AWS",
         "Configuration Required",

@@ -1,6 +1,7 @@
 from typing import List
 
 from pypanther.base import PantherRule, PantherRuleTest, Severity
+from pypanther.log_types import LogType
 
 gcp_workforce_pool_createdor_updated_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -181,7 +182,7 @@ class GCPWorkforcePoolCreatedorUpdated(PantherRule):
     RuleID = "GCP.Workforce.Pool.Created.or.Updated-prototype"
     DisplayName = "GCP Workforce Pool Created or Updated"
     Enabled = True
-    LogTypes = ["GCP.AuditLog"]
+    LogTypes = [LogType.GCP_AuditLog]
     Tags = ["Account Manipulation", "Additional Cloud Roles", "GCP", "Privilege Escalation"]
     Reports = {"MITRE ATT&CK": ["TA0003:T1136.003", "TA0003:T1098.003", "TA0004:T1098.003"]}
     Severity = Severity.High

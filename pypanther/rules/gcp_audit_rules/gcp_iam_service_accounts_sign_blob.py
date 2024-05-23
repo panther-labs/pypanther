@@ -3,6 +3,7 @@ from typing import List
 from pypanther.base import PantherRule, PantherRuleTest, Severity
 from pypanther.helpers.gcp_base_helpers import gcp_alert_context
 from pypanther.helpers.panther_base_helpers import deep_get
+from pypanther.log_types import LogType
 
 gcpia_mservice_accountssign_blob_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -106,7 +107,7 @@ class GCPIAMserviceAccountssignBlob(PantherRule):
     RuleID = "GCP.IAM.serviceAccounts.signBlob-prototype"
     DisplayName = "GCP IAM serviceAccounts signBlob"
     Enabled = True
-    LogTypes = ["GCP.AuditLog"]
+    LogTypes = [LogType.GCP_AuditLog]
     Reports = {"MITRE ATT&CK": ["TA0004:T1548"]}
     Severity = Severity.High
     Description = 'The iam.serviceAccounts.signBlob permission "allows signing of arbitrary payloads" in GCP. This means we can create a signed blob that requests an access token from the Service Account we are targeting.'

@@ -1,6 +1,7 @@
 from typing import List
 
 from pypanther.base import PantherRule, PantherRuleTest, Severity
+from pypanther.log_types import LogType
 
 git_hub_user_role_updated_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -34,7 +35,7 @@ class GitHubUserRoleUpdated(PantherRule):
     RuleID = "GitHub.User.RoleUpdated-prototype"
     DisplayName = "GitHub User Role Updated"
     Enabled = True
-    LogTypes = ["GitHub.Audit"]
+    LogTypes = [LogType.GitHub_Audit]
     Tags = ["GitHub", "Persistence:Account Manipulation"]
     Reports = {"MITRE ATT&CK": ["TA0003:T1098"]}
     Reference = "https://docs.github.com/en/organizations/managing-peoples-access-to-your-organization-with-roles/roles-in-an-organization"

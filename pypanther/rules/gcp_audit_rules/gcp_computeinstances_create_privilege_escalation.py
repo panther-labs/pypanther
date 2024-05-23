@@ -3,6 +3,7 @@ from typing import List
 from pypanther.base import PantherRule, PantherRuleTest, Severity
 from pypanther.helpers.gcp_base_helpers import gcp_alert_context
 from pypanther.helpers.panther_base_helpers import deep_get
+from pypanther.log_types import LogType
 
 gc_pcomputeinstancescreate_privilege_escalation_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -333,7 +334,7 @@ gc_pcomputeinstancescreate_privilege_escalation_tests: List[PantherRuleTest] = [
 
 
 class GCPcomputeinstancescreatePrivilegeEscalation(PantherRule):
-    LogTypes = ["GCP.AuditLog"]
+    LogTypes = [LogType.GCP_AuditLog]
     Description = "Detects compute.instances.create method for privilege escalation in GCP."
     DisplayName = "GCP compute.instances.create Privilege Escalation"
     RuleID = "GCP.compute.instances.create.Privilege.Escalation-prototype"

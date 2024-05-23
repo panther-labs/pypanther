@@ -1,6 +1,7 @@
 from typing import List
 
 from pypanther.base import PantherRule, PantherRuleTest, Severity
+from pypanther.log_types import LogType
 
 okta_support_access_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -66,7 +67,7 @@ class OktaSupportAccess(PantherRule):
     RuleID = "Okta.Support.Access-prototype"
     DisplayName = "Okta Support Access Granted"
     Enabled = True
-    LogTypes = ["Okta.SystemLog"]
+    LogTypes = [LogType.Okta_SystemLog]
     Tags = [
         "Identity & Access Management",
         "DataModel",

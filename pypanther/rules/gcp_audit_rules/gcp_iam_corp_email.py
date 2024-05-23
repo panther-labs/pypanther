@@ -2,6 +2,7 @@ from typing import List
 
 from pypanther.base import PantherRule, PantherRuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
+from pypanther.log_types import LogType
 
 gcpiam_corporate_email_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -290,7 +291,7 @@ class GCPIAMCorporateEmail(PantherRule):
     DisplayName = "GCP Corporate Email Not Used"
     Enabled = True
     DedupPeriodMinutes = 720
-    LogTypes = ["GCP.AuditLog"]
+    LogTypes = [LogType.GCP_AuditLog]
     Tags = ["GCP", "Identity & Access Management", "Persistence:Create Account"]
     Reports = {"MITRE ATT&CK": ["TA0003:T1136"], "CIS": ["1.1"]}
     Severity = Severity.Low

@@ -3,6 +3,7 @@ from typing import List
 from pypanther.base import PantherRule, PantherRuleTest, Severity
 from pypanther.helpers.panther_base_helpers import aws_rule_context
 from pypanther.helpers.panther_default import aws_cloudtrail_success
+from pypanther.log_types import LogType
 
 aws_config_service_created_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -133,7 +134,7 @@ class AWSConfigServiceCreated(PantherRule):
     RuleID = "AWS.ConfigService.Created-prototype"
     DisplayName = "AWS Config Service Created"
     Enabled = True
-    LogTypes = ["AWS.CloudTrail"]
+    LogTypes = [LogType.AWS_CloudTrail]
     Tags = ["AWS", "Security Control", "Discovery:Cloud Service Discovery"]
     Reports = {"CIS": ["3.9"], "MITRE ATT&CK": ["TA0007:T1526"]}
     Severity = Severity.Info

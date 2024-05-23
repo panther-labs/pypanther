@@ -3,6 +3,7 @@ from typing import List
 from pypanther.base import PantherRule, PantherRuleTest, Severity
 from pypanther.helpers.panther_base_helpers import aws_rule_context, deep_get
 from pypanther.helpers.panther_default import aws_cloudtrail_success
+from pypanther.log_types import LogType
 
 aws_cloud_trail_iam_assume_role_blacklist_ignored_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -181,7 +182,7 @@ class AWSCloudTrailIAMAssumeRoleBlacklistIgnored(PantherRule):
     RuleID = "AWS.CloudTrail.IAMAssumeRoleBlacklistIgnored-prototype"
     DisplayName = "IAM Assume Role Blocklist Ignored"
     Enabled = False
-    LogTypes = ["AWS.CloudTrail"]
+    LogTypes = [LogType.AWS_CloudTrail]
     Tags = [
         "AWS",
         "Configuration Required",

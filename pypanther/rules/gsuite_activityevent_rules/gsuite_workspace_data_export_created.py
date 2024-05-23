@@ -2,6 +2,7 @@ from typing import List
 
 from pypanther.base import PantherRule, PantherRuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
+from pypanther.log_types import LogType
 
 g_suite_workspace_data_export_created_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -109,7 +110,7 @@ class GSuiteWorkspaceDataExportCreated(PantherRule):
     RuleID = "GSuite.Workspace.DataExportCreated-prototype"
     DisplayName = "GSuite Workspace Data Export Has Been Created"
     Enabled = True
-    LogTypes = ["GSuite.ActivityEvent"]
+    LogTypes = [LogType.GSuite_ActivityEvent]
     Tags = ["GSuite"]
     Severity = Severity.Medium
     Description = "A Workspace Admin Has Created a Data Export\n"

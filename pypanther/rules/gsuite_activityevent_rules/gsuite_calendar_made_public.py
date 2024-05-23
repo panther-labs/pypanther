@@ -2,6 +2,7 @@ from typing import List
 
 from pypanther.base import PantherRule, PantherRuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
+from pypanther.log_types import LogType
 
 g_suite_calendar_made_public_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -117,7 +118,7 @@ class GSuiteCalendarMadePublic(PantherRule):
     RuleID = "GSuite.CalendarMadePublic-prototype"
     DisplayName = "GSuite Calendar Has Been Made Public"
     Enabled = True
-    LogTypes = ["GSuite.ActivityEvent"]
+    LogTypes = [LogType.GSuite_ActivityEvent]
     Tags = ["GSuite"]
     Reports = {"MITRE ATT&CK": ["TA0007:T1087"]}
     Severity = Severity.Medium

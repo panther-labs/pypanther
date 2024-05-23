@@ -2,6 +2,7 @@ from typing import List
 
 from pypanther.base import PantherRule, PantherRuleTest, Severity
 from pypanther.helpers.panther_base_helpers import aws_rule_context
+from pypanther.log_types import LogType
 
 aws_security_hub_finding_evasion_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -116,7 +117,7 @@ class AWSSecurityHubFindingEvasion(PantherRule):
     Reports = {"MITRE ATT&CK": ["TA0005:T1562"]}
     Reference = "https://docs.aws.amazon.com/securityhub/latest/userguide/securityhub-insights-view-take-action.html"
     Severity = Severity.High
-    LogTypes = ["AWS.CloudTrail"]
+    LogTypes = [LogType.AWS_CloudTrail]
     RuleID = "AWS.SecurityHub.Finding.Evasion-prototype"
     Tests = aws_security_hub_finding_evasion_tests
     EVASION_OPERATIONS = ["BatchUpdateFindings", "DeleteInsight", "UpdateFindings", "UpdateInsight"]

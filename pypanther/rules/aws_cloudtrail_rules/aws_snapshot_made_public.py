@@ -4,6 +4,7 @@ from typing import List
 from pypanther.base import PantherRule, PantherRuleTest, Severity
 from pypanther.helpers.panther_base_helpers import aws_rule_context, deep_get
 from pypanther.helpers.panther_default import aws_cloudtrail_success
+from pypanther.log_types import LogType
 
 aws_cloud_trail_snapshot_made_public_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -146,7 +147,7 @@ class AWSCloudTrailSnapshotMadePublic(PantherRule):
     RuleID = "AWS.CloudTrail.SnapshotMadePublic-prototype"
     DisplayName = "AWS Snapshot Made Public"
     Enabled = True
-    LogTypes = ["AWS.CloudTrail"]
+    LogTypes = [LogType.AWS_CloudTrail]
     Tags = ["AWS", "Exfiltration:Transfer Data to Cloud Account"]
     Reports = {"MITRE ATT&CK": ["TA0010:T1537"]}
     Severity = Severity.Medium

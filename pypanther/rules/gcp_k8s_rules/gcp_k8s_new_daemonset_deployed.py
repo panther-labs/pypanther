@@ -3,6 +3,7 @@ from typing import List
 from pypanther.base import PantherRule, PantherRuleTest, Severity
 from pypanther.helpers.gcp_base_helpers import gcp_alert_context
 from pypanther.helpers.panther_base_helpers import deep_get, deep_walk
+from pypanther.log_types import LogType
 
 gcpk8s_new_daemonset_deployed_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -53,7 +54,7 @@ class GCPK8sNewDaemonsetDeployed(PantherRule):
     DisplayName = "GCP K8s New Daemonset Deployed"
     Description = "Detects Daemonset creation in GCP Kubernetes clusters."
     Enabled = True
-    LogTypes = ["GCP.AuditLog"]
+    LogTypes = [LogType.GCP_AuditLog]
     Severity = Severity.Medium
     Reference = "https://medium.com/snowflake/from-logs-to-detection-using-snowflake-and-panther-to-detect-k8s-threats-d72f70a504d7"
     Runbook = "Investigate a reason of creating Daemonset. Create ticket if appropriate."

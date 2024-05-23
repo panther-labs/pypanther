@@ -4,6 +4,7 @@ from typing import List
 from pypanther.base import PantherRule, PantherRuleTest, Severity
 from pypanther.helpers.panther_auth0_helpers import auth0_alert_context, is_auth0_config_event
 from pypanther.helpers.panther_base_helpers import deep_get
+from pypanther.log_types import LogType
 
 auth0_user_invitation_created_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -320,7 +321,7 @@ class Auth0UserInvitationCreated(PantherRule):
         "https://auth0.com/docs/manage-users/organizations/configure-organizations/invite-members"
     )
     Severity = Severity.Info
-    LogTypes = ["Auth0.Events"]
+    LogTypes = [LogType.Auth0_Events]
     RuleID = "Auth0.User.Invitation.Created-prototype"
     Tests = auth0_user_invitation_created_tests
     org_re = re.compile("^/api/v2/organizations/[^/\\s]+/invitations$")

@@ -2,6 +2,7 @@ from typing import List
 
 from pypanther.base import PantherRule, PantherRuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
+from pypanther.log_types import LogType
 
 osquery_mac_application_firewall_settings_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -47,7 +48,7 @@ class OsqueryMacApplicationFirewallSettings(PantherRule):
     RuleID = "Osquery.Mac.ApplicationFirewallSettings-prototype"
     DisplayName = "MacOS ALF is misconfigured"
     Enabled = True
-    LogTypes = ["Osquery.Differential"]
+    LogTypes = [LogType.Osquery_Differential]
     Tags = ["Osquery", "MacOS", "Security Control", "Defense Evasion:Impair Defenses"]
     Reports = {"CIS": ["2.6.3", "2.6.4"], "MITRE ATT&CK": ["TA0005:T1562"]}
     Severity = Severity.High

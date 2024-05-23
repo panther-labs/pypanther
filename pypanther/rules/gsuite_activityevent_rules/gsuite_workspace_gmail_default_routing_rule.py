@@ -2,6 +2,7 @@ from typing import List
 
 from pypanther.base import PantherRule, PantherRuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
+from pypanther.log_types import LogType
 
 g_suite_workspace_gmail_default_routing_rule_modified_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -117,7 +118,7 @@ class GSuiteWorkspaceGmailDefaultRoutingRuleModified(PantherRule):
     RuleID = "GSuite.Workspace.GmailDefaultRoutingRuleModified-prototype"
     DisplayName = "GSuite Workspace Gmail Default Routing Rule Modified"
     Enabled = True
-    LogTypes = ["GSuite.ActivityEvent"]
+    LogTypes = [LogType.GSuite_ActivityEvent]
     Tags = ["GSuite"]
     Reports = {"MITRE ATT&CK": ["TA0003:T1098"]}
     Severity = Severity.High

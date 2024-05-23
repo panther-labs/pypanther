@@ -6,6 +6,7 @@ from panther_detection_helpers.caching import check_account_age
 from pypanther.base import PantherRule, PantherRuleTest, RuleMock, Severity
 from pypanther.helpers.panther_base_helpers import aws_rule_context, deep_get
 from pypanther.helpers.panther_default import lookup_aws_account_name
+from pypanther.log_types import LogType
 
 aws_console_login_without_mfa_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -382,7 +383,7 @@ class AWSConsoleLoginWithoutMFA(PantherRule):
     RuleID = "AWS.Console.LoginWithoutMFA-prototype"
     DisplayName = "Logins Without MFA"
     Enabled = True
-    LogTypes = ["AWS.CloudTrail"]
+    LogTypes = [LogType.AWS_CloudTrail]
     Tags = [
         "AWS",
         "Identity & Access Management",

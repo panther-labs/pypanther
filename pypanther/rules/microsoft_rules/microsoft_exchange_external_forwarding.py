@@ -2,6 +2,7 @@ from typing import List
 
 from pypanther.base import PantherRule, PantherRuleTest, Severity
 from pypanther.helpers.panther_config import config
+from pypanther.log_types import LogType
 
 microsoft365_exchange_external_forwarding_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -213,7 +214,7 @@ class Microsoft365ExchangeExternalForwarding(PantherRule):
     Reports = {"MITRE ATT&CK": ["TA0009:T1114"]}
     Reference = "https://learn.microsoft.com/en-us/microsoft-365/security/office-365-security/outbound-spam-policies-external-email-forwarding?view=o365-worldwide"
     Severity = Severity.High
-    LogTypes = ["Microsoft365.Audit.Exchange"]
+    LogTypes = [LogType.Microsoft365_Audit_Exchange]
     RuleID = "Microsoft365.Exchange.External.Forwarding-prototype"
     Tests = microsoft365_exchange_external_forwarding_tests
 

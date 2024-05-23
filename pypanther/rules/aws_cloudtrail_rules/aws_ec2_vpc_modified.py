@@ -3,6 +3,7 @@ from typing import List
 from pypanther.base import PantherRule, PantherRuleTest, Severity
 from pypanther.helpers.panther_base_helpers import aws_rule_context
 from pypanther.helpers.panther_default import aws_cloudtrail_success
+from pypanther.log_types import LogType
 
 awsec2_vpc_modified_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -185,7 +186,7 @@ class AWSEC2VPCModified(PantherRule):
     RuleID = "AWS.EC2.VPCModified-prototype"
     DisplayName = "EC2 VPC Modified"
     Enabled = True
-    LogTypes = ["AWS.CloudTrail"]
+    LogTypes = [LogType.AWS_CloudTrail]
     Tags = ["AWS", "Security Control", "Defense Evasion:Impair Defenses"]
     Reports = {"CIS": ["3.14"], "MITRE ATT&CK": ["TA0005:T1562"]}
     Severity = Severity.Info

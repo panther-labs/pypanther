@@ -3,6 +3,7 @@ from typing import List
 from pypanther.base import PantherRule, PantherRuleTest, Severity
 from pypanther.helpers.panther_base_helpers import aws_rule_context, deep_get
 from pypanther.helpers.panther_default import aws_cloudtrail_success
+from pypanther.log_types import LogType
 
 aws_cloud_trail_created_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -150,7 +151,7 @@ class AWSCloudTrailCreated(PantherRule):
     RuleID = "AWS.CloudTrail.Created-prototype"
     DisplayName = "A CloudTrail Was Created or Updated"
     Enabled = True
-    LogTypes = ["AWS.CloudTrail"]
+    LogTypes = [LogType.AWS_CloudTrail]
     Tags = ["AWS", "Security Control", "Discovery:Cloud Service Dashboard"]
     Reports = {"CIS": ["3.5"], "MITRE ATT&CK": ["TA0007:T1538"]}
     Severity = Severity.Info

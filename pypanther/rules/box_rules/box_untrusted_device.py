@@ -2,6 +2,7 @@ from typing import List
 
 from pypanther.base import PantherRule, PantherRuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
+from pypanther.log_types import LogType
 
 box_untrusted_device_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -42,7 +43,7 @@ class BoxUntrustedDevice(PantherRule):
     RuleID = "Box.Untrusted.Device-prototype"
     DisplayName = "Box Untrusted Device Login"
     Enabled = True
-    LogTypes = ["Box.Event"]
+    LogTypes = [LogType.Box_Event]
     Tags = ["Box", "Initial Access:Valid Accounts"]
     Reports = {"MITRE ATT&CK": ["TA0001:T1078"]}
     Severity = Severity.Info

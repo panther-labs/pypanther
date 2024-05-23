@@ -2,6 +2,7 @@ from typing import List
 
 from pypanther.base import PantherRule, PantherRuleTest, Severity
 from pypanther.helpers.panther_base_helpers import aws_rule_context, deep_get
+from pypanther.log_types import LogType
 
 aws_cloud_trail_root_password_changed_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -65,7 +66,7 @@ class AWSCloudTrailRootPasswordChanged(PantherRule):
     RuleID = "AWS.CloudTrail.RootPasswordChanged-prototype"
     DisplayName = "Root Password Changed"
     Enabled = True
-    LogTypes = ["AWS.CloudTrail"]
+    LogTypes = [LogType.AWS_CloudTrail]
     Tags = ["AWS", "Identity and Access Management", "Persistence:Account Manipulation"]
     Severity = Severity.High
     Reports = {"MITRE ATT&CK": ["TA0003:T1098"]}

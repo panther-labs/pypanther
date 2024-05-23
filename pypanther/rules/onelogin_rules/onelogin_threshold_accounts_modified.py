@@ -1,6 +1,7 @@
 from typing import List
 
 from pypanther.base import PantherRule, PantherRuleTest, Severity
+from pypanther.log_types import LogType
 
 one_login_threshold_accounts_modified_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -32,7 +33,7 @@ class OneLoginThresholdAccountsModified(PantherRule):
     RuleID = "OneLogin.ThresholdAccountsModified-prototype"
     DisplayName = "OneLogin Multiple Accounts Modified"
     Enabled = True
-    LogTypes = ["OneLogin.Events"]
+    LogTypes = [LogType.OneLogin_Events]
     Tags = ["OneLogin", "Impact:Account Access Removal"]
     Severity = Severity.Medium
     Reports = {"MITRE ATT&CK": ["TA0040:T1531"]}

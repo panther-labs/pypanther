@@ -2,6 +2,7 @@ from typing import List
 
 from pypanther.base import PantherRule, PantherRuleTest, Severity
 from pypanther.helpers.panther_base_helpers import github_alert_context
+from pypanther.log_types import LogType
 
 github_public_repository_created_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -47,7 +48,7 @@ class GithubPublicRepositoryCreated(PantherRule):
     Reference = "https://docs.github.com/en/get-started/quickstart/create-a-repo"
     Severity = Severity.Medium
     Tags = ["Github Repository", "Public", "Repository Created"]
-    LogTypes = ["GitHub.Audit"]
+    LogTypes = [LogType.GitHub_Audit]
     RuleID = "Github.Public.Repository.Created-prototype"
     SummaryAttributes = ["actor", "repository", "visibility"]
     Tests = github_public_repository_created_tests

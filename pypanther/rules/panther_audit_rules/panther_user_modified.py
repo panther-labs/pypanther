@@ -3,6 +3,7 @@ from typing import List
 import pypanther.helpers.panther_event_type_helpers as event_type
 from pypanther.base import PantherRule, PantherRuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
+from pypanther.log_types import LogType
 
 panther_user_modified_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -190,7 +191,7 @@ class PantherUserModified(PantherRule):
     RuleID = "Panther.User.Modified-prototype"
     DisplayName = "A User's Panther Account was Modified"
     Enabled = True
-    LogTypes = ["Panther.Audit"]
+    LogTypes = [LogType.Panther_Audit]
     Severity = Severity.High
     Tags = ["DataModel", "Persistence:Account Manipulation"]
     Reports = {"MITRE ATT&CK": ["TA0003:T1098"]}

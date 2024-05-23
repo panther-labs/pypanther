@@ -2,6 +2,7 @@ from typing import List
 
 from pypanther.base import PantherRule, PantherRuleTest, Severity
 from pypanther.helpers.panther_base_helpers import crowdstrike_process_alert_context, is_base64
+from pypanther.log_types import LogType
 
 crowdstrike_base64_encoded_args_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -558,7 +559,7 @@ class CrowdstrikeBase64EncodedArgs(PantherRule):
     RuleID = "Crowdstrike.Base64EncodedArgs-prototype"
     DisplayName = "Execution of Command Line Tool with Base64 Encoded Arguments"
     Enabled = True
-    LogTypes = ["Crowdstrike.FDREvent"]
+    LogTypes = [LogType.Crowdstrike_FDREvent]
     Tags = ["Execution", "Obfuscation"]
     Severity = Severity.Medium
     Description = "Detects the execution of common command line tools (e.g., PowerShell, cmd.exe) with Base64 encoded arguments, which could indicate an attempt to obfuscate malicious commands."

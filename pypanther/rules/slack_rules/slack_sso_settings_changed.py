@@ -2,6 +2,7 @@ from typing import List
 
 from pypanther.base import PantherRule, PantherRuleTest, Severity
 from pypanther.helpers.panther_base_helpers import slack_alert_context
+from pypanther.log_types import LogType
 
 slack_audit_logs_sso_settings_changed_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -74,7 +75,7 @@ class SlackAuditLogsSSOSettingsChanged(PantherRule):
     RuleID = "Slack.AuditLogs.SSOSettingsChanged-prototype"
     DisplayName = "Slack SSO Settings Changed"
     Enabled = True
-    LogTypes = ["Slack.AuditLogs"]
+    LogTypes = [LogType.Slack_AuditLogs]
     Tags = ["Slack", "Credential Access", "Persistence", "Modify Authentication Process"]
     Reports = {"MITRE ATT&CK": ["TA0003:T1556", "TA0006:T1556"]}
     Severity = Severity.High

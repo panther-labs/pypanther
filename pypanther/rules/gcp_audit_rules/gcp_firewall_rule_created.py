@@ -4,6 +4,7 @@ from typing import List
 from pypanther.base import PantherRule, PantherRuleTest, Severity
 from pypanther.helpers.gcp_base_helpers import gcp_alert_context
 from pypanther.helpers.panther_base_helpers import deep_get
+from pypanther.log_types import LogType
 
 gcp_firewall_rule_created_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -168,7 +169,7 @@ class GCPFirewallRuleCreated(PantherRule):
     Enabled = True
     RuleID = "GCP.Firewall.Rule.Created-prototype"
     Severity = Severity.Low
-    LogTypes = ["GCP.AuditLog"]
+    LogTypes = [LogType.GCP_AuditLog]
     Tags = ["GCP", "Firewall", "Networking", "Infrastructure"]
     Description = "This rule detects creations of GCP firewall rules.\n"
     Runbook = "Ensure that the rule creation was expected. Firewall rule creations can expose [vulnerable] resoures to the internet.\n"

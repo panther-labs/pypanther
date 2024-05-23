@@ -2,6 +2,7 @@ from typing import List
 
 from pypanther.base import PantherRule, PantherRuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
+from pypanther.log_types import LogType
 
 one_password_lut_sensitive_item_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -72,7 +73,7 @@ class OnePasswordLutSensitiveItem(PantherRule):
     DedupPeriodMinutes = 30
     DisplayName = "BETA - Sensitive 1Password Item Accessed"
     Enabled = False
-    LogTypes = ["OnePassword.ItemUsage"]
+    LogTypes = [LogType.OnePassword_ItemUsage]
     Reference = "https://support.1password.com/1password-com-items/"
     Severity = Severity.Low
     Description = "Alerts when a user defined list of sensitive items in 1Password is accessed"

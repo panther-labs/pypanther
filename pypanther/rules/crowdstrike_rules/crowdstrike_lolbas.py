@@ -2,6 +2,7 @@ from typing import List
 
 from pypanther.base import PantherRule, PantherRuleTest, Severity
 from pypanther.helpers.panther_base_helpers import crowdstrike_process_alert_context, deep_get
+from pypanther.log_types import LogType
 
 crowdstrike_fdrlolbas_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -170,7 +171,7 @@ crowdstrike_fdrlolbas_tests: List[PantherRuleTest] = [
 
 
 class CrowdstrikeFDRLOLBAS(PantherRule):
-    LogTypes = ["Crowdstrike.FDREvent"]
+    LogTypes = [LogType.Crowdstrike_FDREvent]
     RuleID = "Crowdstrike.FDR.LOLBAS-prototype"
     DisplayName = "Crowdstrike FDR LOLBAS"
     Description = "Living off the land binaries and script usage"

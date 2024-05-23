@@ -1,6 +1,7 @@
 from typing import List
 
 from pypanther.base import PantherRule, PantherRuleTest, Severity
+from pypanther.log_types import LogType
 
 teleport_lock_created_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -27,7 +28,7 @@ class TeleportLockCreated(PantherRule):
     RuleID = "Teleport.LockCreated-prototype"
     DisplayName = "A Teleport Lock was created"
     Enabled = True
-    LogTypes = ["Gravitational.TeleportAudit"]
+    LogTypes = [LogType.Gravitational_TeleportAudit]
     Tags = ["Teleport"]
     Severity = Severity.Info
     Description = "A Teleport Lock was created"

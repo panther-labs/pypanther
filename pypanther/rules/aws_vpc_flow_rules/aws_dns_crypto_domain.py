@@ -2,6 +2,7 @@ from typing import List
 
 from pypanther.base import PantherRule, PantherRuleTest, Severity
 from pypanther.helpers.panther_iocs import CRYPTO_MINING_DOMAINS
+from pypanther.log_types import LogType
 
 awsdns_crypto_domain_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -174,7 +175,7 @@ class AWSDNSCryptoDomain(PantherRule):
     Reports = {"MITRE ATT&CK": ["TA0040:T1496"]}
     Reference = "https://docs.aws.amazon.com/vpc/latest/userguide/flow-logs.html"
     Severity = Severity.High
-    LogTypes = ["AWS.VPCDns"]
+    LogTypes = [LogType.AWS_VPCDns]
     RuleID = "AWS.DNS.Crypto.Domain-prototype"
     Tests = awsdns_crypto_domain_tests
 

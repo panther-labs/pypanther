@@ -3,6 +3,7 @@ from typing import List
 from pypanther.base import PantherRule, PantherRuleTest, Severity
 from pypanther.helpers.panther_base_helpers import aws_rule_context, deep_get
 from pypanther.helpers.panther_default import aws_cloudtrail_success
+from pypanther.log_types import LogType
 
 awsiam_credentials_updated_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -118,7 +119,7 @@ class AWSIAMCredentialsUpdated(PantherRule):
     RuleID = "AWS.IAM.CredentialsUpdated-prototype"
     DisplayName = "New IAM Credentials Updated"
     Enabled = True
-    LogTypes = ["AWS.CloudTrail"]
+    LogTypes = [LogType.AWS_CloudTrail]
     Reports = {"MITRE ATT&CK": ["TA0003:T1098"]}
     Tags = ["AWS", "Identity & Access Management", "Persistence:Account Manipulation"]
     Severity = Severity.Info

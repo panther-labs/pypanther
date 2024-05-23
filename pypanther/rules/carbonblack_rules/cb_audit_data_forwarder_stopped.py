@@ -1,6 +1,7 @@
 from typing import List
 
 from pypanther.base import PantherRule, PantherRuleTest, Severity
+from pypanther.log_types import LogType
 
 carbon_black_audit_data_forwarder_stopped_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -38,7 +39,7 @@ carbon_black_audit_data_forwarder_stopped_tests: List[PantherRuleTest] = [
 
 class CarbonBlackAuditDataForwarderStopped(PantherRule):
     RuleID = "CarbonBlack.Audit.Data.Forwarder.Stopped-prototype"
-    LogTypes = ["CarbonBlack.Audit"]
+    LogTypes = [LogType.CarbonBlack_Audit]
     Description = "Detects when a user disables or deletes a Data Forwarder."
     DisplayName = "Carbon Black Data Forwarder Stopped"
     Enabled = True

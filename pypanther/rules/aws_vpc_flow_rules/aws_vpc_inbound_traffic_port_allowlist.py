@@ -3,6 +3,7 @@ from typing import List
 
 from pypanther.base import PantherRule, PantherRuleTest, Severity
 from pypanther.helpers.panther_base_helpers import aws_rule_context
+from pypanther.log_types import LogType
 
 awsvpc_inbound_port_whitelist_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -27,7 +28,7 @@ class AWSVPCInboundPortWhitelist(PantherRule):
     RuleID = "AWS.VPC.InboundPortWhitelist-prototype"
     DisplayName = "VPC Flow Logs Inbound Port Allowlist"
     Enabled = False
-    LogTypes = ["AWS.VPCFlow"]
+    LogTypes = [LogType.AWS_VPCFlow]
     Tags = [
         "AWS",
         "Configuration Required",

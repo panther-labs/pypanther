@@ -1,6 +1,7 @@
 from typing import List
 
 from pypanther.base import PantherRule, PantherRuleTest, Severity
+from pypanther.log_types import LogType
 
 github_repo_visibility_change_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -34,7 +35,7 @@ class GithubRepoVisibilityChange(PantherRule):
     RuleID = "Github.Repo.VisibilityChange-prototype"
     DisplayName = "GitHub Repository Visibility Change"
     Enabled = True
-    LogTypes = ["GitHub.Audit"]
+    LogTypes = [LogType.GitHub_Audit]
     Tags = ["GitHub", "Exfiltration:Exfiltration Over Web Service"]
     Reports = {"MITRE ATT&CK": ["TA0010:T1567"]}
     Reference = "https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/managing-repository-settings/setting-repository-visibility"

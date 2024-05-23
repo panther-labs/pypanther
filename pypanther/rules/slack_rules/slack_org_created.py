@@ -2,6 +2,7 @@ from typing import List
 
 from pypanther.base import PantherRule, PantherRuleTest, Severity
 from pypanther.helpers.panther_base_helpers import slack_alert_context
+from pypanther.log_types import LogType
 
 slack_audit_logs_org_created_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -63,7 +64,7 @@ class SlackAuditLogsOrgCreated(PantherRule):
     RuleID = "Slack.AuditLogs.OrgCreated-prototype"
     DisplayName = "Slack Organization Created"
     Enabled = True
-    LogTypes = ["Slack.AuditLogs"]
+    LogTypes = [LogType.Slack_AuditLogs]
     Tags = ["Slack", "Persistence", "Create Account"]
     Reports = {"MITRE ATT&CK": ["TA0003:T1136"]}
     Severity = Severity.Low

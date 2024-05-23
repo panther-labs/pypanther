@@ -2,6 +2,7 @@ from typing import List
 
 from pypanther.base import PantherRule, PantherRuleTest, Severity
 from pypanther.helpers.panther_base_helpers import slack_alert_context
+from pypanther.log_types import LogType
 
 slack_audit_logs_org_deleted_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -63,7 +64,7 @@ class SlackAuditLogsOrgDeleted(PantherRule):
     RuleID = "Slack.AuditLogs.OrgDeleted-prototype"
     DisplayName = "Slack Organization Deleted"
     Enabled = True
-    LogTypes = ["Slack.AuditLogs"]
+    LogTypes = [LogType.Slack_AuditLogs]
     Tags = ["Slack", "Impact", "Account Access Removal"]
     Reports = {"MITRE ATT&CK": ["TA0040:T1531"]}
     Severity = Severity.Medium

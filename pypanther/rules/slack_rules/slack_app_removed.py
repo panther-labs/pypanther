@@ -2,6 +2,7 @@ from typing import List
 
 from pypanther.base import PantherRule, PantherRuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get, slack_alert_context
+from pypanther.log_types import LogType
 
 slack_audit_logs_app_removed_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -162,7 +163,7 @@ class SlackAuditLogsAppRemoved(PantherRule):
     RuleID = "Slack.AuditLogs.AppRemoved-prototype"
     DisplayName = "Slack App Removed"
     Enabled = True
-    LogTypes = ["Slack.AuditLogs"]
+    LogTypes = [LogType.Slack_AuditLogs]
     Tags = [
         "Slack",
         "Impact",

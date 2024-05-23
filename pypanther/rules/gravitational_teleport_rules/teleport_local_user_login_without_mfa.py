@@ -1,6 +1,7 @@
 from typing import List
 
 from pypanther.base import PantherRule, PantherRuleTest, Severity
+from pypanther.log_types import LogType
 
 teleport_local_user_login_without_mfa_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -49,7 +50,7 @@ class TeleportLocalUserLoginWithoutMFA(PantherRule):
     RuleID = "Teleport.LocalUserLoginWithoutMFA-prototype"
     DisplayName = "User Logged in wihout MFA"
     Enabled = True
-    LogTypes = ["Gravitational.TeleportAudit"]
+    LogTypes = [LogType.Gravitational_TeleportAudit]
     Tags = ["Teleport"]
     Severity = Severity.High
     Description = "A local User logged in without MFA"

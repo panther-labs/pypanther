@@ -2,6 +2,7 @@ from typing import List
 
 from pypanther.base import PantherRule, PantherRuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
+from pypanther.log_types import LogType
 
 g_suite_workspace_gmail_predelivery_scanning_disabled_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -91,7 +92,7 @@ class GSuiteWorkspaceGmailPredeliveryScanningDisabled(PantherRule):
     RuleID = "GSuite.Workspace.GmailPredeliveryScanningDisabled-prototype"
     DisplayName = "GSuite Workspace Gmail Pre-Delivery Message Scanning Disabled"
     Enabled = True
-    LogTypes = ["GSuite.ActivityEvent"]
+    LogTypes = [LogType.GSuite_ActivityEvent]
     Tags = ["GSuite"]
     Reports = {"MITRE ATT&CK": ["TA0001:T1566"]}
     Severity = Severity.Medium

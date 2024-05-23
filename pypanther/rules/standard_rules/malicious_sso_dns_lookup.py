@@ -2,6 +2,7 @@ from typing import List
 
 from pypanther.base import PantherRule, PantherRuleTest, Severity
 from pypanther.helpers.panther_base_helpers import filter_crowdstrike_fdr_event_type
+from pypanther.log_types import LogType
 
 standard_malicious_ssodns_lookup_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -170,11 +171,11 @@ class StandardMaliciousSSODNSLookup(PantherRule):
     DisplayName = "Malicious SSO DNS Lookup"
     Enabled = False
     LogTypes = [
-        "CiscoUmbrella.DNS",
-        "Crowdstrike.DNSRequest",
-        "Crowdstrike.FDREvent",
-        "Suricata.DNS",
-        "Zeek.DNS",
+        LogType.CiscoUmbrella_DNS,
+        LogType.Crowdstrike_DNSRequest,
+        LogType.Crowdstrike_FDREvent,
+        LogType.Suricata_DNS,
+        LogType.Zeek_DNS,
     ]
     Severity = Severity.Medium
     Threshold = 1000

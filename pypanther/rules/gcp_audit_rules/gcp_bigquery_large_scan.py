@@ -2,6 +2,7 @@ from typing import List
 
 from pypanther.base import PantherRule, PantherRuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
+from pypanther.log_types import LogType
 
 gcp_big_query_large_scan_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -181,7 +182,7 @@ class GCPBigQueryLargeScan(PantherRule):
     Enabled = True
     Reference = "https://cloud.google.com/bigquery/docs/running-queries"
     Severity = Severity.Info
-    LogTypes = ["GCP.AuditLog"]
+    LogTypes = [LogType.GCP_AuditLog]
     RuleID = "GCP.BigQuery.Large.Scan-prototype"
     Tests = gcp_big_query_large_scan_tests
     # 1.07 GB

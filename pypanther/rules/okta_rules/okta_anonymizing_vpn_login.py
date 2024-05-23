@@ -2,6 +2,7 @@ from typing import List
 
 from pypanther.base import PantherRule, PantherRuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get, okta_alert_context
+from pypanther.log_types import LogType
 
 okta_anonymizing_vpn_login_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -163,7 +164,7 @@ class OktaAnonymizingVPNLogin(PantherRule):
     RuleID = "Okta.Anonymizing.VPN.Login-prototype"
     DisplayName = "Okta Sign-In from VPN Anonymizer"
     Enabled = True
-    LogTypes = ["Okta.SystemLog"]
+    LogTypes = [LogType.Okta_SystemLog]
     Reports = {"MITRE ATT&CK": ["TA0006:T1556"]}
     Severity = Severity.Medium
     Description = "A user is attempting to sign-in to Okta from a known VPN anonymizer.  The threat actor would access the compromised account using anonymizing proxy services.\n"

@@ -3,6 +3,7 @@ from typing import List
 from pypanther.base import PantherRule, PantherRuleTest, Severity
 from pypanther.helpers.panther_base_helpers import aws_rule_context
 from pypanther.helpers.panther_default import aws_cloudtrail_success
+from pypanther.log_types import LogType
 
 awsec2_route_table_modified_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -144,7 +145,7 @@ class AWSEC2RouteTableModified(PantherRule):
     RuleID = "AWS.EC2.RouteTableModified-prototype"
     DisplayName = "EC2 Route Table Modified"
     Enabled = True
-    LogTypes = ["AWS.CloudTrail"]
+    LogTypes = [LogType.AWS_CloudTrail]
     Tags = ["AWS", "Exfiltration:Exfiltration Over Alternative Protocol"]
     Reports = {"CIS": ["3.13"], "MITRE ATT&CK": ["TA0010:T1048"]}
     Severity = Severity.Info

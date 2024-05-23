@@ -2,6 +2,7 @@ from typing import List
 
 from pypanther.base import PantherRule, PantherRuleTest, Severity
 from pypanther.helpers.panther_base_helpers import slack_alert_context
+from pypanther.log_types import LogType
 
 slack_audit_logs_ekm_unenrolled_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -74,7 +75,7 @@ class SlackAuditLogsEKMUnenrolled(PantherRule):
     RuleID = "Slack.AuditLogs.EKMUnenrolled-prototype"
     DisplayName = "Slack EKM Unenrolled"
     Enabled = True
-    LogTypes = ["Slack.AuditLogs"]
+    LogTypes = [LogType.Slack_AuditLogs]
     Tags = ["Slack", "Defense Evasion", "Weaken Encryption"]
     Reports = {"MITRE ATT&CK": ["TA0005:T1600"]}
     Severity = Severity.Critical

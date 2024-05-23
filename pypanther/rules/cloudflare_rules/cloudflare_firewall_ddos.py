@@ -2,6 +2,7 @@ from typing import List
 
 from pypanther.base import PantherRule, PantherRuleTest, Severity
 from pypanther.helpers.panther_cloudflare_helpers import cloudflare_fw_alert_context
+from pypanther.log_types import LogType
 
 cloudflare_firewall_l7_d_do_s_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -98,7 +99,7 @@ class CloudflareFirewallL7DDoS(PantherRule):
     RuleID = "Cloudflare.Firewall.L7DDoS-prototype"
     DisplayName = "Cloudflare L7 DDoS"
     Enabled = True
-    LogTypes = ["Cloudflare.Firewall"]
+    LogTypes = [LogType.Cloudflare_Firewall]
     Tags = ["Cloudflare", "Variable Severity"]
     Severity = Severity.Medium
     Description = "Layer 7 Distributed Denial of Service (DDoS) detected"

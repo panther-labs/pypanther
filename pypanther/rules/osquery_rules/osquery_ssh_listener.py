@@ -2,6 +2,7 @@ from typing import List
 
 from pypanther.base import PantherRule, PantherRuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
+from pypanther.log_types import LogType
 
 osquery_ssh_listener_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -79,7 +80,7 @@ class OsquerySSHListener(PantherRule):
     RuleID = "Osquery.SSHListener-prototype"
     DisplayName = "OSQuery Detected SSH Listener"
     Enabled = True
-    LogTypes = ["Osquery.Differential"]
+    LogTypes = [LogType.Osquery_Differential]
     Tags = ["Osquery", "Lateral Movement:Remote Services"]
     Reports = {"MITRE ATT&CK": ["TA0008:T1021"]}
     Severity = Severity.Medium

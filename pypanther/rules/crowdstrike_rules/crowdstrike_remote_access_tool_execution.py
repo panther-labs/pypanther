@@ -2,6 +2,7 @@ from typing import List
 
 from pypanther.base import PantherRule, PantherRuleTest, Severity
 from pypanther.helpers.panther_base_helpers import crowdstrike_detection_alert_context, deep_get
+from pypanther.log_types import LogType
 
 crowdstrike_remote_access_tool_execution_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -177,7 +178,7 @@ class CrowdstrikeRemoteAccessToolExecution(PantherRule):
     Enabled = True
     Reference = "https://attack.mitre.org/techniques/T1219/"
     Severity = Severity.Medium
-    LogTypes = ["Crowdstrike.FDREvent"]
+    LogTypes = [LogType.Crowdstrike_FDREvent]
     RuleID = "Crowdstrike.Remote.Access.Tool.Execution-prototype"
     Tests = crowdstrike_remote_access_tool_execution_tests
     REMOTE_ACCESS_EXECUTABLES = {

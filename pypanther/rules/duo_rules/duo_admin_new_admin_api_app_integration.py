@@ -5,6 +5,7 @@ from pypanther.helpers.panther_duo_helpers import (
     deserialize_administrator_log_event_description,
     duo_alert_context,
 )
+from pypanther.log_types import LogType
 
 duo_admin_new_admin_api_app_integration_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -52,7 +53,7 @@ class DuoAdminNewAdminAPIAppIntegration(PantherRule):
     Enabled = True
     Reference = "https://duo.com/docs/adminapi#overview"
     Severity = Severity.High
-    LogTypes = ["Duo.Administrator"]
+    LogTypes = [LogType.Duo_Administrator]
     RuleID = "Duo.Admin.New.Admin.API.App.Integration-prototype"
     Tests = duo_admin_new_admin_api_app_integration_tests
 

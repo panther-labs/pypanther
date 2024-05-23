@@ -2,6 +2,7 @@ from typing import List
 
 from pypanther.base import PantherRule, PantherRuleTest, Severity
 from pypanther.helpers.panther_base_helpers import slack_alert_context
+from pypanther.log_types import LogType
 
 slack_audit_logs_idp_configuration_changed_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -129,7 +130,7 @@ class SlackAuditLogsIDPConfigurationChanged(PantherRule):
     RuleID = "Slack.AuditLogs.IDPConfigurationChanged-prototype"
     DisplayName = "Slack IDP Configuration Changed"
     Enabled = True
-    LogTypes = ["Slack.AuditLogs"]
+    LogTypes = [LogType.Slack_AuditLogs]
     Tags = ["Slack", "Persistence", "Credential Access", "Modify Authentication Process"]
     Reports = {"MITRE ATT&CK": ["TA0003:T1556", "TA0006:T1556"]}
     Severity = Severity.High

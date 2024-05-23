@@ -2,6 +2,7 @@ from typing import List
 
 from pypanther.base import PantherRule, PantherRuleTest, Severity
 from pypanther.helpers.panther_base_helpers import aws_rule_context, deep_get
+from pypanther.log_types import LogType
 
 awsiam_access_key_compromised_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -69,7 +70,7 @@ class AWSIAMAccessKeyCompromised(PantherRule):
     RuleID = "AWS.IAM.AccessKeyCompromised-prototype"
     DisplayName = "AWS Access Key Uploaded to Github"
     Enabled = True
-    LogTypes = ["AWS.CloudTrail"]
+    LogTypes = [LogType.AWS_CloudTrail]
     Reports = {"MITRE ATT&CK": ["TA0006:T1552"]}
     Tags = ["AWS", "Credential Access:Unsecured Credentials"]
     Severity = Severity.High

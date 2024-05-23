@@ -2,6 +2,7 @@ from typing import List
 
 from pypanther.base import PantherRule, PantherRuleTest, Severity
 from pypanther.helpers.panther_base_helpers import slack_alert_context
+from pypanther.log_types import LogType
 
 slack_audit_logs_intune_mdm_disabled_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -74,7 +75,7 @@ class SlackAuditLogsIntuneMDMDisabled(PantherRule):
     RuleID = "Slack.AuditLogs.IntuneMDMDisabled-prototype"
     DisplayName = "Slack Intune MDM Disabled"
     Enabled = True
-    LogTypes = ["Slack.AuditLogs"]
+    LogTypes = [LogType.Slack_AuditLogs]
     Tags = ["Slack", "Defense Evasion", "Impair Defenses", "Disable or Modify Tools"]
     Reports = {"MITRE ATT&CK": ["TA0005:T1562.001"]}
     Severity = Severity.Critical

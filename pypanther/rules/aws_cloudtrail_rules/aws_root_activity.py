@@ -3,6 +3,7 @@ from typing import List
 from pypanther.base import PantherRule, PantherRuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 from pypanther.helpers.panther_default import aws_cloudtrail_success, lookup_aws_account_name
+from pypanther.log_types import LogType
 
 aws_root_activity_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -222,7 +223,7 @@ class AWSRootActivity(PantherRule):
     RuleID = "AWS.Root.Activity-prototype"
     DisplayName = "Root Account Activity"
     Enabled = True
-    LogTypes = ["AWS.CloudTrail"]
+    LogTypes = [LogType.AWS_CloudTrail]
     Tags = [
         "AWS",
         "Identity & Access Management",

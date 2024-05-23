@@ -2,6 +2,7 @@ from typing import List
 
 from pypanther.base import PantherRule, PantherRuleTest, Severity
 from pypanther.helpers.panther_base_helpers import slack_alert_context
+from pypanther.log_types import LogType
 
 slack_audit_logs_dlp_modified_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -100,7 +101,7 @@ class SlackAuditLogsDLPModified(PantherRule):
     RuleID = "Slack.AuditLogs.DLPModified-prototype"
     DisplayName = "Slack DLP Modified"
     Enabled = True
-    LogTypes = ["Slack.AuditLogs"]
+    LogTypes = [LogType.Slack_AuditLogs]
     Tags = [
         "Slack",
         "Defense Evasion",

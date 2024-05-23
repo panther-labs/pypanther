@@ -9,6 +9,7 @@ from pypanther.base import PantherRule, PantherRuleTest, RuleMock, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 from pypanther.helpers.panther_lookuptable_helpers import LookupTableMatches
 from pypanther.helpers.panther_oss_helpers import km_between_ipinfo_loc, resolve_timestamp_string
+from pypanther.log_types import LogType
 
 standard_impossible_travel_login_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -660,7 +661,12 @@ class StandardImpossibleTravelLogin(PantherRule):
     RuleID = "Standard.ImpossibleTravel.Login-prototype"
     DisplayName = "Impossible Travel for Login Action"
     Enabled = True
-    LogTypes = ["Asana.Audit", "AWS.CloudTrail", "Notion.AuditLogs", "Okta.SystemLog"]
+    LogTypes = [
+        LogType.Asana_Audit,
+        LogType.AWS_CloudTrail,
+        LogType.Notion_AuditLogs,
+        LogType.Okta_SystemLog,
+    ]
     Tags = ["Identity & Access Management", "Initial Access:Valid Accounts"]
     Reports = {"MITRE ATT&CK": ["TA0001:T1078"]}
     Severity = Severity.High

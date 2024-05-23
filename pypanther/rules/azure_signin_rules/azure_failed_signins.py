@@ -7,6 +7,7 @@ from pypanther.helpers.panther_azuresignin_helpers import (
     is_sign_in_event,
 )
 from pypanther.helpers.panther_base_helpers import deep_get
+from pypanther.log_types import LogType
 
 azure_audit_many_failed_sign_ins_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -145,7 +146,7 @@ class AzureAuditManyFailedSignIns(PantherRule):
     Enabled = True
     Threshold = 10
     DedupPeriodMinutes = 10
-    LogTypes = ["Azure.Audit"]
+    LogTypes = [LogType.Azure_Audit]
     Severity = Severity.Medium
     Description = "This detection looks for a number of failed sign-ins for the same ServicePrincipalName or UserPrincipalName\n"
     Reports = {"MITRE ATT&CK": ["TA0006:T1110", "TA0001:T1078"]}

@@ -2,6 +2,7 @@ from typing import List
 
 from pypanther.base import PantherRule, PantherRuleTest, Severity
 from pypanther.helpers.panther_notion_helpers import notion_alert_context
+from pypanther.log_types import LogType
 
 notion_many_pages_deleted_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -62,7 +63,7 @@ class NotionManyPagesDeleted(PantherRule):
     RuleID = "Notion.Many.Pages.Deleted-prototype"
     DisplayName = "Notion Many Pages Deleted"
     Enabled = True
-    LogTypes = ["Notion.AuditLogs"]
+    LogTypes = [LogType.Notion_AuditLogs]
     Tags = ["Notion", "Data Security", "Data Destruction"]
     Severity = Severity.Medium
     Description = "A Notion User deleted multiple pages."

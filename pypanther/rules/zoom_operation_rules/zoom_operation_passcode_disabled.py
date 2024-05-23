@@ -2,6 +2,7 @@ from typing import List
 
 from pypanther.base import PantherRule, PantherRuleTest, Severity
 from pypanther.helpers.panther_zoom_helpers import get_zoom_usergroup_context as get_context
+from pypanther.log_types import LogType
 
 zoom_passcode_disabled_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -47,7 +48,7 @@ class ZoomPasscodeDisabled(PantherRule):
     RuleID = "Zoom.PasscodeDisabled-prototype"
     DisplayName = "Zoom Meeting Passcode Disabled"
     Enabled = True
-    LogTypes = ["Zoom.Operation"]
+    LogTypes = [LogType.Zoom_Operation]
     Tags = ["Zoom", "Collection:Video Capture"]
     Severity = Severity.Low
     Description = "Meeting passcode requirement has been disabled from usergroup\n"

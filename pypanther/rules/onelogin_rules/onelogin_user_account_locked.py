@@ -1,6 +1,7 @@
 from typing import List
 
 from pypanther.base import PantherRule, PantherRuleTest, Severity
+from pypanther.log_types import LogType
 
 one_login_user_account_locked_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -54,7 +55,7 @@ class OneLoginUserAccountLocked(PantherRule):
     RuleID = "OneLogin.UserAccountLocked-prototype"
     DisplayName = "OneLogin User Locked"
     Enabled = True
-    LogTypes = ["OneLogin.Events"]
+    LogTypes = [LogType.OneLogin_Events]
     Tags = ["OneLogin", "Credential Access:Brute Force"]
     Reports = {"MITRE ATT&CK": ["TA0006:T1110"]}
     Severity = Severity.Low

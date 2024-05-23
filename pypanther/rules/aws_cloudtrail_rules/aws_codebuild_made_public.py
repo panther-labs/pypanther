@@ -3,6 +3,7 @@ from typing import List
 from pypanther.base import PantherRule, PantherRuleTest, Severity
 from pypanther.helpers.panther_base_helpers import aws_rule_context, deep_get
 from pypanther.helpers.panther_default import lookup_aws_account_name
+from pypanther.log_types import LogType
 
 aws_cloud_trail_codebuild_project_made_public_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -130,7 +131,7 @@ class AWSCloudTrailCodebuildProjectMadePublic(PantherRule):
     RuleID = "AWS.CloudTrail.CodebuildProjectMadePublic-prototype"
     DisplayName = "CodeBuild Project made Public"
     Enabled = True
-    LogTypes = ["AWS.CloudTrail"]
+    LogTypes = [LogType.AWS_CloudTrail]
     Reports = {"MITRE ATT&CK": ["TA0010:T1567"]}
     Tags = ["AWS", "Security Control", "Exfiltration:Exfiltration Over Web Service"]
     Severity = Severity.High

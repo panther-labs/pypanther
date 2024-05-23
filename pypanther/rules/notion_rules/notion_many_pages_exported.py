@@ -2,6 +2,7 @@ from typing import List
 
 from pypanther.base import PantherRule, PantherRuleTest, Severity
 from pypanther.helpers.panther_notion_helpers import notion_alert_context
+from pypanther.log_types import LogType
 
 notion_many_pages_exported_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -62,7 +63,7 @@ class NotionManyPagesExported(PantherRule):
     RuleID = "Notion.Many.Pages.Exported-prototype"
     DisplayName = "Notion Many Pages Exported"
     Enabled = True
-    LogTypes = ["Notion.AuditLogs"]
+    LogTypes = [LogType.Notion_AuditLogs]
     Tags = ["Notion", "Data Security", "Data Exfiltration"]
     Severity = Severity.High
     Description = "A Notion User exported multiple pages."

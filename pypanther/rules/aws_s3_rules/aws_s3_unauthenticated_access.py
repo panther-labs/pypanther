@@ -2,6 +2,7 @@ from typing import List
 
 from pypanther.base import PantherRule, PantherRuleTest, Severity
 from pypanther.helpers.panther_base_helpers import aws_rule_context
+from pypanther.log_types import LogType
 
 awss3_server_access_unauthenticated_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -22,7 +23,7 @@ class AWSS3ServerAccessUnauthenticated(PantherRule):
     RuleID = "AWS.S3.ServerAccess.Unauthenticated-prototype"
     DisplayName = "AWS S3 Unauthenticated Access"
     Enabled = False
-    LogTypes = ["AWS.S3ServerAccess"]
+    LogTypes = [LogType.AWS_S3ServerAccess]
     Tags = [
         "AWS",
         "Configuration Required",

@@ -2,6 +2,7 @@ from typing import List
 
 from pypanther.base import PantherRule, PantherRuleTest, Severity
 from pypanther.helpers.panther_base_helpers import aws_rule_context
+from pypanther.log_types import LogType
 
 awsiam_group_read_only_events_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -273,7 +274,7 @@ class AWSIAMGroupReadOnlyEvents(PantherRule):
     Runbook = "Examine other activities done by this user to determine whether or not activity is suspicious."
     Severity = Severity.Info
     Tags = ["AWS", "Cloudtrail", "Configuration Required", "IAM", "MITRE"]
-    LogTypes = ["AWS.CloudTrail"]
+    LogTypes = [LogType.AWS_CloudTrail]
     RuleID = "AWS.IAM.Group.Read.Only.Events-prototype"
     Threshold = 2
     Tests = awsiam_group_read_only_events_tests

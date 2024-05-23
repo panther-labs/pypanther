@@ -3,6 +3,7 @@ from typing import List
 from pypanther.base import PantherRule, PantherRuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 from pypanther.helpers.panther_snyk_helpers import snyk_alert_context
+from pypanther.log_types import LogType
 
 snyk_ou_change_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -67,7 +68,7 @@ class SnykOUChange(PantherRule):
     RuleID = "Snyk.OU.Change-prototype"
     DisplayName = "Snyk Org or Group Settings Change"
     Enabled = True
-    LogTypes = ["Snyk.GroupAudit", "Snyk.OrgAudit"]
+    LogTypes = [LogType.Snyk_GroupAudit, LogType.Snyk_OrgAudit]
     Tags = ["Snyk"]
     Severity = Severity.High
     Description = "Detects when Snyk Group or Organization Settings are changed.\n"

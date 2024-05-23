@@ -1,6 +1,7 @@
 from typing import List
 
 from pypanther.base import PantherRule, PantherRuleTest, Severity
+from pypanther.log_types import LogType
 
 git_hub_branch_protection_disabled_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -34,7 +35,7 @@ class GitHubBranchProtectionDisabled(PantherRule):
     RuleID = "GitHub.Branch.ProtectionDisabled-prototype"
     DisplayName = "GitHub Branch Protection Disabled"
     Enabled = True
-    LogTypes = ["GitHub.Audit"]
+    LogTypes = [LogType.GitHub_Audit]
     Tags = ["GitHub", "Initial Access:Supply Chain Compromise"]
     Reports = {"MITRE ATT&CK": ["TA0001:T1195"]}
     Severity = Severity.High

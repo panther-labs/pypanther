@@ -7,6 +7,7 @@ from pypanther.helpers.panther_azuresignin_helpers import (
     is_sign_in_event,
 )
 from pypanther.helpers.panther_base_helpers import deep_get
+from pypanther.log_types import LogType
 
 azure_audit_risk_level_passthrough_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -326,7 +327,7 @@ class AzureAuditRiskLevelPassthrough(PantherRule):
     DisplayName = "Azure RiskLevel Passthrough"
     Enabled = True
     DedupPeriodMinutes = 10
-    LogTypes = ["Azure.Audit"]
+    LogTypes = [LogType.Azure_Audit]
     Severity = Severity.Medium
     Description = "This detection surfaces an alert based on  riskLevelAggregated, riskLevelDuringSignIn, and riskState.\nriskLevelAggregated and riskLevelDuringSignIn are only  expected for Azure AD Premium P2 customers.\n"
     Reference = "https://learn.microsoft.com/en-us/azure/active-directory/identity-protection/howto-identity-protection-risk-feedback"

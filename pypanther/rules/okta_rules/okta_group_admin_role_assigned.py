@@ -2,6 +2,7 @@ from typing import List
 
 from pypanther.base import PantherRule, PantherRuleTest, Severity
 from pypanther.helpers.panther_base_helpers import okta_alert_context
+from pypanther.log_types import LogType
 
 okta_group_admin_role_assigned_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -173,7 +174,7 @@ class OktaGroupAdminRoleAssigned(PantherRule):
     Enabled = True
     Reference = "https://support.okta.com/help/s/article/How-to-assign-Administrator-roles-to-groups?language=en_US#:~:text=Log%20in%20to%20the%20Admin,user%20and%20click%20Save%20changes"
     Severity = Severity.High
-    LogTypes = ["Okta.SystemLog"]
+    LogTypes = [LogType.Okta_SystemLog]
     RuleID = "Okta.Group.Admin.Role.Assigned-prototype"
     Tests = okta_group_admin_role_assigned_tests
 

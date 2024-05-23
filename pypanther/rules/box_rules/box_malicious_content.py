@@ -2,6 +2,7 @@ from typing import List
 
 from pypanther.base import PantherRule, PantherRuleTest, Severity
 from pypanther.helpers.panther_base_helpers import box_parse_additional_details, deep_get
+from pypanther.log_types import LogType
 
 box_malicious_content_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -75,7 +76,7 @@ class BoxMaliciousContent(PantherRule):
     RuleID = "Box.Malicious.Content-prototype"
     DisplayName = "Malicious Content Detected"
     Enabled = True
-    LogTypes = ["Box.Event"]
+    LogTypes = [LogType.Box_Event]
     Tags = ["Box", "Execution:User Execution"]
     Reports = {"MITRE ATT&CK": ["TA0002:T1204"]}
     Severity = Severity.High

@@ -2,6 +2,7 @@ from difflib import SequenceMatcher
 from typing import List
 
 from pypanther.base import PantherRule, PantherRuleTest, Severity
+from pypanther.log_types import LogType
 
 
 class CiscoUmbrellaDNSFuzzyMatching(PantherRule):
@@ -9,7 +10,7 @@ class CiscoUmbrellaDNSFuzzyMatching(PantherRule):
     DisplayName = "Cisco Umbrella Domain Name Fuzzy Matching"
     Enabled = False
     DedupPeriodMinutes = 15
-    LogTypes = ["CiscoUmbrella.DNS"]
+    LogTypes = [LogType.CiscoUmbrella_DNS]
     Tags = ["Configuration Required", "DNS"]
     Reference = "https://umbrella.cisco.com/blog/abcs-of-dns"
     Severity = Severity.Medium

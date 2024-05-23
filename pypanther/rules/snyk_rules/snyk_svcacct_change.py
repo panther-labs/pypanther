@@ -3,6 +3,7 @@ from typing import List
 from pypanther.base import PantherRule, PantherRuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 from pypanther.helpers.panther_snyk_helpers import snyk_alert_context
+from pypanther.log_types import LogType
 
 snyk_service_account_change_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -210,7 +211,7 @@ class SnykServiceAccountChange(PantherRule):
     RuleID = "Snyk.ServiceAccount.Change-prototype"
     DisplayName = "Snyk Service Account Change"
     Enabled = True
-    LogTypes = ["Snyk.GroupAudit", "Snyk.OrgAudit"]
+    LogTypes = [LogType.Snyk_GroupAudit, LogType.Snyk_OrgAudit]
     Tags = ["Snyk"]
     Severity = Severity.High
     Description = "Detects when Snyk Service Accounts are changed\n"

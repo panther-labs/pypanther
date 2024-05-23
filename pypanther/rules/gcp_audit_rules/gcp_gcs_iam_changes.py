@@ -2,6 +2,7 @@ from typing import List
 
 from pypanther.base import PantherRule, PantherRuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
+from pypanther.log_types import LogType
 
 gcpgcsiam_changes_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -65,7 +66,7 @@ class GCPGCSIAMChanges(PantherRule):
     RuleID = "GCP.GCS.IAMChanges-prototype"
     DisplayName = "GCP GCS IAM Permission Changes"
     Enabled = True
-    LogTypes = ["GCP.AuditLog"]
+    LogTypes = [LogType.GCP_AuditLog]
     Tags = ["GCP", "Google Cloud Storage", "Collection:Data From Cloud Storage Object"]
     Reports = {"CIS": ["2.1"], "MITRE ATT&CK": ["TA0009:T1530"]}
     Severity = Severity.Low

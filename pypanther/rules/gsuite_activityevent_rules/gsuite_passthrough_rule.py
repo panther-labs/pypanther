@@ -2,6 +2,7 @@ from typing import List
 
 from pypanther.base import PantherRule, PantherRuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
+from pypanther.log_types import LogType
 
 g_suite_rule_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -71,7 +72,7 @@ class GSuiteRule(PantherRule):
     RuleID = "GSuite.Rule-prototype"
     DisplayName = "GSuite Passthrough Rule Triggered"
     Enabled = True
-    LogTypes = ["GSuite.ActivityEvent"]
+    LogTypes = [LogType.GSuite_ActivityEvent]
     Tags = ["GSuite"]
     Severity = Severity.Info
     Description = "A GSuite rule was triggered.\n"

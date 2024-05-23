@@ -2,6 +2,7 @@ from typing import List
 
 import pypanther.helpers.panther_event_type_helpers as event_type
 from pypanther.base import PantherRule, PantherRuleTest, Severity
+from pypanther.log_types import LogType
 
 standard_mfa_disabled_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -200,7 +201,12 @@ class StandardMFADisabled(PantherRule):
     RuleID = "Standard.MFADisabled-prototype"
     DisplayName = "MFA Disabled"
     Enabled = True
-    LogTypes = ["Atlassian.Audit", "GitHub.Audit", "Zendesk.Audit", "Okta.SystemLog"]
+    LogTypes = [
+        LogType.Atlassian_Audit,
+        LogType.GitHub_Audit,
+        LogType.Zendesk_Audit,
+        LogType.Okta_SystemLog,
+    ]
     Tags = ["DataModel", "Defense Evasion:Modify Authentication Process"]
     Reports = {"MITRE ATT&CK": ["TA0005:T1556"]}
     Reference = "https://en.wikipedia.org/wiki/Multi-factor_authentication"

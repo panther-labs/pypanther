@@ -4,6 +4,7 @@ from typing import List
 from pypanther.base import PantherRule, PantherRuleTest, Severity
 from pypanther.helpers.gcp_base_helpers import gcp_alert_context
 from pypanther.helpers.panther_base_helpers import deep_get, deep_walk
+from pypanther.log_types import LogType
 
 gcp_log_bucket_or_sink_deleted_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -206,7 +207,7 @@ class GCPLogBucketOrSinkDeleted(PantherRule):
     Enabled = True
     RuleID = "GCP.Log.Bucket.Or.Sink.Deleted-prototype"
     Severity = Severity.Medium
-    LogTypes = ["GCP.AuditLog"]
+    LogTypes = [LogType.GCP_AuditLog]
     Tags = ["GCP", "Logging", "Bucket", "Sink", "Infrastructure"]
     Description = "This rule detects deletions of GCP Log Buckets or Sinks.\n"
     Runbook = "Ensure that the bucket or sink deletion was expected. Adversaries may do this to cover their tracks.\n"

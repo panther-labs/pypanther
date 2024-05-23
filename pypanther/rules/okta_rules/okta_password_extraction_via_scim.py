@@ -2,6 +2,7 @@ from typing import List
 
 from pypanther.base import PantherRule, PantherRuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get, deep_walk, okta_alert_context
+from pypanther.log_types import LogType
 
 okta_password_extractionvia_scim_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -163,7 +164,7 @@ class OktaPasswordExtractionviaSCIM(PantherRule):
     RuleID = "Okta.Password.Extraction.via.SCIM-prototype"
     DisplayName = "Okta Cleartext Passwords Extracted via SCIM Application"
     Enabled = True
-    LogTypes = ["Okta.SystemLog"]
+    LogTypes = [LogType.Okta_SystemLog]
     Reports = {"MITRE ATT&CK": ["TA0006:T1556"]}
     Severity = Severity.High
     Description = "An application admin has extracted cleartext user passwords via SCIM app. Malcious actors can extract plaintext passwords by creating a SCIM application under their control and configuring it to sync passwords from Okta.\n"

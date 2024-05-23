@@ -2,6 +2,7 @@ from typing import List
 
 from pypanther.base import PantherRule, PantherRuleTest, Severity
 from pypanther.helpers.panther_notion_helpers import notion_alert_context
+from pypanther.log_types import LogType
 
 notion_workspace_scim_token_generated_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -53,7 +54,7 @@ class NotionWorkspaceSCIMTokenGenerated(PantherRule):
     RuleID = "Notion.Workspace.SCIM.Token.Generated-prototype"
     DisplayName = "Notion SCIM Token Generated"
     Enabled = True
-    LogTypes = ["Notion.AuditLogs"]
+    LogTypes = [LogType.Notion_AuditLogs]
     Tags = ["Notion", "Application Security", "Supply Chain Attack"]
     Description = "A Notion User generated a SCIM token."
     Severity = Severity.Medium

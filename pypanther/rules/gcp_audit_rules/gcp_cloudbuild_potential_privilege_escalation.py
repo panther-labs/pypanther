@@ -3,6 +3,7 @@ from typing import List
 from pypanther.base import PantherRule, PantherRuleTest, Severity
 from pypanther.helpers.gcp_base_helpers import gcp_alert_context
 from pypanther.helpers.panther_base_helpers import deep_get, deep_walk
+from pypanther.log_types import LogType
 
 gcp_cloud_build_potential_privilege_escalation_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -114,7 +115,7 @@ gcp_cloud_build_potential_privilege_escalation_tests: List[PantherRuleTest] = [
 
 
 class GCPCloudBuildPotentialPrivilegeEscalation(PantherRule):
-    LogTypes = ["GCP.AuditLog"]
+    LogTypes = [LogType.GCP_AuditLog]
     Description = "Detects privilege escalation attacks designed to gain access to the Cloud Build Service Account. A user with permissions to start a new build with Cloud Build can gain access to the Cloud Build Service Account and abuse it for more access to the environment."
     DisplayName = "GCP CloudBuild Potential Privilege Escalation"
     RuleID = "GCP.CloudBuild.Potential.Privilege.Escalation-prototype"

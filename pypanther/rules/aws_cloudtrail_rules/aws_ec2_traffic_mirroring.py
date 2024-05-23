@@ -2,6 +2,7 @@ from typing import List
 
 from pypanther.base import PantherRule, PantherRuleTest, Severity
 from pypanther.helpers.panther_base_helpers import aws_rule_context, deep_get
+from pypanther.log_types import LogType
 
 awsec2_traffic_mirroring_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -611,7 +612,7 @@ class AWSEC2TrafficMirroring(PantherRule):
     Runbook = "Examine other activities done by this user to determine whether or not activity is suspicious. If your network traffic is not encrypted, we recommend changing the severity to high or critical."
     Severity = Severity.Medium
     Tags = ["AWS", "Cloudtrail", "MITRE"]
-    LogTypes = ["AWS.CloudTrail"]
+    LogTypes = [LogType.AWS_CloudTrail]
     RuleID = "AWS.EC2.Traffic.Mirroring-prototype"
     SummaryAttributes = ["userIdentity.type"]
     Tests = awsec2_traffic_mirroring_tests

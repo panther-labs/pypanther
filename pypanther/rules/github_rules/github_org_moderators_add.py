@@ -2,6 +2,7 @@ from typing import List
 
 from pypanther.base import PantherRule, PantherRuleTest, Severity
 from pypanther.helpers.panther_base_helpers import github_alert_context
+from pypanther.log_types import LogType
 
 git_hub_org_moderators_add_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -39,7 +40,7 @@ class GitHubOrgModeratorsAdd(PantherRule):
     RuleID = "GitHub.Org.Moderators.Add-prototype"
     DisplayName = "GitHub User Added to Org Moderators"
     Enabled = True
-    LogTypes = ["GitHub.Audit"]
+    LogTypes = [LogType.GitHub_Audit]
     Tags = ["GitHub", "Initial Access:Supply Chain Compromise"]
     Severity = Severity.Medium
     Description = "Detects when a user is added to a GitHub org's list of moderators."

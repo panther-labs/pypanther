@@ -4,6 +4,7 @@ from typing import List
 from pypanther.base import PantherRule, PantherRuleTest, Severity
 from pypanther.helpers.panther_base_helpers import aws_rule_context, deep_get
 from pypanther.helpers.panther_default import lookup_aws_account_name
+from pypanther.log_types import LogType
 
 awsiam_user_recon_access_denied_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -155,7 +156,7 @@ class AWSIAMUserReconAccessDenied(PantherRule):
     RuleID = "AWS.IAMUser.ReconAccessDenied-prototype"
     DisplayName = "Detect Reconnaissance from IAM Users"
     Enabled = True
-    LogTypes = ["AWS.CloudTrail"]
+    LogTypes = [LogType.AWS_CloudTrail]
     Tags = ["AWS", "Discovery:Cloud Service Discovery"]
     Reports = {"MITRE ATT&CK": ["TA0007:T1526"]}
     Severity = Severity.Info

@@ -2,6 +2,7 @@ from typing import List
 
 from pypanther.base import PantherRule, PantherRuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
+from pypanther.log_types import LogType
 
 sentinel_one_threats_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -116,7 +117,7 @@ class SentinelOneThreats(PantherRule):
         "https://www.sentinelone.com/blog/feature-spotlight-introducing-the-new-threat-center/"
     )
     Severity = Severity.High
-    LogTypes = ["SentinelOne.Activity"]
+    LogTypes = [LogType.SentinelOne_Activity]
     RuleID = "SentinelOne.Threats-prototype"
     Tests = sentinel_one_threats_tests  # New Malicious Threat Not Mitigated
     # New Malicious Threat Not Mitigated

@@ -1,6 +1,7 @@
 from typing import List
 
 from pypanther.base import PantherRule, PantherRuleTest, Severity
+from pypanther.log_types import LogType
 
 one_login_unauthorized_access_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -30,7 +31,7 @@ class OneLoginUnauthorizedAccess(PantherRule):
     RuleID = "OneLogin.UnauthorizedAccess-prototype"
     DisplayName = "OneLogin Unauthorized Access"
     Enabled = True
-    LogTypes = ["OneLogin.Events"]
+    LogTypes = [LogType.OneLogin_Events]
     Tags = ["OneLogin", "Lateral Movement:Use Alternate Authentication Material"]
     Reports = {"MITRE ATT&CK": ["TA0008:T1550"]}
     Severity = Severity.Medium

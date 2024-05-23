@@ -1,6 +1,7 @@
 from typing import List
 
 from pypanther.base import PantherRule, PantherRuleTest, Severity
+from pypanther.log_types import LogType
 
 carbon_black_alert_v2_passthrough_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -185,7 +186,7 @@ class CarbonBlackAlertV2Passthrough(PantherRule):
     Runbook = "Review the Carbon Black alert details to determine what malicious behavior was detected, and whether or not it was blocked.  Use the Reference link to view the alert in the Carbon Black console and take remediating actions if necessary."
     Reference = "https://docs.vmware.com/en/VMware-Carbon-Black-Cloud/services/carbon-black-cloud-user-guide/GUID-0B68199D-6411-45D1-AE0D-2AB9B7A28513.html"
     Enabled = True
-    LogTypes = ["CarbonBlack.AlertV2"]
+    LogTypes = [LogType.CarbonBlack_AlertV2]
     Severity = Severity.Medium
     DedupPeriodMinutes = 30
     SummaryAttributes = [

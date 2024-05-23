@@ -2,6 +2,7 @@ from typing import List
 
 from pypanther.base import PantherRule, PantherRuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
+from pypanther.log_types import LogType
 
 g_suite_login_type_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -62,7 +63,7 @@ class GSuiteLoginType(PantherRule):
     RuleID = "GSuite.LoginType-prototype"
     DisplayName = "GSuite Login Type"
     Enabled = False
-    LogTypes = ["GSuite.ActivityEvent"]
+    LogTypes = [LogType.GSuite_ActivityEvent]
     Tags = ["GSuite", "Configuration Required", "Initial Access:Valid Accounts"]
     Reports = {"MITRE ATT&CK": ["TA0001:T1078"]}
     Severity = Severity.Medium

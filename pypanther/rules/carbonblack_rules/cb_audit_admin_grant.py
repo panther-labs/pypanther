@@ -1,6 +1,7 @@
 from typing import List
 
 from pypanther.base import PantherRule, PantherRuleTest, Severity
+from pypanther.log_types import LogType
 
 carbon_black_audit_admin_grant_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -53,7 +54,7 @@ carbon_black_audit_admin_grant_tests: List[PantherRuleTest] = [
 
 class CarbonBlackAuditAdminGrant(PantherRule):
     RuleID = "CarbonBlack.Audit.Admin.Grant-prototype"
-    LogTypes = ["CarbonBlack.Audit"]
+    LogTypes = [LogType.CarbonBlack_Audit]
     Description = "Detects when a user is granted Admin or Super Admin permissions."
     DisplayName = "Carbon Black Admin Role Granted"
     Enabled = True

@@ -1,6 +1,7 @@
 from typing import List
 
 from pypanther.base import PantherRule, PantherRuleTest, Severity
+from pypanther.log_types import LogType
 
 osquery_linux_mac_vulnerable_x_zliblzma_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -55,7 +56,7 @@ class OsqueryLinuxMacVulnerableXZliblzma(PantherRule):
     RuleID = "Osquery.Linux.Mac.VulnerableXZliblzma-prototype"
     DisplayName = "A backdoored version of XZ or liblzma is vulnerable to CVE-2024-3094"
     Enabled = True
-    LogTypes = ["Osquery.Differential"]
+    LogTypes = [LogType.Osquery_Differential]
     Tags = ["Osquery", "MacOS", "Linux", "Emerging Threats", "Supply Chain Compromise"]
     Reports = {"MITRE ATT&CK": ["TA0001:T1195.001"]}
     Severity = Severity.High

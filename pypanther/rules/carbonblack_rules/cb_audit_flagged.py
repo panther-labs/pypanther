@@ -1,6 +1,7 @@
 from typing import List
 
 from pypanther.base import PantherRule, PantherRuleTest, Severity
+from pypanther.log_types import LogType
 
 carbon_black_audit_flagged_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -37,7 +38,7 @@ carbon_black_audit_flagged_tests: List[PantherRuleTest] = [
 
 class CarbonBlackAuditFlagged(PantherRule):
     RuleID = "CarbonBlack.Audit.Flagged-prototype"
-    LogTypes = ["CarbonBlack.Audit"]
+    LogTypes = [LogType.CarbonBlack_Audit]
     Description = "Detects when Carbon Black has flagged a log as important, such as failed login attempts and locked accounts."
     DisplayName = "Carbon Black Log Entry Flagged"
     Enabled = True

@@ -3,6 +3,7 @@ from typing import List
 from pypanther.base import PantherRule, PantherRuleTest, Severity
 from pypanther.helpers.panther_base_helpers import aws_rule_context, deep_get
 from pypanther.helpers.panther_default import aws_cloudtrail_success
+from pypanther.log_types import LogType
 
 aws_cloud_trail_network_acl_permissive_entry_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -160,7 +161,7 @@ class AWSCloudTrailNetworkACLPermissiveEntry(PantherRule):
     RuleID = "AWS.CloudTrail.NetworkACLPermissiveEntry-prototype"
     DisplayName = "AWS Network ACL Overly Permissive Entry Created"
     Enabled = True
-    LogTypes = ["AWS.CloudTrail"]
+    LogTypes = [LogType.AWS_CloudTrail]
     Tags = ["AWS", "Persistence:Account Manipulation"]
     Severity = Severity.Medium
     Reports = {"MITRE ATT&CK": ["TA0003:T1098"]}

@@ -3,6 +3,7 @@ from typing import List
 from pypanther.base import PantherRule, PantherRuleTest, Severity
 from pypanther.helpers.panther_base_helpers import aws_rule_context
 from pypanther.helpers.panther_default import aws_cloudtrail_success
+from pypanther.log_types import LogType
 
 awsec2_security_group_modified_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -173,7 +174,7 @@ class AWSEC2SecurityGroupModified(PantherRule):
     RuleID = "AWS.EC2.SecurityGroupModified-prototype"
     DisplayName = "EC2 Security Group Modified"
     Enabled = True
-    LogTypes = ["AWS.CloudTrail"]
+    LogTypes = [LogType.AWS_CloudTrail]
     Tags = ["AWS", "Security Control", "Defense Evasion:Impair Defenses"]
     Reports = {"CIS": ["3.1"], "MITRE ATT&CK": ["TA0005:T1562"]}
     Severity = Severity.Info

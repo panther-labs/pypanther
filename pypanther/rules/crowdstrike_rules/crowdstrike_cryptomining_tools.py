@@ -2,6 +2,7 @@ from typing import List
 
 from pypanther.base import PantherRule, PantherRuleTest, Severity
 from pypanther.helpers.panther_base_helpers import crowdstrike_detection_alert_context, deep_get
+from pypanther.log_types import LogType
 
 crowdstrike_cryptomining_tools_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -177,7 +178,7 @@ class CrowdstrikeCryptominingTools(PantherRule):
     Enabled = True
     Reference = "https://www.crowdstrike.com/cybersecurity-101/cryptojacking/"
     Severity = Severity.Critical
-    LogTypes = ["Crowdstrike.FDREvent"]
+    LogTypes = [LogType.Crowdstrike_FDREvent]
     RuleID = "Crowdstrike.Cryptomining.Tools-prototype"
     Tests = crowdstrike_cryptomining_tools_tests
     CRYPTOCURRENCY_MINING_TOOLS = {

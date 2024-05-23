@@ -2,6 +2,7 @@ from typing import List
 
 import pypanther.helpers.panther_event_type_helpers as event_type
 from pypanther.base import PantherDataModel, PantherDataModelMapping
+from pypanther.log_types import LogType
 
 audit_log_type_map = {
     "user_login_succeeded": event_type.SUCCESSFUL_LOGIN,
@@ -24,7 +25,7 @@ class StandardAsanaAudit(PantherDataModel):
     DataModelID: str = "Standard.Asana.Audit"
     DisplayName: str = "Asana Audit Logs"
     Enabled: bool = True
-    LogTypes: List[str] = ["Asana.Audit"]
+    LogTypes: List[str] = [LogType.Asana_Audit]
     Mappings: List[PantherDataModelMapping] = [
         PantherDataModelMapping(Name="actor_user", Path="$.actor.name"),
         PantherDataModelMapping(Name="event_type", Method=get_event_type),

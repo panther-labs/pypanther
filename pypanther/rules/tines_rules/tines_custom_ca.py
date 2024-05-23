@@ -3,6 +3,7 @@ from typing import List
 from pypanther.base import PantherRule, PantherRuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 from pypanther.helpers.panther_tines_helpers import tines_alert_context
+from pypanther.log_types import LogType
 
 tines_custom_certificate_authority_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -43,7 +44,7 @@ class TinesCustomCertificateAuthority(PantherRule):
     RuleID = "Tines.Custom.CertificateAuthority-prototype"
     DisplayName = "Tines Custom CertificateAuthority setting changed"
     Enabled = True
-    LogTypes = ["Tines.Audit"]
+    LogTypes = [LogType.Tines_Audit]
     Tags = ["Tines", "IAM - Credential Security"]
     Reference = "https://www.tines.com/docs/admin/custom-certificate-authority"
     Severity = Severity.High

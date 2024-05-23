@@ -2,6 +2,7 @@ from typing import List
 
 from pypanther.base import PantherRule, PantherRuleTest, Severity
 from pypanther.helpers.panther_base_helpers import aws_rule_context, deep_get
+from pypanther.log_types import LogType
 
 aws_unused_region_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -155,7 +156,7 @@ class AWSUnusedRegion(PantherRule):
     RuleID = "AWS.UnusedRegion-prototype"
     DisplayName = "Unused AWS Region"
     Enabled = False
-    LogTypes = ["AWS.CloudTrail"]
+    LogTypes = [LogType.AWS_CloudTrail]
     Tags = ["AWS", "Defense Evasion:Unused/Unsupported Cloud Regions", "Configuration Required"]
     Reports = {"MITRE ATT&CK": ["TA0005:T1535"]}
     Severity = Severity.High

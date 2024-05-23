@@ -2,6 +2,7 @@ from typing import List
 
 from pypanther.base import PantherRule, PantherRuleTest, Severity
 from pypanther.helpers.panther_base_helpers import aws_rule_context
+from pypanther.log_types import LogType
 
 awsvpc_healthy_log_status_tests: List[PantherRuleTest] = [
     PantherRuleTest(Name="Healthy Log Status", ExpectedResult=False, Log={"log-status": "OK"}),
@@ -15,7 +16,7 @@ class AWSVPCHealthyLogStatus(PantherRule):
     RuleID = "AWS.VPC.HealthyLogStatus-prototype"
     DisplayName = "AWS VPC Healthy Log Status"
     Enabled = True
-    LogTypes = ["AWS.VPCFlow"]
+    LogTypes = [LogType.AWS_VPCFlow]
     Tags = ["AWS", "Security Control"]
     Severity = Severity.Low
     Description = "Checks for the log status `SKIP-DATA`, which indicates that data was lost either to an internal server error or due to capacity constraints.\n"

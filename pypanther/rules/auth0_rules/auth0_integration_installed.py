@@ -3,6 +3,7 @@ from typing import List
 from pypanther.base import PantherRule, PantherRuleTest, Severity
 from pypanther.helpers.panther_auth0_helpers import auth0_alert_context, is_auth0_config_event
 from pypanther.helpers.panther_base_helpers import deep_get
+from pypanther.log_types import LogType
 
 auth0_integration_installed_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -259,7 +260,7 @@ class Auth0IntegrationInstalled(PantherRule):
     Runbook = "Assess if this was done by the user for a valid business reason. Be vigilant to re-enable this setting as it's in the best security interest for your organization's security posture."
     Reference = "https://auth0.com/blog/actions-integrations-are-now-ga/"
     Severity = Severity.Info
-    LogTypes = ["Auth0.Events"]
+    LogTypes = [LogType.Auth0_Events]
     RuleID = "Auth0.Integration.Installed-prototype"
     Tests = auth0_integration_installed_tests
 

@@ -2,6 +2,7 @@ from typing import List
 
 from pypanther.base import PantherRule, PantherRuleTest, Severity
 from pypanther.helpers.panther_base_helpers import okta_alert_context
+from pypanther.log_types import LogType
 
 okta_user_account_locked_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -160,7 +161,7 @@ class OktaUserAccountLocked(PantherRule):
     Enabled = True
     Reference = "https://support.okta.com/help/s/article/How-to-Configure-the-Number-of-Failed-Login-Attempts-Before-User-Lockout?language=en_US"
     Severity = Severity.Low
-    LogTypes = ["Okta.SystemLog"]
+    LogTypes = [LogType.Okta_SystemLog]
     RuleID = "Okta.User.Account.Locked-prototype"
     Tests = okta_user_account_locked_tests
 

@@ -5,6 +5,7 @@ import pypanther.helpers.panther_event_type_helpers as event_type
 from pypanther.base import PantherRule, PantherRuleTest, RuleMock, Severity
 from pypanther.helpers.panther_default import lookup_aws_account_name
 from pypanther.helpers.panther_oss_helpers import add_parse_delay, geoinfo_from_ip
+from pypanther.log_types import LogType
 
 standard_brute_force_by_ip_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -391,14 +392,14 @@ class StandardBruteForceByIP(PantherRule):
     DisplayName = "Brute Force By IP"
     Enabled = True
     LogTypes = [
-        "Asana.Audit",
-        "Atlassian.Audit",
-        "AWS.CloudTrail",
-        "Box.Event",
-        "GSuite.Reports",
-        "Okta.SystemLog",
-        "OneLogin.Events",
-        "OnePassword.SignInAttempt",
+        LogType.Asana_Audit,
+        LogType.Atlassian_Audit,
+        LogType.AWS_CloudTrail,
+        LogType.Box_Event,
+        LogType.GSuite_Reports,
+        LogType.Okta_SystemLog,
+        LogType.OneLogin_Events,
+        LogType.OnePassword_SignInAttempt,
     ]
     Severity = Severity.Info
     Tags = ["DataModel", "Credential Access:Brute Force"]

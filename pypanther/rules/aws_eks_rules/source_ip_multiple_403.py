@@ -3,6 +3,7 @@ from typing import List
 
 from pypanther.base import PantherRule, PantherRuleTest, Severity
 from pypanther.helpers.panther_base_helpers import eks_panther_obj_ref
+from pypanther.log_types import LogType
 
 amazon_eks_audit_multiple403_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -167,7 +168,7 @@ class AmazonEKSAuditMultiple403(PantherRule):
     RuleID = "Amazon.EKS.Audit.Multiple403-prototype"
     DisplayName = "EKS Audit Log based single sourceIP is generating multiple 403s"
     Enabled = True
-    LogTypes = ["Amazon.EKS.Audit"]
+    LogTypes = [LogType.Amazon_EKS_Audit]
     Tags = ["EKS"]
     Reports = {"MITRE ATT&CK": ["TA0007:T1613"]}
     Reference = "https://aws.github.io/aws-eks-best-practices/security/docs/detective/"

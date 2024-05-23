@@ -4,6 +4,7 @@ from typing import List
 from pypanther.base import PantherRule, PantherRuleTest, RuleMock, Severity
 from pypanther.helpers.panther_notion_helpers import notion_alert_context
 from pypanther.helpers.panther_oss_helpers import get_string_set, put_string_set
+from pypanther.log_types import LogType
 
 notion_account_changed_after_login_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -322,7 +323,7 @@ class NotionAccountChangedAfterLogin(PantherRule):
     RuleID = "Notion.AccountChangedAfterLogin-prototype"
     DisplayName = "Notion Account Changed Shortly After Login"
     Enabled = True
-    LogTypes = ["Notion.AuditLogs"]
+    LogTypes = [LogType.Notion_AuditLogs]
     Tags = ["Notion", "Identity & Access Management", "Persistence"]
     Severity = Severity.Medium
     Description = "A Notion User logged in then changed their account details."

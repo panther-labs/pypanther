@@ -7,6 +7,7 @@ from panther_detection_helpers.caching import put_string_set
 import pypanther.helpers.panther_event_type_helpers as event_type
 from pypanther.base import PantherRule, PantherRuleTest, RuleMock, Severity
 from pypanther.helpers.panther_oss_helpers import resolve_timestamp_string
+from pypanther.log_types import LogType
 
 standard_new_aws_account_created_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -57,7 +58,7 @@ class StandardNewAWSAccountCreated(PantherRule):
     RuleID = "Standard.NewAWSAccountCreated-prototype"
     DisplayName = "New AWS Account Created"
     Enabled = True
-    LogTypes = ["AWS.CloudTrail"]
+    LogTypes = [LogType.AWS_CloudTrail]
     Tags = ["DataModel", "Indicator Collection", "Persistence:Create Account"]
     Severity = Severity.Info
     Reports = {"MITRE ATT&CK": ["TA0003:T1136"]}

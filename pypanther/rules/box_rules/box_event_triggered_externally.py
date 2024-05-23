@@ -3,6 +3,7 @@ from typing import List
 from pypanther.base import PantherRule, PantherRuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 from pypanther.helpers.panther_config import config
+from pypanther.log_types import LogType
 
 box_event_triggered_externally_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -42,7 +43,7 @@ class BoxEventTriggeredExternally(PantherRule):
     RuleID = "Box.Event.Triggered.Externally-prototype"
     DisplayName = "Box event triggered by unknown or external user"
     Enabled = False
-    LogTypes = ["Box.Event"]
+    LogTypes = [LogType.Box_Event]
     Tags = ["Box", "Exfiltration:Exfiltration Over Web Service", "Configuration Required"]
     Reports = {"MITRE ATT&CK": ["TA0010:T1567"]}
     Severity = Severity.Medium

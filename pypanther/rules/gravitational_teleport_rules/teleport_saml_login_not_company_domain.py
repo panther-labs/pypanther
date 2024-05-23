@@ -3,6 +3,7 @@ from typing import List
 
 from pypanther.base import PantherRule, PantherRuleTest, Severity
 from pypanther.helpers.panther_config import config
+from pypanther.log_types import LogType
 
 teleport_saml_login_without_company_domain_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -43,7 +44,7 @@ class TeleportSAMLLoginWithoutCompanyDomain(PantherRule):
     RuleID = "Teleport.SAMLLoginWithoutCompanyDomain-prototype"
     DisplayName = "A user authenticated with SAML, but from an unknown company domain"
     Enabled = True
-    LogTypes = ["Gravitational.TeleportAudit"]
+    LogTypes = [LogType.Gravitational_TeleportAudit]
     Tags = ["Teleport"]
     Severity = Severity.High
     Description = "A user authenticated with SAML, but from an unknown company domain"

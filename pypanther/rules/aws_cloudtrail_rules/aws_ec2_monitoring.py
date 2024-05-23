@@ -2,6 +2,7 @@ from typing import List
 
 from pypanther.base import PantherRule, PantherRuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
+from pypanther.log_types import LogType
 
 awsec2_monitoring_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -422,7 +423,7 @@ class AWSEC2Monitoring(PantherRule):
     Reference = "https://docs.aws.amazon.com/service-authorization/latest/reference/list_amazonec2imagebuilder.html#amazonec2imagebuilder-actions-as-permissions"
     Severity = Severity.Info
     Tags = ["ec2"]
-    LogTypes = ["AWS.CloudTrail"]
+    LogTypes = [LogType.AWS_CloudTrail]
     RuleID = "AWS.EC2.Monitoring-prototype"
     Tests = awsec2_monitoring_tests
     # AWS CloudTrail API eventNames for EC2 Image Actions

@@ -4,6 +4,7 @@ from typing import List
 from pypanther.base import PantherRule, PantherRuleTest, Severity
 from pypanther.helpers.gcp_base_helpers import gcp_alert_context
 from pypanther.helpers.panther_base_helpers import deep_get
+from pypanther.log_types import LogType
 
 gcp_firewall_rule_modified_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -168,7 +169,7 @@ class GCPFirewallRuleModified(PantherRule):
     Enabled = True
     RuleID = "GCP.Firewall.Rule.Modified-prototype"
     Severity = Severity.Low
-    LogTypes = ["GCP.AuditLog"]
+    LogTypes = [LogType.GCP_AuditLog]
     Tags = ["GCP", "Firewall", "Networking", "Infrastructure"]
     Description = "This rule detects modifications to GCP firewall rules.\n"
     Runbook = "Ensure that the rule modification was expected. Firewall rule changes can cause service interruptions or outages.\n"

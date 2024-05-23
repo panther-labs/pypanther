@@ -3,6 +3,7 @@ from typing import List
 from pypanther.base import PantherRule, PantherRuleTest, Severity
 from pypanther.helpers.panther_base_helpers import aws_rule_context, deep_get
 from pypanther.helpers.panther_default import aws_cloudtrail_success
+from pypanther.log_types import LogType
 
 awss3_bucket_deleted_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -95,7 +96,7 @@ class AWSS3BucketDeleted(PantherRule):
     RuleID = "AWS.S3.BucketDeleted-prototype"
     DisplayName = "S3 Bucket Deleted"
     Enabled = True
-    LogTypes = ["AWS.CloudTrail"]
+    LogTypes = [LogType.AWS_CloudTrail]
     Tags = ["AWS", "Impact:Data Destruction"]
     Reports = {"MITRE ATT&CK": ["TA0040:T1485"]}
     Severity = Severity.Info

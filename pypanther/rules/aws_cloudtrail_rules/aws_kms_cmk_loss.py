@@ -3,6 +3,7 @@ from typing import List
 from pypanther.base import PantherRule, PantherRuleTest, Severity
 from pypanther.helpers.panther_base_helpers import aws_rule_context
 from pypanther.helpers.panther_default import aws_cloudtrail_success
+from pypanther.log_types import LogType
 
 awskms_customer_managed_key_loss_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -261,7 +262,7 @@ class AWSKMSCustomerManagedKeyLoss(PantherRule):
     RuleID = "AWS.KMS.CustomerManagedKeyLoss-prototype"
     DisplayName = "KMS CMK Disabled or Deleted"
     Enabled = True
-    LogTypes = ["AWS.CloudTrail"]
+    LogTypes = [LogType.AWS_CloudTrail]
     Tags = ["AWS", "Identity & Access Management", "Impact:Data Destruction"]
     Reports = {"CIS": ["3.7"], "MITRE ATT&CK": ["TA0040:T1485"]}
     Severity = Severity.Info

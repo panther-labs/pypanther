@@ -2,6 +2,7 @@ from typing import List
 
 from pypanther.base import PantherRule, PantherRuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
+from pypanther.log_types import LogType
 
 g_suite_workspace_gmail_security_sandbox_disabled_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -91,7 +92,7 @@ class GSuiteWorkspaceGmailSecuritySandboxDisabled(PantherRule):
     RuleID = "GSuite.Workspace.GmailSecuritySandboxDisabled-prototype"
     DisplayName = "GSuite Workspace Gmail Security Sandbox Disabled"
     Enabled = True
-    LogTypes = ["GSuite.ActivityEvent"]
+    LogTypes = [LogType.GSuite_ActivityEvent]
     Tags = ["GSuite"]
     Reports = {"MITRE ATT&CK": ["TA0001:T1566"]}
     Severity = Severity.Medium

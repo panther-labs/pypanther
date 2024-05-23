@@ -15,6 +15,7 @@ from ast_comments import Comment, parse, unparse
 from ruamel.yaml import YAML
 
 from pypanther import base
+from pypanther.log_types import LogType
 
 ID_POSTFIX = "-prototype"
 
@@ -24,12 +25,11 @@ def perror(*args, **kwargs):
 
 
 def do(filepath: Path, helpers: Set[str]) -> Optional[str]:
-    imports = "\n".join(
-        [
-            "from typing import List",
-            f"from pypanther.base import {base.PantherRule.__name__}, {base.PantherRuleTest.__name__}, {base.Severity.__name__}",
-        ]
-    )
+    imports = [
+        "from typing import List",
+        f"from pypanther.base import {base.PantherRule.__name__}, {base.PantherRuleTest.__name__}, {base.Severity.__name__}",
+        "from pypanther.log_types import LogType",
+    ]
 
     p = Path(filepath)
 
@@ -65,10 +65,20 @@ def do(filepath: Path, helpers: Set[str]) -> Optional[str]:
         if k == "DisplayName" and "deprecated" in v.lower():
             return None
 
-        value: ast.Constant | ast.Name = ast.Constant(value=v)
-
+        value: ast.AST = ast.Constant(value=v)
         if k == "Severity":
             value = ast.Name(id=f"{base.Severity.__name__}.{v}", ctx=ast.Load())
+        if k == "LogTypes":
+            log_type_elts = []
+            for x in v:
+                log_type_elts.append(
+                    ast.Attribute(
+                        value=ast.Name(id=f"{LogType.__name__}", ctx=ast.Load()),
+                        attr=LogType.get_attribute_name(x),
+                        ctx=ast.Load(),
+                    )
+                )
+            value = ast.List(elts=log_type_elts)
         if k == "RuleID":
             value = ast.Constant(value=v + ID_POSTFIX)
 
@@ -95,8 +105,8 @@ def do(filepath: Path, helpers: Set[str]) -> Optional[str]:
                 # we removed the filter_include_event function
                 continue
 
-            if "RuleMock" not in imports:
-                imports += ", RuleMock"
+            if "RuleMock" not in imports[1]:
+                imports[1] += ", RuleMock"
             mocks = []
             for mock in test["Mocks"]:
                 if mock["objectName"] == "filter_include_event":
@@ -130,7 +140,7 @@ def do(filepath: Path, helpers: Set[str]) -> Optional[str]:
         )
 
     tree = parse_py(
-        p.with_suffix(".py"), class_name, parse(imports).body, assignments, elts, helpers
+        p.with_suffix(".py"), class_name, parse("\n".join(imports)).body, assignments, elts, helpers
     )
 
     if p.name == "cloudflare_httpreq_bot_high_volume.yml":
@@ -483,7 +493,8 @@ def convert_data_models(panther_analysis: Path, helpers: Set[str]):
         shutil.rmtree(Path("pypanther/data_models"))
 
     imports = """from typing import List
-from pypanther.base import PantherDataModel, PantherDataModelMapping"""
+from pypanther.base import PantherDataModel, PantherDataModelMapping
+from pypanther.log_types import LogType"""
 
     paths = []
     for p in (data_models_path).rglob("*.y*ml"):
@@ -541,7 +552,15 @@ from pypanther.base import PantherDataModel, PantherDataModelMapping"""
                         value=ast.Name(id="List", ctx=ast.Load()),
                         slice=ast.Index(value=ast.Name(id="str", ctx=ast.Load())),
                     ),
-                    value=ast.List(elts=[ast.Constant(value=x) for x in dm["LogTypes"]]),
+                    value=ast.List(
+                        elts=[
+                            ast.Name(
+                                id=f"{LogType.__name__}.{LogType.get_attribute_name(x)}",
+                                ctx=ast.Load(),
+                            )
+                            for x in dm["LogTypes"]
+                        ]
+                    ),
                     simple=1,
                 ),
                 ast.AnnAssign(

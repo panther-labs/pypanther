@@ -2,6 +2,7 @@ from typing import List
 
 from pypanther.base import PantherRule, PantherRuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
+from pypanther.log_types import LogType
 
 duo_user_action_fraudulent_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -26,7 +27,7 @@ class DUOUserActionFraudulent(PantherRule):
     DisplayName = "Duo User Action Reported as Fraudulent"
     Enabled = True
     DedupPeriodMinutes = 15
-    LogTypes = ["Duo.Authentication"]
+    LogTypes = [LogType.Duo_Authentication]
     Tags = ["Duo"]
     Severity = Severity.Medium
     Description = "Alert when a user reports a Duo action as fraudulent.\n"

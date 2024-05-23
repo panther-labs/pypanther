@@ -1,6 +1,7 @@
 from typing import List
 
 from pypanther.base import PantherRule, PantherRuleTest, Severity
+from pypanther.log_types import LogType
 
 osquery_ossec_rootkit_detected_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -76,7 +77,7 @@ class OsqueryOSSECRootkitDetected(PantherRule):
     RuleID = "Osquery.OSSECRootkitDetected-prototype"
     DisplayName = "OSSEC Rootkit Detected via Osquery"
     Enabled = True
-    LogTypes = ["Osquery.Differential"]
+    LogTypes = [LogType.Osquery_Differential]
     Tags = ["Osquery", "Malware", "Defense Evasion:Rootkit"]
     Reports = {"MITRE ATT&CK": ["TA0005:T1014"]}
     Severity = Severity.Medium

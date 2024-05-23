@@ -2,6 +2,7 @@ from typing import List
 
 from pypanther.base import PantherRule, PantherRuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_walk
+from pypanther.log_types import LogType
 
 netskope_unauthorized_api_calls_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -63,7 +64,7 @@ class NetskopeUnauthorizedAPICalls(PantherRule):
     RuleID = "Netskope.UnauthorizedAPICalls-prototype"
     DisplayName = "Netskope Many Unauthorized API Calls"
     Enabled = True
-    LogTypes = ["Netskope.Audit"]
+    LogTypes = [LogType.Netskope_Audit]
     Tags = ["Netskope", "Configuration Required", "Brute Force"]
     Reports = {"MITRE ATT&CK": ["TA0006:T1110"]}
     Severity = Severity.High

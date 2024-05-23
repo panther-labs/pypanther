@@ -3,6 +3,7 @@ from typing import List
 from pypanther.base import PantherRule, PantherRuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 from pypanther.helpers.panther_snyk_helpers import snyk_alert_context
+from pypanther.log_types import LogType
 
 snyk_misc_settings_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -35,7 +36,7 @@ class SnykMiscSettings(PantherRule):
     RuleID = "Snyk.Misc.Settings-prototype"
     DisplayName = "Snyk Miscellaneous Settings"
     Enabled = True
-    LogTypes = ["Snyk.GroupAudit", "Snyk.OrgAudit"]
+    LogTypes = [LogType.Snyk_GroupAudit, LogType.Snyk_OrgAudit]
     Tags = ["Snyk"]
     Reference = "https://docs.snyk.io/snyk-admin/manage-settings"
     Severity = Severity.Low

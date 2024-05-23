@@ -2,6 +2,7 @@ from typing import List
 
 from pypanther.base import PantherRule, PantherRuleTest, Severity
 from pypanther.helpers.panther_base_helpers import aws_rule_context, deep_get
+from pypanther.log_types import LogType
 
 aws_suspicious_saml_activity_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -262,7 +263,7 @@ class AWSSuspiciousSAMLActivity(PantherRule):
     Enabled = True
     Reference = "https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pools-managing-saml-idp-console.html"
     Severity = Severity.Medium
-    LogTypes = ["AWS.CloudTrail"]
+    LogTypes = [LogType.AWS_CloudTrail]
     RuleID = "AWS.Suspicious.SAML.Activity-prototype"
     Tests = aws_suspicious_saml_activity_tests
     SAML_ACTIONS = ["UpdateSAMLProvider", "CreateSAMLProvider", "DeleteSAMLProvider"]

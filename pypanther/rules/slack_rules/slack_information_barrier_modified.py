@@ -2,6 +2,7 @@ from typing import List
 
 from pypanther.base import PantherRule, PantherRuleTest, Severity
 from pypanther.helpers.panther_base_helpers import slack_alert_context
+from pypanther.log_types import LogType
 
 slack_audit_logs_information_barrier_modified_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -100,7 +101,7 @@ class SlackAuditLogsInformationBarrierModified(PantherRule):
     RuleID = "Slack.AuditLogs.InformationBarrierModified-prototype"
     DisplayName = "Slack Information Barrier Modified"
     Enabled = True
-    LogTypes = ["Slack.AuditLogs"]
+    LogTypes = [LogType.Slack_AuditLogs]
     Tags = ["Slack", "Defense Evasion", "Impair Defenses", "Disable or Modify Tools"]
     Reports = {"MITRE ATT&CK": ["TA0005:T1562.001"]}
     Severity = Severity.Medium

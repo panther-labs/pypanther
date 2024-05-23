@@ -2,6 +2,7 @@ from typing import List
 
 from pypanther.base import PantherRule, PantherRuleTest, Severity
 from pypanther.helpers.panther_base_helpers import github_alert_context
+from pypanther.log_types import LogType
 
 github_organization_app_integration_installed_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -56,7 +57,7 @@ class GithubOrganizationAppIntegrationInstalled(PantherRule):
     Runbook = "Confirm that the app integration installation was a desired behavior."
     Severity = Severity.Low
     Tags = ["Application Installation", "Github"]
-    LogTypes = ["GitHub.Audit"]
+    LogTypes = [LogType.GitHub_Audit]
     RuleID = "Github.Organization.App.Integration.Installed-prototype"
     SummaryAttributes = ["actor", "name"]
     Tests = github_organization_app_integration_installed_tests

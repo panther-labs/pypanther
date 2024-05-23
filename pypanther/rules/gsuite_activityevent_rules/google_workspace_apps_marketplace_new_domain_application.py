@@ -1,6 +1,7 @@
 from typing import List
 
 from pypanther.base import PantherRule, PantherRuleTest, Severity
+from pypanther.log_types import LogType
 
 google_workspace_apps_marketplace_new_domain_application_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -110,7 +111,7 @@ class GoogleWorkspaceAppsMarketplaceNewDomainApplication(PantherRule):
     Runbook = "Confirm this was the intended behavior."
     Reference = "https://developers.google.com/workspace/marketplace/overview"
     Severity = Severity.Medium
-    LogTypes = ["GSuite.ActivityEvent"]
+    LogTypes = [LogType.GSuite_ActivityEvent]
     RuleID = "Google.Workspace.Apps.Marketplace.New.Domain.Application-prototype"
     Tests = google_workspace_apps_marketplace_new_domain_application_tests
 

@@ -2,6 +2,7 @@ from typing import List
 
 import pypanther.helpers.panther_event_type_helpers as event_type
 from pypanther.base import PantherRule, PantherRuleTest, Severity
+from pypanther.log_types import LogType
 
 standard_admin_role_assigned_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -268,13 +269,13 @@ class StandardAdminRoleAssigned(PantherRule):
     DisplayName = "Admin Role Assigned"
     Enabled = True
     LogTypes = [
-        "Asana.Audit",
-        "Atlassian.Audit",
-        "GCP.AuditLog",
-        "GitHub.Audit",
-        "GSuite.Reports",
-        "OneLogin.Events",
-        "Zendesk.Audit",
+        LogType.Asana_Audit,
+        LogType.Atlassian_Audit,
+        LogType.GCP_AuditLog,
+        LogType.GitHub_Audit,
+        LogType.GSuite_Reports,
+        LogType.OneLogin_Events,
+        LogType.Zendesk_Audit,
     ]
     Tags = ["DataModel", "Privilege Escalation:Valid Accounts"]
     Severity = Severity.Medium

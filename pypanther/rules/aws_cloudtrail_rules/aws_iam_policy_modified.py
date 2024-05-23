@@ -3,6 +3,7 @@ from typing import List
 from pypanther.base import PantherRule, PantherRuleTest, Severity
 from pypanther.helpers.panther_base_helpers import aws_rule_context
 from pypanther.helpers.panther_default import aws_cloudtrail_success
+from pypanther.log_types import LogType
 
 awsiam_policy_modified_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -140,7 +141,7 @@ class AWSIAMPolicyModified(PantherRule):
     RuleID = "AWS.IAM.PolicyModified-prototype"
     DisplayName = "IAM Policy Modified"
     Enabled = True
-    LogTypes = ["AWS.CloudTrail"]
+    LogTypes = [LogType.AWS_CloudTrail]
     Tags = [
         "AWS",
         "Identity & Access Management",

@@ -5,6 +5,7 @@ from pypanther.helpers.panther_duo_helpers import (
     deserialize_administrator_log_event_description,
     duo_alert_context,
 )
+from pypanther.log_types import LogType
 
 duo_admin_user_mfa_bypass_enabled_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -64,7 +65,7 @@ class DuoAdminUserMFABypassEnabled(PantherRule):
     Enabled = True
     Reference = "https://duo.com/docs/policy#authentication-policy"
     Severity = Severity.Medium
-    LogTypes = ["Duo.Administrator"]
+    LogTypes = [LogType.Duo_Administrator]
     RuleID = "Duo.Admin.User.MFA.Bypass.Enabled-prototype"
     Tests = duo_admin_user_mfa_bypass_enabled_tests
 

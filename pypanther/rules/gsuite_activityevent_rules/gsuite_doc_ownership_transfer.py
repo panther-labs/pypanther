@@ -3,6 +3,7 @@ from typing import List
 from pypanther.base import PantherRule, PantherRuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 from pypanther.helpers.panther_config import config
+from pypanther.log_types import LogType
 
 g_suite_doc_ownership_transfer_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -30,7 +31,7 @@ class GSuiteDocOwnershipTransfer(PantherRule):
     RuleID = "GSuite.DocOwnershipTransfer-prototype"
     DisplayName = "GSuite Document External Ownership Transfer"
     Enabled = False
-    LogTypes = ["GSuite.ActivityEvent"]
+    LogTypes = [LogType.GSuite_ActivityEvent]
     Tags = ["GSuite", "Configuration Required", "Collection:Data from Information Repositories"]
     Reports = {"MITRE ATT&CK": ["TA0009:T1213"]}
     Severity = Severity.Low

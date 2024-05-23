@@ -2,6 +2,7 @@ from typing import List
 
 from pypanther.base import PantherRule, PantherRuleTest, Severity
 from pypanther.helpers.panther_base_helpers import aws_guardduty_context, deep_get
+from pypanther.log_types import LogType
 
 aws_guard_duty_low_severity_finding_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -93,7 +94,7 @@ class AWSGuardDutyLowSeverityFinding(PantherRule):
     RuleID = "AWS.GuardDuty.LowSeverityFinding-prototype"
     DisplayName = "AWS GuardDuty Low Severity Finding"
     Enabled = True
-    LogTypes = ["AWS.GuardDuty"]
+    LogTypes = [LogType.AWS_GuardDuty]
     Tags = ["AWS"]
     Severity = Severity.Low
     DedupPeriodMinutes = 1440

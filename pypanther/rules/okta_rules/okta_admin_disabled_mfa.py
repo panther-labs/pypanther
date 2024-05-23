@@ -2,6 +2,7 @@ from typing import List
 
 import pypanther.helpers.panther_event_type_helpers as event_type
 from pypanther.base import PantherRule, PantherRuleTest, Severity
+from pypanther.log_types import LogType
 
 okta_global_mfa_disabled_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -65,7 +66,7 @@ class OktaGlobalMFADisabled(PantherRule):
     RuleID = "Okta.Global.MFA.Disabled-prototype"
     DisplayName = "Okta MFA Globally Disabled"
     Enabled = True
-    LogTypes = ["Okta.SystemLog"]
+    LogTypes = [LogType.Okta_SystemLog]
     Tags = [
         "Identity & Access Management",
         "DataModel",

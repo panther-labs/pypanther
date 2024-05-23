@@ -2,6 +2,7 @@ from typing import List
 
 from pypanther.base import PantherRule, PantherRuleTest, Severity
 from pypanther.helpers.panther_base_helpers import crowdstrike_process_alert_context, deep_get
+from pypanther.log_types import LogType
 
 crowdstrike_macos_add_trusted_cert_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -394,7 +395,7 @@ class CrowdstrikeMacosAddTrustedCert(PantherRule):
     RuleID = "Crowdstrike.Macos.Add.Trusted.Cert-prototype"
     Reference = "https://docs.panther.com/data-onboarding/supported-logs/crowdstrike#crowdstrike.processrollup2"
     Severity = Severity.Medium
-    LogTypes = ["Crowdstrike.FDREvent"]
+    LogTypes = [LogType.Crowdstrike_FDREvent]
     Tests = crowdstrike_macos_add_trusted_cert_tests
 
     def rule(self, event):

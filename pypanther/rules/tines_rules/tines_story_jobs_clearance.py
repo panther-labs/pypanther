@@ -3,6 +3,7 @@ from typing import List
 from pypanther.base import PantherRule, PantherRuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 from pypanther.helpers.panther_tines_helpers import tines_alert_context
+from pypanther.log_types import LogType
 
 tines_story_jobs_clearance_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -44,7 +45,7 @@ class TinesStoryJobsClearance(PantherRule):
     RuleID = "Tines.Story.Jobs.Clearance-prototype"
     DisplayName = "Tines Story Jobs Clearance"
     Enabled = True
-    LogTypes = ["Tines.Audit"]
+    LogTypes = [LogType.Tines_Audit]
     Tags = ["Tines"]
     Severity = Severity.Low
     Description = "A Tines User has cleared story jobs."

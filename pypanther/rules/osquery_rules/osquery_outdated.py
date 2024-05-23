@@ -2,6 +2,7 @@ from typing import List
 
 from pypanther.base import PantherRule, PantherRuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
+from pypanther.log_types import LogType
 
 osquery_outdated_agent_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -77,7 +78,7 @@ class OsqueryOutdatedAgent(PantherRule):
     RuleID = "Osquery.OutdatedAgent-prototype"
     DisplayName = "Osquery Agent Outdated"
     Enabled = True
-    LogTypes = ["Osquery.Differential"]
+    LogTypes = [LogType.Osquery_Differential]
     Tags = ["Osquery", "Compliance"]
     Severity = Severity.Info
     Description = "Keep track of osquery versions, current is 5.10.2."

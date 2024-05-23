@@ -2,6 +2,7 @@ from typing import List
 
 from pypanther.base import PantherRule, PantherRuleTest, Severity
 from pypanther.helpers.panther_notion_helpers import notion_alert_context
+from pypanther.log_types import LogType
 
 notion_sharing_settings_updated_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -60,7 +61,7 @@ class NotionSharingSettingsUpdated(PantherRule):
     RuleID = "Notion.SharingSettingsUpdated-prototype"
     DisplayName = "Notion Sharing Settings Updated"
     Enabled = True
-    LogTypes = ["Notion.AuditLogs"]
+    LogTypes = [LogType.Notion_AuditLogs]
     Tags = ["Notion", "Data Exfiltration"]
     Description = "A Notion User enabled sharing for a Workspace or Teamspace."
     Severity = Severity.Medium

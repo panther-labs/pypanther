@@ -4,6 +4,7 @@ from typing import List
 from pypanther.base import PantherRule, PantherRuleTest, Severity
 from pypanther.helpers.panther_base_helpers import aws_rule_context, deep_get
 from pypanther.helpers.panther_default import aws_cloudtrail_success
+from pypanther.log_types import LogType
 
 aws_cloud_trail_security_configuration_change_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -224,7 +225,7 @@ class AWSCloudTrailSecurityConfigurationChange(PantherRule):
     RuleID = "AWS.CloudTrail.SecurityConfigurationChange-prototype"
     DisplayName = "Account Security Configuration Changed"
     Enabled = True
-    LogTypes = ["AWS.CloudTrail"]
+    LogTypes = [LogType.AWS_CloudTrail]
     Tags = ["AWS", "Defense Evasion:Impair Defenses"]
     Severity = Severity.Medium
     Reports = {"MITRE ATT&CK": ["TA0005:T1562"]}

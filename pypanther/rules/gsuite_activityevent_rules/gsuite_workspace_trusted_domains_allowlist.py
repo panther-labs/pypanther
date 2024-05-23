@@ -2,6 +2,7 @@ from typing import List
 
 from pypanther.base import PantherRule, PantherRuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
+from pypanther.log_types import LogType
 
 g_suite_workspace_trusted_domains_allowlist_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -110,7 +111,7 @@ class GSuiteWorkspaceTrustedDomainsAllowlist(PantherRule):
     RuleID = "GSuite.Workspace.TrustedDomainsAllowlist-prototype"
     DisplayName = "GSuite Workspace Trusted Domain Allowlist Modified"
     Enabled = True
-    LogTypes = ["GSuite.ActivityEvent"]
+    LogTypes = [LogType.GSuite_ActivityEvent]
     Tags = ["GSuite"]
     Severity = Severity.Medium
     Description = "A Workspace Admin Has Modified The Trusted Domains List\n"

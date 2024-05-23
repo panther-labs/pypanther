@@ -2,6 +2,7 @@ from typing import List
 
 from pypanther.base import PantherRule, PantherRuleTest, Severity
 from pypanther.helpers.panther_notion_helpers import notion_alert_context
+from pypanther.log_types import LogType
 
 notion_audit_log_exported_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -53,7 +54,7 @@ class NotionAuditLogExported(PantherRule):
     RuleID = "Notion.Audit.Log.Exported-prototype"
     DisplayName = "Notion Audit Log Exported"
     Enabled = True
-    LogTypes = ["Notion.AuditLogs"]
+    LogTypes = [LogType.Notion_AuditLogs]
     Tags = ["Notion", "Data Security", "Data Exfiltration"]
     Severity = Severity.Medium
     Description = "A Notion User exported audit logs for your organization’s workspace."

@@ -3,6 +3,7 @@ from typing import List
 from pypanther.base import PantherRule, PantherRuleTest, Severity
 from pypanther.helpers.panther_base_helpers import aws_rule_context, deep_get
 from pypanther.helpers.panther_default import lookup_aws_account_name
+from pypanther.log_types import LogType
 
 aws_console_login_without_saml_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -73,7 +74,7 @@ class AWSConsoleLoginWithoutSAML(PantherRule):
     RuleID = "AWS.Console.LoginWithoutSAML-prototype"
     DisplayName = "Logins Without SAML"
     Enabled = False
-    LogTypes = ["AWS.CloudTrail"]
+    LogTypes = [LogType.AWS_CloudTrail]
     Reports = {"MITRE ATT&CK": ["TA0001:T1078"]}
     Tags = [
         "AWS",

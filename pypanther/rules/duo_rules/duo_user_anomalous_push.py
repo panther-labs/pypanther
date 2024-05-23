@@ -2,6 +2,7 @@ from typing import List
 
 from pypanther.base import PantherRule, PantherRuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
+from pypanther.log_types import LogType
 
 duo_user_denied_anomalous_push_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -54,7 +55,7 @@ class DUOUserDeniedAnomalousPush(PantherRule):
     DisplayName = "Duo User Auth Denied For Anomalous Push"
     Enabled = True
     DedupPeriodMinutes = 15
-    LogTypes = ["Duo.Authentication"]
+    LogTypes = [LogType.Duo_Authentication]
     Tags = ["Duo"]
     Severity = Severity.Medium
     Description = "A Duo authentication was denied due to an anomalous 2FA push.\n"

@@ -2,6 +2,7 @@ from typing import List
 
 from pypanther.base import PantherRule, PantherRuleTest, Severity
 from pypanther.helpers.panther_base_helpers import slack_alert_context
+from pypanther.log_types import LogType
 
 slack_audit_logs_passthrough_anomaly_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -74,7 +75,7 @@ class SlackAuditLogsPassthroughAnomaly(PantherRule):
     RuleID = "Slack.AuditLogs.PassthroughAnomaly-prototype"
     DisplayName = "Slack Anomaly Detected"
     Enabled = True
-    LogTypes = ["Slack.AuditLogs"]
+    LogTypes = [LogType.Slack_AuditLogs]
     Tags = ["Slack", "Command and Control", "Application Layer Protocol"]
     Reports = {"MITRE ATT&CK": ["TA0011:T1071"]}
     Severity = Severity.Critical

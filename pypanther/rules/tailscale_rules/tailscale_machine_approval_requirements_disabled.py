@@ -6,6 +6,7 @@ from pypanther.helpers.panther_tailscale_helpers import (
     is_tailscale_admin_console_event,
     tailscale_alert_context,
 )
+from pypanther.log_types import LogType
 
 tailscale_machine_approval_requirements_disabled_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -87,7 +88,7 @@ class TailscaleMachineApprovalRequirementsDisabled(PantherRule):
     Runbook = "Assess if this was done by the user for a valid business reason. Be vigilant to re-enable this setting as it's in the best security interest for your organization's security posture."
     Reference = "https://tailscale.com/kb/1099/device-approval/"
     Severity = Severity.High
-    LogTypes = ["Tailscale.Audit"]
+    LogTypes = [LogType.Tailscale_Audit]
     RuleID = "Tailscale.Machine.Approval.Requirements.Disabled-prototype"
     Tests = tailscale_machine_approval_requirements_disabled_tests
 

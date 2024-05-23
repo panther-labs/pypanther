@@ -2,6 +2,7 @@ from typing import List
 
 from pypanther.base import PantherRule, PantherRuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
+from pypanther.log_types import LogType
 
 gcpiam_custom_role_changes_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -95,7 +96,7 @@ class GCPIAMCustomRoleChanges(PantherRule):
     DisplayName = "GCP IAM Role Has Changed"
     Enabled = True
     DedupPeriodMinutes = 1440
-    LogTypes = ["GCP.AuditLog"]
+    LogTypes = [LogType.GCP_AuditLog]
     Tags = ["GCP", "Identity & Access Management", "Privilege Escalation:Valid Accounts"]
     Reports = {"CIS": ["2.6"], "MITRE ATT&CK": ["TA0004:T1078"]}
     Severity = Severity.Info

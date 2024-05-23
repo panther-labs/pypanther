@@ -9,6 +9,7 @@ from pypanther.helpers.panther_azuresignin_helpers import (
     is_sign_in_event,
 )
 from pypanther.helpers.panther_base_helpers import deep_get
+from pypanther.log_types import LogType
 
 azure_audit_legacy_auth_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -284,7 +285,7 @@ class AzureAuditLegacyAuth(PantherRule):
     DisplayName = "Azure SignIn via Legacy Authentication Protocol"
     Enabled = True
     DedupPeriodMinutes = 10
-    LogTypes = ["Azure.Audit"]
+    LogTypes = [LogType.Azure_Audit]
     Severity = Severity.Medium
     Description = "This detection looks for Successful Logins that have used legacy authentication protocols\n"
     Reference = "https://learn.microsoft.com/en-us/azure/active-directory/reports-monitoring/workbook-legacy-authentication"

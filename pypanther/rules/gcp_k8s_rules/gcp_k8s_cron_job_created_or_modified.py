@@ -3,6 +3,7 @@ from typing import List
 from pypanther.base import PantherRule, PantherRuleTest, Severity
 from pypanther.helpers.gcp_base_helpers import gcp_alert_context
 from pypanther.helpers.panther_base_helpers import deep_get, deep_walk
+from pypanther.log_types import LogType
 
 gcpgke_kubernetes_cron_job_created_or_modified_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -73,7 +74,7 @@ class GCPGKEKubernetesCronJobCreatedOrModified(PantherRule):
     DisplayName = "GCP GKE Kubernetes Cron Job Created Or Modified"
     Description = "This detection monitor for any modifications or creations of a cron job in GKE. Attackers may create or modify an existing scheduled job in order to achieve cluster persistence."
     Enabled = True
-    LogTypes = ["GCP.AuditLog"]
+    LogTypes = [LogType.GCP_AuditLog]
     Severity = Severity.Medium
     Reference = "https://medium.com/snowflake/from-logs-to-detection-using-snowflake-and-panther-to-detect-k8s-threats-d72f70a504d7"
     Runbook = "Investigate a reason of creating or modifying a cron job in GKE. Create ticket if appropriate."

@@ -5,6 +5,7 @@ from typing import List
 import pypanther.helpers.panther_event_type_helpers as event_type
 from pypanther.base import PantherDataModel, PantherDataModelMapping
 from pypanther.helpers.panther_base_helpers import deep_get, get_binding_deltas
+from pypanther.log_types import LogType
 
 ADMIN_ROLES = {
     # Primitive Rolesx
@@ -120,7 +121,7 @@ class StandardGCPAuditLog(PantherDataModel):
     DataModelID: str = "Standard.GCP.AuditLog"
     DisplayName: str = "GCP Audit Log"
     Enabled: bool = True
-    LogTypes: List[str] = ["GCP.AuditLog"]
+    LogTypes: List[str] = [LogType.GCP_AuditLog]
     Mappings: List[PantherDataModelMapping] = [
         PantherDataModelMapping(
             Name="actor_user", Path="$.protoPayload.authenticationInfo.principalEmail"

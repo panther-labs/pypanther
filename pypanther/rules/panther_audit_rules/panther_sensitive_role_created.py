@@ -3,6 +3,7 @@ from typing import List
 import pypanther.helpers.panther_event_type_helpers as event_type
 from pypanther.base import PantherRule, PantherRuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
+from pypanther.log_types import LogType
 
 panther_sensitive_role_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -163,7 +164,7 @@ class PantherSensitiveRole(PantherRule):
     RuleID = "Panther.Sensitive.Role-prototype"
     DisplayName = "A User Role with Sensitive Permissions has been Created"
     Enabled = True
-    LogTypes = ["Panther.Audit"]
+    LogTypes = [LogType.Panther_Audit]
     Severity = Severity.High
     Tags = ["DataModel", "Persistence:Account Manipulation"]
     Reports = {"MITRE ATT&CK": ["TA0003:T1098"]}

@@ -1,6 +1,7 @@
 from typing import List
 
 from pypanther.base import PantherRule, PantherRuleTest, Severity
+from pypanther.log_types import LogType
 
 one_login_auth_factor_removed_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -34,7 +35,7 @@ class OneLoginAuthFactorRemoved(PantherRule):
     RuleID = "OneLogin.AuthFactorRemoved-prototype"
     DisplayName = "OneLogin Authentication Factor Removed"
     Enabled = True
-    LogTypes = ["OneLogin.Events"]
+    LogTypes = [LogType.OneLogin_Events]
     Tags = [
         "OneLogin",
         "Identity & Access Management",

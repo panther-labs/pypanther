@@ -3,6 +3,7 @@ from typing import List
 from pypanther.base import PantherRule, PantherRuleTest, Severity
 from pypanther.helpers.gcp_base_helpers import gcp_alert_context
 from pypanther.helpers.panther_base_helpers import deep_get
+from pypanther.log_types import LogType
 
 gcpdns_zone_modifiedor_deleted_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -313,7 +314,7 @@ class GCPDNSZoneModifiedorDeleted(PantherRule):
     Runbook = "Verify that this modification or deletion was expected. These operations are high-impact events and can result in downtimes or total outages."
     Reference = "https://cloud.google.com/dns/docs/zones"
     Severity = Severity.Low
-    LogTypes = ["GCP.AuditLog"]
+    LogTypes = [LogType.GCP_AuditLog]
     RuleID = "GCP.DNS.Zone.Modified.or.Deleted-prototype"
     Tests = gcpdns_zone_modifiedor_deleted_tests
 
