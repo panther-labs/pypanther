@@ -14,7 +14,7 @@ import black.report
 from ast_comments import Comment, parse, unparse
 from ruamel.yaml import YAML
 
-from panther_analysis import base
+from pypanther import base
 
 ID_POSTFIX = "-prototype"
 
@@ -27,7 +27,7 @@ def do(filepath: Path, helpers: Set[str]) -> Optional[str]:
     imports = "\n".join(
         [
             "from typing import List",
-            f"from panther_analysis.base import {base.PantherRule.__name__}, {base.PantherRuleTest.__name__}, {base.Severity.__name__}",
+            f"from pypanther.base import {base.PantherRule.__name__}, {base.PantherRuleTest.__name__}, {base.Severity.__name__}",
         ]
     )
 
@@ -318,12 +318,10 @@ def rewrite_imports_ast(imps: List[ast.AST], helpers: Set[str]):
                     asname = name.asname
                     if asname is None:
                         asname = name.name
-                    imp.names[i] = ast.alias(
-                        name="panther_analysis.helpers." + name.name, asname=asname
-                    )
+                    imp.names[i] = ast.alias(name="pypanther.helpers." + name.name, asname=asname)
         elif isinstance(imp, ast.ImportFrom):
             if imp.module is not None and imp.module.split(".")[0] in helpers:
-                imp.module = "panther_analysis.helpers." + imp.module
+                imp.module = "pypanther.helpers." + imp.module
 
 
 def rewrite_imports_str(code: str, helpers: Set[str]):
@@ -334,7 +332,7 @@ def rewrite_imports_str(code: str, helpers: Set[str]):
         if m is not None:
             for name in m.group(1).split(","):
                 if name.split(".")[0] in helpers:
-                    line = line.replace(name, f"panther_analysis.helpers.{name}")
+                    line = line.replace(name, f"pypanther.helpers.{name}")
 
                     if m.group(2) is None and len(name.split(".")) == 1:
                         line += f" as {name}"
@@ -342,7 +340,7 @@ def rewrite_imports_str(code: str, helpers: Set[str]):
         m = re.match(r"^ *from (.*) import (.*)", line)
         if m is not None:
             if m.group(1).split(".")[0] in helpers:
-                line = line.replace(m.group(1), "panther_analysis.helpers." + m.group(1))
+                line = line.replace(m.group(1), "pypanther.helpers." + m.group(1))
         ret.append(line)
 
     return "\n".join(ret) + "\n"
@@ -381,14 +379,12 @@ class DropFilterIncludeEvent(ast.NodeTransformer):
         node.names = [
             name
             for name in node.names
-            if not name.name.startswith("panther_analysis.helpers.global_filter_")
+            if not name.name.startswith("pypanther.helpers.global_filter_")
         ]
         return node
 
     def visit_ImportFrom(self, node: ast.ImportFrom) -> Optional[ast.AST]:
-        if node.module is not None and node.module.startswith(
-            "panther_analysis.helpers.global_filter_"
-        ):
+        if node.module is not None and node.module.startswith("pypanther.helpers.global_filter_"):
             return None
 
         return node
@@ -430,7 +426,7 @@ def convert_global_helpers(panther_analysis: Path) -> Set[str]:
     # walk the rules folder
     global_helpers_path = panther_analysis / "global_helpers"
 
-    helpers_path = Path("panther_analysis") / "helpers"
+    helpers_path = Path("pypanther") / "helpers"
     if helpers_path.exists():
         shutil.rmtree(helpers_path)
     helpers_path.mkdir(parents=True, exist_ok=True)
@@ -483,11 +479,11 @@ def convert_global_helpers(panther_analysis: Path) -> Set[str]:
 
 def convert_data_models(panther_analysis: Path, helpers: Set[str]):
     data_models_path = panther_analysis / "data_models"
-    if Path("panther_analysis/data_models").exists():
-        shutil.rmtree(Path("panther_analysis/data_models"))
+    if Path("pypanther/data_models").exists():
+        shutil.rmtree(Path("pypanther/data_models"))
 
     imports = """from typing import List
-from panther_analysis.base import PantherDataModel, PantherDataModelMapping"""
+from pypanther.base import PantherDataModel, PantherDataModelMapping"""
 
     paths = []
     for p in (data_models_path).rglob("*.y*ml"):
@@ -573,7 +569,7 @@ from panther_analysis.base import PantherDataModel, PantherDataModelMapping"""
 
         code = run_black(code)
 
-        p = Path("panther_analysis") / p.relative_to(panther_analysis)
+        p = Path("pypanther") / p.relative_to(panther_analysis)
         p.parent.mkdir(parents=True, exist_ok=True)
         with open(p.with_suffix(".py"), "w", encoding="utf-8") as f:
             f.write(code)
@@ -582,7 +578,7 @@ from panther_analysis.base import PantherDataModel, PantherDataModelMapping"""
 
     run_isort(paths)
 
-    add_inits(Path("panther_analysis/data_models"))
+    add_inits(Path("pypanther/data_models"))
 
 
 def add_inits(path: Path):
@@ -604,7 +600,7 @@ def _convert_rules(p: Path, panther_analysis: Path, helpers: Set[str]):
         return
 
     # strip panther_analysis from path
-    p = Path("panther_analysis") / p.relative_to(panther_analysis)
+    p = Path("pypanther") / p.relative_to(panther_analysis)
 
     p.parent.mkdir(parents=True, exist_ok=True)
     with open(p.with_suffix(".py"), "w", encoding="utf-8") as f:
@@ -613,8 +609,8 @@ def _convert_rules(p: Path, panther_analysis: Path, helpers: Set[str]):
 
 def convert_rules(panther_analysis: Path, helpers: Set[str]):
     rules_path = panther_analysis / "rules"
-    if Path("panther_analysis/rules").exists():
-        shutil.rmtree(Path("panther_analysis/rules"))
+    if Path("pypanther/rules").exists():
+        shutil.rmtree(Path("pypanther/rules"))
 
     _convert_rules_curry = functools.partial(
         _convert_rules, panther_analysis=panther_analysis, helpers=helpers
@@ -623,8 +619,8 @@ def convert_rules(panther_analysis: Path, helpers: Set[str]):
         pool.map(_convert_rules_curry, rules_path.rglob("*.y*ml"))
 
     # __init__.py to all folders
-    add_inits(Path("panther_analysis") / "rules")
-    run_isort([Path("panther_analysis") / "rules"])
+    add_inits(Path("pypanther") / "rules")
+    run_isort([Path("pypanther") / "rules"])
 
 
 def convert_queries(
@@ -646,7 +642,7 @@ def convert_queries(
         classname = to_ascii(query["QueryName"])
 
         imports = """from typing import List
-from panther_analysis.base import PantherDataModel, PantherQuerySchedule
+from pypanther.base import PantherDataModel, PantherQuerySchedule
 
 """
 
@@ -734,7 +730,7 @@ from panther_analysis.base import PantherDataModel, PantherQuerySchedule
         new_rule = imports + unparse(query_class)
 
         # strip panther_analysis from path
-        p = Path("panther_analysis") / p.relative_to(panther_analysis)
+        p = Path("pypanther") / p.relative_to(panther_analysis)
 
         p.parent.mkdir(parents=True, exist_ok=True)
         with open(p.with_suffix(".py"), "w", encoding="utf-8") as f:
@@ -744,7 +740,7 @@ from panther_analysis.base import PantherDataModel, PantherQuerySchedule
 
     run_isort(paths)
 
-    add_inits(Path("panther_analysis") / "queries")
+    add_inits(Path("pypanther") / "queries")
 
 
 def to_lines(s: str) -> ast.AST:
@@ -760,7 +756,7 @@ def to_lines(s: str) -> ast.AST:
 
 
 def strip_global_filters():
-    for p in Path("panther_analysis/helpers").rglob("global_filter_*.py"):
+    for p in Path("pypanther/helpers").rglob("global_filter_*.py"):
         p.unlink()
 
 

@@ -1,4 +1,4 @@
-from panther_analysis.base import PantherRule, Severity
+from pypanther.base import PantherRule, Severity
 
 
 def test_less_than():

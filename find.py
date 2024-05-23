@@ -4,14 +4,14 @@ from importlib import import_module
 from pkgutil import walk_packages
 from typing import List
 
-from panther_analysis.base import PANTHER_RULE_ALL_ATTRS, PANTHER_RULE_ALL_METHODS, PantherRule
-from panther_analysis.get import get_panther_rules
+from pypanther.base import PANTHER_RULE_ALL_ATTRS, PANTHER_RULE_ALL_METHODS, PantherRule
+from pypanther.get import get_panther_rules
 
 
 def get_rules_by_category():
     rules = defaultdict(list)
-    p_a_r = import_module("panther_analysis.rules")
-    for module_info in walk_packages(p_a_r.__path__, "panther_analysis.rules."):
+    p_a_r = import_module("pypanther.rules")
+    for module_info in walk_packages(p_a_r.__path__, "pypanther.rules."):
         if len(module_info.name.split(".")) > 3:
             m = import_module(module_info.name)
             group = module_info.name.split(".")[2]

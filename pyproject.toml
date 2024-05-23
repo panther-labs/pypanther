@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "panther-analysis"
+name = "pypanther"
 version = "0.1.0"
 description = ""
 authors = ["Panther Labs Inc <pypi@runpanther.io>"]
@@ -38,9 +38,9 @@ build-backend = "poetry.core.masonry.api"
 [tool.mypy]
 ignore_missing_imports = true
 exclude = [
-    '^panther_analysis/rules/', 
-    '^panther_analysis/helpers/', 
-    '^panther_analysis/data_models/', 
+    '^pypanther/rules/', 
+    '^pypanther/helpers/', 
+    '^pypanther/data_models/', 
 ]
 
 [[tool.mypy.overrides]]
@@ -48,15 +48,15 @@ module = "panther_detection_helpers.*"
 ignore_missing_imports = true
 
 [[tool.mypy.overrides]]
-module = "panther_analysis.data_models.*"
+module = "pypanther.data_models.*"
 follow_imports = "skip"
 
 [[tool.mypy.overrides]]
-module = "panther_analysis.helpers.*"
+module = "pypanther.helpers.*"
 follow_imports = "skip"
 
 [[tool.mypy.overrides]]
-module = "panther_analysis.rules.*"
+module = "pypanther.rules.*"
 follow_imports = "skip"
 
 [tool.black]
@@ -71,7 +71,7 @@ profile = "black"
 [tool.ruff]
 # Exclude a variety of commonly ignored directories.
 exclude = [
-    'panther_analysis/rules/', 
-    'panther_analysis/helpers/', 
-    'panther_analysis/data_models/', 
+    'pypanther/rules/', 
+    'pypanther/helpers/', 
+    'pypanther/data_models/', 
 ]

@@ -24,7 +24,7 @@ repos:
     language: system
     types: [python]
     args: [check]
-    exclude: (^panther_analysis/rules/|^panther_analysis/helpers/|^panther_analysis/data_models/)
+    exclude: (^pypanther/rules/|^pypanther/helpers/|^pypanther/data_models/)
   - id: mypy
     name: mypy
     entry: poetry run mypy

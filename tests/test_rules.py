@@ -3,9 +3,9 @@ from typing import Type
 
 import pytest
 
-from panther_analysis.base import PantherRule
-from panther_analysis.cache import DATA_MODEL_CACHE
-from panther_analysis.get import get_panther_rules
+from pypanther.base import PantherRule
+from pypanther.cache import DATA_MODEL_CACHE
+from pypanther.get import get_panther_rules
 
 
 @pytest.mark.parametrize("rule", get_panther_rules(), ids=lambda x: x.RuleID)
