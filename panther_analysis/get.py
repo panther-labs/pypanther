@@ -33,6 +33,8 @@ def get_panther_rules(**kwargs):
                         and issubclass(attr, PantherRule)
                         and attr is not PantherRule
                     ):
+                        if not hasattr(attr, "RuleID"):
+                            continue
                         __RULES.add(attr)
 
     return filter_kwargs(__RULES, **kwargs)

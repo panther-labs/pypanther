@@ -23,7 +23,7 @@ def perror(*args, **kwargs):
     print(*args, file=sys.stderr, **kwargs)
 
 
-def do(filepath: Path, helpers: Set[str]):
+def do(filepath: Path, helpers: Set[str]) -> Optional[str]:
     imports = "\n".join(
         [
             "from typing import List",
@@ -56,7 +56,17 @@ def do(filepath: Path, helpers: Set[str]):
             for k2, v2 in v.items():
                 v[k2] = [str(x) if isinstance(x, (int, float)) else x for x in v2]
 
+        if k == "Tags" and "deprecated" in {x.lower() for x in v}:
+            return None
+
+        if k == "Description" and "deprecated" in v.lower():
+            return None
+
+        if k == "DisplayName" and "deprecated" in v.lower():
+            return None
+
         value: ast.Constant | ast.Name = ast.Constant(value=v)
+
         if k == "Severity":
             value = ast.Name(id=f"{base.Severity.__name__}.{v}", ctx=ast.Load())
         if k == "RuleID":
@@ -588,6 +598,9 @@ def _convert_rules(p: Path, panther_analysis: Path, helpers: Set[str]):
         new_rule = do(p, helpers)
     except NotImplementedError as e:
         perror(f"Error processing {p}: {e}")
+        return
+
+    if new_rule is None:
         return
 
     # strip panther_analysis from path
