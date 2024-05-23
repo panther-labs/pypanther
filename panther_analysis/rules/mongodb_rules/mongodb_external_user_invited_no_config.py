@@ -71,10 +71,8 @@ class MongoDBExternalUserInvitedNoConfig(PantherRule):
     Enabled = True
     Severity = Severity.High
     Reference = "https://www.mongodb.com/docs/v4.2/tutorial/create-users/"
-    DedupPeriodMinutes = 60
     LogTypes = ["MongoDB.OrganizationEvent"]
     RuleID = "MongoDB.External.UserInvited.NoConfig-prototype"
-    Threshold = 1
     Tests = mongo_db_external_user_invited_no_config_tests
 
     def rule(self, event):

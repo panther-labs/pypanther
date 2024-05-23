@@ -71,10 +71,8 @@ class MongoDBLoggingToggled(PantherRule):
     Enabled = True
     Severity = Severity.Low
     Reference = "https://attack.mitre.org/techniques/T1562/008/"
-    DedupPeriodMinutes = 60
     LogTypes = ["MongoDB.ProjectEvent"]
     RuleID = "MongoDB.Logging.Toggled-prototype"
-    Threshold = 1
     Tests = mongo_db_logging_toggled_tests
 
     def rule(self, event):

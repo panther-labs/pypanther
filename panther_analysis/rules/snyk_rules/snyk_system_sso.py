@@ -45,8 +45,6 @@ class SnykSystemSSO(PantherRule):
     Severity = Severity.High
     Description = "Detects Snyk SSO Settings have been changed. The reference URL from Snyk indicates that these events are likely to  originate exclusively from Snyk Support.\n"
     Reference = "https://docs.snyk.io/user-and-group-management/setting-up-sso-for-authentication/set-up-snyk-single-sign-on-sso"
-    DedupPeriodMinutes = 60
-    Threshold = 1
     SummaryAttributes = ["event", "p_any_ip_addresses", "p_any_emails"]
     Tests = snyk_system_sso_tests
     ACTIONS = [

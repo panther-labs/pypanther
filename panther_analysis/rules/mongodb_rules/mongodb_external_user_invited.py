@@ -77,10 +77,8 @@ class MongoDBExternalUserInvited(PantherRule):
     Severity = Severity.Medium
     Reference = "https://www.mongodb.com/docs/v4.2/tutorial/create-users/"
     Tags = ["Configuration Required"]
-    DedupPeriodMinutes = 60
     LogTypes = ["MongoDB.OrganizationEvent"]
     RuleID = "MongoDB.External.UserInvited-prototype"
-    Threshold = 1
     Tests = mongo_db_external_user_invited_tests
     # Set domains allowed to join the organization ie. company.com
     ALLOWED_DOMAINS = []

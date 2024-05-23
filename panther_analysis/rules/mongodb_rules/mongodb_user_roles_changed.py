@@ -71,10 +71,8 @@ class MongoDBUserRolesChanged(PantherRule):
     Enabled = True
     Severity = Severity.Low
     Reference = "https://www.mongodb.com/docs/v4.2/tutorial/create-users/"
-    DedupPeriodMinutes = 60
     LogTypes = ["MongoDB.OrganizationEvent"]
     RuleID = "MongoDB.User.Roles.Changed-prototype"
-    Threshold = 1
     Tests = mongo_db_user_roles_changed_tests
 
     def rule(self, event):

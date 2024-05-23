@@ -48,7 +48,6 @@ zendesk_account_owner_changed_tests: List[PantherRuleTest] = [
 
 class ZendeskAccountOwnerChanged(PantherRule):
     RuleID = "Zendesk.AccountOwnerChanged-prototype"
-    DedupPeriodMinutes = 60
     DisplayName = "Zendesk Account Owner Changed"
     Enabled = True
     LogTypes = ["Zendesk.Audit"]

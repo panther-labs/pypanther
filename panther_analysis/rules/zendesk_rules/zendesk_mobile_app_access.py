@@ -66,7 +66,6 @@ zendesk_mobile_app_access_updated_tests: List[PantherRuleTest] = [
 
 class ZendeskMobileAppAccessUpdated(PantherRule):
     RuleID = "Zendesk.MobileAppAccessUpdated-prototype"
-    DedupPeriodMinutes = 60
     DisplayName = "Zendesk Mobile App Access Modified"
     Enabled = True
     LogTypes = ["Zendesk.Audit"]

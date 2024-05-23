@@ -85,7 +85,6 @@ class CloudflareFirewallHighVolumeEventsBlocked(PantherRule):
     Description = "Monitors high volume events blocked from the same IP"
     Runbook = "Inspect and monitor internet-facing services for potential outages"
     Reference = "https://developers.cloudflare.com/firewall/cf-firewall-rules/actions/"
-    DedupPeriodMinutes = 60
     Threshold = 200
     SummaryAttributes = [
         "ClientRequestUserAgent",

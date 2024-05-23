@@ -136,10 +136,8 @@ class GoogleWorkspaceAdvancedProtectionProgram(PantherRule):
     Runbook = "Confirm the changes made were authorized for your organization."
     Reference = "https://support.google.com/a/answer/9378686?hl=en"
     Severity = Severity.Medium
-    DedupPeriodMinutes = 60
     LogTypes = ["GSuite.ActivityEvent"]
     RuleID = "Google.Workspace.Advanced.Protection.Program-prototype"
-    Threshold = 1
     Tests = google_workspace_advanced_protection_program_tests
 
     def rule(self, event):

@@ -57,7 +57,6 @@ class BoxItemSharedExternally(PantherRule):
     Runbook = "Investigate whether this user's activity is expected.\n"
     SummaryAttributes = ["ip_address"]
     Threshold = 10
-    DedupPeriodMinutes = 60
     Tests = box_item_shared_externally_tests
     ALLOWED_SHARED_ACCESS = {"collaborators", "company"}
     SHARE_EVENTS = {

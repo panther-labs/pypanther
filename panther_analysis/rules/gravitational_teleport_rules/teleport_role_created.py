@@ -29,7 +29,6 @@ class TeleportRoleCreated(PantherRule):
     Tags = ["Teleport"]
     Severity = Severity.Medium
     Description = "A Teleport Role was modified or created"
-    DedupPeriodMinutes = 60
     Reports = {"MITRE ATT&CK": ["TA0003:T1098.001"]}
     Reference = "https://goteleport.com/docs/management/admin/"
     Runbook = "A Teleport Role was modified or created. Validate its legitimacy.\n"

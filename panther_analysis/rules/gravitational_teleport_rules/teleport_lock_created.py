@@ -31,7 +31,6 @@ class TeleportLockCreated(PantherRule):
     Tags = ["Teleport"]
     Severity = Severity.Info
     Description = "A Teleport Lock was created"
-    DedupPeriodMinutes = 60
     Reference = "https://goteleport.com/docs/management/admin/"
     Runbook = "A Teleport Lock was created; this is an unusual administrative action. Investigate to understand why a Lock was created.\n"
     SummaryAttributes = ["event", "code", "time", "identity"]

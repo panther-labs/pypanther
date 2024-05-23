@@ -36,10 +36,8 @@ class DuoAdminPolicyUpdated(PantherRule):
     Enabled = True
     Reference = "https://duo.com/docs/policy#authenticators-policy-settings"
     Severity = Severity.Medium
-    DedupPeriodMinutes = 60
     LogTypes = ["Duo.Administrator"]
     RuleID = "Duo.Admin.Policy.Updated-prototype"
-    Threshold = 1
     Tests = duo_admin_policy_updated_tests
 
     def rule(self, event):

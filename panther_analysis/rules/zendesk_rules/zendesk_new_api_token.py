@@ -46,7 +46,6 @@ zendesk_new_api_token_tests: List[PantherRuleTest] = [
 
 class ZendeskNewAPIToken(PantherRule):
     RuleID = "Zendesk.NewAPIToken-prototype"
-    DedupPeriodMinutes = 60
     DisplayName = "Zendesk API Token Created"
     Enabled = True
     LogTypes = ["Zendesk.Audit"]

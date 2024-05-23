@@ -234,8 +234,6 @@ class CloudflareFirewallSuspiciousEventGreyNoise(PantherRule):
     )
     Runbook = "Inspect resources accessed for malicious behavior"
     Reference = "https://docs.greynoise.io/docs/understanding-greynoise-enrichments"
-    DedupPeriodMinutes = 60
-    Threshold = 1
     SummaryAttributes = [
         "ClientRequestUserAgent",
         "ClientRequestPath",

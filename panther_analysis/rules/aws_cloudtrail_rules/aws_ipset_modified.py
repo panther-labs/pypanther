@@ -68,10 +68,8 @@ class AWSIPSetModified(PantherRule):
     Reports = {"MITRE ATT&CK": ["TA0005:T1562"]}
     Reference = "https://docs.aws.amazon.com/managedservices/latest/ctref/management-monitoring-guardduty-ip-set-update-review-required.html"
     Severity = Severity.High
-    DedupPeriodMinutes = 60
     LogTypes = ["AWS.CloudTrail"]
     RuleID = "AWS.IPSet.Modified-prototype"
-    Threshold = 1
     Tests = awsip_set_modified_tests
     IPSET_ACTIONS = ["CreateIPSet", "UpdateIPSet"]
 

@@ -53,7 +53,6 @@ class TeleportLocalUserLoginWithoutMFA(PantherRule):
     Tags = ["Teleport"]
     Severity = Severity.High
     Description = "A local User logged in without MFA"
-    DedupPeriodMinutes = 60
     Reports = {"MITRE ATT&CK": ["TA0001:T1078"]}
     Reference = "https://goteleport.com/docs/management/admin/"
     Runbook = "A local user logged in without Multi-Factor Authentication\n"

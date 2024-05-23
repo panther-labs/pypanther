@@ -56,11 +56,9 @@ class GithubOrganizationAppIntegrationInstalled(PantherRule):
     Runbook = "Confirm that the app integration installation was a desired behavior."
     Severity = Severity.Low
     Tags = ["Application Installation", "Github"]
-    DedupPeriodMinutes = 60
     LogTypes = ["GitHub.Audit"]
     RuleID = "Github.Organization.App.Integration.Installed-prototype"
     SummaryAttributes = ["actor", "name"]
-    Threshold = 1
     Tests = github_organization_app_integration_installed_tests
     # def dedup(event):
     #  (Optional) Return a string which will be used to deduplicate similar alerts.

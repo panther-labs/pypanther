@@ -66,8 +66,6 @@ class NotionWorkspaceExported(PantherRule):
     Tags = ["Notion", "Data Security", "Data Exfiltration"]
     Severity = Severity.High
     Description = "A Notion User exported an existing workspace."
-    DedupPeriodMinutes = 60
-    Threshold = 1
     Runbook = "Possible Data Exfiltration. Follow up with the Notion User to determine if this was done for a valid business reason."
     Reference = "https://www.notion.so/help/workspace-settings#export-an-entire-workspace"
     Tests = notion_workspace_exported_tests

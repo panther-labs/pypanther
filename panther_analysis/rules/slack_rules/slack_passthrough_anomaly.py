@@ -80,8 +80,6 @@ class SlackAuditLogsPassthroughAnomaly(PantherRule):
     Severity = Severity.Critical
     Description = "Passthrough for anomalies detected by Slack"
     Reference = "https://slack.com/intl/en-in/blog/news/three-new-security-features-to-protect-your-digital-hq"
-    DedupPeriodMinutes = 60
-    Threshold = 1
     SummaryAttributes = ["p_any_ip_addresses", "p_any_emails"]
     Tests = slack_audit_logs_passthrough_anomaly_tests
 

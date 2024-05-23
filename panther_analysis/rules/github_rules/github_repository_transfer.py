@@ -75,11 +75,9 @@ class GithubRepositoryTransfer(PantherRule):
     Runbook = "Please check with the referenced users or their supervisors to ensure the transferring of this repository is expected and allowed."
     Severity = Severity.Medium
     Tags = ["Github Repository", "Github Repository Transfer", "Repository", "Transfer"]
-    DedupPeriodMinutes = 60
     LogTypes = ["GitHub.Audit"]
     RuleID = "Github.Repository.Transfer-prototype"
     SummaryAttributes = ["action"]
-    Threshold = 1
     Tests = github_repository_transfer_tests
 
     def rule(self, event):

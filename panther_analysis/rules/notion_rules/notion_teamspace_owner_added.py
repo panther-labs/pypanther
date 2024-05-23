@@ -83,8 +83,6 @@ class NotionTeamspaceOwnerAdded(PantherRule):
     Tags = ["Notion", "Privilege Escalation"]
     Description = "A Notion User was added as a Teamspace owner."
     Severity = Severity.Medium
-    DedupPeriodMinutes = 60
-    Threshold = 1
     Runbook = "Possible Privilege Escalation. Follow up with the Notion User to determine if this was done for a valid business reason."
     Tests = notion_teamspace_owner_added_tests
 

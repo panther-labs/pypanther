@@ -84,7 +84,6 @@ atlassian_user_logged_in_as_user_tests: List[PantherRuleTest] = [
 
 
 class AtlassianUserLoggedInAsUser(PantherRule):
-    DedupPeriodMinutes = 60
     DisplayName = "Atlassian admin impersonated another user"
     Enabled = True
     RuleID = "Atlassian.User.LoggedInAsUser-prototype"

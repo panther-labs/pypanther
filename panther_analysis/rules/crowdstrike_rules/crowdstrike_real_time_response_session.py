@@ -128,7 +128,6 @@ crowdstrike_real_time_response_session_tests: List[PantherRuleTest] = [
 
 
 class CrowdstrikeRealTimeResponseSession(PantherRule):
-    DedupPeriodMinutes = 60
     DisplayName = "Crowdstrike Real Time Response (RTS) Session"
     Enabled = True
     RuleID = "Crowdstrike.RealTimeResponse.Session-prototype"

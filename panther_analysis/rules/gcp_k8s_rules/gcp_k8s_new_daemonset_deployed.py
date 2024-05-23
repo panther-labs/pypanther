@@ -55,8 +55,6 @@ class GCPK8sNewDaemonsetDeployed(PantherRule):
     Enabled = True
     LogTypes = ["GCP.AuditLog"]
     Severity = Severity.Medium
-    DedupPeriodMinutes = 60
-    Threshold = 1
     Reference = "https://medium.com/snowflake/from-logs-to-detection-using-snowflake-and-panther-to-detect-k8s-threats-d72f70a504d7"
     Runbook = "Investigate a reason of creating Daemonset. Create ticket if appropriate."
     Reports = {"MITRE ATT&CK": ["TA0002:T1610"]}

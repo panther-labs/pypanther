@@ -344,8 +344,6 @@ class GCPcomputeinstancescreatePrivilegeEscalation(PantherRule):
     Runbook = "Confirm this was authorized and necessary behavior."
     Reports = {"MITRE ATT&CK": ["TA0004:T1548"]}
     Severity = Severity.High
-    DedupPeriodMinutes = 60
-    Threshold = 1
     Tests = gc_pcomputeinstancescreate_privilege_escalation_tests
     REQUIRED_PERMISSIONS = [
         "compute.disks.create",

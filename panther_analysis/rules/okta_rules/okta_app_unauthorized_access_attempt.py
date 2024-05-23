@@ -173,7 +173,6 @@ class OktaAppUnauthorizedAccessAttempt(PantherRule):
     Enabled = True
     Severity = Severity.Low
     Reference = "https://support.okta.com/help/s/article/App-Sign-on-Error-403-User-attempted-unauthorized-access-to-app?language=en_US"
-    DedupPeriodMinutes = 60
     LogTypes = ["Okta.SystemLog"]
     RuleID = "Okta.App.Unauthorized.Access.Attempt-prototype"
     Threshold = 5

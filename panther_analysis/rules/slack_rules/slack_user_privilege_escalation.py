@@ -158,8 +158,6 @@ class SlackAuditLogsUserPrivilegeEscalation(PantherRule):
     Severity = Severity.High
     Description = "Detects when a Slack user gains escalated privileges"
     Reference = "https://slack.com/intl/en-gb/help/articles/201314026-Permissions-by-role-in-Slack"
-    DedupPeriodMinutes = 60
-    Threshold = 1
     SummaryAttributes = ["p_any_ip_addresses", "p_any_emails"]
     Tests = slack_audit_logs_user_privilege_escalation_tests
     USER_PRIV_ESC_ACTIONS = {

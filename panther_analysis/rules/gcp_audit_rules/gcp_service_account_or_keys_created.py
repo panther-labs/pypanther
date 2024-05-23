@@ -209,10 +209,8 @@ class GCPServiceAccountorKeysCreated(PantherRule):
     Enabled = True
     Reference = "https://cloud.google.com/iam/docs/keys-create-delete"
     Severity = Severity.Low
-    DedupPeriodMinutes = 60
     LogTypes = ["GCP.AuditLog"]
     RuleID = "GCP.Service.Account.or.Keys.Created-prototype"
-    Threshold = 1
     Tests = gcp_service_accountor_keys_created_tests
 
     def rule(self, event):

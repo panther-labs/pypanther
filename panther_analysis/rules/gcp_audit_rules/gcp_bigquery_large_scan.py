@@ -181,10 +181,8 @@ class GCPBigQueryLargeScan(PantherRule):
     Enabled = True
     Reference = "https://cloud.google.com/bigquery/docs/running-queries"
     Severity = Severity.Info
-    DedupPeriodMinutes = 60
     LogTypes = ["GCP.AuditLog"]
     RuleID = "GCP.BigQuery.Large.Scan-prototype"
-    Threshold = 1
     Tests = gcp_big_query_large_scan_tests
     # 1.07 GB
     QUERY_THRESHOLD_BYTES = 1073741824

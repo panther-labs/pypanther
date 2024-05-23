@@ -92,10 +92,8 @@ class GoogleWorkspaceAppsNewMobileAppInstalled(PantherRule):
     Runbook = "https://admin.google.com/ac/apps/unified"
     Reference = "https://support.google.com/a/answer/6089179?hl=en"
     Severity = Severity.Medium
-    DedupPeriodMinutes = 60
     LogTypes = ["GSuite.ActivityEvent"]
     RuleID = "Google.Workspace.Apps.New.Mobile.App.Installed-prototype"
-    Threshold = 1
     Tests = google_workspace_apps_new_mobile_app_installed_tests
 
     def rule(self, event):

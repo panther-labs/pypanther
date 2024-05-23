@@ -358,10 +358,8 @@ class AWSRDSPublicRestore(PantherRule):
         "https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_RestoreFromSnapshot.html"
     )
     Severity = Severity.High
-    DedupPeriodMinutes = 60
     LogTypes = ["AWS.CloudTrail"]
     RuleID = "AWS.RDS.PublicRestore-prototype"
-    Threshold = 1
     Tests = awsrds_public_restore_tests
 
     def rule(self, event):

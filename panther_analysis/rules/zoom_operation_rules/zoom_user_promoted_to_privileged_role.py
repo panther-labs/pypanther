@@ -90,10 +90,8 @@ class ZoomUserPromotedtoPrivilegedRole(PantherRule):
     Enabled = True
     Reference = "https://support.zoom.com/hc/en/article?id=zm_kb&sysparm_article=KB0064983"
     Severity = Severity.Medium
-    DedupPeriodMinutes = 60
     LogTypes = ["Zoom.Operation"]
     RuleID = "Zoom.User.Promoted.to.Privileged.Role-prototype"
-    Threshold = 1
     Tests = zoom_user_promotedto_privileged_role_tests
     PRIVILEGED_ROLES = ("Admin", "Co-Owner", "Owner", "Billing Admin")
 

@@ -80,8 +80,6 @@ class SlackAuditLogsPotentiallyMaliciousFileShared(PantherRule):
     Severity = Severity.Critical
     Description = "Detects when a potentially malicious file is shared within Slack"
     Reference = "https://threatpost.com/slack-remote-file-hijacking-malware/144871/"
-    DedupPeriodMinutes = 60
-    Threshold = 1
     SummaryAttributes = ["p_any_ip_addresses", "p_any_emails"]
     Tests = slack_audit_logs_potentially_malicious_file_shared_tests
 

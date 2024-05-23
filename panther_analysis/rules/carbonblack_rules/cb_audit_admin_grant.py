@@ -61,8 +61,6 @@ class CarbonBlackAuditAdminGrant(PantherRule):
     Tags = ["Privilege Escalation", "Account Manipulation"]
     Reports = {"MITRE ATT&CK": ["TA0004:T1098"]}
     Reference = "https://docs.vmware.com/en/VMware-Carbon-Black-Cloud/services/carbon-black-cloud-user-guide/GUID-CF5ACD2C-A534-46C8-AE06-E1884DB37B58.html"
-    Threshold = 1
-    DedupPeriodMinutes = 60
     Tests = carbon_black_audit_admin_grant_tests
     PREFIXES = ("Updated grant: ", "Created grant: ")
 

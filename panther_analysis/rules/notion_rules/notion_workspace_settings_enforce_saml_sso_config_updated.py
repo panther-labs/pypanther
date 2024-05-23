@@ -81,8 +81,6 @@ class NotionSAMLSSOConfigurationChanged(PantherRule):
     Description = (
         "A Notion User changed settings to enforce SAML SSO configurations for your organization."
     )
-    DedupPeriodMinutes = 60
-    Threshold = 1
     Runbook = "Follow up with the Notion User to determine if this was done for a valid business reason and to ensure these settings get re-enabled quickly for best security practices."
     Reference = "https://www.notion.so/help/saml-sso-configuration"
     Tests = notion_samlsso_configuration_changed_tests

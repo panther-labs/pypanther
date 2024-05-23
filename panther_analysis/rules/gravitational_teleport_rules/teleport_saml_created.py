@@ -28,7 +28,6 @@ class TeleportSAMLCreated(PantherRule):
     Tags = ["Teleport"]
     Severity = Severity.High
     Description = "A SAML connector was created or modified"
-    DedupPeriodMinutes = 60
     Reports = {"MITRE ATT&CK": ["TA0042:T1585"]}
     Reference = "https://goteleport.com/docs/management/admin/"
     Runbook = "When a SAML connector is modified, it can potentially change the trust model of the Teleport Cluster. Validate that these changes were expected and correct.\n"

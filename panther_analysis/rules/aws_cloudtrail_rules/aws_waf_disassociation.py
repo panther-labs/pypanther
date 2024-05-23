@@ -134,10 +134,8 @@ class AWSWAFDisassociation(PantherRule):
     Reference = "https://attack.mitre.org/techniques/T1078/"
     Severity = Severity.Critical
     Reports = {"MITRE ATT&CK": ["TA0004:T1498"]}
-    DedupPeriodMinutes = 60
     LogTypes = ["AWS.CloudTrail"]
     RuleID = "AWS.WAF.Disassociation-prototype"
-    Threshold = 1
     Tests = awswaf_disassociation_tests
 
     def rule(self, event):

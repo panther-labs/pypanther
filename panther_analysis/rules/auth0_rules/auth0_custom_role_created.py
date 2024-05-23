@@ -771,10 +771,8 @@ class Auth0CustomRoleCreated(PantherRule):
         "https://auth0.com/docs/manage-users/access-control/configure-core-rbac/roles/create-roles"
     )
     Severity = Severity.High
-    DedupPeriodMinutes = 60
     LogTypes = ["Auth0.Events"]
     RuleID = "Auth0.Custom.Role.Created-prototype"
-    Threshold = 1
     Tests = auth0_custom_role_created_tests
 
     def rule(self, event):

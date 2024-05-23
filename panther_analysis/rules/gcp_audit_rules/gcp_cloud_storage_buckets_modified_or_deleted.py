@@ -122,10 +122,8 @@ class GCPCloudStorageBucketsModifiedOrDeleted(PantherRule):
     Enabled = True
     Reference = "https://cloud.google.com/storage/docs/buckets"
     Severity = Severity.Low
-    DedupPeriodMinutes = 60
     LogTypes = ["GCP.AuditLog"]
     RuleID = "GCP.Cloud.Storage.Buckets.Modified.Or.Deleted-prototype"
-    Threshold = 1
     Tests = gcp_cloud_storage_buckets_modified_or_deleted_tests
     BUCKET_OPERATIONS = ["storage.buckets.delete", "storage.buckets.update"]
 

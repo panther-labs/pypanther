@@ -129,10 +129,8 @@ class GCPLoggingSettingsModified(PantherRule):
     Enabled = True
     Reference = "https://cloud.google.com/logging/docs/default-settings"
     Severity = Severity.Low
-    DedupPeriodMinutes = 60
     LogTypes = ["GCP.AuditLog"]
     RuleID = "GCP.Logging.Settings.Modified-prototype"
-    Threshold = 1
     Tests = gcp_logging_settings_modified_tests
 
     def rule(self, event):

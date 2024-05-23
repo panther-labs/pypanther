@@ -47,11 +47,9 @@ class GithubPublicRepositoryCreated(PantherRule):
     Reference = "https://docs.github.com/en/get-started/quickstart/create-a-repo"
     Severity = Severity.Medium
     Tags = ["Github Repository", "Public", "Repository Created"]
-    DedupPeriodMinutes = 60
     LogTypes = ["GitHub.Audit"]
     RuleID = "Github.Public.Repository.Created-prototype"
     SummaryAttributes = ["actor", "repository", "visibility"]
-    Threshold = 1
     Tests = github_public_repository_created_tests
     # def dedup(event):
     #  (Optional) Return a string which will be used to deduplicate similar alerts.

@@ -69,8 +69,6 @@ class SlackAuditLogsOrgDeleted(PantherRule):
     Severity = Severity.Medium
     Description = "Detects when a Slack organization is deleted"
     Reference = "https://slack.com/intl/en-gb/help/articles/204067366-Delete-a-workspace"
-    DedupPeriodMinutes = 60
-    Threshold = 1
     SummaryAttributes = ["p_any_ip_addresses", "p_any_emails"]
     Tests = slack_audit_logs_org_deleted_tests
 

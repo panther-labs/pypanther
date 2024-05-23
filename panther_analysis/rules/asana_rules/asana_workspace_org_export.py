@@ -60,10 +60,8 @@ class AsanaWorkspaceOrgExport(PantherRule):
     Runbook = "Confirm this user acted with valid business intent and determine whether this activity was authorized."
     Reference = "https://help.asana.com/hc/en-us/articles/14139896860955-Privacy-and-security#:~:text=like%20to%20see.-,Full%20export%20of%20an%20organization,-Available%20on%20Asana"
     Severity = Severity.Medium
-    DedupPeriodMinutes = 60
     LogTypes = ["Asana.Audit"]
     RuleID = "Asana.Workspace.Org.Export-prototype"
-    Threshold = 1
     Tests = asana_workspace_org_export_tests
 
     def rule(self, event):

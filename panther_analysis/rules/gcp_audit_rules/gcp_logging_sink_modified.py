@@ -122,7 +122,6 @@ gcp_logging_sink_modified_tests: List[PantherRuleTest] = [
 
 
 class GCPLoggingSinkModified(PantherRule):
-    DedupPeriodMinutes = 60
     DisplayName = "GCP Logging Sink Modified"
     Enabled = True
     RuleID = "GCP.Logging.Sink.Modified-prototype"

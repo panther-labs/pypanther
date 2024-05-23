@@ -160,10 +160,8 @@ class OktaUserAccountLocked(PantherRule):
     Enabled = True
     Reference = "https://support.okta.com/help/s/article/How-to-Configure-the-Number-of-Failed-Login-Attempts-Before-User-Lockout?language=en_US"
     Severity = Severity.Low
-    DedupPeriodMinutes = 60
     LogTypes = ["Okta.SystemLog"]
     RuleID = "Okta.User.Account.Locked-prototype"
-    Threshold = 1
     Tests = okta_user_account_locked_tests
 
     def rule(self, event):

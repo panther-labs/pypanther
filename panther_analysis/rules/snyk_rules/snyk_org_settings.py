@@ -76,8 +76,6 @@ class SnykOrgSettings(PantherRule):
     Description = (
         "Detects when Snyk Organization settings, like Integrations and Webhooks, are changed\n"
     )
-    DedupPeriodMinutes = 60
-    Threshold = 1
     SummaryAttributes = ["event"]
     Tests = snyk_org_settings_tests
     ACTIONS = [

@@ -87,10 +87,8 @@ class AsanaServiceAccountCreated(PantherRule):
     Runbook = "Confirm this user acted with valid business intent and determine whether this activity was authorized."
     Reference = "https://help.asana.com/hc/en-us/articles/14217496838427-Service-Accounts"
     Severity = Severity.Medium
-    DedupPeriodMinutes = 60
     LogTypes = ["Asana.Audit"]
     RuleID = "Asana.Service.Account.Created-prototype"
-    Threshold = 1
     Tests = asana_service_account_created_tests
 
     def rule(self, event):

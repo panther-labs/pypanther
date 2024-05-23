@@ -313,7 +313,6 @@ class CloudflareHttpRequestBotHighVolumeGreyNoise(PantherRule):
     )
     Runbook = "Inspect and monitor internet-facing services for potential outages"
     Reference = "https://docs.greynoise.io/docs/understanding-greynoise-enrichments"
-    DedupPeriodMinutes = 60
     Threshold = 7560
     SummaryAttributes = [
         "ClientIP",

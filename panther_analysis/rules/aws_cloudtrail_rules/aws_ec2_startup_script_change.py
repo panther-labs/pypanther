@@ -108,10 +108,8 @@ class AWSEC2StartupScriptChange(PantherRule):
         "https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/user-data.html#user-data-shell-scripts"
     )
     Severity = Severity.High
-    DedupPeriodMinutes = 60
     LogTypes = ["AWS.CloudTrail"]
     RuleID = "AWS.EC2.Startup.Script.Change-prototype"
-    Threshold = 1
     Tests = awsec2_startup_script_change_tests
 
     def rule(self, event):

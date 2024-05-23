@@ -116,10 +116,8 @@ class AWSSecurityHubFindingEvasion(PantherRule):
     Reports = {"MITRE ATT&CK": ["TA0005:T1562"]}
     Reference = "https://docs.aws.amazon.com/securityhub/latest/userguide/securityhub-insights-view-take-action.html"
     Severity = Severity.High
-    DedupPeriodMinutes = 60
     LogTypes = ["AWS.CloudTrail"]
     RuleID = "AWS.SecurityHub.Finding.Evasion-prototype"
-    Threshold = 1
     Tests = aws_security_hub_finding_evasion_tests
     EVASION_OPERATIONS = ["BatchUpdateFindings", "DeleteInsight", "UpdateFindings", "UpdateInsight"]
 

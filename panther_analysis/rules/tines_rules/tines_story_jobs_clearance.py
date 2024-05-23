@@ -50,8 +50,6 @@ class TinesStoryJobsClearance(PantherRule):
     Description = "A Tines User has cleared story jobs."
     Runbook = "Possible data destruction. Please reach out to the user and confirm this was done for valid business reasons."
     Reference = "https://www.tines.com/docs/stories"
-    DedupPeriodMinutes = 60
-    Threshold = 1
     Tests = tines_story_jobs_clearance_tests
 
     def rule(self, event):

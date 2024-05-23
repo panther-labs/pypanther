@@ -164,7 +164,6 @@ gcp_firewall_rule_modified_tests: List[PantherRuleTest] = [
 
 
 class GCPFirewallRuleModified(PantherRule):
-    DedupPeriodMinutes = 60
     DisplayName = "GCP Firewall Rule Modified"
     Enabled = True
     RuleID = "GCP.Firewall.Rule.Modified-prototype"

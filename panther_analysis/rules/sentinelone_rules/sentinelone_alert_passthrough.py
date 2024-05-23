@@ -144,10 +144,8 @@ class SentinelOneAlertPassthrough(PantherRule):
         "https://www.sentinelone.com/blog/feature-spotlight-introducing-the-new-threat-center/"
     )
     Severity = Severity.High
-    DedupPeriodMinutes = 60
     LogTypes = ["SentinelOne.Activity"]
     RuleID = "SentinelOne.Alert.Passthrough-prototype"
-    Threshold = 1
     Tests = sentinel_one_alert_passthrough_tests
     SENTINELONE_SEVERITY = {
         "E_LOW": "LOW",

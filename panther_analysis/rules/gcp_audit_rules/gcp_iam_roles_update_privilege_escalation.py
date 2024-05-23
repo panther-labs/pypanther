@@ -51,8 +51,6 @@ class GCPiamrolesupdatePrivilegeEscalation(PantherRule):
     Tags = ["GCP"]
     Severity = Severity.High
     Reports = {"TA0004": ["T1548"]}
-    DedupPeriodMinutes = 60
-    Threshold = 1
     Reference = (
         "https://rhinosecuritylabs.com/gcp/privilege-escalation-google-cloud-platform-part-1/"
     )

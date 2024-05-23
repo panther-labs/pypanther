@@ -388,7 +388,6 @@ standard_brute_force_by_ip_tests: List[PantherRuleTest] = [
 
 class StandardBruteForceByIP(PantherRule):
     RuleID = "Standard.BruteForceByIP-prototype"
-    DedupPeriodMinutes = 60
     DisplayName = "Brute Force By IP"
     Enabled = True
     LogTypes = [

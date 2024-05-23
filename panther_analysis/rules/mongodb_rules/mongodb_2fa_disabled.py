@@ -71,10 +71,8 @@ class MongoDB2FADisabled(PantherRule):
     Enabled = True
     Severity = Severity.Medium
     Reference = "https://www.mongodb.com/docs/atlas/security-multi-factor-authentication/"
-    DedupPeriodMinutes = 60
     LogTypes = ["MongoDB.OrganizationEvent"]
     RuleID = "MongoDB.2FA.Disabled-prototype"
-    Threshold = 1
     Tests = mongo_db2_fa_disabled_tests
 
     def rule(self, event):

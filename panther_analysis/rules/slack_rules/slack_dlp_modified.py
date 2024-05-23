@@ -112,8 +112,6 @@ class SlackAuditLogsDLPModified(PantherRule):
     Severity = Severity.High
     Description = "Detects when a Data Loss Prevention (DLP) rule has been deactivated or a violation has been deleted\n"
     Reference = "https://slack.com/intl/en-gb/help/articles/12914005852819-Slack-Connect--Data-loss-prevention"
-    DedupPeriodMinutes = 60
-    Threshold = 1
     SummaryAttributes = ["action", "p_any_ip_addresses", "p_any_emails"]
     Tests = slack_audit_logs_dlp_modified_tests
     DLP_ACTIONS = ["native_dlp_rule_deactivated", "native_dlp_violation_deleted"]

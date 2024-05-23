@@ -64,8 +64,6 @@ class MongoDBorgMembershipRestrictionDisabled(PantherRule):
     Reports = {"MITRE ATT&CK": ["T1556"]}
     Reference = "https://www.mongodb.com/docs/atlas/tutorial/manage-organizations/"
     Runbook = "Check if this activity is legitimate. If not, re-enable IP access list for the Atlas Administration API"
-    DedupPeriodMinutes = 60
-    Threshold = 1
     Tests = mongo_d_borg_membership_restriction_disabled_tests
 
     def rule(self, event):

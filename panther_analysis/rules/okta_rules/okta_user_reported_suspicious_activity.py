@@ -180,10 +180,8 @@ class OktaUserReportedSuspiciousActivity(PantherRule):
     DisplayName = "Okta User Reported Suspicious Activity"
     Enabled = True
     Severity = Severity.High
-    DedupPeriodMinutes = 60
     LogTypes = ["Okta.SystemLog"]
     RuleID = "Okta.User.Reported.Suspicious.Activity-prototype"
-    Threshold = 1
     Tests = okta_user_reported_suspicious_activity_tests
 
     def rule(self, event):

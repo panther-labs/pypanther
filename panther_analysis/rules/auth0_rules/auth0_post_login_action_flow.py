@@ -311,10 +311,8 @@ class Auth0PostLoginActionFlow(PantherRule):
     Runbook = "Assess if this was done by the user for a valid business reason. Be sure to replace any steps that were removed without authorization."
     Reference = "https://auth0.com/docs/customize/actions/flows-and-triggers/login-flow/api-object"
     Severity = Severity.Medium
-    DedupPeriodMinutes = 60
     LogTypes = ["Auth0.Events"]
     RuleID = "Auth0.Post.Login.Action.Flow-prototype"
-    Threshold = 1
     Tests = auth0_post_login_action_flow_tests
 
     def rule(self, event):

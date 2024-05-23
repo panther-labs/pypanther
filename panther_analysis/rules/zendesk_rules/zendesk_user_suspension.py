@@ -66,7 +66,6 @@ zendesk_user_suspension_tests: List[PantherRuleTest] = [
 
 class ZendeskUserSuspension(PantherRule):
     RuleID = "Zendesk.UserSuspension-prototype"
-    DedupPeriodMinutes = 60
     DisplayName = "Zendesk User Suspension Status Changed"
     Enabled = True
     LogTypes = ["Zendesk.Audit"]

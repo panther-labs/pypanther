@@ -37,10 +37,8 @@ class DuoAdminMFARestrictionsUpdated(PantherRule):
     Enabled = True
     Reference = "https://duo.com/docs/essentials-overview"
     Severity = Severity.Medium
-    DedupPeriodMinutes = 60
     LogTypes = ["Duo.Administrator"]
     RuleID = "Duo.Admin.MFA.Restrictions.Updated-prototype"
-    Threshold = 1
     Tests = duo_admin_mfa_restrictions_updated_tests
 
     def rule(self, event):

@@ -104,7 +104,6 @@ class CloudflareFirewallL7DDoS(PantherRule):
     Description = "Layer 7 Distributed Denial of Service (DDoS) detected"
     Runbook = "Inspect and monitor internet-facing services for potential outages"
     Reference = "https://www.cloudflare.com/en-gb/learning/ddos/application-layer-ddos-attack/"
-    DedupPeriodMinutes = 60
     Threshold = 100
     SummaryAttributes = ["Action", "ClientCountry", "ClientIP", "ClientRequestUserAgent"]
     Tests = cloudflare_firewall_l7_d_do_s_tests

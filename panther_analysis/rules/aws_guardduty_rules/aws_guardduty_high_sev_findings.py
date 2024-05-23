@@ -96,7 +96,6 @@ class AWSGuardDutyHighSeverityFinding(PantherRule):
     LogTypes = ["AWS.GuardDuty"]
     Tags = ["AWS"]
     Severity = Severity.High
-    DedupPeriodMinutes = 60
     Description = "A high-severity GuardDuty finding has been identified.\n"
     Runbook = "Search related logs to understand the root cause of the activity.\n"
     Reference = "https://docs.aws.amazon.com/guardduty/latest/ug/guardduty_findings.html#guardduty_findings-severity"

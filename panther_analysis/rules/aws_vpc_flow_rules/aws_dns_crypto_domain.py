@@ -174,10 +174,8 @@ class AWSDNSCryptoDomain(PantherRule):
     Reports = {"MITRE ATT&CK": ["TA0040:T1496"]}
     Reference = "https://docs.aws.amazon.com/vpc/latest/userguide/flow-logs.html"
     Severity = Severity.High
-    DedupPeriodMinutes = 60
     LogTypes = ["AWS.VPCDns"]
     RuleID = "AWS.DNS.Crypto.Domain-prototype"
-    Threshold = 1
     Tests = awsdns_crypto_domain_tests
 
     def rule(self, event):

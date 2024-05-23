@@ -66,8 +66,6 @@ class TinesEnqueuedRetryingJobDestruction(PantherRule):
     Description = "Currently enqueued or retrying jobs were cleared"
     Runbook = "Possible data destruction. Please reach out to the user and confirm this was done for valid business reasons."
     Reference = "https://www.tines.com/docs/self-hosting/job-management"
-    DedupPeriodMinutes = 60
-    Threshold = 1
     Tests = tines_enqueued_retrying_job_destruction_tests
 
     def rule(self, event):

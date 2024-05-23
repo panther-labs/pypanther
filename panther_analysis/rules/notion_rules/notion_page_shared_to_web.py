@@ -12,8 +12,6 @@ class NotionPageSharedToWeb(PantherRule):
     Tags = ["Notion", "Data Security", "Information Disclosure"]
     Severity = Severity.Low
     Description = "A Notion User published a page to the web."
-    DedupPeriodMinutes = 60
-    Threshold = 1
     Runbook = "Potential information exposure - review the shared page and rectify if needed."
     Reference = "https://www.notion.so/help/public-pages-and-web-publishing"
     # These event types correspond to users adding or editing the default role on a public page

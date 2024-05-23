@@ -58,7 +58,6 @@ class NetskopeManyDeletes(PantherRule):
     Reports = {"MITRE ATT&CK": ["TA0040:T1485"]}
     Severity = Severity.High
     Description = "A user deleted a large number of objects in a short period of time."
-    DedupPeriodMinutes = 60
     Threshold = 10
     Runbook = "A user deleted a large number of objects in a short period of time.  Validate that this activity is expected and authorized."
     Reference = "https://docs.netskope.com/en/netskope-help/admin-console/administration/audit-log/"

@@ -201,10 +201,8 @@ class GCPUserAddedtoIAPProtectedService(PantherRule):
     Runbook = "Note: GCP logs all bindings everytime this event occurs, not just changes. Bindings should be reviewed to ensure no unintended users have been added. "
     Reference = "https://cloud.google.com/iap/docs/managing-access"
     Severity = Severity.Low
-    DedupPeriodMinutes = 60
     LogTypes = ["GCP.AuditLog"]
     RuleID = "GCP.User.Added.to.IAP.Protected.Service-prototype"
-    Threshold = 1
     Tests = gcp_user_addedto_iap_protected_service_tests
 
     def rule(self, event):

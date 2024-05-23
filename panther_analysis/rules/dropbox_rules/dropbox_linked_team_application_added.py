@@ -138,10 +138,8 @@ class DropboxLinkedTeamApplicationAdded(PantherRule):
     Runbook = "Ensure that the application is valid and not malicious. Verify that this is expected. If not, determine other actions taken by this user recently and reach out to the user. If the event involved a non-team member, consider disabling the user's access while investigating.\n"
     Severity = Severity.Low
     Tags = ["dropbox"]
-    DedupPeriodMinutes = 60
     LogTypes = ["Dropbox.TeamEvent"]
     RuleID = "Dropbox.Linked.Team.Application.Added-prototype"
-    Threshold = 1
     Tests = dropbox_linked_team_application_added_tests
 
     def rule(self, event):

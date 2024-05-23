@@ -188,10 +188,8 @@ class OktaRefreshAccessTokenReuse(PantherRule):
     Enabled = True
     Runbook = "Determine if the clientip is anomalous. Revoke tokens if deemed suspicious."
     Severity = Severity.Medium
-    DedupPeriodMinutes = 60
     LogTypes = ["Okta.SystemLog"]
     RuleID = "Okta.Refresh.Access.Token.Reuse-prototype"
-    Threshold = 1
     Tests = okta_refresh_access_token_reuse_tests
 
     def rule(self, event):

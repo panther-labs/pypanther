@@ -164,8 +164,6 @@ class GCPInboundSSOProfileCreated(PantherRule):
     Tags = ["Account Manipulation", "Additional Cloud Roles", "GCP", "Privilege Escalation"]
     Reports = {"MITRE ATT&CK": ["TA0003:T1136.003", "TA0003:T1098.003", "TA0004:T1098.003"]}
     Severity = Severity.High
-    DedupPeriodMinutes = 60
-    Threshold = 1
     Runbook = "Ensure that the SSO profile creation or modification was expected. Adversaries may use this to persist or allow additional access or escalate their privilege.\n"
     Reference = "https://medium.com/google-cloud/detection-of-inbound-sso-persistence-techniques-in-gcp-c56f7b2a588b"
     Tests = gcp_inbound_sso_profile_created_tests

@@ -69,8 +69,6 @@ class SlackAuditLogsOrgCreated(PantherRule):
     Severity = Severity.Low
     Description = "Detects when a Slack organization is created"
     Reference = "https://slack.com/intl/en-gb/help/articles/206845317-Create-a-Slack-workspace"
-    DedupPeriodMinutes = 60
-    Threshold = 1
     SummaryAttributes = ["p_any_ip_addresses", "p_any_emails"]
     Tests = slack_audit_logs_org_created_tests
 

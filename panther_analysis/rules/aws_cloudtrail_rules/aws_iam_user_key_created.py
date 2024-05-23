@@ -238,10 +238,8 @@ class AWSIAMBackdoorUserKeys(PantherRule):
     Reports = {"MITRE ATT&CK": ["TA0003:T1098", "TA0005:T1108", "TA0005:T1550", "TA0008:T1550"]}
     Reference = "https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_access-keys.html"
     Severity = Severity.Medium
-    DedupPeriodMinutes = 60
     LogTypes = ["AWS.CloudTrail"]
     RuleID = "AWS.IAM.Backdoor.User.Keys-prototype"
-    Threshold = 1
     Tests = awsiam_backdoor_user_keys_tests
 
     def rule(self, event):

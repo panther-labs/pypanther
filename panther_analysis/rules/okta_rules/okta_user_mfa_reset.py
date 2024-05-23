@@ -86,9 +86,7 @@ class OktaUserMFAResetSingle(PantherRule):
     Enabled = True
     Reference = "https://support.okta.com/help/s/article/How-to-avoid-lockouts-and-reset-your-Multifactor-Authentication-MFA-for-Okta-Admins?language=en_US"
     Severity = Severity.Info
-    DedupPeriodMinutes = 60
     LogTypes = ["Okta.SystemLog"]
-    Threshold = 1
     Tests = okta_user_mfa_reset_single_tests
 
     def rule(self, event):

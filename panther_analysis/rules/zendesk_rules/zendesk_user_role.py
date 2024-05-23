@@ -48,7 +48,6 @@ zendesk_user_role_changed_tests: List[PantherRuleTest] = [
 
 class ZendeskUserRoleChanged(PantherRule):
     RuleID = "Zendesk.UserRoleChanged-prototype"
-    DedupPeriodMinutes = 60
     DisplayName = "Zendesk User Role Changed"
     Enabled = True
     LogTypes = ["Zendesk.Audit"]

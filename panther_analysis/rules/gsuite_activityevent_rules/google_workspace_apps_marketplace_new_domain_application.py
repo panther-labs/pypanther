@@ -110,10 +110,8 @@ class GoogleWorkspaceAppsMarketplaceNewDomainApplication(PantherRule):
     Runbook = "Confirm this was the intended behavior."
     Reference = "https://developers.google.com/workspace/marketplace/overview"
     Severity = Severity.Medium
-    DedupPeriodMinutes = 60
     LogTypes = ["GSuite.ActivityEvent"]
     RuleID = "Google.Workspace.Apps.Marketplace.New.Domain.Application-prototype"
-    Threshold = 1
     Tests = google_workspace_apps_marketplace_new_domain_application_tests
 
     def rule(self, event):

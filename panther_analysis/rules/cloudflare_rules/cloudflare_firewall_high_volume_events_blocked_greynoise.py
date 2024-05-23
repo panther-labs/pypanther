@@ -232,7 +232,6 @@ class CloudflareFirewallHighVolumeEventsBlockedGreyNoise(PantherRule):
     Description = "Monitors high volume events blocked from the same IP enriched with GreyNoise"
     Runbook = "Inspect and monitor internet-facing services for potential outages"
     Reference = "https://docs.greynoise.io/docs/understanding-greynoise-enrichments"
-    DedupPeriodMinutes = 60
     Threshold = 200
     SummaryAttributes = [
         "ClientRequestUserAgent",

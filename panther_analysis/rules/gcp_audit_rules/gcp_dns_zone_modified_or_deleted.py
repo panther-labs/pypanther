@@ -313,10 +313,8 @@ class GCPDNSZoneModifiedorDeleted(PantherRule):
     Runbook = "Verify that this modification or deletion was expected. These operations are high-impact events and can result in downtimes or total outages."
     Reference = "https://cloud.google.com/dns/docs/zones"
     Severity = Severity.Low
-    DedupPeriodMinutes = 60
     LogTypes = ["GCP.AuditLog"]
     RuleID = "GCP.DNS.Zone.Modified.or.Deleted-prototype"
-    Threshold = 1
     Tests = gcpdns_zone_modifiedor_deleted_tests
 
     def rule(self, event):

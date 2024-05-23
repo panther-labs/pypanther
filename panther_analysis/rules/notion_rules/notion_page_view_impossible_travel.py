@@ -143,8 +143,6 @@ class NotionPageViewsImpossibleTravel(PantherRule):
     ]
     Severity = Severity.High
     Description = "A Notion User viewed a page from 2 locations simultaneously"
-    DedupPeriodMinutes = 60
-    Threshold = 1
     Runbook = "Possible account compromise. Review activity of this user."
     Reference = "https://raxis.com/blog/simultaneous-sessions/"
     Tests = notion_page_views_impossible_travel_tests

@@ -143,10 +143,8 @@ class GCPDestructiveQueries(PantherRule):
     Enabled = True
     Reference = "https://cloud.google.com/bigquery/docs/managing-tables"
     Severity = Severity.Info
-    DedupPeriodMinutes = 60
     LogTypes = ["GCP.AuditLog"]
     RuleID = "GCP.Destructive.Queries-prototype"
-    Threshold = 1
     Tests = gcp_destructive_queries_tests
     DESTRUCTIVE_STATEMENTS = ["UPDATE", "DELETE", "DROP_TABLE", "ALTER_TABLE", "TRUNCATE_TABLE"]
 

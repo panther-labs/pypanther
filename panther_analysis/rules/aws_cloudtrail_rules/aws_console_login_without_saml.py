@@ -72,7 +72,6 @@ aws_console_login_without_saml_tests: List[PantherRuleTest] = [
 class AWSConsoleLoginWithoutSAML(PantherRule):
     RuleID = "AWS.Console.LoginWithoutSAML-prototype"
     DisplayName = "Logins Without SAML"
-    DedupPeriodMinutes = 60
     Enabled = False
     LogTypes = ["AWS.CloudTrail"]
     Reports = {"MITRE ATT&CK": ["TA0001:T1078"]}

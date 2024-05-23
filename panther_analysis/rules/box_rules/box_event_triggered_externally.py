@@ -53,7 +53,6 @@ class BoxEventTriggeredExternally(PantherRule):
     Runbook = "Investigate whether this user's activity is expected.\n"
     SummaryAttributes = ["ip_address"]
     Threshold = 10
-    DedupPeriodMinutes = 60
     Tests = box_event_triggered_externally_tests
     DOMAINS = {"@" + domain for domain in config.ORGANIZATION_DOMAINS}
 

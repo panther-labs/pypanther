@@ -164,7 +164,6 @@ gcp_firewall_rule_created_tests: List[PantherRuleTest] = [
 
 
 class GCPFirewallRuleCreated(PantherRule):
-    DedupPeriodMinutes = 60
     DisplayName = "GCP Firewall Rule Created"
     Enabled = True
     RuleID = "GCP.Firewall.Rule.Created-prototype"

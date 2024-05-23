@@ -76,10 +76,8 @@ class MongoDBAtlasApiKeyCreated(PantherRule):
     Reference = (
         "https://www.mongodb.com/docs/atlas/configure-api-access/#std-label-about-org-api-keys"
     )
-    DedupPeriodMinutes = 60
     LogTypes = ["MongoDB.OrganizationEvent"]
     RuleID = "MongoDB.Atlas.ApiKeyCreated-prototype"
-    Threshold = 1
     Tests = mongo_db_atlas_api_key_created_tests
 
     def rule(self, event):

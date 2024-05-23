@@ -283,8 +283,6 @@ class NotionLoginFromNewLocation(PantherRule):
     Tags = ["Notion", "Identity & Access Management", "Login & Access Patterns"]
     Severity = Severity.Medium
     Description = "A Notion User logged in from a new location."
-    DedupPeriodMinutes = 60
-    Threshold = 1
     Runbook = "Possible account takeover. Follow up with the Notion User to determine if this login is genuine."
     Reference = "https://ipinfo.io/products/ip-geolocation-api"
     Tests = notion_login_from_new_location_tests

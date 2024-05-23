@@ -47,8 +47,6 @@ class TinesActionsDisabledChanges(PantherRule):
     Reference = "https://www.tines.com/university/tines-basics/architecture-of-an-action"
     Severity = Severity.Medium
     Description = "Detections when Tines Actions are set to Disabled Change\n"
-    DedupPeriodMinutes = 60
-    Threshold = 1
     SummaryAttributes = ["user_id", "operation_name", "tenant_id", "request_ip"]
     Tests = tines_actions_disabled_changes_tests
     ACTIONS = ["ActionsDisabledChange"]

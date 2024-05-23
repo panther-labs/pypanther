@@ -180,10 +180,8 @@ class CrowdstrikeCryptominingTools(PantherRule):
     Enabled = True
     Reference = "https://www.crowdstrike.com/cybersecurity-101/cryptojacking/"
     Severity = Severity.Critical
-    DedupPeriodMinutes = 60
     LogTypes = ["Crowdstrike.FDREvent"]
     RuleID = "Crowdstrike.Cryptomining.Tools-prototype"
-    Threshold = 1
     Tests = crowdstrike_cryptomining_tools_tests
     CRYPTOCURRENCY_MINING_TOOLS = {
         "xmrig.exe",

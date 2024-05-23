@@ -323,10 +323,8 @@ class Auth0UserInvitationCreated(PantherRule):
         "https://auth0.com/docs/manage-users/organizations/configure-organizations/invite-members"
     )
     Severity = Severity.Info
-    DedupPeriodMinutes = 60
     LogTypes = ["Auth0.Events"]
     RuleID = "Auth0.User.Invitation.Created-prototype"
-    Threshold = 1
     Tests = auth0_user_invitation_created_tests
     org_re = re.compile("^/api/v2/organizations/[^/\\s]+/invitations$")
 

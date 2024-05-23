@@ -186,10 +186,8 @@ class OktaThreatInsightSecurityThreatDetected(PantherRule):
     DisplayName = "Okta ThreatInsight Security Threat Detected"
     Enabled = True
     Severity = Severity.High
-    DedupPeriodMinutes = 60
     LogTypes = ["Okta.SystemLog"]
     RuleID = "Okta.ThreatInsight.Security.Threat.Detected-prototype"
-    Threshold = 1
     Tests = okta_threat_insight_security_threat_detected_tests
 
     def severity_from_threat_string(self, threat_detection):

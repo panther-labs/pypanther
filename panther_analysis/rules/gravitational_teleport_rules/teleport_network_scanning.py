@@ -106,7 +106,6 @@ class TeleportNetworkScanning(PantherRule):
     Tags = ["SSH", "Discovery:Network Service Discovery"]
     Severity = Severity.Medium
     Description = "A user has invoked a network scan that could potentially indicate enumeration of the network."
-    DedupPeriodMinutes = 60
     Reports = {"MITRE ATT&CK": ["TA0007:T1046"]}
     Reference = "https://goteleport.com/docs/management/admin/"
     Runbook = "Find related commands within the time window and determine if the command was invoked legitimately. Examine the arguments to determine how the command was used.\n"

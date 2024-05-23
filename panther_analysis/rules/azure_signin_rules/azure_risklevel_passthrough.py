@@ -325,7 +325,6 @@ class AzureAuditRiskLevelPassthrough(PantherRule):
     RuleID = "Azure.Audit.RiskLevelPassthrough-prototype"
     DisplayName = "Azure RiskLevel Passthrough"
     Enabled = True
-    Threshold = 1
     DedupPeriodMinutes = 10
     LogTypes = ["Azure.Audit"]
     Severity = Severity.Medium

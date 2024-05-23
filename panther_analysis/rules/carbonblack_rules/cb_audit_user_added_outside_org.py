@@ -44,8 +44,6 @@ class CarbonBlackAuditUserAddedOutsideOrg(PantherRule):
     Tags = ["Persistence", "Create Account"]
     Reports = {"MITRE ATT&CK": ["TA0003:T1136"]}
     Reference = "https://docs.vmware.com/en/VMware-Carbon-Black-Cloud/services/carbon-black-cloud-user-guide/GUID-516BAF8C-A13D-4FC7-AA92-923159C13083.html"
-    Threshold = 1
-    DedupPeriodMinutes = 60
     Tests = carbon_black_audit_user_added_outside_org_tests
     PATTERNS = ("Added user ",)
 

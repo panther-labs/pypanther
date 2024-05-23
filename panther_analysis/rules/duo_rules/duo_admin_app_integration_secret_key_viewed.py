@@ -35,10 +35,8 @@ class DuoAdminAppIntegrationSecretKeyViewed(PantherRule):
     Reference = "https://duo.com/docs/adminapi"
     Runbook = "The security of your Duo application is tied to the security of your secret key (skey). Secure it as you would any sensitive credential. Don't share it with unauthorized individuals or email it to anyone under any circumstances!"
     Severity = Severity.Medium
-    DedupPeriodMinutes = 60
     LogTypes = ["Duo.Administrator"]
     RuleID = "Duo.Admin.App.Integration.Secret.Key.Viewed-prototype"
-    Threshold = 1
     Tests = duo_admin_app_integration_secret_key_viewed_tests
 
     def rule(self, event):

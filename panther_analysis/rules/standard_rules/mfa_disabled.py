@@ -198,7 +198,6 @@ standard_mfa_disabled_tests: List[PantherRuleTest] = [
 
 class StandardMFADisabled(PantherRule):
     RuleID = "Standard.MFADisabled-prototype"
-    DedupPeriodMinutes = 60
     DisplayName = "MFA Disabled"
     Enabled = True
     LogTypes = ["Atlassian.Audit", "GitHub.Audit", "Zendesk.Audit", "Okta.SystemLog"]

@@ -104,8 +104,6 @@ class SnykSystemPolicySetting(PantherRule):
     Description = "Detects Snyk Policy Settings have been changed. Policies define Snyk's behavior when encountering security and licensing issues.\n"
     Runbook = "Snyk Policies can cause alerts to raise or not based on found security and license issues. Validate that that this change is expected.\n"
     Reference = "https://docs.snyk.io/manage-issues/policies/shared-policies-overview"
-    DedupPeriodMinutes = 60
-    Threshold = 1
     SummaryAttributes = ["event"]
     Tests = snyk_system_policy_setting_tests
     ACTIONS = [

@@ -113,7 +113,6 @@ awss3_server_access_unknown_requester_tests: List[PantherRuleTest] = [
 class AWSS3ServerAccessUnknownRequester(PantherRule):
     RuleID = "AWS.S3.ServerAccess.UnknownRequester-prototype"
     DisplayName = "AWS S3 Unknown Requester"
-    DedupPeriodMinutes = 60
     Enabled = False
     LogTypes = ["AWS.S3ServerAccess"]
     Tags = [

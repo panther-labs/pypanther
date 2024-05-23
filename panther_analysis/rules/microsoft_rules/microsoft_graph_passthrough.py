@@ -100,10 +100,8 @@ class MicrosoftGraphPassthrough(PantherRule):
     DisplayName = "Microsoft Graph Passthrough"
     Enabled = True
     Severity = Severity.Medium
-    DedupPeriodMinutes = 60
     LogTypes = ["MicrosoftGraph.SecurityAlert"]
     RuleID = "Microsoft.Graph.Passthrough-prototype"
-    Threshold = 1
     Tests = microsoft_graph_passthrough_tests
 
     def rule(self, event):

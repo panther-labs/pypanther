@@ -175,10 +175,8 @@ class GCPAccessAttemptsViolatingVPCServiceControls(PantherRule):
     Enabled = True
     Reference = "https://cloud.google.com/vpc-service-controls/docs/troubleshooting#debugging"
     Severity = Severity.Medium
-    DedupPeriodMinutes = 60
     LogTypes = ["GCP.AuditLog"]
     RuleID = "GCP.Access.Attempts.Violating.VPC.Service.Controls-prototype"
-    Threshold = 1
     Tests = gcp_access_attempts_violating_vpc_service_controls_tests
 
     def rule(self, event):

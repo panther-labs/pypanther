@@ -189,10 +189,8 @@ class DropboxExternalShare(PantherRule):
     Enabled = True
     Reference = "https://help.dropbox.com/share/share-outside-dropbox"
     Severity = Severity.Medium
-    DedupPeriodMinutes = 60
     LogTypes = ["Dropbox.TeamEvent"]
     RuleID = "Dropbox.External.Share-prototype"
-    Threshold = 1
     Tests = dropbox_external_share_tests
     DROPBOX_ALLOWED_SHARE_DOMAINS = config.DROPBOX_ALLOWED_SHARE_DOMAINS
 

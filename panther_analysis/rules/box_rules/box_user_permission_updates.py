@@ -79,7 +79,6 @@ class BoxLargeNumberPermissionUpdates(PantherRule):
     Runbook = "Investigate whether this user's activity is expected.\n"
     SummaryAttributes = ["ip_address"]
     Threshold = 100
-    DedupPeriodMinutes = 60
     Tests = box_large_number_permission_updates_tests
     PERMISSION_UPDATE_EVENT_TYPES = {
         "CHANGE_FOLDER_PERMISSION",

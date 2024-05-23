@@ -345,10 +345,8 @@ class CrowdstrikeWMIQueryDetection(PantherRule):
     Runbook = "Investigate the endpoint for signs of WMI query execution. Review the executed query and the associated user account."
     Reference = "https://learn.microsoft.com/en-us/windows/win32/wmisdk/querying-wmi"
     Severity = Severity.Low
-    DedupPeriodMinutes = 60
     LogTypes = ["Crowdstrike.FDREvent"]
     RuleID = "Crowdstrike.WMI.Query.Detection-prototype"
-    Threshold = 1
     Tests = crowdstrike_wmi_query_detection_tests
     WMIC_SIGNATURES = [
         "get",

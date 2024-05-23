@@ -66,7 +66,6 @@ class NotionManyPagesExported(PantherRule):
     Tags = ["Notion", "Data Security", "Data Exfiltration"]
     Severity = Severity.High
     Description = "A Notion User exported multiple pages."
-    DedupPeriodMinutes = 60
     Threshold = 10
     Runbook = "Possible Data Exfiltration. Follow up with the Notion User to determine if this was done for a valid business reason."
     Reference = "https://www.notion.so/help/export-your-content"

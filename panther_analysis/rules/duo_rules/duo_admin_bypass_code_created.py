@@ -37,10 +37,8 @@ class DuoAdminBypassCodeCreated(PantherRule):
     Runbook = "Confirm this was authorized and necessary behavior."
     Reference = "https://duo.com/docs/administration-users#generating-a-bypass-code"
     Severity = Severity.Medium
-    DedupPeriodMinutes = 60
     LogTypes = ["Duo.Administrator"]
     RuleID = "Duo.Admin.Bypass.Code.Created-prototype"
-    Threshold = 1
     Tests = duo_admin_bypass_code_created_tests
 
     def rule(self, event):

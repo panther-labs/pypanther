@@ -159,10 +159,8 @@ class AWSCloudTrailAccountDiscovery(PantherRule):
     Reference = "https://attack.mitre.org/techniques/T1087/"
     Reports = {"MITRE ATT&CK": ["TA0007:T1087"]}
     Severity = Severity.Info
-    DedupPeriodMinutes = 60
     LogTypes = ["AWS.CloudTrail"]
     RuleID = "AWS.CloudTrail.Account.Discovery-prototype"
-    Threshold = 1
     Tests = aws_cloud_trail_account_discovery_tests
     DISCOVERY_EVENTS = [
         "GetAlternateContact",

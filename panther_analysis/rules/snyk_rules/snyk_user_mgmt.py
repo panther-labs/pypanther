@@ -90,8 +90,6 @@ class SnykUserManagement(PantherRule):
     Description = "Detects when Snyk Users are changed\n"
     Runbook = "These actions in the Snyk Audit logs indicate that a User has been created/deleted/modified.\n"
     Reference = "https://docs.snyk.io/snyk-admin/manage-users-and-permissions/member-roles"
-    DedupPeriodMinutes = 60
-    Threshold = 1
     SummaryAttributes = ["event"]
     Tests = snyk_user_management_tests
     ACTIONS = [

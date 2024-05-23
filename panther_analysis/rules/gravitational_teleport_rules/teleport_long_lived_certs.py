@@ -79,7 +79,6 @@ class TeleportLongLivedCerts(PantherRule):
     Tags = ["Teleport"]
     Severity = Severity.Medium
     Description = "An unusually long-lived Teleport certificate was created"
-    DedupPeriodMinutes = 60
     Reports = {"MITRE ATT&CK": ["TA0003:T1098"]}
     Reference = "https://goteleport.com/docs/management/admin/"
     Runbook = "Teleport certificates are usually issued for a short period of time. Alert if long-lived certificates were created.\n"

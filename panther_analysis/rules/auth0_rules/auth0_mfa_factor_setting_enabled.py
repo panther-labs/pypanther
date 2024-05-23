@@ -390,10 +390,8 @@ class Auth0MFAFactorSettingEnabled(PantherRule):
     Runbook = "Assess if this was done by the user for a valid business reason. Be vigilant to re-enable this setting as it's in the best security interest for your organization's security posture."
     Reference = "https://auth0.com/docs/secure/multi-factor-authentication/multi-factor-authentication-factors"
     Severity = Severity.Info
-    DedupPeriodMinutes = 60
     LogTypes = ["Auth0.Events"]
     RuleID = "Auth0.MFA.Factor.Setting.Enabled-prototype"
-    Threshold = 1
     Tests = auth0_mfa_factor_setting_enabled_tests
 
     def rule(self, event):

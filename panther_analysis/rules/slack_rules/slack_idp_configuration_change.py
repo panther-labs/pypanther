@@ -137,8 +137,6 @@ class SlackAuditLogsIDPConfigurationChanged(PantherRule):
         "Detects changes to the identity provider (IdP) configuration for Slack organizations."
     )
     Reference = "https://slack.com/intl/en-gb/help/articles/115001435788-Connect-identity-provider-groups-to-your-Enterprise-Grid-org"
-    DedupPeriodMinutes = 60
-    Threshold = 1
     SummaryAttributes = ["action", "p_any_ip_addresses", "p_any_emails"]
     Tests = slack_audit_logs_idp_configuration_changed_tests
     IDP_CHANGE_ACTIONS = {

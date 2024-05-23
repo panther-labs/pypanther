@@ -567,7 +567,6 @@ class CrowdstrikeBase64EncodedArgs(PantherRule):
     Description = "Detects the execution of common command line tools (e.g., PowerShell, cmd.exe) with Base64 encoded arguments, which could indicate an attempt to obfuscate malicious commands."
     Runbook = "Investigate the endpoint for signs of command line tool execution with Base64 encoded arguments. Review the executed command, decode the Base64 string, and analyze the original content."
     Reference = "https://www.crowdstrike.com/blog/blocking-fileless-script-based-attacks-using-falcon-script-control-feature/"
-    DedupPeriodMinutes = 60
     Tests = crowdstrike_base64_encoded_args_tests
     DECODED = ""
     # List of command line tools to monitor for execution with Base64 encoded arguments

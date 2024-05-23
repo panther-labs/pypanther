@@ -51,8 +51,6 @@ class MongoDBAlertingDisabledOrDeleted(PantherRule):
     Reports = {"MITRE ATT&CK": ["TA0005:T1562.001"]}
     Reference = "https://www.mongodb.com/docs/atlas/configure-alerts/"
     Runbook = "Re-enable security alerts"
-    DedupPeriodMinutes = 60
-    Threshold = 1
     Tests = mongo_db_alerting_disabled_or_deleted_tests
 
     def rule(self, event):

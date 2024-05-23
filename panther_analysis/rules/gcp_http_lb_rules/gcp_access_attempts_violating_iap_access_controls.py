@@ -109,10 +109,8 @@ class GCPAccessAttemptsViolatingIAPAccessControls(PantherRule):
     Enabled = True
     Reference = "https://cloud.google.com/iap/docs/concepts-overview"
     Severity = Severity.Medium
-    DedupPeriodMinutes = 60
     LogTypes = ["GCP.HTTPLoadBalancer"]
     RuleID = "GCP.Access.Attempts.Violating.IAP.Access.Controls-prototype"
-    Threshold = 1
     Tests = gcp_access_attempts_violating_iap_access_controls_tests
 
     def rule(self, event):

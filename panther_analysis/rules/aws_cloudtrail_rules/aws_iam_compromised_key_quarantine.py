@@ -117,8 +117,6 @@ class AWSCloudTrailIAMCompromisedKeyQuarantine(PantherRule):
     Reports = {"MITRE ATT&CK": ["TA0001:T1078.004", "TA0006:T1552.001"]}
     Runbook = "Check the quarantined IAM entity's key usage for signs of compromise and follow the instructions outlined in the AWS support case opened regarding this event.\n"
     Reference = "https://unit42.paloaltonetworks.com/malicious-operations-of-exposed-iam-keys-cryptojacking/"
-    Threshold = 1
-    DedupPeriodMinutes = 60
     Tests = aws_cloud_trail_iam_compromised_key_quarantine_tests
     IAM_ACTIONS = {"AttachUserPolicy", "AttachGroupPolicy", "AttachRolePolicy"}
     QUARANTINE_MANAGED_POLICY = "arn:aws:iam::aws:policy/AWSCompromisedKeyQuarantineV2"

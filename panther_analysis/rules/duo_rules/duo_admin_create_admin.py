@@ -39,10 +39,8 @@ class DuoAdminCreateAdmin(PantherRule):
     Enabled = True
     Reference = "https://duo.com/docs/administration-admins#add-an-administrator"
     Severity = Severity.High
-    DedupPeriodMinutes = 60
     LogTypes = ["Duo.Administrator"]
     RuleID = "Duo.Admin.Create.Admin-prototype"
-    Threshold = 1
     Tests = duo_admin_create_admin_tests
 
     def rule(self, event):

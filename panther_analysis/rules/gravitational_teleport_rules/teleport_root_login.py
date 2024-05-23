@@ -38,7 +38,6 @@ class TeleportRootLogin(PantherRule):
     Tags = ["SSH", "Execution:Command and Scripting Interpreter", "Teleport"]
     Severity = Severity.Medium
     Description = "A User logged in as root"
-    DedupPeriodMinutes = 60
     Reports = {"MITRE ATT&CK": ["TA0002:T1059"]}
     Reference = "https://goteleport.com/docs/management/admin/"
     Runbook = "Use user accounts and policies, rather than root when logging in. With access to root, it is possible to evade auditing and logging.\n"

@@ -213,10 +213,8 @@ class Microsoft365ExchangeExternalForwarding(PantherRule):
     Reports = {"MITRE ATT&CK": ["TA0009:T1114"]}
     Reference = "https://learn.microsoft.com/en-us/microsoft-365/security/office-365-security/outbound-spam-policies-external-email-forwarding?view=o365-worldwide"
     Severity = Severity.High
-    DedupPeriodMinutes = 60
     LogTypes = ["Microsoft365.Audit.Exchange"]
     RuleID = "Microsoft365.Exchange.External.Forwarding-prototype"
-    Threshold = 1
     Tests = microsoft365_exchange_external_forwarding_tests
 
     def rule(self, event):

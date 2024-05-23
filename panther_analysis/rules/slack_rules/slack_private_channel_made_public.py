@@ -88,8 +88,6 @@ class SlackAuditLogsPrivateChannelMadePublic(PantherRule):
     Severity = Severity.High
     Description = "Detects when a channel that was previously private is made public"
     Reference = "https://slack.com/intl/en-gb/help/articles/213185467-Convert-a-channel-to-private-or-public"
-    DedupPeriodMinutes = 60
-    Threshold = 1
     SummaryAttributes = ["p_any_ip_addresses", "p_any_emails"]
     Tests = slack_audit_logs_private_channel_made_public_tests
 

@@ -46,10 +46,8 @@ class ZoomTwoFactorAuthenticationDisabled(PantherRule):
     Runbook = "Confirm this user acted with valid business intent and determine whether this activity was authorized."
     Reference = "https://support.zoom.com/hc/en/article?id=zm_kb&sysparm_article=KB0066054"
     Severity = Severity.Medium
-    DedupPeriodMinutes = 60
     LogTypes = ["Zoom.Operation"]
     RuleID = "Zoom.Two.Factor.Authentication.Disabled-prototype"
-    Threshold = 1
     Tests = zoom_two_factor_authentication_disabled_tests
 
     def rule(self, event):

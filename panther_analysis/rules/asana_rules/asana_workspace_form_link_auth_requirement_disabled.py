@@ -59,10 +59,8 @@ class AsanaWorkspaceFormLinkAuthRequirementDisabled(PantherRule):
     Enabled = True
     Reference = "https://help.asana.com/hc/en-us/articles/14111697664923-Forms-access-permissions#:~:text=SSO%2C%20SAML%2C%20or-,no%20authentication%20method,-).%20If%20no%20authentication"
     Severity = Severity.Low
-    DedupPeriodMinutes = 60
     LogTypes = ["Asana.Audit"]
     RuleID = "Asana.Workspace.Form.Link.Auth.Requirement.Disabled-prototype"
-    Threshold = 1
     Tests = asana_workspace_form_link_auth_requirement_disabled_tests
 
     def rule(self, event):

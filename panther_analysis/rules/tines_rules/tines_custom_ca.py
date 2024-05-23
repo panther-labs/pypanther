@@ -48,8 +48,6 @@ class TinesCustomCertificateAuthority(PantherRule):
     Reference = "https://www.tines.com/docs/admin/custom-certificate-authority"
     Severity = Severity.High
     Description = "Detects when Tines Custom CertificateAuthority settings are changed\n"
-    DedupPeriodMinutes = 60
-    Threshold = 1
     SummaryAttributes = ["user_id", "operation_name", "tenant_id", "request_ip"]
     Tests = tines_custom_certificate_authority_tests
     ACTIONS = ["CustomCertificateAuthoritySet"]

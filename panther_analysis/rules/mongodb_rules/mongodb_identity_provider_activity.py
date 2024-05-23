@@ -24,10 +24,8 @@ class MongoDBIdentityProviderActivity(PantherRule):
     Enabled = True
     Severity = Severity.Medium
     Reference = "https://attack.mitre.org/techniques/T1556/007/"
-    DedupPeriodMinutes = 60
     LogTypes = ["MongoDB.OrganizationEvent"]
     RuleID = "MongoDB.Identity.Provider.Activity-prototype"
-    Threshold = 1
     Tests = mongo_db_identity_provider_activity_tests
 
     def rule(self, event):

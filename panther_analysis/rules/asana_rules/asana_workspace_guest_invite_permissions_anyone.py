@@ -59,10 +59,8 @@ class AsanaWorkspaceGuestInvitePermissionsAnyone(PantherRule):
     Enabled = True
     Reference = "https://help.asana.com/hc/en-us/articles/14109494654875-Admin-console#:~:text=Google%20SSO%20password.-,Guest%20invite%20controls,-Super%20admins%20of"
     Severity = Severity.Low
-    DedupPeriodMinutes = 60
     LogTypes = ["Asana.Audit"]
     RuleID = "Asana.Workspace.Guest.Invite.Permissions.Anyone-prototype"
-    Threshold = 1
     Tests = asana_workspace_guest_invite_permissions_anyone_tests
 
     def rule(self, event):

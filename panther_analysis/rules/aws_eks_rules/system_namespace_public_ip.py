@@ -331,7 +331,6 @@ class AmazonEKSAuditSystemNamespaceFromPublicIP(PantherRule):
     Severity = Severity.Info
     Description = 'This detection identifies if an activity is recorded in the Kubernetes audit log where  the user:username attribute begins with "system:" or "eks:" and the requests originating  IP Address is a Public IP Address\n'
     DedupPeriodMinutes = 1440
-    Threshold = 1
     SummaryAttributes = ["user:username", "p_source_label"]
     Tests = amazon_eks_audit_system_namespace_from_public_ip_tests
     # Explicitly ignore eks:node-manager and eks:addon-manager

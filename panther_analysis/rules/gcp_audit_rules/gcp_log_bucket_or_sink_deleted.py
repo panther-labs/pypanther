@@ -202,7 +202,6 @@ gcp_log_bucket_or_sink_deleted_tests: List[PantherRuleTest] = [
 
 
 class GCPLogBucketOrSinkDeleted(PantherRule):
-    DedupPeriodMinutes = 60
     DisplayName = "GCP Log Bucket or Sink Deleted"
     Enabled = True
     RuleID = "GCP.Log.Bucket.Or.Sink.Deleted-prototype"

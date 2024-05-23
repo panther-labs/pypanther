@@ -262,10 +262,8 @@ class AWSSuspiciousSAMLActivity(PantherRule):
     Enabled = True
     Reference = "https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pools-managing-saml-idp-console.html"
     Severity = Severity.Medium
-    DedupPeriodMinutes = 60
     LogTypes = ["AWS.CloudTrail"]
     RuleID = "AWS.Suspicious.SAML.Activity-prototype"
-    Threshold = 1
     Tests = aws_suspicious_saml_activity_tests
     SAML_ACTIONS = ["UpdateSAMLProvider", "CreateSAMLProvider", "DeleteSAMLProvider"]
 

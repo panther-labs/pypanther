@@ -62,8 +62,6 @@ class NetskopeAdminLoggedOutLoginFailures(PantherRule):
     Reports = {"MITRE ATT&CK": ["TA0006:T1110"]}
     Severity = Severity.Medium
     Description = "An admin was logged out because of successive login failures."
-    DedupPeriodMinutes = 60
-    Threshold = 1
     Runbook = "An admin was logged out because of successive login failures.  This could indicate brute force activity against this account."
     Reference = "https://docs.netskope.com/en/netskope-help/admin-console/administration/audit-log/"
     Tests = netskope_admin_logged_out_login_failures_tests

@@ -66,7 +66,6 @@ class NotionManyPagesDeleted(PantherRule):
     Tags = ["Notion", "Data Security", "Data Destruction"]
     Severity = Severity.Medium
     Description = "A Notion User deleted multiple pages."
-    DedupPeriodMinutes = 60
     Threshold = 10
     Runbook = "Possible Data Destruction. Follow up with the Notion User to determine if this was done for a valid business reason."
     Reference = "https://www.notion.so/help/duplicate-delete-and-restore-content"

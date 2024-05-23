@@ -47,7 +47,6 @@ class TeleportCompanyDomainLoginWithoutSAML(PantherRule):
     Tags = ["Teleport"]
     Severity = Severity.High
     Description = "A User from the company domain(s) Logged in without SAML"
-    DedupPeriodMinutes = 60
     Reports = {"MITRE ATT&CK": ["TA0005:T1562"]}
     Reference = "https://goteleport.com/docs/management/admin/"
     Runbook = "A User from the company domain(s) Logged in without SAML\n"

@@ -252,10 +252,8 @@ class CrowdstrikeReverseShellToolExecuted(PantherRule):
     Enabled = True
     Reference = "https://attack.mitre.org/techniques/T1059/"
     Severity = Severity.High
-    DedupPeriodMinutes = 60
     LogTypes = ["Crowdstrike.FDREvent"]
     RuleID = "Crowdstrike.Reverse.Shell.Tool.Executed-prototype"
-    Threshold = 1
     Tests = crowdstrike_reverse_shell_tool_executed_tests
     #   process name: reverse shell signature
     REMOTE_SHELL_TOOLS = {

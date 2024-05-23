@@ -94,7 +94,6 @@ class Microsoft365BruteForceLoginbyUser(PantherRule):
     Runbook = "Analyze the IP they came from and actions taken before/after."
     Reference = "https://learn.microsoft.com/en-us/microsoft-365/troubleshoot/authentication/access-denied-when-connect-to-office-365"
     Severity = Severity.Medium
-    DedupPeriodMinutes = 60
     LogTypes = ["Microsoft365.Audit.AzureActiveDirectory"]
     RuleID = "Microsoft365.Brute.Force.Login.by.User-prototype"
     Threshold = 10

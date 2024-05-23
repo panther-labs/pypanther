@@ -49,8 +49,6 @@ class GCPStorageHmacKeysCreate(PantherRule):
     Enabled = True
     LogTypes = ["GCP.AuditLog"]
     Severity = Severity.High
-    DedupPeriodMinutes = 60
-    Threshold = 1
     Reference = "https://rhinosecuritylabs.com/cloud-security/privilege-escalation-google-cloud-platform-part-2/"
     Reports = {"MITRE ATT&CK": ["TA0004:T1548"]}
     Tests = gcp_storage_hmac_keys_create_tests

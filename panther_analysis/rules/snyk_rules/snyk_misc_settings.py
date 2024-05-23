@@ -40,8 +40,6 @@ class SnykMiscSettings(PantherRule):
     Reference = "https://docs.snyk.io/snyk-admin/manage-settings"
     Severity = Severity.Low
     Description = "Detects when Snyk settings that lack a clear security impact are changed\n"
-    DedupPeriodMinutes = 60
-    Threshold = 1
     SummaryAttributes = ["event"]
     Tests = snyk_misc_settings_tests
     ACTIONS = ["group.cloud_config.settings.edit", "group.feature_flags.edit"]

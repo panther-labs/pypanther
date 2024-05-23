@@ -219,8 +219,6 @@ class SlackAuditLogsAppAdded(PantherRule):
     Reference = (
         "https://slack.com/intl/en-gb/help/articles/202035138-Add-apps-to-your-Slack-workspace"
     )
-    DedupPeriodMinutes = 60
-    Threshold = 1
     SummaryAttributes = ["p_any_ip_addresses", "p_any_emails"]
     Tests = slack_audit_logs_app_added_tests
     APP_ADDED_ACTIONS = ["app_approved", "app_installed", "org_app_workspace_added"]

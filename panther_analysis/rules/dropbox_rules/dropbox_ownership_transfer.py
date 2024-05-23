@@ -245,10 +245,8 @@ class DropboxOwnershipTransfer(PantherRule):
     Enabled = True
     Reference = "https://help.dropbox.com/share/owner"
     Severity = Severity.High
-    DedupPeriodMinutes = 60
     LogTypes = ["Dropbox.TeamEvent"]
     RuleID = "Dropbox.Ownership.Transfer-prototype"
-    Threshold = 1
     Tests = dropbox_ownership_transfer_tests
     DROPBOX_TRUSTED_OWNERSHIP_DOMAINS = config.DROPBOX_TRUSTED_OWNERSHIP_DOMAINS
 

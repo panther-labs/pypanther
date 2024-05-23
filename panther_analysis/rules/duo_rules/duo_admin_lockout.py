@@ -47,10 +47,8 @@ class DuoAdminLockout(PantherRule):
     Enabled = True
     Reference = "https://duo.com/docs/adminapi"
     Severity = Severity.Medium
-    DedupPeriodMinutes = 60
     LogTypes = ["Duo.Administrator"]
     RuleID = "Duo.Admin.Lockout-prototype"
-    Threshold = 1
     Tests = duo_admin_lockout_tests
 
     def rule(self, event):

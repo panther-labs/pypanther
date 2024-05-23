@@ -326,8 +326,6 @@ class NotionAccountChangedAfterLogin(PantherRule):
     Tags = ["Notion", "Identity & Access Management", "Persistence"]
     Severity = Severity.Medium
     Description = "A Notion User logged in then changed their account details."
-    DedupPeriodMinutes = 60
-    Threshold = 1
     Runbook = "Possible account takeover. Follow up with the Notion User to determine if this email change is genuine."
     Reference = "https://www.notion.so/help/account-settings"
     Tests = notion_account_changed_after_login_tests

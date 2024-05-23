@@ -611,11 +611,9 @@ class AWSEC2TrafficMirroring(PantherRule):
     Runbook = "Examine other activities done by this user to determine whether or not activity is suspicious. If your network traffic is not encrypted, we recommend changing the severity to high or critical."
     Severity = Severity.Medium
     Tags = ["AWS", "Cloudtrail", "MITRE"]
-    DedupPeriodMinutes = 60
     LogTypes = ["AWS.CloudTrail"]
     RuleID = "AWS.EC2.Traffic.Mirroring-prototype"
     SummaryAttributes = ["userIdentity.type"]
-    Threshold = 1
     Tests = awsec2_traffic_mirroring_tests
 
     def rule(self, event):

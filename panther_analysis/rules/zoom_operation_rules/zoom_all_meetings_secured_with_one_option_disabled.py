@@ -45,10 +45,8 @@ class ZoomAllMeetingsSecuredWithOneOptionDisabled(PantherRule):
     Runbook = "Confirm this user acted with valid business intent and determine whether this activity was authorized."
     Reference = "https://support.zoom.com/hc/en/article?id=zm_kb&sysparm_article=KB0059862"
     Severity = Severity.Medium
-    DedupPeriodMinutes = 60
     LogTypes = ["Zoom.Operation"]
     RuleID = "Zoom.All.Meetings.Secured.With.One.Option.Disabled-prototype"
-    Threshold = 1
     Tests = zoom_all_meetings_secured_with_one_option_disabled_tests
 
     def rule(self, event):

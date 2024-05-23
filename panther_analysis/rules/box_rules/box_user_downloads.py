@@ -60,7 +60,6 @@ class BoxLargeNumberDownloads(PantherRule):
     Runbook = "Investigate whether this user's download activity is expected.  Investigate the cause of this download activity.\n"
     SummaryAttributes = ["ip_address"]
     Threshold = 100
-    DedupPeriodMinutes = 60
     Tests = box_large_number_downloads_tests
 
     def rule(self, event):

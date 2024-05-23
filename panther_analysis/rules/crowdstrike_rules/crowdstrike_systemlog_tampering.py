@@ -180,10 +180,8 @@ class CrowdstrikeSystemlogTampering(PantherRule):
     Enabled = True
     Reference = "https://attack.mitre.org/techniques/T1070/001/"
     Severity = Severity.High
-    DedupPeriodMinutes = 60
     LogTypes = ["Crowdstrike.FDREvent"]
     RuleID = "Crowdstrike.Systemlog.Tampering-prototype"
-    Threshold = 1
     Tests = crowdstrike_systemlog_tampering_tests
     CLEARING_SYSTEM_LOG_TOOLS = {
         "wevtutil.exe": ["cl", "clear-log"],

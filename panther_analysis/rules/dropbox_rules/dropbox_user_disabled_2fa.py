@@ -115,10 +115,8 @@ class DropboxUserDisabled2FA(PantherRule):
     Enabled = True
     Reference = "https://help.dropbox.com/account-access/enable-two-step-verification"
     Severity = Severity.Low
-    DedupPeriodMinutes = 60
     LogTypes = ["Dropbox.TeamEvent"]
     RuleID = "Dropbox.User.Disabled.2FA-prototype"
-    Threshold = 1
     Tests = dropbox_user_disabled2_fa_tests
 
     def rule(self, event):

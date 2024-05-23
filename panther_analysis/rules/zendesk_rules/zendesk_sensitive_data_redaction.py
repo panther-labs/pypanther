@@ -65,7 +65,6 @@ zendesk_sensitive_data_redaction_off_tests: List[PantherRuleTest] = [
 
 class ZendeskSensitiveDataRedactionOff(PantherRule):
     RuleID = "Zendesk.SensitiveDataRedactionOff-prototype"
-    DedupPeriodMinutes = 60
     DisplayName = "Zendesk Credit Card Redaction Off"
     Enabled = True
     LogTypes = ["Zendesk.Audit"]

@@ -216,8 +216,6 @@ class SnykServiceAccountChange(PantherRule):
     Description = "Detects when Snyk Service Accounts are changed\n"
     Runbook = "These actions in the Snyk Audit logs indicate that a ServiceAccount has been created/deleted/modified.\nService Accounts are system user accounts with an API token  associated to it in place of standard user credentials. All events where the Service Account's role is ADMIN have CRITICAL severity Deletion events are marked with HIGH severity Creation events are marked with HIGH severity Edit events are marked with MEDIUM Severity\n"
     Reference = "https://docs.snyk.io/snyk-admin/service-accounts"
-    DedupPeriodMinutes = 60
-    Threshold = 1
     SummaryAttributes = ["event"]
     Tests = snyk_service_account_change_tests
     ACTIONS = [

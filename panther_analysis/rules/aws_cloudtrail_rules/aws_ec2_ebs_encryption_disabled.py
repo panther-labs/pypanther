@@ -43,10 +43,8 @@ class AWSEC2EBSEncryptionDisabled(PantherRule):
     )
     Reference = "https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/EBSEncryption.html#encryption-by-default"
     Severity = Severity.Medium
-    DedupPeriodMinutes = 60
     LogTypes = ["AWS.CloudTrail"]
     RuleID = "AWS.EC2.EBS.Encryption.Disabled-prototype"
-    Threshold = 1
     Tests = awsec2_ebs_encryption_disabled_tests
 
     def rule(self, event):

@@ -68,7 +68,6 @@ class NetskopeUnauthorizedAPICalls(PantherRule):
     Reports = {"MITRE ATT&CK": ["TA0006:T1110"]}
     Severity = Severity.High
     Description = "Many unauthorized API calls were observed for a user in a short period of time."
-    DedupPeriodMinutes = 60
     Threshold = 10
     Runbook = "An account is making many unauthorized API calls.  This could indicate brute force activity, or expired service account credentials."
     Reference = "https://docs.netskope.com/en/netskope-help/data-security/netskope-private-access/private-access-rest-apis/"

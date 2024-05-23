@@ -50,8 +50,6 @@ class TinesTeamDestruction(PantherRule):
     Description = "A user has destroyed a team"
     Runbook = "Possible data destruction. Please reach out to the user and confirm this was done for valid business reasons."
     Reference = "https://www.tines.com/docs/admin/teams"
-    DedupPeriodMinutes = 60
-    Threshold = 1
     Tests = tines_team_destruction_tests
 
     def rule(self, event):

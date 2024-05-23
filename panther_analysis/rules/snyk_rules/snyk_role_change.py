@@ -79,8 +79,6 @@ class SnykRoleChange(PantherRule):
     Description = "Detects when Snyk Roles are changed\n"
     Runbook = "These actions in the Snyk Audit logs indicate that a ServiceAccount has been created/deleted/modified.\nAll events where the Role is marked as ADMIN have CRITICAL severity Other events are marked with MEDIUM severity\n"
     Reference = "https://docs.snyk.io/snyk-admin/manage-users-and-permissions/member-roles"
-    DedupPeriodMinutes = 60
-    Threshold = 1
     SummaryAttributes = ["event"]
     Tests = snyk_role_change_tests
     ACTIONS = [

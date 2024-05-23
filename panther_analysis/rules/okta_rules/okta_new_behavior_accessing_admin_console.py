@@ -301,8 +301,6 @@ class OktaNewBehaviorAccessingAdminConsole(PantherRule):
     Description = "New Behaviors Observed while Accessing Okta Admin Console. A user attempted to access the Okta Admin Console from a new device with a new IP.\n"
     Runbook = "Configure Authentication Policies (Application Sign-on Policies) for access to privileged applications, including the Admin Console, to require re-authentication “at every sign-in”. Turn on and test New Device and Suspicious Activity end-user notifications.\n"
     Reference = "https://sec.okta.com/articles/2023/08/cross-tenant-impersonation-prevention-and-detection\n"
-    DedupPeriodMinutes = 60
-    Threshold = 1
     Tests = okta_new_behavior_accessing_admin_console_tests
 
     def rule(self, event):

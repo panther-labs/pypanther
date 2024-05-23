@@ -91,8 +91,6 @@ class SlackAuditLogsUserPrivilegeChangedToUser(PantherRule):
     Severity = Severity.Medium
     Description = "Detects when a Slack account is changed to User from an elevated role."
     Reference = "https://slack.com/intl/en-gb/help/articles/360018112273-Types-of-roles-in-Slack"
-    DedupPeriodMinutes = 60
-    Threshold = 1
     SummaryAttributes = ["p_any_ip_addresses", "p_any_emails"]
     Tests = slack_audit_logs_user_privilege_changed_to_user_tests
 

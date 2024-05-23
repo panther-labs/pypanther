@@ -172,7 +172,6 @@ class OktaPhishingAttemptBlockedFastPass(PantherRule):
     Runbook = "Protect sign-in flows by enforcing phishing-resistant authentication with Okta FastPass and FIDO2 WebAuthn.\n"
     Reference = "https://sec.okta.com/fastpassphishingdetection\n"
     DedupPeriodMinutes = 30
-    Threshold = 1
     Tests = okta_phishing_attempt_blocked_fast_pass_tests
 
     def rule(self, event):

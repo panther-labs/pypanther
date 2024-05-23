@@ -177,10 +177,8 @@ class GCPVPCFlowLogsDisabled(PantherRule):
     Enabled = True
     Reference = "https://cloud.google.com/vpc/docs/using-flow-logs"
     Severity = Severity.Medium
-    DedupPeriodMinutes = 60
     LogTypes = ["GCP.AuditLog"]
     RuleID = "GCP.VPC.Flow.Logs.Disabled-prototype"
-    Threshold = 1
     Tests = gcpvpc_flow_logs_disabled_tests
 
     def rule(self, event):

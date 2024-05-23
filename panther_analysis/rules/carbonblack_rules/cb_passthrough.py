@@ -188,7 +188,6 @@ class CarbonBlackAlertV2Passthrough(PantherRule):
     LogTypes = ["CarbonBlack.AlertV2"]
     Severity = Severity.Medium
     DedupPeriodMinutes = 30
-    Threshold = 1
     SummaryAttributes = [
         "attack_tactic",
         "blocked_name",

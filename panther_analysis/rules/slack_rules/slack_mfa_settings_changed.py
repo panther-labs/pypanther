@@ -87,8 +87,6 @@ class SlackAuditLogsMFASettingsChanged(PantherRule):
     Reference = (
         "https://slack.com/intl/en-gb/help/articles/204509068-Set-up-two-factor-authentication"
     )
-    DedupPeriodMinutes = 60
-    Threshold = 1
     SummaryAttributes = ["p_any_ip_addresses", "p_any_emails"]
     Tests = slack_audit_logs_mfa_settings_changed_tests
 

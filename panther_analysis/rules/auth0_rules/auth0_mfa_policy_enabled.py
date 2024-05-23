@@ -583,10 +583,8 @@ class Auth0MFAPolicyEnabled(PantherRule):
     Runbook = "Assess if this was done by the user for a valid business reason and was expected. This alert indicates a setting change that aligns with best security practices, follow-up may be unnecessary."
     Reference = "https://auth0.com/docs/secure/multi-factor-authentication/enable-mfa#:~:text=In%20the-,Define%20policies,-section%2C%20select%20a"
     Severity = Severity.Medium
-    DedupPeriodMinutes = 60
     LogTypes = ["Auth0.Events"]
     RuleID = "Auth0.MFA.Policy.Enabled-prototype"
-    Threshold = 1
     Tests = auth0_mfa_policy_enabled_tests
 
     def rule(self, event):

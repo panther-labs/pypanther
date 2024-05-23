@@ -170,7 +170,6 @@ class OktaIdentityProviderCreatedModified(PantherRule):
     Runbook = "Delegate access to this feature to a Custom Admin Role with the minimum required permissions. Constrain these roles to groups that exclude highly privileged administrators.\n"
     Reference = "https://sec.okta.com/articles/2023/08/cross-tenant-impersonation-prevention-and-detection\n"
     DedupPeriodMinutes = 30
-    Threshold = 1
     Tests = okta_identity_provider_created_modified_tests
 
     def rule(self, event):

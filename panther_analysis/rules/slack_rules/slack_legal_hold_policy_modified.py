@@ -160,8 +160,6 @@ class SlackAuditLogsLegalHoldPolicyModified(PantherRule):
     Reference = (
         "https://slack.com/intl/en-gb/help/articles/4401830811795-Create-and-manage-legal-holds"
     )
-    DedupPeriodMinutes = 60
-    Threshold = 1
     SummaryAttributes = ["p_any_ip_addresses", "p_any_emails"]
     Tests = slack_audit_logs_legal_hold_policy_modified_tests
     LEGAL_HOLD_POLICY_ACTIONS = {

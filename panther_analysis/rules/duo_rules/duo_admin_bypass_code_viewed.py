@@ -37,10 +37,8 @@ class DuoAdminBypassCodeViewed(PantherRule):
     Reference = "https://duo.com/docs/adminapi"
     Runbook = "Confirm this behavior is authorized. The security of your Duo application is tied to the security of your secret key (skey). Secure it as you would any sensitive credential. You should not share it with unauthorized individuals or email it to anyone under any circumstances!"
     Severity = Severity.Medium
-    DedupPeriodMinutes = 60
     LogTypes = ["Duo.Administrator"]
     RuleID = "Duo.Admin.Bypass.Code.Viewed-prototype"
-    Threshold = 1
     Tests = duo_admin_bypass_code_viewed_tests
 
     def rule(self, event):

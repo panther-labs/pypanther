@@ -422,10 +422,8 @@ class AWSEC2Monitoring(PantherRule):
     Reference = "https://docs.aws.amazon.com/service-authorization/latest/reference/list_amazonec2imagebuilder.html#amazonec2imagebuilder-actions-as-permissions"
     Severity = Severity.Info
     Tags = ["ec2"]
-    DedupPeriodMinutes = 60
     LogTypes = ["AWS.CloudTrail"]
     RuleID = "AWS.EC2.Monitoring-prototype"
-    Threshold = 1
     Tests = awsec2_monitoring_tests
     # AWS CloudTrail API eventNames for EC2 Image Actions
     EC2_IMAGE_ACTIONS = [

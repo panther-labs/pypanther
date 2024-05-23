@@ -233,8 +233,6 @@ class SlackAuditLogsAppAccessExpanded(PantherRule):
     Severity = Severity.Medium
     Description = "Detects when a Slack App has had its permission scopes expanded"
     Reference = "https://slack.com/intl/en-gb/help/articles/1500009181142-Manage-app-settings-and-permissions"
-    DedupPeriodMinutes = 60
-    Threshold = 1
     SummaryAttributes = ["action", "p_any_ip_addresses", "p_any_emails"]
     Tests = slack_audit_logs_app_access_expanded_tests
     ACCESS_EXPANDED_ACTIONS = [

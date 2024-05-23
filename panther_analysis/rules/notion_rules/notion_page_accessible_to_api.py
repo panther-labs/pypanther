@@ -14,8 +14,6 @@ class NotionPagePermsAPIPermsChanged(PantherRule):
     Description = (
         "A new API integration was added to a Notion page, or it's permissions were changed."
     )
-    DedupPeriodMinutes = 60
-    Threshold = 1
     Runbook = "Potential information exposure - review the shared page and rectify if needed."
     Reference = "https://www.notion.so/help/sharing-and-permissions"
     # These event types correspond to users adding or editing the default role on a public page

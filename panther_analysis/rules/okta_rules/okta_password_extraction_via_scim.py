@@ -169,7 +169,6 @@ class OktaPasswordExtractionviaSCIM(PantherRule):
     Description = "An application admin has extracted cleartext user passwords via SCIM app. Malcious actors can extract plaintext passwords by creating a SCIM application under their control and configuring it to sync passwords from Okta.\n"
     Reference = "https://www.authomize.com/blog/authomize-discovers-password-stealing-and-impersonation-risks-to-in-okta/\n"
     DedupPeriodMinutes = 30
-    Threshold = 1
     Tests = okta_password_extractionvia_scim_tests
 
     def rule(self, event):

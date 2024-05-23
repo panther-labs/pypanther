@@ -180,10 +180,8 @@ class CrowdstrikeCredentialDumpingTool(PantherRule):
     Enabled = True
     Reference = "https://www.crowdstrike.com/blog/adversary-credential-theft/"
     Severity = Severity.Critical
-    DedupPeriodMinutes = 60
     LogTypes = ["Crowdstrike.FDREvent"]
     RuleID = "Crowdstrike.Credential.Dumping.Tool-prototype"
-    Threshold = 1
     Tests = crowdstrike_credential_dumping_tool_tests
     CREDENTIAL_DUMPING_TOOLS = {
         "mimikatz.exe",

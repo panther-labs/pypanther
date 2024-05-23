@@ -153,10 +153,8 @@ class DropboxAdminsigninasSession(PantherRule):
     Enabled = True
     Reference = "https://help.dropbox.com/security/sign-in-as-user"
     Severity = Severity.Medium
-    DedupPeriodMinutes = 60
     LogTypes = ["Dropbox.TeamEvent"]
     RuleID = "Dropbox.Admin.sign.in.as.Session-prototype"
-    Threshold = 1
     Tests = dropbox_adminsigninas_session_tests
 
     def rule(self, event):

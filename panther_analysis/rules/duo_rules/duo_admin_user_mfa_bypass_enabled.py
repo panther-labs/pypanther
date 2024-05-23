@@ -64,10 +64,8 @@ class DuoAdminUserMFABypassEnabled(PantherRule):
     Enabled = True
     Reference = "https://duo.com/docs/policy#authentication-policy"
     Severity = Severity.Medium
-    DedupPeriodMinutes = 60
     LogTypes = ["Duo.Administrator"]
     RuleID = "Duo.Admin.User.MFA.Bypass.Enabled-prototype"
-    Threshold = 1
     Tests = duo_admin_user_mfa_bypass_enabled_tests
 
     def rule(self, event):

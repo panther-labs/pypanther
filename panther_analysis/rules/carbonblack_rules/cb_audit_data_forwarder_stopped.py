@@ -46,8 +46,6 @@ class CarbonBlackAuditDataForwarderStopped(PantherRule):
     Tags = ["Defense Evasion", "Impair Defenses", "Disable or Modify Cloud Logs"]
     Reports = {"MITRE ATT&CK": ["TA0005:T1562.008"]}
     Reference = "https://docs.vmware.com/en/VMware-Carbon-Black-Cloud/services/carbon-black-cloud-user-guide/GUID-E8D33F72-BABB-4157-A908-D8BBDB5AF349.html"
-    Threshold = 1
-    DedupPeriodMinutes = 60
     Tests = carbon_black_audit_data_forwarder_stopped_tests
     ACTION = ""
 

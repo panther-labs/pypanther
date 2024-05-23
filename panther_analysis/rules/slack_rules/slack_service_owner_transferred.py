@@ -88,8 +88,6 @@ class SlackAuditLogsServiceOwnerTransferred(PantherRule):
     Severity = Severity.Critical
     Description = "Detects transferring of service owner on request from primary owner"
     Reference = "https://slack.com/intl/en-gb/help/articles/204401633-Transfer-ownership-of-a-workspace-or-org"
-    DedupPeriodMinutes = 60
-    Threshold = 1
     SummaryAttributes = ["p_any_ip_addresses", "p_any_emails"]
     Tests = slack_audit_logs_service_owner_transferred_tests
 

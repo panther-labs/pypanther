@@ -59,10 +59,8 @@ class AsanaWorkspaceDefaultSessionDurationNever(PantherRule):
     Enabled = True
     Reference = "https://help.asana.com/hc/en-us/articles/14218320495899-Manage-Session-Duration"
     Severity = Severity.Low
-    DedupPeriodMinutes = 60
     LogTypes = ["Asana.Audit"]
     RuleID = "Asana.Workspace.Default.Session.Duration.Never-prototype"
-    Threshold = 1
     Tests = asana_workspace_default_session_duration_never_tests
 
     def rule(self, event):

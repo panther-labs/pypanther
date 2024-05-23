@@ -49,8 +49,6 @@ class MongoDBAccessAllowedFromAnywhere(PantherRule):
     Reports = {"MITRE ATT&CK": ["T1021"]}
     Reference = "https://www.mongodb.com/docs/atlas/security/ip-access-list/"
     Runbook = "Check if this activity was legitimate. If not, delete 0.0.0.0/0 from the list of allowed ips."
-    DedupPeriodMinutes = 60
-    Threshold = 1
     Tests = mongo_db_access_allowed_from_anywhere_tests
 
     def rule(self, event):

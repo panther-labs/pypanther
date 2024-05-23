@@ -55,8 +55,6 @@ class GCPPrivilegeEscalationByDeploymentsCreate(PantherRule):
     Enabled = True
     LogTypes = ["GCP.AuditLog"]
     Severity = Severity.High
-    DedupPeriodMinutes = 60
-    Threshold = 1
     Reference = (
         "https://rhinosecuritylabs.com/gcp/privilege-escalation-google-cloud-platform-part-1/"
     )

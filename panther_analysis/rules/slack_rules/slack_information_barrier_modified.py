@@ -106,8 +106,6 @@ class SlackAuditLogsInformationBarrierModified(PantherRule):
     Severity = Severity.Medium
     Description = "Detects when a Slack information barrier is deleted/updated"
     Reference = "https://slack.com/intl/en-gb/help/articles/360056171734-Create-information-barriers-in-Slack"
-    DedupPeriodMinutes = 60
-    Threshold = 1
     SummaryAttributes = ["action", "p_any_ip_addresses", "p_any_emails"]
     Tests = slack_audit_logs_information_barrier_modified_tests
     INFORMATION_BARRIER_ACTIONS = {

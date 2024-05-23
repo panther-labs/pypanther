@@ -64,8 +64,6 @@ class TinesTenantAuthToken(PantherRule):
     Severity = Severity.Medium
     Description = "Detects when Tines Tenant API Keys are added\n"
     Reference = "https://www.tines.com/api/authentication"
-    DedupPeriodMinutes = 60
-    Threshold = 1
     SummaryAttributes = ["user_id", "operation_name", "tenant_id", "request_ip"]
     Tests = tines_tenant_auth_token_tests
     # AuthenticationTokenDeletion does not include

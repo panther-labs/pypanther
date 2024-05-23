@@ -397,10 +397,8 @@ class Auth0MFAPolicyDisabled(PantherRule):
     Runbook = "Assess if this was done by the user for a valid business reason. Be vigilant to re-enable this setting as it's in the best security interest for your organization's security posture."
     Reference = "https://auth0.com/docs/secure/multi-factor-authentication/enable-mfa#:~:text=prompted%20for%20MFA.-,Never,-%3A%20MFA%20is%20not"
     Severity = Severity.High
-    DedupPeriodMinutes = 60
     LogTypes = ["Auth0.Events"]
     RuleID = "Auth0.MFA.Policy.Disabled-prototype"
-    Threshold = 1
     Tests = auth0_mfa_policy_disabled_tests
 
     def rule(self, event):

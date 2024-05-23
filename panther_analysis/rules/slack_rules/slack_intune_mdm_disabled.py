@@ -80,8 +80,6 @@ class SlackAuditLogsIntuneMDMDisabled(PantherRule):
     Severity = Severity.Critical
     Description = "Detects the disabling of Microsoft Intune Enterprise MDM within Slack"
     Reference = "https://slack.com/intl/en-gb/help/articles/6495319642387-Set-up-Slack-for-Intune-mobile-apps"
-    DedupPeriodMinutes = 60
-    Threshold = 1
     SummaryAttributes = ["p_any_ip_addresses", "p_any_emails"]
     Tests = slack_audit_logs_intune_mdm_disabled_tests
 

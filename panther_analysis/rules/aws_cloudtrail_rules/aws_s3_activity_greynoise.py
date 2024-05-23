@@ -401,8 +401,6 @@ class AWSS3GreyNoiseActivity(PantherRule):
     Reports = {"MITRE ATT&CK": ["TA0009:T1530"]}
     Runbook = "Investigate all actions taken and validate that the ARN conducting the acitivty was not compromised"
     Severity = Severity.High
-    DedupPeriodMinutes = 60
-    Threshold = 1
     SummaryAttributes = [
         "awsRegion",
         "eventName",

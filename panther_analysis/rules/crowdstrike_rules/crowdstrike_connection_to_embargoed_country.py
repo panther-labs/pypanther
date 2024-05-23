@@ -159,10 +159,8 @@ class ConnectiontoEmbargoedCountry(PantherRule):
     Reference = "U.S. Sanctioned Destinations - https://www.bis.doc.gov/index.php/policy-guidance/country-guidance/sanctioned-destinations"
     DisplayName = "Connection to Embargoed Country"
     Enabled = True
-    DedupPeriodMinutes = 60
     LogTypes = ["Crowdstrike.FDREvent"]
     RuleID = "Connection.to.Embargoed.Country-prototype"
-    Threshold = 1
     Severity = Severity.Low
     Tests = connectionto_embargoed_country_tests
     # U.S. Gov Sanctioned Destinations

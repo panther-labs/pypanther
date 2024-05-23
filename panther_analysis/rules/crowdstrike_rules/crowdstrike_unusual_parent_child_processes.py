@@ -180,10 +180,8 @@ class CrowdstrikeUnusualParentChildProcesses(PantherRule):
     Enabled = True
     Reference = "https://medium.com/falconforce/falconfriday-e4554e9e6665"
     Severity = Severity.Critical
-    DedupPeriodMinutes = 60
     LogTypes = ["Crowdstrike.FDREvent"]
     RuleID = "Crowdstrike.Unusual.Parent.Child.Processes-prototype"
-    Threshold = 1
     Tests = crowdstrike_unusual_parent_child_processes_tests
     SUSPICIOUS_PARENT_CHILD_COMBINATIONS_WINDOWS = {
         ("svchost.exe", "cmd.exe"),

@@ -62,10 +62,8 @@ class DuoAdminSSOSAMLRequirementDisabled(PantherRule):
     Enabled = True
     Reference = "https://duo.com/docs/sso#saml:~:text=Modify%20Authentication%20Sources"
     Severity = Severity.Medium
-    DedupPeriodMinutes = 60
     LogTypes = ["Duo.Administrator"]
     RuleID = "Duo.Admin.SSO.SAML.Requirement.Disabled-prototype"
-    Threshold = 1
     Tests = duo_admin_ssosaml_requirement_disabled_tests
 
     def rule(self, event):

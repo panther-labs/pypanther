@@ -82,8 +82,6 @@ class SlackAuditLogsEKMSlackbotUnenrolled(PantherRule):
     Reference = (
         "https://slack.com/intl/en-gb/help/articles/360019110974-Slack-Enterprise-Key-Management"
     )
-    DedupPeriodMinutes = 60
-    Threshold = 1
     SummaryAttributes = ["p_any_ip_addresses", "p_any_emails"]
     Tests = slack_audit_logs_ekm_slackbot_unenrolled_tests
 

@@ -63,8 +63,6 @@ class NetskopeAdminUserChange(PantherRule):
     Severity = Severity.High
     Reference = "https://docs.netskope.com/en/netskope-help/admin-console/administration/managing-administrators/"
     Description = "An administrator account was created, deleted, or modified."
-    DedupPeriodMinutes = 60
-    Threshold = 1
     Runbook = "An administrator account was created, deleted, or modified.  Validate that this activity is expected and authorized."
     Tests = netskope_admin_user_change_tests
     ADMIN_USER_CHANGE_EVENTS = [

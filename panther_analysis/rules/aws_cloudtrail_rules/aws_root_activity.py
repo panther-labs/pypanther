@@ -221,7 +221,6 @@ aws_root_activity_tests: List[PantherRuleTest] = [
 class AWSRootActivity(PantherRule):
     RuleID = "AWS.Root.Activity-prototype"
     DisplayName = "Root Account Activity"
-    DedupPeriodMinutes = 60
     Enabled = True
     LogTypes = ["AWS.CloudTrail"]
     Tags = [

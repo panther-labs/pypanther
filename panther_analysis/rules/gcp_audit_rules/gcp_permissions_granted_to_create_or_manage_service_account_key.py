@@ -181,10 +181,8 @@ class GCPPermissionsGrantedtoCreateorManageServiceAccountKey(PantherRule):
     Enabled = True
     Reference = "https://cloud.google.com/iam/docs/keys-create-delete"
     Severity = Severity.Low
-    DedupPeriodMinutes = 60
     LogTypes = ["GCP.AuditLog"]
     RuleID = "GCP.Permissions.Granted.to.Create.or.Manage.Service.Account.Key-prototype"
-    Threshold = 1
     Tests = gcp_permissions_grantedto_createor_manage_service_account_key_tests
     SERVICE_ACCOUNT_MANAGE_ROLES = [
         "roles/iam.serviceAccountTokenCreator",

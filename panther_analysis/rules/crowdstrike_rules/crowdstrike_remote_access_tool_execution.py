@@ -180,10 +180,8 @@ class CrowdstrikeRemoteAccessToolExecution(PantherRule):
     Enabled = True
     Reference = "https://attack.mitre.org/techniques/T1219/"
     Severity = Severity.Medium
-    DedupPeriodMinutes = 60
     LogTypes = ["Crowdstrike.FDREvent"]
     RuleID = "Crowdstrike.Remote.Access.Tool.Execution-prototype"
-    Threshold = 1
     Tests = crowdstrike_remote_access_tool_execution_tests
     REMOTE_ACCESS_EXECUTABLES = {
         "teamviewer_service.exe",

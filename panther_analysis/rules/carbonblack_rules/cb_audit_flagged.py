@@ -45,8 +45,6 @@ class CarbonBlackAuditFlagged(PantherRule):
     Tags = ["Credential Access", "Brute Force"]
     Reports = {"MITRE ATT&CK": ["TA0006:T1110"]}
     Reference = "https://docs.vmware.com/en/VMware-Carbon-Black-Cloud/services/carbon-black-cloud-user-guide/GUID-FB61E4E3-6431-4226-A4E3-5949FB75922B.html"
-    Threshold = 1
-    DedupPeriodMinutes = 60
     Tests = carbon_black_audit_flagged_tests
 
     def rule(self, event):

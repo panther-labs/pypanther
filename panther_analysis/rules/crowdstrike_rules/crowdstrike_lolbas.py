@@ -178,7 +178,6 @@ class CrowdstrikeFDRLOLBAS(PantherRule):
     DisplayName = "Crowdstrike FDR LOLBAS"
     Description = "Living off the land binaries and script usage"
     Reference = "https://lolbas-project.github.io/"
-    Threshold = 1
     DedupPeriodMinutes = 1440
     Enabled = False
     Severity = Severity.Info

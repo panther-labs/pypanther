@@ -120,7 +120,6 @@ gcp_firewall_rule_deleted_tests: List[PantherRuleTest] = [
 
 
 class GCPFirewallRuleDeleted(PantherRule):
-    DedupPeriodMinutes = 60
     DisplayName = "GCP Firewall Rule Deleted"
     Enabled = True
     RuleID = "GCP.Firewall.Rule.Deleted-prototype"

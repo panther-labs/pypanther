@@ -57,8 +57,6 @@ class NotionWorkspaceSCIMTokenGenerated(PantherRule):
     Tags = ["Notion", "Application Security", "Supply Chain Attack"]
     Description = "A Notion User generated a SCIM token."
     Severity = Severity.Medium
-    DedupPeriodMinutes = 60
-    Threshold = 1
     Runbook = "Possible Initial Access. Follow up with the Notion User to determine if this was done for a valid business reason."
     Reference = "https://www.notion.so/help/provision-users-and-groups-with-scim"
     Tests = notion_workspace_scim_token_generated_tests

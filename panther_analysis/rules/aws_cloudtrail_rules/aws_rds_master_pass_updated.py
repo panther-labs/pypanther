@@ -295,7 +295,6 @@ class AWSRDSMasterPasswordUpdated(PantherRule):
         "https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Overview.DBInstance.Modifying.html"
     )
     Severity = Severity.Low
-    DedupPeriodMinutes = 60
     Reports = {"MITRE ATT&CK": ["TA0003:T1098"]}
     SummaryAttributes = [
         "awsRegion",
@@ -306,7 +305,6 @@ class AWSRDSMasterPasswordUpdated(PantherRule):
     ]
     LogTypes = ["AWS.CloudTrail"]
     RuleID = "AWS.RDS.MasterPasswordUpdated-prototype"
-    Threshold = 1
     Tests = awsrds_master_password_updated_tests
 
     def rule(self, event):

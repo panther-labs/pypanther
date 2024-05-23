@@ -61,8 +61,6 @@ class SnykSystemExternalAccess(PantherRule):
     Reference = (
         "https://docs.snyk.io/snyk-admin/manage-users-and-permissions/organization-access-requests"
     )
-    DedupPeriodMinutes = 60
-    Threshold = 1
     SummaryAttributes = ["event"]
     Tests = snyk_system_external_access_tests
     ACTIONS = ["group.request_access_settings.edit", "org.request_access_settings.edit"]

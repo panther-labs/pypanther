@@ -262,10 +262,8 @@ class Auth0IntegrationInstalled(PantherRule):
     Runbook = "Assess if this was done by the user for a valid business reason. Be vigilant to re-enable this setting as it's in the best security interest for your organization's security posture."
     Reference = "https://auth0.com/blog/actions-integrations-are-now-ga/"
     Severity = Severity.Info
-    DedupPeriodMinutes = 60
     LogTypes = ["Auth0.Events"]
     RuleID = "Auth0.Integration.Installed-prototype"
-    Threshold = 1
     Tests = auth0_integration_installed_tests
 
     def rule(self, event):

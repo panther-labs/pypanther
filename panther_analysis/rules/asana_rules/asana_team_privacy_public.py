@@ -66,10 +66,8 @@ class AsanaTeamPrivacyPublic(PantherRule):
     Enabled = True
     Reference = "https://help.asana.com/hc/en-us/articles/14211433439387-Team-permissions"
     Severity = Severity.Low
-    DedupPeriodMinutes = 60
     LogTypes = ["Asana.Audit"]
     RuleID = "Asana.Team.Privacy.Public-prototype"
-    Threshold = 1
     Tests = asana_team_privacy_public_tests
 
     def rule(self, event):

@@ -132,10 +132,8 @@ class GoogleWorkspaceAppsMarketplaceAllowlist(PantherRule):
     Runbook = "Confirm with the acting user that this change was authorized."
     Reference = "https://support.google.com/a/answer/6089179?hl=en"
     Severity = Severity.Medium
-    DedupPeriodMinutes = 60
     LogTypes = ["GSuite.ActivityEvent"]
     RuleID = "Google.Workspace.Apps.Marketplace.Allowlist-prototype"
-    Threshold = 1
     Tests = google_workspace_apps_marketplace_allowlist_tests
 
     def rule(self, event):

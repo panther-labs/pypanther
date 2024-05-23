@@ -64,8 +64,6 @@ class NotionSharingSettingsUpdated(PantherRule):
     Tags = ["Notion", "Data Exfiltration"]
     Description = "A Notion User enabled sharing for a Workspace or Teamspace."
     Severity = Severity.Medium
-    DedupPeriodMinutes = 60
-    Threshold = 1
     Runbook = "Possible Data Exfiltration. Follow up with the Notion User to determine if this was done for a valid business reason."
     Tests = notion_sharing_settings_updated_tests
     EVENTS = (

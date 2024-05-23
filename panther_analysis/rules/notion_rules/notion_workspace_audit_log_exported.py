@@ -57,8 +57,6 @@ class NotionAuditLogExported(PantherRule):
     Tags = ["Notion", "Data Security", "Data Exfiltration"]
     Severity = Severity.Medium
     Description = "A Notion User exported audit logs for your organization’s workspace."
-    DedupPeriodMinutes = 60
-    Threshold = 1
     Runbook = "Possible Data Exfiltration. Follow up with the Notion User to determine if this was done for a valid business reason."
     Reference = "https://www.notion.so/help/audit-log#export-your-audit-log"
     Tests = notion_audit_log_exported_tests

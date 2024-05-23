@@ -17,8 +17,6 @@ class NotionLoginFromBlockedIP(PantherRule):
     ]
     Severity = Severity.Medium
     Description = "A user attempted to access Notion from a blocked IP address. Note: before deployinh, make sure to add Rule Filters checking if event.ip_address is in a certain CIDR range(s)."
-    DedupPeriodMinutes = 60
-    Threshold = 1
     Runbook = (
         "Confirm with user if the login was legitimate. If so, determine why the IP is blocked."
     )

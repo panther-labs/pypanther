@@ -70,8 +70,6 @@ class SnykProjectSettings(PantherRule):
     Reference = "https://docs.snyk.io/snyk-admin/introduction-to-snyk-projects/view-and-edit-project-settings"
     Severity = Severity.Medium
     Description = "Detects when Snyk Project settings are changed\n"
-    DedupPeriodMinutes = 60
-    Threshold = 1
     SummaryAttributes = ["event"]
     Tests = snyk_project_settings_tests
     # The bodies of these actions are quite diverse.

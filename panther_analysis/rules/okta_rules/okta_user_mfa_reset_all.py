@@ -122,10 +122,8 @@ class OktaUserMFAResetAll(PantherRule):
     Enabled = True
     Reference = "https://help.okta.com/en-us/content/topics/security/mfa/mfa-reset-users.htm#:~:text=the%20Admin%20Console%3A-,In%20the%20Admin%20Console%2C%20go%20to%20DirectoryPeople.,Selected%20Factors%20or%20Reset%20All"
     Severity = Severity.Low
-    DedupPeriodMinutes = 60
     LogTypes = ["Okta.SystemLog"]
     RuleID = "Okta.User.MFA.Reset.All-prototype"
-    Threshold = 1
     Tests = okta_user_mfa_reset_all_tests
 
     def rule(self, event):

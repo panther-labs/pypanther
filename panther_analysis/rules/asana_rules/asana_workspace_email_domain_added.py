@@ -59,10 +59,8 @@ class AsanaWorkspaceEmailDomainAdded(PantherRule):
     Enabled = True
     Reference = "https://help.asana.com/hc/en-us/articles/15901227439515-Email-domain-management-for-Asana-organizations"
     Severity = Severity.Low
-    DedupPeriodMinutes = 60
     LogTypes = ["Asana.Audit"]
     RuleID = "Asana.Workspace.Email.Domain.Added-prototype"
-    Threshold = 1
     Tests = asana_workspace_email_domain_added_tests
 
     def rule(self, event):

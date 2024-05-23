@@ -81,7 +81,6 @@ class SlackAuditLogsApplicationDoS(PantherRule):
     Severity = Severity.Critical
     Description = "Detects when slack admin invalidates user session(s) more than once in a 24 hour period which can lead to DoS"
     Reference = "https://slack.com/intl/en-gb/help/articles/115005223763-Manage-session-duration-#pro-and-business+-subscriptions-2"
-    DedupPeriodMinutes = 60
     Threshold = 60
     SummaryAttributes = ["action", "p_any_ip_addresses", "p_any_emails"]
     Tests = slack_audit_logs_application_do_s_tests

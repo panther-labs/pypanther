@@ -82,11 +82,9 @@ class GoogleWorkspaceAdminCustomRole(PantherRule):
     Reference = "https://support.google.com/a/answer/2406043?hl=en#:~:text=under%20the%20limit.-,Create%20a%20custom%20role,-Before%20you%20begin"
     Severity = Severity.Medium
     Tags = ["admin", "administrator", "google workspace", "role"]
-    DedupPeriodMinutes = 60
     LogTypes = ["GSuite.ActivityEvent"]
     RuleID = "Google.Workspace.Admin.Custom.Role-prototype"
     SummaryAttributes = ["name", "type"]
-    Threshold = 1
     Tests = google_workspace_admin_custom_role_tests
 
     def rule(self, event):

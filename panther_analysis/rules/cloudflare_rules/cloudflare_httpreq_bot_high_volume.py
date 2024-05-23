@@ -157,7 +157,6 @@ class CloudflareHttpRequestBotHighVolume(PantherRule):
     Description = "Monitors for bots making HTTP Requests at a rate higher than 2req/sec"
     Runbook = "Inspect and monitor internet-facing services for potential outages"
     Reference = "https://developers.cloudflare.com/waf/rate-limiting-rules/request-rate/"
-    DedupPeriodMinutes = 60
     Threshold = 7560
     SummaryAttributes = [
         "ClientIP",

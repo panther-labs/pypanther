@@ -115,10 +115,8 @@ class AWSSnapshotBackupExfiltration(PantherRule):
         "https://docs.aws.amazon.com/prescriptive-guidance/latest/backup-recovery/ec2-backup.html"
     )
     Severity = Severity.Medium
-    DedupPeriodMinutes = 60
     LogTypes = ["AWS.CloudTrail"]
     RuleID = "AWS.Snapshot.Backup.Exfiltration-prototype"
-    Threshold = 1
     Tests = aws_snapshot_backup_exfiltration_tests
 
     def rule(self, event):

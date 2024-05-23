@@ -162,10 +162,8 @@ class Microsoft365ExternalDocumentSharing(PantherRule):
     Runbook = "Check the document metadata to ensure it is not a sensitive document."
     Reference = "https://support.microsoft.com/en-us/topic/manage-sharing-with-external-users-in-microsoft-365-small-business-2951a85f-c970-4375-aa4f-6b0d7035fe35#:~:text=Top%20of%20Page-,Turn%20external%20sharing%20on%20or%20off,-The%20ability%20to"
     Severity = Severity.Low
-    DedupPeriodMinutes = 60
     LogTypes = ["Microsoft365.Audit.SharePoint"]
     RuleID = "Microsoft365.External.Document.Sharing-prototype"
-    Threshold = 1
     Tests = microsoft365_external_document_sharing_tests
     email_regex = re.compile("([A-Za-z0-9]+[.-_])*[A-Za-z0-9]+@[A-Za-z0-9-]+(\\.[A-Z|a-z]{2,})+")
     ALLOWED_DOMAINS = ["mycompany.com", "alloweddomain.com"]  # should be in lowercase

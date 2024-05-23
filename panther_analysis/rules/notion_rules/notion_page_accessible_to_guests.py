@@ -82,8 +82,6 @@ class NotionPagePermsGuestPermsChanged(PantherRule):
     Tags = ["Notion", "Data Security", "Information Disclosure"]
     Severity = Severity.Low
     Description = "The external guest permissions for a Notion page have been altered."
-    DedupPeriodMinutes = 60
-    Threshold = 1
     Runbook = "Potential information exposure - review the shared page and rectify if needed."
     Reference = "https://www.notion.so/help/sharing-and-permissions"
     Tests = notion_page_perms_guest_perms_changed_tests

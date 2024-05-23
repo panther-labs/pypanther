@@ -170,7 +170,6 @@ class OktaAnonymizingVPNLogin(PantherRule):
     Runbook = "Restrict this access to trusted Network Zones and deny access from anonymizing proxies in policy using a Dynamic Network Zone.\n"
     Reference = "https://sec.okta.com/articles/2023/08/cross-tenant-impersonation-prevention-and-detection\n"
     DedupPeriodMinutes = 360
-    Threshold = 1
     Tests = okta_anonymizing_vpn_login_tests
 
     def rule(self, event):

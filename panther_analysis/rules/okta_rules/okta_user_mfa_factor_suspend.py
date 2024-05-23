@@ -164,10 +164,8 @@ class OktaUserMFAFactorSuspend(PantherRule):
     Enabled = True
     Reference = "https://help.okta.com/en-us/content/topics/security/mfa/mfa-factors.htm"
     Severity = Severity.High
-    DedupPeriodMinutes = 60
     LogTypes = ["Okta.SystemLog"]
     RuleID = "Okta.User.MFA.Factor.Suspend-prototype"
-    Threshold = 1
     Tests = okta_user_mfa_factor_suspend_tests
 
     def rule(self, event):

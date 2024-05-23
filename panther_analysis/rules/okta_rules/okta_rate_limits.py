@@ -233,7 +233,6 @@ class OktaRateLimits(PantherRule):
     DedupPeriodMinutes = 360
     LogTypes = ["Okta.SystemLog"]
     RuleID = "Okta.Rate.Limits-prototype"
-    Threshold = 1
     Tests = okta_rate_limits_tests
     DETECTION_EVENTS = [
         "app.oauth2.client_id_rate_limit_warning",

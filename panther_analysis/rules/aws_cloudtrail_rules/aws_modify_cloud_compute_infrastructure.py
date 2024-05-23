@@ -472,10 +472,8 @@ class AWSModifyCloudComputeInfrastructure(PantherRule):
     Reports = {"MITRE ATT&CK": ["TA0005:T1578"]}
     Tags = ["Configuration Required"]
     Runbook = "This detection reports on eventSource ec2 Change events. This detection excludes Cross-Service change events.  As such, this detection will perform well in environments where changes are  expected to originate only from AWS service entities.\nThis detection will emit alerts frequently in environments where users are making ec2 related changes.\n"
-    DedupPeriodMinutes = 60
     LogTypes = ["AWS.CloudTrail"]
     RuleID = "AWS.Modify.Cloud.Compute.Infrastructure-prototype"
-    Threshold = 1
     Tests = aws_modify_cloud_compute_infrastructure_tests
     EC2_CRUD_ACTIONS = {
         "AssociateIamInstanceProfile",

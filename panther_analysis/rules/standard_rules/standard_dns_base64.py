@@ -221,8 +221,6 @@ class StandardDNSBase64(PantherRule):
     Enabled = False
     Reference = "https://zofixer.com/what-is-base64-disclosure-vulnerability/"
     Severity = Severity.Medium
-    DedupPeriodMinutes = 60
-    Threshold = 1
     LogTypes = ["Crowdstrike.FDREvent", "AWS.VPCDns", "CiscoUmbrella.DNS"]
     Tests = standard_dns_base64_tests
     DECODED = ""

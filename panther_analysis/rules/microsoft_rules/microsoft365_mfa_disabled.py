@@ -124,10 +124,8 @@ class Microsoft365MFADisabled(PantherRule):
     Runbook = "Depending on company policy, either suggest or require the user re-enable two step verification."
     Reference = "https://learn.microsoft.com/en-us/microsoft-365/admin/security-and-compliance/set-up-multi-factor-authentication?view=o365-worldwide"
     Severity = Severity.Low
-    DedupPeriodMinutes = 60
     LogTypes = ["Microsoft365.Audit.AzureActiveDirectory"]
     RuleID = "Microsoft365.MFA.Disabled-prototype"
-    Threshold = 1
     Tests = microsoft365_mfa_disabled_tests
 
     def rule(self, event):

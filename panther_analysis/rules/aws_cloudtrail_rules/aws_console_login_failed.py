@@ -120,7 +120,6 @@ aws_console_login_failed_tests: List[PantherRuleTest] = [
 class AWSConsoleLoginFailed(PantherRule):
     RuleID = "AWS.Console.LoginFailed-prototype"
     DisplayName = "--DEPRECATED-- Failed Console Login"
-    DedupPeriodMinutes = 60
     Enabled = False
     LogTypes = ["AWS.CloudTrail"]
     Tags = [

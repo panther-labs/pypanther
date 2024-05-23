@@ -140,10 +140,8 @@ class AWSUserLoginProfileModified(PantherRule):
     Reports = {"MITRE ATT&CK": ["TA0003:T1098", "TA0005:T1108", "TA0005:T1550", "TA0008:T1550"]}
     Reference = "https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_examples_aws_my-sec-creds-self-manage-pass-accesskeys-ssh.html"
     Severity = Severity.High
-    DedupPeriodMinutes = 60
     LogTypes = ["AWS.CloudTrail"]
     RuleID = "AWS.User.Login.Profile.Modified-prototype"
-    Threshold = 1
     Tests = aws_user_login_profile_modified_tests
 
     def rule(self, event):

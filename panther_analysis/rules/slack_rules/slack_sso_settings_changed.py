@@ -82,8 +82,6 @@ class SlackAuditLogsSSOSettingsChanged(PantherRule):
     Reference = (
         "https://slack.com/intl/en-gb/help/articles/220403548-Manage-single-sign-on-settings"
     )
-    DedupPeriodMinutes = 60
-    Threshold = 1
     SummaryAttributes = ["p_any_ip_addresses", "p_any_emails"]
     Tests = slack_audit_logs_sso_settings_changed_tests
 

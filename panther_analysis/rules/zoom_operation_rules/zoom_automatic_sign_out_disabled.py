@@ -35,10 +35,8 @@ class ZoomAutomaticSignOutDisabled(PantherRule):
     Reference = "https://support.zoom.us/hc/en-us/articles/115005756143-Changing-account-security-settings#:~:text=Users%20need%20to%20sign%20in,of%205%20to%20120%20minutes"
     Runbook = "Confirm this user acted with valid business intent and determine whether this activity was authorized."
     Severity = Severity.Medium
-    DedupPeriodMinutes = 60
     LogTypes = ["Zoom.Operation"]
     RuleID = "Zoom.Automatic.Sign.Out.Disabled-prototype"
-    Threshold = 1
     Tests = zoom_automatic_sign_out_disabled_tests
 
     def rule(self, event):

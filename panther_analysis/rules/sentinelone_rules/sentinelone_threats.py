@@ -116,10 +116,8 @@ class SentinelOneThreats(PantherRule):
         "https://www.sentinelone.com/blog/feature-spotlight-introducing-the-new-threat-center/"
     )
     Severity = Severity.High
-    DedupPeriodMinutes = 60
     LogTypes = ["SentinelOne.Activity"]
     RuleID = "SentinelOne.Threats-prototype"
-    Threshold = 1
     Tests = sentinel_one_threats_tests  # New Malicious Threat Not Mitigated
     # New Malicious Threat Not Mitigated
     # New Suspicious Threat Not Mitigated

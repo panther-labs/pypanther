@@ -175,8 +175,6 @@ class SlackAuditLogsAppRemoved(PantherRule):
     Severity = Severity.Medium
     Description = "Detects when a Slack App has been removed"
     Reference = "https://slack.com/intl/en-gb/help/articles/360003125231-Remove-apps-and-customised-integrations-from-your-workspace"
-    DedupPeriodMinutes = 60
-    Threshold = 1
     SummaryAttributes = ["p_any_ip_addresses", "p_any_emails"]
     Tests = slack_audit_logs_app_removed_tests
     APP_REMOVED_ACTIONS = ["app_restricted", "app_uninstalled", "org_app_workspace_removed"]

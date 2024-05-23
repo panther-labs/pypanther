@@ -21,7 +21,6 @@ awss3_server_access_ip_whitelist_tests: List[PantherRuleTest] = [
 class AWSS3ServerAccessIPWhitelist(PantherRule):
     RuleID = "AWS.S3.ServerAccess.IPWhitelist-prototype"
     DisplayName = "AWS S3 Access IP Allowlist"
-    DedupPeriodMinutes = 60
     Enabled = False
     LogTypes = ["AWS.S3ServerAccess"]
     Tags = [

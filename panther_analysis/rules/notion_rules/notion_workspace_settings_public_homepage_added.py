@@ -72,8 +72,6 @@ class NotionWorkspacePublicPageAdded(PantherRule):
     Tags = ["Notion", "Data Security", "Information Disclosure"]
     Severity = Severity.Info
     Description = "A Notion page was set to public in your worksace."
-    DedupPeriodMinutes = 60
-    Threshold = 1
     Runbook = "A Notion page was made public. Check with the author to determine why this page was made public."
     Reference = "https://www.notion.so/help/public-pages-and-web-publishing"
     Tests = notion_workspace_public_page_added_tests

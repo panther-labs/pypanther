@@ -273,7 +273,6 @@ class AWSIAMGroupReadOnlyEvents(PantherRule):
     Runbook = "Examine other activities done by this user to determine whether or not activity is suspicious."
     Severity = Severity.Info
     Tags = ["AWS", "Cloudtrail", "Configuration Required", "IAM", "MITRE"]
-    DedupPeriodMinutes = 60
     LogTypes = ["AWS.CloudTrail"]
     RuleID = "AWS.IAM.Group.Read.Only.Events-prototype"
     Threshold = 2

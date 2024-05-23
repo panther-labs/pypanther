@@ -52,10 +52,8 @@ class DuoAdminNewAdminAPIAppIntegration(PantherRule):
     Enabled = True
     Reference = "https://duo.com/docs/adminapi#overview"
     Severity = Severity.High
-    DedupPeriodMinutes = 60
     LogTypes = ["Duo.Administrator"]
     RuleID = "Duo.Admin.New.Admin.API.App.Integration-prototype"
-    Threshold = 1
     Tests = duo_admin_new_admin_api_app_integration_tests
 
     def rule(self, event):

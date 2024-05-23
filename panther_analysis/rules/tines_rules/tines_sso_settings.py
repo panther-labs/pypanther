@@ -53,8 +53,6 @@ class TinesSSOSettings(PantherRule):
     Severity = Severity.High
     Description = "Detects when Tines SSO settings are changed\n"
     Reference = "https://www.tines.com/docs/admin/single-sign-on"
-    DedupPeriodMinutes = 60
-    Threshold = 1
     SummaryAttributes = ["user_id", "operation_name", "tenant_id", "request_ip"]
     Tests = tines_sso_settings_tests
     ACTIONS = ["SsoConfigurationDefaultSet", "SsoConfigurationOidcSet", "SsoConfigurationSamlSet"]

@@ -47,6 +47,8 @@ def do(filepath: Path, helpers: Set[str]):
     for k, v in loaded.items():
         if k in {"AnalysisType", "Filename", "Tests"}:
             continue
+        if hasattr(base.PantherRule, k) and v == getattr(base.PantherRule, k):
+            continue
         if k == "Detection":
             raise NotImplementedError("Detection not implemented")
 
