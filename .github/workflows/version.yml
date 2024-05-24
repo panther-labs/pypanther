@@ -34,6 +34,6 @@ jobs:
         git push -u origin ${{ github.ref_name }}
     - name: Tag the release
       run: |
-        echo "Tagging v$(poetry version)"
-        git tag "v$(poetry version)"
+        echo "Tagging v$(poetry version --short)"
+        git tag "v$(poetry version --short)"
         git push --tags
