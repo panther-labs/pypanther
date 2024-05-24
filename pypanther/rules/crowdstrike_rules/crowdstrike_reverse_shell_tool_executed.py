@@ -247,7 +247,6 @@ class CrowdstrikeReverseShellToolExecuted(PantherRule):
         "Detects usage of tools commonly used to to establish reverse shells on Windows machines."
     )
     DisplayName = "Crowdstrike Reverse Shell Tool Executed"
-    Enabled = True
     Reference = "https://attack.mitre.org/techniques/T1059/"
     Severity = Severity.High
     LogTypes = [LogType.Crowdstrike_FDREvent]

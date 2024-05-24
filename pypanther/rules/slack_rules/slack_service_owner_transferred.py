@@ -74,7 +74,6 @@ slack_audit_logs_service_owner_transferred_tests: List[PantherRuleTest] = [
 class SlackAuditLogsServiceOwnerTransferred(PantherRule):
     RuleID = "Slack.AuditLogs.ServiceOwnerTransferred-prototype"
     DisplayName = "Slack Service Owner Transferred"
-    Enabled = True
     LogTypes = [LogType.Slack_AuditLogs]
     Tags = [
         "Slack",

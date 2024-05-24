@@ -156,7 +156,6 @@ aws_cloud_trail_account_discovery_tests: List[PantherRuleTest] = [
 class AWSCloudTrailAccountDiscovery(PantherRule):
     Description = "Adversaries may attempt to get a listing of accounts on a system or within an environment. This information can help adversaries determine which accounts exist to aid in follow-on behavior."
     DisplayName = "AWS CloudTrail Account Discovery"
-    Enabled = True
     Reference = "https://attack.mitre.org/techniques/T1087/"
     Reports = {"MITRE ATT&CK": ["TA0007:T1087"]}
     Severity = Severity.Info

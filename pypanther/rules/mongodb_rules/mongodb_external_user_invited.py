@@ -74,7 +74,6 @@ mongo_db_external_user_invited_tests: List[PantherRuleTest] = [
 class MongoDBExternalUserInvited(PantherRule):
     Description = "An external user has been invited to a MongoDB org. "
     DisplayName = "MongoDB External User Invited"
-    Enabled = True
     Severity = Severity.Medium
     Reference = "https://www.mongodb.com/docs/v4.2/tutorial/create-users/"
     Tags = ["Configuration Required"]

@@ -155,7 +155,6 @@ awsiam_user_recon_access_denied_tests: List[PantherRuleTest] = [
 class AWSIAMUserReconAccessDenied(PantherRule):
     RuleID = "AWS.IAMUser.ReconAccessDenied-prototype"
     DisplayName = "Detect Reconnaissance from IAM Users"
-    Enabled = True
     LogTypes = [LogType.AWS_CloudTrail]
     Tags = ["AWS", "Discovery:Cloud Service Discovery"]
     Reports = {"MITRE ATT&CK": ["TA0007:T1526"]}

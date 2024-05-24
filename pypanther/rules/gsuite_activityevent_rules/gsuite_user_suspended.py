@@ -44,7 +44,6 @@ g_suite_user_suspended_tests: List[PantherRuleTest] = [
 class GSuiteUserSuspended(PantherRule):
     RuleID = "GSuite.UserSuspended-prototype"
     DisplayName = "GSuite User Suspended"
-    Enabled = True
     LogTypes = [LogType.GSuite_ActivityEvent]
     Tags = ["GSuite"]
     Severity = Severity.High

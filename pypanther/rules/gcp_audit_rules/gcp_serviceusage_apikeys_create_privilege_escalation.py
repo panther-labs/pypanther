@@ -179,7 +179,6 @@ class GCPserviceusageapiKeyscreatePrivilegeEscalation(PantherRule):
     Description = "Detects serviceusage.apiKeys.create method for privilege escalation in GCP. By default, API Keys are created with no restrictions, which means they have access to the entire GCP project they were created in. We can capitalize on that fact by creating a new API key that may have more privileges than our own user."
     DisplayName = "GCP serviceusage.apiKeys.create Privilege Escalation"
     RuleID = "GCP.serviceusage.apiKeys.create.Privilege.Escalation-prototype"
-    Enabled = True
     Reference = "https://rhinosecuritylabs.com/cloud-security/privilege-escalation-google-cloud-platform-part-2/"
     Runbook = "Confirm this was authorized and necessary behavior. This is not a vulnerability in GCP, it is a vulnerability in how GCP environment is configured, so it is necessary to be aware of these attack vectors and to defend against them. It’s also important to remember that privilege escalation does not necessarily need to pass through the IAM service to be effective. Make sure to follow the principle of least-privilege in your environments to help mitigate these security risks."
     Reports = {"MITRE ATT&CK": ["TA0004:T1548"]}

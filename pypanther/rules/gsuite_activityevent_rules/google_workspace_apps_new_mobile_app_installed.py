@@ -89,7 +89,6 @@ google_workspace_apps_new_mobile_app_installed_tests: List[PantherRuleTest] = [
 class GoogleWorkspaceAppsNewMobileAppInstalled(PantherRule):
     Description = "A new mobile application was added to your organization's mobile apps whitelist in Google Workspace Apps."
     DisplayName = "Google Workspace Apps New Mobile App Installed"
-    Enabled = True
     Runbook = "https://admin.google.com/ac/apps/unified"
     Reference = "https://support.google.com/a/answer/6089179?hl=en"
     Severity = Severity.Medium

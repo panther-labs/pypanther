@@ -382,7 +382,6 @@ aws_console_login_without_mfa_tests: List[PantherRuleTest] = [
 class AWSConsoleLoginWithoutMFA(PantherRule):
     RuleID = "AWS.Console.LoginWithoutMFA-prototype"
     DisplayName = "Logins Without MFA"
-    Enabled = True
     LogTypes = [LogType.AWS_CloudTrail]
     Tags = [
         "AWS",

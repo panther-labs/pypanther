@@ -109,7 +109,6 @@ duo_user_endpoint_failure_tests: List[PantherRuleTest] = [
 class DUOUserEndpointFailure(PantherRule):
     RuleID = "DUO.User.Endpoint.Failure-prototype"
     DisplayName = "Duo User Denied For Endpoint Error"
-    Enabled = True
     DedupPeriodMinutes = 15
     LogTypes = [LogType.Duo_Authentication]
     Tags = ["Duo"]

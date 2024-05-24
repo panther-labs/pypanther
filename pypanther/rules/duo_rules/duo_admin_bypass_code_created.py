@@ -34,7 +34,6 @@ duo_admin_bypass_code_created_tests: List[PantherRuleTest] = [
 class DuoAdminBypassCodeCreated(PantherRule):
     Description = "A Duo administrator created an MFA bypass code for an application."
     DisplayName = "Duo Admin Bypass Code Created"
-    Enabled = True
     Runbook = "Confirm this was authorized and necessary behavior."
     Reference = "https://duo.com/docs/administration-users#generating-a-bypass-code"
     Severity = Severity.Medium

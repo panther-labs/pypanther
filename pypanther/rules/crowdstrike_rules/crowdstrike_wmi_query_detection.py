@@ -339,7 +339,6 @@ crowdstrike_wmi_query_detection_tests: List[PantherRuleTest] = [
 class CrowdstrikeWMIQueryDetection(PantherRule):
     Description = "Detects execution of WMI queries involving information gathering or actions on remote systems, which could indicate reconnaissance or lateral movement."
     DisplayName = "Crowdstrike WMI Query Detection"
-    Enabled = True
     Runbook = "Investigate the endpoint for signs of WMI query execution. Review the executed query and the associated user account."
     Reference = "https://learn.microsoft.com/en-us/windows/win32/wmisdk/querying-wmi"
     Severity = Severity.Low

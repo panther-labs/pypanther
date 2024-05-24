@@ -62,7 +62,6 @@ notion_many_pages_exported_tests: List[PantherRuleTest] = [
 class NotionManyPagesExported(PantherRule):
     RuleID = "Notion.Many.Pages.Exported-prototype"
     DisplayName = "Notion Many Pages Exported"
-    Enabled = True
     LogTypes = [LogType.Notion_AuditLogs]
     Tags = ["Notion", "Data Security", "Data Exfiltration"]
     Severity = Severity.High

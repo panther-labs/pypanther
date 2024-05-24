@@ -175,7 +175,6 @@ crowdstrike_unusual_parent_child_processes_tests: List[PantherRuleTest] = [
 class CrowdstrikeUnusualParentChildProcesses(PantherRule):
     Description = "Detects unusual parent child process pairings."
     DisplayName = "Crowdstrike Unusual Parent Child Processes"
-    Enabled = True
     Reference = "https://medium.com/falconforce/falconfriday-e4554e9e6665"
     Severity = Severity.Critical
     LogTypes = [LogType.Crowdstrike_FDREvent]

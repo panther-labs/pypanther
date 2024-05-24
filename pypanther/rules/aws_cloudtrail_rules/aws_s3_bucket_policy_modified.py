@@ -159,7 +159,6 @@ awss3_bucket_policy_modified_tests: List[PantherRuleTest] = [
 class AWSS3BucketPolicyModified(PantherRule):
     RuleID = "AWS.S3.BucketPolicyModified-prototype"
     DisplayName = "AWS S3 Bucket Policy Modified"
-    Enabled = True
     LogTypes = [LogType.AWS_CloudTrail]
     Tags = ["AWS", "Identity & Access Management", "Exfiltration:Exfiltration Over Web Service"]
     Reports = {"CIS": ["3.8"], "MITRE ATT&CK": ["TA0010:T1567"]}

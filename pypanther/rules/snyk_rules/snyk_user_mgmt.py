@@ -84,7 +84,6 @@ snyk_user_management_tests: List[PantherRuleTest] = [
 class SnykUserManagement(PantherRule):
     RuleID = "Snyk.User.Management-prototype"
     DisplayName = "Snyk User Management"
-    Enabled = True
     LogTypes = [LogType.Snyk_GroupAudit, LogType.Snyk_OrgAudit]
     Tags = ["Snyk"]
     Severity = Severity.Medium

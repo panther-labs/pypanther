@@ -32,7 +32,6 @@ git_hub_user_access_key_created_tests: List[PantherRuleTest] = [
 class GitHubUserAccessKeyCreated(PantherRule):
     RuleID = "GitHub.User.AccessKeyCreated-prototype"
     DisplayName = "GitHub User Access Key Created"
-    Enabled = True
     LogTypes = [LogType.GitHub_Audit]
     Tags = ["GitHub", "Persistence:Valid Accounts"]
     Reports = {"MITRE ATT&CK": ["TA0003:T1078"]}

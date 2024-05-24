@@ -85,7 +85,6 @@ slack_audit_logs_user_privilege_changed_to_user_tests: List[PantherRuleTest] = [
 class SlackAuditLogsUserPrivilegeChangedToUser(PantherRule):
     RuleID = "Slack.AuditLogs.UserPrivilegeChangedToUser-prototype"
     DisplayName = "Slack User Privileges Changed to User"
-    Enabled = True
     LogTypes = [LogType.Slack_AuditLogs]
     Tags = ["Slack", "Impact", "Account Access Removal"]
     Reports = {"MITRE ATT&CK": ["TA0040:T1531"]}

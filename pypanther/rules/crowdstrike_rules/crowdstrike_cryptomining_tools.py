@@ -175,7 +175,6 @@ crowdstrike_cryptomining_tools_tests: List[PantherRuleTest] = [
 class CrowdstrikeCryptominingTools(PantherRule):
     Description = "Detects the execution of known crytocurrency mining tools."
     DisplayName = "Crowdstrike Cryptomining Tools "
-    Enabled = True
     Reference = "https://www.crowdstrike.com/cybersecurity-101/cryptojacking/"
     Severity = Severity.Critical
     LogTypes = [LogType.Crowdstrike_FDREvent]

@@ -102,7 +102,6 @@ teleport_network_scanning_tests: List[PantherRuleTest] = [
 class TeleportNetworkScanning(PantherRule):
     RuleID = "Teleport.NetworkScanning-prototype"
     DisplayName = "Teleport Network Scan Initiated"
-    Enabled = True
     LogTypes = [LogType.Gravitational_TeleportAudit]
     Tags = ["SSH", "Discovery:Network Service Discovery"]
     Severity = Severity.Medium

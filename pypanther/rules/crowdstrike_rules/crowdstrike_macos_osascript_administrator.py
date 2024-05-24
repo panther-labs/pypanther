@@ -391,7 +391,6 @@ crowdstrike_macos_osascript_administrator_tests: List[PantherRuleTest] = [
 class CrowdstrikeMacosOsascriptAdministrator(PantherRule):
     DisplayName = "CrowdStrike MacOS Osascript as Administrator"
     Description = "Detects usage of osascript with administrator privileges"
-    Enabled = True
     RuleID = "Crowdstrike.Macos.Osascript.Administrator-prototype"
     Reference = (
         "https://www.sentinelone.com/blog/how-offensive-actors-use-applescript-for-attacking-macos/"

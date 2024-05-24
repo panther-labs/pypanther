@@ -30,7 +30,6 @@ one_login_unauthorized_access_tests: List[PantherRuleTest] = [
 class OneLoginUnauthorizedAccess(PantherRule):
     RuleID = "OneLogin.UnauthorizedAccess-prototype"
     DisplayName = "OneLogin Unauthorized Access"
-    Enabled = True
     LogTypes = [LogType.OneLogin_Events]
     Tags = ["OneLogin", "Lateral Movement:Use Alternate Authentication Material"]
     Reports = {"MITRE ATT&CK": ["TA0008:T1550"]}

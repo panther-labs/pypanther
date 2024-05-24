@@ -43,7 +43,6 @@ git_hub_org_ip_allowlist_tests: List[PantherRuleTest] = [
 class GitHubOrgIpAllowlist(PantherRule):
     RuleID = "GitHub.Org.IpAllowlist-prototype"
     DisplayName = "GitHub Org IP Allow List modified"
-    Enabled = True
     LogTypes = [LogType.GitHub_Audit]
     Tags = ["GitHub", "Persistence:Account Manipulation"]
     Reports = {"MITRE ATT&CK": ["TA0003:T1098"]}

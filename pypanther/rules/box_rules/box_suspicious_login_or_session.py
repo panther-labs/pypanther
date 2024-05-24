@@ -74,7 +74,6 @@ box_shield_suspicious_alert_tests: List[PantherRuleTest] = [
 class BoxShieldSuspiciousAlert(PantherRule):
     RuleID = "Box.Shield.Suspicious.Alert-prototype"
     DisplayName = "Box Shield Suspicious Alert Triggered"
-    Enabled = True
     LogTypes = [LogType.Box_Event]
     Tags = ["Box", "Initial Access:Valid Accounts"]
     Reports = {"MITRE ATT&CK": ["TA0001:T1078"]}

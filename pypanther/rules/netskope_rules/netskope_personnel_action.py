@@ -57,7 +57,6 @@ netskope_netskope_personnel_activity_tests: List[PantherRuleTest] = [
 class NetskopeNetskopePersonnelActivity(PantherRule):
     RuleID = "Netskope.NetskopePersonnelActivity-prototype"
     DisplayName = "Action Performed by Netskope Personnel"
-    Enabled = True
     LogTypes = [LogType.Netskope_Audit]
     Tags = ["Netskope", "Supply Chain Compromise"]
     Reports = {"MITRE ATT&CK": ["TA0001:T1195"]}

@@ -295,7 +295,6 @@ okta_new_behavior_accessing_admin_console_tests: List[PantherRuleTest] = [
 class OktaNewBehaviorAccessingAdminConsole(PantherRule):
     RuleID = "Okta.New.Behavior.Accessing.Admin.Console-prototype"
     DisplayName = "Okta New Behaviors Acessing Admin Console"
-    Enabled = True
     LogTypes = [LogType.Okta_SystemLog]
     Reports = {"MITRE ATT&CK": ["TA0001:T1078.004"]}
     Severity = Severity.High

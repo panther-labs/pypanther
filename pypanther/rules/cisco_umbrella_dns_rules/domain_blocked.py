@@ -34,7 +34,6 @@ cisco_umbrella_dns_blocked_tests: List[PantherRuleTest] = [
 class CiscoUmbrellaDNSBlocked(PantherRule):
     RuleID = "CiscoUmbrella.DNS.Blocked-prototype"
     DisplayName = "Cisco Umbrella Domain Blocked"
-    Enabled = True
     DedupPeriodMinutes = 480
     LogTypes = [LogType.CiscoUmbrella_DNS]
     Tags = ["DNS"]

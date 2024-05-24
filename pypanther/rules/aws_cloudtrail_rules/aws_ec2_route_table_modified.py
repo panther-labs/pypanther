@@ -144,7 +144,6 @@ awsec2_route_table_modified_tests: List[PantherRuleTest] = [
 class AWSEC2RouteTableModified(PantherRule):
     RuleID = "AWS.EC2.RouteTableModified-prototype"
     DisplayName = "EC2 Route Table Modified"
-    Enabled = True
     LogTypes = [LogType.AWS_CloudTrail]
     Tags = ["AWS", "Exfiltration:Exfiltration Over Alternative Protocol"]
     Reports = {"CIS": ["3.13"], "MITRE ATT&CK": ["TA0010:T1048"]}

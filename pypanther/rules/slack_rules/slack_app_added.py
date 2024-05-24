@@ -211,7 +211,6 @@ slack_audit_logs_app_added_tests: List[PantherRuleTest] = [
 class SlackAuditLogsAppAdded(PantherRule):
     RuleID = "Slack.AuditLogs.AppAdded-prototype"
     DisplayName = "Slack App Added"
-    Enabled = True
     LogTypes = [LogType.Slack_AuditLogs]
     Tags = ["Slack", "Persistence", "Server Software Component"]
     Reports = {"MITRE ATT&CK": ["TA0003:T1505"]}

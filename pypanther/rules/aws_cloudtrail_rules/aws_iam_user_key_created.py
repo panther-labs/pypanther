@@ -235,7 +235,6 @@ awsiam_backdoor_user_keys_tests: List[PantherRuleTest] = [
 class AWSIAMBackdoorUserKeys(PantherRule):
     Description = "Detects AWS API key creation for a user by another user. Backdoored users can be used to obtain persistence in the AWS environment."
     DisplayName = "AWS User API Key Created"
-    Enabled = True
     Reports = {"MITRE ATT&CK": ["TA0003:T1098", "TA0005:T1108", "TA0005:T1550", "TA0008:T1550"]}
     Reference = "https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_access-keys.html"
     Severity = Severity.Medium

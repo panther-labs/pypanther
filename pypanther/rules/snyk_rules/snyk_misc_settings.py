@@ -35,7 +35,6 @@ snyk_misc_settings_tests: List[PantherRuleTest] = [
 class SnykMiscSettings(PantherRule):
     RuleID = "Snyk.Misc.Settings-prototype"
     DisplayName = "Snyk Miscellaneous Settings"
-    Enabled = True
     LogTypes = [LogType.Snyk_GroupAudit, LogType.Snyk_OrgAudit]
     Tags = ["Snyk"]
     Reference = "https://docs.snyk.io/snyk-admin/manage-settings"

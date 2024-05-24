@@ -62,7 +62,6 @@ notion_many_pages_deleted_tests: List[PantherRuleTest] = [
 class NotionManyPagesDeleted(PantherRule):
     RuleID = "Notion.Many.Pages.Deleted-prototype"
     DisplayName = "Notion Many Pages Deleted"
-    Enabled = True
     LogTypes = [LogType.Notion_AuditLogs]
     Tags = ["Notion", "Data Security", "Data Destruction"]
     Severity = Severity.Medium

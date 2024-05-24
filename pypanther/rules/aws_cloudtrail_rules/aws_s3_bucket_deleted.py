@@ -95,7 +95,6 @@ awss3_bucket_deleted_tests: List[PantherRuleTest] = [
 class AWSS3BucketDeleted(PantherRule):
     RuleID = "AWS.S3.BucketDeleted-prototype"
     DisplayName = "S3 Bucket Deleted"
-    Enabled = True
     LogTypes = [LogType.AWS_CloudTrail]
     Tags = ["AWS", "Impact:Data Destruction"]
     Reports = {"MITRE ATT&CK": ["TA0040:T1485"]}

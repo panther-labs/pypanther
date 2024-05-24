@@ -75,7 +75,6 @@ teleport_long_lived_certs_tests: List[PantherRuleTest] = [
 class TeleportLongLivedCerts(PantherRule):
     RuleID = "Teleport.LongLivedCerts-prototype"
     DisplayName = "A long-lived cert was created"
-    Enabled = True
     LogTypes = [LogType.Gravitational_TeleportAudit]
     Tags = ["Teleport"]
     Severity = Severity.Medium

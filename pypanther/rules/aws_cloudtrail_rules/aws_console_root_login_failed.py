@@ -121,7 +121,6 @@ aws_console_root_login_failed_tests: List[PantherRuleTest] = [
 class AWSConsoleRootLoginFailed(PantherRule):
     RuleID = "AWS.Console.RootLoginFailed-prototype"
     DisplayName = "Failed Root Console Login"
-    Enabled = True
     DedupPeriodMinutes = 15
     LogTypes = [LogType.AWS_CloudTrail]
     Tags = [

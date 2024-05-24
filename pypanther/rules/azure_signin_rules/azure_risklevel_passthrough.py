@@ -325,7 +325,6 @@ azure_audit_risk_level_passthrough_tests: List[PantherRuleTest] = [
 class AzureAuditRiskLevelPassthrough(PantherRule):
     RuleID = "Azure.Audit.RiskLevelPassthrough-prototype"
     DisplayName = "Azure RiskLevel Passthrough"
-    Enabled = True
     DedupPeriodMinutes = 10
     LogTypes = [LogType.Azure_Audit]
     Severity = Severity.Medium

@@ -56,7 +56,6 @@ teleport_suspicious_commands_tests: List[PantherRuleTest] = [
 class TeleportSuspiciousCommands(PantherRule):
     RuleID = "Teleport.SuspiciousCommands-prototype"
     DisplayName = "Teleport Suspicious Commands Executed"
-    Enabled = True
     LogTypes = [LogType.Gravitational_TeleportAudit]
     Tags = ["SSH", "Execution:Command and Scripting Interpreter"]
     Severity = Severity.Medium

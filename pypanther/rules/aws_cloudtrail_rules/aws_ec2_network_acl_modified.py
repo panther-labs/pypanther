@@ -154,7 +154,6 @@ awsec2_network_acl_modified_tests: List[PantherRuleTest] = [
 class AWSEC2NetworkACLModified(PantherRule):
     RuleID = "AWS.EC2.NetworkACLModified-prototype"
     DisplayName = "EC2 Network ACL Modified"
-    Enabled = True
     LogTypes = [LogType.AWS_CloudTrail]
     Tags = ["AWS", "Security Control", "Defense Evasion:Impair Defenses"]
     Reports = {"CIS": ["3.11"], "MITRE ATT&CK": ["TA0005:T1562"]}

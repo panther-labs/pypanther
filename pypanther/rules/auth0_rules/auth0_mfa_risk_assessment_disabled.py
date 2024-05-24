@@ -393,7 +393,6 @@ class Auth0MFARiskAssessmentDisabled(PantherRule):
         "An Auth0 User disabled the mfa risk assessment setting for your organization's tenant."
     )
     DisplayName = "Auth0 MFA Risk Assessment Disabled"
-    Enabled = True
     Runbook = "Assess if this was done by the user for a valid business reason. Be vigilant to re-enable this setting as it's in the best security interest for your organization's security posture."
     Reference = "https://auth0.com/docs/secure/multi-factor-authentication/enable-mfa#:~:text=Always%20policy%2C%20the-,MFA%20Risk%20Assessors,-section%20appears.%20By"
     Severity = Severity.High

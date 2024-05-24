@@ -316,7 +316,6 @@ auth0_user_invitation_created_tests: List[PantherRuleTest] = [
 
 class Auth0UserInvitationCreated(PantherRule):
     DisplayName = "Auth0 User Invitation Created"
-    Enabled = True
     Reference = (
         "https://auth0.com/docs/manage-users/organizations/configure-organizations/invite-members"
     )

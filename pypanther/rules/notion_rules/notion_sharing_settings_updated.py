@@ -60,7 +60,6 @@ notion_sharing_settings_updated_tests: List[PantherRuleTest] = [
 class NotionSharingSettingsUpdated(PantherRule):
     RuleID = "Notion.SharingSettingsUpdated-prototype"
     DisplayName = "Notion Sharing Settings Updated"
-    Enabled = True
     LogTypes = [LogType.Notion_AuditLogs]
     Tags = ["Notion", "Data Exfiltration"]
     Description = "A Notion User enabled sharing for a Workspace or Teamspace."

@@ -50,7 +50,6 @@ duo_admin_new_admin_api_app_integration_tests: List[PantherRuleTest] = [
 class DuoAdminNewAdminAPIAppIntegration(PantherRule):
     Description = "Identifies creation of new Admin API integrations for Duo."
     DisplayName = "Duo Admin New Admin API App Integration"
-    Enabled = True
     Reference = "https://duo.com/docs/adminapi#overview"
     Severity = Severity.High
     LogTypes = [LogType.Duo_Administrator]

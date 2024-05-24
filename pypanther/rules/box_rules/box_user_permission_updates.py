@@ -68,7 +68,6 @@ box_large_number_permission_updates_tests: List[PantherRuleTest] = [
 class BoxLargeNumberPermissionUpdates(PantherRule):
     RuleID = "Box.Large.Number.Permission.Updates-prototype"
     DisplayName = "Box Large Number of Permission Changes"
-    Enabled = True
     LogTypes = [LogType.Box_Event]
     Tags = ["Box", "Privilege Escalation:Abuse Elevation Control Mechanism"]
     Reports = {"MITRE ATT&CK": ["TA0004:T1548"]}

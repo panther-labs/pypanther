@@ -295,7 +295,6 @@ okta_org2org_creation_modification_tests: List[PantherRuleTest] = [
 class OktaOrg2orgCreationModification(PantherRule):
     RuleID = "Okta.Org2org.Creation.Modification-prototype"
     DisplayName = "Okta Org2Org application created of modified"
-    Enabled = True
     LogTypes = [LogType.Okta_SystemLog]
     Reports = {"MITRE ATT&CK": ["TA0006:T1556", "TA0004:T1078.004"]}
     Severity = Severity.High

@@ -120,7 +120,6 @@ gcp_cloud_storage_buckets_modified_or_deleted_tests: List[PantherRuleTest] = [
 class GCPCloudStorageBucketsModifiedOrDeleted(PantherRule):
     Description = "Detects GCP cloud storage bucket updates and deletes."
     DisplayName = "GCP Cloud Storage Buckets Modified Or Deleted"
-    Enabled = True
     Reference = "https://cloud.google.com/storage/docs/buckets"
     Severity = Severity.Low
     LogTypes = [LogType.GCP_AuditLog]

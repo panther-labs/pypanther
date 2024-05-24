@@ -51,7 +51,6 @@ git_hub_repo_hook_modified_tests: List[PantherRuleTest] = [
 class GitHubRepoHookModified(PantherRule):
     RuleID = "GitHub.Repo.HookModified-prototype"
     DisplayName = "GitHub Web Hook Modified"
-    Enabled = True
     LogTypes = [LogType.GitHub_Audit]
     Tags = ["GitHub", "Exfiltration:Automated Exfiltration"]
     Reports = {"MITRE ATT&CK": ["TA0010:T1020"]}

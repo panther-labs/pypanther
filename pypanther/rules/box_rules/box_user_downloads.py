@@ -47,7 +47,6 @@ box_large_number_downloads_tests: List[PantherRuleTest] = [
 class BoxLargeNumberDownloads(PantherRule):
     RuleID = "Box.Large.Number.Downloads-prototype"
     DisplayName = "Box Large Number of Downloads"
-    Enabled = True
     LogTypes = [LogType.Box_Event]
     Tags = ["Box", "Exfiltration:Exfiltration Over Web Service"]
     Reports = {"MITRE ATT&CK": ["TA0010:T1567"]}

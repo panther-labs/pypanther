@@ -62,7 +62,6 @@ duo_admin_user_mfa_bypass_enabled_tests: List[PantherRuleTest] = [
 class DuoAdminUserMFABypassEnabled(PantherRule):
     Description = "An Administrator enabled a user to authenticate without MFA."
     DisplayName = "Duo Admin User MFA Bypass Enabled"
-    Enabled = True
     Reference = "https://duo.com/docs/policy#authentication-policy"
     Severity = Severity.Medium
     LogTypes = [LogType.Duo_Administrator]

@@ -40,7 +40,6 @@ class CarbonBlackAuditUserAddedOutsideOrg(PantherRule):
     LogTypes = [LogType.CarbonBlack_Audit]
     Description = "Detects when a user from a different organization is added to Carbon Black."
     DisplayName = "Carbon Black User Added Outside Org"
-    Enabled = True
     Severity = Severity.High
     Tags = ["Persistence", "Create Account"]
     Reports = {"MITRE ATT&CK": ["TA0003:T1136"]}

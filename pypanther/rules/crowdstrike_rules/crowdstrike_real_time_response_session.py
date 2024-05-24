@@ -130,7 +130,6 @@ crowdstrike_real_time_response_session_tests: List[PantherRuleTest] = [
 
 class CrowdstrikeRealTimeResponseSession(PantherRule):
     DisplayName = "Crowdstrike Real Time Response (RTS) Session"
-    Enabled = True
     RuleID = "Crowdstrike.RealTimeResponse.Session-prototype"
     Severity = Severity.Medium
     LogTypes = [LogType.Crowdstrike_Unknown, LogType.Crowdstrike_FDREvent]

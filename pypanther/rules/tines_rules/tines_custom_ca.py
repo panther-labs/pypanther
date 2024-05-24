@@ -43,7 +43,6 @@ tines_custom_certificate_authority_tests: List[PantherRuleTest] = [
 class TinesCustomCertificateAuthority(PantherRule):
     RuleID = "Tines.Custom.CertificateAuthority-prototype"
     DisplayName = "Tines Custom CertificateAuthority setting changed"
-    Enabled = True
     LogTypes = [LogType.Tines_Audit]
     Tags = ["Tines", "IAM - Credential Security"]
     Reference = "https://www.tines.com/docs/admin/custom-certificate-authority"

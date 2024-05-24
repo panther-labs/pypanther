@@ -74,7 +74,6 @@ slack_audit_logs_mfa_settings_changed_tests: List[PantherRuleTest] = [
 class SlackAuditLogsMFASettingsChanged(PantherRule):
     RuleID = "Slack.AuditLogs.MFASettingsChanged-prototype"
     DisplayName = "Slack MFA Settings Changed"
-    Enabled = True
     LogTypes = [LogType.Slack_AuditLogs]
     Tags = [
         "Slack",

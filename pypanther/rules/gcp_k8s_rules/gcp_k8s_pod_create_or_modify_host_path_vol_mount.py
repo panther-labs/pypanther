@@ -225,7 +225,6 @@ gcpk8_s_pot_create_or_modify_host_path_volume_mount_tests: List[PantherRuleTest]
 class GCPK8SPotCreateOrModifyHostPathVolumeMount(PantherRule):
     RuleID = "GCP.K8S.Pot.Create.Or.Modify.Host.Path.Volume.Mount-prototype"
     DisplayName = "GCP K8S Pot Create Or Modify Host Path Volume Mount"
-    Enabled = True
     LogTypes = [LogType.GCP_AuditLog]
     Severity = Severity.High
     Description = "This detection monitors for pod creation with a hostPath volume mount. The attachment to a node's volume can allow  for privilege escalation through underlying vulnerabilities or it can open up possibilities for data exfiltration  or unauthorized file access. It is very rare to see this being a pod requirement.\n"

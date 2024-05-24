@@ -42,7 +42,6 @@ box_new_login_tests: List[PantherRuleTest] = [
 class BoxNewLogin(PantherRule):
     RuleID = "Box.New.Login-prototype"
     DisplayName = "Box New Login"
-    Enabled = True
     LogTypes = [LogType.Box_Event]
     Tags = ["Box", "Initial Access:Valid Accounts"]
     Reports = {"MITRE ATT&CK": ["TA0001:T1078"]}

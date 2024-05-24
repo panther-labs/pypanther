@@ -62,7 +62,6 @@ notion_workspace_exported_tests: List[PantherRuleTest] = [
 class NotionWorkspaceExported(PantherRule):
     RuleID = "Notion.Workspace.Exported-prototype"
     DisplayName = "Notion Workspace Exported"
-    Enabled = True
     LogTypes = [LogType.Notion_AuditLogs]
     Tags = ["Notion", "Data Security", "Data Exfiltration"]
     Severity = Severity.High

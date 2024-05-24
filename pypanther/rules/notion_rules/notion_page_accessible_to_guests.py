@@ -78,7 +78,6 @@ notion_page_perms_guest_perms_changed_tests: List[PantherRuleTest] = [
 class NotionPagePermsGuestPermsChanged(PantherRule):
     RuleID = "Notion.PagePerms.GuestPermsChanged-prototype"
     DisplayName = "Notion Page Guest Permissions Changed"
-    Enabled = True
     LogTypes = [LogType.Notion_AuditLogs]
     Tags = ["Notion", "Data Security", "Information Disclosure"]
     Severity = Severity.Low

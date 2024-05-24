@@ -48,7 +48,6 @@ tines_sso_settings_tests: List[PantherRuleTest] = [
 class TinesSSOSettings(PantherRule):
     RuleID = "Tines.SSO.Settings-prototype"
     DisplayName = "Tines SSO Settings"
-    Enabled = True
     LogTypes = [LogType.Tines_Audit]
     Tags = ["Tines", "IAM - Credential Security"]
     Severity = Severity.High

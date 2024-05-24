@@ -49,7 +49,6 @@ github_repo_collaborator_change_tests: List[PantherRuleTest] = [
 class GithubRepoCollaboratorChange(PantherRule):
     RuleID = "Github.Repo.CollaboratorChange-prototype"
     DisplayName = "GitHub Repository Collaborator Change"
-    Enabled = True
     LogTypes = [LogType.GitHub_Audit]
     Tags = ["GitHub", "Initial Access:Supply Chain Compromise"]
     Reports = {"MITRE ATT&CK": ["TA0001:T1195"]}

@@ -34,7 +34,6 @@ duo_admin_bypass_code_viewed_tests: List[PantherRuleTest] = [
 class DuoAdminBypassCodeViewed(PantherRule):
     Description = "An administrator viewed the MFA bypass code for a user."
     DisplayName = "Duo Admin Bypass Code Viewed"
-    Enabled = True
     Reference = "https://duo.com/docs/adminapi"
     Runbook = "Confirm this behavior is authorized. The security of your Duo application is tied to the security of your secret key (skey). Secure it as you would any sensitive credential. You should not share it with unauthorized individuals or email it to anyone under any circumstances!"
     Severity = Severity.Medium

@@ -127,7 +127,6 @@ osquery_suspicious_cron_tests: List[PantherRuleTest] = [
 class OsquerySuspiciousCron(PantherRule):
     RuleID = "Osquery.SuspiciousCron-prototype"
     DisplayName = "Suspicious cron detected"
-    Enabled = True
     LogTypes = [LogType.Osquery_Differential]
     Tags = ["Osquery", "Execution:Scheduled Task/Job"]
     Reports = {"MITRE ATT&CK": ["TA0002:T1053"]}

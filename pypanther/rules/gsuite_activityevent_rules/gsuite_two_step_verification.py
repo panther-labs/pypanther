@@ -33,7 +33,6 @@ g_suite_two_step_verification_tests: List[PantherRuleTest] = [
 class GSuiteTwoStepVerification(PantherRule):
     RuleID = "GSuite.TwoStepVerification-prototype"
     DisplayName = "GSuite User Two Step Verification Change"
-    Enabled = True
     LogTypes = [LogType.GSuite_ActivityEvent]
     Tags = ["GSuite", "Defense Evasion:Modify Authentication Process"]
     Reports = {"MITRE ATT&CK": ["TA0005:T1556"]}

@@ -69,7 +69,6 @@ mongo_db_logging_toggled_tests: List[PantherRuleTest] = [
 class MongoDBLoggingToggled(PantherRule):
     Description = "MongoDB logging toggled"
     DisplayName = "MongoDB logging toggled"
-    Enabled = True
     Severity = Severity.Low
     Reference = "https://attack.mitre.org/techniques/T1562/008/"
     LogTypes = [LogType.MongoDB_ProjectEvent]

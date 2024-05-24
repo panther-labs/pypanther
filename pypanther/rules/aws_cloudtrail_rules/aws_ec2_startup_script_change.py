@@ -103,7 +103,6 @@ awsec2_startup_script_change_tests: List[PantherRuleTest] = [
 class AWSEC2StartupScriptChange(PantherRule):
     Description = "Detects changes to the EC2 instance startup script. The shell script will be executed as root/SYSTEM every time the specific instances are booted up."
     DisplayName = "AWS EC2 Startup Script Change"
-    Enabled = True
     Reports = {"MITRE ATT&CK": ["TA0002:T1059"]}
     Reference = (
         "https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/user-data.html#user-data-shell-scripts"

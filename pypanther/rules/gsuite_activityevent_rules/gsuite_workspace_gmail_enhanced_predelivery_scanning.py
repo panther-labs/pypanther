@@ -91,7 +91,6 @@ g_suite_workspace_gmail_predelivery_scanning_disabled_tests: List[PantherRuleTes
 class GSuiteWorkspaceGmailPredeliveryScanningDisabled(PantherRule):
     RuleID = "GSuite.Workspace.GmailPredeliveryScanningDisabled-prototype"
     DisplayName = "GSuite Workspace Gmail Pre-Delivery Message Scanning Disabled"
-    Enabled = True
     LogTypes = [LogType.GSuite_ActivityEvent]
     Tags = ["GSuite"]
     Reports = {"MITRE ATT&CK": ["TA0001:T1566"]}

@@ -57,7 +57,6 @@ standard_new_aws_account_created_tests: List[PantherRuleTest] = [
 class StandardNewAWSAccountCreated(PantherRule):
     RuleID = "Standard.NewAWSAccountCreated-prototype"
     DisplayName = "New AWS Account Created"
-    Enabled = True
     LogTypes = [LogType.AWS_CloudTrail]
     Tags = ["DataModel", "Indicator Collection", "Persistence:Create Account"]
     Severity = Severity.Info

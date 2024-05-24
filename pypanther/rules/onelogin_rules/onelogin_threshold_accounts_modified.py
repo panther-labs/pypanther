@@ -32,7 +32,6 @@ one_login_threshold_accounts_modified_tests: List[PantherRuleTest] = [
 class OneLoginThresholdAccountsModified(PantherRule):
     RuleID = "OneLogin.ThresholdAccountsModified-prototype"
     DisplayName = "OneLogin Multiple Accounts Modified"
-    Enabled = True
     LogTypes = [LogType.OneLogin_Events]
     Tags = ["OneLogin", "Impact:Account Access Removal"]
     Severity = Severity.Medium

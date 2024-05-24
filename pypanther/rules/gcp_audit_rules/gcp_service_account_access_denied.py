@@ -130,7 +130,6 @@ class GCPServiceAccountAccessDenied(PantherRule):
     DedupPeriodMinutes = 5
     Threshold = 30
     DisplayName = "GCP Service Account Access Denied"
-    Enabled = True
     RuleID = "GCP.Service.Account.Access.Denied-prototype"
     Severity = Severity.Low
     LogTypes = [LogType.GCP_AuditLog]

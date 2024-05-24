@@ -113,7 +113,6 @@ dropbox_user_disabled2_fa_tests: List[PantherRuleTest] = [
 class DropboxUserDisabled2FA(PantherRule):
     Description = "Dropbox user has disabled 2fa login"
     DisplayName = "Dropbox User Disabled 2FA"
-    Enabled = True
     Reference = "https://help.dropbox.com/account-access/enable-two-step-verification"
     Severity = Severity.Low
     LogTypes = [LogType.Dropbox_TeamEvent]

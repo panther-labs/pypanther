@@ -73,7 +73,6 @@ snyk_role_change_tests: List[PantherRuleTest] = [
 class SnykRoleChange(PantherRule):
     RuleID = "Snyk.Role.Change-prototype"
     DisplayName = "Snyk Role Change"
-    Enabled = True
     LogTypes = [LogType.Snyk_GroupAudit, LogType.Snyk_OrgAudit]
     Tags = ["Snyk"]
     Severity = Severity.High

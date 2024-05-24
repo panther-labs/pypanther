@@ -134,7 +134,6 @@ dropbox_linked_team_application_added_tests: List[PantherRuleTest] = [
 class DropboxLinkedTeamApplicationAdded(PantherRule):
     Description = "An application was linked to your Dropbox Account"
     DisplayName = "Dropbox Linked Team Application Added"
-    Enabled = True
     Reference = "https://help.dropbox.com/integrations/app-integrations"
     Runbook = "Ensure that the application is valid and not malicious. Verify that this is expected. If not, determine other actions taken by this user recently and reach out to the user. If the event involved a non-team member, consider disabling the user's access while investigating.\n"
     Severity = Severity.Low

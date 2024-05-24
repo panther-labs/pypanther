@@ -261,10 +261,10 @@ SeverityType = Union[Severity | Literal["DEFAULT"]]
 class PantherRule:
     """A Panther rule class. This class should be subclassed to create a new rule."""
 
-    Enabled: bool
     LogTypes: List[str]
     RuleID: str
     Severity: Severity
+    Enabled: bool = True
     Tags: List[str] = DEFAULT_TAGS
     DedupPeriodMinutes: NonNegativeInt = DEFAULT_DEDUP_PERIOD_MINUTES
     Description: str = DEFAULT_DESCRIPTION

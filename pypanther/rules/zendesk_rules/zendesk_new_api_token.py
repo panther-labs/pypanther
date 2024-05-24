@@ -48,7 +48,6 @@ zendesk_new_api_token_tests: List[PantherRuleTest] = [
 class ZendeskNewAPIToken(PantherRule):
     RuleID = "Zendesk.NewAPIToken-prototype"
     DisplayName = "Zendesk API Token Created"
-    Enabled = True
     LogTypes = [LogType.Zendesk_Audit]
     Severity = Severity.High
     Tags = ["Zendesk", "Credential Access:Steal Application Access Token"]

@@ -129,7 +129,6 @@ google_workspace_apps_marketplace_allowlist_tests: List[PantherRuleTest] = [
 class GoogleWorkspaceAppsMarketplaceAllowlist(PantherRule):
     Description = "Google Workspace Marketplace application allowlist settings were modified."
     DisplayName = "Google Workspace Apps Marketplace Allowlist"
-    Enabled = True
     Runbook = "Confirm with the acting user that this change was authorized."
     Reference = "https://support.google.com/a/answer/6089179?hl=en"
     Severity = Severity.Medium

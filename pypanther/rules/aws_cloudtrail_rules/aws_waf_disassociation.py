@@ -131,7 +131,6 @@ awswaf_disassociation_tests: List[PantherRuleTest] = [
 class AWSWAFDisassociation(PantherRule):
     Description = "Detection to alert when a WAF disassociates from a source."
     DisplayName = "AWS WAF Disassociation"
-    Enabled = True
     Reference = "https://attack.mitre.org/techniques/T1078/"
     Severity = Severity.Critical
     Reports = {"MITRE ATT&CK": ["TA0004:T1498"]}

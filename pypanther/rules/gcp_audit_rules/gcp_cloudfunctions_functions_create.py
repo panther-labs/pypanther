@@ -53,7 +53,6 @@ class GCPCloudfunctionsFunctionsCreate(PantherRule):
     RuleID = "GCP.Cloudfunctions.Functions.Create-prototype"
     DisplayName = "GCP cloudfunctions functions create"
     Description = "The Identity and Access Management (IAM) service manages authorization and authentication for a GCP environment. This means that there are very likely multiple privilege escalation methods that use the IAM service and/or its permissions."
-    Enabled = True
     LogTypes = [LogType.GCP_AuditLog]
     Severity = Severity.High
     Reference = (

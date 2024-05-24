@@ -42,7 +42,6 @@ zoom_all_meetings_secured_with_one_option_disabled_tests: List[PantherRuleTest] 
 class ZoomAllMeetingsSecuredWithOneOptionDisabled(PantherRule):
     Description = "A Zoom User turned off your organization's requirement that all meetings are secured with one security option."
     DisplayName = "Zoom All Meetings Secured With One Option Disabled"
-    Enabled = True
     Runbook = "Confirm this user acted with valid business intent and determine whether this activity was authorized."
     Reference = "https://support.zoom.com/hc/en/article?id=zm_kb&sysparm_article=KB0059862"
     Severity = Severity.Medium

@@ -391,7 +391,6 @@ auth0_mfa_policy_disabled_tests: List[PantherRuleTest] = [
 class Auth0MFAPolicyDisabled(PantherRule):
     Description = "An Auth0 User disabled MFA for your organization's tenant."
     DisplayName = "Auth0 MFA Policy Disabled"
-    Enabled = True
     Runbook = "Assess if this was done by the user for a valid business reason. Be vigilant to re-enable this setting as it's in the best security interest for your organization's security posture."
     Reference = "https://auth0.com/docs/secure/multi-factor-authentication/enable-mfa#:~:text=prompted%20for%20MFA.-,Never,-%3A%20MFA%20is%20not"
     Severity = Severity.High

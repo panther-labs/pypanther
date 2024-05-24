@@ -122,7 +122,6 @@ gcp_firewall_rule_deleted_tests: List[PantherRuleTest] = [
 
 class GCPFirewallRuleDeleted(PantherRule):
     DisplayName = "GCP Firewall Rule Deleted"
-    Enabled = True
     RuleID = "GCP.Firewall.Rule.Deleted-prototype"
     Severity = Severity.Low
     LogTypes = [LogType.GCP_AuditLog]

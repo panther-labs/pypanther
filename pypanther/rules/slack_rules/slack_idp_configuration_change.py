@@ -129,7 +129,6 @@ slack_audit_logs_idp_configuration_changed_tests: List[PantherRuleTest] = [
 class SlackAuditLogsIDPConfigurationChanged(PantherRule):
     RuleID = "Slack.AuditLogs.IDPConfigurationChanged-prototype"
     DisplayName = "Slack IDP Configuration Changed"
-    Enabled = True
     LogTypes = [LogType.Slack_AuditLogs]
     Tags = ["Slack", "Persistence", "Credential Access", "Modify Authentication Process"]
     Reports = {"MITRE ATT&CK": ["TA0003:T1556", "TA0006:T1556"]}

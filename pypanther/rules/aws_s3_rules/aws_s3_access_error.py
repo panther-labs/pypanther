@@ -83,7 +83,6 @@ class AWSS3ServerAccessError(PantherRule):
     DisplayName = "AWS S3 Access Error"
     DedupPeriodMinutes = 180
     Threshold = 5
-    Enabled = True
     LogTypes = [LogType.AWS_S3ServerAccess]
     Tags = ["AWS", "Security Control", "Discovery:Cloud Storage Object Discovery"]
     Reports = {"MITRE ATT&CK": ["TA0007:T1619"]}

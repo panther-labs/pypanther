@@ -118,7 +118,6 @@ aws_cloud_trail_unauthorized_api_call_tests: List[PantherRuleTest] = [
 class AWSCloudTrailUnauthorizedAPICall(PantherRule):
     RuleID = "AWS.CloudTrail.UnauthorizedAPICall-prototype"
     DisplayName = "Monitor Unauthorized API Calls"
-    Enabled = True
     DedupPeriodMinutes = 1440
     LogTypes = [LogType.AWS_CloudTrail]
     Tags = ["AWS", "Discovery:Cloud Service Discovery"]

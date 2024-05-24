@@ -47,7 +47,6 @@ git_hub_org_modified_tests: List[PantherRuleTest] = [
 class GitHubOrgModified(PantherRule):
     RuleID = "GitHub.Org.Modified-prototype"
     DisplayName = "GitHub User Added or Removed from Org"
-    Enabled = True
     LogTypes = [LogType.GitHub_Audit]
     Tags = ["GitHub", "Initial Access:Supply Chain Compromise"]
     Reports = {"MITRE ATT&CK": ["TA0001:T1195"]}

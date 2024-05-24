@@ -92,7 +92,6 @@ g_suite_workspace_password_reuse_enabled_tests: List[PantherRuleTest] = [
 class GSuiteWorkspacePasswordReuseEnabled(PantherRule):
     RuleID = "GSuite.Workspace.PasswordReuseEnabled-prototype"
     DisplayName = "GSuite Workspace Password Reuse Has Been Enabled"
-    Enabled = True
     LogTypes = [LogType.GSuite_ActivityEvent]
     Tags = ["GSuite"]
     Severity = Severity.High

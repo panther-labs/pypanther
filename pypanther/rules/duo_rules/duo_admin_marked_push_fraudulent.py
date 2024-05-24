@@ -33,7 +33,6 @@ duo_admin_action_marked_fraudulent_tests: List[PantherRuleTest] = [
 class DUOAdminActionMarkedFraudulent(PantherRule):
     RuleID = "DUO.Admin.Action.MarkedFraudulent-prototype"
     DisplayName = "Duo Admin Marked Push Fraudulent"
-    Enabled = True
     DedupPeriodMinutes = 15
     LogTypes = [LogType.Duo_Administrator]
     Tags = ["Duo"]

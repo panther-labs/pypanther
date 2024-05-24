@@ -179,7 +179,6 @@ gcp_permissions_grantedto_createor_manage_service_account_key_tests: List[Panthe
 class GCPPermissionsGrantedtoCreateorManageServiceAccountKey(PantherRule):
     Description = "Permissions granted to impersonate a service account. This includes predefined service account IAM roles granted at the parent project, folder or organization-level."
     DisplayName = "GCP Permissions Granted to Create or Manage Service Account Key"
-    Enabled = True
     Reference = "https://cloud.google.com/iam/docs/keys-create-delete"
     Severity = Severity.Low
     LogTypes = [LogType.GCP_AuditLog]

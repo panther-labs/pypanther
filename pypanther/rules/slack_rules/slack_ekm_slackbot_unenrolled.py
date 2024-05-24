@@ -74,7 +74,6 @@ slack_audit_logs_ekm_slackbot_unenrolled_tests: List[PantherRuleTest] = [
 class SlackAuditLogsEKMSlackbotUnenrolled(PantherRule):
     RuleID = "Slack.AuditLogs.EKMSlackbotUnenrolled-prototype"
     DisplayName = "Slack EKM Slackbot Unenrolled"
-    Enabled = True
     LogTypes = [LogType.Slack_AuditLogs]
     Tags = ["Slack", "Impact", "Service Stop"]
     Reports = {"MITRE ATT&CK": ["TA0040:T1489"]}

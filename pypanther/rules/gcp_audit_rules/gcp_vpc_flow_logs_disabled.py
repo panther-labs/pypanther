@@ -175,7 +175,6 @@ gcpvpc_flow_logs_disabled_tests: List[PantherRuleTest] = [
 class GCPVPCFlowLogsDisabled(PantherRule):
     Description = "VPC flow logs were disabled for a subnet."
     DisplayName = "GCP VPC Flow Logs Disabled"
-    Enabled = True
     Reference = "https://cloud.google.com/vpc/docs/using-flow-logs"
     Severity = Severity.Medium
     LogTypes = [LogType.GCP_AuditLog]

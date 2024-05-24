@@ -227,7 +227,6 @@ slack_audit_logs_app_access_expanded_tests: List[PantherRuleTest] = [
 class SlackAuditLogsAppAccessExpanded(PantherRule):
     RuleID = "Slack.AuditLogs.AppAccessExpanded-prototype"
     DisplayName = "Slack App Access Expanded"
-    Enabled = True
     LogTypes = [LogType.Slack_AuditLogs]
     Tags = ["Slack", "Privilege Escalation", "Account Manipulation"]
     Reports = {"MITRE ATT&CK": ["TA0004:T1098"]}

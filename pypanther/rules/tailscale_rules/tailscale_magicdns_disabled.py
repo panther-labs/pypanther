@@ -83,7 +83,6 @@ tailscale_magic_dns_disabled_tests: List[PantherRuleTest] = [
 class TailscaleMagicDNSDisabled(PantherRule):
     Description = "A Tailscale User disabled magic dns settings in your organization's tenant."
     DisplayName = "Tailscale Magic DNS Disabled"
-    Enabled = True
     Runbook = "Assess if this was done by the user for a valid business reason. Be vigilant to re-enable this setting as it's in the best security interest for your organization's security posture."
     Reference = "https://tailscale.com/kb/1081/magicdns/"
     Severity = Severity.High

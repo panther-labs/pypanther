@@ -173,7 +173,6 @@ gcp_access_attempts_violating_vpc_service_controls_tests: List[PantherRuleTest] 
 class GCPAccessAttemptsViolatingVPCServiceControls(PantherRule):
     Description = "An access attempt violating VPC service controls (such as Perimeter controls) has been made."
     DisplayName = "GCP Access Attempts Violating VPC Service Controls"
-    Enabled = True
     Reference = "https://cloud.google.com/vpc-service-controls/docs/troubleshooting#debugging"
     Severity = Severity.Medium
     LogTypes = [LogType.GCP_AuditLog]

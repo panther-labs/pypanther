@@ -92,7 +92,6 @@ okta_support_reset_tests: List[PantherRuleTest] = [
 class OktaSupportReset(PantherRule):
     RuleID = "Okta.Support.Reset-prototype"
     DisplayName = "Okta Support Reset Credential"
-    Enabled = True
     LogTypes = [LogType.Okta_SystemLog]
     Tags = [
         "Identity & Access Management",

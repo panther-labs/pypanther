@@ -65,7 +65,6 @@ awsip_set_modified_tests: List[PantherRuleTest] = [
 class AWSIPSetModified(PantherRule):
     Description = "Detects creation and updates of the list of trusted IPs used by GuardDuty and WAF. Potentially to disable security alerts against malicious IPs."
     DisplayName = "AWS Trusted IPSet Modified"
-    Enabled = True
     Reports = {"MITRE ATT&CK": ["TA0005:T1562"]}
     Reference = "https://docs.aws.amazon.com/managedservices/latest/ctref/management-monitoring-guardduty-ip-set-update-review-required.html"
     Severity = Severity.High

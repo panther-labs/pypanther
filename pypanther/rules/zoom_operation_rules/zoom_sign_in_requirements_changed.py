@@ -54,7 +54,6 @@ zoom_sign_in_requirements_changed_tests: List[PantherRuleTest] = [
 class ZoomSignInRequirementsChanged(PantherRule):
     Description = "A Zoom User changed your organization's sign in requirements. "
     DisplayName = "Zoom Sign In Requirements Changed"
-    Enabled = True
     Runbook = "Confirm this user acted with valid business intent and determine whether this activity was authorized."
     Reference = "https://support.zoom.com/hc/en/article?id=zm_kb&sysparm_article=KB0061263"
     Severity = Severity.Medium

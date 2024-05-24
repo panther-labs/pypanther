@@ -48,7 +48,6 @@ zendesk_user_assumption_tests: List[PantherRuleTest] = [
 class ZendeskUserAssumption(PantherRule):
     RuleID = "Zendesk.UserAssumption-prototype"
     DisplayName = "Enabled Zendesk Support to Assume Users"
-    Enabled = True
     LogTypes = [LogType.Zendesk_Audit]
     Tags = ["Zendesk", "Lateral Movement:Use Alternate Authentication Material"]
     Reports = {"MITRE ATT&CK": ["TA0008:T1550"]}

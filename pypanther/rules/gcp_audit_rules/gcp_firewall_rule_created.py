@@ -166,7 +166,6 @@ gcp_firewall_rule_created_tests: List[PantherRuleTest] = [
 
 class GCPFirewallRuleCreated(PantherRule):
     DisplayName = "GCP Firewall Rule Created"
-    Enabled = True
     RuleID = "GCP.Firewall.Rule.Created-prototype"
     Severity = Severity.Low
     LogTypes = [LogType.GCP_AuditLog]

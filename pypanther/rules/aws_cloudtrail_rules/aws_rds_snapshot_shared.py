@@ -123,7 +123,6 @@ awsrds_snapshot_shared_tests: List[PantherRuleTest] = [
 class AWSRDSSnapshotShared(PantherRule):
     RuleID = "AWS.RDS.SnapshotShared-prototype"
     DisplayName = "AWS RDS Snapshot Shared"
-    Enabled = True
     LogTypes = [LogType.AWS_CloudTrail]
     Tags = ["AWS", "Exfiltration", "Transfer Data to Cloud Account"]
     Severity = Severity.High

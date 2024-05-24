@@ -98,7 +98,6 @@ mongo_db_user_created_or_deleted_tests: List[PantherRuleTest] = [
 class MongoDBUserCreatedOrDeleted(PantherRule):
     Description = "User was created or deleted."
     DisplayName = "MongoDB user was created or deleted"
-    Enabled = True
     Severity = Severity.Medium
     Reference = "https://www.mongodb.com/docs/v4.2/tutorial/create-users/"
     LogTypes = [LogType.MongoDB_OrganizationEvent]

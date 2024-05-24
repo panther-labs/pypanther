@@ -74,7 +74,6 @@ slack_audit_logs_private_channel_made_public_tests: List[PantherRuleTest] = [
 class SlackAuditLogsPrivateChannelMadePublic(PantherRule):
     RuleID = "Slack.AuditLogs.PrivateChannelMadePublic-prototype"
     DisplayName = "Slack Private Channel Made Public"
-    Enabled = True
     LogTypes = [LogType.Slack_AuditLogs]
     Tags = [
         "Slack",

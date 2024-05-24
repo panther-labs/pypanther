@@ -38,7 +38,6 @@ osquery_mac_osx_attacks_tests: List[PantherRuleTest] = [
 class OsqueryMacOSXAttacks(PantherRule):
     RuleID = "Osquery.Mac.OSXAttacks-prototype"
     DisplayName = "macOS Malware Detected with osquery"
-    Enabled = True
     LogTypes = [LogType.Osquery_Differential]
     Tags = ["Osquery", "MacOS", "Malware", "Resource Development:Develop Capabilities"]
     Reports = {"MITRE ATT&CK": ["TA0042:T1588"]}

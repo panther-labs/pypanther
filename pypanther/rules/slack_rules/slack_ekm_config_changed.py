@@ -74,7 +74,6 @@ slack_audit_logs_ekm_config_changed_tests: List[PantherRuleTest] = [
 class SlackAuditLogsEKMConfigChanged(PantherRule):
     RuleID = "Slack.AuditLogs.EKMConfigChanged-prototype"
     DisplayName = "Slack EKM Config Changed"
-    Enabled = True
     LogTypes = [LogType.Slack_AuditLogs]
     Tags = ["Slack", "Defense Evasion", "Impair Defenses", "Disable or Modify Cloud Logs"]
     Reports = {"MITRE ATT&CK": ["TA0005:T1562.008"]}

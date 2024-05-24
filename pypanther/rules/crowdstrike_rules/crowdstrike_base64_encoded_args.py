@@ -558,7 +558,6 @@ crowdstrike_base64_encoded_args_tests: List[PantherRuleTest] = [
 class CrowdstrikeBase64EncodedArgs(PantherRule):
     RuleID = "Crowdstrike.Base64EncodedArgs-prototype"
     DisplayName = "Execution of Command Line Tool with Base64 Encoded Arguments"
-    Enabled = True
     LogTypes = [LogType.Crowdstrike_FDREvent]
     Tags = ["Execution", "Obfuscation"]
     Severity = Severity.Medium

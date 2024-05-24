@@ -22,7 +22,6 @@ mongo_db_identity_provider_activity_tests: List[PantherRuleTest] = [
 class MongoDBIdentityProviderActivity(PantherRule):
     Description = "Changes to identity provider settings are privileged activities that should be carefully audited.  Attackers may add or change IDP integrations to gain persistence to environments"
     DisplayName = "MongoDB Identity Provider Activity"
-    Enabled = True
     Severity = Severity.Medium
     Reference = "https://attack.mitre.org/techniques/T1556/007/"
     LogTypes = [LogType.MongoDB_OrganizationEvent]

@@ -44,7 +44,6 @@ tines_story_jobs_clearance_tests: List[PantherRuleTest] = [
 class TinesStoryJobsClearance(PantherRule):
     RuleID = "Tines.Story.Jobs.Clearance-prototype"
     DisplayName = "Tines Story Jobs Clearance"
-    Enabled = True
     LogTypes = [LogType.Tines_Audit]
     Tags = ["Tines"]
     Severity = Severity.Low

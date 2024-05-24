@@ -353,7 +353,6 @@ awsrds_public_restore_tests: List[PantherRuleTest] = [
 class AWSRDSPublicRestore(PantherRule):
     Description = "Detects the recovery of a new public database instance from a snapshot. It may be part of data exfiltration."
     DisplayName = "AWS Public RDS Restore"
-    Enabled = True
     Reports = {"MITRE ATT&CK": ["TA0010:T1020"]}
     Reference = (
         "https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_RestoreFromSnapshot.html"

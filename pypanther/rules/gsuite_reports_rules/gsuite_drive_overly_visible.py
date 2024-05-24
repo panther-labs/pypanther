@@ -77,7 +77,6 @@ g_suite_drive_overly_visible_tests: List[PantherRuleTest] = [
 class GSuiteDriveOverlyVisible(PantherRule):
     RuleID = "GSuite.DriveOverlyVisible-prototype"
     DisplayName = "GSuite Overly Visible Drive Document"
-    Enabled = True
     LogTypes = [LogType.GSuite_Reports]
     Tags = ["GSuite", "Collection:Data from Information Repositories"]
     Reports = {"MITRE ATT&CK": ["TA0009:T1213"]}

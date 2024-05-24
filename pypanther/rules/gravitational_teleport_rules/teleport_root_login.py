@@ -34,7 +34,6 @@ teleport_root_login_tests: List[PantherRuleTest] = [
 class TeleportRootLogin(PantherRule):
     RuleID = "Teleport.RootLogin-prototype"
     DisplayName = "User Logged in as root"
-    Enabled = True
     LogTypes = [LogType.Gravitational_TeleportAudit]
     Tags = ["SSH", "Execution:Command and Scripting Interpreter", "Teleport"]
     Severity = Severity.Medium

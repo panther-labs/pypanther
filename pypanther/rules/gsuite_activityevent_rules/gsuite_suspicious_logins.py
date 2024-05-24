@@ -44,7 +44,6 @@ g_suite_suspicious_logins_tests: List[PantherRuleTest] = [
 class GSuiteSuspiciousLogins(PantherRule):
     RuleID = "GSuite.SuspiciousLogins-prototype"
     DisplayName = "Suspicious GSuite Login"
-    Enabled = True
     LogTypes = [LogType.GSuite_ActivityEvent]
     Tags = ["GSuite"]
     Severity = Severity.Medium

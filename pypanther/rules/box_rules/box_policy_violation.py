@@ -58,7 +58,6 @@ box_content_workflow_policy_violation_tests: List[PantherRuleTest] = [
 class BoxContentWorkflowPolicyViolation(PantherRule):
     RuleID = "Box.Content.Workflow.Policy.Violation-prototype"
     DisplayName = "Box Content Workflow Policy Violation"
-    Enabled = True
     LogTypes = [LogType.Box_Event]
     Tags = ["Box"]
     Severity = Severity.Low

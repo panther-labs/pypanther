@@ -98,7 +98,6 @@ snyk_system_policy_setting_tests: List[PantherRuleTest] = [
 class SnykSystemPolicySetting(PantherRule):
     RuleID = "Snyk.System.PolicySetting-prototype"
     DisplayName = "Snyk System Policy Settings Changed"
-    Enabled = True
     LogTypes = [LogType.Snyk_GroupAudit, LogType.Snyk_OrgAudit]
     Tags = ["Snyk"]
     Severity = Severity.High

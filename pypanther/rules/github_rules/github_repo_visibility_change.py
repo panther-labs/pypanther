@@ -34,7 +34,6 @@ github_repo_visibility_change_tests: List[PantherRuleTest] = [
 class GithubRepoVisibilityChange(PantherRule):
     RuleID = "Github.Repo.VisibilityChange-prototype"
     DisplayName = "GitHub Repository Visibility Change"
-    Enabled = True
     LogTypes = [LogType.GitHub_Audit]
     Tags = ["GitHub", "Exfiltration:Exfiltration Over Web Service"]
     Reports = {"MITRE ATT&CK": ["TA0010:T1567"]}

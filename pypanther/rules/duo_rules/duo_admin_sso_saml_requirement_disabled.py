@@ -60,7 +60,6 @@ class DuoAdminSSOSAMLRequirementDisabled(PantherRule):
         "Detects when SAML Authentication for Administrators is marked as Disabled or Optional."
     )
     DisplayName = "Duo Admin SSO SAML Requirement Disabled"
-    Enabled = True
     Reference = "https://duo.com/docs/sso#saml:~:text=Modify%20Authentication%20Sources"
     Severity = Severity.Medium
     LogTypes = [LogType.Duo_Administrator]

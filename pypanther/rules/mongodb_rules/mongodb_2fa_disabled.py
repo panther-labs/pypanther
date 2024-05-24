@@ -69,7 +69,6 @@ mongo_db2_fa_disabled_tests: List[PantherRuleTest] = [
 class MongoDB2FADisabled(PantherRule):
     Description = "2FA was disabled."
     DisplayName = "MongoDB 2FA Disabled"
-    Enabled = True
     Severity = Severity.Medium
     Reference = "https://www.mongodb.com/docs/atlas/security-multi-factor-authentication/"
     LogTypes = [LogType.MongoDB_OrganizationEvent]

@@ -70,7 +70,6 @@ osquery_mac_osx_attacks_keyboard_events_tests: List[PantherRuleTest] = [
 class OsqueryMacOSXAttacksKeyboardEvents(PantherRule):
     RuleID = "Osquery.Mac.OSXAttacksKeyboardEvents-prototype"
     DisplayName = "MacOS Keyboard Events"
-    Enabled = True
     LogTypes = [LogType.Osquery_Differential]
     Tags = ["Osquery", "MacOS", "Malware", "Collection:Input Capture"]
     Reports = {"MITRE ATT&CK": ["TA0009:T1056"]}

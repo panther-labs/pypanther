@@ -91,7 +91,6 @@ g_suite_workspace_gmail_security_sandbox_disabled_tests: List[PantherRuleTest] =
 class GSuiteWorkspaceGmailSecuritySandboxDisabled(PantherRule):
     RuleID = "GSuite.Workspace.GmailSecuritySandboxDisabled-prototype"
     DisplayName = "GSuite Workspace Gmail Security Sandbox Disabled"
-    Enabled = True
     LogTypes = [LogType.GSuite_ActivityEvent]
     Tags = ["GSuite"]
     Reports = {"MITRE ATT&CK": ["TA0001:T1566"]}

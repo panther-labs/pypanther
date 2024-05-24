@@ -74,7 +74,6 @@ slack_audit_logs_sso_settings_changed_tests: List[PantherRuleTest] = [
 class SlackAuditLogsSSOSettingsChanged(PantherRule):
     RuleID = "Slack.AuditLogs.SSOSettingsChanged-prototype"
     DisplayName = "Slack SSO Settings Changed"
-    Enabled = True
     LogTypes = [LogType.Slack_AuditLogs]
     Tags = ["Slack", "Credential Access", "Persistence", "Modify Authentication Process"]
     Reports = {"MITRE ATT&CK": ["TA0003:T1556", "TA0006:T1556"]}

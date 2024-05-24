@@ -107,7 +107,6 @@ google_workspace_apps_marketplace_new_domain_application_tests: List[PantherRule
 class GoogleWorkspaceAppsMarketplaceNewDomainApplication(PantherRule):
     Description = "A Google Workspace User configured a new domain application from the Google Workspace Apps Marketplace."
     DisplayName = "Google Workspace Apps Marketplace New Domain Application"
-    Enabled = True
     Runbook = "Confirm this was the intended behavior."
     Reference = "https://developers.google.com/workspace/marketplace/overview"
     Severity = Severity.Medium

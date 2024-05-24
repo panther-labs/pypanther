@@ -350,7 +350,6 @@ okta_potentially_stolen_session_tests: List[PantherRuleTest] = [
 class OktaPotentiallyStolenSession(PantherRule):
     RuleID = "Okta.PotentiallyStolenSession-prototype"
     DisplayName = "Okta Potentially Stolen Session"
-    Enabled = True
     LogTypes = [LogType.Okta_SystemLog]
     Tags = ["Identity & Access Management", "Okta"]
     Reports = {"MITRE ATT&CK": ["TA0006:T1539"]}

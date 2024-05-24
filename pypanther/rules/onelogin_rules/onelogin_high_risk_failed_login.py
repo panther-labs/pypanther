@@ -33,7 +33,6 @@ one_login_high_risk_failed_login_tests: List[PantherRuleTest] = [
 class OneLoginHighRiskFailedLogin(PantherRule):
     RuleID = "OneLogin.HighRiskFailedLogin-prototype"
     DisplayName = "OneLogin Failed High Risk Login"
-    Enabled = True
     LogTypes = [LogType.OneLogin_Events]
     Tags = ["OneLogin"]
     Severity = Severity.Low

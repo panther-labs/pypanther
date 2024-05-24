@@ -417,7 +417,6 @@ awsec2_monitoring_tests: List[PantherRuleTest] = [
 class AWSEC2Monitoring(PantherRule):
     Description = "Checks CloudTrail for occurrences of EC2 Image Actions."
     DisplayName = "AWS EC2 Image Monitoring"
-    Enabled = True
     Reports = {"MITRE ATT&CK": ["TA0002:T1204"]}
     Runbook = "Verify that the action was not taken by a malicious actor."
     Reference = "https://docs.aws.amazon.com/service-authorization/latest/reference/list_amazonec2imagebuilder.html#amazonec2imagebuilder-actions-as-permissions"

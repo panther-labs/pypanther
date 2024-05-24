@@ -152,7 +152,6 @@ slack_audit_logs_user_privilege_escalation_tests: List[PantherRuleTest] = [
 class SlackAuditLogsUserPrivilegeEscalation(PantherRule):
     RuleID = "Slack.AuditLogs.UserPrivilegeEscalation-prototype"
     DisplayName = "Slack User Privilege Escalation"
-    Enabled = True
     LogTypes = [LogType.Slack_AuditLogs]
     Tags = ["Slack", "Privilege Escalation", "Account Manipulation", "Additional Cloud Roles"]
     Reports = {"MITRE ATT&CK": ["TA0004:T1098.003"]}

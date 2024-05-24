@@ -77,7 +77,6 @@ osquery_outdated_agent_tests: List[PantherRuleTest] = [
 class OsqueryOutdatedAgent(PantherRule):
     RuleID = "Osquery.OutdatedAgent-prototype"
     DisplayName = "Osquery Agent Outdated"
-    Enabled = True
     LogTypes = [LogType.Osquery_Differential]
     Tags = ["Osquery", "Compliance"]
     Severity = Severity.Info

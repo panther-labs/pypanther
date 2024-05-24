@@ -322,7 +322,6 @@ notion_account_changed_after_login_tests: List[PantherRuleTest] = [
 class NotionAccountChangedAfterLogin(PantherRule):
     RuleID = "Notion.AccountChangedAfterLogin-prototype"
     DisplayName = "Notion Account Changed Shortly After Login"
-    Enabled = True
     LogTypes = [LogType.Notion_AuditLogs]
     Tags = ["Notion", "Identity & Access Management", "Persistence"]
     Severity = Severity.Medium

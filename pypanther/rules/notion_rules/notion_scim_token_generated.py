@@ -53,7 +53,6 @@ notion_workspace_scim_token_generated_tests: List[PantherRuleTest] = [
 class NotionWorkspaceSCIMTokenGenerated(PantherRule):
     RuleID = "Notion.Workspace.SCIM.Token.Generated-prototype"
     DisplayName = "Notion SCIM Token Generated"
-    Enabled = True
     LogTypes = [LogType.Notion_AuditLogs]
     Tags = ["Notion", "Application Security", "Supply Chain Attack"]
     Description = "A Notion User generated a SCIM token."

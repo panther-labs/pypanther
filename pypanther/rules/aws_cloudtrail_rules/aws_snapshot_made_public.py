@@ -146,7 +146,6 @@ aws_cloud_trail_snapshot_made_public_tests: List[PantherRuleTest] = [
 class AWSCloudTrailSnapshotMadePublic(PantherRule):
     RuleID = "AWS.CloudTrail.SnapshotMadePublic-prototype"
     DisplayName = "AWS Snapshot Made Public"
-    Enabled = True
     LogTypes = [LogType.AWS_CloudTrail]
     Tags = ["AWS", "Exfiltration:Transfer Data to Cloud Account"]
     Reports = {"MITRE ATT&CK": ["TA0010:T1537"]}

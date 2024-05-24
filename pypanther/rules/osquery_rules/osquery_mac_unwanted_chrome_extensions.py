@@ -78,7 +78,6 @@ osquery_mac_unwanted_chrome_extensions_tests: List[PantherRuleTest] = [
 class OsqueryMacUnwantedChromeExtensions(PantherRule):
     RuleID = "Osquery.Mac.UnwantedChromeExtensions-prototype"
     DisplayName = "OSQuery Detected Unwanted Chrome Extensions"
-    Enabled = True
     LogTypes = [LogType.Osquery_Differential]
     Tags = ["Osquery", "MacOS", "Malware", "Persistence:Browser Extensions"]
     Reports = {"MITRE ATT&CK": ["TA0003:T1176"]}

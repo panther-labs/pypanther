@@ -158,7 +158,6 @@ okta_user_account_locked_tests: List[PantherRuleTest] = [
 class OktaUserAccountLocked(PantherRule):
     Description = "An Okta user has locked their account."
     DisplayName = "Okta User Account Locked"
-    Enabled = True
     Reference = "https://support.okta.com/help/s/article/How-to-Configure-the-Number-of-Failed-Login-Attempts-Before-User-Lockout?language=en_US"
     Severity = Severity.Low
     LogTypes = [LogType.Okta_SystemLog]

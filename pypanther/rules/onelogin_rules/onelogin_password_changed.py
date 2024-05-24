@@ -43,7 +43,6 @@ one_login_password_changed_tests: List[PantherRuleTest] = [
 class OneLoginPasswordChanged(PantherRule):
     RuleID = "OneLogin.PasswordChanged-prototype"
     DisplayName = "OneLogin User Password Changed"
-    Enabled = True
     LogTypes = [LogType.OneLogin_Events]
     Tags = ["OneLogin", "Identity & Access Management"]
     Severity = Severity.Info

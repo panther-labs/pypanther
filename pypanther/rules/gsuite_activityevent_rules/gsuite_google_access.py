@@ -21,7 +21,6 @@ g_suite_google_access_tests: List[PantherRuleTest] = [
 class GSuiteGoogleAccess(PantherRule):
     RuleID = "GSuite.GoogleAccess-prototype"
     DisplayName = "Google Accessed a GSuite Resource"
-    Enabled = True
     LogTypes = [LogType.GSuite_ActivityEvent]
     Tags = ["GSuite"]
     Severity = Severity.Low

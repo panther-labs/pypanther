@@ -69,7 +69,6 @@ mongo_db_user_roles_changed_tests: List[PantherRuleTest] = [
 class MongoDBUserRolesChanged(PantherRule):
     Description = "User roles changed."
     DisplayName = "MongoDB user roles changed"
-    Enabled = True
     Severity = Severity.Low
     Reference = "https://www.mongodb.com/docs/v4.2/tutorial/create-users/"
     LogTypes = [LogType.MongoDB_OrganizationEvent]

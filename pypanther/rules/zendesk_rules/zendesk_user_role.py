@@ -50,7 +50,6 @@ zendesk_user_role_changed_tests: List[PantherRuleTest] = [
 class ZendeskUserRoleChanged(PantherRule):
     RuleID = "Zendesk.UserRoleChanged-prototype"
     DisplayName = "Zendesk User Role Changed"
-    Enabled = True
     LogTypes = [LogType.Zendesk_Audit]
     Severity = Severity.Info
     Description = "A user's Zendesk role was changed"

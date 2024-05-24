@@ -283,7 +283,6 @@ azure_audit_legacy_auth_tests: List[PantherRuleTest] = [
 class AzureAuditLegacyAuth(PantherRule):
     RuleID = "Azure.Audit.LegacyAuth-prototype"
     DisplayName = "Azure SignIn via Legacy Authentication Protocol"
-    Enabled = True
     DedupPeriodMinutes = 10
     LogTypes = [LogType.Azure_Audit]
     Severity = Severity.Medium

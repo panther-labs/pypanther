@@ -289,7 +289,6 @@ gcpiam_corporate_email_tests: List[PantherRuleTest] = [
 class GCPIAMCorporateEmail(PantherRule):
     RuleID = "GCP.IAM.CorporateEmail-prototype"
     DisplayName = "GCP Corporate Email Not Used"
-    Enabled = True
     DedupPeriodMinutes = 720
     LogTypes = [LogType.GCP_AuditLog]
     Tags = ["GCP", "Identity & Access Management", "Persistence:Create Account"]

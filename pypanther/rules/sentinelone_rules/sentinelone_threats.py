@@ -112,7 +112,6 @@ sentinel_one_threats_tests: List[PantherRuleTest] = [
 class SentinelOneThreats(PantherRule):
     Description = "Passthrough SentinelOne Threats "
     DisplayName = "SentinelOne Threats"
-    Enabled = True
     Reference = (
         "https://www.sentinelone.com/blog/feature-spotlight-introducing-the-new-threat-center/"
     )

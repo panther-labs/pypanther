@@ -67,7 +67,6 @@ snyk_ou_change_tests: List[PantherRuleTest] = [
 class SnykOUChange(PantherRule):
     RuleID = "Snyk.OU.Change-prototype"
     DisplayName = "Snyk Org or Group Settings Change"
-    Enabled = True
     LogTypes = [LogType.Snyk_GroupAudit, LogType.Snyk_OrgAudit]
     Tags = ["Snyk"]
     Severity = Severity.High

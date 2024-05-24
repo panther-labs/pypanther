@@ -69,7 +69,6 @@ asana_workspace_new_admin_tests: List[PantherRuleTest] = [
 class AsanaWorkspaceNewAdmin(PantherRule):
     Description = "Admin role was granted to the user who previously did not have admin permissions"
     DisplayName = "Asana Workspace New Admin"
-    Enabled = True
     Reference = "https://help.asana.com/hc/en-us/articles/14141552580635-Admin-and-super-admin-roles-in-Asana"
     Severity = Severity.High
     LogTypes = [LogType.Asana_Audit]

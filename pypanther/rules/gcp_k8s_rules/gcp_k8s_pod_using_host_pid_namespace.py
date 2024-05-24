@@ -46,7 +46,6 @@ gcpk8s_pod_using_host_pid_namespace_tests: List[PantherRuleTest] = [
 class GCPK8sPodUsingHostPIDNamespace(PantherRule):
     RuleID = "GCP.K8s.Pod.Using.Host.PID.Namespace-prototype"
     DisplayName = "GCP K8s Pod Using Host PID Namespace"
-    Enabled = True
     LogTypes = [LogType.GCP_AuditLog]
     Tags = ["GCP", "Optional"]
     Severity = Severity.Medium

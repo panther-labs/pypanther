@@ -100,7 +100,6 @@ slack_audit_logs_information_barrier_modified_tests: List[PantherRuleTest] = [
 class SlackAuditLogsInformationBarrierModified(PantherRule):
     RuleID = "Slack.AuditLogs.InformationBarrierModified-prototype"
     DisplayName = "Slack Information Barrier Modified"
-    Enabled = True
     LogTypes = [LogType.Slack_AuditLogs]
     Tags = ["Slack", "Defense Evasion", "Impair Defenses", "Disable or Modify Tools"]
     Reports = {"MITRE ATT&CK": ["TA0005:T1562.001"]}

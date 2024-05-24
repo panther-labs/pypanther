@@ -55,7 +55,6 @@ class CarbonBlackAuditAPIKeyCreatedRetrieved(PantherRule):
     LogTypes = [LogType.CarbonBlack_Audit]
     Description = "Detects when a user creates a new API key or retrieves an existing key."
     DisplayName = "Carbon Black API Key Created or Retrieved"
-    Enabled = True
     Severity = Severity.Medium
     Tags = ["Persistence", "Create Account"]
     Reports = {"MITRE ATT&CK": ["TA0003:T1136"]}

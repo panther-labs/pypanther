@@ -723,7 +723,6 @@ awsec2_vulnerable_xz_image_launched_tests: List[PantherRuleTest] = [
 class AWSEC2VulnerableXZImageLaunched(PantherRule):
     Description = "Detecting EC2 instances launched with AMIs containing potentially vulnerable versions of XZ (CVE-2024-3094)\n"
     DisplayName = "AWS EC2 Vulnerable XZ Image Launched"
-    Enabled = True
     Reference = "https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2024-3094"
     Severity = Severity.Critical
     Tags = ["AWS", "Linux", "Emerging Threats", "Supply Chain Compromise"]

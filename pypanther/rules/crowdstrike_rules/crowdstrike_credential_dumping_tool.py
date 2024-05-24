@@ -175,7 +175,6 @@ crowdstrike_credential_dumping_tool_tests: List[PantherRuleTest] = [
 class CrowdstrikeCredentialDumpingTool(PantherRule):
     Description = "Detects usage of tools commonly used for credential dumping."
     DisplayName = "Crowdstrike Credential Dumping Tool"
-    Enabled = True
     Reference = "https://www.crowdstrike.com/blog/adversary-credential-theft/"
     Severity = Severity.Critical
     LogTypes = [LogType.Crowdstrike_FDREvent]

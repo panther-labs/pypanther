@@ -190,7 +190,6 @@ panther_user_modified_tests: List[PantherRuleTest] = [
 class PantherUserModified(PantherRule):
     RuleID = "Panther.User.Modified-prototype"
     DisplayName = "A User's Panther Account was Modified"
-    Enabled = True
     LogTypes = [LogType.Panther_Audit]
     Severity = Severity.High
     Tags = ["DataModel", "Persistence:Account Manipulation"]

@@ -25,7 +25,6 @@ duo_user_action_fraudulent_tests: List[PantherRuleTest] = [
 class DUOUserActionFraudulent(PantherRule):
     RuleID = "DUO.User.Action.Fraudulent-prototype"
     DisplayName = "Duo User Action Reported as Fraudulent"
-    Enabled = True
     DedupPeriodMinutes = 15
     LogTypes = [LogType.Duo_Authentication]
     Tags = ["Duo"]

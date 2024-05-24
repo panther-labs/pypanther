@@ -91,7 +91,6 @@ panther_detection_deleted_tests: List[PantherRuleTest] = [
 class PantherDetectionDeleted(PantherRule):
     RuleID = "Panther.Detection.Deleted-prototype"
     DisplayName = "Detection content has been deleted from Panther"
-    Enabled = True
     LogTypes = [LogType.Panther_Audit]
     Severity = Severity.Info
     Tags = ["DataModel", "Defense Evasion:Impair Defenses"]

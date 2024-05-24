@@ -33,7 +33,6 @@ g_suite_device_suspicious_activity_tests: List[PantherRuleTest] = [
 class GSuiteDeviceSuspiciousActivity(PantherRule):
     RuleID = "GSuite.DeviceSuspiciousActivity-prototype"
     DisplayName = "GSuite Device Suspicious Activity"
-    Enabled = True
     LogTypes = [LogType.GSuite_ActivityEvent]
     Tags = ["GSuite"]
     Severity = Severity.Low

@@ -34,7 +34,6 @@ github_repo_created_tests: List[PantherRuleTest] = [
 class GithubRepoCreated(PantherRule):
     RuleID = "Github.Repo.Created-prototype"
     DisplayName = "GitHub Repository Created"
-    Enabled = True
     LogTypes = [LogType.GitHub_Audit]
     Tags = ["GitHub"]
     Reference = "https://docs.github.com/en/get-started/quickstart/create-a-repo"

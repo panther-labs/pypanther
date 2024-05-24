@@ -98,7 +98,6 @@ aws_console_root_login_tests: List[PantherRuleTest] = [
 class AWSConsoleRootLogin(PantherRule):
     RuleID = "AWS.Console.RootLogin-prototype"
     DisplayName = "Root Console Login"
-    Enabled = True
     DedupPeriodMinutes = 15
     LogTypes = [LogType.AWS_CloudTrail]
     Tags = [

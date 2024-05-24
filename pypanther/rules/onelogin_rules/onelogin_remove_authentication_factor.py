@@ -34,7 +34,6 @@ one_login_auth_factor_removed_tests: List[PantherRuleTest] = [
 class OneLoginAuthFactorRemoved(PantherRule):
     RuleID = "OneLogin.AuthFactorRemoved-prototype"
     DisplayName = "OneLogin Authentication Factor Removed"
-    Enabled = True
     LogTypes = [LogType.OneLogin_Events]
     Tags = [
         "OneLogin",

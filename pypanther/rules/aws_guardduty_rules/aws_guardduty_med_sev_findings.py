@@ -93,7 +93,6 @@ aws_guard_duty_medium_severity_finding_tests: List[PantherRuleTest] = [
 class AWSGuardDutyMediumSeverityFinding(PantherRule):
     RuleID = "AWS.GuardDuty.MediumSeverityFinding-prototype"
     DisplayName = "AWS GuardDuty Medium Severity Finding"
-    Enabled = True
     LogTypes = [LogType.AWS_GuardDuty]
     Tags = ["AWS"]
     Severity = Severity.Medium

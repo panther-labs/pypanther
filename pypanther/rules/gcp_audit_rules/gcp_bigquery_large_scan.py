@@ -179,7 +179,6 @@ gcp_big_query_large_scan_tests: List[PantherRuleTest] = [
 class GCPBigQueryLargeScan(PantherRule):
     Description = "Detect any BigQuery query that is doing a very large scan (> 1 GB)."
     DisplayName = "GCP BigQuery Large Scan"
-    Enabled = True
     Reference = "https://cloud.google.com/bigquery/docs/running-queries"
     Severity = Severity.Info
     LogTypes = [LogType.GCP_AuditLog]

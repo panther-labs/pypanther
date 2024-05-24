@@ -90,7 +90,6 @@ aws_cloud_trail_root_access_key_created_tests: List[PantherRuleTest] = [
 class AWSCloudTrailRootAccessKeyCreated(PantherRule):
     RuleID = "AWS.CloudTrail.RootAccessKeyCreated-prototype"
     DisplayName = "Root Account Access Key Created"
-    Enabled = True
     LogTypes = [LogType.AWS_CloudTrail]
     Tags = ["AWS", "Identity and Access Management", "Persistence:Account Manipulation"]
     Reports = {"MITRE ATT&CK": ["TA0003:T1098"]}

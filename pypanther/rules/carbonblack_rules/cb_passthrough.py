@@ -185,7 +185,6 @@ class CarbonBlackAlertV2Passthrough(PantherRule):
     DisplayName = "Carbon Black Passthrough Rule"
     Runbook = "Review the Carbon Black alert details to determine what malicious behavior was detected, and whether or not it was blocked.  Use the Reference link to view the alert in the Carbon Black console and take remediating actions if necessary."
     Reference = "https://docs.vmware.com/en/VMware-Carbon-Black-Cloud/services/carbon-black-cloud-user-guide/GUID-0B68199D-6411-45D1-AE0D-2AB9B7A28513.html"
-    Enabled = True
     LogTypes = [LogType.CarbonBlack_AlertV2]
     Severity = Severity.Medium
     DedupPeriodMinutes = 30

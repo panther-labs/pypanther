@@ -44,7 +44,6 @@ tines_story_items_destruction_tests: List[PantherRuleTest] = [
 class TinesStoryItemsDestruction(PantherRule):
     RuleID = "Tines.Story.Items.Destruction-prototype"
     DisplayName = "Tines Story Items Destruction"
-    Enabled = True
     LogTypes = [LogType.Tines_Audit]
     Tags = ["Tines"]
     Severity = Severity.Info

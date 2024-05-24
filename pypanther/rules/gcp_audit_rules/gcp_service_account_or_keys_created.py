@@ -207,7 +207,6 @@ gcp_service_accountor_keys_created_tests: List[PantherRuleTest] = [
 class GCPServiceAccountorKeysCreated(PantherRule):
     Description = "Detects when a service account or key is created manually by a user instead of an automated workflow."
     DisplayName = "GCP Service Account or Keys Created "
-    Enabled = True
     Reference = "https://cloud.google.com/iam/docs/keys-create-delete"
     Severity = Severity.Low
     LogTypes = [LogType.GCP_AuditLog]

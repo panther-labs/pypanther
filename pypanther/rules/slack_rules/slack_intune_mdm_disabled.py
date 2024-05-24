@@ -74,7 +74,6 @@ slack_audit_logs_intune_mdm_disabled_tests: List[PantherRuleTest] = [
 class SlackAuditLogsIntuneMDMDisabled(PantherRule):
     RuleID = "Slack.AuditLogs.IntuneMDMDisabled-prototype"
     DisplayName = "Slack Intune MDM Disabled"
-    Enabled = True
     LogTypes = [LogType.Slack_AuditLogs]
     Tags = ["Slack", "Defense Evasion", "Impair Defenses", "Disable or Modify Tools"]
     Reports = {"MITRE ATT&CK": ["TA0005:T1562.001"]}

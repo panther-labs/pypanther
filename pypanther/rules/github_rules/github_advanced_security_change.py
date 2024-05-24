@@ -155,7 +155,6 @@ git_hub_advanced_security_change_tests: List[PantherRuleTest] = [
 class GitHubAdvancedSecurityChange(PantherRule):
     RuleID = "GitHub.Advanced.Security.Change-prototype"
     DisplayName = "GitHub Security Change, includes GitHub Advanced Security"
-    Enabled = True
     LogTypes = [LogType.GitHub_Audit]
     Tags = ["GitHub"]
     Reports = {"MITRE ATT&CK": ["TA0005:T1562"]}

@@ -163,7 +163,6 @@ panther_sensitive_role_tests: List[PantherRuleTest] = [
 class PantherSensitiveRole(PantherRule):
     RuleID = "Panther.Sensitive.Role-prototype"
     DisplayName = "A User Role with Sensitive Permissions has been Created"
-    Enabled = True
     LogTypes = [LogType.Panther_Audit]
     Severity = Severity.High
     Tags = ["DataModel", "Persistence:Account Manipulation"]

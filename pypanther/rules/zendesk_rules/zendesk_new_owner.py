@@ -50,7 +50,6 @@ zendesk_account_owner_changed_tests: List[PantherRuleTest] = [
 class ZendeskAccountOwnerChanged(PantherRule):
     RuleID = "Zendesk.AccountOwnerChanged-prototype"
     DisplayName = "Zendesk Account Owner Changed"
-    Enabled = True
     LogTypes = [LogType.Zendesk_Audit]
     Severity = Severity.High
     Tags = ["Zendesk", "Privilege Escalation:Valid Accounts"]

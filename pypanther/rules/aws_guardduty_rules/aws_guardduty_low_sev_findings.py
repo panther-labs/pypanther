@@ -93,7 +93,6 @@ aws_guard_duty_low_severity_finding_tests: List[PantherRuleTest] = [
 class AWSGuardDutyLowSeverityFinding(PantherRule):
     RuleID = "AWS.GuardDuty.LowSeverityFinding-prototype"
     DisplayName = "AWS GuardDuty Low Severity Finding"
-    Enabled = True
     LogTypes = [LogType.AWS_GuardDuty]
     Tags = ["AWS"]
     Severity = Severity.Low

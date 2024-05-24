@@ -68,7 +68,6 @@ zendesk_user_suspension_tests: List[PantherRuleTest] = [
 class ZendeskUserSuspension(PantherRule):
     RuleID = "Zendesk.UserSuspension-prototype"
     DisplayName = "Zendesk User Suspension Status Changed"
-    Enabled = True
     LogTypes = [LogType.Zendesk_Audit]
     Tags = ["Zendesk", "Impact:Account Access Removal"]
     Reports = {"MITRE ATT&CK": ["TA0040:T1531"]}

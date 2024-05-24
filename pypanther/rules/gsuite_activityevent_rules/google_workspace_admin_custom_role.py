@@ -78,7 +78,6 @@ google_workspace_admin_custom_role_tests: List[PantherRuleTest] = [
 class GoogleWorkspaceAdminCustomRole(PantherRule):
     Description = "A Google Workspace administrator created a new custom administrator role."
     DisplayName = "Google Workspace Admin Custom Role"
-    Enabled = True
     Runbook = "Please review this activity with the administrator and ensure this behavior was authorized."
     Reference = "https://support.google.com/a/answer/2406043?hl=en#:~:text=under%20the%20limit.-,Create%20a%20custom%20role,-Before%20you%20begin"
     Severity = Severity.Medium

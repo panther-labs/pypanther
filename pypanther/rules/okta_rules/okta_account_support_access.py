@@ -66,7 +66,6 @@ okta_support_access_tests: List[PantherRuleTest] = [
 class OktaSupportAccess(PantherRule):
     RuleID = "Okta.Support.Access-prototype"
     DisplayName = "Okta Support Access Granted"
-    Enabled = True
     LogTypes = [LogType.Okta_SystemLog]
     Tags = [
         "Identity & Access Management",

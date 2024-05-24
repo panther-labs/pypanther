@@ -187,7 +187,6 @@ dropbox_external_share_tests: List[PantherRuleTest] = [
 class DropboxExternalShare(PantherRule):
     Description = "Dropbox item shared externally"
     DisplayName = "Dropbox External Share"
-    Enabled = True
     Reference = "https://help.dropbox.com/share/share-outside-dropbox"
     Severity = Severity.Medium
     LogTypes = [LogType.Dropbox_TeamEvent]

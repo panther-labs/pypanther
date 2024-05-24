@@ -175,7 +175,6 @@ crowdstrike_systemlog_tampering_tests: List[PantherRuleTest] = [
 class CrowdstrikeSystemlogTampering(PantherRule):
     Description = "Detects when a user attempts to clear system logs. "
     DisplayName = "Crowdstrike Systemlog Tampering"
-    Enabled = True
     Reference = "https://attack.mitre.org/techniques/T1070/001/"
     Severity = Severity.High
     LogTypes = [LogType.Crowdstrike_FDREvent]

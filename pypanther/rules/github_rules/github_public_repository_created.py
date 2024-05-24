@@ -41,7 +41,6 @@ github_public_repository_created_tests: List[PantherRuleTest] = [
 class GithubPublicRepositoryCreated(PantherRule):
     Description = "A public Github repository was created."
     DisplayName = "Github Public Repository Created"
-    Enabled = True
     Runbook = (
         "Confirm this github repository was intended to be created as 'public' versus 'private'."
     )

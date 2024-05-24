@@ -42,7 +42,6 @@ box_untrusted_device_tests: List[PantherRuleTest] = [
 class BoxUntrustedDevice(PantherRule):
     RuleID = "Box.Untrusted.Device-prototype"
     DisplayName = "Box Untrusted Device Login"
-    Enabled = True
     LogTypes = [LogType.Box_Event]
     Tags = ["Box", "Initial Access:Valid Accounts"]
     Reports = {"MITRE ATT&CK": ["TA0001:T1078"]}

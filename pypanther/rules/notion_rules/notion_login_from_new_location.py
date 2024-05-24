@@ -279,7 +279,6 @@ notion_login_from_new_location_tests: List[PantherRuleTest] = [
 class NotionLoginFromNewLocation(PantherRule):
     RuleID = "Notion.LoginFromNewLocation-prototype"
     DisplayName = "Notion Login from New Location"
-    Enabled = True
     LogTypes = [LogType.Notion_AuditLogs]
     Tags = ["Notion", "Identity & Access Management", "Login & Access Patterns"]
     Severity = Severity.Medium

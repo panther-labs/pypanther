@@ -37,7 +37,6 @@ duo_admin_create_admin_tests: List[PantherRuleTest] = [
 class DuoAdminCreateAdmin(PantherRule):
     Description = "A new Duo Administrator was created. "
     DisplayName = "Duo Admin Create Admin"
-    Enabled = True
     Reference = "https://duo.com/docs/administration-admins#add-an-administrator"
     Severity = Severity.High
     LogTypes = [LogType.Duo_Administrator]

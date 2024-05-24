@@ -291,7 +291,6 @@ awsrds_master_password_updated_tests: List[PantherRuleTest] = [
 class AWSRDSMasterPasswordUpdated(PantherRule):
     Description = "A sensitive database operation that should be performed carefully or rarely"
     DisplayName = "AWS RDS Master Password Updated"
-    Enabled = True
     Reference = (
         "https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Overview.DBInstance.Modifying.html"
     )

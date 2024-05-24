@@ -53,7 +53,6 @@ class GCPPrivilegeEscalationByDeploymentsCreate(PantherRule):
     RuleID = "GCP.Privilege.Escalation.By.Deployments.Create-prototype"
     DisplayName = "GCP.Privilege.Escalation.By.Deployments.Create"
     Description = "Detects privilege escalation in GCP by taking over the deploymentsmanager.deployments.create permission"
-    Enabled = True
     LogTypes = [LogType.GCP_AuditLog]
     Severity = Severity.High
     Reference = (

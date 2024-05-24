@@ -106,7 +106,6 @@ gcpia_mservice_accountssign_jwt_privilege_escalation_tests: List[PantherRuleTest
 class GCPIAMserviceAccountssignJwtPrivilegeEscalation(PantherRule):
     RuleID = "GCP.IAM.serviceAccounts.signJwt.Privilege.Escalation-prototype"
     DisplayName = "GCP IAM serviceAccounts.signJwt Privilege Escalation"
-    Enabled = True
     LogTypes = [LogType.GCP_AuditLog]
     Reports = {"MITRE ATT&CK": ["TA0004:T1548"]}
     Severity = Severity.High

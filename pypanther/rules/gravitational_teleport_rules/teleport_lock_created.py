@@ -27,7 +27,6 @@ teleport_lock_created_tests: List[PantherRuleTest] = [
 class TeleportLockCreated(PantherRule):
     RuleID = "Teleport.LockCreated-prototype"
     DisplayName = "A Teleport Lock was created"
-    Enabled = True
     LogTypes = [LogType.Gravitational_TeleportAudit]
     Tags = ["Teleport"]
     Severity = Severity.Info

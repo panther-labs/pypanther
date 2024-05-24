@@ -41,7 +41,6 @@ g_suite_leaked_password_tests: List[PantherRuleTest] = [
 class GSuiteLeakedPassword(PantherRule):
     RuleID = "GSuite.LeakedPassword-prototype"
     DisplayName = "GSuite User Password Leaked"
-    Enabled = True
     LogTypes = [LogType.GSuite_ActivityEvent]
     Tags = ["GSuite", "Credential Access:Unsecured Credentials"]
     Reports = {"MITRE ATT&CK": ["TA0006:T1552"]}

@@ -86,7 +86,6 @@ atlassian_user_logged_in_as_user_tests: List[PantherRuleTest] = [
 
 class AtlassianUserLoggedInAsUser(PantherRule):
     DisplayName = "Atlassian admin impersonated another user"
-    Enabled = True
     RuleID = "Atlassian.User.LoggedInAsUser-prototype"
     Severity = Severity.High
     LogTypes = [LogType.Atlassian_Audit]

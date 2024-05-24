@@ -60,7 +60,6 @@ tines_enqueued_retrying_job_destruction_tests: List[PantherRuleTest] = [
 class TinesEnqueuedRetryingJobDestruction(PantherRule):
     RuleID = "Tines.Enqueued.Retrying.Job.Destruction-prototype"
     DisplayName = "Tines Enqueued/Retrying Job Deletion"
-    Enabled = True
     LogTypes = [LogType.Tines_Audit]
     Tags = ["Tines"]
     Severity = Severity.Low

@@ -72,7 +72,6 @@ mongo_db_atlas_api_key_created_tests: List[PantherRuleTest] = [
 class MongoDBAtlasApiKeyCreated(PantherRule):
     Description = "A MongoDB Atlas api key's access list was updated"
     DisplayName = "MongoDB Atlas API Key Created"
-    Enabled = True
     Severity = Severity.Medium
     Reference = (
         "https://www.mongodb.com/docs/atlas/configure-api-access/#std-label-about-org-api-keys"

@@ -107,7 +107,6 @@ gcp_access_attempts_violating_iap_access_controls_tests: List[PantherRuleTest] =
 class GCPAccessAttemptsViolatingIAPAccessControls(PantherRule):
     Description = "GCP Access Attempts Violating IAP Access Controls"
     DisplayName = "GCP Access Attempts Violating IAP Access Controls"
-    Enabled = True
     Reference = "https://cloud.google.com/iap/docs/concepts-overview"
     Severity = Severity.Medium
     LogTypes = [LogType.GCP_HTTPLoadBalancer]

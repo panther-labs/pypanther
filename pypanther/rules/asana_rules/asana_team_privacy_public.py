@@ -64,7 +64,6 @@ asana_team_privacy_public_tests: List[PantherRuleTest] = [
 class AsanaTeamPrivacyPublic(PantherRule):
     Description = "An Asana team's privacy setting was changed to public to the organization (not public to internet)"
     DisplayName = "Asana Team Privacy Public"
-    Enabled = True
     Reference = "https://help.asana.com/hc/en-us/articles/14211433439387-Team-permissions"
     Severity = Severity.Low
     LogTypes = [LogType.Asana_Audit]

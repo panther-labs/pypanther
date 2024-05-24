@@ -94,7 +94,6 @@ gcpiam_custom_role_changes_tests: List[PantherRuleTest] = [
 class GCPIAMCustomRoleChanges(PantherRule):
     RuleID = "GCP.IAM.CustomRoleChanges-prototype"
     DisplayName = "GCP IAM Role Has Changed"
-    Enabled = True
     DedupPeriodMinutes = 1440
     LogTypes = [LogType.GCP_AuditLog]
     Tags = ["GCP", "Identity & Access Management", "Privilege Escalation:Valid Accounts"]

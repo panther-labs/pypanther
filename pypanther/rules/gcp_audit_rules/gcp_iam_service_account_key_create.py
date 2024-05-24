@@ -53,7 +53,6 @@ class GCPiamserviceAccountKeyscreate(PantherRule):
     RuleID = "GCP.iam.serviceAccountKeys.create-prototype"
     DisplayName = "GCP.Iam.ServiceAccountKeys.Create"
     Description = "If your user is assigned a custom IAM role, then iam.roles.update will allow you to update the “includedPermissons” on that role. Because it is assigned to you, you will gain the additional privileges, which could be anything you desire."
-    Enabled = True
     LogTypes = [LogType.GCP_AuditLog]
     Severity = Severity.High
     Reference = (

@@ -65,7 +65,6 @@ snyk_project_settings_tests: List[PantherRuleTest] = [
 class SnykProjectSettings(PantherRule):
     RuleID = "Snyk.Project.Settings-prototype"
     DisplayName = "Snyk Project Settings"
-    Enabled = True
     LogTypes = [LogType.Snyk_GroupAudit, LogType.Snyk_OrgAudit]
     Tags = ["Snyk"]
     Reference = "https://docs.snyk.io/snyk-admin/introduction-to-snyk-projects/view-and-edit-project-settings"

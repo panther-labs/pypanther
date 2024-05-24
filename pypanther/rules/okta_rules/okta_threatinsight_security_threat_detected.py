@@ -185,7 +185,6 @@ class OktaThreatInsightSecurityThreatDetected(PantherRule):
     Description = "Okta ThreatInsight identified request from potentially malicious IP address"
     Reference = "https://help.okta.com/en-us/Content/Topics/Security/threat-insight/configure-threatinsight-system-log.htm"
     DisplayName = "Okta ThreatInsight Security Threat Detected"
-    Enabled = True
     Severity = Severity.High
     LogTypes = [LogType.Okta_SystemLog]
     RuleID = "Okta.ThreatInsight.Security.Threat.Detected-prototype"

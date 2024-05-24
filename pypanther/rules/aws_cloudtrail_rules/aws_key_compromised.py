@@ -69,7 +69,6 @@ awsiam_access_key_compromised_tests: List[PantherRuleTest] = [
 class AWSIAMAccessKeyCompromised(PantherRule):
     RuleID = "AWS.IAM.AccessKeyCompromised-prototype"
     DisplayName = "AWS Access Key Uploaded to Github"
-    Enabled = True
     LogTypes = [LogType.AWS_CloudTrail]
     Reports = {"MITRE ATT&CK": ["TA0006:T1552"]}
     Tags = ["AWS", "Credential Access:Unsecured Credentials"]

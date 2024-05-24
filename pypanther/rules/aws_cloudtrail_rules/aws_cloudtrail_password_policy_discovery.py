@@ -59,7 +59,6 @@ aws_cloud_trail_password_policy_discovery_tests: List[PantherRuleTest] = [
 class AWSCloudTrailPasswordPolicyDiscovery(PantherRule):
     Description = "This detection looks for *AccountPasswordPolicy events in AWS CloudTrail logs. If these events occur in a short period of time from the same ARN, it could constitute Password Policy reconnaissance."
     DisplayName = "AWS CloudTrail Password Policy Discovery"
-    Enabled = True
     Reports = {"MITRE ATT&CK": ["TA0007:T1201"]}
     Reference = "https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_passwords_account-policy.html"
     Severity = Severity.Info

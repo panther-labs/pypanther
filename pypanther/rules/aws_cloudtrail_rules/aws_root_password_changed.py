@@ -65,7 +65,6 @@ aws_cloud_trail_root_password_changed_tests: List[PantherRuleTest] = [
 class AWSCloudTrailRootPasswordChanged(PantherRule):
     RuleID = "AWS.CloudTrail.RootPasswordChanged-prototype"
     DisplayName = "Root Password Changed"
-    Enabled = True
     LogTypes = [LogType.AWS_CloudTrail]
     Tags = ["AWS", "Identity and Access Management", "Persistence:Account Manipulation"]
     Severity = Severity.High

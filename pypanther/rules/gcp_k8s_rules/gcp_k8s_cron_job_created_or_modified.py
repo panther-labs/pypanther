@@ -73,7 +73,6 @@ class GCPGKEKubernetesCronJobCreatedOrModified(PantherRule):
     RuleID = "GCP.GKE.Kubernetes.Cron.Job.Created.Or.Modified-prototype"
     DisplayName = "GCP GKE Kubernetes Cron Job Created Or Modified"
     Description = "This detection monitor for any modifications or creations of a cron job in GKE. Attackers may create or modify an existing scheduled job in order to achieve cluster persistence."
-    Enabled = True
     LogTypes = [LogType.GCP_AuditLog]
     Severity = Severity.Medium
     Reference = "https://medium.com/snowflake/from-logs-to-detection-using-snowflake-and-panther-to-detect-k8s-threats-d72f70a504d7"

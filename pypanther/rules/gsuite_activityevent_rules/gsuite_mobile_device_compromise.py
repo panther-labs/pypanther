@@ -50,7 +50,6 @@ g_suite_device_compromise_tests: List[PantherRuleTest] = [
 class GSuiteDeviceCompromise(PantherRule):
     RuleID = "GSuite.DeviceCompromise-prototype"
     DisplayName = "GSuite User Device Compromised"
-    Enabled = True
     LogTypes = [LogType.GSuite_ActivityEvent]
     Tags = ["GSuite"]
     Severity = Severity.Medium

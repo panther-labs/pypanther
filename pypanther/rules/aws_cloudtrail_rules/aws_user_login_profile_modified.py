@@ -137,7 +137,6 @@ aws_user_login_profile_modified_tests: List[PantherRuleTest] = [
 class AWSUserLoginProfileModified(PantherRule):
     Description = "An attacker with iam:UpdateLoginProfile permission on other users can change the password used to login to the AWS console. May be legitimate account administration."
     DisplayName = "AWS User Login Profile Modified"
-    Enabled = True
     Reports = {"MITRE ATT&CK": ["TA0003:T1098", "TA0005:T1108", "TA0005:T1550", "TA0008:T1550"]}
     Reference = "https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_examples_aws_my-sec-creds-self-manage-pass-accesskeys-ssh.html"
     Severity = Severity.High

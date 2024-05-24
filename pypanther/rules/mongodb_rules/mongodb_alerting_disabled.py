@@ -45,7 +45,6 @@ mongo_db_alerting_disabled_or_deleted_tests: List[PantherRuleTest] = [
 class MongoDBAlertingDisabledOrDeleted(PantherRule):
     Description = "MongoDB provides security alerting policies for notifying admins when certain conditions are met. This rule detects when these policies are disabled or deleted."
     DisplayName = "MongoDB security alerts disabled or deleted"
-    Enabled = True
     LogTypes = [LogType.MongoDB_OrganizationEvent]
     RuleID = "MongoDB.Alerting.Disabled.Or.Deleted-prototype"
     Severity = Severity.High

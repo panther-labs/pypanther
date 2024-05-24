@@ -47,7 +47,6 @@ box_access_granted_tests: List[PantherRuleTest] = [
 class BoxAccessGranted(PantherRule):
     RuleID = "Box.Access.Granted-prototype"
     DisplayName = "Box Access Granted"
-    Enabled = True
     LogTypes = [LogType.Box_Event]
     Tags = ["Box"]
     Severity = Severity.Low

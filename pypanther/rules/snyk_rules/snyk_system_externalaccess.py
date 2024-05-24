@@ -51,7 +51,6 @@ snyk_system_external_access_tests: List[PantherRuleTest] = [
 class SnykSystemExternalAccess(PantherRule):
     RuleID = "Snyk.System.ExternalAccess-prototype"
     DisplayName = "Snyk System External Access Settings Changed"
-    Enabled = True
     LogTypes = [LogType.Snyk_GroupAudit, LogType.Snyk_OrgAudit]
     Tags = ["Snyk"]
     Severity = Severity.High

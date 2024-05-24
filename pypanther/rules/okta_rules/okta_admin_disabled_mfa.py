@@ -65,7 +65,6 @@ okta_global_mfa_disabled_tests: List[PantherRuleTest] = [
 class OktaGlobalMFADisabled(PantherRule):
     RuleID = "Okta.Global.MFA.Disabled-prototype"
     DisplayName = "Okta MFA Globally Disabled"
-    Enabled = True
     LogTypes = [LogType.Okta_SystemLog]
     Tags = [
         "Identity & Access Management",

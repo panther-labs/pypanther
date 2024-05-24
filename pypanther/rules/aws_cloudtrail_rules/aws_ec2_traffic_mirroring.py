@@ -607,7 +607,6 @@ awsec2_traffic_mirroring_tests: List[PantherRuleTest] = [
 class AWSEC2TrafficMirroring(PantherRule):
     Description = "This rule captures multiple traffic mirroring events in AWS Cloudtrail."
     DisplayName = "AWS EC2 Traffic Mirroring"
-    Enabled = True
     Reference = "https://attack.mitre.org/techniques/T1040/"
     Runbook = "Examine other activities done by this user to determine whether or not activity is suspicious. If your network traffic is not encrypted, we recommend changing the severity to high or critical."
     Severity = Severity.Medium

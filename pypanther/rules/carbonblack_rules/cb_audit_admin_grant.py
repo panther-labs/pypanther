@@ -57,7 +57,6 @@ class CarbonBlackAuditAdminGrant(PantherRule):
     LogTypes = [LogType.CarbonBlack_Audit]
     Description = "Detects when a user is granted Admin or Super Admin permissions."
     DisplayName = "Carbon Black Admin Role Granted"
-    Enabled = True
     Severity = Severity.High
     Tags = ["Privilege Escalation", "Account Manipulation"]
     Reports = {"MITRE ATT&CK": ["TA0004:T1098"]}

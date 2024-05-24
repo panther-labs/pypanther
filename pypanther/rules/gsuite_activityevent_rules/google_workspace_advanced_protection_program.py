@@ -133,7 +133,6 @@ class GoogleWorkspaceAdvancedProtectionProgram(PantherRule):
         "Your organization's Google Workspace Advanced Protection Program settings were modified."
     )
     DisplayName = "Google Workspace Advanced Protection Program"
-    Enabled = True
     Runbook = "Confirm the changes made were authorized for your organization."
     Reference = "https://support.google.com/a/answer/9378686?hl=en"
     Severity = Severity.Medium

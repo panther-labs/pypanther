@@ -171,7 +171,6 @@ okta_app_unauthorized_access_attempt_tests: List[PantherRuleTest] = [
 class OktaAppUnauthorizedAccessAttempt(PantherRule):
     Description = "Detects when a user is denied access to an Okta application"
     DisplayName = "Okta App Unauthorized Access Attempt"
-    Enabled = True
     Severity = Severity.Low
     Reference = "https://support.okta.com/help/s/article/App-Sign-on-Error-403-User-attempted-unauthorized-access-to-app?language=en_US"
     LogTypes = [LogType.Okta_SystemLog]

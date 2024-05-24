@@ -179,7 +179,6 @@ class OktaUserReportedSuspiciousActivity(PantherRule):
         "https://help.okta.com/en-us/Content/Topics/Security/suspicious-activity-reporting.htm"
     )
     DisplayName = "Okta User Reported Suspicious Activity"
-    Enabled = True
     Severity = Severity.High
     LogTypes = [LogType.Okta_SystemLog]
     RuleID = "Okta.User.Reported.Suspicious.Activity-prototype"

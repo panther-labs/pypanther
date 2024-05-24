@@ -71,7 +71,6 @@ g_suite_rule_tests: List[PantherRuleTest] = [
 class GSuiteRule(PantherRule):
     RuleID = "GSuite.Rule-prototype"
     DisplayName = "GSuite Passthrough Rule Triggered"
-    Enabled = True
     LogTypes = [LogType.GSuite_ActivityEvent]
     Tags = ["GSuite"]
     Severity = Severity.Info

@@ -362,7 +362,6 @@ aws_cloud_trail_resource_made_public_tests: List[PantherRuleTest] = [
 class AWSCloudTrailResourceMadePublic(PantherRule):
     RuleID = "AWS.CloudTrail.ResourceMadePublic-prototype"
     DisplayName = "AWS Resource Made Public"
-    Enabled = True
     LogTypes = [LogType.AWS_CloudTrail]
     Tags = ["AWS", "Exfiltration:Transfer Data to Cloud Account"]
     Severity = Severity.Medium

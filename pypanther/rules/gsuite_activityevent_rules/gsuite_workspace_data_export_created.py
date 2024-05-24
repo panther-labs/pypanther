@@ -109,7 +109,6 @@ g_suite_workspace_data_export_created_tests: List[PantherRuleTest] = [
 class GSuiteWorkspaceDataExportCreated(PantherRule):
     RuleID = "GSuite.Workspace.DataExportCreated-prototype"
     DisplayName = "GSuite Workspace Data Export Has Been Created"
-    Enabled = True
     LogTypes = [LogType.GSuite_ActivityEvent]
     Tags = ["GSuite"]
     Severity = Severity.Medium

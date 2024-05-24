@@ -167,7 +167,6 @@ amazon_eks_audit_multiple403_tests: List[PantherRuleTest] = [
 class AmazonEKSAuditMultiple403(PantherRule):
     RuleID = "Amazon.EKS.Audit.Multiple403-prototype"
     DisplayName = "EKS Audit Log based single sourceIP is generating multiple 403s"
-    Enabled = True
     LogTypes = [LogType.Amazon_EKS_Audit]
     Tags = ["EKS"]
     Reports = {"MITRE ATT&CK": ["TA0007:T1613"]}

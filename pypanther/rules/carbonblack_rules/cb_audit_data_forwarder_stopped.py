@@ -42,7 +42,6 @@ class CarbonBlackAuditDataForwarderStopped(PantherRule):
     LogTypes = [LogType.CarbonBlack_Audit]
     Description = "Detects when a user disables or deletes a Data Forwarder."
     DisplayName = "Carbon Black Data Forwarder Stopped"
-    Enabled = True
     Severity = Severity.High
     Tags = ["Defense Evasion", "Impair Defenses", "Disable or Modify Cloud Logs"]
     Reports = {"MITRE ATT&CK": ["TA0005:T1562.008"]}

@@ -65,7 +65,6 @@ gcpgcsiam_changes_tests: List[PantherRuleTest] = [
 class GCPGCSIAMChanges(PantherRule):
     RuleID = "GCP.GCS.IAMChanges-prototype"
     DisplayName = "GCP GCS IAM Permission Changes"
-    Enabled = True
     LogTypes = [LogType.GCP_AuditLog]
     Tags = ["GCP", "Google Cloud Storage", "Collection:Data From Cloud Storage Object"]
     Reports = {"CIS": ["2.1"], "MITRE ATT&CK": ["TA0009:T1530"]}

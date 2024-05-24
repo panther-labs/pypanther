@@ -660,7 +660,6 @@ standard_impossible_travel_login_tests: List[PantherRuleTest] = [
 class StandardImpossibleTravelLogin(PantherRule):
     RuleID = "Standard.ImpossibleTravel.Login-prototype"
     DisplayName = "Impossible Travel for Login Action"
-    Enabled = True
     LogTypes = [
         LogType.Asana_Audit,
         LogType.AWS_CloudTrail,

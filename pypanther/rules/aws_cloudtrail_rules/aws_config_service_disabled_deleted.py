@@ -133,7 +133,6 @@ aws_config_service_disabled_deleted_tests: List[PantherRuleTest] = [
 class AWSConfigServiceDisabledDeleted(PantherRule):
     RuleID = "AWS.ConfigService.DisabledDeleted-prototype"
     DisplayName = "AWS Config Service Disabled"
-    Enabled = True
     LogTypes = [LogType.AWS_CloudTrail]
     Tags = ["AWS", "Security Control", "Defense Evasion:Impair Defenses"]
     Reports = {"CIS": ["3.9"], "MITRE ATT&CK": ["TA0005:T1562"]}

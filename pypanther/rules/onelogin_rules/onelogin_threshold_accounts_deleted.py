@@ -32,7 +32,6 @@ one_login_threshold_accounts_deleted_tests: List[PantherRuleTest] = [
 class OneLoginThresholdAccountsDeleted(PantherRule):
     RuleID = "OneLogin.ThresholdAccountsDeleted-prototype"
     DisplayName = "OneLogin Multiple Accounts Deleted"
-    Enabled = True
     LogTypes = [LogType.OneLogin_Events]
     Tags = ["OneLogin", "Impact:Account Access Removal"]
     Severity = Severity.Medium

@@ -204,7 +204,6 @@ gcp_log_bucket_or_sink_deleted_tests: List[PantherRuleTest] = [
 
 class GCPLogBucketOrSinkDeleted(PantherRule):
     DisplayName = "GCP Log Bucket or Sink Deleted"
-    Enabled = True
     RuleID = "GCP.Log.Bucket.Or.Sink.Deleted-prototype"
     Severity = Severity.Medium
     LogTypes = [LogType.GCP_AuditLog]

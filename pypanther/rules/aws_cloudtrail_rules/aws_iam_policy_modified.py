@@ -140,7 +140,6 @@ awsiam_policy_modified_tests: List[PantherRuleTest] = [
 class AWSIAMPolicyModified(PantherRule):
     RuleID = "AWS.IAM.PolicyModified-prototype"
     DisplayName = "IAM Policy Modified"
-    Enabled = True
     LogTypes = [LogType.AWS_CloudTrail]
     Tags = [
         "AWS",

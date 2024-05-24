@@ -45,7 +45,6 @@ duo_admin_lockout_tests: List[PantherRuleTest] = [
 class DuoAdminLockout(PantherRule):
     Description = "Alert when a duo administrator is locked out of their account."
     DisplayName = "Duo Admin Lockout"
-    Enabled = True
     Reference = "https://duo.com/docs/adminapi"
     Severity = Severity.Medium
     LogTypes = [LogType.Duo_Administrator]

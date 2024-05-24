@@ -71,7 +71,6 @@ github_repository_transfer_tests: List[PantherRuleTest] = [
 class GithubRepositoryTransfer(PantherRule):
     Description = "A user accepted a request to receive a transferred Github repository, a  Github repository was transferred to another repository network, or a user sent a request to transfer a repository to another user or organization."
     DisplayName = "Github Repository Transfer"
-    Enabled = True
     Reference = "https://docs.github.com/en/enterprise-server@3.3/repositories/creating-and-managing-repositories/transferring-a-repository\n\nhttps://docs.github.com/en/enterprise-cloud@latest/admin/monitoring-activity-in-your-enterprise/reviewing-audit-logs-for-your-enterprise/audit-log-events-for-your-enterprise#repo-category-actions"
     Runbook = "Please check with the referenced users or their supervisors to ensure the transferring of this repository is expected and allowed."
     Severity = Severity.Medium

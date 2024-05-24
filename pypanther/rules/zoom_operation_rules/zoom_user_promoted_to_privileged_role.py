@@ -88,7 +88,6 @@ zoom_user_promotedto_privileged_role_tests: List[PantherRuleTest] = [
 class ZoomUserPromotedtoPrivilegedRole(PantherRule):
     Description = "A Zoom user was promoted to a privileged role."
     DisplayName = "Zoom User Promoted to Privileged Role"
-    Enabled = True
     Reference = "https://support.zoom.com/hc/en/article?id=zm_kb&sysparm_article=KB0064983"
     Severity = Severity.Medium
     LogTypes = [LogType.Zoom_Operation]

@@ -65,7 +65,6 @@ gcpgcs_public_tests: List[PantherRuleTest] = [
 class GCPGCSPublic(PantherRule):
     RuleID = "GCP.GCS.Public-prototype"
     DisplayName = "GCS Bucket Made Public"
-    Enabled = True
     DedupPeriodMinutes = 15
     LogTypes = [LogType.GCP_AuditLog]
     Tags = ["GCP", "Google Cloud Storage", "Collection:Data From Cloud Storage Object"]

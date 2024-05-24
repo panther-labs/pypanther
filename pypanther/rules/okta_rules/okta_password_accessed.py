@@ -244,7 +244,6 @@ okta_password_access_tests: List[PantherRuleTest] = [
 class OktaPasswordAccess(PantherRule):
     RuleID = "Okta.PasswordAccess-prototype"
     DisplayName = "Okta Password Accessed"
-    Enabled = True
     LogTypes = [LogType.Okta_SystemLog]
     Tags = ["Okta", "Credential Access:Unsecured Credentials"]
     Reports = {"MITRE ATT&CK": ["TA0006:T1552"]}

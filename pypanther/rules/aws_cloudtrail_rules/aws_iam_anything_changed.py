@@ -142,7 +142,6 @@ aws_cloud_trail_iam_anything_changed_tests: List[PantherRuleTest] = [
 class AWSCloudTrailIAMAnythingChanged(PantherRule):
     RuleID = "AWS.CloudTrail.IAMAnythingChanged-prototype"
     DisplayName = "IAM Change"
-    Enabled = True
     LogTypes = [LogType.AWS_CloudTrail]
     Tags = ["AWS", "Identity and Access Management"]
     Severity = Severity.Info

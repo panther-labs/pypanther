@@ -106,7 +106,6 @@ class AWSCloudTrailIAMCompromisedKeyQuarantine(PantherRule):
     LogTypes = [LogType.AWS_CloudTrail]
     Description = "Detects when an IAM user has the AWSCompromisedKeyQuarantineV2 policy attached to their account."
     DisplayName = "AWS Compromised IAM Key Quarantine"
-    Enabled = True
     RuleID = "AWS.CloudTrail.IAMCompromisedKeyQuarantine-prototype"
     Severity = Severity.High
     Tags = [

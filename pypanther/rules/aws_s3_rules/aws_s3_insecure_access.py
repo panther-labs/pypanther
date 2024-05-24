@@ -95,7 +95,6 @@ class AWSS3ServerAccessInsecure(PantherRule):
     RuleID = "AWS.S3.ServerAccess.Insecure-prototype"
     DisplayName = "AWS S3 Insecure Access"
     DedupPeriodMinutes = 720
-    Enabled = True
     LogTypes = [LogType.AWS_S3ServerAccess]
     Tags = [
         "AWS",

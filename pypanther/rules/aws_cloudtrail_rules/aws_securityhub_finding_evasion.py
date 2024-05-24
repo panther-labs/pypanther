@@ -113,7 +113,6 @@ aws_security_hub_finding_evasion_tests: List[PantherRuleTest] = [
 class AWSSecurityHubFindingEvasion(PantherRule):
     Description = "Detections modification of findings in SecurityHub"
     DisplayName = "AWS SecurityHub Finding Evasion"
-    Enabled = True
     Reports = {"MITRE ATT&CK": ["TA0005:T1562"]}
     Reference = "https://docs.aws.amazon.com/securityhub/latest/userguide/securityhub-insights-view-take-action.html"
     Severity = Severity.High

@@ -46,7 +46,6 @@ gcpk8s_pod_attached_to_node_host_network_tests: List[PantherRuleTest] = [
 class GCPK8sPodAttachedToNodeHostNetwork(PantherRule):
     RuleID = "GCP.K8s.Pod.Attached.To.Node.Host.Network-prototype"
     DisplayName = "GCP K8s Pod Attached To Node Host Network"
-    Enabled = True
     LogTypes = [LogType.GCP_AuditLog]
     Tags = ["GCP", "Optional"]
     Severity = Severity.Medium

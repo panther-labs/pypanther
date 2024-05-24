@@ -106,7 +106,6 @@ gcpia_mservice_accountssign_blob_tests: List[PantherRuleTest] = [
 class GCPIAMserviceAccountssignBlob(PantherRule):
     RuleID = "GCP.IAM.serviceAccounts.signBlob-prototype"
     DisplayName = "GCP IAM serviceAccounts signBlob"
-    Enabled = True
     LogTypes = [LogType.GCP_AuditLog]
     Reports = {"MITRE ATT&CK": ["TA0004:T1548"]}
     Severity = Severity.High

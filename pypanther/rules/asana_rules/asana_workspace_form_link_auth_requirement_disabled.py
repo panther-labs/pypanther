@@ -57,7 +57,6 @@ asana_workspace_form_link_auth_requirement_disabled_tests: List[PantherRuleTest]
 class AsanaWorkspaceFormLinkAuthRequirementDisabled(PantherRule):
     Description = "An Asana Workspace Form Link is a unique URL that allows you to create a task directly within a specific Workspace or Project in Asana, using a web form. Disabling authentication requirements may allow unauthorized users to create tasks. "
     DisplayName = "Asana Workspace Form Link Auth Requirement Disabled"
-    Enabled = True
     Reference = "https://help.asana.com/hc/en-us/articles/14111697664923-Forms-access-permissions#:~:text=SSO%2C%20SAML%2C%20or-,no%20authentication%20method,-).%20If%20no%20authentication"
     Severity = Severity.Low
     LogTypes = [LogType.Asana_Audit]

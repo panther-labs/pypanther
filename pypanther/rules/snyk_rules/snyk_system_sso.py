@@ -40,7 +40,6 @@ snyk_system_sso_tests: List[PantherRuleTest] = [
 class SnykSystemSSO(PantherRule):
     RuleID = "Snyk.System.SSO-prototype"
     DisplayName = "Snyk System SSO Settings Changed"
-    Enabled = True
     LogTypes = [LogType.Snyk_GroupAudit]
     Tags = ["Snyk"]
     Severity = Severity.High

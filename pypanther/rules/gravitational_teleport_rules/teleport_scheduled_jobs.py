@@ -102,7 +102,6 @@ teleport_scheduled_jobs_tests: List[PantherRuleTest] = [
 class TeleportScheduledJobs(PantherRule):
     RuleID = "Teleport.ScheduledJobs-prototype"
     DisplayName = "Teleport Scheduled Jobs"
-    Enabled = True
     LogTypes = [LogType.Gravitational_TeleportAudit]
     Tags = ["SSH", "Execution:Scheduled Task/Job"]
     Severity = Severity.Medium

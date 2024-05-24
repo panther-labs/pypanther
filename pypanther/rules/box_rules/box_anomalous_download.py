@@ -42,7 +42,6 @@ box_shield_anomalous_download_tests: List[PantherRuleTest] = [
 class BoxShieldAnomalousDownload(PantherRule):
     RuleID = "Box.Shield.Anomalous.Download-prototype"
     DisplayName = "Box Shield Detected Anomalous Download Activity"
-    Enabled = True
     LogTypes = [LogType.Box_Event]
     Tags = ["Box", "Exfiltration:Exfiltration Over Web Service"]
     Reports = {"MITRE ATT&CK": ["TA0010:T1567"]}

@@ -53,7 +53,6 @@ notion_audit_log_exported_tests: List[PantherRuleTest] = [
 class NotionAuditLogExported(PantherRule):
     RuleID = "Notion.Audit.Log.Exported-prototype"
     DisplayName = "Notion Audit Log Exported"
-    Enabled = True
     LogTypes = [LogType.Notion_AuditLogs]
     Tags = ["Notion", "Data Security", "Data Exfiltration"]
     Severity = Severity.Medium

@@ -43,7 +43,6 @@ teleport_saml_login_without_company_domain_tests: List[PantherRuleTest] = [
 class TeleportSAMLLoginWithoutCompanyDomain(PantherRule):
     RuleID = "Teleport.SAMLLoginWithoutCompanyDomain-prototype"
     DisplayName = "A user authenticated with SAML, but from an unknown company domain"
-    Enabled = True
     LogTypes = [LogType.Gravitational_TeleportAudit]
     Tags = ["Teleport"]
     Severity = Severity.High

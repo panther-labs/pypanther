@@ -390,7 +390,6 @@ standard_brute_force_by_ip_tests: List[PantherRuleTest] = [
 class StandardBruteForceByIP(PantherRule):
     RuleID = "Standard.BruteForceByIP-prototype"
     DisplayName = "Brute Force By IP"
-    Enabled = True
     LogTypes = [
         LogType.Asana_Audit,
         LogType.Atlassian_Audit,

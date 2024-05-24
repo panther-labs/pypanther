@@ -163,7 +163,6 @@ okta_anonymizing_vpn_login_tests: List[PantherRuleTest] = [
 class OktaAnonymizingVPNLogin(PantherRule):
     RuleID = "Okta.Anonymizing.VPN.Login-prototype"
     DisplayName = "Okta Sign-In from VPN Anonymizer"
-    Enabled = True
     LogTypes = [LogType.Okta_SystemLog]
     Reports = {"MITRE ATT&CK": ["TA0006:T1556"]}
     Severity = Severity.Medium

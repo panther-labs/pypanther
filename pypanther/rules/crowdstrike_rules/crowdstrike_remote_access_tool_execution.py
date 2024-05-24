@@ -175,7 +175,6 @@ crowdstrike_remote_access_tool_execution_tests: List[PantherRuleTest] = [
 class CrowdstrikeRemoteAccessToolExecution(PantherRule):
     Description = "Detects usage of common remote access tools."
     DisplayName = "Crowdstrike Remote Access Tool Execution"
-    Enabled = True
     Reference = "https://attack.mitre.org/techniques/T1219/"
     Severity = Severity.Medium
     LogTypes = [LogType.Crowdstrike_FDREvent]

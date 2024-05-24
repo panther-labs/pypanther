@@ -42,7 +42,6 @@ okta_api_key_revoked_tests: List[PantherRuleTest] = [
 class OktaAPIKeyRevoked(PantherRule):
     RuleID = "Okta.APIKeyRevoked-prototype"
     DisplayName = "Okta API Key Revoked"
-    Enabled = True
     LogTypes = [LogType.Okta_SystemLog]
     Tags = ["Identity & Access Management", "Okta"]
     Severity = Severity.Info

@@ -150,7 +150,6 @@ aws_cloud_trail_created_tests: List[PantherRuleTest] = [
 class AWSCloudTrailCreated(PantherRule):
     RuleID = "AWS.CloudTrail.Created-prototype"
     DisplayName = "A CloudTrail Was Created or Updated"
-    Enabled = True
     LogTypes = [LogType.AWS_CloudTrail]
     Tags = ["AWS", "Security Control", "Discovery:Cloud Service Dashboard"]
     Reports = {"CIS": ["3.5"], "MITRE ATT&CK": ["TA0007:T1538"]}

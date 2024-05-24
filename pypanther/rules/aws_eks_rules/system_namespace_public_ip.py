@@ -324,7 +324,6 @@ amazon_eks_audit_system_namespace_from_public_ip_tests: List[PantherRuleTest] = 
 class AmazonEKSAuditSystemNamespaceFromPublicIP(PantherRule):
     RuleID = "Amazon.EKS.Audit.SystemNamespaceFromPublicIP-prototype"
     DisplayName = "EKS Audit Log Reporting system Namespace is Used From A Public IP"
-    Enabled = True
     LogTypes = [LogType.Amazon_EKS_Audit]
     Tags = ["EKS"]
     Reports = {"MITRE ATT&CK": ["TA0027:T1475"]}

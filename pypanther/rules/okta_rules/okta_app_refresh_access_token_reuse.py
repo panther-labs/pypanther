@@ -186,7 +186,6 @@ class OktaRefreshAccessTokenReuse(PantherRule):
         "https://developer.okta.com/docs/guides/refresh-tokens/main/#refresh-token-reuse-detection"
     )
     DisplayName = "Okta App Refresh Access Token Reuse"
-    Enabled = True
     Runbook = "Determine if the clientip is anomalous. Revoke tokens if deemed suspicious."
     Severity = Severity.Medium
     LogTypes = [LogType.Okta_SystemLog]

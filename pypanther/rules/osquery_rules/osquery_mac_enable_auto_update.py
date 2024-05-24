@@ -50,7 +50,6 @@ osquery_mac_auto_update_enabled_tests: List[PantherRuleTest] = [
 class OsqueryMacAutoUpdateEnabled(PantherRule):
     RuleID = "Osquery.Mac.AutoUpdateEnabled-prototype"
     DisplayName = "OSQuery Reports Application Firewall Disabled"
-    Enabled = True
     LogTypes = [LogType.Osquery_Differential]
     Tags = ["Osquery", "MacOS", "Security Control", "Defense Evasion:Impair Defenses"]
     Reports = {"CIS": ["1.2"], "MITRE ATT&CK": ["TA0005:T1562"]}

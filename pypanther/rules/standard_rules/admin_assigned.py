@@ -267,7 +267,6 @@ standard_admin_role_assigned_tests: List[PantherRuleTest] = [
 class StandardAdminRoleAssigned(PantherRule):
     RuleID = "Standard.AdminRoleAssigned-prototype"
     DisplayName = "Admin Role Assigned"
-    Enabled = True
     LogTypes = [
         LogType.Asana_Audit,
         LogType.Atlassian_Audit,

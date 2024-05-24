@@ -260,7 +260,6 @@ aws_suspicious_saml_activity_tests: List[PantherRuleTest] = [
 class AWSSuspiciousSAMLActivity(PantherRule):
     Description = "Identifies when SAML activity has occurred in AWS. An adversary could gain backdoor access via SAML."
     DisplayName = "AWS SAML Activity"
-    Enabled = True
     Reference = "https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pools-managing-saml-idp-console.html"
     Severity = Severity.Medium
     LogTypes = [LogType.AWS_CloudTrail]

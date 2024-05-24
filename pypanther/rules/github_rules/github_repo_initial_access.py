@@ -89,7 +89,6 @@ git_hub_repo_initial_access_tests: List[PantherRuleTest] = [
 class GitHubRepoInitialAccess(PantherRule):
     RuleID = "GitHub.Repo.InitialAccess-prototype"
     DisplayName = "GitHub User Initial Access to Private Repo"
-    Enabled = True
     LogTypes = [LogType.GitHub_Audit]
     Tags = ["GitHub"]
     Reference = "https://docs.github.com/en/organizations/managing-user-access-to-your-organizations-repositories/managing-repository-roles/managing-an-individuals-access-to-an-organization-repository"

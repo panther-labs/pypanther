@@ -41,7 +41,6 @@ class CarbonBlackAuditFlagged(PantherRule):
     LogTypes = [LogType.CarbonBlack_Audit]
     Description = "Detects when Carbon Black has flagged a log as important, such as failed login attempts and locked accounts."
     DisplayName = "Carbon Black Log Entry Flagged"
-    Enabled = True
     Severity = Severity.High
     Tags = ["Credential Access", "Brute Force"]
     Reports = {"MITRE ATT&CK": ["TA0006:T1110"]}

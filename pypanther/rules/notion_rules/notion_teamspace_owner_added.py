@@ -79,7 +79,6 @@ notion_teamspace_owner_added_tests: List[PantherRuleTest] = [
 class NotionTeamspaceOwnerAdded(PantherRule):
     RuleID = "Notion.TeamspaceOwnerAdded-prototype"
     DisplayName = "Notion Teamspace Owner Added"
-    Enabled = True
     LogTypes = [LogType.Notion_AuditLogs]
     Tags = ["Notion", "Privilege Escalation"]
     Description = "A Notion User was added as a Teamspace owner."

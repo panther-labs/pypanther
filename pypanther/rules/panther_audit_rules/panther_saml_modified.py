@@ -52,7 +52,6 @@ panther_saml_modified_tests: List[PantherRuleTest] = [
 class PantherSAMLModified(PantherRule):
     RuleID = "Panther.SAML.Modified-prototype"
     DisplayName = "Panther SAML configuration has been modified"
-    Enabled = True
     LogTypes = [LogType.Panther_Audit]
     Severity = Severity.High
     Tags = ["DataModel", "Defense Evasion:Impair Defenses"]

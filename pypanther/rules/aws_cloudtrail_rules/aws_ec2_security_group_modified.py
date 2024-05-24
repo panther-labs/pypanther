@@ -173,7 +173,6 @@ awsec2_security_group_modified_tests: List[PantherRuleTest] = [
 class AWSEC2SecurityGroupModified(PantherRule):
     RuleID = "AWS.EC2.SecurityGroupModified-prototype"
     DisplayName = "EC2 Security Group Modified"
-    Enabled = True
     LogTypes = [LogType.AWS_CloudTrail]
     Tags = ["AWS", "Security Control", "Defense Evasion:Impair Defenses"]
     Reports = {"CIS": ["3.1"], "MITRE ATT&CK": ["TA0005:T1562"]}

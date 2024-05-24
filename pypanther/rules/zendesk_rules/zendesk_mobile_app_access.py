@@ -68,7 +68,6 @@ zendesk_mobile_app_access_updated_tests: List[PantherRuleTest] = [
 class ZendeskMobileAppAccessUpdated(PantherRule):
     RuleID = "Zendesk.MobileAppAccessUpdated-prototype"
     DisplayName = "Zendesk Mobile App Access Modified"
-    Enabled = True
     LogTypes = [LogType.Zendesk_Audit]
     Tags = ["Zendesk", "Persistence:Valid Accounts"]
     Reports = {"MITRE ATT&CK": ["TA0003:T1078"]}

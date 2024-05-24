@@ -130,7 +130,6 @@ aws_cloud_trail_codebuild_project_made_public_tests: List[PantherRuleTest] = [
 class AWSCloudTrailCodebuildProjectMadePublic(PantherRule):
     RuleID = "AWS.CloudTrail.CodebuildProjectMadePublic-prototype"
     DisplayName = "CodeBuild Project made Public"
-    Enabled = True
     LogTypes = [LogType.AWS_CloudTrail]
     Reports = {"MITRE ATT&CK": ["TA0010:T1567"]}
     Tags = ["AWS", "Security Control", "Exfiltration:Exfiltration Over Web Service"]

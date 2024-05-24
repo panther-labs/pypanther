@@ -171,7 +171,6 @@ awsdns_crypto_domain_tests: List[PantherRuleTest] = [
 class AWSDNSCryptoDomain(PantherRule):
     Description = "Identifies clients that may be performing DNS lookups associated with common currency mining pools."
     DisplayName = "AWS DNS Crypto Domain"
-    Enabled = True
     Reports = {"MITRE ATT&CK": ["TA0040:T1496"]}
     Reference = "https://docs.aws.amazon.com/vpc/latest/userguide/flow-logs.html"
     Severity = Severity.High

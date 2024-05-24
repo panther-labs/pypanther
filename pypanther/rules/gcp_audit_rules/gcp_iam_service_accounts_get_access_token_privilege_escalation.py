@@ -106,7 +106,6 @@ gcpia_mservice_accountsget_access_token_privilege_escalation_tests: List[Panther
 class GCPIAMserviceAccountsgetAccessTokenPrivilegeEscalation(PantherRule):
     RuleID = "GCP.IAM.serviceAccounts.getAccessToken.Privilege.Escalation-prototype"
     DisplayName = "GCP IAM serviceAccounts getAccessToken Privilege Escalation"
-    Enabled = True
     LogTypes = [LogType.GCP_AuditLog]
     Reports = {"MITRE ATT&CK": ["TA0004:T1548"]}
     Severity = Severity.High

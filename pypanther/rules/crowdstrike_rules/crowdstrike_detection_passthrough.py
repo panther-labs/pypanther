@@ -176,7 +176,6 @@ crowdstrike_detectionpassthrough_tests: List[PantherRuleTest] = [
 class CrowdstrikeDetectionpassthrough(PantherRule):
     RuleID = "Crowdstrike.Detection.passthrough-prototype"
     DisplayName = "Crowdstrike Detection Passthrough"
-    Enabled = True
     Severity = Severity.Medium
     LogTypes = [LogType.Crowdstrike_DetectionSummary, LogType.Crowdstrike_FDREvent]
     Tags = ["Crowdstrike"]

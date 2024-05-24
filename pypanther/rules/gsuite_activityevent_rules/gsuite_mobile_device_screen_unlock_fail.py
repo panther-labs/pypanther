@@ -58,7 +58,6 @@ g_suite_device_unlock_failure_tests: List[PantherRuleTest] = [
 class GSuiteDeviceUnlockFailure(PantherRule):
     RuleID = "GSuite.DeviceUnlockFailure-prototype"
     DisplayName = "GSuite User Device Unlock Failures"
-    Enabled = True
     LogTypes = [LogType.GSuite_ActivityEvent]
     Tags = ["GSuite", "Credential Access:Brute Force"]
     Reports = {"MITRE ATT&CK": ["TA0006:T1110"]}

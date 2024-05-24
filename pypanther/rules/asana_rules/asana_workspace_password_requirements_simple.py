@@ -61,7 +61,6 @@ asana_workspace_password_requirements_simple_tests: List[PantherRuleTest] = [
 class AsanaWorkspacePasswordRequirementsSimple(PantherRule):
     Description = "An asana user made your organization's password requirements less strict."
     DisplayName = "Asana Workspace Password Requirements Simple"
-    Enabled = True
     Runbook = "Confirm this user acted with valid business intent and determine whether this activity was authorized."
     Reference = "https://help.asana.com/hc/en-us/articles/14075208738587-Authentication-and-access-management-options-for-paid-plans"
     Severity = Severity.Medium

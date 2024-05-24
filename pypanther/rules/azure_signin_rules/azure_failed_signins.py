@@ -143,7 +143,6 @@ azure_audit_many_failed_sign_ins_tests: List[PantherRuleTest] = [
 class AzureAuditManyFailedSignIns(PantherRule):
     RuleID = "Azure.Audit.ManyFailedSignIns-prototype"
     DisplayName = "Azure Many Failed SignIns"
-    Enabled = True
     Threshold = 10
     DedupPeriodMinutes = 10
     LogTypes = [LogType.Azure_Audit]

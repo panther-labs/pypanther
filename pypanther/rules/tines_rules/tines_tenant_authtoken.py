@@ -59,7 +59,6 @@ tines_tenant_auth_token_tests: List[PantherRuleTest] = [
 class TinesTenantAuthToken(PantherRule):
     RuleID = "Tines.Tenant.AuthToken-prototype"
     DisplayName = "Tines Tenant API Keys Added"
-    Enabled = True
     LogTypes = [LogType.Tines_Audit]
     Tags = ["Tines", "IAM - Credential Security"]
     Severity = Severity.Medium

@@ -42,7 +42,6 @@ okta_api_key_created_tests: List[PantherRuleTest] = [
 class OktaAPIKeyCreated(PantherRule):
     RuleID = "Okta.APIKeyCreated-prototype"
     DisplayName = "Okta API Key Created"
-    Enabled = True
     LogTypes = [LogType.Okta_SystemLog]
     Tags = [
         "Identity & Access Management",

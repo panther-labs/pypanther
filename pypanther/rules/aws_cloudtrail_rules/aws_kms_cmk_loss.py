@@ -261,7 +261,6 @@ awskms_customer_managed_key_loss_tests: List[PantherRuleTest] = [
 class AWSKMSCustomerManagedKeyLoss(PantherRule):
     RuleID = "AWS.KMS.CustomerManagedKeyLoss-prototype"
     DisplayName = "KMS CMK Disabled or Deleted"
-    Enabled = True
     LogTypes = [LogType.AWS_CloudTrail]
     Tags = ["AWS", "Identity & Access Management", "Impact:Data Destruction"]
     Reports = {"CIS": ["3.7"], "MITRE ATT&CK": ["TA0040:T1485"]}

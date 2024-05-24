@@ -57,7 +57,6 @@ teleport_create_user_accounts_tests: List[PantherRuleTest] = [
 class TeleportCreateUserAccounts(PantherRule):
     RuleID = "Teleport.CreateUserAccounts-prototype"
     DisplayName = "Teleport Create User Accounts"
-    Enabled = True
     LogTypes = [LogType.Gravitational_TeleportAudit]
     Tags = ["SSH", "Persistence:Create Account"]
     Reports = {"MITRE ATT&CK": ["TA0003:T1136"]}

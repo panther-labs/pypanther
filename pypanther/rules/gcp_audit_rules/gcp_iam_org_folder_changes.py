@@ -167,7 +167,6 @@ gcpiam_org_folder_iam_changes_tests: List[PantherRuleTest] = [
 class GCPIAMOrgFolderIAMChanges(PantherRule):
     RuleID = "GCP.IAM.OrgFolderIAMChanges-prototype"
     DisplayName = "GCP Org or Folder Policy Was Changed Manually"
-    Enabled = True
     DedupPeriodMinutes = 1440
     LogTypes = [LogType.GCP_AuditLog]
     Tags = ["GCP", "Identity & Access Management"]

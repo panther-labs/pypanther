@@ -243,7 +243,6 @@ dropbox_ownership_transfer_tests: List[PantherRuleTest] = [
 class DropboxOwnershipTransfer(PantherRule):
     Description = "Dropbox ownership of a document or folder has been transferred."
     DisplayName = "Dropbox Document/Folder Ownership Transfer"
-    Enabled = True
     Reference = "https://help.dropbox.com/share/owner"
     Severity = Severity.High
     LogTypes = [LogType.Dropbox_TeamEvent]

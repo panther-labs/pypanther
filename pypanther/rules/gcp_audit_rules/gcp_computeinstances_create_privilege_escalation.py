@@ -338,7 +338,6 @@ class GCPcomputeinstancescreatePrivilegeEscalation(PantherRule):
     Description = "Detects compute.instances.create method for privilege escalation in GCP."
     DisplayName = "GCP compute.instances.create Privilege Escalation"
     RuleID = "GCP.compute.instances.create.Privilege.Escalation-prototype"
-    Enabled = True
     Reference = (
         "https://rhinosecuritylabs.com/gcp/privilege-escalation-google-cloud-platform-part-1/"
     )

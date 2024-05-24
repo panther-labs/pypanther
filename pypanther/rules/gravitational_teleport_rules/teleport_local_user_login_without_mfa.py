@@ -49,7 +49,6 @@ teleport_local_user_login_without_mfa_tests: List[PantherRuleTest] = [
 class TeleportLocalUserLoginWithoutMFA(PantherRule):
     RuleID = "Teleport.LocalUserLoginWithoutMFA-prototype"
     DisplayName = "User Logged in wihout MFA"
-    Enabled = True
     LogTypes = [LogType.Gravitational_TeleportAudit]
     Tags = ["Teleport"]
     Severity = Severity.High

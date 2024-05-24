@@ -34,7 +34,6 @@ duo_admin_policy_updated_tests: List[PantherRuleTest] = [
 class DuoAdminPolicyUpdated(PantherRule):
     Description = "A Duo Administrator updated a Policy, which governs how users authenticate."
     DisplayName = "Duo Admin Policy Updated"
-    Enabled = True
     Reference = "https://duo.com/docs/policy#authenticators-policy-settings"
     Severity = Severity.Medium
     LogTypes = [LogType.Duo_Administrator]

@@ -200,7 +200,6 @@ standard_mfa_disabled_tests: List[PantherRuleTest] = [
 class StandardMFADisabled(PantherRule):
     RuleID = "Standard.MFADisabled-prototype"
     DisplayName = "MFA Disabled"
-    Enabled = True
     LogTypes = [
         LogType.Atlassian_Audit,
         LogType.GitHub_Audit,

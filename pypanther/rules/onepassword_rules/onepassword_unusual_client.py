@@ -66,7 +66,6 @@ class OnePasswordUnusualClient(PantherRule):
     RuleID = "OnePassword.Unusual.Client-prototype"
     DedupPeriodMinutes = 120
     DisplayName = "Unusual 1Password Client Detected"
-    Enabled = True
     LogTypes = [LogType.OnePassword_SignInAttempt]
     Severity = Severity.Medium
     Description = (

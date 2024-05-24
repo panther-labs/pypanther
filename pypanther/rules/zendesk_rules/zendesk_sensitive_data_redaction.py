@@ -67,7 +67,6 @@ zendesk_sensitive_data_redaction_off_tests: List[PantherRuleTest] = [
 class ZendeskSensitiveDataRedactionOff(PantherRule):
     RuleID = "Zendesk.SensitiveDataRedactionOff-prototype"
     DisplayName = "Zendesk Credit Card Redaction Off"
-    Enabled = True
     LogTypes = [LogType.Zendesk_Audit]
     Tags = ["Zendesk", "Collection:Data from Information Repositories"]
     Reports = {"MITRE ATT&CK": ["TA0009:T1213"]}

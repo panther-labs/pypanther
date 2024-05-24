@@ -233,7 +233,6 @@ aws_cloud_trail_ami_modified_for_public_access_tests: List[PantherRuleTest] = [
 class AWSCloudTrailAMIModifiedForPublicAccess(PantherRule):
     RuleID = "AWS.CloudTrail.AMIModifiedForPublicAccess-prototype"
     DisplayName = "Amazon Machine Image (AMI) Modified to Allow Public Access"
-    Enabled = True
     LogTypes = [LogType.AWS_CloudTrail]
     Tags = ["AWS", "Exfiltration:Transfer Data to Cloud Account"]
     Severity = Severity.Medium

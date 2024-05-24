@@ -54,7 +54,6 @@ one_login_user_account_locked_tests: List[PantherRuleTest] = [
 class OneLoginUserAccountLocked(PantherRule):
     RuleID = "OneLogin.UserAccountLocked-prototype"
     DisplayName = "OneLogin User Locked"
-    Enabled = True
     LogTypes = [LogType.OneLogin_Events]
     Tags = ["OneLogin", "Credential Access:Brute Force"]
     Reports = {"MITRE ATT&CK": ["TA0006:T1110"]}

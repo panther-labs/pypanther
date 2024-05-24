@@ -32,7 +32,6 @@ duo_admin_app_integration_secret_key_viewed_tests: List[PantherRuleTest] = [
 class DuoAdminAppIntegrationSecretKeyViewed(PantherRule):
     Description = "An administrator viewed a Secret Key for an Application Integration"
     DisplayName = "Duo Admin App Integration Secret Key Viewed"
-    Enabled = True
     Reference = "https://duo.com/docs/adminapi"
     Runbook = "The security of your Duo application is tied to the security of your secret key (skey). Secure it as you would any sensitive credential. Don't share it with unauthorized individuals or email it to anyone under any circumstances!"
     Severity = Severity.Medium

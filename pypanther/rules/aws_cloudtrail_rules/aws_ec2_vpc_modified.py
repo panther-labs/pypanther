@@ -185,7 +185,6 @@ awsec2_vpc_modified_tests: List[PantherRuleTest] = [
 class AWSEC2VPCModified(PantherRule):
     RuleID = "AWS.EC2.VPCModified-prototype"
     DisplayName = "EC2 VPC Modified"
-    Enabled = True
     LogTypes = [LogType.AWS_CloudTrail]
     Tags = ["AWS", "Security Control", "Defense Evasion:Impair Defenses"]
     Reports = {"CIS": ["3.14"], "MITRE ATT&CK": ["TA0005:T1562"]}

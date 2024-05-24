@@ -69,7 +69,6 @@ snyk_org_settings_tests: List[PantherRuleTest] = [
 class SnykOrgSettings(PantherRule):
     RuleID = "Snyk.Org.Settings-prototype"
     DisplayName = "Snyk Org Settings"
-    Enabled = True
     LogTypes = [LogType.Snyk_GroupAudit, LogType.Snyk_OrgAudit]
     Tags = ["Snyk"]
     Reference = "https://docs.snyk.io/snyk-admin/manage-settings/organization-general-settings"

@@ -310,7 +310,6 @@ gcpdns_zone_modifiedor_deleted_tests: List[PantherRuleTest] = [
 class GCPDNSZoneModifiedorDeleted(PantherRule):
     Description = "Detection for GCP DNS zones that are deleted, patched, or updated."
     DisplayName = "GCP DNS Zone Modified or Deleted"
-    Enabled = True
     Runbook = "Verify that this modification or deletion was expected. These operations are high-impact events and can result in downtimes or total outages."
     Reference = "https://cloud.google.com/dns/docs/zones"
     Severity = Severity.Low

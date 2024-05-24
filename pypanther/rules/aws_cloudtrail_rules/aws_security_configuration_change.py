@@ -224,7 +224,6 @@ aws_cloud_trail_security_configuration_change_tests: List[PantherRuleTest] = [
 class AWSCloudTrailSecurityConfigurationChange(PantherRule):
     RuleID = "AWS.CloudTrail.SecurityConfigurationChange-prototype"
     DisplayName = "Account Security Configuration Changed"
-    Enabled = True
     LogTypes = [LogType.AWS_CloudTrail]
     Tags = ["AWS", "Defense Evasion:Impair Defenses"]
     Severity = Severity.Medium

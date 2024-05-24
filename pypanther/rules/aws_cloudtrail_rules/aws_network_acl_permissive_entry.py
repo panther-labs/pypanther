@@ -160,7 +160,6 @@ aws_cloud_trail_network_acl_permissive_entry_tests: List[PantherRuleTest] = [
 class AWSCloudTrailNetworkACLPermissiveEntry(PantherRule):
     RuleID = "AWS.CloudTrail.NetworkACLPermissiveEntry-prototype"
     DisplayName = "AWS Network ACL Overly Permissive Entry Created"
-    Enabled = True
     LogTypes = [LogType.AWS_CloudTrail]
     Tags = ["AWS", "Persistence:Account Manipulation"]
     Severity = Severity.Medium

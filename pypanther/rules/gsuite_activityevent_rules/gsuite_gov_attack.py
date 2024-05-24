@@ -33,7 +33,6 @@ g_suite_government_backed_attack_tests: List[PantherRuleTest] = [
 class GSuiteGovernmentBackedAttack(PantherRule):
     RuleID = "GSuite.GovernmentBackedAttack-prototype"
     DisplayName = "GSuite Government Backed Attack"
-    Enabled = True
     LogTypes = [LogType.GSuite_ActivityEvent]
     Tags = ["GSuite"]
     Severity = Severity.Critical

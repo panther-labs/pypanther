@@ -69,7 +69,6 @@ mongo_db_external_user_invited_no_config_tests: List[PantherRuleTest] = [
 class MongoDBExternalUserInvitedNoConfig(PantherRule):
     Description = "An external user has been invited to a MongoDB org (no config)."
     DisplayName = "MongoDB External User Invited (no config)"
-    Enabled = True
     Severity = Severity.High
     Reference = "https://www.mongodb.com/docs/v4.2/tutorial/create-users/"
     LogTypes = [LogType.MongoDB_OrganizationEvent]

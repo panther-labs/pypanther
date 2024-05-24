@@ -87,7 +87,6 @@ salesforce_admin_login_as_user_tests: List[PantherRuleTest] = [
 class SalesforceAdminLoginAsUser(PantherRule):
     Description = "Salesforce detection that alerts when an admin logs in as another user. "
     DisplayName = "Salesforce Admin Login As User"
-    Enabled = True
     Runbook = "Please do an indicator search on USER_ID to find which user was assumed. "
     Reference = (
         "https://help.salesforce.com/s/articleView?id=sf.logging_in_as_another_user.htm&type=5"

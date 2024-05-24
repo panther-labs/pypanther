@@ -84,7 +84,6 @@ class OktaUserMFAResetSingle(PantherRule):
     Description = "User has reset one of their own MFA factors"
     DisplayName = "Okta User MFA Own Reset"
     RuleID = "Okta.User.MFA.Reset.Single-prototype"
-    Enabled = True
     Reference = "https://support.okta.com/help/s/article/How-to-avoid-lockouts-and-reset-your-Multifactor-Authentication-MFA-for-Okta-Admins?language=en_US"
     Severity = Severity.Info
     LogTypes = [LogType.Okta_SystemLog]

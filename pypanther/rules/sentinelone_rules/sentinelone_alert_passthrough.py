@@ -140,7 +140,6 @@ sentinel_one_alert_passthrough_tests: List[PantherRuleTest] = [
 class SentinelOneAlertPassthrough(PantherRule):
     Description = "SentinelOne Alert Passthrough"
     DisplayName = "SentinelOne Alert Passthrough"
-    Enabled = True
     Reference = (
         "https://www.sentinelone.com/blog/feature-spotlight-introducing-the-new-threat-center/"
     )

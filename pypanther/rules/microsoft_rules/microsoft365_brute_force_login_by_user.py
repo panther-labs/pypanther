@@ -90,7 +90,6 @@ microsoft365_brute_force_loginby_user_tests: List[PantherRuleTest] = [
 class Microsoft365BruteForceLoginbyUser(PantherRule):
     Description = "A Microsoft365 user was denied login access several times"
     DisplayName = "Microsoft365 Brute Force Login by User"
-    Enabled = True
     Reports = {"MITRE ATT&CK": ["TA0006:T1110"]}
     Runbook = "Analyze the IP they came from and actions taken before/after."
     Reference = "https://learn.microsoft.com/en-us/microsoft-365/troubleshoot/authentication/access-denied-when-connect-to-office-365"

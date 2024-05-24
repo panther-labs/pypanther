@@ -133,7 +133,6 @@ aws_config_service_created_tests: List[PantherRuleTest] = [
 class AWSConfigServiceCreated(PantherRule):
     RuleID = "AWS.ConfigService.Created-prototype"
     DisplayName = "AWS Config Service Created"
-    Enabled = True
     LogTypes = [LogType.AWS_CloudTrail]
     Tags = ["AWS", "Security Control", "Discovery:Cloud Service Discovery"]
     Reports = {"CIS": ["3.9"], "MITRE ATT&CK": ["TA0007:T1526"]}

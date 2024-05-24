@@ -63,7 +63,6 @@ slack_audit_logs_org_created_tests: List[PantherRuleTest] = [
 class SlackAuditLogsOrgCreated(PantherRule):
     RuleID = "Slack.AuditLogs.OrgCreated-prototype"
     DisplayName = "Slack Organization Created"
-    Enabled = True
     LogTypes = [LogType.Slack_AuditLogs]
     Tags = ["Slack", "Persistence", "Create Account"]
     Reports = {"MITRE ATT&CK": ["TA0003:T1136"]}

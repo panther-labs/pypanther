@@ -74,7 +74,6 @@ slack_audit_logs_passthrough_anomaly_tests: List[PantherRuleTest] = [
 class SlackAuditLogsPassthroughAnomaly(PantherRule):
     RuleID = "Slack.AuditLogs.PassthroughAnomaly-prototype"
     DisplayName = "Slack Anomaly Detected"
-    Enabled = True
     LogTypes = [LogType.Slack_AuditLogs]
     Tags = ["Slack", "Command and Control", "Application Layer Protocol"]
     Reports = {"MITRE ATT&CK": ["TA0011:T1071"]}

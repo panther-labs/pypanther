@@ -117,7 +117,6 @@ g_suite_calendar_made_public_tests: List[PantherRuleTest] = [
 class GSuiteCalendarMadePublic(PantherRule):
     RuleID = "GSuite.CalendarMadePublic-prototype"
     DisplayName = "GSuite Calendar Has Been Made Public"
-    Enabled = True
     LogTypes = [LogType.GSuite_ActivityEvent]
     Tags = ["GSuite"]
     Reports = {"MITRE ATT&CK": ["TA0007:T1087"]}

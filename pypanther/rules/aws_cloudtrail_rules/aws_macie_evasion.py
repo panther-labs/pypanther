@@ -176,7 +176,6 @@ aws_macie_evasion_tests: List[PantherRuleTest] = [
 class AWSMacieEvasion(PantherRule):
     RuleID = "AWS.Macie.Evasion-prototype"
     DisplayName = "AWS Macie Disabled/Updated"
-    Enabled = True
     LogTypes = [LogType.AWS_CloudTrail]
     Reports = {"MITRE ATT&CK": ["TA0005:T1562"]}
     Severity = Severity.Medium

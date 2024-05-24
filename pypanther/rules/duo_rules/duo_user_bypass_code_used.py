@@ -53,7 +53,6 @@ duo_user_bypass_code_used_tests: List[PantherRuleTest] = [
 class DUOUserBypassCodeUsed(PantherRule):
     RuleID = "DUO.User.BypassCode.Used-prototype"
     DisplayName = "Duo User Bypass Code Used"
-    Enabled = True
     DedupPeriodMinutes = 5
     LogTypes = [LogType.Duo_Authentication]
     Tags = ["Duo"]

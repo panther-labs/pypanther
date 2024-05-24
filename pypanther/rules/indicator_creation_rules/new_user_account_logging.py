@@ -81,7 +81,6 @@ standard_new_user_account_created_tests: List[PantherRuleTest] = [
 class StandardNewUserAccountCreated(PantherRule):
     RuleID = "Standard.NewUserAccountCreated-prototype"
     DisplayName = "New User Account Created"
-    Enabled = True
     LogTypes = [LogType.OneLogin_Events, LogType.AWS_CloudTrail, LogType.Zoom_Operation]
     Tags = ["DataModel", "Indicator Collection", "OneLogin", "Persistence:Create Account"]
     Severity = Severity.Info

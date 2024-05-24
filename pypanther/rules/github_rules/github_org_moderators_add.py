@@ -39,7 +39,6 @@ git_hub_org_moderators_add_tests: List[PantherRuleTest] = [
 class GitHubOrgModeratorsAdd(PantherRule):
     RuleID = "GitHub.Org.Moderators.Add-prototype"
     DisplayName = "GitHub User Added to Org Moderators"
-    Enabled = True
     LogTypes = [LogType.GitHub_Audit]
     Tags = ["GitHub", "Initial Access:Supply Chain Compromise"]
     Severity = Severity.Medium

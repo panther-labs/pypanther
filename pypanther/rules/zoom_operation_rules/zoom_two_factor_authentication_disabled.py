@@ -43,7 +43,6 @@ zoom_two_factor_authentication_disabled_tests: List[PantherRuleTest] = [
 class ZoomTwoFactorAuthenticationDisabled(PantherRule):
     Description = "A Zoom User disabled your organization's setting to sign in with Two-Factor Authentication."
     DisplayName = "Zoom Two Factor Authentication Disabled"
-    Enabled = True
     Runbook = "Confirm this user acted with valid business intent and determine whether this activity was authorized."
     Reference = "https://support.zoom.com/hc/en/article?id=zm_kb&sysparm_article=KB0066054"
     Severity = Severity.Medium

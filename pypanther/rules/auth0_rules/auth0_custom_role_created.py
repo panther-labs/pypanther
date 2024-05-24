@@ -763,7 +763,6 @@ auth0_custom_role_created_tests: List[PantherRuleTest] = [
 class Auth0CustomRoleCreated(PantherRule):
     Description = "An Auth0 User created a role in your organization's tenant."
     DisplayName = "Auth0 Custom Role Created"
-    Enabled = True
     Runbook = "Assess if this was done by the user for a valid business reason. Be vigilant if a user created a role without proper authorization."
     Reference = (
         "https://auth0.com/docs/manage-users/access-control/configure-core-rbac/roles/create-roles"

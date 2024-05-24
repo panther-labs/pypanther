@@ -163,7 +163,6 @@ okta_identity_provider_created_modified_tests: List[PantherRuleTest] = [
 class OktaIdentityProviderCreatedModified(PantherRule):
     RuleID = "Okta.Identity.Provider.Created.Modified-prototype"
     DisplayName = "Okta Identity Provider Created or Modified"
-    Enabled = True
     LogTypes = [LogType.Okta_SystemLog]
     Reports = {"MITRE ATT&CK": ["TA0006:T1556", "TA0001:T1199", "TA0003:T1098"]}
     Severity = Severity.High

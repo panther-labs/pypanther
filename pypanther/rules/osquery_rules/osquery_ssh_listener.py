@@ -79,7 +79,6 @@ osquery_ssh_listener_tests: List[PantherRuleTest] = [
 class OsquerySSHListener(PantherRule):
     RuleID = "Osquery.SSHListener-prototype"
     DisplayName = "OSQuery Detected SSH Listener"
-    Enabled = True
     LogTypes = [LogType.Osquery_Differential]
     Tags = ["Osquery", "Lateral Movement:Remote Services"]
     Reports = {"MITRE ATT&CK": ["TA0008:T1021"]}

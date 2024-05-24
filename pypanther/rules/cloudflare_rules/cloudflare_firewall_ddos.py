@@ -98,7 +98,6 @@ cloudflare_firewall_l7_d_do_s_tests: List[PantherRuleTest] = [
 class CloudflareFirewallL7DDoS(PantherRule):
     RuleID = "Cloudflare.Firewall.L7DDoS-prototype"
     DisplayName = "Cloudflare L7 DDoS"
-    Enabled = True
     LogTypes = [LogType.Cloudflare_Firewall]
     Tags = ["Cloudflare", "Variable Severity"]
     Severity = Severity.Medium

@@ -256,7 +256,6 @@ auth0_integration_installed_tests: List[PantherRuleTest] = [
 class Auth0IntegrationInstalled(PantherRule):
     Description = "An Auth0 integration was installed from the auth0 action library."
     DisplayName = "Auth0 Integration Installed"
-    Enabled = True
     Runbook = "Assess if this was done by the user for a valid business reason. Be vigilant to re-enable this setting as it's in the best security interest for your organization's security posture."
     Reference = "https://auth0.com/blog/actions-integrations-are-now-ga/"
     Severity = Severity.Info

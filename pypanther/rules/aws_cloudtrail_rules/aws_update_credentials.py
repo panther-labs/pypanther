@@ -118,7 +118,6 @@ awsiam_credentials_updated_tests: List[PantherRuleTest] = [
 class AWSIAMCredentialsUpdated(PantherRule):
     RuleID = "AWS.IAM.CredentialsUpdated-prototype"
     DisplayName = "New IAM Credentials Updated"
-    Enabled = True
     LogTypes = [LogType.AWS_CloudTrail]
     Reports = {"MITRE ATT&CK": ["TA0003:T1098"]}
     Tags = ["AWS", "Identity & Access Management", "Persistence:Account Manipulation"]

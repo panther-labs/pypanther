@@ -84,7 +84,6 @@ tailscale_machine_approval_requirements_disabled_tests: List[PantherRuleTest] = 
 class TailscaleMachineApprovalRequirementsDisabled(PantherRule):
     Description = "A Tailscale User disabled machine approval requirement settings in your organization's tenant. This means devices can access your network without requiring approval."
     DisplayName = "Tailscale Machine Approval Requirements Disabled"
-    Enabled = True
     Runbook = "Assess if this was done by the user for a valid business reason. Be vigilant to re-enable this setting as it's in the best security interest for your organization's security posture."
     Reference = "https://tailscale.com/kb/1099/device-approval/"
     Severity = Severity.High

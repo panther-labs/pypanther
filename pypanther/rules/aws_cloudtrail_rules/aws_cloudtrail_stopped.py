@@ -150,7 +150,6 @@ aws_cloud_trail_stopped_tests: List[PantherRuleTest] = [
 class AWSCloudTrailStopped(PantherRule):
     RuleID = "AWS.CloudTrail.Stopped-prototype"
     DisplayName = "CloudTrail Stopped"
-    Enabled = True
     LogTypes = [LogType.AWS_CloudTrail]
     Tags = ["AWS", "Security Control", "DemoThreatHunting", "Defense Evasion:Impair Defenses"]
     Reports = {"CIS": ["3.5"], "MITRE ATT&CK": ["TA0005:T1562"]}

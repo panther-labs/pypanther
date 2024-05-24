@@ -117,7 +117,6 @@ g_suite_workspace_gmail_default_routing_rule_modified_tests: List[PantherRuleTes
 class GSuiteWorkspaceGmailDefaultRoutingRuleModified(PantherRule):
     RuleID = "GSuite.Workspace.GmailDefaultRoutingRuleModified-prototype"
     DisplayName = "GSuite Workspace Gmail Default Routing Rule Modified"
-    Enabled = True
     LogTypes = [LogType.GSuite_ActivityEvent]
     Tags = ["GSuite"]
     Reports = {"MITRE ATT&CK": ["TA0003:T1098"]}

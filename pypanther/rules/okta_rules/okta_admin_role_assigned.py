@@ -128,7 +128,6 @@ okta_admin_role_assigned_tests: List[PantherRuleTest] = [
 class OktaAdminRoleAssigned(PantherRule):
     RuleID = "Okta.AdminRoleAssigned-prototype"
     DisplayName = "Okta Admin Role Assigned"
-    Enabled = True
     LogTypes = [LogType.Okta_SystemLog]
     Tags = ["Identity & Access Management", "Okta", "Privilege Escalation:Valid Accounts"]
     Reports = {"MITRE ATT&CK": ["TA0004:T1078"]}

@@ -151,7 +151,6 @@ dropbox_adminsigninas_session_tests: List[PantherRuleTest] = [
 class DropboxAdminsigninasSession(PantherRule):
     Description = "Alerts when an admin starts a sign-in-as session."
     DisplayName = "Dropbox Admin sign-in-as Session"
-    Enabled = True
     Reference = "https://help.dropbox.com/security/sign-in-as-user"
     Severity = Severity.Medium
     LogTypes = [LogType.Dropbox_TeamEvent]

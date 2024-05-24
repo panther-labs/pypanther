@@ -31,7 +31,6 @@ g_suite_advanced_protection_tests: List[PantherRuleTest] = [
 class GSuiteAdvancedProtection(PantherRule):
     RuleID = "GSuite.AdvancedProtection-prototype"
     DisplayName = "GSuite User Advanced Protection Change"
-    Enabled = True
     LogTypes = [LogType.GSuite_ActivityEvent]
     Tags = ["GSuite", "Defense Evasion:Impair Defenses"]
     Reports = {"MITRE ATT&CK": ["TA0005:T1562"]}

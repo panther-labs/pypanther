@@ -163,7 +163,6 @@ okta_password_extractionvia_scim_tests: List[PantherRuleTest] = [
 class OktaPasswordExtractionviaSCIM(PantherRule):
     RuleID = "Okta.Password.Extraction.via.SCIM-prototype"
     DisplayName = "Okta Cleartext Passwords Extracted via SCIM Application"
-    Enabled = True
     LogTypes = [LogType.Okta_SystemLog]
     Reports = {"MITRE ATT&CK": ["TA0006:T1556"]}
     Severity = Severity.High

@@ -75,7 +75,6 @@ slack_audit_logs_application_do_s_tests: List[PantherRuleTest] = [
 class SlackAuditLogsApplicationDoS(PantherRule):
     RuleID = "Slack.AuditLogs.ApplicationDoS-prototype"
     DisplayName = "Slack Denial of Service"
-    Enabled = True
     LogTypes = [LogType.Slack_AuditLogs]
     Tags = ["Slack", "Impact", "Endpoint Denial of Service", "Application Exhaustion Flood"]
     Reports = {"MITRE ATT&CK": ["TA0040:T1499.003"]}

@@ -226,7 +226,6 @@ okta_rate_limits_tests: List[PantherRuleTest] = [
 class OktaRateLimits(PantherRule):
     Description = "Potential DoS/Bruteforce attack or hitting limits (system degradation)"
     DisplayName = "Okta Rate Limits"
-    Enabled = True
     Severity = Severity.High
     Tags = ["Credential Access", "Brute Force", "Impact", "Network Denial of Service"]
     Reports = {"MITRE ATT&CK": ["TA0006:T1110", "TA0040:T1498"]}

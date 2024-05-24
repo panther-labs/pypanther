@@ -74,7 +74,6 @@ slack_audit_logs_ekm_unenrolled_tests: List[PantherRuleTest] = [
 class SlackAuditLogsEKMUnenrolled(PantherRule):
     RuleID = "Slack.AuditLogs.EKMUnenrolled-prototype"
     DisplayName = "Slack EKM Unenrolled"
-    Enabled = True
     LogTypes = [LogType.Slack_AuditLogs]
     Tags = ["Slack", "Defense Evasion", "Weaken Encryption"]
     Reports = {"MITRE ATT&CK": ["TA0005:T1600"]}

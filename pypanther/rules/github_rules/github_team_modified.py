@@ -49,7 +49,6 @@ git_hub_team_modified_tests: List[PantherRuleTest] = [
 class GitHubTeamModified(PantherRule):
     RuleID = "GitHub.Team.Modified-prototype"
     DisplayName = "GitHub Team Modified"
-    Enabled = True
     LogTypes = [LogType.GitHub_Audit]
     Tags = ["GitHub", "Initial Access:Supply Chain Compromise"]
     Reports = {"MITRE ATT&CK": ["TA0001:T1195"]}

@@ -42,7 +42,6 @@ tines_actions_disabled_changes_tests: List[PantherRuleTest] = [
 class TinesActionsDisabledChanges(PantherRule):
     RuleID = "Tines.Actions.DisabledChanges-prototype"
     DisplayName = "Tines Actions Disabled Change"
-    Enabled = True
     LogTypes = [LogType.Tines_Audit]
     Tags = ["Tines"]
     Reference = "https://www.tines.com/university/tines-basics/architecture-of-an-action"

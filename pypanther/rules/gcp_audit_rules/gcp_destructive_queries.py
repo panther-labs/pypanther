@@ -141,7 +141,6 @@ gcp_destructive_queries_tests: List[PantherRuleTest] = [
 class GCPDestructiveQueries(PantherRule):
     Description = "Detect any destructive BigQuery queries or jobs such as update, delete, drop, alter or truncate."
     DisplayName = "GCP Destructive Queries"
-    Enabled = True
     Reference = "https://cloud.google.com/bigquery/docs/managing-tables"
     Severity = Severity.Info
     LogTypes = [LogType.GCP_AuditLog]

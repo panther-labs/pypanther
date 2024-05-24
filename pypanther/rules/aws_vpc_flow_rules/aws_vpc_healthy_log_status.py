@@ -15,7 +15,6 @@ awsvpc_healthy_log_status_tests: List[PantherRuleTest] = [
 class AWSVPCHealthyLogStatus(PantherRule):
     RuleID = "AWS.VPC.HealthyLogStatus-prototype"
     DisplayName = "AWS VPC Healthy Log Status"
-    Enabled = True
     LogTypes = [LogType.AWS_VPCFlow]
     Tags = ["AWS", "Security Control"]
     Severity = Severity.Low

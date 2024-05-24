@@ -8,7 +8,6 @@ from pypanther.log_types import LogType
 class NotionPageSharedToWeb(PantherRule):
     RuleID = "Notion.PageSharedToWeb-prototype"
     DisplayName = "Notion Page Published to Web"
-    Enabled = True
     LogTypes = [LogType.Notion_AuditLogs]
     Tags = ["Notion", "Data Security", "Information Disclosure"]
     Severity = Severity.Low

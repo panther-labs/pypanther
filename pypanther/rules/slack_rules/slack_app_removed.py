@@ -162,7 +162,6 @@ slack_audit_logs_app_removed_tests: List[PantherRuleTest] = [
 class SlackAuditLogsAppRemoved(PantherRule):
     RuleID = "Slack.AuditLogs.AppRemoved-prototype"
     DisplayName = "Slack App Removed"
-    Enabled = True
     LogTypes = [LogType.Slack_AuditLogs]
     Tags = [
         "Slack",

@@ -166,7 +166,6 @@ gcp_firewall_rule_modified_tests: List[PantherRuleTest] = [
 
 class GCPFirewallRuleModified(PantherRule):
     DisplayName = "GCP Firewall Rule Modified"
-    Enabled = True
     RuleID = "GCP.Firewall.Rule.Modified-prototype"
     Severity = Severity.Low
     LogTypes = [LogType.GCP_AuditLog]

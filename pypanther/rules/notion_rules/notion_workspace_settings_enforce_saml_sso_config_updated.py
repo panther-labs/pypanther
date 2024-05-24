@@ -75,7 +75,6 @@ notion_samlsso_configuration_changed_tests: List[PantherRuleTest] = [
 class NotionSAMLSSOConfigurationChanged(PantherRule):
     RuleID = "Notion.SAML.SSO.Configuration.Changed-prototype"
     DisplayName = "Notion SAML SSO Configuration Changed"
-    Enabled = True
     LogTypes = [LogType.Notion_AuditLogs]
     Tags = ["Notion", "Identity & Access Management", "Credential Security"]
     Severity = Severity.High

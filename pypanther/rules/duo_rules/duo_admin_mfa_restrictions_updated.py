@@ -35,7 +35,6 @@ class DuoAdminMFARestrictionsUpdated(PantherRule):
         "Detects changes to allowed MFA factors administrators can use to log into the admin panel."
     )
     DisplayName = "Duo Admin MFA Restrictions Updated"
-    Enabled = True
     Reference = "https://duo.com/docs/essentials-overview"
     Severity = Severity.Medium
     LogTypes = [LogType.Duo_Administrator]

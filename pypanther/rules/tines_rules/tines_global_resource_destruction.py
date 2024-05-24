@@ -44,7 +44,6 @@ tines_global_resource_destruction_tests: List[PantherRuleTest] = [
 class TinesGlobalResourceDestruction(PantherRule):
     RuleID = "Tines.Global.Resource.Destruction-prototype"
     DisplayName = "Tines Global Resource Destruction"
-    Enabled = True
     SummaryAttributes = ["user_id", "operation_name", "tenant_id", "request_ip"]
     LogTypes = [LogType.Tines_Audit]
     Tags = ["Tines"]

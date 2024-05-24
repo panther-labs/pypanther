@@ -46,7 +46,6 @@ teleport_auth_errors_tests: List[PantherRuleTest] = [
 class TeleportAuthErrors(PantherRule):
     RuleID = "Teleport.AuthErrors-prototype"
     DisplayName = "Teleport SSH Auth Errors"
-    Enabled = True
     LogTypes = [LogType.Gravitational_TeleportAudit]
     Tags = ["SSH", "Credential Access:Brute Force"]
     Severity = Severity.Medium

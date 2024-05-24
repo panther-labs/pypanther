@@ -25,7 +25,6 @@ teleport_role_created_tests: List[PantherRuleTest] = [
 class TeleportRoleCreated(PantherRule):
     RuleID = "Teleport.RoleCreated-prototype"
     DisplayName = "A Teleport Role was modified or created"
-    Enabled = True
     LogTypes = [LogType.Gravitational_TeleportAudit]
     Tags = ["Teleport"]
     Severity = Severity.Medium

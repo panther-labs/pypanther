@@ -99,7 +99,6 @@ class MicrosoftGraphPassthrough(PantherRule):
     Description = "The Microsoft Graph security API federates queries to all onboarded security providers, including Azure AD Identity Protection, Microsoft 365, Microsoft Defender (Cloud, Endpoint, Identity) and Microsoft Sentinel"
     Reference = "https://learn.microsoft.com/en-us/graph/api/resources/security-api-overview"
     DisplayName = "Microsoft Graph Passthrough"
-    Enabled = True
     Severity = Severity.Medium
     LogTypes = [LogType.MicrosoftGraph_SecurityAlert]
     RuleID = "Microsoft.Graph.Passthrough-prototype"

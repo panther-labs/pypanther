@@ -96,7 +96,6 @@ g_suite_workspace_password_enforce_strong_disabled_tests: List[PantherRuleTest] 
 class GSuiteWorkspacePasswordEnforceStrongDisabled(PantherRule):
     RuleID = "GSuite.Workspace.PasswordEnforceStrongDisabled-prototype"
     DisplayName = "GSuite Workspace Strong Password Enforcement Has Been Disabled"
-    Enabled = True
     LogTypes = [LogType.GSuite_ActivityEvent]
     Tags = ["GSuite"]
     Severity = Severity.High

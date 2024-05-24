@@ -34,7 +34,6 @@ git_hub_branch_protection_disabled_tests: List[PantherRuleTest] = [
 class GitHubBranchProtectionDisabled(PantherRule):
     RuleID = "GitHub.Branch.ProtectionDisabled-prototype"
     DisplayName = "GitHub Branch Protection Disabled"
-    Enabled = True
     LogTypes = [LogType.GitHub_Audit]
     Tags = ["GitHub", "Initial Access:Supply Chain Compromise"]
     Reports = {"MITRE ATT&CK": ["TA0001:T1195"]}

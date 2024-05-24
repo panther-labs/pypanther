@@ -37,7 +37,6 @@ one_login_active_login_activity_tests: List[PantherRuleTest] = [
 class OneLoginActiveLoginActivity(PantherRule):
     RuleID = "OneLogin.ActiveLoginActivity-prototype"
     DisplayName = "OneLogin Active Login Activity"
-    Enabled = True
     LogTypes = [LogType.OneLogin_Events]
     Tags = ["OneLogin", "Lateral Movement:Use Alternate Authentication Material"]
     Severity = Severity.Medium

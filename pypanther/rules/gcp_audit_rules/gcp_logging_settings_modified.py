@@ -127,7 +127,6 @@ gcp_logging_settings_modified_tests: List[PantherRuleTest] = [
 class GCPLoggingSettingsModified(PantherRule):
     Description = "Detects any changes made to logging settings"
     DisplayName = "GCP Logging Settings Modified"
-    Enabled = True
     Reference = "https://cloud.google.com/logging/docs/default-settings"
     Severity = Severity.Low
     LogTypes = [LogType.GCP_AuditLog]

@@ -68,7 +68,6 @@ notion_workspace_public_page_added_tests: List[PantherRuleTest] = [
 class NotionWorkspacePublicPageAdded(PantherRule):
     RuleID = "Notion.Workspace.Public.Page.Added-prototype"
     DisplayName = "Notion Workspace public page added"
-    Enabled = True
     LogTypes = [LogType.Notion_AuditLogs]
     Tags = ["Notion", "Data Security", "Information Disclosure"]
     Severity = Severity.Info

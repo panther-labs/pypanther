@@ -75,7 +75,6 @@ box_malicious_content_tests: List[PantherRuleTest] = [
 class BoxMaliciousContent(PantherRule):
     RuleID = "Box.Malicious.Content-prototype"
     DisplayName = "Malicious Content Detected"
-    Enabled = True
     LogTypes = [LogType.Box_Event]
     Tags = ["Box", "Execution:User Execution"]
     Reports = {"MITRE ATT&CK": ["TA0002:T1204"]}

@@ -57,7 +57,6 @@ asana_workspace_require_app_approvals_disabled_tests: List[PantherRuleTest] = [
 class AsanaWorkspaceRequireAppApprovalsDisabled(PantherRule):
     Description = "An Asana user turned off app approval requirements for an application type for your organization."
     DisplayName = "Asana Workspace Require App Approvals Disabled"
-    Enabled = True
     Runbook = "Confirm this user acted with valid business intent and determine whether this activity was authorized."
     Reference = "https://help.asana.com/hc/en-us/articles/14109494654875-Admin-console#:~:text=used%20by%20default-,Require%20app%20approval,-Admins%20manage%20a"
     Severity = Severity.Medium

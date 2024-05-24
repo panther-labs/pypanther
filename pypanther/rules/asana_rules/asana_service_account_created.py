@@ -84,7 +84,6 @@ asana_service_account_created_tests: List[PantherRuleTest] = [
 class AsanaServiceAccountCreated(PantherRule):
     Description = "An Asana service account was created by someone in your organization."
     DisplayName = "Asana Service Account Created"
-    Enabled = True
     Runbook = "Confirm this user acted with valid business intent and determine whether this activity was authorized."
     Reference = "https://help.asana.com/hc/en-us/articles/14217496838427-Service-Accounts"
     Severity = Severity.Medium

@@ -384,7 +384,6 @@ auth0_mfa_factor_setting_enabled_tests: List[PantherRuleTest] = [
 class Auth0MFAFactorSettingEnabled(PantherRule):
     Description = "An Auth0 user enabled an mfa factor in your organization's mfa settings."
     DisplayName = "Auth0 mfa factor enabled"
-    Enabled = True
     Runbook = "Assess if this was done by the user for a valid business reason. Be vigilant to re-enable this setting as it's in the best security interest for your organization's security posture."
     Reference = "https://auth0.com/docs/secure/multi-factor-authentication/multi-factor-authentication-factors"
     Severity = Severity.Info

@@ -22,7 +22,6 @@ gcpk8s_ioc_activity_tests: List[PantherRuleTest] = [
 class GCPK8sIOCActivity(PantherRule):
     RuleID = "GCP.K8s.IOC.Activity-prototype"
     DisplayName = "GCP K8s IOCActivity"
-    Enabled = True
     LogTypes = [LogType.GCP_AuditLog]
     Tags = ["GCP", "Optional"]
     Severity = Severity.Medium

@@ -34,7 +34,6 @@ gcpsql_config_changes_tests: List[PantherRuleTest] = [
 class GCPSQLConfigChanges(PantherRule):
     RuleID = "GCP.SQL.ConfigChanges-prototype"
     DisplayName = "GCP SQL Config Changes"
-    Enabled = True
     DedupPeriodMinutes = 720
     LogTypes = [LogType.GCP_AuditLog]
     Tags = ["GCP", "Database"]

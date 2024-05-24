@@ -198,7 +198,6 @@ gcp_user_addedto_iap_protected_service_tests: List[PantherRuleTest] = [
 class GCPUserAddedtoIAPProtectedService(PantherRule):
     Description = "A user has been granted access to a IAP protected service."
     DisplayName = "GCP User Added to IAP Protected Service"
-    Enabled = True
     Runbook = "Note: GCP logs all bindings everytime this event occurs, not just changes. Bindings should be reviewed to ensure no unintended users have been added. "
     Reference = "https://cloud.google.com/iap/docs/managing-access"
     Severity = Severity.Low

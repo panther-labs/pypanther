@@ -53,7 +53,6 @@ netskope_many_deletes_tests: List[PantherRuleTest] = [
 class NetskopeManyDeletes(PantherRule):
     RuleID = "Netskope.ManyDeletes-prototype"
     DisplayName = "Netskope Many Objects Deleted"
-    Enabled = True
     LogTypes = [LogType.Netskope_Audit]
     Tags = ["Netskope", "Configuration Required", "Data Destruction"]
     Reports = {"MITRE ATT&CK": ["TA0040:T1485"]}

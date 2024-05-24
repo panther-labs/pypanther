@@ -222,7 +222,6 @@ aws_root_activity_tests: List[PantherRuleTest] = [
 class AWSRootActivity(PantherRule):
     RuleID = "AWS.Root.Activity-prototype"
     DisplayName = "Root Account Activity"
-    Enabled = True
     LogTypes = [LogType.AWS_CloudTrail]
     Tags = [
         "AWS",

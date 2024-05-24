@@ -120,7 +120,6 @@ okta_user_mfa_reset_all_tests: List[PantherRuleTest] = [
 class OktaUserMFAResetAll(PantherRule):
     Description = "All MFA factors have been reset for a user."
     DisplayName = "Okta User MFA Reset All"
-    Enabled = True
     Reference = "https://help.okta.com/en-us/content/topics/security/mfa/mfa-reset-users.htm#:~:text=the%20Admin%20Console%3A-,In%20the%20Admin%20Console%2C%20go%20to%20DirectoryPeople.,Selected%20Factors%20or%20Reset%20All"
     Severity = Severity.Low
     LogTypes = [LogType.Okta_SystemLog]

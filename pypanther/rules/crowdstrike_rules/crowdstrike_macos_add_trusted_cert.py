@@ -391,7 +391,6 @@ crowdstrike_macos_add_trusted_cert_tests: List[PantherRuleTest] = [
 class CrowdstrikeMacosAddTrustedCert(PantherRule):
     DisplayName = "CrowdStrike MacOS Added Trusted Cert"
     Description = "Detects attempt to install a root certificate on MacOS"
-    Enabled = True
     RuleID = "Crowdstrike.Macos.Add.Trusted.Cert-prototype"
     Reference = "https://docs.panther.com/data-onboarding/supported-logs/crowdstrike#crowdstrike.processrollup2"
     Severity = Severity.Medium

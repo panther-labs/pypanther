@@ -159,7 +159,6 @@ class ConnectiontoEmbargoedCountry(PantherRule):
     Description = "Detection to alert when internal asset is communicating with an sanctioned destination. This detection leverages Panther UDM and IPInfo enrichment."
     Reference = "U.S. Sanctioned Destinations - https://www.bis.doc.gov/index.php/policy-guidance/country-guidance/sanctioned-destinations"
     DisplayName = "Connection to Embargoed Country"
-    Enabled = True
     LogTypes = [LogType.Crowdstrike_FDREvent]
     RuleID = "Connection.to.Embargoed.Country-prototype"
     Severity = Severity.Low

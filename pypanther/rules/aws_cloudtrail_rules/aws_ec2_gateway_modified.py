@@ -136,7 +136,6 @@ awsec2_gateway_modified_tests: List[PantherRuleTest] = [
 class AWSEC2GatewayModified(PantherRule):
     RuleID = "AWS.EC2.GatewayModified-prototype"
     DisplayName = "EC2 Network Gateway Modified"
-    Enabled = True
     LogTypes = [LogType.AWS_CloudTrail]
     Tags = ["AWS", "Security Control", "Defense Evasion:Impair Defenses"]
     Reports = {"CIS": ["3.12"], "MITRE ATT&CK": ["TA0005:T1562"]}

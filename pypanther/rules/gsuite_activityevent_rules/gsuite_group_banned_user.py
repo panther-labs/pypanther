@@ -31,7 +31,6 @@ g_suite_group_banned_user_tests: List[PantherRuleTest] = [
 class GSuiteGroupBannedUser(PantherRule):
     RuleID = "GSuite.GroupBannedUser-prototype"
     DisplayName = "GSuite User Banned from Group"
-    Enabled = True
     LogTypes = [LogType.GSuite_ActivityEvent]
     Tags = ["GSuite"]
     Severity = Severity.Low

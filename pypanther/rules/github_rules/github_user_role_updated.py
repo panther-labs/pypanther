@@ -34,7 +34,6 @@ git_hub_user_role_updated_tests: List[PantherRuleTest] = [
 class GitHubUserRoleUpdated(PantherRule):
     RuleID = "GitHub.User.RoleUpdated-prototype"
     DisplayName = "GitHub User Role Updated"
-    Enabled = True
     LogTypes = [LogType.GitHub_Audit]
     Tags = ["GitHub", "Persistence:Account Manipulation"]
     Reports = {"MITRE ATT&CK": ["TA0003:T1098"]}

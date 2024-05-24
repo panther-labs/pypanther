@@ -136,7 +136,6 @@ g_suite_workspace_calendar_external_sharing_setting_tests: List[PantherRuleTest]
 class GSuiteWorkspaceCalendarExternalSharingSetting(PantherRule):
     RuleID = "GSuite.Workspace.CalendarExternalSharingSetting-prototype"
     DisplayName = "GSuite Workspace Calendar External Sharing Setting Change"
-    Enabled = True
     LogTypes = [LogType.GSuite_ActivityEvent]
     Tags = ["GSuite"]
     Reports = {"MITRE ATT&CK": ["TA0007:T1087"]}

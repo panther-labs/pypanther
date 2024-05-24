@@ -210,7 +210,6 @@ snyk_service_account_change_tests: List[PantherRuleTest] = [
 class SnykServiceAccountChange(PantherRule):
     RuleID = "Snyk.ServiceAccount.Change-prototype"
     DisplayName = "Snyk Service Account Change"
-    Enabled = True
     LogTypes = [LogType.Snyk_GroupAudit, LogType.Snyk_OrgAudit]
     Tags = ["Snyk"]
     Severity = Severity.High

@@ -53,7 +53,6 @@ duo_user_denied_anomalous_push_tests: List[PantherRuleTest] = [
 class DUOUserDeniedAnomalousPush(PantherRule):
     RuleID = "DUO.User.Denied.AnomalousPush-prototype"
     DisplayName = "Duo User Auth Denied For Anomalous Push"
-    Enabled = True
     DedupPeriodMinutes = 15
     LogTypes = [LogType.Duo_Authentication]
     Tags = ["Duo"]

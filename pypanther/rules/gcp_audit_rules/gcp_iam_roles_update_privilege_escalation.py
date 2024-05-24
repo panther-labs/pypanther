@@ -47,7 +47,6 @@ class GCPiamrolesupdatePrivilegeEscalation(PantherRule):
     RuleID = "GCP.iam.roles.update.Privilege.Escalation-prototype"
     DisplayName = "GCP iam.roles.update Privilege Escalation"
     Description = "If your user is assigned a custom IAM role, then iam.roles.update will allow you to update the “includedPermissons” on that role. Because it is assigned to you, you will gain the additional privileges, which could be anything you desire."
-    Enabled = True
     LogTypes = [LogType.GCP_AuditLog]
     Tags = ["GCP"]
     Severity = Severity.High

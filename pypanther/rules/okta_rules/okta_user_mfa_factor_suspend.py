@@ -162,7 +162,6 @@ okta_user_mfa_factor_suspend_tests: List[PantherRuleTest] = [
 class OktaUserMFAFactorSuspend(PantherRule):
     Description = "Suspend factor or authenticator enrollment method for user."
     DisplayName = "Okta User MFA Factor Suspend"
-    Enabled = True
     Reference = "https://help.okta.com/en-us/content/topics/security/mfa/mfa-factors.htm"
     Severity = Severity.High
     LogTypes = [LogType.Okta_SystemLog]

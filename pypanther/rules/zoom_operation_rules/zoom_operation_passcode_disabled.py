@@ -47,7 +47,6 @@ zoom_passcode_disabled_tests: List[PantherRuleTest] = [
 class ZoomPasscodeDisabled(PantherRule):
     RuleID = "Zoom.PasscodeDisabled-prototype"
     DisplayName = "Zoom Meeting Passcode Disabled"
-    Enabled = True
     LogTypes = [LogType.Zoom_Operation]
     Tags = ["Zoom", "Collection:Video Capture"]
     Severity = Severity.Low

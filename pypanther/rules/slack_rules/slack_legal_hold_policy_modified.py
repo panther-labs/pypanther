@@ -152,7 +152,6 @@ slack_audit_logs_legal_hold_policy_modified_tests: List[PantherRuleTest] = [
 class SlackAuditLogsLegalHoldPolicyModified(PantherRule):
     RuleID = "Slack.AuditLogs.LegalHoldPolicyModified-prototype"
     DisplayName = "Slack Legal Hold Policy Modified"
-    Enabled = True
     LogTypes = [LogType.Slack_AuditLogs]
     Tags = ["Slack", "Defense Evasion", "Impair Defenses", "Disable or Modify Tools"]
     Reports = {"MITRE ATT&CK": ["TA0005:T1562.001"]}

@@ -100,7 +100,6 @@ slack_audit_logs_dlp_modified_tests: List[PantherRuleTest] = [
 class SlackAuditLogsDLPModified(PantherRule):
     RuleID = "Slack.AuditLogs.DLPModified-prototype"
     DisplayName = "Slack DLP Modified"
-    Enabled = True
     LogTypes = [LogType.Slack_AuditLogs]
     Tags = [
         "Slack",

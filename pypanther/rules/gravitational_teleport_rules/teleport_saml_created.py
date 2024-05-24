@@ -24,7 +24,6 @@ teleport_saml_created_tests: List[PantherRuleTest] = [
 class TeleportSAMLCreated(PantherRule):
     RuleID = "Teleport.SAMLCreated-prototype"
     DisplayName = "A SAML Connector was created or modified"
-    Enabled = True
     LogTypes = [LogType.Gravitational_TeleportAudit]
     Tags = ["Teleport"]
     Severity = Severity.High

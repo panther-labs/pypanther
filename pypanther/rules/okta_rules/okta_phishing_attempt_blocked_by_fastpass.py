@@ -163,7 +163,6 @@ okta_phishing_attempt_blocked_fast_pass_tests: List[PantherRuleTest] = [
 class OktaPhishingAttemptBlockedFastPass(PantherRule):
     RuleID = "Okta.Phishing.Attempt.Blocked.FastPass-prototype"
     DisplayName = "Okta AiTM Phishing Attempt Blocked by FastPass"
-    Enabled = True
     LogTypes = [LogType.Okta_SystemLog]
     Reports = {"MITRE ATT&CK": ["TA0001:T1566", "TA0006:T1556", "TA0003:T1078.004"]}
     Severity = Severity.High

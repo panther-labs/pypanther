@@ -63,7 +63,6 @@ netskope_unauthorized_api_calls_tests: List[PantherRuleTest] = [
 class NetskopeUnauthorizedAPICalls(PantherRule):
     RuleID = "Netskope.UnauthorizedAPICalls-prototype"
     DisplayName = "Netskope Many Unauthorized API Calls"
-    Enabled = True
     LogTypes = [LogType.Netskope_Audit]
     Tags = ["Netskope", "Configuration Required", "Brute Force"]
     Reports = {"MITRE ATT&CK": ["TA0006:T1110"]}
