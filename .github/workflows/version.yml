@@ -1,0 +1,39 @@
+name: Version Increment
+
+on:
+  push:
+    branches:
+    - main
+
+jobs:
+  bump_version:
+    name: Update version
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: write
+    if: ${{ github.event.head_commit.message != 'Updating version' && github.event.head_commit.author.username != 'panther-airplane-bot' }}
+    steps:
+    - name: Checkout Repo
+      uses: actions/checkout@v3
+      with:
+        ref: ${{ github.ref_name }}
+        token: ${{ secrets.PANTHER_BOT_AUTOMATION_TOKEN }}
+    - name: Install Requirements
+      run: |
+        pip install --upgrade pip poetry
+    - name: Bump patch version
+      run: poetry version prerelease
+    - name: Push updated VERSION file
+      run: |
+        git config --global user.email "github-service-account-automation@panther.io"
+        git config --global user.name "panther-bot-automation"
+        git fetch --depth=1 origin ${{ github.ref_name }}
+        git add pyproject.toml
+        git commit -m "Updating version"
+        git push -u origin ${{ github.ref_name }}
+    - name: Tag the release
+      run: |
+        echo "Tagging v$(poetry version)"
+        git tag "v$(poetry version)"
+        git push --tags
