@@ -1,6 +1,6 @@
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, Severity
+from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import github_alert_context
 from pypanther.log_types import LogType
 
@@ -54,7 +54,7 @@ class GithubOrganizationAppIntegrationInstalled(PantherRule):
     DisplayName = "Github Organization App Integration Installed"
     Reference = "https://docs.github.com/en/enterprise-server@3.4/developers/apps/managing-github-apps/installing-github-apps"
     Runbook = "Confirm that the app integration installation was a desired behavior."
-    Severity = Severity.Low
+    Severity = PantherSeverity.Low
     Tags = ["Application Installation", "Github"]
     LogTypes = [LogType.GitHub_Audit]
     RuleID = "Github.Organization.App.Integration.Installed-prototype"

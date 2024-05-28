@@ -1,6 +1,6 @@
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, Severity
+from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.log_types import LogType
 
 one_login_threshold_accounts_deleted_tests: List[PantherRuleTest] = [
@@ -34,7 +34,7 @@ class OneLoginThresholdAccountsDeleted(PantherRule):
     DisplayName = "OneLogin Multiple Accounts Deleted"
     LogTypes = [LogType.OneLogin_Events]
     Tags = ["OneLogin", "Impact:Account Access Removal"]
-    Severity = Severity.Medium
+    Severity = PantherSeverity.Medium
     Reports = {"MITRE ATT&CK": ["TA0040:T1531"]}
     Description = (
         "Possible Denial of Service detected. Threshold for user account deletions exceeded.\n"

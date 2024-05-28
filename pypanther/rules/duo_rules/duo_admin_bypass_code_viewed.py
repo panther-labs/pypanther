@@ -1,6 +1,6 @@
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, Severity
+from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.log_types import LogType
 
 duo_admin_bypass_code_viewed_tests: List[PantherRuleTest] = [
@@ -36,7 +36,7 @@ class DuoAdminBypassCodeViewed(PantherRule):
     DisplayName = "Duo Admin Bypass Code Viewed"
     Reference = "https://duo.com/docs/adminapi"
     Runbook = "Confirm this behavior is authorized. The security of your Duo application is tied to the security of your secret key (skey). Secure it as you would any sensitive credential. You should not share it with unauthorized individuals or email it to anyone under any circumstances!"
-    Severity = Severity.Medium
+    Severity = PantherSeverity.Medium
     LogTypes = [LogType.Duo_Administrator]
     RuleID = "Duo.Admin.Bypass.Code.Viewed-prototype"
     Tests = duo_admin_bypass_code_viewed_tests

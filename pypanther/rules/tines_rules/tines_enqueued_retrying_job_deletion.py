@@ -1,6 +1,6 @@
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, Severity
+from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import deep_get
 from pypanther.helpers.panther_tines_helpers import tines_alert_context
 from pypanther.log_types import LogType
@@ -62,7 +62,7 @@ class TinesEnqueuedRetryingJobDestruction(PantherRule):
     DisplayName = "Tines Enqueued/Retrying Job Deletion"
     LogTypes = [LogType.Tines_Audit]
     Tags = ["Tines"]
-    Severity = Severity.Low
+    Severity = PantherSeverity.Low
     Description = "Currently enqueued or retrying jobs were cleared"
     Runbook = "Possible data destruction. Please reach out to the user and confirm this was done for valid business reasons."
     Reference = "https://www.tines.com/docs/self-hosting/job-management"

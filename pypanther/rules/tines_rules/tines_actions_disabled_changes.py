@@ -1,6 +1,6 @@
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, Severity
+from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import deep_get
 from pypanther.helpers.panther_tines_helpers import tines_alert_context
 from pypanther.log_types import LogType
@@ -45,7 +45,7 @@ class TinesActionsDisabledChanges(PantherRule):
     LogTypes = [LogType.Tines_Audit]
     Tags = ["Tines"]
     Reference = "https://www.tines.com/university/tines-basics/architecture-of-an-action"
-    Severity = Severity.Medium
+    Severity = PantherSeverity.Medium
     Description = "Detections when Tines Actions are set to Disabled Change\n"
     SummaryAttributes = ["user_id", "operation_name", "tenant_id", "request_ip"]
     Tests = tines_actions_disabled_changes_tests

@@ -1,6 +1,6 @@
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, Severity
+from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_cloudflare_helpers import cloudflare_fw_alert_context
 from pypanther.log_types import LogType
 
@@ -100,7 +100,7 @@ class CloudflareFirewallL7DDoS(PantherRule):
     DisplayName = "Cloudflare L7 DDoS"
     LogTypes = [LogType.Cloudflare_Firewall]
     Tags = ["Cloudflare", "Variable Severity"]
-    Severity = Severity.Medium
+    Severity = PantherSeverity.Medium
     Description = "Layer 7 Distributed Denial of Service (DDoS) detected"
     Runbook = "Inspect and monitor internet-facing services for potential outages"
     Reference = "https://www.cloudflare.com/en-gb/learning/ddos/application-layer-ddos-attack/"

@@ -1,7 +1,7 @@
 from ipaddress import ip_network
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, Severity
+from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import aws_rule_context
 from pypanther.log_types import LogType
 
@@ -37,7 +37,7 @@ class AWSVPCInboundPortWhitelist(PantherRule):
     ]
     Reports = {"MITRE ATT&CK": ["TA0011:T1571"]}
     Reference = "https://docs.aws.amazon.com/vpc/latest/userguide/flow-logs.html"
-    Severity = Severity.High
+    Severity = PantherSeverity.High
     Description = "VPC Flow Logs observed inbound traffic violating the port allowlist.\n"
     Runbook = "Block the unapproved traffic, or update the approved ports list.\n"
     SummaryAttributes = ["srcaddr", "dstaddr", "dstport"]

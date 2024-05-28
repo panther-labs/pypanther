@@ -1,6 +1,6 @@
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, Severity
+from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.log_types import LogType
 
 gcp_workforce_pool_createdor_updated_tests: List[PantherRuleTest] = [
@@ -184,7 +184,7 @@ class GCPWorkforcePoolCreatedorUpdated(PantherRule):
     LogTypes = [LogType.GCP_AuditLog]
     Tags = ["Account Manipulation", "Additional Cloud Roles", "GCP", "Privilege Escalation"]
     Reports = {"MITRE ATT&CK": ["TA0003:T1136.003", "TA0003:T1098.003", "TA0004:T1098.003"]}
-    Severity = Severity.High
+    Severity = PantherSeverity.High
     Runbook = "Ensure that the Workforce Pool creation or modification was expected. Adversaries may use this to persist or allow additional access or escalate their privilege.\n"
     Reference = "https://medium.com/google-cloud/detection-of-inbound-sso-persistence-techniques-in-gcp-c56f7b2a588b"
     Tests = gcp_workforce_pool_createdor_updated_tests

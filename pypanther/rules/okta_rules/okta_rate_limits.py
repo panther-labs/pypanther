@@ -1,7 +1,7 @@
 from fnmatch import fnmatch
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, Severity
+from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import okta_alert_context
 from pypanther.log_types import LogType
 
@@ -226,7 +226,7 @@ okta_rate_limits_tests: List[PantherRuleTest] = [
 class OktaRateLimits(PantherRule):
     Description = "Potential DoS/Bruteforce attack or hitting limits (system degradation)"
     DisplayName = "Okta Rate Limits"
-    Severity = Severity.High
+    Severity = PantherSeverity.High
     Tags = ["Credential Access", "Brute Force", "Impact", "Network Denial of Service"]
     Reports = {"MITRE ATT&CK": ["TA0006:T1110", "TA0040:T1498"]}
     Reference = "https://developer.okta.com/docs/reference/rl-system-log-events/"

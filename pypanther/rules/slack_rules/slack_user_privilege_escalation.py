@@ -1,6 +1,6 @@
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, Severity
+from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import deep_get, slack_alert_context
 from pypanther.log_types import LogType
 
@@ -155,7 +155,7 @@ class SlackAuditLogsUserPrivilegeEscalation(PantherRule):
     LogTypes = [LogType.Slack_AuditLogs]
     Tags = ["Slack", "Privilege Escalation", "Account Manipulation", "Additional Cloud Roles"]
     Reports = {"MITRE ATT&CK": ["TA0004:T1098.003"]}
-    Severity = Severity.High
+    Severity = PantherSeverity.High
     Description = "Detects when a Slack user gains escalated privileges"
     Reference = "https://slack.com/intl/en-gb/help/articles/201314026-Permissions-by-role-in-Slack"
     SummaryAttributes = ["p_any_ip_addresses", "p_any_emails"]

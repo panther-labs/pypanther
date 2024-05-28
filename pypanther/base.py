@@ -138,7 +138,7 @@ def try_asdict(item: Any) -> Any:
 
 # pylint: disable=invalid-name
 @total_ordering
-class Severity(str, Enum):
+class PantherSeverity(str, Enum):
     Info = "Info"
     Low = "Low"
     Medium = "Medium"
@@ -146,19 +146,19 @@ class Severity(str, Enum):
     Critical = "Critical"
 
     def __lt__(self, other):
-        return Severity.as_int(self.value) < Severity.as_int(other.value)
+        return PantherSeverity.as_int(self.value) < PantherSeverity.as_int(other.value)
 
     @staticmethod
-    def as_int(value: "Severity") -> int:
-        if value.upper() == Severity.Info.upper():
+    def as_int(value: "PantherSeverity") -> int:
+        if value.upper() == PantherSeverity.Info.upper():
             return 0
-        if value.upper() == Severity.Low.upper():
+        if value.upper() == PantherSeverity.Low.upper():
             return 1
-        if value.upper() == Severity.Medium.upper():
+        if value.upper() == PantherSeverity.Medium.upper():
             return 2
-        if value.upper() == Severity.High.upper():
+        if value.upper() == PantherSeverity.High.upper():
             return 3
-        if value.upper() == Severity.Critical.upper():
+        if value.upper() == PantherSeverity.Critical.upper():
             return 4
         raise ValueError(f"Unknown severity: {value}")
 
@@ -222,7 +222,7 @@ class PantherRuleModel(BaseModel):
     Runbook: str
     RuleID: str
     ScheduledQueries: List[str]
-    Severity: Severity
+    Severity: PantherSeverity
     SummaryAttributes: List[str]
     Tags: List[str]
     Tests: List[PantherRuleTest]
@@ -254,7 +254,7 @@ def truncate(s: str, max_size: int):
     return s
 
 
-SeverityType = Union[Severity | Literal["DEFAULT"]]
+SeverityType = Union[PantherSeverity | Literal["DEFAULT"]]
 
 
 # pylint: disable=unused-argument
@@ -263,7 +263,7 @@ class PantherRule:
 
     LogTypes: List[str]
     RuleID: str
-    Severity: Severity
+    Severity: PantherSeverity
     Enabled: bool = True
     Tags: List[str] = DEFAULT_TAGS
     DedupPeriodMinutes: NonNegativeInt = DEFAULT_DEDUP_PERIOD_MINUTES

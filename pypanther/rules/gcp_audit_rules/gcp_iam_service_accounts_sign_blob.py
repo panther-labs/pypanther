@@ -1,6 +1,6 @@
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, Severity
+from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.gcp_base_helpers import gcp_alert_context
 from pypanther.helpers.panther_base_helpers import deep_get
 from pypanther.log_types import LogType
@@ -108,7 +108,7 @@ class GCPIAMserviceAccountssignBlob(PantherRule):
     DisplayName = "GCP IAM serviceAccounts signBlob"
     LogTypes = [LogType.GCP_AuditLog]
     Reports = {"MITRE ATT&CK": ["TA0004:T1548"]}
-    Severity = Severity.High
+    Severity = PantherSeverity.High
     Description = 'The iam.serviceAccounts.signBlob permission "allows signing of arbitrary payloads" in GCP. This means we can create a signed blob that requests an access token from the Service Account we are targeting.'
     Reference = (
         "https://rhinosecuritylabs.com/gcp/privilege-escalation-google-cloud-platform-part-1/"

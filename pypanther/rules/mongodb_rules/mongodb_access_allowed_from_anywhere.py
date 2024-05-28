@@ -1,6 +1,6 @@
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, Severity
+from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_mongodb_helpers import mongodb_alert_context
 from pypanther.log_types import LogType
 
@@ -45,7 +45,7 @@ class MongoDBAccessAllowedFromAnywhere(PantherRule):
     DisplayName = "MongoDB access allowed from anywhere"
     LogTypes = [LogType.MongoDB_ProjectEvent]
     RuleID = "MongoDB.Access.Allowed.From.Anywhere-prototype"
-    Severity = Severity.High
+    Severity = PantherSeverity.High
     Reports = {"MITRE ATT&CK": ["T1021"]}
     Reference = "https://www.mongodb.com/docs/atlas/security/ip-access-list/"
     Runbook = "Check if this activity was legitimate. If not, delete 0.0.0.0/0 from the list of allowed ips."

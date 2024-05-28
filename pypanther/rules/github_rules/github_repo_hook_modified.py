@@ -1,6 +1,6 @@
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, Severity
+from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.log_types import LogType
 
 git_hub_repo_hook_modified_tests: List[PantherRuleTest] = [
@@ -55,7 +55,7 @@ class GitHubRepoHookModified(PantherRule):
     Tags = ["GitHub", "Exfiltration:Automated Exfiltration"]
     Reports = {"MITRE ATT&CK": ["TA0010:T1020"]}
     Reference = "https://docs.github.com/en/webhooks/about-webhooks"
-    Severity = Severity.Info
+    Severity = PantherSeverity.Info
     Description = "Detects when a web hook is added, modified, or deleted in an org repository."
     Tests = git_hub_repo_hook_modified_tests
 

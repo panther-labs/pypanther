@@ -1,6 +1,6 @@
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, Severity
+from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import deep_get
 from pypanther.log_types import LogType
 
@@ -58,7 +58,7 @@ class AsanaWorkspaceEmailDomainAdded(PantherRule):
     Description = "A new email domain has been added to an Asana workspace. Reviewer should validate that the new domain is a part of the organization. "
     DisplayName = "Asana Workspace Email Domain Added"
     Reference = "https://help.asana.com/hc/en-us/articles/15901227439515-Email-domain-management-for-Asana-organizations"
-    Severity = Severity.Low
+    Severity = PantherSeverity.Low
     LogTypes = [LogType.Asana_Audit]
     RuleID = "Asana.Workspace.Email.Domain.Added-prototype"
     Tests = asana_workspace_email_domain_added_tests

@@ -1,6 +1,6 @@
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, Severity
+from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import deep_get
 from pypanther.log_types import LogType
 
@@ -171,7 +171,7 @@ class GCPIAMOrgFolderIAMChanges(PantherRule):
     LogTypes = [LogType.GCP_AuditLog]
     Tags = ["GCP", "Identity & Access Management"]
     Reports = {"GCP_CIS_1.3": ["1.8"], "MITRE ATT&CK": ["Privilege Escalation:Valid Accounts"]}
-    Severity = Severity.High
+    Severity = PantherSeverity.High
     Description = "Alert if a GCP Org or Folder Policy Was Changed Manually.\n"
     Runbook = "Contact the party that made the change. If it was intended to be temporary, ask for a window for rollback (< 24 hours).  If it must be permanent, ask for change-management doc explaining why it was needed.  Direct them to make the change in Terraform to avoid automated rollback. Grep for google_org and google_folder in terraform repos for places to  put your new policy bindings.\n"
     Reference = "https://cloud.google.com/iam/docs/granting-changing-revoking-access"

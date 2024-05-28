@@ -1,6 +1,6 @@
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, Severity
+from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import github_alert_context
 from pypanther.log_types import LogType
 
@@ -41,7 +41,7 @@ class GitHubOrgModeratorsAdd(PantherRule):
     DisplayName = "GitHub User Added to Org Moderators"
     LogTypes = [LogType.GitHub_Audit]
     Tags = ["GitHub", "Initial Access:Supply Chain Compromise"]
-    Severity = Severity.Medium
+    Severity = PantherSeverity.Medium
     Description = "Detects when a user is added to a GitHub org's list of moderators."
     Reference = "https://docs.github.com/en/organizations/managing-peoples-access-to-your-organization-with-roles/managing-moderators-in-your-organization"
     Tests = git_hub_org_moderators_add_tests

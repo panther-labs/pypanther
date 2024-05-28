@@ -1,6 +1,6 @@
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, Severity
+from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import slack_alert_context
 from pypanther.log_types import LogType
 
@@ -77,7 +77,7 @@ class SlackAuditLogsEKMUnenrolled(PantherRule):
     LogTypes = [LogType.Slack_AuditLogs]
     Tags = ["Slack", "Defense Evasion", "Weaken Encryption"]
     Reports = {"MITRE ATT&CK": ["TA0005:T1600"]}
-    Severity = Severity.Critical
+    Severity = PantherSeverity.Critical
     Description = "Detects when a workspace is no longer enrolled or managed by EKM"
     Reference = (
         "https://slack.com/intl/en-gb/help/articles/360019110974-Slack-Enterprise-Key-Management"

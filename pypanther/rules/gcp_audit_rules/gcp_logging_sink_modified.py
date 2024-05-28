@@ -1,7 +1,7 @@
 import re
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, Severity
+from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.gcp_base_helpers import gcp_alert_context
 from pypanther.helpers.panther_base_helpers import deep_get
 from pypanther.log_types import LogType
@@ -125,7 +125,7 @@ gcp_logging_sink_modified_tests: List[PantherRuleTest] = [
 class GCPLoggingSinkModified(PantherRule):
     DisplayName = "GCP Logging Sink Modified"
     RuleID = "GCP.Logging.Sink.Modified-prototype"
-    Severity = Severity.Info
+    Severity = PantherSeverity.Info
     LogTypes = [LogType.GCP_AuditLog]
     Tags = ["GCP", "Logging", "Sink", "Infrastructure"]
     Description = "This rule detects modifications to GCP Log Sinks.\n"

@@ -1,7 +1,7 @@
 from collections.abc import Mapping
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, Severity
+from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import aws_rule_context, deep_get
 from pypanther.helpers.panther_default import aws_cloudtrail_success
 from pypanther.log_types import LogType
@@ -149,7 +149,7 @@ class AWSCloudTrailSnapshotMadePublic(PantherRule):
     LogTypes = [LogType.AWS_CloudTrail]
     Tags = ["AWS", "Exfiltration:Transfer Data to Cloud Account"]
     Reports = {"MITRE ATT&CK": ["TA0010:T1537"]}
-    Severity = Severity.Medium
+    Severity = PantherSeverity.Medium
     Description = "An AWS storage snapshot was made public."
     Runbook = "Adjust the snapshot configuration so that it is no longer public."
     Reference = "https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-modifying-snapshot-permissions.html"

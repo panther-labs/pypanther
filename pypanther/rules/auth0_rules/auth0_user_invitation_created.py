@@ -1,7 +1,7 @@
 import re
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, Severity
+from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_auth0_helpers import auth0_alert_context, is_auth0_config_event
 from pypanther.helpers.panther_base_helpers import deep_get
 from pypanther.log_types import LogType
@@ -319,7 +319,7 @@ class Auth0UserInvitationCreated(PantherRule):
     Reference = (
         "https://auth0.com/docs/manage-users/organizations/configure-organizations/invite-members"
     )
-    Severity = Severity.Info
+    Severity = PantherSeverity.Info
     LogTypes = [LogType.Auth0_Events]
     RuleID = "Auth0.User.Invitation.Created-prototype"
     Tests = auth0_user_invitation_created_tests

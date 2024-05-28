@@ -1,6 +1,6 @@
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, Severity
+from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import (
     crowdstrike_detection_alert_context,
     get_crowdstrike_field,
@@ -176,7 +176,7 @@ crowdstrike_detectionpassthrough_tests: List[PantherRuleTest] = [
 class CrowdstrikeDetectionpassthrough(PantherRule):
     RuleID = "Crowdstrike.Detection.passthrough-prototype"
     DisplayName = "Crowdstrike Detection Passthrough"
-    Severity = Severity.Medium
+    Severity = PantherSeverity.Medium
     LogTypes = [LogType.Crowdstrike_DetectionSummary, LogType.Crowdstrike_FDREvent]
     Tags = ["Crowdstrike"]
     Description = "Crowdstrike Falcon has detected malicious activity on a host."

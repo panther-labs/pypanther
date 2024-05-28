@@ -5,7 +5,7 @@ from typing import List
 from panther_detection_helpers.caching import put_string_set
 
 import pypanther.helpers.panther_event_type_helpers as event_type
-from pypanther.base import PantherRule, PantherRuleTest, RuleMock, Severity
+from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity, RuleMock
 from pypanther.helpers.panther_oss_helpers import resolve_timestamp_string
 from pypanther.log_types import LogType
 
@@ -59,7 +59,7 @@ class StandardNewAWSAccountCreated(PantherRule):
     DisplayName = "New AWS Account Created"
     LogTypes = [LogType.AWS_CloudTrail]
     Tags = ["DataModel", "Indicator Collection", "Persistence:Create Account"]
-    Severity = Severity.Info
+    Severity = PantherSeverity.Info
     Reports = {"MITRE ATT&CK": ["TA0003:T1136"]}
     Description = "A new AWS account was created"
     Runbook = "A new AWS account was created, ensure it was created through standard practice and is for a valid purpose."

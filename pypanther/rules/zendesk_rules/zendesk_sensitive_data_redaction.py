@@ -1,6 +1,6 @@
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, Severity
+from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import ZENDESK_CHANGE_DESCRIPTION
 from pypanther.log_types import LogType
 
@@ -70,7 +70,7 @@ class ZendeskSensitiveDataRedactionOff(PantherRule):
     LogTypes = [LogType.Zendesk_Audit]
     Tags = ["Zendesk", "Collection:Data from Information Repositories"]
     Reports = {"MITRE ATT&CK": ["TA0009:T1213"]}
-    Severity = Severity.High
+    Severity = PantherSeverity.High
     Description = "A user updated account setting that disabled credit card redaction."
     Runbook = "Re-enable credit card redaction."
     Reference = "https://support.zendesk.com/hc/en-us/articles/4408822124314-Automatically-redacting-credit-card-numbers-from-tickets"

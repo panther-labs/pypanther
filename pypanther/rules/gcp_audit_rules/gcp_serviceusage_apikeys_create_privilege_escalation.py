@@ -1,6 +1,6 @@
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, Severity
+from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.gcp_base_helpers import gcp_alert_context
 from pypanther.helpers.panther_base_helpers import deep_get, deep_walk
 from pypanther.log_types import LogType
@@ -182,7 +182,7 @@ class GCPserviceusageapiKeyscreatePrivilegeEscalation(PantherRule):
     Reference = "https://rhinosecuritylabs.com/cloud-security/privilege-escalation-google-cloud-platform-part-2/"
     Runbook = "Confirm this was authorized and necessary behavior. This is not a vulnerability in GCP, it is a vulnerability in how GCP environment is configured, so it is necessary to be aware of these attack vectors and to defend against them. It’s also important to remember that privilege escalation does not necessarily need to pass through the IAM service to be effective. Make sure to follow the principle of least-privilege in your environments to help mitigate these security risks."
     Reports = {"MITRE ATT&CK": ["TA0004:T1548"]}
-    Severity = Severity.High
+    Severity = PantherSeverity.High
     Tests = gc_pserviceusageapi_keyscreate_privilege_escalation_tests
 
     def rule(self, event):

@@ -1,6 +1,6 @@
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, Severity
+from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.gcp_base_helpers import gcp_alert_context
 from pypanther.helpers.panther_base_helpers import deep_get
 from pypanther.log_types import LogType
@@ -108,7 +108,7 @@ class GCPIAMserviceAccountsgetAccessTokenPrivilegeEscalation(PantherRule):
     DisplayName = "GCP IAM serviceAccounts getAccessToken Privilege Escalation"
     LogTypes = [LogType.GCP_AuditLog]
     Reports = {"MITRE ATT&CK": ["TA0004:T1548"]}
-    Severity = Severity.High
+    Severity = PantherSeverity.High
     Description = "The Identity and Access Management (IAM) service manages authorization and authentication for a GCP environment. This means that there are very likely multiple privilege escalation methods that use the IAM service and/or its permissions."
     Reference = (
         "https://rhinosecuritylabs.com/gcp/privilege-escalation-google-cloud-platform-part-1/"

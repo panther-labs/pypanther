@@ -1,6 +1,6 @@
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, Severity
+from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import deep_get
 from pypanther.log_types import LogType
 
@@ -180,7 +180,7 @@ class GCPBigQueryLargeScan(PantherRule):
     Description = "Detect any BigQuery query that is doing a very large scan (> 1 GB)."
     DisplayName = "GCP BigQuery Large Scan"
     Reference = "https://cloud.google.com/bigquery/docs/running-queries"
-    Severity = Severity.Info
+    Severity = PantherSeverity.Info
     LogTypes = [LogType.GCP_AuditLog]
     RuleID = "GCP.BigQuery.Large.Scan-prototype"
     Tests = gcp_big_query_large_scan_tests

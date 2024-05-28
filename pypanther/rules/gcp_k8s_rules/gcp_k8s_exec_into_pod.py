@@ -1,6 +1,6 @@
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, Severity
+from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.gcp_base_helpers import get_k8s_info
 from pypanther.helpers.gcp_environment import PRODUCTION_PROJECT_IDS, rule_exceptions
 from pypanther.helpers.panther_base_helpers import deep_walk
@@ -87,7 +87,7 @@ class GCPK8sExecIntoPod(PantherRule):
     Enabled = False
     LogTypes = [LogType.GCP_AuditLog]
     Tags = ["GCP", "Security Control", "Configuration Required"]
-    Severity = Severity.Medium
+    Severity = PantherSeverity.Medium
     Description = "Alerts when users exec into pod. Possible to specify specific projects and allowed users.\n"
     Runbook = "Investigate the user and determine why. Advise that it is discouraged practice. Create ticket if appropriate.\n"
     Reference = (

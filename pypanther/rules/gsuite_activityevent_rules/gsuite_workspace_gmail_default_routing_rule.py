@@ -1,6 +1,6 @@
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, Severity
+from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import deep_get
 from pypanther.log_types import LogType
 
@@ -120,7 +120,7 @@ class GSuiteWorkspaceGmailDefaultRoutingRuleModified(PantherRule):
     LogTypes = [LogType.GSuite_ActivityEvent]
     Tags = ["GSuite"]
     Reports = {"MITRE ATT&CK": ["TA0003:T1098"]}
-    Severity = Severity.High
+    Severity = PantherSeverity.High
     Description = "A Workspace Admin Has Modified A Default Routing Rule In Gmail\n"
     Reference = "https://support.google.com/a/answer/2368153?hl=en"
     Runbook = "Administrators use Default Routing to set up how inbound email is delivered within an organization. The configuration of the default routing rule needs to be inspected in order to verify the intent of the rule is benign.\nIf this change was not planned, inspect the other actions taken by this actor.\n"

@@ -1,6 +1,6 @@
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, Severity
+from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.log_types import LogType
 
 one_login_auth_factor_removed_tests: List[PantherRuleTest] = [
@@ -41,7 +41,7 @@ class OneLoginAuthFactorRemoved(PantherRule):
         "Defense Evasion:Modify Authentication Process",
     ]
     Reports = {"MITRE ATT&CK": ["TA0005:T1556"]}
-    Severity = Severity.Low
+    Severity = PantherSeverity.Low
     Description = "A user removed an authentication factor or otp device.\n"
     Reference = "https://onelogin.service-now.com/kb_view_customer.do?sysparm_article=KB0010426"
     Runbook = "Investigate whether this was an intentional action and if other multifactor devices exist.\n"

@@ -1,6 +1,6 @@
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, Severity
+from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.log_types import LogType
 
 osquery_mac_unwanted_chrome_extensions_tests: List[PantherRuleTest] = [
@@ -81,7 +81,7 @@ class OsqueryMacUnwantedChromeExtensions(PantherRule):
     LogTypes = [LogType.Osquery_Differential]
     Tags = ["Osquery", "MacOS", "Malware", "Persistence:Browser Extensions"]
     Reports = {"MITRE ATT&CK": ["TA0003:T1176"]}
-    Severity = Severity.Medium
+    Severity = PantherSeverity.Medium
     Description = "Monitor for chrome extensions that could lead to a credential compromise.\n"
     Runbook = "Uninstall the unwanted extension"
     Reference = "https://securelist.com/threat-in-your-browser-extensions/107181/"

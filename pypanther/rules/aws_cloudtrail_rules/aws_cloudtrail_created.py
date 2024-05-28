@@ -1,6 +1,6 @@
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, Severity
+from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import aws_rule_context, deep_get
 from pypanther.helpers.panther_default import aws_cloudtrail_success
 from pypanther.log_types import LogType
@@ -153,7 +153,7 @@ class AWSCloudTrailCreated(PantherRule):
     LogTypes = [LogType.AWS_CloudTrail]
     Tags = ["AWS", "Security Control", "Discovery:Cloud Service Dashboard"]
     Reports = {"CIS": ["3.5"], "MITRE ATT&CK": ["TA0007:T1538"]}
-    Severity = Severity.Info
+    Severity = PantherSeverity.Info
     Description = "A CloudTrail Trail was created, updated, or enabled.\n"
     Runbook = "https://docs.runpanther.io/alert-runbooks/built-in-rules/aws-cloudtrail-modified"
     Reference = "https://docs.aws.amazon.com/awscloudtrail/latest/userguide/cloudtrail-create-and-update-a-trail.html"

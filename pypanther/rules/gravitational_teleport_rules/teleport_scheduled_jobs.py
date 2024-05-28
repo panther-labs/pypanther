@@ -1,6 +1,6 @@
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, Severity
+from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.log_types import LogType
 
 teleport_scheduled_jobs_tests: List[PantherRuleTest] = [
@@ -104,7 +104,7 @@ class TeleportScheduledJobs(PantherRule):
     DisplayName = "Teleport Scheduled Jobs"
     LogTypes = [LogType.Gravitational_TeleportAudit]
     Tags = ["SSH", "Execution:Scheduled Task/Job"]
-    Severity = Severity.Medium
+    Severity = PantherSeverity.Medium
     Reports = {"MITRE ATT&CK": ["TA0002:T1053"]}
     Description = "A user has manually edited the Linux crontab"
     Threshold = 10

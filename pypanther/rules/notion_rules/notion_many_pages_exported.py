@@ -1,6 +1,6 @@
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, Severity
+from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_notion_helpers import notion_alert_context
 from pypanther.log_types import LogType
 
@@ -64,7 +64,7 @@ class NotionManyPagesExported(PantherRule):
     DisplayName = "Notion Many Pages Exported"
     LogTypes = [LogType.Notion_AuditLogs]
     Tags = ["Notion", "Data Security", "Data Exfiltration"]
-    Severity = Severity.High
+    Severity = PantherSeverity.High
     Description = "A Notion User exported multiple pages."
     Threshold = 10
     Runbook = "Possible Data Exfiltration. Follow up with the Notion User to determine if this was done for a valid business reason."

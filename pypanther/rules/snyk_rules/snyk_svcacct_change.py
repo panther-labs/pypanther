@@ -1,6 +1,6 @@
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, Severity
+from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import deep_get
 from pypanther.helpers.panther_snyk_helpers import snyk_alert_context
 from pypanther.log_types import LogType
@@ -212,7 +212,7 @@ class SnykServiceAccountChange(PantherRule):
     DisplayName = "Snyk Service Account Change"
     LogTypes = [LogType.Snyk_GroupAudit, LogType.Snyk_OrgAudit]
     Tags = ["Snyk"]
-    Severity = Severity.High
+    Severity = PantherSeverity.High
     Description = "Detects when Snyk Service Accounts are changed\n"
     Runbook = "These actions in the Snyk Audit logs indicate that a ServiceAccount has been created/deleted/modified.\nService Accounts are system user accounts with an API token  associated to it in place of standard user credentials. All events where the Service Account's role is ADMIN have CRITICAL severity Deletion events are marked with HIGH severity Creation events are marked with HIGH severity Edit events are marked with MEDIUM Severity\n"
     Reference = "https://docs.snyk.io/snyk-admin/service-accounts"

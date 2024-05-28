@@ -1,6 +1,6 @@
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, Severity
+from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.gcp_base_helpers import gcp_alert_context
 from pypanther.helpers.panther_base_helpers import deep_get, deep_walk
 from pypanther.log_types import LogType
@@ -122,7 +122,7 @@ class GCPCloudBuildPotentialPrivilegeEscalation(PantherRule):
     Reference = "https://rhinosecuritylabs.com/gcp/iam-privilege-escalation-gcp-cloudbuild/"
     Runbook = "Confirm this was authorized and necessary behavior. To defend against this privilege escalation attack, it is necessary to restrict the permissions granted to the Cloud Build Service Account and to be careful granting the cloudbuild.builds.create permission to any users in your Organization. Most importantly, you need to know that any user who is granted cloudbuild.builds.create, is also indirectly granted all the permissions granted to the Cloud Build Service Account. If that’s alright with you, then you may not need to worry about this attack vector, but it is still highly recommended to modify the default permissions granted to the Cloud Build Service Account."
     Reports = {"MITRE ATT&CK": ["TA0004:T1548"]}
-    Severity = Severity.High
+    Severity = PantherSeverity.High
     Tests = gcp_cloud_build_potential_privilege_escalation_tests
 
     def rule(self, event):

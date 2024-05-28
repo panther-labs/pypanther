@@ -1,6 +1,6 @@
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, Severity
+from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_mongodb_helpers import mongodb_alert_context
 from pypanther.log_types import LogType
 
@@ -60,7 +60,7 @@ class MongoDBorgMembershipRestrictionDisabled(PantherRule):
     DisplayName = "MongoDB org membership restriction disabled"
     LogTypes = [LogType.MongoDB_OrganizationEvent]
     RuleID = "MongoDB.org.Membership.Restriction.Disabled-prototype"
-    Severity = Severity.High
+    Severity = PantherSeverity.High
     Reports = {"MITRE ATT&CK": ["T1556"]}
     Reference = "https://www.mongodb.com/docs/atlas/tutorial/manage-organizations/"
     Runbook = "Check if this activity is legitimate. If not, re-enable IP access list for the Atlas Administration API"

@@ -1,6 +1,6 @@
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, Severity
+from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import deep_get, slack_alert_context
 from pypanther.log_types import LogType
 
@@ -214,7 +214,7 @@ class SlackAuditLogsAppAdded(PantherRule):
     LogTypes = [LogType.Slack_AuditLogs]
     Tags = ["Slack", "Persistence", "Server Software Component"]
     Reports = {"MITRE ATT&CK": ["TA0003:T1505"]}
-    Severity = Severity.Medium
+    Severity = PantherSeverity.Medium
     Description = "Detects when a Slack App has been added to a workspace"
     Reference = (
         "https://slack.com/intl/en-gb/help/articles/202035138-Add-apps-to-your-Slack-workspace"

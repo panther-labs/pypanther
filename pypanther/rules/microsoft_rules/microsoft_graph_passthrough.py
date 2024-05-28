@@ -1,6 +1,6 @@
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, Severity
+from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import msft_graph_alert_context
 from pypanther.log_types import LogType
 
@@ -99,7 +99,7 @@ class MicrosoftGraphPassthrough(PantherRule):
     Description = "The Microsoft Graph security API federates queries to all onboarded security providers, including Azure AD Identity Protection, Microsoft 365, Microsoft Defender (Cloud, Endpoint, Identity) and Microsoft Sentinel"
     Reference = "https://learn.microsoft.com/en-us/graph/api/resources/security-api-overview"
     DisplayName = "Microsoft Graph Passthrough"
-    Severity = Severity.Medium
+    Severity = PantherSeverity.Medium
     LogTypes = [LogType.MicrosoftGraph_SecurityAlert]
     RuleID = "Microsoft.Graph.Passthrough-prototype"
     Tests = microsoft_graph_passthrough_tests

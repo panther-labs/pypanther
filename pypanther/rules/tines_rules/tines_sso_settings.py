@@ -1,6 +1,6 @@
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, Severity
+from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import deep_get
 from pypanther.helpers.panther_tines_helpers import tines_alert_context
 from pypanther.log_types import LogType
@@ -50,7 +50,7 @@ class TinesSSOSettings(PantherRule):
     DisplayName = "Tines SSO Settings"
     LogTypes = [LogType.Tines_Audit]
     Tags = ["Tines", "IAM - Credential Security"]
-    Severity = Severity.High
+    Severity = PantherSeverity.High
     Description = "Detects when Tines SSO settings are changed\n"
     Reference = "https://www.tines.com/docs/admin/single-sign-on"
     SummaryAttributes = ["user_id", "operation_name", "tenant_id", "request_ip"]

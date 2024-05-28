@@ -1,6 +1,6 @@
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, Severity
+from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import aws_rule_context, deep_get
 from pypanther.log_types import LogType
 
@@ -61,7 +61,7 @@ class AWSCloudTrailPasswordPolicyDiscovery(PantherRule):
     DisplayName = "AWS CloudTrail Password Policy Discovery"
     Reports = {"MITRE ATT&CK": ["TA0007:T1201"]}
     Reference = "https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_passwords_account-policy.html"
-    Severity = Severity.Info
+    Severity = PantherSeverity.Info
     DedupPeriodMinutes = 30
     LogTypes = [LogType.AWS_CloudTrail]
     RuleID = "AWS.CloudTrail.Password.Policy.Discovery-prototype"

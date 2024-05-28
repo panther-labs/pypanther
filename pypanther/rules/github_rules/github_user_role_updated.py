@@ -1,6 +1,6 @@
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, Severity
+from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.log_types import LogType
 
 git_hub_user_role_updated_tests: List[PantherRuleTest] = [
@@ -38,7 +38,7 @@ class GitHubUserRoleUpdated(PantherRule):
     Tags = ["GitHub", "Persistence:Account Manipulation"]
     Reports = {"MITRE ATT&CK": ["TA0003:T1098"]}
     Reference = "https://docs.github.com/en/organizations/managing-peoples-access-to-your-organization-with-roles/roles-in-an-organization"
-    Severity = Severity.High
+    Severity = PantherSeverity.High
     Description = (
         "Detects when a GitHub user role is upgraded to an admin or downgraded to a member"
     )

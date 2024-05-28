@@ -1,6 +1,6 @@
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, Severity
+from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import deep_get
 from pypanther.log_types import LogType
 
@@ -45,7 +45,7 @@ class BoxNewLogin(PantherRule):
     LogTypes = [LogType.Box_Event]
     Tags = ["Box", "Initial Access:Valid Accounts"]
     Reports = {"MITRE ATT&CK": ["TA0001:T1078"]}
-    Severity = Severity.Info
+    Severity = PantherSeverity.Info
     Description = "A user logged in from a new device.\n"
     Reference = "https://support.box.com/hc/en-us/articles/360043691914-Controlling-Devices-Used-to-Access-Box"
     Runbook = "Investigate whether this is a valid user login.\n"

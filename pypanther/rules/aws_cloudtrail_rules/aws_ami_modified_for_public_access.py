@@ -1,6 +1,6 @@
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, Severity
+from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import aws_rule_context, deep_get
 from pypanther.helpers.panther_default import aws_cloudtrail_success
 from pypanther.log_types import LogType
@@ -235,7 +235,7 @@ class AWSCloudTrailAMIModifiedForPublicAccess(PantherRule):
     DisplayName = "Amazon Machine Image (AMI) Modified to Allow Public Access"
     LogTypes = [LogType.AWS_CloudTrail]
     Tags = ["AWS", "Exfiltration:Transfer Data to Cloud Account"]
-    Severity = Severity.Medium
+    Severity = PantherSeverity.Medium
     Reports = {"MITRE ATT&CK": ["TA0010:T1537"]}
     Description = "An Amazon Machine Image (AMI) was modified to allow it to be launched by anyone. Any sensitive configuration or application data stored in the AMI's block devices is at risk.\n"
     Runbook = "Determine if the AMI is intended to be publicly accessible. If not, first modify the AMI to not be publicly accessible then change any sensitive data stored in the block devices associated to the AMI (as they may be compromised).\n"

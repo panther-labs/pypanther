@@ -1,7 +1,7 @@
 from typing import List
 
 import pypanther.helpers.panther_event_type_helpers as event_type
-from pypanther.base import PantherRule, PantherRuleTest, Severity
+from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import deep_get
 from pypanther.log_types import LogType
 
@@ -164,7 +164,7 @@ class PantherSensitiveRole(PantherRule):
     RuleID = "Panther.Sensitive.Role-prototype"
     DisplayName = "A User Role with Sensitive Permissions has been Created"
     LogTypes = [LogType.Panther_Audit]
-    Severity = Severity.High
+    Severity = PantherSeverity.High
     Tags = ["DataModel", "Persistence:Account Manipulation"]
     Reports = {"MITRE ATT&CK": ["TA0003:T1098"]}
     Description = "A Panther user role has been created that contains admin level permissions."

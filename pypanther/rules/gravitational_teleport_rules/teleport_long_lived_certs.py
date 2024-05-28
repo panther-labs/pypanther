@@ -1,7 +1,7 @@
 from datetime import datetime, timedelta
 from typing import Dict, List, Tuple
 
-from pypanther.base import PantherRule, PantherRuleTest, Severity
+from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import (
     golang_nanotime_to_python_datetime,
     panther_nanotime_to_python_datetime,
@@ -77,7 +77,7 @@ class TeleportLongLivedCerts(PantherRule):
     DisplayName = "A long-lived cert was created"
     LogTypes = [LogType.Gravitational_TeleportAudit]
     Tags = ["Teleport"]
-    Severity = Severity.Medium
+    Severity = PantherSeverity.Medium
     Description = "An unusually long-lived Teleport certificate was created"
     Reports = {"MITRE ATT&CK": ["TA0003:T1098"]}
     Reference = "https://goteleport.com/docs/management/admin/"

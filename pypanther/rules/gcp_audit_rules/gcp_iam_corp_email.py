@@ -1,6 +1,6 @@
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, Severity
+from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import deep_get
 from pypanther.log_types import LogType
 
@@ -293,7 +293,7 @@ class GCPIAMCorporateEmail(PantherRule):
     LogTypes = [LogType.GCP_AuditLog]
     Tags = ["GCP", "Identity & Access Management", "Persistence:Create Account"]
     Reports = {"MITRE ATT&CK": ["TA0003:T1136"], "CIS": ["1.1"]}
-    Severity = Severity.Low
+    Severity = PantherSeverity.Low
     Description = "A Gmail account is being used instead of a corporate email"
     Runbook = "Remove the user"
     Reference = "https://cloud.google.com/iam/docs/service-account-overview"

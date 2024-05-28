@@ -1,6 +1,6 @@
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, Severity
+from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.log_types import LogType
 
 one_login_password_access_tests: List[PantherRuleTest] = [
@@ -35,7 +35,7 @@ class OneLoginPasswordAccess(PantherRule):
     LogTypes = [LogType.OneLogin_Events]
     Tags = ["OneLogin", "Credential Access:Unsecured Credentials"]
     Reports = {"MITRE ATT&CK": ["TA0006:T1552"]}
-    Severity = Severity.Medium
+    Severity = PantherSeverity.Medium
     Description = "User accessed another user's application password\n"
     Reference = "https://onelogin.service-now.com/kb_view_customer.do?sysparm_article=KB0010598"
     Runbook = "Investigate whether this was authorized access.\n"

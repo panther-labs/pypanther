@@ -1,6 +1,6 @@
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, Severity
+from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.log_types import LogType
 
 panther_saml_modified_tests: List[PantherRuleTest] = [
@@ -53,7 +53,7 @@ class PantherSAMLModified(PantherRule):
     RuleID = "Panther.SAML.Modified-prototype"
     DisplayName = "Panther SAML configuration has been modified"
     LogTypes = [LogType.Panther_Audit]
-    Severity = Severity.High
+    Severity = PantherSeverity.High
     Tags = ["DataModel", "Defense Evasion:Impair Defenses"]
     Reports = {"MITRE ATT&CK": ["TA0005:T1562"]}
     Description = "An Admin has modified Panther's SAML configuration."

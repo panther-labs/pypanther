@@ -1,6 +1,6 @@
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, Severity
+from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import deep_get
 from pypanther.log_types import LogType
 
@@ -38,7 +38,7 @@ class GCPSQLConfigChanges(PantherRule):
     LogTypes = [LogType.GCP_AuditLog]
     Tags = ["GCP", "Database"]
     Reports = {"CIS": ["2.11"]}
-    Severity = Severity.Low
+    Severity = PantherSeverity.Low
     Description = "Monitoring changes to Sql Instance configuration may reduce time to detect and correct misconfigurations done on sql server.\n"
     Runbook = "Validate the Sql Instance configuration change was safe"
     Reference = "https://cloud.google.com/sql/docs/mysql/instance-settings"

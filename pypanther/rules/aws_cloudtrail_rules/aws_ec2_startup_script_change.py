@@ -1,6 +1,6 @@
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, Severity
+from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import aws_rule_context, deep_get
 from pypanther.log_types import LogType
 
@@ -107,7 +107,7 @@ class AWSEC2StartupScriptChange(PantherRule):
     Reference = (
         "https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/user-data.html#user-data-shell-scripts"
     )
-    Severity = Severity.High
+    Severity = PantherSeverity.High
     LogTypes = [LogType.AWS_CloudTrail]
     RuleID = "AWS.EC2.Startup.Script.Change-prototype"
     Tests = awsec2_startup_script_change_tests

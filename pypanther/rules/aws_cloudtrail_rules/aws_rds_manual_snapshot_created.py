@@ -1,6 +1,6 @@
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, Severity
+from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import aws_rule_context
 from pypanther.log_types import LogType
 
@@ -318,7 +318,7 @@ class AWSRDSManualSnapshotCreated(PantherRule):
     LogTypes = [LogType.AWS_CloudTrail]
     Tags = ["AWS", "Exfiltration", "Transfer Data to Cloud Account"]
     Reports = {"MITRE ATT&CK": ["TA0010:T1537"]}
-    Severity = Severity.Low
+    Severity = PantherSeverity.Low
     Description = "A manual snapshot of an RDS database was created.  An attacker may use this to exfiltrate the DB contents to another account; use this as a correlation rule.\n"
     Runbook = "Ensure the snapshot was shared with an allowed AWS account. If not, delete the snapshot and quarantine the compromised IAM user.\n"
     Reference = "https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_CreateSnapshot.html"

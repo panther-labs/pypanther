@@ -1,6 +1,6 @@
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, Severity
+from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import aws_rule_context, deep_get
 from pypanther.helpers.panther_default import aws_cloudtrail_success
 from pypanther.log_types import LogType
@@ -162,7 +162,7 @@ class AWSCloudTrailNetworkACLPermissiveEntry(PantherRule):
     DisplayName = "AWS Network ACL Overly Permissive Entry Created"
     LogTypes = [LogType.AWS_CloudTrail]
     Tags = ["AWS", "Persistence:Account Manipulation"]
-    Severity = Severity.Medium
+    Severity = PantherSeverity.Medium
     Reports = {"MITRE ATT&CK": ["TA0003:T1098"]}
     Description = "A Network ACL entry that allows access from anywhere was added.\n"
     Runbook = "Remove the overly permissive Network ACL entry and add a new entry with more restrictive permissions.\n"

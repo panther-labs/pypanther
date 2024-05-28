@@ -1,6 +1,6 @@
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, Severity
+from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.gcp_base_helpers import gcp_alert_context
 from pypanther.helpers.panther_base_helpers import deep_get, deep_walk
 from pypanther.log_types import LogType
@@ -293,7 +293,7 @@ class GCPK8SPrivilegedPodCreated(PantherRule):
     RuleID = "GCP.K8S.Privileged.Pod.Created-prototype"
     DisplayName = "GCP K8S Privileged Pod Created"
     LogTypes = [LogType.GCP_AuditLog]
-    Severity = Severity.High
+    Severity = PantherSeverity.High
     Description = "Alerts when a user creates privileged pod. These particular pods have full access to the host’s namespace and  devices, have the ability to exploit the kernel, have dangerous linux capabilities, and can be a powerful launching  point for further attacks. In the event of a successful container escape where a user is operating with root  privileges, the attacker retains this role on the node.\n"
     Runbook = "Investigate the reason of creating privileged pod. Advise that it is discouraged practice.  Create ticket if appropriate.\n"
     Reference = "https://www.golinuxcloud.com/kubernetes-privileged-pod-examples/"

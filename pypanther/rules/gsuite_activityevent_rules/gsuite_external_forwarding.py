@@ -1,6 +1,6 @@
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, Severity
+from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import deep_get
 from pypanther.helpers.panther_config import config
 from pypanther.log_types import LogType
@@ -80,7 +80,7 @@ class GSuiteExternalMailForwarding(PantherRule):
     LogTypes = [LogType.GSuite_ActivityEvent]
     Tags = ["GSuite", "Collection:Email Collection", "Configuration Required"]
     Reports = {"MITRE ATT&CK": ["TA0009:T1114"]}
-    Severity = Severity.High
+    Severity = PantherSeverity.High
     Description = "A user has configured mail forwarding to an external domain\n"
     Reference = "https://support.google.com/mail/answer/10957?hl=en&sjid=864417124752637253-EU"
     Runbook = "Follow up with user to remove this forwarding rule if not allowed.\n"

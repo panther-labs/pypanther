@@ -1,6 +1,6 @@
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, Severity
+from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import slack_alert_context
 from pypanther.log_types import LogType
 
@@ -132,7 +132,7 @@ class SlackAuditLogsIDPConfigurationChanged(PantherRule):
     LogTypes = [LogType.Slack_AuditLogs]
     Tags = ["Slack", "Persistence", "Credential Access", "Modify Authentication Process"]
     Reports = {"MITRE ATT&CK": ["TA0003:T1556", "TA0006:T1556"]}
-    Severity = Severity.High
+    Severity = PantherSeverity.High
     Description = (
         "Detects changes to the identity provider (IdP) configuration for Slack organizations."
     )

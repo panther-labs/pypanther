@@ -1,6 +1,6 @@
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, Severity
+from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.gcp_base_helpers import gcp_alert_context
 from pypanther.helpers.panther_base_helpers import deep_get, deep_walk
 from pypanther.log_types import LogType
@@ -49,7 +49,7 @@ class GCPiamrolesupdatePrivilegeEscalation(PantherRule):
     Description = "If your user is assigned a custom IAM role, then iam.roles.update will allow you to update the “includedPermissons” on that role. Because it is assigned to you, you will gain the additional privileges, which could be anything you desire."
     LogTypes = [LogType.GCP_AuditLog]
     Tags = ["GCP"]
-    Severity = Severity.High
+    Severity = PantherSeverity.High
     Reports = {"TA0004": ["T1548"]}
     Reference = (
         "https://rhinosecuritylabs.com/gcp/privilege-escalation-google-cloud-platform-part-1/"

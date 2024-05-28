@@ -1,6 +1,6 @@
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, Severity
+from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import aws_rule_context
 from pypanther.helpers.panther_default import aws_cloudtrail_success
 from pypanther.log_types import LogType
@@ -157,7 +157,7 @@ class AWSEC2NetworkACLModified(PantherRule):
     LogTypes = [LogType.AWS_CloudTrail]
     Tags = ["AWS", "Security Control", "Defense Evasion:Impair Defenses"]
     Reports = {"CIS": ["3.11"], "MITRE ATT&CK": ["TA0005:T1562"]}
-    Severity = Severity.Info
+    Severity = PantherSeverity.Info
     Description = "An EC2 Network ACL was modified."
     Runbook = (
         "https://docs.runpanther.io/alert-runbooks/built-in-rules/aws-ec2-network-acl-modified"

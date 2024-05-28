@@ -1,6 +1,6 @@
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, Severity
+from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.log_types import LogType
 
 one_login_user_assumption_tests: List[PantherRuleTest] = [
@@ -35,7 +35,7 @@ class OneLoginUserAssumption(PantherRule):
     LogTypes = [LogType.OneLogin_Events]
     Tags = ["OneLogin", "Lateral Movement:Use Alternate Authentication Material"]
     Reports = {"MITRE ATT&CK": ["TA0008:T1550"]}
-    Severity = Severity.Low
+    Severity = PantherSeverity.Low
     Description = "User assumed another user account"
     Reference = "https://onelogin.service-now.com/kb_view_customer.do?sysparm_article=KB0010594#:~:text=Prerequisites,Actions%20and%20select%20Assume%20User."
     Runbook = "Investigate whether this was authorized access.\n"

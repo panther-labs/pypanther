@@ -1,6 +1,6 @@
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, Severity
+from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import deep_get
 from pypanther.helpers.panther_default import aws_cloudtrail_success, lookup_aws_account_name
 from pypanther.log_types import LogType
@@ -230,7 +230,7 @@ class AWSRootActivity(PantherRule):
         "Privilege Escalation:Valid Accounts",
     ]
     Reports = {"CIS": ["3.3"], "MITRE ATT&CK": ["TA0004:T1078"]}
-    Severity = Severity.High
+    Severity = PantherSeverity.High
     Description = "Root account activity was detected.\n"
     Runbook = "Investigate the usage of the root account. If this root activity was not authorized, immediately change the root credentials and investigate what actions the root account took.\n"
     Reference = "https://docs.aws.amazon.com/IAM/latest/UserGuide/id_root-user.html"

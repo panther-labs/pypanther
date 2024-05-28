@@ -1,6 +1,6 @@
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, Severity
+from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import deep_get
 from pypanther.log_types import LogType
 
@@ -111,7 +111,7 @@ class GSuiteWorkspaceDataExportCreated(PantherRule):
     DisplayName = "GSuite Workspace Data Export Has Been Created"
     LogTypes = [LogType.GSuite_ActivityEvent]
     Tags = ["GSuite"]
-    Severity = Severity.Medium
+    Severity = PantherSeverity.Medium
     Description = "A Workspace Admin Has Created a Data Export\n"
     Reference = "https://support.google.com/a/answer/100458?hl=en&sjid=864417124752637253-EU"
     Runbook = "Verify the intent of this Data Export. If intent cannot be verified, then a search on the actor's other activities is advised.\n"

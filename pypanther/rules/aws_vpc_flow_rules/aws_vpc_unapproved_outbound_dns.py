@@ -1,7 +1,7 @@
 from ipaddress import ip_network
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, Severity
+from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import aws_rule_context
 from pypanther.log_types import LogType
 
@@ -37,7 +37,7 @@ class AWSVPCUnapprovedOutboundDNS(PantherRule):
     ]
     Reports = {"MITRE ATT&CK": ["TA0011:T1071"]}
     Reference = "https://docs.aws.amazon.com/vpc/latest/userguide/flow-logs.html"
-    Severity = Severity.Medium
+    Severity = PantherSeverity.Medium
     Description = "Alerts if outbound DNS traffic is detected to a non-approved DNS server. DNS is often used as a means to exfiltrate data or perform command and control for compromised hosts. All DNS traffic should be routed through internal DNS servers or trusted 3rd parties.\n"
     Runbook = "Investigate the host sending unapproved DNS activity for signs of compromise or other malicious activity. Update network configurations appropriately to ensure all DNS traffic is routed to approved DNS servers.\n"
     SummaryAttributes = ["srcaddr", "dstaddr", "dstport"]

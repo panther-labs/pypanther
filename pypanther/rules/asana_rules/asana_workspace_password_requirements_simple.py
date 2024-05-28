@@ -1,6 +1,6 @@
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, Severity
+from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import deep_get
 from pypanther.log_types import LogType
 
@@ -63,7 +63,7 @@ class AsanaWorkspacePasswordRequirementsSimple(PantherRule):
     DisplayName = "Asana Workspace Password Requirements Simple"
     Runbook = "Confirm this user acted with valid business intent and determine whether this activity was authorized."
     Reference = "https://help.asana.com/hc/en-us/articles/14075208738587-Authentication-and-access-management-options-for-paid-plans"
-    Severity = Severity.Medium
+    Severity = PantherSeverity.Medium
     LogTypes = [LogType.Asana_Audit]
     RuleID = "Asana.Workspace.Password.Requirements.Simple-prototype"
     Tests = asana_workspace_password_requirements_simple_tests

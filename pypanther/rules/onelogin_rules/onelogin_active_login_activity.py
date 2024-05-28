@@ -3,7 +3,7 @@ from typing import List
 
 from panther_detection_helpers.caching import add_to_string_set, get_string_set, put_string_set
 
-from pypanther.base import PantherRule, PantherRuleTest, Severity
+from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import is_ip_in_network
 from pypanther.log_types import LogType
 
@@ -39,7 +39,7 @@ class OneLoginActiveLoginActivity(PantherRule):
     DisplayName = "OneLogin Active Login Activity"
     LogTypes = [LogType.OneLogin_Events]
     Tags = ["OneLogin", "Lateral Movement:Use Alternate Authentication Material"]
-    Severity = Severity.Medium
+    Severity = PantherSeverity.Medium
     Reports = {"MITRE ATT&CK": ["TA0008:T1550"]}
     Description = "Multiple user accounts logged in from the same ip address."
     Reference = "https://support.onelogin.com/kb/4271392/user-policies"

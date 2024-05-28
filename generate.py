@@ -27,7 +27,7 @@ def perror(*args, **kwargs):
 def do(filepath: Path, helpers: Set[str]) -> Optional[str]:
     imports = [
         "from typing import List",
-        f"from pypanther.base import {base.PantherRule.__name__}, {base.PantherRuleTest.__name__}, {base.Severity.__name__}",
+        f"from pypanther.base import {base.PantherRule.__name__}, {base.PantherRuleTest.__name__}, {base.PantherSeverity.__name__}",
         "from pypanther.log_types import LogType",
     ]
 
@@ -67,7 +67,7 @@ def do(filepath: Path, helpers: Set[str]) -> Optional[str]:
 
         value: ast.AST = ast.Constant(value=v)
         if k == "Severity":
-            value = ast.Name(id=f"{base.Severity.__name__}.{v}", ctx=ast.Load())
+            value = ast.Name(id=f"{base.PantherSeverity.__name__}.{v}", ctx=ast.Load())
         if k == "LogTypes":
             log_type_elts = []
             for x in v:

@@ -1,6 +1,6 @@
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, Severity
+from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import deep_get
 from pypanther.log_types import LogType
 
@@ -36,7 +36,7 @@ class GSuiteTwoStepVerification(PantherRule):
     LogTypes = [LogType.GSuite_ActivityEvent]
     Tags = ["GSuite", "Defense Evasion:Modify Authentication Process"]
     Reports = {"MITRE ATT&CK": ["TA0005:T1556"]}
-    Severity = Severity.Low
+    Severity = PantherSeverity.Low
     Description = "A user disabled two step verification for themselves.\n"
     Reference = "https://support.google.com/mail/answer/185839?hl=en&co=GENIE.Platform%3DDesktop&sjid=864417124752637253-EU"
     Runbook = "Depending on company policy, either suggest or require the user re-enable two step verification.\n"

@@ -1,6 +1,6 @@
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, Severity
+from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import okta_alert_context
 from pypanther.log_types import LogType
 
@@ -187,7 +187,7 @@ class OktaRefreshAccessTokenReuse(PantherRule):
     )
     DisplayName = "Okta App Refresh Access Token Reuse"
     Runbook = "Determine if the clientip is anomalous. Revoke tokens if deemed suspicious."
-    Severity = Severity.Medium
+    Severity = PantherSeverity.Medium
     LogTypes = [LogType.Okta_SystemLog]
     RuleID = "Okta.Refresh.Access.Token.Reuse-prototype"
     Tests = okta_refresh_access_token_reuse_tests

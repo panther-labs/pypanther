@@ -1,6 +1,6 @@
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, Severity
+from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import deep_get
 from pypanther.helpers.panther_tines_helpers import tines_alert_context
 from pypanther.log_types import LogType
@@ -46,7 +46,7 @@ class TinesCustomCertificateAuthority(PantherRule):
     LogTypes = [LogType.Tines_Audit]
     Tags = ["Tines", "IAM - Credential Security"]
     Reference = "https://www.tines.com/docs/admin/custom-certificate-authority"
-    Severity = Severity.High
+    Severity = PantherSeverity.High
     Description = "Detects when Tines Custom CertificateAuthority settings are changed\n"
     SummaryAttributes = ["user_id", "operation_name", "tenant_id", "request_ip"]
     Tests = tines_custom_certificate_authority_tests

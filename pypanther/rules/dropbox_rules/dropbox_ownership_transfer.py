@@ -2,7 +2,7 @@ import json
 from typing import List
 from unittest.mock import MagicMock
 
-from pypanther.base import PantherRule, PantherRuleTest, RuleMock, Severity
+from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity, RuleMock
 from pypanther.helpers.panther_base_helpers import deep_get
 from pypanther.helpers.panther_config import config
 from pypanther.log_types import LogType
@@ -244,7 +244,7 @@ class DropboxOwnershipTransfer(PantherRule):
     Description = "Dropbox ownership of a document or folder has been transferred."
     DisplayName = "Dropbox Document/Folder Ownership Transfer"
     Reference = "https://help.dropbox.com/share/owner"
-    Severity = Severity.High
+    Severity = PantherSeverity.High
     LogTypes = [LogType.Dropbox_TeamEvent]
     RuleID = "Dropbox.Ownership.Transfer-prototype"
     Tests = dropbox_ownership_transfer_tests

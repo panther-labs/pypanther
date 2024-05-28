@@ -1,6 +1,6 @@
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, Severity
+from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import deep_get
 from pypanther.log_types import LogType
 
@@ -120,7 +120,7 @@ class GSuiteCalendarMadePublic(PantherRule):
     LogTypes = [LogType.GSuite_ActivityEvent]
     Tags = ["GSuite"]
     Reports = {"MITRE ATT&CK": ["TA0007:T1087"]}
-    Severity = Severity.Medium
+    Severity = PantherSeverity.Medium
     Description = "A User or Admin Has Modified A Calendar To Be Public\n"
     Reference = "https://support.google.com/calendar/answer/37083?hl=en&sjid=864417124752637253-EU"
     Runbook = "Follow up with user about this calendar share.\n"

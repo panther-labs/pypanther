@@ -1,6 +1,6 @@
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, Severity
+from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import deep_get
 from pypanther.log_types import LogType
 
@@ -66,7 +66,7 @@ class GSuiteLoginType(PantherRule):
     LogTypes = [LogType.GSuite_ActivityEvent]
     Tags = ["GSuite", "Configuration Required", "Initial Access:Valid Accounts"]
     Reports = {"MITRE ATT&CK": ["TA0001:T1078"]}
-    Severity = Severity.Medium
+    Severity = PantherSeverity.Medium
     Description = "A login of a non-approved type was detected for this user.\n"
     Reference = "https://support.google.com/a/answer/9039184?hl=en&sjid=864417124752637253-EU"
     Runbook = (

@@ -1,7 +1,7 @@
 from typing import List
 
 import pypanther.helpers.panther_event_type_helpers as event_type
-from pypanther.base import PantherRule, PantherRuleTest, Severity
+from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.log_types import LogType
 
 standard_admin_role_assigned_tests: List[PantherRuleTest] = [
@@ -277,7 +277,7 @@ class StandardAdminRoleAssigned(PantherRule):
         LogType.Zendesk_Audit,
     ]
     Tags = ["DataModel", "Privilege Escalation:Valid Accounts"]
-    Severity = Severity.Medium
+    Severity = PantherSeverity.Medium
     Reports = {"MITRE ATT&CK": ["TA0004:T1078"]}
     Description = "Assigning an admin role manually could be a sign of privilege escalation"
     Runbook = "Verify with the user who attached the role or add to a allowlist"

@@ -5,7 +5,7 @@ from typing import List
 from panther_detection_helpers.caching import get_string_set, put_string_set
 
 import pypanther.helpers.panther_event_type_helpers as event_type
-from pypanther.base import PantherRule, PantherRuleTest, RuleMock, Severity
+from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity, RuleMock
 from pypanther.helpers.panther_base_helpers import deep_get
 from pypanther.helpers.panther_lookuptable_helpers import LookupTableMatches
 from pypanther.helpers.panther_oss_helpers import km_between_ipinfo_loc, resolve_timestamp_string
@@ -668,7 +668,7 @@ class StandardImpossibleTravelLogin(PantherRule):
     ]
     Tags = ["Identity & Access Management", "Initial Access:Valid Accounts"]
     Reports = {"MITRE ATT&CK": ["TA0001:T1078"]}
-    Severity = Severity.High
+    Severity = PantherSeverity.High
     Description = (
         "A user has subsequent logins from two geographic locations that are very far apart"
     )

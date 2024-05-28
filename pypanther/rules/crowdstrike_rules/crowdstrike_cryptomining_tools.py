@@ -1,6 +1,6 @@
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, Severity
+from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import crowdstrike_detection_alert_context, deep_get
 from pypanther.log_types import LogType
 
@@ -176,7 +176,7 @@ class CrowdstrikeCryptominingTools(PantherRule):
     Description = "Detects the execution of known crytocurrency mining tools."
     DisplayName = "Crowdstrike Cryptomining Tools "
     Reference = "https://www.crowdstrike.com/cybersecurity-101/cryptojacking/"
-    Severity = Severity.Critical
+    Severity = PantherSeverity.Critical
     LogTypes = [LogType.Crowdstrike_FDREvent]
     RuleID = "Crowdstrike.Cryptomining.Tools-prototype"
     Tests = crowdstrike_cryptomining_tools_tests

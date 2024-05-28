@@ -1,7 +1,7 @@
 import re
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, Severity
+from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_config import config
 from pypanther.log_types import LogType
 
@@ -45,7 +45,7 @@ class TeleportSAMLLoginWithoutCompanyDomain(PantherRule):
     DisplayName = "A user authenticated with SAML, but from an unknown company domain"
     LogTypes = [LogType.Gravitational_TeleportAudit]
     Tags = ["Teleport"]
-    Severity = Severity.High
+    Severity = PantherSeverity.High
     Description = "A user authenticated with SAML, but from an unknown company domain"
     Reports = {"MITRE ATT&CK": ["TA0003:T1098"]}
     Reference = "https://goteleport.com/docs/management/admin/"

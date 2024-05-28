@@ -1,6 +1,6 @@
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, RuleMock, Severity
+from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity, RuleMock
 from pypanther.helpers.panther_base_helpers import deep_get
 from pypanther.helpers.panther_default import lookup_aws_account_name
 from pypanther.helpers.panther_oss_helpers import geoinfo_from_ip_formatted
@@ -108,7 +108,7 @@ class AWSConsoleRootLogin(PantherRule):
         "Privilege Escalation:Valid Accounts",
     ]
     Reports = {"CIS": ["3.6"], "MITRE ATT&CK": ["TA0004:T1078"]}
-    Severity = Severity.High
+    Severity = PantherSeverity.High
     Description = "The root account has been logged into."
     Runbook = "Investigate the usage of the root account. If this root activity was not authorized, immediately change the root credentials and investigate what actions the root account took.\n"
     Reference = "https://docs.aws.amazon.com/IAM/latest/UserGuide/id_root-user.html"

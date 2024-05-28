@@ -1,6 +1,6 @@
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, Severity
+from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import crowdstrike_process_alert_context, deep_get
 from pypanther.log_types import LogType
 
@@ -393,7 +393,7 @@ class CrowdstrikeMacosAddTrustedCert(PantherRule):
     Description = "Detects attempt to install a root certificate on MacOS"
     RuleID = "Crowdstrike.Macos.Add.Trusted.Cert-prototype"
     Reference = "https://docs.panther.com/data-onboarding/supported-logs/crowdstrike#crowdstrike.processrollup2"
-    Severity = Severity.Medium
+    Severity = PantherSeverity.Medium
     LogTypes = [LogType.Crowdstrike_FDREvent]
     Tests = crowdstrike_macos_add_trusted_cert_tests
 

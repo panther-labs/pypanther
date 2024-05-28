@@ -1,6 +1,6 @@
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, Severity
+from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import aws_rule_context
 from pypanther.log_types import LogType
 
@@ -31,7 +31,7 @@ class AWSS3ServerAccessUnauthenticated(PantherRule):
         "Collection:Data From Cloud Storage Object",
     ]
     Reports = {"MITRE ATT&CK": ["TA0009:T1530"]}
-    Severity = Severity.Low
+    Severity = PantherSeverity.Low
     Description = (
         "Checks for S3 access attempts where the requester is not an authenticated AWS user.\n"
     )

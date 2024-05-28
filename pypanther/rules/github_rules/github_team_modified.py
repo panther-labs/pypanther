@@ -1,6 +1,6 @@
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, Severity
+from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.log_types import LogType
 
 git_hub_team_modified_tests: List[PantherRuleTest] = [
@@ -53,7 +53,7 @@ class GitHubTeamModified(PantherRule):
     Tags = ["GitHub", "Initial Access:Supply Chain Compromise"]
     Reports = {"MITRE ATT&CK": ["TA0001:T1195"]}
     Reference = "https://docs.github.com/en/organizations/organizing-members-into-teams"
-    Severity = Severity.Info
+    Severity = PantherSeverity.Info
     Description = "Detects when a team is modified in some way, such as adding a new team, deleting a team, modifying members, or a change in repository control."
     Tests = git_hub_team_modified_tests
 

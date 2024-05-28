@@ -1,6 +1,6 @@
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, Severity
+from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import deep_get, deep_walk
 from pypanther.log_types import LogType
 
@@ -180,7 +180,7 @@ class GCPPermissionsGrantedtoCreateorManageServiceAccountKey(PantherRule):
     Description = "Permissions granted to impersonate a service account. This includes predefined service account IAM roles granted at the parent project, folder or organization-level."
     DisplayName = "GCP Permissions Granted to Create or Manage Service Account Key"
     Reference = "https://cloud.google.com/iam/docs/keys-create-delete"
-    Severity = Severity.Low
+    Severity = PantherSeverity.Low
     LogTypes = [LogType.GCP_AuditLog]
     RuleID = "GCP.Permissions.Granted.to.Create.or.Manage.Service.Account.Key-prototype"
     Tests = gcp_permissions_grantedto_createor_manage_service_account_key_tests

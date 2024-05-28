@@ -1,6 +1,6 @@
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, Severity
+from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import deep_get
 from pypanther.log_types import LogType
 
@@ -121,7 +121,7 @@ class GCPCloudStorageBucketsModifiedOrDeleted(PantherRule):
     Description = "Detects GCP cloud storage bucket updates and deletes."
     DisplayName = "GCP Cloud Storage Buckets Modified Or Deleted"
     Reference = "https://cloud.google.com/storage/docs/buckets"
-    Severity = Severity.Low
+    Severity = PantherSeverity.Low
     LogTypes = [LogType.GCP_AuditLog]
     RuleID = "GCP.Cloud.Storage.Buckets.Modified.Or.Deleted-prototype"
     Tests = gcp_cloud_storage_buckets_modified_or_deleted_tests

@@ -1,7 +1,7 @@
 from difflib import SequenceMatcher
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, Severity
+from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.log_types import LogType
 
 
@@ -13,7 +13,7 @@ class CiscoUmbrellaDNSFuzzyMatching(PantherRule):
     LogTypes = [LogType.CiscoUmbrella_DNS]
     Tags = ["Configuration Required", "DNS"]
     Reference = "https://umbrella.cisco.com/blog/abcs-of-dns"
-    Severity = Severity.Medium
+    Severity = PantherSeverity.Medium
     Description = "Identify lookups to suspicious domains that could indicate a phishing attack."
     Runbook = "Validate if your organization owns the domain, otherwise investigate the host that made the domain resolution.\n"
     DOMAIN = ""  # The domain to monitor for phishing, for example "google.com"

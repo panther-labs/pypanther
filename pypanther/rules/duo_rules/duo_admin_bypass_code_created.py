@@ -1,6 +1,6 @@
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, Severity
+from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.log_types import LogType
 
 duo_admin_bypass_code_created_tests: List[PantherRuleTest] = [
@@ -36,7 +36,7 @@ class DuoAdminBypassCodeCreated(PantherRule):
     DisplayName = "Duo Admin Bypass Code Created"
     Runbook = "Confirm this was authorized and necessary behavior."
     Reference = "https://duo.com/docs/administration-users#generating-a-bypass-code"
-    Severity = Severity.Medium
+    Severity = PantherSeverity.Medium
     LogTypes = [LogType.Duo_Administrator]
     RuleID = "Duo.Admin.Bypass.Code.Created-prototype"
     Tests = duo_admin_bypass_code_created_tests

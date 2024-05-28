@@ -1,6 +1,6 @@
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, Severity
+from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import aws_rule_context, deep_get
 from pypanther.log_types import LogType
 
@@ -72,7 +72,7 @@ class AWSIAMAccessKeyCompromised(PantherRule):
     LogTypes = [LogType.AWS_CloudTrail]
     Reports = {"MITRE ATT&CK": ["TA0006:T1552"]}
     Tags = ["AWS", "Credential Access:Unsecured Credentials"]
-    Severity = Severity.High
+    Severity = PantherSeverity.High
     Description = "A users static AWS API key was uploaded to a public github repo."
     Runbook = "Determine the key owner, disable/delete key, and delete the user to resolve the AWS case. If user needs a new IAM give them a stern talking to first."
     Reference = "https://docs.github.com/en/code-security/secret-scanning/about-secret-scanning"

@@ -1,7 +1,7 @@
 from typing import List
 
 import pypanther.helpers.panther_event_type_helpers as event_type
-from pypanther.base import PantherRule, PantherRuleTest, Severity
+from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.log_types import LogType
 
 okta_global_mfa_disabled_tests: List[PantherRuleTest] = [
@@ -73,7 +73,7 @@ class OktaGlobalMFADisabled(PantherRule):
         "Defense Evasion:Modify Authentication Process",
     ]
     Reports = {"MITRE ATT&CK": ["TA0005:T1556"]}
-    Severity = Severity.High
+    Severity = PantherSeverity.High
     Description = "An admin user has disabled the MFA requirement for your Okta account"
     Reference = "https://help.okta.com/oie/en-us/content/topics/identity-engine/authenticators/about-authenticators.htm"
     Runbook = "Contact Admin to ensure this was sanctioned activity"

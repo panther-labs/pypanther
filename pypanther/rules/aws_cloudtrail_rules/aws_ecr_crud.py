@@ -1,7 +1,7 @@
 from fnmatch import fnmatch
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, Severity
+from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import aws_rule_context, deep_get
 from pypanther.log_types import LogType
 
@@ -178,7 +178,7 @@ class AWSECRCRUD(PantherRule):
     LogTypes = [LogType.AWS_CloudTrail]
     Tags = ["AWS", "Security Control", "Configuration Required"]
     Reports = {"CIS": ["3.12"], "MITRE ATT&CK": ["TA0005:T1525"]}
-    Severity = Severity.High
+    Severity = PantherSeverity.High
     Description = "Unauthorized ECR Create, Read, Update, or Delete event occurred."
     Runbook = "https://docs.aws.amazon.com/AmazonECR/latest/userguide/logging-using-cloudtrail.html"
     Reference = "https://docs.aws.amazon.com/AmazonECR/latest/userguide/security-iam.html#security_iam_authentication"

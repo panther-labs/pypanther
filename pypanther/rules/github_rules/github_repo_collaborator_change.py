@@ -1,6 +1,6 @@
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, Severity
+from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.log_types import LogType
 
 github_repo_collaborator_change_tests: List[PantherRuleTest] = [
@@ -52,7 +52,7 @@ class GithubRepoCollaboratorChange(PantherRule):
     LogTypes = [LogType.GitHub_Audit]
     Tags = ["GitHub", "Initial Access:Supply Chain Compromise"]
     Reports = {"MITRE ATT&CK": ["TA0001:T1195"]}
-    Severity = Severity.Medium
+    Severity = PantherSeverity.Medium
     Description = "Detects when a repository collaborator is added or removed."
     Runbook = "Determine if the new collaborator is authorized to access the repository."
     Reference = "https://docs.github.com/en/organizations/managing-user-access-to-your-organizations-repositories/managing-repository-roles/managing-an-individuals-access-to-an-organization-repository"

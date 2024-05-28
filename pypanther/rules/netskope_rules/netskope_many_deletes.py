@@ -1,6 +1,6 @@
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, Severity
+from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.log_types import LogType
 
 netskope_many_deletes_tests: List[PantherRuleTest] = [
@@ -56,7 +56,7 @@ class NetskopeManyDeletes(PantherRule):
     LogTypes = [LogType.Netskope_Audit]
     Tags = ["Netskope", "Configuration Required", "Data Destruction"]
     Reports = {"MITRE ATT&CK": ["TA0040:T1485"]}
-    Severity = Severity.High
+    Severity = PantherSeverity.High
     Description = "A user deleted a large number of objects in a short period of time."
     Threshold = 10
     Runbook = "A user deleted a large number of objects in a short period of time.  Validate that this activity is expected and authorized."

@@ -1,6 +1,6 @@
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, Severity
+from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_cloudflare_helpers import cloudflare_http_alert_context
 from pypanther.log_types import LogType
 
@@ -154,7 +154,7 @@ class CloudflareHttpRequestBotHighVolume(PantherRule):
     Enabled = False
     LogTypes = [LogType.Cloudflare_HttpRequest]
     Tags = ["Cloudflare"]
-    Severity = Severity.Low
+    Severity = PantherSeverity.Low
     Description = "Monitors for bots making HTTP Requests at a rate higher than 2req/sec"
     Runbook = "Inspect and monitor internet-facing services for potential outages"
     Reference = "https://developers.cloudflare.com/waf/rate-limiting-rules/request-rate/"

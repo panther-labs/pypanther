@@ -1,6 +1,6 @@
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, Severity
+from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import aws_rule_context
 from pypanther.helpers.panther_default import aws_cloudtrail_success
 from pypanther.log_types import LogType
@@ -144,7 +144,7 @@ class AWSCloudTrailIAMAnythingChanged(PantherRule):
     DisplayName = "IAM Change"
     LogTypes = [LogType.AWS_CloudTrail]
     Tags = ["AWS", "Identity and Access Management"]
-    Severity = Severity.Info
+    Severity = PantherSeverity.Info
     DedupPeriodMinutes = 720
     Description = "A change occurred in the IAM configuration. This could be a resource being created, deleted, or modified. This is a high level view of changes, helfpul to indicate how dynamic a certain IAM environment is.\n"
     Runbook = "Ensure this was an approved IAM configuration change.\n"

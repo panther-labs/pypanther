@@ -1,6 +1,6 @@
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, Severity
+from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import deep_get
 from pypanther.log_types import LogType
 
@@ -60,7 +60,7 @@ class BoxContentWorkflowPolicyViolation(PantherRule):
     DisplayName = "Box Content Workflow Policy Violation"
     LogTypes = [LogType.Box_Event]
     Tags = ["Box"]
-    Severity = Severity.Low
+    Severity = PantherSeverity.Low
     Description = "A user violated the content workflow policy.\n"
     Reference = "https://support.box.com/hc/en-us/articles/360043692594-Creating-a-Security-Policy"
     Runbook = "Investigate whether the user continues to violate the policy and take measure to ensure they understand policy.\n"

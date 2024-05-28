@@ -1,6 +1,6 @@
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, Severity
+from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import deep_get, okta_alert_context
 from pypanther.log_types import LogType
 
@@ -171,7 +171,7 @@ okta_app_unauthorized_access_attempt_tests: List[PantherRuleTest] = [
 class OktaAppUnauthorizedAccessAttempt(PantherRule):
     Description = "Detects when a user is denied access to an Okta application"
     DisplayName = "Okta App Unauthorized Access Attempt"
-    Severity = Severity.Low
+    Severity = PantherSeverity.Low
     Reference = "https://support.okta.com/help/s/article/App-Sign-on-Error-403-User-attempted-unauthorized-access-to-app?language=en_US"
     LogTypes = [LogType.Okta_SystemLog]
     RuleID = "Okta.App.Unauthorized.Access.Attempt-prototype"

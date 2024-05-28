@@ -1,6 +1,6 @@
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, Severity
+from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import deep_get
 from pypanther.helpers.panther_notion_helpers import notion_alert_context
 from pypanther.log_types import LogType
@@ -77,7 +77,7 @@ class NotionSAMLSSOConfigurationChanged(PantherRule):
     DisplayName = "Notion SAML SSO Configuration Changed"
     LogTypes = [LogType.Notion_AuditLogs]
     Tags = ["Notion", "Identity & Access Management", "Credential Security"]
-    Severity = Severity.High
+    Severity = PantherSeverity.High
     Description = (
         "A Notion User changed settings to enforce SAML SSO configurations for your organization."
     )

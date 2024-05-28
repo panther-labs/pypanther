@@ -1,6 +1,6 @@
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, Severity
+from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import deep_get
 from pypanther.log_types import LogType
 
@@ -33,7 +33,7 @@ class GSuiteGroupBannedUser(PantherRule):
     DisplayName = "GSuite User Banned from Group"
     LogTypes = [LogType.GSuite_ActivityEvent]
     Tags = ["GSuite"]
-    Severity = Severity.Low
+    Severity = PantherSeverity.Low
     Description = "A GSuite user was banned from an enterprise group by moderator action.\n"
     Reference = "https://support.google.com/a/users/answer/9303224?hl=en&sjid=864417124752637253-EU"
     Runbook = (

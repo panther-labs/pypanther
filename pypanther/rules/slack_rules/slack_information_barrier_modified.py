@@ -1,6 +1,6 @@
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, Severity
+from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import slack_alert_context
 from pypanther.log_types import LogType
 
@@ -103,7 +103,7 @@ class SlackAuditLogsInformationBarrierModified(PantherRule):
     LogTypes = [LogType.Slack_AuditLogs]
     Tags = ["Slack", "Defense Evasion", "Impair Defenses", "Disable or Modify Tools"]
     Reports = {"MITRE ATT&CK": ["TA0005:T1562.001"]}
-    Severity = Severity.Medium
+    Severity = PantherSeverity.Medium
     Description = "Detects when a Slack information barrier is deleted/updated"
     Reference = "https://slack.com/intl/en-gb/help/articles/360056171734-Create-information-barriers-in-Slack"
     SummaryAttributes = ["action", "p_any_ip_addresses", "p_any_emails"]

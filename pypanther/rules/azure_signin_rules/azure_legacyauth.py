@@ -2,7 +2,7 @@ import json
 from typing import List
 from unittest.mock import MagicMock
 
-from pypanther.base import PantherRule, PantherRuleTest, RuleMock, Severity
+from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity, RuleMock
 from pypanther.helpers.panther_azuresignin_helpers import (
     actor_user,
     azure_signin_alert_context,
@@ -285,7 +285,7 @@ class AzureAuditLegacyAuth(PantherRule):
     DisplayName = "Azure SignIn via Legacy Authentication Protocol"
     DedupPeriodMinutes = 10
     LogTypes = [LogType.Azure_Audit]
-    Severity = Severity.Medium
+    Severity = PantherSeverity.Medium
     Description = "This detection looks for Successful Logins that have used legacy authentication protocols\n"
     Reference = "https://learn.microsoft.com/en-us/azure/active-directory/reports-monitoring/workbook-legacy-authentication"
     Runbook = "Based on Microsoft's analysis more than 97 percent of credential stuffing attacks use legacy authentication and more than 99 percent of password spray attacks use legacy authentication protocols. These attacks would stop with basic authentication disabled or blocked. see https://learn.microsoft.com/en-us/azure/active-directory/conditional-access/block-legacy-authentication\nIf you are aware of this Legacy Auth need, and need to continue using this mechanism, add the principal name to KNOWN_EXCEPTIONS. The Reference link contains additional material hosted on Microsoft.com\n"

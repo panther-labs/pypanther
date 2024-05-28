@@ -1,6 +1,6 @@
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, Severity
+from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import deep_get
 from pypanther.log_types import LogType
 
@@ -135,7 +135,7 @@ class GoogleWorkspaceAdvancedProtectionProgram(PantherRule):
     DisplayName = "Google Workspace Advanced Protection Program"
     Runbook = "Confirm the changes made were authorized for your organization."
     Reference = "https://support.google.com/a/answer/9378686?hl=en"
-    Severity = Severity.Medium
+    Severity = PantherSeverity.Medium
     LogTypes = [LogType.GSuite_ActivityEvent]
     RuleID = "Google.Workspace.Advanced.Protection.Program-prototype"
     Tests = google_workspace_advanced_protection_program_tests

@@ -1,6 +1,6 @@
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, Severity
+from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import aws_rule_context
 from pypanther.log_types import LogType
 
@@ -272,7 +272,7 @@ class AWSIAMGroupReadOnlyEvents(PantherRule):
     Enabled = False
     Reference = "https://attack.mitre.org/techniques/T1069/"
     Runbook = "Examine other activities done by this user to determine whether or not activity is suspicious."
-    Severity = Severity.Info
+    Severity = PantherSeverity.Info
     Tags = ["AWS", "Cloudtrail", "Configuration Required", "IAM", "MITRE"]
     LogTypes = [LogType.AWS_CloudTrail]
     RuleID = "AWS.IAM.Group.Read.Only.Events-prototype"

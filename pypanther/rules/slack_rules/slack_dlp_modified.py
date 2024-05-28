@@ -1,6 +1,6 @@
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, Severity
+from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import slack_alert_context
 from pypanther.log_types import LogType
 
@@ -109,7 +109,7 @@ class SlackAuditLogsDLPModified(PantherRule):
         "Indicator Removal",
     ]
     Reports = {"MITRE ATT&CK": ["TA0005:T1562.001", "TA0005:T1070"]}
-    Severity = Severity.High
+    Severity = PantherSeverity.High
     Description = "Detects when a Data Loss Prevention (DLP) rule has been deactivated or a violation has been deleted\n"
     Reference = "https://slack.com/intl/en-gb/help/articles/12914005852819-Slack-Connect--Data-loss-prevention"
     SummaryAttributes = ["action", "p_any_ip_addresses", "p_any_emails"]

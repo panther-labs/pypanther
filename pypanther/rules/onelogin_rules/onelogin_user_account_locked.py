@@ -1,6 +1,6 @@
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, Severity
+from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.log_types import LogType
 
 one_login_user_account_locked_tests: List[PantherRuleTest] = [
@@ -57,7 +57,7 @@ class OneLoginUserAccountLocked(PantherRule):
     LogTypes = [LogType.OneLogin_Events]
     Tags = ["OneLogin", "Credential Access:Brute Force"]
     Reports = {"MITRE ATT&CK": ["TA0006:T1110"]}
-    Severity = Severity.Low
+    Severity = PantherSeverity.Low
     Description = "User locked or suspended from their account.\n"
     Reference = "https://onelogin.service-now.com/kb_view_customer.do?sysparm_article=KB0010420"
     Runbook = "Investigate whether this was caused by expected action.\n"

@@ -1,6 +1,6 @@
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, Severity
+from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import deep_get
 from pypanther.log_types import LogType
 
@@ -35,7 +35,7 @@ class GSuiteDeviceSuspiciousActivity(PantherRule):
     DisplayName = "GSuite Device Suspicious Activity"
     LogTypes = [LogType.GSuite_ActivityEvent]
     Tags = ["GSuite"]
-    Severity = Severity.Low
+    Severity = PantherSeverity.Low
     Description = "GSuite reported a suspicious activity on a user's device.\n"
     Reference = "https://support.google.com/a/answer/7562460?hl=en&sjid=864417124752637253-EU"
     Runbook = "Validate that the suspicious activity was expected by the user.\n"

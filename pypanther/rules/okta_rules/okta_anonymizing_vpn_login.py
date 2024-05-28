@@ -1,6 +1,6 @@
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, Severity
+from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import deep_get, okta_alert_context
 from pypanther.log_types import LogType
 
@@ -165,7 +165,7 @@ class OktaAnonymizingVPNLogin(PantherRule):
     DisplayName = "Okta Sign-In from VPN Anonymizer"
     LogTypes = [LogType.Okta_SystemLog]
     Reports = {"MITRE ATT&CK": ["TA0006:T1556"]}
-    Severity = Severity.Medium
+    Severity = PantherSeverity.Medium
     Description = "A user is attempting to sign-in to Okta from a known VPN anonymizer.  The threat actor would access the compromised account using anonymizing proxy services.\n"
     Runbook = "Restrict this access to trusted Network Zones and deny access from anonymizing proxies in policy using a Dynamic Network Zone.\n"
     Reference = "https://sec.okta.com/articles/2023/08/cross-tenant-impersonation-prevention-and-detection\n"

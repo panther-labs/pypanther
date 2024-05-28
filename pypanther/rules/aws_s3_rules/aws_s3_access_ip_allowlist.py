@@ -1,7 +1,7 @@
 from ipaddress import ip_network
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, Severity
+from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import aws_rule_context
 from pypanther.log_types import LogType
 
@@ -31,7 +31,7 @@ class AWSS3ServerAccessIPWhitelist(PantherRule):
         "Collection:Data From Cloud Storage Object",
     ]
     Reports = {"MITRE ATT&CK": ["TA0009:T1530"]}
-    Severity = Severity.Medium
+    Severity = PantherSeverity.Medium
     Description = "Checks that the remote IP accessing the S3 bucket is in the IP allowlist.\n"
     Runbook = "Verify whether unapproved access of S3 objects occurred, and take appropriate steps to remediate damage (for example, informing related parties of unapproved access and potentially invalidating data that was accessed). Consider updating the access policies of the S3 bucket to prevent future unapproved access.\n"
     Reference = "https://aws.amazon.com/premiumsupport/knowledge-center/block-s3-traffic-vpc-ip/"

@@ -1,6 +1,6 @@
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, Severity
+from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import deep_get
 from pypanther.helpers.panther_tines_helpers import tines_alert_context
 from pypanther.log_types import LogType
@@ -46,7 +46,7 @@ class TinesStoryJobsClearance(PantherRule):
     DisplayName = "Tines Story Jobs Clearance"
     LogTypes = [LogType.Tines_Audit]
     Tags = ["Tines"]
-    Severity = Severity.Low
+    Severity = PantherSeverity.Low
     Description = "A Tines User has cleared story jobs."
     Runbook = "Possible data destruction. Please reach out to the user and confirm this was done for valid business reasons."
     Reference = "https://www.tines.com/docs/stories"

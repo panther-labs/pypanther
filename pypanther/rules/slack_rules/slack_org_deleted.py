@@ -1,6 +1,6 @@
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, Severity
+from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import slack_alert_context
 from pypanther.log_types import LogType
 
@@ -66,7 +66,7 @@ class SlackAuditLogsOrgDeleted(PantherRule):
     LogTypes = [LogType.Slack_AuditLogs]
     Tags = ["Slack", "Impact", "Account Access Removal"]
     Reports = {"MITRE ATT&CK": ["TA0040:T1531"]}
-    Severity = Severity.Medium
+    Severity = PantherSeverity.Medium
     Description = "Detects when a Slack organization is deleted"
     Reference = "https://slack.com/intl/en-gb/help/articles/204067366-Delete-a-workspace"
     SummaryAttributes = ["p_any_ip_addresses", "p_any_emails"]

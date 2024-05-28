@@ -1,6 +1,6 @@
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, Severity
+from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import deep_get, deep_walk, okta_alert_context
 from pypanther.log_types import LogType
 
@@ -165,7 +165,7 @@ class OktaIdentityProviderCreatedModified(PantherRule):
     DisplayName = "Okta Identity Provider Created or Modified"
     LogTypes = [LogType.Okta_SystemLog]
     Reports = {"MITRE ATT&CK": ["TA0006:T1556", "TA0001:T1199", "TA0003:T1098"]}
-    Severity = Severity.High
+    Severity = PantherSeverity.High
     Description = 'A new 3rd party Identity Provider has been created or modified.   Attackers have been observed configuring a second Identity Provider to act as an "impersonation app"  to access applications within the compromised Org on behalf of other users. This second Identity Provider,  also controlled by the attacker, would act as a “source” IdP in an inbound federation relationship  (sometimes called “Org2Org”) with the target.\n'
     Runbook = "Delegate access to this feature to a Custom Admin Role with the minimum required permissions. Constrain these roles to groups that exclude highly privileged administrators.\n"
     Reference = "https://sec.okta.com/articles/2023/08/cross-tenant-impersonation-prevention-and-detection\n"

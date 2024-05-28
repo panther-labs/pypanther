@@ -1,7 +1,7 @@
 import shlex
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, Severity
+from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import deep_get
 from pypanther.log_types import LogType
 
@@ -86,7 +86,7 @@ class OsqueryLinuxAWSCommandExecuted(PantherRule):
     LogTypes = [LogType.Osquery_Differential]
     Tags = ["Osquery", "Linux", "Execution:User Execution"]
     Reports = {"MITRE ATT&CK": ["TA0002:T1204"]}
-    Severity = Severity.Medium
+    Severity = PantherSeverity.Medium
     Description = "An AWS command was executed on a Linux instance"
     Runbook = "See which other commands were executed, and then remove IAM role causing the access"
     Reference = "https://attack.mitre.org/techniques/T1078/"

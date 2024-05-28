@@ -1,6 +1,6 @@
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, Severity
+from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.log_types import LogType
 
 zoom_all_meetings_secured_with_one_option_disabled_tests: List[PantherRuleTest] = [
@@ -44,7 +44,7 @@ class ZoomAllMeetingsSecuredWithOneOptionDisabled(PantherRule):
     DisplayName = "Zoom All Meetings Secured With One Option Disabled"
     Runbook = "Confirm this user acted with valid business intent and determine whether this activity was authorized."
     Reference = "https://support.zoom.com/hc/en/article?id=zm_kb&sysparm_article=KB0059862"
-    Severity = Severity.Medium
+    Severity = PantherSeverity.Medium
     LogTypes = [LogType.Zoom_Operation]
     RuleID = "Zoom.All.Meetings.Secured.With.One.Option.Disabled-prototype"
     Tests = zoom_all_meetings_secured_with_one_option_disabled_tests

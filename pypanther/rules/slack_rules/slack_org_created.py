@@ -1,6 +1,6 @@
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, Severity
+from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import slack_alert_context
 from pypanther.log_types import LogType
 
@@ -66,7 +66,7 @@ class SlackAuditLogsOrgCreated(PantherRule):
     LogTypes = [LogType.Slack_AuditLogs]
     Tags = ["Slack", "Persistence", "Create Account"]
     Reports = {"MITRE ATT&CK": ["TA0003:T1136"]}
-    Severity = Severity.Low
+    Severity = PantherSeverity.Low
     Description = "Detects when a Slack organization is created"
     Reference = "https://slack.com/intl/en-gb/help/articles/206845317-Create-a-Slack-workspace"
     SummaryAttributes = ["p_any_ip_addresses", "p_any_emails"]

@@ -1,6 +1,6 @@
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, Severity
+from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import deep_get
 from pypanther.log_types import LogType
 
@@ -82,7 +82,7 @@ class OsquerySSHListener(PantherRule):
     LogTypes = [LogType.Osquery_Differential]
     Tags = ["Osquery", "Lateral Movement:Remote Services"]
     Reports = {"MITRE ATT&CK": ["TA0008:T1021"]}
-    Severity = Severity.Medium
+    Severity = PantherSeverity.Medium
     Description = "Check if SSH is listening in a non-production environment. This could be an indicator of persistent access within an environment.\n"
     Runbook = "Terminate the SSH daemon, investigate for signs of compromise.\n"
     Reference = (

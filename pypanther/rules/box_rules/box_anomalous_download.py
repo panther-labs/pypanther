@@ -1,6 +1,6 @@
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, Severity
+from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import box_parse_additional_details, deep_get
 from pypanther.log_types import LogType
 
@@ -45,7 +45,7 @@ class BoxShieldAnomalousDownload(PantherRule):
     LogTypes = [LogType.Box_Event]
     Tags = ["Box", "Exfiltration:Exfiltration Over Web Service"]
     Reports = {"MITRE ATT&CK": ["TA0010:T1567"]}
-    Severity = Severity.High
+    Severity = PantherSeverity.High
     Description = "A user's download activity has altered significantly.\n"
     Reference = "https://developer.box.com/guides/events/shield-alert-events/"
     Runbook = "Investigate whether this was triggered by expected user download activity.\n"

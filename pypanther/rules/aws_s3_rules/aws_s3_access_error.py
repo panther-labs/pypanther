@@ -1,6 +1,6 @@
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, Severity
+from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import aws_rule_context, pattern_match
 from pypanther.log_types import LogType
 
@@ -86,7 +86,7 @@ class AWSS3ServerAccessError(PantherRule):
     LogTypes = [LogType.AWS_S3ServerAccess]
     Tags = ["AWS", "Security Control", "Discovery:Cloud Storage Object Discovery"]
     Reports = {"MITRE ATT&CK": ["TA0007:T1619"]}
-    Severity = Severity.Info
+    Severity = PantherSeverity.Info
     Description = "Checks for errors during S3 Object access. This could be due to insufficient access permissions, non-existent buckets, or other reasons.\n"
     Runbook = "Investigate the specific error and determine if it is an ongoing issue that needs to be addressed or a one off or transient error that can be ignored.\n"
     Reference = "https://docs.aws.amazon.com/AmazonS3/latest/dev/ErrorCode.html"

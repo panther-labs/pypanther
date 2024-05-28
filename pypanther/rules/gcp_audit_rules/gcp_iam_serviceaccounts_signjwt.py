@@ -1,6 +1,6 @@
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, Severity
+from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.gcp_base_helpers import gcp_alert_context
 from pypanther.helpers.panther_base_helpers import deep_get, deep_walk
 from pypanther.log_types import LogType
@@ -108,7 +108,7 @@ class GCPIAMserviceAccountssignJwtPrivilegeEscalation(PantherRule):
     DisplayName = "GCP IAM serviceAccounts.signJwt Privilege Escalation"
     LogTypes = [LogType.GCP_AuditLog]
     Reports = {"MITRE ATT&CK": ["TA0004:T1548"]}
-    Severity = Severity.High
+    Severity = PantherSeverity.High
     Description = "Detects iam.serviceAccounts.signJwt method for privilege escalation in GCP. This method works by signing well-formed JSON web tokens (JWTs). The script for this method will sign a well-formed JWT and request a new access token belonging to the Service Account with it."
     Runbook = "These is not a vulnerability in GCP, this is a vulnerability in how you have configured your GCP environment, so it is your responsibility to be aware of these attack vectors and to defend against them. Make sure to follow the principle of least-privilege in your environments to help mitigate these security risks."
     Reference = (

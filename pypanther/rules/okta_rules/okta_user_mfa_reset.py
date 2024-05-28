@@ -1,7 +1,7 @@
 from typing import List
 
 import pypanther.helpers.panther_event_type_helpers as event_type
-from pypanther.base import PantherRule, PantherRuleTest, Severity
+from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import okta_alert_context
 from pypanther.log_types import LogType
 
@@ -85,7 +85,7 @@ class OktaUserMFAResetSingle(PantherRule):
     DisplayName = "Okta User MFA Own Reset"
     RuleID = "Okta.User.MFA.Reset.Single-prototype"
     Reference = "https://support.okta.com/help/s/article/How-to-avoid-lockouts-and-reset-your-Multifactor-Authentication-MFA-for-Okta-Admins?language=en_US"
-    Severity = Severity.Info
+    Severity = PantherSeverity.Info
     LogTypes = [LogType.Okta_SystemLog]
     Tests = okta_user_mfa_reset_single_tests
 

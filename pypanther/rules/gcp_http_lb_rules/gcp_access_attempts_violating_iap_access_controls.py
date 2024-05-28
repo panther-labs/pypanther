@@ -1,6 +1,6 @@
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, Severity
+from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import deep_get
 from pypanther.log_types import LogType
 
@@ -108,7 +108,7 @@ class GCPAccessAttemptsViolatingIAPAccessControls(PantherRule):
     Description = "GCP Access Attempts Violating IAP Access Controls"
     DisplayName = "GCP Access Attempts Violating IAP Access Controls"
     Reference = "https://cloud.google.com/iap/docs/concepts-overview"
-    Severity = Severity.Medium
+    Severity = PantherSeverity.Medium
     LogTypes = [LogType.GCP_HTTPLoadBalancer]
     RuleID = "GCP.Access.Attempts.Violating.IAP.Access.Controls-prototype"
     Tests = gcp_access_attempts_violating_iap_access_controls_tests

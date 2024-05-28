@@ -1,7 +1,7 @@
 import json
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, Severity
+from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.log_types import LogType
 
 duo_admin_lockout_tests: List[PantherRuleTest] = [
@@ -46,7 +46,7 @@ class DuoAdminLockout(PantherRule):
     Description = "Alert when a duo administrator is locked out of their account."
     DisplayName = "Duo Admin Lockout"
     Reference = "https://duo.com/docs/adminapi"
-    Severity = Severity.Medium
+    Severity = PantherSeverity.Medium
     LogTypes = [LogType.Duo_Administrator]
     RuleID = "Duo.Admin.Lockout-prototype"
     Tests = duo_admin_lockout_tests

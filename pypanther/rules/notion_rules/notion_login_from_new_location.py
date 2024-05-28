@@ -3,7 +3,7 @@ import json
 import time
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, RuleMock, Severity
+from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity, RuleMock
 from pypanther.helpers.panther_ipinfo_helpers import IPInfoLocation
 from pypanther.helpers.panther_notion_helpers import notion_alert_context
 from pypanther.helpers.panther_oss_helpers import get_dictionary, put_dictionary
@@ -281,7 +281,7 @@ class NotionLoginFromNewLocation(PantherRule):
     DisplayName = "Notion Login from New Location"
     LogTypes = [LogType.Notion_AuditLogs]
     Tags = ["Notion", "Identity & Access Management", "Login & Access Patterns"]
-    Severity = Severity.Medium
+    Severity = PantherSeverity.Medium
     Description = "A Notion User logged in from a new location."
     Runbook = "Possible account takeover. Follow up with the Notion User to determine if this login is genuine."
     Reference = "https://ipinfo.io/products/ip-geolocation-api"

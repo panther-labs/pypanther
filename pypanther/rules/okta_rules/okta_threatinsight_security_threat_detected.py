@@ -1,6 +1,6 @@
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, Severity
+from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import deep_get, okta_alert_context
 from pypanther.log_types import LogType
 
@@ -185,7 +185,7 @@ class OktaThreatInsightSecurityThreatDetected(PantherRule):
     Description = "Okta ThreatInsight identified request from potentially malicious IP address"
     Reference = "https://help.okta.com/en-us/Content/Topics/Security/threat-insight/configure-threatinsight-system-log.htm"
     DisplayName = "Okta ThreatInsight Security Threat Detected"
-    Severity = Severity.High
+    Severity = PantherSeverity.High
     LogTypes = [LogType.Okta_SystemLog]
     RuleID = "Okta.ThreatInsight.Security.Threat.Detected-prototype"
     Tests = okta_threat_insight_security_threat_detected_tests

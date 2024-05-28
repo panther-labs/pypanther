@@ -1,7 +1,7 @@
 from fnmatch import fnmatch
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, Severity
+from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import deep_get
 from pypanther.log_types import LogType
 
@@ -73,7 +73,7 @@ class OsqueryMacOSXAttacksKeyboardEvents(PantherRule):
     LogTypes = [LogType.Osquery_Differential]
     Tags = ["Osquery", "MacOS", "Malware", "Collection:Input Capture"]
     Reports = {"MITRE ATT&CK": ["TA0009:T1056"]}
-    Severity = Severity.Medium
+    Severity = PantherSeverity.Medium
     Description = "A Key Logger has potentially been detected on a macOS system"
     Runbook = "Verify the Application monitoring the keyboard taps"
     Reference = "https://support.apple.com/en-us/HT204899"

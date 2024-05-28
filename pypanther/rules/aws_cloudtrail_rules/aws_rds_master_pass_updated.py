@@ -1,6 +1,6 @@
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, Severity
+from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import deep_get
 from pypanther.log_types import LogType
 
@@ -294,7 +294,7 @@ class AWSRDSMasterPasswordUpdated(PantherRule):
     Reference = (
         "https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Overview.DBInstance.Modifying.html"
     )
-    Severity = Severity.Low
+    Severity = PantherSeverity.Low
     Reports = {"MITRE ATT&CK": ["TA0003:T1098"]}
     SummaryAttributes = [
         "awsRegion",

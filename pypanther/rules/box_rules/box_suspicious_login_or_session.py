@@ -1,6 +1,6 @@
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, Severity
+from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import box_parse_additional_details, deep_get
 from pypanther.log_types import LogType
 
@@ -77,7 +77,7 @@ class BoxShieldSuspiciousAlert(PantherRule):
     LogTypes = [LogType.Box_Event]
     Tags = ["Box", "Initial Access:Valid Accounts"]
     Reports = {"MITRE ATT&CK": ["TA0001:T1078"]}
-    Severity = Severity.High
+    Severity = PantherSeverity.High
     Description = (
         "A user login event or session event was tagged as medium to high severity by Box Shield.\n"
     )

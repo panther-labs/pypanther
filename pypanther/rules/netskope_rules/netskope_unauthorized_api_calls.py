@@ -1,6 +1,6 @@
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, Severity
+from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import deep_walk
 from pypanther.log_types import LogType
 
@@ -66,7 +66,7 @@ class NetskopeUnauthorizedAPICalls(PantherRule):
     LogTypes = [LogType.Netskope_Audit]
     Tags = ["Netskope", "Configuration Required", "Brute Force"]
     Reports = {"MITRE ATT&CK": ["TA0006:T1110"]}
-    Severity = Severity.High
+    Severity = PantherSeverity.High
     Description = "Many unauthorized API calls were observed for a user in a short period of time."
     Threshold = 10
     Runbook = "An account is making many unauthorized API calls.  This could indicate brute force activity, or expired service account credentials."

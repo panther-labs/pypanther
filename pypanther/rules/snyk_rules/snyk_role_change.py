@@ -1,6 +1,6 @@
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, Severity
+from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import deep_get
 from pypanther.helpers.panther_snyk_helpers import snyk_alert_context
 from pypanther.log_types import LogType
@@ -75,7 +75,7 @@ class SnykRoleChange(PantherRule):
     DisplayName = "Snyk Role Change"
     LogTypes = [LogType.Snyk_GroupAudit, LogType.Snyk_OrgAudit]
     Tags = ["Snyk"]
-    Severity = Severity.High
+    Severity = PantherSeverity.High
     Description = "Detects when Snyk Roles are changed\n"
     Runbook = "These actions in the Snyk Audit logs indicate that a ServiceAccount has been created/deleted/modified.\nAll events where the Role is marked as ADMIN have CRITICAL severity Other events are marked with MEDIUM severity\n"
     Reference = "https://docs.snyk.io/snyk-admin/manage-users-and-permissions/member-roles"

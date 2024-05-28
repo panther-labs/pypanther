@@ -1,6 +1,6 @@
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, Severity
+from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import deep_get
 from pypanther.log_types import LogType
 
@@ -50,7 +50,7 @@ class BoxLargeNumberDownloads(PantherRule):
     LogTypes = [LogType.Box_Event]
     Tags = ["Box", "Exfiltration:Exfiltration Over Web Service"]
     Reports = {"MITRE ATT&CK": ["TA0010:T1567"]}
-    Severity = Severity.Low
+    Severity = PantherSeverity.Low
     Description = (
         "A user has exceeded the threshold for number of downloads within a single time frame.\n"
     )

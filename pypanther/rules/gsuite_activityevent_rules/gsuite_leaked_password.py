@@ -1,6 +1,6 @@
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, Severity
+from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import deep_get
 from pypanther.log_types import LogType
 
@@ -44,7 +44,7 @@ class GSuiteLeakedPassword(PantherRule):
     LogTypes = [LogType.GSuite_ActivityEvent]
     Tags = ["GSuite", "Credential Access:Unsecured Credentials"]
     Reports = {"MITRE ATT&CK": ["TA0006:T1552"]}
-    Severity = Severity.High
+    Severity = PantherSeverity.High
     Description = (
         "GSuite reported a user's password has been compromised, so they disabled the account.\n"
     )

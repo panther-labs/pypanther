@@ -1,6 +1,6 @@
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, Severity
+from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import aws_rule_context
 from pypanther.helpers.panther_default import aws_cloudtrail_success
 from pypanther.log_types import LogType
@@ -264,7 +264,7 @@ class AWSKMSCustomerManagedKeyLoss(PantherRule):
     LogTypes = [LogType.AWS_CloudTrail]
     Tags = ["AWS", "Identity & Access Management", "Impact:Data Destruction"]
     Reports = {"CIS": ["3.7"], "MITRE ATT&CK": ["TA0040:T1485"]}
-    Severity = Severity.Info
+    Severity = PantherSeverity.Info
     Description = "A KMS Customer Managed Key was disabled or scheduled for deletion. This could potentially lead to permanent loss of encrypted data.\n"
     Runbook = "https://docs.runpanther.io/alert-runbooks/built-in-rules/aws-kms-cmk-loss"
     Reference = "https://docs.aws.amazon.com/kms/latest/developerguide/deleting-keys.html"

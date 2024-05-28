@@ -1,6 +1,6 @@
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, Severity
+from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import deep_get
 from pypanther.log_types import LogType
 
@@ -94,7 +94,7 @@ class GSuiteWorkspaceGmailSecuritySandboxDisabled(PantherRule):
     LogTypes = [LogType.GSuite_ActivityEvent]
     Tags = ["GSuite"]
     Reports = {"MITRE ATT&CK": ["TA0001:T1566"]}
-    Severity = Severity.Medium
+    Severity = PantherSeverity.Medium
     Description = "A Workspace Admin Has Disabled The Security Sandbox\n"
     Reference = "https://support.google.com/a/answer/7676854?hl=en#zippy=%2Cfind-security-sandbox-settings%2Cabout-security-sandbox-rules-and-other-scans"
     Runbook = "Gmail's Security Sandbox enables rule based scanning of email content.\nIf this change was not intentional, inspect the other actions taken by this actor.\n"

@@ -1,6 +1,6 @@
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, Severity
+from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import deep_get
 from pypanther.log_types import LogType
 
@@ -71,7 +71,7 @@ class BoxLargeNumberPermissionUpdates(PantherRule):
     LogTypes = [LogType.Box_Event]
     Tags = ["Box", "Privilege Escalation:Abuse Elevation Control Mechanism"]
     Reports = {"MITRE ATT&CK": ["TA0004:T1548"]}
-    Severity = Severity.Low
+    Severity = PantherSeverity.Low
     Description = "A user has exceeded the threshold for number of folder permission changes within a single time frame.\n"
     Reference = (
         "https://support.box.com/hc/en-us/articles/360043697254-Understanding-Folder-Permissions"

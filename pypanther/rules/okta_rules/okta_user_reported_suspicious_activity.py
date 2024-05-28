@@ -1,6 +1,6 @@
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, Severity
+from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import okta_alert_context
 from pypanther.log_types import LogType
 
@@ -179,7 +179,7 @@ class OktaUserReportedSuspiciousActivity(PantherRule):
         "https://help.okta.com/en-us/Content/Topics/Security/suspicious-activity-reporting.htm"
     )
     DisplayName = "Okta User Reported Suspicious Activity"
-    Severity = Severity.High
+    Severity = PantherSeverity.High
     LogTypes = [LogType.Okta_SystemLog]
     RuleID = "Okta.User.Reported.Suspicious.Activity-prototype"
     Tests = okta_user_reported_suspicious_activity_tests

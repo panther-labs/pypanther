@@ -1,6 +1,6 @@
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, Severity
+from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import deep_get
 from pypanther.log_types import LogType
 
@@ -34,7 +34,7 @@ class GSuiteAdvancedProtection(PantherRule):
     LogTypes = [LogType.GSuite_ActivityEvent]
     Tags = ["GSuite", "Defense Evasion:Impair Defenses"]
     Reports = {"MITRE ATT&CK": ["TA0005:T1562"]}
-    Severity = Severity.Low
+    Severity = PantherSeverity.Low
     Description = "A user disabled advanced protection for themselves.\n"
     Reference = "https://support.google.com/a/answer/9378686?hl=en&sjid=864417124752637253-EU"
     Runbook = "Have the user re-enable Google Advanced Protection\n"

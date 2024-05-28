@@ -1,7 +1,7 @@
 import re
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, Severity
+from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import deep_get, okta_alert_context
 from pypanther.log_types import LogType
 
@@ -131,7 +131,7 @@ class OktaAdminRoleAssigned(PantherRule):
     LogTypes = [LogType.Okta_SystemLog]
     Tags = ["Identity & Access Management", "Okta", "Privilege Escalation:Valid Accounts"]
     Reports = {"MITRE ATT&CK": ["TA0004:T1078"]}
-    Severity = Severity.Info
+    Severity = PantherSeverity.Info
     Description = "A user has been granted administrative privileges in Okta"
     Reference = (
         "https://help.okta.com/en/prod/Content/Topics/Security/administrators-admin-comparison.htm"

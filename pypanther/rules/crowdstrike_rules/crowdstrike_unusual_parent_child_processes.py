@@ -1,6 +1,6 @@
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, Severity
+from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import crowdstrike_detection_alert_context, deep_get
 from pypanther.log_types import LogType
 
@@ -176,7 +176,7 @@ class CrowdstrikeUnusualParentChildProcesses(PantherRule):
     Description = "Detects unusual parent child process pairings."
     DisplayName = "Crowdstrike Unusual Parent Child Processes"
     Reference = "https://medium.com/falconforce/falconfriday-e4554e9e6665"
-    Severity = Severity.Critical
+    Severity = PantherSeverity.Critical
     LogTypes = [LogType.Crowdstrike_FDREvent]
     RuleID = "Crowdstrike.Unusual.Parent.Child.Processes-prototype"
     Tests = crowdstrike_unusual_parent_child_processes_tests

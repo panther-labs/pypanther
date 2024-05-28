@@ -1,6 +1,6 @@
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, Severity
+from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.log_types import LogType
 
 teleport_auth_errors_tests: List[PantherRuleTest] = [
@@ -48,7 +48,7 @@ class TeleportAuthErrors(PantherRule):
     DisplayName = "Teleport SSH Auth Errors"
     LogTypes = [LogType.Gravitational_TeleportAudit]
     Tags = ["SSH", "Credential Access:Brute Force"]
-    Severity = Severity.Medium
+    Severity = PantherSeverity.Medium
     Reports = {"MITRE ATT&CK": ["TA0006:T1110"]}
     Description = "A high volume of SSH errors could indicate a brute-force attack"
     Threshold = 10

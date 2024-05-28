@@ -1,7 +1,7 @@
 import re
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, Severity
+from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_config import config
 from pypanther.log_types import LogType
 
@@ -45,7 +45,7 @@ class TeleportCompanyDomainLoginWithoutSAML(PantherRule):
     DisplayName = "A User from the company domain(s) Logged in without SAML"
     LogTypes = [LogType.Gravitational_TeleportAudit]
     Tags = ["Teleport"]
-    Severity = Severity.High
+    Severity = PantherSeverity.High
     Description = "A User from the company domain(s) Logged in without SAML"
     Reports = {"MITRE ATT&CK": ["TA0005:T1562"]}
     Reference = "https://goteleport.com/docs/management/admin/"

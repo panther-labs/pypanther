@@ -1,6 +1,6 @@
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, Severity
+from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import aws_rule_context
 from pypanther.log_types import LogType
 
@@ -125,7 +125,7 @@ class AWSRDSSnapshotShared(PantherRule):
     DisplayName = "AWS RDS Snapshot Shared"
     LogTypes = [LogType.AWS_CloudTrail]
     Tags = ["AWS", "Exfiltration", "Transfer Data to Cloud Account"]
-    Severity = Severity.High
+    Severity = PantherSeverity.High
     Reports = {"MITRE ATT&CK": ["TA0010:T1537"]}
     Description = "An RDS snapshot was shared with another account. This could be an indicator of exfiltration.\n"
     Runbook = "Ensure that the snapshot was shared intentionally and with an approved account. If not, remove the snapshot and quarantine the compromised IAM user.\n"

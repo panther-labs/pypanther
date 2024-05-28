@@ -1,6 +1,6 @@
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, Severity
+from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import deep_get
 from pypanther.log_types import LogType
 
@@ -200,7 +200,7 @@ class GCPUserAddedtoIAPProtectedService(PantherRule):
     DisplayName = "GCP User Added to IAP Protected Service"
     Runbook = "Note: GCP logs all bindings everytime this event occurs, not just changes. Bindings should be reviewed to ensure no unintended users have been added. "
     Reference = "https://cloud.google.com/iap/docs/managing-access"
-    Severity = Severity.Low
+    Severity = PantherSeverity.Low
     LogTypes = [LogType.GCP_AuditLog]
     RuleID = "GCP.User.Added.to.IAP.Protected.Service-prototype"
     Tests = gcp_user_addedto_iap_protected_service_tests

@@ -1,6 +1,6 @@
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, Severity
+from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.log_types import LogType
 
 teleport_suspicious_commands_tests: List[PantherRuleTest] = [
@@ -58,7 +58,7 @@ class TeleportSuspiciousCommands(PantherRule):
     DisplayName = "Teleport Suspicious Commands Executed"
     LogTypes = [LogType.Gravitational_TeleportAudit]
     Tags = ["SSH", "Execution:Command and Scripting Interpreter"]
-    Severity = Severity.Medium
+    Severity = PantherSeverity.Medium
     Description = "A user has invoked a suspicious command that could lead to a host compromise"
     Reports = {"MITRE ATT&CK": ["TA0002:T1059"]}
     Reference = "https://goteleport.com/docs/management/admin/"

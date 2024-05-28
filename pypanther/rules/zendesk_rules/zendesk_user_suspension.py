@@ -1,6 +1,6 @@
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, Severity
+from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import ZENDESK_CHANGE_DESCRIPTION
 from pypanther.log_types import LogType
 
@@ -71,7 +71,7 @@ class ZendeskUserSuspension(PantherRule):
     LogTypes = [LogType.Zendesk_Audit]
     Tags = ["Zendesk", "Impact:Account Access Removal"]
     Reports = {"MITRE ATT&CK": ["TA0040:T1531"]}
-    Severity = Severity.High
+    Severity = PantherSeverity.High
     Description = "A user's Zendesk suspension status was changed."
     Runbook = "Ensure the user's suspension status is appropriate."
     Reference = "https://support.zendesk.com/hc/en-us/articles/4408889293978-Suspending-a-user#:~:text=select%20Unsuspend%20access.-,Identifying%20suspended%20users,name%20on%20the%20Customers%20page"

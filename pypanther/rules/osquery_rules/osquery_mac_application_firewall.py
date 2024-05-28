@@ -1,6 +1,6 @@
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, Severity
+from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import deep_get
 from pypanther.log_types import LogType
 
@@ -50,7 +50,7 @@ class OsqueryMacApplicationFirewallSettings(PantherRule):
     LogTypes = [LogType.Osquery_Differential]
     Tags = ["Osquery", "MacOS", "Security Control", "Defense Evasion:Impair Defenses"]
     Reports = {"CIS": ["2.6.3", "2.6.4"], "MITRE ATT&CK": ["TA0005:T1562"]}
-    Severity = Severity.High
+    Severity = PantherSeverity.High
     Description = "The application level firewall blocks unwanted network connections made to your computer from other computers on your network.\n"
     Runbook = "Re-enable the firewall manually or with configuration management"
     Reference = "https://support.apple.com/en-us/HT201642"

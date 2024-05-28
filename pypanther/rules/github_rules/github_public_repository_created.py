@@ -1,6 +1,6 @@
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, Severity
+from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import github_alert_context
 from pypanther.log_types import LogType
 
@@ -45,7 +45,7 @@ class GithubPublicRepositoryCreated(PantherRule):
         "Confirm this github repository was intended to be created as 'public' versus 'private'."
     )
     Reference = "https://docs.github.com/en/get-started/quickstart/create-a-repo"
-    Severity = Severity.Medium
+    Severity = PantherSeverity.Medium
     Tags = ["Github Repository", "Public", "Repository Created"]
     LogTypes = [LogType.GitHub_Audit]
     RuleID = "Github.Public.Repository.Created-prototype"

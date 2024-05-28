@@ -1,6 +1,6 @@
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, Severity
+from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_mongodb_helpers import mongodb_alert_context
 from pypanther.log_types import LogType
 
@@ -47,7 +47,7 @@ class MongoDBAlertingDisabledOrDeleted(PantherRule):
     DisplayName = "MongoDB security alerts disabled or deleted"
     LogTypes = [LogType.MongoDB_OrganizationEvent]
     RuleID = "MongoDB.Alerting.Disabled.Or.Deleted-prototype"
-    Severity = Severity.High
+    Severity = PantherSeverity.High
     Reports = {"MITRE ATT&CK": ["TA0005:T1562.001"]}
     Reference = "https://www.mongodb.com/docs/atlas/configure-alerts/"
     Runbook = "Re-enable security alerts"

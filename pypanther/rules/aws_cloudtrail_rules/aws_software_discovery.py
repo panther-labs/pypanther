@@ -1,6 +1,6 @@
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, Severity
+from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import aws_rule_context, deep_get
 from pypanther.log_types import LogType
 
@@ -88,7 +88,7 @@ class AWSSoftwareDiscovery(PantherRule):
     Reference = "https://attack.mitre.org/techniques/T1518/001/"
     Tags = ["Configuration Required"]
     Reports = {"MITRE ATT&CK": ["TA0007:T1518"]}
-    Severity = Severity.Info
+    Severity = PantherSeverity.Info
     DedupPeriodMinutes = 360
     LogTypes = [LogType.AWS_CloudTrail]
     RuleID = "AWS.Software.Discovery-prototype"

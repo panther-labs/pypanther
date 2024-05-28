@@ -1,6 +1,6 @@
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, Severity
+from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.log_types import LogType
 
 one_login_unauthorized_access_tests: List[PantherRuleTest] = [
@@ -33,7 +33,7 @@ class OneLoginUnauthorizedAccess(PantherRule):
     LogTypes = [LogType.OneLogin_Events]
     Tags = ["OneLogin", "Lateral Movement:Use Alternate Authentication Material"]
     Reports = {"MITRE ATT&CK": ["TA0008:T1550"]}
-    Severity = Severity.Medium
+    Severity = PantherSeverity.Medium
     Description = (
         "A OneLogin user was denied access to an app more times than the configured threshold."
     )

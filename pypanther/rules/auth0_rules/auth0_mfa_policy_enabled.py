@@ -1,6 +1,6 @@
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, Severity
+from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_auth0_helpers import auth0_alert_context, is_auth0_config_event
 from pypanther.helpers.panther_base_helpers import deep_get
 from pypanther.log_types import LogType
@@ -579,7 +579,7 @@ class Auth0MFAPolicyEnabled(PantherRule):
     DisplayName = "Auth0 MFA Policy Enabled"
     Runbook = "Assess if this was done by the user for a valid business reason and was expected. This alert indicates a setting change that aligns with best security practices, follow-up may be unnecessary."
     Reference = "https://auth0.com/docs/secure/multi-factor-authentication/enable-mfa#:~:text=In%20the-,Define%20policies,-section%2C%20select%20a"
-    Severity = Severity.Medium
+    Severity = PantherSeverity.Medium
     LogTypes = [LogType.Auth0_Events]
     RuleID = "Auth0.MFA.Policy.Enabled-prototype"
     Tests = auth0_mfa_policy_enabled_tests

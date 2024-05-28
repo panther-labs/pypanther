@@ -1,6 +1,6 @@
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, Severity
+from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.log_types import LogType
 
 git_hub_org_modified_tests: List[PantherRuleTest] = [
@@ -51,7 +51,7 @@ class GitHubOrgModified(PantherRule):
     Tags = ["GitHub", "Initial Access:Supply Chain Compromise"]
     Reports = {"MITRE ATT&CK": ["TA0001:T1195"]}
     Reference = "https://docs.github.com/en/organizations/managing-membership-in-your-organization"
-    Severity = Severity.Info
+    Severity = PantherSeverity.Info
     Description = "Detects when a user is added or removed from a GitHub Org."
     Tests = git_hub_org_modified_tests
 

@@ -1,6 +1,6 @@
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, Severity
+from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.log_types import LogType
 
 carbon_black_audit_admin_grant_tests: List[PantherRuleTest] = [
@@ -57,7 +57,7 @@ class CarbonBlackAuditAdminGrant(PantherRule):
     LogTypes = [LogType.CarbonBlack_Audit]
     Description = "Detects when a user is granted Admin or Super Admin permissions."
     DisplayName = "Carbon Black Admin Role Granted"
-    Severity = Severity.High
+    Severity = PantherSeverity.High
     Tags = ["Privilege Escalation", "Account Manipulation"]
     Reports = {"MITRE ATT&CK": ["TA0004:T1098"]}
     Reference = "https://docs.vmware.com/en/VMware-Carbon-Black-Cloud/services/carbon-black-cloud-user-guide/GUID-CF5ACD2C-A534-46C8-AE06-E1884DB37B58.html"

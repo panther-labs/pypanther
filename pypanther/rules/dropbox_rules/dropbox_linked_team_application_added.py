@@ -1,6 +1,6 @@
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, Severity
+from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import deep_get
 from pypanther.log_types import LogType
 
@@ -136,7 +136,7 @@ class DropboxLinkedTeamApplicationAdded(PantherRule):
     DisplayName = "Dropbox Linked Team Application Added"
     Reference = "https://help.dropbox.com/integrations/app-integrations"
     Runbook = "Ensure that the application is valid and not malicious. Verify that this is expected. If not, determine other actions taken by this user recently and reach out to the user. If the event involved a non-team member, consider disabling the user's access while investigating.\n"
-    Severity = Severity.Low
+    Severity = PantherSeverity.Low
     Tags = ["dropbox"]
     LogTypes = [LogType.Dropbox_TeamEvent]
     RuleID = "Dropbox.Linked.Team.Application.Added-prototype"

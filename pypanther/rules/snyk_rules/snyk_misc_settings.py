@@ -1,6 +1,6 @@
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, Severity
+from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import deep_get
 from pypanther.helpers.panther_snyk_helpers import snyk_alert_context
 from pypanther.log_types import LogType
@@ -38,7 +38,7 @@ class SnykMiscSettings(PantherRule):
     LogTypes = [LogType.Snyk_GroupAudit, LogType.Snyk_OrgAudit]
     Tags = ["Snyk"]
     Reference = "https://docs.snyk.io/snyk-admin/manage-settings"
-    Severity = Severity.Low
+    Severity = PantherSeverity.Low
     Description = "Detects when Snyk settings that lack a clear security impact are changed\n"
     SummaryAttributes = ["event"]
     Tests = snyk_misc_settings_tests

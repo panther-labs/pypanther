@@ -1,6 +1,6 @@
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, Severity
+from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import box_parse_additional_details, deep_get
 from pypanther.log_types import LogType
 
@@ -78,7 +78,7 @@ class BoxMaliciousContent(PantherRule):
     LogTypes = [LogType.Box_Event]
     Tags = ["Box", "Execution:User Execution"]
     Reports = {"MITRE ATT&CK": ["TA0002:T1204"]}
-    Severity = Severity.High
+    Severity = PantherSeverity.High
     Description = "Box has detect malicious content, such as a virus.\n"
     Reference = "https://developer.box.com/guides/events/shield-alert-events/\n"
     Runbook = "Investigate whether this is a false positive or if the virus needs to be contained appropriately.\n"

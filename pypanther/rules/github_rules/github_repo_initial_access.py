@@ -2,7 +2,7 @@ from typing import List
 
 from panther_detection_helpers.caching import get_string_set, put_string_set
 
-from pypanther.base import PantherRule, PantherRuleTest, RuleMock, Severity
+from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity, RuleMock
 from pypanther.log_types import LogType
 
 git_hub_repo_initial_access_tests: List[PantherRuleTest] = [
@@ -92,7 +92,7 @@ class GitHubRepoInitialAccess(PantherRule):
     LogTypes = [LogType.GitHub_Audit]
     Tags = ["GitHub"]
     Reference = "https://docs.github.com/en/organizations/managing-user-access-to-your-organizations-repositories/managing-repository-roles/managing-an-individuals-access-to-an-organization-repository"
-    Severity = Severity.Info
+    Severity = PantherSeverity.Info
     Description = "Detects when a user initially accesses a private organization repository."
     Tests = git_hub_repo_initial_access_tests
     CODE_ACCESS_ACTIONS = ["git.clone", "git.push", "git.fetch"]

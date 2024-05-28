@@ -1,7 +1,7 @@
 from typing import List
 
 import pypanther.helpers.panther_event_type_helpers as event_type
-from pypanther.base import PantherRule, PantherRuleTest, Severity
+from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import deep_get
 from pypanther.log_types import LogType
 
@@ -191,7 +191,7 @@ class PantherUserModified(PantherRule):
     RuleID = "Panther.User.Modified-prototype"
     DisplayName = "A User's Panther Account was Modified"
     LogTypes = [LogType.Panther_Audit]
-    Severity = Severity.High
+    Severity = PantherSeverity.High
     Tags = ["DataModel", "Persistence:Account Manipulation"]
     Reports = {"MITRE ATT&CK": ["TA0003:T1098"]}
     Description = "A Panther user's role has been modified. This could mean password, email, or role has changed for the user."

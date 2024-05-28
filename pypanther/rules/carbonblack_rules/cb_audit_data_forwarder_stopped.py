@@ -1,6 +1,6 @@
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, Severity
+from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.log_types import LogType
 
 carbon_black_audit_data_forwarder_stopped_tests: List[PantherRuleTest] = [
@@ -42,7 +42,7 @@ class CarbonBlackAuditDataForwarderStopped(PantherRule):
     LogTypes = [LogType.CarbonBlack_Audit]
     Description = "Detects when a user disables or deletes a Data Forwarder."
     DisplayName = "Carbon Black Data Forwarder Stopped"
-    Severity = Severity.High
+    Severity = PantherSeverity.High
     Tags = ["Defense Evasion", "Impair Defenses", "Disable or Modify Cloud Logs"]
     Reports = {"MITRE ATT&CK": ["TA0005:T1562.008"]}
     Reference = "https://docs.vmware.com/en/VMware-Carbon-Black-Cloud/services/carbon-black-cloud-user-guide/GUID-E8D33F72-BABB-4157-A908-D8BBDB5AF349.html"

@@ -1,7 +1,7 @@
 from fnmatch import fnmatch
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, Severity
+from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import aws_rule_context, deep_get
 from pypanther.helpers.panther_default import aws_cloudtrail_success
 from pypanther.log_types import LogType
@@ -226,7 +226,7 @@ class AWSCloudTrailSecurityConfigurationChange(PantherRule):
     DisplayName = "Account Security Configuration Changed"
     LogTypes = [LogType.AWS_CloudTrail]
     Tags = ["AWS", "Defense Evasion:Impair Defenses"]
-    Severity = Severity.Medium
+    Severity = PantherSeverity.Medium
     Reports = {"MITRE ATT&CK": ["TA0005:T1562"]}
     Description = "An account wide security configuration was changed."
     Runbook = "Verify that this change was planned. If not, revert the change and update the access control policies to ensure this doesn't happen again.\n"

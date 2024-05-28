@@ -1,6 +1,6 @@
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, Severity
+from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import pattern_match_list
 from pypanther.log_types import LogType
 
@@ -60,7 +60,7 @@ class TeleportCreateUserAccounts(PantherRule):
     LogTypes = [LogType.Gravitational_TeleportAudit]
     Tags = ["SSH", "Persistence:Create Account"]
     Reports = {"MITRE ATT&CK": ["TA0003:T1136"]}
-    Severity = Severity.High
+    Severity = PantherSeverity.High
     Description = "A user has been manually created, modified, or deleted"
     DedupPeriodMinutes = 15
     Reference = "https://goteleport.com/docs/management/admin/"

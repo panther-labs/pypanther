@@ -1,6 +1,6 @@
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, Severity
+from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.log_types import LogType
 
 google_workspace_apps_new_mobile_app_installed_tests: List[PantherRuleTest] = [
@@ -91,7 +91,7 @@ class GoogleWorkspaceAppsNewMobileAppInstalled(PantherRule):
     DisplayName = "Google Workspace Apps New Mobile App Installed"
     Runbook = "https://admin.google.com/ac/apps/unified"
     Reference = "https://support.google.com/a/answer/6089179?hl=en"
-    Severity = Severity.Medium
+    Severity = PantherSeverity.Medium
     LogTypes = [LogType.GSuite_ActivityEvent]
     RuleID = "Google.Workspace.Apps.New.Mobile.App.Installed-prototype"
     Tests = google_workspace_apps_new_mobile_app_installed_tests

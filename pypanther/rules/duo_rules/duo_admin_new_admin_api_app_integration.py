@@ -1,6 +1,6 @@
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, Severity
+from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_duo_helpers import (
     deserialize_administrator_log_event_description,
     duo_alert_context,
@@ -51,7 +51,7 @@ class DuoAdminNewAdminAPIAppIntegration(PantherRule):
     Description = "Identifies creation of new Admin API integrations for Duo."
     DisplayName = "Duo Admin New Admin API App Integration"
     Reference = "https://duo.com/docs/adminapi#overview"
-    Severity = Severity.High
+    Severity = PantherSeverity.High
     LogTypes = [LogType.Duo_Administrator]
     RuleID = "Duo.Admin.New.Admin.API.App.Integration-prototype"
     Tests = duo_admin_new_admin_api_app_integration_tests

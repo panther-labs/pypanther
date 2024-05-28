@@ -2,7 +2,7 @@ import json
 from typing import List
 from unittest.mock import MagicMock
 
-from pypanther.base import PantherRule, PantherRuleTest, RuleMock, Severity
+from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity, RuleMock
 from pypanther.helpers.panther_base_helpers import deep_get
 from pypanther.helpers.panther_base_helpers import gsuite_parameter_lookup as param_lookup
 from pypanther.log_types import LogType
@@ -375,7 +375,7 @@ class GSuiteDriveVisibilityChanged(PantherRule):
     LogTypes = [LogType.GSuite_Reports]
     Tags = ["GSuite", "Collection:Data from Information Repositories", "Configuration Required"]
     Reports = {"MITRE ATT&CK": ["TA0009:T1213"]}
-    Severity = Severity.Low
+    Severity = PantherSeverity.Low
     Description = "A Google drive resource became externally accessible.\n"
     Reference = (
         "https://support.google.com/a/users/answer/12380484?hl=en&sjid=864417124752637253-EU"

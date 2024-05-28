@@ -1,6 +1,6 @@
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, Severity
+from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_azuresignin_helpers import (
     actor_user,
     azure_signin_alert_context,
@@ -327,7 +327,7 @@ class AzureAuditRiskLevelPassthrough(PantherRule):
     DisplayName = "Azure RiskLevel Passthrough"
     DedupPeriodMinutes = 10
     LogTypes = [LogType.Azure_Audit]
-    Severity = Severity.Medium
+    Severity = PantherSeverity.Medium
     Description = "This detection surfaces an alert based on  riskLevelAggregated, riskLevelDuringSignIn, and riskState.\nriskLevelAggregated and riskLevelDuringSignIn are only  expected for Azure AD Premium P2 customers.\n"
     Reference = "https://learn.microsoft.com/en-us/azure/active-directory/identity-protection/howto-identity-protection-risk-feedback"
     Reports = {"MITRE ATT&CK": ["TA0006:T1110", "TA0001:T1078"]}

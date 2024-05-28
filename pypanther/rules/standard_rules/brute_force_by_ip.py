@@ -2,7 +2,7 @@ from json import loads
 from typing import List
 
 import pypanther.helpers.panther_event_type_helpers as event_type
-from pypanther.base import PantherRule, PantherRuleTest, RuleMock, Severity
+from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity, RuleMock
 from pypanther.helpers.panther_default import lookup_aws_account_name
 from pypanther.helpers.panther_oss_helpers import add_parse_delay, geoinfo_from_ip
 from pypanther.log_types import LogType
@@ -400,7 +400,7 @@ class StandardBruteForceByIP(PantherRule):
         LogType.OneLogin_Events,
         LogType.OnePassword_SignInAttempt,
     ]
-    Severity = Severity.Info
+    Severity = PantherSeverity.Info
     Tags = ["DataModel", "Credential Access:Brute Force"]
     Threshold = 20
     Reports = {"MITRE ATT&CK": ["TA0006:T1110"]}

@@ -1,6 +1,6 @@
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, Severity
+from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import crowdstrike_process_alert_context, deep_get
 from pypanther.log_types import LogType
 
@@ -317,7 +317,7 @@ class CrowdstrikeMacosPlutilUsage(PantherRule):
     Description = "Detects the usage of plutil to modify plist files. Plist files run on start up and are often used by attackers to maintain persistence."
     RuleID = "Crowdstrike.Macos.Plutil.Usage-prototype"
     Reference = "https://www.crowdstrike.com/blog/reconstructing-command-line-activity-on-macos/#:~:text=Terminal.savedState/.-,Windows.plist,-The%20file%20windows"
-    Severity = Severity.Medium
+    Severity = PantherSeverity.Medium
     LogTypes = [LogType.Crowdstrike_FDREvent]
     Tests = crowdstrike_macos_plutil_usage_tests
 

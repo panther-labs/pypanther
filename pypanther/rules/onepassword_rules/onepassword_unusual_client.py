@@ -1,6 +1,6 @@
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, Severity
+from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import deep_get
 from pypanther.log_types import LogType
 
@@ -67,7 +67,7 @@ class OnePasswordUnusualClient(PantherRule):
     DedupPeriodMinutes = 120
     DisplayName = "Unusual 1Password Client Detected"
     LogTypes = [LogType.OnePassword_SignInAttempt]
-    Severity = Severity.Medium
+    Severity = PantherSeverity.Medium
     Description = (
         "Detects when unusual or undesirable 1Password clients access your 1Password account"
     )

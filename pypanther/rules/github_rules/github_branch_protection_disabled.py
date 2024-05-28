@@ -1,6 +1,6 @@
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, Severity
+from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.log_types import LogType
 
 git_hub_branch_protection_disabled_tests: List[PantherRuleTest] = [
@@ -37,7 +37,7 @@ class GitHubBranchProtectionDisabled(PantherRule):
     LogTypes = [LogType.GitHub_Audit]
     Tags = ["GitHub", "Initial Access:Supply Chain Compromise"]
     Reports = {"MITRE ATT&CK": ["TA0001:T1195"]}
-    Severity = Severity.High
+    Severity = PantherSeverity.High
     Description = "Disabling branch protection controls could indicate malicious use of admin credentials in an attempt to hide activity."
     Runbook = "Verify that branch protection should be disabled on the repository and re-enable as necessary."
     Reference = "https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/managing-protected-branches/managing-a-branch-protection-rule"

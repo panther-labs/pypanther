@@ -1,6 +1,6 @@
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, Severity
+from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import aws_rule_context, pattern_match
 from pypanther.log_types import LogType
 
@@ -103,7 +103,7 @@ class AWSS3ServerAccessInsecure(PantherRule):
         "Collection:Data From Cloud Storage Object",
     ]
     Reports = {"MITRE ATT&CK": ["TA0009:T1530"]}
-    Severity = Severity.Low
+    Severity = PantherSeverity.Low
     Description = "Checks if HTTP (unencrypted) was used to access objects in an S3 bucket, as opposed to HTTPS (encrypted).\n"
     Runbook = "Add a condition on the S3 bucket policy that denies access via http.\n"
     Reference = (

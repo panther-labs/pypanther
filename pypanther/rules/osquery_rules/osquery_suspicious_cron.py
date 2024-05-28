@@ -2,7 +2,7 @@ import shlex
 from fnmatch import fnmatch
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, Severity
+from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import deep_get
 from pypanther.log_types import LogType
 
@@ -130,7 +130,7 @@ class OsquerySuspiciousCron(PantherRule):
     LogTypes = [LogType.Osquery_Differential]
     Tags = ["Osquery", "Execution:Scheduled Task/Job"]
     Reports = {"MITRE ATT&CK": ["TA0002:T1053"]}
-    Severity = Severity.High
+    Severity = PantherSeverity.High
     Description = "A suspicious cron has been added"
     Runbook = "Analyze the command to ensure no nefarious activity is occurring"
     Reference = "https://en.wikipedia.org/wiki/Cron"

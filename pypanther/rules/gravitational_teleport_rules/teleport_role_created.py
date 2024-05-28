@@ -1,6 +1,6 @@
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, Severity
+from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.log_types import LogType
 
 teleport_role_created_tests: List[PantherRuleTest] = [
@@ -27,7 +27,7 @@ class TeleportRoleCreated(PantherRule):
     DisplayName = "A Teleport Role was modified or created"
     LogTypes = [LogType.Gravitational_TeleportAudit]
     Tags = ["Teleport"]
-    Severity = Severity.Medium
+    Severity = PantherSeverity.Medium
     Description = "A Teleport Role was modified or created"
     Reports = {"MITRE ATT&CK": ["TA0003:T1098.001"]}
     Reference = "https://goteleport.com/docs/management/admin/"

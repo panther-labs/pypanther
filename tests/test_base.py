@@ -1,19 +1,19 @@
-from pypanther.base import PantherRule, Severity
+from pypanther.base import PantherRule, PantherSeverity
 
 
 def test_less_than():
-    assert Severity.Info < Severity.Low
-    assert Severity.Low < Severity.Medium
-    assert Severity.Medium < Severity.High
-    assert Severity.High < Severity.Critical
+    assert PantherSeverity.Info < PantherSeverity.Low
+    assert PantherSeverity.Low < PantherSeverity.Medium
+    assert PantherSeverity.Medium < PantherSeverity.High
+    assert PantherSeverity.High < PantherSeverity.Critical
 
 
 def test_as_int():
-    assert Severity.as_int(Severity.Info) == 0
-    assert Severity.as_int(Severity.Low) == 1
-    assert Severity.as_int(Severity.Medium) == 2
-    assert Severity.as_int(Severity.High) == 3
-    assert Severity.as_int(Severity.Critical) == 4
+    assert PantherSeverity.as_int(PantherSeverity.Info) == 0
+    assert PantherSeverity.as_int(PantherSeverity.Low) == 1
+    assert PantherSeverity.as_int(PantherSeverity.Medium) == 2
+    assert PantherSeverity.as_int(PantherSeverity.High) == 3
+    assert PantherSeverity.as_int(PantherSeverity.Critical) == 4
 
 
 def test_inheritance():

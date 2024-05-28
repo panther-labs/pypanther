@@ -1,6 +1,6 @@
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, Severity
+from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import deep_get
 from pypanther.helpers.panther_config import config
 from pypanther.log_types import LogType
@@ -34,7 +34,7 @@ class GSuiteDocOwnershipTransfer(PantherRule):
     LogTypes = [LogType.GSuite_ActivityEvent]
     Tags = ["GSuite", "Configuration Required", "Collection:Data from Information Repositories"]
     Reports = {"MITRE ATT&CK": ["TA0009:T1213"]}
-    Severity = Severity.Low
+    Severity = PantherSeverity.Low
     Description = "A GSuite document's ownership was transferred to an external party.\n"
     Reference = "https://support.google.com/drive/answer/2494892?hl=en&co=GENIE.Platform%3DDesktop&sjid=864417124752637253-EU"
     Runbook = (

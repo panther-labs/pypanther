@@ -1,6 +1,6 @@
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, Severity
+from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import deep_get
 from pypanther.helpers.panther_notion_helpers import notion_alert_context
 from pypanther.log_types import LogType
@@ -70,7 +70,7 @@ class NotionWorkspacePublicPageAdded(PantherRule):
     DisplayName = "Notion Workspace public page added"
     LogTypes = [LogType.Notion_AuditLogs]
     Tags = ["Notion", "Data Security", "Information Disclosure"]
-    Severity = Severity.Info
+    Severity = PantherSeverity.Info
     Description = "A Notion page was set to public in your worksace."
     Runbook = "A Notion page was made public. Check with the author to determine why this page was made public."
     Reference = "https://www.notion.so/help/public-pages-and-web-publishing"

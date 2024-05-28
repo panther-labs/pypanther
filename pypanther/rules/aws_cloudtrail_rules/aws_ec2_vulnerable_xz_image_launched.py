@@ -1,6 +1,6 @@
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, Severity
+from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import aws_rule_context
 from pypanther.helpers.panther_default import aws_cloudtrail_success
 from pypanther.helpers.panther_iocs import XZ_AMIS
@@ -724,7 +724,7 @@ class AWSEC2VulnerableXZImageLaunched(PantherRule):
     Description = "Detecting EC2 instances launched with AMIs containing potentially vulnerable versions of XZ (CVE-2024-3094)\n"
     DisplayName = "AWS EC2 Vulnerable XZ Image Launched"
     Reference = "https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2024-3094"
-    Severity = Severity.Critical
+    Severity = PantherSeverity.Critical
     Tags = ["AWS", "Linux", "Emerging Threats", "Supply Chain Compromise"]
     Reports = {"MITRE ATT&CK": ["TA0001:T1195.001"]}
     Runbook = "- Verify that the AMI is indeed vulnerable to CVE-2024-3094 (xz -V being 5.6.0 or 5.6.1) - If the AMI is vulnerable, terminate the instance and launch a new instance with a non-vulnerable AMI\n"

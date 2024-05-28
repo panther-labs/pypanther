@@ -4,7 +4,7 @@ from typing import List
 
 from panther_detection_helpers.caching import get_string_set, put_string_set
 
-from pypanther.base import PantherRule, PantherRuleTest, RuleMock, Severity
+from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity, RuleMock
 from pypanther.helpers.panther_base_helpers import deep_get, slack_alert_context
 from pypanther.log_types import LogType
 
@@ -78,7 +78,7 @@ class SlackAuditLogsApplicationDoS(PantherRule):
     LogTypes = [LogType.Slack_AuditLogs]
     Tags = ["Slack", "Impact", "Endpoint Denial of Service", "Application Exhaustion Flood"]
     Reports = {"MITRE ATT&CK": ["TA0040:T1499.003"]}
-    Severity = Severity.Critical
+    Severity = PantherSeverity.Critical
     Description = "Detects when slack admin invalidates user session(s) more than once in a 24 hour period which can lead to DoS"
     Reference = "https://slack.com/intl/en-gb/help/articles/115005223763-Manage-session-duration-#pro-and-business+-subscriptions-2"
     Threshold = 60

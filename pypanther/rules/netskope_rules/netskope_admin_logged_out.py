@@ -1,6 +1,6 @@
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, Severity
+from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.log_types import LogType
 
 netskope_admin_logged_out_login_failures_tests: List[PantherRuleTest] = [
@@ -60,7 +60,7 @@ class NetskopeAdminLoggedOutLoginFailures(PantherRule):
     LogTypes = [LogType.Netskope_Audit]
     Tags = ["Netskope", "Brute Force"]
     Reports = {"MITRE ATT&CK": ["TA0006:T1110"]}
-    Severity = Severity.Medium
+    Severity = PantherSeverity.Medium
     Description = "An admin was logged out because of successive login failures."
     Runbook = "An admin was logged out because of successive login failures.  This could indicate brute force activity against this account."
     Reference = "https://docs.netskope.com/en/netskope-help/admin-console/administration/audit-log/"

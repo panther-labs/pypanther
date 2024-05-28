@@ -1,6 +1,6 @@
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, Severity
+from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import crowdstrike_detection_alert_context, deep_get
 from pypanther.log_types import LogType
 
@@ -341,7 +341,7 @@ class CrowdstrikeWMIQueryDetection(PantherRule):
     DisplayName = "Crowdstrike WMI Query Detection"
     Runbook = "Investigate the endpoint for signs of WMI query execution. Review the executed query and the associated user account."
     Reference = "https://learn.microsoft.com/en-us/windows/win32/wmisdk/querying-wmi"
-    Severity = Severity.Low
+    Severity = PantherSeverity.Low
     LogTypes = [LogType.Crowdstrike_FDREvent]
     RuleID = "Crowdstrike.WMI.Query.Detection-prototype"
     Tests = crowdstrike_wmi_query_detection_tests

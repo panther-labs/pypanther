@@ -1,6 +1,6 @@
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, Severity
+from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.log_types import LogType
 
 okta_support_access_tests: List[PantherRuleTest] = [
@@ -74,7 +74,7 @@ class OktaSupportAccess(PantherRule):
         "Initial Access:Trusted Relationship",
     ]
     Reports = {"MITRE ATT&CK": ["TA0001:T1199"]}
-    Severity = Severity.Medium
+    Severity = PantherSeverity.Medium
     Description = "An admin user has granted access to Okta Support to your account"
     Reference = "https://help.okta.com/en/prod/Content/Topics/Settings/settings-support-access.htm"
     Runbook = "Contact Admin to ensure this was sanctioned activity"

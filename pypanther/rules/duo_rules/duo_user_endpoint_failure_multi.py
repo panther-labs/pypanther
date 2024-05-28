@@ -1,6 +1,6 @@
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, Severity
+from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import deep_get
 from pypanther.log_types import LogType
 
@@ -112,7 +112,7 @@ class DUOUserEndpointFailure(PantherRule):
     DedupPeriodMinutes = 15
     LogTypes = [LogType.Duo_Authentication]
     Tags = ["Duo"]
-    Severity = Severity.Medium
+    Severity = PantherSeverity.Medium
     Description = "A Duo user's authentication was denied due to a suspicious error on the endpoint"
     Reference = "https://duo.com/docs/adminapi#authentication-logs"
     Runbook = (

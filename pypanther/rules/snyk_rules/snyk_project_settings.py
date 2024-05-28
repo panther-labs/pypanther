@@ -1,6 +1,6 @@
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, Severity
+from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import deep_get
 from pypanther.helpers.panther_snyk_helpers import snyk_alert_context
 from pypanther.log_types import LogType
@@ -68,7 +68,7 @@ class SnykProjectSettings(PantherRule):
     LogTypes = [LogType.Snyk_GroupAudit, LogType.Snyk_OrgAudit]
     Tags = ["Snyk"]
     Reference = "https://docs.snyk.io/snyk-admin/introduction-to-snyk-projects/view-and-edit-project-settings"
-    Severity = Severity.Medium
+    Severity = PantherSeverity.Medium
     Description = "Detects when Snyk Project settings are changed\n"
     SummaryAttributes = ["event"]
     Tests = snyk_project_settings_tests

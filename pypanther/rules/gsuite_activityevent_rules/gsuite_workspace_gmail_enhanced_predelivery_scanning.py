@@ -1,6 +1,6 @@
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, Severity
+from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import deep_get
 from pypanther.log_types import LogType
 
@@ -94,7 +94,7 @@ class GSuiteWorkspaceGmailPredeliveryScanningDisabled(PantherRule):
     LogTypes = [LogType.GSuite_ActivityEvent]
     Tags = ["GSuite"]
     Reports = {"MITRE ATT&CK": ["TA0001:T1566"]}
-    Severity = Severity.Medium
+    Severity = PantherSeverity.Medium
     Description = "A Workspace Admin Has Disabled Pre-Delivery Scanning For Gmail.\n"
     Reference = "https://support.google.com/a/answer/7380368"
     Runbook = "Pre-delivery scanning is a feature in Gmail that subjects suspicious emails to additional automated scrutiny by Google.\nIf this change was not intentional, inspect the other actions taken by this actor.\n"

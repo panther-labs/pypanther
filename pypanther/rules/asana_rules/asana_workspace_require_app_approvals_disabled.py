@@ -1,6 +1,6 @@
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, Severity
+from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import deep_get
 from pypanther.log_types import LogType
 
@@ -59,7 +59,7 @@ class AsanaWorkspaceRequireAppApprovalsDisabled(PantherRule):
     DisplayName = "Asana Workspace Require App Approvals Disabled"
     Runbook = "Confirm this user acted with valid business intent and determine whether this activity was authorized."
     Reference = "https://help.asana.com/hc/en-us/articles/14109494654875-Admin-console#:~:text=used%20by%20default-,Require%20app%20approval,-Admins%20manage%20a"
-    Severity = Severity.Medium
+    Severity = PantherSeverity.Medium
     LogTypes = [LogType.Asana_Audit]
     RuleID = "Asana.Workspace.Require.App.Approvals.Disabled-prototype"
     Tests = asana_workspace_require_app_approvals_disabled_tests

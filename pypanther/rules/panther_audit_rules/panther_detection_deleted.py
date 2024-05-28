@@ -1,6 +1,6 @@
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, Severity
+from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import deep_get
 from pypanther.log_types import LogType
 
@@ -92,7 +92,7 @@ class PantherDetectionDeleted(PantherRule):
     RuleID = "Panther.Detection.Deleted-prototype"
     DisplayName = "Detection content has been deleted from Panther"
     LogTypes = [LogType.Panther_Audit]
-    Severity = Severity.Info
+    Severity = PantherSeverity.Info
     Tags = ["DataModel", "Defense Evasion:Impair Defenses"]
     Reports = {"MITRE ATT&CK": ["TA0005:T1562"]}
     Description = "Detection content has been removed from Panther."

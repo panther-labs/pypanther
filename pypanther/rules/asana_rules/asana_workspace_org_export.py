@@ -1,6 +1,6 @@
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, Severity
+from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import deep_get
 from pypanther.log_types import LogType
 
@@ -59,7 +59,7 @@ class AsanaWorkspaceOrgExport(PantherRule):
     DisplayName = "Asana Workspace Org Export"
     Runbook = "Confirm this user acted with valid business intent and determine whether this activity was authorized."
     Reference = "https://help.asana.com/hc/en-us/articles/14139896860955-Privacy-and-security#:~:text=like%20to%20see.-,Full%20export%20of%20an%20organization,-Available%20on%20Asana"
-    Severity = Severity.Medium
+    Severity = PantherSeverity.Medium
     LogTypes = [LogType.Asana_Audit]
     RuleID = "Asana.Workspace.Org.Export-prototype"
     Tests = asana_workspace_org_export_tests

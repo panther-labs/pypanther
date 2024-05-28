@@ -1,6 +1,6 @@
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, Severity
+from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import deep_get
 from pypanther.log_types import LogType
 
@@ -49,7 +49,7 @@ class BoxAccessGranted(PantherRule):
     DisplayName = "Box Access Granted"
     LogTypes = [LogType.Box_Event]
     Tags = ["Box"]
-    Severity = Severity.Low
+    Severity = PantherSeverity.Low
     Description = "A user granted access to their box account to Box technical support from account settings.\n"
     Reference = "https://support.box.com/hc/en-us/articles/7039943421715-Enabling-and-Disabling-Access-for-Box-Support"
     Runbook = "Investigate whether the user purposefully granted access to their account.\n"

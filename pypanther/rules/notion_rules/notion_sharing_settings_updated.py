@@ -1,6 +1,6 @@
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, Severity
+from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_notion_helpers import notion_alert_context
 from pypanther.log_types import LogType
 
@@ -63,7 +63,7 @@ class NotionSharingSettingsUpdated(PantherRule):
     LogTypes = [LogType.Notion_AuditLogs]
     Tags = ["Notion", "Data Exfiltration"]
     Description = "A Notion User enabled sharing for a Workspace or Teamspace."
-    Severity = Severity.Medium
+    Severity = PantherSeverity.Medium
     Runbook = "Possible Data Exfiltration. Follow up with the Notion User to determine if this was done for a valid business reason."
     Tests = notion_sharing_settings_updated_tests
     EVENTS = (

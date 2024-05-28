@@ -1,6 +1,6 @@
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, Severity
+from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import deep_get
 from pypanther.helpers.panther_snyk_helpers import snyk_alert_context
 from pypanther.log_types import LogType
@@ -42,7 +42,7 @@ class SnykSystemSSO(PantherRule):
     DisplayName = "Snyk System SSO Settings Changed"
     LogTypes = [LogType.Snyk_GroupAudit]
     Tags = ["Snyk"]
-    Severity = Severity.High
+    Severity = PantherSeverity.High
     Description = "Detects Snyk SSO Settings have been changed. The reference URL from Snyk indicates that these events are likely to  originate exclusively from Snyk Support.\n"
     Reference = "https://docs.snyk.io/user-and-group-management/setting-up-sso-for-authentication/set-up-snyk-single-sign-on-sso"
     SummaryAttributes = ["event", "p_any_ip_addresses", "p_any_emails"]

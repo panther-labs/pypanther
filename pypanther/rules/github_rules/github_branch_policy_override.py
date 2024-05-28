@@ -1,6 +1,6 @@
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, Severity
+from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.log_types import LogType
 
 git_hub_branch_policy_override_tests: List[PantherRuleTest] = [
@@ -37,7 +37,7 @@ class GitHubBranchPolicyOverride(PantherRule):
     LogTypes = [LogType.GitHub_Audit]
     Tags = ["GitHub", "Initial Access:Supply Chain Compromise"]
     Reports = {"MITRE ATT&CK": ["TA0001:T1195"]}
-    Severity = Severity.High
+    Severity = PantherSeverity.High
     Description = "Bypassing branch protection controls could indicate malicious use of admin credentials in an attempt to hide activity."
     Runbook = "Verify that the GitHub admin performed this activity and validate its use."
     Reference = "https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/managing-protected-branches/managing-a-branch-protection-rule"

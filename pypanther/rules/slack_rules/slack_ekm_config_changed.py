@@ -1,6 +1,6 @@
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, Severity
+from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import slack_alert_context
 from pypanther.log_types import LogType
 
@@ -77,7 +77,7 @@ class SlackAuditLogsEKMConfigChanged(PantherRule):
     LogTypes = [LogType.Slack_AuditLogs]
     Tags = ["Slack", "Defense Evasion", "Impair Defenses", "Disable or Modify Cloud Logs"]
     Reports = {"MITRE ATT&CK": ["TA0005:T1562.008"]}
-    Severity = Severity.High
+    Severity = PantherSeverity.High
     Description = (
         "Detects when the logging settings for a workspace's EKM configuration has changed"
     )

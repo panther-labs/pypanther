@@ -1,6 +1,6 @@
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, Severity
+from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.gcp_base_helpers import gcp_alert_context
 from pypanther.helpers.panther_base_helpers import deep_get
 from pypanther.log_types import LogType
@@ -24,7 +24,7 @@ class GCPK8sIOCActivity(PantherRule):
     DisplayName = "GCP K8s IOCActivity"
     LogTypes = [LogType.GCP_AuditLog]
     Tags = ["GCP", "Optional"]
-    Severity = Severity.Medium
+    Severity = PantherSeverity.Medium
     Description = "This detection monitors for any kuberentes API Request originating from an Indicator of Compromise."
     Reports = {"MITRE ATT&CK": ["T1573.002"]}
     Runbook = "Add IP address the request is originated from to banned addresses."

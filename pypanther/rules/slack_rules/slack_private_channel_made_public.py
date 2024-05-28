@@ -1,6 +1,6 @@
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, Severity
+from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import slack_alert_context
 from pypanther.log_types import LogType
 
@@ -85,7 +85,7 @@ class SlackAuditLogsPrivateChannelMadePublic(PantherRule):
         "Exfiltration Over Web Service",
     ]
     Reports = {"MITRE ATT&CK": ["TA0005:T1222", "TA0003:T1098", "TA0010:T1567"]}
-    Severity = Severity.High
+    Severity = PantherSeverity.High
     Description = "Detects when a channel that was previously private is made public"
     Reference = "https://slack.com/intl/en-gb/help/articles/213185467-Convert-a-channel-to-private-or-public"
     SummaryAttributes = ["p_any_ip_addresses", "p_any_emails"]

@@ -1,6 +1,6 @@
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, Severity
+from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import deep_get
 from pypanther.helpers.panther_base_helpers import gsuite_details_lookup as details_lookup
 from pypanther.helpers.panther_base_helpers import gsuite_parameter_lookup as param_lookup
@@ -80,7 +80,7 @@ class GSuiteDriveOverlyVisible(PantherRule):
     LogTypes = [LogType.GSuite_Reports]
     Tags = ["GSuite", "Collection:Data from Information Repositories"]
     Reports = {"MITRE ATT&CK": ["TA0009:T1213"]}
-    Severity = Severity.Info
+    Severity = PantherSeverity.Info
     Description = "A Google drive resource that is overly visible has been modified.\n"
     Reference = "https://support.google.com/docs/answer/2494822?hl=en&co=GENIE.Platform%3DDesktop&sjid=864417124752637253-EU"
     Runbook = "Investigate whether the drive document is appropriate to be this visible.\n"

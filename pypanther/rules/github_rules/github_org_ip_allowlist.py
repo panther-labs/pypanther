@@ -1,6 +1,6 @@
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, Severity
+from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.log_types import LogType
 
 git_hub_org_ip_allowlist_tests: List[PantherRuleTest] = [
@@ -46,7 +46,7 @@ class GitHubOrgIpAllowlist(PantherRule):
     LogTypes = [LogType.GitHub_Audit]
     Tags = ["GitHub", "Persistence:Account Manipulation"]
     Reports = {"MITRE ATT&CK": ["TA0003:T1098"]}
-    Severity = Severity.Medium
+    Severity = PantherSeverity.Medium
     SummaryAttributes = ["actor", "action"]
     Description = "Detects changes to a GitHub Org IP Allow List"
     Runbook = "Verify that the change was authorized and appropriate."

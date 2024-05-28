@@ -1,6 +1,6 @@
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, Severity
+from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import deep_get
 from pypanther.log_types import LogType
 
@@ -46,7 +46,7 @@ class GSuiteUserSuspended(PantherRule):
     DisplayName = "GSuite User Suspended"
     LogTypes = [LogType.GSuite_ActivityEvent]
     Tags = ["GSuite"]
-    Severity = Severity.High
+    Severity = PantherSeverity.High
     Description = (
         "A GSuite user was suspended, the account may have been compromised by a spam network.\n"
     )

@@ -3,7 +3,7 @@ from typing import List
 
 from panther_detection_helpers.caching import check_account_age
 
-from pypanther.base import PantherRule, PantherRuleTest, RuleMock, Severity
+from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity, RuleMock
 from pypanther.helpers.panther_base_helpers import aws_rule_context, deep_get
 from pypanther.helpers.panther_default import lookup_aws_account_name
 from pypanther.log_types import LogType
@@ -390,7 +390,7 @@ class AWSConsoleLoginWithoutMFA(PantherRule):
         "Initial Access:Valid Accounts",
     ]
     Reports = {"CIS": ["3.2"], "MITRE ATT&CK": ["TA0001:T1078"]}
-    Severity = Severity.High
+    Severity = PantherSeverity.High
     Description = "A console login was made without multi-factor authentication."
     Runbook = (
         "https://docs.runpanther.io/alert-runbooks/built-in-rules/aws-console-login-without-mfa"

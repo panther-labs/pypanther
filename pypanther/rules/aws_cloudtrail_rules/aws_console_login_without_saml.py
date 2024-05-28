@@ -1,6 +1,6 @@
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, Severity
+from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import aws_rule_context, deep_get
 from pypanther.helpers.panther_default import lookup_aws_account_name
 from pypanther.log_types import LogType
@@ -83,7 +83,7 @@ class AWSConsoleLoginWithoutSAML(PantherRule):
         "Authentication",
         "Initial Access:Valid Accounts",
     ]
-    Severity = Severity.High
+    Severity = PantherSeverity.High
     Description = "An AWS console login was made without SAML/SSO."
     Runbook = "Modify the AWS account configuration."
     Reference = "https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_providers_enable-console-saml.html"

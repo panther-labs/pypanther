@@ -1,6 +1,6 @@
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, Severity
+from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import aws_rule_context, deep_get
 from pypanther.helpers.panther_default import aws_cloudtrail_success
 from pypanther.log_types import LogType
@@ -190,7 +190,7 @@ class AWSCloudTrailIAMAssumeRoleBlacklistIgnored(PantherRule):
         "Privilege Escalation:Abuse Elevation Control Mechanism",
     ]
     Reports = {"MITRE ATT&CK": ["TA0004:T1548"]}
-    Severity = Severity.High
+    Severity = PantherSeverity.High
     Description = (
         "A user assumed a role that was explicitly blocklisted for manual user assumption.\n"
     )

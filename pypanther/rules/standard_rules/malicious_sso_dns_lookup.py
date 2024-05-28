@@ -1,6 +1,6 @@
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, Severity
+from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import filter_crowdstrike_fdr_event_type
 from pypanther.log_types import LogType
 
@@ -177,7 +177,7 @@ class StandardMaliciousSSODNSLookup(PantherRule):
         LogType.Suricata_DNS,
         LogType.Zeek_DNS,
     ]
-    Severity = Severity.Medium
+    Severity = PantherSeverity.Medium
     Threshold = 1000
     Tags = ["Configuration Required"]
     Reports = {"MITRE ATT&CK": ["TA0001:T1566"]}

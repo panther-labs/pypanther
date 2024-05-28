@@ -1,6 +1,6 @@
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, Severity
+from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import crowdstrike_process_alert_context, deep_get
 from pypanther.log_types import LogType
 
@@ -178,7 +178,7 @@ class CrowdstrikeFDRLOLBAS(PantherRule):
     Reference = "https://lolbas-project.github.io/"
     DedupPeriodMinutes = 1440
     Enabled = False
-    Severity = Severity.Info
+    Severity = PantherSeverity.Info
     Tags = ["Configuration Required"]
     Tests = crowdstrike_fdrlolbas_tests
     LOLBAS_EXE = {

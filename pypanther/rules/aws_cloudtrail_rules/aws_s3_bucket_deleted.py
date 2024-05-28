@@ -1,6 +1,6 @@
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, Severity
+from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import aws_rule_context, deep_get
 from pypanther.helpers.panther_default import aws_cloudtrail_success
 from pypanther.log_types import LogType
@@ -98,7 +98,7 @@ class AWSS3BucketDeleted(PantherRule):
     LogTypes = [LogType.AWS_CloudTrail]
     Tags = ["AWS", "Impact:Data Destruction"]
     Reports = {"MITRE ATT&CK": ["TA0040:T1485"]}
-    Severity = Severity.Info
+    Severity = PantherSeverity.Info
     Description = "A S3 Bucket, Policy, or Website was deleted"
     Runbook = "Explore if this bucket deletion was potentially destructive"
     Reference = "https://docs.aws.amazon.com/AmazonS3/latest/userguide/DeletingObjects.html"

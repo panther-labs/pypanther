@@ -1,6 +1,6 @@
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, Severity
+from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.gcp_base_helpers import gcp_alert_context
 from pypanther.helpers.panther_base_helpers import deep_get
 from pypanther.log_types import LogType
@@ -343,7 +343,7 @@ class GCPcomputeinstancescreatePrivilegeEscalation(PantherRule):
     )
     Runbook = "Confirm this was authorized and necessary behavior."
     Reports = {"MITRE ATT&CK": ["TA0004:T1548"]}
-    Severity = Severity.High
+    Severity = PantherSeverity.High
     Tests = gc_pcomputeinstancescreate_privilege_escalation_tests
     REQUIRED_PERMISSIONS = [
         "compute.disks.create",

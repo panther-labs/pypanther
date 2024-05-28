@@ -1,6 +1,6 @@
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, Severity
+from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import aws_guardduty_context, deep_get
 from pypanther.log_types import LogType
 
@@ -95,7 +95,7 @@ class AWSGuardDutyMediumSeverityFinding(PantherRule):
     DisplayName = "AWS GuardDuty Medium Severity Finding"
     LogTypes = [LogType.AWS_GuardDuty]
     Tags = ["AWS"]
-    Severity = Severity.Medium
+    Severity = PantherSeverity.Medium
     DedupPeriodMinutes = 480
     Description = "A medium-severity GuardDuty finding has been identified.\n"
     Runbook = "Search related logs to understand the root cause of the activity.\n"

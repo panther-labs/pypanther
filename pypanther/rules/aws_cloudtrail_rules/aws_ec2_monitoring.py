@@ -1,6 +1,6 @@
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, Severity
+from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import deep_get
 from pypanther.log_types import LogType
 
@@ -420,7 +420,7 @@ class AWSEC2Monitoring(PantherRule):
     Reports = {"MITRE ATT&CK": ["TA0002:T1204"]}
     Runbook = "Verify that the action was not taken by a malicious actor."
     Reference = "https://docs.aws.amazon.com/service-authorization/latest/reference/list_amazonec2imagebuilder.html#amazonec2imagebuilder-actions-as-permissions"
-    Severity = Severity.Info
+    Severity = PantherSeverity.Info
     Tags = ["ec2"]
     LogTypes = [LogType.AWS_CloudTrail]
     RuleID = "AWS.EC2.Monitoring-prototype"

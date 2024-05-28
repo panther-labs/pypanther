@@ -1,6 +1,6 @@
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, Severity
+from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import crowdstrike_process_alert_context, deep_get
 from pypanther.log_types import LogType
 
@@ -395,7 +395,7 @@ class CrowdstrikeMacosOsascriptAdministrator(PantherRule):
     Reference = (
         "https://www.sentinelone.com/blog/how-offensive-actors-use-applescript-for-attacking-macos/"
     )
-    Severity = Severity.Medium
+    Severity = PantherSeverity.Medium
     LogTypes = [LogType.Crowdstrike_FDREvent]
     Tests = crowdstrike_macos_osascript_administrator_tests
 

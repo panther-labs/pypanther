@@ -1,6 +1,6 @@
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, Severity
+from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import deep_get
 from pypanther.log_types import LogType
 
@@ -139,7 +139,7 @@ class GSuiteWorkspaceCalendarExternalSharingSetting(PantherRule):
     LogTypes = [LogType.GSuite_ActivityEvent]
     Tags = ["GSuite"]
     Reports = {"MITRE ATT&CK": ["TA0007:T1087"]}
-    Severity = Severity.Medium
+    Severity = PantherSeverity.Medium
     Description = "A Workspace Admin Changed The Sharing Settings for Primary Calendars\n"
     Reference = "https://support.google.com/a/answer/60765?hl=en"
     Runbook = "Restore the calendar sharing setting to the previous value. If unplanned, use indicator search to identify other activity from this administrator.\n"

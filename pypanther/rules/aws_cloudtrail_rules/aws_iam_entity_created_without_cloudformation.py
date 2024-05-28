@@ -1,7 +1,7 @@
 import re
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, Severity
+from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import aws_rule_context, deep_get
 from pypanther.helpers.panther_default import aws_cloudtrail_success
 from pypanther.log_types import LogType
@@ -259,7 +259,7 @@ class AWSCloudTrailIAMEntityCreatedWithoutCloudFormation(PantherRule):
         "Identity and Access Management",
         "Persistence:Create Account",
     ]
-    Severity = Severity.Medium
+    Severity = PantherSeverity.Medium
     Description = "An IAM Entity (Group, Policy, Role, or User) was created manually. IAM entities should be created in code to ensure that permissions are tracked and managed correctly.\n"
     Runbook = "Verify whether IAM entity needs to exist. If so, re-create it in an appropriate CloudFormation, Terraform, or other template. Delete the original manually created entity.\n"
     Reference = "https://blog.awsfundamentals.com/aws-iam-roles-with-aws-cloudformation"

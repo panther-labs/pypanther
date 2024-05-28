@@ -1,6 +1,6 @@
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, Severity
+from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.log_types import LogType
 
 zoom_new_meeting_passcode_required_disabled_tests: List[PantherRuleTest] = [
@@ -47,7 +47,7 @@ class ZoomNewMeetingPasscodeRequiredDisabled(PantherRule):
     DisplayName = "Zoom New Meeting Passcode Required Disabled"
     Runbook = "Confirm this user acted with valid business intent and determine whether this activity was authorized."
     Reference = "https://support.zoom.com/hc/en/article?id=zm_kb&sysparm_article=KB0063160#:~:text=Since%20September%202022%2C%20Zoom%20requires,enforced%20for%20all%20free%20accounts"
-    Severity = Severity.Medium
+    Severity = PantherSeverity.Medium
     LogTypes = [LogType.Zoom_Operation]
     RuleID = "Zoom.New.Meeting.Passcode.Required.Disabled-prototype"
     Tests = zoom_new_meeting_passcode_required_disabled_tests

@@ -1,7 +1,7 @@
 import json
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, Severity
+from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.log_types import LogType
 
 git_lab_audit_password_reset_multiple_emails_tests: List[PantherRuleTest] = [
@@ -39,7 +39,7 @@ class GitLabAuditPasswordResetMultipleEmails(PantherRule):
     LogTypes = [LogType.GitLab_Audit]
     Tags = ["GitLab", "CVE-2023-7028"]
     Reports = {"MITRE ATT&CK": ["TA0001:T1195", "TA0001:T1190", "TA0003:T1098"]}
-    Severity = Severity.High
+    Severity = PantherSeverity.High
     Description = "Attackers are exploiting a Critical (CVSS 10.0) GitLab vulnerability in which user account password reset emails could be delivered to an unverified email address."
     Reference = "https://about.gitlab.com/releases/2024/01/11/critical-security-release-gitlab-16-7-2-released/"
     Tests = git_lab_audit_password_reset_multiple_emails_tests

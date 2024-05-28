@@ -1,6 +1,6 @@
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, Severity
+from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.log_types import LogType
 
 carbon_black_audit_flagged_tests: List[PantherRuleTest] = [
@@ -41,7 +41,7 @@ class CarbonBlackAuditFlagged(PantherRule):
     LogTypes = [LogType.CarbonBlack_Audit]
     Description = "Detects when Carbon Black has flagged a log as important, such as failed login attempts and locked accounts."
     DisplayName = "Carbon Black Log Entry Flagged"
-    Severity = Severity.High
+    Severity = PantherSeverity.High
     Tags = ["Credential Access", "Brute Force"]
     Reports = {"MITRE ATT&CK": ["TA0006:T1110"]}
     Reference = "https://docs.vmware.com/en/VMware-Carbon-Black-Cloud/services/carbon-black-cloud-user-guide/GUID-FB61E4E3-6431-4226-A4E3-5949FB75922B.html"

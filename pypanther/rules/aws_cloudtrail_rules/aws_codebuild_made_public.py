@@ -1,6 +1,6 @@
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, Severity
+from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import aws_rule_context, deep_get
 from pypanther.helpers.panther_default import lookup_aws_account_name
 from pypanther.log_types import LogType
@@ -133,7 +133,7 @@ class AWSCloudTrailCodebuildProjectMadePublic(PantherRule):
     LogTypes = [LogType.AWS_CloudTrail]
     Reports = {"MITRE ATT&CK": ["TA0010:T1567"]}
     Tags = ["AWS", "Security Control", "Exfiltration:Exfiltration Over Web Service"]
-    Severity = Severity.High
+    Severity = PantherSeverity.High
     Description = "An AWS CodeBuild Project was made publicly accessible\n"
     Runbook = "TBD"
     Reference = "https://docs.aws.amazon.com/codebuild/latest/userguide/public-builds.html"

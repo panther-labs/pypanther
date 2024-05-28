@@ -1,6 +1,6 @@
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, Severity
+from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import aws_rule_context, deep_get
 from pypanther.log_types import LogType
 
@@ -77,7 +77,7 @@ class AWSUnsuccessfulMFAattempt(PantherRule):
     Reference = "https://attack.mitre.org/techniques/T1621/"
     Tags = ["Configuration Required"]
     Reports = {"MITRE ATT&CK": ["TA0006:T1621"]}
-    Severity = Severity.High
+    Severity = PantherSeverity.High
     DedupPeriodMinutes = 15
     LogTypes = [LogType.AWS_CloudTrail]
     RuleID = "AWS.Unsuccessful.MFA.attempt-prototype"

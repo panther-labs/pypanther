@@ -1,6 +1,6 @@
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, Severity
+from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_notion_helpers import notion_alert_context
 from pypanther.log_types import LogType
 
@@ -64,7 +64,7 @@ class NotionManyPagesDeleted(PantherRule):
     DisplayName = "Notion Many Pages Deleted"
     LogTypes = [LogType.Notion_AuditLogs]
     Tags = ["Notion", "Data Security", "Data Destruction"]
-    Severity = Severity.Medium
+    Severity = PantherSeverity.Medium
     Description = "A Notion User deleted multiple pages."
     Threshold = 10
     Runbook = "Possible Data Destruction. Follow up with the Notion User to determine if this was done for a valid business reason."

@@ -1,6 +1,6 @@
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, Severity
+from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import deep_get
 from pypanther.log_types import LogType
 
@@ -58,7 +58,7 @@ class AsanaWorkspaceGuestInvitePermissionsAnyone(PantherRule):
     Description = "Typically inviting guests to Asana is permitted by few users. Enabling anyone to invite guests can potentially lead to unauthorized users gaining access to Asana."
     DisplayName = "Asana Workspace Guest Invite Permissions Anyone"
     Reference = "https://help.asana.com/hc/en-us/articles/14109494654875-Admin-console#:~:text=Google%20SSO%20password.-,Guest%20invite%20controls,-Super%20admins%20of"
-    Severity = Severity.Low
+    Severity = PantherSeverity.Low
     LogTypes = [LogType.Asana_Audit]
     RuleID = "Asana.Workspace.Guest.Invite.Permissions.Anyone-prototype"
     Tests = asana_workspace_guest_invite_permissions_anyone_tests

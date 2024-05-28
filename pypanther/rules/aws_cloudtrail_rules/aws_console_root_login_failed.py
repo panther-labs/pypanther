@@ -1,6 +1,6 @@
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, Severity
+from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import aws_rule_context, deep_get
 from pypanther.helpers.panther_default import lookup_aws_account_name
 from pypanther.log_types import LogType
@@ -132,7 +132,7 @@ class AWSConsoleRootLoginFailed(PantherRule):
     ]
     Threshold = 5
     Reports = {"CIS": ["3.6"], "MITRE ATT&CK": ["TA0006:T1110"]}
-    Severity = Severity.High
+    Severity = PantherSeverity.High
     Description = "A Root console login failed."
     Runbook = "https://docs.runpanther.io/alert-runbooks/built-in-rules/aws-console-login-failed"
     Reference = "https://amzn.to/3aMSmTd"

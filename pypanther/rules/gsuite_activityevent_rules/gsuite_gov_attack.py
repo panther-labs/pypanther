@@ -1,6 +1,6 @@
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, Severity
+from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import deep_get
 from pypanther.log_types import LogType
 
@@ -35,7 +35,7 @@ class GSuiteGovernmentBackedAttack(PantherRule):
     DisplayName = "GSuite Government Backed Attack"
     LogTypes = [LogType.GSuite_ActivityEvent]
     Tags = ["GSuite"]
-    Severity = Severity.Critical
+    Severity = PantherSeverity.Critical
     Description = (
         "GSuite reported that it detected a government backed attack against your account.\n"
     )

@@ -1,6 +1,6 @@
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, Severity
+from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import (
     crowdstrike_network_detection_alert_context,
     deep_get,
@@ -161,7 +161,7 @@ class ConnectiontoEmbargoedCountry(PantherRule):
     DisplayName = "Connection to Embargoed Country"
     LogTypes = [LogType.Crowdstrike_FDREvent]
     RuleID = "Connection.to.Embargoed.Country-prototype"
-    Severity = Severity.Low
+    Severity = PantherSeverity.Low
     Tests = connectionto_embargoed_country_tests
     # U.S. Gov Sanctioned Destinations
     # Cuba

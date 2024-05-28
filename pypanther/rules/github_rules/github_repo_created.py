@@ -1,6 +1,6 @@
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, Severity
+from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.log_types import LogType
 
 github_repo_created_tests: List[PantherRuleTest] = [
@@ -37,7 +37,7 @@ class GithubRepoCreated(PantherRule):
     LogTypes = [LogType.GitHub_Audit]
     Tags = ["GitHub"]
     Reference = "https://docs.github.com/en/get-started/quickstart/create-a-repo"
-    Severity = Severity.Info
+    Severity = PantherSeverity.Info
     Description = "Detects when a repository is created."
     Tests = github_repo_created_tests
 

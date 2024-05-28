@@ -1,6 +1,6 @@
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, Severity
+from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import deep_get, get_val_from_list
 from pypanther.log_types import LogType
 
@@ -247,7 +247,7 @@ class OktaPasswordAccess(PantherRule):
     LogTypes = [LogType.Okta_SystemLog]
     Tags = ["Okta", "Credential Access:Unsecured Credentials"]
     Reports = {"MITRE ATT&CK": ["TA0006:T1552"]}
-    Severity = Severity.Medium
+    Severity = PantherSeverity.Medium
     Description = "User accessed another user's application password\n"
     Reference = "https://help.okta.com/en-us/content/topics/apps/apps_revealing_the_password.htm"
     Runbook = "Investigate whether this was authorized access.\n"

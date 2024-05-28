@@ -1,6 +1,6 @@
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, Severity
+from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import deep_get, deep_walk, okta_alert_context
 from pypanther.log_types import LogType
 
@@ -167,7 +167,7 @@ class OktaIdentityProviderSignIn(PantherRule):
     LogTypes = [LogType.Okta_SystemLog]
     Tags = ["Configuration Required"]
     Reports = {"MITRE ATT&CK": ["TA0001:T1199", "TA0003:T1098"]}
-    Severity = Severity.High
+    Severity = PantherSeverity.High
     Description = 'A user has signed in using a 3rd party Identity Provider.   Attackers have been observed configuring a second Identity Provider to act as an "impersonation app"  to access applications within the compromised Org on behalf of other users. This second Identity Provider,  also controlled by the attacker, would act as a “source” IdP in an inbound federation relationship  (sometimes called “Org2Org”) with the target. From this “source” IdP, the threat actor manipulated the username parameter for targeted users in the second  “source” Identity Provider to match a real user in the compromised “target” Identity Provider.  This provided the ability to Single sign-on (SSO) into applications in the target IdP as the targeted user. Do not use this rule if your organization uses legitimate 3rd-party Identity Providers.\n'
     Reference = "https://sec.okta.com/articles/2023/08/cross-tenant-impersonation-prevention-and-detection\n"
     DedupPeriodMinutes = 30

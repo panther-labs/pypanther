@@ -1,6 +1,6 @@
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, Severity
+from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import deep_get
 from pypanther.log_types import LogType
 
@@ -142,7 +142,7 @@ class GCPDestructiveQueries(PantherRule):
     Description = "Detect any destructive BigQuery queries or jobs such as update, delete, drop, alter or truncate."
     DisplayName = "GCP Destructive Queries"
     Reference = "https://cloud.google.com/bigquery/docs/managing-tables"
-    Severity = Severity.Info
+    Severity = PantherSeverity.Info
     LogTypes = [LogType.GCP_AuditLog]
     RuleID = "GCP.Destructive.Queries-prototype"
     Tests = gcp_destructive_queries_tests

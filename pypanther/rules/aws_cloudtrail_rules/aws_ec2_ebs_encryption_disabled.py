@@ -1,6 +1,6 @@
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, Severity
+from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import aws_rule_context
 from pypanther.log_types import LogType
 
@@ -42,7 +42,7 @@ class AWSEC2EBSEncryptionDisabled(PantherRule):
         "Verify this action was intended and if any EBS volumes were created after the change."
     )
     Reference = "https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/EBSEncryption.html#encryption-by-default"
-    Severity = Severity.Medium
+    Severity = PantherSeverity.Medium
     LogTypes = [LogType.AWS_CloudTrail]
     RuleID = "AWS.EC2.EBS.Encryption.Disabled-prototype"
     Tests = awsec2_ebs_encryption_disabled_tests

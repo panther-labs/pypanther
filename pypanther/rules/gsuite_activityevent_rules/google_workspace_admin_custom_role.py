@@ -1,6 +1,6 @@
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, Severity
+from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.log_types import LogType
 
 google_workspace_admin_custom_role_tests: List[PantherRuleTest] = [
@@ -80,7 +80,7 @@ class GoogleWorkspaceAdminCustomRole(PantherRule):
     DisplayName = "Google Workspace Admin Custom Role"
     Runbook = "Please review this activity with the administrator and ensure this behavior was authorized."
     Reference = "https://support.google.com/a/answer/2406043?hl=en#:~:text=under%20the%20limit.-,Create%20a%20custom%20role,-Before%20you%20begin"
-    Severity = Severity.Medium
+    Severity = PantherSeverity.Medium
     Tags = ["admin", "administrator", "google workspace", "role"]
     LogTypes = [LogType.GSuite_ActivityEvent]
     RuleID = "Google.Workspace.Admin.Custom.Role-prototype"

@@ -1,6 +1,6 @@
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, Severity
+from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.gcp_base_helpers import gcp_alert_context
 from pypanther.helpers.panther_base_helpers import deep_get, deep_walk
 from pypanther.log_types import LogType
@@ -224,7 +224,7 @@ class GCPK8SServiceTypeNodePortDeployed(PantherRule):
     RuleID = "GCP.K8S.Service.Type.NodePort.Deployed-prototype"
     DisplayName = "GCP K8S Service Type NodePort Deployed"
     LogTypes = [LogType.GCP_AuditLog]
-    Severity = Severity.High
+    Severity = PantherSeverity.High
     Description = "This detection monitors for any kubernetes service deployed with type node port. A Node Port service allows  an attacker to expose a set of pods hosting the service to the internet by opening their port and redirecting  traffic here. This can be used to bypass network controls and intercept traffic, creating a direct line to  the outside network.\n"
     Runbook = "Investigate the reason of creating NodePort service. Advise that it is discouraged practice.  Create ticket if appropriate.\n"
     Reference = "https://kubernetes.io/docs/tutorials/kubernetes-basics/expose/expose-intro/"

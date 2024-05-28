@@ -1,6 +1,6 @@
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, Severity
+from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import crowdstrike_detection_alert_context, deep_get
 from pypanther.log_types import LogType
 
@@ -176,7 +176,7 @@ class CrowdstrikeCredentialDumpingTool(PantherRule):
     Description = "Detects usage of tools commonly used for credential dumping."
     DisplayName = "Crowdstrike Credential Dumping Tool"
     Reference = "https://www.crowdstrike.com/blog/adversary-credential-theft/"
-    Severity = Severity.Critical
+    Severity = PantherSeverity.Critical
     LogTypes = [LogType.Crowdstrike_FDREvent]
     RuleID = "Crowdstrike.Credential.Dumping.Tool-prototype"
     Tests = crowdstrike_credential_dumping_tool_tests

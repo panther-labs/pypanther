@@ -3,7 +3,7 @@ from typing import List
 
 from policyuniverse.policy import Policy
 
-from pypanther.base import PantherRule, PantherRuleTest, Severity
+from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import aws_rule_context, deep_get
 from pypanther.helpers.panther_default import aws_cloudtrail_success
 from pypanther.log_types import LogType
@@ -364,7 +364,7 @@ class AWSCloudTrailResourceMadePublic(PantherRule):
     DisplayName = "AWS Resource Made Public"
     LogTypes = [LogType.AWS_CloudTrail]
     Tags = ["AWS", "Exfiltration:Transfer Data to Cloud Account"]
-    Severity = Severity.Medium
+    Severity = PantherSeverity.Medium
     Reports = {"MITRE ATT&CK": ["TA0010:T1537"]}
     Description = "Some AWS resource was made publicly accessible over the internet. Checks ECR, Elasticsearch, KMS, S3, S3 Glacier, SNS, SQS, and Secrets Manager.\n"
     Runbook = "Adjust the policy so that the resource is no longer publicly accessible"

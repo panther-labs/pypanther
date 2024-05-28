@@ -1,6 +1,6 @@
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, Severity
+from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import deep_get
 from pypanther.log_types import LogType
 
@@ -59,7 +59,7 @@ class OnePasswordSensitiveItem(PantherRule):
     Enabled = False
     LogTypes = [LogType.OnePassword_ItemUsage]
     Reference = "https://support.1password.com/1password-com-items/"
-    Severity = Severity.Low
+    Severity = PantherSeverity.Low
     Description = "Alerts when a user defined list of sensitive items in 1Password is accessed"
     SummaryAttributes = ["p_any_ip_addresses", "p_any_emails"]
     Tags = ["Configuration Required", "1Password", "Credential Access:Unsecured Credentials"]

@@ -1,6 +1,6 @@
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, Severity
+from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import deep_get
 from pypanther.log_types import LogType
 
@@ -469,7 +469,7 @@ class AWSModifyCloudComputeInfrastructure(PantherRule):
     DisplayName = "AWS Modify Cloud Compute Infrastructure"
     Enabled = False
     Reference = "https://attack.mitre.org/techniques/T1578/"
-    Severity = Severity.Medium
+    Severity = PantherSeverity.Medium
     Reports = {"MITRE ATT&CK": ["TA0005:T1578"]}
     Tags = ["Configuration Required"]
     Runbook = "This detection reports on eventSource ec2 Change events. This detection excludes Cross-Service change events.  As such, this detection will perform well in environments where changes are  expected to originate only from AWS service entities.\nThis detection will emit alerts frequently in environments where users are making ec2 related changes.\n"

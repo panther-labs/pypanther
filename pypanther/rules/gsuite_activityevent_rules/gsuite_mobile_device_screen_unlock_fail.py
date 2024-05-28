@@ -1,6 +1,6 @@
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, Severity
+from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import deep_get
 from pypanther.log_types import LogType
 
@@ -61,7 +61,7 @@ class GSuiteDeviceUnlockFailure(PantherRule):
     LogTypes = [LogType.GSuite_ActivityEvent]
     Tags = ["GSuite", "Credential Access:Brute Force"]
     Reports = {"MITRE ATT&CK": ["TA0006:T1110"]}
-    Severity = Severity.Medium
+    Severity = PantherSeverity.Medium
     Description = "Someone failed to unlock a user's device multiple times in quick succession.\n"
     Reference = "https://support.google.com/a/answer/6350074?hl=en"
     Runbook = "Verify that these unlock attempts came from the user, and not a malicious actor which has acquired the user's device.\n"

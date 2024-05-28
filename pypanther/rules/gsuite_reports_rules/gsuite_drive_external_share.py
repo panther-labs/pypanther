@@ -1,7 +1,7 @@
 import datetime
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, Severity
+from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import (
     PantherUnexpectedAlert,
     deep_get,
@@ -132,7 +132,7 @@ class GSuiteDriveExternalFileShare(PantherRule):
         "Collection:Data from Information Repositories",
     ]
     Reports = {"MITRE ATT&CK": ["TA0009:T1213"]}
-    Severity = Severity.High
+    Severity = PantherSeverity.High
     Description = "An employee shared a sensitive file externally with another organization"
     Runbook = "Contact the employee who made the share and make sure they redact the access. If the share was legitimate, add to the EXCEPTION_PATTERNS in the detection.\n"
     Reference = "https://support.google.com/docs/answer/2494822?hl=en&co=GENIE.Platform%3DiOS&sjid=864417124752637253-EU"

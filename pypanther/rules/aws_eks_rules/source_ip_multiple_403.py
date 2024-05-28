@@ -1,7 +1,7 @@
 from ipaddress import ip_address
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, Severity
+from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import eks_panther_obj_ref
 from pypanther.log_types import LogType
 
@@ -171,7 +171,7 @@ class AmazonEKSAuditMultiple403(PantherRule):
     Tags = ["EKS"]
     Reports = {"MITRE ATT&CK": ["TA0007:T1613"]}
     Reference = "https://aws.github.io/aws-eks-best-practices/security/docs/detective/"
-    Severity = Severity.Info
+    Severity = PantherSeverity.Info
     Description = "This detection identifies if a public sourceIP is generating multiple 403s with the Kubernetes API server.\n"
     DedupPeriodMinutes = 30
     Threshold = 10

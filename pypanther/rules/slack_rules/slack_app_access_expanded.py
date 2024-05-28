@@ -1,6 +1,6 @@
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, Severity
+from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import deep_get, slack_alert_context
 from pypanther.log_types import LogType
 
@@ -230,7 +230,7 @@ class SlackAuditLogsAppAccessExpanded(PantherRule):
     LogTypes = [LogType.Slack_AuditLogs]
     Tags = ["Slack", "Privilege Escalation", "Account Manipulation"]
     Reports = {"MITRE ATT&CK": ["TA0004:T1098"]}
-    Severity = Severity.Medium
+    Severity = PantherSeverity.Medium
     Description = "Detects when a Slack App has had its permission scopes expanded"
     Reference = "https://slack.com/intl/en-gb/help/articles/1500009181142-Manage-app-settings-and-permissions"
     SummaryAttributes = ["action", "p_any_ip_addresses", "p_any_emails"]

@@ -1,6 +1,6 @@
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, Severity
+from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import deep_get
 from pypanther.log_types import LogType
 
@@ -242,7 +242,7 @@ class GCPUnusedRegions(PantherRule):
         "Defense Evasion:Unused/Unsupported Cloud Regions",
     ]
     Reports = {"MITRE ATT&CK": ["TA0005:T1535"]}
-    Severity = Severity.Medium
+    Severity = PantherSeverity.Medium
     Description = "Adversaries may create cloud instances in unused geographic service regions in order to evade detection.\n"
     Runbook = "Validate the user making the request and the resource created."
     Reference = "https://cloud.google.com/docs/geography-and-regions"

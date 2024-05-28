@@ -1,6 +1,6 @@
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, Severity
+from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import (
     filter_crowdstrike_fdr_event_type,
     get_crowdstrike_field,
@@ -249,7 +249,7 @@ class CrowdstrikeDNSRequest(PantherRule):
     Enabled = False
     LogTypes = [LogType.Crowdstrike_DNSRequest, LogType.Crowdstrike_FDREvent]
     Tags = ["Crowdstrike", "Initial Access:Phishing", "Configuration Required"]
-    Severity = Severity.Critical
+    Severity = PantherSeverity.Critical
     Reports = {"MITRE ATT&CK": ["TA0001:T1566"]}
     Description = "A DNS request was made to a domain on an explicit denylist"
     Reference = "https://docs.runpanther.io/data-onboarding/supported-logs/crowdstrike#crowdstrike-dnsrequest"

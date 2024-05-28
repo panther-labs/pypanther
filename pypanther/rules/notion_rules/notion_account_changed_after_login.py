@@ -1,7 +1,7 @@
 import time
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, RuleMock, Severity
+from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity, RuleMock
 from pypanther.helpers.panther_notion_helpers import notion_alert_context
 from pypanther.helpers.panther_oss_helpers import get_string_set, put_string_set
 from pypanther.log_types import LogType
@@ -324,7 +324,7 @@ class NotionAccountChangedAfterLogin(PantherRule):
     DisplayName = "Notion Account Changed Shortly After Login"
     LogTypes = [LogType.Notion_AuditLogs]
     Tags = ["Notion", "Identity & Access Management", "Persistence"]
-    Severity = Severity.Medium
+    Severity = PantherSeverity.Medium
     Description = "A Notion User logged in then changed their account details."
     Runbook = "Possible account takeover. Follow up with the Notion User to determine if this email change is genuine."
     Reference = "https://www.notion.so/help/account-settings"

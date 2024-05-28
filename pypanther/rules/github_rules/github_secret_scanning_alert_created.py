@@ -1,6 +1,6 @@
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, Severity
+from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.log_types import LogType
 
 git_hub_secret_scanning_alert_created_tests: List[PantherRuleTest] = [
@@ -60,7 +60,7 @@ class GitHubSecretScanningAlertCreated(PantherRule):
     LogTypes = [LogType.GitHub_Audit]
     Tags = ["GitHub"]
     Reports = {"MITRE ATT&CK": ["TA0006:T1552"]}
-    Severity = Severity.Medium
+    Severity = PantherSeverity.Medium
     Description = "GitHub detected a secret and created a secret scanning alert."
     Runbook = "Review the secret to determine if it needs to be revoked or the alert suppressed."
     Reference = "https://docs.github.com/en/code-security/secret-scanning/about-secret-scanning"

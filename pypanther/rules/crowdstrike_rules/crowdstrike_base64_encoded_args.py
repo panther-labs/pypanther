@@ -1,6 +1,6 @@
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, Severity
+from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import crowdstrike_process_alert_context, is_base64
 from pypanther.log_types import LogType
 
@@ -560,7 +560,7 @@ class CrowdstrikeBase64EncodedArgs(PantherRule):
     DisplayName = "Execution of Command Line Tool with Base64 Encoded Arguments"
     LogTypes = [LogType.Crowdstrike_FDREvent]
     Tags = ["Execution", "Obfuscation"]
-    Severity = Severity.Medium
+    Severity = PantherSeverity.Medium
     Description = "Detects the execution of common command line tools (e.g., PowerShell, cmd.exe) with Base64 encoded arguments, which could indicate an attempt to obfuscate malicious commands."
     Runbook = "Investigate the endpoint for signs of command line tool execution with Base64 encoded arguments. Review the executed command, decode the Base64 string, and analyze the original content."
     Reference = "https://www.crowdstrike.com/blog/blocking-fileless-script-based-attacks-using-falcon-script-control-feature/"

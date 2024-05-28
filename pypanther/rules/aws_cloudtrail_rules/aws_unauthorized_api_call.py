@@ -1,7 +1,7 @@
 from ipaddress import ip_address
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, Severity
+from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import aws_rule_context, deep_get
 from pypanther.log_types import LogType
 
@@ -122,7 +122,7 @@ class AWSCloudTrailUnauthorizedAPICall(PantherRule):
     LogTypes = [LogType.AWS_CloudTrail]
     Tags = ["AWS", "Discovery:Cloud Service Discovery"]
     Reports = {"CIS": ["3.1"], "MITRE ATT&CK": ["TA0007:T1526"]}
-    Severity = Severity.Info
+    Severity = PantherSeverity.Info
     Description = "An unauthorized AWS API call was made"
     Runbook = "https://docs.runpanther.io/alert-runbooks/built-in-rules/aws-unauthorized-api-call"
     Reference = "https://amzn.to/3aOukaA"

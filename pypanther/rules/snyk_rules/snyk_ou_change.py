@@ -1,6 +1,6 @@
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, Severity
+from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import deep_get
 from pypanther.helpers.panther_snyk_helpers import snyk_alert_context
 from pypanther.log_types import LogType
@@ -69,7 +69,7 @@ class SnykOUChange(PantherRule):
     DisplayName = "Snyk Org or Group Settings Change"
     LogTypes = [LogType.Snyk_GroupAudit, LogType.Snyk_OrgAudit]
     Tags = ["Snyk"]
-    Severity = Severity.High
+    Severity = PantherSeverity.High
     Description = "Detects when Snyk Group or Organization Settings are changed.\n"
     Runbook = "These actions in the Snyk Audit logs indicate that a Organization or  Group setting has changed, including Group and Org creation/deletion. Deletion events are marked with HIGH severity Creation events are marked with INFO severity Edit events are marked with MEDIUM Severity\n"
     Reference = "https://docs.snyk.io/snyk-admin/introduction-to-snyk-administration"

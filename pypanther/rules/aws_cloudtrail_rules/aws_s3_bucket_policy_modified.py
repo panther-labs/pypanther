@@ -1,6 +1,6 @@
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, Severity
+from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import aws_rule_context, deep_get
 from pypanther.helpers.panther_default import aws_cloudtrail_success
 from pypanther.log_types import LogType
@@ -162,7 +162,7 @@ class AWSS3BucketPolicyModified(PantherRule):
     LogTypes = [LogType.AWS_CloudTrail]
     Tags = ["AWS", "Identity & Access Management", "Exfiltration:Exfiltration Over Web Service"]
     Reports = {"CIS": ["3.8"], "MITRE ATT&CK": ["TA0010:T1567"]}
-    Severity = Severity.Info
+    Severity = PantherSeverity.Info
     DedupPeriodMinutes = 720
     Description = "An S3 Bucket was modified.\n"
     Runbook = (

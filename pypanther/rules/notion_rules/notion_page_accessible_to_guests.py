@@ -1,6 +1,6 @@
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, Severity
+from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import deep_get
 from pypanther.helpers.panther_notion_helpers import notion_alert_context
 from pypanther.log_types import LogType
@@ -80,7 +80,7 @@ class NotionPagePermsGuestPermsChanged(PantherRule):
     DisplayName = "Notion Page Guest Permissions Changed"
     LogTypes = [LogType.Notion_AuditLogs]
     Tags = ["Notion", "Data Security", "Information Disclosure"]
-    Severity = Severity.Low
+    Severity = PantherSeverity.Low
     Description = "The external guest permissions for a Notion page have been altered."
     Runbook = "Potential information exposure - review the shared page and rectify if needed."
     Reference = "https://www.notion.so/help/sharing-and-permissions"

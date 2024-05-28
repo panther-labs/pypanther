@@ -1,6 +1,6 @@
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, Severity
+from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import okta_alert_context
 from pypanther.log_types import LogType
 
@@ -163,7 +163,7 @@ class OktaUserMFAFactorSuspend(PantherRule):
     Description = "Suspend factor or authenticator enrollment method for user."
     DisplayName = "Okta User MFA Factor Suspend"
     Reference = "https://help.okta.com/en-us/content/topics/security/mfa/mfa-factors.htm"
-    Severity = Severity.High
+    Severity = PantherSeverity.High
     LogTypes = [LogType.Okta_SystemLog]
     RuleID = "Okta.User.MFA.Factor.Suspend-prototype"
     Tests = okta_user_mfa_factor_suspend_tests

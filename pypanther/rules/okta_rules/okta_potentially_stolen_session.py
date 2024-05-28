@@ -5,7 +5,7 @@ from typing import List
 
 from panther_detection_helpers.caching import get_string_set, put_string_set
 
-from pypanther.base import PantherRule, PantherRuleTest, RuleMock, Severity
+from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity, RuleMock
 from pypanther.helpers.panther_base_helpers import deep_get, okta_alert_context
 from pypanther.log_types import LogType
 
@@ -353,7 +353,7 @@ class OktaPotentiallyStolenSession(PantherRule):
     LogTypes = [LogType.Okta_SystemLog]
     Tags = ["Identity & Access Management", "Okta"]
     Reports = {"MITRE ATT&CK": ["TA0006:T1539"]}
-    Severity = Severity.High
+    Severity = PantherSeverity.High
     Description = "This rule looks for the same session being used from two devices, indicating a compromised session token."
     Runbook = "Confirm the session is used on two devices, one of which is unknown. Lock the users Okta account and clear the users sessions in down stream apps."
     Reference = "https://sec.okta.com/sessioncookietheft"

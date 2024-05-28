@@ -1,6 +1,6 @@
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, Severity
+from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import deep_get
 from pypanther.log_types import LogType
 
@@ -45,7 +45,7 @@ class BoxUntrustedDevice(PantherRule):
     LogTypes = [LogType.Box_Event]
     Tags = ["Box", "Initial Access:Valid Accounts"]
     Reports = {"MITRE ATT&CK": ["TA0001:T1078"]}
-    Severity = Severity.Info
+    Severity = PantherSeverity.Info
     Description = "A user attempted to login from an untrusted device.\n"
     Reference = "https://support.box.com/hc/en-us/articles/360044194993-Setting-Up-Device-Trust-Security-Requirements"
     Runbook = "Investigate whether this is a valid user attempting to login to box.\n"

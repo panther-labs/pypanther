@@ -1,6 +1,6 @@
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, Severity
+from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import deep_get, okta_alert_context
 from pypanther.log_types import LogType
 
@@ -100,7 +100,7 @@ class OktaSupportReset(PantherRule):
         "Initial Access:Trusted Relationship",
     ]
     Reports = {"MITRE ATT&CK": ["TA0001:T1199"]}
-    Severity = Severity.High
+    Severity = PantherSeverity.High
     Description = "A Password or MFA factor was reset by Okta Support"
     Reference = "https://help.okta.com/en/prod/Content/Topics/Directory/get-support.htm#:~:text=Visit%20the%20Okta%20Help%20Center,1%2D800%2D219%2D0964"
     Runbook = "Contact Admin to ensure this was sanctioned activity"

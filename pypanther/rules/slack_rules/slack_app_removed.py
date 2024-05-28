@@ -1,6 +1,6 @@
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, Severity
+from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import deep_get, slack_alert_context
 from pypanther.log_types import LogType
 
@@ -172,7 +172,7 @@ class SlackAuditLogsAppRemoved(PantherRule):
         "Clear Persistence",
     ]
     Reports = {"MITRE ATT&CK": ["TA0040:T1489", "TA0005:T1070.009"]}
-    Severity = Severity.Medium
+    Severity = PantherSeverity.Medium
     Description = "Detects when a Slack App has been removed"
     Reference = "https://slack.com/intl/en-gb/help/articles/360003125231-Remove-apps-and-customised-integrations-from-your-workspace"
     SummaryAttributes = ["p_any_ip_addresses", "p_any_emails"]

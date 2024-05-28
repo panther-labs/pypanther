@@ -2,7 +2,7 @@ import json
 from typing import List
 from unittest.mock import MagicMock
 
-from pypanther.base import PantherRule, PantherRuleTest, RuleMock, Severity
+from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity, RuleMock
 from pypanther.helpers.panther_base_helpers import deep_get, github_alert_context
 from pypanther.log_types import LogType
 
@@ -90,7 +90,7 @@ class GitHubActionFailed(PantherRule):
     Enabled = False
     LogTypes = [LogType.GitHub_Audit]
     Tags = ["GitHub", "Configuration Required"]
-    Severity = Severity.High
+    Severity = PantherSeverity.High
     Description = "A monitored github action has failed."
     Runbook = "Inspect the action failure link and take appropriate response. There are no general plans of response for this activity.\n"
     Reference = "https://docs.github.com/en/actions/creating-actions/setting-exit-codes-for-actions#about-exit-codes"

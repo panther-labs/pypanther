@@ -1,7 +1,7 @@
 from ipaddress import ip_address
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, Severity
+from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import aws_rule_context, deep_get
 from pypanther.helpers.panther_default import lookup_aws_account_name
 from pypanther.log_types import LogType
@@ -158,7 +158,7 @@ class AWSIAMUserReconAccessDenied(PantherRule):
     LogTypes = [LogType.AWS_CloudTrail]
     Tags = ["AWS", "Discovery:Cloud Service Discovery"]
     Reports = {"MITRE ATT&CK": ["TA0007:T1526"]}
-    Severity = Severity.Info
+    Severity = PantherSeverity.Info
     Threshold = 15
     DedupPeriodMinutes = 10
     Description = "An IAM user has a high volume of access denied API calls."

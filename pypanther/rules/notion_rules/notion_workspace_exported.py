@@ -1,6 +1,6 @@
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, Severity
+from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_notion_helpers import notion_alert_context
 from pypanther.log_types import LogType
 
@@ -64,7 +64,7 @@ class NotionWorkspaceExported(PantherRule):
     DisplayName = "Notion Workspace Exported"
     LogTypes = [LogType.Notion_AuditLogs]
     Tags = ["Notion", "Data Security", "Data Exfiltration"]
-    Severity = Severity.High
+    Severity = PantherSeverity.High
     Description = "A Notion User exported an existing workspace."
     Runbook = "Possible Data Exfiltration. Follow up with the Notion User to determine if this was done for a valid business reason."
     Reference = "https://www.notion.so/help/workspace-settings#export-an-entire-workspace"

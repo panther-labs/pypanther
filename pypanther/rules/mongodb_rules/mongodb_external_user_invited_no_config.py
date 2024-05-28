@@ -1,6 +1,6 @@
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, Severity
+from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_mongodb_helpers import mongodb_alert_context
 from pypanther.log_types import LogType
 
@@ -69,7 +69,7 @@ mongo_db_external_user_invited_no_config_tests: List[PantherRuleTest] = [
 class MongoDBExternalUserInvitedNoConfig(PantherRule):
     Description = "An external user has been invited to a MongoDB org (no config)."
     DisplayName = "MongoDB External User Invited (no config)"
-    Severity = Severity.High
+    Severity = PantherSeverity.High
     Reference = "https://www.mongodb.com/docs/v4.2/tutorial/create-users/"
     LogTypes = [LogType.MongoDB_OrganizationEvent]
     RuleID = "MongoDB.External.UserInvited.NoConfig-prototype"

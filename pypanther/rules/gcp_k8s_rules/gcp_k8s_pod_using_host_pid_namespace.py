@@ -1,6 +1,6 @@
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, Severity
+from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.gcp_base_helpers import gcp_alert_context
 from pypanther.helpers.panther_base_helpers import deep_get
 from pypanther.log_types import LogType
@@ -48,7 +48,7 @@ class GCPK8sPodUsingHostPIDNamespace(PantherRule):
     DisplayName = "GCP K8s Pod Using Host PID Namespace"
     LogTypes = [LogType.GCP_AuditLog]
     Tags = ["GCP", "Optional"]
-    Severity = Severity.Medium
+    Severity = PantherSeverity.Medium
     Description = "This detection monitors for any pod creation or modification using the host PID namespace. The Host PID namespace enables a pod and its containers to have direct access and share the same view as of the host’s processes. This can offer a powerful escape hatch to the underlying host."
     Runbook = "Investigate a reason of creating a pod using the host PID namespace. Advise that it is discouraged practice. Create ticket if appropriate."
     Reports = {"MITRE ATT&CK": ["TA0004:T1611", "TA0002:T1610"]}

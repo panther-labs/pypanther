@@ -1,6 +1,6 @@
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, Severity
+from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import deep_get
 from pypanther.log_types import LogType
 
@@ -69,7 +69,7 @@ class GCPGCSPublic(PantherRule):
     LogTypes = [LogType.GCP_AuditLog]
     Tags = ["GCP", "Google Cloud Storage", "Collection:Data From Cloud Storage Object"]
     Reports = {"MITRE ATT&CK": ["TA0009:T1530"]}
-    Severity = Severity.High
+    Severity = PantherSeverity.High
     Description = "Adversaries may access data objects from improperly secured cloud storage."
     Runbook = "Validate the GCS bucket change was safe."
     Reference = "https://cloud.google.com/storage/docs/access-control/making-data-public"

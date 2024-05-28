@@ -1,6 +1,6 @@
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, Severity
+from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import deep_get
 from pypanther.helpers.panther_snyk_helpers import snyk_alert_context
 from pypanther.log_types import LogType
@@ -86,7 +86,7 @@ class SnykUserManagement(PantherRule):
     DisplayName = "Snyk User Management"
     LogTypes = [LogType.Snyk_GroupAudit, LogType.Snyk_OrgAudit]
     Tags = ["Snyk"]
-    Severity = Severity.Medium
+    Severity = PantherSeverity.Medium
     Description = "Detects when Snyk Users are changed\n"
     Runbook = "These actions in the Snyk Audit logs indicate that a User has been created/deleted/modified.\n"
     Reference = "https://docs.snyk.io/snyk-admin/manage-users-and-permissions/member-roles"

@@ -1,6 +1,6 @@
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, Severity
+from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import deep_get
 from pypanther.log_types import LogType
 
@@ -158,7 +158,7 @@ class AWSCloudTrailAccountDiscovery(PantherRule):
     DisplayName = "AWS CloudTrail Account Discovery"
     Reference = "https://attack.mitre.org/techniques/T1087/"
     Reports = {"MITRE ATT&CK": ["TA0007:T1087"]}
-    Severity = Severity.Info
+    Severity = PantherSeverity.Info
     LogTypes = [LogType.AWS_CloudTrail]
     RuleID = "AWS.CloudTrail.Account.Discovery-prototype"
     Tests = aws_cloud_trail_account_discovery_tests

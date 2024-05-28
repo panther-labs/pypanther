@@ -1,6 +1,6 @@
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, Severity
+from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.log_types import LogType
 
 teleport_saml_created_tests: List[PantherRuleTest] = [
@@ -26,7 +26,7 @@ class TeleportSAMLCreated(PantherRule):
     DisplayName = "A SAML Connector was created or modified"
     LogTypes = [LogType.Gravitational_TeleportAudit]
     Tags = ["Teleport"]
-    Severity = Severity.High
+    Severity = PantherSeverity.High
     Description = "A SAML connector was created or modified"
     Reports = {"MITRE ATT&CK": ["TA0042:T1585"]}
     Reference = "https://goteleport.com/docs/management/admin/"

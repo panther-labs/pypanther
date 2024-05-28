@@ -1,6 +1,6 @@
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, Severity
+from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import deep_get, deep_walk, okta_alert_context
 from pypanther.log_types import LogType
 
@@ -297,7 +297,7 @@ class OktaNewBehaviorAccessingAdminConsole(PantherRule):
     DisplayName = "Okta New Behaviors Acessing Admin Console"
     LogTypes = [LogType.Okta_SystemLog]
     Reports = {"MITRE ATT&CK": ["TA0001:T1078.004"]}
-    Severity = Severity.High
+    Severity = PantherSeverity.High
     Description = "New Behaviors Observed while Accessing Okta Admin Console. A user attempted to access the Okta Admin Console from a new device with a new IP.\n"
     Runbook = "Configure Authentication Policies (Application Sign-on Policies) for access to privileged applications, including the Admin Console, to require re-authentication “at every sign-in”. Turn on and test New Device and Suspicious Activity end-user notifications.\n"
     Reference = "https://sec.okta.com/articles/2023/08/cross-tenant-impersonation-prevention-and-detection\n"

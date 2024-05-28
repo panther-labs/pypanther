@@ -1,6 +1,6 @@
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, Severity
+from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.log_types import LogType
 
 zendesk_user_assumption_tests: List[PantherRuleTest] = [
@@ -51,7 +51,7 @@ class ZendeskUserAssumption(PantherRule):
     LogTypes = [LogType.Zendesk_Audit]
     Tags = ["Zendesk", "Lateral Movement:Use Alternate Authentication Material"]
     Reports = {"MITRE ATT&CK": ["TA0008:T1550"]}
-    Severity = Severity.Medium
+    Severity = PantherSeverity.Medium
     Description = "User enabled or disabled zendesk support user assumption."
     Runbook = "Investigate whether allowing zendesk support to assume users is necessary. If not, disable the feature.\n"
     Reference = "https://support.zendesk.com/hc/en-us/articles/4408894200474-Assuming-end-users#:~:text=In%20Support%2C%20click%20the%20Customers,user%20in%20the%20information%20dialog"

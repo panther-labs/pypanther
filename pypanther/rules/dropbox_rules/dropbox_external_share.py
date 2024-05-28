@@ -2,7 +2,7 @@ import json
 from typing import List
 from unittest.mock import MagicMock
 
-from pypanther.base import PantherRule, PantherRuleTest, RuleMock, Severity
+from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity, RuleMock
 from pypanther.helpers.panther_base_helpers import deep_get
 from pypanther.helpers.panther_config import config
 from pypanther.log_types import LogType
@@ -188,7 +188,7 @@ class DropboxExternalShare(PantherRule):
     Description = "Dropbox item shared externally"
     DisplayName = "Dropbox External Share"
     Reference = "https://help.dropbox.com/share/share-outside-dropbox"
-    Severity = Severity.Medium
+    Severity = PantherSeverity.Medium
     LogTypes = [LogType.Dropbox_TeamEvent]
     RuleID = "Dropbox.External.Share-prototype"
     Tests = dropbox_external_share_tests

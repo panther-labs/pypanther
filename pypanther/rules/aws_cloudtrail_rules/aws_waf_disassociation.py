@@ -1,6 +1,6 @@
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, Severity
+from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import deep_get
 from pypanther.log_types import LogType
 
@@ -132,7 +132,7 @@ class AWSWAFDisassociation(PantherRule):
     Description = "Detection to alert when a WAF disassociates from a source."
     DisplayName = "AWS WAF Disassociation"
     Reference = "https://attack.mitre.org/techniques/T1078/"
-    Severity = Severity.Critical
+    Severity = PantherSeverity.Critical
     Reports = {"MITRE ATT&CK": ["TA0004:T1498"]}
     LogTypes = [LogType.AWS_CloudTrail]
     RuleID = "AWS.WAF.Disassociation-prototype"

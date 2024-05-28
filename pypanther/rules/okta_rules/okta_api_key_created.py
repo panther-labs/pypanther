@@ -1,6 +1,6 @@
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, Severity
+from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import deep_get, okta_alert_context
 from pypanther.log_types import LogType
 
@@ -49,7 +49,7 @@ class OktaAPIKeyCreated(PantherRule):
         "Credential Access:Steal Application Access Token",
     ]
     Reports = {"MITRE ATT&CK": ["TA0006:T1528"]}
-    Severity = Severity.Info
+    Severity = PantherSeverity.Info
     Description = "A user created an API Key in Okta"
     Reference = "https://help.okta.com/en/prod/Content/Topics/Security/API.htm"
     Runbook = "Reach out to the user if needed to validate the activity."

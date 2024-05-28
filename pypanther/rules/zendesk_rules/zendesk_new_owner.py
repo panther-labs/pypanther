@@ -1,7 +1,7 @@
 import re
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, Severity
+from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import ZENDESK_CHANGE_DESCRIPTION
 from pypanther.log_types import LogType
 
@@ -51,7 +51,7 @@ class ZendeskAccountOwnerChanged(PantherRule):
     RuleID = "Zendesk.AccountOwnerChanged-prototype"
     DisplayName = "Zendesk Account Owner Changed"
     LogTypes = [LogType.Zendesk_Audit]
-    Severity = Severity.High
+    Severity = PantherSeverity.High
     Tags = ["Zendesk", "Privilege Escalation:Valid Accounts"]
     Reports = {"MITRE ATT&CK": ["TA0004:T1078"]}
     Description = (

@@ -1,6 +1,6 @@
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, Severity
+from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.log_types import LogType
 
 cisco_umbrella_dns_blocked_tests: List[PantherRuleTest] = [
@@ -37,7 +37,7 @@ class CiscoUmbrellaDNSBlocked(PantherRule):
     DedupPeriodMinutes = 480
     LogTypes = [LogType.CiscoUmbrella_DNS]
     Tags = ["DNS"]
-    Severity = Severity.Low
+    Severity = PantherSeverity.Low
     Description = "Monitor blocked domains"
     Runbook = "Inspect the blocked domain and lookup for malware"
     Reference = "https://support.umbrella.com/hc/en-us/articles/230563627-How-to-determine-if-a-domain-or-resource-is-being-blocked-using-Chrome-Net-Internals"
