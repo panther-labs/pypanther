@@ -5,10 +5,9 @@ description = ""
 authors = ["Panther Labs Inc <pypi@runpanther.io>"]
 readme = "README.md"
 keywords = ["Security", "CLI"]
-classifiers = [
-    "Operating System :: OS Independent",
-]
+classifiers = ["Operating System :: OS Independent"]
 license = "AGPL-3.0-only"
+include = ["pypanther/py.typed"]
 
 [tool.poetry.dependencies]
 python = "3.11.*"
@@ -45,9 +44,9 @@ build-backend = "poetry.core.masonry.api"
 [tool.mypy]
 ignore_missing_imports = true
 exclude = [
-    '^pypanther/rules/', 
-    '^pypanther/helpers/', 
-    '^pypanther/data_models/', 
+    '^pypanther/rules/',
+    '^pypanther/helpers/',
+    '^pypanther/data_models/',
 ]
 
 [[tool.mypy.overrides]]
@@ -77,8 +76,4 @@ profile = "black"
 
 [tool.ruff]
 # Exclude a variety of commonly ignored directories.
-exclude = [
-    'pypanther/rules/', 
-    'pypanther/helpers/', 
-    'pypanther/data_models/', 
-]
+exclude = ['pypanther/rules/', 'pypanther/helpers/', 'pypanther/data_models/']
