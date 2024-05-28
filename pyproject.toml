@@ -70,6 +70,7 @@ follow_imports = "skip"
 line-length = 100
 target-version = ['py311']
 include = '\.pyi?$'
+exclude = "pypanther/vendor"
 
 [tool.isort]
 line_length = 100

@@ -354,6 +354,33 @@ class PantherRule:
         PantherRuleAdapter.validate_python(cls.asdict())
 
     @classmethod
+    def override(
+        cls,
+        LogTypes: Optional[List[str]] = None,
+        RuleID: Optional[str] = None,
+        Severity: Optional[PantherSeverity] = None,
+        Enabled: Optional[bool] = None,
+        Tags: Optional[List[str]] = None,
+        DedupPeriodMinutes: Optional[NonNegativeInt] = None,
+        Description: Optional[str] = None,
+        DisplayName: Optional[str] = None,
+        OutputIds: Optional[List[str]] = None,
+        Reference: Optional[str] = None,
+        Reports: Optional[Dict[str, List[str]]] = None,
+        Runbook: Optional[str] = None,
+        ScheduledQueries: Optional[List[str]] = None,
+        SummaryAttributes: Optional[List[str]] = None,
+        Tests: Optional[List[PantherRuleTest]] = None,
+        Threshold: Optional[PositiveInt] = None,
+    ):
+        for key, val in locals().items():
+            if key == "cls":
+                continue
+
+            if val is not None:
+                setattr(cls, key, val)
+
+    @classmethod
     def run_tests(
         cls,
         get_data_model: Callable[[str], Optional[DataModel]],
@@ -444,7 +471,11 @@ class PantherRule:
         return callable(getattr(self, name))
 
     def run(
-        self, event: PantherEvent, outputs: Dict, outputs_names: Dict, batch_mode: bool = True
+        self,
+        event: PantherEvent,
+        outputs: Dict,
+        outputs_names: Dict,
+        batch_mode: bool = True,
     ) -> DetectionResult:
         result = DetectionResult(
             detection_id=self.RuleID,

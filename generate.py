@@ -140,7 +140,12 @@ def do(filepath: Path, helpers: Set[str]) -> Optional[str]:
         )
 
     tree = parse_py(
-        p.with_suffix(".py"), class_name, parse("\n".join(imports)).body, assignments, elts, helpers
+        p.with_suffix(".py"),
+        class_name,
+        parse("\n".join(imports)).body,
+        assignments,
+        elts,
+        helpers,
     )
 
     if p.name == "cloudflare_httpreq_bot_high_volume.yml":
@@ -220,7 +225,10 @@ def parse_py(
         return isinstance(x, (ast.Import, ast.ImportFrom))
 
     # strip rule functions
-    els, functions = [x for x in tree.body if not is_func(x)], [x for x in tree.body if is_func(x)]
+    els, functions = (
+        [x for x in tree.body if not is_func(x)],
+        [x for x in tree.body if is_func(x)],
+    )
 
     # strip global variables
     imps, other = [x for x in els if is_import(x)], [x for x in els if not is_import(x)]
