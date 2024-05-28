@@ -1,6 +1,7 @@
 from typing import Final
 
 VERSION_STRING: Final = "0.48.0"
+CONFIG_FILE = ".panther_settings.yml"
 
 # The UserID is required by Panther for some API calls, but we have no way of
 # acquiring it, and it isn't used for anything. This is a valid UUID used by the

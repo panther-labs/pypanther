@@ -4,6 +4,7 @@ from typing import Any, Dict
 from pypanther.upload import run as upload
 from pypanther.vendor.panther_analysis_tool import util
 from pypanther.vendor.panther_analysis_tool.command import standard_args
+from pypanther.vendor.panther_analysis_tool.config import dynaconf_argparse_merge, setup_dynaconf
 
 
 def run():
@@ -20,7 +21,6 @@ def run():
         "help": "When set your upload will be synchronous",
     }
     standard_args.for_public_api(upload_parser, required=False)
-    standard_args.using_aws_profile(upload_parser)
     upload_parser.set_defaults(func=util.func_with_backend(upload))
     upload_parser.add_argument(no_async_uploads_name, **no_async_uploads_arg)
     upload_parser.add_argument(
@@ -35,4 +35,8 @@ def run():
     if args.command is None:
         parser.print_help()
         return
+
+    config_file_settings = setup_dynaconf()
+    dynaconf_argparse_merge(vars(args), config_file_settings)
+
     args.func(args)

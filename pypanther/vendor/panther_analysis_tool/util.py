@@ -22,10 +22,6 @@ import re
 from typing import Any, Callable, Tuple
 
 from pypanther.vendor.panther_analysis_tool.backend.client import Client as BackendClient
-from pypanther.vendor.panther_analysis_tool.backend.lambda_client import (
-    LambdaClient,
-    LambdaClientOpts,
-)
 from pypanther.vendor.panther_analysis_tool.backend.public_api_client import (
     PublicAPIClient,
     PublicAPIClientOptions,
@@ -46,29 +42,12 @@ def func_with_backend(
 
 
 def get_backend(args: argparse.Namespace) -> BackendClient:
-    if args.api_token:
-        return PublicAPIClient(
-            PublicAPIClientOptions(
-                token=args.api_token, user_id=PANTHER_USER_ID, host=args.api_host
-            )
-        )
+    if not args.api_token:
+        raise BackendNotFoundException("API token is required")
 
-    datalake_lambda = get_datalake_lambda(args)
-
-    return LambdaClient(
-        LambdaClientOpts(
-            user_id=PANTHER_USER_ID,
-            aws_profile=args.aws_profile,
-            datalake_lambda=datalake_lambda,
-        )
+    return PublicAPIClient(
+        PublicAPIClientOptions(token=args.api_token, user_id=PANTHER_USER_ID, host=args.api_host)
     )
-
-
-def get_datalake_lambda(args: argparse.Namespace) -> str:
-    if "athena_datalake" not in args:
-        return ""
-
-    return "panther-athena-api" if args.athena_datalake else "panther-snowflake-api"
 
 
 def convert_unicode(obj: Any) -> str:
