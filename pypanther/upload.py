@@ -27,7 +27,6 @@ IGNORE_FOLDERS = [".mypy_cache", "pypanther", "panther_analysis", ".git", "__pyc
 
 
 def run(backend: BackendClient, args: argparse.Namespace) -> Tuple[int, str]:
-    use_async = (not args.no_async) and backend.supports_async_uploads()
     with tempfile.NamedTemporaryFile() as tmp:
         with zipfile.ZipFile(tmp, "w") as zip_out:
             logging.info(f"Writing to temporary zip file at {tmp.name}")
@@ -47,12 +46,10 @@ def run(backend: BackendClient, args: argparse.Namespace) -> Tuple[int, str]:
                         filepath,
                         arcname=filepath,
                     )
-        return upload_zip(backend, args, archive=tmp.name, use_async=use_async)
+        return upload_zip(backend, args, archive=tmp.name)
 
 
-def upload_zip(
-    backend: BackendClient, args: argparse.Namespace, archive: str, use_async: bool
-) -> Tuple[int, str]:
+def upload_zip(backend: BackendClient, args: argparse.Namespace, archive: str) -> Tuple[int, str]:
     # extract max retries we should handle
     max_retries = 10
     if args.max_retries > 10:
@@ -69,10 +66,7 @@ def upload_zip(
 
         while True:
             try:
-                if use_async:
-                    response = backend.async_bulk_upload(upload_params)
-                else:
-                    response = backend.bulk_upload(upload_params)
+                response = backend.async_bulk_upload(upload_params)
 
                 resp_dict = asdict(response.data)
                 flags_params = FeatureFlagsParams(
