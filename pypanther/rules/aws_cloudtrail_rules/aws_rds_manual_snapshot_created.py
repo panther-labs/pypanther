@@ -319,7 +319,7 @@ class AWSRDSManualSnapshotCreated(PantherRule):
     Tags = ["AWS", "Exfiltration", "Transfer Data to Cloud Account"]
     Reports = {"MITRE ATT&CK": ["TA0010:T1537"]}
     Severity = PantherSeverity.Low
-    Description = "A manual snapshot of an RDS database was created.  An attacker may use this to exfiltrate the DB contents to another account; use this as a correlation rule.\n"
+    Description = "A manual snapshot of an RDS database was created. An attacker may use this to exfiltrate the DB contents to another account; use this as a correlation rule.\n"
     Runbook = "Ensure the snapshot was shared with an allowed AWS account. If not, delete the snapshot and quarantine the compromised IAM user.\n"
     Reference = "https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_CreateSnapshot.html"
     SummaryAttributes = ["eventSource", "recipientAccountId", "awsRegion", "p_any_aws_arns"]

@@ -225,8 +225,8 @@ class GCPK8SServiceTypeNodePortDeployed(PantherRule):
     DisplayName = "GCP K8S Service Type NodePort Deployed"
     LogTypes = [LogType.GCP_AuditLog]
     Severity = PantherSeverity.High
-    Description = "This detection monitors for any kubernetes service deployed with type node port. A Node Port service allows  an attacker to expose a set of pods hosting the service to the internet by opening their port and redirecting  traffic here. This can be used to bypass network controls and intercept traffic, creating a direct line to  the outside network.\n"
-    Runbook = "Investigate the reason of creating NodePort service. Advise that it is discouraged practice.  Create ticket if appropriate.\n"
+    Description = "This detection monitors for any kubernetes service deployed with type node port. A Node Port service allows an attacker to expose a set of pods hosting the service to the internet by opening their port and redirecting traffic here. This can be used to bypass network controls and intercept traffic, creating a direct line to the outside network.\n"
+    Runbook = "Investigate the reason of creating NodePort service. Advise that it is discouraged practice. Create ticket if appropriate.\n"
     Reference = "https://kubernetes.io/docs/tutorials/kubernetes-basics/expose/expose-intro/"
     Reports = {"MITRE ATT&CK": ["T1190"]}
     Tests = gcpk8_s_service_type_node_port_deployed_tests

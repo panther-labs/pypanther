@@ -328,10 +328,10 @@ class AzureAuditRiskLevelPassthrough(PantherRule):
     DedupPeriodMinutes = 10
     LogTypes = [LogType.Azure_Audit]
     Severity = PantherSeverity.Medium
-    Description = "This detection surfaces an alert based on  riskLevelAggregated, riskLevelDuringSignIn, and riskState.\nriskLevelAggregated and riskLevelDuringSignIn are only  expected for Azure AD Premium P2 customers.\n"
+    Description = "This detection surfaces an alert based on riskLevelAggregated, riskLevelDuringSignIn, and riskState.\nriskLevelAggregated and riskLevelDuringSignIn are only expected for Azure AD Premium P2 customers.\n"
     Reference = "https://learn.microsoft.com/en-us/azure/active-directory/identity-protection/howto-identity-protection-risk-feedback"
     Reports = {"MITRE ATT&CK": ["TA0006:T1110", "TA0001:T1078"]}
-    Runbook = "There are a variety of potential responses to these sign-in risks.  MSFT has provided an in-depth reference material at https://learn.microsoft.com/en-us/azure/active-directory/identity-protection/howto-identity-protection-risk-feedback\n"
+    Runbook = "There are a variety of potential responses to these sign-in risks. MSFT has provided an in-depth reference material at https://learn.microsoft.com/en-us/azure/active-directory/identity-protection/howto-identity-protection-risk-feedback\n"
     SummaryAttributes = [
         "properties:ServicePrincipalName",
         "properties:UserPrincipalName",

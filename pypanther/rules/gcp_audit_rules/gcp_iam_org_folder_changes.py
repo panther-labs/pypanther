@@ -173,7 +173,7 @@ class GCPIAMOrgFolderIAMChanges(PantherRule):
     Reports = {"GCP_CIS_1.3": ["1.8"], "MITRE ATT&CK": ["Privilege Escalation:Valid Accounts"]}
     Severity = PantherSeverity.High
     Description = "Alert if a GCP Org or Folder Policy Was Changed Manually.\n"
-    Runbook = "Contact the party that made the change. If it was intended to be temporary, ask for a window for rollback (< 24 hours).  If it must be permanent, ask for change-management doc explaining why it was needed.  Direct them to make the change in Terraform to avoid automated rollback. Grep for google_org and google_folder in terraform repos for places to  put your new policy bindings.\n"
+    Runbook = "Contact the party that made the change. If it was intended to be temporary, ask for a window for rollback (< 24 hours). If it must be permanent, ask for change-management doc explaining why it was needed. Direct them to make the change in Terraform to avoid automated rollback. Grep for google_org and google_folder in terraform repos for places to put your new policy bindings.\n"
     Reference = "https://cloud.google.com/iam/docs/granting-changing-revoking-access"
     SummaryAttributes = ["severity", "p_any_ip_addresses"]
     Tests = gcpiam_org_folder_iam_changes_tests

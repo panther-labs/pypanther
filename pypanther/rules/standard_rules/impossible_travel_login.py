@@ -672,7 +672,7 @@ class StandardImpossibleTravelLogin(PantherRule):
     Description = (
         "A user has subsequent logins from two geographic locations that are very far apart"
     )
-    Runbook = "Reach out to the user if needed to validate the activity, then lock the account. \nIf the user responds that the geolocation on the new location is incorrect, you can directly report the inaccuracy via  https://ipinfo.io/corrections\n"
+    Runbook = "Reach out to the user if needed to validate the activity, then lock the account.\nIf the user responds that the geolocation on the new location is incorrect, you can directly report the inaccuracy via  https://ipinfo.io/corrections\n"
     Reference = "https://expertinsights.com/insights/what-are-impossible-travel-logins/#:~:text=An%20impossible%20travel%20login%20is,of%20the%20logins%20is%20fraudulent"
     SummaryAttributes = ["p_any_usernames", "p_any_ip_addresses", "p_any_domain_names"]
     Tests = standard_impossible_travel_login_tests

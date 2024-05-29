@@ -181,7 +181,7 @@ okta_refresh_access_token_reuse_tests: List[PantherRuleTest] = [
 
 
 class OktaRefreshAccessTokenReuse(PantherRule):
-    Description = "When a client wants to renew an access token, it sends the refresh token with the access token request to the /token Okta endpoint. \nOkta validates the incoming refresh token, issues a new set of tokens and invalidates the refresh token that was passed with the initial request.\nThis detection alerts when a previously used refresh token is used again with the token request"
+    Description = "When a client wants to renew an access token, it sends the refresh token with the access token request to the /token Okta endpoint.\nOkta validates the incoming refresh token, issues a new set of tokens and invalidates the refresh token that was passed with the initial request.\nThis detection alerts when a previously used refresh token is used again with the token request"
     Reference = (
         "https://developer.okta.com/docs/guides/refresh-tokens/main/#refresh-token-reuse-detection"
     )

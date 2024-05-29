@@ -71,7 +71,7 @@ class SnykOUChange(PantherRule):
     Tags = ["Snyk"]
     Severity = PantherSeverity.High
     Description = "Detects when Snyk Group or Organization Settings are changed.\n"
-    Runbook = "These actions in the Snyk Audit logs indicate that a Organization or  Group setting has changed, including Group and Org creation/deletion. Deletion events are marked with HIGH severity Creation events are marked with INFO severity Edit events are marked with MEDIUM Severity\n"
+    Runbook = "These actions in the Snyk Audit logs indicate that a Organization or Group setting has changed, including Group and Org creation/deletion. Deletion events are marked with HIGH severity Creation events are marked with INFO severity Edit events are marked with MEDIUM Severity\n"
     Reference = "https://docs.snyk.io/snyk-admin/introduction-to-snyk-administration"
     SummaryAttributes = ["event"]
     Tests = snyk_ou_change_tests

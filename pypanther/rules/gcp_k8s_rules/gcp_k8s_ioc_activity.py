@@ -25,7 +25,7 @@ class GCPK8sIOCActivity(PantherRule):
     LogTypes = [LogType.GCP_AuditLog]
     Tags = ["GCP", "Optional"]
     Severity = PantherSeverity.Medium
-    Description = "This detection monitors for any kuberentes API Request originating from an Indicator of Compromise."
+    Description = "This detection monitors for any kubernetes API Request originating from an Indicator of Compromise."
     Reports = {"MITRE ATT&CK": ["T1573.002"]}
     Runbook = "Add IP address the request is originated from to banned addresses."
     Reference = "https://medium.com/snowflake/from-logs-to-detection-using-snowflake-and-panther-to-detect-k8s-threats-d72f70a504d7"

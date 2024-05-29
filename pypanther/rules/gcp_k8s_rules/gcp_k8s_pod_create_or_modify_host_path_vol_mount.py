@@ -227,8 +227,8 @@ class GCPK8SPotCreateOrModifyHostPathVolumeMount(PantherRule):
     DisplayName = "GCP K8S Pot Create Or Modify Host Path Volume Mount"
     LogTypes = [LogType.GCP_AuditLog]
     Severity = PantherSeverity.High
-    Description = "This detection monitors for pod creation with a hostPath volume mount. The attachment to a node's volume can allow  for privilege escalation through underlying vulnerabilities or it can open up possibilities for data exfiltration  or unauthorized file access. It is very rare to see this being a pod requirement.\n"
-    Runbook = "Investigate the reason of adding hostPath volume mount. Advise that it is discouraged practice.  Create ticket if appropriate.\n"
+    Description = "This detection monitors for pod creation with a hostPath volume mount. The attachment to a node's volume can allow for privilege escalation through underlying vulnerabilities or it can open up possibilities for data exfiltration or unauthorized file access. It is very rare to see this being a pod requirement.\n"
+    Runbook = "Investigate the reason of adding hostPath volume mount. Advise that it is discouraged practice. Create ticket if appropriate.\n"
     Reference = "https://linuxhint.com/kubernetes-hostpath-volumes/"
     Reports = {"MITRE ATT&CK": ["TA0001", "TA0002"]}
     Tests = gcpk8_s_pot_create_or_modify_host_path_volume_mount_tests

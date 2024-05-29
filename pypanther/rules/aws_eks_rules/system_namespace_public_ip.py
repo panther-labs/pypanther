@@ -329,7 +329,7 @@ class AmazonEKSAuditSystemNamespaceFromPublicIP(PantherRule):
     Reports = {"MITRE ATT&CK": ["TA0027:T1475"]}
     Reference = "https://docs.aws.amazon.com/eks/latest/userguide/network_reqs.html"
     Severity = PantherSeverity.Info
-    Description = 'This detection identifies if an activity is recorded in the Kubernetes audit log where  the user:username attribute begins with "system:" or "eks:" and the requests originating  IP Address is a Public IP Address\n'
+    Description = 'This detection identifies if an activity is recorded in the Kubernetes audit log where the user:username attribute begins with "system:" or "eks:" and the requests originating IP Address is a Public IP Address\n'
     DedupPeriodMinutes = 1440
     SummaryAttributes = ["user:username", "p_source_label"]
     Tests = amazon_eks_audit_system_namespace_from_public_ip_tests

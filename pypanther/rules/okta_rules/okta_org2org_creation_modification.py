@@ -298,7 +298,7 @@ class OktaOrg2orgCreationModification(PantherRule):
     LogTypes = [LogType.Okta_SystemLog]
     Reports = {"MITRE ATT&CK": ["TA0006:T1556", "TA0004:T1078.004"]}
     Severity = PantherSeverity.High
-    Description = "An Okta Org2Org application has been created or modified. Okta's Org2Org applications instances are used to push and match users from one Okta organization to another. A malicious actor can add an Org2Org application instance and create a user in the source organization (controlled by the attacker)  with the same identifier as a Super Administrator in the target organization.\n"
+    Description = "An Okta Org2Org application has been created or modified. Okta's Org2Org applications instances are used to push and match users from one Okta organization to another. A malicious actor can add an Org2Org application instance and create a user in the source organization (controlled by the attacker) with the same identifier as a Super Administrator in the target organization.\n"
     Reference = "https://www.authomize.com/blog/authomize-discovers-password-stealing-and-impersonation-risks-to-in-okta/\n"
     Tests = okta_org2org_creation_modification_tests
     APP_LIFECYCLE_EVENTS = (
