@@ -18,6 +18,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
 
 import datetime
+import importlib
 import json
 import logging
 import os
@@ -74,6 +75,8 @@ from .client import (
     to_bulk_upload_response,
 )
 from .errors import is_retryable_error, is_retryable_error_str
+
+BULK_UPLOAD_MODE_V2_ZIP = "V2_ZIP"
 
 
 @dataclass(frozen=True)
@@ -196,7 +199,13 @@ class PublicAPIClient(Client):  # pylint: disable=too-many-public-methods
 
     def async_bulk_upload(self, params: BulkUploadParams) -> BackendResponse[BulkUploadResponse]:
         query = self._requests.async_bulk_upload_mutation()
-        upload_params = {"input": {"data": params.encoded_bytes(), "patVersion": VERSION_STRING}}
+        upload_params = {
+            "input": {
+                "data": params.encoded_bytes(),
+                "pypantherVersion": importlib.metadata.version("pypanther"),
+                "mode": BULK_UPLOAD_MODE_V2_ZIP,
+            }
+        }
         res = self._safe_execute(query, variable_values=upload_params)
         receipt_id = res.data.get("uploadDetectionEntitiesAsync", {}).get("receiptId")  # type: ignore
         if not receipt_id:
