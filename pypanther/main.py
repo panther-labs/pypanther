@@ -1,4 +1,5 @@
 import argparse
+import importlib
 
 from pypanther.upload import run as upload
 from pypanther.vendor.panther_analysis_tool import util
@@ -23,6 +24,10 @@ def run():
         required=False,
     )
 
+    # Version command
+    version_parser = subparsers.add_parser("version", help="version")
+    version_parser.set_defaults(func=version)
+
     args = parser.parse_args()
     if args.command is None:
         parser.print_help()
@@ -32,3 +37,7 @@ def run():
     dynaconf_argparse_merge(vars(args), config_file_settings)
 
     args.func(args)
+
+
+def version(args):
+    print(importlib.metadata.version("pypanther"))
