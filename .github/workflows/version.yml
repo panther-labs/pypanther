@@ -15,10 +15,14 @@ jobs:
     if: ${{ github.event.head_commit.message != 'Updating version' && github.event.head_commit.author.username != 'panther-airplane-bot' }}
     steps:
     - name: Checkout Repo
-      uses: actions/checkout@v3
+      uses: actions/checkout@a5ac7e51b41094c92402da3b24376905380afc29
       with:
         ref: ${{ github.ref_name }}
         token: ${{ secrets.PANTHER_BOT_AUTOMATION_TOKEN }}
+    - name: Set up Python
+      uses: actions/setup-python@82c7e631bb3cdc910f68e0081d67478d79c6982d
+      with:
+        python-version: '3.11'
     - name: Install Requirements
       run: |
         pip install --upgrade pip poetry
