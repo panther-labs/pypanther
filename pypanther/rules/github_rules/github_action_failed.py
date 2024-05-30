@@ -2,7 +2,7 @@ import json
 from typing import List
 from unittest.mock import MagicMock
 
-from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity, RuleMock
+from pypanther.base import PantherRule, PantherRuleMock, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import deep_get, github_alert_context
 from pypanther.log_types import LogType
 
@@ -51,7 +51,7 @@ git_hub_action_failed_tests: List[PantherRuleTest] = [
         Name="GitHub Action Failed - Monitored Action Configured",
         ExpectedResult=True,
         Mocks=[
-            RuleMock(
+            PantherRuleMock(
                 ObjectName="MONITORED_ACTIONS",
                 ReturnValue='{\n  "your-org/panther-analysis-copy": [ "sync-panther-analysis-from-upstream"]\n}',
             )

@@ -169,7 +169,7 @@ class PantherSeverity(str, Enum):
 
 # pylint: disable=invalid-name
 @dataclass
-class RuleMock:
+class PantherRuleMock:
     ObjectName: str
     ReturnValue: Any = None
     SideEffect: Any = None
@@ -193,7 +193,7 @@ class PantherRuleTest(metaclass=FileLocationMeta):
     Name: str
     ExpectedResult: bool
     Log: Dict | str
-    Mocks: List[RuleMock] = field(default_factory=list)
+    Mocks: List[PantherRuleMock] = field(default_factory=list)
     _file_path: str = ""
     _line_no: int = 0
 

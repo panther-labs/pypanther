@@ -1,7 +1,7 @@
 import time
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity, RuleMock
+from pypanther.base import PantherRule, PantherRuleMock, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_notion_helpers import notion_alert_context
 from pypanther.helpers.panther_oss_helpers import get_string_set, put_string_set
 from pypanther.log_types import LogType
@@ -10,7 +10,7 @@ notion_account_changed_after_login_tests: List[PantherRuleTest] = [
     PantherRuleTest(
         Name="Login event",
         ExpectedResult=True,
-        Mocks=[RuleMock(ObjectName="put_string_set", ReturnValue=True)],
+        Mocks=[PantherRuleMock(ObjectName="put_string_set", ReturnValue=True)],
         Log={
             "event": {
                 "actor": {
@@ -40,10 +40,10 @@ notion_account_changed_after_login_tests: List[PantherRuleTest] = [
         Name="Email Changed Shortly After Login",
         ExpectedResult=True,
         Mocks=[
-            RuleMock(
+            PantherRuleMock(
                 ObjectName="get_string_set", ReturnValue='[\n  "2023-06-12 21:40:28.690000000"\n]'
             ),
-            RuleMock(ObjectName="put_string_set", ReturnValue=""),
+            PantherRuleMock(ObjectName="put_string_set", ReturnValue=""),
         ],
         Log={
             "event": {
@@ -88,10 +88,10 @@ notion_account_changed_after_login_tests: List[PantherRuleTest] = [
         Name="Password Changed Shortly After Login",
         ExpectedResult=True,
         Mocks=[
-            RuleMock(
+            PantherRuleMock(
                 ObjectName="get_string_set", ReturnValue='[\n  "2023-06-12 21:40:28.690000000"\n]'
             ),
-            RuleMock(ObjectName="put_string_set", ReturnValue=""),
+            PantherRuleMock(ObjectName="put_string_set", ReturnValue=""),
         ],
         Log={
             "event": {
@@ -136,10 +136,10 @@ notion_account_changed_after_login_tests: List[PantherRuleTest] = [
         Name="Password Added Shortly After Login",
         ExpectedResult=True,
         Mocks=[
-            RuleMock(
+            PantherRuleMock(
                 ObjectName="get_string_set", ReturnValue='[\n  "2023-06-12 21:40:28.690000000"\n]'
             ),
-            RuleMock(ObjectName="put_string_set", ReturnValue=""),
+            PantherRuleMock(ObjectName="put_string_set", ReturnValue=""),
         ],
         Log={
             "event": {
@@ -184,10 +184,10 @@ notion_account_changed_after_login_tests: List[PantherRuleTest] = [
         Name="Password Removed Shortly After Login",
         ExpectedResult=True,
         Mocks=[
-            RuleMock(
+            PantherRuleMock(
                 ObjectName="get_string_set", ReturnValue='[\n  "2023-06-12 21:40:28.690000000"\n]'
             ),
-            RuleMock(ObjectName="put_string_set", ReturnValue=""),
+            PantherRuleMock(ObjectName="put_string_set", ReturnValue=""),
         ],
         Log={
             "event": {
@@ -232,8 +232,8 @@ notion_account_changed_after_login_tests: List[PantherRuleTest] = [
         Name="Email Changed Not Shortly After Login",
         ExpectedResult=False,
         Mocks=[
-            RuleMock(ObjectName="get_string_set", ReturnValue=False),
-            RuleMock(ObjectName="put_string_set", ReturnValue=""),
+            PantherRuleMock(ObjectName="get_string_set", ReturnValue=False),
+            PantherRuleMock(ObjectName="put_string_set", ReturnValue=""),
         ],
         Log={
             "event": {

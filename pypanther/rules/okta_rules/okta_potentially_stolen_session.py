@@ -5,7 +5,7 @@ from typing import List
 
 from panther_detection_helpers.caching import get_string_set, put_string_set
 
-from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity, RuleMock
+from pypanther.base import PantherRule, PantherRuleMock, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import deep_get, okta_alert_context
 from pypanther.log_types import LogType
 
@@ -14,7 +14,7 @@ okta_potentially_stolen_session_tests: List[PantherRuleTest] = [
         Name="Same device and OS",
         ExpectedResult=False,
         Mocks=[
-            RuleMock(
+            PantherRuleMock(
                 ObjectName="get_string_set",
                 ReturnValue='[\n    "263297",\n    "1.2.3.4",\n    "user_agent:Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/84.0.4147.135 Safari/537.36",\n    "CHROME",\n    "Linux"\n]\n',
             )
@@ -99,7 +99,7 @@ okta_potentially_stolen_session_tests: List[PantherRuleTest] = [
         Name="Different device & ASN",
         ExpectedResult=True,
         Mocks=[
-            RuleMock(
+            PantherRuleMock(
                 ObjectName="get_string_set",
                 ReturnValue='[\n    "123456",\n    "4.3.2.1",\n    "user_agent:Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/105.0.0.0 Safari/537.36",\n    "CHROME",\n    "MacOS"\n]\n',
             )
@@ -184,7 +184,7 @@ okta_potentially_stolen_session_tests: List[PantherRuleTest] = [
         Name="Different ASN & same device",
         ExpectedResult=False,
         Mocks=[
-            RuleMock(
+            PantherRuleMock(
                 ObjectName="get_string_set",
                 ReturnValue='[\n    "654321",\n    "1.2.3.4",\n    "user_agent:Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/84.0.4147.135 Safari/537.36",\n    "CHROME",\n    "Linux"\n]\n',
             )
@@ -269,7 +269,7 @@ okta_potentially_stolen_session_tests: List[PantherRuleTest] = [
         Name="Okta internal event should be ignored",
         ExpectedResult=False,
         Mocks=[
-            RuleMock(
+            PantherRuleMock(
                 ObjectName="get_string_set",
                 ReturnValue='[\n    "123456",\n    "4.3.2.1",\n    "user_agent:Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/105.0.0.0 Safari/537.36",\n    "CHROME",\n    "MacOS"\n]\n',
             )

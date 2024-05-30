@@ -2,7 +2,7 @@ import json
 from typing import List
 from unittest.mock import MagicMock
 
-from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity, RuleMock
+from pypanther.base import PantherRule, PantherRuleMock, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import deep_get
 from pypanther.helpers.panther_mongodb_helpers import mongodb_alert_context
 from pypanther.log_types import LogType
@@ -11,7 +11,7 @@ mongo_db_external_user_invited_tests: List[PantherRuleTest] = [
     PantherRuleTest(
         Name="Internal Invite",
         ExpectedResult=False,
-        Mocks=[RuleMock(ObjectName="ALLOWED_DOMAINS", ReturnValue='[\n  "company.com"\n]')],
+        Mocks=[PantherRuleMock(ObjectName="ALLOWED_DOMAINS", ReturnValue='[\n  "company.com"\n]')],
         Log={
             "created": "2023-06-07 16:57:55",
             "currentValue": {},
@@ -41,7 +41,7 @@ mongo_db_external_user_invited_tests: List[PantherRuleTest] = [
     PantherRuleTest(
         Name="External User Invite",
         ExpectedResult=True,
-        Mocks=[RuleMock(ObjectName="ALLOWED_DOMAINS", ReturnValue='[\n  "company.com"\n]')],
+        Mocks=[PantherRuleMock(ObjectName="ALLOWED_DOMAINS", ReturnValue='[\n  "company.com"\n]')],
         Log={
             "created": "2023-06-07 16:57:55",
             "currentValue": {},

@@ -2,7 +2,7 @@ import json
 from typing import List
 from unittest.mock import MagicMock
 
-from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity, RuleMock
+from pypanther.base import PantherRule, PantherRuleMock, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import deep_get
 from pypanther.helpers.panther_config import config
 from pypanther.log_types import LogType
@@ -154,7 +154,7 @@ dropbox_ownership_transfer_tests: List[PantherRuleTest] = [
         Name="Folder Ownership Transfer to Internal",
         ExpectedResult=True,
         Mocks=[
-            RuleMock(
+            PantherRuleMock(
                 ObjectName="DROPBOX_TRUSTED_OWNERSHIP_DOMAINS",
                 ReturnValue='[\n    "example.com"\n]',
             )

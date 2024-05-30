@@ -1,6 +1,6 @@
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity, RuleMock
+from pypanther.base import PantherRule, PantherRuleMock, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import deep_get
 from pypanther.helpers.panther_default import lookup_aws_account_name
 from pypanther.helpers.panther_oss_helpers import geoinfo_from_ip_formatted
@@ -11,7 +11,7 @@ aws_console_root_login_tests: List[PantherRuleTest] = [
         Name="Successful Root Login",
         ExpectedResult=True,
         Mocks=[
-            RuleMock(
+            PantherRuleMock(
                 ObjectName="geoinfo_from_ip_formatted",
                 ReturnValue="111.111.111.111 in SF, California in USA",
             )

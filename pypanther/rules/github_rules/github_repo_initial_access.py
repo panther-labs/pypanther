@@ -2,7 +2,7 @@ from typing import List
 
 from panther_detection_helpers.caching import get_string_set, put_string_set
 
-from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity, RuleMock
+from pypanther.base import PantherRule, PantherRuleMock, PantherRuleTest, PantherSeverity
 from pypanther.log_types import LogType
 
 git_hub_repo_initial_access_tests: List[PantherRuleTest] = [
@@ -10,8 +10,8 @@ git_hub_repo_initial_access_tests: List[PantherRuleTest] = [
         Name="GitHub - Initial Access",
         ExpectedResult=True,
         Mocks=[
-            RuleMock(ObjectName="get_string_set", ReturnValue=""),
-            RuleMock(ObjectName="put_string_set", ReturnValue=""),
+            PantherRuleMock(ObjectName="get_string_set", ReturnValue=""),
+            PantherRuleMock(ObjectName="put_string_set", ReturnValue=""),
         ],
         Log={
             "@timestamp": 1623971719091,
@@ -30,7 +30,7 @@ git_hub_repo_initial_access_tests: List[PantherRuleTest] = [
     PantherRuleTest(
         Name="GitHub - Repeated Access",
         ExpectedResult=False,
-        Mocks=[RuleMock(ObjectName="get_string_set", ReturnValue='"cat":"my-repo"\n')],
+        Mocks=[PantherRuleMock(ObjectName="get_string_set", ReturnValue='"cat":"my-repo"\n')],
         Log={
             "@timestamp": 1623971719091,
             "business": "",
@@ -49,8 +49,8 @@ git_hub_repo_initial_access_tests: List[PantherRuleTest] = [
         Name="GitHub - Initial Access Public Repo",
         ExpectedResult=False,
         Mocks=[
-            RuleMock(ObjectName="get_string_set", ReturnValue=""),
-            RuleMock(ObjectName="put_string_set", ReturnValue=""),
+            PantherRuleMock(ObjectName="get_string_set", ReturnValue=""),
+            PantherRuleMock(ObjectName="put_string_set", ReturnValue=""),
         ],
         Log={
             "@timestamp": 1623971719091,

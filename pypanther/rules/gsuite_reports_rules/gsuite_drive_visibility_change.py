@@ -2,7 +2,7 @@ import json
 from typing import List
 from unittest.mock import MagicMock
 
-from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity, RuleMock
+from pypanther.base import PantherRule, PantherRuleMock, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import deep_get
 from pypanther.helpers.panther_base_helpers import gsuite_parameter_lookup as param_lookup
 from pypanther.log_types import LogType
@@ -85,7 +85,7 @@ g_suite_drive_visibility_changed_tests: List[PantherRuleTest] = [
     PantherRuleTest(
         Name="Doc Became Public - Link (Allowlisted Domain Is Configured)",
         ExpectedResult=False,
-        Mocks=[RuleMock(ObjectName="ALLOWED_DOMAINS", ReturnValue='[\n  "example.com"\n]')],
+        Mocks=[PantherRuleMock(ObjectName="ALLOWED_DOMAINS", ReturnValue='[\n  "example.com"\n]')],
         Log={
             "actor": {"email": "bobert@example.com"},
             "events": [
@@ -301,7 +301,7 @@ g_suite_drive_visibility_changed_tests: List[PantherRuleTest] = [
         Name="Doc Shared With Multiple Users All From ALLOWED_DOMAINS",
         ExpectedResult=False,
         Mocks=[
-            RuleMock(
+            PantherRuleMock(
                 ObjectName="ALLOWED_DOMAINS", ReturnValue='[\n  "example.com", "notexample.com"\n]'
             )
         ],

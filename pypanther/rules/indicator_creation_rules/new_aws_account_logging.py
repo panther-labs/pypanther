@@ -5,7 +5,7 @@ from typing import List
 from panther_detection_helpers.caching import put_string_set
 
 import pypanther.helpers.panther_event_type_helpers as event_type
-from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity, RuleMock
+from pypanther.base import PantherRule, PantherRuleMock, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_oss_helpers import resolve_timestamp_string
 from pypanther.log_types import LogType
 
@@ -13,7 +13,7 @@ standard_new_aws_account_created_tests: List[PantherRuleTest] = [
     PantherRuleTest(
         Name="AWS Account created",
         ExpectedResult=True,
-        Mocks=[RuleMock(ObjectName="put_string_set", ReturnValue="")],
+        Mocks=[PantherRuleMock(ObjectName="put_string_set", ReturnValue="")],
         Log={
             "awsRegion": "us-east-1",
             "eventID": "axxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
@@ -34,7 +34,7 @@ standard_new_aws_account_created_tests: List[PantherRuleTest] = [
     PantherRuleTest(
         Name="Non-Account-Creation Event",
         ExpectedResult=False,
-        Mocks=[RuleMock(ObjectName="put_string_set", ReturnValue="")],
+        Mocks=[PantherRuleMock(ObjectName="put_string_set", ReturnValue="")],
         Log={
             "awsRegion": "us-east-1",
             "eventName": "CreateAccount",

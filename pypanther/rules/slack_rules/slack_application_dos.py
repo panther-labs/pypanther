@@ -4,7 +4,7 @@ from typing import List
 
 from panther_detection_helpers.caching import get_string_set, put_string_set
 
-from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity, RuleMock
+from pypanther.base import PantherRule, PantherRuleMock, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import deep_get, slack_alert_context
 from pypanther.log_types import LogType
 
@@ -13,8 +13,8 @@ slack_audit_logs_application_do_s_tests: List[PantherRuleTest] = [
         Name="User Session Reset - First time",
         ExpectedResult=False,
         Mocks=[
-            RuleMock(ObjectName="get_string_set", ReturnValue=""),
-            RuleMock(ObjectName="put_string_set", ReturnValue=""),
+            PantherRuleMock(ObjectName="get_string_set", ReturnValue=""),
+            PantherRuleMock(ObjectName="put_string_set", ReturnValue=""),
         ],
         Log={
             "action": "user_session_reset_by_admin",
@@ -43,8 +43,10 @@ slack_audit_logs_application_do_s_tests: List[PantherRuleTest] = [
         Name="User Session Reset - Multiple Times",
         ExpectedResult=True,
         Mocks=[
-            RuleMock(ObjectName="get_string_set", ReturnValue='{"time":"2021-06-08 22:24:43"}'),
-            RuleMock(ObjectName="put_string_set", ReturnValue=""),
+            PantherRuleMock(
+                ObjectName="get_string_set", ReturnValue='{"time":"2021-06-08 22:24:43"}'
+            ),
+            PantherRuleMock(ObjectName="put_string_set", ReturnValue=""),
         ],
         Log={
             "action": "user_session_reset_by_admin",

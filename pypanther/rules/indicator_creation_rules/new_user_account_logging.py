@@ -4,7 +4,7 @@ from typing import List
 from panther_detection_helpers.caching import put_string_set
 
 import pypanther.helpers.panther_event_type_helpers as event_type
-from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity, RuleMock
+from pypanther.base import PantherRule, PantherRuleMock, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_oss_helpers import resolve_timestamp_string
 from pypanther.log_types import LogType
 
@@ -12,7 +12,7 @@ standard_new_user_account_created_tests: List[PantherRuleTest] = [
     PantherRuleTest(
         Name="User Creation Event - OneLogin",
         ExpectedResult=True,
-        Mocks=[RuleMock(ObjectName="put_string_set", ReturnValue="")],
+        Mocks=[PantherRuleMock(ObjectName="put_string_set", ReturnValue="")],
         Log={
             "event_type_id": 13,
             "actor_user_id": 123456,
@@ -42,7 +42,7 @@ standard_new_user_account_created_tests: List[PantherRuleTest] = [
     PantherRuleTest(
         Name="User Account Created - CloudTrail",
         ExpectedResult=True,
-        Mocks=[RuleMock(ObjectName="put_string_set", ReturnValue="")],
+        Mocks=[PantherRuleMock(ObjectName="put_string_set", ReturnValue="")],
         Log={
             "eventName": "CreateUser",
             "responseElements": {"user": {"userName": "Bob Cat", "userId": "12345"}},

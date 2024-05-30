@@ -2,7 +2,7 @@ from json import loads
 from typing import List
 
 import pypanther.helpers.panther_event_type_helpers as event_type
-from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity, RuleMock
+from pypanther.base import PantherRule, PantherRuleMock, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_default import lookup_aws_account_name
 from pypanther.helpers.panther_oss_helpers import add_parse_delay, geoinfo_from_ip
 from pypanther.log_types import LogType
@@ -45,7 +45,7 @@ standard_brute_force_by_ip_tests: List[PantherRuleTest] = [
         Name="AWS.CloudTrail - Failed Login",
         ExpectedResult=True,
         Mocks=[
-            RuleMock(
+            PantherRuleMock(
                 ObjectName="geoinfo_from_ip",
                 ReturnValue='{ "ip": "111.111.111.111", "region": "UnitTestRegion", "city": "UnitTestCityNew", "country": "UnitTestCountry", "hostname": "somedomain.com", "org": "Some Org" }',
             )
@@ -103,7 +103,7 @@ standard_brute_force_by_ip_tests: List[PantherRuleTest] = [
         Name="Box - Login Failed",
         ExpectedResult=True,
         Mocks=[
-            RuleMock(
+            PantherRuleMock(
                 ObjectName="geoinfo_from_ip",
                 ReturnValue='{ "ip": "111.111.111.111", "region": "UnitTestRegion", "city": "UnitTestCityNew", "country": "UnitTestCountry", "hostname": "somedomain.com", "org": "Some Org" }',
             )
@@ -141,7 +141,7 @@ standard_brute_force_by_ip_tests: List[PantherRuleTest] = [
         Name="GSuite - Failed Login Event",
         ExpectedResult=True,
         Mocks=[
-            RuleMock(
+            PantherRuleMock(
                 ObjectName="geoinfo_from_ip",
                 ReturnValue='{ "ip": "111.111.111.111", "region": "UnitTestRegion", "city": "UnitTestCityNew", "country": "UnitTestCountry", "hostname": "somedomain.com", "org": "Some Org" }',
             )
@@ -178,7 +178,7 @@ standard_brute_force_by_ip_tests: List[PantherRuleTest] = [
         Name="Okta - Failed Login",
         ExpectedResult=True,
         Mocks=[
-            RuleMock(
+            PantherRuleMock(
                 ObjectName="geoinfo_from_ip",
                 ReturnValue='{ "ip": "111.111.111.111", "region": "UnitTestRegion", "city": "UnitTestCityNew", "country": "UnitTestCountry", "hostname": "somedomain.com", "org": "Some Org" }',
             )
@@ -217,7 +217,7 @@ standard_brute_force_by_ip_tests: List[PantherRuleTest] = [
         Name="OneLogin - Failed Login Event",
         ExpectedResult=True,
         Mocks=[
-            RuleMock(
+            PantherRuleMock(
                 ObjectName="geoinfo_from_ip",
                 ReturnValue='{ "ip": "111.111.111.111", "region": "UnitTestRegion", "city": "UnitTestCityNew", "country": "UnitTestCountry", "hostname": "somedomain.com", "org": "Some Org" }',
             )
@@ -266,7 +266,7 @@ standard_brute_force_by_ip_tests: List[PantherRuleTest] = [
         Name="Asana - Failed Login",
         ExpectedResult=True,
         Mocks=[
-            RuleMock(
+            PantherRuleMock(
                 ObjectName="geoinfo_from_ip",
                 ReturnValue='{ "ip": "111.111.111.111", "region": "UnitTestRegion", "city": "UnitTestCityNew", "country": "UnitTestCountry", "hostname": "somedomain.com", "org": "Some Org" }',
             )
@@ -353,7 +353,7 @@ standard_brute_force_by_ip_tests: List[PantherRuleTest] = [
         Name="1Password - Failed Login",
         ExpectedResult=True,
         Mocks=[
-            RuleMock(
+            PantherRuleMock(
                 ObjectName="geoinfo_from_ip",
                 ReturnValue='{ "ip": "111.111.111.111", "region": "UnitTestRegion", "city": "UnitTestCityNew", "country": "UnitTestCountry", "hostname": "somedomain.com", "org": "Some Org" }',
             )
