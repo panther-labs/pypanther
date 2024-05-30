@@ -23,6 +23,7 @@ jsonpath-ng = "^1.6.1"
 gql = "^3.5.0"
 aiohttp = "^3.9.5"
 dynaconf = "^3.2.5"
+colorama = "^0.4.6"
 
 [tool.poetry.scripts]
 pypanther = 'pypanther.main:run'
