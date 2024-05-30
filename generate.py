@@ -105,8 +105,8 @@ def do(filepath: Path, helpers: Set[str]) -> Optional[str]:
                 # we removed the filter_include_event function
                 continue
 
-            if "RuleMock" not in imports[1]:
-                imports[1] += ", RuleMock"
+            if "PantherRuleMock" not in imports[1]:
+                imports[1] += ", PantherRuleMock"
             mocks = []
             for mock in test["Mocks"]:
                 if mock["objectName"] == "filter_include_event":
@@ -120,7 +120,7 @@ def do(filepath: Path, helpers: Set[str]) -> Optional[str]:
 
                 mocks.append(
                     ast.Call(
-                        func=ast.Name(id="RuleMock", ctx=ast.Load()),
+                        func=ast.Name(id=base.PantherRuleMock.__name__, ctx=ast.Load()),
                         args=[],
                         keywords=mock_keywords,
                     )
