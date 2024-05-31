@@ -1,12 +1,15 @@
+import abc
 import contextlib
 import copy
 import inspect
 import json
 import logging
+import os
+import sys
 from dataclasses import dataclass, field
 from enum import Enum
 from functools import total_ordering
-from typing import Any, Callable, Dict, List, Literal, Mapping, Optional, Tuple, Union
+from typing import Any, Callable, Dict, List, Literal, Mapping, Optional, Tuple, Type, Union
 from unittest.mock import MagicMock, patch
 
 from jsonpath_ng import Fields
@@ -17,6 +20,9 @@ from panther_core.enriched_event import PantherEvent
 from panther_core.exceptions import FunctionReturnTypeError, UnknownDestinationError
 from panther_core.util import get_bool_env_var
 from pydantic import BaseModel, NonNegativeInt, PositiveInt, TypeAdapter
+
+from pypanther.log_types import LogType
+from pypanther.validate import NonEmptyUniqueList, UniqueList
 
 logger = logging.getLogger(__name__)
 
@@ -93,6 +99,7 @@ PANTHER_RULE_ALL_METHODS = [
 
 
 PANTHER_RULE_ALL_ATTRS = [
+    "CreateAlert",
     "DedupPeriodMinutes",
     "Description",
     "DisplayName",
@@ -101,8 +108,8 @@ PANTHER_RULE_ALL_ATTRS = [
     "OutputIds",
     "Reference",
     "Reports",
-    "Runbook",
     "RuleID",
+    "Runbook",
     "ScheduledQueries",
     "Severity",
     "SummaryAttributes",
@@ -136,7 +143,6 @@ def try_asdict(item: Any) -> Any:
     return item
 
 
-# pylint: disable=invalid-name
 @total_ordering
 class PantherSeverity(str, Enum):
     Info = "Info"
@@ -167,7 +173,6 @@ class PantherSeverity(str, Enum):
         return self.value
 
 
-# pylint: disable=invalid-name
 @dataclass
 class PantherRuleMock:
     ObjectName: str
@@ -211,20 +216,21 @@ class PantherRuleTest(metaclass=FileLocationMeta):
 
 
 class PantherRuleModel(BaseModel):
+    CreateAlert: bool
     DedupPeriodMinutes: NonNegativeInt
     Description: str
     DisplayName: str
     Enabled: bool
-    LogTypes: List[str]
-    OutputIds: List[str]
+    LogTypes: NonEmptyUniqueList[str]
+    OutputIds: UniqueList[str]
     Reference: str
-    Reports: Dict[str, List[str]]
-    Runbook: str
+    Reports: Dict[str, NonEmptyUniqueList[str]]
     RuleID: str
-    ScheduledQueries: List[str]
+    Runbook: str
+    ScheduledQueries: UniqueList[str]
     Severity: PantherSeverity
-    SummaryAttributes: List[str]
-    Tags: List[str]
+    SummaryAttributes: UniqueList[str]
+    Tags: UniqueList[str]
     Tests: List[PantherRuleTest]
     Threshold: PositiveInt
 
@@ -232,9 +238,11 @@ class PantherRuleModel(BaseModel):
 PantherRuleAdapter = TypeAdapter(PantherRuleModel)
 
 
+DEFAULT_CREATE_ALERT = True
 DEFAULT_DEDUP_PERIOD_MINUTES = 60
 DEFAULT_DESCRIPTION = ""
 DEFAULT_DISPLAY_NAME = ""
+DEFAULT_ENABLED = True
 DEFAULT_OUTPUT_IDS: List[str] = []
 DEFAULT_REFERENCE = ""
 DEFAULT_REPORTS: Dict[str, List[str]] = {}
@@ -254,53 +262,38 @@ def truncate(s: str, max_size: int):
     return s
 
 
-SeverityType = Union[PantherSeverity | Literal["DEFAULT"]]
+SeverityType = Union[PantherSeverity | Literal["DEFAULT"] | str]
 
 
-# pylint: disable=unused-argument
-class PantherRule:
+class PantherRule(metaclass=abc.ABCMeta):
     """A Panther rule class. This class should be subclassed to create a new rule."""
 
-    LogTypes: List[str]
+    LogTypes: List[LogType | str]
     RuleID: str
-    Severity: PantherSeverity
-    Enabled: bool = True
-    Tags: List[str] = DEFAULT_TAGS
+    Severity: PantherSeverity | str
+    CreateAlert: bool = DEFAULT_CREATE_ALERT
     DedupPeriodMinutes: NonNegativeInt = DEFAULT_DEDUP_PERIOD_MINUTES
     Description: str = DEFAULT_DESCRIPTION
     DisplayName: str = DEFAULT_DISPLAY_NAME
+    Enabled: bool = DEFAULT_ENABLED
     OutputIds: List[str] = DEFAULT_OUTPUT_IDS
     Reference: str = DEFAULT_REFERENCE
     Reports: Dict[str, List[str]] = DEFAULT_REPORTS
     Runbook: str = DEFAULT_RUNBOOK
     ScheduledQueries: List[str] = DEFAULT_SCHEDULED_QUERIES
     SummaryAttributes: List[str] = DEFAULT_SUMMARY_ATTRIBUTES
+    Tags: List[str] = DEFAULT_TAGS
     Tests: List[PantherRuleTest] = DEFAULT_TESTS
     Threshold: PositiveInt = DEFAULT_THRESHOLD
 
-    @property
-    def CreateAlert(self) -> bool:
-        return True
-
-    @property
-    def AnalysisType(self) -> str:
+    def _analysis_type(self) -> str:
         return TYPE_RULE
 
     @classmethod
     def is_panther_managed(cls) -> bool:
         return cls.__module__.startswith("pypanther.rules")
 
-    def __init__(self):
-        self._suppress_output = DISABLE_OUTPUT
-        self._setup_exception = None
-
-        try:
-            if not self.is_method_defined(RULE_METHOD):
-                raise AssertionError(f"detection needs to have a method named '{RULE_METHOD}'")
-        except Exception as err:  # pylint: disable=broad-except
-            self._setup_exception = err
-            return
-
+    @abc.abstractmethod
     def rule(self, event: PantherEvent) -> bool:
         raise NotImplementedError("You must implement the rule method in your rule class.")
 
@@ -347,11 +340,18 @@ class PantherRule:
     @classmethod
     def asdict(cls):
         """Returns a dictionary representation of the class."""
-        return {key: try_asdict(getattr(cls, key)) for key in PANTHER_RULE_ALL_ATTRS}
+        return {
+            key: try_asdict(getattr(cls, key))
+            for key in PANTHER_RULE_ALL_ATTRS
+            if hasattr(cls, key)
+        }
 
     @classmethod
     def validate(cls):
         PantherRuleAdapter.validate_python(cls.asdict())
+
+        # instantiation confirms that abstract methods are implemented
+        cls()
 
     @classmethod
     def override(
@@ -359,17 +359,18 @@ class PantherRule:
         LogTypes: Optional[List[str]] = None,
         RuleID: Optional[str] = None,
         Severity: Optional[PantherSeverity] = None,
-        Enabled: Optional[bool] = None,
-        Tags: Optional[List[str]] = None,
+        CreateAlert: Optional[bool] = None,
         DedupPeriodMinutes: Optional[NonNegativeInt] = None,
         Description: Optional[str] = None,
         DisplayName: Optional[str] = None,
+        Enabled: Optional[bool] = None,
         OutputIds: Optional[List[str]] = None,
         Reference: Optional[str] = None,
-        Reports: Optional[Dict[str, List[str]]] = None,
         Runbook: Optional[str] = None,
+        Reports: Optional[Dict[str, List[str]]] = None,
         ScheduledQueries: Optional[List[str]] = None,
         SummaryAttributes: Optional[List[str]] = None,
+        Tags: Optional[List[str]] = None,
         Tests: Optional[List[PantherRuleTest]] = None,
         Threshold: Optional[PositiveInt] = None,
     ):
@@ -411,16 +412,11 @@ class PantherRule:
                 p.start()
 
         try:
-            result = self.rule(event)
+            detection_result = self.run(event, {}, {}, True)
             assert (
-                result == test.ExpectedResult
+                detection_result.detection_output == test.ExpectedResult
             ), f"test '{test.Name}' returned the wrong result: {test.location()}"
-            if not result:
-                return
 
-            detection_result = self.run(event, {}, {}, False)
-
-            # log level warning and above is captured by the test runner
             for method_name, exc in {
                 "title": detection_result.title_exception,
                 "description": detection_result.description_exception,
@@ -432,6 +428,7 @@ class PantherRule:
                 "alert_context": detection_result.alert_context_exception,
             }.items():
                 if exc:
+                    # log level "warning" and above is captured by the test runner
                     logging.warning(
                         "Exception in test '%s' calling %s()",
                         test.Name,
@@ -467,9 +464,6 @@ class PantherRule:
             for p in patches:
                 p.stop()
 
-    def is_method_defined(self, name: str) -> bool:
-        return callable(getattr(self, name))
-
     def run(
         self,
         event: PantherEvent,
@@ -483,64 +477,37 @@ class PantherRule:
             detection_type=TYPE_RULE,
             # set default to not alert
             trigger_alert=False,
-            setup_exception=self._setup_exception,
         )
-
-        if result.setup_exception:
-            return result
 
         try:
             result.detection_output = self.rule(event)
-        except Exception as e:  # pylint: disable=broad-except
+            self._require_bool(self.rule.__name__, result.detection_output)
+        except Exception as e:
             result.detection_exception = e
 
-        result.trigger_alert = result.detection_output
+        if isinstance(result.detection_output, bool) and result.detection_output:
+            result.trigger_alert = True
         if batch_mode and not result.trigger_alert:
             # In batch mode (log analysis), there is no need to run the rest of the functions
             # if the detection isn't going to trigger an alert
             return result
 
-        result.title_defined = self.is_method_defined(TITLE_METHOD)
-        if result.title_defined:
-            result.title_output, result.title_exception = self._get_title(event)
+        self.ctx_mgr = noop
+        if DISABLE_OUTPUT:
+            self.ctx_mgr = suppress_output
 
-        result.description_defined = self.is_method_defined(DESCRIPTION_METHOD)
-        if result.description_defined:
-            result.description_output, result.description_exception = self._get_description(event)
-
-        result.reference_defined = self.is_method_defined(REFERENCE_METHOD)
-        if result.reference_defined:
-            result.reference_output, result.reference_exception = self._get_reference(event)
-
-        result.severity_defined = self.is_method_defined(SEVERITY_METHOD)
-        if result.severity_defined:
-            result.severity_output, result.severity_exception = self._get_severity(event)
-
-        result.runbook_defined = self.is_method_defined(RUNBOOK_METHOD)
-        if result.runbook_defined:
-            result.runbook_output, result.runbook_exception = self._get_runbook(event)
-
-        result.destinations_defined = self.is_method_defined(DESTINATIONS_METHOD)
-        if result.destinations_defined:
-            result.destinations_output, result.destinations_exception = self._get_destinations(
-                event,
-                outputs,
-                outputs_names,
-            )
-
-        result.dedup_defined = self.is_method_defined(DEDUP_METHOD)
-        if result.dedup_defined:
-            result.dedup_output, result.dedup_exception = self._get_dedup(event)
-        if not result.dedup_output:
-            result.dedup_output = (
-                result.title_output if result.title_output else f"defaultDedupString:{self.RuleID}"
-            )
-
-        result.alert_context_defined = self.is_method_defined(ALERT_CONTEXT_METHOD)
-        if result.alert_context_defined:
-            result.alert_context_output, result.alert_context_exception = self._get_alert_context(
-                event
-            )
+        result.title_output, result.title_exception = self._get_title(event)
+        result.description_output, result.description_exception = self._get_description(event)
+        result.reference_output, result.reference_exception = self._get_reference(event)
+        result.severity_output, result.severity_exception = self._get_severity(event)
+        result.runbook_output, result.runbook_exception = self._get_runbook(event)
+        result.destinations_output, result.destinations_exception = self._get_destinations(
+            event,
+            outputs,
+            outputs_names,
+        )
+        result.dedup_output, result.dedup_exception = self._get_dedup(event)
+        result.alert_context_output, result.alert_context_exception = self._get_alert_context(event)
 
         if batch_mode:
             # batch mode ignores errors
@@ -555,69 +522,101 @@ class PantherRule:
 
         return result
 
-    def _get_title(self, event: Mapping) -> Tuple[Optional[str], Optional[Exception]]:
+    def _get_title(self, event: Mapping) -> Tuple[str, Optional[Exception]]:
         try:
-            title = self._run_command(self.title, event, str)
-        except Exception as e:  # pylint: disable=broad-except
-            return "", e
+            with self.ctx_mgr():
+                title = self.title(event)
+
+            self._require_str(self.title.__name__, title)
+        except Exception as e:
+            title = self.DisplayName
+            if not title or not isinstance(title, str):
+                title = self.RuleID
+            return title, e
 
         return truncate(title, MAX_GENERATED_FIELD_SIZE), None
 
     # Returns the dedup string for this detection match
     def _get_dedup(self, event: Mapping) -> Tuple[Optional[str], Optional[Exception]]:
+        e = None
+        dedup_string = ""
         try:
-            dedup_string = self._run_command(self.dedup, event, str)
-        except Exception as e:  # pylint: disable=broad-except
-            return None, e
+            with self.ctx_mgr():
+                dedup_string = self.dedup(event)
 
-        return truncate(dedup_string, MAX_DEDUP_STRING_SIZE), None
+            self._require_str(self.dedup.__name__, dedup_string)
+        except Exception as err:
+            e = err
+
+        if dedup_string == "" or not isinstance(dedup_string, str):
+            dedup_string, _ = self._get_title(event)
+            if dedup_string == "" or not isinstance(dedup_string, str):
+                dedup_string = f"defaultDedupString:{self.RuleID}"
+
+        return truncate(dedup_string, MAX_DEDUP_STRING_SIZE), e
 
     def _get_description(
         self,
         event: Mapping,
-    ) -> Tuple[Optional[str], Optional[Exception]]:
+    ) -> Tuple[str, Optional[Exception]]:
         try:
-            description = self._run_command(self.description, event, str)
-        except Exception as e:  # pylint: disable=broad-except
+            with self.ctx_mgr():
+                description = self.description(event)
+
+            self._require_str(self.description.__name__, description)
+        except Exception as e:
             return "", e
 
         return truncate(description, MAX_GENERATED_FIELD_SIZE), None
 
-    def _get_reference(self, event: Mapping) -> Tuple[Optional[str], Optional[Exception]]:
+    def _get_reference(self, event: Mapping) -> Tuple[str, Optional[Exception]]:
         try:
-            reference = self._run_command(self.reference, event, str)
-        except Exception as e:  # pylint: disable=broad-except
+            with self.ctx_mgr():
+                reference = self.reference(event)
+
+            self._require_str(self.reference.__name__, reference)
+        except Exception as e:
             return "", e
 
         return truncate(reference, MAX_GENERATED_FIELD_SIZE), None
 
     def _get_runbook(self, event: Mapping) -> Tuple[Optional[str], Optional[Exception]]:
         try:
-            runbook = self._run_command(self.runbook, event, str)
-        except Exception as e:  # pylint: disable=broad-except
+            with self.ctx_mgr():
+                runbook = self.runbook(event)
+
+            self._require_str(self.runbook.__name__, runbook)
+        except Exception as e:
             return "", e
 
         return truncate(runbook, MAX_GENERATED_FIELD_SIZE), None
 
     def _get_severity(self, event: Mapping) -> Tuple[Optional[str], Optional[Exception]]:
         try:
-            severity = self._run_command(self.severity, event, str).upper()
+            with self.ctx_mgr():
+                severity: str = self.severity(event)
+
+            self._require_str(self.severity.__name__, severity)
+            severity = severity.upper()
             if severity == SEVERITY_DEFAULT:
                 return self.Severity, None
             if severity not in SEVERITY_TYPES:
                 raise AssertionError(
                     f"Expected severity to be any of the following: [{str(SEVERITY_TYPES)}], got [{severity}] instead."
                 )
-        except Exception as e:  # pylint: disable=broad-except
+        except Exception as e:
             return self.Severity, e
 
         return severity, None
 
     def _get_alert_context(self, event: Mapping) -> Tuple[Optional[str], Optional[Exception]]:
         try:
-            alert_context = self._run_command(self.alert_context, event, Mapping)
+            with self.ctx_mgr():
+                alert_context = self.alert_context(event)
+
+            self._require_mapping(self.alert_context.__name__, alert_context)
             serialized_alert_context = json.dumps(alert_context, default=PantherEvent.json_encoder)
-        except Exception as err:  # pylint: disable=broad-except
+        except Exception as err:
             return json.dumps({ALERT_CONTEXT_ERROR_KEY: repr(err)}), err
 
         if len(serialized_alert_context) > MAX_ALERT_CONTEXT_SIZE:
@@ -630,15 +629,17 @@ class PantherRule:
 
         return serialized_alert_context, None
 
-    def _get_destinations(  # pylint: disable=too-many-return-statements,too-many-arguments
+    def _get_destinations(
         self,
         event: Mapping,
         outputs: Dict,
         outputs_display_names: Dict,
     ) -> Tuple[Optional[List[str]], Optional[Exception]]:
         try:
-            destinations = self._run_command(self.destinations, event, [])
-        except Exception as e:  # pylint: disable=broad-except
+            with self.ctx_mgr():
+                destinations = self.destinations(event)
+            self._require_str_list(self.destinations.__name__, destinations)
+        except Exception as e:
             return None, e
 
         # Return early if destinations returned None
@@ -683,39 +684,49 @@ class PantherRule:
 
         return standardized_destinations, None
 
-    def _run_command(
-        self, method: Callable[[Mapping], Any], event: Mapping, expected_type: Any
-    ) -> Any:
-        if self._suppress_output:
-            with contextlib.redirect_stdout(None), contextlib.redirect_stderr(None):
-                result = method(event)
-        else:
-            result = method(event)
+    def _require_bool(self, method_name: str, value: Any):
+        return self._require_scalar(method_name, bool, value)
 
-        if isinstance(expected_type, list):
-            if result is None:
-                return result
-            if not isinstance(result, list) or not all(isinstance(x, (str, bool)) for x in result):
-                raise FunctionReturnTypeError(
-                    # pylint: disable=consider-using-f-string
-                    "detection [{}] method [{}] returned [{}], expected a list".format(
-                        self.RuleID, method.__name__, type(result).__name__
-                    )
-                )
-            return result
+    def _require_str(self, method_name: str, value: Any):
+        return self._require_scalar(method_name, str, value)
 
-        if not isinstance(result, expected_type):
+    def _require_mapping(self, method_name: str, value: Any):
+        return self._require_scalar(method_name, Mapping, value)
+
+    def _require_scalar(self, method_name: str, typ: Type, value: Any):
+        if not isinstance(value, typ):
             raise FunctionReturnTypeError(
-                # pylint: disable=consider-using-f-string
-                "detection [{}] method [{}] returned [{}], expected [{}]".format(
-                    self.RuleID,
-                    method.__name__,
-                    type(result).__name__,
-                    expected_type.__name__,
+                f"detection [{self.RuleID}] method [{method_name}] returned [{type(value).__name__}], expected [{typ.__name__}]"
+            )
+
+    def _require_str_list(self, method_name: str, value: Any):
+        if value is None:
+            return
+        if not isinstance(value, list) or not all(isinstance(x, (str, bool)) for x in value):
+            raise FunctionReturnTypeError(
+                "detection [{}] method [{}] returned [{}], expected a list".format(
+                    self.RuleID, method_name, type(value).__name__
                 )
             )
 
-        return result
+
+@contextlib.contextmanager
+def suppress_output():
+    original_stdout = sys.stdout
+    original_stderr = sys.stderr
+
+    sys.stdout = open(os.devnull, "w")
+    sys.stderr = open(os.devnull, "w")
+    try:
+        yield
+    finally:
+        sys.stdout = original_stdout
+        sys.stderr = original_stderr
+
+
+@contextlib.contextmanager
+def noop():
+    yield
 
 
 @dataclass

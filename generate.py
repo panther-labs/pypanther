@@ -364,7 +364,6 @@ def rewrite_imports_str(code: str, helpers: Set[str]):
     return "\n".join(ret) + "\n"
 
 
-# pylint: disable=invalid-name
 class ConstantPropogation(ast.NodeTransformer):
     def visit_UnaryOp(self, node: ast.UnaryOp) -> Optional[ast.AST]:
         if (
@@ -386,7 +385,6 @@ class ConstantPropogation(ast.NodeTransformer):
         return visited_node
 
 
-# pylint: disable=invalid-name
 class DropFilterIncludeEvent(ast.NodeTransformer):
     def visit_Call(self, node: ast.Call) -> Optional[ast.AST]:
         if isinstance(node.func, ast.Name) and node.func.id == "filter_include_event":
@@ -408,7 +406,6 @@ class DropFilterIncludeEvent(ast.NodeTransformer):
         return node
 
 
-# pylint: disable=invalid-name
 class DropStr(ast.NodeTransformer):
     def __init__(self, drop: List[str]) -> None:
         super().__init__()
@@ -421,7 +418,6 @@ class DropStr(ast.NodeTransformer):
         return super().generic_visit(node)
 
 
-# pylint: disable=invalid-name
 class Drop(ast.NodeTransformer):
     def __init__(self, drop: Set[ast.AST]) -> None:
         super().__init__()
@@ -434,7 +430,6 @@ class Drop(ast.NodeTransformer):
         return super().generic_visit(node)
 
 
-# pylint: disable=invalid-name
 class DropGlobal(ast.NodeTransformer):
     def visit_Global(self, _: ast.Global) -> Optional[ast.AST]:
         return None
