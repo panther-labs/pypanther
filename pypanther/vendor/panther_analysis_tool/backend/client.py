@@ -102,6 +102,7 @@ class BulkUploadStatistics:
     new: int
     total: int
     modified: int
+    deleted: int
 
 
 @dataclass(frozen=True)
@@ -237,12 +238,6 @@ class BulkUploadValidateStatusResponse(BackendMultipartError):
 @dataclass(frozen=True)
 class BulkUploadResponse:
     rules: BulkUploadStatistics
-    queries: BulkUploadStatistics
-    policies: BulkUploadStatistics
-    data_models: BulkUploadStatistics
-    lookup_tables: BulkUploadStatistics
-    global_helpers: BulkUploadStatistics
-    correlation_rules: BulkUploadStatistics
 
 
 @dataclass(frozen=True)
@@ -581,17 +576,11 @@ def backend_response_failed(resp: BackendResponse) -> bool:
 
 
 def to_bulk_upload_response(data: Any) -> BackendResponse[BulkUploadResponse]:
-    default_stats = {"total": 0, "new": 0, "modified": 0}
+    default_stats = {"total": 0, "new": 0, "modified": 0, "deleted": 0}
     return BackendResponse(
         status_code=200,
         data=BulkUploadResponse(
             rules=BulkUploadStatistics(**data.get("rules", default_stats)),
-            queries=BulkUploadStatistics(**data.get("queries", default_stats)),
-            policies=BulkUploadStatistics(**data.get("policies", default_stats)),
-            data_models=BulkUploadStatistics(**data.get("dataModels", default_stats)),
-            lookup_tables=BulkUploadStatistics(**data.get("lookupTables", default_stats)),
-            global_helpers=BulkUploadStatistics(**data.get("globalHelpers", default_stats)),
-            correlation_rules=BulkUploadStatistics(**data.get("correlationRules", default_stats)),
         ),
     )
 

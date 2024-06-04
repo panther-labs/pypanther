@@ -77,3 +77,7 @@ def setup_parser() -> argparse.ArgumentParser:
 def version(args):
     print(importlib.metadata.version("pypanther"))
     return 0, ""
+
+
+if __name__ == "__main__":
+    run()

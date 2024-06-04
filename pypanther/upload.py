@@ -16,11 +16,6 @@ from pypanther.vendor.panther_analysis_tool.backend.client import (
     BulkUploadParams,
 )
 from pypanther.vendor.panther_analysis_tool.backend.client import Client as BackendClient
-from pypanther.vendor.panther_analysis_tool.backend.client import (
-    FeatureFlagsParams,
-    FeatureFlagWithDefault,
-)
-from pypanther.vendor.panther_analysis_tool.constants import ENABLE_CORRELATION_RULES_FLAG
 from pypanther.vendor.panther_analysis_tool.util import convert_unicode
 
 IGNORE_FOLDERS = [".mypy_cache", "pypanther", "panther_analysis", ".git", "__pycache__"]
@@ -69,15 +64,6 @@ def upload_zip(backend: BackendClient, args: argparse.Namespace, archive: str) -
                 response = backend.async_bulk_upload(upload_params)
 
                 resp_dict = asdict(response.data)
-                flags_params = FeatureFlagsParams(
-                    flags=[FeatureFlagWithDefault(flag=ENABLE_CORRELATION_RULES_FLAG)]
-                )
-                try:
-                    if not backend.feature_flags(flags_params).data.flags[0].treatment:
-                        del resp_dict["correlation_rules"]
-                # pylint: disable=broad-except
-                except BaseException:
-                    del resp_dict["correlation_rules"]
 
                 logging.info("API Response:\n%s", json.dumps(resp_dict, indent=4))
                 return 0, cli_output.success("Upload succeeded")

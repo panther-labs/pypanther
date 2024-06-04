@@ -32,4 +32,5 @@ fragment UploadStatisticDetails on UploadStatistics {
     modified
     new
     total
+    deleted
 }
