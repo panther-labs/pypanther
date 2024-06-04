@@ -1,6 +1,6 @@
 from pypanther import register
 from pypanther.base import PantherRule, PantherSeverity
-from pypanther.register import registered_rules
+from pypanther.registry import registered_rules
 
 
 def test_register_duplicate():
