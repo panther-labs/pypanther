@@ -19,6 +19,7 @@ jobs:
       with:
         ref: ${{ github.ref_name }}
         token: ${{ secrets.PANTHER_BOT_AUTOMATION_TOKEN }}
+    - uses: chainguard-dev/actions/setup-gitsign@e82b4e5ae10182af72972addcb3fedf7454621c8
     - name: Set up Python
       uses: actions/setup-python@82c7e631bb3cdc910f68e0081d67478d79c6982d
       with:
@@ -36,8 +37,10 @@ jobs:
         git add pyproject.toml
         git commit -m "Updating version"
         git push -u origin ${{ github.ref_name }}
+        gitsign verify $(git rev-parse HEAD) --certificate-identity-regexp="https://github.com/${{ github.repository }}/*" --certificate-oidc-issuer="https://token.actions.githubusercontent.com"
     - name: Tag the release
       run: |
         echo "Tagging v$(poetry version --short)"
         git tag "v$(poetry version --short)"
         git push --tags
+        gitsign verify $(git rev-list --tags --max-count=1) --certificate-identity-regexp="https://github.com/${{ github.repository }}/*" --certificate-oidc-issuer="https://token.actions.githubusercontent.com"
