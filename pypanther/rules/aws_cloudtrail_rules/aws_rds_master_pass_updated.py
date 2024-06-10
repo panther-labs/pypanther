@@ -2,7 +2,7 @@ from typing import List
 
 from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import deep_get
-from pypanther.log_types import LogType
+from pypanther.log_types import PantherLogType
 
 awsrds_master_password_updated_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -303,7 +303,7 @@ class AWSRDSMasterPasswordUpdated(PantherRule):
         "p_any_aws_arns",
         "p_any_aws_account_ids",
     ]
-    LogTypes = [LogType.AWS_CloudTrail]
+    LogTypes = [PantherLogType.AWS_CloudTrail]
     RuleID = "AWS.RDS.MasterPasswordUpdated-prototype"
     Tests = awsrds_master_password_updated_tests
 

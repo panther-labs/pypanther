@@ -3,7 +3,7 @@ from typing import List
 from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import deep_get, deep_walk
 from pypanther.helpers.panther_mongodb_helpers import mongodb_alert_context
-from pypanther.log_types import LogType
+from pypanther.log_types import PantherLogType
 
 mongo_db_atlas_api_key_created_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -76,7 +76,7 @@ class MongoDBAtlasApiKeyCreated(PantherRule):
     Reference = (
         "https://www.mongodb.com/docs/atlas/configure-api-access/#std-label-about-org-api-keys"
     )
-    LogTypes = [LogType.MongoDB_OrganizationEvent]
+    LogTypes = [PantherLogType.MongoDB_OrganizationEvent]
     RuleID = "MongoDB.Atlas.ApiKeyCreated-prototype"
     Tests = mongo_db_atlas_api_key_created_tests
 

@@ -3,7 +3,7 @@ from typing import List
 from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.gcp_base_helpers import gcp_alert_context
 from pypanther.helpers.panther_base_helpers import deep_get, deep_walk
-from pypanther.log_types import LogType
+from pypanther.log_types import PantherLogType
 
 gcp_cloudfunctions_functions_update_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -53,7 +53,7 @@ class GCPCloudfunctionsFunctionsUpdate(PantherRule):
     RuleID = "GCP.Cloudfunctions.Functions.Update-prototype"
     DisplayName = "GCP cloudfunctions functions update"
     Description = "The Identity and Access Management (IAM) service manages authorization and authentication for a GCP environment. This means that there are very likely multiple privilege escalation methods that use the IAM service and/or its permissions."
-    LogTypes = [LogType.GCP_AuditLog]
+    LogTypes = [PantherLogType.GCP_AuditLog]
     Severity = PantherSeverity.High
     Reference = (
         "https://rhinosecuritylabs.com/gcp/privilege-escalation-google-cloud-platform-part-1/"

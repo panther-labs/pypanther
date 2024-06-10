@@ -4,7 +4,7 @@ from typing import List
 from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import aws_rule_context, deep_get
 from pypanther.helpers.panther_default import aws_cloudtrail_success
-from pypanther.log_types import LogType
+from pypanther.log_types import PantherLogType
 
 aws_cloud_trail_iam_entity_created_without_cloud_formation_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -251,7 +251,7 @@ class AWSCloudTrailIAMEntityCreatedWithoutCloudFormation(PantherRule):
     RuleID = "AWS.CloudTrail.IAMEntityCreatedWithoutCloudFormation-prototype"
     DisplayName = "IAM Entity Created Without CloudFormation"
     Enabled = False
-    LogTypes = [LogType.AWS_CloudTrail]
+    LogTypes = [PantherLogType.AWS_CloudTrail]
     Reports = {"MITRE ATT&CK": ["TA0003:T1136"]}
     Tags = [
         "AWS",

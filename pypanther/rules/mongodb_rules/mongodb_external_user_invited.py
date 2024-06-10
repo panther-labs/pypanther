@@ -5,7 +5,7 @@ from unittest.mock import MagicMock
 from pypanther.base import PantherRule, PantherRuleMock, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import deep_get
 from pypanther.helpers.panther_mongodb_helpers import mongodb_alert_context
-from pypanther.log_types import LogType
+from pypanther.log_types import PantherLogType
 
 mongo_db_external_user_invited_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -77,7 +77,7 @@ class MongoDBExternalUserInvited(PantherRule):
     Severity = PantherSeverity.Medium
     Reference = "https://www.mongodb.com/docs/v4.2/tutorial/create-users/"
     Tags = ["Configuration Required"]
-    LogTypes = [LogType.MongoDB_OrganizationEvent]
+    LogTypes = [PantherLogType.MongoDB_OrganizationEvent]
     RuleID = "MongoDB.External.UserInvited-prototype"
     Tests = mongo_db_external_user_invited_tests
     # Set domains allowed to join the organization ie. company.com

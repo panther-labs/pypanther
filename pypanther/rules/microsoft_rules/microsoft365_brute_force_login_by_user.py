@@ -2,7 +2,7 @@ from typing import List
 
 from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import m365_alert_context
-from pypanther.log_types import LogType
+from pypanther.log_types import PantherLogType
 
 microsoft365_brute_force_loginby_user_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -94,7 +94,7 @@ class Microsoft365BruteForceLoginbyUser(PantherRule):
     Runbook = "Analyze the IP they came from and actions taken before/after."
     Reference = "https://learn.microsoft.com/en-us/microsoft-365/troubleshoot/authentication/access-denied-when-connect-to-office-365"
     Severity = PantherSeverity.Medium
-    LogTypes = [LogType.Microsoft365_Audit_AzureActiveDirectory]
+    LogTypes = [PantherLogType.Microsoft365_Audit_AzureActiveDirectory]
     RuleID = "Microsoft365.Brute.Force.Login.by.User-prototype"
     Threshold = 10
     Tests = microsoft365_brute_force_loginby_user_tests

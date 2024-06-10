@@ -2,14 +2,14 @@ from typing import List
 
 from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_notion_helpers import notion_alert_context
-from pypanther.log_types import LogType
+from pypanther.log_types import PantherLogType
 
 
 class NotionLoginFromBlockedIP(PantherRule):
     RuleID = "Notion.LoginFromBlockedIP-prototype"
     DisplayName = "Notion Login From Blocked IP"
     Enabled = False
-    LogTypes = [LogType.Notion_AuditLogs]
+    LogTypes = [PantherLogType.Notion_AuditLogs]
     Tags = [
         "Notion",
         "Network Security Monitoring",

@@ -2,7 +2,7 @@ from typing import List
 
 from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import deep_get, okta_alert_context
-from pypanther.log_types import LogType
+from pypanther.log_types import PantherLogType
 
 okta_threat_insight_security_threat_detected_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -186,7 +186,7 @@ class OktaThreatInsightSecurityThreatDetected(PantherRule):
     Reference = "https://help.okta.com/en-us/Content/Topics/Security/threat-insight/configure-threatinsight-system-log.htm"
     DisplayName = "Okta ThreatInsight Security Threat Detected"
     Severity = PantherSeverity.High
-    LogTypes = [LogType.Okta_SystemLog]
+    LogTypes = [PantherLogType.Okta_SystemLog]
     RuleID = "Okta.ThreatInsight.Security.Threat.Detected-prototype"
     Tests = okta_threat_insight_security_threat_detected_tests
 

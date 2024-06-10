@@ -2,7 +2,7 @@ from typing import List
 
 from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import github_alert_context
-from pypanther.log_types import LogType
+from pypanther.log_types import PantherLogType
 
 git_hub_advanced_security_change_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -155,7 +155,7 @@ git_hub_advanced_security_change_tests: List[PantherRuleTest] = [
 class GitHubAdvancedSecurityChange(PantherRule):
     RuleID = "GitHub.Advanced.Security.Change-prototype"
     DisplayName = "GitHub Security Change, includes GitHub Advanced Security"
-    LogTypes = [LogType.GitHub_Audit]
+    LogTypes = [PantherLogType.GitHub_Audit]
     Tags = ["GitHub"]
     Reports = {"MITRE ATT&CK": ["TA0005:T1562"]}
     Severity = PantherSeverity.Low

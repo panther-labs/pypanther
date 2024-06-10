@@ -1,7 +1,7 @@
 from typing import List
 
 from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
-from pypanther.log_types import LogType
+from pypanther.log_types import PantherLogType
 
 one_login_high_risk_failed_login_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -33,7 +33,7 @@ one_login_high_risk_failed_login_tests: List[PantherRuleTest] = [
 class OneLoginHighRiskFailedLogin(PantherRule):
     RuleID = "OneLogin.HighRiskFailedLogin-prototype"
     DisplayName = "OneLogin Failed High Risk Login"
-    LogTypes = [LogType.OneLogin_Events]
+    LogTypes = [PantherLogType.OneLogin_Events]
     Tags = ["OneLogin"]
     Severity = PantherSeverity.Low
     Description = (

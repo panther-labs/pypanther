@@ -1,7 +1,7 @@
 from typing import List
 
 from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
-from pypanther.log_types import LogType
+from pypanther.log_types import PantherLogType
 
 gcp_inbound_sso_profile_created_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -160,7 +160,7 @@ gcp_inbound_sso_profile_created_tests: List[PantherRuleTest] = [
 class GCPInboundSSOProfileCreated(PantherRule):
     RuleID = "GCP.Inbound.SSO.Profile.Created-prototype"
     DisplayName = "GCP Inbound SSO Profile Created"
-    LogTypes = [LogType.GCP_AuditLog]
+    LogTypes = [PantherLogType.GCP_AuditLog]
     Tags = ["Account Manipulation", "Additional Cloud Roles", "GCP", "Privilege Escalation"]
     Reports = {"MITRE ATT&CK": ["TA0003:T1136.003", "TA0003:T1098.003", "TA0004:T1098.003"]}
     Severity = PantherSeverity.High

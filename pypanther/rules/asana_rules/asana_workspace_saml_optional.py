@@ -2,7 +2,7 @@ from typing import List
 
 from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import deep_get
-from pypanther.log_types import LogType
+from pypanther.log_types import PantherLogType
 
 asana_workspace_saml_optional_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -60,7 +60,7 @@ class AsanaWorkspaceSAMLOptional(PantherRule):
     Runbook = "Confirm this user acted with valid business intent and determine whether this activity was authorized."
     Reference = "https://help.asana.com/hc/en-us/articles/14075208738587-Premium-Business-and-Enterprise-authentication#gl-saml:~:text=to%20your%20organization.-,SAML,-If%20your%20company"
     Severity = PantherSeverity.Medium
-    LogTypes = [LogType.Asana_Audit]
+    LogTypes = [PantherLogType.Asana_Audit]
     RuleID = "Asana.Workspace.SAML.Optional-prototype"
     Tests = asana_workspace_saml_optional_tests
 

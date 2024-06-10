@@ -1,7 +1,7 @@
 from typing import List
 
 from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
-from pypanther.log_types import LogType
+from pypanther.log_types import PantherLogType
 
 teleport_root_login_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -34,7 +34,7 @@ teleport_root_login_tests: List[PantherRuleTest] = [
 class TeleportRootLogin(PantherRule):
     RuleID = "Teleport.RootLogin-prototype"
     DisplayName = "User Logged in as root"
-    LogTypes = [LogType.Gravitational_TeleportAudit]
+    LogTypes = [PantherLogType.Gravitational_TeleportAudit]
     Tags = ["SSH", "Execution:Command and Scripting Interpreter", "Teleport"]
     Severity = PantherSeverity.Medium
     Description = "A User logged in as root"

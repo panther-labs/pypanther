@@ -2,7 +2,7 @@ from typing import List
 
 from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import deep_get
-from pypanther.log_types import LogType
+from pypanther.log_types import PantherLogType
 
 google_workspace_apps_marketplace_allowlist_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -132,7 +132,7 @@ class GoogleWorkspaceAppsMarketplaceAllowlist(PantherRule):
     Runbook = "Confirm with the acting user that this change was authorized."
     Reference = "https://support.google.com/a/answer/6089179?hl=en"
     Severity = PantherSeverity.Medium
-    LogTypes = [LogType.GSuite_ActivityEvent]
+    LogTypes = [PantherLogType.GSuite_ActivityEvent]
     RuleID = "Google.Workspace.Apps.Marketplace.Allowlist-prototype"
     Tests = google_workspace_apps_marketplace_allowlist_tests
 

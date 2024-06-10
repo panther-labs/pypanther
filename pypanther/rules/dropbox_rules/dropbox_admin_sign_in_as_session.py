@@ -2,7 +2,7 @@ from typing import List
 
 from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import deep_get
-from pypanther.log_types import LogType
+from pypanther.log_types import PantherLogType
 
 dropbox_adminsigninas_session_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -153,7 +153,7 @@ class DropboxAdminsigninasSession(PantherRule):
     DisplayName = "Dropbox Admin sign-in-as Session"
     Reference = "https://help.dropbox.com/security/sign-in-as-user"
     Severity = PantherSeverity.Medium
-    LogTypes = [LogType.Dropbox_TeamEvent]
+    LogTypes = [PantherLogType.Dropbox_TeamEvent]
     RuleID = "Dropbox.Admin.sign.in.as.Session-prototype"
     Tests = dropbox_adminsigninas_session_tests
 

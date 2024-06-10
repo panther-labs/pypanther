@@ -2,7 +2,7 @@ from typing import List
 
 from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import deep_get, pattern_match
-from pypanther.log_types import LogType
+from pypanther.log_types import PantherLogType
 
 aws_macie_evasion_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -176,7 +176,7 @@ aws_macie_evasion_tests: List[PantherRuleTest] = [
 class AWSMacieEvasion(PantherRule):
     RuleID = "AWS.Macie.Evasion-prototype"
     DisplayName = "AWS Macie Disabled/Updated"
-    LogTypes = [LogType.AWS_CloudTrail]
+    LogTypes = [PantherLogType.AWS_CloudTrail]
     Reports = {"MITRE ATT&CK": ["TA0005:T1562"]}
     Severity = PantherSeverity.Medium
     Description = "Amazon Macie is a data security and data privacy service to discover and protect sensitive data. Security teams use Macie to detect open S3 Buckets that could have potentially sensitive data in it along with policy violations, such as missing Encryption. If an attacker disables Macie, it could potentially hide data exfiltration.\n"

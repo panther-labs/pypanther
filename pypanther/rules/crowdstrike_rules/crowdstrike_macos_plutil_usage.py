@@ -2,7 +2,7 @@ from typing import List
 
 from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import crowdstrike_process_alert_context, deep_get
-from pypanther.log_types import LogType
+from pypanther.log_types import PantherLogType
 
 crowdstrike_macos_plutil_usage_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -318,7 +318,7 @@ class CrowdstrikeMacosPlutilUsage(PantherRule):
     RuleID = "Crowdstrike.Macos.Plutil.Usage-prototype"
     Reference = "https://www.crowdstrike.com/blog/reconstructing-command-line-activity-on-macos/#:~:text=Terminal.savedState/.-,Windows.plist,-The%20file%20windows"
     Severity = PantherSeverity.Medium
-    LogTypes = [LogType.Crowdstrike_FDREvent]
+    LogTypes = [PantherLogType.Crowdstrike_FDREvent]
     Tests = crowdstrike_macos_plutil_usage_tests
 
     def rule(self, event):

@@ -2,7 +2,7 @@ from typing import List
 
 from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import slack_alert_context
-from pypanther.log_types import LogType
+from pypanther.log_types import PantherLogType
 
 slack_audit_logs_potentially_malicious_file_shared_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -74,7 +74,7 @@ slack_audit_logs_potentially_malicious_file_shared_tests: List[PantherRuleTest] 
 class SlackAuditLogsPotentiallyMaliciousFileShared(PantherRule):
     RuleID = "Slack.AuditLogs.PotentiallyMaliciousFileShared-prototype"
     DisplayName = "Slack Potentially Malicious File Shared"
-    LogTypes = [LogType.Slack_AuditLogs]
+    LogTypes = [PantherLogType.Slack_AuditLogs]
     Tags = ["Slack", "Initial Access", "Phishing", "Spearphising Attachment"]
     Reports = {"MITRE ATT&CK": ["TA0001:T1566.001"]}
     Severity = PantherSeverity.Critical

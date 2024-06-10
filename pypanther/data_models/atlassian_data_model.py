@@ -3,7 +3,7 @@ from typing import List
 import pypanther.helpers.panther_event_type_helpers as event_type
 from pypanther.base import PantherDataModel, PantherDataModelMapping
 from pypanther.helpers.panther_base_helpers import deep_get
-from pypanther.log_types import LogType
+from pypanther.log_types import PantherLogType
 
 audit_log_type_map = {
     "user_login": event_type.SUCCESSFUL_LOGIN,
@@ -33,7 +33,7 @@ class StandardAtlassianAudit(PantherDataModel):
     DataModelID: str = "Standard.Atlassian.Audit"
     DisplayName: str = "Atlassian Audit Logs"
     Enabled: bool = True
-    LogTypes: List[str] = [LogType.Atlassian_Audit]
+    LogTypes: List[str] = [PantherLogType.Atlassian_Audit]
     Mappings: List[PantherDataModelMapping] = [
         PantherDataModelMapping(Name="actor_user", Path="$.EventActor.Name"),
         PantherDataModelMapping(Name="event_type", Method=get_event_type),

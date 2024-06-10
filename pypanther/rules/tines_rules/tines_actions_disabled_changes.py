@@ -3,7 +3,7 @@ from typing import List
 from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import deep_get
 from pypanther.helpers.panther_tines_helpers import tines_alert_context
-from pypanther.log_types import LogType
+from pypanther.log_types import PantherLogType
 
 tines_actions_disabled_changes_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -42,7 +42,7 @@ tines_actions_disabled_changes_tests: List[PantherRuleTest] = [
 class TinesActionsDisabledChanges(PantherRule):
     RuleID = "Tines.Actions.DisabledChanges-prototype"
     DisplayName = "Tines Actions Disabled Change"
-    LogTypes = [LogType.Tines_Audit]
+    LogTypes = [PantherLogType.Tines_Audit]
     Tags = ["Tines"]
     Reference = "https://www.tines.com/university/tines-basics/architecture-of-an-action"
     Severity = PantherSeverity.Medium

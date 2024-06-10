@@ -2,7 +2,7 @@ from typing import List
 
 from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_notion_helpers import notion_alert_context
-from pypanther.log_types import LogType
+from pypanther.log_types import PantherLogType
 
 notion_workspace_exported_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -62,7 +62,7 @@ notion_workspace_exported_tests: List[PantherRuleTest] = [
 class NotionWorkspaceExported(PantherRule):
     RuleID = "Notion.Workspace.Exported-prototype"
     DisplayName = "Notion Workspace Exported"
-    LogTypes = [LogType.Notion_AuditLogs]
+    LogTypes = [PantherLogType.Notion_AuditLogs]
     Tags = ["Notion", "Data Security", "Data Exfiltration"]
     Severity = PantherSeverity.High
     Description = "A Notion User exported an existing workspace."

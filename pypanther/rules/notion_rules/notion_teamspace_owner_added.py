@@ -2,7 +2,7 @@ from typing import List
 
 from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_notion_helpers import notion_alert_context
-from pypanther.log_types import LogType
+from pypanther.log_types import PantherLogType
 
 notion_teamspace_owner_added_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -79,7 +79,7 @@ notion_teamspace_owner_added_tests: List[PantherRuleTest] = [
 class NotionTeamspaceOwnerAdded(PantherRule):
     RuleID = "Notion.TeamspaceOwnerAdded-prototype"
     DisplayName = "Notion Teamspace Owner Added"
-    LogTypes = [LogType.Notion_AuditLogs]
+    LogTypes = [PantherLogType.Notion_AuditLogs]
     Tags = ["Notion", "Privilege Escalation"]
     Description = "A Notion User was added as a Teamspace owner."
     Severity = PantherSeverity.Medium

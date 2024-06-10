@@ -14,8 +14,14 @@ import black.report
 from ast_comments import Comment, parse, unparse
 from ruamel.yaml import YAML
 
-from pypanther import base
-from pypanther.log_types import LogType
+from pypanther import (
+    PantherDataModel,
+    PantherLogType,
+    PantherRule,
+    PantherRuleMock,
+    PantherRuleTest,
+    PantherSeverity,
+)
 
 ID_POSTFIX = "-prototype"
 
@@ -27,8 +33,8 @@ def perror(*args, **kwargs):
 def do(filepath: Path, helpers: Set[str]) -> Optional[str]:
     imports = [
         "from typing import List",
-        f"from pypanther.base import {base.PantherRule.__name__}, {base.PantherRuleTest.__name__}, {base.PantherSeverity.__name__}",
-        "from pypanther.log_types import LogType",
+        f"from pypanther.base import {PantherRule.__name__}, {PantherRuleTest.__name__}, {PantherSeverity.__name__}",
+        "from pypanther.log_types import PantherLogType",
     ]
 
     p = Path(filepath)
@@ -47,7 +53,7 @@ def do(filepath: Path, helpers: Set[str]) -> Optional[str]:
     for k, v in loaded.items():
         if k in {"AnalysisType", "Filename", "Tests"}:
             continue
-        if hasattr(base.PantherRule, k) and v == getattr(base.PantherRule, k):
+        if hasattr(PantherRule, k) and v == getattr(PantherRule, k):
             continue
         if k == "Detection":
             raise NotImplementedError("Detection not implemented")
@@ -67,14 +73,14 @@ def do(filepath: Path, helpers: Set[str]) -> Optional[str]:
 
         value: ast.AST = ast.Constant(value=v)
         if k == "Severity":
-            value = ast.Name(id=f"{base.PantherSeverity.__name__}.{v}", ctx=ast.Load())
+            value = ast.Name(id=f"{PantherSeverity.__name__}.{v}", ctx=ast.Load())
         if k == "LogTypes":
             log_type_elts = []
             for x in v:
                 log_type_elts.append(
                     ast.Attribute(
-                        value=ast.Name(id=f"{LogType.__name__}", ctx=ast.Load()),
-                        attr=LogType.get_attribute_name(x),
+                        value=ast.Name(id=f"{PantherLogType.__name__}", ctx=ast.Load()),
+                        attr=PantherLogType.get_attribute_name(x),
                         ctx=ast.Load(),
                     )
                 )
@@ -120,7 +126,7 @@ def do(filepath: Path, helpers: Set[str]) -> Optional[str]:
 
                 mocks.append(
                     ast.Call(
-                        func=ast.Name(id=base.PantherRuleMock.__name__, ctx=ast.Load()),
+                        func=ast.Name(id=PantherRuleMock.__name__, ctx=ast.Load()),
                         args=[],
                         keywords=mock_keywords,
                     )
@@ -133,7 +139,7 @@ def do(filepath: Path, helpers: Set[str]) -> Optional[str]:
 
         elts.append(
             ast.Call(
-                func=ast.Name(id=base.PantherRuleTest.__name__, ctx=ast.Load()),
+                func=ast.Name(id=PantherRuleTest.__name__, ctx=ast.Load()),
                 args=[],
                 keywords=keywords,
             )
@@ -173,7 +179,7 @@ def run_black(code: str) -> str:
 
 
 def run_isort(paths: List[Path]):
-    subprocess.run(["isort"] + list(paths), check=True, stdout=subprocess.DEVNULL)
+    subprocess.run(["isort"] + list(paths), check=True)  # , stdout=subprocess.DEVNULL)
 
 
 def to_ascii(s):
@@ -303,7 +309,7 @@ def parse_py(
     # add class def to tree
     c = ast.ClassDef(
         name=class_name,
-        bases=[ast.Name(base.PantherRule.__name__, ctx=ast.Load())],
+        bases=[ast.Name(PantherRule.__name__, ctx=ast.Load())],
         keywords=[],
         decorator_list=[],
         body=assignments + other + functions,
@@ -497,7 +503,7 @@ def convert_data_models(panther_analysis: Path, helpers: Set[str]):
 
     imports = """from typing import List
 from pypanther.base import PantherDataModel, PantherDataModelMapping
-from pypanther.log_types import LogType"""
+from pypanther.log_types import PantherLogType"""
 
     paths = []
     for p in (data_models_path).rglob("*.y*ml"):
@@ -527,7 +533,7 @@ from pypanther.log_types import LogType"""
         classname = to_ascii(dm["DataModelID"])
         as_class = ast.ClassDef(
             name=classname,
-            bases=[ast.Name(id=base.PantherDataModel.__name__, ctx=ast.Load())],
+            bases=[ast.Name(id=PantherDataModel.__name__, ctx=ast.Load())],
             keywords=[],
             decorator_list=[],
             body=[
@@ -558,7 +564,7 @@ from pypanther.log_types import LogType"""
                     value=ast.List(
                         elts=[
                             ast.Name(
-                                id=f"{LogType.__name__}.{LogType.get_attribute_name(x)}",
+                                id=f"{PantherLogType.__name__}.{PantherLogType.get_attribute_name(x)}",
                                 ctx=ast.Load(),
                             )
                             for x in dm["LogTypes"]
@@ -691,7 +697,7 @@ from pypanther.base import PantherDataModel, PantherQuerySchedule
 
         query_class = ast.ClassDef(
             name=classname,
-            bases=[ast.Name(id=base.PantherDataModel.__name__, ctx=ast.Load())],
+            bases=[ast.Name(id=PantherDataModel.__name__, ctx=ast.Load())],
             keywords=[],
             decorator_list=[],
             body=[

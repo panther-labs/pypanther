@@ -2,7 +2,7 @@ from typing import List
 
 from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import deep_get, okta_alert_context
-from pypanther.log_types import LogType
+from pypanther.log_types import PantherLogType
 
 okta_support_reset_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -92,7 +92,7 @@ okta_support_reset_tests: List[PantherRuleTest] = [
 class OktaSupportReset(PantherRule):
     RuleID = "Okta.Support.Reset-prototype"
     DisplayName = "Okta Support Reset Credential"
-    LogTypes = [LogType.Okta_SystemLog]
+    LogTypes = [PantherLogType.Okta_SystemLog]
     Tags = [
         "Identity & Access Management",
         "DataModel",

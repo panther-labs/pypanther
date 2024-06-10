@@ -2,7 +2,7 @@ from typing import List
 
 from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import ZENDESK_CHANGE_DESCRIPTION
-from pypanther.log_types import LogType
+from pypanther.log_types import PantherLogType
 
 zendesk_sensitive_data_redaction_off_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -67,7 +67,7 @@ zendesk_sensitive_data_redaction_off_tests: List[PantherRuleTest] = [
 class ZendeskSensitiveDataRedactionOff(PantherRule):
     RuleID = "Zendesk.SensitiveDataRedactionOff-prototype"
     DisplayName = "Zendesk Credit Card Redaction Off"
-    LogTypes = [LogType.Zendesk_Audit]
+    LogTypes = [PantherLogType.Zendesk_Audit]
     Tags = ["Zendesk", "Collection:Data from Information Repositories"]
     Reports = {"MITRE ATT&CK": ["TA0009:T1213"]}
     Severity = PantherSeverity.High

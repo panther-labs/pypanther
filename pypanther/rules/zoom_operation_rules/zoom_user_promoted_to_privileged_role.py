@@ -2,7 +2,7 @@ import re
 from typing import List
 
 from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
-from pypanther.log_types import LogType
+from pypanther.log_types import PantherLogType
 
 zoom_user_promotedto_privileged_role_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -90,7 +90,7 @@ class ZoomUserPromotedtoPrivilegedRole(PantherRule):
     DisplayName = "Zoom User Promoted to Privileged Role"
     Reference = "https://support.zoom.com/hc/en/article?id=zm_kb&sysparm_article=KB0064983"
     Severity = PantherSeverity.Medium
-    LogTypes = [LogType.Zoom_Operation]
+    LogTypes = [PantherLogType.Zoom_Operation]
     RuleID = "Zoom.User.Promoted.to.Privileged.Role-prototype"
     Tests = zoom_user_promotedto_privileged_role_tests
     PRIVILEGED_ROLES = ("Admin", "Co-Owner", "Owner", "Billing Admin")

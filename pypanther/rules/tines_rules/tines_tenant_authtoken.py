@@ -3,7 +3,7 @@ from typing import List
 from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import deep_get
 from pypanther.helpers.panther_tines_helpers import tines_alert_context
-from pypanther.log_types import LogType
+from pypanther.log_types import PantherLogType
 
 tines_tenant_auth_token_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -59,7 +59,7 @@ tines_tenant_auth_token_tests: List[PantherRuleTest] = [
 class TinesTenantAuthToken(PantherRule):
     RuleID = "Tines.Tenant.AuthToken-prototype"
     DisplayName = "Tines Tenant API Keys Added"
-    LogTypes = [LogType.Tines_Audit]
+    LogTypes = [PantherLogType.Tines_Audit]
     Tags = ["Tines", "IAM - Credential Security"]
     Severity = PantherSeverity.Medium
     Description = "Detects when Tines Tenant API Keys are added\n"

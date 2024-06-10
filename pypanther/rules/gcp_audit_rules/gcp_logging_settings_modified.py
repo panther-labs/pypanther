@@ -2,7 +2,7 @@ from typing import List
 
 from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import deep_get
-from pypanther.log_types import LogType
+from pypanther.log_types import PantherLogType
 
 gcp_logging_settings_modified_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -129,7 +129,7 @@ class GCPLoggingSettingsModified(PantherRule):
     DisplayName = "GCP Logging Settings Modified"
     Reference = "https://cloud.google.com/logging/docs/default-settings"
     Severity = PantherSeverity.Low
-    LogTypes = [LogType.GCP_AuditLog]
+    LogTypes = [PantherLogType.GCP_AuditLog]
     RuleID = "GCP.Logging.Settings.Modified-prototype"
     Tests = gcp_logging_settings_modified_tests
 

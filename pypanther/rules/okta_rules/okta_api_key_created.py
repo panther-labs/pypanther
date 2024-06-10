@@ -2,7 +2,7 @@ from typing import List
 
 from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import deep_get, okta_alert_context
-from pypanther.log_types import LogType
+from pypanther.log_types import PantherLogType
 
 okta_api_key_created_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -42,7 +42,7 @@ okta_api_key_created_tests: List[PantherRuleTest] = [
 class OktaAPIKeyCreated(PantherRule):
     RuleID = "Okta.APIKeyCreated-prototype"
     DisplayName = "Okta API Key Created"
-    LogTypes = [LogType.Okta_SystemLog]
+    LogTypes = [PantherLogType.Okta_SystemLog]
     Tags = [
         "Identity & Access Management",
         "Okta",

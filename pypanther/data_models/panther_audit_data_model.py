@@ -3,7 +3,7 @@ from typing import List
 import pypanther.helpers.panther_event_type_helpers as event_type
 from pypanther.base import PantherDataModel, PantherDataModelMapping
 from pypanther.helpers.panther_base_helpers import deep_get
-from pypanther.log_types import LogType
+from pypanther.log_types import PantherLogType
 
 audit_log_type_map = {
     "CREATE_USER": event_type.USER_ACCOUNT_CREATED,
@@ -36,7 +36,7 @@ class StandardPantherAudit(PantherDataModel):
     DataModelID: str = "Standard.Panther.Audit"
     DisplayName: str = "Panther Audit Logs"
     Enabled: bool = True
-    LogTypes: List[str] = [LogType.Panther_Audit]
+    LogTypes: List[str] = [PantherLogType.Panther_Audit]
     Mappings: List[PantherDataModelMapping] = [
         PantherDataModelMapping(Name="source_ip", Path="sourceIP"),
         PantherDataModelMapping(Name="user_agent", Path="userAgent"),

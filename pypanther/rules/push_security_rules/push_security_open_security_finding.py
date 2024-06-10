@@ -1,7 +1,7 @@
 from typing import List
 
 from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
-from pypanther.log_types import LogType
+from pypanther.log_types import PantherLogType
 
 push_security_open_security_finding_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -99,7 +99,7 @@ push_security_open_security_finding_tests: List[PantherRuleTest] = [
 class PushSecurityOpenSecurityFinding(PantherRule):
     RuleID = "Push.Security.Open.Security.Finding-prototype"
     DisplayName = "Push Security Open Security Finding"
-    LogTypes = [LogType.PushSecurity_Entities]
+    LogTypes = [PantherLogType.PushSecurity_Entities]
     Severity = PantherSeverity.Info
     Tests = push_security_open_security_finding_tests
 

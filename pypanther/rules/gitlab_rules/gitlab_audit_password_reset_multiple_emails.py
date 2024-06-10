@@ -2,7 +2,7 @@ import json
 from typing import List
 
 from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
-from pypanther.log_types import LogType
+from pypanther.log_types import PantherLogType
 
 git_lab_audit_password_reset_multiple_emails_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -36,7 +36,7 @@ git_lab_audit_password_reset_multiple_emails_tests: List[PantherRuleTest] = [
 class GitLabAuditPasswordResetMultipleEmails(PantherRule):
     RuleID = "GitLab.Audit.Password.Reset.Multiple.Emails-prototype"
     DisplayName = "CVE-2023-7028 - GitLab Audit Password Reset Multiple Emails"
-    LogTypes = [LogType.GitLab_Audit]
+    LogTypes = [PantherLogType.GitLab_Audit]
     Tags = ["GitLab", "CVE-2023-7028"]
     Reports = {"MITRE ATT&CK": ["TA0001:T1195", "TA0001:T1190", "TA0003:T1098"]}
     Severity = PantherSeverity.High

@@ -1,7 +1,7 @@
 from typing import List
 
 from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
-from pypanther.log_types import LogType
+from pypanther.log_types import PantherLogType
 
 salesforce_admin_login_as_user_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -92,7 +92,7 @@ class SalesforceAdminLoginAsUser(PantherRule):
         "https://help.salesforce.com/s/articleView?id=sf.logging_in_as_another_user.htm&type=5"
     )
     Severity = PantherSeverity.Info
-    LogTypes = [LogType.Salesforce_LoginAs]
+    LogTypes = [PantherLogType.Salesforce_LoginAs]
     RuleID = "Salesforce.Admin.Login.As.User-prototype"
     Tests = salesforce_admin_login_as_user_tests
 

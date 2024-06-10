@@ -2,7 +2,7 @@ from typing import List
 
 from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import deep_get
-from pypanther.log_types import LogType
+from pypanther.log_types import PantherLogType
 
 osquery_unsupported_mac_os_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -79,7 +79,7 @@ osquery_unsupported_mac_os_tests: List[PantherRuleTest] = [
 class OsqueryUnsupportedMacOS(PantherRule):
     RuleID = "Osquery.UnsupportedMacOS-prototype"
     DisplayName = "Unsupported macOS version"
-    LogTypes = [LogType.Osquery_Differential]
+    LogTypes = [PantherLogType.Osquery_Differential]
     Tags = ["Osquery", "Compliance"]
     Severity = PantherSeverity.Low
     Description = "Check that all laptops on the corporate environment are on a version of MacOS supported by IT.\n"

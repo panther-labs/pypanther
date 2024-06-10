@@ -2,7 +2,7 @@ from typing import List
 
 import pypanther.helpers.panther_event_type_helpers as event_type
 from pypanther.base import PantherDataModel, PantherDataModelMapping
-from pypanther.log_types import LogType
+from pypanther.log_types import PantherLogType
 
 
 def get_event_type(event):
@@ -22,7 +22,7 @@ class StandardOneLoginEvents(PantherDataModel):
     DataModelID: str = "Standard.OneLogin.Events"
     DisplayName: str = "OneLogin Events"
     Enabled: bool = True
-    LogTypes: List[str] = [LogType.OneLogin_Events]
+    LogTypes: List[str] = [PantherLogType.OneLogin_Events]
     Mappings: List[PantherDataModelMapping] = [
         PantherDataModelMapping(Name="actor_user", Path="actor_user_name"),
         PantherDataModelMapping(Name="assigned_admin_role", Path="privilege_name"),

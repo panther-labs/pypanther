@@ -3,7 +3,7 @@ from typing import List
 from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_auth0_helpers import auth0_alert_context, is_auth0_config_event
 from pypanther.helpers.panther_base_helpers import deep_get
-from pypanther.log_types import LogType
+from pypanther.log_types import PantherLogType
 
 auth0_mfa_policy_disabled_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -394,7 +394,7 @@ class Auth0MFAPolicyDisabled(PantherRule):
     Runbook = "Assess if this was done by the user for a valid business reason. Be vigilant to re-enable this setting as it's in the best security interest for your organization's security posture."
     Reference = "https://auth0.com/docs/secure/multi-factor-authentication/enable-mfa#:~:text=prompted%20for%20MFA.-,Never,-%3A%20MFA%20is%20not"
     Severity = PantherSeverity.High
-    LogTypes = [LogType.Auth0_Events]
+    LogTypes = [PantherLogType.Auth0_Events]
     RuleID = "Auth0.MFA.Policy.Disabled-prototype"
     Tests = auth0_mfa_policy_disabled_tests
 

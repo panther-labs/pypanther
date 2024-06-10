@@ -3,7 +3,7 @@ from typing import List
 from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import deep_get
 from pypanther.helpers.panther_tines_helpers import tines_alert_context
-from pypanther.log_types import LogType
+from pypanther.log_types import PantherLogType
 
 tines_enqueued_retrying_job_destruction_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -60,7 +60,7 @@ tines_enqueued_retrying_job_destruction_tests: List[PantherRuleTest] = [
 class TinesEnqueuedRetryingJobDestruction(PantherRule):
     RuleID = "Tines.Enqueued.Retrying.Job.Destruction-prototype"
     DisplayName = "Tines Enqueued/Retrying Job Deletion"
-    LogTypes = [LogType.Tines_Audit]
+    LogTypes = [PantherLogType.Tines_Audit]
     Tags = ["Tines"]
     Severity = PantherSeverity.Low
     Description = "Currently enqueued or retrying jobs were cleared"

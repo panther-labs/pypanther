@@ -8,7 +8,7 @@ from pypanther.helpers.panther_base_helpers import (
     pattern_match,
     pattern_match_list,
 )
-from pypanther.log_types import LogType
+from pypanther.log_types import PantherLogType
 
 g_suite_drive_external_file_share_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -124,7 +124,7 @@ class GSuiteDriveExternalFileShare(PantherRule):
     RuleID = "GSuite.Drive.ExternalFileShare-prototype"
     DisplayName = "External GSuite File Share"
     Enabled = False
-    LogTypes = [LogType.GSuite_Reports]
+    LogTypes = [PantherLogType.GSuite_Reports]
     Tags = [
         "GSuite",
         "Security Control",

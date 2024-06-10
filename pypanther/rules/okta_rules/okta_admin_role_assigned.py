@@ -3,7 +3,7 @@ from typing import List
 
 from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import deep_get, okta_alert_context
-from pypanther.log_types import LogType
+from pypanther.log_types import PantherLogType
 
 okta_admin_role_assigned_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -128,7 +128,7 @@ okta_admin_role_assigned_tests: List[PantherRuleTest] = [
 class OktaAdminRoleAssigned(PantherRule):
     RuleID = "Okta.AdminRoleAssigned-prototype"
     DisplayName = "Okta Admin Role Assigned"
-    LogTypes = [LogType.Okta_SystemLog]
+    LogTypes = [PantherLogType.Okta_SystemLog]
     Tags = ["Identity & Access Management", "Okta", "Privilege Escalation:Valid Accounts"]
     Reports = {"MITRE ATT&CK": ["TA0004:T1078"]}
     Severity = PantherSeverity.Info

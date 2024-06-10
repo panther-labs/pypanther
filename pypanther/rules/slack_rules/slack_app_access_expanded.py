@@ -2,7 +2,7 @@ from typing import List
 
 from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import deep_get, slack_alert_context
-from pypanther.log_types import LogType
+from pypanther.log_types import PantherLogType
 
 slack_audit_logs_app_access_expanded_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -227,7 +227,7 @@ slack_audit_logs_app_access_expanded_tests: List[PantherRuleTest] = [
 class SlackAuditLogsAppAccessExpanded(PantherRule):
     RuleID = "Slack.AuditLogs.AppAccessExpanded-prototype"
     DisplayName = "Slack App Access Expanded"
-    LogTypes = [LogType.Slack_AuditLogs]
+    LogTypes = [PantherLogType.Slack_AuditLogs]
     Tags = ["Slack", "Privilege Escalation", "Account Manipulation"]
     Reports = {"MITRE ATT&CK": ["TA0004:T1098"]}
     Severity = PantherSeverity.Medium

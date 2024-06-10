@@ -2,7 +2,7 @@ from typing import List
 
 from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import okta_alert_context
-from pypanther.log_types import LogType
+from pypanther.log_types import PantherLogType
 
 okta_user_mfa_reset_all_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -122,7 +122,7 @@ class OktaUserMFAResetAll(PantherRule):
     DisplayName = "Okta User MFA Reset All"
     Reference = "https://help.okta.com/en-us/content/topics/security/mfa/mfa-reset-users.htm#:~:text=the%20Admin%20Console%3A-,In%20the%20Admin%20Console%2C%20go%20to%20DirectoryPeople.,Selected%20Factors%20or%20Reset%20All"
     Severity = PantherSeverity.Low
-    LogTypes = [LogType.Okta_SystemLog]
+    LogTypes = [PantherLogType.Okta_SystemLog]
     RuleID = "Okta.User.MFA.Reset.All-prototype"
     Tests = okta_user_mfa_reset_all_tests
 

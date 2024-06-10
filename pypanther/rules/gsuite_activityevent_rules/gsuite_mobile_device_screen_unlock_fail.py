@@ -2,7 +2,7 @@ from typing import List
 
 from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import deep_get
-from pypanther.log_types import LogType
+from pypanther.log_types import PantherLogType
 
 g_suite_device_unlock_failure_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -58,7 +58,7 @@ g_suite_device_unlock_failure_tests: List[PantherRuleTest] = [
 class GSuiteDeviceUnlockFailure(PantherRule):
     RuleID = "GSuite.DeviceUnlockFailure-prototype"
     DisplayName = "GSuite User Device Unlock Failures"
-    LogTypes = [LogType.GSuite_ActivityEvent]
+    LogTypes = [PantherLogType.GSuite_ActivityEvent]
     Tags = ["GSuite", "Credential Access:Brute Force"]
     Reports = {"MITRE ATT&CK": ["TA0006:T1110"]}
     Severity = PantherSeverity.Medium

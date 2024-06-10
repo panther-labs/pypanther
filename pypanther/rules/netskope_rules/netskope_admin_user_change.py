@@ -1,7 +1,7 @@
 from typing import List
 
 from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
-from pypanther.log_types import LogType
+from pypanther.log_types import PantherLogType
 
 netskope_admin_user_change_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -57,7 +57,7 @@ netskope_admin_user_change_tests: List[PantherRuleTest] = [
 class NetskopeAdminUserChange(PantherRule):
     RuleID = "Netskope.AdminUserChange-prototype"
     DisplayName = "An administrator account was created, deleted, or modified."
-    LogTypes = [LogType.Netskope_Audit]
+    LogTypes = [PantherLogType.Netskope_Audit]
     Tags = ["Netskope", "Account Manipulation"]
     Reports = {"MITRE ATT&CK": ["TA0004:T1098"]}
     Severity = PantherSeverity.High

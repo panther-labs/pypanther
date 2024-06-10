@@ -5,7 +5,7 @@ from panther_detection_helpers.caching import add_to_string_set, get_string_set,
 
 from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import is_ip_in_network
-from pypanther.log_types import LogType
+from pypanther.log_types import PantherLogType
 
 one_login_active_login_activity_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -37,7 +37,7 @@ one_login_active_login_activity_tests: List[PantherRuleTest] = [
 class OneLoginActiveLoginActivity(PantherRule):
     RuleID = "OneLogin.ActiveLoginActivity-prototype"
     DisplayName = "OneLogin Active Login Activity"
-    LogTypes = [LogType.OneLogin_Events]
+    LogTypes = [PantherLogType.OneLogin_Events]
     Tags = ["OneLogin", "Lateral Movement:Use Alternate Authentication Material"]
     Severity = PantherSeverity.Medium
     Reports = {"MITRE ATT&CK": ["TA0008:T1550"]}

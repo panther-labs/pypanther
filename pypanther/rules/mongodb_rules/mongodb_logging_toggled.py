@@ -2,7 +2,7 @@ from typing import List
 
 from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_mongodb_helpers import mongodb_alert_context
-from pypanther.log_types import LogType
+from pypanther.log_types import PantherLogType
 
 mongo_db_logging_toggled_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -71,7 +71,7 @@ class MongoDBLoggingToggled(PantherRule):
     DisplayName = "MongoDB logging toggled"
     Severity = PantherSeverity.Low
     Reference = "https://attack.mitre.org/techniques/T1562/008/"
-    LogTypes = [LogType.MongoDB_ProjectEvent]
+    LogTypes = [PantherLogType.MongoDB_ProjectEvent]
     RuleID = "MongoDB.Logging.Toggled-prototype"
     Tests = mongo_db_logging_toggled_tests
 

@@ -3,7 +3,7 @@ from typing import List
 
 from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import deep_get
-from pypanther.log_types import LogType
+from pypanther.log_types import PantherLogType
 
 osquery_mac_osx_attacks_keyboard_events_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -70,7 +70,7 @@ osquery_mac_osx_attacks_keyboard_events_tests: List[PantherRuleTest] = [
 class OsqueryMacOSXAttacksKeyboardEvents(PantherRule):
     RuleID = "Osquery.Mac.OSXAttacksKeyboardEvents-prototype"
     DisplayName = "MacOS Keyboard Events"
-    LogTypes = [LogType.Osquery_Differential]
+    LogTypes = [PantherLogType.Osquery_Differential]
     Tags = ["Osquery", "MacOS", "Malware", "Collection:Input Capture"]
     Reports = {"MITRE ATT&CK": ["TA0009:T1056"]}
     Severity = PantherSeverity.Medium

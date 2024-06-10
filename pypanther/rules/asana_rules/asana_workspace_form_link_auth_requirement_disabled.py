@@ -2,7 +2,7 @@ from typing import List
 
 from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import deep_get
-from pypanther.log_types import LogType
+from pypanther.log_types import PantherLogType
 
 asana_workspace_form_link_auth_requirement_disabled_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -59,7 +59,7 @@ class AsanaWorkspaceFormLinkAuthRequirementDisabled(PantherRule):
     DisplayName = "Asana Workspace Form Link Auth Requirement Disabled"
     Reference = "https://help.asana.com/hc/en-us/articles/14111697664923-Forms-access-permissions#:~:text=SSO%2C%20SAML%2C%20or-,no%20authentication%20method,-).%20If%20no%20authentication"
     Severity = PantherSeverity.Low
-    LogTypes = [LogType.Asana_Audit]
+    LogTypes = [PantherLogType.Asana_Audit]
     RuleID = "Asana.Workspace.Form.Link.Auth.Requirement.Disabled-prototype"
     Tests = asana_workspace_form_link_auth_requirement_disabled_tests
 

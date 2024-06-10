@@ -3,7 +3,7 @@ from typing import List
 from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.gcp_base_helpers import gcp_alert_context
 from pypanther.helpers.panther_base_helpers import deep_get, deep_walk
-from pypanther.log_types import LogType
+from pypanther.log_types import PantherLogType
 
 gcpk8_s_pot_create_or_modify_host_path_volume_mount_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -225,7 +225,7 @@ gcpk8_s_pot_create_or_modify_host_path_volume_mount_tests: List[PantherRuleTest]
 class GCPK8SPotCreateOrModifyHostPathVolumeMount(PantherRule):
     RuleID = "GCP.K8S.Pot.Create.Or.Modify.Host.Path.Volume.Mount-prototype"
     DisplayName = "GCP K8S Pot Create Or Modify Host Path Volume Mount"
-    LogTypes = [LogType.GCP_AuditLog]
+    LogTypes = [PantherLogType.GCP_AuditLog]
     Severity = PantherSeverity.High
     Description = "This detection monitors for pod creation with a hostPath volume mount. The attachment to a node's volume can allow for privilege escalation through underlying vulnerabilities or it can open up possibilities for data exfiltration or unauthorized file access. It is very rare to see this being a pod requirement.\n"
     Runbook = "Investigate the reason of adding hostPath volume mount. Advise that it is discouraged practice. Create ticket if appropriate.\n"

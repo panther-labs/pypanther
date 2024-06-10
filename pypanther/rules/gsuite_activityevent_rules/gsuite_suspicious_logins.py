@@ -2,7 +2,7 @@ from typing import List
 
 from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import deep_get
-from pypanther.log_types import LogType
+from pypanther.log_types import PantherLogType
 
 g_suite_suspicious_logins_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -44,7 +44,7 @@ g_suite_suspicious_logins_tests: List[PantherRuleTest] = [
 class GSuiteSuspiciousLogins(PantherRule):
     RuleID = "GSuite.SuspiciousLogins-prototype"
     DisplayName = "Suspicious GSuite Login"
-    LogTypes = [LogType.GSuite_ActivityEvent]
+    LogTypes = [PantherLogType.GSuite_ActivityEvent]
     Tags = ["GSuite"]
     Severity = PantherSeverity.Medium
     Description = "GSuite reported a suspicious login for this user.\n"

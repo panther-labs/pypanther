@@ -6,7 +6,7 @@ from pypanther.helpers.panther_tailscale_helpers import (
     is_tailscale_admin_console_event,
     tailscale_alert_context,
 )
-from pypanther.log_types import LogType
+from pypanther.log_types import PantherLogType
 
 tailscale_magic_dns_disabled_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -86,7 +86,7 @@ class TailscaleMagicDNSDisabled(PantherRule):
     Runbook = "Assess if this was done by the user for a valid business reason. Be vigilant to re-enable this setting as it's in the best security interest for your organization's security posture."
     Reference = "https://tailscale.com/kb/1081/magicdns/"
     Severity = PantherSeverity.High
-    LogTypes = [LogType.Tailscale_Audit]
+    LogTypes = [PantherLogType.Tailscale_Audit]
     RuleID = "Tailscale.Magic.DNS.Disabled-prototype"
     Tests = tailscale_magic_dns_disabled_tests
 

@@ -2,7 +2,7 @@ from typing import List
 
 from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_mongodb_helpers import mongodb_alert_context
-from pypanther.log_types import LogType
+from pypanther.log_types import PantherLogType
 
 mongo_db_user_roles_changed_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -71,7 +71,7 @@ class MongoDBUserRolesChanged(PantherRule):
     DisplayName = "MongoDB user roles changed"
     Severity = PantherSeverity.Low
     Reference = "https://www.mongodb.com/docs/v4.2/tutorial/create-users/"
-    LogTypes = [LogType.MongoDB_OrganizationEvent]
+    LogTypes = [PantherLogType.MongoDB_OrganizationEvent]
     RuleID = "MongoDB.User.Roles.Changed-prototype"
     Tests = mongo_db_user_roles_changed_tests
 

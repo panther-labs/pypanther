@@ -2,7 +2,7 @@ from typing import List
 
 from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import aws_rule_context, pattern_match
-from pypanther.log_types import LogType
+from pypanther.log_types import PantherLogType
 
 awss3_server_access_error_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -83,7 +83,7 @@ class AWSS3ServerAccessError(PantherRule):
     DisplayName = "AWS S3 Access Error"
     DedupPeriodMinutes = 180
     Threshold = 5
-    LogTypes = [LogType.AWS_S3ServerAccess]
+    LogTypes = [PantherLogType.AWS_S3ServerAccess]
     Tags = ["AWS", "Security Control", "Discovery:Cloud Storage Object Discovery"]
     Reports = {"MITRE ATT&CK": ["TA0007:T1619"]}
     Severity = PantherSeverity.Info

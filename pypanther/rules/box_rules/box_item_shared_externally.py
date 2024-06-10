@@ -7,7 +7,7 @@ from pypanther.helpers.panther_box_helpers import (
     lookup_box_file,
     lookup_box_folder,
 )
-from pypanther.log_types import LogType
+from pypanther.log_types import PantherLogType
 
 box_item_shared_externally_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -49,7 +49,7 @@ class BoxItemSharedExternally(PantherRule):
     RuleID = "Box.Item.Shared.Externally-prototype"
     DisplayName = "Box item shared externally"
     Enabled = False
-    LogTypes = [LogType.Box_Event]
+    LogTypes = [PantherLogType.Box_Event]
     Tags = ["Box", "Exfiltration:Exfiltration Over Web Service", "Configuration Required"]
     Reports = {"MITRE ATT&CK": ["TA0010:T1567"]}
     Severity = PantherSeverity.Medium

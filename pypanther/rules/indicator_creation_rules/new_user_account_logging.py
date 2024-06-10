@@ -6,7 +6,7 @@ from panther_detection_helpers.caching import put_string_set
 import pypanther.helpers.panther_event_type_helpers as event_type
 from pypanther.base import PantherRule, PantherRuleMock, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_oss_helpers import resolve_timestamp_string
-from pypanther.log_types import LogType
+from pypanther.log_types import PantherLogType
 
 standard_new_user_account_created_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -66,6 +66,7 @@ standard_new_user_account_created_tests: List[PantherRuleTest] = [
     PantherRuleTest(
         Name="User Creation Event - Zoom",
         ExpectedResult=True,
+        Mocks=[PantherRuleMock(ObjectName="put_string_set", ReturnValue="")],
         Log={
             "action": "Add",
             "category_type": "User",
@@ -81,7 +82,11 @@ standard_new_user_account_created_tests: List[PantherRuleTest] = [
 class StandardNewUserAccountCreated(PantherRule):
     RuleID = "Standard.NewUserAccountCreated-prototype"
     DisplayName = "New User Account Created"
-    LogTypes = [LogType.OneLogin_Events, LogType.AWS_CloudTrail, LogType.Zoom_Operation]
+    LogTypes = [
+        PantherLogType.OneLogin_Events,
+        PantherLogType.AWS_CloudTrail,
+        PantherLogType.Zoom_Operation,
+    ]
     Tags = ["DataModel", "Indicator Collection", "OneLogin", "Persistence:Create Account"]
     Severity = PantherSeverity.Info
     Reports = {"MITRE ATT&CK": ["TA0003:T1136"]}
@@ -97,7 +102,7 @@ class StandardNewUserAccountCreated(PantherRule):
         if event.udm("event_type") != event_type.USER_ACCOUNT_CREATED:
             return False
         user_event_id = f"new_user_{event.get('p_row_id')}"
-        new_user = event.udm("user")
+        new_user = event.udm("user") or "<UNKNOWN_USER>"
         new_account = event.udm("user_account_id") or "<UNKNOWN_ACCOUNT>"
         event_time = resolve_timestamp_string(event.get("p_event_time"))
         expiry_time = event_time + self.TTL

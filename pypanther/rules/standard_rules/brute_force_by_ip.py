@@ -4,8 +4,9 @@ from typing import List
 import pypanther.helpers.panther_event_type_helpers as event_type
 from pypanther.base import PantherRule, PantherRuleMock, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_default import lookup_aws_account_name
-from pypanther.helpers.panther_oss_helpers import add_parse_delay, geoinfo_from_ip
-from pypanther.log_types import LogType
+from pypanther.helpers.panther_ipinfo_helpers import geoinfo_from_ip
+from pypanther.helpers.panther_oss_helpers import add_parse_delay
+from pypanther.log_types import PantherLogType
 
 standard_brute_force_by_ip_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -391,14 +392,14 @@ class StandardBruteForceByIP(PantherRule):
     RuleID = "Standard.BruteForceByIP-prototype"
     DisplayName = "Brute Force By IP"
     LogTypes = [
-        LogType.Asana_Audit,
-        LogType.Atlassian_Audit,
-        LogType.AWS_CloudTrail,
-        LogType.Box_Event,
-        LogType.GSuite_Reports,
-        LogType.Okta_SystemLog,
-        LogType.OneLogin_Events,
-        LogType.OnePassword_SignInAttempt,
+        PantherLogType.Asana_Audit,
+        PantherLogType.Atlassian_Audit,
+        PantherLogType.AWS_CloudTrail,
+        PantherLogType.Box_Event,
+        PantherLogType.GSuite_Reports,
+        PantherLogType.Okta_SystemLog,
+        PantherLogType.OneLogin_Events,
+        PantherLogType.OnePassword_SignInAttempt,
     ]
     Severity = PantherSeverity.Info
     Tags = ["DataModel", "Credential Access:Brute Force"]
@@ -425,7 +426,7 @@ class StandardBruteForceByIP(PantherRule):
         return title_str
 
     def alert_context(self, event):
-        geoinfo = geoinfo_from_ip(event.udm("source_ip"))
+        geoinfo = geoinfo_from_ip(event=event, match_field=event.udm_path("source_ip"))
         if isinstance(geoinfo, str):
             geoinfo = loads(geoinfo)
         context = {}

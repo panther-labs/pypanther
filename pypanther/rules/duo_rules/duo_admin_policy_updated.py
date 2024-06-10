@@ -2,7 +2,7 @@ from typing import List
 
 from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_duo_helpers import duo_alert_context
-from pypanther.log_types import LogType
+from pypanther.log_types import PantherLogType
 
 duo_admin_policy_updated_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -36,7 +36,7 @@ class DuoAdminPolicyUpdated(PantherRule):
     DisplayName = "Duo Admin Policy Updated"
     Reference = "https://duo.com/docs/policy#authenticators-policy-settings"
     Severity = PantherSeverity.Medium
-    LogTypes = [LogType.Duo_Administrator]
+    LogTypes = [PantherLogType.Duo_Administrator]
     RuleID = "Duo.Admin.Policy.Updated-prototype"
     Tests = duo_admin_policy_updated_tests
 

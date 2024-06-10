@@ -2,7 +2,7 @@ from typing import List
 
 from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import deep_get, slack_alert_context
-from pypanther.log_types import LogType
+from pypanther.log_types import PantherLogType
 
 slack_audit_logs_user_privilege_escalation_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -152,7 +152,7 @@ slack_audit_logs_user_privilege_escalation_tests: List[PantherRuleTest] = [
 class SlackAuditLogsUserPrivilegeEscalation(PantherRule):
     RuleID = "Slack.AuditLogs.UserPrivilegeEscalation-prototype"
     DisplayName = "Slack User Privilege Escalation"
-    LogTypes = [LogType.Slack_AuditLogs]
+    LogTypes = [PantherLogType.Slack_AuditLogs]
     Tags = ["Slack", "Privilege Escalation", "Account Manipulation", "Additional Cloud Roles"]
     Reports = {"MITRE ATT&CK": ["TA0004:T1098.003"]}
     Severity = PantherSeverity.High

@@ -3,7 +3,7 @@ from typing import List
 from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import deep_get
 from pypanther.helpers.panther_config import config
-from pypanther.log_types import LogType
+from pypanther.log_types import PantherLogType
 
 g_suite_external_mail_forwarding_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -77,7 +77,7 @@ class GSuiteExternalMailForwarding(PantherRule):
     RuleID = "GSuite.ExternalMailForwarding-prototype"
     DisplayName = "Gsuite Mail forwarded to external domain"
     Enabled = False
-    LogTypes = [LogType.GSuite_ActivityEvent]
+    LogTypes = [PantherLogType.GSuite_ActivityEvent]
     Tags = ["GSuite", "Collection:Email Collection", "Configuration Required"]
     Reports = {"MITRE ATT&CK": ["TA0009:T1114"]}
     Severity = PantherSeverity.High

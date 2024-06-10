@@ -3,7 +3,7 @@ from typing import List
 from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import deep_get
 from pypanther.helpers.panther_snyk_helpers import snyk_alert_context
-from pypanther.log_types import LogType
+from pypanther.log_types import PantherLogType
 
 snyk_system_policy_setting_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -98,7 +98,7 @@ snyk_system_policy_setting_tests: List[PantherRuleTest] = [
 class SnykSystemPolicySetting(PantherRule):
     RuleID = "Snyk.System.PolicySetting-prototype"
     DisplayName = "Snyk System Policy Settings Changed"
-    LogTypes = [LogType.Snyk_GroupAudit, LogType.Snyk_OrgAudit]
+    LogTypes = [PantherLogType.Snyk_GroupAudit, PantherLogType.Snyk_OrgAudit]
     Tags = ["Snyk"]
     Severity = PantherSeverity.High
     Description = "Detects Snyk Policy Settings have been changed. Policies define Snyk's behavior when encountering security and licensing issues.\n"

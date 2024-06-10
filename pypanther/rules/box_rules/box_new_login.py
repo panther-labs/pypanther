@@ -2,7 +2,7 @@ from typing import List
 
 from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import deep_get
-from pypanther.log_types import LogType
+from pypanther.log_types import PantherLogType
 
 box_new_login_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -42,7 +42,7 @@ box_new_login_tests: List[PantherRuleTest] = [
 class BoxNewLogin(PantherRule):
     RuleID = "Box.New.Login-prototype"
     DisplayName = "Box New Login"
-    LogTypes = [LogType.Box_Event]
+    LogTypes = [PantherLogType.Box_Event]
     Tags = ["Box", "Initial Access:Valid Accounts"]
     Reports = {"MITRE ATT&CK": ["TA0001:T1078"]}
     Severity = PantherSeverity.Info

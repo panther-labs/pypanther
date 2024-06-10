@@ -2,7 +2,7 @@ from typing import List
 
 from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_mongodb_helpers import mongodb_alert_context
-from pypanther.log_types import LogType
+from pypanther.log_types import PantherLogType
 
 mongo_db_identity_provider_activity_tests: List[PantherRuleTest] = [
     PantherRuleTest(Name="Random event", ExpectedResult=False, Log={"eventTypeName": "cat_jumped"}),
@@ -24,7 +24,7 @@ class MongoDBIdentityProviderActivity(PantherRule):
     DisplayName = "MongoDB Identity Provider Activity"
     Severity = PantherSeverity.Medium
     Reference = "https://attack.mitre.org/techniques/T1556/007/"
-    LogTypes = [LogType.MongoDB_OrganizationEvent]
+    LogTypes = [PantherLogType.MongoDB_OrganizationEvent]
     RuleID = "MongoDB.Identity.Provider.Activity-prototype"
     Tests = mongo_db_identity_provider_activity_tests
 

@@ -1,7 +1,7 @@
 from typing import List
 
 from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
-from pypanther.log_types import LogType
+from pypanther.log_types import PantherLogType
 
 git_hub_user_access_key_created_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -32,7 +32,7 @@ git_hub_user_access_key_created_tests: List[PantherRuleTest] = [
 class GitHubUserAccessKeyCreated(PantherRule):
     RuleID = "GitHub.User.AccessKeyCreated-prototype"
     DisplayName = "GitHub User Access Key Created"
-    LogTypes = [LogType.GitHub_Audit]
+    LogTypes = [PantherLogType.GitHub_Audit]
     Tags = ["GitHub", "Persistence:Valid Accounts"]
     Reports = {"MITRE ATT&CK": ["TA0003:T1078"]}
     Reference = "https://docs.github.com/en/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent"

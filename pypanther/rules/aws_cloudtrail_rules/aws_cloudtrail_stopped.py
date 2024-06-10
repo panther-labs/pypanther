@@ -3,7 +3,7 @@ from typing import List
 from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import aws_rule_context, deep_get
 from pypanther.helpers.panther_default import aws_cloudtrail_success, lookup_aws_account_name
-from pypanther.log_types import LogType
+from pypanther.log_types import PantherLogType
 
 aws_cloud_trail_stopped_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -150,7 +150,7 @@ aws_cloud_trail_stopped_tests: List[PantherRuleTest] = [
 class AWSCloudTrailStopped(PantherRule):
     RuleID = "AWS.CloudTrail.Stopped-prototype"
     DisplayName = "CloudTrail Stopped"
-    LogTypes = [LogType.AWS_CloudTrail]
+    LogTypes = [PantherLogType.AWS_CloudTrail]
     Tags = ["AWS", "Security Control", "DemoThreatHunting", "Defense Evasion:Impair Defenses"]
     Reports = {"CIS": ["3.5"], "MITRE ATT&CK": ["TA0005:T1562"]}
     Severity = PantherSeverity.Medium

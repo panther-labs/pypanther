@@ -1,7 +1,7 @@
 from typing import List
 
 from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
-from pypanther.log_types import LogType
+from pypanther.log_types import PantherLogType
 
 git_hub_branch_policy_override_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -34,7 +34,7 @@ git_hub_branch_policy_override_tests: List[PantherRuleTest] = [
 class GitHubBranchPolicyOverride(PantherRule):
     RuleID = "GitHub.Branch.PolicyOverride-prototype"
     DisplayName = "GitHub Branch Protection Policy Override"
-    LogTypes = [LogType.GitHub_Audit]
+    LogTypes = [PantherLogType.GitHub_Audit]
     Tags = ["GitHub", "Initial Access:Supply Chain Compromise"]
     Reports = {"MITRE ATT&CK": ["TA0001:T1195"]}
     Severity = PantherSeverity.High

@@ -2,7 +2,7 @@ from typing import List
 
 from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import defang_ioc, is_base64
-from pypanther.log_types import LogType
+from pypanther.log_types import PantherLogType
 
 standard_dns_base64_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -222,7 +222,11 @@ class StandardDNSBase64(PantherRule):
     Enabled = False
     Reference = "https://zofixer.com/what-is-base64-disclosure-vulnerability/"
     Severity = PantherSeverity.Medium
-    LogTypes = [LogType.Crowdstrike_FDREvent, LogType.AWS_VPCDns, LogType.CiscoUmbrella_DNS]
+    LogTypes = [
+        PantherLogType.Crowdstrike_FDREvent,
+        PantherLogType.AWS_VPCDns,
+        PantherLogType.CiscoUmbrella_DNS,
+    ]
     Tests = standard_dns_base64_tests
     DECODED = ""
 

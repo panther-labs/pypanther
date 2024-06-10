@@ -2,7 +2,7 @@ from typing import List
 
 from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import deep_get
-from pypanther.log_types import LogType
+from pypanther.log_types import PantherLogType
 
 g_suite_two_step_verification_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -33,7 +33,7 @@ g_suite_two_step_verification_tests: List[PantherRuleTest] = [
 class GSuiteTwoStepVerification(PantherRule):
     RuleID = "GSuite.TwoStepVerification-prototype"
     DisplayName = "GSuite User Two Step Verification Change"
-    LogTypes = [LogType.GSuite_ActivityEvent]
+    LogTypes = [PantherLogType.GSuite_ActivityEvent]
     Tags = ["GSuite", "Defense Evasion:Modify Authentication Process"]
     Reports = {"MITRE ATT&CK": ["TA0005:T1556"]}
     Severity = PantherSeverity.Low

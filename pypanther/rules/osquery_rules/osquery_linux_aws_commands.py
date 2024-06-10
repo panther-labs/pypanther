@@ -3,7 +3,7 @@ from typing import List
 
 from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import deep_get
-from pypanther.log_types import LogType
+from pypanther.log_types import PantherLogType
 
 osquery_linux_aws_command_executed_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -83,7 +83,7 @@ osquery_linux_aws_command_executed_tests: List[PantherRuleTest] = [
 class OsqueryLinuxAWSCommandExecuted(PantherRule):
     RuleID = "Osquery.Linux.AWSCommandExecuted-prototype"
     DisplayName = "AWS command executed on the command line"
-    LogTypes = [LogType.Osquery_Differential]
+    LogTypes = [PantherLogType.Osquery_Differential]
     Tags = ["Osquery", "Linux", "Execution:User Execution"]
     Reports = {"MITRE ATT&CK": ["TA0002:T1204"]}
     Severity = PantherSeverity.Medium

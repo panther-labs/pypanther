@@ -6,7 +6,7 @@ from pypanther.helpers.panther_base_helpers import (
     golang_nanotime_to_python_datetime,
     panther_nanotime_to_python_datetime,
 )
-from pypanther.log_types import LogType
+from pypanther.log_types import PantherLogType
 
 teleport_long_lived_certs_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -75,7 +75,7 @@ teleport_long_lived_certs_tests: List[PantherRuleTest] = [
 class TeleportLongLivedCerts(PantherRule):
     RuleID = "Teleport.LongLivedCerts-prototype"
     DisplayName = "A long-lived cert was created"
-    LogTypes = [LogType.Gravitational_TeleportAudit]
+    LogTypes = [PantherLogType.Gravitational_TeleportAudit]
     Tags = ["Teleport"]
     Severity = PantherSeverity.Medium
     Description = "An unusually long-lived Teleport certificate was created"

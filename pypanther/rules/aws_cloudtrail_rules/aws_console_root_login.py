@@ -4,7 +4,7 @@ from pypanther.base import PantherRule, PantherRuleMock, PantherRuleTest, Panthe
 from pypanther.helpers.panther_base_helpers import deep_get
 from pypanther.helpers.panther_default import lookup_aws_account_name
 from pypanther.helpers.panther_oss_helpers import geoinfo_from_ip_formatted
-from pypanther.log_types import LogType
+from pypanther.log_types import PantherLogType
 
 aws_console_root_login_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -99,7 +99,7 @@ class AWSConsoleRootLogin(PantherRule):
     RuleID = "AWS.Console.RootLogin-prototype"
     DisplayName = "Root Console Login"
     DedupPeriodMinutes = 15
-    LogTypes = [LogType.AWS_CloudTrail]
+    LogTypes = [PantherLogType.AWS_CloudTrail]
     Tags = [
         "AWS",
         "Identity & Access Management",

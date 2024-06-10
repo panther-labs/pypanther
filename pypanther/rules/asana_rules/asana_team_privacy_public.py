@@ -2,7 +2,7 @@ from typing import List
 
 from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import deep_get
-from pypanther.log_types import LogType
+from pypanther.log_types import PantherLogType
 
 asana_team_privacy_public_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -66,7 +66,7 @@ class AsanaTeamPrivacyPublic(PantherRule):
     DisplayName = "Asana Team Privacy Public"
     Reference = "https://help.asana.com/hc/en-us/articles/14211433439387-Team-permissions"
     Severity = PantherSeverity.Low
-    LogTypes = [LogType.Asana_Audit]
+    LogTypes = [PantherLogType.Asana_Audit]
     RuleID = "Asana.Team.Privacy.Public-prototype"
     Tests = asana_team_privacy_public_tests
 

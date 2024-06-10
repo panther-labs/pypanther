@@ -4,7 +4,7 @@ from unittest.mock import MagicMock
 
 from pypanther.base import PantherRule, PantherRuleMock, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import deep_get, github_alert_context
-from pypanther.log_types import LogType
+from pypanther.log_types import PantherLogType
 
 git_hub_action_failed_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -88,7 +88,7 @@ class GitHubActionFailed(PantherRule):
     RuleID = "GitHub.Action.Failed-prototype"
     DisplayName = "GitHub Action Failed"
     Enabled = False
-    LogTypes = [LogType.GitHub_Audit]
+    LogTypes = [PantherLogType.GitHub_Audit]
     Tags = ["GitHub", "Configuration Required"]
     Severity = PantherSeverity.High
     Description = "A monitored github action has failed."

@@ -2,7 +2,7 @@ from typing import List
 
 from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import deep_get
-from pypanther.log_types import LogType
+from pypanther.log_types import PantherLogType
 
 gcp_destructive_queries_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -143,7 +143,7 @@ class GCPDestructiveQueries(PantherRule):
     DisplayName = "GCP Destructive Queries"
     Reference = "https://cloud.google.com/bigquery/docs/managing-tables"
     Severity = PantherSeverity.Info
-    LogTypes = [LogType.GCP_AuditLog]
+    LogTypes = [PantherLogType.GCP_AuditLog]
     RuleID = "GCP.Destructive.Queries-prototype"
     Tests = gcp_destructive_queries_tests
     DESTRUCTIVE_STATEMENTS = ["UPDATE", "DELETE", "DROP_TABLE", "ALTER_TABLE", "TRUNCATE_TABLE"]

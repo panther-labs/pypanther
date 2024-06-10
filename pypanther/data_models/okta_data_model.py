@@ -3,7 +3,7 @@ from typing import List
 import pypanther.helpers.panther_event_type_helpers as event_type
 from pypanther.base import PantherDataModel, PantherDataModelMapping
 from pypanther.helpers.panther_base_helpers import deep_get
-from pypanther.log_types import LogType
+from pypanther.log_types import PantherLogType
 
 
 def get_event_type(event):
@@ -46,7 +46,7 @@ class StandardOktaSystemLog(PantherDataModel):
     DataModelID: str = "Standard.Okta.SystemLog"
     DisplayName: str = "Okta System Log"
     Enabled: bool = True
-    LogTypes: List[str] = [LogType.Okta_SystemLog]
+    LogTypes: List[str] = [PantherLogType.Okta_SystemLog]
     Mappings: List[PantherDataModelMapping] = [
         PantherDataModelMapping(Name="actor_user", Method=get_actor_user),
         PantherDataModelMapping(Name="event_type", Method=get_event_type),

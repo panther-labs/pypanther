@@ -3,7 +3,7 @@ from typing import List
 from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import aws_rule_context, deep_get
 from pypanther.helpers.panther_default import lookup_aws_account_name
-from pypanther.log_types import LogType
+from pypanther.log_types import PantherLogType
 
 aws_console_root_login_failed_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -122,7 +122,7 @@ class AWSConsoleRootLoginFailed(PantherRule):
     RuleID = "AWS.Console.RootLoginFailed-prototype"
     DisplayName = "Failed Root Console Login"
     DedupPeriodMinutes = 15
-    LogTypes = [LogType.AWS_CloudTrail]
+    LogTypes = [PantherLogType.AWS_CloudTrail]
     Tags = [
         "AWS",
         "Identity & Access Management",

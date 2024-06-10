@@ -3,7 +3,7 @@ from typing import List
 from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.gcp_base_helpers import gcp_alert_context
 from pypanther.helpers.panther_base_helpers import deep_get
-from pypanther.log_types import LogType
+from pypanther.log_types import PantherLogType
 
 gcpk8s_pod_using_host_pid_namespace_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -46,7 +46,7 @@ gcpk8s_pod_using_host_pid_namespace_tests: List[PantherRuleTest] = [
 class GCPK8sPodUsingHostPIDNamespace(PantherRule):
     RuleID = "GCP.K8s.Pod.Using.Host.PID.Namespace-prototype"
     DisplayName = "GCP K8s Pod Using Host PID Namespace"
-    LogTypes = [LogType.GCP_AuditLog]
+    LogTypes = [PantherLogType.GCP_AuditLog]
     Tags = ["GCP", "Optional"]
     Severity = PantherSeverity.Medium
     Description = "This detection monitors for any pod creation or modification using the host PID namespace. The Host PID namespace enables a pod and its containers to have direct access and share the same view as of the host’s processes. This can offer a powerful escape hatch to the underlying host."

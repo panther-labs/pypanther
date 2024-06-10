@@ -1,7 +1,7 @@
 from typing import List
 
 from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
-from pypanther.log_types import LogType
+from pypanther.log_types import PantherLogType
 
 carbon_black_audit_user_added_outside_org_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -37,7 +37,7 @@ carbon_black_audit_user_added_outside_org_tests: List[PantherRuleTest] = [
 
 class CarbonBlackAuditUserAddedOutsideOrg(PantherRule):
     RuleID = "CarbonBlack.Audit.User.Added.Outside.Org-prototype"
-    LogTypes = [LogType.CarbonBlack_Audit]
+    LogTypes = [PantherLogType.CarbonBlack_Audit]
     Description = "Detects when a user from a different organization is added to Carbon Black."
     DisplayName = "Carbon Black User Added Outside Org"
     Severity = PantherSeverity.High

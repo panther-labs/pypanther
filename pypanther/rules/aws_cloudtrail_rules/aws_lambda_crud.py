@@ -3,7 +3,7 @@ from typing import List
 
 from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import aws_rule_context, deep_get
-from pypanther.log_types import LogType
+from pypanther.log_types import PantherLogType
 
 awslambdacrud_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -94,7 +94,7 @@ class AWSLAMBDACRUD(PantherRule):
     RuleID = "AWS.LAMBDA.CRUD-prototype"
     DisplayName = "Lambda CRUD Actions"
     Enabled = False
-    LogTypes = [LogType.AWS_CloudTrail]
+    LogTypes = [PantherLogType.AWS_CloudTrail]
     Tags = ["AWS", "Security Control", "Configuration Required"]
     Reports = {"CIS": ["3.12"], "MITRE ATT&CK": ["TA0005:T1525"]}
     Severity = PantherSeverity.High

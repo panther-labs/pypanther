@@ -3,7 +3,7 @@ from typing import List
 from panther_detection_helpers.caching import get_string_set, put_string_set
 
 from pypanther.base import PantherRule, PantherRuleMock, PantherRuleTest, PantherSeverity
-from pypanther.log_types import LogType
+from pypanther.log_types import PantherLogType
 
 git_hub_repo_initial_access_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -89,7 +89,7 @@ git_hub_repo_initial_access_tests: List[PantherRuleTest] = [
 class GitHubRepoInitialAccess(PantherRule):
     RuleID = "GitHub.Repo.InitialAccess-prototype"
     DisplayName = "GitHub User Initial Access to Private Repo"
-    LogTypes = [LogType.GitHub_Audit]
+    LogTypes = [PantherLogType.GitHub_Audit]
     Tags = ["GitHub"]
     Reference = "https://docs.github.com/en/organizations/managing-user-access-to-your-organizations-repositories/managing-repository-roles/managing-an-individuals-access-to-an-organization-repository"
     Severity = PantherSeverity.Info

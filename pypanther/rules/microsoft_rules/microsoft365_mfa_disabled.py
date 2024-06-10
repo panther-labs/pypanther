@@ -3,7 +3,7 @@ from typing import List
 
 from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import m365_alert_context
-from pypanther.log_types import LogType
+from pypanther.log_types import PantherLogType
 
 microsoft365_mfa_disabled_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -124,7 +124,7 @@ class Microsoft365MFADisabled(PantherRule):
     Runbook = "Depending on company policy, either suggest or require the user re-enable two step verification."
     Reference = "https://learn.microsoft.com/en-us/microsoft-365/admin/security-and-compliance/set-up-multi-factor-authentication?view=o365-worldwide"
     Severity = PantherSeverity.Low
-    LogTypes = [LogType.Microsoft365_Audit_AzureActiveDirectory]
+    LogTypes = [PantherLogType.Microsoft365_Audit_AzureActiveDirectory]
     RuleID = "Microsoft365.MFA.Disabled-prototype"
     Tests = microsoft365_mfa_disabled_tests
 

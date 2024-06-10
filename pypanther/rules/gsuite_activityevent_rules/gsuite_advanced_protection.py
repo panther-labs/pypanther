@@ -2,7 +2,7 @@ from typing import List
 
 from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import deep_get
-from pypanther.log_types import LogType
+from pypanther.log_types import PantherLogType
 
 g_suite_advanced_protection_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -31,7 +31,7 @@ g_suite_advanced_protection_tests: List[PantherRuleTest] = [
 class GSuiteAdvancedProtection(PantherRule):
     RuleID = "GSuite.AdvancedProtection-prototype"
     DisplayName = "GSuite User Advanced Protection Change"
-    LogTypes = [LogType.GSuite_ActivityEvent]
+    LogTypes = [PantherLogType.GSuite_ActivityEvent]
     Tags = ["GSuite", "Defense Evasion:Impair Defenses"]
     Reports = {"MITRE ATT&CK": ["TA0005:T1562"]}
     Severity = PantherSeverity.Low

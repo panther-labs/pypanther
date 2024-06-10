@@ -2,7 +2,7 @@ from typing import List
 
 from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_mongodb_helpers import mongodb_alert_context
-from pypanther.log_types import LogType
+from pypanther.log_types import PantherLogType
 
 mongo_db_access_allowed_from_anywhere_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -43,7 +43,7 @@ mongo_db_access_allowed_from_anywhere_tests: List[PantherRuleTest] = [
 class MongoDBAccessAllowedFromAnywhere(PantherRule):
     Description = "Atlas only allows client connections to the database deployment from entries in the project's IP access list. This rule detects when 0.0.0.0/0 is added to that list, which allows access from anywhere."
     DisplayName = "MongoDB access allowed from anywhere"
-    LogTypes = [LogType.MongoDB_ProjectEvent]
+    LogTypes = [PantherLogType.MongoDB_ProjectEvent]
     RuleID = "MongoDB.Access.Allowed.From.Anywhere-prototype"
     Severity = PantherSeverity.High
     Reports = {"MITRE ATT&CK": ["T1021"]}

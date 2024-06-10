@@ -2,7 +2,7 @@ from typing import List
 
 from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_duo_helpers import duo_alert_context
-from pypanther.log_types import LogType
+from pypanther.log_types import PantherLogType
 
 duo_admin_mfa_restrictions_updated_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -37,7 +37,7 @@ class DuoAdminMFARestrictionsUpdated(PantherRule):
     DisplayName = "Duo Admin MFA Restrictions Updated"
     Reference = "https://duo.com/docs/essentials-overview"
     Severity = PantherSeverity.Medium
-    LogTypes = [LogType.Duo_Administrator]
+    LogTypes = [PantherLogType.Duo_Administrator]
     RuleID = "Duo.Admin.MFA.Restrictions.Updated-prototype"
     Tests = duo_admin_mfa_restrictions_updated_tests
 

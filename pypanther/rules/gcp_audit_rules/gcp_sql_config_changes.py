@@ -2,7 +2,7 @@ from typing import List
 
 from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import deep_get
-from pypanther.log_types import LogType
+from pypanther.log_types import PantherLogType
 
 gcpsql_config_changes_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -35,7 +35,7 @@ class GCPSQLConfigChanges(PantherRule):
     RuleID = "GCP.SQL.ConfigChanges-prototype"
     DisplayName = "GCP SQL Config Changes"
     DedupPeriodMinutes = 720
-    LogTypes = [LogType.GCP_AuditLog]
+    LogTypes = [PantherLogType.GCP_AuditLog]
     Tags = ["GCP", "Database"]
     Reports = {"CIS": ["2.11"]}
     Severity = PantherSeverity.Low

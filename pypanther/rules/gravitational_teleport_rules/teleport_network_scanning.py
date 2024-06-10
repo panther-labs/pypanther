@@ -1,7 +1,7 @@
 from typing import List
 
 from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
-from pypanther.log_types import LogType
+from pypanther.log_types import PantherLogType
 
 teleport_network_scanning_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -102,7 +102,7 @@ teleport_network_scanning_tests: List[PantherRuleTest] = [
 class TeleportNetworkScanning(PantherRule):
     RuleID = "Teleport.NetworkScanning-prototype"
     DisplayName = "Teleport Network Scan Initiated"
-    LogTypes = [LogType.Gravitational_TeleportAudit]
+    LogTypes = [PantherLogType.Gravitational_TeleportAudit]
     Tags = ["SSH", "Discovery:Network Service Discovery"]
     Severity = PantherSeverity.Medium
     Description = "A user has invoked a network scan that could potentially indicate enumeration of the network."

@@ -2,7 +2,7 @@ from typing import List
 
 from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import deep_get, deep_walk, okta_alert_context
-from pypanther.log_types import LogType
+from pypanther.log_types import PantherLogType
 
 okta_new_behavior_accessing_admin_console_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -295,7 +295,7 @@ okta_new_behavior_accessing_admin_console_tests: List[PantherRuleTest] = [
 class OktaNewBehaviorAccessingAdminConsole(PantherRule):
     RuleID = "Okta.New.Behavior.Accessing.Admin.Console-prototype"
     DisplayName = "Okta New Behaviors Acessing Admin Console"
-    LogTypes = [LogType.Okta_SystemLog]
+    LogTypes = [PantherLogType.Okta_SystemLog]
     Reports = {"MITRE ATT&CK": ["TA0001:T1078.004"]}
     Severity = PantherSeverity.High
     Description = "New Behaviors Observed while Accessing Okta Admin Console. A user attempted to access the Okta Admin Console from a new device with a new IP.\n"

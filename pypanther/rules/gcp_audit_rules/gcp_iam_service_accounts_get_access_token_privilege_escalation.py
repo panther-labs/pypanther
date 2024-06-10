@@ -3,7 +3,7 @@ from typing import List
 from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.gcp_base_helpers import gcp_alert_context
 from pypanther.helpers.panther_base_helpers import deep_get
-from pypanther.log_types import LogType
+from pypanther.log_types import PantherLogType
 
 gcpia_mservice_accountsget_access_token_privilege_escalation_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -106,7 +106,7 @@ gcpia_mservice_accountsget_access_token_privilege_escalation_tests: List[Panther
 class GCPIAMserviceAccountsgetAccessTokenPrivilegeEscalation(PantherRule):
     RuleID = "GCP.IAM.serviceAccounts.getAccessToken.Privilege.Escalation-prototype"
     DisplayName = "GCP IAM serviceAccounts getAccessToken Privilege Escalation"
-    LogTypes = [LogType.GCP_AuditLog]
+    LogTypes = [PantherLogType.GCP_AuditLog]
     Reports = {"MITRE ATT&CK": ["TA0004:T1548"]}
     Severity = PantherSeverity.High
     Description = "The Identity and Access Management (IAM) service manages authorization and authentication for a GCP environment. This means that there are very likely multiple privilege escalation methods that use the IAM service and/or its permissions."

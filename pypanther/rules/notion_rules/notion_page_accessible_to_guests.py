@@ -3,7 +3,7 @@ from typing import List
 from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import deep_get
 from pypanther.helpers.panther_notion_helpers import notion_alert_context
-from pypanther.log_types import LogType
+from pypanther.log_types import PantherLogType
 
 notion_page_perms_guest_perms_changed_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -78,7 +78,7 @@ notion_page_perms_guest_perms_changed_tests: List[PantherRuleTest] = [
 class NotionPagePermsGuestPermsChanged(PantherRule):
     RuleID = "Notion.PagePerms.GuestPermsChanged-prototype"
     DisplayName = "Notion Page Guest Permissions Changed"
-    LogTypes = [LogType.Notion_AuditLogs]
+    LogTypes = [PantherLogType.Notion_AuditLogs]
     Tags = ["Notion", "Data Security", "Information Disclosure"]
     Severity = PantherSeverity.Low
     Description = "The external guest permissions for a Notion page have been altered."

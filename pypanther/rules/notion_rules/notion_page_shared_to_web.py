@@ -2,13 +2,13 @@ from typing import List
 
 from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_notion_helpers import notion_alert_context
-from pypanther.log_types import LogType
+from pypanther.log_types import PantherLogType
 
 
 class NotionPageSharedToWeb(PantherRule):
     RuleID = "Notion.PageSharedToWeb-prototype"
     DisplayName = "Notion Page Published to Web"
-    LogTypes = [LogType.Notion_AuditLogs]
+    LogTypes = [PantherLogType.Notion_AuditLogs]
     Tags = ["Notion", "Data Security", "Information Disclosure"]
     Severity = PantherSeverity.Low
     Description = "A Notion User published a page to the web."

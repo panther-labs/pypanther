@@ -2,7 +2,7 @@ from typing import List
 
 from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import crowdstrike_detection_alert_context, deep_get
-from pypanther.log_types import LogType
+from pypanther.log_types import PantherLogType
 
 crowdstrike_systemlog_tampering_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -177,7 +177,7 @@ class CrowdstrikeSystemlogTampering(PantherRule):
     DisplayName = "Crowdstrike Systemlog Tampering"
     Reference = "https://attack.mitre.org/techniques/T1070/001/"
     Severity = PantherSeverity.High
-    LogTypes = [LogType.Crowdstrike_FDREvent]
+    LogTypes = [PantherLogType.Crowdstrike_FDREvent]
     RuleID = "Crowdstrike.Systemlog.Tampering-prototype"
     Tests = crowdstrike_systemlog_tampering_tests
     CLEARING_SYSTEM_LOG_TOOLS = {

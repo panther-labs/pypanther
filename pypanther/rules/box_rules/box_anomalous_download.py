@@ -2,7 +2,7 @@ from typing import List
 
 from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import box_parse_additional_details, deep_get
-from pypanther.log_types import LogType
+from pypanther.log_types import PantherLogType
 
 box_shield_anomalous_download_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -42,7 +42,7 @@ box_shield_anomalous_download_tests: List[PantherRuleTest] = [
 class BoxShieldAnomalousDownload(PantherRule):
     RuleID = "Box.Shield.Anomalous.Download-prototype"
     DisplayName = "Box Shield Detected Anomalous Download Activity"
-    LogTypes = [LogType.Box_Event]
+    LogTypes = [PantherLogType.Box_Event]
     Tags = ["Box", "Exfiltration:Exfiltration Over Web Service"]
     Reports = {"MITRE ATT&CK": ["TA0010:T1567"]}
     Severity = PantherSeverity.High

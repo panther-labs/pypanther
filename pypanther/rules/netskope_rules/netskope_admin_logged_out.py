@@ -1,7 +1,7 @@
 from typing import List
 
 from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
-from pypanther.log_types import LogType
+from pypanther.log_types import PantherLogType
 
 netskope_admin_logged_out_login_failures_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -57,7 +57,7 @@ netskope_admin_logged_out_login_failures_tests: List[PantherRuleTest] = [
 class NetskopeAdminLoggedOutLoginFailures(PantherRule):
     RuleID = "Netskope.AdminLoggedOutLoginFailures-prototype"
     DisplayName = "Admin logged out because of successive login failures"
-    LogTypes = [LogType.Netskope_Audit]
+    LogTypes = [PantherLogType.Netskope_Audit]
     Tags = ["Netskope", "Brute Force"]
     Reports = {"MITRE ATT&CK": ["TA0006:T1110"]}
     Severity = PantherSeverity.Medium

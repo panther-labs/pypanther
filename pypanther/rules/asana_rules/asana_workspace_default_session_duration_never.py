@@ -2,7 +2,7 @@ from typing import List
 
 from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import deep_get
-from pypanther.log_types import LogType
+from pypanther.log_types import PantherLogType
 
 asana_workspace_default_session_duration_never_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -59,7 +59,7 @@ class AsanaWorkspaceDefaultSessionDurationNever(PantherRule):
     DisplayName = "Asana Workspace Default Session Duration Never"
     Reference = "https://help.asana.com/hc/en-us/articles/14218320495899-Manage-Session-Duration"
     Severity = PantherSeverity.Low
-    LogTypes = [LogType.Asana_Audit]
+    LogTypes = [PantherLogType.Asana_Audit]
     RuleID = "Asana.Workspace.Default.Session.Duration.Never-prototype"
     Tests = asana_workspace_default_session_duration_never_tests
 

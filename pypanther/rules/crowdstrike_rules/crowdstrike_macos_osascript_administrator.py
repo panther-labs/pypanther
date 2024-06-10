@@ -2,7 +2,7 @@ from typing import List
 
 from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import crowdstrike_process_alert_context, deep_get
-from pypanther.log_types import LogType
+from pypanther.log_types import PantherLogType
 
 crowdstrike_macos_osascript_administrator_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -396,7 +396,7 @@ class CrowdstrikeMacosOsascriptAdministrator(PantherRule):
         "https://www.sentinelone.com/blog/how-offensive-actors-use-applescript-for-attacking-macos/"
     )
     Severity = PantherSeverity.Medium
-    LogTypes = [LogType.Crowdstrike_FDREvent]
+    LogTypes = [PantherLogType.Crowdstrike_FDREvent]
     Tests = crowdstrike_macos_osascript_administrator_tests
 
     def rule(self, event):

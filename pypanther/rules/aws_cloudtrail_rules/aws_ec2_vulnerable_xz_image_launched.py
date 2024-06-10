@@ -4,7 +4,7 @@ from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import aws_rule_context
 from pypanther.helpers.panther_default import aws_cloudtrail_success
 from pypanther.helpers.panther_iocs import XZ_AMIS
-from pypanther.log_types import LogType
+from pypanther.log_types import PantherLogType
 
 awsec2_vulnerable_xz_image_launched_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -728,7 +728,7 @@ class AWSEC2VulnerableXZImageLaunched(PantherRule):
     Tags = ["AWS", "Linux", "Emerging Threats", "Supply Chain Compromise"]
     Reports = {"MITRE ATT&CK": ["TA0001:T1195.001"]}
     Runbook = "- Verify that the AMI is indeed vulnerable to CVE-2024-3094 (xz -V being 5.6.0 or 5.6.1) - If the AMI is vulnerable, terminate the instance and launch a new instance with a non-vulnerable AMI\n"
-    LogTypes = [LogType.AWS_CloudTrail]
+    LogTypes = [PantherLogType.AWS_CloudTrail]
     RuleID = "AWS.EC2.Vulnerable.XZ.Image.Launched-prototype"
     Tests = awsec2_vulnerable_xz_image_launched_tests
     # AMIs published by Fedora between 2024-03-26 and 2024-04-02

@@ -1,14 +1,14 @@
 from typing import List
 
 from pypanther.base import PantherDataModel, PantherDataModelMapping
-from pypanther.log_types import LogType
+from pypanther.log_types import PantherLogType
 
 
 class StandardAWSVPCDns(PantherDataModel):
     DataModelID: str = "Standard.AWS.VPCDns"
     DisplayName: str = "AWS VPC DNS"
     Enabled: bool = True
-    LogTypes: List[str] = [LogType.AWS_VPCDns]
+    LogTypes: List[str] = [PantherLogType.AWS_VPCDns]
     Mappings: List[PantherDataModelMapping] = [
         PantherDataModelMapping(Name="source_ip", Path="srcAddr"),
         PantherDataModelMapping(Name="source_port", Path="srcPort"),

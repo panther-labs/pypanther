@@ -1,7 +1,7 @@
 from typing import List
 
 from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
-from pypanther.log_types import LogType
+from pypanther.log_types import PantherLogType
 
 push_security_unauthorized_id_p_login_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -99,7 +99,7 @@ class PushSecurityUnauthorizedIdPLogin(PantherRule):
     DisplayName = "Push Security Unauthorized IdP Login"
     Enabled = False
     Tags = ["Configuration Required"]
-    LogTypes = [LogType.PushSecurity_Activity]
+    LogTypes = [PantherLogType.PushSecurity_Activity]
     Severity = PantherSeverity.High
     Description = "Login to application with unauthorized identity provider which could indicate a SAMLjacking attack."
     Reference = "https://github.com/pushsecurity/saas-attacks/blob/main/techniques/samljacking/description.md"

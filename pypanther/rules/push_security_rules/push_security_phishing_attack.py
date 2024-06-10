@@ -1,7 +1,7 @@
 from typing import List
 
 from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
-from pypanther.log_types import LogType
+from pypanther.log_types import PantherLogType
 
 push_security_phishing_attack_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -72,7 +72,7 @@ push_security_phishing_attack_tests: List[PantherRuleTest] = [
 class PushSecurityPhishingAttack(PantherRule):
     RuleID = "Push.Security.Phishing.Attack-prototype"
     DisplayName = "Push Security Phishing Attack"
-    LogTypes = [LogType.PushSecurity_AttackDetection]
+    LogTypes = [PantherLogType.PushSecurity_AttackDetection]
     Severity = PantherSeverity.High
     Tests = push_security_phishing_attack_tests
 

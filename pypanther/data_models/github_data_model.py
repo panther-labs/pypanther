@@ -2,7 +2,7 @@ from typing import List
 
 import pypanther.helpers.panther_event_type_helpers as event_type
 from pypanther.base import PantherDataModel, PantherDataModelMapping
-from pypanther.log_types import LogType
+from pypanther.log_types import PantherLogType
 
 ADMIN_EVENTS = {
     "business.add_admin",
@@ -39,7 +39,7 @@ class StandardGithubAudit(PantherDataModel):
     DataModelID: str = "Standard.Github.Audit"
     DisplayName: str = "Github Audit"
     Enabled: bool = True
-    LogTypes: List[str] = [LogType.GitHub_Audit]
+    LogTypes: List[str] = [PantherLogType.GitHub_Audit]
     Mappings: List[PantherDataModelMapping] = [
         PantherDataModelMapping(Name="actor_user", Path="actor"),
         PantherDataModelMapping(Name="assigned_admin_role", Method=get_admin_role),

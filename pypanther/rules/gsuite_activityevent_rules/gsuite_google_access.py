@@ -2,7 +2,7 @@ from typing import List
 
 from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import deep_get
-from pypanther.log_types import LogType
+from pypanther.log_types import PantherLogType
 
 g_suite_google_access_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -21,7 +21,7 @@ g_suite_google_access_tests: List[PantherRuleTest] = [
 class GSuiteGoogleAccess(PantherRule):
     RuleID = "GSuite.GoogleAccess-prototype"
     DisplayName = "Google Accessed a GSuite Resource"
-    LogTypes = [LogType.GSuite_ActivityEvent]
+    LogTypes = [PantherLogType.GSuite_ActivityEvent]
     Tags = ["GSuite"]
     Severity = PantherSeverity.Low
     Description = "Google accessed one of your GSuite resources directly, most likely in response to a support incident.\n"

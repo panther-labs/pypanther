@@ -16,7 +16,21 @@ from panther_core.rule import (
 from pydantic import ValidationError
 
 from pypanther.base import PANTHER_RULE_ALL_ATTRS, PantherRule, PantherRuleModel, PantherSeverity
-from pypanther.log_types import LogType
+from pypanther.log_types import PantherLogType
+
+
+def test_pypanther_imports():
+    """Ensures things import in the init file can be used directly from pypanther"""
+    from pypanther import PantherDataModel  # noqa: F401
+    from pypanther import PantherDataModelMapping  # noqa: F401
+    from pypanther import PantherLogType  # noqa: F401
+    from pypanther import PantherRule  # noqa: F401
+    from pypanther import PantherRuleMock  # noqa: F401
+    from pypanther import PantherRuleTest  # noqa: F401
+    from pypanther import PantherSeverity  # noqa: F401
+    from pypanther import get_panther_rules  # noqa: F401
+    from pypanther import register  # noqa: F401
+    from pypanther import registered_rules  # noqa: F401
 
 
 def test_severity_less_than():
@@ -63,24 +77,24 @@ def test_override():
     class Test(PantherRule):
         RuleID = "old"
         Severity = PantherSeverity.High
-        LogTypes = [LogType.Panther_Audit, LogType.AlphaSOC_Alert]
+        LogTypes = [PantherLogType.Panther_Audit, PantherLogType.AlphaSOC_Alert]
         Tags = ["old", "old2"]
 
     assert Test.RuleID == "old"
     assert Test.Severity == PantherSeverity.High
-    assert Test.LogTypes == [LogType.Panther_Audit, LogType.AlphaSOC_Alert]
+    assert Test.LogTypes == [PantherLogType.Panther_Audit, PantherLogType.AlphaSOC_Alert]
     assert Test.Tags == ["old", "old2"]
 
     Test.override(
         RuleID="new",
         Severity=PantherSeverity.Low,
-        LogTypes=[LogType.Amazon_EKS_Audit],
+        LogTypes=[PantherLogType.Amazon_EKS_Audit],
         Tags=Test.Tags + ["new"],
     )
 
     assert Test.RuleID == "new"
     assert Test.Severity == PantherSeverity.Low
-    assert Test.LogTypes == [LogType.Amazon_EKS_Audit]
+    assert Test.LogTypes == [PantherLogType.Amazon_EKS_Audit]
     assert Test.Tags == ["old", "old2", "new"]
 
 

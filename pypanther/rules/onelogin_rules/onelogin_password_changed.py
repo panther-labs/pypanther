@@ -1,7 +1,7 @@
 from typing import List
 
 from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
-from pypanther.log_types import LogType
+from pypanther.log_types import PantherLogType
 
 one_login_password_changed_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -43,7 +43,7 @@ one_login_password_changed_tests: List[PantherRuleTest] = [
 class OneLoginPasswordChanged(PantherRule):
     RuleID = "OneLogin.PasswordChanged-prototype"
     DisplayName = "OneLogin User Password Changed"
-    LogTypes = [LogType.OneLogin_Events]
+    LogTypes = [PantherLogType.OneLogin_Events]
     Tags = ["OneLogin", "Identity & Access Management"]
     Severity = PantherSeverity.Info
     Description = "A user password was updated.\n"

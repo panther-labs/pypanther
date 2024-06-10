@@ -1,7 +1,7 @@
 from typing import List
 
 from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
-from pypanther.log_types import LogType
+from pypanther.log_types import PantherLogType
 
 github_repo_collaborator_change_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -49,7 +49,7 @@ github_repo_collaborator_change_tests: List[PantherRuleTest] = [
 class GithubRepoCollaboratorChange(PantherRule):
     RuleID = "Github.Repo.CollaboratorChange-prototype"
     DisplayName = "GitHub Repository Collaborator Change"
-    LogTypes = [LogType.GitHub_Audit]
+    LogTypes = [PantherLogType.GitHub_Audit]
     Tags = ["GitHub", "Initial Access:Supply Chain Compromise"]
     Reports = {"MITRE ATT&CK": ["TA0001:T1195"]}
     Severity = PantherSeverity.Medium

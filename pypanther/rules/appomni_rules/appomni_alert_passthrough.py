@@ -1,7 +1,7 @@
 from typing import List
 
 from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
-from pypanther.log_types import LogType
+from pypanther.log_types import PantherLogType
 
 app_omni_alert_passthrough_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -158,7 +158,7 @@ app_omni_alert_passthrough_tests: List[PantherRuleTest] = [
 class AppOmniAlertPassthrough(PantherRule):
     RuleID = "AppOmni.Alert.Passthrough-prototype"
     DisplayName = "AppOmni Alert Passthrough"
-    LogTypes = [LogType.AppOmni_Alerts]
+    LogTypes = [PantherLogType.AppOmni_Alerts]
     Severity = PantherSeverity.Medium
     Reports = {
         "MITRE ATT&CK": [

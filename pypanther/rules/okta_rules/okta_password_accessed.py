@@ -2,7 +2,7 @@ from typing import List
 
 from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import deep_get, get_val_from_list
-from pypanther.log_types import LogType
+from pypanther.log_types import PantherLogType
 
 okta_password_access_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -244,7 +244,7 @@ okta_password_access_tests: List[PantherRuleTest] = [
 class OktaPasswordAccess(PantherRule):
     RuleID = "Okta.PasswordAccess-prototype"
     DisplayName = "Okta Password Accessed"
-    LogTypes = [LogType.Okta_SystemLog]
+    LogTypes = [PantherLogType.Okta_SystemLog]
     Tags = ["Okta", "Credential Access:Unsecured Credentials"]
     Reports = {"MITRE ATT&CK": ["TA0006:T1552"]}
     Severity = PantherSeverity.Medium

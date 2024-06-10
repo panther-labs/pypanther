@@ -3,7 +3,7 @@ from typing import List
 
 from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import aws_rule_context, deep_get
-from pypanther.log_types import LogType
+from pypanther.log_types import PantherLogType
 
 aws_cloud_trail_unauthorized_api_call_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -119,7 +119,7 @@ class AWSCloudTrailUnauthorizedAPICall(PantherRule):
     RuleID = "AWS.CloudTrail.UnauthorizedAPICall-prototype"
     DisplayName = "Monitor Unauthorized API Calls"
     DedupPeriodMinutes = 1440
-    LogTypes = [LogType.AWS_CloudTrail]
+    LogTypes = [PantherLogType.AWS_CloudTrail]
     Tags = ["AWS", "Discovery:Cloud Service Discovery"]
     Reports = {"CIS": ["3.1"], "MITRE ATT&CK": ["TA0007:T1526"]}
     Severity = PantherSeverity.Info

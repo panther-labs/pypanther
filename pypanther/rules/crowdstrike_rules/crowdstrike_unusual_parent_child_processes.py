@@ -2,7 +2,7 @@ from typing import List
 
 from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import crowdstrike_detection_alert_context, deep_get
-from pypanther.log_types import LogType
+from pypanther.log_types import PantherLogType
 
 crowdstrike_unusual_parent_child_processes_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -177,7 +177,7 @@ class CrowdstrikeUnusualParentChildProcesses(PantherRule):
     DisplayName = "Crowdstrike Unusual Parent Child Processes"
     Reference = "https://medium.com/falconforce/falconfriday-e4554e9e6665"
     Severity = PantherSeverity.Critical
-    LogTypes = [LogType.Crowdstrike_FDREvent]
+    LogTypes = [PantherLogType.Crowdstrike_FDREvent]
     RuleID = "Crowdstrike.Unusual.Parent.Child.Processes-prototype"
     Tests = crowdstrike_unusual_parent_child_processes_tests
     SUSPICIOUS_PARENT_CHILD_COMBINATIONS_WINDOWS = {

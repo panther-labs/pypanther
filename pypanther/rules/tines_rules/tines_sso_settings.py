@@ -3,7 +3,7 @@ from typing import List
 from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import deep_get
 from pypanther.helpers.panther_tines_helpers import tines_alert_context
-from pypanther.log_types import LogType
+from pypanther.log_types import PantherLogType
 
 tines_sso_settings_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -48,7 +48,7 @@ tines_sso_settings_tests: List[PantherRuleTest] = [
 class TinesSSOSettings(PantherRule):
     RuleID = "Tines.SSO.Settings-prototype"
     DisplayName = "Tines SSO Settings"
-    LogTypes = [LogType.Tines_Audit]
+    LogTypes = [PantherLogType.Tines_Audit]
     Tags = ["Tines", "IAM - Credential Security"]
     Severity = PantherSeverity.High
     Description = "Detects when Tines SSO settings are changed\n"

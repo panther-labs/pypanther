@@ -3,7 +3,7 @@ from typing import List
 from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import deep_get
 from pypanther.helpers.panther_tines_helpers import tines_alert_context
-from pypanther.log_types import LogType
+from pypanther.log_types import PantherLogType
 
 tines_story_items_destruction_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -44,7 +44,7 @@ tines_story_items_destruction_tests: List[PantherRuleTest] = [
 class TinesStoryItemsDestruction(PantherRule):
     RuleID = "Tines.Story.Items.Destruction-prototype"
     DisplayName = "Tines Story Items Destruction"
-    LogTypes = [LogType.Tines_Audit]
+    LogTypes = [PantherLogType.Tines_Audit]
     Tags = ["Tines"]
     Severity = PantherSeverity.Info
     Description = "A user has destroyed a story item"

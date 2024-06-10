@@ -2,7 +2,7 @@ from typing import List
 
 from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import deep_get
-from pypanther.log_types import LogType
+from pypanther.log_types import PantherLogType
 
 box_content_workflow_policy_violation_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -58,7 +58,7 @@ box_content_workflow_policy_violation_tests: List[PantherRuleTest] = [
 class BoxContentWorkflowPolicyViolation(PantherRule):
     RuleID = "Box.Content.Workflow.Policy.Violation-prototype"
     DisplayName = "Box Content Workflow Policy Violation"
-    LogTypes = [LogType.Box_Event]
+    LogTypes = [PantherLogType.Box_Event]
     Tags = ["Box"]
     Severity = PantherSeverity.Low
     Description = "A user violated the content workflow policy.\n"

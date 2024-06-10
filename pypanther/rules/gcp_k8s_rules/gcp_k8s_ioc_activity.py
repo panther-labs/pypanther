@@ -3,7 +3,7 @@ from typing import List
 from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.gcp_base_helpers import gcp_alert_context
 from pypanther.helpers.panther_base_helpers import deep_get
-from pypanther.log_types import LogType
+from pypanther.log_types import PantherLogType
 
 gcpk8s_ioc_activity_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -22,7 +22,7 @@ gcpk8s_ioc_activity_tests: List[PantherRuleTest] = [
 class GCPK8sIOCActivity(PantherRule):
     RuleID = "GCP.K8s.IOC.Activity-prototype"
     DisplayName = "GCP K8s IOCActivity"
-    LogTypes = [LogType.GCP_AuditLog]
+    LogTypes = [PantherLogType.GCP_AuditLog]
     Tags = ["GCP", "Optional"]
     Severity = PantherSeverity.Medium
     Description = "This detection monitors for any kubernetes API Request originating from an Indicator of Compromise."

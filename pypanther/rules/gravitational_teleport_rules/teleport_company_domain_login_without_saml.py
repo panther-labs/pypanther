@@ -3,7 +3,7 @@ from typing import List
 
 from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_config import config
-from pypanther.log_types import LogType
+from pypanther.log_types import PantherLogType
 
 teleport_company_domain_login_without_saml_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -43,7 +43,7 @@ teleport_company_domain_login_without_saml_tests: List[PantherRuleTest] = [
 class TeleportCompanyDomainLoginWithoutSAML(PantherRule):
     RuleID = "Teleport.CompanyDomainLoginWithoutSAML-prototype"
     DisplayName = "A User from the company domain(s) Logged in without SAML"
-    LogTypes = [LogType.Gravitational_TeleportAudit]
+    LogTypes = [PantherLogType.Gravitational_TeleportAudit]
     Tags = ["Teleport"]
     Severity = PantherSeverity.High
     Description = "A User from the company domain(s) Logged in without SAML"

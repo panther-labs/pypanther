@@ -3,7 +3,7 @@ from typing import List
 from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import deep_get
 from pypanther.helpers.panther_tines_helpers import tines_alert_context
-from pypanther.log_types import LogType
+from pypanther.log_types import PantherLogType
 
 tines_global_resource_destruction_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -45,7 +45,7 @@ class TinesGlobalResourceDestruction(PantherRule):
     RuleID = "Tines.Global.Resource.Destruction-prototype"
     DisplayName = "Tines Global Resource Destruction"
     SummaryAttributes = ["user_id", "operation_name", "tenant_id", "request_ip"]
-    LogTypes = [LogType.Tines_Audit]
+    LogTypes = [PantherLogType.Tines_Audit]
     Tags = ["Tines"]
     Severity = PantherSeverity.Low
     Description = "A Tines user has destroyed a global resource."

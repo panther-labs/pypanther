@@ -1,7 +1,7 @@
 from enum import Enum
 
 
-class LogType(str, Enum):
+class PantherLogType(str, Enum):
     AWS_ALB = "AWS.ALB"
     AWS_AuroraMySQLAudit = "AWS.AuroraMySQLAudit"
     AWS_CloudTrail = "AWS.CloudTrail"
@@ -281,7 +281,7 @@ class LogType(str, Enum):
     @staticmethod
     def get_attribute_name(value: str) -> str:
         """Returns the attribute name of the class' value."""
-        for name, member in LogType.__members__.items():
+        for name, member in PantherLogType.__members__.items():
             if member.value == value:
                 return name
         raise AttributeError(f"LogType has no attribute with value {value}")

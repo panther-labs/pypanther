@@ -1,7 +1,7 @@
 from typing import List
 
 from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
-from pypanther.log_types import LogType
+from pypanther.log_types import PantherLogType
 
 git_hub_repo_hook_modified_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -51,7 +51,7 @@ git_hub_repo_hook_modified_tests: List[PantherRuleTest] = [
 class GitHubRepoHookModified(PantherRule):
     RuleID = "GitHub.Repo.HookModified-prototype"
     DisplayName = "GitHub Web Hook Modified"
-    LogTypes = [LogType.GitHub_Audit]
+    LogTypes = [PantherLogType.GitHub_Audit]
     Tags = ["GitHub", "Exfiltration:Automated Exfiltration"]
     Reports = {"MITRE ATT&CK": ["TA0010:T1020"]}
     Reference = "https://docs.github.com/en/webhooks/about-webhooks"

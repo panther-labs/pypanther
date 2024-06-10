@@ -2,7 +2,7 @@ from typing import List
 
 from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import deep_get
-from pypanther.log_types import LogType
+from pypanther.log_types import PantherLogType
 
 dropbox_user_disabled2_fa_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -115,7 +115,7 @@ class DropboxUserDisabled2FA(PantherRule):
     DisplayName = "Dropbox User Disabled 2FA"
     Reference = "https://help.dropbox.com/account-access/enable-two-step-verification"
     Severity = PantherSeverity.Low
-    LogTypes = [LogType.Dropbox_TeamEvent]
+    LogTypes = [PantherLogType.Dropbox_TeamEvent]
     RuleID = "Dropbox.User.Disabled.2FA-prototype"
     Tests = dropbox_user_disabled2_fa_tests
 

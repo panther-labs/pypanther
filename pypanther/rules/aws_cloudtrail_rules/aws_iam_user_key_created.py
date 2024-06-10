@@ -3,7 +3,7 @@ from typing import List
 from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import aws_rule_context, deep_get
 from pypanther.helpers.panther_default import aws_cloudtrail_success
-from pypanther.log_types import LogType
+from pypanther.log_types import PantherLogType
 
 awsiam_backdoor_user_keys_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -238,7 +238,7 @@ class AWSIAMBackdoorUserKeys(PantherRule):
     Reports = {"MITRE ATT&CK": ["TA0003:T1098", "TA0005:T1108", "TA0005:T1550", "TA0008:T1550"]}
     Reference = "https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_access-keys.html"
     Severity = PantherSeverity.Medium
-    LogTypes = [LogType.AWS_CloudTrail]
+    LogTypes = [PantherLogType.AWS_CloudTrail]
     RuleID = "AWS.IAM.Backdoor.User.Keys-prototype"
     Tests = awsiam_backdoor_user_keys_tests
 

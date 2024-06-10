@@ -1,7 +1,7 @@
 from typing import List
 
 from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
-from pypanther.log_types import LogType
+from pypanther.log_types import PantherLogType
 
 osquery_mac_unwanted_chrome_extensions_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -78,7 +78,7 @@ osquery_mac_unwanted_chrome_extensions_tests: List[PantherRuleTest] = [
 class OsqueryMacUnwantedChromeExtensions(PantherRule):
     RuleID = "Osquery.Mac.UnwantedChromeExtensions-prototype"
     DisplayName = "OSQuery Detected Unwanted Chrome Extensions"
-    LogTypes = [LogType.Osquery_Differential]
+    LogTypes = [PantherLogType.Osquery_Differential]
     Tags = ["Osquery", "MacOS", "Malware", "Persistence:Browser Extensions"]
     Reports = {"MITRE ATT&CK": ["TA0003:T1176"]}
     Severity = PantherSeverity.Medium

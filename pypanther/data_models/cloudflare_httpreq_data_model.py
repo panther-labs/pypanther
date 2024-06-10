@@ -1,14 +1,14 @@
 from typing import List
 
 from pypanther.base import PantherDataModel, PantherDataModelMapping
-from pypanther.log_types import LogType
+from pypanther.log_types import PantherLogType
 
 
 class StandardCloudflareHttpReq(PantherDataModel):
     DataModelID: str = "Standard.Cloudflare.HttpReq"
     DisplayName: str = "Cloudflare Firewall"
     Enabled: bool = True
-    LogTypes: List[str] = [LogType.Cloudflare_HttpRequest]
+    LogTypes: List[str] = [PantherLogType.Cloudflare_HttpRequest]
     Mappings: List[PantherDataModelMapping] = [
         PantherDataModelMapping(Name="source_ip", Path="ClientIP"),
         PantherDataModelMapping(Name="user_agent", Path="ClientRequestUserAgent"),

@@ -3,7 +3,7 @@ from typing import List
 from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.gcp_base_helpers import gcp_alert_context
 from pypanther.helpers.panther_base_helpers import deep_get, deep_walk
-from pypanther.log_types import LogType
+from pypanther.log_types import PantherLogType
 
 gc_piamservice_account_keyscreate_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -53,7 +53,7 @@ class GCPiamserviceAccountKeyscreate(PantherRule):
     RuleID = "GCP.iam.serviceAccountKeys.create-prototype"
     DisplayName = "GCP.Iam.ServiceAccountKeys.Create"
     Description = "If your user is assigned a custom IAM role, then iam.roles.update will allow you to update the “includedPermissons” on that role. Because it is assigned to you, you will gain the additional privileges, which could be anything you desire."
-    LogTypes = [LogType.GCP_AuditLog]
+    LogTypes = [PantherLogType.GCP_AuditLog]
     Severity = PantherSeverity.High
     Reference = (
         "https://rhinosecuritylabs.com/gcp/privilege-escalation-google-cloud-platform-part-1/"

@@ -2,7 +2,7 @@ from typing import List
 
 from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import slack_alert_context
-from pypanther.log_types import LogType
+from pypanther.log_types import PantherLogType
 
 slack_audit_logs_private_channel_made_public_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -74,7 +74,7 @@ slack_audit_logs_private_channel_made_public_tests: List[PantherRuleTest] = [
 class SlackAuditLogsPrivateChannelMadePublic(PantherRule):
     RuleID = "Slack.AuditLogs.PrivateChannelMadePublic-prototype"
     DisplayName = "Slack Private Channel Made Public"
-    LogTypes = [LogType.Slack_AuditLogs]
+    LogTypes = [PantherLogType.Slack_AuditLogs]
     Tags = [
         "Slack",
         "Defense Evasion",

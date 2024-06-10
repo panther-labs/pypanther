@@ -2,7 +2,7 @@ from typing import List
 
 from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import msft_graph_alert_context
-from pypanther.log_types import LogType
+from pypanther.log_types import PantherLogType
 
 microsoft_graph_passthrough_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -100,7 +100,7 @@ class MicrosoftGraphPassthrough(PantherRule):
     Reference = "https://learn.microsoft.com/en-us/graph/api/resources/security-api-overview"
     DisplayName = "Microsoft Graph Passthrough"
     Severity = PantherSeverity.Medium
-    LogTypes = [LogType.MicrosoftGraph_SecurityAlert]
+    LogTypes = [PantherLogType.MicrosoftGraph_SecurityAlert]
     RuleID = "Microsoft.Graph.Passthrough-prototype"
     Tests = microsoft_graph_passthrough_tests
 

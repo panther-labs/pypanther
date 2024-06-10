@@ -2,13 +2,13 @@ from typing import List
 
 from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_notion_helpers import notion_alert_context
-from pypanther.log_types import LogType
+from pypanther.log_types import PantherLogType
 
 
 class NotionPagePermsAPIPermsChanged(PantherRule):
     DisplayName = "Notion Page API Permissions Changed"
     RuleID = "Notion.PagePerms.APIPermsChanged-prototype"
-    LogTypes = [LogType.Notion_AuditLogs]
+    LogTypes = [PantherLogType.Notion_AuditLogs]
     Tags = ["Notion", "Data Security", "Unapproved 3rd Party Apps"]
     Severity = PantherSeverity.Low
     Description = (

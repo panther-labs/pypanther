@@ -1,7 +1,7 @@
 from typing import List
 
 from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
-from pypanther.log_types import LogType
+from pypanther.log_types import PantherLogType
 
 cisco_umbrella_dns_blocked_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -35,7 +35,7 @@ class CiscoUmbrellaDNSBlocked(PantherRule):
     RuleID = "CiscoUmbrella.DNS.Blocked-prototype"
     DisplayName = "Cisco Umbrella Domain Blocked"
     DedupPeriodMinutes = 480
-    LogTypes = [LogType.CiscoUmbrella_DNS]
+    LogTypes = [PantherLogType.CiscoUmbrella_DNS]
     Tags = ["DNS"]
     Severity = PantherSeverity.Low
     Description = "Monitor blocked domains"

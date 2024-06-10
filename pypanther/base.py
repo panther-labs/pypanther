@@ -21,7 +21,7 @@ from panther_core.exceptions import FunctionReturnTypeError, UnknownDestinationE
 from panther_core.util import get_bool_env_var
 from pydantic import BaseModel, NonNegativeInt, PositiveInt, TypeAdapter
 
-from pypanther.log_types import LogType
+from pypanther.log_types import PantherLogType
 from pypanther.validate import NonEmptyUniqueList, UniqueList
 
 logger = logging.getLogger(__name__)
@@ -268,7 +268,7 @@ SeverityType = Union[PantherSeverity | Literal["DEFAULT"] | str]
 class PantherRule(metaclass=abc.ABCMeta):
     """A Panther rule class. This class should be subclassed to create a new rule."""
 
-    LogTypes: List[LogType | str]
+    LogTypes: List[PantherLogType | str]
     RuleID: str
     Severity: PantherSeverity | str
     CreateAlert: bool = DEFAULT_CREATE_ALERT

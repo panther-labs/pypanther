@@ -2,7 +2,7 @@ from typing import List
 
 from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import deep_get, slack_alert_context
-from pypanther.log_types import LogType
+from pypanther.log_types import PantherLogType
 
 slack_audit_logs_user_privilege_changed_to_user_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -85,7 +85,7 @@ slack_audit_logs_user_privilege_changed_to_user_tests: List[PantherRuleTest] = [
 class SlackAuditLogsUserPrivilegeChangedToUser(PantherRule):
     RuleID = "Slack.AuditLogs.UserPrivilegeChangedToUser-prototype"
     DisplayName = "Slack User Privileges Changed to User"
-    LogTypes = [LogType.Slack_AuditLogs]
+    LogTypes = [PantherLogType.Slack_AuditLogs]
     Tags = ["Slack", "Impact", "Account Access Removal"]
     Reports = {"MITRE ATT&CK": ["TA0040:T1531"]}
     Severity = PantherSeverity.Medium

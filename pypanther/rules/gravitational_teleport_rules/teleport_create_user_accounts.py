@@ -2,7 +2,7 @@ from typing import List
 
 from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import pattern_match_list
-from pypanther.log_types import LogType
+from pypanther.log_types import PantherLogType
 
 teleport_create_user_accounts_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -57,7 +57,7 @@ teleport_create_user_accounts_tests: List[PantherRuleTest] = [
 class TeleportCreateUserAccounts(PantherRule):
     RuleID = "Teleport.CreateUserAccounts-prototype"
     DisplayName = "Teleport Create User Accounts"
-    LogTypes = [LogType.Gravitational_TeleportAudit]
+    LogTypes = [PantherLogType.Gravitational_TeleportAudit]
     Tags = ["SSH", "Persistence:Create Account"]
     Reports = {"MITRE ATT&CK": ["TA0003:T1136"]}
     Severity = PantherSeverity.High

@@ -2,7 +2,7 @@ from typing import List
 
 from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import github_alert_context
-from pypanther.log_types import LogType
+from pypanther.log_types import PantherLogType
 
 github_repository_transfer_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -75,7 +75,7 @@ class GithubRepositoryTransfer(PantherRule):
     Runbook = "Please check with the referenced users or their supervisors to ensure the transferring of this repository is expected and allowed."
     Severity = PantherSeverity.Medium
     Tags = ["Github Repository", "Github Repository Transfer", "Repository", "Transfer"]
-    LogTypes = [LogType.GitHub_Audit]
+    LogTypes = [PantherLogType.GitHub_Audit]
     RuleID = "Github.Repository.Transfer-prototype"
     SummaryAttributes = ["action"]
     Tests = github_repository_transfer_tests

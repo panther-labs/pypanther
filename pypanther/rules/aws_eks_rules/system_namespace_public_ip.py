@@ -3,7 +3,7 @@ from typing import List
 
 from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import deep_get, eks_panther_obj_ref
-from pypanther.log_types import LogType
+from pypanther.log_types import PantherLogType
 
 amazon_eks_audit_system_namespace_from_public_ip_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -324,7 +324,7 @@ amazon_eks_audit_system_namespace_from_public_ip_tests: List[PantherRuleTest] = 
 class AmazonEKSAuditSystemNamespaceFromPublicIP(PantherRule):
     RuleID = "Amazon.EKS.Audit.SystemNamespaceFromPublicIP-prototype"
     DisplayName = "EKS Audit Log Reporting system Namespace is Used From A Public IP"
-    LogTypes = [LogType.Amazon_EKS_Audit]
+    LogTypes = [PantherLogType.Amazon_EKS_Audit]
     Tags = ["EKS"]
     Reports = {"MITRE ATT&CK": ["TA0027:T1475"]}
     Reference = "https://docs.aws.amazon.com/eks/latest/userguide/network_reqs.html"

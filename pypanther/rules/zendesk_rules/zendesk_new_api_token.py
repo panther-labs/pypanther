@@ -1,7 +1,7 @@
 from typing import List
 
 from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
-from pypanther.log_types import LogType
+from pypanther.log_types import PantherLogType
 
 zendesk_new_api_token_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -48,7 +48,7 @@ zendesk_new_api_token_tests: List[PantherRuleTest] = [
 class ZendeskNewAPIToken(PantherRule):
     RuleID = "Zendesk.NewAPIToken-prototype"
     DisplayName = "Zendesk API Token Created"
-    LogTypes = [LogType.Zendesk_Audit]
+    LogTypes = [PantherLogType.Zendesk_Audit]
     Severity = PantherSeverity.High
     Tags = ["Zendesk", "Credential Access:Steal Application Access Token"]
     Reports = {"MITRE ATT&CK": ["TA0006:T1528"]}

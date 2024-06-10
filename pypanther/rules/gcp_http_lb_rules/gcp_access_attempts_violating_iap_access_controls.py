@@ -2,7 +2,7 @@ from typing import List
 
 from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import deep_get
-from pypanther.log_types import LogType
+from pypanther.log_types import PantherLogType
 
 gcp_access_attempts_violating_iap_access_controls_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -109,7 +109,7 @@ class GCPAccessAttemptsViolatingIAPAccessControls(PantherRule):
     DisplayName = "GCP Access Attempts Violating IAP Access Controls"
     Reference = "https://cloud.google.com/iap/docs/concepts-overview"
     Severity = PantherSeverity.Medium
-    LogTypes = [LogType.GCP_HTTPLoadBalancer]
+    LogTypes = [PantherLogType.GCP_HTTPLoadBalancer]
     RuleID = "GCP.Access.Attempts.Violating.IAP.Access.Controls-prototype"
     Tests = gcp_access_attempts_violating_iap_access_controls_tests
 

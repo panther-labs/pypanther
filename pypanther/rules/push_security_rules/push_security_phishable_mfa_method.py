@@ -1,7 +1,7 @@
 from typing import List
 
 from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
-from pypanther.log_types import LogType
+from pypanther.log_types import PantherLogType
 
 push_security_phishable_mfa_method_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -111,7 +111,7 @@ push_security_phishable_mfa_method_tests: List[PantherRuleTest] = [
 class PushSecurityPhishableMFAMethod(PantherRule):
     RuleID = "Push.Security.Phishable.MFA.Method-prototype"
     DisplayName = "Push Security Phishable MFA Method"
-    LogTypes = [LogType.PushSecurity_Entities]
+    LogTypes = [PantherLogType.PushSecurity_Entities]
     Severity = PantherSeverity.Info
     Tests = push_security_phishable_mfa_method_tests
     identity_providers = ("MICROSOFT_365", "GOOGLE_WORKSPACE", "OKTA", "JUMPCLOUD", "PING")

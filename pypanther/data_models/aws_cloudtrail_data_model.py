@@ -4,7 +4,7 @@ from typing import List
 import pypanther.helpers.panther_event_type_helpers as event_type
 from pypanther.base import PantherDataModel, PantherDataModelMapping
 from pypanther.helpers.panther_base_helpers import deep_get
-from pypanther.log_types import LogType
+from pypanther.log_types import PantherLogType
 
 
 def get_event_type(event):
@@ -46,7 +46,7 @@ class StandardAWSCloudTrail(PantherDataModel):
     DataModelID: str = "Standard.AWS.CloudTrail"
     DisplayName: str = "AWS CloudTrail"
     Enabled: bool = True
-    LogTypes: List[str] = [LogType.AWS_CloudTrail]
+    LogTypes: List[str] = [PantherLogType.AWS_CloudTrail]
     Mappings: List[PantherDataModelMapping] = [
         PantherDataModelMapping(Name="actor_user", Path="$.userIdentity..userName"),
         PantherDataModelMapping(Name="event_type", Method=get_event_type),

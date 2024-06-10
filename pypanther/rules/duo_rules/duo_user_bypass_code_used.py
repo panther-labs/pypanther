@@ -2,7 +2,7 @@ from typing import List
 
 from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import deep_get
-from pypanther.log_types import LogType
+from pypanther.log_types import PantherLogType
 
 duo_user_bypass_code_used_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -54,7 +54,7 @@ class DUOUserBypassCodeUsed(PantherRule):
     RuleID = "DUO.User.BypassCode.Used-prototype"
     DisplayName = "Duo User Bypass Code Used"
     DedupPeriodMinutes = 5
-    LogTypes = [LogType.Duo_Authentication]
+    LogTypes = [PantherLogType.Duo_Authentication]
     Tags = ["Duo"]
     Severity = PantherSeverity.Low
     Description = "A Duo user's bypass code was used to authenticate"

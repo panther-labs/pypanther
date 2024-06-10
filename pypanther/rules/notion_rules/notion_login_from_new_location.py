@@ -7,7 +7,7 @@ from pypanther.base import PantherRule, PantherRuleMock, PantherRuleTest, Panthe
 from pypanther.helpers.panther_ipinfo_helpers import IPInfoLocation
 from pypanther.helpers.panther_notion_helpers import notion_alert_context
 from pypanther.helpers.panther_oss_helpers import get_dictionary, put_dictionary
-from pypanther.log_types import LogType
+from pypanther.log_types import PantherLogType
 
 notion_login_from_new_location_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -279,7 +279,7 @@ notion_login_from_new_location_tests: List[PantherRuleTest] = [
 class NotionLoginFromNewLocation(PantherRule):
     RuleID = "Notion.LoginFromNewLocation-prototype"
     DisplayName = "Notion Login from New Location"
-    LogTypes = [LogType.Notion_AuditLogs]
+    LogTypes = [PantherLogType.Notion_AuditLogs]
     Tags = ["Notion", "Identity & Access Management", "Login & Access Patterns"]
     Severity = PantherSeverity.Medium
     Description = "A Notion User logged in from a new location."

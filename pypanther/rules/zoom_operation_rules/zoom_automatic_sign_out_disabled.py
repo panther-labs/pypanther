@@ -1,7 +1,7 @@
 from typing import List
 
 from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
-from pypanther.log_types import LogType
+from pypanther.log_types import PantherLogType
 
 zoom_automatic_sign_out_disabled_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -35,7 +35,7 @@ class ZoomAutomaticSignOutDisabled(PantherRule):
     Reference = "https://support.zoom.us/hc/en-us/articles/115005756143-Changing-account-security-settings#:~:text=Users%20need%20to%20sign%20in,of%205%20to%20120%20minutes"
     Runbook = "Confirm this user acted with valid business intent and determine whether this activity was authorized."
     Severity = PantherSeverity.Medium
-    LogTypes = [LogType.Zoom_Operation]
+    LogTypes = [PantherLogType.Zoom_Operation]
     RuleID = "Zoom.Automatic.Sign.Out.Disabled-prototype"
     Tests = zoom_automatic_sign_out_disabled_tests
 

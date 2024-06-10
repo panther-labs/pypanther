@@ -1,7 +1,7 @@
 from typing import List
 
 from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
-from pypanther.log_types import LogType
+from pypanther.log_types import PantherLogType
 
 osquery_mac_osx_attacks_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -38,7 +38,7 @@ osquery_mac_osx_attacks_tests: List[PantherRuleTest] = [
 class OsqueryMacOSXAttacks(PantherRule):
     RuleID = "Osquery.Mac.OSXAttacks-prototype"
     DisplayName = "macOS Malware Detected with osquery"
-    LogTypes = [LogType.Osquery_Differential]
+    LogTypes = [PantherLogType.Osquery_Differential]
     Tags = ["Osquery", "MacOS", "Malware", "Resource Development:Develop Capabilities"]
     Reports = {"MITRE ATT&CK": ["TA0042:T1588"]}
     Severity = PantherSeverity.Medium

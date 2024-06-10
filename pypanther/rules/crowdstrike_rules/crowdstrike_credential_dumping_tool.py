@@ -2,7 +2,7 @@ from typing import List
 
 from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import crowdstrike_detection_alert_context, deep_get
-from pypanther.log_types import LogType
+from pypanther.log_types import PantherLogType
 
 crowdstrike_credential_dumping_tool_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -177,7 +177,7 @@ class CrowdstrikeCredentialDumpingTool(PantherRule):
     DisplayName = "Crowdstrike Credential Dumping Tool"
     Reference = "https://www.crowdstrike.com/blog/adversary-credential-theft/"
     Severity = PantherSeverity.Critical
-    LogTypes = [LogType.Crowdstrike_FDREvent]
+    LogTypes = [PantherLogType.Crowdstrike_FDREvent]
     RuleID = "Crowdstrike.Credential.Dumping.Tool-prototype"
     Tests = crowdstrike_credential_dumping_tool_tests
     CREDENTIAL_DUMPING_TOOLS = {

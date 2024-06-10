@@ -1,7 +1,7 @@
 from typing import List
 
 from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
-from pypanther.log_types import LogType
+from pypanther.log_types import PantherLogType
 
 teleport_auth_errors_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -46,7 +46,7 @@ teleport_auth_errors_tests: List[PantherRuleTest] = [
 class TeleportAuthErrors(PantherRule):
     RuleID = "Teleport.AuthErrors-prototype"
     DisplayName = "Teleport SSH Auth Errors"
-    LogTypes = [LogType.Gravitational_TeleportAudit]
+    LogTypes = [PantherLogType.Gravitational_TeleportAudit]
     Tags = ["SSH", "Credential Access:Brute Force"]
     Severity = PantherSeverity.Medium
     Reports = {"MITRE ATT&CK": ["TA0006:T1110"]}

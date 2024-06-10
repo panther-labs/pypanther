@@ -2,7 +2,7 @@ from typing import List
 
 from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import aws_rule_context, deep_get
-from pypanther.log_types import LogType
+from pypanther.log_types import PantherLogType
 
 aws_software_discovery_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -90,7 +90,7 @@ class AWSSoftwareDiscovery(PantherRule):
     Reports = {"MITRE ATT&CK": ["TA0007:T1518"]}
     Severity = PantherSeverity.Info
     DedupPeriodMinutes = 360
-    LogTypes = [LogType.AWS_CloudTrail]
+    LogTypes = [PantherLogType.AWS_CloudTrail]
     RuleID = "AWS.Software.Discovery-prototype"
     Threshold = 50
     Tests = aws_software_discovery_tests

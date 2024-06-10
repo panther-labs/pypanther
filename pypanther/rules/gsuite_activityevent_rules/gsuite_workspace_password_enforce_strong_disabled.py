@@ -2,7 +2,7 @@ from typing import List
 
 from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import deep_get
-from pypanther.log_types import LogType
+from pypanther.log_types import PantherLogType
 
 g_suite_workspace_password_enforce_strong_disabled_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -96,7 +96,7 @@ g_suite_workspace_password_enforce_strong_disabled_tests: List[PantherRuleTest] 
 class GSuiteWorkspacePasswordEnforceStrongDisabled(PantherRule):
     RuleID = "GSuite.Workspace.PasswordEnforceStrongDisabled-prototype"
     DisplayName = "GSuite Workspace Strong Password Enforcement Has Been Disabled"
-    LogTypes = [LogType.GSuite_ActivityEvent]
+    LogTypes = [PantherLogType.GSuite_ActivityEvent]
     Tags = ["GSuite"]
     Severity = PantherSeverity.High
     Reports = {"MITRE ATT&CK": ["TA0006:T1110"]}

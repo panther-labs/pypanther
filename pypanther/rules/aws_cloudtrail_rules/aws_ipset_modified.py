@@ -2,7 +2,7 @@ from typing import List
 
 from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import aws_rule_context
-from pypanther.log_types import LogType
+from pypanther.log_types import PantherLogType
 
 awsip_set_modified_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -68,7 +68,7 @@ class AWSIPSetModified(PantherRule):
     Reports = {"MITRE ATT&CK": ["TA0005:T1562"]}
     Reference = "https://docs.aws.amazon.com/managedservices/latest/ctref/management-monitoring-guardduty-ip-set-update-review-required.html"
     Severity = PantherSeverity.High
-    LogTypes = [LogType.AWS_CloudTrail]
+    LogTypes = [PantherLogType.AWS_CloudTrail]
     RuleID = "AWS.IPSet.Modified-prototype"
     Tests = awsip_set_modified_tests
     IPSET_ACTIONS = ["CreateIPSet", "UpdateIPSet"]

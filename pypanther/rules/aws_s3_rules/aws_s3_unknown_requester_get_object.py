@@ -3,7 +3,7 @@ from typing import List
 
 from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import aws_rule_context
-from pypanther.log_types import LogType
+from pypanther.log_types import PantherLogType
 
 awss3_server_access_unknown_requester_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -115,7 +115,7 @@ class AWSS3ServerAccessUnknownRequester(PantherRule):
     RuleID = "AWS.S3.ServerAccess.UnknownRequester-prototype"
     DisplayName = "AWS S3 Unknown Requester"
     Enabled = False
-    LogTypes = [LogType.AWS_S3ServerAccess]
+    LogTypes = [PantherLogType.AWS_S3ServerAccess]
     Tags = [
         "AWS",
         "Configuration Required",

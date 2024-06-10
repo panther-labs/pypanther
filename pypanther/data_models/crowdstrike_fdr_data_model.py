@@ -2,7 +2,7 @@ from typing import List
 
 from pypanther.base import PantherDataModel, PantherDataModelMapping
 from pypanther.helpers.panther_base_helpers import deep_get
-from pypanther.log_types import LogType
+from pypanther.log_types import PantherLogType
 
 
 def get_dns_query(event):
@@ -32,7 +32,7 @@ class StandardCrowdstrikeFDR(PantherDataModel):
     DataModelID: str = "Standard.Crowdstrike.FDR"
     DisplayName: str = "Crowdstrike FDR"
     Enabled: bool = True
-    LogTypes: List[str] = [LogType.Crowdstrike_FDREvent]
+    LogTypes: List[str] = [PantherLogType.Crowdstrike_FDREvent]
     Mappings: List[PantherDataModelMapping] = [
         PantherDataModelMapping(Name="actor_user", Path="$.event.UserName"),
         PantherDataModelMapping(Name="cmd", Path="$.event.CommandLine"),

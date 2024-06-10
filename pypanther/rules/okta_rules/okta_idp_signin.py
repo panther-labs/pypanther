@@ -2,7 +2,7 @@ from typing import List
 
 from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import deep_get, deep_walk, okta_alert_context
-from pypanther.log_types import LogType
+from pypanther.log_types import PantherLogType
 
 okta_identity_provider_sign_in_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -164,7 +164,7 @@ class OktaIdentityProviderSignIn(PantherRule):
     RuleID = "Okta.Identity.Provider.SignIn-prototype"
     DisplayName = "Okta Identity Provider Sign-in"
     Enabled = False
-    LogTypes = [LogType.Okta_SystemLog]
+    LogTypes = [PantherLogType.Okta_SystemLog]
     Tags = ["Configuration Required"]
     Reports = {"MITRE ATT&CK": ["TA0001:T1199", "TA0003:T1098"]}
     Severity = PantherSeverity.High

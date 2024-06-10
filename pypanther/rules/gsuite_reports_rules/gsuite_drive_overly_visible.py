@@ -4,7 +4,7 @@ from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import deep_get
 from pypanther.helpers.panther_base_helpers import gsuite_details_lookup as details_lookup
 from pypanther.helpers.panther_base_helpers import gsuite_parameter_lookup as param_lookup
-from pypanther.log_types import LogType
+from pypanther.log_types import PantherLogType
 
 g_suite_drive_overly_visible_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -77,7 +77,7 @@ g_suite_drive_overly_visible_tests: List[PantherRuleTest] = [
 class GSuiteDriveOverlyVisible(PantherRule):
     RuleID = "GSuite.DriveOverlyVisible-prototype"
     DisplayName = "GSuite Overly Visible Drive Document"
-    LogTypes = [LogType.GSuite_Reports]
+    LogTypes = [PantherLogType.GSuite_Reports]
     Tags = ["GSuite", "Collection:Data from Information Repositories"]
     Reports = {"MITRE ATT&CK": ["TA0009:T1213"]}
     Severity = PantherSeverity.Info

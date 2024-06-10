@@ -2,7 +2,7 @@ from typing import List
 
 from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import deep_get, deep_walk
-from pypanther.log_types import LogType
+from pypanther.log_types import PantherLogType
 
 gcp_access_attempts_violating_vpc_service_controls_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -175,7 +175,7 @@ class GCPAccessAttemptsViolatingVPCServiceControls(PantherRule):
     DisplayName = "GCP Access Attempts Violating VPC Service Controls"
     Reference = "https://cloud.google.com/vpc-service-controls/docs/troubleshooting#debugging"
     Severity = PantherSeverity.Medium
-    LogTypes = [LogType.GCP_AuditLog]
+    LogTypes = [PantherLogType.GCP_AuditLog]
     RuleID = "GCP.Access.Attempts.Violating.VPC.Service.Controls-prototype"
     Tests = gcp_access_attempts_violating_vpc_service_controls_tests
 

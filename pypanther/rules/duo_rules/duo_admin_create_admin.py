@@ -5,7 +5,7 @@ from pypanther.helpers.panther_duo_helpers import (
     deserialize_administrator_log_event_description,
     duo_alert_context,
 )
-from pypanther.log_types import LogType
+from pypanther.log_types import PantherLogType
 
 duo_admin_create_admin_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -39,7 +39,7 @@ class DuoAdminCreateAdmin(PantherRule):
     DisplayName = "Duo Admin Create Admin"
     Reference = "https://duo.com/docs/administration-admins#add-an-administrator"
     Severity = PantherSeverity.High
-    LogTypes = [LogType.Duo_Administrator]
+    LogTypes = [PantherLogType.Duo_Administrator]
     RuleID = "Duo.Admin.Create.Admin-prototype"
     Tests = duo_admin_create_admin_tests
 

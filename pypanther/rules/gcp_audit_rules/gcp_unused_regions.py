@@ -2,7 +2,7 @@ from typing import List
 
 from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import deep_get
-from pypanther.log_types import LogType
+from pypanther.log_types import PantherLogType
 
 gcp_unused_regions_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -234,7 +234,7 @@ class GCPUnusedRegions(PantherRule):
     DisplayName = "GCP Resource in Unused Region"
     Enabled = False
     DedupPeriodMinutes = 15
-    LogTypes = [LogType.GCP_AuditLog]
+    LogTypes = [PantherLogType.GCP_AuditLog]
     Tags = [
         "GCP",
         "Database",

@@ -2,7 +2,7 @@ from typing import List
 
 from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import crowdstrike_detection_alert_context, deep_get
-from pypanther.log_types import LogType
+from pypanther.log_types import PantherLogType
 
 crowdstrike_reverse_shell_tool_executed_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -249,7 +249,7 @@ class CrowdstrikeReverseShellToolExecuted(PantherRule):
     DisplayName = "Crowdstrike Reverse Shell Tool Executed"
     Reference = "https://attack.mitre.org/techniques/T1059/"
     Severity = PantherSeverity.High
-    LogTypes = [LogType.Crowdstrike_FDREvent]
+    LogTypes = [PantherLogType.Crowdstrike_FDREvent]
     RuleID = "Crowdstrike.Reverse.Shell.Tool.Executed-prototype"
     Tests = crowdstrike_reverse_shell_tool_executed_tests
     #   process name: reverse shell signature

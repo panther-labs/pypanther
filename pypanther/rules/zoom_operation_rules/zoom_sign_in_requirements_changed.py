@@ -1,7 +1,7 @@
 from typing import List
 
 from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
-from pypanther.log_types import LogType
+from pypanther.log_types import PantherLogType
 
 zoom_sign_in_requirements_changed_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -57,7 +57,7 @@ class ZoomSignInRequirementsChanged(PantherRule):
     Runbook = "Confirm this user acted with valid business intent and determine whether this activity was authorized."
     Reference = "https://support.zoom.com/hc/en/article?id=zm_kb&sysparm_article=KB0061263"
     Severity = PantherSeverity.Medium
-    LogTypes = [LogType.Zoom_Operation]
+    LogTypes = [PantherLogType.Zoom_Operation]
     RuleID = "Zoom.Sign.In.Requirements.Changed-prototype"
     SummaryAttributes = ["operation_detail"]
     Tests = zoom_sign_in_requirements_changed_tests

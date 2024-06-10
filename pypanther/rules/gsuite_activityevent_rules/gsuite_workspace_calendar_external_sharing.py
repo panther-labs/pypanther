@@ -2,7 +2,7 @@ from typing import List
 
 from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import deep_get
-from pypanther.log_types import LogType
+from pypanther.log_types import PantherLogType
 
 g_suite_workspace_calendar_external_sharing_setting_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -136,7 +136,7 @@ g_suite_workspace_calendar_external_sharing_setting_tests: List[PantherRuleTest]
 class GSuiteWorkspaceCalendarExternalSharingSetting(PantherRule):
     RuleID = "GSuite.Workspace.CalendarExternalSharingSetting-prototype"
     DisplayName = "GSuite Workspace Calendar External Sharing Setting Change"
-    LogTypes = [LogType.GSuite_ActivityEvent]
+    LogTypes = [PantherLogType.GSuite_ActivityEvent]
     Tags = ["GSuite"]
     Reports = {"MITRE ATT&CK": ["TA0007:T1087"]}
     Severity = PantherSeverity.Medium

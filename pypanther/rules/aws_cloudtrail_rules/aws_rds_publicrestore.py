@@ -2,7 +2,7 @@ from typing import List
 
 from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import aws_rule_context, deep_get
-from pypanther.log_types import LogType
+from pypanther.log_types import PantherLogType
 
 awsrds_public_restore_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -358,7 +358,7 @@ class AWSRDSPublicRestore(PantherRule):
         "https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_RestoreFromSnapshot.html"
     )
     Severity = PantherSeverity.High
-    LogTypes = [LogType.AWS_CloudTrail]
+    LogTypes = [PantherLogType.AWS_CloudTrail]
     RuleID = "AWS.RDS.PublicRestore-prototype"
     Tests = awsrds_public_restore_tests
 

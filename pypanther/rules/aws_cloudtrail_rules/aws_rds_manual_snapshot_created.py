@@ -2,7 +2,7 @@ from typing import List
 
 from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import aws_rule_context
-from pypanther.log_types import LogType
+from pypanther.log_types import PantherLogType
 
 awsrds_manual_snapshot_created_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -315,7 +315,7 @@ awsrds_manual_snapshot_created_tests: List[PantherRuleTest] = [
 class AWSRDSManualSnapshotCreated(PantherRule):
     RuleID = "AWS.RDS.ManualSnapshotCreated-prototype"
     DisplayName = "AWS RDS Manual/Public Snapshot Created"
-    LogTypes = [LogType.AWS_CloudTrail]
+    LogTypes = [PantherLogType.AWS_CloudTrail]
     Tags = ["AWS", "Exfiltration", "Transfer Data to Cloud Account"]
     Reports = {"MITRE ATT&CK": ["TA0010:T1537"]}
     Severity = PantherSeverity.Low

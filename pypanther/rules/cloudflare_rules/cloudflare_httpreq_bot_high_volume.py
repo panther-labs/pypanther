@@ -2,7 +2,7 @@ from typing import List
 
 from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_cloudflare_helpers import cloudflare_http_alert_context
-from pypanther.log_types import LogType
+from pypanther.log_types import PantherLogType
 
 cloudflare_http_request_bot_high_volume_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -152,7 +152,7 @@ class CloudflareHttpRequestBotHighVolume(PantherRule):
     RuleID = "Cloudflare.HttpRequest.BotHighVolume-prototype"
     DisplayName = "Cloudflare Bot High Volume"
     Enabled = False
-    LogTypes = [LogType.Cloudflare_HttpRequest]
+    LogTypes = [PantherLogType.Cloudflare_HttpRequest]
     Tags = ["Cloudflare"]
     Severity = PantherSeverity.Low
     Description = "Monitors for bots making HTTP Requests at a rate higher than 2req/sec"

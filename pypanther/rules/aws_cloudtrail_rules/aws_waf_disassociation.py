@@ -2,7 +2,7 @@ from typing import List
 
 from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import deep_get
-from pypanther.log_types import LogType
+from pypanther.log_types import PantherLogType
 
 awswaf_disassociation_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -134,7 +134,7 @@ class AWSWAFDisassociation(PantherRule):
     Reference = "https://attack.mitre.org/techniques/T1078/"
     Severity = PantherSeverity.Critical
     Reports = {"MITRE ATT&CK": ["TA0004:T1498"]}
-    LogTypes = [LogType.AWS_CloudTrail]
+    LogTypes = [PantherLogType.AWS_CloudTrail]
     RuleID = "AWS.WAF.Disassociation-prototype"
     Tests = awswaf_disassociation_tests
 

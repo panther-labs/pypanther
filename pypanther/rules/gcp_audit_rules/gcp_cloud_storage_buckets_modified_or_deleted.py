@@ -2,7 +2,7 @@ from typing import List
 
 from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import deep_get
-from pypanther.log_types import LogType
+from pypanther.log_types import PantherLogType
 
 gcp_cloud_storage_buckets_modified_or_deleted_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -122,7 +122,7 @@ class GCPCloudStorageBucketsModifiedOrDeleted(PantherRule):
     DisplayName = "GCP Cloud Storage Buckets Modified Or Deleted"
     Reference = "https://cloud.google.com/storage/docs/buckets"
     Severity = PantherSeverity.Low
-    LogTypes = [LogType.GCP_AuditLog]
+    LogTypes = [PantherLogType.GCP_AuditLog]
     RuleID = "GCP.Cloud.Storage.Buckets.Modified.Or.Deleted-prototype"
     Tests = gcp_cloud_storage_buckets_modified_or_deleted_tests
     BUCKET_OPERATIONS = ["storage.buckets.delete", "storage.buckets.update"]

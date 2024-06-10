@@ -2,7 +2,7 @@ from typing import List
 
 from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import aws_rule_context
-from pypanther.log_types import LogType
+from pypanther.log_types import PantherLogType
 
 awsec2_ebs_encryption_disabled_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -43,7 +43,7 @@ class AWSEC2EBSEncryptionDisabled(PantherRule):
     )
     Reference = "https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/EBSEncryption.html#encryption-by-default"
     Severity = PantherSeverity.Medium
-    LogTypes = [LogType.AWS_CloudTrail]
+    LogTypes = [PantherLogType.AWS_CloudTrail]
     RuleID = "AWS.EC2.EBS.Encryption.Disabled-prototype"
     Tests = awsec2_ebs_encryption_disabled_tests
 

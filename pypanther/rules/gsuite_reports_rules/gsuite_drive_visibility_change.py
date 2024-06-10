@@ -5,7 +5,7 @@ from unittest.mock import MagicMock
 from pypanther.base import PantherRule, PantherRuleMock, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import deep_get
 from pypanther.helpers.panther_base_helpers import gsuite_parameter_lookup as param_lookup
-from pypanther.log_types import LogType
+from pypanther.log_types import PantherLogType
 
 g_suite_drive_visibility_changed_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -372,7 +372,7 @@ class GSuiteDriveVisibilityChanged(PantherRule):
     RuleID = "GSuite.DriveVisibilityChanged-prototype"
     DisplayName = "GSuite External Drive Document"
     Enabled = False
-    LogTypes = [LogType.GSuite_Reports]
+    LogTypes = [PantherLogType.GSuite_Reports]
     Tags = ["GSuite", "Collection:Data from Information Repositories", "Configuration Required"]
     Reports = {"MITRE ATT&CK": ["TA0009:T1213"]}
     Severity = PantherSeverity.Low

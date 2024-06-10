@@ -2,7 +2,7 @@ from typing import List
 
 from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import deep_get
-from pypanther.log_types import LogType
+from pypanther.log_types import PantherLogType
 
 osquery_mac_auto_update_enabled_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -50,7 +50,7 @@ osquery_mac_auto_update_enabled_tests: List[PantherRuleTest] = [
 class OsqueryMacAutoUpdateEnabled(PantherRule):
     RuleID = "Osquery.Mac.AutoUpdateEnabled-prototype"
     DisplayName = "OSQuery Reports Application Firewall Disabled"
-    LogTypes = [LogType.Osquery_Differential]
+    LogTypes = [PantherLogType.Osquery_Differential]
     Tags = ["Osquery", "MacOS", "Security Control", "Defense Evasion:Impair Defenses"]
     Reports = {"CIS": ["1.2"], "MITRE ATT&CK": ["TA0005:T1562"]}
     Severity = PantherSeverity.Medium

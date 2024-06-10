@@ -1,7 +1,7 @@
 from typing import List
 
 from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
-from pypanther.log_types import LogType
+from pypanther.log_types import PantherLogType
 
 one_login_password_access_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -32,7 +32,7 @@ one_login_password_access_tests: List[PantherRuleTest] = [
 class OneLoginPasswordAccess(PantherRule):
     RuleID = "OneLogin.PasswordAccess-prototype"
     DisplayName = "OneLogin Password Access"
-    LogTypes = [LogType.OneLogin_Events]
+    LogTypes = [PantherLogType.OneLogin_Events]
     Tags = ["OneLogin", "Credential Access:Unsecured Credentials"]
     Reports = {"MITRE ATT&CK": ["TA0006:T1552"]}
     Severity = PantherSeverity.Medium

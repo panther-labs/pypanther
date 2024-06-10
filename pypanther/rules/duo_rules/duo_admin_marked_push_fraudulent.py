@@ -2,7 +2,7 @@ from typing import List
 
 from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_duo_helpers import deserialize_administrator_log_event_description
-from pypanther.log_types import LogType
+from pypanther.log_types import PantherLogType
 
 duo_admin_action_marked_fraudulent_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -34,7 +34,7 @@ class DUOAdminActionMarkedFraudulent(PantherRule):
     RuleID = "DUO.Admin.Action.MarkedFraudulent-prototype"
     DisplayName = "Duo Admin Marked Push Fraudulent"
     DedupPeriodMinutes = 15
-    LogTypes = [LogType.Duo_Administrator]
+    LogTypes = [PantherLogType.Duo_Administrator]
     Tags = ["Duo"]
     Severity = PantherSeverity.Medium
     Description = "A Duo push was marked fraudulent by an admin."

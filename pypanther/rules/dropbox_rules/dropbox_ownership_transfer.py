@@ -5,7 +5,7 @@ from unittest.mock import MagicMock
 from pypanther.base import PantherRule, PantherRuleMock, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import deep_get
 from pypanther.helpers.panther_config import config
-from pypanther.log_types import LogType
+from pypanther.log_types import PantherLogType
 
 dropbox_ownership_transfer_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -245,7 +245,7 @@ class DropboxOwnershipTransfer(PantherRule):
     DisplayName = "Dropbox Document/Folder Ownership Transfer"
     Reference = "https://help.dropbox.com/share/owner"
     Severity = PantherSeverity.High
-    LogTypes = [LogType.Dropbox_TeamEvent]
+    LogTypes = [PantherLogType.Dropbox_TeamEvent]
     RuleID = "Dropbox.Ownership.Transfer-prototype"
     Tests = dropbox_ownership_transfer_tests
     DROPBOX_TRUSTED_OWNERSHIP_DOMAINS = config.DROPBOX_TRUSTED_OWNERSHIP_DOMAINS

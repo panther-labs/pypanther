@@ -1,7 +1,7 @@
 from typing import List
 
 from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
-from pypanther.log_types import LogType
+from pypanther.log_types import PantherLogType
 
 duo_admin_app_integration_secret_key_viewed_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -35,7 +35,7 @@ class DuoAdminAppIntegrationSecretKeyViewed(PantherRule):
     Reference = "https://duo.com/docs/adminapi"
     Runbook = "The security of your Duo application is tied to the security of your secret key (skey). Secure it as you would any sensitive credential. Don't share it with unauthorized individuals or email it to anyone under any circumstances!"
     Severity = PantherSeverity.Medium
-    LogTypes = [LogType.Duo_Administrator]
+    LogTypes = [PantherLogType.Duo_Administrator]
     RuleID = "Duo.Admin.App.Integration.Secret.Key.Viewed-prototype"
     Tests = duo_admin_app_integration_secret_key_viewed_tests
 

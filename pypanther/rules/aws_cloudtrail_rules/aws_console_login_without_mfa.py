@@ -6,7 +6,7 @@ from panther_detection_helpers.caching import check_account_age
 from pypanther.base import PantherRule, PantherRuleMock, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import aws_rule_context, deep_get
 from pypanther.helpers.panther_default import lookup_aws_account_name
-from pypanther.log_types import LogType
+from pypanther.log_types import PantherLogType
 
 aws_console_login_without_mfa_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -382,7 +382,7 @@ aws_console_login_without_mfa_tests: List[PantherRuleTest] = [
 class AWSConsoleLoginWithoutMFA(PantherRule):
     RuleID = "AWS.Console.LoginWithoutMFA-prototype"
     DisplayName = "Logins Without MFA"
-    LogTypes = [LogType.AWS_CloudTrail]
+    LogTypes = [PantherLogType.AWS_CloudTrail]
     Tags = [
         "AWS",
         "Identity & Access Management",
@@ -443,7 +443,8 @@ class AWSConsoleLoginWithoutMFA(PantherRule):
                 is_new_user = True
         if is_new_user:
             return False
-        is_new_account = check_account_age(event.get("recipientAccountId"))
+        new_account_string = "new_account - " + str(event.get("recipientAccountId"))
+        is_new_account = check_account_age(new_account_string)
         if isinstance(is_new_account, str):
             logging.debug("check_account_age is a mocked string for unit testing")
             if is_new_account == "False":

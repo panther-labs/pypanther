@@ -4,7 +4,7 @@ from typing import List
 from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.gcp_base_helpers import gcp_alert_context
 from pypanther.helpers.panther_base_helpers import deep_get
-from pypanther.log_types import LogType
+from pypanther.log_types import PantherLogType
 
 gcp_firewall_rule_deleted_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -124,7 +124,7 @@ class GCPFirewallRuleDeleted(PantherRule):
     DisplayName = "GCP Firewall Rule Deleted"
     RuleID = "GCP.Firewall.Rule.Deleted-prototype"
     Severity = PantherSeverity.Low
-    LogTypes = [LogType.GCP_AuditLog]
+    LogTypes = [PantherLogType.GCP_AuditLog]
     Tags = ["GCP", "Firewall", "Networking", "Infrastructure"]
     Description = "This rule detects deletions of GCP firewall rules.\n"
     Runbook = "Ensure that the rule deletion was expected. Firewall rule deletions can cause service interruptions or outages.\n"

@@ -2,7 +2,7 @@ from typing import List
 
 from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import deep_get, okta_alert_context
-from pypanther.log_types import LogType
+from pypanther.log_types import PantherLogType
 
 okta_phishing_attempt_blocked_fast_pass_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -163,7 +163,7 @@ okta_phishing_attempt_blocked_fast_pass_tests: List[PantherRuleTest] = [
 class OktaPhishingAttemptBlockedFastPass(PantherRule):
     RuleID = "Okta.Phishing.Attempt.Blocked.FastPass-prototype"
     DisplayName = "Okta AiTM Phishing Attempt Blocked by FastPass"
-    LogTypes = [LogType.Okta_SystemLog]
+    LogTypes = [PantherLogType.Okta_SystemLog]
     Reports = {"MITRE ATT&CK": ["TA0001:T1566", "TA0006:T1556", "TA0003:T1078.004"]}
     Severity = PantherSeverity.High
     Description = (

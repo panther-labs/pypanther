@@ -2,7 +2,7 @@ from typing import List
 
 from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import deep_get
-from pypanther.log_types import LogType
+from pypanther.log_types import PantherLogType
 
 g_suite_government_backed_attack_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -33,7 +33,7 @@ g_suite_government_backed_attack_tests: List[PantherRuleTest] = [
 class GSuiteGovernmentBackedAttack(PantherRule):
     RuleID = "GSuite.GovernmentBackedAttack-prototype"
     DisplayName = "GSuite Government Backed Attack"
-    LogTypes = [LogType.GSuite_ActivityEvent]
+    LogTypes = [PantherLogType.GSuite_ActivityEvent]
     Tags = ["GSuite"]
     Severity = PantherSeverity.Critical
     Description = (

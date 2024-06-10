@@ -3,7 +3,7 @@ from typing import List
 from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.gcp_base_helpers import gcp_alert_context
 from pypanther.helpers.panther_base_helpers import deep_get, deep_walk
-from pypanther.log_types import LogType
+from pypanther.log_types import PantherLogType
 
 gc_piamrolesupdate_privilege_escalation_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -47,7 +47,7 @@ class GCPiamrolesupdatePrivilegeEscalation(PantherRule):
     RuleID = "GCP.iam.roles.update.Privilege.Escalation-prototype"
     DisplayName = "GCP iam.roles.update Privilege Escalation"
     Description = "If your user is assigned a custom IAM role, then iam.roles.update will allow you to update the “includedPermissons” on that role. Because it is assigned to you, you will gain the additional privileges, which could be anything you desire."
-    LogTypes = [LogType.GCP_AuditLog]
+    LogTypes = [PantherLogType.GCP_AuditLog]
     Tags = ["GCP"]
     Severity = PantherSeverity.High
     Reports = {"TA0004": ["T1548"]}

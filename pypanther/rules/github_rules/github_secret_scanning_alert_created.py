@@ -1,7 +1,7 @@
 from typing import List
 
 from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
-from pypanther.log_types import LogType
+from pypanther.log_types import PantherLogType
 
 git_hub_secret_scanning_alert_created_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -57,7 +57,7 @@ git_hub_secret_scanning_alert_created_tests: List[PantherRuleTest] = [
 class GitHubSecretScanningAlertCreated(PantherRule):
     RuleID = "GitHub.Secret.Scanning.Alert.Created-prototype"
     DisplayName = "GitHub Secret Scanning Alert Created"
-    LogTypes = [LogType.GitHub_Audit]
+    LogTypes = [PantherLogType.GitHub_Audit]
     Tags = ["GitHub"]
     Reports = {"MITRE ATT&CK": ["TA0006:T1552"]}
     Severity = PantherSeverity.Medium

@@ -3,7 +3,7 @@ from typing import List
 from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_auth0_helpers import auth0_alert_context, is_auth0_config_event
 from pypanther.helpers.panther_base_helpers import deep_get
-from pypanther.log_types import LogType
+from pypanther.log_types import PantherLogType
 
 auth0_user_joined_tenant_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -320,7 +320,7 @@ class Auth0UserJoinedTenant(PantherRule):
     RuleID = "Auth0.User.Joined.Tenant-prototype"
     Reference = "https://auth0.com/docs/manage-users/organizations/configure-organizations/invite-members#send-membership-invitations:~:text=.-,Send%20membership%20invitations,-You%20can"
     Severity = PantherSeverity.Info
-    LogTypes = [LogType.Auth0_Events]
+    LogTypes = [PantherLogType.Auth0_Events]
     Tests = auth0_user_joined_tenant_tests
 
     def rule(self, event):

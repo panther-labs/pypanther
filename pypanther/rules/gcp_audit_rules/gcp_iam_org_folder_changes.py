@@ -2,7 +2,7 @@ from typing import List
 
 from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import deep_get
-from pypanther.log_types import LogType
+from pypanther.log_types import PantherLogType
 
 gcpiam_org_folder_iam_changes_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -168,7 +168,7 @@ class GCPIAMOrgFolderIAMChanges(PantherRule):
     RuleID = "GCP.IAM.OrgFolderIAMChanges-prototype"
     DisplayName = "GCP Org or Folder Policy Was Changed Manually"
     DedupPeriodMinutes = 1440
-    LogTypes = [LogType.GCP_AuditLog]
+    LogTypes = [PantherLogType.GCP_AuditLog]
     Tags = ["GCP", "Identity & Access Management"]
     Reports = {"GCP_CIS_1.3": ["1.8"], "MITRE ATT&CK": ["Privilege Escalation:Valid Accounts"]}
     Severity = PantherSeverity.High

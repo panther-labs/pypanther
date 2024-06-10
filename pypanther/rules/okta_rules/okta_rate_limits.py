@@ -3,7 +3,7 @@ from typing import List
 
 from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import okta_alert_context
-from pypanther.log_types import LogType
+from pypanther.log_types import PantherLogType
 
 okta_rate_limits_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -231,7 +231,7 @@ class OktaRateLimits(PantherRule):
     Reports = {"MITRE ATT&CK": ["TA0006:T1110", "TA0040:T1498"]}
     Reference = "https://developer.okta.com/docs/reference/rl-system-log-events/"
     DedupPeriodMinutes = 360
-    LogTypes = [LogType.Okta_SystemLog]
+    LogTypes = [PantherLogType.Okta_SystemLog]
     RuleID = "Okta.Rate.Limits-prototype"
     Tests = okta_rate_limits_tests
     DETECTION_EVENTS = [

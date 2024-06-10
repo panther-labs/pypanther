@@ -2,7 +2,7 @@ from typing import List
 
 import pypanther.helpers.panther_event_type_helpers as event_type
 from pypanther.base import PantherDataModel, PantherDataModelMapping
-from pypanther.log_types import LogType
+from pypanther.log_types import PantherLogType
 
 
 def get_event_type(event):
@@ -21,7 +21,7 @@ class StandardOnePasswordSignInAttempt(PantherDataModel):
     DataModelID: str = "Standard.OnePassword.SignInAttempt"
     DisplayName: str = "1Password Signin Events"
     Enabled: bool = True
-    LogTypes: List[str] = [LogType.OnePassword_SignInAttempt]
+    LogTypes: List[str] = [PantherLogType.OnePassword_SignInAttempt]
     Mappings: List[PantherDataModelMapping] = [
         PantherDataModelMapping(Name="actor_user", Path="$.target_user.email"),
         PantherDataModelMapping(Name="source_ip", Path="$.client.ip_address"),

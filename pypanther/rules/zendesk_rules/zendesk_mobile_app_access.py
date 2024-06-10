@@ -2,7 +2,7 @@ from typing import List
 
 from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import ZENDESK_CHANGE_DESCRIPTION
-from pypanther.log_types import LogType
+from pypanther.log_types import PantherLogType
 
 zendesk_mobile_app_access_updated_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -68,7 +68,7 @@ zendesk_mobile_app_access_updated_tests: List[PantherRuleTest] = [
 class ZendeskMobileAppAccessUpdated(PantherRule):
     RuleID = "Zendesk.MobileAppAccessUpdated-prototype"
     DisplayName = "Zendesk Mobile App Access Modified"
-    LogTypes = [LogType.Zendesk_Audit]
+    LogTypes = [PantherLogType.Zendesk_Audit]
     Tags = ["Zendesk", "Persistence:Valid Accounts"]
     Reports = {"MITRE ATT&CK": ["TA0003:T1078"]}
     Severity = PantherSeverity.Medium

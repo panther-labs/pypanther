@@ -1,7 +1,7 @@
 from typing import List
 
 from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
-from pypanther.log_types import LogType
+from pypanther.log_types import PantherLogType
 
 aws_cloud_trail_iam_compromised_key_quarantine_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -103,7 +103,7 @@ aws_cloud_trail_iam_compromised_key_quarantine_tests: List[PantherRuleTest] = [
 
 
 class AWSCloudTrailIAMCompromisedKeyQuarantine(PantherRule):
-    LogTypes = [LogType.AWS_CloudTrail]
+    LogTypes = [PantherLogType.AWS_CloudTrail]
     Description = "Detects when an IAM user has the AWSCompromisedKeyQuarantineV2 policy attached to their account."
     DisplayName = "AWS Compromised IAM Key Quarantine"
     RuleID = "AWS.CloudTrail.IAMCompromisedKeyQuarantine-prototype"

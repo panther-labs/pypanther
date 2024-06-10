@@ -1,7 +1,7 @@
 from typing import List
 
 from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
-from pypanther.log_types import LogType
+from pypanther.log_types import PantherLogType
 
 git_hub_org_auth_change_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -34,7 +34,7 @@ git_hub_org_auth_change_tests: List[PantherRuleTest] = [
 class GitHubOrgAuthChange(PantherRule):
     RuleID = "GitHub.Org.AuthChange-prototype"
     DisplayName = "GitHub Org Authentication Method Changed"
-    LogTypes = [LogType.GitHub_Audit]
+    LogTypes = [PantherLogType.GitHub_Audit]
     Tags = ["GitHub", "Persistence:Account Manipulation"]
     Reports = {"MITRE ATT&CK": ["TA0003:T1098"]}
     Severity = PantherSeverity.Critical

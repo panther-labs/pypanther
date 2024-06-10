@@ -3,7 +3,7 @@ from typing import List
 from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import deep_get
 from pypanther.helpers.panther_notion_helpers import notion_alert_context
-from pypanther.log_types import LogType
+from pypanther.log_types import PantherLogType
 
 notion_samlsso_configuration_changed_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -75,7 +75,7 @@ notion_samlsso_configuration_changed_tests: List[PantherRuleTest] = [
 class NotionSAMLSSOConfigurationChanged(PantherRule):
     RuleID = "Notion.SAML.SSO.Configuration.Changed-prototype"
     DisplayName = "Notion SAML SSO Configuration Changed"
-    LogTypes = [LogType.Notion_AuditLogs]
+    LogTypes = [PantherLogType.Notion_AuditLogs]
     Tags = ["Notion", "Identity & Access Management", "Credential Security"]
     Severity = PantherSeverity.High
     Description = (

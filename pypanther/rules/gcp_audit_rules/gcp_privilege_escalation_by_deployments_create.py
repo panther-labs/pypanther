@@ -3,7 +3,7 @@ from typing import List
 from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.gcp_base_helpers import gcp_alert_context
 from pypanther.helpers.panther_base_helpers import deep_get, deep_walk
-from pypanther.log_types import LogType
+from pypanther.log_types import PantherLogType
 
 gcp_privilege_escalation_by_deployments_create_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -53,7 +53,7 @@ class GCPPrivilegeEscalationByDeploymentsCreate(PantherRule):
     RuleID = "GCP.Privilege.Escalation.By.Deployments.Create-prototype"
     DisplayName = "GCP.Privilege.Escalation.By.Deployments.Create"
     Description = "Detects privilege escalation in GCP by taking over the deploymentsmanager.deployments.create permission"
-    LogTypes = [LogType.GCP_AuditLog]
+    LogTypes = [PantherLogType.GCP_AuditLog]
     Severity = PantherSeverity.High
     Reference = (
         "https://rhinosecuritylabs.com/gcp/privilege-escalation-google-cloud-platform-part-1/"

@@ -1,7 +1,7 @@
 from typing import List
 
 from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
-from pypanther.log_types import LogType
+from pypanther.log_types import PantherLogType
 
 teleport_scheduled_jobs_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -102,7 +102,7 @@ teleport_scheduled_jobs_tests: List[PantherRuleTest] = [
 class TeleportScheduledJobs(PantherRule):
     RuleID = "Teleport.ScheduledJobs-prototype"
     DisplayName = "Teleport Scheduled Jobs"
-    LogTypes = [LogType.Gravitational_TeleportAudit]
+    LogTypes = [PantherLogType.Gravitational_TeleportAudit]
     Tags = ["SSH", "Execution:Scheduled Task/Job"]
     Severity = PantherSeverity.Medium
     Reports = {"MITRE ATT&CK": ["TA0002:T1053"]}

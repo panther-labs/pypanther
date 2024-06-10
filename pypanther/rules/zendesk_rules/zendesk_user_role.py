@@ -3,7 +3,7 @@ from typing import List
 import pypanther.helpers.panther_event_type_helpers as event_type
 from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import zendesk_get_roles
-from pypanther.log_types import LogType
+from pypanther.log_types import PantherLogType
 
 zendesk_user_role_changed_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -50,7 +50,7 @@ zendesk_user_role_changed_tests: List[PantherRuleTest] = [
 class ZendeskUserRoleChanged(PantherRule):
     RuleID = "Zendesk.UserRoleChanged-prototype"
     DisplayName = "Zendesk User Role Changed"
-    LogTypes = [LogType.Zendesk_Audit]
+    LogTypes = [PantherLogType.Zendesk_Audit]
     Severity = PantherSeverity.Info
     Description = "A user's Zendesk role was changed"
     Reference = "https://support.zendesk.com/hc/en-us/articles/4408824375450-Setting-roles-and-access-in-Zendesk-Admin-Center"

@@ -2,7 +2,7 @@ from typing import List
 
 from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import deep_get, deep_walk, okta_alert_context
-from pypanther.log_types import LogType
+from pypanther.log_types import PantherLogType
 
 okta_org2org_creation_modification_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -295,7 +295,7 @@ okta_org2org_creation_modification_tests: List[PantherRuleTest] = [
 class OktaOrg2orgCreationModification(PantherRule):
     RuleID = "Okta.Org2org.Creation.Modification-prototype"
     DisplayName = "Okta Org2Org application created of modified"
-    LogTypes = [LogType.Okta_SystemLog]
+    LogTypes = [PantherLogType.Okta_SystemLog]
     Reports = {"MITRE ATT&CK": ["TA0006:T1556", "TA0004:T1078.004"]}
     Severity = PantherSeverity.High
     Description = "An Okta Org2Org application has been created or modified. Okta's Org2Org applications instances are used to push and match users from one Okta organization to another. A malicious actor can add an Org2Org application instance and create a user in the source organization (controlled by the attacker) with the same identifier as a Super Administrator in the target organization.\n"

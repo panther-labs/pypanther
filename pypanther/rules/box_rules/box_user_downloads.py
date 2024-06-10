@@ -2,7 +2,7 @@ from typing import List
 
 from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import deep_get
-from pypanther.log_types import LogType
+from pypanther.log_types import PantherLogType
 
 box_large_number_downloads_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -47,7 +47,7 @@ box_large_number_downloads_tests: List[PantherRuleTest] = [
 class BoxLargeNumberDownloads(PantherRule):
     RuleID = "Box.Large.Number.Downloads-prototype"
     DisplayName = "Box Large Number of Downloads"
-    LogTypes = [LogType.Box_Event]
+    LogTypes = [PantherLogType.Box_Event]
     Tags = ["Box", "Exfiltration:Exfiltration Over Web Service"]
     Reports = {"MITRE ATT&CK": ["TA0010:T1567"]}
     Severity = PantherSeverity.Low

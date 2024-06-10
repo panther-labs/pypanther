@@ -3,7 +3,7 @@ from typing import List
 from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_auth0_helpers import auth0_alert_context, is_auth0_config_event
 from pypanther.helpers.panther_base_helpers import deep_get
-from pypanther.log_types import LogType
+from pypanther.log_types import PantherLogType
 
 auth0_post_login_action_flow_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -308,7 +308,7 @@ class Auth0PostLoginActionFlow(PantherRule):
     Runbook = "Assess if this was done by the user for a valid business reason. Be sure to replace any steps that were removed without authorization."
     Reference = "https://auth0.com/docs/customize/actions/flows-and-triggers/login-flow/api-object"
     Severity = PantherSeverity.Medium
-    LogTypes = [LogType.Auth0_Events]
+    LogTypes = [PantherLogType.Auth0_Events]
     RuleID = "Auth0.Post.Login.Action.Flow-prototype"
     Tests = auth0_post_login_action_flow_tests
 

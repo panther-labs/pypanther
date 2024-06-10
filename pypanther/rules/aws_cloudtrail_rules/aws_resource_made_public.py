@@ -6,7 +6,7 @@ from policyuniverse.policy import Policy
 from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import aws_rule_context, deep_get
 from pypanther.helpers.panther_default import aws_cloudtrail_success
-from pypanther.log_types import LogType
+from pypanther.log_types import PantherLogType
 
 aws_cloud_trail_resource_made_public_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -362,7 +362,7 @@ aws_cloud_trail_resource_made_public_tests: List[PantherRuleTest] = [
 class AWSCloudTrailResourceMadePublic(PantherRule):
     RuleID = "AWS.CloudTrail.ResourceMadePublic-prototype"
     DisplayName = "AWS Resource Made Public"
-    LogTypes = [LogType.AWS_CloudTrail]
+    LogTypes = [PantherLogType.AWS_CloudTrail]
     Tags = ["AWS", "Exfiltration:Transfer Data to Cloud Account"]
     Severity = PantherSeverity.Medium
     Reports = {"MITRE ATT&CK": ["TA0010:T1537"]}

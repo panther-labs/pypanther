@@ -2,7 +2,7 @@ from typing import List
 
 from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import deep_get
-from pypanther.log_types import LogType
+from pypanther.log_types import PantherLogType
 
 sentinel_one_alert_passthrough_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -144,7 +144,7 @@ class SentinelOneAlertPassthrough(PantherRule):
         "https://www.sentinelone.com/blog/feature-spotlight-introducing-the-new-threat-center/"
     )
     Severity = PantherSeverity.High
-    LogTypes = [LogType.SentinelOne_Activity]
+    LogTypes = [PantherLogType.SentinelOne_Activity]
     RuleID = "SentinelOne.Alert.Passthrough-prototype"
     Tests = sentinel_one_alert_passthrough_tests
     SENTINELONE_SEVERITY = {

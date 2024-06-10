@@ -3,7 +3,7 @@ from typing import List
 from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import aws_rule_context, deep_get
 from pypanther.helpers.panther_default import aws_cloudtrail_success
-from pypanther.log_types import LogType
+from pypanther.log_types import PantherLogType
 
 aws_cloud_trail_ami_modified_for_public_access_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -233,7 +233,7 @@ aws_cloud_trail_ami_modified_for_public_access_tests: List[PantherRuleTest] = [
 class AWSCloudTrailAMIModifiedForPublicAccess(PantherRule):
     RuleID = "AWS.CloudTrail.AMIModifiedForPublicAccess-prototype"
     DisplayName = "Amazon Machine Image (AMI) Modified to Allow Public Access"
-    LogTypes = [LogType.AWS_CloudTrail]
+    LogTypes = [PantherLogType.AWS_CloudTrail]
     Tags = ["AWS", "Exfiltration:Transfer Data to Cloud Account"]
     Severity = PantherSeverity.Medium
     Reports = {"MITRE ATT&CK": ["TA0010:T1537"]}
