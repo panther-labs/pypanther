@@ -189,7 +189,10 @@ class FileLocationMeta(type):
         frame = inspect.currentframe().f_back
         file_path = frame.f_globals.get("__file__", None)
         line_number = frame.f_lineno
-        instance = super().__call__(*args, **kwargs, _file_path=file_path, _line_no=line_number)
+        module = frame.f_globals.get("__name__", None)
+        instance = super().__call__(
+            *args, **kwargs, _file_path=file_path, _line_no=line_number, _module=module
+        )
         return instance
 
 
@@ -201,6 +204,7 @@ class PantherRuleTest(metaclass=FileLocationMeta):
     Mocks: List[PantherRuleMock] = field(default_factory=list)
     _file_path: str = ""
     _line_no: int = 0
+    _module: str = ""
 
     def log_data(self):
         if isinstance(self.Log, str):
@@ -404,7 +408,7 @@ class PantherRule(metaclass=abc.ABCMeta):
         patches: List[Any] = []
         for each_mock in test.Mocks:
             kwargs = {each_mock.ObjectName: MagicMock(return_value=each_mock.ReturnValue)}
-            p = patch.multiple(self.__module__, **kwargs)
+            p = patch.multiple(test._module, **kwargs)
             try:
                 p.start()
             except AttributeError:

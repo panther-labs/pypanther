@@ -16,7 +16,11 @@ from panther_core.rule import (
 from pydantic import ValidationError
 
 from pypanther.base import PANTHER_RULE_ALL_ATTRS, PantherRule, PantherRuleModel, PantherSeverity
+from pypanther.cache import DATA_MODEL_CACHE
 from pypanther.log_types import PantherLogType
+from pypanther.rules.aws_cloudtrail_rules.aws_console_login_without_mfa import (
+    AWSConsoleLoginWithoutMFA,
+)
 
 
 def test_pypanther_imports():
@@ -105,6 +109,14 @@ def test_panther_rule_fields_match():
         == set(PantherRule.__annotations__)
         == set(PantherRule.override.__annotations__)
     )
+
+
+def test_mock_patching():
+    # ensure that mock patches work on the file the mock is defined in
+    class TestRule(AWSConsoleLoginWithoutMFA):
+        pass
+
+    TestRule.run_tests(DATA_MODEL_CACHE.data_model_of_logtype)
 
 
 class TestValidation:
