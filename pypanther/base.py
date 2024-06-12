@@ -513,6 +513,17 @@ class PantherRule(metaclass=abc.ABCMeta):
         result.dedup_output, result.dedup_exception = self._get_dedup(event)
         result.alert_context_output, result.alert_context_exception = self._get_alert_context(event)
 
+        if batch_mode:
+            # batch mode ignores errors
+            result.title_exception = None
+            result.description_exception = None
+            result.reference_exception = None
+            result.severity_exception = None
+            result.runbook_exception = None
+            result.destinations_exception = None
+            result.dedup_exception = None
+            result.alert_context_exception = None
+
         return result
 
     def _get_title(self, event: Mapping) -> Tuple[str, Optional[Exception]]:
