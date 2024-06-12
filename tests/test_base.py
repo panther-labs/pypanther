@@ -116,6 +116,8 @@ def test_mock_patching():
     class TestRule(AWSConsoleLoginWithoutMFA):
         pass
 
+    # ensure the base class has a mock defined
+    assert len(TestRule.__base__.Tests[0].Mocks) > 0
     TestRule.run_tests(DATA_MODEL_CACHE.data_model_of_logtype)
 
 
