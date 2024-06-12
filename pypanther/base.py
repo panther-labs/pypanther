@@ -415,8 +415,6 @@ class PantherRule(metaclass=abc.ABCMeta):
                 p = patch.multiple(self, **kwargs)
                 p.start()
 
-        print("test.Name", test.Name)
-
         try:
             detection_result = self.run(event, {}, {}, False)
             assert (
@@ -441,9 +439,6 @@ class PantherRule(metaclass=abc.ABCMeta):
                         method_name,
                         exc_info=exc,
                     )
-
-            print("detection_result.title_exception", detection_result.title_exception)
-            print()
 
             assert (
                 detection_result.title_exception is None
