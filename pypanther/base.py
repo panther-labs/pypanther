@@ -517,12 +517,7 @@ class PantherRule(metaclass=abc.ABCMeta):
         )
         result.dedup_output, result.dedup_exception = self._get_dedup(event)
         result.alert_context_output, result.alert_context_exception = self._get_alert_context(event)
-        print(
-            "result.title_output, result.title_exception",
-            result.title_output,
-            result.title_exception,
-        )
-        print("result", result.title_exception)
+
         return result
 
     def _get_title(self, event: Mapping) -> Tuple[str, Optional[Exception]]:
