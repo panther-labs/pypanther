@@ -415,8 +415,10 @@ class PantherRule(metaclass=abc.ABCMeta):
                 p = patch.multiple(self, **kwargs)
                 p.start()
 
+        print("test.Name", test.Name)
+
         try:
-            detection_result = self.run(event, {}, {}, True)
+            detection_result = self.run(event, {}, {}, False)
             assert (
                 detection_result.detection_output == test.ExpectedResult
             ), f"test '{test.Name}' returned the wrong result: {test.location()}"
@@ -439,6 +441,9 @@ class PantherRule(metaclass=abc.ABCMeta):
                         method_name,
                         exc_info=exc,
                     )
+
+            print("detection_result.title_exception", detection_result.title_exception)
+            print()
 
             assert (
                 detection_result.title_exception is None
@@ -512,18 +517,12 @@ class PantherRule(metaclass=abc.ABCMeta):
         )
         result.dedup_output, result.dedup_exception = self._get_dedup(event)
         result.alert_context_output, result.alert_context_exception = self._get_alert_context(event)
-
-        if batch_mode:
-            # batch mode ignores errors
-            result.title_exception = None
-            result.description_exception = None
-            result.reference_exception = None
-            result.severity_exception = None
-            result.runbook_exception = None
-            result.destinations_exception = None
-            result.dedup_exception = None
-            result.alert_context_exception = None
-
+        print(
+            "result.title_output, result.title_exception",
+            result.title_output,
+            result.title_exception,
+        )
+        print("result", result.title_exception)
         return result
 
     def _get_title(self, event: Mapping) -> Tuple[str, Optional[Exception]]:
