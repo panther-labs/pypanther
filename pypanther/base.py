@@ -442,28 +442,28 @@ class PantherRule(metaclass=abc.ABCMeta):
 
             assert (
                 detection_result.title_exception is None
-            ), "title() raised an exception, see the captured log output for stacktrace"
+            ), f"title() raised exception '{detection_result.title_exception}', see the captured log output for stacktrace"
             assert (
                 detection_result.description_exception is None
-            ), "description() raised an exception, see the captured log output for stacktrace"
+            ), f"description() raised exception '{detection_result.description_exception}', see the captured log output for stacktrace"
             assert (
                 detection_result.reference_exception is None
-            ), "reference() raised an exception, see the captured log output for stacktrace"
+            ), f"reference() raised exception '{detection_result.reference_exception}', see the captured log output for stacktrace"
             assert (
                 detection_result.severity_exception is None
-            ), "severity() raised an exception, see the captured log output for stacktrace"
+            ), f"severity() raised exception '{detection_result.severity_exception}', see the captured log output for stacktrace"
             assert (
                 detection_result.runbook_exception is None
-            ), "runbook() raised an exception, see the captured log output for stacktrace"
+            ), f"runbook() raised exception '{detection_result.runbook_exception}', see the captured log output for stacktrace"
             assert (
                 detection_result.destinations_exception is None
-            ), "destinations() raised an exception, see the captured log output for stacktrace"
+            ), f"destinations() raised exception '{detection_result.destinations_exception}', see the captured log output for stacktrace"
             assert (
                 detection_result.dedup_exception is None
-            ), "dedup() raised an exception, see the captured log output for stacktrace"
+            ), f"dedup() raised exception '{detection_result.dedup_exception}', see the captured log output for stacktrace"
             assert (
                 detection_result.alert_context_exception is None
-            ), "alert_context() raised an exception, see the captured log output for stacktrace"
+            ), f"alert_context() raised exception '{detection_result.alert_context_exception}', see the captured log output for stacktrace"
         finally:
             for p in patches:
                 p.stop()
@@ -515,6 +515,9 @@ class PantherRule(metaclass=abc.ABCMeta):
 
         if batch_mode:
             # batch mode ignores errors
+            # in the panther backend, we check if any error occured during running and if we get one,
+            # we return a detection error instead of an alert. To make sure alerts are still returned,
+            # we need to set these to None.
             result.title_exception = None
             result.description_exception = None
             result.reference_exception = None

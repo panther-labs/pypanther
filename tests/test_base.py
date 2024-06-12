@@ -121,6 +121,34 @@ def test_mock_patching():
     TestRule.run_tests(DATA_MODEL_CACHE.data_model_of_logtype)
 
 
+def test_run_tests_returns_aux_function_exceptions():
+    funcs = [
+        "title",
+        "severity",
+        "description",
+        "reference",
+        "runbook",
+        "destinations",
+        "dedup",
+        "alert_context",
+    ]
+
+    for func in funcs:
+
+        class TestRule(AWSConsoleLoginWithoutMFA):
+            def rule(self, event):
+                return True
+
+        def aux(self, event):
+            raise Exception("bad")
+
+        setattr(TestRule, func, aux)
+
+        with pytest.raises(AssertionError) as e:
+            TestRule.run_tests(DATA_MODEL_CACHE.data_model_of_logtype)
+        assert func in str(e) and "bad" in str(e)
+
+
 class TestValidation:
     def test_rule_missing_id(self):
         class rule(PantherRule):
