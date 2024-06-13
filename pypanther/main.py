@@ -4,8 +4,8 @@ import logging
 
 from gql.transport.aiohttp import log as aiohttp_logger
 
-from pypanther.logging import setup_logging
-from pypanther.upload import run as upload
+from pypanther import testing, upload
+from pypanther.custom_logging import setup_logging
 from pypanther.vendor.panther_analysis_tool import util
 from pypanther.vendor.panther_analysis_tool.command import standard_args
 from pypanther.vendor.panther_analysis_tool.config import dynaconf_argparse_merge, setup_dynaconf
@@ -58,7 +58,7 @@ def setup_parser() -> argparse.ArgumentParser:
     upload_parser = subparsers.add_parser("upload", help="Upload a file")
 
     standard_args.for_public_api(upload_parser, required=False)
-    upload_parser.set_defaults(func=util.func_with_backend(upload))
+    upload_parser.set_defaults(func=util.func_with_backend(upload.run))
     upload_parser.add_argument(
         "--max-retries",
         help="Retry to upload on a failure for a maximum number of times",
@@ -66,6 +66,17 @@ def setup_parser() -> argparse.ArgumentParser:
         type=int,
         required=False,
     )
+    upload_parser.add_argument(
+        "--skip-tests",
+        help="Skip running tests and go directly to upload",
+        default=False,
+        required=False,
+        action="store_true",
+    )
+
+    # Test command
+    test_parser = subparsers.add_parser("test", help="run tests")
+    test_parser.set_defaults(func=testing.run)
 
     # Version command
     version_parser = subparsers.add_parser("version", help="version")

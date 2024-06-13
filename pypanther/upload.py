@@ -9,6 +9,7 @@ from dataclasses import asdict
 from fnmatch import fnmatch
 from typing import Tuple
 
+from pypanther import testing
 from pypanther.vendor.panther_analysis_tool import cli_output
 from pypanther.vendor.panther_analysis_tool.backend.client import (
     BackendError,
@@ -22,6 +23,9 @@ IGNORE_FOLDERS = [".mypy_cache", "pypanther", "panther_analysis", ".git", "__pyc
 
 
 def run(backend: BackendClient, args: argparse.Namespace) -> Tuple[int, str]:
+    if not args.skip_tests:
+        testing.run(args)
+
     with tempfile.NamedTemporaryFile() as tmp:
         with zipfile.ZipFile(tmp, "w") as zip_out:
             logging.info(f"Writing to temporary zip file at {tmp.name}")
