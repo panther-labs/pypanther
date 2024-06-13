@@ -1,5 +1,28 @@
-def add_filter(func):
-    def cls_wrapper(cls):
+from typing import Any, Callable, Type
+
+from pypanther.base import PantherRule
+
+
+def exclude(func: Callable[[Any], bool]):
+    """
+    Add a filter to exclude events from a rule. If `func` returns `True`, the `event` is excluded. Otherwise the rule is applied.
+
+    Can be used as a decorator:
+    ```
+    # ignore events where event.foo == bar
+    @exclude(lambda event: event["foo"] == "bar")
+    class FilteredRule(TestRule):
+        pass
+    ```
+
+    Can also be used standalone:
+    ```
+    # ignore events where event.foo == bar
+    exclude(lambda event: event["foo"] == "bar")(FilteredRule)
+    ```
+    """
+
+    def cls_wrapper(cls: Type[PantherRule]):
         _rule = cls.rule
 
         def wrapper(self, event):
@@ -7,7 +30,40 @@ def add_filter(func):
                 return False
             return _rule(self, event)
 
-        cls.rule = wrapper
+        setattr(cls, "rule", wrapper)
+        return cls
+
+    return cls_wrapper
+
+
+def include(func: Callable[[Any], bool]):
+    """
+    Add a filter to include events for a rule. If `func` returns `False`, the `event` is excluded. Otherwise the rule is applied.
+
+    Can be used as a decorator:
+    ```
+    # require that event.foo == bar
+    @include(lambda event: event["foo"] == "bar")
+    class FilteredRule(TestRule):
+        pass
+    ```
+
+    Can also be used standalone:
+    ```
+    # require that event.foo == bar
+    include(lambda event: event["foo"] == "bar")(FilteredRule)
+    ```
+    """
+
+    def cls_wrapper(cls: Type[PantherRule]):
+        _rule = cls.rule
+
+        def wrapper(self, event):
+            if not func(event):
+                return False
+            return _rule(self, event)
+
+        setattr(cls, "rule", wrapper)
         return cls
 
     return cls_wrapper
