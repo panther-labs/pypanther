@@ -1,6 +1,8 @@
 from importlib import import_module
 from pkgutil import walk_packages
-from typing import Set, Type
+from typing import List, Set, Type
+
+from prettytable import PrettyTable
 
 from pypanther.base import PantherDataModel, PantherRule
 
@@ -77,3 +79,34 @@ def filter_kwargs(
             for key, values in kwargs.items()
         )
     ]
+
+
+# Prints rules in a table format for easy viewing
+def table_print(rules: List[PantherRule]) -> PrettyTable:
+    table = PrettyTable()
+    table.field_names = [
+        "RuleID",
+        "LogTypes",
+        "DisplayName",
+        "Severity",
+        "Enabled",
+        "CreateAlert",
+    ]
+    for rule in rules:
+        log_types = rule.LogTypes
+        if len(log_types) > 2:
+            log_types = log_types[:2] + ["+{}".format(len(log_types) - 2)]
+
+        table.add_row(
+            [
+                rule.RuleID,
+                ", ".join([str(s) for s in log_types]),
+                rule.DisplayName,
+                rule.Severity,
+                rule.Enabled,
+                rule.CreateAlert,
+            ]
+        )
+    table.sortby = "RuleID"
+    # table.reversesort = True
+    return table
