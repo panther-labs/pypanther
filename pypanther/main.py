@@ -66,6 +66,13 @@ def setup_parser() -> argparse.ArgumentParser:
         type=int,
         required=False,
     )
+    upload_parser.add_argument(
+        "--skip-tests",
+        help="Skip running tests and go directly to upload",
+        default=False,
+        required=False,
+        action="store_true",
+    )
 
     # Test command
     test_parser = subparsers.add_parser("test", help="run tests")
