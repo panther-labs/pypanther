@@ -398,21 +398,25 @@ class PantherRule(metaclass=abc.ABCMeta):
     def run_tests(
         cls,
         get_data_model: Callable[[str], Optional[DataModel]],
+        test_failure_separator: Optional[str] = None,
     ):
         cls.validate()
         rule = cls()
 
         test_failed = False
-        for test in rule.Tests:
+        for i, test in enumerate(rule.Tests):
             try:
                 rule.run_test(test, get_data_model)
-            except PantherRuleTestException as e:
+            except (PantherRuleTestException, PantherRuleTestFailure) as e:
                 test_failed = True
-                logging.error("%s: %s", rule.RuleID, e, exc_info=e)
-            except PantherRuleTestFailure as e:
-                test_failed = True
-                # a test simply failing doesn't need the stacktrace
-                logging.error("%s: %s", rule.RuleID, e)
+                logging.error(
+                    "%s: %s",
+                    rule.RuleID,
+                    e,
+                    exc_info=e if isinstance(e, PantherRuleTestException) else None,
+                )
+                if test_failure_separator and i < len(rule.Tests) - 1:
+                    print(test_failure_separator)
 
         if test_failed:
             raise PantherRuleTestFailure("One or more tests failed")
@@ -476,7 +480,7 @@ class PantherRule(metaclass=abc.ABCMeta):
                 exc_msg = ", ".join(exc_msgs[:-1]) if len(exc_msgs) > 1 else exc_msgs[0]
                 last_exc_msg = f" and {exc_msgs[-1]}" if len(exc_msgs) > 1 else ""
                 raise PantherRuleTestFailure(
-                    f"{exc_msg}{last_exc_msg} raised an exception, see log output for stacktrace"
+                    f"test '{test.Name}': {exc_msg}{last_exc_msg} raised an exception, see log output for stacktrace"
                 )
 
         finally:
