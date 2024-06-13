@@ -694,7 +694,7 @@ class StandardImpossibleTravelLogin(PantherRule):
         # too-many-return-statements due to error checking
         # pylint: disable=global-statement,too-many-return-statements,too-complex
         self.EVENT_CITY_TRACKING = {}
-        self.CACHE_KEY = None
+        self.CACHE_KEY = ""
         self.IS_VPN = False
         self.IS_PRIVATE_RELAY = False
         # Only evaluate successful logins
@@ -753,7 +753,7 @@ class StandardImpossibleTravelLogin(PantherRule):
             )
         # Generate a unique cache key for each user per log type
         self.CACHE_KEY = self.gen_key(event)
-        if self.CACHE_KEY is None:
+        if not self.CACHE_KEY:
             # We can't save without a cache key
             return False
         # Retrieve the prior login info from the cache, if any

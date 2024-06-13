@@ -72,7 +72,7 @@ push_security_phishing_attack_tests: List[PantherRuleTest] = [
 class PushSecurityPhishingAttack(PantherRule):
     RuleID = "Push.Security.Phishing.Attack-prototype"
     DisplayName = "Push Security Phishing Attack"
-    LogTypes = [PantherLogType.PushSecurity_AttackDetection]
+    LogTypes = [PantherLogType.PushSecurity_Controls]
     Severity = PantherSeverity.High
     Tests = push_security_phishing_attack_tests
 

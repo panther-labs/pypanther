@@ -213,4 +213,4 @@ class StandardMaliciousSSODNSLookup(PantherRule):
         return False
 
     def title(self, event):
-        return f"Potential Malicious SSO Domain - {event.get('p_any_domain_names', '')[0]}"
+        return f"Potential Malicious SSO Domain - {event.get('p_any_domain_names', ['NO_DOMAINs_FOUND'])}"

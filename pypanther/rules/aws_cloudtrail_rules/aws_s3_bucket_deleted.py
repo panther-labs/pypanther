@@ -120,7 +120,7 @@ class AWSS3BucketDeleted(PantherRule):
         user_identity = event.get("userIdentity", {})
         if user_identity.get("type") == "AssumedRole":
             return self.helper_strip_role_session_id(user_identity.get("arn", ""))
-        return user_identity.get("arn")
+        return user_identity.get("arn", "<NO_ARN_FOUND>")
 
     def title(self, event):
         return f"{deep_get(event, 'userIdentity', 'type')} [{self.dedup(event)}] destroyed a bucket"

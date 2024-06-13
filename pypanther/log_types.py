@@ -216,6 +216,7 @@ class PantherLogType(str, Enum):
     Proofpoint_Event = "Proofpoint.Event"
     PushSecurity_Activity = "PushSecurity.Activity"
     PushSecurity_AttackDetection = "PushSecurity.AttackDetection"
+    PushSecurity_Controls = "PushSecurity.Controls"
     PushSecurity_Entities = "PushSecurity.Entities"
     Salesforce_Login = "Salesforce.Login"
     Salesforce_LoginAs = "Salesforce.LoginAs"

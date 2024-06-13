@@ -176,7 +176,7 @@ class OktaIdentityProviderCreatedModified(PantherRule):
         return "system.idp.lifecycle" in event.get("eventType")
 
     def title(self, event):
-        action = event.get("eventType").split(".")[3]
+        action = event.get("eventType").split(".")[-1]
         target = deep_walk(
             event, "target", "displayName", default="<displayName-not-found>", return_val="first"
         )

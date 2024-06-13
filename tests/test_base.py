@@ -15,7 +15,13 @@ from panther_core.rule import (
 )
 from pydantic import ValidationError
 
-from pypanther.base import PANTHER_RULE_ALL_ATTRS, PantherRule, PantherRuleModel, PantherSeverity
+from pypanther.base import (
+    PANTHER_RULE_ALL_ATTRS,
+    PantherRule,
+    PantherRuleAuxillaryFunctionException,
+    PantherRuleModel,
+    PantherSeverity,
+)
 from pypanther.cache import DATA_MODEL_CACHE
 from pypanther.log_types import PantherLogType
 from pypanther.rules.aws_cloudtrail_rules.aws_console_login_without_mfa import (
@@ -119,6 +125,80 @@ def test_mock_patching():
     # ensure the base class has a mock defined
     assert len(TestRule.__base__.Tests[0].Mocks) > 0
     TestRule.run_tests(DATA_MODEL_CACHE.data_model_of_logtype)
+
+
+@pytest.mark.parametrize(
+    "func",
+    [
+        "title",
+        "description",
+        "reference",
+        "severity",
+        "runbook",
+        "destinations",
+        "dedup",
+        "alert_context",
+    ],
+)
+def test_run_tests_returns_aux_function_exceptions(func: str):
+    class TestRule(AWSConsoleLoginWithoutMFA):
+        def dedup(self, event):
+            """dedup defaults to title so need to define this for test to work"""
+            return "dedup"
+
+    def aux(self, event):
+        raise Exception("bad")
+
+    setattr(TestRule, func, aux)
+
+    with pytest.raises(PantherRuleAuxillaryFunctionException) as e:
+        TestRule.run_tests(DATA_MODEL_CACHE.data_model_of_logtype)
+    assert f"{func}() raised an exception, see the captured log output for stacktrace" in str(e)
+
+
+def test_run_tests_returns_two_aux_function_exceptions():
+    class TestRule(AWSConsoleLoginWithoutMFA):
+        def runbook(self, event):
+            raise Exception("bad")
+
+        def severity(self, event):
+            raise Exception("bad")
+
+    with pytest.raises(PantherRuleAuxillaryFunctionException) as e:
+        TestRule.run_tests(DATA_MODEL_CACHE.data_model_of_logtype)
+    assert (
+        "severity() and runbook() raised an exception, see the captured log output for stacktrace"
+        in str(e)
+    )
+
+
+def test_run_tests_returns_all_aux_func_exceptions():
+    funcs = [
+        "title",
+        "description",
+        "reference",
+        "severity",
+        "runbook",
+        "destinations",
+        "dedup",
+        "alert_context",
+    ]
+
+    class TestRule(AWSConsoleLoginWithoutMFA):
+        pass
+
+    def aux(self, event):
+        raise Exception("bad")
+
+    for func in funcs:
+        setattr(TestRule, func, aux)
+
+    with pytest.raises(PantherRuleAuxillaryFunctionException) as e:
+        TestRule.run_tests(DATA_MODEL_CACHE.data_model_of_logtype)
+    assert (
+        "title(), description(), reference(), severity(), runbook(), destinations(), dedup() and alert_context() raised an exception, see the captured log output for stacktrace"
+        in str(e)
+    )
 
 
 class TestValidation:

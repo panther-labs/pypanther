@@ -123,7 +123,7 @@ class AWSSoftwareDiscovery(PantherRule):
         return f"User [{deep_get(event, 'userIdentity', 'principalId')}] performed a [{event.get('eventName')}] action in AWS account [{event.get('recipientAccountId')}]."
 
     def dedup(self, event):
-        return deep_get(event, "userIdentity", "principalId")
+        return deep_get(event, "userIdentity", "principalId", default="NO_PRINCIPAL_ID_FOUND")
 
     def alert_context(self, event):
         return aws_rule_context(event)
