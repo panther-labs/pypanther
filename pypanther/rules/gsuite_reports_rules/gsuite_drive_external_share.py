@@ -2,12 +2,7 @@ import datetime
 from typing import List
 
 from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
-from pypanther.helpers.panther_base_helpers import (
-    PantherUnexpectedAlert,
-    deep_get,
-    pattern_match,
-    pattern_match_list,
-)
+from pypanther.helpers.panther_base_helpers import deep_get, pattern_match, pattern_match_list
 from pypanther.log_types import PantherLogType
 
 g_suite_drive_external_file_share_tests: List[PantherRuleTest] = [
@@ -226,4 +221,4 @@ class GSuiteDriveExternalFileShare(PantherRule):
                     + f'"{doc_title}" to {target_user}'
                 )
             return f'Dangerous file share by [{actor}]: "{doc_title}" to {target_user}'
-        raise PantherUnexpectedAlert("No matching events, but DangerousShares still fired")
+        return "No matching events, but DangerousShares still fired"

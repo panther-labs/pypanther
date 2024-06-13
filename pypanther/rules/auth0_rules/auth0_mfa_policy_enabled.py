@@ -608,6 +608,8 @@ class Auth0MFAPolicyEnabled(PantherRule):
             setting_change = "Always Require"
         if "confidence-score" in request_body:
             setting_change = "Use Adaptive MFA"
+        else:
+            setting_change = "Unknown"
         return f"Auth0 user [{user_email}] set the mfa policies in your organization to [{setting_change}]."
 
     def alert_context(self, event):

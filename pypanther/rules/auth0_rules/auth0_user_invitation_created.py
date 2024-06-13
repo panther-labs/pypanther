@@ -347,7 +347,7 @@ class Auth0UserInvitationCreated(PantherRule):
             event, "data", "details", "request", "auth", "user", "email", default="<NO_INVITER>"
         )
         source = deep_get(event, "p_source_label", default="<NO_PSOURCE>")
-        return f"Auth0 User [{inviter}] invited [{invitee}] to {inv_type.title()} [{source}]]"
+        return f"Auth0 User [{inviter}] invited [{invitee}] to {inv_type} [{source}]]"
 
     def invitation_type(self, event):
         path = deep_get(event, "data", "details", "request", "path", default="")

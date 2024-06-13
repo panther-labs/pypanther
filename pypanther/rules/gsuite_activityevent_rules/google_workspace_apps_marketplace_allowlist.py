@@ -156,4 +156,4 @@ class GoogleWorkspaceAppsMarketplaceAllowlist(PantherRule):
         old_val = deep_get(event, "parameters", "OLD_VALUE", default="<NO_OLD_VALUE_FOUND>")
         new_val = deep_get(event, "parameters", "NEW_VALUE", default="<NO_NEW_VALUE_FOUND>")
         actor = deep_get(event, "actor", "email", default="<NO_EMAIL_FOUND>")
-        return f"Google Workspace User [{actor}] made an application allowlist setting change from [{value_dict.get(old_val)}] to [{value_dict.get(new_val)}]"
+        return f"Google Workspace User [{actor}] made an application allowlist setting change from [{value_dict.get(str(old_val))}] to [{value_dict.get(str(new_val))}]"
