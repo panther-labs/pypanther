@@ -429,7 +429,7 @@ class StandardBruteForceByIP(PantherRule):
         try:
             geoinfo = geoinfo_from_ip(event=event, match_field=event.udm_path("source_ip"))
         except PantherIPInfoException:
-            geoinfo = "No geolocation information available"
+            geoinfo = {}
         if isinstance(geoinfo, str):
             geoinfo = loads(geoinfo)
         context = {}
@@ -439,5 +439,10 @@ class StandardBruteForceByIP(PantherRule):
         context["ip"] = geoinfo.get("ip")
         context["reverse_lookup"] = geoinfo.get("hostname", "No reverse lookup hostname")
         context["ip_org"] = geoinfo.get("org", "No organization listed")
-        context = add_parse_delay(event, context)
+        try:
+            context = add_parse_delay(event, context)
+        except TypeError:
+            pass
+        except AttributeError:
+            pass
         return context

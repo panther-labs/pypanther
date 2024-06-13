@@ -204,6 +204,7 @@ class AppOmniAlertPassthrough(PantherRule):
         ]
     }
     Tests = app_omni_alert_passthrough_tests
+    SEV_DICT = {0: "Critical", 1: "High", 2: "Medium", 3: "Low", 4: "Info"}
 
     def rule(self, event):
         # Only alert where event.kind == "alert"
@@ -213,10 +214,9 @@ class AppOmniAlertPassthrough(PantherRule):
 
     def title(self, event):
         # Create title that includes severity and message
-        sev_dict = {0: "Critical", 1: "High", 2: "Medium", 3: "Low", 4: "Informational"}
-        sev = sev_dict.get(event.deep_get("event", "severity"))
+        sev = self.SEV_DICT.get(event.deep_get("event", "severity"))
         # Use type service in title if only one field, label as 'Multiple Services' if more than one.
-        if len(event.deep_get("related", "services", "type")) == 1:
+        if len(event.deep_get("related", "services", "type", default=[])) == 1:
             service = event.deep_get("related", "services", "type")[0]
         else:
             service = "Multiple Services"
@@ -224,8 +224,7 @@ class AppOmniAlertPassthrough(PantherRule):
 
     def severity(self, event):
         # Update Panther alert severity based on severity from AppOmni Alert
-        sev = {0: "Critical", 1: "High", 2: "Medium", 3: "Low", 4: "Informational"}
-        return sev[event.deep_get("event", "severity")]
+        return self.SEV_DICT[event.deep_get("event", "severity", default=4)]
 
     def dedup(self, event):
         # Dedup by the events alert id, make sure we alert each time a new AppOmni alert is logged
