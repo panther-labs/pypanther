@@ -24,7 +24,9 @@ IGNORE_FOLDERS = [".mypy_cache", "pypanther", "panther_analysis", ".git", "__pyc
 
 def run(backend: BackendClient, args: argparse.Namespace) -> Tuple[int, str]:
     if not args.skip_tests:
-        testing.run(args)
+        code, err = testing.run(args)
+        if code > 0:
+            return code, err
 
     with tempfile.NamedTemporaryFile() as tmp:
         with zipfile.ZipFile(tmp, "w") as zip_out:
