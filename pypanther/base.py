@@ -269,11 +269,13 @@ def truncate(s: str, max_size: int):
 SeverityType = Union[PantherSeverity | Literal["DEFAULT"] | str]
 
 
-class PantherRuleAuxillaryFunctionException(Exception):
-    """
-    Exception is raised when any PantherRule auxillary function
-    (dedup, title, ...) raises an exception when the function is called
-    """
+class PantherRuleTestFailure(Exception):
+    """PantherRuleTestFailure is raised when a PantherRuleTest fails."""
+
+
+class PantherRuleTestException(Exception):
+    """PantherRuleTestException is raised when a PantherRuleTest catches an
+    exception in a method that it calls when running."""
 
 
 class PantherRule(metaclass=abc.ABCMeta):
@@ -399,8 +401,21 @@ class PantherRule(metaclass=abc.ABCMeta):
     ):
         cls.validate()
         rule = cls()
+
+        test_failed = False
         for test in rule.Tests:
-            rule.run_test(test, get_data_model)
+            try:
+                rule.run_test(test, get_data_model)
+            except PantherRuleTestException as e:
+                test_failed = True
+                logging.error("%s: %s", rule.RuleID, e, exc_info=e)
+            except PantherRuleTestFailure as e:
+                test_failed = True
+                # a test simply failing doesn't need the stacktrace
+                logging.error("%s: %s", rule.RuleID, e)
+
+        if test_failed:
+            raise PantherRuleTestFailure("One or more tests failed")
 
     def run_test(
         self,
@@ -424,9 +439,16 @@ class PantherRule(metaclass=abc.ABCMeta):
 
         try:
             detection_result = self.run(event, {}, {}, False)
-            assert (
-                detection_result.detection_output == test.ExpectedResult
-            ), f"test '{test.Name}' returned the wrong result: {test.location()}"
+
+            if detection_result.detection_exception is not None:
+                raise PantherRuleTestException(
+                    f"Exception in test '{test.Name}' calling rule(): '{detection_result.detection_exception}': {test.location()}",
+                ).with_traceback(detection_result.detection_exception.__traceback__)
+
+            if detection_result.detection_output != test.ExpectedResult:
+                raise PantherRuleTestFailure(
+                    f"test '{test.Name}' returned the wrong result, expected {test.ExpectedResult} but got {detection_result.detection_output}: {test.location()}"
+                )
 
             aux_func_exceptions = {
                 "title": detection_result.title_exception,
@@ -453,8 +475,8 @@ class PantherRule(metaclass=abc.ABCMeta):
             if len(exc_msgs) > 0:
                 exc_msg = ", ".join(exc_msgs[:-1]) if len(exc_msgs) > 1 else exc_msgs[0]
                 last_exc_msg = f" and {exc_msgs[-1]}" if len(exc_msgs) > 1 else ""
-                raise PantherRuleAuxillaryFunctionException(
-                    f"{exc_msg}{last_exc_msg} raised an exception, see the captured log output for stacktrace"
+                raise PantherRuleTestFailure(
+                    f"{exc_msg}{last_exc_msg} raised an exception, see log output for stacktrace"
                 )
 
         finally:

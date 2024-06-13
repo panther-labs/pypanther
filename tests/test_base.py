@@ -18,8 +18,8 @@ from pydantic import ValidationError
 from pypanther.base import (
     PANTHER_RULE_ALL_ATTRS,
     PantherRule,
-    PantherRuleAuxillaryFunctionException,
     PantherRuleModel,
+    PantherRuleTestFailure,
     PantherSeverity,
 )
 from pypanther.cache import DATA_MODEL_CACHE
@@ -140,7 +140,7 @@ def test_mock_patching():
         "alert_context",
     ],
 )
-def test_run_tests_returns_aux_function_exceptions(func: str):
+def test_run_tests_returns_aux_function_exceptions(func: str, caplog):
     class TestRule(AWSConsoleLoginWithoutMFA):
         def dedup(self, event):
             """dedup defaults to title so need to define this for test to work"""
@@ -151,12 +151,13 @@ def test_run_tests_returns_aux_function_exceptions(func: str):
 
     setattr(TestRule, func, aux)
 
-    with pytest.raises(PantherRuleAuxillaryFunctionException) as e:
+    with pytest.raises(PantherRuleTestFailure) as e:
         TestRule.run_tests(DATA_MODEL_CACHE.data_model_of_logtype)
-    assert f"{func}() raised an exception, see the captured log output for stacktrace" in str(e)
+    print(caplog.text)
+    assert f"{func}() raised an exception, see log output for stacktrace" in caplog.text
 
 
-def test_run_tests_returns_two_aux_function_exceptions():
+def test_run_tests_returns_two_aux_function_exceptions(caplog):
     class TestRule(AWSConsoleLoginWithoutMFA):
         def runbook(self, event):
             raise Exception("bad")
@@ -164,15 +165,14 @@ def test_run_tests_returns_two_aux_function_exceptions():
         def severity(self, event):
             raise Exception("bad")
 
-    with pytest.raises(PantherRuleAuxillaryFunctionException) as e:
+    with pytest.raises(PantherRuleTestFailure) as e:
         TestRule.run_tests(DATA_MODEL_CACHE.data_model_of_logtype)
     assert (
-        "severity() and runbook() raised an exception, see the captured log output for stacktrace"
-        in str(e)
+        "severity() and runbook() raised an exception, see log output for stacktrace" in caplog.text
     )
 
 
-def test_run_tests_returns_all_aux_func_exceptions():
+def test_run_tests_returns_all_aux_func_exceptions(caplog):
     funcs = [
         "title",
         "description",
@@ -193,11 +193,11 @@ def test_run_tests_returns_all_aux_func_exceptions():
     for func in funcs:
         setattr(TestRule, func, aux)
 
-    with pytest.raises(PantherRuleAuxillaryFunctionException) as e:
+    with pytest.raises(PantherRuleTestFailure) as e:
         TestRule.run_tests(DATA_MODEL_CACHE.data_model_of_logtype)
     assert (
-        "title(), description(), reference(), severity(), runbook(), destinations(), dedup() and alert_context() raised an exception, see the captured log output for stacktrace"
-        in str(e)
+        "title(), description(), reference(), severity(), runbook(), destinations(), dedup() and alert_context() raised an exception, see log output for stacktrace"
+        in caplog.text
     )
 
 
