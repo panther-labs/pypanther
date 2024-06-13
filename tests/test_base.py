@@ -131,9 +131,9 @@ def test_mock_patching():
     "func",
     [
         "title",
-        "severity",
         "description",
         "reference",
+        "severity",
         "runbook",
         "destinations",
         "dedup",
@@ -142,7 +142,9 @@ def test_mock_patching():
 )
 def test_run_tests_returns_aux_function_exceptions(func: str):
     class TestRule(AWSConsoleLoginWithoutMFA):
-        pass
+        def dedup(self, event):
+            """dedup defaults to title so need to define this for test to work"""
+            return "dedup"
 
     def aux(self, event):
         raise Exception("bad")
@@ -151,15 +153,31 @@ def test_run_tests_returns_aux_function_exceptions(func: str):
 
     with pytest.raises(PantherRuleAuxillaryFunctionException) as e:
         TestRule.run_tests(DATA_MODEL_CACHE.data_model_of_logtype)
-    assert func in str(e)
+    assert f"{func}() raised an exception, see the captured log output for stacktrace" in str(e)
+
+
+def test_run_tests_returns_two_aux_function_exceptions():
+    class TestRule(AWSConsoleLoginWithoutMFA):
+        def runbook(self, event):
+            raise Exception("bad")
+
+        def severity(self, event):
+            raise Exception("bad")
+
+    with pytest.raises(PantherRuleAuxillaryFunctionException) as e:
+        TestRule.run_tests(DATA_MODEL_CACHE.data_model_of_logtype)
+    assert (
+        "severity() and runbook() raised an exception, see the captured log output for stacktrace"
+        in str(e)
+    )
 
 
 def test_run_tests_returns_all_aux_func_exceptions():
     funcs = [
         "title",
-        "severity",
         "description",
         "reference",
+        "severity",
         "runbook",
         "destinations",
         "dedup",
@@ -177,8 +195,10 @@ def test_run_tests_returns_all_aux_func_exceptions():
 
     with pytest.raises(PantherRuleAuxillaryFunctionException) as e:
         TestRule.run_tests(DATA_MODEL_CACHE.data_model_of_logtype)
-    for func in funcs:
-        assert func in str(e)
+    assert (
+        "title(), description(), reference(), severity(), runbook(), destinations(), dedup() and alert_context() raised an exception, see the captured log output for stacktrace"
+        in str(e)
+    )
 
 
 class TestValidation:
