@@ -269,6 +269,13 @@ def truncate(s: str, max_size: int):
 SeverityType = Union[PantherSeverity | Literal["DEFAULT"] | str]
 
 
+class PantherRuleAuxillaryFunctionException(Exception):
+    """
+    Exception is raised when any PantherRule auxillary function
+    (dedup, title, ...) raises an exception when the function is called
+    """
+
+
 class PantherRule(metaclass=abc.ABCMeta):
     """A Panther rule class. This class should be subclassed to create a new rule."""
 
@@ -421,7 +428,7 @@ class PantherRule(metaclass=abc.ABCMeta):
                 detection_result.detection_output == test.ExpectedResult
             ), f"test '{test.Name}' returned the wrong result: {test.location()}"
 
-            for method_name, exc in {
+            aux_func_exceptions = {
                 "title": detection_result.title_exception,
                 "description": detection_result.description_exception,
                 "reference": detection_result.reference_exception,
@@ -430,7 +437,9 @@ class PantherRule(metaclass=abc.ABCMeta):
                 "destinations": detection_result.destinations_exception,
                 "dedup": detection_result.dedup_exception,
                 "alert_context": detection_result.alert_context_exception,
-            }.items():
+            }
+
+            for method_name, exc in aux_func_exceptions.items():
                 if exc:
                     # log level "warning" and above is captured by the test runner
                     logging.warning(
@@ -440,30 +449,14 @@ class PantherRule(metaclass=abc.ABCMeta):
                         exc_info=exc,
                     )
 
-            assert (
-                detection_result.title_exception is None
-            ), f"title() raised exception '{detection_result.title_exception}', see the captured log output for stacktrace"
-            assert (
-                detection_result.description_exception is None
-            ), f"description() raised exception '{detection_result.description_exception}', see the captured log output for stacktrace"
-            assert (
-                detection_result.reference_exception is None
-            ), f"reference() raised exception '{detection_result.reference_exception}', see the captured log output for stacktrace"
-            assert (
-                detection_result.severity_exception is None
-            ), f"severity() raised exception '{detection_result.severity_exception}', see the captured log output for stacktrace"
-            assert (
-                detection_result.runbook_exception is None
-            ), f"runbook() raised exception '{detection_result.runbook_exception}', see the captured log output for stacktrace"
-            assert (
-                detection_result.destinations_exception is None
-            ), f"destinations() raised exception '{detection_result.destinations_exception}', see the captured log output for stacktrace"
-            assert (
-                detection_result.dedup_exception is None
-            ), f"dedup() raised exception '{detection_result.dedup_exception}', see the captured log output for stacktrace"
-            assert (
-                detection_result.alert_context_exception is None
-            ), f"alert_context() raised exception '{detection_result.alert_context_exception}', see the captured log output for stacktrace"
+            exc_msgs = [f"{name}()" for name, exc in aux_func_exceptions.items() if exc is not None]
+            if len(exc_msgs) > 0:
+                exc_msg = ", ".join(exc_msgs[:-1]) if len(exc_msgs) > 1 else exc_msgs[0]
+                last_exc_msg = f" and {exc_msgs[-1]}" if len(exc_msgs) > 1 else ""
+                raise PantherRuleAuxillaryFunctionException(
+                    f"{exc_msg}{last_exc_msg} raised an exception, see the captured log output for stacktrace"
+                )
+
         finally:
             for p in patches:
                 p.stop()

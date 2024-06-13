@@ -15,7 +15,13 @@ from panther_core.rule import (
 )
 from pydantic import ValidationError
 
-from pypanther.base import PANTHER_RULE_ALL_ATTRS, PantherRule, PantherRuleModel, PantherSeverity
+from pypanther.base import (
+    PANTHER_RULE_ALL_ATTRS,
+    PantherRule,
+    PantherRuleAuxillaryFunctionException,
+    PantherRuleModel,
+    PantherSeverity,
+)
 from pypanther.cache import DATA_MODEL_CACHE
 from pypanther.log_types import PantherLogType
 from pypanther.rules.aws_cloudtrail_rules.aws_console_login_without_mfa import (
@@ -121,7 +127,34 @@ def test_mock_patching():
     TestRule.run_tests(DATA_MODEL_CACHE.data_model_of_logtype)
 
 
-def test_run_tests_returns_aux_function_exceptions():
+@pytest.mark.parametrize(
+    "func",
+    [
+        "title",
+        "severity",
+        "description",
+        "reference",
+        "runbook",
+        "destinations",
+        "dedup",
+        "alert_context",
+    ],
+)
+def test_run_tests_returns_aux_function_exceptions(func: str):
+    class TestRule(AWSConsoleLoginWithoutMFA):
+        pass
+
+    def aux(self, event):
+        raise Exception("bad")
+
+    setattr(TestRule, func, aux)
+
+    with pytest.raises(PantherRuleAuxillaryFunctionException) as e:
+        TestRule.run_tests(DATA_MODEL_CACHE.data_model_of_logtype)
+    assert func in str(e)
+
+
+def test_run_tests_returns_all_aux_func_exceptions():
     funcs = [
         "title",
         "severity",
@@ -133,20 +166,19 @@ def test_run_tests_returns_aux_function_exceptions():
         "alert_context",
     ]
 
+    class TestRule(AWSConsoleLoginWithoutMFA):
+        pass
+
+    def aux(self, event):
+        raise Exception("bad")
+
     for func in funcs:
-
-        class TestRule(AWSConsoleLoginWithoutMFA):
-            def rule(self, event):
-                return True
-
-        def aux(self, event):
-            raise Exception("bad")
-
         setattr(TestRule, func, aux)
 
-        with pytest.raises(AssertionError) as e:
-            TestRule.run_tests(DATA_MODEL_CACHE.data_model_of_logtype)
-        assert func in str(e) and "bad" in str(e)
+    with pytest.raises(PantherRuleAuxillaryFunctionException) as e:
+        TestRule.run_tests(DATA_MODEL_CACHE.data_model_of_logtype)
+    for func in funcs:
+        assert func in str(e)
 
 
 class TestValidation:
