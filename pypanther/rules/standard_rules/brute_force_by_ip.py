@@ -441,6 +441,8 @@ class StandardBruteForceByIP(PantherRule):
         context["ip_org"] = geoinfo.get("org", "No organization listed")
         try:
             context = add_parse_delay(event, context)
-        except Exception:
+        except TypeError:
+            pass
+        except AttributeError:
             pass
         return context
