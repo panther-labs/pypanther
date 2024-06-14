@@ -162,7 +162,7 @@ class TestRunningTests:
 
         results = TestRule.run_tests(DATA_MODEL_CACHE.data_model_of_logtype)
         assert len(results) == 1
-        assert results[0].Passed == False
+        assert not results[0].Passed
         assert "bad" in str(getattr(results[0].DetectionResult, f"{func}_exception"))
 
     def test_returns_two_aux_function_exceptions(self):
@@ -183,7 +183,7 @@ class TestRunningTests:
 
         results = TestRule.run_tests(DATA_MODEL_CACHE.data_model_of_logtype)
         assert len(results) == 1
-        assert results[0].Passed == False
+        assert not results[0].Passed
         for func in ["runbook", "severity"]:
             assert "bad" in str(getattr(results[0].DetectionResult, f"{func}_exception"))
 
@@ -216,7 +216,7 @@ class TestRunningTests:
 
         results = TestRule.run_tests(DATA_MODEL_CACHE.data_model_of_logtype)
         assert len(results) == 1
-        assert results[0].Passed == False
+        assert not results[0].Passed
         for func in funcs:
             assert "bad" in str(getattr(results[0].DetectionResult, f"{func}_exception"))
 
@@ -244,12 +244,12 @@ class TestRunningTests:
 
         results = Rule1.run_tests(DATA_MODEL_CACHE.data_model_of_logtype)
         assert len(results) == 2
-        assert results[0].Passed == False
-        assert results[1].Passed == False
+        assert not results[0].Passed
+        assert not results[1].Passed
         Rule2.run_tests(DATA_MODEL_CACHE.data_model_of_logtype)
         assert len(results) == 2
-        assert results[0].Passed == False
-        assert results[1].Passed == False
+        assert not results[0].Passed
+        assert not results[1].Passed
 
     def test_returns_rule_func_exception(self):
         false_test_1 = PantherRuleTest(Name="false test 1", ExpectedResult=False, Log={})
@@ -265,7 +265,7 @@ class TestRunningTests:
 
         results = Rule1.run_tests(DATA_MODEL_CACHE.data_model_of_logtype)
         assert len(results) == 1
-        assert results[0].Passed == False
+        assert not results[0].Passed
         assert "bad" in str(results[0].DetectionResult.detection_exception)
 
 
