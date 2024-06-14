@@ -219,6 +219,25 @@ class PantherRuleTest(metaclass=FileLocationMeta):
         return {key: try_asdict(getattr(self, key)) for key in PANTHER_RULE_TEST_ALL_ATTRS}
 
 
+@dataclass
+class PantherRuleTestResult:
+    """
+    PantherRuleTestResult is the output returned from running a PantherRuleTest
+    on a PantherRule.
+
+    Attributes:
+        Passed: If true, the PantherRuleTest passed. False, otherwise.
+        DetectionResult: The result of the run() function on the given PantherEvent.
+        Test: The test that was given and created this result.
+        Rule: The PantherRule the PantherRuleTest was run on.
+    """
+
+    Passed: bool
+    DetectionResult: DetectionResult
+    Test: PantherRuleTest
+    Rule: "PantherRule"
+
+
 class PantherRuleModel(BaseModel):
     CreateAlert: bool
     DedupPeriodMinutes: NonNegativeInt
@@ -267,15 +286,6 @@ def truncate(s: str, max_size: int):
 
 
 SeverityType = Union[PantherSeverity | Literal["DEFAULT"] | str]
-
-
-class PantherRuleTestFailure(Exception):
-    """PantherRuleTestFailure is raised when a PantherRuleTest fails."""
-
-
-class PantherRuleTestException(Exception):
-    """PantherRuleTestException is raised when a PantherRuleTest catches an
-    exception in a method that it calls when running."""
 
 
 class PantherRule(metaclass=abc.ABCMeta):
@@ -398,34 +408,38 @@ class PantherRule(metaclass=abc.ABCMeta):
     def run_tests(
         cls,
         get_data_model: Callable[[str], Optional[DataModel]],
-        test_failure_separator: Optional[str] = None,
-    ):
+    ) -> list[PantherRuleTestResult]:
+        """
+        Runs all PantherRuleTests in this PantherRules' Test attribute over this
+        PantherRule.
+
+        Parameters:
+            get_data_model: a helper function that will return a PantherDataModel given a log type.
+
+        Returns:
+            a list of PantherRuleTestResult objects.
+        """
         cls.validate()
         rule = cls()
 
-        test_failed = False
-        for i, test in enumerate(rule.Tests):
-            try:
-                rule.run_test(test, get_data_model)
-            except (PantherRuleTestException, PantherRuleTestFailure) as e:
-                test_failed = True
-                logging.error(
-                    "%s: %s",
-                    rule.RuleID,
-                    e,
-                    exc_info=e if isinstance(e, PantherRuleTestException) else None,
-                )
-                if test_failure_separator and i < len(rule.Tests) - 1:
-                    print(test_failure_separator)
-
-        if test_failed:
-            raise PantherRuleTestFailure("One or more tests failed")
+        return [rule.run_test(test, get_data_model) for test in rule.Tests]
 
     def run_test(
         self,
         test: PantherRuleTest,
         get_data_model: Callable[[str], Optional[DataModel]],
-    ):
+    ) -> PantherRuleTestResult:
+        """
+        Runs a unit test over this PantherRule.
+
+        Parameters:
+            test: the PantherRuleTest to run.
+            get_data_model: a helper function that will return a PantherDataModel given a log type.
+
+        Returns:
+            a PantherRuleTestResult with the test result. If the Passed attribute is True,
+            then this tests passed.
+        """
         log = test.log_data()
         log_type = log.get("p_log_type", "default")
 
@@ -444,14 +458,15 @@ class PantherRule(metaclass=abc.ABCMeta):
         try:
             detection_result = self.run(event, {}, {}, False)
 
-            if detection_result.detection_exception is not None:
-                raise PantherRuleTestException(
-                    f"Exception in test '{test.Name}' calling rule(): '{detection_result.detection_exception}': {test.location()}",
-                ).with_traceback(detection_result.detection_exception.__traceback__)
-
-            if detection_result.detection_output != test.ExpectedResult:
-                raise PantherRuleTestFailure(
-                    f"test '{test.Name}' returned the wrong result, expected {test.ExpectedResult} but got {detection_result.detection_output}: {test.location()}"
+            if (
+                detection_result.detection_exception is not None
+                or detection_result.detection_output != test.ExpectedResult
+            ):
+                return PantherRuleTestResult(
+                    Passed=False,
+                    DetectionResult=detection_result,
+                    Test=test,
+                    Rule=self,
                 )
 
             aux_func_exceptions = {
@@ -465,27 +480,24 @@ class PantherRule(metaclass=abc.ABCMeta):
                 "alert_context": detection_result.alert_context_exception,
             }
 
-            for method_name, exc in aux_func_exceptions.items():
-                if exc:
-                    # log level "warning" and above is captured by the test runner
-                    logging.warning(
-                        "Exception in test '%s' calling %s()",
-                        test.Name,
-                        method_name,
-                        exc_info=exc,
-                    )
-
-            exc_msgs = [f"{name}()" for name, exc in aux_func_exceptions.items() if exc is not None]
-            if len(exc_msgs) > 0:
-                exc_msg = ", ".join(exc_msgs[:-1]) if len(exc_msgs) > 1 else exc_msgs[0]
-                last_exc_msg = f" and {exc_msgs[-1]}" if len(exc_msgs) > 1 else ""
-                raise PantherRuleTestFailure(
-                    f"test '{test.Name}': {exc_msg}{last_exc_msg} raised an exception, see log output for stacktrace"
+            if any(True for _, exc in aux_func_exceptions.items() if exc is not None):
+                return PantherRuleTestResult(
+                    Passed=False,
+                    DetectionResult=detection_result,
+                    Test=test,
+                    Rule=self,
                 )
 
         finally:
             for p in patches:
                 p.stop()
+
+        return PantherRuleTestResult(
+            Passed=True,
+            DetectionResult=detection_result,
+            Test=test,
+            Rule=self,
+        )
 
     def run(
         self,

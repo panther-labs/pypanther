@@ -20,7 +20,6 @@ from pypanther.base import (
     PantherRule,
     PantherRuleModel,
     PantherRuleTest,
-    PantherRuleTestFailure,
     PantherSeverity,
 )
 from pypanther.cache import DATA_MODEL_CACHE
@@ -142,8 +141,16 @@ class TestRunningTests:
             "alert_context",
         ],
     )
-    def test_returns_aux_function_exceptions(self, func: str, caplog):
-        class TestRule(AWSConsoleLoginWithoutMFA):
+    def test_returns_aux_function_exceptions(self, func: str):
+        class TestRule(PantherRule):
+            RuleID = "TestRule"
+            Severity = PantherSeverity.High
+            LogTypes = [PantherLogType.AlphaSOC_Alert]
+            Tests = [PantherRuleTest(Name="test", ExpectedResult=True, Log={})]
+
+            def rule(self, event):
+                return True
+
             def dedup(self, event):
                 """dedup defaults to title so need to define this for test to work"""
                 return "dedup"
@@ -153,27 +160,34 @@ class TestRunningTests:
 
         setattr(TestRule, func, aux)
 
-        with pytest.raises(PantherRuleTestFailure):
-            TestRule.run_tests(DATA_MODEL_CACHE.data_model_of_logtype)
-        print(caplog.text)
-        assert f"{func}() raised an exception, see log output for stacktrace" in caplog.text
+        results = TestRule.run_tests(DATA_MODEL_CACHE.data_model_of_logtype)
+        assert len(results) == 1
+        assert results[0].Passed == False
+        assert "bad" in str(getattr(results[0].DetectionResult, f"{func}_exception"))
 
-    def test_returns_two_aux_function_exceptions(self, caplog):
-        class TestRule(AWSConsoleLoginWithoutMFA):
+    def test_returns_two_aux_function_exceptions(self):
+        class TestRule(PantherRule):
+            RuleID = "TestRule"
+            Severity = PantherSeverity.High
+            LogTypes = [PantherLogType.AlphaSOC_Alert]
+            Tests = [PantherRuleTest(Name="test", ExpectedResult=True, Log={})]
+
+            def rule(self, event):
+                return True
+
             def runbook(self, event):
                 raise Exception("bad")
 
             def severity(self, event):
                 raise Exception("bad")
 
-        with pytest.raises(PantherRuleTestFailure):
-            TestRule.run_tests(DATA_MODEL_CACHE.data_model_of_logtype)
-        assert (
-            "severity() and runbook() raised an exception, see log output for stacktrace"
-            in caplog.text
-        )
+        results = TestRule.run_tests(DATA_MODEL_CACHE.data_model_of_logtype)
+        assert len(results) == 1
+        assert results[0].Passed == False
+        for func in ["runbook", "severity"]:
+            assert "bad" in str(getattr(results[0].DetectionResult, f"{func}_exception"))
 
-    def test_returns_all_aux_func_exceptions(self, caplog):
+    def test_returns_all_aux_func_exceptions(self):
         funcs = [
             "title",
             "description",
@@ -185,8 +199,14 @@ class TestRunningTests:
             "alert_context",
         ]
 
-        class TestRule(AWSConsoleLoginWithoutMFA):
-            pass
+        class TestRule(PantherRule):
+            RuleID = "TestRule"
+            Severity = PantherSeverity.High
+            LogTypes = [PantherLogType.AlphaSOC_Alert]
+            Tests = [PantherRuleTest(Name="test", ExpectedResult=True, Log={})]
+
+            def rule(self, event):
+                return True
 
         def aux(self, event):
             raise Exception("bad")
@@ -194,14 +214,13 @@ class TestRunningTests:
         for func in funcs:
             setattr(TestRule, func, aux)
 
-        with pytest.raises(PantherRuleTestFailure):
-            TestRule.run_tests(DATA_MODEL_CACHE.data_model_of_logtype)
-        assert (
-            "title(), description(), reference(), severity(), runbook(), destinations(), dedup() and alert_context() raised an exception, see log output for stacktrace"
-            in caplog.text
-        )
+        results = TestRule.run_tests(DATA_MODEL_CACHE.data_model_of_logtype)
+        assert len(results) == 1
+        assert results[0].Passed == False
+        for func in funcs:
+            assert "bad" in str(getattr(results[0].DetectionResult, f"{func}_exception"))
 
-    def test_runs_all_rule_tests(self, caplog):
+    def test_runs_all_rule_tests(self):
         false_test_1 = PantherRuleTest(Name="false test 1", ExpectedResult=False, Log={})
         false_test_2 = PantherRuleTest(Name="false test 2", ExpectedResult=False, Log={})
 
@@ -223,16 +242,16 @@ class TestRunningTests:
             def rule(self, event):
                 return True
 
-        with pytest.raises(PantherRuleTestFailure):
-            Rule1.run_tests(DATA_MODEL_CACHE.data_model_of_logtype)
-        with pytest.raises(PantherRuleTestFailure):
-            Rule2.run_tests(DATA_MODEL_CACHE.data_model_of_logtype)
-        assert "Rule1: test 'false test 1'" in caplog.text
-        assert "Rule1: test 'false test 2'" in caplog.text
-        assert "Rule2: test 'false test 1'" in caplog.text
-        assert "Rule2: test 'false test 2'" in caplog.text
+        results = Rule1.run_tests(DATA_MODEL_CACHE.data_model_of_logtype)
+        assert len(results) == 2
+        assert results[0].Passed == False
+        assert results[1].Passed == False
+        Rule2.run_tests(DATA_MODEL_CACHE.data_model_of_logtype)
+        assert len(results) == 2
+        assert results[0].Passed == False
+        assert results[1].Passed == False
 
-    def test_returns_rule_func_exception(self, caplog):
+    def test_returns_rule_func_exception(self):
         false_test_1 = PantherRuleTest(Name="false test 1", ExpectedResult=False, Log={})
 
         class Rule1(PantherRule):
@@ -244,9 +263,10 @@ class TestRunningTests:
             def rule(self, event):
                 raise Exception("bad")
 
-        with pytest.raises(PantherRuleTestFailure):
-            Rule1.run_tests(DATA_MODEL_CACHE.data_model_of_logtype)
-        assert "Rule1: Exception in test 'false test 1'" in caplog.text
+        results = Rule1.run_tests(DATA_MODEL_CACHE.data_model_of_logtype)
+        assert len(results) == 1
+        assert results[0].Passed == False
+        assert "bad" in str(results[0].DetectionResult.detection_exception)
 
 
 class TestValidation:
