@@ -1,6 +1,7 @@
 import argparse
 import importlib
 import logging
+import sys
 
 from gql.transport.aiohttp import log as aiohttp_logger
 
@@ -39,12 +40,12 @@ def run():
         logging.debug("Full error traceback:", exc_info=err)
         return 1
 
-    if return_code == 1 and out:
+    if return_code > 0 and out:
         logging.error(out)
     elif return_code == 0 and out:
         logging.info(out)
 
-    return return_code
+    sys.exit(return_code)
 
 
 def setup_parser() -> argparse.ArgumentParser:
