@@ -469,6 +469,10 @@ class PantherRule(metaclass=abc.ABCMeta):
                     Rule=self,
                 )
 
+            if isinstance(detection_result.destinations_exception, UnknownDestinationError):
+                # ignore unknown destinations during testing
+                detection_result.destinations_exception = None
+
             aux_func_exceptions = {
                 "title": detection_result.title_exception,
                 "description": detection_result.description_exception,
@@ -709,16 +713,16 @@ class PantherRule(metaclass=abc.ABCMeta):
             else:
                 invalid_destinations.append(each_destination)
 
+        if len(standardized_destinations) > MAX_DESTINATIONS_SIZE:
+            # If generated field exceeds max size, truncate it
+            standardized_destinations = standardized_destinations[:MAX_DESTINATIONS_SIZE]
+
         if invalid_destinations:
             try:
                 # raise to get a stack trace
                 raise UnknownDestinationError("Invalid Destinations", invalid_destinations)
             except UnknownDestinationError as e:
-                return None, e
-
-        if len(standardized_destinations) > MAX_DESTINATIONS_SIZE:
-            # If generated field exceeds max size, truncate it
-            standardized_destinations = standardized_destinations[:MAX_DESTINATIONS_SIZE]
+                return standardized_destinations, e
 
         return standardized_destinations, None
 
