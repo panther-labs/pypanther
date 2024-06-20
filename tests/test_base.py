@@ -1229,10 +1229,16 @@ class TestRule(TestCase):
                 return True
 
             def destinations(self, event) -> list[str]:
-                return ["boom"]
+                return ["boom", "bam"]
 
-        result = TestRule().run(PantherEvent({}), {}, {}, False)
+        result = TestRule().run(
+            PantherEvent({}),
+            {},
+            {"boom": FakeDestination(destination_display_name="boom", destination_id="123")},
+            False,
+        )
         assert result.destinations_exception is None
+        assert result.destinations_output == ["123"]
 
     def test_invalid_destination_during_batch_mode(self) -> None:
         class TestRule(PantherRule):
@@ -1244,7 +1250,22 @@ class TestRule(TestCase):
                 return True
 
             def destinations(self, event) -> list[str]:
-                return ["boom"]
+                return ["boom", "bam"]
 
-        result = TestRule().run(PantherEvent({}), {}, {}, True)
+        result = TestRule().run(
+            PantherEvent({}),
+            {},
+            {"boom": FakeDestination(destination_display_name="boom", destination_id="123")},
+            True,
+        )
         assert result.destinations_exception is None
+        assert result.destinations_output == ["123"]
+
+
+@dataclasses.dataclass
+class FakeDestination:
+    """Stub class as a replacement for the Destination class
+    that wraps alert output metadata."""
+
+    destination_id: str
+    destination_display_name: str
