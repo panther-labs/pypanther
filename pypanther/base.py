@@ -544,6 +544,10 @@ class PantherRule(metaclass=abc.ABCMeta):
         result.dedup_output, result.dedup_exception = self._get_dedup(event)
         result.alert_context_output, result.alert_context_exception = self._get_alert_context(event)
 
+        if not batch_mode and isinstance(result.destinations_exception, UnknownDestinationError):
+            # ignore unknown destinations during testing
+            result.destinations_exception = None
+
         if batch_mode:
             # batch mode ignores errors
             # in the panther backend, we check if any error occured during running and if we get one,
@@ -709,16 +713,16 @@ class PantherRule(metaclass=abc.ABCMeta):
             else:
                 invalid_destinations.append(each_destination)
 
+        if len(standardized_destinations) > MAX_DESTINATIONS_SIZE:
+            # If generated field exceeds max size, truncate it
+            standardized_destinations = standardized_destinations[:MAX_DESTINATIONS_SIZE]
+
         if invalid_destinations:
             try:
                 # raise to get a stack trace
                 raise UnknownDestinationError("Invalid Destinations", invalid_destinations)
             except UnknownDestinationError as e:
-                return None, e
-
-        if len(standardized_destinations) > MAX_DESTINATIONS_SIZE:
-            # If generated field exceeds max size, truncate it
-            standardized_destinations = standardized_destinations[:MAX_DESTINATIONS_SIZE]
+                return standardized_destinations, e
 
         return standardized_destinations, None
 

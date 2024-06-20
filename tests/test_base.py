@@ -1218,3 +1218,33 @@ class TestRule(TestCase):
         )
         result = rule().run(PantherEvent({}, None), {}, {}, batch_mode=True)
         assert expected_result == result
+
+    def test_invalid_destination_during_testing(self) -> None:
+        class TestRule(PantherRule):
+            RuleID = "TestRule"
+            LogTypes = [PantherLogType.Panther_Audit]
+            Severity = PantherSeverity.Critical
+
+            def rule(self, event: PantherEvent) -> bool:
+                return True
+
+            def destinations(self, event) -> list[str]:
+                return ["boom"]
+
+        result = TestRule().run(PantherEvent({}), {}, {}, False)
+        assert result.destinations_exception is None
+
+    def test_invalid_destination_during_batch_mode(self) -> None:
+        class TestRule(PantherRule):
+            RuleID = "TestRule"
+            LogTypes = [PantherLogType.Panther_Audit]
+            Severity = PantherSeverity.Critical
+
+            def rule(self, event: PantherEvent) -> bool:
+                return True
+
+            def destinations(self, event) -> list[str]:
+                return ["boom"]
+
+        result = TestRule().run(PantherEvent({}), {}, {}, True)
+        assert result.destinations_exception is None
