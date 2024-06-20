@@ -6,7 +6,7 @@ from unittest import TestCase
 import pytest
 from panther_core.detection import DetectionResult
 from panther_core.enriched_event import PantherEvent
-from panther_core.exceptions import FunctionReturnTypeError
+from panther_core.exceptions import FunctionReturnTypeError, UnknownDestinationError
 from panther_core.rule import (
     MAX_DEDUP_STRING_SIZE,
     MAX_GENERATED_FIELD_SIZE,
@@ -1219,7 +1219,7 @@ class TestRule(TestCase):
         result = rule().run(PantherEvent({}, None), {}, {}, batch_mode=True)
         assert expected_result == result
 
-    def test_invalid_destination_during_testing(self) -> None:
+    def test_invalid_destination_during_run(self) -> None:
         class TestRule(PantherRule):
             RuleID = "TestRule"
             LogTypes = [PantherLogType.Panther_Audit]
@@ -1237,10 +1237,10 @@ class TestRule(TestCase):
             {"boom": FakeDestination(destination_display_name="boom", destination_id="123")},
             False,
         )
-        assert result.destinations_exception is None
+        assert isinstance(result.destinations_exception, UnknownDestinationError)
         assert result.destinations_output == ["123"]
 
-    def test_invalid_destination_during_batch_mode(self) -> None:
+    def test_invalid_destination_during_test(self) -> None:
         class TestRule(PantherRule):
             RuleID = "TestRule"
             LogTypes = [PantherLogType.Panther_Audit]
@@ -1252,14 +1252,12 @@ class TestRule(TestCase):
             def destinations(self, event) -> list[str]:
                 return ["boom", "bam"]
 
-        result = TestRule().run(
-            PantherEvent({}),
-            {},
-            {"boom": FakeDestination(destination_display_name="boom", destination_id="123")},
-            True,
+        result = TestRule().run_test(
+            PantherRuleTest(Name="test", ExpectedResult=True, Log={}),
+            DATA_MODEL_CACHE.data_model_of_logtype,
         )
-        assert result.destinations_exception is None
-        assert result.destinations_output == ["123"]
+        assert result.DetectionResult.destinations_exception is None
+        assert result.DetectionResult.destinations_output == []
 
 
 @dataclasses.dataclass
