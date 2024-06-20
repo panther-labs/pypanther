@@ -469,6 +469,10 @@ class PantherRule(metaclass=abc.ABCMeta):
                     Rule=self,
                 )
 
+            if isinstance(detection_result.destinations_exception, UnknownDestinationError):
+                # ignore unknown destinations during testing
+                detection_result.destinations_exception = None
+
             aux_func_exceptions = {
                 "title": detection_result.title_exception,
                 "description": detection_result.description_exception,
@@ -543,10 +547,6 @@ class PantherRule(metaclass=abc.ABCMeta):
         )
         result.dedup_output, result.dedup_exception = self._get_dedup(event)
         result.alert_context_output, result.alert_context_exception = self._get_alert_context(event)
-
-        if not batch_mode and isinstance(result.destinations_exception, UnknownDestinationError):
-            # ignore unknown destinations during testing
-            result.destinations_exception = None
 
         if batch_mode:
             # batch mode ignores errors
