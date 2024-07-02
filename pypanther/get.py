@@ -81,8 +81,8 @@ def filter_kwargs(
     ]
 
 
-def pretty_table(rules: List[PantherRule]) -> PrettyTable:
-    """Formats rules in a table format for easy viewing. Use `print()` to view."""
+def print_rule_table(rules: List[Type[PantherRule]]) -> None:
+    """Prints rules in a table format for easy viewing."""
     table = PrettyTable()
     table.field_names = [
         "RuleID",
@@ -110,4 +110,4 @@ def pretty_table(rules: List[PantherRule]) -> PrettyTable:
         )
     table.sortby = "RuleID"
 
-    return table
+    print(table)
