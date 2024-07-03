@@ -81,8 +81,8 @@ def filter_kwargs(
     ]
 
 
-# Prints rules in a table format for easy viewing
-def table_print(rules: List[PantherRule]) -> PrettyTable:
+def print_rule_table(rules: List[Type[PantherRule]]) -> None:
+    """Prints rules in a table format for easy viewing."""
     table = PrettyTable()
     table.field_names = [
         "RuleID",
@@ -92,6 +92,7 @@ def table_print(rules: List[PantherRule]) -> PrettyTable:
         "Enabled",
         "CreateAlert",
     ]
+
     for rule in rules:
         log_types = rule.LogTypes
         if len(log_types) > 2:
@@ -108,5 +109,5 @@ def table_print(rules: List[PantherRule]) -> PrettyTable:
             ]
         )
     table.sortby = "RuleID"
-    # table.reversesort = True
-    return table
+
+    print(table)

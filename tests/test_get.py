@@ -1,9 +1,11 @@
+import textwrap
 import unittest
+from typing import Type
 
-from prettytable import PrettyTable
+import pytest
 
 from pypanther.base import PantherRule
-from pypanther.get import table_print
+from pypanther.get import print_rule_table
 
 
 class TestEDRRule(PantherRule):
@@ -30,26 +32,24 @@ class TestPaloAltoRule(PantherRule):
         return True
 
 
-class TestTablePrint(unittest.TestCase):
-    def test_table_print(self):
-        rules = [TestEDRRule, TestPaloAltoRule]
-        output = table_print(rules)
+def test_print_rule_table(capsys):
+    rules: list[Type[PantherRule]] = [TestEDRRule, TestPaloAltoRule]
+    print_rule_table(rules)
+    std = capsys.readouterr()
 
-        expected_table = PrettyTable()
-        expected_table.field_names = [
-            "RuleID",
-            "LogTypes",
-            "DisplayName",
-            "Severity",
-            "Enabled",
-            "CreateAlert",
-        ]
-        expected_table.add_row(
-            ["EDR", "CrowdStrike, SentinelOne, +1", "EDR Rule", "High", "True", "False"]
-        )
-        expected_table.add_row(["Firewall", "PaloAlto", "Firewall Rule", "Medium", "True", "True"])
-
-        self.assertEqual(str(output), str(expected_table))
+    pytest.maxDiff = None
+    exp = textwrap.dedent(
+        """
+        +----------+------------------------------+---------------+----------+---------+-------------+
+        |  RuleID  |           LogTypes           |  DisplayName  | Severity | Enabled | CreateAlert |
+        +----------+------------------------------+---------------+----------+---------+-------------+
+        |   EDR    | CrowdStrike, SentinelOne, +1 |    EDR Rule   |   High   |   True  |    False    |
+        | Firewall |           PaloAlto           | Firewall Rule |  Medium  |   True  |     True    |
+        +----------+------------------------------+---------------+----------+---------+-------------+
+    """
+    ).lstrip()
+    assert std.out == exp
+    assert std.err == ""
 
 
 if __name__ == "__main__":
