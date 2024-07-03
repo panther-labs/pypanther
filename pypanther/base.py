@@ -299,7 +299,7 @@ class PantherRule(metaclass=abc.ABCMeta):
     Description: str = DEFAULT_DESCRIPTION
     DisplayName: str = DEFAULT_DISPLAY_NAME
     Enabled: bool = DEFAULT_ENABLED
-    OutputIds: List[str] = DEFAULT_OUTPUT_IDS
+    OutputIDs: List[str] = DEFAULT_OUTPUT_IDS
     Reference: str = DEFAULT_REFERENCE
     Reports: Dict[str, List[str]] = DEFAULT_REPORTS
     Runbook: str = DEFAULT_RUNBOOK
@@ -330,7 +330,7 @@ class PantherRule(metaclass=abc.ABCMeta):
         return self.title(event)
 
     def destinations(self, event: PantherEvent) -> List[str]:
-        return self.OutputIds
+        return self.OutputIDs
 
     def runbook(self, event: PantherEvent) -> str:
         return self.Runbook
