@@ -105,7 +105,7 @@ PANTHER_RULE_ALL_ATTRS = [
     "DisplayName",
     "Enabled",
     "LogTypes",
-    "OutputIds",
+    "OutputIDs",
     "Reference",
     "Reports",
     "RuleID",
@@ -245,7 +245,7 @@ class PantherRuleModel(BaseModel):
     DisplayName: str
     Enabled: bool
     LogTypes: NonEmptyUniqueList[str]
-    OutputIds: UniqueList[str]
+    OutputIDs: UniqueList[str]
     Reference: str
     Reports: Dict[str, NonEmptyUniqueList[str]]
     RuleID: str
@@ -387,7 +387,7 @@ class PantherRule(metaclass=abc.ABCMeta):
         Description: Optional[str] = None,
         DisplayName: Optional[str] = None,
         Enabled: Optional[bool] = None,
-        OutputIds: Optional[List[str]] = None,
+        OutputIDs: Optional[List[str]] = None,
         Reference: Optional[str] = None,
         Runbook: Optional[str] = None,
         Reports: Optional[Dict[str, List[str]]] = None,
