@@ -17,13 +17,13 @@ class PantherParserCSV(PantherParser):
 
 
 @dataclasses.dataclass
-class PantherSchema(abc.ABCMeta):
+class Schema(abc.ABCMeta):
     Parser: Optional[PantherParser]
     Description: str
     Archived: bool = False
 
 
-class OnePassword_ItemUsage(PantherSchema):
+class OnePassword_ItemUsage(Schema):
     UUID = String(
         Description="The ID of the item",
         Required=True)
