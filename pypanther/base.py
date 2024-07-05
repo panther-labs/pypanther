@@ -772,6 +772,17 @@ def noop():
 
 
 @dataclass
+class PantherDataModel:
+    Name: str
+    Description: Optional[str] = None
+    Enabled: bool = False
+
+class PantherDataModelField:
+    Name: str
+    Type: float
+
+
+@dataclass
 class PantherDataModelMapping:
     Name: str
     Path: Optional[str] = None
