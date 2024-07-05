@@ -1,9 +1,11 @@
 import abc
+import dataclasses
+import time
 from enum import Enum
-from typing import List, Optional
+from typing import List, Optional, final, Any
 
 
-class PantherFieldType(Enum):
+class FieldType(Enum):
     STRING = "string"
     INT = "int"
     SMALLINT = "smallint"
@@ -13,9 +15,10 @@ class PantherFieldType(Enum):
     TIMESTAMP = "timestamp"
     ARRAY = "array"
     OBJECT = "object"
+    JSON = "json"
 
 
-class PantherTimestampFormat(Enum):
+class TimestampFormat(Enum):
     RFC3339 = "rfc3339"
     UNIX_AUTO = "unix_auto"
     UNIX = "unix"
@@ -24,114 +27,82 @@ class PantherTimestampFormat(Enum):
     UNIX_US = "unix_us"
 
 
-class PantherField(metaclass=abc.ABCMeta):
-    Name: str
+@dataclasses.dataclass
+class Field(metaclass=abc.ABCMeta):
     Description: Optional[str] = None
     Required: bool = False
-    Type: PantherFieldType
+
+    @property
+    @abc.abstractmethod
+    def Type(self) -> FieldType:
+        raise NotImplementedError("You must implement the rule method in your rule class.")
 
 
-class PantherFieldString(PantherField):
-    def __init__(self, name: str,
-                 description: str = None,
-                 required: bool = False):
-        self.Name = name
-        self.Description = description
-        self.Required = required
-        self.Type = PantherFieldType.STRING
+@final
+@dataclasses.dataclass
+class String(Field):
+    def Type(self) -> FieldType:
+        return FieldType.STRING
 
 
-class PantherFieldInt(PantherField):
-    def __init__(self, name: str,
-                 description: str = None,
-                 required: bool = False):
-        self.Name = name
-        self.Description = description
-        self.Required = required
-        self.Type = PantherFieldType.INT
+@final
+@dataclasses.dataclass
+class Int(Field):
+    def Type(self) -> FieldType:
+        return FieldType.INT
 
 
-class PantherFieldBigInt(PantherField):
-    def __init__(self, name: str,
-                 description: str = None,
-                 required: bool = False):
-        self.Name = name
-        self.Description = description
-        self.Required = required
-        self.Type = PantherFieldType.BIGINT
+@final
+@dataclasses.dataclass
+class BigInt(Field):
+    def Type(self) -> FieldType:
+        return FieldType.BIGINT
 
 
-class PantherFieldFloat(PantherField):
-    def __init__(self, name: str,
-                 description: str = None,
-                 required: bool = False):
-        self.Name = name
-        self.Description = description
-        self.Required = required
-        self.Type = PantherFieldType.FLOAT
+@final
+@dataclasses.dataclass
+class Float(Field):
+    def Type(self) -> FieldType:
+        return FieldType.FLOAT
 
 
-class PantherFieldBoolean(PantherField):
-    def __init__(self, name: str,
-                 description: str = None,
-                 required: bool = False):
-        self.Name = name
-        self.Description = description
-        self.Required = required
-        self.Type = PantherFieldType.BOOLEAN
+@final
+@dataclasses.dataclass
+class Bool(Field):
+    def Type(self) -> FieldType:
+        return FieldType.BOOLEAN
 
 
-class PantherFieldTimestamp(PantherField):
-    TimeFormats: List[str] = []
+@final
+@dataclasses.dataclass
+class Timestamp(Field):
+    TimeFormats: List[str | TimestampFormat] = list
     IsEventTime: bool = False
 
-    def __init__(self, name: str,
-                 time_formats: List[str | PantherTimestampFormat],
-                 description: str = None,
-                 required: bool = False,
-                 is_event_time: bool = False):
-        self.Name = name
-        self.Description = description
-        self.Type = PantherFieldType.TIMESTAMP
-        self.TimeFormats = time_formats
-        self.IsEventTime = is_event_time
-        self.Required = required
+    def Type(self) -> FieldType:
+        return FieldType.TIMESTAMP
 
 
-class PantherFieldArray(PantherField):
-    Array: List[PantherField] = []
+@final
+@dataclasses.dataclass
+class Array(Field):
+    Array: List[Field] = list
 
-    def __init__(self, name: str,
-                 array: List[PantherField],
-                 description: str = None,
-                 required: bool = False,
-                 ):
-        self.Name = name
-        self.Description = description
-        self.Type = PantherFieldType.ARRAY
-        self.Required = required
-        self.Array = array
+    def Type(self) -> FieldType:
+        return FieldType.ARRAY
 
 
-class PantherFieldObject(PantherField):
-    Fields: List[PantherField]
+@final
+@dataclasses.dataclass
+class Object(Field):
+    Fields: List[Field] = list
 
-    def __init__(self, name: str,
-                 fields: List[PantherField],
-                 description: str = None,
-                 required: bool = False):
-        self.Name = name
-
-        self.Description = description
-        self.Required = required
-        self.Type = PantherFieldType.OBJECT
+    def Type(self) -> FieldType:
+        return FieldType.OBJECT
 
 
-class PantherFieldJson(PantherField):
-    def __init__(self, name: str,
-                 description: str = None,
-                 required: bool = False):
-        self.Name = name
-        self.Description = description
-        self.Required = required
-        self.Type = PantherFieldType.OBJECT
+@final
+@dataclasses.dataclass
+class Json(Field, Any):
+    def Type(self) -> FieldType:
+        return FieldType.JSON

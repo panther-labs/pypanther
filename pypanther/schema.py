@@ -1,7 +1,8 @@
 import abc
+import dataclasses
 from typing import List, Optional
 
-from .field import PantherField, PantherFieldString, PantherFieldTimestamp, PantherTimestampFormat
+from .field import Field, String, Timestamp, TimestampFormat
 
 
 class PantherParser(abc.ABCMeta):
@@ -15,25 +16,20 @@ class PantherParserCSV(PantherParser):
     Delimiter: str = ","
 
 
+@dataclasses.dataclass
 class PantherSchema(abc.ABCMeta):
     Parser: Optional[PantherParser]
     Description: str
-    Fields: List[PantherField]
     Archived: bool = False
 
 
 class OnePassword_ItemUsage(PantherSchema):
-    Description = "OnePassword Item Usage"
-    Fields = [
-        PantherFieldString(
-            name="UUID",
-            description="The ID of the item",
-            required=True),
-        PantherFieldTimestamp(
-            name="timestamp",
-            description="The timestamp of the event",
-            time_formats=[PantherTimestampFormat.RFC3339]),
-        PantherFieldString(
-            name="action",
-            description="The action performed on the item"),
-    ]
+    UUID = String(
+        Description="The ID of the item",
+        Required=True)
+    timestamp = Timestamp(
+        Description="The timestamp of the event",
+        TimeFormats=[TimestampFormat.RFC3339])
+    action = String(
+        Description="The action performed on the item")
+
