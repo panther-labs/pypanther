@@ -1,3 +1,7 @@
+setup:
+	python -m pip install --upgrade pip poetry
+	poetry install
+
 publish:
 	rm -rf dist
 	git checkout main
