@@ -7,7 +7,7 @@ import time
 import zipfile
 from dataclasses import asdict
 from fnmatch import fnmatch
-from typing import Tuple
+from typing import Optional, Tuple
 
 from pypanther import testing
 from pypanther.vendor.panther_analysis_tool import cli_output
@@ -23,6 +23,11 @@ IGNORE_FOLDERS = [".mypy_cache", "pypanther", "panther_analysis", ".git", "__pyc
 
 
 def run(backend: BackendClient, args: argparse.Namespace) -> Tuple[int, str]:
+    if not args.confirm:
+        err = confirm()
+        if err is not None:
+            return 0, err
+
     if not args.skip_tests:
         code, err = testing.run(args)
         if code > 0:
@@ -100,3 +105,16 @@ def upload_zip(backend: BackendClient, args: argparse.Namespace, archive: str) -
             # PEP8 guide states it is OK to catch BaseException if you log it.
             except BaseException as err:  # pylint: disable=broad-except
                 return 1, f"Failed to upload to Panther: {err}"
+
+
+def confirm() -> Optional[str]:
+    warning_text = cli_output.warning(
+        "WARNING: pypanther upload is under active development and not recommended for use"
+        " without guidance from the Panther team. Would you like to proceed? [y/n]"
+    )
+    print(warning_text)
+    choice = input().lower()
+    if choice != "y":
+        print(cli_output.warning(f'Exiting upload due to entered response "{choice}" which is not "y"'))
+        return "User did not confirm"
+    return None
