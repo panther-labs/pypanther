@@ -1,8 +1,7 @@
 import abc
-import dataclasses
-from typing import List, Optional
+from typing import Optional
 
-from .field import Field, String, Timestamp, TimestampFormat
+from .field import String, Timestamp, TimestampFormat
 
 
 class PantherParser(abc.ABCMeta):
@@ -12,36 +11,33 @@ class PantherParser(abc.ABCMeta):
 
 class PantherParserCSV(PantherParser):
     # TODO: Implement this class
-    HasHeader: bool = True
-    Delimiter: str = ","
-
+    has_header: bool = True
+    delimiter: str = ","
 
 
 class Schema(abc.ABCMeta):
-    Parser: Optional[PantherParser]
-    Description: str
-    Archived: bool = False
+    parser: Optional[PantherParser]
+    description: str
+    archived: bool = False
 
 
-@dataclasses.dataclass
 class CustomSchemaOne(Schema):
     id: str
     name: str
 
 
-@dataclasses.dataclass
 class MyClassTwo(Schema):
     id: str
     name: str
     description: str
 
 
-class OnePassword_ItemUsage(Schema):
+class OnePasswordItemUsage(Schema):
     UUID = String(
-        Description="The ID of the item",
-        Required=True)
+        description="The ID of the item",
+        required=True)
     timestamp = Timestamp(
-        Description="The timestamp of the event",
-        TimeFormats=[TimestampFormat.RFC3339])
+        description="The timestamp of the event",
+        time_formats=[TimestampFormat.RFC3339])
     action = String(
-        Description="The action performed on the item")
+        description="The action performed on the item")
