@@ -3,6 +3,7 @@ import dataclasses
 from enum import Enum
 from typing import List, Optional, final, Any, Dict
 
+
 class Indicator(Enum):
     IP = "ip"
     DOMAIN = "domain"
@@ -11,6 +12,7 @@ class Indicator(Enum):
     MD5 = "md5"
     SHA1 = "sha1"
     SHA256 = "sha256"
+
 
 class FieldType(Enum):
     STRING = "string"
@@ -34,7 +36,6 @@ class TimestampFormat(Enum):
     UNIX_US = "unix_us"
 
 
-
 @dataclasses.dataclass
 class Field(metaclass=abc.ABCMeta):
     description: Optional[str] = None
@@ -49,10 +50,12 @@ class Field(metaclass=abc.ABCMeta):
 class String(Field):
     Indicators: List[Indicator] = list
 
+
 @final
 @dataclasses.dataclass
 class Int(Field):
     """ Represents a 32-bit signed integer """
+
 
 @final
 @dataclasses.dataclass
@@ -64,6 +67,7 @@ class BigInt(Field):
 @dataclasses.dataclass
 class Float(Field):
     """ Represents a floating point number """
+
 
 @final
 @dataclasses.dataclass
@@ -84,6 +88,7 @@ class Timestamp(Field):
 class Array(Field):
     """ Represents an array of items """
     item: Field = list
+
 
 @final
 @dataclasses.dataclass
