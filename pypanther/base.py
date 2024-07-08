@@ -293,7 +293,7 @@ class PantherRule(metaclass=abc.ABCMeta):
 
     LogTypes: List[PantherLogType | str]
     RuleID: str
-    Severity: PantherSeverity | str
+    severity: PantherSeverity | str
     CreateAlert: bool = DEFAULT_CREATE_ALERT
     DedupPeriodMinutes: NonNegativeInt = DEFAULT_DEDUP_PERIOD_MINUTES
     Description: str = DEFAULT_DESCRIPTION

@@ -16,11 +16,24 @@ class PantherParserCSV(PantherParser):
     Delimiter: str = ","
 
 
-@dataclasses.dataclass
+
 class Schema(abc.ABCMeta):
     Parser: Optional[PantherParser]
     Description: str
     Archived: bool = False
+
+
+@dataclasses.dataclass
+class CustomSchemaOne(Schema):
+    id: str
+    name: str
+
+
+@dataclasses.dataclass
+class MyClassTwo(Schema):
+    id: str
+    name: str
+    description: str
 
 
 class OnePassword_ItemUsage(Schema):
@@ -32,4 +45,3 @@ class OnePassword_ItemUsage(Schema):
         TimeFormats=[TimestampFormat.RFC3339])
     action = String(
         Description="The action performed on the item")
-

@@ -5,10 +5,13 @@ from attr import dataclass
 
 
 @dataclass
-class PantherDataModel(metaclass=abc.ABCMeta):
-    Name: str
-    Description: Optional[str] = None
-    Enabled: bool = False
+class DataModel(metaclass=abc.ABCMeta):
+    id: str
+    description: Optional[str] = None
+    enabled: bool = False
+
+
+
 
 
 

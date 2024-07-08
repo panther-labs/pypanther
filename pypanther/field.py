@@ -1,9 +1,16 @@
 import abc
 import dataclasses
-import time
 from enum import Enum
-from typing import List, Optional, final, Any
+from typing import List, Optional, final, Any, Dict
 
+class Indicator(Enum):
+    IP = "ip"
+    DOMAIN = "domain"
+    URL = "url"
+    EMAIL = "email"
+    MD5 = "md5"
+    SHA1 = "sha1"
+    SHA256 = "sha256"
 
 class FieldType(Enum):
     STRING = "string"
@@ -27,31 +34,31 @@ class TimestampFormat(Enum):
     UNIX_US = "unix_us"
 
 
-# - name: uuid
-# required: true
-# description: The UUID of the event.
-# type: string
-
 
 @dataclasses.dataclass
 class Field(metaclass=abc.ABCMeta):
-    Description: Optional[str] = None
-    Required: bool = False
+    description: Optional[str] = None
+    required: bool = False
+    # THe name of the field.
+    # If not specified, we use the name of the field in the dataclass
+    name: Optional[str] = None
 
 
 @final
 @dataclasses.dataclass
 class String(Field):
-    Indicators: List[str] = list
+    Indicators: List[Indicator] = list
 
 @final
 @dataclasses.dataclass
 class Int(Field):
-
+    """ Represents a 32-bit signed integer """
 
 @final
 @dataclasses.dataclass
 class BigInt(Field):
+    """ Represents a 64-bit signed integer """
+
 
 @final
 @dataclasses.dataclass
@@ -61,24 +68,25 @@ class Float(Field):
 @final
 @dataclasses.dataclass
 class Bool(Field):
+    """ Represents a boolean value """
 
 
 @final
 @dataclasses.dataclass
 class Timestamp(Field):
-    TimeFormats: List[str | TimestampFormat] = list
-    IsEventTime: bool = False
+    time_formats: List[str | TimestampFormat] = list
+    is_event_time: bool = False
 
 
 @final
 @dataclasses.dataclass
 class Array(Field):
-    Item: Field = list
+    item: Field = list
 
 @final
 @dataclasses.dataclass
 class Object(Field):
-    Fields: List[Field] = list
+    fields: List[Field] = list
 
 
 @final
