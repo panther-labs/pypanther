@@ -63,7 +63,7 @@ class BigInt(Field):
 @final
 @dataclasses.dataclass
 class Float(Field):
-
+    """ Represents a floating point number """
 
 @final
 @dataclasses.dataclass
@@ -74,6 +74,7 @@ class Bool(Field):
 @final
 @dataclasses.dataclass
 class Timestamp(Field):
+    """ Represents a timestamp """
     time_formats: List[str | TimestampFormat] = list
     is_event_time: bool = False
 
@@ -81,15 +82,17 @@ class Timestamp(Field):
 @final
 @dataclasses.dataclass
 class Array(Field):
+    """ Represents an array of items """
     item: Field = list
 
 @final
 @dataclasses.dataclass
 class Object(Field):
+    """ Represents an object"""
     fields: List[Field] = list
 
 
 @final
 @dataclasses.dataclass
-class Json(Field):
-
+class JSON(Field):
+    """ Represents a JSON object """
