@@ -74,6 +74,13 @@ def setup_parser() -> argparse.ArgumentParser:
         required=False,
         action="store_true",
     )
+    upload_parser.add_argument(
+        "--confirm",
+        help="Proceed with the upload without requiring user input",
+        default=False,
+        required=False,
+        action="store_true",
+    )
 
     # Test command
     test_parser = subparsers.add_parser("test", help="run tests")
