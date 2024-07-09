@@ -110,10 +110,9 @@ def upload_zip(backend: BackendClient, args: argparse.Namespace, archive: str) -
 def confirm() -> Optional[str]:
     warning_text = cli_output.warning(
         "WARNING: pypanther upload is under active development and not recommended for use"
-        " without guidance from the Panther team. Would you like to proceed? [y/n]"
+        " without guidance from the Panther team. Would you like to proceed? [y/n]: "
     )
-    print(warning_text)
-    choice = input().lower()
+    choice = input(warning_text).lower()
     if choice != "y":
         print(cli_output.warning(f'Exiting upload due to entered response "{choice}" which is not "y"'))
         return "User did not confirm"
