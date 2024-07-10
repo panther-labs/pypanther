@@ -84,7 +84,6 @@ AUXILIARY_METHODS = (
     TITLE_METHOD,
 )
 
-
 PANTHER_RULE_ALL_METHODS = [
     RULE_METHOD,
     SEVERITY_METHOD,
@@ -96,7 +95,6 @@ PANTHER_RULE_ALL_METHODS = [
     DESCRIPTION_METHOD,
     ALERT_CONTEXT_METHOD,
 ]
-
 
 PANTHER_RULE_ALL_ATTRS = [
     "CreateAlert",
@@ -117,7 +115,6 @@ PANTHER_RULE_ALL_ATTRS = [
     "Tests",
     "Threshold",
 ]
-
 
 PANTHER_RULE_TEST_ALL_ATTRS = [
     "Name",
@@ -145,26 +142,26 @@ def try_asdict(item: Any) -> Any:
 
 @total_ordering
 class PantherSeverity(str, Enum):
-    Info = "Info"
-    Low = "Low"
-    Medium = "Medium"
-    High = "High"
-    Critical = "Critical"
+    Info = "INFO"
+    Low = "LOW"
+    Medium = "MEDIUM"
+    High = "HIGH"
+    Critical = "CRITICAL"
 
     def __lt__(self, other):
         return PantherSeverity.as_int(self.value) < PantherSeverity.as_int(other.value)
 
     @staticmethod
     def as_int(value: "PantherSeverity") -> int:
-        if value.upper() == PantherSeverity.Info.upper():
+        if value.upper() == PantherSeverity.Info:
             return 0
-        if value.upper() == PantherSeverity.Low.upper():
+        if value.upper() == PantherSeverity.Low:
             return 1
-        if value.upper() == PantherSeverity.Medium.upper():
+        if value.upper() == PantherSeverity.Medium:
             return 2
-        if value.upper() == PantherSeverity.High.upper():
+        if value.upper() == PantherSeverity.High:
             return 3
-        if value.upper() == PantherSeverity.Critical.upper():
+        if value.upper() == PantherSeverity.Critical:
             return 4
         raise ValueError(f"Unknown severity: {value}")
 
@@ -259,7 +256,6 @@ class PantherRuleModel(BaseModel):
 
 
 PantherRuleAdapter = TypeAdapter(PantherRuleModel)
-
 
 DEFAULT_CREATE_ALERT = True
 DEFAULT_DEDUP_PERIOD_MINUTES = 60

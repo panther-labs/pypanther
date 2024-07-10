@@ -92,7 +92,10 @@ def test_override():
 
     assert Test.RuleID == "old"
     assert Test.Severity == PantherSeverity.High
-    assert Test.LogTypes == [PantherLogType.Panther_Audit, PantherLogType.AlphaSOC_Alert]
+    assert Test.LogTypes == [
+        PantherLogType.Panther_Audit,
+        PantherLogType.AlphaSOC_Alert,
+    ]
     assert Test.Tags == ["old", "old2"]
 
     Test.override(
@@ -288,7 +291,7 @@ class TestValidation:
     def test_create_rule_missing_method(self) -> None:
         class rule(PantherRule):
             RuleID = "test_create_rule_missing_method"
-            Severity = "Info"
+            Severity = "INFO"
             LogTypes = ["test"]
 
             def another_method(self, event):
@@ -456,7 +459,6 @@ class TestRule(TestCase):
         assert expected_rule == rule().run(PantherEvent({}, None), {}, {})
 
     def test_restrict_title_size(self) -> None:
-
         class rule(PantherRule):
             RuleID = "test_restrict_title_size"
             Severity = "INFO"
@@ -863,7 +865,6 @@ class TestRule(TestCase):
         assert expected_result == rule().run(PantherEvent({}, None), {}, {})
 
     def test_alert_context_immutable_event(self) -> None:
-
         class rule(PantherRule):
             RuleID = "test_alert_context_immutable_event"
             Severity = "INFO"
@@ -872,9 +873,15 @@ class TestRule(TestCase):
                 return True
 
             def alert_context(self, event):
-                return {"headers": event["headers"], "get_params": event["query_string_args"]}
+                return {
+                    "headers": event["headers"],
+                    "get_params": event["query_string_args"],
+                }
 
-        event = {"headers": {"User-Agent": "Chrome"}, "query_string_args": [{"a": "1"}, {"b": "2"}]}
+        event = {
+            "headers": {"User-Agent": "Chrome"},
+            "query_string_args": [{"a": "1"}, {"b": "2"}],
+        }
 
         expected_alert_context = json.dumps(
             {"headers": event["headers"], "get_params": event["query_string_args"]}
