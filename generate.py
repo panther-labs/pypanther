@@ -100,16 +100,12 @@ def do(filepath: Path, helpers: Set[str]) -> Optional[str]:
     for test in tests:
         keywords = [
             ast.keyword(arg="Name", value=ast.Constant(value=test["Name"])),
-            ast.keyword(
-                arg="ExpectedResult", value=ast.Constant(value=test["ExpectedResult"])
-            ),
+            ast.keyword(arg="ExpectedResult", value=ast.Constant(value=test["ExpectedResult"])),
             ast.keyword(arg="Log", value=ast.Constant(value=test["Log"])),
         ]
 
         if "Mocks" in test:
-            if any(
-                mock["objectName"] == "filter_include_event" for mock in test["Mocks"]
-            ):
+            if any(mock["objectName"] == "filter_include_event" for mock in test["Mocks"]):
                 # tests that test the filter_include_event are not applicable because
                 # we removed the filter_include_event function
                 continue
@@ -125,9 +121,7 @@ def do(filepath: Path, helpers: Set[str]) -> Optional[str]:
                 mock_keywords = []
                 for k, v in mock.items():
                     k = k[0].upper() + k[1:]
-                    mock_keywords.append(
-                        ast.keyword(arg=k, value=ast.Constant(value=v))
-                    )
+                    mock_keywords.append(ast.keyword(arg=k, value=ast.Constant(value=v)))
 
                 mocks.append(
                     ast.Call(
@@ -176,9 +170,7 @@ def run_black(code: str) -> str:
     try:
         return black.format_file_contents(
             code,
-            mode=black.Mode(
-                line_length=100, target_versions={black.TargetVersion.PY311}
-            ),
+            mode=black.Mode(line_length=100, target_versions={black.TargetVersion.PY311}),
             fast=False,
         )
     except black.report.NothingChanged:
@@ -191,10 +183,7 @@ def run_isort(paths: List[Path]):
 
 def to_ascii(s):
     ret = "".join(
-        [
-            i if ord("A") <= ord(i) <= ord("z") or ord("0") <= ord(i) < ord("9") else ""
-            for i in s
-        ]
+        [i if ord("A") <= ord(i) <= ord("z") or ord("0") <= ord(i) < ord("9") else "" for i in s]
     )
 
     while ret[0].isdigit():
@@ -351,9 +340,7 @@ def rewrite_imports_ast(imps: List[ast.AST], helpers: Set[str]):
                     asname = name.asname
                     if asname is None:
                         asname = name.name
-                    imp.names[i] = ast.alias(
-                        name="pypanther.helpers." + name.name, asname=asname
-                    )
+                    imp.names[i] = ast.alias(name="pypanther.helpers." + name.name, asname=asname)
         elif isinstance(imp, ast.ImportFrom):
             if imp.module is not None and imp.module.split(".")[0] in helpers:
                 imp.module = "pypanther.helpers." + imp.module
@@ -395,9 +382,7 @@ class ConstantPropogation(ast.NodeTransformer):
         # visit children first
         visited_node = self.generic_visit(node)
 
-        if isinstance(visited_node, ast.If) and isinstance(
-            visited_node.test, ast.Constant
-        ):
+        if isinstance(visited_node, ast.If) and isinstance(visited_node.test, ast.Constant):
             if visited_node.test.value is False and len(visited_node.orelse) == 0:
                 return None
 
@@ -419,9 +404,7 @@ class DropFilterIncludeEvent(ast.NodeTransformer):
         return node
 
     def visit_ImportFrom(self, node: ast.ImportFrom) -> Optional[ast.AST]:
-        if node.module is not None and node.module.startswith(
-            "pypanther.helpers.global_filter_"
-        ):
+        if node.module is not None and node.module.startswith("pypanther.helpers.global_filter_"):
             return None
 
         return node
@@ -697,15 +680,11 @@ from pypanther.base import PantherDataModel, PantherQuerySchedule
                 keywords=[
                     ast.keyword(
                         arg="CronExpression",
-                        value=ast.Constant(
-                            value=query["Schedule"].get("CronExpression", "")
-                        ),
+                        value=ast.Constant(value=query["Schedule"].get("CronExpression", "")),
                     ),
                     ast.keyword(
                         arg="RateMinutes",
-                        value=ast.Constant(
-                            value=query["Schedule"].get("RateMinutes", "")
-                        ),
+                        value=ast.Constant(value=query["Schedule"].get("RateMinutes", "")),
                     ),
                     ast.keyword(
                         arg="TimeoutMinutes",
@@ -738,9 +717,7 @@ from pypanther.base import PantherDataModel, PantherQuerySchedule
                         value=ast.Name(id="List", ctx=ast.Load()),
                         slice=ast.Index(value=ast.Name(id="str", ctx=ast.Load())),
                     ),
-                    value=ast.List(
-                        elts=[ast.Constant(value=x) for x in query.get("Tags", [])]
-                    ),
+                    value=ast.List(elts=[ast.Constant(value=x) for x in query.get("Tags", [])]),
                     simple=1,
                 ),
                 ast.AnnAssign(

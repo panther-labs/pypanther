@@ -133,9 +133,7 @@ def log_rule_test_failure(failed_result: PantherRuleTestResult) -> None:
 def log_aux_func_failure(
     failed_result: PantherRuleTestResult, aux_func_exceptions: dict[str, Exception]
 ) -> None:
-    exc_msgs = [
-        f"{name}()" for name, exc in aux_func_exceptions.items() if exc is not None
-    ]
+    exc_msgs = [f"{name}()" for name, exc in aux_func_exceptions.items() if exc is not None]
     exc_msg = ", ".join(exc_msgs[:-1]) if len(exc_msgs) > 1 else exc_msgs[0]
     last_exc_msg = f" and {exc_msgs[-1]}" if len(exc_msgs) > 1 else ""
 

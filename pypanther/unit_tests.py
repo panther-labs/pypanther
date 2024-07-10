@@ -29,9 +29,7 @@ class PantherRuleMock:
 
     def asdict(self):
         """Returns a dictionary representation of the class."""
-        return {
-            key: try_asdict(getattr(self, key)) for key in PANTHER_RULE_MOCK_ALL_ATTRS
-        }
+        return {key: try_asdict(getattr(self, key)) for key in PANTHER_RULE_MOCK_ALL_ATTRS}
 
 
 class FileLocationMeta(type):
@@ -66,9 +64,7 @@ class PantherRuleTest(metaclass=FileLocationMeta):
 
     def asdict(self):
         """Returns a dictionary representation of the class."""
-        return {
-            key: try_asdict(getattr(self, key)) for key in PANTHER_RULE_TEST_ALL_ATTRS
-        }
+        return {key: try_asdict(getattr(self, key)) for key in PANTHER_RULE_TEST_ALL_ATTRS}
 
 
 @dataclass
