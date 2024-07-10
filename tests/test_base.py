@@ -188,9 +188,7 @@ class TestRunningTests:
         assert len(results) == 1
         assert not results[0].Passed
         for func in ["runbook", "severity"]:
-            assert "bad" in str(
-                getattr(results[0].DetectionResult, f"{func}_exception")
-            )
+            assert "bad" in str(getattr(results[0].DetectionResult, f"{func}_exception"))
 
     def test_returns_all_aux_func_exceptions(self):
         funcs = [
@@ -223,17 +221,11 @@ class TestRunningTests:
         assert len(results) == 1
         assert not results[0].Passed
         for func in funcs:
-            assert "bad" in str(
-                getattr(results[0].DetectionResult, f"{func}_exception")
-            )
+            assert "bad" in str(getattr(results[0].DetectionResult, f"{func}_exception"))
 
     def test_runs_all_rule_tests(self):
-        false_test_1 = PantherRuleTest(
-            Name="false test 1", ExpectedResult=False, Log={}
-        )
-        false_test_2 = PantherRuleTest(
-            Name="false test 2", ExpectedResult=False, Log={}
-        )
+        false_test_1 = PantherRuleTest(Name="false test 1", ExpectedResult=False, Log={})
+        false_test_2 = PantherRuleTest(Name="false test 2", ExpectedResult=False, Log={})
 
         class Rule1(PantherRule):
             LogTypes = [PantherLogType.Panther_Audit]
@@ -263,9 +255,7 @@ class TestRunningTests:
         assert not results[1].Passed
 
     def test_returns_rule_func_exception(self):
-        false_test_1 = PantherRuleTest(
-            Name="false test 1", ExpectedResult=False, Log={}
-        )
+        false_test_1 = PantherRuleTest(Name="false test 1", ExpectedResult=False, Log={})
 
         class Rule1(PantherRule):
             LogTypes = [PantherLogType.Panther_Audit]
@@ -309,9 +299,7 @@ class TestValidation:
 
         with pytest.raises(TypeError) as e:
             rule.validate()
-        assert e.value.args == (
-            "Can't instantiate abstract class rule with abstract method rule",
-        )
+        assert e.value.args == ("Can't instantiate abstract class rule with abstract method rule",)
 
 
 class TestRule(TestCase):
@@ -992,9 +980,7 @@ class TestRule(TestCase):
             detection_type=TYPE_RULE,
         )
         self.maxDiff = None
-        assert expected_result == rule().run(
-            PantherEvent({}, None), {}, {}, batch_mode=False
-        )
+        assert expected_result == rule().run(PantherEvent({}, None), {}, {}, batch_mode=False)
 
     def test_rule_with_invalid_severity(self) -> None:
         class rule(PantherRule):
@@ -1255,11 +1241,7 @@ class TestRule(TestCase):
         result = TestRule().run(
             PantherEvent({}),
             {},
-            {
-                "boom": FakeDestination(
-                    destination_display_name="boom", destination_id="123"
-                )
-            },
+            {"boom": FakeDestination(destination_display_name="boom", destination_id="123")},
             False,
         )
         assert isinstance(result.destinations_exception, UnknownDestinationError)
