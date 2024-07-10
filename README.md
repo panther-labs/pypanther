@@ -2,7 +2,7 @@
 Prototyping for large changes to panther-analysis
 
 ## Local Development
-we recommend using poetry for python environment management.
+We recommend using poetry for python environment management.
 
 To install the version of pypanther in this repository, run `poetry install` from anywhere within the repository.
 
