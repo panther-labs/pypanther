@@ -9,7 +9,18 @@ import sys
 from dataclasses import dataclass, field
 from enum import Enum
 from functools import total_ordering
-from typing import Any, Callable, Dict, List, Literal, Mapping, Optional, Tuple, Type, Union
+from typing import (
+    Any,
+    Callable,
+    Dict,
+    List,
+    Literal,
+    Mapping,
+    Optional,
+    Tuple,
+    Type,
+    Union,
+)
 from unittest.mock import MagicMock, patch
 
 from jsonpath_ng import Fields
@@ -58,8 +69,19 @@ TRUNCATED_STRING_SUFFIX = "... (truncated)"
 DEFAULT_DETECTION_DEDUP_PERIOD_MINS = 60
 
 # Used to check dynamic severity output
-SEVERITY_TYPES = ["INFO", "LOW", "MEDIUM", "HIGH", "CRITICAL"]
 SEVERITY_DEFAULT = "DEFAULT"
+SEVERITY_INFO = "INFO"
+SEVERITY_LOW = "LOW"
+SEVERITY_MEDIUM = "MEDIUM"
+SEVERITY_HIGH = "HIGH"
+SEVERITY_CRITICAL = "CRITICAL"
+SEVERITY_TYPES = [
+    SEVERITY_INFO,
+    SEVERITY_LOW,
+    SEVERITY_MEDIUM,
+    SEVERITY_HIGH,
+    SEVERITY_CRITICAL,
+]
 
 RULE_METHOD = "rule"
 
@@ -142,11 +164,11 @@ def try_asdict(item: Any) -> Any:
 
 @total_ordering
 class PantherSeverity(str, Enum):
-    Info = "INFO"
-    Low = "LOW"
-    Medium = "MEDIUM"
-    High = "HIGH"
-    Critical = "CRITICAL"
+    Info = SEVERITY_INFO
+    Low = SEVERITY_LOW
+    Medium = SEVERITY_MEDIUM
+    High = SEVERITY_HIGH
+    Critical = SEVERITY_CRITICAL
 
     def __lt__(self, other):
         return PantherSeverity.as_int(self.value) < PantherSeverity.as_int(other.value)
@@ -178,7 +200,9 @@ class PantherRuleMock:
 
     def asdict(self):
         """Returns a dictionary representation of the class."""
-        return {key: try_asdict(getattr(self, key)) for key in PANTHER_RULE_MOCK_ALL_ATTRS}
+        return {
+            key: try_asdict(getattr(self, key)) for key in PANTHER_RULE_MOCK_ALL_ATTRS
+        }
 
 
 class FileLocationMeta(type):
@@ -213,7 +237,9 @@ class PantherRuleTest(metaclass=FileLocationMeta):
 
     def asdict(self):
         """Returns a dictionary representation of the class."""
-        return {key: try_asdict(getattr(self, key)) for key in PANTHER_RULE_TEST_ALL_ATTRS}
+        return {
+            key: try_asdict(getattr(self, key)) for key in PANTHER_RULE_TEST_ALL_ATTRS
+        }
 
 
 @dataclass
@@ -314,7 +340,9 @@ class PantherRule(metaclass=abc.ABCMeta):
 
     @abc.abstractmethod
     def rule(self, event: PantherEvent) -> bool:
-        raise NotImplementedError("You must implement the rule method in your rule class.")
+        raise NotImplementedError(
+            "You must implement the rule method in your rule class."
+        )
 
     def severity(self, event: PantherEvent) -> SeverityType:
         return self.Severity
@@ -443,7 +471,9 @@ class PantherRule(metaclass=abc.ABCMeta):
 
         patches: List[Any] = []
         for each_mock in test.Mocks:
-            kwargs = {each_mock.ObjectName: MagicMock(return_value=each_mock.ReturnValue)}
+            kwargs = {
+                each_mock.ObjectName: MagicMock(return_value=each_mock.ReturnValue)
+            }
             p = patch.multiple(test._module, **kwargs)
             try:
                 p.start()
@@ -465,7 +495,9 @@ class PantherRule(metaclass=abc.ABCMeta):
                     Rule=self,
                 )
 
-            if isinstance(detection_result.destinations_exception, UnknownDestinationError):
+            if isinstance(
+                detection_result.destinations_exception, UnknownDestinationError
+            ):
                 # ignore unknown destinations during testing
                 detection_result.destinations_exception = None
 
@@ -532,17 +564,23 @@ class PantherRule(metaclass=abc.ABCMeta):
             self.ctx_mgr = suppress_output
 
         result.title_output, result.title_exception = self._get_title(event)
-        result.description_output, result.description_exception = self._get_description(event)
+        result.description_output, result.description_exception = self._get_description(
+            event
+        )
         result.reference_output, result.reference_exception = self._get_reference(event)
         result.severity_output, result.severity_exception = self._get_severity(event)
         result.runbook_output, result.runbook_exception = self._get_runbook(event)
-        result.destinations_output, result.destinations_exception = self._get_destinations(
-            event,
-            outputs,
-            outputs_names,
+        result.destinations_output, result.destinations_exception = (
+            self._get_destinations(
+                event,
+                outputs,
+                outputs_names,
+            )
         )
         result.dedup_output, result.dedup_exception = self._get_dedup(event)
-        result.alert_context_output, result.alert_context_exception = self._get_alert_context(event)
+        result.alert_context_output, result.alert_context_exception = (
+            self._get_alert_context(event)
+        )
 
         if batch_mode:
             # batch mode ignores errors
@@ -629,7 +667,9 @@ class PantherRule(metaclass=abc.ABCMeta):
 
         return truncate(runbook, MAX_GENERATED_FIELD_SIZE), None
 
-    def _get_severity(self, event: Mapping) -> Tuple[Optional[str], Optional[Exception]]:
+    def _get_severity(
+        self, event: Mapping
+    ) -> Tuple[Optional[str], Optional[Exception]]:
         try:
             with self.ctx_mgr():
                 severity: str = self.severity(event)
@@ -647,13 +687,17 @@ class PantherRule(metaclass=abc.ABCMeta):
 
         return severity, None
 
-    def _get_alert_context(self, event: Mapping) -> Tuple[Optional[str], Optional[Exception]]:
+    def _get_alert_context(
+        self, event: Mapping
+    ) -> Tuple[Optional[str], Optional[Exception]]:
         try:
             with self.ctx_mgr():
                 alert_context = self.alert_context(event)
 
             self._require_mapping(self.alert_context.__name__, alert_context)
-            serialized_alert_context = json.dumps(alert_context, default=PantherEvent.json_encoder)
+            serialized_alert_context = json.dumps(
+                alert_context, default=PantherEvent.json_encoder
+            )
         except Exception as err:
             return json.dumps({ALERT_CONTEXT_ERROR_KEY: repr(err)}), err
 
@@ -704,19 +748,26 @@ class PantherRule(metaclass=abc.ABCMeta):
                     outputs_display_names[each_destination].destination_id
                 )
             # case for valid UUIDv4
-            elif each_destination in outputs and each_destination not in standardized_destinations:
+            elif (
+                each_destination in outputs
+                and each_destination not in standardized_destinations
+            ):
                 standardized_destinations.append(each_destination)
             else:
                 invalid_destinations.append(each_destination)
 
         if len(standardized_destinations) > MAX_DESTINATIONS_SIZE:
             # If generated field exceeds max size, truncate it
-            standardized_destinations = standardized_destinations[:MAX_DESTINATIONS_SIZE]
+            standardized_destinations = standardized_destinations[
+                :MAX_DESTINATIONS_SIZE
+            ]
 
         if invalid_destinations:
             try:
                 # raise to get a stack trace
-                raise UnknownDestinationError("Invalid Destinations", invalid_destinations)
+                raise UnknownDestinationError(
+                    "Invalid Destinations", invalid_destinations
+                )
             except UnknownDestinationError as e:
                 return standardized_destinations, e
 
@@ -740,7 +791,9 @@ class PantherRule(metaclass=abc.ABCMeta):
     def _require_str_list(self, method_name: str, value: Any):
         if value is None:
             return
-        if not isinstance(value, list) or not all(isinstance(x, (str, bool)) for x in value):
+        if not isinstance(value, list) or not all(
+            isinstance(x, (str, bool)) for x in value
+        ):
             raise FunctionReturnTypeError(
                 "detection [{}] method [{}] returned [{}], expected a list".format(
                     self.RuleID, method_name, type(value).__name__
