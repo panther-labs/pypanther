@@ -1,8 +1,7 @@
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import deep_get, deep_walk
-from pypanther.log_types import PantherLogType
 
 gcp_access_attempts_violating_vpc_service_controls_tests: List[PantherRuleTest] = [
     PantherRuleTest(

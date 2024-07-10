@@ -1,9 +1,8 @@
 import re
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import ZENDESK_CHANGE_DESCRIPTION
-from pypanther.log_types import PantherLogType
 
 zendesk_account_owner_changed_tests: List[PantherRuleTest] = [
     PantherRuleTest(

@@ -3,11 +3,10 @@ import json
 import time
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleMock, PantherRuleTest, PantherSeverity
+from pypanther import PantherLogType, PantherRule, PantherRuleMock, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_ipinfo_helpers import IPInfoLocation
 from pypanther.helpers.panther_notion_helpers import notion_alert_context
 from pypanther.helpers.panther_oss_helpers import get_dictionary, put_dictionary
-from pypanther.log_types import PantherLogType
 
 notion_login_from_new_location_tests: List[PantherRuleTest] = [
     PantherRuleTest(

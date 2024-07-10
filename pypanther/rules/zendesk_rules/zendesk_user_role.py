@@ -1,9 +1,8 @@
 from typing import List
 
 import pypanther.helpers.panther_event_type_helpers as event_type
-from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import zendesk_get_roles
-from pypanther.log_types import PantherLogType
 
 zendesk_user_role_changed_tests: List[PantherRuleTest] = [
     PantherRuleTest(

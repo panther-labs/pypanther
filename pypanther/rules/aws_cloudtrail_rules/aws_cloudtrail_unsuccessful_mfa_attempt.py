@@ -1,8 +1,7 @@
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import aws_rule_context, deep_get
-from pypanther.log_types import PantherLogType
 
 aws_unsuccessful_mf_aattempt_tests: List[PantherRuleTest] = [
     PantherRuleTest(

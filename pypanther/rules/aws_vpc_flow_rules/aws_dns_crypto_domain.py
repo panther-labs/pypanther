@@ -1,8 +1,7 @@
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_iocs import CRYPTO_MINING_DOMAINS
-from pypanther.log_types import PantherLogType
 
 awsdns_crypto_domain_tests: List[PantherRuleTest] = [
     PantherRuleTest(

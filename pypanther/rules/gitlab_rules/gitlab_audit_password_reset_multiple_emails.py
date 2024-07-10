@@ -1,8 +1,7 @@
 import json
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
-from pypanther.log_types import PantherLogType
+from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
 
 git_lab_audit_password_reset_multiple_emails_tests: List[PantherRuleTest] = [
     PantherRuleTest(

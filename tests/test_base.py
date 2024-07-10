@@ -19,43 +19,14 @@ from pypanther.base import (
     PANTHER_RULE_ALL_ATTRS,
     PantherRule,
     PantherRuleModel,
-    PantherRuleTest,
-    PantherSeverity,
 )
 from pypanther.cache import DATA_MODEL_CACHE
 from pypanther.log_types import PantherLogType
 from pypanther.rules.aws_cloudtrail_rules.aws_console_login_without_mfa import (
     AWSConsoleLoginWithoutMFA,
 )
-
-
-def test_pypanther_imports():
-    """Ensures things import in the init file can be used directly from pypanther"""
-    from pypanther import PantherDataModel  # noqa: F401
-    from pypanther import PantherDataModelMapping  # noqa: F401
-    from pypanther import PantherLogType  # noqa: F401
-    from pypanther import PantherRule  # noqa: F401
-    from pypanther import PantherRuleMock  # noqa: F401
-    from pypanther import PantherRuleTest  # noqa: F401
-    from pypanther import PantherSeverity  # noqa: F401
-    from pypanther import get_panther_rules  # noqa: F401
-    from pypanther import register  # noqa: F401
-    from pypanther import registered_rules  # noqa: F401
-
-
-def test_severity_less_than():
-    assert PantherSeverity.Info < PantherSeverity.Low
-    assert PantherSeverity.Low < PantherSeverity.Medium
-    assert PantherSeverity.Medium < PantherSeverity.High
-    assert PantherSeverity.High < PantherSeverity.Critical
-
-
-def test_severity_as_int():
-    assert PantherSeverity.as_int(PantherSeverity.Info) == 0
-    assert PantherSeverity.as_int(PantherSeverity.Low) == 1
-    assert PantherSeverity.as_int(PantherSeverity.Medium) == 2
-    assert PantherSeverity.as_int(PantherSeverity.High) == 3
-    assert PantherSeverity.as_int(PantherSeverity.Critical) == 4
+from pypanther.severity import PantherSeverity
+from pypanther.unit_tests import PantherRuleTest
 
 
 def test_rule_inheritance():
@@ -92,7 +63,10 @@ def test_override():
 
     assert Test.RuleID == "old"
     assert Test.Severity == PantherSeverity.High
-    assert Test.LogTypes == [PantherLogType.Panther_Audit, PantherLogType.AlphaSOC_Alert]
+    assert Test.LogTypes == [
+        PantherLogType.Panther_Audit,
+        PantherLogType.AlphaSOC_Alert,
+    ]
     assert Test.Tags == ["old", "old2"]
 
     Test.override(
@@ -185,7 +159,9 @@ class TestRunningTests:
         assert len(results) == 1
         assert not results[0].Passed
         for func in ["runbook", "severity"]:
-            assert "bad" in str(getattr(results[0].DetectionResult, f"{func}_exception"))
+            assert "bad" in str(
+                getattr(results[0].DetectionResult, f"{func}_exception")
+            )
 
     def test_returns_all_aux_func_exceptions(self):
         funcs = [
@@ -218,11 +194,17 @@ class TestRunningTests:
         assert len(results) == 1
         assert not results[0].Passed
         for func in funcs:
-            assert "bad" in str(getattr(results[0].DetectionResult, f"{func}_exception"))
+            assert "bad" in str(
+                getattr(results[0].DetectionResult, f"{func}_exception")
+            )
 
     def test_runs_all_rule_tests(self):
-        false_test_1 = PantherRuleTest(Name="false test 1", ExpectedResult=False, Log={})
-        false_test_2 = PantherRuleTest(Name="false test 2", ExpectedResult=False, Log={})
+        false_test_1 = PantherRuleTest(
+            Name="false test 1", ExpectedResult=False, Log={}
+        )
+        false_test_2 = PantherRuleTest(
+            Name="false test 2", ExpectedResult=False, Log={}
+        )
 
         class Rule1(PantherRule):
             LogTypes = [PantherLogType.Panther_Audit]
@@ -252,7 +234,9 @@ class TestRunningTests:
         assert not results[1].Passed
 
     def test_returns_rule_func_exception(self):
-        false_test_1 = PantherRuleTest(Name="false test 1", ExpectedResult=False, Log={})
+        false_test_1 = PantherRuleTest(
+            Name="false test 1", ExpectedResult=False, Log={}
+        )
 
         class Rule1(PantherRule):
             LogTypes = [PantherLogType.Panther_Audit]
@@ -296,7 +280,9 @@ class TestValidation:
 
         with pytest.raises(TypeError) as e:
             rule.validate()
-        assert e.value.args == ("Can't instantiate abstract class rule with abstract method rule",)
+        assert e.value.args == (
+            "Can't instantiate abstract class rule with abstract method rule",
+        )
 
 
 class TestRule(TestCase):
@@ -456,7 +442,6 @@ class TestRule(TestCase):
         assert expected_rule == rule().run(PantherEvent({}, None), {}, {})
 
     def test_restrict_title_size(self) -> None:
-
         class rule(PantherRule):
             RuleID = "test_restrict_title_size"
             Severity = "INFO"
@@ -863,7 +848,6 @@ class TestRule(TestCase):
         assert expected_result == rule().run(PantherEvent({}, None), {}, {})
 
     def test_alert_context_immutable_event(self) -> None:
-
         class rule(PantherRule):
             RuleID = "test_alert_context_immutable_event"
             Severity = "INFO"
@@ -872,9 +856,15 @@ class TestRule(TestCase):
                 return True
 
             def alert_context(self, event):
-                return {"headers": event["headers"], "get_params": event["query_string_args"]}
+                return {
+                    "headers": event["headers"],
+                    "get_params": event["query_string_args"],
+                }
 
-        event = {"headers": {"User-Agent": "Chrome"}, "query_string_args": [{"a": "1"}, {"b": "2"}]}
+        event = {
+            "headers": {"User-Agent": "Chrome"},
+            "query_string_args": [{"a": "1"}, {"b": "2"}],
+        }
 
         expected_alert_context = json.dumps(
             {"headers": event["headers"], "get_params": event["query_string_args"]}
@@ -973,7 +963,9 @@ class TestRule(TestCase):
             detection_type=TYPE_RULE,
         )
         self.maxDiff = None
-        assert expected_result == rule().run(PantherEvent({}, None), {}, {}, batch_mode=False)
+        assert expected_result == rule().run(
+            PantherEvent({}, None), {}, {}, batch_mode=False
+        )
 
     def test_rule_with_invalid_severity(self) -> None:
         class rule(PantherRule):
@@ -1234,7 +1226,11 @@ class TestRule(TestCase):
         result = TestRule().run(
             PantherEvent({}),
             {},
-            {"boom": FakeDestination(destination_display_name="boom", destination_id="123")},
+            {
+                "boom": FakeDestination(
+                    destination_display_name="boom", destination_id="123"
+                )
+            },
             False,
         )
         assert isinstance(result.destinations_exception, UnknownDestinationError)

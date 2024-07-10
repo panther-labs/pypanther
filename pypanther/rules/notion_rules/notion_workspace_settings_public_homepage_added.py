@@ -1,9 +1,8 @@
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import deep_get
 from pypanther.helpers.panther_notion_helpers import notion_alert_context
-from pypanther.log_types import PantherLogType
 
 notion_workspace_public_page_added_tests: List[PantherRuleTest] = [
     PantherRuleTest(

@@ -1,7 +1,6 @@
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
-from pypanther.log_types import PantherLogType
+from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
 
 push_security_app_banner_acknowledged_tests: List[PantherRuleTest] = [
     PantherRuleTest(

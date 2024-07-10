@@ -1,9 +1,8 @@
 from typing import List
 
 import pypanther.helpers.panther_event_type_helpers as event_type
-from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import okta_alert_context
-from pypanther.log_types import PantherLogType
 
 okta_user_mfa_reset_single_tests: List[PantherRuleTest] = [
     PantherRuleTest(

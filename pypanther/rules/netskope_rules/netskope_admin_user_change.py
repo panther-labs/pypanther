@@ -1,7 +1,6 @@
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
-from pypanther.log_types import PantherLogType
+from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
 
 netskope_admin_user_change_tests: List[PantherRuleTest] = [
     PantherRuleTest(

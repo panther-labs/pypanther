@@ -1,9 +1,8 @@
 from ipaddress import ip_address
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import aws_rule_context, deep_get
-from pypanther.log_types import PantherLogType
 
 aws_cloud_trail_unauthorized_api_call_tests: List[PantherRuleTest] = [
     PantherRuleTest(

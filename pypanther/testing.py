@@ -31,7 +31,9 @@ def run(args: argparse.Namespace) -> Tuple[int, str]:
     return 0, "All tests passed"
 
 
-def print_failed_test_results(failed_test_results: list[list[PantherRuleTestResult]]) -> None:
+def print_failed_test_results(
+    failed_test_results: list[list[PantherRuleTestResult]],
+) -> None:
     if len(failed_test_results) == 0:
         return
 
@@ -53,11 +55,10 @@ def print_failed_test_results(failed_test_results: list[list[PantherRuleTestResu
             continue
 
         if terminal_cols:
-            side_count = int((terminal_cols - len(failed_results[0].Rule.RuleID)) / 2)
-            print(f"{' '*side_count}{failed_results[0].Rule.RuleID}{' '*side_count}")
+            side_count = int((terminal_cols - len(failed_results[0].RuleID)) / 2)
+            print(f"{' ' * side_count}{failed_results[0].RuleID}{' ' * side_count}")
 
         for failed_result in failed_results:
-
             if single_test_failure_separator:
                 print(single_test_failure_separator)
 
@@ -98,7 +99,7 @@ def print_failed_test_results(failed_test_results: list[list[PantherRuleTestResu
 def log_rule_func_exception(failed_result: PantherRuleTestResult) -> None:
     logging.error(
         "%s: Exception in test '%s' calling rule(): '%s': %s",
-        failed_result.Rule.RuleID,
+        failed_result.RuleID,
         failed_result.Test.Name,
         failed_result.DetectionResult.detection_exception,
         failed_result.Test.location(),
@@ -111,7 +112,7 @@ def log_aux_func_exception(
 ) -> None:
     logging.warning(
         "%s: Exception in test '%s' calling %s()",
-        failed_result.Rule.RuleID,
+        failed_result.RuleID,
         failed_result.Test.Name,
         method_name,
         exc_info=exc,
@@ -121,7 +122,7 @@ def log_aux_func_exception(
 def log_rule_test_failure(failed_result: PantherRuleTestResult) -> None:
     logging.error(
         "%s: test '%s' returned the wrong result, expected %s but got %s: %s",
-        failed_result.Rule.RuleID,
+        failed_result.RuleID,
         failed_result.Test.Name,
         failed_result.Test.ExpectedResult,
         failed_result.DetectionResult.detection_output,
@@ -132,13 +133,15 @@ def log_rule_test_failure(failed_result: PantherRuleTestResult) -> None:
 def log_aux_func_failure(
     failed_result: PantherRuleTestResult, aux_func_exceptions: dict[str, Exception]
 ) -> None:
-    exc_msgs = [f"{name}()" for name, exc in aux_func_exceptions.items() if exc is not None]
+    exc_msgs = [
+        f"{name}()" for name, exc in aux_func_exceptions.items() if exc is not None
+    ]
     exc_msg = ", ".join(exc_msgs[:-1]) if len(exc_msgs) > 1 else exc_msgs[0]
     last_exc_msg = f" and {exc_msgs[-1]}" if len(exc_msgs) > 1 else ""
 
     logging.error(
         "%s: test '%s': %s%s raised an exception, see log output for stacktrace",
-        failed_result.Rule.RuleID,
+        failed_result.RuleID,
         failed_result.Test.Name,
         exc_msg,
         last_exc_msg,

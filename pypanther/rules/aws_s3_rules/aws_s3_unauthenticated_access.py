@@ -1,8 +1,7 @@
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import aws_rule_context
-from pypanther.log_types import PantherLogType
 
 awss3_server_access_unauthenticated_tests: List[PantherRuleTest] = [
     PantherRuleTest(
