@@ -272,7 +272,7 @@ class TestValidation:
     def test_create_rule_missing_method(self) -> None:
         class rule(PantherRule):
             RuleID = "test_create_rule_missing_method"
-            Severity = "Info"
+            Severity = PantherSeverity.Info
             LogTypes = ["test"]
 
             def another_method(self, event):
@@ -310,7 +310,7 @@ class TestRule(TestCase):
     def test_rule_default_dedup_time(self) -> None:
         class rule(PantherRule):
             RuleID = "test_rule_default_dedup_time"
-            Severity = "INFO"
+            Severity = PantherSeverity.Info
 
             def rule(self, event):
                 return True
@@ -321,7 +321,7 @@ class TestRule(TestCase):
         class rule(PantherRule):
             RuleID = "test_rule_default_dedup_time"
             Tags = ["tag2", "tag1"]
-            Severity = "INFO"
+            Severity = PantherSeverity.Info
 
             def rule(self, event):
                 return True
@@ -332,7 +332,7 @@ class TestRule(TestCase):
         class rule(PantherRule):
             RuleID = "test_rule_default_dedup_time"
             Reports = {"key1": ["value2", "value1"], "key2": ["value1"]}
-            Severity = "INFO"
+            Severity = PantherSeverity.Info
 
             def rule(self, event):
                 return True
@@ -343,7 +343,7 @@ class TestRule(TestCase):
         class rule(PantherRule):
             RuleID = "test_rule_matches"
             DedupPeriodMinutes = 100
-            Severity = "INFO"
+            Severity = PantherSeverity.Info
 
             def rule(self, event):
                 return True
@@ -368,7 +368,7 @@ class TestRule(TestCase):
     def test_rule_doesnt_match(self) -> None:
         class rule(PantherRule):
             RuleID = "test_rule_doesnt_match"
-            Severity = "INFO"
+            Severity = PantherSeverity.Info
 
             def rule(self, event):
                 return False
@@ -385,7 +385,7 @@ class TestRule(TestCase):
     def test_rule_with_dedup(self) -> None:
         class rule(PantherRule):
             RuleID = "test_rule_with_dedup"
-            Severity = "INFO"
+            Severity = PantherSeverity.Info
 
             def rule(self, event):
                 return True
@@ -413,7 +413,7 @@ class TestRule(TestCase):
     def test_restrict_dedup_size(self) -> None:
         class rule(PantherRule):
             RuleID = "test_restrict_dedup_size"
-            Severity = "INFO"
+            Severity = PantherSeverity.Info
 
             def rule(self, event):
                 return True
@@ -444,7 +444,7 @@ class TestRule(TestCase):
     def test_restrict_title_size(self) -> None:
         class rule(PantherRule):
             RuleID = "test_restrict_title_size"
-            Severity = "INFO"
+            Severity = PantherSeverity.Info
 
             def rule(self, event):
                 return True
@@ -478,7 +478,7 @@ class TestRule(TestCase):
     def test_empty_dedup_result_to_default(self) -> None:
         class rule(PantherRule):
             RuleID = "test_empty_dedup_result_to_default"
-            Severity = "INFO"
+            Severity = PantherSeverity.Info
 
             def rule(self, event):
                 return True
@@ -506,7 +506,7 @@ class TestRule(TestCase):
     def test_rule_throws_exception(self) -> None:
         class rule(PantherRule):
             RuleID = "test_rule_throws_exception"
-            Severity = "INFO"
+            Severity = PantherSeverity.Info
 
             def rule(self, event):
                 raise Exception("test")
@@ -520,7 +520,7 @@ class TestRule(TestCase):
     def test_rule_invalid_rule_return(self) -> None:
         class rule(PantherRule):
             RuleID = "test_rule_invalid_rule_return"
-            Severity = "INFO"
+            Severity = PantherSeverity.Info
 
             def rule(self, event):
                 return "test"
@@ -537,7 +537,7 @@ class TestRule(TestCase):
     def test_dedup_throws_exception(self) -> None:
         class rule(PantherRule):
             RuleID = "test_dedup_throws_exception"
-            Severity = "INFO"
+            Severity = PantherSeverity.Info
 
             def rule(self, event):
                 return True
@@ -565,7 +565,7 @@ class TestRule(TestCase):
     def test_dedup_exception_batch_mode(self) -> None:
         class rule(PantherRule):
             RuleID = "test_dedup_throws_exception"
-            Severity = "INFO"
+            Severity = PantherSeverity.Info
 
             def rule(self, event):
                 return True
@@ -582,7 +582,7 @@ class TestRule(TestCase):
     def test_rule_invalid_dedup_return(self) -> None:
         class rule(PantherRule):
             RuleID = "test_rule_invalid_dedup_return"
-            Severity = "INFO"
+            Severity = PantherSeverity.Info
 
             def rule(self, event):
                 return True
@@ -610,7 +610,7 @@ class TestRule(TestCase):
     def test_rule_dedup_returns_empty_string(self) -> None:
         class rule(PantherRule):
             RuleID = "test_rule_dedup_returns_empty_string"
-            Severity = "INFO"
+            Severity = PantherSeverity.Info
 
             def rule(self, event):
                 return True
@@ -638,7 +638,7 @@ class TestRule(TestCase):
     def test_rule_matches_with_title_without_dedup(self) -> None:
         class rule(PantherRule):
             RuleID = "test_rule_matches_with_title"
-            Severity = "INFO"
+            Severity = PantherSeverity.Info
 
             def rule(self, event):
                 return True
@@ -666,7 +666,7 @@ class TestRule(TestCase):
     def test_rule_title_throws_exception(self) -> None:
         class rule(PantherRule):
             RuleID = "test_rule_title_throws_exception"
-            Severity = "INFO"
+            Severity = PantherSeverity.Info
 
             def rule(self, event):
                 return True
@@ -694,7 +694,7 @@ class TestRule(TestCase):
     def test_rule_invalid_title_return(self) -> None:
         class rule(PantherRule):
             RuleID = "test_rule_invalid_title_return"
-            Severity = "INFO"
+            Severity = PantherSeverity.Info
 
             def rule(self, event):
                 return True
@@ -722,7 +722,7 @@ class TestRule(TestCase):
     def test_rule_title_returns_empty_string(self) -> None:
         class rule(PantherRule):
             RuleID = "test_rule_title_returns_empty_string"
-            Severity = "INFO"
+            Severity = PantherSeverity.Info
 
             def rule(self, event):
                 return True
@@ -751,7 +751,7 @@ class TestRule(TestCase):
     def test_alert_context(self) -> None:
         class rule(PantherRule):
             RuleID = "test_alert_context"
-            Severity = "INFO"
+            Severity = PantherSeverity.Info
 
             def rule(self, event):
                 return True
@@ -779,7 +779,7 @@ class TestRule(TestCase):
     def test_alert_context_invalid_return_value(self) -> None:
         class rule(PantherRule):
             RuleID = "test_alert_context_invalid_return_value"
-            Severity = "INFO"
+            Severity = PantherSeverity.Info
 
             def rule(self, event):
                 return True
@@ -814,7 +814,7 @@ class TestRule(TestCase):
 
         class rule(PantherRule):
             RuleID = "test_alert_context_too_big"
-            Severity = "INFO"
+            Severity = PantherSeverity.Info
 
             def rule(self, event):
                 return True
@@ -850,7 +850,7 @@ class TestRule(TestCase):
     def test_alert_context_immutable_event(self) -> None:
         class rule(PantherRule):
             RuleID = "test_alert_context_immutable_event"
-            Severity = "INFO"
+            Severity = PantherSeverity.Info
 
             def rule(self, event):
                 return True
@@ -889,7 +889,7 @@ class TestRule(TestCase):
     def test_alert_context_returns_full_event(self) -> None:
         class rule(PantherRule):
             RuleID = "test_alert_context_returns_full_event"
-            Severity = "INFO"
+            Severity = PantherSeverity.Info
 
             def rule(self, event):
                 return True
@@ -921,7 +921,7 @@ class TestRule(TestCase):
     def test_rule_with_all_generated_fields(self) -> None:
         class rule(PantherRule):
             RuleID = "test_rule_with_all_generated_fields"
-            Severity = "INFO"
+            Severity = PantherSeverity.Info
 
             def rule(self, event):
                 return True
@@ -970,7 +970,7 @@ class TestRule(TestCase):
     def test_rule_with_invalid_severity(self) -> None:
         class rule(PantherRule):
             RuleID = "test_rule_with_invalid_severity"
-            Severity = "INFO"
+            Severity = PantherSeverity.Info
 
             def rule(self, event):
                 return True
@@ -1012,7 +1012,7 @@ class TestRule(TestCase):
     def test_rule_with_valid_severity_case_insensitive(self) -> None:
         class rule(PantherRule):
             RuleID = "test_rule_with_valid_severity_case_insensitive"
-            Severity = "INFO"
+            Severity = PantherSeverity.Info
 
             def rule(self, event):
                 return True
@@ -1027,7 +1027,7 @@ class TestRule(TestCase):
     def test_rule_with_default_severity(self) -> None:
         class rule(PantherRule):
             RuleID = "test_rule_with_default_severity"
-            Severity = "INFO"
+            Severity = PantherSeverity.Info
 
             def rule(self, event):
                 return True
@@ -1097,7 +1097,7 @@ class TestRule(TestCase):
     def test_rule_with_invalid_destinations_type(self) -> None:
         class rule(PantherRule):
             RuleID = "test_rule_with_invalid_destinations_type"
-            Severity = "INFO"
+            Severity = PantherSeverity.Info
 
             def rule(self, event):
                 return True
@@ -1144,7 +1144,7 @@ class TestRule(TestCase):
     def test_rule_with_severity_raising_exception_unit_test(self) -> None:
         class rule(PantherRule):
             RuleID = "test_rule_with_severity_raising_exception_unit_test"
-            Severity = "INFO"
+            Severity = PantherSeverity.Info
 
             def rule(self, event):
                 return True
@@ -1182,7 +1182,7 @@ class TestRule(TestCase):
     def test_rule_with_severity_raising_exception_batch_mode(self) -> None:
         class rule(PantherRule):
             RuleID = "test_rule_with_severity_raising_exception_batch_mode"
-            Severity = "INFO"
+            Severity = PantherSeverity.Info
 
             def rule(self, event):
                 return True
