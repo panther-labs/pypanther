@@ -57,21 +57,6 @@ TRUNCATED_STRING_SUFFIX = "... (truncated)"
 
 DEFAULT_DETECTION_DEDUP_PERIOD_MINS = 60
 
-# Used to check dynamic severity output
-SEVERITY_DEFAULT = "DEFAULT"
-SEVERITY_INFO = "INFO"
-SEVERITY_LOW = "LOW"
-SEVERITY_MEDIUM = "MEDIUM"
-SEVERITY_HIGH = "HIGH"
-SEVERITY_CRITICAL = "CRITICAL"
-SEVERITY_TYPES = [
-    SEVERITY_INFO,
-    SEVERITY_LOW,
-    SEVERITY_MEDIUM,
-    SEVERITY_HIGH,
-    SEVERITY_CRITICAL,
-]
-
 RULE_METHOD = "rule"
 
 ALERT_CONTEXT_METHOD = "alert_context"
@@ -153,11 +138,11 @@ def try_asdict(item: Any) -> Any:
 
 @total_ordering
 class PantherSeverity(str, Enum):
-    Info = SEVERITY_INFO
-    Low = SEVERITY_LOW
-    Medium = SEVERITY_MEDIUM
-    High = SEVERITY_HIGH
-    Critical = SEVERITY_CRITICAL
+    Info = "INFO"
+    Low = "LOW"
+    Medium = "MEDIUM"
+    High = "HIGH"
+    Critical = "CRITICAL"
 
     def __lt__(self, other):
         return PantherSeverity.as_int(self.value) < PantherSeverity.as_int(other.value)
@@ -179,6 +164,11 @@ class PantherSeverity(str, Enum):
     def __str__(self) -> str:
         """Returns a string representation of the class' value."""
         return self.value
+
+
+# Used to check dynamic severity output
+SEVERITY_DEFAULT = "DEFAULT"
+SEVERITY_TYPES = [str(sev) for sev in PantherSeverity]
 
 
 @dataclass
