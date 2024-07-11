@@ -1,9 +1,8 @@
 import datetime
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import deep_get, pattern_match, pattern_match_list
-from pypanther.log_types import PantherLogType
 
 g_suite_drive_external_file_share_tests: List[PantherRuleTest] = [
     PantherRuleTest(

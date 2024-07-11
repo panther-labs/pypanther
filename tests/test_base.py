@@ -15,47 +15,14 @@ from panther_core.rule import (
 )
 from pydantic import ValidationError
 
-from pypanther.base import (
-    PANTHER_RULE_ALL_ATTRS,
-    PantherRule,
-    PantherRuleModel,
-    PantherRuleTest,
-    PantherSeverity,
-)
+from pypanther.base import PANTHER_RULE_ALL_ATTRS, PantherRule, PantherRuleModel
 from pypanther.cache import DATA_MODEL_CACHE
 from pypanther.log_types import PantherLogType
 from pypanther.rules.aws_cloudtrail_rules.aws_console_login_without_mfa import (
     AWSConsoleLoginWithoutMFA,
 )
-
-
-def test_pypanther_imports():
-    """Ensures things import in the init file can be used directly from pypanther"""
-    from pypanther import PantherDataModel  # noqa: F401
-    from pypanther import PantherDataModelMapping  # noqa: F401
-    from pypanther import PantherLogType  # noqa: F401
-    from pypanther import PantherRule  # noqa: F401
-    from pypanther import PantherRuleMock  # noqa: F401
-    from pypanther import PantherRuleTest  # noqa: F401
-    from pypanther import PantherSeverity  # noqa: F401
-    from pypanther import get_panther_rules  # noqa: F401
-    from pypanther import register  # noqa: F401
-    from pypanther import registered_rules  # noqa: F401
-
-
-def test_severity_less_than():
-    assert PantherSeverity.Info < PantherSeverity.Low
-    assert PantherSeverity.Low < PantherSeverity.Medium
-    assert PantherSeverity.Medium < PantherSeverity.High
-    assert PantherSeverity.High < PantherSeverity.Critical
-
-
-def test_severity_as_int():
-    assert PantherSeverity.as_int(PantherSeverity.Info) == 0
-    assert PantherSeverity.as_int(PantherSeverity.Low) == 1
-    assert PantherSeverity.as_int(PantherSeverity.Medium) == 2
-    assert PantherSeverity.as_int(PantherSeverity.High) == 3
-    assert PantherSeverity.as_int(PantherSeverity.Critical) == 4
+from pypanther.severity import PantherSeverity
+from pypanther.unit_tests import PantherRuleTest
 
 
 def test_rule_inheritance():

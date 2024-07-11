@@ -3,10 +3,9 @@ from typing import List
 
 from panther_detection_helpers.caching import check_account_age
 
-from pypanther.base import PantherRule, PantherRuleMock, PantherRuleTest, PantherSeverity
+from pypanther import PantherLogType, PantherRule, PantherRuleMock, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import aws_rule_context, deep_get
 from pypanther.helpers.panther_default import lookup_aws_account_name
-from pypanther.log_types import PantherLogType
 
 aws_console_login_without_mfa_tests: List[PantherRuleTest] = [
     PantherRuleTest(

@@ -1,9 +1,8 @@
 import re
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_config import config
-from pypanther.log_types import PantherLogType
 
 teleport_company_domain_login_without_saml_tests: List[PantherRuleTest] = [
     PantherRuleTest(

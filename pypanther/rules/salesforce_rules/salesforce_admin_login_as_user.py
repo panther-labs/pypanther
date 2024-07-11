@@ -1,7 +1,6 @@
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
-from pypanther.log_types import PantherLogType
+from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
 
 salesforce_admin_login_as_user_tests: List[PantherRuleTest] = [
     PantherRuleTest(

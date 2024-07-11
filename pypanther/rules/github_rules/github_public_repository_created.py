@@ -1,8 +1,7 @@
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import github_alert_context
-from pypanther.log_types import PantherLogType
 
 github_public_repository_created_tests: List[PantherRuleTest] = [
     PantherRuleTest(

@@ -1,12 +1,11 @@
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import deep_get
 from pypanther.helpers.panther_tailscale_helpers import (
     is_tailscale_admin_console_event,
     tailscale_alert_context,
 )
-from pypanther.log_types import PantherLogType
 
 tailscale_magic_dns_disabled_tests: List[PantherRuleTest] = [
     PantherRuleTest(

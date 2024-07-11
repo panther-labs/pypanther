@@ -5,9 +5,8 @@ from typing import List
 from panther_detection_helpers.caching import put_string_set
 
 import pypanther.helpers.panther_event_type_helpers as event_type
-from pypanther.base import PantherRule, PantherRuleMock, PantherRuleTest, PantherSeverity
+from pypanther import PantherLogType, PantherRule, PantherRuleMock, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_oss_helpers import resolve_timestamp_string
-from pypanther.log_types import PantherLogType
 
 standard_new_aws_account_created_tests: List[PantherRuleTest] = [
     PantherRuleTest(
