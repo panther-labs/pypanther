@@ -54,13 +54,13 @@ def test_print_rule_table(capsys):
 
 class TestGetRules(unittest.TestCase):
     def test_no_rules(self) -> None:
-        from .testdata.get_rules_test_data import no_rules
+        from .fixtures.get_rules_test_data import no_rules
 
         r = get_rules(module=no_rules)
         assert len(r) == 0
 
     def test_rules(self) -> None:
-        from .testdata.get_rules_test_data import rules
+        from .fixtures.get_rules_test_data import rules
 
         r = get_rules(module=rules)
         assert len(r) == 6
