@@ -1,8 +1,7 @@
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_mongodb_helpers import mongodb_alert_context
-from pypanther.log_types import PantherLogType
 
 mongo_db_alerting_disabled_or_deleted_tests: List[PantherRuleTest] = [
     PantherRuleTest(

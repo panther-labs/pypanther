@@ -1,8 +1,7 @@
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import m365_alert_context
-from pypanther.log_types import PantherLogType
 
 microsoft365_brute_force_loginby_user_tests: List[PantherRuleTest] = [
     PantherRuleTest(

@@ -1,10 +1,9 @@
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleMock, PantherRuleTest, PantherSeverity
+from pypanther import PantherLogType, PantherRule, PantherRuleMock, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import deep_get
 from pypanther.helpers.panther_default import lookup_aws_account_name
 from pypanther.helpers.panther_oss_helpers import geoinfo_from_ip_formatted
-from pypanther.log_types import PantherLogType
 
 aws_console_root_login_tests: List[PantherRuleTest] = [
     PantherRuleTest(

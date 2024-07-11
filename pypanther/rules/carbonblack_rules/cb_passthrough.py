@@ -1,7 +1,6 @@
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
-from pypanther.log_types import PantherLogType
+from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
 
 carbon_black_alert_v2_passthrough_tests: List[PantherRuleTest] = [
     PantherRuleTest(

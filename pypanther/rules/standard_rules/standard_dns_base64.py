@@ -1,8 +1,7 @@
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import defang_ioc, is_base64
-from pypanther.log_types import PantherLogType
 
 standard_dns_base64_tests: List[PantherRuleTest] = [
     PantherRuleTest(

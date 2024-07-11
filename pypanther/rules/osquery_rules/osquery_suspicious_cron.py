@@ -2,9 +2,8 @@ import shlex
 from fnmatch import fnmatch
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import deep_get
-from pypanther.log_types import PantherLogType
 
 osquery_suspicious_cron_tests: List[PantherRuleTest] = [
     PantherRuleTest(

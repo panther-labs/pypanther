@@ -1,8 +1,7 @@
 import re
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
-from pypanther.log_types import PantherLogType
+from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
 
 zoom_user_promotedto_privileged_role_tests: List[PantherRuleTest] = [
     PantherRuleTest(

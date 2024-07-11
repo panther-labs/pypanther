@@ -1,11 +1,10 @@
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import (
     filter_crowdstrike_fdr_event_type,
     get_crowdstrike_field,
 )
-from pypanther.log_types import PantherLogType
 
 crowdstrike_dns_request_tests: List[PantherRuleTest] = [
     PantherRuleTest(

@@ -1,11 +1,10 @@
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import (
     crowdstrike_network_detection_alert_context,
     deep_get,
 )
-from pypanther.log_types import PantherLogType
 
 connectionto_embargoed_country_tests: List[PantherRuleTest] = [
     PantherRuleTest(

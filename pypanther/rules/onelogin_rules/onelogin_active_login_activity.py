@@ -3,9 +3,8 @@ from typing import List
 
 from panther_detection_helpers.caching import add_to_string_set, get_string_set, put_string_set
 
-from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import is_ip_in_network
-from pypanther.log_types import PantherLogType
 
 one_login_active_login_activity_tests: List[PantherRuleTest] = [
     PantherRuleTest(

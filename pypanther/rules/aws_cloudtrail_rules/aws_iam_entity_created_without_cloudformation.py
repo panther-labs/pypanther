@@ -1,10 +1,9 @@
 import re
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import aws_rule_context, deep_get
 from pypanther.helpers.panther_default import aws_cloudtrail_success
-from pypanther.log_types import PantherLogType
 
 aws_cloud_trail_iam_entity_created_without_cloud_formation_tests: List[PantherRuleTest] = [
     PantherRuleTest(

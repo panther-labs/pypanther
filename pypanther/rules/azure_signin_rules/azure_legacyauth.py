@@ -2,14 +2,13 @@ import json
 from typing import List
 from unittest.mock import MagicMock
 
-from pypanther.base import PantherRule, PantherRuleMock, PantherRuleTest, PantherSeverity
+from pypanther import PantherLogType, PantherRule, PantherRuleMock, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_azuresignin_helpers import (
     actor_user,
     azure_signin_alert_context,
     is_sign_in_event,
 )
 from pypanther.helpers.panther_base_helpers import deep_get
-from pypanther.log_types import PantherLogType
 
 azure_audit_legacy_auth_tests: List[PantherRuleTest] = [
     PantherRuleTest(

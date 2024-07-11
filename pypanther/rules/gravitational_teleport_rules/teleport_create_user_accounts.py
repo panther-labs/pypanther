@@ -1,8 +1,7 @@
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import pattern_match_list
-from pypanther.log_types import PantherLogType
 
 teleport_create_user_accounts_tests: List[PantherRuleTest] = [
     PantherRuleTest(
