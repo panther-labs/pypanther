@@ -63,7 +63,11 @@ class TestGetRules(unittest.TestCase):
         from .testdata.get_rules_test_data import rules
 
         r = get_rules(module=rules)
-        assert len(r) == 4
+        assert len(r) == 6
+
+    def test_no_a_module(self) -> None:
+        with pytest.raises(TypeError):
+            get_rules(module="str")
 
 
 if __name__ == "__main__":

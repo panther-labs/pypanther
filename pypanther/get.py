@@ -1,7 +1,7 @@
 from importlib import import_module
 from pkgutil import walk_packages
 from types import ModuleType
-from typing import List, Set, Type
+from typing import List, Set, Type, Any
 
 from prettytable import PrettyTable
 
@@ -46,7 +46,7 @@ def get_panther_rules(**kwargs) -> list[Type[PantherRule]]:
 __DATA_MODELS: Set[Type[PantherRule]] = set()
 
 
-def get_rules(module: ModuleType) -> list[Type[PantherRule]]:
+def get_rules(module: Any) -> list[Type[PantherRule]]:
     """
     Returns a list of PantherRule subclasses that are declared within the given module, recursively.
     All sub-packages of the given module must have an __init__.py declared for PantherRule subclasses
@@ -61,6 +61,9 @@ def get_rules(module: ModuleType) -> list[Type[PantherRule]]:
     register(custom_rules)
     ```
     """
+    if not isinstance(module, ModuleType):
+        raise TypeError(f"Expected a module, got {type(module)}")
+
     subclasses = set()
 
     for module_info in walk_packages(module.__path__, prefix=module.__name__ + "."):
@@ -68,7 +71,11 @@ def get_rules(module: ModuleType) -> list[Type[PantherRule]]:
 
         for item in dir(m):
             attr = getattr(m, item)
-            if isinstance(attr, type) and issubclass(attr, PantherRule) and attr is not PantherRule:
+            if (
+                isinstance(attr, type)
+                and issubclass(attr, PantherRule)
+                and attr is not PantherRule
+            ):
                 if not hasattr(attr, "RuleID"):
                     continue
                 subclasses.add(attr)
