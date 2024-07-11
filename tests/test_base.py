@@ -1239,7 +1239,7 @@ class TestRule(TestCase):
             Severity = PantherSeverity.Info
             LogTypes = [PantherLogType.Panther_Audit]
 
-            allowed_domains = []
+            allowed_domains: list[str] = []
 
             Tests = [
                 PantherRuleTest(
@@ -1268,7 +1268,7 @@ class TestRule(TestCase):
             Severity = PantherSeverity.Info
             LogTypes = [PantherLogType.Panther_Audit]
 
-            allowed_domains = []
+            allowed_domains: list[str] = []
 
             Tests = [
                 PantherRuleTest(
