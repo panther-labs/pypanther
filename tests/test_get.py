@@ -5,7 +5,7 @@ from typing import Type
 import pytest
 
 from pypanther.base import PantherRule
-from pypanther.get import print_rule_table, get_rules
+from pypanther.get import get_rules, print_rule_table
 
 
 class TestEDRRule(PantherRule):

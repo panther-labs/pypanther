@@ -68,11 +68,7 @@ def get_rules(module: ModuleType) -> list[Type[PantherRule]]:
 
         for item in dir(m):
             attr = getattr(m, item)
-            if (
-                isinstance(attr, type)
-                and issubclass(attr, PantherRule)
-                and attr is not PantherRule
-            ):
+            if isinstance(attr, type) and issubclass(attr, PantherRule) and attr is not PantherRule:
                 if not hasattr(attr, "RuleID"):
                     continue
                 subclasses.add(attr)

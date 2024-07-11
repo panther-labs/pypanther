@@ -1,4 +1,4 @@
-from pypanther import PantherSeverity, PantherRule, PantherLogType
+from pypanther import PantherLogType, PantherRule, PantherSeverity
 
 
 class CRule(PantherRule):
