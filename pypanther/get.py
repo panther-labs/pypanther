@@ -1,7 +1,7 @@
 from importlib import import_module
 from pkgutil import walk_packages
 from types import ModuleType
-from typing import List, Set, Type, Any
+from typing import Any, List, Set, Type
 
 from prettytable import PrettyTable
 
@@ -71,11 +71,7 @@ def get_rules(module: Any) -> list[Type[PantherRule]]:
 
         for item in dir(m):
             attr = getattr(m, item)
-            if (
-                isinstance(attr, type)
-                and issubclass(attr, PantherRule)
-                and attr is not PantherRule
-            ):
+            if isinstance(attr, type) and issubclass(attr, PantherRule) and attr is not PantherRule:
                 if not hasattr(attr, "RuleID"):
                     continue
                 subclasses.add(attr)
