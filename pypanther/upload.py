@@ -114,10 +114,6 @@ def confirm() -> Optional[str]:
     )
     choice = input(warning_text).lower()
     if choice != "y":
-        print(
-            cli_output.warning(
-                f'Exiting upload due to entered response "{choice}" which is not "y"'
-            )
-        )
+        print(cli_output.warning(f'Exiting upload due to entered response "{choice}" which is not "y"'))
         return "User did not confirm"
     return None

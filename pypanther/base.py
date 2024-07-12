@@ -226,11 +226,7 @@ class PantherRule(metaclass=abc.ABCMeta):
     @classmethod
     def asdict(cls):
         """Returns a dictionary representation of the class."""
-        return {
-            key: try_asdict(getattr(cls, key))
-            for key in PANTHER_RULE_ALL_ATTRS
-            if hasattr(cls, key)
-        }
+        return {key: try_asdict(getattr(cls, key)) for key in PANTHER_RULE_ALL_ATTRS if hasattr(cls, key)}
 
     @classmethod
     def validate(cls):
@@ -564,12 +560,9 @@ class PantherRule(metaclass=abc.ABCMeta):
             # case for valid display name
             if (
                 each_destination in outputs_display_names
-                and outputs_display_names[each_destination].destination_id
-                not in standardized_destinations
+                and outputs_display_names[each_destination].destination_id not in standardized_destinations
             ):
-                standardized_destinations.append(
-                    outputs_display_names[each_destination].destination_id
-                )
+                standardized_destinations.append(outputs_display_names[each_destination].destination_id)
             # case for valid UUIDv4
             elif each_destination in outputs and each_destination not in standardized_destinations:
                 standardized_destinations.append(each_destination)
@@ -654,14 +647,10 @@ class PantherDataModel:
 
         for mapping in self.Mappings:
             if not mapping.Name:
-                raise AssertionError(
-                    f"DataModel [{self.DataModelID}] is missing required field: [Name]"
-                )
+                raise AssertionError(f"DataModel [{self.DataModelID}] is missing required field: [Name]")
             if mapping.Path:
                 self.paths[mapping.Name] = parse(mapping.Path)
             elif mapping.Method:
                 self.methods[mapping.Name] = mapping.Method
             else:
-                raise AssertionError(
-                    f"DataModel [{self.DataModelID}] must define one of: [Path, Method]"
-                )
+                raise AssertionError(f"DataModel [{self.DataModelID}] must define one of: [Path, Method]")

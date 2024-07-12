@@ -49,9 +49,7 @@ def run():
 
 
 def setup_parser() -> argparse.ArgumentParser:
-    parser = argparse.ArgumentParser(
-        description="Command line tool for uploading files.", prog="pypanther"
-    )
+    parser = argparse.ArgumentParser(description="Command line tool for uploading files.", prog="pypanther")
     parser.add_argument("--debug", action="store_true", dest="debug")
     subparsers = parser.add_subparsers(dest="command", help="Available commands")
 

@@ -19,9 +19,7 @@ def setup_dynaconf() -> Dict[str, Any]:
     return {k.lower(): v for k, v in config_file_settings_raw.as_dict().items()}
 
 
-def dynaconf_argparse_merge(
-    argparse_dict: Dict[str, Any], config_file_settings: Dict[str, Any]
-) -> None:
+def dynaconf_argparse_merge(argparse_dict: Dict[str, Any], config_file_settings: Dict[str, Any]) -> None:
     # Set up another parser w/ no defaults
     aux_parser = argparse.ArgumentParser(argument_default=argparse.SUPPRESS)
     for k in argparse_dict:

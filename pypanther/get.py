@@ -30,11 +30,7 @@ def get_panther_rules(**kwargs):
                 m = import_module(module_info.name)
                 for item in dir(m):
                     attr = getattr(m, item)
-                    if (
-                        isinstance(attr, type)
-                        and issubclass(attr, PantherRule)
-                        and attr is not PantherRule
-                    ):
+                    if isinstance(attr, type) and issubclass(attr, PantherRule) and attr is not PantherRule:
                         if not hasattr(attr, "RuleID"):
                             continue
                         __RULES.add(attr)
@@ -56,11 +52,7 @@ def get_panther_data_models(**kwargs):
             m = import_module(module_info.name)
             for item in dir(m):
                 attr = getattr(m, item)
-                if (
-                    isinstance(attr, type)
-                    and issubclass(attr, PantherDataModel)
-                    and attr is not PantherDataModel
-                ):
+                if isinstance(attr, type) and issubclass(attr, PantherDataModel) and attr is not PantherDataModel:
                     __DATA_MODELS.add(attr)
 
     return filter_kwargs(__DATA_MODELS, **kwargs)
@@ -74,10 +66,7 @@ def filter_kwargs(
     return [
         x
         for x in iterable
-        if all(
-            __to_set(getattr(x, key, set())).intersection(__to_set(values))
-            for key, values in kwargs.items()
-        )
+        if all(__to_set(getattr(x, key, set())).intersection(__to_set(values)) for key, values in kwargs.items())
     ]
 
 

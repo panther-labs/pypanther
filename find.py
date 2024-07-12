@@ -17,11 +17,7 @@ def get_rules_by_category():
             group = module_info.name.split(".")[2]
             for item in dir(m):
                 attr = getattr(m, item)
-                if (
-                    isinstance(attr, type)
-                    and issubclass(attr, PantherRule)
-                    and attr is not PantherRule
-                ):
+                if isinstance(attr, type) and issubclass(attr, PantherRule) and attr is not PantherRule:
                     rules[group].append(attr)
     return rules
 
@@ -48,9 +44,7 @@ def compare_rules(rules: list[type[PantherRule]]):
             if unique_methods.count(x) == 0:
                 unique_methods.append(x)
         if len(unique_methods) == 1 and unique_methods is not None:
-            if hasattr(PantherRule, method) and unique_methods[0] == inspect.getsource(
-                getattr(PantherRule, method)
-            ):
+            if hasattr(PantherRule, method) and unique_methods[0] == inspect.getsource(getattr(PantherRule, method)):
                 continue
             consistent_methods.append(method)
 

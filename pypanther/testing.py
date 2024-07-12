@@ -87,8 +87,7 @@ def print_failed_test_results(
 
             if (
                 failed_result.DetectionResult.detection_exception is None
-                and failed_result.DetectionResult.detection_output
-                != failed_result.Test.ExpectedResult
+                and failed_result.DetectionResult.detection_output != failed_result.Test.ExpectedResult
             ):
                 log_rule_test_failure(failed_result)
 
@@ -107,9 +106,7 @@ def log_rule_func_exception(failed_result: PantherRuleTestResult) -> None:
     )
 
 
-def log_aux_func_exception(
-    failed_result: PantherRuleTestResult, method_name: str, exc: Exception
-) -> None:
+def log_aux_func_exception(failed_result: PantherRuleTestResult, method_name: str, exc: Exception) -> None:
     logging.warning(
         "%s: Exception in test '%s' calling %s()",
         failed_result.RuleID,
@@ -130,9 +127,7 @@ def log_rule_test_failure(failed_result: PantherRuleTestResult) -> None:
     )
 
 
-def log_aux_func_failure(
-    failed_result: PantherRuleTestResult, aux_func_exceptions: dict[str, Exception]
-) -> None:
+def log_aux_func_failure(failed_result: PantherRuleTestResult, aux_func_exceptions: dict[str, Exception]) -> None:
     exc_msgs = [f"{name}()" for name, exc in aux_func_exceptions.items() if exc is not None]
     exc_msg = ", ".join(exc_msgs[:-1]) if len(exc_msgs) > 1 else exc_msgs[0]
     last_exc_msg = f" and {exc_msgs[-1]}" if len(exc_msgs) > 1 else ""

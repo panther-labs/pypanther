@@ -9,8 +9,6 @@ from multiprocessing import Pool
 from pathlib import Path
 from typing import List, Optional, Set
 
-import black
-import black.report
 from ast_comments import Comment, parse, unparse
 from ruamel.yaml import YAML
 
@@ -163,28 +161,15 @@ def do(filepath: Path, helpers: Set[str]) -> Optional[str]:
             ]
         ).visit(tree)
 
-    return run_black(unparse(tree))
+    return unparse(tree)
 
 
-def run_black(code: str) -> str:
-    try:
-        return black.format_file_contents(
-            code,
-            mode=black.Mode(line_length=100, target_versions={black.TargetVersion.PY311}),
-            fast=False,
-        )
-    except black.report.NothingChanged:
-        return code
-
-
-def run_isort(paths: List[Path]):
-    subprocess.run(["isort"] + list(paths), check=True)  # , stdout=subprocess.DEVNULL)
+def run_ruff(paths: List[Path]):
+    subprocess.run(["ruff", "format"] + list(paths), check=True)
 
 
 def to_ascii(s):
-    ret = "".join(
-        [i if ord("A") <= ord(i) <= ord("z") or ord("0") <= ord(i) < ord("9") else "" for i in s]
-    )
+    ret = "".join([i if ord("A") <= ord(i) <= ord("z") or ord("0") <= ord(i) < ord("9") else "" for i in s])
 
     while ret[0].isdigit():
         ret = ret[1:]
@@ -370,11 +355,7 @@ def rewrite_imports_str(code: str, helpers: Set[str]):
 
 class ConstantPropogation(ast.NodeTransformer):
     def visit_UnaryOp(self, node: ast.UnaryOp) -> Optional[ast.AST]:
-        if (
-            isinstance(node.op, ast.Not)
-            and isinstance(node.operand, ast.Constant)
-            and node.operand.value is True
-        ):
+        if isinstance(node.op, ast.Not) and isinstance(node.operand, ast.Constant) and node.operand.value is True:
             return ast.Constant(value=False)
         return super().generic_visit(node)
 
@@ -396,11 +377,7 @@ class DropFilterIncludeEvent(ast.NodeTransformer):
         return super().generic_visit(node)
 
     def visit_Import(self, node: ast.Import) -> Optional[ast.AST]:
-        node.names = [
-            name
-            for name in node.names
-            if not name.name.startswith("pypanther.helpers.global_filter_")
-        ]
+        node.names = [name for name in node.names if not name.name.startswith("pypanther.helpers.global_filter_")]
         return node
 
     def visit_ImportFrom(self, node: ast.ImportFrom) -> Optional[ast.AST]:
@@ -481,15 +458,12 @@ def convert_global_helpers(panther_analysis: Path) -> Set[str]:
             code = f'"""{description}"""\n' + code
 
         code = rewrite_imports_str(code, helpers)
-        code = run_black(code)
 
         with open(helpers_path / gh["Filename"], "w", encoding="utf-8") as f:
             f.write(code)
 
         helpers.add(Path(gh["Filename"]).stem)
         paths.append(helpers_path / gh["Filename"])
-
-    run_isort(paths)
 
     return helpers
 
@@ -574,9 +548,7 @@ from pypanther.log_types import PantherLogType"""
                     target=ast.Name(id="Mappings", ctx=ast.Store()),
                     annotation=ast.Subscript(
                         value=ast.Name(id="List", ctx=ast.Load()),
-                        slice=ast.Index(
-                            value=ast.Name(id="PantherDataModelMapping", ctx=ast.Load())
-                        ),
+                        slice=ast.Index(value=ast.Name(id="PantherDataModelMapping", ctx=ast.Load())),
                     ),
                     value=ast.List(elts=mappings, ctx=ast.Load()),
                     simple=1,
@@ -593,16 +565,12 @@ from pypanther.log_types import PantherLogType"""
 
         code += "\n\n" + unparse(as_class) + "\n"
 
-        code = run_black(code)
-
         p = Path("pypanther") / p.relative_to(panther_analysis)
         p.parent.mkdir(parents=True, exist_ok=True)
         with open(p.with_suffix(".py"), "w", encoding="utf-8") as f:
             f.write(code)
 
         paths.append(p.with_suffix(".py"))
-
-    run_isort(paths)
 
     add_inits(Path("pypanther/data_models"))
 
@@ -638,15 +606,12 @@ def convert_rules(panther_analysis: Path, helpers: Set[str]):
     if Path("pypanther/rules").exists():
         shutil.rmtree(Path("pypanther/rules"))
 
-    _convert_rules_curry = functools.partial(
-        _convert_rules, panther_analysis=panther_analysis, helpers=helpers
-    )
+    _convert_rules_curry = functools.partial(_convert_rules, panther_analysis=panther_analysis, helpers=helpers)
     with Pool() as pool:
         pool.map(_convert_rules_curry, rules_path.rglob("*.y*ml"))
 
     # __init__.py to all folders
     add_inits(Path("pypanther") / "rules")
-    run_isort([Path("pypanther") / "rules"])
 
 
 def convert_queries(
@@ -760,11 +725,9 @@ from pypanther.base import PantherDataModel, PantherQuerySchedule
 
         p.parent.mkdir(parents=True, exist_ok=True)
         with open(p.with_suffix(".py"), "w", encoding="utf-8") as f:
-            f.write(run_black(new_rule))
+            f.write(new_rule)
 
         paths.append(p.with_suffix(".py"))
-
-    run_isort(paths)
 
     add_inits(Path("pypanther") / "queries")
 
@@ -799,6 +762,7 @@ def main():
     strip_global_filters()
 
     # convert_queries(Path(panther_analysis))
+    run_ruff([Path(".")])
 
 
 if __name__ == "__main__":
