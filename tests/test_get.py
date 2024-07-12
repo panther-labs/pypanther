@@ -5,7 +5,7 @@ from typing import Type
 import pytest
 
 from pypanther.base import PantherRule
-from pypanther.get import print_rule_table
+from pypanther.get import get_rules, print_rule_table
 
 
 class TestEDRRule(PantherRule):
@@ -50,6 +50,24 @@ def test_print_rule_table(capsys):
     ).lstrip()
     assert std.out == exp
     assert std.err == ""
+
+
+class TestGetRules(unittest.TestCase):
+    def test_no_rules(self) -> None:
+        from .fixtures.get_rules_test_data import no_rules
+
+        r = get_rules(module=no_rules)
+        assert len(r) == 0
+
+    def test_rules(self) -> None:
+        from .fixtures.get_rules_test_data import rules
+
+        r = get_rules(module=rules)
+        assert len(r) == 4
+
+    def test_no_a_module(self) -> None:
+        with pytest.raises(TypeError):
+            get_rules(module="str")
 
 
 if __name__ == "__main__":

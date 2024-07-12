@@ -8,5 +8,6 @@ def test_pypanther_imports():
     from pypanther import PantherRuleTest  # noqa: F401
     from pypanther import PantherSeverity  # noqa: F401
     from pypanther import get_panther_rules  # noqa: F401
+    from pypanther import get_rules  # noqa: F401
     from pypanther import register  # noqa: F401
     from pypanther import registered_rules  # noqa: F401
