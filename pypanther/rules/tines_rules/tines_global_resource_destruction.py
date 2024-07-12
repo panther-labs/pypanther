@@ -48,15 +48,14 @@ class TinesGlobalResourceDestruction(PantherRule):
     Tags = ["Tines"]
     Severity = PantherSeverity.Low
     Description = "A Tines user has destroyed a global resource."
-    Runbook = "Possible data destruction. Please reach out to the user and confirm this was done for valid business reasons."
+    Runbook = (
+        "Possible data destruction. Please reach out to the user and confirm this was done for valid business reasons."
+    )
     Reference = "https://www.tines.com/docs/resources"
     Tests = tines_global_resource_destruction_tests
 
     def rule(self, event):
-        return (
-            deep_get(event, "operation_name", default="<NO_OPERATION_NAME>")
-            == "GlobalResourceDestruction"
-        )
+        return deep_get(event, "operation_name", default="<NO_OPERATION_NAME>") == "GlobalResourceDestruction"
 
     def title(self, event):
         operation = deep_get(event, "operation_name", default="<NO_OPERATION_NAME>")

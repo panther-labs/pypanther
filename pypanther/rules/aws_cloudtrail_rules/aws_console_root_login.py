@@ -11,8 +11,7 @@ aws_console_root_login_tests: List[PantherRuleTest] = [
         ExpectedResult=True,
         Mocks=[
             PantherRuleMock(
-                ObjectName="geoinfo_from_ip_formatted",
-                ReturnValue="111.111.111.111 in SF, California in USA",
+                ObjectName="geoinfo_from_ip_formatted", ReturnValue="111.111.111.111 in SF, California in USA"
             )
         ],
         Log={
@@ -61,10 +60,7 @@ aws_console_root_login_tests: List[PantherRuleTest] = [
                         "accountId": "123456789012",
                         "userName": "tester",
                     },
-                    "attributes": {
-                        "creationDate": "2019-01-01T00:00:00Z",
-                        "mfaAuthenticated": "true",
-                    },
+                    "attributes": {"creationDate": "2019-01-01T00:00:00Z", "mfaAuthenticated": "true"},
                 },
             },
             "eventTime": "2019-01-01T00:00:00Z",
@@ -78,13 +74,7 @@ aws_console_root_login_tests: List[PantherRuleTest] = [
             "requestID": "1",
             "eventID": "1",
             "readOnly": True,
-            "resources": [
-                {
-                    "accountId": "123456789012",
-                    "type": "AWS::DynamoDB::Table",
-                    "ARN": "arn::::table/table",
-                }
-            ],
+            "resources": [{"accountId": "123456789012", "type": "AWS::DynamoDB::Table", "ARN": "arn::::table/table"}],
             "eventType": "AwsApiCall",
             "apiVersion": "2012-08-10",
             "managementEvent": True,
@@ -127,9 +117,7 @@ class AWSConsoleRootLogin(PantherRule):
 
     def dedup(self, event):
         # Each Root login should generate a unique alert
-        return "-".join(
-            [event.get("recipientAccountId"), event.get("eventName"), event.get("eventTime")]
-        )
+        return "-".join([event.get("recipientAccountId"), event.get("eventName"), event.get("eventTime")])
 
     def alert_context(self, event):
         return {

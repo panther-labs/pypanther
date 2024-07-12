@@ -33,12 +33,7 @@ netskope_many_deletes_tests: List[PantherRuleTest] = [
             "severity_level": 2,
             "supporting_data": {
                 "data_type": "incidents",
-                "data_values": [
-                    200,
-                    "POST",
-                    "/api/v2/incidents/uba/getuci",
-                    "trid=ccb898fgrhvdd0v0lebg",
-                ],
+                "data_values": [200, "POST", "/api/v2/incidents/uba/getuci", "trid=ccb898fgrhvdd0v0lebg"],
             },
             "timestamp": "2023-12-11 18:10:13.000000000",
             "type": "admin_audit_logs",

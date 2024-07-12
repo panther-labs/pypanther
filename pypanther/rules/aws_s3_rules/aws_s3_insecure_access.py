@@ -32,9 +32,7 @@ awss3_server_access_insecure_tests: List[PantherRuleTest] = [
             "p_row_id": "8855aa99ff77abc8dcb0e36e0a",
             "p_event_time": "2020-02-14 00:53:48.000000000",
             "p_any_ip_addresses": ["55.99.86.234"],
-            "p_any_aws_arns": [
-                "arn:aws:sts::123456789012:assumed-role/eagle/regionalDeliverySession"
-            ],
+            "p_any_aws_arns": ["arn:aws:sts::123456789012:assumed-role/eagle/regionalDeliverySession"],
         },
     ),
     PantherRuleTest(
@@ -69,9 +67,7 @@ awss3_server_access_insecure_tests: List[PantherRuleTest] = [
             "key": "AWSLogs/o-wwwwwwgggg/234567890123/CloudTrail-Digest/ca-central-1/2020/02/14/234567890123_CloudTrail-Digest_ca-central-1_POrgTrail_us-east-1_20200214T001007Z.json.gz",
             "objectsize": 747,
             "operation": "REST.PUT.OBJECT",
-            "p_any_aws_arns": [
-                "arn:aws:sts::123456789012:assumed-role/eagle/regionalDeliverySession"
-            ],
+            "p_any_aws_arns": ["arn:aws:sts::123456789012:assumed-role/eagle/regionalDeliverySession"],
             "p_any_ip_addresses": ["55.99.86.234"],
             "p_event_time": "2020-02-14 00:53:48.000000000",
             "p_log_type": "AWS.S3ServerAccess",
@@ -95,19 +91,14 @@ class AWSS3ServerAccessInsecure(PantherRule):
     DisplayName = "AWS S3 Insecure Access"
     DedupPeriodMinutes = 720
     LogTypes = [PantherLogType.AWS_S3ServerAccess]
-    Tags = [
-        "AWS",
-        "Configuration Required",
-        "Security Control",
-        "Collection:Data From Cloud Storage Object",
-    ]
+    Tags = ["AWS", "Configuration Required", "Security Control", "Collection:Data From Cloud Storage Object"]
     Reports = {"MITRE ATT&CK": ["TA0009:T1530"]}
     Severity = PantherSeverity.Low
-    Description = "Checks if HTTP (unencrypted) was used to access objects in an S3 bucket, as opposed to HTTPS (encrypted).\n"
-    Runbook = "Add a condition on the S3 bucket policy that denies access via http.\n"
-    Reference = (
-        "https://aws.amazon.com/premiumsupport/knowledge-center/s3-bucket-policy-for-config-rule/"
+    Description = (
+        "Checks if HTTP (unencrypted) was used to access objects in an S3 bucket, as opposed to HTTPS (encrypted).\n"
     )
+    Runbook = "Add a condition on the S3 bucket policy that denies access via http.\n"
+    Reference = "https://aws.amazon.com/premiumsupport/knowledge-center/s3-bucket-policy-for-config-rule/"
     SummaryAttributes = [
         "bucket",
         "key",

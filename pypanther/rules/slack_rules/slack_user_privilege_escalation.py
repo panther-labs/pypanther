@@ -11,12 +11,7 @@ slack_audit_logs_user_privilege_escalation_tests: List[PantherRuleTest] = [
             "action": "owner_transferred",
             "actor": {
                 "type": "user",
-                "user": {
-                    "email": "user@example.com",
-                    "id": "A012B3CDEFG",
-                    "name": "username",
-                    "team": "T01234N56GB",
-                },
+                "user": {"email": "user@example.com", "id": "A012B3CDEFG", "name": "username", "team": "T01234N56GB"},
             },
             "context": {
                 "ip_address": "1.2.3.4",
@@ -37,12 +32,7 @@ slack_audit_logs_user_privilege_escalation_tests: List[PantherRuleTest] = [
             "action": "permissions_assigned",
             "actor": {
                 "type": "user",
-                "user": {
-                    "email": "user@example.com",
-                    "id": "A012B3CDEFG",
-                    "name": "username",
-                    "team": "T01234N56GB",
-                },
+                "user": {"email": "user@example.com", "id": "A012B3CDEFG", "name": "username", "team": "T01234N56GB"},
             },
             "context": {
                 "ip_address": "1.2.3.4",
@@ -63,12 +53,7 @@ slack_audit_logs_user_privilege_escalation_tests: List[PantherRuleTest] = [
             "action": "role_change_to_admin",
             "actor": {
                 "type": "user",
-                "user": {
-                    "email": "user@example.com",
-                    "id": "A012B3CDEFG",
-                    "name": "username",
-                    "team": "T01234N56GB",
-                },
+                "user": {"email": "user@example.com", "id": "A012B3CDEFG", "name": "username", "team": "T01234N56GB"},
             },
             "context": {
                 "ip_address": "1.2.3.4",
@@ -89,12 +74,7 @@ slack_audit_logs_user_privilege_escalation_tests: List[PantherRuleTest] = [
             "action": "role_change_to_owner",
             "actor": {
                 "type": "user",
-                "user": {
-                    "email": "user@example.com",
-                    "id": "A012B3CDEFG",
-                    "name": "username",
-                    "team": "T01234N56GB",
-                },
+                "user": {"email": "user@example.com", "id": "A012B3CDEFG", "name": "username", "team": "T01234N56GB"},
             },
             "context": {
                 "ip_address": "1.2.3.4",
@@ -180,9 +160,7 @@ class SlackAuditLogsUserPrivilegeEscalation(PantherRule):
             return f"Slack User, {username} ({email}), promoted to admin"
         if event.get("action") == "role_change_to_owner":
             return f"Slack User, {username} ({email}), promoted to Owner"
-        return (
-            f"Slack User Privilege Escalation event {event.get('action')} on {username} ({email})"
-        )
+        return f"Slack User Privilege Escalation event {event.get('action')} on {username} ({email})"
 
     def severity(self, event):
         # Downgrade severity for users assigned permissions

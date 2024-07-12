@@ -138,14 +138,7 @@ okta_user_account_locked_tests: List[PantherRuleTest] = [
                 "isp": "charter communications inc",
             },
             "severity": "WARN",
-            "target": [
-                {
-                    "alternateId": "App (123)",
-                    "displayName": "App (123)",
-                    "id": "12345",
-                    "type": "AppInstance",
-                }
-            ],
+            "target": [{"alternateId": "App (123)", "displayName": "App (123)", "id": "12345", "type": "AppInstance"}],
             "transaction": {"detail": {}, "id": "aaa-bbb-123", "type": "WEB"},
             "uuid": "aa-11-22-33-44-bb",
             "version": "0",

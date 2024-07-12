@@ -51,10 +51,7 @@ okta_new_behavior_accessing_admin_console_tests: List[PantherRuleTest] = [
             },
             "displaymessage": "Evaluation of sign-on policy",
             "eventtype": "policy.evaluate_sign_on",
-            "outcome": {
-                "reason": "Sign-on policy evaluation resulted in CHALLENGE",
-                "result": "CHALLENGE",
-            },
+            "outcome": {"reason": "Sign-on policy evaluation resulted in CHALLENGE", "result": "CHALLENGE"},
             "published": "2022-06-22 18:18:29.015",
             "request": {
                 "ipChain": [
@@ -80,11 +77,7 @@ okta_new_behavior_accessing_admin_console_tests: List[PantherRuleTest] = [
             },
             "severity": "INFO",
             "target": [
-                {
-                    "alternateId": "Okta Admin Console",
-                    "displayName": "Okta Admin Console",
-                    "type": "AppInstance",
-                },
+                {"alternateId": "Okta Admin Console", "displayName": "Okta Admin Console", "type": "AppInstance"},
                 {
                     "alternateId": "peter.griffin@company.com",
                     "displayName": "Peter Griffin",
@@ -147,10 +140,7 @@ okta_new_behavior_accessing_admin_console_tests: List[PantherRuleTest] = [
             },
             "displaymessage": "Evaluation of sign-on policy",
             "eventtype": "policy.evaluate_sign_on",
-            "outcome": {
-                "reason": "Sign-on policy evaluation resulted in CHALLENGE",
-                "result": "CHALLENGE",
-            },
+            "outcome": {"reason": "Sign-on policy evaluation resulted in CHALLENGE", "result": "CHALLENGE"},
             "published": "2022-06-22 18:18:29.015",
             "request": {
                 "ipChain": [
@@ -176,11 +166,7 @@ okta_new_behavior_accessing_admin_console_tests: List[PantherRuleTest] = [
             },
             "severity": "INFO",
             "target": [
-                {
-                    "alternateId": "Okta Admin Console",
-                    "displayName": "Okta Admin Console",
-                    "type": "AppInstance",
-                },
+                {"alternateId": "Okta Admin Console", "displayName": "Okta Admin Console", "type": "AppInstance"},
                 {
                     "alternateId": "peter.griffin@company.com",
                     "displayName": "Peter Griffin",
@@ -242,10 +228,7 @@ okta_new_behavior_accessing_admin_console_tests: List[PantherRuleTest] = [
             },
             "displaymessage": "Evaluation of sign-on policy",
             "eventtype": "policy.evaluate_sign_on",
-            "outcome": {
-                "reason": "Sign-on policy evaluation resulted in CHALLENGE",
-                "result": "CHALLENGE",
-            },
+            "outcome": {"reason": "Sign-on policy evaluation resulted in CHALLENGE", "result": "CHALLENGE"},
             "published": "2022-06-22 18:18:29.015",
             "request": {
                 "ipChain": [
@@ -271,11 +254,7 @@ okta_new_behavior_accessing_admin_console_tests: List[PantherRuleTest] = [
             },
             "severity": "INFO",
             "target": [
-                {
-                    "alternateId": "Okta Admin Console",
-                    "displayName": "Okta Admin Console",
-                    "type": "AppInstance",
-                },
+                {"alternateId": "Okta Admin Console", "displayName": "Okta Admin Console", "type": "AppInstance"},
                 {
                     "alternateId": "peter.griffin@company.com",
                     "displayName": "Peter Griffin",
@@ -311,14 +290,8 @@ class OktaNewBehaviorAccessingAdminConsole(PantherRule):
         if behaviors:
             return "New Device=POSITIVE" in behaviors and "New IP=POSITIVE" in behaviors
         return (
-            deep_get(
-                event, "debugContext", "debugData", "logOnlySecurityData", "behaviors", "New Device"
-            )
-            == "POSITIVE"
-            and deep_get(
-                event, "debugContext", "debugData", "logOnlySecurityData", "behaviors", "New IP"
-            )
-            == "POSITIVE"
+            deep_get(event, "debugContext", "debugData", "logOnlySecurityData", "behaviors", "New Device") == "POSITIVE"
+            and deep_get(event, "debugContext", "debugData", "logOnlySecurityData", "behaviors", "New IP") == "POSITIVE"
         )
 
     def title(self, event):

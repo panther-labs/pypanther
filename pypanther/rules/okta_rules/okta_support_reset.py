@@ -92,12 +92,7 @@ class OktaSupportReset(PantherRule):
     RuleID = "Okta.Support.Reset-prototype"
     DisplayName = "Okta Support Reset Credential"
     LogTypes = [PantherLogType.Okta_SystemLog]
-    Tags = [
-        "Identity & Access Management",
-        "DataModel",
-        "Okta",
-        "Initial Access:Trusted Relationship",
-    ]
+    Tags = ["Identity & Access Management", "DataModel", "Okta", "Initial Access:Trusted Relationship"]
     Reports = {"MITRE ATT&CK": ["TA0001:T1199"]}
     Severity = PantherSeverity.High
     Description = "A Password or MFA factor was reset by Okta Support"

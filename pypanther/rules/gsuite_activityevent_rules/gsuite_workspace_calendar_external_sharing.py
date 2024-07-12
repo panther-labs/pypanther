@@ -80,11 +80,7 @@ g_suite_workspace_calendar_external_sharing_setting_tests: List[PantherRuleTest]
         Name="Non-Default Calendar SHARING_OUTSIDE_DOMAIN event",
         ExpectedResult=False,
         Log={
-            "actor": {
-                "callerType": "USER",
-                "email": "user@example.io",
-                "profileId": "111111111111111111111",
-            },
+            "actor": {"callerType": "USER", "email": "user@example.io", "profileId": "111111111111111111111"},
             "id": {
                 "applicationName": "admin",
                 "customerId": "D12345",
@@ -149,8 +145,7 @@ class GSuiteWorkspaceCalendarExternalSharingSetting(PantherRule):
         if not all(
             [
                 event.get("name", "") == "CHANGE_CALENDAR_SETTING",
-                deep_get(event, "parameters", "SETTING_NAME", default="")
-                == "SHARING_OUTSIDE_DOMAIN",
+                deep_get(event, "parameters", "SETTING_NAME", default="") == "SHARING_OUTSIDE_DOMAIN",
             ]
         ):
             return False

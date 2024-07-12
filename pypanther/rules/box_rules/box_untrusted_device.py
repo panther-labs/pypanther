@@ -10,12 +10,7 @@ box_untrusted_device_tests: List[PantherRuleTest] = [
         Log={
             "type": "event",
             "additional_details": '{"key": "value"}',
-            "created_by": {
-                "id": "12345678",
-                "type": "user",
-                "login": "cat@example",
-                "name": "Bob Cat",
-            },
+            "created_by": {"id": "12345678", "type": "user", "login": "cat@example", "name": "Bob Cat"},
             "event_type": "DELETE",
         },
     ),
@@ -25,12 +20,7 @@ box_untrusted_device_tests: List[PantherRuleTest] = [
         Log={
             "type": "event",
             "additional_details": '{"key": "value"}',
-            "created_by": {
-                "id": "12345678",
-                "type": "user",
-                "login": "cat@example",
-                "name": "Bob Cat",
-            },
+            "created_by": {"id": "12345678", "type": "user", "login": "cat@example", "name": "Bob Cat"},
             "event_type": "DEVICE_TRUST_CHECK_FAILED",
             "source": {"id": "12345678", "type": "user", "login": "user@example"},
         },

@@ -16,12 +16,7 @@ aws_root_activity_tests: List[PantherRuleTest] = [
                 "arn": "arn:aws:iam::123456789012:root",
                 "accountId": "123456789012",
                 "accessKeyId": "1",
-                "sessionContext": {
-                    "attributes": {
-                        "mfaAuthenticated": "false",
-                        "creationDate": "2019-01-01T00:00:00Z",
-                    }
-                },
+                "sessionContext": {"attributes": {"mfaAuthenticated": "false", "creationDate": "2019-01-01T00:00:00Z"}},
             },
             "eventTime": "2019-01-01T00:00:00Z",
             "eventSource": "s3.amazonaws.com",
@@ -62,12 +57,7 @@ aws_root_activity_tests: List[PantherRuleTest] = [
                 "arn": "arn:aws:iam::123456789012:root",
                 "accountId": "123456789012",
                 "accessKeyId": "1",
-                "sessionContext": {
-                    "attributes": {
-                        "mfaAuthenticated": "false",
-                        "creationDate": "2019-01-01T00:00:00Z",
-                    }
-                },
+                "sessionContext": {"attributes": {"mfaAuthenticated": "false", "creationDate": "2019-01-01T00:00:00Z"}},
             },
             "eventTime": "2019-01-01T00:00:00Z",
             "eventSource": "s3.amazonaws.com",
@@ -109,12 +99,7 @@ aws_root_activity_tests: List[PantherRuleTest] = [
                 "accountId": "123456789012",
                 "accessKeyId": "1",
                 "userName": "tester",
-                "sessionContext": {
-                    "attributes": {
-                        "mfaAuthenticated": "false",
-                        "creationDate": "2019-01-01T00:00:00Z",
-                    }
-                },
+                "sessionContext": {"attributes": {"mfaAuthenticated": "false", "creationDate": "2019-01-01T00:00:00Z"}},
                 "invokedBy": "signin.amazonaws.com",
             },
             "eventTime": "2019-01-01T00:00:00Z",
@@ -123,11 +108,7 @@ aws_root_activity_tests: List[PantherRuleTest] = [
             "awsRegion": "us-west-2",
             "sourceIPAddress": "111.111.111.111",
             "userAgent": "signin.amazonaws.com",
-            "requestParameters": {
-                "host": ["bucket.s3.us-west-2.amazonaws.com"],
-                "bucketName": "bucket",
-                "acl": [""],
-            },
+            "requestParameters": {"host": ["bucket.s3.us-west-2.amazonaws.com"], "bucketName": "bucket", "acl": [""]},
             "responseElements": None,
             "additionalEventData": {
                 "SignatureVersion": "SigV4",
@@ -222,12 +203,7 @@ class AWSRootActivity(PantherRule):
     RuleID = "AWS.Root.Activity-prototype"
     DisplayName = "Root Account Activity"
     LogTypes = [PantherLogType.AWS_CloudTrail]
-    Tags = [
-        "AWS",
-        "Identity & Access Management",
-        "DemoThreatHunting",
-        "Privilege Escalation:Valid Accounts",
-    ]
+    Tags = ["AWS", "Identity & Access Management", "DemoThreatHunting", "Privilege Escalation:Valid Accounts"]
     Reports = {"CIS": ["3.3"], "MITRE ATT&CK": ["TA0004:T1078"]}
     Severity = PantherSeverity.High
     Description = "Root account activity was detected.\n"

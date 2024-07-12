@@ -47,14 +47,14 @@ class TinesStoryJobsClearance(PantherRule):
     Tags = ["Tines"]
     Severity = PantherSeverity.Low
     Description = "A Tines User has cleared story jobs."
-    Runbook = "Possible data destruction. Please reach out to the user and confirm this was done for valid business reasons."
+    Runbook = (
+        "Possible data destruction. Please reach out to the user and confirm this was done for valid business reasons."
+    )
     Reference = "https://www.tines.com/docs/stories"
     Tests = tines_story_jobs_clearance_tests
 
     def rule(self, event):
-        return (
-            deep_get(event, "operation_name", default="<NO_OPERATION_NAME>") == "StoryJobsClearance"
-        )
+        return deep_get(event, "operation_name", default="<NO_OPERATION_NAME>") == "StoryJobsClearance"
 
     def title(self, event):
         operation = deep_get(event, "operation_name", default="<NO_OPERATION_NAME>")

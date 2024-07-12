@@ -41,10 +41,7 @@ gcp_firewall_rule_modified_tests: List[PantherRuleTest] = [
                     },
                 ],
                 "methodName": "v1.compute.firewalls.patch",
-                "request": {
-                    "@type": "type.googleapis.com/compute.firewalls.patch",
-                    "denieds": [{"IPProtocol": "all"}],
-                },
+                "request": {"@type": "type.googleapis.com/compute.firewalls.patch", "denieds": [{"IPProtocol": "all"}]},
                 "requestMetadata": {
                     "callerIP": "12.12.12.12",
                     "callerSuppliedUserAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Safari/537.36,gzip(gfe),gzip(gfe)",
@@ -75,10 +72,7 @@ gcp_firewall_rule_modified_tests: List[PantherRuleTest] = [
             },
             "receivetimestamp": "2023-05-23 19:19:41.238",
             "resource": {
-                "labels": {
-                    "firewall_rule_id": "6563507997690081088",
-                    "project_id": "test-project-123456",
-                },
+                "labels": {"firewall_rule_id": "6563507997690081088", "project_id": "test-project-123456"},
                 "type": "gce_firewall_rule",
             },
             "severity": "NOTICE",
@@ -115,12 +109,7 @@ gcp_firewall_rule_modified_tests: List[PantherRuleTest] = [
             },
             "receivetimestamp": "2023-05-23 19:28:45.473",
             "resource": {
-                "labels": {
-                    "module_id": "",
-                    "project_id": "test-project-123456",
-                    "version_id": "",
-                    "zone": "",
-                },
+                "labels": {"module_id": "", "project_id": "test-project-123456", "version_id": "", "zone": ""},
                 "type": "gae_app",
             },
             "severity": "NOTICE",
@@ -152,10 +141,7 @@ gcp_firewall_rule_modified_tests: List[PantherRuleTest] = [
                 },
             },
             "resource": {
-                "labels": {
-                    "firewall_rule_id": "6563507997690081088",
-                    "project_id": "test-project-123456",
-                },
+                "labels": {"firewall_rule_id": "6563507997690081088", "project_id": "test-project-123456"},
                 "type": "gce_firewall_rule",
             },
         },
@@ -175,20 +161,12 @@ class GCPFirewallRuleModified(PantherRule):
     Tests = gcp_firewall_rule_modified_tests
 
     def rule(self, event):
-        method_pattern = (
-            "(?:\\w+\\.)*v\\d\\.(?:Firewall\\.Update)|(compute\\.firewalls\\.(patch|update))"
-        )
+        method_pattern = "(?:\\w+\\.)*v\\d\\.(?:Firewall\\.Update)|(compute\\.firewalls\\.(patch|update))"
         match = re.search(method_pattern, deep_get(event, "protoPayload", "methodName", default=""))
         return match is not None
 
     def title(self, event):
-        actor = deep_get(
-            event,
-            "protoPayload",
-            "authenticationInfo",
-            "principalEmail",
-            default="<ACTOR_NOT_FOUND>",
-        )
+        actor = deep_get(event, "protoPayload", "authenticationInfo", "principalEmail", default="<ACTOR_NOT_FOUND>")
         resource = deep_get(event, "protoPayload", "resourceName", default="<RESOURCE_NOT_FOUND>")
         return f"[GCP]: [{actor}] modified firewall rule on [{resource}]"
 

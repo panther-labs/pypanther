@@ -166,21 +166,19 @@ class OktaPasswordExtractionviaSCIM(PantherRule):
     Reports = {"MITRE ATT&CK": ["TA0006:T1556"]}
     Severity = PantherSeverity.High
     Description = "An application admin has extracted cleartext user passwords via SCIM app. Malcious actors can extract plaintext passwords by creating a SCIM application under their control and configuring it to sync passwords from Okta.\n"
-    Reference = "https://www.authomize.com/blog/authomize-discovers-password-stealing-and-impersonation-risks-to-in-okta/\n"
+    Reference = (
+        "https://www.authomize.com/blog/authomize-discovers-password-stealing-and-impersonation-risks-to-in-okta/\n"
+    )
     DedupPeriodMinutes = 30
     Tests = okta_password_extractionvia_scim_tests
 
     def rule(self, event):
-        return event.get(
-            "eventType"
-        ) == "application.lifecycle.update" and "Pushing user passwords" in deep_get(
+        return event.get("eventType") == "application.lifecycle.update" and "Pushing user passwords" in deep_get(
             event, "outcome", "reason", default=""
         )
 
     def title(self, event):
-        target = deep_walk(
-            event, "target", "alternateId", default="<alternateId-not-found>", return_val="first"
-        )
+        target = deep_walk(event, "target", "alternateId", default="<alternateId-not-found>", return_val="first")
         return f"{deep_get(event, 'actor', 'displayName', default='<displayName-not-found>')} <{deep_get(event, 'actor', 'alternateId', default='alternateId-not-found')}> extracted cleartext user passwords via SCIM app [{target}]"
 
     def alert_context(self, event):

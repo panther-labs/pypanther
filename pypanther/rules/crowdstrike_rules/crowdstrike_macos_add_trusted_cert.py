@@ -60,15 +60,9 @@ crowdstrike_macos_add_trusted_cert_tests: List[PantherRuleTest] = [
             "id": "59c9d5fb-b9b7-43a3-913f-6df72d9e1969",
             "name": "ProcessRollup2MacV9",
             "p_any_ip_addresses": ["1.2.3.4"],
-            "p_any_md5_hashes": [
-                "1234abcdefghijklmnop",
-                "5a29b1ee210395604829dafd744a8039",
-                "abcde098654321xyz",
-            ],
+            "p_any_md5_hashes": ["1234abcdefghijklmnop", "5a29b1ee210395604829dafd744a8039", "abcde098654321xyz"],
             "p_any_sha1_hashes": ["0000000000000000000000000000000000000000"],
-            "p_any_sha256_hashes": [
-                "fc708414b7e7c0df8d7711d0362b4dbd79a45fba65bdc646848fa8f50e9035de"
-            ],
+            "p_any_sha256_hashes": ["fc708414b7e7c0df8d7711d0362b4dbd79a45fba65bdc646848fa8f50e9035de"],
             "p_any_trace_ids": ["1234abcdefghijklmnop", "abcde098654321xyz"],
             "p_event_time": "2023-05-26 17:59:17.235",
             "p_log_type": "Crowdstrike.FDREvent",
@@ -136,15 +130,9 @@ crowdstrike_macos_add_trusted_cert_tests: List[PantherRuleTest] = [
             "id": "59c9d5fb-b9b7-43a3-913f-6df72d9e1969",
             "name": "ProcessRollup2MacV9",
             "p_any_ip_addresses": ["1.2.3.4"],
-            "p_any_md5_hashes": [
-                "1234abcdefghijklmnop",
-                "5a29b1ee210395604829dafd744a8039",
-                "abcde098654321xyz",
-            ],
+            "p_any_md5_hashes": ["1234abcdefghijklmnop", "5a29b1ee210395604829dafd744a8039", "abcde098654321xyz"],
             "p_any_sha1_hashes": ["0000000000000000000000000000000000000000"],
-            "p_any_sha256_hashes": [
-                "fc708414b7e7c0df8d7711d0362b4dbd79a45fba65bdc646848fa8f50e9035de"
-            ],
+            "p_any_sha256_hashes": ["fc708414b7e7c0df8d7711d0362b4dbd79a45fba65bdc646848fa8f50e9035de"],
             "p_any_trace_ids": ["1234abcdefghijklmnop", "abcde098654321xyz"],
             "p_event_time": "2023-05-26 17:59:17.235",
             "p_log_type": "Crowdstrike.FDREvent",
@@ -212,15 +200,9 @@ crowdstrike_macos_add_trusted_cert_tests: List[PantherRuleTest] = [
             "id": "59c9d5fb-b9b7-43a3-913f-6df72d9e1969",
             "name": "ProcessRollup2MacV9",
             "p_any_ip_addresses": ["1.2.3.4"],
-            "p_any_md5_hashes": [
-                "1234abcdefghijklmnop",
-                "5a29b1ee210395604829dafd744a8039",
-                "abcde098654321xyz",
-            ],
+            "p_any_md5_hashes": ["1234abcdefghijklmnop", "5a29b1ee210395604829dafd744a8039", "abcde098654321xyz"],
             "p_any_sha1_hashes": ["0000000000000000000000000000000000000000"],
-            "p_any_sha256_hashes": [
-                "fc708414b7e7c0df8d7711d0362b4dbd79a45fba65bdc646848fa8f50e9035de"
-            ],
+            "p_any_sha256_hashes": ["fc708414b7e7c0df8d7711d0362b4dbd79a45fba65bdc646848fa8f50e9035de"],
             "p_any_trace_ids": ["1234abcdefghijklmnop", "abcde098654321xyz"],
             "p_event_time": "2023-05-26 17:59:17.235",
             "p_log_type": "Crowdstrike.FDREvent",
@@ -288,15 +270,9 @@ crowdstrike_macos_add_trusted_cert_tests: List[PantherRuleTest] = [
             "id": "59c9d5fb-b9b7-43a3-913f-6df72d9e1969",
             "name": "ProcessRollup2MacV9",
             "p_any_ip_addresses": ["1.2.3.4"],
-            "p_any_md5_hashes": [
-                "1234abcdefghijklmnop",
-                "5a29b1ee210395604829dafd744a8039",
-                "abcde098654321xyz",
-            ],
+            "p_any_md5_hashes": ["1234abcdefghijklmnop", "5a29b1ee210395604829dafd744a8039", "abcde098654321xyz"],
             "p_any_sha1_hashes": ["0000000000000000000000000000000000000000"],
-            "p_any_sha256_hashes": [
-                "fc708414b7e7c0df8d7711d0362b4dbd79a45fba65bdc646848fa8f50e9035de"
-            ],
+            "p_any_sha256_hashes": ["fc708414b7e7c0df8d7711d0362b4dbd79a45fba65bdc646848fa8f50e9035de"],
             "p_any_trace_ids": ["1234abcdefghijklmnop", "abcde098654321xyz"],
             "p_event_time": "2023-05-26 17:59:17.235",
             "p_log_type": "Crowdstrike.FDREvent",
@@ -364,15 +340,9 @@ crowdstrike_macos_add_trusted_cert_tests: List[PantherRuleTest] = [
             "id": "59c9d5fb-b9b7-43a3-913f-6df72d9e1969",
             "name": "ProcessRollup2MacV9",
             "p_any_ip_addresses": ["1.2.3.4"],
-            "p_any_md5_hashes": [
-                "1234abcdefghijklmnop",
-                "5a29b1ee210395604829dafd744a8039",
-                "abcde098654321xyz",
-            ],
+            "p_any_md5_hashes": ["1234abcdefghijklmnop", "5a29b1ee210395604829dafd744a8039", "abcde098654321xyz"],
             "p_any_sha1_hashes": ["0000000000000000000000000000000000000000"],
-            "p_any_sha256_hashes": [
-                "fc708414b7e7c0df8d7711d0362b4dbd79a45fba65bdc646848fa8f50e9035de"
-            ],
+            "p_any_sha256_hashes": ["fc708414b7e7c0df8d7711d0362b4dbd79a45fba65bdc646848fa8f50e9035de"],
             "p_any_trace_ids": ["1234abcdefghijklmnop", "abcde098654321xyz"],
             "p_event_time": "2023-05-26 17:59:17.235",
             "p_log_type": "Crowdstrike.FDREvent",
@@ -399,9 +369,7 @@ class CrowdstrikeMacosAddTrustedCert(PantherRule):
     def rule(self, event):
         event_platform = deep_get(event, "event_platform", default="<UNKNOWN_PLATFORM>")
         fdr_event_type = deep_get(event, "fdr_event_type", default="<UNKNOWN_FDR_EVENT_TYPE>")
-        image_filename = deep_get(
-            event, "event", "ImageFileName", default="<UNKNOWN_IMAGE_FILE_NAME>"
-        )
+        image_filename = deep_get(event, "event", "ImageFileName", default="<UNKNOWN_IMAGE_FILE_NAME>")
         command_line = deep_get(event, "event", "CommandLine", default="<UNKNOWN_COMMAND_LINE>")
         return all(
             [

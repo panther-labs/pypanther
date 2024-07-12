@@ -15,21 +15,13 @@ panther_sensitive_role_tests: List[PantherRuleTest] = [
                     "input": {
                         "logTypeAccessKind": "DENY_ALL",
                         "name": "New Admins",
-                        "permissions": [
-                            "GeneralSettingsModify",
-                            "GeneralSettingsRead",
-                            "SummaryRead",
-                        ],
+                        "permissions": ["GeneralSettingsModify", "GeneralSettingsRead", "SummaryRead"],
                     }
                 }
             },
             "actionResult": "SUCCEEDED",
             "actor": {
-                "attributes": {
-                    "email": "homer@springfield.gov",
-                    "emailVerified": True,
-                    "roleId": "1111111",
-                },
+                "attributes": {"email": "homer@springfield.gov", "emailVerified": True, "roleId": "1111111"},
                 "id": "11111111",
                 "name": "Homer Simpson",
                 "type": "USER",
@@ -48,20 +40,12 @@ panther_sensitive_role_tests: List[PantherRuleTest] = [
             "actionName": "CREATE_USER_ROLE",
             "actionParams": {
                 "dynamic": {
-                    "input": {
-                        "logTypeAccessKind": "DENY_ALL",
-                        "name": "New Admins",
-                        "permissions": ["SummaryRead"],
-                    }
+                    "input": {"logTypeAccessKind": "DENY_ALL", "name": "New Admins", "permissions": ["SummaryRead"]}
                 }
             },
             "actionResult": "SUCCEEDED",
             "actor": {
-                "attributes": {
-                    "email": "homer@springfield.gov",
-                    "emailVerified": True,
-                    "roleId": "1111111",
-                },
+                "attributes": {"email": "homer@springfield.gov", "emailVerified": True, "roleId": "1111111"},
                 "id": "11111111",
                 "name": "Homer Simpson",
                 "type": "USER",

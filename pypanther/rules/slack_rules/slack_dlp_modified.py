@@ -11,12 +11,7 @@ slack_audit_logs_dlp_modified_tests: List[PantherRuleTest] = [
             "action": "native_dlp_rule_deactivated",
             "actor": {
                 "type": "user",
-                "user": {
-                    "email": "user@example.com",
-                    "id": "A012B3CDEFG",
-                    "name": "username",
-                    "team": "T01234N56GB",
-                },
+                "user": {"email": "user@example.com", "id": "A012B3CDEFG", "name": "username", "team": "T01234N56GB"},
             },
             "context": {
                 "ip_address": "1.2.3.4",
@@ -37,12 +32,7 @@ slack_audit_logs_dlp_modified_tests: List[PantherRuleTest] = [
             "action": "native_dlp_violation_deleted",
             "actor": {
                 "type": "user",
-                "user": {
-                    "email": "user@example.com",
-                    "id": "A012B3CDEFG",
-                    "name": "username",
-                    "team": "T01234N56GB",
-                },
+                "user": {"email": "user@example.com", "id": "A012B3CDEFG", "name": "username", "team": "T01234N56GB"},
             },
             "context": {
                 "ip_address": "1.2.3.4",
@@ -100,16 +90,12 @@ class SlackAuditLogsDLPModified(PantherRule):
     RuleID = "Slack.AuditLogs.DLPModified-prototype"
     DisplayName = "Slack DLP Modified"
     LogTypes = [PantherLogType.Slack_AuditLogs]
-    Tags = [
-        "Slack",
-        "Defense Evasion",
-        "Impair Defenses",
-        "Disable or Modify Tools",
-        "Indicator Removal",
-    ]
+    Tags = ["Slack", "Defense Evasion", "Impair Defenses", "Disable or Modify Tools", "Indicator Removal"]
     Reports = {"MITRE ATT&CK": ["TA0005:T1562.001", "TA0005:T1070"]}
     Severity = PantherSeverity.High
-    Description = "Detects when a Data Loss Prevention (DLP) rule has been deactivated or a violation has been deleted\n"
+    Description = (
+        "Detects when a Data Loss Prevention (DLP) rule has been deactivated or a violation has been deleted\n"
+    )
     Reference = "https://slack.com/intl/en-gb/help/articles/12914005852819-Slack-Connect--Data-loss-prevention"
     SummaryAttributes = ["action", "p_any_ip_addresses", "p_any_emails"]
     Tests = slack_audit_logs_dlp_modified_tests

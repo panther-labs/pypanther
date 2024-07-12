@@ -68,9 +68,7 @@ okta_user_mfa_reset_single_tests: List[PantherRuleTest] = [
             "request": {},
             "securitycontext": {},
             "severity": "INFO",
-            "target": [
-                {"alternateId": "App ", "displayName": "App", "id": "12345", "type": "AppInstance"}
-            ],
+            "target": [{"alternateId": "App ", "displayName": "App", "id": "12345", "type": "AppInstance"}],
             "transaction": {"detail": {}, "id": "sdfg", "type": "JOB"},
             "uuid": "aaa-bb-ccc",
             "version": "0",

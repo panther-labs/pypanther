@@ -26,14 +26,7 @@ gcpk8_s_service_type_node_port_deployed_tests: List[PantherRuleTest] = [
                     "apiVersion": "v1",
                     "kind": "Service",
                     "spec": {
-                        "ports": [
-                            {
-                                "name": "5678-8080",
-                                "port": 5678,
-                                "protocol": "TCP",
-                                "targetPort": 8080,
-                            }
-                        ],
+                        "ports": [{"name": "5678-8080", "port": 5678, "protocol": "TCP", "targetPort": 8080}],
                         "type": "NodePort",
                     },
                 },
@@ -104,14 +97,7 @@ gcpk8_s_service_type_node_port_deployed_tests: List[PantherRuleTest] = [
                     "apiVersion": "v1",
                     "kind": "Service",
                     "spec": {
-                        "ports": [
-                            {
-                                "name": "5678-8080",
-                                "port": 5678,
-                                "protocol": "TCP",
-                                "targetPort": 8080,
-                            }
-                        ],
+                        "ports": [{"name": "5678-8080", "port": 5678, "protocol": "TCP", "targetPort": 8080}],
                         "type": "NodePort",
                     },
                 },
@@ -167,14 +153,7 @@ gcpk8_s_service_type_node_port_deployed_tests: List[PantherRuleTest] = [
                     "apiVersion": "v1",
                     "kind": "Service",
                     "spec": {
-                        "ports": [
-                            {
-                                "name": "5678-8080",
-                                "port": 5678,
-                                "protocol": "TCP",
-                                "targetPort": 8080,
-                            }
-                        ],
+                        "ports": [{"name": "5678-8080", "port": 5678, "protocol": "TCP", "targetPort": 8080}],
                         "type": "NodePort",
                     },
                 },
@@ -191,13 +170,7 @@ gcpk8_s_service_type_node_port_deployed_tests: List[PantherRuleTest] = [
                     "ipFamilies": ["IPv4"],
                     "ipFamilyPolicy": "SingleStack",
                     "ports": [
-                        {
-                            "name": "5678-8080",
-                            "nodePort": 32361,
-                            "port": 5678,
-                            "protocol": "TCP",
-                            "targetPort": 8080,
-                        }
+                        {"name": "5678-8080", "nodePort": 32361, "port": 5678, "protocol": "TCP", "targetPort": 8080}
                     ],
                     "type": "NodePort",
                 },
@@ -241,24 +214,13 @@ class GCPK8SServiceTypeNodePortDeployed(PantherRule):
         if not authorization_info:
             return False
         for auth in authorization_info:
-            if (
-                auth.get("permission") == "io.k8s.core.v1.services.create"
-                and auth.get("granted") is True
-            ):
+            if auth.get("permission") == "io.k8s.core.v1.services.create" and auth.get("granted") is True:
                 return True
         return False
 
     def title(self, event):
-        actor = deep_get(
-            event,
-            "protoPayload",
-            "authenticationInfo",
-            "principalEmail",
-            default="<ACTOR_NOT_FOUND>",
-        )
-        project_id = deep_get(
-            event, "resource", "labels", "project_id", default="<PROJECT_NOT_FOUND>"
-        )
+        actor = deep_get(event, "protoPayload", "authenticationInfo", "principalEmail", default="<ACTOR_NOT_FOUND>")
+        project_id = deep_get(event, "resource", "labels", "project_id", default="<PROJECT_NOT_FOUND>")
         return f"[GCP]: [{actor}] created NodePort service in project [{project_id}]"
 
     def alert_context(self, event):

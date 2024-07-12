@@ -84,10 +84,7 @@ aws_console_root_login_failed_tests: List[PantherRuleTest] = [
                         "accountId": "123456789012",
                         "userName": "tester",
                     },
-                    "attributes": {
-                        "creationDate": "2019-01-01T00:00:00Z",
-                        "mfaAuthenticated": "true",
-                    },
+                    "attributes": {"creationDate": "2019-01-01T00:00:00Z", "mfaAuthenticated": "true"},
                 },
             },
             "eventTime": "2019-01-01T00:00:00Z",
@@ -101,13 +98,7 @@ aws_console_root_login_failed_tests: List[PantherRuleTest] = [
             "requestID": "1",
             "eventID": "1",
             "readOnly": True,
-            "resources": [
-                {
-                    "accountId": "123456789012",
-                    "type": "AWS::DynamoDB::Table",
-                    "ARN": "arn::::table/table",
-                }
-            ],
+            "resources": [{"accountId": "123456789012", "type": "AWS::DynamoDB::Table", "ARN": "arn::::table/table"}],
             "eventType": "AwsApiCall",
             "apiVersion": "2012-08-10",
             "managementEvent": True,

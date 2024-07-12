@@ -31,10 +31,7 @@ gcp_firewall_rule_deleted_tests: List[PantherRuleTest] = [
             },
             "receivetimestamp": "2023-05-23 19:20:00.728",
             "resource": {
-                "labels": {
-                    "firewall_rule_id": "6563507997690081088",
-                    "project_id": "test-project-123456",
-                },
+                "labels": {"firewall_rule_id": "6563507997690081088", "project_id": "test-project-123456"},
                 "type": "gce_firewall_rule",
             },
             "severity": "NOTICE",
@@ -71,12 +68,7 @@ gcp_firewall_rule_deleted_tests: List[PantherRuleTest] = [
             },
             "receivetimestamp": "2023-05-23 19:28:49.474",
             "resource": {
-                "labels": {
-                    "module_id": "",
-                    "project_id": "test-project-123456",
-                    "version_id": "",
-                    "zone": "",
-                },
+                "labels": {"module_id": "", "project_id": "test-project-123456", "version_id": "", "zone": ""},
                 "type": "gae_app",
             },
             "severity": "NOTICE",
@@ -108,10 +100,7 @@ gcp_firewall_rule_deleted_tests: List[PantherRuleTest] = [
                 },
             },
             "resource": {
-                "labels": {
-                    "firewall_rule_id": "6563507997690081088",
-                    "project_id": "test-project-123456",
-                },
+                "labels": {"firewall_rule_id": "6563507997690081088", "project_id": "test-project-123456"},
                 "type": "gce_firewall_rule",
             },
         },
@@ -136,17 +125,9 @@ class GCPFirewallRuleDeleted(PantherRule):
         return match is not None
 
     def title(self, event):
-        actor = deep_get(
-            event,
-            "protoPayload",
-            "authenticationInfo",
-            "principalEmail",
-            default="<ACTOR_NOT_FOUND>",
-        )
+        actor = deep_get(event, "protoPayload", "authenticationInfo", "principalEmail", default="<ACTOR_NOT_FOUND>")
         resource = deep_get(event, "protoPayload", "resourceName", default="<RESOURCE_NOT_FOUND>")
-        resource_id = deep_get(
-            event, "resource", "labels", "firewall_rule_id", default="<RESOURCE_ID_NOT_FOUND>"
-        )
+        resource_id = deep_get(event, "resource", "labels", "firewall_rule_id", default="<RESOURCE_ID_NOT_FOUND>")
         if resource_id != "<RESOURCE_ID_NOT_FOUND>":
             return f"[GCP]: [{actor}] deleted firewall rule with resource ID [{resource_id}]"
         return f"[GCP]: [{actor}] deleted firewall rule for resource [{resource}]"

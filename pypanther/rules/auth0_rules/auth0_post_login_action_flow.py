@@ -70,10 +70,7 @@ auth0_post_login_action_flow_tests: List[PantherRuleTest] = [
                         },
                         "body": {
                             "bindings": [
-                                {
-                                    "display_name": "Password Rotation",
-                                    "ref": {"type": "action_id", "value": "XXX"},
-                                }
+                                {"display_name": "Password Rotation", "ref": {"type": "action_id", "value": "XXX"}}
                             ]
                         },
                         "channel": "https://manage.auth0.com/",
@@ -127,11 +124,7 @@ auth0_post_login_action_flow_tests: List[PantherRuleTest] = [
                                         },
                                         "name": "Password Rotation v1",
                                         "supported_triggers": [
-                                            {
-                                                "id": "post-login",
-                                                "status": "CURRENT",
-                                                "version": "v3",
-                                            }
+                                            {"id": "post-login", "status": "CURRENT", "version": "v3"}
                                         ],
                                         "updated_at": "2023-04-24T19:33:44.217168082Z",
                                     },
@@ -229,11 +222,7 @@ auth0_post_login_action_flow_tests: List[PantherRuleTest] = [
                                         },
                                         "name": "Country-based Access v2",
                                         "supported_triggers": [
-                                            {
-                                                "id": "post-login",
-                                                "status": "CURRENT",
-                                                "version": "v2",
-                                            }
+                                            {"id": "post-login", "status": "CURRENT", "version": "v2"}
                                         ],
                                         "updated_at": "2022-05-26T20:45:09.128843683Z",
                                     },
@@ -312,12 +301,8 @@ class Auth0PostLoginActionFlow(PantherRule):
     Tests = auth0_post_login_action_flow_tests
 
     def rule(self, event):
-        data_description = deep_get(
-            event, "data", "description", default="<NO_DATA_DESCRIPTION_FOUND>"
-        )
-        request_path = deep_get(
-            event, "data", "details", "request", "path", default="<NO_REQUEST_PATH_FOUND>"
-        )
+        data_description = deep_get(event, "data", "description", default="<NO_DATA_DESCRIPTION_FOUND>")
+        request_path = deep_get(event, "data", "details", "request", "path", default="<NO_REQUEST_PATH_FOUND>")
         return all(
             [
                 data_description == "Update trigger bindings",
@@ -327,16 +312,10 @@ class Auth0PostLoginActionFlow(PantherRule):
         )
 
     def title(self, event):
-        user = deep_get(
-            event, "data", "details", "request", "auth", "user", "email", default="<NO_USER_FOUND>"
-        )
+        user = deep_get(event, "data", "details", "request", "auth", "user", "email", default="<NO_USER_FOUND>")
         p_source_label = deep_get(event, "p_source_label", default="<NO_P_SOURCE_LABEL_FOUND>")
-        request_bindings = deep_get(
-            event, "data", "details", "request", "body", "bindings", default=[]
-        )
-        response_bindings = deep_get(
-            event, "data", "details", "response", "body", "bindings", default=[]
-        )
+        request_bindings = deep_get(event, "data", "details", "request", "body", "bindings", default=[])
+        response_bindings = deep_get(event, "data", "details", "response", "body", "bindings", default=[])
         actions_added_list = []
         for binding in request_bindings:
             if "display_name" in binding:
@@ -347,9 +326,7 @@ class Auth0PostLoginActionFlow(PantherRule):
         actions_remaining_list = []
         for binding in response_bindings:
             if deep_get(binding, "display_name"):
-                actions_remaining_list.append(
-                    deep_get(binding, "display_name", default="<NO_DISPLAYNAME>")
-                )
+                actions_remaining_list.append(deep_get(binding, "display_name", default="<NO_DISPLAYNAME>"))
         if actions_added_list:
             return f"Auth0 User [{user}] added action(s) [{actions_added_list}] to a post-login action flow for your organization’s tenant [{p_source_label}]."
         if actions_remaining_list:

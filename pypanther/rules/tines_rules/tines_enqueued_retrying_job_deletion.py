@@ -63,7 +63,9 @@ class TinesEnqueuedRetryingJobDestruction(PantherRule):
     Tags = ["Tines"]
     Severity = PantherSeverity.Low
     Description = "Currently enqueued or retrying jobs were cleared"
-    Runbook = "Possible data destruction. Please reach out to the user and confirm this was done for valid business reasons."
+    Runbook = (
+        "Possible data destruction. Please reach out to the user and confirm this was done for valid business reasons."
+    )
     Reference = "https://www.tines.com/docs/self-hosting/job-management"
     Tests = tines_enqueued_retrying_job_destruction_tests
 

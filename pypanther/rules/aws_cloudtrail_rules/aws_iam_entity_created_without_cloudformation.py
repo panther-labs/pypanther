@@ -19,10 +19,7 @@ aws_cloud_trail_iam_entity_created_without_cloud_formation_tests: List[PantherRu
                 "accessKeyId": "1",
                 "invokedBy": "cloudformation.amazonaws.com",
                 "sessionContext": {
-                    "attributes": {
-                        "mfaAuthenticated": "true",
-                        "creationDate": "2019-01-01T00:00:00Z",
-                    },
+                    "attributes": {"mfaAuthenticated": "true", "creationDate": "2019-01-01T00:00:00Z"},
                     "sessionIssuer": {
                         "type": "Role",
                         "principalId": "1111",
@@ -58,10 +55,7 @@ aws_cloud_trail_iam_entity_created_without_cloud_formation_tests: List[PantherRu
                 "accountId": "123456789012",
                 "accessKeyId": "1",
                 "sessionContext": {
-                    "attributes": {
-                        "mfaAuthenticated": "true",
-                        "creationDate": "2019-01-01T00:00:00Z",
-                    },
+                    "attributes": {"mfaAuthenticated": "true", "creationDate": "2019-01-01T00:00:00Z"},
                     "sessionIssuer": {
                         "type": "Role",
                         "principalId": "1111",
@@ -98,10 +92,7 @@ aws_cloud_trail_iam_entity_created_without_cloud_formation_tests: List[PantherRu
                 "accessKeyId": "1",
                 "invokedBy": "cloudformation.amazonaws.com",
                 "sessionContext": {
-                    "attributes": {
-                        "mfaAuthenticated": "true",
-                        "creationDate": "2019-01-01T00:00:00Z",
-                    },
+                    "attributes": {"mfaAuthenticated": "true", "creationDate": "2019-01-01T00:00:00Z"},
                     "sessionIssuer": {
                         "type": "Role",
                         "principalId": "1111",
@@ -137,10 +128,7 @@ aws_cloud_trail_iam_entity_created_without_cloud_formation_tests: List[PantherRu
                 "accountId": "123456789012",
                 "accessKeyId": "1",
                 "sessionContext": {
-                    "attributes": {
-                        "mfaAuthenticated": "true",
-                        "creationDate": "2019-01-01T00:00:00Z",
-                    },
+                    "attributes": {"mfaAuthenticated": "true", "creationDate": "2019-01-01T00:00:00Z"},
                     "sessionIssuer": {
                         "type": "Role",
                         "principalId": "1111",
@@ -176,10 +164,7 @@ aws_cloud_trail_iam_entity_created_without_cloud_formation_tests: List[PantherRu
                 "accountId": "123456789012",
                 "accessKeyId": "1",
                 "sessionContext": {
-                    "attributes": {
-                        "mfaAuthenticated": "true",
-                        "creationDate": "2019-01-01T00:00:00Z",
-                    },
+                    "attributes": {"mfaAuthenticated": "true", "creationDate": "2019-01-01T00:00:00Z"},
                     "sessionIssuer": {
                         "type": "Role",
                         "principalId": "1111",
@@ -216,10 +201,7 @@ aws_cloud_trail_iam_entity_created_without_cloud_formation_tests: List[PantherRu
                 "accountId": "123456789012",
                 "accessKeyId": "1",
                 "sessionContext": {
-                    "attributes": {
-                        "mfaAuthenticated": "true",
-                        "creationDate": "2019-01-01T00:00:00Z",
-                    },
+                    "attributes": {"mfaAuthenticated": "true", "creationDate": "2019-01-01T00:00:00Z"},
                     "sessionIssuer": {
                         "type": "Role",
                         "principalId": "1111",
@@ -252,12 +234,7 @@ class AWSCloudTrailIAMEntityCreatedWithoutCloudFormation(PantherRule):
     Enabled = False
     LogTypes = [PantherLogType.AWS_CloudTrail]
     Reports = {"MITRE ATT&CK": ["TA0003:T1136"]}
-    Tags = [
-        "AWS",
-        "Configuration Required",
-        "Identity and Access Management",
-        "Persistence:Create Account",
-    ]
+    Tags = ["AWS", "Configuration Required", "Identity and Access Management", "Persistence:Create Account"]
     Severity = PantherSeverity.Medium
     Description = "An IAM Entity (Group, Policy, Role, or User) was created manually. IAM entities should be created in code to ensure that permissions are tracked and managed correctly.\n"
     Runbook = "Verify whether IAM entity needs to exist. If so, re-create it in an appropriate CloudFormation, Terraform, or other template. Delete the original manually created entity.\n"
@@ -282,10 +259,7 @@ class AWSCloudTrailIAMEntityCreatedWithoutCloudFormation(PantherRule):
 
     def rule(self, event):
         # Check if this event is in scope
-        if (
-            not aws_cloudtrail_success(event)
-            or event.get("eventName") not in self.IAM_ENTITY_CREATION_EVENTS
-        ):
+        if not aws_cloudtrail_success(event) or event.get("eventName") not in self.IAM_ENTITY_CREATION_EVENTS:
             return False
         # All IAM changes MUST go through CloudFormation
         if deep_get(event, "userIdentity", "invokedBy") != "cloudformation.amazonaws.com":
@@ -296,17 +270,13 @@ class AWSCloudTrailIAMEntityCreatedWithoutCloudFormation(PantherRule):
             if (
                 len(
                     re.findall(
-                        admin_role_pattern,
-                        deep_get(event, "userIdentity", "sessionContext", "sessionIssuer", "arn"),
+                        admin_role_pattern, deep_get(event, "userIdentity", "sessionContext", "sessionIssuer", "arn")
                     )
                 )
                 > 0
             ):
                 return False
-        return (
-            deep_get(event, "userIdentity", "sessionContext", "sessionIssuer", "arn")
-            not in self.IAM_ADMIN_ROLES
-        )
+        return deep_get(event, "userIdentity", "sessionContext", "sessionIssuer", "arn") not in self.IAM_ADMIN_ROLES
 
     def alert_context(self, event):
         return aws_rule_context(event)

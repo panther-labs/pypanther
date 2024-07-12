@@ -47,10 +47,7 @@ awswaf_disassociation_tests: List[PantherRuleTest] = [
                 "arn": "arn:aws:sts::012345678910:assumed-role/DevAdministrator/example_user",
                 "principalId": "AROARLIVEKVNIRVGDLJWJ:example_user",
                 "sessionContext": {
-                    "attributes": {
-                        "creationDate": "2022-09-29T22:51:13Z",
-                        "mfaAuthenticated": "true",
-                    },
+                    "attributes": {"creationDate": "2022-09-29T22:51:13Z", "mfaAuthenticated": "true"},
                     "sessionIssuer": {
                         "accountId": "012345678910",
                         "arn": "arn:aws:iam::012345678910:role/DevAdministrator",
@@ -107,10 +104,7 @@ awswaf_disassociation_tests: List[PantherRuleTest] = [
                 "arn": "arn:aws:sts::012345678910:assumed-role/DevAdministrator/example_user",
                 "principalId": "AROARLIVEKVNIRVGDLJWJ:example_user",
                 "sessionContext": {
-                    "attributes": {
-                        "creationDate": "2022-09-29T22:51:13Z",
-                        "mfaAuthenticated": "true",
-                    },
+                    "attributes": {"creationDate": "2022-09-29T22:51:13Z", "mfaAuthenticated": "true"},
                     "sessionIssuer": {
                         "accountId": "012345678910",
                         "arn": "arn:aws:iam::012345678910:role/DevAdministrator",

@@ -57,11 +57,7 @@ class OneLoginActiveLoginActivity(PantherRule):
 
     def rule(self, event):
         # Pre-filter: event_type_id = 5 is login events.
-        if (
-            str(event.get("event_type_id")) != "5"
-            or not event.get("ipaddr")
-            or (not event.get("user_id"))
-        ):
+        if str(event.get("event_type_id")) != "5" or not event.get("ipaddr") or (not event.get("user_id")):
             return False
         # We expect to see multiple user logins from these shared, common ip addresses
         if is_ip_in_network(event.get("ipaddr"), self.SHARED_IP_SPACE):
@@ -74,15 +70,11 @@ class OneLoginActiveLoginActivity(PantherRule):
         user_id = str(event.get("user_id"))
         if not user_ids:
             # store this as the first user login from this ip address
-            put_string_set(
-                event_key, [user_id], epoch_seconds=event.event_time_epoch() + self.THRESH_TTL
-            )
+            put_string_set(event_key, [user_id], epoch_seconds=event.event_time_epoch() + self.THRESH_TTL)
             return False
         # add a new username if this is a unique user from this ip address
         if user_id not in user_ids:
-            user_ids = add_to_string_set(
-                event_key, user_id, epoch_seconds=event.event_time_epoch() + self.THRESH_TTL
-            )
+            user_ids = add_to_string_set(event_key, user_id, epoch_seconds=event.event_time_epoch() + self.THRESH_TTL)
         return len(user_ids) > self.THRESH
 
     def get_key(self, event):

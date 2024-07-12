@@ -14,17 +14,9 @@ snyk_system_policy_setting_tests: List[PantherRuleTest] = [
                     "configuration": {
                         "rules": [
                             {
-                                "actions": [
-                                    {"data": {"severity": "high"}, "type": "severity-override"}
-                                ],
+                                "actions": [{"data": {"severity": "high"}, "type": "severity-override"}],
                                 "conditions": {
-                                    "AND": [
-                                        {
-                                            "field": "exploit-maturity",
-                                            "operator": "includes",
-                                            "value": ["mature"],
-                                        }
-                                    ]
+                                    "AND": [{"field": "exploit-maturity", "operator": "includes", "value": ["mature"]}]
                                 },
                                 "name": "Rule 1",
                             }
@@ -53,11 +45,7 @@ snyk_system_policy_setting_tests: List[PantherRuleTest] = [
                         "licenses": [
                             {"instructions": "", "licenseType": "ADSL", "severity": "medium"},
                             {"instructions": "", "licenseType": "AGPL-3.0", "severity": "medium"},
-                            {
-                                "instructions": "",
-                                "licenseType": "AGPL-3.0-only",
-                                "severity": "high",
-                            },
+                            {"instructions": "", "licenseType": "AGPL-3.0-only", "severity": "high"},
                         ]
                     },
                     "description": "this is a policy description",

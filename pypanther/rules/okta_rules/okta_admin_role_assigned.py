@@ -132,9 +132,7 @@ class OktaAdminRoleAssigned(PantherRule):
     Reports = {"MITRE ATT&CK": ["TA0004:T1078"]}
     Severity = PantherSeverity.Info
     Description = "A user has been granted administrative privileges in Okta"
-    Reference = (
-        "https://help.okta.com/en/prod/Content/Topics/Security/administrators-admin-comparison.htm"
-    )
+    Reference = "https://help.okta.com/en/prod/Content/Topics/Security/administrators-admin-comparison.htm"
     Runbook = "Reach out to the user if needed to validate the activity"
     DedupPeriodMinutes = 15
     SummaryAttributes = ["eventType", "severity", "displayMessage", "p_any_ip_addresses"]
@@ -146,32 +144,24 @@ class OktaAdminRoleAssigned(PantherRule):
             event.get("eventType", None) == "user.account.privilege.grant"
             and deep_get(event, "outcome", "result") == "SUCCESS"
             and bool(
-                self.ADMIN_PATTERN.search(
-                    deep_get(event, "debugContext", "debugData", "privilegeGranted", default="")
-                )
+                self.ADMIN_PATTERN.search(deep_get(event, "debugContext", "debugData", "privilegeGranted", default=""))
             )
         )
 
     def dedup(self, event):
-        return deep_get(
-            event, "debugContext", "debugData", "requestId", default="<UNKNOWN_REQUEST_ID>"
-        )
+        return deep_get(event, "debugContext", "debugData", "requestId", default="<UNKNOWN_REQUEST_ID>")
 
     def title(self, event):
         target = event.get("target", [{}])
         display_name = target[0].get("displayName", "MISSING DISPLAY NAME") if target else ""
         alternate_id = target[0].get("alternateId", "MISSING ALTERNATE ID") if target else ""
-        privilege = deep_get(
-            event, "debugContext", "debugData", "privilegeGranted", default="<UNKNOWN_PRIVILEGE>"
-        )
+        privilege = deep_get(event, "debugContext", "debugData", "privilegeGranted", default="<UNKNOWN_PRIVILEGE>")
         return f"{deep_get(event, 'actor', 'displayName')} <{deep_get(event, 'actor', 'alternateId')}> granted [{privilege}] privileges to {display_name} <{alternate_id}>"
 
     def alert_context(self, event):
         return okta_alert_context(event)
 
     def severity(self, event):
-        if "Super administrator" in deep_get(
-            event, "debugContext", "debugData", "privilegeGranted", default=""
-        ):
+        if "Super administrator" in deep_get(event, "debugContext", "debugData", "privilegeGranted", default=""):
             return "HIGH"
         return "INFO"

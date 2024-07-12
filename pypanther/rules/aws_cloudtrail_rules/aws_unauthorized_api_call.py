@@ -17,12 +17,7 @@ aws_cloud_trail_unauthorized_api_call_tests: List[PantherRuleTest] = [
                 "accountId": "123456789012",
                 "accessKeyId": "1",
                 "userName": "tester",
-                "sessionContext": {
-                    "attributes": {
-                        "mfaAuthenticated": "true",
-                        "creationDate": "2019-01-01T00:00:00Z",
-                    }
-                },
+                "sessionContext": {"attributes": {"mfaAuthenticated": "true", "creationDate": "2019-01-01T00:00:00Z"}},
                 "invokedBy": "signin.amazonaws.com",
             },
             "eventTime": "2019-01-01T00:00:00Z",
@@ -53,12 +48,7 @@ aws_cloud_trail_unauthorized_api_call_tests: List[PantherRuleTest] = [
                 "accountId": "123456789012",
                 "accessKeyId": "1",
                 "userName": "tester",
-                "sessionContext": {
-                    "attributes": {
-                        "mfaAuthenticated": "true",
-                        "creationDate": "2019-01-01T00:00:00Z",
-                    }
-                },
+                "sessionContext": {"attributes": {"mfaAuthenticated": "true", "creationDate": "2019-01-01T00:00:00Z"}},
                 "invokedBy": "signin.amazonaws.com",
             },
             "eventTime": "2019-01-01T00:00:00Z",
@@ -89,12 +79,7 @@ aws_cloud_trail_unauthorized_api_call_tests: List[PantherRuleTest] = [
                 "accountId": "123456789012",
                 "accessKeyId": "1",
                 "userName": "tester",
-                "sessionContext": {
-                    "attributes": {
-                        "mfaAuthenticated": "true",
-                        "creationDate": "2019-01-01T00:00:00Z",
-                    }
-                },
+                "sessionContext": {"attributes": {"mfaAuthenticated": "true", "creationDate": "2019-01-01T00:00:00Z"}},
                 "invokedBy": "signin.amazonaws.com",
             },
             "eventTime": "2019-01-01T00:00:00Z",
@@ -125,13 +110,7 @@ class AWSCloudTrailUnauthorizedAPICall(PantherRule):
     Description = "An unauthorized AWS API call was made"
     Runbook = "https://docs.runpanther.io/alert-runbooks/built-in-rules/aws-unauthorized-api-call"
     Reference = "https://amzn.to/3aOukaA"
-    SummaryAttributes = [
-        "eventName",
-        "userAgent",
-        "sourceIpAddress",
-        "recipientAccountId",
-        "p_any_aws_arns",
-    ]
+    SummaryAttributes = ["eventName", "userAgent", "sourceIpAddress", "recipientAccountId", "p_any_aws_arns"]
     Threshold = 20
     Tests = aws_cloud_trail_unauthorized_api_call_tests
     # Do not alert on these access denied errors for these events.
@@ -147,10 +126,7 @@ class AWSCloudTrailUnauthorizedAPICall(PantherRule):
             ip_address(event.get("sourceIPAddress"))
         except ValueError:
             return False
-        return (
-            event.get("errorCode") == "AccessDenied"
-            and event.get("eventName") not in self.EVENT_EXCEPTIONS
-        )
+        return event.get("errorCode") == "AccessDenied" and event.get("eventName") not in self.EVENT_EXCEPTIONS
 
     def dedup(self, event):
         return deep_get(event, "userIdentity", "principalId", default="<UNKNOWN_PRINCIPAL>")

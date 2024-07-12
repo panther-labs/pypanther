@@ -11,12 +11,7 @@ slack_audit_logs_ekm_config_changed_tests: List[PantherRuleTest] = [
             "action": "ekm_logging_config_set",
             "actor": {
                 "type": "user",
-                "user": {
-                    "email": "user@example.com",
-                    "id": "A012B3CDEFG",
-                    "name": "username",
-                    "team": "T01234N56GB",
-                },
+                "user": {"email": "user@example.com", "id": "A012B3CDEFG", "name": "username", "team": "T01234N56GB"},
             },
             "context": {
                 "ip_address": "1.2.3.4",
@@ -77,12 +72,8 @@ class SlackAuditLogsEKMConfigChanged(PantherRule):
     Tags = ["Slack", "Defense Evasion", "Impair Defenses", "Disable or Modify Cloud Logs"]
     Reports = {"MITRE ATT&CK": ["TA0005:T1562.008"]}
     Severity = PantherSeverity.High
-    Description = (
-        "Detects when the logging settings for a workspace's EKM configuration has changed"
-    )
-    Reference = (
-        "https://slack.com/intl/en-gb/help/articles/360019110974-Slack-Enterprise-Key-Management"
-    )
+    Description = "Detects when the logging settings for a workspace's EKM configuration has changed"
+    Reference = "https://slack.com/intl/en-gb/help/articles/360019110974-Slack-Enterprise-Key-Management"
     SummaryAttributes = ["p_any_ip_addresses", "p_any_emails"]
     Tests = slack_audit_logs_ekm_config_changed_tests
 

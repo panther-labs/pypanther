@@ -257,12 +257,7 @@ class SnykServiceAccountChange(PantherRule):
         role = deep_get(event, "content", "role", "role", default=None)
         if not role:
             role = deep_get(event, "content", "role", default=None)
-        if all(
-            [
-                role == "ADMIN",
-                action.endswith((".service_account.create", ".service_account.delete")),
-            ]
-        ):
+        if all([role == "ADMIN", action.endswith((".service_account.create", ".service_account.delete"))]):
             return "CRITICAL"
         if action.endswith((".service_account.create", ".service_account.delete")):
             return "HIGH"

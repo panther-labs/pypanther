@@ -54,17 +54,7 @@ class TeleportAuthErrors(PantherRule):
     DedupPeriodMinutes = 15
     Reference = "https://goteleport.com/docs/management/admin/"
     Runbook = "Check that the user making the failed requests legitimately tried logging in that many times.\n"
-    SummaryAttributes = [
-        "event",
-        "code",
-        "user",
-        "program",
-        "path",
-        "return_code",
-        "login",
-        "server_id",
-        "sid",
-    ]
+    SummaryAttributes = ["event", "code", "user", "program", "path", "return_code", "login", "server_id", "sid"]
     Tests = teleport_auth_errors_tests
 
     def rule(self, event):

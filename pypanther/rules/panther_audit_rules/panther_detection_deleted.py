@@ -9,16 +9,10 @@ panther_detection_deleted_tests: List[PantherRuleTest] = [
         ExpectedResult=True,
         Log={
             "actionName": "DELETE_DETECTION",
-            "actionParams": {
-                "dynamic": {"input": {"detections": [{"id": "GitHub.Team.Modified"}]}}
-            },
+            "actionParams": {"dynamic": {"input": {"detections": [{"id": "GitHub.Team.Modified"}]}}},
             "actionResult": "SUCCEEDED",
             "actor": {
-                "attributes": {
-                    "email": "homer@springfield.gov",
-                    "emailVerified": True,
-                    "roleId": "11111111",
-                },
+                "attributes": {"email": "homer@springfield.gov", "emailVerified": True, "roleId": "11111111"},
                 "id": "1111111",
                 "name": "Homer Simpson",
                 "type": "USER",
@@ -48,11 +42,7 @@ panther_detection_deleted_tests: List[PantherRuleTest] = [
             },
             "actionResult": "SUCCEEDED",
             "actor": {
-                "attributes": {
-                    "email": "homer@springfield.gov",
-                    "emailVerified": True,
-                    "roleId": "111111",
-                },
+                "attributes": {"email": "homer@springfield.gov", "emailVerified": True, "roleId": "111111"},
                 "id": "1111111",
                 "name": "Homer Simpson",
                 "type": "USER",
@@ -71,11 +61,7 @@ panther_detection_deleted_tests: List[PantherRuleTest] = [
             "actionParams": {},
             "actionResult": "SUCCEEDED",
             "actor": {
-                "attributes": {
-                    "email": "homer@springfield.gov",
-                    "emailVerified": True,
-                    "roleId": "111111",
-                },
+                "attributes": {"email": "homer@springfield.gov", "emailVerified": True, "roleId": "111111"},
                 "id": "111111",
                 "name": "Homer Simpson",
                 "type": "USER",

@@ -110,17 +110,7 @@ class TeleportScheduledJobs(PantherRule):
     DedupPeriodMinutes = 15
     Reference = "https://goteleport.com/docs/management/admin/"
     Runbook = "Validate the user behavior and rotate the host if necessary."
-    SummaryAttributes = [
-        "event",
-        "code",
-        "user",
-        "program",
-        "path",
-        "return_code",
-        "login",
-        "server_id",
-        "sid",
-    ]
+    SummaryAttributes = ["event", "code", "user", "program", "path", "return_code", "login", "server_id", "sid"]
     Tests = teleport_scheduled_jobs_tests
 
     def rule(self, event):

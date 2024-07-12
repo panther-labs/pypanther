@@ -8,12 +8,7 @@ asana_workspace_default_session_duration_never_tests: List[PantherRuleTest] = [
         Name="Session Duration Never",
         ExpectedResult=True,
         Log={
-            "actor": {
-                "actor_type": "user",
-                "email": "homer@example.io",
-                "gid": "12345",
-                "name": "Homer Simpson",
-            },
+            "actor": {"actor_type": "user", "email": "homer@example.io", "gid": "12345", "name": "Homer Simpson"},
             "context": {
                 "client_ip_address": "12.12.12.12",
                 "context_type": "web",

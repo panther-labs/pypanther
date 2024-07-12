@@ -17,12 +17,7 @@ awsecrcrud_tests: List[PantherRuleTest] = [
                 "accountId": "123456789012",
                 "accessKeyId": "AKIAIOSFODNN7EXAMPLE",
                 "userName": "Mary_Major",
-                "sessionContext": {
-                    "attributes": {
-                        "mfaAuthenticated": "false",
-                        "creationDate": "2019-04-15T16:42:14Z",
-                    }
-                },
+                "sessionContext": {"attributes": {"mfaAuthenticated": "false", "creationDate": "2019-04-15T16:42:14Z"}},
             },
             "eventTime": "2019-04-15T16:45:00Z",
             "eventSource": "ecr.amazonaws.com",
@@ -50,10 +45,7 @@ awsecrcrud_tests: List[PantherRuleTest] = [
             "requestID": "cf044b7d-5f9d-11e9-9b2a-95983139cc57",
             "eventID": "2bfd4ee2-2178-4a82-a27d-b12939923f0f",
             "resources": [
-                {
-                    "ARN": "arn:aws:ecr:us-east-2:123456789012:repository/testrepo",
-                    "accountId": "123456789012",
-                }
+                {"ARN": "arn:aws:ecr:us-east-2:123456789012:repository/testrepo", "accountId": "123456789012"}
             ],
             "eventType": "AwsApiCall",
             "recipientAccountId": "123456789012",
@@ -71,12 +63,7 @@ awsecrcrud_tests: List[PantherRuleTest] = [
                 "accountId": "123456789000",
                 "accessKeyId": "AKIAIOSFODNN7EXAMPLE",
                 "userName": "Mary_Major",
-                "sessionContext": {
-                    "attributes": {
-                        "mfaAuthenticated": "false",
-                        "creationDate": "2019-04-15T16:42:14Z",
-                    }
-                },
+                "sessionContext": {"attributes": {"mfaAuthenticated": "false", "creationDate": "2019-04-15T16:42:14Z"}},
             },
             "eventTime": "2019-04-15T16:45:00Z",
             "eventSource": "ecr.amazonaws.com",
@@ -104,10 +91,7 @@ awsecrcrud_tests: List[PantherRuleTest] = [
             "requestID": "cf044b7d-5f9d-11e9-9b2a-95983139cc57",
             "eventID": "2bfd4ee2-2178-4a82-a27d-b12939923f0f",
             "resources": [
-                {
-                    "ARN": "arn:aws:ecr:us-east-2:123456789000:repository/testrepo",
-                    "accountId": "123456789000",
-                }
+                {"ARN": "arn:aws:ecr:us-east-2:123456789000:repository/testrepo", "accountId": "123456789000"}
             ],
             "eventType": "AwsApiCall",
             "recipientAccountId": "123456789000",
@@ -125,12 +109,7 @@ awsecrcrud_tests: List[PantherRuleTest] = [
                 "accountId": "123456789012",
                 "accessKeyId": "AKIAIOSFODNN7EXAMPLE",
                 "userName": "Mary_Major",
-                "sessionContext": {
-                    "attributes": {
-                        "mfaAuthenticated": "false",
-                        "creationDate": "2019-04-15T16:42:14Z",
-                    }
-                },
+                "sessionContext": {"attributes": {"mfaAuthenticated": "false", "creationDate": "2019-04-15T16:42:14Z"}},
             },
             "eventTime": "2019-04-15T16:45:00Z",
             "eventSource": "ecr.amazonaws.com",
@@ -158,10 +137,7 @@ awsecrcrud_tests: List[PantherRuleTest] = [
             "requestID": "cf044b7d-5f9d-11e9-9b2a-95983139cc57",
             "eventID": "2bfd4ee2-2178-4a82-a27d-b12939923f0f",
             "resources": [
-                {
-                    "ARN": "arn:aws:ecr:us-east-2:123456789012:repository/testrepo",
-                    "accountId": "123456789012",
-                }
+                {"ARN": "arn:aws:ecr:us-east-2:123456789012:repository/testrepo", "accountId": "123456789012"}
             ],
             "eventType": "AwsApiCall",
             "recipientAccountId": "123456789012",
@@ -181,13 +157,7 @@ class AWSECRCRUD(PantherRule):
     Description = "Unauthorized ECR Create, Read, Update, or Delete event occurred."
     Runbook = "https://docs.aws.amazon.com/AmazonECR/latest/userguide/logging-using-cloudtrail.html"
     Reference = "https://docs.aws.amazon.com/AmazonECR/latest/userguide/security-iam.html#security_iam_authentication"
-    SummaryAttributes = [
-        "eventSource",
-        "eventName",
-        "recipientAccountId",
-        "awsRegion",
-        "p_any_aws_arns",
-    ]
+    SummaryAttributes = ["eventSource", "eventName", "recipientAccountId", "awsRegion", "p_any_aws_arns"]
     Tests = awsecrcrud_tests
     ECR_CRUD_EVENTS = {
         "BatchCheckLayerAvailability",
@@ -208,10 +178,7 @@ class AWSECRCRUD(PantherRule):
     ALLOWED_ROLES = ["*DeployRole"]
 
     def rule(self, event):
-        if (
-            event.get("eventSource") == "ecr.amazonaws.com"
-            and event.get("eventName") in self.ECR_CRUD_EVENTS
-        ):
+        if event.get("eventSource") == "ecr.amazonaws.com" and event.get("eventName") in self.ECR_CRUD_EVENTS:
             for role in self.ALLOWED_ROLES:
                 if fnmatch(deep_get(event, "userIdentity", "arn", default="unknown-arn"), role):
                     return False

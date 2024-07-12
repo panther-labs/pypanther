@@ -19,11 +19,7 @@ aws_cloud_trail_root_access_key_created_tests: List[PantherRuleTest] = [
             "requestID": "1111",
             "requestParameters": None,
             "responseElements": {
-                "accessKey": {
-                    "accessKeyId": "1111",
-                    "createDate": "Jan 01, 2019 0:00:00 PM",
-                    "status": "Active",
-                }
+                "accessKey": {"accessKeyId": "1111", "createDate": "Jan 01, 2019 0:00:00 PM", "status": "Active"}
             },
             "sourceIPAddress": "111.111.111.111",
             "userAgent": "signin.amazonaws.com",
@@ -33,12 +29,7 @@ aws_cloud_trail_root_access_key_created_tests: List[PantherRuleTest] = [
                 "arn": "arn:aws:iam::123456789012:root",
                 "invokedBy": "signin.amazonaws.com",
                 "principalId": "123456789012",
-                "sessionContext": {
-                    "attributes": {
-                        "creationDate": "2019-01-01T00:00:00Z",
-                        "mfaAuthenticated": "true",
-                    }
-                },
+                "sessionContext": {"attributes": {"creationDate": "2019-01-01T00:00:00Z", "mfaAuthenticated": "true"}},
                 "type": "Root",
             },
         },
@@ -73,12 +64,7 @@ aws_cloud_trail_root_access_key_created_tests: List[PantherRuleTest] = [
                 "arn": "arn:aws:iam::123456789012:root",
                 "invokedBy": "signin.amazonaws.com",
                 "principalId": "123456789012",
-                "sessionContext": {
-                    "attributes": {
-                        "creationDate": "2019-01-01T00:00:00Z",
-                        "mfaAuthenticated": "true",
-                    }
-                },
+                "sessionContext": {"attributes": {"creationDate": "2019-01-01T00:00:00Z", "mfaAuthenticated": "true"}},
                 "type": "Root",
             },
         },

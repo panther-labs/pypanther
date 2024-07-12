@@ -1,11 +1,7 @@
 from typing import List
 
 from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
-from pypanther.helpers.panther_azuresignin_helpers import (
-    actor_user,
-    azure_signin_alert_context,
-    is_sign_in_event,
-)
+from pypanther.helpers.panther_azuresignin_helpers import actor_user, azure_signin_alert_context, is_sign_in_event
 from pypanther.helpers.panther_base_helpers import deep_get
 
 azure_audit_many_failed_sign_ins_tests: List[PantherRuleTest] = [
@@ -25,9 +21,7 @@ azure_audit_many_failed_sign_ins_tests: List[PantherRuleTest] = [
             "p_log_type": "Azure.Audit",
             "properties": {
                 "appId": "cfceb902-8fab-4f8c-88ba-374d3c975c3a",
-                "authenticationProcessingDetails": [
-                    {"key": "Azure AD App Authentication Library", "value": ""}
-                ],
+                "authenticationProcessingDetails": [{"key": "Azure AD App Authentication Library", "value": ""}],
                 "authenticationProtocol": "none",
                 "clientCredentialType": "none",
                 "conditionalAccessStatus": "notApplied",
@@ -43,10 +37,7 @@ azure_audit_many_failed_sign_ins_tests: List[PantherRuleTest] = [
                 "location": {
                     "city": "Dublin",
                     "countryOrRegion": "IE",
-                    "geoCoordinates": {
-                        "latitude": 51.35555555555555,
-                        "longitude": -5.244444444444444,
-                    },
+                    "geoCoordinates": {"latitude": 51.35555555555555, "longitude": -5.244444444444444},
                     "state": "Dublin",
                 },
                 "managedIdentityType": "none",
@@ -107,10 +98,7 @@ azure_audit_many_failed_sign_ins_tests: List[PantherRuleTest] = [
                 "location": {
                     "city": "Springfield",
                     "countryOrRegion": "US",
-                    "geoCoordinates": {
-                        "latitude": 42.73333333333333,
-                        "longitude": -110.88888888888889,
-                    },
+                    "geoCoordinates": {"latitude": 42.73333333333333, "longitude": -110.88888888888889},
                     "state": "Oregon",
                 },
                 "managedIdentityType": "none",
@@ -146,17 +134,13 @@ class AzureAuditManyFailedSignIns(PantherRule):
     DedupPeriodMinutes = 10
     LogTypes = [PantherLogType.Azure_Audit]
     Severity = PantherSeverity.Medium
-    Description = "This detection looks for a number of failed sign-ins for the same ServicePrincipalName or UserPrincipalName\n"
+    Description = (
+        "This detection looks for a number of failed sign-ins for the same ServicePrincipalName or UserPrincipalName\n"
+    )
     Reports = {"MITRE ATT&CK": ["TA0006:T1110", "TA0001:T1078"]}
     Runbook = "Querying Sign-In logs for the ServicePrincipalName or UserPrincipalName may indicate that the principal is under attack, or that a sign-in credential rolled and some user of the credential didn't get updated.\n"
-    Reference = (
-        "https://learn.microsoft.com/en-us/entra/identity/authentication/overview-authentication"
-    )
-    SummaryAttributes = [
-        "properties:ServicePrincipalName",
-        "properties:UserPrincipalName",
-        "properties:ipAddress",
-    ]
+    Reference = "https://learn.microsoft.com/en-us/entra/identity/authentication/overview-authentication"
+    SummaryAttributes = ["properties:ServicePrincipalName", "properties:UserPrincipalName", "properties:ipAddress"]
     Tests = azure_audit_many_failed_sign_ins_tests
 
     def rule(self, event):

@@ -100,9 +100,7 @@ class GitHubActionFailed(PantherRule):
 
     def rule(self, event):
         if isinstance(self.MONITORED_ACTIONS, MagicMock):
-            self.MONITORED_ACTIONS = json.loads(
-                self.MONITORED_ACTIONS()
-            )  # pylint: disable=not-callable
+            self.MONITORED_ACTIONS = json.loads(self.MONITORED_ACTIONS())  # pylint: disable=not-callable
         repo = deep_get(event, "repo", default="")
         action_name = deep_get(event, "name", default="")
         return all(

@@ -31,12 +31,7 @@ asana_workspace_org_export_tests: List[PantherRuleTest] = [
         Name="Org Export Started",
         ExpectedResult=True,
         Log={
-            "actor": {
-                "actor_type": "user",
-                "email": "homer@example.io",
-                "gid": "12345",
-                "name": "Homer Simpson",
-            },
+            "actor": {"actor_type": "user", "email": "homer@example.io", "gid": "12345", "name": "Homer Simpson"},
             "context": {
                 "client_ip_address": "12.12.12.12",
                 "context_type": "web",
@@ -68,9 +63,5 @@ class AsanaWorkspaceOrgExport(PantherRule):
 
     def title(self, event):
         actor_email = deep_get(event, "actor", "email", default="<ACTOR_NOT_FOUND>")
-        context_type = deep_get(
-            event, "context", "context_type", default="<CONTEXT_TYPE_NOT_FOUND>"
-        )
-        return (
-            f"Asana user [{actor_email}] started a [{context_type}] export for your organization."
-        )
+        context_type = deep_get(event, "context", "context_type", default="<CONTEXT_TYPE_NOT_FOUND>")
+        return f"Asana user [{actor_email}] started a [{context_type}] export for your organization."

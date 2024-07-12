@@ -11,12 +11,7 @@ slack_audit_logs_idp_configuration_changed_tests: List[PantherRuleTest] = [
             "action": "idp_configuration_added",
             "actor": {
                 "type": "user",
-                "user": {
-                    "email": "user@example.com",
-                    "id": "A012B3CDEFG",
-                    "name": "username",
-                    "team": "T01234N56GB",
-                },
+                "user": {"email": "user@example.com", "id": "A012B3CDEFG", "name": "username", "team": "T01234N56GB"},
             },
             "context": {
                 "ip_address": "1.2.3.4",
@@ -38,12 +33,7 @@ slack_audit_logs_idp_configuration_changed_tests: List[PantherRuleTest] = [
             "action": "idp_configuration_deleted",
             "actor": {
                 "type": "user",
-                "user": {
-                    "email": "user@example.com",
-                    "id": "A012B3CDEFG",
-                    "name": "username",
-                    "team": "T01234N56GB",
-                },
+                "user": {"email": "user@example.com", "id": "A012B3CDEFG", "name": "username", "team": "T01234N56GB"},
             },
             "context": {
                 "ip_address": "1.2.3.4",
@@ -65,12 +55,7 @@ slack_audit_logs_idp_configuration_changed_tests: List[PantherRuleTest] = [
             "action": "idp_prod_configuration_updated",
             "actor": {
                 "type": "user",
-                "user": {
-                    "email": "user@example.com",
-                    "id": "A012B3CDEFG",
-                    "name": "username",
-                    "team": "T01234N56GB",
-                },
+                "user": {"email": "user@example.com", "id": "A012B3CDEFG", "name": "username", "team": "T01234N56GB"},
             },
             "context": {
                 "ip_address": "1.2.3.4",
@@ -132,9 +117,7 @@ class SlackAuditLogsIDPConfigurationChanged(PantherRule):
     Tags = ["Slack", "Persistence", "Credential Access", "Modify Authentication Process"]
     Reports = {"MITRE ATT&CK": ["TA0003:T1556", "TA0006:T1556"]}
     Severity = PantherSeverity.High
-    Description = (
-        "Detects changes to the identity provider (IdP) configuration for Slack organizations."
-    )
+    Description = "Detects changes to the identity provider (IdP) configuration for Slack organizations."
     Reference = "https://slack.com/intl/en-gb/help/articles/115001435788-Connect-identity-provider-groups-to-your-Enterprise-Grid-org"
     SummaryAttributes = ["action", "p_any_ip_addresses", "p_any_emails"]
     Tests = slack_audit_logs_idp_configuration_changed_tests

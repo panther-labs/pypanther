@@ -1,6 +1,4 @@
-from typing import List
-
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import PantherLogType, PantherRule, PantherSeverity
 from pypanther.helpers.panther_notion_helpers import notion_alert_context
 
 
@@ -9,17 +7,10 @@ class NotionLoginFromBlockedIP(PantherRule):
     DisplayName = "Notion Login From Blocked IP"
     Enabled = False
     LogTypes = [PantherLogType.Notion_AuditLogs]
-    Tags = [
-        "Notion",
-        "Network Security Monitoring",
-        "Malicious Connections",
-        "Configuration Required",
-    ]
+    Tags = ["Notion", "Network Security Monitoring", "Malicious Connections", "Configuration Required"]
     Severity = PantherSeverity.Medium
     Description = "A user attempted to access Notion from a blocked IP address. Note: before deployinh, make sure to add Rule Filters checking if event.ip_address is in a certain CIDR range(s)."
-    Runbook = (
-        "Confirm with user if the login was legitimate. If so, determine why the IP is blocked."
-    )
+    Runbook = "Confirm with user if the login was legitimate. If so, determine why the IP is blocked."
     Reference = "https://www.notion.so/help/allowlist-ip"
 
     def rule(self, event):

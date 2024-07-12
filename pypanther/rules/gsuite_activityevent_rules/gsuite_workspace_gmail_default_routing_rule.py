@@ -8,11 +8,7 @@ g_suite_workspace_gmail_default_routing_rule_modified_tests: List[PantherRuleTes
         Name="Workspace Admin Creates Default Routing Rule",
         ExpectedResult=True,
         Log={
-            "actor": {
-                "callerType": "USER",
-                "email": "user@example.io",
-                "profileId": "110555555555555555555",
-            },
+            "actor": {"callerType": "USER", "email": "user@example.io", "profileId": "110555555555555555555"},
             "id": {
                 "applicationName": "admin",
                 "customerId": "D12345",
@@ -22,10 +18,7 @@ g_suite_workspace_gmail_default_routing_rule_modified_tests: List[PantherRuleTes
             "ipAddress": "12.12.12.12",
             "kind": "admin#reports#activity",
             "name": "CREATE_GMAIL_SETTING",
-            "parameters": {
-                "SETTING_NAME": "MESSAGE_SECURITY_RULE",
-                "USER_DEFINED_SETTING_NAME": "44444",
-            },
+            "parameters": {"SETTING_NAME": "MESSAGE_SECURITY_RULE", "USER_DEFINED_SETTING_NAME": "44444"},
             "type": "EMAIL_SETTINGS",
         },
     ),
@@ -33,11 +26,7 @@ g_suite_workspace_gmail_default_routing_rule_modified_tests: List[PantherRuleTes
         Name="Workspace Admin Deletes Default Routing Rule",
         ExpectedResult=True,
         Log={
-            "actor": {
-                "callerType": "USER",
-                "email": "user@example.io",
-                "profileId": "110555555555555555555",
-            },
+            "actor": {"callerType": "USER", "email": "user@example.io", "profileId": "110555555555555555555"},
             "id": {
                 "applicationName": "admin",
                 "customerId": "D12345",
@@ -47,10 +36,7 @@ g_suite_workspace_gmail_default_routing_rule_modified_tests: List[PantherRuleTes
             "ipAddress": "12.12.12.12",
             "kind": "admin#reports#activity",
             "name": "DELETE_GMAIL_SETTING",
-            "parameters": {
-                "SETTING_NAME": "MESSAGE_SECURITY_RULE",
-                "USER_DEFINED_SETTING_NAME": "44444",
-            },
+            "parameters": {"SETTING_NAME": "MESSAGE_SECURITY_RULE", "USER_DEFINED_SETTING_NAME": "44444"},
             "type": "EMAIL_SETTINGS",
         },
     ),
@@ -131,8 +117,7 @@ class GSuiteWorkspaceGmailDefaultRoutingRuleModified(PantherRule):
             [
                 event.get("type", "") == "EMAIL_SETTINGS",
                 event.get("name", "").endswith("_GMAIL_SETTING"),
-                deep_get(event, "parameters", "SETTING_NAME", default="")
-                == "MESSAGE_SECURITY_RULE",
+                deep_get(event, "parameters", "SETTING_NAME", default="") == "MESSAGE_SECURITY_RULE",
             ]
         ):
             return True

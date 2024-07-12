@@ -312,19 +312,14 @@ def geoinfo_from_ip(ip: str) -> dict:  # pylint: disable=invalid-name
 def geoinfo_from_ip_formatted(ip: str) -> str:  # pylint: disable=invalid-name
     """Formatting wrapper for geoinfo_from_ip for use in human-readable text"""
     geoinfo = geoinfo_from_ip(ip)
-    return (
-        f"{geoinfo.get('ip')} in {geoinfo.get('city')}, "
-        f"{geoinfo.get('region')} in {geoinfo.get('country')}"
-    )
+    return f"{geoinfo.get('ip')} in {geoinfo.get('city')}, " f"{geoinfo.get('region')} in {geoinfo.get('country')}"
 
 
 # returns the difference between time1 and later time 2 in human-readable time period string
 def time_delta(time1, time2: str) -> str:
     time1_truncated = nano_to_micro(time1)
     time2_truncated = nano_to_micro(time2)
-    delta_timedelta = resolve_timestamp_string(time2_truncated) - resolve_timestamp_string(
-        time1_truncated
-    )
+    delta_timedelta = resolve_timestamp_string(time2_truncated) - resolve_timestamp_string(time1_truncated)
     days = delta_timedelta.days
     hours, remainder = divmod(delta_timedelta.seconds, 3600)
     minutes, seconds = divmod(remainder, 60)

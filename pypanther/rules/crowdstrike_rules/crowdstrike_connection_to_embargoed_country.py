@@ -1,10 +1,7 @@
 from typing import List
 
 from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
-from pypanther.helpers.panther_base_helpers import (
-    crowdstrike_network_detection_alert_context,
-    deep_get,
-)
+from pypanther.helpers.panther_base_helpers import crowdstrike_network_detection_alert_context, deep_get
 
 connectionto_embargoed_country_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -112,14 +109,7 @@ connectionto_embargoed_country_tests: List[PantherRuleTest] = [
                 },
                 "ipinfo_privacy": {
                     "p_any_ip_addresses": [
-                        {
-                            "hosting": True,
-                            "proxy": False,
-                            "relay": False,
-                            "service": "",
-                            "tor": False,
-                            "vpn": False,
-                        }
+                        {"hosting": True, "proxy": False, "relay": False, "service": "", "tor": False, "vpn": False}
                     ]
                 },
             },
@@ -170,9 +160,7 @@ class ConnectiontoEmbargoedCountry(PantherRule):
     EMBARGO_COUNTRY_CODES = {"CU", "IR", "KP", "SY"}
 
     def get_enrichment_obj(self, event):
-        return deep_get(
-            event, "p_enrichment", "ipinfo_location", "p_any_ip_addresses", default=None
-        )
+        return deep_get(event, "p_enrichment", "ipinfo_location", "p_any_ip_addresses", default=None)
 
     def rule(self, event):
         enrichment_obj = self.get_enrichment_obj(event)
@@ -187,11 +175,7 @@ class ConnectiontoEmbargoedCountry(PantherRule):
     def title(self, event):
         enrichment_obj = self.get_enrichment_obj(event)
         country_codes = set(
-            (
-                i.get("country")
-                for i in enrichment_obj
-                if i.get("country") in self.EMBARGO_COUNTRY_CODES
-            )
+            (i.get("country") for i in enrichment_obj if i.get("country") in self.EMBARGO_COUNTRY_CODES)
         )
         return f"Connection made to embargoed country: [{country_codes}]."
 

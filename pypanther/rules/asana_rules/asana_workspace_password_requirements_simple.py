@@ -24,11 +24,7 @@ asana_workspace_password_requirements_simple_tests: List[PantherRuleTest] = [
             "event_category": "admin_settings",
             "event_type": "workspace_password_requirements_changed",
             "gid": "12345",
-            "resource": {
-                "gid": "12345",
-                "name": "Company Example IO",
-                "resource_type": "workspace",
-            },
+            "resource": {"gid": "12345", "name": "Company Example IO", "resource_type": "workspace"},
         },
     ),
     PantherRuleTest(
@@ -71,8 +67,7 @@ class AsanaWorkspacePasswordRequirementsSimple(PantherRule):
         new_val = deep_get(event, "details", "new_value", default="<NEW_VAL_NOT_FOUND>")
         return all(
             [
-                event.get("event_type", "<NO_EVENT_TYPE_FOUND>")
-                == "workspace_password_requirements_changed",
+                event.get("event_type", "<NO_EVENT_TYPE_FOUND>") == "workspace_password_requirements_changed",
                 new_val == "simple",
             ]
         )

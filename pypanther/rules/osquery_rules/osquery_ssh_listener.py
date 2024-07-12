@@ -84,9 +84,7 @@ class OsquerySSHListener(PantherRule):
     Severity = PantherSeverity.Medium
     Description = "Check if SSH is listening in a non-production environment. This could be an indicator of persistent access within an environment.\n"
     Runbook = "Terminate the SSH daemon, investigate for signs of compromise.\n"
-    Reference = (
-        "https://medium.com/uptycs/osquery-what-it-is-how-it-works-and-how-to-use-it-ce4e81e60dfc"
-    )
+    Reference = "https://medium.com/uptycs/osquery-what-it-is-how-it-works-and-how-to-use-it-ce4e81e60dfc"
     SummaryAttributes = ["action", "hostIdentifier", "name"]
     Tests = osquery_ssh_listener_tests
 

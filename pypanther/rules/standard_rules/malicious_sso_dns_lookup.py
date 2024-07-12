@@ -122,10 +122,7 @@ standard_malicious_ssodns_lookup_tests: List[PantherRuleTest] = [
             "p_source_label": "Crowdstrike",
             "p_any_ip_addresses": ["111.111.111.111"],
             "p_any_domain_names": ["company_name_here.okta.com", "company_name_here-maokta.com"],
-            "p_any_trace_ids": [
-                "00000000000000000000000000000001",
-                "00000000000000000000000000000002",
-            ],
+            "p_any_trace_ids": ["00000000000000000000000000000001", "00000000000000000000000000000002"],
         },
     ),
     PantherRuleTest(
@@ -155,10 +152,7 @@ standard_malicious_ssodns_lookup_tests: List[PantherRuleTest] = [
             "p_source_label": "Crowdstrike",
             "p_any_ip_addresses": ["111.111.111.111"],
             "p_any_domain_names": ["company_name_here.okta.com", "company_name_here-maokta.com"],
-            "p_any_trace_ids": [
-                "00000000000000000000000000000001",
-                "00000000000000000000000000000002",
-            ],
+            "p_any_trace_ids": ["00000000000000000000000000000001", "00000000000000000000000000000002"],
         },
     ),
 ]

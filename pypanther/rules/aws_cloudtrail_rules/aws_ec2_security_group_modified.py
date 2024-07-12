@@ -25,10 +25,7 @@ awsec2_security_group_modified_tests: List[PantherRuleTest] = [
                         "userName": "tester",
                     },
                     "webIdFederationData": {},
-                    "attributes": {
-                        "mfaAuthenticated": "true",
-                        "creationDate": "2019-01-01T00:00:00Z",
-                    },
+                    "attributes": {"mfaAuthenticated": "true", "creationDate": "2019-01-01T00:00:00Z"},
                 },
             },
             "eventTime": "2019-01-01T00:00:00Z",
@@ -46,9 +43,7 @@ awsec2_security_group_modified_tests: List[PantherRuleTest] = [
                             "fromPort": 22,
                             "toPort": 22,
                             "groups": {},
-                            "ipRanges": {
-                                "items": [{"cidrIp": "127.0.0.1/32", "description": "SSH for me"}]
-                            },
+                            "ipRanges": {"items": [{"cidrIp": "127.0.0.1/32", "description": "SSH for me"}]},
                             "ipv6Ranges": {},
                             "prefixListIds": {},
                         }
@@ -82,10 +77,7 @@ awsec2_security_group_modified_tests: List[PantherRuleTest] = [
                         "userName": "tester",
                     },
                     "webIdFederationData": {},
-                    "attributes": {
-                        "mfaAuthenticated": "false",
-                        "creationDate": "2019-01-01T00:00:00Z",
-                    },
+                    "attributes": {"mfaAuthenticated": "false", "creationDate": "2019-01-01T00:00:00Z"},
                 },
             },
             "eventTime": "2019-01-01T00:00:00Z",
@@ -97,9 +89,7 @@ awsec2_security_group_modified_tests: List[PantherRuleTest] = [
             "requestParameters": {
                 "securityGroupSet": {},
                 "securityGroupIdSet": {},
-                "filterSet": {
-                    "items": [{"name": "vpc-id", "valueSet": {"items": [{"value": "vpc-1"}]}}]
-                },
+                "filterSet": {"items": [{"name": "vpc-id", "valueSet": {"items": [{"value": "vpc-1"}]}}]},
             },
             "responseElements": None,
             "requestID": "1",
@@ -129,10 +119,7 @@ awsec2_security_group_modified_tests: List[PantherRuleTest] = [
                         "userName": "tester",
                     },
                     "webIdFederationData": {},
-                    "attributes": {
-                        "mfaAuthenticated": "true",
-                        "creationDate": "2019-01-01T00:00:00Z",
-                    },
+                    "attributes": {"mfaAuthenticated": "true", "creationDate": "2019-01-01T00:00:00Z"},
                 },
             },
             "eventTime": "2019-01-01T00:00:00Z",
@@ -150,9 +137,7 @@ awsec2_security_group_modified_tests: List[PantherRuleTest] = [
                             "fromPort": 22,
                             "toPort": 22,
                             "groups": {},
-                            "ipRanges": {
-                                "items": [{"cidrIp": "127.0.0.1/32", "description": "SSH for me"}]
-                            },
+                            "ipRanges": {"items": [{"cidrIp": "127.0.0.1/32", "description": "SSH for me"}]},
                             "ipv6Ranges": {},
                             "prefixListIds": {},
                         }
@@ -178,19 +163,9 @@ class AWSEC2SecurityGroupModified(PantherRule):
     Severity = PantherSeverity.Info
     DedupPeriodMinutes = 720
     Description = "An EC2 Security Group was modified.\n"
-    Runbook = (
-        "https://docs.runpanther.io/alert-runbooks/built-in-rules/aws-ec2-securitygroup-modified"
-    )
-    Reference = (
-        "https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/working-with-security-groups.html"
-    )
-    SummaryAttributes = [
-        "eventName",
-        "userAgent",
-        "sourceIpAddress",
-        "recipientAccountId",
-        "p_any_aws_arns",
-    ]
+    Runbook = "https://docs.runpanther.io/alert-runbooks/built-in-rules/aws-ec2-securitygroup-modified"
+    Reference = "https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/working-with-security-groups.html"
+    SummaryAttributes = ["eventName", "userAgent", "sourceIpAddress", "recipientAccountId", "p_any_aws_arns"]
     Tests = awsec2_security_group_modified_tests
     # API calls that are indicative of an EC2 SecurityGroup modification
     EC2_SG_MODIFIED_EVENTS = {
@@ -203,9 +178,7 @@ class AWSEC2SecurityGroupModified(PantherRule):
     }
 
     def rule(self, event):
-        return (
-            aws_cloudtrail_success(event) and event.get("eventName") in self.EC2_SG_MODIFIED_EVENTS
-        )
+        return aws_cloudtrail_success(event) and event.get("eventName") in self.EC2_SG_MODIFIED_EVENTS
 
     def dedup(self, event):
         return event.get("recipientAccountId")

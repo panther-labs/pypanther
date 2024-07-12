@@ -165,10 +165,10 @@ class OktaPhishingAttemptBlockedFastPass(PantherRule):
     LogTypes = [PantherLogType.Okta_SystemLog]
     Reports = {"MITRE ATT&CK": ["TA0001:T1566", "TA0006:T1556", "TA0003:T1078.004"]}
     Severity = PantherSeverity.High
-    Description = (
-        "Okta FastPass detected a user targeted by attackers wielding real-time (AiTM) proxies.\n"
+    Description = "Okta FastPass detected a user targeted by attackers wielding real-time (AiTM) proxies.\n"
+    Runbook = (
+        "Protect sign-in flows by enforcing phishing-resistant authentication with Okta FastPass and FIDO2 WebAuthn.\n"
     )
-    Runbook = "Protect sign-in flows by enforcing phishing-resistant authentication with Okta FastPass and FIDO2 WebAuthn.\n"
     Reference = "https://sec.okta.com/fastpassphishingdetection\n"
     DedupPeriodMinutes = 30
     Tests = okta_phishing_attempt_blocked_fast_pass_tests

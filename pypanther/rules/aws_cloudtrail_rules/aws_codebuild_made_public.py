@@ -19,10 +19,7 @@ aws_cloud_trail_codebuild_project_made_public_tests: List[PantherRuleTest] = [
                 "sessionContext": {
                     "sessionIssuer": {},
                     "webIdFederationData": {},
-                    "attributes": {
-                        "creationDate": "2021-08-18T14:54:10Z",
-                        "mfaAuthenticated": "false",
-                    },
+                    "attributes": {"creationDate": "2021-08-18T14:54:10Z", "mfaAuthenticated": "false"},
                 },
             },
             "eventTime": "2021-08-18T14:54:53Z",
@@ -60,10 +57,7 @@ aws_cloud_trail_codebuild_project_made_public_tests: List[PantherRuleTest] = [
                 "sessionContext": {
                     "sessionIssuer": {},
                     "webIdFederationData": {},
-                    "attributes": {
-                        "creationDate": "2021-08-18T14:54:10Z",
-                        "mfaAuthenticated": "false",
-                    },
+                    "attributes": {"creationDate": "2021-08-18T14:54:10Z", "mfaAuthenticated": "false"},
                 },
             },
             "eventTime": "2021-08-18T14:54:53Z",
@@ -101,10 +95,7 @@ aws_cloud_trail_codebuild_project_made_public_tests: List[PantherRuleTest] = [
                 "sessionContext": {
                     "sessionIssuer": {},
                     "webIdFederationData": {},
-                    "attributes": {
-                        "creationDate": "2021-08-18T14:54:10Z",
-                        "mfaAuthenticated": "false",
-                    },
+                    "attributes": {"creationDate": "2021-08-18T14:54:10Z", "mfaAuthenticated": "false"},
                 },
             },
             "eventTime": "2021-08-18T14:54:53Z",
@@ -136,13 +127,7 @@ class AWSCloudTrailCodebuildProjectMadePublic(PantherRule):
     Description = "An AWS CodeBuild Project was made publicly accessible\n"
     Runbook = "TBD"
     Reference = "https://docs.aws.amazon.com/codebuild/latest/userguide/public-builds.html"
-    SummaryAttributes = [
-        "eventName",
-        "userAgent",
-        "sourceIpAddress",
-        "recipientAccountId",
-        "p_any_aws_arns",
-    ]
+    SummaryAttributes = ["eventName", "userAgent", "sourceIpAddress", "recipientAccountId", "p_any_aws_arns"]
     Tests = aws_cloud_trail_codebuild_project_made_public_tests
 
     def rule(self, event):

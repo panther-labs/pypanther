@@ -46,9 +46,7 @@ class GSuiteUserSuspended(PantherRule):
     LogTypes = [PantherLogType.GSuite_ActivityEvent]
     Tags = ["GSuite"]
     Severity = PantherSeverity.High
-    Description = (
-        "A GSuite user was suspended, the account may have been compromised by a spam network.\n"
-    )
+    Description = "A GSuite user was suspended, the account may have been compromised by a spam network.\n"
     Reference = "https://support.google.com/drive/answer/40695?hl=en&sjid=864417124752637253-EU"
     Runbook = "Investigate the behavior that got the account suspended. Verify with the user that this intended behavior. If not, the account may have been compromised.\n"
     SummaryAttributes = ["actor:email"]

@@ -52,7 +52,9 @@ class ZendeskUserAssumption(PantherRule):
     Reports = {"MITRE ATT&CK": ["TA0008:T1550"]}
     Severity = PantherSeverity.Medium
     Description = "User enabled or disabled zendesk support user assumption."
-    Runbook = "Investigate whether allowing zendesk support to assume users is necessary. If not, disable the feature.\n"
+    Runbook = (
+        "Investigate whether allowing zendesk support to assume users is necessary. If not, disable the feature.\n"
+    )
     Reference = "https://support.zendesk.com/hc/en-us/articles/4408894200474-Assuming-end-users#:~:text=In%20Support%2C%20click%20the%20Customers,user%20in%20the%20information%20dialog"
     SummaryAttributes = ["p_any_ip_addresses"]
     Tests = zendesk_user_assumption_tests
@@ -62,13 +64,8 @@ class ZendeskUserAssumption(PantherRule):
         return (
             event.get("source_type") == "account_setting"
             and event.get("action", "") in self.USER_SUSPENSION_ACTIONS
-            and (
-                event.get("source_label", "").lower()
-                in {"account assumption", "assumption duration"}
-            )
+            and (event.get("source_label", "").lower() in {"account assumption", "assumption duration"})
         )
 
     def title(self, event):
-        return (
-            f"A user [{event.udm('actor_user')}] updated zendesk support user assumption settings"
-        )
+        return f"A user [{event.udm('actor_user')}] updated zendesk support user assumption settings"

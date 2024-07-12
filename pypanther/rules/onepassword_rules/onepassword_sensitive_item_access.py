@@ -76,9 +76,7 @@ class OnePasswordSensitiveItem(PantherRule):
     def alert_context(self, event):
         context = {
             "user": deep_get(event, "user", "name"),
-            "item_name": deep_get(
-                event, "p_enrichment", "1Password Translation", "item_uuid", "title"
-            ),
+            "item_name": deep_get(event, "p_enrichment", "1Password Translation", "item_uuid", "title"),
             "client": deep_get(event, "client", "app_name"),
             "ip_address": event.udm("source_ip"),
             "event_time": event.get("timestamp"),

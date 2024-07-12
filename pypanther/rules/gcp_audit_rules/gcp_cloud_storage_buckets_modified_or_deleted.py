@@ -36,9 +36,7 @@ gcp_cloud_storage_buckets_modified_or_deleted_tests: List[PantherRuleTest] = [
                     "@type": "type.googleapis.com/google.logging.v2.UpdateSinkRequest",
                     "sink": {
                         "destination": "pubsub.googleapis.com/projects/gcp-project1/topics/gcp-topic1",
-                        "exclusions": [
-                            {"filter": "protoPayload.serviceName = 'k8s.io", "name": "excludek8s"}
-                        ],
+                        "exclusions": [{"filter": "protoPayload.serviceName = 'k8s.io", "name": "excludek8s"}],
                         "name": "log-sink",
                         "writerIdentity": "serviceAccount:p197946410614-915152@gcp-sa-logging.iam.gserviceaccount.com",
                     },
@@ -102,11 +100,7 @@ gcp_cloud_storage_buckets_modified_or_deleted_tests: List[PantherRuleTest] = [
             },
             "receiveTimestamp": "2023-03-09 10:05:25.146",
             "resource": {
-                "labels": {
-                    "bucket_name": "my-bucket",
-                    "location": "us-east1",
-                    "project_id": "gcp-project1",
-                },
+                "labels": {"bucket_name": "my-bucket", "location": "us-east1", "project_id": "gcp-project1"},
                 "type": "gcs_bucket",
             },
             "severity": "NOTICE",
@@ -129,23 +123,14 @@ class GCPCloudStorageBucketsModifiedOrDeleted(PantherRule):
     def rule(self, event):
         return all(
             [
-                deep_get(event, "protoPayload", "serviceName", default="")
-                == "storage.googleapis.com",
+                deep_get(event, "protoPayload", "serviceName", default="") == "storage.googleapis.com",
                 deep_get(event, "protoPayload", "methodName", default="") in self.BUCKET_OPERATIONS,
             ]
         )
 
     def title(self, event):
-        actor = deep_get(
-            event,
-            "protoPayload",
-            "authenticationInfo",
-            "principalEmail",
-            default="<ACTOR_NOT_FOUND>",
-        )
+        actor = deep_get(event, "protoPayload", "authenticationInfo", "principalEmail", default="<ACTOR_NOT_FOUND>")
         operation = deep_get(event, "protoPayload", "methodName", default="<OPERATION_NOT_FOUND>")
         project = deep_get(event, "resource", "labels", "project_id", default="<PROJECT_NOT_FOUND>")
         bucket = deep_get(event, "resource", "labels", "bucket_name", default="<BUCKET_NOT_FOUND>")
-        return (
-            f"GCP: [{actor}] performed a [{operation}] on bucket [{bucket}] in project [{project}]."
-        )
+        return f"GCP: [{actor}] performed a [{operation}] on bucket [{bucket}] in project [{project}]."

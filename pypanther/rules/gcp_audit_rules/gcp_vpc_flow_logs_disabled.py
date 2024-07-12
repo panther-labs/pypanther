@@ -10,12 +10,7 @@ gcpvpc_flow_logs_disabled_tests: List[PantherRuleTest] = [
         Log={
             "insertId": "123456",
             "logName": "projects/gcp-project/logs/cloudaudit.googleapis.com%2Factivity",
-            "operation": {
-                "first": True,
-                "id": "operation-abc-123",
-                "last": True,
-                "producer": "compute.googleapis.com",
-            },
+            "operation": {"first": True, "id": "operation-abc-123", "last": True, "producer": "compute.googleapis.com"},
             "p_any_ip_addresses": ["1.2.3.4"],
             "p_event_time": "2023-03-08 18:52:58.322",
             "p_log_type": "GCP.AuditLog",
@@ -184,19 +179,12 @@ class GCPVPCFlowLogsDisabled(PantherRule):
         return all(
             [
                 event.get("protoPayload"),
-                deep_get(event, "protoPayload", "methodName", default="")
-                == "v1.compute.subnetworks.patch",
+                deep_get(event, "protoPayload", "methodName", default="") == "v1.compute.subnetworks.patch",
                 deep_get(event, "protoPayload", "request", "enableFlowLogs") is False,
             ]
         )
 
     def title(self, event):
-        actor = deep_get(
-            event,
-            "protoPayload",
-            "authenticationInfo",
-            "principalEmail",
-            default="<ACTOR_NOT_FOUND>",
-        )
+        actor = deep_get(event, "protoPayload", "authenticationInfo", "principalEmail", default="<ACTOR_NOT_FOUND>")
         resource = deep_get(event, "protoPayload", "resourceName", default="<RESOURCE_NOT_FOUND>")
         return f"GCP: [{actor}] disabled VPC Flow Logs for [{resource}]"

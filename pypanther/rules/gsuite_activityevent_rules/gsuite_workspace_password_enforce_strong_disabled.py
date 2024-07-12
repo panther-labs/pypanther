@@ -8,11 +8,7 @@ g_suite_workspace_password_enforce_strong_disabled_tests: List[PantherRuleTest] 
         Name="Workspace Admin Disabled Strong Password Enforcement",
         ExpectedResult=True,
         Log={
-            "actor": {
-                "callerType": "USER",
-                "email": "user@example.io",
-                "profileId": "110111111111111111111",
-            },
+            "actor": {"callerType": "USER", "email": "user@example.io", "profileId": "110111111111111111111"},
             "id": {
                 "applicationName": "admin",
                 "customerId": "D12345",

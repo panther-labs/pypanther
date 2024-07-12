@@ -39,9 +39,7 @@ notion_account_changed_after_login_tests: List[PantherRuleTest] = [
         Name="Email Changed Shortly After Login",
         ExpectedResult=True,
         Mocks=[
-            PantherRuleMock(
-                ObjectName="get_string_set", ReturnValue='[\n  "2023-06-12 21:40:28.690000000"\n]'
-            ),
+            PantherRuleMock(ObjectName="get_string_set", ReturnValue='[\n  "2023-06-12 21:40:28.690000000"\n]'),
             PantherRuleMock(ObjectName="put_string_set", ReturnValue=""),
         ],
         Log={
@@ -87,9 +85,7 @@ notion_account_changed_after_login_tests: List[PantherRuleTest] = [
         Name="Password Changed Shortly After Login",
         ExpectedResult=True,
         Mocks=[
-            PantherRuleMock(
-                ObjectName="get_string_set", ReturnValue='[\n  "2023-06-12 21:40:28.690000000"\n]'
-            ),
+            PantherRuleMock(ObjectName="get_string_set", ReturnValue='[\n  "2023-06-12 21:40:28.690000000"\n]'),
             PantherRuleMock(ObjectName="put_string_set", ReturnValue=""),
         ],
         Log={
@@ -135,9 +131,7 @@ notion_account_changed_after_login_tests: List[PantherRuleTest] = [
         Name="Password Added Shortly After Login",
         ExpectedResult=True,
         Mocks=[
-            PantherRuleMock(
-                ObjectName="get_string_set", ReturnValue='[\n  "2023-06-12 21:40:28.690000000"\n]'
-            ),
+            PantherRuleMock(ObjectName="get_string_set", ReturnValue='[\n  "2023-06-12 21:40:28.690000000"\n]'),
             PantherRuleMock(ObjectName="put_string_set", ReturnValue=""),
         ],
         Log={
@@ -183,9 +177,7 @@ notion_account_changed_after_login_tests: List[PantherRuleTest] = [
         Name="Password Removed Shortly After Login",
         ExpectedResult=True,
         Mocks=[
-            PantherRuleMock(
-                ObjectName="get_string_set", ReturnValue='[\n  "2023-06-12 21:40:28.690000000"\n]'
-            ),
+            PantherRuleMock(ObjectName="get_string_set", ReturnValue='[\n  "2023-06-12 21:40:28.690000000"\n]'),
             PantherRuleMock(ObjectName="put_string_set", ReturnValue=""),
         ],
         Log={
@@ -366,9 +358,7 @@ class NotionAccountChangedAfterLogin(PantherRule):
         # If we made it here, then this is an account change event.
         # We first check if the user recently logged in:
         if last_login := get_string_set(cache_key, force_ttl_check=True):
-            self.LOGIN_TS = list(last_login)[
-                0
-            ]  # Save the last login timestamp for the alert context
+            self.LOGIN_TS = list(last_login)[0]  # Save the last login timestamp for the alert context
             return True
         # If they haven't logged in recently, then return false
         return False

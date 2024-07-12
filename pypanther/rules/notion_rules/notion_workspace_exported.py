@@ -37,14 +37,8 @@ notion_workspace_exported_tests: List[PantherRuleTest] = [
                     "type": "person",
                 },
                 "details": {
-                    "parent": {
-                        "type": "workspace_id",
-                        "workspace_id": "ab99as87-6abc-4dcf-808b-111999882299",
-                    },
-                    "target": {
-                        "page_id": "3cd2c560-d1b9-474e-b46e-gh8899002763",
-                        "type": "page_id",
-                    },
+                    "parent": {"type": "workspace_id", "workspace_id": "ab99as87-6abc-4dcf-808b-111999882299"},
+                    "target": {"page_id": "3cd2c560-d1b9-474e-b46e-gh8899002763", "type": "page_id"},
                 },
                 "id": "d4b9963f-12a8-4b01-b597-233a140abf5e",
                 "ip_address": "12.12.12.12",

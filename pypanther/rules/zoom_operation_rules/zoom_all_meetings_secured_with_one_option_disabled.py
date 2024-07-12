@@ -39,7 +39,9 @@ zoom_all_meetings_secured_with_one_option_disabled_tests: List[PantherRuleTest] 
 
 
 class ZoomAllMeetingsSecuredWithOneOptionDisabled(PantherRule):
-    Description = "A Zoom User turned off your organization's requirement that all meetings are secured with one security option."
+    Description = (
+        "A Zoom User turned off your organization's requirement that all meetings are secured with one security option."
+    )
     DisplayName = "Zoom All Meetings Secured With One Option Disabled"
     Runbook = "Confirm this user acted with valid business intent and determine whether this activity was authorized."
     Reference = "https://support.zoom.com/hc/en/article?id=zm_kb&sysparm_article=KB0059862"
@@ -50,9 +52,7 @@ class ZoomAllMeetingsSecuredWithOneOptionDisabled(PantherRule):
 
     def rule(self, event):
         operation_detail = event.get("operation_detail", "<NO_OPS_DETAIL>")
-        operation_flag = (
-            "Require that all meetings are secured with one security option: from On to Off"
-        )
+        operation_flag = "Require that all meetings are secured with one security option: from On to Off"
         return (
             event.get("action", "<NO_ACTION>") == "Update"
             and event.get("category_type", "<NO_CATEGORY_TYPE>") == "Account"

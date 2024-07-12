@@ -35,9 +35,7 @@ class GSuiteGroupBannedUser(PantherRule):
     Severity = PantherSeverity.Low
     Description = "A GSuite user was banned from an enterprise group by moderator action.\n"
     Reference = "https://support.google.com/a/users/answer/9303224?hl=en&sjid=864417124752637253-EU"
-    Runbook = (
-        "Investigate the banned user to see if further disciplinary action needs to be taken.\n"
-    )
+    Runbook = "Investigate the banned user to see if further disciplinary action needs to be taken.\n"
     SummaryAttributes = ["actor:email"]
     Tests = g_suite_group_banned_user_tests
 
@@ -49,4 +47,6 @@ class GSuiteGroupBannedUser(PantherRule):
         return False
 
     def title(self, event):
-        return f"User [{deep_get(event, 'actor', 'email', default='<UNKNOWN_EMAIL>')}] banned another user from a group."
+        return (
+            f"User [{deep_get(event, 'actor', 'email', default='<UNKNOWN_EMAIL>')}] banned another user from a group."
+        )

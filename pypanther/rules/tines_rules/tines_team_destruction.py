@@ -47,7 +47,9 @@ class TinesTeamDestruction(PantherRule):
     Tags = ["Tines"]
     Severity = PantherSeverity.Low
     Description = "A user has destroyed a team"
-    Runbook = "Possible data destruction. Please reach out to the user and confirm this was done for valid business reasons."
+    Runbook = (
+        "Possible data destruction. Please reach out to the user and confirm this was done for valid business reasons."
+    )
     Reference = "https://www.tines.com/docs/admin/teams"
     Tests = tines_team_destruction_tests
 

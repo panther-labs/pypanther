@@ -10,11 +10,7 @@ osquery_mac_osx_attacks_tests: List[PantherRuleTest] = [
             "name": "pack_osx-attacks_Leverage-A_1",
             "action": "added",
             "hostIdentifier": "test-host",
-            "columns": {
-                "path": "/Users/johnny/Desktop/Siri.app/Contents/MacOS/Siri",
-                "pid": 100,
-                "name": "Siri",
-            },
+            "columns": {"path": "/Users/johnny/Desktop/Siri.app/Contents/MacOS/Siri", "pid": 100, "name": "Siri"},
         },
     ),
     PantherRuleTest(

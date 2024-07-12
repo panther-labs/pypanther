@@ -111,9 +111,7 @@ sentinel_one_threats_tests: List[PantherRuleTest] = [
 class SentinelOneThreats(PantherRule):
     Description = "Passthrough SentinelOne Threats "
     DisplayName = "SentinelOne Threats"
-    Reference = (
-        "https://www.sentinelone.com/blog/feature-spotlight-introducing-the-new-threat-center/"
-    )
+    Reference = "https://www.sentinelone.com/blog/feature-spotlight-introducing-the-new-threat-center/"
     Severity = PantherSeverity.High
     LogTypes = [PantherLogType.SentinelOne_Activity]
     RuleID = "SentinelOne.Threats-prototype"

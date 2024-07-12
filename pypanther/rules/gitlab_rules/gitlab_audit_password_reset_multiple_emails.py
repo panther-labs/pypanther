@@ -5,19 +5,12 @@ from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSever
 
 git_lab_audit_password_reset_multiple_emails_tests: List[PantherRuleTest] = [
     PantherRuleTest(
-        Name="not a password reset",
-        ExpectedResult=False,
-        Log={"detail": {"custom_message": "hello world"}},
+        Name="not a password reset", ExpectedResult=False, Log={"detail": {"custom_message": "hello world"}}
     ),
     PantherRuleTest(
         Name="one email",
         ExpectedResult=False,
-        Log={
-            "detail": {
-                "custom_message": "Ask for password reset",
-                "target_details": "example@test.com",
-            }
-        },
+        Log={"detail": {"custom_message": "Ask for password reset", "target_details": "example@test.com"}},
     ),
     PantherRuleTest(
         Name="multiple emails",

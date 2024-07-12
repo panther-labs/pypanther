@@ -90,9 +90,7 @@ class GSuiteExternalMailForwarding(PantherRule):
         if deep_get(event, "id", "applicationName") != "user_accounts":
             return False
         if event.get("name") == "email_forwarding_out_of_domain":
-            domain = deep_get(event, "parameters", "email_forwarding_destination_address").split(
-                "@"
-            )[-1]
+            domain = deep_get(event, "parameters", "email_forwarding_destination_address").split("@")[-1]
             if domain not in config.GSUITE_TRUSTED_FORWARDING_DESTINATION_DOMAINS:
                 return True
         return False

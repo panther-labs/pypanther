@@ -114,9 +114,7 @@ class DUOUserEndpointFailure(PantherRule):
     Severity = PantherSeverity.Medium
     Description = "A Duo user's authentication was denied due to a suspicious error on the endpoint"
     Reference = "https://duo.com/docs/adminapi#authentication-logs"
-    Runbook = (
-        "Follow up with the endpoint owner to see status. Follow up with user to verify attempts."
-    )
+    Runbook = "Follow up with the endpoint owner to see status. Follow up with user to verify attempts."
     Tests = duo_user_endpoint_failure_tests
 
     def rule(self, event):

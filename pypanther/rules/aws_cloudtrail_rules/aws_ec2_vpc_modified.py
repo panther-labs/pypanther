@@ -25,10 +25,7 @@ awsec2_vpc_modified_tests: List[PantherRuleTest] = [
                         "userName": "tester",
                     },
                     "webIdFederationData": {},
-                    "attributes": {
-                        "mfaAuthenticated": "true",
-                        "creationDate": "2019-01-01T00:00:00Z",
-                    },
+                    "attributes": {"mfaAuthenticated": "true", "creationDate": "2019-01-01T00:00:00Z"},
                 },
             },
             "eventTime": "2019-01-01T00:00:00Z",
@@ -91,10 +88,7 @@ awsec2_vpc_modified_tests: List[PantherRuleTest] = [
                         "userName": "tester",
                     },
                     "webIdFederationData": {},
-                    "attributes": {
-                        "mfaAuthenticated": "false",
-                        "creationDate": "2019-01-01T00:00:00Z",
-                    },
+                    "attributes": {"mfaAuthenticated": "false", "creationDate": "2019-01-01T00:00:00Z"},
                 },
             },
             "eventTime": "2019-01-01T00:00:00Z",
@@ -132,10 +126,7 @@ awsec2_vpc_modified_tests: List[PantherRuleTest] = [
                         "userName": "tester",
                     },
                     "webIdFederationData": {},
-                    "attributes": {
-                        "mfaAuthenticated": "true",
-                        "creationDate": "2019-01-01T00:00:00Z",
-                    },
+                    "attributes": {"mfaAuthenticated": "true", "creationDate": "2019-01-01T00:00:00Z"},
                 },
             },
             "eventTime": "2019-01-01T00:00:00Z",
@@ -192,13 +183,7 @@ class AWSEC2VPCModified(PantherRule):
     Description = "An EC2 VPC was modified."
     Runbook = "https://docs.runpanther.io/alert-runbooks/built-in-rules/aws-ec2-vpc-modified"
     Reference = "https://docs.aws.amazon.com/vpc/latest/userguide/configure-your-vpc.html"
-    SummaryAttributes = [
-        "eventName",
-        "userAgent",
-        "sourceIpAddress",
-        "recipientAccountId",
-        "p_any_aws_arns",
-    ]
+    SummaryAttributes = ["eventName", "userAgent", "sourceIpAddress", "recipientAccountId", "p_any_aws_arns"]
     Tests = awsec2_vpc_modified_tests
     # API calls that are indicative of an EC2 VPC modification
     EC2_VPC_MODIFIED_EVENTS = {
@@ -216,9 +201,7 @@ class AWSEC2VPCModified(PantherRule):
     }
 
     def rule(self, event):
-        return (
-            aws_cloudtrail_success(event) and event.get("eventName") in self.EC2_VPC_MODIFIED_EVENTS
-        )
+        return aws_cloudtrail_success(event) and event.get("eventName") in self.EC2_VPC_MODIFIED_EVENTS
 
     def dedup(self, event):
         return event.get("recipientAccountId")

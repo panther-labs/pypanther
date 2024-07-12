@@ -115,17 +115,12 @@ class PushSecurityUnauthorizedIdPLogin(PantherRule):
             return False
         identity_provider = event.deep_get("new", "identityProvider")
         login_type = event.deep_get("new", "loginType")
-        if (
-            identity_provider in self.allowed_idps
-            and login_type in self.allowed_idps[identity_provider]
-        ):
+        if identity_provider in self.allowed_idps and login_type in self.allowed_idps[identity_provider]:
             return False
         return True
 
     def title(self, event):
-        identity_provider = event.deep_get(
-            "new", "identityProvider", default="Null identityProvider"
-        )
+        identity_provider = event.deep_get("new", "identityProvider", default="Null identityProvider")
         login_type = event.deep_get("new", "loginType", default="Null loginType")
         app_type = event.deep_get("new", "appType", default="Null appType")
         new_email = event.deep_get("new", "email")

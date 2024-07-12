@@ -12,11 +12,7 @@ osquery_mac_osx_attacks_keyboard_events_tests: List[PantherRuleTest] = [
             "name": "pack_osx-attacks_Keyboard_Event_Taps",
             "action": "added",
             "hostIdentifier": "test-host",
-            "columns": {
-                "path": "/Users/johnny/Desktop/Siri.app/Contents/MacOS/Siri",
-                "pid": 100,
-                "name": "Siri",
-            },
+            "columns": {"path": "/Users/johnny/Desktop/Siri.app/Contents/MacOS/Siri", "pid": 100, "name": "Siri"},
         },
     ),
     PantherRuleTest(
@@ -53,10 +49,7 @@ osquery_mac_osx_attacks_keyboard_events_tests: List[PantherRuleTest] = [
                 "type": "apfs",
             },
             "counter": 28,
-            "decorations": {
-                "host_uuid": "0ec3540f-1dd9-4462-bd28-0f63b2611621",
-                "hostname": "MacBook-Pro.local",
-            },
+            "decorations": {"host_uuid": "0ec3540f-1dd9-4462-bd28-0f63b2611621", "hostname": "MacBook-Pro.local"},
             "epoch": 0,
             "hostIdentifier": "MacBook-Pro.local",
             "name": "pack/incident-response/mounts",

@@ -158,9 +158,7 @@ class GitHubAdvancedSecurityChange(PantherRule):
     Tags = ["GitHub"]
     Reports = {"MITRE ATT&CK": ["TA0005:T1562"]}
     Severity = PantherSeverity.Low
-    Description = (
-        "The rule alerts when GitHub Security tools (Dependabot, Secret Scanner, etc) are disabled."
-    )
+    Description = "The rule alerts when GitHub Security tools (Dependabot, Secret Scanner, etc) are disabled."
     Runbook = "Confirm with GitHub administrators and re-enable the tools as applicable."
     Reference = "https://docs.github.com/en/code-security/getting-started/auditing-security-alerts"
     Tests = git_hub_advanced_security_change_tests

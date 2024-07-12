@@ -86,12 +86,7 @@ standard_brute_force_by_ip_tests: List[PantherRuleTest] = [
         Log={
             "type": "event",
             "additional_details": '{"key": "value"}',
-            "created_by": {
-                "id": "12345678",
-                "type": "user",
-                "login": "cat@example",
-                "name": "Bob Cat",
-            },
+            "created_by": {"id": "12345678", "type": "user", "login": "cat@example", "name": "Bob Cat"},
             "ip_address": "111.111.111.111",
             "event_type": "DELETE",
             "p_log_type": "Box.Event",
@@ -111,12 +106,7 @@ standard_brute_force_by_ip_tests: List[PantherRuleTest] = [
         Log={
             "type": "event",
             "additional_details": '{"key": "value"}',
-            "created_by": {
-                "id": "12345678",
-                "type": "user",
-                "login": "cat@example",
-                "name": "Bob Cat",
-            },
+            "created_by": {"id": "12345678", "type": "user", "login": "cat@example", "name": "Bob Cat"},
             "event_type": "FAILED_LOGIN",
             "source": {"id": "12345678", "type": "user", "name": "Bob Cat"},
             "ip_address": "111.111.111.111",
@@ -160,12 +150,7 @@ standard_brute_force_by_ip_tests: List[PantherRuleTest] = [
         Name="Okta - Successful Login",
         ExpectedResult=False,
         Log={
-            "actor": {
-                "alternateId": "admin",
-                "displayName": "unknown",
-                "id": "unknown",
-                "type": "User",
-            },
+            "actor": {"alternateId": "admin", "displayName": "unknown", "id": "unknown", "type": "User"},
             "client": {"ipAddress": "111.111.111.111"},
             "eventType": "user.session.start",
             "outcome": {"reason": "VERIFICATION_ERROR", "result": "SUCCESS"},
@@ -184,12 +169,7 @@ standard_brute_force_by_ip_tests: List[PantherRuleTest] = [
             )
         ],
         Log={
-            "actor": {
-                "alternateId": "admin",
-                "displayName": "unknown",
-                "id": "unknown",
-                "type": "User",
-            },
+            "actor": {"alternateId": "admin", "displayName": "unknown", "id": "unknown", "type": "User"},
             "client": {"ipAddress": "111.111.111.111"},
             "eventType": "user.session.start",
             "outcome": {"reason": "VERIFICATION_ERROR", "result": "FAILURE"},
@@ -272,24 +252,14 @@ standard_brute_force_by_ip_tests: List[PantherRuleTest] = [
             )
         ],
         Log={
-            "actor": {
-                "actor_type": "user",
-                "email": "homer@springfield.com",
-                "gid": "2222222",
-                "name": "Homer",
-            },
+            "actor": {"actor_type": "user", "email": "homer@springfield.com", "gid": "2222222", "name": "Homer"},
             "context": {"client_ip_address": "8.8.8.8", "context_type": "web"},
             "created_at": "2021-10-21T23:38:10.364Z",
             "details": {"method": ["ONE_TIME_KEY"]},
             "event_category": "logins",
             "event_type": "user_login_failed",
             "gid": "222222222",
-            "resource": {
-                "email": "homer@springfield.com",
-                "gid": "2222222",
-                "name": "homer",
-                "resource_type": "user",
-            },
+            "resource": {"email": "homer@springfield.com", "gid": "2222222", "name": "homer", "resource_type": "user"},
             "p_log_type": "Asana.Audit",
             "p_parse_time": "2021-06-04 10:02:33.650807",
             "p_event_time": "2021-06-04 09:59:53.650807",
@@ -299,24 +269,14 @@ standard_brute_force_by_ip_tests: List[PantherRuleTest] = [
         Name="Asana - Normal Login",
         ExpectedResult=False,
         Log={
-            "actor": {
-                "actor_type": "user",
-                "email": "homer@springfield.com",
-                "gid": "2222222",
-                "name": "Homer",
-            },
+            "actor": {"actor_type": "user", "email": "homer@springfield.com", "gid": "2222222", "name": "Homer"},
             "context": {"client_ip_address": "8.8.8.8", "context_type": "web"},
             "created_at": "2021-10-21T23:38:10.364Z",
             "details": {"method": ["ONE_TIME_KEY"]},
             "event_category": "logins",
             "event_type": "user_login_succeeded",
             "gid": "222222222",
-            "resource": {
-                "email": "homer@springfield.com",
-                "gid": "2222222",
-                "name": "homer",
-                "resource_type": "user",
-            },
+            "resource": {"email": "homer@springfield.com", "gid": "2222222", "name": "homer", "resource_type": "user"},
             "p_log_type": "Asana.Audit",
             "p_parse_time": "2021-06-04 10:02:33.650807",
             "p_event_time": "2021-06-04 09:59:53.650807",
@@ -332,11 +292,7 @@ standard_brute_force_by_ip_tests: List[PantherRuleTest] = [
             "category": "success",
             "type": "credentials_ok",
             "country": "US",
-            "target_user": {
-                "email": "homer@springfield.gov",
-                "name": "Homer Simpson",
-                "uuid": "1234",
-            },
+            "target_user": {"email": "homer@springfield.gov", "name": "Homer Simpson", "uuid": "1234"},
             "client": {
                 "app_name": "1Password Browser Extension",
                 "app_version": "20184",
@@ -365,11 +321,7 @@ standard_brute_force_by_ip_tests: List[PantherRuleTest] = [
             "category": "credentials_failed",
             "type": "password_secret_bad",
             "country": "US",
-            "target_user": {
-                "email": "homer@springfield.gov",
-                "name": "Homer Simpson",
-                "uuid": "1234",
-            },
+            "target_user": {"email": "homer@springfield.gov", "name": "Homer Simpson", "uuid": "1234"},
             "client": {
                 "app_name": "1Password Browser Extension",
                 "app_version": "20184",
@@ -417,9 +369,7 @@ class StandardBruteForceByIP(PantherRule):
     def title(self, event):
         # use unified data model field in title
         log_type = event.get("p_log_type")
-        title_str = (
-            f"{log_type}: User [{event.udm('actor_user')}] has exceeded the failed logins threshold"
-        )
+        title_str = f"{log_type}: User [{event.udm('actor_user')}] has exceeded the failed logins threshold"
         if log_type == "AWS.CloudTrail":
             title_str += f" in [{lookup_aws_account_name(event.get('recipientAccountId'))}]"
         return title_str
@@ -432,9 +382,7 @@ class StandardBruteForceByIP(PantherRule):
         if isinstance(geoinfo, str):
             geoinfo = loads(geoinfo)
         context = {}
-        context["geolocation"] = (
-            f"{geoinfo.get('city')}, {geoinfo.get('region')} in {geoinfo.get('country')}"
-        )
+        context["geolocation"] = f"{geoinfo.get('city')}, {geoinfo.get('region')} in {geoinfo.get('country')}"
         context["ip"] = geoinfo.get("ip")
         context["reverse_lookup"] = geoinfo.get("hostname", "No reverse lookup hostname")
         context["ip_org"] = geoinfo.get("org", "No organization listed")

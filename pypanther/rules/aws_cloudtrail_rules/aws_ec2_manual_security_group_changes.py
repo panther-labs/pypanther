@@ -36,10 +36,7 @@ awsec2_manual_security_group_change_tests: List[PantherRuleTest] = [
                     ]
                 },
             },
-            "responseElements": {
-                "_return": True,
-                "requestId": "91f34d65-513d-4e9f-a3de-e8d27f7ee4b2",
-            },
+            "responseElements": {"_return": True, "requestId": "91f34d65-513d-4e9f-a3de-e8d27f7ee4b2"},
             "sourceIPAddress": "136.25.37.134",
             "userAgent": "console.ec2.amazonaws.com",
             "userIdentity": {
@@ -49,10 +46,7 @@ awsec2_manual_security_group_change_tests: List[PantherRuleTest] = [
                 "accountid": "112233445566",
                 "accesskeyid": "ASIASWJRT64Z7ZLFLJNI",
                 "sessioncontext": {
-                    "attributes": {
-                        "mfaauthenticated": "true",
-                        "creationdate": "2021-01-24T04:55:10Z",
-                    },
+                    "attributes": {"mfaauthenticated": "true", "creationdate": "2021-01-24T04:55:10Z"},
                     "sessionissuer": {
                         "type": "Role",
                         "principalid": "ARORJ4ULULLE0EEJAAKDO",
@@ -96,10 +90,7 @@ awsec2_manual_security_group_change_tests: List[PantherRuleTest] = [
                         "userName": "Operator",
                     },
                     "webIdFederationData": {},
-                    "attributes": {
-                        "mfaAuthenticated": "false",
-                        "creationDate": "2020-04-30T23:50:12Z",
-                    },
+                    "attributes": {"mfaAuthenticated": "false", "creationDate": "2020-04-30T23:50:12Z"},
                 },
             },
             "eventTime": "2020-04-30T23:51:06Z",
@@ -144,10 +135,7 @@ awsec2_manual_security_group_change_tests: List[PantherRuleTest] = [
                         "userName": "Operator",
                     },
                     "webIdFederationData": {},
-                    "attributes": {
-                        "mfaAuthenticated": "false",
-                        "creationDate": "2020-04-30T23:50:12Z",
-                    },
+                    "attributes": {"mfaAuthenticated": "false", "creationDate": "2020-04-30T23:50:12Z"},
                 },
             },
             "eventTime": "2020-04-30T23:51:08Z",
@@ -177,10 +165,7 @@ awsec2_manual_security_group_change_tests: List[PantherRuleTest] = [
                     ]
                 },
             },
-            "responseElements": {
-                "requestId": "4c7a5036-09d3-46e8-b0b6-f611ff1959a6",
-                "_return": True,
-            },
+            "responseElements": {"requestId": "4c7a5036-09d3-46e8-b0b6-f611ff1959a6", "_return": True},
             "requestID": "4c7a5036-09d3-46e8-b0b6-f611ff1959a6",
             "eventID": "1a593035-e072-49c4-8c72-4ff35e195330",
             "eventType": "AwsApiCall",
@@ -207,10 +192,7 @@ awsec2_manual_security_group_change_tests: List[PantherRuleTest] = [
                         "userName": "Operator",
                     },
                     "webIdFederationData": {},
-                    "attributes": {
-                        "mfaAuthenticated": "false",
-                        "creationDate": "2020-04-30T04:37:13Z",
-                    },
+                    "attributes": {"mfaAuthenticated": "false", "creationDate": "2020-04-30T04:37:13Z"},
                 },
             },
             "eventTime": "2020-04-30T04:40:52Z",
@@ -235,10 +217,7 @@ awsec2_manual_security_group_change_tests: List[PantherRuleTest] = [
                     ]
                 },
             },
-            "responseElements": {
-                "requestId": "2be70b99-4937-4a76-b7d9-390b6d0eda73",
-                "_return": True,
-            },
+            "responseElements": {"requestId": "2be70b99-4937-4a76-b7d9-390b6d0eda73", "_return": True},
             "requestID": "2be70b99-4937-4a76-b7d9-390b6d0eda73",
             "eventID": "42155429-7e8e-43b5-9b5e-6953f80d51d5",
             "eventType": "AwsApiCall",
@@ -277,10 +256,7 @@ awsec2_manual_security_group_change_tests: List[PantherRuleTest] = [
                     ]
                 },
             },
-            "responseElements": {
-                "_return": True,
-                "requestId": "91f34d65-513d-4e9f-a3de-e8d27f7ee4b2",
-            },
+            "responseElements": {"_return": True, "requestId": "91f34d65-513d-4e9f-a3de-e8d27f7ee4b2"},
             "sourceIPAddress": "136.25.37.134",
             "userAgent": "console.ec2.amazonaws.com",
             "userIdentity": {
@@ -290,10 +266,7 @@ awsec2_manual_security_group_change_tests: List[PantherRuleTest] = [
                 "accountid": "112233445566",
                 "accesskeyid": "ASIASWJRT64Z7ZLFLJNI",
                 "sessioncontext": {
-                    "attributes": {
-                        "mfaauthenticated": "true",
-                        "creationdate": "2021-01-24T04:55:10Z",
-                    },
+                    "attributes": {"mfaauthenticated": "true", "creationdate": "2021-01-24T04:55:10Z"},
                     "sessionissuer": {
                         "type": "Role",
                         "principalid": "ARORJ4ULULLE0EEJAAKDO",
@@ -330,9 +303,7 @@ class AWSEC2ManualSecurityGroupChange(PantherRule):
     Severity = PantherSeverity.Medium
     Description = "An EC2 security group was manually updated without abiding by the organization's accepted processes. This rule expects organizations to either use the Console, CloudFormation, or Terraform, configurable in the rule's ALLOWED_USER_AGENTS.\n"
     Runbook = "Identify the actor who changed the security group and validate it was legitimate"
-    Reference = (
-        "https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/working-with-security-groups.html"
-    )
+    Reference = "https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/working-with-security-groups.html"
     Tests = awsec2_manual_security_group_change_tests
     PROD_ACCOUNT_IDS = {"11111111111111", "112233445566"}
     SG_CHANGE_EVENTS = {
@@ -363,12 +334,7 @@ class AWSEC2ManualSecurityGroupChange(PantherRule):
             and (
                 not (
                     pattern_match_list(event.get("userAgent"), self.ALLOWED_USER_AGENTS)
-                    and any(
-                        (
-                            role in deep_get(event, "userIdentity", "arn")
-                            for role in self.ALLOWED_ROLE_NAMES
-                        )
-                    )
+                    and any((role in deep_get(event, "userIdentity", "arn") for role in self.ALLOWED_ROLE_NAMES))
                 )
             )
         )

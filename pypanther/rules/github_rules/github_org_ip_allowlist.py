@@ -62,10 +62,7 @@ class GitHubOrgIpAllowlist(PantherRule):
     ]
 
     def rule(self, event):
-        return (
-            event.get("action").startswith("ip_allow_list")
-            and event.get("action") in self.ALLOWLIST_ACTIONS
-        )
+        return event.get("action").startswith("ip_allow_list") and event.get("action") in self.ALLOWLIST_ACTIONS
 
     def title(self, event):
         return f"GitHub Org IP Allow list modified by {event.get('actor')}."

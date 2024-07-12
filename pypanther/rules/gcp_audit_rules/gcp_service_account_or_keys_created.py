@@ -28,9 +28,7 @@ gcp_service_accountor_keys_created_tests: List[PantherRuleTest] = [
                         "granted": True,
                         "permission": "iam.serviceAccountKeys.create",
                         "resource": "projects/-/serviceAccounts/123456789098765434567",
-                        "resourceAttributes": {
-                            "name": "projects/-/serviceAccounts/123456789098765434567"
-                        },
+                        "resourceAttributes": {"name": "projects/-/serviceAccounts/123456789098765434567"},
                     }
                 ],
                 "methodName": "google.iam.admin.v1.CreateServiceAccountKey",
@@ -104,10 +102,7 @@ gcp_service_accountor_keys_created_tests: List[PantherRuleTest] = [
                     "@type": "type.googleapis.com/google.iam.admin.v1.CreateServiceAccountRequest",
                     "account_id": "created-service-account",
                     "name": "projects/gcp-project1",
-                    "service_account": {
-                        "description": "sa created",
-                        "display_name": "created-service-account",
-                    },
+                    "service_account": {"description": "sa created", "display_name": "created-service-account"},
                 },
                 "requestMetadata": {
                     "callerIP": "1.2.3.4",
@@ -185,10 +180,7 @@ gcp_service_accountor_keys_created_tests: List[PantherRuleTest] = [
                     "requestAttributes": {"auth": {}, "time": "2023-04-25T19:20:57.295723118Z"},
                 },
                 "resourceName": "projects/123456789012/iap_web/compute/services/7312383563505470445",
-                "response": {
-                    "@type": "type.googleapis.com/google.iam.v1.Policy",
-                    "etag": "BwX6LgXbpsw=",
-                },
+                "response": {"@type": "type.googleapis.com/google.iam.v1.Policy", "etag": "BwX6LgXbpsw="},
                 "serviceName": "iap.googleapis.com",
             },
             "receiveTimestamp": "2023-04-25 19:20:58.16",
@@ -204,7 +196,9 @@ gcp_service_accountor_keys_created_tests: List[PantherRuleTest] = [
 
 
 class GCPServiceAccountorKeysCreated(PantherRule):
-    Description = "Detects when a service account or key is created manually by a user instead of an automated workflow."
+    Description = (
+        "Detects when a service account or key is created manually by a user instead of an automated workflow."
+    )
     DisplayName = "GCP Service Account or Keys Created "
     Reference = "https://cloud.google.com/iam/docs/keys-create-delete"
     Severity = PantherSeverity.Low
@@ -217,20 +211,14 @@ class GCPServiceAccountorKeysCreated(PantherRule):
             [
                 deep_get(event, "resource", "type", default="") == "service_account",
                 "CreateServiceAccount" in deep_get(event, "protoPayload", "methodName", default=""),
-                not deep_get(
-                    event, "protoPayload", "authenticationInfo", "principalEmail", default=""
-                ).endswith(".gserviceaccount.com"),
+                not deep_get(event, "protoPayload", "authenticationInfo", "principalEmail", default="").endswith(
+                    ".gserviceaccount.com"
+                ),
             ]
         )
 
     def title(self, event):
-        actor = deep_get(
-            event,
-            "protoPayload",
-            "authenticationInfo",
-            "principalEmail",
-            default="<ACTOR_NOT_FOUND>",
-        )
+        actor = deep_get(event, "protoPayload", "authenticationInfo", "principalEmail", default="<ACTOR_NOT_FOUND>")
         target = deep_get(event, "resource", "labels", "email_id")
         project = deep_get(event, "resource", "labels", "project_id")
         resource = (

@@ -1,5 +1,4 @@
 """Global helpers and variables used for finding matches on known indicators of compromise (IOCs)"""
-
 # pylint: disable=line-too-long
 
 # 2022-06-02 Confluence 0-Day IOCs:

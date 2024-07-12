@@ -36,12 +36,7 @@ awsec2_monitoring_tests: List[PantherRuleTest] = [
             "requestID": "e686939a-a08a-4fd6-abf5-9ea34793cf25",
             "requestParameters": {
                 "blockDeviceMapping": {
-                    "items": [
-                        {
-                            "deviceName": "/dev/xvda",
-                            "ebs": {"deleteOnTermination": True, "volumeSize": 8},
-                        }
-                    ]
+                    "items": [{"deviceName": "/dev/xvda", "ebs": {"deleteOnTermination": True, "volumeSize": 8}}]
                 },
                 "instanceId": "i-0381a3817f72a949d",
                 "name": "testimage",
@@ -60,10 +55,7 @@ awsec2_monitoring_tests: List[PantherRuleTest] = [
                 "arn": "arn:aws:sts::123456789101:assumed-role/DevAdministrator/test_user",
                 "principalId": "AROA5PZQZ5QHBULW27VAC:test_user",
                 "sessionContext": {
-                    "attributes": {
-                        "creationDate": "2022-09-29T22:22:46Z",
-                        "mfaAuthenticated": "true",
-                    },
+                    "attributes": {"creationDate": "2022-09-29T22:22:46Z", "mfaAuthenticated": "true"},
                     "sessionIssuer": {
                         "accountId": "123456789101",
                         "arn": "arn:aws:iam::123456789101:role/DevAdministrator",
@@ -117,14 +109,7 @@ awsec2_monitoring_tests: List[PantherRuleTest] = [
                 "ebsOptimized": False,
                 "instanceType": "t1.micro",
                 "instancesSet": {
-                    "items": [
-                        {
-                            "imageId": "ami-026b57f3c383c2eec",
-                            "keyName": "kp1",
-                            "maxCount": 1,
-                            "minCount": 1,
-                        }
-                    ]
+                    "items": [{"imageId": "ami-026b57f3c383c2eec", "keyName": "kp1", "maxCount": 1, "minCount": 1}]
                 },
                 "monitoring": {"enabled": False},
                 "networkInterfaceSet": {
@@ -142,9 +127,7 @@ awsec2_monitoring_tests: List[PantherRuleTest] = [
                     "hostnameType": "ip-name",
                 },
                 "tagSpecificationSet": {
-                    "items": [
-                        {"resourceType": "instance", "tags": [{"key": "Name", "value": "test2"}]}
-                    ]
+                    "items": [{"resourceType": "instance", "tags": [{"key": "Name", "value": "test2"}]}]
                 },
             },
             "responseElements": {
@@ -155,21 +138,14 @@ awsec2_monitoring_tests: List[PantherRuleTest] = [
                             "amiLaunchIndex": 0,
                             "architecture": "x86_64",
                             "blockDeviceMapping": {},
-                            "capacityReservationSpecification": {
-                                "capacityReservationPreference": "open"
-                            },
+                            "capacityReservationSpecification": {"capacityReservationPreference": "open"},
                             "cpuOptions": {"coreCount": 1, "threadsPerCore": 1},
                             "currentInstanceBootMode": "bios",
                             "ebsOptimized": False,
                             "enaSupport": True,
                             "enclaveOptions": {"enabled": False},
                             "groupSet": {
-                                "items": [
-                                    {
-                                        "groupId": "sg-0aebfa21f302bded9",
-                                        "groupName": "launch-wizard-4",
-                                    }
-                                ]
+                                "items": [{"groupId": "sg-0aebfa21f302bded9", "groupName": "launch-wizard-4"}]
                             },
                             "hypervisor": "xen",
                             "imageId": "ami-026b57f3c383c2eec",
@@ -202,10 +178,7 @@ awsec2_monitoring_tests: List[PantherRuleTest] = [
                                         },
                                         "groupSet": {
                                             "items": [
-                                                {
-                                                    "groupId": "sg-0aebfa21f302bded9",
-                                                    "groupName": "launch-wizard-4",
-                                                }
+                                                {"groupId": "sg-0aebfa21f302bded9", "groupName": "launch-wizard-4"}
                                             ]
                                         },
                                         "interfaceType": "interface",
@@ -265,10 +238,7 @@ awsec2_monitoring_tests: List[PantherRuleTest] = [
                 "arn": "arn:aws:sts::123123123123:assumed-role/DevAdministrator/temp_user",
                 "principalId": "AROA5PZQZ5QHBULW27VAC:temp_user",
                 "sessionContext": {
-                    "attributes": {
-                        "creationDate": "2022-10-20T14:14:22Z",
-                        "mfaAuthenticated": "true",
-                    },
+                    "attributes": {"creationDate": "2022-10-20T14:14:22Z", "mfaAuthenticated": "true"},
                     "sessionIssuer": {
                         "accountId": "123123123123",
                         "arn": "arn:aws:iam::123123123123:role/DevAdministrator",
@@ -333,10 +303,7 @@ awsec2_monitoring_tests: List[PantherRuleTest] = [
                 "invokedBy": "eks-nodegroup.amazonaws.com",
                 "principalId": "AROAZBD2CNPWD5DHZ366F:EKS",
                 "sessionContext": {
-                    "attributes": {
-                        "creationDate": "2022-10-13T16:35:31Z",
-                        "mfaAuthenticated": "false",
-                    },
+                    "attributes": {"creationDate": "2022-10-13T16:35:31Z", "mfaAuthenticated": "false"},
                     "sessionIssuer": {
                         "accountId": "123123123123",
                         "arn": "arn:aws:iam::123123123123:role/aws-service-role/eks-nodegroup.amazonaws.com/AWSServiceRoleForAmazonEKSNodegroup",
@@ -368,12 +335,7 @@ awsec2_monitoring_tests: List[PantherRuleTest] = [
             "requestID": "e686939a-a08a-4fd6-abf5-ffffffffffff",
             "requestParameters": {
                 "blockDeviceMapping": {
-                    "items": [
-                        {
-                            "deviceName": "/dev/xvda",
-                            "ebs": {"deleteOnTermination": True, "volumeSize": 8},
-                        }
-                    ]
+                    "items": [{"deviceName": "/dev/xvda", "ebs": {"deleteOnTermination": True, "volumeSize": 8}}]
                 },
                 "instanceId": "i-0381a3817f72a949d",
                 "name": "testimage",
@@ -393,10 +355,7 @@ awsec2_monitoring_tests: List[PantherRuleTest] = [
                 "principalId": "AROA5PZQZ5QHBULW27VAC:test_user",
                 "invokedBy": None,
                 "sessionContext": {
-                    "attributes": {
-                        "creationDate": "2022-09-29T22:22:46Z",
-                        "mfaAuthenticated": "true",
-                    },
+                    "attributes": {"creationDate": "2022-09-29T22:22:46Z", "mfaAuthenticated": "true"},
                     "sessionIssuer": {
                         "accountId": "123456789101",
                         "arn": "arn:aws:iam::123456789101:role/DevAdministrator",

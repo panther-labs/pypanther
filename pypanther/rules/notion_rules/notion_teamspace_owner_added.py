@@ -23,11 +23,7 @@ notion_teamspace_owner_added_tests: List[PantherRuleTest] = [
                         "type": "person",
                     },
                     "role": "member",
-                    "target": {
-                        "id": "b8db234d-71eb-49e2-a5ed-7935ca764920",
-                        "name": "General",
-                        "object": "teamspace",
-                    },
+                    "target": {"id": "b8db234d-71eb-49e2-a5ed-7935ca764920", "name": "General", "object": "teamspace"},
                 },
                 "id": "eed75a56-ca1b-453b-afd8-73789bc19398",
                 "ip_address": "11.22.33.44",
@@ -57,11 +53,7 @@ notion_teamspace_owner_added_tests: List[PantherRuleTest] = [
                         "type": "person",
                     },
                     "new_role": "owner",
-                    "target": {
-                        "id": "b8db234d-71eb-49e2-a5ed-7935ca764920",
-                        "name": "General",
-                        "object": "teamspace",
-                    },
+                    "target": {"id": "b8db234d-71eb-49e2-a5ed-7935ca764920", "name": "General", "object": "teamspace"},
                 },
                 "id": "6019b995-0158-4430-8263-89ad7905bd1d",
                 "ip_address": "11.22.33.44",
@@ -91,20 +83,15 @@ class NotionTeamspaceOwnerAdded(PantherRule):
             and event.deep_get("event", "details", "role", default="") == "owner"
         )
         updated = (
-            event.deep_get("event", "type", default="")
-            == "teamspace.permissions.member_role_updated"
+            event.deep_get("event", "type", default="") == "teamspace.permissions.member_role_updated"
             and event.deep_get("event", "details", "new_role", default="") == "owner"
         )
         return added or updated
 
     def title(self, event):
         actor = event.deep_get("event", "actor", "person", "email", default="NO_ACTOR_FOUND")
-        member = event.deep_get(
-            "event", "details", "member", "person", "email", default="NO_MEMBER_FOUND"
-        )
-        teamspace = event.deep_get(
-            "event", "details", "target", "name", default="NO_TEAMSPACE_FOUND"
-        )
+        member = event.deep_get("event", "details", "member", "person", "email", default="NO_MEMBER_FOUND")
+        teamspace = event.deep_get("event", "details", "target", "name", default="NO_TEAMSPACE_FOUND")
         return f"[{actor}] added [{member}] as owner of [{teamspace}] Teamspace"
 
     def alert_context(self, event):

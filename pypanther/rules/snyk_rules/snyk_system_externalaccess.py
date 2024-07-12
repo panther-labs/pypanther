@@ -53,13 +53,9 @@ class SnykSystemExternalAccess(PantherRule):
     LogTypes = [PantherLogType.Snyk_GroupAudit, PantherLogType.Snyk_OrgAudit]
     Tags = ["Snyk"]
     Severity = PantherSeverity.High
-    Description = (
-        "Detects when Snyk Settings that control access for external parties have been changed.\n"
-    )
+    Description = "Detects when Snyk Settings that control access for external parties have been changed.\n"
     Runbook = "This action in the Snyk Audit logs indicate that the setting for allowing external parties to request access to your Snyk installation have changed.\n"
-    Reference = (
-        "https://docs.snyk.io/snyk-admin/manage-users-and-permissions/organization-access-requests"
-    )
+    Reference = "https://docs.snyk.io/snyk-admin/manage-users-and-permissions/organization-access-requests"
     SummaryAttributes = ["event"]
     Tests = snyk_system_external_access_tests
     ACTIONS = ["group.request_access_settings.edit", "org.request_access_settings.edit"]

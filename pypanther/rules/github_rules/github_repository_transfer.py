@@ -81,11 +81,7 @@ class GithubRepositoryTransfer(PantherRule):
 
     def rule(self, event):
         # Return True to match the log event and trigger an alert.
-        return event.get("action", "") in (
-            "repo.transfer",
-            "repo.transfer_outgoing",
-            "repo.transfer_start",
-        )
+        return event.get("action", "") in ("repo.transfer", "repo.transfer_outgoing", "repo.transfer_start")
 
     def title(self, event):
         # (Optional) Return a string which will be shown as the alert title.

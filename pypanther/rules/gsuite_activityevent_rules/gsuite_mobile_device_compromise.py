@@ -23,10 +23,7 @@ g_suite_device_compromise_tests: List[PantherRuleTest] = [
             "actor": {"callerType": "USER", "email": "homer.simpson@example.io"},
             "type": "device_updates",
             "name": "DEVICE_COMPROMISED_EVENT",
-            "parameters": {
-                "USER_EMAIL": "homer.simpson@example.io",
-                "DEVICE_COMPROMISED_STATE": "NOT_COMPROMISED",
-            },
+            "parameters": {"USER_EMAIL": "homer.simpson@example.io", "DEVICE_COMPROMISED_STATE": "NOT_COMPROMISED"},
         },
     ),
     PantherRuleTest(
@@ -37,10 +34,7 @@ g_suite_device_compromise_tests: List[PantherRuleTest] = [
             "actor": {"callerType": "USER", "email": "homer.simpson@example.io"},
             "type": "device_updates",
             "name": "DEVICE_COMPROMISED_EVENT",
-            "parameters": {
-                "USER_EMAIL": "homer.simpson@example.io",
-                "DEVICE_COMPROMISED_STATE": "COMPROMISED",
-            },
+            "parameters": {"USER_EMAIL": "homer.simpson@example.io", "DEVICE_COMPROMISED_STATE": "COMPROMISED"},
         },
     ),
 ]
@@ -66,4 +60,6 @@ class GSuiteDeviceCompromise(PantherRule):
         return False
 
     def title(self, event):
-        return f"User [{deep_get(event, 'parameters', 'USER_EMAIL', default='<UNKNOWN_USER>')}]'s device was compromised"
+        return (
+            f"User [{deep_get(event, 'parameters', 'USER_EMAIL', default='<UNKNOWN_USER>')}]'s device was compromised"
+        )

@@ -38,7 +38,9 @@ carbon_black_audit_flagged_tests: List[PantherRuleTest] = [
 class CarbonBlackAuditFlagged(PantherRule):
     RuleID = "CarbonBlack.Audit.Flagged-prototype"
     LogTypes = [PantherLogType.CarbonBlack_Audit]
-    Description = "Detects when Carbon Black has flagged a log as important, such as failed login attempts and locked accounts."
+    Description = (
+        "Detects when Carbon Black has flagged a log as important, such as failed login attempts and locked accounts."
+    )
     DisplayName = "Carbon Black Log Entry Flagged"
     Severity = PantherSeverity.High
     Tags = ["Credential Access", "Brute Force"]

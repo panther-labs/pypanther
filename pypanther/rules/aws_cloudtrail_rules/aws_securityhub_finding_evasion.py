@@ -18,11 +18,7 @@ aws_security_hub_finding_evasion_tests: List[PantherRuleTest] = [
             "readOnly": False,
             "recipientAccountId": "012345678901",
             "requestID": "c0fffccd-f04d-11e8-93fc-ddcd14710066",
-            "requestParameters": {
-                "Filters": {},
-                "Name": "Test Insight",
-                "ResultField": "ResourceId",
-            },
+            "requestParameters": {"Filters": {}, "Name": "Test Insight", "ResultField": "ResourceId"},
             "responseElements": {
                 "InsightArn": "arn:aws:securityhub:us-west-2:0123456789010:insight/custom/f4c4890b-ac6b-4c26-95f9-e62cc46f3055"
             },
@@ -52,11 +48,7 @@ aws_security_hub_finding_evasion_tests: List[PantherRuleTest] = [
             "readOnly": False,
             "recipientAccountId": "012345678901",
             "requestID": "c0fffccd-f04d-11e8-93fc-ddcd14710066",
-            "requestParameters": {
-                "Filters": {},
-                "Name": "Test Insight",
-                "ResultField": "ResourceId",
-            },
+            "requestParameters": {"Filters": {}, "Name": "Test Insight", "ResultField": "ResourceId"},
             "responseElements": {
                 "InsightArn": "arn:aws:securityhub:us-west-2:0123456789010:insight/custom/f4c4890b-ac6b-4c26-95f9-e62cc46f3055"
             },
@@ -86,11 +78,7 @@ aws_security_hub_finding_evasion_tests: List[PantherRuleTest] = [
             "readOnly": False,
             "recipientAccountId": "012345678901",
             "requestID": "c0fffccd-f04d-11e8-93fc-ddcd14710066",
-            "requestParameters": {
-                "Filters": {},
-                "Name": "Test Insight",
-                "ResultField": "ResourceId",
-            },
+            "requestParameters": {"Filters": {}, "Name": "Test Insight", "ResultField": "ResourceId"},
             "responseElements": {
                 "InsightArn": "arn:aws:securityhub:us-west-2:0123456789010:insight/custom/f4c4890b-ac6b-4c26-95f9-e62cc46f3055"
             },

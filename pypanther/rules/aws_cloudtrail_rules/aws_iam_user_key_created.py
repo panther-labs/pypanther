@@ -38,10 +38,7 @@ awsiam_backdoor_user_keys_tests: List[PantherRuleTest] = [
                 "invokedBy": "cloudformation.amazonaws.com",
                 "principalId": "ABCDEFGH",
                 "sessionContext": {
-                    "attributes": {
-                        "creationDate": "2022-09-27T17:08:35Z",
-                        "mfaAuthenticated": "false",
-                    },
+                    "attributes": {"creationDate": "2022-09-27T17:08:35Z", "mfaAuthenticated": "false"},
                     "sessionIssuer": {},
                     "webIdFederationData": {},
                 },
@@ -83,10 +80,7 @@ awsiam_backdoor_user_keys_tests: List[PantherRuleTest] = [
                 "invokedBy": "cloudformation.amazonaws.com",
                 "principalId": "ABCDEFGH",
                 "sessionContext": {
-                    "attributes": {
-                        "creationDate": "2022-09-27T17:08:35Z",
-                        "mfaAuthenticated": "false",
-                    },
+                    "attributes": {"creationDate": "2022-09-27T17:08:35Z", "mfaAuthenticated": "false"},
                     "sessionIssuer": {},
                     "webIdFederationData": {},
                 },
@@ -128,10 +122,7 @@ awsiam_backdoor_user_keys_tests: List[PantherRuleTest] = [
                 "invokedBy": "cloudformation.amazonaws.com",
                 "principalId": "ABCDEFGH",
                 "sessionContext": {
-                    "attributes": {
-                        "creationDate": "2022-09-27T17:08:35Z",
-                        "mfaAuthenticated": "false",
-                    },
+                    "attributes": {"creationDate": "2022-09-27T17:08:35Z", "mfaAuthenticated": "false"},
                     "sessionIssuer": {},
                     "webIdFederationData": {},
                 },
@@ -173,10 +164,7 @@ awsiam_backdoor_user_keys_tests: List[PantherRuleTest] = [
                 "invokedBy": "cloudformation.amazonaws.com",
                 "principalId": "ABCDEFGH",
                 "sessionContext": {
-                    "attributes": {
-                        "creationDate": "2022-09-27T17:08:35Z",
-                        "mfaAuthenticated": "false",
-                    },
+                    "attributes": {"creationDate": "2022-09-27T17:08:35Z", "mfaAuthenticated": "false"},
                     "sessionIssuer": {},
                     "webIdFederationData": {},
                 },
@@ -216,10 +204,7 @@ awsiam_backdoor_user_keys_tests: List[PantherRuleTest] = [
                 "arn": "arn:aws:iam::123456789012:user/some_iam_user",
                 "principalId": "AIDA55555555555555555",
                 "sessionContext": {
-                    "attributes": {
-                        "creationDate": "2023-01-03T01:52:07Z",
-                        "mfaAuthenticated": "true",
-                    },
+                    "attributes": {"creationDate": "2023-01-03T01:52:07Z", "mfaAuthenticated": "true"},
                     "sessionIssuer": {},
                     "webIdFederationData": {},
                 },

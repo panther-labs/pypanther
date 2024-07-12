@@ -17,10 +17,7 @@ awss3_bucket_policy_modified_tests: List[PantherRuleTest] = [
                 "accountId": "123456789012",
                 "accessKeyId": "1",
                 "sessionContext": {
-                    "attributes": {
-                        "mfaAuthenticated": "true",
-                        "creationDate": "2019-01-01T00:00:00Z",
-                    },
+                    "attributes": {"mfaAuthenticated": "true", "creationDate": "2019-01-01T00:00:00Z"},
                     "sessionIssuer": {
                         "type": "Role",
                         "principalId": "1111",
@@ -66,10 +63,7 @@ awss3_bucket_policy_modified_tests: List[PantherRuleTest] = [
                 "accountId": "123456789012",
                 "accessKeyId": "1",
                 "sessionContext": {
-                    "attributes": {
-                        "mfaAuthenticated": "true",
-                        "creationDate": "2019-01-01T00:00:00Z",
-                    },
+                    "attributes": {"mfaAuthenticated": "true", "creationDate": "2019-01-01T00:00:00Z"},
                     "sessionIssuer": {
                         "type": "Role",
                         "principalId": "1111",
@@ -116,10 +110,7 @@ awss3_bucket_policy_modified_tests: List[PantherRuleTest] = [
                 "accountId": "123456789012",
                 "accessKeyId": "1",
                 "sessionContext": {
-                    "attributes": {
-                        "mfaAuthenticated": "false",
-                        "creationDate": "2019-01-01T00:00:00Z",
-                    },
+                    "attributes": {"mfaAuthenticated": "false", "creationDate": "2019-01-01T00:00:00Z"},
                     "sessionIssuer": {
                         "type": "Role",
                         "principalId": "1111",
@@ -164,9 +155,7 @@ class AWSS3BucketPolicyModified(PantherRule):
     Severity = PantherSeverity.Info
     DedupPeriodMinutes = 720
     Description = "An S3 Bucket was modified.\n"
-    Runbook = (
-        "https://docs.runpanther.io/alert-runbooks/built-in-rules/aws-s3-bucket-policy-modified"
-    )
+    Runbook = "https://docs.runpanther.io/alert-runbooks/built-in-rules/aws-s3-bucket-policy-modified"
     Reference = "https://docs.aws.amazon.com/AmazonS3/latest/dev/using-iam-policies.html"
     SummaryAttributes = ["eventName", "userAgent", "sourceIpAddress", "p_any_aws_arns"]
     Tests = awss3_bucket_policy_modified_tests
@@ -184,9 +173,7 @@ class AWSS3BucketPolicyModified(PantherRule):
     }
 
     def rule(self, event):
-        return event.get("eventName") in self.S3_POLICY_CHANGE_EVENTS and aws_cloudtrail_success(
-            event
-        )
+        return event.get("eventName") in self.S3_POLICY_CHANGE_EVENTS and aws_cloudtrail_success(event)
 
     def title(self, event):
         return f"S3 bucket modified by [{deep_get(event, 'userIdentity', 'arn')}]"

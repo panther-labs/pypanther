@@ -139,19 +139,12 @@ sentinel_one_alert_passthrough_tests: List[PantherRuleTest] = [
 class SentinelOneAlertPassthrough(PantherRule):
     Description = "SentinelOne Alert Passthrough"
     DisplayName = "SentinelOne Alert Passthrough"
-    Reference = (
-        "https://www.sentinelone.com/blog/feature-spotlight-introducing-the-new-threat-center/"
-    )
+    Reference = "https://www.sentinelone.com/blog/feature-spotlight-introducing-the-new-threat-center/"
     Severity = PantherSeverity.High
     LogTypes = [PantherLogType.SentinelOne_Activity]
     RuleID = "SentinelOne.Alert.Passthrough-prototype"
     Tests = sentinel_one_alert_passthrough_tests
-    SENTINELONE_SEVERITY = {
-        "E_LOW": "LOW",
-        "E_MEDIUM": "MEDIUM",
-        "E_HIGH": "HIGH",
-        "E_CRITICAL": "CRITICAL",
-    }
+    SENTINELONE_SEVERITY = {"E_LOW": "LOW", "E_MEDIUM": "MEDIUM", "E_HIGH": "HIGH", "E_CRITICAL": "CRITICAL"}
 
     def rule(self, event):
         # 3608 corresponds to new alerts
@@ -164,9 +157,7 @@ class SentinelOneAlertPassthrough(PantherRule):
         return f"s1alerts:{event.get('id')}"
 
     def severity(self, event):
-        return self.SENTINELONE_SEVERITY.get(
-            deep_get(event, "data", "severity", default=""), "MEDIUM"
-        )
+        return self.SENTINELONE_SEVERITY.get(deep_get(event, "data", "severity", default=""), "MEDIUM")
 
     def alert_context(self, event):
         data_cleaned = {k: v for k, v in event.get("data", {}).items() if v != ""}

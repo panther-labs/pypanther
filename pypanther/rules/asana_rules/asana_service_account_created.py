@@ -70,11 +70,7 @@ asana_service_account_created_tests: List[PantherRuleTest] = [
             "event_category": "apps",
             "event_type": "service_account_created",
             "gid": "12345",
-            "resource": {
-                "gid": "12345",
-                "name": "Datadog Service Account",
-                "resource_type": "user",
-            },
+            "resource": {"gid": "12345", "name": "Datadog Service Account", "resource_type": "user"},
         },
     ),
 ]

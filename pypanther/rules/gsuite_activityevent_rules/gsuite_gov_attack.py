@@ -35,9 +35,7 @@ class GSuiteGovernmentBackedAttack(PantherRule):
     LogTypes = [PantherLogType.GSuite_ActivityEvent]
     Tags = ["GSuite"]
     Severity = PantherSeverity.Critical
-    Description = (
-        "GSuite reported that it detected a government backed attack against your account.\n"
-    )
+    Description = "GSuite reported that it detected a government backed attack against your account.\n"
     Reference = "https://support.google.com/a/answer/9007870?hl=en"
     Runbook = "Followup with GSuite support for more details.\n"
     SummaryAttributes = ["actor:email"]

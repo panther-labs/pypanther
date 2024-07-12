@@ -56,7 +56,9 @@ asana_workspace_email_domain_added_tests: List[PantherRuleTest] = [
 class AsanaWorkspaceEmailDomainAdded(PantherRule):
     Description = "A new email domain has been added to an Asana workspace. Reviewer should validate that the new domain is a part of the organization. "
     DisplayName = "Asana Workspace Email Domain Added"
-    Reference = "https://help.asana.com/hc/en-us/articles/15901227439515-Email-domain-management-for-Asana-organizations"
+    Reference = (
+        "https://help.asana.com/hc/en-us/articles/15901227439515-Email-domain-management-for-Asana-organizations"
+    )
     Severity = PantherSeverity.Low
     LogTypes = [PantherLogType.Asana_Audit]
     RuleID = "Asana.Workspace.Email.Domain.Added-prototype"

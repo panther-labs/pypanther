@@ -16,10 +16,7 @@ gcpk8s_pod_attached_to_node_host_network_tests: List[PantherRuleTest] = [
                     "resource": "core/v1/namespaces/default/pods/nginx-test",
                 }
             ],
-            "protoPayload": {
-                "methodName": "io.k8s.core.v1.pods.create",
-                "request": {"spec": {"hostNetwork": True}},
-            },
+            "protoPayload": {"methodName": "io.k8s.core.v1.pods.create", "request": {"spec": {"hostNetwork": True}}},
         },
     ),
     PantherRuleTest(
@@ -33,10 +30,7 @@ gcpk8s_pod_attached_to_node_host_network_tests: List[PantherRuleTest] = [
                     "resource": "core/v1/namespaces/default/pods/nginx-test",
                 }
             ],
-            "protoPayload": {
-                "methodName": "io.k8s.core.v1.pods.create",
-                "request": {"spec": {"hostNetwork": False}},
-            },
+            "protoPayload": {"methodName": "io.k8s.core.v1.pods.create", "request": {"spec": {"hostNetwork": False}}},
         },
     ),
 ]
@@ -67,16 +61,8 @@ class GCPK8sPodAttachedToNodeHostNetwork(PantherRule):
         return True
 
     def title(self, event):
-        actor = deep_get(
-            event,
-            "protoPayload",
-            "authenticationInfo",
-            "principalEmail",
-            default="<ACTOR_NOT_FOUND>",
-        )
-        project_id = deep_get(
-            event, "resource", "labels", "project_id", default="<PROJECT_NOT_FOUND>"
-        )
+        actor = deep_get(event, "protoPayload", "authenticationInfo", "principalEmail", default="<ACTOR_NOT_FOUND>")
+        project_id = deep_get(event, "resource", "labels", "project_id", default="<PROJECT_NOT_FOUND>")
         return f"[GCP]: [{actor}] created or modified pod which is attached to the host's network in project [{project_id}]"
 
     def alert_context(self, event):

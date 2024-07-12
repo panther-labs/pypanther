@@ -72,9 +72,7 @@ class MongoDBAtlasApiKeyCreated(PantherRule):
     Description = "A MongoDB Atlas api key's access list was updated"
     DisplayName = "MongoDB Atlas API Key Created"
     Severity = PantherSeverity.Medium
-    Reference = (
-        "https://www.mongodb.com/docs/atlas/configure-api-access/#std-label-about-org-api-keys"
-    )
+    Reference = "https://www.mongodb.com/docs/atlas/configure-api-access/#std-label-about-org-api-keys"
     LogTypes = [PantherLogType.MongoDB_OrganizationEvent]
     RuleID = "MongoDB.Atlas.ApiKeyCreated-prototype"
     Tests = mongo_db_atlas_api_key_created_tests
@@ -93,9 +91,7 @@ class MongoDBAtlasApiKeyCreated(PantherRule):
         extra_context = {
             "links": links,
             "event_type_name": deep_get(event, "eventTypeName", default="<EVENT_TYPE_NOT_FOUND>"),
-            "target_public_key": deep_get(
-                event, "targetPublicKey", default="<PUBLIC_KEY_NOT_FOUND>"
-            ),
+            "target_public_key": deep_get(event, "targetPublicKey", default="<PUBLIC_KEY_NOT_FOUND>"),
         }
         context.update(extra_context)
         return context

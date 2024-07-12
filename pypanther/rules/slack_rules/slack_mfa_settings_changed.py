@@ -11,12 +11,7 @@ slack_audit_logs_mfa_settings_changed_tests: List[PantherRuleTest] = [
             "action": "pref.two_factor_auth_changed",
             "actor": {
                 "type": "user",
-                "user": {
-                    "email": "user@example.com",
-                    "id": "A012B3CDEFG",
-                    "name": "username",
-                    "team": "T01234N56GB",
-                },
+                "user": {"email": "user@example.com", "id": "A012B3CDEFG", "name": "username", "team": "T01234N56GB"},
             },
             "context": {
                 "ip_address": "1.2.3.4",
@@ -74,18 +69,11 @@ class SlackAuditLogsMFASettingsChanged(PantherRule):
     RuleID = "Slack.AuditLogs.MFASettingsChanged-prototype"
     DisplayName = "Slack MFA Settings Changed"
     LogTypes = [PantherLogType.Slack_AuditLogs]
-    Tags = [
-        "Slack",
-        "Defense Evasion",
-        "Modify Authentication Process",
-        "Multi-Factor Authentication",
-    ]
+    Tags = ["Slack", "Defense Evasion", "Modify Authentication Process", "Multi-Factor Authentication"]
     Reports = {"MITRE ATT&CK": ["TA0005:T1556.006"]}
     Severity = PantherSeverity.High
     Description = "Detects changes to Multi-Factor Authentication requirements"
-    Reference = (
-        "https://slack.com/intl/en-gb/help/articles/204509068-Set-up-two-factor-authentication"
-    )
+    Reference = "https://slack.com/intl/en-gb/help/articles/204509068-Set-up-two-factor-authentication"
     SummaryAttributes = ["p_any_ip_addresses", "p_any_emails"]
     Tests = slack_audit_logs_mfa_settings_changed_tests
 

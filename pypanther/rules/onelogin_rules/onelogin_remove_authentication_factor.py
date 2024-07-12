@@ -34,11 +34,7 @@ class OneLoginAuthFactorRemoved(PantherRule):
     RuleID = "OneLogin.AuthFactorRemoved-prototype"
     DisplayName = "OneLogin Authentication Factor Removed"
     LogTypes = [PantherLogType.OneLogin_Events]
-    Tags = [
-        "OneLogin",
-        "Identity & Access Management",
-        "Defense Evasion:Modify Authentication Process",
-    ]
+    Tags = ["OneLogin", "Identity & Access Management", "Defense Evasion:Modify Authentication Process"]
     Reports = {"MITRE ATT&CK": ["TA0005:T1556"]}
     Severity = PantherSeverity.Low
     Description = "A user removed an authentication factor or otp device.\n"

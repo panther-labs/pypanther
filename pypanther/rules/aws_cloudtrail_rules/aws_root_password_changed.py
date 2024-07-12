@@ -70,9 +70,7 @@ class AWSCloudTrailRootPasswordChanged(PantherRule):
     Reports = {"MITRE ATT&CK": ["TA0003:T1098"]}
     Description = "Someone manually changed the Root console login password.\n"
     Runbook = "Verify that the root password change was authorized. If not, AWS support should be contacted immediately as the root account cannot be recovered through normal means and grants complete access to the account.\n"
-    Reference = (
-        "https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_passwords_change-root.html"
-    )
+    Reference = "https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_passwords_change-root.html"
     SummaryAttributes = ["userAgent", "sourceIpAddress", "recipientAccountId", "p_any_aws_arns"]
     Tests = aws_cloud_trail_root_password_changed_tests
 

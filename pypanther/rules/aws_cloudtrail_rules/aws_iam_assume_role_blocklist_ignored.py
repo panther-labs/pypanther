@@ -35,11 +35,7 @@ aws_cloud_trail_iam_assume_role_blacklist_ignored_tests: List[PantherRuleTest] =
                     "arn": "arn:aws:sts::123456789012:assumed-role/FullAdminRole/1111",
                     "assumedRoleId": "ABCD:1111",
                 },
-                "credentials": {
-                    "accessKeyId": "1111",
-                    "expiration": "Jan 01, 2019 0:00:00 PM",
-                    "sessionToken": "1111",
-                },
+                "credentials": {"accessKeyId": "1111", "expiration": "Jan 01, 2019 0:00:00 PM", "sessionToken": "1111"},
             },
             "sharedEventID": "1111",
             "sourceIPAddress": "111.111.111.111",
@@ -50,12 +46,7 @@ aws_cloud_trail_iam_assume_role_blacklist_ignored_tests: List[PantherRuleTest] =
                 "accountId": "123456789012",
                 "arn": "arn:aws:iam::123456789012:user/example-user",
                 "principalId": "1111",
-                "sessionContext": {
-                    "attributes": {
-                        "creationDate": "2019-01-01T00:00:00Z",
-                        "mfaAuthenticated": "true",
-                    }
-                },
+                "sessionContext": {"attributes": {"creationDate": "2019-01-01T00:00:00Z", "mfaAuthenticated": "true"}},
                 "type": "IAMUser",
                 "userName": "example-user",
             },
@@ -91,11 +82,7 @@ aws_cloud_trail_iam_assume_role_blacklist_ignored_tests: List[PantherRuleTest] =
                     "arn": "arn:aws:sts::123456789012:assumed-role/example-role/1111",
                     "assumedRoleId": "ABCD:1111",
                 },
-                "credentials": {
-                    "accessKeyId": "1111",
-                    "expiration": "Jan 01, 2019 0:00:00 PM",
-                    "sessionToken": "1111",
-                },
+                "credentials": {"accessKeyId": "1111", "expiration": "Jan 01, 2019 0:00:00 PM", "sessionToken": "1111"},
             },
             "sharedEventID": "1111",
             "sourceIPAddress": "111.111.111.111",
@@ -106,12 +93,7 @@ aws_cloud_trail_iam_assume_role_blacklist_ignored_tests: List[PantherRuleTest] =
                 "accountId": "123456789012",
                 "arn": "arn:aws:iam::123456789012:user/example-user",
                 "principalId": "1111",
-                "sessionContext": {
-                    "attributes": {
-                        "creationDate": "2019-01-01T00:00:00Z",
-                        "mfaAuthenticated": "true",
-                    }
-                },
+                "sessionContext": {"attributes": {"creationDate": "2019-01-01T00:00:00Z", "mfaAuthenticated": "true"}},
                 "type": "IAMUser",
                 "userName": "example-user",
             },
@@ -148,11 +130,7 @@ aws_cloud_trail_iam_assume_role_blacklist_ignored_tests: List[PantherRuleTest] =
                     "arn": "arn:aws:sts::123456789012:assumed-role/FullAdminRole/1111",
                     "assumedRoleId": "ABCD:1111",
                 },
-                "credentials": {
-                    "accessKeyId": "1111",
-                    "expiration": "Jan 01, 2019 0:00:00 PM",
-                    "sessionToken": "1111",
-                },
+                "credentials": {"accessKeyId": "1111", "expiration": "Jan 01, 2019 0:00:00 PM", "sessionToken": "1111"},
             },
             "sharedEventID": "1111",
             "sourceIPAddress": "111.111.111.111",
@@ -163,12 +141,7 @@ aws_cloud_trail_iam_assume_role_blacklist_ignored_tests: List[PantherRuleTest] =
                 "accountId": "123456789012",
                 "arn": "arn:aws:iam::123456789012:user/example-user",
                 "principalId": "1111",
-                "sessionContext": {
-                    "attributes": {
-                        "creationDate": "2019-01-01T00:00:00Z",
-                        "mfaAuthenticated": "true",
-                    }
-                },
+                "sessionContext": {"attributes": {"creationDate": "2019-01-01T00:00:00Z", "mfaAuthenticated": "true"}},
                 "type": "IAMUser",
                 "userName": "example-user",
             },
@@ -190,9 +163,7 @@ class AWSCloudTrailIAMAssumeRoleBlacklistIgnored(PantherRule):
     ]
     Reports = {"MITRE ATT&CK": ["TA0004:T1548"]}
     Severity = PantherSeverity.High
-    Description = (
-        "A user assumed a role that was explicitly blocklisted for manual user assumption.\n"
-    )
+    Description = "A user assumed a role that was explicitly blocklisted for manual user assumption.\n"
     Runbook = "Verify that this was an approved assume role action. If not, consider revoking the access immediately and updating the AssumeRolePolicyDocument to prevent this from happening again.\n"
     Reference = "https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_boundaries.html"
     SummaryAttributes = ["userAgent", "sourceIpAddress", "recipientAccountId", "p_any_aws_arns"]

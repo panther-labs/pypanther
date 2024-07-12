@@ -68,8 +68,7 @@ class AsanaWorkspaceSAMLOptional(PantherRule):
         new_val = deep_get(event, "details", "new_value", default="<NEW_VAL_NOT_FOUND>")
         return all(
             [
-                event.get("event_type", "<NO_EVENT_TYPE_FOUND>")
-                == "workspace_saml_settings_changed",
+                event.get("event_type", "<NO_EVENT_TYPE_FOUND>") == "workspace_saml_settings_changed",
                 old_val == "required",
                 new_val == "optional",
             ]

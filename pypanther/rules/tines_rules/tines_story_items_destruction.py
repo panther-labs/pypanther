@@ -47,15 +47,14 @@ class TinesStoryItemsDestruction(PantherRule):
     Tags = ["Tines"]
     Severity = PantherSeverity.Info
     Description = "A user has destroyed a story item"
-    Runbook = "Possible data destruction. Please reach out to the user and confirm this was done for valid business reasons."
+    Runbook = (
+        "Possible data destruction. Please reach out to the user and confirm this was done for valid business reasons."
+    )
     Reference = "https://www.tines.com/docs/stories"
     Tests = tines_story_items_destruction_tests
 
     def rule(self, event):
-        return (
-            deep_get(event, "operation_name", default="<NO_OPERATION_NAME>")
-            == "StoryItemsDestruction"
-        )
+        return deep_get(event, "operation_name", default="<NO_OPERATION_NAME>") == "StoryItemsDestruction"
 
     def title(self, event):
         operation = deep_get(event, "operation_name", default="<NO_OPERATION_NAME>")

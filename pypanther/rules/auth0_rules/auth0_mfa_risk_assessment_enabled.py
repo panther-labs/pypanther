@@ -370,9 +370,7 @@ auth0_mfa_risk_assessment_enabled_tests: List[PantherRuleTest] = [
 
 
 class Auth0MFARiskAssessmentEnabled(PantherRule):
-    Description = (
-        "An Auth0 User enabled the mfa risk assessment setting for your organization's tenant."
-    )
+    Description = "An Auth0 User enabled the mfa risk assessment setting for your organization's tenant."
     DisplayName = "Auth0 MFA Risk Assessment Enabled"
     Runbook = "Assess if this was done by the user for a valid business reason. Be vigilant when enabling this setting as it's in the best security interest for your organization's security posture."
     Reference = "https://auth0.com/docs/secure/multi-factor-authentication/enable-mfa#:~:text=Always%20policy%2C%20the-,MFA%20Risk%20Assessors,-section%20appears.%20By"
@@ -382,15 +380,9 @@ class Auth0MFARiskAssessmentEnabled(PantherRule):
     Tests = auth0_mfa_risk_assessment_enabled_tests
 
     def rule(self, event):
-        data_description = deep_get(
-            event, "data", "description", default="<NO_DATA_DESCRIPTION_FOUND>"
-        )
-        request_path = deep_get(
-            event, "data", "details", "request", "path", default="<NO_REQUEST_PATH_FOUND>"
-        )
-        request_body = deep_get(
-            event, "data", "details", "request", "body", "AfterAuthentication", default=[]
-        )
+        data_description = deep_get(event, "data", "description", default="<NO_DATA_DESCRIPTION_FOUND>")
+        request_path = deep_get(event, "data", "details", "request", "path", default="<NO_REQUEST_PATH_FOUND>")
+        request_body = deep_get(event, "data", "details", "request", "body", "AfterAuthentication", default=[])
         return all(
             [
                 data_description == "Updates risk assessment configs",
@@ -401,9 +393,7 @@ class Auth0MFARiskAssessmentEnabled(PantherRule):
         )
 
     def title(self, event):
-        user = deep_get(
-            event, "data", "details", "request", "auth", "user", "email", default="<NO_USER_FOUND>"
-        )
+        user = deep_get(event, "data", "details", "request", "auth", "user", "email", default="<NO_USER_FOUND>")
         p_source_label = deep_get(event, "p_source_label", default="<NO_P_SOURCE_LABEL_FOUND>")
         return f"Auth0 User [{user}] enabled mfa risk assessment settings for your organization’s tenant [{p_source_label}]."
 

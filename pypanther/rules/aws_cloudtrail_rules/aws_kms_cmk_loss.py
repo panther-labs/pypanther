@@ -17,10 +17,7 @@ awskms_customer_managed_key_loss_tests: List[PantherRuleTest] = [
                 "accountId": "123456789012",
                 "accessKeyId": "1",
                 "sessionContext": {
-                    "attributes": {
-                        "mfaAuthenticated": "true",
-                        "creationDate": "2019-01-01T00:00:00Z",
-                    },
+                    "attributes": {"mfaAuthenticated": "true", "creationDate": "2019-01-01T00:00:00Z"},
                     "sessionIssuer": {
                         "type": "Role",
                         "principalId": "1111",
@@ -64,10 +61,7 @@ awskms_customer_managed_key_loss_tests: List[PantherRuleTest] = [
                 "accountId": "123456789012",
                 "accessKeyId": "1",
                 "sessionContext": {
-                    "attributes": {
-                        "mfaAuthenticated": "true",
-                        "creationDate": "2019-01-01T00:00:00Z",
-                    },
+                    "attributes": {"mfaAuthenticated": "true", "creationDate": "2019-01-01T00:00:00Z"},
                     "sessionIssuer": {
                         "type": "Role",
                         "principalId": "1111",
@@ -83,11 +77,7 @@ awskms_customer_managed_key_loss_tests: List[PantherRuleTest] = [
             "awsRegion": "us-west-2",
             "sourceIPAddress": "111.111.111.111",
             "userAgent": "Mozilla",
-            "requestParameters": {
-                "keyId": "1",
-                "pendingWindowInDays": 30,
-                "overridePendingWindowCheck": False,
-            },
+            "requestParameters": {"keyId": "1", "pendingWindowInDays": 30, "overridePendingWindowCheck": False},
             "responseElements": {
                 "keyId": "arn:aws:kms:us-west-2:123456789012:key/1",
                 "deletionDate": "Jan 1, 2019 12:00:00 AM",
@@ -118,10 +108,7 @@ awskms_customer_managed_key_loss_tests: List[PantherRuleTest] = [
                 "accountId": "123456789012",
                 "accessKeyId": "1",
                 "sessionContext": {
-                    "attributes": {
-                        "mfaAuthenticated": "false",
-                        "creationDate": "2019-01-01T00:00:00Z",
-                    },
+                    "attributes": {"mfaAuthenticated": "false", "creationDate": "2019-01-01T00:00:00Z"},
                     "sessionIssuer": {
                         "type": "Role",
                         "principalId": "1111",
@@ -169,10 +156,7 @@ awskms_customer_managed_key_loss_tests: List[PantherRuleTest] = [
                 "accountId": "123456789012",
                 "accessKeyId": "1",
                 "sessionContext": {
-                    "attributes": {
-                        "mfaAuthenticated": "true",
-                        "creationDate": "2019-01-01T00:00:00Z",
-                    },
+                    "attributes": {"mfaAuthenticated": "true", "creationDate": "2019-01-01T00:00:00Z"},
                     "sessionIssuer": {
                         "type": "Role",
                         "principalId": "1111",
@@ -188,11 +172,7 @@ awskms_customer_managed_key_loss_tests: List[PantherRuleTest] = [
             "awsRegion": "us-west-2",
             "sourceIPAddress": "111.111.111.111",
             "userAgent": "Mozilla",
-            "requestParameters": {
-                "keyId": "1",
-                "pendingWindowInDays": 30,
-                "overridePendingWindowCheck": False,
-            },
+            "requestParameters": {"keyId": "1", "pendingWindowInDays": 30, "overridePendingWindowCheck": False},
             "responseElements": {
                 "keyId": "arn:aws:kms:us-west-2:123456789012:key/1",
                 "deletionDate": "Jan 1, 2019 12:00:00 AM",
@@ -219,10 +199,7 @@ awskms_customer_managed_key_loss_tests: List[PantherRuleTest] = [
                 "accountId": "123456789012",
                 "accessKeyId": "1",
                 "sessionContext": {
-                    "attributes": {
-                        "mfaAuthenticated": "true",
-                        "creationDate": "2019-01-01T00:00:00Z",
-                    },
+                    "attributes": {"mfaAuthenticated": "true", "creationDate": "2019-01-01T00:00:00Z"},
                     "sessionIssuer": {
                         "type": "Role",
                         "principalId": "1111",
@@ -267,13 +244,7 @@ class AWSKMSCustomerManagedKeyLoss(PantherRule):
     Description = "A KMS Customer Managed Key was disabled or scheduled for deletion. This could potentially lead to permanent loss of encrypted data.\n"
     Runbook = "https://docs.runpanther.io/alert-runbooks/built-in-rules/aws-kms-cmk-loss"
     Reference = "https://docs.aws.amazon.com/kms/latest/developerguide/deleting-keys.html"
-    SummaryAttributes = [
-        "eventName",
-        "userAgent",
-        "sourceIpAddress",
-        "recipientAccountId",
-        "p_any_aws_arns",
-    ]
+    SummaryAttributes = ["eventName", "userAgent", "sourceIpAddress", "recipientAccountId", "p_any_aws_arns"]
     Tests = awskms_customer_managed_key_loss_tests
     # API calls that are indicative of KMS CMK Deletion
     KMS_LOSS_EVENTS = {"DisableKey", "ScheduleKeyDeletion"}

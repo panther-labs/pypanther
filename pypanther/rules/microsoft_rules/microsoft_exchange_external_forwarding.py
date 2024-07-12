@@ -219,11 +219,7 @@ class Microsoft365ExchangeExternalForwarding(PantherRule):
     def rule(self, event):
         if event.get("operation", "") in ("Set-Mailbox", "New-InboxRule"):
             for param in event.get("parameters", []):
-                if param.get("Name", "") in (
-                    "ForwardingSmtpAddress",
-                    "ForwardTo",
-                    "ForwardingAddress",
-                ):
+                if param.get("Name", "") in ("ForwardingSmtpAddress", "ForwardTo", "ForwardingAddress"):
                     to_email = param.get("Value", "")
                     if (
                         to_email.lower().replace("smtp:", "")

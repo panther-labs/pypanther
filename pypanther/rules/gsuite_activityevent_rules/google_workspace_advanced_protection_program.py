@@ -8,11 +8,7 @@ google_workspace_advanced_protection_program_tests: List[PantherRuleTest] = [
         Name="parameters json key set to null value",
         ExpectedResult=False,
         Log={
-            "actor": {
-                "callerType": "USER",
-                "email": "user@example.io",
-                "profileId": "111111111111111111111",
-            },
+            "actor": {"callerType": "USER", "email": "user@example.io", "profileId": "111111111111111111111"},
             "id": {
                 "applicationName": "user_accounts",
                 "customerId": "C00000000",
@@ -128,9 +124,7 @@ google_workspace_advanced_protection_program_tests: List[PantherRuleTest] = [
 
 
 class GoogleWorkspaceAdvancedProtectionProgram(PantherRule):
-    Description = (
-        "Your organization's Google Workspace Advanced Protection Program settings were modified."
-    )
+    Description = "Your organization's Google Workspace Advanced Protection Program settings were modified."
     DisplayName = "Google Workspace Advanced Protection Program"
     Runbook = "Confirm the changes made were authorized for your organization."
     Reference = "https://support.google.com/a/answer/9378686?hl=en"
@@ -141,15 +135,9 @@ class GoogleWorkspaceAdvancedProtectionProgram(PantherRule):
 
     def rule(self, event):
         # Return True to match the log event and trigger an alert.
-        setting_name = (
-            deep_get(event, "parameters", "SETTING_NAME", default="NO_SETTING_NAME")
-            .split("-")[0]
-            .strip()
-        )
+        setting_name = deep_get(event, "parameters", "SETTING_NAME", default="NO_SETTING_NAME").split("-")[0].strip()
         setting_alert_flag = "Advanced Protection Program Settings"
-        return (
-            event.get("name") == "CREATE_APPLICATION_SETTING" and setting_name == setting_alert_flag
-        )
+        return event.get("name") == "CREATE_APPLICATION_SETTING" and setting_name == setting_alert_flag
 
     def title(self, event):
         # If no 'dedup' function is defined, the return value of this

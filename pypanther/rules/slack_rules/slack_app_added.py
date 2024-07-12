@@ -215,9 +215,7 @@ class SlackAuditLogsAppAdded(PantherRule):
     Reports = {"MITRE ATT&CK": ["TA0003:T1505"]}
     Severity = PantherSeverity.Medium
     Description = "Detects when a Slack App has been added to a workspace"
-    Reference = (
-        "https://slack.com/intl/en-gb/help/articles/202035138-Add-apps-to-your-Slack-workspace"
-    )
+    Reference = "https://slack.com/intl/en-gb/help/articles/202035138-Add-apps-to-your-Slack-workspace"
     SummaryAttributes = ["p_any_ip_addresses", "p_any_emails"]
     Tests = slack_audit_logs_app_added_tests
     APP_ADDED_ACTIONS = ["app_approved", "app_installed", "org_app_workspace_added"]

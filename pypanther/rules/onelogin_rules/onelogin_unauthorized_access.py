@@ -6,22 +6,12 @@ one_login_unauthorized_access_tests: List[PantherRuleTest] = [
     PantherRuleTest(
         Name="Normal Event",
         ExpectedResult=False,
-        Log={
-            "event_type_id": "8",
-            "user_id": 123456,
-            "user_name": "Bob Cat",
-            "app_name": "confluence",
-        },
+        Log={"event_type_id": "8", "user_id": 123456, "user_name": "Bob Cat", "app_name": "confluence"},
     ),
     PantherRuleTest(
         Name="User Unauthorized Access Event",
         ExpectedResult=True,
-        Log={
-            "event_type_id": "90",
-            "user_id": 123456,
-            "user_name": "Bob Cat",
-            "app_name": "confluence",
-        },
+        Log={"event_type_id": "90", "user_id": 123456, "user_name": "Bob Cat", "app_name": "confluence"},
     ),
 ]
 
@@ -33,9 +23,7 @@ class OneLoginUnauthorizedAccess(PantherRule):
     Tags = ["OneLogin", "Lateral Movement:Use Alternate Authentication Material"]
     Reports = {"MITRE ATT&CK": ["TA0008:T1550"]}
     Severity = PantherSeverity.Medium
-    Description = (
-        "A OneLogin user was denied access to an app more times than the configured threshold."
-    )
+    Description = "A OneLogin user was denied access to an app more times than the configured threshold."
     Threshold = 10
     DedupPeriodMinutes = 10
     Reference = "https://onelogin.service-now.com/kb_view_customer.do?sysparm_article=KB0010420"

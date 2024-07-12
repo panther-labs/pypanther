@@ -9,6 +9,4 @@ class StandardSlackIntegrationLogs(PantherDataModel):
     DisplayName: str = "Slack Integration Logs"
     Enabled: bool = True
     LogTypes: List[str] = [PantherLogType.Slack_IntegrationLogs]
-    Mappings: List[PantherDataModelMapping] = [
-        PantherDataModelMapping(Name="actor_user", Path="user_name")
-    ]
+    Mappings: List[PantherDataModelMapping] = [PantherDataModelMapping(Name="actor_user", Path="user_name")]

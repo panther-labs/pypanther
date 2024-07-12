@@ -68,6 +68,4 @@ class AsanaWorkspaceFormLinkAuthRequirementDisabled(PantherRule):
     def title(self, event):
         workspace = deep_get(event, "resource", "name", default="<WORKSPACE_NOT_FOUND>")
         actor = deep_get(event, "actor", "email", default="<ACTOR_NOT_FOUND>")
-        return (
-            f"Asana Workspace [{workspace}] Form Link Auth Requirement  was disabled by [{actor}]."
-        )
+        return f"Asana Workspace [{workspace}] Form Link Auth Requirement  was disabled by [{actor}]."

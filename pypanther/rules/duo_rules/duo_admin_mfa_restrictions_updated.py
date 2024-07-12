@@ -30,9 +30,7 @@ duo_admin_mfa_restrictions_updated_tests: List[PantherRuleTest] = [
 
 
 class DuoAdminMFARestrictionsUpdated(PantherRule):
-    Description = (
-        "Detects changes to allowed MFA factors administrators can use to log into the admin panel."
-    )
+    Description = "Detects changes to allowed MFA factors administrators can use to log into the admin panel."
     DisplayName = "Duo Admin MFA Restrictions Updated"
     Reference = "https://duo.com/docs/essentials-overview"
     Severity = PantherSeverity.Medium
@@ -44,9 +42,7 @@ class DuoAdminMFARestrictionsUpdated(PantherRule):
         return event.get("action") == "update_admin_factor_restrictions"
 
     def title(self, event):
-        return (
-            f"Duo Admin MFA Restrictions Updated by [{event.get('username', '<user_not_found>')}]"
-        )
+        return f"Duo Admin MFA Restrictions Updated by [{event.get('username', '<user_not_found>')}]"
 
     def alert_context(self, event):
         return duo_alert_context(event)

@@ -37,14 +37,8 @@ notion_many_pages_deleted_tests: List[PantherRuleTest] = [
                     "type": "person",
                 },
                 "details": {
-                    "parent": {
-                        "database_id": "543af759-3010-4355-a71e-4sdfs3566a",
-                        "type": "database_id",
-                    },
-                    "target": {
-                        "page_id": "93cf05d3-6805-4ddc-abba-adsfjhnlkwje785",
-                        "type": "page_id",
-                    },
+                    "parent": {"database_id": "543af759-3010-4355-a71e-4sdfs3566a", "type": "database_id"},
+                    "target": {"page_id": "93cf05d3-6805-4ddc-abba-adsfjhnlkwje785", "type": "page_id"},
                 },
                 "id": "768873bf-6b2c-40e8-b27c-1c199c4d6ae7",
                 "ip_address": "12.12.12.12",
@@ -79,8 +73,6 @@ class NotionManyPagesDeleted(PantherRule):
 
     def alert_context(self, event):
         context = notion_alert_context(event)
-        page_id = event.deep_get(
-            "event", "details", "target", "page_id", default="<NO_PAGE_ID_FOUND>"
-        )
+        page_id = event.deep_get("event", "details", "target", "page_id", default="<NO_PAGE_ID_FOUND>")
         context["page_id"] = page_id
         return context

@@ -68,9 +68,7 @@ class GSuiteLoginType(PantherRule):
     Severity = PantherSeverity.Medium
     Description = "A login of a non-approved type was detected for this user.\n"
     Reference = "https://support.google.com/a/answer/9039184?hl=en&sjid=864417124752637253-EU"
-    Runbook = (
-        "Correct the user account settings so that only logins of approved types are available.\n"
-    )
+    Runbook = "Correct the user account settings so that only logins of approved types are available.\n"
     SummaryAttributes = ["actor:email"]
     Tests = g_suite_login_type_tests
     # allow-list of approved login types

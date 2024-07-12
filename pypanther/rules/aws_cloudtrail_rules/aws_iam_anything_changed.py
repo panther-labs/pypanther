@@ -33,10 +33,7 @@ aws_cloud_trail_iam_anything_changed_tests: List[PantherRuleTest] = [
                 "invokedBy": "cloudformation.amazonaws.com",
                 "principalId": "1111:example-user",
                 "sessionContext": {
-                    "attributes": {
-                        "creationDate": "2019-01-01T00:00:00Z",
-                        "mfaAuthenticated": "true",
-                    },
+                    "attributes": {"creationDate": "2019-01-01T00:00:00Z", "mfaAuthenticated": "true"},
                     "sessionIssuer": {
                         "accountId": "123456789012",
                         "arn": "arn:aws:iam::123456789012:role/example-role",
@@ -74,10 +71,7 @@ aws_cloud_trail_iam_anything_changed_tests: List[PantherRuleTest] = [
                 "invokedBy": "cloudformation.amazonaws.com",
                 "principalId": "1111:example-user",
                 "sessionContext": {
-                    "attributes": {
-                        "creationDate": "2019-01-01T00:00:00Z",
-                        "mfaAuthenticated": "true",
-                    },
+                    "attributes": {"creationDate": "2019-01-01T00:00:00Z", "mfaAuthenticated": "true"},
                     "sessionIssuer": {
                         "accountId": "123456789012",
                         "arn": "arn:aws:iam::123456789012:role/example-role",
@@ -119,10 +113,7 @@ aws_cloud_trail_iam_anything_changed_tests: List[PantherRuleTest] = [
                 "invokedBy": "cloudformation.amazonaws.com",
                 "principalId": "1111:example-user",
                 "sessionContext": {
-                    "attributes": {
-                        "creationDate": "2019-01-01T00:00:00Z",
-                        "mfaAuthenticated": "true",
-                    },
+                    "attributes": {"creationDate": "2019-01-01T00:00:00Z", "mfaAuthenticated": "true"},
                     "sessionIssuer": {
                         "accountId": "123456789012",
                         "arn": "arn:aws:iam::123456789012:role/example-role",
@@ -148,13 +139,7 @@ class AWSCloudTrailIAMAnythingChanged(PantherRule):
     Description = "A change occurred in the IAM configuration. This could be a resource being created, deleted, or modified. This is a high level view of changes, helfpul to indicate how dynamic a certain IAM environment is.\n"
     Runbook = "Ensure this was an approved IAM configuration change.\n"
     Reference = "https://docs.aws.amazon.com/IAM/latest/UserGuide/cloudtrail-integration.html"
-    SummaryAttributes = [
-        "eventName",
-        "userAgent",
-        "sourceIpAddress",
-        "recipientAccountId",
-        "p_any_aws_arns",
-    ]
+    SummaryAttributes = ["eventName", "userAgent", "sourceIpAddress", "recipientAccountId", "p_any_aws_arns"]
     Tests = aws_cloud_trail_iam_anything_changed_tests
     IAM_CHANGE_ACTIONS = [
         "Add",
@@ -177,9 +162,7 @@ class AWSCloudTrailIAMAnythingChanged(PantherRule):
         # expensive and can often be skipped
         if not aws_cloudtrail_success(event) or event.get("eventSource") != "iam.amazonaws.com":
             return False
-        return any(
-            (event.get("eventName", "").startswith(action) for action in self.IAM_CHANGE_ACTIONS)
-        )
+        return any((event.get("eventName", "").startswith(action) for action in self.IAM_CHANGE_ACTIONS))
 
     def alert_context(self, event):
         return aws_rule_context(event)

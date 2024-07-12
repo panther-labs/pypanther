@@ -11,12 +11,7 @@ slack_audit_logs_ekm_unenrolled_tests: List[PantherRuleTest] = [
             "action": "ekm_unenrolled",
             "actor": {
                 "type": "user",
-                "user": {
-                    "email": "user@example.com",
-                    "id": "A012B3CDEFG",
-                    "name": "username",
-                    "team": "T01234N56GB",
-                },
+                "user": {"email": "user@example.com", "id": "A012B3CDEFG", "name": "username", "team": "T01234N56GB"},
             },
             "context": {
                 "ip_address": "1.2.3.4",
@@ -78,9 +73,7 @@ class SlackAuditLogsEKMUnenrolled(PantherRule):
     Reports = {"MITRE ATT&CK": ["TA0005:T1600"]}
     Severity = PantherSeverity.Critical
     Description = "Detects when a workspace is no longer enrolled or managed by EKM"
-    Reference = (
-        "https://slack.com/intl/en-gb/help/articles/360019110974-Slack-Enterprise-Key-Management"
-    )
+    Reference = "https://slack.com/intl/en-gb/help/articles/360019110974-Slack-Enterprise-Key-Management"
     SummaryAttributes = ["p_any_ip_addresses", "p_any_emails"]
     Tests = slack_audit_logs_ekm_unenrolled_tests
 

@@ -37,9 +37,7 @@ class AWSEC2EBSEncryptionDisabled(PantherRule):
     Description = "Identifies disabling of default EBS encryption. Disabling default encryption does not change the encryption status of existing volumes. "
     DisplayName = "AWS EC2 EBS Encryption Disabled"
     Reports = {"MITRE ATT&CK": ["TA0040:T1486", "TA0040:T1565"]}
-    Runbook = (
-        "Verify this action was intended and if any EBS volumes were created after the change."
-    )
+    Runbook = "Verify this action was intended and if any EBS volumes were created after the change."
     Reference = "https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/EBSEncryption.html#encryption-by-default"
     Severity = PantherSeverity.Medium
     LogTypes = [PantherLogType.AWS_CloudTrail]

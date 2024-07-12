@@ -91,11 +91,7 @@ gcp_log_bucket_or_sink_deleted_tests: List[PantherRuleTest] = [
             },
             "receivetimestamp": "2023-05-23 19:39:15.565",
             "resource": {
-                "labels": {
-                    "destination": "",
-                    "name": "test-1",
-                    "project_id": "test-project-123456",
-                },
+                "labels": {"destination": "", "name": "test-1", "project_id": "test-project-123456"},
                 "type": "logging_sink",
             },
             "severity": "NOTICE",
@@ -187,11 +183,7 @@ gcp_log_bucket_or_sink_deleted_tests: List[PantherRuleTest] = [
             },
             "receivetimestamp": "2023-05-23 19:39:15.565",
             "resource": {
-                "labels": {
-                    "destination": "",
-                    "name": "test-1",
-                    "project_id": "test-project-123456",
-                },
+                "labels": {"destination": "", "name": "test-1", "project_id": "test-project-123456"},
                 "type": "logging_sink",
             },
             "severity": "NOTICE",
@@ -213,21 +205,13 @@ class GCPLogBucketOrSinkDeleted(PantherRule):
     Tests = gcp_log_bucket_or_sink_deleted_tests
 
     def rule(self, event):
-        authenticated = deep_walk(
-            event, "protoPayload", "authorizationInfo", "granted", default=False
-        )
+        authenticated = deep_walk(event, "protoPayload", "authorizationInfo", "granted", default=False)
         method_pattern = "(?:\\w+\\.)*v\\d\\.(?:ConfigServiceV\\d\\.(?:Delete(Bucket|Sink)))"
         match = re.search(method_pattern, deep_get(event, "protoPayload", "methodName", default=""))
         return authenticated and match is not None
 
     def title(self, event):
-        actor = deep_get(
-            event,
-            "protoPayload",
-            "authenticationInfo",
-            "principalEmail",
-            default="<ACTOR_NOT_FOUND>",
-        )
+        actor = deep_get(event, "protoPayload", "authenticationInfo", "principalEmail", default="<ACTOR_NOT_FOUND>")
         resource = deep_get(event, "protoPayload", "resourceName", default="<RESOURCE_NOT_FOUND>")
         return f"[GCP]: [{actor}] deleted logging bucket or sink [{resource}]"
 

@@ -10,11 +10,7 @@ dropbox_external_share_tests: List[PantherRuleTest] = [
     PantherRuleTest(
         Name="Domain in Allowlist",
         ExpectedResult=False,
-        Mocks=[
-            PantherRuleMock(
-                ObjectName="DROPBOX_ALLOWED_SHARE_DOMAINS", ReturnValue='[\n    "example.com"\n]'
-            )
-        ],
+        Mocks=[PantherRuleMock(ObjectName="DROPBOX_ALLOWED_SHARE_DOMAINS", ReturnValue='[\n    "example.com"\n]')],
         Log={
             "actor": {
                 "_tag": "user",
@@ -48,10 +44,7 @@ dropbox_external_share_tests: List[PantherRuleTest] = [
                 "email": "alice.bob@company.com",
                 "team_member_id": "dbmid:AADSERs2cAsByYt8yQEDU4_qdNQiSdxgCl8",
             },
-            "details": {
-                ".tag": "shared_content_add_member_details",
-                "shared_content_access_level": {".tag": "viewer"},
-            },
+            "details": {".tag": "shared_content_add_member_details", "shared_content_access_level": {".tag": "viewer"}},
             "event_category": {"_tag": "sharing"},
             "event_type": {
                 "_tag": "shared_content_add_member",
@@ -61,17 +54,9 @@ dropbox_external_share_tests: List[PantherRuleTest] = [
             "origin": {
                 "access_method": {
                     ".tag": "end_user",
-                    "end_user": {
-                        ".tag": "web",
-                        "session_id": "dbwsid:237034608707419186011941491025532848312",
-                    },
+                    "end_user": {".tag": "web", "session_id": "dbwsid:237034608707419186011941491025532848312"},
                 },
-                "geo_location": {
-                    "city": "Austin",
-                    "country": "US",
-                    "ip_address": "1.2.3.4",
-                    "region": "Texas",
-                },
+                "geo_location": {"city": "Austin", "country": "US", "ip_address": "1.2.3.4", "region": "Texas"},
             },
             "p_any_emails": ["david.davidson@example.com", "alice.bob@company.com"],
             "p_any_ip_addresses": ["1.2.3.4"],
@@ -132,10 +117,7 @@ dropbox_external_share_tests: List[PantherRuleTest] = [
                 "email": "alice.bob@company.com",
                 "team_member_id": "dbmid:AADSERs2cAsByYt8yQEDU4_qdNQiSdxgCl8",
             },
-            "details": {
-                ".tag": "shared_content_add_member_details",
-                "shared_content_access_level": {".tag": "viewer"},
-            },
+            "details": {".tag": "shared_content_add_member_details", "shared_content_access_level": {".tag": "viewer"}},
             "event_category": {"_tag": "sharing"},
             "event_type": {
                 "_tag": "shared_content_add_member",
@@ -145,17 +127,9 @@ dropbox_external_share_tests: List[PantherRuleTest] = [
             "origin": {
                 "access_method": {
                     ".tag": "end_user",
-                    "end_user": {
-                        ".tag": "web",
-                        "session_id": "dbwsid:237034608707419186011941491025532848312",
-                    },
+                    "end_user": {".tag": "web", "session_id": "dbwsid:237034608707419186011941491025532848312"},
                 },
-                "geo_location": {
-                    "city": "Austin",
-                    "country": "US",
-                    "ip_address": "1.2.3.4",
-                    "region": "Texas",
-                },
+                "geo_location": {"city": "Austin", "country": "US", "ip_address": "1.2.3.4", "region": "Texas"},
             },
             "p_any_emails": ["david.davidson@david.co", "alice.bob@company.com"],
             "p_any_ip_addresses": ["1.2.3.4"],
@@ -195,9 +169,7 @@ class DropboxExternalShare(PantherRule):
 
     def rule(self, event):
         if isinstance(self.DROPBOX_ALLOWED_SHARE_DOMAINS, MagicMock):
-            self.DROPBOX_ALLOWED_SHARE_DOMAINS = set(
-                json.loads(self.DROPBOX_ALLOWED_SHARE_DOMAINS())
-            )  # pylint: disable=not-callable
+            self.DROPBOX_ALLOWED_SHARE_DOMAINS = set(json.loads(self.DROPBOX_ALLOWED_SHARE_DOMAINS()))  # pylint: disable=not-callable
         if deep_get(event, "event_type", "_tag", default="") == "shared_content_add_member":
             participants = event.get("participants", [{}])
             for participant in participants:

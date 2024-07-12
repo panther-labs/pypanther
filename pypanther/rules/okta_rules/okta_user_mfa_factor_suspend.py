@@ -168,10 +168,7 @@ class OktaUserMFAFactorSuspend(PantherRule):
     Tests = okta_user_mfa_factor_suspend_tests
 
     def rule(self, event):
-        return (
-            event.get("eventtype") == "user.mfa.factor.suspend"
-            and event.deep_get("outcome", "result") == "SUCCESS"
-        )
+        return event.get("eventtype") == "user.mfa.factor.suspend" and event.deep_get("outcome", "result") == "SUCCESS"
 
     def title(self, event):
         return f"Okta: Authentication Factor for [{event.get('target', [{}])[0].get('alternateId', '<id-not-found>')}] has been suspended."

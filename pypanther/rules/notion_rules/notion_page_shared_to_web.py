@@ -1,6 +1,4 @@
-from typing import List
-
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import PantherLogType, PantherRule, PantherSeverity
 from pypanther.helpers.panther_notion_helpers import notion_alert_context
 
 
@@ -14,10 +12,7 @@ class NotionPageSharedToWeb(PantherRule):
     Runbook = "Potential information exposure - review the shared page and rectify if needed."
     Reference = "https://www.notion.so/help/public-pages-and-web-publishing"
     # These event types correspond to users adding or editing the default role on a public page
-    event_types = (
-        "page.permissions.shared_to_public_role_added",
-        "page.permissions.shared_to_public_role_updated",
-    )
+    event_types = ("page.permissions.shared_to_public_role_added", "page.permissions.shared_to_public_role_updated")
 
     def rule(self, event):
         return event.deep_get("event", "type", default="<NO_EVENT_TYPE_FOUND>") in self.event_types

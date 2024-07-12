@@ -129,8 +129,7 @@ class GSuiteCalendarMadePublic(PantherRule):
     def rule(self, event):
         return (
             event.get("name") == "change_calendar_acls"
-            and event.get("parameters", {}).get("grantee_email")
-            == "__public_principal__@public.calendar.google.com"
+            and event.get("parameters", {}).get("grantee_email") == "__public_principal__@public.calendar.google.com"
         )
 
     def title(self, event):

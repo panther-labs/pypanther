@@ -51,11 +51,7 @@ class GSuiteSuspiciousLogins(PantherRule):
     Runbook = "Checkout the details of the login and verify this behavior with the user to ensure the account wasn't compromised.\n"
     SummaryAttributes = ["actor:email"]
     Tests = g_suite_suspicious_logins_tests
-    SUSPICIOUS_LOGIN_TYPES = {
-        "suspicious_login",
-        "suspicious_login_less_secure_app",
-        "suspicious_programmatic_login",
-    }
+    SUSPICIOUS_LOGIN_TYPES = {"suspicious_login", "suspicious_login_less_secure_app", "suspicious_programmatic_login"}
 
     def rule(self, event):
         if deep_get(event, "id", "applicationName") != "login":

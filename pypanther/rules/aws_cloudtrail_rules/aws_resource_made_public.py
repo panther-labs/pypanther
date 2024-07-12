@@ -27,10 +27,7 @@ aws_cloud_trail_resource_made_public_tests: List[PantherRuleTest] = [
                 "repositoryName": "community",
             },
             "resources": [
-                {
-                    "accountId": "112233445566",
-                    "arn": "arn:aws:ecr:eu-west-1:112233445566:repository/community",
-                }
+                {"accountId": "112233445566", "arn": "arn:aws:ecr:eu-west-1:112233445566:repository/community"}
             ],
             "responseElements": {
                 "policyText": '{\n  "Version" : "2012-10-17",\n  "Statement" : [ {\n    "Sid" : "PublicRead",\n    "Effect" : "Allow",\n    "Principal" : "*",\n    "Action" : [ "ecr:BatchCheckLayerAvailability", "ecr:BatchGetImage", "ecr:GetAuthorizationToken", "ecr:GetDownloadUrlForLayer" ]\n  } ]\n}',
@@ -46,10 +43,7 @@ aws_cloud_trail_resource_made_public_tests: List[PantherRuleTest] = [
                 "invokedBy": "cloudformation.amazonaws.com",
                 "principalId": "AROAJJJJTTTT44445IJJJ:AWSCloudFormation",
                 "sessionContext": {
-                    "attributes": {
-                        "creationDate": "2020-11-20T06:19:04Z",
-                        "mfaAuthenticated": "false",
-                    },
+                    "attributes": {"creationDate": "2020-11-20T06:19:04Z", "mfaAuthenticated": "false"},
                     "sessionIssuer": {
                         "accountId": "112233445566",
                         "arn": "arn:aws:iam::112233445566:role/ServiceRole",
@@ -118,10 +112,7 @@ aws_cloud_trail_resource_made_public_tests: List[PantherRuleTest] = [
                 "arn": "arn:aws:sts::123456789012:assumed-role/example-role/example-user",
                 "principalId": "1111",
                 "sessionContext": {
-                    "attributes": {
-                        "creationDate": "2019-01-01T00:00:00Z",
-                        "mfaAuthenticated": "true",
-                    },
+                    "attributes": {"creationDate": "2019-01-01T00:00:00Z", "mfaAuthenticated": "true"},
                     "sessionIssuer": {
                         "accountId": "123456789012",
                         "arn": "arn:aws:iam::123456789012:role/example-role",
@@ -180,10 +171,7 @@ aws_cloud_trail_resource_made_public_tests: List[PantherRuleTest] = [
                 "arn": "arn:aws:sts::123456789012:assumed-role/example-role/example-user",
                 "principalId": "1111",
                 "sessionContext": {
-                    "attributes": {
-                        "creationDate": "2019-01-01T00:00:00Z",
-                        "mfaAuthenticated": "true",
-                    },
+                    "attributes": {"creationDate": "2019-01-01T00:00:00Z", "mfaAuthenticated": "true"},
                     "sessionIssuer": {
                         "accountId": "123456789012",
                         "arn": "arn:aws:iam::123456789012:role/example-role",
@@ -226,10 +214,7 @@ aws_cloud_trail_resource_made_public_tests: List[PantherRuleTest] = [
                 "arn": "arn:aws:sts::123456789012:assumed-role/example-role/example-user",
                 "principalId": "1111",
                 "sessionContext": {
-                    "attributes": {
-                        "creationDate": "2019-01-01T00:00:00Z",
-                        "mfaAuthenticated": "true",
-                    },
+                    "attributes": {"creationDate": "2019-01-01T00:00:00Z", "mfaAuthenticated": "true"},
                     "sessionIssuer": {
                         "accountId": "123456789012",
                         "arn": "arn:aws:iam::123456789012:role/example-role",
@@ -289,10 +274,7 @@ aws_cloud_trail_resource_made_public_tests: List[PantherRuleTest] = [
                 "arn": "arn:aws:sts::123456789012:assumed-role/example-role/example-user",
                 "principalId": "1111",
                 "sessionContext": {
-                    "attributes": {
-                        "creationDate": "2019-01-01T00:00:00Z",
-                        "mfaAuthenticated": "true",
-                    },
+                    "attributes": {"creationDate": "2019-01-01T00:00:00Z", "mfaAuthenticated": "true"},
                     "sessionIssuer": {
                         "accountId": "123456789012",
                         "arn": "arn:aws:iam::123456789012:role/example-role",
@@ -338,10 +320,7 @@ aws_cloud_trail_resource_made_public_tests: List[PantherRuleTest] = [
                 "arn": "arn:aws:sts::123456789012:assumed-role/example-role/example-user",
                 "principalId": "1111",
                 "sessionContext": {
-                    "attributes": {
-                        "creationDate": "2019-01-01T00:00:00Z",
-                        "mfaAuthenticated": "true",
-                    },
+                    "attributes": {"creationDate": "2019-01-01T00:00:00Z", "mfaAuthenticated": "true"},
                     "sessionIssuer": {
                         "accountId": "123456789012",
                         "arn": "arn:aws:iam::123456789012:role/example-role",
@@ -368,13 +347,7 @@ class AWSCloudTrailResourceMadePublic(PantherRule):
     Description = "Some AWS resource was made publicly accessible over the internet. Checks ECR, Elasticsearch, KMS, S3, S3 Glacier, SNS, SQS, and Secrets Manager.\n"
     Runbook = "Adjust the policy so that the resource is no longer publicly accessible"
     Reference = "https://aws.amazon.com/blogs/security/identifying-publicly-accessible-resources-with-amazon-vpc-network-access-analyzer/"
-    SummaryAttributes = [
-        "userAgent",
-        "sourceIpAddress",
-        "vpcEndpointId",
-        "recipientAccountId",
-        "p_any_aws_arns",
-    ]
+    SummaryAttributes = ["userAgent", "sourceIpAddress", "vpcEndpointId", "recipientAccountId", "p_any_aws_arns"]
     Tests = aws_cloud_trail_resource_made_public_tests
     # Check that the IAM policy allows resource accessibility via the Internet
     # Normally this check helps avoid overly complex functions that are doing too many things,
@@ -414,10 +387,7 @@ class AWSCloudTrailResourceMadePublic(PantherRule):
         if event["eventName"] in ["SetQueueAttributes", "CreateTopic"]:
             policy = deep_get(parameters, "attributes", "Policy", default={})
         # SNS
-        if (
-            event["eventName"] == "SetTopicAttributes"
-            and parameters.get("attributeName", "") == "Policy"
-        ):
+        if event["eventName"] == "SetTopicAttributes" and parameters.get("attributeName", "") == "Policy":
             policy = parameters.get("attributeValue", {})
         # SecretsManager
         if event["eventName"] == "PutResourcePolicy":
@@ -429,17 +399,10 @@ class AWSCloudTrailResourceMadePublic(PantherRule):
     def title(self, event):
         # TODO(): Update this rule to use data models
         user = deep_get(event, "userIdentity", "userName") or deep_get(
-            event,
-            "userIdentity",
-            "sessionContext",
-            "sessionIssuer",
-            "userName",
-            default="<MISSING_USER>",
+            event, "userIdentity", "sessionContext", "sessionIssuer", "userName", default="<MISSING_USER>"
         )
         if event.get("Resources"):
-            return (
-                f"Resource {event.get('Resources')[0].get('arn', 'MISSING')} made public by {user}"
-            )
+            return f"Resource {event.get('Resources')[0].get('arn', 'MISSING')} made public by {user}"
         return f"{event.get('eventSource', 'MISSING SOURCE')} resource made public by {user}"
 
     def alert_context(self, event):

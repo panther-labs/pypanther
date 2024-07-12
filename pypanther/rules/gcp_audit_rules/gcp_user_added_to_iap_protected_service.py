@@ -101,10 +101,7 @@ gcp_user_addedto_iap_protected_service_tests: List[PantherRuleTest] = [
                     "requestAttributes": {"auth": {}, "time": "2023-04-25T19:20:57.295723118Z"},
                 },
                 "resourceName": "projects/123456789012/iap_web/compute/services/7312383563505470445",
-                "response": {
-                    "@type": "type.googleapis.com/google.iam.v1.Policy",
-                    "etag": "BwX6LgXbpsw=",
-                },
+                "response": {"@type": "type.googleapis.com/google.iam.v1.Policy", "etag": "BwX6LgXbpsw="},
                 "serviceName": "iap.googleapis.com",
             },
             "receiveTimestamp": "2023-04-25 19:20:58.16",
@@ -151,9 +148,7 @@ gcp_user_addedto_iap_protected_service_tests: List[PantherRuleTest] = [
                     "policy": {
                         "bindings": [
                             {
-                                "members": [
-                                    "serviceAccount:test-account3@gcp-project1.iam.gserviceaccount.com"
-                                ],
+                                "members": ["serviceAccount:test-account3@gcp-project1.iam.gserviceaccount.com"],
                                 "role": "roles/viewer",
                             }
                         ],
@@ -172,9 +167,7 @@ gcp_user_addedto_iap_protected_service_tests: List[PantherRuleTest] = [
                     "@type": "type.googleapis.com/google.iam.v1.Policy",
                     "bindings": [
                         {
-                            "members": [
-                                "serviceAccount:test-account3@gcp-project1.iam.gserviceaccount.com"
-                            ],
+                            "members": ["serviceAccount:test-account3@gcp-project1.iam.gserviceaccount.com"],
                             "role": "roles/viewer",
                         }
                     ],
@@ -211,16 +204,8 @@ class GCPUserAddedtoIAPProtectedService(PantherRule):
         )
 
     def title(self, event):
-        actor = deep_get(
-            event,
-            "protoPayload",
-            "authenticationInfo",
-            "principalEmail",
-            default="<ACTOR_NOT_FOUND>",
-        )
-        service = deep_get(
-            event, "protoPayload", "request", "resource", default="<RESOURCE_NOT_FOUND>"
-        )
+        actor = deep_get(event, "protoPayload", "authenticationInfo", "principalEmail", default="<ACTOR_NOT_FOUND>")
+        service = deep_get(event, "protoPayload", "request", "resource", default="<RESOURCE_NOT_FOUND>")
         return f"GCP: [{actor}] modified user access to IAP Protected Service [{service}]"
 
     def alert_context(self, event):

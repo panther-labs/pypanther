@@ -51,11 +51,7 @@ gcp_logging_sink_modified_tests: List[PantherRuleTest] = [
             },
             "receiveTimestamp": "2023-05-23 19:39:07.924",
             "resource": {
-                "labels": {
-                    "destination": "",
-                    "name": "test-1",
-                    "project_id": "test-project-123456",
-                },
+                "labels": {"destination": "", "name": "test-1", "project_id": "test-project-123456"},
                 "type": "logging_sink",
             },
             "severity": "NOTICE",
@@ -107,11 +103,7 @@ gcp_logging_sink_modified_tests: List[PantherRuleTest] = [
             },
             "receiveTimestamp": "2023-05-23 19:39:07.924",
             "resource": {
-                "labels": {
-                    "destination": "",
-                    "name": "test-1",
-                    "project_id": "test-project-123456",
-                },
+                "labels": {"destination": "", "name": "test-1", "project_id": "test-project-123456"},
                 "type": "logging_sink",
             },
             "severity": "NOTICE",
@@ -138,13 +130,7 @@ class GCPLoggingSinkModified(PantherRule):
         return match is not None
 
     def title(self, event):
-        actor = deep_get(
-            event,
-            "protoPayload",
-            "authenticationInfo",
-            "principalEmail",
-            default="<ACTOR_NOT_FOUND>",
-        )
+        actor = deep_get(event, "protoPayload", "authenticationInfo", "principalEmail", default="<ACTOR_NOT_FOUND>")
         resource = deep_get(event, "protoPayload", "resourceName", default="<RESOURCE_NOT_FOUND>")
         return f"[GCP]: [{actor}] updated logging sink [{resource}]"
 

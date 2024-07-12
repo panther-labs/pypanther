@@ -11,11 +11,7 @@ panther_saml_modified_tests: List[PantherRuleTest] = [
             "actionParams": {},
             "actionResult": "SUCCEEDED",
             "actor": {
-                "attributes": {
-                    "email": "homer@springfield.gov",
-                    "emailVerified": True,
-                    "roleId": "111111",
-                },
+                "attributes": {"email": "homer@springfield.gov", "emailVerified": True, "roleId": "111111"},
                 "id": "111111",
                 "name": "Homer Simpson",
                 "type": "USER",
@@ -32,11 +28,7 @@ panther_saml_modified_tests: List[PantherRuleTest] = [
             "actionParams": {},
             "actionResult": "SUCCEEDED",
             "actor": {
-                "attributes": {
-                    "email": "homer@springfield.gov",
-                    "emailVerified": True,
-                    "roleId": "111111",
-                },
+                "attributes": {"email": "homer@springfield.gov", "emailVerified": True, "roleId": "111111"},
                 "id": "111111",
                 "name": "Homer Simpson",
                 "type": "USER",
@@ -62,10 +54,7 @@ class PantherSAMLModified(PantherRule):
     Tests = panther_saml_modified_tests
 
     def rule(self, event):
-        return (
-            event.get("actionName") == "UPDATE_SAML_SETTINGS"
-            and event.get("actionResult") == "SUCCEEDED"
-        )
+        return event.get("actionName") == "UPDATE_SAML_SETTINGS" and event.get("actionResult") == "SUCCEEDED"
 
     def title(self, event):
         return f"Panther SAML config has been modified by {event.udm('actor_user')}"

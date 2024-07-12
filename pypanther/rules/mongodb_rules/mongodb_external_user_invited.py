@@ -84,9 +84,7 @@ class MongoDBExternalUserInvited(PantherRule):
 
     def rule(self, event):
         if isinstance(self.ALLOWED_DOMAINS, MagicMock):
-            self.ALLOWED_DOMAINS = json.loads(
-                self.ALLOWED_DOMAINS()
-            )  # pylint: disable=not-callable
+            self.ALLOWED_DOMAINS = json.loads(self.ALLOWED_DOMAINS())  # pylint: disable=not-callable
         if deep_get(event, "eventTypeName", default="") == "INVITED_TO_ORG":
             target_user = deep_get(event, "targetUsername", default="")
             target_domain = target_user.split("@")[-1]

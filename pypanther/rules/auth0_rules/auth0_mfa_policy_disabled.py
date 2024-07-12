@@ -398,12 +398,8 @@ class Auth0MFAPolicyDisabled(PantherRule):
     Tests = auth0_mfa_policy_disabled_tests
 
     def rule(self, event):
-        data_description = deep_get(
-            event, "data", "description", default="<NO_DATA_DESCRIPTION_FOUND>"
-        )
-        request_path = deep_get(
-            event, "data", "details", "request", "path", default="<NO_REQUEST_PATH_FOUND>"
-        )
+        data_description = deep_get(event, "data", "description", default="<NO_DATA_DESCRIPTION_FOUND>")
+        request_path = deep_get(event, "data", "details", "request", "path", default="<NO_REQUEST_PATH_FOUND>")
         request_body = deep_get(event, "data", "details", "request", "body", default=[-1])
         return all(
             [
@@ -415,9 +411,7 @@ class Auth0MFAPolicyDisabled(PantherRule):
         )
 
     def title(self, event):
-        user = deep_get(
-            event, "data", "details", "request", "auth", "user", "email", default="<NO_USER_FOUND>"
-        )
+        user = deep_get(event, "data", "details", "request", "auth", "user", "email", default="<NO_USER_FOUND>")
         p_source_label = deep_get(event, "p_source_label", default="<NO_P_SOURCE_LABEL_FOUND>")
         return f"Auth0 User [{user}] set mfa requirement settings to 'Never' for your organization's tenant [{p_source_label}]."
 

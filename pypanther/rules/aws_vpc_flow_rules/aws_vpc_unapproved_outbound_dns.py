@@ -8,32 +8,17 @@ awsvpc_unapproved_outbound_dns_tests: List[PantherRuleTest] = [
     PantherRuleTest(
         Name="Approved Outbound DNS Traffic",
         ExpectedResult=False,
-        Log={
-            "dstPort": 53,
-            "dstAddr": "1.1.1.1",
-            "srcAddr": "10.0.0.1",
-            "p_log_type": "AWS.VPCFlow",
-        },
+        Log={"dstPort": 53, "dstAddr": "1.1.1.1", "srcAddr": "10.0.0.1", "p_log_type": "AWS.VPCFlow"},
     ),
     PantherRuleTest(
         Name="Unapproved Outbound DNS Traffic",
         ExpectedResult=True,
-        Log={
-            "dstPort": 53,
-            "dstAddr": "100.100.100.100",
-            "srcAddr": "10.0.0.1",
-            "p_log_type": "AWS.VPCFlow",
-        },
+        Log={"dstPort": 53, "dstAddr": "100.100.100.100", "srcAddr": "10.0.0.1", "p_log_type": "AWS.VPCFlow"},
     ),
     PantherRuleTest(
         Name="Outbound Non-DNS Traffic",
         ExpectedResult=False,
-        Log={
-            "dstPort": 80,
-            "dstAddr": "100.100.100.100",
-            "srcAddr": "10.0.0.1",
-            "p_log_type": "AWS.VPCFlow",
-        },
+        Log={"dstPort": 80, "dstAddr": "100.100.100.100", "srcAddr": "10.0.0.1", "p_log_type": "AWS.VPCFlow"},
     ),
     PantherRuleTest(
         Name="Approved Outbound DNS Traffic - OCSF",
@@ -92,10 +77,7 @@ class AWSVPCUnapprovedOutboundDNS(PantherRule):
         if ip_network(source_ip).is_global:
             return False
         # No clean way to default to False (no alert), so explicitly check for key
-        return (
-            bool(event.udm("destination_ip"))
-            and event.udm("destination_ip") not in self.APPROVED_DNS_SERVERS
-        )
+        return bool(event.udm("destination_ip")) and event.udm("destination_ip") not in self.APPROVED_DNS_SERVERS
 
     def alert_context(self, event):
         return aws_rule_context(event)

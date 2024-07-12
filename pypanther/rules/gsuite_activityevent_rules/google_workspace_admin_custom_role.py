@@ -89,10 +89,7 @@ class GoogleWorkspaceAdminCustomRole(PantherRule):
     def rule(self, event):
         # Return True to match the log event and trigger an alert.
         # Create Alert if there is a custom role created under delegated admin settings
-        return (
-            event.get("type", "") == "DELEGATED_ADMIN_SETTINGS"
-            and event.get("name", "") == "CREATE_ROLE"
-        )
+        return event.get("type", "") == "DELEGATED_ADMIN_SETTINGS" and event.get("name", "") == "CREATE_ROLE"
 
     def title(self, event):
         # (Optional) Return a string which will be shown as the alert title.

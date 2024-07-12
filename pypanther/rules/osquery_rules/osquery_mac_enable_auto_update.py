@@ -8,11 +8,7 @@ osquery_mac_auto_update_enabled_tests: List[PantherRuleTest] = [
         Name="Auto Updates Disabled",
         ExpectedResult=True,
         Log={
-            "columns": {
-                "domain": "com.apple.SoftwareUpdate",
-                "key": "AutomaticCheckEnabled",
-                "value": "false",
-            },
+            "columns": {"domain": "com.apple.SoftwareUpdate", "key": "AutomaticCheckEnabled", "value": "false"},
             "action": "added",
             "name": "pack/mac-cis/SoftwareUpdate",
         },
@@ -21,11 +17,7 @@ osquery_mac_auto_update_enabled_tests: List[PantherRuleTest] = [
         Name="Auto Updates Enabled",
         ExpectedResult=False,
         Log={
-            "columns": {
-                "domain": "com.apple.SoftwareUpdate",
-                "key": "AutomaticCheckEnabled",
-                "value": "true",
-            },
+            "columns": {"domain": "com.apple.SoftwareUpdate", "key": "AutomaticCheckEnabled", "value": "true"},
             "action": "added",
             "name": "pack/mac-cis/SoftwareUpdate",
         },
@@ -34,11 +26,7 @@ osquery_mac_auto_update_enabled_tests: List[PantherRuleTest] = [
         Name="Wrong Key",
         ExpectedResult=False,
         Log={
-            "columns": {
-                "domain": "com.apple.SoftwareUpdate",
-                "key": "LastFullSuccessfulDate",
-                "value": "false",
-            },
+            "columns": {"domain": "com.apple.SoftwareUpdate", "key": "LastFullSuccessfulDate", "value": "false"},
             "action": "added",
             "name": "pack/mac-cis/SoftwareUpdate",
         },

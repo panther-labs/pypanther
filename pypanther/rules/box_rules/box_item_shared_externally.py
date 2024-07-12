@@ -2,11 +2,7 @@ from typing import List
 
 from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import deep_get
-from pypanther.helpers.panther_box_helpers import (
-    is_box_sdk_enabled,
-    lookup_box_file,
-    lookup_box_folder,
-)
+from pypanther.helpers.panther_box_helpers import is_box_sdk_enabled, lookup_box_file, lookup_box_folder
 
 box_item_shared_externally_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -15,29 +11,13 @@ box_item_shared_externally_tests: List[PantherRuleTest] = [
         Log={
             "type": "event",
             "additional_details": '{"key": "value"}',
-            "created_by": {
-                "id": 12345678,
-                "type": "user",
-                "login": "cat@example",
-                "name": "Bob Cat",
-            },
+            "created_by": {"id": 12345678, "type": "user", "login": "cat@example", "name": "Bob Cat"},
             "event_type": "DELETE",
             "source": {
                 "item_name": "regular_file.pdf",
                 "item_type": "file",
-                "owned_by": {
-                    "id": 12345678,
-                    "type": "user",
-                    "login": "cat@example",
-                    "name": "Bob Cat",
-                },
-                "parent": {
-                    "id": 12345,
-                    "type": "folder",
-                    "etag": 1,
-                    "name": "Parent_Folder",
-                    "sequence_id": 2,
-                },
+                "owned_by": {"id": 12345678, "type": "user", "login": "cat@example", "name": "Bob Cat"},
+                "parent": {"id": 12345, "type": "folder", "etag": 1, "name": "Parent_Folder", "sequence_id": 2},
             },
         },
     )
@@ -59,13 +39,7 @@ class BoxItemSharedExternally(PantherRule):
     Threshold = 10
     Tests = box_item_shared_externally_tests
     ALLOWED_SHARED_ACCESS = {"collaborators", "company"}
-    SHARE_EVENTS = {
-        "CHANGE_FOLDER_PERMISSION",
-        "ITEM_SHARED",
-        "ITEM_SHARED_CREATE",
-        "ITEM_SHARED_UPDATE",
-        "SHARE",
-    }
+    SHARE_EVENTS = {"CHANGE_FOLDER_PERMISSION", "ITEM_SHARED", "ITEM_SHARED_CREATE", "ITEM_SHARED_UPDATE", "SHARE"}
 
     def rule(self, event):
         # filter events
@@ -75,10 +49,7 @@ class BoxItemSharedExternally(PantherRule):
         if is_box_sdk_enabled():
             item = self.get_item(event)
             if item is not None and item.get("shared_link"):
-                return (
-                    deep_get(item, "shared_link", "effective_access")
-                    not in self.ALLOWED_SHARED_ACCESS
-                )
+                return deep_get(item, "shared_link", "effective_access") not in self.ALLOWED_SHARED_ACCESS
         return False
 
     def get_item(self, event):

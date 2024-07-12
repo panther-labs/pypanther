@@ -22,10 +22,7 @@ import re
 from typing import Any, Callable, Tuple
 
 from pypanther.vendor.panther_analysis_tool.backend.client import Client as BackendClient
-from pypanther.vendor.panther_analysis_tool.backend.public_api_client import (
-    PublicAPIClient,
-    PublicAPIClientOptions,
-)
+from pypanther.vendor.panther_analysis_tool.backend.public_api_client import PublicAPIClient, PublicAPIClientOptions
 from pypanther.vendor.panther_analysis_tool.constants import PANTHER_USER_ID
 
 UNKNOWN_VERSION = "unknown"

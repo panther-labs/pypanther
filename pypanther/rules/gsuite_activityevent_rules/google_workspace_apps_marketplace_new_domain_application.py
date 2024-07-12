@@ -104,7 +104,9 @@ google_workspace_apps_marketplace_new_domain_application_tests: List[PantherRule
 
 
 class GoogleWorkspaceAppsMarketplaceNewDomainApplication(PantherRule):
-    Description = "A Google Workspace User configured a new domain application from the Google Workspace Apps Marketplace."
+    Description = (
+        "A Google Workspace User configured a new domain application from the Google Workspace Apps Marketplace."
+    )
     DisplayName = "Google Workspace Apps Marketplace New Domain Application"
     Runbook = "Confirm this was the intended behavior."
     Reference = "https://developers.google.com/workspace/marketplace/overview"
@@ -117,8 +119,7 @@ class GoogleWorkspaceAppsMarketplaceNewDomainApplication(PantherRule):
         # Return True to match the log event and trigger an alert.
         return (
             event.get("name") == "ADD_APPLICATION"
-            and event.get("parameters", {}).get("APPLICATION_ENABLED", "<NO_APPLICATION_FOUND>")
-            == "true"
+            and event.get("parameters", {}).get("APPLICATION_ENABLED", "<NO_APPLICATION_FOUND>") == "true"
         )
 
     def title(self, event):

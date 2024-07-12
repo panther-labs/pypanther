@@ -45,10 +45,7 @@ g_suite_rule_tests: List[PantherRuleTest] = [
         Log={
             "id": {"applicationName": "rules"},
             "actor": {"email": "some.user@somedomain.com"},
-            "parameters": {
-                "severity": "LOW",
-                "triggered_actions": [{"action_type": "DRIVE_UNFLAG_DOCUMENT"}],
-            },
+            "parameters": {"severity": "LOW", "triggered_actions": [{"action_type": "DRIVE_UNFLAG_DOCUMENT"}]},
         },
     ),
     PantherRuleTest(
@@ -89,12 +86,7 @@ class GSuiteRule(PantherRule):
     def title(self, event):
         rule_severity = deep_get(event, "parameters", "severity")
         if deep_get(event, "parameters", "rule_name"):
-            return (
-                "GSuite "
-                + rule_severity
-                + " Severity Rule Triggered: "
-                + deep_get(event, "parameters", "rule_name")
-            )
+            return "GSuite " + rule_severity + " Severity Rule Triggered: " + deep_get(event, "parameters", "rule_name")
         return "GSuite " + rule_severity + " Severity Rule Triggered"
 
     def severity(self, event):

@@ -162,14 +162,7 @@ class SlackAuditLogsAppRemoved(PantherRule):
     RuleID = "Slack.AuditLogs.AppRemoved-prototype"
     DisplayName = "Slack App Removed"
     LogTypes = [PantherLogType.Slack_AuditLogs]
-    Tags = [
-        "Slack",
-        "Impact",
-        "Service Stop",
-        "Defense Evasion",
-        "Indicator Removal",
-        "Clear Persistence",
-    ]
+    Tags = ["Slack", "Impact", "Service Stop", "Defense Evasion", "Indicator Removal", "Clear Persistence"]
     Reports = {"MITRE ATT&CK": ["TA0040:T1489", "TA0005:T1070.009"]}
     Severity = PantherSeverity.Medium
     Description = "Detects when a Slack App has been removed"

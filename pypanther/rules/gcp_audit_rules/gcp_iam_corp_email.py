@@ -39,11 +39,7 @@ gcpiam_corporate_email_tests: List[PantherRuleTest] = [
                     "@type": "type.googleapis.com/google.iam.v1.logging.AuditData",
                     "policyDelta": {
                         "bindingDeltas": [
-                            {
-                                "action": "ADD",
-                                "role": "roles/viewer",
-                                "member": "user:username@gmail.com",
-                            }
+                            {"action": "ADD", "role": "roles/viewer", "member": "user:username@gmail.com"}
                         ]
                     },
                 },
@@ -52,10 +48,7 @@ gcpiam_corporate_email_tests: List[PantherRuleTest] = [
                     "@type": "type.googleapis.com/google.iam.v1.SetIamPolicyRequest",
                     "policy": {
                         "bindings": [
-                            {
-                                "members": ["user:user-two@gmail.com"],
-                                "role": "roles/appengine.serviceAdmin",
-                            },
+                            {"members": ["user:user-two@gmail.com"], "role": "roles/appengine.serviceAdmin"},
                             {
                                 "members": [
                                     "serviceAccount:service-951849100836@compute-system.iam.gserviceaccount.com"
@@ -95,14 +88,9 @@ gcpiam_corporate_email_tests: List[PantherRuleTest] = [
                 "response": {
                     "etag": "BwWlp7rH6tY=",
                     "bindings": [
+                        {"members": ["user:user-two@gmail.com"], "role": "roles/appengine.serviceAdmin"},
                         {
-                            "members": ["user:user-two@gmail.com"],
-                            "role": "roles/appengine.serviceAdmin",
-                        },
-                        {
-                            "members": [
-                                "serviceAccount:service-951849100836@compute-system.iam.gserviceaccount.com"
-                            ],
+                            "members": ["serviceAccount:service-951849100836@compute-system.iam.gserviceaccount.com"],
                             "role": "roles/compute.serviceAgent",
                         },
                         {
@@ -116,20 +104,13 @@ gcpiam_corporate_email_tests: List[PantherRuleTest] = [
                         {"role": "roles/pubsub.admin", "members": ["user:user-two@gmail.com"]},
                         {
                             "role": "roles/pubsub.subscriber",
-                            "members": [
-                                "serviceAccount:pubsub-reader@western-verve-123456.iam.gserviceaccount.com"
-                            ],
+                            "members": ["serviceAccount:pubsub-reader@western-verve-123456.iam.gserviceaccount.com"],
                         },
                         {
-                            "members": [
-                                "serviceAccount:pubsub-reader@western-verve-123456.iam.gserviceaccount.com"
-                            ],
+                            "members": ["serviceAccount:pubsub-reader@western-verve-123456.iam.gserviceaccount.com"],
                             "role": "roles/pubsub.viewer",
                         },
-                        {
-                            "members": ["user:test@runpanther.com"],
-                            "role": "roles/resourcemanager.organizationAdmin",
-                        },
+                        {"members": ["user:test@runpanther.com"], "role": "roles/resourcemanager.organizationAdmin"},
                         {"members": ["user:username@gmail.com"], "role": "roles/viewer"},
                     ],
                     "@type": "type.googleapis.com/google.iam.v1.Policy",
@@ -178,11 +159,7 @@ gcpiam_corporate_email_tests: List[PantherRuleTest] = [
                     "@type": "type.googleapis.com/google.iam.v1.logging.AuditData",
                     "policyDelta": {
                         "bindingDeltas": [
-                            {
-                                "action": "ADD",
-                                "role": "roles/viewer",
-                                "member": "user:username@runpanther.com",
-                            }
+                            {"action": "ADD", "role": "roles/viewer", "member": "user:username@runpanther.com"}
                         ]
                     },
                 },
@@ -191,10 +168,7 @@ gcpiam_corporate_email_tests: List[PantherRuleTest] = [
                     "@type": "type.googleapis.com/google.iam.v1.SetIamPolicyRequest",
                     "policy": {
                         "bindings": [
-                            {
-                                "members": ["user:user-two@gmail.com"],
-                                "role": "roles/appengine.serviceAdmin",
-                            },
+                            {"members": ["user:user-two@gmail.com"], "role": "roles/appengine.serviceAdmin"},
                             {
                                 "members": [
                                     "serviceAccount:service-951849100836@compute-system.iam.gserviceaccount.com"
@@ -234,14 +208,9 @@ gcpiam_corporate_email_tests: List[PantherRuleTest] = [
                 "response": {
                     "etag": "BwWlp7rH6tY=",
                     "bindings": [
+                        {"members": ["user:user-two@gmail.com"], "role": "roles/appengine.serviceAdmin"},
                         {
-                            "members": ["user:user-two@gmail.com"],
-                            "role": "roles/appengine.serviceAdmin",
-                        },
-                        {
-                            "members": [
-                                "serviceAccount:service-951849100836@compute-system.iam.gserviceaccount.com"
-                            ],
+                            "members": ["serviceAccount:service-951849100836@compute-system.iam.gserviceaccount.com"],
                             "role": "roles/compute.serviceAgent",
                         },
                         {
@@ -255,20 +224,13 @@ gcpiam_corporate_email_tests: List[PantherRuleTest] = [
                         {"role": "roles/pubsub.admin", "members": ["user:user-two@gmail.com"]},
                         {
                             "role": "roles/pubsub.subscriber",
-                            "members": [
-                                "serviceAccount:pubsub-reader@western-verve-123456.iam.gserviceaccount.com"
-                            ],
+                            "members": ["serviceAccount:pubsub-reader@western-verve-123456.iam.gserviceaccount.com"],
                         },
                         {
-                            "members": [
-                                "serviceAccount:pubsub-reader@western-verve-123456.iam.gserviceaccount.com"
-                            ],
+                            "members": ["serviceAccount:pubsub-reader@western-verve-123456.iam.gserviceaccount.com"],
                             "role": "roles/pubsub.viewer",
                         },
-                        {
-                            "members": ["user:test@runpanther.com"],
-                            "role": "roles/resourcemanager.organizationAdmin",
-                        },
+                        {"members": ["user:test@runpanther.com"], "role": "roles/resourcemanager.organizationAdmin"},
                         {"members": ["user:username@gmail.com"], "role": "roles/viewer"},
                     ],
                     "@type": "type.googleapis.com/google.iam.v1.Policy",

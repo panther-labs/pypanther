@@ -273,10 +273,7 @@ class OktaAnonymizingVPNLogin(PantherRule):
 
     def severity(self, event):
         # If the user is using Apple Private Relay, demote the severity to INFO
-        if (
-            event.deep_get("p_enrichment", "ipinfo_privacy", "client.ipAddress", "service")
-            == "Apple Private Relay"
-        ):
+        if event.deep_get("p_enrichment", "ipinfo_privacy", "client.ipAddress", "service") == "Apple Private Relay":
             return "INFO"
         # Return Medium by default
         return "MEDIUM"

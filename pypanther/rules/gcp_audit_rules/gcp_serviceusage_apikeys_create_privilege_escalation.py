@@ -185,32 +185,19 @@ class GCPserviceusageapiKeyscreatePrivilegeEscalation(PantherRule):
     Tests = gc_pserviceusageapi_keyscreate_privilege_escalation_tests
 
     def rule(self, event):
-        if not deep_get(event, "protoPayload", "methodName", default="METHOD_NOT_FOUND").endswith(
-            "ApiKeys.CreateKey"
-        ):
+        if not deep_get(event, "protoPayload", "methodName", default="METHOD_NOT_FOUND").endswith("ApiKeys.CreateKey"):
             return False
         authorization_info = deep_walk(event, "protoPayload", "authorizationInfo")
         if not authorization_info:
             return False
         for auth in authorization_info:
-            if (
-                auth.get("permission") == "serviceusage.apiKeys.create"
-                and auth.get("granted") is True
-            ):
+            if auth.get("permission") == "serviceusage.apiKeys.create" and auth.get("granted") is True:
                 return True
         return False
 
     def title(self, event):
-        actor = deep_get(
-            event,
-            "protoPayload",
-            "authenticationInfo",
-            "principalEmail",
-            default="<ACTOR_NOT_FOUND>",
-        )
-        project_id = deep_get(
-            event, "resource", "labels", "project_id", default="<PROJECT_NOT_FOUND>"
-        )
+        actor = deep_get(event, "protoPayload", "authenticationInfo", "principalEmail", default="<ACTOR_NOT_FOUND>")
+        project_id = deep_get(event, "resource", "labels", "project_id", default="<PROJECT_NOT_FOUND>")
         return f"[GCP]: [{actor}] created new API Key in project [{project_id}]"
 
     def alert_context(self, event):

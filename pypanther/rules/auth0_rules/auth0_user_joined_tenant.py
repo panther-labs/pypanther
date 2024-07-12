@@ -323,18 +323,9 @@ class Auth0UserJoinedTenant(PantherRule):
     Tests = auth0_user_joined_tenant_tests
 
     def rule(self, event):
-        data_description = deep_get(
-            event, "data", "description", default="<NO_DATA_DESCRIPTION_FOUND>"
-        )
+        data_description = deep_get(event, "data", "description", default="<NO_DATA_DESCRIPTION_FOUND>")
         scopes = deep_get(
-            event,
-            "data",
-            "details",
-            "request",
-            "auth",
-            "credentials",
-            "scopes",
-            default=["<NO_CREDENTIAL_SCOPE>"],
+            event, "data", "details", "request", "auth", "credentials", "scopes", default=["<NO_CREDENTIAL_SCOPE>"]
         )
         state = deep_get(event, "data", "details", "request", "body", "state", default="<NO_STATE>")
         return all(
@@ -347,9 +338,7 @@ class Auth0UserJoinedTenant(PantherRule):
         )
 
     def title(self, event):
-        user = deep_get(
-            event, "data", "details", "request", "auth", "user", "email", default="<NO_USER_FOUND>"
-        )
+        user = deep_get(event, "data", "details", "request", "auth", "user", "email", default="<NO_USER_FOUND>")
         p_source_label = deep_get(event, "p_source_label", default="<NO_P_SOURCE_LABEL_FOUND>")
         return f"Auth0 User [{user}] has accepted an invitation to join your organization's tenant [{p_source_label}]."
 

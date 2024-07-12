@@ -51,9 +51,7 @@ class TeleportCompanyDomainLoginWithoutSAML(PantherRule):
     Runbook = "A User from the company domain(s) Logged in without SAML\n"
     SummaryAttributes = ["event", "code", "user", "method", "mfa_device"]
     Tests = teleport_company_domain_login_without_saml_tests
-    TELEPORT_ORGANIZATION_DOMAINS_REGEX = (
-        "@(" + "|".join(config.TELEPORT_ORGANIZATION_DOMAINS) + ")$"
-    )
+    TELEPORT_ORGANIZATION_DOMAINS_REGEX = "@(" + "|".join(config.TELEPORT_ORGANIZATION_DOMAINS) + ")$"
 
     def rule(self, event):
         return bool(

@@ -36,9 +36,7 @@ awsrds_public_restore_tests: List[PantherRuleTest] = [
                 "dBInstanceClass": "db.m1.small",
                 "dBInstanceIdentifier": "test-instance",
                 "dBInstanceStatus": "creating",
-                "dBParameterGroups": [
-                    {"dBParameterGroupName": "default.mysql8.0", "parameterApplyStatus": "in-sync"}
-                ],
+                "dBParameterGroups": [{"dBParameterGroupName": "default.mysql8.0", "parameterApplyStatus": "in-sync"}],
                 "dBSecurityGroups": [],
                 "dBSubnetGroup": {
                     "dBSubnetGroupDescription": "default",
@@ -88,14 +86,10 @@ awsrds_public_restore_tests: List[PantherRuleTest] = [
                 "masterUsername": "myawsuser",
                 "monitoringInterval": 0,
                 "multiAZ": False,
-                "optionGroupMemberships": [
-                    {"optionGroupName": "default:mysql-8-0", "status": "in-sync"}
-                ],
+                "optionGroupMemberships": [{"optionGroupName": "default:mysql-8-0", "status": "in-sync"}],
                 "pendingModifiedValues": {
                     "masterUserPassword": "****",
-                    "pendingCloudwatchLogsExports": {
-                        "logTypesToEnable": ["audit", "error", "general", "slowquery"]
-                    },
+                    "pendingCloudwatchLogsExports": {"logTypesToEnable": ["audit", "error", "general", "slowquery"]},
                 },
                 "performanceInsightsEnabled": False,
                 "preferredBackupWindow": "10:27-10:57",
@@ -150,9 +144,7 @@ awsrds_public_restore_tests: List[PantherRuleTest] = [
                 "dBInstanceClass": "db.m1.small",
                 "dBInstanceIdentifier": "test-instance",
                 "dBInstanceStatus": "creating",
-                "dBParameterGroups": [
-                    {"dBParameterGroupName": "default.mysql8.0", "parameterApplyStatus": "in-sync"}
-                ],
+                "dBParameterGroups": [{"dBParameterGroupName": "default.mysql8.0", "parameterApplyStatus": "in-sync"}],
                 "dBSecurityGroups": [],
                 "dBSubnetGroup": {
                     "dBSubnetGroupDescription": "default",
@@ -202,14 +194,10 @@ awsrds_public_restore_tests: List[PantherRuleTest] = [
                 "masterUsername": "myawsuser",
                 "monitoringInterval": 0,
                 "multiAZ": False,
-                "optionGroupMemberships": [
-                    {"optionGroupName": "default:mysql-8-0", "status": "in-sync"}
-                ],
+                "optionGroupMemberships": [{"optionGroupName": "default:mysql-8-0", "status": "in-sync"}],
                 "pendingModifiedValues": {
                     "masterUserPassword": "****",
-                    "pendingCloudwatchLogsExports": {
-                        "logTypesToEnable": ["audit", "error", "general", "slowquery"]
-                    },
+                    "pendingCloudwatchLogsExports": {"logTypesToEnable": ["audit", "error", "general", "slowquery"]},
                 },
                 "performanceInsightsEnabled": False,
                 "preferredBackupWindow": "10:27-10:57",
@@ -264,9 +252,7 @@ awsrds_public_restore_tests: List[PantherRuleTest] = [
                 "dBInstanceClass": "db.m1.small",
                 "dBInstanceIdentifier": "test-instance",
                 "dBInstanceStatus": "creating",
-                "dBParameterGroups": [
-                    {"dBParameterGroupName": "default.mysql8.0", "parameterApplyStatus": "in-sync"}
-                ],
+                "dBParameterGroups": [{"dBParameterGroupName": "default.mysql8.0", "parameterApplyStatus": "in-sync"}],
                 "dBSecurityGroups": [],
                 "dBSubnetGroup": {
                     "dBSubnetGroupDescription": "default",
@@ -316,14 +302,10 @@ awsrds_public_restore_tests: List[PantherRuleTest] = [
                 "masterUsername": "myawsuser",
                 "monitoringInterval": 0,
                 "multiAZ": False,
-                "optionGroupMemberships": [
-                    {"optionGroupName": "default:mysql-8-0", "status": "in-sync"}
-                ],
+                "optionGroupMemberships": [{"optionGroupName": "default:mysql-8-0", "status": "in-sync"}],
                 "pendingModifiedValues": {
                     "masterUserPassword": "****",
-                    "pendingCloudwatchLogsExports": {
-                        "logTypesToEnable": ["audit", "error", "general", "slowquery"]
-                    },
+                    "pendingCloudwatchLogsExports": {"logTypesToEnable": ["audit", "error", "general", "slowquery"]},
                 },
                 "performanceInsightsEnabled": False,
                 "preferredBackupWindow": "10:27-10:57",
@@ -350,12 +332,12 @@ awsrds_public_restore_tests: List[PantherRuleTest] = [
 
 
 class AWSRDSPublicRestore(PantherRule):
-    Description = "Detects the recovery of a new public database instance from a snapshot. It may be part of data exfiltration."
+    Description = (
+        "Detects the recovery of a new public database instance from a snapshot. It may be part of data exfiltration."
+    )
     DisplayName = "AWS Public RDS Restore"
     Reports = {"MITRE ATT&CK": ["TA0010:T1020"]}
-    Reference = (
-        "https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_RestoreFromSnapshot.html"
-    )
+    Reference = "https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_RestoreFromSnapshot.html"
     Severity = PantherSeverity.High
     LogTypes = [PantherLogType.AWS_CloudTrail]
     RuleID = "AWS.RDS.PublicRestore-prototype"

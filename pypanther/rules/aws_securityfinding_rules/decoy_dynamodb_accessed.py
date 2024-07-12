@@ -30,10 +30,7 @@ decoy_dynamo_db_accessed_tests: List[PantherRuleTest] = [
             "CompanyName": "Custom",
             "CreatedAt": "2024-05-24 22:53:24.000000000",
             "Description": "Private decoy DynamoDB table arn:aws:dynamodb:us-east-1:123456789012:table/Panther-DataTable was accessed by arn:aws:iam::123456789012:user/tester. This DynamoDB table has been provisioned to monitor and generate security events when accessed and can be an indicator of unintended or unauthorized access to your AWS Account.",
-            "FindingProviderFields": {
-                "Severity": {"Label": "HIGH", "Normalized": 70},
-                "Types": ["Unusual Behaviors"],
-            },
+            "FindingProviderFields": {"Severity": {"Label": "HIGH", "Normalized": 70}, "Types": ["Unusual Behaviors"]},
             "GeneratorId": "dynamodb.amazonaws.com",
             "Id": "1abc2de3-69ea-4e15-91c6-27eb4a07bd21",
             "ProcessedAt": "2024-05-24T22:53:41.884Z",
@@ -65,10 +62,7 @@ decoy_dynamo_db_accessed_tests: List[PantherRuleTest] = [
                             "PrincipalId": "ABC9ONWNS3155VIEJC8U:john.doe",
                             "PrincipalType": "AssumedRole",
                             "SessionContext": {
-                                "Attributes": {
-                                    "CreationDate": "2024-05-24T22:32:38Z",
-                                    "MfaAuthenticated": False,
-                                },
+                                "Attributes": {"CreationDate": "2024-05-24T22:32:38Z", "MfaAuthenticated": False},
                                 "SessionIssuer": {
                                     "AccountId": "123456789012",
                                     "Arn": "arn:aws:iam::123456789012:user/tester",
@@ -143,10 +137,7 @@ decoy_dynamo_db_accessed_tests: List[PantherRuleTest] = [
             "CompanyName": "Custom",
             "CreatedAt": "2024-05-24 22:53:24.000000000",
             "Description": "Private decoy DynamoDB table arn:aws:dynamodb:us-east-1:123456789012:table/Panther-DataTable was not accessed by arn:aws:iam::123456789012:user/tester. This DynamoDB table has been provisioned to monitor and generate security events when accessed and can be an indicator of unintended or unauthorized access to your AWS Account.",
-            "FindingProviderFields": {
-                "Severity": {"Label": "HIGH", "Normalized": 70},
-                "Types": ["Unusual Behaviors"],
-            },
+            "FindingProviderFields": {"Severity": {"Label": "HIGH", "Normalized": 70}, "Types": ["Unusual Behaviors"]},
             "GeneratorId": "dynamodb.amazonaws.com",
             "Id": "1abc2de3-69ea-4e15-91c6-27eb4a07bd21",
             "ProcessedAt": "2024-05-24T22:53:41.884Z",
@@ -178,10 +169,7 @@ decoy_dynamo_db_accessed_tests: List[PantherRuleTest] = [
                             "PrincipalId": "ABC9ONWNS3155VIEJC8U:john.doe",
                             "PrincipalType": "AssumedRole",
                             "SessionContext": {
-                                "Attributes": {
-                                    "CreationDate": "2024-05-24T22:32:38Z",
-                                    "MfaAuthenticated": False,
-                                },
+                                "Attributes": {"CreationDate": "2024-05-24T22:32:38Z", "MfaAuthenticated": False},
                                 "SessionIssuer": {
                                     "AccountId": "123456789012",
                                     "Arn": "arn:aws:iam::123456789012:user/tester",

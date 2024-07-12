@@ -10,9 +10,7 @@ gc_piamservice_account_keyscreate_tests: List[PantherRuleTest] = [
         ExpectedResult=True,
         Log={
             "protoPayload": {
-                "authorizationInfo": [
-                    {"granted": True, "permission": "iam.serviceAccountKeys.create"}
-                ],
+                "authorizationInfo": [{"granted": True, "permission": "iam.serviceAccountKeys.create"}],
                 "methodName": "v2.deploymentmanager.deployments.insert",
                 "serviceName": "deploymentmanager.googleapis.com",
             },
@@ -30,9 +28,7 @@ gc_piamservice_account_keyscreate_tests: List[PantherRuleTest] = [
         ExpectedResult=False,
         Log={
             "protoPayload": {
-                "authorizationInfo": [
-                    {"granted": False, "permission": "iam.serviceAccountKeys.create"}
-                ],
+                "authorizationInfo": [{"granted": False, "permission": "iam.serviceAccountKeys.create"}],
                 "methodName": "v2.deploymentmanager.deployments.insert",
                 "serviceName": "deploymentmanager.googleapis.com",
             },
@@ -54,9 +50,7 @@ class GCPiamserviceAccountKeyscreate(PantherRule):
     Description = "If your user is assigned a custom IAM role, then iam.roles.update will allow you to update the “includedPermissons” on that role. Because it is assigned to you, you will gain the additional privileges, which could be anything you desire."
     LogTypes = [PantherLogType.GCP_AuditLog]
     Severity = PantherSeverity.High
-    Reference = (
-        "https://rhinosecuritylabs.com/gcp/privilege-escalation-google-cloud-platform-part-1/"
-    )
+    Reference = "https://rhinosecuritylabs.com/gcp/privilege-escalation-google-cloud-platform-part-1/"
     Runbook = "Confirm this was authorized and necessary behavior. This is not a vulnerability in GCP, it is a vulnerability in how GCP environment is configured, so it is necessary to be aware of these attack vectors and to defend against them. It’s also important to remember that privilege escalation does not necessarily need to pass through the IAM service to be effective. Make sure to follow the principle of least-privilege in your environments to help mitigate these security risks."
     Reports = {"MITRE ATT&CK": ["TA0004:T1548"]}
     Tests = gc_piamservice_account_keyscreate_tests
@@ -66,25 +60,14 @@ class GCPiamserviceAccountKeyscreate(PantherRule):
         if not authorization_info:
             return False
         for auth in authorization_info:
-            if (
-                auth.get("permission") == "iam.serviceAccountKeys.create"
-                and auth.get("granted") is True
-            ):
+            if auth.get("permission") == "iam.serviceAccountKeys.create" and auth.get("granted") is True:
                 return True
         return False
 
     def title(self, event):
-        actor = deep_get(
-            event,
-            "protoPayload",
-            "authenticationInfo",
-            "principalEmail",
-            default="<ACTOR_NOT_FOUND>",
-        )
+        actor = deep_get(event, "protoPayload", "authenticationInfo", "principalEmail", default="<ACTOR_NOT_FOUND>")
         operation = deep_get(event, "protoPayload", "methodName", default="<OPERATION_NOT_FOUND>")
-        project_id = deep_get(
-            event, "resource", "labels", "project_id", default="<PROJECT_NOT_FOUND>"
-        )
+        project_id = deep_get(event, "resource", "labels", "project_id", default="<PROJECT_NOT_FOUND>")
         return f"[GCP]: [{actor}] performed [{operation}] on project [{project_id}]"
 
     def alert_context(self, event):

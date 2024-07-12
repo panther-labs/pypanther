@@ -53,23 +53,15 @@ class ZendeskAccountOwnerChanged(PantherRule):
     Severity = PantherSeverity.High
     Tags = ["Zendesk", "Privilege Escalation:Valid Accounts"]
     Reports = {"MITRE ATT&CK": ["TA0004:T1078"]}
-    Description = (
-        "Only one admin user can be the account owner. Ensure the change in ownership is expected."
-    )
-    Reference = (
-        "https://support.zendesk.com/hc/en-us/articles/4408822084634-Changing-the-account-owner"
-    )
+    Description = "Only one admin user can be the account owner. Ensure the change in ownership is expected."
+    Reference = "https://support.zendesk.com/hc/en-us/articles/4408822084634-Changing-the-account-owner"
     SummaryAttributes = ["p_any_ip_addresses"]
     Tests = zendesk_account_owner_changed_tests
-    ZENDESK_OWNER_CHANGED = re.compile(
-        "Owner changed from (?P<old_owner>.+) to (?P<new_owner>[^$]+)", re.IGNORECASE
-    )
+    ZENDESK_OWNER_CHANGED = re.compile("Owner changed from (?P<old_owner>.+) to (?P<new_owner>[^$]+)", re.IGNORECASE)
 
     def rule(self, event):
         if event.get("action", "") == "update" and event.get("source_type", "") == "account":
-            return (
-                event.get(ZENDESK_CHANGE_DESCRIPTION, "").lower().startswith("owner changed from ")
-            )
+            return event.get(ZENDESK_CHANGE_DESCRIPTION, "").lower().startswith("owner changed from ")
         return False
 
     def title(self, event):

@@ -32,10 +32,7 @@ auth0_cic_credential_stuffing_tests: List[PantherRuleTest] = [
                         "query": {},
                         "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Safari/537.36",
                     },
-                    "response": {
-                        "body": {"integration_id": "64bee519-818f-4473-ab08-7c380f28da77"},
-                        "statusCode": 200,
-                    },
+                    "response": {"body": {"integration_id": "64bee519-818f-4473-ab08-7c380f28da77"}, "statusCode": 200},
                 },
                 "ip": "12.12.12.12",
                 "log_id": "90020230523204756343781000000000000001223372037583230452",
@@ -240,7 +237,9 @@ class Auth0CICCredentialStuffing(PantherRule):
     Description = "Okta has determined that the cross-origin authentication feature in Customer Identity Cloud (CIC) is prone to being targeted by threat actors orchestrating credential-stuffing attacks.  Okta has observed suspicious activity that started on April 15, 2024.  Review tenant logs for unexpected fcoa, scoa, and pwd_leak events."
     Severity = PantherSeverity.High
     Runbook = "If a user password was compromised in a credential stuffing attack, the user's credentials should be rotated immediately out of an abundance of caution."
-    Reference = "https://sec.okta.com/articles/2024/05/detecting-cross-origin-authentication-credential-stuffing-attacks"
+    Reference = (
+        "https://sec.okta.com/articles/2024/05/detecting-cross-origin-authentication-credential-stuffing-attacks"
+    )
     Tests = auth0_cic_credential_stuffing_tests
     SUSPICIOUS_EVENT_TYPES = ("scoa", "fcoa", "pwd_leak")
 
@@ -249,9 +248,7 @@ class Auth0CICCredentialStuffing(PantherRule):
 
     def title(self, event):
         event_type = event.deep_get("data", "type")
-        user = event.deep_get(
-            "data", "details", "request", "auth", "user", "email", default="<NO_USER_FOUND>"
-        )
+        user = event.deep_get("data", "details", "request", "auth", "user", "email", default="<NO_USER_FOUND>")
         p_source_label = event.deep_get("p_source_label", default="<NO_P_SOURCE_LABEL_FOUND>")
         return f"Auth0 User [{user}] had a suspicious [{event_type}] event in your organization's tenant [{p_source_label}]."
 

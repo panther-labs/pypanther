@@ -26,12 +26,7 @@ osquery_linux_aws_command_executed_tests: List[PantherRuleTest] = [
         Log={
             "name": "pack_incident-response_shell_history",
             "action": "added",
-            "columns": {
-                "command": "aws s3 ls",
-                "uid": "1000",
-                "directory": "/home/ubuntu",
-                "username": "ubuntu",
-            },
+            "columns": {"command": "aws s3 ls", "uid": "1000", "directory": "/home/ubuntu", "username": "ubuntu"},
         },
     ),
     PantherRuleTest(
@@ -68,12 +63,7 @@ osquery_linux_aws_command_executed_tests: List[PantherRuleTest] = [
         Log={
             "name": "pack_incident-response_shell_history",
             "action": "added",
-            "columns": {
-                "command": "unopened '",
-                "uid": "1000",
-                "directory": "/home/ubuntu",
-                "username": "ubuntu",
-            },
+            "columns": {"command": "unopened '", "uid": "1000", "directory": "/home/ubuntu", "username": "ubuntu"},
         },
     ),
 ]

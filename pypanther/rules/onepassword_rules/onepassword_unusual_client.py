@@ -14,11 +14,7 @@ one_password_unusual_client_tests: List[PantherRuleTest] = [
             "category": "success",
             "type": "credentials_ok",
             "country": "US",
-            "target_user": {
-                "email": "homer@springfield.gov",
-                "name": "Homer Simpson",
-                "uuid": "1234",
-            },
+            "target_user": {"email": "homer@springfield.gov", "name": "Homer Simpson", "uuid": "1234"},
             "client": {
                 "app_name": "1Password for Mac",
                 "app_version": "70902005",
@@ -41,11 +37,7 @@ one_password_unusual_client_tests: List[PantherRuleTest] = [
             "category": "success",
             "type": "credentials_ok",
             "country": "US",
-            "target_user": {
-                "email": "homer@springfield.gov",
-                "name": "Homer Simpson",
-                "uuid": "1234",
-            },
+            "target_user": {"email": "homer@springfield.gov", "name": "Homer Simpson", "uuid": "1234"},
             "client": {
                 "app_name": "Bartco 1Password Manager",
                 "app_version": "70902005",
@@ -67,9 +59,7 @@ class OnePasswordUnusualClient(PantherRule):
     DisplayName = "Unusual 1Password Client Detected"
     LogTypes = [PantherLogType.OnePassword_SignInAttempt]
     Severity = PantherSeverity.Medium
-    Description = (
-        "Detects when unusual or undesirable 1Password clients access your 1Password account"
-    )
+    Description = "Detects when unusual or undesirable 1Password clients access your 1Password account"
     Reference = "https://support.1password.com/category/accounts/"
     Tags = ["1Password", "Credential Access:Credentials from Password Stores"]
     Reports = {"MITRE ATT&CK": ["TA0006:T1555"]}

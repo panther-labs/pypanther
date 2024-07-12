@@ -37,7 +37,9 @@ class GSuiteTwoStepVerification(PantherRule):
     Reports = {"MITRE ATT&CK": ["TA0005:T1556"]}
     Severity = PantherSeverity.Low
     Description = "A user disabled two step verification for themselves.\n"
-    Reference = "https://support.google.com/mail/answer/185839?hl=en&co=GENIE.Platform%3DDesktop&sjid=864417124752637253-EU"
+    Reference = (
+        "https://support.google.com/mail/answer/185839?hl=en&co=GENIE.Platform%3DDesktop&sjid=864417124752637253-EU"
+    )
     Runbook = "Depending on company policy, either suggest or require the user re-enable two step verification.\n"
     SummaryAttributes = ["actor:email"]
     Tests = g_suite_two_step_verification_tests

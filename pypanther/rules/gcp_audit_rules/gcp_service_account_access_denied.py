@@ -143,13 +143,7 @@ class GCPServiceAccountAccessDenied(PantherRule):
         return reason == "IAM_PERMISSION_DENIED"
 
     def title(self, event):
-        actor = deep_walk(
-            event,
-            "protoPayload",
-            "authenticationInfo",
-            "principalEmail",
-            default="<ACTOR_NOT_FOUND>",
-        )
+        actor = deep_walk(event, "protoPayload", "authenticationInfo", "principalEmail", default="<ACTOR_NOT_FOUND>")
         return f"[GCP]: [{actor}] performed multiple requests resulting in [IAM_PERMISSION_DENIED]"
 
     def alert_context(self, event):

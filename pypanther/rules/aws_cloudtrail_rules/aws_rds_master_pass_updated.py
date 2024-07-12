@@ -57,9 +57,7 @@ awsrds_master_password_updated_tests: List[PantherRuleTest] = [
                 "dBInstanceIdentifier": "my-database",
                 "dBInstanceStatus": "available",
                 "dBName": "test",
-                "dBParameterGroups": [
-                    {"dBParameterGroupName": "default.mysql8.0", "parameterApplyStatus": "in-sync"}
-                ],
+                "dBParameterGroups": [{"dBParameterGroupName": "default.mysql8.0", "parameterApplyStatus": "in-sync"}],
                 "dBSecurityGroups": [],
                 "dBSubnetGroup": {
                     "dBSubnetGroupDescription": "Created from the RDS Management Console",
@@ -103,9 +101,7 @@ awsrds_master_password_updated_tests: List[PantherRuleTest] = [
                 "monitoringInterval": 0,
                 "multiAZ": False,
                 "networkType": "IPV4",
-                "optionGroupMemberships": [
-                    {"optionGroupName": "default:mysql-8-0", "status": "in-sync"}
-                ],
+                "optionGroupMemberships": [{"optionGroupName": "default:mysql-8-0", "status": "in-sync"}],
                 "pendingModifiedValues": {"allocatedStorage": 22},
                 "performanceInsightsEnabled": False,
                 "preferredBackupWindow": "11:52-12:22",
@@ -127,10 +123,7 @@ awsrds_master_password_updated_tests: List[PantherRuleTest] = [
                 "arn": "arn:aws:sts::123456789012:assumed-role/Admin/Jack",
                 "principalId": "AROAJ4ULUNLE6DYF4PCOK:jack",
                 "sessionContext": {
-                    "attributes": {
-                        "creationDate": "2022-09-23T23:17:13Z",
-                        "mfaAuthenticated": "true",
-                    },
+                    "attributes": {"creationDate": "2022-09-23T23:17:13Z", "mfaAuthenticated": "true"},
                     "sessionIssuer": {
                         "accountId": "123456789012",
                         "arn": "arn:aws:iam::123456789012:role/Admin",
@@ -197,9 +190,7 @@ awsrds_master_password_updated_tests: List[PantherRuleTest] = [
                 "dBInstanceIdentifier": "my-database",
                 "dBInstanceStatus": "available",
                 "dBName": "test",
-                "dBParameterGroups": [
-                    {"dBParameterGroupName": "default.mysql8.0", "parameterApplyStatus": "in-sync"}
-                ],
+                "dBParameterGroups": [{"dBParameterGroupName": "default.mysql8.0", "parameterApplyStatus": "in-sync"}],
                 "dBSecurityGroups": [],
                 "dBSubnetGroup": {
                     "dBSubnetGroupDescription": "Created from the RDS Management Console",
@@ -243,9 +234,7 @@ awsrds_master_password_updated_tests: List[PantherRuleTest] = [
                 "monitoringInterval": 0,
                 "multiAZ": False,
                 "networkType": "IPV4",
-                "optionGroupMemberships": [
-                    {"optionGroupName": "default:mysql-8-0", "status": "in-sync"}
-                ],
+                "optionGroupMemberships": [{"optionGroupName": "default:mysql-8-0", "status": "in-sync"}],
                 "pendingModifiedValues": {"masterUserPassword": "****"},
                 "performanceInsightsEnabled": False,
                 "preferredBackupWindow": "11:52-12:22",
@@ -267,10 +256,7 @@ awsrds_master_password_updated_tests: List[PantherRuleTest] = [
                 "arn": "arn:aws:sts::123456789012:assumed-role/Admin/Jack",
                 "principalId": "AROAJ4ULUNLE6DYF4PCOK:jack",
                 "sessionContext": {
-                    "attributes": {
-                        "creationDate": "2022-09-23T23:17:13Z",
-                        "mfaAuthenticated": "true",
-                    },
+                    "attributes": {"creationDate": "2022-09-23T23:17:13Z", "mfaAuthenticated": "true"},
                     "sessionIssuer": {
                         "accountId": "123456789012",
                         "arn": "arn:aws:iam::123456789012:role/Admin",
@@ -290,9 +276,7 @@ awsrds_master_password_updated_tests: List[PantherRuleTest] = [
 class AWSRDSMasterPasswordUpdated(PantherRule):
     Description = "A sensitive database operation that should be performed carefully or rarely"
     DisplayName = "AWS RDS Master Password Updated"
-    Reference = (
-        "https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Overview.DBInstance.Modifying.html"
-    )
+    Reference = "https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Overview.DBInstance.Modifying.html"
     Severity = PantherSeverity.Low
     Reports = {"MITRE ATT&CK": ["TA0003:T1098"]}
     SummaryAttributes = [
@@ -310,9 +294,7 @@ class AWSRDSMasterPasswordUpdated(PantherRule):
         return (
             event.get("eventName") == "ModifyDBInstance"
             and event.get("eventSource") == "rds.amazonaws.com"
-            and bool(
-                deep_get(event, "responseElements", "pendingModifiedValues", "masterUserPassword")
-            )
+            and bool(deep_get(event, "responseElements", "pendingModifiedValues", "masterUserPassword"))
         )
 
     def title(self, event):

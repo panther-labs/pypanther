@@ -100,13 +100,7 @@ class AWSLAMBDACRUD(PantherRule):
     Description = "Unauthorized lambda Create, Read, Update, or Delete event occurred."
     Runbook = "https://docs.aws.amazon.com/lambda/latest/dg/logging-using-cloudtrail.html"
     Reference = "https://docs.aws.amazon.com/lambda/latest/dg/logging-using-cloudtrail.html"
-    SummaryAttributes = [
-        "eventSource",
-        "eventName",
-        "recipientAccountId",
-        "awsRegion",
-        "p_any_aws_arns",
-    ]
+    SummaryAttributes = ["eventSource", "eventName", "recipientAccountId", "awsRegion", "p_any_aws_arns"]
     Tests = awslambdacrud_tests
     LAMBDA_CRUD_EVENTS = {
         "AddPermission",
@@ -126,10 +120,7 @@ class AWSLAMBDACRUD(PantherRule):
     ALLOWED_ROLES = ["*DeployRole"]
 
     def rule(self, event):
-        if (
-            event.get("eventSource") == "lambda.amazonaws.com"
-            and event.get("eventName") in self.LAMBDA_CRUD_EVENTS
-        ):
+        if event.get("eventSource") == "lambda.amazonaws.com" and event.get("eventName") in self.LAMBDA_CRUD_EVENTS:
             for role in self.ALLOWED_ROLES:
                 if fnmatch(deep_get(event, "userIdentity", "arn", default="unknown-arn"), role):
                     return False

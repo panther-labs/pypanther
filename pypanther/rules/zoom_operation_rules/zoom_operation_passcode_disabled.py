@@ -51,9 +51,7 @@ class ZoomPasscodeDisabled(PantherRule):
     Severity = PantherSeverity.Low
     Description = "Meeting passcode requirement has been disabled from usergroup\n"
     Reports = {"MITRE ATT&CK": ["TA0009:T1125"]}
-    Reference = (
-        "https://support.zoom.us/hc/en-us/articles/360033559832-Zoom-Meeting-and-Webinar-passcodes"
-    )
+    Reference = "https://support.zoom.us/hc/en-us/articles/360033559832-Zoom-Meeting-and-Webinar-passcodes"
     Runbook = "Follow up with user or Zoom admin to ensure this meeting room's use case does not allow a passcode.\n"
     SummaryAttributes = ["p_any_emails"]
     Tests = zoom_passcode_disabled_tests
@@ -68,6 +66,4 @@ class ZoomPasscodeDisabled(PantherRule):
 
     def title(self, event):
         context = get_context(event)
-        return (
-            f"Group {context['GroupName']} passcode requirement disabled by {event.get('operator')}"
-        )
+        return f"Group {context['GroupName']} passcode requirement disabled by {event.get('operator')}"

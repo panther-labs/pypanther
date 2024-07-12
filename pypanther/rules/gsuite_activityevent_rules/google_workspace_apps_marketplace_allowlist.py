@@ -8,11 +8,7 @@ google_workspace_apps_marketplace_allowlist_tests: List[PantherRuleTest] = [
         Name="parameters json key set to null value",
         ExpectedResult=False,
         Log={
-            "actor": {
-                "callerType": "USER",
-                "email": "user@example.io",
-                "profileId": "111111111111111111111",
-            },
+            "actor": {"callerType": "USER", "email": "user@example.io", "profileId": "111111111111111111111"},
             "id": {
                 "applicationName": "user_accounts",
                 "customerId": "C00000000",

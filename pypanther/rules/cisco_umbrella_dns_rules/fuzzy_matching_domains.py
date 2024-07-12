@@ -1,7 +1,6 @@
 from difflib import SequenceMatcher
-from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import PantherLogType, PantherRule, PantherSeverity
 
 
 class CiscoUmbrellaDNSFuzzyMatching(PantherRule):
@@ -24,8 +23,7 @@ class CiscoUmbrellaDNSFuzzyMatching(PantherRule):
         # Domains coming through umbrella end with a dot, such as google.com.
         domain = ".".join(event.get("domain").rstrip(".").split(".")[-2:]).lower()
         return (
-            domain not in self.ALLOW_SET
-            and SequenceMatcher(None, self.DOMAIN, domain).ratio() >= self.SIMILARITY_RATIO
+            domain not in self.ALLOW_SET and SequenceMatcher(None, self.DOMAIN, domain).ratio() >= self.SIMILARITY_RATIO
         )
 
     def title(self, event):

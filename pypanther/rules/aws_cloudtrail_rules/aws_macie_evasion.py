@@ -42,10 +42,7 @@ aws_macie_evasion_tests: List[PantherRuleTest] = [
                 "arn": "arn:aws:sts::123456789012:assumed-role/Admin/Jack",
                 "principalId": "AAAAA44444LE6DYFKKKKK:Jack",
                 "sessionContext": {
-                    "attributes": {
-                        "creationDate": "2022-09-27T17:56:01Z",
-                        "mfaAuthenticated": "true",
-                    },
+                    "attributes": {"creationDate": "2022-09-27T17:56:01Z", "mfaAuthenticated": "true"},
                     "sessionIssuer": {
                         "accountId": "123456789012",
                         "arn": "arn:aws:iam::123456789012:role/Admin",
@@ -97,10 +94,7 @@ aws_macie_evasion_tests: List[PantherRuleTest] = [
                 "arn": "arn:aws:sts::123456789012:assumed-role/Admin/Jack",
                 "principalId": "AAAAA44444LE6DYFKKKKK:Jack",
                 "sessionContext": {
-                    "attributes": {
-                        "creationDate": "2022-09-27T17:56:01Z",
-                        "mfaAuthenticated": "true",
-                    },
+                    "attributes": {"creationDate": "2022-09-27T17:56:01Z", "mfaAuthenticated": "true"},
                     "sessionIssuer": {
                         "accountId": "123456789012",
                         "arn": "arn:aws:iam::123456789012:role/Admin",
@@ -152,10 +146,7 @@ aws_macie_evasion_tests: List[PantherRuleTest] = [
                 "arn": "arn:aws:sts::123456789012:assumed-role/Admin/Jack",
                 "principalId": "AAAAA44444LE6DYFKKKKK:Jack",
                 "sessionContext": {
-                    "attributes": {
-                        "creationDate": "2022-09-27T17:56:01Z",
-                        "mfaAuthenticated": "true",
-                    },
+                    "attributes": {"creationDate": "2022-09-27T17:56:01Z", "mfaAuthenticated": "true"},
                     "sessionIssuer": {
                         "accountId": "123456789012",
                         "arn": "arn:aws:iam::123456789012:role/Admin",

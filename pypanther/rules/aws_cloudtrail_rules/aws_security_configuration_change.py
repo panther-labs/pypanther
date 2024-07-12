@@ -31,10 +31,7 @@ aws_cloud_trail_security_configuration_change_tests: List[PantherRuleTest] = [
                 "invokedBy": "cloudformation.amazonaws.com",
                 "principalId": "1111",
                 "sessionContext": {
-                    "attributes": {
-                        "creationDate": "2019-01-01T00:00:00Z",
-                        "mfaAuthenticated": "true",
-                    },
+                    "attributes": {"creationDate": "2019-01-01T00:00:00Z", "mfaAuthenticated": "true"},
                     "sessionIssuer": {
                         "accountId": "123456789012",
                         "arn": "arn:aws:iam::123456789012:role/example-role",
@@ -73,10 +70,7 @@ aws_cloud_trail_security_configuration_change_tests: List[PantherRuleTest] = [
                 "invokedBy": "cloudformation.amazonaws.com",
                 "principalId": "1111",
                 "sessionContext": {
-                    "attributes": {
-                        "creationDate": "2019-01-01T00:00:00Z",
-                        "mfaAuthenticated": "true",
-                    },
+                    "attributes": {"creationDate": "2019-01-01T00:00:00Z", "mfaAuthenticated": "true"},
                     "sessionIssuer": {
                         "accountId": "123456789012",
                         "arn": "arn:aws:iam::123456789012:role/example-role",
@@ -115,10 +109,7 @@ aws_cloud_trail_security_configuration_change_tests: List[PantherRuleTest] = [
                 "invokedBy": "cloudformation.amazonaws.com",
                 "principalId": "1111",
                 "sessionContext": {
-                    "attributes": {
-                        "creationDate": "2019-01-01T00:00:00Z",
-                        "mfaAuthenticated": "true",
-                    },
+                    "attributes": {"creationDate": "2019-01-01T00:00:00Z", "mfaAuthenticated": "true"},
                     "sessionIssuer": {
                         "accountId": "123456789012",
                         "arn": "arn:aws:iam::123456789012:role/example-role",
@@ -158,10 +149,7 @@ aws_cloud_trail_security_configuration_change_tests: List[PantherRuleTest] = [
                 "invokedBy": "cloudformation.amazonaws.com",
                 "principalId": "1111",
                 "sessionContext": {
-                    "attributes": {
-                        "creationDate": "2019-01-01T00:00:00Z",
-                        "mfaAuthenticated": "true",
-                    },
+                    "attributes": {"creationDate": "2019-01-01T00:00:00Z", "mfaAuthenticated": "true"},
                     "sessionIssuer": {
                         "accountId": "123456789012",
                         "arn": "arn:aws:iam::123456789012:role/example-role",
@@ -200,10 +188,7 @@ aws_cloud_trail_security_configuration_change_tests: List[PantherRuleTest] = [
                 "invokedBy": "cloudformation.amazonaws.com",
                 "principalId": "1111",
                 "sessionContext": {
-                    "attributes": {
-                        "creationDate": "2019-01-01T00:00:00Z",
-                        "mfaAuthenticated": "true",
-                    },
+                    "attributes": {"creationDate": "2019-01-01T00:00:00Z", "mfaAuthenticated": "true"},
                     "sessionIssuer": {
                         "accountId": "123456789012",
                         "arn": "arn:aws:iam::123456789012:role/example-role",
@@ -229,14 +214,10 @@ class AWSCloudTrailSecurityConfigurationChange(PantherRule):
     Reports = {"MITRE ATT&CK": ["TA0005:T1562"]}
     Description = "An account wide security configuration was changed."
     Runbook = "Verify that this change was planned. If not, revert the change and update the access control policies to ensure this doesn't happen again.\n"
-    Reference = "https://docs.aws.amazon.com/prescriptive-guidance/latest/aws-startup-security-baseline/controls-acct.html"
-    SummaryAttributes = [
-        "eventName",
-        "userAgent",
-        "sourceIpAddress",
-        "recipientAccountId",
-        "p_any_aws_arns",
-    ]
+    Reference = (
+        "https://docs.aws.amazon.com/prescriptive-guidance/latest/aws-startup-security-baseline/controls-acct.html"
+    )
+    SummaryAttributes = ["eventName", "userAgent", "sourceIpAddress", "recipientAccountId", "p_any_aws_arns"]
     Tests = aws_cloud_trail_security_configuration_change_tests
     SECURITY_CONFIG_ACTIONS = {
         "DeleteAccountPublicAccessBlock",
@@ -258,9 +239,7 @@ class AWSCloudTrailSecurityConfigurationChange(PantherRule):
             return False
         for entry in self.ALLOW_LIST:
             if fnmatch(
-                deep_get(
-                    event, "userIdentity", "sessionContext", "sessionIssuer", "userName", default=""
-                ),
+                deep_get(event, "userIdentity", "sessionContext", "sessionIssuer", "userName", default=""),
                 entry["userName"],
             ):
                 if fnmatch(event.get("eventName"), entry["eventName"]):

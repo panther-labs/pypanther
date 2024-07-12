@@ -18,10 +18,7 @@ awss3_bucket_deleted_tests: List[PantherRuleTest] = [
                 "accountId": "123456789012",
                 "accessKeyId": "AAAAAAAAAAAAAAAAAAAAA",
                 "sessionContext": {
-                    "attributes": {
-                        "mfaAuthenticated": "true",
-                        "creationDate": "2020-02-14T00:11:28Z",
-                    },
+                    "attributes": {"mfaAuthenticated": "true", "creationDate": "2020-02-14T00:11:28Z"},
                     "sessionIssuer": {
                         "type": "Role",
                         "principalId": "AAAAAAAAAAAAAAAAAAAAA",

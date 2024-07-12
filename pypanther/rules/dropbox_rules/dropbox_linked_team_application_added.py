@@ -31,10 +31,7 @@ dropbox_linked_team_application_added_tests: List[PantherRuleTest] = [
             "event_type": {"_tag": "app_link_team", "description": "Linked app for team"},
             "involve_non_team_member": False,
             "origin": {
-                "access_method": {
-                    ".tag": "api",
-                    "request_id": "dbarod:xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
-                },
+                "access_method": {".tag": "api", "request_id": "dbarod:xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"},
                 "geo_location": {
                     "city": "Los Angeles",
                     "country": "US",
@@ -72,10 +69,7 @@ dropbox_linked_team_application_added_tests: List[PantherRuleTest] = [
             "event_type": {"_tag": "app_link_member", "description": "Linked app for member"},
             "involve_non_team_member": False,
             "origin": {
-                "access_method": {
-                    ".tag": "api",
-                    "request_id": "dbarod:xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
-                },
+                "access_method": {".tag": "api", "request_id": "dbarod:xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"},
                 "geo_location": {
                     "city": "Los Angeles",
                     "country": "US",
@@ -113,10 +107,7 @@ dropbox_linked_team_application_added_tests: List[PantherRuleTest] = [
             "event_type": {"_tag": "app_link_team", "description": "Linked app for team"},
             "involve_non_team_member": True,
             "origin": {
-                "access_method": {
-                    ".tag": "api",
-                    "request_id": "dbarod:xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
-                },
+                "access_method": {".tag": "api", "request_id": "dbarod:xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"},
                 "geo_location": {
                     "city": "Los Angeles",
                     "country": "US",
@@ -169,9 +160,7 @@ class DropboxLinkedTeamApplicationAdded(PantherRule):
         # find the intersection and use that for the key
         actor_key = set(tuple(event.get("actor", {}).keys())).intersection(self.get_actor_type())
         if len(actor_key) == 1:
-            display_name = deep_get(
-                event, "actor", tuple(actor_key)[0], "display_name", default="<Unknown>"
-            )
+            display_name = deep_get(event, "actor", tuple(actor_key)[0], "display_name", default="<Unknown>")
         else:
             # Explicitly use "<Unknown>" if we find any length of keys != 1
             display_name = "<Unknown>"
@@ -195,10 +184,6 @@ class DropboxLinkedTeamApplicationAdded(PantherRule):
             "app_display_name": deep_get(
                 event, "details", "app_info", "display_name", default="<Unknown app display name>"
             ),
-            "ip_address": deep_get(
-                event, "origin", "geo_location", "ip_address", default="<Unknown IP address>"
-            ),
-            "request_id": deep_get(
-                event, "origin", "access_method", "request_id", default="<Unknown request ID>"
-            ),
+            "ip_address": deep_get(event, "origin", "geo_location", "ip_address", default="<Unknown IP address>"),
+            "request_id": deep_get(event, "origin", "access_method", "request_id", default="<Unknown request ID>"),
         }

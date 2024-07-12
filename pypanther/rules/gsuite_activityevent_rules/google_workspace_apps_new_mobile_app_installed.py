@@ -86,7 +86,9 @@ google_workspace_apps_new_mobile_app_installed_tests: List[PantherRuleTest] = [
 
 
 class GoogleWorkspaceAppsNewMobileAppInstalled(PantherRule):
-    Description = "A new mobile application was added to your organization's mobile apps whitelist in Google Workspace Apps."
+    Description = (
+        "A new mobile application was added to your organization's mobile apps whitelist in Google Workspace Apps."
+    )
     DisplayName = "Google Workspace Apps New Mobile App Installed"
     Runbook = "https://admin.google.com/ac/apps/unified"
     Reference = "https://support.google.com/a/answer/6089179?hl=en"
@@ -102,7 +104,5 @@ class GoogleWorkspaceAppsNewMobileAppInstalled(PantherRule):
     def title(self, event):
         # If no 'dedup' function is defined, the return value of
         # this method will act as deduplication string.
-        mobile_app_pkg_id = event.get("parameters", {}).get(
-            "MOBILE_APP_PACKAGE_ID", "<NO_MOBILE_APP_PACKAGE_ID_FOUND>"
-        )
+        mobile_app_pkg_id = event.get("parameters", {}).get("MOBILE_APP_PACKAGE_ID", "<NO_MOBILE_APP_PACKAGE_ID_FOUND>")
         return f"Google Workspace User [{event.get('actor', {}).get('email', '<NO_EMAIL_FOUND>')}] added application [{mobile_app_pkg_id}] to your org's mobile application allowlist for [{event.get('parameters', {}).get('DEVICE_TYPE', '<NO_DEVICE_TYPE_FOUND>')}]."

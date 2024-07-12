@@ -66,14 +66,8 @@ crowdstrike_fdrlolbas_tests: List[PantherRuleTest] = [
                 "cfe698690964434083fecdredacted",
             ],
             "p_any_sha1_hashes": ["0000000000000000000000000000000000000000"],
-            "p_any_sha256_hashes": [
-                "488e74e2026d03f21b33f470c23b3de2f466643186c2e06ae7b4883cc2e59377"
-            ],
-            "p_any_trace_ids": [
-                "4295752857",
-                "877761efa8db44d792ddc2redacted",
-                "cfe698690964434083fecdredacted",
-            ],
+            "p_any_sha256_hashes": ["488e74e2026d03f21b33f470c23b3de2f466643186c2e06ae7b4883cc2e59377"],
+            "p_any_trace_ids": ["4295752857", "877761efa8db44d792ddc2redacted", "cfe698690964434083fecdredacted"],
             "p_event_time": "2023-04-21 19:48:28.97",
             "p_log_type": "Crowdstrike.FDREvent",
             "p_parse_time": "2023-04-21 20:00:53.148",
@@ -147,14 +141,8 @@ crowdstrike_fdrlolbas_tests: List[PantherRuleTest] = [
                 "cfe698690964434083fecdredacted",
             ],
             "p_any_sha1_hashes": ["0000000000000000000000000000000000000000"],
-            "p_any_sha256_hashes": [
-                "488e74e2026d03f21b33f470c23b3de2f466643186c2e06ae7b4883cc2e59377"
-            ],
-            "p_any_trace_ids": [
-                "4295752857",
-                "877761efa8db44d792ddc2redacted",
-                "cfe698690964434083fecdredacted",
-            ],
+            "p_any_sha256_hashes": ["488e74e2026d03f21b33f470c23b3de2f466643186c2e06ae7b4883cc2e59377"],
+            "p_any_trace_ids": ["4295752857", "877761efa8db44d792ddc2redacted", "cfe698690964434083fecdredacted"],
             "p_event_time": "2023-04-21 19:48:28.97",
             "p_log_type": "Crowdstrike.FDREvent",
             "p_parse_time": "2023-04-21 20:00:53.148",
@@ -298,9 +286,7 @@ class CrowdstrikeFDRLOLBAS(PantherRule):
 
     def title(self, event):
         exe = deep_get(event, "event", "ImageFileName").split("\\")[-1]
-        return (
-            f"Crowdstrike: LOLBAS execution - [{exe}] - [{deep_get(event, 'event', 'CommandLine')}]"
-        )
+        return f"Crowdstrike: LOLBAS execution - [{exe}] - [{deep_get(event, 'event', 'CommandLine')}]"
 
     def dedup(self, event):
         # dedup string on "{aid}-{exe}"

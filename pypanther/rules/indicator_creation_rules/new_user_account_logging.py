@@ -81,16 +81,14 @@ standard_new_user_account_created_tests: List[PantherRuleTest] = [
 class StandardNewUserAccountCreated(PantherRule):
     RuleID = "Standard.NewUserAccountCreated-prototype"
     DisplayName = "New User Account Created"
-    LogTypes = [
-        PantherLogType.OneLogin_Events,
-        PantherLogType.AWS_CloudTrail,
-        PantherLogType.Zoom_Operation,
-    ]
+    LogTypes = [PantherLogType.OneLogin_Events, PantherLogType.AWS_CloudTrail, PantherLogType.Zoom_Operation]
     Tags = ["DataModel", "Indicator Collection", "OneLogin", "Persistence:Create Account"]
     Severity = PantherSeverity.Info
     Reports = {"MITRE ATT&CK": ["TA0003:T1136"]}
     Description = "A new account was created"
-    Runbook = "A new user account was created, ensure it was created through standard practice and is for a valid purpose."
+    Runbook = (
+        "A new user account was created, ensure it was created through standard practice and is for a valid purpose."
+    )
     Reference = "https://attack.mitre.org/techniques/T1136/001/"
     SummaryAttributes = ["p_any_usernames"]
     Tests = standard_new_user_account_created_tests
@@ -106,9 +104,7 @@ class StandardNewUserAccountCreated(PantherRule):
         event_time = resolve_timestamp_string(event.get("p_event_time"))
         expiry_time = event_time + self.TTL
         if new_user:
-            put_string_set(
-                new_user + "-" + str(new_account), [user_event_id], expiry_time.strftime("%s")
-            )
+            put_string_set(new_user + "-" + str(new_account), [user_event_id], expiry_time.strftime("%s"))
         return True
 
     def title(self, event):

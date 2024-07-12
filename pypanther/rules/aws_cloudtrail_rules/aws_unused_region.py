@@ -35,10 +35,7 @@ aws_unused_region_tests: List[PantherRuleTest] = [
                 "arn": "arn:aws:sts::123456789012:assumed-role/example-role/example-user",
                 "principalId": "1111",
                 "sessionContext": {
-                    "attributes": {
-                        "creationDate": "2021-10-19T04:01:27Z",
-                        "mfaAuthenticated": "false",
-                    },
+                    "attributes": {"creationDate": "2021-10-19T04:01:27Z", "mfaAuthenticated": "false"},
                     "sessionIssuer": {
                         "accountId": "123456789012",
                         "arn": "arn:aws:iam::123456789012:role/example-role",
@@ -86,10 +83,7 @@ aws_unused_region_tests: List[PantherRuleTest] = [
                 "arn": "arn:aws:sts::123456789012:assumed-role/example-role/example-user",
                 "principalId": "1111",
                 "sessionContext": {
-                    "attributes": {
-                        "creationDate": "2021-10-19T00:31:41Z",
-                        "mfaAuthenticated": "false",
-                    },
+                    "attributes": {"creationDate": "2021-10-19T00:31:41Z", "mfaAuthenticated": "false"},
                     "sessionIssuer": {
                         "accountId": "123456789012",
                         "arn": "arn:aws:iam::123456789012:role/example-role",
@@ -131,10 +125,7 @@ aws_unused_region_tests: List[PantherRuleTest] = [
                 "arn": "arn:aws:sts::123456789012:assumed-role/example-role/example-user",
                 "principalId": "1111",
                 "sessionContext": {
-                    "attributes": {
-                        "creationDate": "2021-10-21T22:29:02Z",
-                        "mfaAuthenticated": "false",
-                    },
+                    "attributes": {"creationDate": "2021-10-21T22:29:02Z", "mfaAuthenticated": "false"},
                     "sessionIssuer": {
                         "accountId": "123456789012",
                         "arn": "arn:aws:iam::123456789012:role/example-role",
@@ -160,32 +151,23 @@ class AWSUnusedRegion(PantherRule):
     Reports = {"MITRE ATT&CK": ["TA0005:T1535"]}
     Severity = PantherSeverity.High
     Description = "CloudTrail logged non-read activity from a verboten AWS region."
-    Runbook = "https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_examples_aws-enable-disable-regions.html"
+    Runbook = (
+        "https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_examples_aws-enable-disable-regions.html"
+    )
     Reference = "https://attack.mitre.org/techniques/T1535/"
-    SummaryAttributes = [
-        "eventSource",
-        "eventName",
-        "recipientAccountId",
-        "awsRegion",
-        "p_any_aws_arns",
-    ]
+    SummaryAttributes = ["eventSource", "eventName", "recipientAccountId", "awsRegion", "p_any_aws_arns"]
     Tests = aws_unused_region_tests
     # Define a list of verboten or unused regions
     # Could modify to include expected user mappings: { "123456789012": { "us-west-1", "us-east-2" } }
     UNUSED_REGIONS = {"ap-east-1", "eu-west-3", "eu-central-1"}
 
     def rule(self, event):
-        if (
-            event.get("awsRegion", "<UNKNOWN_AWS_REGION>") in self.UNUSED_REGIONS
-            and event.get("readOnly") is False
-        ):
+        if event.get("awsRegion", "<UNKNOWN_AWS_REGION>") in self.UNUSED_REGIONS and event.get("readOnly") is False:
             return True
         return False
 
     def title(self, event):
-        aws_username = deep_get(
-            event, "userIdentity", "sessionContext", "sessionIssuer", "userName"
-        )
+        aws_username = deep_get(event, "userIdentity", "sessionContext", "sessionIssuer", "userName")
         return f"Non-read-only API call in unused region {event.get('awsRegion', '<UNKNOWN_AWS_REGION>')} by user {aws_username}"
 
     def alert_context(self, event):

@@ -29,10 +29,7 @@ aws_user_login_profile_modified_tests: List[PantherRuleTest] = [
                 "arn": "arn:aws:sts::98765432:assumed-role/IAM/alice",
                 "principalId": "ABCDE:alice",
                 "sessionContext": {
-                    "attributes": {
-                        "creationDate": "2022-09-15T13:36:47Z",
-                        "mfaAuthenticated": "true",
-                    },
+                    "attributes": {"creationDate": "2022-09-15T13:36:47Z", "mfaAuthenticated": "true"},
                     "sessionIssuer": {
                         "accountId": "987654321",
                         "arn": "arn:aws:iam::9876432:role/IAM",
@@ -71,10 +68,7 @@ aws_user_login_profile_modified_tests: List[PantherRuleTest] = [
                 "arn": "arn:aws:sts::98765432:assumed-role/IAM/alice",
                 "principalId": "ABCDE:alice",
                 "sessionContext": {
-                    "attributes": {
-                        "creationDate": "2022-09-15T13:36:47Z",
-                        "mfaAuthenticated": "true",
-                    },
+                    "attributes": {"creationDate": "2022-09-15T13:36:47Z", "mfaAuthenticated": "true"},
                     "sessionIssuer": {
                         "accountId": "987654321",
                         "arn": "arn:aws:iam::9876432:role/IAM",
@@ -113,10 +107,7 @@ aws_user_login_profile_modified_tests: List[PantherRuleTest] = [
                 "arn": "arn:aws:sts::98765432:assumed-role/IAM/alice",
                 "principalId": "ABCDE:alice",
                 "sessionContext": {
-                    "attributes": {
-                        "creationDate": "2022-09-15T13:36:47Z",
-                        "mfaAuthenticated": "true",
-                    },
+                    "attributes": {"creationDate": "2022-09-15T13:36:47Z", "mfaAuthenticated": "true"},
                     "sessionIssuer": {
                         "accountId": "987654321",
                         "arn": "arn:aws:iam::9876432:role/IAM",

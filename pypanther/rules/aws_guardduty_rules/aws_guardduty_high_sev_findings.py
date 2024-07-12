@@ -24,9 +24,7 @@ aws_guard_duty_high_severity_finding_tests: List[PantherRuleTest] = [
                         "serviceName": "iam.amazonaws.com",
                         "callerType": "Domain",
                         "domainDetails": {"domain": "cloudformation.amazonaws.com"},
-                        "affectedResources": {
-                            "AWS::IAM::Role": "arn:aws:iam::123456789012:role/IAMRole"
-                        },
+                        "affectedResources": {"AWS::IAM::Role": "arn:aws:iam::123456789012:role/IAMRole"},
                     },
                 },
                 "resourceRole": "TARGET",
@@ -65,9 +63,7 @@ aws_guard_duty_high_severity_finding_tests: List[PantherRuleTest] = [
                         "serviceName": "iam.amazonaws.com",
                         "callerType": "Domain",
                         "domainDetails": {"domain": "cloudformation.amazonaws.com"},
-                        "affectedResources": {
-                            "AWS::IAM::Role": "arn:aws:iam::123456789012:role/IAMRole"
-                        },
+                        "affectedResources": {"AWS::IAM::Role": "arn:aws:iam::123456789012:role/IAMRole"},
                     },
                 },
                 "resourceRole": "TARGET",
@@ -98,14 +94,7 @@ class AWSGuardDutyHighSeverityFinding(PantherRule):
     Description = "A high-severity GuardDuty finding has been identified.\n"
     Runbook = "Search related logs to understand the root cause of the activity.\n"
     Reference = "https://docs.aws.amazon.com/guardduty/latest/ug/guardduty_findings.html#guardduty_findings-severity"
-    SummaryAttributes = [
-        "severity",
-        "type",
-        "title",
-        "p_any_domain_names",
-        "p_any_aws_arns",
-        "p_any_aws_account_ids",
-    ]
+    SummaryAttributes = ["severity", "type", "title", "p_any_domain_names", "p_any_aws_arns", "p_any_aws_account_ids"]
     Tests = aws_guard_duty_high_severity_finding_tests
 
     def rule(self, event):

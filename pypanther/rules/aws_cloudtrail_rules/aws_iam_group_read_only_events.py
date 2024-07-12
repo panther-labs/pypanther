@@ -30,10 +30,7 @@ awsiam_group_read_only_events_tests: List[PantherRuleTest] = [
                 "invokedBy": "cloudformation.amazonaws.com",
                 "principalId": "AROAVKVYIOO7JN7TN7NSA:123123123456",
                 "sessionContext": {
-                    "attributes": {
-                        "creationDate": "2022-12-11T19:42:54Z",
-                        "mfaAuthenticated": "false",
-                    },
+                    "attributes": {"creationDate": "2022-12-11T19:42:54Z", "mfaAuthenticated": "false"},
                     "sessionIssuer": {
                         "accountId": "1231231234",
                         "arn": "arn:aws:iam::1231231234:role/PAssumedRole-us-east-2",
@@ -73,10 +70,7 @@ awsiam_group_read_only_events_tests: List[PantherRuleTest] = [
                 "invokedBy": "cloudformation.amazonaws.com",
                 "principalId": "AROAVKVYIOO7JN7TN7NSA:123123123456",
                 "sessionContext": {
-                    "attributes": {
-                        "creationDate": "2022-12-11T19:42:54Z",
-                        "mfaAuthenticated": "false",
-                    },
+                    "attributes": {"creationDate": "2022-12-11T19:42:54Z", "mfaAuthenticated": "false"},
                     "sessionIssuer": {
                         "accountId": "1231231234",
                         "arn": "arn:aws:iam::1231231234:role/PAssumedRole-us-east-2",
@@ -116,10 +110,7 @@ awsiam_group_read_only_events_tests: List[PantherRuleTest] = [
                 "invokedBy": "cloudformation.amazonaws.com",
                 "principalId": "AROAVKVYIOO7JN7TN7NSA:123123123456",
                 "sessionContext": {
-                    "attributes": {
-                        "creationDate": "2022-12-11T19:42:54Z",
-                        "mfaAuthenticated": "false",
-                    },
+                    "attributes": {"creationDate": "2022-12-11T19:42:54Z", "mfaAuthenticated": "false"},
                     "sessionIssuer": {
                         "accountId": "1231231234",
                         "arn": "arn:aws:iam::1231231234:role/PAssumedRole-us-east-2",
@@ -159,10 +150,7 @@ awsiam_group_read_only_events_tests: List[PantherRuleTest] = [
                 "invokedBy": "cloudformation.amazonaws.com",
                 "principalId": "AROAVKVYIOO7JN7TN7NSA:123123123456",
                 "sessionContext": {
-                    "attributes": {
-                        "creationDate": "2022-12-11T19:42:54Z",
-                        "mfaAuthenticated": "false",
-                    },
+                    "attributes": {"creationDate": "2022-12-11T19:42:54Z", "mfaAuthenticated": "false"},
                     "sessionIssuer": {
                         "accountId": "1231231234",
                         "arn": "arn:aws:iam::1231231234:role/PAssumedRole-us-east-2",
@@ -202,10 +190,7 @@ awsiam_group_read_only_events_tests: List[PantherRuleTest] = [
                 "invokedBy": "cloudformation.amazonaws.com",
                 "principalId": "AROAVKVYIOO7JN7TN7NSA:123123123456",
                 "sessionContext": {
-                    "attributes": {
-                        "creationDate": "2022-12-11T19:42:54Z",
-                        "mfaAuthenticated": "false",
-                    },
+                    "attributes": {"creationDate": "2022-12-11T19:42:54Z", "mfaAuthenticated": "false"},
                     "sessionIssuer": {
                         "accountId": "1231231234",
                         "arn": "arn:aws:iam::1231231234:role/PAssumedRole-us-east-2",
@@ -245,10 +230,7 @@ awsiam_group_read_only_events_tests: List[PantherRuleTest] = [
                 "invokedBy": "cloudformation.amazonaws.com",
                 "principalId": "AROAVKVYIOO7JN7TN7NSA:123123123456",
                 "sessionContext": {
-                    "attributes": {
-                        "creationDate": "2022-12-11T19:42:54Z",
-                        "mfaAuthenticated": "false",
-                    },
+                    "attributes": {"creationDate": "2022-12-11T19:42:54Z", "mfaAuthenticated": "false"},
                     "sessionIssuer": {
                         "accountId": "1231231234",
                         "arn": "arn:aws:iam::1231231234:role/PAssumedRole-us-east-2",

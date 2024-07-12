@@ -13,10 +13,7 @@ notion_login_from_new_location_tests: List[PantherRuleTest] = [
         Name="Login from normal location",
         ExpectedResult=False,
         Mocks=[
-            PantherRuleMock(
-                ObjectName="get_dictionary",
-                ReturnValue='{ "Minas Tirith_Pellenor_Gondor": 1686542031 }',
-            ),
+            PantherRuleMock(ObjectName="get_dictionary", ReturnValue='{ "Minas Tirith_Pellenor_Gondor": 1686542031 }'),
             PantherRuleMock(ObjectName="put_dictionary", ReturnValue=False),
         ],
         Log={
@@ -108,10 +105,7 @@ notion_login_from_new_location_tests: List[PantherRuleTest] = [
         Name="Login from different location",
         ExpectedResult=True,
         Mocks=[
-            PantherRuleMock(
-                ObjectName="get_dictionary",
-                ReturnValue='{ "Minas Tirith_Pellenor_Gondor": 1686542031 }',
-            ),
+            PantherRuleMock(ObjectName="get_dictionary", ReturnValue='{ "Minas Tirith_Pellenor_Gondor": 1686542031 }'),
             PantherRuleMock(ObjectName="put_dictionary", ReturnValue=False),
         ],
         Log={
@@ -228,10 +222,7 @@ notion_login_from_new_location_tests: List[PantherRuleTest] = [
         Name="Login from different location - no region",
         ExpectedResult=True,
         Mocks=[
-            PantherRuleMock(
-                ObjectName="get_dictionary",
-                ReturnValue='{ "Minas Tirith_Pellenor_Gondor": 1686542031 }',
-            ),
+            PantherRuleMock(ObjectName="get_dictionary", ReturnValue='{ "Minas Tirith_Pellenor_Gondor": 1686542031 }'),
             PantherRuleMock(ObjectName="put_dictionary", ReturnValue=False),
         ],
         Log={

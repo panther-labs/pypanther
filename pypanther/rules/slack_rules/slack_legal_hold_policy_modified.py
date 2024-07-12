@@ -11,12 +11,7 @@ slack_audit_logs_legal_hold_policy_modified_tests: List[PantherRuleTest] = [
             "action": "legal_hold_policy_entities_deleted",
             "actor": {
                 "type": "user",
-                "user": {
-                    "email": "user@example.com",
-                    "id": "A012B3CDEFG",
-                    "name": "username",
-                    "team": "T01234N56GB",
-                },
+                "user": {"email": "user@example.com", "id": "A012B3CDEFG", "name": "username", "team": "T01234N56GB"},
             },
             "context": {
                 "ip_address": "1.2.3.4",
@@ -37,12 +32,7 @@ slack_audit_logs_legal_hold_policy_modified_tests: List[PantherRuleTest] = [
             "action": "legal_hold_policy_exclusion_added",
             "actor": {
                 "type": "user",
-                "user": {
-                    "email": "user@example.com",
-                    "id": "A012B3CDEFG",
-                    "name": "username",
-                    "team": "T01234N56GB",
-                },
+                "user": {"email": "user@example.com", "id": "A012B3CDEFG", "name": "username", "team": "T01234N56GB"},
             },
             "context": {
                 "ip_address": "1.2.3.4",
@@ -63,12 +53,7 @@ slack_audit_logs_legal_hold_policy_modified_tests: List[PantherRuleTest] = [
             "action": "legal_hold_policy_released",
             "actor": {
                 "type": "user",
-                "user": {
-                    "email": "user@example.com",
-                    "id": "A012B3CDEFG",
-                    "name": "username",
-                    "team": "T01234N56GB",
-                },
+                "user": {"email": "user@example.com", "id": "A012B3CDEFG", "name": "username", "team": "T01234N56GB"},
             },
             "context": {
                 "ip_address": "1.2.3.4",
@@ -89,12 +74,7 @@ slack_audit_logs_legal_hold_policy_modified_tests: List[PantherRuleTest] = [
             "action": "legal_hold_policy_updated",
             "actor": {
                 "type": "user",
-                "user": {
-                    "email": "user@example.com",
-                    "id": "A012B3CDEFG",
-                    "name": "username",
-                    "team": "T01234N56GB",
-                },
+                "user": {"email": "user@example.com", "id": "A012B3CDEFG", "name": "username", "team": "T01234N56GB"},
             },
             "context": {
                 "ip_address": "1.2.3.4",
@@ -156,9 +136,7 @@ class SlackAuditLogsLegalHoldPolicyModified(PantherRule):
     Reports = {"MITRE ATT&CK": ["TA0005:T1562.001"]}
     Severity = PantherSeverity.High
     Description = "Detects changes to configured legal hold policies"
-    Reference = (
-        "https://slack.com/intl/en-gb/help/articles/4401830811795-Create-and-manage-legal-holds"
-    )
+    Reference = "https://slack.com/intl/en-gb/help/articles/4401830811795-Create-and-manage-legal-holds"
     SummaryAttributes = ["p_any_ip_addresses", "p_any_emails"]
     Tests = slack_audit_logs_legal_hold_policy_modified_tests
     LEGAL_HOLD_POLICY_ACTIONS = {

@@ -8,11 +8,7 @@ g_suite_workspace_trusted_domains_allowlist_tests: List[PantherRuleTest] = [
         Name="Workspace Admin Remove Trusted Domain",
         ExpectedResult=True,
         Log={
-            "actor": {
-                "callerType": "USER",
-                "email": "user@example.io",
-                "profileId": "110506209185950390992",
-            },
+            "actor": {"callerType": "USER", "email": "user@example.io", "profileId": "110506209185950390992"},
             "id": {
                 "applicationName": "admin",
                 "customerId": "D12345",
@@ -30,11 +26,7 @@ g_suite_workspace_trusted_domains_allowlist_tests: List[PantherRuleTest] = [
         Name="Workspace Admin Add Trusted Domain",
         ExpectedResult=True,
         Log={
-            "actor": {
-                "callerType": "USER",
-                "email": "user@example.io",
-                "profileId": "110506209185950390992",
-            },
+            "actor": {"callerType": "USER", "email": "user@example.io", "profileId": "110506209185950390992"},
             "id": {
                 "applicationName": "admin",
                 "customerId": "D12345",
@@ -120,9 +112,7 @@ class GSuiteWorkspaceTrustedDomainsAllowlist(PantherRule):
     Tests = g_suite_workspace_trusted_domains_allowlist_tests
 
     def rule(self, event):
-        return event.get("type") == "DOMAIN_SETTINGS" and event.get("name", "").endswith(
-            "_TRUSTED_DOMAINS"
-        )
+        return event.get("type") == "DOMAIN_SETTINGS" and event.get("name", "").endswith("_TRUSTED_DOMAINS")
 
     def title(self, event):
         return f"GSuite Workspace Trusted Domains Modified [{event.get('name', '<NO_EVENT_NAME>')}] with [{deep_get(event, 'parameters', 'DOMAIN_NAME', default='<NO_DOMAIN_NAME>')}] performed by [{deep_get(event, 'actor', 'email', default='<NO_ACTOR_FOUND>')}]"

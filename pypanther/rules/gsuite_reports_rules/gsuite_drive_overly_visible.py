@@ -23,13 +23,7 @@ g_suite_drive_overly_visible_tests: List[PantherRuleTest] = [
             "p_row_id": "111222",
             "actor": {"email": "bobert@example.com"},
             "id": {"applicationName": "drive"},
-            "events": [
-                {
-                    "type": "access",
-                    "name": "edit",
-                    "parameters": [{"name": "visibility", "value": "private"}],
-                }
-            ],
+            "events": [{"type": "access", "name": "edit", "parameters": [{"name": "visibility", "value": "private"}]}],
         },
     ),
     PantherRuleTest(
@@ -81,7 +75,9 @@ class GSuiteDriveOverlyVisible(PantherRule):
     Reports = {"MITRE ATT&CK": ["TA0009:T1213"]}
     Severity = PantherSeverity.Info
     Description = "A Google drive resource that is overly visible has been modified.\n"
-    Reference = "https://support.google.com/docs/answer/2494822?hl=en&co=GENIE.Platform%3DDesktop&sjid=864417124752637253-EU"
+    Reference = (
+        "https://support.google.com/docs/answer/2494822?hl=en&co=GENIE.Platform%3DDesktop&sjid=864417124752637253-EU"
+    )
     Runbook = "Investigate whether the drive document is appropriate to be this visible.\n"
     SummaryAttributes = ["actor:email"]
     DedupPeriodMinutes = 360
@@ -93,11 +89,7 @@ class GSuiteDriveOverlyVisible(PantherRule):
         if deep_get(event, "id", "applicationName") != "drive":
             return False
         details = details_lookup("access", self.RESOURCE_CHANGE_EVENTS, event)
-        return (
-            bool(details)
-            and param_lookup(details.get("parameters", {}), "visibility")
-            in self.PERMISSIVE_VISIBILITY
-        )
+        return bool(details) and param_lookup(details.get("parameters", {}), "visibility") in self.PERMISSIVE_VISIBILITY
 
     def dedup(self, event):
         user = deep_get(event, "actor", "email")

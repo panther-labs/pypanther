@@ -25,10 +25,7 @@ aws_cloud_trail_stopped_tests: List[PantherRuleTest] = [
                         "userName": "Tester",
                     },
                     "webIdFederationData": {},
-                    "attributes": {
-                        "mfaAuthenticated": "true",
-                        "creationDate": "2019-01-01T00:00:00Z",
-                    },
+                    "attributes": {"mfaAuthenticated": "true", "creationDate": "2019-01-01T00:00:00Z"},
                 },
             },
             "eventTime": "2019-01-01T00:00:00Z",
@@ -37,9 +34,7 @@ aws_cloud_trail_stopped_tests: List[PantherRuleTest] = [
             "awsRegion": "us-west-2",
             "sourceIPAddress": "111.111.111.111",
             "userAgent": "console.amazonaws.com",
-            "requestParameters": {
-                "name": "arn:aws:cloudtrail:us-west-2:123456789012:trail/example-trail"
-            },
+            "requestParameters": {"name": "arn:aws:cloudtrail:us-west-2:123456789012:trail/example-trail"},
             "responseElements": None,
             "requestID": "1",
             "eventID": "1",
@@ -60,10 +55,7 @@ aws_cloud_trail_stopped_tests: List[PantherRuleTest] = [
                 "accountId": "123456789012",
                 "accessKeyId": "1",
                 "sessionContext": {
-                    "attributes": {
-                        "mfaAuthenticated": "false",
-                        "creationDate": "2019-01-01T00:00:00Z",
-                    },
+                    "attributes": {"mfaAuthenticated": "false", "creationDate": "2019-01-01T00:00:00Z"},
                     "sessionIssuer": {
                         "type": "Role",
                         "principalId": "1111",
@@ -120,10 +112,7 @@ aws_cloud_trail_stopped_tests: List[PantherRuleTest] = [
                         "userName": "Tester",
                     },
                     "webIdFederationData": {},
-                    "attributes": {
-                        "mfaAuthenticated": "true",
-                        "creationDate": "2019-01-01T00:00:00Z",
-                    },
+                    "attributes": {"mfaAuthenticated": "true", "creationDate": "2019-01-01T00:00:00Z"},
                 },
             },
             "eventTime": "2019-01-01T00:00:00Z",
@@ -132,9 +121,7 @@ aws_cloud_trail_stopped_tests: List[PantherRuleTest] = [
             "awsRegion": "us-west-2",
             "sourceIPAddress": "111.111.111.111",
             "userAgent": "console.amazonaws.com",
-            "requestParameters": {
-                "name": "arn:aws:cloudtrail:us-west-2:123456789012:trail/example-trail"
-            },
+            "requestParameters": {"name": "arn:aws:cloudtrail:us-west-2:123456789012:trail/example-trail"},
             "responseElements": None,
             "requestID": "1",
             "eventID": "1",
@@ -156,21 +143,13 @@ class AWSCloudTrailStopped(PantherRule):
     Description = "A CloudTrail Trail was modified.\n"
     Runbook = "https://docs.runpanther.io/alert-runbooks/built-in-rules/aws-cloudtrail-modified"
     Reference = "https://docs.aws.amazon.com/awscloudtrail/latest/userguide/cloudtrail-delete-trails-console.html"
-    SummaryAttributes = [
-        "eventName",
-        "userAgent",
-        "sourceIpAddress",
-        "recipientAccountId",
-        "p_any_aws_arns",
-    ]
+    SummaryAttributes = ["eventName", "userAgent", "sourceIpAddress", "recipientAccountId", "p_any_aws_arns"]
     Tests = aws_cloud_trail_stopped_tests
     # API calls that are indicative of CloudTrail changes
     CLOUDTRAIL_STOP_DELETE = {"DeleteTrail", "StopLogging"}
 
     def rule(self, event):
-        return (
-            aws_cloudtrail_success(event) and event.get("eventName") in self.CLOUDTRAIL_STOP_DELETE
-        )
+        return aws_cloudtrail_success(event) and event.get("eventName") in self.CLOUDTRAIL_STOP_DELETE
 
     def dedup(self, event):
         # Merge on the CloudTrail ARN

@@ -40,7 +40,9 @@ class GitHubOrgAuthChange(PantherRule):
     SummaryAttributes = ["actor", "action"]
     Description = "Detects changes to GitHub org authentication changes."
     Runbook = "Verify that the GitHub admin performed this activity and validate its use."
-    Reference = "https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/about-authentication-to-github"
+    Reference = (
+        "https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/about-authentication-to-github"
+    )
     Tests = git_hub_org_auth_change_tests
     AUTH_CHANGE_EVENTS = [
         "org.saml_disabled",

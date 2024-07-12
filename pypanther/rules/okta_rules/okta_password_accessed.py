@@ -14,10 +14,7 @@ okta_password_access_tests: List[PantherRuleTest] = [
                 "id": "XXXXXXXXXXXXXXXX",
                 "type": "User",
             },
-            "authenticationContext": {
-                "authenticationStep": 0,
-                "externalSessionId": "XXXXXXXXXXXXXXXXX",
-            },
+            "authenticationContext": {"authenticationStep": 0, "externalSessionId": "XXXXXXXXXXXXXXXXX"},
             "client": {
                 "device": "Mobile",
                 "geographicalContext": {
@@ -97,10 +94,7 @@ okta_password_access_tests: List[PantherRuleTest] = [
                 "id": "XXXXXXXXXXXXXXXX",
                 "type": "User",
             },
-            "authenticationContext": {
-                "authenticationStep": 0,
-                "externalSessionId": "XXXXXXXXXXXXXXXXX",
-            },
+            "authenticationContext": {"authenticationStep": 0, "externalSessionId": "XXXXXXXXXXXXXXXXX"},
             "client": {
                 "device": "Mobile",
                 "geographicalContext": {
@@ -180,10 +174,7 @@ okta_password_access_tests: List[PantherRuleTest] = [
                 "id": "00u3nwfjxxxxxxxxxxxx",
                 "type": "User",
             },
-            "authenticationContext": {
-                "authenticationStep": 0,
-                "externalSessionId": "XXXXXXXXXXXXXXXXX",
-            },
+            "authenticationContext": {"authenticationStep": 0, "externalSessionId": "XXXXXXXXXXXXXXXXX"},
             "client": {
                 "device": "Mobile",
                 "geographicalContext": {
@@ -213,12 +204,7 @@ okta_password_access_tests: List[PantherRuleTest] = [
                 "isp": "t-mobile usa  inc.",
             },
             "target": [
-                {
-                    "alternateId": "John Doe",
-                    "displayName": "John Doe",
-                    "id": "00u3nwfjxxxxxxxxxxxx",
-                    "type": "AppUser",
-                },
+                {"alternateId": "John Doe", "displayName": "John Doe", "id": "00u3nwfjxxxxxxxxxxxx", "type": "AppUser"},
                 {
                     "alternateId": "Software",
                     "displayName": "On The Fly App",
@@ -256,12 +242,8 @@ class OktaPasswordAccess(PantherRule):
         if event.get("eventType") != "application.user_membership.show_password":
             return False
         # event['target'] = [{...}, {...}, {...}]
-        self.TARGET_USERS = get_val_from_list(
-            event.get("target", [{}]), "alternateId", "type", "User"
-        )
-        self.TARGET_APP_NAMES = get_val_from_list(
-            event.get("target", [{}]), "alternateId", "type", "AppInstance"
-        )
+        self.TARGET_USERS = get_val_from_list(event.get("target", [{}]), "alternateId", "type", "User")
+        self.TARGET_APP_NAMES = get_val_from_list(event.get("target", [{}]), "alternateId", "type", "AppInstance")
         if deep_get(event, "actor", "alternateId") not in self.TARGET_USERS:
             return True
         return False

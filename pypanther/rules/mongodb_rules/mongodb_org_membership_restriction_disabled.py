@@ -66,9 +66,7 @@ class MongoDBorgMembershipRestrictionDisabled(PantherRule):
     Tests = mongo_d_borg_membership_restriction_disabled_tests
 
     def rule(self, event):
-        return (
-            event.deep_get("eventTypeName", default="") == "ORG_PUBLIC_API_ACCESS_LIST_NOT_REQUIRED"
-        )
+        return event.deep_get("eventTypeName", default="") == "ORG_PUBLIC_API_ACCESS_LIST_NOT_REQUIRED"
 
     def title(self, event):
         user = event.deep_get("username", default="<USER_NOT_FOUND>")

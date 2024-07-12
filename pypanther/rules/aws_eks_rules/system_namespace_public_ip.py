@@ -9,10 +9,7 @@ amazon_eks_audit_system_namespace_from_public_ip_tests: List[PantherRuleTest] = 
         Name="non-system username",
         ExpectedResult=False,
         Log={
-            "annotations": {
-                "authorization.k8s.io/decision": "allow",
-                "authorization.k8s.io/reason": "",
-            },
+            "annotations": {"authorization.k8s.io/decision": "allow", "authorization.k8s.io/reason": ""},
             "apiVersion": "audit.k8s.io/v1",
             "auditID": "35506555-dffc-4337-b2b1-c4af52b88e18",
             "kind": "Event",
@@ -46,9 +43,7 @@ amazon_eks_audit_system_namespace_from_public_ip_tests: List[PantherRuleTest] = 
             "user": {
                 "extra": {
                     "accessKeyId": ["ASIARLIVEKVNN6Y6J5UW"],
-                    "arn": [
-                        "arn:aws:sts::123412341234:assumed-role/DevAdministrator/1669660343296132000"
-                    ],
+                    "arn": ["arn:aws:sts::123412341234:assumed-role/DevAdministrator/1669660343296132000"],
                     "canonicalArn": ["arn:aws:iam::123412341234:role/DevAdministrator"],
                     "sessionName": ["1669660343296132000"],
                 },
@@ -72,11 +67,7 @@ amazon_eks_audit_system_namespace_from_public_ip_tests: List[PantherRuleTest] = 
             "auditID": "e2626946-90e1-4d0c-829e-ad5a78572926",
             "kind": "Event",
             "level": "Metadata",
-            "objectRef": {
-                "apiGroup": "discovery.k8s.io",
-                "apiVersion": "v1",
-                "resource": "endpointslices",
-            },
+            "objectRef": {"apiGroup": "discovery.k8s.io", "apiVersion": "v1", "resource": "endpointslices"},
             "p_any_ip_addresses": ["10.0.27.115"],
             "p_any_usernames": ["system:serviceaccount:kube-system:coredns"],
             "p_event_time": "2022-11-29 22:34:06.892",
@@ -94,15 +85,9 @@ amazon_eks_audit_system_namespace_from_public_ip_tests: List[PantherRuleTest] = 
             "user": {
                 "extra": {
                     "authentication_kubernetes_io_slash_pod-name": ["coredns-57ff979f67-bl27n"],
-                    "authentication_kubernetes_io_slash_pod-uid": [
-                        "5b9488ae-5563-42aa-850b-b0d82edb3e22"
-                    ],
+                    "authentication_kubernetes_io_slash_pod-uid": ["5b9488ae-5563-42aa-850b-b0d82edb3e22"],
                 },
-                "groups": [
-                    "system:serviceaccounts",
-                    "system:serviceaccounts:kube-system",
-                    "system:authenticated",
-                ],
+                "groups": ["system:serviceaccounts", "system:serviceaccounts:kube-system", "system:authenticated"],
                 "uid": "5e4461f9-f529-4e66-9343-0b0cc9452284",
                 "username": "system:serviceaccount:kube-system:coredns",
             },
@@ -122,11 +107,7 @@ amazon_eks_audit_system_namespace_from_public_ip_tests: List[PantherRuleTest] = 
             "auditID": "e2626946-90e1-4d0c-829e-ad5a78572926",
             "kind": "Event",
             "level": "Metadata",
-            "objectRef": {
-                "apiGroup": "discovery.k8s.io",
-                "apiVersion": "v1",
-                "resource": "endpointslices",
-            },
+            "objectRef": {"apiGroup": "discovery.k8s.io", "apiVersion": "v1", "resource": "endpointslices"},
             "p_any_ip_addresses": ["5.5.5.5"],
             "p_any_usernames": ["system:serviceaccount:kube-system:coredns"],
             "p_event_time": "2022-11-29 22:34:06.892",
@@ -144,15 +125,9 @@ amazon_eks_audit_system_namespace_from_public_ip_tests: List[PantherRuleTest] = 
             "user": {
                 "extra": {
                     "authentication_kubernetes_io_slash_pod-name": ["coredns-57ff979f67-bl27n"],
-                    "authentication_kubernetes_io_slash_pod-uid": [
-                        "5b9488ae-5563-42aa-850b-b0d82edb3e22"
-                    ],
+                    "authentication_kubernetes_io_slash_pod-uid": ["5b9488ae-5563-42aa-850b-b0d82edb3e22"],
                 },
-                "groups": [
-                    "system:serviceaccounts",
-                    "system:serviceaccounts:kube-system",
-                    "system:authenticated",
-                ],
+                "groups": ["system:serviceaccounts", "system:serviceaccounts:kube-system", "system:authenticated"],
                 "uid": "5e4461f9-f529-4e66-9343-0b0cc9452284",
                 "username": "system:serviceaccount:kube-system:coredns",
             },
@@ -172,11 +147,7 @@ amazon_eks_audit_system_namespace_from_public_ip_tests: List[PantherRuleTest] = 
             "auditID": "c8c5bc49-cd5d-45d6-999c-b55783c7840f",
             "kind": "Event",
             "level": "Metadata",
-            "objectRef": {
-                "apiGroup": "discovery.k8s.io",
-                "apiVersion": "v1",
-                "resource": "endpointslices",
-            },
+            "objectRef": {"apiGroup": "discovery.k8s.io", "apiVersion": "v1", "resource": "endpointslices"},
             "p_any_ip_addresses": ["5.5.5.5"],
             "p_any_usernames": ["system:serviceaccount:kube-system:coredns"],
             "p_event_time": "2022-11-29 22:46:37.995",
@@ -194,15 +165,9 @@ amazon_eks_audit_system_namespace_from_public_ip_tests: List[PantherRuleTest] = 
             "user": {
                 "extra": {
                     "authentication_kubernetes_io_slash_pod-name": ["coredns-57ff979f67-bl27n"],
-                    "authentication_kubernetes_io_slash_pod-uid": [
-                        "5b9488ae-5563-42aa-850b-b0d82edb3e22"
-                    ],
+                    "authentication_kubernetes_io_slash_pod-uid": ["5b9488ae-5563-42aa-850b-b0d82edb3e22"],
                 },
-                "groups": [
-                    "system:serviceaccounts",
-                    "system:serviceaccounts:kube-system",
-                    "system:authenticated",
-                ],
+                "groups": ["system:serviceaccounts", "system:serviceaccounts:kube-system", "system:authenticated"],
                 "uid": "5e4461f9-f529-4e66-9343-0b0cc9452284",
                 "username": "system:serviceaccount:kube-system:coredns",
             },
@@ -222,11 +187,7 @@ amazon_eks_audit_system_namespace_from_public_ip_tests: List[PantherRuleTest] = 
             "auditID": "c8c5bc49-cd5d-45d6-999c-b55783c7840f",
             "kind": "Event",
             "level": "Metadata",
-            "objectRef": {
-                "apiGroup": "discovery.k8s.io",
-                "apiVersion": "v1",
-                "resource": "endpointslices",
-            },
+            "objectRef": {"apiGroup": "discovery.k8s.io", "apiVersion": "v1", "resource": "endpointslices"},
             "p_any_ip_addresses": ["5.5.5.5"],
             "p_any_usernames": ["system:serviceaccount:kube-system:coredns"],
             "p_event_time": "2022-11-29 22:46:37.995",
@@ -244,15 +205,9 @@ amazon_eks_audit_system_namespace_from_public_ip_tests: List[PantherRuleTest] = 
             "user": {
                 "extra": {
                     "authentication_kubernetes_io_slash_pod-name": ["coredns-57ff979f67-bl27n"],
-                    "authentication_kubernetes_io_slash_pod-uid": [
-                        "5b9488ae-5563-42aa-850b-b0d82edb3e22"
-                    ],
+                    "authentication_kubernetes_io_slash_pod-uid": ["5b9488ae-5563-42aa-850b-b0d82edb3e22"],
                 },
-                "groups": [
-                    "system:serviceaccounts",
-                    "system:serviceaccounts:kube-system",
-                    "system:authenticated",
-                ],
+                "groups": ["system:serviceaccounts", "system:serviceaccounts:kube-system", "system:authenticated"],
                 "uid": "5e4461f9-f529-4e66-9343-0b0cc9452284",
                 "username": "system:serviceaccount:kube-system:coredns",
             },
@@ -355,9 +310,9 @@ class AmazonEKSAuditSystemNamespaceFromPublicIP(PantherRule):
             in deep_get(event, "user", "extra", "arn", default=["not found"])[0]
         ):
             return False
-        if (
-            p_eks.get("actor").startswith("system:") or p_eks.get("actor").startswith("eks:")
-        ) and ip_address(p_eks.get("sourceIPs")[0]).is_global:
+        if (p_eks.get("actor").startswith("system:") or p_eks.get("actor").startswith("eks:")) and ip_address(
+            p_eks.get("sourceIPs")[0]
+        ).is_global:
             return True
         return False
 

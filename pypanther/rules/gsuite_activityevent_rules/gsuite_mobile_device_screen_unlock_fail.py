@@ -45,10 +45,7 @@ g_suite_device_unlock_failure_tests: List[PantherRuleTest] = [
             "actor": {"callerType": "USER", "email": "homer.simpson@example.io"},
             "type": "device_updates",
             "name": "FAILED_PASSWORD_ATTEMPTS_EVENT",
-            "parameters": {
-                "USER_EMAIL": "homer.simpson@example.io",
-                "FAILED_PASSWD_ATTEMPTS": "100",
-            },
+            "parameters": {"USER_EMAIL": "homer.simpson@example.io", "FAILED_PASSWD_ATTEMPTS": "100"},
         },
     ),
 ]

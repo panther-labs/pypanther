@@ -108,17 +108,7 @@ class TeleportNetworkScanning(PantherRule):
     Reports = {"MITRE ATT&CK": ["TA0007:T1046"]}
     Reference = "https://goteleport.com/docs/management/admin/"
     Runbook = "Find related commands within the time window and determine if the command was invoked legitimately. Examine the arguments to determine how the command was used.\n"
-    SummaryAttributes = [
-        "event",
-        "code",
-        "user",
-        "program",
-        "path",
-        "return_code",
-        "login",
-        "server_id",
-        "sid",
-    ]
+    SummaryAttributes = ["event", "code", "user", "program", "path", "return_code", "login", "server_id", "sid"]
     Tests = teleport_network_scanning_tests
     SCAN_COMMANDS = {"arp", "arp-scan", "fping", "nmap"}
 

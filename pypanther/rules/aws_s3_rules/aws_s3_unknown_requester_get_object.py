@@ -115,12 +115,7 @@ class AWSS3ServerAccessUnknownRequester(PantherRule):
     DisplayName = "AWS S3 Unknown Requester"
     Enabled = False
     LogTypes = [PantherLogType.AWS_S3ServerAccess]
-    Tags = [
-        "AWS",
-        "Configuration Required",
-        "Security Control",
-        "Collection:Data From Cloud Storage Object",
-    ]
+    Tags = ["AWS", "Configuration Required", "Security Control", "Collection:Data From Cloud Storage Object"]
     Reports = {"Panther": ["Data Access"], "MITRE ATT&CK": ["TA0009:T1530"]}
     Severity = PantherSeverity.Low
     Description = "Validates that proper IAM entities are accessing sensitive data buckets."
@@ -153,12 +148,7 @@ class AWSS3ServerAccessUnknownRequester(PantherRule):
         for bucket_pattern, role_patterns in self.BUCKET_ROLE_MAPPING.items():
             if not fnmatch(event.get("bucket", ""), bucket_pattern):
                 continue
-            if not any(
-                (
-                    fnmatch(event.get("requester", ""), role_pattern)
-                    for role_pattern in role_patterns
-                )
-            ):
+            if not any((fnmatch(event.get("requester", ""), role_pattern) for role_pattern in role_patterns)):
                 return True
         return False
 

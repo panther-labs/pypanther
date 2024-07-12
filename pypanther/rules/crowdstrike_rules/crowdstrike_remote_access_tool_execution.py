@@ -67,14 +67,8 @@ crowdstrike_remote_access_tool_execution_tests: List[PantherRuleTest] = [
                 "987abcd8765ghijk5432opq21",
             ],
             "p_any_sha1_hashes": ["0000000000000000000000000000000000000000"],
-            "p_any_sha256_hashes": [
-                "488e74e2026d03f21b33f470c23b3de2f466643186c2e06ae7b4883cc2e59377"
-            ],
-            "p_any_trace_ids": [
-                "4295752857",
-                "123456789abcdefghijklmn01234567",
-                "987abcd8765ghijk5432opq21",
-            ],
+            "p_any_sha256_hashes": ["488e74e2026d03f21b33f470c23b3de2f466643186c2e06ae7b4883cc2e59377"],
+            "p_any_trace_ids": ["4295752857", "123456789abcdefghijklmn01234567", "987abcd8765ghijk5432opq21"],
             "p_event_time": "2023-04-21 19:52:32.722",
             "p_log_type": "Crowdstrike.FDREvent",
             "p_parse_time": "2023-04-21 20:05:52.94",
@@ -149,14 +143,8 @@ crowdstrike_remote_access_tool_execution_tests: List[PantherRuleTest] = [
                 "abc987jkl654mnop321",
             ],
             "p_any_sha1_hashes": ["0000000000000000000000000000000000000000"],
-            "p_any_sha256_hashes": [
-                "488e74e2026d03f21b33f470c23b3de2f466643186c2e06ae7b4883cc2e59377"
-            ],
-            "p_any_trace_ids": [
-                "4295752857",
-                "123456789abcdefghijklmn01234567",
-                "abc987jkl654mnop321",
-            ],
+            "p_any_sha256_hashes": ["488e74e2026d03f21b33f470c23b3de2f466643186c2e06ae7b4883cc2e59377"],
+            "p_any_trace_ids": ["4295752857", "123456789abcdefghijklmn01234567", "abc987jkl654mnop321"],
             "p_event_time": "2023-04-21 19:52:32.722",
             "p_log_type": "Crowdstrike.FDREvent",
             "p_parse_time": "2023-04-21 20:05:52.94",
@@ -202,18 +190,12 @@ class CrowdstrikeRemoteAccessToolExecution(PantherRule):
     def rule(self, event):
         if event.get("fdr_event_type", "") == "ProcessRollup2":
             if event.get("event_platform", "") == "Win":
-                process_name = (
-                    deep_get(event, "event", "ImageFileName", default="").lower().split("\\")[-1]
-                )
+                process_name = deep_get(event, "event", "ImageFileName", default="").lower().split("\\")[-1]
                 return process_name in self.REMOTE_ACCESS_EXECUTABLES
         return False
 
     def title(self, event):
-        tool = (
-            deep_get(event, "event", "ImageFileName", default="<TOOL_NOT_FOUND>")
-            .lower()
-            .split("\\")[-1]
-        )
+        tool = deep_get(event, "event", "ImageFileName", default="<TOOL_NOT_FOUND>").lower().split("\\")[-1]
         aid = event.get("aid", "<AID_NOT_FOUND>")
         return f"Crowdstrike: Remote access tool [{tool}] detected on aid [{aid}]"
 

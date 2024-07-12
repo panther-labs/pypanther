@@ -70,10 +70,5 @@ class ZoomSignInMethodModified(PantherRule):
         operation_flag = "Sign-in Methods  - Allow users to sign in with "
         setting_flag = "from Off to On"
         if operation_detail.startswith(operation_flag) and operation_detail.endswith(setting_flag):
-            service_detail = (
-                event.get("operation_detail", "<NO_OPS_DETAIL>")
-                .split("with")[1]
-                .split(":")[0]
-                .strip()
-            )
+            service_detail = event.get("operation_detail", "<NO_OPS_DETAIL>").split("with")[1].split(":")[0].strip()
         return f"Zoom User [{event.get('operator', '<NO_OPERATOR>')}] modified your organization's sign in methods to allow users to sign in with [{service_detail}]."

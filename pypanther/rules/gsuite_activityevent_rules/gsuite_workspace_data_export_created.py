@@ -8,11 +8,7 @@ g_suite_workspace_data_export_created_tests: List[PantherRuleTest] = [
         Name="Workspace Admin Data Export Created",
         ExpectedResult=True,
         Log={
-            "actor": {
-                "callerType": "USER",
-                "email": "admin@example.io",
-                "profileId": "11011111111111111111111",
-            },
+            "actor": {"callerType": "USER", "email": "admin@example.io", "profileId": "11011111111111111111111"},
             "id": {
                 "applicationName": "admin",
                 "customerId": "D12345",
@@ -29,11 +25,7 @@ g_suite_workspace_data_export_created_tests: List[PantherRuleTest] = [
         Name="Workspace Admin Data Export Succeeded",
         ExpectedResult=True,
         Log={
-            "actor": {
-                "callerType": "USER",
-                "email": "admin@example.io",
-                "profileId": "11011111111111111111111",
-            },
+            "actor": {"callerType": "USER", "email": "admin@example.io", "profileId": "11011111111111111111111"},
             "id": {
                 "applicationName": "admin",
                 "customerId": "D12345",

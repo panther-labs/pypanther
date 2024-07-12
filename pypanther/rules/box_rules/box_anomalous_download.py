@@ -10,12 +10,7 @@ box_shield_anomalous_download_tests: List[PantherRuleTest] = [
         Log={
             "type": "event",
             "additional_details": {'"key": "value"': None},
-            "created_by": {
-                "id": "12345678",
-                "type": "user",
-                "login": "cat@example",
-                "name": "Bob Cat",
-            },
+            "created_by": {"id": "12345678", "type": "user", "login": "cat@example", "name": "Bob Cat"},
             "event_type": "DELETE",
         },
     ),
@@ -25,12 +20,7 @@ box_shield_anomalous_download_tests: List[PantherRuleTest] = [
         Log={
             "type": "event",
             "additional_details": '{"shield_alert":{"rule_category":"Anomalous Download","risk_score":77,"alert_summary":{"description":"Significant increase in download content week over week, 9999% (50.00 MB) more than last week."}}}',
-            "created_by": {
-                "id": "12345678",
-                "type": "user",
-                "login": "bob@example",
-                "name": "Bob Cat",
-            },
+            "created_by": {"id": "12345678", "type": "user", "login": "bob@example", "name": "Bob Cat"},
             "event_type": "SHIELD_ALERT",
             "source": {"id": "12345678", "type": "user", "login": "bob@example", "name": "Bob Cat"},
         },

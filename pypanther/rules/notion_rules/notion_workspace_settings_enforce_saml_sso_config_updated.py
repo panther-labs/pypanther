@@ -77,9 +77,7 @@ class NotionSAMLSSOConfigurationChanged(PantherRule):
     LogTypes = [PantherLogType.Notion_AuditLogs]
     Tags = ["Notion", "Identity & Access Management", "Credential Security"]
     Severity = PantherSeverity.High
-    Description = (
-        "A Notion User changed settings to enforce SAML SSO configurations for your organization."
-    )
+    Description = "A Notion User changed settings to enforce SAML SSO configurations for your organization."
     Runbook = "Follow up with the Notion User to determine if this was done for a valid business reason and to ensure these settings get re-enabled quickly for best security practices."
     Reference = "https://www.notion.so/help/saml-sso-configuration"
     Tests = notion_samlsso_configuration_changed_tests
@@ -94,11 +92,7 @@ class NotionSAMLSSOConfigurationChanged(PantherRule):
         user = event.deep_get("event", "actor", "person", "email", default="<NO_USER_FOUND>")
         workspace_id = event.deep_get("event", "workspace_id", default="<NO_WORKSPACE_ID_FOUND>")
         state = deep_get(
-            event,
-            "event",
-            "workspace.settings.enforce_saml_sso_config_updated",
-            "state",
-            default="<NO_STATE_FOUND>",
+            event, "event", "workspace.settings.enforce_saml_sso_config_updated", "state", default="<NO_STATE_FOUND>"
         )
         if state == "enabled":
             return f"Notion User [{user}] updated settings to enable SAML SSO config from workspace id {workspace_id}"
@@ -106,11 +100,7 @@ class NotionSAMLSSOConfigurationChanged(PantherRule):
 
     def severity(self, event):
         state = deep_get(
-            event,
-            "event",
-            "workspace.settings.enforce_saml_sso_config_updated",
-            "state",
-            default="<NO_STATE_FOUND>",
+            event, "event", "workspace.settings.enforce_saml_sso_config_updated", "state", default="<NO_STATE_FOUND>"
         )
         if state == "enabled":
             return "INFO"

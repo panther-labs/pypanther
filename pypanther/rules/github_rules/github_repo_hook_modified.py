@@ -9,10 +9,7 @@ git_hub_repo_hook_modified_tests: List[PantherRuleTest] = [
         Log={
             "actor": "cat",
             "action": "hook.create",
-            "data": {
-                "hook_id": 111222333444555,
-                "events": ["fork", "public", "pull_request", "push", "repository"],
-            },
+            "data": {"hook_id": 111222333444555, "events": ["fork", "public", "pull_request", "push", "repository"]},
             "org": "my-org",
             "p_log_type": "GitHub.Audit",
             "repository": "my-org/my-repo",
@@ -24,10 +21,7 @@ git_hub_repo_hook_modified_tests: List[PantherRuleTest] = [
         Log={
             "actor": "cat",
             "action": "hook.destroy",
-            "data": {
-                "hook_id": 111222333444555,
-                "events": ["fork", "public", "pull_request", "push", "repository"],
-            },
+            "data": {"hook_id": 111222333444555, "events": ["fork", "public", "pull_request", "push", "repository"]},
             "org": "my-org",
             "p_log_type": "GitHub.Audit",
             "repository": "my-org/my-repo",

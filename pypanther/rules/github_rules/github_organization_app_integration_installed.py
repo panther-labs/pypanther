@@ -51,7 +51,9 @@ github_organization_app_integration_installed_tests: List[PantherRuleTest] = [
 class GithubOrganizationAppIntegrationInstalled(PantherRule):
     Description = "An application integration was installed to your organization's Github account by someone in your organization."
     DisplayName = "Github Organization App Integration Installed"
-    Reference = "https://docs.github.com/en/enterprise-server@3.4/developers/apps/managing-github-apps/installing-github-apps"
+    Reference = (
+        "https://docs.github.com/en/enterprise-server@3.4/developers/apps/managing-github-apps/installing-github-apps"
+    )
     Runbook = "Confirm that the app integration installation was a desired behavior."
     Severity = PantherSeverity.Low
     Tags = ["Application Installation", "Github"]

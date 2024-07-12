@@ -11,12 +11,7 @@ snyk_project_settings_tests: List[PantherRuleTest] = [
         Log={
             "content": {
                 "origin": "github",
-                "target": {
-                    "branch": "some-branch",
-                    "id": 222222222,
-                    "name": "repo-name",
-                    "owner": "github-org",
-                },
+                "target": {"branch": "some-branch", "id": 222222222, "name": "repo-name", "owner": "github-org"},
                 "targetFile": "go.mod",
                 "type": "gomodules",
             },

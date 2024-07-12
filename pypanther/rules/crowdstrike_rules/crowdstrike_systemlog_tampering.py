@@ -67,14 +67,8 @@ crowdstrike_systemlog_tampering_tests: List[PantherRuleTest] = [
                 "abcdefghijklmnop123467890",
             ],
             "p_any_sha1_hashes": ["0000000000000000000000000000000000000000"],
-            "p_any_sha256_hashes": [
-                "488e74e2026d03f21b33f470c23b3de2f466643186c2e06ae7b4883cc2e59377"
-            ],
-            "p_any_trace_ids": [
-                "4295752857",
-                "1234567890abcdefg654321",
-                "abcdefghijklmnop123467890",
-            ],
+            "p_any_sha256_hashes": ["488e74e2026d03f21b33f470c23b3de2f466643186c2e06ae7b4883cc2e59377"],
+            "p_any_trace_ids": ["4295752857", "1234567890abcdefg654321", "abcdefghijklmnop123467890"],
             "p_event_time": "2023-04-21 19:52:32.722",
             "p_log_type": "Crowdstrike.FDREvent",
             "p_parse_time": "2023-04-21 20:05:52.94",
@@ -149,14 +143,8 @@ crowdstrike_systemlog_tampering_tests: List[PantherRuleTest] = [
                 "abcdefghijklmnop123467890",
             ],
             "p_any_sha1_hashes": ["0000000000000000000000000000000000000000"],
-            "p_any_sha256_hashes": [
-                "488e74e2026d03f21b33f470c23b3de2f466643186c2e06ae7b4883cc2e59377"
-            ],
-            "p_any_trace_ids": [
-                "4295752857",
-                "1234567890abcdefg654321",
-                "abcdefghijklmnop123467890",
-            ],
+            "p_any_sha256_hashes": ["488e74e2026d03f21b33f470c23b3de2f466643186c2e06ae7b4883cc2e59377"],
+            "p_any_trace_ids": ["4295752857", "1234567890abcdefg654321", "abcdefghijklmnop123467890"],
             "p_event_time": "2023-04-21 19:52:32.722",
             "p_log_type": "Crowdstrike.FDREvent",
             "p_parse_time": "2023-04-21 20:05:52.94",
@@ -179,21 +167,14 @@ class CrowdstrikeSystemlogTampering(PantherRule):
     LogTypes = [PantherLogType.Crowdstrike_FDREvent]
     RuleID = "Crowdstrike.Systemlog.Tampering-prototype"
     Tests = crowdstrike_systemlog_tampering_tests
-    CLEARING_SYSTEM_LOG_TOOLS = {
-        "wevtutil.exe": ["cl", "clear-log"],
-        "powershell.exe": ["clear-eventlog"],
-    }
+    CLEARING_SYSTEM_LOG_TOOLS = {"wevtutil.exe": ["cl", "clear-log"], "powershell.exe": ["clear-eventlog"]}
 
     def rule(self, event):
         if event.get("fdr_event_type", "") == "ProcessRollup2":
             if event.get("event_platform", "") == "Win":
-                process_name = (
-                    deep_get(event, "event", "ImageFileName", default="").lower().split("\\")[-1]
-                )
+                process_name = deep_get(event, "event", "ImageFileName", default="").lower().split("\\")[-1]
                 if process_name in self.CLEARING_SYSTEM_LOG_TOOLS:
-                    process_command_line = deep_get(
-                        event, "event", "CommandLine", default=""
-                    ).split(" ")
+                    process_command_line = deep_get(event, "event", "CommandLine", default="").split(" ")
                     suspicious_command_lines = self.CLEARING_SYSTEM_LOG_TOOLS.get(process_name)
                     for suspicious_command_line in suspicious_command_lines:
                         if suspicious_command_line in process_command_line:

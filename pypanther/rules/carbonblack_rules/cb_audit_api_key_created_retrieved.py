@@ -59,12 +59,7 @@ class CarbonBlackAuditAPIKeyCreatedRetrieved(PantherRule):
     Reports = {"MITRE ATT&CK": ["TA0003:T1136"]}
     Reference = "https://docs.vmware.com/en/VMware-Carbon-Black-Cloud/services/carbon-black-cloud-user-guide/GUID-F3816FB5-969F-4113-80FC-03981C65F969.html"
     Tests = carbon_black_audit_api_key_created_retrieved_tests
-    PATTERNS = (
-        " retrieved secret for API ID ",
-        "Added API ID ",
-        "Regenerated API key for API ID ",
-        "Updated API ID ",
-    )
+    PATTERNS = (" retrieved secret for API ID ", "Added API ID ", "Regenerated API key for API ID ", "Updated API ID ")
 
     def rule(self, event):
         desc = event.get("description", "")

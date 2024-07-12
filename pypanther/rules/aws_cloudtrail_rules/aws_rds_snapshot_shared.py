@@ -24,10 +24,7 @@ awsrds_snapshot_shared_tests: List[PantherRuleTest] = [
                         "userName": "AWSReservedSSO_DevAdmin_635426549a280cc6",
                     },
                     "webIdFederationData": {},
-                    "attributes": {
-                        "creationDate": "2023-12-12T19:43:57Z",
-                        "mfaAuthenticated": "false",
-                    },
+                    "attributes": {"creationDate": "2023-12-12T19:43:57Z", "mfaAuthenticated": "false"},
                 },
             },
             "eventTime": "2023-12-12T20:12:22Z",
@@ -43,9 +40,7 @@ awsrds_snapshot_shared_tests: List[PantherRuleTest] = [
             },
             "responseElements": {
                 "dBSnapshotIdentifier": "exfiltration",
-                "dBSnapshotAttributes": [
-                    {"attributeName": "restore", "attributeValues": ["193672423079"]}
-                ],
+                "dBSnapshotAttributes": [{"attributeName": "restore", "attributeValues": ["193672423079"]}],
             },
             "requestID": "b7f91314-eb8b-4be5-995d-6b97d70dfb3b",
             "eventID": "86581591-0f39-4eae-9a8d-b2224a3c91fa",
@@ -81,10 +76,7 @@ awsrds_snapshot_shared_tests: List[PantherRuleTest] = [
                         "userName": "AWSReservedSSO_DevAdmin_635426549a280cc6",
                     },
                     "webIdFederationData": {},
-                    "attributes": {
-                        "creationDate": "2023-12-12T19:43:57Z",
-                        "mfaAuthenticated": "false",
-                    },
+                    "attributes": {"creationDate": "2023-12-12T19:43:57Z", "mfaAuthenticated": "false"},
                 },
             },
             "eventTime": "2023-12-12T20:12:22Z",
@@ -144,13 +136,7 @@ class AWSRDSSnapshotShared(PantherRule):
             current_account_id = event.deep_get("userIdentity", "accountId", default="")
             shared_account_ids = event.deep_get("requestParameters", "valuesToAdd", default=[])
             if shared_account_ids:
-                return any(
-                    (
-                        account_id
-                        for account_id in shared_account_ids
-                        if account_id != current_account_id
-                    )
-                )
+                return any((account_id for account_id in shared_account_ids if account_id != current_account_id))
             return False
         return False
 

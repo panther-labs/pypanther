@@ -97,9 +97,7 @@ class ZoomUserPromotedtoPrivilegedRole(PantherRule):
     def extract_values(self, event):
         operator = event.get("operator", "<operator-not-found>")
         operation_detail = event.get("operation_detail", "")
-        email = (
-            re.search("[\\w.+-c]+@[\\w-]+\\.[\\w.-]+", operation_detail)[0] or "<email-not-found>"
-        )
+        email = re.search("[\\w.+-c]+@[\\w-]+\\.[\\w.-]+", operation_detail)[0] or "<email-not-found>"
         fromto = re.findall("from ([-\\s\\w]+) to ([-\\s\\w]+)", operation_detail) or [
             ("<from-role-not-found>", "<to-role-not-found>")
         ]
@@ -118,6 +116,4 @@ class ZoomUserPromotedtoPrivilegedRole(PantherRule):
 
     def title(self, event):
         operator, email, from_role, to_role = self.extract_values(event)
-        return (
-            f"Zoom: [{email}]'s role was changed from [{from_role}] to [{to_role}] by [{operator}]."
-        )
+        return f"Zoom: [{email}]'s role was changed from [{from_role}] to [{to_role}] by [{operator}]."

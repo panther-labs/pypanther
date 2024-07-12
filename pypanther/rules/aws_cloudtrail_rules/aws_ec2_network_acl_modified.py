@@ -17,10 +17,7 @@ awsec2_network_acl_modified_tests: List[PantherRuleTest] = [
                 "accountId": "123456789012",
                 "accessKeyId": "1",
                 "sessionContext": {
-                    "attributes": {
-                        "mfaAuthenticated": "true",
-                        "creationDate": "2019-01-01T00:00:00Z",
-                    },
+                    "attributes": {"mfaAuthenticated": "true", "creationDate": "2019-01-01T00:00:00Z"},
                     "sessionIssuer": {
                         "type": "Role",
                         "principalId": "1111",
@@ -73,10 +70,7 @@ awsec2_network_acl_modified_tests: List[PantherRuleTest] = [
                         "userName": "tester",
                     },
                     "webIdFederationData": {},
-                    "attributes": {
-                        "mfaAuthenticated": "false",
-                        "creationDate": "2019-01-01T00:00:00Z",
-                    },
+                    "attributes": {"mfaAuthenticated": "false", "creationDate": "2019-01-01T00:00:00Z"},
                 },
             },
             "eventTime": "2019-01-01T00:00:00Z",
@@ -87,9 +81,7 @@ awsec2_network_acl_modified_tests: List[PantherRuleTest] = [
             "userAgent": "Mozilla",
             "requestParameters": {
                 "networkAclIdSet": {},
-                "filterSet": {
-                    "items": [{"name": "vpc-id", "valueSet": {"items": [{"value": "vpc-1"}]}}]
-                },
+                "filterSet": {"items": [{"name": "vpc-id", "valueSet": {"items": [{"value": "vpc-1"}]}}]},
             },
             "responseElements": None,
             "requestID": "1",
@@ -111,10 +103,7 @@ awsec2_network_acl_modified_tests: List[PantherRuleTest] = [
                 "accountId": "123456789012",
                 "accessKeyId": "1",
                 "sessionContext": {
-                    "attributes": {
-                        "mfaAuthenticated": "true",
-                        "creationDate": "2019-01-01T00:00:00Z",
-                    },
+                    "attributes": {"mfaAuthenticated": "true", "creationDate": "2019-01-01T00:00:00Z"},
                     "sessionIssuer": {
                         "type": "Role",
                         "principalId": "1111",
@@ -158,17 +147,9 @@ class AWSEC2NetworkACLModified(PantherRule):
     Reports = {"CIS": ["3.11"], "MITRE ATT&CK": ["TA0005:T1562"]}
     Severity = PantherSeverity.Info
     Description = "An EC2 Network ACL was modified."
-    Runbook = (
-        "https://docs.runpanther.io/alert-runbooks/built-in-rules/aws-ec2-network-acl-modified"
-    )
+    Runbook = "https://docs.runpanther.io/alert-runbooks/built-in-rules/aws-ec2-network-acl-modified"
     Reference = "https://docs.aws.amazon.com/vpc/latest/userguide/vpc-network-acls.html#nacl-tasks"
-    SummaryAttributes = [
-        "eventName",
-        "userAgent",
-        "sourceIpAddress",
-        "recipientAccountId",
-        "p_any_aws_arns",
-    ]
+    SummaryAttributes = ["eventName", "userAgent", "sourceIpAddress", "recipientAccountId", "p_any_aws_arns"]
     Tests = awsec2_network_acl_modified_tests
     # API calls that are indicative of an EC2 Network ACL modification
     EC2_NACL_MODIFIED_EVENTS = {
@@ -181,10 +162,7 @@ class AWSEC2NetworkACLModified(PantherRule):
     }
 
     def rule(self, event):
-        return (
-            aws_cloudtrail_success(event)
-            and event.get("eventName") in self.EC2_NACL_MODIFIED_EVENTS
-        )
+        return aws_cloudtrail_success(event) and event.get("eventName") in self.EC2_NACL_MODIFIED_EVENTS
 
     def dedup(self, event):
         return event.get("recipientAccountId")

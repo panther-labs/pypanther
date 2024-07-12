@@ -11,12 +11,7 @@ slack_audit_logs_app_access_expanded_tests: List[PantherRuleTest] = [
             "action": "app_scopes_expanded",
             "actor": {
                 "type": "user",
-                "user": {
-                    "email": "user@example.com",
-                    "id": "A012B3CDEFG",
-                    "name": "username",
-                    "team": "T01234N56GB",
-                },
+                "user": {"email": "user@example.com", "id": "A012B3CDEFG", "name": "username", "team": "T01234N56GB"},
             },
             "context": {
                 "ip_address": "1.2.3.4",
@@ -63,11 +58,7 @@ slack_audit_logs_app_access_expanded_tests: List[PantherRuleTest] = [
             },
             "entity": {
                 "type": "workspace",
-                "workspace": {
-                    "domain": "test-workspace-1",
-                    "id": "T01234N56GB",
-                    "name": "test-workspace-1",
-                },
+                "workspace": {"domain": "test-workspace-1", "id": "T01234N56GB", "name": "test-workspace-1"},
             },
             "id": "9d9b76ce-47bb-4838-a96a-1b5fd4d1b564",
         },
@@ -79,12 +70,7 @@ slack_audit_logs_app_access_expanded_tests: List[PantherRuleTest] = [
             "action": "app_resources_added",
             "actor": {
                 "type": "user",
-                "user": {
-                    "email": "user@example.com",
-                    "id": "A012B3CDEFG",
-                    "name": "username",
-                    "team": "T01234N56GB",
-                },
+                "user": {"email": "user@example.com", "id": "A012B3CDEFG", "name": "username", "team": "T01234N56GB"},
             },
             "context": {
                 "ip_address": "1.2.3.4",
@@ -98,11 +84,7 @@ slack_audit_logs_app_access_expanded_tests: List[PantherRuleTest] = [
             },
             "entity": {
                 "type": "workspace",
-                "workspace": {
-                    "domain": "test-workspace-1",
-                    "id": "T01234N56GB",
-                    "name": "test-workspace-1",
-                },
+                "workspace": {"domain": "test-workspace-1", "id": "T01234N56GB", "name": "test-workspace-1"},
             },
             "id": "72cac009-9eb3-4dde-bac6-ee49a32a1789",
         },
@@ -114,12 +96,7 @@ slack_audit_logs_app_access_expanded_tests: List[PantherRuleTest] = [
             "action": "app_resources_granted",
             "actor": {
                 "type": "user",
-                "user": {
-                    "email": "user@example.com",
-                    "id": "A012B3CDEFG",
-                    "name": "username",
-                    "team": "T01234N56GB",
-                },
+                "user": {"email": "user@example.com", "id": "A012B3CDEFG", "name": "username", "team": "T01234N56GB"},
             },
             "context": {
                 "ip_address": "1.2.3.4",
@@ -139,11 +116,7 @@ slack_audit_logs_app_access_expanded_tests: List[PantherRuleTest] = [
             },
             "entity": {
                 "type": "workspace",
-                "workspace": {
-                    "domain": "test-workspace-1",
-                    "id": "T01234N56GB",
-                    "name": "test-workspace-1",
-                },
+                "workspace": {"domain": "test-workspace-1", "id": "T01234N56GB", "name": "test-workspace-1"},
             },
             "id": "9d9b76ce-47bb-4838-a96a-1b5fd4d1b564",
         },
@@ -155,12 +128,7 @@ slack_audit_logs_app_access_expanded_tests: List[PantherRuleTest] = [
             "action": "bot_token_upgraded",
             "actor": {
                 "type": "user",
-                "user": {
-                    "email": "user@example.com",
-                    "id": "A012B3CDEFG",
-                    "name": "username",
-                    "team": "T01234N56GB",
-                },
+                "user": {"email": "user@example.com", "id": "A012B3CDEFG", "name": "username", "team": "T01234N56GB"},
             },
             "context": {
                 "ip_address": "1.2.3.4",
@@ -174,11 +142,7 @@ slack_audit_logs_app_access_expanded_tests: List[PantherRuleTest] = [
             },
             "entity": {
                 "type": "workspace",
-                "workspace": {
-                    "domain": "test-workspace-1",
-                    "id": "T01234N56GB",
-                    "name": "test-workspace-1",
-                },
+                "workspace": {"domain": "test-workspace-1", "id": "T01234N56GB", "name": "test-workspace-1"},
             },
             "id": "72cac009-9eb3-4dde-bac6-ee49a32a1789",
         },

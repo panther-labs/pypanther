@@ -131,10 +131,7 @@ gcp_unused_regions_tests: List[PantherRuleTest] = [
                                 "members": ["projectViewer:western-verve-123456"],
                             },
                             {
-                                "members": [
-                                    "projectOwner:western-verve-123456",
-                                    "projectEditor:western-verve-123456",
-                                ],
+                                "members": ["projectOwner:western-verve-123456", "projectEditor:western-verve-123456"],
                                 "role": "roles/storage.legacyObjectOwner",
                             },
                         ],
@@ -211,16 +208,10 @@ gcp_unused_regions_tests: List[PantherRuleTest] = [
                     },
                 },
                 "serviceName": "bigquery.googleapis.com",
-                "status": {
-                    "code": 11,
-                    "message": "Syntax error: Unexpected end of script at [17:7]",
-                },
+                "status": {"code": 11, "message": "Syntax error: Unexpected end of script at [17:7]"},
             },
             "receiveTimestamp": "2021-10-19 16:09:26.351861539",
-            "resource": {
-                "labels": {"project_id": "western-verve-123456"},
-                "type": "bigquery_resource",
-            },
+            "resource": {"labels": {"project_id": "western-verve-123456"}, "type": "bigquery_resource"},
             "severity": "ERROR",
             "timestamp": "2021-10-19 16:09:26.013200000",
         },
@@ -234,15 +225,12 @@ class GCPUnusedRegions(PantherRule):
     Enabled = False
     DedupPeriodMinutes = 15
     LogTypes = [PantherLogType.GCP_AuditLog]
-    Tags = [
-        "GCP",
-        "Database",
-        "Configuration Required",
-        "Defense Evasion:Unused/Unsupported Cloud Regions",
-    ]
+    Tags = ["GCP", "Database", "Configuration Required", "Defense Evasion:Unused/Unsupported Cloud Regions"]
     Reports = {"MITRE ATT&CK": ["TA0005:T1535"]}
     Severity = PantherSeverity.Medium
-    Description = "Adversaries may create cloud instances in unused geographic service regions in order to evade detection.\n"
+    Description = (
+        "Adversaries may create cloud instances in unused geographic service regions in order to evade detection.\n"
+    )
     Runbook = "Validate the user making the request and the resource created."
     Reference = "https://cloud.google.com/docs/geography-and-regions"
     SummaryAttributes = ["severity", "p_any_ip_addresses", "p_any_domain_names"]
@@ -259,9 +247,7 @@ class GCPUnusedRegions(PantherRule):
         # in any of the places we would expect to find one.
         if location is False:
             return False
-        return not any(
-            (location.startswith(active_region) for active_region in self.APPROVED_ACTIVE_REGIONS)
-        )
+        return not any((location.startswith(active_region) for active_region in self.APPROVED_ACTIVE_REGIONS))
 
     def _get_location_or_zone(self, event):
         resource = event.get("resource")

@@ -35,9 +35,7 @@ class OneLoginThresholdAccountsDeleted(PantherRule):
     Tags = ["OneLogin", "Impact:Account Access Removal"]
     Severity = PantherSeverity.Medium
     Reports = {"MITRE ATT&CK": ["TA0040:T1531"]}
-    Description = (
-        "Possible Denial of Service detected. Threshold for user account deletions exceeded.\n"
-    )
+    Description = "Possible Denial of Service detected. Threshold for user account deletions exceeded.\n"
     Threshold = 10
     DedupPeriodMinutes = 10
     Reference = "https://en.wikipedia.org/wiki/Denial-of-service_attack"
@@ -50,4 +48,6 @@ class OneLoginThresholdAccountsDeleted(PantherRule):
         return str(event.get("event_type_id")) == "17"
 
     def title(self, event):
-        return f"User [{event.get('actor_user_name', '<UNKNOWN_USER>')}] has exceeded the user account deletion threshold"
+        return (
+            f"User [{event.get('actor_user_name', '<UNKNOWN_USER>')}] has exceeded the user account deletion threshold"
+        )

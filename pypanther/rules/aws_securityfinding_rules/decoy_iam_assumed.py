@@ -30,10 +30,7 @@ decoy_iam_assumed_tests: List[PantherRuleTest] = [
             "CompanyName": "Custom",
             "CreatedAt": "2024-05-24 13:17:15.000000000",
             "Description": "Private decoy IAM role arn:aws:iam::123456789012:role/Dummy-Test-InfoRole-ab21cde50f was accessed by arn:aws:iam::123456789012:user/tester. This IAM role has been provisioned to monitor and generate security events when accessed and can be an indicator of unintended or unauthorized access to your AWS Account.",
-            "FindingProviderFields": {
-                "Severity": {"Label": "HIGH", "Normalized": 70},
-                "Types": ["Unusual Behaviors"],
-            },
+            "FindingProviderFields": {"Severity": {"Label": "HIGH", "Normalized": 70}, "Types": ["Unusual Behaviors"]},
             "GeneratorId": "sts.amazonaws.com",
             "Id": "1abc2de3-69ea-4e15-91c6-27eb4a07bd21",
             "ProcessedAt": "2024-05-24T13:17:21.469Z",
@@ -65,10 +62,7 @@ decoy_iam_assumed_tests: List[PantherRuleTest] = [
                             "PrincipalId": "ABCDEFGH0TOGJSGNQKI0:john.doe",
                             "PrincipalType": "AssumedRole",
                             "SessionContext": {
-                                "Attributes": {
-                                    "CreationDate": "2024-05-24T22:32:38Z",
-                                    "MfaAuthenticated": False,
-                                },
+                                "Attributes": {"CreationDate": "2024-05-24T22:32:38Z", "MfaAuthenticated": False},
                                 "SessionIssuer": {
                                     "AccountId": "123456789012",
                                     "Arn": "arn:aws:iam::123456789012:user/tester",
@@ -142,10 +136,7 @@ decoy_iam_assumed_tests: List[PantherRuleTest] = [
             "CompanyName": "Custom",
             "CreatedAt": "2024-05-24 13:17:15.000000000",
             "Description": "Private decoy IAM role arn:aws:iam::123456789012:role/Dummy-Test-InfoRole-ab21cde50f was not accessed by arn:aws:iam::123456789012:user/tester. This IAM role has been provisioned to monitor and generate security events when accessed and can be an indicator of unintended or unauthorized access to your AWS Account.",
-            "FindingProviderFields": {
-                "Severity": {"Label": "HIGH", "Normalized": 70},
-                "Types": ["Unusual Behaviors"],
-            },
+            "FindingProviderFields": {"Severity": {"Label": "HIGH", "Normalized": 70}, "Types": ["Unusual Behaviors"]},
             "GeneratorId": "sts.amazonaws.com",
             "Id": "1abc2de3-69ea-4e15-91c6-27eb4a07bd21",
             "ProcessedAt": "2024-05-24T13:17:21.469Z",
@@ -177,10 +168,7 @@ decoy_iam_assumed_tests: List[PantherRuleTest] = [
                             "PrincipalId": "ABCDEFGH0TOGJSGNQKI0:john.doe",
                             "PrincipalType": "AssumedRole",
                             "SessionContext": {
-                                "Attributes": {
-                                    "CreationDate": "2024-05-24T22:32:38Z",
-                                    "MfaAuthenticated": False,
-                                },
+                                "Attributes": {"CreationDate": "2024-05-24T22:32:38Z", "MfaAuthenticated": False},
                                 "SessionIssuer": {
                                     "AccountId": "123456789012",
                                     "Arn": "arn:aws:iam::123456789012:user/tester",

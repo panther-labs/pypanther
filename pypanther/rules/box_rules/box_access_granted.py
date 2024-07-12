@@ -10,12 +10,7 @@ box_access_granted_tests: List[PantherRuleTest] = [
         Log={
             "type": "event",
             "additional_details": '{"key": "value"}',
-            "created_by": {
-                "id": "12345678",
-                "type": "user",
-                "login": "cat@example",
-                "name": "Bob Cat",
-            },
+            "created_by": {"id": "12345678", "type": "user", "login": "cat@example", "name": "Bob Cat"},
             "event_type": "DELETE",
         },
     ),
@@ -25,19 +20,9 @@ box_access_granted_tests: List[PantherRuleTest] = [
         Log={
             "type": "event",
             "additional_details": '{"key": "value"}',
-            "created_by": {
-                "id": "12345678",
-                "type": "user",
-                "login": "cat@example",
-                "name": "Bob Cat",
-            },
+            "created_by": {"id": "12345678", "type": "user", "login": "cat@example", "name": "Bob Cat"},
             "event_type": "ACCESS_GRANTED",
-            "source": {
-                "id": "12345678",
-                "type": "user",
-                "login": "user@example",
-                "name": "Bob Cat",
-            },
+            "source": {"id": "12345678", "type": "user", "login": "user@example", "name": "Bob Cat"},
         },
     ),
 ]
@@ -59,4 +44,6 @@ class BoxAccessGranted(PantherRule):
         return event.get("event_type") == "ACCESS_GRANTED"
 
     def title(self, event):
-        return f"User [{deep_get(event, 'created_by', 'name', default='<UNKNOWN_USER>')}] granted access to their account"
+        return (
+            f"User [{deep_get(event, 'created_by', 'name', default='<UNKNOWN_USER>')}] granted access to their account"
+        )

@@ -61,7 +61,9 @@ class StandardNewAWSAccountCreated(PantherRule):
     Severity = PantherSeverity.Info
     Reports = {"MITRE ATT&CK": ["TA0003:T1136"]}
     Description = "A new AWS account was created"
-    Runbook = "A new AWS account was created, ensure it was created through standard practice and is for a valid purpose."
+    Runbook = (
+        "A new AWS account was created, ensure it was created through standard practice and is for a valid purpose."
+    )
     Reference = "https://docs.aws.amazon.com/organizations/latest/userguide/orgs_security_incident-response.html#:~:text=AWS%20Organizations%20information%20in%20CloudTrail"
     SummaryAttributes = ["p_any_aws_account_ids"]
     Tests = standard_new_aws_account_created_tests
@@ -72,9 +74,7 @@ class StandardNewAWSAccountCreated(PantherRule):
         if event.get("serviceEventDetails"):
             try:
                 details = json.loads(event.get("serviceEventDetails"))
-                return str(
-                    details.get("createAccountStatus", {}).get("accountId", "<UNKNOWN_ACCOUNT_ID>")
-                )
+                return str(details.get("createAccountStatus", {}).get("accountId", "<UNKNOWN_ACCOUNT_ID>"))
             except (TypeError, ValueError):
                 return "<UNABLE TO PARSE ACCOUNT ID>"
         return "<UNKNOWN ACCOUNT ID>"
@@ -87,12 +87,8 @@ class StandardNewAWSAccountCreated(PantherRule):
         expiry_time = event_time + self.TTL
         account_event_id = f"new_aws_account_{event.get('p_row_id')}"
         if account_id:
-            put_string_set(
-                "new_account - " + account_id, [account_event_id], expiry_time.strftime("%s")
-            )
+            put_string_set("new_account - " + account_id, [account_event_id], expiry_time.strftime("%s"))
         return True
 
     def title(self, event):
-        return (
-            f"A new AWS account has been created. Account ID - [{self.parse_new_account_id(event)}]"
-        )
+        return f"A new AWS account has been created. Account ID - [{self.parse_new_account_id(event)}]"

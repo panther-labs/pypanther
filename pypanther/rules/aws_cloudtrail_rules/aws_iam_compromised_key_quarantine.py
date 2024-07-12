@@ -23,10 +23,7 @@ aws_cloud_trail_iam_compromised_key_quarantine_tests: List[PantherRuleTest] = [
                         "userName": "a-role",
                     },
                     "webIdFederationData": {},
-                    "attributes": {
-                        "creationDate": "2023-11-21T22:28:31Z",
-                        "mfaAuthenticated": "false",
-                    },
+                    "attributes": {"creationDate": "2023-11-21T22:28:31Z", "mfaAuthenticated": "false"},
                 },
             },
             "eventTime": "2023-11-21T23:23:52Z",
@@ -70,10 +67,7 @@ aws_cloud_trail_iam_compromised_key_quarantine_tests: List[PantherRuleTest] = [
                         "userName": "a-role",
                     },
                     "webIdFederationData": {},
-                    "attributes": {
-                        "creationDate": "2023-11-21T22:28:31Z",
-                        "mfaAuthenticated": "false",
-                    },
+                    "attributes": {"creationDate": "2023-11-21T22:28:31Z", "mfaAuthenticated": "false"},
                 },
             },
             "eventTime": "2023-11-21T23:31:17Z",
@@ -125,8 +119,7 @@ class AWSCloudTrailIAMCompromisedKeyQuarantine(PantherRule):
             [
                 event.get("eventSource", "") == "iam.amazonaws.com",
                 event.get("eventName", "") in self.IAM_ACTIONS,
-                event.deep_get("requestParameters", "policyArn", default="")
-                == self.QUARANTINE_MANAGED_POLICY,
+                event.deep_get("requestParameters", "policyArn", default="") == self.QUARANTINE_MANAGED_POLICY,
             ]
         )
 

@@ -42,9 +42,7 @@ slack_audit_logs_application_do_s_tests: List[PantherRuleTest] = [
         Name="User Session Reset - Multiple Times",
         ExpectedResult=True,
         Mocks=[
-            PantherRuleMock(
-                ObjectName="get_string_set", ReturnValue='{"time":"2021-06-08 22:24:43"}'
-            ),
+            PantherRuleMock(ObjectName="get_string_set", ReturnValue='{"time":"2021-06-08 22:24:43"}'),
             PantherRuleMock(ObjectName="put_string_set", ReturnValue=""),
         ],
         Log={
@@ -80,7 +78,9 @@ class SlackAuditLogsApplicationDoS(PantherRule):
     Tags = ["Slack", "Impact", "Endpoint Denial of Service", "Application Exhaustion Flood"]
     Reports = {"MITRE ATT&CK": ["TA0040:T1499.003"]}
     Severity = PantherSeverity.Critical
-    Description = "Detects when slack admin invalidates user session(s) more than once in a 24 hour period which can lead to DoS"
+    Description = (
+        "Detects when slack admin invalidates user session(s) more than once in a 24 hour period which can lead to DoS"
+    )
     Reference = "https://slack.com/intl/en-gb/help/articles/115005223763-Manage-session-duration-#pro-and-business+-subscriptions-2"
     Threshold = 60
     SummaryAttributes = ["action", "p_any_ip_addresses", "p_any_emails"]

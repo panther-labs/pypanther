@@ -40,9 +40,7 @@ github_public_repository_created_tests: List[PantherRuleTest] = [
 class GithubPublicRepositoryCreated(PantherRule):
     Description = "A public Github repository was created."
     DisplayName = "Github Public Repository Created"
-    Runbook = (
-        "Confirm this github repository was intended to be created as 'public' versus 'private'."
-    )
+    Runbook = "Confirm this github repository was intended to be created as 'public' versus 'private'."
     Reference = "https://docs.github.com/en/get-started/quickstart/create-a-repo"
     Severity = PantherSeverity.Medium
     Tags = ["Github Repository", "Public", "Repository Created"]

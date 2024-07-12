@@ -10,12 +10,7 @@ box_shield_suspicious_alert_tests: List[PantherRuleTest] = [
         Log={
             "type": "event",
             "additional_details": '{"key": "value"}',
-            "created_by": {
-                "id": "12345678",
-                "type": "user",
-                "login": "ceo@example",
-                "name": "Bob Cat",
-            },
+            "created_by": {"id": "12345678", "type": "user", "login": "ceo@example", "name": "Bob Cat"},
             "event_type": "DELETE",
         },
     ),
@@ -25,12 +20,7 @@ box_shield_suspicious_alert_tests: List[PantherRuleTest] = [
         Log={
             "type": "event",
             "additional_details": '{"shield_alert":{"rule_category":"Suspicious Locations","risk_score":60,"user":{"email":"bob@example"}}}',
-            "created_by": {
-                "id": "12345678",
-                "type": "user",
-                "login": "bob@example",
-                "name": "Bob Cat",
-            },
+            "created_by": {"id": "12345678", "type": "user", "login": "bob@example", "name": "Bob Cat"},
             "event_type": "SHIELD_ALERT",
             "source": {"id": "12345678", "type": "user"},
         },
@@ -41,12 +31,7 @@ box_shield_suspicious_alert_tests: List[PantherRuleTest] = [
         Log={
             "type": "event",
             "additional_details": '{"shield_alert":{"rule_category":"Suspicious Sessions","risk_score":70,"alert_summary":{"description":"First time in prior month user connected from ip 1.2.3.4."},"user":{"email":"bob@example"}}}',
-            "created_by": {
-                "id": "12345678",
-                "type": "user",
-                "login": "bob@example",
-                "name": "Bob Cat",
-            },
+            "created_by": {"id": "12345678", "type": "user", "login": "bob@example", "name": "Bob Cat"},
             "event_type": "SHIELD_ALERT",
             "source": {"id": "12345678", "type": "user"},
         },
@@ -57,12 +42,7 @@ box_shield_suspicious_alert_tests: List[PantherRuleTest] = [
         Log={
             "type": "event",
             "additional_details": '{"shield_alert":{"rule_category":"Suspicious Sessions","risk_score":10,"alert_summary":{"description":"First time in prior month user connected from ip 1.2.3.4."},"user":{"email":"bob@example"}}}',
-            "created_by": {
-                "id": "12345678",
-                "type": "user",
-                "login": "bob@example",
-                "name": "Bob Cat",
-            },
+            "created_by": {"id": "12345678", "type": "user", "login": "bob@example", "name": "Bob Cat"},
             "event_type": "SHIELD_ALERT",
             "source": {"id": "12345678", "type": "user"},
         },
@@ -77,9 +57,7 @@ class BoxShieldSuspiciousAlert(PantherRule):
     Tags = ["Box", "Initial Access:Valid Accounts"]
     Reports = {"MITRE ATT&CK": ["TA0001:T1078"]}
     Severity = PantherSeverity.High
-    Description = (
-        "A user login event or session event was tagged as medium to high severity by Box Shield.\n"
-    )
+    Description = "A user login event or session event was tagged as medium to high severity by Box Shield.\n"
     Reference = "https://developer.box.com/guides/events/shield-alert-events/"
     Runbook = "Investigate whether this was triggered by an expected user event.\n"
     SummaryAttributes = ["event_type", "ip_address"]

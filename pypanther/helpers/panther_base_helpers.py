@@ -152,9 +152,7 @@ ZENDESK_CHANGE_DESCRIPTION = "change_description"
 ZENDESK_APP_ROLE_ASSIGNED = re.compile(
     r"(?P<app>.*) role changed from (?P<old_role>.+) to (?P<new_role>.*)", re.IGNORECASE
 )
-ZENDESK_ROLE_ASSIGNED = re.compile(
-    r"Role changed from (?P<old_role>.+) to (?P<new_role>[^$]+)", re.IGNORECASE
-)
+ZENDESK_ROLE_ASSIGNED = re.compile(r"Role changed from (?P<old_role>.+) to (?P<new_role>[^$]+)", re.IGNORECASE)
 
 
 def zendesk_get_roles(event):
@@ -305,9 +303,7 @@ def deep_get(dictionary: dict, *keys, default=None):
 
     Inspired by https://bit.ly/3a0hq9E
     """
-    out = reduce(
-        lambda d, key: d.get(key, default) if isinstance(d, Mapping) else default, keys, dictionary
-    )
+    out = reduce(lambda d, key: d.get(key, default) if isinstance(d, Mapping) else default, keys, dictionary)
     if out is None:
         return default
     return out
@@ -351,9 +347,7 @@ def deep_walk(
     if isinstance(obj, Mapping):
         next_key = obj.get(current_key, None)
         return (
-            deep_walk(next_key, *keys[1:], default=default, return_val=return_val)
-            if next_key is not None
-            else default
+            deep_walk(next_key, *keys[1:], default=default, return_val=return_val) if next_key is not None else default
         )
     if isinstance(obj, Sequence) and not isinstance(obj, str):
         for item in obj:

@@ -1,10 +1,7 @@
 from typing import List
 
 from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
-from pypanther.helpers.panther_duo_helpers import (
-    deserialize_administrator_log_event_description,
-    duo_alert_context,
-)
+from pypanther.helpers.panther_duo_helpers import deserialize_administrator_log_event_description, duo_alert_context
 
 duo_admin_ssosaml_requirement_disabled_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -55,9 +52,7 @@ duo_admin_ssosaml_requirement_disabled_tests: List[PantherRuleTest] = [
 
 
 class DuoAdminSSOSAMLRequirementDisabled(PantherRule):
-    Description = (
-        "Detects when SAML Authentication for Administrators is marked as Disabled or Optional."
-    )
+    Description = "Detects when SAML Authentication for Administrators is marked as Disabled or Optional."
     DisplayName = "Duo Admin SSO SAML Requirement Disabled"
     Reference = "https://duo.com/docs/sso#saml:~:text=Modify%20Authentication%20Sources"
     Severity = PantherSeverity.Medium

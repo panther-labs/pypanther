@@ -130,9 +130,7 @@ standard_impossible_travel_login_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="Okta Not sign-in",
-        ExpectedResult=False,
-        Log={"eventType": "logout", "p_log_type": "Okta.SystemLog"},
+        Name="Okta Not sign-in", ExpectedResult=False, Log={"eventType": "logout", "p_log_type": "Okta.SystemLog"}
     ),
     PantherRuleTest(
         Name="Okta sign-in with history and impossible travel",
@@ -668,9 +666,7 @@ class StandardImpossibleTravelLogin(PantherRule):
     Tags = ["Identity & Access Management", "Initial Access:Valid Accounts"]
     Reports = {"MITRE ATT&CK": ["TA0001:T1078"]}
     Severity = PantherSeverity.High
-    Description = (
-        "A user has subsequent logins from two geographic locations that are very far apart"
-    )
+    Description = "A user has subsequent logins from two geographic locations that are very far apart"
     Runbook = "Reach out to the user if needed to validate the activity, then lock the account.\nIf the user responds that the geolocation on the new location is incorrect, you can directly report the inaccuracy via  https://ipinfo.io/corrections\n"
     Reference = "https://expertinsights.com/insights/what-are-impossible-travel-logins/#:~:text=An%20impossible%20travel%20login%20is,of%20the%20logins%20is%20fraudulent"
     SummaryAttributes = ["p_any_usernames", "p_any_ip_addresses", "p_any_domain_names"]
@@ -704,10 +700,7 @@ class StandardImpossibleTravelLogin(PantherRule):
             # we couldn't go from p_event_time to a datetime object
             # we need to do this in order to make later time comparisons generic
             return False
-        new_login_stats = {
-            "p_event_time": p_event_datetime.isoformat(),
-            "source_ip": event.udm("source_ip"),
-        }
+        new_login_stats = {"p_event_time": p_event_datetime.isoformat(), "source_ip": event.udm("source_ip")}
         #
         src_ip_enrichments = LookupTableMatches().p_matches(event, event.udm("source_ip"))
         # stuff everything from ipinfo_location into the new_login_stats
@@ -736,10 +729,7 @@ class StandardImpossibleTravelLogin(PantherRule):
             #   offerings have the VPN attribute set to true, and
             #   do have a service name entry
             self.IS_VPN = all(
-                [
-                    deep_get(ipinfo_privacy, "vpn", default=False),
-                    deep_get(ipinfo_privacy, "service", default="") != "",
-                ]
+                [deep_get(ipinfo_privacy, "vpn", default=False), deep_get(ipinfo_privacy, "service", default="") != ""]
             )
         if self.IS_VPN or self.IS_PRIVATE_RELAY:
             new_login_stats.update(

@@ -33,11 +33,7 @@ osquery_linux_login_from_non_office_tests: List[PantherRuleTest] = [
     PantherRuleTest(
         Name="Office network login",
         ExpectedResult=False,
-        Log={
-            "name": "pack-logged_in_users",
-            "action": "added",
-            "columns": {"host": "192.168.1.200", "user": "ubuntu"},
-        },
+        Log={"name": "pack-logged_in_users", "action": "added", "columns": {"host": "192.168.1.200", "user": "ubuntu"}},
     ),
 ]
 
@@ -56,10 +52,7 @@ class OsqueryLinuxLoginFromNonOffice(PantherRule):
     SummaryAttributes = ["name", "action", "p_any_ip_addresses", "p_any_domain_names"]
     Tests = osquery_linux_login_from_non_office_tests
     # This is only an example network, but you can set it to whatever you'd like
-    OFFICE_NETWORKS = [
-        ipaddress.ip_network("192.168.1.100/32"),
-        ipaddress.ip_network("192.168.1.200/32"),
-    ]
+    OFFICE_NETWORKS = [ipaddress.ip_network("192.168.1.100/32"), ipaddress.ip_network("192.168.1.200/32")]
 
     def _login_from_non_office_network(self, host):
         host_ipaddr = ipaddress.IPv4Address(host)

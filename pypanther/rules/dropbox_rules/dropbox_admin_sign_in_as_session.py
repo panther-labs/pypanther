@@ -40,10 +40,7 @@ dropbox_adminsigninas_session_tests: List[PantherRuleTest] = [
                 "email": "alice.bob@company.com",
                 "team_member_id": "dbmid:AADSERs2cAsByYt8yQEDU4_qdNQiSdxgCl8",
             },
-            "details": {
-                ".tag": "shared_content_add_member_details",
-                "shared_content_access_level": {".tag": "viewer"},
-            },
+            "details": {".tag": "shared_content_add_member_details", "shared_content_access_level": {".tag": "viewer"}},
             "event_category": {"_tag": "sharing"},
             "event_type": {
                 "_tag": "shared_content_add_member",
@@ -53,17 +50,9 @@ dropbox_adminsigninas_session_tests: List[PantherRuleTest] = [
             "origin": {
                 "access_method": {
                     ".tag": "end_user",
-                    "end_user": {
-                        ".tag": "web",
-                        "session_id": "dbwsid:237034608707419186011941491025532848312",
-                    },
+                    "end_user": {".tag": "web", "session_id": "dbwsid:237034608707419186011941491025532848312"},
                 },
-                "geo_location": {
-                    "city": "Austin",
-                    "country": "US",
-                    "ip_address": "1.2.3.4",
-                    "region": "Texas",
-                },
+                "geo_location": {"city": "Austin", "country": "US", "ip_address": "1.2.3.4", "region": "Texas"},
             },
             "p_any_emails": ["david.davidson@david.co", "alice.bob@company.com"],
             "p_any_ip_addresses": ["1.2.3.4"],
@@ -111,25 +100,14 @@ dropbox_adminsigninas_session_tests: List[PantherRuleTest] = [
             },
             "details": {".tag": "sign_in_as_session_start_details"},
             "event_category": {"_tag": "logins"},
-            "event_type": {
-                "_tag": "sign_in_as_session_start",
-                "description": "Started admin sign-in-as session",
-            },
+            "event_type": {"_tag": "sign_in_as_session_start", "description": "Started admin sign-in-as session"},
             "involve_non_team_member": False,
             "origin": {
                 "access_method": {
                     ".tag": "end_user",
-                    "end_user": {
-                        ".tag": "web",
-                        "session_id": "dbwsid:89515573818299775425117508904073133360",
-                    },
+                    "end_user": {".tag": "web", "session_id": "dbwsid:89515573818299775425117508904073133360"},
                 },
-                "geo_location": {
-                    "city": "Austin",
-                    "country": "US",
-                    "ip_address": "1.2.3.4",
-                    "region": "Texas",
-                },
+                "geo_location": {"city": "Austin", "country": "US", "ip_address": "1.2.3.4", "region": "Texas"},
             },
             "p_any_emails": ["alice.bob@company.com", "adminuser@company.com"],
             "p_any_ip_addresses": ["1.2.3.4"],

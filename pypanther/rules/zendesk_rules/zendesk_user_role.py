@@ -52,7 +52,9 @@ class ZendeskUserRoleChanged(PantherRule):
     LogTypes = [PantherLogType.Zendesk_Audit]
     Severity = PantherSeverity.Info
     Description = "A user's Zendesk role was changed"
-    Reference = "https://support.zendesk.com/hc/en-us/articles/4408824375450-Setting-roles-and-access-in-Zendesk-Admin-Center"
+    Reference = (
+        "https://support.zendesk.com/hc/en-us/articles/4408824375450-Setting-roles-and-access-in-Zendesk-Admin-Center"
+    )
     SummaryAttributes = ["p_any_ip_addresses"]
     Tests = zendesk_user_role_changed_tests
 
@@ -66,4 +68,6 @@ class ZendeskUserRoleChanged(PantherRule):
 
     def title(self, event):
         old_role, new_role = zendesk_get_roles(event)
-        return f"Actor user [{event.udm('actor_user')}] changed [{event.udm('user')}] role from {old_role} to {new_role}"
+        return (
+            f"Actor user [{event.udm('actor_user')}] changed [{event.udm('user')}] role from {old_role} to {new_role}"
+        )

@@ -44,10 +44,7 @@ aws_software_discovery_tests: List[PantherRuleTest] = [
                 "arn": "arn:aws:sts::853509373758:assumed-role/PantherAuditRole-us-east-2/1634605518650090138",
                 "principalId": "AROA4NOI7P47OHH3NQORX:1634605518650090138",
                 "sessionContext": {
-                    "attributes": {
-                        "creationDate": "2021-10-19T01:05:18Z",
-                        "mfaAuthenticated": "false",
-                    },
+                    "attributes": {"creationDate": "2021-10-19T01:05:18Z", "mfaAuthenticated": "false"},
                     "sessionIssuer": {
                         "accountId": "853509373758",
                         "arn": "arn:aws:iam::853509373758:role/PantherAuditRole-us-east-2",
@@ -81,7 +78,9 @@ aws_software_discovery_tests: List[PantherRuleTest] = [
 
 
 class AWSSoftwareDiscovery(PantherRule):
-    Description = "A user is obtaining a list of security software, configurations, defensive tools, and sensors that are in AWS."
+    Description = (
+        "A user is obtaining a list of security software, configurations, defensive tools, and sensors that are in AWS."
+    )
     DisplayName = "AWS Software Discovery"
     Enabled = False
     Reference = "https://attack.mitre.org/techniques/T1518/001/"

@@ -11,12 +11,7 @@ box_event_triggered_externally_tests: List[PantherRuleTest] = [
         Log={
             "type": "event",
             "additional_details": '{"key": "value"}',
-            "created_by": {
-                "id": "12345678",
-                "type": "user",
-                "login": "cat@example.com",
-                "name": "Bob Cat",
-            },
+            "created_by": {"id": "12345678", "type": "user", "login": "cat@example.com", "name": "Bob Cat"},
             "event_type": "DELETE",
         },
     ),
@@ -47,9 +42,7 @@ class BoxEventTriggeredExternally(PantherRule):
     Reports = {"MITRE ATT&CK": ["TA0010:T1567"]}
     Severity = PantherSeverity.Medium
     Description = "An external user has triggered a box enterprise event.\n"
-    Reference = (
-        "https://support.box.com/hc/en-us/articles/8391393127955-Using-the-Enterprise-Event-Stream"
-    )
+    Reference = "https://support.box.com/hc/en-us/articles/8391393127955-Using-the-Enterprise-Event-Stream"
     Runbook = "Investigate whether this user's activity is expected.\n"
     SummaryAttributes = ["ip_address"]
     Threshold = 10
@@ -63,11 +56,10 @@ class BoxEventTriggeredExternally(PantherRule):
             # user id 2 indicates an anonymous user
             if user.get("id", "") == "2":
                 return True
-            return bool(
-                user.get("login")
-                and (not any((user.get("login", "").endswith(x) for x in self.DOMAINS)))
-            )
+            return bool(user.get("login") and (not any((user.get("login", "").endswith(x) for x in self.DOMAINS))))
         return False
 
     def title(self, event):
-        return f"External user [{deep_get(event, 'created_by', 'login', default='<UNKNOWN_USER>')}] triggered a box event."
+        return (
+            f"External user [{deep_get(event, 'created_by', 'login', default='<UNKNOWN_USER>')}] triggered a box event."
+        )

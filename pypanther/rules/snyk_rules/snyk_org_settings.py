@@ -72,9 +72,7 @@ class SnykOrgSettings(PantherRule):
     Tags = ["Snyk"]
     Reference = "https://docs.snyk.io/snyk-admin/manage-settings/organization-general-settings"
     Severity = PantherSeverity.Medium
-    Description = (
-        "Detects when Snyk Organization settings, like Integrations and Webhooks, are changed\n"
-    )
+    Description = "Detects when Snyk Organization settings, like Integrations and Webhooks, are changed\n"
     SummaryAttributes = ["event"]
     Tests = snyk_org_settings_tests
     ACTIONS = [

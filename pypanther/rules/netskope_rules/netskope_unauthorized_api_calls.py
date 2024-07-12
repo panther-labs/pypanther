@@ -17,12 +17,7 @@ netskope_unauthorized_api_calls_tests: List[PantherRuleTest] = [
             "severity_level": 2,
             "supporting_data": {
                 "data_type": "incidents",
-                "data_values": [
-                    403,
-                    "POST",
-                    "/api/v2/incidents/uba/getuci",
-                    "trid=ccb898fgrhvdd0v0lebg",
-                ],
+                "data_values": [403, "POST", "/api/v2/incidents/uba/getuci", "trid=ccb898fgrhvdd0v0lebg"],
             },
             "timestamp": "2023-12-11 18:10:13.000000000",
             "type": "admin_audit_logs",
@@ -43,12 +38,7 @@ netskope_unauthorized_api_calls_tests: List[PantherRuleTest] = [
             "severity_level": 2,
             "supporting_data": {
                 "data_type": "incidents",
-                "data_values": [
-                    200,
-                    "POST",
-                    "/api/v2/incidents/uba/getuci",
-                    "trid=ccb898fgrhvdd0v0lebg",
-                ],
+                "data_values": [200, "POST", "/api/v2/incidents/uba/getuci", "trid=ccb898fgrhvdd0v0lebg"],
             },
             "timestamp": "2023-12-11 18:10:13.000000000",
             "type": "admin_audit_logs",
@@ -69,7 +59,9 @@ class NetskopeUnauthorizedAPICalls(PantherRule):
     Description = "Many unauthorized API calls were observed for a user in a short period of time."
     Threshold = 10
     Runbook = "An account is making many unauthorized API calls.  This could indicate brute force activity, or expired service account credentials."
-    Reference = "https://docs.netskope.com/en/netskope-help/data-security/netskope-private-access/private-access-rest-apis/"
+    Reference = (
+        "https://docs.netskope.com/en/netskope-help/data-security/netskope-private-access/private-access-rest-apis/"
+    )
     Tests = netskope_unauthorized_api_calls_tests
 
     def rule(self, event):

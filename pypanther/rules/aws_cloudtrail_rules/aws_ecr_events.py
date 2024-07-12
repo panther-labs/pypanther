@@ -16,12 +16,7 @@ awsecrevents_tests: List[PantherRuleTest] = [
                 "accountId": "123456789012",
                 "accessKeyId": "AKIAIOSFODNN7EXAMPLE",
                 "userName": "Mary_Major",
-                "sessionContext": {
-                    "attributes": {
-                        "mfaAuthenticated": "false",
-                        "creationDate": "2019-04-15T16:42:14Z",
-                    }
-                },
+                "sessionContext": {"attributes": {"mfaAuthenticated": "false", "creationDate": "2019-04-15T16:42:14Z"}},
             },
             "eventTime": "2019-04-15T16:45:00Z",
             "eventSource": "ecr.amazonaws.com",
@@ -49,10 +44,7 @@ awsecrevents_tests: List[PantherRuleTest] = [
             "requestID": "cf044b7d-5f9d-11e9-9b2a-95983139cc57",
             "eventID": "2bfd4ee2-2178-4a82-a27d-b12939923f0f",
             "resources": [
-                {
-                    "ARN": "arn:aws:ecr:us-east-2:123456789012:repository/testrepo",
-                    "accountId": "123456789012",
-                }
+                {"ARN": "arn:aws:ecr:us-east-2:123456789012:repository/testrepo", "accountId": "123456789012"}
             ],
             "eventType": "AwsApiCall",
             "recipientAccountId": "123456789012",
@@ -70,12 +62,7 @@ awsecrevents_tests: List[PantherRuleTest] = [
                 "accountId": "123456789000",
                 "accessKeyId": "AKIAIOSFODNN7EXAMPLE",
                 "userName": "Mary_Major",
-                "sessionContext": {
-                    "attributes": {
-                        "mfaAuthenticated": "false",
-                        "creationDate": "2019-04-15T16:42:14Z",
-                    }
-                },
+                "sessionContext": {"attributes": {"mfaAuthenticated": "false", "creationDate": "2019-04-15T16:42:14Z"}},
             },
             "eventTime": "2019-04-15T16:45:00Z",
             "eventSource": "ecr.amazonaws.com",
@@ -103,10 +90,7 @@ awsecrevents_tests: List[PantherRuleTest] = [
             "requestID": "cf044b7d-5f9d-11e9-9b2a-95983139cc57",
             "eventID": "2bfd4ee2-2178-4a82-a27d-b12939923f0f",
             "resources": [
-                {
-                    "ARN": "arn:aws:ecr:us-east-2:123456789000:repository/testrepo",
-                    "accountId": "123456789000",
-                }
+                {"ARN": "arn:aws:ecr:us-east-2:123456789000:repository/testrepo", "accountId": "123456789000"}
             ],
             "eventType": "AwsApiCall",
             "recipientAccountId": "123456789000",
@@ -124,12 +108,7 @@ awsecrevents_tests: List[PantherRuleTest] = [
                 "accountId": "123456789012",
                 "accessKeyId": "AKIAIOSFODNN7EXAMPLE",
                 "userName": "Mary_Major",
-                "sessionContext": {
-                    "attributes": {
-                        "mfaAuthenticated": "false",
-                        "creationDate": "2019-04-15T16:42:14Z",
-                    }
-                },
+                "sessionContext": {"attributes": {"mfaAuthenticated": "false", "creationDate": "2019-04-15T16:42:14Z"}},
             },
             "eventTime": "2019-04-15T16:45:00Z",
             "eventSource": "ecr.amazonaws.com",
@@ -157,10 +136,7 @@ awsecrevents_tests: List[PantherRuleTest] = [
             "requestID": "cf044b7d-5f9d-11e9-9b2a-95983139cc57",
             "eventID": "2bfd4ee2-2178-4a82-a27d-b12939923f0f",
             "resources": [
-                {
-                    "ARN": "arn:aws:ecr:us-east-2:123456789012:repository/testrepo",
-                    "accountId": "123456789012",
-                }
+                {"ARN": "arn:aws:ecr:us-east-2:123456789012:repository/testrepo", "accountId": "123456789012"}
             ],
             "eventType": "AwsApiCall",
             "recipientAccountId": "123456789012",
@@ -183,10 +159,7 @@ class AWSECREVENTS(PantherRule):
     SummaryAttributes = ["eventSource", "recipientAccountId", "awsRegion", "p_any_aws_arns"]
     Tests = awsecrevents_tests
     # CONFIGURATION REQUIRED: Update with your expected AWS Accounts/Regions
-    AWS_ACCOUNTS_AND_REGIONS = {
-        "123456789012": {"us-west-1", "us-west-2"},
-        "103456789012": {"us-east-1", "us-east-2"},
-    }
+    AWS_ACCOUNTS_AND_REGIONS = {"123456789012": {"us-west-1", "us-west-2"}, "103456789012": {"us-east-1", "us-east-2"}}
 
     def rule(self, event):
         if event.get("eventSource") == "ecr.amazonaws.com":

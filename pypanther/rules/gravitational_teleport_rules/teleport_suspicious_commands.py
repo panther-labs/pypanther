@@ -62,17 +62,7 @@ class TeleportSuspiciousCommands(PantherRule):
     Reports = {"MITRE ATT&CK": ["TA0002:T1059"]}
     Reference = "https://goteleport.com/docs/management/admin/"
     Runbook = "Find related commands within the time window and determine if the command was invoked legitimately. Examine the arguments to determine how the command was used and reach out to the user to verify the intentions.\n"
-    SummaryAttributes = [
-        "event",
-        "code",
-        "user",
-        "program",
-        "path",
-        "return_code",
-        "login",
-        "server_id",
-        "sid",
-    ]
+    SummaryAttributes = ["event", "code", "user", "program", "path", "return_code", "login", "server_id", "sid"]
     Tests = teleport_suspicious_commands_tests
     SUSPICIOUS_COMMANDS = {"nc", "wget"}
 

@@ -584,12 +584,8 @@ class Auth0MFAPolicyEnabled(PantherRule):
     Tests = auth0_mfa_policy_enabled_tests
 
     def rule(self, event):
-        data_description = deep_get(
-            event, "data", "description", default="<NO_DATA_DESCRIPTION_FOUND>"
-        )
-        request_path = deep_get(
-            event, "data", "details", "request", "path", default="<NO_REQUEST_PATH_FOUND>"
-        )
+        data_description = deep_get(event, "data", "description", default="<NO_DATA_DESCRIPTION_FOUND>")
+        request_path = deep_get(event, "data", "details", "request", "path", default="<NO_REQUEST_PATH_FOUND>")
         return all(
             [
                 data_description == "Set the Multi-factor Authentication policies",
@@ -599,9 +595,7 @@ class Auth0MFAPolicyEnabled(PantherRule):
         )
 
     def title(self, event):
-        user_email = deep_get(
-            event, "data", "details", "request", "auth", "user", "email", default="<NO_USER_FOUND>"
-        )
+        user_email = deep_get(event, "data", "details", "request", "auth", "user", "email", default="<NO_USER_FOUND>")
         request_body = deep_get(event, "data", "details", "request", "body", default=[])
         if "all-applications" in request_body:
             setting_change = "Always Require"

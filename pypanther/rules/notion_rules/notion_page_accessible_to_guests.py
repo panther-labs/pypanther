@@ -26,10 +26,7 @@ notion_page_perms_guest_perms_changed_tests: List[PantherRuleTest] = [
                     "new_permission": "full_access",
                     "old_permission": "none",
                     "page_audience": "shared_internally",
-                    "target": {
-                        "page_id": "441356b5-557b-4053-8d2f-7932d2607d66",
-                        "type": "page_id",
-                    },
+                    "target": {"page_id": "441356b5-557b-4053-8d2f-7932d2607d66", "type": "page_id"},
                 },
                 "id": "e18690f8-e24b-4b03-ba6f-123eb7ec0f08",
                 "timestamp": "2023-08-11 23:02:53.113000000",
@@ -59,10 +56,7 @@ notion_page_perms_guest_perms_changed_tests: List[PantherRuleTest] = [
                     "new_permission": "full_access",
                     "old_permission": "read_only",
                     "page_audience": "shared_internally",
-                    "target": {
-                        "page_id": "441356b5-557b-4053-8d2f-7932d2607d66",
-                        "type": "page_id",
-                    },
+                    "target": {"page_id": "441356b5-557b-4053-8d2f-7932d2607d66", "type": "page_id"},
                 },
                 "id": "e18690f8-e24b-4b03-ba6f-123eb7ec0f08",
                 "timestamp": "2023-08-11 23:02:53.113000000",
@@ -92,12 +86,8 @@ class NotionPagePermsGuestPermsChanged(PantherRule):
 
     def title(self, event):
         user = event.deep_get("event", "actor", "person", "email", default="<NO_USER_FOUND>")
-        guest = event.deep_get(
-            "event", "details", "entity", "person", "email", default="<NO_USER_FOUND>"
-        )
-        page_id = event.deep_get(
-            "event", "details", "target", "page_id", default="<NO_PAGE_ID_FOUND>"
-        )
+        guest = event.deep_get("event", "details", "entity", "person", "email", default="<NO_USER_FOUND>")
+        page_id = event.deep_get("event", "details", "target", "page_id", default="<NO_PAGE_ID_FOUND>")
         event_type = event.deep_get("event", "type", default="<NO_EVENT_TYPE_FOUND>")
         action = {
             "page.permissions.guest_role_added": "added a guest",
@@ -107,16 +97,10 @@ class NotionPagePermsGuestPermsChanged(PantherRule):
 
     def alert_context(self, event):
         context = notion_alert_context(event)
-        page_id = event.deep_get(
-            "event", "details", "target", "page_id", default="<NO_PAGE_ID_FOUND>"
-        )
+        page_id = event.deep_get("event", "details", "target", "page_id", default="<NO_PAGE_ID_FOUND>")
         context["page_id"] = page_id
         details = event.deep_get("event", "details", default={})
         context["guest"] = deep_get(details, "entity", "person", "email", default="<NO_USER_FOUND>")
-        context["new_permission"] = deep_get(
-            details, "new_permission", default="<UNKNOWN PERMISSION>"
-        )
-        context["old_permission"] = deep_get(
-            details, "old_permission", default="<UNKNOWN PERMISSION>"
-        )
+        context["new_permission"] = deep_get(details, "new_permission", default="<UNKNOWN PERMISSION>")
+        context["old_permission"] = deep_get(details, "old_permission", default="<UNKNOWN PERMISSION>")
         return context

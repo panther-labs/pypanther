@@ -11,10 +11,7 @@ snyk_role_change_tests: List[PantherRuleTest] = [
         Log={
             "content": {
                 "after": {"role": "ADMIN", "rolePublicId": "8ddddddd-fbbb-4fff-8111-5eeeeeeeeeee"},
-                "before": {
-                    "role": "MEMBER",
-                    "rolePublicId": "6aaaaaaa-c000-4ddd-9ddd-c55555555555",
-                },
+                "before": {"role": "MEMBER", "rolePublicId": "6aaaaaaa-c000-4ddd-9ddd-c55555555555"},
                 "userPublicId": "05555555-3333-4ddd-8ccc-755555555555",
             },
             "created": "1999-04-04 18:38:19.843",

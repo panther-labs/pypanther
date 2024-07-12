@@ -28,12 +28,9 @@ class StandardGSuiteReports(PantherDataModel):
     Mappings: List[PantherDataModelMapping] = [
         PantherDataModelMapping(Name="actor_user", Path="$.actor.email"),
         PantherDataModelMapping(
-            Name="assigned_admin_role",
-            Path="$.events[*].parameters[?(@.name == 'ROLE_NAME')].value",
+            Name="assigned_admin_role", Path="$.events[*].parameters[?(@.name == 'ROLE_NAME')].value"
         ),
         PantherDataModelMapping(Name="event_type", Method=get_event_type),
         PantherDataModelMapping(Name="source_ip", Path="ipAddress"),
-        PantherDataModelMapping(
-            Name="user", Path="$.events[*].parameters[?(@.name == 'USER_EMAIL')].value"
-        ),
+        PantherDataModelMapping(Name="user", Path="$.events[*].parameters[?(@.name == 'USER_EMAIL')].value"),
     ]

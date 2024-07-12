@@ -66,11 +66,7 @@ class AWSCloudTrailPasswordPolicyDiscovery(PantherRule):
     RuleID = "AWS.CloudTrail.Password.Policy.Discovery-prototype"
     Threshold = 2
     Tests = aws_cloud_trail_password_policy_discovery_tests
-    PASSWORD_DISCOVERY_EVENTS = [
-        "GetAccountPasswordPolicy",
-        "UpdateAccountPasswordPolicy",
-        "PutAccountPasswordPolicy",
-    ]
+    PASSWORD_DISCOVERY_EVENTS = ["GetAccountPasswordPolicy", "UpdateAccountPasswordPolicy", "PutAccountPasswordPolicy"]
 
     def rule(self, event):
         service_event = event.get("eventType") == "AwsServiceEvent"

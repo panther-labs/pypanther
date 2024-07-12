@@ -7,20 +7,13 @@ import pytest
 from panther_core.detection import DetectionResult
 from panther_core.enriched_event import PantherEvent
 from panther_core.exceptions import FunctionReturnTypeError, UnknownDestinationError
-from panther_core.rule import (
-    MAX_DEDUP_STRING_SIZE,
-    MAX_GENERATED_FIELD_SIZE,
-    TRUNCATED_STRING_SUFFIX,
-    TYPE_RULE,
-)
+from panther_core.rule import MAX_DEDUP_STRING_SIZE, MAX_GENERATED_FIELD_SIZE, TRUNCATED_STRING_SUFFIX, TYPE_RULE
 from pydantic import ValidationError
 
 from pypanther.base import PANTHER_RULE_ALL_ATTRS, PantherRule, PantherRuleModel
 from pypanther.cache import DATA_MODEL_CACHE
 from pypanther.log_types import PantherLogType
-from pypanther.rules.aws_cloudtrail_rules.aws_console_login_without_mfa import (
-    AWSConsoleLoginWithoutMFA,
-)
+from pypanther.rules.aws_cloudtrail_rules.aws_console_login_without_mfa import AWSConsoleLoginWithoutMFA
 from pypanther.severity import PantherSeverity
 from pypanther.unit_tests import PantherRuleTest
 

@@ -19,11 +19,7 @@ panther_user_modified_tests: List[PantherRuleTest] = [
             },
             "actionResult": "SUCCEEDED",
             "actor": {
-                "attributes": {
-                    "email": "homer@springfield.gov",
-                    "emailVerified": True,
-                    "roleId": "1111111",
-                },
+                "attributes": {"email": "homer@springfield.gov", "emailVerified": True, "roleId": "1111111"},
                 "id": "11111111",
                 "name": "Homer Simpson",
                 "type": "USER",
@@ -172,11 +168,7 @@ panther_user_modified_tests: List[PantherRuleTest] = [
                 }
             },
             "actionResult": "SUCCEEDED",
-            "actor": {
-                "id": "00000000-0000-4000-8000-000000000000",
-                "name": "System",
-                "type": "USER",
-            },
+            "actor": {"id": "00000000-0000-4000-8000-000000000000", "name": "System", "type": "USER"},
             "p_log_type": "Panther.Audit",
             "pantherVersion": "1.86.15",
             "sourceIP": "",
@@ -193,11 +185,11 @@ class PantherUserModified(PantherRule):
     Severity = PantherSeverity.High
     Tags = ["DataModel", "Persistence:Account Manipulation"]
     Reports = {"MITRE ATT&CK": ["TA0003:T1098"]}
-    Description = "A Panther user's role has been modified. This could mean password, email, or role has changed for the user."
-    Runbook = "Validate that this user modification was intentional."
-    Reference = (
-        "https://docs.panther.com/panther-developer-workflows/api/operations/user-management"
+    Description = (
+        "A Panther user's role has been modified. This could mean password, email, or role has changed for the user."
     )
+    Runbook = "Validate that this user modification was intentional."
+    Reference = "https://docs.panther.com/panther-developer-workflows/api/operations/user-management"
     SummaryAttributes = ["p_any_ip_addresses"]
     Tests = panther_user_modified_tests
     PANTHER_USER_ACTIONS = [event_type.USER_ACCOUNT_MODIFIED]
@@ -218,14 +210,8 @@ class PantherUserModified(PantherRule):
     def alert_context(self, event):
         change_target = deep_get(event, "actionParams", "dynamic", "input", "email")
         if change_target is None:
-            change_target = deep_get(
-                event, "actionParams", "input", "email", default="<UNKNOWN_USER>"
-            )
-        return {
-            "user": event.udm("actor_user"),
-            "change_target": change_target,
-            "ip": event.udm("source_ip"),
-        }
+            change_target = deep_get(event, "actionParams", "input", "email", default="<UNKNOWN_USER>")
+        return {"user": event.udm("actor_user"), "change_target": change_target, "ip": event.udm("source_ip")}
 
     def severity(self, event):
         user = event.udm("actor_user")

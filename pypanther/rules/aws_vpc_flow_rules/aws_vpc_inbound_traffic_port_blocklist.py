@@ -8,32 +8,17 @@ awsvpc_inbound_port_blacklist_tests: List[PantherRuleTest] = [
     PantherRuleTest(
         Name="Public to Private IP on Restricted Port",
         ExpectedResult=True,
-        Log={
-            "dstPort": 22,
-            "dstAddr": "10.0.0.1",
-            "srcAddr": "1.1.1.1",
-            "p_log_type": "AWS.VPCFlow",
-        },
+        Log={"dstPort": 22, "dstAddr": "10.0.0.1", "srcAddr": "1.1.1.1", "p_log_type": "AWS.VPCFlow"},
     ),
     PantherRuleTest(
         Name="Public to Private IP on Allowed Port",
         ExpectedResult=False,
-        Log={
-            "dstPort": 443,
-            "dstAddr": "10.0.0.1",
-            "srcAddr": "1.1.1.1",
-            "p_log_type": "AWS.VPCFlow",
-        },
+        Log={"dstPort": 443, "dstAddr": "10.0.0.1", "srcAddr": "1.1.1.1", "p_log_type": "AWS.VPCFlow"},
     ),
     PantherRuleTest(
         Name="Private to Private IP on Restricted Port",
         ExpectedResult=False,
-        Log={
-            "dstPort": 22,
-            "dstAddr": "10.0.0.1",
-            "srcAddr": "10.10.10.1",
-            "p_log_type": "AWS.VPCFlow",
-        },
+        Log={"dstPort": 22, "dstAddr": "10.0.0.1", "srcAddr": "10.10.10.1", "p_log_type": "AWS.VPCFlow"},
     ),
     PantherRuleTest(
         Name="Public to Private IP on Restricted Port - OCSF",
@@ -61,13 +46,7 @@ class AWSVPCInboundPortBlacklist(PantherRule):
     DisplayName = "VPC Flow Logs Inbound Port Blocklist"
     Enabled = False
     LogTypes = [PantherLogType.AWS_VPCFlow, PantherLogType.OCSF_NetworkActivity]
-    Tags = [
-        "AWS",
-        "DataModel",
-        "Configuration Required",
-        "Security Control",
-        "Command and Control:Non-Standard Port",
-    ]
+    Tags = ["AWS", "DataModel", "Configuration Required", "Security Control", "Command and Control:Non-Standard Port"]
     Reports = {"MITRE ATT&CK": ["TA0011:T1571"]}
     Reference = "https://docs.aws.amazon.com/vpc/latest/userguide/flow-logs.html"
     Severity = PantherSeverity.High

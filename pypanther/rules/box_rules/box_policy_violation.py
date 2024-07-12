@@ -10,12 +10,7 @@ box_content_workflow_policy_violation_tests: List[PantherRuleTest] = [
         Log={
             "type": "event",
             "additional_details": '{"key": "value"}',
-            "created_by": {
-                "id": "12345678",
-                "type": "user",
-                "login": "cat@example",
-                "name": "Bob Cat",
-            },
+            "created_by": {"id": "12345678", "type": "user", "login": "cat@example", "name": "Bob Cat"},
             "event_type": "DELETE",
         },
     ),
@@ -25,12 +20,7 @@ box_content_workflow_policy_violation_tests: List[PantherRuleTest] = [
         Log={
             "type": "event",
             "additional_details": '{"key": "value"}',
-            "created_by": {
-                "id": "12345678",
-                "type": "user",
-                "login": "cat@example",
-                "name": "Bob Cat",
-            },
+            "created_by": {"id": "12345678", "type": "user", "login": "cat@example", "name": "Bob Cat"},
             "event_type": "CONTENT_WORKFLOW_UPLOAD_POLICY_VIOLATION",
             "source": {"id": "12345678", "type": "user", "login": "user@example"},
         },
@@ -41,12 +31,7 @@ box_content_workflow_policy_violation_tests: List[PantherRuleTest] = [
         Log={
             "type": "event",
             "additional_details": {"key": "value"},
-            "created_by": {
-                "id": "12345678",
-                "type": "user",
-                "login": "cat@example",
-                "name": "Mountain Lion",
-            },
+            "created_by": {"id": "12345678", "type": "user", "login": "cat@example", "name": "Mountain Lion"},
             "event_type": "CONTENT_WORKFLOW_SHARING_POLICY_VIOLATION",
             "source": {"id": "12345678", "type": "user", "login": "user@example"},
         },
@@ -65,10 +50,7 @@ class BoxContentWorkflowPolicyViolation(PantherRule):
     Runbook = "Investigate whether the user continues to violate the policy and take measure to ensure they understand policy.\n"
     SummaryAttributes = ["event_type"]
     Tests = box_content_workflow_policy_violation_tests
-    POLICY_VIOLATIONS = {
-        "CONTENT_WORKFLOW_UPLOAD_POLICY_VIOLATION",
-        "CONTENT_WORKFLOW_SHARING_POLICY_VIOLATION",
-    }
+    POLICY_VIOLATIONS = {"CONTENT_WORKFLOW_UPLOAD_POLICY_VIOLATION", "CONTENT_WORKFLOW_SHARING_POLICY_VIOLATION"}
 
     def rule(self, event):
         return event.get("event_type") in self.POLICY_VIOLATIONS

@@ -19,12 +19,7 @@ def get_event_type(event):
     # currently, only tracking a handful of event types
     for delta in get_binding_deltas(event):
         if delta["action"] == "ADD":
-            if any(
-                (
-                    fnmatch(delta.get("role", ""), admin_role_pattern)
-                    for admin_role_pattern in ADMIN_ROLES
-                )
-            ):
+            if any((fnmatch(delta.get("role", ""), admin_role_pattern) for admin_role_pattern in ADMIN_ROLES)):
                 return event_type.ADMIN_ROLE_ASSIGNED
 
     return None
@@ -123,9 +118,7 @@ class StandardGCPAuditLog(PantherDataModel):
     Enabled: bool = True
     LogTypes: List[str] = [PantherLogType.GCP_AuditLog]
     Mappings: List[PantherDataModelMapping] = [
-        PantherDataModelMapping(
-            Name="actor_user", Path="$.protoPayload.authenticationInfo.principalEmail"
-        ),
+        PantherDataModelMapping(Name="actor_user", Path="$.protoPayload.authenticationInfo.principalEmail"),
         PantherDataModelMapping(Name="assigned_admin_role", Method=get_iam_roles),
         PantherDataModelMapping(Name="event_type", Method=get_event_type),
         PantherDataModelMapping(Name="source_ip", Path="$.protoPayload.requestMetadata.callerIP"),
@@ -139,12 +132,8 @@ class StandardGCPAuditLog(PantherDataModel):
         PantherDataModelMapping(Name="requestURI", Method=get_request_uri),
         PantherDataModelMapping(Name="responseStatus", Path="$.protoPayload.status"),
         PantherDataModelMapping(Name="sourceIPs", Method=get_source_ips),
-        PantherDataModelMapping(
-            Name="username", Path="$.protoPayload.authenticationInfo.principalEmail"
-        ),
-        PantherDataModelMapping(
-            Name="userAgent", Path="$.protoPayload.requestMetadata.callerSuppliedUserAgent"
-        ),
+        PantherDataModelMapping(Name="username", Path="$.protoPayload.authenticationInfo.principalEmail"),
+        PantherDataModelMapping(Name="userAgent", Path="$.protoPayload.requestMetadata.callerSuppliedUserAgent"),
         PantherDataModelMapping(Name="verb", Method=get_verb),
         PantherDataModelMapping(Name="requestObject", Path="$.protoPayload.request"),
         PantherDataModelMapping(Name="responseObject", Path="$.protoPayload.response"),

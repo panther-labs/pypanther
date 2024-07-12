@@ -64,17 +64,7 @@ class TeleportCreateUserAccounts(PantherRule):
     DedupPeriodMinutes = 15
     Reference = "https://goteleport.com/docs/management/admin/"
     Runbook = "Analyze why it was manually created and delete it if necessary."
-    SummaryAttributes = [
-        "event",
-        "code",
-        "user",
-        "program",
-        "path",
-        "return_code",
-        "login",
-        "server_id",
-        "sid",
-    ]
+    SummaryAttributes = ["event", "code", "user", "program", "path", "return_code", "login", "server_id", "sid"]
     Tests = teleport_create_user_accounts_tests  # user password expiry
     # change passwords for users
     # create, modify, and delete users

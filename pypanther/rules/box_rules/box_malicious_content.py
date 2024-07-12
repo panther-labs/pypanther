@@ -10,12 +10,7 @@ box_malicious_content_tests: List[PantherRuleTest] = [
         Log={
             "type": "event",
             "additional_details": '{"key": "value"}',
-            "created_by": {
-                "id": "12345678",
-                "type": "user",
-                "login": "cat@example",
-                "name": "Bob Cat",
-            },
+            "created_by": {"id": "12345678", "type": "user", "login": "cat@example", "name": "Bob Cat"},
             "event_type": "DELETE",
         },
     ),
@@ -25,30 +20,14 @@ box_malicious_content_tests: List[PantherRuleTest] = [
         Log={
             "type": "event",
             "additional_details": '{"key": "value"}',
-            "created_by": {
-                "id": "12345678",
-                "type": "user",
-                "login": "cat@example",
-                "name": "Bob Cat",
-            },
+            "created_by": {"id": "12345678", "type": "user", "login": "cat@example", "name": "Bob Cat"},
             "event_type": "FILE_MARKED_MALICIOUS",
             "source": {
                 "item_id": "123456789012",
                 "item_name": "bad_file.pdf",
                 "item_type": "file",
-                "owned_by": {
-                    "id": "12345678",
-                    "type": "user",
-                    "login": "cat@example",
-                    "name": "Bob",
-                },
-                "parent": {
-                    "id": "12345",
-                    "type": "folder",
-                    "etag": "1",
-                    "name": "Parent_Folder",
-                    "sequence_id": "2",
-                },
+                "owned_by": {"id": "12345678", "type": "user", "login": "cat@example", "name": "Bob"},
+                "parent": {"id": "12345", "type": "folder", "etag": "1", "name": "Parent_Folder", "sequence_id": "2"},
             },
         },
     ),
@@ -58,12 +37,7 @@ box_malicious_content_tests: List[PantherRuleTest] = [
         Log={
             "type": "event",
             "additional_details": '{"shield_alert":{"rule_category":"Malicious Content","risk_score":100,"alert_summary":{"upload_activity":{"item_name":"malware.exe"}},"user":{"email":"cat@example"}}}',
-            "created_by": {
-                "id": 12345678,
-                "type": "user",
-                "login": "bob@example",
-                "name": "Bob Cat",
-            },
+            "created_by": {"id": 12345678, "type": "user", "login": "bob@example", "name": "Bob Cat"},
             "event_type": "SHIELD_ALERT",
             "source": {"id": 12345678, "type": "user", "login": "bob@example"},
         },

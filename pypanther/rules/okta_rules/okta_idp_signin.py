@@ -176,9 +176,7 @@ class OktaIdentityProviderSignIn(PantherRule):
         return event.get("eventType") == "user.authentication.auth_via_IDP"
 
     def title(self, event):
-        target = deep_walk(
-            event, "target", "displayName", default="displayName-not-found", return_val="first"
-        )
+        target = deep_walk(event, "target", "displayName", default="displayName-not-found", return_val="first")
         return f"{deep_get(event, 'actor', 'displayName', default='<displayName-not-found>')} <{deep_get(event, 'actor', 'alternateId', default='alternateId-not-found')}> signed in via 3rd party Identity Provider to {target}"
 
     def alert_context(self, event):

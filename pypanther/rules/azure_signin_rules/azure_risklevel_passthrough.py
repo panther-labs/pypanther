@@ -1,11 +1,7 @@
 from typing import List
 
 from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
-from pypanther.helpers.panther_azuresignin_helpers import (
-    actor_user,
-    azure_signin_alert_context,
-    is_sign_in_event,
-)
+from pypanther.helpers.panther_azuresignin_helpers import actor_user, azure_signin_alert_context, is_sign_in_event
 from pypanther.helpers.panther_base_helpers import deep_get
 
 azure_audit_risk_level_passthrough_tests: List[PantherRuleTest] = [
@@ -25,9 +21,7 @@ azure_audit_risk_level_passthrough_tests: List[PantherRuleTest] = [
             "p_log_type": "Azure.Audit",
             "properties": {
                 "appId": "cfceb902-8fab-4f8c-88ba-374d3c975c3a",
-                "authenticationProcessingDetails": [
-                    {"key": "Azure AD App Authentication Library", "value": ""}
-                ],
+                "authenticationProcessingDetails": [{"key": "Azure AD App Authentication Library", "value": ""}],
                 "authenticationProtocol": "none",
                 "clientCredentialType": "none",
                 "conditionalAccessStatus": "notApplied",
@@ -43,10 +37,7 @@ azure_audit_risk_level_passthrough_tests: List[PantherRuleTest] = [
                 "location": {
                     "city": "Dublin",
                     "countryOrRegion": "IE",
-                    "geoCoordinates": {
-                        "latitude": 51.35555555555555,
-                        "longitude": -5.244444444444444,
-                    },
+                    "geoCoordinates": {"latitude": 51.35555555555555, "longitude": -5.244444444444444},
                     "state": "Dublin",
                 },
                 "managedIdentityType": "none",
@@ -87,9 +78,7 @@ azure_audit_risk_level_passthrough_tests: List[PantherRuleTest] = [
             "p_log_type": "Azure.Audit",
             "properties": {
                 "appId": "cfceb902-8fab-4f8c-88ba-374d3c975c3a",
-                "authenticationProcessingDetails": [
-                    {"key": "Azure AD App Authentication Library", "value": ""}
-                ],
+                "authenticationProcessingDetails": [{"key": "Azure AD App Authentication Library", "value": ""}],
                 "authenticationProtocol": "none",
                 "clientCredentialType": "none",
                 "conditionalAccessStatus": "notApplied",
@@ -105,10 +94,7 @@ azure_audit_risk_level_passthrough_tests: List[PantherRuleTest] = [
                 "location": {
                     "city": "Dublin",
                     "countryOrRegion": "IE",
-                    "geoCoordinates": {
-                        "latitude": 51.35555555555555,
-                        "longitude": -5.244444444444444,
-                    },
+                    "geoCoordinates": {"latitude": 51.35555555555555, "longitude": -5.244444444444444},
                     "state": "Dublin",
                 },
                 "managedIdentityType": "none",
@@ -149,9 +135,7 @@ azure_audit_risk_level_passthrough_tests: List[PantherRuleTest] = [
             "p_log_type": "Azure.Audit",
             "properties": {
                 "appId": "cfceb902-8fab-4f8c-88ba-374d3c975c3a",
-                "authenticationProcessingDetails": [
-                    {"key": "Azure AD App Authentication Library", "value": ""}
-                ],
+                "authenticationProcessingDetails": [{"key": "Azure AD App Authentication Library", "value": ""}],
                 "authenticationProtocol": "none",
                 "clientCredentialType": "none",
                 "conditionalAccessStatus": "notApplied",
@@ -167,10 +151,7 @@ azure_audit_risk_level_passthrough_tests: List[PantherRuleTest] = [
                 "location": {
                     "city": "Dublin",
                     "countryOrRegion": "IE",
-                    "geoCoordinates": {
-                        "latitude": 51.35555555555555,
-                        "longitude": -5.244444444444444,
-                    },
+                    "geoCoordinates": {"latitude": 51.35555555555555, "longitude": -5.244444444444444},
                     "state": "Dublin",
                 },
                 "managedIdentityType": "none",
@@ -211,9 +192,7 @@ azure_audit_risk_level_passthrough_tests: List[PantherRuleTest] = [
             "p_log_type": "Azure.Audit",
             "properties": {
                 "appId": "cfceb902-8fab-4f8c-88ba-374d3c975c3a",
-                "authenticationProcessingDetails": [
-                    {"key": "Azure AD App Authentication Library", "value": ""}
-                ],
+                "authenticationProcessingDetails": [{"key": "Azure AD App Authentication Library", "value": ""}],
                 "authenticationProtocol": "none",
                 "clientCredentialType": "none",
                 "conditionalAccessStatus": "notApplied",
@@ -229,10 +208,7 @@ azure_audit_risk_level_passthrough_tests: List[PantherRuleTest] = [
                 "location": {
                     "city": "Dublin",
                     "countryOrRegion": "IE",
-                    "geoCoordinates": {
-                        "latitude": 51.35555555555555,
-                        "longitude": -5.244444444444444,
-                    },
+                    "geoCoordinates": {"latitude": 51.35555555555555, "longitude": -5.244444444444444},
                     "state": "Dublin",
                 },
                 "managedIdentityType": "none",
@@ -273,9 +249,7 @@ azure_audit_risk_level_passthrough_tests: List[PantherRuleTest] = [
             "p_log_type": "Azure.Audit",
             "properties": {
                 "appId": "cfceb902-8fab-4f8c-88ba-374d3c975c3a",
-                "authenticationProcessingDetails": [
-                    {"key": "Azure AD App Authentication Library", "value": ""}
-                ],
+                "authenticationProcessingDetails": [{"key": "Azure AD App Authentication Library", "value": ""}],
                 "authenticationProtocol": "none",
                 "clientCredentialType": "none",
                 "conditionalAccessStatus": "notApplied",
@@ -291,10 +265,7 @@ azure_audit_risk_level_passthrough_tests: List[PantherRuleTest] = [
                 "location": {
                     "city": "Dublin",
                     "countryOrRegion": "IE",
-                    "geoCoordinates": {
-                        "latitude": 51.35555555555555,
-                        "longitude": -5.244444444444444,
-                    },
+                    "geoCoordinates": {"latitude": 51.35555555555555, "longitude": -5.244444444444444},
                     "state": "Dublin",
                 },
                 "managedIdentityType": "none",
@@ -347,17 +318,11 @@ class AzureAuditRiskLevelPassthrough(PantherRule):
             return False
         self.IDENTIFIED_RISK_LEVEL = ""
         # Do not pass through risks marked as dismissed or remediated in AD
-        if deep_get(event, "properties", "riskState", default="").lower() in [
-            "dismissed",
-            "remediated",
-        ]:
+        if deep_get(event, "properties", "riskState", default="").lower() in ["dismissed", "remediated"]:
             return False
         # check riskLevelAggregated
         for risk_type in ["riskLevelAggregated", "riskLevelDuringSignIn"]:
-            if (
-                deep_get(event, "properties", risk_type, default="").lower()
-                in self.PASSTHROUGH_SEVERITIES
-            ):
+            if deep_get(event, "properties", risk_type, default="").lower() in self.PASSTHROUGH_SEVERITIES:
                 self.IDENTIFIED_RISK_LEVEL = deep_get(event, "properties", risk_type).lower()
                 return True
         return False

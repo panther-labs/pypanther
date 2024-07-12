@@ -11,12 +11,7 @@ slack_audit_logs_sso_settings_changed_tests: List[PantherRuleTest] = [
             "action": "pref.sso_setting_changed",
             "actor": {
                 "type": "user",
-                "user": {
-                    "email": "user@example.com",
-                    "id": "A012B3CDEFG",
-                    "name": "username",
-                    "team": "T01234N56GB",
-                },
+                "user": {"email": "user@example.com", "id": "A012B3CDEFG", "name": "username", "team": "T01234N56GB"},
             },
             "context": {
                 "ip_address": "1.2.3.4",
@@ -78,9 +73,7 @@ class SlackAuditLogsSSOSettingsChanged(PantherRule):
     Reports = {"MITRE ATT&CK": ["TA0003:T1556", "TA0006:T1556"]}
     Severity = PantherSeverity.High
     Description = "Detects changes to Single Sign On (SSO) restrictions"
-    Reference = (
-        "https://slack.com/intl/en-gb/help/articles/220403548-Manage-single-sign-on-settings"
-    )
+    Reference = "https://slack.com/intl/en-gb/help/articles/220403548-Manage-single-sign-on-settings"
     SummaryAttributes = ["p_any_ip_addresses", "p_any_emails"]
     Tests = slack_audit_logs_sso_settings_changed_tests
 

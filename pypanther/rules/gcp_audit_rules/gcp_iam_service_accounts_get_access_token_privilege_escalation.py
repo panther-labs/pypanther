@@ -25,11 +25,7 @@ gcpia_mservice_accountsget_access_token_privilege_escalation_tests: List[Panther
                 "serviceName": "iamcredentials.googleapis.com",
                 "methodName": "SignJwt",
                 "authorizationInfo": [
-                    {
-                        "permission": "iam.serviceAccounts.getAccessToken",
-                        "granted": True,
-                        "resourceAttributes": {},
-                    }
+                    {"permission": "iam.serviceAccounts.getAccessToken", "granted": True, "resourceAttributes": {}}
                 ],
                 "resourceName": "projects/-/serviceAccounts/114885146936855121342",
                 "request": {
@@ -72,11 +68,7 @@ gcpia_mservice_accountsget_access_token_privilege_escalation_tests: List[Panther
                 "serviceName": "iamcredentials.googleapis.com",
                 "methodName": "SignJwt",
                 "authorizationInfo": [
-                    {
-                        "permission": "iam.serviceAccounts.getAccessToken",
-                        "granted": False,
-                        "resourceAttributes": {},
-                    }
+                    {"permission": "iam.serviceAccounts.getAccessToken", "granted": False, "resourceAttributes": {}}
                 ],
                 "resourceName": "projects/-/serviceAccounts/114885146936855121342",
                 "request": {
@@ -109,9 +101,7 @@ class GCPIAMserviceAccountsgetAccessTokenPrivilegeEscalation(PantherRule):
     Reports = {"MITRE ATT&CK": ["TA0004:T1548"]}
     Severity = PantherSeverity.High
     Description = "The Identity and Access Management (IAM) service manages authorization and authentication for a GCP environment. This means that there are very likely multiple privilege escalation methods that use the IAM service and/or its permissions."
-    Reference = (
-        "https://rhinosecuritylabs.com/gcp/privilege-escalation-google-cloud-platform-part-1/"
-    )
+    Reference = "https://rhinosecuritylabs.com/gcp/privilege-escalation-google-cloud-platform-part-1/"
     Tests = gcpia_mservice_accountsget_access_token_privilege_escalation_tests
 
     def rule(self, event):
@@ -119,25 +109,14 @@ class GCPIAMserviceAccountsgetAccessTokenPrivilegeEscalation(PantherRule):
         if not authorization_info:
             return False
         for auth in authorization_info:
-            if (
-                auth.get("permission") == "iam.serviceAccounts.getAccessToken"
-                and auth.get("granted") is True
-            ):
+            if auth.get("permission") == "iam.serviceAccounts.getAccessToken" and auth.get("granted") is True:
                 return True
         return False
 
     def title(self, event):
-        actor = deep_get(
-            event,
-            "protoPayload",
-            "authenticationInfo",
-            "principalEmail",
-            default="<ACTOR_NOT_FOUND>",
-        )
+        actor = deep_get(event, "protoPayload", "authenticationInfo", "principalEmail", default="<ACTOR_NOT_FOUND>")
         operation = deep_get(event, "protoPayload", "methodName", default="<OPERATION_NOT_FOUND>")
-        project_id = deep_get(
-            event, "resource", "labels", "project_id", default="<PROJECT_NOT_FOUND>"
-        )
+        project_id = deep_get(event, "resource", "labels", "project_id", default="<PROJECT_NOT_FOUND>")
         return f"[GCP]: [{actor}] performed [{operation}] on project [{project_id}]"
 
     def alert_context(self, event):

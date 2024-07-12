@@ -208,10 +208,7 @@ aws_console_login_without_mfa_tests: List[PantherRuleTest] = [
                 "arn": "arn:aws:sts::123456789012:assumed-role/testrole_34c15ddd84cb4648/tester@example.com",
                 "principalId": "AROAXXXXXXXXXXXXXXXXX:tester@example.com",
                 "sessionContext": {
-                    "attributes": {
-                        "creationDate": "2019-09-01T21:20:03Z",
-                        "mfaAuthenticated": "true",
-                    },
+                    "attributes": {"creationDate": "2019-09-01T21:20:03Z", "mfaAuthenticated": "true"},
                     "sessionIssuer": {
                         "accountId": "123456789012",
                         "arn": "arn:aws:iam::123456789012:role/aws-reserved/sso.amazonaws.com/us-east-1/testrole_34c15ddd84cb4648",
@@ -280,10 +277,7 @@ aws_console_login_without_mfa_tests: List[PantherRuleTest] = [
                 "arn": "arn:aws:sts::xxx:assumed-role/AWSReservedSSO_developer_admin_asdf/foo@bar.com",
                 "principalId": "xxx:foo@bar.com",
                 "sessionContext": {
-                    "attributes": {
-                        "creationDate": "2022-03-16T19:17:41Z",
-                        "mfaAuthenticated": "false",
-                    },
+                    "attributes": {"creationDate": "2022-03-16T19:17:41Z", "mfaAuthenticated": "false"},
                     "sessionIssuer": {
                         "accountId": "xxx",
                         "arn": "arn:aws:iam::xxx:role/aws-reserved/sso.amazonaws.com/us-east-2/AWSReservedSSO_developer_admin_asdf",
@@ -319,10 +313,7 @@ aws_console_login_without_mfa_tests: List[PantherRuleTest] = [
             "userIdentity": {
                 "accountId": "11111",
                 "sessionContext": {
-                    "attributes": {
-                        "creationDate": "2022-03-29T17:16:35Z",
-                        "mfaAuthenticated": "true",
-                    },
+                    "attributes": {"creationDate": "2022-03-29T17:16:35Z", "mfaAuthenticated": "true"},
                     "sessionIssuer": {"accountId": "2222", "type": "Role", "userName": "asdsda"},
                     "webIdFederationData": {},
                 },
@@ -341,10 +332,7 @@ aws_console_login_without_mfa_tests: List[PantherRuleTest] = [
                 "arn": "arn:aws:sts::123456789012:assumed-role/SomeRole/1641313043312360000",
                 "principalId": "AROAXXXXXXXXXXXXXXXXX:1641313043312360000",
                 "sessionContext": {
-                    "attributes": {
-                        "creationDate": "2022-01-04T16:17:27Z",
-                        "mfaAuthenticated": "false",
-                    },
+                    "attributes": {"creationDate": "2022-01-04T16:17:27Z", "mfaAuthenticated": "false"},
                     "sessionIssuer": {
                         "accountId": "123456789012",
                         "arn": "arn:aws:iam::123456789012:role/SomeRole",
@@ -382,18 +370,11 @@ class AWSConsoleLoginWithoutMFA(PantherRule):
     RuleID = "AWS.Console.LoginWithoutMFA-prototype"
     DisplayName = "Logins Without MFA"
     LogTypes = [PantherLogType.AWS_CloudTrail]
-    Tags = [
-        "AWS",
-        "Identity & Access Management",
-        "Authentication",
-        "Initial Access:Valid Accounts",
-    ]
+    Tags = ["AWS", "Identity & Access Management", "Authentication", "Initial Access:Valid Accounts"]
     Reports = {"CIS": ["3.2"], "MITRE ATT&CK": ["TA0001:T1078"]}
     Severity = PantherSeverity.High
     Description = "A console login was made without multi-factor authentication."
-    Runbook = (
-        "https://docs.runpanther.io/alert-runbooks/built-in-rules/aws-console-login-without-mfa"
-    )
+    Runbook = "https://docs.runpanther.io/alert-runbooks/built-in-rules/aws-console-login-without-mfa"
     Reference = "https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_mfa.html"
     SummaryAttributes = ["userAgent", "sourceIpAddress", "recipientAccountId", "p_any_aws_arns"]
     Tests = aws_console_login_without_mfa_tests
@@ -457,10 +438,7 @@ class AWSConsoleLoginWithoutMFA(PantherRule):
             # It is not recommended to remove this 'double negative"
             if (
                 additional_event_data.get("MFAUsed") != "Yes"
-                and deep_get(
-                    event, "userIdentity", "sessionContext", "attributes", "mfaAuthenticated"
-                )
-                != "true"
+                and deep_get(event, "userIdentity", "sessionContext", "attributes", "mfaAuthenticated") != "true"
             ):
                 return True
         return False
@@ -472,9 +450,7 @@ class AWSConsoleLoginWithoutMFA(PantherRule):
             user = deep_get(event, "userIdentity", "userName") or deep_get(
                 event, "userIdentity", "sessionContext", "sessionIssuer", "userName"
             )
-            type_ = deep_get(
-                event, "userIdentity", "sessionContext", "sessionIssuer", "type", default="user"
-            ).lower()
+            type_ = deep_get(event, "userIdentity", "sessionContext", "sessionIssuer", "type", default="user").lower()
             user_string = f"{type_} {user}"
         account_id = event.get("recipientAccountId")
         account_name = lookup_aws_account_name(account_id)

@@ -157,17 +157,10 @@ def geoinfo_from_ip(event, match_field: str):
     location = get_ipinfo_location(event)
     asn = get_ipinfo_asn(event)
     if location is None or asn is None:
-        raise PantherIPInfoException(
-            "Please enable both IPInfo Location and ASN Enrichment Providers"
-        )
+        raise PantherIPInfoException("Please enable both IPInfo Location and ASN Enrichment Providers")
 
-    if (
-        deep_get(asn.lut_matches, match_field) is None
-        or deep_get(location.lut_matches, match_field) is None
-    ):
-        raise PantherIPInfoException(
-            f"IPInfo is not configured on the provided match_field: {match_field}"
-        )
+    if deep_get(asn.lut_matches, match_field) is None or deep_get(location.lut_matches, match_field) is None:
+        raise PantherIPInfoException(f"IPInfo is not configured on the provided match_field: {match_field}")
 
     return {
         "ip": event.get(match_field),

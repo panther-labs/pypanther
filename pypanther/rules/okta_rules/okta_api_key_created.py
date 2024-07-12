@@ -42,11 +42,7 @@ class OktaAPIKeyCreated(PantherRule):
     RuleID = "Okta.APIKeyCreated-prototype"
     DisplayName = "Okta API Key Created"
     LogTypes = [PantherLogType.Okta_SystemLog]
-    Tags = [
-        "Identity & Access Management",
-        "Okta",
-        "Credential Access:Steal Application Access Token",
-    ]
+    Tags = ["Identity & Access Management", "Okta", "Credential Access:Steal Application Access Token"]
     Reports = {"MITRE ATT&CK": ["TA0006:T1528"]}
     Severity = PantherSeverity.Info
     Description = "A user created an API Key in Okta"
@@ -63,9 +59,7 @@ class OktaAPIKeyCreated(PantherRule):
 
     def title(self, event):
         target = event.get("target", [{}])
-        key_name = (
-            target[0].get("displayName", "MISSING DISPLAY NAME") if target else "MISSING TARGET"
-        )
+        key_name = target[0].get("displayName", "MISSING DISPLAY NAME") if target else "MISSING TARGET"
         return f"{deep_get(event, 'actor', 'displayName')} <{deep_get(event, 'actor', 'alternateId')}>created a new API key - <{key_name}>"
 
     def alert_context(self, event):

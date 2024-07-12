@@ -157,12 +157,7 @@ okta_user_reported_suspicious_activity_tests: List[PantherRuleTest] = [
             },
             "severity": "WARN",
             "target": [
-                {
-                    "alternateId": "homer.simpson@duff.com",
-                    "displayName": "Homer Simpson",
-                    "id": "01234",
-                    "type": "User",
-                }
+                {"alternateId": "homer.simpson@duff.com", "displayName": "Homer Simpson", "id": "01234", "type": "User"}
             ],
             "transaction": {"detail": {}, "id": "1234ABC", "type": "WEB"},
             "uuid": "ABC1234",
@@ -174,9 +169,7 @@ okta_user_reported_suspicious_activity_tests: List[PantherRuleTest] = [
 
 class OktaUserReportedSuspiciousActivity(PantherRule):
     Description = "Suspicious Activity Reporting provides an end user with the option to report unrecognized activity from an account activity email notification.\nThis detection alerts when a user marks the raised activity as suspicious."
-    Reference = (
-        "https://help.okta.com/en-us/Content/Topics/Security/suspicious-activity-reporting.htm"
-    )
+    Reference = "https://help.okta.com/en-us/Content/Topics/Security/suspicious-activity-reporting.htm"
     DisplayName = "Okta User Reported Suspicious Activity"
     Severity = PantherSeverity.High
     LogTypes = [PantherLogType.Okta_SystemLog]

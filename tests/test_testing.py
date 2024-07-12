@@ -4,9 +4,7 @@ from pypanther import testing
 from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.cache import DATA_MODEL_CACHE
 from pypanther.log_types import PantherLogType
-from pypanther.rules.aws_cloudtrail_rules.aws_console_login_without_mfa import (
-    AWSConsoleLoginWithoutMFA,
-)
+from pypanther.rules.aws_cloudtrail_rules.aws_console_login_without_mfa import AWSConsoleLoginWithoutMFA
 
 
 class TestPrintFailedTestResults:

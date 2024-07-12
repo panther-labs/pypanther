@@ -122,11 +122,7 @@ gc_pcomputeinstancescreate_privilege_escalation_tests: List[PantherRuleTest] = [
             },
             "receiveTimestamp": "2024-01-30 12:52:36.642422049",
             "resource": {
-                "labels": {
-                    "instance_id": "1454427709413609468",
-                    "project_id": "some-project",
-                    "zone": "us-central1-f",
-                },
+                "labels": {"instance_id": "1454427709413609468", "project_id": "some-project", "zone": "us-central1-f"},
                 "type": "gce_instance",
             },
             "severity": "NOTICE",
@@ -230,11 +226,7 @@ gc_pcomputeinstancescreate_privilege_escalation_tests: List[PantherRuleTest] = [
                     "error": {
                         "code": 404,
                         "errors": [
-                            {
-                                "domain": "global",
-                                "message": "The resource 'abc' was not found",
-                                "reason": "notFound",
-                            }
+                            {"domain": "global", "message": "The resource 'abc' was not found", "reason": "notFound"}
                         ],
                         "message": "The resource 'abc' was not found",
                     },
@@ -244,11 +236,7 @@ gc_pcomputeinstancescreate_privilege_escalation_tests: List[PantherRuleTest] = [
             },
             "receiveTimestamp": "2024-01-30 11:03:56.719662927",
             "resource": {
-                "labels": {
-                    "instance_id": "",
-                    "project_id": "some-project",
-                    "zone": "us-central1-f",
-                },
+                "labels": {"instance_id": "", "project_id": "some-project", "zone": "us-central1-f"},
                 "type": "gce_instance",
             },
             "severity": "ERROR",
@@ -337,9 +325,7 @@ class GCPcomputeinstancescreatePrivilegeEscalation(PantherRule):
     Description = "Detects compute.instances.create method for privilege escalation in GCP."
     DisplayName = "GCP compute.instances.create Privilege Escalation"
     RuleID = "GCP.compute.instances.create.Privilege.Escalation-prototype"
-    Reference = (
-        "https://rhinosecuritylabs.com/gcp/privilege-escalation-google-cloud-platform-part-1/"
-    )
+    Reference = "https://rhinosecuritylabs.com/gcp/privilege-escalation-google-cloud-platform-part-1/"
     Runbook = "Confirm this was authorized and necessary behavior."
     Reports = {"MITRE ATT&CK": ["TA0004:T1548"]}
     Severity = PantherSeverity.High
@@ -371,13 +357,7 @@ class GCPcomputeinstancescreatePrivilegeEscalation(PantherRule):
         return True
 
     def title(self, event):
-        actor = deep_get(
-            event,
-            "protoPayload",
-            "authenticationInfo",
-            "principalEmail",
-            default="<ACTOR_NOT_FOUND>",
-        )
+        actor = deep_get(event, "protoPayload", "authenticationInfo", "principalEmail", default="<ACTOR_NOT_FOUND>")
         service_accounts = deep_get(event, "protoPayload", "request", "serviceAccounts")
         if not service_accounts:
             service_account_emails = "<SERVICE_ACCOUNT_EMAILS_NOT_FOUND>"

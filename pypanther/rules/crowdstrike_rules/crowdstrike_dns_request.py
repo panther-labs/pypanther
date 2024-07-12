@@ -1,10 +1,7 @@
 from typing import List
 
 from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
-from pypanther.helpers.panther_base_helpers import (
-    filter_crowdstrike_fdr_event_type,
-    get_crowdstrike_field,
-)
+from pypanther.helpers.panther_base_helpers import filter_crowdstrike_fdr_event_type, get_crowdstrike_field
 
 crowdstrike_dns_request_tests: List[PantherRuleTest] = [
     PantherRuleTest(
@@ -36,10 +33,7 @@ crowdstrike_dns_request_tests: List[PantherRuleTest] = [
             "p_source_label": "Crowdstrike",
             "p_any_ip_addresses": ["111.111.111.111"],
             "p_any_domain_names": ["baddomain.com"],
-            "p_any_trace_ids": [
-                "00000000000000000000000000000001",
-                "00000000000000000000000000000002",
-            ],
+            "p_any_trace_ids": ["00000000000000000000000000000001", "00000000000000000000000000000002"],
         },
     ),
     PantherRuleTest(
@@ -71,10 +65,7 @@ crowdstrike_dns_request_tests: List[PantherRuleTest] = [
             "p_source_label": "Crowdstrike",
             "p_any_ip_addresses": ["111.111.111.111"],
             "p_any_domain_names": ["gooddomain.com"],
-            "p_any_trace_ids": [
-                "00000000000000000000000000000001",
-                "00000000000000000000000000000002",
-            ],
+            "p_any_trace_ids": ["00000000000000000000000000000001", "00000000000000000000000000000002"],
         },
     ),
     PantherRuleTest(
@@ -115,14 +106,8 @@ crowdstrike_dns_request_tests: List[PantherRuleTest] = [
             "name": "DnsRequestMacV1",
             "p_any_domain_names": ["baddomain.com"],
             "p_any_ip_addresses": ["10.0.0.0"],
-            "p_any_md5_hashes": [
-                "0cfb1a68ef6b49fdb0d2b12725057057",
-                "307dc41ce39744f060622095f2805249",
-            ],
-            "p_any_trace_ids": [
-                "0cfb1a68ef6b49fdb0d2b12725057057",
-                "307dc41ce39744f060622095f2805249",
-            ],
+            "p_any_md5_hashes": ["0cfb1a68ef6b49fdb0d2b12725057057", "307dc41ce39744f060622095f2805249"],
+            "p_any_trace_ids": ["0cfb1a68ef6b49fdb0d2b12725057057", "307dc41ce39744f060622095f2805249"],
             "p_event_time": "2020-05-24 23:50:06.989",
             "p_log_type": "Crowdstrike.FDREvent",
             "p_parse_time": "2023-01-26 12:17:58.141",
@@ -169,14 +154,8 @@ crowdstrike_dns_request_tests: List[PantherRuleTest] = [
             "name": "DnsRequestMacV1",
             "p_any_domain_names": ["gooddomain.com"],
             "p_any_ip_addresses": ["10.0.0.0"],
-            "p_any_md5_hashes": [
-                "0cfb1a68ef6b49fdb0d2b12725057057",
-                "307dc41ce39744f060622095f2805249",
-            ],
-            "p_any_trace_ids": [
-                "0cfb1a68ef6b49fdb0d2b12725057057",
-                "307dc41ce39744f060622095f2805249",
-            ],
+            "p_any_md5_hashes": ["0cfb1a68ef6b49fdb0d2b12725057057", "307dc41ce39744f060622095f2805249"],
+            "p_any_trace_ids": ["0cfb1a68ef6b49fdb0d2b12725057057", "307dc41ce39744f060622095f2805249"],
             "p_event_time": "2020-05-24 23:50:06.989",
             "p_log_type": "Crowdstrike.FDREvent",
             "p_parse_time": "2023-01-26 12:17:58.141",
@@ -233,10 +212,7 @@ crowdstrike_dns_request_tests: List[PantherRuleTest] = [
             "p_source_label": "Crowdstrike",
             "p_any_ip_addresses": ["111.111.111.111"],
             "p_any_domain_names": ["baddomain.com"],
-            "p_any_trace_ids": [
-                "00000000000000000000000000000001",
-                "00000000000000000000000000000002",
-            ],
+            "p_any_trace_ids": ["00000000000000000000000000000001", "00000000000000000000000000000002"],
         },
     ),
 ]

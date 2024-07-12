@@ -17,12 +17,7 @@ awsiam_credentials_updated_tests: List[PantherRuleTest] = [
                 "accountId": "123456789012",
                 "accessKeyId": "AAAAIIIIIIU74NPJW5K76",
                 "userName": "test_user",
-                "sessionContext": {
-                    "attributes": {
-                        "mfaAuthenticated": "true",
-                        "creationDate": "2019-12-31T01:50:17Z",
-                    }
-                },
+                "sessionContext": {"attributes": {"mfaAuthenticated": "true", "creationDate": "2019-12-31T01:50:17Z"}},
                 "invokedBy": "signin.amazonaws.com",
             },
             "eventTime": "2019-12-31T01:50:46Z",
@@ -52,12 +47,7 @@ awsiam_credentials_updated_tests: List[PantherRuleTest] = [
                 "accountId": "123456789012",
                 "accessKeyId": "AAAAIIIIIIU74NPJW5K76",
                 "userName": "test_user",
-                "sessionContext": {
-                    "attributes": {
-                        "mfaAuthenticated": "true",
-                        "creationDate": "2019-12-31T01:50:17Z",
-                    }
-                },
+                "sessionContext": {"attributes": {"mfaAuthenticated": "true", "creationDate": "2019-12-31T01:50:17Z"}},
                 "invokedBy": "signin.amazonaws.com",
             },
             "eventTime": "2019-12-31T01:50:46Z",
@@ -88,12 +78,7 @@ awsiam_credentials_updated_tests: List[PantherRuleTest] = [
                 "accountId": "123456789012",
                 "accessKeyId": "AAAAIIIIIIU74NPJW5K76",
                 "userName": "test_user",
-                "sessionContext": {
-                    "attributes": {
-                        "mfaAuthenticated": "true",
-                        "creationDate": "2019-12-31T01:50:17Z",
-                    }
-                },
+                "sessionContext": {"attributes": {"mfaAuthenticated": "true", "creationDate": "2019-12-31T01:50:17Z"}},
                 "invokedBy": "signin.amazonaws.com",
             },
             "eventTime": "2019-12-31T01:50:46Z",
@@ -123,16 +108,8 @@ class AWSIAMCredentialsUpdated(PantherRule):
     Severity = PantherSeverity.Info
     Description = "A console password, access key, or user has been created."
     Runbook = "This rule is purely informational, there is no action needed."
-    Reference = (
-        "https://docs.aws.amazon.com/IAM/latest/UserGuide/list_identityandaccessmanagement.html"
-    )
-    SummaryAttributes = [
-        "eventName",
-        "userAgent",
-        "sourceIpAddress",
-        "recipientAccountId",
-        "p_any_aws_arns",
-    ]
+    Reference = "https://docs.aws.amazon.com/IAM/latest/UserGuide/list_identityandaccessmanagement.html"
+    SummaryAttributes = ["eventName", "userAgent", "sourceIpAddress", "recipientAccountId", "p_any_aws_arns"]
     Tests = awsiam_credentials_updated_tests
     UPDATE_EVENTS = {"ChangePassword", "CreateAccessKey", "CreateLoginProfile", "CreateUser"}
 

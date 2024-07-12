@@ -29,9 +29,7 @@ okta_threat_insight_security_threat_detected_tests: List[PantherRuleTest] = [
             "request": {},
             "securitycontext": {},
             "severity": "INFO",
-            "target": [
-                {"alternateId": "App ", "displayName": "App", "id": "12345", "type": "AppInstance"}
-            ],
+            "target": [{"alternateId": "App ", "displayName": "App", "id": "12345", "type": "AppInstance"}],
             "transaction": {"detail": {}, "id": "sdfg", "type": "JOB"},
             "uuid": "aaa-bb-ccc",
             "version": "0",
@@ -41,12 +39,7 @@ okta_threat_insight_security_threat_detected_tests: List[PantherRuleTest] = [
         Name="Threat Detected Event - Deny",
         ExpectedResult=True,
         Log={
-            "actor": {
-                "alternateId": "unknown",
-                "displayName": "1.2.3.4",
-                "id": "1.2.3.4",
-                "type": "IP address",
-            },
+            "actor": {"alternateId": "unknown", "displayName": "1.2.3.4", "id": "1.2.3.4", "type": "IP address"},
             "authenticationcontext": {"authenticationStep": 0},
             "client": {
                 "device": "Computer",
@@ -115,12 +108,7 @@ okta_threat_insight_security_threat_detected_tests: List[PantherRuleTest] = [
         Name="Threat Detected Event - Success",
         ExpectedResult=True,
         Log={
-            "actor": {
-                "alternateId": "unknown",
-                "displayName": "1.2.3.4",
-                "id": "1.2.3.4",
-                "type": "IP address",
-            },
+            "actor": {"alternateId": "unknown", "displayName": "1.2.3.4", "id": "1.2.3.4", "type": "IP address"},
             "authenticationcontext": {"authenticationStep": 0},
             "client": {
                 "device": "Computer",
@@ -182,7 +170,9 @@ okta_threat_insight_security_threat_detected_tests: List[PantherRuleTest] = [
 
 class OktaThreatInsightSecurityThreatDetected(PantherRule):
     Description = "Okta ThreatInsight identified request from potentially malicious IP address"
-    Reference = "https://help.okta.com/en-us/Content/Topics/Security/threat-insight/configure-threatinsight-system-log.htm"
+    Reference = (
+        "https://help.okta.com/en-us/Content/Topics/Security/threat-insight/configure-threatinsight-system-log.htm"
+    )
     DisplayName = "Okta ThreatInsight Security Threat Detected"
     Severity = PantherSeverity.High
     LogTypes = [PantherLogType.Okta_SystemLog]
@@ -216,9 +206,7 @@ class OktaThreatInsightSecurityThreatDetected(PantherRule):
         if outcome == "DENY":
             return "INFO"
         threat_detection = (
-            event.get("debugcontext", {})
-            .get("debugData", {})
-            .get("threatDetections", "<threat-detection-not-found>")
+            event.get("debugcontext", {}).get("debugData", {}).get("threatDetections", "<threat-detection-not-found>")
         )
         return self.severity_from_threat_string(threat_detection)
 

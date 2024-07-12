@@ -14,10 +14,7 @@ gcp_inbound_sso_profile_created_tests: List[PantherRuleTest] = [
                 "authenticationInfo": {"principalEmail": "user@example.com"},
                 "metadata": {
                     "@type": "type.googleapis.com/ccc_hosted_reporting.ActivityProto",
-                    "activityId": {
-                        "timeUsec": "1700250882598435",
-                        "uniqQualifier": "6879748717081533837",
-                    },
+                    "activityId": {"timeUsec": "1700250882598435", "uniqQualifier": "6879748717081533837"},
                     "event": [
                         {
                             "eventId": "dd0c44e2",
@@ -62,10 +59,7 @@ gcp_inbound_sso_profile_created_tests: List[PantherRuleTest] = [
                 "authenticationInfo": {"principalEmail": "user@@example.com"},
                 "metadata": {
                     "@type": "type.googleapis.com/ccc_hosted_reporting.ActivityProto",
-                    "activityId": {
-                        "timeUsec": "1700250956956215",
-                        "uniqQualifier": "2009471038637356014",
-                    },
+                    "activityId": {"timeUsec": "1700250956956215", "uniqQualifier": "2009471038637356014"},
                     "event": [
                         {
                             "eventId": "bdbc47ad",
@@ -116,10 +110,7 @@ gcp_inbound_sso_profile_created_tests: List[PantherRuleTest] = [
                 "authenticationInfo": {"principalEmail": "user@example.com"},
                 "metadata": {
                     "@type": "type.googleapis.com/ccc_hosted_reporting.ActivityProto",
-                    "activityId": {
-                        "timeUsec": "1700250924521362",
-                        "uniqQualifier": "6051731645161637785",
-                    },
+                    "activityId": {"timeUsec": "1700250924521362", "uniqQualifier": "6051731645161637785"},
                     "event": [
                         {
                             "eventId": "637d2b33",
@@ -175,12 +166,8 @@ class GCPInboundSSOProfileCreated(PantherRule):
         return event.deep_get("protoPayload", "methodName", default="") in self.METHODS
 
     def title(self, event):
-        actor = event.deep_get(
-            "protoPayload", "authenticationInfo", "principalEmail", default="<ACTOR_NOT_FOUND>"
-        )
-        event_name = event.deep_walk(
-            "protoPayload", "metadata", "event", "eventName", default="<EVENT_NAME_NOT_FOUND>"
-        )
+        actor = event.deep_get("protoPayload", "authenticationInfo", "principalEmail", default="<ACTOR_NOT_FOUND>")
+        event_name = event.deep_walk("protoPayload", "metadata", "event", "eventName", default="<EVENT_NAME_NOT_FOUND>")
         resource = organization_id = event.deep_walk(
             "protoPayload", "resourceName", default="<RESOURCE_NOT_FOUND>"
         ).split("/")
@@ -189,10 +176,6 @@ class GCPInboundSSOProfileCreated(PantherRule):
 
     def alert_context(self, event):
         return {
-            "resourceName": event.deep_get(
-                "protoPayload", "resourceName", default="<RESOURCE_NOT_FOUND>"
-            ),
-            "serviceName": event.deep_get(
-                "protoPayload", "serviceName", default="<SERVICE_NOT_FOUND>"
-            ),
+            "resourceName": event.deep_get("protoPayload", "resourceName", default="<RESOURCE_NOT_FOUND>"),
+            "serviceName": event.deep_get("protoPayload", "serviceName", default="<SERVICE_NOT_FOUND>"),
         }

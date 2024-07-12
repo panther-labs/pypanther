@@ -25,10 +25,7 @@ aws_config_service_disabled_deleted_tests: List[PantherRuleTest] = [
                         "userName": "tester",
                     },
                     "webIdFederationData": {},
-                    "attributes": {
-                        "mfaAuthenticated": "true",
-                        "creationDate": "2019-01-01T00:00:00Z",
-                    },
+                    "attributes": {"mfaAuthenticated": "true", "creationDate": "2019-01-01T00:00:00Z"},
                 },
             },
             "eventTime": "2019-01-01T00:00:00Z",
@@ -65,10 +62,7 @@ aws_config_service_disabled_deleted_tests: List[PantherRuleTest] = [
                         "userName": "tester",
                     },
                     "webIdFederationData": {},
-                    "attributes": {
-                        "mfaAuthenticated": "true",
-                        "creationDate": "2019-01-01T00:00:00Z",
-                    },
+                    "attributes": {"mfaAuthenticated": "true", "creationDate": "2019-01-01T00:00:00Z"},
                 },
             },
             "eventTime": "2019-01-01T00:00:00Z",
@@ -106,10 +100,7 @@ aws_config_service_disabled_deleted_tests: List[PantherRuleTest] = [
                         "userName": "tester",
                     },
                     "webIdFederationData": {},
-                    "attributes": {
-                        "mfaAuthenticated": "true",
-                        "creationDate": "2019-01-01T00:00:00Z",
-                    },
+                    "attributes": {"mfaAuthenticated": "true", "creationDate": "2019-01-01T00:00:00Z"},
                 },
             },
             "eventTime": "2019-01-01T00:00:00Z",
@@ -139,22 +130,13 @@ class AWSConfigServiceDisabledDeleted(PantherRule):
     Description = "An AWS Config Recorder or Delivery Channel was disabled or deleted\n"
     Runbook = "Verify that the Config Service changes were authorized. If not, revert them and investigate who caused the change. Consider altering permissions to prevent this from happening again in the future.\n"
     Reference = "https://aws.amazon.com/config/"
-    SummaryAttributes = [
-        "eventName",
-        "userAgent",
-        "sourceIpAddress",
-        "recipientAccountId",
-        "p_any_aws_arns",
-    ]
+    SummaryAttributes = ["eventName", "userAgent", "sourceIpAddress", "recipientAccountId", "p_any_aws_arns"]
     Tests = aws_config_service_disabled_deleted_tests
     # API calls that are indicative of an AWS Config Service change
     CONFIG_SERVICE_DISABLE_DELETE_EVENTS = {"StopConfigurationRecorder", "DeleteDeliveryChannel"}
 
     def rule(self, event):
-        return (
-            aws_cloudtrail_success(event)
-            and event.get("eventName") in self.CONFIG_SERVICE_DISABLE_DELETE_EVENTS
-        )
+        return aws_cloudtrail_success(event) and event.get("eventName") in self.CONFIG_SERVICE_DISABLE_DELETE_EVENTS
 
     def alert_context(self, event):
         return aws_rule_context(event)

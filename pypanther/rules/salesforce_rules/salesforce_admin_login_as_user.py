@@ -87,9 +87,7 @@ class SalesforceAdminLoginAsUser(PantherRule):
     Description = "Salesforce detection that alerts when an admin logs in as another user. "
     DisplayName = "Salesforce Admin Login As User"
     Runbook = "Please do an indicator search on USER_ID to find which user was assumed. "
-    Reference = (
-        "https://help.salesforce.com/s/articleView?id=sf.logging_in_as_another_user.htm&type=5"
-    )
+    Reference = "https://help.salesforce.com/s/articleView?id=sf.logging_in_as_another_user.htm&type=5"
     Severity = PantherSeverity.Info
     LogTypes = [PantherLogType.Salesforce_LoginAs]
     RuleID = "Salesforce.Admin.Login.As.User-prototype"
@@ -101,6 +99,4 @@ class SalesforceAdminLoginAsUser(PantherRule):
     def title(self, event):
         admin = event.get("DELEGATED_USER_NAME", "<NO_ADMIN_FOUND>")
         user_id = event.get("USER_ID", "<NO_USER_ID_FOUND>")
-        return (
-            f"Salesforce admin [{admin}] logged in as a regular user with the user id [{user_id}]."
-        )
+        return f"Salesforce admin [{admin}] logged in as a regular user with the user id [{user_id}]."
