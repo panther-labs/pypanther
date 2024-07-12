@@ -68,5 +68,12 @@ follow_imports = "skip"
 
 [tool.ruff]
 # Exclude a variety of commonly ignored directories.
-exclude = ['pypanther/rules/', 'pypanther/helpers/', 'pypanther/data_models/']
+exclude = []
 line-length = 120
+
+[tool.ruff.lint.per-file-ignores]
+"pypanther/helpers/*" = [
+    # Helpers are converted automatically, so we don't want to fix this because it could be reverted
+    # next time it is generated
+    "E402", # Module level import not at top of file
+]
