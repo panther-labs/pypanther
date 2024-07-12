@@ -19,6 +19,6 @@ jobs:
       - name: ruff
         run: poetry run ruff check --output-format=github .
       - name: ruff
-        run: poetry run ruff format --check --output-format=github .
+        run: poetry run ruff format --check .
       - name: mypy
         run: poetry run mypy .
