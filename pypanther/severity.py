@@ -4,26 +4,26 @@ from functools import total_ordering
 
 @total_ordering
 class PantherSeverity(str, Enum):
-    Info = "INFO"
-    Low = "LOW"
-    Medium = "MEDIUM"
-    High = "HIGH"
-    Critical = "CRITICAL"
+    info = "INFO"
+    low = "LOW"
+    medium = "MEDIUM"
+    high = "HIGH"
+    critical = "CRITICAL"
 
     def __lt__(self, other):
         return PantherSeverity.as_int(self.value) < PantherSeverity.as_int(other.value)
 
     @staticmethod
     def as_int(value: "PantherSeverity") -> int:
-        if value.upper() == PantherSeverity.Info:
+        if value.upper() == PantherSeverity.info:
             return 0
-        if value.upper() == PantherSeverity.Low:
+        if value.upper() == PantherSeverity.low:
             return 1
-        if value.upper() == PantherSeverity.Medium:
+        if value.upper() == PantherSeverity.medium:
             return 2
-        if value.upper() == PantherSeverity.High:
+        if value.upper() == PantherSeverity.high:
             return 3
-        if value.upper() == PantherSeverity.Critical:
+        if value.upper() == PantherSeverity.critical:
             return 4
         raise ValueError(f"Unknown severity: {value}")
 

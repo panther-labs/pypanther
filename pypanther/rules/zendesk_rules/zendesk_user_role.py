@@ -6,9 +6,9 @@ from pypanther.helpers.panther_base_helpers import zendesk_get_roles
 
 zendesk_user_role_changed_tests: List[PantherRuleTest] = [
     PantherRuleTest(
-        Name="Zendesk - Role Changed",
-        ExpectedResult=True,
-        Log={
+        name="Zendesk - Role Changed",
+        expected_result=True,
+        log={
             "url": "https://myzendek.zendesk.com/api/v2/audit_logs/111222333444.json",
             "id": 123456789123,
             "action_label": "Updated",
@@ -25,9 +25,9 @@ zendesk_user_role_changed_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="Zendesk - Admin Role Assigned",
-        ExpectedResult=False,
-        Log={
+        name="Zendesk - Admin Role Assigned",
+        expected_result=False,
+        log={
             "url": "https://myzendek.zendesk.com/api/v2/audit_logs/111222333444.json",
             "id": 123456789123,
             "action_label": "Updated",
@@ -47,14 +47,14 @@ zendesk_user_role_changed_tests: List[PantherRuleTest] = [
 
 
 class ZendeskUserRoleChanged(PantherRule):
-    RuleID = "Zendesk.UserRoleChanged-prototype"
-    DisplayName = "Zendesk User Role Changed"
-    LogTypes = [PantherLogType.Zendesk_Audit]
-    Severity = PantherSeverity.Info
-    Description = "A user's Zendesk role was changed"
-    Reference = "https://support.zendesk.com/hc/en-us/articles/4408824375450-Setting-roles-and-access-in-Zendesk-Admin-Center"
-    SummaryAttributes = ["p_any_ip_addresses"]
-    Tests = zendesk_user_role_changed_tests
+    id_ = "Zendesk.UserRoleChanged-prototype"
+    display_name = "Zendesk User Role Changed"
+    log_types = [PantherLogType.Zendesk_Audit]
+    default_severity = PantherSeverity.info
+    default_description = "A user's Zendesk role was changed"
+    default_reference = "https://support.zendesk.com/hc/en-us/articles/4408824375450-Setting-roles-and-access-in-Zendesk-Admin-Center"
+    summary_attributes = ["p_any_ip_addresses"]
+    tests = zendesk_user_role_changed_tests
 
     def rule(self, event):
         if event.get("source_type") == "user" and event.get("action") == "update":

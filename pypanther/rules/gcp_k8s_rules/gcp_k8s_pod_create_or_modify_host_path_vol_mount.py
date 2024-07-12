@@ -6,9 +6,9 @@ from pypanther.helpers.panther_base_helpers import deep_get, deep_walk
 
 gcpk8_s_pot_create_or_modify_host_path_volume_mount_tests: List[PantherRuleTest] = [
     PantherRuleTest(
-        Name="Pod With Suspicious Volume Mount Created",
-        ExpectedResult=True,
-        Log={
+        name="Pod With Suspicious Volume Mount Created",
+        expected_result=True,
+        log={
             "logName": "projects/some-project/logs/cloudaudit.googleapis.com%2Factivity",
             "protoPayload": {
                 "at_sign_type": "type.googleapis.com/google.cloud.audit.AuditLog",
@@ -87,9 +87,9 @@ gcpk8_s_pot_create_or_modify_host_path_volume_mount_tests: List[PantherRuleTest]
         },
     ),
     PantherRuleTest(
-        Name="Pod With Non-Suspicious Volume Mount Created",
-        ExpectedResult=False,
-        Log={
+        name="Pod With Non-Suspicious Volume Mount Created",
+        expected_result=False,
+        log={
             "logName": "projects/some-project/logs/cloudaudit.googleapis.com%2Factivity",
             "protoPayload": {
                 "at_sign_type": "type.googleapis.com/google.cloud.audit.AuditLog",
@@ -118,7 +118,10 @@ gcpk8_s_pot_create_or_modify_host_path_volume_mount_tests: List[PantherRuleTest]
                         ],
                         "volumes": [
                             {
-                                "hostPath": {"path": "/data", "type": "DirectoryOrCreate"},
+                                "hostPath": {
+                                    "path": "/data",
+                                    "type": "DirectoryOrCreate",
+                                },
                                 "name": "test-volume",
                             }
                         ],
@@ -141,7 +144,10 @@ gcpk8_s_pot_create_or_modify_host_path_volume_mount_tests: List[PantherRuleTest]
                         ],
                         "volumes": [
                             {
-                                "hostPath": {"path": "/data", "type": "DirectoryOrCreate"},
+                                "hostPath": {
+                                    "path": "/data",
+                                    "type": "DirectoryOrCreate",
+                                },
                                 "name": "test-volume",
                             }
                         ],
@@ -162,9 +168,9 @@ gcpk8_s_pot_create_or_modify_host_path_volume_mount_tests: List[PantherRuleTest]
         },
     ),
     PantherRuleTest(
-        Name="Pod Not Created",
-        ExpectedResult=False,
-        Log={
+        name="Pod Not Created",
+        expected_result=False,
+        log={
             "logName": "projects/some-project/logs/cloudaudit.googleapis.com%2Factivity",
             "protoPayload": {
                 "at_sign_type": "type.googleapis.com/google.cloud.audit.AuditLog",
@@ -222,15 +228,15 @@ gcpk8_s_pot_create_or_modify_host_path_volume_mount_tests: List[PantherRuleTest]
 
 
 class GCPK8SPotCreateOrModifyHostPathVolumeMount(PantherRule):
-    RuleID = "GCP.K8S.Pot.Create.Or.Modify.Host.Path.Volume.Mount-prototype"
-    DisplayName = "GCP K8S Pot Create Or Modify Host Path Volume Mount"
-    LogTypes = [PantherLogType.GCP_AuditLog]
-    Severity = PantherSeverity.High
-    Description = "This detection monitors for pod creation with a hostPath volume mount. The attachment to a node's volume can allow for privilege escalation through underlying vulnerabilities or it can open up possibilities for data exfiltration or unauthorized file access. It is very rare to see this being a pod requirement.\n"
-    Runbook = "Investigate the reason of adding hostPath volume mount. Advise that it is discouraged practice. Create ticket if appropriate.\n"
-    Reference = "https://linuxhint.com/kubernetes-hostpath-volumes/"
-    Reports = {"MITRE ATT&CK": ["TA0001", "TA0002"]}
-    Tests = gcpk8_s_pot_create_or_modify_host_path_volume_mount_tests
+    id_ = "GCP.K8S.Pot.Create.Or.Modify.Host.Path.Volume.Mount-prototype"
+    display_name = "GCP K8S Pot Create Or Modify Host Path Volume Mount"
+    log_types = [PantherLogType.GCP_AuditLog]
+    default_severity = PantherSeverity.high
+    default_description = "This detection monitors for pod creation with a hostPath volume mount. The attachment to a node's volume can allow for privilege escalation through underlying vulnerabilities or it can open up possibilities for data exfiltration or unauthorized file access. It is very rare to see this being a pod requirement.\n"
+    default_runbook = "Investigate the reason of adding hostPath volume mount. Advise that it is discouraged practice. Create ticket if appropriate.\n"
+    default_reference = "https://linuxhint.com/kubernetes-hostpath-volumes/"
+    reports = {"MITRE ATT&CK": ["TA0001", "TA0002"]}
+    tests = gcpk8_s_pot_create_or_modify_host_path_volume_mount_tests
     SUSPICIOUS_PATHS = [
         "/var/run/docker.sock",
         "/var/run/crio/crio.sock",

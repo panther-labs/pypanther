@@ -6,9 +6,9 @@ from pypanther.helpers.panther_base_helpers import deep_get
 
 panther_sensitive_role_tests: List[PantherRuleTest] = [
     PantherRuleTest(
-        Name="Admin Role Created",
-        ExpectedResult=True,
-        Log={
+        name="Admin Role Created",
+        expected_result=True,
+        log={
             "actionName": "CREATE_USER_ROLE",
             "actionParams": {
                 "dynamic": {
@@ -42,9 +42,9 @@ panther_sensitive_role_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="Non-Admin Role Created",
-        ExpectedResult=False,
-        Log={
+        name="Non-Admin Role Created",
+        expected_result=False,
+        log={
             "actionName": "CREATE_USER_ROLE",
             "actionParams": {
                 "dynamic": {
@@ -74,9 +74,9 @@ panther_sensitive_role_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="nonetype error",
-        ExpectedResult=False,
-        Log={
+        name="nonetype error",
+        expected_result=False,
+        log={
             "XForwardedFor": ["1.2.3.4", "5.6.7.8"],
             "actionDescription": "Adds a new User role to Panther",
             "actionName": "CREATE_USER_ROLE",
@@ -160,24 +160,29 @@ panther_sensitive_role_tests: List[PantherRuleTest] = [
 
 
 class PantherSensitiveRole(PantherRule):
-    RuleID = "Panther.Sensitive.Role-prototype"
-    DisplayName = "A User Role with Sensitive Permissions has been Created"
-    LogTypes = [PantherLogType.Panther_Audit]
-    Severity = PantherSeverity.High
-    Tags = ["DataModel", "Persistence:Account Manipulation"]
-    Reports = {"MITRE ATT&CK": ["TA0003:T1098"]}
-    Description = "A Panther user role has been created that contains admin level permissions."
-    Runbook = "Contact the creator of this role to ensure its creation was appropriate."
-    Reference = "https://docs.panther.com/system-configuration/rbac"
-    SummaryAttributes = ["p_any_ip_addresses"]
-    Tests = panther_sensitive_role_tests
+    id_ = "Panther.Sensitive.Role-prototype"
+    display_name = "A User Role with Sensitive Permissions has been Created"
+    log_types = [PantherLogType.Panther_Audit]
+    default_severity = PantherSeverity.high
+    tags = ["DataModel", "Persistence:Account Manipulation"]
+    reports = {"MITRE ATT&CK": ["TA0003:T1098"]}
+    default_description = (
+        "A Panther user role has been created that contains admin level permissions."
+    )
+    default_runbook = "Contact the creator of this role to ensure its creation was appropriate."
+    default_reference = "https://docs.panther.com/system-configuration/rbac"
+    summary_attributes = ["p_any_ip_addresses"]
+    tests = panther_sensitive_role_tests
     PANTHER_ADMIN_PERMISSIONS = [
         "UserModify",
         "OrganizationAPITokenModify",
         "OrganizationAPITokenRead",
         "GeneralSettingsModify",
     ]
-    PANTHER_ROLE_ACTIONS = [event_type.USER_GROUP_CREATED, event_type.USER_GROUP_MODIFIED]
+    PANTHER_ROLE_ACTIONS = [
+        event_type.USER_GROUP_CREATED,
+        event_type.USER_GROUP_MODIFIED,
+    ]
 
     def rule(self, event):
         if event.udm("event_type") not in self.PANTHER_ROLE_ACTIONS:

@@ -5,9 +5,9 @@ from pypanther.helpers.panther_base_helpers import deep_get
 
 g_suite_suspicious_logins_tests: List[PantherRuleTest] = [
     PantherRuleTest(
-        Name="Normal Login Event",
-        ExpectedResult=False,
-        Log={
+        name="Normal Login Event",
+        expected_result=False,
+        log={
             "id": {"applicationName": "login"},
             "kind": "admin#reports#activity",
             "type": "account_warning",
@@ -16,9 +16,9 @@ g_suite_suspicious_logins_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="Account Warning Not For Suspicious Login",
-        ExpectedResult=False,
-        Log={
+        name="Account Warning Not For Suspicious Login",
+        expected_result=False,
+        log={
             "id": {"applicationName": "login"},
             "kind": "admin#reports#activity",
             "type": "account_warning",
@@ -27,9 +27,9 @@ g_suite_suspicious_logins_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="Account Warning For Suspicious Login",
-        ExpectedResult=True,
-        Log={
+        name="Account Warning For Suspicious Login",
+        expected_result=True,
+        log={
             "id": {"applicationName": "login"},
             "kind": "admin#reports#activity",
             "type": "account_warning",
@@ -41,16 +41,16 @@ g_suite_suspicious_logins_tests: List[PantherRuleTest] = [
 
 
 class GSuiteSuspiciousLogins(PantherRule):
-    RuleID = "GSuite.SuspiciousLogins-prototype"
-    DisplayName = "Suspicious GSuite Login"
-    LogTypes = [PantherLogType.GSuite_ActivityEvent]
-    Tags = ["GSuite"]
-    Severity = PantherSeverity.Medium
-    Description = "GSuite reported a suspicious login for this user.\n"
-    Reference = "https://support.google.com/a/answer/7102416?hl=en"
-    Runbook = "Checkout the details of the login and verify this behavior with the user to ensure the account wasn't compromised.\n"
-    SummaryAttributes = ["actor:email"]
-    Tests = g_suite_suspicious_logins_tests
+    id_ = "GSuite.SuspiciousLogins-prototype"
+    display_name = "Suspicious GSuite Login"
+    log_types = [PantherLogType.GSuite_ActivityEvent]
+    tags = ["GSuite"]
+    default_severity = PantherSeverity.medium
+    default_description = "GSuite reported a suspicious login for this user.\n"
+    default_reference = "https://support.google.com/a/answer/7102416?hl=en"
+    default_runbook = "Checkout the details of the login and verify this behavior with the user to ensure the account wasn't compromised.\n"
+    summary_attributes = ["actor:email"]
+    tests = g_suite_suspicious_logins_tests
     SUSPICIOUS_LOGIN_TYPES = {
         "suspicious_login",
         "suspicious_login_less_secure_app",

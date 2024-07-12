@@ -5,9 +5,9 @@ from pypanther.helpers.panther_base_helpers import deep_get
 
 asana_workspace_form_link_auth_requirement_disabled_tests: List[PantherRuleTest] = [
     PantherRuleTest(
-        Name="form auth requirement disabled",
-        ExpectedResult=True,
-        Log={
+        name="form auth requirement disabled",
+        expected_result=True,
+        log={
             "actor": {
                 "actor_type": "user",
                 "email": "homer.simpson@simpsons.com",
@@ -24,13 +24,17 @@ asana_workspace_form_link_auth_requirement_disabled_tests: List[PantherRuleTest]
             "event_category": "admin_settings",
             "event_type": "workspace_form_link_authentication_required_disabled",
             "gid": "1234567890",
-            "resource": {"gid": "111234", "name": "Simpsons Lab", "resource_type": "workspace"},
+            "resource": {
+                "gid": "111234",
+                "name": "Simpsons Lab",
+                "resource_type": "workspace",
+            },
         },
     ),
     PantherRuleTest(
-        Name="other",
-        ExpectedResult=False,
-        Log={
+        name="other",
+        expected_result=False,
+        log={
             "actor": {
                 "actor_type": "user",
                 "email": "homer.simpson@panther.io",
@@ -47,20 +51,24 @@ asana_workspace_form_link_auth_requirement_disabled_tests: List[PantherRuleTest]
             "event_category": "access_control",
             "event_type": "team_privacy_settings_changed",
             "gid": "12345",
-            "resource": {"gid": "12345", "name": "Example Team Name", "resource_type": "team"},
+            "resource": {
+                "gid": "12345",
+                "name": "Example Team Name",
+                "resource_type": "team",
+            },
         },
     ),
 ]
 
 
 class AsanaWorkspaceFormLinkAuthRequirementDisabled(PantherRule):
-    Description = "An Asana Workspace Form Link is a unique URL that allows you to create a task directly within a specific Workspace or Project in Asana, using a web form. Disabling authentication requirements may allow unauthorized users to create tasks. "
-    DisplayName = "Asana Workspace Form Link Auth Requirement Disabled"
-    Reference = "https://help.asana.com/hc/en-us/articles/14111697664923-Forms-access-permissions#:~:text=SSO%2C%20SAML%2C%20or-,no%20authentication%20method,-).%20If%20no%20authentication"
-    Severity = PantherSeverity.Low
-    LogTypes = [PantherLogType.Asana_Audit]
-    RuleID = "Asana.Workspace.Form.Link.Auth.Requirement.Disabled-prototype"
-    Tests = asana_workspace_form_link_auth_requirement_disabled_tests
+    default_description = "An Asana Workspace Form Link is a unique URL that allows you to create a task directly within a specific Workspace or Project in Asana, using a web form. Disabling authentication requirements may allow unauthorized users to create tasks. "
+    display_name = "Asana Workspace Form Link Auth Requirement Disabled"
+    default_reference = "https://help.asana.com/hc/en-us/articles/14111697664923-Forms-access-permissions#:~:text=SSO%2C%20SAML%2C%20or-,no%20authentication%20method,-).%20If%20no%20authentication"
+    default_severity = PantherSeverity.low
+    log_types = [PantherLogType.Asana_Audit]
+    id_ = "Asana.Workspace.Form.Link.Auth.Requirement.Disabled-prototype"
+    tests = asana_workspace_form_link_auth_requirement_disabled_tests
 
     def rule(self, event):
         return event.get("event_type") == "workspace_form_link_authentication_required_disabled"

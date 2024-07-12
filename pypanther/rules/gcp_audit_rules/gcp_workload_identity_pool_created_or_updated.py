@@ -4,9 +4,9 @@ from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSever
 
 gcp_workload_identity_pool_createdor_updated_tests: List[PantherRuleTest] = [
     PantherRuleTest(
-        Name="DeleteWorkloadIdentityPoolProvider-False",
-        ExpectedResult=False,
-        Log={
+        name="DeleteWorkloadIdentityPoolProvider-False",
+        expected_result=False,
+        log={
             "insertId": "1h09dxwe33il5",
             "logName": "projects/test-project/logs/cloudaudit.googleapis.com%2Factivity",
             "operation": {
@@ -37,7 +37,10 @@ gcp_workload_identity_pool_createdor_updated_tests: List[PantherRuleTest] = [
                     "callerIp": "07da:0994:97fb:8db1:c68f:c109:fcdd:d594",
                     "callerSuppliedUserAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:109.0) Gecko/20100101 Firefox/119.0,gzip(gfe)",
                     "destinationAttributes": {},
-                    "requestAttributes": {"auth": {}, "time": "2023-11-17T18:58:13.519015485Z"},
+                    "requestAttributes": {
+                        "auth": {},
+                        "time": "2023-11-17T18:58:13.519015485Z",
+                    },
                 },
                 "resourceName": "projects/test-project/locations/global/workloadIdentityPools/test-pool",
                 "serviceName": "iam.googleapis.com",
@@ -56,9 +59,9 @@ gcp_workload_identity_pool_createdor_updated_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="UpdateWorkloadIdentityPoolProvider-True",
-        ExpectedResult=True,
-        Log={
+        name="UpdateWorkloadIdentityPoolProvider-True",
+        expected_result=True,
+        log={
             "insertId": "1plwiv7e2lak8",
             "logName": "projects/test-project/logs/cloudaudit.googleapis.com%2Factivity",
             "operation": {
@@ -100,7 +103,10 @@ gcp_workload_identity_pool_createdor_updated_tests: List[PantherRuleTest] = [
                     "callerIp": "07da:0994:97fb:8db1:c68f:c109:fcdd:d594",
                     "callerSuppliedUserAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:109.0) Gecko/20100101 Firefox/119.0,gzip(gfe)",
                     "destinationAttributes": {},
-                    "requestAttributes": {"auth": {}, "time": "2023-11-17T18:56:57.745203848Z"},
+                    "requestAttributes": {
+                        "auth": {},
+                        "time": "2023-11-17T18:56:57.745203848Z",
+                    },
                 },
                 "resourceName": "projects/test-project/locations/global/workloadIdentityPools/test-pool/providers/test-project",
                 "serviceName": "iam.googleapis.com",
@@ -119,9 +125,9 @@ gcp_workload_identity_pool_createdor_updated_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="CreateWorkloadIdentityPoolProvider-True",
-        ExpectedResult=True,
-        Log={
+        name="CreateWorkloadIdentityPoolProvider-True",
+        expected_result=True,
+        log={
             "insertId": "11gmdk5e1ne4r",
             "logName": "projects/test-project/logs/cloudaudit.googleapis.com%2Factivity",
             "operation": {
@@ -163,7 +169,10 @@ gcp_workload_identity_pool_createdor_updated_tests: List[PantherRuleTest] = [
                     "callerIp": "07da:0994:97fb:8db1:c68f:c109:fcdd:d594",
                     "callerSuppliedUserAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:109.0) Gecko/20100101 Firefox/119.0,gzip(gfe)",
                     "destinationAttributes": {},
-                    "requestAttributes": {"auth": {}, "time": "2023-11-17T18:45:17.961743198Z"},
+                    "requestAttributes": {
+                        "auth": {},
+                        "time": "2023-11-17T18:45:17.961743198Z",
+                    },
                 },
                 "resourceLocation": {"currentLocations": ["global"]},
                 "resourceName": "projects/test-project/locations/global/workloadIdentityPools/test-pool",
@@ -186,15 +195,20 @@ gcp_workload_identity_pool_createdor_updated_tests: List[PantherRuleTest] = [
 
 
 class GCPWorkloadIdentityPoolCreatedorUpdated(PantherRule):
-    RuleID = "GCP.Workload.Identity.Pool.Created.or.Updated-prototype"
-    DisplayName = "GCP Workload Identity Pool Created or Updated"
-    LogTypes = [PantherLogType.GCP_AuditLog]
-    Tags = ["Account Manipulation", "Additional Cloud Roles", "GCP", "Privilege Escalation"]
-    Reports = {"MITRE ATT&CK": ["TA0003:T1136.003", "TA0003:T1098.003", "TA0004:T1098.003"]}
-    Severity = PantherSeverity.High
-    Runbook = "Ensure that the Workload Identity Pool creation or modification was expected. Adversaries may use this to persist or allow additional access or escalate their privilege.\n"
-    Reference = "https://medium.com/google-cloud/detection-of-inbound-sso-persistence-techniques-in-gcp-c56f7b2a588b"
-    Tests = gcp_workload_identity_pool_createdor_updated_tests
+    id_ = "GCP.Workload.Identity.Pool.Created.or.Updated-prototype"
+    display_name = "GCP Workload Identity Pool Created or Updated"
+    log_types = [PantherLogType.GCP_AuditLog]
+    tags = [
+        "Account Manipulation",
+        "Additional Cloud Roles",
+        "GCP",
+        "Privilege Escalation",
+    ]
+    reports = {"MITRE ATT&CK": ["TA0003:T1136.003", "TA0003:T1098.003", "TA0004:T1098.003"]}
+    default_severity = PantherSeverity.high
+    default_runbook = "Ensure that the Workload Identity Pool creation or modification was expected. Adversaries may use this to persist or allow additional access or escalate their privilege.\n"
+    default_reference = "https://medium.com/google-cloud/detection-of-inbound-sso-persistence-techniques-in-gcp-c56f7b2a588b"
+    tests = gcp_workload_identity_pool_createdor_updated_tests
     METHODS = [
         "google.iam.v1.WorkloadIdentityPools.CreateWorkloadIdentityPoolProvider",
         "google.iam.v1.WorkloadIdentityPools.UpdateWorkloadIdentityPoolProvider",
@@ -205,7 +219,10 @@ class GCPWorkloadIdentityPoolCreatedorUpdated(PantherRule):
 
     def title(self, event):
         actor = event.deep_get(
-            "protoPayload", "authenticationInfo", "principalEmail", default="<ACTOR_NOT_FOUND>"
+            "protoPayload",
+            "authenticationInfo",
+            "principalEmail",
+            default="<ACTOR_NOT_FOUND>",
         )
         resource = event.deep_get(
             "protoPayload", "resourceName", default="<RESOURCE_NOT_FOUND>"

@@ -5,12 +5,12 @@ from pypanther.log_types import PantherLogType
 
 
 class StandardAWSS3ServerAccess(PantherDataModel):
-    DataModelID: str = "Standard.AWS.S3ServerAccess"
-    DisplayName: str = "AWS S3 Server Access"
-    Enabled: bool = True
-    LogTypes: List[str] = [PantherLogType.AWS_S3ServerAccess]
-    Mappings: List[PantherDataModelMapping] = [
-        PantherDataModelMapping(Name="http_status", Path="httpstatus"),
-        PantherDataModelMapping(Name="source_ip", Path="remoteip"),
-        PantherDataModelMapping(Name="user_agent", Path="useragent"),
+    id_: str = "Standard.AWS.S3ServerAccess"
+    display_name: str = "AWS S3 Server Access"
+    enabled: bool = True
+    log_types: List[str] = [PantherLogType.AWS_S3ServerAccess]
+    mappings: List[PantherDataModelMapping] = [
+        PantherDataModelMapping(name="http_status", path="httpstatus"),
+        PantherDataModelMapping(name="source_ip", path="remoteip"),
+        PantherDataModelMapping(name="user_agent", path="useragent"),
     ]

@@ -5,16 +5,19 @@ from pypanther.helpers.panther_base_helpers import deep_get, okta_alert_context
 
 okta_app_unauthorized_access_attempt_tests: List[PantherRuleTest] = [
     PantherRuleTest(
-        Name="Unauthorized Access Event",
-        ExpectedResult=True,
-        Log={
+        name="Unauthorized Access Event",
+        expected_result=True,
+        log={
             "actor": {
                 "alternateId": "homer.simpson@duff.com",
                 "displayName": "Homer Simpsons",
                 "id": "00ABC123",
                 "type": "User",
             },
-            "authenticationcontext": {"authenticationStep": 0, "externalSessionId": "xyz1234"},
+            "authenticationcontext": {
+                "authenticationStep": 0,
+                "externalSessionId": "xyz1234",
+            },
             "client": {
                 "device": "Computer",
                 "geographicalContext": {
@@ -85,16 +88,19 @@ okta_app_unauthorized_access_attempt_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="Other Event",
-        ExpectedResult=False,
-        Log={
+        name="Other Event",
+        expected_result=False,
+        log={
             "actor": {
                 "alternateId": "homer.simpson@duff.com",
                 "displayName": "Homer Simpsons",
                 "id": "00ABC123",
                 "type": "User",
             },
-            "authenticationcontext": {"authenticationStep": 0, "externalSessionId": "xyz1234"},
+            "authenticationcontext": {
+                "authenticationStep": 0,
+                "externalSessionId": "xyz1234",
+            },
             "client": {
                 "device": "Computer",
                 "geographicalContext": {
@@ -168,14 +174,14 @@ okta_app_unauthorized_access_attempt_tests: List[PantherRuleTest] = [
 
 
 class OktaAppUnauthorizedAccessAttempt(PantherRule):
-    Description = "Detects when a user is denied access to an Okta application"
-    DisplayName = "Okta App Unauthorized Access Attempt"
-    Severity = PantherSeverity.Low
-    Reference = "https://support.okta.com/help/s/article/App-Sign-on-Error-403-User-attempted-unauthorized-access-to-app?language=en_US"
-    LogTypes = [PantherLogType.Okta_SystemLog]
-    RuleID = "Okta.App.Unauthorized.Access.Attempt-prototype"
-    Threshold = 5
-    Tests = okta_app_unauthorized_access_attempt_tests
+    default_description = "Detects when a user is denied access to an Okta application"
+    display_name = "Okta App Unauthorized Access Attempt"
+    default_severity = PantherSeverity.low
+    default_reference = "https://support.okta.com/help/s/article/App-Sign-on-Error-403-User-attempted-unauthorized-access-to-app?language=en_US"
+    log_types = [PantherLogType.Okta_SystemLog]
+    id_ = "Okta.App.Unauthorized.Access.Attempt-prototype"
+    threshold = 5
+    tests = okta_app_unauthorized_access_attempt_tests
 
     def rule(self, event):
         return event.get("eventtype", "") == "app.generic.unauth_app_access_attempt"

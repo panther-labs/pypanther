@@ -5,18 +5,18 @@ from pypanther.helpers.panther_base_helpers import deep_get
 
 g_suite_rule_tests: List[PantherRuleTest] = [
     PantherRuleTest(
-        Name="Non Triggered Rule",
-        ExpectedResult=False,
-        Log={
+        name="Non Triggered Rule",
+        expected_result=False,
+        log={
             "id": {"applicationName": "rules"},
             "actor": {"email": "some.user@somedomain.com"},
             "parameters": {"severity": "HIGH", "triggered_actions": None},
         },
     ),
     PantherRuleTest(
-        Name="High Severity Rule",
-        ExpectedResult=True,
-        Log={
+        name="High Severity Rule",
+        expected_result=True,
+        log={
             "id": {"applicationName": "rules"},
             "actor": {"email": "some.user@somedomain.com"},
             "parameters": {
@@ -27,9 +27,9 @@ g_suite_rule_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="Medium Severity Rule",
-        ExpectedResult=True,
-        Log={
+        name="Medium Severity Rule",
+        expected_result=True,
+        log={
             "id": {"applicationName": "rules"},
             "actor": {"email": "some.user@somedomain.com"},
             "parameters": {
@@ -40,9 +40,9 @@ g_suite_rule_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="Low Severity Rule",
-        ExpectedResult=True,
-        Log={
+        name="Low Severity Rule",
+        expected_result=True,
+        log={
             "id": {"applicationName": "rules"},
             "actor": {"email": "some.user@somedomain.com"},
             "parameters": {
@@ -52,9 +52,9 @@ g_suite_rule_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="High Severity Rule with Rule Name",
-        ExpectedResult=True,
-        Log={
+        name="High Severity Rule with Rule Name",
+        expected_result=True,
+        log={
             "id": {"applicationName": "rules"},
             "actor": {"email": "some.user@somedomain.com"},
             "parameters": {
@@ -68,16 +68,16 @@ g_suite_rule_tests: List[PantherRuleTest] = [
 
 
 class GSuiteRule(PantherRule):
-    RuleID = "GSuite.Rule-prototype"
-    DisplayName = "GSuite Passthrough Rule Triggered"
-    LogTypes = [PantherLogType.GSuite_ActivityEvent]
-    Tags = ["GSuite"]
-    Severity = PantherSeverity.Info
-    Description = "A GSuite rule was triggered.\n"
-    Reference = "https://support.google.com/a/answer/9420866"
-    Runbook = "Investigate what triggered the rule.\n"
-    SummaryAttributes = ["actor:email"]
-    Tests = g_suite_rule_tests
+    id_ = "GSuite.Rule-prototype"
+    display_name = "GSuite Passthrough Rule Triggered"
+    log_types = [PantherLogType.GSuite_ActivityEvent]
+    tags = ["GSuite"]
+    default_severity = PantherSeverity.info
+    default_description = "A GSuite rule was triggered.\n"
+    default_reference = "https://support.google.com/a/answer/9420866"
+    default_runbook = "Investigate what triggered the rule.\n"
+    summary_attributes = ["actor:email"]
+    tests = g_suite_rule_tests
 
     def rule(self, event):
         if deep_get(event, "id", "applicationName") != "rules":

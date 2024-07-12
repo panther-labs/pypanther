@@ -6,16 +6,19 @@ from pypanther.helpers.panther_snyk_helpers import snyk_alert_context
 
 snyk_system_policy_setting_tests: List[PantherRuleTest] = [
     PantherRuleTest(
-        Name="Snyk System Policy Setting event happened ( Security Policy )",
-        ExpectedResult=True,
-        Log={
+        name="Snyk System Policy Setting event happened ( Security Policy )",
+        expected_result=True,
+        log={
             "content": {
                 "after": {
                     "configuration": {
                         "rules": [
                             {
                                 "actions": [
-                                    {"data": {"severity": "high"}, "type": "severity-override"}
+                                    {
+                                        "data": {"severity": "high"},
+                                        "type": "severity-override",
+                                    }
                                 ],
                                 "conditions": {
                                     "AND": [
@@ -44,15 +47,23 @@ snyk_system_policy_setting_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="Snyk System Policy Setting event happened ( License Policy )",
-        ExpectedResult=True,
-        Log={
+        name="Snyk System Policy Setting event happened ( License Policy )",
+        expected_result=True,
+        log={
             "content": {
                 "after": {
                     "configuration": {
                         "licenses": [
-                            {"instructions": "", "licenseType": "ADSL", "severity": "medium"},
-                            {"instructions": "", "licenseType": "AGPL-3.0", "severity": "medium"},
+                            {
+                                "instructions": "",
+                                "licenseType": "ADSL",
+                                "severity": "medium",
+                            },
+                            {
+                                "instructions": "",
+                                "licenseType": "AGPL-3.0",
+                                "severity": "medium",
+                            },
                             {
                                 "instructions": "",
                                 "licenseType": "AGPL-3.0-only",
@@ -63,7 +74,11 @@ snyk_system_policy_setting_tests: List[PantherRuleTest] = [
                     "description": "this is a policy description",
                     "group": "8fffffff-1555-4444-b000-b55555555555",
                     "name": "Example License Policy",
-                    "projectAttributes": {"criticality": [], "environment": [], "lifecycle": []},
+                    "projectAttributes": {
+                        "criticality": [],
+                        "environment": [],
+                        "lifecycle": [],
+                    },
                 },
                 "before": {},
                 "publicId": "21111111-a222-4eee-8ddd-a99999999999",
@@ -75,9 +90,9 @@ snyk_system_policy_setting_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="Snyk Group SSO Membership sync",
-        ExpectedResult=False,
-        Log={
+        name="Snyk Group SSO Membership sync",
+        expected_result=False,
+        log={
             "content": {
                 "addAsOrgAdmin": [],
                 "addAsOrgCollaborator": ["group.name"],
@@ -95,16 +110,16 @@ snyk_system_policy_setting_tests: List[PantherRuleTest] = [
 
 
 class SnykSystemPolicySetting(PantherRule):
-    RuleID = "Snyk.System.PolicySetting-prototype"
-    DisplayName = "Snyk System Policy Settings Changed"
-    LogTypes = [PantherLogType.Snyk_GroupAudit, PantherLogType.Snyk_OrgAudit]
-    Tags = ["Snyk"]
-    Severity = PantherSeverity.High
-    Description = "Detects Snyk Policy Settings have been changed. Policies define Snyk's behavior when encountering security and licensing issues.\n"
-    Runbook = "Snyk Policies can cause alerts to raise or not based on found security and license issues. Validate that that this change is expected.\n"
-    Reference = "https://docs.snyk.io/manage-issues/policies/shared-policies-overview"
-    SummaryAttributes = ["event"]
-    Tests = snyk_system_policy_setting_tests
+    id_ = "Snyk.System.PolicySetting-prototype"
+    display_name = "Snyk System Policy Settings Changed"
+    log_types = [PantherLogType.Snyk_GroupAudit, PantherLogType.Snyk_OrgAudit]
+    tags = ["Snyk"]
+    default_severity = PantherSeverity.high
+    default_description = "Detects Snyk Policy Settings have been changed. Policies define Snyk's behavior when encountering security and licensing issues.\n"
+    default_runbook = "Snyk Policies can cause alerts to raise or not based on found security and license issues. Validate that that this change is expected.\n"
+    default_reference = "https://docs.snyk.io/manage-issues/policies/shared-policies-overview"
+    summary_attributes = ["event"]
+    tests = snyk_system_policy_setting_tests
     ACTIONS = [
         "group.policy.create",
         "group.policy.delete",

@@ -6,9 +6,9 @@ from pypanther.helpers.panther_base_helpers import aws_rule_context, deep_get
 
 awslambdacrud_tests: List[PantherRuleTest] = [
     PantherRuleTest(
-        Name="Lambda DeleteFunction Unauthorized Account",
-        ExpectedResult=True,
-        Log={
+        name="Lambda DeleteFunction Unauthorized Account",
+        expected_result=True,
+        log={
             "eventVersion": "1.03",
             "userIdentity": {
                 "type": "IAMUser",
@@ -33,9 +33,9 @@ awslambdacrud_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="Lambda DeleteFunction Unauthorized User",
-        ExpectedResult=True,
-        Log={
+        name="Lambda DeleteFunction Unauthorized User",
+        expected_result=True,
+        log={
             "eventVersion": "1.03",
             "userIdentity": {
                 "type": "IAMUser",
@@ -60,9 +60,9 @@ awslambdacrud_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="Lambda DeleteFunction Authorized Account",
-        ExpectedResult=False,
-        Log={
+        name="Lambda DeleteFunction Authorized Account",
+        expected_result=False,
+        log={
             "eventVersion": "1.03",
             "userIdentity": {
                 "type": "IAMUser",
@@ -90,24 +90,24 @@ awslambdacrud_tests: List[PantherRuleTest] = [
 
 
 class AWSLAMBDACRUD(PantherRule):
-    RuleID = "AWS.LAMBDA.CRUD-prototype"
-    DisplayName = "Lambda CRUD Actions"
-    Enabled = False
-    LogTypes = [PantherLogType.AWS_CloudTrail]
-    Tags = ["AWS", "Security Control", "Configuration Required"]
-    Reports = {"CIS": ["3.12"], "MITRE ATT&CK": ["TA0005:T1525"]}
-    Severity = PantherSeverity.High
-    Description = "Unauthorized lambda Create, Read, Update, or Delete event occurred."
-    Runbook = "https://docs.aws.amazon.com/lambda/latest/dg/logging-using-cloudtrail.html"
-    Reference = "https://docs.aws.amazon.com/lambda/latest/dg/logging-using-cloudtrail.html"
-    SummaryAttributes = [
+    id_ = "AWS.LAMBDA.CRUD-prototype"
+    display_name = "Lambda CRUD Actions"
+    enabled = False
+    log_types = [PantherLogType.AWS_CloudTrail]
+    tags = ["AWS", "Security Control", "Configuration Required"]
+    reports = {"CIS": ["3.12"], "MITRE ATT&CK": ["TA0005:T1525"]}
+    default_severity = PantherSeverity.high
+    default_description = "Unauthorized lambda Create, Read, Update, or Delete event occurred."
+    default_runbook = "https://docs.aws.amazon.com/lambda/latest/dg/logging-using-cloudtrail.html"
+    default_reference = "https://docs.aws.amazon.com/lambda/latest/dg/logging-using-cloudtrail.html"
+    summary_attributes = [
         "eventSource",
         "eventName",
         "recipientAccountId",
         "awsRegion",
         "p_any_aws_arns",
     ]
-    Tests = awslambdacrud_tests
+    tests = awslambdacrud_tests
     LAMBDA_CRUD_EVENTS = {
         "AddPermission",
         "CreateAlias",

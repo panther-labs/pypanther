@@ -6,15 +6,19 @@ from pypanther.helpers.panther_base_helpers import deep_get
 
 panther_user_modified_tests: List[PantherRuleTest] = [
     PantherRuleTest(
-        Name="Admin Role Created",
-        ExpectedResult=False,
-        Log={
+        name="Admin Role Created",
+        expected_result=False,
+        log={
             "actionName": "CREATE_USER_ROLE",
             "actionParams": {
                 "input": {
                     "logTypeAccessKind": "DENY_ALL",
                     "name": "New Admins",
-                    "permissions": ["GeneralSettingsModify", "GeneralSettingsRead", "SummaryRead"],
+                    "permissions": [
+                        "GeneralSettingsModify",
+                        "GeneralSettingsRead",
+                        "SummaryRead",
+                    ],
                 }
             },
             "actionResult": "SUCCEEDED",
@@ -36,9 +40,9 @@ panther_user_modified_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="Users's email was changed",
-        ExpectedResult=True,
-        Log={
+        name="Users's email was changed",
+        expected_result=True,
+        log={
             "XForwardedFor": ["1.2.3.4", "5.6.7.8"],
             "actionDescription": "Updates the information for a user",
             "actionName": "UPDATE_USER",
@@ -82,9 +86,9 @@ panther_user_modified_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="Users's role was changed",
-        ExpectedResult=True,
-        Log={
+        name="Users's role was changed",
+        expected_result=True,
+        log={
             "XForwardedFor": ["5.6.7.8", "1.2.3.4"],
             "actionDescription": "Updates the information for a user",
             "actionName": "UPDATE_USER",
@@ -128,9 +132,9 @@ panther_user_modified_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="SCIM based user provision - INFO level",
-        ExpectedResult=True,
-        Log={
+        name="SCIM based user provision - INFO level",
+        expected_result=True,
+        log={
             "actionDescription": "User updated via SCIM",
             "actionName": "UPDATE_USER",
             "actionParams": {
@@ -156,9 +160,9 @@ panther_user_modified_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="User modified by System account",
-        ExpectedResult=True,
-        Log={
+        name="User modified by System account",
+        expected_result=True,
+        log={
             "actionDescription": "User updated automatically by SAML.",
             "actionName": "UPDATE_USER",
             "actionParams": {
@@ -187,19 +191,19 @@ panther_user_modified_tests: List[PantherRuleTest] = [
 
 
 class PantherUserModified(PantherRule):
-    RuleID = "Panther.User.Modified-prototype"
-    DisplayName = "A User's Panther Account was Modified"
-    LogTypes = [PantherLogType.Panther_Audit]
-    Severity = PantherSeverity.High
-    Tags = ["DataModel", "Persistence:Account Manipulation"]
-    Reports = {"MITRE ATT&CK": ["TA0003:T1098"]}
-    Description = "A Panther user's role has been modified. This could mean password, email, or role has changed for the user."
-    Runbook = "Validate that this user modification was intentional."
-    Reference = (
+    id_ = "Panther.User.Modified-prototype"
+    display_name = "A User's Panther Account was Modified"
+    log_types = [PantherLogType.Panther_Audit]
+    default_severity = PantherSeverity.high
+    tags = ["DataModel", "Persistence:Account Manipulation"]
+    reports = {"MITRE ATT&CK": ["TA0003:T1098"]}
+    default_description = "A Panther user's role has been modified. This could mean password, email, or role has changed for the user."
+    default_runbook = "Validate that this user modification was intentional."
+    default_reference = (
         "https://docs.panther.com/panther-developer-workflows/api/operations/user-management"
     )
-    SummaryAttributes = ["p_any_ip_addresses"]
-    Tests = panther_user_modified_tests
+    summary_attributes = ["p_any_ip_addresses"]
+    tests = panther_user_modified_tests
     PANTHER_USER_ACTIONS = [event_type.USER_ACCOUNT_MODIFIED]
 
     def rule(self, event):

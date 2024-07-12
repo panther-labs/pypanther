@@ -5,9 +5,9 @@ from pypanther.helpers.panther_config import config
 
 microsoft365_exchange_external_forwarding_tests: List[PantherRuleTest] = [
     PantherRuleTest(
-        Name="Forwarding Enabled",
-        ExpectedResult=True,
-        Log={
+        name="Forwarding Enabled",
+        expected_result=True,
+        log={
             "clientip": "1.2.3.4",
             "creationtime": "2022-12-12 22:19:00",
             "externalaccess": False,
@@ -34,9 +34,9 @@ microsoft365_exchange_external_forwarding_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="Forwarding Rule",
-        ExpectedResult=True,
-        Log={
+        name="Forwarding Rule",
+        expected_result=True,
+        log={
             "clientip": "1.2.3.4",
             "creationtime": "2022-12-12 22:19:00",
             "externalaccess": False,
@@ -62,9 +62,9 @@ microsoft365_exchange_external_forwarding_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="Forwarding Rule to Allowed Domain",
-        ExpectedResult=False,
-        Log={
+        name="Forwarding Rule to Allowed Domain",
+        expected_result=False,
+        log={
             "clientip": "1.2.3.4",
             "creationtime": "2022-12-12 22:19:00",
             "externalaccess": False,
@@ -90,9 +90,9 @@ microsoft365_exchange_external_forwarding_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="Forwarding Rule to Exception",
-        ExpectedResult=False,
-        Log={
+        name="Forwarding Rule to Exception",
+        expected_result=False,
+        log={
             "clientip": "1.2.3.4",
             "creationtime": "2022-12-12 22:19:00",
             "externalaccess": False,
@@ -118,9 +118,9 @@ microsoft365_exchange_external_forwarding_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="Forwarding To Allowed Domain",
-        ExpectedResult=False,
-        Log={
+        name="Forwarding To Allowed Domain",
+        expected_result=False,
+        log={
             "clientip": "1.2.3.4",
             "creationtime": "2022-12-12 22:19:00",
             "externalaccess": False,
@@ -147,9 +147,9 @@ microsoft365_exchange_external_forwarding_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="Forwarding to Exception",
-        ExpectedResult=False,
-        Log={
+        name="Forwarding to Exception",
+        expected_result=False,
+        log={
             "clientip": "1.2.3.4",
             "creationtime": "2022-12-12 22:19:00",
             "externalaccess": False,
@@ -164,7 +164,10 @@ microsoft365_exchange_external_forwarding_tests: List[PantherRuleTest] = [
                     "Name": "Identity",
                     "Value": "ABC1.prod.outlook.com/Microsoft Exchange Hosted Organizations/simpsons.onmicrosoft.com/homer.simpson",
                 },
-                {"Name": "ForwardingSmtpAddress", "Value": "smtp:postmaster@example.com"},
+                {
+                    "Name": "ForwardingSmtpAddress",
+                    "Value": "smtp:postmaster@example.com",
+                },
                 {"Name": "DeliverToMailboxAndForward", "Value": "False"},
             ],
             "recordtype": 1,
@@ -176,9 +179,9 @@ microsoft365_exchange_external_forwarding_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="Log with ForwardingAddress",
-        ExpectedResult=True,
-        Log={
+        name="Log with ForwardingAddress",
+        expected_result=True,
+        log={
             "AppAccessContext": {},
             "ClientIP": "20.185.225.251:6688",
             "CreationTime": "2023-10-24 13:06:33.000000000",
@@ -207,14 +210,14 @@ microsoft365_exchange_external_forwarding_tests: List[PantherRuleTest] = [
 
 
 class Microsoft365ExchangeExternalForwarding(PantherRule):
-    Description = "Detects creation of forwarding rule to external domains"
-    DisplayName = "Microsoft Exchange External Forwarding"
-    Reports = {"MITRE ATT&CK": ["TA0009:T1114"]}
-    Reference = "https://learn.microsoft.com/en-us/microsoft-365/security/office-365-security/outbound-spam-policies-external-email-forwarding?view=o365-worldwide"
-    Severity = PantherSeverity.High
-    LogTypes = [PantherLogType.Microsoft365_Audit_Exchange]
-    RuleID = "Microsoft365.Exchange.External.Forwarding-prototype"
-    Tests = microsoft365_exchange_external_forwarding_tests
+    default_description = "Detects creation of forwarding rule to external domains"
+    display_name = "Microsoft Exchange External Forwarding"
+    reports = {"MITRE ATT&CK": ["TA0009:T1114"]}
+    default_reference = "https://learn.microsoft.com/en-us/microsoft-365/security/office-365-security/outbound-spam-policies-external-email-forwarding?view=o365-worldwide"
+    default_severity = PantherSeverity.high
+    log_types = [PantherLogType.Microsoft365_Audit_Exchange]
+    id_ = "Microsoft365.Exchange.External.Forwarding-prototype"
+    tests = microsoft365_exchange_external_forwarding_tests
 
     def rule(self, event):
         if event.get("operation", "") in ("Set-Mailbox", "New-InboxRule"):

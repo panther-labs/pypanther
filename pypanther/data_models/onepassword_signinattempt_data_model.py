@@ -18,12 +18,12 @@ def get_event_type(event):
 
 
 class StandardOnePasswordSignInAttempt(PantherDataModel):
-    DataModelID: str = "Standard.OnePassword.SignInAttempt"
-    DisplayName: str = "1Password Signin Events"
-    Enabled: bool = True
-    LogTypes: List[str] = [PantherLogType.OnePassword_SignInAttempt]
-    Mappings: List[PantherDataModelMapping] = [
-        PantherDataModelMapping(Name="actor_user", Path="$.target_user.email"),
-        PantherDataModelMapping(Name="source_ip", Path="$.client.ip_address"),
-        PantherDataModelMapping(Name="event_type", Method=get_event_type),
+    id_: str = "Standard.OnePassword.SignInAttempt"
+    display_name: str = "1Password Signin Events"
+    enabled: bool = True
+    log_types: List[str] = [PantherLogType.OnePassword_SignInAttempt]
+    mappings: List[PantherDataModelMapping] = [
+        PantherDataModelMapping(name="actor_user", path="$.target_user.email"),
+        PantherDataModelMapping(name="source_ip", path="$.client.ip_address"),
+        PantherDataModelMapping(name="event_type", method=get_event_type),
     ]

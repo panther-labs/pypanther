@@ -12,9 +12,9 @@ from pypanther.helpers.panther_base_helpers import deep_get
 
 azure_audit_legacy_auth_tests: List[PantherRuleTest] = [
     PantherRuleTest(
-        Name="Failed Sign-In",
-        ExpectedResult=False,
-        Log={
+        name="Failed Sign-In",
+        expected_result=False,
+        log={
             "calleripaddress": "12.12.12.12",
             "category": "ServicePrincipalSignInLogs",
             "correlationid": "e1f237ef-6548-4172-be79-03818c04c06e",
@@ -74,9 +74,9 @@ azure_audit_legacy_auth_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="Sign-In with legacy auth",
-        ExpectedResult=True,
-        Log={
+        name="Sign-In with legacy auth",
+        expected_result=True,
+        log={
             "calleripaddress": "173.53.70.163",
             "category": "SignInLogs",
             "correlationid": "1043d312-230b-4f85-89de-2438df7ad2e9",
@@ -115,7 +115,11 @@ azure_audit_legacy_auth_tests: List[PantherRuleTest] = [
                 "correlationId": "9d5f7dd3-46a7-475a-9cc3-96160551ce49",
                 "createdDateTime": "2023-07-21 05:03:52.160562400",
                 "crossTenantAccessType": "none",
-                "deviceDetail": {"deviceId": "", "displayName": "", "operatingSystem": "MacOs"},
+                "deviceDetail": {
+                    "deviceId": "",
+                    "displayName": "",
+                    "operatingSystem": "MacOs",
+                },
                 "flaggedForReview": False,
                 "homeTenantId": "4328f0a8-06da-4457-b0d0-2c8e115e52cc",
                 "id": "d9ae0e20-c959-42a3-ba74-00f59ac9f6c6",
@@ -173,14 +177,15 @@ azure_audit_legacy_auth_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="Sign-In with legacy auth, KNOWN_EXCEPTION",
-        ExpectedResult=False,
-        Mocks=[
+        name="Sign-In with legacy auth, KNOWN_EXCEPTION",
+        expected_result=False,
+        mocks=[
             PantherRuleMock(
-                ObjectName="KNOWN_EXCEPTIONS", ReturnValue='[\n  "homer.simpson@springfield.org"\n]'
+                object_name="KNOWN_EXCEPTIONS",
+                return_value='[\n  "homer.simpson@springfield.org"\n]',
             )
         ],
-        Log={
+        log={
             "calleripaddress": "173.53.70.163",
             "category": "SignInLogs",
             "correlationid": "1043d312-230b-4f85-89de-2438df7ad2e9",
@@ -219,7 +224,11 @@ azure_audit_legacy_auth_tests: List[PantherRuleTest] = [
                 "correlationId": "9d5f7dd3-46a7-475a-9cc3-96160551ce49",
                 "createdDateTime": "2023-07-21 05:03:52.160562400",
                 "crossTenantAccessType": "none",
-                "deviceDetail": {"deviceId": "", "displayName": "", "operatingSystem": "MacOs"},
+                "deviceDetail": {
+                    "deviceId": "",
+                    "displayName": "",
+                    "operatingSystem": "MacOs",
+                },
                 "flaggedForReview": False,
                 "homeTenantId": "4328f0a8-06da-4457-b0d0-2c8e115e52cc",
                 "id": "d9ae0e20-c959-42a3-ba74-00f59ac9f6c6",
@@ -280,21 +289,24 @@ azure_audit_legacy_auth_tests: List[PantherRuleTest] = [
 
 
 class AzureAuditLegacyAuth(PantherRule):
-    RuleID = "Azure.Audit.LegacyAuth-prototype"
-    DisplayName = "Azure SignIn via Legacy Authentication Protocol"
-    DedupPeriodMinutes = 10
-    LogTypes = [PantherLogType.Azure_Audit]
-    Severity = PantherSeverity.Medium
-    Description = "This detection looks for Successful Logins that have used legacy authentication protocols\n"
-    Reference = "https://learn.microsoft.com/en-us/azure/active-directory/reports-monitoring/workbook-legacy-authentication"
-    Runbook = "Based on Microsoft's analysis more than 97 percent of credential stuffing attacks use legacy authentication and more than 99 percent of password spray attacks use legacy authentication protocols. These attacks would stop with basic authentication disabled or blocked. see https://learn.microsoft.com/en-us/azure/active-directory/conditional-access/block-legacy-authentication\nIf you are aware of this Legacy Auth need, and need to continue using this mechanism, add the principal name to KNOWN_EXCEPTIONS. The Reference link contains additional material hosted on Microsoft.com\n"
-    SummaryAttributes = [
+    id_ = "Azure.Audit.LegacyAuth-prototype"
+    display_name = "Azure SignIn via Legacy Authentication Protocol"
+    dedup_period_minutes = 10
+    log_types = [PantherLogType.Azure_Audit]
+    default_severity = PantherSeverity.medium
+    default_description = "This detection looks for Successful Logins that have used legacy authentication protocols\n"
+    default_reference = "https://learn.microsoft.com/en-us/azure/active-directory/reports-monitoring/workbook-legacy-authentication"
+    default_runbook = "Based on Microsoft's analysis more than 97 percent of credential stuffing attacks use legacy authentication and more than 99 percent of password spray attacks use legacy authentication protocols. These attacks would stop with basic authentication disabled or blocked. see https://learn.microsoft.com/en-us/azure/active-directory/conditional-access/block-legacy-authentication\nIf you are aware of this Legacy Auth need, and need to continue using this mechanism, add the principal name to KNOWN_EXCEPTIONS. The Reference link contains additional material hosted on Microsoft.com\n"
+    summary_attributes = [
         "properties:ServicePrincipalName",
         "properties:UserPrincipalName",
         "properties:ipAddress",
     ]
-    Tests = azure_audit_legacy_auth_tests
-    LEGACY_AUTH_USERAGENTS = ["BAV2ROPC", "CBAInPROD"]  # CBAInPROD is reported to be IMAP
+    tests = azure_audit_legacy_auth_tests
+    LEGACY_AUTH_USERAGENTS = [
+        "BAV2ROPC",
+        "CBAInPROD",
+    ]  # CBAInPROD is reported to be IMAP
     # Add ServicePrincipalName/UserPrincipalName to
     # KNOWN_EXCEPTIONS to prevent these Principals from Alerting
     KNOWN_EXCEPTIONS = []

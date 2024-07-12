@@ -5,9 +5,9 @@ from pypanther.helpers.panther_base_helpers import crowdstrike_detection_alert_c
 
 crowdstrike_systemlog_tampering_tests: List[PantherRuleTest] = [
     PantherRuleTest(
-        Name="Clear Log Event",
-        ExpectedResult=True,
-        Log={
+        name="Clear Log Event",
+        expected_result=True,
+        log={
             "aid": "1234567890abcdefg654321",
             "aip": "11.10.9.8",
             "cid": "abcdefghijklmnop123467890",
@@ -87,9 +87,9 @@ crowdstrike_systemlog_tampering_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="Other Event",
-        ExpectedResult=False,
-        Log={
+        name="Other Event",
+        expected_result=False,
+        log={
             "aid": "1234567890abcdefg654321",
             "aip": "11.10.9.8",
             "cid": "abcdefghijklmnop123467890",
@@ -172,13 +172,13 @@ crowdstrike_systemlog_tampering_tests: List[PantherRuleTest] = [
 
 
 class CrowdstrikeSystemlogTampering(PantherRule):
-    Description = "Detects when a user attempts to clear system logs. "
-    DisplayName = "Crowdstrike Systemlog Tampering"
-    Reference = "https://attack.mitre.org/techniques/T1070/001/"
-    Severity = PantherSeverity.High
-    LogTypes = [PantherLogType.Crowdstrike_FDREvent]
-    RuleID = "Crowdstrike.Systemlog.Tampering-prototype"
-    Tests = crowdstrike_systemlog_tampering_tests
+    default_description = "Detects when a user attempts to clear system logs. "
+    display_name = "Crowdstrike Systemlog Tampering"
+    default_reference = "https://attack.mitre.org/techniques/T1070/001/"
+    default_severity = PantherSeverity.high
+    log_types = [PantherLogType.Crowdstrike_FDREvent]
+    id_ = "Crowdstrike.Systemlog.Tampering-prototype"
+    tests = crowdstrike_systemlog_tampering_tests
     CLEARING_SYSTEM_LOG_TOOLS = {
         "wevtutil.exe": ["cl", "clear-log"],
         "powershell.exe": ["clear-eventlog"],

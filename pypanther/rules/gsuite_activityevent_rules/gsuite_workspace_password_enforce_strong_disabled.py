@@ -5,9 +5,9 @@ from pypanther.helpers.panther_base_helpers import deep_get
 
 g_suite_workspace_password_enforce_strong_disabled_tests: List[PantherRuleTest] = [
     PantherRuleTest(
-        Name="Workspace Admin Disabled Strong Password Enforcement",
-        ExpectedResult=True,
-        Log={
+        name="Workspace Admin Disabled Strong Password Enforcement",
+        expected_result=True,
+        log={
             "actor": {
                 "callerType": "USER",
                 "email": "user@example.io",
@@ -34,10 +34,14 @@ g_suite_workspace_password_enforce_strong_disabled_tests: List[PantherRuleTest] 
         },
     ),
     PantherRuleTest(
-        Name="Admin Set Default Calendar SHARING_OUTSIDE_DOMAIN Setting to READ_ONLY_ACCESS",
-        ExpectedResult=False,
-        Log={
-            "actor": {"callerType": "USER", "email": "example@example.io", "profileId": "12345"},
+        name="Admin Set Default Calendar SHARING_OUTSIDE_DOMAIN Setting to READ_ONLY_ACCESS",
+        expected_result=False,
+        log={
+            "actor": {
+                "callerType": "USER",
+                "email": "example@example.io",
+                "profileId": "12345",
+            },
             "id": {
                 "applicationName": "admin",
                 "customerId": "D12345",
@@ -58,9 +62,9 @@ g_suite_workspace_password_enforce_strong_disabled_tests: List[PantherRuleTest] 
         },
     ),
     PantherRuleTest(
-        Name="ListObject Type",
-        ExpectedResult=False,
-        Log={
+        name="ListObject Type",
+        expected_result=False,
+        log={
             "actor": {"email": "user@example.io", "profileId": "118111111111111111111"},
             "id": {
                 "applicationName": "drive",
@@ -93,17 +97,17 @@ g_suite_workspace_password_enforce_strong_disabled_tests: List[PantherRuleTest] 
 
 
 class GSuiteWorkspacePasswordEnforceStrongDisabled(PantherRule):
-    RuleID = "GSuite.Workspace.PasswordEnforceStrongDisabled-prototype"
-    DisplayName = "GSuite Workspace Strong Password Enforcement Has Been Disabled"
-    LogTypes = [PantherLogType.GSuite_ActivityEvent]
-    Tags = ["GSuite"]
-    Severity = PantherSeverity.High
-    Reports = {"MITRE ATT&CK": ["TA0006:T1110"]}
-    Description = "A Workspace Admin Has Disabled The Enforcement Of Strong Passwords\n"
-    Reference = "https://support.google.com/a/answer/139399?hl=en"
-    Runbook = "Verify the intent of this Password Strength Setting Change. If intent cannot be verified, then a search on the actor's other activities is advised.\n"
-    SummaryAttributes = ["actor:email"]
-    Tests = g_suite_workspace_password_enforce_strong_disabled_tests
+    id_ = "GSuite.Workspace.PasswordEnforceStrongDisabled-prototype"
+    display_name = "GSuite Workspace Strong Password Enforcement Has Been Disabled"
+    log_types = [PantherLogType.GSuite_ActivityEvent]
+    tags = ["GSuite"]
+    default_severity = PantherSeverity.high
+    reports = {"MITRE ATT&CK": ["TA0006:T1110"]}
+    default_description = "A Workspace Admin Has Disabled The Enforcement Of Strong Passwords\n"
+    default_reference = "https://support.google.com/a/answer/139399?hl=en"
+    default_runbook = "Verify the intent of this Password Strength Setting Change. If intent cannot be verified, then a search on the actor's other activities is advised.\n"
+    summary_attributes = ["actor:email"]
+    tests = g_suite_workspace_password_enforce_strong_disabled_tests
 
     def rule(self, event):
         if deep_get(event, "id", "applicationName", default="").lower() != "admin":

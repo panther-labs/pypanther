@@ -5,9 +5,9 @@ from pypanther.helpers.panther_mongodb_helpers import mongodb_alert_context
 
 mongo_db2_fa_disabled_tests: List[PantherRuleTest] = [
     PantherRuleTest(
-        Name="2FA ebabled",
-        ExpectedResult=False,
-        Log={
+        name="2FA ebabled",
+        expected_result=False,
+        log={
             "created": "2023-06-07 16:57:55",
             "currentValue": {},
             "eventTypeName": "ORG_TWO_FACTOR_AUTH_REQUIRED",
@@ -34,9 +34,9 @@ mongo_db2_fa_disabled_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="2FA disabled",
-        ExpectedResult=True,
-        Log={
+        name="2FA disabled",
+        expected_result=True,
+        log={
             "created": "2023-06-07 16:57:55",
             "currentValue": {},
             "eventTypeName": "ORG_TWO_FACTOR_AUTH_OPTIONAL",
@@ -66,13 +66,13 @@ mongo_db2_fa_disabled_tests: List[PantherRuleTest] = [
 
 
 class MongoDB2FADisabled(PantherRule):
-    Description = "2FA was disabled."
-    DisplayName = "MongoDB 2FA Disabled"
-    Severity = PantherSeverity.Medium
-    Reference = "https://www.mongodb.com/docs/atlas/security-multi-factor-authentication/"
-    LogTypes = [PantherLogType.MongoDB_OrganizationEvent]
-    RuleID = "MongoDB.2FA.Disabled-prototype"
-    Tests = mongo_db2_fa_disabled_tests
+    default_description = "2FA was disabled."
+    display_name = "MongoDB 2FA Disabled"
+    default_severity = PantherSeverity.medium
+    default_reference = "https://www.mongodb.com/docs/atlas/security-multi-factor-authentication/"
+    log_types = [PantherLogType.MongoDB_OrganizationEvent]
+    id_ = "MongoDB.2FA.Disabled-prototype"
+    tests = mongo_db2_fa_disabled_tests
 
     def rule(self, event):
         return event.deep_get("eventTypeName", default="") == "ORG_TWO_FACTOR_AUTH_OPTIONAL"

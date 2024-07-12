@@ -43,15 +43,15 @@ def load_ip_address(event):
 
 
 class StandardAWSCloudTrail(PantherDataModel):
-    DataModelID: str = "Standard.AWS.CloudTrail"
-    DisplayName: str = "AWS CloudTrail"
-    Enabled: bool = True
-    LogTypes: List[str] = [PantherLogType.AWS_CloudTrail]
-    Mappings: List[PantherDataModelMapping] = [
-        PantherDataModelMapping(Name="actor_user", Path="$.userIdentity..userName"),
-        PantherDataModelMapping(Name="event_type", Method=get_event_type),
-        PantherDataModelMapping(Name="source_ip", Method=load_ip_address),
-        PantherDataModelMapping(Name="user_agent", Path="userAgent"),
-        PantherDataModelMapping(Name="user", Path="$.responseElements.user.userName"),
-        PantherDataModelMapping(Name="user_account_id", Path="$.responseElements.user.userId"),
+    id_: str = "Standard.AWS.CloudTrail"
+    display_name: str = "AWS CloudTrail"
+    enabled: bool = True
+    log_types: List[str] = [PantherLogType.AWS_CloudTrail]
+    mappings: List[PantherDataModelMapping] = [
+        PantherDataModelMapping(name="actor_user", path="$.userIdentity..userName"),
+        PantherDataModelMapping(name="event_type", method=get_event_type),
+        PantherDataModelMapping(name="source_ip", method=load_ip_address),
+        PantherDataModelMapping(name="user_agent", path="userAgent"),
+        PantherDataModelMapping(name="user", path="$.responseElements.user.userName"),
+        PantherDataModelMapping(name="user_account_id", path="$.responseElements.user.userId"),
     ]

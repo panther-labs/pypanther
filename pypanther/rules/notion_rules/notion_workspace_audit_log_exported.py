@@ -5,9 +5,9 @@ from pypanther.helpers.panther_notion_helpers import notion_alert_context
 
 notion_audit_log_exported_tests: List[PantherRuleTest] = [
     PantherRuleTest(
-        Name="Other Event",
-        ExpectedResult=False,
-        Log={
+        name="Other Event",
+        expected_result=False,
+        log={
             "event": {
                 "id": "...",
                 "timestamp": "2023-05-15T19:14:21.031Z",
@@ -26,9 +26,9 @@ notion_audit_log_exported_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="Audit Log Exported",
-        ExpectedResult=True,
-        Log={
+        name="Audit Log Exported",
+        expected_result=True,
+        log={
             "event": {
                 "id": "...",
                 "timestamp": "2023-05-15T19:14:21.031Z",
@@ -50,15 +50,15 @@ notion_audit_log_exported_tests: List[PantherRuleTest] = [
 
 
 class NotionAuditLogExported(PantherRule):
-    RuleID = "Notion.Audit.Log.Exported-prototype"
-    DisplayName = "Notion Audit Log Exported"
-    LogTypes = [PantherLogType.Notion_AuditLogs]
-    Tags = ["Notion", "Data Security", "Data Exfiltration"]
-    Severity = PantherSeverity.Medium
-    Description = "A Notion User exported audit logs for your organization’s workspace."
-    Runbook = "Possible Data Exfiltration. Follow up with the Notion User to determine if this was done for a valid business reason."
-    Reference = "https://www.notion.so/help/audit-log#export-your-audit-log"
-    Tests = notion_audit_log_exported_tests
+    id_ = "Notion.Audit.Log.Exported-prototype"
+    display_name = "Notion Audit Log Exported"
+    log_types = [PantherLogType.Notion_AuditLogs]
+    tags = ["Notion", "Data Security", "Data Exfiltration"]
+    default_severity = PantherSeverity.medium
+    default_description = "A Notion User exported audit logs for your organization’s workspace."
+    default_runbook = "Possible Data Exfiltration. Follow up with the Notion User to determine if this was done for a valid business reason."
+    default_reference = "https://www.notion.so/help/audit-log#export-your-audit-log"
+    tests = notion_audit_log_exported_tests
 
     def rule(self, event):
         event_type = event.deep_get("event", "type", default="<NO_EVENT_TYPE_FOUND>")
@@ -68,7 +68,10 @@ class NotionAuditLogExported(PantherRule):
         user = event.deep_get("event", "actor", "person", "email", default="<NO_USER_FOUND>")
         workspace_id = event.deep_get("event", "workspace_id", default="<NO_WORKSPACE_ID_FOUND>")
         duration_in_days = event.deep_get(
-            "event", "details", "duration_in_days", default="<NO_DURATION_IN_DAYS_FOUND>"
+            "event",
+            "details",
+            "duration_in_days",
+            default="<NO_DURATION_IN_DAYS_FOUND>",
         )
         return f"Notion User [{user}] exported audit logs for the last {duration_in_days} days for workspace id {workspace_id}"
 

@@ -5,9 +5,9 @@ from pypanther.helpers.panther_base_helpers import deep_get
 
 gcp_destructive_queries_tests: List[PantherRuleTest] = [
     PantherRuleTest(
-        Name="Drop Table Event",
-        ExpectedResult=True,
-        Log={
+        name="Drop Table Event",
+        expected_result=True,
+        log={
             "insertid": "abcdefghijklmn",
             "logname": "projects/gcp-project1/logs/cloudaudit.googleapis.com%2Fdata_access",
             "operation": {
@@ -80,9 +80,9 @@ gcp_destructive_queries_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="TableDeletion",
-        ExpectedResult=True,
-        Log={
+        name="TableDeletion",
+        expected_result=True,
+        log={
             "insertid": "abcdefghijklmn",
             "logname": "projects/gcp-project1/logs/cloudaudit.googleapis.com%2Factivity",
             "operation": {
@@ -138,14 +138,20 @@ gcp_destructive_queries_tests: List[PantherRuleTest] = [
 
 
 class GCPDestructiveQueries(PantherRule):
-    Description = "Detect any destructive BigQuery queries or jobs such as update, delete, drop, alter or truncate."
-    DisplayName = "GCP Destructive Queries"
-    Reference = "https://cloud.google.com/bigquery/docs/managing-tables"
-    Severity = PantherSeverity.Info
-    LogTypes = [PantherLogType.GCP_AuditLog]
-    RuleID = "GCP.Destructive.Queries-prototype"
-    Tests = gcp_destructive_queries_tests
-    DESTRUCTIVE_STATEMENTS = ["UPDATE", "DELETE", "DROP_TABLE", "ALTER_TABLE", "TRUNCATE_TABLE"]
+    default_description = "Detect any destructive BigQuery queries or jobs such as update, delete, drop, alter or truncate."
+    display_name = "GCP Destructive Queries"
+    default_reference = "https://cloud.google.com/bigquery/docs/managing-tables"
+    default_severity = PantherSeverity.info
+    log_types = [PantherLogType.GCP_AuditLog]
+    id_ = "GCP.Destructive.Queries-prototype"
+    tests = gcp_destructive_queries_tests
+    DESTRUCTIVE_STATEMENTS = [
+        "UPDATE",
+        "DELETE",
+        "DROP_TABLE",
+        "ALTER_TABLE",
+        "TRUNCATE_TABLE",
+    ]
 
     def rule(self, event):
         if all(
@@ -153,7 +159,15 @@ class GCPDestructiveQueries(PantherRule):
                 deep_get(event, "resource", "type", default="<RESOURCE_NOT_FOUND>").startswith(
                     "bigquery"
                 ),
-                deep_get(event, "protoPayload", "metadata", "jobChange", "job", "jobConfig", "type")
+                deep_get(
+                    event,
+                    "protoPayload",
+                    "metadata",
+                    "jobChange",
+                    "job",
+                    "jobConfig",
+                    "type",
+                )
                 == "QUERY",
                 deep_get(
                     event,
@@ -205,7 +219,11 @@ class GCPDestructiveQueries(PantherRule):
             "queryConfig",
             "destinationTable",
         ) or deep_get(
-            event, "protoPayload", "metadata", "resourceName", default="<TABLE_NOT_FOUND>"
+            event,
+            "protoPayload",
+            "metadata",
+            "resourceName",
+            default="<TABLE_NOT_FOUND>",
         )
         return f"GCP: [{actor}] performed a destructive BigQuery [{statement}] query on [{table}]."
 
@@ -251,6 +269,10 @@ class GCPDestructiveQueries(PantherRule):
                 "destinationTable",
             )
             or deep_get(
-                event, "protoPayload", "metadata", "resourceName", default="<TABLE_NOT_FOUND>"
+                event,
+                "protoPayload",
+                "metadata",
+                "resourceName",
+                default="<TABLE_NOT_FOUND>",
             ),
         }

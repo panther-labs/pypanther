@@ -5,9 +5,9 @@ from pypanther.helpers.panther_base_helpers import deep_get
 
 sentinel_one_alert_passthrough_tests: List[PantherRuleTest] = [
     PantherRuleTest(
-        Name="CRITICAL",
-        ExpectedResult=True,
-        Log={
+        name="CRITICAL",
+        expected_result=True,
+        log={
             "accountid": "12345",
             "accountname": "Account1",
             "activitytype": 3608,
@@ -54,9 +54,9 @@ sentinel_one_alert_passthrough_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="MEDIUM",
-        ExpectedResult=True,
-        Log={
+        name="MEDIUM",
+        expected_result=True,
+        log={
             "accountid": "12345",
             "accountname": "Account1",
             "activitytype": 3608,
@@ -103,9 +103,9 @@ sentinel_one_alert_passthrough_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="Non-Alert",
-        ExpectedResult=False,
-        Log={
+        name="Non-Alert",
+        expected_result=False,
+        log={
             "accountid": "12345",
             "accountname": "Account1",
             "activitytype": 90,
@@ -137,15 +137,15 @@ sentinel_one_alert_passthrough_tests: List[PantherRuleTest] = [
 
 
 class SentinelOneAlertPassthrough(PantherRule):
-    Description = "SentinelOne Alert Passthrough"
-    DisplayName = "SentinelOne Alert Passthrough"
-    Reference = (
+    default_description = "SentinelOne Alert Passthrough"
+    display_name = "SentinelOne Alert Passthrough"
+    default_reference = (
         "https://www.sentinelone.com/blog/feature-spotlight-introducing-the-new-threat-center/"
     )
-    Severity = PantherSeverity.High
-    LogTypes = [PantherLogType.SentinelOne_Activity]
-    RuleID = "SentinelOne.Alert.Passthrough-prototype"
-    Tests = sentinel_one_alert_passthrough_tests
+    default_severity = PantherSeverity.high
+    log_types = [PantherLogType.SentinelOne_Activity]
+    id_ = "SentinelOne.Alert.Passthrough-prototype"
+    tests = sentinel_one_alert_passthrough_tests
     SENTINELONE_SEVERITY = {
         "E_LOW": "LOW",
         "E_MEDIUM": "MEDIUM",

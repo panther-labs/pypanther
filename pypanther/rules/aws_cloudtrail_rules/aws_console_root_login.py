@@ -7,15 +7,15 @@ from pypanther.helpers.panther_oss_helpers import geoinfo_from_ip_formatted
 
 aws_console_root_login_tests: List[PantherRuleTest] = [
     PantherRuleTest(
-        Name="Successful Root Login",
-        ExpectedResult=True,
-        Mocks=[
+        name="Successful Root Login",
+        expected_result=True,
+        mocks=[
             PantherRuleMock(
-                ObjectName="geoinfo_from_ip_formatted",
-                ReturnValue="111.111.111.111 in SF, California in USA",
+                object_name="geoinfo_from_ip_formatted",
+                return_value="111.111.111.111 in SF, California in USA",
             )
         ],
-        Log={
+        log={
             "eventVersion": "1.05",
             "userIdentity": {
                 "type": "Root",
@@ -43,9 +43,9 @@ aws_console_root_login_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="Non-Login Event",
-        ExpectedResult=False,
-        Log={
+        name="Non-Login Event",
+        expected_result=False,
+        log={
             "eventVersion": "1.06",
             "userIdentity": {
                 "type": "AssumedRole",
@@ -95,24 +95,29 @@ aws_console_root_login_tests: List[PantherRuleTest] = [
 
 
 class AWSConsoleRootLogin(PantherRule):
-    RuleID = "AWS.Console.RootLogin-prototype"
-    DisplayName = "Root Console Login"
-    DedupPeriodMinutes = 15
-    LogTypes = [PantherLogType.AWS_CloudTrail]
-    Tags = [
+    id_ = "AWS.Console.RootLogin-prototype"
+    display_name = "Root Console Login"
+    dedup_period_minutes = 15
+    log_types = [PantherLogType.AWS_CloudTrail]
+    tags = [
         "AWS",
         "Identity & Access Management",
         "Authentication",
         "DemoThreatHunting",
         "Privilege Escalation:Valid Accounts",
     ]
-    Reports = {"CIS": ["3.6"], "MITRE ATT&CK": ["TA0004:T1078"]}
-    Severity = PantherSeverity.High
-    Description = "The root account has been logged into."
-    Runbook = "Investigate the usage of the root account. If this root activity was not authorized, immediately change the root credentials and investigate what actions the root account took.\n"
-    Reference = "https://docs.aws.amazon.com/IAM/latest/UserGuide/id_root-user.html"
-    SummaryAttributes = ["userAgent", "sourceIpAddress", "recipientAccountId", "p_any_aws_arns"]
-    Tests = aws_console_root_login_tests
+    reports = {"CIS": ["3.6"], "MITRE ATT&CK": ["TA0004:T1078"]}
+    default_severity = PantherSeverity.high
+    default_description = "The root account has been logged into."
+    default_runbook = "Investigate the usage of the root account. If this root activity was not authorized, immediately change the root credentials and investigate what actions the root account took.\n"
+    default_reference = "https://docs.aws.amazon.com/IAM/latest/UserGuide/id_root-user.html"
+    summary_attributes = [
+        "userAgent",
+        "sourceIpAddress",
+        "recipientAccountId",
+        "p_any_aws_arns",
+    ]
+    tests = aws_console_root_login_tests
 
     def rule(self, event):
         return (
@@ -128,7 +133,11 @@ class AWSConsoleRootLogin(PantherRule):
     def dedup(self, event):
         # Each Root login should generate a unique alert
         return "-".join(
-            [event.get("recipientAccountId"), event.get("eventName"), event.get("eventTime")]
+            [
+                event.get("recipientAccountId"),
+                event.get("eventName"),
+                event.get("eventTime"),
+            ]
         )
 
     def alert_context(self, event):

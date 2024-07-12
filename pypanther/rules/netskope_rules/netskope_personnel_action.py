@@ -4,9 +4,9 @@ from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSever
 
 netskope_netskope_personnel_activity_tests: List[PantherRuleTest] = [
     PantherRuleTest(
-        Name="True positive",
-        ExpectedResult=True,
-        Log={
+        name="True positive",
+        expected_result=True,
+        log={
             "_id": "e5ca619b059fccdd0cfd9398",
             "_insertion_epoch_timestamp": 1702308331,
             "audit_log_event": "Login Successful",
@@ -25,9 +25,9 @@ netskope_netskope_personnel_activity_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="True negative",
-        ExpectedResult=False,
-        Log={
+        name="True negative",
+        expected_result=False,
+        log={
             "_id": "1e589befa3da30132362f32a",
             "_insertion_epoch_timestamp": 1702318213,
             "audit_log_event": "Rest API V2 Call",
@@ -54,16 +54,18 @@ netskope_netskope_personnel_activity_tests: List[PantherRuleTest] = [
 
 
 class NetskopeNetskopePersonnelActivity(PantherRule):
-    RuleID = "Netskope.NetskopePersonnelActivity-prototype"
-    DisplayName = "Action Performed by Netskope Personnel"
-    LogTypes = [PantherLogType.Netskope_Audit]
-    Tags = ["Netskope", "Supply Chain Compromise"]
-    Reports = {"MITRE ATT&CK": ["TA0001:T1195"]}
-    Severity = PantherSeverity.Medium
-    Description = "An action was performed by Netskope personnel."
-    Runbook = "Action taken by Netskope Personnel.  Validate that this action was authorized."
-    Reference = "https://docs.netskope.com/en/netskope-help/admin-console/administration/audit-log/#filters-1"
-    Tests = netskope_netskope_personnel_activity_tests
+    id_ = "Netskope.NetskopePersonnelActivity-prototype"
+    display_name = "Action Performed by Netskope Personnel"
+    log_types = [PantherLogType.Netskope_Audit]
+    tags = ["Netskope", "Supply Chain Compromise"]
+    reports = {"MITRE ATT&CK": ["TA0001:T1195"]}
+    default_severity = PantherSeverity.medium
+    default_description = "An action was performed by Netskope personnel."
+    default_runbook = (
+        "Action taken by Netskope Personnel.  Validate that this action was authorized."
+    )
+    default_reference = "https://docs.netskope.com/en/netskope-help/admin-console/administration/audit-log/#filters-1"
+    tests = netskope_netskope_personnel_activity_tests
 
     def rule(self, event):
         if event.get("is_netskope_personnel") is True:

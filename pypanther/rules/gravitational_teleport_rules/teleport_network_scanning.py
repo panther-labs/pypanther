@@ -4,9 +4,9 @@ from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSever
 
 teleport_network_scanning_tests: List[PantherRuleTest] = [
     PantherRuleTest(
-        Name="Echo command",
-        ExpectedResult=False,
-        Log={
+        name="Echo command",
+        expected_result=False,
+        log={
             "argv": [],
             "cgroup_id": 4294967537,
             "code": "T4000I",
@@ -27,9 +27,9 @@ teleport_network_scanning_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="Nmap with no args",
-        ExpectedResult=False,
-        Log={
+        name="Nmap with no args",
+        expected_result=False,
+        log={
             "argv": [],
             "cgroup_id": 4294967672,
             "code": "T4000I",
@@ -50,9 +50,9 @@ teleport_network_scanning_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="Nmap with args",
-        ExpectedResult=True,
-        Log={
+        name="Nmap with args",
+        expected_result=True,
+        log={
             "argv": ["-v", "-iR", "100000", "-Pn", "-p", "80"],
             "cgroup_id": 4294967672,
             "code": "T4000I",
@@ -73,9 +73,9 @@ teleport_network_scanning_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="Nmap running from crontab",
-        ExpectedResult=True,
-        Log={
+        name="Nmap running from crontab",
+        expected_result=True,
+        log={
             "cgroup_id": 4294967792,
             "code": "T4002I",
             "dst_addr": "67.205.137.100",
@@ -99,16 +99,16 @@ teleport_network_scanning_tests: List[PantherRuleTest] = [
 
 
 class TeleportNetworkScanning(PantherRule):
-    RuleID = "Teleport.NetworkScanning-prototype"
-    DisplayName = "Teleport Network Scan Initiated"
-    LogTypes = [PantherLogType.Gravitational_TeleportAudit]
-    Tags = ["SSH", "Discovery:Network Service Discovery"]
-    Severity = PantherSeverity.Medium
-    Description = "A user has invoked a network scan that could potentially indicate enumeration of the network."
-    Reports = {"MITRE ATT&CK": ["TA0007:T1046"]}
-    Reference = "https://goteleport.com/docs/management/admin/"
-    Runbook = "Find related commands within the time window and determine if the command was invoked legitimately. Examine the arguments to determine how the command was used.\n"
-    SummaryAttributes = [
+    id_ = "Teleport.NetworkScanning-prototype"
+    display_name = "Teleport Network Scan Initiated"
+    log_types = [PantherLogType.Gravitational_TeleportAudit]
+    tags = ["SSH", "Discovery:Network Service Discovery"]
+    default_severity = PantherSeverity.medium
+    default_description = "A user has invoked a network scan that could potentially indicate enumeration of the network."
+    reports = {"MITRE ATT&CK": ["TA0007:T1046"]}
+    default_reference = "https://goteleport.com/docs/management/admin/"
+    default_runbook = "Find related commands within the time window and determine if the command was invoked legitimately. Examine the arguments to determine how the command was used.\n"
+    summary_attributes = [
         "event",
         "code",
         "user",
@@ -119,7 +119,7 @@ class TeleportNetworkScanning(PantherRule):
         "server_id",
         "sid",
     ]
-    Tests = teleport_network_scanning_tests
+    tests = teleport_network_scanning_tests
     SCAN_COMMANDS = {"arp", "arp-scan", "fping", "nmap"}
 
     def rule(self, event):

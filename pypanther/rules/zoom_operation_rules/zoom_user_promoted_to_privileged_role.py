@@ -5,9 +5,9 @@ from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSever
 
 zoom_user_promotedto_privileged_role_tests: List[PantherRuleTest] = [
     PantherRuleTest(
-        Name="Admin Promotion Event",
-        ExpectedResult=True,
-        Log={
+        name="Admin Promotion Event",
+        expected_result=True,
+        log={
             "action": "Batch Update",
             "category_type": "User",
             "operation_detail": "Change Role  - homer.simpson@duff.io: from User to Co-Owner",
@@ -16,9 +16,9 @@ zoom_user_promotedto_privileged_role_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="Admin to Admin",
-        ExpectedResult=False,
-        Log={
+        name="Admin to Admin",
+        expected_result=False,
+        log={
             "action": "Batch Update",
             "category_type": "User",
             "operation_detail": "Change Role  - homer.simpson@duff.io: from Admin to Co-Owner",
@@ -27,9 +27,9 @@ zoom_user_promotedto_privileged_role_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="Admin to Billing Admin",
-        ExpectedResult=False,
-        Log={
+        name="Admin to Billing Admin",
+        expected_result=False,
+        log={
             "action": "Batch Update",
             "category_type": "User",
             "operation_detail": "Change Role  - homer.simpson@duff.io: from Admin to Billing Admin",
@@ -38,9 +38,9 @@ zoom_user_promotedto_privileged_role_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="Member to Billing Admin Event",
-        ExpectedResult=True,
-        Log={
+        name="Member to Billing Admin Event",
+        expected_result=True,
+        log={
             "action": "Batch Update",
             "category_type": "User",
             "operation_detail": "Change Role  - homer.simpson@duff.io: from Member to Billing Admin",
@@ -49,9 +49,9 @@ zoom_user_promotedto_privileged_role_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="Admin to User",
-        ExpectedResult=False,
-        Log={
+        name="Admin to User",
+        expected_result=False,
+        log={
             "action": "Batch Update",
             "category_type": "User",
             "operation_detail": "Change Role  - homer.simpson@duff.io: from Co-Owner to User",
@@ -60,9 +60,9 @@ zoom_user_promotedto_privileged_role_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="CoOwner to Admin",
-        ExpectedResult=False,
-        Log={
+        name="CoOwner to Admin",
+        expected_result=False,
+        log={
             "action": "Batch Update",
             "category_type": "User",
             "operation_detail": "Change Role  - homer.simpson@duff.io: from Co-Owner to Admin",
@@ -71,9 +71,9 @@ zoom_user_promotedto_privileged_role_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="Other Event",
-        ExpectedResult=False,
-        Log={
+        name="Other Event",
+        expected_result=False,
+        log={
             "action": "SCIM API - Update",
             "category_type": "User",
             "operation_detail": "Edit User homer.simpson@duff.co  - Change Type: from Basic to Licensed",
@@ -85,13 +85,13 @@ zoom_user_promotedto_privileged_role_tests: List[PantherRuleTest] = [
 
 
 class ZoomUserPromotedtoPrivilegedRole(PantherRule):
-    Description = "A Zoom user was promoted to a privileged role."
-    DisplayName = "Zoom User Promoted to Privileged Role"
-    Reference = "https://support.zoom.com/hc/en/article?id=zm_kb&sysparm_article=KB0064983"
-    Severity = PantherSeverity.Medium
-    LogTypes = [PantherLogType.Zoom_Operation]
-    RuleID = "Zoom.User.Promoted.to.Privileged.Role-prototype"
-    Tests = zoom_user_promotedto_privileged_role_tests
+    default_description = "A Zoom user was promoted to a privileged role."
+    display_name = "Zoom User Promoted to Privileged Role"
+    default_reference = "https://support.zoom.com/hc/en/article?id=zm_kb&sysparm_article=KB0064983"
+    default_severity = PantherSeverity.medium
+    log_types = [PantherLogType.Zoom_Operation]
+    id_ = "Zoom.User.Promoted.to.Privileged.Role-prototype"
+    tests = zoom_user_promotedto_privileged_role_tests
     PRIVILEGED_ROLES = ("Admin", "Co-Owner", "Owner", "Billing Admin")
 
     def extract_values(self, event):

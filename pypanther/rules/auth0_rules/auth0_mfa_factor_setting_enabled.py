@@ -6,9 +6,9 @@ from pypanther.helpers.panther_base_helpers import deep_get
 
 auth0_mfa_factor_setting_enabled_tests: List[PantherRuleTest] = [
     PantherRuleTest(
-        Name="MFA Enabled",
-        ExpectedResult=True,
-        Log={
+        name="MFA Enabled",
+        expected_result=True,
+        log={
             "data": {
                 "client_id": "1HXWWGKk1Zj3JF8GvMrnCSirccDs4qvr",
                 "client_name": "",
@@ -192,9 +192,9 @@ auth0_mfa_factor_setting_enabled_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="MFA disabled",
-        ExpectedResult=False,
-        Log={
+        name="MFA disabled",
+        expected_result=False,
+        log={
             "data": {
                 "client_id": "1HXWWGKk1Zj3JF8GvMrnCSirccDs4qvr",
                 "client_name": "",
@@ -381,14 +381,14 @@ auth0_mfa_factor_setting_enabled_tests: List[PantherRuleTest] = [
 
 
 class Auth0MFAFactorSettingEnabled(PantherRule):
-    Description = "An Auth0 user enabled an mfa factor in your organization's mfa settings."
-    DisplayName = "Auth0 mfa factor enabled"
-    Runbook = "Assess if this was done by the user for a valid business reason. Be vigilant to re-enable this setting as it's in the best security interest for your organization's security posture."
-    Reference = "https://auth0.com/docs/secure/multi-factor-authentication/multi-factor-authentication-factors"
-    Severity = PantherSeverity.Info
-    LogTypes = [PantherLogType.Auth0_Events]
-    RuleID = "Auth0.MFA.Factor.Setting.Enabled-prototype"
-    Tests = auth0_mfa_factor_setting_enabled_tests
+    default_description = "An Auth0 user enabled an mfa factor in your organization's mfa settings."
+    display_name = "Auth0 mfa factor enabled"
+    default_runbook = "Assess if this was done by the user for a valid business reason. Be vigilant to re-enable this setting as it's in the best security interest for your organization's security posture."
+    default_reference = "https://auth0.com/docs/secure/multi-factor-authentication/multi-factor-authentication-factors"
+    default_severity = PantherSeverity.info
+    log_types = [PantherLogType.Auth0_Events]
+    id_ = "Auth0.MFA.Factor.Setting.Enabled-prototype"
+    tests = auth0_mfa_factor_setting_enabled_tests
 
     def rule(self, event):
         description = deep_get(event, "data", "description", default="<NO_DESCRIPTION_FOUND>")
@@ -403,7 +403,14 @@ class Auth0MFAFactorSettingEnabled(PantherRule):
 
     def title(self, event):
         user = deep_get(
-            event, "data", "details", "request", "auth", "user", "email", default="<NO_USER_FOUND>"
+            event,
+            "data",
+            "details",
+            "request",
+            "auth",
+            "user",
+            "email",
+            default="<NO_USER_FOUND>",
         )
         path = deep_get(event, "data", "details", "request", "path", default="<NO_PATH_FOUND>")
         p_source_label = deep_get(event, "p_source_label", default="<NO_P_SOURCE_LABEL_FOUND>")

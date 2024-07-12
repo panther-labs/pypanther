@@ -4,28 +4,30 @@ from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSever
 from pypanther.helpers.panther_mongodb_helpers import mongodb_alert_context
 
 mongo_db_identity_provider_activity_tests: List[PantherRuleTest] = [
-    PantherRuleTest(Name="Random event", ExpectedResult=False, Log={"eventTypeName": "cat_jumped"}),
     PantherRuleTest(
-        Name="FEDERATION_SETTINGS_CREATED",
-        ExpectedResult=True,
-        Log={"eventTypeName": "FEDERATION_SETTINGS_CREATED"},
+        name="Random event", expected_result=False, log={"eventTypeName": "cat_jumped"}
     ),
     PantherRuleTest(
-        Name="IDENTITY_PROVIDER_CREATED",
-        ExpectedResult=True,
-        Log={"eventTypeName": "IDENTITY_PROVIDER_CREATED"},
+        name="FEDERATION_SETTINGS_CREATED",
+        expected_result=True,
+        log={"eventTypeName": "FEDERATION_SETTINGS_CREATED"},
+    ),
+    PantherRuleTest(
+        name="IDENTITY_PROVIDER_CREATED",
+        expected_result=True,
+        log={"eventTypeName": "IDENTITY_PROVIDER_CREATED"},
     ),
 ]
 
 
 class MongoDBIdentityProviderActivity(PantherRule):
-    Description = "Changes to identity provider settings are privileged activities that should be carefully audited.  Attackers may add or change IDP integrations to gain persistence to environments"
-    DisplayName = "MongoDB Identity Provider Activity"
-    Severity = PantherSeverity.Medium
-    Reference = "https://attack.mitre.org/techniques/T1556/007/"
-    LogTypes = [PantherLogType.MongoDB_OrganizationEvent]
-    RuleID = "MongoDB.Identity.Provider.Activity-prototype"
-    Tests = mongo_db_identity_provider_activity_tests
+    default_description = "Changes to identity provider settings are privileged activities that should be carefully audited.  Attackers may add or change IDP integrations to gain persistence to environments"
+    display_name = "MongoDB Identity Provider Activity"
+    default_severity = PantherSeverity.medium
+    default_reference = "https://attack.mitre.org/techniques/T1556/007/"
+    log_types = [PantherLogType.MongoDB_OrganizationEvent]
+    id_ = "MongoDB.Identity.Provider.Activity-prototype"
+    tests = mongo_db_identity_provider_activity_tests
 
     def rule(self, event):
         important_event_types = {

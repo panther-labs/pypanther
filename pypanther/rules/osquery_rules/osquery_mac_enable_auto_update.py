@@ -5,9 +5,9 @@ from pypanther.helpers.panther_base_helpers import deep_get
 
 osquery_mac_auto_update_enabled_tests: List[PantherRuleTest] = [
     PantherRuleTest(
-        Name="Auto Updates Disabled",
-        ExpectedResult=True,
-        Log={
+        name="Auto Updates Disabled",
+        expected_result=True,
+        log={
             "columns": {
                 "domain": "com.apple.SoftwareUpdate",
                 "key": "AutomaticCheckEnabled",
@@ -18,9 +18,9 @@ osquery_mac_auto_update_enabled_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="Auto Updates Enabled",
-        ExpectedResult=False,
-        Log={
+        name="Auto Updates Enabled",
+        expected_result=False,
+        log={
             "columns": {
                 "domain": "com.apple.SoftwareUpdate",
                 "key": "AutomaticCheckEnabled",
@@ -31,9 +31,9 @@ osquery_mac_auto_update_enabled_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="Wrong Key",
-        ExpectedResult=False,
-        Log={
+        name="Wrong Key",
+        expected_result=False,
+        log={
             "columns": {
                 "domain": "com.apple.SoftwareUpdate",
                 "key": "LastFullSuccessfulDate",
@@ -47,18 +47,18 @@ osquery_mac_auto_update_enabled_tests: List[PantherRuleTest] = [
 
 
 class OsqueryMacAutoUpdateEnabled(PantherRule):
-    RuleID = "Osquery.Mac.AutoUpdateEnabled-prototype"
-    DisplayName = "OSQuery Reports Application Firewall Disabled"
-    LogTypes = [PantherLogType.Osquery_Differential]
-    Tags = ["Osquery", "MacOS", "Security Control", "Defense Evasion:Impair Defenses"]
-    Reports = {"CIS": ["1.2"], "MITRE ATT&CK": ["TA0005:T1562"]}
-    Severity = PantherSeverity.Medium
-    DedupPeriodMinutes = 1440
-    Description = "Verifies that MacOS has automatic software updates enabled.\n"
-    Runbook = "Enable the auto updates on the host.\n"
-    Reference = "https://support.apple.com/en-gb/guide/mac-help/mchlpx1065/mac"
-    SummaryAttributes = ["name", "action", "p_any_ip_addresses", "p_any_domain_names"]
-    Tests = osquery_mac_auto_update_enabled_tests
+    id_ = "Osquery.Mac.AutoUpdateEnabled-prototype"
+    display_name = "OSQuery Reports Application Firewall Disabled"
+    log_types = [PantherLogType.Osquery_Differential]
+    tags = ["Osquery", "MacOS", "Security Control", "Defense Evasion:Impair Defenses"]
+    reports = {"CIS": ["1.2"], "MITRE ATT&CK": ["TA0005:T1562"]}
+    default_severity = PantherSeverity.medium
+    dedup_period_minutes = 1440
+    default_description = "Verifies that MacOS has automatic software updates enabled.\n"
+    default_runbook = "Enable the auto updates on the host.\n"
+    default_reference = "https://support.apple.com/en-gb/guide/mac-help/mchlpx1065/mac"
+    summary_attributes = ["name", "action", "p_any_ip_addresses", "p_any_domain_names"]
+    tests = osquery_mac_auto_update_enabled_tests
 
     def rule(self, event):
         # Send an alert if not set to "true"

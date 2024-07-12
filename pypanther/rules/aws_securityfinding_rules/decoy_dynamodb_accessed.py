@@ -4,9 +4,9 @@ from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSever
 
 decoy_dynamo_db_accessed_tests: List[PantherRuleTest] = [
     PantherRuleTest(
-        Name="DynamoDB-Decoy-Accessed",
-        ExpectedResult=True,
-        Log={
+        name="DynamoDB-Decoy-Accessed",
+        expected_result=True,
+        log={
             "Action": {
                 "ActionType": "AWS_API_CALL",
                 "AwsApiCallAction": {
@@ -23,7 +23,10 @@ decoy_dynamo_db_accessed_tests: List[PantherRuleTest] = [
                     "ServiceName": "dynamodb.amazonaws.com",
                 },
                 "DnsRequestAction": {},
-                "NetworkConnectionAction": {"LocalPortDetails": {}, "RemotePortDetails": {}},
+                "NetworkConnectionAction": {
+                    "LocalPortDetails": {},
+                    "RemotePortDetails": {},
+                },
                 "PortProbeAction": {},
             },
             "AwsAccountId": "123456789012",
@@ -117,9 +120,9 @@ decoy_dynamo_db_accessed_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="DynamoDB-Decoy-Not-Accessed",
-        ExpectedResult=False,
-        Log={
+        name="DynamoDB-Decoy-Not-Accessed",
+        expected_result=False,
+        log={
             "Action": {
                 "ActionType": "AWS_API_CALL",
                 "AwsApiCallAction": {
@@ -136,7 +139,10 @@ decoy_dynamo_db_accessed_tests: List[PantherRuleTest] = [
                     "ServiceName": "dynamodb.amazonaws.com",
                 },
                 "DnsRequestAction": {},
-                "NetworkConnectionAction": {"LocalPortDetails": {}, "RemotePortDetails": {}},
+                "NetworkConnectionAction": {
+                    "LocalPortDetails": {},
+                    "RemotePortDetails": {},
+                },
                 "PortProbeAction": {},
             },
             "AwsAccountId": "123456789012",
@@ -233,15 +239,15 @@ decoy_dynamo_db_accessed_tests: List[PantherRuleTest] = [
 
 
 class DecoyDynamoDBAccessed(PantherRule):
-    RuleID = "Decoy.DynamoDB.Accessed-prototype"
-    DisplayName = "Decoy DynamoDB Accessed"
-    Enabled = False
-    LogTypes = [PantherLogType.AWS_SecurityFindingFormat]
-    Severity = PantherSeverity.High
-    Description = "Actor accessed Decoy DynamoDB"
-    Reference = "https://aws.amazon.com/blogs/security/how-to-detect-suspicious-activity-in-your-aws-account-by-using-private-decoy-resources/"
+    id_ = "Decoy.DynamoDB.Accessed-prototype"
+    display_name = "Decoy DynamoDB Accessed"
+    enabled = False
+    log_types = [PantherLogType.AWS_SecurityFindingFormat]
+    default_severity = PantherSeverity.high
+    default_description = "Actor accessed Decoy DynamoDB"
+    default_reference = "https://aws.amazon.com/blogs/security/how-to-detect-suspicious-activity-in-your-aws-account-by-using-private-decoy-resources/"
     InlineFilters = [{"All": []}]
-    Tests = decoy_dynamo_db_accessed_tests
+    tests = decoy_dynamo_db_accessed_tests
 
     def rule(self, event):
         # List of suspicious API events

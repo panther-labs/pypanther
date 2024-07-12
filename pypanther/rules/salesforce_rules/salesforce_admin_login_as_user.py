@@ -4,9 +4,9 @@ from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSever
 
 salesforce_admin_login_as_user_tests: List[PantherRuleTest] = [
     PantherRuleTest(
-        Name="Normal Login Event",
-        ExpectedResult=False,
-        Log={
+        name="Normal Login Event",
+        expected_result=False,
+        log={
             "API_TYPE": "",
             "API_VERSION": "9998.0",
             "AUTHENTICATION_METHOD_REFERENCE": "",
@@ -49,9 +49,9 @@ salesforce_admin_login_as_user_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="Admin Assumes User",
-        ExpectedResult=True,
-        Log={
+        name="Admin Assumes User",
+        expected_result=True,
+        log={
             "CLIENT_IP": "12.12.12.12",
             "CPU_TIME": 19,
             "DELEGATED_USER_ID": "0054x000001L78a",
@@ -84,16 +84,16 @@ salesforce_admin_login_as_user_tests: List[PantherRuleTest] = [
 
 
 class SalesforceAdminLoginAsUser(PantherRule):
-    Description = "Salesforce detection that alerts when an admin logs in as another user. "
-    DisplayName = "Salesforce Admin Login As User"
-    Runbook = "Please do an indicator search on USER_ID to find which user was assumed. "
-    Reference = (
+    default_description = "Salesforce detection that alerts when an admin logs in as another user. "
+    display_name = "Salesforce Admin Login As User"
+    default_runbook = "Please do an indicator search on USER_ID to find which user was assumed. "
+    default_reference = (
         "https://help.salesforce.com/s/articleView?id=sf.logging_in_as_another_user.htm&type=5"
     )
-    Severity = PantherSeverity.Info
-    LogTypes = [PantherLogType.Salesforce_LoginAs]
-    RuleID = "Salesforce.Admin.Login.As.User-prototype"
-    Tests = salesforce_admin_login_as_user_tests
+    default_severity = PantherSeverity.info
+    log_types = [PantherLogType.Salesforce_LoginAs]
+    id_ = "Salesforce.Admin.Login.As.User-prototype"
+    tests = salesforce_admin_login_as_user_tests
 
     def rule(self, event):
         return event.get("EVENT_TYPE", "<NO_EVENT_TYPE_FOUND>") == "LoginAs"

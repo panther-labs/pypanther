@@ -5,9 +5,9 @@ from pypanther.helpers.panther_base_helpers import aws_rule_context, deep_get
 
 awsec2_startup_script_change_tests: List[PantherRuleTest] = [
     PantherRuleTest(
-        Name="ModifyInstanceAttribute-NoUserData",
-        ExpectedResult=False,
-        Log={
+        name="ModifyInstanceAttribute-NoUserData",
+        expected_result=False,
+        log={
             "awsregion": "us-east-1",
             "eventid": "abc-123",
             "eventname": "ModifyInstanceAttribute",
@@ -26,9 +26,9 @@ awsec2_startup_script_change_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="ModifyInstanceAttributeUserdata",
-        ExpectedResult=True,
-        Log={
+        name="ModifyInstanceAttributeUserdata",
+        expected_result=True,
+        log={
             "awsRegion": "us-east-2",
             "eventCategory": "Management",
             "eventName": "ModifyInstanceAttribute",
@@ -76,9 +76,9 @@ awsec2_startup_script_change_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="NoModifyInstanceAttribute",
-        ExpectedResult=False,
-        Log={
+        name="NoModifyInstanceAttribute",
+        expected_result=False,
+        log={
             "awsregion": "us-east-1",
             "eventid": "abc-123",
             "eventname": "ModifyImageAttribute",
@@ -100,16 +100,16 @@ awsec2_startup_script_change_tests: List[PantherRuleTest] = [
 
 
 class AWSEC2StartupScriptChange(PantherRule):
-    Description = "Detects changes to the EC2 instance startup script. The shell script will be executed as root/SYSTEM every time the specific instances are booted up."
-    DisplayName = "AWS EC2 Startup Script Change"
-    Reports = {"MITRE ATT&CK": ["TA0002:T1059"]}
-    Reference = (
+    default_description = "Detects changes to the EC2 instance startup script. The shell script will be executed as root/SYSTEM every time the specific instances are booted up."
+    display_name = "AWS EC2 Startup Script Change"
+    reports = {"MITRE ATT&CK": ["TA0002:T1059"]}
+    default_reference = (
         "https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/user-data.html#user-data-shell-scripts"
     )
-    Severity = PantherSeverity.High
-    LogTypes = [PantherLogType.AWS_CloudTrail]
-    RuleID = "AWS.EC2.Startup.Script.Change-prototype"
-    Tests = awsec2_startup_script_change_tests
+    default_severity = PantherSeverity.high
+    log_types = [PantherLogType.AWS_CloudTrail]
+    id_ = "AWS.EC2.Startup.Script.Change-prototype"
+    tests = awsec2_startup_script_change_tests
 
     def rule(self, event):
         if event.get("eventName") == "ModifyInstanceAttribute" and deep_get(

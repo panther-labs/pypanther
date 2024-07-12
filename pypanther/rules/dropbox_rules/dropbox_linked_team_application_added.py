@@ -5,9 +5,9 @@ from pypanther.helpers.panther_base_helpers import deep_get
 
 dropbox_linked_team_application_added_tests: List[PantherRuleTest] = [
     PantherRuleTest(
-        Name="App linked for team is LOW severity",
-        ExpectedResult=True,
-        Log={
+        name="App linked for team is LOW severity",
+        expected_result=True,
+        log={
             "actor": {
                 "_tag": "user",
                 "user": {
@@ -28,7 +28,10 @@ dropbox_linked_team_application_added_tests: List[PantherRuleTest] = [
                 },
             },
             "event_category": {"_tag": "apps"},
-            "event_type": {"_tag": "app_link_team", "description": "Linked app for team"},
+            "event_type": {
+                "_tag": "app_link_team",
+                "description": "Linked app for team",
+            },
             "involve_non_team_member": False,
             "origin": {
                 "access_method": {
@@ -46,9 +49,9 @@ dropbox_linked_team_application_added_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="A non-team linked event does not alert",
-        ExpectedResult=False,
-        Log={
+        name="A non-team linked event does not alert",
+        expected_result=False,
+        log={
             "actor": {
                 "_tag": "user",
                 "user": {
@@ -69,7 +72,10 @@ dropbox_linked_team_application_added_tests: List[PantherRuleTest] = [
                 },
             },
             "event_category": {"_tag": "apps"},
-            "event_type": {"_tag": "app_link_member", "description": "Linked app for member"},
+            "event_type": {
+                "_tag": "app_link_member",
+                "description": "Linked app for member",
+            },
             "involve_non_team_member": False,
             "origin": {
                 "access_method": {
@@ -87,9 +93,9 @@ dropbox_linked_team_application_added_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="App linked for team involving non-team member is HIGH severity",
-        ExpectedResult=True,
-        Log={
+        name="App linked for team involving non-team member is HIGH severity",
+        expected_result=True,
+        log={
             "actor": {
                 "_tag": "user",
                 "user": {
@@ -110,7 +116,10 @@ dropbox_linked_team_application_added_tests: List[PantherRuleTest] = [
                 },
             },
             "event_category": {"_tag": "apps"},
-            "event_type": {"_tag": "app_link_team", "description": "Linked app for team"},
+            "event_type": {
+                "_tag": "app_link_team",
+                "description": "Linked app for team",
+            },
             "involve_non_team_member": True,
             "origin": {
                 "access_method": {
@@ -131,15 +140,15 @@ dropbox_linked_team_application_added_tests: List[PantherRuleTest] = [
 
 
 class DropboxLinkedTeamApplicationAdded(PantherRule):
-    Description = "An application was linked to your Dropbox Account"
-    DisplayName = "Dropbox Linked Team Application Added"
-    Reference = "https://help.dropbox.com/integrations/app-integrations"
-    Runbook = "Ensure that the application is valid and not malicious. Verify that this is expected. If not, determine other actions taken by this user recently and reach out to the user. If the event involved a non-team member, consider disabling the user's access while investigating.\n"
-    Severity = PantherSeverity.Low
-    Tags = ["dropbox"]
-    LogTypes = [PantherLogType.Dropbox_TeamEvent]
-    RuleID = "Dropbox.Linked.Team.Application.Added-prototype"
-    Tests = dropbox_linked_team_application_added_tests
+    default_description = "An application was linked to your Dropbox Account"
+    display_name = "Dropbox Linked Team Application Added"
+    default_reference = "https://help.dropbox.com/integrations/app-integrations"
+    default_runbook = "Ensure that the application is valid and not malicious. Verify that this is expected. If not, determine other actions taken by this user recently and reach out to the user. If the event involved a non-team member, consider disabling the user's access while investigating.\n"
+    default_severity = PantherSeverity.low
+    tags = ["dropbox"]
+    log_types = [PantherLogType.Dropbox_TeamEvent]
+    id_ = "Dropbox.Linked.Team.Application.Added-prototype"
+    tests = dropbox_linked_team_application_added_tests
 
     def rule(self, event):
         return all(
@@ -193,12 +202,24 @@ class DropboxLinkedTeamApplicationAdded(PantherRule):
         return {
             "additional_user_details": additional_user_details,
             "app_display_name": deep_get(
-                event, "details", "app_info", "display_name", default="<Unknown app display name>"
+                event,
+                "details",
+                "app_info",
+                "display_name",
+                default="<Unknown app display name>",
             ),
             "ip_address": deep_get(
-                event, "origin", "geo_location", "ip_address", default="<Unknown IP address>"
+                event,
+                "origin",
+                "geo_location",
+                "ip_address",
+                default="<Unknown IP address>",
             ),
             "request_id": deep_get(
-                event, "origin", "access_method", "request_id", default="<Unknown request ID>"
+                event,
+                "origin",
+                "access_method",
+                "request_id",
+                default="<Unknown request ID>",
             ),
         }

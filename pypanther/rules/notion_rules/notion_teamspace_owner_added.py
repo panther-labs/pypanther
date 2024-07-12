@@ -5,9 +5,9 @@ from pypanther.helpers.panther_notion_helpers import notion_alert_context
 
 notion_teamspace_owner_added_tests: List[PantherRuleTest] = [
     PantherRuleTest(
-        Name="Member Added",
-        ExpectedResult=False,
-        Log={
+        name="Member Added",
+        expected_result=False,
+        log={
             "event": {
                 "actor": {
                     "id": "c16137bb-5078-4eac-b026-5cbd2f9a027a",
@@ -39,9 +39,9 @@ notion_teamspace_owner_added_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="Owner Added",
-        ExpectedResult=True,
-        Log={
+        name="Owner Added",
+        expected_result=True,
+        log={
             "event": {
                 "actor": {
                     "id": "c16137bb-5078-4eac-b026-5cbd2f9a027a",
@@ -76,14 +76,14 @@ notion_teamspace_owner_added_tests: List[PantherRuleTest] = [
 
 
 class NotionTeamspaceOwnerAdded(PantherRule):
-    RuleID = "Notion.TeamspaceOwnerAdded-prototype"
-    DisplayName = "Notion Teamspace Owner Added"
-    LogTypes = [PantherLogType.Notion_AuditLogs]
-    Tags = ["Notion", "Privilege Escalation"]
-    Description = "A Notion User was added as a Teamspace owner."
-    Severity = PantherSeverity.Medium
-    Runbook = "Possible Privilege Escalation. Follow up with the Notion User to determine if this was done for a valid business reason."
-    Tests = notion_teamspace_owner_added_tests
+    id_ = "Notion.TeamspaceOwnerAdded-prototype"
+    display_name = "Notion Teamspace Owner Added"
+    log_types = [PantherLogType.Notion_AuditLogs]
+    tags = ["Notion", "Privilege Escalation"]
+    default_description = "A Notion User was added as a Teamspace owner."
+    default_severity = PantherSeverity.medium
+    default_runbook = "Possible Privilege Escalation. Follow up with the Notion User to determine if this was done for a valid business reason."
+    tests = notion_teamspace_owner_added_tests
 
     def rule(self, event):
         added = (

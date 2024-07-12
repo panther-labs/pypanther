@@ -5,9 +5,9 @@ from pypanther.helpers.panther_duo_helpers import deserialize_administrator_log_
 
 duo_admin_action_marked_fraudulent_tests: List[PantherRuleTest] = [
     PantherRuleTest(
-        Name="marked_fraud",
-        ExpectedResult=True,
-        Log={
+        name="marked_fraud",
+        expected_result=True,
+        log={
             "action": "admin_2fa_error",
             "description": '{"ip_address": "12.12.12.12", "email": "example@example.io", "factor": "push", "error": "Login request reported as fraudulent."}',
             "isotimestamp": "2022-12-14 20:11:53",
@@ -16,9 +16,9 @@ duo_admin_action_marked_fraudulent_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="different_admin_action",
-        ExpectedResult=False,
-        Log={
+        name="different_admin_action",
+        expected_result=False,
+        log={
             "action": "admin_update",
             "description": "{}",
             "isotimestamp": "2022-12-14 20:11:53",
@@ -30,16 +30,16 @@ duo_admin_action_marked_fraudulent_tests: List[PantherRuleTest] = [
 
 
 class DUOAdminActionMarkedFraudulent(PantherRule):
-    RuleID = "DUO.Admin.Action.MarkedFraudulent-prototype"
-    DisplayName = "Duo Admin Marked Push Fraudulent"
-    DedupPeriodMinutes = 15
-    LogTypes = [PantherLogType.Duo_Administrator]
-    Tags = ["Duo"]
-    Severity = PantherSeverity.Medium
-    Description = "A Duo push was marked fraudulent by an admin."
-    Reference = "https://duo.com/docs/adminapi#administrator-logs"
-    Runbook = "Follow up with the administrator to determine reasoning for marking fraud."
-    Tests = duo_admin_action_marked_fraudulent_tests
+    id_ = "DUO.Admin.Action.MarkedFraudulent-prototype"
+    display_name = "Duo Admin Marked Push Fraudulent"
+    dedup_period_minutes = 15
+    log_types = [PantherLogType.Duo_Administrator]
+    tags = ["Duo"]
+    default_severity = PantherSeverity.medium
+    default_description = "A Duo push was marked fraudulent by an admin."
+    default_reference = "https://duo.com/docs/adminapi#administrator-logs"
+    default_runbook = "Follow up with the administrator to determine reasoning for marking fraud."
+    tests = duo_admin_action_marked_fraudulent_tests
 
     def rule(self, event):
         event_description = deserialize_administrator_log_event_description(event)

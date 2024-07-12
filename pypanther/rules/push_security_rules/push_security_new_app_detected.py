@@ -4,9 +4,9 @@ from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSever
 
 push_security_new_app_detected_tests: List[PantherRuleTest] = [
     PantherRuleTest(
-        Name="New App",
-        ExpectedResult=True,
-        Log={
+        name="New App",
+        expected_result=True,
+        log={
             "id": "c478966c-f927-411c-b919-179832d3d50c",
             "new": {
                 "approvalStatus": None,
@@ -25,9 +25,9 @@ push_security_new_app_detected_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="App Updated",
-        ExpectedResult=False,
-        Log={
+        name="App Updated",
+        expected_result=False,
+        log={
             "id": "c478966c-f927-411c-b919-179832d3d50c",
             "new": {
                 "approvalStatus": "APPROVED",
@@ -57,11 +57,11 @@ push_security_new_app_detected_tests: List[PantherRuleTest] = [
 
 
 class PushSecurityNewAppDetected(PantherRule):
-    RuleID = "Push.Security.New.App.Detected-prototype"
-    DisplayName = "Push Security New App Detected"
-    LogTypes = [PantherLogType.PushSecurity_Entities]
-    Severity = PantherSeverity.Info
-    Tests = push_security_new_app_detected_tests
+    id_ = "Push.Security.New.App.Detected-prototype"
+    display_name = "Push Security New App Detected"
+    log_types = [PantherLogType.PushSecurity_Entities]
+    default_severity = PantherSeverity.info
+    tests = push_security_new_app_detected_tests
 
     def rule(self, event):
         if event.get("object") != "APP":

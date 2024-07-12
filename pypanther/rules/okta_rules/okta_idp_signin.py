@@ -5,16 +5,19 @@ from pypanther.helpers.panther_base_helpers import deep_get, deep_walk, okta_ale
 
 okta_identity_provider_sign_in_tests: List[PantherRuleTest] = [
     PantherRuleTest(
-        Name="Other Event",
-        ExpectedResult=False,
-        Log={
+        name="Other Event",
+        expected_result=False,
+        log={
             "actor": {
                 "alternateId": "homer.simpson@duff.com",
                 "displayName": "Homer Simpson",
                 "id": "00abc123",
                 "type": "User",
             },
-            "authenticationcontext": {"authenticationStep": 0, "externalSessionId": "100-abc-9999"},
+            "authenticationcontext": {
+                "authenticationStep": 0,
+                "externalSessionId": "100-abc-9999",
+            },
             "client": {
                 "device": "Computer",
                 "geographicalContext": {
@@ -81,16 +84,19 @@ okta_identity_provider_sign_in_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="FastPass Phishing Block Event",
-        ExpectedResult=True,
-        Log={
+        name="FastPass Phishing Block Event",
+        expected_result=True,
+        log={
             "actor": {
                 "alternateId": "homer.simpson@duff.com",
                 "displayName": "Homer Simpson",
                 "id": "00abc123",
                 "type": "User",
             },
-            "authenticationcontext": {"authenticationStep": 0, "externalSessionId": "100-abc-9999"},
+            "authenticationcontext": {
+                "authenticationStep": 0,
+                "externalSessionId": "100-abc-9999",
+            },
             "client": {
                 "device": "Computer",
                 "geographicalContext": {
@@ -160,24 +166,28 @@ okta_identity_provider_sign_in_tests: List[PantherRuleTest] = [
 
 
 class OktaIdentityProviderSignIn(PantherRule):
-    RuleID = "Okta.Identity.Provider.SignIn-prototype"
-    DisplayName = "Okta Identity Provider Sign-in"
-    Enabled = False
-    LogTypes = [PantherLogType.Okta_SystemLog]
-    Tags = ["Configuration Required"]
-    Reports = {"MITRE ATT&CK": ["TA0001:T1199", "TA0003:T1098"]}
-    Severity = PantherSeverity.High
-    Description = 'A user has signed in using a 3rd party Identity Provider. Attackers have been observed configuring a second Identity Provider to act as an "impersonation app" to access applications within the compromised Org on behalf of other users. This second Identity Provider, also controlled by the attacker, would act as a “source” IdP in an inbound federation relationship (sometimes called “Org2Org”) with the target. From this “source” IdP, the threat actor manipulated the username parameter for targeted users in the second “source” Identity Provider to match a real user in the compromised “target” Identity Provider. This provided the ability to Single sign-on (SSO) into applications in the target IdP as the targeted user. Do not use this rule if your organization uses legitimate 3rd-party Identity Providers.\n'
-    Reference = "https://sec.okta.com/articles/2023/08/cross-tenant-impersonation-prevention-and-detection\n"
-    DedupPeriodMinutes = 30
-    Tests = okta_identity_provider_sign_in_tests
+    id_ = "Okta.Identity.Provider.SignIn-prototype"
+    display_name = "Okta Identity Provider Sign-in"
+    enabled = False
+    log_types = [PantherLogType.Okta_SystemLog]
+    tags = ["Configuration Required"]
+    reports = {"MITRE ATT&CK": ["TA0001:T1199", "TA0003:T1098"]}
+    default_severity = PantherSeverity.high
+    default_description = 'A user has signed in using a 3rd party Identity Provider. Attackers have been observed configuring a second Identity Provider to act as an "impersonation app" to access applications within the compromised Org on behalf of other users. This second Identity Provider, also controlled by the attacker, would act as a “source” IdP in an inbound federation relationship (sometimes called “Org2Org”) with the target. From this “source” IdP, the threat actor manipulated the username parameter for targeted users in the second “source” Identity Provider to match a real user in the compromised “target” Identity Provider. This provided the ability to Single sign-on (SSO) into applications in the target IdP as the targeted user. Do not use this rule if your organization uses legitimate 3rd-party Identity Providers.\n'
+    default_reference = "https://sec.okta.com/articles/2023/08/cross-tenant-impersonation-prevention-and-detection\n"
+    dedup_period_minutes = 30
+    tests = okta_identity_provider_sign_in_tests
 
     def rule(self, event):
         return event.get("eventType") == "user.authentication.auth_via_IDP"
 
     def title(self, event):
         target = deep_walk(
-            event, "target", "displayName", default="displayName-not-found", return_val="first"
+            event,
+            "target",
+            "displayName",
+            default="displayName-not-found",
+            return_val="first",
         )
         return f"{deep_get(event, 'actor', 'displayName', default='<displayName-not-found>')} <{deep_get(event, 'actor', 'alternateId', default='alternateId-not-found')}> signed in via 3rd party Identity Provider to {target}"
 

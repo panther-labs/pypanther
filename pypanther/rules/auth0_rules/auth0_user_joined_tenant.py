@@ -6,9 +6,9 @@ from pypanther.helpers.panther_base_helpers import deep_get
 
 auth0_user_joined_tenant_tests: List[PantherRuleTest] = [
     PantherRuleTest(
-        Name="User accepted an invitation",
-        ExpectedResult=True,
-        Log={
+        name="User accepted an invitation",
+        expected_result=True,
+        log={
             "data": {
                 "client_id": "1HXWWGKk1Zj3JF8GvMrnCSirccDs4qvr",
                 "client_name": "",
@@ -61,9 +61,9 @@ auth0_user_joined_tenant_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="User declined an invitation",
-        ExpectedResult=False,
-        Log={
+        name="User declined an invitation",
+        expected_result=False,
+        log={
             "data": {
                 "client_id": "1HXWWGKk1Zj3JF8GvMrnCSirccDs4qvr",
                 "client_name": "",
@@ -116,9 +116,9 @@ auth0_user_joined_tenant_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="Other event",
-        ExpectedResult=False,
-        Log={
+        name="Other event",
+        expected_result=False,
+        log={
             "data": {
                 "client_id": "1HXWWGKk1Zj3JF8GvMrnCSirccDs4qvr",
                 "client_name": "",
@@ -273,7 +273,10 @@ auth0_user_joined_tenant_tests: List[PantherRuleTest] = [
                                 "user_id": "auth0|6459776e974703f3a65dc258",
                             },
                         },
-                        "body": {"owners": ["marge.simpson@yourcompany.io"], "roles": ["owner"]},
+                        "body": {
+                            "owners": ["marge.simpson@yourcompany.io"],
+                            "roles": ["owner"],
+                        },
                         "channel": "https://manage.auth0.com/",
                         "ip": "12.12.12.12",
                         "method": "post",
@@ -314,13 +317,13 @@ auth0_user_joined_tenant_tests: List[PantherRuleTest] = [
 
 
 class Auth0UserJoinedTenant(PantherRule):
-    DisplayName = "Auth0 User Joined Tenant"
-    Description = "User accepted invitation from Auth0 member to join an Auth0 tenant."
-    RuleID = "Auth0.User.Joined.Tenant-prototype"
-    Reference = "https://auth0.com/docs/manage-users/organizations/configure-organizations/invite-members#send-membership-invitations:~:text=.-,Send%20membership%20invitations,-You%20can"
-    Severity = PantherSeverity.Info
-    LogTypes = [PantherLogType.Auth0_Events]
-    Tests = auth0_user_joined_tenant_tests
+    display_name = "Auth0 User Joined Tenant"
+    default_description = "User accepted invitation from Auth0 member to join an Auth0 tenant."
+    id_ = "Auth0.User.Joined.Tenant-prototype"
+    default_reference = "https://auth0.com/docs/manage-users/organizations/configure-organizations/invite-members#send-membership-invitations:~:text=.-,Send%20membership%20invitations,-You%20can"
+    default_severity = PantherSeverity.info
+    log_types = [PantherLogType.Auth0_Events]
+    tests = auth0_user_joined_tenant_tests
 
     def rule(self, event):
         data_description = deep_get(
@@ -348,7 +351,14 @@ class Auth0UserJoinedTenant(PantherRule):
 
     def title(self, event):
         user = deep_get(
-            event, "data", "details", "request", "auth", "user", "email", default="<NO_USER_FOUND>"
+            event,
+            "data",
+            "details",
+            "request",
+            "auth",
+            "user",
+            "email",
+            default="<NO_USER_FOUND>",
         )
         p_source_label = deep_get(event, "p_source_label", default="<NO_P_SOURCE_LABEL_FOUND>")
         return f"Auth0 User [{user}] has accepted an invitation to join your organization's tenant [{p_source_label}]."

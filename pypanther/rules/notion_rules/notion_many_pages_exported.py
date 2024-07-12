@@ -5,9 +5,9 @@ from pypanther.helpers.panther_notion_helpers import notion_alert_context
 
 notion_many_pages_exported_tests: List[PantherRuleTest] = [
     PantherRuleTest(
-        Name="Other Event",
-        ExpectedResult=False,
-        Log={
+        name="Other Event",
+        expected_result=False,
+        log={
             "event": {
                 "id": "...",
                 "timestamp": "2023-06-02T20:16:41.217Z",
@@ -26,9 +26,9 @@ notion_many_pages_exported_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="Many Pages Exported",
-        ExpectedResult=True,
-        Log={
+        name="Many Pages Exported",
+        expected_result=True,
+        log={
             "event": {
                 "actor": {
                     "id": "bd37477c-869d-418b-abdb-0fc727b38b5e",
@@ -59,16 +59,16 @@ notion_many_pages_exported_tests: List[PantherRuleTest] = [
 
 
 class NotionManyPagesExported(PantherRule):
-    RuleID = "Notion.Many.Pages.Exported-prototype"
-    DisplayName = "Notion Many Pages Exported"
-    LogTypes = [PantherLogType.Notion_AuditLogs]
-    Tags = ["Notion", "Data Security", "Data Exfiltration"]
-    Severity = PantherSeverity.High
-    Description = "A Notion User exported multiple pages."
-    Threshold = 10
-    Runbook = "Possible Data Exfiltration. Follow up with the Notion User to determine if this was done for a valid business reason."
-    Reference = "https://www.notion.so/help/export-your-content"
-    Tests = notion_many_pages_exported_tests
+    id_ = "Notion.Many.Pages.Exported-prototype"
+    display_name = "Notion Many Pages Exported"
+    log_types = [PantherLogType.Notion_AuditLogs]
+    tags = ["Notion", "Data Security", "Data Exfiltration"]
+    default_severity = PantherSeverity.high
+    default_description = "A Notion User exported multiple pages."
+    threshold = 10
+    default_runbook = "Possible Data Exfiltration. Follow up with the Notion User to determine if this was done for a valid business reason."
+    default_reference = "https://www.notion.so/help/export-your-content"
+    tests = notion_many_pages_exported_tests
 
     def rule(self, event):
         return event.deep_get("event", "type", default="<NO_EVENT_TYPE_FOUND>") == "page.exported"

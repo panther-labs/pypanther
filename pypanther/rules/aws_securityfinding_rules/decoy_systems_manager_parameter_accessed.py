@@ -4,9 +4,9 @@ from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSever
 
 decoy_systems_manager_parameter_accessed_tests: List[PantherRuleTest] = [
     PantherRuleTest(
-        Name="Systems-Manager-Parameter-Decoy-Accessed",
-        ExpectedResult=True,
-        Log={
+        name="Systems-Manager-Parameter-Decoy-Accessed",
+        expected_result=True,
+        log={
             "Action": {
                 "ActionType": "AWS_API_CALL",
                 "AwsApiCallAction": {
@@ -16,7 +16,10 @@ decoy_systems_manager_parameter_accessed_tests: List[PantherRuleTest] = [
                     "ServiceName": "kms.amazonaws.com",
                 },
                 "DnsRequestAction": {},
-                "NetworkConnectionAction": {"LocalPortDetails": {}, "RemotePortDetails": {}},
+                "NetworkConnectionAction": {
+                    "LocalPortDetails": {},
+                    "RemotePortDetails": {},
+                },
                 "PortProbeAction": {},
             },
             "AwsAccountId": "123456789012",
@@ -116,9 +119,9 @@ decoy_systems_manager_parameter_accessed_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="Systems-Manager-Parameter-Decoy-Not-Accessed",
-        ExpectedResult=False,
-        Log={
+        name="Systems-Manager-Parameter-Decoy-Not-Accessed",
+        expected_result=False,
+        log={
             "Action": {
                 "ActionType": "AWS_API_CALL",
                 "AwsApiCallAction": {
@@ -128,7 +131,10 @@ decoy_systems_manager_parameter_accessed_tests: List[PantherRuleTest] = [
                     "ServiceName": "kms.amazonaws.com",
                 },
                 "DnsRequestAction": {},
-                "NetworkConnectionAction": {"LocalPortDetails": {}, "RemotePortDetails": {}},
+                "NetworkConnectionAction": {
+                    "LocalPortDetails": {},
+                    "RemotePortDetails": {},
+                },
                 "PortProbeAction": {},
             },
             "AwsAccountId": "123456789012",
@@ -231,15 +237,15 @@ decoy_systems_manager_parameter_accessed_tests: List[PantherRuleTest] = [
 
 
 class DecoySystemsManagerParameterAccessed(PantherRule):
-    RuleID = "Decoy.Systems.Manager.Parameter.Accessed-prototype"
-    DisplayName = "Decoy Systems Manager Parameter Accessed"
-    Enabled = False
-    LogTypes = [PantherLogType.AWS_SecurityFindingFormat]
-    Severity = PantherSeverity.High
-    Description = "Actor accessed Decoy Systems Manager parameter"
-    Reference = "https://aws.amazon.com/blogs/security/how-to-detect-suspicious-activity-in-your-aws-account-by-using-private-decoy-resources/"
+    id_ = "Decoy.Systems.Manager.Parameter.Accessed-prototype"
+    display_name = "Decoy Systems Manager Parameter Accessed"
+    enabled = False
+    log_types = [PantherLogType.AWS_SecurityFindingFormat]
+    default_severity = PantherSeverity.high
+    default_description = "Actor accessed Decoy Systems Manager parameter"
+    default_reference = "https://aws.amazon.com/blogs/security/how-to-detect-suspicious-activity-in-your-aws-account-by-using-private-decoy-resources/"
     InlineFilters = [{"All": []}]
-    Tests = decoy_systems_manager_parameter_accessed_tests
+    tests = decoy_systems_manager_parameter_accessed_tests
 
     def rule(self, event):
         # List of suspicious API events

@@ -6,9 +6,9 @@ from pypanther.helpers.panther_snyk_helpers import snyk_alert_context
 
 snyk_project_settings_tests: List[PantherRuleTest] = [
     PantherRuleTest(
-        Name="Snyk Org Project Stop Monitor",
-        ExpectedResult=True,
-        Log={
+        name="Snyk Org Project Stop Monitor",
+        expected_result=True,
+        log={
             "content": {
                 "origin": "github",
                 "target": {
@@ -29,9 +29,9 @@ snyk_project_settings_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="Project Ignore Create",
-        ExpectedResult=True,
-        Log={
+        name="Project Ignore Create",
+        expected_result=True,
+        log={
             "content": {
                 "created": "2023-03-20T12:23:06.356Z",
                 "ignorePath": "*",
@@ -49,9 +49,9 @@ snyk_project_settings_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="Snyk Group SSO Membership sync",
-        ExpectedResult=False,
-        Log={
+        name="Snyk Group SSO Membership sync",
+        expected_result=False,
+        log={
             "content": {},
             "created": "2023-03-15 13:13:13.133",
             "event": "group.sso.membership.sync",
@@ -62,15 +62,15 @@ snyk_project_settings_tests: List[PantherRuleTest] = [
 
 
 class SnykProjectSettings(PantherRule):
-    RuleID = "Snyk.Project.Settings-prototype"
-    DisplayName = "Snyk Project Settings"
-    LogTypes = [PantherLogType.Snyk_GroupAudit, PantherLogType.Snyk_OrgAudit]
-    Tags = ["Snyk"]
-    Reference = "https://docs.snyk.io/snyk-admin/introduction-to-snyk-projects/view-and-edit-project-settings"
-    Severity = PantherSeverity.Medium
-    Description = "Detects when Snyk Project settings are changed\n"
-    SummaryAttributes = ["event"]
-    Tests = snyk_project_settings_tests
+    id_ = "Snyk.Project.Settings-prototype"
+    display_name = "Snyk Project Settings"
+    log_types = [PantherLogType.Snyk_GroupAudit, PantherLogType.Snyk_OrgAudit]
+    tags = ["Snyk"]
+    default_reference = "https://docs.snyk.io/snyk-admin/introduction-to-snyk-projects/view-and-edit-project-settings"
+    default_severity = PantherSeverity.medium
+    default_description = "Detects when Snyk Project settings are changed\n"
+    summary_attributes = ["event"]
+    tests = snyk_project_settings_tests
     # The bodies of these actions are quite diverse.
     # When projects are added, the logged detail is the sourceOrgId.
     # org.project.stop_monitor is logged for individual files

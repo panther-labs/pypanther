@@ -5,9 +5,9 @@ from pypanther.helpers.panther_base_helpers import deep_get
 
 asana_workspace_saml_optional_tests: List[PantherRuleTest] = [
     PantherRuleTest(
-        Name="SAML required",
-        ExpectedResult=False,
-        Log={
+        name="SAML required",
+        expected_result=False,
+        log={
             "actor": {
                 "actor_type": "user",
                 "email": "homer.simpson@example.io",
@@ -24,13 +24,17 @@ asana_workspace_saml_optional_tests: List[PantherRuleTest] = [
             "event_category": "admin_settings",
             "event_type": "workspace_saml_settings_changed",
             "gid": "1234",
-            "resource": {"gid": "1234", "name": "example.io", "resource_type": "email_domain"},
+            "resource": {
+                "gid": "1234",
+                "name": "example.io",
+                "resource_type": "email_domain",
+            },
         },
     ),
     PantherRuleTest(
-        Name="SAML optional",
-        ExpectedResult=True,
-        Log={
+        name="SAML optional",
+        expected_result=True,
+        log={
             "actor": {
                 "actor_type": "user",
                 "email": "homer.simpson@example.io",
@@ -47,21 +51,25 @@ asana_workspace_saml_optional_tests: List[PantherRuleTest] = [
             "event_category": "admin_settings",
             "event_type": "workspace_saml_settings_changed",
             "gid": "1234",
-            "resource": {"gid": "1234", "name": "example.io", "resource_type": "email_domain"},
+            "resource": {
+                "gid": "1234",
+                "name": "example.io",
+                "resource_type": "email_domain",
+            },
         },
     ),
 ]
 
 
 class AsanaWorkspaceSAMLOptional(PantherRule):
-    Description = "An Asana user made SAML optional for your organization."
-    DisplayName = "Asana Workspace SAML Optional"
-    Runbook = "Confirm this user acted with valid business intent and determine whether this activity was authorized."
-    Reference = "https://help.asana.com/hc/en-us/articles/14075208738587-Premium-Business-and-Enterprise-authentication#gl-saml:~:text=to%20your%20organization.-,SAML,-If%20your%20company"
-    Severity = PantherSeverity.Medium
-    LogTypes = [PantherLogType.Asana_Audit]
-    RuleID = "Asana.Workspace.SAML.Optional-prototype"
-    Tests = asana_workspace_saml_optional_tests
+    default_description = "An Asana user made SAML optional for your organization."
+    display_name = "Asana Workspace SAML Optional"
+    default_runbook = "Confirm this user acted with valid business intent and determine whether this activity was authorized."
+    default_reference = "https://help.asana.com/hc/en-us/articles/14075208738587-Premium-Business-and-Enterprise-authentication#gl-saml:~:text=to%20your%20organization.-,SAML,-If%20your%20company"
+    default_severity = PantherSeverity.medium
+    log_types = [PantherLogType.Asana_Audit]
+    id_ = "Asana.Workspace.SAML.Optional-prototype"
+    tests = asana_workspace_saml_optional_tests
 
     def rule(self, event):
         old_val = deep_get(event, "details", "old_value", default="<OLD_VAL_NOT_FOUND>")

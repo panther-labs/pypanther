@@ -4,9 +4,9 @@ from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSever
 
 zoom_sign_in_method_modified_tests: List[PantherRuleTest] = [
     PantherRuleTest(
-        Name="Google",
-        ExpectedResult=True,
-        Log={
+        name="Google",
+        expected_result=True,
+        log={
             "action": "Update",
             "category_type": "Account",
             "operation_detail": "Sign-in Methods  - Allow users to sign in with Google: from Off to On",
@@ -15,9 +15,9 @@ zoom_sign_in_method_modified_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="Apple ID",
-        ExpectedResult=True,
-        Log={
+        name="Apple ID",
+        expected_result=True,
+        log={
             "action": "Update",
             "category_type": "Account",
             "operation_detail": "Sign-in Methods  - Allow users to sign in with Apple ID: from Off to On",
@@ -26,9 +26,9 @@ zoom_sign_in_method_modified_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="Automatic Sign Out Disabled",
-        ExpectedResult=False,
-        Log={
+        name="Automatic Sign Out Disabled",
+        expected_result=False,
+        log={
             "action": "Update",
             "category_type": "Account",
             "operation_detail": "Security  - Automatically sign users out after a specified time: from On to Off",
@@ -40,14 +40,14 @@ zoom_sign_in_method_modified_tests: List[PantherRuleTest] = [
 
 
 class ZoomSignInMethodModified(PantherRule):
-    Description = "A Zoom User modified your organizations sign in method."
-    DisplayName = "Zoom Sign In Method Modified"
-    Runbook = "Confirm this user acted with valid business intent and determine whether this activity was authorized."
-    Reference = "https://support.zoom.com/hc/en/article?id=zm_kb&sysparm_article=KB0067602#:~:text=Go%20to%20the%20Zoom%20site,click%20Link%20and%20Sign%20In"
-    Severity = PantherSeverity.Medium
-    LogTypes = [PantherLogType.Zoom_Operation]
-    RuleID = "Zoom.Sign.In.Method.Modified-prototype"
-    Tests = zoom_sign_in_method_modified_tests
+    default_description = "A Zoom User modified your organizations sign in method."
+    display_name = "Zoom Sign In Method Modified"
+    default_runbook = "Confirm this user acted with valid business intent and determine whether this activity was authorized."
+    default_reference = "https://support.zoom.com/hc/en/article?id=zm_kb&sysparm_article=KB0067602#:~:text=Go%20to%20the%20Zoom%20site,click%20Link%20and%20Sign%20In"
+    default_severity = PantherSeverity.medium
+    log_types = [PantherLogType.Zoom_Operation]
+    id_ = "Zoom.Sign.In.Method.Modified-prototype"
+    tests = zoom_sign_in_method_modified_tests
 
     def rule(self, event):
         operation_detail = event.get("operation_detail", "<NO_OPS_DETAIL>")

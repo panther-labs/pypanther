@@ -5,9 +5,9 @@ from pypanther.helpers.panther_base_helpers import github_alert_context
 
 github_organization_app_integration_installed_tests: List[PantherRuleTest] = [
     PantherRuleTest(
-        Name="App Integration Installation",
-        ExpectedResult=True,
-        Log={
+        name="App Integration Installation",
+        expected_result=True,
+        log={
             "_document_id": "A-2345",
             "action": "integration_installation.create",
             "actor": "user_name",
@@ -20,9 +20,9 @@ github_organization_app_integration_installed_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="App Integration Installation-2",
-        ExpectedResult=True,
-        Log={
+        name="App Integration Installation-2",
+        expected_result=True,
+        log={
             "_document_id": "A-1234",
             "action": "integration_installation.create",
             "actor": "leetboy",
@@ -34,9 +34,9 @@ github_organization_app_integration_installed_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="Repository Archived",
-        ExpectedResult=False,
-        Log={
+        name="Repository Archived",
+        expected_result=False,
+        log={
             "action": "repo.archived",
             "actor": "cat",
             "created_at": 1621305118553.0,
@@ -49,16 +49,16 @@ github_organization_app_integration_installed_tests: List[PantherRuleTest] = [
 
 
 class GithubOrganizationAppIntegrationInstalled(PantherRule):
-    Description = "An application integration was installed to your organization's Github account by someone in your organization."
-    DisplayName = "Github Organization App Integration Installed"
-    Reference = "https://docs.github.com/en/enterprise-server@3.4/developers/apps/managing-github-apps/installing-github-apps"
-    Runbook = "Confirm that the app integration installation was a desired behavior."
-    Severity = PantherSeverity.Low
-    Tags = ["Application Installation", "Github"]
-    LogTypes = [PantherLogType.GitHub_Audit]
-    RuleID = "Github.Organization.App.Integration.Installed-prototype"
-    SummaryAttributes = ["actor", "name"]
-    Tests = github_organization_app_integration_installed_tests
+    default_description = "An application integration was installed to your organization's Github account by someone in your organization."
+    display_name = "Github Organization App Integration Installed"
+    default_reference = "https://docs.github.com/en/enterprise-server@3.4/developers/apps/managing-github-apps/installing-github-apps"
+    default_runbook = "Confirm that the app integration installation was a desired behavior."
+    default_severity = PantherSeverity.low
+    tags = ["Application Installation", "Github"]
+    log_types = [PantherLogType.GitHub_Audit]
+    id_ = "Github.Organization.App.Integration.Installed-prototype"
+    summary_attributes = ["actor", "name"]
+    tests = github_organization_app_integration_installed_tests
     # def dedup(event):
     #  (Optional) Return a string which will be used to deduplicate similar alerts.
     # return ''

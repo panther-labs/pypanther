@@ -5,9 +5,9 @@ from pypanther.helpers.panther_base_helpers import deep_get
 
 google_workspace_apps_marketplace_allowlist_tests: List[PantherRuleTest] = [
     PantherRuleTest(
-        Name="parameters json key set to null value",
-        ExpectedResult=False,
-        Log={
+        name="parameters json key set to null value",
+        expected_result=False,
+        log={
             "actor": {
                 "callerType": "USER",
                 "email": "user@example.io",
@@ -27,10 +27,14 @@ google_workspace_apps_marketplace_allowlist_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="Change Email Setting",
-        ExpectedResult=True,
-        Log={
-            "actor": {"callerType": "USER", "email": "example@example.io", "profileId": "12345"},
+        name="Change Email Setting",
+        expected_result=True,
+        log={
+            "actor": {
+                "callerType": "USER",
+                "email": "example@example.io",
+                "profileId": "12345",
+            },
             "id": {
                 "applicationName": "admin",
                 "customerId": "D12345",
@@ -50,10 +54,14 @@ google_workspace_apps_marketplace_allowlist_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="Change Email Setting Default",
-        ExpectedResult=True,
-        Log={
-            "actor": {"callerType": "USER", "email": "example@example.io", "profileId": "12345"},
+        name="Change Email Setting Default",
+        expected_result=True,
+        log={
+            "actor": {
+                "callerType": "USER",
+                "email": "example@example.io",
+                "profileId": "12345",
+            },
             "id": {
                 "applicationName": "admin",
                 "customerId": "D1234",
@@ -73,10 +81,14 @@ google_workspace_apps_marketplace_allowlist_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="New Custom Role Created",
-        ExpectedResult=False,
-        Log={
-            "actor": {"callerType": "USER", "email": "example@example.io", "profileId": "123456"},
+        name="New Custom Role Created",
+        expected_result=False,
+        log={
+            "actor": {
+                "callerType": "USER",
+                "email": "example@example.io",
+                "profileId": "123456",
+            },
             "id": {
                 "applicationName": "admin",
                 "customerId": "D12345",
@@ -91,9 +103,9 @@ google_workspace_apps_marketplace_allowlist_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="ListObject Type",
-        ExpectedResult=False,
-        Log={
+        name="ListObject Type",
+        expected_result=False,
+        log={
             "actor": {"email": "user@example.io", "profileId": "118111111111111111111"},
             "id": {
                 "applicationName": "drive",
@@ -126,14 +138,16 @@ google_workspace_apps_marketplace_allowlist_tests: List[PantherRuleTest] = [
 
 
 class GoogleWorkspaceAppsMarketplaceAllowlist(PantherRule):
-    Description = "Google Workspace Marketplace application allowlist settings were modified."
-    DisplayName = "Google Workspace Apps Marketplace Allowlist"
-    Runbook = "Confirm with the acting user that this change was authorized."
-    Reference = "https://support.google.com/a/answer/6089179?hl=en"
-    Severity = PantherSeverity.Medium
-    LogTypes = [PantherLogType.GSuite_ActivityEvent]
-    RuleID = "Google.Workspace.Apps.Marketplace.Allowlist-prototype"
-    Tests = google_workspace_apps_marketplace_allowlist_tests
+    default_description = (
+        "Google Workspace Marketplace application allowlist settings were modified."
+    )
+    display_name = "Google Workspace Apps Marketplace Allowlist"
+    default_runbook = "Confirm with the acting user that this change was authorized."
+    default_reference = "https://support.google.com/a/answer/6089179?hl=en"
+    default_severity = PantherSeverity.medium
+    log_types = [PantherLogType.GSuite_ActivityEvent]
+    id_ = "Google.Workspace.Apps.Marketplace.Allowlist-prototype"
+    tests = google_workspace_apps_marketplace_allowlist_tests
 
     def rule(self, event):
         # Return True to match the log event and trigger an alert.

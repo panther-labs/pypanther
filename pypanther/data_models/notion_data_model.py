@@ -30,12 +30,12 @@ def get_actor_user(event):
 
 
 class StandardNotionAuditLogs(PantherDataModel):
-    DataModelID: str = "Standard.Notion.AuditLogs"
-    DisplayName: str = "Notion Audit Logs"
-    Enabled: bool = True
-    LogTypes: List[str] = [PantherLogType.Notion_AuditLogs]
-    Mappings: List[PantherDataModelMapping] = [
-        PantherDataModelMapping(Name="actor_user", Method=get_actor_user),
-        PantherDataModelMapping(Name="event_type", Method=get_event_type),
-        PantherDataModelMapping(Name="source_ip", Path="$.event.ip_address"),
+    id_: str = "Standard.Notion.AuditLogs"
+    display_name: str = "Notion Audit Logs"
+    enabled: bool = True
+    log_types: List[str] = [PantherLogType.Notion_AuditLogs]
+    mappings: List[PantherDataModelMapping] = [
+        PantherDataModelMapping(name="actor_user", method=get_actor_user),
+        PantherDataModelMapping(name="event_type", method=get_event_type),
+        PantherDataModelMapping(name="source_ip", path="$.event.ip_address"),
     ]

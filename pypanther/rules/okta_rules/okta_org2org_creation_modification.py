@@ -5,16 +5,19 @@ from pypanther.helpers.panther_base_helpers import deep_get, deep_walk, okta_ale
 
 okta_org2org_creation_modification_tests: List[PantherRuleTest] = [
     PantherRuleTest(
-        Name="Org2Org modified",
-        ExpectedResult=True,
-        Log={
+        name="Org2Org modified",
+        expected_result=True,
+        log={
             "actor": {
                 "alternateId": "homer.simpson@duff.com",
                 "displayName": "Homer Simpson",
                 "id": "00abc123",
                 "type": "User",
             },
-            "authenticationcontext": {"authenticationStep": 0, "externalSessionId": "100-abc-9999"},
+            "authenticationcontext": {
+                "authenticationStep": 0,
+                "externalSessionId": "100-abc-9999",
+            },
             "client": {
                 "device": "Computer",
                 "geographicalContext": {
@@ -98,16 +101,19 @@ okta_org2org_creation_modification_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="Org2Org created",
-        ExpectedResult=True,
-        Log={
+        name="Org2Org created",
+        expected_result=True,
+        log={
             "actor": {
                 "alternateId": "homer.simpson@duff.com",
                 "displayName": "Homer Simpson",
                 "id": "00abc123",
                 "type": "User",
             },
-            "authenticationcontext": {"authenticationStep": 0, "externalSessionId": "100-abc-9999"},
+            "authenticationcontext": {
+                "authenticationStep": 0,
+                "externalSessionId": "100-abc-9999",
+            },
             "client": {
                 "device": "Computer",
                 "geographicalContext": {
@@ -194,16 +200,19 @@ okta_org2org_creation_modification_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="Not New Behavior",
-        ExpectedResult=False,
-        Log={
+        name="Not New Behavior",
+        expected_result=False,
+        log={
             "actor": {
                 "alternateId": "homer.simpson@duff.com",
                 "displayName": "Homer Simpson",
                 "id": "00abc123",
                 "type": "User",
             },
-            "authenticationcontext": {"authenticationStep": 0, "externalSessionId": "100-abc-9999"},
+            "authenticationcontext": {
+                "authenticationStep": 0,
+                "externalSessionId": "100-abc-9999",
+            },
             "client": {
                 "device": "Computer",
                 "geographicalContext": {
@@ -292,14 +301,14 @@ okta_org2org_creation_modification_tests: List[PantherRuleTest] = [
 
 
 class OktaOrg2orgCreationModification(PantherRule):
-    RuleID = "Okta.Org2org.Creation.Modification-prototype"
-    DisplayName = "Okta Org2Org application created of modified"
-    LogTypes = [PantherLogType.Okta_SystemLog]
-    Reports = {"MITRE ATT&CK": ["TA0006:T1556", "TA0004:T1078.004"]}
-    Severity = PantherSeverity.High
-    Description = "An Okta Org2Org application has been created or modified. Okta's Org2Org applications instances are used to push and match users from one Okta organization to another. A malicious actor can add an Org2Org application instance and create a user in the source organization (controlled by the attacker) with the same identifier as a Super Administrator in the target organization.\n"
-    Reference = "https://www.authomize.com/blog/authomize-discovers-password-stealing-and-impersonation-risks-to-in-okta/\n"
-    Tests = okta_org2org_creation_modification_tests
+    id_ = "Okta.Org2org.Creation.Modification-prototype"
+    display_name = "Okta Org2Org application created of modified"
+    log_types = [PantherLogType.Okta_SystemLog]
+    reports = {"MITRE ATT&CK": ["TA0006:T1556", "TA0004:T1078.004"]}
+    default_severity = PantherSeverity.high
+    default_description = "An Okta Org2Org application has been created or modified. Okta's Org2Org applications instances are used to push and match users from one Okta organization to another. A malicious actor can add an Org2Org application instance and create a user in the source organization (controlled by the attacker) with the same identifier as a Super Administrator in the target organization.\n"
+    default_reference = "https://www.authomize.com/blog/authomize-discovers-password-stealing-and-impersonation-risks-to-in-okta/\n"
+    tests = okta_org2org_creation_modification_tests
     APP_LIFECYCLE_EVENTS = (
         "application.lifecycle.update",
         "application.lifecycle.create",
@@ -316,7 +325,11 @@ class OktaOrg2orgCreationModification(PantherRule):
     def title(self, event):
         action = event.get("eventType").split(".")[-1]
         target = deep_walk(
-            event, "target", "alternateId", default="<alternateId-not-found>", return_val="first"
+            event,
+            "target",
+            "alternateId",
+            default="<alternateId-not-found>",
+            return_val="first",
         )
         return f"{deep_get(event, 'actor', 'displayName', default='<displayName-not-found>')} <{deep_get(event, 'actor', 'alternateId', default='alternateId-not-found')}> {action}d Org2Org app [{target}]"
 

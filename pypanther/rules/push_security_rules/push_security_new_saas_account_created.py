@@ -4,9 +4,9 @@ from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSever
 
 push_security_new_saa_s_account_created_tests: List[PantherRuleTest] = [
     PantherRuleTest(
-        Name="Account Update",
-        ExpectedResult=False,
-        Log={
+        name="Account Update",
+        expected_result=False,
+        log={
             "id": "c478966c-f927-411c-b919-179832d3d50c",
             "new": {
                 "appId": "2a2197de-ad2c-47e4-8dcb-fb0f04cf83e0",
@@ -79,9 +79,9 @@ push_security_new_saa_s_account_created_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="New Account",
-        ExpectedResult=True,
-        Log={
+        name="New Account",
+        expected_result=True,
+        log={
             "id": "c478966c-f927-411c-b919-179832d3d50c",
             "new": {
                 "appId": "2a2197de-ad2c-47e4-8dcb-fb0f04cf83e0",
@@ -126,11 +126,11 @@ push_security_new_saa_s_account_created_tests: List[PantherRuleTest] = [
 
 
 class PushSecurityNewSaaSAccountCreated(PantherRule):
-    RuleID = "Push.Security.New.SaaS.Account.Created-prototype"
-    DisplayName = "Push Security New SaaS Account Created"
-    LogTypes = [PantherLogType.PushSecurity_Entities]
-    Severity = PantherSeverity.Info
-    Tests = push_security_new_saa_s_account_created_tests
+    id_ = "Push.Security.New.SaaS.Account.Created-prototype"
+    display_name = "Push Security New SaaS Account Created"
+    log_types = [PantherLogType.PushSecurity_Entities]
+    default_severity = PantherSeverity.info
+    tests = push_security_new_saa_s_account_created_tests
 
     def rule(self, event):
         if event.get("object") != "ACCOUNT":

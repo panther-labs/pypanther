@@ -5,13 +5,13 @@ from pypanther.log_types import PantherLogType
 
 
 class StandardCloudflareHttpReq(PantherDataModel):
-    DataModelID: str = "Standard.Cloudflare.HttpReq"
-    DisplayName: str = "Cloudflare Firewall"
-    Enabled: bool = True
-    LogTypes: List[str] = [PantherLogType.Cloudflare_HttpRequest]
-    Mappings: List[PantherDataModelMapping] = [
-        PantherDataModelMapping(Name="source_ip", Path="ClientIP"),
-        PantherDataModelMapping(Name="user_agent", Path="ClientRequestUserAgent"),
-        PantherDataModelMapping(Name="http_status", Path="EdgeResponseStatus"),
-        PantherDataModelMapping(Name="source_port", Path="ClientSrcPort"),
+    id_: str = "Standard.Cloudflare.HttpReq"
+    display_name: str = "Cloudflare Firewall"
+    enabled: bool = True
+    log_types: List[str] = [PantherLogType.Cloudflare_HttpRequest]
+    mappings: List[PantherDataModelMapping] = [
+        PantherDataModelMapping(name="source_ip", path="ClientIP"),
+        PantherDataModelMapping(name="user_agent", path="ClientRequestUserAgent"),
+        PantherDataModelMapping(name="http_status", path="EdgeResponseStatus"),
+        PantherDataModelMapping(name="source_port", path="ClientSrcPort"),
     ]

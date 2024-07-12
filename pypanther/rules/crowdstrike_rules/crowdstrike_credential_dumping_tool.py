@@ -5,9 +5,9 @@ from pypanther.helpers.panther_base_helpers import crowdstrike_detection_alert_c
 
 crowdstrike_credential_dumping_tool_tests: List[PantherRuleTest] = [
     PantherRuleTest(
-        Name="mimikatz",
-        ExpectedResult=True,
-        Log={
+        name="mimikatz",
+        expected_result=True,
+        log={
             "aid": "1234567890abcdefg654321",
             "aip": "11.10.9.8",
             "cid": "abcdefghijklmnop123467890",
@@ -87,9 +87,9 @@ crowdstrike_credential_dumping_tool_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="Other Event",
-        ExpectedResult=False,
-        Log={
+        name="Other Event",
+        expected_result=False,
+        log={
             "aid": "1234567890abcdefg654321",
             "aip": "11.10.9.8",
             "cid": "abcdefghijklmnop123467890",
@@ -172,13 +172,13 @@ crowdstrike_credential_dumping_tool_tests: List[PantherRuleTest] = [
 
 
 class CrowdstrikeCredentialDumpingTool(PantherRule):
-    Description = "Detects usage of tools commonly used for credential dumping."
-    DisplayName = "Crowdstrike Credential Dumping Tool"
-    Reference = "https://www.crowdstrike.com/blog/adversary-credential-theft/"
-    Severity = PantherSeverity.Critical
-    LogTypes = [PantherLogType.Crowdstrike_FDREvent]
-    RuleID = "Crowdstrike.Credential.Dumping.Tool-prototype"
-    Tests = crowdstrike_credential_dumping_tool_tests
+    default_description = "Detects usage of tools commonly used for credential dumping."
+    display_name = "Crowdstrike Credential Dumping Tool"
+    default_reference = "https://www.crowdstrike.com/blog/adversary-credential-theft/"
+    default_severity = PantherSeverity.critical
+    log_types = [PantherLogType.Crowdstrike_FDREvent]
+    id_ = "Crowdstrike.Credential.Dumping.Tool-prototype"
+    tests = crowdstrike_credential_dumping_tool_tests
     CREDENTIAL_DUMPING_TOOLS = {
         "mimikatz.exe",
         "secretsdump.py",

@@ -6,9 +6,9 @@ from pypanther.helpers.panther_tines_helpers import tines_alert_context
 
 tines_story_jobs_clearance_tests: List[PantherRuleTest] = [
     PantherRuleTest(
-        Name="Detection Trigger",
-        ExpectedResult=True,
-        Log={
+        name="Detection Trigger",
+        expected_result=True,
+        log={
             "created_at": "2023-06-13 15:14:46",
             "id": 1234,
             "operation_name": "StoryJobsClearance",
@@ -22,9 +22,9 @@ tines_story_jobs_clearance_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="Tines Login",
-        ExpectedResult=False,
-        Log={
+        name="Tines Login",
+        expected_result=False,
+        log={
             "created_at": "2023-05-17 14:45:19",
             "id": 7888888,
             "operation_name": "Login",
@@ -41,15 +41,15 @@ tines_story_jobs_clearance_tests: List[PantherRuleTest] = [
 
 
 class TinesStoryJobsClearance(PantherRule):
-    RuleID = "Tines.Story.Jobs.Clearance-prototype"
-    DisplayName = "Tines Story Jobs Clearance"
-    LogTypes = [PantherLogType.Tines_Audit]
-    Tags = ["Tines"]
-    Severity = PantherSeverity.Low
-    Description = "A Tines User has cleared story jobs."
-    Runbook = "Possible data destruction. Please reach out to the user and confirm this was done for valid business reasons."
-    Reference = "https://www.tines.com/docs/stories"
-    Tests = tines_story_jobs_clearance_tests
+    id_ = "Tines.Story.Jobs.Clearance-prototype"
+    display_name = "Tines Story Jobs Clearance"
+    log_types = [PantherLogType.Tines_Audit]
+    tags = ["Tines"]
+    default_severity = PantherSeverity.low
+    default_description = "A Tines User has cleared story jobs."
+    default_runbook = "Possible data destruction. Please reach out to the user and confirm this was done for valid business reasons."
+    default_reference = "https://www.tines.com/docs/stories"
+    tests = tines_story_jobs_clearance_tests
 
     def rule(self, event):
         return (

@@ -4,9 +4,9 @@ from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSever
 
 netskope_admin_logged_out_login_failures_tests: List[PantherRuleTest] = [
     PantherRuleTest(
-        Name="True positive",
-        ExpectedResult=True,
-        Log={
+        name="True positive",
+        expected_result=True,
+        log={
             "_id": "e5ca619b059fccdd0cfd9398",
             "_insertion_epoch_timestamp": 1702308331,
             "audit_log_event": "Admin logged out because of successive login failures",
@@ -25,9 +25,9 @@ netskope_admin_logged_out_login_failures_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="True negative",
-        ExpectedResult=False,
-        Log={
+        name="True negative",
+        expected_result=False,
+        log={
             "_id": "1e589befa3da30132362f32a",
             "_insertion_epoch_timestamp": 1702318213,
             "audit_log_event": "Rest API V2 Call",
@@ -54,16 +54,18 @@ netskope_admin_logged_out_login_failures_tests: List[PantherRuleTest] = [
 
 
 class NetskopeAdminLoggedOutLoginFailures(PantherRule):
-    RuleID = "Netskope.AdminLoggedOutLoginFailures-prototype"
-    DisplayName = "Admin logged out because of successive login failures"
-    LogTypes = [PantherLogType.Netskope_Audit]
-    Tags = ["Netskope", "Brute Force"]
-    Reports = {"MITRE ATT&CK": ["TA0006:T1110"]}
-    Severity = PantherSeverity.Medium
-    Description = "An admin was logged out because of successive login failures."
-    Runbook = "An admin was logged out because of successive login failures.  This could indicate brute force activity against this account."
-    Reference = "https://docs.netskope.com/en/netskope-help/admin-console/administration/audit-log/"
-    Tests = netskope_admin_logged_out_login_failures_tests
+    id_ = "Netskope.AdminLoggedOutLoginFailures-prototype"
+    display_name = "Admin logged out because of successive login failures"
+    log_types = [PantherLogType.Netskope_Audit]
+    tags = ["Netskope", "Brute Force"]
+    reports = {"MITRE ATT&CK": ["TA0006:T1110"]}
+    default_severity = PantherSeverity.medium
+    default_description = "An admin was logged out because of successive login failures."
+    default_runbook = "An admin was logged out because of successive login failures.  This could indicate brute force activity against this account."
+    default_reference = (
+        "https://docs.netskope.com/en/netskope-help/admin-console/administration/audit-log/"
+    )
+    tests = netskope_admin_logged_out_login_failures_tests
 
     def rule(self, event):
         if event.get("audit_log_event") == "Admin logged out because of successive login failures":

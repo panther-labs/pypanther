@@ -30,12 +30,12 @@ def get_event_type(event):
 
 
 class StandardAtlassianAudit(PantherDataModel):
-    DataModelID: str = "Standard.Atlassian.Audit"
-    DisplayName: str = "Atlassian Audit Logs"
-    Enabled: bool = True
-    LogTypes: List[str] = [PantherLogType.Atlassian_Audit]
-    Mappings: List[PantherDataModelMapping] = [
-        PantherDataModelMapping(Name="actor_user", Path="$.EventActor.Name"),
-        PantherDataModelMapping(Name="event_type", Method=get_event_type),
-        PantherDataModelMapping(Name="source_ip", Path="$.EventLocation.IP"),
+    id_: str = "Standard.Atlassian.Audit"
+    display_name: str = "Atlassian Audit Logs"
+    enabled: bool = True
+    log_types: List[str] = [PantherLogType.Atlassian_Audit]
+    mappings: List[PantherDataModelMapping] = [
+        PantherDataModelMapping(name="actor_user", path="$.EventActor.Name"),
+        PantherDataModelMapping(name="event_type", method=get_event_type),
+        PantherDataModelMapping(name="source_ip", path="$.EventLocation.IP"),
     ]

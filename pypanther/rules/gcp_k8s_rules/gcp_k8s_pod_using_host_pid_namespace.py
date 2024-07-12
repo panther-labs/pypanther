@@ -6,9 +6,9 @@ from pypanther.helpers.panther_base_helpers import deep_get
 
 gcpk8s_pod_using_host_pid_namespace_tests: List[PantherRuleTest] = [
     PantherRuleTest(
-        Name="triggers",
-        ExpectedResult=True,
-        Log={
+        name="triggers",
+        expected_result=True,
+        log={
             "authorizationInfo": [
                 {
                     "granted": True,
@@ -23,9 +23,9 @@ gcpk8s_pod_using_host_pid_namespace_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="ignore",
-        ExpectedResult=False,
-        Log={
+        name="ignore",
+        expected_result=False,
+        log={
             "authorizationInfo": [
                 {
                     "granted": True,
@@ -43,16 +43,16 @@ gcpk8s_pod_using_host_pid_namespace_tests: List[PantherRuleTest] = [
 
 
 class GCPK8sPodUsingHostPIDNamespace(PantherRule):
-    RuleID = "GCP.K8s.Pod.Using.Host.PID.Namespace-prototype"
-    DisplayName = "GCP K8s Pod Using Host PID Namespace"
-    LogTypes = [PantherLogType.GCP_AuditLog]
-    Tags = ["GCP", "Optional"]
-    Severity = PantherSeverity.Medium
-    Description = "This detection monitors for any pod creation or modification using the host PID namespace. The Host PID namespace enables a pod and its containers to have direct access and share the same view as of the host’s processes. This can offer a powerful escape hatch to the underlying host."
-    Runbook = "Investigate a reason of creating a pod using the host PID namespace. Advise that it is discouraged practice. Create ticket if appropriate."
-    Reports = {"MITRE ATT&CK": ["TA0004:T1611", "TA0002:T1610"]}
-    Reference = "https://medium.com/snowflake/from-logs-to-detection-using-snowflake-and-panther-to-detect-k8s-threats-d72f70a504d7"
-    Tests = gcpk8s_pod_using_host_pid_namespace_tests
+    id_ = "GCP.K8s.Pod.Using.Host.PID.Namespace-prototype"
+    display_name = "GCP K8s Pod Using Host PID Namespace"
+    log_types = [PantherLogType.GCP_AuditLog]
+    tags = ["GCP", "Optional"]
+    default_severity = PantherSeverity.medium
+    default_description = "This detection monitors for any pod creation or modification using the host PID namespace. The Host PID namespace enables a pod and its containers to have direct access and share the same view as of the host’s processes. This can offer a powerful escape hatch to the underlying host."
+    default_runbook = "Investigate a reason of creating a pod using the host PID namespace. Advise that it is discouraged practice. Create ticket if appropriate."
+    reports = {"MITRE ATT&CK": ["TA0004:T1611", "TA0002:T1610"]}
+    default_reference = "https://medium.com/snowflake/from-logs-to-detection-using-snowflake-and-panther-to-detect-k8s-threats-d72f70a504d7"
+    tests = gcpk8s_pod_using_host_pid_namespace_tests
     METHODS_TO_CHECK = [
         "io.k8s.core.v1.pods.create",
         "io.k8s.core.v1.pods.update",

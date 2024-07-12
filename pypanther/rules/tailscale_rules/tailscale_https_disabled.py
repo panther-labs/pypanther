@@ -9,9 +9,9 @@ from pypanther.helpers.panther_tailscale_helpers import (
 
 tailscale_https_disabled_tests: List[PantherRuleTest] = [
     PantherRuleTest(
-        Name="HTTPS Disabled",
-        ExpectedResult=True,
-        Log={
+        name="HTTPS Disabled",
+        expected_result=True,
+        log={
             "event": {
                 "action": "DISABLE",
                 "actor": {
@@ -45,9 +45,9 @@ tailscale_https_disabled_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="Other Event",
-        ExpectedResult=False,
-        Log={
+        name="Other Event",
+        expected_result=False,
+        log={
             "event": {
                 "action": "CREATE",
                 "actor": {
@@ -80,14 +80,14 @@ tailscale_https_disabled_tests: List[PantherRuleTest] = [
 
 
 class TailscaleHTTPSDisabled(PantherRule):
-    Description = "A Tailscale User disabled HTTPS settings in your organization's tenant."
-    DisplayName = "Tailscale HTTPS Disabled"
-    Runbook = "Assess if this was done by the user for a valid business reason. Be vigilant to re-enable this setting as it's in the best security interest for your organization's security posture."
-    Reference = "https://tailscale.com/kb/1153/enabling-https/#disable-https"
-    Severity = PantherSeverity.High
-    LogTypes = [PantherLogType.Tailscale_Audit]
-    RuleID = "Tailscale.HTTPS.Disabled-prototype"
-    Tests = tailscale_https_disabled_tests
+    default_description = "A Tailscale User disabled HTTPS settings in your organization's tenant."
+    display_name = "Tailscale HTTPS Disabled"
+    default_runbook = "Assess if this was done by the user for a valid business reason. Be vigilant to re-enable this setting as it's in the best security interest for your organization's security posture."
+    default_reference = "https://tailscale.com/kb/1153/enabling-https/#disable-https"
+    default_severity = PantherSeverity.high
+    log_types = [PantherLogType.Tailscale_Audit]
+    id_ = "Tailscale.HTTPS.Disabled-prototype"
+    tests = tailscale_https_disabled_tests
 
     def rule(self, event):
         action = deep_get(event, "event", "action", default="<NO_ACTION_FOUND>")

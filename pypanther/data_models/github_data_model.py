@@ -36,13 +36,13 @@ def get_event_type(event):
 
 
 class StandardGithubAudit(PantherDataModel):
-    DataModelID: str = "Standard.Github.Audit"
-    DisplayName: str = "Github Audit"
-    Enabled: bool = True
-    LogTypes: List[str] = [PantherLogType.GitHub_Audit]
-    Mappings: List[PantherDataModelMapping] = [
-        PantherDataModelMapping(Name="actor_user", Path="actor"),
-        PantherDataModelMapping(Name="assigned_admin_role", Method=get_admin_role),
-        PantherDataModelMapping(Name="event_type", Method=get_event_type),
-        PantherDataModelMapping(Name="user", Path="user"),
+    id_: str = "Standard.Github.Audit"
+    display_name: str = "Github Audit"
+    enabled: bool = True
+    log_types: List[str] = [PantherLogType.GitHub_Audit]
+    mappings: List[PantherDataModelMapping] = [
+        PantherDataModelMapping(name="actor_user", path="actor"),
+        PantherDataModelMapping(name="assigned_admin_role", method=get_admin_role),
+        PantherDataModelMapping(name="event_type", method=get_event_type),
+        PantherDataModelMapping(name="user", path="user"),
     ]

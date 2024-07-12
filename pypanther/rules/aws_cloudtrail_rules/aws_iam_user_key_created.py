@@ -6,9 +6,9 @@ from pypanther.helpers.panther_default import aws_cloudtrail_success
 
 awsiam_backdoor_user_keys_tests: List[PantherRuleTest] = [
     PantherRuleTest(
-        Name="user1 create keys for user1",
-        ExpectedResult=False,
-        Log={
+        name="user1 create keys for user1",
+        expected_result=False,
+        log={
             "awsRegion": "us-east-1",
             "eventCategory": "Management",
             "eventID": "12345",
@@ -51,9 +51,9 @@ awsiam_backdoor_user_keys_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="user1 create keys for user2",
-        ExpectedResult=True,
-        Log={
+        name="user1 create keys for user2",
+        expected_result=True,
+        log={
             "awsRegion": "us-east-1",
             "eventCategory": "Management",
             "eventID": "12345",
@@ -96,9 +96,9 @@ awsiam_backdoor_user_keys_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="jackson create keys for jack",
-        ExpectedResult=True,
-        Log={
+        name="jackson create keys for jack",
+        expected_result=True,
+        log={
             "awsRegion": "us-east-1",
             "eventCategory": "Management",
             "eventID": "12345",
@@ -141,9 +141,9 @@ awsiam_backdoor_user_keys_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="jack create keys for jackson",
-        ExpectedResult=True,
-        Log={
+        name="jack create keys for jackson",
+        expected_result=True,
+        log={
             "awsRegion": "us-east-1",
             "eventCategory": "Management",
             "eventID": "12345",
@@ -186,9 +186,9 @@ awsiam_backdoor_user_keys_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="CreateKey returns error code",
-        ExpectedResult=False,
-        Log={
+        name="CreateKey returns error code",
+        expected_result=False,
+        log={
             "awsRegion": "us-east-1",
             "errorCode": "LimitExceededException",
             "errorMessage": "Cannot exceed quota for AccessKeysPerUser: 2",
@@ -232,14 +232,16 @@ awsiam_backdoor_user_keys_tests: List[PantherRuleTest] = [
 
 
 class AWSIAMBackdoorUserKeys(PantherRule):
-    Description = "Detects AWS API key creation for a user by another user. Backdoored users can be used to obtain persistence in the AWS environment."
-    DisplayName = "AWS User API Key Created"
-    Reports = {"MITRE ATT&CK": ["TA0003:T1098", "TA0005:T1108", "TA0005:T1550", "TA0008:T1550"]}
-    Reference = "https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_access-keys.html"
-    Severity = PantherSeverity.Medium
-    LogTypes = [PantherLogType.AWS_CloudTrail]
-    RuleID = "AWS.IAM.Backdoor.User.Keys-prototype"
-    Tests = awsiam_backdoor_user_keys_tests
+    default_description = "Detects AWS API key creation for a user by another user. Backdoored users can be used to obtain persistence in the AWS environment."
+    display_name = "AWS User API Key Created"
+    reports = {"MITRE ATT&CK": ["TA0003:T1098", "TA0005:T1108", "TA0005:T1550", "TA0008:T1550"]}
+    default_reference = (
+        "https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_access-keys.html"
+    )
+    default_severity = PantherSeverity.medium
+    log_types = [PantherLogType.AWS_CloudTrail]
+    id_ = "AWS.IAM.Backdoor.User.Keys-prototype"
+    tests = awsiam_backdoor_user_keys_tests
 
     def rule(self, event):
         return (

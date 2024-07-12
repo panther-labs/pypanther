@@ -5,9 +5,9 @@ from pypanther.helpers.panther_base_helpers import deep_get
 
 asana_service_account_created_tests: List[PantherRuleTest] = [
     PantherRuleTest(
-        Name="New domain created",
-        ExpectedResult=False,
-        Log={
+        name="New domain created",
+        expected_result=False,
+        log={
             "actor": {
                 "actor_type": "user",
                 "email": "homer.simpson@example.io",
@@ -24,13 +24,17 @@ asana_service_account_created_tests: List[PantherRuleTest] = [
             "event_category": "admin_settings",
             "event_type": "workspace_associated_email_domain_added",
             "gid": "12345",
-            "resource": {"gid": "12345", "name": "Example IO", "resource_type": "workspace"},
+            "resource": {
+                "gid": "12345",
+                "name": "Example IO",
+                "resource_type": "workspace",
+            },
         },
     ),
     PantherRuleTest(
-        Name="Slack svc acct",
-        ExpectedResult=True,
-        Log={
+        name="Slack svc acct",
+        expected_result=True,
+        log={
             "actor": {
                 "actor_type": "user",
                 "email": "homer.simpson@panther.io",
@@ -47,13 +51,17 @@ asana_service_account_created_tests: List[PantherRuleTest] = [
             "event_category": "apps",
             "event_type": "service_account_created",
             "gid": "12345",
-            "resource": {"gid": "12345", "name": "Slack Service Account", "resource_type": "user"},
+            "resource": {
+                "gid": "12345",
+                "name": "Slack Service Account",
+                "resource_type": "user",
+            },
         },
     ),
     PantherRuleTest(
-        Name="Datadog svc acct",
-        ExpectedResult=True,
-        Log={
+        name="Datadog svc acct",
+        expected_result=True,
+        log={
             "actor": {
                 "actor_type": "user",
                 "email": "homer.simpson@panther.io",
@@ -81,14 +89,14 @@ asana_service_account_created_tests: List[PantherRuleTest] = [
 
 
 class AsanaServiceAccountCreated(PantherRule):
-    Description = "An Asana service account was created by someone in your organization."
-    DisplayName = "Asana Service Account Created"
-    Runbook = "Confirm this user acted with valid business intent and determine whether this activity was authorized."
-    Reference = "https://help.asana.com/hc/en-us/articles/14217496838427-Service-Accounts"
-    Severity = PantherSeverity.Medium
-    LogTypes = [PantherLogType.Asana_Audit]
-    RuleID = "Asana.Service.Account.Created-prototype"
-    Tests = asana_service_account_created_tests
+    default_description = "An Asana service account was created by someone in your organization."
+    display_name = "Asana Service Account Created"
+    default_runbook = "Confirm this user acted with valid business intent and determine whether this activity was authorized."
+    default_reference = "https://help.asana.com/hc/en-us/articles/14217496838427-Service-Accounts"
+    default_severity = PantherSeverity.medium
+    log_types = [PantherLogType.Asana_Audit]
+    id_ = "Asana.Service.Account.Created-prototype"
+    tests = asana_service_account_created_tests
 
     def rule(self, event):
         return event.get("event_type", "<NO_EVENT_TYPE_FOUND>") == "service_account_created"

@@ -5,9 +5,9 @@ from pypanther.helpers.panther_base_helpers import crowdstrike_process_alert_con
 
 crowdstrike_fdrlolbas_tests: List[PantherRuleTest] = [
     PantherRuleTest(
-        Name="At Usage (Positive)",
-        ExpectedResult=True,
-        Log={
+        name="At Usage (Positive)",
+        expected_result=True,
+        log={
             "ConfigBuild": "1007.3.0016606.11",
             "ConfigStateHash": "3799024366",
             "Entitlements": "15",
@@ -86,9 +86,9 @@ crowdstrike_fdrlolbas_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="Notepad Usage (Negative)",
-        ExpectedResult=False,
-        Log={
+        name="Notepad Usage (Negative)",
+        expected_result=False,
+        log={
             "ConfigBuild": "1007.3.0016606.11",
             "ConfigStateHash": "3799024366",
             "Entitlements": "15",
@@ -170,16 +170,16 @@ crowdstrike_fdrlolbas_tests: List[PantherRuleTest] = [
 
 
 class CrowdstrikeFDRLOLBAS(PantherRule):
-    LogTypes = [PantherLogType.Crowdstrike_FDREvent]
-    RuleID = "Crowdstrike.FDR.LOLBAS-prototype"
-    DisplayName = "Crowdstrike FDR LOLBAS"
-    Description = "Living off the land binaries and script usage"
-    Reference = "https://lolbas-project.github.io/"
-    DedupPeriodMinutes = 1440
-    Enabled = False
-    Severity = PantherSeverity.Info
-    Tags = ["Configuration Required"]
-    Tests = crowdstrike_fdrlolbas_tests
+    log_types = [PantherLogType.Crowdstrike_FDREvent]
+    id_ = "Crowdstrike.FDR.LOLBAS-prototype"
+    display_name = "Crowdstrike FDR LOLBAS"
+    default_description = "Living off the land binaries and script usage"
+    default_reference = "https://lolbas-project.github.io/"
+    dedup_period_minutes = 1440
+    enabled = False
+    default_severity = PantherSeverity.info
+    tags = ["Configuration Required"]
+    tests = crowdstrike_fdrlolbas_tests
     LOLBAS_EXE = {
         "AppInstaller.exe",
         "At.exe",

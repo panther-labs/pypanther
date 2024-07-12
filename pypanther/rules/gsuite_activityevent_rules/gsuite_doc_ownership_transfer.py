@@ -6,18 +6,18 @@ from pypanther.helpers.panther_config import config
 
 g_suite_doc_ownership_transfer_tests: List[PantherRuleTest] = [
     PantherRuleTest(
-        Name="Ownership Transferred Within Organization",
-        ExpectedResult=False,
-        Log={
+        name="Ownership Transferred Within Organization",
+        expected_result=False,
+        log={
             "id": {"applicationName": "admin"},
             "name": "TRANSFER_DOCUMENT_OWNERSHIP",
             "parameters": {"NEW_VALUE": "homer.simpson@example.com"},
         },
     ),
     PantherRuleTest(
-        Name="Document Transferred to External User",
-        ExpectedResult=True,
-        Log={
+        name="Document Transferred to External User",
+        expected_result=True,
+        log={
             "id": {"applicationName": "admin"},
             "name": "TRANSFER_DOCUMENT_OWNERSHIP",
             "parameters": {"NEW_VALUE": "monty.burns@badguy.com"},
@@ -27,20 +27,24 @@ g_suite_doc_ownership_transfer_tests: List[PantherRuleTest] = [
 
 
 class GSuiteDocOwnershipTransfer(PantherRule):
-    RuleID = "GSuite.DocOwnershipTransfer-prototype"
-    DisplayName = "GSuite Document External Ownership Transfer"
-    Enabled = False
-    LogTypes = [PantherLogType.GSuite_ActivityEvent]
-    Tags = ["GSuite", "Configuration Required", "Collection:Data from Information Repositories"]
-    Reports = {"MITRE ATT&CK": ["TA0009:T1213"]}
-    Severity = PantherSeverity.Low
-    Description = "A GSuite document's ownership was transferred to an external party.\n"
-    Reference = "https://support.google.com/drive/answer/2494892?hl=en&co=GENIE.Platform%3DDesktop&sjid=864417124752637253-EU"
-    Runbook = (
+    id_ = "GSuite.DocOwnershipTransfer-prototype"
+    display_name = "GSuite Document External Ownership Transfer"
+    enabled = False
+    log_types = [PantherLogType.GSuite_ActivityEvent]
+    tags = [
+        "GSuite",
+        "Configuration Required",
+        "Collection:Data from Information Repositories",
+    ]
+    reports = {"MITRE ATT&CK": ["TA0009:T1213"]}
+    default_severity = PantherSeverity.low
+    default_description = "A GSuite document's ownership was transferred to an external party.\n"
+    default_reference = "https://support.google.com/drive/answer/2494892?hl=en&co=GENIE.Platform%3DDesktop&sjid=864417124752637253-EU"
+    default_runbook = (
         "Verify that this document did not contain sensitive or private company information.\n"
     )
-    SummaryAttributes = ["actor:email"]
-    Tests = g_suite_doc_ownership_transfer_tests
+    summary_attributes = ["actor:email"]
+    tests = g_suite_doc_ownership_transfer_tests
     GSUITE_TRUSTED_OWNERSHIP_DOMAINS = {
         "@" + domain for domain in config.GSUITE_TRUSTED_OWNERSHIP_DOMAINS
     }

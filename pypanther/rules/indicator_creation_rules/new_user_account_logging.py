@@ -9,10 +9,10 @@ from pypanther.helpers.panther_oss_helpers import resolve_timestamp_string
 
 standard_new_user_account_created_tests: List[PantherRuleTest] = [
     PantherRuleTest(
-        Name="User Creation Event - OneLogin",
-        ExpectedResult=True,
-        Mocks=[PantherRuleMock(ObjectName="put_string_set", ReturnValue="")],
-        Log={
+        name="User Creation Event - OneLogin",
+        expected_result=True,
+        mocks=[PantherRuleMock(object_name="put_string_set", return_value="")],
+        log={
             "event_type_id": 13,
             "actor_user_id": 123456,
             "user_id": 12345,
@@ -24,9 +24,9 @@ standard_new_user_account_created_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="Standard Login Event - OneLogin",
-        ExpectedResult=False,
-        Log={
+        name="Standard Login Event - OneLogin",
+        expected_result=False,
+        log={
             "event_type_id": 5,
             "actor_user_id": 123456,
             "actor_user_name": "Bob Cat",
@@ -39,10 +39,10 @@ standard_new_user_account_created_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="User Account Created - CloudTrail",
-        ExpectedResult=True,
-        Mocks=[PantherRuleMock(ObjectName="put_string_set", ReturnValue="")],
-        Log={
+        name="User Account Created - CloudTrail",
+        expected_result=True,
+        mocks=[PantherRuleMock(object_name="put_string_set", return_value="")],
+        log={
             "eventName": "CreateUser",
             "responseElements": {"user": {"userName": "Bob Cat", "userId": "12345"}},
             "p_event_time": "2021-08-31 15:46:02.000000000",
@@ -51,9 +51,9 @@ standard_new_user_account_created_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="Normal Console Login - CloudTrail",
-        ExpectedResult=False,
-        Log={
+        name="Normal Console Login - CloudTrail",
+        expected_result=False,
+        log={
             "userIdentity": {"type": "IAMUser", "userName": "some_user"},
             "eventName": "ConsoleLogin",
             "responseElements": {"ConsoleLogin": "Success"},
@@ -63,10 +63,10 @@ standard_new_user_account_created_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="User Creation Event - Zoom",
-        ExpectedResult=True,
-        Mocks=[PantherRuleMock(ObjectName="put_string_set", ReturnValue="")],
-        Log={
+        name="User Creation Event - Zoom",
+        expected_result=True,
+        mocks=[PantherRuleMock(object_name="put_string_set", return_value="")],
+        log={
             "action": "Add",
             "category_type": "User",
             "operation_detail": "Add User homer@simpson.io  - User Type: Basic - Department: Foo",
@@ -79,21 +79,26 @@ standard_new_user_account_created_tests: List[PantherRuleTest] = [
 
 
 class StandardNewUserAccountCreated(PantherRule):
-    RuleID = "Standard.NewUserAccountCreated-prototype"
-    DisplayName = "New User Account Created"
-    LogTypes = [
+    id_ = "Standard.NewUserAccountCreated-prototype"
+    display_name = "New User Account Created"
+    log_types = [
         PantherLogType.OneLogin_Events,
         PantherLogType.AWS_CloudTrail,
         PantherLogType.Zoom_Operation,
     ]
-    Tags = ["DataModel", "Indicator Collection", "OneLogin", "Persistence:Create Account"]
-    Severity = PantherSeverity.Info
-    Reports = {"MITRE ATT&CK": ["TA0003:T1136"]}
-    Description = "A new account was created"
-    Runbook = "A new user account was created, ensure it was created through standard practice and is for a valid purpose."
-    Reference = "https://attack.mitre.org/techniques/T1136/001/"
-    SummaryAttributes = ["p_any_usernames"]
-    Tests = standard_new_user_account_created_tests
+    tags = [
+        "DataModel",
+        "Indicator Collection",
+        "OneLogin",
+        "Persistence:Create Account",
+    ]
+    default_severity = PantherSeverity.info
+    reports = {"MITRE ATT&CK": ["TA0003:T1136"]}
+    default_description = "A new account was created"
+    default_runbook = "A new user account was created, ensure it was created through standard practice and is for a valid purpose."
+    default_reference = "https://attack.mitre.org/techniques/T1136/001/"
+    summary_attributes = ["p_any_usernames"]
+    tests = standard_new_user_account_created_tests
     # Days an account is considered new
     TTL = timedelta(days=3)
 
@@ -107,7 +112,9 @@ class StandardNewUserAccountCreated(PantherRule):
         expiry_time = event_time + self.TTL
         if new_user:
             put_string_set(
-                new_user + "-" + str(new_account), [user_event_id], expiry_time.strftime("%s")
+                new_user + "-" + str(new_account),
+                [user_event_id],
+                expiry_time.strftime("%s"),
             )
         return True
 

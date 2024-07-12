@@ -5,9 +5,9 @@ from pypanther.helpers.panther_base_helpers import deep_get
 
 asana_workspace_guest_invite_permissions_anyone_tests: List[PantherRuleTest] = [
     PantherRuleTest(
-        Name="Anyone Allowed Guest Invite",
-        ExpectedResult=True,
-        Log={
+        name="Anyone Allowed Guest Invite",
+        expected_result=True,
+        log={
             "actor": {
                 "actor_type": "user",
                 "email": "homer.simpson@example.io",
@@ -24,13 +24,17 @@ asana_workspace_guest_invite_permissions_anyone_tests: List[PantherRuleTest] = [
             "event_category": "admin_settings",
             "event_type": "workspace_guest_invite_permissions_changed",
             "gid": "12345",
-            "resource": {"gid": "12345", "name": "Example IO", "resource_type": "workspace"},
+            "resource": {
+                "gid": "12345",
+                "name": "Example IO",
+                "resource_type": "workspace",
+            },
         },
     ),
     PantherRuleTest(
-        Name="Other",
-        ExpectedResult=False,
-        Log={
+        name="Other",
+        expected_result=False,
+        log={
             "actor": {
                 "actor_type": "user",
                 "email": "homer.simpson@simpsons.com",
@@ -47,20 +51,24 @@ asana_workspace_guest_invite_permissions_anyone_tests: List[PantherRuleTest] = [
             "event_category": "admin_settings",
             "event_type": "workspace_form_link_authentication_required_disabled",
             "gid": "1234567890",
-            "resource": {"gid": "111234", "name": "Simpsons Lab", "resource_type": "workspace"},
+            "resource": {
+                "gid": "111234",
+                "name": "Simpsons Lab",
+                "resource_type": "workspace",
+            },
         },
     ),
 ]
 
 
 class AsanaWorkspaceGuestInvitePermissionsAnyone(PantherRule):
-    Description = "Typically inviting guests to Asana is permitted by few users. Enabling anyone to invite guests can potentially lead to unauthorized users gaining access to Asana."
-    DisplayName = "Asana Workspace Guest Invite Permissions Anyone"
-    Reference = "https://help.asana.com/hc/en-us/articles/14109494654875-Admin-console#:~:text=Google%20SSO%20password.-,Guest%20invite%20controls,-Super%20admins%20of"
-    Severity = PantherSeverity.Low
-    LogTypes = [PantherLogType.Asana_Audit]
-    RuleID = "Asana.Workspace.Guest.Invite.Permissions.Anyone-prototype"
-    Tests = asana_workspace_guest_invite_permissions_anyone_tests
+    default_description = "Typically inviting guests to Asana is permitted by few users. Enabling anyone to invite guests can potentially lead to unauthorized users gaining access to Asana."
+    display_name = "Asana Workspace Guest Invite Permissions Anyone"
+    default_reference = "https://help.asana.com/hc/en-us/articles/14109494654875-Admin-console#:~:text=Google%20SSO%20password.-,Guest%20invite%20controls,-Super%20admins%20of"
+    default_severity = PantherSeverity.low
+    log_types = [PantherLogType.Asana_Audit]
+    id_ = "Asana.Workspace.Guest.Invite.Permissions.Anyone-prototype"
+    tests = asana_workspace_guest_invite_permissions_anyone_tests
 
     def rule(self, event):
         return (

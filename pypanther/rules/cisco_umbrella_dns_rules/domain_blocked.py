@@ -4,9 +4,9 @@ from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSever
 
 cisco_umbrella_dns_blocked_tests: List[PantherRuleTest] = [
     PantherRuleTest(
-        Name="Domain Blocked",
-        ExpectedResult=True,
-        Log={
+        name="Domain Blocked",
+        expected_result=True,
+        log={
             "action": "Blocked",
             "internalIp": "136.24.229.58",
             "externalIp": "136.24.229.58",
@@ -16,9 +16,9 @@ cisco_umbrella_dns_blocked_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="Action Allowed",
-        ExpectedResult=False,
-        Log={
+        name="Action Allowed",
+        expected_result=False,
+        log={
             "action": "Allowed",
             "internalIp": "136.24.229.58",
             "externalIp": "136.24.229.58",
@@ -31,17 +31,23 @@ cisco_umbrella_dns_blocked_tests: List[PantherRuleTest] = [
 
 
 class CiscoUmbrellaDNSBlocked(PantherRule):
-    RuleID = "CiscoUmbrella.DNS.Blocked-prototype"
-    DisplayName = "Cisco Umbrella Domain Blocked"
-    DedupPeriodMinutes = 480
-    LogTypes = [PantherLogType.CiscoUmbrella_DNS]
-    Tags = ["DNS"]
-    Severity = PantherSeverity.Low
-    Description = "Monitor blocked domains"
-    Runbook = "Inspect the blocked domain and lookup for malware"
-    Reference = "https://support.umbrella.com/hc/en-us/articles/230563627-How-to-determine-if-a-domain-or-resource-is-being-blocked-using-Chrome-Net-Internals"
-    SummaryAttributes = ["action", "internalIp", "externalIp", "domain", "responseCode"]
-    Tests = cisco_umbrella_dns_blocked_tests
+    id_ = "CiscoUmbrella.DNS.Blocked-prototype"
+    display_name = "Cisco Umbrella Domain Blocked"
+    dedup_period_minutes = 480
+    log_types = [PantherLogType.CiscoUmbrella_DNS]
+    tags = ["DNS"]
+    default_severity = PantherSeverity.low
+    default_description = "Monitor blocked domains"
+    default_runbook = "Inspect the blocked domain and lookup for malware"
+    default_reference = "https://support.umbrella.com/hc/en-us/articles/230563627-How-to-determine-if-a-domain-or-resource-is-being-blocked-using-Chrome-Net-Internals"
+    summary_attributes = [
+        "action",
+        "internalIp",
+        "externalIp",
+        "domain",
+        "responseCode",
+    ]
+    tests = cisco_umbrella_dns_blocked_tests
 
     def rule(self, event):
         return event.get("action") == "Blocked"

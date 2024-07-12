@@ -8,11 +8,11 @@ from pypanther.log_types import PantherLogType
 
 
 class StandardOnePasswordItemUsage(PantherDataModel):
-    DataModelID: str = "Standard.OnePassword.ItemUsage"
-    DisplayName: str = "1Password Item Usage Events"
-    Enabled: bool = True
-    LogTypes: List[str] = [PantherLogType.OnePassword_ItemUsage]
-    Mappings: List[PantherDataModelMapping] = [
-        PantherDataModelMapping(Name="actor_user", Path="$.user.email"),
-        PantherDataModelMapping(Name="source_ip", Path="$.client.ipaddress"),
+    id_: str = "Standard.OnePassword.ItemUsage"
+    display_name: str = "1Password Item Usage Events"
+    enabled: bool = True
+    log_types: List[str] = [PantherLogType.OnePassword_ItemUsage]
+    mappings: List[PantherDataModelMapping] = [
+        PantherDataModelMapping(name="actor_user", path="$.user.email"),
+        PantherDataModelMapping(name="source_ip", path="$.client.ipaddress"),
     ]

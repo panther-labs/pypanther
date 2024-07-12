@@ -4,9 +4,9 @@ from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSever
 
 netskope_many_deletes_tests: List[PantherRuleTest] = [
     PantherRuleTest(
-        Name="True positive",
-        ExpectedResult=True,
-        Log={
+        name="True positive",
+        expected_result=True,
+        log={
             "_id": "1e589befa3da30132362f32a",
             "_insertion_epoch_timestamp": 1702318213,
             "audit_log_event": "Deleted rbi template",
@@ -21,9 +21,9 @@ netskope_many_deletes_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="True negative",
-        ExpectedResult=False,
-        Log={
+        name="True negative",
+        expected_result=False,
+        log={
             "_id": "1e589befa3da30132362f32a",
             "_insertion_epoch_timestamp": 1702318213,
             "audit_log_event": "Rest API V2 Call",
@@ -50,17 +50,19 @@ netskope_many_deletes_tests: List[PantherRuleTest] = [
 
 
 class NetskopeManyDeletes(PantherRule):
-    RuleID = "Netskope.ManyDeletes-prototype"
-    DisplayName = "Netskope Many Objects Deleted"
-    LogTypes = [PantherLogType.Netskope_Audit]
-    Tags = ["Netskope", "Configuration Required", "Data Destruction"]
-    Reports = {"MITRE ATT&CK": ["TA0040:T1485"]}
-    Severity = PantherSeverity.High
-    Description = "A user deleted a large number of objects in a short period of time."
-    Threshold = 10
-    Runbook = "A user deleted a large number of objects in a short period of time.  Validate that this activity is expected and authorized."
-    Reference = "https://docs.netskope.com/en/netskope-help/admin-console/administration/audit-log/"
-    Tests = netskope_many_deletes_tests
+    id_ = "Netskope.ManyDeletes-prototype"
+    display_name = "Netskope Many Objects Deleted"
+    log_types = [PantherLogType.Netskope_Audit]
+    tags = ["Netskope", "Configuration Required", "Data Destruction"]
+    reports = {"MITRE ATT&CK": ["TA0040:T1485"]}
+    default_severity = PantherSeverity.high
+    default_description = "A user deleted a large number of objects in a short period of time."
+    threshold = 10
+    default_runbook = "A user deleted a large number of objects in a short period of time.  Validate that this activity is expected and authorized."
+    default_reference = (
+        "https://docs.netskope.com/en/netskope-help/admin-console/administration/audit-log/"
+    )
+    tests = netskope_many_deletes_tests
 
     def rule(self, event):
         audit_log_event = event.get("audit_log_event")

@@ -19,16 +19,16 @@ def get_event_type(event):
 
 
 class StandardOneLoginEvents(PantherDataModel):
-    DataModelID: str = "Standard.OneLogin.Events"
-    DisplayName: str = "OneLogin Events"
-    Enabled: bool = True
-    LogTypes: List[str] = [PantherLogType.OneLogin_Events]
-    Mappings: List[PantherDataModelMapping] = [
-        PantherDataModelMapping(Name="actor_user", Path="actor_user_name"),
-        PantherDataModelMapping(Name="assigned_admin_role", Path="privilege_name"),
-        PantherDataModelMapping(Name="event_type", Method=get_event_type),
-        PantherDataModelMapping(Name="source_ip", Path="ipaddr"),
-        PantherDataModelMapping(Name="user", Path="user_name"),
-        PantherDataModelMapping(Name="user_account_id", Path="user_id"),
-        PantherDataModelMapping(Name="user_agent", Path="user_agent"),
+    id_: str = "Standard.OneLogin.Events"
+    display_name: str = "OneLogin Events"
+    enabled: bool = True
+    log_types: List[str] = [PantherLogType.OneLogin_Events]
+    mappings: List[PantherDataModelMapping] = [
+        PantherDataModelMapping(name="actor_user", path="actor_user_name"),
+        PantherDataModelMapping(name="assigned_admin_role", path="privilege_name"),
+        PantherDataModelMapping(name="event_type", method=get_event_type),
+        PantherDataModelMapping(name="source_ip", path="ipaddr"),
+        PantherDataModelMapping(name="user", path="user_name"),
+        PantherDataModelMapping(name="user_account_id", path="user_id"),
+        PantherDataModelMapping(name="user_agent", path="user_agent"),
     ]

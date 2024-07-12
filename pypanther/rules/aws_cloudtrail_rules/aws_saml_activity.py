@@ -5,9 +5,9 @@ from pypanther.helpers.panther_base_helpers import aws_rule_context, deep_get
 
 aws_suspicious_saml_activity_tests: List[PantherRuleTest] = [
     PantherRuleTest(
-        Name="CreateSAMLProvider",
-        ExpectedResult=True,
-        Log={
+        name="CreateSAMLProvider",
+        expected_result=True,
+        log={
             "awsRegion": "us-east-1",
             "eventID": "EID12345",
             "eventName": "CreateSAMLProvider",
@@ -45,9 +45,9 @@ aws_suspicious_saml_activity_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="DeleteSAMLProvider",
-        ExpectedResult=True,
-        Log={
+        name="DeleteSAMLProvider",
+        expected_result=True,
+        log={
             "awsRegion": "us-east-1",
             "eventID": "EID12345",
             "eventName": "DeleteSAMLProvider",
@@ -85,9 +85,9 @@ aws_suspicious_saml_activity_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="Non Target Event",
-        ExpectedResult=False,
-        Log={
+        name="Non Target Event",
+        expected_result=False,
+        log={
             "awsRegion": "us-east-1",
             "eventID": "EID12345",
             "eventName": "ListAccessKeys",
@@ -120,9 +120,9 @@ aws_suspicious_saml_activity_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="UpdateSAMLProvider",
-        ExpectedResult=True,
-        Log={
+        name="UpdateSAMLProvider",
+        expected_result=True,
+        log={
             "awsRegion": "us-east-1",
             "eventID": "EID12345",
             "eventName": "UpdateSAMLProvider",
@@ -160,9 +160,9 @@ aws_suspicious_saml_activity_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="Activity from AWSSSO Service Managed Role",
-        ExpectedResult=False,
-        Log={
+        name="Activity from AWSSSO Service Managed Role",
+        expected_result=False,
+        log={
             "awsRegion": "us-east-1",
             "eventCategory": "Management",
             "eventName": "CreateSAMLProvider",
@@ -257,13 +257,13 @@ aws_suspicious_saml_activity_tests: List[PantherRuleTest] = [
 
 
 class AWSSuspiciousSAMLActivity(PantherRule):
-    Description = "Identifies when SAML activity has occurred in AWS. An adversary could gain backdoor access via SAML."
-    DisplayName = "AWS SAML Activity"
-    Reference = "https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pools-managing-saml-idp-console.html"
-    Severity = PantherSeverity.Medium
-    LogTypes = [PantherLogType.AWS_CloudTrail]
-    RuleID = "AWS.Suspicious.SAML.Activity-prototype"
-    Tests = aws_suspicious_saml_activity_tests
+    default_description = "Identifies when SAML activity has occurred in AWS. An adversary could gain backdoor access via SAML."
+    display_name = "AWS SAML Activity"
+    default_reference = "https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pools-managing-saml-idp-console.html"
+    default_severity = PantherSeverity.medium
+    log_types = [PantherLogType.AWS_CloudTrail]
+    id_ = "AWS.Suspicious.SAML.Activity-prototype"
+    tests = aws_suspicious_saml_activity_tests
     SAML_ACTIONS = ["UpdateSAMLProvider", "CreateSAMLProvider", "DeleteSAMLProvider"]
 
     def rule(self, event):

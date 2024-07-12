@@ -5,9 +5,9 @@ from pypanther.helpers.panther_base_helpers import deep_get, slack_alert_context
 
 slack_audit_logs_app_removed_tests: List[PantherRuleTest] = [
     PantherRuleTest(
-        Name="App Restricted",
-        ExpectedResult=True,
-        Log={
+        name="App Restricted",
+        expected_result=True,
+        log={
             "action": "app_restricted",
             "actor": {
                 "type": "user",
@@ -43,9 +43,9 @@ slack_audit_logs_app_removed_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="App Uninstalled",
-        ExpectedResult=True,
-        Log={
+        name="App Uninstalled",
+        expected_result=True,
+        log={
             "action": "app_uninstalled",
             "actor": {
                 "type": "user",
@@ -81,9 +81,9 @@ slack_audit_logs_app_removed_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="App removed from workspace",
-        ExpectedResult=True,
-        Log={
+        name="App removed from workspace",
+        expected_result=True,
+        log={
             "action": "org_app_workspace_removed",
             "actor": {
                 "type": "user",
@@ -119,9 +119,9 @@ slack_audit_logs_app_removed_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="User Logout",
-        ExpectedResult=False,
-        Log={
+        name="User Logout",
+        expected_result=False,
+        log={
             "action": "user_logout",
             "actor": {
                 "type": "user",
@@ -159,10 +159,10 @@ slack_audit_logs_app_removed_tests: List[PantherRuleTest] = [
 
 
 class SlackAuditLogsAppRemoved(PantherRule):
-    RuleID = "Slack.AuditLogs.AppRemoved-prototype"
-    DisplayName = "Slack App Removed"
-    LogTypes = [PantherLogType.Slack_AuditLogs]
-    Tags = [
+    id_ = "Slack.AuditLogs.AppRemoved-prototype"
+    display_name = "Slack App Removed"
+    log_types = [PantherLogType.Slack_AuditLogs]
+    tags = [
         "Slack",
         "Impact",
         "Service Stop",
@@ -170,13 +170,17 @@ class SlackAuditLogsAppRemoved(PantherRule):
         "Indicator Removal",
         "Clear Persistence",
     ]
-    Reports = {"MITRE ATT&CK": ["TA0040:T1489", "TA0005:T1070.009"]}
-    Severity = PantherSeverity.Medium
-    Description = "Detects when a Slack App has been removed"
-    Reference = "https://slack.com/intl/en-gb/help/articles/360003125231-Remove-apps-and-customised-integrations-from-your-workspace"
-    SummaryAttributes = ["p_any_ip_addresses", "p_any_emails"]
-    Tests = slack_audit_logs_app_removed_tests
-    APP_REMOVED_ACTIONS = ["app_restricted", "app_uninstalled", "org_app_workspace_removed"]
+    reports = {"MITRE ATT&CK": ["TA0040:T1489", "TA0005:T1070.009"]}
+    default_severity = PantherSeverity.medium
+    default_description = "Detects when a Slack App has been removed"
+    default_reference = "https://slack.com/intl/en-gb/help/articles/360003125231-Remove-apps-and-customised-integrations-from-your-workspace"
+    summary_attributes = ["p_any_ip_addresses", "p_any_emails"]
+    tests = slack_audit_logs_app_removed_tests
+    APP_REMOVED_ACTIONS = [
+        "app_restricted",
+        "app_uninstalled",
+        "org_app_workspace_removed",
+    ]
 
     def rule(self, event):
         return event.get("action") in self.APP_REMOVED_ACTIONS

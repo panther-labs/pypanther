@@ -29,17 +29,17 @@ def get_process_name(event):
 
 
 class StandardCrowdstrikeFDR(PantherDataModel):
-    DataModelID: str = "Standard.Crowdstrike.FDR"
-    DisplayName: str = "Crowdstrike FDR"
-    Enabled: bool = True
-    LogTypes: List[str] = [PantherLogType.Crowdstrike_FDREvent]
-    Mappings: List[PantherDataModelMapping] = [
-        PantherDataModelMapping(Name="actor_user", Path="$.event.UserName"),
-        PantherDataModelMapping(Name="cmd", Path="$.event.CommandLine"),
-        PantherDataModelMapping(Name="destination_ip", Path="$.event.RemoteAddressIP4"),
-        PantherDataModelMapping(Name="destination_port", Path="$.event.RemotePort"),
-        PantherDataModelMapping(Name="dns_query", Method=get_dns_query),
-        PantherDataModelMapping(Name="process_name", Method=get_process_name),
-        PantherDataModelMapping(Name="source_ip", Path="$.aip"),
-        PantherDataModelMapping(Name="source_port", Path="$.event.LocalPort"),
+    id_: str = "Standard.Crowdstrike.FDR"
+    display_name: str = "Crowdstrike FDR"
+    enabled: bool = True
+    log_types: List[str] = [PantherLogType.Crowdstrike_FDREvent]
+    mappings: List[PantherDataModelMapping] = [
+        PantherDataModelMapping(name="actor_user", path="$.event.UserName"),
+        PantherDataModelMapping(name="cmd", path="$.event.CommandLine"),
+        PantherDataModelMapping(name="destination_ip", path="$.event.RemoteAddressIP4"),
+        PantherDataModelMapping(name="destination_port", path="$.event.RemotePort"),
+        PantherDataModelMapping(name="dns_query", method=get_dns_query),
+        PantherDataModelMapping(name="process_name", method=get_process_name),
+        PantherDataModelMapping(name="source_ip", path="$.aip"),
+        PantherDataModelMapping(name="source_port", path="$.event.LocalPort"),
     ]

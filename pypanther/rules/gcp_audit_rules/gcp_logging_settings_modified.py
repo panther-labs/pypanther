@@ -5,9 +5,9 @@ from pypanther.helpers.panther_base_helpers import deep_get
 
 gcp_logging_settings_modified_tests: List[PantherRuleTest] = [
     PantherRuleTest(
-        Name="Other Event",
-        ExpectedResult=False,
-        Log={
+        name="Other Event",
+        expected_result=False,
+        log={
             "insertid": "abcdefghijklmn",
             "logname": "projects/gcp-project1/logs/cloudaudit.googleapis.com%2Factivity",
             "operation": {
@@ -60,9 +60,9 @@ gcp_logging_settings_modified_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="Sink Update Event",
-        ExpectedResult=True,
-        Log={
+        name="Sink Update Event",
+        expected_result=True,
+        log={
             "insertid": "ezyd47c12y",
             "logname": "projects/gcp-project1/logs/cloudaudit.googleapis.com%2Factivity",
             "p_any_ip_addresses": ["1.2.3.4"],
@@ -92,7 +92,10 @@ gcp_logging_settings_modified_tests: List[PantherRuleTest] = [
                     "sink": {
                         "destination": "pubsub.googleapis.com/projects/gcp-project1/topics/gcp-topic1",
                         "exclusions": [
-                            {"filter": "protoPayload.serviceName = 'k8s.io", "name": "excludek8s"}
+                            {
+                                "filter": "protoPayload.serviceName = 'k8s.io",
+                                "name": "excludek8s",
+                            }
                         ],
                         "name": "log-sink",
                         "writerIdentity": "serviceAccount:p197946410614-915152@gcp-sa-logging.iam.gserviceaccount.com",
@@ -105,7 +108,10 @@ gcp_logging_settings_modified_tests: List[PantherRuleTest] = [
                     "callerIP": "1.2.3.4",
                     "callerSuppliedUserAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36,gzip(gfe),gzip(gfe)",
                     "destinationAttributes": {},
-                    "requestAttributes": {"auth": {}, "time": "2023-03-09T16:41:30.540045105Z"},
+                    "requestAttributes": {
+                        "auth": {},
+                        "time": "2023-03-09T16:41:30.540045105Z",
+                    },
                 },
                 "resourceName": "projects/gcp-project1/sinks/log-sink",
                 "serviceName": "logging.googleapis.com",
@@ -113,7 +119,11 @@ gcp_logging_settings_modified_tests: List[PantherRuleTest] = [
             },
             "receivetimestamp": "2023-03-09 16:41:32.21",
             "resource": {
-                "labels": {"destination": "", "name": "log-sink", "project_id": "gcp-project1"},
+                "labels": {
+                    "destination": "",
+                    "name": "log-sink",
+                    "project_id": "gcp-project1",
+                },
                 "type": "logging_sink",
             },
             "severity": "NOTICE",
@@ -124,13 +134,13 @@ gcp_logging_settings_modified_tests: List[PantherRuleTest] = [
 
 
 class GCPLoggingSettingsModified(PantherRule):
-    Description = "Detects any changes made to logging settings"
-    DisplayName = "GCP Logging Settings Modified"
-    Reference = "https://cloud.google.com/logging/docs/default-settings"
-    Severity = PantherSeverity.Low
-    LogTypes = [PantherLogType.GCP_AuditLog]
-    RuleID = "GCP.Logging.Settings.Modified-prototype"
-    Tests = gcp_logging_settings_modified_tests
+    default_description = "Detects any changes made to logging settings"
+    display_name = "GCP Logging Settings Modified"
+    default_reference = "https://cloud.google.com/logging/docs/default-settings"
+    default_severity = PantherSeverity.low
+    log_types = [PantherLogType.GCP_AuditLog]
+    id_ = "GCP.Logging.Settings.Modified-prototype"
+    tests = gcp_logging_settings_modified_tests
 
     def rule(self, event):
         return all(

@@ -5,16 +5,19 @@ from pypanther.helpers.panther_base_helpers import okta_alert_context
 
 okta_user_reported_suspicious_activity_tests: List[PantherRuleTest] = [
     PantherRuleTest(
-        Name="Other Event",
-        ExpectedResult=False,
-        Log={
+        name="Other Event",
+        expected_result=False,
+        log={
             "actor": {
                 "alternateId": "homer.simpson@duff.com",
                 "displayName": "Homer Simpson",
                 "id": "00abc123",
                 "type": "User",
             },
-            "authenticationcontext": {"authenticationStep": 0, "externalSessionId": "100-abc-9999"},
+            "authenticationcontext": {
+                "authenticationStep": 0,
+                "externalSessionId": "100-abc-9999",
+            },
             "client": {
                 "device": "Computer",
                 "geographicalContext": {
@@ -81,16 +84,19 @@ okta_user_reported_suspicious_activity_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="Suspicious Report Event",
-        ExpectedResult=True,
-        Log={
+        name="Suspicious Report Event",
+        expected_result=True,
+        log={
             "actor": {
                 "alternateId": "homer.simpson@duff.com",
                 "displayName": "Homer Simpson",
                 "id": "00ABC123",
                 "type": "User",
             },
-            "authenticationcontext": {"authenticationStep": 0, "externalSessionId": "aaa1234"},
+            "authenticationcontext": {
+                "authenticationStep": 0,
+                "externalSessionId": "aaa1234",
+            },
             "client": {
                 "device": "Computer",
                 "geographicalContext": {
@@ -173,15 +179,15 @@ okta_user_reported_suspicious_activity_tests: List[PantherRuleTest] = [
 
 
 class OktaUserReportedSuspiciousActivity(PantherRule):
-    Description = "Suspicious Activity Reporting provides an end user with the option to report unrecognized activity from an account activity email notification.\nThis detection alerts when a user marks the raised activity as suspicious."
-    Reference = (
+    default_description = "Suspicious Activity Reporting provides an end user with the option to report unrecognized activity from an account activity email notification.\nThis detection alerts when a user marks the raised activity as suspicious."
+    default_reference = (
         "https://help.okta.com/en-us/Content/Topics/Security/suspicious-activity-reporting.htm"
     )
-    DisplayName = "Okta User Reported Suspicious Activity"
-    Severity = PantherSeverity.High
-    LogTypes = [PantherLogType.Okta_SystemLog]
-    RuleID = "Okta.User.Reported.Suspicious.Activity-prototype"
-    Tests = okta_user_reported_suspicious_activity_tests
+    display_name = "Okta User Reported Suspicious Activity"
+    default_severity = PantherSeverity.high
+    log_types = [PantherLogType.Okta_SystemLog]
+    id_ = "Okta.User.Reported.Suspicious.Activity-prototype"
+    tests = okta_user_reported_suspicious_activity_tests
 
     def rule(self, event):
         return event.get("eventtype") == "user.account.report_suspicious_activity_by_enduser"

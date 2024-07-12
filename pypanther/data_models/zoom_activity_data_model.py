@@ -14,12 +14,12 @@ def get_event_type(event):
 
 
 class StandardZoomActivity(PantherDataModel):
-    DataModelID: str = "Standard.Zoom.Activity"
-    DisplayName: str = "Zoom Activity"
-    Enabled: bool = True
-    LogTypes: List[str] = [PantherLogType.Zoom_Activity]
-    Mappings: List[PantherDataModelMapping] = [
-        PantherDataModelMapping(Name="actor_user", Path="email"),
-        PantherDataModelMapping(Name="event_type", Method=get_event_type),
-        PantherDataModelMapping(Name="source_ip", Path="ip_address"),
+    id_: str = "Standard.Zoom.Activity"
+    display_name: str = "Zoom Activity"
+    enabled: bool = True
+    log_types: List[str] = [PantherLogType.Zoom_Activity]
+    mappings: List[PantherDataModelMapping] = [
+        PantherDataModelMapping(name="actor_user", path="email"),
+        PantherDataModelMapping(name="event_type", method=get_event_type),
+        PantherDataModelMapping(name="source_ip", path="ip_address"),
     ]

@@ -5,9 +5,9 @@ from pypanther.helpers.panther_base_helpers import deep_get
 
 g_suite_device_compromise_tests: List[PantherRuleTest] = [
     PantherRuleTest(
-        Name="Normal Mobile Event",
-        ExpectedResult=False,
-        Log={
+        name="Normal Mobile Event",
+        expected_result=False,
+        log={
             "id": {"applicationName": "mobile"},
             "actor": {"callerType": "USER", "email": "homer.simpson@example.io"},
             "type": "device_updates",
@@ -16,9 +16,9 @@ g_suite_device_compromise_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="Suspicious Activity Shows not Compromised",
-        ExpectedResult=False,
-        Log={
+        name="Suspicious Activity Shows not Compromised",
+        expected_result=False,
+        log={
             "id": {"applicationName": "mobile"},
             "actor": {"callerType": "USER", "email": "homer.simpson@example.io"},
             "type": "device_updates",
@@ -30,9 +30,9 @@ g_suite_device_compromise_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="Suspicious Activity Shows Compromised",
-        ExpectedResult=True,
-        Log={
+        name="Suspicious Activity Shows Compromised",
+        expected_result=True,
+        log={
             "id": {"applicationName": "mobile"},
             "actor": {"callerType": "USER", "email": "homer.simpson@example.io"},
             "type": "device_updates",
@@ -47,16 +47,18 @@ g_suite_device_compromise_tests: List[PantherRuleTest] = [
 
 
 class GSuiteDeviceCompromise(PantherRule):
-    RuleID = "GSuite.DeviceCompromise-prototype"
-    DisplayName = "GSuite User Device Compromised"
-    LogTypes = [PantherLogType.GSuite_ActivityEvent]
-    Tags = ["GSuite"]
-    Severity = PantherSeverity.Medium
-    Description = "GSuite reported a user's device has been compromised.\n"
-    Reference = "https://support.google.com/a/answer/7562165?hl=en&sjid=864417124752637253-EU"
-    Runbook = "Have the user change their passwords and reset the device.\n"
-    SummaryAttributes = ["actor:email"]
-    Tests = g_suite_device_compromise_tests
+    id_ = "GSuite.DeviceCompromise-prototype"
+    display_name = "GSuite User Device Compromised"
+    log_types = [PantherLogType.GSuite_ActivityEvent]
+    tags = ["GSuite"]
+    default_severity = PantherSeverity.medium
+    default_description = "GSuite reported a user's device has been compromised.\n"
+    default_reference = (
+        "https://support.google.com/a/answer/7562165?hl=en&sjid=864417124752637253-EU"
+    )
+    default_runbook = "Have the user change their passwords and reset the device.\n"
+    summary_attributes = ["actor:email"]
+    tests = g_suite_device_compromise_tests
 
     def rule(self, event):
         if deep_get(event, "id", "applicationName") != "mobile":

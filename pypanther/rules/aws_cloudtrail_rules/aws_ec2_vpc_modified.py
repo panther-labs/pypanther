@@ -6,9 +6,9 @@ from pypanther.helpers.panther_default import aws_cloudtrail_success
 
 awsec2_vpc_modified_tests: List[PantherRuleTest] = [
     PantherRuleTest(
-        Name="VPC Modified",
-        ExpectedResult=True,
-        Log={
+        name="VPC Modified",
+        expected_result=True,
+        log={
             "eventVersion": "1.05",
             "userIdentity": {
                 "type": "AssumedRole",
@@ -72,9 +72,9 @@ awsec2_vpc_modified_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="VPC Not Modified",
-        ExpectedResult=False,
-        Log={
+        name="VPC Not Modified",
+        expected_result=False,
+        log={
             "eventVersion": "1.05",
             "userIdentity": {
                 "type": "AssumedRole",
@@ -112,9 +112,9 @@ awsec2_vpc_modified_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="Error Modifying VPC",
-        ExpectedResult=False,
-        Log={
+        name="Error Modifying VPC",
+        expected_result=False,
+        log={
             "errorCode": "UnknownParameter",
             "eventVersion": "1.05",
             "userIdentity": {
@@ -182,24 +182,26 @@ awsec2_vpc_modified_tests: List[PantherRuleTest] = [
 
 
 class AWSEC2VPCModified(PantherRule):
-    RuleID = "AWS.EC2.VPCModified-prototype"
-    DisplayName = "EC2 VPC Modified"
-    LogTypes = [PantherLogType.AWS_CloudTrail]
-    Tags = ["AWS", "Security Control", "Defense Evasion:Impair Defenses"]
-    Reports = {"CIS": ["3.14"], "MITRE ATT&CK": ["TA0005:T1562"]}
-    Severity = PantherSeverity.Info
-    DedupPeriodMinutes = 720
-    Description = "An EC2 VPC was modified."
-    Runbook = "https://docs.runpanther.io/alert-runbooks/built-in-rules/aws-ec2-vpc-modified"
-    Reference = "https://docs.aws.amazon.com/vpc/latest/userguide/configure-your-vpc.html"
-    SummaryAttributes = [
+    id_ = "AWS.EC2.VPCModified-prototype"
+    display_name = "EC2 VPC Modified"
+    log_types = [PantherLogType.AWS_CloudTrail]
+    tags = ["AWS", "Security Control", "Defense Evasion:Impair Defenses"]
+    reports = {"CIS": ["3.14"], "MITRE ATT&CK": ["TA0005:T1562"]}
+    default_severity = PantherSeverity.info
+    dedup_period_minutes = 720
+    default_description = "An EC2 VPC was modified."
+    default_runbook = (
+        "https://docs.runpanther.io/alert-runbooks/built-in-rules/aws-ec2-vpc-modified"
+    )
+    default_reference = "https://docs.aws.amazon.com/vpc/latest/userguide/configure-your-vpc.html"
+    summary_attributes = [
         "eventName",
         "userAgent",
         "sourceIpAddress",
         "recipientAccountId",
         "p_any_aws_arns",
     ]
-    Tests = awsec2_vpc_modified_tests
+    tests = awsec2_vpc_modified_tests
     # API calls that are indicative of an EC2 VPC modification
     EC2_VPC_MODIFIED_EVENTS = {
         "CreateVpc",

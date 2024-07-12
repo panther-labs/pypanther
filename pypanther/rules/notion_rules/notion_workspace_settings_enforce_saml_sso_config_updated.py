@@ -6,9 +6,9 @@ from pypanther.helpers.panther_notion_helpers import notion_alert_context
 
 notion_samlsso_configuration_changed_tests: List[PantherRuleTest] = [
     PantherRuleTest(
-        Name="Other Event",
-        ExpectedResult=False,
-        Log={
+        name="Other Event",
+        expected_result=False,
+        log={
             "event": {
                 "id": "...",
                 "timestamp": "2023-05-15T19:14:21.031Z",
@@ -27,9 +27,9 @@ notion_samlsso_configuration_changed_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="SAML SSO Enabled",
-        ExpectedResult=True,
-        Log={
+        name="SAML SSO Enabled",
+        expected_result=True,
+        log={
             "event": {
                 "id": "...",
                 "timestamp": "2023-05-15T19:14:21.031Z",
@@ -48,9 +48,9 @@ notion_samlsso_configuration_changed_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="SAML SSO Disabled",
-        ExpectedResult=True,
-        Log={
+        name="SAML SSO Disabled",
+        expected_result=True,
+        log={
             "event": {
                 "id": "...",
                 "timestamp": "2023-05-15T19:14:21.031Z",
@@ -72,17 +72,17 @@ notion_samlsso_configuration_changed_tests: List[PantherRuleTest] = [
 
 
 class NotionSAMLSSOConfigurationChanged(PantherRule):
-    RuleID = "Notion.SAML.SSO.Configuration.Changed-prototype"
-    DisplayName = "Notion SAML SSO Configuration Changed"
-    LogTypes = [PantherLogType.Notion_AuditLogs]
-    Tags = ["Notion", "Identity & Access Management", "Credential Security"]
-    Severity = PantherSeverity.High
-    Description = (
+    id_ = "Notion.SAML.SSO.Configuration.Changed-prototype"
+    display_name = "Notion SAML SSO Configuration Changed"
+    log_types = [PantherLogType.Notion_AuditLogs]
+    tags = ["Notion", "Identity & Access Management", "Credential Security"]
+    default_severity = PantherSeverity.high
+    default_description = (
         "A Notion User changed settings to enforce SAML SSO configurations for your organization."
     )
-    Runbook = "Follow up with the Notion User to determine if this was done for a valid business reason and to ensure these settings get re-enabled quickly for best security practices."
-    Reference = "https://www.notion.so/help/saml-sso-configuration"
-    Tests = notion_samlsso_configuration_changed_tests
+    default_runbook = "Follow up with the Notion User to determine if this was done for a valid business reason and to ensure these settings get re-enabled quickly for best security practices."
+    default_reference = "https://www.notion.so/help/saml-sso-configuration"
+    tests = notion_samlsso_configuration_changed_tests
 
     def rule(self, event):
         return (

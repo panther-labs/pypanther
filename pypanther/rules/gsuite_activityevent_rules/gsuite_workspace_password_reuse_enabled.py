@@ -5,10 +5,14 @@ from pypanther.helpers.panther_base_helpers import deep_get
 
 g_suite_workspace_password_reuse_enabled_tests: List[PantherRuleTest] = [
     PantherRuleTest(
-        Name="Workspace Admin Enabled Password Reuse",
-        ExpectedResult=True,
-        Log={
-            "actor": {"callerType": "USER", "email": "example@example.io", "profileId": "12345"},
+        name="Workspace Admin Enabled Password Reuse",
+        expected_result=True,
+        log={
+            "actor": {
+                "callerType": "USER",
+                "email": "example@example.io",
+                "profileId": "12345",
+            },
             "id": {
                 "applicationName": "admin",
                 "customerId": "D12345",
@@ -30,10 +34,14 @@ g_suite_workspace_password_reuse_enabled_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="Admin Set Default Calendar SHARING_OUTSIDE_DOMAIN Setting to READ_ONLY_ACCESS",
-        ExpectedResult=False,
-        Log={
-            "actor": {"callerType": "USER", "email": "example@example.io", "profileId": "12345"},
+        name="Admin Set Default Calendar SHARING_OUTSIDE_DOMAIN Setting to READ_ONLY_ACCESS",
+        expected_result=False,
+        log={
+            "actor": {
+                "callerType": "USER",
+                "email": "example@example.io",
+                "profileId": "12345",
+            },
             "id": {
                 "applicationName": "admin",
                 "customerId": "D12345",
@@ -54,9 +62,9 @@ g_suite_workspace_password_reuse_enabled_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="ListObject Type",
-        ExpectedResult=False,
-        Log={
+        name="ListObject Type",
+        expected_result=False,
+        log={
             "actor": {"email": "user@example.io", "profileId": "118111111111111111111"},
             "id": {
                 "applicationName": "drive",
@@ -89,17 +97,17 @@ g_suite_workspace_password_reuse_enabled_tests: List[PantherRuleTest] = [
 
 
 class GSuiteWorkspacePasswordReuseEnabled(PantherRule):
-    RuleID = "GSuite.Workspace.PasswordReuseEnabled-prototype"
-    DisplayName = "GSuite Workspace Password Reuse Has Been Enabled"
-    LogTypes = [PantherLogType.GSuite_ActivityEvent]
-    Tags = ["GSuite"]
-    Severity = PantherSeverity.High
-    Reports = {"MITRE ATT&CK": ["TA0006:T1110"]}
-    Description = "A Workspace Admin Has Enabled Password Reuse\n"
-    Reference = "https://support.google.com/a/answer/139399?hl=en#"
-    Runbook = "Verify the intent of this Password Reuse Setting Change. If intent cannot be verified, then a search on the actor's other activities is advised.\n"
-    SummaryAttributes = ["actor:email"]
-    Tests = g_suite_workspace_password_reuse_enabled_tests
+    id_ = "GSuite.Workspace.PasswordReuseEnabled-prototype"
+    display_name = "GSuite Workspace Password Reuse Has Been Enabled"
+    log_types = [PantherLogType.GSuite_ActivityEvent]
+    tags = ["GSuite"]
+    default_severity = PantherSeverity.high
+    reports = {"MITRE ATT&CK": ["TA0006:T1110"]}
+    default_description = "A Workspace Admin Has Enabled Password Reuse\n"
+    default_reference = "https://support.google.com/a/answer/139399?hl=en#"
+    default_runbook = "Verify the intent of this Password Reuse Setting Change. If intent cannot be verified, then a search on the actor's other activities is advised.\n"
+    summary_attributes = ["actor:email"]
+    tests = g_suite_workspace_password_reuse_enabled_tests
 
     def rule(self, event):
         if deep_get(event, "id", "applicationName", default="").lower() != "admin":

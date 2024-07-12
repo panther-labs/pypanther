@@ -5,9 +5,9 @@ from pypanther.helpers.panther_base_helpers import deep_get
 
 dropbox_adminsigninas_session_tests: List[PantherRuleTest] = [
     PantherRuleTest(
-        Name="Other",
-        ExpectedResult=False,
-        Log={
+        name="Other",
+        expected_result=False,
+        log={
             "actor": {
                 "_tag": "user",
                 "user": {
@@ -89,9 +89,9 @@ dropbox_adminsigninas_session_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="Sign-in-as Session",
-        ExpectedResult=True,
-        Log={
+        name="Sign-in-as Session",
+        expected_result=True,
+        log={
             "actor": {
                 "_tag": "admin",
                 "admin": {
@@ -148,13 +148,13 @@ dropbox_adminsigninas_session_tests: List[PantherRuleTest] = [
 
 
 class DropboxAdminsigninasSession(PantherRule):
-    Description = "Alerts when an admin starts a sign-in-as session."
-    DisplayName = "Dropbox Admin sign-in-as Session"
-    Reference = "https://help.dropbox.com/security/sign-in-as-user"
-    Severity = PantherSeverity.Medium
-    LogTypes = [PantherLogType.Dropbox_TeamEvent]
-    RuleID = "Dropbox.Admin.sign.in.as.Session-prototype"
-    Tests = dropbox_adminsigninas_session_tests
+    default_description = "Alerts when an admin starts a sign-in-as session."
+    display_name = "Dropbox Admin sign-in-as Session"
+    default_reference = "https://help.dropbox.com/security/sign-in-as-user"
+    default_severity = PantherSeverity.medium
+    log_types = [PantherLogType.Dropbox_TeamEvent]
+    id_ = "Dropbox.Admin.sign.in.as.Session-prototype"
+    tests = dropbox_adminsigninas_session_tests
 
     def rule(self, event):
         return deep_get(event, "event_type", "_tag", default="") == "sign_in_as_session_start"

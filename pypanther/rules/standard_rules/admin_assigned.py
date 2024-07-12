@@ -5,9 +5,9 @@ from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSever
 
 standard_admin_role_assigned_tests: List[PantherRuleTest] = [
     PantherRuleTest(
-        Name="GCP - Admin Assigned",
-        ExpectedResult=True,
-        Log={
+        name="GCP - Admin Assigned",
+        expected_result=True,
+        log={
             "protoPayload": {
                 "at_sign_type": "type.googleapis.com/google.cloud.audit.AuditLog",
                 "serviceName": "cloudresourcemanager.googleapis.com",
@@ -31,9 +31,9 @@ standard_admin_role_assigned_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="GCP - Multiple Admin Roles Assigned",
-        ExpectedResult=True,
-        Log={
+        name="GCP - Multiple Admin Roles Assigned",
+        expected_result=True,
+        log={
             "protoPayload": {
                 "at_sign_type": "type.googleapis.com/google.cloud.audit.AuditLog",
                 "serviceName": "cloudresourcemanager.googleapis.com",
@@ -49,7 +49,11 @@ standard_admin_role_assigned_tests: List[PantherRuleTest] = [
                                 "member": "cat@example.com",
                                 "role": "roles/resourcemanager.organizationAdmin",
                             },
-                            {"action": "ADD", "member": "dog@example.com", "role": "roles/owner"},
+                            {
+                                "action": "ADD",
+                                "member": "dog@example.com",
+                                "role": "roles/owner",
+                            },
                         ]
                     },
                 },
@@ -58,9 +62,9 @@ standard_admin_role_assigned_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="GSuite - Other Admin Action",
-        ExpectedResult=False,
-        Log={
+        name="GSuite - Other Admin Action",
+        expected_result=False,
+        log={
             "actor": {"email": "bobert@example.com"},
             "id": {"applicationName": "admin"},
             "events": [{"type": "DELEGATED_ADMIN_SETTINGS", "name": "RENAME_ROLE"}],
@@ -68,9 +72,9 @@ standard_admin_role_assigned_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="GSuite - Privileges Assigned",
-        ExpectedResult=True,
-        Log={
+        name="GSuite - Privileges Assigned",
+        expected_result=True,
+        log={
             "actor": {"email": "bobert@example.com"},
             "id": {"applicationName": "admin"},
             "events": [
@@ -87,23 +91,23 @@ standard_admin_role_assigned_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="OneLogin - Non permissions assigned event",
-        ExpectedResult=False,
-        Log={"event_type_id": 8, "p_log_type": "OneLogin.Events"},
+        name="OneLogin - Non permissions assigned event",
+        expected_result=False,
+        log={"event_type_id": 8, "p_log_type": "OneLogin.Events"},
     ),
     PantherRuleTest(
-        Name="OneLogin - Non super user permissions assigned",
-        ExpectedResult=False,
-        Log={
+        name="OneLogin - Non super user permissions assigned",
+        expected_result=False,
+        log={
             "event_type_id": 72,
             "privilege_name": "Manage users",
             "p_log_type": "OneLogin.Events",
         },
     ),
     PantherRuleTest(
-        Name="OneLogin - Super user permissions assigned",
-        ExpectedResult=True,
-        Log={
+        name="OneLogin - Super user permissions assigned",
+        expected_result=True,
+        log={
             "event_type_id": 72,
             "privilege_name": "Super user",
             "user_name": "Evil Bob",
@@ -112,9 +116,9 @@ standard_admin_role_assigned_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="Github - User Promoted",
-        ExpectedResult=True,
-        Log={
+        name="Github - User Promoted",
+        expected_result=True,
+        log={
             "actor": "cat",
             "action": "team.promote_maintainer",
             "p_log_type": "GitHub.Audit",
@@ -122,9 +126,9 @@ standard_admin_role_assigned_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="Github - Admin Added",
-        ExpectedResult=True,
-        Log={
+        name="Github - Admin Added",
+        expected_result=True,
+        log={
             "actor": "cat",
             "action": "business.add_admin",
             "p_log_type": "GitHub.Audit",
@@ -132,9 +136,9 @@ standard_admin_role_assigned_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="Github - Admin Invited",
-        ExpectedResult=True,
-        Log={
+        name="Github - Admin Invited",
+        expected_result=True,
+        log={
             "actor": "cat",
             "action": "business.invite_admin",
             "p_log_type": "GitHub.Audit",
@@ -142,9 +146,9 @@ standard_admin_role_assigned_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="Github - Unknown Admin Role",
-        ExpectedResult=False,
-        Log={
+        name="Github - Unknown Admin Role",
+        expected_result=False,
+        log={
             "actor": "cat",
             "action": "unknown.admin_role",
             "p_log_type": "GitHub.Audit",
@@ -152,9 +156,9 @@ standard_admin_role_assigned_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="Zendesk - Admin Role Downgraded",
-        ExpectedResult=False,
-        Log={
+        name="Zendesk - Admin Role Downgraded",
+        expected_result=False,
+        log={
             "url": "https://myzendek.zendesk.com/api/v2/audit_logs/111222333444.json",
             "id": 123456789123,
             "action_label": "Updated",
@@ -170,9 +174,9 @@ standard_admin_role_assigned_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="Zendesk - Admin Role Assigned",
-        ExpectedResult=True,
-        Log={
+        name="Zendesk - Admin Role Assigned",
+        expected_result=True,
+        log={
             "url": "https://myzendek.zendesk.com/api/v2/audit_logs/111222333444.json",
             "id": 123456789123,
             "action_label": "Updated",
@@ -188,9 +192,9 @@ standard_admin_role_assigned_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="Zendesk - App Admin Role Assigned",
-        ExpectedResult=True,
-        Log={
+        name="Zendesk - App Admin Role Assigned",
+        expected_result=True,
+        log={
             "url": "https://myzendek.zendesk.com/api/v2/audit_logs/111222333444.json",
             "id": 123456789123,
             "action_label": "Updated",
@@ -206,9 +210,9 @@ standard_admin_role_assigned_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="Asana - Normal Login",
-        ExpectedResult=False,
-        Log={
+        name="Asana - Normal Login",
+        expected_result=False,
+        log={
             "actor": {
                 "actor_type": "user",
                 "email": "homer@springfield.com",
@@ -233,9 +237,9 @@ standard_admin_role_assigned_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="Asana - Admin Added",
-        ExpectedResult=True,
-        Log={
+        name="Asana - Admin Added",
+        expected_result=True,
+        log={
             "actor": {"actor_type": "user", "name": "Homer"},
             "context": {"client_ip_address": "1.1.1.1", "context_type": "web"},
             "created_at": "2021-10-21T23:38:18.319Z",
@@ -264,9 +268,9 @@ standard_admin_role_assigned_tests: List[PantherRuleTest] = [
 
 
 class StandardAdminRoleAssigned(PantherRule):
-    RuleID = "Standard.AdminRoleAssigned-prototype"
-    DisplayName = "Admin Role Assigned"
-    LogTypes = [
+    id_ = "Standard.AdminRoleAssigned-prototype"
+    display_name = "Admin Role Assigned"
+    log_types = [
         PantherLogType.Asana_Audit,
         PantherLogType.Atlassian_Audit,
         PantherLogType.GCP_AuditLog,
@@ -275,14 +279,16 @@ class StandardAdminRoleAssigned(PantherRule):
         PantherLogType.OneLogin_Events,
         PantherLogType.Zendesk_Audit,
     ]
-    Tags = ["DataModel", "Privilege Escalation:Valid Accounts"]
-    Severity = PantherSeverity.Medium
-    Reports = {"MITRE ATT&CK": ["TA0004:T1078"]}
-    Description = "Assigning an admin role manually could be a sign of privilege escalation"
-    Runbook = "Verify with the user who attached the role or add to a allowlist"
-    Reference = "https://medium.com/@gokulelango1040/privilege-escalation-attacks-28a9ef226abb"
-    SummaryAttributes = ["p_any_ip_addresses"]
-    Tests = standard_admin_role_assigned_tests
+    tags = ["DataModel", "Privilege Escalation:Valid Accounts"]
+    default_severity = PantherSeverity.medium
+    reports = {"MITRE ATT&CK": ["TA0004:T1078"]}
+    default_description = "Assigning an admin role manually could be a sign of privilege escalation"
+    default_runbook = "Verify with the user who attached the role or add to a allowlist"
+    default_reference = (
+        "https://medium.com/@gokulelango1040/privilege-escalation-attacks-28a9ef226abb"
+    )
+    summary_attributes = ["p_any_ip_addresses"]
+    tests = standard_admin_role_assigned_tests
 
     def rule(self, event):
         # filter events on unified data model field

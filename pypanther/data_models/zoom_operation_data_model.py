@@ -38,11 +38,11 @@ def get_event_type(event):
 
 
 class StandardZoomOperation(PantherDataModel):
-    DataModelID: str = "Standard.Zoom.Operation"
-    DisplayName: str = None
-    Enabled: bool = True
-    LogTypes: List[str] = [PantherLogType.Zoom_Operation]
-    Mappings: List[PantherDataModelMapping] = [
-        PantherDataModelMapping(Name="actor_user", Path="operator"),
-        PantherDataModelMapping(Name="event_type", Method=get_event_type),
+    id_: str = "Standard.Zoom.Operation"
+    display_name: str = None
+    enabled: bool = True
+    log_types: List[str] = [PantherLogType.Zoom_Operation]
+    mappings: List[PantherDataModelMapping] = [
+        PantherDataModelMapping(name="actor_user", path="operator"),
+        PantherDataModelMapping(name="event_type", method=get_event_type),
     ]

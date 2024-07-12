@@ -14,12 +14,12 @@ def get_dns_query(event):
 
 
 class StandardCiscoUmbrellaDNS(PantherDataModel):
-    DataModelID: str = "Standard.CiscoUmbrella.DNS"
-    DisplayName: str = "Cisco Umbrella DNS"
-    Enabled: bool = True
-    LogTypes: List[str] = [PantherLogType.CiscoUmbrella_DNS]
-    Mappings: List[PantherDataModelMapping] = [
-        PantherDataModelMapping(Name="source_ip", Path="internalIp"),
-        PantherDataModelMapping(Name="source_port", Path="srcPort"),
-        PantherDataModelMapping(Name="dns_query", Method=get_dns_query),
+    id_: str = "Standard.CiscoUmbrella.DNS"
+    display_name: str = "Cisco Umbrella DNS"
+    enabled: bool = True
+    log_types: List[str] = [PantherLogType.CiscoUmbrella_DNS]
+    mappings: List[PantherDataModelMapping] = [
+        PantherDataModelMapping(name="source_ip", path="internalIp"),
+        PantherDataModelMapping(name="source_port", path="srcPort"),
+        PantherDataModelMapping(name="dns_query", method=get_dns_query),
     ]

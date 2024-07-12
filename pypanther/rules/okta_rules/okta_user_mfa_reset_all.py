@@ -5,16 +5,19 @@ from pypanther.helpers.panther_base_helpers import okta_alert_context
 
 okta_user_mfa_reset_all_tests: List[PantherRuleTest] = [
     PantherRuleTest(
-        Name="Reset All Event",
-        ExpectedResult=True,
-        Log={
+        name="Reset All Event",
+        expected_result=True,
+        log={
             "actor": {
                 "alternateId": "homer.simpson@duff.com",
                 "displayName": "Homer Simpson",
                 "id": "00abc123",
                 "type": "User",
             },
-            "authenticationcontext": {"authenticationStep": 0, "externalSessionId": "100-abc-9999"},
+            "authenticationcontext": {
+                "authenticationStep": 0,
+                "externalSessionId": "100-abc-9999",
+            },
             "client": {
                 "device": "Computer",
                 "geographicalContext": {
@@ -81,20 +84,27 @@ okta_user_mfa_reset_all_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="Other Event",
-        ExpectedResult=False,
-        Log={
+        name="Other Event",
+        expected_result=False,
+        log={
             "actor": {
                 "alternateId": "homer.simpson@duff.com",
                 "displayName": "Homer Simpson",
                 "id": "00abc456",
                 "type": "User",
             },
-            "authenticationcontext": {"authenticationStep": 0, "externalSessionId": "abc12345"},
+            "authenticationcontext": {
+                "authenticationStep": 0,
+                "externalSessionId": "abc12345",
+            },
             "client": {
                 "device": "Unknown",
                 "ipAddress": "1.2.3.4",
-                "userAgent": {"browser": "UNKNOWN", "os": "Unknown", "rawUserAgent": "Chrome"},
+                "userAgent": {
+                    "browser": "UNKNOWN",
+                    "os": "Unknown",
+                    "rawUserAgent": "Chrome",
+                },
                 "zone": "null",
             },
             "debugcontext": {"debugData": {}},
@@ -106,7 +116,12 @@ okta_user_mfa_reset_all_tests: List[PantherRuleTest] = [
             "securitycontext": {},
             "severity": "INFO",
             "target": [
-                {"alternateId": "App ", "displayName": "App", "id": "12345", "type": "AppInstance"}
+                {
+                    "alternateId": "App ",
+                    "displayName": "App",
+                    "id": "12345",
+                    "type": "AppInstance",
+                }
             ],
             "transaction": {"detail": {}, "id": "sdfg", "type": "JOB"},
             "uuid": "aaa-bb-ccc",
@@ -117,13 +132,13 @@ okta_user_mfa_reset_all_tests: List[PantherRuleTest] = [
 
 
 class OktaUserMFAResetAll(PantherRule):
-    Description = "All MFA factors have been reset for a user."
-    DisplayName = "Okta User MFA Reset All"
-    Reference = "https://help.okta.com/en-us/content/topics/security/mfa/mfa-reset-users.htm#:~:text=the%20Admin%20Console%3A-,In%20the%20Admin%20Console%2C%20go%20to%20DirectoryPeople.,Selected%20Factors%20or%20Reset%20All"
-    Severity = PantherSeverity.Low
-    LogTypes = [PantherLogType.Okta_SystemLog]
-    RuleID = "Okta.User.MFA.Reset.All-prototype"
-    Tests = okta_user_mfa_reset_all_tests
+    default_description = "All MFA factors have been reset for a user."
+    display_name = "Okta User MFA Reset All"
+    default_reference = "https://help.okta.com/en-us/content/topics/security/mfa/mfa-reset-users.htm#:~:text=the%20Admin%20Console%3A-,In%20the%20Admin%20Console%2C%20go%20to%20DirectoryPeople.,Selected%20Factors%20or%20Reset%20All"
+    default_severity = PantherSeverity.low
+    log_types = [PantherLogType.Okta_SystemLog]
+    id_ = "Okta.User.MFA.Reset.All-prototype"
+    tests = okta_user_mfa_reset_all_tests
 
     def rule(self, event):
         return event.get("eventtype") == "user.mfa.factor.reset_all"

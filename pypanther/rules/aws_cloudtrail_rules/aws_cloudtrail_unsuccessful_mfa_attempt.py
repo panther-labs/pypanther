@@ -5,9 +5,9 @@ from pypanther.helpers.panther_base_helpers import aws_rule_context, deep_get
 
 aws_unsuccessful_mf_aattempt_tests: List[PantherRuleTest] = [
     PantherRuleTest(
-        Name="Successful Login w/ MFA",
-        ExpectedResult=False,
-        Log={
+        name="Successful Login w/ MFA",
+        expected_result=False,
+        log={
             "additionalEventData": {
                 "LoginTo": "https://console.aws.amazon.com/console/home?state=hashArgs%23&isauthcode=true",
                 "MFAIdentifier": "arn:aws:iam::111122223333:u2f/user/anaya/default-AAAAAAAABBBBBBBBCCCCCCCCDD",
@@ -36,9 +36,9 @@ aws_unsuccessful_mf_aattempt_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="Unsuccessful Login w/ MFA",
-        ExpectedResult=True,
-        Log={
+        name="Unsuccessful Login w/ MFA",
+        expected_result=True,
+        log={
             "additionalEventData": {
                 "LoginTo": "https://console.aws.amazon.com/console/home?state=hashArgs%23&isauthcode=true",
                 "MFAUsed": "Yes",
@@ -70,18 +70,18 @@ aws_unsuccessful_mf_aattempt_tests: List[PantherRuleTest] = [
 
 
 class AWSUnsuccessfulMFAattempt(PantherRule):
-    Description = "Monitor application logs for suspicious events including repeated MFA failures that may indicate user's primary credentials have been compromised."
-    DisplayName = "AWS Unsuccessful MFA attempt"
-    Enabled = False
-    Reference = "https://attack.mitre.org/techniques/T1621/"
-    Tags = ["Configuration Required"]
-    Reports = {"MITRE ATT&CK": ["TA0006:T1621"]}
-    Severity = PantherSeverity.High
-    DedupPeriodMinutes = 15
-    LogTypes = [PantherLogType.AWS_CloudTrail]
-    RuleID = "AWS.Unsuccessful.MFA.attempt-prototype"
-    Threshold = 2
-    Tests = aws_unsuccessful_mf_aattempt_tests
+    default_description = "Monitor application logs for suspicious events including repeated MFA failures that may indicate user's primary credentials have been compromised."
+    display_name = "AWS Unsuccessful MFA attempt"
+    enabled = False
+    default_reference = "https://attack.mitre.org/techniques/T1621/"
+    tags = ["Configuration Required"]
+    reports = {"MITRE ATT&CK": ["TA0006:T1621"]}
+    default_severity = PantherSeverity.high
+    dedup_period_minutes = 15
+    log_types = [PantherLogType.AWS_CloudTrail]
+    id_ = "AWS.Unsuccessful.MFA.attempt-prototype"
+    threshold = 2
+    tests = aws_unsuccessful_mf_aattempt_tests
 
     def rule(self, event):
         if (

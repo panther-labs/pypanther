@@ -5,9 +5,9 @@ from pypanther.helpers.panther_base_helpers import deep_get
 
 g_suite_device_suspicious_activity_tests: List[PantherRuleTest] = [
     PantherRuleTest(
-        Name="Normal Mobile Event",
-        ExpectedResult=False,
-        Log={
+        name="Normal Mobile Event",
+        expected_result=False,
+        log={
             "id": {"applicationName": "mobile"},
             "actor": {"callerType": "USER", "email": "homer.simpson@example.io"},
             "type": "device_updates",
@@ -16,9 +16,9 @@ g_suite_device_suspicious_activity_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="Suspicious Activity",
-        ExpectedResult=True,
-        Log={
+        name="Suspicious Activity",
+        expected_result=True,
+        log={
             "id": {"applicationName": "mobile"},
             "actor": {"callerType": "USER", "email": "homer.simpson@example.io"},
             "type": "device_updates",
@@ -30,16 +30,18 @@ g_suite_device_suspicious_activity_tests: List[PantherRuleTest] = [
 
 
 class GSuiteDeviceSuspiciousActivity(PantherRule):
-    RuleID = "GSuite.DeviceSuspiciousActivity-prototype"
-    DisplayName = "GSuite Device Suspicious Activity"
-    LogTypes = [PantherLogType.GSuite_ActivityEvent]
-    Tags = ["GSuite"]
-    Severity = PantherSeverity.Low
-    Description = "GSuite reported a suspicious activity on a user's device.\n"
-    Reference = "https://support.google.com/a/answer/7562460?hl=en&sjid=864417124752637253-EU"
-    Runbook = "Validate that the suspicious activity was expected by the user.\n"
-    SummaryAttributes = ["actor:email"]
-    Tests = g_suite_device_suspicious_activity_tests
+    id_ = "GSuite.DeviceSuspiciousActivity-prototype"
+    display_name = "GSuite Device Suspicious Activity"
+    log_types = [PantherLogType.GSuite_ActivityEvent]
+    tags = ["GSuite"]
+    default_severity = PantherSeverity.low
+    default_description = "GSuite reported a suspicious activity on a user's device.\n"
+    default_reference = (
+        "https://support.google.com/a/answer/7562460?hl=en&sjid=864417124752637253-EU"
+    )
+    default_runbook = "Validate that the suspicious activity was expected by the user.\n"
+    summary_attributes = ["actor:email"]
+    tests = g_suite_device_suspicious_activity_tests
 
     def rule(self, event):
         if deep_get(event, "id", "applicationName") != "mobile":

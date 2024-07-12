@@ -5,9 +5,9 @@ from pypanther.helpers.panther_base_helpers import aws_rule_context
 
 awsec2_ebs_encryption_disabled_tests: List[PantherRuleTest] = [
     PantherRuleTest(
-        Name="DisableEbsEncryptionByDefault Event",
-        ExpectedResult=True,
-        Log={
+        name="DisableEbsEncryptionByDefault Event",
+        expected_result=True,
+        log={
             "awsRegion": "us-east-1",
             "eventName": "DisableEbsEncryptionByDefault",
             "eventSource": "ec2.amazonaws.com",
@@ -17,9 +17,9 @@ awsec2_ebs_encryption_disabled_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="Non Matching Event",
-        ExpectedResult=False,
-        Log={
+        name="Non Matching Event",
+        expected_result=False,
+        log={
             "awsRegion": "ap-northeast-1",
             "eventName": "DescribeInstanceStatus",
             "eventSource": "ec2.amazonaws.com",
@@ -34,17 +34,17 @@ awsec2_ebs_encryption_disabled_tests: List[PantherRuleTest] = [
 
 
 class AWSEC2EBSEncryptionDisabled(PantherRule):
-    Description = "Identifies disabling of default EBS encryption. Disabling default encryption does not change the encryption status of existing volumes. "
-    DisplayName = "AWS EC2 EBS Encryption Disabled"
-    Reports = {"MITRE ATT&CK": ["TA0040:T1486", "TA0040:T1565"]}
-    Runbook = (
+    default_description = "Identifies disabling of default EBS encryption. Disabling default encryption does not change the encryption status of existing volumes. "
+    display_name = "AWS EC2 EBS Encryption Disabled"
+    reports = {"MITRE ATT&CK": ["TA0040:T1486", "TA0040:T1565"]}
+    default_runbook = (
         "Verify this action was intended and if any EBS volumes were created after the change."
     )
-    Reference = "https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/EBSEncryption.html#encryption-by-default"
-    Severity = PantherSeverity.Medium
-    LogTypes = [PantherLogType.AWS_CloudTrail]
-    RuleID = "AWS.EC2.EBS.Encryption.Disabled-prototype"
-    Tests = awsec2_ebs_encryption_disabled_tests
+    default_reference = "https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/EBSEncryption.html#encryption-by-default"
+    default_severity = PantherSeverity.medium
+    log_types = [PantherLogType.AWS_CloudTrail]
+    id_ = "AWS.EC2.EBS.Encryption.Disabled-prototype"
+    tests = awsec2_ebs_encryption_disabled_tests
 
     def rule(self, event):
         return (

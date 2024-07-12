@@ -5,9 +5,9 @@ from pypanther.helpers.panther_base_helpers import aws_rule_context, deep_get
 
 aws_unused_region_tests: List[PantherRuleTest] = [
     PantherRuleTest(
-        Name="Authorized region",
-        ExpectedResult=False,
-        Log={
+        name="Authorized region",
+        expected_result=False,
+        log={
             "awsRegion": "us-west-2",
             "eventID": "1111",
             "eventName": "StartQueryExecution",
@@ -53,9 +53,9 @@ aws_unused_region_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="Unauthorized region, read-only",
-        ExpectedResult=False,
-        Log={
+        name="Unauthorized region, read-only",
+        expected_result=False,
+        log={
             "awsRegion": "ap-east-1",
             "eventID": "1111",
             "eventName": "Decrypt",
@@ -104,9 +104,9 @@ aws_unused_region_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="Unauthorized region",
-        ExpectedResult=True,
-        Log={
+        name="Unauthorized region",
+        expected_result=True,
+        log={
             "apiVersion": "20140328",
             "awsRegion": "eu-central-1",
             "eventID": "1111",
@@ -152,24 +152,28 @@ aws_unused_region_tests: List[PantherRuleTest] = [
 
 
 class AWSUnusedRegion(PantherRule):
-    RuleID = "AWS.UnusedRegion-prototype"
-    DisplayName = "Unused AWS Region"
-    Enabled = False
-    LogTypes = [PantherLogType.AWS_CloudTrail]
-    Tags = ["AWS", "Defense Evasion:Unused/Unsupported Cloud Regions", "Configuration Required"]
-    Reports = {"MITRE ATT&CK": ["TA0005:T1535"]}
-    Severity = PantherSeverity.High
-    Description = "CloudTrail logged non-read activity from a verboten AWS region."
-    Runbook = "https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_examples_aws-enable-disable-regions.html"
-    Reference = "https://attack.mitre.org/techniques/T1535/"
-    SummaryAttributes = [
+    id_ = "AWS.UnusedRegion-prototype"
+    display_name = "Unused AWS Region"
+    enabled = False
+    log_types = [PantherLogType.AWS_CloudTrail]
+    tags = [
+        "AWS",
+        "Defense Evasion:Unused/Unsupported Cloud Regions",
+        "Configuration Required",
+    ]
+    reports = {"MITRE ATT&CK": ["TA0005:T1535"]}
+    default_severity = PantherSeverity.high
+    default_description = "CloudTrail logged non-read activity from a verboten AWS region."
+    default_runbook = "https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_examples_aws-enable-disable-regions.html"
+    default_reference = "https://attack.mitre.org/techniques/T1535/"
+    summary_attributes = [
         "eventSource",
         "eventName",
         "recipientAccountId",
         "awsRegion",
         "p_any_aws_arns",
     ]
-    Tests = aws_unused_region_tests
+    tests = aws_unused_region_tests
     # Define a list of verboten or unused regions
     # Could modify to include expected user mappings: { "123456789012": { "us-west-1", "us-east-2" } }
     UNUSED_REGIONS = {"ap-east-1", "eu-west-3", "eu-central-1"}

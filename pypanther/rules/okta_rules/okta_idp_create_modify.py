@@ -5,16 +5,19 @@ from pypanther.helpers.panther_base_helpers import deep_get, deep_walk, okta_ale
 
 okta_identity_provider_created_modified_tests: List[PantherRuleTest] = [
     PantherRuleTest(
-        Name="Other Event",
-        ExpectedResult=False,
-        Log={
+        name="Other Event",
+        expected_result=False,
+        log={
             "actor": {
                 "alternateId": "homer.simpson@duff.com",
                 "displayName": "Homer Simpson",
                 "id": "00abc123",
                 "type": "User",
             },
-            "authenticationcontext": {"authenticationStep": 0, "externalSessionId": "100-abc-9999"},
+            "authenticationcontext": {
+                "authenticationStep": 0,
+                "externalSessionId": "100-abc-9999",
+            },
             "client": {
                 "device": "Computer",
                 "geographicalContext": {
@@ -81,16 +84,19 @@ okta_identity_provider_created_modified_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="FastPass Phishing Block Event",
-        ExpectedResult=True,
-        Log={
+        name="FastPass Phishing Block Event",
+        expected_result=True,
+        log={
             "actor": {
                 "alternateId": "homer.simpson@duff.com",
                 "displayName": "Homer Simpson",
                 "id": "00abc123",
                 "type": "User",
             },
-            "authenticationcontext": {"authenticationStep": 0, "externalSessionId": "100-abc-9999"},
+            "authenticationcontext": {
+                "authenticationStep": 0,
+                "externalSessionId": "100-abc-9999",
+            },
             "client": {
                 "device": "Computer",
                 "geographicalContext": {
@@ -160,16 +166,16 @@ okta_identity_provider_created_modified_tests: List[PantherRuleTest] = [
 
 
 class OktaIdentityProviderCreatedModified(PantherRule):
-    RuleID = "Okta.Identity.Provider.Created.Modified-prototype"
-    DisplayName = "Okta Identity Provider Created or Modified"
-    LogTypes = [PantherLogType.Okta_SystemLog]
-    Reports = {"MITRE ATT&CK": ["TA0006:T1556", "TA0001:T1199", "TA0003:T1098"]}
-    Severity = PantherSeverity.High
-    Description = 'A new 3rd party Identity Provider has been created or modified. Attackers have been observed configuring a second Identity Provider to act as an "impersonation app" to access applications within the compromised Org on behalf of other users. This second Identity Provider, also controlled by the attacker, would act as a “source” IdP in an inbound federation relationship (sometimes called “Org2Org”) with the target.\n'
-    Runbook = "Delegate access to this feature to a Custom Admin Role with the minimum required permissions. Constrain these roles to groups that exclude highly privileged administrators.\n"
-    Reference = "https://sec.okta.com/articles/2023/08/cross-tenant-impersonation-prevention-and-detection\n"
-    DedupPeriodMinutes = 30
-    Tests = okta_identity_provider_created_modified_tests
+    id_ = "Okta.Identity.Provider.Created.Modified-prototype"
+    display_name = "Okta Identity Provider Created or Modified"
+    log_types = [PantherLogType.Okta_SystemLog]
+    reports = {"MITRE ATT&CK": ["TA0006:T1556", "TA0001:T1199", "TA0003:T1098"]}
+    default_severity = PantherSeverity.high
+    default_description = 'A new 3rd party Identity Provider has been created or modified. Attackers have been observed configuring a second Identity Provider to act as an "impersonation app" to access applications within the compromised Org on behalf of other users. This second Identity Provider, also controlled by the attacker, would act as a “source” IdP in an inbound federation relationship (sometimes called “Org2Org”) with the target.\n'
+    default_runbook = "Delegate access to this feature to a Custom Admin Role with the minimum required permissions. Constrain these roles to groups that exclude highly privileged administrators.\n"
+    default_reference = "https://sec.okta.com/articles/2023/08/cross-tenant-impersonation-prevention-and-detection\n"
+    dedup_period_minutes = 30
+    tests = okta_identity_provider_created_modified_tests
 
     def rule(self, event):
         return "system.idp.lifecycle" in event.get("eventType")
@@ -177,7 +183,11 @@ class OktaIdentityProviderCreatedModified(PantherRule):
     def title(self, event):
         action = event.get("eventType").split(".")[-1]
         target = deep_walk(
-            event, "target", "displayName", default="<displayName-not-found>", return_val="first"
+            event,
+            "target",
+            "displayName",
+            default="<displayName-not-found>",
+            return_val="first",
         )
         return f"{deep_get(event, 'actor', 'displayName', default='<displayName-not-found>')} <{deep_get(event, 'actor', 'alternateId', default='alternateId-not-found')}> {action}d Identity Provider [{target}]"
 

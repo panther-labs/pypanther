@@ -5,16 +5,19 @@ from pypanther.helpers.panther_base_helpers import deep_get, okta_alert_context
 
 okta_phishing_attempt_blocked_fast_pass_tests: List[PantherRuleTest] = [
     PantherRuleTest(
-        Name="Other Event",
-        ExpectedResult=False,
-        Log={
+        name="Other Event",
+        expected_result=False,
+        log={
             "actor": {
                 "alternateId": "homer.simpson@duff.com",
                 "displayName": "Homer Simpson",
                 "id": "00abc123",
                 "type": "User",
             },
-            "authenticationcontext": {"authenticationStep": 0, "externalSessionId": "100-abc-9999"},
+            "authenticationcontext": {
+                "authenticationStep": 0,
+                "externalSessionId": "100-abc-9999",
+            },
             "client": {
                 "device": "Computer",
                 "geographicalContext": {
@@ -81,16 +84,19 @@ okta_phishing_attempt_blocked_fast_pass_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="FastPass Phishing Block Event",
-        ExpectedResult=True,
-        Log={
+        name="FastPass Phishing Block Event",
+        expected_result=True,
+        log={
             "actor": {
                 "alternateId": "homer.simpson@duff.com",
                 "displayName": "Homer Simpson",
                 "id": "00abc123",
                 "type": "User",
             },
-            "authenticationcontext": {"authenticationStep": 0, "externalSessionId": "100-abc-9999"},
+            "authenticationcontext": {
+                "authenticationStep": 0,
+                "externalSessionId": "100-abc-9999",
+            },
             "client": {
                 "device": "Computer",
                 "geographicalContext": {
@@ -118,7 +124,10 @@ okta_phishing_attempt_blocked_fast_pass_tests: List[PantherRuleTest] = [
             "displaymessage": "Authentication of user via MFA",
             "eventtype": "user.authentication.auth_via_mfa",
             "legacyeventtype": "core.user.factor.attempt_fail",
-            "outcome": {"reason": "FastPass declined phishing attempt", "result": "FAILURE"},
+            "outcome": {
+                "reason": "FastPass declined phishing attempt",
+                "result": "FAILURE",
+            },
             "published": "2022-06-22 18:18:29.015",
             "request": {
                 "ipChain": [
@@ -160,18 +169,18 @@ okta_phishing_attempt_blocked_fast_pass_tests: List[PantherRuleTest] = [
 
 
 class OktaPhishingAttemptBlockedFastPass(PantherRule):
-    RuleID = "Okta.Phishing.Attempt.Blocked.FastPass-prototype"
-    DisplayName = "Okta AiTM Phishing Attempt Blocked by FastPass"
-    LogTypes = [PantherLogType.Okta_SystemLog]
-    Reports = {"MITRE ATT&CK": ["TA0001:T1566", "TA0006:T1556", "TA0003:T1078.004"]}
-    Severity = PantherSeverity.High
-    Description = (
+    id_ = "Okta.Phishing.Attempt.Blocked.FastPass-prototype"
+    display_name = "Okta AiTM Phishing Attempt Blocked by FastPass"
+    log_types = [PantherLogType.Okta_SystemLog]
+    reports = {"MITRE ATT&CK": ["TA0001:T1566", "TA0006:T1556", "TA0003:T1078.004"]}
+    default_severity = PantherSeverity.high
+    default_description = (
         "Okta FastPass detected a user targeted by attackers wielding real-time (AiTM) proxies.\n"
     )
-    Runbook = "Protect sign-in flows by enforcing phishing-resistant authentication with Okta FastPass and FIDO2 WebAuthn.\n"
-    Reference = "https://sec.okta.com/fastpassphishingdetection\n"
-    DedupPeriodMinutes = 30
-    Tests = okta_phishing_attempt_blocked_fast_pass_tests
+    default_runbook = "Protect sign-in flows by enforcing phishing-resistant authentication with Okta FastPass and FIDO2 WebAuthn.\n"
+    default_reference = "https://sec.okta.com/fastpassphishingdetection\n"
+    dedup_period_minutes = 30
+    tests = okta_phishing_attempt_blocked_fast_pass_tests
 
     def rule(self, event):
         return (

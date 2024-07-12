@@ -4,9 +4,9 @@ from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSever
 
 app_omni_alert_passthrough_tests: List[PantherRuleTest] = [
     PantherRuleTest(
-        Name="Alert Type Severity 2",
-        ExpectedResult=True,
-        Log={
+        name="Alert Type Severity 2",
+        expected_result=True,
+        log={
             "appomni": {
                 "alert": {"channel": "prod"},
                 "event": {
@@ -17,7 +17,11 @@ app_omni_alert_passthrough_tests: List[PantherRuleTest] = [
                 },
                 "organization": {"id": 285},
             },
-            "event": {"created": "2024-02-21T19:50:42.499Z", "kind": "alert", "severity": 2},
+            "event": {
+                "created": "2024-02-21T19:50:42.499Z",
+                "kind": "alert",
+                "severity": 2,
+            },
             "message": "Security issue detected in GitHub repository 'appomni/ao_factory_interfaces'",
             "related": {
                 "event": ["cf8e782f-1657-5a4e-bdc2-cff1d147c912"],
@@ -39,9 +43,9 @@ app_omni_alert_passthrough_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="Event Type",
-        ExpectedResult=False,
-        Log={
+        name="Event Type",
+        expected_result=False,
+        log={
             "appomni": {
                 "event": {
                     "collected_time": "2024-02-28T19:53:34.266Z",
@@ -50,7 +54,12 @@ app_omni_alert_passthrough_tests: List[PantherRuleTest] = [
                     "ingestion_time": "2024-02-28T19:53:34.298Z",
                 },
                 "organization": {"id": 6},
-                "service": {"account_id": "6", "id": 0, "name": "AppOmni", "type": "appomni"},
+                "service": {
+                    "account_id": "6",
+                    "id": 0,
+                    "name": "AppOmni",
+                    "type": "appomni",
+                },
             },
             "event": {
                 "action": "update_token",
@@ -70,9 +79,9 @@ app_omni_alert_passthrough_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="External App Install - Severity 3",
-        ExpectedResult=True,
-        Log={
+        name="External App Install - Severity 3",
+        expected_result=True,
+        log={
             "@timestamp": "2024-02-26T18:02:09.044Z",
             "appomni": {
                 "alert": {"channel": "prod"},
@@ -84,7 +93,11 @@ app_omni_alert_passthrough_tests: List[PantherRuleTest] = [
                 },
                 "organization": {"id": 6},
             },
-            "event": {"created": "2024-02-26T18:04:15.109Z", "kind": "alert", "severity": 3},
+            "event": {
+                "created": "2024-02-26T18:04:15.109Z",
+                "kind": "alert",
+                "severity": 3,
+            },
             "message": "An external application has been installed by appomni_int_justinz in Workday",
             "related": {
                 "event": ["cb786453-a105-5438-97a6-903d15e0cb7e"],
@@ -117,9 +130,9 @@ app_omni_alert_passthrough_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="Multiple Services",
-        ExpectedResult=True,
-        Log={
+        name="Multiple Services",
+        expected_result=True,
+        log={
             "appomni": {
                 "alert": {"channel": "prod"},
                 "event": {
@@ -130,7 +143,11 @@ app_omni_alert_passthrough_tests: List[PantherRuleTest] = [
                 },
                 "organization": {"id": 285},
             },
-            "event": {"created": "2024-02-21T19:50:42.499Z", "kind": "alert", "severity": 2},
+            "event": {
+                "created": "2024-02-21T19:50:42.499Z",
+                "kind": "alert",
+                "severity": 2,
+            },
             "message": "Security issue detected in GitHub repository 'appomni/ao_factory_interfaces'",
             "related": {
                 "event": ["cf8e782f-1657-5a4e-bdc2-cff1d147c912"],
@@ -155,11 +172,11 @@ app_omni_alert_passthrough_tests: List[PantherRuleTest] = [
 
 
 class AppOmniAlertPassthrough(PantherRule):
-    RuleID = "AppOmni.Alert.Passthrough-prototype"
-    DisplayName = "AppOmni Alert Passthrough"
-    LogTypes = [PantherLogType.AppOmni_Alerts]
-    Severity = PantherSeverity.Medium
-    Reports = {
+    id_ = "AppOmni.Alert.Passthrough-prototype"
+    display_name = "AppOmni Alert Passthrough"
+    log_types = [PantherLogType.AppOmni_Alerts]
+    default_severity = PantherSeverity.medium
+    reports = {
         "MITRE ATT&CK": [
             "TA0001:T1566",
             "TA0001:T1528",
@@ -202,7 +219,7 @@ class AppOmniAlertPassthrough(PantherRule):
             "TA0010:T1567",
         ]
     }
-    Tests = app_omni_alert_passthrough_tests
+    tests = app_omni_alert_passthrough_tests
     SEV_DICT = {0: "Critical", 1: "High", 2: "Medium", 3: "Low", 4: "Info"}
 
     def rule(self, event):
@@ -231,4 +248,7 @@ class AppOmniAlertPassthrough(PantherRule):
 
     def alert_context(self, event):
         # 'Threat' and 'related' data to be included in the alert sent to the alert destination
-        return {"threat": event.deep_get("rule", "threat"), "related": event.deep_get("related")}
+        return {
+            "threat": event.deep_get("rule", "threat"),
+            "related": event.deep_get("related"),
+        }

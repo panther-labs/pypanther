@@ -5,9 +5,9 @@ from pypanther.helpers.panther_base_helpers import slack_alert_context
 
 slack_audit_logs_idp_configuration_changed_tests: List[PantherRuleTest] = [
     PantherRuleTest(
-        Name="IDP Configuration Added",
-        ExpectedResult=True,
-        Log={
+        name="IDP Configuration Added",
+        expected_result=True,
+        log={
             "action": "idp_configuration_added",
             "actor": {
                 "type": "user",
@@ -32,9 +32,9 @@ slack_audit_logs_idp_configuration_changed_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="IDP Configuration Deleted",
-        ExpectedResult=True,
-        Log={
+        name="IDP Configuration Deleted",
+        expected_result=True,
+        log={
             "action": "idp_configuration_deleted",
             "actor": {
                 "type": "user",
@@ -59,9 +59,9 @@ slack_audit_logs_idp_configuration_changed_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="IDP Configuration Updated",
-        ExpectedResult=True,
-        Log={
+        name="IDP Configuration Updated",
+        expected_result=True,
+        log={
             "action": "idp_prod_configuration_updated",
             "actor": {
                 "type": "user",
@@ -86,9 +86,9 @@ slack_audit_logs_idp_configuration_changed_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="User Logout",
-        ExpectedResult=False,
-        Log={
+        name="User Logout",
+        expected_result=False,
+        log={
             "action": "user_logout",
             "actor": {
                 "type": "user",
@@ -126,18 +126,23 @@ slack_audit_logs_idp_configuration_changed_tests: List[PantherRuleTest] = [
 
 
 class SlackAuditLogsIDPConfigurationChanged(PantherRule):
-    RuleID = "Slack.AuditLogs.IDPConfigurationChanged-prototype"
-    DisplayName = "Slack IDP Configuration Changed"
-    LogTypes = [PantherLogType.Slack_AuditLogs]
-    Tags = ["Slack", "Persistence", "Credential Access", "Modify Authentication Process"]
-    Reports = {"MITRE ATT&CK": ["TA0003:T1556", "TA0006:T1556"]}
-    Severity = PantherSeverity.High
-    Description = (
+    id_ = "Slack.AuditLogs.IDPConfigurationChanged-prototype"
+    display_name = "Slack IDP Configuration Changed"
+    log_types = [PantherLogType.Slack_AuditLogs]
+    tags = [
+        "Slack",
+        "Persistence",
+        "Credential Access",
+        "Modify Authentication Process",
+    ]
+    reports = {"MITRE ATT&CK": ["TA0003:T1556", "TA0006:T1556"]}
+    default_severity = PantherSeverity.high
+    default_description = (
         "Detects changes to the identity provider (IdP) configuration for Slack organizations."
     )
-    Reference = "https://slack.com/intl/en-gb/help/articles/115001435788-Connect-identity-provider-groups-to-your-Enterprise-Grid-org"
-    SummaryAttributes = ["action", "p_any_ip_addresses", "p_any_emails"]
-    Tests = slack_audit_logs_idp_configuration_changed_tests
+    default_reference = "https://slack.com/intl/en-gb/help/articles/115001435788-Connect-identity-provider-groups-to-your-Enterprise-Grid-org"
+    summary_attributes = ["action", "p_any_ip_addresses", "p_any_emails"]
+    tests = slack_audit_logs_idp_configuration_changed_tests
     IDP_CHANGE_ACTIONS = {
         "idp_configuration_added": "Slack IDP Configuration Added",
         "idp_configuration_deleted": "Slack IDP Configuration Deleted",

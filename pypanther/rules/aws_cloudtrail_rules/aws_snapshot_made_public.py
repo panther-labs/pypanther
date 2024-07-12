@@ -7,9 +7,9 @@ from pypanther.helpers.panther_default import aws_cloudtrail_success
 
 aws_cloud_trail_snapshot_made_public_tests: List[PantherRuleTest] = [
     PantherRuleTest(
-        Name="Snapshot Made Publicly Accessible",
-        ExpectedResult=True,
-        Log={
+        name="Snapshot Made Publicly Accessible",
+        expected_result=True,
+        log={
             "awsRegion": "us-west-2",
             "eventID": "1111",
             "eventName": "ModifySnapshotAttribute",
@@ -51,9 +51,9 @@ aws_cloud_trail_snapshot_made_public_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="Snapshot Not Made Publicly Accessible",
-        ExpectedResult=False,
-        Log={
+        name="Snapshot Not Made Publicly Accessible",
+        expected_result=False,
+        log={
             "awsRegion": "us-west-2",
             "eventID": "1111",
             "eventName": "ModifySnapshotAttribute",
@@ -95,9 +95,9 @@ aws_cloud_trail_snapshot_made_public_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="Error Making Snapshot Publicly Accessible",
-        ExpectedResult=False,
-        Log={
+        name="Error Making Snapshot Publicly Accessible",
+        expected_result=False,
+        log={
             "awsRegion": "us-west-2",
             "errorCode": "ValidationError",
             "eventID": "1111",
@@ -143,17 +143,22 @@ aws_cloud_trail_snapshot_made_public_tests: List[PantherRuleTest] = [
 
 
 class AWSCloudTrailSnapshotMadePublic(PantherRule):
-    RuleID = "AWS.CloudTrail.SnapshotMadePublic-prototype"
-    DisplayName = "AWS Snapshot Made Public"
-    LogTypes = [PantherLogType.AWS_CloudTrail]
-    Tags = ["AWS", "Exfiltration:Transfer Data to Cloud Account"]
-    Reports = {"MITRE ATT&CK": ["TA0010:T1537"]}
-    Severity = PantherSeverity.Medium
-    Description = "An AWS storage snapshot was made public."
-    Runbook = "Adjust the snapshot configuration so that it is no longer public."
-    Reference = "https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-modifying-snapshot-permissions.html"
-    SummaryAttributes = ["userAgent", "sourceIpAddress", "recipientAccountId", "p_any_aws_arns"]
-    Tests = aws_cloud_trail_snapshot_made_public_tests
+    id_ = "AWS.CloudTrail.SnapshotMadePublic-prototype"
+    display_name = "AWS Snapshot Made Public"
+    log_types = [PantherLogType.AWS_CloudTrail]
+    tags = ["AWS", "Exfiltration:Transfer Data to Cloud Account"]
+    reports = {"MITRE ATT&CK": ["TA0010:T1537"]}
+    default_severity = PantherSeverity.medium
+    default_description = "An AWS storage snapshot was made public."
+    default_runbook = "Adjust the snapshot configuration so that it is no longer public."
+    default_reference = "https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-modifying-snapshot-permissions.html"
+    summary_attributes = [
+        "userAgent",
+        "sourceIpAddress",
+        "recipientAccountId",
+        "p_any_aws_arns",
+    ]
+    tests = aws_cloud_trail_snapshot_made_public_tests
 
     def rule(self, event):
         if not aws_cloudtrail_success(event):

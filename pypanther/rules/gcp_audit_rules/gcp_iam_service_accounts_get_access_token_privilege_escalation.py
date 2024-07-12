@@ -6,9 +6,9 @@ from pypanther.helpers.panther_base_helpers import deep_get
 
 gcpia_mservice_accountsget_access_token_privilege_escalation_tests: List[PantherRuleTest] = [
     PantherRuleTest(
-        Name="iam.serviceAccounts.getAccessToken granted",
-        ExpectedResult=True,
-        Log={
+        name="iam.serviceAccounts.getAccessToken granted",
+        expected_result=True,
+        log={
             "protoPayload": {
                 "@type": "type.googleapis.com/google.cloud.audit.AuditLog",
                 "status": {},
@@ -19,7 +19,10 @@ gcpia_mservice_accountsget_access_token_privilege_escalation_tests: List[Panther
                 },
                 "requestMetadata": {
                     "callerIp": "1.2.3.4",
-                    "requestAttributes": {"time": "2024-02-26T17:15:16.327542536Z", "auth": {}},
+                    "requestAttributes": {
+                        "time": "2024-02-26T17:15:16.327542536Z",
+                        "auth": {},
+                    },
                     "destinationAttributes": {},
                 },
                 "serviceName": "iamcredentials.googleapis.com",
@@ -53,9 +56,9 @@ gcpia_mservice_accountsget_access_token_privilege_escalation_tests: List[Panther
         },
     ),
     PantherRuleTest(
-        Name="iam.serviceAccounts.getAccessToken not granted",
-        ExpectedResult=False,
-        Log={
+        name="iam.serviceAccounts.getAccessToken not granted",
+        expected_result=False,
+        log={
             "protoPayload": {
                 "@type": "type.googleapis.com/google.cloud.audit.AuditLog",
                 "status": {},
@@ -66,7 +69,10 @@ gcpia_mservice_accountsget_access_token_privilege_escalation_tests: List[Panther
                 },
                 "requestMetadata": {
                     "callerIp": "1.2.3.4",
-                    "requestAttributes": {"time": "2024-02-26T17:15:16.327542536Z", "auth": {}},
+                    "requestAttributes": {
+                        "time": "2024-02-26T17:15:16.327542536Z",
+                        "auth": {},
+                    },
                     "destinationAttributes": {},
                 },
                 "serviceName": "iamcredentials.googleapis.com",
@@ -103,16 +109,16 @@ gcpia_mservice_accountsget_access_token_privilege_escalation_tests: List[Panther
 
 
 class GCPIAMserviceAccountsgetAccessTokenPrivilegeEscalation(PantherRule):
-    RuleID = "GCP.IAM.serviceAccounts.getAccessToken.Privilege.Escalation-prototype"
-    DisplayName = "GCP IAM serviceAccounts getAccessToken Privilege Escalation"
-    LogTypes = [PantherLogType.GCP_AuditLog]
-    Reports = {"MITRE ATT&CK": ["TA0004:T1548"]}
-    Severity = PantherSeverity.High
-    Description = "The Identity and Access Management (IAM) service manages authorization and authentication for a GCP environment. This means that there are very likely multiple privilege escalation methods that use the IAM service and/or its permissions."
-    Reference = (
+    id_ = "GCP.IAM.serviceAccounts.getAccessToken.Privilege.Escalation-prototype"
+    display_name = "GCP IAM serviceAccounts getAccessToken Privilege Escalation"
+    log_types = [PantherLogType.GCP_AuditLog]
+    reports = {"MITRE ATT&CK": ["TA0004:T1548"]}
+    default_severity = PantherSeverity.high
+    default_description = "The Identity and Access Management (IAM) service manages authorization and authentication for a GCP environment. This means that there are very likely multiple privilege escalation methods that use the IAM service and/or its permissions."
+    default_reference = (
         "https://rhinosecuritylabs.com/gcp/privilege-escalation-google-cloud-platform-part-1/"
     )
-    Tests = gcpia_mservice_accountsget_access_token_privilege_escalation_tests
+    tests = gcpia_mservice_accountsget_access_token_privilege_escalation_tests
 
     def rule(self, event):
         authorization_info = event.deep_walk("protoPayload", "authorizationInfo")

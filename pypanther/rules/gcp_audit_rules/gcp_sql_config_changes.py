@@ -5,9 +5,9 @@ from pypanther.helpers.panther_base_helpers import deep_get
 
 gcpsql_config_changes_tests: List[PantherRuleTest] = [
     PantherRuleTest(
-        Name="Sql Instance Change",
-        ExpectedResult=True,
-        Log={
+        name="Sql Instance Change",
+        expected_result=True,
+        log={
             "protoPayload": {
                 "@type": "type.googleapis.com/google.cloud.audit.AuditLog",
                 "status": {},
@@ -15,7 +15,10 @@ gcpsql_config_changes_tests: List[PantherRuleTest] = [
                 "requestMetadata": {
                     "callerIp": "136.24.229.58",
                     "callerSuppliedUserAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/81.0.4044.138 Safari/537.36,gzip(gfe)",
-                    "requestAttributes": {"time": "2020-05-15T04:28:42.243082428Z", "auth": {}},
+                    "requestAttributes": {
+                        "time": "2020-05-15T04:28:42.243082428Z",
+                        "auth": {},
+                    },
                     "destinationAttributes": {},
                 },
                 "serviceName": "storage.googleapis.com",
@@ -23,7 +26,10 @@ gcpsql_config_changes_tests: List[PantherRuleTest] = [
             },
             "resource": {
                 "type": "sql_instance",
-                "labels": {"project_id": "western-verve-123456", "location": "asia-northeast2"},
+                "labels": {
+                    "project_id": "western-verve-123456",
+                    "location": "asia-northeast2",
+                },
             },
         },
     )
@@ -31,18 +37,18 @@ gcpsql_config_changes_tests: List[PantherRuleTest] = [
 
 
 class GCPSQLConfigChanges(PantherRule):
-    RuleID = "GCP.SQL.ConfigChanges-prototype"
-    DisplayName = "GCP SQL Config Changes"
-    DedupPeriodMinutes = 720
-    LogTypes = [PantherLogType.GCP_AuditLog]
-    Tags = ["GCP", "Database"]
-    Reports = {"CIS": ["2.11"]}
-    Severity = PantherSeverity.Low
-    Description = "Monitoring changes to Sql Instance configuration may reduce time to detect and correct misconfigurations done on sql server.\n"
-    Runbook = "Validate the Sql Instance configuration change was safe"
-    Reference = "https://cloud.google.com/sql/docs/mysql/instance-settings"
-    SummaryAttributes = ["severity", "p_any_ip_addresses", "p_any_domain_names"]
-    Tests = gcpsql_config_changes_tests
+    id_ = "GCP.SQL.ConfigChanges-prototype"
+    display_name = "GCP SQL Config Changes"
+    dedup_period_minutes = 720
+    log_types = [PantherLogType.GCP_AuditLog]
+    tags = ["GCP", "Database"]
+    reports = {"CIS": ["2.11"]}
+    default_severity = PantherSeverity.low
+    default_description = "Monitoring changes to Sql Instance configuration may reduce time to detect and correct misconfigurations done on sql server.\n"
+    default_runbook = "Validate the Sql Instance configuration change was safe"
+    default_reference = "https://cloud.google.com/sql/docs/mysql/instance-settings"
+    summary_attributes = ["severity", "p_any_ip_addresses", "p_any_domain_names"]
+    tests = gcpsql_config_changes_tests
 
     def rule(self, event):
         return deep_get(event, "protoPayload", "methodName") == "cloudsql.instances.update"

@@ -4,9 +4,9 @@ from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSever
 
 teleport_role_created_tests: List[PantherRuleTest] = [
     PantherRuleTest(
-        Name="A role was created",
-        ExpectedResult=True,
-        Log={
+        name="A role was created",
+        expected_result=True,
+        log={
             "cluster_name": "teleport.example.com",
             "code": "T9000I",
             "ei": 0,
@@ -22,17 +22,17 @@ teleport_role_created_tests: List[PantherRuleTest] = [
 
 
 class TeleportRoleCreated(PantherRule):
-    RuleID = "Teleport.RoleCreated-prototype"
-    DisplayName = "A Teleport Role was modified or created"
-    LogTypes = [PantherLogType.Gravitational_TeleportAudit]
-    Tags = ["Teleport"]
-    Severity = PantherSeverity.Medium
-    Description = "A Teleport Role was modified or created"
-    Reports = {"MITRE ATT&CK": ["TA0003:T1098.001"]}
-    Reference = "https://goteleport.com/docs/management/admin/"
-    Runbook = "A Teleport Role was modified or created. Validate its legitimacy.\n"
-    SummaryAttributes = ["event", "code", "user", "name"]
-    Tests = teleport_role_created_tests
+    id_ = "Teleport.RoleCreated-prototype"
+    display_name = "A Teleport Role was modified or created"
+    log_types = [PantherLogType.Gravitational_TeleportAudit]
+    tags = ["Teleport"]
+    default_severity = PantherSeverity.medium
+    default_description = "A Teleport Role was modified or created"
+    reports = {"MITRE ATT&CK": ["TA0003:T1098.001"]}
+    default_reference = "https://goteleport.com/docs/management/admin/"
+    default_runbook = "A Teleport Role was modified or created. Validate its legitimacy.\n"
+    summary_attributes = ["event", "code", "user", "name"]
+    tests = teleport_role_created_tests
 
     def rule(self, event):
         return event.get("event") == "role.created"

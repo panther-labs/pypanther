@@ -4,10 +4,14 @@ from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSever
 
 google_workspace_apps_new_mobile_app_installed_tests: List[PantherRuleTest] = [
     PantherRuleTest(
-        Name="Android Calculator",
-        ExpectedResult=True,
-        Log={
-            "actor": {"callerType": "USER", "email": "example@example.io", "profileId": "12345"},
+        name="Android Calculator",
+        expected_result=True,
+        log={
+            "actor": {
+                "callerType": "USER",
+                "email": "example@example.io",
+                "profileId": "12345",
+            },
             "id": {
                 "applicationName": "admin",
                 "customerId": "D12345",
@@ -27,10 +31,14 @@ google_workspace_apps_new_mobile_app_installed_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="Enable User Enrollement",
-        ExpectedResult=False,
-        Log={
-            "actor": {"callerType": "USER", "email": "example@example.io", "profileId": "12345"},
+        name="Enable User Enrollement",
+        expected_result=False,
+        log={
+            "actor": {
+                "callerType": "USER",
+                "email": "example@example.io",
+                "profileId": "12345",
+            },
             "id": {
                 "applicationName": "admin",
                 "customerId": "D12345",
@@ -51,9 +59,9 @@ google_workspace_apps_new_mobile_app_installed_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="ListObject Type",
-        ExpectedResult=False,
-        Log={
+        name="ListObject Type",
+        expected_result=False,
+        log={
             "actor": {"email": "user@example.io", "profileId": "118111111111111111111"},
             "id": {
                 "applicationName": "drive",
@@ -86,14 +94,14 @@ google_workspace_apps_new_mobile_app_installed_tests: List[PantherRuleTest] = [
 
 
 class GoogleWorkspaceAppsNewMobileAppInstalled(PantherRule):
-    Description = "A new mobile application was added to your organization's mobile apps whitelist in Google Workspace Apps."
-    DisplayName = "Google Workspace Apps New Mobile App Installed"
-    Runbook = "https://admin.google.com/ac/apps/unified"
-    Reference = "https://support.google.com/a/answer/6089179?hl=en"
-    Severity = PantherSeverity.Medium
-    LogTypes = [PantherLogType.GSuite_ActivityEvent]
-    RuleID = "Google.Workspace.Apps.New.Mobile.App.Installed-prototype"
-    Tests = google_workspace_apps_new_mobile_app_installed_tests
+    default_description = "A new mobile application was added to your organization's mobile apps whitelist in Google Workspace Apps."
+    display_name = "Google Workspace Apps New Mobile App Installed"
+    default_runbook = "https://admin.google.com/ac/apps/unified"
+    default_reference = "https://support.google.com/a/answer/6089179?hl=en"
+    default_severity = PantherSeverity.medium
+    log_types = [PantherLogType.GSuite_ActivityEvent]
+    id_ = "Google.Workspace.Apps.New.Mobile.App.Installed-prototype"
+    tests = google_workspace_apps_new_mobile_app_installed_tests
 
     def rule(self, event):
         # Return True to match the log event and trigger an alert.

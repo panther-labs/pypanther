@@ -6,9 +6,9 @@ from pypanther.helpers.panther_default import aws_cloudtrail_success
 
 awsiam_policy_modified_tests: List[PantherRuleTest] = [
     PantherRuleTest(
-        Name="IAM Policy Change",
-        ExpectedResult=True,
-        Log={
+        name="IAM Policy Change",
+        expected_result=True,
+        log={
             "eventVersion": "1.05",
             "userIdentity": {
                 "type": "AssumedRole",
@@ -45,9 +45,9 @@ awsiam_policy_modified_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="Not IAM Policy Change",
-        ExpectedResult=False,
-        Log={
+        name="Not IAM Policy Change",
+        expected_result=False,
+        log={
             "eventVersion": "1.06",
             "userIdentity": {
                 "type": "AssumedRole",
@@ -94,9 +94,9 @@ awsiam_policy_modified_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="IAM Policy Change Error",
-        ExpectedResult=False,
-        Log={
+        name="IAM Policy Change Error",
+        expected_result=False,
+        log={
             "eventVersion": "1.05",
             "errorCode": "NoSuchEntity",
             "userIdentity": {
@@ -137,28 +137,30 @@ awsiam_policy_modified_tests: List[PantherRuleTest] = [
 
 
 class AWSIAMPolicyModified(PantherRule):
-    RuleID = "AWS.IAM.PolicyModified-prototype"
-    DisplayName = "IAM Policy Modified"
-    LogTypes = [PantherLogType.AWS_CloudTrail]
-    Tags = [
+    id_ = "AWS.IAM.PolicyModified-prototype"
+    display_name = "IAM Policy Modified"
+    log_types = [PantherLogType.AWS_CloudTrail]
+    tags = [
         "AWS",
         "Identity & Access Management",
         "Privilege Escalation:Abuse Elevation Control Mechanism",
     ]
-    Reports = {"CIS": ["3.4"], "MITRE ATT&CK": ["TA0004:T1548"]}
-    Severity = PantherSeverity.Info
-    DedupPeriodMinutes = 720
-    Description = "An IAM Policy was changed.\n"
-    Runbook = "https://docs.runpanther.io/alert-runbooks/built-in-rules/aws-iam-policy-modified"
-    Reference = "https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies.html"
-    SummaryAttributes = [
+    reports = {"CIS": ["3.4"], "MITRE ATT&CK": ["TA0004:T1548"]}
+    default_severity = PantherSeverity.info
+    dedup_period_minutes = 720
+    default_description = "An IAM Policy was changed.\n"
+    default_runbook = (
+        "https://docs.runpanther.io/alert-runbooks/built-in-rules/aws-iam-policy-modified"
+    )
+    default_reference = "https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies.html"
+    summary_attributes = [
         "eventName",
         "userAgent",
         "sourceIpAddress",
         "recipientAccountId",
         "p_any_aws_arns",
     ]
-    Tests = awsiam_policy_modified_tests
+    tests = awsiam_policy_modified_tests
     # API calls that are indicative of IAM Policy changes
     # Put<Entity>Policy is for inline policies.
     # these can be moved into their own rule if inline policies are of a greater concern.

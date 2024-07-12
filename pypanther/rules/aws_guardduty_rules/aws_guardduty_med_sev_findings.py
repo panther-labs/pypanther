@@ -5,9 +5,9 @@ from pypanther.helpers.panther_base_helpers import aws_guardduty_context, deep_g
 
 aws_guard_duty_medium_severity_finding_tests: List[PantherRuleTest] = [
     PantherRuleTest(
-        Name="Medium Sev Finding",
-        ExpectedResult=True,
-        Log={
+        name="Medium Sev Finding",
+        expected_result=True,
+        log={
             "schemaVersion": "2.0",
             "accountId": "123456789012",
             "region": "us-east-1",
@@ -46,9 +46,9 @@ aws_guard_duty_medium_severity_finding_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="Medium Sev Finding As Sample Data",
-        ExpectedResult=False,
-        Log={
+        name="Medium Sev Finding As Sample Data",
+        expected_result=False,
+        log={
             "schemaVersion": "2.0",
             "accountId": "123456789012",
             "region": "us-east-1",
@@ -90,16 +90,16 @@ aws_guard_duty_medium_severity_finding_tests: List[PantherRuleTest] = [
 
 
 class AWSGuardDutyMediumSeverityFinding(PantherRule):
-    RuleID = "AWS.GuardDuty.MediumSeverityFinding-prototype"
-    DisplayName = "AWS GuardDuty Medium Severity Finding"
-    LogTypes = [PantherLogType.AWS_GuardDuty]
-    Tags = ["AWS"]
-    Severity = PantherSeverity.Medium
-    DedupPeriodMinutes = 480
-    Description = "A medium-severity GuardDuty finding has been identified.\n"
-    Runbook = "Search related logs to understand the root cause of the activity.\n"
-    Reference = "https://docs.aws.amazon.com/guardduty/latest/ug/guardduty_findings.html#guardduty_findings-severity"
-    SummaryAttributes = [
+    id_ = "AWS.GuardDuty.MediumSeverityFinding-prototype"
+    display_name = "AWS GuardDuty Medium Severity Finding"
+    log_types = [PantherLogType.AWS_GuardDuty]
+    tags = ["AWS"]
+    default_severity = PantherSeverity.medium
+    dedup_period_minutes = 480
+    default_description = "A medium-severity GuardDuty finding has been identified.\n"
+    default_runbook = "Search related logs to understand the root cause of the activity.\n"
+    default_reference = "https://docs.aws.amazon.com/guardduty/latest/ug/guardduty_findings.html#guardduty_findings-severity"
+    summary_attributes = [
         "severity",
         "type",
         "title",
@@ -107,7 +107,7 @@ class AWSGuardDutyMediumSeverityFinding(PantherRule):
         "p_any_aws_arns",
         "p_any_aws_account_ids",
     ]
-    Tests = aws_guard_duty_medium_severity_finding_tests
+    tests = aws_guard_duty_medium_severity_finding_tests
 
     def rule(self, event):
         if deep_get(event, "service", "additionalInfo", "sample"):

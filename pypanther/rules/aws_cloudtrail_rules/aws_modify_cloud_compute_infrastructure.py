@@ -5,9 +5,9 @@ from pypanther.helpers.panther_base_helpers import deep_get
 
 aws_modify_cloud_compute_infrastructure_tests: List[PantherRuleTest] = [
     PantherRuleTest(
-        Name="Terminate Instance from AssumedRole",
-        ExpectedResult=True,
-        Log={
+        name="Terminate Instance from AssumedRole",
+        expected_result=True,
+        log={
             "awsRegion": "us-west-2",
             "eventID": "59e8d6b8-de7b-43ca-961f-0c6f4531fcf0",
             "eventName": "TerminateInstances",
@@ -59,9 +59,9 @@ aws_modify_cloud_compute_infrastructure_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="Terminate Instance from autoscaling",
-        ExpectedResult=False,
-        Log={
+        name="Terminate Instance from autoscaling",
+        expected_result=False,
+        log={
             "awsRegion": "us-west-2",
             "eventID": "59e8d6b8-de7b-43ca-961f-0c6f4531fcf0",
             "eventName": "TerminateInstances",
@@ -127,9 +127,9 @@ aws_modify_cloud_compute_infrastructure_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="Get Partition",
-        ExpectedResult=False,
-        Log={
+        name="Get Partition",
+        expected_result=False,
+        log={
             "additionalEventData": {
                 "insufficientLakeFormationPermissions": [
                     "panther_rule_errors:gsuite_activityevent"
@@ -192,9 +192,9 @@ aws_modify_cloud_compute_infrastructure_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="Terminate instance From WebUI with assumedRole",
-        ExpectedResult=True,
-        Log={
+        name="Terminate instance From WebUI with assumedRole",
+        expected_result=True,
+        log={
             "awsRegion": "us-west-2",
             "eventCategory": "Management",
             "eventID": "01f39d3b-4a26-4045-bb36-1e57b7d07997",
@@ -211,7 +211,10 @@ aws_modify_cloud_compute_infrastructure_tests: List[PantherRuleTest] = [
             ],
             "p_any_aws_instance_ids": ["i-0690cd354a0c3850c"],
             "p_any_aws_tags": ["Name:fake thing whatever"],
-            "p_any_domain_names": ["AWS Internal", "ip-10-1-0-14.us-west-2.compute.internal"],
+            "p_any_domain_names": [
+                "AWS Internal",
+                "ip-10-1-0-14.us-west-2.compute.internal",
+            ],
             "p_any_ip_addresses": ["10.1.0.14"],
             "p_any_trace_ids": ["ASIARLIVEKVNGOY5UABO"],
             "p_any_usernames": ["SomeRole"],
@@ -231,7 +234,13 @@ aws_modify_cloud_compute_infrastructure_tests: List[PantherRuleTest] = [
                 "ebsOptimized": False,
                 "instanceType": "t2.micro",
                 "instancesSet": {
-                    "items": [{"imageId": "ami-08e2d37b6a0129927", "maxCount": 1, "minCount": 1}]
+                    "items": [
+                        {
+                            "imageId": "ami-08e2d37b6a0129927",
+                            "maxCount": 1,
+                            "minCount": 1,
+                        }
+                    ]
                 },
                 "monitoring": {"enabled": False},
                 "networkInterfaceSet": {
@@ -341,7 +350,10 @@ aws_modify_cloud_compute_infrastructure_tests: List[PantherRuleTest] = [
                                     }
                                 ]
                             },
-                            "placement": {"availabilityZone": "us-west-2a", "tenancy": "default"},
+                            "placement": {
+                                "availabilityZone": "us-west-2a",
+                                "tenancy": "default",
+                            },
                             "privateDnsName": "ip-10-1-0-14.us-west-2.compute.internal",
                             "privateDnsNameOptions": {
                                 "enableResourceNameDnsAAAARecord": False,
@@ -392,9 +404,9 @@ aws_modify_cloud_compute_infrastructure_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="Weird AWS Internal Message",
-        ExpectedResult=False,
-        Log={
+        name="Weird AWS Internal Message",
+        expected_result=False,
+        log={
             "awsRegion": "us-west-2",
             "errorCode": "Client.DryRunOperation",
             "errorMessage": "Request would have succeeded, but DryRun flag is set.",
@@ -429,9 +441,18 @@ aws_modify_cloud_compute_infrastructure_tests: List[PantherRuleTest] = [
                 "disableApiTermination": False,
                 "instanceType": "m5.xlarge",
                 "instancesSet": {
-                    "items": [{"imageId": "ami-05074c40f29040248", "maxCount": 1, "minCount": 1}]
+                    "items": [
+                        {
+                            "imageId": "ami-05074c40f29040248",
+                            "maxCount": 1,
+                            "minCount": 1,
+                        }
+                    ]
                 },
-                "launchTemplate": {"launchTemplateId": "lt-064c1a4dbc97b01fc", "version": "5"},
+                "launchTemplate": {
+                    "launchTemplateId": "lt-064c1a4dbc97b01fc",
+                    "version": "5",
+                },
                 "monitoring": {"enabled": False},
                 "subnetId": "subnet-00559b970d3a60983",
             },
@@ -464,17 +485,17 @@ aws_modify_cloud_compute_infrastructure_tests: List[PantherRuleTest] = [
 
 
 class AWSModifyCloudComputeInfrastructure(PantherRule):
-    Description = "Detection when EC2 compute infrastructure is modified outside of expected automation methods."
-    DisplayName = "AWS Modify Cloud Compute Infrastructure"
-    Enabled = False
-    Reference = "https://attack.mitre.org/techniques/T1578/"
-    Severity = PantherSeverity.Medium
-    Reports = {"MITRE ATT&CK": ["TA0005:T1578"]}
-    Tags = ["Configuration Required"]
-    Runbook = "This detection reports on eventSource ec2 Change events. This detection excludes Cross-Service change events.  As such, this detection will perform well in environments where changes are expected to originate only from AWS service entities.\nThis detection will emit alerts frequently in environments where users are making ec2 related changes.\n"
-    LogTypes = [PantherLogType.AWS_CloudTrail]
-    RuleID = "AWS.Modify.Cloud.Compute.Infrastructure-prototype"
-    Tests = aws_modify_cloud_compute_infrastructure_tests
+    default_description = "Detection when EC2 compute infrastructure is modified outside of expected automation methods."
+    display_name = "AWS Modify Cloud Compute Infrastructure"
+    enabled = False
+    default_reference = "https://attack.mitre.org/techniques/T1578/"
+    default_severity = PantherSeverity.medium
+    reports = {"MITRE ATT&CK": ["TA0005:T1578"]}
+    tags = ["Configuration Required"]
+    default_runbook = "This detection reports on eventSource ec2 Change events. This detection excludes Cross-Service change events.  As such, this detection will perform well in environments where changes are expected to originate only from AWS service entities.\nThis detection will emit alerts frequently in environments where users are making ec2 related changes.\n"
+    log_types = [PantherLogType.AWS_CloudTrail]
+    id_ = "AWS.Modify.Cloud.Compute.Infrastructure-prototype"
+    tests = aws_modify_cloud_compute_infrastructure_tests
     EC2_CRUD_ACTIONS = {
         "AssociateIamInstanceProfile",
         "AssociateInstanceEventWindow",
@@ -538,13 +559,21 @@ class AWSModifyCloudComputeInfrastructure(PantherRule):
 
     def title(self, event):
         items = deep_get(
-            event, "requestParameters", "instancesSet", "items", default=[{"instanceId": "none"}]
+            event,
+            "requestParameters",
+            "instancesSet",
+            "items",
+            default=[{"instanceId": "none"}],
         )
         return f"AWS Event [{event.get('eventName')}] Instance ID [{items[0].get('instanceId')}] AWS Account ID [{event.get('recipientAccountId')}]"
 
     def alert_context(self, event):
         items = deep_get(
-            event, "requestParameters", "instancesSet", "items", default=[{"instanceId": "none"}]
+            event,
+            "requestParameters",
+            "instancesSet",
+            "items",
+            default=[{"instanceId": "none"}],
         )
         return {
             "awsRegion": event.get("awsRegion"),

@@ -7,9 +7,9 @@ from pypanther.helpers.panther_base_helpers import deep_get, deep_walk
 
 gcp_log_bucket_or_sink_deleted_tests: List[PantherRuleTest] = [
     PantherRuleTest(
-        Name="logging-bucket.deleted-should-alert",
-        ExpectedResult=True,
-        Log={
+        name="logging-bucket.deleted-should-alert",
+        expected_result=True,
+        log={
             "insertid": "xxxxxxxxxx",
             "logname": "projects/test-project-123456/logs/cloudaudit.googleapis.com%2Factivity",
             "protoPayload": {
@@ -35,7 +35,10 @@ gcp_log_bucket_or_sink_deleted_tests: List[PantherRuleTest] = [
                     "callerIP": "12.12.12.12",
                     "callerSuppliedUserAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Safari/537.36,gzip(gfe),gzip(gfe)",
                     "destinationAttributes": {},
-                    "requestAttributes": {"auth": {}, "time": "2023-05-23T19:38:36.846070601Z"},
+                    "requestAttributes": {
+                        "auth": {},
+                        "time": "2023-05-23T19:38:36.846070601Z",
+                    },
                 },
                 "resourceName": "projects/test-project-123456/locations/global/buckets/testloggingbucket",
                 "serviceName": "logging.googleapis.com",
@@ -55,9 +58,9 @@ gcp_log_bucket_or_sink_deleted_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="logging-sink.deleted-should-alert",
-        ExpectedResult=True,
-        Log={
+        name="logging-sink.deleted-should-alert",
+        expected_result=True,
+        log={
             "insertid": "xxxxxxxxxx",
             "logname": "projects/test-project-123456/logs/cloudaudit.googleapis.com%2Factivity",
             "protoPayload": {
@@ -83,7 +86,10 @@ gcp_log_bucket_or_sink_deleted_tests: List[PantherRuleTest] = [
                     "callerIP": "12.12.12.12",
                     "callerSuppliedUserAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Safari/537.36,gzip(gfe),gzip(gfe)",
                     "destinationAttributes": {},
-                    "requestAttributes": {"auth": {}, "time": "2023-05-23T19:39:15.230304077Z"},
+                    "requestAttributes": {
+                        "auth": {},
+                        "time": "2023-05-23T19:39:15.230304077Z",
+                    },
                 },
                 "resourceName": "projects/test-project-123456/sinks/test-1",
                 "serviceName": "logging.googleapis.com",
@@ -103,9 +109,9 @@ gcp_log_bucket_or_sink_deleted_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="logging-bucket.non-deletion-should-not-alert",
-        ExpectedResult=False,
-        Log={
+        name="logging-bucket.non-deletion-should-not-alert",
+        expected_result=False,
+        log={
             "insertid": "xxxxxxxxxx",
             "logname": "projects/test-project-123456/logs/cloudaudit.googleapis.com%2Factivity",
             "protoPayload": {
@@ -131,7 +137,10 @@ gcp_log_bucket_or_sink_deleted_tests: List[PantherRuleTest] = [
                     "callerIP": "12.12.12.12",
                     "callerSuppliedUserAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Safari/537.36,gzip(gfe),gzip(gfe)",
                     "destinationAttributes": {},
-                    "requestAttributes": {"auth": {}, "time": "2023-05-23T19:38:36.846070601Z"},
+                    "requestAttributes": {
+                        "auth": {},
+                        "time": "2023-05-23T19:38:36.846070601Z",
+                    },
                 },
                 "resourceName": "projects/test-project-123456/locations/global/buckets/testloggingbucket",
                 "serviceName": "logging.googleapis.com",
@@ -151,9 +160,9 @@ gcp_log_bucket_or_sink_deleted_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="logging-sink.non-deletion-should-not-alert",
-        ExpectedResult=False,
-        Log={
+        name="logging-sink.non-deletion-should-not-alert",
+        expected_result=False,
+        log={
             "insertid": "xxxxxxxxxx",
             "logname": "projects/test-project-123456/logs/cloudaudit.googleapis.com%2Factivity",
             "protoPayload": {
@@ -179,7 +188,10 @@ gcp_log_bucket_or_sink_deleted_tests: List[PantherRuleTest] = [
                     "callerIP": "12.12.12.12",
                     "callerSuppliedUserAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Safari/537.36,gzip(gfe),gzip(gfe)",
                     "destinationAttributes": {},
-                    "requestAttributes": {"auth": {}, "time": "2023-05-23T19:39:15.230304077Z"},
+                    "requestAttributes": {
+                        "auth": {},
+                        "time": "2023-05-23T19:39:15.230304077Z",
+                    },
                 },
                 "resourceName": "projects/test-project-123456/sinks/test-1",
                 "serviceName": "logging.googleapis.com",
@@ -202,15 +214,15 @@ gcp_log_bucket_or_sink_deleted_tests: List[PantherRuleTest] = [
 
 
 class GCPLogBucketOrSinkDeleted(PantherRule):
-    DisplayName = "GCP Log Bucket or Sink Deleted"
-    RuleID = "GCP.Log.Bucket.Or.Sink.Deleted-prototype"
-    Severity = PantherSeverity.Medium
-    LogTypes = [PantherLogType.GCP_AuditLog]
-    Tags = ["GCP", "Logging", "Bucket", "Sink", "Infrastructure"]
-    Description = "This rule detects deletions of GCP Log Buckets or Sinks.\n"
-    Runbook = "Ensure that the bucket or sink deletion was expected. Adversaries may do this to cover their tracks.\n"
-    Reference = "https://cloud.google.com/logging/docs"
-    Tests = gcp_log_bucket_or_sink_deleted_tests
+    display_name = "GCP Log Bucket or Sink Deleted"
+    id_ = "GCP.Log.Bucket.Or.Sink.Deleted-prototype"
+    default_severity = PantherSeverity.medium
+    log_types = [PantherLogType.GCP_AuditLog]
+    tags = ["GCP", "Logging", "Bucket", "Sink", "Infrastructure"]
+    default_description = "This rule detects deletions of GCP Log Buckets or Sinks.\n"
+    default_runbook = "Ensure that the bucket or sink deletion was expected. Adversaries may do this to cover their tracks.\n"
+    default_reference = "https://cloud.google.com/logging/docs"
+    tests = gcp_log_bucket_or_sink_deleted_tests
 
     def rule(self, event):
         authenticated = deep_walk(

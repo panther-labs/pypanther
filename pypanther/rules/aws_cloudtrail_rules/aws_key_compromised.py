@@ -5,9 +5,9 @@ from pypanther.helpers.panther_base_helpers import aws_rule_context, deep_get
 
 awsiam_access_key_compromised_tests: List[PantherRuleTest] = [
     PantherRuleTest(
-        Name="An AWS Access Key was Uploaded to Github",
-        ExpectedResult=True,
-        Log={
+        name="An AWS Access Key was Uploaded to Github",
+        expected_result=True,
+        log={
             "eventSource": "iam.amazonaws.com",
             "recipientAccountId": "123456789012",
             "responseElements": None,
@@ -36,9 +36,9 @@ awsiam_access_key_compromised_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="Request Param is null",
-        ExpectedResult=False,
-        Log={
+        name="Request Param is null",
+        expected_result=False,
+        log={
             "eventSource": "iam.amazonaws.com",
             "recipientAccountId": "123456789012",
             "responseElements": None,
@@ -66,16 +66,18 @@ awsiam_access_key_compromised_tests: List[PantherRuleTest] = [
 
 
 class AWSIAMAccessKeyCompromised(PantherRule):
-    RuleID = "AWS.IAM.AccessKeyCompromised-prototype"
-    DisplayName = "AWS Access Key Uploaded to Github"
-    LogTypes = [PantherLogType.AWS_CloudTrail]
-    Reports = {"MITRE ATT&CK": ["TA0006:T1552"]}
-    Tags = ["AWS", "Credential Access:Unsecured Credentials"]
-    Severity = PantherSeverity.High
-    Description = "A users static AWS API key was uploaded to a public github repo."
-    Runbook = "Determine the key owner, disable/delete key, and delete the user to resolve the AWS case. If user needs a new IAM give them a stern talking to first."
-    Reference = "https://docs.github.com/en/code-security/secret-scanning/about-secret-scanning"
-    Tests = awsiam_access_key_compromised_tests
+    id_ = "AWS.IAM.AccessKeyCompromised-prototype"
+    display_name = "AWS Access Key Uploaded to Github"
+    log_types = [PantherLogType.AWS_CloudTrail]
+    reports = {"MITRE ATT&CK": ["TA0006:T1552"]}
+    tags = ["AWS", "Credential Access:Unsecured Credentials"]
+    default_severity = PantherSeverity.high
+    default_description = "A users static AWS API key was uploaded to a public github repo."
+    default_runbook = "Determine the key owner, disable/delete key, and delete the user to resolve the AWS case. If user needs a new IAM give them a stern talking to first."
+    default_reference = (
+        "https://docs.github.com/en/code-security/secret-scanning/about-secret-scanning"
+    )
+    tests = awsiam_access_key_compromised_tests
     EXPOSED_CRED_POLICY = "AWSExposedCredentialPolicy_DO_NOT_REMOVE"
 
     def rule(self, event):

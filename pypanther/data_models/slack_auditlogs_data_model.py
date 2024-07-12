@@ -5,13 +5,13 @@ from pypanther.log_types import PantherLogType
 
 
 class StandardSlackAuditLogs(PantherDataModel):
-    DataModelID: str = "Standard.Slack.AuditLogs"
-    DisplayName: str = "Slack Audit Logs"
-    Enabled: bool = True
-    LogTypes: List[str] = [PantherLogType.Slack_AuditLogs]
-    Mappings: List[PantherDataModelMapping] = [
-        PantherDataModelMapping(Name="actor_user", Path="$.actor.user.name"),
-        PantherDataModelMapping(Name="user_agent", Path="$.context.ua"),
-        PantherDataModelMapping(Name="source_ip", Path="$.context.ip_address"),
-        PantherDataModelMapping(Name="user", Path="$.entity.user.name"),
+    id_: str = "Standard.Slack.AuditLogs"
+    display_name: str = "Slack Audit Logs"
+    enabled: bool = True
+    log_types: List[str] = [PantherLogType.Slack_AuditLogs]
+    mappings: List[PantherDataModelMapping] = [
+        PantherDataModelMapping(name="actor_user", path="$.actor.user.name"),
+        PantherDataModelMapping(name="user_agent", path="$.context.ua"),
+        PantherDataModelMapping(name="source_ip", path="$.context.ip_address"),
+        PantherDataModelMapping(name="user", path="$.entity.user.name"),
     ]

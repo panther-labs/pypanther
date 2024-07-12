@@ -4,9 +4,9 @@ from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSever
 
 zoom_sign_in_requirements_changed_tests: List[PantherRuleTest] = [
     PantherRuleTest(
-        Name="Setting Change One",
-        ExpectedResult=True,
-        Log={
+        name="Setting Change One",
+        expected_result=True,
+        log={
             "action": "Update",
             "category_type": "Account",
             "operation_detail": "Sign-In Password Requirement  - Include at least 1 letter: from On to Off - Include at least 1 number: from On to Off - Include both uppercase and lowercase characters: from On to Off",
@@ -15,9 +15,9 @@ zoom_sign_in_requirements_changed_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="Setting Change Two",
-        ExpectedResult=True,
-        Log={
+        name="Setting Change Two",
+        expected_result=True,
+        log={
             "action": "Update",
             "category_type": "Account",
             "operation_detail": "Sign-In Password Requirement  - Have at least specified length of characters: from 8 to 14 - Include at least 1 letter: from On to Off - Include at least 1 number: from On to Off - Include both uppercase and lowercase characters: from On to Off",
@@ -26,9 +26,9 @@ zoom_sign_in_requirements_changed_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="2FA disabled",
-        ExpectedResult=False,
-        Log={
+        name="2FA disabled",
+        expected_result=False,
+        log={
             "action": "Update",
             "category_type": "Account",
             "operation_detail": "Security  - Sign in with Two-Factor Authentication: from On to Off",
@@ -37,9 +37,9 @@ zoom_sign_in_requirements_changed_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="Setting Change Off to On",
-        ExpectedResult=False,
-        Log={
+        name="Setting Change Off to On",
+        expected_result=False,
+        log={
             "action": "Update",
             "category_type": "Account",
             "operation_detail": "Sign-In Password Requirement  - Have at least specified length of characters: from 8 to 14 - Include at least 1 letter: from Off to On - Include at least 1 number: from Off to On - Include both uppercase and lowercase characters: from Off to On",
@@ -51,15 +51,15 @@ zoom_sign_in_requirements_changed_tests: List[PantherRuleTest] = [
 
 
 class ZoomSignInRequirementsChanged(PantherRule):
-    Description = "A Zoom User changed your organization's sign in requirements. "
-    DisplayName = "Zoom Sign In Requirements Changed"
-    Runbook = "Confirm this user acted with valid business intent and determine whether this activity was authorized."
-    Reference = "https://support.zoom.com/hc/en/article?id=zm_kb&sysparm_article=KB0061263"
-    Severity = PantherSeverity.Medium
-    LogTypes = [PantherLogType.Zoom_Operation]
-    RuleID = "Zoom.Sign.In.Requirements.Changed-prototype"
-    SummaryAttributes = ["operation_detail"]
-    Tests = zoom_sign_in_requirements_changed_tests
+    default_description = "A Zoom User changed your organization's sign in requirements. "
+    display_name = "Zoom Sign In Requirements Changed"
+    default_runbook = "Confirm this user acted with valid business intent and determine whether this activity was authorized."
+    default_reference = "https://support.zoom.com/hc/en/article?id=zm_kb&sysparm_article=KB0061263"
+    default_severity = PantherSeverity.medium
+    log_types = [PantherLogType.Zoom_Operation]
+    id_ = "Zoom.Sign.In.Requirements.Changed-prototype"
+    summary_attributes = ["operation_detail"]
+    tests = zoom_sign_in_requirements_changed_tests
 
     def rule(self, event):
         operation_detail = event.get("operation_detail", "<NO_OPS_DETAIL>")

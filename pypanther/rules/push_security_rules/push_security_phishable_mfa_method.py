@@ -4,9 +4,9 @@ from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSever
 
 push_security_phishable_mfa_method_tests: List[PantherRuleTest] = [
     PantherRuleTest(
-        Name="Dropbox Phishable MFA",
-        ExpectedResult=True,
-        Log={
+        name="Dropbox Phishable MFA",
+        expected_result=True,
+        log={
             "id": "d1e5794f-666d-4cba-abae-c6d889ca1903",
             "new": {
                 "appId": "67ef5c13-b5e6-4945-af7b-c11ac98f630f",
@@ -31,9 +31,9 @@ push_security_phishable_mfa_method_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="Google Workspace Phishable MFA",
-        ExpectedResult=True,
-        Log={
+        name="Google Workspace Phishable MFA",
+        expected_result=True,
+        log={
             "id": "d1e5794f-666d-4cba-abae-c6d889ca1903",
             "new": {
                 "appId": "67ef5c13-b5e6-4945-af7b-c11ac98f630f",
@@ -58,9 +58,9 @@ push_security_phishable_mfa_method_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="No MFA Enabled",
-        ExpectedResult=False,
-        Log={
+        name="No MFA Enabled",
+        expected_result=False,
+        log={
             "id": "d1e5794f-666d-4cba-abae-c6d889ca1903",
             "new": {
                 "appId": "67ef5c13-b5e6-4945-af7b-c11ac98f630f",
@@ -108,12 +108,18 @@ push_security_phishable_mfa_method_tests: List[PantherRuleTest] = [
 
 
 class PushSecurityPhishableMFAMethod(PantherRule):
-    RuleID = "Push.Security.Phishable.MFA.Method-prototype"
-    DisplayName = "Push Security Phishable MFA Method"
-    LogTypes = [PantherLogType.PushSecurity_Entities]
-    Severity = PantherSeverity.Info
-    Tests = push_security_phishable_mfa_method_tests
-    identity_providers = ("MICROSOFT_365", "GOOGLE_WORKSPACE", "OKTA", "JUMPCLOUD", "PING")
+    id_ = "Push.Security.Phishable.MFA.Method-prototype"
+    display_name = "Push Security Phishable MFA Method"
+    log_types = [PantherLogType.PushSecurity_Entities]
+    default_severity = PantherSeverity.info
+    tests = push_security_phishable_mfa_method_tests
+    identity_providers = (
+        "MICROSOFT_365",
+        "GOOGLE_WORKSPACE",
+        "OKTA",
+        "JUMPCLOUD",
+        "PING",
+    )
     phishable_mfa = ("EMAIL_OTP", "PHONE_CALL", "SMS", "APP_PASSWORD")
 
     def rule(self, event):

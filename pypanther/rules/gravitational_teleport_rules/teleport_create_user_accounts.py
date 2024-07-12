@@ -5,9 +5,9 @@ from pypanther.helpers.panther_base_helpers import pattern_match_list
 
 teleport_create_user_accounts_tests: List[PantherRuleTest] = [
     PantherRuleTest(
-        Name="Echo command",
-        ExpectedResult=False,
-        Log={
+        name="Echo command",
+        expected_result=False,
+        log={
             "argv": [],
             "cgroup_id": 4294967537,
             "code": "T4000I",
@@ -28,9 +28,9 @@ teleport_create_user_accounts_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="Userdel command",
-        ExpectedResult=True,
-        Log={
+        name="Userdel command",
+        expected_result=True,
+        log={
             "argv": ["jacknew"],
             "cgroup_id": 4294967567,
             "code": "T4000I",
@@ -54,17 +54,17 @@ teleport_create_user_accounts_tests: List[PantherRuleTest] = [
 
 
 class TeleportCreateUserAccounts(PantherRule):
-    RuleID = "Teleport.CreateUserAccounts-prototype"
-    DisplayName = "Teleport Create User Accounts"
-    LogTypes = [PantherLogType.Gravitational_TeleportAudit]
-    Tags = ["SSH", "Persistence:Create Account"]
-    Reports = {"MITRE ATT&CK": ["TA0003:T1136"]}
-    Severity = PantherSeverity.High
-    Description = "A user has been manually created, modified, or deleted"
-    DedupPeriodMinutes = 15
-    Reference = "https://goteleport.com/docs/management/admin/"
-    Runbook = "Analyze why it was manually created and delete it if necessary."
-    SummaryAttributes = [
+    id_ = "Teleport.CreateUserAccounts-prototype"
+    display_name = "Teleport Create User Accounts"
+    log_types = [PantherLogType.Gravitational_TeleportAudit]
+    tags = ["SSH", "Persistence:Create Account"]
+    reports = {"MITRE ATT&CK": ["TA0003:T1136"]}
+    default_severity = PantherSeverity.high
+    default_description = "A user has been manually created, modified, or deleted"
+    dedup_period_minutes = 15
+    default_reference = "https://goteleport.com/docs/management/admin/"
+    default_runbook = "Analyze why it was manually created and delete it if necessary."
+    summary_attributes = [
         "event",
         "code",
         "user",
@@ -75,7 +75,7 @@ class TeleportCreateUserAccounts(PantherRule):
         "server_id",
         "sid",
     ]
-    Tests = teleport_create_user_accounts_tests  # user password expiry
+    tests = teleport_create_user_accounts_tests  # user password expiry
     # change passwords for users
     # create, modify, and delete users
     USER_CREATE_PATTERNS = ["chage", "passwd", "user*"]

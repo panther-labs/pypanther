@@ -6,9 +6,9 @@ from pypanther.helpers.panther_default import aws_cloudtrail_success
 
 awsec2_manual_security_group_change_tests: List[PantherRuleTest] = [
     PantherRuleTest(
-        Name="AWS Console - Ingress SG Authorization",
-        ExpectedResult=True,
-        Log={
+        name="AWS Console - Ingress SG Authorization",
+        expected_result=True,
+        log={
             "awsRegion": "us-west-2",
             "eventID": "504b492f-7832-406b-a4fd-45a13e48adc4",
             "eventName": "AuthorizeSecurityGroupIngress",
@@ -77,9 +77,9 @@ awsec2_manual_security_group_change_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="Terraform Security Group Creation",
-        ExpectedResult=False,
-        Log={
+        name="Terraform Security Group Creation",
+        expected_result=False,
+        log={
             "eventVersion": "1.05",
             "userIdentity": {
                 "type": "AssumedRole",
@@ -125,9 +125,9 @@ awsec2_manual_security_group_change_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="Terraform Security Group Authorize Egress",
-        ExpectedResult=False,
-        Log={
+        name="Terraform Security Group Authorize Egress",
+        expected_result=False,
+        log={
             "eventVersion": "1.05",
             "userIdentity": {
                 "type": "AssumedRole",
@@ -188,9 +188,9 @@ awsec2_manual_security_group_change_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="Go Script Authorize Ingress",
-        ExpectedResult=True,
-        Log={
+        name="Go Script Authorize Ingress",
+        expected_result=True,
+        log={
             "eventVersion": "1.05",
             "userIdentity": {
                 "type": "AssumedRole",
@@ -246,9 +246,9 @@ awsec2_manual_security_group_change_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="AWS Console - Ingress SG Authorization Error",
-        ExpectedResult=False,
-        Log={
+        name="AWS Console - Ingress SG Authorization Error",
+        expected_result=False,
+        log={
             "awsRegion": "us-west-2",
             "errorCode": "UnauthorizedOperation",
             "eventID": "504b492f-7832-406b-a4fd-45a13e48adc4",
@@ -321,19 +321,26 @@ awsec2_manual_security_group_change_tests: List[PantherRuleTest] = [
 
 
 class AWSEC2ManualSecurityGroupChange(PantherRule):
-    RuleID = "AWS.EC2.ManualSecurityGroupChange-prototype"
-    DisplayName = "AWS EC2 Manual Security Group Change"
-    Enabled = False
-    LogTypes = [PantherLogType.AWS_CloudTrail]
-    Reports = {"MITRE ATT&CK": ["TA0005:T1562"]}
-    Tags = ["AWS", "Security Control", "Configuration Required", "Defense Evasion:Impair Defenses"]
-    Severity = PantherSeverity.Medium
-    Description = "An EC2 security group was manually updated without abiding by the organization's accepted processes. This rule expects organizations to either use the Console, CloudFormation, or Terraform, configurable in the rule's ALLOWED_USER_AGENTS.\n"
-    Runbook = "Identify the actor who changed the security group and validate it was legitimate"
-    Reference = (
+    id_ = "AWS.EC2.ManualSecurityGroupChange-prototype"
+    display_name = "AWS EC2 Manual Security Group Change"
+    enabled = False
+    log_types = [PantherLogType.AWS_CloudTrail]
+    reports = {"MITRE ATT&CK": ["TA0005:T1562"]}
+    tags = [
+        "AWS",
+        "Security Control",
+        "Configuration Required",
+        "Defense Evasion:Impair Defenses",
+    ]
+    default_severity = PantherSeverity.medium
+    default_description = "An EC2 security group was manually updated without abiding by the organization's accepted processes. This rule expects organizations to either use the Console, CloudFormation, or Terraform, configurable in the rule's ALLOWED_USER_AGENTS.\n"
+    default_runbook = (
+        "Identify the actor who changed the security group and validate it was legitimate"
+    )
+    default_reference = (
         "https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/working-with-security-groups.html"
     )
-    Tests = awsec2_manual_security_group_change_tests
+    tests = awsec2_manual_security_group_change_tests
     PROD_ACCOUNT_IDS = {"11111111111111", "112233445566"}
     SG_CHANGE_EVENTS = {
         "CreateSecurityGroup": {

@@ -6,9 +6,9 @@ from pypanther.helpers.panther_default import aws_cloudtrail_success
 
 awsec2_network_acl_modified_tests: List[PantherRuleTest] = [
     PantherRuleTest(
-        Name="Network ACL Modified",
-        ExpectedResult=True,
-        Log={
+        name="Network ACL Modified",
+        expected_result=True,
+        log={
             "eventVersion": "1.05",
             "userIdentity": {
                 "type": "AssumedRole",
@@ -54,9 +54,9 @@ awsec2_network_acl_modified_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="Network ACL Not Modified",
-        ExpectedResult=False,
-        Log={
+        name="Network ACL Not Modified",
+        expected_result=False,
+        log={
             "eventVersion": "1.05",
             "userIdentity": {
                 "type": "AssumedRole",
@@ -99,9 +99,9 @@ awsec2_network_acl_modified_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="Error Modifying Network ACL",
-        ExpectedResult=False,
-        Log={
+        name="Error Modifying Network ACL",
+        expected_result=False,
+        log={
             "errorCode": "InvalidCharacter",
             "eventVersion": "1.05",
             "userIdentity": {
@@ -151,25 +151,27 @@ awsec2_network_acl_modified_tests: List[PantherRuleTest] = [
 
 
 class AWSEC2NetworkACLModified(PantherRule):
-    RuleID = "AWS.EC2.NetworkACLModified-prototype"
-    DisplayName = "EC2 Network ACL Modified"
-    LogTypes = [PantherLogType.AWS_CloudTrail]
-    Tags = ["AWS", "Security Control", "Defense Evasion:Impair Defenses"]
-    Reports = {"CIS": ["3.11"], "MITRE ATT&CK": ["TA0005:T1562"]}
-    Severity = PantherSeverity.Info
-    Description = "An EC2 Network ACL was modified."
-    Runbook = (
+    id_ = "AWS.EC2.NetworkACLModified-prototype"
+    display_name = "EC2 Network ACL Modified"
+    log_types = [PantherLogType.AWS_CloudTrail]
+    tags = ["AWS", "Security Control", "Defense Evasion:Impair Defenses"]
+    reports = {"CIS": ["3.11"], "MITRE ATT&CK": ["TA0005:T1562"]}
+    default_severity = PantherSeverity.info
+    default_description = "An EC2 Network ACL was modified."
+    default_runbook = (
         "https://docs.runpanther.io/alert-runbooks/built-in-rules/aws-ec2-network-acl-modified"
     )
-    Reference = "https://docs.aws.amazon.com/vpc/latest/userguide/vpc-network-acls.html#nacl-tasks"
-    SummaryAttributes = [
+    default_reference = (
+        "https://docs.aws.amazon.com/vpc/latest/userguide/vpc-network-acls.html#nacl-tasks"
+    )
+    summary_attributes = [
         "eventName",
         "userAgent",
         "sourceIpAddress",
         "recipientAccountId",
         "p_any_aws_arns",
     ]
-    Tests = awsec2_network_acl_modified_tests
+    tests = awsec2_network_acl_modified_tests
     # API calls that are indicative of an EC2 Network ACL modification
     EC2_NACL_MODIFIED_EVENTS = {
         "CreateNetworkAcl",

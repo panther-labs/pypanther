@@ -9,9 +9,9 @@ from pypanther.helpers.panther_default import aws_cloudtrail_success
 
 aws_cloud_trail_resource_made_public_tests: List[PantherRuleTest] = [
     PantherRuleTest(
-        Name="ECR Made Public",
-        ExpectedResult=True,
-        Log={
+        name="ECR Made Public",
+        expected_result=True,
+        log={
             "awsRegion": "eu-west-1",
             "eventID": "685e066d-a3aa-4323-a6a1-2f187a2fc986",
             "eventName": "SetRepositoryPolicy",
@@ -74,9 +74,9 @@ aws_cloud_trail_resource_made_public_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="S3 Made Publicly Accessible",
-        ExpectedResult=True,
-        Log={
+        name="S3 Made Publicly Accessible",
+        expected_result=True,
+        log={
             "additionalEventData": {
                 "AuthenticationMethod": "AuthHeader",
                 "CipherSuite": "ECDHE-RSA-AES128-SHA",
@@ -136,9 +136,9 @@ aws_cloud_trail_resource_made_public_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="S3 Not Made Publicly Accessible",
-        ExpectedResult=False,
-        Log={
+        name="S3 Not Made Publicly Accessible",
+        expected_result=False,
+        log={
             "additionalEventData": {
                 "AuthenticationMethod": "AuthHeader",
                 "CipherSuite": "ECDHE-RSA-AES128-SHA",
@@ -198,9 +198,9 @@ aws_cloud_trail_resource_made_public_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="Null Request Parameters",
-        ExpectedResult=False,
-        Log={
+        name="Null Request Parameters",
+        expected_result=False,
+        log={
             "additionalEventData": {
                 "AuthenticationMethod": "AuthHeader",
                 "CipherSuite": "ECDHE-RSA-AES128-SHA",
@@ -244,9 +244,9 @@ aws_cloud_trail_resource_made_public_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="S3 Failed to make Publicly Accessible",
-        ExpectedResult=False,
-        Log={
+        name="S3 Failed to make Publicly Accessible",
+        expected_result=False,
+        log={
             "additionalEventData": {
                 "AuthenticationMethod": "AuthHeader",
                 "CipherSuite": "ECDHE-RSA-AES128-SHA",
@@ -307,9 +307,9 @@ aws_cloud_trail_resource_made_public_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="Empty Policy Payload",
-        ExpectedResult=False,
-        Log={
+        name="Empty Policy Payload",
+        expected_result=False,
+        log={
             "additionalEventData": {
                 "AuthenticationMethod": "AuthHeader",
                 "CipherSuite": "ECDHE-RSA-AES128-SHA",
@@ -359,23 +359,23 @@ aws_cloud_trail_resource_made_public_tests: List[PantherRuleTest] = [
 
 
 class AWSCloudTrailResourceMadePublic(PantherRule):
-    RuleID = "AWS.CloudTrail.ResourceMadePublic-prototype"
-    DisplayName = "AWS Resource Made Public"
-    LogTypes = [PantherLogType.AWS_CloudTrail]
-    Tags = ["AWS", "Exfiltration:Transfer Data to Cloud Account"]
-    Severity = PantherSeverity.Medium
-    Reports = {"MITRE ATT&CK": ["TA0010:T1537"]}
-    Description = "Some AWS resource was made publicly accessible over the internet. Checks ECR, Elasticsearch, KMS, S3, S3 Glacier, SNS, SQS, and Secrets Manager.\n"
-    Runbook = "Adjust the policy so that the resource is no longer publicly accessible"
-    Reference = "https://aws.amazon.com/blogs/security/identifying-publicly-accessible-resources-with-amazon-vpc-network-access-analyzer/"
-    SummaryAttributes = [
+    id_ = "AWS.CloudTrail.ResourceMadePublic-prototype"
+    display_name = "AWS Resource Made Public"
+    log_types = [PantherLogType.AWS_CloudTrail]
+    tags = ["AWS", "Exfiltration:Transfer Data to Cloud Account"]
+    default_severity = PantherSeverity.medium
+    reports = {"MITRE ATT&CK": ["TA0010:T1537"]}
+    default_description = "Some AWS resource was made publicly accessible over the internet. Checks ECR, Elasticsearch, KMS, S3, S3 Glacier, SNS, SQS, and Secrets Manager.\n"
+    default_runbook = "Adjust the policy so that the resource is no longer publicly accessible"
+    default_reference = "https://aws.amazon.com/blogs/security/identifying-publicly-accessible-resources-with-amazon-vpc-network-access-analyzer/"
+    summary_attributes = [
         "userAgent",
         "sourceIpAddress",
         "vpcEndpointId",
         "recipientAccountId",
         "p_any_aws_arns",
     ]
-    Tests = aws_cloud_trail_resource_made_public_tests
+    tests = aws_cloud_trail_resource_made_public_tests
     # Check that the IAM policy allows resource accessibility via the Internet
     # Normally this check helps avoid overly complex functions that are doing too many things,
     # but in this case we explicitly want to handle 10 different cases in 10 different ways.
@@ -402,7 +402,10 @@ class AWSCloudTrailResourceMadePublic(PantherRule):
         if event["eventName"] == "SetRepositoryPolicy":
             policy = parameters.get("policyText", {})
         # Elasticsearch
-        if event["eventName"] in ["CreateElasticsearchDomain", "UpdateElasticsearchDomainConfig"]:
+        if event["eventName"] in [
+            "CreateElasticsearchDomain",
+            "UpdateElasticsearchDomainConfig",
+        ]:
             policy = parameters.get("accessPolicies", {})
         # KMS
         if event["eventName"] in ["CreateKey", "PutKeyPolicy"]:

@@ -5,9 +5,9 @@ from pypanther.helpers.panther_base_helpers import crowdstrike_detection_alert_c
 
 crowdstrike_remote_access_tool_execution_tests: List[PantherRuleTest] = [
     PantherRuleTest(
-        Name="Remote Access Tool",
-        ExpectedResult=True,
-        Log={
+        name="Remote Access Tool",
+        expected_result=True,
+        log={
             "aid": "123456789abcdefghijklmn01234567",
             "aip": "11.10.9.8",
             "cid": "987abcd8765ghijk5432opq21",
@@ -87,9 +87,9 @@ crowdstrike_remote_access_tool_execution_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="Other tool",
-        ExpectedResult=False,
-        Log={
+        name="Other tool",
+        expected_result=False,
+        log={
             "aid": "123456789abcdefghijklmn01234567",
             "aip": "11.10.9.8",
             "cid": "abc987jkl654mnop321",
@@ -172,13 +172,13 @@ crowdstrike_remote_access_tool_execution_tests: List[PantherRuleTest] = [
 
 
 class CrowdstrikeRemoteAccessToolExecution(PantherRule):
-    Description = "Detects usage of common remote access tools."
-    DisplayName = "Crowdstrike Remote Access Tool Execution"
-    Reference = "https://attack.mitre.org/techniques/T1219/"
-    Severity = PantherSeverity.Medium
-    LogTypes = [PantherLogType.Crowdstrike_FDREvent]
-    RuleID = "Crowdstrike.Remote.Access.Tool.Execution-prototype"
-    Tests = crowdstrike_remote_access_tool_execution_tests
+    default_description = "Detects usage of common remote access tools."
+    display_name = "Crowdstrike Remote Access Tool Execution"
+    default_reference = "https://attack.mitre.org/techniques/T1219/"
+    default_severity = PantherSeverity.medium
+    log_types = [PantherLogType.Crowdstrike_FDREvent]
+    id_ = "Crowdstrike.Remote.Access.Tool.Execution-prototype"
+    tests = crowdstrike_remote_access_tool_execution_tests
     REMOTE_ACCESS_EXECUTABLES = {
         "teamviewer_service.exe",
         "winvnc.exe",

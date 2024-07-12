@@ -5,9 +5,9 @@ from pypanther.helpers.panther_notion_helpers import notion_alert_context
 
 notion_sharing_settings_updated_tests: List[PantherRuleTest] = [
     PantherRuleTest(
-        Name="Sharing Enabled",
-        ExpectedResult=True,
-        Log={
+        name="Sharing Enabled",
+        expected_result=True,
+        log={
             "event": {
                 "actor": {
                     "id": "c16137bb-5078-4eac-b026-5cbd2f9a027a",
@@ -26,9 +26,9 @@ notion_sharing_settings_updated_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="Sharing Disabled",
-        ExpectedResult=False,
-        Log={
+        name="Sharing Disabled",
+        expected_result=False,
+        log={
             "event": {
                 "actor": {
                     "id": "c16137bb-5078-4eac-b026-5cbd2f9a027a",
@@ -57,14 +57,14 @@ notion_sharing_settings_updated_tests: List[PantherRuleTest] = [
 
 
 class NotionSharingSettingsUpdated(PantherRule):
-    RuleID = "Notion.SharingSettingsUpdated-prototype"
-    DisplayName = "Notion Sharing Settings Updated"
-    LogTypes = [PantherLogType.Notion_AuditLogs]
-    Tags = ["Notion", "Data Exfiltration"]
-    Description = "A Notion User enabled sharing for a Workspace or Teamspace."
-    Severity = PantherSeverity.Medium
-    Runbook = "Possible Data Exfiltration. Follow up with the Notion User to determine if this was done for a valid business reason."
-    Tests = notion_sharing_settings_updated_tests
+    id_ = "Notion.SharingSettingsUpdated-prototype"
+    display_name = "Notion Sharing Settings Updated"
+    log_types = [PantherLogType.Notion_AuditLogs]
+    tags = ["Notion", "Data Exfiltration"]
+    default_description = "A Notion User enabled sharing for a Workspace or Teamspace."
+    default_severity = PantherSeverity.medium
+    default_runbook = "Possible Data Exfiltration. Follow up with the Notion User to determine if this was done for a valid business reason."
+    tests = notion_sharing_settings_updated_tests
     EVENTS = (
         "teamspace.settings.allow_public_page_sharing_setting_updated",
         "teamspace.settings.allow_guests_setting_updated",

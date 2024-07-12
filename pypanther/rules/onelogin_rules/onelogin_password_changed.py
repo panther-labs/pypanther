@@ -4,9 +4,9 @@ from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSever
 
 one_login_password_changed_tests: List[PantherRuleTest] = [
     PantherRuleTest(
-        Name="User changed their password",
-        ExpectedResult=True,
-        Log={
+        name="User changed their password",
+        expected_result=True,
+        log={
             "event_type_id": "11",
             "actor_user_id": 123456,
             "actor_user_name": "Bob Cat",
@@ -15,9 +15,9 @@ one_login_password_changed_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="User changed another's password",
-        ExpectedResult=True,
-        Log={
+        name="User changed another's password",
+        expected_result=True,
+        log={
             "event_type_id": "11",
             "actor_user_id": 654321,
             "actor_user_name": "Mountain Lion",
@@ -26,9 +26,9 @@ one_login_password_changed_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="Admin user changed another's password",
-        ExpectedResult=False,
-        Log={
+        name="Admin user changed another's password",
+        expected_result=False,
+        log={
             "event_type_id": "211",
             "actor_user_id": 654321,
             "actor_user_name": "Mountain Lion",
@@ -40,16 +40,18 @@ one_login_password_changed_tests: List[PantherRuleTest] = [
 
 
 class OneLoginPasswordChanged(PantherRule):
-    RuleID = "OneLogin.PasswordChanged-prototype"
-    DisplayName = "OneLogin User Password Changed"
-    LogTypes = [PantherLogType.OneLogin_Events]
-    Tags = ["OneLogin", "Identity & Access Management"]
-    Severity = PantherSeverity.Info
-    Description = "A user password was updated.\n"
-    Reference = "https://onelogin.service-now.com/kb_view_customer.do?sysparm_article=KB0010510"
-    Runbook = "Investigate whether this was an authorized action.\n"
-    SummaryAttributes = ["account_id", "user_name", "user_id"]
-    Tests = one_login_password_changed_tests
+    id_ = "OneLogin.PasswordChanged-prototype"
+    display_name = "OneLogin User Password Changed"
+    log_types = [PantherLogType.OneLogin_Events]
+    tags = ["OneLogin", "Identity & Access Management"]
+    default_severity = PantherSeverity.info
+    default_description = "A user password was updated.\n"
+    default_reference = (
+        "https://onelogin.service-now.com/kb_view_customer.do?sysparm_article=KB0010510"
+    )
+    default_runbook = "Investigate whether this was an authorized action.\n"
+    summary_attributes = ["account_id", "user_name", "user_id"]
+    tests = one_login_password_changed_tests
 
     def rule(self, event):
         # check that this is a password change event;

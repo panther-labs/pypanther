@@ -5,9 +5,9 @@ from pypanther.helpers.panther_base_helpers import deep_get
 
 gcp_service_accountor_keys_created_tests: List[PantherRuleTest] = [
     PantherRuleTest(
-        Name="Created Service Account Key",
-        ExpectedResult=True,
-        Log={
+        name="Created Service Account Key",
+        expected_result=True,
+        log={
             "insertId": "1iyadj0d5bmj",
             "logName": "projects/gcp-project1/logs/cloudaudit.googleapis.com%2Factivity",
             "p_any_ip_addresses": ["1.2.3.4"],
@@ -43,7 +43,10 @@ gcp_service_accountor_keys_created_tests: List[PantherRuleTest] = [
                     "callerIP": "1.2.3.4",
                     "callerSuppliedUserAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36,gzip(gfe)",
                     "destinationAttributes": {},
-                    "requestAttributes": {"auth": {}, "time": "2023-03-09T15:50:36.163986905Z"},
+                    "requestAttributes": {
+                        "auth": {},
+                        "time": "2023-03-09T15:50:36.163986905Z",
+                    },
                 },
                 "resourceName": "projects/-/serviceAccounts/123456789098765434567",
                 "response": {
@@ -73,9 +76,9 @@ gcp_service_accountor_keys_created_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="Created Service Account",
-        ExpectedResult=True,
-        Log={
+        name="Created Service Account",
+        expected_result=True,
+        log={
             "insertId": "1iyadj0d5bcq",
             "logName": "projects/gcp-project1/logs/cloudaudit.googleapis.com%2Factivity",
             "p_any_ip_addresses": ["1.2.3.4"],
@@ -113,7 +116,10 @@ gcp_service_accountor_keys_created_tests: List[PantherRuleTest] = [
                     "callerIP": "1.2.3.4",
                     "callerSuppliedUserAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36,gzip(gfe)",
                     "destinationAttributes": {},
-                    "requestAttributes": {"auth": {}, "time": "2023-03-09T15:49:21.729005262Z"},
+                    "requestAttributes": {
+                        "auth": {},
+                        "time": "2023-03-09T15:49:21.729005262Z",
+                    },
                 },
                 "resourceName": "projects/gcp-project1",
                 "response": {
@@ -144,9 +150,9 @@ gcp_service_accountor_keys_created_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="Other",
-        ExpectedResult=False,
-        Log={
+        name="Other",
+        expected_result=False,
+        log={
             "insertId": "46ee5sd38mw",
             "logName": "projects/gcp-project1/logs/cloudaudit.googleapis.com%2Factivity",
             "p_any_emails": ["staging@company.io"],
@@ -182,7 +188,10 @@ gcp_service_accountor_keys_created_tests: List[PantherRuleTest] = [
                     "callerIP": "1.2.3.4",
                     "callerSuppliedUserAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Safari/537.36,gzip(gfe),gzip(gfe)",
                     "destinationAttributes": {},
-                    "requestAttributes": {"auth": {}, "time": "2023-04-25T19:20:57.295723118Z"},
+                    "requestAttributes": {
+                        "auth": {},
+                        "time": "2023-04-25T19:20:57.295723118Z",
+                    },
                 },
                 "resourceName": "projects/123456789012/iap_web/compute/services/7312383563505470445",
                 "response": {
@@ -193,7 +202,11 @@ gcp_service_accountor_keys_created_tests: List[PantherRuleTest] = [
             },
             "receiveTimestamp": "2023-04-25 19:20:58.16",
             "resource": {
-                "labels": {"backend_service_id": "", "location": "", "project_id": "gcp-project1"},
+                "labels": {
+                    "backend_service_id": "",
+                    "location": "",
+                    "project_id": "gcp-project1",
+                },
                 "type": "gce_backend_service",
             },
             "severity": "NOTICE",
@@ -204,13 +217,13 @@ gcp_service_accountor_keys_created_tests: List[PantherRuleTest] = [
 
 
 class GCPServiceAccountorKeysCreated(PantherRule):
-    Description = "Detects when a service account or key is created manually by a user instead of an automated workflow."
-    DisplayName = "GCP Service Account or Keys Created "
-    Reference = "https://cloud.google.com/iam/docs/keys-create-delete"
-    Severity = PantherSeverity.Low
-    LogTypes = [PantherLogType.GCP_AuditLog]
-    RuleID = "GCP.Service.Account.or.Keys.Created-prototype"
-    Tests = gcp_service_accountor_keys_created_tests
+    default_description = "Detects when a service account or key is created manually by a user instead of an automated workflow."
+    display_name = "GCP Service Account or Keys Created "
+    default_reference = "https://cloud.google.com/iam/docs/keys-create-delete"
+    default_severity = PantherSeverity.low
+    log_types = [PantherLogType.GCP_AuditLog]
+    id_ = "GCP.Service.Account.or.Keys.Created-prototype"
+    tests = gcp_service_accountor_keys_created_tests
 
     def rule(self, event):
         return all(
@@ -218,7 +231,11 @@ class GCPServiceAccountorKeysCreated(PantherRule):
                 deep_get(event, "resource", "type", default="") == "service_account",
                 "CreateServiceAccount" in deep_get(event, "protoPayload", "methodName", default=""),
                 not deep_get(
-                    event, "protoPayload", "authenticationInfo", "principalEmail", default=""
+                    event,
+                    "protoPayload",
+                    "authenticationInfo",
+                    "principalEmail",
+                    default="",
                 ).endswith(".gserviceaccount.com"),
             ]
         )

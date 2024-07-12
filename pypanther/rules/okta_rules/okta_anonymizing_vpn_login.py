@@ -5,16 +5,19 @@ from pypanther.helpers.panther_base_helpers import deep_get, okta_alert_context
 
 okta_anonymizing_vpn_login_tests: List[PantherRuleTest] = [
     PantherRuleTest(
-        Name="Other Event",
-        ExpectedResult=False,
-        Log={
+        name="Other Event",
+        expected_result=False,
+        log={
             "actor": {
                 "alternateId": "homer.simpson@duff.com",
                 "displayName": "Homer Simpson",
                 "id": "00abc123",
                 "type": "User",
             },
-            "authenticationcontext": {"authenticationStep": 0, "externalSessionId": "100-abc-9999"},
+            "authenticationcontext": {
+                "authenticationStep": 0,
+                "externalSessionId": "100-abc-9999",
+            },
             "client": {
                 "device": "Computer",
                 "geographicalContext": {
@@ -81,16 +84,19 @@ okta_anonymizing_vpn_login_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="Anonymizing Proxy Used",
-        ExpectedResult=True,
-        Log={
+        name="Anonymizing Proxy Used",
+        expected_result=True,
+        log={
             "actor": {
                 "alternateId": "homer.simpson@duff.com",
                 "displayName": "Homer Simpson",
                 "id": "00abc123",
                 "type": "User",
             },
-            "authenticationcontext": {"authenticationStep": 0, "externalSessionId": "100-abc-9999"},
+            "authenticationcontext": {
+                "authenticationStep": 0,
+                "externalSessionId": "100-abc-9999",
+            },
             "client": {
                 "device": "Computer",
                 "geographicalContext": {
@@ -118,7 +124,10 @@ okta_anonymizing_vpn_login_tests: List[PantherRuleTest] = [
             "displaymessage": "Authentication of user via MFA",
             "eventtype": "user.session.start",
             "legacyeventtype": "core.user.factor.attempt_fail",
-            "outcome": {"reason": "FastPass declined phishing attempt", "result": "FAILURE"},
+            "outcome": {
+                "reason": "FastPass declined phishing attempt",
+                "result": "FAILURE",
+            },
             "published": "2022-06-22 18:18:29.015",
             "request": {
                 "ipChain": [
@@ -157,16 +166,19 @@ okta_anonymizing_vpn_login_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="Apple Private Relay Used",
-        ExpectedResult=True,
-        Log={
+        name="Apple Private Relay Used",
+        expected_result=True,
+        log={
             "actor": {
                 "alternateId": "homer.simpson@duff.com",
                 "displayName": "Homer Simpson",
                 "id": "00abc123",
                 "type": "User",
             },
-            "authenticationcontext": {"authenticationStep": 0, "externalSessionId": "100-abc-9999"},
+            "authenticationcontext": {
+                "authenticationStep": 0,
+                "externalSessionId": "100-abc-9999",
+            },
             "client": {
                 "device": "Computer",
                 "geographicalContext": {
@@ -194,7 +206,10 @@ okta_anonymizing_vpn_login_tests: List[PantherRuleTest] = [
             "displaymessage": "Authentication of user via MFA",
             "eventtype": "user.session.start",
             "legacyeventtype": "core.user.factor.attempt_fail",
-            "outcome": {"reason": "FastPass declined phishing attempt", "result": "FAILURE"},
+            "outcome": {
+                "reason": "FastPass declined phishing attempt",
+                "result": "FAILURE",
+            },
             "p_enrichment": {
                 "ipinfo_privacy": {
                     "client.ipAddress": {
@@ -249,16 +264,16 @@ okta_anonymizing_vpn_login_tests: List[PantherRuleTest] = [
 
 
 class OktaAnonymizingVPNLogin(PantherRule):
-    RuleID = "Okta.Anonymizing.VPN.Login-prototype"
-    DisplayName = "Okta Sign-In from VPN Anonymizer"
-    LogTypes = [PantherLogType.Okta_SystemLog]
-    Reports = {"MITRE ATT&CK": ["TA0006:T1556"]}
-    Severity = PantherSeverity.Medium
-    Description = "A user is attempting to sign-in to Okta from a known VPN anonymizer.  The threat actor would access the compromised account using anonymizing proxy services.\n"
-    Runbook = "Restrict this access to trusted Network Zones and deny access from anonymizing proxies in policy using a Dynamic Network Zone.\n"
-    Reference = "https://sec.okta.com/articles/2023/08/cross-tenant-impersonation-prevention-and-detection\n"
-    DedupPeriodMinutes = 360
-    Tests = okta_anonymizing_vpn_login_tests
+    id_ = "Okta.Anonymizing.VPN.Login-prototype"
+    display_name = "Okta Sign-In from VPN Anonymizer"
+    log_types = [PantherLogType.Okta_SystemLog]
+    reports = {"MITRE ATT&CK": ["TA0006:T1556"]}
+    default_severity = PantherSeverity.medium
+    default_description = "A user is attempting to sign-in to Okta from a known VPN anonymizer.  The threat actor would access the compromised account using anonymizing proxy services.\n"
+    default_runbook = "Restrict this access to trusted Network Zones and deny access from anonymizing proxies in policy using a Dynamic Network Zone.\n"
+    default_reference = "https://sec.okta.com/articles/2023/08/cross-tenant-impersonation-prevention-and-detection\n"
+    dedup_period_minutes = 360
+    tests = okta_anonymizing_vpn_login_tests
 
     def rule(self, event):
         return event.get("eventType") == "user.session.start" and deep_get(

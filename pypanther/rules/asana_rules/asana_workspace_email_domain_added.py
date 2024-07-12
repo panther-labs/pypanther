@@ -5,9 +5,9 @@ from pypanther.helpers.panther_base_helpers import deep_get
 
 asana_workspace_email_domain_added_tests: List[PantherRuleTest] = [
     PantherRuleTest(
-        Name="new domain",
-        ExpectedResult=True,
-        Log={
+        name="new domain",
+        expected_result=True,
+        log={
             "actor": {
                 "actor_type": "user",
                 "email": "homer.simpson@example.io",
@@ -24,13 +24,17 @@ asana_workspace_email_domain_added_tests: List[PantherRuleTest] = [
             "event_category": "admin_settings",
             "event_type": "workspace_associated_email_domain_added",
             "gid": "12345",
-            "resource": {"gid": "12345", "name": "Example IO", "resource_type": "workspace"},
+            "resource": {
+                "gid": "12345",
+                "name": "Example IO",
+                "resource_type": "workspace",
+            },
         },
     ),
     PantherRuleTest(
-        Name="other event",
-        ExpectedResult=False,
-        Log={
+        name="other event",
+        expected_result=False,
+        log={
             "actor": {
                 "actor_type": "user",
                 "email": "homer.simpson@example.io",
@@ -47,20 +51,24 @@ asana_workspace_email_domain_added_tests: List[PantherRuleTest] = [
             "event_category": "admin_settings",
             "event_type": "workspace_guest_invite_permissions_changed",
             "gid": "12345",
-            "resource": {"gid": "12345", "name": "Example IO", "resource_type": "workspace"},
+            "resource": {
+                "gid": "12345",
+                "name": "Example IO",
+                "resource_type": "workspace",
+            },
         },
     ),
 ]
 
 
 class AsanaWorkspaceEmailDomainAdded(PantherRule):
-    Description = "A new email domain has been added to an Asana workspace. Reviewer should validate that the new domain is a part of the organization. "
-    DisplayName = "Asana Workspace Email Domain Added"
-    Reference = "https://help.asana.com/hc/en-us/articles/15901227439515-Email-domain-management-for-Asana-organizations"
-    Severity = PantherSeverity.Low
-    LogTypes = [PantherLogType.Asana_Audit]
-    RuleID = "Asana.Workspace.Email.Domain.Added-prototype"
-    Tests = asana_workspace_email_domain_added_tests
+    default_description = "A new email domain has been added to an Asana workspace. Reviewer should validate that the new domain is a part of the organization. "
+    display_name = "Asana Workspace Email Domain Added"
+    default_reference = "https://help.asana.com/hc/en-us/articles/15901227439515-Email-domain-management-for-Asana-organizations"
+    default_severity = PantherSeverity.low
+    log_types = [PantherLogType.Asana_Audit]
+    id_ = "Asana.Workspace.Email.Domain.Added-prototype"
+    tests = asana_workspace_email_domain_added_tests
 
     def rule(self, event):
         return event.get("event_type") == "workspace_associated_email_domain_added"

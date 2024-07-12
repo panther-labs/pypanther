@@ -6,9 +6,9 @@ from pypanther.helpers.panther_base_helpers import aws_rule_context
 
 awsvpc_unapproved_outbound_dns_tests: List[PantherRuleTest] = [
     PantherRuleTest(
-        Name="Approved Outbound DNS Traffic",
-        ExpectedResult=False,
-        Log={
+        name="Approved Outbound DNS Traffic",
+        expected_result=False,
+        log={
             "dstPort": 53,
             "dstAddr": "1.1.1.1",
             "srcAddr": "10.0.0.1",
@@ -16,9 +16,9 @@ awsvpc_unapproved_outbound_dns_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="Unapproved Outbound DNS Traffic",
-        ExpectedResult=True,
-        Log={
+        name="Unapproved Outbound DNS Traffic",
+        expected_result=True,
+        log={
             "dstPort": 53,
             "dstAddr": "100.100.100.100",
             "srcAddr": "10.0.0.1",
@@ -26,9 +26,9 @@ awsvpc_unapproved_outbound_dns_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="Outbound Non-DNS Traffic",
-        ExpectedResult=False,
-        Log={
+        name="Outbound Non-DNS Traffic",
+        expected_result=False,
+        log={
             "dstPort": 80,
             "dstAddr": "100.100.100.100",
             "srcAddr": "10.0.0.1",
@@ -36,18 +36,18 @@ awsvpc_unapproved_outbound_dns_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="Approved Outbound DNS Traffic - OCSF",
-        ExpectedResult=False,
-        Log={
+        name="Approved Outbound DNS Traffic - OCSF",
+        expected_result=False,
+        log={
             "dst_endpoint": {"ip": "1.1.1.1", "port": 53},
             "src_endpoint": {"ip": "10.0.0.1"},
             "p_log_type": "OCSF.NetworkActivity",
         },
     ),
     PantherRuleTest(
-        Name="Unapproved Outbound DNS Traffic - OCSF",
-        ExpectedResult=True,
-        Log={
+        name="Unapproved Outbound DNS Traffic - OCSF",
+        expected_result=True,
+        log={
             "dst_endpoint": {"ip": "100.100.100.100", "port": 53},
             "src_endpoint": {"ip": "10.0.0.1"},
             "p_log_type": "OCSF.NetworkActivity",
@@ -57,24 +57,24 @@ awsvpc_unapproved_outbound_dns_tests: List[PantherRuleTest] = [
 
 
 class AWSVPCUnapprovedOutboundDNS(PantherRule):
-    RuleID = "AWS.VPC.UnapprovedOutboundDNS-prototype"
-    DisplayName = "VPC Flow Logs Unapproved Outbound DNS Traffic"
-    Enabled = False
-    LogTypes = [PantherLogType.AWS_VPCFlow, PantherLogType.OCSF_NetworkActivity]
-    Tags = [
+    id_ = "AWS.VPC.UnapprovedOutboundDNS-prototype"
+    display_name = "VPC Flow Logs Unapproved Outbound DNS Traffic"
+    enabled = False
+    log_types = [PantherLogType.AWS_VPCFlow, PantherLogType.OCSF_NetworkActivity]
+    tags = [
         "AWS",
         "DataModel",
         "Configuration Required",
         "Security Control",
         "Command and Control:Application Layer Protocol",
     ]
-    Reports = {"MITRE ATT&CK": ["TA0011:T1071"]}
-    Reference = "https://docs.aws.amazon.com/vpc/latest/userguide/flow-logs.html"
-    Severity = PantherSeverity.Medium
-    Description = "Alerts if outbound DNS traffic is detected to a non-approved DNS server. DNS is often used as a means to exfiltrate data or perform command and control for compromised hosts. All DNS traffic should be routed through internal DNS servers or trusted 3rd parties.\n"
-    Runbook = "Investigate the host sending unapproved DNS activity for signs of compromise or other malicious activity. Update network configurations appropriately to ensure all DNS traffic is routed to approved DNS servers.\n"
-    SummaryAttributes = ["srcaddr", "dstaddr", "dstport"]
-    Tests = awsvpc_unapproved_outbound_dns_tests  # CloudFlare DNS
+    reports = {"MITRE ATT&CK": ["TA0011:T1071"]}
+    default_reference = "https://docs.aws.amazon.com/vpc/latest/userguide/flow-logs.html"
+    default_severity = PantherSeverity.medium
+    default_description = "Alerts if outbound DNS traffic is detected to a non-approved DNS server. DNS is often used as a means to exfiltrate data or perform command and control for compromised hosts. All DNS traffic should be routed through internal DNS servers or trusted 3rd parties.\n"
+    default_runbook = "Investigate the host sending unapproved DNS activity for signs of compromise or other malicious activity. Update network configurations appropriately to ensure all DNS traffic is routed to approved DNS servers.\n"
+    summary_attributes = ["srcaddr", "dstaddr", "dstport"]
+    tests = awsvpc_unapproved_outbound_dns_tests  # CloudFlare DNS
     # Google DNS
     # '10.0.0.1', # Internal DNS
     APPROVED_DNS_SERVERS = {"1.1.1.1", "8.8.8.8"}

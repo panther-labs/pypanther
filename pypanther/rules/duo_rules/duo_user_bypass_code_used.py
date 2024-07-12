@@ -5,9 +5,9 @@ from pypanther.helpers.panther_base_helpers import deep_get
 
 duo_user_bypass_code_used_tests: List[PantherRuleTest] = [
     PantherRuleTest(
-        Name="bypass_code_used",
-        ExpectedResult=True,
-        Log={
+        name="bypass_code_used",
+        expected_result=True,
+        log={
             "access_device": {"ip": "12.12.112.25", "os": "Mac OS X"},
             "auth_device": {"ip": "12.12.12.12"},
             "application": {"key": "D12345", "name": "Slack"},
@@ -19,9 +19,9 @@ duo_user_bypass_code_used_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="good_auth",
-        ExpectedResult=False,
-        Log={
+        name="good_auth",
+        expected_result=False,
+        log={
             "access_device": {"ip": "12.12.112.25", "os": "Mac OS X"},
             "auth_device": {"ip": "12.12.12.12"},
             "application": {"key": "D12345", "name": "Slack"},
@@ -33,9 +33,9 @@ duo_user_bypass_code_used_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="denied_old_creds",
-        ExpectedResult=False,
-        Log={
+        name="denied_old_creds",
+        expected_result=False,
+        log={
             "access_device": {"ip": "12.12.112.25", "os": "Mac OS X"},
             "auth_device": {"ip": "12.12.12.12"},
             "application": {"key": "D12345", "name": "Slack"},
@@ -50,16 +50,16 @@ duo_user_bypass_code_used_tests: List[PantherRuleTest] = [
 
 
 class DUOUserBypassCodeUsed(PantherRule):
-    RuleID = "DUO.User.BypassCode.Used-prototype"
-    DisplayName = "Duo User Bypass Code Used"
-    DedupPeriodMinutes = 5
-    LogTypes = [PantherLogType.Duo_Authentication]
-    Tags = ["Duo"]
-    Severity = PantherSeverity.Low
-    Description = "A Duo user's bypass code was used to authenticate"
-    Reference = "https://duo.com/docs/adminapi#authentication-logs"
-    Runbook = "Follow up with the user to confirm they used the bypass code themselves."
-    Tests = duo_user_bypass_code_used_tests
+    id_ = "DUO.User.BypassCode.Used-prototype"
+    display_name = "Duo User Bypass Code Used"
+    dedup_period_minutes = 5
+    log_types = [PantherLogType.Duo_Authentication]
+    tags = ["Duo"]
+    default_severity = PantherSeverity.low
+    default_description = "A Duo user's bypass code was used to authenticate"
+    default_reference = "https://duo.com/docs/adminapi#authentication-logs"
+    default_runbook = "Follow up with the user to confirm they used the bypass code themselves."
+    tests = duo_user_bypass_code_used_tests
 
     def rule(self, event):
         return event.get("reason") == "bypass_user" and event.get("result") == "success"

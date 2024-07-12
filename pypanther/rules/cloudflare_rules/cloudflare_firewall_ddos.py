@@ -5,9 +5,9 @@ from pypanther.helpers.panther_cloudflare_helpers import cloudflare_fw_alert_con
 
 cloudflare_firewall_l7_d_do_s_tests: List[PantherRuleTest] = [
     PantherRuleTest(
-        Name="Traffic Marked as L7DDoS",
-        ExpectedResult=True,
-        Log={
+        name="Traffic Marked as L7DDoS",
+        expected_result=True,
+        log={
             "Action": "skip",
             "ClientASN": 55836,
             "ClientASNDescription": "RELIANCEJIO-IN Reliance Jio Infocomm Limited",
@@ -34,9 +34,9 @@ cloudflare_firewall_l7_d_do_s_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="Traffic Marked as L7DDoS but blocked ( INFO level alert )",
-        ExpectedResult=True,
-        Log={
+        name="Traffic Marked as L7DDoS but blocked ( INFO level alert )",
+        expected_result=True,
+        log={
             "Action": "block",
             "ClientASN": 55836,
             "ClientASNDescription": "RELIANCEJIO-IN Reliance Jio Infocomm Limited",
@@ -63,9 +63,9 @@ cloudflare_firewall_l7_d_do_s_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="Traffic Not Marked as L7DDoS",
-        ExpectedResult=False,
-        Log={
+        name="Traffic Not Marked as L7DDoS",
+        expected_result=False,
+        log={
             "Action": "block",
             "ClientASN": 55836,
             "ClientASNDescription": "RELIANCEJIO-IN Reliance Jio Infocomm Limited",
@@ -95,17 +95,24 @@ cloudflare_firewall_l7_d_do_s_tests: List[PantherRuleTest] = [
 
 
 class CloudflareFirewallL7DDoS(PantherRule):
-    RuleID = "Cloudflare.Firewall.L7DDoS-prototype"
-    DisplayName = "Cloudflare L7 DDoS"
-    LogTypes = [PantherLogType.Cloudflare_Firewall]
-    Tags = ["Cloudflare", "Variable Severity"]
-    Severity = PantherSeverity.Medium
-    Description = "Layer 7 Distributed Denial of Service (DDoS) detected"
-    Runbook = "Inspect and monitor internet-facing services for potential outages"
-    Reference = "https://www.cloudflare.com/en-gb/learning/ddos/application-layer-ddos-attack/"
-    Threshold = 100
-    SummaryAttributes = ["Action", "ClientCountry", "ClientIP", "ClientRequestUserAgent"]
-    Tests = cloudflare_firewall_l7_d_do_s_tests
+    id_ = "Cloudflare.Firewall.L7DDoS-prototype"
+    display_name = "Cloudflare L7 DDoS"
+    log_types = [PantherLogType.Cloudflare_Firewall]
+    tags = ["Cloudflare", "Variable Severity"]
+    default_severity = PantherSeverity.medium
+    default_description = "Layer 7 Distributed Denial of Service (DDoS) detected"
+    default_runbook = "Inspect and monitor internet-facing services for potential outages"
+    default_reference = (
+        "https://www.cloudflare.com/en-gb/learning/ddos/application-layer-ddos-attack/"
+    )
+    threshold = 100
+    summary_attributes = [
+        "Action",
+        "ClientCountry",
+        "ClientIP",
+        "ClientRequestUserAgent",
+    ]
+    tests = cloudflare_firewall_l7_d_do_s_tests
 
     def rule(self, event):
         return event.get("Source", "") == "l7ddos"

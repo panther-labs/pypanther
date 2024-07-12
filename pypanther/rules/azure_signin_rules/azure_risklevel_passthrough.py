@@ -10,9 +10,9 @@ from pypanther.helpers.panther_base_helpers import deep_get
 
 azure_audit_risk_level_passthrough_tests: List[PantherRuleTest] = [
     PantherRuleTest(
-        Name="Failed Sign-In",
-        ExpectedResult=False,
-        Log={
+        name="Failed Sign-In",
+        expected_result=False,
+        log={
             "calleripaddress": "12.12.12.12",
             "category": "ServicePrincipalSignInLogs",
             "correlationid": "e1f237ef-6548-4172-be79-03818c04c06e",
@@ -72,9 +72,9 @@ azure_audit_risk_level_passthrough_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="Failed Sign-In with riskLevelAggregated",
-        ExpectedResult=True,
-        Log={
+        name="Failed Sign-In with riskLevelAggregated",
+        expected_result=True,
+        log={
             "calleripaddress": "12.12.12.12",
             "category": "ServicePrincipalSignInLogs",
             "correlationid": "e1f237ef-6548-4172-be79-03818c04c06e",
@@ -134,9 +134,9 @@ azure_audit_risk_level_passthrough_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="Failed Sign-In with riskLevelDuringSignIn",
-        ExpectedResult=True,
-        Log={
+        name="Failed Sign-In with riskLevelDuringSignIn",
+        expected_result=True,
+        log={
             "calleripaddress": "12.12.12.12",
             "category": "ServicePrincipalSignInLogs",
             "correlationid": "e1f237ef-6548-4172-be79-03818c04c06e",
@@ -196,9 +196,9 @@ azure_audit_risk_level_passthrough_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="Failed Sign-In with riskLevelDuringSignIn and dismissed",
-        ExpectedResult=False,
-        Log={
+        name="Failed Sign-In with riskLevelDuringSignIn and dismissed",
+        expected_result=False,
+        log={
             "calleripaddress": "12.12.12.12",
             "category": "ServicePrincipalSignInLogs",
             "correlationid": "e1f237ef-6548-4172-be79-03818c04c06e",
@@ -258,9 +258,9 @@ azure_audit_risk_level_passthrough_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="Missing RiskState",
-        ExpectedResult=False,
-        Log={
+        name="Missing RiskState",
+        expected_result=False,
+        log={
             "calleripaddress": "12.12.12.12",
             "category": "ServicePrincipalSignInLogs",
             "correlationid": "e1f237ef-6548-4172-be79-03818c04c06e",
@@ -322,16 +322,16 @@ azure_audit_risk_level_passthrough_tests: List[PantherRuleTest] = [
 
 
 class AzureAuditRiskLevelPassthrough(PantherRule):
-    RuleID = "Azure.Audit.RiskLevelPassthrough-prototype"
-    DisplayName = "Azure RiskLevel Passthrough"
-    DedupPeriodMinutes = 10
-    LogTypes = [PantherLogType.Azure_Audit]
-    Severity = PantherSeverity.Medium
-    Description = "This detection surfaces an alert based on riskLevelAggregated, riskLevelDuringSignIn, and riskState.\nriskLevelAggregated and riskLevelDuringSignIn are only expected for Azure AD Premium P2 customers.\n"
-    Reference = "https://learn.microsoft.com/en-us/azure/active-directory/identity-protection/howto-identity-protection-risk-feedback"
-    Reports = {"MITRE ATT&CK": ["TA0006:T1110", "TA0001:T1078"]}
-    Runbook = "There are a variety of potential responses to these sign-in risks. MSFT has provided an in-depth reference material at https://learn.microsoft.com/en-us/azure/active-directory/identity-protection/howto-identity-protection-risk-feedback\n"
-    SummaryAttributes = [
+    id_ = "Azure.Audit.RiskLevelPassthrough-prototype"
+    display_name = "Azure RiskLevel Passthrough"
+    dedup_period_minutes = 10
+    log_types = [PantherLogType.Azure_Audit]
+    default_severity = PantherSeverity.medium
+    default_description = "This detection surfaces an alert based on riskLevelAggregated, riskLevelDuringSignIn, and riskState.\nriskLevelAggregated and riskLevelDuringSignIn are only expected for Azure AD Premium P2 customers.\n"
+    default_reference = "https://learn.microsoft.com/en-us/azure/active-directory/identity-protection/howto-identity-protection-risk-feedback"
+    reports = {"MITRE ATT&CK": ["TA0006:T1110", "TA0001:T1078"]}
+    default_runbook = "There are a variety of potential responses to these sign-in risks. MSFT has provided an in-depth reference material at https://learn.microsoft.com/en-us/azure/active-directory/identity-protection/howto-identity-protection-risk-feedback\n"
+    summary_attributes = [
         "properties:ServicePrincipalName",
         "properties:UserPrincipalName",
         "properties:ipAddress",
@@ -339,7 +339,7 @@ class AzureAuditRiskLevelPassthrough(PantherRule):
         "properties:riskLevelDuringSignIn",
         "properties:riskState",
     ]
-    Tests = azure_audit_risk_level_passthrough_tests
+    tests = azure_audit_risk_level_passthrough_tests
     PASSTHROUGH_SEVERITIES = {"low", "medium", "high"}
 
     def rule(self, event):

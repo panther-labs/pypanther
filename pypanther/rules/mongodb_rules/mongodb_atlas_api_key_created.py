@@ -6,9 +6,9 @@ from pypanther.helpers.panther_mongodb_helpers import mongodb_alert_context
 
 mongo_db_atlas_api_key_created_tests: List[PantherRuleTest] = [
     PantherRuleTest(
-        Name="API Key Deleted",
-        ExpectedResult=False,
-        Log={
+        name="API Key Deleted",
+        expected_result=False,
+        log={
             "created": "2023-06-14 15:47:15",
             "currentvalue": {},
             "eventtypename": "API_KEY_ACCESS_LIST_ENTRY_DELETED",
@@ -36,9 +36,9 @@ mongo_db_atlas_api_key_created_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="API Key Created",
-        ExpectedResult=True,
-        Log={
+        name="API Key Created",
+        expected_result=True,
+        log={
             "created": "2023-06-14 15:47:15",
             "currentvalue": {},
             "eventtypename": "API_KEY_ACCESS_LIST_ENTRY_ADDED",
@@ -69,15 +69,15 @@ mongo_db_atlas_api_key_created_tests: List[PantherRuleTest] = [
 
 
 class MongoDBAtlasApiKeyCreated(PantherRule):
-    Description = "A MongoDB Atlas api key's access list was updated"
-    DisplayName = "MongoDB Atlas API Key Created"
-    Severity = PantherSeverity.Medium
-    Reference = (
+    default_description = "A MongoDB Atlas api key's access list was updated"
+    display_name = "MongoDB Atlas API Key Created"
+    default_severity = PantherSeverity.medium
+    default_reference = (
         "https://www.mongodb.com/docs/atlas/configure-api-access/#std-label-about-org-api-keys"
     )
-    LogTypes = [PantherLogType.MongoDB_OrganizationEvent]
-    RuleID = "MongoDB.Atlas.ApiKeyCreated-prototype"
-    Tests = mongo_db_atlas_api_key_created_tests
+    log_types = [PantherLogType.MongoDB_OrganizationEvent]
+    id_ = "MongoDB.Atlas.ApiKeyCreated-prototype"
+    tests = mongo_db_atlas_api_key_created_tests
 
     def rule(self, event):
         return deep_get(event, "eventTypeName", default="") == "API_KEY_ACCESS_LIST_ENTRY_ADDED"

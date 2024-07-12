@@ -8,9 +8,9 @@ from pypanther.helpers.panther_base_helpers import (
 
 connectionto_embargoed_country_tests: List[PantherRuleTest] = [
     PantherRuleTest(
-        Name="Connection To CU",
-        ExpectedResult=True,
-        Log={
+        name="Connection To CU",
+        expected_result=True,
+        log={
             "ConfigBuild": "1007.3.0016606.11",
             "ConfigStateHash": "1431649125",
             "ContextProcessId": "1685738",
@@ -128,9 +128,9 @@ connectionto_embargoed_country_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="Google DNS",
-        ExpectedResult=False,
-        Log={
+        name="Google DNS",
+        expected_result=False,
+        log={
             "p_any_ip_addresses": ["8.8.8.8"],
             "p_enrichment": {
                 "ipinfo_location": {
@@ -155,13 +155,13 @@ connectionto_embargoed_country_tests: List[PantherRuleTest] = [
 
 
 class ConnectiontoEmbargoedCountry(PantherRule):
-    Description = "Detection to alert when internal asset is communicating with an sanctioned destination. This detection leverages Panther UDM and IPInfo enrichment."
-    Reference = "U.S. Sanctioned Destinations - https://www.bis.doc.gov/index.php/policy-guidance/country-guidance/sanctioned-destinations"
-    DisplayName = "Connection to Embargoed Country"
-    LogTypes = [PantherLogType.Crowdstrike_FDREvent]
-    RuleID = "Connection.to.Embargoed.Country-prototype"
-    Severity = PantherSeverity.Low
-    Tests = connectionto_embargoed_country_tests
+    default_description = "Detection to alert when internal asset is communicating with an sanctioned destination. This detection leverages Panther UDM and IPInfo enrichment."
+    default_reference = "U.S. Sanctioned Destinations - https://www.bis.doc.gov/index.php/policy-guidance/country-guidance/sanctioned-destinations"
+    display_name = "Connection to Embargoed Country"
+    log_types = [PantherLogType.Crowdstrike_FDREvent]
+    id_ = "Connection.to.Embargoed.Country-prototype"
+    default_severity = PantherSeverity.low
+    tests = connectionto_embargoed_country_tests
     # U.S. Gov Sanctioned Destinations
     # Cuba
     # Iran

@@ -4,9 +4,9 @@ from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSever
 
 push_security_open_security_finding_tests: List[PantherRuleTest] = [
     PantherRuleTest(
-        Name="Resolved Finding",
-        ExpectedResult=False,
-        Log={
+        name="Resolved Finding",
+        expected_result=False,
+        log={
             "id": "c478966c-f927-411c-b919-179832d3d50c",
             "new": {
                 "accountId": None,
@@ -37,9 +37,9 @@ push_security_open_security_finding_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="New Finding",
-        ExpectedResult=True,
-        Log={
+        name="New Finding",
+        expected_result=True,
+        log={
             "id": "c478966c-f927-411c-b919-179832d3d50c",
             "new": {
                 "accountId": None,
@@ -60,9 +60,9 @@ push_security_open_security_finding_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="Reopened Finding",
-        ExpectedResult=True,
-        Log={
+        name="Reopened Finding",
+        expected_result=True,
+        log={
             "id": "c478966c-f927-411c-b919-179832d3d50c",
             "new": {
                 "accountId": None,
@@ -96,11 +96,11 @@ push_security_open_security_finding_tests: List[PantherRuleTest] = [
 
 
 class PushSecurityOpenSecurityFinding(PantherRule):
-    RuleID = "Push.Security.Open.Security.Finding-prototype"
-    DisplayName = "Push Security Open Security Finding"
-    LogTypes = [PantherLogType.PushSecurity_Entities]
-    Severity = PantherSeverity.Info
-    Tests = push_security_open_security_finding_tests
+    id_ = "Push.Security.Open.Security.Finding-prototype"
+    display_name = "Push Security Open Security Finding"
+    log_types = [PantherLogType.PushSecurity_Entities]
+    default_severity = PantherSeverity.info
+    tests = push_security_open_security_finding_tests
 
     def rule(self, event):
         if event.get("object") != "FINDING":

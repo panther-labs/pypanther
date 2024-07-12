@@ -5,9 +5,9 @@ from pypanther.helpers.panther_base_helpers import github_alert_context
 
 git_hub_org_moderators_add_tests: List[PantherRuleTest] = [
     PantherRuleTest(
-        Name="GitHub - Org Moderator Added",
-        ExpectedResult=True,
-        Log={
+        name="GitHub - Org Moderator Added",
+        expected_result=True,
+        log={
             "_document_id": "Ab123",
             "action": "organization_moderators.add_user",
             "actor": "sarah78",
@@ -19,9 +19,9 @@ git_hub_org_moderators_add_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="GitHub - Org Moderator removed",
-        ExpectedResult=False,
-        Log={
+        name="GitHub - Org Moderator removed",
+        expected_result=False,
+        log={
             "_document_id": "Ab123",
             "action": "organization_moderators.remove_user",
             "actor": "sarah78",
@@ -36,14 +36,14 @@ git_hub_org_moderators_add_tests: List[PantherRuleTest] = [
 
 
 class GitHubOrgModeratorsAdd(PantherRule):
-    RuleID = "GitHub.Org.Moderators.Add-prototype"
-    DisplayName = "GitHub User Added to Org Moderators"
-    LogTypes = [PantherLogType.GitHub_Audit]
-    Tags = ["GitHub", "Initial Access:Supply Chain Compromise"]
-    Severity = PantherSeverity.Medium
-    Description = "Detects when a user is added to a GitHub org's list of moderators."
-    Reference = "https://docs.github.com/en/organizations/managing-peoples-access-to-your-organization-with-roles/managing-moderators-in-your-organization"
-    Tests = git_hub_org_moderators_add_tests
+    id_ = "GitHub.Org.Moderators.Add-prototype"
+    display_name = "GitHub User Added to Org Moderators"
+    log_types = [PantherLogType.GitHub_Audit]
+    tags = ["GitHub", "Initial Access:Supply Chain Compromise"]
+    default_severity = PantherSeverity.medium
+    default_description = "Detects when a user is added to a GitHub org's list of moderators."
+    default_reference = "https://docs.github.com/en/organizations/managing-peoples-access-to-your-organization-with-roles/managing-moderators-in-your-organization"
+    tests = git_hub_org_moderators_add_tests
 
     def rule(self, event):
         return event.get("action") == "organization_moderators.add_user"

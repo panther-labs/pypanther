@@ -7,9 +7,9 @@ from pypanther.helpers.panther_base_helpers import deep_walk
 
 gcpk8s_exec_into_pod_tests: List[PantherRuleTest] = [
     PantherRuleTest(
-        Name="Allowed User",
-        ExpectedResult=False,
-        Log={
+        name="Allowed User",
+        expected_result=False,
+        log={
             "protoPayload": {
                 "authenticationInfo": {
                     "principalEmail": "system:serviceaccount:example-namespace:example-namespace-service-account"
@@ -28,13 +28,16 @@ gcpk8s_exec_into_pod_tests: List[PantherRuleTest] = [
                 "resourceName": "core/v1/namespaces/example/pods/one-off-46666967280/exec",
                 "timestamp": "2022-03-04T16:01:49.978756Z",
             },
-            "resource": {"type": "k8s_cluster", "labels": {"project_id": "rigup-production"}},
+            "resource": {
+                "type": "k8s_cluster",
+                "labels": {"project_id": "rigup-production"},
+            },
         },
     ),
     PantherRuleTest(
-        Name="Disallowed User",
-        ExpectedResult=True,
-        Log={
+        name="Disallowed User",
+        expected_result=True,
+        log={
             "protoPayload": {
                 "authenticationInfo": {"principalEmail": "disallowed.user@example.com"},
                 "authorizationInfo": [
@@ -51,13 +54,16 @@ gcpk8s_exec_into_pod_tests: List[PantherRuleTest] = [
                 "resourceName": "core/v1/namespaces/example/pods/one-off-valerii-tovstyk-1646666967280/exec",
                 "timestamp": "2022-03-04T16:01:49.978756Z",
             },
-            "resource": {"type": "k8s_cluster", "labels": {"project_id": "rigup-production"}},
+            "resource": {
+                "type": "k8s_cluster",
+                "labels": {"project_id": "rigup-production"},
+            },
         },
     ),
     PantherRuleTest(
-        Name="Disallowed User2 - not an allowed namespace",
-        ExpectedResult=True,
-        Log={
+        name="Disallowed User2 - not an allowed namespace",
+        expected_result=True,
+        log={
             "protoPayload": {
                 "authenticationInfo": {"principalEmail": "example-allowed-user@example.com"},
                 "authorizationInfo": [
@@ -74,25 +80,28 @@ gcpk8s_exec_into_pod_tests: List[PantherRuleTest] = [
                 "resourceName": "core/v1/namespaces/istio-system/pods/one-off-valerii-tovstyk-1646666967280/exec",
                 "timestamp": "2022-03-04T16:01:49.978756Z",
             },
-            "resource": {"type": "k8s_cluster", "labels": {"project_id": "rigup-production"}},
+            "resource": {
+                "type": "k8s_cluster",
+                "labels": {"project_id": "rigup-production"},
+            },
         },
     ),
 ]
 
 
 class GCPK8sExecIntoPod(PantherRule):
-    RuleID = "GCP.K8s.ExecIntoPod-prototype"
-    DisplayName = "Exec into Pod"
-    Enabled = False
-    LogTypes = [PantherLogType.GCP_AuditLog]
-    Tags = ["GCP", "Security Control", "Configuration Required"]
-    Severity = PantherSeverity.Medium
-    Description = "Alerts when users exec into pod. Possible to specify specific projects and allowed users.\n"
-    Runbook = "Investigate the user and determine why. Advise that it is discouraged practice. Create ticket if appropriate.\n"
-    Reference = (
+    id_ = "GCP.K8s.ExecIntoPod-prototype"
+    display_name = "Exec into Pod"
+    enabled = False
+    log_types = [PantherLogType.GCP_AuditLog]
+    tags = ["GCP", "Security Control", "Configuration Required"]
+    default_severity = PantherSeverity.medium
+    default_description = "Alerts when users exec into pod. Possible to specify specific projects and allowed users.\n"
+    default_runbook = "Investigate the user and determine why. Advise that it is discouraged practice. Create ticket if appropriate.\n"
+    default_reference = (
         "https://cloud.google.com/migrate/containers/docs/troubleshooting/executing-shell-commands"
     )
-    Tests = gcpk8s_exec_into_pod_tests
+    tests = gcpk8s_exec_into_pod_tests
 
     def rule(self, event):
         # Defaults to False (no alert) unless method is exec and principal not allowed

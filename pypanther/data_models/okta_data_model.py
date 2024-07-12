@@ -18,7 +18,10 @@ def get_event_type(event):
         and event.get("outcome", {}).get("result") == "SUCCESS"
     ):
         return event_type.SUCCESSFUL_LOGIN
-    if event.get("eventType") in ["user.mfa.factor.deactivate", "user.mfa.factor.suspend"]:
+    if event.get("eventType") in [
+        "user.mfa.factor.deactivate",
+        "user.mfa.factor.suspend",
+    ]:
         if event.get("outcome", {}).get("reason", "").startswith("User reset"):
             return event_type.MFA_RESET
         return event_type.MFA_DISABLED
@@ -43,13 +46,13 @@ def get_actor_user(event):
 
 
 class StandardOktaSystemLog(PantherDataModel):
-    DataModelID: str = "Standard.Okta.SystemLog"
-    DisplayName: str = "Okta System Log"
-    Enabled: bool = True
-    LogTypes: List[str] = [PantherLogType.Okta_SystemLog]
-    Mappings: List[PantherDataModelMapping] = [
-        PantherDataModelMapping(Name="actor_user", Method=get_actor_user),
-        PantherDataModelMapping(Name="event_type", Method=get_event_type),
-        PantherDataModelMapping(Name="source_ip", Path="$.client.ipAddress"),
-        PantherDataModelMapping(Name="user_agent", Path="$.client.userAgent.rawUserAgent"),
+    id_: str = "Standard.Okta.SystemLog"
+    display_name: str = "Okta System Log"
+    enabled: bool = True
+    log_types: List[str] = [PantherLogType.Okta_SystemLog]
+    mappings: List[PantherDataModelMapping] = [
+        PantherDataModelMapping(name="actor_user", method=get_actor_user),
+        PantherDataModelMapping(name="event_type", method=get_event_type),
+        PantherDataModelMapping(name="source_ip", path="$.client.ipAddress"),
+        PantherDataModelMapping(name="user_agent", path="$.client.userAgent.rawUserAgent"),
     ]

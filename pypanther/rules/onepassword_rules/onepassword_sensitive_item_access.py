@@ -5,15 +5,19 @@ from pypanther.helpers.panther_base_helpers import deep_get
 
 one_password_sensitive_item_tests: List[PantherRuleTest] = [
     PantherRuleTest(
-        Name="1Password - Sensitive Item Accessed",
-        ExpectedResult=True,
-        Log={
+        name="1Password - Sensitive Item Accessed",
+        expected_result=True,
+        log={
             "uuid": "ecd1d435c26440dc930ddfbbef201a11",
             "timestamp": "2022-02-23 20:27:17.071",
             "used_version": 2,
             "vault_uuid": "111111",
             "item_uuid": "ecd1d435c26440dc930ddfbbef201a11",
-            "user": {"email": "homer@springfield.gov", "name": "Homer Simpson", "uuid": "2222222"},
+            "user": {
+                "email": "homer@springfield.gov",
+                "name": "Homer Simpson",
+                "uuid": "2222222",
+            },
             "client": {
                 "app_name": "1Password Browser Extension",
                 "app_version": "20195",
@@ -27,15 +31,19 @@ one_password_sensitive_item_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="1Password - Regular Item Usage",
-        ExpectedResult=False,
-        Log={
+        name="1Password - Regular Item Usage",
+        expected_result=False,
+        log={
             "uuid": "11111",
             "timestamp": "2022-02-23 20:27:17.071",
             "used_version": 2,
             "vault_uuid": "111111",
             "item_uuid": "1111111",
-            "user": {"email": "homer@springfield.gov", "name": "Homer Simpson", "uuid": "2222222"},
+            "user": {
+                "email": "homer@springfield.gov",
+                "name": "Homer Simpson",
+                "uuid": "2222222",
+            },
             "client": {
                 "app_name": "1Password Browser Extension",
                 "app_version": "20195",
@@ -52,18 +60,24 @@ one_password_sensitive_item_tests: List[PantherRuleTest] = [
 
 
 class OnePasswordSensitiveItem(PantherRule):
-    RuleID = "OnePassword.Sensitive.Item-prototype"
-    DedupPeriodMinutes = 30
-    DisplayName = "Configuration Required - Sensitive 1Password Item Accessed"
-    Enabled = False
-    LogTypes = [PantherLogType.OnePassword_ItemUsage]
-    Reference = "https://support.1password.com/1password-com-items/"
-    Severity = PantherSeverity.Low
-    Description = "Alerts when a user defined list of sensitive items in 1Password is accessed"
-    SummaryAttributes = ["p_any_ip_addresses", "p_any_emails"]
-    Tags = ["Configuration Required", "1Password", "Credential Access:Unsecured Credentials"]
-    Reports = {"MITRE ATT&CK": ["TA0006:T1552"]}
-    Tests = one_password_sensitive_item_tests
+    id_ = "OnePassword.Sensitive.Item-prototype"
+    dedup_period_minutes = 30
+    display_name = "Configuration Required - Sensitive 1Password Item Accessed"
+    enabled = False
+    log_types = [PantherLogType.OnePassword_ItemUsage]
+    default_reference = "https://support.1password.com/1password-com-items/"
+    default_severity = PantherSeverity.low
+    default_description = (
+        "Alerts when a user defined list of sensitive items in 1Password is accessed"
+    )
+    summary_attributes = ["p_any_ip_addresses", "p_any_emails"]
+    tags = [
+        "Configuration Required",
+        "1Password",
+        "Credential Access:Unsecured Credentials",
+    ]
+    reports = {"MITRE ATT&CK": ["TA0006:T1552"]}
+    tests = one_password_sensitive_item_tests
     "\nThis rule detects access to high sensitivity items in your 1Password account. 1Password references\nthese items by their UUID so the SENSITIVE_ITEM_WATCHLIST below allows for the mapping of UUID to\nmeaningful name.\n\nThere is an alternative method for creating this rule that uses Panther's lookup table feature,\n(currently in beta). That rule can be found in the 1Password detection pack with the name\nBETA - Sensitive 1Password Item Accessed (onepassword_lut_sensitive_item_access.py)\n"
     SENSITIVE_ITEM_WATCHLIST = {"ecd1d435c26440dc930ddfbbef201a11": "demo_item"}
 

@@ -6,9 +6,9 @@ from pypanther.helpers.panther_base_helpers import deep_get
 
 auth0_post_login_action_flow_tests: List[PantherRuleTest] = [
     PantherRuleTest(
-        Name="Other Event",
-        ExpectedResult=False,
-        Log={
+        name="Other Event",
+        expected_result=False,
+        log={
             "data": {
                 "client_id": "XXX",
                 "client_name": "",
@@ -19,7 +19,11 @@ auth0_post_login_action_flow_tests: List[PantherRuleTest] = [
                         "auth": {
                             "credentials": {
                                 "jti": "XXX",
-                                "scopes": ["create:actions", "update:triggers", "update:users"],
+                                "scopes": [
+                                    "create:actions",
+                                    "update:triggers",
+                                    "update:users",
+                                ],
                             },
                             "strategy": "jwt",
                             "user": {
@@ -49,9 +53,9 @@ auth0_post_login_action_flow_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="Action Added",
-        ExpectedResult=True,
-        Log={
+        name="Action Added",
+        expected_result=True,
+        log={
             "data": {
                 "client_id": "XXX",
                 "client_name": "",
@@ -157,9 +161,9 @@ auth0_post_login_action_flow_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="Action Removed",
-        ExpectedResult=True,
-        Log={
+        name="Action Removed",
+        expected_result=True,
+        log={
             "data": {
                 "client_id": "XXX",
                 "client_name": "",
@@ -259,9 +263,9 @@ auth0_post_login_action_flow_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="All Actions Removed",
-        ExpectedResult=True,
-        Log={
+        name="All Actions Removed",
+        expected_result=True,
+        log={
             "data": {
                 "client_id": "XXX",
                 "client_name": "",
@@ -302,21 +306,30 @@ auth0_post_login_action_flow_tests: List[PantherRuleTest] = [
 
 
 class Auth0PostLoginActionFlow(PantherRule):
-    Description = "An Auth0 User updated a post login action flow for your organization's tenant."
-    DisplayName = "Auth0 Post Login Action Flow Updated"
-    Runbook = "Assess if this was done by the user for a valid business reason. Be sure to replace any steps that were removed without authorization."
-    Reference = "https://auth0.com/docs/customize/actions/flows-and-triggers/login-flow/api-object"
-    Severity = PantherSeverity.Medium
-    LogTypes = [PantherLogType.Auth0_Events]
-    RuleID = "Auth0.Post.Login.Action.Flow-prototype"
-    Tests = auth0_post_login_action_flow_tests
+    default_description = (
+        "An Auth0 User updated a post login action flow for your organization's tenant."
+    )
+    display_name = "Auth0 Post Login Action Flow Updated"
+    default_runbook = "Assess if this was done by the user for a valid business reason. Be sure to replace any steps that were removed without authorization."
+    default_reference = (
+        "https://auth0.com/docs/customize/actions/flows-and-triggers/login-flow/api-object"
+    )
+    default_severity = PantherSeverity.medium
+    log_types = [PantherLogType.Auth0_Events]
+    id_ = "Auth0.Post.Login.Action.Flow-prototype"
+    tests = auth0_post_login_action_flow_tests
 
     def rule(self, event):
         data_description = deep_get(
             event, "data", "description", default="<NO_DATA_DESCRIPTION_FOUND>"
         )
         request_path = deep_get(
-            event, "data", "details", "request", "path", default="<NO_REQUEST_PATH_FOUND>"
+            event,
+            "data",
+            "details",
+            "request",
+            "path",
+            default="<NO_REQUEST_PATH_FOUND>",
         )
         return all(
             [
@@ -328,7 +341,14 @@ class Auth0PostLoginActionFlow(PantherRule):
 
     def title(self, event):
         user = deep_get(
-            event, "data", "details", "request", "auth", "user", "email", default="<NO_USER_FOUND>"
+            event,
+            "data",
+            "details",
+            "request",
+            "auth",
+            "user",
+            "email",
+            default="<NO_USER_FOUND>",
         )
         p_source_label = deep_get(event, "p_source_label", default="<NO_P_SOURCE_LABEL_FOUND>")
         request_bindings = deep_get(

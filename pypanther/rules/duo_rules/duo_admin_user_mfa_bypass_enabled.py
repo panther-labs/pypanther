@@ -8,9 +8,9 @@ from pypanther.helpers.panther_duo_helpers import (
 
 duo_admin_user_mfa_bypass_enabled_tests: List[PantherRuleTest] = [
     PantherRuleTest(
-        Name="Account Active",
-        ExpectedResult=False,
-        Log={
+        name="Account Active",
+        expected_result=False,
+        log={
             "action": "user_update",
             "description": '{"status": "Active"}',
             "isotimestamp": "2021-10-05 22:45:33",
@@ -20,9 +20,9 @@ duo_admin_user_mfa_bypass_enabled_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="Account Disabled",
-        ExpectedResult=False,
-        Log={
+        name="Account Disabled",
+        expected_result=False,
+        log={
             "action": "user_update",
             "description": '{"status": "Disabled"}',
             "isotimestamp": "2021-10-05 22:45:33",
@@ -32,9 +32,9 @@ duo_admin_user_mfa_bypass_enabled_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="Bypass Enabled",
-        ExpectedResult=True,
-        Log={
+        name="Bypass Enabled",
+        expected_result=True,
+        log={
             "action": "user_update",
             "description": '{"status": "Bypass"}',
             "isotimestamp": "2021-10-05 22:45:33",
@@ -44,9 +44,9 @@ duo_admin_user_mfa_bypass_enabled_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="Phones Update",
-        ExpectedResult=False,
-        Log={
+        name="Phones Update",
+        expected_result=False,
+        log={
             "action": "user_update",
             "description": '{"phones": ""}',
             "isotimestamp": "2021-07-02 19:06:40",
@@ -59,13 +59,13 @@ duo_admin_user_mfa_bypass_enabled_tests: List[PantherRuleTest] = [
 
 
 class DuoAdminUserMFABypassEnabled(PantherRule):
-    Description = "An Administrator enabled a user to authenticate without MFA."
-    DisplayName = "Duo Admin User MFA Bypass Enabled"
-    Reference = "https://duo.com/docs/policy#authentication-policy"
-    Severity = PantherSeverity.Medium
-    LogTypes = [PantherLogType.Duo_Administrator]
-    RuleID = "Duo.Admin.User.MFA.Bypass.Enabled-prototype"
-    Tests = duo_admin_user_mfa_bypass_enabled_tests
+    default_description = "An Administrator enabled a user to authenticate without MFA."
+    display_name = "Duo Admin User MFA Bypass Enabled"
+    default_reference = "https://duo.com/docs/policy#authentication-policy"
+    default_severity = PantherSeverity.medium
+    log_types = [PantherLogType.Duo_Administrator]
+    id_ = "Duo.Admin.User.MFA.Bypass.Enabled-prototype"
+    tests = duo_admin_user_mfa_bypass_enabled_tests
 
     def rule(self, event):
         if event.get("action") == "user_update":

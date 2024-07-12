@@ -4,9 +4,9 @@ from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSever
 
 panther_saml_modified_tests: List[PantherRuleTest] = [
     PantherRuleTest(
-        Name="SAML config modified",
-        ExpectedResult=True,
-        Log={
+        name="SAML config modified",
+        expected_result=True,
+        log={
             "actionName": "UPDATE_SAML_SETTINGS",
             "actionParams": {},
             "actionResult": "SUCCEEDED",
@@ -25,9 +25,9 @@ panther_saml_modified_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="SAML config viewed",
-        ExpectedResult=False,
-        Log={
+        name="SAML config viewed",
+        expected_result=False,
+        log={
             "actionName": "GET_SAML_SETTINGS",
             "actionParams": {},
             "actionResult": "SUCCEEDED",
@@ -49,17 +49,17 @@ panther_saml_modified_tests: List[PantherRuleTest] = [
 
 
 class PantherSAMLModified(PantherRule):
-    RuleID = "Panther.SAML.Modified-prototype"
-    DisplayName = "Panther SAML configuration has been modified"
-    LogTypes = [PantherLogType.Panther_Audit]
-    Severity = PantherSeverity.High
-    Tags = ["DataModel", "Defense Evasion:Impair Defenses"]
-    Reports = {"MITRE ATT&CK": ["TA0005:T1562"]}
-    Description = "An Admin has modified Panther's SAML configuration."
-    Runbook = "Ensure this change was approved and appropriate."
-    Reference = "https://docs.panther.com/system-configuration/saml"
-    SummaryAttributes = ["p_any_ip_addresses", "p_any_usernames"]
-    Tests = panther_saml_modified_tests
+    id_ = "Panther.SAML.Modified-prototype"
+    display_name = "Panther SAML configuration has been modified"
+    log_types = [PantherLogType.Panther_Audit]
+    default_severity = PantherSeverity.high
+    tags = ["DataModel", "Defense Evasion:Impair Defenses"]
+    reports = {"MITRE ATT&CK": ["TA0005:T1562"]}
+    default_description = "An Admin has modified Panther's SAML configuration."
+    default_runbook = "Ensure this change was approved and appropriate."
+    default_reference = "https://docs.panther.com/system-configuration/saml"
+    summary_attributes = ["p_any_ip_addresses", "p_any_usernames"]
+    tests = panther_saml_modified_tests
 
     def rule(self, event):
         return (

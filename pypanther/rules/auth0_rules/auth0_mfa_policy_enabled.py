@@ -6,9 +6,9 @@ from pypanther.helpers.panther_base_helpers import deep_get
 
 auth0_mfa_policy_enabled_tests: List[PantherRuleTest] = [
     PantherRuleTest(
-        Name="MFA Policy Enabled First",
-        ExpectedResult=True,
-        Log={
+        name="MFA Policy Enabled First",
+        expected_result=True,
+        log={
             "data": {
                 "client_id": "1HXWWGKk1Zj3JF8GvMrnCSirccDs4qvr",
                 "client_name": "",
@@ -192,9 +192,9 @@ auth0_mfa_policy_enabled_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="MFA Policy Enabled Second",
-        ExpectedResult=True,
-        Log={
+        name="MFA Policy Enabled Second",
+        expected_result=True,
+        log={
             "data": {
                 "client_id": "1HXWWGKk1Zj3JF8GvMrnCSirccDs4qvr",
                 "client_name": "",
@@ -378,9 +378,9 @@ auth0_mfa_policy_enabled_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="Other Event",
-        ExpectedResult=False,
-        Log={
+        name="Other Event",
+        expected_result=False,
+        log={
             "data": {
                 "client_id": "1HXWWGKk1Zj3JF8GvMrnCSirccDs4qvr",
                 "client_name": "",
@@ -574,21 +574,26 @@ auth0_mfa_policy_enabled_tests: List[PantherRuleTest] = [
 
 
 class Auth0MFAPolicyEnabled(PantherRule):
-    Description = "An Auth0 User enabled MFA Policy for your organization's tenant."
-    DisplayName = "Auth0 MFA Policy Enabled"
-    Runbook = "Assess if this was done by the user for a valid business reason and was expected. This alert indicates a setting change that aligns with best security practices, follow-up may be unnecessary."
-    Reference = "https://auth0.com/docs/secure/multi-factor-authentication/enable-mfa#:~:text=In%20the-,Define%20policies,-section%2C%20select%20a"
-    Severity = PantherSeverity.Medium
-    LogTypes = [PantherLogType.Auth0_Events]
-    RuleID = "Auth0.MFA.Policy.Enabled-prototype"
-    Tests = auth0_mfa_policy_enabled_tests
+    default_description = "An Auth0 User enabled MFA Policy for your organization's tenant."
+    display_name = "Auth0 MFA Policy Enabled"
+    default_runbook = "Assess if this was done by the user for a valid business reason and was expected. This alert indicates a setting change that aligns with best security practices, follow-up may be unnecessary."
+    default_reference = "https://auth0.com/docs/secure/multi-factor-authentication/enable-mfa#:~:text=In%20the-,Define%20policies,-section%2C%20select%20a"
+    default_severity = PantherSeverity.medium
+    log_types = [PantherLogType.Auth0_Events]
+    id_ = "Auth0.MFA.Policy.Enabled-prototype"
+    tests = auth0_mfa_policy_enabled_tests
 
     def rule(self, event):
         data_description = deep_get(
             event, "data", "description", default="<NO_DATA_DESCRIPTION_FOUND>"
         )
         request_path = deep_get(
-            event, "data", "details", "request", "path", default="<NO_REQUEST_PATH_FOUND>"
+            event,
+            "data",
+            "details",
+            "request",
+            "path",
+            default="<NO_REQUEST_PATH_FOUND>",
         )
         return all(
             [
@@ -600,7 +605,14 @@ class Auth0MFAPolicyEnabled(PantherRule):
 
     def title(self, event):
         user_email = deep_get(
-            event, "data", "details", "request", "auth", "user", "email", default="<NO_USER_FOUND>"
+            event,
+            "data",
+            "details",
+            "request",
+            "auth",
+            "user",
+            "email",
+            default="<NO_USER_FOUND>",
         )
         request_body = deep_get(event, "data", "details", "request", "body", default=[])
         if "all-applications" in request_body:

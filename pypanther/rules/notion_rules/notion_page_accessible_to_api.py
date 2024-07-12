@@ -5,16 +5,18 @@ from pypanther.helpers.panther_notion_helpers import notion_alert_context
 
 
 class NotionPagePermsAPIPermsChanged(PantherRule):
-    DisplayName = "Notion Page API Permissions Changed"
-    RuleID = "Notion.PagePerms.APIPermsChanged-prototype"
-    LogTypes = [PantherLogType.Notion_AuditLogs]
-    Tags = ["Notion", "Data Security", "Unapproved 3rd Party Apps"]
-    Severity = PantherSeverity.Low
-    Description = (
+    display_name = "Notion Page API Permissions Changed"
+    id_ = "Notion.PagePerms.APIPermsChanged-prototype"
+    log_types = [PantherLogType.Notion_AuditLogs]
+    tags = ["Notion", "Data Security", "Unapproved 3rd Party Apps"]
+    default_severity = PantherSeverity.low
+    default_description = (
         "A new API integration was added to a Notion page, or it's permissions were changed."
     )
-    Runbook = "Potential information exposure - review the shared page and rectify if needed."
-    Reference = "https://www.notion.so/help/sharing-and-permissions"
+    default_runbook = (
+        "Potential information exposure - review the shared page and rectify if needed."
+    )
+    default_reference = "https://www.notion.so/help/sharing-and-permissions"
     # These event types correspond to users adding or editing the default role on a public page
     event_types = (
         "page.permissions.integration_role_added",

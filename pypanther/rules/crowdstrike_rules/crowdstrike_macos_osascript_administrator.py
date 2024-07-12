@@ -5,9 +5,9 @@ from pypanther.helpers.panther_base_helpers import crowdstrike_process_alert_con
 
 crowdstrike_macos_osascript_administrator_tests: List[PantherRuleTest] = [
     PantherRuleTest(
-        Name="Ran Osascript with administrator privileges",
-        ExpectedResult=True,
-        Log={
+        name="Ran Osascript with administrator privileges",
+        expected_result=True,
+        log={
             "aid": "1234abcdefghijklmnop",
             "aip": "1.2.3.4",
             "cid": "abcde098654321xyz",
@@ -81,9 +81,9 @@ crowdstrike_macos_osascript_administrator_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="Ran Osascript without administrator privileges",
-        ExpectedResult=False,
-        Log={
+        name="Ran Osascript without administrator privileges",
+        expected_result=False,
+        log={
             "aid": "1234abcdefghijklmnop",
             "aip": "1.2.3.4",
             "cid": "abcde098654321xyz",
@@ -157,9 +157,9 @@ crowdstrike_macos_osascript_administrator_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="Windows",
-        ExpectedResult=False,
-        Log={
+        name="Windows",
+        expected_result=False,
+        log={
             "aid": "1234abcdefghijklmnop",
             "aip": "1.2.3.4",
             "cid": "abcde098654321xyz",
@@ -233,9 +233,9 @@ crowdstrike_macos_osascript_administrator_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="Ran Osacompile with administrator privileges",
-        ExpectedResult=False,
-        Log={
+        name="Ran Osacompile with administrator privileges",
+        expected_result=False,
+        log={
             "aid": "1234abcdefghijklmnop",
             "aip": "1.2.3.4",
             "cid": "abcde098654321xyz",
@@ -309,9 +309,9 @@ crowdstrike_macos_osascript_administrator_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="Non Process event",
-        ExpectedResult=False,
-        Log={
+        name="Non Process event",
+        expected_result=False,
+        log={
             "aid": "1234abcdefghijklmnop",
             "aip": "1.2.3.4",
             "cid": "abcde098654321xyz",
@@ -388,15 +388,15 @@ crowdstrike_macos_osascript_administrator_tests: List[PantherRuleTest] = [
 
 
 class CrowdstrikeMacosOsascriptAdministrator(PantherRule):
-    DisplayName = "CrowdStrike MacOS Osascript as Administrator"
-    Description = "Detects usage of osascript with administrator privileges"
-    RuleID = "Crowdstrike.Macos.Osascript.Administrator-prototype"
-    Reference = (
+    display_name = "CrowdStrike MacOS Osascript as Administrator"
+    default_description = "Detects usage of osascript with administrator privileges"
+    id_ = "Crowdstrike.Macos.Osascript.Administrator-prototype"
+    default_reference = (
         "https://www.sentinelone.com/blog/how-offensive-actors-use-applescript-for-attacking-macos/"
     )
-    Severity = PantherSeverity.Medium
-    LogTypes = [PantherLogType.Crowdstrike_FDREvent]
-    Tests = crowdstrike_macos_osascript_administrator_tests
+    default_severity = PantherSeverity.medium
+    log_types = [PantherLogType.Crowdstrike_FDREvent]
+    tests = crowdstrike_macos_osascript_administrator_tests
 
     def rule(self, event):
         event_platform = deep_get(event, "event_platform", default="<UNKNOWN_PLATFORM>")

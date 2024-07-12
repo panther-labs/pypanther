@@ -8,9 +8,9 @@ from pypanther.helpers.panther_duo_helpers import (
 
 duo_admin_ssosaml_requirement_disabled_tests: List[PantherRuleTest] = [
     PantherRuleTest(
-        Name="Enforcement Disabled",
-        ExpectedResult=True,
-        Log={
+        name="Enforcement Disabled",
+        expected_result=True,
+        log={
             "action": "admin_single_sign_on_update",
             "description": '{"enforcement_status": "disabled"}',
             "isotimestamp": "2021-10-12 21:29:22",
@@ -19,9 +19,9 @@ duo_admin_ssosaml_requirement_disabled_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="Enforcement Optional",
-        ExpectedResult=True,
-        Log={
+        name="Enforcement Optional",
+        expected_result=True,
+        log={
             "action": "admin_single_sign_on_update",
             "description": '{"enforcement_status": "optional"}',
             "isotimestamp": "2021-10-12 21:29:22",
@@ -30,9 +30,9 @@ duo_admin_ssosaml_requirement_disabled_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="Enforcement Required",
-        ExpectedResult=False,
-        Log={
+        name="Enforcement Required",
+        expected_result=False,
+        log={
             "action": "admin_single_sign_on_update",
             "description": '{"enforcement_status": "required"}',
             "isotimestamp": "2021-10-12 21:29:22",
@@ -41,9 +41,9 @@ duo_admin_ssosaml_requirement_disabled_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="SSO Update",
-        ExpectedResult=False,
-        Log={
+        name="SSO Update",
+        expected_result=False,
+        log={
             "action": "admin_single_sign_on_update",
             "description": '{"sso_url": "https://duff.okta.com/app/duoadminpanel/abcdefghijklm/sso/saml", "slo_url": null, "idp_type": "okta", "cert": "C=US/CN=duff/L=Springfield/O=Okta/OU=SSOProvider/ST=California/emailAddress=info@okta.com - 2031-08-10 13:39:00+00:00", "require_signed_response": true, "entity_id": "http://www.okta.com/abcdefghijk"}',
             "isotimestamp": "2021-10-12 21:33:40",
@@ -55,15 +55,15 @@ duo_admin_ssosaml_requirement_disabled_tests: List[PantherRuleTest] = [
 
 
 class DuoAdminSSOSAMLRequirementDisabled(PantherRule):
-    Description = (
+    default_description = (
         "Detects when SAML Authentication for Administrators is marked as Disabled or Optional."
     )
-    DisplayName = "Duo Admin SSO SAML Requirement Disabled"
-    Reference = "https://duo.com/docs/sso#saml:~:text=Modify%20Authentication%20Sources"
-    Severity = PantherSeverity.Medium
-    LogTypes = [PantherLogType.Duo_Administrator]
-    RuleID = "Duo.Admin.SSO.SAML.Requirement.Disabled-prototype"
-    Tests = duo_admin_ssosaml_requirement_disabled_tests
+    display_name = "Duo Admin SSO SAML Requirement Disabled"
+    default_reference = "https://duo.com/docs/sso#saml:~:text=Modify%20Authentication%20Sources"
+    default_severity = PantherSeverity.medium
+    log_types = [PantherLogType.Duo_Administrator]
+    id_ = "Duo.Admin.SSO.SAML.Requirement.Disabled-prototype"
+    tests = duo_admin_ssosaml_requirement_disabled_tests
 
     def rule(self, event):
         if event.get("action") == "admin_single_sign_on_update":

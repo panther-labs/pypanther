@@ -5,9 +5,9 @@ from pypanther.helpers.panther_base_helpers import deep_get
 
 sentinel_one_threats_tests: List[PantherRuleTest] = [
     PantherRuleTest(
-        Name="malicious event",
-        ExpectedResult=True,
-        Log={
+        name="malicious event",
+        expected_result=True,
+        log={
             "accountid": "123456789",
             "accountname": "Account1",
             "activitytype": 19,
@@ -40,9 +40,9 @@ sentinel_one_threats_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="non-threat event",
-        ExpectedResult=False,
-        Log={
+        name="non-threat event",
+        expected_result=False,
+        log={
             "accountid": "12345",
             "accountname": "Account1",
             "activitytype": 90,
@@ -71,9 +71,9 @@ sentinel_one_threats_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="suspicious event",
-        ExpectedResult=True,
-        Log={
+        name="suspicious event",
+        expected_result=True,
+        log={
             "accountid": "123456789",
             "accountname": "Account1",
             "activitytype": 19,
@@ -109,15 +109,15 @@ sentinel_one_threats_tests: List[PantherRuleTest] = [
 
 
 class SentinelOneThreats(PantherRule):
-    Description = "Passthrough SentinelOne Threats "
-    DisplayName = "SentinelOne Threats"
-    Reference = (
+    default_description = "Passthrough SentinelOne Threats "
+    display_name = "SentinelOne Threats"
+    default_reference = (
         "https://www.sentinelone.com/blog/feature-spotlight-introducing-the-new-threat-center/"
     )
-    Severity = PantherSeverity.High
-    LogTypes = [PantherLogType.SentinelOne_Activity]
-    RuleID = "SentinelOne.Threats-prototype"
-    Tests = sentinel_one_threats_tests  # New Malicious Threat Not Mitigated
+    default_severity = PantherSeverity.high
+    log_types = [PantherLogType.SentinelOne_Activity]
+    id_ = "SentinelOne.Threats-prototype"
+    tests = sentinel_one_threats_tests  # New Malicious Threat Not Mitigated
     # New Malicious Threat Not Mitigated
     # New Suspicious Threat Not Mitigated
     # New Suspicious Threat Not Mitigated

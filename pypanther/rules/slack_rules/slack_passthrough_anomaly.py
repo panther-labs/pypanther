@@ -5,9 +5,9 @@ from pypanther.helpers.panther_base_helpers import slack_alert_context
 
 slack_audit_logs_passthrough_anomaly_tests: List[PantherRuleTest] = [
     PantherRuleTest(
-        Name="Name",
-        ExpectedResult=True,
-        Log={
+        name="Name",
+        expected_result=True,
+        log={
             "action": "anomaly",
             "actor": {
                 "type": "user",
@@ -31,9 +31,9 @@ slack_audit_logs_passthrough_anomaly_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="User Logout",
-        ExpectedResult=False,
-        Log={
+        name="User Logout",
+        expected_result=False,
+        log={
             "action": "user_logout",
             "actor": {
                 "type": "user",
@@ -71,16 +71,16 @@ slack_audit_logs_passthrough_anomaly_tests: List[PantherRuleTest] = [
 
 
 class SlackAuditLogsPassthroughAnomaly(PantherRule):
-    RuleID = "Slack.AuditLogs.PassthroughAnomaly-prototype"
-    DisplayName = "Slack Anomaly Detected"
-    LogTypes = [PantherLogType.Slack_AuditLogs]
-    Tags = ["Slack", "Command and Control", "Application Layer Protocol"]
-    Reports = {"MITRE ATT&CK": ["TA0011:T1071"]}
-    Severity = PantherSeverity.Critical
-    Description = "Passthrough for anomalies detected by Slack"
-    Reference = "https://slack.com/intl/en-in/blog/news/three-new-security-features-to-protect-your-digital-hq"
-    SummaryAttributes = ["p_any_ip_addresses", "p_any_emails"]
-    Tests = slack_audit_logs_passthrough_anomaly_tests
+    id_ = "Slack.AuditLogs.PassthroughAnomaly-prototype"
+    display_name = "Slack Anomaly Detected"
+    log_types = [PantherLogType.Slack_AuditLogs]
+    tags = ["Slack", "Command and Control", "Application Layer Protocol"]
+    reports = {"MITRE ATT&CK": ["TA0011:T1071"]}
+    default_severity = PantherSeverity.critical
+    default_description = "Passthrough for anomalies detected by Slack"
+    default_reference = "https://slack.com/intl/en-in/blog/news/three-new-security-features-to-protect-your-digital-hq"
+    summary_attributes = ["p_any_ip_addresses", "p_any_emails"]
+    tests = slack_audit_logs_passthrough_anomaly_tests
 
     def rule(self, event):
         return event.get("action") == "anomaly"

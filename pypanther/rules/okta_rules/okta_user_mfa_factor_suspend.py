@@ -5,16 +5,19 @@ from pypanther.helpers.panther_base_helpers import okta_alert_context
 
 okta_user_mfa_factor_suspend_tests: List[PantherRuleTest] = [
     PantherRuleTest(
-        Name="Suspend Event",
-        ExpectedResult=True,
-        Log={
+        name="Suspend Event",
+        expected_result=True,
+        log={
             "actor": {
                 "alternateId": "homer.simpson@duff.com",
                 "displayName": "Homer Simpson",
                 "id": "00abc123",
                 "type": "User",
             },
-            "authenticationcontext": {"authenticationStep": 0, "externalSessionId": "100-abc-9999"},
+            "authenticationcontext": {
+                "authenticationStep": 0,
+                "externalSessionId": "100-abc-9999",
+            },
             "client": {
                 "device": "Computer",
                 "geographicalContext": {
@@ -41,7 +44,10 @@ okta_user_mfa_factor_suspend_tests: List[PantherRuleTest] = [
             },
             "displaymessage": "Suspend factor for user",
             "eventtype": "user.mfa.factor.suspend",
-            "outcome": {"reason": "User suspended SIGNED_NONCE factor", "result": "SUCCESS"},
+            "outcome": {
+                "reason": "User suspended SIGNED_NONCE factor",
+                "result": "SUCCESS",
+            },
             "published": "2022-06-22 18:18:29.015",
             "request": {
                 "ipChain": [
@@ -80,16 +86,19 @@ okta_user_mfa_factor_suspend_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="Other Event",
-        ExpectedResult=False,
-        Log={
+        name="Other Event",
+        expected_result=False,
+        log={
             "actor": {
                 "alternateId": "homer.simpson@duff.com",
                 "displayName": "Homer Simpson",
                 "id": "00abc123",
                 "type": "User",
             },
-            "authenticationcontext": {"authenticationStep": 0, "externalSessionId": "100-abc-9999"},
+            "authenticationcontext": {
+                "authenticationStep": 0,
+                "externalSessionId": "100-abc-9999",
+            },
             "client": {
                 "device": "Computer",
                 "geographicalContext": {
@@ -159,13 +168,13 @@ okta_user_mfa_factor_suspend_tests: List[PantherRuleTest] = [
 
 
 class OktaUserMFAFactorSuspend(PantherRule):
-    Description = "Suspend factor or authenticator enrollment method for user."
-    DisplayName = "Okta User MFA Factor Suspend"
-    Reference = "https://help.okta.com/en-us/content/topics/security/mfa/mfa-factors.htm"
-    Severity = PantherSeverity.High
-    LogTypes = [PantherLogType.Okta_SystemLog]
-    RuleID = "Okta.User.MFA.Factor.Suspend-prototype"
-    Tests = okta_user_mfa_factor_suspend_tests
+    default_description = "Suspend factor or authenticator enrollment method for user."
+    display_name = "Okta User MFA Factor Suspend"
+    default_reference = "https://help.okta.com/en-us/content/topics/security/mfa/mfa-factors.htm"
+    default_severity = PantherSeverity.high
+    log_types = [PantherLogType.Okta_SystemLog]
+    id_ = "Okta.User.MFA.Factor.Suspend-prototype"
+    tests = okta_user_mfa_factor_suspend_tests
 
     def rule(self, event):
         return (

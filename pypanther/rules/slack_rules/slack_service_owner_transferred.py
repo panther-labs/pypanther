@@ -5,9 +5,9 @@ from pypanther.helpers.panther_base_helpers import slack_alert_context
 
 slack_audit_logs_service_owner_transferred_tests: List[PantherRuleTest] = [
     PantherRuleTest(
-        Name="Service Owner Transferred",
-        ExpectedResult=True,
-        Log={
+        name="Service Owner Transferred",
+        expected_result=True,
+        log={
             "action": "service_owner_transferred",
             "actor": {
                 "type": "user",
@@ -31,9 +31,9 @@ slack_audit_logs_service_owner_transferred_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="User Logout",
-        ExpectedResult=False,
-        Log={
+        name="User Logout",
+        expected_result=False,
+        log={
             "action": "user_logout",
             "actor": {
                 "type": "user",
@@ -71,10 +71,10 @@ slack_audit_logs_service_owner_transferred_tests: List[PantherRuleTest] = [
 
 
 class SlackAuditLogsServiceOwnerTransferred(PantherRule):
-    RuleID = "Slack.AuditLogs.ServiceOwnerTransferred-prototype"
-    DisplayName = "Slack Service Owner Transferred"
-    LogTypes = [PantherLogType.Slack_AuditLogs]
-    Tags = [
+    id_ = "Slack.AuditLogs.ServiceOwnerTransferred-prototype"
+    display_name = "Slack Service Owner Transferred"
+    log_types = [PantherLogType.Slack_AuditLogs]
+    tags = [
         "Slack",
         "Defense Evasion",
         "File and Directory Permissions Modification",
@@ -83,12 +83,12 @@ class SlackAuditLogsServiceOwnerTransferred(PantherRule):
         "Impact",
         "Account Access Removal",
     ]
-    Reports = {"MITRE ATT&CK": ["TA0005:T1222", "TA0003:T1098", "TA0040:T1531"]}
-    Severity = PantherSeverity.Critical
-    Description = "Detects transferring of service owner on request from primary owner"
-    Reference = "https://slack.com/intl/en-gb/help/articles/204401633-Transfer-ownership-of-a-workspace-or-org"
-    SummaryAttributes = ["p_any_ip_addresses", "p_any_emails"]
-    Tests = slack_audit_logs_service_owner_transferred_tests
+    reports = {"MITRE ATT&CK": ["TA0005:T1222", "TA0003:T1098", "TA0040:T1531"]}
+    default_severity = PantherSeverity.critical
+    default_description = "Detects transferring of service owner on request from primary owner"
+    default_reference = "https://slack.com/intl/en-gb/help/articles/204401633-Transfer-ownership-of-a-workspace-or-org"
+    summary_attributes = ["p_any_ip_addresses", "p_any_emails"]
+    tests = slack_audit_logs_service_owner_transferred_tests
 
     def rule(self, event):
         return event.get("action") == "service_owner_transferred"

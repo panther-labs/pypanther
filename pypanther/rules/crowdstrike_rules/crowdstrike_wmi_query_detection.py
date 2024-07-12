@@ -5,9 +5,9 @@ from pypanther.helpers.panther_base_helpers import crowdstrike_detection_alert_c
 
 crowdstrike_wmi_query_detection_tests: List[PantherRuleTest] = [
     PantherRuleTest(
-        Name="Benign wmic",
-        ExpectedResult=False,
-        Log={
+        name="Benign wmic",
+        expected_result=False,
+        log={
             "aid": "1234567890abcdefg654321",
             "aip": "11.10.9.8",
             "cid": "abcdefghijklmnop123467890",
@@ -87,9 +87,9 @@ crowdstrike_wmi_query_detection_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="Other",
-        ExpectedResult=False,
-        Log={
+        name="Other",
+        expected_result=False,
+        log={
             "aid": "1234567890abcdefg654321",
             "aip": "11.10.9.8",
             "cid": "abcdefghijklmnop123467890",
@@ -169,9 +169,9 @@ crowdstrike_wmi_query_detection_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="wmic get name password",
-        ExpectedResult=True,
-        Log={
+        name="wmic get name password",
+        expected_result=True,
+        log={
             "aid": "1234567890abcdefg654321",
             "aip": "11.10.9.8",
             "cid": "abcdefghijklmnop123467890",
@@ -251,9 +251,9 @@ crowdstrike_wmi_query_detection_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="wmic process create",
-        ExpectedResult=True,
-        Log={
+        name="wmic process create",
+        expected_result=True,
+        log={
             "aid": "1234567890abcdefg654321",
             "aip": "11.10.9.8",
             "cid": "abcdefghijklmnop123467890",
@@ -336,14 +336,14 @@ crowdstrike_wmi_query_detection_tests: List[PantherRuleTest] = [
 
 
 class CrowdstrikeWMIQueryDetection(PantherRule):
-    Description = "Detects execution of WMI queries involving information gathering or actions on remote systems, which could indicate reconnaissance or lateral movement."
-    DisplayName = "Crowdstrike WMI Query Detection"
-    Runbook = "Investigate the endpoint for signs of WMI query execution. Review the executed query and the associated user account."
-    Reference = "https://learn.microsoft.com/en-us/windows/win32/wmisdk/querying-wmi"
-    Severity = PantherSeverity.Low
-    LogTypes = [PantherLogType.Crowdstrike_FDREvent]
-    RuleID = "Crowdstrike.WMI.Query.Detection-prototype"
-    Tests = crowdstrike_wmi_query_detection_tests
+    default_description = "Detects execution of WMI queries involving information gathering or actions on remote systems, which could indicate reconnaissance or lateral movement."
+    display_name = "Crowdstrike WMI Query Detection"
+    default_runbook = "Investigate the endpoint for signs of WMI query execution. Review the executed query and the associated user account."
+    default_reference = "https://learn.microsoft.com/en-us/windows/win32/wmisdk/querying-wmi"
+    default_severity = PantherSeverity.low
+    log_types = [PantherLogType.Crowdstrike_FDREvent]
+    id_ = "Crowdstrike.WMI.Query.Detection-prototype"
+    tests = crowdstrike_wmi_query_detection_tests
     WMIC_SIGNATURES = [
         "get",
         "list",

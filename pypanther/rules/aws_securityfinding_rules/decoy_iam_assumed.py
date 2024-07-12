@@ -4,9 +4,9 @@ from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSever
 
 decoy_iam_assumed_tests: List[PantherRuleTest] = [
     PantherRuleTest(
-        Name="IAM-Decoy-Assumed",
-        ExpectedResult=True,
-        Log={
+        name="IAM-Decoy-Assumed",
+        expected_result=True,
+        log={
             "Action": {
                 "ActionType": "AWS_API_CALL",
                 "AwsApiCallAction": {
@@ -23,7 +23,10 @@ decoy_iam_assumed_tests: List[PantherRuleTest] = [
                     "ServiceName": "sts.amazonaws.com",
                 },
                 "DnsRequestAction": {},
-                "NetworkConnectionAction": {"LocalPortDetails": {}, "RemotePortDetails": {}},
+                "NetworkConnectionAction": {
+                    "LocalPortDetails": {},
+                    "RemotePortDetails": {},
+                },
                 "PortProbeAction": {},
             },
             "AwsAccountId": "123456789012",
@@ -116,9 +119,9 @@ decoy_iam_assumed_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="IAM-Decoy-Not-Assumed",
-        ExpectedResult=False,
-        Log={
+        name="IAM-Decoy-Not-Assumed",
+        expected_result=False,
+        log={
             "Action": {
                 "ActionType": "AWS_API_CALL",
                 "AwsApiCallAction": {
@@ -135,7 +138,10 @@ decoy_iam_assumed_tests: List[PantherRuleTest] = [
                     "ServiceName": "sts.amazonaws.com",
                 },
                 "DnsRequestAction": {},
-                "NetworkConnectionAction": {"LocalPortDetails": {}, "RemotePortDetails": {}},
+                "NetworkConnectionAction": {
+                    "LocalPortDetails": {},
+                    "RemotePortDetails": {},
+                },
                 "PortProbeAction": {},
             },
             "AwsAccountId": "123456789012",
@@ -231,15 +237,15 @@ decoy_iam_assumed_tests: List[PantherRuleTest] = [
 
 
 class DecoyIAMAssumed(PantherRule):
-    RuleID = "Decoy.IAM.Assumed-prototype"
-    DisplayName = "Decoy IAM Assumed"
-    Enabled = False
-    LogTypes = [PantherLogType.AWS_SecurityFindingFormat]
-    Severity = PantherSeverity.High
-    Description = "Actor assumed decoy IAM role"
-    Reference = "https://aws.amazon.com/blogs/security/how-to-detect-suspicious-activity-in-your-aws-account-by-using-private-decoy-resources/"
+    id_ = "Decoy.IAM.Assumed-prototype"
+    display_name = "Decoy IAM Assumed"
+    enabled = False
+    log_types = [PantherLogType.AWS_SecurityFindingFormat]
+    default_severity = PantherSeverity.high
+    default_description = "Actor assumed decoy IAM role"
+    default_reference = "https://aws.amazon.com/blogs/security/how-to-detect-suspicious-activity-in-your-aws-account-by-using-private-decoy-resources/"
     InlineFilters = [{"All": []}]
-    Tests = decoy_iam_assumed_tests
+    tests = decoy_iam_assumed_tests
 
     def rule(self, event):
         # List of suspicious API events

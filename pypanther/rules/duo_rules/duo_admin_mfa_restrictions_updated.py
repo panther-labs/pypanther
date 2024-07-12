@@ -5,9 +5,9 @@ from pypanther.helpers.panther_duo_helpers import duo_alert_context
 
 duo_admin_mfa_restrictions_updated_tests: List[PantherRuleTest] = [
     PantherRuleTest(
-        Name="Admin MFA Update Event",
-        ExpectedResult=True,
-        Log={
+        name="Admin MFA Update Event",
+        expected_result=True,
+        log={
             "action": "update_admin_factor_restrictions",
             "description": '{"allowed_factors": "Duo mobile passcodes, Hardware tokens, Duo push, Yubikey aes"}',
             "isotimestamp": "2022-02-21 21:48:06",
@@ -16,9 +16,9 @@ duo_admin_mfa_restrictions_updated_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="Login Event",
-        ExpectedResult=False,
-        Log={
+        name="Login Event",
+        expected_result=False,
+        log={
             "action": "admin_login",
             "description": '{"ip_address": "1.2.3.4", "device": "123-456-789", "factor": "sms", "saml_idp": "OneLogin", "primary_auth_method": "Single Sign-On"}',
             "isotimestamp": "2021-06-30 19:45:37",
@@ -30,15 +30,15 @@ duo_admin_mfa_restrictions_updated_tests: List[PantherRuleTest] = [
 
 
 class DuoAdminMFARestrictionsUpdated(PantherRule):
-    Description = (
+    default_description = (
         "Detects changes to allowed MFA factors administrators can use to log into the admin panel."
     )
-    DisplayName = "Duo Admin MFA Restrictions Updated"
-    Reference = "https://duo.com/docs/essentials-overview"
-    Severity = PantherSeverity.Medium
-    LogTypes = [PantherLogType.Duo_Administrator]
-    RuleID = "Duo.Admin.MFA.Restrictions.Updated-prototype"
-    Tests = duo_admin_mfa_restrictions_updated_tests
+    display_name = "Duo Admin MFA Restrictions Updated"
+    default_reference = "https://duo.com/docs/essentials-overview"
+    default_severity = PantherSeverity.medium
+    log_types = [PantherLogType.Duo_Administrator]
+    id_ = "Duo.Admin.MFA.Restrictions.Updated-prototype"
+    tests = duo_admin_mfa_restrictions_updated_tests
 
     def rule(self, event):
         return event.get("action") == "update_admin_factor_restrictions"

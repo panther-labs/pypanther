@@ -5,9 +5,9 @@ from pypanther.helpers.panther_base_helpers import deep_get
 
 gcp_access_attempts_violating_iap_access_controls_tests: List[PantherRuleTest] = [
     PantherRuleTest(
-        Name="Blocked By IAP",
-        ExpectedResult=True,
-        Log={
+        name="Blocked By IAP",
+        expected_result=True,
+        log={
             "httprequest": {
                 "latency": "0.048180s",
                 "remoteIp": "1.2.3.4",
@@ -53,9 +53,9 @@ gcp_access_attempts_violating_iap_access_controls_tests: List[PantherRuleTest] =
         },
     ),
     PantherRuleTest(
-        Name="Redirected by IAP",
-        ExpectedResult=False,
-        Log={
+        name="Redirected by IAP",
+        expected_result=False,
+        log={
             "httprequest": {
                 "latency": "0.048180s",
                 "remoteIp": "1.2.3.4",
@@ -104,13 +104,13 @@ gcp_access_attempts_violating_iap_access_controls_tests: List[PantherRuleTest] =
 
 
 class GCPAccessAttemptsViolatingIAPAccessControls(PantherRule):
-    Description = "GCP Access Attempts Violating IAP Access Controls"
-    DisplayName = "GCP Access Attempts Violating IAP Access Controls"
-    Reference = "https://cloud.google.com/iap/docs/concepts-overview"
-    Severity = PantherSeverity.Medium
-    LogTypes = [PantherLogType.GCP_HTTPLoadBalancer]
-    RuleID = "GCP.Access.Attempts.Violating.IAP.Access.Controls-prototype"
-    Tests = gcp_access_attempts_violating_iap_access_controls_tests
+    default_description = "GCP Access Attempts Violating IAP Access Controls"
+    display_name = "GCP Access Attempts Violating IAP Access Controls"
+    default_reference = "https://cloud.google.com/iap/docs/concepts-overview"
+    default_severity = PantherSeverity.medium
+    log_types = [PantherLogType.GCP_HTTPLoadBalancer]
+    id_ = "GCP.Access.Attempts.Violating.IAP.Access.Controls-prototype"
+    tests = gcp_access_attempts_violating_iap_access_controls_tests
 
     def rule(self, event):
         return all(

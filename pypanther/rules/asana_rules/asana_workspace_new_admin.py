@@ -6,9 +6,9 @@ from pypanther.helpers.panther_base_helpers import deep_get
 
 asana_workspace_new_admin_tests: List[PantherRuleTest] = [
     PantherRuleTest(
-        Name="Team made public",
-        ExpectedResult=False,
-        Log={
+        name="Team made public",
+        expected_result=False,
+        log={
             "actor": {
                 "actor_type": "user",
                 "email": "homer.simpson@panther.io",
@@ -25,14 +25,18 @@ asana_workspace_new_admin_tests: List[PantherRuleTest] = [
             "event_category": "access_control",
             "event_type": "team_privacy_settings_changed",
             "gid": "12345",
-            "resource": {"gid": "12345", "name": "Example Team Name", "resource_type": "team"},
+            "resource": {
+                "gid": "12345",
+                "name": "Example Team Name",
+                "resource_type": "team",
+            },
             "p_log_type": "Asana.Audit",
         },
     ),
     PantherRuleTest(
-        Name="New Workspace Admin",
-        ExpectedResult=True,
-        Log={
+        name="New Workspace Admin",
+        expected_result=True,
+        log={
             "p_log_type": "Asana.Audit",
             "actor": {
                 "actor_type": "user",
@@ -47,7 +51,11 @@ asana_workspace_new_admin_tests: List[PantherRuleTest] = [
             },
             "created_at": "2022-12-16 19:32:22.377",
             "details": {
-                "group": {"gid": "1234", "name": "Workspace Name", "resource_type": "workspace"},
+                "group": {
+                    "gid": "1234",
+                    "name": "Workspace Name",
+                    "resource_type": "workspace",
+                },
                 "new_value": "domain_admin",
                 "old_value": "member",
             },
@@ -66,13 +74,15 @@ asana_workspace_new_admin_tests: List[PantherRuleTest] = [
 
 
 class AsanaWorkspaceNewAdmin(PantherRule):
-    Description = "Admin role was granted to the user who previously did not have admin permissions"
-    DisplayName = "Asana Workspace New Admin"
-    Reference = "https://help.asana.com/hc/en-us/articles/14141552580635-Admin-and-super-admin-roles-in-Asana"
-    Severity = PantherSeverity.High
-    LogTypes = [PantherLogType.Asana_Audit]
-    RuleID = "Asana.Workspace.New.Admin-prototype"
-    Tests = asana_workspace_new_admin_tests
+    default_description = (
+        "Admin role was granted to the user who previously did not have admin permissions"
+    )
+    display_name = "Asana Workspace New Admin"
+    default_reference = "https://help.asana.com/hc/en-us/articles/14141552580635-Admin-and-super-admin-roles-in-Asana"
+    default_severity = PantherSeverity.high
+    log_types = [PantherLogType.Asana_Audit]
+    id_ = "Asana.Workspace.New.Admin-prototype"
+    tests = asana_workspace_new_admin_tests
 
     def rule(self, event):
         new = deep_get(event, "details", "new_value", default="")

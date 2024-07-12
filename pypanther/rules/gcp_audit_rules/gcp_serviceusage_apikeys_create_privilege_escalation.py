@@ -6,9 +6,9 @@ from pypanther.helpers.panther_base_helpers import deep_get, deep_walk
 
 gc_pserviceusageapi_keyscreate_privilege_escalation_tests: List[PantherRuleTest] = [
     PantherRuleTest(
-        Name="GCP API Key Created",
-        ExpectedResult=True,
-        Log={
+        name="GCP API Key Created",
+        expected_result=True,
+        log={
             "logName": "projects/some-project/logs/cloudaudit.googleapis.com%2Factivity",
             "operation": {
                 "id": "operations/akmf.p7-1028347275902-fe0c0688-44a7-4dca-bc06-8456068e5673",
@@ -66,9 +66,9 @@ gc_pserviceusageapi_keyscreate_privilege_escalation_tests: List[PantherRuleTest]
         },
     ),
     PantherRuleTest(
-        Name="GCP API Key Not Created",
-        ExpectedResult=False,
-        Log={
+        name="GCP API Key Not Created",
+        expected_result=False,
+        log={
             "logName": "projects/some-project/logs/cloudaudit.googleapis.com%2Factivity",
             "operation": {
                 "id": "operations/akmf.p7-1028347275902-fe0c0688-44a7-4dca-bc06-8456068e5673",
@@ -126,9 +126,9 @@ gc_pserviceusageapi_keyscreate_privilege_escalation_tests: List[PantherRuleTest]
         },
     ),
     PantherRuleTest(
-        Name="Log Without authorizationInfo",
-        ExpectedResult=False,
-        Log={
+        name="Log Without authorizationInfo",
+        expected_result=False,
+        log={
             "logName": "projects/some-project/logs/cloudaudit.googleapis.com%2Factivity",
             "operation": {
                 "id": "operations/akmf.p7-1028347275902-fe0c0688-44a7-4dca-bc06-8456068e5673",
@@ -174,15 +174,15 @@ gc_pserviceusageapi_keyscreate_privilege_escalation_tests: List[PantherRuleTest]
 
 
 class GCPserviceusageapiKeyscreatePrivilegeEscalation(PantherRule):
-    LogTypes = [PantherLogType.GCP_AuditLog]
-    Description = "Detects serviceusage.apiKeys.create method for privilege escalation in GCP. By default, API Keys are created with no restrictions, which means they have access to the entire GCP project they were created in. We can capitalize on that fact by creating a new API key that may have more privileges than our own user."
-    DisplayName = "GCP serviceusage.apiKeys.create Privilege Escalation"
-    RuleID = "GCP.serviceusage.apiKeys.create.Privilege.Escalation-prototype"
-    Reference = "https://rhinosecuritylabs.com/cloud-security/privilege-escalation-google-cloud-platform-part-2/"
-    Runbook = "Confirm this was authorized and necessary behavior. This is not a vulnerability in GCP, it is a vulnerability in how GCP environment is configured, so it is necessary to be aware of these attack vectors and to defend against them. It’s also important to remember that privilege escalation does not necessarily need to pass through the IAM service to be effective. Make sure to follow the principle of least-privilege in your environments to help mitigate these security risks."
-    Reports = {"MITRE ATT&CK": ["TA0004:T1548"]}
-    Severity = PantherSeverity.High
-    Tests = gc_pserviceusageapi_keyscreate_privilege_escalation_tests
+    log_types = [PantherLogType.GCP_AuditLog]
+    default_description = "Detects serviceusage.apiKeys.create method for privilege escalation in GCP. By default, API Keys are created with no restrictions, which means they have access to the entire GCP project they were created in. We can capitalize on that fact by creating a new API key that may have more privileges than our own user."
+    display_name = "GCP serviceusage.apiKeys.create Privilege Escalation"
+    id_ = "GCP.serviceusage.apiKeys.create.Privilege.Escalation-prototype"
+    default_reference = "https://rhinosecuritylabs.com/cloud-security/privilege-escalation-google-cloud-platform-part-2/"
+    default_runbook = "Confirm this was authorized and necessary behavior. This is not a vulnerability in GCP, it is a vulnerability in how GCP environment is configured, so it is necessary to be aware of these attack vectors and to defend against them. It’s also important to remember that privilege escalation does not necessarily need to pass through the IAM service to be effective. Make sure to follow the principle of least-privilege in your environments to help mitigate these security risks."
+    reports = {"MITRE ATT&CK": ["TA0004:T1548"]}
+    default_severity = PantherSeverity.high
+    tests = gc_pserviceusageapi_keyscreate_privilege_escalation_tests
 
     def rule(self, event):
         if not deep_get(event, "protoPayload", "methodName", default="METHOD_NOT_FOUND").endswith(

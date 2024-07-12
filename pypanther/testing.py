@@ -19,7 +19,7 @@ def run(args: argparse.Namespace) -> Tuple[int, str]:
     failed_test_results: list[list[PantherRuleTestResult]] = []
     for rule in registered_rules():
         results = rule.run_tests(DATA_MODEL_CACHE.data_model_of_logtype)
-        failures = [result for result in results if not result.Passed]
+        failures = [result for result in results if not result.passed]
         if len(failures) > 0:
             failed_test_results.append(failures)
 
@@ -55,25 +55,25 @@ def print_failed_test_results(
             continue
 
         if terminal_cols:
-            side_count = int((terminal_cols - len(failed_results[0].RuleID)) / 2)
-            print(f"{' ' * side_count}{failed_results[0].RuleID}{' ' * side_count}")
+            side_count = int((terminal_cols - len(failed_results[0].rule_id)) / 2)
+            print(f"{' ' * side_count}{failed_results[0].rule_id}{' ' * side_count}")
 
         for failed_result in failed_results:
             if single_test_failure_separator:
                 print(single_test_failure_separator)
 
-            if failed_result.DetectionResult.detection_exception is not None:
+            if failed_result.detection_result.detection_exception is not None:
                 log_rule_func_exception(failed_result)
 
             aux_func_exceptions = {
-                "title": failed_result.DetectionResult.title_exception,
-                "description": failed_result.DetectionResult.description_exception,
-                "reference": failed_result.DetectionResult.reference_exception,
-                "severity": failed_result.DetectionResult.severity_exception,
-                "runbook": failed_result.DetectionResult.runbook_exception,
-                "destinations": failed_result.DetectionResult.destinations_exception,
-                "dedup": failed_result.DetectionResult.dedup_exception,
-                "alert_context": failed_result.DetectionResult.alert_context_exception,
+                "title": failed_result.detection_result.title_exception,
+                "description": failed_result.detection_result.description_exception,
+                "reference": failed_result.detection_result.reference_exception,
+                "severity": failed_result.detection_result.severity_exception,
+                "runbook": failed_result.detection_result.runbook_exception,
+                "destinations": failed_result.detection_result.destinations_exception,
+                "dedup": failed_result.detection_result.dedup_exception,
+                "alert_context": failed_result.detection_result.alert_context_exception,
             }
 
             had_aux_exc = False
@@ -86,9 +86,9 @@ def print_failed_test_results(
                 log_aux_func_failure(failed_result, aux_func_exceptions)
 
             if (
-                failed_result.DetectionResult.detection_exception is None
-                and failed_result.DetectionResult.detection_output
-                != failed_result.Test.ExpectedResult
+                failed_result.detection_result.detection_exception is None
+                and failed_result.detection_result.detection_output
+                != failed_result.test.expected_result
             ):
                 log_rule_test_failure(failed_result)
 
@@ -99,11 +99,11 @@ def print_failed_test_results(
 def log_rule_func_exception(failed_result: PantherRuleTestResult) -> None:
     logging.error(
         "%s: Exception in test '%s' calling rule(): '%s': %s",
-        failed_result.RuleID,
-        failed_result.Test.Name,
-        failed_result.DetectionResult.detection_exception,
-        failed_result.Test.location(),
-        exc_info=failed_result.DetectionResult.detection_exception,
+        failed_result.rule_id,
+        failed_result.test.name,
+        failed_result.detection_result.detection_exception,
+        failed_result.test.location(),
+        exc_info=failed_result.detection_result.detection_exception,
     )
 
 
@@ -112,8 +112,8 @@ def log_aux_func_exception(
 ) -> None:
     logging.warning(
         "%s: Exception in test '%s' calling %s()",
-        failed_result.RuleID,
-        failed_result.Test.Name,
+        failed_result.rule_id,
+        failed_result.test.name,
         method_name,
         exc_info=exc,
     )
@@ -122,11 +122,11 @@ def log_aux_func_exception(
 def log_rule_test_failure(failed_result: PantherRuleTestResult) -> None:
     logging.error(
         "%s: test '%s' returned the wrong result, expected %s but got %s: %s",
-        failed_result.RuleID,
-        failed_result.Test.Name,
-        failed_result.Test.ExpectedResult,
-        failed_result.DetectionResult.detection_output,
-        failed_result.Test.location(),
+        failed_result.rule_id,
+        failed_result.test.name,
+        failed_result.test.expected_result,
+        failed_result.detection_result.detection_output,
+        failed_result.test.location(),
     )
 
 
@@ -139,8 +139,8 @@ def log_aux_func_failure(
 
     logging.error(
         "%s: test '%s': %s%s raised an exception, see log output for stacktrace",
-        failed_result.RuleID,
-        failed_result.Test.Name,
+        failed_result.rule_id,
+        failed_result.test.name,
         exc_msg,
         last_exc_msg,
     )

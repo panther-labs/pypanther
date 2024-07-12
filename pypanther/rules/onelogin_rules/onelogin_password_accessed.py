@@ -4,9 +4,9 @@ from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSever
 
 one_login_password_access_tests: List[PantherRuleTest] = [
     PantherRuleTest(
-        Name="User accessed their own password",
-        ExpectedResult=False,
-        Log={
+        name="User accessed their own password",
+        expected_result=False,
+        log={
             "event_type_id": "240",
             "actor_user_id": 123456,
             "actor_user_name": "Bob Cat",
@@ -15,9 +15,9 @@ one_login_password_access_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="User accessed another user's password",
-        ExpectedResult=True,
-        Log={
+        name="User accessed another user's password",
+        expected_result=True,
+        log={
             "event_type_id": "240",
             "actor_user_id": 654321,
             "actor_user_name": "Mountain Lion",
@@ -29,17 +29,19 @@ one_login_password_access_tests: List[PantherRuleTest] = [
 
 
 class OneLoginPasswordAccess(PantherRule):
-    RuleID = "OneLogin.PasswordAccess-prototype"
-    DisplayName = "OneLogin Password Access"
-    LogTypes = [PantherLogType.OneLogin_Events]
-    Tags = ["OneLogin", "Credential Access:Unsecured Credentials"]
-    Reports = {"MITRE ATT&CK": ["TA0006:T1552"]}
-    Severity = PantherSeverity.Medium
-    Description = "User accessed another user's application password\n"
-    Reference = "https://onelogin.service-now.com/kb_view_customer.do?sysparm_article=KB0010598"
-    Runbook = "Investigate whether this was authorized access.\n"
-    SummaryAttributes = ["account_id", "user_name", "user_id"]
-    Tests = one_login_password_access_tests
+    id_ = "OneLogin.PasswordAccess-prototype"
+    display_name = "OneLogin Password Access"
+    log_types = [PantherLogType.OneLogin_Events]
+    tags = ["OneLogin", "Credential Access:Unsecured Credentials"]
+    reports = {"MITRE ATT&CK": ["TA0006:T1552"]}
+    default_severity = PantherSeverity.medium
+    default_description = "User accessed another user's application password\n"
+    default_reference = (
+        "https://onelogin.service-now.com/kb_view_customer.do?sysparm_article=KB0010598"
+    )
+    default_runbook = "Investigate whether this was authorized access.\n"
+    summary_attributes = ["account_id", "user_name", "user_id"]
+    tests = one_login_password_access_tests
 
     def rule(self, event):
         # Filter events; event type 240 is actor_user revealed user's app password

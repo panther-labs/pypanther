@@ -4,9 +4,9 @@ from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSever
 
 netskope_admin_user_change_tests: List[PantherRuleTest] = [
     PantherRuleTest(
-        Name="True positive",
-        ExpectedResult=True,
-        Log={
+        name="True positive",
+        expected_result=True,
+        log={
             "_id": "e5ca619b059fccdd0cfd9398",
             "_insertion_epoch_timestamp": 1702308331,
             "audit_log_event": "Created new admin",
@@ -25,9 +25,9 @@ netskope_admin_user_change_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="True negative",
-        ExpectedResult=False,
-        Log={
+        name="True negative",
+        expected_result=False,
+        log={
             "_id": "1e589befa3da30132362f32a",
             "_insertion_epoch_timestamp": 1702318213,
             "audit_log_event": "Rest API V2 Call",
@@ -54,16 +54,16 @@ netskope_admin_user_change_tests: List[PantherRuleTest] = [
 
 
 class NetskopeAdminUserChange(PantherRule):
-    RuleID = "Netskope.AdminUserChange-prototype"
-    DisplayName = "An administrator account was created, deleted, or modified."
-    LogTypes = [PantherLogType.Netskope_Audit]
-    Tags = ["Netskope", "Account Manipulation"]
-    Reports = {"MITRE ATT&CK": ["TA0004:T1098"]}
-    Severity = PantherSeverity.High
-    Reference = "https://docs.netskope.com/en/netskope-help/admin-console/administration/managing-administrators/"
-    Description = "An administrator account was created, deleted, or modified."
-    Runbook = "An administrator account was created, deleted, or modified.  Validate that this activity is expected and authorized."
-    Tests = netskope_admin_user_change_tests
+    id_ = "Netskope.AdminUserChange-prototype"
+    display_name = "An administrator account was created, deleted, or modified."
+    log_types = [PantherLogType.Netskope_Audit]
+    tags = ["Netskope", "Account Manipulation"]
+    reports = {"MITRE ATT&CK": ["TA0004:T1098"]}
+    default_severity = PantherSeverity.high
+    default_reference = "https://docs.netskope.com/en/netskope-help/admin-console/administration/managing-administrators/"
+    default_description = "An administrator account was created, deleted, or modified."
+    default_runbook = "An administrator account was created, deleted, or modified.  Validate that this activity is expected and authorized."
+    tests = netskope_admin_user_change_tests
     ADMIN_USER_CHANGE_EVENTS = [
         "Created new admin",
         "Added SSO Admin",

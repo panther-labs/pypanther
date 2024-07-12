@@ -5,9 +5,9 @@ from pypanther.helpers.panther_base_helpers import deep_get
 
 gcpiam_org_folder_iam_changes_tests: List[PantherRuleTest] = [
     PantherRuleTest(
-        Name="Terraform User Agent",
-        ExpectedResult=True,
-        Log={
+        name="Terraform User Agent",
+        expected_result=True,
+        log={
             "insertId": "-lmjke7dbt7y",
             "logName": "organizations/888888888888/logs/cloudaudit.googleapis.com%2Factivity",
             "p_log_type": "GCP.AuditLog",
@@ -84,15 +84,18 @@ gcpiam_org_folder_iam_changes_tests: List[PantherRuleTest] = [
                 "status": {},
             },
             "receiveTimestamp": "2022-05-05 14:00:49.450798551",
-            "resource": {"labels": {"organization_id": "888888888888"}, "type": "organization"},
+            "resource": {
+                "labels": {"organization_id": "888888888888"},
+                "type": "organization",
+            },
             "severity": "NOTICE",
             "timestamp": "2022-05-05 14:00:48.814294000",
         },
     ),
     PantherRuleTest(
-        Name="Manual Change",
-        ExpectedResult=True,
-        Log={
+        name="Manual Change",
+        expected_result=True,
+        log={
             "insertId": "-yoga2udnx8s",
             "logName": "organizations/888888888888/logs/cloudaudit.googleapis.com%2Factivity",
             "p_log_type": "GCP.AuditLog",
@@ -134,7 +137,10 @@ gcpiam_org_folder_iam_changes_tests: List[PantherRuleTest] = [
                     "destinationAttributes": {},
                     "requestAttributes": {},
                 },
-                "resource": {"labels": {"organization_id": "888888888888"}, "type": "organization"},
+                "resource": {
+                    "labels": {"organization_id": "888888888888"},
+                    "type": "organization",
+                },
                 "resourceName": "organizations/888888888888",
                 "response": {
                     "@type": "type.googleapis.com/google.iam.v1.Policy",
@@ -164,18 +170,21 @@ gcpiam_org_folder_iam_changes_tests: List[PantherRuleTest] = [
 
 
 class GCPIAMOrgFolderIAMChanges(PantherRule):
-    RuleID = "GCP.IAM.OrgFolderIAMChanges-prototype"
-    DisplayName = "GCP Org or Folder Policy Was Changed Manually"
-    DedupPeriodMinutes = 1440
-    LogTypes = [PantherLogType.GCP_AuditLog]
-    Tags = ["GCP", "Identity & Access Management"]
-    Reports = {"GCP_CIS_1.3": ["1.8"], "MITRE ATT&CK": ["Privilege Escalation:Valid Accounts"]}
-    Severity = PantherSeverity.High
-    Description = "Alert if a GCP Org or Folder Policy Was Changed Manually.\n"
-    Runbook = "Contact the party that made the change. If it was intended to be temporary, ask for a window for rollback (< 24 hours). If it must be permanent, ask for change-management doc explaining why it was needed. Direct them to make the change in Terraform to avoid automated rollback. Grep for google_org and google_folder in terraform repos for places to put your new policy bindings.\n"
-    Reference = "https://cloud.google.com/iam/docs/granting-changing-revoking-access"
-    SummaryAttributes = ["severity", "p_any_ip_addresses"]
-    Tests = gcpiam_org_folder_iam_changes_tests
+    id_ = "GCP.IAM.OrgFolderIAMChanges-prototype"
+    display_name = "GCP Org or Folder Policy Was Changed Manually"
+    dedup_period_minutes = 1440
+    log_types = [PantherLogType.GCP_AuditLog]
+    tags = ["GCP", "Identity & Access Management"]
+    reports = {
+        "GCP_CIS_1.3": ["1.8"],
+        "MITRE ATT&CK": ["Privilege Escalation:Valid Accounts"],
+    }
+    default_severity = PantherSeverity.high
+    default_description = "Alert if a GCP Org or Folder Policy Was Changed Manually.\n"
+    default_runbook = "Contact the party that made the change. If it was intended to be temporary, ask for a window for rollback (< 24 hours). If it must be permanent, ask for change-management doc explaining why it was needed. Direct them to make the change in Terraform to avoid automated rollback. Grep for google_org and google_folder in terraform repos for places to put your new policy bindings.\n"
+    default_reference = "https://cloud.google.com/iam/docs/granting-changing-revoking-access"
+    summary_attributes = ["severity", "p_any_ip_addresses"]
+    tests = gcpiam_org_folder_iam_changes_tests
 
     def rule(self, event):
         # Return True to match the log event and trigger an alert.

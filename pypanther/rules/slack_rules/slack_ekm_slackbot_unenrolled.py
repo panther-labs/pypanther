@@ -5,9 +5,9 @@ from pypanther.helpers.panther_base_helpers import slack_alert_context
 
 slack_audit_logs_ekm_slackbot_unenrolled_tests: List[PantherRuleTest] = [
     PantherRuleTest(
-        Name="EKM Slackbot Unenrolled",
-        ExpectedResult=True,
-        Log={
+        name="EKM Slackbot Unenrolled",
+        expected_result=True,
+        log={
             "action": "ekm_slackbot_unenroll_notification_sent",
             "actor": {
                 "type": "user",
@@ -31,9 +31,9 @@ slack_audit_logs_ekm_slackbot_unenrolled_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="User Logout",
-        ExpectedResult=False,
-        Log={
+        name="User Logout",
+        expected_result=False,
+        log={
             "action": "user_logout",
             "actor": {
                 "type": "user",
@@ -71,18 +71,18 @@ slack_audit_logs_ekm_slackbot_unenrolled_tests: List[PantherRuleTest] = [
 
 
 class SlackAuditLogsEKMSlackbotUnenrolled(PantherRule):
-    RuleID = "Slack.AuditLogs.EKMSlackbotUnenrolled-prototype"
-    DisplayName = "Slack EKM Slackbot Unenrolled"
-    LogTypes = [PantherLogType.Slack_AuditLogs]
-    Tags = ["Slack", "Impact", "Service Stop"]
-    Reports = {"MITRE ATT&CK": ["TA0040:T1489"]}
-    Severity = PantherSeverity.High
-    Description = "Detects when a workspace is longer enrolled in EKM"
-    Reference = (
+    id_ = "Slack.AuditLogs.EKMSlackbotUnenrolled-prototype"
+    display_name = "Slack EKM Slackbot Unenrolled"
+    log_types = [PantherLogType.Slack_AuditLogs]
+    tags = ["Slack", "Impact", "Service Stop"]
+    reports = {"MITRE ATT&CK": ["TA0040:T1489"]}
+    default_severity = PantherSeverity.high
+    default_description = "Detects when a workspace is longer enrolled in EKM"
+    default_reference = (
         "https://slack.com/intl/en-gb/help/articles/360019110974-Slack-Enterprise-Key-Management"
     )
-    SummaryAttributes = ["p_any_ip_addresses", "p_any_emails"]
-    Tests = slack_audit_logs_ekm_slackbot_unenrolled_tests
+    summary_attributes = ["p_any_ip_addresses", "p_any_emails"]
+    tests = slack_audit_logs_ekm_slackbot_unenrolled_tests
 
     def rule(self, event):
         # Only alert on the `ekm_slackbot_unenroll_notification_sent` action

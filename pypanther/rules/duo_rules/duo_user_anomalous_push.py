@@ -5,9 +5,9 @@ from pypanther.helpers.panther_base_helpers import deep_get
 
 duo_user_denied_anomalous_push_tests: List[PantherRuleTest] = [
     PantherRuleTest(
-        Name="anomalous_push_occurred",
-        ExpectedResult=True,
-        Log={
+        name="anomalous_push_occurred",
+        expected_result=True,
+        log={
             "access_device": {"ip": "12.12.112.25", "os": "Mac OS X"},
             "auth_device": {"ip": "12.12.12.12"},
             "application": {"key": "D12345", "name": "Slack"},
@@ -19,9 +19,9 @@ duo_user_denied_anomalous_push_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="good_auth",
-        ExpectedResult=False,
-        Log={
+        name="good_auth",
+        expected_result=False,
+        log={
             "access_device": {"ip": "12.12.112.25", "os": "Mac OS X"},
             "auth_device": {"ip": "12.12.12.12"},
             "application": {"key": "D12345", "name": "Slack"},
@@ -33,9 +33,9 @@ duo_user_denied_anomalous_push_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="denied_old_creds",
-        ExpectedResult=False,
-        Log={
+        name="denied_old_creds",
+        expected_result=False,
+        log={
             "access_device": {"ip": "12.12.112.25", "os": "Mac OS X"},
             "auth_device": {"ip": "12.12.12.12"},
             "application": {"key": "D12345", "name": "Slack"},
@@ -50,16 +50,18 @@ duo_user_denied_anomalous_push_tests: List[PantherRuleTest] = [
 
 
 class DUOUserDeniedAnomalousPush(PantherRule):
-    RuleID = "DUO.User.Denied.AnomalousPush-prototype"
-    DisplayName = "Duo User Auth Denied For Anomalous Push"
-    DedupPeriodMinutes = 15
-    LogTypes = [PantherLogType.Duo_Authentication]
-    Tags = ["Duo"]
-    Severity = PantherSeverity.Medium
-    Description = "A Duo authentication was denied due to an anomalous 2FA push.\n"
-    Reference = "https://duo.com/docs/adminapi#authentication-logs"
-    Runbook = "Follow up with the user to confirm they intended several pushes in quick succession."
-    Tests = duo_user_denied_anomalous_push_tests
+    id_ = "DUO.User.Denied.AnomalousPush-prototype"
+    display_name = "Duo User Auth Denied For Anomalous Push"
+    dedup_period_minutes = 15
+    log_types = [PantherLogType.Duo_Authentication]
+    tags = ["Duo"]
+    default_severity = PantherSeverity.medium
+    default_description = "A Duo authentication was denied due to an anomalous 2FA push.\n"
+    default_reference = "https://duo.com/docs/adminapi#authentication-logs"
+    default_runbook = (
+        "Follow up with the user to confirm they intended several pushes in quick succession."
+    )
+    tests = duo_user_denied_anomalous_push_tests
 
     def rule(self, event):
         return event.get("reason") == "anomalous_push" and event.get("result") == "denied"

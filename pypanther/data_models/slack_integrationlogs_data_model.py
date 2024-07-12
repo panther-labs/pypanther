@@ -5,10 +5,10 @@ from pypanther.log_types import PantherLogType
 
 
 class StandardSlackIntegrationLogs(PantherDataModel):
-    DataModelID: str = "Standard.Slack.IntegrationLogs"
-    DisplayName: str = "Slack Integration Logs"
-    Enabled: bool = True
-    LogTypes: List[str] = [PantherLogType.Slack_IntegrationLogs]
-    Mappings: List[PantherDataModelMapping] = [
-        PantherDataModelMapping(Name="actor_user", Path="user_name")
+    id_: str = "Standard.Slack.IntegrationLogs"
+    display_name: str = "Slack Integration Logs"
+    enabled: bool = True
+    log_types: List[str] = [PantherLogType.Slack_IntegrationLogs]
+    mappings: List[PantherDataModelMapping] = [
+        PantherDataModelMapping(name="actor_user", path="user_name")
     ]

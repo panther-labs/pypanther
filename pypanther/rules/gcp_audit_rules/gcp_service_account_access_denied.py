@@ -6,9 +6,9 @@ from pypanther.helpers.panther_base_helpers import deep_walk
 
 gcp_service_account_access_denied_tests: List[PantherRuleTest] = [
     PantherRuleTest(
-        Name="service-account.access-denied-should-alert",
-        ExpectedResult=True,
-        Log={
+        name="service-account.access-denied-should-alert",
+        expected_result=True,
+        log={
             "insertid": "xxxxxxxxxxxx",
             "logname": "projects/test-project-123456/logs/cloudaudit.googleapis.com%2Factivity",
             "protoPayload": {
@@ -36,7 +36,10 @@ gcp_service_account_access_denied_tests: List[PantherRuleTest] = [
                     "callerIP": "12.12.12.12",
                     "callerSuppliedUserAgent": "google-cloud-sdk gcloud/431.0.0 command/gcloud.iam.service-accounts.create invocation-id/b2ea5dab8c9b4bff8bc15ab299dff79e environment/devshell environment-version/None client-os/LINUX client-os-ver/5.15.107 client-pltf-arch/x86_64 interactive/True from-script/False python/3.9.2 term/screen (Linux 5.15.107+),gzip(gfe)",
                     "destinationAttributes": {},
-                    "requestAttributes": {"auth": {}, "time": "2023-05-24T21:12:55.211301546Z"},
+                    "requestAttributes": {
+                        "auth": {},
+                        "time": "2023-05-24T21:12:55.211301546Z",
+                    },
                 },
                 "resourceName": "projects/test-project-123456",
                 "response": {"@type": "type.googleapis.com/google.iam.admin.v1.ServiceAccount"},
@@ -56,7 +59,11 @@ gcp_service_account_access_denied_tests: List[PantherRuleTest] = [
             },
             "receivetimestamp": "2023-05-24 21:12:55.964",
             "resource": {
-                "labels": {"email_id": "", "project_id": "test-project-123456", "unique_id": ""},
+                "labels": {
+                    "email_id": "",
+                    "project_id": "test-project-123456",
+                    "unique_id": "",
+                },
                 "type": "service_account",
             },
             "severity": "ERROR",
@@ -64,9 +71,9 @@ gcp_service_account_access_denied_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="service-account.access-grated-should-not-alert",
-        ExpectedResult=False,
-        Log={
+        name="service-account.access-grated-should-not-alert",
+        expected_result=False,
+        log={
             "insertId": "xxxxxxxxxxxx",
             "logName": "projects/test-project-123456/logs/cloudaudit.googleapis.com%2Factivity",
             "protoPayload": {
@@ -93,7 +100,10 @@ gcp_service_account_access_denied_tests: List[PantherRuleTest] = [
                 "requestMetadata": {
                     "callerIP": "private",
                     "destinationAttributes": {},
-                    "requestAttributes": {"auth": {}, "time": "2023-05-23T19:27:42.510877536Z"},
+                    "requestAttributes": {
+                        "auth": {},
+                        "time": "2023-05-23T19:27:42.510877536Z",
+                    },
                 },
                 "resourceName": "projects/test-project-123456",
                 "response": {
@@ -126,17 +136,17 @@ gcp_service_account_access_denied_tests: List[PantherRuleTest] = [
 
 
 class GCPServiceAccountAccessDenied(PantherRule):
-    DedupPeriodMinutes = 5
-    Threshold = 30
-    DisplayName = "GCP Service Account Access Denied"
-    RuleID = "GCP.Service.Account.Access.Denied-prototype"
-    Severity = PantherSeverity.Low
-    LogTypes = [PantherLogType.GCP_AuditLog]
-    Tags = ["GCP", "Service Account", "Access"]
-    Description = "This rule detects deletions of GCP Log Buckets or Sinks.\n"
-    Runbook = "Ensure that the bucket or sink deletion was expected. Adversaries may do this to cover their tracks.\n"
-    Reference = "https://cloud.google.com/iam/docs/service-account-overview"
-    Tests = gcp_service_account_access_denied_tests
+    dedup_period_minutes = 5
+    threshold = 30
+    display_name = "GCP Service Account Access Denied"
+    id_ = "GCP.Service.Account.Access.Denied-prototype"
+    default_severity = PantherSeverity.low
+    log_types = [PantherLogType.GCP_AuditLog]
+    tags = ["GCP", "Service Account", "Access"]
+    default_description = "This rule detects deletions of GCP Log Buckets or Sinks.\n"
+    default_runbook = "Ensure that the bucket or sink deletion was expected. Adversaries may do this to cover their tracks.\n"
+    default_reference = "https://cloud.google.com/iam/docs/service-account-overview"
+    tests = gcp_service_account_access_denied_tests
 
     def rule(self, event):
         reason = deep_walk(event, "protoPayload", "status", "details", "reason", default="")

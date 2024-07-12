@@ -5,10 +5,14 @@ from pypanther.helpers.panther_base_helpers import deep_get
 
 g_suite_workspace_calendar_external_sharing_setting_tests: List[PantherRuleTest] = [
     PantherRuleTest(
-        Name="Admin Set Default Calendar SHARING_OUTSIDE_DOMAIN Setting to READ_ONLY_ACCESS",
-        ExpectedResult=True,
-        Log={
-            "actor": {"callerType": "USER", "email": "example@example.io", "profileId": "12345"},
+        name="Admin Set Default Calendar SHARING_OUTSIDE_DOMAIN Setting to READ_ONLY_ACCESS",
+        expected_result=True,
+        log={
+            "actor": {
+                "callerType": "USER",
+                "email": "example@example.io",
+                "profileId": "12345",
+            },
             "id": {
                 "applicationName": "admin",
                 "customerId": "D12345",
@@ -29,10 +33,14 @@ g_suite_workspace_calendar_external_sharing_setting_tests: List[PantherRuleTest]
         },
     ),
     PantherRuleTest(
-        Name="Admin Set Default Calendar SHARING_OUTSIDE_DOMAIN Setting to READ_WRITE_ACCESS",
-        ExpectedResult=True,
-        Log={
-            "actor": {"callerType": "USER", "email": "example@example.io", "profileId": "12345"},
+        name="Admin Set Default Calendar SHARING_OUTSIDE_DOMAIN Setting to READ_WRITE_ACCESS",
+        expected_result=True,
+        log={
+            "actor": {
+                "callerType": "USER",
+                "email": "example@example.io",
+                "profileId": "12345",
+            },
             "id": {
                 "applicationName": "admin",
                 "customerId": "D12345",
@@ -53,10 +61,14 @@ g_suite_workspace_calendar_external_sharing_setting_tests: List[PantherRuleTest]
         },
     ),
     PantherRuleTest(
-        Name="Admin Set Default Calendar SHARING_OUTSIDE_DOMAIN Setting to MANAGE_ACCESS",
-        ExpectedResult=True,
-        Log={
-            "actor": {"callerType": "USER", "email": "example@example.io", "profileId": "12345"},
+        name="Admin Set Default Calendar SHARING_OUTSIDE_DOMAIN Setting to MANAGE_ACCESS",
+        expected_result=True,
+        log={
+            "actor": {
+                "callerType": "USER",
+                "email": "example@example.io",
+                "profileId": "12345",
+            },
             "id": {
                 "applicationName": "admin",
                 "customerId": "D12345",
@@ -77,9 +89,9 @@ g_suite_workspace_calendar_external_sharing_setting_tests: List[PantherRuleTest]
         },
     ),
     PantherRuleTest(
-        Name="Non-Default Calendar SHARING_OUTSIDE_DOMAIN event",
-        ExpectedResult=False,
-        Log={
+        name="Non-Default Calendar SHARING_OUTSIDE_DOMAIN event",
+        expected_result=False,
+        log={
             "actor": {
                 "callerType": "USER",
                 "email": "user@example.io",
@@ -98,9 +110,9 @@ g_suite_workspace_calendar_external_sharing_setting_tests: List[PantherRuleTest]
         },
     ),
     PantherRuleTest(
-        Name="ListObject Type",
-        ExpectedResult=False,
-        Log={
+        name="ListObject Type",
+        expected_result=False,
+        log={
             "actor": {"email": "user@example.io", "profileId": "118111111111111111111"},
             "id": {
                 "applicationName": "drive",
@@ -133,17 +145,17 @@ g_suite_workspace_calendar_external_sharing_setting_tests: List[PantherRuleTest]
 
 
 class GSuiteWorkspaceCalendarExternalSharingSetting(PantherRule):
-    RuleID = "GSuite.Workspace.CalendarExternalSharingSetting-prototype"
-    DisplayName = "GSuite Workspace Calendar External Sharing Setting Change"
-    LogTypes = [PantherLogType.GSuite_ActivityEvent]
-    Tags = ["GSuite"]
-    Reports = {"MITRE ATT&CK": ["TA0007:T1087"]}
-    Severity = PantherSeverity.Medium
-    Description = "A Workspace Admin Changed The Sharing Settings for Primary Calendars\n"
-    Reference = "https://support.google.com/a/answer/60765?hl=en"
-    Runbook = "Restore the calendar sharing setting to the previous value. If unplanned, use indicator search to identify other activity from this administrator.\n"
-    SummaryAttributes = ["actor:email"]
-    Tests = g_suite_workspace_calendar_external_sharing_setting_tests
+    id_ = "GSuite.Workspace.CalendarExternalSharingSetting-prototype"
+    display_name = "GSuite Workspace Calendar External Sharing Setting Change"
+    log_types = [PantherLogType.GSuite_ActivityEvent]
+    tags = ["GSuite"]
+    reports = {"MITRE ATT&CK": ["TA0007:T1087"]}
+    default_severity = PantherSeverity.medium
+    default_description = "A Workspace Admin Changed The Sharing Settings for Primary Calendars\n"
+    default_reference = "https://support.google.com/a/answer/60765?hl=en"
+    default_runbook = "Restore the calendar sharing setting to the previous value. If unplanned, use indicator search to identify other activity from this administrator.\n"
+    summary_attributes = ["actor:email"]
+    tests = g_suite_workspace_calendar_external_sharing_setting_tests
 
     def rule(self, event):
         if not all(

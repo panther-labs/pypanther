@@ -5,9 +5,9 @@ from pypanther.helpers.panther_notion_helpers import notion_alert_context
 
 notion_workspace_scim_token_generated_tests: List[PantherRuleTest] = [
     PantherRuleTest(
-        Name="other event",
-        ExpectedResult=False,
-        Log={
+        name="other event",
+        expected_result=False,
+        log={
             "event": {
                 "id": "...",
                 "timestamp": "2023-06-02T20:16:41.217Z",
@@ -26,9 +26,9 @@ notion_workspace_scim_token_generated_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="Token Generated",
-        ExpectedResult=True,
-        Log={
+        name="Token Generated",
+        expected_result=True,
+        log={
             "event": {
                 "id": "...",
                 "timestamp": "2023-06-02T20:21:01.873Z",
@@ -50,15 +50,15 @@ notion_workspace_scim_token_generated_tests: List[PantherRuleTest] = [
 
 
 class NotionWorkspaceSCIMTokenGenerated(PantherRule):
-    RuleID = "Notion.Workspace.SCIM.Token.Generated-prototype"
-    DisplayName = "Notion SCIM Token Generated"
-    LogTypes = [PantherLogType.Notion_AuditLogs]
-    Tags = ["Notion", "Application Security", "Supply Chain Attack"]
-    Description = "A Notion User generated a SCIM token."
-    Severity = PantherSeverity.Medium
-    Runbook = "Possible Initial Access. Follow up with the Notion User to determine if this was done for a valid business reason."
-    Reference = "https://www.notion.so/help/provision-users-and-groups-with-scim"
-    Tests = notion_workspace_scim_token_generated_tests
+    id_ = "Notion.Workspace.SCIM.Token.Generated-prototype"
+    display_name = "Notion SCIM Token Generated"
+    log_types = [PantherLogType.Notion_AuditLogs]
+    tags = ["Notion", "Application Security", "Supply Chain Attack"]
+    default_description = "A Notion User generated a SCIM token."
+    default_severity = PantherSeverity.medium
+    default_runbook = "Possible Initial Access. Follow up with the Notion User to determine if this was done for a valid business reason."
+    default_reference = "https://www.notion.so/help/provision-users-and-groups-with-scim"
+    tests = notion_workspace_scim_token_generated_tests
 
     def rule(self, event):
         event_type = event.deep_get("event", "type", default="<NO_EVENT_TYPE_FOUND>")

@@ -7,9 +7,9 @@ from pypanther.helpers.panther_base_helpers import deep_get
 
 osquery_suspicious_cron_tests: List[PantherRuleTest] = [
     PantherRuleTest(
-        Name="Netcat Listener",
-        ExpectedResult=True,
-        Log={
+        name="Netcat Listener",
+        expected_result=True,
+        log={
             "name": "pack_incident-response_crontab",
             "hostIdentifier": "test-host",
             "action": "added",
@@ -26,9 +26,9 @@ osquery_suspicious_cron_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="Wget Pipe Bash",
-        ExpectedResult=True,
-        Log={
+        name="Wget Pipe Bash",
+        expected_result=True,
+        log={
             "name": "pack_incident-response_crontab",
             "action": "added",
             "hostIdentifier": "test-host",
@@ -45,9 +45,9 @@ osquery_suspicious_cron_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="Wget Execute",
-        ExpectedResult=True,
-        Log={
+        name="Wget Execute",
+        expected_result=True,
+        log={
             "name": "pack_incident-response_crontab",
             "action": "added",
             "hostIdentifier": "test-host",
@@ -64,9 +64,9 @@ osquery_suspicious_cron_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="Dig",
-        ExpectedResult=True,
-        Log={
+        name="Dig",
+        expected_result=True,
+        log={
             "name": "pack_incident-response_crontab",
             "action": "added",
             "hostIdentifier": "test-host",
@@ -83,9 +83,9 @@ osquery_suspicious_cron_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="Built-in Cron",
-        ExpectedResult=False,
-        Log={
+        name="Built-in Cron",
+        expected_result=False,
+        log={
             "name": "pack_incident-response_crontab",
             "action": "added",
             "hostIdentifier": "test-host",
@@ -102,9 +102,9 @@ osquery_suspicious_cron_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="Command with quotes",
-        ExpectedResult=False,
-        Log={
+        name="Command with quotes",
+        expected_result=False,
+        log={
             "name": "pack_incident-response_crontab",
             "action": "added",
             "hostIdentifier": "test-host",
@@ -124,17 +124,17 @@ osquery_suspicious_cron_tests: List[PantherRuleTest] = [
 
 
 class OsquerySuspiciousCron(PantherRule):
-    RuleID = "Osquery.SuspiciousCron-prototype"
-    DisplayName = "Suspicious cron detected"
-    LogTypes = [PantherLogType.Osquery_Differential]
-    Tags = ["Osquery", "Execution:Scheduled Task/Job"]
-    Reports = {"MITRE ATT&CK": ["TA0002:T1053"]}
-    Severity = PantherSeverity.High
-    Description = "A suspicious cron has been added"
-    Runbook = "Analyze the command to ensure no nefarious activity is occurring"
-    Reference = "https://en.wikipedia.org/wiki/Cron"
-    SummaryAttributes = ["action", "hostIdentifier", "name"]
-    Tests = osquery_suspicious_cron_tests
+    id_ = "Osquery.SuspiciousCron-prototype"
+    display_name = "Suspicious cron detected"
+    log_types = [PantherLogType.Osquery_Differential]
+    tags = ["Osquery", "Execution:Scheduled Task/Job"]
+    reports = {"MITRE ATT&CK": ["TA0002:T1053"]}
+    default_severity = PantherSeverity.high
+    default_description = "A suspicious cron has been added"
+    default_runbook = "Analyze the command to ensure no nefarious activity is occurring"
+    default_reference = "https://en.wikipedia.org/wiki/Cron"
+    summary_attributes = ["action", "hostIdentifier", "name"]
+    tests = osquery_suspicious_cron_tests
     # Running in unexpected locations
     # nosec
     # Reaching out to the internet

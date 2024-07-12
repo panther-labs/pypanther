@@ -5,9 +5,9 @@ from pypanther.helpers.panther_mongodb_helpers import mongodb_alert_context
 
 mongo_db_user_roles_changed_tests: List[PantherRuleTest] = [
     PantherRuleTest(
-        Name="Random event",
-        ExpectedResult=False,
-        Log={
+        name="Random event",
+        expected_result=False,
+        log={
             "created": "2023-06-07 16:57:55",
             "currentValue": {},
             "eventTypeName": "CAT_JUMPED",
@@ -34,9 +34,9 @@ mongo_db_user_roles_changed_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="User roles changed",
-        ExpectedResult=True,
-        Log={
+        name="User roles changed",
+        expected_result=True,
+        log={
             "created": "2023-06-07 16:57:55",
             "currentValue": {},
             "eventTypeName": "USER_ROLES_CHANGED_AUDIT",
@@ -66,13 +66,13 @@ mongo_db_user_roles_changed_tests: List[PantherRuleTest] = [
 
 
 class MongoDBUserRolesChanged(PantherRule):
-    Description = "User roles changed."
-    DisplayName = "MongoDB user roles changed"
-    Severity = PantherSeverity.Low
-    Reference = "https://www.mongodb.com/docs/v4.2/tutorial/create-users/"
-    LogTypes = [PantherLogType.MongoDB_OrganizationEvent]
-    RuleID = "MongoDB.User.Roles.Changed-prototype"
-    Tests = mongo_db_user_roles_changed_tests
+    default_description = "User roles changed."
+    display_name = "MongoDB user roles changed"
+    default_severity = PantherSeverity.low
+    default_reference = "https://www.mongodb.com/docs/v4.2/tutorial/create-users/"
+    log_types = [PantherLogType.MongoDB_OrganizationEvent]
+    id_ = "MongoDB.User.Roles.Changed-prototype"
+    tests = mongo_db_user_roles_changed_tests
 
     def rule(self, event):
         return event.deep_get("eventTypeName") == "USER_ROLES_CHANGED_AUDIT"

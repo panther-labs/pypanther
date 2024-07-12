@@ -5,9 +5,9 @@ from pypanther.helpers.panther_base_helpers import ZENDESK_CHANGE_DESCRIPTION
 
 zendesk_user_suspension_tests: List[PantherRuleTest] = [
     PantherRuleTest(
-        Name="Zendesk - Suspension Enabled",
-        ExpectedResult=True,
-        Log={
+        name="Zendesk - Suspension Enabled",
+        expected_result=True,
+        log={
             "url": "https://myzendek.zendesk.com/api/v2/audit_logs/111222333444.json",
             "id": 123456789123,
             "action_label": "Updated",
@@ -24,9 +24,9 @@ zendesk_user_suspension_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="Zendesk - Suspension Disabled",
-        ExpectedResult=True,
-        Log={
+        name="Zendesk - Suspension Disabled",
+        expected_result=True,
+        log={
             "url": "https://myzendek.zendesk.com/api/v2/audit_logs/111222333444.json",
             "id": 123456789123,
             "action_label": "Updated",
@@ -43,9 +43,9 @@ zendesk_user_suspension_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="Zendesk - Admin Role Assigned",
-        ExpectedResult=False,
-        Log={
+        name="Zendesk - Admin Role Assigned",
+        expected_result=False,
+        log={
             "url": "https://myzendek.zendesk.com/api/v2/audit_logs/111222333444.json",
             "id": 123456789123,
             "action_label": "Updated",
@@ -65,17 +65,17 @@ zendesk_user_suspension_tests: List[PantherRuleTest] = [
 
 
 class ZendeskUserSuspension(PantherRule):
-    RuleID = "Zendesk.UserSuspension-prototype"
-    DisplayName = "Zendesk User Suspension Status Changed"
-    LogTypes = [PantherLogType.Zendesk_Audit]
-    Tags = ["Zendesk", "Impact:Account Access Removal"]
-    Reports = {"MITRE ATT&CK": ["TA0040:T1531"]}
-    Severity = PantherSeverity.High
-    Description = "A user's Zendesk suspension status was changed."
-    Runbook = "Ensure the user's suspension status is appropriate."
-    Reference = "https://support.zendesk.com/hc/en-us/articles/4408889293978-Suspending-a-user#:~:text=select%20Unsuspend%20access.-,Identifying%20suspended%20users,name%20on%20the%20Customers%20page"
-    SummaryAttributes = ["p_any_ip_addresses"]
-    Tests = zendesk_user_suspension_tests
+    id_ = "Zendesk.UserSuspension-prototype"
+    display_name = "Zendesk User Suspension Status Changed"
+    log_types = [PantherLogType.Zendesk_Audit]
+    tags = ["Zendesk", "Impact:Account Access Removal"]
+    reports = {"MITRE ATT&CK": ["TA0040:T1531"]}
+    default_severity = PantherSeverity.high
+    default_description = "A user's Zendesk suspension status was changed."
+    default_runbook = "Ensure the user's suspension status is appropriate."
+    default_reference = "https://support.zendesk.com/hc/en-us/articles/4408889293978-Suspending-a-user#:~:text=select%20Unsuspend%20access.-,Identifying%20suspended%20users,name%20on%20the%20Customers%20page"
+    summary_attributes = ["p_any_ip_addresses"]
+    tests = zendesk_user_suspension_tests
     USER_SUSPENSION_ACTIONS = {"create", "update"}
 
     def rule(self, event):

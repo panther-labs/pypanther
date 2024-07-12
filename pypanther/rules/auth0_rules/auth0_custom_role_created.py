@@ -6,9 +6,9 @@ from pypanther.helpers.panther_base_helpers import deep_get
 
 auth0_custom_role_created_tests: List[PantherRuleTest] = [
     PantherRuleTest(
-        Name="Other Event",
-        ExpectedResult=False,
-        Log={
+        name="Other Event",
+        expected_result=False,
+        log={
             "data": {
                 "client_id": "1HXWWGKk1Zj3JF8GvMrnCSirccDs4qvr",
                 "client_name": "",
@@ -199,9 +199,9 @@ auth0_custom_role_created_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="Custom Role Created",
-        ExpectedResult=True,
-        Log={
+        name="Custom Role Created",
+        expected_result=True,
+        log={
             "data": {
                 "client_id": "1HXWWGKk1Zj3JF8GvMrnCSirccDs4qvr",
                 "client_name": "",
@@ -385,9 +385,9 @@ auth0_custom_role_created_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="Admin Role Created",
-        ExpectedResult=True,
-        Log={
+        name="Admin Role Created",
+        expected_result=True,
+        log={
             "data": {
                 "client_id": "1HXWWGKk1Zj3JF8GvMrnCSirccDs4qvr",
                 "client_name": "",
@@ -571,9 +571,9 @@ auth0_custom_role_created_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="Admin Role Created (by name)",
-        ExpectedResult=True,
-        Log={
+        name="Admin Role Created (by name)",
+        expected_result=True,
+        log={
             "data": {
                 "client_id": "1HXWWGKk1Zj3JF8GvMrnCSirccDs4qvr",
                 "client_name": "",
@@ -760,16 +760,16 @@ auth0_custom_role_created_tests: List[PantherRuleTest] = [
 
 
 class Auth0CustomRoleCreated(PantherRule):
-    Description = "An Auth0 User created a role in your organization's tenant."
-    DisplayName = "Auth0 Custom Role Created"
-    Runbook = "Assess if this was done by the user for a valid business reason. Be vigilant if a user created a role without proper authorization."
-    Reference = (
+    default_description = "An Auth0 User created a role in your organization's tenant."
+    display_name = "Auth0 Custom Role Created"
+    default_runbook = "Assess if this was done by the user for a valid business reason. Be vigilant if a user created a role without proper authorization."
+    default_reference = (
         "https://auth0.com/docs/manage-users/access-control/configure-core-rbac/roles/create-roles"
     )
-    Severity = PantherSeverity.High
-    LogTypes = [PantherLogType.Auth0_Events]
-    RuleID = "Auth0.Custom.Role.Created-prototype"
-    Tests = auth0_custom_role_created_tests
+    default_severity = PantherSeverity.high
+    log_types = [PantherLogType.Auth0_Events]
+    id_ = "Auth0.Custom.Role.Created-prototype"
+    tests = auth0_custom_role_created_tests
 
     def rule(self, event):
         data_description = deep_get(
@@ -779,13 +779,31 @@ class Auth0CustomRoleCreated(PantherRule):
 
     def title(self, event):
         user = deep_get(
-            event, "data", "details", "request", "auth", "user", "email", default="<NO_USER_FOUND>"
+            event,
+            "data",
+            "details",
+            "request",
+            "auth",
+            "user",
+            "email",
+            default="<NO_USER_FOUND>",
         )
         request_body_name = deep_get(
-            event, "data", "details", "request", "body", "name", default="<NO_REQUEST_NAME_FOUND>"
+            event,
+            "data",
+            "details",
+            "request",
+            "body",
+            "name",
+            default="<NO_REQUEST_NAME_FOUND>",
         )
         request_body_description = deep_get(
-            event, "data", "details", "request", "body", default="<NO_REQUEST_BODY_FOUND>"
+            event,
+            "data",
+            "details",
+            "request",
+            "body",
+            default="<NO_REQUEST_BODY_FOUND>",
         )
         if "admin" in request_body_description or "admin" in request_body_name:
             role_type = "admin"
@@ -796,7 +814,13 @@ class Auth0CustomRoleCreated(PantherRule):
 
     def severity(self, event):
         request_body_name = deep_get(
-            event, "data", "details", "request", "body", "name", default="<NO_REQUEST_NAME_FOUND>"
+            event,
+            "data",
+            "details",
+            "request",
+            "body",
+            "name",
+            default="<NO_REQUEST_NAME_FOUND>",
         )
         request_body_description = deep_get(
             event, "data", "details", "request", "body", "description", default=""

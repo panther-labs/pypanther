@@ -5,9 +5,9 @@ from pypanther.helpers.panther_base_helpers import deep_get
 
 box_access_granted_tests: List[PantherRuleTest] = [
     PantherRuleTest(
-        Name="Regular Event",
-        ExpectedResult=False,
-        Log={
+        name="Regular Event",
+        expected_result=False,
+        log={
             "type": "event",
             "additional_details": '{"key": "value"}',
             "created_by": {
@@ -20,9 +20,9 @@ box_access_granted_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="Access Granted",
-        ExpectedResult=True,
-        Log={
+        name="Access Granted",
+        expected_result=True,
+        log={
             "type": "event",
             "additional_details": '{"key": "value"}',
             "created_by": {
@@ -44,16 +44,16 @@ box_access_granted_tests: List[PantherRuleTest] = [
 
 
 class BoxAccessGranted(PantherRule):
-    RuleID = "Box.Access.Granted-prototype"
-    DisplayName = "Box Access Granted"
-    LogTypes = [PantherLogType.Box_Event]
-    Tags = ["Box"]
-    Severity = PantherSeverity.Low
-    Description = "A user granted access to their box account to Box technical support from account settings.\n"
-    Reference = "https://support.box.com/hc/en-us/articles/7039943421715-Enabling-and-Disabling-Access-for-Box-Support"
-    Runbook = "Investigate whether the user purposefully granted access to their account.\n"
-    SummaryAttributes = ["p_any_ip_addresses"]
-    Tests = box_access_granted_tests
+    id_ = "Box.Access.Granted-prototype"
+    display_name = "Box Access Granted"
+    log_types = [PantherLogType.Box_Event]
+    tags = ["Box"]
+    default_severity = PantherSeverity.low
+    default_description = "A user granted access to their box account to Box technical support from account settings.\n"
+    default_reference = "https://support.box.com/hc/en-us/articles/7039943421715-Enabling-and-Disabling-Access-for-Box-Support"
+    default_runbook = "Investigate whether the user purposefully granted access to their account.\n"
+    summary_attributes = ["p_any_ip_addresses"]
+    tests = box_access_granted_tests
 
     def rule(self, event):
         return event.get("event_type") == "ACCESS_GRANTED"

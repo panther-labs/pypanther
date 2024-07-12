@@ -5,9 +5,9 @@ from pypanther.helpers.panther_base_helpers import github_alert_context
 
 github_repository_transfer_tests: List[PantherRuleTest] = [
     PantherRuleTest(
-        Name="Public Repo Created",
-        ExpectedResult=False,
-        Log={
+        name="Public Repo Created",
+        expected_result=False,
+        log={
             "_document_id": "abCD",
             "action": "repo.create",
             "actor": "example-actor",
@@ -20,9 +20,9 @@ github_repository_transfer_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="Repo Transfer Outgoing",
-        ExpectedResult=True,
-        Log={
+        name="Repo Transfer Outgoing",
+        expected_result=True,
+        log={
             "_document_id": "BodJtQIrT3kWMIQpm1ANew",
             "action": "repo.transfer_outgoing",
             "actor": "user-name",
@@ -35,9 +35,9 @@ github_repository_transfer_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="Repo Transfer Start",
-        ExpectedResult=True,
-        Log={
+        name="Repo Transfer Start",
+        expected_result=True,
+        log={
             "_document_id": "BodJtQIrT3kWMIQpm1ANew",
             "action": "repo.transfer_start",
             "actor": "user-name",
@@ -50,9 +50,9 @@ github_repository_transfer_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="Repository Transfer",
-        ExpectedResult=True,
-        Log={
+        name="Repository Transfer",
+        expected_result=True,
+        log={
             "_document_id": "CFyS8UJsQjJfCgsmTLI6mQ",
             "action": "repo.transfer",
             "actor": "org-user",
@@ -68,16 +68,16 @@ github_repository_transfer_tests: List[PantherRuleTest] = [
 
 
 class GithubRepositoryTransfer(PantherRule):
-    Description = "A user accepted a request to receive a transferred Github repository, a  Github repository was transferred to another repository network, or a user sent a request to transfer a repository to another user or organization."
-    DisplayName = "Github Repository Transfer"
-    Reference = "https://docs.github.com/en/enterprise-server@3.3/repositories/creating-and-managing-repositories/transferring-a-repository\n\nhttps://docs.github.com/en/enterprise-cloud@latest/admin/monitoring-activity-in-your-enterprise/reviewing-audit-logs-for-your-enterprise/audit-log-events-for-your-enterprise#repo-category-actions"
-    Runbook = "Please check with the referenced users or their supervisors to ensure the transferring of this repository is expected and allowed."
-    Severity = PantherSeverity.Medium
-    Tags = ["Github Repository", "Github Repository Transfer", "Repository", "Transfer"]
-    LogTypes = [PantherLogType.GitHub_Audit]
-    RuleID = "Github.Repository.Transfer-prototype"
-    SummaryAttributes = ["action"]
-    Tests = github_repository_transfer_tests
+    default_description = "A user accepted a request to receive a transferred Github repository, a  Github repository was transferred to another repository network, or a user sent a request to transfer a repository to another user or organization."
+    display_name = "Github Repository Transfer"
+    default_reference = "https://docs.github.com/en/enterprise-server@3.3/repositories/creating-and-managing-repositories/transferring-a-repository\n\nhttps://docs.github.com/en/enterprise-cloud@latest/admin/monitoring-activity-in-your-enterprise/reviewing-audit-logs-for-your-enterprise/audit-log-events-for-your-enterprise#repo-category-actions"
+    default_runbook = "Please check with the referenced users or their supervisors to ensure the transferring of this repository is expected and allowed."
+    default_severity = PantherSeverity.medium
+    tags = ["Github Repository", "Github Repository Transfer", "Repository", "Transfer"]
+    log_types = [PantherLogType.GitHub_Audit]
+    id_ = "Github.Repository.Transfer-prototype"
+    summary_attributes = ["action"]
+    tests = github_repository_transfer_tests
 
     def rule(self, event):
         # Return True to match the log event and trigger an alert.

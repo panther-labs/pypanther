@@ -4,9 +4,9 @@ from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSever
 
 one_login_threshold_accounts_modified_tests: List[PantherRuleTest] = [
     PantherRuleTest(
-        Name="Normal User Activated Event",
-        ExpectedResult=False,
-        Log={
+        name="Normal User Activated Event",
+        expected_result=False,
+        log={
             "event_type_id": "16",
             "actor_user_id": 654321,
             "actor_user_name": "Mountain Lion",
@@ -15,9 +15,9 @@ one_login_threshold_accounts_modified_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="User Password Changed Event",
-        ExpectedResult=True,
-        Log={
+        name="User Password Changed Event",
+        expected_result=True,
+        log={
             "event_type_id": "11",
             "actor_user_id": 654321,
             "actor_user_name": "Mountain Lion",
@@ -29,19 +29,19 @@ one_login_threshold_accounts_modified_tests: List[PantherRuleTest] = [
 
 
 class OneLoginThresholdAccountsModified(PantherRule):
-    RuleID = "OneLogin.ThresholdAccountsModified-prototype"
-    DisplayName = "OneLogin Multiple Accounts Modified"
-    LogTypes = [PantherLogType.OneLogin_Events]
-    Tags = ["OneLogin", "Impact:Account Access Removal"]
-    Severity = PantherSeverity.Medium
-    Reports = {"MITRE ATT&CK": ["TA0040:T1531"]}
-    Description = "Possible Denial of Service detected. Threshold for user account password changes exceeded.\n"
-    Threshold = 10
-    DedupPeriodMinutes = 10
-    Reference = "https://en.wikipedia.org/wiki/Denial-of-service_attack"
-    Runbook = "Determine if this is normal user-cleanup activity."
-    SummaryAttributes = ["account_id", "user_name", "user_id"]
-    Tests = one_login_threshold_accounts_modified_tests
+    id_ = "OneLogin.ThresholdAccountsModified-prototype"
+    display_name = "OneLogin Multiple Accounts Modified"
+    log_types = [PantherLogType.OneLogin_Events]
+    tags = ["OneLogin", "Impact:Account Access Removal"]
+    default_severity = PantherSeverity.medium
+    reports = {"MITRE ATT&CK": ["TA0040:T1531"]}
+    default_description = "Possible Denial of Service detected. Threshold for user account password changes exceeded.\n"
+    threshold = 10
+    dedup_period_minutes = 10
+    default_reference = "https://en.wikipedia.org/wiki/Denial-of-service_attack"
+    default_runbook = "Determine if this is normal user-cleanup activity."
+    summary_attributes = ["account_id", "user_name", "user_id"]
+    tests = one_login_threshold_accounts_modified_tests
 
     def rule(self, event):
         # filter events; event type 11 is an actor_user changed user password

@@ -5,9 +5,9 @@ from pypanther.helpers.panther_base_helpers import deep_get
 
 gcpgcs_public_tests: List[PantherRuleTest] = [
     PantherRuleTest(
-        Name="GCS AllUsers Read Permission",
-        ExpectedResult=True,
-        Log={
+        name="GCS AllUsers Read Permission",
+        expected_result=True,
+        log={
             "protoPayload": {
                 "@type": "type.googleapis.com/google.cloud.audit.AuditLog",
                 "status": {},
@@ -15,7 +15,10 @@ gcpgcs_public_tests: List[PantherRuleTest] = [
                 "requestMetadata": {
                     "callerIp": "136.24.229.58",
                     "callerSuppliedUserAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/81.0.4044.138 Safari/537.36,gzip(gfe)",
-                    "requestAttributes": {"time": "2020-05-15T04:28:42.243082428Z", "auth": {}},
+                    "requestAttributes": {
+                        "time": "2020-05-15T04:28:42.243082428Z",
+                        "auth": {},
+                    },
                     "destinationAttributes": {},
                 },
                 "serviceName": "storage.googleapis.com",
@@ -62,18 +65,20 @@ gcpgcs_public_tests: List[PantherRuleTest] = [
 
 
 class GCPGCSPublic(PantherRule):
-    RuleID = "GCP.GCS.Public-prototype"
-    DisplayName = "GCS Bucket Made Public"
-    DedupPeriodMinutes = 15
-    LogTypes = [PantherLogType.GCP_AuditLog]
-    Tags = ["GCP", "Google Cloud Storage", "Collection:Data From Cloud Storage Object"]
-    Reports = {"MITRE ATT&CK": ["TA0009:T1530"]}
-    Severity = PantherSeverity.High
-    Description = "Adversaries may access data objects from improperly secured cloud storage."
-    Runbook = "Validate the GCS bucket change was safe."
-    Reference = "https://cloud.google.com/storage/docs/access-control/making-data-public"
-    SummaryAttributes = ["severity", "p_any_ip_addresses", "p_any_domain_names"]
-    Tests = gcpgcs_public_tests
+    id_ = "GCP.GCS.Public-prototype"
+    display_name = "GCS Bucket Made Public"
+    dedup_period_minutes = 15
+    log_types = [PantherLogType.GCP_AuditLog]
+    tags = ["GCP", "Google Cloud Storage", "Collection:Data From Cloud Storage Object"]
+    reports = {"MITRE ATT&CK": ["TA0009:T1530"]}
+    default_severity = PantherSeverity.high
+    default_description = (
+        "Adversaries may access data objects from improperly secured cloud storage."
+    )
+    default_runbook = "Validate the GCS bucket change was safe."
+    default_reference = "https://cloud.google.com/storage/docs/access-control/making-data-public"
+    summary_attributes = ["severity", "p_any_ip_addresses", "p_any_domain_names"]
+    tests = gcpgcs_public_tests
     GCS_READ_ROLES = {
         "roles/storage.objectAdmin",
         "roles/storage.objectViewer",

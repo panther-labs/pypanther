@@ -5,9 +5,9 @@ from pypanther.helpers.panther_base_helpers import aws_rule_context
 
 awsip_set_modified_tests: List[PantherRuleTest] = [
     PantherRuleTest(
-        Name="CreateIPSet Event",
-        ExpectedResult=True,
-        Log={
+        name="CreateIPSet Event",
+        expected_result=True,
+        log={
             "awsregion": "us-east-1",
             "eventid": "abc-123",
             "eventname": "CreateIPSet",
@@ -23,9 +23,9 @@ awsip_set_modified_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="UpdateIPSet",
-        ExpectedResult=True,
-        Log={
+        name="UpdateIPSet",
+        expected_result=True,
+        log={
             "awsregion": "us-east-1",
             "eventid": "abc-123",
             "eventname": "CreateIPSet",
@@ -41,9 +41,9 @@ awsip_set_modified_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="NotIPSet",
-        ExpectedResult=False,
-        Log={
+        name="NotIPSet",
+        expected_result=False,
+        log={
             "awsregion": "us-east-1",
             "eventid": "abc-123",
             "eventname": "ModifyInstanceAttributes",
@@ -62,14 +62,14 @@ awsip_set_modified_tests: List[PantherRuleTest] = [
 
 
 class AWSIPSetModified(PantherRule):
-    Description = "Detects creation and updates of the list of trusted IPs used by GuardDuty and WAF. Potentially to disable security alerts against malicious IPs."
-    DisplayName = "AWS Trusted IPSet Modified"
-    Reports = {"MITRE ATT&CK": ["TA0005:T1562"]}
-    Reference = "https://docs.aws.amazon.com/managedservices/latest/ctref/management-monitoring-guardduty-ip-set-update-review-required.html"
-    Severity = PantherSeverity.High
-    LogTypes = [PantherLogType.AWS_CloudTrail]
-    RuleID = "AWS.IPSet.Modified-prototype"
-    Tests = awsip_set_modified_tests
+    default_description = "Detects creation and updates of the list of trusted IPs used by GuardDuty and WAF. Potentially to disable security alerts against malicious IPs."
+    display_name = "AWS Trusted IPSet Modified"
+    reports = {"MITRE ATT&CK": ["TA0005:T1562"]}
+    default_reference = "https://docs.aws.amazon.com/managedservices/latest/ctref/management-monitoring-guardduty-ip-set-update-review-required.html"
+    default_severity = PantherSeverity.high
+    log_types = [PantherLogType.AWS_CloudTrail]
+    id_ = "AWS.IPSet.Modified-prototype"
+    tests = awsip_set_modified_tests
     IPSET_ACTIONS = ["CreateIPSet", "UpdateIPSet"]
 
     def rule(self, event):

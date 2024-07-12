@@ -6,9 +6,9 @@ from pypanther.helpers.panther_default import aws_cloudtrail_success
 
 awsiam_credentials_updated_tests: List[PantherRuleTest] = [
     PantherRuleTest(
-        Name="User Password Was Changed",
-        ExpectedResult=True,
-        Log={
+        name="User Password Was Changed",
+        expected_result=True,
+        log={
             "eventVersion": "1.05",
             "userIdentity": {
                 "type": "IAMUser",
@@ -41,9 +41,9 @@ awsiam_credentials_updated_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="MFA Device Was Created",
-        ExpectedResult=False,
-        Log={
+        name="MFA Device Was Created",
+        expected_result=False,
+        log={
             "eventVersion": "1.05",
             "userIdentity": {
                 "type": "IAMUser",
@@ -76,9 +76,9 @@ awsiam_credentials_updated_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="User Password Change Error",
-        ExpectedResult=False,
-        Log={
+        name="User Password Change Error",
+        expected_result=False,
+        log={
             "eventVersion": "1.05",
             "errorCode": "PasswordPolicyViolation",
             "userIdentity": {
@@ -115,26 +115,31 @@ awsiam_credentials_updated_tests: List[PantherRuleTest] = [
 
 
 class AWSIAMCredentialsUpdated(PantherRule):
-    RuleID = "AWS.IAM.CredentialsUpdated-prototype"
-    DisplayName = "New IAM Credentials Updated"
-    LogTypes = [PantherLogType.AWS_CloudTrail]
-    Reports = {"MITRE ATT&CK": ["TA0003:T1098"]}
-    Tags = ["AWS", "Identity & Access Management", "Persistence:Account Manipulation"]
-    Severity = PantherSeverity.Info
-    Description = "A console password, access key, or user has been created."
-    Runbook = "This rule is purely informational, there is no action needed."
-    Reference = (
+    id_ = "AWS.IAM.CredentialsUpdated-prototype"
+    display_name = "New IAM Credentials Updated"
+    log_types = [PantherLogType.AWS_CloudTrail]
+    reports = {"MITRE ATT&CK": ["TA0003:T1098"]}
+    tags = ["AWS", "Identity & Access Management", "Persistence:Account Manipulation"]
+    default_severity = PantherSeverity.info
+    default_description = "A console password, access key, or user has been created."
+    default_runbook = "This rule is purely informational, there is no action needed."
+    default_reference = (
         "https://docs.aws.amazon.com/IAM/latest/UserGuide/list_identityandaccessmanagement.html"
     )
-    SummaryAttributes = [
+    summary_attributes = [
         "eventName",
         "userAgent",
         "sourceIpAddress",
         "recipientAccountId",
         "p_any_aws_arns",
     ]
-    Tests = awsiam_credentials_updated_tests
-    UPDATE_EVENTS = {"ChangePassword", "CreateAccessKey", "CreateLoginProfile", "CreateUser"}
+    tests = awsiam_credentials_updated_tests
+    UPDATE_EVENTS = {
+        "ChangePassword",
+        "CreateAccessKey",
+        "CreateLoginProfile",
+        "CreateUser",
+    }
 
     def rule(self, event):
         return event.get("eventName") in self.UPDATE_EVENTS and aws_cloudtrail_success(event)

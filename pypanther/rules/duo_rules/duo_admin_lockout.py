@@ -5,9 +5,9 @@ from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSever
 
 duo_admin_lockout_tests: List[PantherRuleTest] = [
     PantherRuleTest(
-        Name="Admin lockout- invalid json",
-        ExpectedResult=True,
-        Log={
+        name="Admin lockout- invalid json",
+        expected_result=True,
+        log={
             "action": "admin_lockout",
             "description": '"message": "Admin temporarily locked out due to too many passcode attempts."',
             "isotimestamp": "2022-12-14 21:02:03",
@@ -16,9 +16,9 @@ duo_admin_lockout_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="Admin lockout- valid json",
-        ExpectedResult=True,
-        Log={
+        name="Admin lockout- valid json",
+        expected_result=True,
+        log={
             "action": "admin_lockout",
             "description": '{"message": "Admin temporarily locked out due to too many passcode attempts."}',
             "isotimestamp": "2022-12-14 21:02:03",
@@ -27,9 +27,9 @@ duo_admin_lockout_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="Bypass Create",
-        ExpectedResult=False,
-        Log={
+        name="Bypass Create",
+        expected_result=False,
+        log={
             "action": "bypass_create",
             "description": '{"bypass": "", "count": 1, "valid_secs": 3600, "auto_generated": true, "remaining_uses": 1, "user_id": "D12345", "bypass_code_ids": ["A12345"]}',
             "isotimestamp": "2022-12-14 21:17:39",
@@ -42,13 +42,13 @@ duo_admin_lockout_tests: List[PantherRuleTest] = [
 
 
 class DuoAdminLockout(PantherRule):
-    Description = "Alert when a duo administrator is locked out of their account."
-    DisplayName = "Duo Admin Lockout"
-    Reference = "https://duo.com/docs/adminapi"
-    Severity = PantherSeverity.Medium
-    LogTypes = [PantherLogType.Duo_Administrator]
-    RuleID = "Duo.Admin.Lockout-prototype"
-    Tests = duo_admin_lockout_tests
+    default_description = "Alert when a duo administrator is locked out of their account."
+    display_name = "Duo Admin Lockout"
+    default_reference = "https://duo.com/docs/adminapi"
+    default_severity = PantherSeverity.medium
+    log_types = [PantherLogType.Duo_Administrator]
+    id_ = "Duo.Admin.Lockout-prototype"
+    tests = duo_admin_lockout_tests
 
     def rule(self, event):
         # Return True to match the log event and trigger an alert.

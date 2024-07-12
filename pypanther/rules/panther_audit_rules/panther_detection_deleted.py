@@ -5,9 +5,9 @@ from pypanther.helpers.panther_base_helpers import deep_get
 
 panther_detection_deleted_tests: List[PantherRuleTest] = [
     PantherRuleTest(
-        Name="Delete 1 Detection",
-        ExpectedResult=True,
-        Log={
+        name="Delete 1 Detection",
+        expected_result=True,
+        log={
             "actionName": "DELETE_DETECTION",
             "actionParams": {
                 "dynamic": {"input": {"detections": [{"id": "GitHub.Team.Modified"}]}}
@@ -30,9 +30,9 @@ panther_detection_deleted_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="Delete Many Detections",
-        ExpectedResult=True,
-        Log={
+        name="Delete Many Detections",
+        expected_result=True,
+        log={
             "actionName": "DELETE_DETECTION",
             "actionParams": {
                 "dynamic": {
@@ -64,9 +64,9 @@ panther_detection_deleted_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="Non-Delete event",
-        ExpectedResult=False,
-        Log={
+        name="Non-Delete event",
+        expected_result=False,
+        log={
             "actionName": "GET_GENERAL_SETTINGS",
             "actionParams": {},
             "actionResult": "SUCCEEDED",
@@ -88,17 +88,17 @@ panther_detection_deleted_tests: List[PantherRuleTest] = [
 
 
 class PantherDetectionDeleted(PantherRule):
-    RuleID = "Panther.Detection.Deleted-prototype"
-    DisplayName = "Detection content has been deleted from Panther"
-    LogTypes = [PantherLogType.Panther_Audit]
-    Severity = PantherSeverity.Info
-    Tags = ["DataModel", "Defense Evasion:Impair Defenses"]
-    Reports = {"MITRE ATT&CK": ["TA0005:T1562"]}
-    Description = "Detection content has been removed from Panther."
-    Runbook = "Ensure this change was approved and appropriate."
-    Reference = "https://docs.panther.com/system-configuration/panther-audit-logs/querying-and-writing-detections-for-panther-audit-logs"
-    SummaryAttributes = ["p_any_ip_addresses"]
-    Tests = panther_detection_deleted_tests
+    id_ = "Panther.Detection.Deleted-prototype"
+    display_name = "Detection content has been deleted from Panther"
+    log_types = [PantherLogType.Panther_Audit]
+    default_severity = PantherSeverity.info
+    tags = ["DataModel", "Defense Evasion:Impair Defenses"]
+    reports = {"MITRE ATT&CK": ["TA0005:T1562"]}
+    default_description = "Detection content has been removed from Panther."
+    default_runbook = "Ensure this change was approved and appropriate."
+    default_reference = "https://docs.panther.com/system-configuration/panther-audit-logs/querying-and-writing-detections-for-panther-audit-logs"
+    summary_attributes = ["p_any_ip_addresses"]
+    tests = panther_detection_deleted_tests
     PANTHER_DETECTION_DELETE_ACTIONS = [
         "DELETE_DATA_MODEL",
         "DELETE_DETECTION",

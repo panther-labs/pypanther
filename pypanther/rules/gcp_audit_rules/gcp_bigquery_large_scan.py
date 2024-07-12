@@ -5,9 +5,9 @@ from pypanther.helpers.panther_base_helpers import deep_get
 
 gcp_big_query_large_scan_tests: List[PantherRuleTest] = [
     PantherRuleTest(
-        Name="small query",
-        ExpectedResult=False,
-        Log={
+        name="small query",
+        expected_result=False,
+        log={
             "insertid": "ABCDEFGHIJKL",
             "logname": "projects/gcp-project1/logs/cloudaudit.googleapis.com%2Fdata_access",
             "operation": {
@@ -89,9 +89,9 @@ gcp_big_query_large_scan_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="Large Query",
-        ExpectedResult=True,
-        Log={
+        name="Large Query",
+        expected_result=True,
+        log={
             "insertid": "ABCDEFGHIJKL",
             "logname": "projects/gcp-project1/logs/cloudaudit.googleapis.com%2Fdata_access",
             "operation": {
@@ -176,13 +176,13 @@ gcp_big_query_large_scan_tests: List[PantherRuleTest] = [
 
 
 class GCPBigQueryLargeScan(PantherRule):
-    Description = "Detect any BigQuery query that is doing a very large scan (> 1 GB)."
-    DisplayName = "GCP BigQuery Large Scan"
-    Reference = "https://cloud.google.com/bigquery/docs/running-queries"
-    Severity = PantherSeverity.Info
-    LogTypes = [PantherLogType.GCP_AuditLog]
-    RuleID = "GCP.BigQuery.Large.Scan-prototype"
-    Tests = gcp_big_query_large_scan_tests
+    default_description = "Detect any BigQuery query that is doing a very large scan (> 1 GB)."
+    display_name = "GCP BigQuery Large Scan"
+    default_reference = "https://cloud.google.com/bigquery/docs/running-queries"
+    default_severity = PantherSeverity.info
+    log_types = [PantherLogType.GCP_AuditLog]
+    id_ = "GCP.BigQuery.Large.Scan-prototype"
+    tests = gcp_big_query_large_scan_tests
     # 1.07 GB
     QUERY_THRESHOLD_BYTES = 1073741824
 
@@ -193,7 +193,15 @@ class GCPBigQueryLargeScan(PantherRule):
                     "bigquery"
                 ),
                 deep_get(event, "operation", "last") is True,
-                deep_get(event, "protoPayload", "metadata", "jobChange", "job", "jobConfig", "type")
+                deep_get(
+                    event,
+                    "protoPayload",
+                    "metadata",
+                    "jobChange",
+                    "job",
+                    "jobConfig",
+                    "type",
+                )
                 == "QUERY",
                 deep_get(
                     event,

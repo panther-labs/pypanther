@@ -5,9 +5,9 @@ from pypanther.helpers.panther_base_helpers import aws_rule_context, pattern_mat
 
 awss3_server_access_error_tests: List[PantherRuleTest] = [
     PantherRuleTest(
-        Name="Amazon Access Error",
-        ExpectedResult=False,
-        Log={
+        name="Amazon Access Error",
+        expected_result=False,
+        log={
             "authenticationtype": "AuthHeader",
             "bucket": "cloudtrail",
             "bucketowner": "2c8e3610de4102c8e3610de4102c8e3610de410",
@@ -30,9 +30,9 @@ awss3_server_access_error_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="Access Error",
-        ExpectedResult=True,
-        Log={
+        name="Access Error",
+        expected_result=True,
+        log={
             "bucket": "panther-auditlogs",
             "time": "2020-04-22 07:48:45.000",
             "remoteip": "10.106.38.245",
@@ -45,9 +45,9 @@ awss3_server_access_error_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="403 on HEAD.BUCKET",
-        ExpectedResult=False,
-        Log={
+        name="403 on HEAD.BUCKET",
+        expected_result=False,
+        log={
             "bucket": "panther-auditlogs",
             "time": "2020-04-22 07:48:45.000",
             "remoteip": "10.106.38.245",
@@ -60,9 +60,9 @@ awss3_server_access_error_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="Internal Server Error",
-        ExpectedResult=False,
-        Log={
+        name="Internal Server Error",
+        expected_result=False,
+        log={
             "bucket": "panther-auditlogs",
             "time": "2020-04-22 07:48:45.000",
             "remoteip": "10.106.38.245",
@@ -78,19 +78,26 @@ awss3_server_access_error_tests: List[PantherRuleTest] = [
 
 
 class AWSS3ServerAccessError(PantherRule):
-    RuleID = "AWS.S3.ServerAccess.Error-prototype"
-    DisplayName = "AWS S3 Access Error"
-    DedupPeriodMinutes = 180
-    Threshold = 5
-    LogTypes = [PantherLogType.AWS_S3ServerAccess]
-    Tags = ["AWS", "Security Control", "Discovery:Cloud Storage Object Discovery"]
-    Reports = {"MITRE ATT&CK": ["TA0007:T1619"]}
-    Severity = PantherSeverity.Info
-    Description = "Checks for errors during S3 Object access. This could be due to insufficient access permissions, non-existent buckets, or other reasons.\n"
-    Runbook = "Investigate the specific error and determine if it is an ongoing issue that needs to be addressed or a one off or transient error that can be ignored.\n"
-    Reference = "https://docs.aws.amazon.com/AmazonS3/latest/dev/ErrorCode.html"
-    SummaryAttributes = ["bucket", "key", "requester", "remoteip", "operation", "errorCode"]
-    Tests = awss3_server_access_error_tests
+    id_ = "AWS.S3.ServerAccess.Error-prototype"
+    display_name = "AWS S3 Access Error"
+    dedup_period_minutes = 180
+    threshold = 5
+    log_types = [PantherLogType.AWS_S3ServerAccess]
+    tags = ["AWS", "Security Control", "Discovery:Cloud Storage Object Discovery"]
+    reports = {"MITRE ATT&CK": ["TA0007:T1619"]}
+    default_severity = PantherSeverity.info
+    default_description = "Checks for errors during S3 Object access. This could be due to insufficient access permissions, non-existent buckets, or other reasons.\n"
+    default_runbook = "Investigate the specific error and determine if it is an ongoing issue that needs to be addressed or a one off or transient error that can be ignored.\n"
+    default_reference = "https://docs.aws.amazon.com/AmazonS3/latest/dev/ErrorCode.html"
+    summary_attributes = [
+        "bucket",
+        "key",
+        "requester",
+        "remoteip",
+        "operation",
+        "errorCode",
+    ]
+    tests = awss3_server_access_error_tests
     # https://docs.aws.amazon.com/AmazonS3/latest/API/ErrorResponses.html
     # Forbidden
     # Method Not Allowed

@@ -5,9 +5,9 @@ from pypanther.helpers.panther_base_helpers import aws_rule_context, deep_get
 
 awsecrevents_tests: List[PantherRuleTest] = [
     PantherRuleTest(
-        Name="Authorized account, unauthorized region",
-        ExpectedResult=True,
-        Log={
+        name="Authorized account, unauthorized region",
+        expected_result=True,
+        log={
             "eventVersion": "1.04",
             "userIdentity": {
                 "type": "IAMUser",
@@ -59,9 +59,9 @@ awsecrevents_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="Unauthorized account",
-        ExpectedResult=True,
-        Log={
+        name="Unauthorized account",
+        expected_result=True,
+        log={
             "eventVersion": "1.04",
             "userIdentity": {
                 "type": "IAMUser",
@@ -113,9 +113,9 @@ awsecrevents_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="Authorized account",
-        ExpectedResult=False,
-        Log={
+        name="Authorized account",
+        expected_result=False,
+        log={
             "eventVersion": "1.04",
             "userIdentity": {
                 "type": "IAMUser",
@@ -170,18 +170,25 @@ awsecrevents_tests: List[PantherRuleTest] = [
 
 
 class AWSECREVENTS(PantherRule):
-    RuleID = "AWS.ECR.EVENTS-prototype"
-    DisplayName = "AWS ECR Events"
-    Enabled = False
-    LogTypes = [PantherLogType.AWS_CloudTrail]
-    Tags = ["AWS", "Security Control", "Configuration Required"]
-    Reports = {"MITRE ATT&CK": ["TA0005:T1535"]}
-    Severity = PantherSeverity.Medium
-    Description = "An ECR event occurred outside of an expected account or region"
-    Runbook = "https://docs.aws.amazon.com/AmazonECR/latest/userguide/logging-using-cloudtrail.html"
-    Reference = "https://aws.amazon.com/blogs/containers/amazon-ecr-in-multi-account-and-multi-region-architectures/"
-    SummaryAttributes = ["eventSource", "recipientAccountId", "awsRegion", "p_any_aws_arns"]
-    Tests = awsecrevents_tests
+    id_ = "AWS.ECR.EVENTS-prototype"
+    display_name = "AWS ECR Events"
+    enabled = False
+    log_types = [PantherLogType.AWS_CloudTrail]
+    tags = ["AWS", "Security Control", "Configuration Required"]
+    reports = {"MITRE ATT&CK": ["TA0005:T1535"]}
+    default_severity = PantherSeverity.medium
+    default_description = "An ECR event occurred outside of an expected account or region"
+    default_runbook = (
+        "https://docs.aws.amazon.com/AmazonECR/latest/userguide/logging-using-cloudtrail.html"
+    )
+    default_reference = "https://aws.amazon.com/blogs/containers/amazon-ecr-in-multi-account-and-multi-region-architectures/"
+    summary_attributes = [
+        "eventSource",
+        "recipientAccountId",
+        "awsRegion",
+        "p_any_aws_arns",
+    ]
+    tests = awsecrevents_tests
     # CONFIGURATION REQUIRED: Update with your expected AWS Accounts/Regions
     AWS_ACCOUNTS_AND_REGIONS = {
         "123456789012": {"us-west-1", "us-west-2"},

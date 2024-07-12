@@ -4,9 +4,9 @@ from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSever
 
 git_hub_user_role_updated_tests: List[PantherRuleTest] = [
     PantherRuleTest(
-        Name="GitHub - Member Updated",
-        ExpectedResult=True,
-        Log={
+        name="GitHub - Member Updated",
+        expected_result=True,
+        log={
             "actor": "cat",
             "action": "org.update_member",
             "created_at": 1621305118553,
@@ -16,9 +16,9 @@ git_hub_user_role_updated_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="GitHub - Member Invited",
-        ExpectedResult=False,
-        Log={
+        name="GitHub - Member Invited",
+        expected_result=False,
+        log={
             "actor": "cat",
             "action": "org.invite_member",
             "created_at": 1621305118553,
@@ -31,17 +31,17 @@ git_hub_user_role_updated_tests: List[PantherRuleTest] = [
 
 
 class GitHubUserRoleUpdated(PantherRule):
-    RuleID = "GitHub.User.RoleUpdated-prototype"
-    DisplayName = "GitHub User Role Updated"
-    LogTypes = [PantherLogType.GitHub_Audit]
-    Tags = ["GitHub", "Persistence:Account Manipulation"]
-    Reports = {"MITRE ATT&CK": ["TA0003:T1098"]}
-    Reference = "https://docs.github.com/en/organizations/managing-peoples-access-to-your-organization-with-roles/roles-in-an-organization"
-    Severity = PantherSeverity.High
-    Description = (
+    id_ = "GitHub.User.RoleUpdated-prototype"
+    display_name = "GitHub User Role Updated"
+    log_types = [PantherLogType.GitHub_Audit]
+    tags = ["GitHub", "Persistence:Account Manipulation"]
+    reports = {"MITRE ATT&CK": ["TA0003:T1098"]}
+    default_reference = "https://docs.github.com/en/organizations/managing-peoples-access-to-your-organization-with-roles/roles-in-an-organization"
+    default_severity = PantherSeverity.high
+    default_description = (
         "Detects when a GitHub user role is upgraded to an admin or downgraded to a member"
     )
-    Tests = git_hub_user_role_updated_tests
+    tests = git_hub_user_role_updated_tests
 
     def rule(self, event):
         return event.get("action") == "org.update_member"

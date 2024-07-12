@@ -8,24 +8,24 @@ from panther_core.detection import DetectionResult
 from pypanther.utils import try_asdict
 
 PANTHER_RULE_TEST_ALL_ATTRS = [
-    "Name",
-    "ExpectedResult",
-    "Log",
-    "Mocks",
+    "name",
+    "expected_result",
+    "log",
+    "mocks",
 ]
 
 PANTHER_RULE_MOCK_ALL_ATTRS = [
-    "ObjectName",
-    "ReturnValue",
-    "SideEffect",
+    "object_name",
+    "return_value",
+    "side_effect",
 ]
 
 
 @dataclass
 class PantherRuleMock:
-    ObjectName: str
-    ReturnValue: Any = None
-    SideEffect: Any = None
+    object_name: str
+    return_value: Any = None
+    side_effect: Any = None
 
     def asdict(self):
         """Returns a dictionary representation of the class."""
@@ -46,18 +46,18 @@ class FileLocationMeta(type):
 
 @dataclass
 class PantherRuleTest(metaclass=FileLocationMeta):
-    Name: str
-    ExpectedResult: bool
-    Log: dict | str
-    Mocks: list[PantherRuleMock] = field(default_factory=list)
+    name: str
+    expected_result: bool
+    log: dict | str
+    mocks: list[PantherRuleMock] = field(default_factory=list)
     _file_path: str = ""
     _line_no: int = 0
     _module: str = ""
 
     def log_data(self):
-        if isinstance(self.Log, str):
-            return json.loads(self.Log)
-        return self.Log
+        if isinstance(self.log, str):
+            return json.loads(self.log)
+        return self.log
 
     def location(self) -> str:
         return f"{self._file_path}:{self._line_no}"
@@ -74,13 +74,13 @@ class PantherRuleTestResult:
     on a PantherRule.
 
     Attributes:
-        Passed: If true, the PantherRuleTest passed. False, otherwise.
-        DetectionResult: The result of the run() function on the given PantherEvent.
-        Test: The test that was given and created this result.
-        RuleID: The ID of the PantherRule the PantherRuleTest was run on.
+        passed: If true, the PantherRuleTest passed. False, otherwise.
+        detection_result: The result of the run() function on the given PantherEvent.
+        test: The test that was given and created this result.
+        rule_id: The ID of the PantherRule the PantherRuleTest was run on.
     """
 
-    Passed: bool
-    DetectionResult: DetectionResult
-    Test: PantherRuleTest
-    RuleID: str
+    passed: bool
+    detection_result: DetectionResult
+    test: PantherRuleTest
+    rule_id: str

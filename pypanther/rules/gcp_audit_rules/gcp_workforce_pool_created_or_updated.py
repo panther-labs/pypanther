@@ -4,9 +4,9 @@ from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSever
 
 gcp_workforce_pool_createdor_updated_tests: List[PantherRuleTest] = [
     PantherRuleTest(
-        Name="DeleteWorkforcePool-False",
-        ExpectedResult=False,
-        Log={
+        name="DeleteWorkforcePool-False",
+        expected_result=False,
+        log={
             "insertId": "1plwiv7e2lay7",
             "logName": "organizations/123456789012/logs/cloudaudit.googleapis.com%2Factivity",
             "operation": {
@@ -56,9 +56,9 @@ gcp_workforce_pool_createdor_updated_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="UpdateWorkforcePool-True",
-        ExpectedResult=True,
-        Log={
+        name="UpdateWorkforcePool-True",
+        expected_result=True,
+        log={
             "insertId": "1h09dxwe33hgu",
             "logName": "organizations/123456789012/logs/cloudaudit.googleapis.com%2Factivity",
             "operation": {
@@ -114,9 +114,9 @@ gcp_workforce_pool_createdor_updated_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="CreateWorkforcePool-True",
-        ExpectedResult=True,
-        Log={
+        name="CreateWorkforcePool-True",
+        expected_result=True,
+        log={
             "insertId": "6432zre32u1v",
             "logName": "organizations/123456789012/logs/cloudaudit.googleapis.com%2Factivity",
             "operation": {
@@ -178,15 +178,20 @@ gcp_workforce_pool_createdor_updated_tests: List[PantherRuleTest] = [
 
 
 class GCPWorkforcePoolCreatedorUpdated(PantherRule):
-    RuleID = "GCP.Workforce.Pool.Created.or.Updated-prototype"
-    DisplayName = "GCP Workforce Pool Created or Updated"
-    LogTypes = [PantherLogType.GCP_AuditLog]
-    Tags = ["Account Manipulation", "Additional Cloud Roles", "GCP", "Privilege Escalation"]
-    Reports = {"MITRE ATT&CK": ["TA0003:T1136.003", "TA0003:T1098.003", "TA0004:T1098.003"]}
-    Severity = PantherSeverity.High
-    Runbook = "Ensure that the Workforce Pool creation or modification was expected. Adversaries may use this to persist or allow additional access or escalate their privilege.\n"
-    Reference = "https://medium.com/google-cloud/detection-of-inbound-sso-persistence-techniques-in-gcp-c56f7b2a588b"
-    Tests = gcp_workforce_pool_createdor_updated_tests
+    id_ = "GCP.Workforce.Pool.Created.or.Updated-prototype"
+    display_name = "GCP Workforce Pool Created or Updated"
+    log_types = [PantherLogType.GCP_AuditLog]
+    tags = [
+        "Account Manipulation",
+        "Additional Cloud Roles",
+        "GCP",
+        "Privilege Escalation",
+    ]
+    reports = {"MITRE ATT&CK": ["TA0003:T1136.003", "TA0003:T1098.003", "TA0004:T1098.003"]}
+    default_severity = PantherSeverity.high
+    default_runbook = "Ensure that the Workforce Pool creation or modification was expected. Adversaries may use this to persist or allow additional access or escalate their privilege.\n"
+    default_reference = "https://medium.com/google-cloud/detection-of-inbound-sso-persistence-techniques-in-gcp-c56f7b2a588b"
+    tests = gcp_workforce_pool_createdor_updated_tests
     METHODS = [
         "google.iam.admin.v1.WorkforcePools.CreateWorkforcePool",
         "google.iam.admin.v1.WorkforcePools.UpdateWorkforcePool",
@@ -197,7 +202,10 @@ class GCPWorkforcePoolCreatedorUpdated(PantherRule):
 
     def title(self, event):
         actor = event.deep_get(
-            "protoPayload", "authenticationInfo", "principalEmail", default="<ACTOR_NOT_FOUND>"
+            "protoPayload",
+            "authenticationInfo",
+            "principalEmail",
+            default="<ACTOR_NOT_FOUND>",
         )
         workforce_pool = event.deep_get(
             "protoPayload", "request", "workforcePool", "name", default=""

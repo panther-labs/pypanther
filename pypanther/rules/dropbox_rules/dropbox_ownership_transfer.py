@@ -8,9 +8,9 @@ from pypanther.helpers.panther_config import config
 
 dropbox_ownership_transfer_tests: List[PantherRuleTest] = [
     PantherRuleTest(
-        Name="Folder Ownership Transfer to External",
-        ExpectedResult=True,
-        Log={
+        name="Folder Ownership Transfer to External",
+        expected_result=True,
+        log={
             "actor": {
                 "_tag": "user",
                 "user": {
@@ -27,7 +27,10 @@ dropbox_ownership_transfer_tests: List[PantherRuleTest] = [
                     "display_name": "test1",
                     "path": {
                         "contextual": "/Alice Bob/test1",
-                        "namespace_relative": {"is_shared_namespace": True, "ns_id": "12345"},
+                        "namespace_relative": {
+                            "is_shared_namespace": True,
+                            "ns_id": "12345",
+                        },
                     },
                 }
             ],
@@ -89,9 +92,9 @@ dropbox_ownership_transfer_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="Other",
-        ExpectedResult=False,
-        Log={
+        name="Other",
+        expected_result=False,
+        log={
             "actor": {
                 "_tag": "user",
                 "user": {
@@ -150,15 +153,15 @@ dropbox_ownership_transfer_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="Folder Ownership Transfer to Internal",
-        ExpectedResult=True,
-        Mocks=[
+        name="Folder Ownership Transfer to Internal",
+        expected_result=True,
+        mocks=[
             PantherRuleMock(
-                ObjectName="DROPBOX_TRUSTED_OWNERSHIP_DOMAINS",
-                ReturnValue='[\n    "example.com"\n]',
+                object_name="DROPBOX_TRUSTED_OWNERSHIP_DOMAINS",
+                return_value='[\n    "example.com"\n]',
             )
         ],
-        Log={
+        log={
             "actor": {
                 "_tag": "user",
                 "user": {
@@ -175,7 +178,10 @@ dropbox_ownership_transfer_tests: List[PantherRuleTest] = [
                     "display_name": "test1",
                     "path": {
                         "contextual": "/Alice Bob/test1",
-                        "namespace_relative": {"is_shared_namespace": True, "ns_id": "12345"},
+                        "namespace_relative": {
+                            "is_shared_namespace": True,
+                            "ns_id": "12345",
+                        },
                     },
                 }
             ],
@@ -240,13 +246,13 @@ dropbox_ownership_transfer_tests: List[PantherRuleTest] = [
 
 
 class DropboxOwnershipTransfer(PantherRule):
-    Description = "Dropbox ownership of a document or folder has been transferred."
-    DisplayName = "Dropbox Document/Folder Ownership Transfer"
-    Reference = "https://help.dropbox.com/share/owner"
-    Severity = PantherSeverity.High
-    LogTypes = [PantherLogType.Dropbox_TeamEvent]
-    RuleID = "Dropbox.Ownership.Transfer-prototype"
-    Tests = dropbox_ownership_transfer_tests
+    default_description = "Dropbox ownership of a document or folder has been transferred."
+    display_name = "Dropbox Document/Folder Ownership Transfer"
+    default_reference = "https://help.dropbox.com/share/owner"
+    default_severity = PantherSeverity.high
+    log_types = [PantherLogType.Dropbox_TeamEvent]
+    id_ = "Dropbox.Ownership.Transfer-prototype"
+    tests = dropbox_ownership_transfer_tests
     DROPBOX_TRUSTED_OWNERSHIP_DOMAINS = config.DROPBOX_TRUSTED_OWNERSHIP_DOMAINS
 
     def rule(self, event):
@@ -255,7 +261,10 @@ class DropboxOwnershipTransfer(PantherRule):
     def title(self, event):
         actor = deep_get(event, "actor", "user", "email", default="<EMAIL_NOT_FOUND>")
         previous_owner = deep_get(
-            event, "details", "previous_owner_email", default="<PREVIOUS_OWNER_NOT_FOUND>"
+            event,
+            "details",
+            "previous_owner_email",
+            default="<PREVIOUS_OWNER_NOT_FOUND>",
         )
         new_owner = deep_get(event, "details", "new_owner_email", default="<NEW_OWNER_NOT_FOUND>")
         assets = event.get("assets", [{}])

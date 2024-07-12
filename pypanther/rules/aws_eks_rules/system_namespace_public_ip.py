@@ -6,9 +6,9 @@ from pypanther.helpers.panther_base_helpers import deep_get, eks_panther_obj_ref
 
 amazon_eks_audit_system_namespace_from_public_ip_tests: List[PantherRuleTest] = [
     PantherRuleTest(
-        Name="non-system username",
-        ExpectedResult=False,
-        Log={
+        name="non-system username",
+        expected_result=False,
+        log={
             "annotations": {
                 "authorization.k8s.io/decision": "allow",
                 "authorization.k8s.io/reason": "",
@@ -61,9 +61,9 @@ amazon_eks_audit_system_namespace_from_public_ip_tests: List[PantherRuleTest] = 
         },
     ),
     PantherRuleTest(
-        Name="system username - private ip",
-        ExpectedResult=False,
-        Log={
+        name="system username - private ip",
+        expected_result=False,
+        log={
             "annotations": {
                 "authorization.k8s.io/decision": "allow",
                 "authorization.k8s.io/reason": 'RBAC: allowed by ClusterRoleBinding "system:coredns" of ClusterRole "system:coredns" to ServiceAccount "coredns/kube-system"',
@@ -111,9 +111,9 @@ amazon_eks_audit_system_namespace_from_public_ip_tests: List[PantherRuleTest] = 
         },
     ),
     PantherRuleTest(
-        Name="403 from Public IP zero count",
-        ExpectedResult=True,
-        Log={
+        name="403 from Public IP zero count",
+        expected_result=True,
+        log={
             "annotations": {
                 "authorization.k8s.io/decision": "allow",
                 "authorization.k8s.io/reason": 'RBAC: allowed by ClusterRoleBinding "system:coredns" of ClusterRole "system:coredns" to ServiceAccount "coredns/kube-system"',
@@ -161,9 +161,9 @@ amazon_eks_audit_system_namespace_from_public_ip_tests: List[PantherRuleTest] = 
         },
     ),
     PantherRuleTest(
-        Name="system username - public ip - not ResponseComplete",
-        ExpectedResult=False,
-        Log={
+        name="system username - public ip - not ResponseComplete",
+        expected_result=False,
+        log={
             "annotations": {
                 "authorization.k8s.io/decision": "allow",
                 "authorization.k8s.io/reason": 'RBAC: allowed by ClusterRoleBinding "system:coredns" of ClusterRole "system:coredns" to ServiceAccount "coredns/kube-system"',
@@ -211,9 +211,9 @@ amazon_eks_audit_system_namespace_from_public_ip_tests: List[PantherRuleTest] = 
         },
     ),
     PantherRuleTest(
-        Name="system username - public ip - 403",
-        ExpectedResult=False,
-        Log={
+        name="system username - public ip - 403",
+        expected_result=False,
+        log={
             "annotations": {
                 "authorization.k8s.io/decision": "allow",
                 "authorization.k8s.io/reason": 'RBAC: allowed by ClusterRoleBinding "system:coredns" of ClusterRole "system:coredns" to ServiceAccount "coredns/kube-system"',
@@ -261,9 +261,9 @@ amazon_eks_audit_system_namespace_from_public_ip_tests: List[PantherRuleTest] = 
         },
     ),
     PantherRuleTest(
-        Name="eks:addon-manager from public ip as lambda",
-        ExpectedResult=False,
-        Log={
+        name="eks:addon-manager from public ip as lambda",
+        expected_result=False,
+        log={
             "annotations": {
                 "authorization.k8s.io/decision": "allow",
                 "authorization.k8s.io/reason": 'RBAC: allowed by RoleBinding "eks:addon-manager/kube-system" of Role "eks:addon-manager" to User "eks:addon-manager"',
@@ -321,20 +321,21 @@ amazon_eks_audit_system_namespace_from_public_ip_tests: List[PantherRuleTest] = 
 
 
 class AmazonEKSAuditSystemNamespaceFromPublicIP(PantherRule):
-    RuleID = "Amazon.EKS.Audit.SystemNamespaceFromPublicIP-prototype"
-    DisplayName = "EKS Audit Log Reporting system Namespace is Used From A Public IP"
-    LogTypes = [PantherLogType.Amazon_EKS_Audit]
-    Tags = ["EKS"]
-    Reports = {"MITRE ATT&CK": ["TA0027:T1475"]}
-    Reference = "https://docs.aws.amazon.com/eks/latest/userguide/network_reqs.html"
-    Severity = PantherSeverity.Info
-    Description = 'This detection identifies if an activity is recorded in the Kubernetes audit log where the user:username attribute begins with "system:" or "eks:" and the requests originating IP Address is a Public IP Address\n'
-    DedupPeriodMinutes = 1440
-    SummaryAttributes = ["user:username", "p_source_label"]
-    Tests = amazon_eks_audit_system_namespace_from_public_ip_tests
+    id_ = "Amazon.EKS.Audit.SystemNamespaceFromPublicIP-prototype"
+    display_name = "EKS Audit Log Reporting system Namespace is Used From A Public IP"
+    log_types = [PantherLogType.Amazon_EKS_Audit]
+    tags = ["EKS"]
+    reports = {"MITRE ATT&CK": ["TA0027:T1475"]}
+    default_reference = "https://docs.aws.amazon.com/eks/latest/userguide/network_reqs.html"
+    default_severity = PantherSeverity.info
+    default_description = 'This detection identifies if an activity is recorded in the Kubernetes audit log where the user:username attribute begins with "system:" or "eks:" and the requests originating IP Address is a Public IP Address\n'
+    dedup_period_minutes = 1440
+    summary_attributes = ["user:username", "p_source_label"]
+    tests = amazon_eks_audit_system_namespace_from_public_ip_tests
     # Explicitly ignore eks:node-manager and eks:addon-manager
     #  which are run as Lambdas and originate from public IPs
     AMZ_PUBLICS = {"eks:addon-manager", "eks:node-manager"}
+
     # Alert if
     #   the username starts ( with system: or eks: )
     #   and

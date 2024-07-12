@@ -4,9 +4,9 @@ from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSever
 
 teleport_root_login_tests: List[PantherRuleTest] = [
     PantherRuleTest(
-        Name="User logged in as root",
-        ExpectedResult=True,
-        Log={
+        name="User logged in as root",
+        expected_result=True,
+        log={
             "addr_remote": "192.0.2.1:35194",
             "cluster_name": "teleport.example.com",
             "code": "t2000i",
@@ -31,17 +31,24 @@ teleport_root_login_tests: List[PantherRuleTest] = [
 
 
 class TeleportRootLogin(PantherRule):
-    RuleID = "Teleport.RootLogin-prototype"
-    DisplayName = "User Logged in as root"
-    LogTypes = [PantherLogType.Gravitational_TeleportAudit]
-    Tags = ["SSH", "Execution:Command and Scripting Interpreter", "Teleport"]
-    Severity = PantherSeverity.Medium
-    Description = "A User logged in as root"
-    Reports = {"MITRE ATT&CK": ["TA0002:T1059"]}
-    Reference = "https://goteleport.com/docs/management/admin/"
-    Runbook = "Use user accounts and policies, rather than root when logging in. With access to root, it is possible to evade auditing and logging.\n"
-    SummaryAttributes = ["event", "code", "user", "login", "server_hostname", "server_labels"]
-    Tests = teleport_root_login_tests
+    id_ = "Teleport.RootLogin-prototype"
+    display_name = "User Logged in as root"
+    log_types = [PantherLogType.Gravitational_TeleportAudit]
+    tags = ["SSH", "Execution:Command and Scripting Interpreter", "Teleport"]
+    default_severity = PantherSeverity.medium
+    default_description = "A User logged in as root"
+    reports = {"MITRE ATT&CK": ["TA0002:T1059"]}
+    default_reference = "https://goteleport.com/docs/management/admin/"
+    default_runbook = "Use user accounts and policies, rather than root when logging in. With access to root, it is possible to evade auditing and logging.\n"
+    summary_attributes = [
+        "event",
+        "code",
+        "user",
+        "login",
+        "server_hostname",
+        "server_labels",
+    ]
+    tests = teleport_root_login_tests
 
     def rule(self, event):
         return event.get("event") == "session.start" and event.get("login") == "root"

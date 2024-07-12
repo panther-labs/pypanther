@@ -5,9 +5,9 @@ from pypanther.helpers.panther_base_helpers import deep_get
 
 gcp_cloud_storage_buckets_modified_or_deleted_tests: List[PantherRuleTest] = [
     PantherRuleTest(
-        Name="other event",
-        ExpectedResult=False,
-        Log={
+        name="other event",
+        expected_result=False,
+        log={
             "insertid": "ezyd47c12y",
             "logname": "projects/gcp-project1/logs/cloudaudit.googleapis.com%2Factivity",
             "p_any_ip_addresses": ["1.2.3.4"],
@@ -37,7 +37,10 @@ gcp_cloud_storage_buckets_modified_or_deleted_tests: List[PantherRuleTest] = [
                     "sink": {
                         "destination": "pubsub.googleapis.com/projects/gcp-project1/topics/gcp-topic1",
                         "exclusions": [
-                            {"filter": "protoPayload.serviceName = 'k8s.io", "name": "excludek8s"}
+                            {
+                                "filter": "protoPayload.serviceName = 'k8s.io",
+                                "name": "excludek8s",
+                            }
                         ],
                         "name": "log-sink",
                         "writerIdentity": "serviceAccount:p197946410614-915152@gcp-sa-logging.iam.gserviceaccount.com",
@@ -50,7 +53,10 @@ gcp_cloud_storage_buckets_modified_or_deleted_tests: List[PantherRuleTest] = [
                     "callerIP": "1.2.3.4",
                     "callerSuppliedUserAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36,gzip(gfe),gzip(gfe)",
                     "destinationAttributes": {},
-                    "requestAttributes": {"auth": {}, "time": "2023-03-09T16:41:30.540045105Z"},
+                    "requestAttributes": {
+                        "auth": {},
+                        "time": "2023-03-09T16:41:30.540045105Z",
+                    },
                 },
                 "resourceName": "projects/gcp-project1/sinks/log-sink",
                 "serviceName": "logging.googleapis.com",
@@ -58,7 +64,11 @@ gcp_cloud_storage_buckets_modified_or_deleted_tests: List[PantherRuleTest] = [
             },
             "receivetimestamp": "2023-03-09 16:41:32.21",
             "resource": {
-                "labels": {"destination": "", "name": "log-sink", "project_id": "gcp-project1"},
+                "labels": {
+                    "destination": "",
+                    "name": "log-sink",
+                    "project_id": "gcp-project1",
+                },
                 "type": "logging_sink",
             },
             "severity": "NOTICE",
@@ -66,9 +76,9 @@ gcp_cloud_storage_buckets_modified_or_deleted_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="bucket update",
-        ExpectedResult=True,
-        Log={
+        name="bucket update",
+        expected_result=True,
+        log={
             "insertId": "asdf1234asdfg",
             "logName": "projects/gcp-project1/logs/cloudaudit.googleapis.com%2Factivity",
             "p_any_ip_addresses": ["1.2.3.4"],
@@ -94,7 +104,10 @@ gcp_cloud_storage_buckets_modified_or_deleted_tests: List[PantherRuleTest] = [
                     "callerIP": "1.2.3.4",
                     "callerSuppliedUserAgent": "apitools Python/3.9.11 gsutil/5.11 (darwin) analytics/enabled interactive/True command/notification google-cloud-sdk/394.0.0,gzip(gfe)",
                     "destinationAttributes": {},
-                    "requestAttributes": {"auth": {}, "time": "2023-03-09T10:05:23.610372568Z"},
+                    "requestAttributes": {
+                        "auth": {},
+                        "time": "2023-03-09T10:05:23.610372568Z",
+                    },
                 },
                 "resourceName": "projects/_/buckets/my-bucket",
                 "serviceName": "storage.googleapis.com",
@@ -117,13 +130,13 @@ gcp_cloud_storage_buckets_modified_or_deleted_tests: List[PantherRuleTest] = [
 
 
 class GCPCloudStorageBucketsModifiedOrDeleted(PantherRule):
-    Description = "Detects GCP cloud storage bucket updates and deletes."
-    DisplayName = "GCP Cloud Storage Buckets Modified Or Deleted"
-    Reference = "https://cloud.google.com/storage/docs/buckets"
-    Severity = PantherSeverity.Low
-    LogTypes = [PantherLogType.GCP_AuditLog]
-    RuleID = "GCP.Cloud.Storage.Buckets.Modified.Or.Deleted-prototype"
-    Tests = gcp_cloud_storage_buckets_modified_or_deleted_tests
+    default_description = "Detects GCP cloud storage bucket updates and deletes."
+    display_name = "GCP Cloud Storage Buckets Modified Or Deleted"
+    default_reference = "https://cloud.google.com/storage/docs/buckets"
+    default_severity = PantherSeverity.low
+    log_types = [PantherLogType.GCP_AuditLog]
+    id_ = "GCP.Cloud.Storage.Buckets.Modified.Or.Deleted-prototype"
+    tests = gcp_cloud_storage_buckets_modified_or_deleted_tests
     BUCKET_OPERATIONS = ["storage.buckets.delete", "storage.buckets.update"]
 
     def rule(self, event):

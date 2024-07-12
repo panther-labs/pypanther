@@ -22,12 +22,12 @@ def get_actor_user(event):
 
 
 class StandardAzureAuditSignIn(PantherDataModel):
-    DataModelID: str = "Standard.Azure.Audit.SignIn"
-    DisplayName: str = "Azure SignIn Logs DataModel"
-    Enabled: bool = True
-    LogTypes: List[str] = [PantherLogType.Azure_Audit]
-    Mappings: List[PantherDataModelMapping] = [
-        PantherDataModelMapping(Name="actor_user", Method=get_actor_user),
-        PantherDataModelMapping(Name="event_type", Method=get_event_type),
-        PantherDataModelMapping(Name="source_ip", Path="$.properties.ipAddress"),
+    id_: str = "Standard.Azure.Audit.SignIn"
+    display_name: str = "Azure SignIn Logs DataModel"
+    enabled: bool = True
+    log_types: List[str] = [PantherLogType.Azure_Audit]
+    mappings: List[PantherDataModelMapping] = [
+        PantherDataModelMapping(name="actor_user", method=get_actor_user),
+        PantherDataModelMapping(name="event_type", method=get_event_type),
+        PantherDataModelMapping(name="source_ip", path="$.properties.ipAddress"),
     ]

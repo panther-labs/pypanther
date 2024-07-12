@@ -5,9 +5,9 @@ from pypanther.helpers.panther_base_helpers import aws_rule_context, deep_get
 
 awsrds_public_restore_tests: List[PantherRuleTest] = [
     PantherRuleTest(
-        Name="Not-Restore-RDS-Request",
-        ExpectedResult=False,
-        Log={
+        name="Not-Restore-RDS-Request",
+        expected_result=False,
+        log={
             "awsRegion": "us-east-1",
             "eventID": "797163d3-5726-441d-80a7-6eeb7464acd4",
             "eventName": "CreateDBInstance",
@@ -21,7 +21,12 @@ awsrds_public_restore_tests: List[PantherRuleTest] = [
                 "allocatedStorage": 20,
                 "dBInstanceClass": "db.m1.small",
                 "dBInstanceIdentifier": "test-instance",
-                "enableCloudwatchLogsExports": ["audit", "error", "general", "slowquery"],
+                "enableCloudwatchLogsExports": [
+                    "audit",
+                    "error",
+                    "general",
+                    "slowquery",
+                ],
                 "engine": "mysql",
                 "masterUserPassword": "****",
                 "masterUsername": "myawsuser",
@@ -37,7 +42,10 @@ awsrds_public_restore_tests: List[PantherRuleTest] = [
                 "dBInstanceIdentifier": "test-instance",
                 "dBInstanceStatus": "creating",
                 "dBParameterGroups": [
-                    {"dBParameterGroupName": "default.mysql8.0", "parameterApplyStatus": "in-sync"}
+                    {
+                        "dBParameterGroupName": "default.mysql8.0",
+                        "parameterApplyStatus": "in-sync",
+                    }
                 ],
                 "dBSecurityGroups": [],
                 "dBSubnetGroup": {
@@ -119,9 +127,9 @@ awsrds_public_restore_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="RDS-Restore-Not-Public",
-        ExpectedResult=False,
-        Log={
+        name="RDS-Restore-Not-Public",
+        expected_result=False,
+        log={
             "awsRegion": "us-east-1",
             "eventID": "797163d3-5726-441d-80a7-6eeb7464acd4",
             "eventName": "RestoreDBInstanceFromDBSnapshot",
@@ -135,7 +143,12 @@ awsrds_public_restore_tests: List[PantherRuleTest] = [
                 "allocatedStorage": 20,
                 "dBInstanceClass": "db.m1.small",
                 "dBInstanceIdentifier": "test-instance",
-                "enableCloudwatchLogsExports": ["audit", "error", "general", "slowquery"],
+                "enableCloudwatchLogsExports": [
+                    "audit",
+                    "error",
+                    "general",
+                    "slowquery",
+                ],
                 "engine": "mysql",
                 "masterUserPassword": "****",
                 "masterUsername": "myawsuser",
@@ -151,7 +164,10 @@ awsrds_public_restore_tests: List[PantherRuleTest] = [
                 "dBInstanceIdentifier": "test-instance",
                 "dBInstanceStatus": "creating",
                 "dBParameterGroups": [
-                    {"dBParameterGroupName": "default.mysql8.0", "parameterApplyStatus": "in-sync"}
+                    {
+                        "dBParameterGroupName": "default.mysql8.0",
+                        "parameterApplyStatus": "in-sync",
+                    }
                 ],
                 "dBSecurityGroups": [],
                 "dBSubnetGroup": {
@@ -233,9 +249,9 @@ awsrds_public_restore_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="RDS-Restore-Public",
-        ExpectedResult=True,
-        Log={
+        name="RDS-Restore-Public",
+        expected_result=True,
+        log={
             "awsRegion": "us-east-1",
             "eventID": "797163d3-5726-441d-80a7-6eeb7464acd4",
             "eventName": "RestoreDBInstanceFromDBSnapshot",
@@ -249,7 +265,12 @@ awsrds_public_restore_tests: List[PantherRuleTest] = [
                 "allocatedStorage": 20,
                 "dBInstanceClass": "db.m1.small",
                 "dBInstanceIdentifier": "test-instance",
-                "enableCloudwatchLogsExports": ["audit", "error", "general", "slowquery"],
+                "enableCloudwatchLogsExports": [
+                    "audit",
+                    "error",
+                    "general",
+                    "slowquery",
+                ],
                 "engine": "mysql",
                 "masterUserPassword": "****",
                 "masterUsername": "myawsuser",
@@ -265,7 +286,10 @@ awsrds_public_restore_tests: List[PantherRuleTest] = [
                 "dBInstanceIdentifier": "test-instance",
                 "dBInstanceStatus": "creating",
                 "dBParameterGroups": [
-                    {"dBParameterGroupName": "default.mysql8.0", "parameterApplyStatus": "in-sync"}
+                    {
+                        "dBParameterGroupName": "default.mysql8.0",
+                        "parameterApplyStatus": "in-sync",
+                    }
                 ],
                 "dBSecurityGroups": [],
                 "dBSubnetGroup": {
@@ -350,16 +374,16 @@ awsrds_public_restore_tests: List[PantherRuleTest] = [
 
 
 class AWSRDSPublicRestore(PantherRule):
-    Description = "Detects the recovery of a new public database instance from a snapshot. It may be part of data exfiltration."
-    DisplayName = "AWS Public RDS Restore"
-    Reports = {"MITRE ATT&CK": ["TA0010:T1020"]}
-    Reference = (
+    default_description = "Detects the recovery of a new public database instance from a snapshot. It may be part of data exfiltration."
+    display_name = "AWS Public RDS Restore"
+    reports = {"MITRE ATT&CK": ["TA0010:T1020"]}
+    default_reference = (
         "https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_RestoreFromSnapshot.html"
     )
-    Severity = PantherSeverity.High
-    LogTypes = [PantherLogType.AWS_CloudTrail]
-    RuleID = "AWS.RDS.PublicRestore-prototype"
-    Tests = awsrds_public_restore_tests
+    default_severity = PantherSeverity.high
+    log_types = [PantherLogType.AWS_CloudTrail]
+    id_ = "AWS.RDS.PublicRestore-prototype"
+    tests = awsrds_public_restore_tests
 
     def rule(self, event):
         if (

@@ -6,9 +6,9 @@ from pypanther.helpers.panther_base_helpers import deep_get
 
 auth0_mfa_policy_disabled_tests: List[PantherRuleTest] = [
     PantherRuleTest(
-        Name="Other Event",
-        ExpectedResult=False,
-        Log={
+        name="Other Event",
+        expected_result=False,
+        log={
             "data": {
                 "client_id": "1HXWWGKk1Zj3JF8GvMrnCSirccDs4qvr",
                 "client_name": "",
@@ -199,9 +199,9 @@ auth0_mfa_policy_disabled_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="MFA Policy Disabled",
-        ExpectedResult=True,
-        Log={
+        name="MFA Policy Disabled",
+        expected_result=True,
+        log={
             "data": {
                 "client_id": "1HXWWGKk1Zj3JF8GvMrnCSirccDs4qvr",
                 "client_name": "",
@@ -388,21 +388,26 @@ auth0_mfa_policy_disabled_tests: List[PantherRuleTest] = [
 
 
 class Auth0MFAPolicyDisabled(PantherRule):
-    Description = "An Auth0 User disabled MFA for your organization's tenant."
-    DisplayName = "Auth0 MFA Policy Disabled"
-    Runbook = "Assess if this was done by the user for a valid business reason. Be vigilant to re-enable this setting as it's in the best security interest for your organization's security posture."
-    Reference = "https://auth0.com/docs/secure/multi-factor-authentication/enable-mfa#:~:text=prompted%20for%20MFA.-,Never,-%3A%20MFA%20is%20not"
-    Severity = PantherSeverity.High
-    LogTypes = [PantherLogType.Auth0_Events]
-    RuleID = "Auth0.MFA.Policy.Disabled-prototype"
-    Tests = auth0_mfa_policy_disabled_tests
+    default_description = "An Auth0 User disabled MFA for your organization's tenant."
+    display_name = "Auth0 MFA Policy Disabled"
+    default_runbook = "Assess if this was done by the user for a valid business reason. Be vigilant to re-enable this setting as it's in the best security interest for your organization's security posture."
+    default_reference = "https://auth0.com/docs/secure/multi-factor-authentication/enable-mfa#:~:text=prompted%20for%20MFA.-,Never,-%3A%20MFA%20is%20not"
+    default_severity = PantherSeverity.high
+    log_types = [PantherLogType.Auth0_Events]
+    id_ = "Auth0.MFA.Policy.Disabled-prototype"
+    tests = auth0_mfa_policy_disabled_tests
 
     def rule(self, event):
         data_description = deep_get(
             event, "data", "description", default="<NO_DATA_DESCRIPTION_FOUND>"
         )
         request_path = deep_get(
-            event, "data", "details", "request", "path", default="<NO_REQUEST_PATH_FOUND>"
+            event,
+            "data",
+            "details",
+            "request",
+            "path",
+            default="<NO_REQUEST_PATH_FOUND>",
         )
         request_body = deep_get(event, "data", "details", "request", "body", default=[-1])
         return all(
@@ -416,7 +421,14 @@ class Auth0MFAPolicyDisabled(PantherRule):
 
     def title(self, event):
         user = deep_get(
-            event, "data", "details", "request", "auth", "user", "email", default="<NO_USER_FOUND>"
+            event,
+            "data",
+            "details",
+            "request",
+            "auth",
+            "user",
+            "email",
+            default="<NO_USER_FOUND>",
         )
         p_source_label = deep_get(event, "p_source_label", default="<NO_P_SOURCE_LABEL_FOUND>")
         return f"Auth0 User [{user}] set mfa requirement settings to 'Never' for your organization's tenant [{p_source_label}]."

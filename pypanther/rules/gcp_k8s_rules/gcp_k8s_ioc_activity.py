@@ -6,29 +6,35 @@ from pypanther.helpers.panther_base_helpers import deep_get
 
 gcpk8s_ioc_activity_tests: List[PantherRuleTest] = [
     PantherRuleTest(
-        Name="triggers",
-        ExpectedResult=True,
-        Log={"operation": {"producer": "k8s.io"}, "p_enrichment": {"tor_exit_nodes": ["1.1.1.1"]}},
+        name="triggers",
+        expected_result=True,
+        log={
+            "operation": {"producer": "k8s.io"},
+            "p_enrichment": {"tor_exit_nodes": ["1.1.1.1"]},
+        },
     ),
     PantherRuleTest(
-        Name="ignore",
-        ExpectedResult=False,
-        Log={"operation": {"producer": "chrome"}, "p_enrichment": {"tor_exit_nodes": ["1.1.1.1"]}},
+        name="ignore",
+        expected_result=False,
+        log={
+            "operation": {"producer": "chrome"},
+            "p_enrichment": {"tor_exit_nodes": ["1.1.1.1"]},
+        },
     ),
 ]
 
 
 class GCPK8sIOCActivity(PantherRule):
-    RuleID = "GCP.K8s.IOC.Activity-prototype"
-    DisplayName = "GCP K8s IOCActivity"
-    LogTypes = [PantherLogType.GCP_AuditLog]
-    Tags = ["GCP", "Optional"]
-    Severity = PantherSeverity.Medium
-    Description = "This detection monitors for any kubernetes API Request originating from an Indicator of Compromise."
-    Reports = {"MITRE ATT&CK": ["T1573.002"]}
-    Runbook = "Add IP address the request is originated from to banned addresses."
-    Reference = "https://medium.com/snowflake/from-logs-to-detection-using-snowflake-and-panther-to-detect-k8s-threats-d72f70a504d7"
-    Tests = gcpk8s_ioc_activity_tests
+    id_ = "GCP.K8s.IOC.Activity-prototype"
+    display_name = "GCP K8s IOCActivity"
+    log_types = [PantherLogType.GCP_AuditLog]
+    tags = ["GCP", "Optional"]
+    default_severity = PantherSeverity.medium
+    default_description = "This detection monitors for any kubernetes API Request originating from an Indicator of Compromise."
+    reports = {"MITRE ATT&CK": ["T1573.002"]}
+    default_runbook = "Add IP address the request is originated from to banned addresses."
+    default_reference = "https://medium.com/snowflake/from-logs-to-detection-using-snowflake-and-panther-to-detect-k8s-threats-d72f70a504d7"
+    tests = gcpk8s_ioc_activity_tests
 
     def rule(self, event):
         if deep_get(event, "operation", "producer") == "k8s.io" and deep_get(

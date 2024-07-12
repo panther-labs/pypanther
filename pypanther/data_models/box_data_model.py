@@ -15,12 +15,12 @@ def get_event_type(event):
 
 
 class StandardBoxEvent(PantherDataModel):
-    DataModelID: str = "Standard.Box.Event"
-    DisplayName: str = "Box Events"
-    Enabled: bool = True
-    LogTypes: List[str] = [PantherLogType.Box_Event]
-    Mappings: List[PantherDataModelMapping] = [
-        PantherDataModelMapping(Name="actor_user", Path="$.created_by.name"),
-        PantherDataModelMapping(Name="event_type", Method=get_event_type),
-        PantherDataModelMapping(Name="source_ip", Path="ip_address"),
+    id_: str = "Standard.Box.Event"
+    display_name: str = "Box Events"
+    enabled: bool = True
+    log_types: List[str] = [PantherLogType.Box_Event]
+    mappings: List[PantherDataModelMapping] = [
+        PantherDataModelMapping(name="actor_user", path="$.created_by.name"),
+        PantherDataModelMapping(name="event_type", method=get_event_type),
+        PantherDataModelMapping(name="source_ip", path="ip_address"),
     ]

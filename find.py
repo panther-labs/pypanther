@@ -91,13 +91,13 @@ def stats_for_category():
 def stats_for_logtype():
     rules_by_logtypes = defaultdict(list)
     for rule in get_panther_rules():
-        if len(rule.LogTypes) == 0:
+        if len(rule.log_types) == 0:
             rules_by_logtypes["None"].append(rule)
             continue
-        if len(rule.LogTypes) > 1:
+        if len(rule.log_types) > 1:
             rules_by_logtypes["Multiple"].append(rule)
             continue
-        rules_by_logtypes[rule.LogTypes[0]].append(rule)
+        rules_by_logtypes[rule.log_types[0]].append(rule)
 
     for group, rule_list in rules_by_logtypes.items():
         if len(rule_list) == 1:

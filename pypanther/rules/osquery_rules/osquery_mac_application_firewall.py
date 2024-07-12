@@ -5,9 +5,9 @@ from pypanther.helpers.panther_base_helpers import deep_get
 
 osquery_mac_application_firewall_settings_tests: List[PantherRuleTest] = [
     PantherRuleTest(
-        Name="ALF Disabled",
-        ExpectedResult=True,
-        Log={
+        name="ALF Disabled",
+        expected_result=True,
+        log={
             "name": "pack_incident-response_alf",
             "action": "added",
             "hostIdentifier": "test-host",
@@ -23,9 +23,9 @@ osquery_mac_application_firewall_settings_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="ALF Enabled",
-        ExpectedResult=False,
-        Log={
+        name="ALF Enabled",
+        expected_result=False,
+        log={
             "name": "pack_incident-response_alf",
             "action": "added",
             "hostIdentifier": "test-host",
@@ -44,17 +44,17 @@ osquery_mac_application_firewall_settings_tests: List[PantherRuleTest] = [
 
 
 class OsqueryMacApplicationFirewallSettings(PantherRule):
-    RuleID = "Osquery.Mac.ApplicationFirewallSettings-prototype"
-    DisplayName = "MacOS ALF is misconfigured"
-    LogTypes = [PantherLogType.Osquery_Differential]
-    Tags = ["Osquery", "MacOS", "Security Control", "Defense Evasion:Impair Defenses"]
-    Reports = {"CIS": ["2.6.3", "2.6.4"], "MITRE ATT&CK": ["TA0005:T1562"]}
-    Severity = PantherSeverity.High
-    Description = "The application level firewall blocks unwanted network connections made to your computer from other computers on your network.\n"
-    Runbook = "Re-enable the firewall manually or with configuration management"
-    Reference = "https://support.apple.com/en-us/HT201642"
-    SummaryAttributes = ["name", "hostIdentifier", "action"]
-    Tests = osquery_mac_application_firewall_settings_tests
+    id_ = "Osquery.Mac.ApplicationFirewallSettings-prototype"
+    display_name = "MacOS ALF is misconfigured"
+    log_types = [PantherLogType.Osquery_Differential]
+    tags = ["Osquery", "MacOS", "Security Control", "Defense Evasion:Impair Defenses"]
+    reports = {"CIS": ["2.6.3", "2.6.4"], "MITRE ATT&CK": ["TA0005:T1562"]}
+    default_severity = PantherSeverity.high
+    default_description = "The application level firewall blocks unwanted network connections made to your computer from other computers on your network.\n"
+    default_runbook = "Re-enable the firewall manually or with configuration management"
+    default_reference = "https://support.apple.com/en-us/HT201642"
+    summary_attributes = ["name", "hostIdentifier", "action"]
+    tests = osquery_mac_application_firewall_settings_tests
     QUERIES = {"pack_incident-response_alf", "pack/mac-cis/ApplicationFirewall"}
 
     def rule(self, event):

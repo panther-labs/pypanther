@@ -5,9 +5,9 @@ from pypanther.helpers.panther_base_helpers import box_parse_additional_details,
 
 box_malicious_content_tests: List[PantherRuleTest] = [
     PantherRuleTest(
-        Name="Regular Event",
-        ExpectedResult=False,
-        Log={
+        name="Regular Event",
+        expected_result=False,
+        log={
             "type": "event",
             "additional_details": '{"key": "value"}',
             "created_by": {
@@ -20,9 +20,9 @@ box_malicious_content_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="File marked malicious",
-        ExpectedResult=True,
-        Log={
+        name="File marked malicious",
+        expected_result=True,
+        log={
             "type": "event",
             "additional_details": '{"key": "value"}',
             "created_by": {
@@ -53,9 +53,9 @@ box_malicious_content_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="Malicious Content",
-        ExpectedResult=True,
-        Log={
+        name="Malicious Content",
+        expected_result=True,
+        log={
             "type": "event",
             "additional_details": '{"shield_alert":{"rule_category":"Malicious Content","risk_score":100,"alert_summary":{"upload_activity":{"item_name":"malware.exe"}},"user":{"email":"cat@example"}}}',
             "created_by": {
@@ -72,17 +72,17 @@ box_malicious_content_tests: List[PantherRuleTest] = [
 
 
 class BoxMaliciousContent(PantherRule):
-    RuleID = "Box.Malicious.Content-prototype"
-    DisplayName = "Malicious Content Detected"
-    LogTypes = [PantherLogType.Box_Event]
-    Tags = ["Box", "Execution:User Execution"]
-    Reports = {"MITRE ATT&CK": ["TA0002:T1204"]}
-    Severity = PantherSeverity.High
-    Description = "Box has detect malicious content, such as a virus.\n"
-    Reference = "https://developer.box.com/guides/events/shield-alert-events/\n"
-    Runbook = "Investigate whether this is a false positive or if the virus needs to be contained appropriately.\n"
-    SummaryAttributes = ["event_type"]
-    Tests = box_malicious_content_tests
+    id_ = "Box.Malicious.Content-prototype"
+    display_name = "Malicious Content Detected"
+    log_types = [PantherLogType.Box_Event]
+    tags = ["Box", "Execution:User Execution"]
+    reports = {"MITRE ATT&CK": ["TA0002:T1204"]}
+    default_severity = PantherSeverity.high
+    default_description = "Box has detect malicious content, such as a virus.\n"
+    default_reference = "https://developer.box.com/guides/events/shield-alert-events/\n"
+    default_runbook = "Investigate whether this is a false positive or if the virus needs to be contained appropriately.\n"
+    summary_attributes = ["event_type"]
+    tests = box_malicious_content_tests
 
     def rule(self, event):
         # enterprise  malicious file alert event

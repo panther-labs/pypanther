@@ -118,34 +118,35 @@ def get_verb(event):
 
 
 class StandardGCPAuditLog(PantherDataModel):
-    DataModelID: str = "Standard.GCP.AuditLog"
-    DisplayName: str = "GCP Audit Log"
-    Enabled: bool = True
-    LogTypes: List[str] = [PantherLogType.GCP_AuditLog]
-    Mappings: List[PantherDataModelMapping] = [
+    id_: str = "Standard.GCP.AuditLog"
+    display_name: str = "GCP Audit Log"
+    enabled: bool = True
+    log_types: List[str] = [PantherLogType.GCP_AuditLog]
+    mappings: List[PantherDataModelMapping] = [
         PantherDataModelMapping(
-            Name="actor_user", Path="$.protoPayload.authenticationInfo.principalEmail"
+            name="actor_user", path="$.protoPayload.authenticationInfo.principalEmail"
         ),
-        PantherDataModelMapping(Name="assigned_admin_role", Method=get_iam_roles),
-        PantherDataModelMapping(Name="event_type", Method=get_event_type),
-        PantherDataModelMapping(Name="source_ip", Path="$.protoPayload.requestMetadata.callerIP"),
-        PantherDataModelMapping(Name="user", Method=get_modified_users),
-        PantherDataModelMapping(Name="annotations", Path="$.labels"),
-        PantherDataModelMapping(Name="apiGroup", Method=get_api_group),
-        PantherDataModelMapping(Name="apiVersion", Method=get_api_version),
-        PantherDataModelMapping(Name="namespace", Method=get_namespace),
-        PantherDataModelMapping(Name="resource", Method=get_resource),
-        PantherDataModelMapping(Name="name", Method=get_name),
-        PantherDataModelMapping(Name="requestURI", Method=get_request_uri),
-        PantherDataModelMapping(Name="responseStatus", Path="$.protoPayload.status"),
-        PantherDataModelMapping(Name="sourceIPs", Method=get_source_ips),
+        PantherDataModelMapping(name="assigned_admin_role", method=get_iam_roles),
+        PantherDataModelMapping(name="event_type", method=get_event_type),
+        PantherDataModelMapping(name="source_ip", path="$.protoPayload.requestMetadata.callerIP"),
+        PantherDataModelMapping(name="user", method=get_modified_users),
+        PantherDataModelMapping(name="annotations", path="$.labels"),
+        PantherDataModelMapping(name="apiGroup", method=get_api_group),
+        PantherDataModelMapping(name="apiVersion", method=get_api_version),
+        PantherDataModelMapping(name="namespace", method=get_namespace),
+        PantherDataModelMapping(name="resource", method=get_resource),
+        PantherDataModelMapping(name="name", method=get_name),
+        PantherDataModelMapping(name="requestURI", method=get_request_uri),
+        PantherDataModelMapping(name="responseStatus", path="$.protoPayload.status"),
+        PantherDataModelMapping(name="sourceIPs", method=get_source_ips),
         PantherDataModelMapping(
-            Name="username", Path="$.protoPayload.authenticationInfo.principalEmail"
+            name="username", path="$.protoPayload.authenticationInfo.principalEmail"
         ),
         PantherDataModelMapping(
-            Name="userAgent", Path="$.protoPayload.requestMetadata.callerSuppliedUserAgent"
+            name="userAgent",
+            path="$.protoPayload.requestMetadata.callerSuppliedUserAgent",
         ),
-        PantherDataModelMapping(Name="verb", Method=get_verb),
-        PantherDataModelMapping(Name="requestObject", Path="$.protoPayload.request"),
-        PantherDataModelMapping(Name="responseObject", Path="$.protoPayload.response"),
+        PantherDataModelMapping(name="verb", method=get_verb),
+        PantherDataModelMapping(name="requestObject", path="$.protoPayload.request"),
+        PantherDataModelMapping(name="responseObject", path="$.protoPayload.response"),
     ]

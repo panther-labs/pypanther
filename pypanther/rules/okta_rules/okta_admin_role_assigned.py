@@ -6,9 +6,9 @@ from pypanther.helpers.panther_base_helpers import deep_get, okta_alert_context
 
 okta_admin_role_assigned_tests: List[PantherRuleTest] = [
     PantherRuleTest(
-        Name="Admin Access Assigned",
-        ExpectedResult=True,
-        Log={
+        name="Admin Access Assigned",
+        expected_result=True,
+        log={
             "uuid": "2a992f80-d1ad-4f62-900e-8c68bb72a21b",
             "published": "2020-11-25 21:27:03.496000000",
             "eventType": "user.account.privilege.grant",
@@ -64,9 +64,9 @@ okta_admin_role_assigned_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="Super Admin Access Assigned (High sev)",
-        ExpectedResult=True,
-        Log={
+        name="Super Admin Access Assigned (High sev)",
+        expected_result=True,
+        log={
             "uuid": "2a992f80-d1ad-4f62-900e-8c68bb72a21b",
             "published": "2020-11-25 21:27:03.496000000",
             "eventType": "user.account.privilege.grant",
@@ -125,20 +125,29 @@ okta_admin_role_assigned_tests: List[PantherRuleTest] = [
 
 
 class OktaAdminRoleAssigned(PantherRule):
-    RuleID = "Okta.AdminRoleAssigned-prototype"
-    DisplayName = "Okta Admin Role Assigned"
-    LogTypes = [PantherLogType.Okta_SystemLog]
-    Tags = ["Identity & Access Management", "Okta", "Privilege Escalation:Valid Accounts"]
-    Reports = {"MITRE ATT&CK": ["TA0004:T1078"]}
-    Severity = PantherSeverity.Info
-    Description = "A user has been granted administrative privileges in Okta"
-    Reference = (
+    id_ = "Okta.AdminRoleAssigned-prototype"
+    display_name = "Okta Admin Role Assigned"
+    log_types = [PantherLogType.Okta_SystemLog]
+    tags = [
+        "Identity & Access Management",
+        "Okta",
+        "Privilege Escalation:Valid Accounts",
+    ]
+    reports = {"MITRE ATT&CK": ["TA0004:T1078"]}
+    default_severity = PantherSeverity.info
+    default_description = "A user has been granted administrative privileges in Okta"
+    default_reference = (
         "https://help.okta.com/en/prod/Content/Topics/Security/administrators-admin-comparison.htm"
     )
-    Runbook = "Reach out to the user if needed to validate the activity"
-    DedupPeriodMinutes = 15
-    SummaryAttributes = ["eventType", "severity", "displayMessage", "p_any_ip_addresses"]
-    Tests = okta_admin_role_assigned_tests
+    default_runbook = "Reach out to the user if needed to validate the activity"
+    dedup_period_minutes = 15
+    summary_attributes = [
+        "eventType",
+        "severity",
+        "displayMessage",
+        "p_any_ip_addresses",
+    ]
+    tests = okta_admin_role_assigned_tests
     ADMIN_PATTERN = re.compile("[aA]dministrator")
 
     def rule(self, event):
@@ -147,14 +156,24 @@ class OktaAdminRoleAssigned(PantherRule):
             and deep_get(event, "outcome", "result") == "SUCCESS"
             and bool(
                 self.ADMIN_PATTERN.search(
-                    deep_get(event, "debugContext", "debugData", "privilegeGranted", default="")
+                    deep_get(
+                        event,
+                        "debugContext",
+                        "debugData",
+                        "privilegeGranted",
+                        default="",
+                    )
                 )
             )
         )
 
     def dedup(self, event):
         return deep_get(
-            event, "debugContext", "debugData", "requestId", default="<UNKNOWN_REQUEST_ID>"
+            event,
+            "debugContext",
+            "debugData",
+            "requestId",
+            default="<UNKNOWN_REQUEST_ID>",
         )
 
     def title(self, event):
@@ -162,7 +181,11 @@ class OktaAdminRoleAssigned(PantherRule):
         display_name = target[0].get("displayName", "MISSING DISPLAY NAME") if target else ""
         alternate_id = target[0].get("alternateId", "MISSING ALTERNATE ID") if target else ""
         privilege = deep_get(
-            event, "debugContext", "debugData", "privilegeGranted", default="<UNKNOWN_PRIVILEGE>"
+            event,
+            "debugContext",
+            "debugData",
+            "privilegeGranted",
+            default="<UNKNOWN_PRIVILEGE>",
         )
         return f"{deep_get(event, 'actor', 'displayName')} <{deep_get(event, 'actor', 'alternateId')}> granted [{privilege}] privileges to {display_name} <{alternate_id}>"
 

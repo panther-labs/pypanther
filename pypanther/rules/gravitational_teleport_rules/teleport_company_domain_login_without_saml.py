@@ -6,9 +6,9 @@ from pypanther.helpers.panther_config import config
 
 teleport_company_domain_login_without_saml_tests: List[PantherRuleTest] = [
     PantherRuleTest(
-        Name="A User from the company domain(s) logged in with SAML",
-        ExpectedResult=False,
-        Log={
+        name="A User from the company domain(s) logged in with SAML",
+        expected_result=False,
+        log={
             "attributes": {"firstName": [""], "groups": ["employees"]},
             "cluster_name": "teleport.example.com",
             "code": "T1001I",
@@ -22,9 +22,9 @@ teleport_company_domain_login_without_saml_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="A User from the company domain(s) logged in without SAML",
-        ExpectedResult=True,
-        Log={
+        name="A User from the company domain(s) logged in without SAML",
+        expected_result=True,
+        log={
             "cluster_name": "teleport.example.com",
             "code": "T1001I",
             "ei": 0,
@@ -40,17 +40,17 @@ teleport_company_domain_login_without_saml_tests: List[PantherRuleTest] = [
 
 
 class TeleportCompanyDomainLoginWithoutSAML(PantherRule):
-    RuleID = "Teleport.CompanyDomainLoginWithoutSAML-prototype"
-    DisplayName = "A User from the company domain(s) Logged in without SAML"
-    LogTypes = [PantherLogType.Gravitational_TeleportAudit]
-    Tags = ["Teleport"]
-    Severity = PantherSeverity.High
-    Description = "A User from the company domain(s) Logged in without SAML"
-    Reports = {"MITRE ATT&CK": ["TA0005:T1562"]}
-    Reference = "https://goteleport.com/docs/management/admin/"
-    Runbook = "A User from the company domain(s) Logged in without SAML\n"
-    SummaryAttributes = ["event", "code", "user", "method", "mfa_device"]
-    Tests = teleport_company_domain_login_without_saml_tests
+    id_ = "Teleport.CompanyDomainLoginWithoutSAML-prototype"
+    display_name = "A User from the company domain(s) Logged in without SAML"
+    log_types = [PantherLogType.Gravitational_TeleportAudit]
+    tags = ["Teleport"]
+    default_severity = PantherSeverity.high
+    default_description = "A User from the company domain(s) Logged in without SAML"
+    reports = {"MITRE ATT&CK": ["TA0005:T1562"]}
+    default_reference = "https://goteleport.com/docs/management/admin/"
+    default_runbook = "A User from the company domain(s) Logged in without SAML\n"
+    summary_attributes = ["event", "code", "user", "method", "mfa_device"]
+    tests = teleport_company_domain_login_without_saml_tests
     TELEPORT_ORGANIZATION_DOMAINS_REGEX = (
         "@(" + "|".join(config.TELEPORT_ORGANIZATION_DOMAINS) + ")$"
     )

@@ -5,9 +5,9 @@ from pypanther.helpers.panther_base_helpers import deep_get
 
 aws_cloud_trail_account_discovery_tests: List[PantherRuleTest] = [
     PantherRuleTest(
-        Name="DescribeAccount",
-        ExpectedResult=True,
-        Log={
+        name="DescribeAccount",
+        expected_result=True,
+        log={
             "awsRegion": "us-east-1",
             "eventCategory": "Management",
             "eventID": "0b51d284-19f7-42cf-a103-276602aeada5",
@@ -66,9 +66,9 @@ aws_cloud_trail_account_discovery_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="GetAlternateContact",
-        ExpectedResult=True,
-        Log={
+        name="GetAlternateContact",
+        expected_result=True,
+        log={
             "awsRegion": "us-east-1",
             "eventCategory": "Management",
             "eventID": "cd05c51d-fee2-4003-b9c5-385f28ad5b29",
@@ -108,9 +108,9 @@ aws_cloud_trail_account_discovery_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="GetContactInformation",
-        ExpectedResult=True,
-        Log={
+        name="GetContactInformation",
+        expected_result=True,
+        log={
             "awsRegion": "us-east-1",
             "eventCategory": "Management",
             "eventID": "743a109a-3bce-4298-8828-114c11339119",
@@ -153,14 +153,14 @@ aws_cloud_trail_account_discovery_tests: List[PantherRuleTest] = [
 
 
 class AWSCloudTrailAccountDiscovery(PantherRule):
-    Description = "Adversaries may attempt to get a listing of accounts on a system or within an environment. This information can help adversaries determine which accounts exist to aid in follow-on behavior."
-    DisplayName = "AWS CloudTrail Account Discovery"
-    Reference = "https://attack.mitre.org/techniques/T1087/"
-    Reports = {"MITRE ATT&CK": ["TA0007:T1087"]}
-    Severity = PantherSeverity.Info
-    LogTypes = [PantherLogType.AWS_CloudTrail]
-    RuleID = "AWS.CloudTrail.Account.Discovery-prototype"
-    Tests = aws_cloud_trail_account_discovery_tests
+    default_description = "Adversaries may attempt to get a listing of accounts on a system or within an environment. This information can help adversaries determine which accounts exist to aid in follow-on behavior."
+    display_name = "AWS CloudTrail Account Discovery"
+    default_reference = "https://attack.mitre.org/techniques/T1087/"
+    reports = {"MITRE ATT&CK": ["TA0007:T1087"]}
+    default_severity = PantherSeverity.info
+    log_types = [PantherLogType.AWS_CloudTrail]
+    id_ = "AWS.CloudTrail.Account.Discovery-prototype"
+    tests = aws_cloud_trail_account_discovery_tests
     DISCOVERY_EVENTS = [
         "GetAlternateContact",
         "GetContactInformation",

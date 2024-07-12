@@ -5,9 +5,9 @@ from pypanther.helpers.panther_base_helpers import deep_get, slack_alert_context
 
 slack_audit_logs_user_privilege_changed_to_user_tests: List[PantherRuleTest] = [
     PantherRuleTest(
-        Name="Role Changed to User",
-        ExpectedResult=True,
-        Log={
+        name="Role Changed to User",
+        expected_result=True,
+        log={
             "action": "role_change_to_user",
             "actor": {
                 "type": "user",
@@ -42,9 +42,9 @@ slack_audit_logs_user_privilege_changed_to_user_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="Role Changed to Admin",
-        ExpectedResult=False,
-        Log={
+        name="Role Changed to Admin",
+        expected_result=False,
+        log={
             "action": "role_change_to_admin",
             "actor": {
                 "type": "user",
@@ -82,16 +82,18 @@ slack_audit_logs_user_privilege_changed_to_user_tests: List[PantherRuleTest] = [
 
 
 class SlackAuditLogsUserPrivilegeChangedToUser(PantherRule):
-    RuleID = "Slack.AuditLogs.UserPrivilegeChangedToUser-prototype"
-    DisplayName = "Slack User Privileges Changed to User"
-    LogTypes = [PantherLogType.Slack_AuditLogs]
-    Tags = ["Slack", "Impact", "Account Access Removal"]
-    Reports = {"MITRE ATT&CK": ["TA0040:T1531"]}
-    Severity = PantherSeverity.Medium
-    Description = "Detects when a Slack account is changed to User from an elevated role."
-    Reference = "https://slack.com/intl/en-gb/help/articles/360018112273-Types-of-roles-in-Slack"
-    SummaryAttributes = ["p_any_ip_addresses", "p_any_emails"]
-    Tests = slack_audit_logs_user_privilege_changed_to_user_tests
+    id_ = "Slack.AuditLogs.UserPrivilegeChangedToUser-prototype"
+    display_name = "Slack User Privileges Changed to User"
+    log_types = [PantherLogType.Slack_AuditLogs]
+    tags = ["Slack", "Impact", "Account Access Removal"]
+    reports = {"MITRE ATT&CK": ["TA0040:T1531"]}
+    default_severity = PantherSeverity.medium
+    default_description = "Detects when a Slack account is changed to User from an elevated role."
+    default_reference = (
+        "https://slack.com/intl/en-gb/help/articles/360018112273-Types-of-roles-in-Slack"
+    )
+    summary_attributes = ["p_any_ip_addresses", "p_any_emails"]
+    tests = slack_audit_logs_user_privilege_changed_to_user_tests
 
     def rule(self, event):
         return event.get("action") == "role_change_to_user"

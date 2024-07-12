@@ -6,9 +6,9 @@ from pypanther.helpers.panther_snyk_helpers import snyk_alert_context
 
 snyk_system_sso_tests: List[PantherRuleTest] = [
     PantherRuleTest(
-        Name="Snyk System SSO Setting event happened",
-        ExpectedResult=True,
-        Log={
+        name="Snyk System SSO Setting event happened",
+        expected_result=True,
+        log={
             "userId": "05555555-3333-4ddd-8ccc-755555555555",
             "event": "group.sso.edit",
             "groupId": "8fffffff-1555-4444-b000-b55555555555",
@@ -17,9 +17,9 @@ snyk_system_sso_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="Snyk Group SSO Membership sync",
-        ExpectedResult=False,
-        Log={
+        name="Snyk Group SSO Membership sync",
+        expected_result=False,
+        log={
             "content": {
                 "addAsOrgAdmin": [],
                 "addAsOrgCollaborator": ["group.name"],
@@ -37,15 +37,15 @@ snyk_system_sso_tests: List[PantherRuleTest] = [
 
 
 class SnykSystemSSO(PantherRule):
-    RuleID = "Snyk.System.SSO-prototype"
-    DisplayName = "Snyk System SSO Settings Changed"
-    LogTypes = [PantherLogType.Snyk_GroupAudit]
-    Tags = ["Snyk"]
-    Severity = PantherSeverity.High
-    Description = "Detects Snyk SSO Settings have been changed. The reference URL from Snyk indicates that these events are likely to originate exclusively from Snyk Support.\n"
-    Reference = "https://docs.snyk.io/user-and-group-management/setting-up-sso-for-authentication/set-up-snyk-single-sign-on-sso"
-    SummaryAttributes = ["event", "p_any_ip_addresses", "p_any_emails"]
-    Tests = snyk_system_sso_tests
+    id_ = "Snyk.System.SSO-prototype"
+    display_name = "Snyk System SSO Settings Changed"
+    log_types = [PantherLogType.Snyk_GroupAudit]
+    tags = ["Snyk"]
+    default_severity = PantherSeverity.high
+    default_description = "Detects Snyk SSO Settings have been changed. The reference URL from Snyk indicates that these events are likely to originate exclusively from Snyk Support.\n"
+    default_reference = "https://docs.snyk.io/user-and-group-management/setting-up-sso-for-authentication/set-up-snyk-single-sign-on-sso"
+    summary_attributes = ["event", "p_any_ip_addresses", "p_any_emails"]
+    tests = snyk_system_sso_tests
     ACTIONS = [
         "group.sso.auth0_connection.create",
         "group.sso.auth0_connection.edit",

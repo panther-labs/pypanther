@@ -22,13 +22,13 @@ def get_event_type(event):
 
 
 class StandardAsanaAudit(PantherDataModel):
-    DataModelID: str = "Standard.Asana.Audit"
-    DisplayName: str = "Asana Audit Logs"
-    Enabled: bool = True
-    LogTypes: List[str] = [PantherLogType.Asana_Audit]
-    Mappings: List[PantherDataModelMapping] = [
-        PantherDataModelMapping(Name="actor_user", Path="$.actor.name"),
-        PantherDataModelMapping(Name="event_type", Method=get_event_type),
-        PantherDataModelMapping(Name="source_ip", Path="$.context.client_ip_address"),
-        PantherDataModelMapping(Name="user", Path="$.resource.name"),
+    id_: str = "Standard.Asana.Audit"
+    display_name: str = "Asana Audit Logs"
+    enabled: bool = True
+    log_types: List[str] = [PantherLogType.Asana_Audit]
+    mappings: List[PantherDataModelMapping] = [
+        PantherDataModelMapping(name="actor_user", path="$.actor.name"),
+        PantherDataModelMapping(name="event_type", method=get_event_type),
+        PantherDataModelMapping(name="source_ip", path="$.context.client_ip_address"),
+        PantherDataModelMapping(name="user", path="$.resource.name"),
     ]

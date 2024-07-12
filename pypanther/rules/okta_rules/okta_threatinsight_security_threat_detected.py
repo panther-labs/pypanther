@@ -5,20 +5,27 @@ from pypanther.helpers.panther_base_helpers import deep_get, okta_alert_context
 
 okta_threat_insight_security_threat_detected_tests: List[PantherRuleTest] = [
     PantherRuleTest(
-        Name="Other Event",
-        ExpectedResult=False,
-        Log={
+        name="Other Event",
+        expected_result=False,
+        log={
             "actor": {
                 "alternateId": "homer.simpson@duff.com",
                 "displayName": "Homer Simpson",
                 "id": "00abc456",
                 "type": "User",
             },
-            "authenticationcontext": {"authenticationStep": 0, "externalSessionId": "abc12345"},
+            "authenticationcontext": {
+                "authenticationStep": 0,
+                "externalSessionId": "abc12345",
+            },
             "client": {
                 "device": "Unknown",
                 "ipAddress": "1.2.3.4",
-                "userAgent": {"browser": "UNKNOWN", "os": "Unknown", "rawUserAgent": "Chrome"},
+                "userAgent": {
+                    "browser": "UNKNOWN",
+                    "os": "Unknown",
+                    "rawUserAgent": "Chrome",
+                },
                 "zone": "null",
             },
             "debugcontext": {"debugData": {}},
@@ -30,7 +37,12 @@ okta_threat_insight_security_threat_detected_tests: List[PantherRuleTest] = [
             "securitycontext": {},
             "severity": "INFO",
             "target": [
-                {"alternateId": "App ", "displayName": "App", "id": "12345", "type": "AppInstance"}
+                {
+                    "alternateId": "App ",
+                    "displayName": "App",
+                    "id": "12345",
+                    "type": "AppInstance",
+                }
             ],
             "transaction": {"detail": {}, "id": "sdfg", "type": "JOB"},
             "uuid": "aaa-bb-ccc",
@@ -38,9 +50,9 @@ okta_threat_insight_security_threat_detected_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="Threat Detected Event - Deny",
-        ExpectedResult=True,
-        Log={
+        name="Threat Detected Event - Deny",
+        expected_result=True,
+        log={
             "actor": {
                 "alternateId": "unknown",
                 "displayName": "1.2.3.4",
@@ -112,9 +124,9 @@ okta_threat_insight_security_threat_detected_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="Threat Detected Event - Success",
-        ExpectedResult=True,
-        Log={
+        name="Threat Detected Event - Success",
+        expected_result=True,
+        log={
             "actor": {
                 "alternateId": "unknown",
                 "displayName": "1.2.3.4",
@@ -181,13 +193,15 @@ okta_threat_insight_security_threat_detected_tests: List[PantherRuleTest] = [
 
 
 class OktaThreatInsightSecurityThreatDetected(PantherRule):
-    Description = "Okta ThreatInsight identified request from potentially malicious IP address"
-    Reference = "https://help.okta.com/en-us/Content/Topics/Security/threat-insight/configure-threatinsight-system-log.htm"
-    DisplayName = "Okta ThreatInsight Security Threat Detected"
-    Severity = PantherSeverity.High
-    LogTypes = [PantherLogType.Okta_SystemLog]
-    RuleID = "Okta.ThreatInsight.Security.Threat.Detected-prototype"
-    Tests = okta_threat_insight_security_threat_detected_tests
+    default_description = (
+        "Okta ThreatInsight identified request from potentially malicious IP address"
+    )
+    default_reference = "https://help.okta.com/en-us/Content/Topics/Security/threat-insight/configure-threatinsight-system-log.htm"
+    display_name = "Okta ThreatInsight Security Threat Detected"
+    default_severity = PantherSeverity.high
+    log_types = [PantherLogType.Okta_SystemLog]
+    id_ = "Okta.ThreatInsight.Security.Threat.Detected-prototype"
+    tests = okta_threat_insight_security_threat_detected_tests
 
     def severity_from_threat_string(self, threat_detection):
         # threat detection is a string but contains json data

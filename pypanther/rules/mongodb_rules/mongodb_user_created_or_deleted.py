@@ -5,9 +5,9 @@ from pypanther.helpers.panther_mongodb_helpers import mongodb_alert_context
 
 mongo_db_user_created_or_deleted_tests: List[PantherRuleTest] = [
     PantherRuleTest(
-        Name="Random event",
-        ExpectedResult=False,
-        Log={
+        name="Random event",
+        expected_result=False,
+        log={
             "created": "2023-06-07 16:57:55",
             "currentValue": {},
             "eventTypeName": "CAT_JUMPED",
@@ -34,9 +34,9 @@ mongo_db_user_created_or_deleted_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="User joined Org",
-        ExpectedResult=True,
-        Log={
+        name="User joined Org",
+        expected_result=True,
+        log={
             "created": "2023-06-07 16:57:55",
             "currentValue": {},
             "eventTypeName": "JOINED_ORG",
@@ -63,9 +63,9 @@ mongo_db_user_created_or_deleted_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="User removed from Org",
-        ExpectedResult=True,
-        Log={
+        name="User removed from Org",
+        expected_result=True,
+        log={
             "created": "2023-06-07 16:57:55",
             "currentValue": {},
             "eventTypeName": "REMOVED_FROM_ORG",
@@ -95,16 +95,19 @@ mongo_db_user_created_or_deleted_tests: List[PantherRuleTest] = [
 
 
 class MongoDBUserCreatedOrDeleted(PantherRule):
-    Description = "User was created or deleted."
-    DisplayName = "MongoDB user was created or deleted"
-    Severity = PantherSeverity.Medium
-    Reference = "https://www.mongodb.com/docs/v4.2/tutorial/create-users/"
-    LogTypes = [PantherLogType.MongoDB_OrganizationEvent]
-    RuleID = "MongoDB.User.Created.Or.Deleted-prototype"
-    Tests = mongo_db_user_created_or_deleted_tests
+    default_description = "User was created or deleted."
+    display_name = "MongoDB user was created or deleted"
+    default_severity = PantherSeverity.medium
+    default_reference = "https://www.mongodb.com/docs/v4.2/tutorial/create-users/"
+    log_types = [PantherLogType.MongoDB_OrganizationEvent]
+    id_ = "MongoDB.User.Created.Or.Deleted-prototype"
+    tests = mongo_db_user_created_or_deleted_tests
 
     def rule(self, event):
-        return event.deep_get("eventTypeName", default="") in ("JOINED_ORG", "REMOVED_FROM_ORG")
+        return event.deep_get("eventTypeName", default="") in (
+            "JOINED_ORG",
+            "REMOVED_FROM_ORG",
+        )
 
     def title(self, event):
         event_name = event.get("eventTypeName")

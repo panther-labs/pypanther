@@ -6,9 +6,9 @@ from pypanther.helpers.panther_base_helpers import deep_get, deep_walk
 
 gcpgke_kubernetes_cron_job_created_or_modified_tests: List[PantherRuleTest] = [
     PantherRuleTest(
-        Name="create",
-        ExpectedResult=True,
-        Log={
+        name="create",
+        expected_result=True,
+        log={
             "protoPayload": {
                 "authorizationInfo": [
                     {"granted": True, "permission": "io.k8s.batch.v1.cronjobs.create"}
@@ -18,7 +18,10 @@ gcpgke_kubernetes_cron_job_created_or_modified_tests: List[PantherRuleTest] = [
             },
             "receiveTimestamp": "2024-01-19 13:47:19.465856238",
             "resource": {
-                "labels": {"name": "test-vm-deployment", "project_id": "panther-threat-research"},
+                "labels": {
+                    "name": "test-vm-deployment",
+                    "project_id": "panther-threat-research",
+                },
                 "type": "deployment",
             },
             "severity": "NOTICE",
@@ -26,9 +29,9 @@ gcpgke_kubernetes_cron_job_created_or_modified_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="update",
-        ExpectedResult=True,
-        Log={
+        name="update",
+        expected_result=True,
+        log={
             "protoPayload": {
                 "authorizationInfo": [
                     {"granted": True, "permission": "io.k8s.batch.v1.cronjobs.update"}
@@ -38,7 +41,10 @@ gcpgke_kubernetes_cron_job_created_or_modified_tests: List[PantherRuleTest] = [
             },
             "receiveTimestamp": "2024-01-19 13:47:19.465856238",
             "resource": {
-                "labels": {"name": "test-vm-deployment", "project_id": "panther-threat-research"},
+                "labels": {
+                    "name": "test-vm-deployment",
+                    "project_id": "panther-threat-research",
+                },
                 "type": "deployment",
             },
             "severity": "NOTICE",
@@ -46,9 +52,9 @@ gcpgke_kubernetes_cron_job_created_or_modified_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="fail",
-        ExpectedResult=False,
-        Log={
+        name="fail",
+        expected_result=False,
+        log={
             "protoPayload": {
                 "authorizationInfo": [
                     {"granted": False, "permission": "cloudfunctions.functions.upsert"}
@@ -58,7 +64,10 @@ gcpgke_kubernetes_cron_job_created_or_modified_tests: List[PantherRuleTest] = [
             },
             "receiveTimestamp": "2024-01-19 13:47:19.465856238",
             "resource": {
-                "labels": {"name": "test-vm-deployment", "project_id": "panther-threat-research"},
+                "labels": {
+                    "name": "test-vm-deployment",
+                    "project_id": "panther-threat-research",
+                },
                 "type": "deployment",
             },
             "severity": "NOTICE",
@@ -69,15 +78,15 @@ gcpgke_kubernetes_cron_job_created_or_modified_tests: List[PantherRuleTest] = [
 
 
 class GCPGKEKubernetesCronJobCreatedOrModified(PantherRule):
-    RuleID = "GCP.GKE.Kubernetes.Cron.Job.Created.Or.Modified-prototype"
-    DisplayName = "GCP GKE Kubernetes Cron Job Created Or Modified"
-    Description = "This detection monitor for any modifications or creations of a cron job in GKE. Attackers may create or modify an existing scheduled job in order to achieve cluster persistence."
-    LogTypes = [PantherLogType.GCP_AuditLog]
-    Severity = PantherSeverity.Medium
-    Reference = "https://medium.com/snowflake/from-logs-to-detection-using-snowflake-and-panther-to-detect-k8s-threats-d72f70a504d7"
-    Runbook = "Investigate a reason of creating or modifying a cron job in GKE. Create ticket if appropriate."
-    Reports = {"MITRE ATT&CK": ["T1053.003"]}
-    Tests = gcpgke_kubernetes_cron_job_created_or_modified_tests
+    id_ = "GCP.GKE.Kubernetes.Cron.Job.Created.Or.Modified-prototype"
+    display_name = "GCP GKE Kubernetes Cron Job Created Or Modified"
+    default_description = "This detection monitor for any modifications or creations of a cron job in GKE. Attackers may create or modify an existing scheduled job in order to achieve cluster persistence."
+    log_types = [PantherLogType.GCP_AuditLog]
+    default_severity = PantherSeverity.medium
+    default_reference = "https://medium.com/snowflake/from-logs-to-detection-using-snowflake-and-panther-to-detect-k8s-threats-d72f70a504d7"
+    default_runbook = "Investigate a reason of creating or modifying a cron job in GKE. Create ticket if appropriate."
+    reports = {"MITRE ATT&CK": ["T1053.003"]}
+    tests = gcpgke_kubernetes_cron_job_created_or_modified_tests
 
     def rule(self, event):
         authorization_info = deep_walk(event, "protoPayload", "authorizationInfo")
@@ -86,7 +95,10 @@ class GCPGKEKubernetesCronJobCreatedOrModified(PantherRule):
         for auth in authorization_info:
             if (
                 auth.get("permission")
-                in ["io.k8s.batch.v1.cronjobs.create", "io.k8s.batch.v1.cronjobs.update"]
+                in [
+                    "io.k8s.batch.v1.cronjobs.create",
+                    "io.k8s.batch.v1.cronjobs.update",
+                ]
                 and auth.get("granted") is True
             ):
                 return True

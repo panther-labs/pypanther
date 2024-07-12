@@ -5,9 +5,9 @@ from pypanther.helpers.panther_base_helpers import deep_get, get_val_from_list
 
 okta_password_access_tests: List[PantherRuleTest] = [
     PantherRuleTest(
-        Name="User accessed their own password",
-        ExpectedResult=False,
-        Log={
+        name="User accessed their own password",
+        expected_result=False,
+        log={
             "actor": {
                 "alternateId": "eric.montgomery@email.com",
                 "displayName": "Eric Montgomery",
@@ -88,9 +88,9 @@ okta_password_access_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="User accessed another user's password",
-        ExpectedResult=True,
-        Log={
+        name="User accessed another user's password",
+        expected_result=True,
+        log={
             "actor": {
                 "alternateId": "eric.montgomery@email.com",
                 "displayName": "Eric Montgomery",
@@ -171,9 +171,9 @@ okta_password_access_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="User accessed their own password - 2",
-        ExpectedResult=False,
-        Log={
+        name="User accessed their own password - 2",
+        expected_result=False,
+        log={
             "actor": {
                 "alternateId": "john.doe@emaildomain.com",
                 "displayName": "John Doe",
@@ -241,16 +241,18 @@ okta_password_access_tests: List[PantherRuleTest] = [
 
 
 class OktaPasswordAccess(PantherRule):
-    RuleID = "Okta.PasswordAccess-prototype"
-    DisplayName = "Okta Password Accessed"
-    LogTypes = [PantherLogType.Okta_SystemLog]
-    Tags = ["Okta", "Credential Access:Unsecured Credentials"]
-    Reports = {"MITRE ATT&CK": ["TA0006:T1552"]}
-    Severity = PantherSeverity.Medium
-    Description = "User accessed another user's application password\n"
-    Reference = "https://help.okta.com/en-us/content/topics/apps/apps_revealing_the_password.htm"
-    Runbook = "Investigate whether this was authorized access.\n"
-    Tests = okta_password_access_tests
+    id_ = "Okta.PasswordAccess-prototype"
+    display_name = "Okta Password Accessed"
+    log_types = [PantherLogType.Okta_SystemLog]
+    tags = ["Okta", "Credential Access:Unsecured Credentials"]
+    reports = {"MITRE ATT&CK": ["TA0006:T1552"]}
+    default_severity = PantherSeverity.medium
+    default_description = "User accessed another user's application password\n"
+    default_reference = (
+        "https://help.okta.com/en-us/content/topics/apps/apps_revealing_the_password.htm"
+    )
+    default_runbook = "Investigate whether this was authorized access.\n"
+    tests = okta_password_access_tests
 
     def rule(self, event):
         if event.get("eventType") != "application.user_membership.show_password":

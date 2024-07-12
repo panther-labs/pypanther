@@ -7,9 +7,9 @@ from pypanther.helpers.panther_base_helpers import deep_get
 
 gcp_logging_sink_modified_tests: List[PantherRuleTest] = [
     PantherRuleTest(
-        Name="logging-sink.modifed-should-alert",
-        ExpectedResult=True,
-        Log={
+        name="logging-sink.modifed-should-alert",
+        expected_result=True,
+        log={
             "insertid": "6ns26jclap",
             "logname": "projects/test-project-123456/logs/cloudaudit.googleapis.com%2Factivity",
             "protoPayload": {
@@ -43,7 +43,10 @@ gcp_logging_sink_modified_tests: List[PantherRuleTest] = [
                     "callerIP": "12.12.12.12",
                     "callerSuppliedUserAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Safari/537.36,gzip(gfe),gzip(gfe)",
                     "destinationAttributes": {},
-                    "requestAttributes": {"auth": {}, "time": "2023-05-23T19:39:07.289670886Z"},
+                    "requestAttributes": {
+                        "auth": {},
+                        "time": "2023-05-23T19:39:07.289670886Z",
+                    },
                 },
                 "resourceName": "projects/test-project-123456/sinks/test-1",
                 "serviceName": "logging.googleapis.com",
@@ -63,9 +66,9 @@ gcp_logging_sink_modified_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="logging-sink.non-modified-should-not-alert",
-        ExpectedResult=False,
-        Log={
+        name="logging-sink.non-modified-should-not-alert",
+        expected_result=False,
+        log={
             "insertid": "6ns26jclap",
             "logname": "projects/test-project-123456/logs/cloudaudit.googleapis.com%2Factivity",
             "protoPayload": {
@@ -99,7 +102,10 @@ gcp_logging_sink_modified_tests: List[PantherRuleTest] = [
                     "callerIP": "12.12.12.12",
                     "callerSuppliedUserAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Safari/537.36,gzip(gfe),gzip(gfe)",
                     "destinationAttributes": {},
-                    "requestAttributes": {"auth": {}, "time": "2023-05-23T19:39:07.289670886Z"},
+                    "requestAttributes": {
+                        "auth": {},
+                        "time": "2023-05-23T19:39:07.289670886Z",
+                    },
                 },
                 "resourceName": "projects/test-project-123456/sinks/test-1",
                 "serviceName": "logging.googleapis.com",
@@ -122,15 +128,15 @@ gcp_logging_sink_modified_tests: List[PantherRuleTest] = [
 
 
 class GCPLoggingSinkModified(PantherRule):
-    DisplayName = "GCP Logging Sink Modified"
-    RuleID = "GCP.Logging.Sink.Modified-prototype"
-    Severity = PantherSeverity.Info
-    LogTypes = [PantherLogType.GCP_AuditLog]
-    Tags = ["GCP", "Logging", "Sink", "Infrastructure"]
-    Description = "This rule detects modifications to GCP Log Sinks.\n"
-    Runbook = "Ensure that the modification was valid or expected. Adversaries may do this to exfiltrate logs or evade detection.\n"
-    Reference = "https://cloud.google.com/logging/docs"
-    Tests = gcp_logging_sink_modified_tests
+    display_name = "GCP Logging Sink Modified"
+    id_ = "GCP.Logging.Sink.Modified-prototype"
+    default_severity = PantherSeverity.info
+    log_types = [PantherLogType.GCP_AuditLog]
+    tags = ["GCP", "Logging", "Sink", "Infrastructure"]
+    default_description = "This rule detects modifications to GCP Log Sinks.\n"
+    default_runbook = "Ensure that the modification was valid or expected. Adversaries may do this to exfiltrate logs or evade detection.\n"
+    default_reference = "https://cloud.google.com/logging/docs"
+    tests = gcp_logging_sink_modified_tests
 
     def rule(self, event):
         method_pattern = "(?:\\w+\\.)*v\\d\\.(?:ConfigServiceV\\d\\.(?:UpdateSink))"

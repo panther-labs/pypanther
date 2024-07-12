@@ -5,12 +5,12 @@ from pypanther.log_types import PantherLogType
 
 
 class StandardCloudflareFirewall(PantherDataModel):
-    DataModelID: str = "Standard.Cloudflare.Firewall"
-    DisplayName: str = "Cloudflare Firewall"
-    Enabled: bool = True
-    LogTypes: List[str] = [PantherLogType.Cloudflare_Firewall]
-    Mappings: List[PantherDataModelMapping] = [
-        PantherDataModelMapping(Name="source_ip", Path="ClientIP"),
-        PantherDataModelMapping(Name="user_agent", Path="ClientRequestUserAgent"),
-        PantherDataModelMapping(Name="http_status", Path="EdgeResponseStatus"),
+    id_: str = "Standard.Cloudflare.Firewall"
+    display_name: str = "Cloudflare Firewall"
+    enabled: bool = True
+    log_types: List[str] = [PantherLogType.Cloudflare_Firewall]
+    mappings: List[PantherDataModelMapping] = [
+        PantherDataModelMapping(name="source_ip", path="ClientIP"),
+        PantherDataModelMapping(name="user_agent", path="ClientRequestUserAgent"),
+        PantherDataModelMapping(name="http_status", path="EdgeResponseStatus"),
     ]

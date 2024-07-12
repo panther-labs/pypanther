@@ -8,9 +8,9 @@ from pypanther.helpers.panther_base_helpers import (
 
 crowdstrike_detectionpassthrough_tests: List[PantherRuleTest] = [
     PantherRuleTest(
-        Name="Low Severity Finding",
-        ExpectedResult=True,
-        Log={
+        name="Low Severity Finding",
+        expected_result=True,
+        log={
             "cid": "11111111111111111111111111111111",
             "Technique": "PUP",
             "ProcessId": 377077835340488700,
@@ -57,9 +57,9 @@ crowdstrike_detectionpassthrough_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="Low Severity Finding (FDREvent)",
-        ExpectedResult=True,
-        Log={
+        name="Low Severity Finding (FDREvent)",
+        expected_result=True,
+        log={
             "aid": "fa6a04a7f18d473fa06771b4961aa3d9",
             "cid": "712bcd164963442ea43d52917cecdecc",
             "ComputerName": "hostname.lan",
@@ -151,9 +151,9 @@ crowdstrike_detectionpassthrough_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="Non-match (FDREvent)",
-        ExpectedResult=False,
-        Log={
+        name="Non-match (FDREvent)",
+        expected_result=False,
+        log={
             "cid": "11111111111111111111111111111111",
             "CommandLine": "/Applications/app.app/Contents/MacOS/pup app",
             "Objective": "Falcon Detection Method",
@@ -173,17 +173,20 @@ crowdstrike_detectionpassthrough_tests: List[PantherRuleTest] = [
 
 
 class CrowdstrikeDetectionpassthrough(PantherRule):
-    RuleID = "Crowdstrike.Detection.passthrough-prototype"
-    DisplayName = "Crowdstrike Detection Passthrough"
-    Severity = PantherSeverity.Medium
-    LogTypes = [PantherLogType.Crowdstrike_DetectionSummary, PantherLogType.Crowdstrike_FDREvent]
-    Tags = ["Crowdstrike"]
-    Description = "Crowdstrike Falcon has detected malicious activity on a host."
-    Runbook = "Follow the Falcon console link and follow the IR process as needed."
-    Reference = "https://www.crowdstrike.com/blog/tech-center/hunt-threat-activity-falcon-endpoint-protection/"
-    DedupPeriodMinutes = 0
-    SummaryAttributes = ["p_any_ip_addresses"]
-    Tests = crowdstrike_detectionpassthrough_tests
+    id_ = "Crowdstrike.Detection.passthrough-prototype"
+    display_name = "Crowdstrike Detection Passthrough"
+    default_severity = PantherSeverity.medium
+    log_types = [
+        PantherLogType.Crowdstrike_DetectionSummary,
+        PantherLogType.Crowdstrike_FDREvent,
+    ]
+    tags = ["Crowdstrike"]
+    default_description = "Crowdstrike Falcon has detected malicious activity on a host."
+    default_runbook = "Follow the Falcon console link and follow the IR process as needed."
+    default_reference = "https://www.crowdstrike.com/blog/tech-center/hunt-threat-activity-falcon-endpoint-protection/"
+    dedup_period_minutes = 0
+    summary_attributes = ["p_any_ip_addresses"]
+    tests = crowdstrike_detectionpassthrough_tests
 
     def rule(self, event):
         return (

@@ -10,9 +10,9 @@ from pypanther.helpers.panther_base_helpers import deep_get
 
 azure_audit_many_failed_sign_ins_tests: List[PantherRuleTest] = [
     PantherRuleTest(
-        Name="Failed Sign-In",
-        ExpectedResult=True,
-        Log={
+        name="Failed Sign-In",
+        expected_result=True,
+        log={
             "calleripaddress": "12.12.12.12",
             "category": "ServicePrincipalSignInLogs",
             "correlationid": "e1f237ef-6548-4172-be79-03818c04c06e",
@@ -72,9 +72,9 @@ azure_audit_many_failed_sign_ins_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="Successful Sign-In",
-        ExpectedResult=False,
-        Log={
+        name="Successful Sign-In",
+        expected_result=False,
+        log={
             "calleripaddress": "12.12.12.12",
             "category": "ServicePrincipalSignInLogs",
             "correlationid": "bf12205b-eea0-43dd-ad6d-b9030dc62a7a",
@@ -140,24 +140,24 @@ azure_audit_many_failed_sign_ins_tests: List[PantherRuleTest] = [
 
 
 class AzureAuditManyFailedSignIns(PantherRule):
-    RuleID = "Azure.Audit.ManyFailedSignIns-prototype"
-    DisplayName = "Azure Many Failed SignIns"
-    Threshold = 10
-    DedupPeriodMinutes = 10
-    LogTypes = [PantherLogType.Azure_Audit]
-    Severity = PantherSeverity.Medium
-    Description = "This detection looks for a number of failed sign-ins for the same ServicePrincipalName or UserPrincipalName\n"
-    Reports = {"MITRE ATT&CK": ["TA0006:T1110", "TA0001:T1078"]}
-    Runbook = "Querying Sign-In logs for the ServicePrincipalName or UserPrincipalName may indicate that the principal is under attack, or that a sign-in credential rolled and some user of the credential didn't get updated.\n"
-    Reference = (
+    id_ = "Azure.Audit.ManyFailedSignIns-prototype"
+    display_name = "Azure Many Failed SignIns"
+    threshold = 10
+    dedup_period_minutes = 10
+    log_types = [PantherLogType.Azure_Audit]
+    default_severity = PantherSeverity.medium
+    default_description = "This detection looks for a number of failed sign-ins for the same ServicePrincipalName or UserPrincipalName\n"
+    reports = {"MITRE ATT&CK": ["TA0006:T1110", "TA0001:T1078"]}
+    default_runbook = "Querying Sign-In logs for the ServicePrincipalName or UserPrincipalName may indicate that the principal is under attack, or that a sign-in credential rolled and some user of the credential didn't get updated.\n"
+    default_reference = (
         "https://learn.microsoft.com/en-us/entra/identity/authentication/overview-authentication"
     )
-    SummaryAttributes = [
+    summary_attributes = [
         "properties:ServicePrincipalName",
         "properties:UserPrincipalName",
         "properties:ipAddress",
     ]
-    Tests = azure_audit_many_failed_sign_ins_tests
+    tests = azure_audit_many_failed_sign_ins_tests
 
     def rule(self, event):
         if not is_sign_in_event(event):

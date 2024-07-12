@@ -6,9 +6,9 @@ from pypanther.helpers.panther_notion_helpers import notion_alert_context
 
 notion_workspace_public_page_added_tests: List[PantherRuleTest] = [
     PantherRuleTest(
-        Name="Public page added",
-        ExpectedResult=True,
-        Log={
+        name="Public page added",
+        expected_result=True,
+        log={
             "event": {
                 "id": "eeeeeeee-dddd-4444-bbbb-4444444444444",
                 "timestamp": "2023-05-15T19:14:21.031Z",
@@ -32,9 +32,9 @@ notion_workspace_public_page_added_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="Workspace Exported",
-        ExpectedResult=False,
-        Log={
+        name="Workspace Exported",
+        expected_result=False,
+        log={
             "event": {
                 "actor": {
                     "id": "bd37477c-869d-418b-abdb-0fc727b38b5e",
@@ -65,15 +65,15 @@ notion_workspace_public_page_added_tests: List[PantherRuleTest] = [
 
 
 class NotionWorkspacePublicPageAdded(PantherRule):
-    RuleID = "Notion.Workspace.Public.Page.Added-prototype"
-    DisplayName = "Notion Workspace public page added"
-    LogTypes = [PantherLogType.Notion_AuditLogs]
-    Tags = ["Notion", "Data Security", "Information Disclosure"]
-    Severity = PantherSeverity.Info
-    Description = "A Notion page was set to public in your worksace."
-    Runbook = "A Notion page was made public. Check with the author to determine why this page was made public."
-    Reference = "https://www.notion.so/help/public-pages-and-web-publishing"
-    Tests = notion_workspace_public_page_added_tests
+    id_ = "Notion.Workspace.Public.Page.Added-prototype"
+    display_name = "Notion Workspace public page added"
+    log_types = [PantherLogType.Notion_AuditLogs]
+    tags = ["Notion", "Data Security", "Information Disclosure"]
+    default_severity = PantherSeverity.info
+    default_description = "A Notion page was set to public in your worksace."
+    default_runbook = "A Notion page was made public. Check with the author to determine why this page was made public."
+    default_reference = "https://www.notion.so/help/public-pages-and-web-publishing"
+    tests = notion_workspace_public_page_added_tests
 
     def rule(self, event):
         event_type = event.deep_get("event", "type", default="<NO_EVENT_TYPE_FOUND>")

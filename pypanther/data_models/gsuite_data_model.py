@@ -21,19 +21,19 @@ def get_event_type(event):
 
 
 class StandardGSuiteReports(PantherDataModel):
-    DataModelID: str = "Standard.GSuite.Reports"
-    DisplayName: str = "GSuite Reports"
-    Enabled: bool = True
-    LogTypes: List[str] = [PantherLogType.GSuite_Reports]
-    Mappings: List[PantherDataModelMapping] = [
-        PantherDataModelMapping(Name="actor_user", Path="$.actor.email"),
+    id_: str = "Standard.GSuite.Reports"
+    display_name: str = "GSuite Reports"
+    enabled: bool = True
+    log_types: List[str] = [PantherLogType.GSuite_Reports]
+    mappings: List[PantherDataModelMapping] = [
+        PantherDataModelMapping(name="actor_user", path="$.actor.email"),
         PantherDataModelMapping(
-            Name="assigned_admin_role",
-            Path="$.events[*].parameters[?(@.name == 'ROLE_NAME')].value",
+            name="assigned_admin_role",
+            path="$.events[*].parameters[?(@.name == 'ROLE_NAME')].value",
         ),
-        PantherDataModelMapping(Name="event_type", Method=get_event_type),
-        PantherDataModelMapping(Name="source_ip", Path="ipAddress"),
+        PantherDataModelMapping(name="event_type", method=get_event_type),
+        PantherDataModelMapping(name="source_ip", path="ipAddress"),
         PantherDataModelMapping(
-            Name="user", Path="$.events[*].parameters[?(@.name == 'USER_EMAIL')].value"
+            name="user", path="$.events[*].parameters[?(@.name == 'USER_EMAIL')].value"
         ),
     ]

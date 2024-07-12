@@ -5,9 +5,9 @@ from pypanther.helpers.panther_base_helpers import deep_get
 
 g_suite_government_backed_attack_tests: List[PantherRuleTest] = [
     PantherRuleTest(
-        Name="Normal Login Event",
-        ExpectedResult=False,
-        Log={
+        name="Normal Login Event",
+        expected_result=False,
+        log={
             "id": {"applicationName": "login"},
             "actor": {"email": "homer.simpson@example.com"},
             "type": "login",
@@ -16,9 +16,9 @@ g_suite_government_backed_attack_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="Government Backed Attack Warning",
-        ExpectedResult=True,
-        Log={
+        name="Government Backed Attack Warning",
+        expected_result=True,
+        log={
             "id": {"applicationName": "login"},
             "actor": {"email": "homer.simpson@example.com"},
             "type": "login",
@@ -30,18 +30,18 @@ g_suite_government_backed_attack_tests: List[PantherRuleTest] = [
 
 
 class GSuiteGovernmentBackedAttack(PantherRule):
-    RuleID = "GSuite.GovernmentBackedAttack-prototype"
-    DisplayName = "GSuite Government Backed Attack"
-    LogTypes = [PantherLogType.GSuite_ActivityEvent]
-    Tags = ["GSuite"]
-    Severity = PantherSeverity.Critical
-    Description = (
+    id_ = "GSuite.GovernmentBackedAttack-prototype"
+    display_name = "GSuite Government Backed Attack"
+    log_types = [PantherLogType.GSuite_ActivityEvent]
+    tags = ["GSuite"]
+    default_severity = PantherSeverity.critical
+    default_description = (
         "GSuite reported that it detected a government backed attack against your account.\n"
     )
-    Reference = "https://support.google.com/a/answer/9007870?hl=en"
-    Runbook = "Followup with GSuite support for more details.\n"
-    SummaryAttributes = ["actor:email"]
-    Tests = g_suite_government_backed_attack_tests
+    default_reference = "https://support.google.com/a/answer/9007870?hl=en"
+    default_runbook = "Followup with GSuite support for more details.\n"
+    summary_attributes = ["actor:email"]
+    tests = g_suite_government_backed_attack_tests
 
     def rule(self, event):
         if deep_get(event, "id", "applicationName") != "login":

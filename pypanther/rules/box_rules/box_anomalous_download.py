@@ -5,9 +5,9 @@ from pypanther.helpers.panther_base_helpers import box_parse_additional_details,
 
 box_shield_anomalous_download_tests: List[PantherRuleTest] = [
     PantherRuleTest(
-        Name="Regular Event",
-        ExpectedResult=False,
-        Log={
+        name="Regular Event",
+        expected_result=False,
+        log={
             "type": "event",
             "additional_details": {'"key": "value"': None},
             "created_by": {
@@ -20,9 +20,9 @@ box_shield_anomalous_download_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="Anomalous Download Event",
-        ExpectedResult=True,
-        Log={
+        name="Anomalous Download Event",
+        expected_result=True,
+        log={
             "type": "event",
             "additional_details": '{"shield_alert":{"rule_category":"Anomalous Download","risk_score":77,"alert_summary":{"description":"Significant increase in download content week over week, 9999% (50.00 MB) more than last week."}}}',
             "created_by": {
@@ -32,24 +32,29 @@ box_shield_anomalous_download_tests: List[PantherRuleTest] = [
                 "name": "Bob Cat",
             },
             "event_type": "SHIELD_ALERT",
-            "source": {"id": "12345678", "type": "user", "login": "bob@example", "name": "Bob Cat"},
+            "source": {
+                "id": "12345678",
+                "type": "user",
+                "login": "bob@example",
+                "name": "Bob Cat",
+            },
         },
     ),
 ]
 
 
 class BoxShieldAnomalousDownload(PantherRule):
-    RuleID = "Box.Shield.Anomalous.Download-prototype"
-    DisplayName = "Box Shield Detected Anomalous Download Activity"
-    LogTypes = [PantherLogType.Box_Event]
-    Tags = ["Box", "Exfiltration:Exfiltration Over Web Service"]
-    Reports = {"MITRE ATT&CK": ["TA0010:T1567"]}
-    Severity = PantherSeverity.High
-    Description = "A user's download activity has altered significantly.\n"
-    Reference = "https://developer.box.com/guides/events/shield-alert-events/"
-    Runbook = "Investigate whether this was triggered by expected user download activity.\n"
-    SummaryAttributes = ["event_type", "ip_address"]
-    Tests = box_shield_anomalous_download_tests
+    id_ = "Box.Shield.Anomalous.Download-prototype"
+    display_name = "Box Shield Detected Anomalous Download Activity"
+    log_types = [PantherLogType.Box_Event]
+    tags = ["Box", "Exfiltration:Exfiltration Over Web Service"]
+    reports = {"MITRE ATT&CK": ["TA0010:T1567"]}
+    default_severity = PantherSeverity.high
+    default_description = "A user's download activity has altered significantly.\n"
+    default_reference = "https://developer.box.com/guides/events/shield-alert-events/"
+    default_runbook = "Investigate whether this was triggered by expected user download activity.\n"
+    summary_attributes = ["event_type", "ip_address"]
+    tests = box_shield_anomalous_download_tests
 
     def rule(self, event):
         if event.get("event_type") != "SHIELD_ALERT":

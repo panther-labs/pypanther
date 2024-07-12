@@ -6,9 +6,9 @@ from pypanther.helpers.panther_snyk_helpers import snyk_alert_context
 
 snyk_service_account_change_tests: List[PantherRuleTest] = [
     PantherRuleTest(
-        Name="Snyk Org Service Account ADMIN role ( CRIT )",
-        ExpectedResult=True,
-        Log={
+        name="Snyk Org Service Account ADMIN role ( CRIT )",
+        expected_result=True,
+        log={
             "content": {
                 "role": "ADMIN",
                 "rolePublicId": "d8999999-aaaa-4444-9fff-955555555555",
@@ -22,9 +22,9 @@ snyk_service_account_change_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="Snyk Group Service Account ADMIN role ( CRIT )",
-        ExpectedResult=True,
-        Log={
+        name="Snyk Group Service Account ADMIN role ( CRIT )",
+        expected_result=True,
+        log={
             "content": {
                 "role": {
                     "created": "1999-01-22T16:02:53.848Z",
@@ -154,9 +154,9 @@ snyk_service_account_change_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="Snyk Group Service Account Create - Viewer Role ( HIGH )",
-        ExpectedResult=True,
-        Log={
+        name="Snyk Group Service Account Create - Viewer Role ( HIGH )",
+        expected_result=True,
+        log={
             "content": {
                 "role": {
                     "created": "1999-01-22T16:02:53.848Z",
@@ -179,9 +179,9 @@ snyk_service_account_change_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="Snyk Service Account Edit ( MEDIUM )",
-        ExpectedResult=True,
-        Log={
+        name="Snyk Service Account Edit ( MEDIUM )",
+        expected_result=True,
+        log={
             "groupId": "8fffffff-1555-4444-b000-b55555555555",
             "userId": "05555555-3333-4ddd-8ccc-755555555555",
             "event": "group.service_account.edit",
@@ -194,9 +194,9 @@ snyk_service_account_change_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="Snyk Group SSO Membership sync",
-        ExpectedResult=False,
-        Log={
+        name="Snyk Group SSO Membership sync",
+        expected_result=False,
+        log={
             "content": {},
             "created": "2023-03-15 13:13:13.133",
             "event": "group.sso.membership.sync",
@@ -207,16 +207,16 @@ snyk_service_account_change_tests: List[PantherRuleTest] = [
 
 
 class SnykServiceAccountChange(PantherRule):
-    RuleID = "Snyk.ServiceAccount.Change-prototype"
-    DisplayName = "Snyk Service Account Change"
-    LogTypes = [PantherLogType.Snyk_GroupAudit, PantherLogType.Snyk_OrgAudit]
-    Tags = ["Snyk"]
-    Severity = PantherSeverity.High
-    Description = "Detects when Snyk Service Accounts are changed\n"
-    Runbook = "These actions in the Snyk Audit logs indicate that a ServiceAccount has been created/deleted/modified.\nService Accounts are system user accounts with an API token associated to it in place of standard user credentials. All events where the Service Account's role is ADMIN have CRITICAL severity Deletion events are marked with HIGH severity Creation events are marked with HIGH severity Edit events are marked with MEDIUM Severity\n"
-    Reference = "https://docs.snyk.io/snyk-admin/service-accounts"
-    SummaryAttributes = ["event"]
-    Tests = snyk_service_account_change_tests
+    id_ = "Snyk.ServiceAccount.Change-prototype"
+    display_name = "Snyk Service Account Change"
+    log_types = [PantherLogType.Snyk_GroupAudit, PantherLogType.Snyk_OrgAudit]
+    tags = ["Snyk"]
+    default_severity = PantherSeverity.high
+    default_description = "Detects when Snyk Service Accounts are changed\n"
+    default_runbook = "These actions in the Snyk Audit logs indicate that a ServiceAccount has been created/deleted/modified.\nService Accounts are system user accounts with an API token associated to it in place of standard user credentials. All events where the Service Account's role is ADMIN have CRITICAL severity Deletion events are marked with HIGH severity Creation events are marked with HIGH severity Edit events are marked with MEDIUM Severity\n"
+    default_reference = "https://docs.snyk.io/snyk-admin/service-accounts"
+    summary_attributes = ["event"]
+    tests = snyk_service_account_change_tests
     ACTIONS = [
         "group.service_account.create",
         "group.service_account.delete",

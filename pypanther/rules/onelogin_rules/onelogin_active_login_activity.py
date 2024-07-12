@@ -8,9 +8,9 @@ from pypanther.helpers.panther_base_helpers import is_ip_in_network
 
 one_login_active_login_activity_tests: List[PantherRuleTest] = [
     PantherRuleTest(
-        Name="Normal Login Event",
-        ExpectedResult=False,
-        Log={
+        name="Normal Login Event",
+        expected_result=False,
+        log={
             "event_type_id": "6",
             "actor_user_id": 123456,
             "actor_user_name": "Bob Cat",
@@ -19,9 +19,9 @@ one_login_active_login_activity_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="Shared IP Login Event",
-        ExpectedResult=False,
-        Log={
+        name="Shared IP Login Event",
+        expected_result=False,
+        log={
             "event_type_id": "5",
             "actor_user_id": 123456,
             "actor_user_name": "Bob Cat",
@@ -34,17 +34,17 @@ one_login_active_login_activity_tests: List[PantherRuleTest] = [
 
 
 class OneLoginActiveLoginActivity(PantherRule):
-    RuleID = "OneLogin.ActiveLoginActivity-prototype"
-    DisplayName = "OneLogin Active Login Activity"
-    LogTypes = [PantherLogType.OneLogin_Events]
-    Tags = ["OneLogin", "Lateral Movement:Use Alternate Authentication Material"]
-    Severity = PantherSeverity.Medium
-    Reports = {"MITRE ATT&CK": ["TA0008:T1550"]}
-    Description = "Multiple user accounts logged in from the same ip address."
-    Reference = "https://support.onelogin.com/kb/4271392/user-policies"
-    Runbook = "Investigate whether multiple user's logging in from the same ip address is expected. Determine if this ip address should be added to the SHARED_IP_SPACE array."
-    SummaryAttributes = ["account_id", "user_name", "user_id"]
-    Tests = one_login_active_login_activity_tests
+    id_ = "OneLogin.ActiveLoginActivity-prototype"
+    display_name = "OneLogin Active Login Activity"
+    log_types = [PantherLogType.OneLogin_Events]
+    tags = ["OneLogin", "Lateral Movement:Use Alternate Authentication Material"]
+    default_severity = PantherSeverity.medium
+    reports = {"MITRE ATT&CK": ["TA0008:T1550"]}
+    default_description = "Multiple user accounts logged in from the same ip address."
+    default_reference = "https://support.onelogin.com/kb/4271392/user-policies"
+    default_runbook = "Investigate whether multiple user's logging in from the same ip address is expected. Determine if this ip address should be added to the SHARED_IP_SPACE array."
+    summary_attributes = ["account_id", "user_name", "user_id"]
+    tests = one_login_active_login_activity_tests
     THRESH = 2
     THRESH_TTL = timedelta(hours=12).total_seconds()
     # Safelist for IP Subnets to ignore in this ruleset
@@ -75,13 +75,17 @@ class OneLoginActiveLoginActivity(PantherRule):
         if not user_ids:
             # store this as the first user login from this ip address
             put_string_set(
-                event_key, [user_id], epoch_seconds=event.event_time_epoch() + self.THRESH_TTL
+                event_key,
+                [user_id],
+                epoch_seconds=event.event_time_epoch() + self.THRESH_TTL,
             )
             return False
         # add a new username if this is a unique user from this ip address
         if user_id not in user_ids:
             user_ids = add_to_string_set(
-                event_key, user_id, epoch_seconds=event.event_time_epoch() + self.THRESH_TTL
+                event_key,
+                user_id,
+                epoch_seconds=event.event_time_epoch() + self.THRESH_TTL,
             )
         return len(user_ids) > self.THRESH
 

@@ -7,9 +7,9 @@ from pypanther.helpers.panther_iocs import XZ_AMIS
 
 awsec2_vulnerable_xz_image_launched_tests: List[PantherRuleTest] = [
     PantherRuleTest(
-        Name="Single vulnerable AMI Launched",
-        ExpectedResult=True,
-        Log={
+        name="Single vulnerable AMI Launched",
+        expected_result=True,
+        log={
             "awsRegion": "us-west-2",
             "eventCategory": "Management",
             "eventID": "cd7919fe-34a2-4d26-b038-23a2556a79fb",
@@ -72,7 +72,10 @@ awsec2_vulnerable_xz_image_launched_tests: List[PantherRuleTest] = [
                 },
                 "tagSpecificationSet": {
                     "items": [
-                        {"resourceType": "instance", "tags": [{"key": "Name", "value": "test"}]}
+                        {
+                            "resourceType": "instance",
+                            "tags": [{"key": "Name", "value": "test"}],
+                        }
                     ]
                 },
             },
@@ -94,7 +97,12 @@ awsec2_vulnerable_xz_image_launched_tests: List[PantherRuleTest] = [
                             "enaSupport": True,
                             "enclaveOptions": {"enabled": False},
                             "groupSet": {
-                                "items": [{"groupId": "sg-00000000000000000", "groupName": "ssh"}]
+                                "items": [
+                                    {
+                                        "groupId": "sg-00000000000000000",
+                                        "groupName": "ssh",
+                                    }
+                                ]
                             },
                             "hypervisor": "xen",
                             "imageId": "ami-020a359780bc6f835",
@@ -157,7 +165,10 @@ awsec2_vulnerable_xz_image_launched_tests: List[PantherRuleTest] = [
                                     }
                                 ]
                             },
-                            "placement": {"availabilityZone": "us-west-2b", "tenancy": "default"},
+                            "placement": {
+                                "availabilityZone": "us-west-2b",
+                                "tenancy": "default",
+                            },
                             "privateDnsName": "ip-10-0-0-3.us-west-2.compute.internal",
                             "privateDnsNameOptions": {
                                 "enableResourceNameDnsAAAARecord": False,
@@ -212,9 +223,9 @@ awsec2_vulnerable_xz_image_launched_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="Multiple vulnerable AMIs Launched",
-        ExpectedResult=True,
-        Log={
+        name="Multiple vulnerable AMIs Launched",
+        expected_result=True,
+        log={
             "awsRegion": "us-west-2",
             "eventCategory": "Management",
             "eventID": "762b9172-6148-4c76-aee4-f6fc0fd140af",
@@ -277,7 +288,10 @@ awsec2_vulnerable_xz_image_launched_tests: List[PantherRuleTest] = [
                 },
                 "tagSpecificationSet": {
                     "items": [
-                        {"resourceType": "instance", "tags": [{"key": "Name", "value": "test"}]}
+                        {
+                            "resourceType": "instance",
+                            "tags": [{"key": "Name", "value": "test"}],
+                        }
                     ]
                 },
             },
@@ -299,7 +313,12 @@ awsec2_vulnerable_xz_image_launched_tests: List[PantherRuleTest] = [
                             "enaSupport": True,
                             "enclaveOptions": {"enabled": False},
                             "groupSet": {
-                                "items": [{"groupId": "sg-00000000000000000", "groupName": "ssh"}]
+                                "items": [
+                                    {
+                                        "groupId": "sg-00000000000000000",
+                                        "groupName": "ssh",
+                                    }
+                                ]
                             },
                             "hypervisor": "xen",
                             "imageId": "ami-092e3b17e435e5e58",
@@ -362,7 +381,10 @@ awsec2_vulnerable_xz_image_launched_tests: List[PantherRuleTest] = [
                                     }
                                 ]
                             },
-                            "placement": {"availabilityZone": "us-west-2b", "tenancy": "default"},
+                            "placement": {
+                                "availabilityZone": "us-west-2b",
+                                "tenancy": "default",
+                            },
                             "privateDnsName": "ip-10-0-0-4.us-west-2.compute.internal",
                             "privateDnsNameOptions": {
                                 "enableResourceNameDnsAAAARecord": False,
@@ -394,7 +416,12 @@ awsec2_vulnerable_xz_image_launched_tests: List[PantherRuleTest] = [
                             "enaSupport": True,
                             "enclaveOptions": {"enabled": False},
                             "groupSet": {
-                                "items": [{"groupId": "sg-00000000000000000", "groupName": "ssh"}]
+                                "items": [
+                                    {
+                                        "groupId": "sg-00000000000000000",
+                                        "groupName": "ssh",
+                                    }
+                                ]
                             },
                             "hypervisor": "xen",
                             "imageId": "ami-020a359780bc6f835",
@@ -457,7 +484,10 @@ awsec2_vulnerable_xz_image_launched_tests: List[PantherRuleTest] = [
                                     }
                                 ]
                             },
-                            "placement": {"availabilityZone": "us-west-2b", "tenancy": "default"},
+                            "placement": {
+                                "availabilityZone": "us-west-2b",
+                                "tenancy": "default",
+                            },
                             "privateDnsName": "ip-10-0-0-5.us-west-2.compute.internal",
                             "privateDnsNameOptions": {
                                 "enableResourceNameDnsAAAARecord": False,
@@ -512,9 +542,9 @@ awsec2_vulnerable_xz_image_launched_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="Non-vulnerable AMI Launched",
-        ExpectedResult=False,
-        Log={
+        name="Non-vulnerable AMI Launched",
+        expected_result=False,
+        log={
             "awsRegion": "us-west-2",
             "eventCategory": "Management",
             "eventID": "cd7919fe-34a2-4d26-b038-23a2556a79fb",
@@ -577,7 +607,10 @@ awsec2_vulnerable_xz_image_launched_tests: List[PantherRuleTest] = [
                 },
                 "tagSpecificationSet": {
                     "items": [
-                        {"resourceType": "instance", "tags": [{"key": "Name", "value": "test"}]}
+                        {
+                            "resourceType": "instance",
+                            "tags": [{"key": "Name", "value": "test"}],
+                        }
                     ]
                 },
             },
@@ -599,7 +632,12 @@ awsec2_vulnerable_xz_image_launched_tests: List[PantherRuleTest] = [
                             "enaSupport": True,
                             "enclaveOptions": {"enabled": False},
                             "groupSet": {
-                                "items": [{"groupId": "sg-00000000000000000", "groupName": "ssh"}]
+                                "items": [
+                                    {
+                                        "groupId": "sg-00000000000000000",
+                                        "groupName": "ssh",
+                                    }
+                                ]
                             },
                             "hypervisor": "xen",
                             "imageId": "ami-08038de0f4f90a9f0",
@@ -662,7 +700,10 @@ awsec2_vulnerable_xz_image_launched_tests: List[PantherRuleTest] = [
                                     }
                                 ]
                             },
-                            "placement": {"availabilityZone": "us-west-2b", "tenancy": "default"},
+                            "placement": {
+                                "availabilityZone": "us-west-2b",
+                                "tenancy": "default",
+                            },
                             "privateDnsName": "ip-10-0-0-3.us-west-2.compute.internal",
                             "privateDnsNameOptions": {
                                 "enableResourceNameDnsAAAARecord": False,
@@ -720,16 +761,17 @@ awsec2_vulnerable_xz_image_launched_tests: List[PantherRuleTest] = [
 
 
 class AWSEC2VulnerableXZImageLaunched(PantherRule):
-    Description = "Detecting EC2 instances launched with AMIs containing potentially vulnerable versions of XZ (CVE-2024-3094)\n"
-    DisplayName = "AWS EC2 Vulnerable XZ Image Launched"
-    Reference = "https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2024-3094"
-    Severity = PantherSeverity.Critical
-    Tags = ["AWS", "Linux", "Emerging Threats", "Supply Chain Compromise"]
-    Reports = {"MITRE ATT&CK": ["TA0001:T1195.001"]}
-    Runbook = "- Verify that the AMI is indeed vulnerable to CVE-2024-3094 (xz -V being 5.6.0 or 5.6.1) - If the AMI is vulnerable, terminate the instance and launch a new instance with a non-vulnerable AMI\n"
-    LogTypes = [PantherLogType.AWS_CloudTrail]
-    RuleID = "AWS.EC2.Vulnerable.XZ.Image.Launched-prototype"
-    Tests = awsec2_vulnerable_xz_image_launched_tests
+    default_description = "Detecting EC2 instances launched with AMIs containing potentially vulnerable versions of XZ (CVE-2024-3094)\n"
+    display_name = "AWS EC2 Vulnerable XZ Image Launched"
+    default_reference = "https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2024-3094"
+    default_severity = PantherSeverity.critical
+    tags = ["AWS", "Linux", "Emerging Threats", "Supply Chain Compromise"]
+    reports = {"MITRE ATT&CK": ["TA0001:T1195.001"]}
+    default_runbook = "- Verify that the AMI is indeed vulnerable to CVE-2024-3094 (xz -V being 5.6.0 or 5.6.1) - If the AMI is vulnerable, terminate the instance and launch a new instance with a non-vulnerable AMI\n"
+    log_types = [PantherLogType.AWS_CloudTrail]
+    id_ = "AWS.EC2.Vulnerable.XZ.Image.Launched-prototype"
+    tests = awsec2_vulnerable_xz_image_launched_tests
+
     # AMIs published by Fedora between 2024-03-26 and 2024-04-02
     # OpenSUSE and Kali do not have any recent [public] AMIs that would be affected
 

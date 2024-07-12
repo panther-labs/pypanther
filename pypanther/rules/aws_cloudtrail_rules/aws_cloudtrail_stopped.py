@@ -6,9 +6,9 @@ from pypanther.helpers.panther_default import aws_cloudtrail_success, lookup_aws
 
 aws_cloud_trail_stopped_tests: List[PantherRuleTest] = [
     PantherRuleTest(
-        Name="CloudTrail Was Stopped",
-        ExpectedResult=True,
-        Log={
+        name="CloudTrail Was Stopped",
+        expected_result=True,
+        log={
             "eventVersion": "1.05",
             "userIdentity": {
                 "type": "AssumedRole",
@@ -49,9 +49,9 @@ aws_cloud_trail_stopped_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="CloudTrail Was Started",
-        ExpectedResult=False,
-        Log={
+        name="CloudTrail Was Started",
+        expected_result=False,
+        log={
             "eventVersion": "1.05",
             "userIdentity": {
                 "type": "AssumedRole",
@@ -100,9 +100,9 @@ aws_cloud_trail_stopped_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="Error Stopping CloudTrail",
-        ExpectedResult=False,
-        Log={
+        name="Error Stopping CloudTrail",
+        expected_result=False,
+        log={
             "eventVersion": "1.05",
             "errorCode": "InvalidTrailNameException",
             "userIdentity": {
@@ -147,23 +147,30 @@ aws_cloud_trail_stopped_tests: List[PantherRuleTest] = [
 
 
 class AWSCloudTrailStopped(PantherRule):
-    RuleID = "AWS.CloudTrail.Stopped-prototype"
-    DisplayName = "CloudTrail Stopped"
-    LogTypes = [PantherLogType.AWS_CloudTrail]
-    Tags = ["AWS", "Security Control", "DemoThreatHunting", "Defense Evasion:Impair Defenses"]
-    Reports = {"CIS": ["3.5"], "MITRE ATT&CK": ["TA0005:T1562"]}
-    Severity = PantherSeverity.Medium
-    Description = "A CloudTrail Trail was modified.\n"
-    Runbook = "https://docs.runpanther.io/alert-runbooks/built-in-rules/aws-cloudtrail-modified"
-    Reference = "https://docs.aws.amazon.com/awscloudtrail/latest/userguide/cloudtrail-delete-trails-console.html"
-    SummaryAttributes = [
+    id_ = "AWS.CloudTrail.Stopped-prototype"
+    display_name = "CloudTrail Stopped"
+    log_types = [PantherLogType.AWS_CloudTrail]
+    tags = [
+        "AWS",
+        "Security Control",
+        "DemoThreatHunting",
+        "Defense Evasion:Impair Defenses",
+    ]
+    reports = {"CIS": ["3.5"], "MITRE ATT&CK": ["TA0005:T1562"]}
+    default_severity = PantherSeverity.medium
+    default_description = "A CloudTrail Trail was modified.\n"
+    default_runbook = (
+        "https://docs.runpanther.io/alert-runbooks/built-in-rules/aws-cloudtrail-modified"
+    )
+    default_reference = "https://docs.aws.amazon.com/awscloudtrail/latest/userguide/cloudtrail-delete-trails-console.html"
+    summary_attributes = [
         "eventName",
         "userAgent",
         "sourceIpAddress",
         "recipientAccountId",
         "p_any_aws_arns",
     ]
-    Tests = aws_cloud_trail_stopped_tests
+    tests = aws_cloud_trail_stopped_tests
     # API calls that are indicative of CloudTrail changes
     CLOUDTRAIL_STOP_DELETE = {"DeleteTrail", "StopLogging"}
 

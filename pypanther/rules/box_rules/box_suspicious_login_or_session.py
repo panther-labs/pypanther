@@ -5,9 +5,9 @@ from pypanther.helpers.panther_base_helpers import box_parse_additional_details,
 
 box_shield_suspicious_alert_tests: List[PantherRuleTest] = [
     PantherRuleTest(
-        Name="Regular Event",
-        ExpectedResult=False,
-        Log={
+        name="Regular Event",
+        expected_result=False,
+        log={
             "type": "event",
             "additional_details": '{"key": "value"}',
             "created_by": {
@@ -20,9 +20,9 @@ box_shield_suspicious_alert_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="Suspicious Login Event",
-        ExpectedResult=True,
-        Log={
+        name="Suspicious Login Event",
+        expected_result=True,
+        log={
             "type": "event",
             "additional_details": '{"shield_alert":{"rule_category":"Suspicious Locations","risk_score":60,"user":{"email":"bob@example"}}}',
             "created_by": {
@@ -36,9 +36,9 @@ box_shield_suspicious_alert_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="Suspicious Session Event",
-        ExpectedResult=True,
-        Log={
+        name="Suspicious Session Event",
+        expected_result=True,
+        log={
             "type": "event",
             "additional_details": '{"shield_alert":{"rule_category":"Suspicious Sessions","risk_score":70,"alert_summary":{"description":"First time in prior month user connected from ip 1.2.3.4."},"user":{"email":"bob@example"}}}',
             "created_by": {
@@ -52,9 +52,9 @@ box_shield_suspicious_alert_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="Suspicious Session Event - Low Risk",
-        ExpectedResult=False,
-        Log={
+        name="Suspicious Session Event - Low Risk",
+        expected_result=False,
+        log={
             "type": "event",
             "additional_details": '{"shield_alert":{"rule_category":"Suspicious Sessions","risk_score":10,"alert_summary":{"description":"First time in prior month user connected from ip 1.2.3.4."},"user":{"email":"bob@example"}}}',
             "created_by": {
@@ -71,19 +71,19 @@ box_shield_suspicious_alert_tests: List[PantherRuleTest] = [
 
 
 class BoxShieldSuspiciousAlert(PantherRule):
-    RuleID = "Box.Shield.Suspicious.Alert-prototype"
-    DisplayName = "Box Shield Suspicious Alert Triggered"
-    LogTypes = [PantherLogType.Box_Event]
-    Tags = ["Box", "Initial Access:Valid Accounts"]
-    Reports = {"MITRE ATT&CK": ["TA0001:T1078"]}
-    Severity = PantherSeverity.High
-    Description = (
+    id_ = "Box.Shield.Suspicious.Alert-prototype"
+    display_name = "Box Shield Suspicious Alert Triggered"
+    log_types = [PantherLogType.Box_Event]
+    tags = ["Box", "Initial Access:Valid Accounts"]
+    reports = {"MITRE ATT&CK": ["TA0001:T1078"]}
+    default_severity = PantherSeverity.high
+    default_description = (
         "A user login event or session event was tagged as medium to high severity by Box Shield.\n"
     )
-    Reference = "https://developer.box.com/guides/events/shield-alert-events/"
-    Runbook = "Investigate whether this was triggered by an expected user event.\n"
-    SummaryAttributes = ["event_type", "ip_address"]
-    Tests = box_shield_suspicious_alert_tests
+    default_reference = "https://developer.box.com/guides/events/shield-alert-events/"
+    default_runbook = "Investigate whether this was triggered by an expected user event.\n"
+    summary_attributes = ["event_type", "ip_address"]
+    tests = box_shield_suspicious_alert_tests
     SUSPICIOUS_EVENT_TYPES = {"Suspicious Locations", "Suspicious Sessions"}
 
     def rule(self, event):

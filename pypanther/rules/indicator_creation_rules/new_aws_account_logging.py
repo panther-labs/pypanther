@@ -10,10 +10,10 @@ from pypanther.helpers.panther_oss_helpers import resolve_timestamp_string
 
 standard_new_aws_account_created_tests: List[PantherRuleTest] = [
     PantherRuleTest(
-        Name="AWS Account created",
-        ExpectedResult=True,
-        Mocks=[PantherRuleMock(ObjectName="put_string_set", ReturnValue="")],
-        Log={
+        name="AWS Account created",
+        expected_result=True,
+        mocks=[PantherRuleMock(object_name="put_string_set", return_value="")],
+        log={
             "awsRegion": "us-east-1",
             "eventID": "axxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
             "eventName": "CreateAccountResult",
@@ -31,10 +31,10 @@ standard_new_aws_account_created_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="Non-Account-Creation Event",
-        ExpectedResult=False,
-        Mocks=[PantherRuleMock(ObjectName="put_string_set", ReturnValue="")],
-        Log={
+        name="Non-Account-Creation Event",
+        expected_result=False,
+        mocks=[PantherRuleMock(object_name="put_string_set", return_value="")],
+        log={
             "awsRegion": "us-east-1",
             "eventName": "CreateAccount",
             "eventTime": "2020-11-05 21:21:46Z",
@@ -54,17 +54,17 @@ standard_new_aws_account_created_tests: List[PantherRuleTest] = [
 
 
 class StandardNewAWSAccountCreated(PantherRule):
-    RuleID = "Standard.NewAWSAccountCreated-prototype"
-    DisplayName = "New AWS Account Created"
-    LogTypes = [PantherLogType.AWS_CloudTrail]
-    Tags = ["DataModel", "Indicator Collection", "Persistence:Create Account"]
-    Severity = PantherSeverity.Info
-    Reports = {"MITRE ATT&CK": ["TA0003:T1136"]}
-    Description = "A new AWS account was created"
-    Runbook = "A new AWS account was created, ensure it was created through standard practice and is for a valid purpose."
-    Reference = "https://docs.aws.amazon.com/organizations/latest/userguide/orgs_security_incident-response.html#:~:text=AWS%20Organizations%20information%20in%20CloudTrail"
-    SummaryAttributes = ["p_any_aws_account_ids"]
-    Tests = standard_new_aws_account_created_tests
+    id_ = "Standard.NewAWSAccountCreated-prototype"
+    display_name = "New AWS Account Created"
+    log_types = [PantherLogType.AWS_CloudTrail]
+    tags = ["DataModel", "Indicator Collection", "Persistence:Create Account"]
+    default_severity = PantherSeverity.info
+    reports = {"MITRE ATT&CK": ["TA0003:T1136"]}
+    default_description = "A new AWS account was created"
+    default_runbook = "A new AWS account was created, ensure it was created through standard practice and is for a valid purpose."
+    default_reference = "https://docs.aws.amazon.com/organizations/latest/userguide/orgs_security_incident-response.html#:~:text=AWS%20Organizations%20information%20in%20CloudTrail"
+    summary_attributes = ["p_any_aws_account_ids"]
+    tests = standard_new_aws_account_created_tests
     # Days an account is considered new
     TTL = timedelta(days=3)
 
@@ -88,7 +88,9 @@ class StandardNewAWSAccountCreated(PantherRule):
         account_event_id = f"new_aws_account_{event.get('p_row_id')}"
         if account_id:
             put_string_set(
-                "new_account - " + account_id, [account_event_id], expiry_time.strftime("%s")
+                "new_account - " + account_id,
+                [account_event_id],
+                expiry_time.strftime("%s"),
             )
         return True
 

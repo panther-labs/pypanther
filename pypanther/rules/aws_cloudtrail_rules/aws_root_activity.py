@@ -6,9 +6,9 @@ from pypanther.helpers.panther_default import aws_cloudtrail_success, lookup_aws
 
 aws_root_activity_tests: List[PantherRuleTest] = [
     PantherRuleTest(
-        Name="Root Activity - CreateServiceLinkedRole",
-        ExpectedResult=False,
-        Log={
+        name="Root Activity - CreateServiceLinkedRole",
+        expected_result=False,
+        log={
             "eventVersion": "1.05",
             "userIdentity": {
                 "type": "Root",
@@ -52,9 +52,9 @@ aws_root_activity_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="Root Activity",
-        ExpectedResult=True,
-        Log={
+        name="Root Activity",
+        expected_result=True,
+        log={
             "eventVersion": "1.05",
             "userIdentity": {
                 "type": "Root",
@@ -98,9 +98,9 @@ aws_root_activity_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="IAMUser Activity",
-        ExpectedResult=False,
-        Log={
+        name="IAMUser Activity",
+        expected_result=False,
+        log={
             "eventVersion": "1.05",
             "userIdentity": {
                 "type": "IAMUser",
@@ -143,9 +143,9 @@ aws_root_activity_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="Root User Failed Activity",
-        ExpectedResult=False,
-        Log={
+        name="Root User Failed Activity",
+        expected_result=False,
+        log={
             "awsRegion": "redacted",
             "errorMessage": "Not a valid response for the provided request id: aws_ccV60redacted",
             "eventID": "redacted",
@@ -186,9 +186,9 @@ aws_root_activity_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="Successful Root Login",
-        ExpectedResult=True,
-        Log={
+        name="Successful Root Login",
+        expected_result=True,
+        log={
             "eventVersion": "1.05",
             "userIdentity": {
                 "type": "Root",
@@ -219,21 +219,21 @@ aws_root_activity_tests: List[PantherRuleTest] = [
 
 
 class AWSRootActivity(PantherRule):
-    RuleID = "AWS.Root.Activity-prototype"
-    DisplayName = "Root Account Activity"
-    LogTypes = [PantherLogType.AWS_CloudTrail]
-    Tags = [
+    id_ = "AWS.Root.Activity-prototype"
+    display_name = "Root Account Activity"
+    log_types = [PantherLogType.AWS_CloudTrail]
+    tags = [
         "AWS",
         "Identity & Access Management",
         "DemoThreatHunting",
         "Privilege Escalation:Valid Accounts",
     ]
-    Reports = {"CIS": ["3.3"], "MITRE ATT&CK": ["TA0004:T1078"]}
-    Severity = PantherSeverity.High
-    Description = "Root account activity was detected.\n"
-    Runbook = "Investigate the usage of the root account. If this root activity was not authorized, immediately change the root credentials and investigate what actions the root account took.\n"
-    Reference = "https://docs.aws.amazon.com/IAM/latest/UserGuide/id_root-user.html"
-    SummaryAttributes = [
+    reports = {"CIS": ["3.3"], "MITRE ATT&CK": ["TA0004:T1078"]}
+    default_severity = PantherSeverity.high
+    default_description = "Root account activity was detected.\n"
+    default_runbook = "Investigate the usage of the root account. If this root activity was not authorized, immediately change the root credentials and investigate what actions the root account took.\n"
+    default_reference = "https://docs.aws.amazon.com/IAM/latest/UserGuide/id_root-user.html"
+    summary_attributes = [
         "awsRegion",
         "eventName",
         "eventSource",
@@ -242,7 +242,7 @@ class AWSRootActivity(PantherRule):
         "p_any_aws_arns",
         "p_any_ip_addresses",
     ]
-    Tests = aws_root_activity_tests
+    tests = aws_root_activity_tests
     EVENT_ALLOW_LIST = {"CreateServiceLinkedRole"}
 
     def rule(self, event):

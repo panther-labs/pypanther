@@ -5,9 +5,9 @@ from pypanther.helpers.panther_base_helpers import deep_get, slack_alert_context
 
 slack_audit_logs_app_added_tests: List[PantherRuleTest] = [
     PantherRuleTest(
-        Name="App added to workspace - Admin not in app scopes",
-        ExpectedResult=True,
-        Log={
+        name="App added to workspace - Admin not in app scopes",
+        expected_result=True,
+        log={
             "action": "app_installed",
             "actor": {
                 "type": "user",
@@ -29,7 +29,10 @@ slack_audit_logs_app_added_tests: List[PantherRuleTest] = [
                 "ua": "Go-http-client/2.0",
             },
             "date_create": "2021-06-08 22:16:15",
-            "details": {"is_internal_integration": False, "is_token_rotation_enabled_app": False},
+            "details": {
+                "is_internal_integration": False,
+                "is_token_rotation_enabled_app": False,
+            },
             "entity": {
                 "app": {
                     "id": "A049JV0H0KC",
@@ -54,9 +57,9 @@ slack_audit_logs_app_added_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="App Approved",
-        ExpectedResult=True,
-        Log={
+        name="App Approved",
+        expected_result=True,
+        log={
             "action": "app_installed",
             "actor": {
                 "type": "user",
@@ -92,9 +95,9 @@ slack_audit_logs_app_added_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="App Installed",
-        ExpectedResult=True,
-        Log={
+        name="App Installed",
+        expected_result=True,
+        log={
             "action": "app_installed",
             "actor": {
                 "type": "user",
@@ -130,9 +133,9 @@ slack_audit_logs_app_added_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="App added to workspace",
-        ExpectedResult=True,
-        Log={
+        name="App added to workspace",
+        expected_result=True,
+        log={
             "action": "app_installed",
             "actor": {
                 "type": "user",
@@ -168,9 +171,9 @@ slack_audit_logs_app_added_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="User Logout",
-        ExpectedResult=False,
-        Log={
+        name="User Logout",
+        expected_result=False,
+        log={
             "action": "user_logout",
             "actor": {
                 "type": "user",
@@ -208,18 +211,18 @@ slack_audit_logs_app_added_tests: List[PantherRuleTest] = [
 
 
 class SlackAuditLogsAppAdded(PantherRule):
-    RuleID = "Slack.AuditLogs.AppAdded-prototype"
-    DisplayName = "Slack App Added"
-    LogTypes = [PantherLogType.Slack_AuditLogs]
-    Tags = ["Slack", "Persistence", "Server Software Component"]
-    Reports = {"MITRE ATT&CK": ["TA0003:T1505"]}
-    Severity = PantherSeverity.Medium
-    Description = "Detects when a Slack App has been added to a workspace"
-    Reference = (
+    id_ = "Slack.AuditLogs.AppAdded-prototype"
+    display_name = "Slack App Added"
+    log_types = [PantherLogType.Slack_AuditLogs]
+    tags = ["Slack", "Persistence", "Server Software Component"]
+    reports = {"MITRE ATT&CK": ["TA0003:T1505"]}
+    default_severity = PantherSeverity.medium
+    default_description = "Detects when a Slack App has been added to a workspace"
+    default_reference = (
         "https://slack.com/intl/en-gb/help/articles/202035138-Add-apps-to-your-Slack-workspace"
     )
-    SummaryAttributes = ["p_any_ip_addresses", "p_any_emails"]
-    Tests = slack_audit_logs_app_added_tests
+    summary_attributes = ["p_any_ip_addresses", "p_any_emails"]
+    tests = slack_audit_logs_app_added_tests
     APP_ADDED_ACTIONS = ["app_approved", "app_installed", "org_app_workspace_added"]
 
     def rule(self, event):

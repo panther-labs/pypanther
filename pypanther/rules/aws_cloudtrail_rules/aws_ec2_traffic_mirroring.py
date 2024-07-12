@@ -5,9 +5,9 @@ from pypanther.helpers.panther_base_helpers import aws_rule_context, deep_get
 
 awsec2_traffic_mirroring_tests: List[PantherRuleTest] = [
     PantherRuleTest(
-        Name="CreateTrafficMirrorFilter",
-        ExpectedResult=True,
-        Log={
+        name="CreateTrafficMirrorFilter",
+        expected_result=True,
+        log={
             "awsRegion": "us-east-1",
             "eventCategory": "Management",
             "eventID": "a3c6297b-3320-4d32-b224-cc45ee75d561",
@@ -80,9 +80,9 @@ awsec2_traffic_mirroring_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="CreateTrafficMirrorFilterRule",
-        ExpectedResult=True,
-        Log={
+        name="CreateTrafficMirrorFilterRule",
+        expected_result=True,
+        log={
             "awsRegion": "us-east-1",
             "eventCategory": "Management",
             "eventID": "61b6e2d6-788c-4b8d-9b6f-1ce17539e05e",
@@ -165,9 +165,9 @@ awsec2_traffic_mirroring_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="CreateTrafficMirrorSession",
-        ExpectedResult=True,
-        Log={
+        name="CreateTrafficMirrorSession",
+        expected_result=True,
+        log={
             "awsRegion": "us-east-1",
             "errorCode": "Client.NetworkInterfaceNotSupported",
             "errorMessage": "eni-0c61fbc84fca4138f must be attached to a supported instance",
@@ -232,9 +232,9 @@ awsec2_traffic_mirroring_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="CreateTrafficMirrorTarget",
-        ExpectedResult=True,
-        Log={
+        name="CreateTrafficMirrorTarget",
+        expected_result=True,
+        log={
             "awsRegion": "us-east-1",
             "eventCategory": "Management",
             "eventID": "1ca9056c-efe7-4415-bb35-bbee893b9bd0",
@@ -308,9 +308,9 @@ awsec2_traffic_mirroring_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="DeleteTrafficMirrorTarget",
-        ExpectedResult=True,
-        Log={
+        name="DeleteTrafficMirrorTarget",
+        expected_result=True,
+        log={
             "awsRegion": "us-east-1",
             "eventCategory": "Management",
             "eventID": "2212e8b1-b053-4388-9d3a-1bf963b1f075",
@@ -376,9 +376,9 @@ awsec2_traffic_mirroring_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="DescribeTrafficMirrorTargets",
-        ExpectedResult=True,
-        Log={
+        name="DescribeTrafficMirrorTargets",
+        expected_result=True,
+        log={
             "awsRegion": "us-east-1",
             "eventCategory": "Management",
             "eventID": "43b5d650-dfdf-41a7-9b57-831e5cf1d190",
@@ -433,9 +433,9 @@ awsec2_traffic_mirroring_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="ModifyTrafficMirrorSession",
-        ExpectedResult=True,
-        Log={
+        name="ModifyTrafficMirrorSession",
+        expected_result=True,
+        log={
             "awsRegion": "us-east-1",
             "eventCategory": "Management",
             "eventID": "66c0fb61-804e-4cee-9f2e-c1d23c406a78",
@@ -518,9 +518,9 @@ awsec2_traffic_mirroring_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="UnrelatedEvent",
-        ExpectedResult=False,
-        Log={
+        name="UnrelatedEvent",
+        expected_result=False,
+        log={
             "awsRegion": "us-east-1",
             "eventCategory": "Management",
             "eventID": "982f8066-640d-40fb-b433-ba15e14fee40",
@@ -559,9 +559,9 @@ awsec2_traffic_mirroring_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="AWS Config Runs DescribeTrafficMirrorTargets",
-        ExpectedResult=False,
-        Log={
+        name="AWS Config Runs DescribeTrafficMirrorTargets",
+        expected_result=False,
+        log={
             "awsRegion": "us-west-2",
             "eventCategory": "Management",
             "eventID": "c98e81a7-15ee-4888-bbbb-cccccccccccc",
@@ -604,16 +604,16 @@ awsec2_traffic_mirroring_tests: List[PantherRuleTest] = [
 
 
 class AWSEC2TrafficMirroring(PantherRule):
-    Description = "This rule captures multiple traffic mirroring events in AWS Cloudtrail."
-    DisplayName = "AWS EC2 Traffic Mirroring"
-    Reference = "https://attack.mitre.org/techniques/T1040/"
-    Runbook = "Examine other activities done by this user to determine whether or not activity is suspicious. If your network traffic is not encrypted, we recommend changing the severity to high or critical."
-    Severity = PantherSeverity.Medium
-    Tags = ["AWS", "Cloudtrail", "MITRE"]
-    LogTypes = [PantherLogType.AWS_CloudTrail]
-    RuleID = "AWS.EC2.Traffic.Mirroring-prototype"
-    SummaryAttributes = ["userIdentity.type"]
-    Tests = awsec2_traffic_mirroring_tests
+    default_description = "This rule captures multiple traffic mirroring events in AWS Cloudtrail."
+    display_name = "AWS EC2 Traffic Mirroring"
+    default_reference = "https://attack.mitre.org/techniques/T1040/"
+    default_runbook = "Examine other activities done by this user to determine whether or not activity is suspicious. If your network traffic is not encrypted, we recommend changing the severity to high or critical."
+    default_severity = PantherSeverity.medium
+    tags = ["AWS", "Cloudtrail", "MITRE"]
+    log_types = [PantherLogType.AWS_CloudTrail]
+    id_ = "AWS.EC2.Traffic.Mirroring-prototype"
+    summary_attributes = ["userIdentity.type"]
+    tests = awsec2_traffic_mirroring_tests
 
     def rule(self, event):
         # Return True to match the log event and trigger an alert.

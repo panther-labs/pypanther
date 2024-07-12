@@ -5,9 +5,9 @@ from pypanther.helpers.panther_base_helpers import deep_get, okta_alert_context
 
 okta_api_key_created_tests: List[PantherRuleTest] = [
     PantherRuleTest(
-        Name="API Key Created",
-        ExpectedResult=True,
-        Log={
+        name="API Key Created",
+        expected_result=True,
+        log={
             "uuid": "2a992f80-d1ad-4f62-900e-8c68bb72a21b",
             "published": "2021-01-08 21:28:34.875",
             "eventType": "system.api_token.create",
@@ -39,21 +39,26 @@ okta_api_key_created_tests: List[PantherRuleTest] = [
 
 
 class OktaAPIKeyCreated(PantherRule):
-    RuleID = "Okta.APIKeyCreated-prototype"
-    DisplayName = "Okta API Key Created"
-    LogTypes = [PantherLogType.Okta_SystemLog]
-    Tags = [
+    id_ = "Okta.APIKeyCreated-prototype"
+    display_name = "Okta API Key Created"
+    log_types = [PantherLogType.Okta_SystemLog]
+    tags = [
         "Identity & Access Management",
         "Okta",
         "Credential Access:Steal Application Access Token",
     ]
-    Reports = {"MITRE ATT&CK": ["TA0006:T1528"]}
-    Severity = PantherSeverity.Info
-    Description = "A user created an API Key in Okta"
-    Reference = "https://help.okta.com/en/prod/Content/Topics/Security/API.htm"
-    Runbook = "Reach out to the user if needed to validate the activity."
-    SummaryAttributes = ["eventType", "severity", "displayMessage", "p_any_ip_addresses"]
-    Tests = okta_api_key_created_tests
+    reports = {"MITRE ATT&CK": ["TA0006:T1528"]}
+    default_severity = PantherSeverity.info
+    default_description = "A user created an API Key in Okta"
+    default_reference = "https://help.okta.com/en/prod/Content/Topics/Security/API.htm"
+    default_runbook = "Reach out to the user if needed to validate the activity."
+    summary_attributes = [
+        "eventType",
+        "severity",
+        "displayMessage",
+        "p_any_ip_addresses",
+    ]
+    tests = okta_api_key_created_tests
 
     def rule(self, event):
         return (

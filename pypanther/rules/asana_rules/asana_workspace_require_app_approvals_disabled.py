@@ -5,9 +5,9 @@ from pypanther.helpers.panther_base_helpers import deep_get
 
 asana_workspace_require_app_approvals_disabled_tests: List[PantherRuleTest] = [
     PantherRuleTest(
-        Name="Web Reqs On",
-        ExpectedResult=False,
-        Log={
+        name="Web Reqs On",
+        expected_result=False,
+        log={
             "actor": {
                 "actor_type": "user",
                 "email": "homer.simpson@example.io",
@@ -24,13 +24,17 @@ asana_workspace_require_app_approvals_disabled_tests: List[PantherRuleTest] = [
             "event_category": "admin_settings",
             "event_type": "workspace_require_app_approvals_of_type_changed",
             "gid": "1234",
-            "resource": {"gid": "1234", "name": "Panther Labs", "resource_type": "workspace"},
+            "resource": {
+                "gid": "1234",
+                "name": "Panther Labs",
+                "resource_type": "workspace",
+            },
         },
     ),
     PantherRuleTest(
-        Name="Web Reqs Off",
-        ExpectedResult=True,
-        Log={
+        name="Web Reqs Off",
+        expected_result=True,
+        log={
             "actor": {
                 "actor_type": "user",
                 "email": "homer.simpson@example.io",
@@ -47,21 +51,25 @@ asana_workspace_require_app_approvals_disabled_tests: List[PantherRuleTest] = [
             "event_category": "admin_settings",
             "event_type": "workspace_require_app_approvals_of_type_changed",
             "gid": "1234",
-            "resource": {"gid": "1234", "name": "Panther Labs", "resource_type": "workspace"},
+            "resource": {
+                "gid": "1234",
+                "name": "Panther Labs",
+                "resource_type": "workspace",
+            },
         },
     ),
 ]
 
 
 class AsanaWorkspaceRequireAppApprovalsDisabled(PantherRule):
-    Description = "An Asana user turned off app approval requirements for an application type for your organization."
-    DisplayName = "Asana Workspace Require App Approvals Disabled"
-    Runbook = "Confirm this user acted with valid business intent and determine whether this activity was authorized."
-    Reference = "https://help.asana.com/hc/en-us/articles/14109494654875-Admin-console#:~:text=used%20by%20default-,Require%20app%20approval,-Admins%20manage%20a"
-    Severity = PantherSeverity.Medium
-    LogTypes = [PantherLogType.Asana_Audit]
-    RuleID = "Asana.Workspace.Require.App.Approvals.Disabled-prototype"
-    Tests = asana_workspace_require_app_approvals_disabled_tests
+    default_description = "An Asana user turned off app approval requirements for an application type for your organization."
+    display_name = "Asana Workspace Require App Approvals Disabled"
+    default_runbook = "Confirm this user acted with valid business intent and determine whether this activity was authorized."
+    default_reference = "https://help.asana.com/hc/en-us/articles/14109494654875-Admin-console#:~:text=used%20by%20default-,Require%20app%20approval,-Admins%20manage%20a"
+    default_severity = PantherSeverity.medium
+    log_types = [PantherLogType.Asana_Audit]
+    id_ = "Asana.Workspace.Require.App.Approvals.Disabled-prototype"
+    tests = asana_workspace_require_app_approvals_disabled_tests
 
     def rule(self, event):
         new_val = deep_get(event, "details", "new_value", default="<NEW_VAL_NOT_FOUND>")

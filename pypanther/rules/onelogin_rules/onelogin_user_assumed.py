@@ -4,9 +4,9 @@ from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSever
 
 one_login_user_assumption_tests: List[PantherRuleTest] = [
     PantherRuleTest(
-        Name="User assumed their own account",
-        ExpectedResult=False,
-        Log={
+        name="User assumed their own account",
+        expected_result=False,
+        log={
             "event_type_id": "240",
             "actor_user_id": 123456,
             "actor_user_name": "Bob Cat",
@@ -15,9 +15,9 @@ one_login_user_assumption_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="User assumed another user's account",
-        ExpectedResult=True,
-        Log={
+        name="User assumed another user's account",
+        expected_result=True,
+        log={
             "event_type_id": "3",
             "actor_user_id": 654321,
             "actor_user_name": "Mountain Lion",
@@ -29,17 +29,17 @@ one_login_user_assumption_tests: List[PantherRuleTest] = [
 
 
 class OneLoginUserAssumption(PantherRule):
-    RuleID = "OneLogin.UserAssumption-prototype"
-    DisplayName = "OneLogin User Assumed Another User"
-    LogTypes = [PantherLogType.OneLogin_Events]
-    Tags = ["OneLogin", "Lateral Movement:Use Alternate Authentication Material"]
-    Reports = {"MITRE ATT&CK": ["TA0008:T1550"]}
-    Severity = PantherSeverity.Low
-    Description = "User assumed another user account"
-    Reference = "https://onelogin.service-now.com/kb_view_customer.do?sysparm_article=KB0010594#:~:text=Prerequisites,Actions%20and%20select%20Assume%20User."
-    Runbook = "Investigate whether this was authorized access.\n"
-    SummaryAttributes = ["account_id", "user_name", "user_id"]
-    Tests = one_login_user_assumption_tests
+    id_ = "OneLogin.UserAssumption-prototype"
+    display_name = "OneLogin User Assumed Another User"
+    log_types = [PantherLogType.OneLogin_Events]
+    tags = ["OneLogin", "Lateral Movement:Use Alternate Authentication Material"]
+    reports = {"MITRE ATT&CK": ["TA0008:T1550"]}
+    default_severity = PantherSeverity.low
+    default_description = "User assumed another user account"
+    default_reference = "https://onelogin.service-now.com/kb_view_customer.do?sysparm_article=KB0010594#:~:text=Prerequisites,Actions%20and%20select%20Assume%20User."
+    default_runbook = "Investigate whether this was authorized access.\n"
+    summary_attributes = ["account_id", "user_name", "user_id"]
+    tests = one_login_user_assumption_tests
 
     def rule(self, event):
         # check that this is a user assumption event; event id 3

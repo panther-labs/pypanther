@@ -8,9 +8,9 @@ from pypanther.helpers.panther_base_helpers import gsuite_parameter_lookup as pa
 
 g_suite_drive_visibility_changed_tests: List[PantherRuleTest] = [
     PantherRuleTest(
-        Name="Access Event",
-        ExpectedResult=False,
-        Log={
+        name="Access Event",
+        expected_result=False,
+        log={
             "p_row_id": "111222",
             "actor": {"email": "bobert@example.com"},
             "id": {"applicationName": "drive"},
@@ -18,9 +18,9 @@ g_suite_drive_visibility_changed_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="ACL Change without Visibility Change",
-        ExpectedResult=False,
-        Log={
+        name="ACL Change without Visibility Change",
+        expected_result=False,
+        log={
             "p_row_id": "111222",
             "actor": {"email": "bobert@example.com"},
             "id": {"applicationName": "drive"},
@@ -28,9 +28,9 @@ g_suite_drive_visibility_changed_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="Doc Became Public - Link (Unrestricted)",
-        ExpectedResult=True,
-        Log={
+        name="Doc Became Public - Link (Unrestricted)",
+        expected_result=True,
+        log={
             "actor": {"email": "bobert@gmail.com"},
             "events": [
                 {
@@ -55,9 +55,9 @@ g_suite_drive_visibility_changed_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="Doc Became Public - Link (Allowlisted Domain Not Configured)",
-        ExpectedResult=True,
-        Log={
+        name="Doc Became Public - Link (Allowlisted Domain Not Configured)",
+        expected_result=True,
+        log={
             "actor": {"email": "bobert@example.com"},
             "events": [
                 {
@@ -65,7 +65,10 @@ g_suite_drive_visibility_changed_tests: List[PantherRuleTest] = [
                         {"name": "visibility_change", "value": "external"},
                         {"name": "doc_title", "value": "my shared document"},
                         {"name": "target_domain", "value": "example.com"},
-                        {"name": "visibility", "value": "people_within_domain_with_link"},
+                        {
+                            "name": "visibility",
+                            "value": "people_within_domain_with_link",
+                        },
                         {"name": "new_value", "multiValue": ["people_with_link"]},
                     ],
                     "name": "change_document_visibility",
@@ -82,10 +85,12 @@ g_suite_drive_visibility_changed_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="Doc Became Public - Link (Allowlisted Domain Is Configured)",
-        ExpectedResult=False,
-        Mocks=[PantherRuleMock(ObjectName="ALLOWED_DOMAINS", ReturnValue='[\n  "example.com"\n]')],
-        Log={
+        name="Doc Became Public - Link (Allowlisted Domain Is Configured)",
+        expected_result=False,
+        mocks=[
+            PantherRuleMock(object_name="ALLOWED_DOMAINS", return_value='[\n  "example.com"\n]')
+        ],
+        log={
             "actor": {"email": "bobert@example.com"},
             "events": [
                 {
@@ -93,7 +98,10 @@ g_suite_drive_visibility_changed_tests: List[PantherRuleTest] = [
                         {"name": "visibility_change", "value": "external"},
                         {"name": "doc_title", "value": "my shared document"},
                         {"name": "target_domain", "value": "example.com"},
-                        {"name": "visibility", "value": "people_within_domain_with_link"},
+                        {
+                            "name": "visibility",
+                            "value": "people_within_domain_with_link",
+                        },
                         {"name": "new_value", "multiValue": ["people_with_link"]},
                     ],
                     "name": "change_document_visibility",
@@ -110,9 +118,9 @@ g_suite_drive_visibility_changed_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="Doc Became Private - Link",
-        ExpectedResult=False,
-        Log={
+        name="Doc Became Private - Link",
+        expected_result=False,
+        log={
             "actor": {"email": "bobert@example.com"},
             "events": [
                 {
@@ -132,9 +140,9 @@ g_suite_drive_visibility_changed_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="Doc Became Public - User",
-        ExpectedResult=True,
-        Log={
+        name="Doc Became Public - User",
+        expected_result=True,
+        log={
             "id": {"applicationName": "drive"},
             "actor": {"email": "bobert@example.com"},
             "kind": "admin#reports#activity",
@@ -158,7 +166,10 @@ g_suite_drive_visibility_changed_tests: List[PantherRuleTest] = [
                         {"name": "target_user", "value": "someone@random.com"},
                         {"name": "old_value", "multiValue": ["none"]},
                         {"name": "new_value", "multiValue": ["can_view"]},
-                        {"name": "old_visibility", "value": "people_within_domain_with_link"},
+                        {
+                            "name": "old_visibility",
+                            "value": "people_within_domain_with_link",
+                        },
                         {"name": "doc_title", "value": "Hosted Accounts"},
                         {"name": "visibility", "value": "shared_externally"},
                     ],
@@ -167,9 +178,9 @@ g_suite_drive_visibility_changed_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="Doc Became Public - User (Multiple)",
-        ExpectedResult=True,
-        Log={
+        name="Doc Became Public - User (Multiple)",
+        expected_result=True,
+        log={
             "id": {"applicationName": "drive"},
             "actor": {"email": "bobert@example.com"},
             "kind": "admin#reports#activity",
@@ -193,7 +204,10 @@ g_suite_drive_visibility_changed_tests: List[PantherRuleTest] = [
                         {"name": "target_user", "value": "someone@random.com"},
                         {"name": "old_value", "multiValue": ["none"]},
                         {"name": "new_value", "multiValue": ["can_view"]},
-                        {"name": "old_visibility", "value": "people_within_domain_with_link"},
+                        {
+                            "name": "old_visibility",
+                            "value": "people_within_domain_with_link",
+                        },
                         {"name": "doc_title", "value": "Hosted Accounts"},
                         {"name": "visibility", "value": "shared_externally"},
                     ],
@@ -207,7 +221,10 @@ g_suite_drive_visibility_changed_tests: List[PantherRuleTest] = [
                         {"name": "target_user", "value": "someoneelse@random.com"},
                         {"name": "old_value", "multiValue": ["none"]},
                         {"name": "new_value", "multiValue": ["can_view"]},
-                        {"name": "old_visibility", "value": "people_within_domain_with_link"},
+                        {
+                            "name": "old_visibility",
+                            "value": "people_within_domain_with_link",
+                        },
                         {"name": "doc_title", "value": "Hosted Accounts"},
                         {"name": "visibility", "value": "shared_externally"},
                     ],
@@ -221,7 +238,10 @@ g_suite_drive_visibility_changed_tests: List[PantherRuleTest] = [
                         {"name": "target_user", "value": "notbobert@example.com"},
                         {"name": "old_value", "multiValue": ["none"]},
                         {"name": "new_value", "multiValue": ["can_view"]},
-                        {"name": "old_visibility", "value": "people_within_domain_with_link"},
+                        {
+                            "name": "old_visibility",
+                            "value": "people_within_domain_with_link",
+                        },
                         {"name": "doc_title", "value": "Hosted Accounts"},
                         {"name": "visibility", "value": "shared_externally"},
                     ],
@@ -230,9 +250,9 @@ g_suite_drive_visibility_changed_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="Doc Inherits Folder Permissions",
-        ExpectedResult=False,
-        Log={
+        name="Doc Inherits Folder Permissions",
+        expected_result=False,
+        log={
             "p_row_id": "111222",
             "actor": {"email": "bobert@example.com"},
             "id": {"applicationName": "drive"},
@@ -246,9 +266,9 @@ g_suite_drive_visibility_changed_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="Doc Inherits Folder Permissions - Sharing Link",
-        ExpectedResult=False,
-        Log={
+        name="Doc Inherits Folder Permissions - Sharing Link",
+        expected_result=False,
+        log={
             "p_row_id": "111222",
             "actor": {"email": "bobert@example.com"},
             "id": {"applicationName": "drive"},
@@ -262,9 +282,9 @@ g_suite_drive_visibility_changed_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="Doc Became Public - Public email provider",
-        ExpectedResult=True,
-        Log={
+        name="Doc Became Public - Public email provider",
+        expected_result=True,
+        log={
             "id": {"applicationName": "drive"},
             "actor": {"email": "bobert@example.com"},
             "kind": "admin#reports#activity",
@@ -288,7 +308,10 @@ g_suite_drive_visibility_changed_tests: List[PantherRuleTest] = [
                         {"name": "target_user", "value": "someone@yandex.com"},
                         {"name": "old_value", "multiValue": ["none"]},
                         {"name": "new_value", "multiValue": ["can_view"]},
-                        {"name": "old_visibility", "value": "people_within_domain_with_link"},
+                        {
+                            "name": "old_visibility",
+                            "value": "people_within_domain_with_link",
+                        },
                         {"name": "doc_title", "value": "Hosted Accounts"},
                         {"name": "visibility", "value": "shared_externally"},
                     ],
@@ -297,14 +320,15 @@ g_suite_drive_visibility_changed_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="Doc Shared With Multiple Users All From ALLOWED_DOMAINS",
-        ExpectedResult=False,
-        Mocks=[
+        name="Doc Shared With Multiple Users All From ALLOWED_DOMAINS",
+        expected_result=False,
+        mocks=[
             PantherRuleMock(
-                ObjectName="ALLOWED_DOMAINS", ReturnValue='[\n  "example.com", "notexample.com"\n]'
+                object_name="ALLOWED_DOMAINS",
+                return_value='[\n  "example.com", "notexample.com"\n]',
             )
         ],
-        Log={
+        log={
             "id": {"applicationName": "drive"},
             "actor": {"email": "bobert@example.com"},
             "kind": "admin#reports#activity",
@@ -328,7 +352,10 @@ g_suite_drive_visibility_changed_tests: List[PantherRuleTest] = [
                         {"name": "target_user", "value": "someone@notexample.com"},
                         {"name": "old_value", "multiValue": ["none"]},
                         {"name": "new_value", "multiValue": ["can_view"]},
-                        {"name": "old_visibility", "value": "people_within_domain_with_link"},
+                        {
+                            "name": "old_visibility",
+                            "value": "people_within_domain_with_link",
+                        },
                         {"name": "doc_title", "value": "Hosted Accounts"},
                         {"name": "visibility", "value": "shared_externally"},
                     ],
@@ -342,7 +369,10 @@ g_suite_drive_visibility_changed_tests: List[PantherRuleTest] = [
                         {"name": "target_user", "value": "someoneelse@example.com"},
                         {"name": "old_value", "multiValue": ["none"]},
                         {"name": "new_value", "multiValue": ["can_view"]},
-                        {"name": "old_visibility", "value": "people_within_domain_with_link"},
+                        {
+                            "name": "old_visibility",
+                            "value": "people_within_domain_with_link",
+                        },
                         {"name": "doc_title", "value": "Hosted Accounts"},
                         {"name": "visibility", "value": "shared_externally"},
                     ],
@@ -356,7 +386,10 @@ g_suite_drive_visibility_changed_tests: List[PantherRuleTest] = [
                         {"name": "target_user", "value": "notbobert@example.com"},
                         {"name": "old_value", "multiValue": ["none"]},
                         {"name": "new_value", "multiValue": ["can_view"]},
-                        {"name": "old_visibility", "value": "people_within_domain_with_link"},
+                        {
+                            "name": "old_visibility",
+                            "value": "people_within_domain_with_link",
+                        },
                         {"name": "doc_title", "value": "Hosted Accounts"},
                         {"name": "visibility", "value": "shared_externally"},
                     ],
@@ -368,21 +401,27 @@ g_suite_drive_visibility_changed_tests: List[PantherRuleTest] = [
 
 
 class GSuiteDriveVisibilityChanged(PantherRule):
-    RuleID = "GSuite.DriveVisibilityChanged-prototype"
-    DisplayName = "GSuite External Drive Document"
-    Enabled = False
-    LogTypes = [PantherLogType.GSuite_Reports]
-    Tags = ["GSuite", "Collection:Data from Information Repositories", "Configuration Required"]
-    Reports = {"MITRE ATT&CK": ["TA0009:T1213"]}
-    Severity = PantherSeverity.Low
-    Description = "A Google drive resource became externally accessible.\n"
-    Reference = (
+    id_ = "GSuite.DriveVisibilityChanged-prototype"
+    display_name = "GSuite External Drive Document"
+    enabled = False
+    log_types = [PantherLogType.GSuite_Reports]
+    tags = [
+        "GSuite",
+        "Collection:Data from Information Repositories",
+        "Configuration Required",
+    ]
+    reports = {"MITRE ATT&CK": ["TA0009:T1213"]}
+    default_severity = PantherSeverity.low
+    default_description = "A Google drive resource became externally accessible.\n"
+    default_reference = (
         "https://support.google.com/a/users/answer/12380484?hl=en&sjid=864417124752637253-EU"
     )
-    Runbook = "Investigate whether the drive document is appropriate to be publicly accessible.\n"
-    SummaryAttributes = ["actor:email"]
-    DedupPeriodMinutes = 360
-    Tests = g_suite_drive_visibility_changed_tests
+    default_runbook = (
+        "Investigate whether the drive document is appropriate to be publicly accessible.\n"
+    )
+    summary_attributes = ["actor:email"]
+    dedup_period_minutes = 360
+    tests = g_suite_drive_visibility_changed_tests
     # Add any domain name(s) that you expect to share documents with in the ALLOWED_DOMAINS set
     ALLOWED_DOMAINS = set()
     PUBLIC_PROVIDERS = {

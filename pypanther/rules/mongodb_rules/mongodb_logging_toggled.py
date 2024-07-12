@@ -5,9 +5,9 @@ from pypanther.helpers.panther_mongodb_helpers import mongodb_alert_context
 
 mongo_db_logging_toggled_tests: List[PantherRuleTest] = [
     PantherRuleTest(
-        Name="Random event",
-        ExpectedResult=False,
-        Log={
+        name="Random event",
+        expected_result=False,
+        log={
             "created": "2023-06-07 16:57:55",
             "currentValue": {},
             "eventTypeName": "CAT_JUMPED",
@@ -34,9 +34,9 @@ mongo_db_logging_toggled_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="Logging toggled",
-        ExpectedResult=True,
-        Log={
+        name="Logging toggled",
+        expected_result=True,
+        log={
             "created": "2023-06-07 16:57:55",
             "currentValue": {},
             "eventTypeName": "AUDIT_LOG_CONFIGURATION_UPDATED",
@@ -66,13 +66,13 @@ mongo_db_logging_toggled_tests: List[PantherRuleTest] = [
 
 
 class MongoDBLoggingToggled(PantherRule):
-    Description = "MongoDB logging toggled"
-    DisplayName = "MongoDB logging toggled"
-    Severity = PantherSeverity.Low
-    Reference = "https://attack.mitre.org/techniques/T1562/008/"
-    LogTypes = [PantherLogType.MongoDB_ProjectEvent]
-    RuleID = "MongoDB.Logging.Toggled-prototype"
-    Tests = mongo_db_logging_toggled_tests
+    default_description = "MongoDB logging toggled"
+    display_name = "MongoDB logging toggled"
+    default_severity = PantherSeverity.low
+    default_reference = "https://attack.mitre.org/techniques/T1562/008/"
+    log_types = [PantherLogType.MongoDB_ProjectEvent]
+    id_ = "MongoDB.Logging.Toggled-prototype"
+    tests = mongo_db_logging_toggled_tests
 
     def rule(self, event):
         return event.deep_get("eventTypeName", default="") == "AUDIT_LOG_CONFIGURATION_UPDATED"

@@ -7,9 +7,9 @@ from pypanther.helpers.panther_default import aws_cloudtrail_success
 
 aws_cloud_trail_iam_entity_created_without_cloud_formation_tests: List[PantherRuleTest] = [
     PantherRuleTest(
-        Name="IAM Entity Created Automatically",
-        ExpectedResult=False,
-        Log={
+        name="IAM Entity Created Automatically",
+        expected_result=False,
+        log={
             "eventVersion": "1.05",
             "userIdentity": {
                 "type": "AssumedRole",
@@ -47,9 +47,9 @@ aws_cloud_trail_iam_entity_created_without_cloud_formation_tests: List[PantherRu
         },
     ),
     PantherRuleTest(
-        Name="IAM Entity Created Manually With Approved Role",
-        ExpectedResult=True,
-        Log={
+        name="IAM Entity Created Manually With Approved Role",
+        expected_result=True,
+        log={
             "eventVersion": "1.05",
             "userIdentity": {
                 "type": "AssumedRole",
@@ -86,9 +86,9 @@ aws_cloud_trail_iam_entity_created_without_cloud_formation_tests: List[PantherRu
         },
     ),
     PantherRuleTest(
-        Name="IAM Entity Created Manually With Approved Role Pattern",
-        ExpectedResult=False,
-        Log={
+        name="IAM Entity Created Manually With Approved Role Pattern",
+        expected_result=False,
+        log={
             "eventVersion": "1.05",
             "userIdentity": {
                 "type": "AssumedRole",
@@ -126,9 +126,9 @@ aws_cloud_trail_iam_entity_created_without_cloud_formation_tests: List[PantherRu
         },
     ),
     PantherRuleTest(
-        Name="IAM Entity Created Manually",
-        ExpectedResult=True,
-        Log={
+        name="IAM Entity Created Manually",
+        expected_result=True,
+        log={
             "eventVersion": "1.05",
             "userIdentity": {
                 "type": "AssumedRole",
@@ -165,9 +165,9 @@ aws_cloud_trail_iam_entity_created_without_cloud_formation_tests: List[PantherRu
         },
     ),
     PantherRuleTest(
-        Name="Non IAM Entity Creation Event",
-        ExpectedResult=False,
-        Log={
+        name="Non IAM Entity Creation Event",
+        expected_result=False,
+        log={
             "eventVersion": "1.05",
             "userIdentity": {
                 "type": "AssumedRole",
@@ -204,9 +204,9 @@ aws_cloud_trail_iam_entity_created_without_cloud_formation_tests: List[PantherRu
         },
     ),
     PantherRuleTest(
-        Name="Error Manually Creating IAM Entity",
-        ExpectedResult=False,
-        Log={
+        name="Error Manually Creating IAM Entity",
+        expected_result=False,
+        log={
             "eventVersion": "1.05",
             "errorCode": "EntityAlreadyExists",
             "userIdentity": {
@@ -247,23 +247,28 @@ aws_cloud_trail_iam_entity_created_without_cloud_formation_tests: List[PantherRu
 
 
 class AWSCloudTrailIAMEntityCreatedWithoutCloudFormation(PantherRule):
-    RuleID = "AWS.CloudTrail.IAMEntityCreatedWithoutCloudFormation-prototype"
-    DisplayName = "IAM Entity Created Without CloudFormation"
-    Enabled = False
-    LogTypes = [PantherLogType.AWS_CloudTrail]
-    Reports = {"MITRE ATT&CK": ["TA0003:T1136"]}
-    Tags = [
+    id_ = "AWS.CloudTrail.IAMEntityCreatedWithoutCloudFormation-prototype"
+    display_name = "IAM Entity Created Without CloudFormation"
+    enabled = False
+    log_types = [PantherLogType.AWS_CloudTrail]
+    reports = {"MITRE ATT&CK": ["TA0003:T1136"]}
+    tags = [
         "AWS",
         "Configuration Required",
         "Identity and Access Management",
         "Persistence:Create Account",
     ]
-    Severity = PantherSeverity.Medium
-    Description = "An IAM Entity (Group, Policy, Role, or User) was created manually. IAM entities should be created in code to ensure that permissions are tracked and managed correctly.\n"
-    Runbook = "Verify whether IAM entity needs to exist. If so, re-create it in an appropriate CloudFormation, Terraform, or other template. Delete the original manually created entity.\n"
-    Reference = "https://blog.awsfundamentals.com/aws-iam-roles-with-aws-cloudformation"
-    SummaryAttributes = ["userAgent", "sourceIpAddress", "recipientAccountId", "p_any_aws_arns"]
-    Tests = aws_cloud_trail_iam_entity_created_without_cloud_formation_tests
+    default_severity = PantherSeverity.medium
+    default_description = "An IAM Entity (Group, Policy, Role, or User) was created manually. IAM entities should be created in code to ensure that permissions are tracked and managed correctly.\n"
+    default_runbook = "Verify whether IAM entity needs to exist. If so, re-create it in an appropriate CloudFormation, Terraform, or other template. Delete the original manually created entity.\n"
+    default_reference = "https://blog.awsfundamentals.com/aws-iam-roles-with-aws-cloudformation"
+    summary_attributes = [
+        "userAgent",
+        "sourceIpAddress",
+        "recipientAccountId",
+        "p_any_aws_arns",
+    ]
+    tests = aws_cloud_trail_iam_entity_created_without_cloud_formation_tests
     # The role dedicated for IAM administration
     IAM_ADMIN_ROLES = {"arn:aws:iam::123456789012:role/IdentityCFNServiceRole"}
     # The role patterns dedicated for IAM Service Roles
@@ -297,7 +302,13 @@ class AWSCloudTrailIAMEntityCreatedWithoutCloudFormation(PantherRule):
                 len(
                     re.findall(
                         admin_role_pattern,
-                        deep_get(event, "userIdentity", "sessionContext", "sessionIssuer", "arn"),
+                        deep_get(
+                            event,
+                            "userIdentity",
+                            "sessionContext",
+                            "sessionIssuer",
+                            "arn",
+                        ),
                     )
                 )
                 > 0

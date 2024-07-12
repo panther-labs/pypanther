@@ -5,9 +5,9 @@ from pypanther.helpers.panther_base_helpers import deep_get
 
 box_content_workflow_policy_violation_tests: List[PantherRuleTest] = [
     PantherRuleTest(
-        Name="Regular Event",
-        ExpectedResult=False,
-        Log={
+        name="Regular Event",
+        expected_result=False,
+        log={
             "type": "event",
             "additional_details": '{"key": "value"}',
             "created_by": {
@@ -20,9 +20,9 @@ box_content_workflow_policy_violation_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="Upload Policy Violation",
-        ExpectedResult=True,
-        Log={
+        name="Upload Policy Violation",
+        expected_result=True,
+        log={
             "type": "event",
             "additional_details": '{"key": "value"}',
             "created_by": {
@@ -36,9 +36,9 @@ box_content_workflow_policy_violation_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="Sharing Policy Violation",
-        ExpectedResult=True,
-        Log={
+        name="Sharing Policy Violation",
+        expected_result=True,
+        log={
             "type": "event",
             "additional_details": {"key": "value"},
             "created_by": {
@@ -55,16 +55,18 @@ box_content_workflow_policy_violation_tests: List[PantherRuleTest] = [
 
 
 class BoxContentWorkflowPolicyViolation(PantherRule):
-    RuleID = "Box.Content.Workflow.Policy.Violation-prototype"
-    DisplayName = "Box Content Workflow Policy Violation"
-    LogTypes = [PantherLogType.Box_Event]
-    Tags = ["Box"]
-    Severity = PantherSeverity.Low
-    Description = "A user violated the content workflow policy.\n"
-    Reference = "https://support.box.com/hc/en-us/articles/360043692594-Creating-a-Security-Policy"
-    Runbook = "Investigate whether the user continues to violate the policy and take measure to ensure they understand policy.\n"
-    SummaryAttributes = ["event_type"]
-    Tests = box_content_workflow_policy_violation_tests
+    id_ = "Box.Content.Workflow.Policy.Violation-prototype"
+    display_name = "Box Content Workflow Policy Violation"
+    log_types = [PantherLogType.Box_Event]
+    tags = ["Box"]
+    default_severity = PantherSeverity.low
+    default_description = "A user violated the content workflow policy.\n"
+    default_reference = (
+        "https://support.box.com/hc/en-us/articles/360043692594-Creating-a-Security-Policy"
+    )
+    default_runbook = "Investigate whether the user continues to violate the policy and take measure to ensure they understand policy.\n"
+    summary_attributes = ["event_type"]
+    tests = box_content_workflow_policy_violation_tests
     POLICY_VIOLATIONS = {
         "CONTENT_WORKFLOW_UPLOAD_POLICY_VIOLATION",
         "CONTENT_WORKFLOW_SHARING_POLICY_VIOLATION",

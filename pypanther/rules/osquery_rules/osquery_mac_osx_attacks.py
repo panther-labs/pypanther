@@ -4,9 +4,9 @@ from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSever
 
 osquery_mac_osx_attacks_tests: List[PantherRuleTest] = [
     PantherRuleTest(
-        Name="Valid malware discovered",
-        ExpectedResult=True,
-        Log={
+        name="Valid malware discovered",
+        expected_result=True,
+        log={
             "name": "pack_osx-attacks_Leverage-A_1",
             "action": "added",
             "hostIdentifier": "test-host",
@@ -18,9 +18,9 @@ osquery_mac_osx_attacks_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="Keyboard event taps query is ignored",
-        ExpectedResult=False,
-        Log={
+        name="Keyboard event taps query is ignored",
+        expected_result=False,
+        log={
             "name": "pack_osx-attacks_Keyboard_Event_Taps",
             "action": "added",
             "hostIdentifier": "test-host",
@@ -35,17 +35,17 @@ osquery_mac_osx_attacks_tests: List[PantherRuleTest] = [
 
 
 class OsqueryMacOSXAttacks(PantherRule):
-    RuleID = "Osquery.Mac.OSXAttacks-prototype"
-    DisplayName = "macOS Malware Detected with osquery"
-    LogTypes = [PantherLogType.Osquery_Differential]
-    Tags = ["Osquery", "MacOS", "Malware", "Resource Development:Develop Capabilities"]
-    Reports = {"MITRE ATT&CK": ["TA0042:T1588"]}
-    Severity = PantherSeverity.Medium
-    Description = "Malware has potentially been detected on a macOS system"
-    Runbook = "Check the executable against VirusTotal"
-    Reference = "https://github.com/osquery/osquery/blob/master/packs/osx-attacks.conf"
-    SummaryAttributes = ["name", "hostIdentifier", "action"]
-    Tests = osquery_mac_osx_attacks_tests
+    id_ = "Osquery.Mac.OSXAttacks-prototype"
+    display_name = "macOS Malware Detected with osquery"
+    log_types = [PantherLogType.Osquery_Differential]
+    tags = ["Osquery", "MacOS", "Malware", "Resource Development:Develop Capabilities"]
+    reports = {"MITRE ATT&CK": ["TA0042:T1588"]}
+    default_severity = PantherSeverity.medium
+    default_description = "Malware has potentially been detected on a macOS system"
+    default_runbook = "Check the executable against VirusTotal"
+    default_reference = "https://github.com/osquery/osquery/blob/master/packs/osx-attacks.conf"
+    summary_attributes = ["name", "hostIdentifier", "action"]
+    tests = osquery_mac_osx_attacks_tests
 
     def rule(self, event):
         if "osx-attacks" not in event.get("name", ""):

@@ -5,9 +5,9 @@ from pypanther.helpers.panther_base_helpers import deep_get
 
 g_suite_workspace_data_export_created_tests: List[PantherRuleTest] = [
     PantherRuleTest(
-        Name="Workspace Admin Data Export Created",
-        ExpectedResult=True,
-        Log={
+        name="Workspace Admin Data Export Created",
+        expected_result=True,
+        log={
             "actor": {
                 "callerType": "USER",
                 "email": "admin@example.io",
@@ -26,9 +26,9 @@ g_suite_workspace_data_export_created_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="Workspace Admin Data Export Succeeded",
-        ExpectedResult=True,
-        Log={
+        name="Workspace Admin Data Export Succeeded",
+        expected_result=True,
+        log={
             "actor": {
                 "callerType": "USER",
                 "email": "admin@example.io",
@@ -47,10 +47,14 @@ g_suite_workspace_data_export_created_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="Admin Set Default Calendar SHARING_OUTSIDE_DOMAIN Setting to MANAGE_ACCESS",
-        ExpectedResult=False,
-        Log={
-            "actor": {"callerType": "USER", "email": "example@example.io", "profileId": "12345"},
+        name="Admin Set Default Calendar SHARING_OUTSIDE_DOMAIN Setting to MANAGE_ACCESS",
+        expected_result=False,
+        log={
+            "actor": {
+                "callerType": "USER",
+                "email": "example@example.io",
+                "profileId": "12345",
+            },
             "id": {
                 "applicationName": "admin",
                 "customerId": "D12345",
@@ -71,9 +75,9 @@ g_suite_workspace_data_export_created_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="ListObject Type",
-        ExpectedResult=False,
-        Log={
+        name="ListObject Type",
+        expected_result=False,
+        log={
             "actor": {"email": "user@example.io", "profileId": "118111111111111111111"},
             "id": {
                 "applicationName": "drive",
@@ -106,16 +110,18 @@ g_suite_workspace_data_export_created_tests: List[PantherRuleTest] = [
 
 
 class GSuiteWorkspaceDataExportCreated(PantherRule):
-    RuleID = "GSuite.Workspace.DataExportCreated-prototype"
-    DisplayName = "GSuite Workspace Data Export Has Been Created"
-    LogTypes = [PantherLogType.GSuite_ActivityEvent]
-    Tags = ["GSuite"]
-    Severity = PantherSeverity.Medium
-    Description = "A Workspace Admin Has Created a Data Export\n"
-    Reference = "https://support.google.com/a/answer/100458?hl=en&sjid=864417124752637253-EU"
-    Runbook = "Verify the intent of this Data Export. If intent cannot be verified, then a search on the actor's other activities is advised.\n"
-    SummaryAttributes = ["actor:email"]
-    Tests = g_suite_workspace_data_export_created_tests
+    id_ = "GSuite.Workspace.DataExportCreated-prototype"
+    display_name = "GSuite Workspace Data Export Has Been Created"
+    log_types = [PantherLogType.GSuite_ActivityEvent]
+    tags = ["GSuite"]
+    default_severity = PantherSeverity.medium
+    default_description = "A Workspace Admin Has Created a Data Export\n"
+    default_reference = (
+        "https://support.google.com/a/answer/100458?hl=en&sjid=864417124752637253-EU"
+    )
+    default_runbook = "Verify the intent of this Data Export. If intent cannot be verified, then a search on the actor's other activities is advised.\n"
+    summary_attributes = ["actor:email"]
+    tests = g_suite_workspace_data_export_created_tests
 
     def rule(self, event):
         return event.get("name", "").startswith("CUSTOMER_TAKEOUT_")

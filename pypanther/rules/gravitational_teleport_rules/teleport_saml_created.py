@@ -4,9 +4,9 @@ from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSever
 
 teleport_saml_created_tests: List[PantherRuleTest] = [
     PantherRuleTest(
-        Name="SAML Auth Connector modified",
-        ExpectedResult=True,
-        Log={
+        name="SAML Auth Connector modified",
+        expected_result=True,
+        log={
             "cluster_name": "teleport.example.com",
             "code": "T8200I",
             "ei": 0,
@@ -21,17 +21,17 @@ teleport_saml_created_tests: List[PantherRuleTest] = [
 
 
 class TeleportSAMLCreated(PantherRule):
-    RuleID = "Teleport.SAMLCreated-prototype"
-    DisplayName = "A SAML Connector was created or modified"
-    LogTypes = [PantherLogType.Gravitational_TeleportAudit]
-    Tags = ["Teleport"]
-    Severity = PantherSeverity.High
-    Description = "A SAML connector was created or modified"
-    Reports = {"MITRE ATT&CK": ["TA0042:T1585"]}
-    Reference = "https://goteleport.com/docs/management/admin/"
-    Runbook = "When a SAML connector is modified, it can potentially change the trust model of the Teleport Cluster. Validate that these changes were expected and correct.\n"
-    SummaryAttributes = ["event", "code", "user", "name"]
-    Tests = teleport_saml_created_tests
+    id_ = "Teleport.SAMLCreated-prototype"
+    display_name = "A SAML Connector was created or modified"
+    log_types = [PantherLogType.Gravitational_TeleportAudit]
+    tags = ["Teleport"]
+    default_severity = PantherSeverity.high
+    default_description = "A SAML connector was created or modified"
+    reports = {"MITRE ATT&CK": ["TA0042:T1585"]}
+    default_reference = "https://goteleport.com/docs/management/admin/"
+    default_runbook = "When a SAML connector is modified, it can potentially change the trust model of the Teleport Cluster. Validate that these changes were expected and correct.\n"
+    summary_attributes = ["event", "code", "user", "name"]
+    tests = teleport_saml_created_tests
 
     def rule(self, event):
         return event.get("event") == "saml.created"

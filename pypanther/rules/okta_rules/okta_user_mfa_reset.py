@@ -6,9 +6,9 @@ from pypanther.helpers.panther_base_helpers import okta_alert_context
 
 okta_user_mfa_reset_single_tests: List[PantherRuleTest] = [
     PantherRuleTest(
-        Name="User reset own MFA factor",
-        ExpectedResult=True,
-        Log={
+        name="User reset own MFA factor",
+        expected_result=True,
+        log={
             "eventtype": "user.mfa.factor.deactivate",
             "version": "0",
             "severity": "INFO",
@@ -29,7 +29,10 @@ okta_user_mfa_reset_single_tests: List[PantherRuleTest] = [
                 },
                 "zone": "null",
             },
-            "outcome": {"reason": "User reset FIDO_WEBAUTHN factor", "result": "SUCCESS"},
+            "outcome": {
+                "reason": "User reset FIDO_WEBAUTHN factor",
+                "result": "SUCCESS",
+            },
             "target": [
                 {
                     "alternateId": "homer@springfield.gov",
@@ -38,14 +41,17 @@ okta_user_mfa_reset_single_tests: List[PantherRuleTest] = [
                     "type": "User",
                 }
             ],
-            "authenticationcontext": {"authenticationStep": 0, "externalSessionId": "1111111"},
+            "authenticationcontext": {
+                "authenticationStep": 0,
+                "externalSessionId": "1111111",
+            },
             "p_log_type": "Okta.SystemLog",
         },
     ),
     PantherRuleTest(
-        Name="Other Event",
-        ExpectedResult=False,
-        Log={
+        name="Other Event",
+        expected_result=False,
+        log={
             "p_log_type": "Okta.SystemLog",
             "actor": {
                 "alternateId": "homer.simpson@duff.com",
@@ -53,11 +59,18 @@ okta_user_mfa_reset_single_tests: List[PantherRuleTest] = [
                 "id": "00abc456",
                 "type": "User",
             },
-            "authenticationcontext": {"authenticationStep": 0, "externalSessionId": "abc12345"},
+            "authenticationcontext": {
+                "authenticationStep": 0,
+                "externalSessionId": "abc12345",
+            },
             "client": {
                 "device": "Unknown",
                 "ipAddress": "1.2.3.4",
-                "userAgent": {"browser": "UNKNOWN", "os": "Unknown", "rawUserAgent": "Chrome"},
+                "userAgent": {
+                    "browser": "UNKNOWN",
+                    "os": "Unknown",
+                    "rawUserAgent": "Chrome",
+                },
                 "zone": "null",
             },
             "debugcontext": {"debugData": {}},
@@ -69,7 +82,12 @@ okta_user_mfa_reset_single_tests: List[PantherRuleTest] = [
             "securitycontext": {},
             "severity": "INFO",
             "target": [
-                {"alternateId": "App ", "displayName": "App", "id": "12345", "type": "AppInstance"}
+                {
+                    "alternateId": "App ",
+                    "displayName": "App",
+                    "id": "12345",
+                    "type": "AppInstance",
+                }
             ],
             "transaction": {"detail": {}, "id": "sdfg", "type": "JOB"},
             "uuid": "aaa-bb-ccc",
@@ -80,13 +98,13 @@ okta_user_mfa_reset_single_tests: List[PantherRuleTest] = [
 
 
 class OktaUserMFAResetSingle(PantherRule):
-    Description = "User has reset one of their own MFA factors"
-    DisplayName = "Okta User MFA Own Reset"
-    RuleID = "Okta.User.MFA.Reset.Single-prototype"
-    Reference = "https://support.okta.com/help/s/article/How-to-avoid-lockouts-and-reset-your-Multifactor-Authentication-MFA-for-Okta-Admins?language=en_US"
-    Severity = PantherSeverity.Info
-    LogTypes = [PantherLogType.Okta_SystemLog]
-    Tests = okta_user_mfa_reset_single_tests
+    default_description = "User has reset one of their own MFA factors"
+    display_name = "Okta User MFA Own Reset"
+    id_ = "Okta.User.MFA.Reset.Single-prototype"
+    default_reference = "https://support.okta.com/help/s/article/How-to-avoid-lockouts-and-reset-your-Multifactor-Authentication-MFA-for-Okta-Admins?language=en_US"
+    default_severity = PantherSeverity.info
+    log_types = [PantherLogType.Okta_SystemLog]
+    tests = okta_user_mfa_reset_single_tests
 
     def rule(self, event):
         return event.udm("event_type") == event_type.MFA_RESET

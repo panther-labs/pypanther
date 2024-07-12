@@ -10,16 +10,16 @@ from pypanther.helpers.panther_oss_helpers import get_dictionary, put_dictionary
 
 notion_login_from_new_location_tests: List[PantherRuleTest] = [
     PantherRuleTest(
-        Name="Login from normal location",
-        ExpectedResult=False,
-        Mocks=[
+        name="Login from normal location",
+        expected_result=False,
+        mocks=[
             PantherRuleMock(
-                ObjectName="get_dictionary",
-                ReturnValue='{ "Minas Tirith_Pellenor_Gondor": 1686542031 }',
+                object_name="get_dictionary",
+                return_value='{ "Minas Tirith_Pellenor_Gondor": 1686542031 }',
             ),
-            PantherRuleMock(ObjectName="put_dictionary", ReturnValue=False),
+            PantherRuleMock(object_name="put_dictionary", return_value=False),
         ],
-        Log={
+        log={
             "event": {
                 "actor": {
                     "id": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
@@ -59,13 +59,13 @@ notion_login_from_new_location_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="No previous recorded login",
-        ExpectedResult=False,
-        Mocks=[
-            PantherRuleMock(ObjectName="get_dictionary", ReturnValue=""),
-            PantherRuleMock(ObjectName="put_dictionary", ReturnValue=False),
+        name="No previous recorded login",
+        expected_result=False,
+        mocks=[
+            PantherRuleMock(object_name="get_dictionary", return_value=""),
+            PantherRuleMock(object_name="put_dictionary", return_value=False),
         ],
-        Log={
+        log={
             "event": {
                 "actor": {
                     "id": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
@@ -105,16 +105,16 @@ notion_login_from_new_location_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="Login from different location",
-        ExpectedResult=True,
-        Mocks=[
+        name="Login from different location",
+        expected_result=True,
+        mocks=[
             PantherRuleMock(
-                ObjectName="get_dictionary",
-                ReturnValue='{ "Minas Tirith_Pellenor_Gondor": 1686542031 }',
+                object_name="get_dictionary",
+                return_value='{ "Minas Tirith_Pellenor_Gondor": 1686542031 }',
             ),
-            PantherRuleMock(ObjectName="put_dictionary", ReturnValue=False),
+            PantherRuleMock(object_name="put_dictionary", return_value=False),
         ],
-        Log={
+        log={
             "event": {
                 "actor": {
                     "id": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
@@ -154,9 +154,9 @@ notion_login_from_new_location_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="Missing enrichment",
-        ExpectedResult=False,
-        Log={
+        name="Missing enrichment",
+        expected_result=False,
+        log={
             "event": {
                 "actor": {
                     "id": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
@@ -183,9 +183,9 @@ notion_login_from_new_location_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="Unrelated event",
-        ExpectedResult=False,
-        Log={
+        name="Unrelated event",
+        expected_result=False,
+        log={
             "event": {
                 "actor": {
                     "id": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
@@ -225,16 +225,16 @@ notion_login_from_new_location_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="Login from different location - no region",
-        ExpectedResult=True,
-        Mocks=[
+        name="Login from different location - no region",
+        expected_result=True,
+        mocks=[
             PantherRuleMock(
-                ObjectName="get_dictionary",
-                ReturnValue='{ "Minas Tirith_Pellenor_Gondor": 1686542031 }',
+                object_name="get_dictionary",
+                return_value='{ "Minas Tirith_Pellenor_Gondor": 1686542031 }',
             ),
-            PantherRuleMock(ObjectName="put_dictionary", ReturnValue=False),
+            PantherRuleMock(object_name="put_dictionary", return_value=False),
         ],
-        Log={
+        log={
             "event": {
                 "actor": {
                     "id": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
@@ -276,15 +276,15 @@ notion_login_from_new_location_tests: List[PantherRuleTest] = [
 
 
 class NotionLoginFromNewLocation(PantherRule):
-    RuleID = "Notion.LoginFromNewLocation-prototype"
-    DisplayName = "Notion Login from New Location"
-    LogTypes = [PantherLogType.Notion_AuditLogs]
-    Tags = ["Notion", "Identity & Access Management", "Login & Access Patterns"]
-    Severity = PantherSeverity.Medium
-    Description = "A Notion User logged in from a new location."
-    Runbook = "Possible account takeover. Follow up with the Notion User to determine if this login is genuine."
-    Reference = "https://ipinfo.io/products/ip-geolocation-api"
-    Tests = notion_login_from_new_location_tests
+    id_ = "Notion.LoginFromNewLocation-prototype"
+    display_name = "Notion Login from New Location"
+    log_types = [PantherLogType.Notion_AuditLogs]
+    tags = ["Notion", "Identity & Access Management", "Login & Access Patterns"]
+    default_severity = PantherSeverity.medium
+    default_description = "A Notion User logged in from a new location."
+    default_runbook = "Possible account takeover. Follow up with the Notion User to determine if this login is genuine."
+    default_reference = "https://ipinfo.io/products/ip-geolocation-api"
+    tests = notion_login_from_new_location_tests
     # How long (in seconds) to keep previous login locations in cached memory
     DEFAULT_CACHE_PERIOD = 2419200
 

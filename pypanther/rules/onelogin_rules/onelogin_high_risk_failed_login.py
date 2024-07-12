@@ -4,9 +4,9 @@ from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSever
 
 one_login_high_risk_failed_login_tests: List[PantherRuleTest] = [
     PantherRuleTest(
-        Name="Normal Login Event",
-        ExpectedResult=False,
-        Log={
+        name="Normal Login Event",
+        expected_result=False,
+        log={
             "event_type_id": "6",
             "actor_user_id": 123456,
             "actor_user_name": "Bob Cat",
@@ -15,9 +15,9 @@ one_login_high_risk_failed_login_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="Failed High Risk Login",
-        ExpectedResult=True,
-        Log={
+        name="Failed High Risk Login",
+        expected_result=True,
+        log={
             "event_type_id": "6",
             "risk_score": 55,
             "actor_user_id": 123456,
@@ -30,18 +30,18 @@ one_login_high_risk_failed_login_tests: List[PantherRuleTest] = [
 
 
 class OneLoginHighRiskFailedLogin(PantherRule):
-    RuleID = "OneLogin.HighRiskFailedLogin-prototype"
-    DisplayName = "OneLogin Failed High Risk Login"
-    LogTypes = [PantherLogType.OneLogin_Events]
-    Tags = ["OneLogin"]
-    Severity = PantherSeverity.Low
-    Description = (
+    id_ = "OneLogin.HighRiskFailedLogin-prototype"
+    display_name = "OneLogin Failed High Risk Login"
+    log_types = [PantherLogType.OneLogin_Events]
+    tags = ["OneLogin"]
+    default_severity = PantherSeverity.low
+    default_description = (
         "A OneLogin attempt with a high risk factor (>50) resulted in a failed authentication."
     )
-    Reference = "https://resources.onelogin.com/OneLogin_RiskBasedAuthentication-WP-v5.pdf"
-    Runbook = "Investigate why this user login is tagged as high risk as well as whether this was caused by expected user activity."
-    SummaryAttributes = ["account_id", "user_name", "user_id"]
-    Tests = one_login_high_risk_failed_login_tests
+    default_reference = "https://resources.onelogin.com/OneLogin_RiskBasedAuthentication-WP-v5.pdf"
+    default_runbook = "Investigate why this user login is tagged as high risk as well as whether this was caused by expected user activity."
+    summary_attributes = ["account_id", "user_name", "user_id"]
+    tests = one_login_high_risk_failed_login_tests
 
     def rule(self, event):
         # check risk associated with this event

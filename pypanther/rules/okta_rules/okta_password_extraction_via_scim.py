@@ -5,16 +5,19 @@ from pypanther.helpers.panther_base_helpers import deep_get, deep_walk, okta_ale
 
 okta_password_extractionvia_scim_tests: List[PantherRuleTest] = [
     PantherRuleTest(
-        Name="Other Event",
-        ExpectedResult=False,
-        Log={
+        name="Other Event",
+        expected_result=False,
+        log={
             "actor": {
                 "alternateId": "homer.simpson@duff.com",
                 "displayName": "Homer Simpson",
                 "id": "00abc123",
                 "type": "User",
             },
-            "authenticationcontext": {"authenticationStep": 0, "externalSessionId": "100-abc-9999"},
+            "authenticationcontext": {
+                "authenticationStep": 0,
+                "externalSessionId": "100-abc-9999",
+            },
             "client": {
                 "device": "Computer",
                 "geographicalContext": {
@@ -81,16 +84,19 @@ okta_password_extractionvia_scim_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="FastPass Phishing Block Event",
-        ExpectedResult=True,
-        Log={
+        name="FastPass Phishing Block Event",
+        expected_result=True,
+        log={
             "actor": {
                 "alternateId": "homer.simpson@duff.com",
                 "displayName": "Homer Simpson",
                 "id": "00abc123",
                 "type": "User",
             },
-            "authenticationcontext": {"authenticationStep": 0, "externalSessionId": "100-abc-9999"},
+            "authenticationcontext": {
+                "authenticationStep": 0,
+                "externalSessionId": "100-abc-9999",
+            },
             "client": {
                 "device": "Computer",
                 "geographicalContext": {
@@ -160,15 +166,15 @@ okta_password_extractionvia_scim_tests: List[PantherRuleTest] = [
 
 
 class OktaPasswordExtractionviaSCIM(PantherRule):
-    RuleID = "Okta.Password.Extraction.via.SCIM-prototype"
-    DisplayName = "Okta Cleartext Passwords Extracted via SCIM Application"
-    LogTypes = [PantherLogType.Okta_SystemLog]
-    Reports = {"MITRE ATT&CK": ["TA0006:T1556"]}
-    Severity = PantherSeverity.High
-    Description = "An application admin has extracted cleartext user passwords via SCIM app. Malcious actors can extract plaintext passwords by creating a SCIM application under their control and configuring it to sync passwords from Okta.\n"
-    Reference = "https://www.authomize.com/blog/authomize-discovers-password-stealing-and-impersonation-risks-to-in-okta/\n"
-    DedupPeriodMinutes = 30
-    Tests = okta_password_extractionvia_scim_tests
+    id_ = "Okta.Password.Extraction.via.SCIM-prototype"
+    display_name = "Okta Cleartext Passwords Extracted via SCIM Application"
+    log_types = [PantherLogType.Okta_SystemLog]
+    reports = {"MITRE ATT&CK": ["TA0006:T1556"]}
+    default_severity = PantherSeverity.high
+    default_description = "An application admin has extracted cleartext user passwords via SCIM app. Malcious actors can extract plaintext passwords by creating a SCIM application under their control and configuring it to sync passwords from Okta.\n"
+    default_reference = "https://www.authomize.com/blog/authomize-discovers-password-stealing-and-impersonation-risks-to-in-okta/\n"
+    dedup_period_minutes = 30
+    tests = okta_password_extractionvia_scim_tests
 
     def rule(self, event):
         return event.get(
@@ -179,7 +185,11 @@ class OktaPasswordExtractionviaSCIM(PantherRule):
 
     def title(self, event):
         target = deep_walk(
-            event, "target", "alternateId", default="<alternateId-not-found>", return_val="first"
+            event,
+            "target",
+            "alternateId",
+            default="<alternateId-not-found>",
+            return_val="first",
         )
         return f"{deep_get(event, 'actor', 'displayName', default='<displayName-not-found>')} <{deep_get(event, 'actor', 'alternateId', default='alternateId-not-found')}> extracted cleartext user passwords via SCIM app [{target}]"
 

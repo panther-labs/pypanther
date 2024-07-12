@@ -9,13 +9,13 @@ from pypanther.helpers.panther_base_helpers import deep_get, slack_alert_context
 
 slack_audit_logs_application_do_s_tests: List[PantherRuleTest] = [
     PantherRuleTest(
-        Name="User Session Reset - First time",
-        ExpectedResult=False,
-        Mocks=[
-            PantherRuleMock(ObjectName="get_string_set", ReturnValue=""),
-            PantherRuleMock(ObjectName="put_string_set", ReturnValue=""),
+        name="User Session Reset - First time",
+        expected_result=False,
+        mocks=[
+            PantherRuleMock(object_name="get_string_set", return_value=""),
+            PantherRuleMock(object_name="put_string_set", return_value=""),
         ],
-        Log={
+        log={
             "action": "user_session_reset_by_admin",
             "actor": {
                 "type": "user",
@@ -39,15 +39,16 @@ slack_audit_logs_application_do_s_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="User Session Reset - Multiple Times",
-        ExpectedResult=True,
-        Mocks=[
+        name="User Session Reset - Multiple Times",
+        expected_result=True,
+        mocks=[
             PantherRuleMock(
-                ObjectName="get_string_set", ReturnValue='{"time":"2021-06-08 22:24:43"}'
+                object_name="get_string_set",
+                return_value='{"time":"2021-06-08 22:24:43"}',
             ),
-            PantherRuleMock(ObjectName="put_string_set", ReturnValue=""),
+            PantherRuleMock(object_name="put_string_set", return_value=""),
         ],
-        Log={
+        log={
             "action": "user_session_reset_by_admin",
             "actor": {
                 "type": "user",
@@ -74,17 +75,22 @@ slack_audit_logs_application_do_s_tests: List[PantherRuleTest] = [
 
 
 class SlackAuditLogsApplicationDoS(PantherRule):
-    RuleID = "Slack.AuditLogs.ApplicationDoS-prototype"
-    DisplayName = "Slack Denial of Service"
-    LogTypes = [PantherLogType.Slack_AuditLogs]
-    Tags = ["Slack", "Impact", "Endpoint Denial of Service", "Application Exhaustion Flood"]
-    Reports = {"MITRE ATT&CK": ["TA0040:T1499.003"]}
-    Severity = PantherSeverity.Critical
-    Description = "Detects when slack admin invalidates user session(s) more than once in a 24 hour period which can lead to DoS"
-    Reference = "https://slack.com/intl/en-gb/help/articles/115005223763-Manage-session-duration-#pro-and-business+-subscriptions-2"
-    Threshold = 60
-    SummaryAttributes = ["action", "p_any_ip_addresses", "p_any_emails"]
-    Tests = slack_audit_logs_application_do_s_tests
+    id_ = "Slack.AuditLogs.ApplicationDoS-prototype"
+    display_name = "Slack Denial of Service"
+    log_types = [PantherLogType.Slack_AuditLogs]
+    tags = [
+        "Slack",
+        "Impact",
+        "Endpoint Denial of Service",
+        "Application Exhaustion Flood",
+    ]
+    reports = {"MITRE ATT&CK": ["TA0040:T1499.003"]}
+    default_severity = PantherSeverity.critical
+    default_description = "Detects when slack admin invalidates user session(s) more than once in a 24 hour period which can lead to DoS"
+    default_reference = "https://slack.com/intl/en-gb/help/articles/115005223763-Manage-session-duration-#pro-and-business+-subscriptions-2"
+    threshold = 60
+    summary_attributes = ["action", "p_any_ip_addresses", "p_any_emails"]
+    tests = slack_audit_logs_application_do_s_tests
     DENIAL_OF_SERVICE_ACTIONS = [
         "bulk_session_reset_by_admin",
         "user_session_invalidated",

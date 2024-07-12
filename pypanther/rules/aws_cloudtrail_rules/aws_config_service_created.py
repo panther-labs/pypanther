@@ -6,9 +6,9 @@ from pypanther.helpers.panther_default import aws_cloudtrail_success
 
 aws_config_service_created_tests: List[PantherRuleTest] = [
     PantherRuleTest(
-        Name="Config Recorder Delivery Channel Created",
-        ExpectedResult=True,
-        Log={
+        name="Config Recorder Delivery Channel Created",
+        expected_result=True,
+        log={
             "eventVersion": "1.05",
             "userIdentity": {
                 "type": "AssumedRole",
@@ -46,9 +46,9 @@ aws_config_service_created_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="Config Recorder Deleted",
-        ExpectedResult=False,
-        Log={
+        name="Config Recorder Deleted",
+        expected_result=False,
+        log={
             "eventVersion": "1.05",
             "userIdentity": {
                 "type": "AssumedRole",
@@ -86,9 +86,9 @@ aws_config_service_created_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="Error Creating Config Recorder Delivery Channel",
-        ExpectedResult=False,
-        Log={
+        name="Error Creating Config Recorder Delivery Channel",
+        expected_result=False,
+        log={
             "eventVersion": "1.05",
             "errorCode": "InvalidDeliveryChannelNameException",
             "userIdentity": {
@@ -130,23 +130,23 @@ aws_config_service_created_tests: List[PantherRuleTest] = [
 
 
 class AWSConfigServiceCreated(PantherRule):
-    RuleID = "AWS.ConfigService.Created-prototype"
-    DisplayName = "AWS Config Service Created"
-    LogTypes = [PantherLogType.AWS_CloudTrail]
-    Tags = ["AWS", "Security Control", "Discovery:Cloud Service Discovery"]
-    Reports = {"CIS": ["3.9"], "MITRE ATT&CK": ["TA0007:T1526"]}
-    Severity = PantherSeverity.Info
-    Description = "An AWS Config Recorder or Delivery Channel was created\n"
-    Runbook = "Verify that the Config Service changes were authorized. If not, revert them and investigate who caused the change. Consider altering permissions to prevent this from happening again in the future.\n"
-    Reference = "https://aws.amazon.com/config/"
-    SummaryAttributes = [
+    id_ = "AWS.ConfigService.Created-prototype"
+    display_name = "AWS Config Service Created"
+    log_types = [PantherLogType.AWS_CloudTrail]
+    tags = ["AWS", "Security Control", "Discovery:Cloud Service Discovery"]
+    reports = {"CIS": ["3.9"], "MITRE ATT&CK": ["TA0007:T1526"]}
+    default_severity = PantherSeverity.info
+    default_description = "An AWS Config Recorder or Delivery Channel was created\n"
+    default_runbook = "Verify that the Config Service changes were authorized. If not, revert them and investigate who caused the change. Consider altering permissions to prevent this from happening again in the future.\n"
+    default_reference = "https://aws.amazon.com/config/"
+    summary_attributes = [
         "eventName",
         "userAgent",
         "sourceIpAddress",
         "recipientAccountId",
         "p_any_aws_arns",
     ]
-    Tests = aws_config_service_created_tests
+    tests = aws_config_service_created_tests
     # API calls that are indicative of an AWS Config Service change
     CONFIG_SERVICE_CREATE_EVENTS = {
         "PutDeliveryChannel",

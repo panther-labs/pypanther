@@ -65,14 +65,14 @@ def get_user(event):
 
 
 class StandardZendeskAuditLog(PantherDataModel):
-    DataModelID: str = "Standard.Zendesk.AuditLog"
-    DisplayName: str = "Zendesk Audit"
-    Enabled: bool = True
-    LogTypes: List[str] = [PantherLogType.Zendesk_Audit]
-    Mappings: List[PantherDataModelMapping] = [
-        PantherDataModelMapping(Name="actor_user", Path="actor_name"),
-        PantherDataModelMapping(Name="assigned_admin_role", Method=get_assigned_admin_role),
-        PantherDataModelMapping(Name="event_type", Method=get_event_type),
-        PantherDataModelMapping(Name="source_ip", Path="ip_address"),
-        PantherDataModelMapping(Name="user", Method=get_user),
+    id_: str = "Standard.Zendesk.AuditLog"
+    display_name: str = "Zendesk Audit"
+    enabled: bool = True
+    log_types: List[str] = [PantherLogType.Zendesk_Audit]
+    mappings: List[PantherDataModelMapping] = [
+        PantherDataModelMapping(name="actor_user", path="actor_name"),
+        PantherDataModelMapping(name="assigned_admin_role", method=get_assigned_admin_role),
+        PantherDataModelMapping(name="event_type", method=get_event_type),
+        PantherDataModelMapping(name="source_ip", path="ip_address"),
+        PantherDataModelMapping(name="user", method=get_user),
     ]

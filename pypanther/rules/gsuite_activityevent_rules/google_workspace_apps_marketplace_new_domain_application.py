@@ -4,10 +4,14 @@ from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSever
 
 google_workspace_apps_marketplace_new_domain_application_tests: List[PantherRuleTest] = [
     PantherRuleTest(
-        Name="Change Email Setting Default",
-        ExpectedResult=False,
-        Log={
-            "actor": {"callerType": "USER", "email": "example@example.io", "profileId": "12345"},
+        name="Change Email Setting Default",
+        expected_result=False,
+        log={
+            "actor": {
+                "callerType": "USER",
+                "email": "example@example.io",
+                "profileId": "12345",
+            },
             "id": {
                 "applicationName": "admin",
                 "customerId": "D1234",
@@ -27,10 +31,14 @@ google_workspace_apps_marketplace_new_domain_application_tests: List[PantherRule
         },
     ),
     PantherRuleTest(
-        Name="DocuSign for Google",
-        ExpectedResult=True,
-        Log={
-            "actor": {"callerType": "USER", "email": "example@example.io", "profileId": "12345"},
+        name="DocuSign for Google",
+        expected_result=True,
+        log={
+            "actor": {
+                "callerType": "USER",
+                "email": "example@example.io",
+                "profileId": "12345",
+            },
             "id": {
                 "applicationName": "admin",
                 "customerId": "D12345",
@@ -48,10 +56,14 @@ google_workspace_apps_marketplace_new_domain_application_tests: List[PantherRule
         },
     ),
     PantherRuleTest(
-        Name="Microsoft Apps for Google",
-        ExpectedResult=True,
-        Log={
-            "actor": {"callerType": "USER", "email": "example@example.io", "profileId": "12345"},
+        name="Microsoft Apps for Google",
+        expected_result=True,
+        log={
+            "actor": {
+                "callerType": "USER",
+                "email": "example@example.io",
+                "profileId": "12345",
+            },
             "id": {
                 "applicationName": "admin",
                 "customerId": "D12345",
@@ -69,9 +81,9 @@ google_workspace_apps_marketplace_new_domain_application_tests: List[PantherRule
         },
     ),
     PantherRuleTest(
-        Name="ListObject Type",
-        ExpectedResult=False,
-        Log={
+        name="ListObject Type",
+        expected_result=False,
+        log={
             "actor": {"email": "user@example.io", "profileId": "118111111111111111111"},
             "id": {
                 "applicationName": "drive",
@@ -104,14 +116,14 @@ google_workspace_apps_marketplace_new_domain_application_tests: List[PantherRule
 
 
 class GoogleWorkspaceAppsMarketplaceNewDomainApplication(PantherRule):
-    Description = "A Google Workspace User configured a new domain application from the Google Workspace Apps Marketplace."
-    DisplayName = "Google Workspace Apps Marketplace New Domain Application"
-    Runbook = "Confirm this was the intended behavior."
-    Reference = "https://developers.google.com/workspace/marketplace/overview"
-    Severity = PantherSeverity.Medium
-    LogTypes = [PantherLogType.GSuite_ActivityEvent]
-    RuleID = "Google.Workspace.Apps.Marketplace.New.Domain.Application-prototype"
-    Tests = google_workspace_apps_marketplace_new_domain_application_tests
+    default_description = "A Google Workspace User configured a new domain application from the Google Workspace Apps Marketplace."
+    display_name = "Google Workspace Apps Marketplace New Domain Application"
+    default_runbook = "Confirm this was the intended behavior."
+    default_reference = "https://developers.google.com/workspace/marketplace/overview"
+    default_severity = PantherSeverity.medium
+    log_types = [PantherLogType.GSuite_ActivityEvent]
+    id_ = "Google.Workspace.Apps.Marketplace.New.Domain.Application-prototype"
+    tests = google_workspace_apps_marketplace_new_domain_application_tests
 
     def rule(self, event):
         # Return True to match the log event and trigger an alert.

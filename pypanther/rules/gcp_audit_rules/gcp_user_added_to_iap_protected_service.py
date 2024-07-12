@@ -5,9 +5,9 @@ from pypanther.helpers.panther_base_helpers import deep_get
 
 gcp_user_addedto_iap_protected_service_tests: List[PantherRuleTest] = [
     PantherRuleTest(
-        Name="other",
-        ExpectedResult=False,
-        Log={
+        name="other",
+        expected_result=False,
+        log={
             "insertid": "abcdefghijklmn",
             "logname": "projects/gcp-project1/logs/cloudaudit.googleapis.com%2Factivity",
             "operation": {
@@ -60,9 +60,9 @@ gcp_user_addedto_iap_protected_service_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="Other IAP Event",
-        ExpectedResult=True,
-        Log={
+        name="Other IAP Event",
+        expected_result=True,
+        log={
             "insertId": "46ee5sd38mw",
             "logName": "projects/gcp-project1/logs/cloudaudit.googleapis.com%2Factivity",
             "p_any_emails": ["staging@company.io"],
@@ -98,7 +98,10 @@ gcp_user_addedto_iap_protected_service_tests: List[PantherRuleTest] = [
                     "callerIP": "1.2.3.4",
                     "callerSuppliedUserAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Safari/537.36,gzip(gfe),gzip(gfe)",
                     "destinationAttributes": {},
-                    "requestAttributes": {"auth": {}, "time": "2023-04-25T19:20:57.295723118Z"},
+                    "requestAttributes": {
+                        "auth": {},
+                        "time": "2023-04-25T19:20:57.295723118Z",
+                    },
                 },
                 "resourceName": "projects/123456789012/iap_web/compute/services/7312383563505470445",
                 "response": {
@@ -109,7 +112,11 @@ gcp_user_addedto_iap_protected_service_tests: List[PantherRuleTest] = [
             },
             "receiveTimestamp": "2023-04-25 19:20:58.16",
             "resource": {
-                "labels": {"backend_service_id": "", "location": "", "project_id": "gcp-project1"},
+                "labels": {
+                    "backend_service_id": "",
+                    "location": "",
+                    "project_id": "gcp-project1",
+                },
                 "type": "gce_backend_service",
             },
             "severity": "NOTICE",
@@ -117,9 +124,9 @@ gcp_user_addedto_iap_protected_service_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="Add User to IAP",
-        ExpectedResult=True,
-        Log={
+        name="Add User to IAP",
+        expected_result=True,
+        log={
             "insertId": "yyultvcrhy",
             "logName": "projects/gcp-projet1/logs/cloudaudit.googleapis.com%2Factivity",
             "p_any_emails": ["staging@company.io"],
@@ -165,7 +172,10 @@ gcp_user_addedto_iap_protected_service_tests: List[PantherRuleTest] = [
                     "callerIP": "1.2.3.4",
                     "callerSuppliedUserAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Safari/537.36,gzip(gfe),gzip(gfe)",
                     "destinationAttributes": {},
-                    "requestAttributes": {"auth": {}, "time": "2023-04-25T19:20:42.399215146Z"},
+                    "requestAttributes": {
+                        "auth": {},
+                        "time": "2023-04-25T19:20:42.399215146Z",
+                    },
                 },
                 "resourceName": "projects/123456789012/iap_web/compute/services/7312383563505470445",
                 "response": {
@@ -184,7 +194,11 @@ gcp_user_addedto_iap_protected_service_tests: List[PantherRuleTest] = [
             },
             "receiveTimestamp": "2023-04-25 19:20:43.033",
             "resource": {
-                "labels": {"backend_service_id": "", "location": "", "project_id": "gcp-project1"},
+                "labels": {
+                    "backend_service_id": "",
+                    "location": "",
+                    "project_id": "gcp-project1",
+                },
                 "type": "gce_backend_service",
             },
             "severity": "NOTICE",
@@ -195,14 +209,14 @@ gcp_user_addedto_iap_protected_service_tests: List[PantherRuleTest] = [
 
 
 class GCPUserAddedtoIAPProtectedService(PantherRule):
-    Description = "A user has been granted access to a IAP protected service."
-    DisplayName = "GCP User Added to IAP Protected Service"
-    Runbook = "Note: GCP logs all bindings everytime this event occurs, not just changes. Bindings should be reviewed to ensure no unintended users have been added. "
-    Reference = "https://cloud.google.com/iap/docs/managing-access"
-    Severity = PantherSeverity.Low
-    LogTypes = [PantherLogType.GCP_AuditLog]
-    RuleID = "GCP.User.Added.to.IAP.Protected.Service-prototype"
-    Tests = gcp_user_addedto_iap_protected_service_tests
+    default_description = "A user has been granted access to a IAP protected service."
+    display_name = "GCP User Added to IAP Protected Service"
+    default_runbook = "Note: GCP logs all bindings everytime this event occurs, not just changes. Bindings should be reviewed to ensure no unintended users have been added. "
+    default_reference = "https://cloud.google.com/iap/docs/managing-access"
+    default_severity = PantherSeverity.low
+    log_types = [PantherLogType.GCP_AuditLog]
+    id_ = "GCP.User.Added.to.IAP.Protected.Service-prototype"
+    tests = gcp_user_addedto_iap_protected_service_tests
 
     def rule(self, event):
         return (

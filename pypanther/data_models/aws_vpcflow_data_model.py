@@ -5,15 +5,15 @@ from pypanther.log_types import PantherLogType
 
 
 class StandardAWSVPCFlow(PantherDataModel):
-    DataModelID: str = "Standard.AWS.VPCFlow"
-    DisplayName: str = "AWS VPCFlow"
-    Enabled: bool = True
-    LogTypes: List[str] = [PantherLogType.AWS_VPCFlow]
-    Mappings: List[PantherDataModelMapping] = [
-        PantherDataModelMapping(Name="destination_ip", Path="dstAddr"),
-        PantherDataModelMapping(Name="destination_port", Path="dstPort"),
-        PantherDataModelMapping(Name="source_ip", Path="srcAddr"),
-        PantherDataModelMapping(Name="source_port", Path="srcPort"),
-        PantherDataModelMapping(Name="user_agent", Path="userAgent"),
-        PantherDataModelMapping(Name="log_status", Path="log-status"),
+    id_: str = "Standard.AWS.VPCFlow"
+    display_name: str = "AWS VPCFlow"
+    enabled: bool = True
+    log_types: List[str] = [PantherLogType.AWS_VPCFlow]
+    mappings: List[PantherDataModelMapping] = [
+        PantherDataModelMapping(name="destination_ip", path="dstAddr"),
+        PantherDataModelMapping(name="destination_port", path="dstPort"),
+        PantherDataModelMapping(name="source_ip", path="srcAddr"),
+        PantherDataModelMapping(name="source_port", path="srcPort"),
+        PantherDataModelMapping(name="user_agent", path="userAgent"),
+        PantherDataModelMapping(name="log_status", path="log-status"),
     ]

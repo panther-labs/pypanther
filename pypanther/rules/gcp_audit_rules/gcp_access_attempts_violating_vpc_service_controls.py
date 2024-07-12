@@ -5,9 +5,9 @@ from pypanther.helpers.panther_base_helpers import deep_get, deep_walk
 
 gcp_access_attempts_violating_vpc_service_controls_tests: List[PantherRuleTest] = [
     PantherRuleTest(
-        Name="Other Event",
-        ExpectedResult=False,
-        Log={
+        name="Other Event",
+        expected_result=False,
+        log={
             "insertId": "12345",
             "logName": "projects/test-project/logs/cloudaudit.googleapis.com%2Factivity",
             "operation": {
@@ -88,9 +88,9 @@ gcp_access_attempts_violating_vpc_service_controls_tests: List[PantherRuleTest] 
         },
     ),
     PantherRuleTest(
-        Name="VPC control violation",
-        ExpectedResult=True,
-        Log={
+        name="VPC control violation",
+        expected_result=True,
+        log={
             "insertId": "13ogcded7jh2",
             "insertid": "15wr7lbb6j",
             "logName": "projects/gcpproject/logs/cloudaudit.googleapis.com%2Fpolicy",
@@ -170,13 +170,15 @@ gcp_access_attempts_violating_vpc_service_controls_tests: List[PantherRuleTest] 
 
 
 class GCPAccessAttemptsViolatingVPCServiceControls(PantherRule):
-    Description = "An access attempt violating VPC service controls (such as Perimeter controls) has been made."
-    DisplayName = "GCP Access Attempts Violating VPC Service Controls"
-    Reference = "https://cloud.google.com/vpc-service-controls/docs/troubleshooting#debugging"
-    Severity = PantherSeverity.Medium
-    LogTypes = [PantherLogType.GCP_AuditLog]
-    RuleID = "GCP.Access.Attempts.Violating.VPC.Service.Controls-prototype"
-    Tests = gcp_access_attempts_violating_vpc_service_controls_tests
+    default_description = "An access attempt violating VPC service controls (such as Perimeter controls) has been made."
+    display_name = "GCP Access Attempts Violating VPC Service Controls"
+    default_reference = (
+        "https://cloud.google.com/vpc-service-controls/docs/troubleshooting#debugging"
+    )
+    default_severity = PantherSeverity.medium
+    log_types = [PantherLogType.GCP_AuditLog]
+    id_ = "GCP.Access.Attempts.Violating.VPC.Service.Controls-prototype"
+    tests = gcp_access_attempts_violating_vpc_service_controls_tests
 
     def rule(self, event):
         severity = deep_get(event, "severity", default="")
@@ -184,7 +186,13 @@ class GCPAccessAttemptsViolatingVPCServiceControls(PantherRule):
         violation_types = deep_walk(
             event, "protoPayload", "status", "details", "violations", "type", default=[]
         )
-        if all([severity == "ERROR", status_code == 7, "VPC_SERVICE_CONTROLS" in violation_types]):
+        if all(
+            [
+                severity == "ERROR",
+                status_code == 7,
+                "VPC_SERVICE_CONTROLS" in violation_types,
+            ]
+        ):
             return True
         return False
 

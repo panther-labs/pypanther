@@ -6,9 +6,9 @@ from pypanther.helpers.panther_tines_helpers import tines_alert_context
 
 tines_sso_settings_tests: List[PantherRuleTest] = [
     PantherRuleTest(
-        Name="Tines SsoConfigurationSamlSet",
-        ExpectedResult=True,
-        Log={
+        name="Tines SsoConfigurationSamlSet",
+        expected_result=True,
+        log={
             "created_at": "2023-05-16 23:26:46",
             "id": 1111111,
             "inputs": {
@@ -27,9 +27,9 @@ tines_sso_settings_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="Tines Login",
-        ExpectedResult=False,
-        Log={
+        name="Tines Login",
+        expected_result=False,
+        log={
             "created_at": "2023-05-17 14:45:19",
             "id": 7888888,
             "operation_name": "Login",
@@ -45,16 +45,20 @@ tines_sso_settings_tests: List[PantherRuleTest] = [
 
 
 class TinesSSOSettings(PantherRule):
-    RuleID = "Tines.SSO.Settings-prototype"
-    DisplayName = "Tines SSO Settings"
-    LogTypes = [PantherLogType.Tines_Audit]
-    Tags = ["Tines", "IAM - Credential Security"]
-    Severity = PantherSeverity.High
-    Description = "Detects when Tines SSO settings are changed\n"
-    Reference = "https://www.tines.com/docs/admin/single-sign-on"
-    SummaryAttributes = ["user_id", "operation_name", "tenant_id", "request_ip"]
-    Tests = tines_sso_settings_tests
-    ACTIONS = ["SsoConfigurationDefaultSet", "SsoConfigurationOidcSet", "SsoConfigurationSamlSet"]
+    id_ = "Tines.SSO.Settings-prototype"
+    display_name = "Tines SSO Settings"
+    log_types = [PantherLogType.Tines_Audit]
+    tags = ["Tines", "IAM - Credential Security"]
+    default_severity = PantherSeverity.high
+    default_description = "Detects when Tines SSO settings are changed\n"
+    default_reference = "https://www.tines.com/docs/admin/single-sign-on"
+    summary_attributes = ["user_id", "operation_name", "tenant_id", "request_ip"]
+    tests = tines_sso_settings_tests
+    ACTIONS = [
+        "SsoConfigurationDefaultSet",
+        "SsoConfigurationOidcSet",
+        "SsoConfigurationSamlSet",
+    ]
 
     def rule(self, event):
         action = deep_get(event, "operation_name", default="<NO_OPERATION_NAME>")

@@ -6,9 +6,9 @@ from pypanther.helpers.panther_default import aws_cloudtrail_success
 
 awskms_customer_managed_key_loss_tests: List[PantherRuleTest] = [
     PantherRuleTest(
-        Name="KMS Key Disabled",
-        ExpectedResult=True,
-        Log={
+        name="KMS Key Disabled",
+        expected_result=True,
+        log={
             "eventVersion": "1.05",
             "userIdentity": {
                 "type": "AssumedRole",
@@ -53,9 +53,9 @@ awskms_customer_managed_key_loss_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="KMS Key Scheduled For Deletion",
-        ExpectedResult=True,
-        Log={
+        name="KMS Key Scheduled For Deletion",
+        expected_result=True,
+        log={
             "eventVersion": "1.05",
             "userIdentity": {
                 "type": "AssumedRole",
@@ -107,9 +107,9 @@ awskms_customer_managed_key_loss_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="KMS Key Non Deletion Event",
-        ExpectedResult=False,
-        Log={
+        name="KMS Key Non Deletion Event",
+        expected_result=False,
+        log={
             "eventVersion": "1.05",
             "userIdentity": {
                 "type": "AssumedRole",
@@ -158,9 +158,9 @@ awskms_customer_managed_key_loss_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="KMS Key Scheduled For Deletion - missing resources",
-        ExpectedResult=True,
-        Log={
+        name="KMS Key Scheduled For Deletion - missing resources",
+        expected_result=True,
+        log={
             "eventVersion": "1.05",
             "userIdentity": {
                 "type": "AssumedRole",
@@ -207,9 +207,9 @@ awskms_customer_managed_key_loss_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="KMS Disable Key Error",
-        ExpectedResult=False,
-        Log={
+        name="KMS Disable Key Error",
+        expected_result=False,
+        log={
             "eventVersion": "1.05",
             "errorCode": "NotFoundException",
             "userIdentity": {
@@ -258,23 +258,23 @@ awskms_customer_managed_key_loss_tests: List[PantherRuleTest] = [
 
 
 class AWSKMSCustomerManagedKeyLoss(PantherRule):
-    RuleID = "AWS.KMS.CustomerManagedKeyLoss-prototype"
-    DisplayName = "KMS CMK Disabled or Deleted"
-    LogTypes = [PantherLogType.AWS_CloudTrail]
-    Tags = ["AWS", "Identity & Access Management", "Impact:Data Destruction"]
-    Reports = {"CIS": ["3.7"], "MITRE ATT&CK": ["TA0040:T1485"]}
-    Severity = PantherSeverity.Info
-    Description = "A KMS Customer Managed Key was disabled or scheduled for deletion. This could potentially lead to permanent loss of encrypted data.\n"
-    Runbook = "https://docs.runpanther.io/alert-runbooks/built-in-rules/aws-kms-cmk-loss"
-    Reference = "https://docs.aws.amazon.com/kms/latest/developerguide/deleting-keys.html"
-    SummaryAttributes = [
+    id_ = "AWS.KMS.CustomerManagedKeyLoss-prototype"
+    display_name = "KMS CMK Disabled or Deleted"
+    log_types = [PantherLogType.AWS_CloudTrail]
+    tags = ["AWS", "Identity & Access Management", "Impact:Data Destruction"]
+    reports = {"CIS": ["3.7"], "MITRE ATT&CK": ["TA0040:T1485"]}
+    default_severity = PantherSeverity.info
+    default_description = "A KMS Customer Managed Key was disabled or scheduled for deletion. This could potentially lead to permanent loss of encrypted data.\n"
+    default_runbook = "https://docs.runpanther.io/alert-runbooks/built-in-rules/aws-kms-cmk-loss"
+    default_reference = "https://docs.aws.amazon.com/kms/latest/developerguide/deleting-keys.html"
+    summary_attributes = [
         "eventName",
         "userAgent",
         "sourceIpAddress",
         "recipientAccountId",
         "p_any_aws_arns",
     ]
-    Tests = awskms_customer_managed_key_loss_tests
+    tests = awskms_customer_managed_key_loss_tests
     # API calls that are indicative of KMS CMK Deletion
     KMS_LOSS_EVENTS = {"DisableKey", "ScheduleKeyDeletion"}
     KMS_KEY_TYPE = "AWS::KMS::Key"

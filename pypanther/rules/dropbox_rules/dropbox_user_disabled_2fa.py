@@ -5,9 +5,9 @@ from pypanther.helpers.panther_base_helpers import deep_get
 
 dropbox_user_disabled2_fa_tests: List[PantherRuleTest] = [
     PantherRuleTest(
-        Name="2FA Disabled",
-        ExpectedResult=True,
-        Log={
+        name="2FA Disabled",
+        expected_result=True,
+        log={
             "actor": {
                 "_tag": "user",
                 "user": {
@@ -66,9 +66,9 @@ dropbox_user_disabled2_fa_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="Other",
-        ExpectedResult=False,
-        Log={
+        name="Other",
+        expected_result=False,
+        log={
             "actor": {
                 "_tag": "user",
                 "user": {
@@ -89,7 +89,10 @@ dropbox_user_disabled2_fa_tests: List[PantherRuleTest] = [
                 },
             },
             "event_category": {"_tag": "apps"},
-            "event_type": {"_tag": "app_link_member", "description": "Linked app for member"},
+            "event_type": {
+                "_tag": "app_link_member",
+                "description": "Linked app for member",
+            },
             "involve_non_team_member": False,
             "origin": {
                 "access_method": {
@@ -110,13 +113,13 @@ dropbox_user_disabled2_fa_tests: List[PantherRuleTest] = [
 
 
 class DropboxUserDisabled2FA(PantherRule):
-    Description = "Dropbox user has disabled 2fa login"
-    DisplayName = "Dropbox User Disabled 2FA"
-    Reference = "https://help.dropbox.com/account-access/enable-two-step-verification"
-    Severity = PantherSeverity.Low
-    LogTypes = [PantherLogType.Dropbox_TeamEvent]
-    RuleID = "Dropbox.User.Disabled.2FA-prototype"
-    Tests = dropbox_user_disabled2_fa_tests
+    default_description = "Dropbox user has disabled 2fa login"
+    display_name = "Dropbox User Disabled 2FA"
+    default_reference = "https://help.dropbox.com/account-access/enable-two-step-verification"
+    default_severity = PantherSeverity.low
+    log_types = [PantherLogType.Dropbox_TeamEvent]
+    id_ = "Dropbox.User.Disabled.2FA-prototype"
+    tests = dropbox_user_disabled2_fa_tests
 
     def rule(self, event):
         return all(

@@ -27,7 +27,7 @@ from pypanther.unit_tests import PantherRuleTest
 
 def test_rule_inheritance():
     class Test(PantherRule):
-        Tags = ["test"]
+        default_tags = ["test"]
 
         def rule(self, event):
             pass
@@ -37,45 +37,45 @@ def test_rule_inheritance():
             pass
 
     # values are inherited as copies
-    assert Test2.Tags == ["test"]
-    assert Test.Tags == ["test"]
-    assert Test.Tags is not Test2.Tags
+    assert Test2.default_tags == ["test"]
+    assert Test.default_tags == ["test"]
+    assert Test.default_tags is not Test2.default_tags
 
     # updates do not affect the parent or children
-    Test2.Tags.append("test2")
-    assert Test2.Tags == ["test", "test2"]
-    assert Test.Tags == ["test"]
-    Test.Tags.append("test3")
-    assert Test2.Tags == ["test", "test2"]
-    assert Test.Tags == ["test", "test3"]
+    Test2.default_tags.append("test2")
+    assert Test2.default_tags == ["test", "test2"]
+    assert Test.default_tags == ["test"]
+    Test.default_tags.append("test3")
+    assert Test2.default_tags == ["test", "test2"]
+    assert Test.default_tags == ["test", "test3"]
 
 
 def test_override():
     class Test(PantherRule):
-        RuleID = "old"
-        Severity = PantherSeverity.High
-        LogTypes = [PantherLogType.Panther_Audit, PantherLogType.AlphaSOC_Alert]
-        Tags = ["old", "old2"]
+        id_ = "old"
+        default_severity = PantherSeverity.high
+        log_types = [PantherLogType.Panther_Audit, PantherLogType.AlphaSOC_Alert]
+        default_tags = ["old", "old2"]
 
-    assert Test.RuleID == "old"
-    assert Test.Severity == PantherSeverity.High
-    assert Test.LogTypes == [
+    assert Test.id_ == "old"
+    assert Test.default_severity == PantherSeverity.high
+    assert Test.log_types == [
         PantherLogType.Panther_Audit,
         PantherLogType.AlphaSOC_Alert,
     ]
-    assert Test.Tags == ["old", "old2"]
+    assert Test.default_tags == ["old", "old2"]
 
     Test.override(
-        RuleID="new",
-        Severity=PantherSeverity.Low,
-        LogTypes=[PantherLogType.Amazon_EKS_Audit],
-        Tags=Test.Tags + ["new"],
+        id_="new",
+        default_severity=PantherSeverity.low,
+        log_types=[PantherLogType.Amazon_EKS_Audit],
+        default_tags=Test.default_tags + ["new"],
     )
 
-    assert Test.RuleID == "new"
-    assert Test.Severity == PantherSeverity.Low
-    assert Test.LogTypes == [PantherLogType.Amazon_EKS_Audit]
-    assert Test.Tags == ["old", "old2", "new"]
+    assert Test.id_ == "new"
+    assert Test.default_severity == PantherSeverity.low
+    assert Test.log_types == [PantherLogType.Amazon_EKS_Audit]
+    assert Test.default_tags == ["old", "old2", "new"]
 
 
 def test_panther_rule_fields_match():
@@ -93,7 +93,7 @@ def test_mock_patching():
         pass
 
     # ensure the base class has a mock defined
-    assert len(TestRule.__base__.Tests[0].Mocks) > 0
+    assert len(TestRule.__base__.tests[0].mocks) > 0
     TestRule.run_tests(DATA_MODEL_CACHE.data_model_of_logtype)
 
 
@@ -113,10 +113,10 @@ class TestRunningTests:
     )
     def test_returns_aux_function_exceptions(self, func: str):
         class TestRule(PantherRule):
-            RuleID = "TestRule"
-            Severity = PantherSeverity.High
-            LogTypes = [PantherLogType.AlphaSOC_Alert]
-            Tests = [PantherRuleTest(Name="test", ExpectedResult=True, Log={})]
+            id_ = "TestRule"
+            default_severity = PantherSeverity.high
+            log_types = [PantherLogType.AlphaSOC_Alert]
+            tests = [PantherRuleTest(name="test", expected_result=True, log={})]
 
             def rule(self, event):
                 return True
@@ -132,15 +132,15 @@ class TestRunningTests:
 
         results = TestRule.run_tests(DATA_MODEL_CACHE.data_model_of_logtype)
         assert len(results) == 1
-        assert not results[0].Passed
-        assert "bad" in str(getattr(results[0].DetectionResult, f"{func}_exception"))
+        assert not results[0].passed
+        assert "bad" in str(getattr(results[0].detection_result, f"{func}_exception"))
 
     def test_returns_two_aux_function_exceptions(self):
         class TestRule(PantherRule):
-            RuleID = "TestRule"
-            Severity = PantherSeverity.High
-            LogTypes = [PantherLogType.AlphaSOC_Alert]
-            Tests = [PantherRuleTest(Name="test", ExpectedResult=True, Log={})]
+            id_ = "TestRule"
+            default_severity = PantherSeverity.high
+            log_types = [PantherLogType.AlphaSOC_Alert]
+            tests = [PantherRuleTest(name="test", expected_result=True, log={})]
 
             def rule(self, event):
                 return True
@@ -153,9 +153,9 @@ class TestRunningTests:
 
         results = TestRule.run_tests(DATA_MODEL_CACHE.data_model_of_logtype)
         assert len(results) == 1
-        assert not results[0].Passed
+        assert not results[0].passed
         for func in ["runbook", "severity"]:
-            assert "bad" in str(getattr(results[0].DetectionResult, f"{func}_exception"))
+            assert "bad" in str(getattr(results[0].detection_result, f"{func}_exception"))
 
     def test_returns_all_aux_func_exceptions(self):
         funcs = [
@@ -170,10 +170,10 @@ class TestRunningTests:
         ]
 
         class TestRule(PantherRule):
-            RuleID = "TestRule"
-            Severity = PantherSeverity.High
-            LogTypes = [PantherLogType.AlphaSOC_Alert]
-            Tests = [PantherRuleTest(Name="test", ExpectedResult=True, Log={})]
+            id_ = "TestRule"
+            default_severity = PantherSeverity.high
+            log_types = [PantherLogType.AlphaSOC_Alert]
+            tests = [PantherRuleTest(name="test", expected_result=True, log={})]
 
             def rule(self, event):
                 return True
@@ -186,64 +186,64 @@ class TestRunningTests:
 
         results = TestRule.run_tests(DATA_MODEL_CACHE.data_model_of_logtype)
         assert len(results) == 1
-        assert not results[0].Passed
+        assert not results[0].passed
         for func in funcs:
-            assert "bad" in str(getattr(results[0].DetectionResult, f"{func}_exception"))
+            assert "bad" in str(getattr(results[0].detection_result, f"{func}_exception"))
 
     def test_runs_all_rule_tests(self):
-        false_test_1 = PantherRuleTest(Name="false test 1", ExpectedResult=False, Log={})
-        false_test_2 = PantherRuleTest(Name="false test 2", ExpectedResult=False, Log={})
+        false_test_1 = PantherRuleTest(name="false test 1", expected_result=False, log={})
+        false_test_2 = PantherRuleTest(name="false test 2", expected_result=False, log={})
 
         class Rule1(PantherRule):
-            LogTypes = [PantherLogType.Panther_Audit]
-            Severity = PantherSeverity.High
-            RuleID = "Rule1"
-            Tests = [false_test_1, false_test_2]
+            log_types = [PantherLogType.Panther_Audit]
+            default_severity = PantherSeverity.high
+            id_ = "Rule1"
+            tests = [false_test_1, false_test_2]
 
             def rule(self, event):
                 return True
 
         class Rule2(PantherRule):
-            LogTypes = [PantherLogType.Panther_Audit]
-            Severity = PantherSeverity.High
-            RuleID = "Rule2"
-            Tests = [false_test_1, false_test_2]
+            log_types = [PantherLogType.Panther_Audit]
+            default_severity = PantherSeverity.high
+            id_ = "Rule2"
+            tests = [false_test_1, false_test_2]
 
             def rule(self, event):
                 return True
 
         results = Rule1.run_tests(DATA_MODEL_CACHE.data_model_of_logtype)
         assert len(results) == 2
-        assert not results[0].Passed
-        assert not results[1].Passed
+        assert not results[0].passed
+        assert not results[1].passed
         Rule2.run_tests(DATA_MODEL_CACHE.data_model_of_logtype)
         assert len(results) == 2
-        assert not results[0].Passed
-        assert not results[1].Passed
+        assert not results[0].passed
+        assert not results[1].passed
 
     def test_returns_rule_func_exception(self):
-        false_test_1 = PantherRuleTest(Name="false test 1", ExpectedResult=False, Log={})
+        false_test_1 = PantherRuleTest(name="false test 1", expected_result=False, log={})
 
         class Rule1(PantherRule):
-            LogTypes = [PantherLogType.Panther_Audit]
-            Severity = PantherSeverity.High
-            RuleID = "Rule1"
-            Tests = [false_test_1]
+            log_types = [PantherLogType.Panther_Audit]
+            default_severity = PantherSeverity.high
+            id_ = "Rule1"
+            tests = [false_test_1]
 
             def rule(self, event):
                 raise Exception("bad")
 
         results = Rule1.run_tests(DATA_MODEL_CACHE.data_model_of_logtype)
         assert len(results) == 1
-        assert not results[0].Passed
-        assert "bad" in str(results[0].DetectionResult.detection_exception)
+        assert not results[0].passed
+        assert "bad" in str(results[0].detection_result.detection_exception)
 
 
 class TestValidation:
     def test_rule_missing_id(self):
         class rule(PantherRule):
-            Severity = PantherSeverity.Info
-            LogTypes = ["test"]
+            default_severity = PantherSeverity.info
+            log_types = ["test"]
 
             def rule(self, event):
                 return False
@@ -252,14 +252,14 @@ class TestValidation:
             rule.validate()
         errors = e.value.errors()
         assert len(errors) == 1
-        assert errors[0]["loc"] == ("RuleID",)
+        assert errors[0]["loc"] == ("id_",)
         assert errors[0]["msg"] == "Field required"
 
     def test_create_rule_missing_method(self) -> None:
         class rule(PantherRule):
-            RuleID = "test_create_rule_missing_method"
-            Severity = PantherSeverity.Info
-            LogTypes = ["test"]
+            id_ = "test_create_rule_missing_method"
+            default_severity = PantherSeverity.info
+            log_types = ["test"]
 
             def another_method(self, event):
                 return False
@@ -293,41 +293,44 @@ class TestRule(TestCase):
 
     def test_rule_default_dedup_time(self) -> None:
         class rule(PantherRule):
-            RuleID = "test_rule_default_dedup_time"
-            Severity = PantherSeverity.Info
+            id_ = "test_rule_default_dedup_time"
+            default_severity = PantherSeverity.info
 
             def rule(self, event):
                 return True
 
-        assert 60 == rule.DedupPeriodMinutes
+        assert 60 == rule.dedup_period_minutes
 
     def test_rule_tags(self) -> None:
         class rule(PantherRule):
-            RuleID = "test_rule_default_dedup_time"
-            Tags = ["tag2", "tag1"]
-            Severity = PantherSeverity.Info
+            id_ = "test_rule_default_dedup_time"
+            default_tags = ["tag2", "tag1"]
+            default_severity = PantherSeverity.info
 
             def rule(self, event):
                 return True
 
-        assert {"tag1", "tag2"} == set(rule.Tags)
+        assert {"tag1", "tag2"} == set(rule.default_tags)
 
     def test_rule_reports(self) -> None:
         class rule(PantherRule):
-            RuleID = "test_rule_default_dedup_time"
-            Reports = {"key1": ["value2", "value1"], "key2": ["value1"]}
-            Severity = PantherSeverity.Info
+            id_ = "test_rule_default_dedup_time"
+            default_reports = {"key1": ["value2", "value1"], "key2": ["value1"]}
+            default_severity = PantherSeverity.info
 
             def rule(self, event):
                 return True
 
-        assert {"key1": ["value2", "value1"], "key2": ["value1"]} == rule.Reports
+        assert {
+            "key1": ["value2", "value1"],
+            "key2": ["value1"],
+        } == rule.default_reports
 
     def test_rule_matches(self) -> None:
         class rule(PantherRule):
-            RuleID = "test_rule_matches"
-            DedupPeriodMinutes = 100
-            Severity = PantherSeverity.Info
+            id_ = "test_rule_matches"
+            dedup_period_minutes = 100
+            default_severity = PantherSeverity.info
 
             def rule(self, event):
                 return True
@@ -351,8 +354,8 @@ class TestRule(TestCase):
 
     def test_rule_doesnt_match(self) -> None:
         class rule(PantherRule):
-            RuleID = "test_rule_doesnt_match"
-            Severity = PantherSeverity.Info
+            id_ = "test_rule_doesnt_match"
+            default_severity = PantherSeverity.info
 
             def rule(self, event):
                 return False
@@ -368,8 +371,8 @@ class TestRule(TestCase):
 
     def test_rule_with_dedup(self) -> None:
         class rule(PantherRule):
-            RuleID = "test_rule_with_dedup"
-            Severity = PantherSeverity.Info
+            id_ = "test_rule_with_dedup"
+            default_severity = PantherSeverity.info
 
             def rule(self, event):
                 return True
@@ -396,8 +399,8 @@ class TestRule(TestCase):
 
     def test_restrict_dedup_size(self) -> None:
         class rule(PantherRule):
-            RuleID = "test_restrict_dedup_size"
-            Severity = PantherSeverity.Info
+            id_ = "test_restrict_dedup_size"
+            default_severity = PantherSeverity.info
 
             def rule(self, event):
                 return True
@@ -427,8 +430,8 @@ class TestRule(TestCase):
 
     def test_restrict_title_size(self) -> None:
         class rule(PantherRule):
-            RuleID = "test_restrict_title_size"
-            Severity = PantherSeverity.Info
+            id_ = "test_restrict_title_size"
+            default_severity = PantherSeverity.info
 
             def rule(self, event):
                 return True
@@ -461,8 +464,8 @@ class TestRule(TestCase):
 
     def test_empty_dedup_result_to_default(self) -> None:
         class rule(PantherRule):
-            RuleID = "test_empty_dedup_result_to_default"
-            Severity = PantherSeverity.Info
+            id_ = "test_empty_dedup_result_to_default"
+            default_severity = PantherSeverity.info
 
             def rule(self, event):
                 return True
@@ -489,8 +492,8 @@ class TestRule(TestCase):
 
     def test_rule_throws_exception(self) -> None:
         class rule(PantherRule):
-            RuleID = "test_rule_throws_exception"
-            Severity = PantherSeverity.Info
+            id_ = "test_rule_throws_exception"
+            default_severity = PantherSeverity.info
 
             def rule(self, event):
                 raise Exception("test")
@@ -503,8 +506,8 @@ class TestRule(TestCase):
 
     def test_rule_invalid_rule_return(self) -> None:
         class rule(PantherRule):
-            RuleID = "test_rule_invalid_rule_return"
-            Severity = PantherSeverity.Info
+            id_ = "test_rule_invalid_rule_return"
+            default_severity = PantherSeverity.info
 
             def rule(self, event):
                 return "test"
@@ -520,8 +523,8 @@ class TestRule(TestCase):
 
     def test_dedup_throws_exception(self) -> None:
         class rule(PantherRule):
-            RuleID = "test_dedup_throws_exception"
-            Severity = PantherSeverity.Info
+            id_ = "test_dedup_throws_exception"
+            default_severity = PantherSeverity.info
 
             def rule(self, event):
                 return True
@@ -548,8 +551,8 @@ class TestRule(TestCase):
 
     def test_dedup_exception_batch_mode(self) -> None:
         class rule(PantherRule):
-            RuleID = "test_dedup_throws_exception"
-            Severity = PantherSeverity.Info
+            id_ = "test_dedup_throws_exception"
+            default_severity = PantherSeverity.info
 
             def rule(self, event):
                 return True
@@ -565,8 +568,8 @@ class TestRule(TestCase):
 
     def test_rule_invalid_dedup_return(self) -> None:
         class rule(PantherRule):
-            RuleID = "test_rule_invalid_dedup_return"
-            Severity = PantherSeverity.Info
+            id_ = "test_rule_invalid_dedup_return"
+            default_severity = PantherSeverity.info
 
             def rule(self, event):
                 return True
@@ -593,8 +596,8 @@ class TestRule(TestCase):
 
     def test_rule_dedup_returns_empty_string(self) -> None:
         class rule(PantherRule):
-            RuleID = "test_rule_dedup_returns_empty_string"
-            Severity = PantherSeverity.Info
+            id_ = "test_rule_dedup_returns_empty_string"
+            default_severity = PantherSeverity.info
 
             def rule(self, event):
                 return True
@@ -621,8 +624,8 @@ class TestRule(TestCase):
 
     def test_rule_matches_with_title_without_dedup(self) -> None:
         class rule(PantherRule):
-            RuleID = "test_rule_matches_with_title"
-            Severity = PantherSeverity.Info
+            id_ = "test_rule_matches_with_title"
+            default_severity = PantherSeverity.info
 
             def rule(self, event):
                 return True
@@ -649,8 +652,8 @@ class TestRule(TestCase):
 
     def test_rule_title_throws_exception(self) -> None:
         class rule(PantherRule):
-            RuleID = "test_rule_title_throws_exception"
-            Severity = PantherSeverity.Info
+            id_ = "test_rule_title_throws_exception"
+            default_severity = PantherSeverity.info
 
             def rule(self, event):
                 return True
@@ -677,8 +680,8 @@ class TestRule(TestCase):
 
     def test_rule_invalid_title_return(self) -> None:
         class rule(PantherRule):
-            RuleID = "test_rule_invalid_title_return"
-            Severity = PantherSeverity.Info
+            id_ = "test_rule_invalid_title_return"
+            default_severity = PantherSeverity.info
 
             def rule(self, event):
                 return True
@@ -705,8 +708,8 @@ class TestRule(TestCase):
 
     def test_rule_title_returns_empty_string(self) -> None:
         class rule(PantherRule):
-            RuleID = "test_rule_title_returns_empty_string"
-            Severity = PantherSeverity.Info
+            id_ = "test_rule_title_returns_empty_string"
+            default_severity = PantherSeverity.info
 
             def rule(self, event):
                 return True
@@ -734,8 +737,8 @@ class TestRule(TestCase):
 
     def test_alert_context(self) -> None:
         class rule(PantherRule):
-            RuleID = "test_alert_context"
-            Severity = PantherSeverity.Info
+            id_ = "test_alert_context"
+            default_severity = PantherSeverity.info
 
             def rule(self, event):
                 return True
@@ -762,8 +765,8 @@ class TestRule(TestCase):
 
     def test_alert_context_invalid_return_value(self) -> None:
         class rule(PantherRule):
-            RuleID = "test_alert_context_invalid_return_value"
-            Severity = PantherSeverity.Info
+            id_ = "test_alert_context_invalid_return_value"
+            default_severity = PantherSeverity.info
 
             def rule(self, event):
                 return True
@@ -797,8 +800,8 @@ class TestRule(TestCase):
         # Function should generate alert_context exceeding limit
 
         class rule(PantherRule):
-            RuleID = "test_alert_context_too_big"
-            Severity = PantherSeverity.Info
+            id_ = "test_alert_context_too_big"
+            default_severity = PantherSeverity.info
 
             def rule(self, event):
                 return True
@@ -833,8 +836,8 @@ class TestRule(TestCase):
 
     def test_alert_context_immutable_event(self) -> None:
         class rule(PantherRule):
-            RuleID = "test_alert_context_immutable_event"
-            Severity = PantherSeverity.Info
+            id_ = "test_alert_context_immutable_event"
+            default_severity = PantherSeverity.info
 
             def rule(self, event):
                 return True
@@ -872,8 +875,8 @@ class TestRule(TestCase):
 
     def test_alert_context_returns_full_event(self) -> None:
         class rule(PantherRule):
-            RuleID = "test_alert_context_returns_full_event"
-            Severity = PantherSeverity.Info
+            id_ = "test_alert_context_returns_full_event"
+            default_severity = PantherSeverity.info
 
             def rule(self, event):
                 return True
@@ -904,8 +907,8 @@ class TestRule(TestCase):
     # Generated Fields Tests
     def test_rule_with_all_generated_fields(self) -> None:
         class rule(PantherRule):
-            RuleID = "test_rule_with_all_generated_fields"
-            Severity = PantherSeverity.Info
+            id_ = "test_rule_with_all_generated_fields"
+            default_severity = PantherSeverity.info
 
             def rule(self, event):
                 return True
@@ -951,8 +954,8 @@ class TestRule(TestCase):
 
     def test_rule_with_invalid_severity(self) -> None:
         class rule(PantherRule):
-            RuleID = "test_rule_with_invalid_severity"
-            Severity = PantherSeverity.Info
+            id_ = "test_rule_with_invalid_severity"
+            default_severity = PantherSeverity.info
 
             def rule(self, event):
                 return True
@@ -993,8 +996,8 @@ class TestRule(TestCase):
 
     def test_rule_with_valid_severity_case_insensitive(self) -> None:
         class rule(PantherRule):
-            RuleID = "test_rule_with_valid_severity_case_insensitive"
-            Severity = PantherSeverity.Info
+            id_ = "test_rule_with_valid_severity_case_insensitive"
+            default_severity = PantherSeverity.info
 
             def rule(self, event):
                 return True
@@ -1008,8 +1011,8 @@ class TestRule(TestCase):
 
     def test_rule_with_default_severity(self) -> None:
         class rule(PantherRule):
-            RuleID = "test_rule_with_default_severity"
-            Severity = PantherSeverity.Info
+            id_ = "test_rule_with_default_severity"
+            default_severity = PantherSeverity.info
 
             def rule(self, event):
                 return True
@@ -1043,8 +1046,8 @@ class TestRule(TestCase):
 
     def test_rule_with_default_severity_case_insensitive(self) -> None:
         class rule(PantherRule):
-            RuleID = "test_rule_with_default_severity_case_insensitive"
-            Severity = "MEDIUM"
+            id_ = "test_rule_with_default_severity_case_insensitive"
+            default_severity = "MEDIUM"
 
             def rule(self, event):
                 return True
@@ -1078,8 +1081,8 @@ class TestRule(TestCase):
 
     def test_rule_with_invalid_destinations_type(self) -> None:
         class rule(PantherRule):
-            RuleID = "test_rule_with_invalid_destinations_type"
-            Severity = PantherSeverity.Info
+            id_ = "test_rule_with_invalid_destinations_type"
+            default_severity = PantherSeverity.info
 
             def rule(self, event):
                 return True
@@ -1105,7 +1108,7 @@ class TestRule(TestCase):
             severity_output="CRITICAL",
             destinations_exception=FunctionReturnTypeError(
                 "detection [{}] method [{}] returned [{}], expected a list".format(
-                    rule.RuleID, "destinations", "str"
+                    rule.id_, "destinations", "str"
                 )
             ),
             destinations_output=None,
@@ -1125,8 +1128,8 @@ class TestRule(TestCase):
 
     def test_rule_with_severity_raising_exception_unit_test(self) -> None:
         class rule(PantherRule):
-            RuleID = "test_rule_with_severity_raising_exception_unit_test"
-            Severity = PantherSeverity.Info
+            id_ = "test_rule_with_severity_raising_exception_unit_test"
+            default_severity = PantherSeverity.info
 
             def rule(self, event):
                 return True
@@ -1163,8 +1166,8 @@ class TestRule(TestCase):
 
     def test_rule_with_severity_raising_exception_batch_mode(self) -> None:
         class rule(PantherRule):
-            RuleID = "test_rule_with_severity_raising_exception_batch_mode"
-            Severity = PantherSeverity.Info
+            id_ = "test_rule_with_severity_raising_exception_batch_mode"
+            default_severity = PantherSeverity.info
 
             def rule(self, event):
                 return True
@@ -1195,9 +1198,9 @@ class TestRule(TestCase):
 
     def test_invalid_destination_during_run(self) -> None:
         class TestRule(PantherRule):
-            RuleID = "TestRule"
-            LogTypes = [PantherLogType.Panther_Audit]
-            Severity = PantherSeverity.Critical
+            id_ = "TestRule"
+            log_types = [PantherLogType.Panther_Audit]
+            default_severity = PantherSeverity.critical
 
             def rule(self, event: PantherEvent) -> bool:
                 return True
@@ -1216,9 +1219,9 @@ class TestRule(TestCase):
 
     def test_invalid_destination_during_test(self) -> None:
         class TestRule(PantherRule):
-            RuleID = "TestRule"
-            LogTypes = [PantherLogType.Panther_Audit]
-            Severity = PantherSeverity.Critical
+            id_ = "TestRule"
+            log_types = [PantherLogType.Panther_Audit]
+            default_severity = PantherSeverity.critical
 
             def rule(self, event: PantherEvent) -> bool:
                 return True
@@ -1227,11 +1230,11 @@ class TestRule(TestCase):
                 return ["boom", "bam"]
 
         result = TestRule().run_test(
-            PantherRuleTest(Name="test", ExpectedResult=True, Log={}),
+            PantherRuleTest(name="test", expected_result=True, log={}),
             DATA_MODEL_CACHE.data_model_of_logtype,
         )
-        assert result.DetectionResult.destinations_exception is None
-        assert result.DetectionResult.destinations_output == []
+        assert result.detection_result.destinations_exception is None
+        assert result.detection_result.destinations_output == []
 
 
 @dataclasses.dataclass

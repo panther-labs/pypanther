@@ -5,9 +5,9 @@ from pypanther.helpers.panther_base_helpers import deep_get, okta_alert_context
 
 okta_api_key_revoked_tests: List[PantherRuleTest] = [
     PantherRuleTest(
-        Name="API Key Revoked",
-        ExpectedResult=True,
-        Log={
+        name="API Key Revoked",
+        expected_result=True,
+        log={
             "uuid": "2a992f80-d1ad-4f62-900e-8c68bb72a21b",
             "published": "2021-01-08 21:28:34.875",
             "eventType": "system.api_token.revoke",
@@ -39,16 +39,21 @@ okta_api_key_revoked_tests: List[PantherRuleTest] = [
 
 
 class OktaAPIKeyRevoked(PantherRule):
-    RuleID = "Okta.APIKeyRevoked-prototype"
-    DisplayName = "Okta API Key Revoked"
-    LogTypes = [PantherLogType.Okta_SystemLog]
-    Tags = ["Identity & Access Management", "Okta"]
-    Severity = PantherSeverity.Info
-    Description = "A user has revoked an API Key in Okta"
-    Reference = "https://help.okta.com/en/prod/Content/Topics/Security/API.htm"
-    Runbook = "Validate this action was authorized."
-    SummaryAttributes = ["eventType", "severity", "displayMessage", "p_any_ip_addresses"]
-    Tests = okta_api_key_revoked_tests
+    id_ = "Okta.APIKeyRevoked-prototype"
+    display_name = "Okta API Key Revoked"
+    log_types = [PantherLogType.Okta_SystemLog]
+    tags = ["Identity & Access Management", "Okta"]
+    default_severity = PantherSeverity.info
+    default_description = "A user has revoked an API Key in Okta"
+    default_reference = "https://help.okta.com/en/prod/Content/Topics/Security/API.htm"
+    default_runbook = "Validate this action was authorized."
+    summary_attributes = [
+        "eventType",
+        "severity",
+        "displayMessage",
+        "p_any_ip_addresses",
+    ]
+    tests = okta_api_key_revoked_tests
 
     def rule(self, event):
         return (

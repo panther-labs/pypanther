@@ -5,14 +5,14 @@ from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSever
 
 git_lab_audit_password_reset_multiple_emails_tests: List[PantherRuleTest] = [
     PantherRuleTest(
-        Name="not a password reset",
-        ExpectedResult=False,
-        Log={"detail": {"custom_message": "hello world"}},
+        name="not a password reset",
+        expected_result=False,
+        log={"detail": {"custom_message": "hello world"}},
     ),
     PantherRuleTest(
-        Name="one email",
-        ExpectedResult=False,
-        Log={
+        name="one email",
+        expected_result=False,
+        log={
             "detail": {
                 "custom_message": "Ask for password reset",
                 "target_details": "example@test.com",
@@ -20,9 +20,9 @@ git_lab_audit_password_reset_multiple_emails_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="multiple emails",
-        ExpectedResult=True,
-        Log={
+        name="multiple emails",
+        expected_result=True,
+        log={
             "detail": {
                 "custom_message": "Ask for password reset",
                 "target_details": '["example@test.com", "example2@test.com"]',
@@ -33,15 +33,15 @@ git_lab_audit_password_reset_multiple_emails_tests: List[PantherRuleTest] = [
 
 
 class GitLabAuditPasswordResetMultipleEmails(PantherRule):
-    RuleID = "GitLab.Audit.Password.Reset.Multiple.Emails-prototype"
-    DisplayName = "CVE-2023-7028 - GitLab Audit Password Reset Multiple Emails"
-    LogTypes = [PantherLogType.GitLab_Audit]
-    Tags = ["GitLab", "CVE-2023-7028"]
-    Reports = {"MITRE ATT&CK": ["TA0001:T1195", "TA0001:T1190", "TA0003:T1098"]}
-    Severity = PantherSeverity.High
-    Description = "Attackers are exploiting a Critical (CVSS 10.0) GitLab vulnerability in which user account password reset emails could be delivered to an unverified email address."
-    Reference = "https://about.gitlab.com/releases/2024/01/11/critical-security-release-gitlab-16-7-2-released/"
-    Tests = git_lab_audit_password_reset_multiple_emails_tests
+    id_ = "GitLab.Audit.Password.Reset.Multiple.Emails-prototype"
+    display_name = "CVE-2023-7028 - GitLab Audit Password Reset Multiple Emails"
+    log_types = [PantherLogType.GitLab_Audit]
+    tags = ["GitLab", "CVE-2023-7028"]
+    reports = {"MITRE ATT&CK": ["TA0001:T1195", "TA0001:T1190", "TA0003:T1098"]}
+    default_severity = PantherSeverity.high
+    default_description = "Attackers are exploiting a Critical (CVSS 10.0) GitLab vulnerability in which user account password reset emails could be delivered to an unverified email address."
+    default_reference = "https://about.gitlab.com/releases/2024/01/11/critical-security-release-gitlab-16-7-2-released/"
+    tests = git_lab_audit_password_reset_multiple_emails_tests
 
     def rule(self, event):
         custom_message = event.deep_get("detail", "custom_message", default="")

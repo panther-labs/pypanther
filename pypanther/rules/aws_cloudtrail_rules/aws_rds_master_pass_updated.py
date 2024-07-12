@@ -5,9 +5,9 @@ from pypanther.helpers.panther_base_helpers import deep_get
 
 awsrds_master_password_updated_tests: List[PantherRuleTest] = [
     PantherRuleTest(
-        Name="Allocated storage modified",
-        ExpectedResult=False,
-        Log={
+        name="Allocated storage modified",
+        expected_result=False,
+        log={
             "awsRegion": "us-west-1",
             "eventCategory": "Management",
             "eventID": "cb82857f-302d-4d6c-b516-589ec39dee7c",
@@ -58,7 +58,10 @@ awsrds_master_password_updated_tests: List[PantherRuleTest] = [
                 "dBInstanceStatus": "available",
                 "dBName": "test",
                 "dBParameterGroups": [
-                    {"dBParameterGroupName": "default.mysql8.0", "parameterApplyStatus": "in-sync"}
+                    {
+                        "dBParameterGroupName": "default.mysql8.0",
+                        "parameterApplyStatus": "in-sync",
+                    }
                 ],
                 "dBSecurityGroups": [],
                 "dBSubnetGroup": {
@@ -145,9 +148,9 @@ awsrds_master_password_updated_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="Master pass modified",
-        ExpectedResult=True,
-        Log={
+        name="Master pass modified",
+        expected_result=True,
+        log={
             "awsRegion": "us-west-1",
             "eventCategory": "Management",
             "eventID": "09191e37-4632-4722-82bf-50288436cf47",
@@ -198,7 +201,10 @@ awsrds_master_password_updated_tests: List[PantherRuleTest] = [
                 "dBInstanceStatus": "available",
                 "dBName": "test",
                 "dBParameterGroups": [
-                    {"dBParameterGroupName": "default.mysql8.0", "parameterApplyStatus": "in-sync"}
+                    {
+                        "dBParameterGroupName": "default.mysql8.0",
+                        "parameterApplyStatus": "in-sync",
+                    }
                 ],
                 "dBSecurityGroups": [],
                 "dBSubnetGroup": {
@@ -288,30 +294,37 @@ awsrds_master_password_updated_tests: List[PantherRuleTest] = [
 
 
 class AWSRDSMasterPasswordUpdated(PantherRule):
-    Description = "A sensitive database operation that should be performed carefully or rarely"
-    DisplayName = "AWS RDS Master Password Updated"
-    Reference = (
+    default_description = (
+        "A sensitive database operation that should be performed carefully or rarely"
+    )
+    display_name = "AWS RDS Master Password Updated"
+    default_reference = (
         "https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Overview.DBInstance.Modifying.html"
     )
-    Severity = PantherSeverity.Low
-    Reports = {"MITRE ATT&CK": ["TA0003:T1098"]}
-    SummaryAttributes = [
+    default_severity = PantherSeverity.low
+    reports = {"MITRE ATT&CK": ["TA0003:T1098"]}
+    summary_attributes = [
         "awsRegion",
         "userIdentity:arn",
         "responseElements:dBInstanceIdentifier",
         "p_any_aws_arns",
         "p_any_aws_account_ids",
     ]
-    LogTypes = [PantherLogType.AWS_CloudTrail]
-    RuleID = "AWS.RDS.MasterPasswordUpdated-prototype"
-    Tests = awsrds_master_password_updated_tests
+    log_types = [PantherLogType.AWS_CloudTrail]
+    id_ = "AWS.RDS.MasterPasswordUpdated-prototype"
+    tests = awsrds_master_password_updated_tests
 
     def rule(self, event):
         return (
             event.get("eventName") == "ModifyDBInstance"
             and event.get("eventSource") == "rds.amazonaws.com"
             and bool(
-                deep_get(event, "responseElements", "pendingModifiedValues", "masterUserPassword")
+                deep_get(
+                    event,
+                    "responseElements",
+                    "pendingModifiedValues",
+                    "masterUserPassword",
+                )
             )
         )
 

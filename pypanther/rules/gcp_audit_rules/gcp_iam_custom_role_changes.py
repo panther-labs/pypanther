@@ -5,9 +5,9 @@ from pypanther.helpers.panther_base_helpers import deep_get
 
 gcpiam_custom_role_changes_tests: List[PantherRuleTest] = [
     PantherRuleTest(
-        Name="Custom Role Created",
-        ExpectedResult=True,
-        Log={
+        name="Custom Role Created",
+        expected_result=True,
+        log={
             "protoPayload": {
                 "@type": "type.googleapis.com/google.cloud.audit.AuditLog",
                 "status": {},
@@ -18,7 +18,10 @@ gcpiam_custom_role_changes_tests: List[PantherRuleTest] = [
                 "requestMetadata": {
                     "callerIp": "136.24.229.58",
                     "callerSuppliedUserAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/81.0.4044.138 Safari/537.36,gzip(gfe)",
-                    "requestAttributes": {"time": "2020-05-15T04:11:28.411897632Z", "auth": {}},
+                    "requestAttributes": {
+                        "time": "2020-05-15T04:11:28.411897632Z",
+                        "auth": {},
+                    },
                     "destinationAttributes": {},
                 },
                 "serviceName": "iam.googleapis.com",
@@ -91,18 +94,22 @@ gcpiam_custom_role_changes_tests: List[PantherRuleTest] = [
 
 
 class GCPIAMCustomRoleChanges(PantherRule):
-    RuleID = "GCP.IAM.CustomRoleChanges-prototype"
-    DisplayName = "GCP IAM Role Has Changed"
-    DedupPeriodMinutes = 1440
-    LogTypes = [PantherLogType.GCP_AuditLog]
-    Tags = ["GCP", "Identity & Access Management", "Privilege Escalation:Valid Accounts"]
-    Reports = {"CIS": ["2.6"], "MITRE ATT&CK": ["TA0004:T1078"]}
-    Severity = PantherSeverity.Info
-    Description = "A custom role has been created, deleted, or updated."
-    Runbook = "No action needed, informational"
-    Reference = "https://cloud.google.com/iam/docs/creating-custom-roles"
-    SummaryAttributes = ["severity", "p_any_ip_addresses", "p_any_domain_names"]
-    Tests = gcpiam_custom_role_changes_tests
+    id_ = "GCP.IAM.CustomRoleChanges-prototype"
+    display_name = "GCP IAM Role Has Changed"
+    dedup_period_minutes = 1440
+    log_types = [PantherLogType.GCP_AuditLog]
+    tags = [
+        "GCP",
+        "Identity & Access Management",
+        "Privilege Escalation:Valid Accounts",
+    ]
+    reports = {"CIS": ["2.6"], "MITRE ATT&CK": ["TA0004:T1078"]}
+    default_severity = PantherSeverity.info
+    default_description = "A custom role has been created, deleted, or updated."
+    default_runbook = "No action needed, informational"
+    default_reference = "https://cloud.google.com/iam/docs/creating-custom-roles"
+    summary_attributes = ["severity", "p_any_ip_addresses", "p_any_domain_names"]
+    tests = gcpiam_custom_role_changes_tests
     ROLE_METHODS = {
         "google.iam.admin.v1.CreateRole",
         "google.iam.admin.v1.DeleteRole",

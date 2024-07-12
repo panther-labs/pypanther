@@ -9,9 +9,9 @@ from pypanther.helpers.panther_base_helpers import (
 
 teleport_long_lived_certs_tests: List[PantherRuleTest] = [
     PantherRuleTest(
-        Name="A certificate was created for the default period of 1 hour",
-        ExpectedResult=False,
-        Log={
+        name="A certificate was created for the default period of 1 hour",
+        expected_result=False,
+        log={
             "cert_type": "user",
             "cluster_name": "teleport.example.com",
             "code": "TC000I",
@@ -39,9 +39,9 @@ teleport_long_lived_certs_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="A certificate was created for longer than the default period of 1 hour",
-        ExpectedResult=True,
-        Log={
+        name="A certificate was created for longer than the default period of 1 hour",
+        expected_result=True,
+        log={
             "cert_type": "user",
             "cluster_name": "teleport.example.com",
             "code": "TC000I",
@@ -72,17 +72,17 @@ teleport_long_lived_certs_tests: List[PantherRuleTest] = [
 
 
 class TeleportLongLivedCerts(PantherRule):
-    RuleID = "Teleport.LongLivedCerts-prototype"
-    DisplayName = "A long-lived cert was created"
-    LogTypes = [PantherLogType.Gravitational_TeleportAudit]
-    Tags = ["Teleport"]
-    Severity = PantherSeverity.Medium
-    Description = "An unusually long-lived Teleport certificate was created"
-    Reports = {"MITRE ATT&CK": ["TA0003:T1098"]}
-    Reference = "https://goteleport.com/docs/management/admin/"
-    Runbook = "Teleport certificates are usually issued for a short period of time. Alert if long-lived certificates were created.\n"
-    SummaryAttributes = ["event", "code", "time", "identity"]
-    Tests = teleport_long_lived_certs_tests
+    id_ = "Teleport.LongLivedCerts-prototype"
+    display_name = "A long-lived cert was created"
+    log_types = [PantherLogType.Gravitational_TeleportAudit]
+    tags = ["Teleport"]
+    default_severity = PantherSeverity.medium
+    default_description = "An unusually long-lived Teleport certificate was created"
+    reports = {"MITRE ATT&CK": ["TA0003:T1098"]}
+    default_reference = "https://goteleport.com/docs/management/admin/"
+    default_runbook = "Teleport certificates are usually issued for a short period of time. Alert if long-lived certificates were created.\n"
+    summary_attributes = ["event", "code", "time", "identity"]
+    tests = teleport_long_lived_certs_tests
     PANTHER_TIME_FORMAT = "%Y-%m-%d %H:%M:%S.%f"
     # Tune this to be some Greatest Common Denominator of session TTLs for your
     # environment

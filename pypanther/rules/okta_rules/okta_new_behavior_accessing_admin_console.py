@@ -5,16 +5,19 @@ from pypanther.helpers.panther_base_helpers import deep_get, deep_walk, okta_ale
 
 okta_new_behavior_accessing_admin_console_tests: List[PantherRuleTest] = [
     PantherRuleTest(
-        Name="New Behavior Accessing Admin Console (behavior)",
-        ExpectedResult=True,
-        Log={
+        name="New Behavior Accessing Admin Console (behavior)",
+        expected_result=True,
+        log={
             "actor": {
                 "alternateId": "homer.simpson@duff.com",
                 "displayName": "Homer Simpson",
                 "id": "00abc123",
                 "type": "User",
             },
-            "authenticationcontext": {"authenticationStep": 0, "externalSessionId": "100-abc-9999"},
+            "authenticationcontext": {
+                "authenticationStep": 0,
+                "externalSessionId": "100-abc-9999",
+            },
             "client": {
                 "device": "Computer",
                 "geographicalContext": {
@@ -98,16 +101,19 @@ okta_new_behavior_accessing_admin_console_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="New Behavior Accessing Admin Console (logSecurityDataOnly)",
-        ExpectedResult=True,
-        Log={
+        name="New Behavior Accessing Admin Console (logSecurityDataOnly)",
+        expected_result=True,
+        log={
             "actor": {
                 "alternateId": "homer.simpson@duff.com",
                 "displayName": "Homer Simpson",
                 "id": "00abc123",
                 "type": "User",
             },
-            "authenticationcontext": {"authenticationStep": 0, "externalSessionId": "100-abc-9999"},
+            "authenticationcontext": {
+                "authenticationStep": 0,
+                "externalSessionId": "100-abc-9999",
+            },
             "client": {
                 "device": "Computer",
                 "geographicalContext": {
@@ -194,16 +200,19 @@ okta_new_behavior_accessing_admin_console_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="Not New Behavior",
-        ExpectedResult=False,
-        Log={
+        name="Not New Behavior",
+        expected_result=False,
+        log={
             "actor": {
                 "alternateId": "homer.simpson@duff.com",
                 "displayName": "Homer Simpson",
                 "id": "00abc123",
                 "type": "User",
             },
-            "authenticationcontext": {"authenticationStep": 0, "externalSessionId": "100-abc-9999"},
+            "authenticationcontext": {
+                "authenticationStep": 0,
+                "externalSessionId": "100-abc-9999",
+            },
             "client": {
                 "device": "Computer",
                 "geographicalContext": {
@@ -292,15 +301,15 @@ okta_new_behavior_accessing_admin_console_tests: List[PantherRuleTest] = [
 
 
 class OktaNewBehaviorAccessingAdminConsole(PantherRule):
-    RuleID = "Okta.New.Behavior.Accessing.Admin.Console-prototype"
-    DisplayName = "Okta New Behaviors Acessing Admin Console"
-    LogTypes = [PantherLogType.Okta_SystemLog]
-    Reports = {"MITRE ATT&CK": ["TA0001:T1078.004"]}
-    Severity = PantherSeverity.High
-    Description = "New Behaviors Observed while Accessing Okta Admin Console. A user attempted to access the Okta Admin Console from a new device with a new IP.\n"
-    Runbook = "Configure Authentication Policies (Application Sign-on Policies) for access to privileged applications, including the Admin Console, to require re-authentication “at every sign-in”. Turn on and test New Device and Suspicious Activity end-user notifications.\n"
-    Reference = "https://sec.okta.com/articles/2023/08/cross-tenant-impersonation-prevention-and-detection\n"
-    Tests = okta_new_behavior_accessing_admin_console_tests
+    id_ = "Okta.New.Behavior.Accessing.Admin.Console-prototype"
+    display_name = "Okta New Behaviors Acessing Admin Console"
+    log_types = [PantherLogType.Okta_SystemLog]
+    reports = {"MITRE ATT&CK": ["TA0001:T1078.004"]}
+    default_severity = PantherSeverity.high
+    default_description = "New Behaviors Observed while Accessing Okta Admin Console. A user attempted to access the Okta Admin Console from a new device with a new IP.\n"
+    default_runbook = "Configure Authentication Policies (Application Sign-on Policies) for access to privileged applications, including the Admin Console, to require re-authentication “at every sign-in”. Turn on and test New Device and Suspicious Activity end-user notifications.\n"
+    default_reference = "https://sec.okta.com/articles/2023/08/cross-tenant-impersonation-prevention-and-detection\n"
+    tests = okta_new_behavior_accessing_admin_console_tests
 
     def rule(self, event):
         if event.get("eventtype") != "policy.evaluate_sign_on":
@@ -312,11 +321,21 @@ class OktaNewBehaviorAccessingAdminConsole(PantherRule):
             return "New Device=POSITIVE" in behaviors and "New IP=POSITIVE" in behaviors
         return (
             deep_get(
-                event, "debugContext", "debugData", "logOnlySecurityData", "behaviors", "New Device"
+                event,
+                "debugContext",
+                "debugData",
+                "logOnlySecurityData",
+                "behaviors",
+                "New Device",
             )
             == "POSITIVE"
             and deep_get(
-                event, "debugContext", "debugData", "logOnlySecurityData", "behaviors", "New IP"
+                event,
+                "debugContext",
+                "debugData",
+                "logOnlySecurityData",
+                "behaviors",
+                "New IP",
             )
             == "POSITIVE"
         )

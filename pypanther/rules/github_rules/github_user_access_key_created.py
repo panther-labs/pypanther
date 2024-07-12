@@ -4,9 +4,9 @@ from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSever
 
 git_hub_user_access_key_created_tests: List[PantherRuleTest] = [
     PantherRuleTest(
-        Name="GitHub - User Access Key Created",
-        ExpectedResult=True,
-        Log={
+        name="GitHub - User Access Key Created",
+        expected_result=True,
+        log={
             "actor": "cat",
             "action": "public_key.create",
             "created_at": 1621305118553,
@@ -15,9 +15,9 @@ git_hub_user_access_key_created_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="GitHub - User Access Key Deleted",
-        ExpectedResult=False,
-        Log={
+        name="GitHub - User Access Key Deleted",
+        expected_result=False,
+        log={
             "actor": "cat",
             "action": "public_key.delete",
             "created_at": 1621305118553,
@@ -29,15 +29,15 @@ git_hub_user_access_key_created_tests: List[PantherRuleTest] = [
 
 
 class GitHubUserAccessKeyCreated(PantherRule):
-    RuleID = "GitHub.User.AccessKeyCreated-prototype"
-    DisplayName = "GitHub User Access Key Created"
-    LogTypes = [PantherLogType.GitHub_Audit]
-    Tags = ["GitHub", "Persistence:Valid Accounts"]
-    Reports = {"MITRE ATT&CK": ["TA0003:T1078"]}
-    Reference = "https://docs.github.com/en/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent"
-    Severity = PantherSeverity.Info
-    Description = "Detects when a GitHub user access key is created."
-    Tests = git_hub_user_access_key_created_tests
+    id_ = "GitHub.User.AccessKeyCreated-prototype"
+    display_name = "GitHub User Access Key Created"
+    log_types = [PantherLogType.GitHub_Audit]
+    tags = ["GitHub", "Persistence:Valid Accounts"]
+    reports = {"MITRE ATT&CK": ["TA0003:T1078"]}
+    default_reference = "https://docs.github.com/en/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent"
+    default_severity = PantherSeverity.info
+    default_description = "Detects when a GitHub user access key is created."
+    tests = git_hub_user_access_key_created_tests
 
     def rule(self, event):
         return event.get("action") == "public_key.create"

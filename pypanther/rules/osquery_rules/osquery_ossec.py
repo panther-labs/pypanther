@@ -4,9 +4,9 @@ from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSever
 
 osquery_ossec_rootkit_detected_tests: List[PantherRuleTest] = [
     PantherRuleTest(
-        Name="Rootkit Detected",
-        ExpectedResult=True,
-        Log={
+        name="Rootkit Detected",
+        expected_result=True,
+        log={
             "action": "added",
             "calendarTime": "Tue Sep 11 16:14:21 2018 UTC",
             "columns": {
@@ -37,9 +37,9 @@ osquery_ossec_rootkit_detected_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="Rootkit Not Detected",
-        ExpectedResult=False,
-        Log={
+        name="Rootkit Not Detected",
+        expected_result=False,
+        log={
             "action": "added",
             "calendarTime": "Tue Sep 11 16:14:21 2018 UTC",
             "columns": {
@@ -73,17 +73,17 @@ osquery_ossec_rootkit_detected_tests: List[PantherRuleTest] = [
 
 
 class OsqueryOSSECRootkitDetected(PantherRule):
-    RuleID = "Osquery.OSSECRootkitDetected-prototype"
-    DisplayName = "OSSEC Rootkit Detected via Osquery"
-    LogTypes = [PantherLogType.Osquery_Differential]
-    Tags = ["Osquery", "Malware", "Defense Evasion:Rootkit"]
-    Reports = {"MITRE ATT&CK": ["TA0005:T1014"]}
-    Severity = PantherSeverity.Medium
-    Description = "Checks if any results are returned for the Osquery OSSEC Rootkit pack.\n"
-    Runbook = "Verify the presence of the rootkit and re-image the machine.\n"
-    Reference = "https://panther.com/blog/osquery-log-analysis/"
-    SummaryAttributes = ["name", "hostIdentifier", "action"]
-    Tests = osquery_ossec_rootkit_detected_tests
+    id_ = "Osquery.OSSECRootkitDetected-prototype"
+    display_name = "OSSEC Rootkit Detected via Osquery"
+    log_types = [PantherLogType.Osquery_Differential]
+    tags = ["Osquery", "Malware", "Defense Evasion:Rootkit"]
+    reports = {"MITRE ATT&CK": ["TA0005:T1014"]}
+    default_severity = PantherSeverity.medium
+    default_description = "Checks if any results are returned for the Osquery OSSEC Rootkit pack.\n"
+    default_runbook = "Verify the presence of the rootkit and re-image the machine.\n"
+    default_reference = "https://panther.com/blog/osquery-log-analysis/"
+    summary_attributes = ["name", "hostIdentifier", "action"]
+    tests = osquery_ossec_rootkit_detected_tests
 
     def rule(self, event):
         return "ossec-rootkit" in event.get("name", "") and event.get("action") == "added"

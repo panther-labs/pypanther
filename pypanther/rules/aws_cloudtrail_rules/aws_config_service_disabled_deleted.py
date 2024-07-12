@@ -6,9 +6,9 @@ from pypanther.helpers.panther_default import aws_cloudtrail_success
 
 aws_config_service_disabled_deleted_tests: List[PantherRuleTest] = [
     PantherRuleTest(
-        Name="Config Recorder Delivery Channel Created",
-        ExpectedResult=False,
-        Log={
+        name="Config Recorder Delivery Channel Created",
+        expected_result=False,
+        log={
             "eventVersion": "1.05",
             "userIdentity": {
                 "type": "AssumedRole",
@@ -46,9 +46,9 @@ aws_config_service_disabled_deleted_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="Config Recorder Deleted",
-        ExpectedResult=True,
-        Log={
+        name="Config Recorder Deleted",
+        expected_result=True,
+        log={
             "eventVersion": "1.05",
             "userIdentity": {
                 "type": "AssumedRole",
@@ -86,9 +86,9 @@ aws_config_service_disabled_deleted_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="Error Deleting Config Recorder",
-        ExpectedResult=False,
-        Log={
+        name="Error Deleting Config Recorder",
+        expected_result=False,
+        log={
             "eventVersion": "1.05",
             "errorCode": "NoSuchDeliveryChannelException",
             "userIdentity": {
@@ -130,25 +130,28 @@ aws_config_service_disabled_deleted_tests: List[PantherRuleTest] = [
 
 
 class AWSConfigServiceDisabledDeleted(PantherRule):
-    RuleID = "AWS.ConfigService.DisabledDeleted-prototype"
-    DisplayName = "AWS Config Service Disabled"
-    LogTypes = [PantherLogType.AWS_CloudTrail]
-    Tags = ["AWS", "Security Control", "Defense Evasion:Impair Defenses"]
-    Reports = {"CIS": ["3.9"], "MITRE ATT&CK": ["TA0005:T1562"]}
-    Severity = PantherSeverity.Medium
-    Description = "An AWS Config Recorder or Delivery Channel was disabled or deleted\n"
-    Runbook = "Verify that the Config Service changes were authorized. If not, revert them and investigate who caused the change. Consider altering permissions to prevent this from happening again in the future.\n"
-    Reference = "https://aws.amazon.com/config/"
-    SummaryAttributes = [
+    id_ = "AWS.ConfigService.DisabledDeleted-prototype"
+    display_name = "AWS Config Service Disabled"
+    log_types = [PantherLogType.AWS_CloudTrail]
+    tags = ["AWS", "Security Control", "Defense Evasion:Impair Defenses"]
+    reports = {"CIS": ["3.9"], "MITRE ATT&CK": ["TA0005:T1562"]}
+    default_severity = PantherSeverity.medium
+    default_description = "An AWS Config Recorder or Delivery Channel was disabled or deleted\n"
+    default_runbook = "Verify that the Config Service changes were authorized. If not, revert them and investigate who caused the change. Consider altering permissions to prevent this from happening again in the future.\n"
+    default_reference = "https://aws.amazon.com/config/"
+    summary_attributes = [
         "eventName",
         "userAgent",
         "sourceIpAddress",
         "recipientAccountId",
         "p_any_aws_arns",
     ]
-    Tests = aws_config_service_disabled_deleted_tests
+    tests = aws_config_service_disabled_deleted_tests
     # API calls that are indicative of an AWS Config Service change
-    CONFIG_SERVICE_DISABLE_DELETE_EVENTS = {"StopConfigurationRecorder", "DeleteDeliveryChannel"}
+    CONFIG_SERVICE_DISABLE_DELETE_EVENTS = {
+        "StopConfigurationRecorder",
+        "DeleteDeliveryChannel",
+    }
 
     def rule(self, event):
         return (

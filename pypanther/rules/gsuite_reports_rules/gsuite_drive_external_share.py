@@ -6,9 +6,9 @@ from pypanther.helpers.panther_base_helpers import deep_get, pattern_match, patt
 
 g_suite_drive_external_file_share_tests: List[PantherRuleTest] = [
     PantherRuleTest(
-        Name="Dangerous Share of Known Document with a Missing User",
-        ExpectedResult=True,
-        Log={
+        name="Dangerous Share of Known Document with a Missing User",
+        expected_result=True,
+        log={
             "kind": "admin#reports#activity",
             "id": {
                 "time": "2020-09-07T15:50:49.617Z",
@@ -41,9 +41,9 @@ g_suite_drive_external_file_share_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="Dangerous Share of Unknown Document",
-        ExpectedResult=True,
-        Log={
+        name="Dangerous Share of Unknown Document",
+        expected_result=True,
+        log={
             "kind": "admin#reports#activity",
             "id": {
                 "time": "2020-09-07T15:50:49.617Z",
@@ -76,9 +76,9 @@ g_suite_drive_external_file_share_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="Share Allowed by Exception",
-        ExpectedResult=False,
-        Log={
+        name="Share Allowed by Exception",
+        expected_result=False,
+        log={
             "kind": "admin#reports#activity",
             "id": {
                 "time": "2020-07-07T15:50:49.617Z",
@@ -105,7 +105,10 @@ g_suite_drive_external_file_share_tests: List[PantherRuleTest] = [
                         {"name": "owner_is_shared_drive", "boolValue": False},
                         {"name": "owner_is_team_drive", "boolValue": False},
                         {"name": "old_value", "multiValue": ["none"]},
-                        {"name": "new_value", "multiValue": ["people_within_domain_with_link"]},
+                        {
+                            "name": "new_value",
+                            "multiValue": ["people_within_domain_with_link"],
+                        },
                     ],
                 }
             ],
@@ -115,22 +118,22 @@ g_suite_drive_external_file_share_tests: List[PantherRuleTest] = [
 
 
 class GSuiteDriveExternalFileShare(PantherRule):
-    RuleID = "GSuite.Drive.ExternalFileShare-prototype"
-    DisplayName = "External GSuite File Share"
-    Enabled = False
-    LogTypes = [PantherLogType.GSuite_Reports]
-    Tags = [
+    id_ = "GSuite.Drive.ExternalFileShare-prototype"
+    display_name = "External GSuite File Share"
+    enabled = False
+    log_types = [PantherLogType.GSuite_Reports]
+    tags = [
         "GSuite",
         "Security Control",
         "Configuration Required",
         "Collection:Data from Information Repositories",
     ]
-    Reports = {"MITRE ATT&CK": ["TA0009:T1213"]}
-    Severity = PantherSeverity.High
-    Description = "An employee shared a sensitive file externally with another organization"
-    Runbook = "Contact the employee who made the share and make sure they redact the access. If the share was legitimate, add to the EXCEPTION_PATTERNS in the detection.\n"
-    Reference = "https://support.google.com/docs/answer/2494822?hl=en&co=GENIE.Platform%3DiOS&sjid=864417124752637253-EU"
-    Tests = g_suite_drive_external_file_share_tests
+    reports = {"MITRE ATT&CK": ["TA0009:T1213"]}
+    default_severity = PantherSeverity.high
+    default_description = "An employee shared a sensitive file externally with another organization"
+    default_runbook = "Contact the employee who made the share and make sure they redact the access. If the share was legitimate, add to the EXCEPTION_PATTERNS in the detection.\n"
+    default_reference = "https://support.google.com/docs/answer/2494822?hl=en&co=GENIE.Platform%3DiOS&sjid=864417124752637253-EU"
+    tests = g_suite_drive_external_file_share_tests
     COMPANY_DOMAIN = "your-company-name.com"
     # The glob pattern for the document title (lowercased)
     # All actors allowed to receive the file share
@@ -179,7 +182,11 @@ class GSuiteDriveExternalFileShare(PantherRule):
                     return False
                 # No exceptions match.
                 # Return the event summary (which is True) to alert & use in title.
-                return {"actor": actor_email, "doc_title": doc_title, "target_user": target_user}
+                return {
+                    "actor": actor_email,
+                    "doc_title": doc_title,
+                    "target_user": target_user,
+                }
         return False
 
     def rule(self, event):

@@ -7,9 +7,9 @@ from pypanther.helpers.panther_base_helpers import deep_get
 
 auth0_user_invitation_created_tests: List[PantherRuleTest] = [
     PantherRuleTest(
-        Name="Test-org",
-        ExpectedResult=True,
-        Log={
+        name="Test-org",
+        expected_result=True,
+        log={
             "data": {
                 "_id": "90020230616045255729813000000000000001223372038324184656",
                 "client_id": "6xNLmMWZMYvMO3ZjQoN8siUWAbg3pnpA",
@@ -69,9 +69,9 @@ auth0_user_invitation_created_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="Test-org-regex-fail",
-        ExpectedResult=False,
-        Log={
+        name="Test-org-regex-fail",
+        expected_result=False,
+        log={
             "data": {
                 "_id": "90020230616045255729813000000000000001223372038324184656",
                 "client_id": "6xNLmMWZMYvMO3ZjQoN8siUWAbg3pnpA",
@@ -131,9 +131,9 @@ auth0_user_invitation_created_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="Test-other-endpoint",
-        ExpectedResult=False,
-        Log={
+        name="Test-other-endpoint",
+        expected_result=False,
+        log={
             "data": {
                 "client_id": "1HXWWGKk1Zj3JF8GvMrnCSirccDs4qvr",
                 "client_name": "",
@@ -144,7 +144,10 @@ auth0_user_invitation_created_tests: List[PantherRuleTest] = [
                         "auth": {
                             "credentials": {
                                 "jti": "dc1843dbe925a1ed2e707452c2123913",
-                                "scopes": ["create:actions", "create:actions_log_sessions"],
+                                "scopes": [
+                                    "create:actions",
+                                    "create:actions_log_sessions",
+                                ],
                             },
                             "strategy": "jwt",
                             "user": {
@@ -153,7 +156,10 @@ auth0_user_invitation_created_tests: List[PantherRuleTest] = [
                                 "user_id": "auth0|6459776e974703f3a65dc258",
                             },
                         },
-                        "body": {"owners": ["marge.simpson@yourcompany.io"], "roles": ["owner"]},
+                        "body": {
+                            "owners": ["marge.simpson@yourcompany.io"],
+                            "roles": ["owner"],
+                        },
                         "channel": "https://manage.auth0.com/",
                         "ip": "12.12.12.12",
                         "method": "post",
@@ -191,9 +197,9 @@ auth0_user_invitation_created_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="Test-no-invitee",
-        ExpectedResult=True,
-        Log={
+        name="Test-no-invitee",
+        expected_result=True,
+        log={
             "data": {
                 "client_id": "1HXWWGKk1Zj3JF8GvMrnCSirccDs4qvr",
                 "client_name": "",
@@ -204,7 +210,10 @@ auth0_user_invitation_created_tests: List[PantherRuleTest] = [
                         "auth": {
                             "credentials": {
                                 "jti": "dc1843dbe925a1ed2e707452c2123913",
-                                "scopes": ["create:actions", "create:actions_log_sessions"],
+                                "scopes": [
+                                    "create:actions",
+                                    "create:actions_log_sessions",
+                                ],
                             },
                             "strategy": "jwt",
                             "user": {
@@ -251,9 +260,9 @@ auth0_user_invitation_created_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="Test-tenant",
-        ExpectedResult=True,
-        Log={
+        name="Test-tenant",
+        expected_result=True,
+        log={
             "data": {
                 "client_id": "1HXWWGKk1Zj3JF8GvMrnCSirccDs4qvr",
                 "client_name": "",
@@ -264,7 +273,10 @@ auth0_user_invitation_created_tests: List[PantherRuleTest] = [
                         "auth": {
                             "credentials": {
                                 "jti": "dc1843dbe925a1ed2e707452c2123913",
-                                "scopes": ["create:actions", "create:actions_log_sessions"],
+                                "scopes": [
+                                    "create:actions",
+                                    "create:actions_log_sessions",
+                                ],
                             },
                             "strategy": "jwt",
                             "user": {
@@ -273,7 +285,10 @@ auth0_user_invitation_created_tests: List[PantherRuleTest] = [
                                 "user_id": "auth0|6459776e974703f3a65dc258",
                             },
                         },
-                        "body": {"owners": ["marge.simpson@yourcompany.io"], "roles": ["owner"]},
+                        "body": {
+                            "owners": ["marge.simpson@yourcompany.io"],
+                            "roles": ["owner"],
+                        },
                         "channel": "https://manage.auth0.com/",
                         "ip": "12.12.12.12",
                         "method": "post",
@@ -314,14 +329,14 @@ auth0_user_invitation_created_tests: List[PantherRuleTest] = [
 
 
 class Auth0UserInvitationCreated(PantherRule):
-    DisplayName = "Auth0 User Invitation Created"
-    Reference = (
+    display_name = "Auth0 User Invitation Created"
+    default_reference = (
         "https://auth0.com/docs/manage-users/organizations/configure-organizations/invite-members"
     )
-    Severity = PantherSeverity.Info
-    LogTypes = [PantherLogType.Auth0_Events]
-    RuleID = "Auth0.User.Invitation.Created-prototype"
-    Tests = auth0_user_invitation_created_tests
+    default_severity = PantherSeverity.info
+    log_types = [PantherLogType.Auth0_Events]
+    id_ = "Auth0.User.Invitation.Created-prototype"
+    tests = auth0_user_invitation_created_tests
     org_re = re.compile("^/api/v2/organizations/[^/\\s]+/invitations$")
 
     def rule(self, event):
@@ -343,7 +358,14 @@ class Auth0UserInvitationCreated(PantherRule):
         else:
             invitee = "<NO_INVITEE>"
         inviter = deep_get(
-            event, "data", "details", "request", "auth", "user", "email", default="<NO_INVITER>"
+            event,
+            "data",
+            "details",
+            "request",
+            "auth",
+            "user",
+            "email",
+            default="<NO_INVITER>",
         )
         source = deep_get(event, "p_source_label", default="<NO_PSOURCE>")
         return f"Auth0 User [{inviter}] invited [{invitee}] to {inv_type} [{source}]]"

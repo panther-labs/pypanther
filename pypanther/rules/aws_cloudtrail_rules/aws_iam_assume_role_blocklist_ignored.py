@@ -6,9 +6,9 @@ from pypanther.helpers.panther_default import aws_cloudtrail_success
 
 aws_cloud_trail_iam_assume_role_blacklist_ignored_tests: List[PantherRuleTest] = [
     PantherRuleTest(
-        Name="IAM Blocklisted Role Assumed",
-        ExpectedResult=True,
-        Log={
+        name="IAM Blocklisted Role Assumed",
+        expected_result=True,
+        log={
             "awsRegion": "us-east-1",
             "eventID": "1111",
             "eventName": "AssumeRole",
@@ -62,9 +62,9 @@ aws_cloud_trail_iam_assume_role_blacklist_ignored_tests: List[PantherRuleTest] =
         },
     ),
     PantherRuleTest(
-        Name="IAM Non Blocklisted Role Assumed",
-        ExpectedResult=False,
-        Log={
+        name="IAM Non Blocklisted Role Assumed",
+        expected_result=False,
+        log={
             "awsRegion": "us-east-1",
             "eventID": "1111",
             "eventName": "AssumeRole",
@@ -118,9 +118,9 @@ aws_cloud_trail_iam_assume_role_blacklist_ignored_tests: List[PantherRuleTest] =
         },
     ),
     PantherRuleTest(
-        Name="Error Assuming IAM Blocked Role",
-        ExpectedResult=False,
-        Log={
+        name="Error Assuming IAM Blocked Role",
+        expected_result=False,
+        log={
             "awsRegion": "us-east-1",
             "errorCode": "ExpiredToken",
             "eventID": "1111",
@@ -178,25 +178,32 @@ aws_cloud_trail_iam_assume_role_blacklist_ignored_tests: List[PantherRuleTest] =
 
 
 class AWSCloudTrailIAMAssumeRoleBlacklistIgnored(PantherRule):
-    RuleID = "AWS.CloudTrail.IAMAssumeRoleBlacklistIgnored-prototype"
-    DisplayName = "IAM Assume Role Blocklist Ignored"
-    Enabled = False
-    LogTypes = [PantherLogType.AWS_CloudTrail]
-    Tags = [
+    id_ = "AWS.CloudTrail.IAMAssumeRoleBlacklistIgnored-prototype"
+    display_name = "IAM Assume Role Blocklist Ignored"
+    enabled = False
+    log_types = [PantherLogType.AWS_CloudTrail]
+    tags = [
         "AWS",
         "Configuration Required",
         "Identity and Access Management",
         "Privilege Escalation:Abuse Elevation Control Mechanism",
     ]
-    Reports = {"MITRE ATT&CK": ["TA0004:T1548"]}
-    Severity = PantherSeverity.High
-    Description = (
+    reports = {"MITRE ATT&CK": ["TA0004:T1548"]}
+    default_severity = PantherSeverity.high
+    default_description = (
         "A user assumed a role that was explicitly blocklisted for manual user assumption.\n"
     )
-    Runbook = "Verify that this was an approved assume role action. If not, consider revoking the access immediately and updating the AssumeRolePolicyDocument to prevent this from happening again.\n"
-    Reference = "https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_boundaries.html"
-    SummaryAttributes = ["userAgent", "sourceIpAddress", "recipientAccountId", "p_any_aws_arns"]
-    Tests = aws_cloud_trail_iam_assume_role_blacklist_ignored_tests
+    default_runbook = "Verify that this was an approved assume role action. If not, consider revoking the access immediately and updating the AssumeRolePolicyDocument to prevent this from happening again.\n"
+    default_reference = (
+        "https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_boundaries.html"
+    )
+    summary_attributes = [
+        "userAgent",
+        "sourceIpAddress",
+        "recipientAccountId",
+        "p_any_aws_arns",
+    ]
+    tests = aws_cloud_trail_iam_assume_role_blacklist_ignored_tests
     # This is a list of role ARNs that should not be assumed by users in normal operations
     ASSUME_ROLE_BLOCKLIST = ["arn:aws:iam::123456789012:role/FullAdminRole"]
 

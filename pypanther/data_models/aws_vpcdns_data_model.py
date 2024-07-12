@@ -5,12 +5,12 @@ from pypanther.log_types import PantherLogType
 
 
 class StandardAWSVPCDns(PantherDataModel):
-    DataModelID: str = "Standard.AWS.VPCDns"
-    DisplayName: str = "AWS VPC DNS"
-    Enabled: bool = True
-    LogTypes: List[str] = [PantherLogType.AWS_VPCDns]
-    Mappings: List[PantherDataModelMapping] = [
-        PantherDataModelMapping(Name="source_ip", Path="srcAddr"),
-        PantherDataModelMapping(Name="source_port", Path="srcPort"),
-        PantherDataModelMapping(Name="dns_query", Path="query_name"),
+    id_: str = "Standard.AWS.VPCDns"
+    display_name: str = "AWS VPC DNS"
+    enabled: bool = True
+    log_types: List[str] = [PantherLogType.AWS_VPCDns]
+    mappings: List[PantherDataModelMapping] = [
+        PantherDataModelMapping(name="source_ip", path="srcAddr"),
+        PantherDataModelMapping(name="source_port", path="srcPort"),
+        PantherDataModelMapping(name="dns_query", path="query_name"),
     ]

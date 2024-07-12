@@ -5,9 +5,9 @@ from pypanther.helpers.panther_base_helpers import deep_get
 
 asana_team_privacy_public_tests: List[PantherRuleTest] = [
     PantherRuleTest(
-        Name="Team made public",
-        ExpectedResult=True,
-        Log={
+        name="Team made public",
+        expected_result=True,
+        log={
             "actor": {
                 "actor_type": "user",
                 "email": "homer.simpson@panther.io",
@@ -24,14 +24,18 @@ asana_team_privacy_public_tests: List[PantherRuleTest] = [
             "event_category": "access_control",
             "event_type": "team_privacy_settings_changed",
             "gid": "12345",
-            "resource": {"gid": "12345", "name": "Example Team Name", "resource_type": "team"},
+            "resource": {
+                "gid": "12345",
+                "name": "Example Team Name",
+                "resource_type": "team",
+            },
             "p_log_type": "Asana.Audit",
         },
     ),
     PantherRuleTest(
-        Name="Other event",
-        ExpectedResult=False,
-        Log={
+        name="Other event",
+        expected_result=False,
+        log={
             "actor": {
                 "actor_type": "user",
                 "email": "homer.simpsons@simpsons.com",
@@ -61,13 +65,13 @@ asana_team_privacy_public_tests: List[PantherRuleTest] = [
 
 
 class AsanaTeamPrivacyPublic(PantherRule):
-    Description = "An Asana team's privacy setting was changed to public to the organization (not public to internet)"
-    DisplayName = "Asana Team Privacy Public"
-    Reference = "https://help.asana.com/hc/en-us/articles/14211433439387-Team-permissions"
-    Severity = PantherSeverity.Low
-    LogTypes = [PantherLogType.Asana_Audit]
-    RuleID = "Asana.Team.Privacy.Public-prototype"
-    Tests = asana_team_privacy_public_tests
+    default_description = "An Asana team's privacy setting was changed to public to the organization (not public to internet)"
+    display_name = "Asana Team Privacy Public"
+    default_reference = "https://help.asana.com/hc/en-us/articles/14211433439387-Team-permissions"
+    default_severity = PantherSeverity.low
+    log_types = [PantherLogType.Asana_Audit]
+    id_ = "Asana.Team.Privacy.Public-prototype"
+    tests = asana_team_privacy_public_tests
 
     def rule(self, event):
         return (

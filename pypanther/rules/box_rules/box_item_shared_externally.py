@@ -10,9 +10,9 @@ from pypanther.helpers.panther_box_helpers import (
 
 box_item_shared_externally_tests: List[PantherRuleTest] = [
     PantherRuleTest(
-        Name="Regular Event",
-        ExpectedResult=False,
-        Log={
+        name="Regular Event",
+        expected_result=False,
+        log={
             "type": "event",
             "additional_details": '{"key": "value"}',
             "created_by": {
@@ -45,19 +45,23 @@ box_item_shared_externally_tests: List[PantherRuleTest] = [
 
 
 class BoxItemSharedExternally(PantherRule):
-    RuleID = "Box.Item.Shared.Externally-prototype"
-    DisplayName = "Box item shared externally"
-    Enabled = False
-    LogTypes = [PantherLogType.Box_Event]
-    Tags = ["Box", "Exfiltration:Exfiltration Over Web Service", "Configuration Required"]
-    Reports = {"MITRE ATT&CK": ["TA0010:T1567"]}
-    Severity = PantherSeverity.Medium
-    Description = "A user has shared an item and it is accessible to anyone with the share link (internal or external to the company). This rule requires that the boxsdk[jwt] be installed in the environment.\n"
-    Reference = "https://support.box.com/hc/en-us/articles/4404822772755-Enterprise-Settings-Content-Sharing-Tab"
-    Runbook = "Investigate whether this user's activity is expected.\n"
-    SummaryAttributes = ["ip_address"]
-    Threshold = 10
-    Tests = box_item_shared_externally_tests
+    id_ = "Box.Item.Shared.Externally-prototype"
+    display_name = "Box item shared externally"
+    enabled = False
+    log_types = [PantherLogType.Box_Event]
+    tags = [
+        "Box",
+        "Exfiltration:Exfiltration Over Web Service",
+        "Configuration Required",
+    ]
+    reports = {"MITRE ATT&CK": ["TA0010:T1567"]}
+    default_severity = PantherSeverity.medium
+    default_description = "A user has shared an item and it is accessible to anyone with the share link (internal or external to the company). This rule requires that the boxsdk[jwt] be installed in the environment.\n"
+    default_reference = "https://support.box.com/hc/en-us/articles/4404822772755-Enterprise-Settings-Content-Sharing-Tab"
+    default_runbook = "Investigate whether this user's activity is expected.\n"
+    summary_attributes = ["ip_address"]
+    threshold = 10
+    tests = box_item_shared_externally_tests
     ALLOWED_SHARED_ACCESS = {"collaborators", "company"}
     SHARE_EVENTS = {
         "CHANGE_FOLDER_PERMISSION",

@@ -4,9 +4,9 @@ from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSever
 
 github_repo_created_tests: List[PantherRuleTest] = [
     PantherRuleTest(
-        Name="GitHub - Repo Created",
-        ExpectedResult=True,
-        Log={
+        name="GitHub - Repo Created",
+        expected_result=True,
+        log={
             "actor": "cat",
             "action": "repo.create",
             "created_at": 1621305118553,
@@ -16,9 +16,9 @@ github_repo_created_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="GitHub - Repo Archived",
-        ExpectedResult=False,
-        Log={
+        name="GitHub - Repo Archived",
+        expected_result=False,
+        log={
             "actor": "cat",
             "action": "repo.archived",
             "created_at": 1621305118553,
@@ -31,14 +31,14 @@ github_repo_created_tests: List[PantherRuleTest] = [
 
 
 class GithubRepoCreated(PantherRule):
-    RuleID = "Github.Repo.Created-prototype"
-    DisplayName = "GitHub Repository Created"
-    LogTypes = [PantherLogType.GitHub_Audit]
-    Tags = ["GitHub"]
-    Reference = "https://docs.github.com/en/get-started/quickstart/create-a-repo"
-    Severity = PantherSeverity.Info
-    Description = "Detects when a repository is created."
-    Tests = github_repo_created_tests
+    id_ = "Github.Repo.Created-prototype"
+    display_name = "GitHub Repository Created"
+    log_types = [PantherLogType.GitHub_Audit]
+    tags = ["GitHub"]
+    default_reference = "https://docs.github.com/en/get-started/quickstart/create-a-repo"
+    default_severity = PantherSeverity.info
+    default_description = "Detects when a repository is created."
+    tests = github_repo_created_tests
 
     def rule(self, event):
         return event.get("action") == "repo.create"

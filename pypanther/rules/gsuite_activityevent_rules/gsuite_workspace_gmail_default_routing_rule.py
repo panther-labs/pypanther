@@ -5,9 +5,9 @@ from pypanther.helpers.panther_base_helpers import deep_get
 
 g_suite_workspace_gmail_default_routing_rule_modified_tests: List[PantherRuleTest] = [
     PantherRuleTest(
-        Name="Workspace Admin Creates Default Routing Rule",
-        ExpectedResult=True,
-        Log={
+        name="Workspace Admin Creates Default Routing Rule",
+        expected_result=True,
+        log={
             "actor": {
                 "callerType": "USER",
                 "email": "user@example.io",
@@ -30,9 +30,9 @@ g_suite_workspace_gmail_default_routing_rule_modified_tests: List[PantherRuleTes
         },
     ),
     PantherRuleTest(
-        Name="Workspace Admin Deletes Default Routing Rule",
-        ExpectedResult=True,
-        Log={
+        name="Workspace Admin Deletes Default Routing Rule",
+        expected_result=True,
+        log={
             "actor": {
                 "callerType": "USER",
                 "email": "user@example.io",
@@ -55,10 +55,14 @@ g_suite_workspace_gmail_default_routing_rule_modified_tests: List[PantherRuleTes
         },
     ),
     PantherRuleTest(
-        Name="Admin Set Default Calendar SHARING_OUTSIDE_DOMAIN Setting to READ_ONLY_ACCESS",
-        ExpectedResult=False,
-        Log={
-            "actor": {"callerType": "USER", "email": "example@example.io", "profileId": "12345"},
+        name="Admin Set Default Calendar SHARING_OUTSIDE_DOMAIN Setting to READ_ONLY_ACCESS",
+        expected_result=False,
+        log={
+            "actor": {
+                "callerType": "USER",
+                "email": "example@example.io",
+                "profileId": "12345",
+            },
             "id": {
                 "applicationName": "admin",
                 "customerId": "D12345",
@@ -79,9 +83,9 @@ g_suite_workspace_gmail_default_routing_rule_modified_tests: List[PantherRuleTes
         },
     ),
     PantherRuleTest(
-        Name="ListObject Type",
-        ExpectedResult=False,
-        Log={
+        name="ListObject Type",
+        expected_result=False,
+        log={
             "actor": {"email": "user@example.io", "profileId": "118111111111111111111"},
             "id": {
                 "applicationName": "drive",
@@ -114,17 +118,17 @@ g_suite_workspace_gmail_default_routing_rule_modified_tests: List[PantherRuleTes
 
 
 class GSuiteWorkspaceGmailDefaultRoutingRuleModified(PantherRule):
-    RuleID = "GSuite.Workspace.GmailDefaultRoutingRuleModified-prototype"
-    DisplayName = "GSuite Workspace Gmail Default Routing Rule Modified"
-    LogTypes = [PantherLogType.GSuite_ActivityEvent]
-    Tags = ["GSuite"]
-    Reports = {"MITRE ATT&CK": ["TA0003:T1098"]}
-    Severity = PantherSeverity.High
-    Description = "A Workspace Admin Has Modified A Default Routing Rule In Gmail\n"
-    Reference = "https://support.google.com/a/answer/2368153?hl=en"
-    Runbook = "Administrators use Default Routing to set up how inbound email is delivered within an organization. The configuration of the default routing rule needs to be inspected in order to verify the intent of the rule is benign.\nIf this change was not planned, inspect the other actions taken by this actor.\n"
-    SummaryAttributes = ["actor:email"]
-    Tests = g_suite_workspace_gmail_default_routing_rule_modified_tests
+    id_ = "GSuite.Workspace.GmailDefaultRoutingRuleModified-prototype"
+    display_name = "GSuite Workspace Gmail Default Routing Rule Modified"
+    log_types = [PantherLogType.GSuite_ActivityEvent]
+    tags = ["GSuite"]
+    reports = {"MITRE ATT&CK": ["TA0003:T1098"]}
+    default_severity = PantherSeverity.high
+    default_description = "A Workspace Admin Has Modified A Default Routing Rule In Gmail\n"
+    default_reference = "https://support.google.com/a/answer/2368153?hl=en"
+    default_runbook = "Administrators use Default Routing to set up how inbound email is delivered within an organization. The configuration of the default routing rule needs to be inspected in order to verify the intent of the rule is benign.\nIf this change was not planned, inspect the other actions taken by this actor.\n"
+    summary_attributes = ["actor:email"]
+    tests = g_suite_workspace_gmail_default_routing_rule_modified_tests
 
     def rule(self, event):
         if all(

@@ -5,9 +5,9 @@ from pypanther.helpers.panther_base_helpers import slack_alert_context
 
 slack_audit_logs_mfa_settings_changed_tests: List[PantherRuleTest] = [
     PantherRuleTest(
-        Name="MFA Auth Changed",
-        ExpectedResult=True,
-        Log={
+        name="MFA Auth Changed",
+        expected_result=True,
+        log={
             "action": "pref.two_factor_auth_changed",
             "actor": {
                 "type": "user",
@@ -31,9 +31,9 @@ slack_audit_logs_mfa_settings_changed_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="User Logout",
-        ExpectedResult=False,
-        Log={
+        name="User Logout",
+        expected_result=False,
+        log={
             "action": "user_logout",
             "actor": {
                 "type": "user",
@@ -71,23 +71,23 @@ slack_audit_logs_mfa_settings_changed_tests: List[PantherRuleTest] = [
 
 
 class SlackAuditLogsMFASettingsChanged(PantherRule):
-    RuleID = "Slack.AuditLogs.MFASettingsChanged-prototype"
-    DisplayName = "Slack MFA Settings Changed"
-    LogTypes = [PantherLogType.Slack_AuditLogs]
-    Tags = [
+    id_ = "Slack.AuditLogs.MFASettingsChanged-prototype"
+    display_name = "Slack MFA Settings Changed"
+    log_types = [PantherLogType.Slack_AuditLogs]
+    tags = [
         "Slack",
         "Defense Evasion",
         "Modify Authentication Process",
         "Multi-Factor Authentication",
     ]
-    Reports = {"MITRE ATT&CK": ["TA0005:T1556.006"]}
-    Severity = PantherSeverity.High
-    Description = "Detects changes to Multi-Factor Authentication requirements"
-    Reference = (
+    reports = {"MITRE ATT&CK": ["TA0005:T1556.006"]}
+    default_severity = PantherSeverity.high
+    default_description = "Detects changes to Multi-Factor Authentication requirements"
+    default_reference = (
         "https://slack.com/intl/en-gb/help/articles/204509068-Set-up-two-factor-authentication"
     )
-    SummaryAttributes = ["p_any_ip_addresses", "p_any_emails"]
-    Tests = slack_audit_logs_mfa_settings_changed_tests
+    summary_attributes = ["p_any_ip_addresses", "p_any_emails"]
+    tests = slack_audit_logs_mfa_settings_changed_tests
 
     def rule(self, event):
         return event.get("action") == "pref.two_factor_auth_changed"

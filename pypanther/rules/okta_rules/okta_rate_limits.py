@@ -6,20 +6,27 @@ from pypanther.helpers.panther_base_helpers import okta_alert_context
 
 okta_rate_limits_tests: List[PantherRuleTest] = [
     PantherRuleTest(
-        Name="system.org.ratelimit.warning",
-        ExpectedResult=True,
-        Log={
+        name="system.org.ratelimit.warning",
+        expected_result=True,
+        log={
             "actor": {
                 "alternateId": "homer.simpson@duff.com",
                 "displayName": "Homer Simpson",
                 "id": "00abc456",
                 "type": "User",
             },
-            "authenticationcontext": {"authenticationStep": 0, "externalSessionId": "abc12345"},
+            "authenticationcontext": {
+                "authenticationStep": 0,
+                "externalSessionId": "abc12345",
+            },
             "client": {
                 "device": "Unknown",
                 "ipAddress": "1.2.3.4",
-                "userAgent": {"browser": "UNKNOWN", "os": "Unknown", "rawUserAgent": "Chrome"},
+                "userAgent": {
+                    "browser": "UNKNOWN",
+                    "os": "Unknown",
+                    "rawUserAgent": "Chrome",
+                },
                 "zone": "null",
             },
             "debugcontext": {
@@ -58,20 +65,27 @@ okta_rate_limits_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="system.operation.ratelimit.violation",
-        ExpectedResult=True,
-        Log={
+        name="system.operation.ratelimit.violation",
+        expected_result=True,
+        log={
             "actor": {
                 "alternateId": "homer.simpson@duff.com",
                 "displayName": "Homer Simpson",
                 "id": "00abc456",
                 "type": "User",
             },
-            "authenticationcontext": {"authenticationStep": 0, "externalSessionId": "abc12345"},
+            "authenticationcontext": {
+                "authenticationStep": 0,
+                "externalSessionId": "abc12345",
+            },
             "client": {
                 "device": "Unknown",
                 "ipAddress": "1.2.3.4",
-                "userAgent": {"browser": "UNKNOWN", "os": "Unknown", "rawUserAgent": "Chrome"},
+                "userAgent": {
+                    "browser": "UNKNOWN",
+                    "os": "Unknown",
+                    "rawUserAgent": "Chrome",
+                },
                 "zone": "null",
             },
             "debugcontext": {
@@ -107,20 +121,27 @@ okta_rate_limits_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="application.integration.rate_limit_exceeded",
-        ExpectedResult=True,
-        Log={
+        name="application.integration.rate_limit_exceeded",
+        expected_result=True,
+        log={
             "actor": {
                 "alternateId": "homer.simpson@duff.com",
                 "displayName": "Homer Simpson",
                 "id": "00abc456",
                 "type": "User",
             },
-            "authenticationcontext": {"authenticationStep": 0, "externalSessionId": "abc12345"},
+            "authenticationcontext": {
+                "authenticationStep": 0,
+                "externalSessionId": "abc12345",
+            },
             "client": {
                 "device": "Unknown",
                 "ipAddress": "1.2.3.4",
-                "userAgent": {"browser": "UNKNOWN", "os": "Unknown", "rawUserAgent": "Chrome"},
+                "userAgent": {
+                    "browser": "UNKNOWN",
+                    "os": "Unknown",
+                    "rawUserAgent": "Chrome",
+                },
                 "zone": "null",
             },
             "debugcontext": {"debugData": {}},
@@ -132,7 +153,12 @@ okta_rate_limits_tests: List[PantherRuleTest] = [
             "securitycontext": {},
             "severity": "INFO",
             "target": [
-                {"alternateId": "App ", "displayName": "App", "id": "12345", "type": "AppInstance"}
+                {
+                    "alternateId": "App ",
+                    "displayName": "App",
+                    "id": "12345",
+                    "type": "AppInstance",
+                }
             ],
             "transaction": {"detail": {}, "id": "sdfg", "type": "JOB"},
             "uuid": "aaa-bb-ccc",
@@ -140,16 +166,19 @@ okta_rate_limits_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="Non event",
-        ExpectedResult=False,
-        Log={
+        name="Non event",
+        expected_result=False,
+        log={
             "actor": {
                 "alternateId": "homer.simpson@duff.com",
                 "displayName": "Homer Simpsons",
                 "id": "00ABC123",
                 "type": "User",
             },
-            "authenticationcontext": {"authenticationStep": 0, "externalSessionId": "xyz1234"},
+            "authenticationcontext": {
+                "authenticationStep": 0,
+                "externalSessionId": "xyz1234",
+            },
             "client": {
                 "device": "Computer",
                 "geographicalContext": {
@@ -223,16 +252,16 @@ okta_rate_limits_tests: List[PantherRuleTest] = [
 
 
 class OktaRateLimits(PantherRule):
-    Description = "Potential DoS/Bruteforce attack or hitting limits (system degradation)"
-    DisplayName = "Okta Rate Limits"
-    Severity = PantherSeverity.High
-    Tags = ["Credential Access", "Brute Force", "Impact", "Network Denial of Service"]
-    Reports = {"MITRE ATT&CK": ["TA0006:T1110", "TA0040:T1498"]}
-    Reference = "https://developer.okta.com/docs/reference/rl-system-log-events/"
-    DedupPeriodMinutes = 360
-    LogTypes = [PantherLogType.Okta_SystemLog]
-    RuleID = "Okta.Rate.Limits-prototype"
-    Tests = okta_rate_limits_tests
+    default_description = "Potential DoS/Bruteforce attack or hitting limits (system degradation)"
+    display_name = "Okta Rate Limits"
+    default_severity = PantherSeverity.high
+    tags = ["Credential Access", "Brute Force", "Impact", "Network Denial of Service"]
+    reports = {"MITRE ATT&CK": ["TA0006:T1110", "TA0040:T1498"]}
+    default_reference = "https://developer.okta.com/docs/reference/rl-system-log-events/"
+    dedup_period_minutes = 360
+    log_types = [PantherLogType.Okta_SystemLog]
+    id_ = "Okta.Rate.Limits-prototype"
+    tests = okta_rate_limits_tests
     DETECTION_EVENTS = [
         "app.oauth2.client_id_rate_limit_warning",
         "application.integration.rate_limit_exceeded",

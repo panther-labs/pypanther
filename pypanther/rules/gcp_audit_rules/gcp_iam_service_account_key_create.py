@@ -6,9 +6,9 @@ from pypanther.helpers.panther_base_helpers import deep_get, deep_walk
 
 gc_piamservice_account_keyscreate_tests: List[PantherRuleTest] = [
     PantherRuleTest(
-        Name="privilege-escalation",
-        ExpectedResult=True,
-        Log={
+        name="privilege-escalation",
+        expected_result=True,
+        log={
             "protoPayload": {
                 "authorizationInfo": [
                     {"granted": True, "permission": "iam.serviceAccountKeys.create"}
@@ -18,7 +18,10 @@ gc_piamservice_account_keyscreate_tests: List[PantherRuleTest] = [
             },
             "receiveTimestamp": "2024-01-19 13:47:19.465856238",
             "resource": {
-                "labels": {"name": "test-vm-deployment", "project_id": "panther-threat-research"},
+                "labels": {
+                    "name": "test-vm-deployment",
+                    "project_id": "panther-threat-research",
+                },
                 "type": "deployment",
             },
             "severity": "NOTICE",
@@ -26,9 +29,9 @@ gc_piamservice_account_keyscreate_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="fail",
-        ExpectedResult=False,
-        Log={
+        name="fail",
+        expected_result=False,
+        log={
             "protoPayload": {
                 "authorizationInfo": [
                     {"granted": False, "permission": "iam.serviceAccountKeys.create"}
@@ -38,7 +41,10 @@ gc_piamservice_account_keyscreate_tests: List[PantherRuleTest] = [
             },
             "receiveTimestamp": "2024-01-19 13:47:19.465856238",
             "resource": {
-                "labels": {"name": "test-vm-deployment", "project_id": "panther-threat-research"},
+                "labels": {
+                    "name": "test-vm-deployment",
+                    "project_id": "panther-threat-research",
+                },
                 "type": "deployment",
             },
             "severity": "NOTICE",
@@ -49,17 +55,17 @@ gc_piamservice_account_keyscreate_tests: List[PantherRuleTest] = [
 
 
 class GCPiamserviceAccountKeyscreate(PantherRule):
-    RuleID = "GCP.iam.serviceAccountKeys.create-prototype"
-    DisplayName = "GCP.Iam.ServiceAccountKeys.Create"
-    Description = "If your user is assigned a custom IAM role, then iam.roles.update will allow you to update the “includedPermissons” on that role. Because it is assigned to you, you will gain the additional privileges, which could be anything you desire."
-    LogTypes = [PantherLogType.GCP_AuditLog]
-    Severity = PantherSeverity.High
-    Reference = (
+    id_ = "GCP.iam.serviceAccountKeys.create-prototype"
+    display_name = "GCP.Iam.ServiceAccountKeys.Create"
+    default_description = "If your user is assigned a custom IAM role, then iam.roles.update will allow you to update the “includedPermissons” on that role. Because it is assigned to you, you will gain the additional privileges, which could be anything you desire."
+    log_types = [PantherLogType.GCP_AuditLog]
+    default_severity = PantherSeverity.high
+    default_reference = (
         "https://rhinosecuritylabs.com/gcp/privilege-escalation-google-cloud-platform-part-1/"
     )
-    Runbook = "Confirm this was authorized and necessary behavior. This is not a vulnerability in GCP, it is a vulnerability in how GCP environment is configured, so it is necessary to be aware of these attack vectors and to defend against them. It’s also important to remember that privilege escalation does not necessarily need to pass through the IAM service to be effective. Make sure to follow the principle of least-privilege in your environments to help mitigate these security risks."
-    Reports = {"MITRE ATT&CK": ["TA0004:T1548"]}
-    Tests = gc_piamservice_account_keyscreate_tests
+    default_runbook = "Confirm this was authorized and necessary behavior. This is not a vulnerability in GCP, it is a vulnerability in how GCP environment is configured, so it is necessary to be aware of these attack vectors and to defend against them. It’s also important to remember that privilege escalation does not necessarily need to pass through the IAM service to be effective. Make sure to follow the principle of least-privilege in your environments to help mitigate these security risks."
+    reports = {"MITRE ATT&CK": ["TA0004:T1548"]}
+    tests = gc_piamservice_account_keyscreate_tests
 
     def rule(self, event):
         authorization_info = deep_walk(event, "protoPayload", "authorizationInfo")

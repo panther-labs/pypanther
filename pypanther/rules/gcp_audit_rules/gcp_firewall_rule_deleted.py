@@ -7,9 +7,9 @@ from pypanther.helpers.panther_base_helpers import deep_get
 
 gcp_firewall_rule_deleted_tests: List[PantherRuleTest] = [
     PantherRuleTest(
-        Name="compute.firewalls-delete-should-alert",
-        ExpectedResult=True,
-        Log={
+        name="compute.firewalls-delete-should-alert",
+        expected_result=True,
+        log={
             "insertid": "-xxxxxxxx",
             "logname": "projects/test-project-123456/logs/cloudaudit.googleapis.com%2Factivity",
             "operation": {
@@ -42,9 +42,9 @@ gcp_firewall_rule_deleted_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="appengine.firewall.delete-should-alert",
-        ExpectedResult=True,
-        Log={
+        name="appengine.firewall.delete-should-alert",
+        expected_result=True,
+        log={
             "insertid": "-xxxxxxxx",
             "logname": "projects/test-project-123456/logs/cloudaudit.googleapis.com%2Factivity",
             "protoPayload": {
@@ -62,7 +62,10 @@ gcp_firewall_rule_deleted_tests: List[PantherRuleTest] = [
                 "requestMetadata": {
                     "callerIP": "12.12.12.12",
                     "destinationAttributes": {},
-                    "requestAttributes": {"auth": {}, "time": "2023-05-23T19:28:48.805823Z"},
+                    "requestAttributes": {
+                        "auth": {},
+                        "time": "2023-05-23T19:28:48.805823Z",
+                    },
                 },
                 "resourceName": "apps/test-project-123456/firewall/ingressRules/1000",
                 "serviceData": {"@type": "type.googleapis.com/google.appengine.v1beta4.AuditData"},
@@ -84,19 +87,19 @@ gcp_firewall_rule_deleted_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="compute.non-delete.firewall.method-should-not-alert",
-        ExpectedResult=False,
-        Log={"methodName": "v1.compute.firewalls.insert"},
+        name="compute.non-delete.firewall.method-should-not-alert",
+        expected_result=False,
+        log={"methodName": "v1.compute.firewalls.insert"},
     ),
     PantherRuleTest(
-        Name="appengine.non-delete.firewall.method-should-not-alert",
-        ExpectedResult=False,
-        Log={"methodName": "appengine.compute.v1.Firewall.PatchIngressRule"},
+        name="appengine.non-delete.firewall.method-should-not-alert",
+        expected_result=False,
+        log={"methodName": "appengine.compute.v1.Firewall.PatchIngressRule"},
     ),
     PantherRuleTest(
-        Name="randomservice.firewall-delete.method-should-alert",
-        ExpectedResult=True,
-        Log={
+        name="randomservice.firewall-delete.method-should-alert",
+        expected_result=True,
+        log={
             "protoPayload": {
                 "authenticationInfo": {"principalEmail": "user@domain.com"},
                 "methodName": "randomservice.compute.v1.Firewall.DeleteIngressRule",
@@ -104,7 +107,10 @@ gcp_firewall_rule_deleted_tests: List[PantherRuleTest] = [
                 "requestMetadata": {
                     "callerIP": "12.12.12.12",
                     "destinationAttributes": {},
-                    "requestAttributes": {"auth": {}, "time": "2023-05-23T19:28:44.663413Z"},
+                    "requestAttributes": {
+                        "auth": {},
+                        "time": "2023-05-23T19:28:44.663413Z",
+                    },
                 },
             },
             "resource": {
@@ -120,15 +126,15 @@ gcp_firewall_rule_deleted_tests: List[PantherRuleTest] = [
 
 
 class GCPFirewallRuleDeleted(PantherRule):
-    DisplayName = "GCP Firewall Rule Deleted"
-    RuleID = "GCP.Firewall.Rule.Deleted-prototype"
-    Severity = PantherSeverity.Low
-    LogTypes = [PantherLogType.GCP_AuditLog]
-    Tags = ["GCP", "Firewall", "Networking", "Infrastructure"]
-    Description = "This rule detects deletions of GCP firewall rules.\n"
-    Runbook = "Ensure that the rule deletion was expected. Firewall rule deletions can cause service interruptions or outages.\n"
-    Reference = "https://cloud.google.com/firewall/docs/about-firewalls"
-    Tests = gcp_firewall_rule_deleted_tests
+    display_name = "GCP Firewall Rule Deleted"
+    id_ = "GCP.Firewall.Rule.Deleted-prototype"
+    default_severity = PantherSeverity.low
+    log_types = [PantherLogType.GCP_AuditLog]
+    tags = ["GCP", "Firewall", "Networking", "Infrastructure"]
+    default_description = "This rule detects deletions of GCP firewall rules.\n"
+    default_runbook = "Ensure that the rule deletion was expected. Firewall rule deletions can cause service interruptions or outages.\n"
+    default_reference = "https://cloud.google.com/firewall/docs/about-firewalls"
+    tests = gcp_firewall_rule_deleted_tests
 
     def rule(self, event):
         method_pattern = "(?:\\w+\\.)*v\\d\\.(?:Firewall\\.Delete)|(compute\\.firewalls\\.delete)"
@@ -145,7 +151,11 @@ class GCPFirewallRuleDeleted(PantherRule):
         )
         resource = deep_get(event, "protoPayload", "resourceName", default="<RESOURCE_NOT_FOUND>")
         resource_id = deep_get(
-            event, "resource", "labels", "firewall_rule_id", default="<RESOURCE_ID_NOT_FOUND>"
+            event,
+            "resource",
+            "labels",
+            "firewall_rule_id",
+            default="<RESOURCE_ID_NOT_FOUND>",
         )
         if resource_id != "<RESOURCE_ID_NOT_FOUND>":
             return f"[GCP]: [{actor}] deleted firewall rule with resource ID [{resource_id}]"

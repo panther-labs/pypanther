@@ -4,9 +4,9 @@ from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSever
 
 git_hub_org_auth_change_tests: List[PantherRuleTest] = [
     PantherRuleTest(
-        Name="GitHub - Authentication Method Changed",
-        ExpectedResult=True,
-        Log={
+        name="GitHub - Authentication Method Changed",
+        expected_result=True,
+        log={
             "actor": "cat",
             "action": "org.saml_disabled",
             "created_at": 1621305118553,
@@ -16,9 +16,9 @@ git_hub_org_auth_change_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="GitHub - Non Auth Related Org Change",
-        ExpectedResult=False,
-        Log={
+        name="GitHub - Non Auth Related Org Change",
+        expected_result=False,
+        log={
             "actor": "cat",
             "action": "invite_member",
             "created_at": 1621305118553,
@@ -31,17 +31,17 @@ git_hub_org_auth_change_tests: List[PantherRuleTest] = [
 
 
 class GitHubOrgAuthChange(PantherRule):
-    RuleID = "GitHub.Org.AuthChange-prototype"
-    DisplayName = "GitHub Org Authentication Method Changed"
-    LogTypes = [PantherLogType.GitHub_Audit]
-    Tags = ["GitHub", "Persistence:Account Manipulation"]
-    Reports = {"MITRE ATT&CK": ["TA0003:T1098"]}
-    Severity = PantherSeverity.Critical
-    SummaryAttributes = ["actor", "action"]
-    Description = "Detects changes to GitHub org authentication changes."
-    Runbook = "Verify that the GitHub admin performed this activity and validate its use."
-    Reference = "https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/about-authentication-to-github"
-    Tests = git_hub_org_auth_change_tests
+    id_ = "GitHub.Org.AuthChange-prototype"
+    display_name = "GitHub Org Authentication Method Changed"
+    log_types = [PantherLogType.GitHub_Audit]
+    tags = ["GitHub", "Persistence:Account Manipulation"]
+    reports = {"MITRE ATT&CK": ["TA0003:T1098"]}
+    default_severity = PantherSeverity.critical
+    summary_attributes = ["actor", "action"]
+    default_description = "Detects changes to GitHub org authentication changes."
+    default_runbook = "Verify that the GitHub admin performed this activity and validate its use."
+    default_reference = "https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/about-authentication-to-github"
+    tests = git_hub_org_auth_change_tests
     AUTH_CHANGE_EVENTS = [
         "org.saml_disabled",
         "org.saml_enabled",

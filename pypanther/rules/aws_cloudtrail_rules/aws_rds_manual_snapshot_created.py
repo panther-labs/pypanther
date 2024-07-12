@@ -5,9 +5,9 @@ from pypanther.helpers.panther_base_helpers import aws_rule_context
 
 awsrds_manual_snapshot_created_tests: List[PantherRuleTest] = [
     PantherRuleTest(
-        Name="Manual Snapshot Created",
-        ExpectedResult=True,
-        Log={
+        name="Manual Snapshot Created",
+        expected_result=True,
+        log={
             "eventVersion": "1.08",
             "userIdentity": {
                 "type": "AssumedRole",
@@ -81,9 +81,9 @@ awsrds_manual_snapshot_created_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="Public Snapshot Created",
-        ExpectedResult=True,
-        Log={
+        name="Public Snapshot Created",
+        expected_result=True,
+        log={
             "eventVersion": "1.08",
             "userIdentity": {
                 "type": "AssumedRole",
@@ -157,9 +157,9 @@ awsrds_manual_snapshot_created_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="Automated Snapshot Created",
-        ExpectedResult=False,
-        Log={
+        name="Automated Snapshot Created",
+        expected_result=False,
+        log={
             "eventVersion": "1.08",
             "userIdentity": {
                 "type": "AssumedRole",
@@ -233,9 +233,9 @@ awsrds_manual_snapshot_created_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="Awsbackup Snapshot Created",
-        ExpectedResult=False,
-        Log={
+        name="Awsbackup Snapshot Created",
+        expected_result=False,
+        log={
             "eventVersion": "1.08",
             "userIdentity": {
                 "type": "AssumedRole",
@@ -312,17 +312,24 @@ awsrds_manual_snapshot_created_tests: List[PantherRuleTest] = [
 
 
 class AWSRDSManualSnapshotCreated(PantherRule):
-    RuleID = "AWS.RDS.ManualSnapshotCreated-prototype"
-    DisplayName = "AWS RDS Manual/Public Snapshot Created"
-    LogTypes = [PantherLogType.AWS_CloudTrail]
-    Tags = ["AWS", "Exfiltration", "Transfer Data to Cloud Account"]
-    Reports = {"MITRE ATT&CK": ["TA0010:T1537"]}
-    Severity = PantherSeverity.Low
-    Description = "A manual snapshot of an RDS database was created. An attacker may use this to exfiltrate the DB contents to another account; use this as a correlation rule.\n"
-    Runbook = "Ensure the snapshot was shared with an allowed AWS account. If not, delete the snapshot and quarantine the compromised IAM user.\n"
-    Reference = "https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_CreateSnapshot.html"
-    SummaryAttributes = ["eventSource", "recipientAccountId", "awsRegion", "p_any_aws_arns"]
-    Tests = awsrds_manual_snapshot_created_tests
+    id_ = "AWS.RDS.ManualSnapshotCreated-prototype"
+    display_name = "AWS RDS Manual/Public Snapshot Created"
+    log_types = [PantherLogType.AWS_CloudTrail]
+    tags = ["AWS", "Exfiltration", "Transfer Data to Cloud Account"]
+    reports = {"MITRE ATT&CK": ["TA0010:T1537"]}
+    default_severity = PantherSeverity.low
+    default_description = "A manual snapshot of an RDS database was created. An attacker may use this to exfiltrate the DB contents to another account; use this as a correlation rule.\n"
+    default_runbook = "Ensure the snapshot was shared with an allowed AWS account. If not, delete the snapshot and quarantine the compromised IAM user.\n"
+    default_reference = (
+        "https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_CreateSnapshot.html"
+    )
+    summary_attributes = [
+        "eventSource",
+        "recipientAccountId",
+        "awsRegion",
+        "p_any_aws_arns",
+    ]
+    tests = awsrds_manual_snapshot_created_tests
 
     def rule(self, event):
         return all(

@@ -5,16 +5,19 @@ from pypanther.helpers.panther_base_helpers import okta_alert_context
 
 okta_user_account_locked_tests: List[PantherRuleTest] = [
     PantherRuleTest(
-        Name="Account Lock Event",
-        ExpectedResult=True,
-        Log={
+        name="Account Lock Event",
+        expected_result=True,
+        log={
             "actor": {
                 "alternateId": "homer.simpson@duff.com",
                 "displayName": "Homer Simpson",
                 "id": "00abc123",
                 "type": "User",
             },
-            "authenticationcontext": {"authenticationStep": 0, "externalSessionId": "abcd-1234"},
+            "authenticationcontext": {
+                "authenticationStep": 0,
+                "externalSessionId": "abcd-1234",
+            },
             "client": {
                 "device": "Computer",
                 "geographicalContext": {
@@ -25,7 +28,11 @@ okta_user_account_locked_tests: List[PantherRuleTest] = [
                     "state": "Georgia",
                 },
                 "ipAddress": "1.2.3.4",
-                "userAgent": {"browser": "CHROME", "os": "Mac OS X", "rawUserAgent": "Chrome"},
+                "userAgent": {
+                    "browser": "CHROME",
+                    "os": "Mac OS X",
+                    "rawUserAgent": "Chrome",
+                },
                 "zone": "null",
             },
             "debugcontext": {
@@ -72,16 +79,19 @@ okta_user_account_locked_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="Non Event",
-        ExpectedResult=False,
-        Log={
+        name="Non Event",
+        expected_result=False,
+        log={
             "actor": {
                 "alternateId": "homer.simpson@duff.com",
                 "displayName": "Homer Simpsons",
                 "id": "00ABC123",
                 "type": "User",
             },
-            "authenticationcontext": {"authenticationStep": 0, "externalSessionId": "xyz1234"},
+            "authenticationcontext": {
+                "authenticationStep": 0,
+                "externalSessionId": "xyz1234",
+            },
             "client": {
                 "device": "Computer",
                 "geographicalContext": {
@@ -155,16 +165,19 @@ okta_user_account_locked_tests: List[PantherRuleTest] = [
 
 
 class OktaUserAccountLocked(PantherRule):
-    Description = "An Okta user has locked their account."
-    DisplayName = "Okta User Account Locked"
-    Reference = "https://support.okta.com/help/s/article/How-to-Configure-the-Number-of-Failed-Login-Attempts-Before-User-Lockout?language=en_US"
-    Severity = PantherSeverity.Low
-    LogTypes = [PantherLogType.Okta_SystemLog]
-    RuleID = "Okta.User.Account.Locked-prototype"
-    Tests = okta_user_account_locked_tests
+    default_description = "An Okta user has locked their account."
+    display_name = "Okta User Account Locked"
+    default_reference = "https://support.okta.com/help/s/article/How-to-Configure-the-Number-of-Failed-Login-Attempts-Before-User-Lockout?language=en_US"
+    default_severity = PantherSeverity.low
+    log_types = [PantherLogType.Okta_SystemLog]
+    id_ = "Okta.User.Account.Locked-prototype"
+    tests = okta_user_account_locked_tests
 
     def rule(self, event):
-        return event.get("eventtype") in ("user.account.lock", "user.account.lock.limit")
+        return event.get("eventtype") in (
+            "user.account.lock",
+            "user.account.lock.limit",
+        )
 
     def title(self, event):
         return f"Okta: [{event.get('actor', {}).get('alternateId', '<id-not-found>')}] [{event.get('displaymessage', 'account has been locked.')}]"

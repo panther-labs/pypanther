@@ -5,9 +5,9 @@ from pypanther.helpers.panther_base_helpers import deep_get
 
 osquery_ssh_listener_tests: List[PantherRuleTest] = [
     PantherRuleTest(
-        Name="SSH Listener Detected",
-        ExpectedResult=True,
-        Log={
+        name="SSH Listener Detected",
+        expected_result=True,
+        log={
             "action": "added",
             "calendarTime": "Tue Sep 11 16:14:21 2018 UTC",
             "columns": {
@@ -39,9 +39,9 @@ osquery_ssh_listener_tests: List[PantherRuleTest] = [
         },
     ),
     PantherRuleTest(
-        Name="SSH Listener Not Detected",
-        ExpectedResult=False,
-        Log={
+        name="SSH Listener Not Detected",
+        expected_result=False,
+        log={
             "action": "added",
             "calendarTime": "Tue Sep 11 16:14:21 2018 UTC",
             "columns": {
@@ -76,19 +76,19 @@ osquery_ssh_listener_tests: List[PantherRuleTest] = [
 
 
 class OsquerySSHListener(PantherRule):
-    RuleID = "Osquery.SSHListener-prototype"
-    DisplayName = "OSQuery Detected SSH Listener"
-    LogTypes = [PantherLogType.Osquery_Differential]
-    Tags = ["Osquery", "Lateral Movement:Remote Services"]
-    Reports = {"MITRE ATT&CK": ["TA0008:T1021"]}
-    Severity = PantherSeverity.Medium
-    Description = "Check if SSH is listening in a non-production environment. This could be an indicator of persistent access within an environment.\n"
-    Runbook = "Terminate the SSH daemon, investigate for signs of compromise.\n"
-    Reference = (
+    id_ = "Osquery.SSHListener-prototype"
+    display_name = "OSQuery Detected SSH Listener"
+    log_types = [PantherLogType.Osquery_Differential]
+    tags = ["Osquery", "Lateral Movement:Remote Services"]
+    reports = {"MITRE ATT&CK": ["TA0008:T1021"]}
+    default_severity = PantherSeverity.medium
+    default_description = "Check if SSH is listening in a non-production environment. This could be an indicator of persistent access within an environment.\n"
+    default_runbook = "Terminate the SSH daemon, investigate for signs of compromise.\n"
+    default_reference = (
         "https://medium.com/uptycs/osquery-what-it-is-how-it-works-and-how-to-use-it-ce4e81e60dfc"
     )
-    SummaryAttributes = ["action", "hostIdentifier", "name"]
-    Tests = osquery_ssh_listener_tests
+    summary_attributes = ["action", "hostIdentifier", "name"]
+    tests = osquery_ssh_listener_tests
 
     def rule(self, event):
         return (
