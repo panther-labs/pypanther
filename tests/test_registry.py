@@ -14,6 +14,6 @@ def test_register_duplicate():
             pass
 
     register(A)
-    A.default_tags.append("test2")
+    A.tags.append("test2")
     register(A)
     assert len(registered_rules()) == 1

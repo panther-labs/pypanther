@@ -27,7 +27,7 @@ from pypanther.unit_tests import RuleTest
 
 def test_rule_inheritance():
     class Test(Rule):
-        default_tags = ["test"]
+        tags = ["test"]
 
         def rule(self, event):
             pass
@@ -37,17 +37,17 @@ def test_rule_inheritance():
             pass
 
     # values are inherited as copies
-    assert Test2.default_tags == ["test"]
-    assert Test.default_tags == ["test"]
-    assert Test.default_tags is not Test2.default_tags
+    assert Test2.tags == ["test"]
+    assert Test.tags == ["test"]
+    assert Test.tags is not Test2.tags
 
     # updates do not affect the parent or children
-    Test2.default_tags.append("test2")
-    assert Test2.default_tags == ["test", "test2"]
-    assert Test.default_tags == ["test"]
-    Test.default_tags.append("test3")
-    assert Test2.default_tags == ["test", "test2"]
-    assert Test.default_tags == ["test", "test3"]
+    Test2.tags.append("test2")
+    assert Test2.tags == ["test", "test2"]
+    assert Test.tags == ["test"]
+    Test.tags.append("test3")
+    assert Test2.tags == ["test", "test2"]
+    assert Test.tags == ["test", "test3"]
 
 
 def test_override():
@@ -55,7 +55,7 @@ def test_override():
         id_ = "old"
         default_severity = Severity.high
         log_types = [LogType.Panther_Audit, LogType.AlphaSOC_Alert]
-        default_tags = ["old", "old2"]
+        tags = ["old", "old2"]
 
     assert Test.id_ == "old"
     assert Test.default_severity == Severity.high
@@ -63,19 +63,19 @@ def test_override():
         LogType.Panther_Audit,
         LogType.AlphaSOC_Alert,
     ]
-    assert Test.default_tags == ["old", "old2"]
+    assert Test.tags == ["old", "old2"]
 
     Test.override(
         id_="new",
         default_severity=Severity.low,
         log_types=[LogType.Amazon_EKS_Audit],
-        default_tags=Test.default_tags + ["new"],
+        tags=Test.tags + ["new"],
     )
 
     assert Test.id_ == "new"
     assert Test.default_severity == Severity.low
     assert Test.log_types == [LogType.Amazon_EKS_Audit]
-    assert Test.default_tags == ["old", "old2", "new"]
+    assert Test.tags == ["old", "old2", "new"]
 
 
 def test_panther_rule_fields_match():
