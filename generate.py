@@ -12,14 +12,7 @@ from typing import List, Optional, Set
 from ast_comments import Comment, parse, unparse
 from ruamel.yaml import YAML
 
-from pypanther import (
-    PantherDataModel,
-    PantherLogType,
-    PantherRule,
-    PantherRuleMock,
-    PantherRuleTest,
-    PantherSeverity,
-)
+from pypanther import PantherDataModel, PantherLogType, PantherRule, PantherRuleMock, PantherRuleTest, PantherSeverity
 
 ID_POSTFIX = "-prototype"
 
