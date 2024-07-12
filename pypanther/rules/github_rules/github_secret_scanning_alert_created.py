@@ -1,9 +1,9 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 
-git_hub_secret_scanning_alert_created_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+git_hub_secret_scanning_alert_created_tests: List[RuleTest] = [
+    RuleTest(
         name="secret_scanning_alert.create-true",
         expected_result=True,
         log={
@@ -20,7 +20,7 @@ git_hub_secret_scanning_alert_created_tests: List[PantherRuleTest] = [
             "repo_id": 123456789,
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="git.clone-false",
         expected_result=False,
         log={
@@ -53,13 +53,13 @@ git_hub_secret_scanning_alert_created_tests: List[PantherRuleTest] = [
 ]
 
 
-class GitHubSecretScanningAlertCreated(PantherRule):
+class GitHubSecretScanningAlertCreated(Rule):
     id_ = "GitHub.Secret.Scanning.Alert.Created-prototype"
     display_name = "GitHub Secret Scanning Alert Created"
-    log_types = [PantherLogType.GitHub_Audit]
+    log_types = [LogType.GitHub_Audit]
     tags = ["GitHub"]
     reports = {"MITRE ATT&CK": ["TA0006:T1552"]}
-    default_severity = PantherSeverity.medium
+    default_severity = Severity.medium
     default_description = "GitHub detected a secret and created a secret scanning alert."
     default_runbook = (
         "Review the secret to determine if it needs to be revoked or the alert suppressed."

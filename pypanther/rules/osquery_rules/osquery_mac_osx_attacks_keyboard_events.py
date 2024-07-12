@@ -1,11 +1,11 @@
 from fnmatch import fnmatch
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 
-osquery_mac_osx_attacks_keyboard_events_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+osquery_mac_osx_attacks_keyboard_events_tests: List[RuleTest] = [
+    RuleTest(
         name="App running on Desktop that is watching keyboard events",
         expected_result=True,
         log={
@@ -19,7 +19,7 @@ osquery_mac_osx_attacks_keyboard_events_tests: List[PantherRuleTest] = [
             },
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="App is running from approved path",
         expected_result=False,
         log={
@@ -33,7 +33,7 @@ osquery_mac_osx_attacks_keyboard_events_tests: List[PantherRuleTest] = [
             },
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Unrelated query does not alert",
         expected_result=False,
         log={
@@ -66,13 +66,13 @@ osquery_mac_osx_attacks_keyboard_events_tests: List[PantherRuleTest] = [
 ]
 
 
-class OsqueryMacOSXAttacksKeyboardEvents(PantherRule):
+class OsqueryMacOSXAttacksKeyboardEvents(Rule):
     id_ = "Osquery.Mac.OSXAttacksKeyboardEvents-prototype"
     display_name = "MacOS Keyboard Events"
-    log_types = [PantherLogType.Osquery_Differential]
+    log_types = [LogType.Osquery_Differential]
     tags = ["Osquery", "MacOS", "Malware", "Collection:Input Capture"]
     reports = {"MITRE ATT&CK": ["TA0009:T1056"]}
-    default_severity = PantherSeverity.medium
+    default_severity = Severity.medium
     default_description = "A Key Logger has potentially been detected on a macOS system"
     default_runbook = "Verify the Application monitoring the keyboard taps"
     default_reference = "https://support.apple.com/en-us/HT204899"

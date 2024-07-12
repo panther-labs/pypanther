@@ -1,10 +1,10 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 
-one_password_sensitive_item_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+one_password_sensitive_item_tests: List[RuleTest] = [
+    RuleTest(
         name="1Password - Sensitive Item Accessed",
         expected_result=True,
         log={
@@ -30,7 +30,7 @@ one_password_sensitive_item_tests: List[PantherRuleTest] = [
             "p_log_type": "OnePassword.ItemUsage",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="1Password - Regular Item Usage",
         expected_result=False,
         log={
@@ -59,14 +59,14 @@ one_password_sensitive_item_tests: List[PantherRuleTest] = [
 ]
 
 
-class OnePasswordSensitiveItem(PantherRule):
+class OnePasswordSensitiveItem(Rule):
     id_ = "OnePassword.Sensitive.Item-prototype"
     dedup_period_minutes = 30
     display_name = "Configuration Required - Sensitive 1Password Item Accessed"
     enabled = False
-    log_types = [PantherLogType.OnePassword_ItemUsage]
+    log_types = [LogType.OnePassword_ItemUsage]
     default_reference = "https://support.1password.com/1password-com-items/"
-    default_severity = PantherSeverity.low
+    default_severity = Severity.low
     default_description = (
         "Alerts when a user defined list of sensitive items in 1Password is accessed"
     )

@@ -1,13 +1,13 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_duo_helpers import (
     deserialize_administrator_log_event_description,
     duo_alert_context,
 )
 
-duo_admin_new_admin_api_app_integration_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+duo_admin_new_admin_api_app_integration_tests: List[RuleTest] = [
+    RuleTest(
         name="Admin API Integration Created",
         expected_result=True,
         log={
@@ -19,7 +19,7 @@ duo_admin_new_admin_api_app_integration_tests: List[PantherRuleTest] = [
             "username": "Homer Simpson",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Non Admin API Integration",
         expected_result=False,
         log={
@@ -31,7 +31,7 @@ duo_admin_new_admin_api_app_integration_tests: List[PantherRuleTest] = [
             "username": "Homer Simpson",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Other Event",
         expected_result=False,
         log={
@@ -46,12 +46,12 @@ duo_admin_new_admin_api_app_integration_tests: List[PantherRuleTest] = [
 ]
 
 
-class DuoAdminNewAdminAPIAppIntegration(PantherRule):
+class DuoAdminNewAdminAPIAppIntegration(Rule):
     default_description = "Identifies creation of new Admin API integrations for Duo."
     display_name = "Duo Admin New Admin API App Integration"
     default_reference = "https://duo.com/docs/adminapi#overview"
-    default_severity = PantherSeverity.high
-    log_types = [PantherLogType.Duo_Administrator]
+    default_severity = Severity.high
+    log_types = [LogType.Duo_Administrator]
     id_ = "Duo.Admin.New.Admin.API.App.Integration-prototype"
     tests = duo_admin_new_admin_api_app_integration_tests
 

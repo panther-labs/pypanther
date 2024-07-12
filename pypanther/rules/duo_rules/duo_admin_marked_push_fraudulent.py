@@ -1,10 +1,10 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_duo_helpers import deserialize_administrator_log_event_description
 
-duo_admin_action_marked_fraudulent_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+duo_admin_action_marked_fraudulent_tests: List[RuleTest] = [
+    RuleTest(
         name="marked_fraud",
         expected_result=True,
         log={
@@ -15,7 +15,7 @@ duo_admin_action_marked_fraudulent_tests: List[PantherRuleTest] = [
             "username": "John P. Admin",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="different_admin_action",
         expected_result=False,
         log={
@@ -29,13 +29,13 @@ duo_admin_action_marked_fraudulent_tests: List[PantherRuleTest] = [
 ]
 
 
-class DUOAdminActionMarkedFraudulent(PantherRule):
+class DUOAdminActionMarkedFraudulent(Rule):
     id_ = "DUO.Admin.Action.MarkedFraudulent-prototype"
     display_name = "Duo Admin Marked Push Fraudulent"
     dedup_period_minutes = 15
-    log_types = [PantherLogType.Duo_Administrator]
+    log_types = [LogType.Duo_Administrator]
     tags = ["Duo"]
-    default_severity = PantherSeverity.medium
+    default_severity = Severity.medium
     default_description = "A Duo push was marked fraudulent by an admin."
     default_reference = "https://duo.com/docs/adminapi#administrator-logs"
     default_runbook = "Follow up with the administrator to determine reasoning for marking fraud."

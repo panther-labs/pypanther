@@ -1,12 +1,12 @@
 from fnmatch import fnmatch
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import aws_rule_context, deep_get
 from pypanther.helpers.panther_default import aws_cloudtrail_success
 
-aws_cloud_trail_security_configuration_change_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+aws_cloud_trail_security_configuration_change_tests: List[RuleTest] = [
+    RuleTest(
         name="Security Configuration Changed",
         expected_result=True,
         log={
@@ -48,7 +48,7 @@ aws_cloud_trail_security_configuration_change_tests: List[PantherRuleTest] = [
             },
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Security Configuration Not Changed",
         expected_result=False,
         log={
@@ -90,7 +90,7 @@ aws_cloud_trail_security_configuration_change_tests: List[PantherRuleTest] = [
             },
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Non Security Configuration Change",
         expected_result=False,
         log={
@@ -132,7 +132,7 @@ aws_cloud_trail_security_configuration_change_tests: List[PantherRuleTest] = [
             },
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Security Configuration Not Changed - Error",
         expected_result=False,
         log={
@@ -175,7 +175,7 @@ aws_cloud_trail_security_configuration_change_tests: List[PantherRuleTest] = [
             },
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Security Configuration Changed - Allowlisted User",
         expected_result=False,
         log={
@@ -220,12 +220,12 @@ aws_cloud_trail_security_configuration_change_tests: List[PantherRuleTest] = [
 ]
 
 
-class AWSCloudTrailSecurityConfigurationChange(PantherRule):
+class AWSCloudTrailSecurityConfigurationChange(Rule):
     id_ = "AWS.CloudTrail.SecurityConfigurationChange-prototype"
     display_name = "Account Security Configuration Changed"
-    log_types = [PantherLogType.AWS_CloudTrail]
+    log_types = [LogType.AWS_CloudTrail]
     tags = ["AWS", "Defense Evasion:Impair Defenses"]
-    default_severity = PantherSeverity.medium
+    default_severity = Severity.medium
     reports = {"MITRE ATT&CK": ["TA0005:T1562"]}
     default_description = "An account wide security configuration was changed."
     default_runbook = "Verify that this change was planned. If not, revert the change and update the access control policies to ensure this doesn't happen again.\n"

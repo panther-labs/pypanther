@@ -1,9 +1,9 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 
-osquery_mac_osx_attacks_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+osquery_mac_osx_attacks_tests: List[RuleTest] = [
+    RuleTest(
         name="Valid malware discovered",
         expected_result=True,
         log={
@@ -17,7 +17,7 @@ osquery_mac_osx_attacks_tests: List[PantherRuleTest] = [
             },
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Keyboard event taps query is ignored",
         expected_result=False,
         log={
@@ -34,13 +34,13 @@ osquery_mac_osx_attacks_tests: List[PantherRuleTest] = [
 ]
 
 
-class OsqueryMacOSXAttacks(PantherRule):
+class OsqueryMacOSXAttacks(Rule):
     id_ = "Osquery.Mac.OSXAttacks-prototype"
     display_name = "macOS Malware Detected with osquery"
-    log_types = [PantherLogType.Osquery_Differential]
+    log_types = [LogType.Osquery_Differential]
     tags = ["Osquery", "MacOS", "Malware", "Resource Development:Develop Capabilities"]
     reports = {"MITRE ATT&CK": ["TA0042:T1588"]}
-    default_severity = PantherSeverity.medium
+    default_severity = Severity.medium
     default_description = "Malware has potentially been detected on a macOS system"
     default_runbook = "Check the executable against VirusTotal"
     default_reference = "https://github.com/osquery/osquery/blob/master/packs/osx-attacks.conf"

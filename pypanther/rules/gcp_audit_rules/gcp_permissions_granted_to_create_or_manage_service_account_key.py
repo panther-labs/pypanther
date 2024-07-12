@@ -1,10 +1,10 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get, deep_walk
 
-gcp_permissions_grantedto_createor_manage_service_account_key_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+gcp_permissions_grantedto_createor_manage_service_account_key_tests: List[RuleTest] = [
+    RuleTest(
         name="other event",
         expected_result=False,
         log={
@@ -59,7 +59,7 @@ gcp_permissions_grantedto_createor_manage_service_account_key_tests: List[Panthe
             },
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="service account match",
         expected_result=True,
         log={
@@ -178,12 +178,12 @@ gcp_permissions_grantedto_createor_manage_service_account_key_tests: List[Panthe
 ]
 
 
-class GCPPermissionsGrantedtoCreateorManageServiceAccountKey(PantherRule):
+class GCPPermissionsGrantedtoCreateorManageServiceAccountKey(Rule):
     default_description = "Permissions granted to impersonate a service account. This includes predefined service account IAM roles granted at the parent project, folder or organization-level."
     display_name = "GCP Permissions Granted to Create or Manage Service Account Key"
     default_reference = "https://cloud.google.com/iam/docs/keys-create-delete"
-    default_severity = PantherSeverity.low
-    log_types = [PantherLogType.GCP_AuditLog]
+    default_severity = Severity.low
+    log_types = [LogType.GCP_AuditLog]
     id_ = "GCP.Permissions.Granted.to.Create.or.Manage.Service.Account.Key-prototype"
     tests = gcp_permissions_grantedto_createor_manage_service_account_key_tests
     SERVICE_ACCOUNT_MANAGE_ROLES = [

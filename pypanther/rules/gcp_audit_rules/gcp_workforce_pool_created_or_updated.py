@@ -1,9 +1,9 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 
-gcp_workforce_pool_createdor_updated_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+gcp_workforce_pool_createdor_updated_tests: List[RuleTest] = [
+    RuleTest(
         name="DeleteWorkforcePool-False",
         expected_result=False,
         log={
@@ -55,7 +55,7 @@ gcp_workforce_pool_createdor_updated_tests: List[PantherRuleTest] = [
             "timestamp": "2023-11-17T18:58:52.158942930Z",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="UpdateWorkforcePool-True",
         expected_result=True,
         log={
@@ -113,7 +113,7 @@ gcp_workforce_pool_createdor_updated_tests: List[PantherRuleTest] = [
             "timestamp": "2023-11-17T18:53:15.200613481Z",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="CreateWorkforcePool-True",
         expected_result=True,
         log={
@@ -177,10 +177,10 @@ gcp_workforce_pool_createdor_updated_tests: List[PantherRuleTest] = [
 ]
 
 
-class GCPWorkforcePoolCreatedorUpdated(PantherRule):
+class GCPWorkforcePoolCreatedorUpdated(Rule):
     id_ = "GCP.Workforce.Pool.Created.or.Updated-prototype"
     display_name = "GCP Workforce Pool Created or Updated"
-    log_types = [PantherLogType.GCP_AuditLog]
+    log_types = [LogType.GCP_AuditLog]
     tags = [
         "Account Manipulation",
         "Additional Cloud Roles",
@@ -188,7 +188,7 @@ class GCPWorkforcePoolCreatedorUpdated(PantherRule):
         "Privilege Escalation",
     ]
     reports = {"MITRE ATT&CK": ["TA0003:T1136.003", "TA0003:T1098.003", "TA0004:T1098.003"]}
-    default_severity = PantherSeverity.high
+    default_severity = Severity.high
     default_runbook = "Ensure that the Workforce Pool creation or modification was expected. Adversaries may use this to persist or allow additional access or escalate their privilege.\n"
     default_reference = "https://medium.com/google-cloud/detection-of-inbound-sso-persistence-techniques-in-gcp-c56f7b2a588b"
     tests = gcp_workforce_pool_createdor_updated_tests

@@ -1,10 +1,10 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 
-aws_cloud_trail_account_discovery_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+aws_cloud_trail_account_discovery_tests: List[RuleTest] = [
+    RuleTest(
         name="DescribeAccount",
         expected_result=True,
         log={
@@ -65,7 +65,7 @@ aws_cloud_trail_account_discovery_tests: List[PantherRuleTest] = [
             },
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="GetAlternateContact",
         expected_result=True,
         log={
@@ -107,7 +107,7 @@ aws_cloud_trail_account_discovery_tests: List[PantherRuleTest] = [
             },
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="GetContactInformation",
         expected_result=True,
         log={
@@ -152,13 +152,13 @@ aws_cloud_trail_account_discovery_tests: List[PantherRuleTest] = [
 ]
 
 
-class AWSCloudTrailAccountDiscovery(PantherRule):
+class AWSCloudTrailAccountDiscovery(Rule):
     default_description = "Adversaries may attempt to get a listing of accounts on a system or within an environment. This information can help adversaries determine which accounts exist to aid in follow-on behavior."
     display_name = "AWS CloudTrail Account Discovery"
     default_reference = "https://attack.mitre.org/techniques/T1087/"
     reports = {"MITRE ATT&CK": ["TA0007:T1087"]}
-    default_severity = PantherSeverity.info
-    log_types = [PantherLogType.AWS_CloudTrail]
+    default_severity = Severity.info
+    log_types = [LogType.AWS_CloudTrail]
     id_ = "AWS.CloudTrail.Account.Discovery-prototype"
     tests = aws_cloud_trail_account_discovery_tests
     DISCOVERY_EVENTS = [

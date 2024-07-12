@@ -1,9 +1,9 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 
-push_security_app_banner_acknowledged_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+push_security_app_banner_acknowledged_tests: List[RuleTest] = [
+    RuleTest(
         name="App Banner Acknowledged",
         expected_result=True,
         log={
@@ -38,7 +38,7 @@ push_security_app_banner_acknowledged_tests: List[PantherRuleTest] = [
             "version": "1",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="App Banner Displayed",
         expected_result=False,
         log={
@@ -73,7 +73,7 @@ push_security_app_banner_acknowledged_tests: List[PantherRuleTest] = [
             "version": "1",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="App Banner Inform Mode",
         expected_result=False,
         log={
@@ -111,11 +111,11 @@ push_security_app_banner_acknowledged_tests: List[PantherRuleTest] = [
 ]
 
 
-class PushSecurityAppBannerAcknowledged(PantherRule):
+class PushSecurityAppBannerAcknowledged(Rule):
     id_ = "Push.Security.App.Banner.Acknowledged-prototype"
     display_name = "Push Security App Banner Acknowledged"
-    log_types = [PantherLogType.PushSecurity_Activity]
-    default_severity = PantherSeverity.low
+    log_types = [LogType.PushSecurity_Activity]
+    default_severity = Severity.low
     tests = push_security_app_banner_acknowledged_tests
 
     def rule(self, event):

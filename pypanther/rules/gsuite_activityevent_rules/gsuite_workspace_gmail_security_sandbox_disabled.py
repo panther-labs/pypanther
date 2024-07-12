@@ -1,10 +1,10 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 
-g_suite_workspace_gmail_security_sandbox_disabled_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+g_suite_workspace_gmail_security_sandbox_disabled_tests: List[RuleTest] = [
+    RuleTest(
         name="Workspace Admin Disables Security Sandbox",
         expected_result=True,
         log={
@@ -32,7 +32,7 @@ g_suite_workspace_gmail_security_sandbox_disabled_tests: List[PantherRuleTest] =
             "type": "APPLICATION_SETTINGS",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Admin Set Default Calendar SHARING_OUTSIDE_DOMAIN Setting to READ_ONLY_ACCESS",
         expected_result=False,
         log={
@@ -60,7 +60,7 @@ g_suite_workspace_gmail_security_sandbox_disabled_tests: List[PantherRuleTest] =
             "type": "CALENDAR_SETTINGS",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="ListObject Type",
         expected_result=False,
         log={
@@ -95,13 +95,13 @@ g_suite_workspace_gmail_security_sandbox_disabled_tests: List[PantherRuleTest] =
 ]
 
 
-class GSuiteWorkspaceGmailSecuritySandboxDisabled(PantherRule):
+class GSuiteWorkspaceGmailSecuritySandboxDisabled(Rule):
     id_ = "GSuite.Workspace.GmailSecuritySandboxDisabled-prototype"
     display_name = "GSuite Workspace Gmail Security Sandbox Disabled"
-    log_types = [PantherLogType.GSuite_ActivityEvent]
+    log_types = [LogType.GSuite_ActivityEvent]
     tags = ["GSuite"]
     reports = {"MITRE ATT&CK": ["TA0001:T1566"]}
-    default_severity = PantherSeverity.medium
+    default_severity = Severity.medium
     default_description = "A Workspace Admin Has Disabled The Security Sandbox\n"
     default_reference = "https://support.google.com/a/answer/7676854?hl=en#zippy=%2Cfind-security-sandbox-settings%2Cabout-security-sandbox-rules-and-other-scans"
     default_runbook = "Gmail's Security Sandbox enables rule based scanning of email content.\nIf this change was not intentional, inspect the other actions taken by this actor.\n"

@@ -1,9 +1,9 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 
-zoom_all_meetings_secured_with_one_option_disabled_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+zoom_all_meetings_secured_with_one_option_disabled_tests: List[RuleTest] = [
+    RuleTest(
         name="Turn off",
         expected_result=True,
         log={
@@ -14,7 +14,7 @@ zoom_all_meetings_secured_with_one_option_disabled_tests: List[PantherRuleTest] 
             "time": "2022-12-16 18:15:38",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Turn on",
         expected_result=False,
         log={
@@ -25,7 +25,7 @@ zoom_all_meetings_secured_with_one_option_disabled_tests: List[PantherRuleTest] 
             "time": "2022-12-16 18:15:38",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Non admin user update",
         expected_result=False,
         log={
@@ -38,13 +38,13 @@ zoom_all_meetings_secured_with_one_option_disabled_tests: List[PantherRuleTest] 
 ]
 
 
-class ZoomAllMeetingsSecuredWithOneOptionDisabled(PantherRule):
+class ZoomAllMeetingsSecuredWithOneOptionDisabled(Rule):
     default_description = "A Zoom User turned off your organization's requirement that all meetings are secured with one security option."
     display_name = "Zoom All Meetings Secured With One Option Disabled"
     default_runbook = "Confirm this user acted with valid business intent and determine whether this activity was authorized."
     default_reference = "https://support.zoom.com/hc/en/article?id=zm_kb&sysparm_article=KB0059862"
-    default_severity = PantherSeverity.medium
-    log_types = [PantherLogType.Zoom_Operation]
+    default_severity = Severity.medium
+    log_types = [LogType.Zoom_Operation]
     id_ = "Zoom.All.Meetings.Secured.With.One.Option.Disabled-prototype"
     tests = zoom_all_meetings_secured_with_one_option_disabled_tests
 

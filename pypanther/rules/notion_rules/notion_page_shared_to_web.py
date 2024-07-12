@@ -1,15 +1,15 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_notion_helpers import notion_alert_context
 
 
-class NotionPageSharedToWeb(PantherRule):
+class NotionPageSharedToWeb(Rule):
     id_ = "Notion.PageSharedToWeb-prototype"
     display_name = "Notion Page Published to Web"
-    log_types = [PantherLogType.Notion_AuditLogs]
+    log_types = [LogType.Notion_AuditLogs]
     tags = ["Notion", "Data Security", "Information Disclosure"]
-    default_severity = PantherSeverity.low
+    default_severity = Severity.low
     default_description = "A Notion User published a page to the web."
     default_runbook = (
         "Potential information exposure - review the shared page and rectify if needed."

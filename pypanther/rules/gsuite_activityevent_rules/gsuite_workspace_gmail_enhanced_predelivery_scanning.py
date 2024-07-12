@@ -1,10 +1,10 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 
-g_suite_workspace_gmail_predelivery_scanning_disabled_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+g_suite_workspace_gmail_predelivery_scanning_disabled_tests: List[RuleTest] = [
+    RuleTest(
         name="Workspace Admin Disables Enhanced Pre-Delivery Scanning",
         expected_result=True,
         log={
@@ -32,7 +32,7 @@ g_suite_workspace_gmail_predelivery_scanning_disabled_tests: List[PantherRuleTes
             "type": "APPLICATION_SETTINGS",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Admin Set Default Calendar SHARING_OUTSIDE_DOMAIN Setting to READ_ONLY_ACCESS",
         expected_result=False,
         log={
@@ -60,7 +60,7 @@ g_suite_workspace_gmail_predelivery_scanning_disabled_tests: List[PantherRuleTes
             "type": "CALENDAR_SETTINGS",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="ListObject Type",
         expected_result=False,
         log={
@@ -95,13 +95,13 @@ g_suite_workspace_gmail_predelivery_scanning_disabled_tests: List[PantherRuleTes
 ]
 
 
-class GSuiteWorkspaceGmailPredeliveryScanningDisabled(PantherRule):
+class GSuiteWorkspaceGmailPredeliveryScanningDisabled(Rule):
     id_ = "GSuite.Workspace.GmailPredeliveryScanningDisabled-prototype"
     display_name = "GSuite Workspace Gmail Pre-Delivery Message Scanning Disabled"
-    log_types = [PantherLogType.GSuite_ActivityEvent]
+    log_types = [LogType.GSuite_ActivityEvent]
     tags = ["GSuite"]
     reports = {"MITRE ATT&CK": ["TA0001:T1566"]}
-    default_severity = PantherSeverity.medium
+    default_severity = Severity.medium
     default_description = "A Workspace Admin Has Disabled Pre-Delivery Scanning For Gmail.\n"
     default_reference = "https://support.google.com/a/answer/7380368"
     default_runbook = "Pre-delivery scanning is a feature in Gmail that subjects suspicious emails to additional automated scrutiny by Google.\nIf this change was not intentional, inspect the other actions taken by this actor.\n"

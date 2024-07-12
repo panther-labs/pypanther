@@ -1,16 +1,16 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleMock, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 from pypanther.helpers.panther_default import lookup_aws_account_name
 from pypanther.helpers.panther_oss_helpers import geoinfo_from_ip_formatted
 
-aws_console_root_login_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+aws_console_root_login_tests: List[RuleTest] = [
+    RuleTest(
         name="Successful Root Login",
         expected_result=True,
         mocks=[
-            PantherRuleMock(
+            RuleMock(
                 object_name="geoinfo_from_ip_formatted",
                 return_value="111.111.111.111 in SF, California in USA",
             )
@@ -42,7 +42,7 @@ aws_console_root_login_tests: List[PantherRuleTest] = [
             "recipientAccountId": "123456789012",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Non-Login Event",
         expected_result=False,
         log={
@@ -94,11 +94,11 @@ aws_console_root_login_tests: List[PantherRuleTest] = [
 ]
 
 
-class AWSConsoleRootLogin(PantherRule):
+class AWSConsoleRootLogin(Rule):
     id_ = "AWS.Console.RootLogin-prototype"
     display_name = "Root Console Login"
     dedup_period_minutes = 15
-    log_types = [PantherLogType.AWS_CloudTrail]
+    log_types = [LogType.AWS_CloudTrail]
     tags = [
         "AWS",
         "Identity & Access Management",
@@ -107,7 +107,7 @@ class AWSConsoleRootLogin(PantherRule):
         "Privilege Escalation:Valid Accounts",
     ]
     reports = {"CIS": ["3.6"], "MITRE ATT&CK": ["TA0004:T1078"]}
-    default_severity = PantherSeverity.high
+    default_severity = Severity.high
     default_description = "The root account has been logged into."
     default_runbook = "Investigate the usage of the root account. If this root activity was not authorized, immediately change the root credentials and investigate what actions the root account took.\n"
     default_reference = "https://docs.aws.amazon.com/IAM/latest/UserGuide/id_root-user.html"

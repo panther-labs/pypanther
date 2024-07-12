@@ -1,10 +1,10 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get, slack_alert_context
 
-slack_audit_logs_app_removed_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+slack_audit_logs_app_removed_tests: List[RuleTest] = [
+    RuleTest(
         name="App Restricted",
         expected_result=True,
         log={
@@ -42,7 +42,7 @@ slack_audit_logs_app_removed_tests: List[PantherRuleTest] = [
             },
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="App Uninstalled",
         expected_result=True,
         log={
@@ -80,7 +80,7 @@ slack_audit_logs_app_removed_tests: List[PantherRuleTest] = [
             },
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="App removed from workspace",
         expected_result=True,
         log={
@@ -118,7 +118,7 @@ slack_audit_logs_app_removed_tests: List[PantherRuleTest] = [
             },
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="User Logout",
         expected_result=False,
         log={
@@ -158,10 +158,10 @@ slack_audit_logs_app_removed_tests: List[PantherRuleTest] = [
 ]
 
 
-class SlackAuditLogsAppRemoved(PantherRule):
+class SlackAuditLogsAppRemoved(Rule):
     id_ = "Slack.AuditLogs.AppRemoved-prototype"
     display_name = "Slack App Removed"
-    log_types = [PantherLogType.Slack_AuditLogs]
+    log_types = [LogType.Slack_AuditLogs]
     tags = [
         "Slack",
         "Impact",
@@ -171,7 +171,7 @@ class SlackAuditLogsAppRemoved(PantherRule):
         "Clear Persistence",
     ]
     reports = {"MITRE ATT&CK": ["TA0040:T1489", "TA0005:T1070.009"]}
-    default_severity = PantherSeverity.medium
+    default_severity = Severity.medium
     default_description = "Detects when a Slack App has been removed"
     default_reference = "https://slack.com/intl/en-gb/help/articles/360003125231-Remove-apps-and-customised-integrations-from-your-workspace"
     summary_attributes = ["p_any_ip_addresses", "p_any_emails"]

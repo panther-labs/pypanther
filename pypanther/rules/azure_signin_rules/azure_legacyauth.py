@@ -2,7 +2,7 @@ import json
 from typing import List
 from unittest.mock import MagicMock
 
-from pypanther import PantherLogType, PantherRule, PantherRuleMock, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_azuresignin_helpers import (
     actor_user,
     azure_signin_alert_context,
@@ -10,8 +10,8 @@ from pypanther.helpers.panther_azuresignin_helpers import (
 )
 from pypanther.helpers.panther_base_helpers import deep_get
 
-azure_audit_legacy_auth_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+azure_audit_legacy_auth_tests: List[RuleTest] = [
+    RuleTest(
         name="Failed Sign-In",
         expected_result=False,
         log={
@@ -73,7 +73,7 @@ azure_audit_legacy_auth_tests: List[PantherRuleTest] = [
             "time": "2023-07-26 23:00:20.889",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Sign-In with legacy auth",
         expected_result=True,
         log={
@@ -176,11 +176,11 @@ azure_audit_legacy_auth_tests: List[PantherRuleTest] = [
             "time": "2023-07-21 05:05:12.056",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Sign-In with legacy auth, KNOWN_EXCEPTION",
         expected_result=False,
         mocks=[
-            PantherRuleMock(
+            RuleMock(
                 object_name="KNOWN_EXCEPTIONS",
                 return_value='[\n  "homer.simpson@springfield.org"\n]',
             )
@@ -288,12 +288,12 @@ azure_audit_legacy_auth_tests: List[PantherRuleTest] = [
 ]
 
 
-class AzureAuditLegacyAuth(PantherRule):
+class AzureAuditLegacyAuth(Rule):
     id_ = "Azure.Audit.LegacyAuth-prototype"
     display_name = "Azure SignIn via Legacy Authentication Protocol"
     dedup_period_minutes = 10
-    log_types = [PantherLogType.Azure_Audit]
-    default_severity = PantherSeverity.medium
+    log_types = [LogType.Azure_Audit]
+    default_severity = Severity.medium
     default_description = "This detection looks for Successful Logins that have used legacy authentication protocols\n"
     default_reference = "https://learn.microsoft.com/en-us/azure/active-directory/reports-monitoring/workbook-legacy-authentication"
     default_runbook = "Based on Microsoft's analysis more than 97 percent of credential stuffing attacks use legacy authentication and more than 99 percent of password spray attacks use legacy authentication protocols. These attacks would stop with basic authentication disabled or blocked. see https://learn.microsoft.com/en-us/azure/active-directory/conditional-access/block-legacy-authentication\nIf you are aware of this Legacy Auth need, and need to continue using this mechanism, add the principal name to KNOWN_EXCEPTIONS. The Reference link contains additional material hosted on Microsoft.com\n"

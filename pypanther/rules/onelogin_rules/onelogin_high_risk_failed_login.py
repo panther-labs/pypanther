@@ -1,9 +1,9 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 
-one_login_high_risk_failed_login_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+one_login_high_risk_failed_login_tests: List[RuleTest] = [
+    RuleTest(
         name="Normal Login Event",
         expected_result=False,
         log={
@@ -14,7 +14,7 @@ one_login_high_risk_failed_login_tests: List[PantherRuleTest] = [
             "user_name": "Bob Cat",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Failed High Risk Login",
         expected_result=True,
         log={
@@ -29,12 +29,12 @@ one_login_high_risk_failed_login_tests: List[PantherRuleTest] = [
 ]
 
 
-class OneLoginHighRiskFailedLogin(PantherRule):
+class OneLoginHighRiskFailedLogin(Rule):
     id_ = "OneLogin.HighRiskFailedLogin-prototype"
     display_name = "OneLogin Failed High Risk Login"
-    log_types = [PantherLogType.OneLogin_Events]
+    log_types = [LogType.OneLogin_Events]
     tags = ["OneLogin"]
-    default_severity = PantherSeverity.low
+    default_severity = Severity.low
     default_description = (
         "A OneLogin attempt with a high risk factor (>50) resulted in a failed authentication."
     )

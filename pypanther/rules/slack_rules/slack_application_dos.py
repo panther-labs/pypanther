@@ -4,16 +4,16 @@ from typing import List
 
 from panther_detection_helpers.caching import get_string_set, put_string_set
 
-from pypanther import PantherLogType, PantherRule, PantherRuleMock, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get, slack_alert_context
 
-slack_audit_logs_application_do_s_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+slack_audit_logs_application_do_s_tests: List[RuleTest] = [
+    RuleTest(
         name="User Session Reset - First time",
         expected_result=False,
         mocks=[
-            PantherRuleMock(object_name="get_string_set", return_value=""),
-            PantherRuleMock(object_name="put_string_set", return_value=""),
+            RuleMock(object_name="get_string_set", return_value=""),
+            RuleMock(object_name="put_string_set", return_value=""),
         ],
         log={
             "action": "user_session_reset_by_admin",
@@ -38,15 +38,15 @@ slack_audit_logs_application_do_s_tests: List[PantherRuleTest] = [
             },
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="User Session Reset - Multiple Times",
         expected_result=True,
         mocks=[
-            PantherRuleMock(
+            RuleMock(
                 object_name="get_string_set",
                 return_value='{"time":"2021-06-08 22:24:43"}',
             ),
-            PantherRuleMock(object_name="put_string_set", return_value=""),
+            RuleMock(object_name="put_string_set", return_value=""),
         ],
         log={
             "action": "user_session_reset_by_admin",
@@ -74,10 +74,10 @@ slack_audit_logs_application_do_s_tests: List[PantherRuleTest] = [
 ]
 
 
-class SlackAuditLogsApplicationDoS(PantherRule):
+class SlackAuditLogsApplicationDoS(Rule):
     id_ = "Slack.AuditLogs.ApplicationDoS-prototype"
     display_name = "Slack Denial of Service"
-    log_types = [PantherLogType.Slack_AuditLogs]
+    log_types = [LogType.Slack_AuditLogs]
     tags = [
         "Slack",
         "Impact",
@@ -85,7 +85,7 @@ class SlackAuditLogsApplicationDoS(PantherRule):
         "Application Exhaustion Flood",
     ]
     reports = {"MITRE ATT&CK": ["TA0040:T1499.003"]}
-    default_severity = PantherSeverity.critical
+    default_severity = Severity.critical
     default_description = "Detects when slack admin invalidates user session(s) more than once in a 24 hour period which can lead to DoS"
     default_reference = "https://slack.com/intl/en-gb/help/articles/115005223763-Manage-session-duration-#pro-and-business+-subscriptions-2"
     threshold = 60

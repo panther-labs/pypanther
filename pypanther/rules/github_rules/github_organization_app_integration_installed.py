@@ -1,10 +1,10 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import github_alert_context
 
-github_organization_app_integration_installed_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+github_organization_app_integration_installed_tests: List[RuleTest] = [
+    RuleTest(
         name="App Integration Installation",
         expected_result=True,
         log={
@@ -19,7 +19,7 @@ github_organization_app_integration_installed_tests: List[PantherRuleTest] = [
             "p_any_usernames": ["user_name"],
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="App Integration Installation-2",
         expected_result=True,
         log={
@@ -33,7 +33,7 @@ github_organization_app_integration_installed_tests: List[PantherRuleTest] = [
             "org": "example-io",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Repository Archived",
         expected_result=False,
         log={
@@ -48,14 +48,14 @@ github_organization_app_integration_installed_tests: List[PantherRuleTest] = [
 ]
 
 
-class GithubOrganizationAppIntegrationInstalled(PantherRule):
+class GithubOrganizationAppIntegrationInstalled(Rule):
     default_description = "An application integration was installed to your organization's Github account by someone in your organization."
     display_name = "Github Organization App Integration Installed"
     default_reference = "https://docs.github.com/en/enterprise-server@3.4/developers/apps/managing-github-apps/installing-github-apps"
     default_runbook = "Confirm that the app integration installation was a desired behavior."
-    default_severity = PantherSeverity.low
+    default_severity = Severity.low
     tags = ["Application Installation", "Github"]
-    log_types = [PantherLogType.GitHub_Audit]
+    log_types = [LogType.GitHub_Audit]
     id_ = "Github.Organization.App.Integration.Installed-prototype"
     summary_attributes = ["actor", "name"]
     tests = github_organization_app_integration_installed_tests

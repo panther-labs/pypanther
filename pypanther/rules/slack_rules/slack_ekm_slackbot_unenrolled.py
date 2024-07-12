@@ -1,10 +1,10 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import slack_alert_context
 
-slack_audit_logs_ekm_slackbot_unenrolled_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+slack_audit_logs_ekm_slackbot_unenrolled_tests: List[RuleTest] = [
+    RuleTest(
         name="EKM Slackbot Unenrolled",
         expected_result=True,
         log={
@@ -30,7 +30,7 @@ slack_audit_logs_ekm_slackbot_unenrolled_tests: List[PantherRuleTest] = [
             },
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="User Logout",
         expected_result=False,
         log={
@@ -70,13 +70,13 @@ slack_audit_logs_ekm_slackbot_unenrolled_tests: List[PantherRuleTest] = [
 ]
 
 
-class SlackAuditLogsEKMSlackbotUnenrolled(PantherRule):
+class SlackAuditLogsEKMSlackbotUnenrolled(Rule):
     id_ = "Slack.AuditLogs.EKMSlackbotUnenrolled-prototype"
     display_name = "Slack EKM Slackbot Unenrolled"
-    log_types = [PantherLogType.Slack_AuditLogs]
+    log_types = [LogType.Slack_AuditLogs]
     tags = ["Slack", "Impact", "Service Stop"]
     reports = {"MITRE ATT&CK": ["TA0040:T1489"]}
-    default_severity = PantherSeverity.high
+    default_severity = Severity.high
     default_description = "Detects when a workspace is longer enrolled in EKM"
     default_reference = (
         "https://slack.com/intl/en-gb/help/articles/360019110974-Slack-Enterprise-Key-Management"

@@ -2,12 +2,12 @@ import json
 from typing import List
 from unittest.mock import MagicMock
 
-from pypanther import PantherLogType, PantherRule, PantherRuleMock, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 from pypanther.helpers.panther_base_helpers import gsuite_parameter_lookup as param_lookup
 
-g_suite_drive_visibility_changed_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+g_suite_drive_visibility_changed_tests: List[RuleTest] = [
+    RuleTest(
         name="Access Event",
         expected_result=False,
         log={
@@ -17,7 +17,7 @@ g_suite_drive_visibility_changed_tests: List[PantherRuleTest] = [
             "events": [{"type": "access", "name": "upload"}],
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="ACL Change without Visibility Change",
         expected_result=False,
         log={
@@ -27,7 +27,7 @@ g_suite_drive_visibility_changed_tests: List[PantherRuleTest] = [
             "events": [{"type": "acl_change", "name": "shared_drive_settings_change"}],
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Doc Became Public - Link (Unrestricted)",
         expected_result=True,
         log={
@@ -54,7 +54,7 @@ g_suite_drive_visibility_changed_tests: List[PantherRuleTest] = [
             "p_row_id": "111222",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Doc Became Public - Link (Allowlisted Domain Not Configured)",
         expected_result=True,
         log={
@@ -84,12 +84,10 @@ g_suite_drive_visibility_changed_tests: List[PantherRuleTest] = [
             "p_row_id": "111222",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Doc Became Public - Link (Allowlisted Domain Is Configured)",
         expected_result=False,
-        mocks=[
-            PantherRuleMock(object_name="ALLOWED_DOMAINS", return_value='[\n  "example.com"\n]')
-        ],
+        mocks=[RuleMock(object_name="ALLOWED_DOMAINS", return_value='[\n  "example.com"\n]')],
         log={
             "actor": {"email": "bobert@example.com"},
             "events": [
@@ -117,7 +115,7 @@ g_suite_drive_visibility_changed_tests: List[PantherRuleTest] = [
             "p_row_id": "111222",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Doc Became Private - Link",
         expected_result=False,
         log={
@@ -139,7 +137,7 @@ g_suite_drive_visibility_changed_tests: List[PantherRuleTest] = [
             "p_row_id": "111222",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Doc Became Public - User",
         expected_result=True,
         log={
@@ -177,7 +175,7 @@ g_suite_drive_visibility_changed_tests: List[PantherRuleTest] = [
             ],
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Doc Became Public - User (Multiple)",
         expected_result=True,
         log={
@@ -249,7 +247,7 @@ g_suite_drive_visibility_changed_tests: List[PantherRuleTest] = [
             ],
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Doc Inherits Folder Permissions",
         expected_result=False,
         log={
@@ -265,7 +263,7 @@ g_suite_drive_visibility_changed_tests: List[PantherRuleTest] = [
             ],
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Doc Inherits Folder Permissions - Sharing Link",
         expected_result=False,
         log={
@@ -281,7 +279,7 @@ g_suite_drive_visibility_changed_tests: List[PantherRuleTest] = [
             ],
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Doc Became Public - Public email provider",
         expected_result=True,
         log={
@@ -319,11 +317,11 @@ g_suite_drive_visibility_changed_tests: List[PantherRuleTest] = [
             ],
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Doc Shared With Multiple Users All From ALLOWED_DOMAINS",
         expected_result=False,
         mocks=[
-            PantherRuleMock(
+            RuleMock(
                 object_name="ALLOWED_DOMAINS",
                 return_value='[\n  "example.com", "notexample.com"\n]',
             )
@@ -400,18 +398,18 @@ g_suite_drive_visibility_changed_tests: List[PantherRuleTest] = [
 ]
 
 
-class GSuiteDriveVisibilityChanged(PantherRule):
+class GSuiteDriveVisibilityChanged(Rule):
     id_ = "GSuite.DriveVisibilityChanged-prototype"
     display_name = "GSuite External Drive Document"
     enabled = False
-    log_types = [PantherLogType.GSuite_Reports]
+    log_types = [LogType.GSuite_Reports]
     tags = [
         "GSuite",
         "Collection:Data from Information Repositories",
         "Configuration Required",
     ]
     reports = {"MITRE ATT&CK": ["TA0009:T1213"]}
-    default_severity = PantherSeverity.low
+    default_severity = Severity.low
     default_description = "A Google drive resource became externally accessible.\n"
     default_reference = (
         "https://support.google.com/a/users/answer/12380484?hl=en&sjid=864417124752637253-EU"

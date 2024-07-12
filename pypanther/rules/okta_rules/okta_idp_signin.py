@@ -1,10 +1,10 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get, deep_walk, okta_alert_context
 
-okta_identity_provider_sign_in_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+okta_identity_provider_sign_in_tests: List[RuleTest] = [
+    RuleTest(
         name="Other Event",
         expected_result=False,
         log={
@@ -83,7 +83,7 @@ okta_identity_provider_sign_in_tests: List[PantherRuleTest] = [
             "version": "0",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="FastPass Phishing Block Event",
         expected_result=True,
         log={
@@ -165,14 +165,14 @@ okta_identity_provider_sign_in_tests: List[PantherRuleTest] = [
 ]
 
 
-class OktaIdentityProviderSignIn(PantherRule):
+class OktaIdentityProviderSignIn(Rule):
     id_ = "Okta.Identity.Provider.SignIn-prototype"
     display_name = "Okta Identity Provider Sign-in"
     enabled = False
-    log_types = [PantherLogType.Okta_SystemLog]
+    log_types = [LogType.Okta_SystemLog]
     tags = ["Configuration Required"]
     reports = {"MITRE ATT&CK": ["TA0001:T1199", "TA0003:T1098"]}
-    default_severity = PantherSeverity.high
+    default_severity = Severity.high
     default_description = 'A user has signed in using a 3rd party Identity Provider. Attackers have been observed configuring a second Identity Provider to act as an "impersonation app" to access applications within the compromised Org on behalf of other users. This second Identity Provider, also controlled by the attacker, would act as a “source” IdP in an inbound federation relationship (sometimes called “Org2Org”) with the target. From this “source” IdP, the threat actor manipulated the username parameter for targeted users in the second “source” Identity Provider to match a real user in the compromised “target” Identity Provider. This provided the ability to Single sign-on (SSO) into applications in the target IdP as the targeted user. Do not use this rule if your organization uses legitimate 3rd-party Identity Providers.\n'
     default_reference = "https://sec.okta.com/articles/2023/08/cross-tenant-impersonation-prevention-and-detection\n"
     dedup_period_minutes = 30

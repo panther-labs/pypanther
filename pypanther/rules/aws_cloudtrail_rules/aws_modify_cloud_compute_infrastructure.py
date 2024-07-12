@@ -1,10 +1,10 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 
-aws_modify_cloud_compute_infrastructure_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+aws_modify_cloud_compute_infrastructure_tests: List[RuleTest] = [
+    RuleTest(
         name="Terminate Instance from AssumedRole",
         expected_result=True,
         log={
@@ -58,7 +58,7 @@ aws_modify_cloud_compute_infrastructure_tests: List[PantherRuleTest] = [
             },
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Terminate Instance from autoscaling",
         expected_result=False,
         log={
@@ -126,7 +126,7 @@ aws_modify_cloud_compute_infrastructure_tests: List[PantherRuleTest] = [
             },
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Get Partition",
         expected_result=False,
         log={
@@ -191,7 +191,7 @@ aws_modify_cloud_compute_infrastructure_tests: List[PantherRuleTest] = [
             },
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Terminate instance From WebUI with assumedRole",
         expected_result=True,
         log={
@@ -403,7 +403,7 @@ aws_modify_cloud_compute_infrastructure_tests: List[PantherRuleTest] = [
             },
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Weird AWS Internal Message",
         expected_result=False,
         log={
@@ -484,16 +484,16 @@ aws_modify_cloud_compute_infrastructure_tests: List[PantherRuleTest] = [
 ]
 
 
-class AWSModifyCloudComputeInfrastructure(PantherRule):
+class AWSModifyCloudComputeInfrastructure(Rule):
     default_description = "Detection when EC2 compute infrastructure is modified outside of expected automation methods."
     display_name = "AWS Modify Cloud Compute Infrastructure"
     enabled = False
     default_reference = "https://attack.mitre.org/techniques/T1578/"
-    default_severity = PantherSeverity.medium
+    default_severity = Severity.medium
     reports = {"MITRE ATT&CK": ["TA0005:T1578"]}
     tags = ["Configuration Required"]
     default_runbook = "This detection reports on eventSource ec2 Change events. This detection excludes Cross-Service change events.  As such, this detection will perform well in environments where changes are expected to originate only from AWS service entities.\nThis detection will emit alerts frequently in environments where users are making ec2 related changes.\n"
-    log_types = [PantherLogType.AWS_CloudTrail]
+    log_types = [LogType.AWS_CloudTrail]
     id_ = "AWS.Modify.Cloud.Compute.Infrastructure-prototype"
     tests = aws_modify_cloud_compute_infrastructure_tests
     EC2_CRUD_ACTIONS = {

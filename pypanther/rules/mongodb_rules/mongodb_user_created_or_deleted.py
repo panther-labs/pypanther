@@ -1,10 +1,10 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_mongodb_helpers import mongodb_alert_context
 
-mongo_db_user_created_or_deleted_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+mongo_db_user_created_or_deleted_tests: List[RuleTest] = [
+    RuleTest(
         name="Random event",
         expected_result=False,
         log={
@@ -33,7 +33,7 @@ mongo_db_user_created_or_deleted_tests: List[PantherRuleTest] = [
             "username": "user@company.com",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="User joined Org",
         expected_result=True,
         log={
@@ -62,7 +62,7 @@ mongo_db_user_created_or_deleted_tests: List[PantherRuleTest] = [
             "username": "user@company.com",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="User removed from Org",
         expected_result=True,
         log={
@@ -94,12 +94,12 @@ mongo_db_user_created_or_deleted_tests: List[PantherRuleTest] = [
 ]
 
 
-class MongoDBUserCreatedOrDeleted(PantherRule):
+class MongoDBUserCreatedOrDeleted(Rule):
     default_description = "User was created or deleted."
     display_name = "MongoDB user was created or deleted"
-    default_severity = PantherSeverity.medium
+    default_severity = Severity.medium
     default_reference = "https://www.mongodb.com/docs/v4.2/tutorial/create-users/"
-    log_types = [PantherLogType.MongoDB_OrganizationEvent]
+    log_types = [LogType.MongoDB_OrganizationEvent]
     id_ = "MongoDB.User.Created.Or.Deleted-prototype"
     tests = mongo_db_user_created_or_deleted_tests
 

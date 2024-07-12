@@ -1,9 +1,9 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 
-google_workspace_apps_new_mobile_app_installed_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+google_workspace_apps_new_mobile_app_installed_tests: List[RuleTest] = [
+    RuleTest(
         name="Android Calculator",
         expected_result=True,
         log={
@@ -30,7 +30,7 @@ google_workspace_apps_new_mobile_app_installed_tests: List[PantherRuleTest] = [
             "type": "MOBILE_SETTINGS",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Enable User Enrollement",
         expected_result=False,
         log={
@@ -58,7 +58,7 @@ google_workspace_apps_new_mobile_app_installed_tests: List[PantherRuleTest] = [
             "type": "APPLICATION_SETTINGS",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="ListObject Type",
         expected_result=False,
         log={
@@ -93,13 +93,13 @@ google_workspace_apps_new_mobile_app_installed_tests: List[PantherRuleTest] = [
 ]
 
 
-class GoogleWorkspaceAppsNewMobileAppInstalled(PantherRule):
+class GoogleWorkspaceAppsNewMobileAppInstalled(Rule):
     default_description = "A new mobile application was added to your organization's mobile apps whitelist in Google Workspace Apps."
     display_name = "Google Workspace Apps New Mobile App Installed"
     default_runbook = "https://admin.google.com/ac/apps/unified"
     default_reference = "https://support.google.com/a/answer/6089179?hl=en"
-    default_severity = PantherSeverity.medium
-    log_types = [PantherLogType.GSuite_ActivityEvent]
+    default_severity = Severity.medium
+    log_types = [LogType.GSuite_ActivityEvent]
     id_ = "Google.Workspace.Apps.New.Mobile.App.Installed-prototype"
     tests = google_workspace_apps_new_mobile_app_installed_tests
 

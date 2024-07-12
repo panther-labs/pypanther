@@ -1,8 +1,8 @@
 from typing import List
 
-from pypanther.base import PantherDataModel, PantherDataModelMapping
+from pypanther.base import DataModel, DataModelMapping
 from pypanther.helpers.panther_base_helpers import deep_get
-from pypanther.log_types import PantherLogType
+from pypanther.log_types import LogType
 
 
 def get_dns_query(event):
@@ -28,18 +28,18 @@ def get_process_name(event):
     return image_fn.split("/")[-1]
 
 
-class StandardCrowdstrikeFDR(PantherDataModel):
+class StandardCrowdstrikeFDR(DataModel):
     id_: str = "Standard.Crowdstrike.FDR"
     display_name: str = "Crowdstrike FDR"
     enabled: bool = True
-    log_types: List[str] = [PantherLogType.Crowdstrike_FDREvent]
-    mappings: List[PantherDataModelMapping] = [
-        PantherDataModelMapping(name="actor_user", path="$.event.UserName"),
-        PantherDataModelMapping(name="cmd", path="$.event.CommandLine"),
-        PantherDataModelMapping(name="destination_ip", path="$.event.RemoteAddressIP4"),
-        PantherDataModelMapping(name="destination_port", path="$.event.RemotePort"),
-        PantherDataModelMapping(name="dns_query", method=get_dns_query),
-        PantherDataModelMapping(name="process_name", method=get_process_name),
-        PantherDataModelMapping(name="source_ip", path="$.aip"),
-        PantherDataModelMapping(name="source_port", path="$.event.LocalPort"),
+    log_types: List[str] = [LogType.Crowdstrike_FDREvent]
+    mappings: List[DataModelMapping] = [
+        DataModelMapping(name="actor_user", path="$.event.UserName"),
+        DataModelMapping(name="cmd", path="$.event.CommandLine"),
+        DataModelMapping(name="destination_ip", path="$.event.RemoteAddressIP4"),
+        DataModelMapping(name="destination_port", path="$.event.RemotePort"),
+        DataModelMapping(name="dns_query", method=get_dns_query),
+        DataModelMapping(name="process_name", method=get_process_name),
+        DataModelMapping(name="source_ip", path="$.aip"),
+        DataModelMapping(name="source_port", path="$.event.LocalPort"),
     ]

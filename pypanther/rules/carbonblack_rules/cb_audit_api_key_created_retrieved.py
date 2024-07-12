@@ -1,9 +1,9 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 
-carbon_black_audit_api_key_created_retrieved_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+carbon_black_audit_api_key_created_retrieved_tests: List[RuleTest] = [
+    RuleTest(
         name="API Key Retrieved",
         expected_result=True,
         log={
@@ -17,7 +17,7 @@ carbon_black_audit_api_key_created_retrieved_tests: List[PantherRuleTest] = [
             "verbose": False,
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Admin granted",
         expected_result=True,
         log={
@@ -31,7 +31,7 @@ carbon_black_audit_api_key_created_retrieved_tests: List[PantherRuleTest] = [
             "verbose": False,
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Other role granted",
         expected_result=False,
         log={
@@ -49,12 +49,12 @@ carbon_black_audit_api_key_created_retrieved_tests: List[PantherRuleTest] = [
 ]
 
 
-class CarbonBlackAuditAPIKeyCreatedRetrieved(PantherRule):
+class CarbonBlackAuditAPIKeyCreatedRetrieved(Rule):
     id_ = "CarbonBlack.Audit.API.Key.Created.Retrieved-prototype"
-    log_types = [PantherLogType.CarbonBlack_Audit]
+    log_types = [LogType.CarbonBlack_Audit]
     default_description = "Detects when a user creates a new API key or retrieves an existing key."
     display_name = "Carbon Black API Key Created or Retrieved"
-    default_severity = PantherSeverity.medium
+    default_severity = Severity.medium
     tags = ["Persistence", "Create Account"]
     reports = {"MITRE ATT&CK": ["TA0003:T1136"]}
     default_reference = "https://docs.vmware.com/en/VMware-Carbon-Black-Cloud/services/carbon-black-cloud-user-guide/GUID-F3816FB5-969F-4113-80FC-03981C65F969.html"

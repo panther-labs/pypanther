@@ -1,11 +1,11 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 from pypanther.helpers.panther_tines_helpers import tines_alert_context
 
-tines_sso_settings_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+tines_sso_settings_tests: List[RuleTest] = [
+    RuleTest(
         name="Tines SsoConfigurationSamlSet",
         expected_result=True,
         log={
@@ -26,7 +26,7 @@ tines_sso_settings_tests: List[PantherRuleTest] = [
             "user_name": "user at company dot com",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Tines Login",
         expected_result=False,
         log={
@@ -44,12 +44,12 @@ tines_sso_settings_tests: List[PantherRuleTest] = [
 ]
 
 
-class TinesSSOSettings(PantherRule):
+class TinesSSOSettings(Rule):
     id_ = "Tines.SSO.Settings-prototype"
     display_name = "Tines SSO Settings"
-    log_types = [PantherLogType.Tines_Audit]
+    log_types = [LogType.Tines_Audit]
     tags = ["Tines", "IAM - Credential Security"]
-    default_severity = PantherSeverity.high
+    default_severity = Severity.high
     default_description = "Detects when Tines SSO settings are changed\n"
     default_reference = "https://www.tines.com/docs/admin/single-sign-on"
     summary_attributes = ["user_id", "operation_name", "tenant_id", "request_ip"]

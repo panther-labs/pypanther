@@ -5,15 +5,15 @@ from typing import List
 
 from panther_detection_helpers.caching import get_string_set, put_string_set
 
-from pypanther import PantherLogType, PantherRule, PantherRuleMock, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get, okta_alert_context
 
-okta_potentially_stolen_session_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+okta_potentially_stolen_session_tests: List[RuleTest] = [
+    RuleTest(
         name="Same device and OS",
         expected_result=False,
         mocks=[
-            PantherRuleMock(
+            RuleMock(
                 object_name="get_string_set",
                 return_value='[\n    "263297",\n    "1.2.3.4",\n    "user_agent:Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/84.0.4147.135 Safari/537.36",\n    "CHROME",\n    "Linux"\n]\n',
             )
@@ -97,11 +97,11 @@ okta_potentially_stolen_session_tests: List[PantherRuleTest] = [
             "version": "0",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Different device & ASN",
         expected_result=True,
         mocks=[
-            PantherRuleMock(
+            RuleMock(
                 object_name="get_string_set",
                 return_value='[\n    "123456",\n    "4.3.2.1",\n    "user_agent:Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/105.0.0.0 Safari/537.36",\n    "CHROME",\n    "MacOS"\n]\n',
             )
@@ -185,11 +185,11 @@ okta_potentially_stolen_session_tests: List[PantherRuleTest] = [
             "version": "0",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Different ASN & same device",
         expected_result=False,
         mocks=[
-            PantherRuleMock(
+            RuleMock(
                 object_name="get_string_set",
                 return_value='[\n    "654321",\n    "1.2.3.4",\n    "user_agent:Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/84.0.4147.135 Safari/537.36",\n    "CHROME",\n    "Linux"\n]\n',
             )
@@ -273,11 +273,11 @@ okta_potentially_stolen_session_tests: List[PantherRuleTest] = [
             "version": "0",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Okta internal event should be ignored",
         expected_result=False,
         mocks=[
-            PantherRuleMock(
+            RuleMock(
                 object_name="get_string_set",
                 return_value='[\n    "123456",\n    "4.3.2.1",\n    "user_agent:Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/105.0.0.0 Safari/537.36",\n    "CHROME",\n    "MacOS"\n]\n',
             )
@@ -358,13 +358,13 @@ okta_potentially_stolen_session_tests: List[PantherRuleTest] = [
 ]
 
 
-class OktaPotentiallyStolenSession(PantherRule):
+class OktaPotentiallyStolenSession(Rule):
     id_ = "Okta.PotentiallyStolenSession-prototype"
     display_name = "Okta Potentially Stolen Session"
-    log_types = [PantherLogType.Okta_SystemLog]
+    log_types = [LogType.Okta_SystemLog]
     tags = ["Identity & Access Management", "Okta"]
     reports = {"MITRE ATT&CK": ["TA0006:T1539"]}
-    default_severity = PantherSeverity.high
+    default_severity = Severity.high
     default_description = "This rule looks for the same session being used from two devices, indicating a compromised session token."
     default_runbook = "Confirm the session is used on two devices, one of which is unknown. Lock the users Okta account and clear the users sessions in down stream apps."
     default_reference = "https://sec.okta.com/sessioncookietheft"

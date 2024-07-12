@@ -1,11 +1,11 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 from pypanther.helpers.panther_config import config
 
-g_suite_external_mail_forwarding_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+g_suite_external_mail_forwarding_tests: List[RuleTest] = [
+    RuleTest(
         name="Forwarding to External Address",
         expected_result=True,
         log={
@@ -16,7 +16,7 @@ g_suite_external_mail_forwarding_tests: List[PantherRuleTest] = [
             "parameters": {"email_forwarding_destination_address": "HSimpson@gmail.com"},
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Forwarding to External Address - Allowed Domain",
         expected_result=False,
         log={
@@ -27,7 +27,7 @@ g_suite_external_mail_forwarding_tests: List[PantherRuleTest] = [
             "parameters": {"email_forwarding_destination_address": "HSimpson@example.com"},
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Non Forwarding Event",
         expected_result=False,
         log={
@@ -37,7 +37,7 @@ g_suite_external_mail_forwarding_tests: List[PantherRuleTest] = [
             "name": "2sv_enroll",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="ListObject Type",
         expected_result=False,
         log={
@@ -72,14 +72,14 @@ g_suite_external_mail_forwarding_tests: List[PantherRuleTest] = [
 ]
 
 
-class GSuiteExternalMailForwarding(PantherRule):
+class GSuiteExternalMailForwarding(Rule):
     id_ = "GSuite.ExternalMailForwarding-prototype"
     display_name = "Gsuite Mail forwarded to external domain"
     enabled = False
-    log_types = [PantherLogType.GSuite_ActivityEvent]
+    log_types = [LogType.GSuite_ActivityEvent]
     tags = ["GSuite", "Collection:Email Collection", "Configuration Required"]
     reports = {"MITRE ATT&CK": ["TA0009:T1114"]}
-    default_severity = PantherSeverity.high
+    default_severity = Severity.high
     default_description = "A user has configured mail forwarding to an external domain\n"
     default_reference = (
         "https://support.google.com/mail/answer/10957?hl=en&sjid=864417124752637253-EU"

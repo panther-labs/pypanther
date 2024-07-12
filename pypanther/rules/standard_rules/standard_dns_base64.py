@@ -1,10 +1,10 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import defang_ioc, is_base64
 
-standard_dns_base64_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+standard_dns_base64_tests: List[RuleTest] = [
+    RuleTest(
         name="AWS VPC DNS (Positive)",
         expected_result=True,
         log={
@@ -25,7 +25,7 @@ standard_dns_base64_tests: List[PantherRuleTest] = [
             "vpc_id": "vpc-c26c48ba",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="AWS VPS DNS (Negative)",
         expected_result=False,
         log={
@@ -46,7 +46,7 @@ standard_dns_base64_tests: List[PantherRuleTest] = [
             "vpc_id": "vpc-c26c48ba",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="AWS VPS DNS subdomain (Negative)",
         expected_result=False,
         log={
@@ -67,7 +67,7 @@ standard_dns_base64_tests: List[PantherRuleTest] = [
             "vpc_id": "vpc-c26c48ba",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Crowdstrike DNS Request (Positive)",
         expected_result=True,
         log={
@@ -129,7 +129,7 @@ standard_dns_base64_tests: List[PantherRuleTest] = [
             "timestamp": "2023-04-23 18:50:05.712",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Crowdstrike DNS Request (Negative)",
         expected_result=False,
         log={
@@ -191,7 +191,7 @@ standard_dns_base64_tests: List[PantherRuleTest] = [
             "timestamp": "2023-04-23 18:50:05.712",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Cisco Umbrella DNS Request (Positive)",
         expected_result=True,
         log={
@@ -204,7 +204,7 @@ standard_dns_base64_tests: List[PantherRuleTest] = [
             "p_log_type": "CiscoUmbrella.DNS",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Cisco Umbrella DNS Request (Negative)",
         expected_result=False,
         log={
@@ -220,17 +220,17 @@ standard_dns_base64_tests: List[PantherRuleTest] = [
 ]
 
 
-class StandardDNSBase64(PantherRule):
+class StandardDNSBase64(Rule):
     display_name = "DNS Base64 Encoded Query"
     default_description = "Detects DNS queries with Base64 encoded subdomains, which could indicate an attempt to obfuscate data exfil."
     id_ = "Standard.DNSBase64-prototype"
     enabled = False
     default_reference = "https://zofixer.com/what-is-base64-disclosure-vulnerability/"
-    default_severity = PantherSeverity.medium
+    default_severity = Severity.medium
     log_types = [
-        PantherLogType.Crowdstrike_FDREvent,
-        PantherLogType.AWS_VPCDns,
-        PantherLogType.CiscoUmbrella_DNS,
+        LogType.Crowdstrike_FDREvent,
+        LogType.AWS_VPCDns,
+        LogType.CiscoUmbrella_DNS,
     ]
     tests = standard_dns_base64_tests
     DECODED = ""

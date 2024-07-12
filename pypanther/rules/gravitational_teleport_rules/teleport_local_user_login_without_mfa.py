@@ -1,9 +1,9 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 
-teleport_local_user_login_without_mfa_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+teleport_local_user_login_without_mfa_tests: List[RuleTest] = [
+    RuleTest(
         name="User logged in with MFA",
         expected_result=False,
         log={
@@ -25,7 +25,7 @@ teleport_local_user_login_without_mfa_tests: List[PantherRuleTest] = [
             "user_agent": "Examplecorp Spacedeck-web/99.9 (Hackintosh; ARM Cortex A1000)",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="User logged in without MFA",
         expected_result=False,
         log={
@@ -45,12 +45,12 @@ teleport_local_user_login_without_mfa_tests: List[PantherRuleTest] = [
 ]
 
 
-class TeleportLocalUserLoginWithoutMFA(PantherRule):
+class TeleportLocalUserLoginWithoutMFA(Rule):
     id_ = "Teleport.LocalUserLoginWithoutMFA-prototype"
     display_name = "User Logged in wihout MFA"
-    log_types = [PantherLogType.Gravitational_TeleportAudit]
+    log_types = [LogType.Gravitational_TeleportAudit]
     tags = ["Teleport"]
-    default_severity = PantherSeverity.high
+    default_severity = Severity.high
     default_description = "A local User logged in without MFA"
     reports = {"MITRE ATT&CK": ["TA0001:T1078"]}
     default_reference = "https://goteleport.com/docs/management/admin/"

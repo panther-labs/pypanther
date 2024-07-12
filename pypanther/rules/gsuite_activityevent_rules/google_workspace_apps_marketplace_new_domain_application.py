@@ -1,9 +1,9 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 
-google_workspace_apps_marketplace_new_domain_application_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+google_workspace_apps_marketplace_new_domain_application_tests: List[RuleTest] = [
+    RuleTest(
         name="Change Email Setting Default",
         expected_result=False,
         log={
@@ -30,7 +30,7 @@ google_workspace_apps_marketplace_new_domain_application_tests: List[PantherRule
             "type": "EMAIL_SETTINGS",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="DocuSign for Google",
         expected_result=True,
         log={
@@ -55,7 +55,7 @@ google_workspace_apps_marketplace_new_domain_application_tests: List[PantherRule
             "type": "DOMAIN_SETTINGS",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Microsoft Apps for Google",
         expected_result=True,
         log={
@@ -80,7 +80,7 @@ google_workspace_apps_marketplace_new_domain_application_tests: List[PantherRule
             "type": "DOMAIN_SETTINGS",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="ListObject Type",
         expected_result=False,
         log={
@@ -115,13 +115,13 @@ google_workspace_apps_marketplace_new_domain_application_tests: List[PantherRule
 ]
 
 
-class GoogleWorkspaceAppsMarketplaceNewDomainApplication(PantherRule):
+class GoogleWorkspaceAppsMarketplaceNewDomainApplication(Rule):
     default_description = "A Google Workspace User configured a new domain application from the Google Workspace Apps Marketplace."
     display_name = "Google Workspace Apps Marketplace New Domain Application"
     default_runbook = "Confirm this was the intended behavior."
     default_reference = "https://developers.google.com/workspace/marketplace/overview"
-    default_severity = PantherSeverity.medium
-    log_types = [PantherLogType.GSuite_ActivityEvent]
+    default_severity = Severity.medium
+    log_types = [LogType.GSuite_ActivityEvent]
     id_ = "Google.Workspace.Apps.Marketplace.New.Domain.Application-prototype"
     tests = google_workspace_apps_marketplace_new_domain_application_tests
 

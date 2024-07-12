@@ -1,10 +1,10 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_mongodb_helpers import mongodb_alert_context
 
-mongo_db2_fa_disabled_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+mongo_db2_fa_disabled_tests: List[RuleTest] = [
+    RuleTest(
         name="2FA ebabled",
         expected_result=False,
         log={
@@ -33,7 +33,7 @@ mongo_db2_fa_disabled_tests: List[PantherRuleTest] = [
             "username": "user@company.com",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="2FA disabled",
         expected_result=True,
         log={
@@ -65,12 +65,12 @@ mongo_db2_fa_disabled_tests: List[PantherRuleTest] = [
 ]
 
 
-class MongoDB2FADisabled(PantherRule):
+class MongoDB2FADisabled(Rule):
     default_description = "2FA was disabled."
     display_name = "MongoDB 2FA Disabled"
-    default_severity = PantherSeverity.medium
+    default_severity = Severity.medium
     default_reference = "https://www.mongodb.com/docs/atlas/security-multi-factor-authentication/"
-    log_types = [PantherLogType.MongoDB_OrganizationEvent]
+    log_types = [LogType.MongoDB_OrganizationEvent]
     id_ = "MongoDB.2FA.Disabled-prototype"
     tests = mongo_db2_fa_disabled_tests
 

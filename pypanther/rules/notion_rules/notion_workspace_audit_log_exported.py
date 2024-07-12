@@ -1,10 +1,10 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_notion_helpers import notion_alert_context
 
-notion_audit_log_exported_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+notion_audit_log_exported_tests: List[RuleTest] = [
+    RuleTest(
         name="Other Event",
         expected_result=False,
         log={
@@ -25,7 +25,7 @@ notion_audit_log_exported_tests: List[PantherRuleTest] = [
             }
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Audit Log Exported",
         expected_result=True,
         log={
@@ -49,12 +49,12 @@ notion_audit_log_exported_tests: List[PantherRuleTest] = [
 ]
 
 
-class NotionAuditLogExported(PantherRule):
+class NotionAuditLogExported(Rule):
     id_ = "Notion.Audit.Log.Exported-prototype"
     display_name = "Notion Audit Log Exported"
-    log_types = [PantherLogType.Notion_AuditLogs]
+    log_types = [LogType.Notion_AuditLogs]
     tags = ["Notion", "Data Security", "Data Exfiltration"]
-    default_severity = PantherSeverity.medium
+    default_severity = Severity.medium
     default_description = "A Notion User exported audit logs for your organization’s workspace."
     default_runbook = "Possible Data Exfiltration. Follow up with the Notion User to determine if this was done for a valid business reason."
     default_reference = "https://www.notion.so/help/audit-log#export-your-audit-log"

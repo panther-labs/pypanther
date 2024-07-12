@@ -1,10 +1,10 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import crowdstrike_detection_alert_context, deep_get
 
-crowdstrike_unusual_parent_child_processes_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+crowdstrike_unusual_parent_child_processes_tests: List[RuleTest] = [
+    RuleTest(
         name="Suspicious Event",
         expected_result=True,
         log={
@@ -86,7 +86,7 @@ crowdstrike_unusual_parent_child_processes_tests: List[PantherRuleTest] = [
             "treeid": "4295752857",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Non Suspicious Event",
         expected_result=False,
         log={
@@ -171,12 +171,12 @@ crowdstrike_unusual_parent_child_processes_tests: List[PantherRuleTest] = [
 ]
 
 
-class CrowdstrikeUnusualParentChildProcesses(PantherRule):
+class CrowdstrikeUnusualParentChildProcesses(Rule):
     default_description = "Detects unusual parent child process pairings."
     display_name = "Crowdstrike Unusual Parent Child Processes"
     default_reference = "https://medium.com/falconforce/falconfriday-e4554e9e6665"
-    default_severity = PantherSeverity.critical
-    log_types = [PantherLogType.Crowdstrike_FDREvent]
+    default_severity = Severity.critical
+    log_types = [LogType.Crowdstrike_FDREvent]
     id_ = "Crowdstrike.Unusual.Parent.Child.Processes-prototype"
     tests = crowdstrike_unusual_parent_child_processes_tests
     SUSPICIOUS_PARENT_CHILD_COMBINATIONS_WINDOWS = {

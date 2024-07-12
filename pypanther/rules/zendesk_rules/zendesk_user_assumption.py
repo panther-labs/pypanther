@@ -1,9 +1,9 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 
-zendesk_user_assumption_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+zendesk_user_assumption_tests: List[RuleTest] = [
+    RuleTest(
         name="User assumption settings changed",
         expected_result=True,
         log={
@@ -22,7 +22,7 @@ zendesk_user_assumption_tests: List[PantherRuleTest] = [
             "p_log_type": "Zendesk.Audit",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Zendesk - Credit Card Redaction On",
         expected_result=False,
         log={
@@ -44,13 +44,13 @@ zendesk_user_assumption_tests: List[PantherRuleTest] = [
 ]
 
 
-class ZendeskUserAssumption(PantherRule):
+class ZendeskUserAssumption(Rule):
     id_ = "Zendesk.UserAssumption-prototype"
     display_name = "Enabled Zendesk Support to Assume Users"
-    log_types = [PantherLogType.Zendesk_Audit]
+    log_types = [LogType.Zendesk_Audit]
     tags = ["Zendesk", "Lateral Movement:Use Alternate Authentication Material"]
     reports = {"MITRE ATT&CK": ["TA0008:T1550"]}
-    default_severity = PantherSeverity.medium
+    default_severity = Severity.medium
     default_description = "User enabled or disabled zendesk support user assumption."
     default_runbook = "Investigate whether allowing zendesk support to assume users is necessary. If not, disable the feature.\n"
     default_reference = "https://support.zendesk.com/hc/en-us/articles/4408894200474-Assuming-end-users#:~:text=In%20Support%2C%20click%20the%20Customers,user%20in%20the%20information%20dialog"

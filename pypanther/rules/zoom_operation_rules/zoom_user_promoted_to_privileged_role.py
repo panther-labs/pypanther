@@ -1,10 +1,10 @@
 import re
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 
-zoom_user_promotedto_privileged_role_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+zoom_user_promotedto_privileged_role_tests: List[RuleTest] = [
+    RuleTest(
         name="Admin Promotion Event",
         expected_result=True,
         log={
@@ -15,7 +15,7 @@ zoom_user_promotedto_privileged_role_tests: List[PantherRuleTest] = [
             "time": "2022-07-05 20:28:48",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Admin to Admin",
         expected_result=False,
         log={
@@ -26,7 +26,7 @@ zoom_user_promotedto_privileged_role_tests: List[PantherRuleTest] = [
             "time": "2022-07-05 20:28:48",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Admin to Billing Admin",
         expected_result=False,
         log={
@@ -37,7 +37,7 @@ zoom_user_promotedto_privileged_role_tests: List[PantherRuleTest] = [
             "time": "2022-07-05 20:28:48",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Member to Billing Admin Event",
         expected_result=True,
         log={
@@ -48,7 +48,7 @@ zoom_user_promotedto_privileged_role_tests: List[PantherRuleTest] = [
             "time": "2022-07-05 20:28:48",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Admin to User",
         expected_result=False,
         log={
@@ -59,7 +59,7 @@ zoom_user_promotedto_privileged_role_tests: List[PantherRuleTest] = [
             "time": "2022-07-05 20:28:48",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="CoOwner to Admin",
         expected_result=False,
         log={
@@ -70,7 +70,7 @@ zoom_user_promotedto_privileged_role_tests: List[PantherRuleTest] = [
             "time": "2022-07-05 20:28:48",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Other Event",
         expected_result=False,
         log={
@@ -84,12 +84,12 @@ zoom_user_promotedto_privileged_role_tests: List[PantherRuleTest] = [
 ]
 
 
-class ZoomUserPromotedtoPrivilegedRole(PantherRule):
+class ZoomUserPromotedtoPrivilegedRole(Rule):
     default_description = "A Zoom user was promoted to a privileged role."
     display_name = "Zoom User Promoted to Privileged Role"
     default_reference = "https://support.zoom.com/hc/en/article?id=zm_kb&sysparm_article=KB0064983"
-    default_severity = PantherSeverity.medium
-    log_types = [PantherLogType.Zoom_Operation]
+    default_severity = Severity.medium
+    log_types = [LogType.Zoom_Operation]
     id_ = "Zoom.User.Promoted.to.Privileged.Role-prototype"
     tests = zoom_user_promotedto_privileged_role_tests
     PRIVILEGED_ROLES = ("Admin", "Co-Owner", "Owner", "Billing Admin")

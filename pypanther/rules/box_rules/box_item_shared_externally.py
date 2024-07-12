@@ -1,6 +1,6 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 from pypanther.helpers.panther_box_helpers import (
     is_box_sdk_enabled,
@@ -8,8 +8,8 @@ from pypanther.helpers.panther_box_helpers import (
     lookup_box_folder,
 )
 
-box_item_shared_externally_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+box_item_shared_externally_tests: List[RuleTest] = [
+    RuleTest(
         name="Regular Event",
         expected_result=False,
         log={
@@ -44,18 +44,18 @@ box_item_shared_externally_tests: List[PantherRuleTest] = [
 ]
 
 
-class BoxItemSharedExternally(PantherRule):
+class BoxItemSharedExternally(Rule):
     id_ = "Box.Item.Shared.Externally-prototype"
     display_name = "Box item shared externally"
     enabled = False
-    log_types = [PantherLogType.Box_Event]
+    log_types = [LogType.Box_Event]
     tags = [
         "Box",
         "Exfiltration:Exfiltration Over Web Service",
         "Configuration Required",
     ]
     reports = {"MITRE ATT&CK": ["TA0010:T1567"]}
-    default_severity = PantherSeverity.medium
+    default_severity = Severity.medium
     default_description = "A user has shared an item and it is accessible to anyone with the share link (internal or external to the company). This rule requires that the boxsdk[jwt] be installed in the environment.\n"
     default_reference = "https://support.box.com/hc/en-us/articles/4404822772755-Enterprise-Settings-Content-Sharing-Tab"
     default_runbook = "Investigate whether this user's activity is expected.\n"

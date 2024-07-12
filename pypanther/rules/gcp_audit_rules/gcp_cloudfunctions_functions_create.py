@@ -1,11 +1,11 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.gcp_base_helpers import gcp_alert_context
 from pypanther.helpers.panther_base_helpers import deep_get, deep_walk
 
-gcp_cloudfunctions_functions_create_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+gcp_cloudfunctions_functions_create_tests: List[RuleTest] = [
+    RuleTest(
         name="privilege-escalation",
         expected_result=True,
         log={
@@ -28,7 +28,7 @@ gcp_cloudfunctions_functions_create_tests: List[PantherRuleTest] = [
             "timestamp": "2024-01-19 13:47:18.279921000",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="fail",
         expected_result=False,
         log={
@@ -54,12 +54,12 @@ gcp_cloudfunctions_functions_create_tests: List[PantherRuleTest] = [
 ]
 
 
-class GCPCloudfunctionsFunctionsCreate(PantherRule):
+class GCPCloudfunctionsFunctionsCreate(Rule):
     id_ = "GCP.Cloudfunctions.Functions.Create-prototype"
     display_name = "GCP cloudfunctions functions create"
     default_description = "The Identity and Access Management (IAM) service manages authorization and authentication for a GCP environment. This means that there are very likely multiple privilege escalation methods that use the IAM service and/or its permissions."
-    log_types = [PantherLogType.GCP_AuditLog]
-    default_severity = PantherSeverity.high
+    log_types = [LogType.GCP_AuditLog]
+    default_severity = Severity.high
     default_reference = (
         "https://rhinosecuritylabs.com/gcp/privilege-escalation-google-cloud-platform-part-1/"
     )

@@ -1,10 +1,10 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 
-gcp_logging_settings_modified_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+gcp_logging_settings_modified_tests: List[RuleTest] = [
+    RuleTest(
         name="Other Event",
         expected_result=False,
         log={
@@ -59,7 +59,7 @@ gcp_logging_settings_modified_tests: List[PantherRuleTest] = [
             },
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Sink Update Event",
         expected_result=True,
         log={
@@ -133,12 +133,12 @@ gcp_logging_settings_modified_tests: List[PantherRuleTest] = [
 ]
 
 
-class GCPLoggingSettingsModified(PantherRule):
+class GCPLoggingSettingsModified(Rule):
     default_description = "Detects any changes made to logging settings"
     display_name = "GCP Logging Settings Modified"
     default_reference = "https://cloud.google.com/logging/docs/default-settings"
-    default_severity = PantherSeverity.low
-    log_types = [PantherLogType.GCP_AuditLog]
+    default_severity = Severity.low
+    log_types = [LogType.GCP_AuditLog]
     id_ = "GCP.Logging.Settings.Modified-prototype"
     tests = gcp_logging_settings_modified_tests
 

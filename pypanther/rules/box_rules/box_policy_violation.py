@@ -1,10 +1,10 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 
-box_content_workflow_policy_violation_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+box_content_workflow_policy_violation_tests: List[RuleTest] = [
+    RuleTest(
         name="Regular Event",
         expected_result=False,
         log={
@@ -19,7 +19,7 @@ box_content_workflow_policy_violation_tests: List[PantherRuleTest] = [
             "event_type": "DELETE",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Upload Policy Violation",
         expected_result=True,
         log={
@@ -35,7 +35,7 @@ box_content_workflow_policy_violation_tests: List[PantherRuleTest] = [
             "source": {"id": "12345678", "type": "user", "login": "user@example"},
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Sharing Policy Violation",
         expected_result=True,
         log={
@@ -54,12 +54,12 @@ box_content_workflow_policy_violation_tests: List[PantherRuleTest] = [
 ]
 
 
-class BoxContentWorkflowPolicyViolation(PantherRule):
+class BoxContentWorkflowPolicyViolation(Rule):
     id_ = "Box.Content.Workflow.Policy.Violation-prototype"
     display_name = "Box Content Workflow Policy Violation"
-    log_types = [PantherLogType.Box_Event]
+    log_types = [LogType.Box_Event]
     tags = ["Box"]
-    default_severity = PantherSeverity.low
+    default_severity = Severity.low
     default_description = "A user violated the content workflow policy.\n"
     default_reference = (
         "https://support.box.com/hc/en-us/articles/360043692594-Creating-a-Security-Policy"

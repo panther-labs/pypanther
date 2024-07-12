@@ -1,9 +1,9 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 
-teleport_suspicious_commands_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+teleport_suspicious_commands_tests: List[RuleTest] = [
+    RuleTest(
         name="Echo command",
         expected_result=False,
         log={
@@ -26,7 +26,7 @@ teleport_suspicious_commands_tests: List[PantherRuleTest] = [
             "user": "panther",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Netcat command",
         expected_result=True,
         log={
@@ -52,12 +52,12 @@ teleport_suspicious_commands_tests: List[PantherRuleTest] = [
 ]
 
 
-class TeleportSuspiciousCommands(PantherRule):
+class TeleportSuspiciousCommands(Rule):
     id_ = "Teleport.SuspiciousCommands-prototype"
     display_name = "Teleport Suspicious Commands Executed"
-    log_types = [PantherLogType.Gravitational_TeleportAudit]
+    log_types = [LogType.Gravitational_TeleportAudit]
     tags = ["SSH", "Execution:Command and Scripting Interpreter"]
-    default_severity = PantherSeverity.medium
+    default_severity = Severity.medium
     default_description = (
         "A user has invoked a suspicious command that could lead to a host compromise"
     )

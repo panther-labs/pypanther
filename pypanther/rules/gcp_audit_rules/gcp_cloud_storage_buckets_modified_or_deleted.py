@@ -1,10 +1,10 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 
-gcp_cloud_storage_buckets_modified_or_deleted_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+gcp_cloud_storage_buckets_modified_or_deleted_tests: List[RuleTest] = [
+    RuleTest(
         name="other event",
         expected_result=False,
         log={
@@ -75,7 +75,7 @@ gcp_cloud_storage_buckets_modified_or_deleted_tests: List[PantherRuleTest] = [
             "timestamp": "2023-03-09 16:41:30.524",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="bucket update",
         expected_result=True,
         log={
@@ -129,12 +129,12 @@ gcp_cloud_storage_buckets_modified_or_deleted_tests: List[PantherRuleTest] = [
 ]
 
 
-class GCPCloudStorageBucketsModifiedOrDeleted(PantherRule):
+class GCPCloudStorageBucketsModifiedOrDeleted(Rule):
     default_description = "Detects GCP cloud storage bucket updates and deletes."
     display_name = "GCP Cloud Storage Buckets Modified Or Deleted"
     default_reference = "https://cloud.google.com/storage/docs/buckets"
-    default_severity = PantherSeverity.low
-    log_types = [PantherLogType.GCP_AuditLog]
+    default_severity = Severity.low
+    log_types = [LogType.GCP_AuditLog]
     id_ = "GCP.Cloud.Storage.Buckets.Modified.Or.Deleted-prototype"
     tests = gcp_cloud_storage_buckets_modified_or_deleted_tests
     BUCKET_OPERATIONS = ["storage.buckets.delete", "storage.buckets.update"]

@@ -2,11 +2,11 @@ import json
 from typing import List
 from unittest.mock import MagicMock
 
-from pypanther import PantherLogType, PantherRule, PantherRuleMock, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get, github_alert_context
 
-git_hub_action_failed_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+git_hub_action_failed_tests: List[RuleTest] = [
+    RuleTest(
         name="GitHub - Branch Protection Disabled",
         expected_result=False,
         log={
@@ -18,7 +18,7 @@ git_hub_action_failed_tests: List[PantherRuleTest] = [
             "repo": "my-org/my-repo",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="GitHub Action Failed - No Configuration",
         expected_result=False,
         log={
@@ -46,11 +46,11 @@ git_hub_action_failed_tests: List[PantherRuleTest] = [
             "workflow_run_id": 5555555555,
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="GitHub Action Failed - Monitored Action Configured",
         expected_result=True,
         mocks=[
-            PantherRuleMock(
+            RuleMock(
                 object_name="MONITORED_ACTIONS",
                 return_value='{\n  "your-org/panther-analysis-copy": [ "sync-panther-analysis-from-upstream"]\n}',
             )
@@ -83,13 +83,13 @@ git_hub_action_failed_tests: List[PantherRuleTest] = [
 ]
 
 
-class GitHubActionFailed(PantherRule):
+class GitHubActionFailed(Rule):
     id_ = "GitHub.Action.Failed-prototype"
     display_name = "GitHub Action Failed"
     enabled = False
-    log_types = [PantherLogType.GitHub_Audit]
+    log_types = [LogType.GitHub_Audit]
     tags = ["GitHub", "Configuration Required"]
-    default_severity = PantherSeverity.high
+    default_severity = Severity.high
     default_description = "A monitored github action has failed."
     default_runbook = "Inspect the action failure link and take appropriate response. There are no general plans of response for this activity.\n"
     default_reference = "https://docs.github.com/en/actions/creating-actions/setting-exit-codes-for-actions#about-exit-codes"

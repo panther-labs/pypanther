@@ -1,10 +1,10 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import aws_rule_context, deep_get
 
-awsiam_access_key_compromised_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+awsiam_access_key_compromised_tests: List[RuleTest] = [
+    RuleTest(
         name="An AWS Access Key was Uploaded to Github",
         expected_result=True,
         log={
@@ -35,7 +35,7 @@ awsiam_access_key_compromised_tests: List[PantherRuleTest] = [
             "eventTime": "2020-04-10T06:22:08Z",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Request Param is null",
         expected_result=False,
         log={
@@ -65,13 +65,13 @@ awsiam_access_key_compromised_tests: List[PantherRuleTest] = [
 ]
 
 
-class AWSIAMAccessKeyCompromised(PantherRule):
+class AWSIAMAccessKeyCompromised(Rule):
     id_ = "AWS.IAM.AccessKeyCompromised-prototype"
     display_name = "AWS Access Key Uploaded to Github"
-    log_types = [PantherLogType.AWS_CloudTrail]
+    log_types = [LogType.AWS_CloudTrail]
     reports = {"MITRE ATT&CK": ["TA0006:T1552"]}
     tags = ["AWS", "Credential Access:Unsecured Credentials"]
-    default_severity = PantherSeverity.high
+    default_severity = Severity.high
     default_description = "A users static AWS API key was uploaded to a public github repo."
     default_runbook = "Determine the key owner, disable/delete key, and delete the user to resolve the AWS case. If user needs a new IAM give them a stern talking to first."
     default_reference = (

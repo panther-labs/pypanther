@@ -1,10 +1,10 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get, get_val_from_list
 
-okta_password_access_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+okta_password_access_tests: List[RuleTest] = [
+    RuleTest(
         name="User accessed their own password",
         expected_result=False,
         log={
@@ -87,7 +87,7 @@ okta_password_access_tests: List[PantherRuleTest] = [
             "version": "0",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="User accessed another user's password",
         expected_result=True,
         log={
@@ -170,7 +170,7 @@ okta_password_access_tests: List[PantherRuleTest] = [
             "version": "0",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="User accessed their own password - 2",
         expected_result=False,
         log={
@@ -240,13 +240,13 @@ okta_password_access_tests: List[PantherRuleTest] = [
 ]
 
 
-class OktaPasswordAccess(PantherRule):
+class OktaPasswordAccess(Rule):
     id_ = "Okta.PasswordAccess-prototype"
     display_name = "Okta Password Accessed"
-    log_types = [PantherLogType.Okta_SystemLog]
+    log_types = [LogType.Okta_SystemLog]
     tags = ["Okta", "Credential Access:Unsecured Credentials"]
     reports = {"MITRE ATT&CK": ["TA0006:T1552"]}
-    default_severity = PantherSeverity.medium
+    default_severity = Severity.medium
     default_description = "User accessed another user's application password\n"
     default_reference = (
         "https://help.okta.com/en-us/content/topics/apps/apps_revealing_the_password.htm"

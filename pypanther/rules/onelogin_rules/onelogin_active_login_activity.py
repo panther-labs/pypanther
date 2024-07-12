@@ -3,11 +3,11 @@ from typing import List
 
 from panther_detection_helpers.caching import add_to_string_set, get_string_set, put_string_set
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import is_ip_in_network
 
-one_login_active_login_activity_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+one_login_active_login_activity_tests: List[RuleTest] = [
+    RuleTest(
         name="Normal Login Event",
         expected_result=False,
         log={
@@ -18,7 +18,7 @@ one_login_active_login_activity_tests: List[PantherRuleTest] = [
             "user_name": "Bob Cat",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Shared IP Login Event",
         expected_result=False,
         log={
@@ -33,12 +33,12 @@ one_login_active_login_activity_tests: List[PantherRuleTest] = [
 ]
 
 
-class OneLoginActiveLoginActivity(PantherRule):
+class OneLoginActiveLoginActivity(Rule):
     id_ = "OneLogin.ActiveLoginActivity-prototype"
     display_name = "OneLogin Active Login Activity"
-    log_types = [PantherLogType.OneLogin_Events]
+    log_types = [LogType.OneLogin_Events]
     tags = ["OneLogin", "Lateral Movement:Use Alternate Authentication Material"]
-    default_severity = PantherSeverity.medium
+    default_severity = Severity.medium
     reports = {"MITRE ATT&CK": ["TA0008:T1550"]}
     default_description = "Multiple user accounts logged in from the same ip address."
     default_reference = "https://support.onelogin.com/kb/4271392/user-policies"

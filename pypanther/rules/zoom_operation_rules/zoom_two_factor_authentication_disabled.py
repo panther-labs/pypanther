@@ -1,9 +1,9 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 
-zoom_two_factor_authentication_disabled_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+zoom_two_factor_authentication_disabled_tests: List[RuleTest] = [
+    RuleTest(
         name="2FA Disabled",
         expected_result=True,
         log={
@@ -14,7 +14,7 @@ zoom_two_factor_authentication_disabled_tests: List[PantherRuleTest] = [
             "time": "2022-12-16 18:20:35",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="2FA Enabled",
         expected_result=False,
         log={
@@ -25,7 +25,7 @@ zoom_two_factor_authentication_disabled_tests: List[PantherRuleTest] = [
             "time": "2022-12-16 18:20:35",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Sign In Apple ID ",
         expected_result=False,
         log={
@@ -39,13 +39,13 @@ zoom_two_factor_authentication_disabled_tests: List[PantherRuleTest] = [
 ]
 
 
-class ZoomTwoFactorAuthenticationDisabled(PantherRule):
+class ZoomTwoFactorAuthenticationDisabled(Rule):
     default_description = "A Zoom User disabled your organization's setting to sign in with Two-Factor Authentication."
     display_name = "Zoom Two Factor Authentication Disabled"
     default_runbook = "Confirm this user acted with valid business intent and determine whether this activity was authorized."
     default_reference = "https://support.zoom.com/hc/en/article?id=zm_kb&sysparm_article=KB0066054"
-    default_severity = PantherSeverity.medium
-    log_types = [PantherLogType.Zoom_Operation]
+    default_severity = Severity.medium
+    log_types = [LogType.Zoom_Operation]
     id_ = "Zoom.Two.Factor.Authentication.Disabled-prototype"
     tests = zoom_two_factor_authentication_disabled_tests
 

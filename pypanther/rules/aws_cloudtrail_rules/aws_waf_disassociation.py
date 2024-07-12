@@ -1,10 +1,10 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 
-awswaf_disassociation_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+awswaf_disassociation_tests: List[RuleTest] = [
+    RuleTest(
         name="WAF-Disassociate",
         expected_result=True,
         log={
@@ -64,7 +64,7 @@ awswaf_disassociation_tests: List[PantherRuleTest] = [
             },
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="WAF - List WebACLs",
         expected_result=False,
         log={
@@ -127,13 +127,13 @@ awswaf_disassociation_tests: List[PantherRuleTest] = [
 ]
 
 
-class AWSWAFDisassociation(PantherRule):
+class AWSWAFDisassociation(Rule):
     default_description = "Detection to alert when a WAF disassociates from a source."
     display_name = "AWS WAF Disassociation"
     default_reference = "https://attack.mitre.org/techniques/T1078/"
-    default_severity = PantherSeverity.critical
+    default_severity = Severity.critical
     reports = {"MITRE ATT&CK": ["TA0004:T1498"]}
-    log_types = [PantherLogType.AWS_CloudTrail]
+    log_types = [LogType.AWS_CloudTrail]
     id_ = "AWS.WAF.Disassociation-prototype"
     tests = awswaf_disassociation_tests
 

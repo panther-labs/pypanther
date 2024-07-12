@@ -1,11 +1,11 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 from pypanther.helpers.panther_snyk_helpers import snyk_alert_context
 
-snyk_ou_change_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+snyk_ou_change_tests: List[RuleTest] = [
+    RuleTest(
         name="Snyk Org Deletion ( HIGH )",
         expected_result=True,
         log={
@@ -17,7 +17,7 @@ snyk_ou_change_tests: List[PantherRuleTest] = [
             "userId": "05555555-3333-4ddd-8ccc-755555555555",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Snyk Group Org Remove ( HIGH )",
         expected_result=True,
         log={
@@ -29,7 +29,7 @@ snyk_ou_change_tests: List[PantherRuleTest] = [
             "userId": "05555555-3333-4ddd-8ccc-755555555555",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Snyk Group Edit ( MEDIUM )",
         expected_result=True,
         log={
@@ -39,7 +39,7 @@ snyk_ou_change_tests: List[PantherRuleTest] = [
             "created": "2023-04-11T23:22:57.667Z",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Snyk Org Create ( INFO )",
         expected_result=True,
         log={
@@ -50,7 +50,7 @@ snyk_ou_change_tests: List[PantherRuleTest] = [
             "userId": "05555555-3333-4ddd-8ccc-755555555555",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Snyk Group SSO Membership sync",
         expected_result=False,
         log={
@@ -63,12 +63,12 @@ snyk_ou_change_tests: List[PantherRuleTest] = [
 ]
 
 
-class SnykOUChange(PantherRule):
+class SnykOUChange(Rule):
     id_ = "Snyk.OU.Change-prototype"
     display_name = "Snyk Org or Group Settings Change"
-    log_types = [PantherLogType.Snyk_GroupAudit, PantherLogType.Snyk_OrgAudit]
+    log_types = [LogType.Snyk_GroupAudit, LogType.Snyk_OrgAudit]
     tags = ["Snyk"]
-    default_severity = PantherSeverity.high
+    default_severity = Severity.high
     default_description = "Detects when Snyk Group or Organization Settings are changed.\n"
     default_runbook = "These actions in the Snyk Audit logs indicate that a Organization or Group setting has changed, including Group and Org creation/deletion. Deletion events are marked with HIGH severity Creation events are marked with INFO severity Edit events are marked with MEDIUM Severity\n"
     default_reference = "https://docs.snyk.io/snyk-admin/introduction-to-snyk-administration"

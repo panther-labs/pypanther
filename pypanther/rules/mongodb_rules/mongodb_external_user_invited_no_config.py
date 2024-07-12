@@ -1,10 +1,10 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_mongodb_helpers import mongodb_alert_context
 
-mongo_db_external_user_invited_no_config_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+mongo_db_external_user_invited_no_config_tests: List[RuleTest] = [
+    RuleTest(
         name="Internal Invite",
         expected_result=False,
         log={
@@ -33,7 +33,7 @@ mongo_db_external_user_invited_no_config_tests: List[PantherRuleTest] = [
             "username": "user@company.com",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="External User Invite",
         expected_result=True,
         log={
@@ -65,12 +65,12 @@ mongo_db_external_user_invited_no_config_tests: List[PantherRuleTest] = [
 ]
 
 
-class MongoDBExternalUserInvitedNoConfig(PantherRule):
+class MongoDBExternalUserInvitedNoConfig(Rule):
     default_description = "An external user has been invited to a MongoDB org (no config)."
     display_name = "MongoDB External User Invited (no config)"
-    default_severity = PantherSeverity.high
+    default_severity = Severity.high
     default_reference = "https://www.mongodb.com/docs/v4.2/tutorial/create-users/"
-    log_types = [PantherLogType.MongoDB_OrganizationEvent]
+    log_types = [LogType.MongoDB_OrganizationEvent]
     id_ = "MongoDB.External.UserInvited.NoConfig-prototype"
     tests = mongo_db_external_user_invited_no_config_tests
 

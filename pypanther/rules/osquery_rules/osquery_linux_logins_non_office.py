@@ -1,11 +1,11 @@
 import ipaddress
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 
-osquery_linux_login_from_non_office_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+osquery_linux_login_from_non_office_tests: List[RuleTest] = [
+    RuleTest(
         name="Non-office network login (logged_in_users)",
         expected_result=True,
         log={
@@ -14,7 +14,7 @@ osquery_linux_login_from_non_office_tests: List[PantherRuleTest] = [
             "columns": {"host": "10.0.3.1", "type": "user", "user": "ubuntu"},
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Non-office network login (last)",
         expected_result=True,
         log={
@@ -30,7 +30,7 @@ osquery_linux_login_from_non_office_tests: List[PantherRuleTest] = [
             },
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Office network login",
         expected_result=False,
         log={
@@ -42,11 +42,11 @@ osquery_linux_login_from_non_office_tests: List[PantherRuleTest] = [
 ]
 
 
-class OsqueryLinuxLoginFromNonOffice(PantherRule):
+class OsqueryLinuxLoginFromNonOffice(Rule):
     id_ = "Osquery.Linux.LoginFromNonOffice-prototype"
     display_name = "A Login from Outside the Corporate Office"
     enabled = False
-    log_types = [PantherLogType.Osquery_Differential]
+    log_types = [LogType.Osquery_Differential]
     tags = [
         "Configuration Required",
         "Osquery",
@@ -54,7 +54,7 @@ class OsqueryLinuxLoginFromNonOffice(PantherRule):
         "Initial Access:Valid Accounts",
     ]
     reports = {"MITRE ATT&CK": ["TA0001:T1078"]}
-    default_severity = PantherSeverity.high
+    default_severity = Severity.high
     default_description = "A system has been logged into from a non approved IP space."
     default_runbook = "Analyze the host IP, and if possible, update allowlist or fix ACL."
     default_reference = "https://attack.mitre.org/techniques/T1078/"

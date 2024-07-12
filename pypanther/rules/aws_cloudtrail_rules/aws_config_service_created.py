@@ -1,11 +1,11 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import aws_rule_context
 from pypanther.helpers.panther_default import aws_cloudtrail_success
 
-aws_config_service_created_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+aws_config_service_created_tests: List[RuleTest] = [
+    RuleTest(
         name="Config Recorder Delivery Channel Created",
         expected_result=True,
         log={
@@ -45,7 +45,7 @@ aws_config_service_created_tests: List[PantherRuleTest] = [
             "recipientAccountId": "123456789012",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Config Recorder Deleted",
         expected_result=False,
         log={
@@ -85,7 +85,7 @@ aws_config_service_created_tests: List[PantherRuleTest] = [
             "recipientAccountId": "123456789012",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Error Creating Config Recorder Delivery Channel",
         expected_result=False,
         log={
@@ -129,13 +129,13 @@ aws_config_service_created_tests: List[PantherRuleTest] = [
 ]
 
 
-class AWSConfigServiceCreated(PantherRule):
+class AWSConfigServiceCreated(Rule):
     id_ = "AWS.ConfigService.Created-prototype"
     display_name = "AWS Config Service Created"
-    log_types = [PantherLogType.AWS_CloudTrail]
+    log_types = [LogType.AWS_CloudTrail]
     tags = ["AWS", "Security Control", "Discovery:Cloud Service Discovery"]
     reports = {"CIS": ["3.9"], "MITRE ATT&CK": ["TA0007:T1526"]}
-    default_severity = PantherSeverity.info
+    default_severity = Severity.info
     default_description = "An AWS Config Recorder or Delivery Channel was created\n"
     default_runbook = "Verify that the Config Service changes were authorized. If not, revert them and investigate who caused the change. Consider altering permissions to prevent this from happening again in the future.\n"
     default_reference = "https://aws.amazon.com/config/"

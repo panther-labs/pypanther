@@ -1,10 +1,10 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import aws_rule_context, deep_get
 
-aws_cloud_trail_password_policy_discovery_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+aws_cloud_trail_password_policy_discovery_tests: List[RuleTest] = [
+    RuleTest(
         name="Non-Discovery Event",
         expected_result=False,
         log={
@@ -21,7 +21,7 @@ aws_cloud_trail_password_policy_discovery_tests: List[PantherRuleTest] = [
             "useridentity": {"arn": "arn:aws:test_arn"},
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Password Discovery ARN",
         expected_result=True,
         log={
@@ -37,7 +37,7 @@ aws_cloud_trail_password_policy_discovery_tests: List[PantherRuleTest] = [
             "useridentity": {"arn": "arn:aws:test_arn"},
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Password Discovery Service",
         expected_result=False,
         log={
@@ -55,14 +55,14 @@ aws_cloud_trail_password_policy_discovery_tests: List[PantherRuleTest] = [
 ]
 
 
-class AWSCloudTrailPasswordPolicyDiscovery(PantherRule):
+class AWSCloudTrailPasswordPolicyDiscovery(Rule):
     default_description = "This detection looks for *AccountPasswordPolicy events in AWS CloudTrail logs. If these events occur in a short period of time from the same ARN, it could constitute Password Policy reconnaissance."
     display_name = "AWS CloudTrail Password Policy Discovery"
     reports = {"MITRE ATT&CK": ["TA0007:T1201"]}
     default_reference = "https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_passwords_account-policy.html"
-    default_severity = PantherSeverity.info
+    default_severity = Severity.info
     dedup_period_minutes = 30
-    log_types = [PantherLogType.AWS_CloudTrail]
+    log_types = [LogType.AWS_CloudTrail]
     id_ = "AWS.CloudTrail.Password.Policy.Discovery-prototype"
     threshold = 2
     tests = aws_cloud_trail_password_policy_discovery_tests

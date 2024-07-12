@@ -1,9 +1,9 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 
-push_security_phishing_attack_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+push_security_phishing_attack_tests: List[RuleTest] = [
+    RuleTest(
         name="Phishing Detected - Block Mode",
         expected_result=True,
         log={
@@ -34,7 +34,7 @@ push_security_phishing_attack_tests: List[PantherRuleTest] = [
             "version": "1",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Phishing Detected - Monitor Mode",
         expected_result=True,
         log={
@@ -68,11 +68,11 @@ push_security_phishing_attack_tests: List[PantherRuleTest] = [
 ]
 
 
-class PushSecurityPhishingAttack(PantherRule):
+class PushSecurityPhishingAttack(Rule):
     id_ = "Push.Security.Phishing.Attack-prototype"
     display_name = "Push Security Phishing Attack"
-    log_types = [PantherLogType.PushSecurity_Controls]
-    default_severity = PantherSeverity.high
+    log_types = [LogType.PushSecurity_Controls]
+    default_severity = Severity.high
     tests = push_security_phishing_attack_tests
 
     def rule(self, event):

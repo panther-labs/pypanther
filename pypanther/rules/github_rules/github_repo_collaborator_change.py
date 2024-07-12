@@ -1,9 +1,9 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 
-github_repo_collaborator_change_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+github_repo_collaborator_change_tests: List[RuleTest] = [
+    RuleTest(
         name="GitHub - Collaborator Added",
         expected_result=True,
         log={
@@ -16,7 +16,7 @@ github_repo_collaborator_change_tests: List[PantherRuleTest] = [
             "user": "cat",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="GitHub - Collaborator Removed",
         expected_result=True,
         log={
@@ -29,7 +29,7 @@ github_repo_collaborator_change_tests: List[PantherRuleTest] = [
             "user": "cat",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="GitHub - Non member action",
         expected_result=False,
         log={
@@ -45,13 +45,13 @@ github_repo_collaborator_change_tests: List[PantherRuleTest] = [
 ]
 
 
-class GithubRepoCollaboratorChange(PantherRule):
+class GithubRepoCollaboratorChange(Rule):
     id_ = "Github.Repo.CollaboratorChange-prototype"
     display_name = "GitHub Repository Collaborator Change"
-    log_types = [PantherLogType.GitHub_Audit]
+    log_types = [LogType.GitHub_Audit]
     tags = ["GitHub", "Initial Access:Supply Chain Compromise"]
     reports = {"MITRE ATT&CK": ["TA0001:T1195"]}
-    default_severity = PantherSeverity.medium
+    default_severity = Severity.medium
     default_description = "Detects when a repository collaborator is added or removed."
     default_runbook = "Determine if the new collaborator is authorized to access the repository."
     default_reference = "https://docs.github.com/en/organizations/managing-user-access-to-your-organizations-repositories/managing-repository-roles/managing-an-individuals-access-to-an-organization-repository"

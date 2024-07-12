@@ -3,12 +3,12 @@ from typing import List
 
 from policyuniverse.policy import Policy
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import aws_rule_context, deep_get
 from pypanther.helpers.panther_default import aws_cloudtrail_success
 
-aws_cloud_trail_resource_made_public_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+aws_cloud_trail_resource_made_public_tests: List[RuleTest] = [
+    RuleTest(
         name="ECR Made Public",
         expected_result=True,
         log={
@@ -73,7 +73,7 @@ aws_cloud_trail_resource_made_public_tests: List[PantherRuleTest] = [
             ],
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="S3 Made Publicly Accessible",
         expected_result=True,
         log={
@@ -135,7 +135,7 @@ aws_cloud_trail_resource_made_public_tests: List[PantherRuleTest] = [
             "vpcEndpointId": "vpce-1111",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="S3 Not Made Publicly Accessible",
         expected_result=False,
         log={
@@ -197,7 +197,7 @@ aws_cloud_trail_resource_made_public_tests: List[PantherRuleTest] = [
             "vpcEndpointId": "vpce-1111",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Null Request Parameters",
         expected_result=False,
         log={
@@ -243,7 +243,7 @@ aws_cloud_trail_resource_made_public_tests: List[PantherRuleTest] = [
             "vpcEndpointId": "vpce-1111",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="S3 Failed to make Publicly Accessible",
         expected_result=False,
         log={
@@ -306,7 +306,7 @@ aws_cloud_trail_resource_made_public_tests: List[PantherRuleTest] = [
             "vpcEndpointId": "vpce-1111",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Empty Policy Payload",
         expected_result=False,
         log={
@@ -358,12 +358,12 @@ aws_cloud_trail_resource_made_public_tests: List[PantherRuleTest] = [
 ]
 
 
-class AWSCloudTrailResourceMadePublic(PantherRule):
+class AWSCloudTrailResourceMadePublic(Rule):
     id_ = "AWS.CloudTrail.ResourceMadePublic-prototype"
     display_name = "AWS Resource Made Public"
-    log_types = [PantherLogType.AWS_CloudTrail]
+    log_types = [LogType.AWS_CloudTrail]
     tags = ["AWS", "Exfiltration:Transfer Data to Cloud Account"]
-    default_severity = PantherSeverity.medium
+    default_severity = Severity.medium
     reports = {"MITRE ATT&CK": ["TA0010:T1537"]}
     default_description = "Some AWS resource was made publicly accessible over the internet. Checks ECR, Elasticsearch, KMS, S3, S3 Glacier, SNS, SQS, and Secrets Manager.\n"
     default_runbook = "Adjust the policy so that the resource is no longer publicly accessible"

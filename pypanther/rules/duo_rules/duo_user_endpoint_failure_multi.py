@@ -1,10 +1,10 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 
-duo_user_endpoint_failure_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+duo_user_endpoint_failure_tests: List[RuleTest] = [
+    RuleTest(
         name="endpoint_is_not_in_management_system",
         expected_result=True,
         log={
@@ -18,7 +18,7 @@ duo_user_endpoint_failure_tests: List[PantherRuleTest] = [
             "user": {"name": "example@example.io"},
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="endpoint_failed_google_verification",
         expected_result=True,
         log={
@@ -32,7 +32,7 @@ duo_user_endpoint_failure_tests: List[PantherRuleTest] = [
             "user": {"name": "example@example.io"},
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="endpoint_is_not_trusted",
         expected_result=True,
         log={
@@ -46,7 +46,7 @@ duo_user_endpoint_failure_tests: List[PantherRuleTest] = [
             "user": {"name": "example@example.io"},
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="could_not_determine_if_endpoint_was_trusted",
         expected_result=True,
         log={
@@ -60,7 +60,7 @@ duo_user_endpoint_failure_tests: List[PantherRuleTest] = [
             "user": {"name": "example@example.io"},
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="invalid_device",
         expected_result=True,
         log={
@@ -74,7 +74,7 @@ duo_user_endpoint_failure_tests: List[PantherRuleTest] = [
             "user": {"name": "example@example.io"},
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="good_auth",
         expected_result=False,
         log={
@@ -88,7 +88,7 @@ duo_user_endpoint_failure_tests: List[PantherRuleTest] = [
             "user": {"name": "example@example.io"},
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="denied_old_creds",
         expected_result=False,
         log={
@@ -105,13 +105,13 @@ duo_user_endpoint_failure_tests: List[PantherRuleTest] = [
 ]
 
 
-class DUOUserEndpointFailure(PantherRule):
+class DUOUserEndpointFailure(Rule):
     id_ = "DUO.User.Endpoint.Failure-prototype"
     display_name = "Duo User Denied For Endpoint Error"
     dedup_period_minutes = 15
-    log_types = [PantherLogType.Duo_Authentication]
+    log_types = [LogType.Duo_Authentication]
     tags = ["Duo"]
-    default_severity = PantherSeverity.medium
+    default_severity = Severity.medium
     default_description = (
         "A Duo user's authentication was denied due to a suspicious error on the endpoint"
     )

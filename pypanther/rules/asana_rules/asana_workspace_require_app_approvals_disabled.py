@@ -1,10 +1,10 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 
-asana_workspace_require_app_approvals_disabled_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+asana_workspace_require_app_approvals_disabled_tests: List[RuleTest] = [
+    RuleTest(
         name="Web Reqs On",
         expected_result=False,
         log={
@@ -31,7 +31,7 @@ asana_workspace_require_app_approvals_disabled_tests: List[PantherRuleTest] = [
             },
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Web Reqs Off",
         expected_result=True,
         log={
@@ -61,13 +61,13 @@ asana_workspace_require_app_approvals_disabled_tests: List[PantherRuleTest] = [
 ]
 
 
-class AsanaWorkspaceRequireAppApprovalsDisabled(PantherRule):
+class AsanaWorkspaceRequireAppApprovalsDisabled(Rule):
     default_description = "An Asana user turned off app approval requirements for an application type for your organization."
     display_name = "Asana Workspace Require App Approvals Disabled"
     default_runbook = "Confirm this user acted with valid business intent and determine whether this activity was authorized."
     default_reference = "https://help.asana.com/hc/en-us/articles/14109494654875-Admin-console#:~:text=used%20by%20default-,Require%20app%20approval,-Admins%20manage%20a"
-    default_severity = PantherSeverity.medium
-    log_types = [PantherLogType.Asana_Audit]
+    default_severity = Severity.medium
+    log_types = [LogType.Asana_Audit]
     id_ = "Asana.Workspace.Require.App.Approvals.Disabled-prototype"
     tests = asana_workspace_require_app_approvals_disabled_tests
 

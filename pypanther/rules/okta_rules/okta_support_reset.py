@@ -1,10 +1,10 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get, okta_alert_context
 
-okta_support_reset_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+okta_support_reset_tests: List[RuleTest] = [
+    RuleTest(
         name="Support Reset Credential",
         expected_result=True,
         log={
@@ -40,7 +40,7 @@ okta_support_reset_tests: List[PantherRuleTest] = [
             "p_log_type": "Okta.SystemLog",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Reset by Company Admin",
         expected_result=False,
         log={
@@ -88,10 +88,10 @@ okta_support_reset_tests: List[PantherRuleTest] = [
 ]
 
 
-class OktaSupportReset(PantherRule):
+class OktaSupportReset(Rule):
     id_ = "Okta.Support.Reset-prototype"
     display_name = "Okta Support Reset Credential"
-    log_types = [PantherLogType.Okta_SystemLog]
+    log_types = [LogType.Okta_SystemLog]
     tags = [
         "Identity & Access Management",
         "DataModel",
@@ -99,7 +99,7 @@ class OktaSupportReset(PantherRule):
         "Initial Access:Trusted Relationship",
     ]
     reports = {"MITRE ATT&CK": ["TA0001:T1199"]}
-    default_severity = PantherSeverity.high
+    default_severity = Severity.high
     default_description = "A Password or MFA factor was reset by Okta Support"
     default_reference = "https://help.okta.com/en/prod/Content/Topics/Directory/get-support.htm#:~:text=Visit%20the%20Okta%20Help%20Center,1%2D800%2D219%2D0964"
     default_runbook = "Contact Admin to ensure this was sanctioned activity"

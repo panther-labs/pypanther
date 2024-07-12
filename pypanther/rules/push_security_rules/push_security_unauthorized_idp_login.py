@@ -1,9 +1,9 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 
-push_security_unauthorized_id_p_login_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+push_security_unauthorized_id_p_login_tests: List[RuleTest] = [
+    RuleTest(
         name="Google Workspace Password Login",
         expected_result=True,
         log={
@@ -32,7 +32,7 @@ push_security_unauthorized_id_p_login_tests: List[PantherRuleTest] = [
             "version": "1",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Microsoft 365 OIDC Login",
         expected_result=True,
         log={
@@ -61,7 +61,7 @@ push_security_unauthorized_id_p_login_tests: List[PantherRuleTest] = [
             "version": "1",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Password Login",
         expected_result=False,
         log={
@@ -93,13 +93,13 @@ push_security_unauthorized_id_p_login_tests: List[PantherRuleTest] = [
 ]
 
 
-class PushSecurityUnauthorizedIdPLogin(PantherRule):
+class PushSecurityUnauthorizedIdPLogin(Rule):
     id_ = "Push.Security.Unauthorized.IdP.Login-prototype"
     display_name = "Push Security Unauthorized IdP Login"
     enabled = False
     tags = ["Configuration Required"]
-    log_types = [PantherLogType.PushSecurity_Activity]
-    default_severity = PantherSeverity.high
+    log_types = [LogType.PushSecurity_Activity]
+    default_severity = Severity.high
     default_description = "Login to application with unauthorized identity provider which could indicate a SAMLjacking attack."
     default_reference = "https://github.com/pushsecurity/saas-attacks/blob/main/techniques/samljacking/description.md"
     tests = push_security_unauthorized_id_p_login_tests

@@ -1,10 +1,10 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import aws_rule_context, deep_get
 
-aws_cloud_trail_root_access_key_created_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+aws_cloud_trail_root_access_key_created_tests: List[RuleTest] = [
+    RuleTest(
         name="Root Access Key Created",
         expected_result=True,
         log={
@@ -43,7 +43,7 @@ aws_cloud_trail_root_access_key_created_tests: List[PantherRuleTest] = [
             },
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Root Created Access Key For User",
         expected_result=False,
         log={
@@ -86,13 +86,13 @@ aws_cloud_trail_root_access_key_created_tests: List[PantherRuleTest] = [
 ]
 
 
-class AWSCloudTrailRootAccessKeyCreated(PantherRule):
+class AWSCloudTrailRootAccessKeyCreated(Rule):
     id_ = "AWS.CloudTrail.RootAccessKeyCreated-prototype"
     display_name = "Root Account Access Key Created"
-    log_types = [PantherLogType.AWS_CloudTrail]
+    log_types = [LogType.AWS_CloudTrail]
     tags = ["AWS", "Identity and Access Management", "Persistence:Account Manipulation"]
     reports = {"MITRE ATT&CK": ["TA0003:T1098"]}
-    default_severity = PantherSeverity.critical
+    default_severity = Severity.critical
     default_description = "An access key was created for the Root account"
     default_runbook = "Verify that the root access key was created for legitimate reasons. If not, immediately revoke it and change the root login credentials. If it was created for legitimate reasons, monitor its use and ensure it is revoked when its need is gone.\n"
     default_reference = (

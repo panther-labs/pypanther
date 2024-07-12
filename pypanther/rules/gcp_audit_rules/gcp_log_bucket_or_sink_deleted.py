@@ -1,12 +1,12 @@
 import re
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.gcp_base_helpers import gcp_alert_context
 from pypanther.helpers.panther_base_helpers import deep_get, deep_walk
 
-gcp_log_bucket_or_sink_deleted_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+gcp_log_bucket_or_sink_deleted_tests: List[RuleTest] = [
+    RuleTest(
         name="logging-bucket.deleted-should-alert",
         expected_result=True,
         log={
@@ -57,7 +57,7 @@ gcp_log_bucket_or_sink_deleted_tests: List[PantherRuleTest] = [
             "timestamp": "2023-05-23 19:38:36.838",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="logging-sink.deleted-should-alert",
         expected_result=True,
         log={
@@ -108,7 +108,7 @@ gcp_log_bucket_or_sink_deleted_tests: List[PantherRuleTest] = [
             "timestamp": "2023-05-23 19:39:15.213",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="logging-bucket.non-deletion-should-not-alert",
         expected_result=False,
         log={
@@ -159,7 +159,7 @@ gcp_log_bucket_or_sink_deleted_tests: List[PantherRuleTest] = [
             "timestamp": "2023-05-23 19:38:36.838",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="logging-sink.non-deletion-should-not-alert",
         expected_result=False,
         log={
@@ -213,11 +213,11 @@ gcp_log_bucket_or_sink_deleted_tests: List[PantherRuleTest] = [
 ]
 
 
-class GCPLogBucketOrSinkDeleted(PantherRule):
+class GCPLogBucketOrSinkDeleted(Rule):
     display_name = "GCP Log Bucket or Sink Deleted"
     id_ = "GCP.Log.Bucket.Or.Sink.Deleted-prototype"
-    default_severity = PantherSeverity.medium
-    log_types = [PantherLogType.GCP_AuditLog]
+    default_severity = Severity.medium
+    log_types = [LogType.GCP_AuditLog]
     tags = ["GCP", "Logging", "Bucket", "Sink", "Infrastructure"]
     default_description = "This rule detects deletions of GCP Log Buckets or Sinks.\n"
     default_runbook = "Ensure that the bucket or sink deletion was expected. Adversaries may do this to cover their tracks.\n"

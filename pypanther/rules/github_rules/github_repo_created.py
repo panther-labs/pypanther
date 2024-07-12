@@ -1,9 +1,9 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 
-github_repo_created_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+github_repo_created_tests: List[RuleTest] = [
+    RuleTest(
         name="GitHub - Repo Created",
         expected_result=True,
         log={
@@ -15,7 +15,7 @@ github_repo_created_tests: List[PantherRuleTest] = [
             "repo": "my-org/my-repo",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="GitHub - Repo Archived",
         expected_result=False,
         log={
@@ -30,13 +30,13 @@ github_repo_created_tests: List[PantherRuleTest] = [
 ]
 
 
-class GithubRepoCreated(PantherRule):
+class GithubRepoCreated(Rule):
     id_ = "Github.Repo.Created-prototype"
     display_name = "GitHub Repository Created"
-    log_types = [PantherLogType.GitHub_Audit]
+    log_types = [LogType.GitHub_Audit]
     tags = ["GitHub"]
     default_reference = "https://docs.github.com/en/get-started/quickstart/create-a-repo"
-    default_severity = PantherSeverity.info
+    default_severity = Severity.info
     default_description = "Detects when a repository is created."
     tests = github_repo_created_tests
 

@@ -1,11 +1,11 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import aws_rule_context
 from pypanther.helpers.panther_default import aws_cloudtrail_success
 
-awsec2_route_table_modified_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+awsec2_route_table_modified_tests: List[RuleTest] = [
+    RuleTest(
         name="Route Table Modified",
         expected_result=True,
         log={
@@ -48,7 +48,7 @@ awsec2_route_table_modified_tests: List[PantherRuleTest] = [
             "recipientAccountId": "123456789012",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Route Table Not Modified",
         expected_result=False,
         log={
@@ -98,7 +98,7 @@ awsec2_route_table_modified_tests: List[PantherRuleTest] = [
             "recipientAccountId": "123456789012",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Error Modifying Route Table",
         expected_result=False,
         log={
@@ -145,13 +145,13 @@ awsec2_route_table_modified_tests: List[PantherRuleTest] = [
 ]
 
 
-class AWSEC2RouteTableModified(PantherRule):
+class AWSEC2RouteTableModified(Rule):
     id_ = "AWS.EC2.RouteTableModified-prototype"
     display_name = "EC2 Route Table Modified"
-    log_types = [PantherLogType.AWS_CloudTrail]
+    log_types = [LogType.AWS_CloudTrail]
     tags = ["AWS", "Exfiltration:Exfiltration Over Alternative Protocol"]
     reports = {"CIS": ["3.13"], "MITRE ATT&CK": ["TA0010:T1048"]}
-    default_severity = PantherSeverity.info
+    default_severity = Severity.info
     default_description = "An EC2 Route Table was modified."
     default_runbook = (
         "https://docs.runpanther.io/alert-runbooks/built-in-rules/aws-ec2-route-table-modified"

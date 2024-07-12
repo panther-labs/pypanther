@@ -1,10 +1,10 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import slack_alert_context
 
-slack_audit_logs_potentially_malicious_file_shared_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+slack_audit_logs_potentially_malicious_file_shared_tests: List[RuleTest] = [
+    RuleTest(
         name="Malicious Content Detected",
         expected_result=True,
         log={
@@ -30,7 +30,7 @@ slack_audit_logs_potentially_malicious_file_shared_tests: List[PantherRuleTest] 
             },
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="User Logout",
         expected_result=False,
         log={
@@ -70,13 +70,13 @@ slack_audit_logs_potentially_malicious_file_shared_tests: List[PantherRuleTest] 
 ]
 
 
-class SlackAuditLogsPotentiallyMaliciousFileShared(PantherRule):
+class SlackAuditLogsPotentiallyMaliciousFileShared(Rule):
     id_ = "Slack.AuditLogs.PotentiallyMaliciousFileShared-prototype"
     display_name = "Slack Potentially Malicious File Shared"
-    log_types = [PantherLogType.Slack_AuditLogs]
+    log_types = [LogType.Slack_AuditLogs]
     tags = ["Slack", "Initial Access", "Phishing", "Spearphising Attachment"]
     reports = {"MITRE ATT&CK": ["TA0001:T1566.001"]}
-    default_severity = PantherSeverity.critical
+    default_severity = Severity.critical
     default_description = "Detects when a potentially malicious file is shared within Slack"
     default_reference = "https://threatpost.com/slack-remote-file-hijacking-malware/144871/"
     summary_attributes = ["p_any_ip_addresses", "p_any_emails"]

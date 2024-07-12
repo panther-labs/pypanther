@@ -1,11 +1,11 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.gcp_base_helpers import gcp_alert_context
 from pypanther.helpers.panther_base_helpers import deep_get, deep_walk
 
-gcpk8_s_pot_create_or_modify_host_path_volume_mount_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+gcpk8_s_pot_create_or_modify_host_path_volume_mount_tests: List[RuleTest] = [
+    RuleTest(
         name="Pod With Suspicious Volume Mount Created",
         expected_result=True,
         log={
@@ -86,7 +86,7 @@ gcpk8_s_pot_create_or_modify_host_path_volume_mount_tests: List[PantherRuleTest]
             "timestamp": "2024-02-16 11:48:22.742154000",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Pod With Non-Suspicious Volume Mount Created",
         expected_result=False,
         log={
@@ -167,7 +167,7 @@ gcpk8_s_pot_create_or_modify_host_path_volume_mount_tests: List[PantherRuleTest]
             "timestamp": "2024-02-16 11:48:22.742154000",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Pod Not Created",
         expected_result=False,
         log={
@@ -227,11 +227,11 @@ gcpk8_s_pot_create_or_modify_host_path_volume_mount_tests: List[PantherRuleTest]
 ]
 
 
-class GCPK8SPotCreateOrModifyHostPathVolumeMount(PantherRule):
+class GCPK8SPotCreateOrModifyHostPathVolumeMount(Rule):
     id_ = "GCP.K8S.Pot.Create.Or.Modify.Host.Path.Volume.Mount-prototype"
     display_name = "GCP K8S Pot Create Or Modify Host Path Volume Mount"
-    log_types = [PantherLogType.GCP_AuditLog]
-    default_severity = PantherSeverity.high
+    log_types = [LogType.GCP_AuditLog]
+    default_severity = Severity.high
     default_description = "This detection monitors for pod creation with a hostPath volume mount. The attachment to a node's volume can allow for privilege escalation through underlying vulnerabilities or it can open up possibilities for data exfiltration or unauthorized file access. It is very rare to see this being a pod requirement.\n"
     default_runbook = "Investigate the reason of adding hostPath volume mount. Advise that it is discouraged practice. Create ticket if appropriate.\n"
     default_reference = "https://linuxhint.com/kubernetes-hostpath-volumes/"

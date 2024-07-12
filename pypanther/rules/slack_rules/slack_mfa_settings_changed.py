@@ -1,10 +1,10 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import slack_alert_context
 
-slack_audit_logs_mfa_settings_changed_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+slack_audit_logs_mfa_settings_changed_tests: List[RuleTest] = [
+    RuleTest(
         name="MFA Auth Changed",
         expected_result=True,
         log={
@@ -30,7 +30,7 @@ slack_audit_logs_mfa_settings_changed_tests: List[PantherRuleTest] = [
             },
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="User Logout",
         expected_result=False,
         log={
@@ -70,10 +70,10 @@ slack_audit_logs_mfa_settings_changed_tests: List[PantherRuleTest] = [
 ]
 
 
-class SlackAuditLogsMFASettingsChanged(PantherRule):
+class SlackAuditLogsMFASettingsChanged(Rule):
     id_ = "Slack.AuditLogs.MFASettingsChanged-prototype"
     display_name = "Slack MFA Settings Changed"
-    log_types = [PantherLogType.Slack_AuditLogs]
+    log_types = [LogType.Slack_AuditLogs]
     tags = [
         "Slack",
         "Defense Evasion",
@@ -81,7 +81,7 @@ class SlackAuditLogsMFASettingsChanged(PantherRule):
         "Multi-Factor Authentication",
     ]
     reports = {"MITRE ATT&CK": ["TA0005:T1556.006"]}
-    default_severity = PantherSeverity.high
+    default_severity = Severity.high
     default_description = "Detects changes to Multi-Factor Authentication requirements"
     default_reference = (
         "https://slack.com/intl/en-gb/help/articles/204509068-Set-up-two-factor-authentication"

@@ -1,10 +1,10 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get, deep_walk, okta_alert_context
 
-okta_password_extractionvia_scim_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+okta_password_extractionvia_scim_tests: List[RuleTest] = [
+    RuleTest(
         name="Other Event",
         expected_result=False,
         log={
@@ -83,7 +83,7 @@ okta_password_extractionvia_scim_tests: List[PantherRuleTest] = [
             "version": "0",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="FastPass Phishing Block Event",
         expected_result=True,
         log={
@@ -165,12 +165,12 @@ okta_password_extractionvia_scim_tests: List[PantherRuleTest] = [
 ]
 
 
-class OktaPasswordExtractionviaSCIM(PantherRule):
+class OktaPasswordExtractionviaSCIM(Rule):
     id_ = "Okta.Password.Extraction.via.SCIM-prototype"
     display_name = "Okta Cleartext Passwords Extracted via SCIM Application"
-    log_types = [PantherLogType.Okta_SystemLog]
+    log_types = [LogType.Okta_SystemLog]
     reports = {"MITRE ATT&CK": ["TA0006:T1556"]}
-    default_severity = PantherSeverity.high
+    default_severity = Severity.high
     default_description = "An application admin has extracted cleartext user passwords via SCIM app. Malcious actors can extract plaintext passwords by creating a SCIM application under their control and configuring it to sync passwords from Okta.\n"
     default_reference = "https://www.authomize.com/blog/authomize-discovers-password-stealing-and-impersonation-risks-to-in-okta/\n"
     dedup_period_minutes = 30

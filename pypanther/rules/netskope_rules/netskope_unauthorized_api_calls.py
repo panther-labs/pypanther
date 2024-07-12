@@ -1,10 +1,10 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_walk
 
-netskope_unauthorized_api_calls_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+netskope_unauthorized_api_calls_tests: List[RuleTest] = [
+    RuleTest(
         name="True positive",
         expected_result=True,
         log={
@@ -30,7 +30,7 @@ netskope_unauthorized_api_calls_tests: List[PantherRuleTest] = [
             "user": "service-account",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="True negative",
         expected_result=False,
         log={
@@ -59,13 +59,13 @@ netskope_unauthorized_api_calls_tests: List[PantherRuleTest] = [
 ]
 
 
-class NetskopeUnauthorizedAPICalls(PantherRule):
+class NetskopeUnauthorizedAPICalls(Rule):
     id_ = "Netskope.UnauthorizedAPICalls-prototype"
     display_name = "Netskope Many Unauthorized API Calls"
-    log_types = [PantherLogType.Netskope_Audit]
+    log_types = [LogType.Netskope_Audit]
     tags = ["Netskope", "Configuration Required", "Brute Force"]
     reports = {"MITRE ATT&CK": ["TA0006:T1110"]}
-    default_severity = PantherSeverity.high
+    default_severity = Severity.high
     default_description = (
         "Many unauthorized API calls were observed for a user in a short period of time."
     )

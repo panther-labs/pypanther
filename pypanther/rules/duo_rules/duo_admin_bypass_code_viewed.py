@@ -1,9 +1,9 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 
-duo_admin_bypass_code_viewed_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+duo_admin_bypass_code_viewed_tests: List[RuleTest] = [
+    RuleTest(
         name="Bypass View",
         expected_result=True,
         log={
@@ -15,7 +15,7 @@ duo_admin_bypass_code_viewed_tests: List[PantherRuleTest] = [
             "username": "Homer Simpson",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Bypass Create",
         expected_result=False,
         log={
@@ -30,13 +30,13 @@ duo_admin_bypass_code_viewed_tests: List[PantherRuleTest] = [
 ]
 
 
-class DuoAdminBypassCodeViewed(PantherRule):
+class DuoAdminBypassCodeViewed(Rule):
     default_description = "An administrator viewed the MFA bypass code for a user."
     display_name = "Duo Admin Bypass Code Viewed"
     default_reference = "https://duo.com/docs/adminapi"
     default_runbook = "Confirm this behavior is authorized. The security of your Duo application is tied to the security of your secret key (skey). Secure it as you would any sensitive credential. You should not share it with unauthorized individuals or email it to anyone under any circumstances!"
-    default_severity = PantherSeverity.medium
-    log_types = [PantherLogType.Duo_Administrator]
+    default_severity = Severity.medium
+    log_types = [LogType.Duo_Administrator]
     id_ = "Duo.Admin.Bypass.Code.Viewed-prototype"
     tests = duo_admin_bypass_code_viewed_tests
 

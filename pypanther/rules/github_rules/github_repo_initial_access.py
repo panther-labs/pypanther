@@ -2,15 +2,15 @@ from typing import List
 
 from panther_detection_helpers.caching import get_string_set, put_string_set
 
-from pypanther import PantherLogType, PantherRule, PantherRuleMock, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 
-git_hub_repo_initial_access_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+git_hub_repo_initial_access_tests: List[RuleTest] = [
+    RuleTest(
         name="GitHub - Initial Access",
         expected_result=True,
         mocks=[
-            PantherRuleMock(object_name="get_string_set", return_value=""),
-            PantherRuleMock(object_name="put_string_set", return_value=""),
+            RuleMock(object_name="get_string_set", return_value=""),
+            RuleMock(object_name="put_string_set", return_value=""),
         ],
         log={
             "@timestamp": 1623971719091,
@@ -26,10 +26,10 @@ git_hub_repo_initial_access_tests: List[PantherRuleTest] = [
             "user": "",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="GitHub - Repeated Access",
         expected_result=False,
-        mocks=[PantherRuleMock(object_name="get_string_set", return_value='"cat":"my-repo"\n')],
+        mocks=[RuleMock(object_name="get_string_set", return_value='"cat":"my-repo"\n')],
         log={
             "@timestamp": 1623971719091,
             "business": "",
@@ -44,12 +44,12 @@ git_hub_repo_initial_access_tests: List[PantherRuleTest] = [
             "user": "",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="GitHub - Initial Access Public Repo",
         expected_result=False,
         mocks=[
-            PantherRuleMock(object_name="get_string_set", return_value=""),
-            PantherRuleMock(object_name="put_string_set", return_value=""),
+            RuleMock(object_name="get_string_set", return_value=""),
+            RuleMock(object_name="put_string_set", return_value=""),
         ],
         log={
             "@timestamp": 1623971719091,
@@ -65,7 +65,7 @@ git_hub_repo_initial_access_tests: List[PantherRuleTest] = [
             "user": "",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="GitHub - Clone without Actor",
         expected_result=False,
         log={
@@ -85,13 +85,13 @@ git_hub_repo_initial_access_tests: List[PantherRuleTest] = [
 ]
 
 
-class GitHubRepoInitialAccess(PantherRule):
+class GitHubRepoInitialAccess(Rule):
     id_ = "GitHub.Repo.InitialAccess-prototype"
     display_name = "GitHub User Initial Access to Private Repo"
-    log_types = [PantherLogType.GitHub_Audit]
+    log_types = [LogType.GitHub_Audit]
     tags = ["GitHub"]
     default_reference = "https://docs.github.com/en/organizations/managing-user-access-to-your-organizations-repositories/managing-repository-roles/managing-an-individuals-access-to-an-organization-repository"
-    default_severity = PantherSeverity.info
+    default_severity = Severity.info
     default_description = (
         "Detects when a user initially accesses a private organization repository."
     )

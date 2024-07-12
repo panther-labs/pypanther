@@ -1,10 +1,10 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import filter_crowdstrike_fdr_event_type
 
-standard_malicious_ssodns_lookup_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+standard_malicious_ssodns_lookup_tests: List[RuleTest] = [
+    RuleTest(
         name="Known Good SSO Domain",
         expected_result=False,
         log={
@@ -22,7 +22,7 @@ standard_malicious_ssodns_lookup_tests: List[PantherRuleTest] = [
             "timestamp": "2022-08-31 07:03:49.195",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Potentially Malicious SSO Domain",
         expected_result=True,
         log={
@@ -40,7 +40,7 @@ standard_malicious_ssodns_lookup_tests: List[PantherRuleTest] = [
             "timestamp": "2022-08-31 07:03:49.195",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="No Domain",
         expected_result=False,
         log={
@@ -57,7 +57,7 @@ standard_malicious_ssodns_lookup_tests: List[PantherRuleTest] = [
             "timestamp": "2022-08-31 07:03:49.195",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Known good and malicious domain",
         expected_result=True,
         log={
@@ -77,7 +77,7 @@ standard_malicious_ssodns_lookup_tests: List[PantherRuleTest] = [
             "timestamp": "2022-08-31 07:03:49.195",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Known good and malicious domain with Crowdstrike.FDREvent",
         expected_result=True,
         log={
@@ -134,7 +134,7 @@ standard_malicious_ssodns_lookup_tests: List[PantherRuleTest] = [
             ],
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="non DnsRequest Crowdstrike.FDREvent event",
         expected_result=False,
         log={
@@ -173,19 +173,19 @@ standard_malicious_ssodns_lookup_tests: List[PantherRuleTest] = [
 ]
 
 
-class StandardMaliciousSSODNSLookup(PantherRule):
+class StandardMaliciousSSODNSLookup(Rule):
     id_ = "Standard.MaliciousSSODNSLookup-prototype"
     dedup_period_minutes = 1440
     display_name = "Malicious SSO DNS Lookup"
     enabled = False
     log_types = [
-        PantherLogType.CiscoUmbrella_DNS,
-        PantherLogType.Crowdstrike_DNSRequest,
-        PantherLogType.Crowdstrike_FDREvent,
-        PantherLogType.Suricata_DNS,
-        PantherLogType.Zeek_DNS,
+        LogType.CiscoUmbrella_DNS,
+        LogType.Crowdstrike_DNSRequest,
+        LogType.Crowdstrike_FDREvent,
+        LogType.Suricata_DNS,
+        LogType.Zeek_DNS,
     ]
-    default_severity = PantherSeverity.medium
+    default_severity = Severity.medium
     threshold = 1000
     tags = ["Configuration Required"]
     reports = {"MITRE ATT&CK": ["TA0001:T1566"]}

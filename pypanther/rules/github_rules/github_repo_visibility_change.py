@@ -1,9 +1,9 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 
-github_repo_visibility_change_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+github_repo_visibility_change_tests: List[RuleTest] = [
+    RuleTest(
         name="GitHub - Repo Visibility Change",
         expected_result=True,
         log={
@@ -15,7 +15,7 @@ github_repo_visibility_change_tests: List[PantherRuleTest] = [
             "repo": "my-org/my-repo",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="GitHub - Repo disabled",
         expected_result=False,
         log={
@@ -30,14 +30,14 @@ github_repo_visibility_change_tests: List[PantherRuleTest] = [
 ]
 
 
-class GithubRepoVisibilityChange(PantherRule):
+class GithubRepoVisibilityChange(Rule):
     id_ = "Github.Repo.VisibilityChange-prototype"
     display_name = "GitHub Repository Visibility Change"
-    log_types = [PantherLogType.GitHub_Audit]
+    log_types = [LogType.GitHub_Audit]
     tags = ["GitHub", "Exfiltration:Exfiltration Over Web Service"]
     reports = {"MITRE ATT&CK": ["TA0010:T1567"]}
     default_reference = "https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/managing-repository-settings/setting-repository-visibility"
-    default_severity = PantherSeverity.high
+    default_severity = Severity.high
     default_description = "Detects when an organization repository visibility changes."
     tests = github_repo_visibility_change_tests
 

@@ -1,11 +1,11 @@
 from typing import List
 
 import pypanther.helpers.panther_event_type_helpers as event_type
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 
-panther_user_modified_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+panther_user_modified_tests: List[RuleTest] = [
+    RuleTest(
         name="Admin Role Created",
         expected_result=False,
         log={
@@ -39,7 +39,7 @@ panther_user_modified_tests: List[PantherRuleTest] = [
             "timestamp": "2022-04-27 20:47:09.425",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Users's email was changed",
         expected_result=True,
         log={
@@ -85,7 +85,7 @@ panther_user_modified_tests: List[PantherRuleTest] = [
             "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Users's role was changed",
         expected_result=True,
         log={
@@ -131,7 +131,7 @@ panther_user_modified_tests: List[PantherRuleTest] = [
             "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="SCIM based user provision - INFO level",
         expected_result=True,
         log={
@@ -159,7 +159,7 @@ panther_user_modified_tests: List[PantherRuleTest] = [
             "timestamp": "2023-06-23 17:49:37.553847671",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="User modified by System account",
         expected_result=True,
         log={
@@ -190,11 +190,11 @@ panther_user_modified_tests: List[PantherRuleTest] = [
 ]
 
 
-class PantherUserModified(PantherRule):
+class PantherUserModified(Rule):
     id_ = "Panther.User.Modified-prototype"
     display_name = "A User's Panther Account was Modified"
-    log_types = [PantherLogType.Panther_Audit]
-    default_severity = PantherSeverity.high
+    log_types = [LogType.Panther_Audit]
+    default_severity = Severity.high
     tags = ["DataModel", "Persistence:Account Manipulation"]
     reports = {"MITRE ATT&CK": ["TA0003:T1098"]}
     default_description = "A Panther user's role has been modified. This could mean password, email, or role has changed for the user."

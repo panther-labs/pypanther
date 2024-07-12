@@ -1,10 +1,10 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import crowdstrike_process_alert_context, deep_get
 
-crowdstrike_fdrlolbas_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+crowdstrike_fdrlolbas_tests: List[RuleTest] = [
+    RuleTest(
         name="At Usage (Positive)",
         expected_result=True,
         log={
@@ -85,7 +85,7 @@ crowdstrike_fdrlolbas_tests: List[PantherRuleTest] = [
             "timestamp": "2023-04-21 19:48:28.97",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Notepad Usage (Negative)",
         expected_result=False,
         log={
@@ -169,15 +169,15 @@ crowdstrike_fdrlolbas_tests: List[PantherRuleTest] = [
 ]
 
 
-class CrowdstrikeFDRLOLBAS(PantherRule):
-    log_types = [PantherLogType.Crowdstrike_FDREvent]
+class CrowdstrikeFDRLOLBAS(Rule):
+    log_types = [LogType.Crowdstrike_FDREvent]
     id_ = "Crowdstrike.FDR.LOLBAS-prototype"
     display_name = "Crowdstrike FDR LOLBAS"
     default_description = "Living off the land binaries and script usage"
     default_reference = "https://lolbas-project.github.io/"
     dedup_period_minutes = 1440
     enabled = False
-    default_severity = PantherSeverity.info
+    default_severity = Severity.info
     tags = ["Configuration Required"]
     tests = crowdstrike_fdrlolbas_tests
     LOLBAS_EXE = {

@@ -1,9 +1,9 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 
-decoy_dynamo_db_accessed_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+decoy_dynamo_db_accessed_tests: List[RuleTest] = [
+    RuleTest(
         name="DynamoDB-Decoy-Accessed",
         expected_result=True,
         log={
@@ -119,7 +119,7 @@ decoy_dynamo_db_accessed_tests: List[PantherRuleTest] = [
             "p_udm": {},
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="DynamoDB-Decoy-Not-Accessed",
         expected_result=False,
         log={
@@ -238,12 +238,12 @@ decoy_dynamo_db_accessed_tests: List[PantherRuleTest] = [
 ]
 
 
-class DecoyDynamoDBAccessed(PantherRule):
+class DecoyDynamoDBAccessed(Rule):
     id_ = "Decoy.DynamoDB.Accessed-prototype"
     display_name = "Decoy DynamoDB Accessed"
     enabled = False
-    log_types = [PantherLogType.AWS_SecurityFindingFormat]
-    default_severity = PantherSeverity.high
+    log_types = [LogType.AWS_SecurityFindingFormat]
+    default_severity = Severity.high
     default_description = "Actor accessed Decoy DynamoDB"
     default_reference = "https://aws.amazon.com/blogs/security/how-to-detect-suspicious-activity-in-your-aws-account-by-using-private-decoy-resources/"
     InlineFilters = [{"All": []}]

@@ -1,10 +1,10 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 
-sentinel_one_alert_passthrough_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+sentinel_one_alert_passthrough_tests: List[RuleTest] = [
+    RuleTest(
         name="CRITICAL",
         expected_result=True,
         log={
@@ -53,7 +53,7 @@ sentinel_one_alert_passthrough_tests: List[PantherRuleTest] = [
             "userid": "1234",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="MEDIUM",
         expected_result=True,
         log={
@@ -102,7 +102,7 @@ sentinel_one_alert_passthrough_tests: List[PantherRuleTest] = [
             "userid": "1234",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Non-Alert",
         expected_result=False,
         log={
@@ -136,14 +136,14 @@ sentinel_one_alert_passthrough_tests: List[PantherRuleTest] = [
 ]
 
 
-class SentinelOneAlertPassthrough(PantherRule):
+class SentinelOneAlertPassthrough(Rule):
     default_description = "SentinelOne Alert Passthrough"
     display_name = "SentinelOne Alert Passthrough"
     default_reference = (
         "https://www.sentinelone.com/blog/feature-spotlight-introducing-the-new-threat-center/"
     )
-    default_severity = PantherSeverity.high
-    log_types = [PantherLogType.SentinelOne_Activity]
+    default_severity = Severity.high
+    log_types = [LogType.SentinelOne_Activity]
     id_ = "SentinelOne.Alert.Passthrough-prototype"
     tests = sentinel_one_alert_passthrough_tests
     SENTINELONE_SEVERITY = {

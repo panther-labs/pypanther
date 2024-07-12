@@ -1,16 +1,16 @@
 from ipaddress import ip_network
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import aws_rule_context
 
-awss3_server_access_ip_whitelist_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+awss3_server_access_ip_whitelist_tests: List[RuleTest] = [
+    RuleTest(
         name="Access From Approved IP",
         expected_result=False,
         log={"remoteip": "10.0.0.1", "bucket": "my-test-bucket"},
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Access From Unapproved IP",
         expected_result=True,
         log={"remoteip": "11.0.0.1", "bucket": "my-test-bucket"},
@@ -18,11 +18,11 @@ awss3_server_access_ip_whitelist_tests: List[PantherRuleTest] = [
 ]
 
 
-class AWSS3ServerAccessIPWhitelist(PantherRule):
+class AWSS3ServerAccessIPWhitelist(Rule):
     id_ = "AWS.S3.ServerAccess.IPWhitelist-prototype"
     display_name = "AWS S3 Access IP Allowlist"
     enabled = False
-    log_types = [PantherLogType.AWS_S3ServerAccess]
+    log_types = [LogType.AWS_S3ServerAccess]
     tags = [
         "AWS",
         "Configuration Required",
@@ -30,7 +30,7 @@ class AWSS3ServerAccessIPWhitelist(PantherRule):
         "Collection:Data From Cloud Storage Object",
     ]
     reports = {"MITRE ATT&CK": ["TA0009:T1530"]}
-    default_severity = PantherSeverity.medium
+    default_severity = Severity.medium
     default_description = (
         "Checks that the remote IP accessing the S3 bucket is in the IP allowlist.\n"
     )

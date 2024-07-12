@@ -1,12 +1,12 @@
 import re
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.gcp_base_helpers import gcp_alert_context
 from pypanther.helpers.panther_base_helpers import deep_get
 
-gcp_firewall_rule_created_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+gcp_firewall_rule_created_tests: List[RuleTest] = [
+    RuleTest(
         name="compute.firewalls.create-should-alert",
         expected_result=True,
         log={
@@ -85,7 +85,7 @@ gcp_firewall_rule_created_tests: List[PantherRuleTest] = [
             "timestamp": "2023-05-23 19:19:40.353",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="appengine.firewall.create-should-alert",
         expected_result=True,
         log={
@@ -130,17 +130,17 @@ gcp_firewall_rule_created_tests: List[PantherRuleTest] = [
             "timestamp": "2023-05-23 19:28:35.049",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="compute.non-create.firewall.method-should-not-alert",
         expected_result=False,
         log={"methodName": "v1.compute.firewalls.patch"},
     ),
-    PantherRuleTest(
+    RuleTest(
         name="appengine.compute.non-create.firewall.method-should-not-alert",
         expected_result=False,
         log={"methodName": "appengine.compute.v1.Firewall.PatchIngressRule"},
     ),
-    PantherRuleTest(
+    RuleTest(
         name="randomservice.firewall-create.method-should-alert",
         expected_result=True,
         log={
@@ -169,11 +169,11 @@ gcp_firewall_rule_created_tests: List[PantherRuleTest] = [
 ]
 
 
-class GCPFirewallRuleCreated(PantherRule):
+class GCPFirewallRuleCreated(Rule):
     display_name = "GCP Firewall Rule Created"
     id_ = "GCP.Firewall.Rule.Created-prototype"
-    default_severity = PantherSeverity.low
-    log_types = [PantherLogType.GCP_AuditLog]
+    default_severity = Severity.low
+    log_types = [LogType.GCP_AuditLog]
     tags = ["GCP", "Firewall", "Networking", "Infrastructure"]
     default_description = "This rule detects creations of GCP firewall rules.\n"
     default_runbook = "Ensure that the rule creation was expected. Firewall rule creations can expose [vulnerable] resoures to the internet.\n"

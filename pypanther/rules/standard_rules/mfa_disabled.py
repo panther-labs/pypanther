@@ -1,10 +1,10 @@
 from typing import List
 
 import pypanther.helpers.panther_event_type_helpers as event_type
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 
-standard_mfa_disabled_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+standard_mfa_disabled_tests: List[RuleTest] = [
+    RuleTest(
         name="GitHub - Org MFA Disabled",
         expected_result=True,
         log={
@@ -16,7 +16,7 @@ standard_mfa_disabled_tests: List[PantherRuleTest] = [
             "repository": "my-org/my-repo",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="GitHub - Org MFA Enabled",
         expected_result=False,
         log={
@@ -28,7 +28,7 @@ standard_mfa_disabled_tests: List[PantherRuleTest] = [
             "repository": "my-org/my-repo",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Zendesk - Two-factor disabled",
         expected_result=True,
         log={
@@ -46,7 +46,7 @@ standard_mfa_disabled_tests: List[PantherRuleTest] = [
             "p_log_type": "Zendesk.Audit",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Zendesk - Alternate Two-factor disabled",
         expected_result=True,
         log={
@@ -64,7 +64,7 @@ standard_mfa_disabled_tests: List[PantherRuleTest] = [
             "p_log_type": "Zendesk.Audit",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Zendesk - Two-factor Enabled",
         expected_result=False,
         log={
@@ -82,7 +82,7 @@ standard_mfa_disabled_tests: List[PantherRuleTest] = [
             "p_log_type": "Zendesk.Audit",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Okta - User resets own MFA ( INFO severity detection for this in Okta rules )",
         expected_result=False,
         log={
@@ -125,7 +125,7 @@ standard_mfa_disabled_tests: List[PantherRuleTest] = [
             "p_log_type": "Okta.SystemLog",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Okta - User disables MFA",
         expected_result=True,
         log={
@@ -165,7 +165,7 @@ standard_mfa_disabled_tests: List[PantherRuleTest] = [
             "p_log_type": "Okta.SystemLog",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Okta - MFA Enabled",
         expected_result=False,
         log={
@@ -211,19 +211,19 @@ standard_mfa_disabled_tests: List[PantherRuleTest] = [
 ]
 
 
-class StandardMFADisabled(PantherRule):
+class StandardMFADisabled(Rule):
     id_ = "Standard.MFADisabled-prototype"
     display_name = "MFA Disabled"
     log_types = [
-        PantherLogType.Atlassian_Audit,
-        PantherLogType.GitHub_Audit,
-        PantherLogType.Zendesk_Audit,
-        PantherLogType.Okta_SystemLog,
+        LogType.Atlassian_Audit,
+        LogType.GitHub_Audit,
+        LogType.Zendesk_Audit,
+        LogType.Okta_SystemLog,
     ]
     tags = ["DataModel", "Defense Evasion:Modify Authentication Process"]
     reports = {"MITRE ATT&CK": ["TA0005:T1556"]}
     default_reference = "https://en.wikipedia.org/wiki/Multi-factor_authentication"
-    default_severity = PantherSeverity.high
+    default_severity = Severity.high
     default_description = "Detects when Multi-Factor Authentication (MFA) is disabled"
     summary_attributes = ["p_any_ip_addresses"]
     tests = standard_mfa_disabled_tests

@@ -1,11 +1,11 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import aws_rule_context, deep_get, pattern_match_list
 from pypanther.helpers.panther_default import aws_cloudtrail_success
 
-awsec2_manual_security_group_change_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+awsec2_manual_security_group_change_tests: List[RuleTest] = [
+    RuleTest(
         name="AWS Console - Ingress SG Authorization",
         expected_result=True,
         log={
@@ -76,7 +76,7 @@ awsec2_manual_security_group_change_tests: List[PantherRuleTest] = [
             ],
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Terraform Security Group Creation",
         expected_result=False,
         log={
@@ -124,7 +124,7 @@ awsec2_manual_security_group_change_tests: List[PantherRuleTest] = [
             "recipientAccountId": "112233445566",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Terraform Security Group Authorize Egress",
         expected_result=False,
         log={
@@ -187,7 +187,7 @@ awsec2_manual_security_group_change_tests: List[PantherRuleTest] = [
             "recipientAccountId": "112233445566",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Go Script Authorize Ingress",
         expected_result=True,
         log={
@@ -245,7 +245,7 @@ awsec2_manual_security_group_change_tests: List[PantherRuleTest] = [
             "recipientAccountId": "112233445566",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="AWS Console - Ingress SG Authorization Error",
         expected_result=False,
         log={
@@ -320,11 +320,11 @@ awsec2_manual_security_group_change_tests: List[PantherRuleTest] = [
 ]
 
 
-class AWSEC2ManualSecurityGroupChange(PantherRule):
+class AWSEC2ManualSecurityGroupChange(Rule):
     id_ = "AWS.EC2.ManualSecurityGroupChange-prototype"
     display_name = "AWS EC2 Manual Security Group Change"
     enabled = False
-    log_types = [PantherLogType.AWS_CloudTrail]
+    log_types = [LogType.AWS_CloudTrail]
     reports = {"MITRE ATT&CK": ["TA0005:T1562"]}
     tags = [
         "AWS",
@@ -332,7 +332,7 @@ class AWSEC2ManualSecurityGroupChange(PantherRule):
         "Configuration Required",
         "Defense Evasion:Impair Defenses",
     ]
-    default_severity = PantherSeverity.medium
+    default_severity = Severity.medium
     default_description = "An EC2 security group was manually updated without abiding by the organization's accepted processes. This rule expects organizations to either use the Console, CloudFormation, or Terraform, configurable in the rule's ALLOWED_USER_AGENTS.\n"
     default_runbook = (
         "Identify the actor who changed the security group and validate it was legitimate"

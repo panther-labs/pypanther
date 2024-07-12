@@ -1,13 +1,13 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import (
     crowdstrike_network_detection_alert_context,
     deep_get,
 )
 
-connectionto_embargoed_country_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+connectionto_embargoed_country_tests: List[RuleTest] = [
+    RuleTest(
         name="Connection To CU",
         expected_result=True,
         log={
@@ -127,7 +127,7 @@ connectionto_embargoed_country_tests: List[PantherRuleTest] = [
             "timestamp": "2023-04-28 18:49:38.681",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Google DNS",
         expected_result=False,
         log={
@@ -154,13 +154,13 @@ connectionto_embargoed_country_tests: List[PantherRuleTest] = [
 ]
 
 
-class ConnectiontoEmbargoedCountry(PantherRule):
+class ConnectiontoEmbargoedCountry(Rule):
     default_description = "Detection to alert when internal asset is communicating with an sanctioned destination. This detection leverages Panther UDM and IPInfo enrichment."
     default_reference = "U.S. Sanctioned Destinations - https://www.bis.doc.gov/index.php/policy-guidance/country-guidance/sanctioned-destinations"
     display_name = "Connection to Embargoed Country"
-    log_types = [PantherLogType.Crowdstrike_FDREvent]
+    log_types = [LogType.Crowdstrike_FDREvent]
     id_ = "Connection.to.Embargoed.Country-prototype"
-    default_severity = PantherSeverity.low
+    default_severity = Severity.low
     tests = connectionto_embargoed_country_tests
     # U.S. Gov Sanctioned Destinations
     # Cuba

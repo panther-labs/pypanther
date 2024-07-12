@@ -1,9 +1,9 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 
-one_login_user_assumption_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+one_login_user_assumption_tests: List[RuleTest] = [
+    RuleTest(
         name="User assumed their own account",
         expected_result=False,
         log={
@@ -14,7 +14,7 @@ one_login_user_assumption_tests: List[PantherRuleTest] = [
             "user_name": "Bob Cat",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="User assumed another user's account",
         expected_result=True,
         log={
@@ -28,13 +28,13 @@ one_login_user_assumption_tests: List[PantherRuleTest] = [
 ]
 
 
-class OneLoginUserAssumption(PantherRule):
+class OneLoginUserAssumption(Rule):
     id_ = "OneLogin.UserAssumption-prototype"
     display_name = "OneLogin User Assumed Another User"
-    log_types = [PantherLogType.OneLogin_Events]
+    log_types = [LogType.OneLogin_Events]
     tags = ["OneLogin", "Lateral Movement:Use Alternate Authentication Material"]
     reports = {"MITRE ATT&CK": ["TA0008:T1550"]}
-    default_severity = PantherSeverity.low
+    default_severity = Severity.low
     default_description = "User assumed another user account"
     default_reference = "https://onelogin.service-now.com/kb_view_customer.do?sysparm_article=KB0010594#:~:text=Prerequisites,Actions%20and%20select%20Assume%20User."
     default_runbook = "Investigate whether this was authorized access.\n"

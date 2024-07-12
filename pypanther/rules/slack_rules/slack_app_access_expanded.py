@@ -1,10 +1,10 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get, slack_alert_context
 
-slack_audit_logs_app_access_expanded_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+slack_audit_logs_app_access_expanded_tests: List[RuleTest] = [
+    RuleTest(
         name="App Scopes Expanded",
         expected_result=True,
         log={
@@ -72,7 +72,7 @@ slack_audit_logs_app_access_expanded_tests: List[PantherRuleTest] = [
             "id": "9d9b76ce-47bb-4838-a96a-1b5fd4d1b564",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="App Resources Added",
         expected_result=True,
         log={
@@ -107,7 +107,7 @@ slack_audit_logs_app_access_expanded_tests: List[PantherRuleTest] = [
             "id": "72cac009-9eb3-4dde-bac6-ee49a32a1789",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="App Resources Granted",
         expected_result=True,
         log={
@@ -148,7 +148,7 @@ slack_audit_logs_app_access_expanded_tests: List[PantherRuleTest] = [
             "id": "9d9b76ce-47bb-4838-a96a-1b5fd4d1b564",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Bot Token Upgraded",
         expected_result=True,
         log={
@@ -183,7 +183,7 @@ slack_audit_logs_app_access_expanded_tests: List[PantherRuleTest] = [
             "id": "72cac009-9eb3-4dde-bac6-ee49a32a1789",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="User Logout",
         expected_result=False,
         log={
@@ -223,13 +223,13 @@ slack_audit_logs_app_access_expanded_tests: List[PantherRuleTest] = [
 ]
 
 
-class SlackAuditLogsAppAccessExpanded(PantherRule):
+class SlackAuditLogsAppAccessExpanded(Rule):
     id_ = "Slack.AuditLogs.AppAccessExpanded-prototype"
     display_name = "Slack App Access Expanded"
-    log_types = [PantherLogType.Slack_AuditLogs]
+    log_types = [LogType.Slack_AuditLogs]
     tags = ["Slack", "Privilege Escalation", "Account Manipulation"]
     reports = {"MITRE ATT&CK": ["TA0004:T1098"]}
-    default_severity = PantherSeverity.medium
+    default_severity = Severity.medium
     default_description = "Detects when a Slack App has had its permission scopes expanded"
     default_reference = "https://slack.com/intl/en-gb/help/articles/1500009181142-Manage-app-settings-and-permissions"
     summary_attributes = ["action", "p_any_ip_addresses", "p_any_emails"]

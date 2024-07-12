@@ -1,10 +1,10 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 
-g_suite_device_compromise_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+g_suite_device_compromise_tests: List[RuleTest] = [
+    RuleTest(
         name="Normal Mobile Event",
         expected_result=False,
         log={
@@ -15,7 +15,7 @@ g_suite_device_compromise_tests: List[PantherRuleTest] = [
             "parameters": {"USER_EMAIL": "homer.simpson@example.io"},
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Suspicious Activity Shows not Compromised",
         expected_result=False,
         log={
@@ -29,7 +29,7 @@ g_suite_device_compromise_tests: List[PantherRuleTest] = [
             },
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Suspicious Activity Shows Compromised",
         expected_result=True,
         log={
@@ -46,12 +46,12 @@ g_suite_device_compromise_tests: List[PantherRuleTest] = [
 ]
 
 
-class GSuiteDeviceCompromise(PantherRule):
+class GSuiteDeviceCompromise(Rule):
     id_ = "GSuite.DeviceCompromise-prototype"
     display_name = "GSuite User Device Compromised"
-    log_types = [PantherLogType.GSuite_ActivityEvent]
+    log_types = [LogType.GSuite_ActivityEvent]
     tags = ["GSuite"]
-    default_severity = PantherSeverity.medium
+    default_severity = Severity.medium
     default_description = "GSuite reported a user's device has been compromised.\n"
     default_reference = (
         "https://support.google.com/a/answer/7562165?hl=en&sjid=864417124752637253-EU"

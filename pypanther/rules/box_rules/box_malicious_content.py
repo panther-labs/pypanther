@@ -1,10 +1,10 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import box_parse_additional_details, deep_get
 
-box_malicious_content_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+box_malicious_content_tests: List[RuleTest] = [
+    RuleTest(
         name="Regular Event",
         expected_result=False,
         log={
@@ -19,7 +19,7 @@ box_malicious_content_tests: List[PantherRuleTest] = [
             "event_type": "DELETE",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="File marked malicious",
         expected_result=True,
         log={
@@ -52,7 +52,7 @@ box_malicious_content_tests: List[PantherRuleTest] = [
             },
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Malicious Content",
         expected_result=True,
         log={
@@ -71,13 +71,13 @@ box_malicious_content_tests: List[PantherRuleTest] = [
 ]
 
 
-class BoxMaliciousContent(PantherRule):
+class BoxMaliciousContent(Rule):
     id_ = "Box.Malicious.Content-prototype"
     display_name = "Malicious Content Detected"
-    log_types = [PantherLogType.Box_Event]
+    log_types = [LogType.Box_Event]
     tags = ["Box", "Execution:User Execution"]
     reports = {"MITRE ATT&CK": ["TA0002:T1204"]}
-    default_severity = PantherSeverity.high
+    default_severity = Severity.high
     default_description = "Box has detect malicious content, such as a virus.\n"
     default_reference = "https://developer.box.com/guides/events/shield-alert-events/\n"
     default_runbook = "Investigate whether this is a false positive or if the virus needs to be contained appropriately.\n"

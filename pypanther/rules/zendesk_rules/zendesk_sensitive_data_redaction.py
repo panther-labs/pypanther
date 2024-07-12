@@ -1,10 +1,10 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import ZENDESK_CHANGE_DESCRIPTION
 
-zendesk_sensitive_data_redaction_off_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+zendesk_sensitive_data_redaction_off_tests: List[RuleTest] = [
+    RuleTest(
         name="Zendesk - Credit Card Redaction Off",
         expected_result=True,
         log={
@@ -23,7 +23,7 @@ zendesk_sensitive_data_redaction_off_tests: List[PantherRuleTest] = [
             "p_log_type": "Zendesk.Audit",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Zendesk - Credit Card Redaction On",
         expected_result=True,
         log={
@@ -42,7 +42,7 @@ zendesk_sensitive_data_redaction_off_tests: List[PantherRuleTest] = [
             "p_log_type": "Zendesk.Audit",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="User assumption settings changed",
         expected_result=False,
         log={
@@ -63,13 +63,13 @@ zendesk_sensitive_data_redaction_off_tests: List[PantherRuleTest] = [
 ]
 
 
-class ZendeskSensitiveDataRedactionOff(PantherRule):
+class ZendeskSensitiveDataRedactionOff(Rule):
     id_ = "Zendesk.SensitiveDataRedactionOff-prototype"
     display_name = "Zendesk Credit Card Redaction Off"
-    log_types = [PantherLogType.Zendesk_Audit]
+    log_types = [LogType.Zendesk_Audit]
     tags = ["Zendesk", "Collection:Data from Information Repositories"]
     reports = {"MITRE ATT&CK": ["TA0009:T1213"]}
-    default_severity = PantherSeverity.high
+    default_severity = Severity.high
     default_description = "A user updated account setting that disabled credit card redaction."
     default_runbook = "Re-enable credit card redaction."
     default_reference = "https://support.zendesk.com/hc/en-us/articles/4408822124314-Automatically-redacting-credit-card-numbers-from-tickets"

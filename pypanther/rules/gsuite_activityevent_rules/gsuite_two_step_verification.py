@@ -1,10 +1,10 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 
-g_suite_two_step_verification_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+g_suite_two_step_verification_tests: List[RuleTest] = [
+    RuleTest(
         name="Two Step Verification Enabled",
         expected_result=False,
         log={
@@ -15,7 +15,7 @@ g_suite_two_step_verification_tests: List[PantherRuleTest] = [
             "name": "2sv_enroll",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Two Step Verification Disabled",
         expected_result=True,
         log={
@@ -29,13 +29,13 @@ g_suite_two_step_verification_tests: List[PantherRuleTest] = [
 ]
 
 
-class GSuiteTwoStepVerification(PantherRule):
+class GSuiteTwoStepVerification(Rule):
     id_ = "GSuite.TwoStepVerification-prototype"
     display_name = "GSuite User Two Step Verification Change"
-    log_types = [PantherLogType.GSuite_ActivityEvent]
+    log_types = [LogType.GSuite_ActivityEvent]
     tags = ["GSuite", "Defense Evasion:Modify Authentication Process"]
     reports = {"MITRE ATT&CK": ["TA0005:T1556"]}
-    default_severity = PantherSeverity.low
+    default_severity = Severity.low
     default_description = "A user disabled two step verification for themselves.\n"
     default_reference = "https://support.google.com/mail/answer/185839?hl=en&co=GENIE.Platform%3DDesktop&sjid=864417124752637253-EU"
     default_runbook = "Depending on company policy, either suggest or require the user re-enable two step verification.\n"

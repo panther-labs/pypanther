@@ -1,11 +1,11 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.gcp_base_helpers import gcp_alert_context
 from pypanther.helpers.panther_base_helpers import deep_get, deep_walk
 
-gcpia_mservice_accountssign_jwt_privilege_escalation_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+gcpia_mservice_accountssign_jwt_privilege_escalation_tests: List[RuleTest] = [
+    RuleTest(
         name="JWT Signed",
         expected_result=True,
         log={
@@ -55,7 +55,7 @@ gcpia_mservice_accountssign_jwt_privilege_escalation_tests: List[PantherRuleTest
             "receiveTimestamp": "2024-02-26T17:15:17.100020459Z",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="JWT Not Signed",
         expected_result=False,
         log={
@@ -108,12 +108,12 @@ gcpia_mservice_accountssign_jwt_privilege_escalation_tests: List[PantherRuleTest
 ]
 
 
-class GCPIAMserviceAccountssignJwtPrivilegeEscalation(PantherRule):
+class GCPIAMserviceAccountssignJwtPrivilegeEscalation(Rule):
     id_ = "GCP.IAM.serviceAccounts.signJwt.Privilege.Escalation-prototype"
     display_name = "GCP IAM serviceAccounts.signJwt Privilege Escalation"
-    log_types = [PantherLogType.GCP_AuditLog]
+    log_types = [LogType.GCP_AuditLog]
     reports = {"MITRE ATT&CK": ["TA0004:T1548"]}
-    default_severity = PantherSeverity.high
+    default_severity = Severity.high
     default_description = "Detects iam.serviceAccounts.signJwt method for privilege escalation in GCP. This method works by signing well-formed JSON web tokens (JWTs). The script for this method will sign a well-formed JWT and request a new access token belonging to the Service Account with it."
     default_runbook = "These is not a vulnerability in GCP, this is a vulnerability in how you have configured your GCP environment, so it is your responsibility to be aware of these attack vectors and to defend against them. Make sure to follow the principle of least-privilege in your environments to help mitigate these security risks."
     default_reference = (

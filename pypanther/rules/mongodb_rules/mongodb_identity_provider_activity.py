@@ -1,18 +1,16 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_mongodb_helpers import mongodb_alert_context
 
-mongo_db_identity_provider_activity_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
-        name="Random event", expected_result=False, log={"eventTypeName": "cat_jumped"}
-    ),
-    PantherRuleTest(
+mongo_db_identity_provider_activity_tests: List[RuleTest] = [
+    RuleTest(name="Random event", expected_result=False, log={"eventTypeName": "cat_jumped"}),
+    RuleTest(
         name="FEDERATION_SETTINGS_CREATED",
         expected_result=True,
         log={"eventTypeName": "FEDERATION_SETTINGS_CREATED"},
     ),
-    PantherRuleTest(
+    RuleTest(
         name="IDENTITY_PROVIDER_CREATED",
         expected_result=True,
         log={"eventTypeName": "IDENTITY_PROVIDER_CREATED"},
@@ -20,12 +18,12 @@ mongo_db_identity_provider_activity_tests: List[PantherRuleTest] = [
 ]
 
 
-class MongoDBIdentityProviderActivity(PantherRule):
+class MongoDBIdentityProviderActivity(Rule):
     default_description = "Changes to identity provider settings are privileged activities that should be carefully audited.  Attackers may add or change IDP integrations to gain persistence to environments"
     display_name = "MongoDB Identity Provider Activity"
-    default_severity = PantherSeverity.medium
+    default_severity = Severity.medium
     default_reference = "https://attack.mitre.org/techniques/T1556/007/"
-    log_types = [PantherLogType.MongoDB_OrganizationEvent]
+    log_types = [LogType.MongoDB_OrganizationEvent]
     id_ = "MongoDB.Identity.Provider.Activity-prototype"
     tests = mongo_db_identity_provider_activity_tests
 

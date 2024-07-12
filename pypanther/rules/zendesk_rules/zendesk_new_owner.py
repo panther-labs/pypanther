@@ -1,11 +1,11 @@
 import re
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import ZENDESK_CHANGE_DESCRIPTION
 
-zendesk_account_owner_changed_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+zendesk_account_owner_changed_tests: List[RuleTest] = [
+    RuleTest(
         name="Zendesk - Owner Changed",
         expected_result=True,
         log={
@@ -24,7 +24,7 @@ zendesk_account_owner_changed_tests: List[PantherRuleTest] = [
             "p_log_type": "Zendesk.Audit",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Zendesk - Admin Role Assigned",
         expected_result=False,
         log={
@@ -46,11 +46,11 @@ zendesk_account_owner_changed_tests: List[PantherRuleTest] = [
 ]
 
 
-class ZendeskAccountOwnerChanged(PantherRule):
+class ZendeskAccountOwnerChanged(Rule):
     id_ = "Zendesk.AccountOwnerChanged-prototype"
     display_name = "Zendesk Account Owner Changed"
-    log_types = [PantherLogType.Zendesk_Audit]
-    default_severity = PantherSeverity.high
+    log_types = [LogType.Zendesk_Audit]
+    default_severity = Severity.high
     tags = ["Zendesk", "Privilege Escalation:Valid Accounts"]
     reports = {"MITRE ATT&CK": ["TA0004:T1078"]}
     default_description = (

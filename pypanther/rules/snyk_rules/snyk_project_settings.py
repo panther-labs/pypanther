@@ -1,11 +1,11 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 from pypanther.helpers.panther_snyk_helpers import snyk_alert_context
 
-snyk_project_settings_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+snyk_project_settings_tests: List[RuleTest] = [
+    RuleTest(
         name="Snyk Org Project Stop Monitor",
         expected_result=True,
         log={
@@ -28,7 +28,7 @@ snyk_project_settings_tests: List[PantherRuleTest] = [
             "userId": "05555555-3333-4ddd-8ccc-75555555555",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Project Ignore Create",
         expected_result=True,
         log={
@@ -48,7 +48,7 @@ snyk_project_settings_tests: List[PantherRuleTest] = [
             "userId": "05555555-3333-4ddd-8ccc-75555555555",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Snyk Group SSO Membership sync",
         expected_result=False,
         log={
@@ -61,13 +61,13 @@ snyk_project_settings_tests: List[PantherRuleTest] = [
 ]
 
 
-class SnykProjectSettings(PantherRule):
+class SnykProjectSettings(Rule):
     id_ = "Snyk.Project.Settings-prototype"
     display_name = "Snyk Project Settings"
-    log_types = [PantherLogType.Snyk_GroupAudit, PantherLogType.Snyk_OrgAudit]
+    log_types = [LogType.Snyk_GroupAudit, LogType.Snyk_OrgAudit]
     tags = ["Snyk"]
     default_reference = "https://docs.snyk.io/snyk-admin/introduction-to-snyk-projects/view-and-edit-project-settings"
-    default_severity = PantherSeverity.medium
+    default_severity = Severity.medium
     default_description = "Detects when Snyk Project settings are changed\n"
     summary_attributes = ["event"]
     tests = snyk_project_settings_tests

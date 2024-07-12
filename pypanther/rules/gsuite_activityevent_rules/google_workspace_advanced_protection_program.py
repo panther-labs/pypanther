@@ -1,10 +1,10 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 
-google_workspace_advanced_protection_program_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+google_workspace_advanced_protection_program_tests: List[RuleTest] = [
+    RuleTest(
         name="parameters json key set to null value",
         expected_result=False,
         log={
@@ -26,7 +26,7 @@ google_workspace_advanced_protection_program_tests: List[PantherRuleTest] = [
             "type": "recovery_info_change",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Allow Security Codes",
         expected_result=True,
         log={
@@ -54,7 +54,7 @@ google_workspace_advanced_protection_program_tests: List[PantherRuleTest] = [
             "type": "APPLICATION_SETTINGS",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Enable User Enrollment",
         expected_result=True,
         log={
@@ -82,7 +82,7 @@ google_workspace_advanced_protection_program_tests: List[PantherRuleTest] = [
             "type": "APPLICATION_SETTINGS",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="New Custom Role Created",
         expected_result=False,
         log={
@@ -104,7 +104,7 @@ google_workspace_advanced_protection_program_tests: List[PantherRuleTest] = [
             "type": "DELEGATED_ADMIN_SETTINGS",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="ListObject Type",
         expected_result=False,
         log={
@@ -139,15 +139,15 @@ google_workspace_advanced_protection_program_tests: List[PantherRuleTest] = [
 ]
 
 
-class GoogleWorkspaceAdvancedProtectionProgram(PantherRule):
+class GoogleWorkspaceAdvancedProtectionProgram(Rule):
     default_description = (
         "Your organization's Google Workspace Advanced Protection Program settings were modified."
     )
     display_name = "Google Workspace Advanced Protection Program"
     default_runbook = "Confirm the changes made were authorized for your organization."
     default_reference = "https://support.google.com/a/answer/9378686?hl=en"
-    default_severity = PantherSeverity.medium
-    log_types = [PantherLogType.GSuite_ActivityEvent]
+    default_severity = Severity.medium
+    log_types = [LogType.GSuite_ActivityEvent]
     id_ = "Google.Workspace.Advanced.Protection.Program-prototype"
     tests = google_workspace_advanced_protection_program_tests
 

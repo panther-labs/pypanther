@@ -1,12 +1,12 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import aws_rule_context
 from pypanther.helpers.panther_default import aws_cloudtrail_success
 from pypanther.helpers.panther_iocs import XZ_AMIS
 
-awsec2_vulnerable_xz_image_launched_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+awsec2_vulnerable_xz_image_launched_tests: List[RuleTest] = [
+    RuleTest(
         name="Single vulnerable AMI Launched",
         expected_result=True,
         log={
@@ -222,7 +222,7 @@ awsec2_vulnerable_xz_image_launched_tests: List[PantherRuleTest] = [
             },
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Multiple vulnerable AMIs Launched",
         expected_result=True,
         log={
@@ -541,7 +541,7 @@ awsec2_vulnerable_xz_image_launched_tests: List[PantherRuleTest] = [
             },
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Non-vulnerable AMI Launched",
         expected_result=False,
         log={
@@ -760,15 +760,15 @@ awsec2_vulnerable_xz_image_launched_tests: List[PantherRuleTest] = [
 ]
 
 
-class AWSEC2VulnerableXZImageLaunched(PantherRule):
+class AWSEC2VulnerableXZImageLaunched(Rule):
     default_description = "Detecting EC2 instances launched with AMIs containing potentially vulnerable versions of XZ (CVE-2024-3094)\n"
     display_name = "AWS EC2 Vulnerable XZ Image Launched"
     default_reference = "https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2024-3094"
-    default_severity = PantherSeverity.critical
+    default_severity = Severity.critical
     tags = ["AWS", "Linux", "Emerging Threats", "Supply Chain Compromise"]
     reports = {"MITRE ATT&CK": ["TA0001:T1195.001"]}
     default_runbook = "- Verify that the AMI is indeed vulnerable to CVE-2024-3094 (xz -V being 5.6.0 or 5.6.1) - If the AMI is vulnerable, terminate the instance and launch a new instance with a non-vulnerable AMI\n"
-    log_types = [PantherLogType.AWS_CloudTrail]
+    log_types = [LogType.AWS_CloudTrail]
     id_ = "AWS.EC2.Vulnerable.XZ.Image.Launched-prototype"
     tests = awsec2_vulnerable_xz_image_launched_tests
 

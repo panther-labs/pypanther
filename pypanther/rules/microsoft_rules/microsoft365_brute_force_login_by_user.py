@@ -1,10 +1,10 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import m365_alert_context
 
-microsoft365_brute_force_loginby_user_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+microsoft365_brute_force_loginby_user_tests: List[RuleTest] = [
+    RuleTest(
         name="Failed Login event",
         expected_result=True,
         log={
@@ -45,7 +45,7 @@ microsoft365_brute_force_loginby_user_tests: List[PantherRuleTest] = [
             "Workload": "AzureActiveDirectory",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Login Event",
         expected_result=False,
         log={
@@ -86,14 +86,14 @@ microsoft365_brute_force_loginby_user_tests: List[PantherRuleTest] = [
 ]
 
 
-class Microsoft365BruteForceLoginbyUser(PantherRule):
+class Microsoft365BruteForceLoginbyUser(Rule):
     default_description = "A Microsoft365 user was denied login access several times"
     display_name = "Microsoft365 Brute Force Login by User"
     reports = {"MITRE ATT&CK": ["TA0006:T1110"]}
     default_runbook = "Analyze the IP they came from and actions taken before/after."
     default_reference = "https://learn.microsoft.com/en-us/microsoft-365/troubleshoot/authentication/access-denied-when-connect-to-office-365"
-    default_severity = PantherSeverity.medium
-    log_types = [PantherLogType.Microsoft365_Audit_AzureActiveDirectory]
+    default_severity = Severity.medium
+    log_types = [LogType.Microsoft365_Audit_AzureActiveDirectory]
     id_ = "Microsoft365.Brute.Force.Login.by.User-prototype"
     threshold = 10
     tests = microsoft365_brute_force_loginby_user_tests

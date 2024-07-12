@@ -1,10 +1,10 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get, deep_walk, okta_alert_context
 
-okta_new_behavior_accessing_admin_console_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+okta_new_behavior_accessing_admin_console_tests: List[RuleTest] = [
+    RuleTest(
         name="New Behavior Accessing Admin Console (behavior)",
         expected_result=True,
         log={
@@ -100,7 +100,7 @@ okta_new_behavior_accessing_admin_console_tests: List[PantherRuleTest] = [
             "version": "0",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="New Behavior Accessing Admin Console (logSecurityDataOnly)",
         expected_result=True,
         log={
@@ -199,7 +199,7 @@ okta_new_behavior_accessing_admin_console_tests: List[PantherRuleTest] = [
             "version": "0",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Not New Behavior",
         expected_result=False,
         log={
@@ -300,12 +300,12 @@ okta_new_behavior_accessing_admin_console_tests: List[PantherRuleTest] = [
 ]
 
 
-class OktaNewBehaviorAccessingAdminConsole(PantherRule):
+class OktaNewBehaviorAccessingAdminConsole(Rule):
     id_ = "Okta.New.Behavior.Accessing.Admin.Console-prototype"
     display_name = "Okta New Behaviors Acessing Admin Console"
-    log_types = [PantherLogType.Okta_SystemLog]
+    log_types = [LogType.Okta_SystemLog]
     reports = {"MITRE ATT&CK": ["TA0001:T1078.004"]}
-    default_severity = PantherSeverity.high
+    default_severity = Severity.high
     default_description = "New Behaviors Observed while Accessing Okta Admin Console. A user attempted to access the Okta Admin Console from a new device with a new IP.\n"
     default_runbook = "Configure Authentication Policies (Application Sign-on Policies) for access to privileged applications, including the Admin Console, to require re-authentication “at every sign-in”. Turn on and test New Device and Suspicious Activity end-user notifications.\n"
     default_reference = "https://sec.okta.com/articles/2023/08/cross-tenant-impersonation-prevention-and-detection\n"

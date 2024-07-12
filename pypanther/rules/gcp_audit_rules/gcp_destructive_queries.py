@@ -1,10 +1,10 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 
-gcp_destructive_queries_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+gcp_destructive_queries_tests: List[RuleTest] = [
+    RuleTest(
         name="Drop Table Event",
         expected_result=True,
         log={
@@ -79,7 +79,7 @@ gcp_destructive_queries_tests: List[PantherRuleTest] = [
             "timestamp": "2023-03-28 18:37:06.079",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="TableDeletion",
         expected_result=True,
         log={
@@ -137,12 +137,12 @@ gcp_destructive_queries_tests: List[PantherRuleTest] = [
 ]
 
 
-class GCPDestructiveQueries(PantherRule):
+class GCPDestructiveQueries(Rule):
     default_description = "Detect any destructive BigQuery queries or jobs such as update, delete, drop, alter or truncate."
     display_name = "GCP Destructive Queries"
     default_reference = "https://cloud.google.com/bigquery/docs/managing-tables"
-    default_severity = PantherSeverity.info
-    log_types = [PantherLogType.GCP_AuditLog]
+    default_severity = Severity.info
+    log_types = [LogType.GCP_AuditLog]
     id_ = "GCP.Destructive.Queries-prototype"
     tests = gcp_destructive_queries_tests
     DESTRUCTIVE_STATEMENTS = [

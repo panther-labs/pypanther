@@ -1,9 +1,9 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 
-aws_cloud_trail_iam_compromised_key_quarantine_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+aws_cloud_trail_iam_compromised_key_quarantine_tests: List[RuleTest] = [
+    RuleTest(
         name="AttachUserPolicy AWSCompromisedKeyQuarantineV2-true",
         expected_result=True,
         log={
@@ -50,7 +50,7 @@ aws_cloud_trail_iam_compromised_key_quarantine_tests: List[PantherRuleTest] = [
             "sessionCredentialFromConsole": "true",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="PutUserPolicy-false",
         expected_result=False,
         log={
@@ -101,12 +101,12 @@ aws_cloud_trail_iam_compromised_key_quarantine_tests: List[PantherRuleTest] = [
 ]
 
 
-class AWSCloudTrailIAMCompromisedKeyQuarantine(PantherRule):
-    log_types = [PantherLogType.AWS_CloudTrail]
+class AWSCloudTrailIAMCompromisedKeyQuarantine(Rule):
+    log_types = [LogType.AWS_CloudTrail]
     default_description = "Detects when an IAM user has the AWSCompromisedKeyQuarantineV2 policy attached to their account."
     display_name = "AWS Compromised IAM Key Quarantine"
     id_ = "AWS.CloudTrail.IAMCompromisedKeyQuarantine-prototype"
-    default_severity = PantherSeverity.high
+    default_severity = Severity.high
     tags = [
         "AWS",
         "Identity and Access Management",

@@ -1,10 +1,10 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get, okta_alert_context
 
-okta_threat_insight_security_threat_detected_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+okta_threat_insight_security_threat_detected_tests: List[RuleTest] = [
+    RuleTest(
         name="Other Event",
         expected_result=False,
         log={
@@ -49,7 +49,7 @@ okta_threat_insight_security_threat_detected_tests: List[PantherRuleTest] = [
             "version": "0",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Threat Detected Event - Deny",
         expected_result=True,
         log={
@@ -123,7 +123,7 @@ okta_threat_insight_security_threat_detected_tests: List[PantherRuleTest] = [
             "version": "0",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Threat Detected Event - Success",
         expected_result=True,
         log={
@@ -192,14 +192,14 @@ okta_threat_insight_security_threat_detected_tests: List[PantherRuleTest] = [
 ]
 
 
-class OktaThreatInsightSecurityThreatDetected(PantherRule):
+class OktaThreatInsightSecurityThreatDetected(Rule):
     default_description = (
         "Okta ThreatInsight identified request from potentially malicious IP address"
     )
     default_reference = "https://help.okta.com/en-us/Content/Topics/Security/threat-insight/configure-threatinsight-system-log.htm"
     display_name = "Okta ThreatInsight Security Threat Detected"
-    default_severity = PantherSeverity.high
-    log_types = [PantherLogType.Okta_SystemLog]
+    default_severity = Severity.high
+    log_types = [LogType.Okta_SystemLog]
     id_ = "Okta.ThreatInsight.Security.Threat.Detected-prototype"
     tests = okta_threat_insight_security_threat_detected_tests
 

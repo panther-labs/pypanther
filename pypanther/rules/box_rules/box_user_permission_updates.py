@@ -1,10 +1,10 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 
-box_large_number_permission_updates_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+box_large_number_permission_updates_tests: List[RuleTest] = [
+    RuleTest(
         name="Regular Event",
         expected_result=False,
         log={
@@ -19,7 +19,7 @@ box_large_number_permission_updates_tests: List[PantherRuleTest] = [
             "event_type": "DELETE",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="User Permission Change",
         expected_result=True,
         log={
@@ -40,7 +40,7 @@ box_large_number_permission_updates_tests: List[PantherRuleTest] = [
             },
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="User Shares Item",
         expected_result=True,
         log={
@@ -64,13 +64,13 @@ box_large_number_permission_updates_tests: List[PantherRuleTest] = [
 ]
 
 
-class BoxLargeNumberPermissionUpdates(PantherRule):
+class BoxLargeNumberPermissionUpdates(Rule):
     id_ = "Box.Large.Number.Permission.Updates-prototype"
     display_name = "Box Large Number of Permission Changes"
-    log_types = [PantherLogType.Box_Event]
+    log_types = [LogType.Box_Event]
     tags = ["Box", "Privilege Escalation:Abuse Elevation Control Mechanism"]
     reports = {"MITRE ATT&CK": ["TA0004:T1548"]}
-    default_severity = PantherSeverity.low
+    default_severity = Severity.low
     default_description = "A user has exceeded the threshold for number of folder permission changes within a single time frame.\n"
     default_reference = (
         "https://support.box.com/hc/en-us/articles/360043697254-Understanding-Folder-Permissions"

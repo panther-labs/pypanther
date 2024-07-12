@@ -1,10 +1,10 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 
-g_suite_advanced_protection_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+g_suite_advanced_protection_tests: List[RuleTest] = [
+    RuleTest(
         name="Advanced Protection Enabled",
         expected_result=False,
         log={
@@ -14,7 +14,7 @@ g_suite_advanced_protection_tests: List[PantherRuleTest] = [
             "name": "titanium_enroll",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Advanced Protection Disabled",
         expected_result=True,
         log={
@@ -27,13 +27,13 @@ g_suite_advanced_protection_tests: List[PantherRuleTest] = [
 ]
 
 
-class GSuiteAdvancedProtection(PantherRule):
+class GSuiteAdvancedProtection(Rule):
     id_ = "GSuite.AdvancedProtection-prototype"
     display_name = "GSuite User Advanced Protection Change"
-    log_types = [PantherLogType.GSuite_ActivityEvent]
+    log_types = [LogType.GSuite_ActivityEvent]
     tags = ["GSuite", "Defense Evasion:Impair Defenses"]
     reports = {"MITRE ATT&CK": ["TA0005:T1562"]}
-    default_severity = PantherSeverity.low
+    default_severity = Severity.low
     default_description = "A user disabled advanced protection for themselves.\n"
     default_reference = (
         "https://support.google.com/a/answer/9378686?hl=en&sjid=864417124752637253-EU"

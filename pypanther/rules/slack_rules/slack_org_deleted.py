@@ -1,10 +1,10 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import slack_alert_context
 
-slack_audit_logs_org_deleted_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+slack_audit_logs_org_deleted_tests: List[RuleTest] = [
+    RuleTest(
         name="Organization Deleted",
         expected_result=True,
         log={
@@ -30,7 +30,7 @@ slack_audit_logs_org_deleted_tests: List[PantherRuleTest] = [
             },
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Organization Created",
         expected_result=False,
         log={
@@ -59,13 +59,13 @@ slack_audit_logs_org_deleted_tests: List[PantherRuleTest] = [
 ]
 
 
-class SlackAuditLogsOrgDeleted(PantherRule):
+class SlackAuditLogsOrgDeleted(Rule):
     id_ = "Slack.AuditLogs.OrgDeleted-prototype"
     display_name = "Slack Organization Deleted"
-    log_types = [PantherLogType.Slack_AuditLogs]
+    log_types = [LogType.Slack_AuditLogs]
     tags = ["Slack", "Impact", "Account Access Removal"]
     reports = {"MITRE ATT&CK": ["TA0040:T1531"]}
-    default_severity = PantherSeverity.medium
+    default_severity = Severity.medium
     default_description = "Detects when a Slack organization is deleted"
     default_reference = "https://slack.com/intl/en-gb/help/articles/204067366-Delete-a-workspace"
     summary_attributes = ["p_any_ip_addresses", "p_any_emails"]

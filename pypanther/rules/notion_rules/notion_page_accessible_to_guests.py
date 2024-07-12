@@ -1,11 +1,11 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 from pypanther.helpers.panther_notion_helpers import notion_alert_context
 
-notion_page_perms_guest_perms_changed_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+notion_page_perms_guest_perms_changed_tests: List[RuleTest] = [
+    RuleTest(
         name="Guest Role Added",
         expected_result=True,
         log={
@@ -38,7 +38,7 @@ notion_page_perms_guest_perms_changed_tests: List[PantherRuleTest] = [
             }
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Guest Role Changed",
         expected_result=True,
         log={
@@ -74,12 +74,12 @@ notion_page_perms_guest_perms_changed_tests: List[PantherRuleTest] = [
 ]
 
 
-class NotionPagePermsGuestPermsChanged(PantherRule):
+class NotionPagePermsGuestPermsChanged(Rule):
     id_ = "Notion.PagePerms.GuestPermsChanged-prototype"
     display_name = "Notion Page Guest Permissions Changed"
-    log_types = [PantherLogType.Notion_AuditLogs]
+    log_types = [LogType.Notion_AuditLogs]
     tags = ["Notion", "Data Security", "Information Disclosure"]
-    default_severity = PantherSeverity.low
+    default_severity = Severity.low
     default_description = "The external guest permissions for a Notion page have been altered."
     default_runbook = (
         "Potential information exposure - review the shared page and rectify if needed."

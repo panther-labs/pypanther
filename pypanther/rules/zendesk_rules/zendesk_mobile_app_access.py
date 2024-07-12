@@ -1,10 +1,10 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import ZENDESK_CHANGE_DESCRIPTION
 
-zendesk_mobile_app_access_updated_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+zendesk_mobile_app_access_updated_tests: List[RuleTest] = [
+    RuleTest(
         name="Zendesk - Mobile App Access Off",
         expected_result=True,
         log={
@@ -23,7 +23,7 @@ zendesk_mobile_app_access_updated_tests: List[PantherRuleTest] = [
             "p_log_type": "Zendesk.Audit",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Zendesk - Mobile App Access On",
         expected_result=True,
         log={
@@ -42,7 +42,7 @@ zendesk_mobile_app_access_updated_tests: List[PantherRuleTest] = [
             "p_log_type": "Zendesk.Audit",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Zendesk - Credit Card Redaction",
         expected_result=False,
         log={
@@ -64,13 +64,13 @@ zendesk_mobile_app_access_updated_tests: List[PantherRuleTest] = [
 ]
 
 
-class ZendeskMobileAppAccessUpdated(PantherRule):
+class ZendeskMobileAppAccessUpdated(Rule):
     id_ = "Zendesk.MobileAppAccessUpdated-prototype"
     display_name = "Zendesk Mobile App Access Modified"
-    log_types = [PantherLogType.Zendesk_Audit]
+    log_types = [LogType.Zendesk_Audit]
     tags = ["Zendesk", "Persistence:Valid Accounts"]
     reports = {"MITRE ATT&CK": ["TA0003:T1078"]}
-    default_severity = PantherSeverity.medium
+    default_severity = Severity.medium
     default_description = (
         "A user updated account setting that enabled or disabled mobile app access."
     )

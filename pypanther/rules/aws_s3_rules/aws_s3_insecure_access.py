@@ -1,10 +1,10 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import aws_rule_context, pattern_match
 
-awss3_server_access_insecure_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+awss3_server_access_insecure_tests: List[RuleTest] = [
+    RuleTest(
         name="Secure Access to S3 Bucket",
         expected_result=False,
         log={
@@ -37,7 +37,7 @@ awss3_server_access_insecure_tests: List[PantherRuleTest] = [
             ],
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Delete Marker Call",
         expected_result=False,
         log={
@@ -56,7 +56,7 @@ awss3_server_access_insecure_tests: List[PantherRuleTest] = [
             "p_parse_time": "2020-05-21 08:19:50.085391216",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Insecure Access to S3 Bucket",
         expected_result=True,
         log={
@@ -90,11 +90,11 @@ awss3_server_access_insecure_tests: List[PantherRuleTest] = [
 ]
 
 
-class AWSS3ServerAccessInsecure(PantherRule):
+class AWSS3ServerAccessInsecure(Rule):
     id_ = "AWS.S3.ServerAccess.Insecure-prototype"
     display_name = "AWS S3 Insecure Access"
     dedup_period_minutes = 720
-    log_types = [PantherLogType.AWS_S3ServerAccess]
+    log_types = [LogType.AWS_S3ServerAccess]
     tags = [
         "AWS",
         "Configuration Required",
@@ -102,7 +102,7 @@ class AWSS3ServerAccessInsecure(PantherRule):
         "Collection:Data From Cloud Storage Object",
     ]
     reports = {"MITRE ATT&CK": ["TA0009:T1530"]}
-    default_severity = PantherSeverity.low
+    default_severity = Severity.low
     default_description = "Checks if HTTP (unencrypted) was used to access objects in an S3 bucket, as opposed to HTTPS (encrypted).\n"
     default_runbook = "Add a condition on the S3 bucket policy that denies access via http.\n"
     default_reference = (

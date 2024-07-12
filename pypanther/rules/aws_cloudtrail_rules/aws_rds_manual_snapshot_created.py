@@ -1,10 +1,10 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import aws_rule_context
 
-awsrds_manual_snapshot_created_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+awsrds_manual_snapshot_created_tests: List[RuleTest] = [
+    RuleTest(
         name="Manual Snapshot Created",
         expected_result=True,
         log={
@@ -80,7 +80,7 @@ awsrds_manual_snapshot_created_tests: List[PantherRuleTest] = [
             },
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Public Snapshot Created",
         expected_result=True,
         log={
@@ -156,7 +156,7 @@ awsrds_manual_snapshot_created_tests: List[PantherRuleTest] = [
             },
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Automated Snapshot Created",
         expected_result=False,
         log={
@@ -232,7 +232,7 @@ awsrds_manual_snapshot_created_tests: List[PantherRuleTest] = [
             },
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Awsbackup Snapshot Created",
         expected_result=False,
         log={
@@ -311,13 +311,13 @@ awsrds_manual_snapshot_created_tests: List[PantherRuleTest] = [
 ]
 
 
-class AWSRDSManualSnapshotCreated(PantherRule):
+class AWSRDSManualSnapshotCreated(Rule):
     id_ = "AWS.RDS.ManualSnapshotCreated-prototype"
     display_name = "AWS RDS Manual/Public Snapshot Created"
-    log_types = [PantherLogType.AWS_CloudTrail]
+    log_types = [LogType.AWS_CloudTrail]
     tags = ["AWS", "Exfiltration", "Transfer Data to Cloud Account"]
     reports = {"MITRE ATT&CK": ["TA0010:T1537"]}
-    default_severity = PantherSeverity.low
+    default_severity = Severity.low
     default_description = "A manual snapshot of an RDS database was created. An attacker may use this to exfiltrate the DB contents to another account; use this as a correlation rule.\n"
     default_runbook = "Ensure the snapshot was shared with an allowed AWS account. If not, delete the snapshot and quarantine the compromised IAM user.\n"
     default_reference = (

@@ -1,10 +1,10 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import github_alert_context
 
-git_hub_advanced_security_change_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+git_hub_advanced_security_change_tests: List[RuleTest] = [
+    RuleTest(
         name="Secret Scanning Disabled on a Repo",
         expected_result=True,
         log={
@@ -18,7 +18,7 @@ git_hub_advanced_security_change_tests: List[PantherRuleTest] = [
             "user": "bobert",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Secret Scanning Disabled Org Wide",
         expected_result=True,
         log={
@@ -32,7 +32,7 @@ git_hub_advanced_security_change_tests: List[PantherRuleTest] = [
             "user": "bobert",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Secret Scanning Disabled for New Repos",
         expected_result=True,
         log={
@@ -46,7 +46,7 @@ git_hub_advanced_security_change_tests: List[PantherRuleTest] = [
             "user": "bobert",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Dependabot Alerts Disabled Org Wide",
         expected_result=True,
         log={
@@ -60,7 +60,7 @@ git_hub_advanced_security_change_tests: List[PantherRuleTest] = [
             "user": "bobert",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Dependabot Alerts Disabled on New Repos",
         expected_result=True,
         log={
@@ -74,7 +74,7 @@ git_hub_advanced_security_change_tests: List[PantherRuleTest] = [
             "user": "bobert",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Dependabot Disabled Org Wide",
         expected_result=True,
         log={
@@ -88,7 +88,7 @@ git_hub_advanced_security_change_tests: List[PantherRuleTest] = [
             "user": "bobert",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Dependabot Disabled on New Repos",
         expected_result=True,
         log={
@@ -102,7 +102,7 @@ git_hub_advanced_security_change_tests: List[PantherRuleTest] = [
             "user": "bobert",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Non-GitHub Adv Sec Action",
         expected_result=False,
         log={
@@ -116,7 +116,7 @@ git_hub_advanced_security_change_tests: List[PantherRuleTest] = [
             "user": "bobert",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Enterprise Log - business_advanced_security.enabled",
         expected_result=False,
         log={
@@ -132,7 +132,7 @@ git_hub_advanced_security_change_tests: List[PantherRuleTest] = [
             "user": "bobert",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Enterprise Log - business_advanced_security.disabled",
         expected_result=True,
         log={
@@ -151,13 +151,13 @@ git_hub_advanced_security_change_tests: List[PantherRuleTest] = [
 ]
 
 
-class GitHubAdvancedSecurityChange(PantherRule):
+class GitHubAdvancedSecurityChange(Rule):
     id_ = "GitHub.Advanced.Security.Change-prototype"
     display_name = "GitHub Security Change, includes GitHub Advanced Security"
-    log_types = [PantherLogType.GitHub_Audit]
+    log_types = [LogType.GitHub_Audit]
     tags = ["GitHub"]
     reports = {"MITRE ATT&CK": ["TA0005:T1562"]}
-    default_severity = PantherSeverity.low
+    default_severity = Severity.low
     default_description = (
         "The rule alerts when GitHub Security tools (Dependabot, Secret Scanner, etc) are disabled."
     )

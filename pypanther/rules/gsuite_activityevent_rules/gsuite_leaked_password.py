@@ -1,10 +1,10 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 
-g_suite_leaked_password_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+g_suite_leaked_password_tests: List[RuleTest] = [
+    RuleTest(
         name="Normal Login Event",
         expected_result=False,
         log={
@@ -14,7 +14,7 @@ g_suite_leaked_password_tests: List[PantherRuleTest] = [
             "parameters": {"login_type": "saml"},
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Account Warning Not For Password Leaked",
         expected_result=False,
         log={
@@ -24,7 +24,7 @@ g_suite_leaked_password_tests: List[PantherRuleTest] = [
             "parameters": {"affected_email_address": "homer.simpson@example.com"},
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Account Warning For Password Leaked",
         expected_result=True,
         log={
@@ -37,13 +37,13 @@ g_suite_leaked_password_tests: List[PantherRuleTest] = [
 ]
 
 
-class GSuiteLeakedPassword(PantherRule):
+class GSuiteLeakedPassword(Rule):
     id_ = "GSuite.LeakedPassword-prototype"
     display_name = "GSuite User Password Leaked"
-    log_types = [PantherLogType.GSuite_ActivityEvent]
+    log_types = [LogType.GSuite_ActivityEvent]
     tags = ["GSuite", "Credential Access:Unsecured Credentials"]
     reports = {"MITRE ATT&CK": ["TA0006:T1552"]}
-    default_severity = PantherSeverity.high
+    default_severity = Severity.high
     default_description = (
         "GSuite reported a user's password has been compromised, so they disabled the account.\n"
     )

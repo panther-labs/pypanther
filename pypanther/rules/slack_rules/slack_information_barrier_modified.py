@@ -1,10 +1,10 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import slack_alert_context
 
-slack_audit_logs_information_barrier_modified_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+slack_audit_logs_information_barrier_modified_tests: List[RuleTest] = [
+    RuleTest(
         name="Information Barrier Deleted",
         expected_result=True,
         log={
@@ -30,7 +30,7 @@ slack_audit_logs_information_barrier_modified_tests: List[PantherRuleTest] = [
             },
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Information Barrier Updated",
         expected_result=True,
         log={
@@ -56,7 +56,7 @@ slack_audit_logs_information_barrier_modified_tests: List[PantherRuleTest] = [
             },
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="User Logout",
         expected_result=False,
         log={
@@ -96,13 +96,13 @@ slack_audit_logs_information_barrier_modified_tests: List[PantherRuleTest] = [
 ]
 
 
-class SlackAuditLogsInformationBarrierModified(PantherRule):
+class SlackAuditLogsInformationBarrierModified(Rule):
     id_ = "Slack.AuditLogs.InformationBarrierModified-prototype"
     display_name = "Slack Information Barrier Modified"
-    log_types = [PantherLogType.Slack_AuditLogs]
+    log_types = [LogType.Slack_AuditLogs]
     tags = ["Slack", "Defense Evasion", "Impair Defenses", "Disable or Modify Tools"]
     reports = {"MITRE ATT&CK": ["TA0005:T1562.001"]}
-    default_severity = PantherSeverity.medium
+    default_severity = Severity.medium
     default_description = "Detects when a Slack information barrier is deleted/updated"
     default_reference = "https://slack.com/intl/en-gb/help/articles/360056171734-Create-information-barriers-in-Slack"
     summary_attributes = ["action", "p_any_ip_addresses", "p_any_emails"]

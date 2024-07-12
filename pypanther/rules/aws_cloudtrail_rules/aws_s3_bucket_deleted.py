@@ -1,11 +1,11 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import aws_rule_context, deep_get
 from pypanther.helpers.panther_default import aws_cloudtrail_success
 
-awss3_bucket_deleted_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+awss3_bucket_deleted_tests: List[RuleTest] = [
+    RuleTest(
         name="An S3 Bucket was deleted",
         expected_result=True,
         log={
@@ -55,7 +55,7 @@ awss3_bucket_deleted_tests: List[PantherRuleTest] = [
             "vpcEndpointId": "vpce-aaa333c9",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="S3 Bucket Deletion Failed",
         expected_result=False,
         log={
@@ -74,7 +74,7 @@ awss3_bucket_deleted_tests: List[PantherRuleTest] = [
             "vpcEndpointId": "vpce-aaa333c9",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="An S3 Object Deleted",
         expected_result=False,
         log={
@@ -94,13 +94,13 @@ awss3_bucket_deleted_tests: List[PantherRuleTest] = [
 ]
 
 
-class AWSS3BucketDeleted(PantherRule):
+class AWSS3BucketDeleted(Rule):
     id_ = "AWS.S3.BucketDeleted-prototype"
     display_name = "S3 Bucket Deleted"
-    log_types = [PantherLogType.AWS_CloudTrail]
+    log_types = [LogType.AWS_CloudTrail]
     tags = ["AWS", "Impact:Data Destruction"]
     reports = {"MITRE ATT&CK": ["TA0040:T1485"]}
-    default_severity = PantherSeverity.info
+    default_severity = Severity.info
     default_description = "A S3 Bucket, Policy, or Website was deleted"
     default_runbook = "Explore if this bucket deletion was potentially destructive"
     default_reference = "https://docs.aws.amazon.com/AmazonS3/latest/userguide/DeletingObjects.html"

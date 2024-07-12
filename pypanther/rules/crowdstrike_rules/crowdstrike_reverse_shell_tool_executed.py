@@ -1,10 +1,10 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import crowdstrike_detection_alert_context, deep_get
 
-crowdstrike_reverse_shell_tool_executed_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+crowdstrike_reverse_shell_tool_executed_tests: List[RuleTest] = [
+    RuleTest(
         name="Malicious Netcat",
         expected_result=True,
         log={
@@ -86,7 +86,7 @@ crowdstrike_reverse_shell_tool_executed_tests: List[PantherRuleTest] = [
             "treeid": "4295752857",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Benign Netcat",
         expected_result=False,
         log={
@@ -168,7 +168,7 @@ crowdstrike_reverse_shell_tool_executed_tests: List[PantherRuleTest] = [
             "treeid": "4295752857",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Other",
         expected_result=False,
         log={
@@ -253,14 +253,14 @@ crowdstrike_reverse_shell_tool_executed_tests: List[PantherRuleTest] = [
 ]
 
 
-class CrowdstrikeReverseShellToolExecuted(PantherRule):
+class CrowdstrikeReverseShellToolExecuted(Rule):
     default_description = (
         "Detects usage of tools commonly used to to establish reverse shells on Windows machines."
     )
     display_name = "Crowdstrike Reverse Shell Tool Executed"
     default_reference = "https://attack.mitre.org/techniques/T1059/"
-    default_severity = PantherSeverity.high
-    log_types = [PantherLogType.Crowdstrike_FDREvent]
+    default_severity = Severity.high
+    log_types = [LogType.Crowdstrike_FDREvent]
     id_ = "Crowdstrike.Reverse.Shell.Tool.Executed-prototype"
     tests = crowdstrike_reverse_shell_tool_executed_tests
     #   process name: reverse shell signature

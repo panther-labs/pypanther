@@ -1,9 +1,9 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 
-teleport_network_scanning_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+teleport_network_scanning_tests: List[RuleTest] = [
+    RuleTest(
         name="Echo command",
         expected_result=False,
         log={
@@ -26,7 +26,7 @@ teleport_network_scanning_tests: List[PantherRuleTest] = [
             "user": "panther",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Nmap with no args",
         expected_result=False,
         log={
@@ -49,7 +49,7 @@ teleport_network_scanning_tests: List[PantherRuleTest] = [
             "user": "panther",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Nmap with args",
         expected_result=True,
         log={
@@ -72,7 +72,7 @@ teleport_network_scanning_tests: List[PantherRuleTest] = [
             "user": "panther",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Nmap running from crontab",
         expected_result=True,
         log={
@@ -98,12 +98,12 @@ teleport_network_scanning_tests: List[PantherRuleTest] = [
 ]
 
 
-class TeleportNetworkScanning(PantherRule):
+class TeleportNetworkScanning(Rule):
     id_ = "Teleport.NetworkScanning-prototype"
     display_name = "Teleport Network Scan Initiated"
-    log_types = [PantherLogType.Gravitational_TeleportAudit]
+    log_types = [LogType.Gravitational_TeleportAudit]
     tags = ["SSH", "Discovery:Network Service Discovery"]
-    default_severity = PantherSeverity.medium
+    default_severity = Severity.medium
     default_description = "A user has invoked a network scan that could potentially indicate enumeration of the network."
     reports = {"MITRE ATT&CK": ["TA0007:T1046"]}
     default_reference = "https://goteleport.com/docs/management/admin/"

@@ -1,11 +1,11 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.gcp_base_helpers import gcp_alert_context
 from pypanther.helpers.panther_base_helpers import deep_get
 
-gcpk8s_pod_using_host_pid_namespace_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+gcpk8s_pod_using_host_pid_namespace_tests: List[RuleTest] = [
+    RuleTest(
         name="triggers",
         expected_result=True,
         log={
@@ -22,7 +22,7 @@ gcpk8s_pod_using_host_pid_namespace_tests: List[PantherRuleTest] = [
             },
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="ignore",
         expected_result=False,
         log={
@@ -42,12 +42,12 @@ gcpk8s_pod_using_host_pid_namespace_tests: List[PantherRuleTest] = [
 ]
 
 
-class GCPK8sPodUsingHostPIDNamespace(PantherRule):
+class GCPK8sPodUsingHostPIDNamespace(Rule):
     id_ = "GCP.K8s.Pod.Using.Host.PID.Namespace-prototype"
     display_name = "GCP K8s Pod Using Host PID Namespace"
-    log_types = [PantherLogType.GCP_AuditLog]
+    log_types = [LogType.GCP_AuditLog]
     tags = ["GCP", "Optional"]
-    default_severity = PantherSeverity.medium
+    default_severity = Severity.medium
     default_description = "This detection monitors for any pod creation or modification using the host PID namespace. The Host PID namespace enables a pod and its containers to have direct access and share the same view as of the host’s processes. This can offer a powerful escape hatch to the underlying host."
     default_runbook = "Investigate a reason of creating a pod using the host PID namespace. Advise that it is discouraged practice. Create ticket if appropriate."
     reports = {"MITRE ATT&CK": ["TA0004:T1611", "TA0002:T1610"]}

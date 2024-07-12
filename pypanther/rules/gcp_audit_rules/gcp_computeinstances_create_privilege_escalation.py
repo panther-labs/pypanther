@@ -1,11 +1,11 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.gcp_base_helpers import gcp_alert_context
 from pypanther.helpers.panther_base_helpers import deep_get
 
-gc_pcomputeinstancescreate_privilege_escalation_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+gc_pcomputeinstancescreate_privilege_escalation_tests: List[RuleTest] = [
+    RuleTest(
         name="GCP compute.instances - Potential Privilege Escalation",
         expected_result=True,
         log={
@@ -136,7 +136,7 @@ gc_pcomputeinstancescreate_privilege_escalation_tests: List[PantherRuleTest] = [
             "timestamp": "2024-01-30 12:52:34.676384000",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="GCP compute.instances - Error",
         expected_result=False,
         log={
@@ -258,7 +258,7 @@ gc_pcomputeinstancescreate_privilege_escalation_tests: List[PantherRuleTest] = [
             "timestamp": "2024-01-30 11:03:55.700872000",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="GCP compute.instances - Not All Permissions",
         expected_result=False,
         log={
@@ -335,8 +335,8 @@ gc_pcomputeinstancescreate_privilege_escalation_tests: List[PantherRuleTest] = [
 ]
 
 
-class GCPcomputeinstancescreatePrivilegeEscalation(PantherRule):
-    log_types = [PantherLogType.GCP_AuditLog]
+class GCPcomputeinstancescreatePrivilegeEscalation(Rule):
+    log_types = [LogType.GCP_AuditLog]
     default_description = "Detects compute.instances.create method for privilege escalation in GCP."
     display_name = "GCP compute.instances.create Privilege Escalation"
     id_ = "GCP.compute.instances.create.Privilege.Escalation-prototype"
@@ -345,7 +345,7 @@ class GCPcomputeinstancescreatePrivilegeEscalation(PantherRule):
     )
     default_runbook = "Confirm this was authorized and necessary behavior."
     reports = {"MITRE ATT&CK": ["TA0004:T1548"]}
-    default_severity = PantherSeverity.high
+    default_severity = Severity.high
     tests = gc_pcomputeinstancescreate_privilege_escalation_tests
     REQUIRED_PERMISSIONS = [
         "compute.disks.create",

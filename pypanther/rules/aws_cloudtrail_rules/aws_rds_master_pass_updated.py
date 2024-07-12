@@ -1,10 +1,10 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 
-awsrds_master_password_updated_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+awsrds_master_password_updated_tests: List[RuleTest] = [
+    RuleTest(
         name="Allocated storage modified",
         expected_result=False,
         log={
@@ -147,7 +147,7 @@ awsrds_master_password_updated_tests: List[PantherRuleTest] = [
             },
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Master pass modified",
         expected_result=True,
         log={
@@ -293,7 +293,7 @@ awsrds_master_password_updated_tests: List[PantherRuleTest] = [
 ]
 
 
-class AWSRDSMasterPasswordUpdated(PantherRule):
+class AWSRDSMasterPasswordUpdated(Rule):
     default_description = (
         "A sensitive database operation that should be performed carefully or rarely"
     )
@@ -301,7 +301,7 @@ class AWSRDSMasterPasswordUpdated(PantherRule):
     default_reference = (
         "https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Overview.DBInstance.Modifying.html"
     )
-    default_severity = PantherSeverity.low
+    default_severity = Severity.low
     reports = {"MITRE ATT&CK": ["TA0003:T1098"]}
     summary_attributes = [
         "awsRegion",
@@ -310,7 +310,7 @@ class AWSRDSMasterPasswordUpdated(PantherRule):
         "p_any_aws_arns",
         "p_any_aws_account_ids",
     ]
-    log_types = [PantherLogType.AWS_CloudTrail]
+    log_types = [LogType.AWS_CloudTrail]
     id_ = "AWS.RDS.MasterPasswordUpdated-prototype"
     tests = awsrds_master_password_updated_tests
 

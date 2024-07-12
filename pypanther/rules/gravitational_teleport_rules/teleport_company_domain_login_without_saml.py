@@ -1,11 +1,11 @@
 import re
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_config import config
 
-teleport_company_domain_login_without_saml_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+teleport_company_domain_login_without_saml_tests: List[RuleTest] = [
+    RuleTest(
         name="A User from the company domain(s) logged in with SAML",
         expected_result=False,
         log={
@@ -21,7 +21,7 @@ teleport_company_domain_login_without_saml_tests: List[PantherRuleTest] = [
             "user": "jane.doe@example.com",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="A User from the company domain(s) logged in without SAML",
         expected_result=True,
         log={
@@ -39,12 +39,12 @@ teleport_company_domain_login_without_saml_tests: List[PantherRuleTest] = [
 ]
 
 
-class TeleportCompanyDomainLoginWithoutSAML(PantherRule):
+class TeleportCompanyDomainLoginWithoutSAML(Rule):
     id_ = "Teleport.CompanyDomainLoginWithoutSAML-prototype"
     display_name = "A User from the company domain(s) Logged in without SAML"
-    log_types = [PantherLogType.Gravitational_TeleportAudit]
+    log_types = [LogType.Gravitational_TeleportAudit]
     tags = ["Teleport"]
-    default_severity = PantherSeverity.high
+    default_severity = Severity.high
     default_description = "A User from the company domain(s) Logged in without SAML"
     reports = {"MITRE ATT&CK": ["TA0005:T1562"]}
     default_reference = "https://goteleport.com/docs/management/admin/"

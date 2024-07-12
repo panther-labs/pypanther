@@ -3,10 +3,10 @@ from typing import List
 
 from panther_detection_helpers.caching import get_counter, increment_counter, reset_counter
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 
-one_login_high_risk_login_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+one_login_high_risk_login_tests: List[RuleTest] = [
+    RuleTest(
         name="Normal Login Event",
         expected_result=False,
         log={
@@ -20,12 +20,12 @@ one_login_high_risk_login_tests: List[PantherRuleTest] = [
 ]
 
 
-class OneLoginHighRiskLogin(PantherRule):
+class OneLoginHighRiskLogin(Rule):
     id_ = "OneLogin.HighRiskLogin-prototype"
     display_name = "OneLogin High Risk Login"
-    log_types = [PantherLogType.OneLogin_Events]
+    log_types = [LogType.OneLogin_Events]
     tags = ["OneLogin"]
-    default_severity = PantherSeverity.medium
+    default_severity = Severity.medium
     default_description = (
         "A OneLogin user successfully logged in after a failed high-risk login attempt."
     )

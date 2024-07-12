@@ -1,10 +1,10 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 
-gcp_big_query_large_scan_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+gcp_big_query_large_scan_tests: List[RuleTest] = [
+    RuleTest(
         name="small query",
         expected_result=False,
         log={
@@ -88,7 +88,7 @@ gcp_big_query_large_scan_tests: List[PantherRuleTest] = [
             "timestamp": "2023-03-28 17:37:02.096",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Large Query",
         expected_result=True,
         log={
@@ -175,12 +175,12 @@ gcp_big_query_large_scan_tests: List[PantherRuleTest] = [
 ]
 
 
-class GCPBigQueryLargeScan(PantherRule):
+class GCPBigQueryLargeScan(Rule):
     default_description = "Detect any BigQuery query that is doing a very large scan (> 1 GB)."
     display_name = "GCP BigQuery Large Scan"
     default_reference = "https://cloud.google.com/bigquery/docs/running-queries"
-    default_severity = PantherSeverity.info
-    log_types = [PantherLogType.GCP_AuditLog]
+    default_severity = Severity.info
+    log_types = [LogType.GCP_AuditLog]
     id_ = "GCP.BigQuery.Large.Scan-prototype"
     tests = gcp_big_query_large_scan_tests
     # 1.07 GB

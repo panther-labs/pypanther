@@ -1,9 +1,9 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 
-zendesk_new_api_token_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+zendesk_new_api_token_tests: List[RuleTest] = [
+    RuleTest(
         name="Zendesk - API Token Updated",
         expected_result=False,
         log={
@@ -22,7 +22,7 @@ zendesk_new_api_token_tests: List[PantherRuleTest] = [
             "p_log_type": "Zendesk.Audit",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Zendesk - API Token Created",
         expected_result=True,
         log={
@@ -44,11 +44,11 @@ zendesk_new_api_token_tests: List[PantherRuleTest] = [
 ]
 
 
-class ZendeskNewAPIToken(PantherRule):
+class ZendeskNewAPIToken(Rule):
     id_ = "Zendesk.NewAPIToken-prototype"
     display_name = "Zendesk API Token Created"
-    log_types = [PantherLogType.Zendesk_Audit]
-    default_severity = PantherSeverity.high
+    log_types = [LogType.Zendesk_Audit]
+    default_severity = Severity.high
     tags = ["Zendesk", "Credential Access:Steal Application Access Token"]
     reports = {"MITRE ATT&CK": ["TA0006:T1528"]}
     default_description = "A user created a new API token to be used with Zendesk."

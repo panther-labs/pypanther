@@ -1,10 +1,10 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 
-gcpvpc_flow_logs_disabled_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+gcpvpc_flow_logs_disabled_tests: List[RuleTest] = [
+    RuleTest(
         name="Disable Flow Logs Event",
         expected_result=True,
         log={
@@ -85,7 +85,7 @@ gcpvpc_flow_logs_disabled_tests: List[PantherRuleTest] = [
             "timestamp": "2023-03-08 18:52:58.322",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Enable Flow Logs Event",
         expected_result=False,
         log={
@@ -171,12 +171,12 @@ gcpvpc_flow_logs_disabled_tests: List[PantherRuleTest] = [
 ]
 
 
-class GCPVPCFlowLogsDisabled(PantherRule):
+class GCPVPCFlowLogsDisabled(Rule):
     default_description = "VPC flow logs were disabled for a subnet."
     display_name = "GCP VPC Flow Logs Disabled"
     default_reference = "https://cloud.google.com/vpc/docs/using-flow-logs"
-    default_severity = PantherSeverity.medium
-    log_types = [PantherLogType.GCP_AuditLog]
+    default_severity = Severity.medium
+    log_types = [LogType.GCP_AuditLog]
     id_ = "GCP.VPC.Flow.Logs.Disabled-prototype"
     tests = gcpvpc_flow_logs_disabled_tests
 

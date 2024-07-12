@@ -1,10 +1,10 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get, slack_alert_context
 
-slack_audit_logs_user_privilege_escalation_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+slack_audit_logs_user_privilege_escalation_tests: List[RuleTest] = [
+    RuleTest(
         name="Owner Transferred",
         expected_result=True,
         log={
@@ -30,7 +30,7 @@ slack_audit_logs_user_privilege_escalation_tests: List[PantherRuleTest] = [
             },
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Permissions Assigned",
         expected_result=True,
         log={
@@ -56,7 +56,7 @@ slack_audit_logs_user_privilege_escalation_tests: List[PantherRuleTest] = [
             },
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Role Changed to Admin",
         expected_result=True,
         log={
@@ -82,7 +82,7 @@ slack_audit_logs_user_privilege_escalation_tests: List[PantherRuleTest] = [
             },
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Role Changed to Owner",
         expected_result=True,
         log={
@@ -108,7 +108,7 @@ slack_audit_logs_user_privilege_escalation_tests: List[PantherRuleTest] = [
             },
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="User Logout",
         expected_result=False,
         log={
@@ -148,10 +148,10 @@ slack_audit_logs_user_privilege_escalation_tests: List[PantherRuleTest] = [
 ]
 
 
-class SlackAuditLogsUserPrivilegeEscalation(PantherRule):
+class SlackAuditLogsUserPrivilegeEscalation(Rule):
     id_ = "Slack.AuditLogs.UserPrivilegeEscalation-prototype"
     display_name = "Slack User Privilege Escalation"
-    log_types = [PantherLogType.Slack_AuditLogs]
+    log_types = [LogType.Slack_AuditLogs]
     tags = [
         "Slack",
         "Privilege Escalation",
@@ -159,7 +159,7 @@ class SlackAuditLogsUserPrivilegeEscalation(PantherRule):
         "Additional Cloud Roles",
     ]
     reports = {"MITRE ATT&CK": ["TA0004:T1098.003"]}
-    default_severity = PantherSeverity.high
+    default_severity = Severity.high
     default_description = "Detects when a Slack user gains escalated privileges"
     default_reference = (
         "https://slack.com/intl/en-gb/help/articles/201314026-Permissions-by-role-in-Slack"

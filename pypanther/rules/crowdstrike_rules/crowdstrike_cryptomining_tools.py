@@ -1,10 +1,10 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import crowdstrike_detection_alert_context, deep_get
 
-crowdstrike_cryptomining_tools_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+crowdstrike_cryptomining_tools_tests: List[RuleTest] = [
+    RuleTest(
         name="Crypto tool",
         expected_result=True,
         log={
@@ -86,7 +86,7 @@ crowdstrike_cryptomining_tools_tests: List[PantherRuleTest] = [
             "treeid": "4295752857",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Other",
         expected_result=False,
         log={
@@ -171,12 +171,12 @@ crowdstrike_cryptomining_tools_tests: List[PantherRuleTest] = [
 ]
 
 
-class CrowdstrikeCryptominingTools(PantherRule):
+class CrowdstrikeCryptominingTools(Rule):
     default_description = "Detects the execution of known crytocurrency mining tools."
     display_name = "Crowdstrike Cryptomining Tools "
     default_reference = "https://www.crowdstrike.com/cybersecurity-101/cryptojacking/"
-    default_severity = PantherSeverity.critical
-    log_types = [PantherLogType.Crowdstrike_FDREvent]
+    default_severity = Severity.critical
+    log_types = [LogType.Crowdstrike_FDREvent]
     id_ = "Crowdstrike.Cryptomining.Tools-prototype"
     tests = crowdstrike_cryptomining_tools_tests
     CRYPTOCURRENCY_MINING_TOOLS = {

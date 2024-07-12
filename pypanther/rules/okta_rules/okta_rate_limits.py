@@ -1,11 +1,11 @@
 from fnmatch import fnmatch
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import okta_alert_context
 
-okta_rate_limits_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+okta_rate_limits_tests: List[RuleTest] = [
+    RuleTest(
         name="system.org.ratelimit.warning",
         expected_result=True,
         log={
@@ -64,7 +64,7 @@ okta_rate_limits_tests: List[PantherRuleTest] = [
             "version": "0",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="system.operation.ratelimit.violation",
         expected_result=True,
         log={
@@ -120,7 +120,7 @@ okta_rate_limits_tests: List[PantherRuleTest] = [
             "version": "0",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="application.integration.rate_limit_exceeded",
         expected_result=True,
         log={
@@ -165,7 +165,7 @@ okta_rate_limits_tests: List[PantherRuleTest] = [
             "version": "0",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Non event",
         expected_result=False,
         log={
@@ -251,15 +251,15 @@ okta_rate_limits_tests: List[PantherRuleTest] = [
 ]
 
 
-class OktaRateLimits(PantherRule):
+class OktaRateLimits(Rule):
     default_description = "Potential DoS/Bruteforce attack or hitting limits (system degradation)"
     display_name = "Okta Rate Limits"
-    default_severity = PantherSeverity.high
+    default_severity = Severity.high
     tags = ["Credential Access", "Brute Force", "Impact", "Network Denial of Service"]
     reports = {"MITRE ATT&CK": ["TA0006:T1110", "TA0040:T1498"]}
     default_reference = "https://developer.okta.com/docs/reference/rl-system-log-events/"
     dedup_period_minutes = 360
-    log_types = [PantherLogType.Okta_SystemLog]
+    log_types = [LogType.Okta_SystemLog]
     id_ = "Okta.Rate.Limits-prototype"
     tests = okta_rate_limits_tests
     DETECTION_EVENTS = [

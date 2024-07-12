@@ -1,10 +1,10 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get, pattern_match
 
-aws_macie_evasion_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+aws_macie_evasion_tests: List[RuleTest] = [
+    RuleTest(
         name="ListMembers",
         expected_result=False,
         log={
@@ -59,7 +59,7 @@ aws_macie_evasion_tests: List[PantherRuleTest] = [
             },
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="UpdateSession",
         expected_result=True,
         log={
@@ -114,7 +114,7 @@ aws_macie_evasion_tests: List[PantherRuleTest] = [
             },
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="UpdateSession (Macie v1 event)",
         expected_result=True,
         log={
@@ -172,12 +172,12 @@ aws_macie_evasion_tests: List[PantherRuleTest] = [
 ]
 
 
-class AWSMacieEvasion(PantherRule):
+class AWSMacieEvasion(Rule):
     id_ = "AWS.Macie.Evasion-prototype"
     display_name = "AWS Macie Disabled/Updated"
-    log_types = [PantherLogType.AWS_CloudTrail]
+    log_types = [LogType.AWS_CloudTrail]
     reports = {"MITRE ATT&CK": ["TA0005:T1562"]}
-    default_severity = PantherSeverity.medium
+    default_severity = Severity.medium
     default_description = "Amazon Macie is a data security and data privacy service to discover and protect sensitive data. Security teams use Macie to detect open S3 Buckets that could have potentially sensitive data in it along with policy violations, such as missing Encryption. If an attacker disables Macie, it could potentially hide data exfiltration.\n"
     default_reference = "https://aws.amazon.com/macie/"
     default_runbook = "Analyze the events to ensure it's not normal maintenance. If it's abnormal, run the Indicator Search on the UserIdentity:Arn for the past hour and analyze other services accessed/changed.\n"

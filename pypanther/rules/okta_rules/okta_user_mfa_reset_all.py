@@ -1,10 +1,10 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import okta_alert_context
 
-okta_user_mfa_reset_all_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+okta_user_mfa_reset_all_tests: List[RuleTest] = [
+    RuleTest(
         name="Reset All Event",
         expected_result=True,
         log={
@@ -83,7 +83,7 @@ okta_user_mfa_reset_all_tests: List[PantherRuleTest] = [
             "version": "0",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Other Event",
         expected_result=False,
         log={
@@ -131,12 +131,12 @@ okta_user_mfa_reset_all_tests: List[PantherRuleTest] = [
 ]
 
 
-class OktaUserMFAResetAll(PantherRule):
+class OktaUserMFAResetAll(Rule):
     default_description = "All MFA factors have been reset for a user."
     display_name = "Okta User MFA Reset All"
     default_reference = "https://help.okta.com/en-us/content/topics/security/mfa/mfa-reset-users.htm#:~:text=the%20Admin%20Console%3A-,In%20the%20Admin%20Console%2C%20go%20to%20DirectoryPeople.,Selected%20Factors%20or%20Reset%20All"
-    default_severity = PantherSeverity.low
-    log_types = [PantherLogType.Okta_SystemLog]
+    default_severity = Severity.low
+    log_types = [LogType.Okta_SystemLog]
     id_ = "Okta.User.MFA.Reset.All-prototype"
     tests = okta_user_mfa_reset_all_tests
 

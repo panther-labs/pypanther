@@ -1,10 +1,10 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 
-asana_team_privacy_public_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+asana_team_privacy_public_tests: List[RuleTest] = [
+    RuleTest(
         name="Team made public",
         expected_result=True,
         log={
@@ -32,7 +32,7 @@ asana_team_privacy_public_tests: List[PantherRuleTest] = [
             "p_log_type": "Asana.Audit",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Other event",
         expected_result=False,
         log={
@@ -64,12 +64,12 @@ asana_team_privacy_public_tests: List[PantherRuleTest] = [
 ]
 
 
-class AsanaTeamPrivacyPublic(PantherRule):
+class AsanaTeamPrivacyPublic(Rule):
     default_description = "An Asana team's privacy setting was changed to public to the organization (not public to internet)"
     display_name = "Asana Team Privacy Public"
     default_reference = "https://help.asana.com/hc/en-us/articles/14211433439387-Team-permissions"
-    default_severity = PantherSeverity.low
-    log_types = [PantherLogType.Asana_Audit]
+    default_severity = Severity.low
+    log_types = [LogType.Asana_Audit]
     id_ = "Asana.Team.Privacy.Public-prototype"
     tests = asana_team_privacy_public_tests
 

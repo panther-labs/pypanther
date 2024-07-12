@@ -1,9 +1,9 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 
-app_omni_alert_passthrough_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+app_omni_alert_passthrough_tests: List[RuleTest] = [
+    RuleTest(
         name="Alert Type Severity 2",
         expected_result=True,
         log={
@@ -42,7 +42,7 @@ app_omni_alert_passthrough_tests: List[PantherRuleTest] = [
             "version": "2.0.0",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Event Type",
         expected_result=False,
         log={
@@ -78,7 +78,7 @@ app_omni_alert_passthrough_tests: List[PantherRuleTest] = [
             "version": "2.0.0",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="External App Install - Severity 3",
         expected_result=True,
         log={
@@ -129,7 +129,7 @@ app_omni_alert_passthrough_tests: List[PantherRuleTest] = [
             "version": "2.0.0",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Multiple Services",
         expected_result=True,
         log={
@@ -171,11 +171,11 @@ app_omni_alert_passthrough_tests: List[PantherRuleTest] = [
 ]
 
 
-class AppOmniAlertPassthrough(PantherRule):
+class AppOmniAlertPassthrough(Rule):
     id_ = "AppOmni.Alert.Passthrough-prototype"
     display_name = "AppOmni Alert Passthrough"
-    log_types = [PantherLogType.AppOmni_Alerts]
-    default_severity = PantherSeverity.medium
+    log_types = [LogType.AppOmni_Alerts]
+    default_severity = Severity.medium
     reports = {
         "MITRE ATT&CK": [
             "TA0001:T1566",

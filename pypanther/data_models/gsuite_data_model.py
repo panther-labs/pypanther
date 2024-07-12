@@ -1,10 +1,10 @@
 from typing import List
 
 import pypanther.helpers.panther_event_type_helpers as event_type
-from pypanther.base import PantherDataModel, PantherDataModelMapping
+from pypanther.base import DataModel, DataModelMapping
 from pypanther.helpers.panther_base_helpers import deep_get
 from pypanther.helpers.panther_base_helpers import gsuite_details_lookup as details_lookup
-from pypanther.log_types import PantherLogType
+from pypanther.log_types import LogType
 
 
 def get_event_type(event):
@@ -20,20 +20,20 @@ def get_event_type(event):
     return None
 
 
-class StandardGSuiteReports(PantherDataModel):
+class StandardGSuiteReports(DataModel):
     id_: str = "Standard.GSuite.Reports"
     display_name: str = "GSuite Reports"
     enabled: bool = True
-    log_types: List[str] = [PantherLogType.GSuite_Reports]
-    mappings: List[PantherDataModelMapping] = [
-        PantherDataModelMapping(name="actor_user", path="$.actor.email"),
-        PantherDataModelMapping(
+    log_types: List[str] = [LogType.GSuite_Reports]
+    mappings: List[DataModelMapping] = [
+        DataModelMapping(name="actor_user", path="$.actor.email"),
+        DataModelMapping(
             name="assigned_admin_role",
             path="$.events[*].parameters[?(@.name == 'ROLE_NAME')].value",
         ),
-        PantherDataModelMapping(name="event_type", method=get_event_type),
-        PantherDataModelMapping(name="source_ip", path="ipAddress"),
-        PantherDataModelMapping(
+        DataModelMapping(name="event_type", method=get_event_type),
+        DataModelMapping(name="source_ip", path="ipAddress"),
+        DataModelMapping(
             name="user", path="$.events[*].parameters[?(@.name == 'USER_EMAIL')].value"
         ),
     ]

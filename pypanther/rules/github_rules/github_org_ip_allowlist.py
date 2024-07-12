@@ -1,9 +1,9 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 
-git_hub_org_ip_allowlist_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+git_hub_org_ip_allowlist_tests: List[RuleTest] = [
+    RuleTest(
         name="GitHub - IP Allow list modified",
         expected_result=True,
         log={
@@ -14,7 +14,7 @@ git_hub_org_ip_allowlist_tests: List[PantherRuleTest] = [
             "org": "my-org",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="GitHub - IP Allow list disabled",
         expected_result=True,
         log={
@@ -25,7 +25,7 @@ git_hub_org_ip_allowlist_tests: List[PantherRuleTest] = [
             "p_log_type": "GitHub.Audit",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="GitHub - Non IP Allow list action",
         expected_result=False,
         log={
@@ -39,13 +39,13 @@ git_hub_org_ip_allowlist_tests: List[PantherRuleTest] = [
 ]
 
 
-class GitHubOrgIpAllowlist(PantherRule):
+class GitHubOrgIpAllowlist(Rule):
     id_ = "GitHub.Org.IpAllowlist-prototype"
     display_name = "GitHub Org IP Allow List modified"
-    log_types = [PantherLogType.GitHub_Audit]
+    log_types = [LogType.GitHub_Audit]
     tags = ["GitHub", "Persistence:Account Manipulation"]
     reports = {"MITRE ATT&CK": ["TA0003:T1098"]}
-    default_severity = PantherSeverity.medium
+    default_severity = Severity.medium
     summary_attributes = ["actor", "action"]
     default_description = "Detects changes to a GitHub Org IP Allow List"
     default_runbook = "Verify that the change was authorized and appropriate."

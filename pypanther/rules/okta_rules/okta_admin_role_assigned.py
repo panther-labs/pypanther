@@ -1,11 +1,11 @@
 import re
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get, okta_alert_context
 
-okta_admin_role_assigned_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+okta_admin_role_assigned_tests: List[RuleTest] = [
+    RuleTest(
         name="Admin Access Assigned",
         expected_result=True,
         log={
@@ -63,7 +63,7 @@ okta_admin_role_assigned_tests: List[PantherRuleTest] = [
             "securityContext": {},
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Super Admin Access Assigned (High sev)",
         expected_result=True,
         log={
@@ -124,17 +124,17 @@ okta_admin_role_assigned_tests: List[PantherRuleTest] = [
 ]
 
 
-class OktaAdminRoleAssigned(PantherRule):
+class OktaAdminRoleAssigned(Rule):
     id_ = "Okta.AdminRoleAssigned-prototype"
     display_name = "Okta Admin Role Assigned"
-    log_types = [PantherLogType.Okta_SystemLog]
+    log_types = [LogType.Okta_SystemLog]
     tags = [
         "Identity & Access Management",
         "Okta",
         "Privilege Escalation:Valid Accounts",
     ]
     reports = {"MITRE ATT&CK": ["TA0004:T1078"]}
-    default_severity = PantherSeverity.info
+    default_severity = Severity.info
     default_description = "A user has been granted administrative privileges in Okta"
     default_reference = (
         "https://help.okta.com/en/prod/Content/Topics/Security/administrators-admin-comparison.htm"

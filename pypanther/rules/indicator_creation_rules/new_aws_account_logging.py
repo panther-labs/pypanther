@@ -5,14 +5,14 @@ from typing import List
 from panther_detection_helpers.caching import put_string_set
 
 import pypanther.helpers.panther_event_type_helpers as event_type
-from pypanther import PantherLogType, PantherRule, PantherRuleMock, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_oss_helpers import resolve_timestamp_string
 
-standard_new_aws_account_created_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+standard_new_aws_account_created_tests: List[RuleTest] = [
+    RuleTest(
         name="AWS Account created",
         expected_result=True,
-        mocks=[PantherRuleMock(object_name="put_string_set", return_value="")],
+        mocks=[RuleMock(object_name="put_string_set", return_value="")],
         log={
             "awsRegion": "us-east-1",
             "eventID": "axxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
@@ -30,10 +30,10 @@ standard_new_aws_account_created_tests: List[PantherRuleTest] = [
             "serviceEventDetails": '{\n  "createAccountStatus": {\n    "accountId": "1111111111111111",\n    "accountName": "****",\n    "completedTimestamp": "May 20, 2021 3:53:47 PM",\n    "id": "car-aaaaaaaaaaaaaaaaaaaaaaaaaaa",\n    "requestedTimestamp": "May 20, 2021 3:53:44 PM",\n    "state": "SUCCEEDED"\n  }\n}',
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Non-Account-Creation Event",
         expected_result=False,
-        mocks=[PantherRuleMock(object_name="put_string_set", return_value="")],
+        mocks=[RuleMock(object_name="put_string_set", return_value="")],
         log={
             "awsRegion": "us-east-1",
             "eventName": "CreateAccount",
@@ -53,12 +53,12 @@ standard_new_aws_account_created_tests: List[PantherRuleTest] = [
 ]
 
 
-class StandardNewAWSAccountCreated(PantherRule):
+class StandardNewAWSAccountCreated(Rule):
     id_ = "Standard.NewAWSAccountCreated-prototype"
     display_name = "New AWS Account Created"
-    log_types = [PantherLogType.AWS_CloudTrail]
+    log_types = [LogType.AWS_CloudTrail]
     tags = ["DataModel", "Indicator Collection", "Persistence:Create Account"]
-    default_severity = PantherSeverity.info
+    default_severity = Severity.info
     reports = {"MITRE ATT&CK": ["TA0003:T1136"]}
     default_description = "A new AWS account was created"
     default_runbook = "A new AWS account was created, ensure it was created through standard practice and is for a valid purpose."

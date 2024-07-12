@@ -1,11 +1,11 @@
 import json
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import m365_alert_context
 
-microsoft365_mfa_disabled_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+microsoft365_mfa_disabled_tests: List[RuleTest] = [
+    RuleTest(
         name="MFA Add Event",
         expected_result=False,
         log={
@@ -59,7 +59,7 @@ microsoft365_mfa_disabled_tests: List[PantherRuleTest] = [
             "Workload": "AzureActiveDirectory",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="MFA Remove event",
         expected_result=True,
         log={
@@ -116,14 +116,14 @@ microsoft365_mfa_disabled_tests: List[PantherRuleTest] = [
 ]
 
 
-class Microsoft365MFADisabled(PantherRule):
+class Microsoft365MFADisabled(Rule):
     default_description = "A user's MFA has been removed"
     display_name = "Microsoft365 MFA Disabled"
     reports = {"MITRE ATT&CK": ["TA003:T1556", "TA005:T1556", "TA006:T1556"]}
     default_runbook = "Depending on company policy, either suggest or require the user re-enable two step verification."
     default_reference = "https://learn.microsoft.com/en-us/microsoft-365/admin/security-and-compliance/set-up-multi-factor-authentication?view=o365-worldwide"
-    default_severity = PantherSeverity.low
-    log_types = [PantherLogType.Microsoft365_Audit_AzureActiveDirectory]
+    default_severity = Severity.low
+    log_types = [LogType.Microsoft365_Audit_AzureActiveDirectory]
     id_ = "Microsoft365.MFA.Disabled-prototype"
     tests = microsoft365_mfa_disabled_tests
 

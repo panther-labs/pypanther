@@ -1,9 +1,9 @@
 from typing import List
 
 import pypanther.helpers.panther_event_type_helpers as event_type
-from pypanther.base import PantherDataModel, PantherDataModelMapping
+from pypanther.base import DataModel, DataModelMapping
 from pypanther.helpers.panther_base_helpers import deep_get
-from pypanther.log_types import PantherLogType
+from pypanther.log_types import LogType
 
 audit_log_type_map = {
     "user_login": event_type.SUCCESSFUL_LOGIN,
@@ -29,13 +29,13 @@ def get_event_type(event):
     return None
 
 
-class StandardAtlassianAudit(PantherDataModel):
+class StandardAtlassianAudit(DataModel):
     id_: str = "Standard.Atlassian.Audit"
     display_name: str = "Atlassian Audit Logs"
     enabled: bool = True
-    log_types: List[str] = [PantherLogType.Atlassian_Audit]
-    mappings: List[PantherDataModelMapping] = [
-        PantherDataModelMapping(name="actor_user", path="$.EventActor.Name"),
-        PantherDataModelMapping(name="event_type", method=get_event_type),
-        PantherDataModelMapping(name="source_ip", path="$.EventLocation.IP"),
+    log_types: List[str] = [LogType.Atlassian_Audit]
+    mappings: List[DataModelMapping] = [
+        DataModelMapping(name="actor_user", path="$.EventActor.Name"),
+        DataModelMapping(name="event_type", method=get_event_type),
+        DataModelMapping(name="source_ip", path="$.EventLocation.IP"),
     ]

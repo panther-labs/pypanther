@@ -1,9 +1,9 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 
-teleport_lock_created_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+teleport_lock_created_tests: List[RuleTest] = [
+    RuleTest(
         name="A Lock was created",
         expected_result=True,
         log={
@@ -23,12 +23,12 @@ teleport_lock_created_tests: List[PantherRuleTest] = [
 ]
 
 
-class TeleportLockCreated(PantherRule):
+class TeleportLockCreated(Rule):
     id_ = "Teleport.LockCreated-prototype"
     display_name = "A Teleport Lock was created"
-    log_types = [PantherLogType.Gravitational_TeleportAudit]
+    log_types = [LogType.Gravitational_TeleportAudit]
     tags = ["Teleport"]
-    default_severity = PantherSeverity.info
+    default_severity = Severity.info
     default_description = "A Teleport Lock was created"
     default_reference = "https://goteleport.com/docs/management/admin/"
     default_runbook = "A Teleport Lock was created; this is an unusual administrative action. Investigate to understand why a Lock was created.\n"

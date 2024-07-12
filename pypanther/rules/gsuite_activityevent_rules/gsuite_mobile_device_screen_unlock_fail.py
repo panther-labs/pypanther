@@ -1,10 +1,10 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 
-g_suite_device_unlock_failure_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+g_suite_device_unlock_failure_tests: List[RuleTest] = [
+    RuleTest(
         name="Normal Mobile Event",
         expected_result=False,
         log={
@@ -15,7 +15,7 @@ g_suite_device_unlock_failure_tests: List[PantherRuleTest] = [
             "parameters": {"USER_EMAIL": "homer.simpson@example.io"},
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Small Number of Failed Logins",
         expected_result=False,
         log={
@@ -29,7 +29,7 @@ g_suite_device_unlock_failure_tests: List[PantherRuleTest] = [
             },
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Multiple Failed Login Attempts with int Type",
         expected_result=True,
         log={
@@ -43,7 +43,7 @@ g_suite_device_unlock_failure_tests: List[PantherRuleTest] = [
             },
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Multiple Failed Login Attempts with String Type",
         expected_result=True,
         log={
@@ -60,13 +60,13 @@ g_suite_device_unlock_failure_tests: List[PantherRuleTest] = [
 ]
 
 
-class GSuiteDeviceUnlockFailure(PantherRule):
+class GSuiteDeviceUnlockFailure(Rule):
     id_ = "GSuite.DeviceUnlockFailure-prototype"
     display_name = "GSuite User Device Unlock Failures"
-    log_types = [PantherLogType.GSuite_ActivityEvent]
+    log_types = [LogType.GSuite_ActivityEvent]
     tags = ["GSuite", "Credential Access:Brute Force"]
     reports = {"MITRE ATT&CK": ["TA0006:T1110"]}
-    default_severity = PantherSeverity.medium
+    default_severity = Severity.medium
     default_description = (
         "Someone failed to unlock a user's device multiple times in quick succession.\n"
     )

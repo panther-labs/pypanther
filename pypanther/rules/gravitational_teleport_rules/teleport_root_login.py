@@ -1,9 +1,9 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 
-teleport_root_login_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+teleport_root_login_tests: List[RuleTest] = [
+    RuleTest(
         name="User logged in as root",
         expected_result=True,
         log={
@@ -30,12 +30,12 @@ teleport_root_login_tests: List[PantherRuleTest] = [
 ]
 
 
-class TeleportRootLogin(PantherRule):
+class TeleportRootLogin(Rule):
     id_ = "Teleport.RootLogin-prototype"
     display_name = "User Logged in as root"
-    log_types = [PantherLogType.Gravitational_TeleportAudit]
+    log_types = [LogType.Gravitational_TeleportAudit]
     tags = ["SSH", "Execution:Command and Scripting Interpreter", "Teleport"]
-    default_severity = PantherSeverity.medium
+    default_severity = Severity.medium
     default_description = "A User logged in as root"
     reports = {"MITRE ATT&CK": ["TA0002:T1059"]}
     default_reference = "https://goteleport.com/docs/management/admin/"

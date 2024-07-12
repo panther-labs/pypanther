@@ -1,10 +1,10 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import aws_rule_context, pattern_match
 
-awss3_server_access_error_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+awss3_server_access_error_tests: List[RuleTest] = [
+    RuleTest(
         name="Amazon Access Error",
         expected_result=False,
         log={
@@ -29,7 +29,7 @@ awss3_server_access_error_tests: List[PantherRuleTest] = [
             "useragent": "aws-internal/3",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Access Error",
         expected_result=True,
         log={
@@ -44,7 +44,7 @@ awss3_server_access_error_tests: List[PantherRuleTest] = [
             "tlsversion": "TLSv1.2",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="403 on HEAD.BUCKET",
         expected_result=False,
         log={
@@ -59,7 +59,7 @@ awss3_server_access_error_tests: List[PantherRuleTest] = [
             "tlsversion": "TLSv1.2",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Internal Server Error",
         expected_result=False,
         log={
@@ -77,15 +77,15 @@ awss3_server_access_error_tests: List[PantherRuleTest] = [
 ]
 
 
-class AWSS3ServerAccessError(PantherRule):
+class AWSS3ServerAccessError(Rule):
     id_ = "AWS.S3.ServerAccess.Error-prototype"
     display_name = "AWS S3 Access Error"
     dedup_period_minutes = 180
     threshold = 5
-    log_types = [PantherLogType.AWS_S3ServerAccess]
+    log_types = [LogType.AWS_S3ServerAccess]
     tags = ["AWS", "Security Control", "Discovery:Cloud Storage Object Discovery"]
     reports = {"MITRE ATT&CK": ["TA0007:T1619"]}
-    default_severity = PantherSeverity.info
+    default_severity = Severity.info
     default_description = "Checks for errors during S3 Object access. This could be due to insufficient access permissions, non-existent buckets, or other reasons.\n"
     default_runbook = "Investigate the specific error and determine if it is an ongoing issue that needs to be addressed or a one off or transient error that can be ignored.\n"
     default_reference = "https://docs.aws.amazon.com/AmazonS3/latest/dev/ErrorCode.html"

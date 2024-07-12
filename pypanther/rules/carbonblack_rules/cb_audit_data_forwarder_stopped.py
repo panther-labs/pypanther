@@ -1,9 +1,9 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 
-carbon_black_audit_data_forwarder_stopped_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+carbon_black_audit_data_forwarder_stopped_tests: List[RuleTest] = [
+    RuleTest(
         name="Endpoint event forwarder disabled",
         expected_result=True,
         log={
@@ -18,7 +18,7 @@ carbon_black_audit_data_forwarder_stopped_tests: List[PantherRuleTest] = [
             "verbose": False,
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Endpoint event forwarder updated",
         expected_result=False,
         log={
@@ -36,12 +36,12 @@ carbon_black_audit_data_forwarder_stopped_tests: List[PantherRuleTest] = [
 ]
 
 
-class CarbonBlackAuditDataForwarderStopped(PantherRule):
+class CarbonBlackAuditDataForwarderStopped(Rule):
     id_ = "CarbonBlack.Audit.Data.Forwarder.Stopped-prototype"
-    log_types = [PantherLogType.CarbonBlack_Audit]
+    log_types = [LogType.CarbonBlack_Audit]
     default_description = "Detects when a user disables or deletes a Data Forwarder."
     display_name = "Carbon Black Data Forwarder Stopped"
-    default_severity = PantherSeverity.high
+    default_severity = Severity.high
     tags = ["Defense Evasion", "Impair Defenses", "Disable or Modify Cloud Logs"]
     reports = {"MITRE ATT&CK": ["TA0005:T1562.008"]}
     default_reference = "https://docs.vmware.com/en/VMware-Carbon-Black-Cloud/services/carbon-black-cloud-user-guide/GUID-E8D33F72-BABB-4157-A908-D8BBDB5AF349.html"

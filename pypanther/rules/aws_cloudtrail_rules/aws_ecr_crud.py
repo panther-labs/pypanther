@@ -1,11 +1,11 @@
 from fnmatch import fnmatch
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import aws_rule_context, deep_get
 
-awsecrcrud_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+awsecrcrud_tests: List[RuleTest] = [
+    RuleTest(
         name="Authorized account, unauthorized region",
         expected_result=True,
         log={
@@ -59,7 +59,7 @@ awsecrcrud_tests: List[PantherRuleTest] = [
             "recipientAccountId": "123456789012",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Authorized account",
         expected_result=False,
         log={
@@ -113,7 +113,7 @@ awsecrcrud_tests: List[PantherRuleTest] = [
             "recipientAccountId": "123456789000",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Unauthorized Account",
         expected_result=True,
         log={
@@ -170,14 +170,14 @@ awsecrcrud_tests: List[PantherRuleTest] = [
 ]
 
 
-class AWSECRCRUD(PantherRule):
+class AWSECRCRUD(Rule):
     id_ = "AWS.ECR.CRUD-prototype"
     display_name = "ECR CRUD Actions"
     enabled = False
-    log_types = [PantherLogType.AWS_CloudTrail]
+    log_types = [LogType.AWS_CloudTrail]
     tags = ["AWS", "Security Control", "Configuration Required"]
     reports = {"CIS": ["3.12"], "MITRE ATT&CK": ["TA0005:T1525"]}
-    default_severity = PantherSeverity.high
+    default_severity = Severity.high
     default_description = "Unauthorized ECR Create, Read, Update, or Delete event occurred."
     default_runbook = (
         "https://docs.aws.amazon.com/AmazonECR/latest/userguide/logging-using-cloudtrail.html"

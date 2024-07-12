@@ -1,9 +1,9 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 
-zoom_new_meeting_passcode_required_disabled_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+zoom_new_meeting_passcode_required_disabled_tests: List[RuleTest] = [
+    RuleTest(
         name="Setting Turn Off",
         expected_result=True,
         log={
@@ -14,7 +14,7 @@ zoom_new_meeting_passcode_required_disabled_tests: List[PantherRuleTest] = [
             "time": "2022-12-16 18:22:17",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Setting Turn On",
         expected_result=False,
         log={
@@ -25,7 +25,7 @@ zoom_new_meeting_passcode_required_disabled_tests: List[PantherRuleTest] = [
             "time": "2022-12-16 18:22:17",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Automatic Sign Out Setting Disabled ",
         expected_result=False,
         log={
@@ -39,15 +39,15 @@ zoom_new_meeting_passcode_required_disabled_tests: List[PantherRuleTest] = [
 ]
 
 
-class ZoomNewMeetingPasscodeRequiredDisabled(PantherRule):
+class ZoomNewMeetingPasscodeRequiredDisabled(Rule):
     default_description = (
         "A Zoom User turned off your organization's setting to require passcodes for new meetings."
     )
     display_name = "Zoom New Meeting Passcode Required Disabled"
     default_runbook = "Confirm this user acted with valid business intent and determine whether this activity was authorized."
     default_reference = "https://support.zoom.com/hc/en/article?id=zm_kb&sysparm_article=KB0063160#:~:text=Since%20September%202022%2C%20Zoom%20requires,enforced%20for%20all%20free%20accounts"
-    default_severity = PantherSeverity.medium
-    log_types = [PantherLogType.Zoom_Operation]
+    default_severity = Severity.medium
+    log_types = [LogType.Zoom_Operation]
     id_ = "Zoom.New.Meeting.Passcode.Required.Disabled-prototype"
     tests = zoom_new_meeting_passcode_required_disabled_tests
 

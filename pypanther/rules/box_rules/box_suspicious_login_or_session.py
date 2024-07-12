@@ -1,10 +1,10 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import box_parse_additional_details, deep_get
 
-box_shield_suspicious_alert_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+box_shield_suspicious_alert_tests: List[RuleTest] = [
+    RuleTest(
         name="Regular Event",
         expected_result=False,
         log={
@@ -19,7 +19,7 @@ box_shield_suspicious_alert_tests: List[PantherRuleTest] = [
             "event_type": "DELETE",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Suspicious Login Event",
         expected_result=True,
         log={
@@ -35,7 +35,7 @@ box_shield_suspicious_alert_tests: List[PantherRuleTest] = [
             "source": {"id": "12345678", "type": "user"},
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Suspicious Session Event",
         expected_result=True,
         log={
@@ -51,7 +51,7 @@ box_shield_suspicious_alert_tests: List[PantherRuleTest] = [
             "source": {"id": "12345678", "type": "user"},
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Suspicious Session Event - Low Risk",
         expected_result=False,
         log={
@@ -70,13 +70,13 @@ box_shield_suspicious_alert_tests: List[PantherRuleTest] = [
 ]
 
 
-class BoxShieldSuspiciousAlert(PantherRule):
+class BoxShieldSuspiciousAlert(Rule):
     id_ = "Box.Shield.Suspicious.Alert-prototype"
     display_name = "Box Shield Suspicious Alert Triggered"
-    log_types = [PantherLogType.Box_Event]
+    log_types = [LogType.Box_Event]
     tags = ["Box", "Initial Access:Valid Accounts"]
     reports = {"MITRE ATT&CK": ["TA0001:T1078"]}
-    default_severity = PantherSeverity.high
+    default_severity = Severity.high
     default_description = (
         "A user login event or session event was tagged as medium to high severity by Box Shield.\n"
     )

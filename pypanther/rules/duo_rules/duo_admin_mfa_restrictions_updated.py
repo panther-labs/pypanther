@@ -1,10 +1,10 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_duo_helpers import duo_alert_context
 
-duo_admin_mfa_restrictions_updated_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+duo_admin_mfa_restrictions_updated_tests: List[RuleTest] = [
+    RuleTest(
         name="Admin MFA Update Event",
         expected_result=True,
         log={
@@ -15,7 +15,7 @@ duo_admin_mfa_restrictions_updated_tests: List[PantherRuleTest] = [
             "username": "Homer Simpson",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Login Event",
         expected_result=False,
         log={
@@ -29,14 +29,14 @@ duo_admin_mfa_restrictions_updated_tests: List[PantherRuleTest] = [
 ]
 
 
-class DuoAdminMFARestrictionsUpdated(PantherRule):
+class DuoAdminMFARestrictionsUpdated(Rule):
     default_description = (
         "Detects changes to allowed MFA factors administrators can use to log into the admin panel."
     )
     display_name = "Duo Admin MFA Restrictions Updated"
     default_reference = "https://duo.com/docs/essentials-overview"
-    default_severity = PantherSeverity.medium
-    log_types = [PantherLogType.Duo_Administrator]
+    default_severity = Severity.medium
+    log_types = [LogType.Duo_Administrator]
     id_ = "Duo.Admin.MFA.Restrictions.Updated-prototype"
     tests = duo_admin_mfa_restrictions_updated_tests
 

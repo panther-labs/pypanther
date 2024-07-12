@@ -1,10 +1,10 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import github_alert_context
 
-github_repository_transfer_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+github_repository_transfer_tests: List[RuleTest] = [
+    RuleTest(
         name="Public Repo Created",
         expected_result=False,
         log={
@@ -19,7 +19,7 @@ github_repository_transfer_tests: List[PantherRuleTest] = [
             "visibility": "public",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Repo Transfer Outgoing",
         expected_result=True,
         log={
@@ -34,7 +34,7 @@ github_repository_transfer_tests: List[PantherRuleTest] = [
             "visibility": "private",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Repo Transfer Start",
         expected_result=True,
         log={
@@ -49,7 +49,7 @@ github_repository_transfer_tests: List[PantherRuleTest] = [
             "visibility": "private",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Repository Transfer",
         expected_result=True,
         log={
@@ -67,14 +67,14 @@ github_repository_transfer_tests: List[PantherRuleTest] = [
 ]
 
 
-class GithubRepositoryTransfer(PantherRule):
+class GithubRepositoryTransfer(Rule):
     default_description = "A user accepted a request to receive a transferred Github repository, a  Github repository was transferred to another repository network, or a user sent a request to transfer a repository to another user or organization."
     display_name = "Github Repository Transfer"
     default_reference = "https://docs.github.com/en/enterprise-server@3.3/repositories/creating-and-managing-repositories/transferring-a-repository\n\nhttps://docs.github.com/en/enterprise-cloud@latest/admin/monitoring-activity-in-your-enterprise/reviewing-audit-logs-for-your-enterprise/audit-log-events-for-your-enterprise#repo-category-actions"
     default_runbook = "Please check with the referenced users or their supervisors to ensure the transferring of this repository is expected and allowed."
-    default_severity = PantherSeverity.medium
+    default_severity = Severity.medium
     tags = ["Github Repository", "Github Repository Transfer", "Repository", "Transfer"]
-    log_types = [PantherLogType.GitHub_Audit]
+    log_types = [LogType.GitHub_Audit]
     id_ = "Github.Repository.Transfer-prototype"
     summary_attributes = ["action"]
     tests = github_repository_transfer_tests

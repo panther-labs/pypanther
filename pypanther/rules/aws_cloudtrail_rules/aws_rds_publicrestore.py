@@ -1,10 +1,10 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import aws_rule_context, deep_get
 
-awsrds_public_restore_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+awsrds_public_restore_tests: List[RuleTest] = [
+    RuleTest(
         name="Not-Restore-RDS-Request",
         expected_result=False,
         log={
@@ -126,7 +126,7 @@ awsrds_public_restore_tests: List[PantherRuleTest] = [
             },
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="RDS-Restore-Not-Public",
         expected_result=False,
         log={
@@ -248,7 +248,7 @@ awsrds_public_restore_tests: List[PantherRuleTest] = [
             },
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="RDS-Restore-Public",
         expected_result=True,
         log={
@@ -373,15 +373,15 @@ awsrds_public_restore_tests: List[PantherRuleTest] = [
 ]
 
 
-class AWSRDSPublicRestore(PantherRule):
+class AWSRDSPublicRestore(Rule):
     default_description = "Detects the recovery of a new public database instance from a snapshot. It may be part of data exfiltration."
     display_name = "AWS Public RDS Restore"
     reports = {"MITRE ATT&CK": ["TA0010:T1020"]}
     default_reference = (
         "https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_RestoreFromSnapshot.html"
     )
-    default_severity = PantherSeverity.high
-    log_types = [PantherLogType.AWS_CloudTrail]
+    default_severity = Severity.high
+    log_types = [LogType.AWS_CloudTrail]
     id_ = "AWS.RDS.PublicRestore-prototype"
     tests = awsrds_public_restore_tests
 

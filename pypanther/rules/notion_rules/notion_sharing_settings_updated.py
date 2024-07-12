@@ -1,10 +1,10 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_notion_helpers import notion_alert_context
 
-notion_sharing_settings_updated_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+notion_sharing_settings_updated_tests: List[RuleTest] = [
+    RuleTest(
         name="Sharing Enabled",
         expected_result=True,
         log={
@@ -25,7 +25,7 @@ notion_sharing_settings_updated_tests: List[PantherRuleTest] = [
             }
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Sharing Disabled",
         expected_result=False,
         log={
@@ -56,13 +56,13 @@ notion_sharing_settings_updated_tests: List[PantherRuleTest] = [
 ]
 
 
-class NotionSharingSettingsUpdated(PantherRule):
+class NotionSharingSettingsUpdated(Rule):
     id_ = "Notion.SharingSettingsUpdated-prototype"
     display_name = "Notion Sharing Settings Updated"
-    log_types = [PantherLogType.Notion_AuditLogs]
+    log_types = [LogType.Notion_AuditLogs]
     tags = ["Notion", "Data Exfiltration"]
     default_description = "A Notion User enabled sharing for a Workspace or Teamspace."
-    default_severity = PantherSeverity.medium
+    default_severity = Severity.medium
     default_runbook = "Possible Data Exfiltration. Follow up with the Notion User to determine if this was done for a valid business reason."
     tests = notion_sharing_settings_updated_tests
     EVENTS = (

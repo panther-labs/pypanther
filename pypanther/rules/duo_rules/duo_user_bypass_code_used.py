@@ -1,10 +1,10 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 
-duo_user_bypass_code_used_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+duo_user_bypass_code_used_tests: List[RuleTest] = [
+    RuleTest(
         name="bypass_code_used",
         expected_result=True,
         log={
@@ -18,7 +18,7 @@ duo_user_bypass_code_used_tests: List[PantherRuleTest] = [
             "user": {"name": "example@example.io"},
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="good_auth",
         expected_result=False,
         log={
@@ -32,7 +32,7 @@ duo_user_bypass_code_used_tests: List[PantherRuleTest] = [
             "user": {"name": "example@example.io"},
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="denied_old_creds",
         expected_result=False,
         log={
@@ -49,13 +49,13 @@ duo_user_bypass_code_used_tests: List[PantherRuleTest] = [
 ]
 
 
-class DUOUserBypassCodeUsed(PantherRule):
+class DUOUserBypassCodeUsed(Rule):
     id_ = "DUO.User.BypassCode.Used-prototype"
     display_name = "Duo User Bypass Code Used"
     dedup_period_minutes = 5
-    log_types = [PantherLogType.Duo_Authentication]
+    log_types = [LogType.Duo_Authentication]
     tags = ["Duo"]
-    default_severity = PantherSeverity.low
+    default_severity = Severity.low
     default_description = "A Duo user's bypass code was used to authenticate"
     default_reference = "https://duo.com/docs/adminapi#authentication-logs"
     default_runbook = "Follow up with the user to confirm they used the bypass code themselves."

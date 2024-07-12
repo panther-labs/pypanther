@@ -1,9 +1,9 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 
-teleport_scheduled_jobs_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+teleport_scheduled_jobs_tests: List[RuleTest] = [
+    RuleTest(
         name="Crontab no args",
         expected_result=True,
         log={
@@ -26,7 +26,7 @@ teleport_scheduled_jobs_tests: List[PantherRuleTest] = [
             "user": "panther",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Crontab Edit",
         expected_result=True,
         log={
@@ -49,7 +49,7 @@ teleport_scheduled_jobs_tests: List[PantherRuleTest] = [
             "user": "panther",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Crontab List",
         expected_result=False,
         log={
@@ -72,7 +72,7 @@ teleport_scheduled_jobs_tests: List[PantherRuleTest] = [
             "user": "panther",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Echo command",
         expected_result=False,
         log={
@@ -98,12 +98,12 @@ teleport_scheduled_jobs_tests: List[PantherRuleTest] = [
 ]
 
 
-class TeleportScheduledJobs(PantherRule):
+class TeleportScheduledJobs(Rule):
     id_ = "Teleport.ScheduledJobs-prototype"
     display_name = "Teleport Scheduled Jobs"
-    log_types = [PantherLogType.Gravitational_TeleportAudit]
+    log_types = [LogType.Gravitational_TeleportAudit]
     tags = ["SSH", "Execution:Scheduled Task/Job"]
-    default_severity = PantherSeverity.medium
+    default_severity = Severity.medium
     reports = {"MITRE ATT&CK": ["TA0002:T1053"]}
     default_description = "A user has manually edited the Linux crontab"
     threshold = 10

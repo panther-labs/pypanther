@@ -1,10 +1,10 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_cloudflare_helpers import cloudflare_fw_alert_context
 
-cloudflare_firewall_l7_d_do_s_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+cloudflare_firewall_l7_d_do_s_tests: List[RuleTest] = [
+    RuleTest(
         name="Traffic Marked as L7DDoS",
         expected_result=True,
         log={
@@ -33,7 +33,7 @@ cloudflare_firewall_l7_d_do_s_tests: List[PantherRuleTest] = [
             "Source": "l7ddos",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Traffic Marked as L7DDoS but blocked ( INFO level alert )",
         expected_result=True,
         log={
@@ -62,7 +62,7 @@ cloudflare_firewall_l7_d_do_s_tests: List[PantherRuleTest] = [
             "Source": "l7ddos",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Traffic Not Marked as L7DDoS",
         expected_result=False,
         log={
@@ -94,12 +94,12 @@ cloudflare_firewall_l7_d_do_s_tests: List[PantherRuleTest] = [
 ]
 
 
-class CloudflareFirewallL7DDoS(PantherRule):
+class CloudflareFirewallL7DDoS(Rule):
     id_ = "Cloudflare.Firewall.L7DDoS-prototype"
     display_name = "Cloudflare L7 DDoS"
-    log_types = [PantherLogType.Cloudflare_Firewall]
+    log_types = [LogType.Cloudflare_Firewall]
     tags = ["Cloudflare", "Variable Severity"]
-    default_severity = PantherSeverity.medium
+    default_severity = Severity.medium
     default_description = "Layer 7 Distributed Denial of Service (DDoS) detected"
     default_runbook = "Inspect and monitor internet-facing services for potential outages"
     default_reference = (

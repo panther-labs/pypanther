@@ -3,7 +3,7 @@ from functools import total_ordering
 
 
 @total_ordering
-class PantherSeverity(str, Enum):
+class Severity(str, Enum):
     info = "INFO"
     low = "LOW"
     medium = "MEDIUM"
@@ -11,19 +11,19 @@ class PantherSeverity(str, Enum):
     critical = "CRITICAL"
 
     def __lt__(self, other):
-        return PantherSeverity.as_int(self.value) < PantherSeverity.as_int(other.value)
+        return Severity.as_int(self.value) < Severity.as_int(other.value)
 
     @staticmethod
-    def as_int(value: "PantherSeverity") -> int:
-        if value.upper() == PantherSeverity.info:
+    def as_int(value: "Severity") -> int:
+        if value.upper() == Severity.info:
             return 0
-        if value.upper() == PantherSeverity.low:
+        if value.upper() == Severity.low:
             return 1
-        if value.upper() == PantherSeverity.medium:
+        if value.upper() == Severity.medium:
             return 2
-        if value.upper() == PantherSeverity.high:
+        if value.upper() == Severity.high:
             return 3
-        if value.upper() == PantherSeverity.critical:
+        if value.upper() == Severity.critical:
             return 4
         raise ValueError(f"Unknown severity: {value}")
 
@@ -34,4 +34,4 @@ class PantherSeverity(str, Enum):
 
 # Used to check dynamic severity output
 SEVERITY_DEFAULT = "DEFAULT"
-SEVERITY_TYPES = [str(sev) for sev in PantherSeverity]
+SEVERITY_TYPES = [str(sev) for sev in Severity]

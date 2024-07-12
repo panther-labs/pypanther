@@ -1,9 +1,9 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 
-zoom_sign_in_requirements_changed_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+zoom_sign_in_requirements_changed_tests: List[RuleTest] = [
+    RuleTest(
         name="Setting Change One",
         expected_result=True,
         log={
@@ -14,7 +14,7 @@ zoom_sign_in_requirements_changed_tests: List[PantherRuleTest] = [
             "time": "2022-12-16 18:21:29",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Setting Change Two",
         expected_result=True,
         log={
@@ -25,7 +25,7 @@ zoom_sign_in_requirements_changed_tests: List[PantherRuleTest] = [
             "time": "2022-12-16 18:21:23",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="2FA disabled",
         expected_result=False,
         log={
@@ -36,7 +36,7 @@ zoom_sign_in_requirements_changed_tests: List[PantherRuleTest] = [
             "time": "2022-12-16 18:20:35",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Setting Change Off to On",
         expected_result=False,
         log={
@@ -50,13 +50,13 @@ zoom_sign_in_requirements_changed_tests: List[PantherRuleTest] = [
 ]
 
 
-class ZoomSignInRequirementsChanged(PantherRule):
+class ZoomSignInRequirementsChanged(Rule):
     default_description = "A Zoom User changed your organization's sign in requirements. "
     display_name = "Zoom Sign In Requirements Changed"
     default_runbook = "Confirm this user acted with valid business intent and determine whether this activity was authorized."
     default_reference = "https://support.zoom.com/hc/en/article?id=zm_kb&sysparm_article=KB0061263"
-    default_severity = PantherSeverity.medium
-    log_types = [PantherLogType.Zoom_Operation]
+    default_severity = Severity.medium
+    log_types = [LogType.Zoom_Operation]
     id_ = "Zoom.Sign.In.Requirements.Changed-prototype"
     summary_attributes = ["operation_detail"]
     tests = zoom_sign_in_requirements_changed_tests

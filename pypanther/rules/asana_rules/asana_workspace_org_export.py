@@ -1,10 +1,10 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 
-asana_workspace_org_export_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+asana_workspace_org_export_tests: List[RuleTest] = [
+    RuleTest(
         name="Web App Approvals On",
         expected_result=False,
         log={
@@ -31,7 +31,7 @@ asana_workspace_org_export_tests: List[PantherRuleTest] = [
             },
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Org Export Started",
         expected_result=True,
         log={
@@ -61,13 +61,13 @@ asana_workspace_org_export_tests: List[PantherRuleTest] = [
 ]
 
 
-class AsanaWorkspaceOrgExport(PantherRule):
+class AsanaWorkspaceOrgExport(Rule):
     default_description = "An Asana user started an org export."
     display_name = "Asana Workspace Org Export"
     default_runbook = "Confirm this user acted with valid business intent and determine whether this activity was authorized."
     default_reference = "https://help.asana.com/hc/en-us/articles/14139896860955-Privacy-and-security#:~:text=like%20to%20see.-,Full%20export%20of%20an%20organization,-Available%20on%20Asana"
-    default_severity = PantherSeverity.medium
-    log_types = [PantherLogType.Asana_Audit]
+    default_severity = Severity.medium
+    log_types = [LogType.Asana_Audit]
     id_ = "Asana.Workspace.Org.Export-prototype"
     tests = asana_workspace_org_export_tests
 

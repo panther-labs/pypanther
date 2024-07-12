@@ -1,11 +1,11 @@
 from fnmatch import fnmatch
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import aws_rule_context, deep_get
 
-awslambdacrud_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+awslambdacrud_tests: List[RuleTest] = [
+    RuleTest(
         name="Lambda DeleteFunction Unauthorized Account",
         expected_result=True,
         log={
@@ -32,7 +32,7 @@ awslambdacrud_tests: List[PantherRuleTest] = [
             "recipientAccountId": "999999999999",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Lambda DeleteFunction Unauthorized User",
         expected_result=True,
         log={
@@ -59,7 +59,7 @@ awslambdacrud_tests: List[PantherRuleTest] = [
             "recipientAccountId": "123456789012",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Lambda DeleteFunction Authorized Account",
         expected_result=False,
         log={
@@ -89,14 +89,14 @@ awslambdacrud_tests: List[PantherRuleTest] = [
 ]
 
 
-class AWSLAMBDACRUD(PantherRule):
+class AWSLAMBDACRUD(Rule):
     id_ = "AWS.LAMBDA.CRUD-prototype"
     display_name = "Lambda CRUD Actions"
     enabled = False
-    log_types = [PantherLogType.AWS_CloudTrail]
+    log_types = [LogType.AWS_CloudTrail]
     tags = ["AWS", "Security Control", "Configuration Required"]
     reports = {"CIS": ["3.12"], "MITRE ATT&CK": ["TA0005:T1525"]}
-    default_severity = PantherSeverity.high
+    default_severity = Severity.high
     default_description = "Unauthorized lambda Create, Read, Update, or Delete event occurred."
     default_runbook = "https://docs.aws.amazon.com/lambda/latest/dg/logging-using-cloudtrail.html"
     default_reference = "https://docs.aws.amazon.com/lambda/latest/dg/logging-using-cloudtrail.html"

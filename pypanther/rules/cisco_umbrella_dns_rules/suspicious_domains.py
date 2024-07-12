@@ -1,9 +1,9 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 
-cisco_umbrella_dns_suspicious_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+cisco_umbrella_dns_suspicious_tests: List[RuleTest] = [
+    RuleTest(
         name="Suspicious Domain",
         expected_result=True,
         log={
@@ -15,7 +15,7 @@ cisco_umbrella_dns_suspicious_tests: List[PantherRuleTest] = [
             "domain": "cron.photoscape.ch.",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Safe Domain",
         expected_result=False,
         log={
@@ -30,15 +30,15 @@ cisco_umbrella_dns_suspicious_tests: List[PantherRuleTest] = [
 ]
 
 
-class CiscoUmbrellaDNSSuspicious(PantherRule):
+class CiscoUmbrellaDNSSuspicious(Rule):
     id_ = "CiscoUmbrella.DNS.Suspicious-prototype"
     display_name = "Cisco Umbrella Suspicious Domains"
     enabled = False
     dedup_period_minutes = 480
-    log_types = [PantherLogType.CiscoUmbrella_DNS]
+    log_types = [LogType.CiscoUmbrella_DNS]
     tags = ["DNS", "Configuration Required"]
     default_reference = "https://umbrella.cisco.com/blog/abcs-of-dns"
-    default_severity = PantherSeverity.low
+    default_severity = Severity.low
     default_description = "Monitor suspicious or known malicious domains"
     default_runbook = "Inspect the domain and check the host for other indicators of compromise"
     summary_attributes = [

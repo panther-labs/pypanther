@@ -1,9 +1,9 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 
-decoy_s3_accessed_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+decoy_s3_accessed_tests: List[RuleTest] = [
+    RuleTest(
         name="S3-Decoy-Accessed",
         expected_result=True,
         log={
@@ -131,7 +131,7 @@ decoy_s3_accessed_tests: List[PantherRuleTest] = [
             "p_udm": {},
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="S3-Decoy-Not-Accessed",
         expected_result=False,
         log={
@@ -262,12 +262,12 @@ decoy_s3_accessed_tests: List[PantherRuleTest] = [
 ]
 
 
-class DecoyS3Accessed(PantherRule):
+class DecoyS3Accessed(Rule):
     id_ = "Decoy.S3.Accessed-prototype"
     display_name = "Decoy S3 Accessed"
     enabled = False
-    log_types = [PantherLogType.AWS_SecurityFindingFormat]
-    default_severity = PantherSeverity.high
+    log_types = [LogType.AWS_SecurityFindingFormat]
+    default_severity = Severity.high
     default_description = "Actor accessed S3 Manager decoy secret"
     default_reference = "https://aws.amazon.com/blogs/security/how-to-detect-suspicious-activity-in-your-aws-account-by-using-private-decoy-resources/"
     InlineFilters = [{"All": []}]

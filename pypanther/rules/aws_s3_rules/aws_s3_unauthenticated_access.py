@@ -1,10 +1,10 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import aws_rule_context
 
-awss3_server_access_unauthenticated_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+awss3_server_access_unauthenticated_tests: List[RuleTest] = [
+    RuleTest(
         name="Authenticated Access",
         expected_result=False,
         log={
@@ -12,7 +12,7 @@ awss3_server_access_unauthenticated_tests: List[PantherRuleTest] = [
             "requester": "79a59df900b949e55d96a1e698fbacedfd6e09d98eacf8f8d5218e7cd47ef2be",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Unauthenticated Access",
         expected_result=True,
         log={"bucket": "example-bucket"},
@@ -20,11 +20,11 @@ awss3_server_access_unauthenticated_tests: List[PantherRuleTest] = [
 ]
 
 
-class AWSS3ServerAccessUnauthenticated(PantherRule):
+class AWSS3ServerAccessUnauthenticated(Rule):
     id_ = "AWS.S3.ServerAccess.Unauthenticated-prototype"
     display_name = "AWS S3 Unauthenticated Access"
     enabled = False
-    log_types = [PantherLogType.AWS_S3ServerAccess]
+    log_types = [LogType.AWS_S3ServerAccess]
     tags = [
         "AWS",
         "Configuration Required",
@@ -32,7 +32,7 @@ class AWSS3ServerAccessUnauthenticated(PantherRule):
         "Collection:Data From Cloud Storage Object",
     ]
     reports = {"MITRE ATT&CK": ["TA0009:T1530"]}
-    default_severity = PantherSeverity.low
+    default_severity = Severity.low
     default_description = (
         "Checks for S3 access attempts where the requester is not an authenticated AWS user.\n"
     )

@@ -1,10 +1,10 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 
-sentinel_one_threats_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+sentinel_one_threats_tests: List[RuleTest] = [
+    RuleTest(
         name="malicious event",
         expected_result=True,
         log={
@@ -39,7 +39,7 @@ sentinel_one_threats_tests: List[PantherRuleTest] = [
             "updatedat": "2022-12-07 16:08:55.698",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="non-threat event",
         expected_result=False,
         log={
@@ -70,7 +70,7 @@ sentinel_one_threats_tests: List[PantherRuleTest] = [
             "updatedat": "2022-12-07 16:06:35.479",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="suspicious event",
         expected_result=True,
         log={
@@ -108,14 +108,14 @@ sentinel_one_threats_tests: List[PantherRuleTest] = [
 ]
 
 
-class SentinelOneThreats(PantherRule):
+class SentinelOneThreats(Rule):
     default_description = "Passthrough SentinelOne Threats "
     display_name = "SentinelOne Threats"
     default_reference = (
         "https://www.sentinelone.com/blog/feature-spotlight-introducing-the-new-threat-center/"
     )
-    default_severity = PantherSeverity.high
-    log_types = [PantherLogType.SentinelOne_Activity]
+    default_severity = Severity.high
+    log_types = [LogType.SentinelOne_Activity]
     id_ = "SentinelOne.Threats-prototype"
     tests = sentinel_one_threats_tests  # New Malicious Threat Not Mitigated
     # New Malicious Threat Not Mitigated

@@ -1,10 +1,10 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 
-osquery_mac_auto_update_enabled_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+osquery_mac_auto_update_enabled_tests: List[RuleTest] = [
+    RuleTest(
         name="Auto Updates Disabled",
         expected_result=True,
         log={
@@ -17,7 +17,7 @@ osquery_mac_auto_update_enabled_tests: List[PantherRuleTest] = [
             "name": "pack/mac-cis/SoftwareUpdate",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Auto Updates Enabled",
         expected_result=False,
         log={
@@ -30,7 +30,7 @@ osquery_mac_auto_update_enabled_tests: List[PantherRuleTest] = [
             "name": "pack/mac-cis/SoftwareUpdate",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Wrong Key",
         expected_result=False,
         log={
@@ -46,13 +46,13 @@ osquery_mac_auto_update_enabled_tests: List[PantherRuleTest] = [
 ]
 
 
-class OsqueryMacAutoUpdateEnabled(PantherRule):
+class OsqueryMacAutoUpdateEnabled(Rule):
     id_ = "Osquery.Mac.AutoUpdateEnabled-prototype"
     display_name = "OSQuery Reports Application Firewall Disabled"
-    log_types = [PantherLogType.Osquery_Differential]
+    log_types = [LogType.Osquery_Differential]
     tags = ["Osquery", "MacOS", "Security Control", "Defense Evasion:Impair Defenses"]
     reports = {"CIS": ["1.2"], "MITRE ATT&CK": ["TA0005:T1562"]}
-    default_severity = PantherSeverity.medium
+    default_severity = Severity.medium
     dedup_period_minutes = 1440
     default_description = "Verifies that MacOS has automatic software updates enabled.\n"
     default_runbook = "Enable the auto updates on the host.\n"

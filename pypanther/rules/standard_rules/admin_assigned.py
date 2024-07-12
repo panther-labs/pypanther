@@ -1,10 +1,10 @@
 from typing import List
 
 import pypanther.helpers.panther_event_type_helpers as event_type
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 
-standard_admin_role_assigned_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+standard_admin_role_assigned_tests: List[RuleTest] = [
+    RuleTest(
         name="GCP - Admin Assigned",
         expected_result=True,
         log={
@@ -30,7 +30,7 @@ standard_admin_role_assigned_tests: List[PantherRuleTest] = [
             "p_log_type": "GCP.AuditLog",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="GCP - Multiple Admin Roles Assigned",
         expected_result=True,
         log={
@@ -61,7 +61,7 @@ standard_admin_role_assigned_tests: List[PantherRuleTest] = [
             "p_log_type": "GCP.AuditLog",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="GSuite - Other Admin Action",
         expected_result=False,
         log={
@@ -71,7 +71,7 @@ standard_admin_role_assigned_tests: List[PantherRuleTest] = [
             "p_log_type": "GSuite.Reports",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="GSuite - Privileges Assigned",
         expected_result=True,
         log={
@@ -90,12 +90,12 @@ standard_admin_role_assigned_tests: List[PantherRuleTest] = [
             "p_log_type": "GSuite.Reports",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="OneLogin - Non permissions assigned event",
         expected_result=False,
         log={"event_type_id": 8, "p_log_type": "OneLogin.Events"},
     ),
-    PantherRuleTest(
+    RuleTest(
         name="OneLogin - Non super user permissions assigned",
         expected_result=False,
         log={
@@ -104,7 +104,7 @@ standard_admin_role_assigned_tests: List[PantherRuleTest] = [
             "p_log_type": "OneLogin.Events",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="OneLogin - Super user permissions assigned",
         expected_result=True,
         log={
@@ -115,7 +115,7 @@ standard_admin_role_assigned_tests: List[PantherRuleTest] = [
             "p_log_type": "OneLogin.Events",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Github - User Promoted",
         expected_result=True,
         log={
@@ -125,7 +125,7 @@ standard_admin_role_assigned_tests: List[PantherRuleTest] = [
             "user": "bob",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Github - Admin Added",
         expected_result=True,
         log={
@@ -135,7 +135,7 @@ standard_admin_role_assigned_tests: List[PantherRuleTest] = [
             "user": "bob",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Github - Admin Invited",
         expected_result=True,
         log={
@@ -145,7 +145,7 @@ standard_admin_role_assigned_tests: List[PantherRuleTest] = [
             "user": "bob",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Github - Unknown Admin Role",
         expected_result=False,
         log={
@@ -155,7 +155,7 @@ standard_admin_role_assigned_tests: List[PantherRuleTest] = [
             "user": "bob",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Zendesk - Admin Role Downgraded",
         expected_result=False,
         log={
@@ -173,7 +173,7 @@ standard_admin_role_assigned_tests: List[PantherRuleTest] = [
             "p_log_type": "Zendesk.Audit",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Zendesk - Admin Role Assigned",
         expected_result=True,
         log={
@@ -191,7 +191,7 @@ standard_admin_role_assigned_tests: List[PantherRuleTest] = [
             "p_log_type": "Zendesk.Audit",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Zendesk - App Admin Role Assigned",
         expected_result=True,
         log={
@@ -209,7 +209,7 @@ standard_admin_role_assigned_tests: List[PantherRuleTest] = [
             "p_log_type": "Zendesk.Audit",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Asana - Normal Login",
         expected_result=False,
         log={
@@ -236,7 +236,7 @@ standard_admin_role_assigned_tests: List[PantherRuleTest] = [
             "p_event_time": "2021-06-04 09:59:53.650807",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Asana - Admin Added",
         expected_result=True,
         log={
@@ -267,20 +267,20 @@ standard_admin_role_assigned_tests: List[PantherRuleTest] = [
 ]
 
 
-class StandardAdminRoleAssigned(PantherRule):
+class StandardAdminRoleAssigned(Rule):
     id_ = "Standard.AdminRoleAssigned-prototype"
     display_name = "Admin Role Assigned"
     log_types = [
-        PantherLogType.Asana_Audit,
-        PantherLogType.Atlassian_Audit,
-        PantherLogType.GCP_AuditLog,
-        PantherLogType.GitHub_Audit,
-        PantherLogType.GSuite_Reports,
-        PantherLogType.OneLogin_Events,
-        PantherLogType.Zendesk_Audit,
+        LogType.Asana_Audit,
+        LogType.Atlassian_Audit,
+        LogType.GCP_AuditLog,
+        LogType.GitHub_Audit,
+        LogType.GSuite_Reports,
+        LogType.OneLogin_Events,
+        LogType.Zendesk_Audit,
     ]
     tags = ["DataModel", "Privilege Escalation:Valid Accounts"]
-    default_severity = PantherSeverity.medium
+    default_severity = Severity.medium
     reports = {"MITRE ATT&CK": ["TA0004:T1078"]}
     default_description = "Assigning an admin role manually could be a sign of privilege escalation"
     default_runbook = "Verify with the user who attached the role or add to a allowlist"

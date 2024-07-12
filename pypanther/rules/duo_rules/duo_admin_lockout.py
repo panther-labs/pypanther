@@ -1,10 +1,10 @@
 import json
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 
-duo_admin_lockout_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+duo_admin_lockout_tests: List[RuleTest] = [
+    RuleTest(
         name="Admin lockout- invalid json",
         expected_result=True,
         log={
@@ -15,7 +15,7 @@ duo_admin_lockout_tests: List[PantherRuleTest] = [
             "username": "Homer Simpson",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Admin lockout- valid json",
         expected_result=True,
         log={
@@ -26,7 +26,7 @@ duo_admin_lockout_tests: List[PantherRuleTest] = [
             "username": "Homer Simpson",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Bypass Create",
         expected_result=False,
         log={
@@ -41,12 +41,12 @@ duo_admin_lockout_tests: List[PantherRuleTest] = [
 ]
 
 
-class DuoAdminLockout(PantherRule):
+class DuoAdminLockout(Rule):
     default_description = "Alert when a duo administrator is locked out of their account."
     display_name = "Duo Admin Lockout"
     default_reference = "https://duo.com/docs/adminapi"
-    default_severity = PantherSeverity.medium
-    log_types = [PantherLogType.Duo_Administrator]
+    default_severity = Severity.medium
+    log_types = [LogType.Duo_Administrator]
     id_ = "Duo.Admin.Lockout-prototype"
     tests = duo_admin_lockout_tests
 

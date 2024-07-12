@@ -4,11 +4,11 @@ from typing import Type
 
 import pytest
 
-from pypanther.base import PantherRule
+from pypanther.base import Rule
 from pypanther.get import get_rules, print_rule_table
 
 
-class TestEDRRule(PantherRule):
+class TestEDRRule(Rule):
     id_ = "EDR"
     log_types = ["CrowdStrike", "SentinelOne", "AWS"]
     display_name = "EDR Rule"
@@ -20,7 +20,7 @@ class TestEDRRule(PantherRule):
         return True
 
 
-class TestPaloAltoRule(PantherRule):
+class TestPaloAltoRule(Rule):
     id_ = "Firewall"
     log_types = ["PaloAlto"]
     display_name = "Firewall Rule"
@@ -33,7 +33,7 @@ class TestPaloAltoRule(PantherRule):
 
 
 def test_print_rule_table(capsys):
-    rules: list[Type[PantherRule]] = [TestEDRRule, TestPaloAltoRule]
+    rules: list[Type[Rule]] = [TestEDRRule, TestPaloAltoRule]
     print_rule_table(rules)
     std = capsys.readouterr()
 

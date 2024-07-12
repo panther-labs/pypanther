@@ -1,11 +1,11 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_auth0_helpers import auth0_alert_context, is_auth0_config_event
 from pypanther.helpers.panther_base_helpers import deep_get
 
-auth0_custom_role_created_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+auth0_custom_role_created_tests: List[RuleTest] = [
+    RuleTest(
         name="Other Event",
         expected_result=False,
         log={
@@ -198,7 +198,7 @@ auth0_custom_role_created_tests: List[PantherRuleTest] = [
             "p_source_label": "Org Tenant Label",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Custom Role Created",
         expected_result=True,
         log={
@@ -384,7 +384,7 @@ auth0_custom_role_created_tests: List[PantherRuleTest] = [
             "p_source_label": "Org Tenant Label",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Admin Role Created",
         expected_result=True,
         log={
@@ -570,7 +570,7 @@ auth0_custom_role_created_tests: List[PantherRuleTest] = [
             "p_source_label": "Org Tenant Label",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Admin Role Created (by name)",
         expected_result=True,
         log={
@@ -759,15 +759,15 @@ auth0_custom_role_created_tests: List[PantherRuleTest] = [
 ]
 
 
-class Auth0CustomRoleCreated(PantherRule):
+class Auth0CustomRoleCreated(Rule):
     default_description = "An Auth0 User created a role in your organization's tenant."
     display_name = "Auth0 Custom Role Created"
     default_runbook = "Assess if this was done by the user for a valid business reason. Be vigilant if a user created a role without proper authorization."
     default_reference = (
         "https://auth0.com/docs/manage-users/access-control/configure-core-rbac/roles/create-roles"
     )
-    default_severity = PantherSeverity.high
-    log_types = [PantherLogType.Auth0_Events]
+    default_severity = Severity.high
+    log_types = [LogType.Auth0_Events]
     id_ = "Auth0.Custom.Role.Created-prototype"
     tests = auth0_custom_role_created_tests
 

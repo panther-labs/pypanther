@@ -1,9 +1,9 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 
-panther_saml_modified_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+panther_saml_modified_tests: List[RuleTest] = [
+    RuleTest(
         name="SAML config modified",
         expected_result=True,
         log={
@@ -24,7 +24,7 @@ panther_saml_modified_tests: List[PantherRuleTest] = [
             "p_log_type": "Panther.Audit",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="SAML config viewed",
         expected_result=False,
         log={
@@ -48,11 +48,11 @@ panther_saml_modified_tests: List[PantherRuleTest] = [
 ]
 
 
-class PantherSAMLModified(PantherRule):
+class PantherSAMLModified(Rule):
     id_ = "Panther.SAML.Modified-prototype"
     display_name = "Panther SAML configuration has been modified"
-    log_types = [PantherLogType.Panther_Audit]
-    default_severity = PantherSeverity.high
+    log_types = [LogType.Panther_Audit]
+    default_severity = Severity.high
     tags = ["DataModel", "Defense Evasion:Impair Defenses"]
     reports = {"MITRE ATT&CK": ["TA0005:T1562"]}
     default_description = "An Admin has modified Panther's SAML configuration."

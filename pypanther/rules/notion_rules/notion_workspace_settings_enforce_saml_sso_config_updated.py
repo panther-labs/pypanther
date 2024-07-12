@@ -1,11 +1,11 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 from pypanther.helpers.panther_notion_helpers import notion_alert_context
 
-notion_samlsso_configuration_changed_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+notion_samlsso_configuration_changed_tests: List[RuleTest] = [
+    RuleTest(
         name="Other Event",
         expected_result=False,
         log={
@@ -26,7 +26,7 @@ notion_samlsso_configuration_changed_tests: List[PantherRuleTest] = [
             }
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="SAML SSO Enabled",
         expected_result=True,
         log={
@@ -47,7 +47,7 @@ notion_samlsso_configuration_changed_tests: List[PantherRuleTest] = [
             }
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="SAML SSO Disabled",
         expected_result=True,
         log={
@@ -71,12 +71,12 @@ notion_samlsso_configuration_changed_tests: List[PantherRuleTest] = [
 ]
 
 
-class NotionSAMLSSOConfigurationChanged(PantherRule):
+class NotionSAMLSSOConfigurationChanged(Rule):
     id_ = "Notion.SAML.SSO.Configuration.Changed-prototype"
     display_name = "Notion SAML SSO Configuration Changed"
-    log_types = [PantherLogType.Notion_AuditLogs]
+    log_types = [LogType.Notion_AuditLogs]
     tags = ["Notion", "Identity & Access Management", "Credential Security"]
-    default_severity = PantherSeverity.high
+    default_severity = Severity.high
     default_description = (
         "A Notion User changed settings to enforce SAML SSO configurations for your organization."
     )

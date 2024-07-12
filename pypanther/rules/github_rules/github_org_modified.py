@@ -1,9 +1,9 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 
-git_hub_org_modified_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+git_hub_org_modified_tests: List[RuleTest] = [
+    RuleTest(
         name="GitHub - Team Deleted",
         expected_result=False,
         log={
@@ -16,7 +16,7 @@ git_hub_org_modified_tests: List[PantherRuleTest] = [
             "repo": "my-org/my-repo",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="GitHub - Org - User Added",
         expected_result=True,
         log={
@@ -28,7 +28,7 @@ git_hub_org_modified_tests: List[PantherRuleTest] = [
             "user": "cat",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="GitHub - Org - User Removed",
         expected_result=True,
         log={
@@ -43,16 +43,16 @@ git_hub_org_modified_tests: List[PantherRuleTest] = [
 ]
 
 
-class GitHubOrgModified(PantherRule):
+class GitHubOrgModified(Rule):
     id_ = "GitHub.Org.Modified-prototype"
     display_name = "GitHub User Added or Removed from Org"
-    log_types = [PantherLogType.GitHub_Audit]
+    log_types = [LogType.GitHub_Audit]
     tags = ["GitHub", "Initial Access:Supply Chain Compromise"]
     reports = {"MITRE ATT&CK": ["TA0001:T1195"]}
     default_reference = (
         "https://docs.github.com/en/organizations/managing-membership-in-your-organization"
     )
-    default_severity = PantherSeverity.info
+    default_severity = Severity.info
     default_description = "Detects when a user is added or removed from a GitHub Org."
     tests = git_hub_org_modified_tests
 

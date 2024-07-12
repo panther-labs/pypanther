@@ -1,10 +1,10 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import slack_alert_context
 
-slack_audit_logs_private_channel_made_public_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+slack_audit_logs_private_channel_made_public_tests: List[RuleTest] = [
+    RuleTest(
         name="Private Channel Made Public",
         expected_result=True,
         log={
@@ -30,7 +30,7 @@ slack_audit_logs_private_channel_made_public_tests: List[PantherRuleTest] = [
             },
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="User Logout",
         expected_result=False,
         log={
@@ -70,10 +70,10 @@ slack_audit_logs_private_channel_made_public_tests: List[PantherRuleTest] = [
 ]
 
 
-class SlackAuditLogsPrivateChannelMadePublic(PantherRule):
+class SlackAuditLogsPrivateChannelMadePublic(Rule):
     id_ = "Slack.AuditLogs.PrivateChannelMadePublic-prototype"
     display_name = "Slack Private Channel Made Public"
-    log_types = [PantherLogType.Slack_AuditLogs]
+    log_types = [LogType.Slack_AuditLogs]
     tags = [
         "Slack",
         "Defense Evasion",
@@ -84,7 +84,7 @@ class SlackAuditLogsPrivateChannelMadePublic(PantherRule):
         "Exfiltration Over Web Service",
     ]
     reports = {"MITRE ATT&CK": ["TA0005:T1222", "TA0003:T1098", "TA0010:T1567"]}
-    default_severity = PantherSeverity.high
+    default_severity = Severity.high
     default_description = "Detects when a channel that was previously private is made public"
     default_reference = "https://slack.com/intl/en-gb/help/articles/213185467-Convert-a-channel-to-private-or-public"
     summary_attributes = ["p_any_ip_addresses", "p_any_emails"]

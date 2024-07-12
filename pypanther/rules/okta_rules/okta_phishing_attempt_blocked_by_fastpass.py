@@ -1,10 +1,10 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get, okta_alert_context
 
-okta_phishing_attempt_blocked_fast_pass_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+okta_phishing_attempt_blocked_fast_pass_tests: List[RuleTest] = [
+    RuleTest(
         name="Other Event",
         expected_result=False,
         log={
@@ -83,7 +83,7 @@ okta_phishing_attempt_blocked_fast_pass_tests: List[PantherRuleTest] = [
             "version": "0",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="FastPass Phishing Block Event",
         expected_result=True,
         log={
@@ -168,12 +168,12 @@ okta_phishing_attempt_blocked_fast_pass_tests: List[PantherRuleTest] = [
 ]
 
 
-class OktaPhishingAttemptBlockedFastPass(PantherRule):
+class OktaPhishingAttemptBlockedFastPass(Rule):
     id_ = "Okta.Phishing.Attempt.Blocked.FastPass-prototype"
     display_name = "Okta AiTM Phishing Attempt Blocked by FastPass"
-    log_types = [PantherLogType.Okta_SystemLog]
+    log_types = [LogType.Okta_SystemLog]
     reports = {"MITRE ATT&CK": ["TA0001:T1566", "TA0006:T1556", "TA0003:T1078.004"]}
-    default_severity = PantherSeverity.high
+    default_severity = Severity.high
     default_description = (
         "Okta FastPass detected a user targeted by attackers wielding real-time (AiTM) proxies.\n"
     )

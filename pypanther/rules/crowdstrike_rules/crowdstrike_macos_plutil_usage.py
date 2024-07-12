@@ -1,10 +1,10 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import crowdstrike_process_alert_context, deep_get
 
-crowdstrike_macos_plutil_usage_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+crowdstrike_macos_plutil_usage_tests: List[RuleTest] = [
+    RuleTest(
         name="Plutil used",
         expected_result=True,
         log={
@@ -80,7 +80,7 @@ crowdstrike_macos_plutil_usage_tests: List[PantherRuleTest] = [
             "timestamp": "2023-05-26 17:59:17.235",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Slack settings update",
         expected_result=False,
         log={
@@ -156,7 +156,7 @@ crowdstrike_macos_plutil_usage_tests: List[PantherRuleTest] = [
             "timestamp": "2023-05-26 17:59:17.235",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Windows",
         expected_result=False,
         log={
@@ -232,7 +232,7 @@ crowdstrike_macos_plutil_usage_tests: List[PantherRuleTest] = [
             "timestamp": "2023-05-26 17:59:17.235",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Non process event",
         expected_result=False,
         log={
@@ -311,13 +311,13 @@ crowdstrike_macos_plutil_usage_tests: List[PantherRuleTest] = [
 ]
 
 
-class CrowdstrikeMacosPlutilUsage(PantherRule):
+class CrowdstrikeMacosPlutilUsage(Rule):
     display_name = "CrowdStrike MacOS plutil Usage"
     default_description = "Detects the usage of plutil to modify plist files. Plist files run on start up and are often used by attackers to maintain persistence."
     id_ = "Crowdstrike.Macos.Plutil.Usage-prototype"
     default_reference = "https://www.crowdstrike.com/blog/reconstructing-command-line-activity-on-macos/#:~:text=Terminal.savedState/.-,Windows.plist,-The%20file%20windows"
-    default_severity = PantherSeverity.medium
-    log_types = [PantherLogType.Crowdstrike_FDREvent]
+    default_severity = Severity.medium
+    log_types = [LogType.Crowdstrike_FDREvent]
     tests = crowdstrike_macos_plutil_usage_tests
 
     def rule(self, event):

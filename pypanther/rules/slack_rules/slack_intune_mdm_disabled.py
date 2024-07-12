@@ -1,10 +1,10 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import slack_alert_context
 
-slack_audit_logs_intune_mdm_disabled_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+slack_audit_logs_intune_mdm_disabled_tests: List[RuleTest] = [
+    RuleTest(
         name="Intune Disabled",
         expected_result=True,
         log={
@@ -30,7 +30,7 @@ slack_audit_logs_intune_mdm_disabled_tests: List[PantherRuleTest] = [
             },
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="User Logout",
         expected_result=False,
         log={
@@ -70,13 +70,13 @@ slack_audit_logs_intune_mdm_disabled_tests: List[PantherRuleTest] = [
 ]
 
 
-class SlackAuditLogsIntuneMDMDisabled(PantherRule):
+class SlackAuditLogsIntuneMDMDisabled(Rule):
     id_ = "Slack.AuditLogs.IntuneMDMDisabled-prototype"
     display_name = "Slack Intune MDM Disabled"
-    log_types = [PantherLogType.Slack_AuditLogs]
+    log_types = [LogType.Slack_AuditLogs]
     tags = ["Slack", "Defense Evasion", "Impair Defenses", "Disable or Modify Tools"]
     reports = {"MITRE ATT&CK": ["TA0005:T1562.001"]}
-    default_severity = PantherSeverity.critical
+    default_severity = Severity.critical
     default_description = "Detects the disabling of Microsoft Intune Enterprise MDM within Slack"
     default_reference = "https://slack.com/intl/en-gb/help/articles/6495319642387-Set-up-Slack-for-Intune-mobile-apps"
     summary_attributes = ["p_any_ip_addresses", "p_any_emails"]

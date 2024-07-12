@@ -1,14 +1,14 @@
 from pypanther import register
-from pypanther.base import PantherRule, PantherSeverity
+from pypanther.base import Rule, Severity
 from pypanther.registry import registered_rules
 
 
 def test_register_duplicate():
-    class A(PantherRule):
+    class A(Rule):
         tags = ["test"]
         log_types = [""]
         id_ = "test_register_duplicate"
-        default_severity = PantherSeverity.info
+        default_severity = Severity.info
 
         def rule(self, _):
             pass

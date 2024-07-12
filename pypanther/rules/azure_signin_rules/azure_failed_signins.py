@@ -1,6 +1,6 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_azuresignin_helpers import (
     actor_user,
     azure_signin_alert_context,
@@ -8,8 +8,8 @@ from pypanther.helpers.panther_azuresignin_helpers import (
 )
 from pypanther.helpers.panther_base_helpers import deep_get
 
-azure_audit_many_failed_sign_ins_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+azure_audit_many_failed_sign_ins_tests: List[RuleTest] = [
+    RuleTest(
         name="Failed Sign-In",
         expected_result=True,
         log={
@@ -71,7 +71,7 @@ azure_audit_many_failed_sign_ins_tests: List[PantherRuleTest] = [
             "time": "2023-07-26 23:00:20.889",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Successful Sign-In",
         expected_result=False,
         log={
@@ -139,13 +139,13 @@ azure_audit_many_failed_sign_ins_tests: List[PantherRuleTest] = [
 ]
 
 
-class AzureAuditManyFailedSignIns(PantherRule):
+class AzureAuditManyFailedSignIns(Rule):
     id_ = "Azure.Audit.ManyFailedSignIns-prototype"
     display_name = "Azure Many Failed SignIns"
     threshold = 10
     dedup_period_minutes = 10
-    log_types = [PantherLogType.Azure_Audit]
-    default_severity = PantherSeverity.medium
+    log_types = [LogType.Azure_Audit]
+    default_severity = Severity.medium
     default_description = "This detection looks for a number of failed sign-ins for the same ServicePrincipalName or UserPrincipalName\n"
     reports = {"MITRE ATT&CK": ["TA0006:T1110", "TA0001:T1078"]}
     default_runbook = "Querying Sign-In logs for the ServicePrincipalName or UserPrincipalName may indicate that the principal is under attack, or that a sign-in credential rolled and some user of the credential didn't get updated.\n"

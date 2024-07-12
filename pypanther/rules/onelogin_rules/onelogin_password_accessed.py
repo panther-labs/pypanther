@@ -1,9 +1,9 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 
-one_login_password_access_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+one_login_password_access_tests: List[RuleTest] = [
+    RuleTest(
         name="User accessed their own password",
         expected_result=False,
         log={
@@ -14,7 +14,7 @@ one_login_password_access_tests: List[PantherRuleTest] = [
             "user_name": "Bob Cat",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="User accessed another user's password",
         expected_result=True,
         log={
@@ -28,13 +28,13 @@ one_login_password_access_tests: List[PantherRuleTest] = [
 ]
 
 
-class OneLoginPasswordAccess(PantherRule):
+class OneLoginPasswordAccess(Rule):
     id_ = "OneLogin.PasswordAccess-prototype"
     display_name = "OneLogin Password Access"
-    log_types = [PantherLogType.OneLogin_Events]
+    log_types = [LogType.OneLogin_Events]
     tags = ["OneLogin", "Credential Access:Unsecured Credentials"]
     reports = {"MITRE ATT&CK": ["TA0006:T1552"]}
-    default_severity = PantherSeverity.medium
+    default_severity = Severity.medium
     default_description = "User accessed another user's application password\n"
     default_reference = (
         "https://onelogin.service-now.com/kb_view_customer.do?sysparm_article=KB0010598"

@@ -1,9 +1,9 @@
 import pytest
 
 from pypanther import testing
-from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
+from pypanther.base import Rule, RuleTest, Severity
 from pypanther.cache import DATA_MODEL_CACHE
-from pypanther.log_types import PantherLogType
+from pypanther.log_types import LogType
 from pypanther.rules.aws_cloudtrail_rules.aws_console_login_without_mfa import (
     AWSConsoleLoginWithoutMFA,
 )
@@ -83,21 +83,21 @@ class TestPrintFailedTestResults:
         )
 
     def test_runs_all_rule_tests(self, caplog):
-        false_test_1 = PantherRuleTest(name="false test 1", expected_result=False, log={})
-        false_test_2 = PantherRuleTest(name="false test 2", expected_result=False, log={})
+        false_test_1 = RuleTest(name="false test 1", expected_result=False, log={})
+        false_test_2 = RuleTest(name="false test 2", expected_result=False, log={})
 
-        class Rule1(PantherRule):
-            log_types = [PantherLogType.Panther_Audit]
-            default_severity = PantherSeverity.high
+        class Rule1(Rule):
+            log_types = [LogType.Panther_Audit]
+            default_severity = Severity.high
             id_ = "Rule1"
             tests = [false_test_1, false_test_2]
 
             def rule(self, event):
                 return True
 
-        class Rule2(PantherRule):
-            log_types = [PantherLogType.Panther_Audit]
-            default_severity = PantherSeverity.high
+        class Rule2(Rule):
+            log_types = [LogType.Panther_Audit]
+            default_severity = Severity.high
             id_ = "Rule2"
             tests = [false_test_1, false_test_2]
 
@@ -115,11 +115,11 @@ class TestPrintFailedTestResults:
         assert "Rule2: test 'false test 2'" in caplog.text
 
     def test_returns_rule_func_exception(self, caplog):
-        false_test_1 = PantherRuleTest(name="false test 1", expected_result=False, log={})
+        false_test_1 = RuleTest(name="false test 1", expected_result=False, log={})
 
-        class Rule1(PantherRule):
-            log_types = [PantherLogType.Panther_Audit]
-            default_severity = PantherSeverity.high
+        class Rule1(Rule):
+            log_types = [LogType.Panther_Audit]
+            default_severity = Severity.high
             id_ = "Rule1"
             tests = [false_test_1]
 
@@ -131,11 +131,11 @@ class TestPrintFailedTestResults:
         assert "Rule1: Exception in test 'false test 1'" in caplog.text
 
     def test_all_tests_passed(self, caplog):
-        false_test_1 = PantherRuleTest(name="false test 1", expected_result=False, log={})
+        false_test_1 = RuleTest(name="false test 1", expected_result=False, log={})
 
-        class Rule1(PantherRule):
-            log_types = [PantherLogType.Panther_Audit]
-            default_severity = PantherSeverity.high
+        class Rule1(Rule):
+            log_types = [LogType.Panther_Audit]
+            default_severity = Severity.high
             id_ = "Rule1"
             tests = [false_test_1]
 

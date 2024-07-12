@@ -3,7 +3,7 @@ import logging
 import os
 from typing import Optional, Tuple
 
-from pypanther.base import PantherRuleTestResult
+from pypanther.base import RuleTestResult
 from pypanther.cache import DATA_MODEL_CACHE
 from pypanther.import_main import NoMainModuleError, import_main
 from pypanther.registry import registered_rules
@@ -16,7 +16,7 @@ def run(args: argparse.Namespace) -> Tuple[int, str]:
         logging.error("No main.py found")
         return 1, ""
 
-    failed_test_results: list[list[PantherRuleTestResult]] = []
+    failed_test_results: list[list[RuleTestResult]] = []
     for rule in registered_rules():
         results = rule.run_tests(DATA_MODEL_CACHE.data_model_of_logtype)
         failures = [result for result in results if not result.passed]
@@ -32,7 +32,7 @@ def run(args: argparse.Namespace) -> Tuple[int, str]:
 
 
 def print_failed_test_results(
-    failed_test_results: list[list[PantherRuleTestResult]],
+    failed_test_results: list[list[RuleTestResult]],
 ) -> None:
     if len(failed_test_results) == 0:
         return
@@ -96,7 +96,7 @@ def print_failed_test_results(
             print(test_failure_separator)
 
 
-def log_rule_func_exception(failed_result: PantherRuleTestResult) -> None:
+def log_rule_func_exception(failed_result: RuleTestResult) -> None:
     logging.error(
         "%s: Exception in test '%s' calling rule(): '%s': %s",
         failed_result.rule_id,
@@ -107,9 +107,7 @@ def log_rule_func_exception(failed_result: PantherRuleTestResult) -> None:
     )
 
 
-def log_aux_func_exception(
-    failed_result: PantherRuleTestResult, method_name: str, exc: Exception
-) -> None:
+def log_aux_func_exception(failed_result: RuleTestResult, method_name: str, exc: Exception) -> None:
     logging.warning(
         "%s: Exception in test '%s' calling %s()",
         failed_result.rule_id,
@@ -119,7 +117,7 @@ def log_aux_func_exception(
     )
 
 
-def log_rule_test_failure(failed_result: PantherRuleTestResult) -> None:
+def log_rule_test_failure(failed_result: RuleTestResult) -> None:
     logging.error(
         "%s: test '%s' returned the wrong result, expected %s but got %s: %s",
         failed_result.rule_id,
@@ -131,7 +129,7 @@ def log_rule_test_failure(failed_result: PantherRuleTestResult) -> None:
 
 
 def log_aux_func_failure(
-    failed_result: PantherRuleTestResult, aux_func_exceptions: dict[str, Exception]
+    failed_result: RuleTestResult, aux_func_exceptions: dict[str, Exception]
 ) -> None:
     exc_msgs = [f"{name}()" for name, exc in aux_func_exceptions.items() if exc is not None]
     exc_msg = ", ".join(exc_msgs[:-1]) if len(exc_msgs) > 1 else exc_msgs[0]

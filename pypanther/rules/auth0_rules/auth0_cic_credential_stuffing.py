@@ -1,10 +1,10 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_auth0_helpers import auth0_alert_context
 
-auth0_cic_credential_stuffing_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+auth0_cic_credential_stuffing_tests: List[RuleTest] = [
+    RuleTest(
         name="Auth0 Credential Stuffing Event",
         expected_result=True,
         log={
@@ -46,7 +46,7 @@ auth0_cic_credential_stuffing_tests: List[PantherRuleTest] = [
             "log_id": "90020230523204756343781000000000000001223372037583230452",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Other Event",
         expected_result=False,
         log={
@@ -233,12 +233,12 @@ auth0_cic_credential_stuffing_tests: List[PantherRuleTest] = [
 ]
 
 
-class Auth0CICCredentialStuffing(PantherRule):
-    log_types = [PantherLogType.Auth0_Events]
+class Auth0CICCredentialStuffing(Rule):
+    log_types = [LogType.Auth0_Events]
     id_ = "Auth0.CIC.Credential.Stuffing-prototype"
     display_name = "Auth0 CIC Credential Stuffing"
     default_description = "Okta has determined that the cross-origin authentication feature in Customer Identity Cloud (CIC) is prone to being targeted by threat actors orchestrating credential-stuffing attacks.  Okta has observed suspicious activity that started on April 15, 2024.  Review tenant logs for unexpected fcoa, scoa, and pwd_leak events."
-    default_severity = PantherSeverity.high
+    default_severity = Severity.high
     default_runbook = "If a user password was compromised in a credential stuffing attack, the user's credentials should be rotated immediately out of an abundance of caution."
     default_reference = "https://sec.okta.com/articles/2024/05/detecting-cross-origin-authentication-credential-stuffing-attacks"
     tests = auth0_cic_credential_stuffing_tests

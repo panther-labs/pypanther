@@ -1,9 +1,9 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 
-one_login_unauthorized_access_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+one_login_unauthorized_access_tests: List[RuleTest] = [
+    RuleTest(
         name="Normal Event",
         expected_result=False,
         log={
@@ -13,7 +13,7 @@ one_login_unauthorized_access_tests: List[PantherRuleTest] = [
             "app_name": "confluence",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="User Unauthorized Access Event",
         expected_result=True,
         log={
@@ -26,13 +26,13 @@ one_login_unauthorized_access_tests: List[PantherRuleTest] = [
 ]
 
 
-class OneLoginUnauthorizedAccess(PantherRule):
+class OneLoginUnauthorizedAccess(Rule):
     id_ = "OneLogin.UnauthorizedAccess-prototype"
     display_name = "OneLogin Unauthorized Access"
-    log_types = [PantherLogType.OneLogin_Events]
+    log_types = [LogType.OneLogin_Events]
     tags = ["OneLogin", "Lateral Movement:Use Alternate Authentication Material"]
     reports = {"MITRE ATT&CK": ["TA0008:T1550"]}
-    default_severity = PantherSeverity.medium
+    default_severity = Severity.medium
     default_description = (
         "A OneLogin user was denied access to an app more times than the configured threshold."
     )

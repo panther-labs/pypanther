@@ -1,10 +1,10 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import aws_guardduty_context, deep_get
 
-aws_guard_duty_low_severity_finding_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+aws_guard_duty_low_severity_finding_tests: List[RuleTest] = [
+    RuleTest(
         name="Low Sev Finding",
         expected_result=True,
         log={
@@ -45,7 +45,7 @@ aws_guard_duty_low_severity_finding_tests: List[PantherRuleTest] = [
             "description": "Principal AssumedRole:IAMRole attempted to add a highly permissive policy to themselves.",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Low Sev Finding As Sample Data",
         expected_result=False,
         log={
@@ -89,12 +89,12 @@ aws_guard_duty_low_severity_finding_tests: List[PantherRuleTest] = [
 ]
 
 
-class AWSGuardDutyLowSeverityFinding(PantherRule):
+class AWSGuardDutyLowSeverityFinding(Rule):
     id_ = "AWS.GuardDuty.LowSeverityFinding-prototype"
     display_name = "AWS GuardDuty Low Severity Finding"
-    log_types = [PantherLogType.AWS_GuardDuty]
+    log_types = [LogType.AWS_GuardDuty]
     tags = ["AWS"]
-    default_severity = PantherSeverity.low
+    default_severity = Severity.low
     dedup_period_minutes = 1440
     default_description = "A low-severity GuardDuty finding has been identified.\n"
     default_runbook = "Search related logs to understand the root cause of the activity.\n"

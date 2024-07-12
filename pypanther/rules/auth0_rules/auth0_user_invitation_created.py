@@ -1,12 +1,12 @@
 import re
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_auth0_helpers import auth0_alert_context, is_auth0_config_event
 from pypanther.helpers.panther_base_helpers import deep_get
 
-auth0_user_invitation_created_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+auth0_user_invitation_created_tests: List[RuleTest] = [
+    RuleTest(
         name="Test-org",
         expected_result=True,
         log={
@@ -68,7 +68,7 @@ auth0_user_invitation_created_tests: List[PantherRuleTest] = [
             "p_source_label": "Auth0 Org Label",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Test-org-regex-fail",
         expected_result=False,
         log={
@@ -130,7 +130,7 @@ auth0_user_invitation_created_tests: List[PantherRuleTest] = [
             "p_source_label": "Auth0 Tenant Label",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Test-other-endpoint",
         expected_result=False,
         log={
@@ -196,7 +196,7 @@ auth0_user_invitation_created_tests: List[PantherRuleTest] = [
             "p_source_label": "Org Auth0 Tenant Label",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Test-no-invitee",
         expected_result=True,
         log={
@@ -259,7 +259,7 @@ auth0_user_invitation_created_tests: List[PantherRuleTest] = [
             "p_source_label": "Auth0 Tenant Label",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Test-tenant",
         expected_result=True,
         log={
@@ -328,13 +328,13 @@ auth0_user_invitation_created_tests: List[PantherRuleTest] = [
 ]
 
 
-class Auth0UserInvitationCreated(PantherRule):
+class Auth0UserInvitationCreated(Rule):
     display_name = "Auth0 User Invitation Created"
     default_reference = (
         "https://auth0.com/docs/manage-users/organizations/configure-organizations/invite-members"
     )
-    default_severity = PantherSeverity.info
-    log_types = [PantherLogType.Auth0_Events]
+    default_severity = Severity.info
+    log_types = [LogType.Auth0_Events]
     id_ = "Auth0.User.Invitation.Created-prototype"
     tests = auth0_user_invitation_created_tests
     org_re = re.compile("^/api/v2/organizations/[^/\\s]+/invitations$")

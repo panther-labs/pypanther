@@ -1,10 +1,10 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import aws_rule_context, deep_get
 
-aws_cloud_trail_root_password_changed_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+aws_cloud_trail_root_password_changed_tests: List[RuleTest] = [
+    RuleTest(
         name="Root Password Changed",
         expected_result=True,
         log={
@@ -31,7 +31,7 @@ aws_cloud_trail_root_password_changed_tests: List[PantherRuleTest] = [
             },
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Root Password Change Failed",
         expected_result=False,
         log={
@@ -61,12 +61,12 @@ aws_cloud_trail_root_password_changed_tests: List[PantherRuleTest] = [
 ]
 
 
-class AWSCloudTrailRootPasswordChanged(PantherRule):
+class AWSCloudTrailRootPasswordChanged(Rule):
     id_ = "AWS.CloudTrail.RootPasswordChanged-prototype"
     display_name = "Root Password Changed"
-    log_types = [PantherLogType.AWS_CloudTrail]
+    log_types = [LogType.AWS_CloudTrail]
     tags = ["AWS", "Identity and Access Management", "Persistence:Account Manipulation"]
-    default_severity = PantherSeverity.high
+    default_severity = Severity.high
     reports = {"MITRE ATT&CK": ["TA0003:T1098"]}
     default_description = "Someone manually changed the Root console login password.\n"
     default_runbook = "Verify that the root password change was authorized. If not, AWS support should be contacted immediately as the root account cannot be recovered through normal means and grants complete access to the account.\n"

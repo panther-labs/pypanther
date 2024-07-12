@@ -1,11 +1,11 @@
 import datetime
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get, pattern_match, pattern_match_list
 
-g_suite_drive_external_file_share_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+g_suite_drive_external_file_share_tests: List[RuleTest] = [
+    RuleTest(
         name="Dangerous Share of Known Document with a Missing User",
         expected_result=True,
         log={
@@ -40,7 +40,7 @@ g_suite_drive_external_file_share_tests: List[PantherRuleTest] = [
             ],
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Dangerous Share of Unknown Document",
         expected_result=True,
         log={
@@ -75,7 +75,7 @@ g_suite_drive_external_file_share_tests: List[PantherRuleTest] = [
             ],
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Share Allowed by Exception",
         expected_result=False,
         log={
@@ -117,11 +117,11 @@ g_suite_drive_external_file_share_tests: List[PantherRuleTest] = [
 ]
 
 
-class GSuiteDriveExternalFileShare(PantherRule):
+class GSuiteDriveExternalFileShare(Rule):
     id_ = "GSuite.Drive.ExternalFileShare-prototype"
     display_name = "External GSuite File Share"
     enabled = False
-    log_types = [PantherLogType.GSuite_Reports]
+    log_types = [LogType.GSuite_Reports]
     tags = [
         "GSuite",
         "Security Control",
@@ -129,7 +129,7 @@ class GSuiteDriveExternalFileShare(PantherRule):
         "Collection:Data from Information Repositories",
     ]
     reports = {"MITRE ATT&CK": ["TA0009:T1213"]}
-    default_severity = PantherSeverity.high
+    default_severity = Severity.high
     default_description = "An employee shared a sensitive file externally with another organization"
     default_runbook = "Contact the employee who made the share and make sure they redact the access. If the share was legitimate, add to the EXCEPTION_PATTERNS in the detection.\n"
     default_reference = "https://support.google.com/docs/answer/2494822?hl=en&co=GENIE.Platform%3DiOS&sjid=864417124752637253-EU"

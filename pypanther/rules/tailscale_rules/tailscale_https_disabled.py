@@ -1,14 +1,14 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 from pypanther.helpers.panther_tailscale_helpers import (
     is_tailscale_admin_console_event,
     tailscale_alert_context,
 )
 
-tailscale_https_disabled_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+tailscale_https_disabled_tests: List[RuleTest] = [
+    RuleTest(
         name="HTTPS Disabled",
         expected_result=True,
         log={
@@ -44,7 +44,7 @@ tailscale_https_disabled_tests: List[PantherRuleTest] = [
             "time": "2023-07-19 16:10:48.172000000",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Other Event",
         expected_result=False,
         log={
@@ -79,13 +79,13 @@ tailscale_https_disabled_tests: List[PantherRuleTest] = [
 ]
 
 
-class TailscaleHTTPSDisabled(PantherRule):
+class TailscaleHTTPSDisabled(Rule):
     default_description = "A Tailscale User disabled HTTPS settings in your organization's tenant."
     display_name = "Tailscale HTTPS Disabled"
     default_runbook = "Assess if this was done by the user for a valid business reason. Be vigilant to re-enable this setting as it's in the best security interest for your organization's security posture."
     default_reference = "https://tailscale.com/kb/1153/enabling-https/#disable-https"
-    default_severity = PantherSeverity.high
-    log_types = [PantherLogType.Tailscale_Audit]
+    default_severity = Severity.high
+    log_types = [LogType.Tailscale_Audit]
     id_ = "Tailscale.HTTPS.Disabled-prototype"
     tests = tailscale_https_disabled_tests
 

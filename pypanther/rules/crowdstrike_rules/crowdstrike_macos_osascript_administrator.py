@@ -1,10 +1,10 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import crowdstrike_process_alert_context, deep_get
 
-crowdstrike_macos_osascript_administrator_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+crowdstrike_macos_osascript_administrator_tests: List[RuleTest] = [
+    RuleTest(
         name="Ran Osascript with administrator privileges",
         expected_result=True,
         log={
@@ -80,7 +80,7 @@ crowdstrike_macos_osascript_administrator_tests: List[PantherRuleTest] = [
             "timestamp": "2023-05-26 17:59:17.235",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Ran Osascript without administrator privileges",
         expected_result=False,
         log={
@@ -156,7 +156,7 @@ crowdstrike_macos_osascript_administrator_tests: List[PantherRuleTest] = [
             "timestamp": "2023-05-26 17:59:17.235",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Windows",
         expected_result=False,
         log={
@@ -232,7 +232,7 @@ crowdstrike_macos_osascript_administrator_tests: List[PantherRuleTest] = [
             "timestamp": "2023-05-26 17:59:17.235",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Ran Osacompile with administrator privileges",
         expected_result=False,
         log={
@@ -308,7 +308,7 @@ crowdstrike_macos_osascript_administrator_tests: List[PantherRuleTest] = [
             "timestamp": "2023-05-26 17:59:17.235",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Non Process event",
         expected_result=False,
         log={
@@ -387,15 +387,15 @@ crowdstrike_macos_osascript_administrator_tests: List[PantherRuleTest] = [
 ]
 
 
-class CrowdstrikeMacosOsascriptAdministrator(PantherRule):
+class CrowdstrikeMacosOsascriptAdministrator(Rule):
     display_name = "CrowdStrike MacOS Osascript as Administrator"
     default_description = "Detects usage of osascript with administrator privileges"
     id_ = "Crowdstrike.Macos.Osascript.Administrator-prototype"
     default_reference = (
         "https://www.sentinelone.com/blog/how-offensive-actors-use-applescript-for-attacking-macos/"
     )
-    default_severity = PantherSeverity.medium
-    log_types = [PantherLogType.Crowdstrike_FDREvent]
+    default_severity = Severity.medium
+    log_types = [LogType.Crowdstrike_FDREvent]
     tests = crowdstrike_macos_osascript_administrator_tests
 
     def rule(self, event):

@@ -1,11 +1,11 @@
 from ipaddress import ip_address
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import eks_panther_obj_ref
 
-amazon_eks_audit_multiple403_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+amazon_eks_audit_multiple403_tests: List[RuleTest] = [
+    RuleTest(
         name="Not 403",
         expected_result=False,
         log={
@@ -60,7 +60,7 @@ amazon_eks_audit_multiple403_tests: List[PantherRuleTest] = [
             "verb": "get",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="403 and Private IP",
         expected_result=False,
         log={
@@ -110,7 +110,7 @@ amazon_eks_audit_multiple403_tests: List[PantherRuleTest] = [
             "verb": "watch",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="403 and Public IP",
         expected_result=True,
         log={
@@ -163,14 +163,14 @@ amazon_eks_audit_multiple403_tests: List[PantherRuleTest] = [
 ]
 
 
-class AmazonEKSAuditMultiple403(PantherRule):
+class AmazonEKSAuditMultiple403(Rule):
     id_ = "Amazon.EKS.Audit.Multiple403-prototype"
     display_name = "EKS Audit Log based single sourceIP is generating multiple 403s"
-    log_types = [PantherLogType.Amazon_EKS_Audit]
+    log_types = [LogType.Amazon_EKS_Audit]
     tags = ["EKS"]
     reports = {"MITRE ATT&CK": ["TA0007:T1613"]}
     default_reference = "https://aws.github.io/aws-eks-best-practices/security/docs/detective/"
-    default_severity = PantherSeverity.info
+    default_severity = Severity.info
     default_description = "This detection identifies if a public sourceIP is generating multiple 403s with the Kubernetes API server.\n"
     dedup_period_minutes = 30
     threshold = 10

@@ -1,12 +1,12 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 from pypanther.helpers.panther_base_helpers import gsuite_details_lookup as details_lookup
 from pypanther.helpers.panther_base_helpers import gsuite_parameter_lookup as param_lookup
 
-g_suite_drive_overly_visible_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+g_suite_drive_overly_visible_tests: List[RuleTest] = [
+    RuleTest(
         name="Access Event",
         expected_result=False,
         log={
@@ -16,7 +16,7 @@ g_suite_drive_overly_visible_tests: List[PantherRuleTest] = [
             "events": [{"type": "access", "name": "download"}],
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Modify Event Without Over Visibility",
         expected_result=False,
         log={
@@ -32,7 +32,7 @@ g_suite_drive_overly_visible_tests: List[PantherRuleTest] = [
             ],
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Overly Visible Doc Modified",
         expected_result=True,
         log={
@@ -51,7 +51,7 @@ g_suite_drive_overly_visible_tests: List[PantherRuleTest] = [
             ],
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Overly Visible Doc Modified - no email",
         expected_result=True,
         log={
@@ -73,13 +73,13 @@ g_suite_drive_overly_visible_tests: List[PantherRuleTest] = [
 ]
 
 
-class GSuiteDriveOverlyVisible(PantherRule):
+class GSuiteDriveOverlyVisible(Rule):
     id_ = "GSuite.DriveOverlyVisible-prototype"
     display_name = "GSuite Overly Visible Drive Document"
-    log_types = [PantherLogType.GSuite_Reports]
+    log_types = [LogType.GSuite_Reports]
     tags = ["GSuite", "Collection:Data from Information Repositories"]
     reports = {"MITRE ATT&CK": ["TA0009:T1213"]}
-    default_severity = PantherSeverity.info
+    default_severity = Severity.info
     default_description = "A Google drive resource that is overly visible has been modified.\n"
     default_reference = "https://support.google.com/docs/answer/2494822?hl=en&co=GENIE.Platform%3DDesktop&sjid=864417124752637253-EU"
     default_runbook = "Investigate whether the drive document is appropriate to be this visible.\n"

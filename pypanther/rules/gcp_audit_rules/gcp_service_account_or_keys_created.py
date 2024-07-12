@@ -1,10 +1,10 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 
-gcp_service_accountor_keys_created_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+gcp_service_accountor_keys_created_tests: List[RuleTest] = [
+    RuleTest(
         name="Created Service Account Key",
         expected_result=True,
         log={
@@ -75,7 +75,7 @@ gcp_service_accountor_keys_created_tests: List[PantherRuleTest] = [
             "timestamp": "2023-03-09 15:50:36.148",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Created Service Account",
         expected_result=True,
         log={
@@ -149,7 +149,7 @@ gcp_service_accountor_keys_created_tests: List[PantherRuleTest] = [
             "timestamp": "2023-03-09 15:49:21.715",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Other",
         expected_result=False,
         log={
@@ -216,12 +216,12 @@ gcp_service_accountor_keys_created_tests: List[PantherRuleTest] = [
 ]
 
 
-class GCPServiceAccountorKeysCreated(PantherRule):
+class GCPServiceAccountorKeysCreated(Rule):
     default_description = "Detects when a service account or key is created manually by a user instead of an automated workflow."
     display_name = "GCP Service Account or Keys Created "
     default_reference = "https://cloud.google.com/iam/docs/keys-create-delete"
-    default_severity = PantherSeverity.low
-    log_types = [PantherLogType.GCP_AuditLog]
+    default_severity = Severity.low
+    log_types = [LogType.GCP_AuditLog]
     id_ = "GCP.Service.Account.or.Keys.Created-prototype"
     tests = gcp_service_accountor_keys_created_tests
 

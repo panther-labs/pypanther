@@ -1,11 +1,11 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import aws_rule_context, deep_get
 from pypanther.helpers.panther_default import aws_cloudtrail_success, lookup_aws_account_name
 
-aws_cloud_trail_stopped_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+aws_cloud_trail_stopped_tests: List[RuleTest] = [
+    RuleTest(
         name="CloudTrail Was Stopped",
         expected_result=True,
         log={
@@ -48,7 +48,7 @@ aws_cloud_trail_stopped_tests: List[PantherRuleTest] = [
             "recipientAccountId": "123456789012",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="CloudTrail Was Started",
         expected_result=False,
         log={
@@ -99,7 +99,7 @@ aws_cloud_trail_stopped_tests: List[PantherRuleTest] = [
             "recipientAccountId": "123456789012",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Error Stopping CloudTrail",
         expected_result=False,
         log={
@@ -146,10 +146,10 @@ aws_cloud_trail_stopped_tests: List[PantherRuleTest] = [
 ]
 
 
-class AWSCloudTrailStopped(PantherRule):
+class AWSCloudTrailStopped(Rule):
     id_ = "AWS.CloudTrail.Stopped-prototype"
     display_name = "CloudTrail Stopped"
-    log_types = [PantherLogType.AWS_CloudTrail]
+    log_types = [LogType.AWS_CloudTrail]
     tags = [
         "AWS",
         "Security Control",
@@ -157,7 +157,7 @@ class AWSCloudTrailStopped(PantherRule):
         "Defense Evasion:Impair Defenses",
     ]
     reports = {"CIS": ["3.5"], "MITRE ATT&CK": ["TA0005:T1562"]}
-    default_severity = PantherSeverity.medium
+    default_severity = Severity.medium
     default_description = "A CloudTrail Trail was modified.\n"
     default_runbook = (
         "https://docs.runpanther.io/alert-runbooks/built-in-rules/aws-cloudtrail-modified"

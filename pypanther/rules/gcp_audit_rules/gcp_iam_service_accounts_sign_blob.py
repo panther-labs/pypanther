@@ -1,11 +1,11 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.gcp_base_helpers import gcp_alert_context
 from pypanther.helpers.panther_base_helpers import deep_get
 
-gcpia_mservice_accountssign_blob_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+gcpia_mservice_accountssign_blob_tests: List[RuleTest] = [
+    RuleTest(
         name="iam.serviceAccounts.signBlob granted",
         expected_result=True,
         log={
@@ -55,7 +55,7 @@ gcpia_mservice_accountssign_blob_tests: List[PantherRuleTest] = [
             "receiveTimestamp": "2024-02-26T17:15:17.100020459Z",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="iam.serviceAccounts.signBlob not granted",
         expected_result=False,
         log={
@@ -108,12 +108,12 @@ gcpia_mservice_accountssign_blob_tests: List[PantherRuleTest] = [
 ]
 
 
-class GCPIAMserviceAccountssignBlob(PantherRule):
+class GCPIAMserviceAccountssignBlob(Rule):
     id_ = "GCP.IAM.serviceAccounts.signBlob-prototype"
     display_name = "GCP IAM serviceAccounts signBlob"
-    log_types = [PantherLogType.GCP_AuditLog]
+    log_types = [LogType.GCP_AuditLog]
     reports = {"MITRE ATT&CK": ["TA0004:T1548"]}
-    default_severity = PantherSeverity.high
+    default_severity = Severity.high
     default_description = 'The iam.serviceAccounts.signBlob permission "allows signing of arbitrary payloads" in GCP. This means we can create a signed blob that requests an access token from the Service Account we are targeting.'
     default_reference = (
         "https://rhinosecuritylabs.com/gcp/privilege-escalation-google-cloud-platform-part-1/"

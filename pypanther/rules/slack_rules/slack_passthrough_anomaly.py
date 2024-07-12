@@ -1,10 +1,10 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import slack_alert_context
 
-slack_audit_logs_passthrough_anomaly_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+slack_audit_logs_passthrough_anomaly_tests: List[RuleTest] = [
+    RuleTest(
         name="Name",
         expected_result=True,
         log={
@@ -30,7 +30,7 @@ slack_audit_logs_passthrough_anomaly_tests: List[PantherRuleTest] = [
             },
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="User Logout",
         expected_result=False,
         log={
@@ -70,13 +70,13 @@ slack_audit_logs_passthrough_anomaly_tests: List[PantherRuleTest] = [
 ]
 
 
-class SlackAuditLogsPassthroughAnomaly(PantherRule):
+class SlackAuditLogsPassthroughAnomaly(Rule):
     id_ = "Slack.AuditLogs.PassthroughAnomaly-prototype"
     display_name = "Slack Anomaly Detected"
-    log_types = [PantherLogType.Slack_AuditLogs]
+    log_types = [LogType.Slack_AuditLogs]
     tags = ["Slack", "Command and Control", "Application Layer Protocol"]
     reports = {"MITRE ATT&CK": ["TA0011:T1071"]}
-    default_severity = PantherSeverity.critical
+    default_severity = Severity.critical
     default_description = "Passthrough for anomalies detected by Slack"
     default_reference = "https://slack.com/intl/en-in/blog/news/three-new-security-features-to-protect-your-digital-hq"
     summary_attributes = ["p_any_ip_addresses", "p_any_emails"]

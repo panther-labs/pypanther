@@ -1,10 +1,10 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 
-google_workspace_apps_marketplace_allowlist_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+google_workspace_apps_marketplace_allowlist_tests: List[RuleTest] = [
+    RuleTest(
         name="parameters json key set to null value",
         expected_result=False,
         log={
@@ -26,7 +26,7 @@ google_workspace_apps_marketplace_allowlist_tests: List[PantherRuleTest] = [
             "type": "recovery_info_change",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Change Email Setting",
         expected_result=True,
         log={
@@ -53,7 +53,7 @@ google_workspace_apps_marketplace_allowlist_tests: List[PantherRuleTest] = [
             "type": "EMAIL_SETTINGS",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Change Email Setting Default",
         expected_result=True,
         log={
@@ -80,7 +80,7 @@ google_workspace_apps_marketplace_allowlist_tests: List[PantherRuleTest] = [
             "type": "EMAIL_SETTINGS",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="New Custom Role Created",
         expected_result=False,
         log={
@@ -102,7 +102,7 @@ google_workspace_apps_marketplace_allowlist_tests: List[PantherRuleTest] = [
             "type": "DELEGATED_ADMIN_SETTINGS",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="ListObject Type",
         expected_result=False,
         log={
@@ -137,15 +137,15 @@ google_workspace_apps_marketplace_allowlist_tests: List[PantherRuleTest] = [
 ]
 
 
-class GoogleWorkspaceAppsMarketplaceAllowlist(PantherRule):
+class GoogleWorkspaceAppsMarketplaceAllowlist(Rule):
     default_description = (
         "Google Workspace Marketplace application allowlist settings were modified."
     )
     display_name = "Google Workspace Apps Marketplace Allowlist"
     default_runbook = "Confirm with the acting user that this change was authorized."
     default_reference = "https://support.google.com/a/answer/6089179?hl=en"
-    default_severity = PantherSeverity.medium
-    log_types = [PantherLogType.GSuite_ActivityEvent]
+    default_severity = Severity.medium
+    log_types = [LogType.GSuite_ActivityEvent]
     id_ = "Google.Workspace.Apps.Marketplace.Allowlist-prototype"
     tests = google_workspace_apps_marketplace_allowlist_tests
 

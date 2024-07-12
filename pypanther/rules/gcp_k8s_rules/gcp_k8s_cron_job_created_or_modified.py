@@ -1,11 +1,11 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.gcp_base_helpers import gcp_alert_context
 from pypanther.helpers.panther_base_helpers import deep_get, deep_walk
 
-gcpgke_kubernetes_cron_job_created_or_modified_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+gcpgke_kubernetes_cron_job_created_or_modified_tests: List[RuleTest] = [
+    RuleTest(
         name="create",
         expected_result=True,
         log={
@@ -28,7 +28,7 @@ gcpgke_kubernetes_cron_job_created_or_modified_tests: List[PantherRuleTest] = [
             "timestamp": "2024-01-19 13:47:18.279921000",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="update",
         expected_result=True,
         log={
@@ -51,7 +51,7 @@ gcpgke_kubernetes_cron_job_created_or_modified_tests: List[PantherRuleTest] = [
             "timestamp": "2024-01-19 13:47:18.279921000",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="fail",
         expected_result=False,
         log={
@@ -77,12 +77,12 @@ gcpgke_kubernetes_cron_job_created_or_modified_tests: List[PantherRuleTest] = [
 ]
 
 
-class GCPGKEKubernetesCronJobCreatedOrModified(PantherRule):
+class GCPGKEKubernetesCronJobCreatedOrModified(Rule):
     id_ = "GCP.GKE.Kubernetes.Cron.Job.Created.Or.Modified-prototype"
     display_name = "GCP GKE Kubernetes Cron Job Created Or Modified"
     default_description = "This detection monitor for any modifications or creations of a cron job in GKE. Attackers may create or modify an existing scheduled job in order to achieve cluster persistence."
-    log_types = [PantherLogType.GCP_AuditLog]
-    default_severity = PantherSeverity.medium
+    log_types = [LogType.GCP_AuditLog]
+    default_severity = Severity.medium
     default_reference = "https://medium.com/snowflake/from-logs-to-detection-using-snowflake-and-panther-to-detect-k8s-threats-d72f70a504d7"
     default_runbook = "Investigate a reason of creating or modifying a cron job in GKE. Create ticket if appropriate."
     reports = {"MITRE ATT&CK": ["T1053.003"]}

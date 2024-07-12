@@ -1,10 +1,10 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import aws_guardduty_context, deep_get
 
-aws_guard_duty_high_severity_finding_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+aws_guard_duty_high_severity_finding_tests: List[RuleTest] = [
+    RuleTest(
         name="High Sev Finding",
         expected_result=True,
         log={
@@ -45,7 +45,7 @@ aws_guard_duty_high_severity_finding_tests: List[PantherRuleTest] = [
             "description": "Principal AssumedRole:IAMRole attempted to add a highly permissive policy to themselves.",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="High Sev Finding As Sample Data",
         expected_result=False,
         log={
@@ -89,12 +89,12 @@ aws_guard_duty_high_severity_finding_tests: List[PantherRuleTest] = [
 ]
 
 
-class AWSGuardDutyHighSeverityFinding(PantherRule):
+class AWSGuardDutyHighSeverityFinding(Rule):
     id_ = "AWS.GuardDuty.HighSeverityFinding-prototype"
     display_name = "AWS GuardDuty High Severity Finding"
-    log_types = [PantherLogType.AWS_GuardDuty]
+    log_types = [LogType.AWS_GuardDuty]
     tags = ["AWS"]
-    default_severity = PantherSeverity.high
+    default_severity = Severity.high
     default_description = "A high-severity GuardDuty finding has been identified.\n"
     default_runbook = "Search related logs to understand the root cause of the activity.\n"
     default_reference = "https://docs.aws.amazon.com/guardduty/latest/ug/guardduty_findings.html#guardduty_findings-severity"

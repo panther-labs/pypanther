@@ -1,10 +1,10 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get, deep_walk
 
-gcp_access_attempts_violating_vpc_service_controls_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+gcp_access_attempts_violating_vpc_service_controls_tests: List[RuleTest] = [
+    RuleTest(
         name="Other Event",
         expected_result=False,
         log={
@@ -87,7 +87,7 @@ gcp_access_attempts_violating_vpc_service_controls_tests: List[PantherRuleTest] 
             "timestamp": "2023-03-08 18:52:52.114",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="VPC control violation",
         expected_result=True,
         log={
@@ -169,14 +169,14 @@ gcp_access_attempts_violating_vpc_service_controls_tests: List[PantherRuleTest] 
 ]
 
 
-class GCPAccessAttemptsViolatingVPCServiceControls(PantherRule):
+class GCPAccessAttemptsViolatingVPCServiceControls(Rule):
     default_description = "An access attempt violating VPC service controls (such as Perimeter controls) has been made."
     display_name = "GCP Access Attempts Violating VPC Service Controls"
     default_reference = (
         "https://cloud.google.com/vpc-service-controls/docs/troubleshooting#debugging"
     )
-    default_severity = PantherSeverity.medium
-    log_types = [PantherLogType.GCP_AuditLog]
+    default_severity = Severity.medium
+    log_types = [LogType.GCP_AuditLog]
     id_ = "GCP.Access.Attempts.Violating.VPC.Service.Controls-prototype"
     tests = gcp_access_attempts_violating_vpc_service_controls_tests
 

@@ -1,10 +1,10 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 
-panther_detection_deleted_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+panther_detection_deleted_tests: List[RuleTest] = [
+    RuleTest(
         name="Delete 1 Detection",
         expected_result=True,
         log={
@@ -29,7 +29,7 @@ panther_detection_deleted_tests: List[PantherRuleTest] = [
             "timestamp": "2022-04-28 15:30:22.42",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Delete Many Detections",
         expected_result=True,
         log={
@@ -63,7 +63,7 @@ panther_detection_deleted_tests: List[PantherRuleTest] = [
             "timestamp": "2022-04-28 15:34:43.067",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Non-Delete event",
         expected_result=False,
         log={
@@ -87,11 +87,11 @@ panther_detection_deleted_tests: List[PantherRuleTest] = [
 ]
 
 
-class PantherDetectionDeleted(PantherRule):
+class PantherDetectionDeleted(Rule):
     id_ = "Panther.Detection.Deleted-prototype"
     display_name = "Detection content has been deleted from Panther"
-    log_types = [PantherLogType.Panther_Audit]
-    default_severity = PantherSeverity.info
+    log_types = [LogType.Panther_Audit]
+    default_severity = Severity.info
     tags = ["DataModel", "Defense Evasion:Impair Defenses"]
     reports = {"MITRE ATT&CK": ["TA0005:T1562"]}
     default_description = "Detection content has been removed from Panther."

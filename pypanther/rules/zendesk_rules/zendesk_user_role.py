@@ -1,11 +1,11 @@
 from typing import List
 
 import pypanther.helpers.panther_event_type_helpers as event_type
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import zendesk_get_roles
 
-zendesk_user_role_changed_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+zendesk_user_role_changed_tests: List[RuleTest] = [
+    RuleTest(
         name="Zendesk - Role Changed",
         expected_result=True,
         log={
@@ -24,7 +24,7 @@ zendesk_user_role_changed_tests: List[PantherRuleTest] = [
             "p_log_type": "Zendesk.Audit",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Zendesk - Admin Role Assigned",
         expected_result=False,
         log={
@@ -46,11 +46,11 @@ zendesk_user_role_changed_tests: List[PantherRuleTest] = [
 ]
 
 
-class ZendeskUserRoleChanged(PantherRule):
+class ZendeskUserRoleChanged(Rule):
     id_ = "Zendesk.UserRoleChanged-prototype"
     display_name = "Zendesk User Role Changed"
-    log_types = [PantherLogType.Zendesk_Audit]
-    default_severity = PantherSeverity.info
+    log_types = [LogType.Zendesk_Audit]
+    default_severity = Severity.info
     default_description = "A user's Zendesk role was changed"
     default_reference = "https://support.zendesk.com/hc/en-us/articles/4408824375450-Setting-roles-and-access-in-Zendesk-Admin-Center"
     summary_attributes = ["p_any_ip_addresses"]

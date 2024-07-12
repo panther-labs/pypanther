@@ -11,16 +11,15 @@ from unittest.mock import MagicMock, patch
 
 from jsonpath_ng import Fields
 from jsonpath_ng.ext import parse
-from panther_core.data_model import DataModel
 from panther_core.detection import DetectionResult
 from panther_core.enriched_event import PantherEvent
 from panther_core.exceptions import FunctionReturnTypeError, UnknownDestinationError
 from panther_core.util import get_bool_env_var
 from pydantic import BaseModel, NonNegativeInt, PositiveInt, TypeAdapter
 
-from pypanther.log_types import PantherLogType
-from pypanther.severity import SEVERITY_DEFAULT, SEVERITY_TYPES, PantherSeverity
-from pypanther.unit_tests import PantherRuleTest, PantherRuleTestResult
+from pypanther.log_types import LogType
+from pypanther.severity import SEVERITY_DEFAULT, SEVERITY_TYPES, Severity
+from pypanther.unit_tests import RuleTest, RuleTestResult
 from pypanther.utils import truncate, try_asdict
 from pypanther.validate import NonEmptyUniqueList, UniqueList
 
@@ -82,12 +81,12 @@ AUXILIARY_METHODS = (
     REPORTS_METHOD,
 )
 
-PANTHER_RULE_ALL_METHODS = [
+RULE_ALL_METHODS = [
     RULE_METHOD,
     *AUXILIARY_METHODS,
 ]
 
-PANTHER_RULE_ALL_ATTRS = [
+RULE_ALL_ATTRS = [
     "create_alert",
     "dedup_period_minutes",
     "display_name",
@@ -108,7 +107,36 @@ PANTHER_RULE_ALL_ATTRS = [
 ]
 
 
-class PantherRuleModel(BaseModel):
+@dataclass
+class DataModelMapping:
+    name: str
+    path: Optional[str] = None
+    method: Optional[Callable] = None
+
+
+class DataModel:
+    id_: str
+    display_name: str
+    enabled: bool
+    log_types: List[str]
+    mappings: List[DataModelMapping]
+
+    def __init__(self) -> None:
+        self.paths: Dict[str, Fields] = {}
+        self.methods: Dict[str, Callable] = {}
+
+        for mapping in self.mappings:
+            if not mapping.name:
+                raise AssertionError(f"DataModel [{self.id_}] is missing required field: [Name]")
+            if mapping.path:
+                self.paths[mapping.name] = parse(mapping.path)
+            elif mapping.method:
+                self.methods[mapping.name] = mapping.method
+            else:
+                raise AssertionError(f"DataModel [{self.id_}] must define one of: [Path, Method]")
+
+
+class RuleModel(BaseModel):
     create_alert: bool
     dedup_period_minutes: NonNegativeInt
     display_name: str
@@ -117,7 +145,7 @@ class PantherRuleModel(BaseModel):
     id_: str
     scheduled_queries: UniqueList[str]
     summary_attributes: UniqueList[str]
-    tests: List[PantherRuleTest]
+    tests: List[RuleTest]
     threshold: PositiveInt
     default_destinations: UniqueList[str]
     default_description: str
@@ -125,10 +153,10 @@ class PantherRuleModel(BaseModel):
     default_runbook: str
     default_reference: str
     default_reports: Dict[str, NonEmptyUniqueList[str]]
-    default_severity: PantherSeverity
+    default_severity: Severity
 
 
-PantherRuleAdapter = TypeAdapter(PantherRuleModel)
+RuleAdapter = TypeAdapter(RuleModel)
 
 DEFAULT_CREATE_ALERT = True
 DEFAULT_DEDUP_PERIOD_MINUTES = 60
@@ -142,16 +170,16 @@ DEFAULT_RUNBOOK = ""
 DEFAULT_SCHEDULED_QUERIES: List[str] = []
 DEFAULT_SUMMARY_ATTRIBUTES: List[str] = []
 DEFAULT_TAGS: List[str] = []
-DEFAULT_TESTS: List[PantherRuleTest] = []
+DEFAULT_TESTS: List[RuleTest] = []
 DEFAULT_THRESHOLD = 1
 
-SeverityType = Union[PantherSeverity | Literal["DEFAULT"] | str]
+SeverityType = Union[Severity | Literal["DEFAULT"] | str]
 
 
-class PantherRule(metaclass=abc.ABCMeta):
+class Rule(metaclass=abc.ABCMeta):
     """A Panther rule class. This class should be subclassed to create a new rule."""
 
-    log_types: List[PantherLogType | str]
+    log_types: List[LogType | str]
     id_: str
     create_alert: bool = DEFAULT_CREATE_ALERT
     dedup_period_minutes: NonNegativeInt = DEFAULT_DEDUP_PERIOD_MINUTES
@@ -159,10 +187,10 @@ class PantherRule(metaclass=abc.ABCMeta):
     enabled: bool = DEFAULT_ENABLED
     scheduled_queries: List[str] = DEFAULT_SCHEDULED_QUERIES
     summary_attributes: List[str] = DEFAULT_SUMMARY_ATTRIBUTES
-    tests: List[PantherRuleTest] = DEFAULT_TESTS
+    tests: List[RuleTest] = DEFAULT_TESTS
     threshold: PositiveInt = DEFAULT_THRESHOLD
 
-    default_severity: PantherSeverity | str
+    default_severity: Severity | str
     default_destinations: List[str] = DEFAULT_OUTPUT_IDS
     default_runbook: str = DEFAULT_RUNBOOK
     default_reference: str = DEFAULT_REFERENCE
@@ -210,7 +238,7 @@ class PantherRule(metaclass=abc.ABCMeta):
         child.Tags.append("Foo")
         parent.Tags.append("Foo") # not inherited by children of parent
         """
-        for attr in PANTHER_RULE_ALL_ATTRS:
+        for attr in RULE_ALL_ATTRS:
             if attr not in cls.__dict__:
                 try:
                     v = getattr(cls, attr)
@@ -224,15 +252,11 @@ class PantherRule(metaclass=abc.ABCMeta):
     @classmethod
     def asdict(cls):
         """Returns a dictionary representation of the class."""
-        return {
-            key: try_asdict(getattr(cls, key))
-            for key in PANTHER_RULE_ALL_ATTRS
-            if hasattr(cls, key)
-        }
+        return {key: try_asdict(getattr(cls, key)) for key in RULE_ALL_ATTRS if hasattr(cls, key)}
 
     @classmethod
     def validate(cls):
-        PantherRuleAdapter.validate_python(cls.asdict())
+        RuleAdapter.validate_python(cls.asdict())
 
         # instantiation confirms that abstract methods are implemented
         cls()
@@ -248,9 +272,9 @@ class PantherRule(metaclass=abc.ABCMeta):
         enabled: Optional[bool] = None,
         scheduled_queries: Optional[List[str]] = None,
         summary_attributes: Optional[List[str]] = None,
-        tests: Optional[List[PantherRuleTest]] = None,
+        tests: Optional[List[RuleTest]] = None,
         threshold: Optional[PositiveInt] = None,
-        default_severity: Optional[PantherSeverity] = None,
+        default_severity: Optional[Severity] = None,
         default_description: Optional[str] = None,
         default_reference: Optional[str] = None,
         default_reports: Optional[Dict[str, List[str]]] = None,
@@ -269,16 +293,15 @@ class PantherRule(metaclass=abc.ABCMeta):
     def run_tests(
         cls,
         get_data_model: Callable[[str], Optional[DataModel]],
-    ) -> list[PantherRuleTestResult]:
+    ) -> list[RuleTestResult]:
         """
-        Runs all PantherRuleTests in this PantherRules' Test attribute over this
-        PantherRule.
+        Runs all RuleTests in this Rules' Test attribute over this Rule.
 
         Parameters:
-            get_data_model: a helper function that will return a PantherDataModel given a log type.
+            get_data_model: a helper function that will return a DataModel given a log type.
 
         Returns:
-            a list of PantherRuleTestResult objects.
+            a list of RuleTestResult objects.
         """
         cls.validate()
         rule = cls()
@@ -287,18 +310,18 @@ class PantherRule(metaclass=abc.ABCMeta):
 
     def run_test(
         self,
-        test: PantherRuleTest,
+        test: RuleTest,
         get_data_model: Callable[[str], Optional[DataModel]],
-    ) -> PantherRuleTestResult:
+    ) -> RuleTestResult:
         """
-        Runs a unit test over this PantherRule.
+        Runs a unit test over this Rule.
 
         Parameters:
-            test: the PantherRuleTest to run.
-            get_data_model: a helper function that will return a PantherDataModel given a log type.
+            test: the RuleTest to run.
+            get_data_model: a helper function that will return a DataModel given a log type.
 
         Returns:
-            a PantherRuleTestResult with the test result. If the Passed attribute is True,
+            a RuleTestResult with the test result. If the Passed attribute is True,
             then this tests passed.
         """
         log = test.log_data()
@@ -323,7 +346,7 @@ class PantherRule(metaclass=abc.ABCMeta):
                 detection_result.detection_exception is not None
                 or detection_result.detection_output != test.expected_result
             ):
-                return PantherRuleTestResult(
+                return RuleTestResult(
                     passed=False,
                     detection_result=detection_result,
                     test=test,
@@ -346,7 +369,7 @@ class PantherRule(metaclass=abc.ABCMeta):
             }
 
             if any(True for _, exc in aux_func_exceptions.items() if exc is not None):
-                return PantherRuleTestResult(
+                return RuleTestResult(
                     passed=False,
                     detection_result=detection_result,
                     test=test,
@@ -357,7 +380,7 @@ class PantherRule(metaclass=abc.ABCMeta):
             for p in patches:
                 p.stop()
 
-        return PantherRuleTestResult(
+        return RuleTestResult(
             passed=True,
             detection_result=detection_result,
             test=test,
@@ -630,32 +653,3 @@ def suppress_output():
 @contextlib.contextmanager
 def noop():
     yield
-
-
-@dataclass
-class PantherDataModelMapping:
-    name: str
-    path: Optional[str] = None
-    method: Optional[Callable] = None
-
-
-class PantherDataModel:
-    id_: str
-    display_name: str
-    enabled: bool
-    log_types: List[str]
-    mappings: List[PantherDataModelMapping]
-
-    def __init__(self) -> None:
-        self.paths: Dict[str, Fields] = {}
-        self.methods: Dict[str, Callable] = {}
-
-        for mapping in self.mappings:
-            if not mapping.name:
-                raise AssertionError(f"DataModel [{self.id_}] is missing required field: [Name]")
-            if mapping.path:
-                self.paths[mapping.name] = parse(mapping.path)
-            elif mapping.method:
-                self.methods[mapping.name] = mapping.method
-            else:
-                raise AssertionError(f"DataModel [{self.id_}] must define one of: [Path, Method]")

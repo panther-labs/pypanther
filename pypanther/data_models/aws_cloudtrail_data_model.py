@@ -2,9 +2,9 @@ import ipaddress
 from typing import List
 
 import pypanther.helpers.panther_event_type_helpers as event_type
-from pypanther.base import PantherDataModel, PantherDataModelMapping
+from pypanther.base import DataModel, DataModelMapping
 from pypanther.helpers.panther_base_helpers import deep_get
-from pypanther.log_types import PantherLogType
+from pypanther.log_types import LogType
 
 
 def get_event_type(event):
@@ -42,16 +42,16 @@ def load_ip_address(event):
     return source_ip
 
 
-class StandardAWSCloudTrail(PantherDataModel):
+class StandardAWSCloudTrail(DataModel):
     id_: str = "Standard.AWS.CloudTrail"
     display_name: str = "AWS CloudTrail"
     enabled: bool = True
-    log_types: List[str] = [PantherLogType.AWS_CloudTrail]
-    mappings: List[PantherDataModelMapping] = [
-        PantherDataModelMapping(name="actor_user", path="$.userIdentity..userName"),
-        PantherDataModelMapping(name="event_type", method=get_event_type),
-        PantherDataModelMapping(name="source_ip", method=load_ip_address),
-        PantherDataModelMapping(name="user_agent", path="userAgent"),
-        PantherDataModelMapping(name="user", path="$.responseElements.user.userName"),
-        PantherDataModelMapping(name="user_account_id", path="$.responseElements.user.userId"),
+    log_types: List[str] = [LogType.AWS_CloudTrail]
+    mappings: List[DataModelMapping] = [
+        DataModelMapping(name="actor_user", path="$.userIdentity..userName"),
+        DataModelMapping(name="event_type", method=get_event_type),
+        DataModelMapping(name="source_ip", method=load_ip_address),
+        DataModelMapping(name="user_agent", path="userAgent"),
+        DataModelMapping(name="user", path="$.responseElements.user.userName"),
+        DataModelMapping(name="user_account_id", path="$.responseElements.user.userId"),
     ]

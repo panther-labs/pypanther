@@ -1,10 +1,10 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import slack_alert_context
 
-slack_audit_logs_ekm_unenrolled_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+slack_audit_logs_ekm_unenrolled_tests: List[RuleTest] = [
+    RuleTest(
         name="EKM Unenrolled",
         expected_result=True,
         log={
@@ -30,7 +30,7 @@ slack_audit_logs_ekm_unenrolled_tests: List[PantherRuleTest] = [
             },
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="User Logout",
         expected_result=False,
         log={
@@ -70,13 +70,13 @@ slack_audit_logs_ekm_unenrolled_tests: List[PantherRuleTest] = [
 ]
 
 
-class SlackAuditLogsEKMUnenrolled(PantherRule):
+class SlackAuditLogsEKMUnenrolled(Rule):
     id_ = "Slack.AuditLogs.EKMUnenrolled-prototype"
     display_name = "Slack EKM Unenrolled"
-    log_types = [PantherLogType.Slack_AuditLogs]
+    log_types = [LogType.Slack_AuditLogs]
     tags = ["Slack", "Defense Evasion", "Weaken Encryption"]
     reports = {"MITRE ATT&CK": ["TA0005:T1600"]}
-    default_severity = PantherSeverity.critical
+    default_severity = Severity.critical
     default_description = "Detects when a workspace is no longer enrolled or managed by EKM"
     default_reference = (
         "https://slack.com/intl/en-gb/help/articles/360019110974-Slack-Enterprise-Key-Management"

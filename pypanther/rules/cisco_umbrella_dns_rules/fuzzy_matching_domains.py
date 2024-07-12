@@ -1,18 +1,18 @@
 from difflib import SequenceMatcher
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 
 
-class CiscoUmbrellaDNSFuzzyMatching(PantherRule):
+class CiscoUmbrellaDNSFuzzyMatching(Rule):
     id_ = "CiscoUmbrella.DNS.FuzzyMatching-prototype"
     display_name = "Cisco Umbrella Domain Name Fuzzy Matching"
     enabled = False
     dedup_period_minutes = 15
-    log_types = [PantherLogType.CiscoUmbrella_DNS]
+    log_types = [LogType.CiscoUmbrella_DNS]
     tags = ["Configuration Required", "DNS"]
     default_reference = "https://umbrella.cisco.com/blog/abcs-of-dns"
-    default_severity = PantherSeverity.medium
+    default_severity = Severity.medium
     default_description = (
         "Identify lookups to suspicious domains that could indicate a phishing attack."
     )

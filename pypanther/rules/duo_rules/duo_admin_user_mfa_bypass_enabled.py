@@ -1,13 +1,13 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_duo_helpers import (
     deserialize_administrator_log_event_description,
     duo_alert_context,
 )
 
-duo_admin_user_mfa_bypass_enabled_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+duo_admin_user_mfa_bypass_enabled_tests: List[RuleTest] = [
+    RuleTest(
         name="Account Active",
         expected_result=False,
         log={
@@ -19,7 +19,7 @@ duo_admin_user_mfa_bypass_enabled_tests: List[PantherRuleTest] = [
             "username": "Homer Simpson",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Account Disabled",
         expected_result=False,
         log={
@@ -31,7 +31,7 @@ duo_admin_user_mfa_bypass_enabled_tests: List[PantherRuleTest] = [
             "username": "Homer Simpson",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Bypass Enabled",
         expected_result=True,
         log={
@@ -43,7 +43,7 @@ duo_admin_user_mfa_bypass_enabled_tests: List[PantherRuleTest] = [
             "username": "Homer Simpson",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Phones Update",
         expected_result=False,
         log={
@@ -58,12 +58,12 @@ duo_admin_user_mfa_bypass_enabled_tests: List[PantherRuleTest] = [
 ]
 
 
-class DuoAdminUserMFABypassEnabled(PantherRule):
+class DuoAdminUserMFABypassEnabled(Rule):
     default_description = "An Administrator enabled a user to authenticate without MFA."
     display_name = "Duo Admin User MFA Bypass Enabled"
     default_reference = "https://duo.com/docs/policy#authentication-policy"
-    default_severity = PantherSeverity.medium
-    log_types = [PantherLogType.Duo_Administrator]
+    default_severity = Severity.medium
+    log_types = [LogType.Duo_Administrator]
     id_ = "Duo.Admin.User.MFA.Bypass.Enabled-prototype"
     tests = duo_admin_user_mfa_bypass_enabled_tests
 

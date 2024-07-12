@@ -1,10 +1,10 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import aws_rule_context, deep_get
 
-awsec2_traffic_mirroring_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+awsec2_traffic_mirroring_tests: List[RuleTest] = [
+    RuleTest(
         name="CreateTrafficMirrorFilter",
         expected_result=True,
         log={
@@ -79,7 +79,7 @@ awsec2_traffic_mirroring_tests: List[PantherRuleTest] = [
             },
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="CreateTrafficMirrorFilterRule",
         expected_result=True,
         log={
@@ -164,7 +164,7 @@ awsec2_traffic_mirroring_tests: List[PantherRuleTest] = [
             },
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="CreateTrafficMirrorSession",
         expected_result=True,
         log={
@@ -231,7 +231,7 @@ awsec2_traffic_mirroring_tests: List[PantherRuleTest] = [
             },
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="CreateTrafficMirrorTarget",
         expected_result=True,
         log={
@@ -307,7 +307,7 @@ awsec2_traffic_mirroring_tests: List[PantherRuleTest] = [
             },
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="DeleteTrafficMirrorTarget",
         expected_result=True,
         log={
@@ -375,7 +375,7 @@ awsec2_traffic_mirroring_tests: List[PantherRuleTest] = [
             },
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="DescribeTrafficMirrorTargets",
         expected_result=True,
         log={
@@ -432,7 +432,7 @@ awsec2_traffic_mirroring_tests: List[PantherRuleTest] = [
             },
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="ModifyTrafficMirrorSession",
         expected_result=True,
         log={
@@ -517,7 +517,7 @@ awsec2_traffic_mirroring_tests: List[PantherRuleTest] = [
             },
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="UnrelatedEvent",
         expected_result=False,
         log={
@@ -558,7 +558,7 @@ awsec2_traffic_mirroring_tests: List[PantherRuleTest] = [
             },
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="AWS Config Runs DescribeTrafficMirrorTargets",
         expected_result=False,
         log={
@@ -603,14 +603,14 @@ awsec2_traffic_mirroring_tests: List[PantherRuleTest] = [
 ]
 
 
-class AWSEC2TrafficMirroring(PantherRule):
+class AWSEC2TrafficMirroring(Rule):
     default_description = "This rule captures multiple traffic mirroring events in AWS Cloudtrail."
     display_name = "AWS EC2 Traffic Mirroring"
     default_reference = "https://attack.mitre.org/techniques/T1040/"
     default_runbook = "Examine other activities done by this user to determine whether or not activity is suspicious. If your network traffic is not encrypted, we recommend changing the severity to high or critical."
-    default_severity = PantherSeverity.medium
+    default_severity = Severity.medium
     tags = ["AWS", "Cloudtrail", "MITRE"]
-    log_types = [PantherLogType.AWS_CloudTrail]
+    log_types = [LogType.AWS_CloudTrail]
     id_ = "AWS.EC2.Traffic.Mirroring-prototype"
     summary_attributes = ["userIdentity.type"]
     tests = awsec2_traffic_mirroring_tests

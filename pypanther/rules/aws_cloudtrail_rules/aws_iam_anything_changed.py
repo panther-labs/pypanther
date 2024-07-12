@@ -1,11 +1,11 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import aws_rule_context
 from pypanther.helpers.panther_default import aws_cloudtrail_success
 
-aws_cloud_trail_iam_anything_changed_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+aws_cloud_trail_iam_anything_changed_tests: List[RuleTest] = [
+    RuleTest(
         name="IAM Change",
         expected_result=True,
         log={
@@ -49,7 +49,7 @@ aws_cloud_trail_iam_anything_changed_tests: List[PantherRuleTest] = [
             },
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="IAM Read Only Activity",
         expected_result=False,
         log={
@@ -90,7 +90,7 @@ aws_cloud_trail_iam_anything_changed_tests: List[PantherRuleTest] = [
             },
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Error Making IAM Change",
         expected_result=False,
         log={
@@ -138,12 +138,12 @@ aws_cloud_trail_iam_anything_changed_tests: List[PantherRuleTest] = [
 ]
 
 
-class AWSCloudTrailIAMAnythingChanged(PantherRule):
+class AWSCloudTrailIAMAnythingChanged(Rule):
     id_ = "AWS.CloudTrail.IAMAnythingChanged-prototype"
     display_name = "IAM Change"
-    log_types = [PantherLogType.AWS_CloudTrail]
+    log_types = [LogType.AWS_CloudTrail]
     tags = ["AWS", "Identity and Access Management"]
-    default_severity = PantherSeverity.info
+    default_severity = Severity.info
     dedup_period_minutes = 720
     default_description = "A change occurred in the IAM configuration. This could be a resource being created, deleted, or modified. This is a high level view of changes, helfpul to indicate how dynamic a certain IAM environment is.\n"
     default_runbook = "Ensure this was an approved IAM configuration change.\n"

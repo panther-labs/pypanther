@@ -1,15 +1,15 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 
-g_suite_google_access_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+g_suite_google_access_tests: List[RuleTest] = [
+    RuleTest(
         name="Normal Login Event",
         expected_result=False,
         log={"id": {"applicationName": "login"}, "type": "login"},
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Resource Accessed by Google",
         expected_result=True,
         log={
@@ -20,12 +20,12 @@ g_suite_google_access_tests: List[PantherRuleTest] = [
 ]
 
 
-class GSuiteGoogleAccess(PantherRule):
+class GSuiteGoogleAccess(Rule):
     id_ = "GSuite.GoogleAccess-prototype"
     display_name = "Google Accessed a GSuite Resource"
-    log_types = [PantherLogType.GSuite_ActivityEvent]
+    log_types = [LogType.GSuite_ActivityEvent]
     tags = ["GSuite"]
-    default_severity = PantherSeverity.low
+    default_severity = Severity.low
     default_description = "Google accessed one of your GSuite resources directly, most likely in response to a support incident.\n"
     default_reference = "https://support.google.com/a/answer/9230474?hl=en"
     default_runbook = "Your GSuite Super Admin can visit the Access Transparency report in the GSuite Admin Dashboard to see more details about the access.\n"

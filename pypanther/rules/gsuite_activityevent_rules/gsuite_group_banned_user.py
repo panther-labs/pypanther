@@ -1,10 +1,10 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 
-g_suite_group_banned_user_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+g_suite_group_banned_user_tests: List[RuleTest] = [
+    RuleTest(
         name="User Added",
         expected_result=False,
         log={
@@ -14,7 +14,7 @@ g_suite_group_banned_user_tests: List[PantherRuleTest] = [
             "name": "add_member",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="User Banned from Group",
         expected_result=True,
         log={
@@ -27,12 +27,12 @@ g_suite_group_banned_user_tests: List[PantherRuleTest] = [
 ]
 
 
-class GSuiteGroupBannedUser(PantherRule):
+class GSuiteGroupBannedUser(Rule):
     id_ = "GSuite.GroupBannedUser-prototype"
     display_name = "GSuite User Banned from Group"
-    log_types = [PantherLogType.GSuite_ActivityEvent]
+    log_types = [LogType.GSuite_ActivityEvent]
     tags = ["GSuite"]
-    default_severity = PantherSeverity.low
+    default_severity = Severity.low
     default_description = "A GSuite user was banned from an enterprise group by moderator action.\n"
     default_reference = (
         "https://support.google.com/a/users/answer/9303224?hl=en&sjid=864417124752637253-EU"

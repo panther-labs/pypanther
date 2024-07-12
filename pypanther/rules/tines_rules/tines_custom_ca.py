@@ -1,11 +1,11 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 from pypanther.helpers.panther_tines_helpers import tines_alert_context
 
-tines_custom_certificate_authority_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+tines_custom_certificate_authority_tests: List[RuleTest] = [
+    RuleTest(
         name="Tines Login",
         expected_result=False,
         log={
@@ -20,7 +20,7 @@ tines_custom_certificate_authority_tests: List[PantherRuleTest] = [
             "user_name": "user at company dot com",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Tines Custom CA set",
         expected_result=True,
         log={
@@ -39,13 +39,13 @@ tines_custom_certificate_authority_tests: List[PantherRuleTest] = [
 ]
 
 
-class TinesCustomCertificateAuthority(PantherRule):
+class TinesCustomCertificateAuthority(Rule):
     id_ = "Tines.Custom.CertificateAuthority-prototype"
     display_name = "Tines Custom CertificateAuthority setting changed"
-    log_types = [PantherLogType.Tines_Audit]
+    log_types = [LogType.Tines_Audit]
     tags = ["Tines", "IAM - Credential Security"]
     default_reference = "https://www.tines.com/docs/admin/custom-certificate-authority"
-    default_severity = PantherSeverity.high
+    default_severity = Severity.high
     default_description = "Detects when Tines Custom CertificateAuthority settings are changed\n"
     summary_attributes = ["user_id", "operation_name", "tenant_id", "request_ip"]
     tests = tines_custom_certificate_authority_tests

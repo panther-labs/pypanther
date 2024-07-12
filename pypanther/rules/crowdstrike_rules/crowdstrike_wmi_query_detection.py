@@ -1,10 +1,10 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import crowdstrike_detection_alert_context, deep_get
 
-crowdstrike_wmi_query_detection_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+crowdstrike_wmi_query_detection_tests: List[RuleTest] = [
+    RuleTest(
         name="Benign wmic",
         expected_result=False,
         log={
@@ -86,7 +86,7 @@ crowdstrike_wmi_query_detection_tests: List[PantherRuleTest] = [
             "treeid": "4295752857",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Other",
         expected_result=False,
         log={
@@ -168,7 +168,7 @@ crowdstrike_wmi_query_detection_tests: List[PantherRuleTest] = [
             "treeid": "4295752857",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="wmic get name password",
         expected_result=True,
         log={
@@ -250,7 +250,7 @@ crowdstrike_wmi_query_detection_tests: List[PantherRuleTest] = [
             "treeid": "4295752857",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="wmic process create",
         expected_result=True,
         log={
@@ -335,13 +335,13 @@ crowdstrike_wmi_query_detection_tests: List[PantherRuleTest] = [
 ]
 
 
-class CrowdstrikeWMIQueryDetection(PantherRule):
+class CrowdstrikeWMIQueryDetection(Rule):
     default_description = "Detects execution of WMI queries involving information gathering or actions on remote systems, which could indicate reconnaissance or lateral movement."
     display_name = "Crowdstrike WMI Query Detection"
     default_runbook = "Investigate the endpoint for signs of WMI query execution. Review the executed query and the associated user account."
     default_reference = "https://learn.microsoft.com/en-us/windows/win32/wmisdk/querying-wmi"
-    default_severity = PantherSeverity.low
-    log_types = [PantherLogType.Crowdstrike_FDREvent]
+    default_severity = Severity.low
+    log_types = [LogType.Crowdstrike_FDREvent]
     id_ = "Crowdstrike.WMI.Query.Detection-prototype"
     tests = crowdstrike_wmi_query_detection_tests
     WMIC_SIGNATURES = [

@@ -1,9 +1,9 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 
-git_hub_repo_hook_modified_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+git_hub_repo_hook_modified_tests: List[RuleTest] = [
+    RuleTest(
         name="GitHub - Webhook Created",
         expected_result=True,
         log={
@@ -18,7 +18,7 @@ git_hub_repo_hook_modified_tests: List[PantherRuleTest] = [
             "repository": "my-org/my-repo",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="GitHub - Webhook Deleted",
         expected_result=True,
         log={
@@ -33,7 +33,7 @@ git_hub_repo_hook_modified_tests: List[PantherRuleTest] = [
             "repository": "my-org/my-repo",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="GitHub - Non Webhook Event",
         expected_result=False,
         log={
@@ -47,14 +47,14 @@ git_hub_repo_hook_modified_tests: List[PantherRuleTest] = [
 ]
 
 
-class GitHubRepoHookModified(PantherRule):
+class GitHubRepoHookModified(Rule):
     id_ = "GitHub.Repo.HookModified-prototype"
     display_name = "GitHub Web Hook Modified"
-    log_types = [PantherLogType.GitHub_Audit]
+    log_types = [LogType.GitHub_Audit]
     tags = ["GitHub", "Exfiltration:Automated Exfiltration"]
     reports = {"MITRE ATT&CK": ["TA0010:T1020"]}
     default_reference = "https://docs.github.com/en/webhooks/about-webhooks"
-    default_severity = PantherSeverity.info
+    default_severity = Severity.info
     default_description = (
         "Detects when a web hook is added, modified, or deleted in an org repository."
     )

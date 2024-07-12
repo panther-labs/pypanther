@@ -1,14 +1,14 @@
 from datetime import datetime, timedelta
 from typing import Dict, List, Tuple
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import (
     golang_nanotime_to_python_datetime,
     panther_nanotime_to_python_datetime,
 )
 
-teleport_long_lived_certs_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+teleport_long_lived_certs_tests: List[RuleTest] = [
+    RuleTest(
         name="A certificate was created for the default period of 1 hour",
         expected_result=False,
         log={
@@ -38,7 +38,7 @@ teleport_long_lived_certs_tests: List[PantherRuleTest] = [
             "uid": "88888888-4444-4444-4444-222222222222",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="A certificate was created for longer than the default period of 1 hour",
         expected_result=True,
         log={
@@ -71,12 +71,12 @@ teleport_long_lived_certs_tests: List[PantherRuleTest] = [
 ]
 
 
-class TeleportLongLivedCerts(PantherRule):
+class TeleportLongLivedCerts(Rule):
     id_ = "Teleport.LongLivedCerts-prototype"
     display_name = "A long-lived cert was created"
-    log_types = [PantherLogType.Gravitational_TeleportAudit]
+    log_types = [LogType.Gravitational_TeleportAudit]
     tags = ["Teleport"]
-    default_severity = PantherSeverity.medium
+    default_severity = Severity.medium
     default_description = "An unusually long-lived Teleport certificate was created"
     reports = {"MITRE ATT&CK": ["TA0003:T1098"]}
     default_reference = "https://goteleport.com/docs/management/admin/"

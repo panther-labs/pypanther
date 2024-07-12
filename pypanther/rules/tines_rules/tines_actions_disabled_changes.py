@@ -1,11 +1,11 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 from pypanther.helpers.panther_tines_helpers import tines_alert_context
 
-tines_actions_disabled_changes_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+tines_actions_disabled_changes_tests: List[RuleTest] = [
+    RuleTest(
         name="Tines Actions Disabled Change",
         expected_result=True,
         log={
@@ -20,7 +20,7 @@ tines_actions_disabled_changes_tests: List[PantherRuleTest] = [
             "user_name": "user at company dot com",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Tines Login",
         expected_result=False,
         log={
@@ -38,13 +38,13 @@ tines_actions_disabled_changes_tests: List[PantherRuleTest] = [
 ]
 
 
-class TinesActionsDisabledChanges(PantherRule):
+class TinesActionsDisabledChanges(Rule):
     id_ = "Tines.Actions.DisabledChanges-prototype"
     display_name = "Tines Actions Disabled Change"
-    log_types = [PantherLogType.Tines_Audit]
+    log_types = [LogType.Tines_Audit]
     tags = ["Tines"]
     default_reference = "https://www.tines.com/university/tines-basics/architecture-of-an-action"
-    default_severity = PantherSeverity.medium
+    default_severity = Severity.medium
     default_description = "Detections when Tines Actions are set to Disabled Change\n"
     summary_attributes = ["user_id", "operation_name", "tenant_id", "request_ip"]
     tests = tines_actions_disabled_changes_tests

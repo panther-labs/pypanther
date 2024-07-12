@@ -1,10 +1,10 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 
-g_suite_workspace_trusted_domains_allowlist_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+g_suite_workspace_trusted_domains_allowlist_tests: List[RuleTest] = [
+    RuleTest(
         name="Workspace Admin Remove Trusted Domain",
         expected_result=True,
         log={
@@ -26,7 +26,7 @@ g_suite_workspace_trusted_domains_allowlist_tests: List[PantherRuleTest] = [
             "type": "DOMAIN_SETTINGS",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Workspace Admin Add Trusted Domain",
         expected_result=True,
         log={
@@ -47,7 +47,7 @@ g_suite_workspace_trusted_domains_allowlist_tests: List[PantherRuleTest] = [
             "type": "DOMAIN_SETTINGS",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Admin Set Default Calendar SHARING_OUTSIDE_DOMAIN Setting to MANAGE_ACCESS",
         expected_result=False,
         log={
@@ -75,7 +75,7 @@ g_suite_workspace_trusted_domains_allowlist_tests: List[PantherRuleTest] = [
             "type": "CALENDAR_SETTINGS",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="ListObject Type",
         expected_result=False,
         log={
@@ -110,12 +110,12 @@ g_suite_workspace_trusted_domains_allowlist_tests: List[PantherRuleTest] = [
 ]
 
 
-class GSuiteWorkspaceTrustedDomainsAllowlist(PantherRule):
+class GSuiteWorkspaceTrustedDomainsAllowlist(Rule):
     id_ = "GSuite.Workspace.TrustedDomainsAllowlist-prototype"
     display_name = "GSuite Workspace Trusted Domain Allowlist Modified"
-    log_types = [PantherLogType.GSuite_ActivityEvent]
+    log_types = [LogType.GSuite_ActivityEvent]
     tags = ["GSuite"]
-    default_severity = PantherSeverity.medium
+    default_severity = Severity.medium
     default_description = "A Workspace Admin Has Modified The Trusted Domains List\n"
     default_reference = (
         "https://support.google.com/a/answer/6160020?hl=en&sjid=864417124752637253-EU"

@@ -1,10 +1,10 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import aws_rule_context, deep_get
 
-awsecrevents_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+awsecrevents_tests: List[RuleTest] = [
+    RuleTest(
         name="Authorized account, unauthorized region",
         expected_result=True,
         log={
@@ -58,7 +58,7 @@ awsecrevents_tests: List[PantherRuleTest] = [
             "recipientAccountId": "123456789012",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Unauthorized account",
         expected_result=True,
         log={
@@ -112,7 +112,7 @@ awsecrevents_tests: List[PantherRuleTest] = [
             "recipientAccountId": "123456789000",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Authorized account",
         expected_result=False,
         log={
@@ -169,14 +169,14 @@ awsecrevents_tests: List[PantherRuleTest] = [
 ]
 
 
-class AWSECREVENTS(PantherRule):
+class AWSECREVENTS(Rule):
     id_ = "AWS.ECR.EVENTS-prototype"
     display_name = "AWS ECR Events"
     enabled = False
-    log_types = [PantherLogType.AWS_CloudTrail]
+    log_types = [LogType.AWS_CloudTrail]
     tags = ["AWS", "Security Control", "Configuration Required"]
     reports = {"MITRE ATT&CK": ["TA0005:T1535"]}
-    default_severity = PantherSeverity.medium
+    default_severity = Severity.medium
     default_description = "An ECR event occurred outside of an expected account or region"
     default_runbook = (
         "https://docs.aws.amazon.com/AmazonECR/latest/userguide/logging-using-cloudtrail.html"

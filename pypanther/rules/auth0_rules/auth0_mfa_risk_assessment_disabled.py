@@ -1,11 +1,11 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_auth0_helpers import auth0_alert_context, is_auth0_config_event
 from pypanther.helpers.panther_base_helpers import deep_get
 
-auth0_mfa_risk_assessment_disabled_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+auth0_mfa_risk_assessment_disabled_tests: List[RuleTest] = [
+    RuleTest(
         name="Other Event",
         expected_result=False,
         log={
@@ -191,7 +191,7 @@ auth0_mfa_risk_assessment_disabled_tests: List[PantherRuleTest] = [
             "p_source_label": "Org Tenant Label",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Risk Assessment Disabled",
         expected_result=True,
         log={
@@ -387,15 +387,15 @@ auth0_mfa_risk_assessment_disabled_tests: List[PantherRuleTest] = [
 ]
 
 
-class Auth0MFARiskAssessmentDisabled(PantherRule):
+class Auth0MFARiskAssessmentDisabled(Rule):
     default_description = (
         "An Auth0 User disabled the mfa risk assessment setting for your organization's tenant."
     )
     display_name = "Auth0 MFA Risk Assessment Disabled"
     default_runbook = "Assess if this was done by the user for a valid business reason. Be vigilant to re-enable this setting as it's in the best security interest for your organization's security posture."
     default_reference = "https://auth0.com/docs/secure/multi-factor-authentication/enable-mfa#:~:text=Always%20policy%2C%20the-,MFA%20Risk%20Assessors,-section%20appears.%20By"
-    default_severity = PantherSeverity.high
-    log_types = [PantherLogType.Auth0_Events]
+    default_severity = Severity.high
+    log_types = [LogType.Auth0_Events]
     id_ = "Auth0.MFA.Risk.Assessment.Disabled-prototype"
     tests = auth0_mfa_risk_assessment_disabled_tests
 

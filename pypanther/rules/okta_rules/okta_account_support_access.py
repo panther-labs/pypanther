@@ -1,9 +1,9 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 
-okta_support_access_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+okta_support_access_tests: List[RuleTest] = [
+    RuleTest(
         name="Support Access Granted",
         expected_result=True,
         log={
@@ -32,7 +32,7 @@ okta_support_access_tests: List[PantherRuleTest] = [
             "p_log_type": "Okta.SystemLog",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Login Event",
         expected_result=False,
         log={
@@ -62,10 +62,10 @@ okta_support_access_tests: List[PantherRuleTest] = [
 ]
 
 
-class OktaSupportAccess(PantherRule):
+class OktaSupportAccess(Rule):
     id_ = "Okta.Support.Access-prototype"
     display_name = "Okta Support Access Granted"
-    log_types = [PantherLogType.Okta_SystemLog]
+    log_types = [LogType.Okta_SystemLog]
     tags = [
         "Identity & Access Management",
         "DataModel",
@@ -73,7 +73,7 @@ class OktaSupportAccess(PantherRule):
         "Initial Access:Trusted Relationship",
     ]
     reports = {"MITRE ATT&CK": ["TA0001:T1199"]}
-    default_severity = PantherSeverity.medium
+    default_severity = Severity.medium
     default_description = "An admin user has granted access to Okta Support to your account"
     default_reference = (
         "https://help.okta.com/en/prod/Content/Topics/Settings/settings-support-access.htm"

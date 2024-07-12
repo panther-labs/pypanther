@@ -1,11 +1,11 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 from pypanther.helpers.panther_notion_helpers import notion_alert_context
 
-notion_workspace_public_page_added_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+notion_workspace_public_page_added_tests: List[RuleTest] = [
+    RuleTest(
         name="Public page added",
         expected_result=True,
         log={
@@ -31,7 +31,7 @@ notion_workspace_public_page_added_tests: List[PantherRuleTest] = [
             }
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Workspace Exported",
         expected_result=False,
         log={
@@ -64,12 +64,12 @@ notion_workspace_public_page_added_tests: List[PantherRuleTest] = [
 ]
 
 
-class NotionWorkspacePublicPageAdded(PantherRule):
+class NotionWorkspacePublicPageAdded(Rule):
     id_ = "Notion.Workspace.Public.Page.Added-prototype"
     display_name = "Notion Workspace public page added"
-    log_types = [PantherLogType.Notion_AuditLogs]
+    log_types = [LogType.Notion_AuditLogs]
     tags = ["Notion", "Data Security", "Information Disclosure"]
-    default_severity = PantherSeverity.info
+    default_severity = Severity.info
     default_description = "A Notion page was set to public in your worksace."
     default_runbook = "A Notion page was made public. Check with the author to determine why this page was made public."
     default_reference = "https://www.notion.so/help/public-pages-and-web-publishing"

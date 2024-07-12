@@ -1,10 +1,10 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 
-gcp_unused_regions_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+gcp_unused_regions_tests: List[RuleTest] = [
+    RuleTest(
         name="GCE Instance Terminated",
         expected_result=False,
         log={
@@ -40,7 +40,7 @@ gcp_unused_regions_tests: List[PantherRuleTest] = [
             },
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="GCE Create Instance in SouthAmerica",
         expected_result=True,
         log={
@@ -76,7 +76,7 @@ gcp_unused_regions_tests: List[PantherRuleTest] = [
             "receiveTimestamp": "2020-05-15T17:15:43.377082868Z",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Create GCS in Asia",
         expected_result=True,
         log={
@@ -161,7 +161,7 @@ gcp_unused_regions_tests: List[PantherRuleTest] = [
             "receiveTimestamp": "2020-05-15T17:25:09.393448555Z",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="BigQuery access log (does not have standard attribute: resource.labels.location)",
         expected_result=False,
         log={
@@ -234,12 +234,12 @@ gcp_unused_regions_tests: List[PantherRuleTest] = [
 ]
 
 
-class GCPUnusedRegions(PantherRule):
+class GCPUnusedRegions(Rule):
     id_ = "GCP.UnusedRegions-prototype"
     display_name = "GCP Resource in Unused Region"
     enabled = False
     dedup_period_minutes = 15
-    log_types = [PantherLogType.GCP_AuditLog]
+    log_types = [LogType.GCP_AuditLog]
     tags = [
         "GCP",
         "Database",
@@ -247,7 +247,7 @@ class GCPUnusedRegions(PantherRule):
         "Defense Evasion:Unused/Unsupported Cloud Regions",
     ]
     reports = {"MITRE ATT&CK": ["TA0005:T1535"]}
-    default_severity = PantherSeverity.medium
+    default_severity = Severity.medium
     default_description = "Adversaries may create cloud instances in unused geographic service regions in order to evade detection.\n"
     default_runbook = "Validate the user making the request and the resource created."
     default_reference = "https://cloud.google.com/docs/geography-and-regions"

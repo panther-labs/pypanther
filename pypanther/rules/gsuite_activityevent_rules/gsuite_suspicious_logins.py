@@ -1,10 +1,10 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 
-g_suite_suspicious_logins_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+g_suite_suspicious_logins_tests: List[RuleTest] = [
+    RuleTest(
         name="Normal Login Event",
         expected_result=False,
         log={
@@ -15,7 +15,7 @@ g_suite_suspicious_logins_tests: List[PantherRuleTest] = [
             "parameters": {"affected_email_address": "bobert@ext.runpanther.io"},
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Account Warning Not For Suspicious Login",
         expected_result=False,
         log={
@@ -26,7 +26,7 @@ g_suite_suspicious_logins_tests: List[PantherRuleTest] = [
             "parameters": {"affected_email_address": "bobert@ext.runpanther.io"},
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Account Warning For Suspicious Login",
         expected_result=True,
         log={
@@ -40,12 +40,12 @@ g_suite_suspicious_logins_tests: List[PantherRuleTest] = [
 ]
 
 
-class GSuiteSuspiciousLogins(PantherRule):
+class GSuiteSuspiciousLogins(Rule):
     id_ = "GSuite.SuspiciousLogins-prototype"
     display_name = "Suspicious GSuite Login"
-    log_types = [PantherLogType.GSuite_ActivityEvent]
+    log_types = [LogType.GSuite_ActivityEvent]
     tags = ["GSuite"]
-    default_severity = PantherSeverity.medium
+    default_severity = Severity.medium
     default_description = "GSuite reported a suspicious login for this user.\n"
     default_reference = "https://support.google.com/a/answer/7102416?hl=en"
     default_runbook = "Checkout the details of the login and verify this behavior with the user to ensure the account wasn't compromised.\n"

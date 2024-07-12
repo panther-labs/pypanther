@@ -2,12 +2,12 @@ import json
 from typing import List
 from unittest.mock import MagicMock
 
-from pypanther import PantherLogType, PantherRule, PantherRuleMock, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 from pypanther.helpers.panther_config import config
 
-dropbox_ownership_transfer_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+dropbox_ownership_transfer_tests: List[RuleTest] = [
+    RuleTest(
         name="Folder Ownership Transfer to External",
         expected_result=True,
         log={
@@ -91,7 +91,7 @@ dropbox_ownership_transfer_tests: List[PantherRuleTest] = [
             "timestamp": "2023-04-18 18:54:15",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Other",
         expected_result=False,
         log={
@@ -152,11 +152,11 @@ dropbox_ownership_transfer_tests: List[PantherRuleTest] = [
             "timestamp": "2023-04-18 18:16:27",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Folder Ownership Transfer to Internal",
         expected_result=True,
         mocks=[
-            PantherRuleMock(
+            RuleMock(
                 object_name="DROPBOX_TRUSTED_OWNERSHIP_DOMAINS",
                 return_value='[\n    "example.com"\n]',
             )
@@ -245,12 +245,12 @@ dropbox_ownership_transfer_tests: List[PantherRuleTest] = [
 ]
 
 
-class DropboxOwnershipTransfer(PantherRule):
+class DropboxOwnershipTransfer(Rule):
     default_description = "Dropbox ownership of a document or folder has been transferred."
     display_name = "Dropbox Document/Folder Ownership Transfer"
     default_reference = "https://help.dropbox.com/share/owner"
-    default_severity = PantherSeverity.high
-    log_types = [PantherLogType.Dropbox_TeamEvent]
+    default_severity = Severity.high
+    log_types = [LogType.Dropbox_TeamEvent]
     id_ = "Dropbox.Ownership.Transfer-prototype"
     tests = dropbox_ownership_transfer_tests
     DROPBOX_TRUSTED_OWNERSHIP_DOMAINS = config.DROPBOX_TRUSTED_OWNERSHIP_DOMAINS

@@ -1,11 +1,11 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 from pypanther.helpers.panther_tines_helpers import tines_alert_context
 
-tines_enqueued_retrying_job_destruction_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+tines_enqueued_retrying_job_destruction_tests: List[RuleTest] = [
+    RuleTest(
         name="Trigger - JobsQueuedDeletion",
         expected_result=True,
         log={
@@ -21,7 +21,7 @@ tines_enqueued_retrying_job_destruction_tests: List[PantherRuleTest] = [
             "user_name": "Tines User Person",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Trigger - JobsRetryingDeletion",
         expected_result=True,
         log={
@@ -37,7 +37,7 @@ tines_enqueued_retrying_job_destruction_tests: List[PantherRuleTest] = [
             "user_name": "Tines User Person",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Tines Login",
         expected_result=False,
         log={
@@ -56,12 +56,12 @@ tines_enqueued_retrying_job_destruction_tests: List[PantherRuleTest] = [
 ]
 
 
-class TinesEnqueuedRetryingJobDestruction(PantherRule):
+class TinesEnqueuedRetryingJobDestruction(Rule):
     id_ = "Tines.Enqueued.Retrying.Job.Destruction-prototype"
     display_name = "Tines Enqueued/Retrying Job Deletion"
-    log_types = [PantherLogType.Tines_Audit]
+    log_types = [LogType.Tines_Audit]
     tags = ["Tines"]
-    default_severity = PantherSeverity.low
+    default_severity = Severity.low
     default_description = "Currently enqueued or retrying jobs were cleared"
     default_runbook = "Possible data destruction. Please reach out to the user and confirm this was done for valid business reasons."
     default_reference = "https://www.tines.com/docs/self-hosting/job-management"

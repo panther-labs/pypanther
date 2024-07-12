@@ -1,10 +1,10 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import slack_alert_context
 
-slack_audit_logs_ekm_config_changed_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+slack_audit_logs_ekm_config_changed_tests: List[RuleTest] = [
+    RuleTest(
         name="EKM Config Changed",
         expected_result=True,
         log={
@@ -30,7 +30,7 @@ slack_audit_logs_ekm_config_changed_tests: List[PantherRuleTest] = [
             },
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="User Logout",
         expected_result=False,
         log={
@@ -70,10 +70,10 @@ slack_audit_logs_ekm_config_changed_tests: List[PantherRuleTest] = [
 ]
 
 
-class SlackAuditLogsEKMConfigChanged(PantherRule):
+class SlackAuditLogsEKMConfigChanged(Rule):
     id_ = "Slack.AuditLogs.EKMConfigChanged-prototype"
     display_name = "Slack EKM Config Changed"
-    log_types = [PantherLogType.Slack_AuditLogs]
+    log_types = [LogType.Slack_AuditLogs]
     tags = [
         "Slack",
         "Defense Evasion",
@@ -81,7 +81,7 @@ class SlackAuditLogsEKMConfigChanged(PantherRule):
         "Disable or Modify Cloud Logs",
     ]
     reports = {"MITRE ATT&CK": ["TA0005:T1562.008"]}
-    default_severity = PantherSeverity.high
+    default_severity = Severity.high
     default_description = (
         "Detects when the logging settings for a workspace's EKM configuration has changed"
     )

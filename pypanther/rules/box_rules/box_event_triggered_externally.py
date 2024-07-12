@@ -1,11 +1,11 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 from pypanther.helpers.panther_config import config
 
-box_event_triggered_externally_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+box_event_triggered_externally_tests: List[RuleTest] = [
+    RuleTest(
         name="Regular Event",
         expected_result=False,
         log={
@@ -20,7 +20,7 @@ box_event_triggered_externally_tests: List[PantherRuleTest] = [
             "event_type": "DELETE",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Previewed Anonymously",
         expected_result=True,
         log={
@@ -30,7 +30,7 @@ box_event_triggered_externally_tests: List[PantherRuleTest] = [
             "ip_address": "1.2.3.4",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Missing Created By",
         expected_result=False,
         log={"event_type": "PREVIEW", "type": "event", "ip_address": "1.2.3.4"},
@@ -38,18 +38,18 @@ box_event_triggered_externally_tests: List[PantherRuleTest] = [
 ]
 
 
-class BoxEventTriggeredExternally(PantherRule):
+class BoxEventTriggeredExternally(Rule):
     id_ = "Box.Event.Triggered.Externally-prototype"
     display_name = "Box event triggered by unknown or external user"
     enabled = False
-    log_types = [PantherLogType.Box_Event]
+    log_types = [LogType.Box_Event]
     tags = [
         "Box",
         "Exfiltration:Exfiltration Over Web Service",
         "Configuration Required",
     ]
     reports = {"MITRE ATT&CK": ["TA0010:T1567"]}
-    default_severity = PantherSeverity.medium
+    default_severity = Severity.medium
     default_description = "An external user has triggered a box enterprise event.\n"
     default_reference = (
         "https://support.box.com/hc/en-us/articles/8391393127955-Using-the-Enterprise-Event-Stream"

@@ -1,11 +1,11 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import aws_rule_context
 from pypanther.helpers.panther_default import aws_cloudtrail_success
 
-awsiam_policy_modified_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+awsiam_policy_modified_tests: List[RuleTest] = [
+    RuleTest(
         name="IAM Policy Change",
         expected_result=True,
         log={
@@ -44,7 +44,7 @@ awsiam_policy_modified_tests: List[PantherRuleTest] = [
             "recipientAccountId": "123456789012",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Not IAM Policy Change",
         expected_result=False,
         log={
@@ -93,7 +93,7 @@ awsiam_policy_modified_tests: List[PantherRuleTest] = [
             "recipientAccountId": "123456789012",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="IAM Policy Change Error",
         expected_result=False,
         log={
@@ -136,17 +136,17 @@ awsiam_policy_modified_tests: List[PantherRuleTest] = [
 ]
 
 
-class AWSIAMPolicyModified(PantherRule):
+class AWSIAMPolicyModified(Rule):
     id_ = "AWS.IAM.PolicyModified-prototype"
     display_name = "IAM Policy Modified"
-    log_types = [PantherLogType.AWS_CloudTrail]
+    log_types = [LogType.AWS_CloudTrail]
     tags = [
         "AWS",
         "Identity & Access Management",
         "Privilege Escalation:Abuse Elevation Control Mechanism",
     ]
     reports = {"CIS": ["3.4"], "MITRE ATT&CK": ["TA0004:T1548"]}
-    default_severity = PantherSeverity.info
+    default_severity = Severity.info
     dedup_period_minutes = 720
     default_description = "An IAM Policy was changed.\n"
     default_runbook = (

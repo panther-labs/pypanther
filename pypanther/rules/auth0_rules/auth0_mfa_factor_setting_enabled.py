@@ -1,11 +1,11 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_auth0_helpers import auth0_alert_context, is_auth0_config_event
 from pypanther.helpers.panther_base_helpers import deep_get
 
-auth0_mfa_factor_setting_enabled_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+auth0_mfa_factor_setting_enabled_tests: List[RuleTest] = [
+    RuleTest(
         name="MFA Enabled",
         expected_result=True,
         log={
@@ -191,7 +191,7 @@ auth0_mfa_factor_setting_enabled_tests: List[PantherRuleTest] = [
             "p_source_label": "Org Tenant Label",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="MFA disabled",
         expected_result=False,
         log={
@@ -380,13 +380,13 @@ auth0_mfa_factor_setting_enabled_tests: List[PantherRuleTest] = [
 ]
 
 
-class Auth0MFAFactorSettingEnabled(PantherRule):
+class Auth0MFAFactorSettingEnabled(Rule):
     default_description = "An Auth0 user enabled an mfa factor in your organization's mfa settings."
     display_name = "Auth0 mfa factor enabled"
     default_runbook = "Assess if this was done by the user for a valid business reason. Be vigilant to re-enable this setting as it's in the best security interest for your organization's security posture."
     default_reference = "https://auth0.com/docs/secure/multi-factor-authentication/multi-factor-authentication-factors"
-    default_severity = PantherSeverity.info
-    log_types = [PantherLogType.Auth0_Events]
+    default_severity = Severity.info
+    log_types = [LogType.Auth0_Events]
     id_ = "Auth0.MFA.Factor.Setting.Enabled-prototype"
     tests = auth0_mfa_factor_setting_enabled_tests
 

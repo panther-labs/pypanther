@@ -1,10 +1,10 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import crowdstrike_detection_alert_context, deep_get
 
-crowdstrike_remote_access_tool_execution_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+crowdstrike_remote_access_tool_execution_tests: List[RuleTest] = [
+    RuleTest(
         name="Remote Access Tool",
         expected_result=True,
         log={
@@ -86,7 +86,7 @@ crowdstrike_remote_access_tool_execution_tests: List[PantherRuleTest] = [
             "treeid": "4295752857",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Other tool",
         expected_result=False,
         log={
@@ -171,12 +171,12 @@ crowdstrike_remote_access_tool_execution_tests: List[PantherRuleTest] = [
 ]
 
 
-class CrowdstrikeRemoteAccessToolExecution(PantherRule):
+class CrowdstrikeRemoteAccessToolExecution(Rule):
     default_description = "Detects usage of common remote access tools."
     display_name = "Crowdstrike Remote Access Tool Execution"
     default_reference = "https://attack.mitre.org/techniques/T1219/"
-    default_severity = PantherSeverity.medium
-    log_types = [PantherLogType.Crowdstrike_FDREvent]
+    default_severity = Severity.medium
+    log_types = [LogType.Crowdstrike_FDREvent]
     id_ = "Crowdstrike.Remote.Access.Tool.Execution-prototype"
     tests = crowdstrike_remote_access_tool_execution_tests
     REMOTE_ACCESS_EXECUTABLES = {

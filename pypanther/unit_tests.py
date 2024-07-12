@@ -7,14 +7,14 @@ from panther_core.detection import DetectionResult
 
 from pypanther.utils import try_asdict
 
-PANTHER_RULE_TEST_ALL_ATTRS = [
+RULE_TEST_ALL_ATTRS = [
     "name",
     "expected_result",
     "log",
     "mocks",
 ]
 
-PANTHER_RULE_MOCK_ALL_ATTRS = [
+RULE_MOCK_ALL_ATTRS = [
     "object_name",
     "return_value",
     "side_effect",
@@ -22,14 +22,14 @@ PANTHER_RULE_MOCK_ALL_ATTRS = [
 
 
 @dataclass
-class PantherRuleMock:
+class RuleMock:
     object_name: str
     return_value: Any = None
     side_effect: Any = None
 
     def asdict(self):
         """Returns a dictionary representation of the class."""
-        return {key: try_asdict(getattr(self, key)) for key in PANTHER_RULE_MOCK_ALL_ATTRS}
+        return {key: try_asdict(getattr(self, key)) for key in RULE_MOCK_ALL_ATTRS}
 
 
 class FileLocationMeta(type):
@@ -45,11 +45,11 @@ class FileLocationMeta(type):
 
 
 @dataclass
-class PantherRuleTest(metaclass=FileLocationMeta):
+class RuleTest(metaclass=FileLocationMeta):
     name: str
     expected_result: bool
     log: dict | str
-    mocks: list[PantherRuleMock] = field(default_factory=list)
+    mocks: list[RuleMock] = field(default_factory=list)
     _file_path: str = ""
     _line_no: int = 0
     _module: str = ""
@@ -64,11 +64,11 @@ class PantherRuleTest(metaclass=FileLocationMeta):
 
     def asdict(self):
         """Returns a dictionary representation of the class."""
-        return {key: try_asdict(getattr(self, key)) for key in PANTHER_RULE_TEST_ALL_ATTRS}
+        return {key: try_asdict(getattr(self, key)) for key in RULE_TEST_ALL_ATTRS}
 
 
 @dataclass
-class PantherRuleTestResult:
+class RuleTestResult:
     """
     PantherRuleTestResult is the output returned from running a PantherRuleTest
     on a PantherRule.
@@ -82,5 +82,5 @@ class PantherRuleTestResult:
 
     passed: bool
     detection_result: DetectionResult
-    test: PantherRuleTest
+    test: RuleTest
     rule_id: str

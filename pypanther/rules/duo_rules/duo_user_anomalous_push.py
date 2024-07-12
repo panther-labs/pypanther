@@ -1,10 +1,10 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 
-duo_user_denied_anomalous_push_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+duo_user_denied_anomalous_push_tests: List[RuleTest] = [
+    RuleTest(
         name="anomalous_push_occurred",
         expected_result=True,
         log={
@@ -18,7 +18,7 @@ duo_user_denied_anomalous_push_tests: List[PantherRuleTest] = [
             "user": {"name": "example@example.io"},
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="good_auth",
         expected_result=False,
         log={
@@ -32,7 +32,7 @@ duo_user_denied_anomalous_push_tests: List[PantherRuleTest] = [
             "user": {"name": "example@example.io"},
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="denied_old_creds",
         expected_result=False,
         log={
@@ -49,13 +49,13 @@ duo_user_denied_anomalous_push_tests: List[PantherRuleTest] = [
 ]
 
 
-class DUOUserDeniedAnomalousPush(PantherRule):
+class DUOUserDeniedAnomalousPush(Rule):
     id_ = "DUO.User.Denied.AnomalousPush-prototype"
     display_name = "Duo User Auth Denied For Anomalous Push"
     dedup_period_minutes = 15
-    log_types = [PantherLogType.Duo_Authentication]
+    log_types = [LogType.Duo_Authentication]
     tags = ["Duo"]
-    default_severity = PantherSeverity.medium
+    default_severity = Severity.medium
     default_description = "A Duo authentication was denied due to an anomalous 2FA push.\n"
     default_reference = "https://duo.com/docs/adminapi#authentication-logs"
     default_runbook = (

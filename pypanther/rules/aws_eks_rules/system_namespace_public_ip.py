@@ -1,11 +1,11 @@
 from ipaddress import ip_address
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get, eks_panther_obj_ref
 
-amazon_eks_audit_system_namespace_from_public_ip_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+amazon_eks_audit_system_namespace_from_public_ip_tests: List[RuleTest] = [
+    RuleTest(
         name="non-system username",
         expected_result=False,
         log={
@@ -60,7 +60,7 @@ amazon_eks_audit_system_namespace_from_public_ip_tests: List[PantherRuleTest] = 
             "verb": "get",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="system username - private ip",
         expected_result=False,
         log={
@@ -110,7 +110,7 @@ amazon_eks_audit_system_namespace_from_public_ip_tests: List[PantherRuleTest] = 
             "verb": "watch",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="403 from Public IP zero count",
         expected_result=True,
         log={
@@ -160,7 +160,7 @@ amazon_eks_audit_system_namespace_from_public_ip_tests: List[PantherRuleTest] = 
             "verb": "watch",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="system username - public ip - not ResponseComplete",
         expected_result=False,
         log={
@@ -210,7 +210,7 @@ amazon_eks_audit_system_namespace_from_public_ip_tests: List[PantherRuleTest] = 
             "verb": "watch",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="system username - public ip - 403",
         expected_result=False,
         log={
@@ -260,7 +260,7 @@ amazon_eks_audit_system_namespace_from_public_ip_tests: List[PantherRuleTest] = 
             "verb": "watch",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="eks:addon-manager from public ip as lambda",
         expected_result=False,
         log={
@@ -320,14 +320,14 @@ amazon_eks_audit_system_namespace_from_public_ip_tests: List[PantherRuleTest] = 
 ]
 
 
-class AmazonEKSAuditSystemNamespaceFromPublicIP(PantherRule):
+class AmazonEKSAuditSystemNamespaceFromPublicIP(Rule):
     id_ = "Amazon.EKS.Audit.SystemNamespaceFromPublicIP-prototype"
     display_name = "EKS Audit Log Reporting system Namespace is Used From A Public IP"
-    log_types = [PantherLogType.Amazon_EKS_Audit]
+    log_types = [LogType.Amazon_EKS_Audit]
     tags = ["EKS"]
     reports = {"MITRE ATT&CK": ["TA0027:T1475"]}
     default_reference = "https://docs.aws.amazon.com/eks/latest/userguide/network_reqs.html"
-    default_severity = PantherSeverity.info
+    default_severity = Severity.info
     default_description = 'This detection identifies if an activity is recorded in the Kubernetes audit log where the user:username attribute begins with "system:" or "eks:" and the requests originating IP Address is a Public IP Address\n'
     dedup_period_minutes = 1440
     summary_attributes = ["user:username", "p_source_label"]

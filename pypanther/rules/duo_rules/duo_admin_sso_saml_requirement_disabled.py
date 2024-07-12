@@ -1,13 +1,13 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_duo_helpers import (
     deserialize_administrator_log_event_description,
     duo_alert_context,
 )
 
-duo_admin_ssosaml_requirement_disabled_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+duo_admin_ssosaml_requirement_disabled_tests: List[RuleTest] = [
+    RuleTest(
         name="Enforcement Disabled",
         expected_result=True,
         log={
@@ -18,7 +18,7 @@ duo_admin_ssosaml_requirement_disabled_tests: List[PantherRuleTest] = [
             "username": "Homer Simpson",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Enforcement Optional",
         expected_result=True,
         log={
@@ -29,7 +29,7 @@ duo_admin_ssosaml_requirement_disabled_tests: List[PantherRuleTest] = [
             "username": "Homer Simpson",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Enforcement Required",
         expected_result=False,
         log={
@@ -40,7 +40,7 @@ duo_admin_ssosaml_requirement_disabled_tests: List[PantherRuleTest] = [
             "username": "Homer Simpson",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="SSO Update",
         expected_result=False,
         log={
@@ -54,14 +54,14 @@ duo_admin_ssosaml_requirement_disabled_tests: List[PantherRuleTest] = [
 ]
 
 
-class DuoAdminSSOSAMLRequirementDisabled(PantherRule):
+class DuoAdminSSOSAMLRequirementDisabled(Rule):
     default_description = (
         "Detects when SAML Authentication for Administrators is marked as Disabled or Optional."
     )
     display_name = "Duo Admin SSO SAML Requirement Disabled"
     default_reference = "https://duo.com/docs/sso#saml:~:text=Modify%20Authentication%20Sources"
-    default_severity = PantherSeverity.medium
-    log_types = [PantherLogType.Duo_Administrator]
+    default_severity = Severity.medium
+    log_types = [LogType.Duo_Administrator]
     id_ = "Duo.Admin.SSO.SAML.Requirement.Disabled-prototype"
     tests = duo_admin_ssosaml_requirement_disabled_tests
 

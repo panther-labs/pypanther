@@ -1,10 +1,10 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 
-g_suite_device_suspicious_activity_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+g_suite_device_suspicious_activity_tests: List[RuleTest] = [
+    RuleTest(
         name="Normal Mobile Event",
         expected_result=False,
         log={
@@ -15,7 +15,7 @@ g_suite_device_suspicious_activity_tests: List[PantherRuleTest] = [
             "parameters": {"USER_EMAIL": "homer.simpson@example.io"},
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Suspicious Activity",
         expected_result=True,
         log={
@@ -29,12 +29,12 @@ g_suite_device_suspicious_activity_tests: List[PantherRuleTest] = [
 ]
 
 
-class GSuiteDeviceSuspiciousActivity(PantherRule):
+class GSuiteDeviceSuspiciousActivity(Rule):
     id_ = "GSuite.DeviceSuspiciousActivity-prototype"
     display_name = "GSuite Device Suspicious Activity"
-    log_types = [PantherLogType.GSuite_ActivityEvent]
+    log_types = [LogType.GSuite_ActivityEvent]
     tags = ["GSuite"]
-    default_severity = PantherSeverity.low
+    default_severity = Severity.low
     default_description = "GSuite reported a suspicious activity on a user's device.\n"
     default_reference = (
         "https://support.google.com/a/answer/7562460?hl=en&sjid=864417124752637253-EU"

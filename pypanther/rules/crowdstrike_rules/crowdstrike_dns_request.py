@@ -1,13 +1,13 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import (
     filter_crowdstrike_fdr_event_type,
     get_crowdstrike_field,
 )
 
-crowdstrike_dns_request_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+crowdstrike_dns_request_tests: List[RuleTest] = [
+    RuleTest(
         name="Denylisted Domain",
         expected_result=True,
         log={
@@ -42,7 +42,7 @@ crowdstrike_dns_request_tests: List[PantherRuleTest] = [
             ],
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Non-denylisted Domain",
         expected_result=False,
         log={
@@ -77,7 +77,7 @@ crowdstrike_dns_request_tests: List[PantherRuleTest] = [
             ],
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Denylisted Domain (FDREvent)",
         expected_result=True,
         log={
@@ -131,7 +131,7 @@ crowdstrike_dns_request_tests: List[PantherRuleTest] = [
             "timestamp": "2020-05-24 23:50:07.259",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Non-denylisted Domain (FDREvent)",
         expected_result=False,
         log={
@@ -185,7 +185,7 @@ crowdstrike_dns_request_tests: List[PantherRuleTest] = [
             "timestamp": "2020-05-24 23:50:07.259",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Denylisted Domain (but Non-DNS type) (FDREvent)",
         expected_result=False,
         log={
@@ -242,16 +242,16 @@ crowdstrike_dns_request_tests: List[PantherRuleTest] = [
 ]
 
 
-class CrowdstrikeDNSRequest(PantherRule):
+class CrowdstrikeDNSRequest(Rule):
     id_ = "Crowdstrike.DNS.Request-prototype"
     display_name = "DNS request to denylisted domain"
     enabled = False
     log_types = [
-        PantherLogType.Crowdstrike_DNSRequest,
-        PantherLogType.Crowdstrike_FDREvent,
+        LogType.Crowdstrike_DNSRequest,
+        LogType.Crowdstrike_FDREvent,
     ]
     tags = ["Crowdstrike", "Initial Access:Phishing", "Configuration Required"]
-    default_severity = PantherSeverity.critical
+    default_severity = Severity.critical
     reports = {"MITRE ATT&CK": ["TA0001:T1566"]}
     default_description = "A DNS request was made to a domain on an explicit denylist"
     default_reference = "https://docs.runpanther.io/data-onboarding/supported-logs/crowdstrike#crowdstrike-dnsrequest"

@@ -1,10 +1,10 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import github_alert_context
 
-git_hub_org_moderators_add_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+git_hub_org_moderators_add_tests: List[RuleTest] = [
+    RuleTest(
         name="GitHub - Org Moderator Added",
         expected_result=True,
         log={
@@ -18,7 +18,7 @@ git_hub_org_moderators_add_tests: List[PantherRuleTest] = [
             "user": "john1987",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="GitHub - Org Moderator removed",
         expected_result=False,
         log={
@@ -35,12 +35,12 @@ git_hub_org_moderators_add_tests: List[PantherRuleTest] = [
 ]
 
 
-class GitHubOrgModeratorsAdd(PantherRule):
+class GitHubOrgModeratorsAdd(Rule):
     id_ = "GitHub.Org.Moderators.Add-prototype"
     display_name = "GitHub User Added to Org Moderators"
-    log_types = [PantherLogType.GitHub_Audit]
+    log_types = [LogType.GitHub_Audit]
     tags = ["GitHub", "Initial Access:Supply Chain Compromise"]
-    default_severity = PantherSeverity.medium
+    default_severity = Severity.medium
     default_description = "Detects when a user is added to a GitHub org's list of moderators."
     default_reference = "https://docs.github.com/en/organizations/managing-peoples-access-to-your-organization-with-roles/managing-moderators-in-your-organization"
     tests = git_hub_org_moderators_add_tests

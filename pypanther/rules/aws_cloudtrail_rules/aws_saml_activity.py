@@ -1,10 +1,10 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import aws_rule_context, deep_get
 
-aws_suspicious_saml_activity_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+aws_suspicious_saml_activity_tests: List[RuleTest] = [
+    RuleTest(
         name="CreateSAMLProvider",
         expected_result=True,
         log={
@@ -44,7 +44,7 @@ aws_suspicious_saml_activity_tests: List[PantherRuleTest] = [
             },
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="DeleteSAMLProvider",
         expected_result=True,
         log={
@@ -84,7 +84,7 @@ aws_suspicious_saml_activity_tests: List[PantherRuleTest] = [
             },
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Non Target Event",
         expected_result=False,
         log={
@@ -119,7 +119,7 @@ aws_suspicious_saml_activity_tests: List[PantherRuleTest] = [
             },
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="UpdateSAMLProvider",
         expected_result=True,
         log={
@@ -159,7 +159,7 @@ aws_suspicious_saml_activity_tests: List[PantherRuleTest] = [
             },
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Activity from AWSSSO Service Managed Role",
         expected_result=False,
         log={
@@ -256,12 +256,12 @@ aws_suspicious_saml_activity_tests: List[PantherRuleTest] = [
 ]
 
 
-class AWSSuspiciousSAMLActivity(PantherRule):
+class AWSSuspiciousSAMLActivity(Rule):
     default_description = "Identifies when SAML activity has occurred in AWS. An adversary could gain backdoor access via SAML."
     display_name = "AWS SAML Activity"
     default_reference = "https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pools-managing-saml-idp-console.html"
-    default_severity = PantherSeverity.medium
-    log_types = [PantherLogType.AWS_CloudTrail]
+    default_severity = Severity.medium
+    log_types = [LogType.AWS_CloudTrail]
     id_ = "AWS.Suspicious.SAML.Activity-prototype"
     tests = aws_suspicious_saml_activity_tests
     SAML_ACTIONS = ["UpdateSAMLProvider", "CreateSAMLProvider", "DeleteSAMLProvider"]

@@ -1,11 +1,11 @@
 from typing import List
 
 import pypanther.helpers.panther_event_type_helpers as event_type
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 
-panther_sensitive_role_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+panther_sensitive_role_tests: List[RuleTest] = [
+    RuleTest(
         name="Admin Role Created",
         expected_result=True,
         log={
@@ -41,7 +41,7 @@ panther_sensitive_role_tests: List[PantherRuleTest] = [
             "timestamp": "2022-04-27 20:47:09.425",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Non-Admin Role Created",
         expected_result=False,
         log={
@@ -73,7 +73,7 @@ panther_sensitive_role_tests: List[PantherRuleTest] = [
             "timestamp": "2022-04-27 20:47:09.425",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="nonetype error",
         expected_result=False,
         log={
@@ -159,11 +159,11 @@ panther_sensitive_role_tests: List[PantherRuleTest] = [
 ]
 
 
-class PantherSensitiveRole(PantherRule):
+class PantherSensitiveRole(Rule):
     id_ = "Panther.Sensitive.Role-prototype"
     display_name = "A User Role with Sensitive Permissions has been Created"
-    log_types = [PantherLogType.Panther_Audit]
-    default_severity = PantherSeverity.high
+    log_types = [LogType.Panther_Audit]
+    default_severity = Severity.high
     tags = ["DataModel", "Persistence:Account Manipulation"]
     reports = {"MITRE ATT&CK": ["TA0003:T1098"]}
     default_description = (

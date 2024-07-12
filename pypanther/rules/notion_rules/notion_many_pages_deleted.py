@@ -1,10 +1,10 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_notion_helpers import notion_alert_context
 
-notion_many_pages_deleted_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+notion_many_pages_deleted_tests: List[RuleTest] = [
+    RuleTest(
         name="Other Event",
         expected_result=False,
         log={
@@ -25,7 +25,7 @@ notion_many_pages_deleted_tests: List[PantherRuleTest] = [
             }
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Many Pages Deleted",
         expected_result=True,
         log={
@@ -58,12 +58,12 @@ notion_many_pages_deleted_tests: List[PantherRuleTest] = [
 ]
 
 
-class NotionManyPagesDeleted(PantherRule):
+class NotionManyPagesDeleted(Rule):
     id_ = "Notion.Many.Pages.Deleted-prototype"
     display_name = "Notion Many Pages Deleted"
-    log_types = [PantherLogType.Notion_AuditLogs]
+    log_types = [LogType.Notion_AuditLogs]
     tags = ["Notion", "Data Security", "Data Destruction"]
-    default_severity = PantherSeverity.medium
+    default_severity = Severity.medium
     default_description = "A Notion User deleted multiple pages."
     threshold = 10
     default_runbook = "Possible Data Destruction. Follow up with the Notion User to determine if this was done for a valid business reason."

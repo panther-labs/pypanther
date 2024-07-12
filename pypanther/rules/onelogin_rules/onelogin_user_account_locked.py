@@ -1,9 +1,9 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 
-one_login_user_account_locked_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+one_login_user_account_locked_tests: List[RuleTest] = [
+    RuleTest(
         name="User account locked via api - first method.",
         expected_result=True,
         log={
@@ -14,7 +14,7 @@ one_login_user_account_locked_tests: List[PantherRuleTest] = [
             "user_name": "Bob Cat",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="User account locked via api - second method.",
         expected_result=True,
         log={
@@ -25,7 +25,7 @@ one_login_user_account_locked_tests: List[PantherRuleTest] = [
             "user_name": "Bob Cat",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="User account suspended via api.",
         expected_result=True,
         log={
@@ -36,7 +36,7 @@ one_login_user_account_locked_tests: List[PantherRuleTest] = [
             "user_name": "Bob Cat",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Normal User Activated Event",
         expected_result=False,
         log={
@@ -50,13 +50,13 @@ one_login_user_account_locked_tests: List[PantherRuleTest] = [
 ]
 
 
-class OneLoginUserAccountLocked(PantherRule):
+class OneLoginUserAccountLocked(Rule):
     id_ = "OneLogin.UserAccountLocked-prototype"
     display_name = "OneLogin User Locked"
-    log_types = [PantherLogType.OneLogin_Events]
+    log_types = [LogType.OneLogin_Events]
     tags = ["OneLogin", "Credential Access:Brute Force"]
     reports = {"MITRE ATT&CK": ["TA0006:T1110"]}
-    default_severity = PantherSeverity.low
+    default_severity = Severity.low
     default_description = "User locked or suspended from their account.\n"
     default_reference = (
         "https://onelogin.service-now.com/kb_view_customer.do?sysparm_article=KB0010420"

@@ -1,11 +1,11 @@
 from ipaddress import ip_network
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import aws_rule_context
 
-awsvpc_inbound_port_whitelist_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+awsvpc_inbound_port_whitelist_tests: List[RuleTest] = [
+    RuleTest(
         name="Public to Private IP on Restricted Port",
         expected_result=True,
         log={
@@ -15,7 +15,7 @@ awsvpc_inbound_port_whitelist_tests: List[PantherRuleTest] = [
             "p_log_type": "AWS.VPCFlow",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Public to Private IP on Allowed Port",
         expected_result=False,
         log={
@@ -25,7 +25,7 @@ awsvpc_inbound_port_whitelist_tests: List[PantherRuleTest] = [
             "p_log_type": "AWS.VPCFlow",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Private to Private IP on Restricted Port",
         expected_result=False,
         log={
@@ -35,7 +35,7 @@ awsvpc_inbound_port_whitelist_tests: List[PantherRuleTest] = [
             "p_log_type": "AWS.VPCFlow",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Public to Private IP on Restricted Port - OCSF",
         expected_result=True,
         log={
@@ -44,7 +44,7 @@ awsvpc_inbound_port_whitelist_tests: List[PantherRuleTest] = [
             "p_log_type": "OCSF.NetworkActivity",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Public to Private IP on Allowed Port - OCSF",
         expected_result=False,
         log={
@@ -56,11 +56,11 @@ awsvpc_inbound_port_whitelist_tests: List[PantherRuleTest] = [
 ]
 
 
-class AWSVPCInboundPortWhitelist(PantherRule):
+class AWSVPCInboundPortWhitelist(Rule):
     id_ = "AWS.VPC.InboundPortWhitelist-prototype"
     display_name = "VPC Flow Logs Inbound Port Allowlist"
     enabled = False
-    log_types = [PantherLogType.AWS_VPCFlow, PantherLogType.OCSF_NetworkActivity]
+    log_types = [LogType.AWS_VPCFlow, LogType.OCSF_NetworkActivity]
     tags = [
         "AWS",
         "DataModel",
@@ -70,7 +70,7 @@ class AWSVPCInboundPortWhitelist(PantherRule):
     ]
     reports = {"MITRE ATT&CK": ["TA0011:T1571"]}
     default_reference = "https://docs.aws.amazon.com/vpc/latest/userguide/flow-logs.html"
-    default_severity = PantherSeverity.high
+    default_severity = Severity.high
     default_description = "VPC Flow Logs observed inbound traffic violating the port allowlist.\n"
     default_runbook = "Block the unapproved traffic, or update the approved ports list.\n"
     summary_attributes = ["srcaddr", "dstaddr", "dstport"]

@@ -1,11 +1,11 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import aws_rule_context, deep_get
 from pypanther.helpers.panther_default import lookup_aws_account_name
 
-aws_console_root_login_failed_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+aws_console_root_login_failed_tests: List[RuleTest] = [
+    RuleTest(
         name="Failed Root Login",
         expected_result=True,
         log={
@@ -35,7 +35,7 @@ aws_console_root_login_failed_tests: List[PantherRuleTest] = [
             "recipientAccountId": "123456789012",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Successful Login",
         expected_result=False,
         log={
@@ -65,7 +65,7 @@ aws_console_root_login_failed_tests: List[PantherRuleTest] = [
             "recipientAccountId": "123456789012",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Non-Login Event",
         expected_result=False,
         log={
@@ -117,11 +117,11 @@ aws_console_root_login_failed_tests: List[PantherRuleTest] = [
 ]
 
 
-class AWSConsoleRootLoginFailed(PantherRule):
+class AWSConsoleRootLoginFailed(Rule):
     id_ = "AWS.Console.RootLoginFailed-prototype"
     display_name = "Failed Root Console Login"
     dedup_period_minutes = 15
-    log_types = [PantherLogType.AWS_CloudTrail]
+    log_types = [LogType.AWS_CloudTrail]
     tags = [
         "AWS",
         "Identity & Access Management",
@@ -131,7 +131,7 @@ class AWSConsoleRootLoginFailed(PantherRule):
     ]
     threshold = 5
     reports = {"CIS": ["3.6"], "MITRE ATT&CK": ["TA0006:T1110"]}
-    default_severity = PantherSeverity.high
+    default_severity = Severity.high
     default_description = "A Root console login failed."
     default_runbook = (
         "https://docs.runpanther.io/alert-runbooks/built-in-rules/aws-console-login-failed"

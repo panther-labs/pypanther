@@ -1,10 +1,10 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import aws_rule_context, deep_get
 
-aws_software_discovery_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+aws_software_discovery_tests: List[RuleTest] = [
+    RuleTest(
         name="Discovery Event Names",
         expected_result=True,
         log={
@@ -61,7 +61,7 @@ aws_software_discovery_tests: List[PantherRuleTest] = [
             },
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Non Discovery Event Names",
         expected_result=False,
         log={
@@ -80,16 +80,16 @@ aws_software_discovery_tests: List[PantherRuleTest] = [
 ]
 
 
-class AWSSoftwareDiscovery(PantherRule):
+class AWSSoftwareDiscovery(Rule):
     default_description = "A user is obtaining a list of security software, configurations, defensive tools, and sensors that are in AWS."
     display_name = "AWS Software Discovery"
     enabled = False
     default_reference = "https://attack.mitre.org/techniques/T1518/001/"
     tags = ["Configuration Required"]
     reports = {"MITRE ATT&CK": ["TA0007:T1518"]}
-    default_severity = PantherSeverity.info
+    default_severity = Severity.info
     dedup_period_minutes = 360
-    log_types = [PantherLogType.AWS_CloudTrail]
+    log_types = [LogType.AWS_CloudTrail]
     id_ = "AWS.Software.Discovery-prototype"
     threshold = 50
     tests = aws_software_discovery_tests

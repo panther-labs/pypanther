@@ -1,9 +1,9 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 
-git_hub_branch_policy_override_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+git_hub_branch_policy_override_tests: List[RuleTest] = [
+    RuleTest(
         name="GitHub - Branch Protection Policy Override",
         expected_result=True,
         log={
@@ -15,7 +15,7 @@ git_hub_branch_policy_override_tests: List[PantherRuleTest] = [
             "repo": "my-org/my-repo",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="GitHub - Protected Branch Name Updated",
         expected_result=False,
         log={
@@ -30,13 +30,13 @@ git_hub_branch_policy_override_tests: List[PantherRuleTest] = [
 ]
 
 
-class GitHubBranchPolicyOverride(PantherRule):
+class GitHubBranchPolicyOverride(Rule):
     id_ = "GitHub.Branch.PolicyOverride-prototype"
     display_name = "GitHub Branch Protection Policy Override"
-    log_types = [PantherLogType.GitHub_Audit]
+    log_types = [LogType.GitHub_Audit]
     tags = ["GitHub", "Initial Access:Supply Chain Compromise"]
     reports = {"MITRE ATT&CK": ["TA0001:T1195"]}
-    default_severity = PantherSeverity.high
+    default_severity = Severity.high
     default_description = "Bypassing branch protection controls could indicate malicious use of admin credentials in an attempt to hide activity."
     default_runbook = "Verify that the GitHub admin performed this activity and validate its use."
     default_reference = "https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/managing-protected-branches/managing-a-branch-protection-rule"

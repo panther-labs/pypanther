@@ -1,10 +1,10 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import slack_alert_context
 
-slack_audit_logs_org_created_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+slack_audit_logs_org_created_tests: List[RuleTest] = [
+    RuleTest(
         name="Organization Created",
         expected_result=True,
         log={
@@ -30,7 +30,7 @@ slack_audit_logs_org_created_tests: List[PantherRuleTest] = [
             },
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Organization Deleted",
         expected_result=False,
         log={
@@ -59,13 +59,13 @@ slack_audit_logs_org_created_tests: List[PantherRuleTest] = [
 ]
 
 
-class SlackAuditLogsOrgCreated(PantherRule):
+class SlackAuditLogsOrgCreated(Rule):
     id_ = "Slack.AuditLogs.OrgCreated-prototype"
     display_name = "Slack Organization Created"
-    log_types = [PantherLogType.Slack_AuditLogs]
+    log_types = [LogType.Slack_AuditLogs]
     tags = ["Slack", "Persistence", "Create Account"]
     reports = {"MITRE ATT&CK": ["TA0003:T1136"]}
-    default_severity = PantherSeverity.low
+    default_severity = Severity.low
     default_description = "Detects when a Slack organization is created"
     default_reference = (
         "https://slack.com/intl/en-gb/help/articles/206845317-Create-a-Slack-workspace"

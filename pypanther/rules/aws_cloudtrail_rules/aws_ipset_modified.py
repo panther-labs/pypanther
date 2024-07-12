@@ -1,10 +1,10 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import aws_rule_context
 
-awsip_set_modified_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+awsip_set_modified_tests: List[RuleTest] = [
+    RuleTest(
         name="CreateIPSet Event",
         expected_result=True,
         log={
@@ -22,7 +22,7 @@ awsip_set_modified_tests: List[PantherRuleTest] = [
             "recipientAccountId": "123456789012",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="UpdateIPSet",
         expected_result=True,
         log={
@@ -40,7 +40,7 @@ awsip_set_modified_tests: List[PantherRuleTest] = [
             "recipientAccountId": "123456789012",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="NotIPSet",
         expected_result=False,
         log={
@@ -61,13 +61,13 @@ awsip_set_modified_tests: List[PantherRuleTest] = [
 ]
 
 
-class AWSIPSetModified(PantherRule):
+class AWSIPSetModified(Rule):
     default_description = "Detects creation and updates of the list of trusted IPs used by GuardDuty and WAF. Potentially to disable security alerts against malicious IPs."
     display_name = "AWS Trusted IPSet Modified"
     reports = {"MITRE ATT&CK": ["TA0005:T1562"]}
     default_reference = "https://docs.aws.amazon.com/managedservices/latest/ctref/management-monitoring-guardduty-ip-set-update-review-required.html"
-    default_severity = PantherSeverity.high
-    log_types = [PantherLogType.AWS_CloudTrail]
+    default_severity = Severity.high
+    log_types = [LogType.AWS_CloudTrail]
     id_ = "AWS.IPSet.Modified-prototype"
     tests = awsip_set_modified_tests
     IPSET_ACTIONS = ["CreateIPSet", "UpdateIPSet"]

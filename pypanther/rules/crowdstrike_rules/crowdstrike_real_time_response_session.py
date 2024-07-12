@@ -1,10 +1,10 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import get_crowdstrike_field
 
-crowdstrike_real_time_response_session_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+crowdstrike_real_time_response_session_tests: List[RuleTest] = [
+    RuleTest(
         name="RTS session start event",
         expected_result=True,
         log={
@@ -26,7 +26,7 @@ crowdstrike_real_time_response_session_tests: List[PantherRuleTest] = [
             },
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="RTS session not started",
         expected_result=False,
         log={
@@ -48,7 +48,7 @@ crowdstrike_real_time_response_session_tests: List[PantherRuleTest] = [
             },
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="RTS session start event (FDREvent)",
         expected_result=True,
         log={
@@ -86,7 +86,7 @@ crowdstrike_real_time_response_session_tests: List[PantherRuleTest] = [
             "p_any_emails": ["someone@runpanther.io"],
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="RTS session not started (FDREvent)",
         expected_result=False,
         log={
@@ -127,13 +127,13 @@ crowdstrike_real_time_response_session_tests: List[PantherRuleTest] = [
 ]
 
 
-class CrowdstrikeRealTimeResponseSession(PantherRule):
+class CrowdstrikeRealTimeResponseSession(Rule):
     display_name = "Crowdstrike Real Time Response (RTS) Session"
     id_ = "Crowdstrike.RealTimeResponse.Session-prototype"
-    default_severity = PantherSeverity.medium
+    default_severity = Severity.medium
     log_types = [
-        PantherLogType.Crowdstrike_Unknown,
-        PantherLogType.Crowdstrike_FDREvent,
+        LogType.Crowdstrike_Unknown,
+        LogType.Crowdstrike_FDREvent,
     ]
     tags = ["Crowdstrike"]
     default_description = "Alert when someone uses Crowdstrike’s RTR (real-time response) capability to access a machine remotely to run commands.\n"

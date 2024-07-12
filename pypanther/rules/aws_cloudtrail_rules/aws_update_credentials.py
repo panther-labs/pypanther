@@ -1,11 +1,11 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import aws_rule_context, deep_get
 from pypanther.helpers.panther_default import aws_cloudtrail_success
 
-awsiam_credentials_updated_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+awsiam_credentials_updated_tests: List[RuleTest] = [
+    RuleTest(
         name="User Password Was Changed",
         expected_result=True,
         log={
@@ -40,7 +40,7 @@ awsiam_credentials_updated_tests: List[PantherRuleTest] = [
             "recipientAccountId": "123456789012",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="MFA Device Was Created",
         expected_result=False,
         log={
@@ -75,7 +75,7 @@ awsiam_credentials_updated_tests: List[PantherRuleTest] = [
             "recipientAccountId": "123456789012",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="User Password Change Error",
         expected_result=False,
         log={
@@ -114,13 +114,13 @@ awsiam_credentials_updated_tests: List[PantherRuleTest] = [
 ]
 
 
-class AWSIAMCredentialsUpdated(PantherRule):
+class AWSIAMCredentialsUpdated(Rule):
     id_ = "AWS.IAM.CredentialsUpdated-prototype"
     display_name = "New IAM Credentials Updated"
-    log_types = [PantherLogType.AWS_CloudTrail]
+    log_types = [LogType.AWS_CloudTrail]
     reports = {"MITRE ATT&CK": ["TA0003:T1098"]}
     tags = ["AWS", "Identity & Access Management", "Persistence:Account Manipulation"]
-    default_severity = PantherSeverity.info
+    default_severity = Severity.info
     default_description = "A console password, access key, or user has been created."
     default_runbook = "This rule is purely informational, there is no action needed."
     default_reference = (

@@ -1,11 +1,11 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.gcp_base_helpers import gcp_alert_context
 from pypanther.helpers.panther_base_helpers import deep_get
 
-gcpdns_zone_modifiedor_deleted_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+gcpdns_zone_modifiedor_deleted_tests: List[RuleTest] = [
+    RuleTest(
         name="dns.managedZones.delete-should-alert",
         expected_result=True,
         log={
@@ -55,7 +55,7 @@ gcpdns_zone_modifiedor_deleted_tests: List[PantherRuleTest] = [
             "timestamp": "2023-05-23 19:08:11.697",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="dns.managedZones.patch-should-alert",
         expected_result=True,
         log={
@@ -174,7 +174,7 @@ gcpdns_zone_modifiedor_deleted_tests: List[PantherRuleTest] = [
             "timestamp": "2023-05-23 19:07:25.282",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="dns.managedZones.update-should-alert",
         expected_result=True,
         log={
@@ -271,7 +271,7 @@ gcpdns_zone_modifiedor_deleted_tests: List[PantherRuleTest] = [
             "timestamp": "2023-05-23 19:07:39.132",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="dns.managedZones.get-should-not-alert",
         expected_result=False,
         log={
@@ -322,13 +322,13 @@ gcpdns_zone_modifiedor_deleted_tests: List[PantherRuleTest] = [
 ]
 
 
-class GCPDNSZoneModifiedorDeleted(PantherRule):
+class GCPDNSZoneModifiedorDeleted(Rule):
     default_description = "Detection for GCP DNS zones that are deleted, patched, or updated."
     display_name = "GCP DNS Zone Modified or Deleted"
     default_runbook = "Verify that this modification or deletion was expected. These operations are high-impact events and can result in downtimes or total outages."
     default_reference = "https://cloud.google.com/dns/docs/zones"
-    default_severity = PantherSeverity.low
-    log_types = [PantherLogType.GCP_AuditLog]
+    default_severity = Severity.low
+    log_types = [LogType.GCP_AuditLog]
     id_ = "GCP.DNS.Zone.Modified.or.Deleted-prototype"
     tests = gcpdns_zone_modifiedor_deleted_tests
 

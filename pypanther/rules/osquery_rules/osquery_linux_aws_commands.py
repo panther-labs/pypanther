@@ -1,11 +1,11 @@
 import shlex
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 
-osquery_linux_aws_command_executed_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+osquery_linux_aws_command_executed_tests: List[RuleTest] = [
+    RuleTest(
         name="AWS command executed on MacOS",
         expected_result=False,
         log={
@@ -20,7 +20,7 @@ osquery_linux_aws_command_executed_tests: List[PantherRuleTest] = [
             },
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="AWS command executed",
         expected_result=True,
         log={
@@ -34,7 +34,7 @@ osquery_linux_aws_command_executed_tests: List[PantherRuleTest] = [
             },
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Tail command executed",
         expected_result=False,
         log={
@@ -48,7 +48,7 @@ osquery_linux_aws_command_executed_tests: List[PantherRuleTest] = [
             },
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Command with quote executed",
         expected_result=False,
         log={
@@ -62,7 +62,7 @@ osquery_linux_aws_command_executed_tests: List[PantherRuleTest] = [
             },
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Invalid command ignored",
         expected_result=False,
         log={
@@ -79,13 +79,13 @@ osquery_linux_aws_command_executed_tests: List[PantherRuleTest] = [
 ]
 
 
-class OsqueryLinuxAWSCommandExecuted(PantherRule):
+class OsqueryLinuxAWSCommandExecuted(Rule):
     id_ = "Osquery.Linux.AWSCommandExecuted-prototype"
     display_name = "AWS command executed on the command line"
-    log_types = [PantherLogType.Osquery_Differential]
+    log_types = [LogType.Osquery_Differential]
     tags = ["Osquery", "Linux", "Execution:User Execution"]
     reports = {"MITRE ATT&CK": ["TA0002:T1204"]}
-    default_severity = PantherSeverity.medium
+    default_severity = Severity.medium
     default_description = "An AWS command was executed on a Linux instance"
     default_runbook = (
         "See which other commands were executed, and then remove IAM role causing the access"

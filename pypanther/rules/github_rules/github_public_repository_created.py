@@ -1,10 +1,10 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import github_alert_context
 
-github_public_repository_created_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+github_public_repository_created_tests: List[RuleTest] = [
+    RuleTest(
         name="Public Repo Created",
         expected_result=True,
         log={
@@ -19,7 +19,7 @@ github_public_repository_created_tests: List[PantherRuleTest] = [
             "visibility": "public",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Private Repo Created",
         expected_result=False,
         log={
@@ -37,16 +37,16 @@ github_public_repository_created_tests: List[PantherRuleTest] = [
 ]
 
 
-class GithubPublicRepositoryCreated(PantherRule):
+class GithubPublicRepositoryCreated(Rule):
     default_description = "A public Github repository was created."
     display_name = "Github Public Repository Created"
     default_runbook = (
         "Confirm this github repository was intended to be created as 'public' versus 'private'."
     )
     default_reference = "https://docs.github.com/en/get-started/quickstart/create-a-repo"
-    default_severity = PantherSeverity.medium
+    default_severity = Severity.medium
     tags = ["Github Repository", "Public", "Repository Created"]
-    log_types = [PantherLogType.GitHub_Audit]
+    log_types = [LogType.GitHub_Audit]
     id_ = "Github.Public.Repository.Created-prototype"
     summary_attributes = ["actor", "repository", "visibility"]
     tests = github_public_repository_created_tests

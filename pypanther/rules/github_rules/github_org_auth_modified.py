@@ -1,9 +1,9 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 
-git_hub_org_auth_change_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+git_hub_org_auth_change_tests: List[RuleTest] = [
+    RuleTest(
         name="GitHub - Authentication Method Changed",
         expected_result=True,
         log={
@@ -15,7 +15,7 @@ git_hub_org_auth_change_tests: List[PantherRuleTest] = [
             "repo": "my-org/my-repo",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="GitHub - Non Auth Related Org Change",
         expected_result=False,
         log={
@@ -30,13 +30,13 @@ git_hub_org_auth_change_tests: List[PantherRuleTest] = [
 ]
 
 
-class GitHubOrgAuthChange(PantherRule):
+class GitHubOrgAuthChange(Rule):
     id_ = "GitHub.Org.AuthChange-prototype"
     display_name = "GitHub Org Authentication Method Changed"
-    log_types = [PantherLogType.GitHub_Audit]
+    log_types = [LogType.GitHub_Audit]
     tags = ["GitHub", "Persistence:Account Manipulation"]
     reports = {"MITRE ATT&CK": ["TA0003:T1098"]}
-    default_severity = PantherSeverity.critical
+    default_severity = Severity.critical
     summary_attributes = ["actor", "action"]
     default_description = "Detects changes to GitHub org authentication changes."
     default_runbook = "Verify that the GitHub admin performed this activity and validate its use."

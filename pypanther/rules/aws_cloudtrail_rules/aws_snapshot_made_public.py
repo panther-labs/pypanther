@@ -1,12 +1,12 @@
 from collections.abc import Mapping
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import aws_rule_context, deep_get
 from pypanther.helpers.panther_default import aws_cloudtrail_success
 
-aws_cloud_trail_snapshot_made_public_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+aws_cloud_trail_snapshot_made_public_tests: List[RuleTest] = [
+    RuleTest(
         name="Snapshot Made Publicly Accessible",
         expected_result=True,
         log={
@@ -50,7 +50,7 @@ aws_cloud_trail_snapshot_made_public_tests: List[PantherRuleTest] = [
             },
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Snapshot Not Made Publicly Accessible",
         expected_result=False,
         log={
@@ -94,7 +94,7 @@ aws_cloud_trail_snapshot_made_public_tests: List[PantherRuleTest] = [
             },
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Error Making Snapshot Publicly Accessible",
         expected_result=False,
         log={
@@ -142,13 +142,13 @@ aws_cloud_trail_snapshot_made_public_tests: List[PantherRuleTest] = [
 ]
 
 
-class AWSCloudTrailSnapshotMadePublic(PantherRule):
+class AWSCloudTrailSnapshotMadePublic(Rule):
     id_ = "AWS.CloudTrail.SnapshotMadePublic-prototype"
     display_name = "AWS Snapshot Made Public"
-    log_types = [PantherLogType.AWS_CloudTrail]
+    log_types = [LogType.AWS_CloudTrail]
     tags = ["AWS", "Exfiltration:Transfer Data to Cloud Account"]
     reports = {"MITRE ATT&CK": ["TA0010:T1537"]}
-    default_severity = PantherSeverity.medium
+    default_severity = Severity.medium
     default_description = "An AWS storage snapshot was made public."
     default_runbook = "Adjust the snapshot configuration so that it is no longer public."
     default_reference = "https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-modifying-snapshot-permissions.html"

@@ -2,16 +2,16 @@ import json
 from typing import List
 from unittest.mock import MagicMock
 
-from pypanther import PantherLogType, PantherRule, PantherRuleMock, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 from pypanther.helpers.panther_config import config
 
-dropbox_external_share_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+dropbox_external_share_tests: List[RuleTest] = [
+    RuleTest(
         name="Domain in Allowlist",
         expected_result=False,
         mocks=[
-            PantherRuleMock(
+            RuleMock(
                 object_name="DROPBOX_ALLOWED_SHARE_DOMAINS",
                 return_value='[\n    "example.com"\n]',
             )
@@ -97,7 +97,7 @@ dropbox_external_share_tests: List[PantherRuleTest] = [
             "timestamp": "2023-04-18 22:31:03",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="external share",
         expected_result=True,
         log={
@@ -184,12 +184,12 @@ dropbox_external_share_tests: List[PantherRuleTest] = [
 ]
 
 
-class DropboxExternalShare(PantherRule):
+class DropboxExternalShare(Rule):
     default_description = "Dropbox item shared externally"
     display_name = "Dropbox External Share"
     default_reference = "https://help.dropbox.com/share/share-outside-dropbox"
-    default_severity = PantherSeverity.medium
-    log_types = [PantherLogType.Dropbox_TeamEvent]
+    default_severity = Severity.medium
+    log_types = [LogType.Dropbox_TeamEvent]
     id_ = "Dropbox.External.Share-prototype"
     tests = dropbox_external_share_tests
     DROPBOX_ALLOWED_SHARE_DOMAINS = config.DROPBOX_ALLOWED_SHARE_DOMAINS

@@ -1,10 +1,10 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 
-g_suite_login_type_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+g_suite_login_type_tests: List[RuleTest] = [
+    RuleTest(
         name="Login With Approved Type",
         expected_result=False,
         log={
@@ -15,7 +15,7 @@ g_suite_login_type_tests: List[PantherRuleTest] = [
             "parameters": {"login_type": "saml"},
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Login With Unapproved Type",
         expected_result=True,
         log={
@@ -26,7 +26,7 @@ g_suite_login_type_tests: List[PantherRuleTest] = [
             "parameters": {"login_type": "turbo-snail"},
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Non-Login event",
         expected_result=False,
         log={
@@ -37,7 +37,7 @@ g_suite_login_type_tests: List[PantherRuleTest] = [
             "parameters": {"login_type": "saml"},
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Saml Login Event",
         expected_result=False,
         log={
@@ -58,14 +58,14 @@ g_suite_login_type_tests: List[PantherRuleTest] = [
 ]
 
 
-class GSuiteLoginType(PantherRule):
+class GSuiteLoginType(Rule):
     id_ = "GSuite.LoginType-prototype"
     display_name = "GSuite Login Type"
     enabled = False
-    log_types = [PantherLogType.GSuite_ActivityEvent]
+    log_types = [LogType.GSuite_ActivityEvent]
     tags = ["GSuite", "Configuration Required", "Initial Access:Valid Accounts"]
     reports = {"MITRE ATT&CK": ["TA0001:T1078"]}
-    default_severity = PantherSeverity.medium
+    default_severity = Severity.medium
     default_description = "A login of a non-approved type was detected for this user.\n"
     default_reference = (
         "https://support.google.com/a/answer/9039184?hl=en&sjid=864417124752637253-EU"

@@ -1,11 +1,11 @@
 from fnmatch import fnmatch
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import aws_rule_context
 
-awss3_server_access_unknown_requester_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+awss3_server_access_unknown_requester_tests: List[RuleTest] = [
+    RuleTest(
         name="Expected Access",
         expected_result=False,
         log={
@@ -31,7 +31,7 @@ awss3_server_access_unknown_requester_tests: List[PantherRuleTest] = [
             "tlsVersion": "TLSv1.2",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Unexpected Access",
         expected_result=True,
         log={
@@ -57,7 +57,7 @@ awss3_server_access_unknown_requester_tests: List[PantherRuleTest] = [
             "tlsVersion": "TLSv1.2",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Failed Request",
         expected_result=False,
         log={
@@ -83,7 +83,7 @@ awss3_server_access_unknown_requester_tests: List[PantherRuleTest] = [
             "tlsVersion": "TLSv1.2",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Snowflake Request",
         expected_result=False,
         log={
@@ -110,11 +110,11 @@ awss3_server_access_unknown_requester_tests: List[PantherRuleTest] = [
 ]
 
 
-class AWSS3ServerAccessUnknownRequester(PantherRule):
+class AWSS3ServerAccessUnknownRequester(Rule):
     id_ = "AWS.S3.ServerAccess.UnknownRequester-prototype"
     display_name = "AWS S3 Unknown Requester"
     enabled = False
-    log_types = [PantherLogType.AWS_S3ServerAccess]
+    log_types = [LogType.AWS_S3ServerAccess]
     tags = [
         "AWS",
         "Configuration Required",
@@ -122,7 +122,7 @@ class AWSS3ServerAccessUnknownRequester(PantherRule):
         "Collection:Data From Cloud Storage Object",
     ]
     reports = {"Panther": ["Data Access"], "MITRE ATT&CK": ["TA0009:T1530"]}
-    default_severity = PantherSeverity.low
+    default_severity = Severity.low
     default_description = "Validates that proper IAM entities are accessing sensitive data buckets."
     default_runbook = "If the S3 access is not expected for this bucket, investigate the requester's other traffic."
     default_reference = "https://docs.aws.amazon.com/AmazonS3/latest/userguide/walkthrough1.html"

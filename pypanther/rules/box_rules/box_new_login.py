@@ -1,10 +1,10 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 
-box_new_login_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+box_new_login_tests: List[RuleTest] = [
+    RuleTest(
         name="Regular Event",
         expected_result=False,
         log={
@@ -19,7 +19,7 @@ box_new_login_tests: List[PantherRuleTest] = [
             "event_type": "DELETE",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="New Login Event",
         expected_result=True,
         log={
@@ -38,13 +38,13 @@ box_new_login_tests: List[PantherRuleTest] = [
 ]
 
 
-class BoxNewLogin(PantherRule):
+class BoxNewLogin(Rule):
     id_ = "Box.New.Login-prototype"
     display_name = "Box New Login"
-    log_types = [PantherLogType.Box_Event]
+    log_types = [LogType.Box_Event]
     tags = ["Box", "Initial Access:Valid Accounts"]
     reports = {"MITRE ATT&CK": ["TA0001:T1078"]}
-    default_severity = PantherSeverity.info
+    default_severity = Severity.info
     default_description = "A user logged in from a new device.\n"
     default_reference = "https://support.box.com/hc/en-us/articles/360043691914-Controlling-Devices-Used-to-Access-Box"
     default_runbook = "Investigate whether this is a valid user login.\n"

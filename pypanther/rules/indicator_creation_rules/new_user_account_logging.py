@@ -4,14 +4,14 @@ from typing import List
 from panther_detection_helpers.caching import put_string_set
 
 import pypanther.helpers.panther_event_type_helpers as event_type
-from pypanther import PantherLogType, PantherRule, PantherRuleMock, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_oss_helpers import resolve_timestamp_string
 
-standard_new_user_account_created_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+standard_new_user_account_created_tests: List[RuleTest] = [
+    RuleTest(
         name="User Creation Event - OneLogin",
         expected_result=True,
-        mocks=[PantherRuleMock(object_name="put_string_set", return_value="")],
+        mocks=[RuleMock(object_name="put_string_set", return_value="")],
         log={
             "event_type_id": 13,
             "actor_user_id": 123456,
@@ -23,7 +23,7 @@ standard_new_user_account_created_tests: List[PantherRuleTest] = [
             "p_row_id": "aaaaaaaabbbbbbbbbbbbccccccccc",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Standard Login Event - OneLogin",
         expected_result=False,
         log={
@@ -38,10 +38,10 @@ standard_new_user_account_created_tests: List[PantherRuleTest] = [
             "p_row_id": "aaaaaaaabbbbbbbbbbbbccccccccc",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="User Account Created - CloudTrail",
         expected_result=True,
-        mocks=[PantherRuleMock(object_name="put_string_set", return_value="")],
+        mocks=[RuleMock(object_name="put_string_set", return_value="")],
         log={
             "eventName": "CreateUser",
             "responseElements": {"user": {"userName": "Bob Cat", "userId": "12345"}},
@@ -50,7 +50,7 @@ standard_new_user_account_created_tests: List[PantherRuleTest] = [
             "p_row_id": "aaaaaaaabbbbbbbbbbbbccccccccc",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Normal Console Login - CloudTrail",
         expected_result=False,
         log={
@@ -62,10 +62,10 @@ standard_new_user_account_created_tests: List[PantherRuleTest] = [
             "p_log_type": "AWS.CloudTrail",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="User Creation Event - Zoom",
         expected_result=True,
-        mocks=[PantherRuleMock(object_name="put_string_set", return_value="")],
+        mocks=[RuleMock(object_name="put_string_set", return_value="")],
         log={
             "action": "Add",
             "category_type": "User",
@@ -78,13 +78,13 @@ standard_new_user_account_created_tests: List[PantherRuleTest] = [
 ]
 
 
-class StandardNewUserAccountCreated(PantherRule):
+class StandardNewUserAccountCreated(Rule):
     id_ = "Standard.NewUserAccountCreated-prototype"
     display_name = "New User Account Created"
     log_types = [
-        PantherLogType.OneLogin_Events,
-        PantherLogType.AWS_CloudTrail,
-        PantherLogType.Zoom_Operation,
+        LogType.OneLogin_Events,
+        LogType.AWS_CloudTrail,
+        LogType.Zoom_Operation,
     ]
     tags = [
         "DataModel",
@@ -92,7 +92,7 @@ class StandardNewUserAccountCreated(PantherRule):
         "OneLogin",
         "Persistence:Create Account",
     ]
-    default_severity = PantherSeverity.info
+    default_severity = Severity.info
     reports = {"MITRE ATT&CK": ["TA0003:T1136"]}
     default_description = "A new account was created"
     default_runbook = "A new user account was created, ensure it was created through standard practice and is for a valid purpose."

@@ -1,11 +1,11 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 from pypanther.helpers.panther_tines_helpers import tines_alert_context
 
-tines_story_items_destruction_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+tines_story_items_destruction_tests: List[RuleTest] = [
+    RuleTest(
         name="Detection Trigger",
         expected_result=True,
         log={
@@ -21,7 +21,7 @@ tines_story_items_destruction_tests: List[PantherRuleTest] = [
             "user_name": "Tines User Person",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Tines Login",
         expected_result=False,
         log={
@@ -40,12 +40,12 @@ tines_story_items_destruction_tests: List[PantherRuleTest] = [
 ]
 
 
-class TinesStoryItemsDestruction(PantherRule):
+class TinesStoryItemsDestruction(Rule):
     id_ = "Tines.Story.Items.Destruction-prototype"
     display_name = "Tines Story Items Destruction"
-    log_types = [PantherLogType.Tines_Audit]
+    log_types = [LogType.Tines_Audit]
     tags = ["Tines"]
-    default_severity = PantherSeverity.info
+    default_severity = Severity.info
     default_description = "A user has destroyed a story item"
     default_runbook = "Possible data destruction. Please reach out to the user and confirm this was done for valid business reasons."
     default_reference = "https://www.tines.com/docs/stories"

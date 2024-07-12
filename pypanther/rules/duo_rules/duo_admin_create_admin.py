@@ -1,13 +1,13 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_duo_helpers import (
     deserialize_administrator_log_event_description,
     duo_alert_context,
 )
 
-duo_admin_create_admin_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+duo_admin_create_admin_tests: List[RuleTest] = [
+    RuleTest(
         name="Admin Create",
         expected_result=True,
         log={
@@ -19,7 +19,7 @@ duo_admin_create_admin_tests: List[PantherRuleTest] = [
             "username": "Bart Simpson",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Other Event",
         expected_result=False,
         log={
@@ -33,12 +33,12 @@ duo_admin_create_admin_tests: List[PantherRuleTest] = [
 ]
 
 
-class DuoAdminCreateAdmin(PantherRule):
+class DuoAdminCreateAdmin(Rule):
     default_description = "A new Duo Administrator was created. "
     display_name = "Duo Admin Create Admin"
     default_reference = "https://duo.com/docs/administration-admins#add-an-administrator"
-    default_severity = PantherSeverity.high
-    log_types = [PantherLogType.Duo_Administrator]
+    default_severity = Severity.high
+    log_types = [LogType.Duo_Administrator]
     id_ = "Duo.Admin.Create.Admin-prototype"
     tests = duo_admin_create_admin_tests
 

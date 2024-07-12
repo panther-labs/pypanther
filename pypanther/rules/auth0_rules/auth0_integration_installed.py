@@ -1,11 +1,11 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_auth0_helpers import auth0_alert_context, is_auth0_config_event
 from pypanther.helpers.panther_base_helpers import deep_get
 
-auth0_integration_installed_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+auth0_integration_installed_tests: List[RuleTest] = [
+    RuleTest(
         name="Auth0 Integration Installed",
         expected_result=True,
         log={
@@ -56,7 +56,7 @@ auth0_integration_installed_tests: List[PantherRuleTest] = [
             "p_source_label": "Org Auth0 Tenant Label",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Other Event",
         expected_result=False,
         log={
@@ -252,13 +252,13 @@ auth0_integration_installed_tests: List[PantherRuleTest] = [
 ]
 
 
-class Auth0IntegrationInstalled(PantherRule):
+class Auth0IntegrationInstalled(Rule):
     default_description = "An Auth0 integration was installed from the auth0 action library."
     display_name = "Auth0 Integration Installed"
     default_runbook = "Assess if this was done by the user for a valid business reason. Be vigilant to re-enable this setting as it's in the best security interest for your organization's security posture."
     default_reference = "https://auth0.com/blog/actions-integrations-are-now-ga/"
-    default_severity = PantherSeverity.info
-    log_types = [PantherLogType.Auth0_Events]
+    default_severity = Severity.info
+    log_types = [LogType.Auth0_Events]
     id_ = "Auth0.Integration.Installed-prototype"
     tests = auth0_integration_installed_tests
 

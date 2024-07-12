@@ -1,10 +1,10 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 
-g_suite_workspace_gmail_default_routing_rule_modified_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+g_suite_workspace_gmail_default_routing_rule_modified_tests: List[RuleTest] = [
+    RuleTest(
         name="Workspace Admin Creates Default Routing Rule",
         expected_result=True,
         log={
@@ -29,7 +29,7 @@ g_suite_workspace_gmail_default_routing_rule_modified_tests: List[PantherRuleTes
             "type": "EMAIL_SETTINGS",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Workspace Admin Deletes Default Routing Rule",
         expected_result=True,
         log={
@@ -54,7 +54,7 @@ g_suite_workspace_gmail_default_routing_rule_modified_tests: List[PantherRuleTes
             "type": "EMAIL_SETTINGS",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Admin Set Default Calendar SHARING_OUTSIDE_DOMAIN Setting to READ_ONLY_ACCESS",
         expected_result=False,
         log={
@@ -82,7 +82,7 @@ g_suite_workspace_gmail_default_routing_rule_modified_tests: List[PantherRuleTes
             "type": "CALENDAR_SETTINGS",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="ListObject Type",
         expected_result=False,
         log={
@@ -117,13 +117,13 @@ g_suite_workspace_gmail_default_routing_rule_modified_tests: List[PantherRuleTes
 ]
 
 
-class GSuiteWorkspaceGmailDefaultRoutingRuleModified(PantherRule):
+class GSuiteWorkspaceGmailDefaultRoutingRuleModified(Rule):
     id_ = "GSuite.Workspace.GmailDefaultRoutingRuleModified-prototype"
     display_name = "GSuite Workspace Gmail Default Routing Rule Modified"
-    log_types = [PantherLogType.GSuite_ActivityEvent]
+    log_types = [LogType.GSuite_ActivityEvent]
     tags = ["GSuite"]
     reports = {"MITRE ATT&CK": ["TA0003:T1098"]}
-    default_severity = PantherSeverity.high
+    default_severity = Severity.high
     default_description = "A Workspace Admin Has Modified A Default Routing Rule In Gmail\n"
     default_reference = "https://support.google.com/a/answer/2368153?hl=en"
     default_runbook = "Administrators use Default Routing to set up how inbound email is delivered within an organization. The configuration of the default routing rule needs to be inspected in order to verify the intent of the rule is benign.\nIf this change was not planned, inspect the other actions taken by this actor.\n"

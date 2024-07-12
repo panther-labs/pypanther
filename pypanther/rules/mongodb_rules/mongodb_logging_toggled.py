@@ -1,10 +1,10 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_mongodb_helpers import mongodb_alert_context
 
-mongo_db_logging_toggled_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+mongo_db_logging_toggled_tests: List[RuleTest] = [
+    RuleTest(
         name="Random event",
         expected_result=False,
         log={
@@ -33,7 +33,7 @@ mongo_db_logging_toggled_tests: List[PantherRuleTest] = [
             "username": "user@company.com",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Logging toggled",
         expected_result=True,
         log={
@@ -65,12 +65,12 @@ mongo_db_logging_toggled_tests: List[PantherRuleTest] = [
 ]
 
 
-class MongoDBLoggingToggled(PantherRule):
+class MongoDBLoggingToggled(Rule):
     default_description = "MongoDB logging toggled"
     display_name = "MongoDB logging toggled"
-    default_severity = PantherSeverity.low
+    default_severity = Severity.low
     default_reference = "https://attack.mitre.org/techniques/T1562/008/"
-    log_types = [PantherLogType.MongoDB_ProjectEvent]
+    log_types = [LogType.MongoDB_ProjectEvent]
     id_ = "MongoDB.Logging.Toggled-prototype"
     tests = mongo_db_logging_toggled_tests
 

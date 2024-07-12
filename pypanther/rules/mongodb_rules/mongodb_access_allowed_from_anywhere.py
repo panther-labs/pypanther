@@ -1,10 +1,10 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_mongodb_helpers import mongodb_alert_context
 
-mongo_db_access_allowed_from_anywhere_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+mongo_db_access_allowed_from_anywhere_tests: List[RuleTest] = [
+    RuleTest(
         name="Allowed access from anywhere",
         expected_result=True,
         log={
@@ -20,7 +20,7 @@ mongo_db_access_allowed_from_anywhere_tests: List[PantherRuleTest] = [
             "whitelistEntry": "0.0.0.0/0",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Allowed access from specific ip",
         expected_result=False,
         log={
@@ -39,12 +39,12 @@ mongo_db_access_allowed_from_anywhere_tests: List[PantherRuleTest] = [
 ]
 
 
-class MongoDBAccessAllowedFromAnywhere(PantherRule):
+class MongoDBAccessAllowedFromAnywhere(Rule):
     default_description = "Atlas only allows client connections to the database deployment from entries in the project's IP access list. This rule detects when 0.0.0.0/0 is added to that list, which allows access from anywhere."
     display_name = "MongoDB access allowed from anywhere"
-    log_types = [PantherLogType.MongoDB_ProjectEvent]
+    log_types = [LogType.MongoDB_ProjectEvent]
     id_ = "MongoDB.Access.Allowed.From.Anywhere-prototype"
-    default_severity = PantherSeverity.high
+    default_severity = Severity.high
     reports = {"MITRE ATT&CK": ["T1021"]}
     default_reference = "https://www.mongodb.com/docs/atlas/security/ip-access-list/"
     default_runbook = "Check if this activity was legitimate. If not, delete 0.0.0.0/0 from the list of allowed ips."

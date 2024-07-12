@@ -1,10 +1,10 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import aws_rule_context, deep_get
 
-awsec2_startup_script_change_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+awsec2_startup_script_change_tests: List[RuleTest] = [
+    RuleTest(
         name="ModifyInstanceAttribute-NoUserData",
         expected_result=False,
         log={
@@ -25,7 +25,7 @@ awsec2_startup_script_change_tests: List[PantherRuleTest] = [
             },
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="ModifyInstanceAttributeUserdata",
         expected_result=True,
         log={
@@ -75,7 +75,7 @@ awsec2_startup_script_change_tests: List[PantherRuleTest] = [
             },
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="NoModifyInstanceAttribute",
         expected_result=False,
         log={
@@ -99,15 +99,15 @@ awsec2_startup_script_change_tests: List[PantherRuleTest] = [
 ]
 
 
-class AWSEC2StartupScriptChange(PantherRule):
+class AWSEC2StartupScriptChange(Rule):
     default_description = "Detects changes to the EC2 instance startup script. The shell script will be executed as root/SYSTEM every time the specific instances are booted up."
     display_name = "AWS EC2 Startup Script Change"
     reports = {"MITRE ATT&CK": ["TA0002:T1059"]}
     default_reference = (
         "https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/user-data.html#user-data-shell-scripts"
     )
-    default_severity = PantherSeverity.high
-    log_types = [PantherLogType.AWS_CloudTrail]
+    default_severity = Severity.high
+    log_types = [LogType.AWS_CloudTrail]
     id_ = "AWS.EC2.Startup.Script.Change-prototype"
     tests = awsec2_startup_script_change_tests
 

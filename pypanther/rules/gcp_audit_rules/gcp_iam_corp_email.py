@@ -1,10 +1,10 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 
-gcpiam_corporate_email_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+gcpiam_corporate_email_tests: List[RuleTest] = [
+    RuleTest(
         name="Gmail account added",
         expected_result=True,
         log={
@@ -164,7 +164,7 @@ gcpiam_corporate_email_tests: List[PantherRuleTest] = [
             "receiveTimestamp": "2020-05-15T03:51:35.977314225Z",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Runpanther account added",
         expected_result=False,
         log={
@@ -327,14 +327,14 @@ gcpiam_corporate_email_tests: List[PantherRuleTest] = [
 ]
 
 
-class GCPIAMCorporateEmail(PantherRule):
+class GCPIAMCorporateEmail(Rule):
     id_ = "GCP.IAM.CorporateEmail-prototype"
     display_name = "GCP Corporate Email Not Used"
     dedup_period_minutes = 720
-    log_types = [PantherLogType.GCP_AuditLog]
+    log_types = [LogType.GCP_AuditLog]
     tags = ["GCP", "Identity & Access Management", "Persistence:Create Account"]
     reports = {"MITRE ATT&CK": ["TA0003:T1136"], "CIS": ["1.1"]}
-    default_severity = PantherSeverity.low
+    default_severity = Severity.low
     default_description = "A Gmail account is being used instead of a corporate email"
     default_runbook = "Remove the user"
     default_reference = "https://cloud.google.com/iam/docs/service-account-overview"

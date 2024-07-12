@@ -1,10 +1,10 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 
-duo_user_action_fraudulent_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+duo_user_action_fraudulent_tests: List[RuleTest] = [
+    RuleTest(
         name="user_marked_fraud",
         expected_result=True,
         log={
@@ -21,13 +21,13 @@ duo_user_action_fraudulent_tests: List[PantherRuleTest] = [
 ]
 
 
-class DUOUserActionFraudulent(PantherRule):
+class DUOUserActionFraudulent(Rule):
     id_ = "DUO.User.Action.Fraudulent-prototype"
     display_name = "Duo User Action Reported as Fraudulent"
     dedup_period_minutes = 15
-    log_types = [PantherLogType.Duo_Authentication]
+    log_types = [LogType.Duo_Authentication]
     tags = ["Duo"]
-    default_severity = PantherSeverity.medium
+    default_severity = Severity.medium
     default_description = "Alert when a user reports a Duo action as fraudulent.\n"
     default_reference = "https://duo.com/docs/adminapi#authentication-logs"
     default_runbook = "Follow up with the user to confirm."

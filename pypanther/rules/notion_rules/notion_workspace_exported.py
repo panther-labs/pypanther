@@ -1,10 +1,10 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_notion_helpers import notion_alert_context
 
-notion_workspace_exported_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+notion_workspace_exported_tests: List[RuleTest] = [
+    RuleTest(
         name="Workspace Exported",
         expected_result=True,
         log={
@@ -25,7 +25,7 @@ notion_workspace_exported_tests: List[PantherRuleTest] = [
             }
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Other Event",
         expected_result=False,
         log={
@@ -58,12 +58,12 @@ notion_workspace_exported_tests: List[PantherRuleTest] = [
 ]
 
 
-class NotionWorkspaceExported(PantherRule):
+class NotionWorkspaceExported(Rule):
     id_ = "Notion.Workspace.Exported-prototype"
     display_name = "Notion Workspace Exported"
-    log_types = [PantherLogType.Notion_AuditLogs]
+    log_types = [LogType.Notion_AuditLogs]
     tags = ["Notion", "Data Security", "Data Exfiltration"]
-    default_severity = PantherSeverity.high
+    default_severity = Severity.high
     default_description = "A Notion User exported an existing workspace."
     default_runbook = "Possible Data Exfiltration. Follow up with the Notion User to determine if this was done for a valid business reason."
     default_reference = "https://www.notion.so/help/workspace-settings#export-an-entire-workspace"

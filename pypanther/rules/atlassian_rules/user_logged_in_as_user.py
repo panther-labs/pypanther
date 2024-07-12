@@ -1,10 +1,10 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 
-atlassian_user_logged_in_as_user_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+atlassian_user_logged_in_as_user_tests: List[RuleTest] = [
+    RuleTest(
         name="Admin impersonated user successfully",
         expected_result=True,
         log={
@@ -45,7 +45,7 @@ atlassian_user_logged_in_as_user_tests: List[PantherRuleTest] = [
             },
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="user_logged_in_as_user not in log",
         expected_result=False,
         log={
@@ -89,11 +89,11 @@ atlassian_user_logged_in_as_user_tests: List[PantherRuleTest] = [
 ]
 
 
-class AtlassianUserLoggedInAsUser(PantherRule):
+class AtlassianUserLoggedInAsUser(Rule):
     display_name = "Atlassian admin impersonated another user"
     id_ = "Atlassian.User.LoggedInAsUser-prototype"
-    default_severity = PantherSeverity.high
-    log_types = [PantherLogType.Atlassian_Audit]
+    default_severity = Severity.high
+    log_types = [LogType.Atlassian_Audit]
     tags = ["Atlassian", "User impersonation"]
     default_description = "Reports when an Atlassian user logs in (impersonates) another user.\n"
     default_runbook = (

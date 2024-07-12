@@ -1,10 +1,10 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 
-box_large_number_downloads_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+box_large_number_downloads_tests: List[RuleTest] = [
+    RuleTest(
         name="Regular Event",
         expected_result=False,
         log={
@@ -19,7 +19,7 @@ box_large_number_downloads_tests: List[PantherRuleTest] = [
             "event_type": "DELETE",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="User Download",
         expected_result=True,
         log={
@@ -43,13 +43,13 @@ box_large_number_downloads_tests: List[PantherRuleTest] = [
 ]
 
 
-class BoxLargeNumberDownloads(PantherRule):
+class BoxLargeNumberDownloads(Rule):
     id_ = "Box.Large.Number.Downloads-prototype"
     display_name = "Box Large Number of Downloads"
-    log_types = [PantherLogType.Box_Event]
+    log_types = [LogType.Box_Event]
     tags = ["Box", "Exfiltration:Exfiltration Over Web Service"]
     reports = {"MITRE ATT&CK": ["TA0010:T1567"]}
-    default_severity = PantherSeverity.low
+    default_severity = Severity.low
     default_description = (
         "A user has exceeded the threshold for number of downloads within a single time frame.\n"
     )

@@ -1,10 +1,10 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 
-g_suite_user_suspended_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+g_suite_user_suspended_tests: List[RuleTest] = [
+    RuleTest(
         name="Normal Login Event",
         expected_result=False,
         log={
@@ -15,7 +15,7 @@ g_suite_user_suspended_tests: List[PantherRuleTest] = [
             "parameters": {"affected_email_address": "bobert@ext.runpanther.io"},
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Account Warning Not For User Suspended",
         expected_result=False,
         log={
@@ -26,7 +26,7 @@ g_suite_user_suspended_tests: List[PantherRuleTest] = [
             "parameters": {"affected_email_address": "bobert@ext.runpanther.io"},
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Account Warning For Suspended User",
         expected_result=True,
         log={
@@ -40,12 +40,12 @@ g_suite_user_suspended_tests: List[PantherRuleTest] = [
 ]
 
 
-class GSuiteUserSuspended(PantherRule):
+class GSuiteUserSuspended(Rule):
     id_ = "GSuite.UserSuspended-prototype"
     display_name = "GSuite User Suspended"
-    log_types = [PantherLogType.GSuite_ActivityEvent]
+    log_types = [LogType.GSuite_ActivityEvent]
     tags = ["GSuite"]
-    default_severity = PantherSeverity.high
+    default_severity = Severity.high
     default_description = (
         "A GSuite user was suspended, the account may have been compromised by a spam network.\n"
     )

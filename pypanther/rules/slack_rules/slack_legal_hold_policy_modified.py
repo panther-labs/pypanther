@@ -1,10 +1,10 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get, slack_alert_context
 
-slack_audit_logs_legal_hold_policy_modified_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+slack_audit_logs_legal_hold_policy_modified_tests: List[RuleTest] = [
+    RuleTest(
         name="Legal Hold - Entities Deleted",
         expected_result=True,
         log={
@@ -30,7 +30,7 @@ slack_audit_logs_legal_hold_policy_modified_tests: List[PantherRuleTest] = [
             },
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Legal Hold - Exclusions Added",
         expected_result=True,
         log={
@@ -56,7 +56,7 @@ slack_audit_logs_legal_hold_policy_modified_tests: List[PantherRuleTest] = [
             },
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Legal Hold - Policy Released",
         expected_result=True,
         log={
@@ -82,7 +82,7 @@ slack_audit_logs_legal_hold_policy_modified_tests: List[PantherRuleTest] = [
             },
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Legal Hold - Policy Updated",
         expected_result=True,
         log={
@@ -108,7 +108,7 @@ slack_audit_logs_legal_hold_policy_modified_tests: List[PantherRuleTest] = [
             },
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="User Logout",
         expected_result=False,
         log={
@@ -148,13 +148,13 @@ slack_audit_logs_legal_hold_policy_modified_tests: List[PantherRuleTest] = [
 ]
 
 
-class SlackAuditLogsLegalHoldPolicyModified(PantherRule):
+class SlackAuditLogsLegalHoldPolicyModified(Rule):
     id_ = "Slack.AuditLogs.LegalHoldPolicyModified-prototype"
     display_name = "Slack Legal Hold Policy Modified"
-    log_types = [PantherLogType.Slack_AuditLogs]
+    log_types = [LogType.Slack_AuditLogs]
     tags = ["Slack", "Defense Evasion", "Impair Defenses", "Disable or Modify Tools"]
     reports = {"MITRE ATT&CK": ["TA0005:T1562.001"]}
-    default_severity = PantherSeverity.high
+    default_severity = Severity.high
     default_description = "Detects changes to configured legal hold policies"
     default_reference = (
         "https://slack.com/intl/en-gb/help/articles/4401830811795-Create-and-manage-legal-holds"

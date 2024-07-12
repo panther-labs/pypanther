@@ -1,11 +1,11 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 from pypanther.helpers.panther_snyk_helpers import snyk_alert_context
 
-snyk_user_management_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+snyk_user_management_tests: List[RuleTest] = [
+    RuleTest(
         name="Snyk User Removed",
         expected_result=True,
         log={
@@ -23,7 +23,7 @@ snyk_user_management_tests: List[PantherRuleTest] = [
             "userId": "05555555-3333-4ddd-8ccc-755555555555",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Snyk User Invite Revoke",
         expected_result=True,
         log={
@@ -35,7 +35,7 @@ snyk_user_management_tests: List[PantherRuleTest] = [
             "userId": "05555555-3333-4ddd-8ccc-755555555555",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Snyk Group User add",
         expected_result=True,
         log={
@@ -50,7 +50,7 @@ snyk_user_management_tests: List[PantherRuleTest] = [
             "userId": "05555555-3333-4ddd-8ccc-755555555555",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Snyk System SSO Setting event happened",
         expected_result=False,
         log={
@@ -61,7 +61,7 @@ snyk_user_management_tests: List[PantherRuleTest] = [
             "content": {"unknown": "contents"},
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="SAML User Added",
         expected_result=False,
         log={
@@ -80,12 +80,12 @@ snyk_user_management_tests: List[PantherRuleTest] = [
 ]
 
 
-class SnykUserManagement(PantherRule):
+class SnykUserManagement(Rule):
     id_ = "Snyk.User.Management-prototype"
     display_name = "Snyk User Management"
-    log_types = [PantherLogType.Snyk_GroupAudit, PantherLogType.Snyk_OrgAudit]
+    log_types = [LogType.Snyk_GroupAudit, LogType.Snyk_OrgAudit]
     tags = ["Snyk"]
-    default_severity = PantherSeverity.medium
+    default_severity = Severity.medium
     default_description = "Detects when Snyk Users are changed\n"
     default_runbook = "These actions in the Snyk Audit logs indicate that a User has been created/deleted/modified.\n"
     default_reference = "https://docs.snyk.io/snyk-admin/manage-users-and-permissions/member-roles"

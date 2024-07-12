@@ -1,11 +1,11 @@
 from ipaddress import ip_address
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import aws_rule_context, deep_get
 
-aws_cloud_trail_unauthorized_api_call_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+aws_cloud_trail_unauthorized_api_call_tests: List[RuleTest] = [
+    RuleTest(
         name="Unauthorized API Call from Within AWS (IP)",
         expected_result=True,
         log={
@@ -41,7 +41,7 @@ aws_cloud_trail_unauthorized_api_call_tests: List[PantherRuleTest] = [
             "recipientAccountId": "123456789012",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Unauthorized API Call from Within AWS (FQDN)",
         expected_result=False,
         log={
@@ -77,7 +77,7 @@ aws_cloud_trail_unauthorized_api_call_tests: List[PantherRuleTest] = [
             "recipientAccountId": "123456789012",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Authorized API Call",
         expected_result=False,
         log={
@@ -114,14 +114,14 @@ aws_cloud_trail_unauthorized_api_call_tests: List[PantherRuleTest] = [
 ]
 
 
-class AWSCloudTrailUnauthorizedAPICall(PantherRule):
+class AWSCloudTrailUnauthorizedAPICall(Rule):
     id_ = "AWS.CloudTrail.UnauthorizedAPICall-prototype"
     display_name = "Monitor Unauthorized API Calls"
     dedup_period_minutes = 1440
-    log_types = [PantherLogType.AWS_CloudTrail]
+    log_types = [LogType.AWS_CloudTrail]
     tags = ["AWS", "Discovery:Cloud Service Discovery"]
     reports = {"CIS": ["3.1"], "MITRE ATT&CK": ["TA0007:T1526"]}
-    default_severity = PantherSeverity.info
+    default_severity = Severity.info
     default_description = "An unauthorized AWS API call was made"
     default_runbook = (
         "https://docs.runpanther.io/alert-runbooks/built-in-rules/aws-unauthorized-api-call"

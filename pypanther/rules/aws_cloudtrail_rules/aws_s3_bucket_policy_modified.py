@@ -1,11 +1,11 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import aws_rule_context, deep_get
 from pypanther.helpers.panther_default import aws_cloudtrail_success
 
-awss3_bucket_policy_modified_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+awss3_bucket_policy_modified_tests: List[RuleTest] = [
+    RuleTest(
         name="S3 Bucket Policy Modified",
         expected_result=True,
         log={
@@ -54,7 +54,7 @@ awss3_bucket_policy_modified_tests: List[PantherRuleTest] = [
             "recipientAccountId": "123456789012",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="S3 Bucket Policy Modified Error Response",
         expected_result=False,
         log={
@@ -104,7 +104,7 @@ awss3_bucket_policy_modified_tests: List[PantherRuleTest] = [
             "recipientAccountId": "123456789012",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="S3 Bucket Policy Not Modified",
         expected_result=False,
         log={
@@ -155,17 +155,17 @@ awss3_bucket_policy_modified_tests: List[PantherRuleTest] = [
 ]
 
 
-class AWSS3BucketPolicyModified(PantherRule):
+class AWSS3BucketPolicyModified(Rule):
     id_ = "AWS.S3.BucketPolicyModified-prototype"
     display_name = "AWS S3 Bucket Policy Modified"
-    log_types = [PantherLogType.AWS_CloudTrail]
+    log_types = [LogType.AWS_CloudTrail]
     tags = [
         "AWS",
         "Identity & Access Management",
         "Exfiltration:Exfiltration Over Web Service",
     ]
     reports = {"CIS": ["3.8"], "MITRE ATT&CK": ["TA0010:T1567"]}
-    default_severity = PantherSeverity.info
+    default_severity = Severity.info
     dedup_period_minutes = 720
     default_description = "An S3 Bucket was modified.\n"
     default_runbook = (

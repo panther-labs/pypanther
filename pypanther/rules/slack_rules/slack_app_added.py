@@ -1,10 +1,10 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get, slack_alert_context
 
-slack_audit_logs_app_added_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+slack_audit_logs_app_added_tests: List[RuleTest] = [
+    RuleTest(
         name="App added to workspace - Admin not in app scopes",
         expected_result=True,
         log={
@@ -56,7 +56,7 @@ slack_audit_logs_app_added_tests: List[PantherRuleTest] = [
             },
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="App Approved",
         expected_result=True,
         log={
@@ -94,7 +94,7 @@ slack_audit_logs_app_added_tests: List[PantherRuleTest] = [
             },
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="App Installed",
         expected_result=True,
         log={
@@ -132,7 +132,7 @@ slack_audit_logs_app_added_tests: List[PantherRuleTest] = [
             },
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="App added to workspace",
         expected_result=True,
         log={
@@ -170,7 +170,7 @@ slack_audit_logs_app_added_tests: List[PantherRuleTest] = [
             },
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="User Logout",
         expected_result=False,
         log={
@@ -210,13 +210,13 @@ slack_audit_logs_app_added_tests: List[PantherRuleTest] = [
 ]
 
 
-class SlackAuditLogsAppAdded(PantherRule):
+class SlackAuditLogsAppAdded(Rule):
     id_ = "Slack.AuditLogs.AppAdded-prototype"
     display_name = "Slack App Added"
-    log_types = [PantherLogType.Slack_AuditLogs]
+    log_types = [LogType.Slack_AuditLogs]
     tags = ["Slack", "Persistence", "Server Software Component"]
     reports = {"MITRE ATT&CK": ["TA0003:T1505"]}
-    default_severity = PantherSeverity.medium
+    default_severity = Severity.medium
     default_description = "Detects when a Slack App has been added to a workspace"
     default_reference = (
         "https://slack.com/intl/en-gb/help/articles/202035138-Add-apps-to-your-Slack-workspace"

@@ -1,9 +1,9 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 
-netskope_netskope_personnel_activity_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+netskope_netskope_personnel_activity_tests: List[RuleTest] = [
+    RuleTest(
         name="True positive",
         expected_result=True,
         log={
@@ -24,7 +24,7 @@ netskope_netskope_personnel_activity_tests: List[PantherRuleTest] = [
             "user": "adminsupport@netskope.com",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="True negative",
         expected_result=False,
         log={
@@ -53,13 +53,13 @@ netskope_netskope_personnel_activity_tests: List[PantherRuleTest] = [
 ]
 
 
-class NetskopeNetskopePersonnelActivity(PantherRule):
+class NetskopeNetskopePersonnelActivity(Rule):
     id_ = "Netskope.NetskopePersonnelActivity-prototype"
     display_name = "Action Performed by Netskope Personnel"
-    log_types = [PantherLogType.Netskope_Audit]
+    log_types = [LogType.Netskope_Audit]
     tags = ["Netskope", "Supply Chain Compromise"]
     reports = {"MITRE ATT&CK": ["TA0001:T1195"]}
-    default_severity = PantherSeverity.medium
+    default_severity = Severity.medium
     default_description = "An action was performed by Netskope personnel."
     default_runbook = (
         "Action taken by Netskope Personnel.  Validate that this action was authorized."

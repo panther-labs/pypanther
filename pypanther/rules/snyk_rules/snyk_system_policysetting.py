@@ -1,11 +1,11 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 from pypanther.helpers.panther_snyk_helpers import snyk_alert_context
 
-snyk_system_policy_setting_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+snyk_system_policy_setting_tests: List[RuleTest] = [
+    RuleTest(
         name="Snyk System Policy Setting event happened ( Security Policy )",
         expected_result=True,
         log={
@@ -46,7 +46,7 @@ snyk_system_policy_setting_tests: List[PantherRuleTest] = [
             "userId": "05555555-3333-4ddd-8ccc-755555555555",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Snyk System Policy Setting event happened ( License Policy )",
         expected_result=True,
         log={
@@ -89,7 +89,7 @@ snyk_system_policy_setting_tests: List[PantherRuleTest] = [
             "userId": "05555555-3333-4ddd-8ccc-755555555555",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Snyk Group SSO Membership sync",
         expected_result=False,
         log={
@@ -109,12 +109,12 @@ snyk_system_policy_setting_tests: List[PantherRuleTest] = [
 ]
 
 
-class SnykSystemPolicySetting(PantherRule):
+class SnykSystemPolicySetting(Rule):
     id_ = "Snyk.System.PolicySetting-prototype"
     display_name = "Snyk System Policy Settings Changed"
-    log_types = [PantherLogType.Snyk_GroupAudit, PantherLogType.Snyk_OrgAudit]
+    log_types = [LogType.Snyk_GroupAudit, LogType.Snyk_OrgAudit]
     tags = ["Snyk"]
-    default_severity = PantherSeverity.high
+    default_severity = Severity.high
     default_description = "Detects Snyk Policy Settings have been changed. Policies define Snyk's behavior when encountering security and licensing issues.\n"
     default_runbook = "Snyk Policies can cause alerts to raise or not based on found security and license issues. Validate that that this change is expected.\n"
     default_reference = "https://docs.snyk.io/manage-issues/policies/shared-policies-overview"

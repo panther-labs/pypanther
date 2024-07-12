@@ -1,10 +1,10 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 
-gcpiam_custom_role_changes_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+gcpiam_custom_role_changes_tests: List[RuleTest] = [
+    RuleTest(
         name="Custom Role Created",
         expected_result=True,
         log={
@@ -93,18 +93,18 @@ gcpiam_custom_role_changes_tests: List[PantherRuleTest] = [
 ]
 
 
-class GCPIAMCustomRoleChanges(PantherRule):
+class GCPIAMCustomRoleChanges(Rule):
     id_ = "GCP.IAM.CustomRoleChanges-prototype"
     display_name = "GCP IAM Role Has Changed"
     dedup_period_minutes = 1440
-    log_types = [PantherLogType.GCP_AuditLog]
+    log_types = [LogType.GCP_AuditLog]
     tags = [
         "GCP",
         "Identity & Access Management",
         "Privilege Escalation:Valid Accounts",
     ]
     reports = {"CIS": ["2.6"], "MITRE ATT&CK": ["TA0004:T1078"]}
-    default_severity = PantherSeverity.info
+    default_severity = Severity.info
     default_description = "A custom role has been created, deleted, or updated."
     default_runbook = "No action needed, informational"
     default_reference = "https://cloud.google.com/iam/docs/creating-custom-roles"

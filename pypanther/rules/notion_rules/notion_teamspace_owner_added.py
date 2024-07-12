@@ -1,10 +1,10 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_notion_helpers import notion_alert_context
 
-notion_teamspace_owner_added_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+notion_teamspace_owner_added_tests: List[RuleTest] = [
+    RuleTest(
         name="Member Added",
         expected_result=False,
         log={
@@ -38,7 +38,7 @@ notion_teamspace_owner_added_tests: List[PantherRuleTest] = [
             }
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Owner Added",
         expected_result=True,
         log={
@@ -75,13 +75,13 @@ notion_teamspace_owner_added_tests: List[PantherRuleTest] = [
 ]
 
 
-class NotionTeamspaceOwnerAdded(PantherRule):
+class NotionTeamspaceOwnerAdded(Rule):
     id_ = "Notion.TeamspaceOwnerAdded-prototype"
     display_name = "Notion Teamspace Owner Added"
-    log_types = [PantherLogType.Notion_AuditLogs]
+    log_types = [LogType.Notion_AuditLogs]
     tags = ["Notion", "Privilege Escalation"]
     default_description = "A Notion User was added as a Teamspace owner."
-    default_severity = PantherSeverity.medium
+    default_severity = Severity.medium
     default_runbook = "Possible Privilege Escalation. Follow up with the Notion User to determine if this was done for a valid business reason."
     tests = notion_teamspace_owner_added_tests
 

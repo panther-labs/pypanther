@@ -1,9 +1,9 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 
-push_security_new_app_detected_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+push_security_new_app_detected_tests: List[RuleTest] = [
+    RuleTest(
         name="New App",
         expected_result=True,
         log={
@@ -24,7 +24,7 @@ push_security_new_app_detected_tests: List[PantherRuleTest] = [
             "version": "1",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="App Updated",
         expected_result=False,
         log={
@@ -56,11 +56,11 @@ push_security_new_app_detected_tests: List[PantherRuleTest] = [
 ]
 
 
-class PushSecurityNewAppDetected(PantherRule):
+class PushSecurityNewAppDetected(Rule):
     id_ = "Push.Security.New.App.Detected-prototype"
     display_name = "Push Security New App Detected"
-    log_types = [PantherLogType.PushSecurity_Entities]
-    default_severity = PantherSeverity.info
+    log_types = [LogType.PushSecurity_Entities]
+    default_severity = Severity.info
     tests = push_security_new_app_detected_tests
 
     def rule(self, event):

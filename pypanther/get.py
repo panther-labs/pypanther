@@ -5,9 +5,9 @@ from typing import Any, List, Set, Type
 
 from prettytable import PrettyTable
 
-from pypanther.base import PantherDataModel, PantherRule
+from pypanther.base import DataModel, Rule
 
-__RULES: Set[Type[PantherRule]] = set()
+__RULES: Set[Type[Rule]] = set()
 
 
 def __to_set(value):
@@ -19,7 +19,7 @@ def __to_set(value):
         return {value}
 
 
-def get_panther_rules(**kwargs) -> list[Type[PantherRule]]:
+def get_panther_rules(**kwargs) -> list[Type[Rule]]:
     """Return an iterator of all PantherRules in the pypanther.rules based on the provided filters.
     If the filter argument is not provided, all rules are returned. If a filter value is a list, any value in the
     list will match. If a filter value is a string, the value must match exactly.
@@ -31,11 +31,7 @@ def get_panther_rules(**kwargs) -> list[Type[PantherRule]]:
                 m = import_module(module_info.name)
                 for item in dir(m):
                     attr = getattr(m, item)
-                    if (
-                        isinstance(attr, type)
-                        and issubclass(attr, PantherRule)
-                        and attr is not PantherRule
-                    ):
+                    if isinstance(attr, type) and issubclass(attr, Rule) and attr is not Rule:
                         if not hasattr(attr, "id_"):
                             continue
                         __RULES.add(attr)
@@ -43,10 +39,10 @@ def get_panther_rules(**kwargs) -> list[Type[PantherRule]]:
     return filter_kwargs(__RULES, **kwargs)
 
 
-__DATA_MODELS: Set[Type[PantherRule]] = set()
+__DATA_MODELS: Set[Type[Rule]] = set()
 
 
-def get_rules(module: Any) -> list[Type[PantherRule]]:
+def get_rules(module: Any) -> list[Type[Rule]]:
     """
     Returns a list of PantherRule subclasses that are declared within the given module, recursively.
     All sub-packages of the given module must have an __init__.py declared for PantherRule subclasses
@@ -71,7 +67,7 @@ def get_rules(module: Any) -> list[Type[PantherRule]]:
 
         for item in dir(m):
             attr = getattr(m, item)
-            if isinstance(attr, type) and issubclass(attr, PantherRule) and attr is not PantherRule:
+            if isinstance(attr, type) and issubclass(attr, Rule) and attr is not Rule:
                 if not hasattr(attr, "id_"):
                     continue
                 subclasses.add(attr)
@@ -90,11 +86,7 @@ def get_panther_data_models(**kwargs):
             m = import_module(module_info.name)
             for item in dir(m):
                 attr = getattr(m, item)
-                if (
-                    isinstance(attr, type)
-                    and issubclass(attr, PantherDataModel)
-                    and attr is not PantherDataModel
-                ):
+                if isinstance(attr, type) and issubclass(attr, DataModel) and attr is not DataModel:
                     __DATA_MODELS.add(attr)
 
     return filter_kwargs(__DATA_MODELS, **kwargs)
@@ -115,7 +107,7 @@ def filter_kwargs(
     ]
 
 
-def print_rule_table(rules: List[Type[PantherRule]]) -> None:
+def print_rule_table(rules: List[Type[Rule]]) -> None:
     """Prints rules in a table format for easy viewing."""
     table = PrettyTable()
     table.field_names = [

@@ -1,10 +1,10 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 
-gcpgcs_public_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+gcpgcs_public_tests: List[RuleTest] = [
+    RuleTest(
         name="GCS AllUsers Read Permission",
         expected_result=True,
         log={
@@ -64,14 +64,14 @@ gcpgcs_public_tests: List[PantherRuleTest] = [
 ]
 
 
-class GCPGCSPublic(PantherRule):
+class GCPGCSPublic(Rule):
     id_ = "GCP.GCS.Public-prototype"
     display_name = "GCS Bucket Made Public"
     dedup_period_minutes = 15
-    log_types = [PantherLogType.GCP_AuditLog]
+    log_types = [LogType.GCP_AuditLog]
     tags = ["GCP", "Google Cloud Storage", "Collection:Data From Cloud Storage Object"]
     reports = {"MITRE ATT&CK": ["TA0009:T1530"]}
-    default_severity = PantherSeverity.high
+    default_severity = Severity.high
     default_description = (
         "Adversaries may access data objects from improperly secured cloud storage."
     )

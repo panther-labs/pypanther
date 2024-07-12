@@ -1,9 +1,9 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 
-carbon_black_audit_user_added_outside_org_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+carbon_black_audit_user_added_outside_org_tests: List[RuleTest] = [
+    RuleTest(
         name="Outside org",
         expected_result=True,
         log={
@@ -17,7 +17,7 @@ carbon_black_audit_user_added_outside_org_tests: List[PantherRuleTest] = [
             "verbose": False,
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Inside org",
         expected_result=False,
         log={
@@ -34,14 +34,14 @@ carbon_black_audit_user_added_outside_org_tests: List[PantherRuleTest] = [
 ]
 
 
-class CarbonBlackAuditUserAddedOutsideOrg(PantherRule):
+class CarbonBlackAuditUserAddedOutsideOrg(Rule):
     id_ = "CarbonBlack.Audit.User.Added.Outside.Org-prototype"
-    log_types = [PantherLogType.CarbonBlack_Audit]
+    log_types = [LogType.CarbonBlack_Audit]
     default_description = (
         "Detects when a user from a different organization is added to Carbon Black."
     )
     display_name = "Carbon Black User Added Outside Org"
-    default_severity = PantherSeverity.high
+    default_severity = Severity.high
     tags = ["Persistence", "Create Account"]
     reports = {"MITRE ATT&CK": ["TA0003:T1136"]}
     default_reference = "https://docs.vmware.com/en/VMware-Carbon-Black-Cloud/services/carbon-black-cloud-user-guide/GUID-516BAF8C-A13D-4FC7-AA92-923159C13083.html"

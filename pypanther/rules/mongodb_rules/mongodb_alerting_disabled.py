@@ -1,10 +1,10 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_mongodb_helpers import mongodb_alert_context
 
-mongo_db_alerting_disabled_or_deleted_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+mongo_db_alerting_disabled_or_deleted_tests: List[RuleTest] = [
+    RuleTest(
         name="Alert added",
         expected_result=False,
         log={
@@ -21,7 +21,7 @@ mongo_db_alerting_disabled_or_deleted_tests: List[PantherRuleTest] = [
             "username": "some_user@company.com",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Alert deleted",
         expected_result=True,
         log={
@@ -41,12 +41,12 @@ mongo_db_alerting_disabled_or_deleted_tests: List[PantherRuleTest] = [
 ]
 
 
-class MongoDBAlertingDisabledOrDeleted(PantherRule):
+class MongoDBAlertingDisabledOrDeleted(Rule):
     default_description = "MongoDB provides security alerting policies for notifying admins when certain conditions are met. This rule detects when these policies are disabled or deleted."
     display_name = "MongoDB security alerts disabled or deleted"
-    log_types = [PantherLogType.MongoDB_OrganizationEvent]
+    log_types = [LogType.MongoDB_OrganizationEvent]
     id_ = "MongoDB.Alerting.Disabled.Or.Deleted-prototype"
-    default_severity = PantherSeverity.high
+    default_severity = Severity.high
     reports = {"MITRE ATT&CK": ["TA0005:T1562.001"]}
     default_reference = "https://www.mongodb.com/docs/atlas/configure-alerts/"
     default_runbook = "Re-enable security alerts"

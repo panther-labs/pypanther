@@ -1,11 +1,11 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 from pypanther.helpers.panther_default import aws_cloudtrail_success, lookup_aws_account_name
 
-aws_root_activity_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+aws_root_activity_tests: List[RuleTest] = [
+    RuleTest(
         name="Root Activity - CreateServiceLinkedRole",
         expected_result=False,
         log={
@@ -51,7 +51,7 @@ aws_root_activity_tests: List[PantherRuleTest] = [
             "recipientAccountId": "123456789012",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Root Activity",
         expected_result=True,
         log={
@@ -97,7 +97,7 @@ aws_root_activity_tests: List[PantherRuleTest] = [
             "recipientAccountId": "123456789012",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="IAMUser Activity",
         expected_result=False,
         log={
@@ -142,7 +142,7 @@ aws_root_activity_tests: List[PantherRuleTest] = [
             "vpcEndpointId": "vpce-1",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Root User Failed Activity",
         expected_result=False,
         log={
@@ -185,7 +185,7 @@ aws_root_activity_tests: List[PantherRuleTest] = [
             },
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Successful Root Login",
         expected_result=True,
         log={
@@ -218,10 +218,10 @@ aws_root_activity_tests: List[PantherRuleTest] = [
 ]
 
 
-class AWSRootActivity(PantherRule):
+class AWSRootActivity(Rule):
     id_ = "AWS.Root.Activity-prototype"
     display_name = "Root Account Activity"
-    log_types = [PantherLogType.AWS_CloudTrail]
+    log_types = [LogType.AWS_CloudTrail]
     tags = [
         "AWS",
         "Identity & Access Management",
@@ -229,7 +229,7 @@ class AWSRootActivity(PantherRule):
         "Privilege Escalation:Valid Accounts",
     ]
     reports = {"CIS": ["3.3"], "MITRE ATT&CK": ["TA0004:T1078"]}
-    default_severity = PantherSeverity.high
+    default_severity = Severity.high
     default_description = "Root account activity was detected.\n"
     default_runbook = "Investigate the usage of the root account. If this root activity was not authorized, immediately change the root credentials and investigate what actions the root account took.\n"
     default_reference = "https://docs.aws.amazon.com/IAM/latest/UserGuide/id_root-user.html"

@@ -1,11 +1,11 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 from pypanther.helpers.panther_snyk_helpers import snyk_alert_context
 
-snyk_misc_settings_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+snyk_misc_settings_tests: List[RuleTest] = [
+    RuleTest(
         name="Snyk Feature Flags changed",
         expected_result=True,
         log={
@@ -16,7 +16,7 @@ snyk_misc_settings_tests: List[PantherRuleTest] = [
             "userId": "05555555-3333-4ddd-8ccc-755555555555",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Snyk User Invite Revoke",
         expected_result=False,
         log={
@@ -31,13 +31,13 @@ snyk_misc_settings_tests: List[PantherRuleTest] = [
 ]
 
 
-class SnykMiscSettings(PantherRule):
+class SnykMiscSettings(Rule):
     id_ = "Snyk.Misc.Settings-prototype"
     display_name = "Snyk Miscellaneous Settings"
-    log_types = [PantherLogType.Snyk_GroupAudit, PantherLogType.Snyk_OrgAudit]
+    log_types = [LogType.Snyk_GroupAudit, LogType.Snyk_OrgAudit]
     tags = ["Snyk"]
     default_reference = "https://docs.snyk.io/snyk-admin/manage-settings"
-    default_severity = PantherSeverity.low
+    default_severity = Severity.low
     default_description = (
         "Detects when Snyk settings that lack a clear security impact are changed\n"
     )

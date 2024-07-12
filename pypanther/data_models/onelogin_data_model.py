@@ -1,8 +1,8 @@
 from typing import List
 
 import pypanther.helpers.panther_event_type_helpers as event_type
-from pypanther.base import PantherDataModel, PantherDataModelMapping
-from pypanther.log_types import PantherLogType
+from pypanther.base import DataModel, DataModelMapping
+from pypanther.log_types import LogType
 
 
 def get_event_type(event):
@@ -18,17 +18,17 @@ def get_event_type(event):
     return None
 
 
-class StandardOneLoginEvents(PantherDataModel):
+class StandardOneLoginEvents(DataModel):
     id_: str = "Standard.OneLogin.Events"
     display_name: str = "OneLogin Events"
     enabled: bool = True
-    log_types: List[str] = [PantherLogType.OneLogin_Events]
-    mappings: List[PantherDataModelMapping] = [
-        PantherDataModelMapping(name="actor_user", path="actor_user_name"),
-        PantherDataModelMapping(name="assigned_admin_role", path="privilege_name"),
-        PantherDataModelMapping(name="event_type", method=get_event_type),
-        PantherDataModelMapping(name="source_ip", path="ipaddr"),
-        PantherDataModelMapping(name="user", path="user_name"),
-        PantherDataModelMapping(name="user_account_id", path="user_id"),
-        PantherDataModelMapping(name="user_agent", path="user_agent"),
+    log_types: List[str] = [LogType.OneLogin_Events]
+    mappings: List[DataModelMapping] = [
+        DataModelMapping(name="actor_user", path="actor_user_name"),
+        DataModelMapping(name="assigned_admin_role", path="privilege_name"),
+        DataModelMapping(name="event_type", method=get_event_type),
+        DataModelMapping(name="source_ip", path="ipaddr"),
+        DataModelMapping(name="user", path="user_name"),
+        DataModelMapping(name="user_account_id", path="user_id"),
+        DataModelMapping(name="user_agent", path="user_agent"),
     ]

@@ -1,9 +1,9 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 
-one_login_password_changed_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+one_login_password_changed_tests: List[RuleTest] = [
+    RuleTest(
         name="User changed their password",
         expected_result=True,
         log={
@@ -14,7 +14,7 @@ one_login_password_changed_tests: List[PantherRuleTest] = [
             "user_name": "Bob Cat",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="User changed another's password",
         expected_result=True,
         log={
@@ -25,7 +25,7 @@ one_login_password_changed_tests: List[PantherRuleTest] = [
             "user_name": "Bob Cat",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Admin user changed another's password",
         expected_result=False,
         log={
@@ -39,12 +39,12 @@ one_login_password_changed_tests: List[PantherRuleTest] = [
 ]
 
 
-class OneLoginPasswordChanged(PantherRule):
+class OneLoginPasswordChanged(Rule):
     id_ = "OneLogin.PasswordChanged-prototype"
     display_name = "OneLogin User Password Changed"
-    log_types = [PantherLogType.OneLogin_Events]
+    log_types = [LogType.OneLogin_Events]
     tags = ["OneLogin", "Identity & Access Management"]
-    default_severity = PantherSeverity.info
+    default_severity = Severity.info
     default_description = "A user password was updated.\n"
     default_reference = (
         "https://onelogin.service-now.com/kb_view_customer.do?sysparm_article=KB0010510"

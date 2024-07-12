@@ -1,10 +1,10 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get, okta_alert_context
 
-okta_app_unauthorized_access_attempt_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+okta_app_unauthorized_access_attempt_tests: List[RuleTest] = [
+    RuleTest(
         name="Unauthorized Access Event",
         expected_result=True,
         log={
@@ -87,7 +87,7 @@ okta_app_unauthorized_access_attempt_tests: List[PantherRuleTest] = [
             "version": "0",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Other Event",
         expected_result=False,
         log={
@@ -173,12 +173,12 @@ okta_app_unauthorized_access_attempt_tests: List[PantherRuleTest] = [
 ]
 
 
-class OktaAppUnauthorizedAccessAttempt(PantherRule):
+class OktaAppUnauthorizedAccessAttempt(Rule):
     default_description = "Detects when a user is denied access to an Okta application"
     display_name = "Okta App Unauthorized Access Attempt"
-    default_severity = PantherSeverity.low
+    default_severity = Severity.low
     default_reference = "https://support.okta.com/help/s/article/App-Sign-on-Error-403-User-attempted-unauthorized-access-to-app?language=en_US"
-    log_types = [PantherLogType.Okta_SystemLog]
+    log_types = [LogType.Okta_SystemLog]
     id_ = "Okta.App.Unauthorized.Access.Attempt-prototype"
     threshold = 5
     tests = okta_app_unauthorized_access_attempt_tests

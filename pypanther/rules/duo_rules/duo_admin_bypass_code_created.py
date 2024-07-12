@@ -1,9 +1,9 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 
-duo_admin_bypass_code_created_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+duo_admin_bypass_code_created_tests: List[RuleTest] = [
+    RuleTest(
         name="Bypass Create",
         expected_result=True,
         log={
@@ -15,7 +15,7 @@ duo_admin_bypass_code_created_tests: List[PantherRuleTest] = [
             "username": "Homer Simpson",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Bypass Delete",
         expected_result=False,
         log={
@@ -30,13 +30,13 @@ duo_admin_bypass_code_created_tests: List[PantherRuleTest] = [
 ]
 
 
-class DuoAdminBypassCodeCreated(PantherRule):
+class DuoAdminBypassCodeCreated(Rule):
     default_description = "A Duo administrator created an MFA bypass code for an application."
     display_name = "Duo Admin Bypass Code Created"
     default_runbook = "Confirm this was authorized and necessary behavior."
     default_reference = "https://duo.com/docs/administration-users#generating-a-bypass-code"
-    default_severity = PantherSeverity.medium
-    log_types = [PantherLogType.Duo_Administrator]
+    default_severity = Severity.medium
+    log_types = [LogType.Duo_Administrator]
     id_ = "Duo.Admin.Bypass.Code.Created-prototype"
     tests = duo_admin_bypass_code_created_tests
 

@@ -1,10 +1,10 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_notion_helpers import notion_alert_context
 
-notion_workspace_scim_token_generated_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+notion_workspace_scim_token_generated_tests: List[RuleTest] = [
+    RuleTest(
         name="other event",
         expected_result=False,
         log={
@@ -25,7 +25,7 @@ notion_workspace_scim_token_generated_tests: List[PantherRuleTest] = [
             }
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Token Generated",
         expected_result=True,
         log={
@@ -49,13 +49,13 @@ notion_workspace_scim_token_generated_tests: List[PantherRuleTest] = [
 ]
 
 
-class NotionWorkspaceSCIMTokenGenerated(PantherRule):
+class NotionWorkspaceSCIMTokenGenerated(Rule):
     id_ = "Notion.Workspace.SCIM.Token.Generated-prototype"
     display_name = "Notion SCIM Token Generated"
-    log_types = [PantherLogType.Notion_AuditLogs]
+    log_types = [LogType.Notion_AuditLogs]
     tags = ["Notion", "Application Security", "Supply Chain Attack"]
     default_description = "A Notion User generated a SCIM token."
-    default_severity = PantherSeverity.medium
+    default_severity = Severity.medium
     default_runbook = "Possible Initial Access. Follow up with the Notion User to determine if this was done for a valid business reason."
     default_reference = "https://www.notion.so/help/provision-users-and-groups-with-scim"
     tests = notion_workspace_scim_token_generated_tests

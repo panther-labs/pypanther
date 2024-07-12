@@ -1,11 +1,11 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.gcp_base_helpers import gcp_alert_context
 from pypanther.helpers.panther_base_helpers import deep_walk
 
-gcp_service_account_access_denied_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+gcp_service_account_access_denied_tests: List[RuleTest] = [
+    RuleTest(
         name="service-account.access-denied-should-alert",
         expected_result=True,
         log={
@@ -70,7 +70,7 @@ gcp_service_account_access_denied_tests: List[PantherRuleTest] = [
             "timestamp": "2023-05-24 21:12:55.145",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="service-account.access-grated-should-not-alert",
         expected_result=False,
         log={
@@ -135,13 +135,13 @@ gcp_service_account_access_denied_tests: List[PantherRuleTest] = [
 ]
 
 
-class GCPServiceAccountAccessDenied(PantherRule):
+class GCPServiceAccountAccessDenied(Rule):
     dedup_period_minutes = 5
     threshold = 30
     display_name = "GCP Service Account Access Denied"
     id_ = "GCP.Service.Account.Access.Denied-prototype"
-    default_severity = PantherSeverity.low
-    log_types = [PantherLogType.GCP_AuditLog]
+    default_severity = Severity.low
+    log_types = [LogType.GCP_AuditLog]
     tags = ["GCP", "Service Account", "Access"]
     default_description = "This rule detects deletions of GCP Log Buckets or Sinks.\n"
     default_runbook = "Ensure that the bucket or sink deletion was expected. Adversaries may do this to cover their tracks.\n"

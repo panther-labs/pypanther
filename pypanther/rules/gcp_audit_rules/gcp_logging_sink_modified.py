@@ -1,12 +1,12 @@
 import re
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.gcp_base_helpers import gcp_alert_context
 from pypanther.helpers.panther_base_helpers import deep_get
 
-gcp_logging_sink_modified_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+gcp_logging_sink_modified_tests: List[RuleTest] = [
+    RuleTest(
         name="logging-sink.modifed-should-alert",
         expected_result=True,
         log={
@@ -65,7 +65,7 @@ gcp_logging_sink_modified_tests: List[PantherRuleTest] = [
             "timestamp": "2023-05-23 19:39:07.272",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="logging-sink.non-modified-should-not-alert",
         expected_result=False,
         log={
@@ -127,11 +127,11 @@ gcp_logging_sink_modified_tests: List[PantherRuleTest] = [
 ]
 
 
-class GCPLoggingSinkModified(PantherRule):
+class GCPLoggingSinkModified(Rule):
     display_name = "GCP Logging Sink Modified"
     id_ = "GCP.Logging.Sink.Modified-prototype"
-    default_severity = PantherSeverity.info
-    log_types = [PantherLogType.GCP_AuditLog]
+    default_severity = Severity.info
+    log_types = [LogType.GCP_AuditLog]
     tags = ["GCP", "Logging", "Sink", "Infrastructure"]
     default_description = "This rule detects modifications to GCP Log Sinks.\n"
     default_runbook = "Ensure that the modification was valid or expected. Adversaries may do this to exfiltrate logs or evade detection.\n"

@@ -1,12 +1,12 @@
 from ipaddress import ip_address
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import aws_rule_context, deep_get
 from pypanther.helpers.panther_default import lookup_aws_account_name
 
-awsiam_user_recon_access_denied_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+awsiam_user_recon_access_denied_tests: List[RuleTest] = [
+    RuleTest(
         name="Unauthorized API Call",
         expected_result=True,
         log={
@@ -42,7 +42,7 @@ awsiam_user_recon_access_denied_tests: List[PantherRuleTest] = [
             "recipientAccountId": "123456789012",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Unauthorized API Call from Within AWS (FQDN)",
         expected_result=False,
         log={
@@ -78,7 +78,7 @@ awsiam_user_recon_access_denied_tests: List[PantherRuleTest] = [
             "recipientAccountId": "123456789012",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Authorized API Call",
         expected_result=False,
         log={
@@ -112,7 +112,7 @@ awsiam_user_recon_access_denied_tests: List[PantherRuleTest] = [
             "recipientAccountId": "123456789012",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Unauthorized API Call - From AWS console",
         expected_result=False,
         log={
@@ -151,13 +151,13 @@ awsiam_user_recon_access_denied_tests: List[PantherRuleTest] = [
 ]
 
 
-class AWSIAMUserReconAccessDenied(PantherRule):
+class AWSIAMUserReconAccessDenied(Rule):
     id_ = "AWS.IAMUser.ReconAccessDenied-prototype"
     display_name = "Detect Reconnaissance from IAM Users"
-    log_types = [PantherLogType.AWS_CloudTrail]
+    log_types = [LogType.AWS_CloudTrail]
     tags = ["AWS", "Discovery:Cloud Service Discovery"]
     reports = {"MITRE ATT&CK": ["TA0007:T1526"]}
-    default_severity = PantherSeverity.info
+    default_severity = Severity.info
     threshold = 15
     dedup_period_minutes = 10
     default_description = "An IAM user has a high volume of access denied API calls."

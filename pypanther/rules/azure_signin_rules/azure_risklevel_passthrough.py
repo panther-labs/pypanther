@@ -1,6 +1,6 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_azuresignin_helpers import (
     actor_user,
     azure_signin_alert_context,
@@ -8,8 +8,8 @@ from pypanther.helpers.panther_azuresignin_helpers import (
 )
 from pypanther.helpers.panther_base_helpers import deep_get
 
-azure_audit_risk_level_passthrough_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+azure_audit_risk_level_passthrough_tests: List[RuleTest] = [
+    RuleTest(
         name="Failed Sign-In",
         expected_result=False,
         log={
@@ -71,7 +71,7 @@ azure_audit_risk_level_passthrough_tests: List[PantherRuleTest] = [
             "time": "2023-07-26 23:00:20.889",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Failed Sign-In with riskLevelAggregated",
         expected_result=True,
         log={
@@ -133,7 +133,7 @@ azure_audit_risk_level_passthrough_tests: List[PantherRuleTest] = [
             "time": "2023-07-26 23:00:20.889",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Failed Sign-In with riskLevelDuringSignIn",
         expected_result=True,
         log={
@@ -195,7 +195,7 @@ azure_audit_risk_level_passthrough_tests: List[PantherRuleTest] = [
             "time": "2023-07-26 23:00:20.889",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Failed Sign-In with riskLevelDuringSignIn and dismissed",
         expected_result=False,
         log={
@@ -257,7 +257,7 @@ azure_audit_risk_level_passthrough_tests: List[PantherRuleTest] = [
             "time": "2023-07-26 23:00:20.889",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Missing RiskState",
         expected_result=False,
         log={
@@ -321,12 +321,12 @@ azure_audit_risk_level_passthrough_tests: List[PantherRuleTest] = [
 ]
 
 
-class AzureAuditRiskLevelPassthrough(PantherRule):
+class AzureAuditRiskLevelPassthrough(Rule):
     id_ = "Azure.Audit.RiskLevelPassthrough-prototype"
     display_name = "Azure RiskLevel Passthrough"
     dedup_period_minutes = 10
-    log_types = [PantherLogType.Azure_Audit]
-    default_severity = PantherSeverity.medium
+    log_types = [LogType.Azure_Audit]
+    default_severity = Severity.medium
     default_description = "This detection surfaces an alert based on riskLevelAggregated, riskLevelDuringSignIn, and riskState.\nriskLevelAggregated and riskLevelDuringSignIn are only expected for Azure AD Premium P2 customers.\n"
     default_reference = "https://learn.microsoft.com/en-us/azure/active-directory/identity-protection/howto-identity-protection-risk-feedback"
     reports = {"MITRE ATT&CK": ["TA0006:T1110", "TA0001:T1078"]}

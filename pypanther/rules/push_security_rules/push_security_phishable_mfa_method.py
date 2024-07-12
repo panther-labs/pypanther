@@ -1,9 +1,9 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 
-push_security_phishable_mfa_method_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+push_security_phishable_mfa_method_tests: List[RuleTest] = [
+    RuleTest(
         name="Dropbox Phishable MFA",
         expected_result=True,
         log={
@@ -30,7 +30,7 @@ push_security_phishable_mfa_method_tests: List[PantherRuleTest] = [
             "old": None,
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Google Workspace Phishable MFA",
         expected_result=True,
         log={
@@ -57,7 +57,7 @@ push_security_phishable_mfa_method_tests: List[PantherRuleTest] = [
             "old": None,
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="No MFA Enabled",
         expected_result=False,
         log={
@@ -107,11 +107,11 @@ push_security_phishable_mfa_method_tests: List[PantherRuleTest] = [
 ]
 
 
-class PushSecurityPhishableMFAMethod(PantherRule):
+class PushSecurityPhishableMFAMethod(Rule):
     id_ = "Push.Security.Phishable.MFA.Method-prototype"
     display_name = "Push Security Phishable MFA Method"
-    log_types = [PantherLogType.PushSecurity_Entities]
-    default_severity = PantherSeverity.info
+    log_types = [LogType.PushSecurity_Entities]
+    default_severity = Severity.info
     tests = push_security_phishable_mfa_method_tests
     identity_providers = (
         "MICROSOFT_365",

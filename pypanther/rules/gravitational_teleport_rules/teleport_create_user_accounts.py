@@ -1,10 +1,10 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import pattern_match_list
 
-teleport_create_user_accounts_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+teleport_create_user_accounts_tests: List[RuleTest] = [
+    RuleTest(
         name="Echo command",
         expected_result=False,
         log={
@@ -27,7 +27,7 @@ teleport_create_user_accounts_tests: List[PantherRuleTest] = [
             "user": "panther",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Userdel command",
         expected_result=True,
         log={
@@ -53,13 +53,13 @@ teleport_create_user_accounts_tests: List[PantherRuleTest] = [
 ]
 
 
-class TeleportCreateUserAccounts(PantherRule):
+class TeleportCreateUserAccounts(Rule):
     id_ = "Teleport.CreateUserAccounts-prototype"
     display_name = "Teleport Create User Accounts"
-    log_types = [PantherLogType.Gravitational_TeleportAudit]
+    log_types = [LogType.Gravitational_TeleportAudit]
     tags = ["SSH", "Persistence:Create Account"]
     reports = {"MITRE ATT&CK": ["TA0003:T1136"]}
-    default_severity = PantherSeverity.high
+    default_severity = Severity.high
     default_description = "A user has been manually created, modified, or deleted"
     dedup_period_minutes = 15
     default_reference = "https://goteleport.com/docs/management/admin/"

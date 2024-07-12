@@ -1,10 +1,10 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import crowdstrike_detection_alert_context, deep_get
 
-crowdstrike_systemlog_tampering_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+crowdstrike_systemlog_tampering_tests: List[RuleTest] = [
+    RuleTest(
         name="Clear Log Event",
         expected_result=True,
         log={
@@ -86,7 +86,7 @@ crowdstrike_systemlog_tampering_tests: List[PantherRuleTest] = [
             "treeid": "4295752857",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Other Event",
         expected_result=False,
         log={
@@ -171,12 +171,12 @@ crowdstrike_systemlog_tampering_tests: List[PantherRuleTest] = [
 ]
 
 
-class CrowdstrikeSystemlogTampering(PantherRule):
+class CrowdstrikeSystemlogTampering(Rule):
     default_description = "Detects when a user attempts to clear system logs. "
     display_name = "Crowdstrike Systemlog Tampering"
     default_reference = "https://attack.mitre.org/techniques/T1070/001/"
-    default_severity = PantherSeverity.high
-    log_types = [PantherLogType.Crowdstrike_FDREvent]
+    default_severity = Severity.high
+    log_types = [LogType.Crowdstrike_FDREvent]
     id_ = "Crowdstrike.Systemlog.Tampering-prototype"
     tests = crowdstrike_systemlog_tampering_tests
     CLEARING_SYSTEM_LOG_TOOLS = {

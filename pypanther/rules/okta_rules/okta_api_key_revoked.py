@@ -1,10 +1,10 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get, okta_alert_context
 
-okta_api_key_revoked_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+okta_api_key_revoked_tests: List[RuleTest] = [
+    RuleTest(
         name="API Key Revoked",
         expected_result=True,
         log={
@@ -38,12 +38,12 @@ okta_api_key_revoked_tests: List[PantherRuleTest] = [
 ]
 
 
-class OktaAPIKeyRevoked(PantherRule):
+class OktaAPIKeyRevoked(Rule):
     id_ = "Okta.APIKeyRevoked-prototype"
     display_name = "Okta API Key Revoked"
-    log_types = [PantherLogType.Okta_SystemLog]
+    log_types = [LogType.Okta_SystemLog]
     tags = ["Identity & Access Management", "Okta"]
-    default_severity = PantherSeverity.info
+    default_severity = Severity.info
     default_description = "A user has revoked an API Key in Okta"
     default_reference = "https://help.okta.com/en/prod/Content/Topics/Security/API.htm"
     default_runbook = "Validate this action was authorized."

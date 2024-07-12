@@ -1,10 +1,10 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import crowdstrike_process_alert_context, is_base64
 
-crowdstrike_base64_encoded_args_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+crowdstrike_base64_encoded_args_tests: List[RuleTest] = [
+    RuleTest(
         name="Command Line Tool Execution with Base64 Argument (Positive)",
         expected_result=True,
         log={
@@ -65,7 +65,7 @@ crowdstrike_base64_encoded_args_tests: List[PantherRuleTest] = [
             "timestamp": "2023-04-24 20:33:36.719",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Command Line Tool Execution with Base64 Argument 2 (Positive)",
         expected_result=True,
         log={
@@ -126,7 +126,7 @@ crowdstrike_base64_encoded_args_tests: List[PantherRuleTest] = [
             "timestamp": "2023-04-24 20:33:36.719",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Command Line Tool Execution without Base64 Argument (Negative)",
         expected_result=False,
         log={
@@ -187,7 +187,7 @@ crowdstrike_base64_encoded_args_tests: List[PantherRuleTest] = [
             "timestamp": "2023-04-24 20:33:36.719",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Mac - Git",
         expected_result=False,
         log={
@@ -246,7 +246,7 @@ crowdstrike_base64_encoded_args_tests: List[PantherRuleTest] = [
             "timestamp": "2023-02-03 16:23:00.83",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Command Line Tool Execution without Base64 Argument (Negative) 2",
         expected_result=False,
         log={
@@ -307,7 +307,7 @@ crowdstrike_base64_encoded_args_tests: List[PantherRuleTest] = [
             "timestamp": "2023-04-24 20:33:36.719",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Command Line Tool Execution without Base64 Argument (Negative) 3",
         expected_result=False,
         log={
@@ -368,7 +368,7 @@ crowdstrike_base64_encoded_args_tests: List[PantherRuleTest] = [
             "timestamp": "2023-04-24 20:33:36.719",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Command Line Tool Execution without Base64 Argument (Negative) 4",
         expected_result=False,
         log={
@@ -429,7 +429,7 @@ crowdstrike_base64_encoded_args_tests: List[PantherRuleTest] = [
             "timestamp": "2023-04-24 20:33:36.719",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Command Line Tool Execution without Base64 Argument (Negative) 5",
         expected_result=False,
         log={
@@ -490,7 +490,7 @@ crowdstrike_base64_encoded_args_tests: List[PantherRuleTest] = [
             "timestamp": "2023-04-24 20:33:36.719",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Command Line Tool Execution without Base64 Argument (Negative) 6",
         expected_result=False,
         log={
@@ -554,12 +554,12 @@ crowdstrike_base64_encoded_args_tests: List[PantherRuleTest] = [
 ]
 
 
-class CrowdstrikeBase64EncodedArgs(PantherRule):
+class CrowdstrikeBase64EncodedArgs(Rule):
     id_ = "Crowdstrike.Base64EncodedArgs-prototype"
     display_name = "Execution of Command Line Tool with Base64 Encoded Arguments"
-    log_types = [PantherLogType.Crowdstrike_FDREvent]
+    log_types = [LogType.Crowdstrike_FDREvent]
     tags = ["Execution", "Obfuscation"]
-    default_severity = PantherSeverity.medium
+    default_severity = Severity.medium
     default_description = "Detects the execution of common command line tools (e.g., PowerShell, cmd.exe) with Base64 encoded arguments, which could indicate an attempt to obfuscate malicious commands."
     default_runbook = "Investigate the endpoint for signs of command line tool execution with Base64 encoded arguments. Review the executed command, decode the Base64 string, and analyze the original content."
     default_reference = "https://www.crowdstrike.com/blog/blocking-fileless-script-based-attacks-using-falcon-script-control-feature/"

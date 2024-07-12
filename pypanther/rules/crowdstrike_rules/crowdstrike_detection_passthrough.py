@@ -1,13 +1,13 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import (
     crowdstrike_detection_alert_context,
     get_crowdstrike_field,
 )
 
-crowdstrike_detectionpassthrough_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+crowdstrike_detectionpassthrough_tests: List[RuleTest] = [
+    RuleTest(
         name="Low Severity Finding",
         expected_result=True,
         log={
@@ -56,7 +56,7 @@ crowdstrike_detectionpassthrough_tests: List[PantherRuleTest] = [
             "PatternDispositionFlags": '{\n  "BlockingUnsupportedOrDisabled": false,\n  "BootupSafeguardEnabled": false,\n  "CriticalProcessDisabled": false,\n  "Detect": false,\n  "FsOperationBlocked": false,\n  "HandleOperationDowngraded": false,\n  "InddetMask": false,\n  "Indicator": false,\n  "KillActionFailed": false,\n  "KillParent": false,\n  "KillProcess": false,\n  "KillSubProcess": false,\n  "OperationBlocked": false,\n  "PolicyDisabled": false,\n  "ProcessBlocked": true,\n  "QuarantineFile": true,\n  "QuarantineMachine": false,\n  "RegistryOperationBlocked": false,\n  "Rooting": false,\n  "SensorOnly": false,\n  "SuspendParent": false,\n  "SuspendProcess": false\n}',
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Low Severity Finding (FDREvent)",
         expected_result=True,
         log={
@@ -150,7 +150,7 @@ crowdstrike_detectionpassthrough_tests: List[PantherRuleTest] = [
             "timestamp": "2021-03-24 18:19:49",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Non-match (FDREvent)",
         expected_result=False,
         log={
@@ -172,13 +172,13 @@ crowdstrike_detectionpassthrough_tests: List[PantherRuleTest] = [
 ]
 
 
-class CrowdstrikeDetectionpassthrough(PantherRule):
+class CrowdstrikeDetectionpassthrough(Rule):
     id_ = "Crowdstrike.Detection.passthrough-prototype"
     display_name = "Crowdstrike Detection Passthrough"
-    default_severity = PantherSeverity.medium
+    default_severity = Severity.medium
     log_types = [
-        PantherLogType.Crowdstrike_DetectionSummary,
-        PantherLogType.Crowdstrike_FDREvent,
+        LogType.Crowdstrike_DetectionSummary,
+        LogType.Crowdstrike_FDREvent,
     ]
     tags = ["Crowdstrike"]
     default_description = "Crowdstrike Falcon has detected malicious activity on a host."

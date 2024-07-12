@@ -3,21 +3,21 @@ import json
 import time
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleMock, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_ipinfo_helpers import IPInfoLocation
 from pypanther.helpers.panther_notion_helpers import notion_alert_context
 from pypanther.helpers.panther_oss_helpers import get_dictionary, put_dictionary
 
-notion_login_from_new_location_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+notion_login_from_new_location_tests: List[RuleTest] = [
+    RuleTest(
         name="Login from normal location",
         expected_result=False,
         mocks=[
-            PantherRuleMock(
+            RuleMock(
                 object_name="get_dictionary",
                 return_value='{ "Minas Tirith_Pellenor_Gondor": 1686542031 }',
             ),
-            PantherRuleMock(object_name="put_dictionary", return_value=False),
+            RuleMock(object_name="put_dictionary", return_value=False),
         ],
         log={
             "event": {
@@ -58,12 +58,12 @@ notion_login_from_new_location_tests: List[PantherRuleTest] = [
             "p_source_label": "Notion Logs",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="No previous recorded login",
         expected_result=False,
         mocks=[
-            PantherRuleMock(object_name="get_dictionary", return_value=""),
-            PantherRuleMock(object_name="put_dictionary", return_value=False),
+            RuleMock(object_name="get_dictionary", return_value=""),
+            RuleMock(object_name="put_dictionary", return_value=False),
         ],
         log={
             "event": {
@@ -104,15 +104,15 @@ notion_login_from_new_location_tests: List[PantherRuleTest] = [
             "p_source_label": "Notion Logs",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Login from different location",
         expected_result=True,
         mocks=[
-            PantherRuleMock(
+            RuleMock(
                 object_name="get_dictionary",
                 return_value='{ "Minas Tirith_Pellenor_Gondor": 1686542031 }',
             ),
-            PantherRuleMock(object_name="put_dictionary", return_value=False),
+            RuleMock(object_name="put_dictionary", return_value=False),
         ],
         log={
             "event": {
@@ -153,7 +153,7 @@ notion_login_from_new_location_tests: List[PantherRuleTest] = [
             "p_source_label": "Notion Logs",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Missing enrichment",
         expected_result=False,
         log={
@@ -182,7 +182,7 @@ notion_login_from_new_location_tests: List[PantherRuleTest] = [
             "p_source_label": "Notion Logs",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Unrelated event",
         expected_result=False,
         log={
@@ -224,15 +224,15 @@ notion_login_from_new_location_tests: List[PantherRuleTest] = [
             "p_source_label": "Notion Logs",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Login from different location - no region",
         expected_result=True,
         mocks=[
-            PantherRuleMock(
+            RuleMock(
                 object_name="get_dictionary",
                 return_value='{ "Minas Tirith_Pellenor_Gondor": 1686542031 }',
             ),
-            PantherRuleMock(object_name="put_dictionary", return_value=False),
+            RuleMock(object_name="put_dictionary", return_value=False),
         ],
         log={
             "event": {
@@ -275,12 +275,12 @@ notion_login_from_new_location_tests: List[PantherRuleTest] = [
 ]
 
 
-class NotionLoginFromNewLocation(PantherRule):
+class NotionLoginFromNewLocation(Rule):
     id_ = "Notion.LoginFromNewLocation-prototype"
     display_name = "Notion Login from New Location"
-    log_types = [PantherLogType.Notion_AuditLogs]
+    log_types = [LogType.Notion_AuditLogs]
     tags = ["Notion", "Identity & Access Management", "Login & Access Patterns"]
-    default_severity = PantherSeverity.medium
+    default_severity = Severity.medium
     default_description = "A Notion User logged in from a new location."
     default_runbook = "Possible account takeover. Follow up with the Notion User to determine if this login is genuine."
     default_reference = "https://ipinfo.io/products/ip-geolocation-api"

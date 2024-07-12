@@ -1,11 +1,11 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.gcp_base_helpers import gcp_alert_context
 from pypanther.helpers.panther_base_helpers import deep_get
 
-gcpk8s_ioc_activity_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+gcpk8s_ioc_activity_tests: List[RuleTest] = [
+    RuleTest(
         name="triggers",
         expected_result=True,
         log={
@@ -13,7 +13,7 @@ gcpk8s_ioc_activity_tests: List[PantherRuleTest] = [
             "p_enrichment": {"tor_exit_nodes": ["1.1.1.1"]},
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="ignore",
         expected_result=False,
         log={
@@ -24,12 +24,12 @@ gcpk8s_ioc_activity_tests: List[PantherRuleTest] = [
 ]
 
 
-class GCPK8sIOCActivity(PantherRule):
+class GCPK8sIOCActivity(Rule):
     id_ = "GCP.K8s.IOC.Activity-prototype"
     display_name = "GCP K8s IOCActivity"
-    log_types = [PantherLogType.GCP_AuditLog]
+    log_types = [LogType.GCP_AuditLog]
     tags = ["GCP", "Optional"]
-    default_severity = PantherSeverity.medium
+    default_severity = Severity.medium
     default_description = "This detection monitors for any kubernetes API Request originating from an Indicator of Compromise."
     reports = {"MITRE ATT&CK": ["T1573.002"]}
     default_runbook = "Add IP address the request is originated from to banned addresses."

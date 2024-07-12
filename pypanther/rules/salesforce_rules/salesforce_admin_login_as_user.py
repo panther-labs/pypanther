@@ -1,9 +1,9 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 
-salesforce_admin_login_as_user_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+salesforce_admin_login_as_user_tests: List[RuleTest] = [
+    RuleTest(
         name="Normal Login Event",
         expected_result=False,
         log={
@@ -48,7 +48,7 @@ salesforce_admin_login_as_user_tests: List[PantherRuleTest] = [
             "p_timeline": "2023-05-04 21:36:47.569",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Admin Assumes User",
         expected_result=True,
         log={
@@ -83,15 +83,15 @@ salesforce_admin_login_as_user_tests: List[PantherRuleTest] = [
 ]
 
 
-class SalesforceAdminLoginAsUser(PantherRule):
+class SalesforceAdminLoginAsUser(Rule):
     default_description = "Salesforce detection that alerts when an admin logs in as another user. "
     display_name = "Salesforce Admin Login As User"
     default_runbook = "Please do an indicator search on USER_ID to find which user was assumed. "
     default_reference = (
         "https://help.salesforce.com/s/articleView?id=sf.logging_in_as_another_user.htm&type=5"
     )
-    default_severity = PantherSeverity.info
-    log_types = [PantherLogType.Salesforce_LoginAs]
+    default_severity = Severity.info
+    log_types = [LogType.Salesforce_LoginAs]
     id_ = "Salesforce.Admin.Login.As.User-prototype"
     tests = salesforce_admin_login_as_user_tests
 

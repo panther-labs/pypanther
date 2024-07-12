@@ -1,12 +1,12 @@
 import re
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.gcp_base_helpers import gcp_alert_context
 from pypanther.helpers.panther_base_helpers import deep_get
 
-gcp_firewall_rule_modified_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+gcp_firewall_rule_modified_tests: List[RuleTest] = [
+    RuleTest(
         name="compute.firewalls.update-should-alert",
         expected_result=True,
         log={
@@ -85,7 +85,7 @@ gcp_firewall_rule_modified_tests: List[PantherRuleTest] = [
             "timestamp": "2023-05-23 19:19:40.353",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="appengine.firewall.update-should-alert",
         expected_result=True,
         log={
@@ -130,17 +130,17 @@ gcp_firewall_rule_modified_tests: List[PantherRuleTest] = [
             "timestamp": "2023-05-23 19:28:44.562",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="compute.non-update.firewall.method-should-not-alert",
         expected_result=False,
         log={"methodName": "v1.compute.firewalls.insert"},
     ),
-    PantherRuleTest(
+    RuleTest(
         name="appengine.compute.non-update.firewall.method-should-not-alert",
         expected_result=False,
         log={"methodName": "appengine.compute.v1.Firewall.PatchIngressRule"},
     ),
-    PantherRuleTest(
+    RuleTest(
         name="randomservice.firewall-update.method-should-alert",
         expected_result=True,
         log={
@@ -169,11 +169,11 @@ gcp_firewall_rule_modified_tests: List[PantherRuleTest] = [
 ]
 
 
-class GCPFirewallRuleModified(PantherRule):
+class GCPFirewallRuleModified(Rule):
     display_name = "GCP Firewall Rule Modified"
     id_ = "GCP.Firewall.Rule.Modified-prototype"
-    default_severity = PantherSeverity.low
-    log_types = [PantherLogType.GCP_AuditLog]
+    default_severity = Severity.low
+    log_types = [LogType.GCP_AuditLog]
     tags = ["GCP", "Firewall", "Networking", "Infrastructure"]
     default_description = "This rule detects modifications to GCP firewall rules.\n"
     default_runbook = "Ensure that the rule modification was expected. Firewall rule changes can cause service interruptions or outages.\n"

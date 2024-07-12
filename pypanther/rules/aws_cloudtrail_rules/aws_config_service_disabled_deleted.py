@@ -1,11 +1,11 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import aws_rule_context
 from pypanther.helpers.panther_default import aws_cloudtrail_success
 
-aws_config_service_disabled_deleted_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+aws_config_service_disabled_deleted_tests: List[RuleTest] = [
+    RuleTest(
         name="Config Recorder Delivery Channel Created",
         expected_result=False,
         log={
@@ -45,7 +45,7 @@ aws_config_service_disabled_deleted_tests: List[PantherRuleTest] = [
             "recipientAccountId": "123456789012",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Config Recorder Deleted",
         expected_result=True,
         log={
@@ -85,7 +85,7 @@ aws_config_service_disabled_deleted_tests: List[PantherRuleTest] = [
             "recipientAccountId": "123456789012",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Error Deleting Config Recorder",
         expected_result=False,
         log={
@@ -129,13 +129,13 @@ aws_config_service_disabled_deleted_tests: List[PantherRuleTest] = [
 ]
 
 
-class AWSConfigServiceDisabledDeleted(PantherRule):
+class AWSConfigServiceDisabledDeleted(Rule):
     id_ = "AWS.ConfigService.DisabledDeleted-prototype"
     display_name = "AWS Config Service Disabled"
-    log_types = [PantherLogType.AWS_CloudTrail]
+    log_types = [LogType.AWS_CloudTrail]
     tags = ["AWS", "Security Control", "Defense Evasion:Impair Defenses"]
     reports = {"CIS": ["3.9"], "MITRE ATT&CK": ["TA0005:T1562"]}
-    default_severity = PantherSeverity.medium
+    default_severity = Severity.medium
     default_description = "An AWS Config Recorder or Delivery Channel was disabled or deleted\n"
     default_runbook = "Verify that the Config Service changes were authorized. If not, revert them and investigate who caused the change. Consider altering permissions to prevent this from happening again in the future.\n"
     default_reference = "https://aws.amazon.com/config/"

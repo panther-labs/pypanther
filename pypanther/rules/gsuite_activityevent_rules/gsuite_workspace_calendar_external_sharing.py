@@ -1,10 +1,10 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 
-g_suite_workspace_calendar_external_sharing_setting_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+g_suite_workspace_calendar_external_sharing_setting_tests: List[RuleTest] = [
+    RuleTest(
         name="Admin Set Default Calendar SHARING_OUTSIDE_DOMAIN Setting to READ_ONLY_ACCESS",
         expected_result=True,
         log={
@@ -32,7 +32,7 @@ g_suite_workspace_calendar_external_sharing_setting_tests: List[PantherRuleTest]
             "type": "CALENDAR_SETTINGS",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Admin Set Default Calendar SHARING_OUTSIDE_DOMAIN Setting to READ_WRITE_ACCESS",
         expected_result=True,
         log={
@@ -60,7 +60,7 @@ g_suite_workspace_calendar_external_sharing_setting_tests: List[PantherRuleTest]
             "type": "CALENDAR_SETTINGS",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Admin Set Default Calendar SHARING_OUTSIDE_DOMAIN Setting to MANAGE_ACCESS",
         expected_result=True,
         log={
@@ -88,7 +88,7 @@ g_suite_workspace_calendar_external_sharing_setting_tests: List[PantherRuleTest]
             "type": "CALENDAR_SETTINGS",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Non-Default Calendar SHARING_OUTSIDE_DOMAIN event",
         expected_result=False,
         log={
@@ -109,7 +109,7 @@ g_suite_workspace_calendar_external_sharing_setting_tests: List[PantherRuleTest]
             "type": "CUSTOMER_TAKEOUT",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="ListObject Type",
         expected_result=False,
         log={
@@ -144,13 +144,13 @@ g_suite_workspace_calendar_external_sharing_setting_tests: List[PantherRuleTest]
 ]
 
 
-class GSuiteWorkspaceCalendarExternalSharingSetting(PantherRule):
+class GSuiteWorkspaceCalendarExternalSharingSetting(Rule):
     id_ = "GSuite.Workspace.CalendarExternalSharingSetting-prototype"
     display_name = "GSuite Workspace Calendar External Sharing Setting Change"
-    log_types = [PantherLogType.GSuite_ActivityEvent]
+    log_types = [LogType.GSuite_ActivityEvent]
     tags = ["GSuite"]
     reports = {"MITRE ATT&CK": ["TA0007:T1087"]}
-    default_severity = PantherSeverity.medium
+    default_severity = Severity.medium
     default_description = "A Workspace Admin Changed The Sharing Settings for Primary Calendars\n"
     default_reference = "https://support.google.com/a/answer/60765?hl=en"
     default_runbook = "Restore the calendar sharing setting to the previous value. If unplanned, use indicator search to identify other activity from this administrator.\n"

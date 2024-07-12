@@ -1,10 +1,10 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get, slack_alert_context
 
-slack_audit_logs_user_privilege_changed_to_user_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+slack_audit_logs_user_privilege_changed_to_user_tests: List[RuleTest] = [
+    RuleTest(
         name="Role Changed to User",
         expected_result=True,
         log={
@@ -41,7 +41,7 @@ slack_audit_logs_user_privilege_changed_to_user_tests: List[PantherRuleTest] = [
             "id": "4c248a02-119c-4f76-ba5d-a96767d45be8",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Role Changed to Admin",
         expected_result=False,
         log={
@@ -81,13 +81,13 @@ slack_audit_logs_user_privilege_changed_to_user_tests: List[PantherRuleTest] = [
 ]
 
 
-class SlackAuditLogsUserPrivilegeChangedToUser(PantherRule):
+class SlackAuditLogsUserPrivilegeChangedToUser(Rule):
     id_ = "Slack.AuditLogs.UserPrivilegeChangedToUser-prototype"
     display_name = "Slack User Privileges Changed to User"
-    log_types = [PantherLogType.Slack_AuditLogs]
+    log_types = [LogType.Slack_AuditLogs]
     tags = ["Slack", "Impact", "Account Access Removal"]
     reports = {"MITRE ATT&CK": ["TA0040:T1531"]}
-    default_severity = PantherSeverity.medium
+    default_severity = Severity.medium
     default_description = "Detects when a Slack account is changed to User from an elevated role."
     default_reference = (
         "https://slack.com/intl/en-gb/help/articles/360018112273-Types-of-roles-in-Slack"

@@ -1,11 +1,11 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.gcp_base_helpers import gcp_alert_context
 from pypanther.helpers.panther_base_helpers import deep_get, deep_walk
 
-gc_piamservice_account_keyscreate_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+gc_piamservice_account_keyscreate_tests: List[RuleTest] = [
+    RuleTest(
         name="privilege-escalation",
         expected_result=True,
         log={
@@ -28,7 +28,7 @@ gc_piamservice_account_keyscreate_tests: List[PantherRuleTest] = [
             "timestamp": "2024-01-19 13:47:18.279921000",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="fail",
         expected_result=False,
         log={
@@ -54,12 +54,12 @@ gc_piamservice_account_keyscreate_tests: List[PantherRuleTest] = [
 ]
 
 
-class GCPiamserviceAccountKeyscreate(PantherRule):
+class GCPiamserviceAccountKeyscreate(Rule):
     id_ = "GCP.iam.serviceAccountKeys.create-prototype"
     display_name = "GCP.Iam.ServiceAccountKeys.Create"
     default_description = "If your user is assigned a custom IAM role, then iam.roles.update will allow you to update the “includedPermissons” on that role. Because it is assigned to you, you will gain the additional privileges, which could be anything you desire."
-    log_types = [PantherLogType.GCP_AuditLog]
-    default_severity = PantherSeverity.high
+    log_types = [LogType.GCP_AuditLog]
+    default_severity = Severity.high
     default_reference = (
         "https://rhinosecuritylabs.com/gcp/privilege-escalation-google-cloud-platform-part-1/"
     )

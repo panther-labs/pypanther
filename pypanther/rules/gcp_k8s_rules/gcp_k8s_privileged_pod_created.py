@@ -1,11 +1,11 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.gcp_base_helpers import gcp_alert_context
 from pypanther.helpers.panther_base_helpers import deep_get, deep_walk
 
-gcpk8_s_privileged_pod_created_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+gcpk8_s_privileged_pod_created_tests: List[RuleTest] = [
+    RuleTest(
         name="Privileged Pod Created",
         expected_result=True,
         log={
@@ -80,7 +80,7 @@ gcpk8_s_privileged_pod_created_tests: List[PantherRuleTest] = [
             "timestamp": "2024-02-13 12:45:06.073905000",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Run-As-Root Pod Created",
         expected_result=True,
         log={
@@ -150,7 +150,7 @@ gcpk8_s_privileged_pod_created_tests: List[PantherRuleTest] = [
             "timestamp": "2024-02-13 13:13:45.363388000",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Non-Privileged Pod Created",
         expected_result=False,
         log={
@@ -226,7 +226,7 @@ gcpk8_s_privileged_pod_created_tests: List[PantherRuleTest] = [
             "timestamp": "2024-02-13 13:07:29.505948000",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Error Creating Pod",
         expected_result=False,
         log={
@@ -294,11 +294,11 @@ gcpk8_s_privileged_pod_created_tests: List[PantherRuleTest] = [
 ]
 
 
-class GCPK8SPrivilegedPodCreated(PantherRule):
+class GCPK8SPrivilegedPodCreated(Rule):
     id_ = "GCP.K8S.Privileged.Pod.Created-prototype"
     display_name = "GCP K8S Privileged Pod Created"
-    log_types = [PantherLogType.GCP_AuditLog]
-    default_severity = PantherSeverity.high
+    log_types = [LogType.GCP_AuditLog]
+    default_severity = Severity.high
     default_description = "Alerts when a user creates privileged pod. These particular pods have full access to the host’s namespace and devices, have the ability to exploit the kernel, have dangerous linux capabilities, and can be a powerful launching point for further attacks. In the event of a successful container escape where a user is operating with root privileges, the attacker retains this role on the node.\n"
     default_runbook = "Investigate the reason of creating privileged pod. Advise that it is discouraged practice. Create ticket if appropriate.\n"
     default_reference = "https://www.golinuxcloud.com/kubernetes-privileged-pod-examples/"

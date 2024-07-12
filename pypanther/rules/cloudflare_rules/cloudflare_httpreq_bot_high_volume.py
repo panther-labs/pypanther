@@ -1,10 +1,10 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_cloudflare_helpers import cloudflare_http_alert_context
 
-cloudflare_http_request_bot_high_volume_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+cloudflare_http_request_bot_high_volume_tests: List[RuleTest] = [
+    RuleTest(
         name="Likely Human",
         expected_result=False,
         log={
@@ -74,7 +74,7 @@ cloudflare_http_request_bot_high_volume_tests: List[PantherRuleTest] = [
             "p_source_label": "Cloudflare",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Likely Automated",
         expected_result=True,
         log={
@@ -147,13 +147,13 @@ cloudflare_http_request_bot_high_volume_tests: List[PantherRuleTest] = [
 ]
 
 
-class CloudflareHttpRequestBotHighVolume(PantherRule):
+class CloudflareHttpRequestBotHighVolume(Rule):
     id_ = "Cloudflare.HttpRequest.BotHighVolume-prototype"
     display_name = "Cloudflare Bot High Volume"
     enabled = False
-    log_types = [PantherLogType.Cloudflare_HttpRequest]
+    log_types = [LogType.Cloudflare_HttpRequest]
     tags = ["Cloudflare"]
-    default_severity = PantherSeverity.low
+    default_severity = Severity.low
     default_description = "Monitors for bots making HTTP Requests at a rate higher than 2req/sec"
     default_runbook = "Inspect and monitor internet-facing services for potential outages"
     default_reference = "https://developers.cloudflare.com/waf/rate-limiting-rules/request-rate/"

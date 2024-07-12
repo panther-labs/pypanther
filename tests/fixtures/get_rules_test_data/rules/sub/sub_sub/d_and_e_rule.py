@@ -1,19 +1,19 @@
-from pypanther import PantherLogType, PantherRule, PantherSeverity
+from pypanther import LogType, Rule, Severity
 
 
-class DRule(PantherRule):
-    default_severity = PantherSeverity.info
+class DRule(Rule):
+    default_severity = Severity.info
     id_ = "DRule"
-    log_types = [PantherLogType.Panther_Audit]
+    log_types = [LogType.Panther_Audit]
 
     def rule(self, event):
         return False
 
 
-class ERule(PantherRule):
-    default_severity = PantherSeverity.info
+class ERule(Rule):
+    default_severity = Severity.info
     id_ = "ERule"
-    log_types = [PantherLogType.Panther_Audit]
+    log_types = [LogType.Panther_Audit]
 
     def rule(self, event):
         return False

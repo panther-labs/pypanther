@@ -1,9 +1,9 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 
-gcp_storage_hmac_keys_create_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+gcp_storage_hmac_keys_create_tests: List[RuleTest] = [
+    RuleTest(
         name="privilege-escalation",
         expected_result=True,
         log={
@@ -24,7 +24,7 @@ gcp_storage_hmac_keys_create_tests: List[PantherRuleTest] = [
             "timestamp": "2024-01-19 13:47:18.279921000",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="fail",
         expected_result=False,
         log={
@@ -48,12 +48,12 @@ gcp_storage_hmac_keys_create_tests: List[PantherRuleTest] = [
 ]
 
 
-class GCPStorageHmacKeysCreate(PantherRule):
+class GCPStorageHmacKeysCreate(Rule):
     id_ = "GCP.Storage.Hmac.Keys.Create-prototype"
     display_name = "GCP storage hmac keys create"
     default_description = "There is a feature of Cloud Storage, “interoperability”, that provides a way for Cloud Storage to interact with storage offerings from other cloud providers, like AWS S3. As part of that, there are HMAC keys that can be created for both Service Accounts and regular users. We can escalate Cloud Storage permissions by creating an HMAC key for a higher-privileged Service Account."
-    log_types = [PantherLogType.GCP_AuditLog]
-    default_severity = PantherSeverity.high
+    log_types = [LogType.GCP_AuditLog]
+    default_severity = Severity.high
     default_reference = "https://rhinosecuritylabs.com/cloud-security/privilege-escalation-google-cloud-platform-part-2/"
     reports = {"MITRE ATT&CK": ["TA0004:T1548"]}
     tests = gcp_storage_hmac_keys_create_tests

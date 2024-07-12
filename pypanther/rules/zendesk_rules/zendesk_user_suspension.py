@@ -1,10 +1,10 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import ZENDESK_CHANGE_DESCRIPTION
 
-zendesk_user_suspension_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+zendesk_user_suspension_tests: List[RuleTest] = [
+    RuleTest(
         name="Zendesk - Suspension Enabled",
         expected_result=True,
         log={
@@ -23,7 +23,7 @@ zendesk_user_suspension_tests: List[PantherRuleTest] = [
             "p_log_type": "Zendesk.Audit",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Zendesk - Suspension Disabled",
         expected_result=True,
         log={
@@ -42,7 +42,7 @@ zendesk_user_suspension_tests: List[PantherRuleTest] = [
             "p_log_type": "Zendesk.Audit",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Zendesk - Admin Role Assigned",
         expected_result=False,
         log={
@@ -64,13 +64,13 @@ zendesk_user_suspension_tests: List[PantherRuleTest] = [
 ]
 
 
-class ZendeskUserSuspension(PantherRule):
+class ZendeskUserSuspension(Rule):
     id_ = "Zendesk.UserSuspension-prototype"
     display_name = "Zendesk User Suspension Status Changed"
-    log_types = [PantherLogType.Zendesk_Audit]
+    log_types = [LogType.Zendesk_Audit]
     tags = ["Zendesk", "Impact:Account Access Removal"]
     reports = {"MITRE ATT&CK": ["TA0040:T1531"]}
-    default_severity = PantherSeverity.high
+    default_severity = Severity.high
     default_description = "A user's Zendesk suspension status was changed."
     default_runbook = "Ensure the user's suspension status is appropriate."
     default_reference = "https://support.zendesk.com/hc/en-us/articles/4408889293978-Suspending-a-user#:~:text=select%20Unsuspend%20access.-,Identifying%20suspended%20users,name%20on%20the%20Customers%20page"

@@ -1,9 +1,9 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 
-one_login_threshold_accounts_modified_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+one_login_threshold_accounts_modified_tests: List[RuleTest] = [
+    RuleTest(
         name="Normal User Activated Event",
         expected_result=False,
         log={
@@ -14,7 +14,7 @@ one_login_threshold_accounts_modified_tests: List[PantherRuleTest] = [
             "user_name": "Bob Cat",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="User Password Changed Event",
         expected_result=True,
         log={
@@ -28,12 +28,12 @@ one_login_threshold_accounts_modified_tests: List[PantherRuleTest] = [
 ]
 
 
-class OneLoginThresholdAccountsModified(PantherRule):
+class OneLoginThresholdAccountsModified(Rule):
     id_ = "OneLogin.ThresholdAccountsModified-prototype"
     display_name = "OneLogin Multiple Accounts Modified"
-    log_types = [PantherLogType.OneLogin_Events]
+    log_types = [LogType.OneLogin_Events]
     tags = ["OneLogin", "Impact:Account Access Removal"]
-    default_severity = PantherSeverity.medium
+    default_severity = Severity.medium
     reports = {"MITRE ATT&CK": ["TA0040:T1531"]}
     default_description = "Possible Denial of Service detected. Threshold for user account password changes exceeded.\n"
     threshold = 10

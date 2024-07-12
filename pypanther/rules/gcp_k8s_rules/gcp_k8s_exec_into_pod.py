@@ -1,12 +1,12 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.gcp_base_helpers import get_k8s_info
 from pypanther.helpers.gcp_environment import PRODUCTION_PROJECT_IDS, rule_exceptions
 from pypanther.helpers.panther_base_helpers import deep_walk
 
-gcpk8s_exec_into_pod_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+gcpk8s_exec_into_pod_tests: List[RuleTest] = [
+    RuleTest(
         name="Allowed User",
         expected_result=False,
         log={
@@ -34,7 +34,7 @@ gcpk8s_exec_into_pod_tests: List[PantherRuleTest] = [
             },
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Disallowed User",
         expected_result=True,
         log={
@@ -60,7 +60,7 @@ gcpk8s_exec_into_pod_tests: List[PantherRuleTest] = [
             },
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Disallowed User2 - not an allowed namespace",
         expected_result=True,
         log={
@@ -89,13 +89,13 @@ gcpk8s_exec_into_pod_tests: List[PantherRuleTest] = [
 ]
 
 
-class GCPK8sExecIntoPod(PantherRule):
+class GCPK8sExecIntoPod(Rule):
     id_ = "GCP.K8s.ExecIntoPod-prototype"
     display_name = "Exec into Pod"
     enabled = False
-    log_types = [PantherLogType.GCP_AuditLog]
+    log_types = [LogType.GCP_AuditLog]
     tags = ["GCP", "Security Control", "Configuration Required"]
-    default_severity = PantherSeverity.medium
+    default_severity = Severity.medium
     default_description = "Alerts when users exec into pod. Possible to specify specific projects and allowed users.\n"
     default_runbook = "Investigate the user and determine why. Advise that it is discouraged practice. Create ticket if appropriate.\n"
     default_reference = (

@@ -1,15 +1,15 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_notion_helpers import notion_alert_context
 
 
-class NotionPagePermsAPIPermsChanged(PantherRule):
+class NotionPagePermsAPIPermsChanged(Rule):
     display_name = "Notion Page API Permissions Changed"
     id_ = "Notion.PagePerms.APIPermsChanged-prototype"
-    log_types = [PantherLogType.Notion_AuditLogs]
+    log_types = [LogType.Notion_AuditLogs]
     tags = ["Notion", "Data Security", "Unapproved 3rd Party Apps"]
-    default_severity = PantherSeverity.low
+    default_severity = Severity.low
     default_description = (
         "A new API integration was added to a Notion page, or it's permissions were changed."
     )

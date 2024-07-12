@@ -1,10 +1,10 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 
-g_suite_rule_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+g_suite_rule_tests: List[RuleTest] = [
+    RuleTest(
         name="Non Triggered Rule",
         expected_result=False,
         log={
@@ -13,7 +13,7 @@ g_suite_rule_tests: List[PantherRuleTest] = [
             "parameters": {"severity": "HIGH", "triggered_actions": None},
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="High Severity Rule",
         expected_result=True,
         log={
@@ -26,7 +26,7 @@ g_suite_rule_tests: List[PantherRuleTest] = [
             },
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Medium Severity Rule",
         expected_result=True,
         log={
@@ -39,7 +39,7 @@ g_suite_rule_tests: List[PantherRuleTest] = [
             },
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Low Severity Rule",
         expected_result=True,
         log={
@@ -51,7 +51,7 @@ g_suite_rule_tests: List[PantherRuleTest] = [
             },
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="High Severity Rule with Rule Name",
         expected_result=True,
         log={
@@ -67,12 +67,12 @@ g_suite_rule_tests: List[PantherRuleTest] = [
 ]
 
 
-class GSuiteRule(PantherRule):
+class GSuiteRule(Rule):
     id_ = "GSuite.Rule-prototype"
     display_name = "GSuite Passthrough Rule Triggered"
-    log_types = [PantherLogType.GSuite_ActivityEvent]
+    log_types = [LogType.GSuite_ActivityEvent]
     tags = ["GSuite"]
-    default_severity = PantherSeverity.info
+    default_severity = Severity.info
     default_description = "A GSuite rule was triggered.\n"
     default_reference = "https://support.google.com/a/answer/9420866"
     default_runbook = "Investigate what triggered the rule.\n"

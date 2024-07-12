@@ -1,10 +1,10 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 
-gcpgcsiam_changes_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+gcpgcsiam_changes_tests: List[RuleTest] = [
+    RuleTest(
         name="GCS IAM Change",
         expected_result=True,
         log={
@@ -64,13 +64,13 @@ gcpgcsiam_changes_tests: List[PantherRuleTest] = [
 ]
 
 
-class GCPGCSIAMChanges(PantherRule):
+class GCPGCSIAMChanges(Rule):
     id_ = "GCP.GCS.IAMChanges-prototype"
     display_name = "GCP GCS IAM Permission Changes"
-    log_types = [PantherLogType.GCP_AuditLog]
+    log_types = [LogType.GCP_AuditLog]
     tags = ["GCP", "Google Cloud Storage", "Collection:Data From Cloud Storage Object"]
     reports = {"CIS": ["2.1"], "MITRE ATT&CK": ["TA0009:T1530"]}
-    default_severity = PantherSeverity.low
+    default_severity = Severity.low
     default_description = "Monitoring changes to Cloud Storage bucket permissions may reduce time to detect and correct permissions on sensitive Cloud Storage bucket and objects inside the bucket.\n"
     default_runbook = "Validate the GCS bucket change was safe."
     default_reference = "https://cloud.google.com/storage/docs/access-control/iam-permissions"

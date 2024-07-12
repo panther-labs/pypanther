@@ -1,10 +1,10 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 
-dropbox_adminsigninas_session_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+dropbox_adminsigninas_session_tests: List[RuleTest] = [
+    RuleTest(
         name="Other",
         expected_result=False,
         log={
@@ -88,7 +88,7 @@ dropbox_adminsigninas_session_tests: List[PantherRuleTest] = [
             "timestamp": "2023-04-18 22:31:03",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Sign-in-as Session",
         expected_result=True,
         log={
@@ -147,12 +147,12 @@ dropbox_adminsigninas_session_tests: List[PantherRuleTest] = [
 ]
 
 
-class DropboxAdminsigninasSession(PantherRule):
+class DropboxAdminsigninasSession(Rule):
     default_description = "Alerts when an admin starts a sign-in-as session."
     display_name = "Dropbox Admin sign-in-as Session"
     default_reference = "https://help.dropbox.com/security/sign-in-as-user"
-    default_severity = PantherSeverity.medium
-    log_types = [PantherLogType.Dropbox_TeamEvent]
+    default_severity = Severity.medium
+    log_types = [LogType.Dropbox_TeamEvent]
     id_ = "Dropbox.Admin.sign.in.as.Session-prototype"
     tests = dropbox_adminsigninas_session_tests
 

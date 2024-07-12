@@ -1,11 +1,11 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 from pypanther.helpers.panther_snyk_helpers import snyk_alert_context
 
-snyk_system_external_access_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+snyk_system_external_access_tests: List[RuleTest] = [
+    RuleTest(
         name="Snyk External Access Allowed By External Parties - Enabled",
         expected_result=True,
         log={
@@ -16,7 +16,7 @@ snyk_system_external_access_tests: List[PantherRuleTest] = [
             "userId": "05555555-3333-4ddd-8ccc-755555555555",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Snyk External Access Allowed By External Parties - Disabled",
         expected_result=True,
         log={
@@ -27,7 +27,7 @@ snyk_system_external_access_tests: List[PantherRuleTest] = [
             "userId": "05555555-3333-4ddd-8ccc-755555555555",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Snyk Group SSO Membership sync",
         expected_result=False,
         log={
@@ -47,12 +47,12 @@ snyk_system_external_access_tests: List[PantherRuleTest] = [
 ]
 
 
-class SnykSystemExternalAccess(PantherRule):
+class SnykSystemExternalAccess(Rule):
     id_ = "Snyk.System.ExternalAccess-prototype"
     display_name = "Snyk System External Access Settings Changed"
-    log_types = [PantherLogType.Snyk_GroupAudit, PantherLogType.Snyk_OrgAudit]
+    log_types = [LogType.Snyk_GroupAudit, LogType.Snyk_OrgAudit]
     tags = ["Snyk"]
-    default_severity = PantherSeverity.high
+    default_severity = Severity.high
     default_description = (
         "Detects when Snyk Settings that control access for external parties have been changed.\n"
     )

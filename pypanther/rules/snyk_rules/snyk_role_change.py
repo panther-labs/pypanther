@@ -1,11 +1,11 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 from pypanther.helpers.panther_snyk_helpers import snyk_alert_context
 
-snyk_role_change_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+snyk_role_change_tests: List[RuleTest] = [
+    RuleTest(
         name="Snyk Group Role Edit -  ADMIN role ( CRIT )",
         expected_result=True,
         log={
@@ -26,7 +26,7 @@ snyk_role_change_tests: List[PantherRuleTest] = [
             "userId": "05555555-3333-4ddd-8ccc-755555555555",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Snyk Org Role Edit -  ADMIN role ( CRIT )",
         expected_result=True,
         log={
@@ -44,7 +44,7 @@ snyk_role_change_tests: List[PantherRuleTest] = [
             "orgId": "21111111-a222-4eee-8ddd-a99999999999",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Snyk Group Role Edit -  MEMBER role ( MEDIUM )",
         expected_result=True,
         log={
@@ -65,7 +65,7 @@ snyk_role_change_tests: List[PantherRuleTest] = [
             "userId": "05555555-3333-4ddd-8ccc-755555555555",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Snyk Group SSO Membership sync",
         expected_result=False,
         log={
@@ -78,12 +78,12 @@ snyk_role_change_tests: List[PantherRuleTest] = [
 ]
 
 
-class SnykRoleChange(PantherRule):
+class SnykRoleChange(Rule):
     id_ = "Snyk.Role.Change-prototype"
     display_name = "Snyk Role Change"
-    log_types = [PantherLogType.Snyk_GroupAudit, PantherLogType.Snyk_OrgAudit]
+    log_types = [LogType.Snyk_GroupAudit, LogType.Snyk_OrgAudit]
     tags = ["Snyk"]
-    default_severity = PantherSeverity.high
+    default_severity = Severity.high
     default_description = "Detects when Snyk Roles are changed\n"
     default_runbook = "These actions in the Snyk Audit logs indicate that a ServiceAccount has been created/deleted/modified.\nAll events where the Role is marked as ADMIN have CRITICAL severity Other events are marked with MEDIUM severity\n"
     default_reference = "https://docs.snyk.io/snyk-admin/manage-users-and-permissions/member-roles"

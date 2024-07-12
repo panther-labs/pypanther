@@ -1,11 +1,11 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 from pypanther.helpers.panther_snyk_helpers import snyk_alert_context
 
-snyk_org_settings_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+snyk_org_settings_tests: List[RuleTest] = [
+    RuleTest(
         name="placeholder",
         expected_result=True,
         log={
@@ -51,7 +51,7 @@ snyk_org_settings_tests: List[PantherRuleTest] = [
             "userId": "05555555-3333-4ddd-8ccc-755555555555",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Snyk System SSO Setting event happened",
         expected_result=False,
         log={
@@ -65,15 +65,15 @@ snyk_org_settings_tests: List[PantherRuleTest] = [
 ]
 
 
-class SnykOrgSettings(PantherRule):
+class SnykOrgSettings(Rule):
     id_ = "Snyk.Org.Settings-prototype"
     display_name = "Snyk Org Settings"
-    log_types = [PantherLogType.Snyk_GroupAudit, PantherLogType.Snyk_OrgAudit]
+    log_types = [LogType.Snyk_GroupAudit, LogType.Snyk_OrgAudit]
     tags = ["Snyk"]
     default_reference = (
         "https://docs.snyk.io/snyk-admin/manage-settings/organization-general-settings"
     )
-    default_severity = PantherSeverity.medium
+    default_severity = Severity.medium
     default_description = (
         "Detects when Snyk Organization settings, like Integrations and Webhooks, are changed\n"
     )

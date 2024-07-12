@@ -1,10 +1,10 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import slack_alert_context
 
-slack_audit_logs_service_owner_transferred_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+slack_audit_logs_service_owner_transferred_tests: List[RuleTest] = [
+    RuleTest(
         name="Service Owner Transferred",
         expected_result=True,
         log={
@@ -30,7 +30,7 @@ slack_audit_logs_service_owner_transferred_tests: List[PantherRuleTest] = [
             },
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="User Logout",
         expected_result=False,
         log={
@@ -70,10 +70,10 @@ slack_audit_logs_service_owner_transferred_tests: List[PantherRuleTest] = [
 ]
 
 
-class SlackAuditLogsServiceOwnerTransferred(PantherRule):
+class SlackAuditLogsServiceOwnerTransferred(Rule):
     id_ = "Slack.AuditLogs.ServiceOwnerTransferred-prototype"
     display_name = "Slack Service Owner Transferred"
-    log_types = [PantherLogType.Slack_AuditLogs]
+    log_types = [LogType.Slack_AuditLogs]
     tags = [
         "Slack",
         "Defense Evasion",
@@ -84,7 +84,7 @@ class SlackAuditLogsServiceOwnerTransferred(PantherRule):
         "Account Access Removal",
     ]
     reports = {"MITRE ATT&CK": ["TA0005:T1222", "TA0003:T1098", "TA0040:T1531"]}
-    default_severity = PantherSeverity.critical
+    default_severity = Severity.critical
     default_description = "Detects transferring of service owner on request from primary owner"
     default_reference = "https://slack.com/intl/en-gb/help/articles/204401633-Transfer-ownership-of-a-workspace-or-org"
     summary_attributes = ["p_any_ip_addresses", "p_any_emails"]

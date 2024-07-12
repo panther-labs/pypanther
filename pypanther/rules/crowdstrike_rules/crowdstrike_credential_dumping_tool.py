@@ -1,10 +1,10 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import crowdstrike_detection_alert_context, deep_get
 
-crowdstrike_credential_dumping_tool_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+crowdstrike_credential_dumping_tool_tests: List[RuleTest] = [
+    RuleTest(
         name="mimikatz",
         expected_result=True,
         log={
@@ -86,7 +86,7 @@ crowdstrike_credential_dumping_tool_tests: List[PantherRuleTest] = [
             "treeid": "4295752857",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Other Event",
         expected_result=False,
         log={
@@ -171,12 +171,12 @@ crowdstrike_credential_dumping_tool_tests: List[PantherRuleTest] = [
 ]
 
 
-class CrowdstrikeCredentialDumpingTool(PantherRule):
+class CrowdstrikeCredentialDumpingTool(Rule):
     default_description = "Detects usage of tools commonly used for credential dumping."
     display_name = "Crowdstrike Credential Dumping Tool"
     default_reference = "https://www.crowdstrike.com/blog/adversary-credential-theft/"
-    default_severity = PantherSeverity.critical
-    log_types = [PantherLogType.Crowdstrike_FDREvent]
+    default_severity = Severity.critical
+    log_types = [LogType.Crowdstrike_FDREvent]
     id_ = "Crowdstrike.Credential.Dumping.Tool-prototype"
     tests = crowdstrike_credential_dumping_tool_tests
     CREDENTIAL_DUMPING_TOOLS = {

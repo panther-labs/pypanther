@@ -1,11 +1,11 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.gcp_base_helpers import gcp_alert_context
 from pypanther.helpers.panther_base_helpers import deep_get, deep_walk
 
-gcp_privilege_escalation_by_deployments_create_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+gcp_privilege_escalation_by_deployments_create_tests: List[RuleTest] = [
+    RuleTest(
         name="privilege-escalation",
         expected_result=True,
         log={
@@ -31,7 +31,7 @@ gcp_privilege_escalation_by_deployments_create_tests: List[PantherRuleTest] = [
             "timestamp": "2024-01-19 13:47:18.279921000",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="fail",
         expected_result=False,
         log={
@@ -60,12 +60,12 @@ gcp_privilege_escalation_by_deployments_create_tests: List[PantherRuleTest] = [
 ]
 
 
-class GCPPrivilegeEscalationByDeploymentsCreate(PantherRule):
+class GCPPrivilegeEscalationByDeploymentsCreate(Rule):
     id_ = "GCP.Privilege.Escalation.By.Deployments.Create-prototype"
     display_name = "GCP.Privilege.Escalation.By.Deployments.Create"
     default_description = "Detects privilege escalation in GCP by taking over the deploymentsmanager.deployments.create permission"
-    log_types = [PantherLogType.GCP_AuditLog]
-    default_severity = PantherSeverity.high
+    log_types = [LogType.GCP_AuditLog]
+    default_severity = Severity.high
     default_reference = (
         "https://rhinosecuritylabs.com/gcp/privilege-escalation-google-cloud-platform-part-1/"
     )

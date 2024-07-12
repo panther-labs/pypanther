@@ -1,11 +1,11 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import aws_rule_context, deep_get
 from pypanther.helpers.panther_default import aws_cloudtrail_success
 
-aws_cloud_trail_iam_assume_role_blacklist_ignored_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+aws_cloud_trail_iam_assume_role_blacklist_ignored_tests: List[RuleTest] = [
+    RuleTest(
         name="IAM Blocklisted Role Assumed",
         expected_result=True,
         log={
@@ -61,7 +61,7 @@ aws_cloud_trail_iam_assume_role_blacklist_ignored_tests: List[PantherRuleTest] =
             },
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="IAM Non Blocklisted Role Assumed",
         expected_result=False,
         log={
@@ -117,7 +117,7 @@ aws_cloud_trail_iam_assume_role_blacklist_ignored_tests: List[PantherRuleTest] =
             },
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Error Assuming IAM Blocked Role",
         expected_result=False,
         log={
@@ -177,11 +177,11 @@ aws_cloud_trail_iam_assume_role_blacklist_ignored_tests: List[PantherRuleTest] =
 ]
 
 
-class AWSCloudTrailIAMAssumeRoleBlacklistIgnored(PantherRule):
+class AWSCloudTrailIAMAssumeRoleBlacklistIgnored(Rule):
     id_ = "AWS.CloudTrail.IAMAssumeRoleBlacklistIgnored-prototype"
     display_name = "IAM Assume Role Blocklist Ignored"
     enabled = False
-    log_types = [PantherLogType.AWS_CloudTrail]
+    log_types = [LogType.AWS_CloudTrail]
     tags = [
         "AWS",
         "Configuration Required",
@@ -189,7 +189,7 @@ class AWSCloudTrailIAMAssumeRoleBlacklistIgnored(PantherRule):
         "Privilege Escalation:Abuse Elevation Control Mechanism",
     ]
     reports = {"MITRE ATT&CK": ["TA0004:T1548"]}
-    default_severity = PantherSeverity.high
+    default_severity = Severity.high
     default_description = (
         "A user assumed a role that was explicitly blocklisted for manual user assumption.\n"
     )

@@ -1,9 +1,9 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 
-netskope_admin_user_change_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+netskope_admin_user_change_tests: List[RuleTest] = [
+    RuleTest(
         name="True positive",
         expected_result=True,
         log={
@@ -24,7 +24,7 @@ netskope_admin_user_change_tests: List[PantherRuleTest] = [
             "user": "adminsupport@netskope.com",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="True negative",
         expected_result=False,
         log={
@@ -53,13 +53,13 @@ netskope_admin_user_change_tests: List[PantherRuleTest] = [
 ]
 
 
-class NetskopeAdminUserChange(PantherRule):
+class NetskopeAdminUserChange(Rule):
     id_ = "Netskope.AdminUserChange-prototype"
     display_name = "An administrator account was created, deleted, or modified."
-    log_types = [PantherLogType.Netskope_Audit]
+    log_types = [LogType.Netskope_Audit]
     tags = ["Netskope", "Account Manipulation"]
     reports = {"MITRE ATT&CK": ["TA0004:T1098"]}
-    default_severity = PantherSeverity.high
+    default_severity = Severity.high
     default_reference = "https://docs.netskope.com/en/netskope-help/admin-console/administration/managing-administrators/"
     default_description = "An administrator account was created, deleted, or modified."
     default_runbook = "An administrator account was created, deleted, or modified.  Validate that this activity is expected and authorized."

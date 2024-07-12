@@ -1,10 +1,10 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 
-g_suite_government_backed_attack_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+g_suite_government_backed_attack_tests: List[RuleTest] = [
+    RuleTest(
         name="Normal Login Event",
         expected_result=False,
         log={
@@ -15,7 +15,7 @@ g_suite_government_backed_attack_tests: List[PantherRuleTest] = [
             "parameters": {"is_suspicious": None, "login_challenge_method": ["none"]},
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Government Backed Attack Warning",
         expected_result=True,
         log={
@@ -29,12 +29,12 @@ g_suite_government_backed_attack_tests: List[PantherRuleTest] = [
 ]
 
 
-class GSuiteGovernmentBackedAttack(PantherRule):
+class GSuiteGovernmentBackedAttack(Rule):
     id_ = "GSuite.GovernmentBackedAttack-prototype"
     display_name = "GSuite Government Backed Attack"
-    log_types = [PantherLogType.GSuite_ActivityEvent]
+    log_types = [LogType.GSuite_ActivityEvent]
     tags = ["GSuite"]
-    default_severity = PantherSeverity.critical
+    default_severity = Severity.critical
     default_description = (
         "GSuite reported that it detected a government backed attack against your account.\n"
     )

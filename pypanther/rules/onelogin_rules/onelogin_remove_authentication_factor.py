@@ -1,9 +1,9 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 
-one_login_auth_factor_removed_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+one_login_auth_factor_removed_tests: List[RuleTest] = [
+    RuleTest(
         name="User removed an auth factor",
         expected_result=True,
         log={
@@ -15,7 +15,7 @@ one_login_auth_factor_removed_tests: List[PantherRuleTest] = [
             "authentication_factor_description": "2FA Name",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="User deactivated an otp deice",
         expected_result=True,
         log={
@@ -30,17 +30,17 @@ one_login_auth_factor_removed_tests: List[PantherRuleTest] = [
 ]
 
 
-class OneLoginAuthFactorRemoved(PantherRule):
+class OneLoginAuthFactorRemoved(Rule):
     id_ = "OneLogin.AuthFactorRemoved-prototype"
     display_name = "OneLogin Authentication Factor Removed"
-    log_types = [PantherLogType.OneLogin_Events]
+    log_types = [LogType.OneLogin_Events]
     tags = [
         "OneLogin",
         "Identity & Access Management",
         "Defense Evasion:Modify Authentication Process",
     ]
     reports = {"MITRE ATT&CK": ["TA0005:T1556"]}
-    default_severity = PantherSeverity.low
+    default_severity = Severity.low
     default_description = "A user removed an authentication factor or otp device.\n"
     default_reference = (
         "https://onelogin.service-now.com/kb_view_customer.do?sysparm_article=KB0010426"

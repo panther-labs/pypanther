@@ -1,10 +1,10 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 
-g_suite_workspace_password_reuse_enabled_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+g_suite_workspace_password_reuse_enabled_tests: List[RuleTest] = [
+    RuleTest(
         name="Workspace Admin Enabled Password Reuse",
         expected_result=True,
         log={
@@ -33,7 +33,7 @@ g_suite_workspace_password_reuse_enabled_tests: List[PantherRuleTest] = [
             "type": "APPLICATION_SETTINGS",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Admin Set Default Calendar SHARING_OUTSIDE_DOMAIN Setting to READ_ONLY_ACCESS",
         expected_result=False,
         log={
@@ -61,7 +61,7 @@ g_suite_workspace_password_reuse_enabled_tests: List[PantherRuleTest] = [
             "type": "CALENDAR_SETTINGS",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="ListObject Type",
         expected_result=False,
         log={
@@ -96,12 +96,12 @@ g_suite_workspace_password_reuse_enabled_tests: List[PantherRuleTest] = [
 ]
 
 
-class GSuiteWorkspacePasswordReuseEnabled(PantherRule):
+class GSuiteWorkspacePasswordReuseEnabled(Rule):
     id_ = "GSuite.Workspace.PasswordReuseEnabled-prototype"
     display_name = "GSuite Workspace Password Reuse Has Been Enabled"
-    log_types = [PantherLogType.GSuite_ActivityEvent]
+    log_types = [LogType.GSuite_ActivityEvent]
     tags = ["GSuite"]
-    default_severity = PantherSeverity.high
+    default_severity = Severity.high
     reports = {"MITRE ATT&CK": ["TA0006:T1110"]}
     default_description = "A Workspace Admin Has Enabled Password Reuse\n"
     default_reference = "https://support.google.com/a/answer/139399?hl=en#"

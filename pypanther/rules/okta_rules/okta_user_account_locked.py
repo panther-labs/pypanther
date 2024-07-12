@@ -1,10 +1,10 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import okta_alert_context
 
-okta_user_account_locked_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+okta_user_account_locked_tests: List[RuleTest] = [
+    RuleTest(
         name="Account Lock Event",
         expected_result=True,
         log={
@@ -78,7 +78,7 @@ okta_user_account_locked_tests: List[PantherRuleTest] = [
             "version": "0",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Non Event",
         expected_result=False,
         log={
@@ -164,12 +164,12 @@ okta_user_account_locked_tests: List[PantherRuleTest] = [
 ]
 
 
-class OktaUserAccountLocked(PantherRule):
+class OktaUserAccountLocked(Rule):
     default_description = "An Okta user has locked their account."
     display_name = "Okta User Account Locked"
     default_reference = "https://support.okta.com/help/s/article/How-to-Configure-the-Number-of-Failed-Login-Attempts-Before-User-Lockout?language=en_US"
-    default_severity = PantherSeverity.low
-    log_types = [PantherLogType.Okta_SystemLog]
+    default_severity = Severity.low
+    log_types = [LogType.Okta_SystemLog]
     id_ = "Okta.User.Account.Locked-prototype"
     tests = okta_user_account_locked_tests
 

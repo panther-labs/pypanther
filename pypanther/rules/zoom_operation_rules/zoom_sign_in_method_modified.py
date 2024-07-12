@@ -1,9 +1,9 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 
-zoom_sign_in_method_modified_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+zoom_sign_in_method_modified_tests: List[RuleTest] = [
+    RuleTest(
         name="Google",
         expected_result=True,
         log={
@@ -14,7 +14,7 @@ zoom_sign_in_method_modified_tests: List[PantherRuleTest] = [
             "time": "2022-12-16 18:20:07",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Apple ID",
         expected_result=True,
         log={
@@ -25,7 +25,7 @@ zoom_sign_in_method_modified_tests: List[PantherRuleTest] = [
             "time": "2022-12-16 18:19:57",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Automatic Sign Out Disabled",
         expected_result=False,
         log={
@@ -39,13 +39,13 @@ zoom_sign_in_method_modified_tests: List[PantherRuleTest] = [
 ]
 
 
-class ZoomSignInMethodModified(PantherRule):
+class ZoomSignInMethodModified(Rule):
     default_description = "A Zoom User modified your organizations sign in method."
     display_name = "Zoom Sign In Method Modified"
     default_runbook = "Confirm this user acted with valid business intent and determine whether this activity was authorized."
     default_reference = "https://support.zoom.com/hc/en/article?id=zm_kb&sysparm_article=KB0067602#:~:text=Go%20to%20the%20Zoom%20site,click%20Link%20and%20Sign%20In"
-    default_severity = PantherSeverity.medium
-    log_types = [PantherLogType.Zoom_Operation]
+    default_severity = Severity.medium
+    log_types = [LogType.Zoom_Operation]
     id_ = "Zoom.Sign.In.Method.Modified-prototype"
     tests = zoom_sign_in_method_modified_tests
 

@@ -1,11 +1,11 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import aws_rule_context, deep_get
 from pypanther.helpers.panther_default import aws_cloudtrail_success
 
-aws_cloud_trail_created_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+aws_cloud_trail_created_tests: List[RuleTest] = [
+    RuleTest(
         name="CloudTrail Was Created",
         expected_result=True,
         log={
@@ -48,7 +48,7 @@ aws_cloud_trail_created_tests: List[PantherRuleTest] = [
             "recipientAccountId": "123456789012",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="KMS Decrypt Event",
         expected_result=False,
         log={
@@ -99,7 +99,7 @@ aws_cloud_trail_created_tests: List[PantherRuleTest] = [
             "recipientAccountId": "123456789012",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Error Creating CloudTrail",
         expected_result=False,
         log={
@@ -146,13 +146,13 @@ aws_cloud_trail_created_tests: List[PantherRuleTest] = [
 ]
 
 
-class AWSCloudTrailCreated(PantherRule):
+class AWSCloudTrailCreated(Rule):
     id_ = "AWS.CloudTrail.Created-prototype"
     display_name = "A CloudTrail Was Created or Updated"
-    log_types = [PantherLogType.AWS_CloudTrail]
+    log_types = [LogType.AWS_CloudTrail]
     tags = ["AWS", "Security Control", "Discovery:Cloud Service Dashboard"]
     reports = {"CIS": ["3.5"], "MITRE ATT&CK": ["TA0007:T1538"]}
-    default_severity = PantherSeverity.info
+    default_severity = Severity.info
     default_description = "A CloudTrail Trail was created, updated, or enabled.\n"
     default_runbook = (
         "https://docs.runpanther.io/alert-runbooks/built-in-rules/aws-cloudtrail-modified"

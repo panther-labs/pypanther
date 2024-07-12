@@ -1,9 +1,9 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 
-zoom_automatic_sign_out_disabled_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+zoom_automatic_sign_out_disabled_tests: List[RuleTest] = [
+    RuleTest(
         name="Automatic Signout Setting Disabled",
         expected_result=True,
         log={
@@ -14,7 +14,7 @@ zoom_automatic_sign_out_disabled_tests: List[PantherRuleTest] = [
             "time": "2022-12-16 18:20:42",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Meeting Setting Disabled",
         expected_result=False,
         log={
@@ -28,13 +28,13 @@ zoom_automatic_sign_out_disabled_tests: List[PantherRuleTest] = [
 ]
 
 
-class ZoomAutomaticSignOutDisabled(PantherRule):
+class ZoomAutomaticSignOutDisabled(Rule):
     default_description = "A Zoom User turned off your organization's setting to automatically sign users out after a specified period of time."
     display_name = "Zoom Automatic Sign Out Disabled"
     default_reference = "https://support.zoom.us/hc/en-us/articles/115005756143-Changing-account-security-settings#:~:text=Users%20need%20to%20sign%20in,of%205%20to%20120%20minutes"
     default_runbook = "Confirm this user acted with valid business intent and determine whether this activity was authorized."
-    default_severity = PantherSeverity.medium
-    log_types = [PantherLogType.Zoom_Operation]
+    default_severity = Severity.medium
+    log_types = [LogType.Zoom_Operation]
     id_ = "Zoom.Automatic.Sign.Out.Disabled-prototype"
     tests = zoom_automatic_sign_out_disabled_tests
 

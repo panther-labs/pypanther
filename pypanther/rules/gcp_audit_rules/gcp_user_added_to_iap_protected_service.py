@@ -1,10 +1,10 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 
-gcp_user_addedto_iap_protected_service_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+gcp_user_addedto_iap_protected_service_tests: List[RuleTest] = [
+    RuleTest(
         name="other",
         expected_result=False,
         log={
@@ -59,7 +59,7 @@ gcp_user_addedto_iap_protected_service_tests: List[PantherRuleTest] = [
             },
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Other IAP Event",
         expected_result=True,
         log={
@@ -123,7 +123,7 @@ gcp_user_addedto_iap_protected_service_tests: List[PantherRuleTest] = [
             "timestamp": "2023-04-25 19:20:57.024",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Add User to IAP",
         expected_result=True,
         log={
@@ -208,13 +208,13 @@ gcp_user_addedto_iap_protected_service_tests: List[PantherRuleTest] = [
 ]
 
 
-class GCPUserAddedtoIAPProtectedService(PantherRule):
+class GCPUserAddedtoIAPProtectedService(Rule):
     default_description = "A user has been granted access to a IAP protected service."
     display_name = "GCP User Added to IAP Protected Service"
     default_runbook = "Note: GCP logs all bindings everytime this event occurs, not just changes. Bindings should be reviewed to ensure no unintended users have been added. "
     default_reference = "https://cloud.google.com/iap/docs/managing-access"
-    default_severity = PantherSeverity.low
-    log_types = [PantherLogType.GCP_AuditLog]
+    default_severity = Severity.low
+    log_types = [LogType.GCP_AuditLog]
     id_ = "GCP.User.Added.to.IAP.Protected.Service-prototype"
     tests = gcp_user_addedto_iap_protected_service_tests
 

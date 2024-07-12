@@ -1,11 +1,11 @@
 from typing import List
 
 import pypanther.helpers.panther_event_type_helpers as event_type
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import okta_alert_context
 
-okta_user_mfa_reset_single_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+okta_user_mfa_reset_single_tests: List[RuleTest] = [
+    RuleTest(
         name="User reset own MFA factor",
         expected_result=True,
         log={
@@ -48,7 +48,7 @@ okta_user_mfa_reset_single_tests: List[PantherRuleTest] = [
             "p_log_type": "Okta.SystemLog",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Other Event",
         expected_result=False,
         log={
@@ -97,13 +97,13 @@ okta_user_mfa_reset_single_tests: List[PantherRuleTest] = [
 ]
 
 
-class OktaUserMFAResetSingle(PantherRule):
+class OktaUserMFAResetSingle(Rule):
     default_description = "User has reset one of their own MFA factors"
     display_name = "Okta User MFA Own Reset"
     id_ = "Okta.User.MFA.Reset.Single-prototype"
     default_reference = "https://support.okta.com/help/s/article/How-to-avoid-lockouts-and-reset-your-Multifactor-Authentication-MFA-for-Okta-Admins?language=en_US"
-    default_severity = PantherSeverity.info
-    log_types = [PantherLogType.Okta_SystemLog]
+    default_severity = Severity.info
+    log_types = [LogType.Okta_SystemLog]
     tests = okta_user_mfa_reset_single_tests
 
     def rule(self, event):

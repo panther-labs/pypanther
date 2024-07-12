@@ -1,10 +1,10 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import aws_rule_context, deep_get
 
-aws_unsuccessful_mf_aattempt_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+aws_unsuccessful_mf_aattempt_tests: List[RuleTest] = [
+    RuleTest(
         name="Successful Login w/ MFA",
         expected_result=False,
         log={
@@ -35,7 +35,7 @@ aws_unsuccessful_mf_aattempt_tests: List[PantherRuleTest] = [
             },
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Unsuccessful Login w/ MFA",
         expected_result=True,
         log={
@@ -69,16 +69,16 @@ aws_unsuccessful_mf_aattempt_tests: List[PantherRuleTest] = [
 ]
 
 
-class AWSUnsuccessfulMFAattempt(PantherRule):
+class AWSUnsuccessfulMFAattempt(Rule):
     default_description = "Monitor application logs for suspicious events including repeated MFA failures that may indicate user's primary credentials have been compromised."
     display_name = "AWS Unsuccessful MFA attempt"
     enabled = False
     default_reference = "https://attack.mitre.org/techniques/T1621/"
     tags = ["Configuration Required"]
     reports = {"MITRE ATT&CK": ["TA0006:T1621"]}
-    default_severity = PantherSeverity.high
+    default_severity = Severity.high
     dedup_period_minutes = 15
-    log_types = [PantherLogType.AWS_CloudTrail]
+    log_types = [LogType.AWS_CloudTrail]
     id_ = "AWS.Unsuccessful.MFA.attempt-prototype"
     threshold = 2
     tests = aws_unsuccessful_mf_aattempt_tests

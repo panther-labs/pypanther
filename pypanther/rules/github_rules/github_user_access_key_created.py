@@ -1,9 +1,9 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 
-git_hub_user_access_key_created_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+git_hub_user_access_key_created_tests: List[RuleTest] = [
+    RuleTest(
         name="GitHub - User Access Key Created",
         expected_result=True,
         log={
@@ -14,7 +14,7 @@ git_hub_user_access_key_created_tests: List[PantherRuleTest] = [
             "repo": "my-org/my-repo",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="GitHub - User Access Key Deleted",
         expected_result=False,
         log={
@@ -28,14 +28,14 @@ git_hub_user_access_key_created_tests: List[PantherRuleTest] = [
 ]
 
 
-class GitHubUserAccessKeyCreated(PantherRule):
+class GitHubUserAccessKeyCreated(Rule):
     id_ = "GitHub.User.AccessKeyCreated-prototype"
     display_name = "GitHub User Access Key Created"
-    log_types = [PantherLogType.GitHub_Audit]
+    log_types = [LogType.GitHub_Audit]
     tags = ["GitHub", "Persistence:Valid Accounts"]
     reports = {"MITRE ATT&CK": ["TA0003:T1078"]}
     default_reference = "https://docs.github.com/en/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent"
-    default_severity = PantherSeverity.info
+    default_severity = Severity.info
     default_description = "Detects when a GitHub user access key is created."
     tests = git_hub_user_access_key_created_tests
 

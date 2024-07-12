@@ -1,10 +1,10 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 
-box_access_granted_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+box_access_granted_tests: List[RuleTest] = [
+    RuleTest(
         name="Regular Event",
         expected_result=False,
         log={
@@ -19,7 +19,7 @@ box_access_granted_tests: List[PantherRuleTest] = [
             "event_type": "DELETE",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Access Granted",
         expected_result=True,
         log={
@@ -43,12 +43,12 @@ box_access_granted_tests: List[PantherRuleTest] = [
 ]
 
 
-class BoxAccessGranted(PantherRule):
+class BoxAccessGranted(Rule):
     id_ = "Box.Access.Granted-prototype"
     display_name = "Box Access Granted"
-    log_types = [PantherLogType.Box_Event]
+    log_types = [LogType.Box_Event]
     tags = ["Box"]
-    default_severity = PantherSeverity.low
+    default_severity = Severity.low
     default_description = "A user granted access to their box account to Box technical support from account settings.\n"
     default_reference = "https://support.box.com/hc/en-us/articles/7039943421715-Enabling-and-Disabling-Access-for-Box-Support"
     default_runbook = "Investigate whether the user purposefully granted access to their account.\n"

@@ -1,11 +1,11 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import aws_rule_context
 from pypanther.helpers.panther_default import aws_cloudtrail_success
 
-awsec2_gateway_modified_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+awsec2_gateway_modified_tests: List[RuleTest] = [
+    RuleTest(
         name="Network Gateway Modified",
         expected_result=True,
         log={
@@ -44,7 +44,7 @@ awsec2_gateway_modified_tests: List[PantherRuleTest] = [
             "recipientAccountId": "123456789012",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Network Gateway Not Modified",
         expected_result=False,
         log={
@@ -94,7 +94,7 @@ awsec2_gateway_modified_tests: List[PantherRuleTest] = [
             "recipientAccountId": "123456789012",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Error Modifying Network Gateway",
         expected_result=False,
         log={
@@ -137,13 +137,13 @@ awsec2_gateway_modified_tests: List[PantherRuleTest] = [
 ]
 
 
-class AWSEC2GatewayModified(PantherRule):
+class AWSEC2GatewayModified(Rule):
     id_ = "AWS.EC2.GatewayModified-prototype"
     display_name = "EC2 Network Gateway Modified"
-    log_types = [PantherLogType.AWS_CloudTrail]
+    log_types = [LogType.AWS_CloudTrail]
     tags = ["AWS", "Security Control", "Defense Evasion:Impair Defenses"]
     reports = {"CIS": ["3.12"], "MITRE ATT&CK": ["TA0005:T1562"]}
-    default_severity = PantherSeverity.info
+    default_severity = Severity.info
     default_description = "An EC2 Network Gateway was modified."
     default_runbook = (
         "https://docs.runpanther.io/alert-runbooks/built-in-rules/aws-ec2-gateway-modified"

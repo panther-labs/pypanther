@@ -1,11 +1,11 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_auth0_helpers import auth0_alert_context, is_auth0_config_event
 from pypanther.helpers.panther_base_helpers import deep_get
 
-auth0_user_joined_tenant_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+auth0_user_joined_tenant_tests: List[RuleTest] = [
+    RuleTest(
         name="User accepted an invitation",
         expected_result=True,
         log={
@@ -60,7 +60,7 @@ auth0_user_joined_tenant_tests: List[PantherRuleTest] = [
             "p_source_label": "Org Auth0 Tenant Label",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="User declined an invitation",
         expected_result=False,
         log={
@@ -115,7 +115,7 @@ auth0_user_joined_tenant_tests: List[PantherRuleTest] = [
             "p_source_label": "Org Auth0 Tenant Label",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Other event",
         expected_result=False,
         log={
@@ -316,13 +316,13 @@ auth0_user_joined_tenant_tests: List[PantherRuleTest] = [
 ]
 
 
-class Auth0UserJoinedTenant(PantherRule):
+class Auth0UserJoinedTenant(Rule):
     display_name = "Auth0 User Joined Tenant"
     default_description = "User accepted invitation from Auth0 member to join an Auth0 tenant."
     id_ = "Auth0.User.Joined.Tenant-prototype"
     default_reference = "https://auth0.com/docs/manage-users/organizations/configure-organizations/invite-members#send-membership-invitations:~:text=.-,Send%20membership%20invitations,-You%20can"
-    default_severity = PantherSeverity.info
-    log_types = [PantherLogType.Auth0_Events]
+    default_severity = Severity.info
+    log_types = [LogType.Auth0_Events]
     tests = auth0_user_joined_tenant_tests
 
     def rule(self, event):

@@ -1,10 +1,10 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import slack_alert_context
 
-slack_audit_logs_sso_settings_changed_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+slack_audit_logs_sso_settings_changed_tests: List[RuleTest] = [
+    RuleTest(
         name="SSO Setting Changed",
         expected_result=True,
         log={
@@ -30,7 +30,7 @@ slack_audit_logs_sso_settings_changed_tests: List[PantherRuleTest] = [
             },
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="User Logout",
         expected_result=False,
         log={
@@ -70,10 +70,10 @@ slack_audit_logs_sso_settings_changed_tests: List[PantherRuleTest] = [
 ]
 
 
-class SlackAuditLogsSSOSettingsChanged(PantherRule):
+class SlackAuditLogsSSOSettingsChanged(Rule):
     id_ = "Slack.AuditLogs.SSOSettingsChanged-prototype"
     display_name = "Slack SSO Settings Changed"
-    log_types = [PantherLogType.Slack_AuditLogs]
+    log_types = [LogType.Slack_AuditLogs]
     tags = [
         "Slack",
         "Credential Access",
@@ -81,7 +81,7 @@ class SlackAuditLogsSSOSettingsChanged(PantherRule):
         "Modify Authentication Process",
     ]
     reports = {"MITRE ATT&CK": ["TA0003:T1556", "TA0006:T1556"]}
-    default_severity = PantherSeverity.high
+    default_severity = Severity.high
     default_description = "Detects changes to Single Sign On (SSO) restrictions"
     default_reference = (
         "https://slack.com/intl/en-gb/help/articles/220403548-Manage-single-sign-on-settings"

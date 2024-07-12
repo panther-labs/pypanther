@@ -1,10 +1,10 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 
-osquery_unsupported_mac_os_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+osquery_unsupported_mac_os_tests: List[RuleTest] = [
+    RuleTest(
         name="MacOS out of date",
         expected_result=True,
         log={
@@ -38,7 +38,7 @@ osquery_unsupported_mac_os_tests: List[PantherRuleTest] = [
             "unixTime": "1536682461",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="MacOS up to date",
         expected_result=False,
         log={
@@ -75,12 +75,12 @@ osquery_unsupported_mac_os_tests: List[PantherRuleTest] = [
 ]
 
 
-class OsqueryUnsupportedMacOS(PantherRule):
+class OsqueryUnsupportedMacOS(Rule):
     id_ = "Osquery.UnsupportedMacOS-prototype"
     display_name = "Unsupported macOS version"
-    log_types = [PantherLogType.Osquery_Differential]
+    log_types = [LogType.Osquery_Differential]
     tags = ["Osquery", "Compliance"]
-    default_severity = PantherSeverity.low
+    default_severity = Severity.low
     default_description = "Check that all laptops on the corporate environment are on a version of MacOS supported by IT.\n"
     default_runbook = "Update the MacOs version"
     default_reference = "https://support.apple.com/en-eg/HT201260"

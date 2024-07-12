@@ -1,9 +1,9 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 
-decoy_secret_accessed_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+decoy_secret_accessed_tests: List[RuleTest] = [
+    RuleTest(
         name="Secret-Decoy-Accessed",
         expected_result=True,
         log={
@@ -123,7 +123,7 @@ decoy_secret_accessed_tests: List[PantherRuleTest] = [
             "p_udm": {},
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Secret-Decoy-Listed-Not-Accessed",
         expected_result=False,
         log={
@@ -246,12 +246,12 @@ decoy_secret_accessed_tests: List[PantherRuleTest] = [
 ]
 
 
-class DecoySecretAccessed(PantherRule):
+class DecoySecretAccessed(Rule):
     id_ = "Decoy.Secret.Accessed-prototype"
     display_name = "Decoy Secret Accessed"
     enabled = False
-    log_types = [PantherLogType.AWS_SecurityFindingFormat]
-    default_severity = PantherSeverity.high
+    log_types = [LogType.AWS_SecurityFindingFormat]
+    default_severity = Severity.high
     default_description = "Actor accessed Secrets Manager decoy secret"
     default_reference = "https://aws.amazon.com/blogs/security/how-to-detect-suspicious-activity-in-your-aws-account-by-using-private-decoy-resources/"
     InlineFilters = [{"All": []}]

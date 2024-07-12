@@ -1,11 +1,11 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_asana_helpers import asana_alert_context
 from pypanther.helpers.panther_base_helpers import deep_get
 
-asana_workspace_new_admin_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+asana_workspace_new_admin_tests: List[RuleTest] = [
+    RuleTest(
         name="Team made public",
         expected_result=False,
         log={
@@ -33,7 +33,7 @@ asana_workspace_new_admin_tests: List[PantherRuleTest] = [
             "p_log_type": "Asana.Audit",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="New Workspace Admin",
         expected_result=True,
         log={
@@ -73,14 +73,14 @@ asana_workspace_new_admin_tests: List[PantherRuleTest] = [
 ]
 
 
-class AsanaWorkspaceNewAdmin(PantherRule):
+class AsanaWorkspaceNewAdmin(Rule):
     default_description = (
         "Admin role was granted to the user who previously did not have admin permissions"
     )
     display_name = "Asana Workspace New Admin"
     default_reference = "https://help.asana.com/hc/en-us/articles/14141552580635-Admin-and-super-admin-roles-in-Asana"
-    default_severity = PantherSeverity.high
-    log_types = [PantherLogType.Asana_Audit]
+    default_severity = Severity.high
+    log_types = [LogType.Asana_Audit]
     id_ = "Asana.Workspace.New.Admin-prototype"
     tests = asana_workspace_new_admin_tests
 

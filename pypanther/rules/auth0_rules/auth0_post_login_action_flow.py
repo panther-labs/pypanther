@@ -1,11 +1,11 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_auth0_helpers import auth0_alert_context, is_auth0_config_event
 from pypanther.helpers.panther_base_helpers import deep_get
 
-auth0_post_login_action_flow_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+auth0_post_login_action_flow_tests: List[RuleTest] = [
+    RuleTest(
         name="Other Event",
         expected_result=False,
         log={
@@ -52,7 +52,7 @@ auth0_post_login_action_flow_tests: List[PantherRuleTest] = [
             "p_source_label": "Org Tenant Label",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Action Added",
         expected_result=True,
         log={
@@ -160,7 +160,7 @@ auth0_post_login_action_flow_tests: List[PantherRuleTest] = [
             "p_source_label": "Org Auth0 Tenant Label",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Action Removed",
         expected_result=True,
         log={
@@ -262,7 +262,7 @@ auth0_post_login_action_flow_tests: List[PantherRuleTest] = [
             "p_source_label": "Org Auth0 Tenant Label",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="All Actions Removed",
         expected_result=True,
         log={
@@ -305,7 +305,7 @@ auth0_post_login_action_flow_tests: List[PantherRuleTest] = [
 ]
 
 
-class Auth0PostLoginActionFlow(PantherRule):
+class Auth0PostLoginActionFlow(Rule):
     default_description = (
         "An Auth0 User updated a post login action flow for your organization's tenant."
     )
@@ -314,8 +314,8 @@ class Auth0PostLoginActionFlow(PantherRule):
     default_reference = (
         "https://auth0.com/docs/customize/actions/flows-and-triggers/login-flow/api-object"
     )
-    default_severity = PantherSeverity.medium
-    log_types = [PantherLogType.Auth0_Events]
+    default_severity = Severity.medium
+    log_types = [LogType.Auth0_Events]
     id_ = "Auth0.Post.Login.Action.Flow-prototype"
     tests = auth0_post_login_action_flow_tests
 

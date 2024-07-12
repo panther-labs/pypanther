@@ -1,8 +1,8 @@
 from typing import List
 
 import pypanther.helpers.panther_event_type_helpers as event_type
-from pypanther.base import PantherDataModel, PantherDataModelMapping
-from pypanther.log_types import PantherLogType
+from pypanther.base import DataModel, DataModelMapping
+from pypanther.log_types import LogType
 
 
 def get_event_type(event):
@@ -37,12 +37,12 @@ def get_event_type(event):
     return None
 
 
-class StandardZoomOperation(PantherDataModel):
+class StandardZoomOperation(DataModel):
     id_: str = "Standard.Zoom.Operation"
     display_name: str = None
     enabled: bool = True
-    log_types: List[str] = [PantherLogType.Zoom_Operation]
-    mappings: List[PantherDataModelMapping] = [
-        PantherDataModelMapping(name="actor_user", path="operator"),
-        PantherDataModelMapping(name="event_type", method=get_event_type),
+    log_types: List[str] = [LogType.Zoom_Operation]
+    mappings: List[DataModelMapping] = [
+        DataModelMapping(name="actor_user", path="operator"),
+        DataModelMapping(name="event_type", method=get_event_type),
     ]

@@ -1,10 +1,10 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_duo_helpers import duo_alert_context
 
-duo_admin_policy_updated_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+duo_admin_policy_updated_tests: List[RuleTest] = [
+    RuleTest(
         name="Policy Update",
         expected_result=True,
         log={
@@ -16,7 +16,7 @@ duo_admin_policy_updated_tests: List[PantherRuleTest] = [
             "username": "Homer Simpson",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Other event",
         expected_result=False,
         log={
@@ -30,14 +30,14 @@ duo_admin_policy_updated_tests: List[PantherRuleTest] = [
 ]
 
 
-class DuoAdminPolicyUpdated(PantherRule):
+class DuoAdminPolicyUpdated(Rule):
     default_description = (
         "A Duo Administrator updated a Policy, which governs how users authenticate."
     )
     display_name = "Duo Admin Policy Updated"
     default_reference = "https://duo.com/docs/policy#authenticators-policy-settings"
-    default_severity = PantherSeverity.medium
-    log_types = [PantherLogType.Duo_Administrator]
+    default_severity = Severity.medium
+    log_types = [LogType.Duo_Administrator]
     id_ = "Duo.Admin.Policy.Updated-prototype"
     tests = duo_admin_policy_updated_tests
 

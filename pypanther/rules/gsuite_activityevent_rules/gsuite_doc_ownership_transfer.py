@@ -1,11 +1,11 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 from pypanther.helpers.panther_config import config
 
-g_suite_doc_ownership_transfer_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+g_suite_doc_ownership_transfer_tests: List[RuleTest] = [
+    RuleTest(
         name="Ownership Transferred Within Organization",
         expected_result=False,
         log={
@@ -14,7 +14,7 @@ g_suite_doc_ownership_transfer_tests: List[PantherRuleTest] = [
             "parameters": {"NEW_VALUE": "homer.simpson@example.com"},
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Document Transferred to External User",
         expected_result=True,
         log={
@@ -26,18 +26,18 @@ g_suite_doc_ownership_transfer_tests: List[PantherRuleTest] = [
 ]
 
 
-class GSuiteDocOwnershipTransfer(PantherRule):
+class GSuiteDocOwnershipTransfer(Rule):
     id_ = "GSuite.DocOwnershipTransfer-prototype"
     display_name = "GSuite Document External Ownership Transfer"
     enabled = False
-    log_types = [PantherLogType.GSuite_ActivityEvent]
+    log_types = [LogType.GSuite_ActivityEvent]
     tags = [
         "GSuite",
         "Configuration Required",
         "Collection:Data from Information Repositories",
     ]
     reports = {"MITRE ATT&CK": ["TA0009:T1213"]}
-    default_severity = PantherSeverity.low
+    default_severity = Severity.low
     default_description = "A GSuite document's ownership was transferred to an external party.\n"
     default_reference = "https://support.google.com/drive/answer/2494892?hl=en&co=GENIE.Platform%3DDesktop&sjid=864417124752637253-EU"
     default_runbook = (

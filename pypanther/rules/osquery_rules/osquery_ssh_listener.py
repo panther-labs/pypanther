@@ -1,10 +1,10 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 
-osquery_ssh_listener_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+osquery_ssh_listener_tests: List[RuleTest] = [
+    RuleTest(
         name="SSH Listener Detected",
         expected_result=True,
         log={
@@ -38,7 +38,7 @@ osquery_ssh_listener_tests: List[PantherRuleTest] = [
             "unixTime": "1536682461",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="SSH Listener Not Detected",
         expected_result=False,
         log={
@@ -75,13 +75,13 @@ osquery_ssh_listener_tests: List[PantherRuleTest] = [
 ]
 
 
-class OsquerySSHListener(PantherRule):
+class OsquerySSHListener(Rule):
     id_ = "Osquery.SSHListener-prototype"
     display_name = "OSQuery Detected SSH Listener"
-    log_types = [PantherLogType.Osquery_Differential]
+    log_types = [LogType.Osquery_Differential]
     tags = ["Osquery", "Lateral Movement:Remote Services"]
     reports = {"MITRE ATT&CK": ["TA0008:T1021"]}
-    default_severity = PantherSeverity.medium
+    default_severity = Severity.medium
     default_description = "Check if SSH is listening in a non-production environment. This could be an indicator of persistent access within an environment.\n"
     default_runbook = "Terminate the SSH daemon, investigate for signs of compromise.\n"
     default_reference = (

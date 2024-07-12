@@ -1,9 +1,9 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 
-duo_admin_app_integration_secret_key_viewed_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+duo_admin_app_integration_secret_key_viewed_tests: List[RuleTest] = [
+    RuleTest(
         name="Generic Skey View",
         expected_result=True,
         log={
@@ -14,7 +14,7 @@ duo_admin_app_integration_secret_key_viewed_tests: List[PantherRuleTest] = [
             "username": "Homer Simpson",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Duo app install ",
         expected_result=False,
         log={
@@ -28,13 +28,13 @@ duo_admin_app_integration_secret_key_viewed_tests: List[PantherRuleTest] = [
 ]
 
 
-class DuoAdminAppIntegrationSecretKeyViewed(PantherRule):
+class DuoAdminAppIntegrationSecretKeyViewed(Rule):
     default_description = "An administrator viewed a Secret Key for an Application Integration"
     display_name = "Duo Admin App Integration Secret Key Viewed"
     default_reference = "https://duo.com/docs/adminapi"
     default_runbook = "The security of your Duo application is tied to the security of your secret key (skey). Secure it as you would any sensitive credential. Don't share it with unauthorized individuals or email it to anyone under any circumstances!"
-    default_severity = PantherSeverity.medium
-    log_types = [PantherLogType.Duo_Administrator]
+    default_severity = Severity.medium
+    log_types = [LogType.Duo_Administrator]
     id_ = "Duo.Admin.App.Integration.Secret.Key.Viewed-prototype"
     tests = duo_admin_app_integration_secret_key_viewed_tests
 

@@ -1,9 +1,9 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 
-push_security_mfa_method_changed_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+push_security_mfa_method_changed_tests: List[RuleTest] = [
+    RuleTest(
         name="All MFA methods removed",
         expected_result=True,
         log={
@@ -50,7 +50,7 @@ push_security_mfa_method_changed_tests: List[PantherRuleTest] = [
             "version": "1",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="First seen",
         expected_result=False,
         log={
@@ -80,7 +80,7 @@ push_security_mfa_method_changed_tests: List[PantherRuleTest] = [
             "version": "1",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="MFA method added",
         expected_result=True,
         log={
@@ -127,7 +127,7 @@ push_security_mfa_method_changed_tests: List[PantherRuleTest] = [
             "version": "1",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="No MFA method change",
         expected_result=False,
         log={
@@ -177,11 +177,11 @@ push_security_mfa_method_changed_tests: List[PantherRuleTest] = [
 ]
 
 
-class PushSecurityMFAMethodChanged(PantherRule):
+class PushSecurityMFAMethodChanged(Rule):
     id_ = "Push.Security.MFA.Method.Changed-prototype"
     display_name = "Push Security SaaS App MFA Method Changed"
-    log_types = [PantherLogType.PushSecurity_Entities]
-    default_severity = PantherSeverity.info
+    log_types = [LogType.PushSecurity_Entities]
+    default_severity = Severity.info
     default_description = "MFA method on SaaS app changed"
     tests = push_security_mfa_method_changed_tests
 

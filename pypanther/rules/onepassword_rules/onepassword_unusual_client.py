@@ -1,10 +1,10 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 
-one_password_unusual_client_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+one_password_unusual_client_tests: List[RuleTest] = [
+    RuleTest(
         name="1Password - Expected Client",
         expected_result=False,
         log={
@@ -31,7 +31,7 @@ one_password_unusual_client_tests: List[PantherRuleTest] = [
             "p_log_type": "OnePassword.SignInAttempt",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="1Password - Bad Client",
         expected_result=True,
         log={
@@ -61,12 +61,12 @@ one_password_unusual_client_tests: List[PantherRuleTest] = [
 ]
 
 
-class OnePasswordUnusualClient(PantherRule):
+class OnePasswordUnusualClient(Rule):
     id_ = "OnePassword.Unusual.Client-prototype"
     dedup_period_minutes = 120
     display_name = "Unusual 1Password Client Detected"
-    log_types = [PantherLogType.OnePassword_SignInAttempt]
-    default_severity = PantherSeverity.medium
+    log_types = [LogType.OnePassword_SignInAttempt]
+    default_severity = Severity.medium
     default_description = (
         "Detects when unusual or undesirable 1Password clients access your 1Password account"
     )

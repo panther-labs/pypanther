@@ -1,14 +1,14 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 from pypanther.helpers.panther_tailscale_helpers import (
     is_tailscale_admin_console_event,
     tailscale_alert_context,
 )
 
-tailscale_machine_approval_requirements_disabled_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+tailscale_machine_approval_requirements_disabled_tests: List[RuleTest] = [
+    RuleTest(
         name="Machine Approval Requirements Disabled",
         expected_result=True,
         log={
@@ -45,7 +45,7 @@ tailscale_machine_approval_requirements_disabled_tests: List[PantherRuleTest] = 
             "time": 1687906694.915,
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Other Event",
         expected_result=False,
         log={
@@ -80,13 +80,13 @@ tailscale_machine_approval_requirements_disabled_tests: List[PantherRuleTest] = 
 ]
 
 
-class TailscaleMachineApprovalRequirementsDisabled(PantherRule):
+class TailscaleMachineApprovalRequirementsDisabled(Rule):
     default_description = "A Tailscale User disabled machine approval requirement settings in your organization's tenant. This means devices can access your network without requiring approval."
     display_name = "Tailscale Machine Approval Requirements Disabled"
     default_runbook = "Assess if this was done by the user for a valid business reason. Be vigilant to re-enable this setting as it's in the best security interest for your organization's security posture."
     default_reference = "https://tailscale.com/kb/1099/device-approval/"
-    default_severity = PantherSeverity.high
-    log_types = [PantherLogType.Tailscale_Audit]
+    default_severity = Severity.high
+    log_types = [LogType.Tailscale_Audit]
     id_ = "Tailscale.Machine.Approval.Requirements.Disabled-prototype"
     tests = tailscale_machine_approval_requirements_disabled_tests
 

@@ -1,10 +1,10 @@
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 
-g_suite_calendar_made_public_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+g_suite_calendar_made_public_tests: List[RuleTest] = [
+    RuleTest(
         name="User Publically Shared a Calendar",
         expected_result=True,
         log={
@@ -29,7 +29,7 @@ g_suite_calendar_made_public_tests: List[PantherRuleTest] = [
             "type": "calendar_change",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="User Made Calendar Private",
         expected_result=True,
         log={
@@ -54,7 +54,7 @@ g_suite_calendar_made_public_tests: List[PantherRuleTest] = [
             "type": "calendar_change",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Admin Set Default Calendar SHARING_OUTSIDE_DOMAIN Setting to READ_WRITE_ACCESS",
         expected_result=False,
         log={
@@ -82,7 +82,7 @@ g_suite_calendar_made_public_tests: List[PantherRuleTest] = [
             "type": "CALENDAR_SETTINGS",
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="ListObject Type",
         expected_result=False,
         log={
@@ -117,13 +117,13 @@ g_suite_calendar_made_public_tests: List[PantherRuleTest] = [
 ]
 
 
-class GSuiteCalendarMadePublic(PantherRule):
+class GSuiteCalendarMadePublic(Rule):
     id_ = "GSuite.CalendarMadePublic-prototype"
     display_name = "GSuite Calendar Has Been Made Public"
-    log_types = [PantherLogType.GSuite_ActivityEvent]
+    log_types = [LogType.GSuite_ActivityEvent]
     tags = ["GSuite"]
     reports = {"MITRE ATT&CK": ["TA0007:T1087"]}
-    default_severity = PantherSeverity.medium
+    default_severity = Severity.medium
     default_description = "A User or Admin Has Modified A Calendar To Be Public\n"
     default_reference = (
         "https://support.google.com/calendar/answer/37083?hl=en&sjid=864417124752637253-EU"

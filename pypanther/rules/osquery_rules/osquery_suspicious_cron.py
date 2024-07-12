@@ -2,11 +2,11 @@ import shlex
 from fnmatch import fnmatch
 from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 
-osquery_suspicious_cron_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
+osquery_suspicious_cron_tests: List[RuleTest] = [
+    RuleTest(
         name="Netcat Listener",
         expected_result=True,
         log={
@@ -25,7 +25,7 @@ osquery_suspicious_cron_tests: List[PantherRuleTest] = [
             },
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Wget Pipe Bash",
         expected_result=True,
         log={
@@ -44,7 +44,7 @@ osquery_suspicious_cron_tests: List[PantherRuleTest] = [
             },
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Wget Execute",
         expected_result=True,
         log={
@@ -63,7 +63,7 @@ osquery_suspicious_cron_tests: List[PantherRuleTest] = [
             },
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Dig",
         expected_result=True,
         log={
@@ -82,7 +82,7 @@ osquery_suspicious_cron_tests: List[PantherRuleTest] = [
             },
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Built-in Cron",
         expected_result=False,
         log={
@@ -101,7 +101,7 @@ osquery_suspicious_cron_tests: List[PantherRuleTest] = [
             },
         },
     ),
-    PantherRuleTest(
+    RuleTest(
         name="Command with quotes",
         expected_result=False,
         log={
@@ -123,13 +123,13 @@ osquery_suspicious_cron_tests: List[PantherRuleTest] = [
 ]
 
 
-class OsquerySuspiciousCron(PantherRule):
+class OsquerySuspiciousCron(Rule):
     id_ = "Osquery.SuspiciousCron-prototype"
     display_name = "Suspicious cron detected"
-    log_types = [PantherLogType.Osquery_Differential]
+    log_types = [LogType.Osquery_Differential]
     tags = ["Osquery", "Execution:Scheduled Task/Job"]
     reports = {"MITRE ATT&CK": ["TA0002:T1053"]}
-    default_severity = PantherSeverity.high
+    default_severity = Severity.high
     default_description = "A suspicious cron has been added"
     default_runbook = "Analyze the command to ensure no nefarious activity is occurring"
     default_reference = "https://en.wikipedia.org/wiki/Cron"
