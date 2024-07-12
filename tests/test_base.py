@@ -1253,14 +1253,18 @@ class TestRule(TestCase):
                 return event.get("domain") in self.allowed_domains
 
             @classmethod
-            def validate(cls, internal: bool = False):
-                if not internal:
+            def validate(cls, _validate_config: bool = False):
+                if _validate_config:
                     assert (
                         len(cls.allowed_domains) > 0
                     ), "The allowed_domains field on your PantherOOTBRule must be populated before using this rule"
-                super().validate(internal)
+                super().validate(_validate_config)
 
-        assert MyRule().run_tests(DATA_MODEL_CACHE.data_model_of_logtype, internal=True)[0].Passed
+        assert (
+            MyRule()
+            .run_tests(DATA_MODEL_CACHE.data_model_of_logtype, _validate_config=False)[0]
+            .Passed
+        )
 
     def test_validate_external_fails(self) -> None:
         class MyRule(PantherRule):
@@ -1282,15 +1286,15 @@ class TestRule(TestCase):
                 return event.get("domain") in self.allowed_domains
 
             @classmethod
-            def validate(cls, internal: bool = False):
-                if not internal:
+            def validate(cls, _validate_config: bool = False):
+                if _validate_config:
                     assert (
                         len(cls.allowed_domains) > 0
                     ), "The allowed_domains field on your PantherOOTBRule must be populated before using this rule"
-                super().validate(internal)
+                super().validate(_validate_config)
 
         with pytest.raises(AssertionError):
-            MyRule().run_tests(DATA_MODEL_CACHE.data_model_of_logtype, internal=False)
+            MyRule().run_tests(DATA_MODEL_CACHE.data_model_of_logtype)
 
 
 @dataclasses.dataclass

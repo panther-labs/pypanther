@@ -233,7 +233,13 @@ class PantherRule(metaclass=abc.ABCMeta):
         }
 
     @classmethod
-    def validate(cls, internal: bool = False):
+    def validate(cls, _validate_config: bool = True) -> None:
+        """
+        Validates this PantherRule.
+
+        Parameters:
+            _validate_config: true if any configuration should be validated, false otherwise. Only meant to be used by Panther.
+        """
         PantherRuleAdapter.validate_python(cls.asdict())
 
         # instantiation confirms that abstract methods are implemented
@@ -271,7 +277,7 @@ class PantherRule(metaclass=abc.ABCMeta):
     def run_tests(
         cls,
         get_data_model: Callable[[str], Optional[DataModel]],
-        internal: bool = False,
+        _validate_config: bool = True,
     ) -> list[PantherRuleTestResult]:
         """
         Runs all PantherRuleTests in this PantherRules' Test attribute over this
@@ -279,12 +285,12 @@ class PantherRule(metaclass=abc.ABCMeta):
 
         Parameters:
             get_data_model: a helper function that will return a PantherDataModel given a log type.
-            internal: true if tests are being run internally to Panther, false otherwise.
+            _validate_config: true if tests are being run should validate any configuration, false otherwise. Only meant to be used by Panther.
 
         Returns:
             a list of PantherRuleTestResult objects.
         """
-        cls.validate(internal)
+        cls.validate(_validate_config)
         rule = cls()
 
         return [rule.run_test(test, get_data_model) for test in rule.Tests]
