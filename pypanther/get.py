@@ -1,6 +1,7 @@
 from importlib import import_module
 from pkgutil import walk_packages
-from typing import List, Set, Type
+from types import ModuleType
+from typing import Any, List, Set, Type
 
 from prettytable import PrettyTable
 
@@ -18,7 +19,7 @@ def __to_set(value):
         return {value}
 
 
-def get_panther_rules(**kwargs):
+def get_panther_rules(**kwargs) -> list[Type[PantherRule]]:
     """Return an iterator of all PantherRules in the pypanther.rules based on the provided filters.
     If the filter argument is not provided, all rules are returned. If a filter value is a list, any value in the
     list will match. If a filter value is a string, the value must match exactly.
@@ -39,6 +40,39 @@ def get_panther_rules(**kwargs):
 
 
 __DATA_MODELS: Set[Type[PantherRule]] = set()
+
+
+def get_rules(module: Any) -> list[Type[PantherRule]]:
+    """
+    Returns a list of PantherRule subclasses that are declared within the given module, recursively.
+    All sub-packages of the given module must have an __init__.py declared for PantherRule subclasses
+    to be included.
+
+    For example: if all your PantherRule subclasses are inside a "rules" folder, you would do
+    ```
+    import rules
+    from pypanther import get_rules, register
+
+    custom_rules = get_rules(rules)
+    register(custom_rules)
+    ```
+    """
+    if not isinstance(module, ModuleType):
+        raise TypeError(f"Expected a module, got {type(module)}")
+
+    subclasses = set()
+
+    for module_info in walk_packages(module.__path__, prefix=module.__name__ + "."):
+        m = import_module(module_info.name)
+
+        for item in dir(m):
+            attr = getattr(m, item)
+            if isinstance(attr, type) and issubclass(attr, PantherRule) and attr is not PantherRule:
+                if not hasattr(attr, "RuleID"):
+                    continue
+                subclasses.add(attr)
+
+    return list(subclasses)
 
 
 def get_panther_data_models(**kwargs):
