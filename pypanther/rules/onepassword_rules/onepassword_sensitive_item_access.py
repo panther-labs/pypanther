@@ -1,9 +1,7 @@
-from typing import List
-
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 
-one_password_sensitive_item_tests: List[RuleTest] = [
+one_password_sensitive_item_tests: list[RuleTest] = [
     RuleTest(
         name="1Password - Sensitive Item Accessed",
         expected_result=True,
@@ -13,11 +11,7 @@ one_password_sensitive_item_tests: List[RuleTest] = [
             "used_version": 2,
             "vault_uuid": "111111",
             "item_uuid": "ecd1d435c26440dc930ddfbbef201a11",
-            "user": {
-                "email": "homer@springfield.gov",
-                "name": "Homer Simpson",
-                "uuid": "2222222",
-            },
+            "user": {"email": "homer@springfield.gov", "name": "Homer Simpson", "uuid": "2222222"},
             "client": {
                 "app_name": "1Password Browser Extension",
                 "app_version": "20195",
@@ -39,11 +33,7 @@ one_password_sensitive_item_tests: List[RuleTest] = [
             "used_version": 2,
             "vault_uuid": "111111",
             "item_uuid": "1111111",
-            "user": {
-                "email": "homer@springfield.gov",
-                "name": "Homer Simpson",
-                "uuid": "2222222",
-            },
+            "user": {"email": "homer@springfield.gov", "name": "Homer Simpson", "uuid": "2222222"},
             "client": {
                 "app_name": "1Password Browser Extension",
                 "app_version": "20195",
@@ -71,11 +61,7 @@ class OnePasswordSensitiveItem(Rule):
         "Alerts when a user defined list of sensitive items in 1Password is accessed"
     )
     summary_attributes = ["p_any_ip_addresses", "p_any_emails"]
-    tags = [
-        "Configuration Required",
-        "1Password",
-        "Credential Access:Unsecured Credentials",
-    ]
+    tags = ["Configuration Required", "1Password", "Credential Access:Unsecured Credentials"]
     reports = {"MITRE ATT&CK": ["TA0006:T1552"]}
     tests = one_password_sensitive_item_tests
     "\nThis rule detects access to high sensitivity items in your 1Password account. 1Password references\nthese items by their UUID so the SENSITIVE_ITEM_WATCHLIST below allows for the mapping of UUID to\nmeaningful name.\n\nThere is an alternative method for creating this rule that uses Panther's lookup table feature,\n(currently in beta). That rule can be found in the 1Password detection pack with the name\nBETA - Sensitive 1Password Item Accessed (onepassword_lut_sensitive_item_access.py)\n"

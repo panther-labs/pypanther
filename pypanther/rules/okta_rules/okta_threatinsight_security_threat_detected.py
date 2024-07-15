@@ -1,9 +1,7 @@
-from typing import List
-
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get, okta_alert_context
 
-okta_threat_insight_security_threat_detected_tests: List[RuleTest] = [
+okta_threat_insight_security_threat_detected_tests: list[RuleTest] = [
     RuleTest(
         name="Other Event",
         expected_result=False,
@@ -14,18 +12,11 @@ okta_threat_insight_security_threat_detected_tests: List[RuleTest] = [
                 "id": "00abc456",
                 "type": "User",
             },
-            "authenticationcontext": {
-                "authenticationStep": 0,
-                "externalSessionId": "abc12345",
-            },
+            "authenticationcontext": {"authenticationStep": 0, "externalSessionId": "abc12345"},
             "client": {
                 "device": "Unknown",
                 "ipAddress": "1.2.3.4",
-                "userAgent": {
-                    "browser": "UNKNOWN",
-                    "os": "Unknown",
-                    "rawUserAgent": "Chrome",
-                },
+                "userAgent": {"browser": "UNKNOWN", "os": "Unknown", "rawUserAgent": "Chrome"},
                 "zone": "null",
             },
             "debugcontext": {"debugData": {}},
@@ -37,12 +28,7 @@ okta_threat_insight_security_threat_detected_tests: List[RuleTest] = [
             "securitycontext": {},
             "severity": "INFO",
             "target": [
-                {
-                    "alternateId": "App ",
-                    "displayName": "App",
-                    "id": "12345",
-                    "type": "AppInstance",
-                }
+                {"alternateId": "App ", "displayName": "App", "id": "12345", "type": "AppInstance"}
             ],
             "transaction": {"detail": {}, "id": "sdfg", "type": "JOB"},
             "uuid": "aaa-bb-ccc",

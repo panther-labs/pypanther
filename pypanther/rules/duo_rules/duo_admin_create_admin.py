@@ -1,12 +1,10 @@
-from typing import List
-
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_duo_helpers import (
     deserialize_administrator_log_event_description,
     duo_alert_context,
 )
 
-duo_admin_create_admin_tests: List[RuleTest] = [
+duo_admin_create_admin_tests: list[RuleTest] = [
     RuleTest(
         name="Admin Create",
         expected_result=True,

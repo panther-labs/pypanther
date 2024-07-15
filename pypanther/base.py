@@ -6,18 +6,7 @@ import logging
 import os
 import sys
 from dataclasses import dataclass
-from typing import (
-    Any,
-    Callable,
-    Dict,
-    List,
-    Literal,
-    Mapping,
-    Optional,
-    Tuple,
-    Type,
-    Union,
-)
+from typing import Any, Callable, Dict, List, Literal, Mapping, Optional, Tuple, Type, Union
 from unittest.mock import MagicMock, patch
 
 from jsonpath_ng import Fields
@@ -134,17 +123,13 @@ class DataModel:
 
         for mapping in self.mappings:
             if not mapping.name:
-                raise AssertionError(
-                    f"DataModel [{self.id_}] is missing required field: [Name]"
-                )
+                raise AssertionError(f"DataModel [{self.id_}] is missing required field: [Name]")
             if mapping.path:
                 self.paths[mapping.name] = parse(mapping.path)
             elif mapping.method:
                 self.methods[mapping.name] = mapping.method
             else:
-                raise AssertionError(
-                    f"DataModel [{self.id_}] must define one of: [Path, Method]"
-                )
+                raise AssertionError(f"DataModel [{self.id_}] must define one of: [Path, Method]")
 
 
 class RuleModel(BaseModel):
@@ -218,9 +203,7 @@ class Rule(metaclass=abc.ABCMeta):
 
     @abc.abstractmethod
     def rule(self, event: PantherEvent) -> bool:
-        raise NotImplementedError(
-            "You must implement the rule method in your rule class."
-        )
+        raise NotImplementedError("You must implement the rule method in your rule class.")
 
     def severity(self, event: PantherEvent) -> SeverityType:
         return self.default_severity
@@ -265,11 +248,7 @@ class Rule(metaclass=abc.ABCMeta):
     @classmethod
     def asdict(cls):
         """Returns a dictionary representation of the class."""
-        return {
-            key: try_asdict(getattr(cls, key))
-            for key in RULE_ALL_ATTRS
-            if hasattr(cls, key)
-        }
+        return {key: try_asdict(getattr(cls, key)) for key in RULE_ALL_ATTRS if hasattr(cls, key)}
 
     @classmethod
     def validate(cls):
@@ -348,9 +327,7 @@ class Rule(metaclass=abc.ABCMeta):
 
         patches: list[Any] = []
         for each_mock in test.mocks:
-            kwargs = {
-                each_mock.object_name: MagicMock(return_value=each_mock.return_value)
-            }
+            kwargs = {each_mock.object_name: MagicMock(return_value=each_mock.return_value)}
             p = patch.multiple(test._module, **kwargs)
             try:
                 p.start()
@@ -372,9 +349,7 @@ class Rule(metaclass=abc.ABCMeta):
                     rule_id=self.id_,
                 )
 
-            if isinstance(
-                detection_result.destinations_exception, UnknownDestinationError
-            ):
+            if isinstance(detection_result.destinations_exception, UnknownDestinationError):
                 # ignore unknown destinations during testing
                 detection_result.destinations_exception = None
 
@@ -441,23 +416,17 @@ class Rule(metaclass=abc.ABCMeta):
             self.ctx_mgr = suppress_output
 
         result.title_output, result.title_exception = self._get_title(event)
-        result.description_output, result.description_exception = self._get_description(
-            event
-        )
+        result.description_output, result.description_exception = self._get_description(event)
         result.reference_output, result.reference_exception = self._get_reference(event)
         result.severity_output, result.severity_exception = self._get_severity(event)
         result.runbook_output, result.runbook_exception = self._get_runbook(event)
-        result.destinations_output, result.destinations_exception = (
-            self._get_destinations(
-                event,
-                outputs,
-                outputs_names,
-            )
+        result.destinations_output, result.destinations_exception = self._get_destinations(
+            event,
+            outputs,
+            outputs_names,
         )
         result.dedup_output, result.dedup_exception = self._get_dedup(event)
-        result.alert_context_output, result.alert_context_exception = (
-            self._get_alert_context(event)
-        )
+        result.alert_context_output, result.alert_context_exception = self._get_alert_context(event)
 
         if batch_mode:
             # batch mode ignores errors
@@ -544,9 +513,7 @@ class Rule(metaclass=abc.ABCMeta):
 
         return truncate(runbook, MAX_GENERATED_FIELD_SIZE), None
 
-    def _get_severity(
-        self, event: Mapping
-    ) -> Tuple[Optional[str], Optional[Exception]]:
+    def _get_severity(self, event: Mapping) -> Tuple[Optional[str], Optional[Exception]]:
         try:
             with self.ctx_mgr():
                 severity: str = self.severity(event)
@@ -564,17 +531,13 @@ class Rule(metaclass=abc.ABCMeta):
 
         return severity, None
 
-    def _get_alert_context(
-        self, event: Mapping
-    ) -> Tuple[Optional[str], Optional[Exception]]:
+    def _get_alert_context(self, event: Mapping) -> Tuple[Optional[str], Optional[Exception]]:
         try:
             with self.ctx_mgr():
                 alert_context = self.alert_context(event)
 
             self._require_mapping(self.alert_context.__name__, alert_context)
-            serialized_alert_context = json.dumps(
-                alert_context, default=PantherEvent.json_encoder
-            )
+            serialized_alert_context = json.dumps(alert_context, default=PantherEvent.json_encoder)
         except Exception as err:
             return json.dumps({ALERT_CONTEXT_ERROR_KEY: repr(err)}), err
 
@@ -625,26 +588,19 @@ class Rule(metaclass=abc.ABCMeta):
                     outputs_display_names[each_destination].destination_id
                 )
             # case for valid UUIDv4
-            elif (
-                each_destination in outputs
-                and each_destination not in standardized_destinations
-            ):
+            elif each_destination in outputs and each_destination not in standardized_destinations:
                 standardized_destinations.append(each_destination)
             else:
                 invalid_destinations.append(each_destination)
 
         if len(standardized_destinations) > MAX_DESTINATIONS_SIZE:
             # If generated field exceeds max size, truncate it
-            standardized_destinations = standardized_destinations[
-                :MAX_DESTINATIONS_SIZE
-            ]
+            standardized_destinations = standardized_destinations[:MAX_DESTINATIONS_SIZE]
 
         if invalid_destinations:
             try:
                 # raise to get a stack trace
-                raise UnknownDestinationError(
-                    "Invalid Destinations", invalid_destinations
-                )
+                raise UnknownDestinationError("Invalid Destinations", invalid_destinations)
             except UnknownDestinationError as e:
                 return standardized_destinations, e
 
@@ -668,9 +624,7 @@ class Rule(metaclass=abc.ABCMeta):
     def _require_str_list(self, method_name: str, value: Any):
         if value is None:
             return
-        if not isinstance(value, list) or not all(
-            isinstance(x, (str, bool)) for x in value
-        ):
+        if not isinstance(value, list) or not all(isinstance(x, (str, bool)) for x in value):
             raise FunctionReturnTypeError(
                 "detection [{}] method [{}] returned [{}], expected a list".format(
                     self.id_, method_name, type(value).__name__

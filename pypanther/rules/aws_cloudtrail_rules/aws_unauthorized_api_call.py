@@ -1,10 +1,9 @@
 from ipaddress import ip_address
-from typing import List
 
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import aws_rule_context, deep_get
 
-aws_cloud_trail_unauthorized_api_call_tests: List[RuleTest] = [
+aws_cloud_trail_unauthorized_api_call_tests: list[RuleTest] = [
     RuleTest(
         name="Unauthorized API Call from Within AWS (IP)",
         expected_result=True,

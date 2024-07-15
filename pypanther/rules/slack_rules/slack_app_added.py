@@ -1,9 +1,7 @@
-from typing import List
-
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get, slack_alert_context
 
-slack_audit_logs_app_added_tests: List[RuleTest] = [
+slack_audit_logs_app_added_tests: list[RuleTest] = [
     RuleTest(
         name="App added to workspace - Admin not in app scopes",
         expected_result=True,
@@ -29,10 +27,7 @@ slack_audit_logs_app_added_tests: List[RuleTest] = [
                 "ua": "Go-http-client/2.0",
             },
             "date_create": "2021-06-08 22:16:15",
-            "details": {
-                "is_internal_integration": False,
-                "is_token_rotation_enabled_app": False,
-            },
+            "details": {"is_internal_integration": False, "is_token_rotation_enabled_app": False},
             "entity": {
                 "app": {
                     "id": "A049JV0H0KC",

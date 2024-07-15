@@ -1,8 +1,6 @@
-from typing import List
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 
-from pypanther import LogType, Rule, RuleTest, Severity
-
-git_hub_org_auth_change_tests: List[RuleTest] = [
+git_hub_org_auth_change_tests: list[RuleTest] = [
     RuleTest(
         name="GitHub - Authentication Method Changed",
         expected_result=True,

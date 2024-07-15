@@ -1,8 +1,6 @@
-from typing import List
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 
-from pypanther import LogType, Rule, RuleTest, Severity
-
-zoom_sign_in_method_modified_tests: List[RuleTest] = [
+zoom_sign_in_method_modified_tests: list[RuleTest] = [
     RuleTest(
         name="Google",
         expected_result=True,

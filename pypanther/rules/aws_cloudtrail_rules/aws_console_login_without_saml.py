@@ -1,10 +1,8 @@
-from typing import List
-
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import aws_rule_context, deep_get
 from pypanther.helpers.panther_default import lookup_aws_account_name
 
-aws_console_login_without_saml_tests: List[RuleTest] = [
+aws_console_login_without_saml_tests: list[RuleTest] = [
     RuleTest(
         name="Login with SAML",
         expected_result=False,
@@ -86,12 +84,7 @@ class AWSConsoleLoginWithoutSAML(Rule):
     default_description = "An AWS console login was made without SAML/SSO."
     default_runbook = "Modify the AWS account configuration."
     default_reference = "https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_providers_enable-console-saml.html"
-    summary_attributes = [
-        "userAgent",
-        "sourceIpAddress",
-        "recipientAccountId",
-        "p_any_aws_arns",
-    ]
+    summary_attributes = ["userAgent", "sourceIpAddress", "recipientAccountId", "p_any_aws_arns"]
     tests = aws_console_login_without_saml_tests
 
     def rule(self, event):

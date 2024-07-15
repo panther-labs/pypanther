@@ -1,8 +1,6 @@
-from typing import List
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 
-from pypanther import LogType, Rule, RuleTest, Severity
-
-git_hub_branch_protection_disabled_tests: List[RuleTest] = [
+git_hub_branch_protection_disabled_tests: list[RuleTest] = [
     RuleTest(
         name="GitHub - Branch Protection Disabled",
         expected_result=True,

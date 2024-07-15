@@ -1,9 +1,7 @@
-from typing import List
-
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 
-gcpiam_org_folder_iam_changes_tests: List[RuleTest] = [
+gcpiam_org_folder_iam_changes_tests: list[RuleTest] = [
     RuleTest(
         name="Terraform User Agent",
         expected_result=True,
@@ -84,10 +82,7 @@ gcpiam_org_folder_iam_changes_tests: List[RuleTest] = [
                 "status": {},
             },
             "receiveTimestamp": "2022-05-05 14:00:49.450798551",
-            "resource": {
-                "labels": {"organization_id": "888888888888"},
-                "type": "organization",
-            },
+            "resource": {"labels": {"organization_id": "888888888888"}, "type": "organization"},
             "severity": "NOTICE",
             "timestamp": "2022-05-05 14:00:48.814294000",
         },
@@ -137,10 +132,7 @@ gcpiam_org_folder_iam_changes_tests: List[RuleTest] = [
                     "destinationAttributes": {},
                     "requestAttributes": {},
                 },
-                "resource": {
-                    "labels": {"organization_id": "888888888888"},
-                    "type": "organization",
-                },
+                "resource": {"labels": {"organization_id": "888888888888"}, "type": "organization"},
                 "resourceName": "organizations/888888888888",
                 "response": {
                     "@type": "type.googleapis.com/google.iam.v1.Policy",
@@ -175,10 +167,7 @@ class GCPIAMOrgFolderIAMChanges(Rule):
     dedup_period_minutes = 1440
     log_types = [LogType.GCP_AuditLog]
     tags = ["GCP", "Identity & Access Management"]
-    reports = {
-        "GCP_CIS_1.3": ["1.8"],
-        "MITRE ATT&CK": ["Privilege Escalation:Valid Accounts"],
-    }
+    reports = {"GCP_CIS_1.3": ["1.8"], "MITRE ATT&CK": ["Privilege Escalation:Valid Accounts"]}
     default_severity = Severity.high
     default_description = "Alert if a GCP Org or Folder Policy Was Changed Manually.\n"
     default_runbook = "Contact the party that made the change. If it was intended to be temporary, ask for a window for rollback (< 24 hours). If it must be permanent, ask for change-management doc explaining why it was needed. Direct them to make the change in Terraform to avoid automated rollback. Grep for google_org and google_folder in terraform repos for places to put your new policy bindings.\n"

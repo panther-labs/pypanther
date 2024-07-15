@@ -1,9 +1,7 @@
-from typing import List
-
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 
-awsec2_monitoring_tests: List[RuleTest] = [
+awsec2_monitoring_tests: list[RuleTest] = [
     RuleTest(
         name="CopyImage",
         expected_result=True,
@@ -143,10 +141,7 @@ awsec2_monitoring_tests: List[RuleTest] = [
                 },
                 "tagSpecificationSet": {
                     "items": [
-                        {
-                            "resourceType": "instance",
-                            "tags": [{"key": "Name", "value": "test2"}],
-                        }
+                        {"resourceType": "instance", "tags": [{"key": "Name", "value": "test2"}]}
                     ]
                 },
             },
@@ -235,10 +230,7 @@ awsec2_monitoring_tests: List[RuleTest] = [
                                     }
                                 ]
                             },
-                            "placement": {
-                                "availabilityZone": "us-east-1a",
-                                "tenancy": "default",
-                            },
+                            "placement": {"availabilityZone": "us-east-1a", "tenancy": "default"},
                             "privateDnsName": "ip-111.111.111.111.ec2.internal",
                             "privateDnsNameOptions": {
                                 "enableResourceNameDnsAAAARecord": False,
@@ -327,10 +319,7 @@ awsec2_monitoring_tests: List[RuleTest] = [
                 "disableApiTermination": False,
                 "instanceType": "m5.xlarge",
                 "instancesSet": {"items": [{"maxCount": 1, "minCount": 1}]},
-                "launchTemplate": {
-                    "launchTemplateId": "lt-0622a7ff26539376a",
-                    "version": "4",
-                },
+                "launchTemplate": {"launchTemplateId": "lt-0622a7ff26539376a", "version": "4"},
                 "monitoring": {"enabled": False},
                 "subnetId": "subnet-0d465e7cad854a993",
             },

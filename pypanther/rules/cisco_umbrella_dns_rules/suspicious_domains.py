@@ -1,8 +1,6 @@
-from typing import List
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 
-from pypanther import LogType, Rule, RuleTest, Severity
-
-cisco_umbrella_dns_suspicious_tests: List[RuleTest] = [
+cisco_umbrella_dns_suspicious_tests: list[RuleTest] = [
     RuleTest(
         name="Suspicious Domain",
         expected_result=True,
@@ -41,13 +39,7 @@ class CiscoUmbrellaDNSSuspicious(Rule):
     default_severity = Severity.low
     default_description = "Monitor suspicious or known malicious domains"
     default_runbook = "Inspect the domain and check the host for other indicators of compromise"
-    summary_attributes = [
-        "action",
-        "internalIp",
-        "externalIp",
-        "domain",
-        "responseCode",
-    ]
+    summary_attributes = ["action", "internalIp", "externalIp", "domain", "responseCode"]
     tests = cisco_umbrella_dns_suspicious_tests
     DOMAINS_TO_MONITOR = {"photoscape.ch"}  # Sample malware domain
 

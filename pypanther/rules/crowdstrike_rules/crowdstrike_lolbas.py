@@ -1,9 +1,7 @@
-from typing import List
-
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import crowdstrike_process_alert_context, deep_get
 
-crowdstrike_fdrlolbas_tests: List[RuleTest] = [
+crowdstrike_fdrlolbas_tests: list[RuleTest] = [
     RuleTest(
         name="At Usage (Positive)",
         expected_result=True,

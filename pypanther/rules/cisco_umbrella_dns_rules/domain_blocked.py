@@ -1,8 +1,6 @@
-from typing import List
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 
-from pypanther import LogType, Rule, RuleTest, Severity
-
-cisco_umbrella_dns_blocked_tests: List[RuleTest] = [
+cisco_umbrella_dns_blocked_tests: list[RuleTest] = [
     RuleTest(
         name="Domain Blocked",
         expected_result=True,
@@ -40,13 +38,7 @@ class CiscoUmbrellaDNSBlocked(Rule):
     default_description = "Monitor blocked domains"
     default_runbook = "Inspect the blocked domain and lookup for malware"
     default_reference = "https://support.umbrella.com/hc/en-us/articles/230563627-How-to-determine-if-a-domain-or-resource-is-being-blocked-using-Chrome-Net-Internals"
-    summary_attributes = [
-        "action",
-        "internalIp",
-        "externalIp",
-        "domain",
-        "responseCode",
-    ]
+    summary_attributes = ["action", "internalIp", "externalIp", "domain", "responseCode"]
     tests = cisco_umbrella_dns_blocked_tests
 
     def rule(self, event):

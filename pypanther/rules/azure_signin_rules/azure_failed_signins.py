@@ -1,6 +1,4 @@
-from typing import List
-
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_azuresignin_helpers import (
     actor_user,
     azure_signin_alert_context,
@@ -8,7 +6,7 @@ from pypanther.helpers.panther_azuresignin_helpers import (
 )
 from pypanther.helpers.panther_base_helpers import deep_get
 
-azure_audit_many_failed_sign_ins_tests: List[RuleTest] = [
+azure_audit_many_failed_sign_ins_tests: list[RuleTest] = [
     RuleTest(
         name="Failed Sign-In",
         expected_result=True,

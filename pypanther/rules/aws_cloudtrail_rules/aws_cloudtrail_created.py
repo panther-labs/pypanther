@@ -1,10 +1,8 @@
-from typing import List
-
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import aws_rule_context, deep_get
 from pypanther.helpers.panther_default import aws_cloudtrail_success
 
-aws_cloud_trail_created_tests: List[RuleTest] = [
+aws_cloud_trail_created_tests: list[RuleTest] = [
     RuleTest(
         name="CloudTrail Was Created",
         expected_result=True,

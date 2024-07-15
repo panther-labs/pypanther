@@ -1,8 +1,6 @@
-from typing import List
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 
-from pypanther import LogType, Rule, RuleTest, Severity
-
-gcp_inbound_sso_profile_created_tests: List[RuleTest] = [
+gcp_inbound_sso_profile_created_tests: list[RuleTest] = [
     RuleTest(
         name="InboundSsoProfileDeleted-False",
         expected_result=False,
@@ -35,10 +33,7 @@ gcp_inbound_sso_profile_created_tests: List[RuleTest] = [
                     ],
                 },
                 "methodName": "google.admin.AdminService.inboundSsoProfileDeleted",
-                "requestMetadata": {
-                    "destinationAttributes": {},
-                    "requestAttributes": {},
-                },
+                "requestMetadata": {"destinationAttributes": {}, "requestAttributes": {}},
                 "resourceName": "organizations/123456789012/inboundSsoSettings",
                 "serviceName": "admin.googleapis.com",
             },
@@ -92,10 +87,7 @@ gcp_inbound_sso_profile_created_tests: List[RuleTest] = [
                     ],
                 },
                 "methodName": "google.admin.AdminService.inboundSsoProfileUpdated",
-                "requestMetadata": {
-                    "destinationAttributes": {},
-                    "requestAttributes": {},
-                },
+                "requestMetadata": {"destinationAttributes": {}, "requestAttributes": {}},
                 "resourceName": "organizations/123456789012/inboundSsoSettings",
                 "serviceName": "admin.googleapis.com",
             },
@@ -143,10 +135,7 @@ gcp_inbound_sso_profile_created_tests: List[RuleTest] = [
                     ],
                 },
                 "methodName": "google.admin.AdminService.inboundSsoProfileCreated",
-                "requestMetadata": {
-                    "destinationAttributes": {},
-                    "requestAttributes": {},
-                },
+                "requestMetadata": {"destinationAttributes": {}, "requestAttributes": {}},
                 "resourceName": "organizations/123456789012/inboundSsoSettings",
                 "serviceName": "admin.googleapis.com",
             },
@@ -169,12 +158,7 @@ class GCPInboundSSOProfileCreated(Rule):
     id_ = "GCP.Inbound.SSO.Profile.Created-prototype"
     display_name = "GCP Inbound SSO Profile Created"
     log_types = [LogType.GCP_AuditLog]
-    tags = [
-        "Account Manipulation",
-        "Additional Cloud Roles",
-        "GCP",
-        "Privilege Escalation",
-    ]
+    tags = ["Account Manipulation", "Additional Cloud Roles", "GCP", "Privilege Escalation"]
     reports = {"MITRE ATT&CK": ["TA0003:T1136.003", "TA0003:T1098.003", "TA0004:T1098.003"]}
     default_severity = Severity.high
     default_runbook = "Ensure that the SSO profile creation or modification was expected. Adversaries may use this to persist or allow additional access or escalate their privilege.\n"
@@ -190,17 +174,10 @@ class GCPInboundSSOProfileCreated(Rule):
 
     def title(self, event):
         actor = event.deep_get(
-            "protoPayload",
-            "authenticationInfo",
-            "principalEmail",
-            default="<ACTOR_NOT_FOUND>",
+            "protoPayload", "authenticationInfo", "principalEmail", default="<ACTOR_NOT_FOUND>"
         )
         event_name = event.deep_walk(
-            "protoPayload",
-            "metadata",
-            "event",
-            "eventName",
-            default="<EVENT_NAME_NOT_FOUND>",
+            "protoPayload", "metadata", "event", "eventName", default="<EVENT_NAME_NOT_FOUND>"
         )
         resource = organization_id = event.deep_walk(
             "protoPayload", "resourceName", default="<RESOURCE_NOT_FOUND>"

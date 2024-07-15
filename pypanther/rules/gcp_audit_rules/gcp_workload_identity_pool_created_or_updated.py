@@ -1,8 +1,6 @@
-from typing import List
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 
-from pypanther import LogType, Rule, RuleTest, Severity
-
-gcp_workload_identity_pool_createdor_updated_tests: List[RuleTest] = [
+gcp_workload_identity_pool_createdor_updated_tests: list[RuleTest] = [
     RuleTest(
         name="DeleteWorkloadIdentityPoolProvider-False",
         expected_result=False,
@@ -37,10 +35,7 @@ gcp_workload_identity_pool_createdor_updated_tests: List[RuleTest] = [
                     "callerIp": "07da:0994:97fb:8db1:c68f:c109:fcdd:d594",
                     "callerSuppliedUserAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:109.0) Gecko/20100101 Firefox/119.0,gzip(gfe)",
                     "destinationAttributes": {},
-                    "requestAttributes": {
-                        "auth": {},
-                        "time": "2023-11-17T18:58:13.519015485Z",
-                    },
+                    "requestAttributes": {"auth": {}, "time": "2023-11-17T18:58:13.519015485Z"},
                 },
                 "resourceName": "projects/test-project/locations/global/workloadIdentityPools/test-pool",
                 "serviceName": "iam.googleapis.com",
@@ -103,10 +98,7 @@ gcp_workload_identity_pool_createdor_updated_tests: List[RuleTest] = [
                     "callerIp": "07da:0994:97fb:8db1:c68f:c109:fcdd:d594",
                     "callerSuppliedUserAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:109.0) Gecko/20100101 Firefox/119.0,gzip(gfe)",
                     "destinationAttributes": {},
-                    "requestAttributes": {
-                        "auth": {},
-                        "time": "2023-11-17T18:56:57.745203848Z",
-                    },
+                    "requestAttributes": {"auth": {}, "time": "2023-11-17T18:56:57.745203848Z"},
                 },
                 "resourceName": "projects/test-project/locations/global/workloadIdentityPools/test-pool/providers/test-project",
                 "serviceName": "iam.googleapis.com",
@@ -169,10 +161,7 @@ gcp_workload_identity_pool_createdor_updated_tests: List[RuleTest] = [
                     "callerIp": "07da:0994:97fb:8db1:c68f:c109:fcdd:d594",
                     "callerSuppliedUserAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:109.0) Gecko/20100101 Firefox/119.0,gzip(gfe)",
                     "destinationAttributes": {},
-                    "requestAttributes": {
-                        "auth": {},
-                        "time": "2023-11-17T18:45:17.961743198Z",
-                    },
+                    "requestAttributes": {"auth": {}, "time": "2023-11-17T18:45:17.961743198Z"},
                 },
                 "resourceLocation": {"currentLocations": ["global"]},
                 "resourceName": "projects/test-project/locations/global/workloadIdentityPools/test-pool",
@@ -198,12 +187,7 @@ class GCPWorkloadIdentityPoolCreatedorUpdated(Rule):
     id_ = "GCP.Workload.Identity.Pool.Created.or.Updated-prototype"
     display_name = "GCP Workload Identity Pool Created or Updated"
     log_types = [LogType.GCP_AuditLog]
-    tags = [
-        "Account Manipulation",
-        "Additional Cloud Roles",
-        "GCP",
-        "Privilege Escalation",
-    ]
+    tags = ["Account Manipulation", "Additional Cloud Roles", "GCP", "Privilege Escalation"]
     reports = {"MITRE ATT&CK": ["TA0003:T1136.003", "TA0003:T1098.003", "TA0004:T1098.003"]}
     default_severity = Severity.high
     default_runbook = "Ensure that the Workload Identity Pool creation or modification was expected. Adversaries may use this to persist or allow additional access or escalate their privilege.\n"
@@ -219,10 +203,7 @@ class GCPWorkloadIdentityPoolCreatedorUpdated(Rule):
 
     def title(self, event):
         actor = event.deep_get(
-            "protoPayload",
-            "authenticationInfo",
-            "principalEmail",
-            default="<ACTOR_NOT_FOUND>",
+            "protoPayload", "authenticationInfo", "principalEmail", default="<ACTOR_NOT_FOUND>"
         )
         resource = event.deep_get(
             "protoPayload", "resourceName", default="<RESOURCE_NOT_FOUND>"

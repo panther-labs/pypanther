@@ -1,9 +1,7 @@
-from typing import List
-
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 
-panther_detection_deleted_tests: List[RuleTest] = [
+panther_detection_deleted_tests: list[RuleTest] = [
     RuleTest(
         name="Delete 1 Detection",
         expected_result=True,

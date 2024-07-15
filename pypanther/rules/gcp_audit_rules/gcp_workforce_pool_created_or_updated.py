@@ -1,8 +1,6 @@
-from typing import List
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 
-from pypanther import LogType, Rule, RuleTest, Severity
-
-gcp_workforce_pool_createdor_updated_tests: List[RuleTest] = [
+gcp_workforce_pool_createdor_updated_tests: list[RuleTest] = [
     RuleTest(
         name="DeleteWorkforcePool-False",
         expected_result=False,
@@ -181,12 +179,7 @@ class GCPWorkforcePoolCreatedorUpdated(Rule):
     id_ = "GCP.Workforce.Pool.Created.or.Updated-prototype"
     display_name = "GCP Workforce Pool Created or Updated"
     log_types = [LogType.GCP_AuditLog]
-    tags = [
-        "Account Manipulation",
-        "Additional Cloud Roles",
-        "GCP",
-        "Privilege Escalation",
-    ]
+    tags = ["Account Manipulation", "Additional Cloud Roles", "GCP", "Privilege Escalation"]
     reports = {"MITRE ATT&CK": ["TA0003:T1136.003", "TA0003:T1098.003", "TA0004:T1098.003"]}
     default_severity = Severity.high
     default_runbook = "Ensure that the Workforce Pool creation or modification was expected. Adversaries may use this to persist or allow additional access or escalate their privilege.\n"
@@ -202,10 +195,7 @@ class GCPWorkforcePoolCreatedorUpdated(Rule):
 
     def title(self, event):
         actor = event.deep_get(
-            "protoPayload",
-            "authenticationInfo",
-            "principalEmail",
-            default="<ACTOR_NOT_FOUND>",
+            "protoPayload", "authenticationInfo", "principalEmail", default="<ACTOR_NOT_FOUND>"
         )
         workforce_pool = event.deep_get(
             "protoPayload", "request", "workforcePool", "name", default=""

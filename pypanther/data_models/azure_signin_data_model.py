@@ -1,10 +1,7 @@
-from typing import List
-
 import pypanther.helpers.panther_event_type_helpers as event_type
-from pypanther.base import DataModel, DataModelMapping
+from pypanther.base import DataModel, DataModelMapping, LogType
 from pypanther.helpers.panther_azuresignin_helpers import actor_user, is_sign_in_event
 from pypanther.helpers.panther_base_helpers import deep_get
-from pypanther.log_types import LogType
 
 
 def get_event_type(event):
@@ -25,8 +22,8 @@ class StandardAzureAuditSignIn(DataModel):
     id_: str = "Standard.Azure.Audit.SignIn"
     display_name: str = "Azure SignIn Logs DataModel"
     enabled: bool = True
-    log_types: List[str] = [LogType.Azure_Audit]
-    mappings: List[DataModelMapping] = [
+    log_types: list[str] = [LogType.Azure_Audit]
+    mappings: list[DataModelMapping] = [
         DataModelMapping(name="actor_user", method=get_actor_user),
         DataModelMapping(name="event_type", method=get_event_type),
         DataModelMapping(name="source_ip", path="$.properties.ipAddress"),

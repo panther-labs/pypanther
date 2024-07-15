@@ -1,9 +1,8 @@
 import re
-from typing import List
 
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 
-zoom_user_promotedto_privileged_role_tests: List[RuleTest] = [
+zoom_user_promotedto_privileged_role_tests: list[RuleTest] = [
     RuleTest(
         name="Admin Promotion Event",
         expected_result=True,

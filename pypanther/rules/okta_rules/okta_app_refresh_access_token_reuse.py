@@ -1,9 +1,7 @@
-from typing import List
-
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import okta_alert_context
 
-okta_refresh_access_token_reuse_tests: List[RuleTest] = [
+okta_refresh_access_token_reuse_tests: list[RuleTest] = [
     RuleTest(
         name="Non-event",
         expected_result=False,
@@ -14,10 +12,7 @@ okta_refresh_access_token_reuse_tests: List[RuleTest] = [
                 "id": "okta.1234.",
                 "type": "PublicClientApp",
             },
-            "authenticationcontext": {
-                "authenticationStep": 0,
-                "externalSessionId": "123456789",
-            },
+            "authenticationcontext": {"authenticationStep": 0, "externalSessionId": "123456789"},
             "client": {
                 "device": "Computer",
                 "geographicalContext": {
@@ -103,10 +98,7 @@ okta_refresh_access_token_reuse_tests: List[RuleTest] = [
                 "id": "okta.1234.",
                 "type": "PublicClientApp",
             },
-            "authenticationcontext": {
-                "authenticationStep": 0,
-                "externalSessionId": "123456789",
-            },
+            "authenticationcontext": {"authenticationStep": 0, "externalSessionId": "123456789"},
             "client": {
                 "device": "Computer",
                 "geographicalContext": {

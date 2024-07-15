@@ -1,11 +1,10 @@
 import shlex
 from fnmatch import fnmatch
-from typing import List
 
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 
-osquery_suspicious_cron_tests: List[RuleTest] = [
+osquery_suspicious_cron_tests: list[RuleTest] = [
     RuleTest(
         name="Netcat Listener",
         expected_result=True,

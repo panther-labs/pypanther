@@ -1,9 +1,7 @@
-from typing import List
-
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 
-g_suite_google_access_tests: List[RuleTest] = [
+g_suite_google_access_tests: list[RuleTest] = [
     RuleTest(
         name="Normal Login Event",
         expected_result=False,
@@ -12,10 +10,7 @@ g_suite_google_access_tests: List[RuleTest] = [
     RuleTest(
         name="Resource Accessed by Google",
         expected_result=True,
-        log={
-            "id": {"applicationName": "access_transparency"},
-            "type": "GSUITE_RESOURCE",
-        },
+        log={"id": {"applicationName": "access_transparency"}, "type": "GSUITE_RESOURCE"},
     ),
 ]
 

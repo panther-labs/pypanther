@@ -1,9 +1,7 @@
-from typing import List
-
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_auth0_helpers import auth0_alert_context
 
-auth0_cic_credential_stuffing_tests: List[RuleTest] = [
+auth0_cic_credential_stuffing_tests: list[RuleTest] = [
     RuleTest(
         name="Auth0 Credential Stuffing Event",
         expected_result=True,
@@ -250,13 +248,7 @@ class Auth0CICCredentialStuffing(Rule):
     def title(self, event):
         event_type = event.deep_get("data", "type")
         user = event.deep_get(
-            "data",
-            "details",
-            "request",
-            "auth",
-            "user",
-            "email",
-            default="<NO_USER_FOUND>",
+            "data", "details", "request", "auth", "user", "email", default="<NO_USER_FOUND>"
         )
         p_source_label = event.deep_get("p_source_label", default="<NO_P_SOURCE_LABEL_FOUND>")
         return f"Auth0 User [{user}] had a suspicious [{event_type}] event in your organization's tenant [{p_source_label}]."

@@ -1,9 +1,7 @@
-from typing import List
-
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 
-aws_modify_cloud_compute_infrastructure_tests: List[RuleTest] = [
+aws_modify_cloud_compute_infrastructure_tests: list[RuleTest] = [
     RuleTest(
         name="Terminate Instance from AssumedRole",
         expected_result=True,
@@ -211,10 +209,7 @@ aws_modify_cloud_compute_infrastructure_tests: List[RuleTest] = [
             ],
             "p_any_aws_instance_ids": ["i-0690cd354a0c3850c"],
             "p_any_aws_tags": ["Name:fake thing whatever"],
-            "p_any_domain_names": [
-                "AWS Internal",
-                "ip-10-1-0-14.us-west-2.compute.internal",
-            ],
+            "p_any_domain_names": ["AWS Internal", "ip-10-1-0-14.us-west-2.compute.internal"],
             "p_any_ip_addresses": ["10.1.0.14"],
             "p_any_trace_ids": ["ASIARLIVEKVNGOY5UABO"],
             "p_any_usernames": ["SomeRole"],
@@ -234,13 +229,7 @@ aws_modify_cloud_compute_infrastructure_tests: List[RuleTest] = [
                 "ebsOptimized": False,
                 "instanceType": "t2.micro",
                 "instancesSet": {
-                    "items": [
-                        {
-                            "imageId": "ami-08e2d37b6a0129927",
-                            "maxCount": 1,
-                            "minCount": 1,
-                        }
-                    ]
+                    "items": [{"imageId": "ami-08e2d37b6a0129927", "maxCount": 1, "minCount": 1}]
                 },
                 "monitoring": {"enabled": False},
                 "networkInterfaceSet": {
@@ -350,10 +339,7 @@ aws_modify_cloud_compute_infrastructure_tests: List[RuleTest] = [
                                     }
                                 ]
                             },
-                            "placement": {
-                                "availabilityZone": "us-west-2a",
-                                "tenancy": "default",
-                            },
+                            "placement": {"availabilityZone": "us-west-2a", "tenancy": "default"},
                             "privateDnsName": "ip-10-1-0-14.us-west-2.compute.internal",
                             "privateDnsNameOptions": {
                                 "enableResourceNameDnsAAAARecord": False,
@@ -441,18 +427,9 @@ aws_modify_cloud_compute_infrastructure_tests: List[RuleTest] = [
                 "disableApiTermination": False,
                 "instanceType": "m5.xlarge",
                 "instancesSet": {
-                    "items": [
-                        {
-                            "imageId": "ami-05074c40f29040248",
-                            "maxCount": 1,
-                            "minCount": 1,
-                        }
-                    ]
+                    "items": [{"imageId": "ami-05074c40f29040248", "maxCount": 1, "minCount": 1}]
                 },
-                "launchTemplate": {
-                    "launchTemplateId": "lt-064c1a4dbc97b01fc",
-                    "version": "5",
-                },
+                "launchTemplate": {"launchTemplateId": "lt-064c1a4dbc97b01fc", "version": "5"},
                 "monitoring": {"enabled": False},
                 "subnetId": "subnet-00559b970d3a60983",
             },
@@ -559,21 +536,13 @@ class AWSModifyCloudComputeInfrastructure(Rule):
 
     def title(self, event):
         items = deep_get(
-            event,
-            "requestParameters",
-            "instancesSet",
-            "items",
-            default=[{"instanceId": "none"}],
+            event, "requestParameters", "instancesSet", "items", default=[{"instanceId": "none"}]
         )
         return f"AWS Event [{event.get('eventName')}] Instance ID [{items[0].get('instanceId')}] AWS Account ID [{event.get('recipientAccountId')}]"
 
     def alert_context(self, event):
         items = deep_get(
-            event,
-            "requestParameters",
-            "instancesSet",
-            "items",
-            default=[{"instanceId": "none"}],
+            event, "requestParameters", "instancesSet", "items", default=[{"instanceId": "none"}]
         )
         return {
             "awsRegion": event.get("awsRegion"),

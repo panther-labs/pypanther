@@ -1,9 +1,7 @@
-from typing import List
-
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import aws_rule_context, deep_get
 
-aws_cloud_trail_root_password_changed_tests: List[RuleTest] = [
+aws_cloud_trail_root_password_changed_tests: list[RuleTest] = [
     RuleTest(
         name="Root Password Changed",
         expected_result=True,
@@ -73,12 +71,7 @@ class AWSCloudTrailRootPasswordChanged(Rule):
     default_reference = (
         "https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_passwords_change-root.html"
     )
-    summary_attributes = [
-        "userAgent",
-        "sourceIpAddress",
-        "recipientAccountId",
-        "p_any_aws_arns",
-    ]
+    summary_attributes = ["userAgent", "sourceIpAddress", "recipientAccountId", "p_any_aws_arns"]
     tests = aws_cloud_trail_root_password_changed_tests
 
     def rule(self, event):

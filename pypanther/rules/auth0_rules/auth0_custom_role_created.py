@@ -1,10 +1,8 @@
-from typing import List
-
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_auth0_helpers import auth0_alert_context, is_auth0_config_event
 from pypanther.helpers.panther_base_helpers import deep_get
 
-auth0_custom_role_created_tests: List[RuleTest] = [
+auth0_custom_role_created_tests: list[RuleTest] = [
     RuleTest(
         name="Other Event",
         expected_result=False,
@@ -779,31 +777,13 @@ class Auth0CustomRoleCreated(Rule):
 
     def title(self, event):
         user = deep_get(
-            event,
-            "data",
-            "details",
-            "request",
-            "auth",
-            "user",
-            "email",
-            default="<NO_USER_FOUND>",
+            event, "data", "details", "request", "auth", "user", "email", default="<NO_USER_FOUND>"
         )
         request_body_name = deep_get(
-            event,
-            "data",
-            "details",
-            "request",
-            "body",
-            "name",
-            default="<NO_REQUEST_NAME_FOUND>",
+            event, "data", "details", "request", "body", "name", default="<NO_REQUEST_NAME_FOUND>"
         )
         request_body_description = deep_get(
-            event,
-            "data",
-            "details",
-            "request",
-            "body",
-            default="<NO_REQUEST_BODY_FOUND>",
+            event, "data", "details", "request", "body", default="<NO_REQUEST_BODY_FOUND>"
         )
         if "admin" in request_body_description or "admin" in request_body_name:
             role_type = "admin"
@@ -814,13 +794,7 @@ class Auth0CustomRoleCreated(Rule):
 
     def severity(self, event):
         request_body_name = deep_get(
-            event,
-            "data",
-            "details",
-            "request",
-            "body",
-            "name",
-            default="<NO_REQUEST_NAME_FOUND>",
+            event, "data", "details", "request", "body", "name", default="<NO_REQUEST_NAME_FOUND>"
         )
         request_body_description = deep_get(
             event, "data", "details", "request", "body", "description", default=""

@@ -1,9 +1,7 @@
-from typing import List
-
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_notion_helpers import notion_alert_context
 
-notion_workspace_exported_tests: List[RuleTest] = [
+notion_workspace_exported_tests: list[RuleTest] = [
     RuleTest(
         name="Workspace Exported",
         expected_result=True,

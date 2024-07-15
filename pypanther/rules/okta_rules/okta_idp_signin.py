@@ -1,9 +1,7 @@
-from typing import List
-
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get, deep_walk, okta_alert_context
 
-okta_identity_provider_sign_in_tests: List[RuleTest] = [
+okta_identity_provider_sign_in_tests: list[RuleTest] = [
     RuleTest(
         name="Other Event",
         expected_result=False,
@@ -14,10 +12,7 @@ okta_identity_provider_sign_in_tests: List[RuleTest] = [
                 "id": "00abc123",
                 "type": "User",
             },
-            "authenticationcontext": {
-                "authenticationStep": 0,
-                "externalSessionId": "100-abc-9999",
-            },
+            "authenticationcontext": {"authenticationStep": 0, "externalSessionId": "100-abc-9999"},
             "client": {
                 "device": "Computer",
                 "geographicalContext": {
@@ -93,10 +88,7 @@ okta_identity_provider_sign_in_tests: List[RuleTest] = [
                 "id": "00abc123",
                 "type": "User",
             },
-            "authenticationcontext": {
-                "authenticationStep": 0,
-                "externalSessionId": "100-abc-9999",
-            },
+            "authenticationcontext": {"authenticationStep": 0, "externalSessionId": "100-abc-9999"},
             "client": {
                 "device": "Computer",
                 "geographicalContext": {
@@ -183,11 +175,7 @@ class OktaIdentityProviderSignIn(Rule):
 
     def title(self, event):
         target = deep_walk(
-            event,
-            "target",
-            "displayName",
-            default="displayName-not-found",
-            return_val="first",
+            event, "target", "displayName", default="displayName-not-found", return_val="first"
         )
         return f"{deep_get(event, 'actor', 'displayName', default='<displayName-not-found>')} <{deep_get(event, 'actor', 'alternateId', default='alternateId-not-found')}> signed in via 3rd party Identity Provider to {target}"
 

@@ -1,10 +1,8 @@
-from typing import List
-
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import aws_rule_context, deep_get
 from pypanther.helpers.panther_default import lookup_aws_account_name
 
-aws_cloud_trail_codebuild_project_made_public_tests: List[RuleTest] = [
+aws_cloud_trail_codebuild_project_made_public_tests: list[RuleTest] = [
     RuleTest(
         name="CodeBuild Project Made Public",
         expected_result=True,

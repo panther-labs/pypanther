@@ -1,11 +1,10 @@
 import json
-from typing import List
 from unittest.mock import MagicMock
 
 from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get, github_alert_context
 
-git_hub_action_failed_tests: List[RuleTest] = [
+git_hub_action_failed_tests: list[RuleTest] = [
     RuleTest(
         name="GitHub - Branch Protection Disabled",
         expected_result=False,

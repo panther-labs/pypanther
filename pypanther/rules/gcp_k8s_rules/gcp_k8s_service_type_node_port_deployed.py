@@ -1,10 +1,8 @@
-from typing import List
-
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.gcp_base_helpers import gcp_alert_context
 from pypanther.helpers.panther_base_helpers import deep_get, deep_walk
 
-gcpk8_s_service_type_node_port_deployed_tests: List[RuleTest] = [
+gcpk8_s_service_type_node_port_deployed_tests: list[RuleTest] = [
     RuleTest(
         name="Service Created",
         expected_result=True,

@@ -1,10 +1,8 @@
-from typing import List
-
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.gcp_base_helpers import gcp_alert_context
 from pypanther.helpers.panther_base_helpers import deep_get
 
-gcpdns_zone_modifiedor_deleted_tests: List[RuleTest] = [
+gcpdns_zone_modifiedor_deleted_tests: list[RuleTest] = [
     RuleTest(
         name="dns.managedZones.delete-should-alert",
         expected_result=True,
@@ -30,10 +28,7 @@ gcpdns_zone_modifiedor_deleted_tests: List[RuleTest] = [
                 "requestMetadata": {
                     "callerIP": "12.12.12.12",
                     "destinationAttributes": {},
-                    "requestAttributes": {
-                        "auth": {},
-                        "time": "2023-05-23T19:08:13.820007Z",
-                    },
+                    "requestAttributes": {"auth": {}, "time": "2023-05-23T19:08:13.820007Z"},
                 },
                 "resourceName": "managedZones/test-zone",
                 "response": {
@@ -90,10 +85,7 @@ gcpdns_zone_modifiedor_deleted_tests: List[RuleTest] = [
                 "requestMetadata": {
                     "callerIP": "12.12.12.12",
                     "destinationAttributes": {},
-                    "requestAttributes": {
-                        "auth": {},
-                        "time": "2023-05-23T19:07:25.568071Z",
-                    },
+                    "requestAttributes": {"auth": {}, "time": "2023-05-23T19:07:25.568071Z"},
                 },
                 "resourceName": "managedZones/test-zone",
                 "response": {
@@ -184,11 +176,7 @@ gcpdns_zone_modifiedor_deleted_tests: List[RuleTest] = [
                 "at_sign_type": "type.googleapis.com/google.cloud.audit.AuditLog",
                 "authenticationInfo": {"principalEmail": "user@domain.com"},
                 "authorizationInfo": [
-                    {
-                        "granted": True,
-                        "permission": "dns.changes.create",
-                        "resourceAttributes": {},
-                    }
+                    {"granted": True, "permission": "dns.changes.create", "resourceAttributes": {}}
                 ],
                 "methodName": "dns.changes.create",
                 "request": {
@@ -221,10 +209,7 @@ gcpdns_zone_modifiedor_deleted_tests: List[RuleTest] = [
                 "requestMetadata": {
                     "callerIP": "12.12.12.12",
                     "destinationAttributes": {},
-                    "requestAttributes": {
-                        "auth": {},
-                        "time": "2023-05-23T19:07:39.239275Z",
-                    },
+                    "requestAttributes": {"auth": {}, "time": "2023-05-23T19:07:39.239275Z"},
                 },
                 "resourceName": "managedZones/test-zone",
                 "response": {
@@ -296,10 +281,7 @@ gcpdns_zone_modifiedor_deleted_tests: List[RuleTest] = [
                 "requestMetadata": {
                     "callerIP": "12.12.12.12",
                     "destinationAttributes": {},
-                    "requestAttributes": {
-                        "auth": {},
-                        "time": "2023-05-23T19:08:13.820007Z",
-                    },
+                    "requestAttributes": {"auth": {}, "time": "2023-05-23T19:08:13.820007Z"},
                 },
                 "resourceName": "managedZones/test-zone",
                 "response": {"@type": "type.googleapis.com/cloud.dns.api.ManagedZonesGetResponse"},

@@ -1,12 +1,11 @@
 from datetime import timedelta
-from typing import List
 
 from panther_detection_helpers.caching import add_to_string_set, get_string_set, put_string_set
 
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import is_ip_in_network
 
-one_login_active_login_activity_tests: List[RuleTest] = [
+one_login_active_login_activity_tests: list[RuleTest] = [
     RuleTest(
         name="Normal Login Event",
         expected_result=False,
@@ -75,17 +74,13 @@ class OneLoginActiveLoginActivity(Rule):
         if not user_ids:
             # store this as the first user login from this ip address
             put_string_set(
-                event_key,
-                [user_id],
-                epoch_seconds=event.event_time_epoch() + self.THRESH_TTL,
+                event_key, [user_id], epoch_seconds=event.event_time_epoch() + self.THRESH_TTL
             )
             return False
         # add a new username if this is a unique user from this ip address
         if user_id not in user_ids:
             user_ids = add_to_string_set(
-                event_key,
-                user_id,
-                epoch_seconds=event.event_time_epoch() + self.THRESH_TTL,
+                event_key, user_id, epoch_seconds=event.event_time_epoch() + self.THRESH_TTL
             )
         return len(user_ids) > self.THRESH
 

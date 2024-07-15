@@ -1,10 +1,8 @@
-from typing import List
-
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 from pypanther.helpers.panther_config import config
 
-g_suite_external_mail_forwarding_tests: List[RuleTest] = [
+g_suite_external_mail_forwarding_tests: list[RuleTest] = [
     RuleTest(
         name="Forwarding to External Address",
         expected_result=True,

@@ -1,9 +1,7 @@
-from typing import List
-
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_notion_helpers import notion_alert_context
 
-notion_audit_log_exported_tests: List[RuleTest] = [
+notion_audit_log_exported_tests: list[RuleTest] = [
     RuleTest(
         name="Other Event",
         expected_result=False,
@@ -68,10 +66,7 @@ class NotionAuditLogExported(Rule):
         user = event.deep_get("event", "actor", "person", "email", default="<NO_USER_FOUND>")
         workspace_id = event.deep_get("event", "workspace_id", default="<NO_WORKSPACE_ID_FOUND>")
         duration_in_days = event.deep_get(
-            "event",
-            "details",
-            "duration_in_days",
-            default="<NO_DURATION_IN_DAYS_FOUND>",
+            "event", "details", "duration_in_days", default="<NO_DURATION_IN_DAYS_FOUND>"
         )
         return f"Notion User [{user}] exported audit logs for the last {duration_in_days} days for workspace id {workspace_id}"
 

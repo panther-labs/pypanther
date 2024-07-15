@@ -1,10 +1,9 @@
 from ipaddress import ip_address
-from typing import List
 
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import eks_panther_obj_ref
 
-amazon_eks_audit_multiple403_tests: List[RuleTest] = [
+amazon_eks_audit_multiple403_tests: list[RuleTest] = [
     RuleTest(
         name="Not 403",
         expected_result=False,
@@ -176,7 +175,6 @@ class AmazonEKSAuditMultiple403(Rule):
     threshold = 10
     summary_attributes = ["user:username", "p_any_ip_addresses", "p_source_label"]
     tests = amazon_eks_audit_multiple403_tests
-
     # Alert if
     #   state is ResponseComplete
     #   sourceIPs[0] is a Public Address

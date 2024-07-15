@@ -1,8 +1,6 @@
-from typing import List
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 
-from pypanther import LogType, Rule, RuleTest, Severity
-
-salesforce_admin_login_as_user_tests: List[RuleTest] = [
+salesforce_admin_login_as_user_tests: list[RuleTest] = [
     RuleTest(
         name="Normal Login Event",
         expected_result=False,

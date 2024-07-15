@@ -1,10 +1,8 @@
-from typing import List
-
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import aws_rule_context, deep_get
 from pypanther.helpers.panther_default import aws_cloudtrail_success
 
-aws_cloud_trail_ami_modified_for_public_access_tests: List[RuleTest] = [
+aws_cloud_trail_ami_modified_for_public_access_tests: list[RuleTest] = [
     RuleTest(
         name="AMI Made Public",
         expected_result=True,
@@ -239,12 +237,7 @@ class AWSCloudTrailAMIModifiedForPublicAccess(Rule):
     default_description = "An Amazon Machine Image (AMI) was modified to allow it to be launched by anyone. Any sensitive configuration or application data stored in the AMI's block devices is at risk.\n"
     default_runbook = "Determine if the AMI is intended to be publicly accessible. If not, first modify the AMI to not be publicly accessible then change any sensitive data stored in the block devices associated to the AMI (as they may be compromised).\n"
     default_reference = "https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/sharingamis-intro.html"
-    summary_attributes = [
-        "userAgent",
-        "sourceIpAddress",
-        "recipientAccountId",
-        "p_any_aws_arns",
-    ]
+    summary_attributes = ["userAgent", "sourceIpAddress", "recipientAccountId", "p_any_aws_arns"]
     tests = aws_cloud_trail_ami_modified_for_public_access_tests
 
     def rule(self, event):

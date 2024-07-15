@@ -1,9 +1,7 @@
-from typing import List
-
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import aws_rule_context
 
-awsiam_group_read_only_events_tests: List[RuleTest] = [
+awsiam_group_read_only_events_tests: list[RuleTest] = [
     RuleTest(
         name="Get Group",
         expected_result=True,

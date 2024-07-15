@@ -1,9 +1,7 @@
-from typing import List
-
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 
-sentinel_one_alert_passthrough_tests: List[RuleTest] = [
+sentinel_one_alert_passthrough_tests: list[RuleTest] = [
     RuleTest(
         name="CRITICAL",
         expected_result=True,

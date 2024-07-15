@@ -1,9 +1,7 @@
-from typing import List
-
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 
-awsrds_master_password_updated_tests: List[RuleTest] = [
+awsrds_master_password_updated_tests: list[RuleTest] = [
     RuleTest(
         name="Allocated storage modified",
         expected_result=False,
@@ -58,10 +56,7 @@ awsrds_master_password_updated_tests: List[RuleTest] = [
                 "dBInstanceStatus": "available",
                 "dBName": "test",
                 "dBParameterGroups": [
-                    {
-                        "dBParameterGroupName": "default.mysql8.0",
-                        "parameterApplyStatus": "in-sync",
-                    }
+                    {"dBParameterGroupName": "default.mysql8.0", "parameterApplyStatus": "in-sync"}
                 ],
                 "dBSecurityGroups": [],
                 "dBSubnetGroup": {
@@ -201,10 +196,7 @@ awsrds_master_password_updated_tests: List[RuleTest] = [
                 "dBInstanceStatus": "available",
                 "dBName": "test",
                 "dBParameterGroups": [
-                    {
-                        "dBParameterGroupName": "default.mysql8.0",
-                        "parameterApplyStatus": "in-sync",
-                    }
+                    {"dBParameterGroupName": "default.mysql8.0", "parameterApplyStatus": "in-sync"}
                 ],
                 "dBSecurityGroups": [],
                 "dBSubnetGroup": {
@@ -319,12 +311,7 @@ class AWSRDSMasterPasswordUpdated(Rule):
             event.get("eventName") == "ModifyDBInstance"
             and event.get("eventSource") == "rds.amazonaws.com"
             and bool(
-                deep_get(
-                    event,
-                    "responseElements",
-                    "pendingModifiedValues",
-                    "masterUserPassword",
-                )
+                deep_get(event, "responseElements", "pendingModifiedValues", "masterUserPassword")
             )
         )
 

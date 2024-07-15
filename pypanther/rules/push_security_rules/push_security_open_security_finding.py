@@ -1,8 +1,6 @@
-from typing import List
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 
-from pypanther import LogType, Rule, RuleTest, Severity
-
-push_security_open_security_finding_tests: List[RuleTest] = [
+push_security_open_security_finding_tests: list[RuleTest] = [
     RuleTest(
         name="Resolved Finding",
         expected_result=False,

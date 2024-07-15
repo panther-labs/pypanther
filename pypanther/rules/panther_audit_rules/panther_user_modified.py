@@ -1,10 +1,8 @@
-from typing import List
-
 import pypanther.helpers.panther_event_type_helpers as event_type
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 
-panther_user_modified_tests: List[RuleTest] = [
+panther_user_modified_tests: list[RuleTest] = [
     RuleTest(
         name="Admin Role Created",
         expected_result=False,
@@ -14,11 +12,7 @@ panther_user_modified_tests: List[RuleTest] = [
                 "input": {
                     "logTypeAccessKind": "DENY_ALL",
                     "name": "New Admins",
-                    "permissions": [
-                        "GeneralSettingsModify",
-                        "GeneralSettingsRead",
-                        "SummaryRead",
-                    ],
+                    "permissions": ["GeneralSettingsModify", "GeneralSettingsRead", "SummaryRead"],
                 }
             },
             "actionResult": "SUCCEEDED",

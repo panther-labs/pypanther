@@ -1,9 +1,7 @@
-from typing import List
-
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 
-duo_user_denied_anomalous_push_tests: List[RuleTest] = [
+duo_user_denied_anomalous_push_tests: list[RuleTest] = [
     RuleTest(
         name="anomalous_push_occurred",
         expected_result=True,

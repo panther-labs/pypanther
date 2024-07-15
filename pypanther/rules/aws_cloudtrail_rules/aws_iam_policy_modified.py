@@ -1,10 +1,8 @@
-from typing import List
-
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import aws_rule_context
 from pypanther.helpers.panther_default import aws_cloudtrail_success
 
-awsiam_policy_modified_tests: List[RuleTest] = [
+awsiam_policy_modified_tests: list[RuleTest] = [
     RuleTest(
         name="IAM Policy Change",
         expected_result=True,

@@ -1,9 +1,7 @@
-from typing import List
-
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get, okta_alert_context
 
-okta_phishing_attempt_blocked_fast_pass_tests: List[RuleTest] = [
+okta_phishing_attempt_blocked_fast_pass_tests: list[RuleTest] = [
     RuleTest(
         name="Other Event",
         expected_result=False,
@@ -14,10 +12,7 @@ okta_phishing_attempt_blocked_fast_pass_tests: List[RuleTest] = [
                 "id": "00abc123",
                 "type": "User",
             },
-            "authenticationcontext": {
-                "authenticationStep": 0,
-                "externalSessionId": "100-abc-9999",
-            },
+            "authenticationcontext": {"authenticationStep": 0, "externalSessionId": "100-abc-9999"},
             "client": {
                 "device": "Computer",
                 "geographicalContext": {
@@ -93,10 +88,7 @@ okta_phishing_attempt_blocked_fast_pass_tests: List[RuleTest] = [
                 "id": "00abc123",
                 "type": "User",
             },
-            "authenticationcontext": {
-                "authenticationStep": 0,
-                "externalSessionId": "100-abc-9999",
-            },
+            "authenticationcontext": {"authenticationStep": 0, "externalSessionId": "100-abc-9999"},
             "client": {
                 "device": "Computer",
                 "geographicalContext": {
@@ -124,10 +116,7 @@ okta_phishing_attempt_blocked_fast_pass_tests: List[RuleTest] = [
             "displaymessage": "Authentication of user via MFA",
             "eventtype": "user.authentication.auth_via_mfa",
             "legacyeventtype": "core.user.factor.attempt_fail",
-            "outcome": {
-                "reason": "FastPass declined phishing attempt",
-                "result": "FAILURE",
-            },
+            "outcome": {"reason": "FastPass declined phishing attempt", "result": "FAILURE"},
             "published": "2022-06-22 18:18:29.015",
             "request": {
                 "ipChain": [

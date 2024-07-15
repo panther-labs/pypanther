@@ -1,8 +1,6 @@
-from typing import List
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 
-from pypanther import LogType, Rule, RuleTest, Severity
-
-carbon_black_audit_admin_grant_tests: List[RuleTest] = [
+carbon_black_audit_admin_grant_tests: list[RuleTest] = [
     RuleTest(
         name="Super Admin granted",
         expected_result=True,

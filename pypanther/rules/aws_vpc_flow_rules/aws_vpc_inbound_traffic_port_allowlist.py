@@ -1,10 +1,9 @@
 from ipaddress import ip_network
-from typing import List
 
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import aws_rule_context
 
-awsvpc_inbound_port_whitelist_tests: List[RuleTest] = [
+awsvpc_inbound_port_whitelist_tests: list[RuleTest] = [
     RuleTest(
         name="Public to Private IP on Restricted Port",
         expected_result=True,

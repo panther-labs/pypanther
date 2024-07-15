@@ -1,19 +1,15 @@
 import re
 from fnmatch import fnmatch
-from typing import List
 
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import m365_alert_context
 
-microsoft365_external_document_sharing_tests: List[RuleTest] = [
+microsoft365_external_document_sharing_tests: list[RuleTest] = [
     RuleTest(
         name="Allowed Domain",
         expected_result=False,
         log={
-            "AppAccessContext": {
-                "AADSessionId": "aa-bb-cc",
-                "CorrelationId": "dd-ee-ff",
-            },
+            "AppAccessContext": {"AADSessionId": "aa-bb-cc", "CorrelationId": "dd-ee-ff"},
             "ClientIP": "1.2.3.4",
             "CreationTime": "2022-12-12 19:31:41",
             "EventData": "<Type>Edit</Type><MembersCanShareApplied>False</MembersCanShareApplied>",
@@ -42,10 +38,7 @@ microsoft365_external_document_sharing_tests: List[RuleTest] = [
         name="Allowed Folder",
         expected_result=False,
         log={
-            "AppAccessContext": {
-                "AADSessionId": "aa-bb-cc",
-                "CorrelationId": "dd-ee-ff",
-            },
+            "AppAccessContext": {"AADSessionId": "aa-bb-cc", "CorrelationId": "dd-ee-ff"},
             "ClientIP": "1.2.3.4",
             "CreationTime": "2022-12-12 19:31:41",
             "EventData": "<Type>Edit</Type><MembersCanShareApplied>False</MembersCanShareApplied>",
@@ -74,10 +67,7 @@ microsoft365_external_document_sharing_tests: List[RuleTest] = [
         name="Allowed User",
         expected_result=False,
         log={
-            "AppAccessContext": {
-                "AADSessionId": "aa-bb-cc",
-                "CorrelationId": "dd-ee-ff",
-            },
+            "AppAccessContext": {"AADSessionId": "aa-bb-cc", "CorrelationId": "dd-ee-ff"},
             "ClientIP": "1.2.3.4",
             "CreationTime": "2022-12-12 19:31:41",
             "EventData": "<Type>Edit</Type><MembersCanShareApplied>False</MembersCanShareApplied>",
@@ -106,10 +96,7 @@ microsoft365_external_document_sharing_tests: List[RuleTest] = [
         name="External user",
         expected_result=True,
         log={
-            "AppAccessContext": {
-                "AADSessionId": "aa-bb-cc",
-                "CorrelationId": "dd-ee-ff",
-            },
+            "AppAccessContext": {"AADSessionId": "aa-bb-cc", "CorrelationId": "dd-ee-ff"},
             "ClientIP": "1.2.3.4",
             "CreationTime": "2022-12-12 19:31:41",
             "EventData": "<Type>Edit</Type><MembersCanShareApplied>False</MembersCanShareApplied>",
@@ -138,10 +125,7 @@ microsoft365_external_document_sharing_tests: List[RuleTest] = [
         name="Internal Share",
         expected_result=False,
         log={
-            "AppAccessContext": {
-                "AADSessionId": "aa-bb-cc",
-                "CorrelationId": "dd-ee-ff",
-            },
+            "AppAccessContext": {"AADSessionId": "aa-bb-cc", "CorrelationId": "dd-ee-ff"},
             "ClientIP": "1.2.3.4",
             "CreationTime": "2022-12-12 19:31:41",
             "EventData": "<Type>Edit</Type><MembersCanShareApplied>False</MembersCanShareApplied>",

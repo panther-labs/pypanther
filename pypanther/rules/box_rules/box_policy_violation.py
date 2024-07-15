@@ -1,9 +1,7 @@
-from typing import List
-
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 
-box_content_workflow_policy_violation_tests: List[RuleTest] = [
+box_content_workflow_policy_violation_tests: list[RuleTest] = [
     RuleTest(
         name="Regular Event",
         expected_result=False,

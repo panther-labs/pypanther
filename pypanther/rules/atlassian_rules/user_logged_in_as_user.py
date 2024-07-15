@@ -1,9 +1,7 @@
-from typing import List
-
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 
-atlassian_user_logged_in_as_user_tests: List[RuleTest] = [
+atlassian_user_logged_in_as_user_tests: list[RuleTest] = [
     RuleTest(
         name="Admin impersonated user successfully",
         expected_result=True,
@@ -39,10 +37,7 @@ atlassian_user_logged_in_as_user_tests: List[RuleTest] = [
                 "time": "2022-12-15T00:35:15.890Z",
             },
             "id": "2508d209-3336-4763-89a0-aceaf1322fcf",
-            "message": {
-                "content": "Logged in as example.user@example.io",
-                "format": "simple",
-            },
+            "message": {"content": "Logged in as example.user@example.io", "format": "simple"},
         },
     ),
     RuleTest(
@@ -80,10 +75,7 @@ atlassian_user_logged_in_as_user_tests: List[RuleTest] = [
                 "time": "2022-12-15T00:35:15.890Z",
             },
             "id": "2508d209-3336-4763-89a0-aceaf1322fcf",
-            "message": {
-                "content": "Logged in as example.user@example.io",
-                "format": "simple",
-            },
+            "message": {"content": "Logged in as example.user@example.io", "format": "simple"},
         },
     ),
 ]

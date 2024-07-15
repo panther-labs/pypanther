@@ -1,9 +1,7 @@
-from typing import List
-
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import crowdstrike_detection_alert_context, deep_get
 
-crowdstrike_remote_access_tool_execution_tests: List[RuleTest] = [
+crowdstrike_remote_access_tool_execution_tests: list[RuleTest] = [
     RuleTest(
         name="Remote Access Tool",
         expected_result=True,

@@ -1,9 +1,6 @@
-from typing import List
-
 import pypanther.helpers.panther_event_type_helpers as event_type
-from pypanther.base import DataModel, DataModelMapping
+from pypanther.base import DataModel, DataModelMapping, LogType
 from pypanther.helpers.panther_base_helpers import deep_get
-from pypanther.log_types import LogType
 
 
 def get_event_type(event):
@@ -18,10 +15,7 @@ def get_event_type(event):
         and event.get("outcome", {}).get("result") == "SUCCESS"
     ):
         return event_type.SUCCESSFUL_LOGIN
-    if event.get("eventType") in [
-        "user.mfa.factor.deactivate",
-        "user.mfa.factor.suspend",
-    ]:
+    if event.get("eventType") in ["user.mfa.factor.deactivate", "user.mfa.factor.suspend"]:
         if event.get("outcome", {}).get("reason", "").startswith("User reset"):
             return event_type.MFA_RESET
         return event_type.MFA_DISABLED
@@ -49,8 +43,8 @@ class StandardOktaSystemLog(DataModel):
     id_: str = "Standard.Okta.SystemLog"
     display_name: str = "Okta System Log"
     enabled: bool = True
-    log_types: List[str] = [LogType.Okta_SystemLog]
-    mappings: List[DataModelMapping] = [
+    log_types: list[str] = [LogType.Okta_SystemLog]
+    mappings: list[DataModelMapping] = [
         DataModelMapping(name="actor_user", method=get_actor_user),
         DataModelMapping(name="event_type", method=get_event_type),
         DataModelMapping(name="source_ip", path="$.client.ipAddress"),

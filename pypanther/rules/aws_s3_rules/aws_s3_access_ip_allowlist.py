@@ -1,10 +1,9 @@
 from ipaddress import ip_network
-from typing import List
 
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import aws_rule_context
 
-awss3_server_access_ip_whitelist_tests: List[RuleTest] = [
+awss3_server_access_ip_whitelist_tests: list[RuleTest] = [
     RuleTest(
         name="Access From Approved IP",
         expected_result=False,

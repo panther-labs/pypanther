@@ -1,11 +1,10 @@
 from ipaddress import ip_address
-from typing import List
 
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import aws_rule_context, deep_get
 from pypanther.helpers.panther_default import lookup_aws_account_name
 
-awsiam_user_recon_access_denied_tests: List[RuleTest] = [
+awsiam_user_recon_access_denied_tests: list[RuleTest] = [
     RuleTest(
         name="Unauthorized API Call",
         expected_result=True,

@@ -1,8 +1,6 @@
-from typing import List
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 
-from pypanther import LogType, Rule, RuleTest, Severity
-
-zoom_two_factor_authentication_disabled_tests: List[RuleTest] = [
+zoom_two_factor_authentication_disabled_tests: list[RuleTest] = [
     RuleTest(
         name="2FA Disabled",
         expected_result=True,

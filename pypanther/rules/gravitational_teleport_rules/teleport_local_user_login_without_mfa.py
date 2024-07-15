@@ -1,8 +1,6 @@
-from typing import List
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 
-from pypanther import LogType, Rule, RuleTest, Severity
-
-teleport_local_user_login_without_mfa_tests: List[RuleTest] = [
+teleport_local_user_login_without_mfa_tests: list[RuleTest] = [
     RuleTest(
         name="User logged in with MFA",
         expected_result=False,

@@ -1,8 +1,6 @@
-from typing import List
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 
-from pypanther import LogType, Rule, RuleTest, Severity
-
-osquery_linux_mac_vulnerable_x_zliblzma_tests: List[RuleTest] = [
+osquery_linux_mac_vulnerable_x_zliblzma_tests: list[RuleTest] = [
     RuleTest(
         name="Vulnerable liblzma",
         expected_result=True,

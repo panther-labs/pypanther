@@ -1,11 +1,9 @@
 import json
 from fnmatch import fnmatch
-from typing import List
 
 import pypanther.helpers.panther_event_type_helpers as event_type
-from pypanther.base import DataModel, DataModelMapping
+from pypanther.base import DataModel, DataModelMapping, LogType
 from pypanther.helpers.panther_base_helpers import deep_get, get_binding_deltas
-from pypanther.log_types import LogType
 
 ADMIN_ROLES = {
     # Primitive Rolesx
@@ -121,8 +119,8 @@ class StandardGCPAuditLog(DataModel):
     id_: str = "Standard.GCP.AuditLog"
     display_name: str = "GCP Audit Log"
     enabled: bool = True
-    log_types: List[str] = [LogType.GCP_AuditLog]
-    mappings: List[DataModelMapping] = [
+    log_types: list[str] = [LogType.GCP_AuditLog]
+    mappings: list[DataModelMapping] = [
         DataModelMapping(
             name="actor_user", path="$.protoPayload.authenticationInfo.principalEmail"
         ),
@@ -141,8 +139,7 @@ class StandardGCPAuditLog(DataModel):
         DataModelMapping(name="sourceIPs", method=get_source_ips),
         DataModelMapping(name="username", path="$.protoPayload.authenticationInfo.principalEmail"),
         DataModelMapping(
-            name="userAgent",
-            path="$.protoPayload.requestMetadata.callerSuppliedUserAgent",
+            name="userAgent", path="$.protoPayload.requestMetadata.callerSuppliedUserAgent"
         ),
         DataModelMapping(name="verb", method=get_verb),
         DataModelMapping(name="requestObject", path="$.protoPayload.request"),

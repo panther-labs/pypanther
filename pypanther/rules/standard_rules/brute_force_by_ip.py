@@ -1,5 +1,4 @@
 from json import loads
-from typing import List
 
 import pypanther.helpers.panther_event_type_helpers as event_type
 from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
@@ -7,7 +6,7 @@ from pypanther.helpers.panther_default import lookup_aws_account_name
 from pypanther.helpers.panther_ipinfo_helpers import PantherIPInfoException, geoinfo_from_ip
 from pypanther.helpers.panther_oss_helpers import add_parse_delay
 
-standard_brute_force_by_ip_tests: List[RuleTest] = [
+standard_brute_force_by_ip_tests: list[RuleTest] = [
     RuleTest(
         name="AWS.CloudTrail - Successful Login",
         expected_result=False,

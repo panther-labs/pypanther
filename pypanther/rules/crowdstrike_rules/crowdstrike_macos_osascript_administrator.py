@@ -1,9 +1,7 @@
-from typing import List
-
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import crowdstrike_process_alert_context, deep_get
 
-crowdstrike_macos_osascript_administrator_tests: List[RuleTest] = [
+crowdstrike_macos_osascript_administrator_tests: list[RuleTest] = [
     RuleTest(
         name="Ran Osascript with administrator privileges",
         expected_result=True,

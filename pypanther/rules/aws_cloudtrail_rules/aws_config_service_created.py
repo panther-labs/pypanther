@@ -1,10 +1,8 @@
-from typing import List
-
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import aws_rule_context
 from pypanther.helpers.panther_default import aws_cloudtrail_success
 
-aws_config_service_created_tests: List[RuleTest] = [
+aws_config_service_created_tests: list[RuleTest] = [
     RuleTest(
         name="Config Recorder Delivery Channel Created",
         expected_result=True,

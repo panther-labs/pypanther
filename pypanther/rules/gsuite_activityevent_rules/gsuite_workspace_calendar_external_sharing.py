@@ -1,18 +1,12 @@
-from typing import List
-
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 
-g_suite_workspace_calendar_external_sharing_setting_tests: List[RuleTest] = [
+g_suite_workspace_calendar_external_sharing_setting_tests: list[RuleTest] = [
     RuleTest(
         name="Admin Set Default Calendar SHARING_OUTSIDE_DOMAIN Setting to READ_ONLY_ACCESS",
         expected_result=True,
         log={
-            "actor": {
-                "callerType": "USER",
-                "email": "example@example.io",
-                "profileId": "12345",
-            },
+            "actor": {"callerType": "USER", "email": "example@example.io", "profileId": "12345"},
             "id": {
                 "applicationName": "admin",
                 "customerId": "D12345",
@@ -36,11 +30,7 @@ g_suite_workspace_calendar_external_sharing_setting_tests: List[RuleTest] = [
         name="Admin Set Default Calendar SHARING_OUTSIDE_DOMAIN Setting to READ_WRITE_ACCESS",
         expected_result=True,
         log={
-            "actor": {
-                "callerType": "USER",
-                "email": "example@example.io",
-                "profileId": "12345",
-            },
+            "actor": {"callerType": "USER", "email": "example@example.io", "profileId": "12345"},
             "id": {
                 "applicationName": "admin",
                 "customerId": "D12345",
@@ -64,11 +54,7 @@ g_suite_workspace_calendar_external_sharing_setting_tests: List[RuleTest] = [
         name="Admin Set Default Calendar SHARING_OUTSIDE_DOMAIN Setting to MANAGE_ACCESS",
         expected_result=True,
         log={
-            "actor": {
-                "callerType": "USER",
-                "email": "example@example.io",
-                "profileId": "12345",
-            },
+            "actor": {"callerType": "USER", "email": "example@example.io", "profileId": "12345"},
             "id": {
                 "applicationName": "admin",
                 "customerId": "D12345",

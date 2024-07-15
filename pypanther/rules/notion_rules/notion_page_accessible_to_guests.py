@@ -1,10 +1,8 @@
-from typing import List
-
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 from pypanther.helpers.panther_notion_helpers import notion_alert_context
 
-notion_page_perms_guest_perms_changed_tests: List[RuleTest] = [
+notion_page_perms_guest_perms_changed_tests: list[RuleTest] = [
     RuleTest(
         name="Guest Role Added",
         expected_result=True,
@@ -87,10 +85,7 @@ class NotionPagePermsGuestPermsChanged(Rule):
     default_reference = "https://www.notion.so/help/sharing-and-permissions"
     tests = notion_page_perms_guest_perms_changed_tests
     # These event types correspond to users adding or editing the default role on a public page
-    event_types = (
-        "page.permissions.guest_role_added",
-        "page.permissions.guest_role_updated",
-    )
+    event_types = ("page.permissions.guest_role_added", "page.permissions.guest_role_updated")
 
     def rule(self, event):
         return event.deep_get("event", "type", default="<NO_EVENT_TYPE_FOUND>") in self.event_types

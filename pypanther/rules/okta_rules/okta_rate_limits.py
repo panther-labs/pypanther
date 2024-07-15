@@ -1,10 +1,9 @@
 from fnmatch import fnmatch
-from typing import List
 
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import okta_alert_context
 
-okta_rate_limits_tests: List[RuleTest] = [
+okta_rate_limits_tests: list[RuleTest] = [
     RuleTest(
         name="system.org.ratelimit.warning",
         expected_result=True,
@@ -15,18 +14,11 @@ okta_rate_limits_tests: List[RuleTest] = [
                 "id": "00abc456",
                 "type": "User",
             },
-            "authenticationcontext": {
-                "authenticationStep": 0,
-                "externalSessionId": "abc12345",
-            },
+            "authenticationcontext": {"authenticationStep": 0, "externalSessionId": "abc12345"},
             "client": {
                 "device": "Unknown",
                 "ipAddress": "1.2.3.4",
-                "userAgent": {
-                    "browser": "UNKNOWN",
-                    "os": "Unknown",
-                    "rawUserAgent": "Chrome",
-                },
+                "userAgent": {"browser": "UNKNOWN", "os": "Unknown", "rawUserAgent": "Chrome"},
                 "zone": "null",
             },
             "debugcontext": {
@@ -74,18 +66,11 @@ okta_rate_limits_tests: List[RuleTest] = [
                 "id": "00abc456",
                 "type": "User",
             },
-            "authenticationcontext": {
-                "authenticationStep": 0,
-                "externalSessionId": "abc12345",
-            },
+            "authenticationcontext": {"authenticationStep": 0, "externalSessionId": "abc12345"},
             "client": {
                 "device": "Unknown",
                 "ipAddress": "1.2.3.4",
-                "userAgent": {
-                    "browser": "UNKNOWN",
-                    "os": "Unknown",
-                    "rawUserAgent": "Chrome",
-                },
+                "userAgent": {"browser": "UNKNOWN", "os": "Unknown", "rawUserAgent": "Chrome"},
                 "zone": "null",
             },
             "debugcontext": {
@@ -130,18 +115,11 @@ okta_rate_limits_tests: List[RuleTest] = [
                 "id": "00abc456",
                 "type": "User",
             },
-            "authenticationcontext": {
-                "authenticationStep": 0,
-                "externalSessionId": "abc12345",
-            },
+            "authenticationcontext": {"authenticationStep": 0, "externalSessionId": "abc12345"},
             "client": {
                 "device": "Unknown",
                 "ipAddress": "1.2.3.4",
-                "userAgent": {
-                    "browser": "UNKNOWN",
-                    "os": "Unknown",
-                    "rawUserAgent": "Chrome",
-                },
+                "userAgent": {"browser": "UNKNOWN", "os": "Unknown", "rawUserAgent": "Chrome"},
                 "zone": "null",
             },
             "debugcontext": {"debugData": {}},
@@ -153,12 +131,7 @@ okta_rate_limits_tests: List[RuleTest] = [
             "securitycontext": {},
             "severity": "INFO",
             "target": [
-                {
-                    "alternateId": "App ",
-                    "displayName": "App",
-                    "id": "12345",
-                    "type": "AppInstance",
-                }
+                {"alternateId": "App ", "displayName": "App", "id": "12345", "type": "AppInstance"}
             ],
             "transaction": {"detail": {}, "id": "sdfg", "type": "JOB"},
             "uuid": "aaa-bb-ccc",
@@ -175,10 +148,7 @@ okta_rate_limits_tests: List[RuleTest] = [
                 "id": "00ABC123",
                 "type": "User",
             },
-            "authenticationcontext": {
-                "authenticationStep": 0,
-                "externalSessionId": "xyz1234",
-            },
+            "authenticationcontext": {"authenticationStep": 0, "externalSessionId": "xyz1234"},
             "client": {
                 "device": "Computer",
                 "geographicalContext": {

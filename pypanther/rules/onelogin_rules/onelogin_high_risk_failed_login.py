@@ -1,8 +1,6 @@
-from typing import List
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 
-from pypanther import LogType, Rule, RuleTest, Severity
-
-one_login_high_risk_failed_login_tests: List[RuleTest] = [
+one_login_high_risk_failed_login_tests: list[RuleTest] = [
     RuleTest(
         name="Normal Login Event",
         expected_result=False,

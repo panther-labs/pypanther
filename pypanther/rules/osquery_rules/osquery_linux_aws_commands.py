@@ -1,10 +1,9 @@
 import shlex
-from typing import List
 
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 
-osquery_linux_aws_command_executed_tests: List[RuleTest] = [
+osquery_linux_aws_command_executed_tests: list[RuleTest] = [
     RuleTest(
         name="AWS command executed on MacOS",
         expected_result=False,

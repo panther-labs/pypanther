@@ -1,8 +1,6 @@
-from typing import List
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 
-from pypanther import LogType, Rule, RuleTest, Severity
-
-push_security_app_banner_acknowledged_tests: List[RuleTest] = [
+push_security_app_banner_acknowledged_tests: list[RuleTest] = [
     RuleTest(
         name="App Banner Acknowledged",
         expected_result=True,

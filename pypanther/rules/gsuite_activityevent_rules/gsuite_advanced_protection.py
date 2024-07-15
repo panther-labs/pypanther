@@ -1,9 +1,7 @@
-from typing import List
-
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 
-g_suite_advanced_protection_tests: List[RuleTest] = [
+g_suite_advanced_protection_tests: list[RuleTest] = [
     RuleTest(
         name="Advanced Protection Enabled",
         expected_result=False,

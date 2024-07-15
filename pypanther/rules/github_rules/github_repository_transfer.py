@@ -1,9 +1,7 @@
-from typing import List
-
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import github_alert_context
 
-github_repository_transfer_tests: List[RuleTest] = [
+github_repository_transfer_tests: list[RuleTest] = [
     RuleTest(
         name="Public Repo Created",
         expected_result=False,

@@ -1,10 +1,9 @@
 import re
-from typing import List
 
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_config import config
 
-teleport_saml_login_without_company_domain_tests: List[RuleTest] = [
+teleport_saml_login_without_company_domain_tests: list[RuleTest] = [
     RuleTest(
         name="A user authenticated with SAML, but from a known company domain",
         expected_result=False,

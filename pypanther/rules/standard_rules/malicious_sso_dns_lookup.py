@@ -1,9 +1,7 @@
-from typing import List
-
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import filter_crowdstrike_fdr_event_type
 
-standard_malicious_ssodns_lookup_tests: List[RuleTest] = [
+standard_malicious_ssodns_lookup_tests: list[RuleTest] = [
     RuleTest(
         name="Known Good SSO Domain",
         expected_result=False,
@@ -70,10 +68,7 @@ standard_malicious_ssodns_lookup_tests: List[RuleTest] = [
             "event_platform": "Mac",
             "event_simpleName": "DnsRequest",
             "name": "DnsRequestMacV2",
-            "p_any_domain_names": [
-                "company_name_here.okta.com",
-                "company_name_here-maokta.com",
-            ],
+            "p_any_domain_names": ["company_name_here.okta.com", "company_name_here-maokta.com"],
             "timestamp": "2022-08-31 07:03:49.195",
         },
     ),
@@ -124,10 +119,7 @@ standard_malicious_ssodns_lookup_tests: List[RuleTest] = [
             "p_source_id": "11111111-1111-1111-1111-111111111111",
             "p_source_label": "Crowdstrike",
             "p_any_ip_addresses": ["111.111.111.111"],
-            "p_any_domain_names": [
-                "company_name_here.okta.com",
-                "company_name_here-maokta.com",
-            ],
+            "p_any_domain_names": ["company_name_here.okta.com", "company_name_here-maokta.com"],
             "p_any_trace_ids": [
                 "00000000000000000000000000000001",
                 "00000000000000000000000000000002",
@@ -160,10 +152,7 @@ standard_malicious_ssodns_lookup_tests: List[RuleTest] = [
             "p_source_id": "11111111-1111-1111-1111-111111111111",
             "p_source_label": "Crowdstrike",
             "p_any_ip_addresses": ["111.111.111.111"],
-            "p_any_domain_names": [
-                "company_name_here.okta.com",
-                "company_name_here-maokta.com",
-            ],
+            "p_any_domain_names": ["company_name_here.okta.com", "company_name_here-maokta.com"],
             "p_any_trace_ids": [
                 "00000000000000000000000000000001",
                 "00000000000000000000000000000002",

@@ -1,11 +1,10 @@
 import re
-from typing import List
 
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.gcp_base_helpers import gcp_alert_context
 from pypanther.helpers.panther_base_helpers import deep_get
 
-gcp_logging_sink_modified_tests: List[RuleTest] = [
+gcp_logging_sink_modified_tests: list[RuleTest] = [
     RuleTest(
         name="logging-sink.modifed-should-alert",
         expected_result=True,
@@ -43,10 +42,7 @@ gcp_logging_sink_modified_tests: List[RuleTest] = [
                     "callerIP": "12.12.12.12",
                     "callerSuppliedUserAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Safari/537.36,gzip(gfe),gzip(gfe)",
                     "destinationAttributes": {},
-                    "requestAttributes": {
-                        "auth": {},
-                        "time": "2023-05-23T19:39:07.289670886Z",
-                    },
+                    "requestAttributes": {"auth": {}, "time": "2023-05-23T19:39:07.289670886Z"},
                 },
                 "resourceName": "projects/test-project-123456/sinks/test-1",
                 "serviceName": "logging.googleapis.com",
@@ -102,10 +98,7 @@ gcp_logging_sink_modified_tests: List[RuleTest] = [
                     "callerIP": "12.12.12.12",
                     "callerSuppliedUserAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Safari/537.36,gzip(gfe),gzip(gfe)",
                     "destinationAttributes": {},
-                    "requestAttributes": {
-                        "auth": {},
-                        "time": "2023-05-23T19:39:07.289670886Z",
-                    },
+                    "requestAttributes": {"auth": {}, "time": "2023-05-23T19:39:07.289670886Z"},
                 },
                 "resourceName": "projects/test-project-123456/sinks/test-1",
                 "serviceName": "logging.googleapis.com",

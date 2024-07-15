@@ -1,9 +1,7 @@
-from typing import List
-
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 
-g_suite_login_type_tests: List[RuleTest] = [
+g_suite_login_type_tests: list[RuleTest] = [
     RuleTest(
         name="Login With Approved Type",
         expected_result=False,

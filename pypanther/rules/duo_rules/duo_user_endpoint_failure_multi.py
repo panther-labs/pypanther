@@ -1,9 +1,7 @@
-from typing import List
-
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 
-duo_user_endpoint_failure_tests: List[RuleTest] = [
+duo_user_endpoint_failure_tests: list[RuleTest] = [
     RuleTest(
         name="endpoint_is_not_in_management_system",
         expected_result=True,

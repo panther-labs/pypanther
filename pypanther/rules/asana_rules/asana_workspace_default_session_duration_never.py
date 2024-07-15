@@ -1,9 +1,7 @@
-from typing import List
-
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 
-asana_workspace_default_session_duration_never_tests: List[RuleTest] = [
+asana_workspace_default_session_duration_never_tests: list[RuleTest] = [
     RuleTest(
         name="Session Duration Never",
         expected_result=True,
@@ -24,11 +22,7 @@ asana_workspace_default_session_duration_never_tests: List[RuleTest] = [
             "event_category": "admin_settings",
             "event_type": "workspace_default_session_duration_changed",
             "gid": "12345",
-            "resource": {
-                "gid": "12345",
-                "name": "Acme Co",
-                "resource_type": "workspace",
-            },
+            "resource": {"gid": "12345", "name": "Acme Co", "resource_type": "workspace"},
         },
     ),
     RuleTest(
@@ -51,11 +45,7 @@ asana_workspace_default_session_duration_never_tests: List[RuleTest] = [
             "event_category": "access_control",
             "event_type": "team_privacy_settings_changed",
             "gid": "12345",
-            "resource": {
-                "gid": "12345",
-                "name": "Example Team Name",
-                "resource_type": "team",
-            },
+            "resource": {"gid": "12345", "name": "Example Team Name", "resource_type": "team"},
         },
     ),
 ]

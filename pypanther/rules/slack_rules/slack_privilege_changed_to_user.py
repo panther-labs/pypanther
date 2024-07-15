@@ -1,9 +1,7 @@
-from typing import List
-
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get, slack_alert_context
 
-slack_audit_logs_user_privilege_changed_to_user_tests: List[RuleTest] = [
+slack_audit_logs_user_privilege_changed_to_user_tests: list[RuleTest] = [
     RuleTest(
         name="Role Changed to User",
         expected_result=True,

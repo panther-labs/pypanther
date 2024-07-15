@@ -1,9 +1,7 @@
-from typing import List
-
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import okta_alert_context
 
-okta_user_reported_suspicious_activity_tests: List[RuleTest] = [
+okta_user_reported_suspicious_activity_tests: list[RuleTest] = [
     RuleTest(
         name="Other Event",
         expected_result=False,
@@ -14,10 +12,7 @@ okta_user_reported_suspicious_activity_tests: List[RuleTest] = [
                 "id": "00abc123",
                 "type": "User",
             },
-            "authenticationcontext": {
-                "authenticationStep": 0,
-                "externalSessionId": "100-abc-9999",
-            },
+            "authenticationcontext": {"authenticationStep": 0, "externalSessionId": "100-abc-9999"},
             "client": {
                 "device": "Computer",
                 "geographicalContext": {
@@ -93,10 +88,7 @@ okta_user_reported_suspicious_activity_tests: List[RuleTest] = [
                 "id": "00ABC123",
                 "type": "User",
             },
-            "authenticationcontext": {
-                "authenticationStep": 0,
-                "externalSessionId": "aaa1234",
-            },
+            "authenticationcontext": {"authenticationStep": 0, "externalSessionId": "aaa1234"},
             "client": {
                 "device": "Computer",
                 "geographicalContext": {

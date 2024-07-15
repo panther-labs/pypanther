@@ -1,9 +1,7 @@
-from typing import List
-
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_mongodb_helpers import mongodb_alert_context
 
-mongo_db_alerting_disabled_or_deleted_tests: List[RuleTest] = [
+mongo_db_alerting_disabled_or_deleted_tests: list[RuleTest] = [
     RuleTest(
         name="Alert added",
         expected_result=False,

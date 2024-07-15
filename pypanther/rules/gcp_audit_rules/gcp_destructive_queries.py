@@ -1,9 +1,7 @@
-from typing import List
-
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 
-gcp_destructive_queries_tests: List[RuleTest] = [
+gcp_destructive_queries_tests: list[RuleTest] = [
     RuleTest(
         name="Drop Table Event",
         expected_result=True,
@@ -145,13 +143,7 @@ class GCPDestructiveQueries(Rule):
     log_types = [LogType.GCP_AuditLog]
     id_ = "GCP.Destructive.Queries-prototype"
     tests = gcp_destructive_queries_tests
-    DESTRUCTIVE_STATEMENTS = [
-        "UPDATE",
-        "DELETE",
-        "DROP_TABLE",
-        "ALTER_TABLE",
-        "TRUNCATE_TABLE",
-    ]
+    DESTRUCTIVE_STATEMENTS = ["UPDATE", "DELETE", "DROP_TABLE", "ALTER_TABLE", "TRUNCATE_TABLE"]
 
     def rule(self, event):
         if all(
@@ -159,15 +151,7 @@ class GCPDestructiveQueries(Rule):
                 deep_get(event, "resource", "type", default="<RESOURCE_NOT_FOUND>").startswith(
                     "bigquery"
                 ),
-                deep_get(
-                    event,
-                    "protoPayload",
-                    "metadata",
-                    "jobChange",
-                    "job",
-                    "jobConfig",
-                    "type",
-                )
+                deep_get(event, "protoPayload", "metadata", "jobChange", "job", "jobConfig", "type")
                 == "QUERY",
                 deep_get(
                     event,
@@ -219,11 +203,7 @@ class GCPDestructiveQueries(Rule):
             "queryConfig",
             "destinationTable",
         ) or deep_get(
-            event,
-            "protoPayload",
-            "metadata",
-            "resourceName",
-            default="<TABLE_NOT_FOUND>",
+            event, "protoPayload", "metadata", "resourceName", default="<TABLE_NOT_FOUND>"
         )
         return f"GCP: [{actor}] performed a destructive BigQuery [{statement}] query on [{table}]."
 
@@ -269,10 +249,6 @@ class GCPDestructiveQueries(Rule):
                 "destinationTable",
             )
             or deep_get(
-                event,
-                "protoPayload",
-                "metadata",
-                "resourceName",
-                default="<TABLE_NOT_FOUND>",
+                event, "protoPayload", "metadata", "resourceName", default="<TABLE_NOT_FOUND>"
             ),
         }

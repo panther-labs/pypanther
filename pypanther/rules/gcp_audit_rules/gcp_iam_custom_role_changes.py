@@ -1,9 +1,7 @@
-from typing import List
-
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 
-gcpiam_custom_role_changes_tests: List[RuleTest] = [
+gcpiam_custom_role_changes_tests: list[RuleTest] = [
     RuleTest(
         name="Custom Role Created",
         expected_result=True,
@@ -18,10 +16,7 @@ gcpiam_custom_role_changes_tests: List[RuleTest] = [
                 "requestMetadata": {
                     "callerIp": "136.24.229.58",
                     "callerSuppliedUserAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/81.0.4044.138 Safari/537.36,gzip(gfe)",
-                    "requestAttributes": {
-                        "time": "2020-05-15T04:11:28.411897632Z",
-                        "auth": {},
-                    },
+                    "requestAttributes": {"time": "2020-05-15T04:11:28.411897632Z", "auth": {}},
                     "destinationAttributes": {},
                 },
                 "serviceName": "iam.googleapis.com",
@@ -98,11 +93,7 @@ class GCPIAMCustomRoleChanges(Rule):
     display_name = "GCP IAM Role Has Changed"
     dedup_period_minutes = 1440
     log_types = [LogType.GCP_AuditLog]
-    tags = [
-        "GCP",
-        "Identity & Access Management",
-        "Privilege Escalation:Valid Accounts",
-    ]
+    tags = ["GCP", "Identity & Access Management", "Privilege Escalation:Valid Accounts"]
     reports = {"CIS": ["2.6"], "MITRE ATT&CK": ["TA0004:T1078"]}
     default_severity = Severity.info
     default_description = "A custom role has been created, deleted, or updated."

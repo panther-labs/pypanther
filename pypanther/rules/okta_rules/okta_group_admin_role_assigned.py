@@ -1,9 +1,7 @@
-from typing import List
-
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import okta_alert_context
 
-okta_group_admin_role_assigned_tests: List[RuleTest] = [
+okta_group_admin_role_assigned_tests: list[RuleTest] = [
     RuleTest(
         name="Group Privilege Grant",
         expected_result=True,
@@ -14,10 +12,7 @@ okta_group_admin_role_assigned_tests: List[RuleTest] = [
                 "id": "00ABC123",
                 "type": "User",
             },
-            "authenticationcontext": {
-                "authenticationStep": 0,
-                "externalSessionId": "xyz1234",
-            },
+            "authenticationcontext": {"authenticationStep": 0, "externalSessionId": "xyz1234"},
             "client": {
                 "device": "Computer",
                 "geographicalContext": {
@@ -97,10 +92,7 @@ okta_group_admin_role_assigned_tests: List[RuleTest] = [
                 "id": "00ABC123",
                 "type": "User",
             },
-            "authenticationcontext": {
-                "authenticationStep": 0,
-                "externalSessionId": "xyz1234",
-            },
+            "authenticationcontext": {"authenticationStep": 0, "externalSessionId": "xyz1234"},
             "client": {
                 "device": "Computer",
                 "geographicalContext": {

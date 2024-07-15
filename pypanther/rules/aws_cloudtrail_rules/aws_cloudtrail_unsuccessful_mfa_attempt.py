@@ -1,9 +1,7 @@
-from typing import List
-
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import aws_rule_context, deep_get
 
-aws_unsuccessful_mf_aattempt_tests: List[RuleTest] = [
+aws_unsuccessful_mf_aattempt_tests: list[RuleTest] = [
     RuleTest(
         name="Successful Login w/ MFA",
         expected_result=False,

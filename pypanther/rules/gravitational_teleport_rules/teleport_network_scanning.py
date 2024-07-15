@@ -1,8 +1,6 @@
-from typing import List
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 
-from pypanther import LogType, Rule, RuleTest, Severity
-
-teleport_network_scanning_tests: List[RuleTest] = [
+teleport_network_scanning_tests: list[RuleTest] = [
     RuleTest(
         name="Echo command",
         expected_result=False,

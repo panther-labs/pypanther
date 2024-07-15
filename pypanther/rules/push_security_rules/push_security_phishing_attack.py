@@ -1,8 +1,6 @@
-from typing import List
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 
-from pypanther import LogType, Rule, RuleTest, Severity
-
-push_security_phishing_attack_tests: List[RuleTest] = [
+push_security_phishing_attack_tests: list[RuleTest] = [
     RuleTest(
         name="Phishing Detected - Block Mode",
         expected_result=True,

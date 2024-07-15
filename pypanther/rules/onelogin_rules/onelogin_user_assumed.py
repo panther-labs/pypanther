@@ -1,8 +1,6 @@
-from typing import List
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 
-from pypanther import LogType, Rule, RuleTest, Severity
-
-one_login_user_assumption_tests: List[RuleTest] = [
+one_login_user_assumption_tests: list[RuleTest] = [
     RuleTest(
         name="User assumed their own account",
         expected_result=False,

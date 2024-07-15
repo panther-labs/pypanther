@@ -1,10 +1,8 @@
-from typing import List
-
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 from pypanther.helpers.panther_config import config
 
-box_event_triggered_externally_tests: List[RuleTest] = [
+box_event_triggered_externally_tests: list[RuleTest] = [
     RuleTest(
         name="Regular Event",
         expected_result=False,
@@ -43,11 +41,7 @@ class BoxEventTriggeredExternally(Rule):
     display_name = "Box event triggered by unknown or external user"
     enabled = False
     log_types = [LogType.Box_Event]
-    tags = [
-        "Box",
-        "Exfiltration:Exfiltration Over Web Service",
-        "Configuration Required",
-    ]
+    tags = ["Box", "Exfiltration:Exfiltration Over Web Service", "Configuration Required"]
     reports = {"MITRE ATT&CK": ["TA0010:T1567"]}
     default_severity = Severity.medium
     default_description = "An external user has triggered a box enterprise event.\n"

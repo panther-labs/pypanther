@@ -1,10 +1,8 @@
-from typing import List
-
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 from pypanther.helpers.panther_tines_helpers import tines_alert_context
 
-tines_actions_disabled_changes_tests: List[RuleTest] = [
+tines_actions_disabled_changes_tests: list[RuleTest] = [
     RuleTest(
         name="Tines Actions Disabled Change",
         expected_result=True,

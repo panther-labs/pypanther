@@ -1,21 +1,16 @@
-from typing import List
-
 from panther_core.immutable import ImmutableList
 
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 
-git_lab_production_password_reset_multiple_emails_tests: List[RuleTest] = [
+git_lab_production_password_reset_multiple_emails_tests: list[RuleTest] = [
     RuleTest(
         name="not a password reset",
         expected_result=False,
         log={
             "params": [
                 {"key": "authenticity_token", "value": "[FILTERED]"},
-                {
-                    "key": "user",
-                    "value": {"email": ["peter@example.com", "bob@example.com"]},
-                },
+                {"key": "user", "value": {"email": ["peter@example.com", "bob@example.com"]}},
             ],
             "path": "/cats",
         },
@@ -37,10 +32,7 @@ git_lab_production_password_reset_multiple_emails_tests: List[RuleTest] = [
         log={
             "params": [
                 {"key": "authenticity_token", "value": "[FILTERED]"},
-                {
-                    "key": "user",
-                    "value": {"email": ["peter@example.com", "bob@example.com"]},
-                },
+                {"key": "user", "value": {"email": ["peter@example.com", "bob@example.com"]}},
             ],
             "path": "/users/password",
         },

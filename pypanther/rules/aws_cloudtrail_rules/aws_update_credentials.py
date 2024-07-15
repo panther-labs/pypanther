@@ -1,10 +1,8 @@
-from typing import List
-
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import aws_rule_context, deep_get
 from pypanther.helpers.panther_default import aws_cloudtrail_success
 
-awsiam_credentials_updated_tests: List[RuleTest] = [
+awsiam_credentials_updated_tests: list[RuleTest] = [
     RuleTest(
         name="User Password Was Changed",
         expected_result=True,
@@ -134,12 +132,7 @@ class AWSIAMCredentialsUpdated(Rule):
         "p_any_aws_arns",
     ]
     tests = awsiam_credentials_updated_tests
-    UPDATE_EVENTS = {
-        "ChangePassword",
-        "CreateAccessKey",
-        "CreateLoginProfile",
-        "CreateUser",
-    }
+    UPDATE_EVENTS = {"ChangePassword", "CreateAccessKey", "CreateLoginProfile", "CreateUser"}
 
     def rule(self, event):
         return event.get("eventName") in self.UPDATE_EVENTS and aws_cloudtrail_success(event)

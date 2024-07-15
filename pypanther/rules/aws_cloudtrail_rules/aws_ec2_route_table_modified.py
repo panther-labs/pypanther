@@ -1,10 +1,8 @@
-from typing import List
-
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import aws_rule_context
 from pypanther.helpers.panther_default import aws_cloudtrail_success
 
-awsec2_route_table_modified_tests: List[RuleTest] = [
+awsec2_route_table_modified_tests: list[RuleTest] = [
     RuleTest(
         name="Route Table Modified",
         expected_result=True,
@@ -83,12 +81,7 @@ awsec2_route_table_modified_tests: List[RuleTest] = [
             "requestParameters": {
                 "routeTableIdSet": {},
                 "filterSet": {
-                    "items": [
-                        {
-                            "name": "resource-id",
-                            "valueSet": {"items": [{"value": "vpc-1"}]},
-                        }
-                    ]
+                    "items": [{"name": "resource-id", "valueSet": {"items": [{"value": "vpc-1"}]}}]
                 },
             },
             "responseElements": None,

@@ -1,13 +1,12 @@
 import json
-from typing import List
 
 from policyuniverse.policy import Policy
 
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import aws_rule_context, deep_get
 from pypanther.helpers.panther_default import aws_cloudtrail_success
 
-aws_cloud_trail_resource_made_public_tests: List[RuleTest] = [
+aws_cloud_trail_resource_made_public_tests: list[RuleTest] = [
     RuleTest(
         name="ECR Made Public",
         expected_result=True,
@@ -402,10 +401,7 @@ class AWSCloudTrailResourceMadePublic(Rule):
         if event["eventName"] == "SetRepositoryPolicy":
             policy = parameters.get("policyText", {})
         # Elasticsearch
-        if event["eventName"] in [
-            "CreateElasticsearchDomain",
-            "UpdateElasticsearchDomainConfig",
-        ]:
+        if event["eventName"] in ["CreateElasticsearchDomain", "UpdateElasticsearchDomainConfig"]:
             policy = parameters.get("accessPolicies", {})
         # KMS
         if event["eventName"] in ["CreateKey", "PutKeyPolicy"]:

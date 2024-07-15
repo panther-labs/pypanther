@@ -1,10 +1,8 @@
-from typing import List
-
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import aws_rule_context, deep_get
 from pypanther.helpers.panther_default import aws_cloudtrail_success
 
-aws_cloud_trail_network_acl_permissive_entry_tests: List[RuleTest] = [
+aws_cloud_trail_network_acl_permissive_entry_tests: list[RuleTest] = [
     RuleTest(
         name="Overly Permissive Entry Added",
         expected_result=True,
@@ -168,12 +166,7 @@ class AWSCloudTrailNetworkACLPermissiveEntry(Rule):
     default_reference = (
         "https://docs.aws.amazon.com/vpc/latest/userguide/vpc-network-acls.html#nacl-rules"
     )
-    summary_attributes = [
-        "userAgent",
-        "sourceIpAddress",
-        "recipientAccountId",
-        "p_any_aws_arns",
-    ]
+    summary_attributes = ["userAgent", "sourceIpAddress", "recipientAccountId", "p_any_aws_arns"]
     tests = aws_cloud_trail_network_acl_permissive_entry_tests
 
     def rule(self, event):

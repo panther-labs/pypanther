@@ -1,9 +1,7 @@
-from typing import List
-
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 
-asana_workspace_password_requirements_simple_tests: List[RuleTest] = [
+asana_workspace_password_requirements_simple_tests: list[RuleTest] = [
     RuleTest(
         name="Simple",
         expected_result=True,
@@ -51,11 +49,7 @@ asana_workspace_password_requirements_simple_tests: List[RuleTest] = [
             "event_category": "admin_settings",
             "event_type": "workspace_require_app_approvals_of_type_changed",
             "gid": "1234",
-            "resource": {
-                "gid": "1234",
-                "name": "Panther Labs",
-                "resource_type": "workspace",
-            },
+            "resource": {"gid": "1234", "name": "Panther Labs", "resource_type": "workspace"},
         },
     ),
 ]

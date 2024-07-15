@@ -1,9 +1,7 @@
-from typing import List
-
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 
-gcpgcs_public_tests: List[RuleTest] = [
+gcpgcs_public_tests: list[RuleTest] = [
     RuleTest(
         name="GCS AllUsers Read Permission",
         expected_result=True,
@@ -15,10 +13,7 @@ gcpgcs_public_tests: List[RuleTest] = [
                 "requestMetadata": {
                     "callerIp": "136.24.229.58",
                     "callerSuppliedUserAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/81.0.4044.138 Safari/537.36,gzip(gfe)",
-                    "requestAttributes": {
-                        "time": "2020-05-15T04:28:42.243082428Z",
-                        "auth": {},
-                    },
+                    "requestAttributes": {"time": "2020-05-15T04:28:42.243082428Z", "auth": {}},
                     "destinationAttributes": {},
                 },
                 "serviceName": "storage.googleapis.com",

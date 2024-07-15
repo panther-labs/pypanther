@@ -1,8 +1,6 @@
-from typing import List
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 
-from pypanther import LogType, Rule, RuleTest, Severity
-
-git_hub_branch_policy_override_tests: List[RuleTest] = [
+git_hub_branch_policy_override_tests: list[RuleTest] = [
     RuleTest(
         name="GitHub - Branch Protection Policy Override",
         expected_result=True,

@@ -1,9 +1,7 @@
-from typing import List
-
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import crowdstrike_process_alert_context, is_base64
 
-crowdstrike_base64_encoded_args_tests: List[RuleTest] = [
+crowdstrike_base64_encoded_args_tests: list[RuleTest] = [
     RuleTest(
         name="Command Line Tool Execution with Base64 Argument (Positive)",
         expected_result=True,
@@ -566,13 +564,7 @@ class CrowdstrikeBase64EncodedArgs(Rule):
     tests = crowdstrike_base64_encoded_args_tests
     DECODED = ""
     # List of command line tools to monitor for execution with Base64 encoded arguments
-    COMMAND_LINE_TOOLS = {
-        "powershell.exe",
-        "cmd.exe",
-        "cscript.exe",
-        "wscript.exe",
-        "rundll32.exe",
-    }
+    COMMAND_LINE_TOOLS = {"powershell.exe", "cmd.exe", "cscript.exe", "wscript.exe", "rundll32.exe"}
 
     def rule(self, event):
         # Filter by CS event type, Windows platform, and process name

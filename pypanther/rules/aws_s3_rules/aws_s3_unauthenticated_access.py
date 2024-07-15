@@ -1,9 +1,7 @@
-from typing import List
-
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import aws_rule_context
 
-awss3_server_access_unauthenticated_tests: List[RuleTest] = [
+awss3_server_access_unauthenticated_tests: list[RuleTest] = [
     RuleTest(
         name="Authenticated Access",
         expected_result=False,
@@ -12,11 +10,7 @@ awss3_server_access_unauthenticated_tests: List[RuleTest] = [
             "requester": "79a59df900b949e55d96a1e698fbacedfd6e09d98eacf8f8d5218e7cd47ef2be",
         },
     ),
-    RuleTest(
-        name="Unauthenticated Access",
-        expected_result=True,
-        log={"bucket": "example-bucket"},
-    ),
+    RuleTest(name="Unauthenticated Access", expected_result=True, log={"bucket": "example-bucket"}),
 ]
 
 

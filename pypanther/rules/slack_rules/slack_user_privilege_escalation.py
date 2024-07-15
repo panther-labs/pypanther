@@ -1,9 +1,7 @@
-from typing import List
-
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get, slack_alert_context
 
-slack_audit_logs_user_privilege_escalation_tests: List[RuleTest] = [
+slack_audit_logs_user_privilege_escalation_tests: list[RuleTest] = [
     RuleTest(
         name="Owner Transferred",
         expected_result=True,
@@ -152,12 +150,7 @@ class SlackAuditLogsUserPrivilegeEscalation(Rule):
     id_ = "Slack.AuditLogs.UserPrivilegeEscalation-prototype"
     display_name = "Slack User Privilege Escalation"
     log_types = [LogType.Slack_AuditLogs]
-    tags = [
-        "Slack",
-        "Privilege Escalation",
-        "Account Manipulation",
-        "Additional Cloud Roles",
-    ]
+    tags = ["Slack", "Privilege Escalation", "Account Manipulation", "Additional Cloud Roles"]
     reports = {"MITRE ATT&CK": ["TA0004:T1098.003"]}
     default_severity = Severity.high
     default_description = "Detects when a Slack user gains escalated privileges"

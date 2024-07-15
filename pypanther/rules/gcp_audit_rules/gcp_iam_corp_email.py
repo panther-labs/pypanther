@@ -1,9 +1,7 @@
-from typing import List
-
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 
-gcpiam_corporate_email_tests: List[RuleTest] = [
+gcpiam_corporate_email_tests: list[RuleTest] = [
     RuleTest(
         name="Gmail account added",
         expected_result=True,
@@ -69,14 +67,8 @@ gcpiam_corporate_email_tests: List[RuleTest] = [
                                     "serviceAccount:951849100836@cloudservices.gserviceaccount.com",
                                 ],
                             },
-                            {
-                                "members": ["user:test@runpanther.com"],
-                                "role": "roles/owner",
-                            },
-                            {
-                                "members": ["user:user-two@gmail.com"],
-                                "role": "roles/pubsub.admin",
-                            },
+                            {"members": ["user:test@runpanther.com"], "role": "roles/owner"},
+                            {"members": ["user:user-two@gmail.com"], "role": "roles/pubsub.admin"},
                             {
                                 "members": [
                                     "serviceAccount:pubsub-reader@western-verve-123456.iam.gserviceaccount.com"
@@ -93,10 +85,7 @@ gcpiam_corporate_email_tests: List[RuleTest] = [
                                 "role": "roles/resourcemanager.organizationAdmin",
                                 "members": ["user:test@runpanther.com"],
                             },
-                            {
-                                "members": ["user:username@gmail.com"],
-                                "role": "roles/viewer",
-                            },
+                            {"members": ["user:username@gmail.com"], "role": "roles/viewer"},
                         ],
                         "etag": "BwWk8zJlg2o=",
                     },
@@ -121,14 +110,8 @@ gcpiam_corporate_email_tests: List[RuleTest] = [
                             ],
                             "role": "roles/editor",
                         },
-                        {
-                            "members": ["user:test@runpanther.com"],
-                            "role": "roles/owner",
-                        },
-                        {
-                            "role": "roles/pubsub.admin",
-                            "members": ["user:user-two@gmail.com"],
-                        },
+                        {"members": ["user:test@runpanther.com"], "role": "roles/owner"},
+                        {"role": "roles/pubsub.admin", "members": ["user:user-two@gmail.com"]},
                         {
                             "role": "roles/pubsub.subscriber",
                             "members": [
@@ -145,19 +128,13 @@ gcpiam_corporate_email_tests: List[RuleTest] = [
                             "members": ["user:test@runpanther.com"],
                             "role": "roles/resourcemanager.organizationAdmin",
                         },
-                        {
-                            "members": ["user:username@gmail.com"],
-                            "role": "roles/viewer",
-                        },
+                        {"members": ["user:username@gmail.com"], "role": "roles/viewer"},
                     ],
                     "@type": "type.googleapis.com/google.iam.v1.Policy",
                 },
             },
             "insertId": "mrbji0dal80",
-            "resource": {
-                "type": "project",
-                "labels": {"project_id": "western-verve-123456"},
-            },
+            "resource": {"type": "project", "labels": {"project_id": "western-verve-123456"}},
             "timestamp": "2020-05-15T03:51:35.019Z",
             "severity": "NOTICE",
             "logName": "projects/western-verve-123456/logs/cloudaudit.googleapis.com%2Factivity",
@@ -229,14 +206,8 @@ gcpiam_corporate_email_tests: List[RuleTest] = [
                                     "serviceAccount:951849100836@cloudservices.gserviceaccount.com",
                                 ],
                             },
-                            {
-                                "members": ["user:test@runpanther.com"],
-                                "role": "roles/owner",
-                            },
-                            {
-                                "members": ["user:user-two@gmail.com"],
-                                "role": "roles/pubsub.admin",
-                            },
+                            {"members": ["user:test@runpanther.com"], "role": "roles/owner"},
+                            {"members": ["user:user-two@gmail.com"], "role": "roles/pubsub.admin"},
                             {
                                 "members": [
                                     "serviceAccount:pubsub-reader@western-verve-123456.iam.gserviceaccount.com"
@@ -253,10 +224,7 @@ gcpiam_corporate_email_tests: List[RuleTest] = [
                                 "role": "roles/resourcemanager.organizationAdmin",
                                 "members": ["user:test@runpanther.com"],
                             },
-                            {
-                                "members": ["user:username@gmail.com"],
-                                "role": "roles/viewer",
-                            },
+                            {"members": ["user:username@gmail.com"], "role": "roles/viewer"},
                         ],
                         "etag": "BwWk8zJlg2o=",
                     },
@@ -281,14 +249,8 @@ gcpiam_corporate_email_tests: List[RuleTest] = [
                             ],
                             "role": "roles/editor",
                         },
-                        {
-                            "members": ["user:test@runpanther.com"],
-                            "role": "roles/owner",
-                        },
-                        {
-                            "role": "roles/pubsub.admin",
-                            "members": ["user:user-two@gmail.com"],
-                        },
+                        {"members": ["user:test@runpanther.com"], "role": "roles/owner"},
+                        {"role": "roles/pubsub.admin", "members": ["user:user-two@gmail.com"]},
                         {
                             "role": "roles/pubsub.subscriber",
                             "members": [
@@ -305,19 +267,13 @@ gcpiam_corporate_email_tests: List[RuleTest] = [
                             "members": ["user:test@runpanther.com"],
                             "role": "roles/resourcemanager.organizationAdmin",
                         },
-                        {
-                            "members": ["user:username@gmail.com"],
-                            "role": "roles/viewer",
-                        },
+                        {"members": ["user:username@gmail.com"], "role": "roles/viewer"},
                     ],
                     "@type": "type.googleapis.com/google.iam.v1.Policy",
                 },
             },
             "insertId": "mrbji0dal80",
-            "resource": {
-                "type": "project",
-                "labels": {"project_id": "western-verve-123456"},
-            },
+            "resource": {"type": "project", "labels": {"project_id": "western-verve-123456"}},
             "timestamp": "2020-05-15T03:51:35.019Z",
             "severity": "NOTICE",
             "logName": "projects/western-verve-123456/logs/cloudaudit.googleapis.com%2Factivity",

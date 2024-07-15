@@ -1,9 +1,7 @@
-from typing import List
-
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import msft_graph_alert_context
 
-microsoft_graph_passthrough_tests: List[RuleTest] = [
+microsoft_graph_passthrough_tests: list[RuleTest] = [
     RuleTest(
         name="Anonymous Login Event",
         expected_result=True,

@@ -1,11 +1,10 @@
 from collections.abc import Mapping
-from typing import List
 
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import aws_rule_context, deep_get
 from pypanther.helpers.panther_default import aws_cloudtrail_success
 
-aws_cloud_trail_snapshot_made_public_tests: List[RuleTest] = [
+aws_cloud_trail_snapshot_made_public_tests: list[RuleTest] = [
     RuleTest(
         name="Snapshot Made Publicly Accessible",
         expected_result=True,
@@ -152,12 +151,7 @@ class AWSCloudTrailSnapshotMadePublic(Rule):
     default_description = "An AWS storage snapshot was made public."
     default_runbook = "Adjust the snapshot configuration so that it is no longer public."
     default_reference = "https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-modifying-snapshot-permissions.html"
-    summary_attributes = [
-        "userAgent",
-        "sourceIpAddress",
-        "recipientAccountId",
-        "p_any_aws_arns",
-    ]
+    summary_attributes = ["userAgent", "sourceIpAddress", "recipientAccountId", "p_any_aws_arns"]
     tests = aws_cloud_trail_snapshot_made_public_tests
 
     def rule(self, event):

@@ -1,9 +1,7 @@
-from typing import List
-
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import aws_rule_context, deep_get
 
-aws_unused_region_tests: List[RuleTest] = [
+aws_unused_region_tests: list[RuleTest] = [
     RuleTest(
         name="Authorized region",
         expected_result=False,
@@ -156,11 +154,7 @@ class AWSUnusedRegion(Rule):
     display_name = "Unused AWS Region"
     enabled = False
     log_types = [LogType.AWS_CloudTrail]
-    tags = [
-        "AWS",
-        "Defense Evasion:Unused/Unsupported Cloud Regions",
-        "Configuration Required",
-    ]
+    tags = ["AWS", "Defense Evasion:Unused/Unsupported Cloud Regions", "Configuration Required"]
     reports = {"MITRE ATT&CK": ["TA0005:T1535"]}
     default_severity = Severity.high
     default_description = "CloudTrail logged non-read activity from a verboten AWS region."

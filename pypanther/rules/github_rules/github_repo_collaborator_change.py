@@ -1,8 +1,6 @@
-from typing import List
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 
-from pypanther import LogType, Rule, RuleTest, Severity
-
-github_repo_collaborator_change_tests: List[RuleTest] = [
+github_repo_collaborator_change_tests: list[RuleTest] = [
     RuleTest(
         name="GitHub - Collaborator Added",
         expected_result=True,

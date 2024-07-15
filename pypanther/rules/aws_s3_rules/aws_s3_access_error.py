@@ -1,9 +1,7 @@
-from typing import List
-
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import aws_rule_context, pattern_match
 
-awss3_server_access_error_tests: List[RuleTest] = [
+awss3_server_access_error_tests: list[RuleTest] = [
     RuleTest(
         name="Amazon Access Error",
         expected_result=False,
@@ -89,14 +87,7 @@ class AWSS3ServerAccessError(Rule):
     default_description = "Checks for errors during S3 Object access. This could be due to insufficient access permissions, non-existent buckets, or other reasons.\n"
     default_runbook = "Investigate the specific error and determine if it is an ongoing issue that needs to be addressed or a one off or transient error that can be ignored.\n"
     default_reference = "https://docs.aws.amazon.com/AmazonS3/latest/dev/ErrorCode.html"
-    summary_attributes = [
-        "bucket",
-        "key",
-        "requester",
-        "remoteip",
-        "operation",
-        "errorCode",
-    ]
+    summary_attributes = ["bucket", "key", "requester", "remoteip", "operation", "errorCode"]
     tests = awss3_server_access_error_tests
     # https://docs.aws.amazon.com/AmazonS3/latest/API/ErrorResponses.html
     # Forbidden

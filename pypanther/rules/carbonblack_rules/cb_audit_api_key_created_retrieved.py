@@ -1,8 +1,6 @@
-from typing import List
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 
-from pypanther import LogType, Rule, RuleTest, Severity
-
-carbon_black_audit_api_key_created_retrieved_tests: List[RuleTest] = [
+carbon_black_audit_api_key_created_retrieved_tests: list[RuleTest] = [
     RuleTest(
         name="API Key Retrieved",
         expected_result=True,

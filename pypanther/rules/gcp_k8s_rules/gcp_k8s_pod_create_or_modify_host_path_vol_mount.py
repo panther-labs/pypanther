@@ -1,10 +1,8 @@
-from typing import List
-
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.gcp_base_helpers import gcp_alert_context
 from pypanther.helpers.panther_base_helpers import deep_get, deep_walk
 
-gcpk8_s_pot_create_or_modify_host_path_volume_mount_tests: List[RuleTest] = [
+gcpk8_s_pot_create_or_modify_host_path_volume_mount_tests: list[RuleTest] = [
     RuleTest(
         name="Pod With Suspicious Volume Mount Created",
         expected_result=True,
@@ -118,10 +116,7 @@ gcpk8_s_pot_create_or_modify_host_path_volume_mount_tests: List[RuleTest] = [
                         ],
                         "volumes": [
                             {
-                                "hostPath": {
-                                    "path": "/data",
-                                    "type": "DirectoryOrCreate",
-                                },
+                                "hostPath": {"path": "/data", "type": "DirectoryOrCreate"},
                                 "name": "test-volume",
                             }
                         ],
@@ -144,10 +139,7 @@ gcpk8_s_pot_create_or_modify_host_path_volume_mount_tests: List[RuleTest] = [
                         ],
                         "volumes": [
                             {
-                                "hostPath": {
-                                    "path": "/data",
-                                    "type": "DirectoryOrCreate",
-                                },
+                                "hostPath": {"path": "/data", "type": "DirectoryOrCreate"},
                                 "name": "test-volume",
                             }
                         ],

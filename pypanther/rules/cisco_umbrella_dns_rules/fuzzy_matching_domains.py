@@ -1,7 +1,6 @@
 from difflib import SequenceMatcher
-from typing import List
 
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 
 
 class CiscoUmbrellaDNSFuzzyMatching(Rule):

@@ -1,9 +1,7 @@
-from typing import List
-
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 
-g_suite_workspace_trusted_domains_allowlist_tests: List[RuleTest] = [
+g_suite_workspace_trusted_domains_allowlist_tests: list[RuleTest] = [
     RuleTest(
         name="Workspace Admin Remove Trusted Domain",
         expected_result=True,
@@ -51,11 +49,7 @@ g_suite_workspace_trusted_domains_allowlist_tests: List[RuleTest] = [
         name="Admin Set Default Calendar SHARING_OUTSIDE_DOMAIN Setting to MANAGE_ACCESS",
         expected_result=False,
         log={
-            "actor": {
-                "callerType": "USER",
-                "email": "example@example.io",
-                "profileId": "12345",
-            },
+            "actor": {"callerType": "USER", "email": "example@example.io", "profileId": "12345"},
             "id": {
                 "applicationName": "admin",
                 "customerId": "D12345",

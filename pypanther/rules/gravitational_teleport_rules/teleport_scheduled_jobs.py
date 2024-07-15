@@ -1,8 +1,6 @@
-from typing import List
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 
-from pypanther import LogType, Rule, RuleTest, Severity
-
-teleport_scheduled_jobs_tests: List[RuleTest] = [
+teleport_scheduled_jobs_tests: list[RuleTest] = [
     RuleTest(
         name="Crontab no args",
         expected_result=True,

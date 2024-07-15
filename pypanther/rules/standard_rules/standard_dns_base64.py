@@ -1,9 +1,7 @@
-from typing import List
-
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import defang_ioc, is_base64
 
-standard_dns_base64_tests: List[RuleTest] = [
+standard_dns_base64_tests: list[RuleTest] = [
     RuleTest(
         name="AWS VPC DNS (Positive)",
         expected_result=True,
@@ -115,10 +113,7 @@ standard_dns_base64_tests: List[RuleTest] = [
                 "877761efa8db44d792ddc2redacted",
                 "cfe698690964434083fecdredacted",
             ],
-            "p_any_trace_ids": [
-                "877761efa8db44d792ddc2redacted",
-                "cfe698690964434083fecdredacted",
-            ],
+            "p_any_trace_ids": ["877761efa8db44d792ddc2redacted", "cfe698690964434083fecdredacted"],
             "p_event_time": "2023-04-23 18:50:03.172",
             "p_log_type": "Crowdstrike.FDREvent",
             "p_parse_time": "2023-04-23 19:00:53.11",
@@ -177,10 +172,7 @@ standard_dns_base64_tests: List[RuleTest] = [
                 "877761efa8db44d792ddc2redacted",
                 "cfe698690964434083fecdredacted",
             ],
-            "p_any_trace_ids": [
-                "877761efa8db44d792ddc2redacted",
-                "cfe698690964434083fecdredacted",
-            ],
+            "p_any_trace_ids": ["877761efa8db44d792ddc2redacted", "cfe698690964434083fecdredacted"],
             "p_event_time": "2023-04-23 18:50:03.172",
             "p_log_type": "Crowdstrike.FDREvent",
             "p_parse_time": "2023-04-23 19:00:53.11",
@@ -227,11 +219,7 @@ class StandardDNSBase64(Rule):
     enabled = False
     default_reference = "https://zofixer.com/what-is-base64-disclosure-vulnerability/"
     default_severity = Severity.medium
-    log_types = [
-        LogType.Crowdstrike_FDREvent,
-        LogType.AWS_VPCDns,
-        LogType.CiscoUmbrella_DNS,
-    ]
+    log_types = [LogType.Crowdstrike_FDREvent, LogType.AWS_VPCDns, LogType.CiscoUmbrella_DNS]
     tests = standard_dns_base64_tests
     DECODED = ""
 

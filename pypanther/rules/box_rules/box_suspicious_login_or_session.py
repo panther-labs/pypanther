@@ -1,9 +1,7 @@
-from typing import List
-
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import box_parse_additional_details, deep_get
 
-box_shield_suspicious_alert_tests: List[RuleTest] = [
+box_shield_suspicious_alert_tests: list[RuleTest] = [
     RuleTest(
         name="Regular Event",
         expected_result=False,

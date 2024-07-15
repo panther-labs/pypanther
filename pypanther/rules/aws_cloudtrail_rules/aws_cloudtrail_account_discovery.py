@@ -1,9 +1,7 @@
-from typing import List
-
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 
-aws_cloud_trail_account_discovery_tests: List[RuleTest] = [
+aws_cloud_trail_account_discovery_tests: list[RuleTest] = [
     RuleTest(
         name="DescribeAccount",
         expected_result=True,

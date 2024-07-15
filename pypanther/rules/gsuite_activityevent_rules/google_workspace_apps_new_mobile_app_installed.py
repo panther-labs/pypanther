@@ -1,17 +1,11 @@
-from typing import List
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 
-from pypanther import LogType, Rule, RuleTest, Severity
-
-google_workspace_apps_new_mobile_app_installed_tests: List[RuleTest] = [
+google_workspace_apps_new_mobile_app_installed_tests: list[RuleTest] = [
     RuleTest(
         name="Android Calculator",
         expected_result=True,
         log={
-            "actor": {
-                "callerType": "USER",
-                "email": "example@example.io",
-                "profileId": "12345",
-            },
+            "actor": {"callerType": "USER", "email": "example@example.io", "profileId": "12345"},
             "id": {
                 "applicationName": "admin",
                 "customerId": "D12345",
@@ -34,11 +28,7 @@ google_workspace_apps_new_mobile_app_installed_tests: List[RuleTest] = [
         name="Enable User Enrollement",
         expected_result=False,
         log={
-            "actor": {
-                "callerType": "USER",
-                "email": "example@example.io",
-                "profileId": "12345",
-            },
+            "actor": {"callerType": "USER", "email": "example@example.io", "profileId": "12345"},
             "id": {
                 "applicationName": "admin",
                 "customerId": "D12345",

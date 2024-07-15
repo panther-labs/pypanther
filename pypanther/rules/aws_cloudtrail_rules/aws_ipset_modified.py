@@ -1,9 +1,7 @@
-from typing import List
-
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import aws_rule_context
 
-awsip_set_modified_tests: List[RuleTest] = [
+awsip_set_modified_tests: list[RuleTest] = [
     RuleTest(
         name="CreateIPSet Event",
         expected_result=True,

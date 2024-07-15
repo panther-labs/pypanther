@@ -1,8 +1,6 @@
-from typing import List
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 
-from pypanther import LogType, Rule, RuleTest, Severity
-
-netskope_admin_logged_out_login_failures_tests: List[RuleTest] = [
+netskope_admin_logged_out_login_failures_tests: list[RuleTest] = [
     RuleTest(
         name="True positive",
         expected_result=True,

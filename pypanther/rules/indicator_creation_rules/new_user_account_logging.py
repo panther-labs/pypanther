@@ -1,5 +1,4 @@
 from datetime import timedelta
-from typing import List
 
 from panther_detection_helpers.caching import put_string_set
 
@@ -7,7 +6,7 @@ import pypanther.helpers.panther_event_type_helpers as event_type
 from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_oss_helpers import resolve_timestamp_string
 
-standard_new_user_account_created_tests: List[RuleTest] = [
+standard_new_user_account_created_tests: list[RuleTest] = [
     RuleTest(
         name="User Creation Event - OneLogin",
         expected_result=True,
@@ -81,17 +80,8 @@ standard_new_user_account_created_tests: List[RuleTest] = [
 class StandardNewUserAccountCreated(Rule):
     id_ = "Standard.NewUserAccountCreated-prototype"
     display_name = "New User Account Created"
-    log_types = [
-        LogType.OneLogin_Events,
-        LogType.AWS_CloudTrail,
-        LogType.Zoom_Operation,
-    ]
-    tags = [
-        "DataModel",
-        "Indicator Collection",
-        "OneLogin",
-        "Persistence:Create Account",
-    ]
+    log_types = [LogType.OneLogin_Events, LogType.AWS_CloudTrail, LogType.Zoom_Operation]
+    tags = ["DataModel", "Indicator Collection", "OneLogin", "Persistence:Create Account"]
     default_severity = Severity.info
     reports = {"MITRE ATT&CK": ["TA0003:T1136"]}
     default_description = "A new account was created"
@@ -112,9 +102,7 @@ class StandardNewUserAccountCreated(Rule):
         expiry_time = event_time + self.TTL
         if new_user:
             put_string_set(
-                new_user + "-" + str(new_account),
-                [user_event_id],
-                expiry_time.strftime("%s"),
+                new_user + "-" + str(new_account), [user_event_id], expiry_time.strftime("%s")
             )
         return True
 

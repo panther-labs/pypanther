@@ -1,8 +1,6 @@
-from typing import List
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 
-from pypanther import LogType, Rule, RuleTest, Severity
-
-decoy_s3_accessed_tests: List[RuleTest] = [
+decoy_s3_accessed_tests: list[RuleTest] = [
     RuleTest(
         name="S3-Decoy-Accessed",
         expected_result=True,
@@ -23,10 +21,7 @@ decoy_s3_accessed_tests: List[RuleTest] = [
                     "ServiceName": "s3.amazonaws.com",
                 },
                 "DnsRequestAction": {},
-                "NetworkConnectionAction": {
-                    "LocalPortDetails": {},
-                    "RemotePortDetails": {},
-                },
+                "NetworkConnectionAction": {"LocalPortDetails": {}, "RemotePortDetails": {}},
                 "PortProbeAction": {},
             },
             "AwsAccountId": "123456789012",
@@ -151,10 +146,7 @@ decoy_s3_accessed_tests: List[RuleTest] = [
                     "ServiceName": "s3.amazonaws.com",
                 },
                 "DnsRequestAction": {},
-                "NetworkConnectionAction": {
-                    "LocalPortDetails": {},
-                    "RemotePortDetails": {},
-                },
+                "NetworkConnectionAction": {"LocalPortDetails": {}, "RemotePortDetails": {}},
                 "PortProbeAction": {},
             },
             "AwsAccountId": "123456789012",
@@ -270,7 +262,7 @@ class DecoyS3Accessed(Rule):
     default_severity = Severity.high
     default_description = "Actor accessed S3 Manager decoy secret"
     default_reference = "https://aws.amazon.com/blogs/security/how-to-detect-suspicious-activity-in-your-aws-account-by-using-private-decoy-resources/"
-    InlineFilters = [{"All": []}]
+    inline_filters = [{"All": []}]
     tests = decoy_s3_accessed_tests
 
     def rule(self, event):

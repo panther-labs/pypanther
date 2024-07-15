@@ -1,9 +1,7 @@
-from typing import List
-
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 
-osquery_unsupported_mac_os_tests: List[RuleTest] = [
+osquery_unsupported_mac_os_tests: list[RuleTest] = [
     RuleTest(
         name="MacOS out of date",
         expected_result=True,

@@ -1,9 +1,7 @@
-from typing import List
-
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get, deep_walk, okta_alert_context
 
-okta_new_behavior_accessing_admin_console_tests: List[RuleTest] = [
+okta_new_behavior_accessing_admin_console_tests: list[RuleTest] = [
     RuleTest(
         name="New Behavior Accessing Admin Console (behavior)",
         expected_result=True,
@@ -14,10 +12,7 @@ okta_new_behavior_accessing_admin_console_tests: List[RuleTest] = [
                 "id": "00abc123",
                 "type": "User",
             },
-            "authenticationcontext": {
-                "authenticationStep": 0,
-                "externalSessionId": "100-abc-9999",
-            },
+            "authenticationcontext": {"authenticationStep": 0, "externalSessionId": "100-abc-9999"},
             "client": {
                 "device": "Computer",
                 "geographicalContext": {
@@ -110,10 +105,7 @@ okta_new_behavior_accessing_admin_console_tests: List[RuleTest] = [
                 "id": "00abc123",
                 "type": "User",
             },
-            "authenticationcontext": {
-                "authenticationStep": 0,
-                "externalSessionId": "100-abc-9999",
-            },
+            "authenticationcontext": {"authenticationStep": 0, "externalSessionId": "100-abc-9999"},
             "client": {
                 "device": "Computer",
                 "geographicalContext": {
@@ -209,10 +201,7 @@ okta_new_behavior_accessing_admin_console_tests: List[RuleTest] = [
                 "id": "00abc123",
                 "type": "User",
             },
-            "authenticationcontext": {
-                "authenticationStep": 0,
-                "externalSessionId": "100-abc-9999",
-            },
+            "authenticationcontext": {"authenticationStep": 0, "externalSessionId": "100-abc-9999"},
             "client": {
                 "device": "Computer",
                 "geographicalContext": {
@@ -321,21 +310,11 @@ class OktaNewBehaviorAccessingAdminConsole(Rule):
             return "New Device=POSITIVE" in behaviors and "New IP=POSITIVE" in behaviors
         return (
             deep_get(
-                event,
-                "debugContext",
-                "debugData",
-                "logOnlySecurityData",
-                "behaviors",
-                "New Device",
+                event, "debugContext", "debugData", "logOnlySecurityData", "behaviors", "New Device"
             )
             == "POSITIVE"
             and deep_get(
-                event,
-                "debugContext",
-                "debugData",
-                "logOnlySecurityData",
-                "behaviors",
-                "New IP",
+                event, "debugContext", "debugData", "logOnlySecurityData", "behaviors", "New IP"
             )
             == "POSITIVE"
         )

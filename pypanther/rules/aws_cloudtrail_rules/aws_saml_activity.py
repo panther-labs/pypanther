@@ -1,9 +1,7 @@
-from typing import List
-
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import aws_rule_context, deep_get
 
-aws_suspicious_saml_activity_tests: List[RuleTest] = [
+aws_suspicious_saml_activity_tests: list[RuleTest] = [
     RuleTest(
         name="CreateSAMLProvider",
         expected_result=True,

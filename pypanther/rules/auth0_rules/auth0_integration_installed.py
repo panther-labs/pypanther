@@ -1,10 +1,8 @@
-from typing import List
-
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_auth0_helpers import auth0_alert_context, is_auth0_config_event
 from pypanther.helpers.panther_base_helpers import deep_get
 
-auth0_integration_installed_tests: List[RuleTest] = [
+auth0_integration_installed_tests: list[RuleTest] = [
     RuleTest(
         name="Auth0 Integration Installed",
         expected_result=True,
@@ -267,12 +265,7 @@ class Auth0IntegrationInstalled(Rule):
             event, "data", "description", default="<NO_DATA_DESCRIPTION_FOUND>"
         )
         request_path = deep_get(
-            event,
-            "data",
-            "details",
-            "request",
-            "path",
-            default="<NO_REQUEST_PATH_FOUND>",
+            event, "data", "details", "request", "path", default="<NO_REQUEST_PATH_FOUND>"
         )
         return all(
             [
@@ -284,14 +277,7 @@ class Auth0IntegrationInstalled(Rule):
 
     def title(self, event):
         user = deep_get(
-            event,
-            "data",
-            "details",
-            "request",
-            "auth",
-            "user",
-            "email",
-            default="<NO_USER_FOUND>",
+            event, "data", "details", "request", "auth", "user", "email", default="<NO_USER_FOUND>"
         )
         p_source_label = deep_get(event, "p_source_label", default="<NO_P_SOURCE_LABEL_FOUND>")
         return f"Auth0 User [{user}] installed an integration from the actions library for your organization's tenant [{p_source_label}]."

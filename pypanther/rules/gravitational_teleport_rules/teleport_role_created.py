@@ -1,8 +1,6 @@
-from typing import List
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 
-from pypanther import LogType, Rule, RuleTest, Severity
-
-teleport_role_created_tests: List[RuleTest] = [
+teleport_role_created_tests: list[RuleTest] = [
     RuleTest(
         name="A role was created",
         expected_result=True,

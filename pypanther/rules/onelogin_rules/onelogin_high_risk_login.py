@@ -1,11 +1,10 @@
 from datetime import timedelta
-from typing import List
 
 from panther_detection_helpers.caching import get_counter, increment_counter, reset_counter
 
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 
-one_login_high_risk_login_tests: List[RuleTest] = [
+one_login_high_risk_login_tests: list[RuleTest] = [
     RuleTest(
         name="Normal Login Event",
         expected_result=False,
@@ -37,10 +36,7 @@ class OneLoginHighRiskLogin(Rule):
 
     def rule(self, event):
         # Filter events down to successful and failed login events
-        if not event.get("user_id") or str(event.get("event_type_id")) not in [
-            "5",
-            "6",
-        ]:
+        if not event.get("user_id") or str(event.get("event_type_id")) not in ["5", "6"]:
             return False
         event_key = self.get_key(event)
         # check risk associated with this event

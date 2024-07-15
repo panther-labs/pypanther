@@ -1,9 +1,7 @@
-from typing import List
-
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import crowdstrike_detection_alert_context, deep_get
 
-crowdstrike_systemlog_tampering_tests: List[RuleTest] = [
+crowdstrike_systemlog_tampering_tests: list[RuleTest] = [
     RuleTest(
         name="Clear Log Event",
         expected_result=True,

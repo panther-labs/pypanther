@@ -1,9 +1,7 @@
-from typing import List
-
 import pypanther.helpers.panther_event_type_helpers as event_type
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 
-standard_mfa_disabled_tests: List[RuleTest] = [
+standard_mfa_disabled_tests: list[RuleTest] = [
     RuleTest(
         name="GitHub - Org MFA Disabled",
         expected_result=True,
@@ -106,10 +104,7 @@ standard_mfa_disabled_tests: List[RuleTest] = [
                 },
                 "zone": "null",
             },
-            "outcome": {
-                "reason": "User reset FIDO_WEBAUTHN factor",
-                "result": "SUCCESS",
-            },
+            "outcome": {"reason": "User reset FIDO_WEBAUTHN factor", "result": "SUCCESS"},
             "target": [
                 {
                     "alternateId": "homer@springfield.gov",
@@ -118,10 +113,7 @@ standard_mfa_disabled_tests: List[RuleTest] = [
                     "type": "User",
                 }
             ],
-            "authenticationcontext": {
-                "authenticationStep": 0,
-                "externalSessionId": "1111111",
-            },
+            "authenticationcontext": {"authenticationStep": 0, "externalSessionId": "1111111"},
             "p_log_type": "Okta.SystemLog",
         },
     ),
@@ -158,10 +150,7 @@ standard_mfa_disabled_tests: List[RuleTest] = [
                     "type": "User",
                 }
             ],
-            "authenticationcontext": {
-                "authenticationStep": 0,
-                "externalSessionId": "1111111",
-            },
+            "authenticationcontext": {"authenticationStep": 0, "externalSessionId": "1111111"},
             "p_log_type": "Okta.SystemLog",
         },
     ),
@@ -189,10 +178,7 @@ standard_mfa_disabled_tests: List[RuleTest] = [
                 },
                 "zone": "null",
             },
-            "outcome": {
-                "reason": "User reset FIDO_WEBAUTHN factor",
-                "result": "SUCCESS",
-            },
+            "outcome": {"reason": "User reset FIDO_WEBAUTHN factor", "result": "SUCCESS"},
             "target": [
                 {
                     "alternateId": "homer@springfield.gov",
@@ -201,10 +187,7 @@ standard_mfa_disabled_tests: List[RuleTest] = [
                     "type": "User",
                 }
             ],
-            "authenticationcontext": {
-                "authenticationStep": 0,
-                "externalSessionId": "1111111",
-            },
+            "authenticationcontext": {"authenticationStep": 0, "externalSessionId": "1111111"},
             "p_log_type": "Okta.SystemLog",
         },
     ),

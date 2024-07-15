@@ -1,10 +1,8 @@
-from typing import List
-
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 from pypanther.helpers.panther_tines_helpers import tines_alert_context
 
-tines_sso_settings_tests: List[RuleTest] = [
+tines_sso_settings_tests: list[RuleTest] = [
     RuleTest(
         name="Tines SsoConfigurationSamlSet",
         expected_result=True,
@@ -54,11 +52,7 @@ class TinesSSOSettings(Rule):
     default_reference = "https://www.tines.com/docs/admin/single-sign-on"
     summary_attributes = ["user_id", "operation_name", "tenant_id", "request_ip"]
     tests = tines_sso_settings_tests
-    ACTIONS = [
-        "SsoConfigurationDefaultSet",
-        "SsoConfigurationOidcSet",
-        "SsoConfigurationSamlSet",
-    ]
+    ACTIONS = ["SsoConfigurationDefaultSet", "SsoConfigurationOidcSet", "SsoConfigurationSamlSet"]
 
     def rule(self, event):
         action = deep_get(event, "operation_name", default="<NO_OPERATION_NAME>")

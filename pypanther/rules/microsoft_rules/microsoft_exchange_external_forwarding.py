@@ -1,9 +1,7 @@
-from typing import List
-
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_config import config
 
-microsoft365_exchange_external_forwarding_tests: List[RuleTest] = [
+microsoft365_exchange_external_forwarding_tests: list[RuleTest] = [
     RuleTest(
         name="Forwarding Enabled",
         expected_result=True,
@@ -164,10 +162,7 @@ microsoft365_exchange_external_forwarding_tests: List[RuleTest] = [
                     "Name": "Identity",
                     "Value": "ABC1.prod.outlook.com/Microsoft Exchange Hosted Organizations/simpsons.onmicrosoft.com/homer.simpson",
                 },
-                {
-                    "Name": "ForwardingSmtpAddress",
-                    "Value": "smtp:postmaster@example.com",
-                },
+                {"Name": "ForwardingSmtpAddress", "Value": "smtp:postmaster@example.com"},
                 {"Name": "DeliverToMailboxAndForward", "Value": "False"},
             ],
             "recordtype": 1,

@@ -1,9 +1,7 @@
-from typing import List
-
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_mongodb_helpers import mongodb_alert_context
 
-mongo_db2_fa_disabled_tests: List[RuleTest] = [
+mongo_db2_fa_disabled_tests: list[RuleTest] = [
     RuleTest(
         name="2FA ebabled",
         expected_result=False,

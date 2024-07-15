@@ -1,9 +1,7 @@
-from typing import List
-
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import aws_rule_context
 
-aws_security_hub_finding_evasion_tests: List[RuleTest] = [
+aws_security_hub_finding_evasion_tests: list[RuleTest] = [
     RuleTest(
         name="CreateInsight",
         expected_result=False,
@@ -118,12 +116,7 @@ class AWSSecurityHubFindingEvasion(Rule):
     log_types = [LogType.AWS_CloudTrail]
     id_ = "AWS.SecurityHub.Finding.Evasion-prototype"
     tests = aws_security_hub_finding_evasion_tests
-    EVASION_OPERATIONS = [
-        "BatchUpdateFindings",
-        "DeleteInsight",
-        "UpdateFindings",
-        "UpdateInsight",
-    ]
+    EVASION_OPERATIONS = ["BatchUpdateFindings", "DeleteInsight", "UpdateFindings", "UpdateInsight"]
 
     def rule(self, event):
         if (

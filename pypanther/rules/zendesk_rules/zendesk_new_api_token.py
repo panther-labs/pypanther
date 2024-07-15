@@ -1,8 +1,6 @@
-from typing import List
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 
-from pypanther import LogType, Rule, RuleTest, Severity
-
-zendesk_new_api_token_tests: List[RuleTest] = [
+zendesk_new_api_token_tests: list[RuleTest] = [
     RuleTest(
         name="Zendesk - API Token Updated",
         expected_result=False,

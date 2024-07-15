@@ -14,7 +14,7 @@ import black.report
 from ast_comments import Comment, parse, unparse
 from ruamel.yaml import YAML
 
-from pypanther import DataModel, LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import DataModel, DataModelMapping, LogType, Rule, RuleMock, RuleTest, Severity
 
 ID_POSTFIX = "-prototype"
 
@@ -23,10 +23,39 @@ def perror(*args, **kwargs):
     print(*args, file=sys.stderr, **kwargs)
 
 
-def do(filepath: Path, helpers: Set[str]) -> Optional[str]:
+def to_snake_case(name: str) -> str:
+    res = [name[0].lower()]
+    for c in name[1:]:
+        if c in "ABCDEFGHIJKLMNOPQRSTUVWXYZ":
+            res.append("_")
+            res.append(c.lower())
+        else:
+            res.append(c)
+
+    return "".join(res)
+
+
+def convert_rule_attribute_name(name: str) -> str:
+    match name:
+        case "RuleID":
+            return "id_"
+        case "Severity":
+            return "default_severity"
+        case "OutputIds":
+            return "default_destinations"
+        case "Runbook":
+            return "default_runbook"
+        case "Reference":
+            return "default_reference"
+        case "Description":
+            return "default_description"
+        case _:
+            return to_snake_case(name)
+
+
+def convert_rule(filepath: Path, helpers: Set[str]) -> Optional[str]:
     imports = [
-        "from typing import List",
-        f"from pypanther import {Rule.__name__}, {RuleTest.__name__}, {Severity.__name__}, PantherLogType",
+        f"from pypanther import {Rule.__name__}, {RuleTest.__name__}, {Severity.__name__}, {LogType.__name__}, {RuleMock.__name__}",
     ]
 
     p = Path(filepath)
@@ -45,7 +74,7 @@ def do(filepath: Path, helpers: Set[str]) -> Optional[str]:
     for k, v in loaded.items():
         if k in {"AnalysisType", "Filename", "Tests"}:
             continue
-        if hasattr(Rule, k) and v == getattr(Rule, k):
+        if hasattr(Rule, to_snake_case(k)) and v == getattr(Rule, to_snake_case(k)):
             continue
         if k == "Detection":
             raise NotImplementedError("Detection not implemented")
@@ -65,7 +94,7 @@ def do(filepath: Path, helpers: Set[str]) -> Optional[str]:
 
         value: ast.AST = ast.Constant(value=v)
         if k == "Severity":
-            value = ast.Name(id=f"{Severity.__name__}.{v}", ctx=ast.Load())
+            value = ast.Name(id=f"{Severity.__name__}.{v.lower()}", ctx=ast.Load())
         if k == "LogTypes":
             log_type_elts = []
             for x in v:
@@ -82,7 +111,7 @@ def do(filepath: Path, helpers: Set[str]) -> Optional[str]:
 
         assignments.append(
             ast.Assign(
-                targets=[ast.Name(id=k, ctx=ast.Store())],
+                targets=[ast.Name(id=convert_rule_attribute_name(k), ctx=ast.Store())],
                 value=value,
                 lineno=0,
             )
@@ -92,9 +121,9 @@ def do(filepath: Path, helpers: Set[str]) -> Optional[str]:
     elts = []
     for test in tests:
         keywords = [
-            ast.keyword(arg="Name", value=ast.Constant(value=test["Name"])),
-            ast.keyword(arg="ExpectedResult", value=ast.Constant(value=test["ExpectedResult"])),
-            ast.keyword(arg="Log", value=ast.Constant(value=test["Log"])),
+            ast.keyword(arg="name", value=ast.Constant(value=test["Name"])),
+            ast.keyword(arg="expected_result", value=ast.Constant(value=test["ExpectedResult"])),
+            ast.keyword(arg="log", value=ast.Constant(value=test["Log"])),
         ]
 
         if "Mocks" in test:
@@ -103,8 +132,6 @@ def do(filepath: Path, helpers: Set[str]) -> Optional[str]:
                 # we removed the filter_include_event function
                 continue
 
-            if "RuleMock" not in imports[1]:
-                imports[1] += ", RuleMock"
             mocks = []
             for mock in test["Mocks"]:
                 if mock["objectName"] == "filter_include_event":
@@ -113,8 +140,9 @@ def do(filepath: Path, helpers: Set[str]) -> Optional[str]:
 
                 mock_keywords = []
                 for k, v in mock.items():
-                    k = k[0].upper() + k[1:]
-                    mock_keywords.append(ast.keyword(arg=k, value=ast.Constant(value=v)))
+                    mock_keywords.append(
+                        ast.keyword(arg=to_snake_case(k), value=ast.Constant(value=v))
+                    )
 
                 mocks.append(
                     ast.Call(
@@ -126,7 +154,7 @@ def do(filepath: Path, helpers: Set[str]) -> Optional[str]:
 
             keywords.insert(
                 2,
-                ast.keyword(arg="Mocks", value=ast.List(elts=mocks)),
+                ast.keyword(arg="mocks", value=ast.List(elts=mocks)),
             )
 
         elts.append(
@@ -283,7 +311,7 @@ def parse_py(
         tree.body.append(
             ast.AnnAssign(
                 target=ast.Name(id=tests_name, ctx=ast.Store()),
-                annotation=ast.Name(id="List[PantherRuleTest]", ctx=ast.Load()),
+                annotation=ast.Name(id="list[RuleTest]", ctx=ast.Load()),
                 value=ast.List(elts=tests),
                 simple=1,
             )
@@ -291,7 +319,7 @@ def parse_py(
 
         assignments.append(
             ast.Assign(
-                targets=[ast.Name(id="Tests", ctx=ast.Store())],
+                targets=[ast.Name(id="tests", ctx=ast.Store())],
                 value=ast.Name(id=tests_name, ctx=ast.Load()),
                 lineno=0,
             )
@@ -492,9 +520,7 @@ def convert_data_models(panther_analysis: Path, helpers: Set[str]):
     if Path("pypanther/data_models").exists():
         shutil.rmtree(Path("pypanther/data_models"))
 
-    imports = """from typing import List
-from pypanther.base import PantherDataModel, PantherDataModelMapping
-from pypanther.log_types import PantherLogType"""
+    imports = f"from pypanther.base import {DataModel.__name__}, {DataModelMapping.__name__}, {LogType.__name__}"
 
     paths = []
     for p in (data_models_path).rglob("*.y*ml"):
@@ -512,10 +538,10 @@ from pypanther.log_types import PantherLogType"""
                 value: ast.AST = ast.Constant(value=v)
                 if k == "Method":
                     value = ast.Name(id=v, ctx=ast.Load())
-                keywords.append(ast.keyword(arg=k, value=value))
+                keywords.append(ast.keyword(arg=to_snake_case(k), value=value))
             mappings.append(
                 ast.Call(
-                    func=ast.Name(id="PantherDataModelMapping", ctx=ast.Load()),
+                    func=ast.Name(id="DataModelMapping", ctx=ast.Load()),
                     args=[],
                     keywords=keywords,
                 )
@@ -529,27 +555,27 @@ from pypanther.log_types import PantherLogType"""
             decorator_list=[],
             body=[
                 ast.AnnAssign(
-                    target=ast.Name(id="DataModelID", ctx=ast.Store()),
+                    target=ast.Name(id="id_", ctx=ast.Store()),
                     annotation=ast.Name(id="str", ctx=ast.Load()),
                     value=ast.Constant(value=dm["DataModelID"]),
                     simple=1,
                 ),
                 ast.AnnAssign(
-                    target=ast.Name(id="DisplayName", ctx=ast.Store()),
+                    target=ast.Name(id="display_name", ctx=ast.Store()),
                     annotation=ast.Name(id="str", ctx=ast.Load()),
                     value=ast.Constant(value=dm.get("DisplayName", None)),
                     simple=1,
                 ),
                 ast.AnnAssign(
-                    target=ast.Name(id="Enabled", ctx=ast.Store()),
+                    target=ast.Name(id="enabled", ctx=ast.Store()),
                     annotation=ast.Name(id="bool", ctx=ast.Load()),
                     value=ast.Constant(value=dm["Enabled"]),
                     simple=1,
                 ),
                 ast.AnnAssign(
-                    target=ast.Name(id="LogTypes", ctx=ast.Store()),
+                    target=ast.Name(id="log_types", ctx=ast.Store()),
                     annotation=ast.Subscript(
-                        value=ast.Name(id="List", ctx=ast.Load()),
+                        value=ast.Name(id="list", ctx=ast.Load()),
                         slice=ast.Index(value=ast.Name(id="str", ctx=ast.Load())),
                     ),
                     value=ast.List(
@@ -564,12 +590,10 @@ from pypanther.log_types import PantherLogType"""
                     simple=1,
                 ),
                 ast.AnnAssign(
-                    target=ast.Name(id="Mappings", ctx=ast.Store()),
+                    target=ast.Name(id="mappings", ctx=ast.Store()),
                     annotation=ast.Subscript(
-                        value=ast.Name(id="List", ctx=ast.Load()),
-                        slice=ast.Index(
-                            value=ast.Name(id="PantherDataModelMapping", ctx=ast.Load())
-                        ),
+                        value=ast.Name(id="list", ctx=ast.Load()),
+                        slice=ast.Index(value=ast.Name(id="DataModelMapping", ctx=ast.Load())),
                     ),
                     value=ast.List(elts=mappings, ctx=ast.Load()),
                     simple=1,
@@ -610,7 +634,7 @@ def add_inits(path: Path):
 
 def _convert_rules(p: Path, panther_analysis: Path, helpers: Set[str]):
     try:
-        new_rule = do(p, helpers)
+        new_rule = convert_rule(p, helpers)
     except NotImplementedError as e:
         perror(f"Error processing {p}: {e}")
         return

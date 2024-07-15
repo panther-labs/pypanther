@@ -1,9 +1,7 @@
-from typing import List
-
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import aws_rule_context, deep_get
 
-awsiam_access_key_compromised_tests: List[RuleTest] = [
+awsiam_access_key_compromised_tests: list[RuleTest] = [
     RuleTest(
         name="An AWS Access Key was Uploaded to Github",
         expected_result=True,

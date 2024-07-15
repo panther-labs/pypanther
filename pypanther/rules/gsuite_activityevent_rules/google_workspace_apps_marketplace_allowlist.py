@@ -1,9 +1,7 @@
-from typing import List
-
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 
-google_workspace_apps_marketplace_allowlist_tests: List[RuleTest] = [
+google_workspace_apps_marketplace_allowlist_tests: list[RuleTest] = [
     RuleTest(
         name="parameters json key set to null value",
         expected_result=False,
@@ -30,11 +28,7 @@ google_workspace_apps_marketplace_allowlist_tests: List[RuleTest] = [
         name="Change Email Setting",
         expected_result=True,
         log={
-            "actor": {
-                "callerType": "USER",
-                "email": "example@example.io",
-                "profileId": "12345",
-            },
+            "actor": {"callerType": "USER", "email": "example@example.io", "profileId": "12345"},
             "id": {
                 "applicationName": "admin",
                 "customerId": "D12345",
@@ -57,11 +51,7 @@ google_workspace_apps_marketplace_allowlist_tests: List[RuleTest] = [
         name="Change Email Setting Default",
         expected_result=True,
         log={
-            "actor": {
-                "callerType": "USER",
-                "email": "example@example.io",
-                "profileId": "12345",
-            },
+            "actor": {"callerType": "USER", "email": "example@example.io", "profileId": "12345"},
             "id": {
                 "applicationName": "admin",
                 "customerId": "D1234",
@@ -84,11 +74,7 @@ google_workspace_apps_marketplace_allowlist_tests: List[RuleTest] = [
         name="New Custom Role Created",
         expected_result=False,
         log={
-            "actor": {
-                "callerType": "USER",
-                "email": "example@example.io",
-                "profileId": "123456",
-            },
+            "actor": {"callerType": "USER", "email": "example@example.io", "profileId": "123456"},
             "id": {
                 "applicationName": "admin",
                 "customerId": "D12345",

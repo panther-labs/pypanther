@@ -1,10 +1,8 @@
-from typing import List
-
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_asana_helpers import asana_alert_context
 from pypanther.helpers.panther_base_helpers import deep_get
 
-asana_workspace_new_admin_tests: List[RuleTest] = [
+asana_workspace_new_admin_tests: list[RuleTest] = [
     RuleTest(
         name="Team made public",
         expected_result=False,
@@ -25,11 +23,7 @@ asana_workspace_new_admin_tests: List[RuleTest] = [
             "event_category": "access_control",
             "event_type": "team_privacy_settings_changed",
             "gid": "12345",
-            "resource": {
-                "gid": "12345",
-                "name": "Example Team Name",
-                "resource_type": "team",
-            },
+            "resource": {"gid": "12345", "name": "Example Team Name", "resource_type": "team"},
             "p_log_type": "Asana.Audit",
         },
     ),
@@ -51,11 +45,7 @@ asana_workspace_new_admin_tests: List[RuleTest] = [
             },
             "created_at": "2022-12-16 19:32:22.377",
             "details": {
-                "group": {
-                    "gid": "1234",
-                    "name": "Workspace Name",
-                    "resource_type": "workspace",
-                },
+                "group": {"gid": "1234", "name": "Workspace Name", "resource_type": "workspace"},
                 "new_value": "domain_admin",
                 "old_value": "member",
             },

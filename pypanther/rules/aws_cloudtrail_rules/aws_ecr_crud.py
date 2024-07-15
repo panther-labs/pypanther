@@ -1,10 +1,9 @@
 from fnmatch import fnmatch
-from typing import List
 
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import aws_rule_context, deep_get
 
-awsecrcrud_tests: List[RuleTest] = [
+awsecrcrud_tests: list[RuleTest] = [
     RuleTest(
         name="Authorized account, unauthorized region",
         expected_result=True,

@@ -1,10 +1,8 @@
-from typing import List
-
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_auth0_helpers import auth0_alert_context, is_auth0_config_event
 from pypanther.helpers.panther_base_helpers import deep_get
 
-auth0_mfa_factor_setting_enabled_tests: List[RuleTest] = [
+auth0_mfa_factor_setting_enabled_tests: list[RuleTest] = [
     RuleTest(
         name="MFA Enabled",
         expected_result=True,
@@ -403,14 +401,7 @@ class Auth0MFAFactorSettingEnabled(Rule):
 
     def title(self, event):
         user = deep_get(
-            event,
-            "data",
-            "details",
-            "request",
-            "auth",
-            "user",
-            "email",
-            default="<NO_USER_FOUND>",
+            event, "data", "details", "request", "auth", "user", "email", default="<NO_USER_FOUND>"
         )
         path = deep_get(event, "data", "details", "request", "path", default="<NO_PATH_FOUND>")
         p_source_label = deep_get(event, "p_source_label", default="<NO_P_SOURCE_LABEL_FOUND>")

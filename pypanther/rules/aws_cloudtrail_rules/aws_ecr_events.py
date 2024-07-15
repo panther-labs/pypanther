@@ -1,9 +1,7 @@
-from typing import List
-
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import aws_rule_context, deep_get
 
-awsecrevents_tests: List[RuleTest] = [
+awsecrevents_tests: list[RuleTest] = [
     RuleTest(
         name="Authorized account, unauthorized region",
         expected_result=True,
@@ -182,12 +180,7 @@ class AWSECREVENTS(Rule):
         "https://docs.aws.amazon.com/AmazonECR/latest/userguide/logging-using-cloudtrail.html"
     )
     default_reference = "https://aws.amazon.com/blogs/containers/amazon-ecr-in-multi-account-and-multi-region-architectures/"
-    summary_attributes = [
-        "eventSource",
-        "recipientAccountId",
-        "awsRegion",
-        "p_any_aws_arns",
-    ]
+    summary_attributes = ["eventSource", "recipientAccountId", "awsRegion", "p_any_aws_arns"]
     tests = awsecrevents_tests
     # CONFIGURATION REQUIRED: Update with your expected AWS Accounts/Regions
     AWS_ACCOUNTS_AND_REGIONS = {

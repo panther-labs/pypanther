@@ -1,9 +1,7 @@
-from typing import List
-
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 
-g_suite_device_unlock_failure_tests: List[RuleTest] = [
+g_suite_device_unlock_failure_tests: list[RuleTest] = [
     RuleTest(
         name="Normal Mobile Event",
         expected_result=False,
@@ -23,10 +21,7 @@ g_suite_device_unlock_failure_tests: List[RuleTest] = [
             "actor": {"callerType": "USER", "email": "homer.simpson@example.io"},
             "type": "device_updates",
             "name": "FAILED_PASSWORD_ATTEMPTS_EVENT",
-            "parameters": {
-                "USER_EMAIL": "homer.simpson@example.io",
-                "FAILED_PASSWD_ATTEMPTS": 2,
-            },
+            "parameters": {"USER_EMAIL": "homer.simpson@example.io", "FAILED_PASSWD_ATTEMPTS": 2},
         },
     ),
     RuleTest(
@@ -37,10 +32,7 @@ g_suite_device_unlock_failure_tests: List[RuleTest] = [
             "actor": {"callerType": "USER", "email": "homer.simpson@example.io"},
             "type": "device_updates",
             "name": "FAILED_PASSWORD_ATTEMPTS_EVENT",
-            "parameters": {
-                "USER_EMAIL": "homer.simpson@example.io",
-                "FAILED_PASSWD_ATTEMPTS": 100,
-            },
+            "parameters": {"USER_EMAIL": "homer.simpson@example.io", "FAILED_PASSWD_ATTEMPTS": 100},
         },
     ),
     RuleTest(

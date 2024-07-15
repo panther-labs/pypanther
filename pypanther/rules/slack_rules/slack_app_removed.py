@@ -1,9 +1,7 @@
-from typing import List
-
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get, slack_alert_context
 
-slack_audit_logs_app_removed_tests: List[RuleTest] = [
+slack_audit_logs_app_removed_tests: list[RuleTest] = [
     RuleTest(
         name="App Restricted",
         expected_result=True,
@@ -176,11 +174,7 @@ class SlackAuditLogsAppRemoved(Rule):
     default_reference = "https://slack.com/intl/en-gb/help/articles/360003125231-Remove-apps-and-customised-integrations-from-your-workspace"
     summary_attributes = ["p_any_ip_addresses", "p_any_emails"]
     tests = slack_audit_logs_app_removed_tests
-    APP_REMOVED_ACTIONS = [
-        "app_restricted",
-        "app_uninstalled",
-        "org_app_workspace_removed",
-    ]
+    APP_REMOVED_ACTIONS = ["app_restricted", "app_uninstalled", "org_app_workspace_removed"]
 
     def rule(self, event):
         return event.get("action") in self.APP_REMOVED_ACTIONS

@@ -1,6 +1,5 @@
 import json
 from datetime import timedelta
-from typing import List
 
 from panther_detection_helpers.caching import put_string_set
 
@@ -8,7 +7,7 @@ import pypanther.helpers.panther_event_type_helpers as event_type
 from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_oss_helpers import resolve_timestamp_string
 
-standard_new_aws_account_created_tests: List[RuleTest] = [
+standard_new_aws_account_created_tests: list[RuleTest] = [
     RuleTest(
         name="AWS Account created",
         expected_result=True,
@@ -88,9 +87,7 @@ class StandardNewAWSAccountCreated(Rule):
         account_event_id = f"new_aws_account_{event.get('p_row_id')}"
         if account_id:
             put_string_set(
-                "new_account - " + account_id,
-                [account_event_id],
-                expiry_time.strftime("%s"),
+                "new_account - " + account_id, [account_event_id], expiry_time.strftime("%s")
             )
         return True
 

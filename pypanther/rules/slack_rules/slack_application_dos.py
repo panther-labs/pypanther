@@ -1,13 +1,12 @@
 from datetime import timedelta
 from json import dumps
-from typing import List
 
 from panther_detection_helpers.caching import get_string_set, put_string_set
 
 from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get, slack_alert_context
 
-slack_audit_logs_application_do_s_tests: List[RuleTest] = [
+slack_audit_logs_application_do_s_tests: list[RuleTest] = [
     RuleTest(
         name="User Session Reset - First time",
         expected_result=False,
@@ -42,10 +41,7 @@ slack_audit_logs_application_do_s_tests: List[RuleTest] = [
         name="User Session Reset - Multiple Times",
         expected_result=True,
         mocks=[
-            RuleMock(
-                object_name="get_string_set",
-                return_value='{"time":"2021-06-08 22:24:43"}',
-            ),
+            RuleMock(object_name="get_string_set", return_value='{"time":"2021-06-08 22:24:43"}'),
             RuleMock(object_name="put_string_set", return_value=""),
         ],
         log={
@@ -78,12 +74,7 @@ class SlackAuditLogsApplicationDoS(Rule):
     id_ = "Slack.AuditLogs.ApplicationDoS-prototype"
     display_name = "Slack Denial of Service"
     log_types = [LogType.Slack_AuditLogs]
-    tags = [
-        "Slack",
-        "Impact",
-        "Endpoint Denial of Service",
-        "Application Exhaustion Flood",
-    ]
+    tags = ["Slack", "Impact", "Endpoint Denial of Service", "Application Exhaustion Flood"]
     reports = {"MITRE ATT&CK": ["TA0040:T1499.003"]}
     default_severity = Severity.critical
     default_description = "Detects when slack admin invalidates user session(s) more than once in a 24 hour period which can lead to DoS"

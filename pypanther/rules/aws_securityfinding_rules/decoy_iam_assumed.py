@@ -1,8 +1,6 @@
-from typing import List
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 
-from pypanther import LogType, Rule, RuleTest, Severity
-
-decoy_iam_assumed_tests: List[RuleTest] = [
+decoy_iam_assumed_tests: list[RuleTest] = [
     RuleTest(
         name="IAM-Decoy-Assumed",
         expected_result=True,
@@ -23,10 +21,7 @@ decoy_iam_assumed_tests: List[RuleTest] = [
                     "ServiceName": "sts.amazonaws.com",
                 },
                 "DnsRequestAction": {},
-                "NetworkConnectionAction": {
-                    "LocalPortDetails": {},
-                    "RemotePortDetails": {},
-                },
+                "NetworkConnectionAction": {"LocalPortDetails": {}, "RemotePortDetails": {}},
                 "PortProbeAction": {},
             },
             "AwsAccountId": "123456789012",
@@ -138,10 +133,7 @@ decoy_iam_assumed_tests: List[RuleTest] = [
                     "ServiceName": "sts.amazonaws.com",
                 },
                 "DnsRequestAction": {},
-                "NetworkConnectionAction": {
-                    "LocalPortDetails": {},
-                    "RemotePortDetails": {},
-                },
+                "NetworkConnectionAction": {"LocalPortDetails": {}, "RemotePortDetails": {}},
                 "PortProbeAction": {},
             },
             "AwsAccountId": "123456789012",
@@ -244,7 +236,7 @@ class DecoyIAMAssumed(Rule):
     default_severity = Severity.high
     default_description = "Actor assumed decoy IAM role"
     default_reference = "https://aws.amazon.com/blogs/security/how-to-detect-suspicious-activity-in-your-aws-account-by-using-private-decoy-resources/"
-    InlineFilters = [{"All": []}]
+    inline_filters = [{"All": []}]
     tests = decoy_iam_assumed_tests
 
     def rule(self, event):

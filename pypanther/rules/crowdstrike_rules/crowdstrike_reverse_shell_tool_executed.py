@@ -1,9 +1,7 @@
-from typing import List
-
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import crowdstrike_detection_alert_context, deep_get
 
-crowdstrike_reverse_shell_tool_executed_tests: List[RuleTest] = [
+crowdstrike_reverse_shell_tool_executed_tests: list[RuleTest] = [
     RuleTest(
         name="Malicious Netcat",
         expected_result=True,
@@ -70,11 +68,7 @@ crowdstrike_reverse_shell_tool_executed_tests: List[RuleTest] = [
             "p_any_sha256_hashes": [
                 "488e74e2026d03f21b33f470c23b3de2f466643186c2e06ae7b4883cc2e59377"
             ],
-            "p_any_trace_ids": [
-                "4295752857",
-                "1234abcd4567efghi8901abc",
-                "abc987jkl654mnop321",
-            ],
+            "p_any_trace_ids": ["4295752857", "1234abcd4567efghi8901abc", "abc987jkl654mnop321"],
             "p_event_time": "2023-04-21 19:52:32.722",
             "p_log_type": "Crowdstrike.FDREvent",
             "p_parse_time": "2023-04-21 20:05:52.94",
@@ -152,11 +146,7 @@ crowdstrike_reverse_shell_tool_executed_tests: List[RuleTest] = [
             "p_any_sha256_hashes": [
                 "488e74e2026d03f21b33f470c23b3de2f466643186c2e06ae7b4883cc2e59377"
             ],
-            "p_any_trace_ids": [
-                "4295752857",
-                "1234abcd4567efghi8901abc",
-                "abc987jkl654mnop321",
-            ],
+            "p_any_trace_ids": ["4295752857", "1234abcd4567efghi8901abc", "abc987jkl654mnop321"],
             "p_event_time": "2023-04-21 19:52:32.722",
             "p_log_type": "Crowdstrike.FDREvent",
             "p_parse_time": "2023-04-21 20:05:52.94",
@@ -234,11 +224,7 @@ crowdstrike_reverse_shell_tool_executed_tests: List[RuleTest] = [
             "p_any_sha256_hashes": [
                 "488e74e2026d03f21b33f470c23b3de2f466643186c2e06ae7b4883cc2e59377"
             ],
-            "p_any_trace_ids": [
-                "4295752857",
-                "1234abcd4567efghi8901abc",
-                "abc987jkl654mnop321",
-            ],
+            "p_any_trace_ids": ["4295752857", "1234abcd4567efghi8901abc", "abc987jkl654mnop321"],
             "p_event_time": "2023-04-21 19:52:32.722",
             "p_log_type": "Crowdstrike.FDREvent",
             "p_parse_time": "2023-04-21 20:05:52.94",

@@ -1,10 +1,8 @@
-from typing import List
-
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.gcp_base_helpers import gcp_alert_context
 from pypanther.helpers.panther_base_helpers import deep_get, deep_walk
 
-gc_piamservice_account_keyscreate_tests: List[RuleTest] = [
+gc_piamservice_account_keyscreate_tests: list[RuleTest] = [
     RuleTest(
         name="privilege-escalation",
         expected_result=True,
@@ -18,10 +16,7 @@ gc_piamservice_account_keyscreate_tests: List[RuleTest] = [
             },
             "receiveTimestamp": "2024-01-19 13:47:19.465856238",
             "resource": {
-                "labels": {
-                    "name": "test-vm-deployment",
-                    "project_id": "panther-threat-research",
-                },
+                "labels": {"name": "test-vm-deployment", "project_id": "panther-threat-research"},
                 "type": "deployment",
             },
             "severity": "NOTICE",
@@ -41,10 +36,7 @@ gc_piamservice_account_keyscreate_tests: List[RuleTest] = [
             },
             "receiveTimestamp": "2024-01-19 13:47:19.465856238",
             "resource": {
-                "labels": {
-                    "name": "test-vm-deployment",
-                    "project_id": "panther-threat-research",
-                },
+                "labels": {"name": "test-vm-deployment", "project_id": "panther-threat-research"},
                 "type": "deployment",
             },
             "severity": "NOTICE",

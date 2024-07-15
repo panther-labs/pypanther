@@ -1,9 +1,7 @@
-from typing import List
-
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 
-awswaf_disassociation_tests: List[RuleTest] = [
+awswaf_disassociation_tests: list[RuleTest] = [
     RuleTest(
         name="WAF-Disassociate",
         expected_result=True,

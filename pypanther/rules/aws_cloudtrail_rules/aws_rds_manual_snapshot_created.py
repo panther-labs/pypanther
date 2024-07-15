@@ -1,9 +1,7 @@
-from typing import List
-
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import aws_rule_context
 
-awsrds_manual_snapshot_created_tests: List[RuleTest] = [
+awsrds_manual_snapshot_created_tests: list[RuleTest] = [
     RuleTest(
         name="Manual Snapshot Created",
         expected_result=True,
@@ -323,12 +321,7 @@ class AWSRDSManualSnapshotCreated(Rule):
     default_reference = (
         "https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_CreateSnapshot.html"
     )
-    summary_attributes = [
-        "eventSource",
-        "recipientAccountId",
-        "awsRegion",
-        "p_any_aws_arns",
-    ]
+    summary_attributes = ["eventSource", "recipientAccountId", "awsRegion", "p_any_aws_arns"]
     tests = awsrds_manual_snapshot_created_tests
 
     def rule(self, event):

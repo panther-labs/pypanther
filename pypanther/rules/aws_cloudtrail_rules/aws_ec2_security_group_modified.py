@@ -1,10 +1,8 @@
-from typing import List
-
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import aws_rule_context
 from pypanther.helpers.panther_default import aws_cloudtrail_success
 
-awsec2_security_group_modified_tests: List[RuleTest] = [
+awsec2_security_group_modified_tests: list[RuleTest] = [
     RuleTest(
         name="Security Group Modified",
         expected_result=True,
@@ -47,12 +45,7 @@ awsec2_security_group_modified_tests: List[RuleTest] = [
                             "toPort": 22,
                             "groups": {},
                             "ipRanges": {
-                                "items": [
-                                    {
-                                        "cidrIp": "127.0.0.1/32",
-                                        "description": "SSH for me",
-                                    }
-                                ]
+                                "items": [{"cidrIp": "127.0.0.1/32", "description": "SSH for me"}]
                             },
                             "ipv6Ranges": {},
                             "prefixListIds": {},
@@ -156,12 +149,7 @@ awsec2_security_group_modified_tests: List[RuleTest] = [
                             "toPort": 22,
                             "groups": {},
                             "ipRanges": {
-                                "items": [
-                                    {
-                                        "cidrIp": "127.0.0.1/32",
-                                        "description": "SSH for me",
-                                    }
-                                ]
+                                "items": [{"cidrIp": "127.0.0.1/32", "description": "SSH for me"}]
                             },
                             "ipv6Ranges": {},
                             "prefixListIds": {},

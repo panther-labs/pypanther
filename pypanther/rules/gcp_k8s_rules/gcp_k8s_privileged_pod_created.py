@@ -1,10 +1,8 @@
-from typing import List
-
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.gcp_base_helpers import gcp_alert_context
 from pypanther.helpers.panther_base_helpers import deep_get, deep_walk
 
-gcpk8_s_privileged_pod_created_tests: List[RuleTest] = [
+gcpk8_s_privileged_pod_created_tests: list[RuleTest] = [
     RuleTest(
         name="Privileged Pod Created",
         expected_result=True,
@@ -176,10 +174,7 @@ gcpk8_s_privileged_pod_created_tests: List[RuleTest] = [
                     "@type": "core.k8s.io/v1.Pod",
                     "apiVersion": "v1",
                     "kind": "Pod",
-                    "metadata": {
-                        "name": "test-non-privileged-pod",
-                        "namespace": "default",
-                    },
+                    "metadata": {"name": "test-non-privileged-pod", "namespace": "default"},
                     "spec": {
                         "containers": [
                             {
@@ -274,10 +269,7 @@ gcpk8_s_privileged_pod_created_tests: List[RuleTest] = [
                     "status": "Failure",
                 },
                 "serviceName": "k8s.io",
-                "status": {
-                    "code": 10,
-                    "message": 'pods "test-privileged-pod" already exists',
-                },
+                "status": {"code": 10, "message": 'pods "test-privileged-pod" already exists'},
             },
             "receiveTimestamp": "2024-02-13 13:13:33.486605432",
             "resource": {

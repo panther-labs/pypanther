@@ -1,9 +1,7 @@
-from typing import List
-
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 
-sentinel_one_threats_tests: List[RuleTest] = [
+sentinel_one_threats_tests: list[RuleTest] = [
     RuleTest(
         name="malicious event",
         expected_result=True,

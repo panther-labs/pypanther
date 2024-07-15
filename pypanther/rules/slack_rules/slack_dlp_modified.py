@@ -1,9 +1,7 @@
-from typing import List
-
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import slack_alert_context
 
-slack_audit_logs_dlp_modified_tests: List[RuleTest] = [
+slack_audit_logs_dlp_modified_tests: list[RuleTest] = [
     RuleTest(
         name="Native DLP Rule Deactivated",
         expected_result=True,

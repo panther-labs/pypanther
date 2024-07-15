@@ -1,9 +1,7 @@
-from typing import List
-
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import aws_rule_context, deep_get
 
-awsrds_public_restore_tests: List[RuleTest] = [
+awsrds_public_restore_tests: list[RuleTest] = [
     RuleTest(
         name="Not-Restore-RDS-Request",
         expected_result=False,
@@ -21,12 +19,7 @@ awsrds_public_restore_tests: List[RuleTest] = [
                 "allocatedStorage": 20,
                 "dBInstanceClass": "db.m1.small",
                 "dBInstanceIdentifier": "test-instance",
-                "enableCloudwatchLogsExports": [
-                    "audit",
-                    "error",
-                    "general",
-                    "slowquery",
-                ],
+                "enableCloudwatchLogsExports": ["audit", "error", "general", "slowquery"],
                 "engine": "mysql",
                 "masterUserPassword": "****",
                 "masterUsername": "myawsuser",
@@ -42,10 +35,7 @@ awsrds_public_restore_tests: List[RuleTest] = [
                 "dBInstanceIdentifier": "test-instance",
                 "dBInstanceStatus": "creating",
                 "dBParameterGroups": [
-                    {
-                        "dBParameterGroupName": "default.mysql8.0",
-                        "parameterApplyStatus": "in-sync",
-                    }
+                    {"dBParameterGroupName": "default.mysql8.0", "parameterApplyStatus": "in-sync"}
                 ],
                 "dBSecurityGroups": [],
                 "dBSubnetGroup": {
@@ -143,12 +133,7 @@ awsrds_public_restore_tests: List[RuleTest] = [
                 "allocatedStorage": 20,
                 "dBInstanceClass": "db.m1.small",
                 "dBInstanceIdentifier": "test-instance",
-                "enableCloudwatchLogsExports": [
-                    "audit",
-                    "error",
-                    "general",
-                    "slowquery",
-                ],
+                "enableCloudwatchLogsExports": ["audit", "error", "general", "slowquery"],
                 "engine": "mysql",
                 "masterUserPassword": "****",
                 "masterUsername": "myawsuser",
@@ -164,10 +149,7 @@ awsrds_public_restore_tests: List[RuleTest] = [
                 "dBInstanceIdentifier": "test-instance",
                 "dBInstanceStatus": "creating",
                 "dBParameterGroups": [
-                    {
-                        "dBParameterGroupName": "default.mysql8.0",
-                        "parameterApplyStatus": "in-sync",
-                    }
+                    {"dBParameterGroupName": "default.mysql8.0", "parameterApplyStatus": "in-sync"}
                 ],
                 "dBSecurityGroups": [],
                 "dBSubnetGroup": {
@@ -265,12 +247,7 @@ awsrds_public_restore_tests: List[RuleTest] = [
                 "allocatedStorage": 20,
                 "dBInstanceClass": "db.m1.small",
                 "dBInstanceIdentifier": "test-instance",
-                "enableCloudwatchLogsExports": [
-                    "audit",
-                    "error",
-                    "general",
-                    "slowquery",
-                ],
+                "enableCloudwatchLogsExports": ["audit", "error", "general", "slowquery"],
                 "engine": "mysql",
                 "masterUserPassword": "****",
                 "masterUsername": "myawsuser",
@@ -286,10 +263,7 @@ awsrds_public_restore_tests: List[RuleTest] = [
                 "dBInstanceIdentifier": "test-instance",
                 "dBInstanceStatus": "creating",
                 "dBParameterGroups": [
-                    {
-                        "dBParameterGroupName": "default.mysql8.0",
-                        "parameterApplyStatus": "in-sync",
-                    }
+                    {"dBParameterGroupName": "default.mysql8.0", "parameterApplyStatus": "in-sync"}
                 ],
                 "dBSecurityGroups": [],
                 "dBSubnetGroup": {

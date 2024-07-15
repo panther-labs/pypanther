@@ -1,10 +1,9 @@
 from fnmatch import fnmatch
-from typing import List
 
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import aws_rule_context, deep_get
 
-awslambdacrud_tests: List[RuleTest] = [
+awslambdacrud_tests: list[RuleTest] = [
     RuleTest(
         name="Lambda DeleteFunction Unauthorized Account",
         expected_result=True,

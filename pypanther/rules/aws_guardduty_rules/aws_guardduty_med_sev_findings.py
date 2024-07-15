@@ -1,9 +1,7 @@
-from typing import List
-
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import aws_guardduty_context, deep_get
 
-aws_guard_duty_medium_severity_finding_tests: List[RuleTest] = [
+aws_guard_duty_medium_severity_finding_tests: list[RuleTest] = [
     RuleTest(
         name="Medium Sev Finding",
         expected_result=True,

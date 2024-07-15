@@ -1,10 +1,8 @@
-from typing import List
-
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.gcp_base_helpers import gcp_alert_context
 from pypanther.helpers.panther_base_helpers import deep_get, deep_walk
 
-gcpia_mservice_accountssign_jwt_privilege_escalation_tests: List[RuleTest] = [
+gcpia_mservice_accountssign_jwt_privilege_escalation_tests: list[RuleTest] = [
     RuleTest(
         name="JWT Signed",
         expected_result=True,
@@ -19,10 +17,7 @@ gcpia_mservice_accountssign_jwt_privilege_escalation_tests: List[RuleTest] = [
                 },
                 "requestMetadata": {
                     "callerIp": "1.2.3.4",
-                    "requestAttributes": {
-                        "time": "2024-02-26T17:15:16.327542536Z",
-                        "auth": {},
-                    },
+                    "requestAttributes": {"time": "2024-02-26T17:15:16.327542536Z", "auth": {}},
                     "destinationAttributes": {},
                 },
                 "serviceName": "iamcredentials.googleapis.com",
@@ -69,10 +64,7 @@ gcpia_mservice_accountssign_jwt_privilege_escalation_tests: List[RuleTest] = [
                 },
                 "requestMetadata": {
                     "callerIp": "1.2.3.4",
-                    "requestAttributes": {
-                        "time": "2024-02-26T17:15:16.327542536Z",
-                        "auth": {},
-                    },
+                    "requestAttributes": {"time": "2024-02-26T17:15:16.327542536Z", "auth": {}},
                     "destinationAttributes": {},
                 },
                 "serviceName": "iamcredentials.googleapis.com",

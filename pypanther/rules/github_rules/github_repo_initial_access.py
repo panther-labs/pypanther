@@ -1,10 +1,8 @@
-from typing import List
-
 from panther_detection_helpers.caching import get_string_set, put_string_set
 
 from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 
-git_hub_repo_initial_access_tests: List[RuleTest] = [
+git_hub_repo_initial_access_tests: list[RuleTest] = [
     RuleTest(
         name="GitHub - Initial Access",
         expected_result=True,

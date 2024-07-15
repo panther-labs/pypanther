@@ -1,10 +1,8 @@
-from typing import List
-
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import aws_rule_context, deep_get
 from pypanther.helpers.panther_default import aws_cloudtrail_success, lookup_aws_account_name
 
-aws_cloud_trail_stopped_tests: List[RuleTest] = [
+aws_cloud_trail_stopped_tests: list[RuleTest] = [
     RuleTest(
         name="CloudTrail Was Stopped",
         expected_result=True,
@@ -150,12 +148,7 @@ class AWSCloudTrailStopped(Rule):
     id_ = "AWS.CloudTrail.Stopped-prototype"
     display_name = "CloudTrail Stopped"
     log_types = [LogType.AWS_CloudTrail]
-    tags = [
-        "AWS",
-        "Security Control",
-        "DemoThreatHunting",
-        "Defense Evasion:Impair Defenses",
-    ]
+    tags = ["AWS", "Security Control", "DemoThreatHunting", "Defense Evasion:Impair Defenses"]
     reports = {"CIS": ["3.5"], "MITRE ATT&CK": ["TA0005:T1562"]}
     default_severity = Severity.medium
     default_description = "A CloudTrail Trail was modified.\n"

@@ -1,9 +1,7 @@
-from typing import List
-
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 
-gcp_unused_regions_tests: List[RuleTest] = [
+gcp_unused_regions_tests: list[RuleTest] = [
     RuleTest(
         name="GCE Instance Terminated",
         expected_result=False,
@@ -87,10 +85,7 @@ gcp_unused_regions_tests: List[RuleTest] = [
                 "requestMetadata": {
                     "callerIp": "136.24.229.58",
                     "callerSuppliedUserAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/81.0.4044.138 Safari/537.36,gzip(gfe),gzip(gfe)",
-                    "requestAttributes": {
-                        "time": "2020-05-15T17:25:07.810848781Z",
-                        "auth": {},
-                    },
+                    "requestAttributes": {"time": "2020-05-15T17:25:07.810848781Z", "auth": {}},
                     "destinationAttributes": {},
                 },
                 "serviceName": "storage.googleapis.com",
@@ -201,10 +196,7 @@ gcp_unused_regions_tests: List[RuleTest] = [
                                     "writeDisposition": "WRITE_EMPTY",
                                 },
                             },
-                            "jobName": {
-                                "location": "US",
-                                "projectId": "western-verve-123456",
-                            },
+                            "jobName": {"location": "US", "projectId": "western-verve-123456"},
                         }
                     },
                     "jobInsertResponse": {

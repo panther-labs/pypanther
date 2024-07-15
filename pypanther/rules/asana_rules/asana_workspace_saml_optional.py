@@ -1,9 +1,7 @@
-from typing import List
-
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 
-asana_workspace_saml_optional_tests: List[RuleTest] = [
+asana_workspace_saml_optional_tests: list[RuleTest] = [
     RuleTest(
         name="SAML required",
         expected_result=False,
@@ -24,11 +22,7 @@ asana_workspace_saml_optional_tests: List[RuleTest] = [
             "event_category": "admin_settings",
             "event_type": "workspace_saml_settings_changed",
             "gid": "1234",
-            "resource": {
-                "gid": "1234",
-                "name": "example.io",
-                "resource_type": "email_domain",
-            },
+            "resource": {"gid": "1234", "name": "example.io", "resource_type": "email_domain"},
         },
     ),
     RuleTest(
@@ -51,11 +45,7 @@ asana_workspace_saml_optional_tests: List[RuleTest] = [
             "event_category": "admin_settings",
             "event_type": "workspace_saml_settings_changed",
             "gid": "1234",
-            "resource": {
-                "gid": "1234",
-                "name": "example.io",
-                "resource_type": "email_domain",
-            },
+            "resource": {"gid": "1234", "name": "example.io", "resource_type": "email_domain"},
         },
     ),
 ]

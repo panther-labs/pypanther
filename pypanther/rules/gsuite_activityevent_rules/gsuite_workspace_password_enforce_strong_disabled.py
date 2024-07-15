@@ -1,9 +1,7 @@
-from typing import List
-
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 
-g_suite_workspace_password_enforce_strong_disabled_tests: List[RuleTest] = [
+g_suite_workspace_password_enforce_strong_disabled_tests: list[RuleTest] = [
     RuleTest(
         name="Workspace Admin Disabled Strong Password Enforcement",
         expected_result=True,
@@ -37,11 +35,7 @@ g_suite_workspace_password_enforce_strong_disabled_tests: List[RuleTest] = [
         name="Admin Set Default Calendar SHARING_OUTSIDE_DOMAIN Setting to READ_ONLY_ACCESS",
         expected_result=False,
         log={
-            "actor": {
-                "callerType": "USER",
-                "email": "example@example.io",
-                "profileId": "12345",
-            },
+            "actor": {"callerType": "USER", "email": "example@example.io", "profileId": "12345"},
             "id": {
                 "applicationName": "admin",
                 "customerId": "D12345",

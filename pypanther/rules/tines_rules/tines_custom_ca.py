@@ -1,10 +1,8 @@
-from typing import List
-
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 from pypanther.helpers.panther_tines_helpers import tines_alert_context
 
-tines_custom_certificate_authority_tests: List[RuleTest] = [
+tines_custom_certificate_authority_tests: list[RuleTest] = [
     RuleTest(
         name="Tines Login",
         expected_result=False,

@@ -1,10 +1,9 @@
 import datetime
-from typing import List
 
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get, pattern_match, pattern_match_list
 
-g_suite_drive_external_file_share_tests: List[RuleTest] = [
+g_suite_drive_external_file_share_tests: list[RuleTest] = [
     RuleTest(
         name="Dangerous Share of Known Document with a Missing User",
         expected_result=True,
@@ -105,10 +104,7 @@ g_suite_drive_external_file_share_tests: List[RuleTest] = [
                         {"name": "owner_is_shared_drive", "boolValue": False},
                         {"name": "owner_is_team_drive", "boolValue": False},
                         {"name": "old_value", "multiValue": ["none"]},
-                        {
-                            "name": "new_value",
-                            "multiValue": ["people_within_domain_with_link"],
-                        },
+                        {"name": "new_value", "multiValue": ["people_within_domain_with_link"]},
                     ],
                 }
             ],
@@ -182,11 +178,7 @@ class GSuiteDriveExternalFileShare(Rule):
                     return False
                 # No exceptions match.
                 # Return the event summary (which is True) to alert & use in title.
-                return {
-                    "actor": actor_email,
-                    "doc_title": doc_title,
-                    "target_user": target_user,
-                }
+                return {"actor": actor_email, "doc_title": doc_title, "target_user": target_user}
         return False
 
     def rule(self, event):

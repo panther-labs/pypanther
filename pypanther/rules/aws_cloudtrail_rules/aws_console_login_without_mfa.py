@@ -1,5 +1,4 @@
 import logging
-from typing import List
 
 from panther_detection_helpers.caching import check_account_age
 
@@ -7,7 +6,7 @@ from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import aws_rule_context, deep_get
 from pypanther.helpers.panther_default import lookup_aws_account_name
 
-aws_console_login_without_mfa_tests: List[RuleTest] = [
+aws_console_login_without_mfa_tests: list[RuleTest] = [
     RuleTest(
         name="No MFA Login - IAM User",
         expected_result=True,
@@ -323,11 +322,7 @@ aws_console_login_without_mfa_tests: List[RuleTest] = [
                         "creationDate": "2022-03-29T17:16:35Z",
                         "mfaAuthenticated": "true",
                     },
-                    "sessionIssuer": {
-                        "accountId": "2222",
-                        "type": "Role",
-                        "userName": "asdsda",
-                    },
+                    "sessionIssuer": {"accountId": "2222", "type": "Role", "userName": "asdsda"},
                     "webIdFederationData": {},
                 },
                 "type": "AssumedRole",
@@ -399,16 +394,10 @@ class AWSConsoleLoginWithoutMFA(Rule):
         "https://docs.runpanther.io/alert-runbooks/built-in-rules/aws-console-login-without-mfa"
     )
     default_reference = "https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_mfa.html"
-    summary_attributes = [
-        "userAgent",
-        "sourceIpAddress",
-        "recipientAccountId",
-        "p_any_aws_arns",
-    ]
+    summary_attributes = ["userAgent", "sourceIpAddress", "recipientAccountId", "p_any_aws_arns"]
     tests = aws_console_login_without_mfa_tests
     # Set to True for environments that permit direct role assumption via external IDP
     ROLES_VIA_EXTERNAL_IDP = False
-
     # pylint: disable=R0911,R0912,R1260
 
     def rule(self, event):
@@ -468,11 +457,7 @@ class AWSConsoleLoginWithoutMFA(Rule):
             if (
                 additional_event_data.get("MFAUsed") != "Yes"
                 and deep_get(
-                    event,
-                    "userIdentity",
-                    "sessionContext",
-                    "attributes",
-                    "mfaAuthenticated",
+                    event, "userIdentity", "sessionContext", "attributes", "mfaAuthenticated"
                 )
                 != "true"
             ):
@@ -487,12 +472,7 @@ class AWSConsoleLoginWithoutMFA(Rule):
                 event, "userIdentity", "sessionContext", "sessionIssuer", "userName"
             )
             type_ = deep_get(
-                event,
-                "userIdentity",
-                "sessionContext",
-                "sessionIssuer",
-                "type",
-                default="user",
+                event, "userIdentity", "sessionContext", "sessionIssuer", "type", default="user"
             ).lower()
             user_string = f"{type_} {user}"
         account_id = event.get("recipientAccountId")

@@ -1,9 +1,7 @@
-from typing import List
-
 import pypanther.helpers.panther_event_type_helpers as event_type
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 
-okta_global_mfa_disabled_tests: List[RuleTest] = [
+okta_global_mfa_disabled_tests: list[RuleTest] = [
     RuleTest(
         name="MFA Disabled",
         expected_result=True,
@@ -77,12 +75,7 @@ class OktaGlobalMFADisabled(Rule):
     default_reference = "https://help.okta.com/oie/en-us/content/topics/identity-engine/authenticators/about-authenticators.htm"
     default_runbook = "Contact Admin to ensure this was sanctioned activity"
     dedup_period_minutes = 15
-    summary_attributes = [
-        "eventType",
-        "severity",
-        "displayMessage",
-        "p_any_ip_addresses",
-    ]
+    summary_attributes = ["eventType", "severity", "displayMessage", "p_any_ip_addresses"]
     tests = okta_global_mfa_disabled_tests
 
     def rule(self, event):

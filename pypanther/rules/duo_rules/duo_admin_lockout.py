@@ -1,9 +1,8 @@
 import json
-from typing import List
 
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 
-duo_admin_lockout_tests: List[RuleTest] = [
+duo_admin_lockout_tests: list[RuleTest] = [
     RuleTest(
         name="Admin lockout- invalid json",
         expected_result=True,

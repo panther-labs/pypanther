@@ -1,10 +1,8 @@
-from typing import List
-
 import pypanther.helpers.panther_event_type_helpers as event_type
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import zendesk_get_roles
 
-zendesk_user_role_changed_tests: List[RuleTest] = [
+zendesk_user_role_changed_tests: list[RuleTest] = [
     RuleTest(
         name="Zendesk - Role Changed",
         expected_result=True,

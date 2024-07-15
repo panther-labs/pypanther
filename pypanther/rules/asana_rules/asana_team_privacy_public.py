@@ -1,9 +1,7 @@
-from typing import List
-
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 
-asana_team_privacy_public_tests: List[RuleTest] = [
+asana_team_privacy_public_tests: list[RuleTest] = [
     RuleTest(
         name="Team made public",
         expected_result=True,
@@ -24,11 +22,7 @@ asana_team_privacy_public_tests: List[RuleTest] = [
             "event_category": "access_control",
             "event_type": "team_privacy_settings_changed",
             "gid": "12345",
-            "resource": {
-                "gid": "12345",
-                "name": "Example Team Name",
-                "resource_type": "team",
-            },
+            "resource": {"gid": "12345", "name": "Example Team Name", "resource_type": "team"},
             "p_log_type": "Asana.Audit",
         },
     ),

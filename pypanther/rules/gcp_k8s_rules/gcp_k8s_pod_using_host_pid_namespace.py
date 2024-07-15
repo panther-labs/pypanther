@@ -1,10 +1,8 @@
-from typing import List
-
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.gcp_base_helpers import gcp_alert_context
 from pypanther.helpers.panther_base_helpers import deep_get
 
-gcpk8s_pod_using_host_pid_namespace_tests: List[RuleTest] = [
+gcpk8s_pod_using_host_pid_namespace_tests: list[RuleTest] = [
     RuleTest(
         name="triggers",
         expected_result=True,

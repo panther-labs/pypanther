@@ -1,12 +1,10 @@
-from typing import List
-
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import (
     crowdstrike_network_detection_alert_context,
     deep_get,
 )
 
-connectionto_embargoed_country_tests: List[RuleTest] = [
+connectionto_embargoed_country_tests: list[RuleTest] = [
     RuleTest(
         name="Connection To CU",
         expected_result=True,

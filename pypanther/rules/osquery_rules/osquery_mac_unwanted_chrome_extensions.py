@@ -1,8 +1,6 @@
-from typing import List
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 
-from pypanther import LogType, Rule, RuleTest, Severity
-
-osquery_mac_unwanted_chrome_extensions_tests: List[RuleTest] = [
+osquery_mac_unwanted_chrome_extensions_tests: list[RuleTest] = [
     RuleTest(
         name="Unwanted Extension Detected",
         expected_result=True,

@@ -1,6 +1,5 @@
 from datetime import datetime, timedelta
 from json import dumps, loads
-from typing import List
 
 from panther_detection_helpers.caching import get_string_set, put_string_set
 
@@ -10,7 +9,7 @@ from pypanther.helpers.panther_base_helpers import deep_get
 from pypanther.helpers.panther_lookuptable_helpers import LookupTableMatches
 from pypanther.helpers.panther_oss_helpers import km_between_ipinfo_loc, resolve_timestamp_string
 
-standard_impossible_travel_login_tests: List[RuleTest] = [
+standard_impossible_travel_login_tests: list[RuleTest] = [
     RuleTest(
         name="CloudTrail not ConsoleLogin",
         expected_result=False,
@@ -151,10 +150,7 @@ standard_impossible_travel_login_tests: List[RuleTest] = [
                 "id": "00uwuwuwuwuwuwuwuwuw",
                 "type": "User",
             },
-            "authenticationContext": {
-                "authenticationStep": 0,
-                "externalSessionId": "idx1234",
-            },
+            "authenticationContext": {"authenticationStep": 0, "externalSessionId": "idx1234"},
             "client": {
                 "device": "Computer",
                 "ipAddress": "12.12.12.12",
@@ -217,10 +213,7 @@ standard_impossible_travel_login_tests: List[RuleTest] = [
                 "id": "00uwuwuwuwuwuwuwuwuw",
                 "type": "User",
             },
-            "authenticationContext": {
-                "authenticationStep": 0,
-                "externalSessionId": "idx1234",
-            },
+            "authenticationContext": {"authenticationStep": 0, "externalSessionId": "idx1234"},
             "client": {
                 "device": "Computer",
                 "ipAddress": "12.12.12.12",
@@ -294,10 +287,7 @@ standard_impossible_travel_login_tests: List[RuleTest] = [
                 "id": "00uwuwuwuwuwuwuwuwuw",
                 "type": "User",
             },
-            "authenticationContext": {
-                "authenticationStep": 0,
-                "externalSessionId": "idx1234",
-            },
+            "authenticationContext": {"authenticationStep": 0, "externalSessionId": "idx1234"},
             "client": {
                 "device": "Computer",
                 "ipAddress": "12.12.12.12",
@@ -371,10 +361,7 @@ standard_impossible_travel_login_tests: List[RuleTest] = [
                 "id": "00uwuwuwuwuwuwuwuwuw",
                 "type": "User",
             },
-            "authenticationContext": {
-                "authenticationStep": 0,
-                "externalSessionId": "idx1234",
-            },
+            "authenticationContext": {"authenticationStep": 0, "externalSessionId": "idx1234"},
             "client": {
                 "device": "Computer",
                 "ipAddress": "12.12.12.12",
@@ -447,10 +434,7 @@ standard_impossible_travel_login_tests: List[RuleTest] = [
                 "id": "00uwuwuwuwuwuwuwuwuw",
                 "type": "User",
             },
-            "authenticationContext": {
-                "authenticationStep": 0,
-                "externalSessionId": "idx1234",
-            },
+            "authenticationContext": {"authenticationStep": 0, "externalSessionId": "idx1234"},
             "client": {
                 "device": "Computer",
                 "ipAddress": "12.12.12.11",
@@ -611,10 +595,7 @@ standard_impossible_travel_login_tests: List[RuleTest] = [
                 "id": "00uwuwuwuwuwuwuwuwuw",
                 "type": "User",
             },
-            "authenticationContext": {
-                "authenticationStep": 0,
-                "externalSessionId": "idx1234",
-            },
+            "authenticationContext": {"authenticationStep": 0, "externalSessionId": "idx1234"},
             "client": {
                 "device": "Computer",
                 "ipAddress": "12.12.12.12",

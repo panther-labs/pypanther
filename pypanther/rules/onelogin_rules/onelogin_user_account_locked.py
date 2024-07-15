@@ -1,8 +1,6 @@
-from typing import List
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 
-from pypanther import LogType, Rule, RuleTest, Severity
-
-one_login_user_account_locked_tests: List[RuleTest] = [
+one_login_user_account_locked_tests: list[RuleTest] = [
     RuleTest(
         name="User account locked via api - first method.",
         expected_result=True,

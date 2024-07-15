@@ -1,8 +1,6 @@
-from typing import List
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 
-from pypanther import LogType, Rule, RuleTest, Severity
-
-teleport_root_login_tests: List[RuleTest] = [
+teleport_root_login_tests: list[RuleTest] = [
     RuleTest(
         name="User logged in as root",
         expected_result=True,
@@ -40,14 +38,7 @@ class TeleportRootLogin(Rule):
     reports = {"MITRE ATT&CK": ["TA0002:T1059"]}
     default_reference = "https://goteleport.com/docs/management/admin/"
     default_runbook = "Use user accounts and policies, rather than root when logging in. With access to root, it is possible to evade auditing and logging.\n"
-    summary_attributes = [
-        "event",
-        "code",
-        "user",
-        "login",
-        "server_hostname",
-        "server_labels",
-    ]
+    summary_attributes = ["event", "code", "user", "login", "server_hostname", "server_labels"]
     tests = teleport_root_login_tests
 
     def rule(self, event):

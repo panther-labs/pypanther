@@ -1,10 +1,8 @@
-from typing import List
-
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 from pypanther.helpers.panther_snyk_helpers import snyk_alert_context
 
-snyk_system_policy_setting_tests: List[RuleTest] = [
+snyk_system_policy_setting_tests: list[RuleTest] = [
     RuleTest(
         name="Snyk System Policy Setting event happened ( Security Policy )",
         expected_result=True,
@@ -15,10 +13,7 @@ snyk_system_policy_setting_tests: List[RuleTest] = [
                         "rules": [
                             {
                                 "actions": [
-                                    {
-                                        "data": {"severity": "high"},
-                                        "type": "severity-override",
-                                    }
+                                    {"data": {"severity": "high"}, "type": "severity-override"}
                                 ],
                                 "conditions": {
                                     "AND": [
@@ -54,16 +49,8 @@ snyk_system_policy_setting_tests: List[RuleTest] = [
                 "after": {
                     "configuration": {
                         "licenses": [
-                            {
-                                "instructions": "",
-                                "licenseType": "ADSL",
-                                "severity": "medium",
-                            },
-                            {
-                                "instructions": "",
-                                "licenseType": "AGPL-3.0",
-                                "severity": "medium",
-                            },
+                            {"instructions": "", "licenseType": "ADSL", "severity": "medium"},
+                            {"instructions": "", "licenseType": "AGPL-3.0", "severity": "medium"},
                             {
                                 "instructions": "",
                                 "licenseType": "AGPL-3.0-only",
@@ -74,11 +61,7 @@ snyk_system_policy_setting_tests: List[RuleTest] = [
                     "description": "this is a policy description",
                     "group": "8fffffff-1555-4444-b000-b55555555555",
                     "name": "Example License Policy",
-                    "projectAttributes": {
-                        "criticality": [],
-                        "environment": [],
-                        "lifecycle": [],
-                    },
+                    "projectAttributes": {"criticality": [], "environment": [], "lifecycle": []},
                 },
                 "before": {},
                 "publicId": "21111111-a222-4eee-8ddd-a99999999999",

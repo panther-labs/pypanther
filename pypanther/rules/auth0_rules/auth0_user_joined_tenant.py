@@ -1,10 +1,8 @@
-from typing import List
-
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_auth0_helpers import auth0_alert_context, is_auth0_config_event
 from pypanther.helpers.panther_base_helpers import deep_get
 
-auth0_user_joined_tenant_tests: List[RuleTest] = [
+auth0_user_joined_tenant_tests: list[RuleTest] = [
     RuleTest(
         name="User accepted an invitation",
         expected_result=True,
@@ -273,10 +271,7 @@ auth0_user_joined_tenant_tests: List[RuleTest] = [
                                 "user_id": "auth0|6459776e974703f3a65dc258",
                             },
                         },
-                        "body": {
-                            "owners": ["marge.simpson@yourcompany.io"],
-                            "roles": ["owner"],
-                        },
+                        "body": {"owners": ["marge.simpson@yourcompany.io"], "roles": ["owner"]},
                         "channel": "https://manage.auth0.com/",
                         "ip": "12.12.12.12",
                         "method": "post",
@@ -351,14 +346,7 @@ class Auth0UserJoinedTenant(Rule):
 
     def title(self, event):
         user = deep_get(
-            event,
-            "data",
-            "details",
-            "request",
-            "auth",
-            "user",
-            "email",
-            default="<NO_USER_FOUND>",
+            event, "data", "details", "request", "auth", "user", "email", default="<NO_USER_FOUND>"
         )
         p_source_label = deep_get(event, "p_source_label", default="<NO_P_SOURCE_LABEL_FOUND>")
         return f"Auth0 User [{user}] has accepted an invitation to join your organization's tenant [{p_source_label}]."

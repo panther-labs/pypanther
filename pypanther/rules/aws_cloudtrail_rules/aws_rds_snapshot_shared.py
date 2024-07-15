@@ -1,9 +1,7 @@
-from typing import List
-
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import aws_rule_context
 
-awsrds_snapshot_shared_tests: List[RuleTest] = [
+awsrds_snapshot_shared_tests: list[RuleTest] = [
     RuleTest(
         name="Snapshot shared with another account",
         expected_result=True,
@@ -131,12 +129,7 @@ class AWSRDSSnapshotShared(Rule):
     default_reference = (
         "https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_ShareSnapshot.html"
     )
-    summary_attributes = [
-        "eventSource",
-        "recipientAccountId",
-        "awsRegion",
-        "p_any_aws_arns",
-    ]
+    summary_attributes = ["eventSource", "recipientAccountId", "awsRegion", "p_any_aws_arns"]
     tests = awsrds_snapshot_shared_tests
 
     def rule(self, event):
@@ -164,9 +157,7 @@ class AWSRDSSnapshotShared(Rule):
     def title(self, event):
         account_id = event.get("recipientAccountId", default="<ACCOUNT_ID_NOT_FOUND>")
         rds_instance_id = event.deep_get(
-            "responseElements",
-            "dBInstanceIdentifier",
-            default="<DB_INSTANCE_ID_NOT_FOUND>",
+            "responseElements", "dBInstanceIdentifier", default="<DB_INSTANCE_ID_NOT_FOUND>"
         )
         return f"RDS Snapshot Shared in [{account_id}] for RDS instance [{rds_instance_id}]"
 

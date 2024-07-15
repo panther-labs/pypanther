@@ -1,9 +1,7 @@
-from typing import List
-
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 
-osquery_outdated_agent_tests: List[RuleTest] = [
+osquery_outdated_agent_tests: list[RuleTest] = [
     RuleTest(
         name="osquery out of date",
         expected_result=True,

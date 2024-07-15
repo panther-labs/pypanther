@@ -1,9 +1,7 @@
-from typing import List
-
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import aws_rule_context
 
-awsec2_ebs_encryption_disabled_tests: List[RuleTest] = [
+awsec2_ebs_encryption_disabled_tests: list[RuleTest] = [
     RuleTest(
         name="DisableEbsEncryptionByDefault Event",
         expected_result=True,

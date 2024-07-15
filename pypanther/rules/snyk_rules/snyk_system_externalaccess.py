@@ -1,10 +1,8 @@
-from typing import List
-
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 from pypanther.helpers.panther_snyk_helpers import snyk_alert_context
 
-snyk_system_external_access_tests: List[RuleTest] = [
+snyk_system_external_access_tests: list[RuleTest] = [
     RuleTest(
         name="Snyk External Access Allowed By External Parties - Enabled",
         expected_result=True,

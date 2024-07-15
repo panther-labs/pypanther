@@ -1,10 +1,9 @@
 import re
-from typing import List
 
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get, okta_alert_context
 
-okta_admin_role_assigned_tests: List[RuleTest] = [
+okta_admin_role_assigned_tests: list[RuleTest] = [
     RuleTest(
         name="Admin Access Assigned",
         expected_result=True,
@@ -128,11 +127,7 @@ class OktaAdminRoleAssigned(Rule):
     id_ = "Okta.AdminRoleAssigned-prototype"
     display_name = "Okta Admin Role Assigned"
     log_types = [LogType.Okta_SystemLog]
-    tags = [
-        "Identity & Access Management",
-        "Okta",
-        "Privilege Escalation:Valid Accounts",
-    ]
+    tags = ["Identity & Access Management", "Okta", "Privilege Escalation:Valid Accounts"]
     reports = {"MITRE ATT&CK": ["TA0004:T1078"]}
     default_severity = Severity.info
     default_description = "A user has been granted administrative privileges in Okta"
@@ -141,12 +136,7 @@ class OktaAdminRoleAssigned(Rule):
     )
     default_runbook = "Reach out to the user if needed to validate the activity"
     dedup_period_minutes = 15
-    summary_attributes = [
-        "eventType",
-        "severity",
-        "displayMessage",
-        "p_any_ip_addresses",
-    ]
+    summary_attributes = ["eventType", "severity", "displayMessage", "p_any_ip_addresses"]
     tests = okta_admin_role_assigned_tests
     ADMIN_PATTERN = re.compile("[aA]dministrator")
 
@@ -156,24 +146,14 @@ class OktaAdminRoleAssigned(Rule):
             and deep_get(event, "outcome", "result") == "SUCCESS"
             and bool(
                 self.ADMIN_PATTERN.search(
-                    deep_get(
-                        event,
-                        "debugContext",
-                        "debugData",
-                        "privilegeGranted",
-                        default="",
-                    )
+                    deep_get(event, "debugContext", "debugData", "privilegeGranted", default="")
                 )
             )
         )
 
     def dedup(self, event):
         return deep_get(
-            event,
-            "debugContext",
-            "debugData",
-            "requestId",
-            default="<UNKNOWN_REQUEST_ID>",
+            event, "debugContext", "debugData", "requestId", default="<UNKNOWN_REQUEST_ID>"
         )
 
     def title(self, event):
@@ -181,11 +161,7 @@ class OktaAdminRoleAssigned(Rule):
         display_name = target[0].get("displayName", "MISSING DISPLAY NAME") if target else ""
         alternate_id = target[0].get("alternateId", "MISSING ALTERNATE ID") if target else ""
         privilege = deep_get(
-            event,
-            "debugContext",
-            "debugData",
-            "privilegeGranted",
-            default="<UNKNOWN_PRIVILEGE>",
+            event, "debugContext", "debugData", "privilegeGranted", default="<UNKNOWN_PRIVILEGE>"
         )
         return f"{deep_get(event, 'actor', 'displayName')} <{deep_get(event, 'actor', 'alternateId')}> granted [{privilege}] privileges to {display_name} <{alternate_id}>"
 

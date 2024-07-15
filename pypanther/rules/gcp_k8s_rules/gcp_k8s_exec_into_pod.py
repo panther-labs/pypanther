@@ -1,11 +1,9 @@
-from typing import List
-
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.gcp_base_helpers import get_k8s_info
 from pypanther.helpers.gcp_environment import PRODUCTION_PROJECT_IDS, rule_exceptions
 from pypanther.helpers.panther_base_helpers import deep_walk
 
-gcpk8s_exec_into_pod_tests: List[RuleTest] = [
+gcpk8s_exec_into_pod_tests: list[RuleTest] = [
     RuleTest(
         name="Allowed User",
         expected_result=False,
@@ -28,10 +26,7 @@ gcpk8s_exec_into_pod_tests: List[RuleTest] = [
                 "resourceName": "core/v1/namespaces/example/pods/one-off-46666967280/exec",
                 "timestamp": "2022-03-04T16:01:49.978756Z",
             },
-            "resource": {
-                "type": "k8s_cluster",
-                "labels": {"project_id": "rigup-production"},
-            },
+            "resource": {"type": "k8s_cluster", "labels": {"project_id": "rigup-production"}},
         },
     ),
     RuleTest(
@@ -54,10 +49,7 @@ gcpk8s_exec_into_pod_tests: List[RuleTest] = [
                 "resourceName": "core/v1/namespaces/example/pods/one-off-valerii-tovstyk-1646666967280/exec",
                 "timestamp": "2022-03-04T16:01:49.978756Z",
             },
-            "resource": {
-                "type": "k8s_cluster",
-                "labels": {"project_id": "rigup-production"},
-            },
+            "resource": {"type": "k8s_cluster", "labels": {"project_id": "rigup-production"}},
         },
     ),
     RuleTest(
@@ -80,10 +72,7 @@ gcpk8s_exec_into_pod_tests: List[RuleTest] = [
                 "resourceName": "core/v1/namespaces/istio-system/pods/one-off-valerii-tovstyk-1646666967280/exec",
                 "timestamp": "2022-03-04T16:01:49.978756Z",
             },
-            "resource": {
-                "type": "k8s_cluster",
-                "labels": {"project_id": "rigup-production"},
-            },
+            "resource": {"type": "k8s_cluster", "labels": {"project_id": "rigup-production"}},
         },
     ),
 ]

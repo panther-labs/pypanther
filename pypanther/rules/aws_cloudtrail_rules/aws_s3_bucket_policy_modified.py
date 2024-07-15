@@ -1,10 +1,8 @@
-from typing import List
-
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import aws_rule_context, deep_get
 from pypanther.helpers.panther_default import aws_cloudtrail_success
 
-awss3_bucket_policy_modified_tests: List[RuleTest] = [
+awss3_bucket_policy_modified_tests: list[RuleTest] = [
     RuleTest(
         name="S3 Bucket Policy Modified",
         expected_result=True,
@@ -159,11 +157,7 @@ class AWSS3BucketPolicyModified(Rule):
     id_ = "AWS.S3.BucketPolicyModified-prototype"
     display_name = "AWS S3 Bucket Policy Modified"
     log_types = [LogType.AWS_CloudTrail]
-    tags = [
-        "AWS",
-        "Identity & Access Management",
-        "Exfiltration:Exfiltration Over Web Service",
-    ]
+    tags = ["AWS", "Identity & Access Management", "Exfiltration:Exfiltration Over Web Service"]
     reports = {"CIS": ["3.8"], "MITRE ATT&CK": ["TA0010:T1567"]}
     default_severity = Severity.info
     dedup_period_minutes = 720

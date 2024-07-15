@@ -1,10 +1,8 @@
-from typing import List
-
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import aws_rule_context, deep_get, pattern_match_list
 from pypanther.helpers.panther_default import aws_cloudtrail_success
 
-awsec2_manual_security_group_change_tests: List[RuleTest] = [
+awsec2_manual_security_group_change_tests: list[RuleTest] = [
     RuleTest(
         name="AWS Console - Ingress SG Authorization",
         expected_result=True,
@@ -326,12 +324,7 @@ class AWSEC2ManualSecurityGroupChange(Rule):
     enabled = False
     log_types = [LogType.AWS_CloudTrail]
     reports = {"MITRE ATT&CK": ["TA0005:T1562"]}
-    tags = [
-        "AWS",
-        "Security Control",
-        "Configuration Required",
-        "Defense Evasion:Impair Defenses",
-    ]
+    tags = ["AWS", "Security Control", "Configuration Required", "Defense Evasion:Impair Defenses"]
     default_severity = Severity.medium
     default_description = "An EC2 security group was manually updated without abiding by the organization's accepted processes. This rule expects organizations to either use the Console, CloudFormation, or Terraform, configurable in the rule's ALLOWED_USER_AGENTS.\n"
     default_runbook = (

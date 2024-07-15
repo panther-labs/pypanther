@@ -1,9 +1,7 @@
-from typing import List
-
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 
-one_password_unusual_client_tests: List[RuleTest] = [
+one_password_unusual_client_tests: list[RuleTest] = [
     RuleTest(
         name="1Password - Expected Client",
         expected_result=False,

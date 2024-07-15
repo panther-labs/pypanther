@@ -1,8 +1,5 @@
-from typing import List
-
-from pypanther.base import DataModel, DataModelMapping
+from pypanther.base import DataModel, DataModelMapping, LogType
 from pypanther.helpers.panther_base_helpers import deep_get
-from pypanther.log_types import LogType
 
 
 def get_dns_query(event):
@@ -32,8 +29,8 @@ class StandardCrowdstrikeFDR(DataModel):
     id_: str = "Standard.Crowdstrike.FDR"
     display_name: str = "Crowdstrike FDR"
     enabled: bool = True
-    log_types: List[str] = [LogType.Crowdstrike_FDREvent]
-    mappings: List[DataModelMapping] = [
+    log_types: list[str] = [LogType.Crowdstrike_FDREvent]
+    mappings: list[DataModelMapping] = [
         DataModelMapping(name="actor_user", path="$.event.UserName"),
         DataModelMapping(name="cmd", path="$.event.CommandLine"),
         DataModelMapping(name="destination_ip", path="$.event.RemoteAddressIP4"),

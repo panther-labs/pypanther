@@ -1,9 +1,7 @@
-from typing import List
-
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 
-asana_workspace_guest_invite_permissions_anyone_tests: List[RuleTest] = [
+asana_workspace_guest_invite_permissions_anyone_tests: list[RuleTest] = [
     RuleTest(
         name="Anyone Allowed Guest Invite",
         expected_result=True,
@@ -24,11 +22,7 @@ asana_workspace_guest_invite_permissions_anyone_tests: List[RuleTest] = [
             "event_category": "admin_settings",
             "event_type": "workspace_guest_invite_permissions_changed",
             "gid": "12345",
-            "resource": {
-                "gid": "12345",
-                "name": "Example IO",
-                "resource_type": "workspace",
-            },
+            "resource": {"gid": "12345", "name": "Example IO", "resource_type": "workspace"},
         },
     ),
     RuleTest(
@@ -51,11 +45,7 @@ asana_workspace_guest_invite_permissions_anyone_tests: List[RuleTest] = [
             "event_category": "admin_settings",
             "event_type": "workspace_form_link_authentication_required_disabled",
             "gid": "1234567890",
-            "resource": {
-                "gid": "111234",
-                "name": "Simpsons Lab",
-                "resource_type": "workspace",
-            },
+            "resource": {"gid": "111234", "name": "Simpsons Lab", "resource_type": "workspace"},
         },
     ),
 ]

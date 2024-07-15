@@ -1,8 +1,6 @@
-from typing import List
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 
-from pypanther import LogType, Rule, RuleTest, Severity
-
-decoy_secret_accessed_tests: List[RuleTest] = [
+decoy_secret_accessed_tests: list[RuleTest] = [
     RuleTest(
         name="Secret-Decoy-Accessed",
         expected_result=True,
@@ -16,10 +14,7 @@ decoy_secret_accessed_tests: List[RuleTest] = [
                     "ServiceName": "kms.amazonaws.com",
                 },
                 "DnsRequestAction": {},
-                "NetworkConnectionAction": {
-                    "LocalPortDetails": {},
-                    "RemotePortDetails": {},
-                },
+                "NetworkConnectionAction": {"LocalPortDetails": {}, "RemotePortDetails": {}},
                 "PortProbeAction": {},
             },
             "AwsAccountId": "123456789012",
@@ -136,10 +131,7 @@ decoy_secret_accessed_tests: List[RuleTest] = [
                     "ServiceName": "kms.amazonaws.com",
                 },
                 "DnsRequestAction": {},
-                "NetworkConnectionAction": {
-                    "LocalPortDetails": {},
-                    "RemotePortDetails": {},
-                },
+                "NetworkConnectionAction": {"LocalPortDetails": {}, "RemotePortDetails": {}},
                 "PortProbeAction": {},
             },
             "AwsAccountId": "123456789012",
@@ -254,7 +246,7 @@ class DecoySecretAccessed(Rule):
     default_severity = Severity.high
     default_description = "Actor accessed Secrets Manager decoy secret"
     default_reference = "https://aws.amazon.com/blogs/security/how-to-detect-suspicious-activity-in-your-aws-account-by-using-private-decoy-resources/"
-    InlineFilters = [{"All": []}]
+    inline_filters = [{"All": []}]
     tests = decoy_secret_accessed_tests
 
     def rule(self, event):

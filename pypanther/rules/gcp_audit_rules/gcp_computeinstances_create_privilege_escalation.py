@@ -1,10 +1,8 @@
-from typing import List
-
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.gcp_base_helpers import gcp_alert_context
 from pypanther.helpers.panther_base_helpers import deep_get
 
-gc_pcomputeinstancescreate_privilege_escalation_tests: List[RuleTest] = [
+gc_pcomputeinstancescreate_privilege_escalation_tests: list[RuleTest] = [
     RuleTest(
         name="GCP compute.instances - Potential Privilege Escalation",
         expected_result=True,
@@ -98,10 +96,7 @@ gc_pcomputeinstancescreate_privilege_escalation_tests: List[RuleTest] = [
                     "callerIP": "1.2.3.4",
                     "callerSuppliedUserAgent": "(gzip),gzip(gfe)",
                     "destinationAttributes": {},
-                    "requestAttributes": {
-                        "auth": {},
-                        "time": "2024-01-30T12:52:36.003867Z",
-                    },
+                    "requestAttributes": {"auth": {}, "time": "2024-01-30T12:52:36.003867Z"},
                 },
                 "resourceLocation": "...",
                 "resourceName": "projects/some-project/zones/us-central1-f/instances/abc",

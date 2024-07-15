@@ -1,8 +1,6 @@
-from typing import List
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 
-from pypanther import LogType, Rule, RuleTest, Severity
-
-git_hub_secret_scanning_alert_created_tests: List[RuleTest] = [
+git_hub_secret_scanning_alert_created_tests: list[RuleTest] = [
     RuleTest(
         name="secret_scanning_alert.create-true",
         expected_result=True,

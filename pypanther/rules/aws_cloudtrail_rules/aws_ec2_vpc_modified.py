@@ -1,10 +1,8 @@
-from typing import List
-
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import aws_rule_context
 from pypanther.helpers.panther_default import aws_cloudtrail_success
 
-awsec2_vpc_modified_tests: List[RuleTest] = [
+awsec2_vpc_modified_tests: list[RuleTest] = [
     RuleTest(
         name="VPC Modified",
         expected_result=True,

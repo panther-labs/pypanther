@@ -1,9 +1,7 @@
-from typing import List
-
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 
-dropbox_linked_team_application_added_tests: List[RuleTest] = [
+dropbox_linked_team_application_added_tests: list[RuleTest] = [
     RuleTest(
         name="App linked for team is LOW severity",
         expected_result=True,
@@ -28,10 +26,7 @@ dropbox_linked_team_application_added_tests: List[RuleTest] = [
                 },
             },
             "event_category": {"_tag": "apps"},
-            "event_type": {
-                "_tag": "app_link_team",
-                "description": "Linked app for team",
-            },
+            "event_type": {"_tag": "app_link_team", "description": "Linked app for team"},
             "involve_non_team_member": False,
             "origin": {
                 "access_method": {
@@ -72,10 +67,7 @@ dropbox_linked_team_application_added_tests: List[RuleTest] = [
                 },
             },
             "event_category": {"_tag": "apps"},
-            "event_type": {
-                "_tag": "app_link_member",
-                "description": "Linked app for member",
-            },
+            "event_type": {"_tag": "app_link_member", "description": "Linked app for member"},
             "involve_non_team_member": False,
             "origin": {
                 "access_method": {
@@ -116,10 +108,7 @@ dropbox_linked_team_application_added_tests: List[RuleTest] = [
                 },
             },
             "event_category": {"_tag": "apps"},
-            "event_type": {
-                "_tag": "app_link_team",
-                "description": "Linked app for team",
-            },
+            "event_type": {"_tag": "app_link_team", "description": "Linked app for team"},
             "involve_non_team_member": True,
             "origin": {
                 "access_method": {
@@ -202,24 +191,12 @@ class DropboxLinkedTeamApplicationAdded(Rule):
         return {
             "additional_user_details": additional_user_details,
             "app_display_name": deep_get(
-                event,
-                "details",
-                "app_info",
-                "display_name",
-                default="<Unknown app display name>",
+                event, "details", "app_info", "display_name", default="<Unknown app display name>"
             ),
             "ip_address": deep_get(
-                event,
-                "origin",
-                "geo_location",
-                "ip_address",
-                default="<Unknown IP address>",
+                event, "origin", "geo_location", "ip_address", default="<Unknown IP address>"
             ),
             "request_id": deep_get(
-                event,
-                "origin",
-                "access_method",
-                "request_id",
-                default="<Unknown request ID>",
+                event, "origin", "access_method", "request_id", default="<Unknown request ID>"
             ),
         }

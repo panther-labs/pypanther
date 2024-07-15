@@ -1,8 +1,6 @@
-from typing import List
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 
-from pypanther import LogType, Rule, RuleTest, Severity
-
-aws_cloud_trail_iam_compromised_key_quarantine_tests: List[RuleTest] = [
+aws_cloud_trail_iam_compromised_key_quarantine_tests: list[RuleTest] = [
     RuleTest(
         name="AttachUserPolicy AWSCompromisedKeyQuarantineV2-true",
         expected_result=True,

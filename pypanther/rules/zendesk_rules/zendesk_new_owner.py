@@ -1,10 +1,9 @@
 import re
-from typing import List
 
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import ZENDESK_CHANGE_DESCRIPTION
 
-zendesk_account_owner_changed_tests: List[RuleTest] = [
+zendesk_account_owner_changed_tests: list[RuleTest] = [
     RuleTest(
         name="Zendesk - Owner Changed",
         expected_result=True,

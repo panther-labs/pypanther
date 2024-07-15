@@ -1,8 +1,6 @@
-from typing import List
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 
-from pypanther import LogType, Rule, RuleTest, Severity
-
-osquery_mac_osx_attacks_tests: List[RuleTest] = [
+osquery_mac_osx_attacks_tests: list[RuleTest] = [
     RuleTest(
         name="Valid malware discovered",
         expected_result=True,

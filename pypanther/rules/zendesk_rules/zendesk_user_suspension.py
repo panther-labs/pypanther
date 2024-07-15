@@ -1,9 +1,7 @@
-from typing import List
-
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import ZENDESK_CHANGE_DESCRIPTION
 
-zendesk_user_suspension_tests: List[RuleTest] = [
+zendesk_user_suspension_tests: list[RuleTest] = [
     RuleTest(
         name="Zendesk - Suspension Enabled",
         expected_result=True,

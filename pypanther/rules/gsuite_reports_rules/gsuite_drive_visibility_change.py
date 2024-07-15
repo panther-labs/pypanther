@@ -1,12 +1,11 @@
 import json
-from typing import List
 from unittest.mock import MagicMock
 
 from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 from pypanther.helpers.panther_base_helpers import gsuite_parameter_lookup as param_lookup
 
-g_suite_drive_visibility_changed_tests: List[RuleTest] = [
+g_suite_drive_visibility_changed_tests: list[RuleTest] = [
     RuleTest(
         name="Access Event",
         expected_result=False,
@@ -65,10 +64,7 @@ g_suite_drive_visibility_changed_tests: List[RuleTest] = [
                         {"name": "visibility_change", "value": "external"},
                         {"name": "doc_title", "value": "my shared document"},
                         {"name": "target_domain", "value": "example.com"},
-                        {
-                            "name": "visibility",
-                            "value": "people_within_domain_with_link",
-                        },
+                        {"name": "visibility", "value": "people_within_domain_with_link"},
                         {"name": "new_value", "multiValue": ["people_with_link"]},
                     ],
                     "name": "change_document_visibility",
@@ -96,10 +92,7 @@ g_suite_drive_visibility_changed_tests: List[RuleTest] = [
                         {"name": "visibility_change", "value": "external"},
                         {"name": "doc_title", "value": "my shared document"},
                         {"name": "target_domain", "value": "example.com"},
-                        {
-                            "name": "visibility",
-                            "value": "people_within_domain_with_link",
-                        },
+                        {"name": "visibility", "value": "people_within_domain_with_link"},
                         {"name": "new_value", "multiValue": ["people_with_link"]},
                     ],
                     "name": "change_document_visibility",
@@ -164,10 +157,7 @@ g_suite_drive_visibility_changed_tests: List[RuleTest] = [
                         {"name": "target_user", "value": "someone@random.com"},
                         {"name": "old_value", "multiValue": ["none"]},
                         {"name": "new_value", "multiValue": ["can_view"]},
-                        {
-                            "name": "old_visibility",
-                            "value": "people_within_domain_with_link",
-                        },
+                        {"name": "old_visibility", "value": "people_within_domain_with_link"},
                         {"name": "doc_title", "value": "Hosted Accounts"},
                         {"name": "visibility", "value": "shared_externally"},
                     ],
@@ -202,10 +192,7 @@ g_suite_drive_visibility_changed_tests: List[RuleTest] = [
                         {"name": "target_user", "value": "someone@random.com"},
                         {"name": "old_value", "multiValue": ["none"]},
                         {"name": "new_value", "multiValue": ["can_view"]},
-                        {
-                            "name": "old_visibility",
-                            "value": "people_within_domain_with_link",
-                        },
+                        {"name": "old_visibility", "value": "people_within_domain_with_link"},
                         {"name": "doc_title", "value": "Hosted Accounts"},
                         {"name": "visibility", "value": "shared_externally"},
                     ],
@@ -219,10 +206,7 @@ g_suite_drive_visibility_changed_tests: List[RuleTest] = [
                         {"name": "target_user", "value": "someoneelse@random.com"},
                         {"name": "old_value", "multiValue": ["none"]},
                         {"name": "new_value", "multiValue": ["can_view"]},
-                        {
-                            "name": "old_visibility",
-                            "value": "people_within_domain_with_link",
-                        },
+                        {"name": "old_visibility", "value": "people_within_domain_with_link"},
                         {"name": "doc_title", "value": "Hosted Accounts"},
                         {"name": "visibility", "value": "shared_externally"},
                     ],
@@ -236,10 +220,7 @@ g_suite_drive_visibility_changed_tests: List[RuleTest] = [
                         {"name": "target_user", "value": "notbobert@example.com"},
                         {"name": "old_value", "multiValue": ["none"]},
                         {"name": "new_value", "multiValue": ["can_view"]},
-                        {
-                            "name": "old_visibility",
-                            "value": "people_within_domain_with_link",
-                        },
+                        {"name": "old_visibility", "value": "people_within_domain_with_link"},
                         {"name": "doc_title", "value": "Hosted Accounts"},
                         {"name": "visibility", "value": "shared_externally"},
                     ],
@@ -306,10 +287,7 @@ g_suite_drive_visibility_changed_tests: List[RuleTest] = [
                         {"name": "target_user", "value": "someone@yandex.com"},
                         {"name": "old_value", "multiValue": ["none"]},
                         {"name": "new_value", "multiValue": ["can_view"]},
-                        {
-                            "name": "old_visibility",
-                            "value": "people_within_domain_with_link",
-                        },
+                        {"name": "old_visibility", "value": "people_within_domain_with_link"},
                         {"name": "doc_title", "value": "Hosted Accounts"},
                         {"name": "visibility", "value": "shared_externally"},
                     ],
@@ -350,10 +328,7 @@ g_suite_drive_visibility_changed_tests: List[RuleTest] = [
                         {"name": "target_user", "value": "someone@notexample.com"},
                         {"name": "old_value", "multiValue": ["none"]},
                         {"name": "new_value", "multiValue": ["can_view"]},
-                        {
-                            "name": "old_visibility",
-                            "value": "people_within_domain_with_link",
-                        },
+                        {"name": "old_visibility", "value": "people_within_domain_with_link"},
                         {"name": "doc_title", "value": "Hosted Accounts"},
                         {"name": "visibility", "value": "shared_externally"},
                     ],
@@ -367,10 +342,7 @@ g_suite_drive_visibility_changed_tests: List[RuleTest] = [
                         {"name": "target_user", "value": "someoneelse@example.com"},
                         {"name": "old_value", "multiValue": ["none"]},
                         {"name": "new_value", "multiValue": ["can_view"]},
-                        {
-                            "name": "old_visibility",
-                            "value": "people_within_domain_with_link",
-                        },
+                        {"name": "old_visibility", "value": "people_within_domain_with_link"},
                         {"name": "doc_title", "value": "Hosted Accounts"},
                         {"name": "visibility", "value": "shared_externally"},
                     ],
@@ -384,10 +356,7 @@ g_suite_drive_visibility_changed_tests: List[RuleTest] = [
                         {"name": "target_user", "value": "notbobert@example.com"},
                         {"name": "old_value", "multiValue": ["none"]},
                         {"name": "new_value", "multiValue": ["can_view"]},
-                        {
-                            "name": "old_visibility",
-                            "value": "people_within_domain_with_link",
-                        },
+                        {"name": "old_visibility", "value": "people_within_domain_with_link"},
                         {"name": "doc_title", "value": "Hosted Accounts"},
                         {"name": "visibility", "value": "shared_externally"},
                     ],
@@ -403,11 +372,7 @@ class GSuiteDriveVisibilityChanged(Rule):
     display_name = "GSuite External Drive Document"
     enabled = False
     log_types = [LogType.GSuite_Reports]
-    tags = [
-        "GSuite",
-        "Collection:Data from Information Repositories",
-        "Configuration Required",
-    ]
+    tags = ["GSuite", "Collection:Data from Information Repositories", "Configuration Required"]
     reports = {"MITRE ATT&CK": ["TA0009:T1213"]}
     default_severity = Severity.low
     default_description = "A Google drive resource became externally accessible.\n"

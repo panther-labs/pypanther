@@ -1,12 +1,11 @@
 import json
-from typing import List
 from unittest.mock import MagicMock
 
 from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 from pypanther.helpers.panther_config import config
 
-dropbox_ownership_transfer_tests: List[RuleTest] = [
+dropbox_ownership_transfer_tests: list[RuleTest] = [
     RuleTest(
         name="Folder Ownership Transfer to External",
         expected_result=True,
@@ -27,10 +26,7 @@ dropbox_ownership_transfer_tests: List[RuleTest] = [
                     "display_name": "test1",
                     "path": {
                         "contextual": "/Alice Bob/test1",
-                        "namespace_relative": {
-                            "is_shared_namespace": True,
-                            "ns_id": "12345",
-                        },
+                        "namespace_relative": {"is_shared_namespace": True, "ns_id": "12345"},
                     },
                 }
             ],
@@ -178,10 +174,7 @@ dropbox_ownership_transfer_tests: List[RuleTest] = [
                     "display_name": "test1",
                     "path": {
                         "contextual": "/Alice Bob/test1",
-                        "namespace_relative": {
-                            "is_shared_namespace": True,
-                            "ns_id": "12345",
-                        },
+                        "namespace_relative": {"is_shared_namespace": True, "ns_id": "12345"},
                     },
                 }
             ],
@@ -261,10 +254,7 @@ class DropboxOwnershipTransfer(Rule):
     def title(self, event):
         actor = deep_get(event, "actor", "user", "email", default="<EMAIL_NOT_FOUND>")
         previous_owner = deep_get(
-            event,
-            "details",
-            "previous_owner_email",
-            default="<PREVIOUS_OWNER_NOT_FOUND>",
+            event, "details", "previous_owner_email", default="<PREVIOUS_OWNER_NOT_FOUND>"
         )
         new_owner = deep_get(event, "details", "new_owner_email", default="<NEW_OWNER_NOT_FOUND>")
         assets = event.get("assets", [{}])

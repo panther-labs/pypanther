@@ -1,9 +1,7 @@
-from typing import List
-
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 
-dropbox_user_disabled2_fa_tests: List[RuleTest] = [
+dropbox_user_disabled2_fa_tests: list[RuleTest] = [
     RuleTest(
         name="2FA Disabled",
         expected_result=True,
@@ -89,10 +87,7 @@ dropbox_user_disabled2_fa_tests: List[RuleTest] = [
                 },
             },
             "event_category": {"_tag": "apps"},
-            "event_type": {
-                "_tag": "app_link_member",
-                "description": "Linked app for member",
-            },
+            "event_type": {"_tag": "app_link_member", "description": "Linked app for member"},
             "involve_non_team_member": False,
             "origin": {
                 "access_method": {

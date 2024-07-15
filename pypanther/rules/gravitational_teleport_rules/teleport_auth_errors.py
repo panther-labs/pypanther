@@ -1,8 +1,6 @@
-from typing import List
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 
-from pypanther import LogType, Rule, RuleTest, Severity
-
-teleport_auth_errors_tests: List[RuleTest] = [
+teleport_auth_errors_tests: list[RuleTest] = [
     RuleTest(
         name="SSH Errors",
         expected_result=True,

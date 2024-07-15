@@ -1,8 +1,6 @@
-from typing import List
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 
-from pypanther import LogType, Rule, RuleTest, Severity
-
-panther_saml_modified_tests: List[RuleTest] = [
+panther_saml_modified_tests: list[RuleTest] = [
     RuleTest(
         name="SAML config modified",
         expected_result=True,

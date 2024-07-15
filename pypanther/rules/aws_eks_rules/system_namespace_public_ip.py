@@ -1,10 +1,9 @@
 from ipaddress import ip_address
-from typing import List
 
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get, eks_panther_obj_ref
 
-amazon_eks_audit_system_namespace_from_public_ip_tests: List[RuleTest] = [
+amazon_eks_audit_system_namespace_from_public_ip_tests: list[RuleTest] = [
     RuleTest(
         name="non-system username",
         expected_result=False,
@@ -335,7 +334,6 @@ class AmazonEKSAuditSystemNamespaceFromPublicIP(Rule):
     # Explicitly ignore eks:node-manager and eks:addon-manager
     #  which are run as Lambdas and originate from public IPs
     AMZ_PUBLICS = {"eks:addon-manager", "eks:node-manager"}
-
     # Alert if
     #   the username starts ( with system: or eks: )
     #   and

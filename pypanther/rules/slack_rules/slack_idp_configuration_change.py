@@ -1,9 +1,7 @@
-from typing import List
-
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import slack_alert_context
 
-slack_audit_logs_idp_configuration_changed_tests: List[RuleTest] = [
+slack_audit_logs_idp_configuration_changed_tests: list[RuleTest] = [
     RuleTest(
         name="IDP Configuration Added",
         expected_result=True,
@@ -129,12 +127,7 @@ class SlackAuditLogsIDPConfigurationChanged(Rule):
     id_ = "Slack.AuditLogs.IDPConfigurationChanged-prototype"
     display_name = "Slack IDP Configuration Changed"
     log_types = [LogType.Slack_AuditLogs]
-    tags = [
-        "Slack",
-        "Persistence",
-        "Credential Access",
-        "Modify Authentication Process",
-    ]
+    tags = ["Slack", "Persistence", "Credential Access", "Modify Authentication Process"]
     reports = {"MITRE ATT&CK": ["TA0003:T1556", "TA0006:T1556"]}
     default_severity = Severity.high
     default_description = (

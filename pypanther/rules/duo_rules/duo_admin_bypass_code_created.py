@@ -1,8 +1,6 @@
-from typing import List
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 
-from pypanther import LogType, Rule, RuleTest, Severity
-
-duo_admin_bypass_code_created_tests: List[RuleTest] = [
+duo_admin_bypass_code_created_tests: list[RuleTest] = [
     RuleTest(
         name="Bypass Create",
         expected_result=True,

@@ -1,10 +1,9 @@
 from fnmatch import fnmatch
-from typing import List
 
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 
-osquery_mac_osx_attacks_keyboard_events_tests: List[RuleTest] = [
+osquery_mac_osx_attacks_keyboard_events_tests: list[RuleTest] = [
     RuleTest(
         name="App running on Desktop that is watching keyboard events",
         expected_result=True,

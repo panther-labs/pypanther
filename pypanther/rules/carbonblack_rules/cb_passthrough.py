@@ -1,8 +1,6 @@
-from typing import List
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 
-from pypanther import LogType, Rule, RuleTest, Severity
-
-carbon_black_alert_v2_passthrough_tests: List[RuleTest] = [
+carbon_black_alert_v2_passthrough_tests: list[RuleTest] = [
     RuleTest(
         name="True Positive",
         expected_result=True,
@@ -23,10 +21,7 @@ carbon_black_alert_v2_passthrough_tests: List[RuleTest] = [
             "childproc_sha256": "b99d61d874728edc0918ca0eb10eab93d381e7367e377406e65963366c874450",
             "childproc_username": "DESKTOP-A1B2C3\\bob.ross",
             "detection_timestamp": "2023-10-04 08:46:44.508000000",
-            "determination": {
-                "change_timestamp": "2023-10-04 08:47:36.268000000",
-                "value": "NONE",
-            },
+            "determination": {"change_timestamp": "2023-10-04 08:47:36.268000000", "value": "NONE"},
             "device_external_ip": "12.34.56.78",
             "device_id": 173050323,
             "device_internal_ip": "192.168.31.23",
@@ -112,10 +107,7 @@ carbon_black_alert_v2_passthrough_tests: List[RuleTest] = [
             "childproc_sha256": "b99d61d874728edc0918ca0eb10eab93d381e7367e377406e65963366c874450",
             "childproc_username": "DESKTOP-A1B2C3\\bob.ross",
             "detection_timestamp": "2023-10-04 08:46:44.508000000",
-            "determination": {
-                "change_timestamp": "2023-10-04 08:47:36.268000000",
-                "value": "NONE",
-            },
+            "determination": {"change_timestamp": "2023-10-04 08:47:36.268000000", "value": "NONE"},
             "device_external_ip": "12.34.56.78",
             "device_id": 173050323,
             "device_internal_ip": "192.168.31.23",

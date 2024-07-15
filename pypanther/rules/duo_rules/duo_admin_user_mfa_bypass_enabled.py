@@ -1,12 +1,10 @@
-from typing import List
-
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_duo_helpers import (
     deserialize_administrator_log_event_description,
     duo_alert_context,
 )
 
-duo_admin_user_mfa_bypass_enabled_tests: List[RuleTest] = [
+duo_admin_user_mfa_bypass_enabled_tests: list[RuleTest] = [
     RuleTest(
         name="Account Active",
         expected_result=False,

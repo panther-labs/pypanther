@@ -1,9 +1,7 @@
-from typing import List
-
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 
-osquery_mac_auto_update_enabled_tests: List[RuleTest] = [
+osquery_mac_auto_update_enabled_tests: list[RuleTest] = [
     RuleTest(
         name="Auto Updates Disabled",
         expected_result=True,

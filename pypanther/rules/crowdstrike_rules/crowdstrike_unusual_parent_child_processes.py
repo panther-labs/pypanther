@@ -1,9 +1,7 @@
-from typing import List
-
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import crowdstrike_detection_alert_context, deep_get
 
-crowdstrike_unusual_parent_child_processes_tests: List[RuleTest] = [
+crowdstrike_unusual_parent_child_processes_tests: list[RuleTest] = [
     RuleTest(
         name="Suspicious Event",
         expected_result=True,

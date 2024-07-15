@@ -1,8 +1,5 @@
-from typing import List
-
 import pypanther.helpers.panther_event_type_helpers as event_type
-from pypanther.base import DataModel, DataModelMapping
-from pypanther.log_types import LogType
+from pypanther.base import DataModel, DataModelMapping, LogType
 
 ADMIN_EVENTS = {
     "business.add_admin",
@@ -39,8 +36,8 @@ class StandardGithubAudit(DataModel):
     id_: str = "Standard.Github.Audit"
     display_name: str = "Github Audit"
     enabled: bool = True
-    log_types: List[str] = [LogType.GitHub_Audit]
-    mappings: List[DataModelMapping] = [
+    log_types: list[str] = [LogType.GitHub_Audit]
+    mappings: list[DataModelMapping] = [
         DataModelMapping(name="actor_user", path="actor"),
         DataModelMapping(name="assigned_admin_role", method=get_admin_role),
         DataModelMapping(name="event_type", method=get_event_type),

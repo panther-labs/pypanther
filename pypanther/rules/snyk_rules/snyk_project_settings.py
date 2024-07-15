@@ -1,10 +1,8 @@
-from typing import List
-
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 from pypanther.helpers.panther_snyk_helpers import snyk_alert_context
 
-snyk_project_settings_tests: List[RuleTest] = [
+snyk_project_settings_tests: list[RuleTest] = [
     RuleTest(
         name="Snyk Org Project Stop Monitor",
         expected_result=True,

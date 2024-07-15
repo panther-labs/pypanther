@@ -1,12 +1,10 @@
-from typing import List
-
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import (
     crowdstrike_detection_alert_context,
     get_crowdstrike_field,
 )
 
-crowdstrike_detectionpassthrough_tests: List[RuleTest] = [
+crowdstrike_detectionpassthrough_tests: list[RuleTest] = [
     RuleTest(
         name="Low Severity Finding",
         expected_result=True,
@@ -176,10 +174,7 @@ class CrowdstrikeDetectionpassthrough(Rule):
     id_ = "Crowdstrike.Detection.passthrough-prototype"
     display_name = "Crowdstrike Detection Passthrough"
     default_severity = Severity.medium
-    log_types = [
-        LogType.Crowdstrike_DetectionSummary,
-        LogType.Crowdstrike_FDREvent,
-    ]
+    log_types = [LogType.Crowdstrike_DetectionSummary, LogType.Crowdstrike_FDREvent]
     tags = ["Crowdstrike"]
     default_description = "Crowdstrike Falcon has detected malicious activity on a host."
     default_runbook = "Follow the Falcon console link and follow the IR process as needed."

@@ -1,9 +1,8 @@
 import json
-from typing import List
 
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 
-git_lab_audit_password_reset_multiple_emails_tests: List[RuleTest] = [
+git_lab_audit_password_reset_multiple_emails_tests: list[RuleTest] = [
     RuleTest(
         name="not a password reset",
         expected_result=False,

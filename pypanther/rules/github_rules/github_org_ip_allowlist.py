@@ -1,8 +1,6 @@
-from typing import List
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 
-from pypanther import LogType, Rule, RuleTest, Severity
-
-git_hub_org_ip_allowlist_tests: List[RuleTest] = [
+git_hub_org_ip_allowlist_tests: list[RuleTest] = [
     RuleTest(
         name="GitHub - IP Allow list modified",
         expected_result=True,

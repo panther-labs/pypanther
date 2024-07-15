@@ -1,9 +1,7 @@
-from typing import List
-
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_notion_helpers import notion_alert_context
 
-notion_sharing_settings_updated_tests: List[RuleTest] = [
+notion_sharing_settings_updated_tests: list[RuleTest] = [
     RuleTest(
         name="Sharing Enabled",
         expected_result=True,

@@ -1,9 +1,7 @@
-from typing import List
-
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 
-dropbox_adminsigninas_session_tests: List[RuleTest] = [
+dropbox_adminsigninas_session_tests: list[RuleTest] = [
     RuleTest(
         name="Other",
         expected_result=False,

@@ -1,8 +1,6 @@
-from typing import List
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 
-from pypanther import LogType, Rule, RuleTest, Severity
-
-app_omni_alert_passthrough_tests: List[RuleTest] = [
+app_omni_alert_passthrough_tests: list[RuleTest] = [
     RuleTest(
         name="Alert Type Severity 2",
         expected_result=True,
@@ -17,11 +15,7 @@ app_omni_alert_passthrough_tests: List[RuleTest] = [
                 },
                 "organization": {"id": 285},
             },
-            "event": {
-                "created": "2024-02-21T19:50:42.499Z",
-                "kind": "alert",
-                "severity": 2,
-            },
+            "event": {"created": "2024-02-21T19:50:42.499Z", "kind": "alert", "severity": 2},
             "message": "Security issue detected in GitHub repository 'appomni/ao_factory_interfaces'",
             "related": {
                 "event": ["cf8e782f-1657-5a4e-bdc2-cff1d147c912"],
@@ -54,12 +48,7 @@ app_omni_alert_passthrough_tests: List[RuleTest] = [
                     "ingestion_time": "2024-02-28T19:53:34.298Z",
                 },
                 "organization": {"id": 6},
-                "service": {
-                    "account_id": "6",
-                    "id": 0,
-                    "name": "AppOmni",
-                    "type": "appomni",
-                },
+                "service": {"account_id": "6", "id": 0, "name": "AppOmni", "type": "appomni"},
             },
             "event": {
                 "action": "update_token",
@@ -93,11 +82,7 @@ app_omni_alert_passthrough_tests: List[RuleTest] = [
                 },
                 "organization": {"id": 6},
             },
-            "event": {
-                "created": "2024-02-26T18:04:15.109Z",
-                "kind": "alert",
-                "severity": 3,
-            },
+            "event": {"created": "2024-02-26T18:04:15.109Z", "kind": "alert", "severity": 3},
             "message": "An external application has been installed by appomni_int_justinz in Workday",
             "related": {
                 "event": ["cb786453-a105-5438-97a6-903d15e0cb7e"],
@@ -143,11 +128,7 @@ app_omni_alert_passthrough_tests: List[RuleTest] = [
                 },
                 "organization": {"id": 285},
             },
-            "event": {
-                "created": "2024-02-21T19:50:42.499Z",
-                "kind": "alert",
-                "severity": 2,
-            },
+            "event": {"created": "2024-02-21T19:50:42.499Z", "kind": "alert", "severity": 2},
             "message": "Security issue detected in GitHub repository 'appomni/ao_factory_interfaces'",
             "related": {
                 "event": ["cf8e782f-1657-5a4e-bdc2-cff1d147c912"],
@@ -248,7 +229,4 @@ class AppOmniAlertPassthrough(Rule):
 
     def alert_context(self, event):
         # 'Threat' and 'related' data to be included in the alert sent to the alert destination
-        return {
-            "threat": event.deep_get("rule", "threat"),
-            "related": event.deep_get("related"),
-        }
+        return {"threat": event.deep_get("rule", "threat"), "related": event.deep_get("related")}

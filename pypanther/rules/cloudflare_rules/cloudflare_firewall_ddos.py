@@ -1,9 +1,7 @@
-from typing import List
-
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_cloudflare_helpers import cloudflare_fw_alert_context
 
-cloudflare_firewall_l7_d_do_s_tests: List[RuleTest] = [
+cloudflare_firewall_l7_d_do_s_tests: list[RuleTest] = [
     RuleTest(
         name="Traffic Marked as L7DDoS",
         expected_result=True,
@@ -106,12 +104,7 @@ class CloudflareFirewallL7DDoS(Rule):
         "https://www.cloudflare.com/en-gb/learning/ddos/application-layer-ddos-attack/"
     )
     threshold = 100
-    summary_attributes = [
-        "Action",
-        "ClientCountry",
-        "ClientIP",
-        "ClientRequestUserAgent",
-    ]
+    summary_attributes = ["Action", "ClientCountry", "ClientIP", "ClientRequestUserAgent"]
     tests = cloudflare_firewall_l7_d_do_s_tests
 
     def rule(self, event):

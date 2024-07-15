@@ -1,10 +1,8 @@
-from typing import List
-
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 from pypanther.helpers.panther_config import config
 
-g_suite_doc_ownership_transfer_tests: List[RuleTest] = [
+g_suite_doc_ownership_transfer_tests: list[RuleTest] = [
     RuleTest(
         name="Ownership Transferred Within Organization",
         expected_result=False,
@@ -31,11 +29,7 @@ class GSuiteDocOwnershipTransfer(Rule):
     display_name = "GSuite Document External Ownership Transfer"
     enabled = False
     log_types = [LogType.GSuite_ActivityEvent]
-    tags = [
-        "GSuite",
-        "Configuration Required",
-        "Collection:Data from Information Repositories",
-    ]
+    tags = ["GSuite", "Configuration Required", "Collection:Data from Information Repositories"]
     reports = {"MITRE ATT&CK": ["TA0009:T1213"]}
     default_severity = Severity.low
     default_description = "A GSuite document's ownership was transferred to an external party.\n"

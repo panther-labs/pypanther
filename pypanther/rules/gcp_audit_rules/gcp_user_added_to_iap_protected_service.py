@@ -1,9 +1,7 @@
-from typing import List
-
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 
-gcp_user_addedto_iap_protected_service_tests: List[RuleTest] = [
+gcp_user_addedto_iap_protected_service_tests: list[RuleTest] = [
     RuleTest(
         name="other",
         expected_result=False,
@@ -98,10 +96,7 @@ gcp_user_addedto_iap_protected_service_tests: List[RuleTest] = [
                     "callerIP": "1.2.3.4",
                     "callerSuppliedUserAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Safari/537.36,gzip(gfe),gzip(gfe)",
                     "destinationAttributes": {},
-                    "requestAttributes": {
-                        "auth": {},
-                        "time": "2023-04-25T19:20:57.295723118Z",
-                    },
+                    "requestAttributes": {"auth": {}, "time": "2023-04-25T19:20:57.295723118Z"},
                 },
                 "resourceName": "projects/123456789012/iap_web/compute/services/7312383563505470445",
                 "response": {
@@ -112,11 +107,7 @@ gcp_user_addedto_iap_protected_service_tests: List[RuleTest] = [
             },
             "receiveTimestamp": "2023-04-25 19:20:58.16",
             "resource": {
-                "labels": {
-                    "backend_service_id": "",
-                    "location": "",
-                    "project_id": "gcp-project1",
-                },
+                "labels": {"backend_service_id": "", "location": "", "project_id": "gcp-project1"},
                 "type": "gce_backend_service",
             },
             "severity": "NOTICE",
@@ -172,10 +163,7 @@ gcp_user_addedto_iap_protected_service_tests: List[RuleTest] = [
                     "callerIP": "1.2.3.4",
                     "callerSuppliedUserAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Safari/537.36,gzip(gfe),gzip(gfe)",
                     "destinationAttributes": {},
-                    "requestAttributes": {
-                        "auth": {},
-                        "time": "2023-04-25T19:20:42.399215146Z",
-                    },
+                    "requestAttributes": {"auth": {}, "time": "2023-04-25T19:20:42.399215146Z"},
                 },
                 "resourceName": "projects/123456789012/iap_web/compute/services/7312383563505470445",
                 "response": {
@@ -194,11 +182,7 @@ gcp_user_addedto_iap_protected_service_tests: List[RuleTest] = [
             },
             "receiveTimestamp": "2023-04-25 19:20:43.033",
             "resource": {
-                "labels": {
-                    "backend_service_id": "",
-                    "location": "",
-                    "project_id": "gcp-project1",
-                },
+                "labels": {"backend_service_id": "", "location": "", "project_id": "gcp-project1"},
                 "type": "gce_backend_service",
             },
             "severity": "NOTICE",

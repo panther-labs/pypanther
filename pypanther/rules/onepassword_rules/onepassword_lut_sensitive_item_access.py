@@ -1,9 +1,7 @@
-from typing import List
-
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 
-one_password_lut_sensitive_item_tests: List[RuleTest] = [
+one_password_lut_sensitive_item_tests: list[RuleTest] = [
     RuleTest(
         name="1Password - Sensitive Item Accessed",
         expected_result=True,
@@ -29,11 +27,7 @@ one_password_lut_sensitive_item_tests: List[RuleTest] = [
             },
             "p_log_type": "OnePassword.ItemUsage",
             "timestamp": "2022-02-23 22:11:50.591",
-            "user": {
-                "email": "homer@springfield.gov",
-                "name": "Homer Simpson",
-                "uuid": "12345",
-            },
+            "user": {"email": "homer@springfield.gov", "name": "Homer Simpson", "uuid": "12345"},
             "uuid": "12345",
             "vault_uuid": "54321",
         },
@@ -63,11 +57,7 @@ one_password_lut_sensitive_item_tests: List[RuleTest] = [
             },
             "p_log_type": "OnePassword.ItemUsage",
             "timestamp": "2022-02-23 22:11:50.591",
-            "user": {
-                "email": "homer@springfield.gov",
-                "name": "Homer Simpson",
-                "uuid": "12345",
-            },
+            "user": {"email": "homer@springfield.gov", "name": "Homer Simpson", "uuid": "12345"},
             "uuid": "12345",
             "vault_uuid": "54321",
         },

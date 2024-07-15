@@ -1,8 +1,6 @@
-from typing import List
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 
-from pypanther import LogType, Rule, RuleTest, Severity
-
-zoom_all_meetings_secured_with_one_option_disabled_tests: List[RuleTest] = [
+zoom_all_meetings_secured_with_one_option_disabled_tests: list[RuleTest] = [
     RuleTest(
         name="Turn off",
         expected_result=True,

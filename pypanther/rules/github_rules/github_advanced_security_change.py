@@ -1,9 +1,7 @@
-from typing import List
-
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import github_alert_context
 
-git_hub_advanced_security_change_tests: List[RuleTest] = [
+git_hub_advanced_security_change_tests: list[RuleTest] = [
     RuleTest(
         name="Secret Scanning Disabled on a Repo",
         expected_result=True,

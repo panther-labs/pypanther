@@ -1,11 +1,10 @@
 import re
-from typing import List
 
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_auth0_helpers import auth0_alert_context, is_auth0_config_event
 from pypanther.helpers.panther_base_helpers import deep_get
 
-auth0_user_invitation_created_tests: List[RuleTest] = [
+auth0_user_invitation_created_tests: list[RuleTest] = [
     RuleTest(
         name="Test-org",
         expected_result=True,
@@ -144,10 +143,7 @@ auth0_user_invitation_created_tests: List[RuleTest] = [
                         "auth": {
                             "credentials": {
                                 "jti": "dc1843dbe925a1ed2e707452c2123913",
-                                "scopes": [
-                                    "create:actions",
-                                    "create:actions_log_sessions",
-                                ],
+                                "scopes": ["create:actions", "create:actions_log_sessions"],
                             },
                             "strategy": "jwt",
                             "user": {
@@ -156,10 +152,7 @@ auth0_user_invitation_created_tests: List[RuleTest] = [
                                 "user_id": "auth0|6459776e974703f3a65dc258",
                             },
                         },
-                        "body": {
-                            "owners": ["marge.simpson@yourcompany.io"],
-                            "roles": ["owner"],
-                        },
+                        "body": {"owners": ["marge.simpson@yourcompany.io"], "roles": ["owner"]},
                         "channel": "https://manage.auth0.com/",
                         "ip": "12.12.12.12",
                         "method": "post",
@@ -210,10 +203,7 @@ auth0_user_invitation_created_tests: List[RuleTest] = [
                         "auth": {
                             "credentials": {
                                 "jti": "dc1843dbe925a1ed2e707452c2123913",
-                                "scopes": [
-                                    "create:actions",
-                                    "create:actions_log_sessions",
-                                ],
+                                "scopes": ["create:actions", "create:actions_log_sessions"],
                             },
                             "strategy": "jwt",
                             "user": {
@@ -273,10 +263,7 @@ auth0_user_invitation_created_tests: List[RuleTest] = [
                         "auth": {
                             "credentials": {
                                 "jti": "dc1843dbe925a1ed2e707452c2123913",
-                                "scopes": [
-                                    "create:actions",
-                                    "create:actions_log_sessions",
-                                ],
+                                "scopes": ["create:actions", "create:actions_log_sessions"],
                             },
                             "strategy": "jwt",
                             "user": {
@@ -285,10 +272,7 @@ auth0_user_invitation_created_tests: List[RuleTest] = [
                                 "user_id": "auth0|6459776e974703f3a65dc258",
                             },
                         },
-                        "body": {
-                            "owners": ["marge.simpson@yourcompany.io"],
-                            "roles": ["owner"],
-                        },
+                        "body": {"owners": ["marge.simpson@yourcompany.io"], "roles": ["owner"]},
                         "channel": "https://manage.auth0.com/",
                         "ip": "12.12.12.12",
                         "method": "post",
@@ -358,14 +342,7 @@ class Auth0UserInvitationCreated(Rule):
         else:
             invitee = "<NO_INVITEE>"
         inviter = deep_get(
-            event,
-            "data",
-            "details",
-            "request",
-            "auth",
-            "user",
-            "email",
-            default="<NO_INVITER>",
+            event, "data", "details", "request", "auth", "user", "email", default="<NO_INVITER>"
         )
         source = deep_get(event, "p_source_label", default="<NO_PSOURCE>")
         return f"Auth0 User [{inviter}] invited [{invitee}] to {inv_type} [{source}]]"

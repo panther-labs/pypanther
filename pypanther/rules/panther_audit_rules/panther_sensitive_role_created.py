@@ -1,10 +1,8 @@
-from typing import List
-
 import pypanther.helpers.panther_event_type_helpers as event_type
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 
-panther_sensitive_role_tests: List[RuleTest] = [
+panther_sensitive_role_tests: list[RuleTest] = [
     RuleTest(
         name="Admin Role Created",
         expected_result=True,
@@ -179,10 +177,7 @@ class PantherSensitiveRole(Rule):
         "OrganizationAPITokenRead",
         "GeneralSettingsModify",
     ]
-    PANTHER_ROLE_ACTIONS = [
-        event_type.USER_GROUP_CREATED,
-        event_type.USER_GROUP_MODIFIED,
-    ]
+    PANTHER_ROLE_ACTIONS = [event_type.USER_GROUP_CREATED, event_type.USER_GROUP_MODIFIED]
 
     def rule(self, event):
         if event.udm("event_type") not in self.PANTHER_ROLE_ACTIONS:

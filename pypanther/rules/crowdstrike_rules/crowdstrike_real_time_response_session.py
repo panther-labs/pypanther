@@ -1,9 +1,7 @@
-from typing import List
-
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import get_crowdstrike_field
 
-crowdstrike_real_time_response_session_tests: List[RuleTest] = [
+crowdstrike_real_time_response_session_tests: list[RuleTest] = [
     RuleTest(
         name="RTS session start event",
         expected_result=True,
@@ -131,10 +129,7 @@ class CrowdstrikeRealTimeResponseSession(Rule):
     display_name = "Crowdstrike Real Time Response (RTS) Session"
     id_ = "Crowdstrike.RealTimeResponse.Session-prototype"
     default_severity = Severity.medium
-    log_types = [
-        LogType.Crowdstrike_Unknown,
-        LogType.Crowdstrike_FDREvent,
-    ]
+    log_types = [LogType.Crowdstrike_Unknown, LogType.Crowdstrike_FDREvent]
     tags = ["Crowdstrike"]
     default_description = "Alert when someone uses Crowdstrike’s RTR (real-time response) capability to access a machine remotely to run commands.\n"
     default_runbook = "Validate the real-time response session started by the Actor.\n"

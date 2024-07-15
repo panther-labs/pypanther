@@ -1,9 +1,7 @@
-from typing import List
-
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get, deep_walk
 
-gcp_access_attempts_violating_vpc_service_controls_tests: List[RuleTest] = [
+gcp_access_attempts_violating_vpc_service_controls_tests: list[RuleTest] = [
     RuleTest(
         name="Other Event",
         expected_result=False,
@@ -186,13 +184,7 @@ class GCPAccessAttemptsViolatingVPCServiceControls(Rule):
         violation_types = deep_walk(
             event, "protoPayload", "status", "details", "violations", "type", default=[]
         )
-        if all(
-            [
-                severity == "ERROR",
-                status_code == 7,
-                "VPC_SERVICE_CONTROLS" in violation_types,
-            ]
-        ):
+        if all([severity == "ERROR", status_code == 7, "VPC_SERVICE_CONTROLS" in violation_types]):
             return True
         return False
 

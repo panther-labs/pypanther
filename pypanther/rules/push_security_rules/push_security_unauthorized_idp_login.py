@@ -1,8 +1,6 @@
-from typing import List
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 
-from pypanther import LogType, Rule, RuleTest, Severity
-
-push_security_unauthorized_id_p_login_tests: List[RuleTest] = [
+push_security_unauthorized_id_p_login_tests: list[RuleTest] = [
     RuleTest(
         name="Google Workspace Password Login",
         expected_result=True,

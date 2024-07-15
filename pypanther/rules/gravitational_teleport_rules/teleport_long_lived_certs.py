@@ -1,13 +1,13 @@
 from datetime import datetime, timedelta
-from typing import Dict, List, Tuple
+from typing import Dict, Tuple
 
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import (
     golang_nanotime_to_python_datetime,
     panther_nanotime_to_python_datetime,
 )
 
-teleport_long_lived_certs_tests: List[RuleTest] = [
+teleport_long_lived_certs_tests: list[RuleTest] = [
     RuleTest(
         name="A certificate was created for the default period of 1 hour",
         expected_result=False,

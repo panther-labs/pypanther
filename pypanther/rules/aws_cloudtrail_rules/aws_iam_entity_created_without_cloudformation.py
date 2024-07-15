@@ -1,11 +1,10 @@
 import re
-from typing import List
 
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import aws_rule_context, deep_get
 from pypanther.helpers.panther_default import aws_cloudtrail_success
 
-aws_cloud_trail_iam_entity_created_without_cloud_formation_tests: List[RuleTest] = [
+aws_cloud_trail_iam_entity_created_without_cloud_formation_tests: list[RuleTest] = [
     RuleTest(
         name="IAM Entity Created Automatically",
         expected_result=False,
@@ -262,12 +261,7 @@ class AWSCloudTrailIAMEntityCreatedWithoutCloudFormation(Rule):
     default_description = "An IAM Entity (Group, Policy, Role, or User) was created manually. IAM entities should be created in code to ensure that permissions are tracked and managed correctly.\n"
     default_runbook = "Verify whether IAM entity needs to exist. If so, re-create it in an appropriate CloudFormation, Terraform, or other template. Delete the original manually created entity.\n"
     default_reference = "https://blog.awsfundamentals.com/aws-iam-roles-with-aws-cloudformation"
-    summary_attributes = [
-        "userAgent",
-        "sourceIpAddress",
-        "recipientAccountId",
-        "p_any_aws_arns",
-    ]
+    summary_attributes = ["userAgent", "sourceIpAddress", "recipientAccountId", "p_any_aws_arns"]
     tests = aws_cloud_trail_iam_entity_created_without_cloud_formation_tests
     # The role dedicated for IAM administration
     IAM_ADMIN_ROLES = {"arn:aws:iam::123456789012:role/IdentityCFNServiceRole"}
@@ -302,13 +296,7 @@ class AWSCloudTrailIAMEntityCreatedWithoutCloudFormation(Rule):
                 len(
                     re.findall(
                         admin_role_pattern,
-                        deep_get(
-                            event,
-                            "userIdentity",
-                            "sessionContext",
-                            "sessionIssuer",
-                            "arn",
-                        ),
+                        deep_get(event, "userIdentity", "sessionContext", "sessionIssuer", "arn"),
                     )
                 )
                 > 0

@@ -1,9 +1,7 @@
-from typing import List
-
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import pattern_match_list
 
-teleport_create_user_accounts_tests: List[RuleTest] = [
+teleport_create_user_accounts_tests: list[RuleTest] = [
     RuleTest(
         name="Echo command",
         expected_result=False,

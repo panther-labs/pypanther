@@ -1,8 +1,6 @@
-from typing import List
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 
-from pypanther import LogType, Rule, RuleTest, Severity
-
-push_security_phishable_mfa_method_tests: List[RuleTest] = [
+push_security_phishable_mfa_method_tests: list[RuleTest] = [
     RuleTest(
         name="Dropbox Phishable MFA",
         expected_result=True,
@@ -113,13 +111,7 @@ class PushSecurityPhishableMFAMethod(Rule):
     log_types = [LogType.PushSecurity_Entities]
     default_severity = Severity.info
     tests = push_security_phishable_mfa_method_tests
-    identity_providers = (
-        "MICROSOFT_365",
-        "GOOGLE_WORKSPACE",
-        "OKTA",
-        "JUMPCLOUD",
-        "PING",
-    )
+    identity_providers = ("MICROSOFT_365", "GOOGLE_WORKSPACE", "OKTA", "JUMPCLOUD", "PING")
     phishable_mfa = ("EMAIL_OTP", "PHONE_CALL", "SMS", "APP_PASSWORD")
 
     def rule(self, event):

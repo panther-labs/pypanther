@@ -1,9 +1,7 @@
-from typing import List
-
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_mongodb_helpers import mongodb_alert_context
 
-mongo_db_user_roles_changed_tests: List[RuleTest] = [
+mongo_db_user_roles_changed_tests: list[RuleTest] = [
     RuleTest(
         name="Random event",
         expected_result=False,

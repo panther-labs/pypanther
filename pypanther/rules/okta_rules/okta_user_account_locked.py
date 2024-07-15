@@ -1,9 +1,7 @@
-from typing import List
-
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import okta_alert_context
 
-okta_user_account_locked_tests: List[RuleTest] = [
+okta_user_account_locked_tests: list[RuleTest] = [
     RuleTest(
         name="Account Lock Event",
         expected_result=True,
@@ -14,10 +12,7 @@ okta_user_account_locked_tests: List[RuleTest] = [
                 "id": "00abc123",
                 "type": "User",
             },
-            "authenticationcontext": {
-                "authenticationStep": 0,
-                "externalSessionId": "abcd-1234",
-            },
+            "authenticationcontext": {"authenticationStep": 0, "externalSessionId": "abcd-1234"},
             "client": {
                 "device": "Computer",
                 "geographicalContext": {
@@ -28,11 +23,7 @@ okta_user_account_locked_tests: List[RuleTest] = [
                     "state": "Georgia",
                 },
                 "ipAddress": "1.2.3.4",
-                "userAgent": {
-                    "browser": "CHROME",
-                    "os": "Mac OS X",
-                    "rawUserAgent": "Chrome",
-                },
+                "userAgent": {"browser": "CHROME", "os": "Mac OS X", "rawUserAgent": "Chrome"},
                 "zone": "null",
             },
             "debugcontext": {
@@ -88,10 +79,7 @@ okta_user_account_locked_tests: List[RuleTest] = [
                 "id": "00ABC123",
                 "type": "User",
             },
-            "authenticationcontext": {
-                "authenticationStep": 0,
-                "externalSessionId": "xyz1234",
-            },
+            "authenticationcontext": {"authenticationStep": 0, "externalSessionId": "xyz1234"},
             "client": {
                 "device": "Computer",
                 "geographicalContext": {
@@ -174,10 +162,7 @@ class OktaUserAccountLocked(Rule):
     tests = okta_user_account_locked_tests
 
     def rule(self, event):
-        return event.get("eventtype") in (
-            "user.account.lock",
-            "user.account.lock.limit",
-        )
+        return event.get("eventtype") in ("user.account.lock", "user.account.lock.limit")
 
     def title(self, event):
         return f"Okta: [{event.get('actor', {}).get('alternateId', '<id-not-found>')}] [{event.get('displaymessage', 'account has been locked.')}]"

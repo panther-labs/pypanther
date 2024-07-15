@@ -1,9 +1,7 @@
-from typing import List
-
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get, get_val_from_list
 
-okta_password_access_tests: List[RuleTest] = [
+okta_password_access_tests: list[RuleTest] = [
     RuleTest(
         name="User accessed their own password",
         expected_result=False,

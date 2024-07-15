@@ -1,9 +1,7 @@
-from typing import List
-
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_iocs import CRYPTO_MINING_DOMAINS
 
-awsdns_crypto_domain_tests: List[RuleTest] = [
+awsdns_crypto_domain_tests: list[RuleTest] = [
     RuleTest(
         name="Non Crypto Query",
         expected_result=False,
@@ -184,11 +182,7 @@ awsdns_crypto_domain_tests: List[RuleTest] = [
             "class_name": "DNS Activity",
             "class_uid": 4003,
             "cloud": {"provider": "AWS", "region": "us-west-2"},
-            "connection_info": {
-                "direction": "Unknown",
-                "direction_id": 0,
-                "protocol_name": "UDP",
-            },
+            "connection_info": {"direction": "Unknown", "direction_id": 0, "protocol_name": "UDP"},
             "disposition": "Unknown",
             "disposition_id": 0,
             "metadata": {
@@ -234,11 +228,7 @@ awsdns_crypto_domain_tests: List[RuleTest] = [
             "class_name": "DNS Activity",
             "class_uid": 4003,
             "cloud": {"provider": "AWS", "region": "us-west-2"},
-            "connection_info": {
-                "direction": "Unknown",
-                "direction_id": 0,
-                "protocol_name": "UDP",
-            },
+            "connection_info": {"direction": "Unknown", "direction_id": 0, "protocol_name": "UDP"},
             "disposition": "Unknown",
             "disposition_id": 0,
             "metadata": {

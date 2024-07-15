@@ -1,15 +1,12 @@
-from typing import List
-
-from pypanther.base import DataModel, DataModelMapping
-from pypanther.log_types import LogType
+from pypanther.base import DataModel, DataModelMapping, LogType
 
 
 class StandardAmazonEKSAudit(DataModel):
     id_: str = "Standard.Amazon.EKS.Audit"
     display_name: str = "AWS EKS Audit"
     enabled: bool = True
-    log_types: List[str] = [LogType.Amazon_EKS_Audit]
-    mappings: List[DataModelMapping] = [
+    log_types: list[str] = [LogType.Amazon_EKS_Audit]
+    mappings: list[DataModelMapping] = [
         DataModelMapping(name="annotations", path="$.annotations"),
         DataModelMapping(name="apiGroup", path="$.objectRef.apiGroup"),
         DataModelMapping(name="apiVersion", path="$.objectRef.apiVersion"),

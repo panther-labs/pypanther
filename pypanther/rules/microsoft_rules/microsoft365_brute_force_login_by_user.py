@@ -1,9 +1,7 @@
-from typing import List
-
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import m365_alert_context
 
-microsoft365_brute_force_loginby_user_tests: List[RuleTest] = [
+microsoft365_brute_force_loginby_user_tests: list[RuleTest] = [
     RuleTest(
         name="Failed Login event",
         expected_result=True,

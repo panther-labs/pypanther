@@ -1,8 +1,6 @@
-from typing import List
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 
-from pypanther import LogType, Rule, RuleTest, Severity
-
-push_security_mfa_method_changed_tests: List[RuleTest] = [
+push_security_mfa_method_changed_tests: list[RuleTest] = [
     RuleTest(
         name="All MFA methods removed",
         expected_result=True,

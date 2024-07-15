@@ -1,10 +1,9 @@
 from ipaddress import ip_network
-from typing import List
 
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import aws_rule_context
 
-awsvpc_unapproved_outbound_dns_tests: List[RuleTest] = [
+awsvpc_unapproved_outbound_dns_tests: list[RuleTest] = [
     RuleTest(
         name="Approved Outbound DNS Traffic",
         expected_result=False,

@@ -1,9 +1,7 @@
-from typing import List
-
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_walk
 
-netskope_unauthorized_api_calls_tests: List[RuleTest] = [
+netskope_unauthorized_api_calls_tests: list[RuleTest] = [
     RuleTest(
         name="True positive",
         expected_result=True,

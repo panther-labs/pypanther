@@ -1,9 +1,7 @@
-from typing import List
-
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import okta_alert_context
 
-okta_user_mfa_factor_suspend_tests: List[RuleTest] = [
+okta_user_mfa_factor_suspend_tests: list[RuleTest] = [
     RuleTest(
         name="Suspend Event",
         expected_result=True,
@@ -14,10 +12,7 @@ okta_user_mfa_factor_suspend_tests: List[RuleTest] = [
                 "id": "00abc123",
                 "type": "User",
             },
-            "authenticationcontext": {
-                "authenticationStep": 0,
-                "externalSessionId": "100-abc-9999",
-            },
+            "authenticationcontext": {"authenticationStep": 0, "externalSessionId": "100-abc-9999"},
             "client": {
                 "device": "Computer",
                 "geographicalContext": {
@@ -44,10 +39,7 @@ okta_user_mfa_factor_suspend_tests: List[RuleTest] = [
             },
             "displaymessage": "Suspend factor for user",
             "eventtype": "user.mfa.factor.suspend",
-            "outcome": {
-                "reason": "User suspended SIGNED_NONCE factor",
-                "result": "SUCCESS",
-            },
+            "outcome": {"reason": "User suspended SIGNED_NONCE factor", "result": "SUCCESS"},
             "published": "2022-06-22 18:18:29.015",
             "request": {
                 "ipChain": [
@@ -95,10 +87,7 @@ okta_user_mfa_factor_suspend_tests: List[RuleTest] = [
                 "id": "00abc123",
                 "type": "User",
             },
-            "authenticationcontext": {
-                "authenticationStep": 0,
-                "externalSessionId": "100-abc-9999",
-            },
+            "authenticationcontext": {"authenticationStep": 0, "externalSessionId": "100-abc-9999"},
             "client": {
                 "device": "Computer",
                 "geographicalContext": {

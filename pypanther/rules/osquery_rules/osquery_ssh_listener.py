@@ -1,9 +1,7 @@
-from typing import List
-
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 
-osquery_ssh_listener_tests: List[RuleTest] = [
+osquery_ssh_listener_tests: list[RuleTest] = [
     RuleTest(
         name="SSH Listener Detected",
         expected_result=True,

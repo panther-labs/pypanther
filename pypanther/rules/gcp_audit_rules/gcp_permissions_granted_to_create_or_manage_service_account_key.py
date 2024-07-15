@@ -1,9 +1,7 @@
-from typing import List
-
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get, deep_walk
 
-gcp_permissions_grantedto_createor_manage_service_account_key_tests: List[RuleTest] = [
+gcp_permissions_grantedto_createor_manage_service_account_key_tests: list[RuleTest] = [
     RuleTest(
         name="other event",
         expected_result=False,
@@ -117,10 +115,7 @@ gcp_permissions_grantedto_createor_manage_service_account_key_tests: List[RuleTe
                     "callerIP": "1.2.3.4",
                     "callerSuppliedUserAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/111.0.0.0 Safari/537.36,gzip(gfe)",
                     "destinationAttributes": {},
-                    "requestAttributes": {
-                        "auth": {},
-                        "time": "2023-04-10T18:36:30.994141642Z",
-                    },
+                    "requestAttributes": {"auth": {}, "time": "2023-04-10T18:36:30.994141642Z"},
                 },
                 "resourceName": "projects/-/serviceAccounts/105537103139416651075",
                 "response": {

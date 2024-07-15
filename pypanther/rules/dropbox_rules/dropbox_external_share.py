@@ -1,19 +1,17 @@
 import json
-from typing import List
 from unittest.mock import MagicMock
 
 from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 from pypanther.helpers.panther_config import config
 
-dropbox_external_share_tests: List[RuleTest] = [
+dropbox_external_share_tests: list[RuleTest] = [
     RuleTest(
         name="Domain in Allowlist",
         expected_result=False,
         mocks=[
             RuleMock(
-                object_name="DROPBOX_ALLOWED_SHARE_DOMAINS",
-                return_value='[\n    "example.com"\n]',
+                object_name="DROPBOX_ALLOWED_SHARE_DOMAINS", return_value='[\n    "example.com"\n]'
             )
         ],
         log={

@@ -1,5 +1,4 @@
 import json
-from typing import List
 from unittest.mock import MagicMock
 
 from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
@@ -10,7 +9,7 @@ from pypanther.helpers.panther_azuresignin_helpers import (
 )
 from pypanther.helpers.panther_base_helpers import deep_get
 
-azure_audit_legacy_auth_tests: List[RuleTest] = [
+azure_audit_legacy_auth_tests: list[RuleTest] = [
     RuleTest(
         name="Failed Sign-In",
         expected_result=False,
@@ -115,11 +114,7 @@ azure_audit_legacy_auth_tests: List[RuleTest] = [
                 "correlationId": "9d5f7dd3-46a7-475a-9cc3-96160551ce49",
                 "createdDateTime": "2023-07-21 05:03:52.160562400",
                 "crossTenantAccessType": "none",
-                "deviceDetail": {
-                    "deviceId": "",
-                    "displayName": "",
-                    "operatingSystem": "MacOs",
-                },
+                "deviceDetail": {"deviceId": "", "displayName": "", "operatingSystem": "MacOs"},
                 "flaggedForReview": False,
                 "homeTenantId": "4328f0a8-06da-4457-b0d0-2c8e115e52cc",
                 "id": "d9ae0e20-c959-42a3-ba74-00f59ac9f6c6",
@@ -224,11 +219,7 @@ azure_audit_legacy_auth_tests: List[RuleTest] = [
                 "correlationId": "9d5f7dd3-46a7-475a-9cc3-96160551ce49",
                 "createdDateTime": "2023-07-21 05:03:52.160562400",
                 "crossTenantAccessType": "none",
-                "deviceDetail": {
-                    "deviceId": "",
-                    "displayName": "",
-                    "operatingSystem": "MacOs",
-                },
+                "deviceDetail": {"deviceId": "", "displayName": "", "operatingSystem": "MacOs"},
                 "flaggedForReview": False,
                 "homeTenantId": "4328f0a8-06da-4457-b0d0-2c8e115e52cc",
                 "id": "d9ae0e20-c959-42a3-ba74-00f59ac9f6c6",
@@ -303,10 +294,7 @@ class AzureAuditLegacyAuth(Rule):
         "properties:ipAddress",
     ]
     tests = azure_audit_legacy_auth_tests
-    LEGACY_AUTH_USERAGENTS = [
-        "BAV2ROPC",
-        "CBAInPROD",
-    ]  # CBAInPROD is reported to be IMAP
+    LEGACY_AUTH_USERAGENTS = ["BAV2ROPC", "CBAInPROD"]  # CBAInPROD is reported to be IMAP
     # Add ServicePrincipalName/UserPrincipalName to
     # KNOWN_EXCEPTIONS to prevent these Principals from Alerting
     KNOWN_EXCEPTIONS = []

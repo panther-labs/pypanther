@@ -1,10 +1,8 @@
-from typing import List
-
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get, deep_walk
 from pypanther.helpers.panther_mongodb_helpers import mongodb_alert_context
 
-mongo_db_atlas_api_key_created_tests: List[RuleTest] = [
+mongo_db_atlas_api_key_created_tests: list[RuleTest] = [
     RuleTest(
         name="API Key Deleted",
         expected_result=False,

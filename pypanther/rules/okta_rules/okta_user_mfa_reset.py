@@ -1,10 +1,8 @@
-from typing import List
-
 import pypanther.helpers.panther_event_type_helpers as event_type
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import okta_alert_context
 
-okta_user_mfa_reset_single_tests: List[RuleTest] = [
+okta_user_mfa_reset_single_tests: list[RuleTest] = [
     RuleTest(
         name="User reset own MFA factor",
         expected_result=True,
@@ -29,10 +27,7 @@ okta_user_mfa_reset_single_tests: List[RuleTest] = [
                 },
                 "zone": "null",
             },
-            "outcome": {
-                "reason": "User reset FIDO_WEBAUTHN factor",
-                "result": "SUCCESS",
-            },
+            "outcome": {"reason": "User reset FIDO_WEBAUTHN factor", "result": "SUCCESS"},
             "target": [
                 {
                     "alternateId": "homer@springfield.gov",
@@ -41,10 +36,7 @@ okta_user_mfa_reset_single_tests: List[RuleTest] = [
                     "type": "User",
                 }
             ],
-            "authenticationcontext": {
-                "authenticationStep": 0,
-                "externalSessionId": "1111111",
-            },
+            "authenticationcontext": {"authenticationStep": 0, "externalSessionId": "1111111"},
             "p_log_type": "Okta.SystemLog",
         },
     ),
@@ -59,18 +51,11 @@ okta_user_mfa_reset_single_tests: List[RuleTest] = [
                 "id": "00abc456",
                 "type": "User",
             },
-            "authenticationcontext": {
-                "authenticationStep": 0,
-                "externalSessionId": "abc12345",
-            },
+            "authenticationcontext": {"authenticationStep": 0, "externalSessionId": "abc12345"},
             "client": {
                 "device": "Unknown",
                 "ipAddress": "1.2.3.4",
-                "userAgent": {
-                    "browser": "UNKNOWN",
-                    "os": "Unknown",
-                    "rawUserAgent": "Chrome",
-                },
+                "userAgent": {"browser": "UNKNOWN", "os": "Unknown", "rawUserAgent": "Chrome"},
                 "zone": "null",
             },
             "debugcontext": {"debugData": {}},
@@ -82,12 +67,7 @@ okta_user_mfa_reset_single_tests: List[RuleTest] = [
             "securitycontext": {},
             "severity": "INFO",
             "target": [
-                {
-                    "alternateId": "App ",
-                    "displayName": "App",
-                    "id": "12345",
-                    "type": "AppInstance",
-                }
+                {"alternateId": "App ", "displayName": "App", "id": "12345", "type": "AppInstance"}
             ],
             "transaction": {"detail": {}, "id": "sdfg", "type": "JOB"},
             "uuid": "aaa-bb-ccc",

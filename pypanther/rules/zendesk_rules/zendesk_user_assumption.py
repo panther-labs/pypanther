@@ -1,8 +1,6 @@
-from typing import List
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 
-from pypanther import LogType, Rule, RuleTest, Severity
-
-zendesk_user_assumption_tests: List[RuleTest] = [
+zendesk_user_assumption_tests: list[RuleTest] = [
     RuleTest(
         name="User assumption settings changed",
         expected_result=True,

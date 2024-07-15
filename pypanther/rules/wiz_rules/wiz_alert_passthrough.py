@@ -1,9 +1,7 @@
-from typing import List
-
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 
-wiz_alert_passthrough_tests: List[RuleTest] = [
+wiz_alert_passthrough_tests: list[RuleTest] = [
     RuleTest(
         name="Open Alert",
         expected_result=True,
@@ -140,9 +138,7 @@ class WizAlertPassthrough(Rule):
 
     def runbook(self, event):
         return event.deep_get(
-            "sourceRule",
-            "resolutionRecommendation",
-            default="<RECOMMENDATION_NOT_FOUND>",
+            "sourceRule", "resolutionRecommendation", default="<RECOMMENDATION_NOT_FOUND>"
         )
 
     def alert_context(self, event):

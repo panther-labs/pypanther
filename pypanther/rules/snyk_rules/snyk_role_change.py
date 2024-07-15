@@ -1,19 +1,14 @@
-from typing import List
-
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 from pypanther.helpers.panther_snyk_helpers import snyk_alert_context
 
-snyk_role_change_tests: List[RuleTest] = [
+snyk_role_change_tests: list[RuleTest] = [
     RuleTest(
         name="Snyk Group Role Edit -  ADMIN role ( CRIT )",
         expected_result=True,
         log={
             "content": {
-                "after": {
-                    "role": "ADMIN",
-                    "rolePublicId": "8ddddddd-fbbb-4fff-8111-5eeeeeeeeeee",
-                },
+                "after": {"role": "ADMIN", "rolePublicId": "8ddddddd-fbbb-4fff-8111-5eeeeeeeeeee"},
                 "before": {
                     "role": "MEMBER",
                     "rolePublicId": "6aaaaaaa-c000-4ddd-9ddd-c55555555555",
@@ -49,14 +44,8 @@ snyk_role_change_tests: List[RuleTest] = [
         expected_result=True,
         log={
             "content": {
-                "before": {
-                    "role": "ADMIN",
-                    "rolePublicId": "8ddddddd-fbbb-4fff-8111-5eeeeeeeeeee",
-                },
-                "after": {
-                    "role": "MEMBER",
-                    "rolePublicId": "6aaaaaaa-c000-4ddd-9ddd-c55555555555",
-                },
+                "before": {"role": "ADMIN", "rolePublicId": "8ddddddd-fbbb-4fff-8111-5eeeeeeeeeee"},
+                "after": {"role": "MEMBER", "rolePublicId": "6aaaaaaa-c000-4ddd-9ddd-c55555555555"},
                 "userPublicId": "05555555-3333-4ddd-8ccc-755555555555",
             },
             "created": "1999-04-04 18:38:19.843",

@@ -1,9 +1,7 @@
-from typing import List
-
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 
-gcp_big_query_large_scan_tests: List[RuleTest] = [
+gcp_big_query_large_scan_tests: list[RuleTest] = [
     RuleTest(
         name="small query",
         expected_result=False,
@@ -193,15 +191,7 @@ class GCPBigQueryLargeScan(Rule):
                     "bigquery"
                 ),
                 deep_get(event, "operation", "last") is True,
-                deep_get(
-                    event,
-                    "protoPayload",
-                    "metadata",
-                    "jobChange",
-                    "job",
-                    "jobConfig",
-                    "type",
-                )
+                deep_get(event, "protoPayload", "metadata", "jobChange", "job", "jobConfig", "type")
                 == "QUERY",
                 deep_get(
                     event,

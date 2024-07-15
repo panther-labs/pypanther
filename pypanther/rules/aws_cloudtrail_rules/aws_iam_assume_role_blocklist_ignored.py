@@ -1,10 +1,8 @@
-from typing import List
-
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import aws_rule_context, deep_get
 from pypanther.helpers.panther_default import aws_cloudtrail_success
 
-aws_cloud_trail_iam_assume_role_blacklist_ignored_tests: List[RuleTest] = [
+aws_cloud_trail_iam_assume_role_blacklist_ignored_tests: list[RuleTest] = [
     RuleTest(
         name="IAM Blocklisted Role Assumed",
         expected_result=True,
@@ -197,12 +195,7 @@ class AWSCloudTrailIAMAssumeRoleBlacklistIgnored(Rule):
     default_reference = (
         "https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_boundaries.html"
     )
-    summary_attributes = [
-        "userAgent",
-        "sourceIpAddress",
-        "recipientAccountId",
-        "p_any_aws_arns",
-    ]
+    summary_attributes = ["userAgent", "sourceIpAddress", "recipientAccountId", "p_any_aws_arns"]
     tests = aws_cloud_trail_iam_assume_role_blacklist_ignored_tests
     # This is a list of role ARNs that should not be assumed by users in normal operations
     ASSUME_ROLE_BLOCKLIST = ["arn:aws:iam::123456789012:role/FullAdminRole"]

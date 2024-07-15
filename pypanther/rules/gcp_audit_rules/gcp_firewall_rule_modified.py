@@ -1,11 +1,10 @@
 import re
-from typing import List
 
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.gcp_base_helpers import gcp_alert_context
 from pypanther.helpers.panther_base_helpers import deep_get
 
-gcp_firewall_rule_modified_tests: List[RuleTest] = [
+gcp_firewall_rule_modified_tests: list[RuleTest] = [
     RuleTest(
         name="compute.firewalls.update-should-alert",
         expected_result=True,
@@ -106,10 +105,7 @@ gcp_firewall_rule_modified_tests: List[RuleTest] = [
                 "requestMetadata": {
                     "callerIP": "12.12.12.12",
                     "destinationAttributes": {},
-                    "requestAttributes": {
-                        "auth": {},
-                        "time": "2023-05-23T19:28:44.663413Z",
-                    },
+                    "requestAttributes": {"auth": {}, "time": "2023-05-23T19:28:44.663413Z"},
                 },
                 "resourceName": "apps/test-project-123456/firewall/ingressRules/1000",
                 "serviceData": {"@type": "type.googleapis.com/google.appengine.v1beta4.AuditData"},
@@ -151,10 +147,7 @@ gcp_firewall_rule_modified_tests: List[RuleTest] = [
                 "requestMetadata": {
                     "callerIP": "12.12.12.12",
                     "destinationAttributes": {},
-                    "requestAttributes": {
-                        "auth": {},
-                        "time": "2023-05-23T19:28:44.663413Z",
-                    },
+                    "requestAttributes": {"auth": {}, "time": "2023-05-23T19:28:44.663413Z"},
                 },
             },
             "resource": {

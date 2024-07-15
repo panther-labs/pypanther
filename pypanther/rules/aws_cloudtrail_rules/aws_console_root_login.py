@@ -1,11 +1,9 @@
-from typing import List
-
 from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 from pypanther.helpers.panther_default import lookup_aws_account_name
 from pypanther.helpers.panther_oss_helpers import geoinfo_from_ip_formatted
 
-aws_console_root_login_tests: List[RuleTest] = [
+aws_console_root_login_tests: list[RuleTest] = [
     RuleTest(
         name="Successful Root Login",
         expected_result=True,
@@ -111,12 +109,7 @@ class AWSConsoleRootLogin(Rule):
     default_description = "The root account has been logged into."
     default_runbook = "Investigate the usage of the root account. If this root activity was not authorized, immediately change the root credentials and investigate what actions the root account took.\n"
     default_reference = "https://docs.aws.amazon.com/IAM/latest/UserGuide/id_root-user.html"
-    summary_attributes = [
-        "userAgent",
-        "sourceIpAddress",
-        "recipientAccountId",
-        "p_any_aws_arns",
-    ]
+    summary_attributes = ["userAgent", "sourceIpAddress", "recipientAccountId", "p_any_aws_arns"]
     tests = aws_console_root_login_tests
 
     def rule(self, event):
@@ -133,11 +126,7 @@ class AWSConsoleRootLogin(Rule):
     def dedup(self, event):
         # Each Root login should generate a unique alert
         return "-".join(
-            [
-                event.get("recipientAccountId"),
-                event.get("eventName"),
-                event.get("eventTime"),
-            ]
+            [event.get("recipientAccountId"), event.get("eventName"), event.get("eventTime")]
         )
 
     def alert_context(self, event):

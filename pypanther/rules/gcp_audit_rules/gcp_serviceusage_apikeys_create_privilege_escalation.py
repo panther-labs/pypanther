@@ -1,10 +1,8 @@
-from typing import List
-
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.gcp_base_helpers import gcp_alert_context
 from pypanther.helpers.panther_base_helpers import deep_get, deep_walk
 
-gc_pserviceusageapi_keyscreate_privilege_escalation_tests: List[RuleTest] = [
+gc_pserviceusageapi_keyscreate_privilege_escalation_tests: list[RuleTest] = [
     RuleTest(
         name="GCP API Key Created",
         expected_result=True,

@@ -1,9 +1,7 @@
-from typing import List
-
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import slack_alert_context
 
-slack_audit_logs_ekm_config_changed_tests: List[RuleTest] = [
+slack_audit_logs_ekm_config_changed_tests: list[RuleTest] = [
     RuleTest(
         name="EKM Config Changed",
         expected_result=True,
@@ -74,12 +72,7 @@ class SlackAuditLogsEKMConfigChanged(Rule):
     id_ = "Slack.AuditLogs.EKMConfigChanged-prototype"
     display_name = "Slack EKM Config Changed"
     log_types = [LogType.Slack_AuditLogs]
-    tags = [
-        "Slack",
-        "Defense Evasion",
-        "Impair Defenses",
-        "Disable or Modify Cloud Logs",
-    ]
+    tags = ["Slack", "Defense Evasion", "Impair Defenses", "Disable or Modify Cloud Logs"]
     reports = {"MITRE ATT&CK": ["TA0005:T1562.008"]}
     default_severity = Severity.high
     default_description = (

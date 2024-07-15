@@ -1,11 +1,10 @@
 import re
-from typing import List
 
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.gcp_base_helpers import gcp_alert_context
 from pypanther.helpers.panther_base_helpers import deep_get
 
-gcp_firewall_rule_created_tests: List[RuleTest] = [
+gcp_firewall_rule_created_tests: list[RuleTest] = [
     RuleTest(
         name="compute.firewalls.create-should-alert",
         expected_result=True,
@@ -106,10 +105,7 @@ gcp_firewall_rule_created_tests: List[RuleTest] = [
                 "requestMetadata": {
                     "callerIP": "12.12.12.12",
                     "destinationAttributes": {},
-                    "requestAttributes": {
-                        "auth": {},
-                        "time": "2023-05-23T19:28:35.172216Z",
-                    },
+                    "requestAttributes": {"auth": {}, "time": "2023-05-23T19:28:35.172216Z"},
                 },
                 "resourceName": "apps/test-project-123456",
                 "serviceData": {"@type": "type.googleapis.com/google.appengine.v1beta4.AuditData"},
@@ -151,10 +147,7 @@ gcp_firewall_rule_created_tests: List[RuleTest] = [
                 "requestMetadata": {
                     "callerIP": "12.12.12.12",
                     "destinationAttributes": {},
-                    "requestAttributes": {
-                        "auth": {},
-                        "time": "2023-05-23T19:28:44.663413Z",
-                    },
+                    "requestAttributes": {"auth": {}, "time": "2023-05-23T19:28:44.663413Z"},
                 },
             },
             "resource": {
@@ -195,11 +188,7 @@ class GCPFirewallRuleCreated(Rule):
         )
         resource = deep_get(event, "protoPayload", "resourceName", default="<RESOURCE_NOT_FOUND>")
         resource_id = deep_get(
-            event,
-            "resource",
-            "labels",
-            "firewall_rule_id",
-            default="<RESOURCE_ID_NOT_FOUND>",
+            event, "resource", "labels", "firewall_rule_id", default="<RESOURCE_ID_NOT_FOUND>"
         )
         if resource_id != "<RESOURCE_ID_NOT_FOUND>":
             return f"[GCP]: [{actor}] created firewall rule with resource ID [{resource_id}]"

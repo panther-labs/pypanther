@@ -1,11 +1,10 @@
 import time
-from typing import List
 
 from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_notion_helpers import notion_alert_context
 from pypanther.helpers.panther_oss_helpers import get_string_set, put_string_set
 
-notion_account_changed_after_login_tests: List[RuleTest] = [
+notion_account_changed_after_login_tests: list[RuleTest] = [
     RuleTest(
         name="Login event",
         expected_result=True,
@@ -40,8 +39,7 @@ notion_account_changed_after_login_tests: List[RuleTest] = [
         expected_result=True,
         mocks=[
             RuleMock(
-                object_name="get_string_set",
-                return_value='[\n  "2023-06-12 21:40:28.690000000"\n]',
+                object_name="get_string_set", return_value='[\n  "2023-06-12 21:40:28.690000000"\n]'
             ),
             RuleMock(object_name="put_string_set", return_value=""),
         ],
@@ -89,8 +87,7 @@ notion_account_changed_after_login_tests: List[RuleTest] = [
         expected_result=True,
         mocks=[
             RuleMock(
-                object_name="get_string_set",
-                return_value='[\n  "2023-06-12 21:40:28.690000000"\n]',
+                object_name="get_string_set", return_value='[\n  "2023-06-12 21:40:28.690000000"\n]'
             ),
             RuleMock(object_name="put_string_set", return_value=""),
         ],
@@ -138,8 +135,7 @@ notion_account_changed_after_login_tests: List[RuleTest] = [
         expected_result=True,
         mocks=[
             RuleMock(
-                object_name="get_string_set",
-                return_value='[\n  "2023-06-12 21:40:28.690000000"\n]',
+                object_name="get_string_set", return_value='[\n  "2023-06-12 21:40:28.690000000"\n]'
             ),
             RuleMock(object_name="put_string_set", return_value=""),
         ],
@@ -187,8 +183,7 @@ notion_account_changed_after_login_tests: List[RuleTest] = [
         expected_result=True,
         mocks=[
             RuleMock(
-                object_name="get_string_set",
-                return_value='[\n  "2023-06-12 21:40:28.690000000"\n]',
+                object_name="get_string_set", return_value='[\n  "2023-06-12 21:40:28.690000000"\n]'
             ),
             RuleMock(object_name="put_string_set", return_value=""),
         ],

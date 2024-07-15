@@ -1,11 +1,10 @@
 from fnmatch import fnmatch
-from typing import List
 
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import aws_rule_context, deep_get
 from pypanther.helpers.panther_default import aws_cloudtrail_success
 
-aws_cloud_trail_security_configuration_change_tests: List[RuleTest] = [
+aws_cloud_trail_security_configuration_change_tests: list[RuleTest] = [
     RuleTest(
         name="Security Configuration Changed",
         expected_result=True,
@@ -259,12 +258,7 @@ class AWSCloudTrailSecurityConfigurationChange(Rule):
         for entry in self.ALLOW_LIST:
             if fnmatch(
                 deep_get(
-                    event,
-                    "userIdentity",
-                    "sessionContext",
-                    "sessionIssuer",
-                    "userName",
-                    default="",
+                    event, "userIdentity", "sessionContext", "sessionIssuer", "userName", default=""
                 ),
                 entry["userName"],
             ):

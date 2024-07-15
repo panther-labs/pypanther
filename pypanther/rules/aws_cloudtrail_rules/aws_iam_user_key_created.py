@@ -1,10 +1,8 @@
-from typing import List
-
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import aws_rule_context, deep_get
 from pypanther.helpers.panther_default import aws_cloudtrail_success
 
-awsiam_backdoor_user_keys_tests: List[RuleTest] = [
+awsiam_backdoor_user_keys_tests: list[RuleTest] = [
     RuleTest(
         name="user1 create keys for user1",
         expected_result=False,

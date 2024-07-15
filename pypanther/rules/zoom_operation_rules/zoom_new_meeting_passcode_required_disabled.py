@@ -1,8 +1,6 @@
-from typing import List
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 
-from pypanther import LogType, Rule, RuleTest, Severity
-
-zoom_new_meeting_passcode_required_disabled_tests: List[RuleTest] = [
+zoom_new_meeting_passcode_required_disabled_tests: list[RuleTest] = [
     RuleTest(
         name="Setting Turn Off",
         expected_result=True,

@@ -1,14 +1,13 @@
 import datetime
 import json
 import time
-from typing import List
 
 from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_ipinfo_helpers import IPInfoLocation
 from pypanther.helpers.panther_notion_helpers import notion_alert_context
 from pypanther.helpers.panther_oss_helpers import get_dictionary, put_dictionary
 
-notion_login_from_new_location_tests: List[RuleTest] = [
+notion_login_from_new_location_tests: list[RuleTest] = [
     RuleTest(
         name="Login from normal location",
         expected_result=False,

@@ -1,8 +1,6 @@
-from typing import List
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 
-from pypanther import LogType, Rule, RuleTest, Severity
-
-okta_support_access_tests: List[RuleTest] = [
+okta_support_access_tests: list[RuleTest] = [
     RuleTest(
         name="Support Access Granted",
         expected_result=True,
@@ -80,12 +78,7 @@ class OktaSupportAccess(Rule):
     )
     default_runbook = "Contact Admin to ensure this was sanctioned activity"
     dedup_period_minutes = 15
-    summary_attributes = [
-        "eventType",
-        "severity",
-        "displayMessage",
-        "p_any_ip_addresses",
-    ]
+    summary_attributes = ["eventType", "severity", "displayMessage", "p_any_ip_addresses"]
     tests = okta_support_access_tests
     OKTA_SUPPORT_ACCESS_EVENTS = [
         "user.session.impersonation.grant",

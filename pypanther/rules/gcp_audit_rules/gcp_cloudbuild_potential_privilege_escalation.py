@@ -1,10 +1,8 @@
-from typing import List
-
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.gcp_base_helpers import gcp_alert_context
 from pypanther.helpers.panther_base_helpers import deep_get, deep_walk
 
-gcp_cloud_build_potential_privilege_escalation_tests: List[RuleTest] = [
+gcp_cloud_build_potential_privilege_escalation_tests: list[RuleTest] = [
     RuleTest(
         name="GCP CloudBuild - Build with Potentially Privileged Access",
         expected_result=True,
@@ -40,10 +38,7 @@ gcp_cloud_build_potential_privilege_escalation_tests: List[RuleTest] = [
                     "callerIP": "189.163.74.177",
                     "callerSuppliedUserAgent": "(gzip),gzip(gfe),gzip(gfe)",
                     "destinationAttributes": {},
-                    "requestAttributes": {
-                        "auth": {},
-                        "time": "2024-01-25T11:55:09.740095Z",
-                    },
+                    "requestAttributes": {"auth": {}, "time": "2024-01-25T11:55:09.740095Z"},
                 },
                 "resourceLocation": {"currentLocations": ["global"]},
                 "resourceName": "projects/some-project/builds",
@@ -90,10 +85,7 @@ gcp_cloud_build_potential_privilege_escalation_tests: List[RuleTest] = [
                 "requestMetadata": {
                     "callerIP": "189.163.74.177",
                     "destinationAttributes": {},
-                    "requestAttributes": {
-                        "auth": {},
-                        "time": "2024-01-24T14:30:05.891336Z",
-                    },
+                    "requestAttributes": {"auth": {}, "time": "2024-01-24T14:30:05.891336Z"},
                 },
                 "resourceName": "brands/1028347275902",
                 "response": {

@@ -1,9 +1,7 @@
-from typing import List
-
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 
-gcpvpc_flow_logs_disabled_tests: List[RuleTest] = [
+gcpvpc_flow_logs_disabled_tests: list[RuleTest] = [
     RuleTest(
         name="Disable Flow Logs Event",
         expected_result=True,

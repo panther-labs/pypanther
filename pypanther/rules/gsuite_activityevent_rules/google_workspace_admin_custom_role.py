@@ -1,17 +1,11 @@
-from typing import List
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 
-from pypanther import LogType, Rule, RuleTest, Severity
-
-google_workspace_admin_custom_role_tests: List[RuleTest] = [
+google_workspace_admin_custom_role_tests: list[RuleTest] = [
     RuleTest(
         name="Delete Role",
         expected_result=False,
         log={
-            "actor": {
-                "callerType": "USER",
-                "email": "example@example.io",
-                "profileId": "123456",
-            },
+            "actor": {"callerType": "USER", "email": "example@example.io", "profileId": "123456"},
             "id": {
                 "applicationName": "admin",
                 "customerId": "D12345",
@@ -29,11 +23,7 @@ google_workspace_admin_custom_role_tests: List[RuleTest] = [
         name="New Custom Role Created",
         expected_result=True,
         log={
-            "actor": {
-                "callerType": "USER",
-                "email": "example@example.io",
-                "profileId": "123456",
-            },
+            "actor": {"callerType": "USER", "email": "example@example.io", "profileId": "123456"},
             "id": {
                 "applicationName": "admin",
                 "customerId": "D12345",

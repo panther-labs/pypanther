@@ -1,10 +1,8 @@
-from typing import List
-
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import aws_rule_context, deep_get
 from pypanther.helpers.panther_default import aws_cloudtrail_success
 
-awss3_bucket_deleted_tests: List[RuleTest] = [
+awss3_bucket_deleted_tests: list[RuleTest] = [
     RuleTest(
         name="An S3 Bucket was deleted",
         expected_result=True,
@@ -37,10 +35,7 @@ awss3_bucket_deleted_tests: List[RuleTest] = [
             "awsRegion": "us-east-2",
             "sourceIPAddress": "157.130.196.214",
             "userAgent": "[S3Console/0.4, aws-internal/3 aws-sdk-java/1.11.666 Linux/4.9.184-0.1.ac.235.83.329.metal1.x86_64 OpenJDK_64-Bit_Server_VM/25.232-b09 java/1.8.0_232 vendor/Oracle_Corporation]",
-            "requestParameters": {
-                "host": ["s3-us-east-2.amazonaws.com"],
-                "bucketName": "secrets",
-            },
+            "requestParameters": {"host": ["s3-us-east-2.amazonaws.com"], "bucketName": "secrets"},
             "responseElements": None,
             "additionalEventData": {
                 "SignatureVersion": "SigV4",
@@ -104,12 +99,7 @@ class AWSS3BucketDeleted(Rule):
     default_description = "A S3 Bucket, Policy, or Website was deleted"
     default_runbook = "Explore if this bucket deletion was potentially destructive"
     default_reference = "https://docs.aws.amazon.com/AmazonS3/latest/userguide/DeletingObjects.html"
-    summary_attributes = [
-        "sourceIpAddress",
-        "userAgent",
-        "recipientAccountId",
-        "vpcEndpointId",
-    ]
+    summary_attributes = ["sourceIpAddress", "userAgent", "recipientAccountId", "vpcEndpointId"]
     tests = awss3_bucket_deleted_tests
 
     def rule(self, event):

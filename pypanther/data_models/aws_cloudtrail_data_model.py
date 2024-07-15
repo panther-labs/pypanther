@@ -1,10 +1,8 @@
 import ipaddress
-from typing import List
 
 import pypanther.helpers.panther_event_type_helpers as event_type
-from pypanther.base import DataModel, DataModelMapping
+from pypanther.base import DataModel, DataModelMapping, LogType
 from pypanther.helpers.panther_base_helpers import deep_get
-from pypanther.log_types import LogType
 
 
 def get_event_type(event):
@@ -46,8 +44,8 @@ class StandardAWSCloudTrail(DataModel):
     id_: str = "Standard.AWS.CloudTrail"
     display_name: str = "AWS CloudTrail"
     enabled: bool = True
-    log_types: List[str] = [LogType.AWS_CloudTrail]
-    mappings: List[DataModelMapping] = [
+    log_types: list[str] = [LogType.AWS_CloudTrail]
+    mappings: list[DataModelMapping] = [
         DataModelMapping(name="actor_user", path="$.userIdentity..userName"),
         DataModelMapping(name="event_type", method=get_event_type),
         DataModelMapping(name="source_ip", method=load_ip_address),

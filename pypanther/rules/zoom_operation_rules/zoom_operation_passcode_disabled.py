@@ -1,9 +1,7 @@
-from typing import List
-
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_zoom_helpers import get_zoom_usergroup_context as get_context
 
-zoom_passcode_disabled_tests: List[RuleTest] = [
+zoom_passcode_disabled_tests: list[RuleTest] = [
     RuleTest(
         name="Meeting Passcode Disabled",
         expected_result=True,

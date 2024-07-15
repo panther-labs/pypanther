@@ -1,9 +1,7 @@
-from typing import List
-
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import github_alert_context
 
-github_organization_app_integration_installed_tests: List[RuleTest] = [
+github_organization_app_integration_installed_tests: list[RuleTest] = [
     RuleTest(
         name="App Integration Installation",
         expected_result=True,

@@ -1,8 +1,6 @@
-from typing import List
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 
-from pypanther import LogType, Rule, RuleTest, Severity
-
-zoom_sign_in_requirements_changed_tests: List[RuleTest] = [
+zoom_sign_in_requirements_changed_tests: list[RuleTest] = [
     RuleTest(
         name="Setting Change One",
         expected_result=True,

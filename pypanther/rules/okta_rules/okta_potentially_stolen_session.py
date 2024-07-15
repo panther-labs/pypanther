@@ -1,14 +1,13 @@
 import json
 from datetime import timedelta
 from difflib import SequenceMatcher
-from typing import List
 
 from panther_detection_helpers.caching import get_string_set, put_string_set
 
 from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get, okta_alert_context
 
-okta_potentially_stolen_session_tests: List[RuleTest] = [
+okta_potentially_stolen_session_tests: list[RuleTest] = [
     RuleTest(
         name="Same device and OS",
         expected_result=False,
@@ -25,10 +24,7 @@ okta_potentially_stolen_session_tests: List[RuleTest] = [
                 "id": "unknown",
                 "type": "User",
             },
-            "authenticationContext": {
-                "authenticationStep": 0,
-                "externalSessionId": "123456789",
-            },
+            "authenticationContext": {"authenticationStep": 0, "externalSessionId": "123456789"},
             "client": {
                 "device": "Computer",
                 "geographicalContext": {
@@ -113,10 +109,7 @@ okta_potentially_stolen_session_tests: List[RuleTest] = [
                 "id": "unknown",
                 "type": "User",
             },
-            "authenticationContext": {
-                "authenticationStep": 0,
-                "externalSessionId": "123456789",
-            },
+            "authenticationContext": {"authenticationStep": 0, "externalSessionId": "123456789"},
             "client": {
                 "device": "Computer",
                 "geographicalContext": {
@@ -201,10 +194,7 @@ okta_potentially_stolen_session_tests: List[RuleTest] = [
                 "id": "unknown",
                 "type": "User",
             },
-            "authenticationContext": {
-                "authenticationStep": 0,
-                "externalSessionId": "123456789",
-            },
+            "authenticationContext": {"authenticationStep": 0, "externalSessionId": "123456789"},
             "client": {
                 "device": "Computer",
                 "geographicalContext": {
@@ -289,10 +279,7 @@ okta_potentially_stolen_session_tests: List[RuleTest] = [
                 "id": "unknown",
                 "type": "User",
             },
-            "authenticationContext": {
-                "authenticationStep": 0,
-                "externalSessionId": "123456789",
-            },
+            "authenticationContext": {"authenticationStep": 0, "externalSessionId": "123456789"},
             "client": {
                 "device": "Unknown",
                 "geographicalContext": {
@@ -368,12 +355,7 @@ class OktaPotentiallyStolenSession(Rule):
     default_description = "This rule looks for the same session being used from two devices, indicating a compromised session token."
     default_runbook = "Confirm the session is used on two devices, one of which is unknown. Lock the users Okta account and clear the users sessions in down stream apps."
     default_reference = "https://sec.okta.com/sessioncookietheft"
-    summary_attributes = [
-        "eventType",
-        "severity",
-        "p_any_ip_addresses",
-        "p_any_domain_names",
-    ]
+    summary_attributes = ["eventType", "severity", "p_any_ip_addresses", "p_any_domain_names"]
     tests = okta_potentially_stolen_session_tests
     FUZZ_RATIO_MIN = 0.95
     PREVIOUS_SESSION = {}
@@ -420,20 +402,10 @@ class OktaPotentiallyStolenSession(Rule):
                     deep_get(event, "client", "userAgent", "os"),
                     event.get("p_event_time"),
                     "sign_on_mode:"
-                    + deep_get(
-                        event,
-                        "debugContext",
-                        "debugData",
-                        "signOnMode",
-                        default="unknown",
-                    ),
+                    + deep_get(event, "debugContext", "debugData", "signOnMode", default="unknown"),
                     "threat_suspected:"
                     + deep_get(
-                        event,
-                        "debugContext",
-                        "debugData",
-                        "threat_suspected",
-                        default="unknown",
+                        event, "debugContext", "debugData", "threat_suspected", default="unknown"
                     ),
                 ],
                 epoch_seconds=event.event_time_epoch() + self.SESSION_TIMEOUT,

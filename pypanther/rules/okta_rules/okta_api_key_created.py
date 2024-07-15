@@ -1,9 +1,7 @@
-from typing import List
-
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get, okta_alert_context
 
-okta_api_key_created_tests: List[RuleTest] = [
+okta_api_key_created_tests: list[RuleTest] = [
     RuleTest(
         name="API Key Created",
         expected_result=True,
@@ -52,12 +50,7 @@ class OktaAPIKeyCreated(Rule):
     default_description = "A user created an API Key in Okta"
     default_reference = "https://help.okta.com/en/prod/Content/Topics/Security/API.htm"
     default_runbook = "Reach out to the user if needed to validate the activity."
-    summary_attributes = [
-        "eventType",
-        "severity",
-        "displayMessage",
-        "p_any_ip_addresses",
-    ]
+    summary_attributes = ["eventType", "severity", "displayMessage", "p_any_ip_addresses"]
     tests = okta_api_key_created_tests
 
     def rule(self, event):

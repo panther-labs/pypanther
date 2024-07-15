@@ -1,9 +1,7 @@
-from typing import List
-
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_duo_helpers import duo_alert_context
 
-duo_admin_mfa_restrictions_updated_tests: List[RuleTest] = [
+duo_admin_mfa_restrictions_updated_tests: list[RuleTest] = [
     RuleTest(
         name="Admin MFA Update Event",
         expected_result=True,

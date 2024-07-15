@@ -1,9 +1,7 @@
-from typing import List
-
 import pypanther.helpers.panther_event_type_helpers as event_type
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 
-standard_admin_role_assigned_tests: List[RuleTest] = [
+standard_admin_role_assigned_tests: list[RuleTest] = [
     RuleTest(
         name="GCP - Admin Assigned",
         expected_result=True,
@@ -49,11 +47,7 @@ standard_admin_role_assigned_tests: List[RuleTest] = [
                                 "member": "cat@example.com",
                                 "role": "roles/resourcemanager.organizationAdmin",
                             },
-                            {
-                                "action": "ADD",
-                                "member": "dog@example.com",
-                                "role": "roles/owner",
-                            },
+                            {"action": "ADD", "member": "dog@example.com", "role": "roles/owner"},
                         ]
                     },
                 },

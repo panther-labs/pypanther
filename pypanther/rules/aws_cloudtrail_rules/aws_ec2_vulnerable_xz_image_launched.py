@@ -1,11 +1,9 @@
-from typing import List
-
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import aws_rule_context
 from pypanther.helpers.panther_default import aws_cloudtrail_success
 from pypanther.helpers.panther_iocs import XZ_AMIS
 
-awsec2_vulnerable_xz_image_launched_tests: List[RuleTest] = [
+awsec2_vulnerable_xz_image_launched_tests: list[RuleTest] = [
     RuleTest(
         name="Single vulnerable AMI Launched",
         expected_result=True,
@@ -72,10 +70,7 @@ awsec2_vulnerable_xz_image_launched_tests: List[RuleTest] = [
                 },
                 "tagSpecificationSet": {
                     "items": [
-                        {
-                            "resourceType": "instance",
-                            "tags": [{"key": "Name", "value": "test"}],
-                        }
+                        {"resourceType": "instance", "tags": [{"key": "Name", "value": "test"}]}
                     ]
                 },
             },
@@ -97,12 +92,7 @@ awsec2_vulnerable_xz_image_launched_tests: List[RuleTest] = [
                             "enaSupport": True,
                             "enclaveOptions": {"enabled": False},
                             "groupSet": {
-                                "items": [
-                                    {
-                                        "groupId": "sg-00000000000000000",
-                                        "groupName": "ssh",
-                                    }
-                                ]
+                                "items": [{"groupId": "sg-00000000000000000", "groupName": "ssh"}]
                             },
                             "hypervisor": "xen",
                             "imageId": "ami-020a359780bc6f835",
@@ -165,10 +155,7 @@ awsec2_vulnerable_xz_image_launched_tests: List[RuleTest] = [
                                     }
                                 ]
                             },
-                            "placement": {
-                                "availabilityZone": "us-west-2b",
-                                "tenancy": "default",
-                            },
+                            "placement": {"availabilityZone": "us-west-2b", "tenancy": "default"},
                             "privateDnsName": "ip-10-0-0-3.us-west-2.compute.internal",
                             "privateDnsNameOptions": {
                                 "enableResourceNameDnsAAAARecord": False,
@@ -288,10 +275,7 @@ awsec2_vulnerable_xz_image_launched_tests: List[RuleTest] = [
                 },
                 "tagSpecificationSet": {
                     "items": [
-                        {
-                            "resourceType": "instance",
-                            "tags": [{"key": "Name", "value": "test"}],
-                        }
+                        {"resourceType": "instance", "tags": [{"key": "Name", "value": "test"}]}
                     ]
                 },
             },
@@ -313,12 +297,7 @@ awsec2_vulnerable_xz_image_launched_tests: List[RuleTest] = [
                             "enaSupport": True,
                             "enclaveOptions": {"enabled": False},
                             "groupSet": {
-                                "items": [
-                                    {
-                                        "groupId": "sg-00000000000000000",
-                                        "groupName": "ssh",
-                                    }
-                                ]
+                                "items": [{"groupId": "sg-00000000000000000", "groupName": "ssh"}]
                             },
                             "hypervisor": "xen",
                             "imageId": "ami-092e3b17e435e5e58",
@@ -381,10 +360,7 @@ awsec2_vulnerable_xz_image_launched_tests: List[RuleTest] = [
                                     }
                                 ]
                             },
-                            "placement": {
-                                "availabilityZone": "us-west-2b",
-                                "tenancy": "default",
-                            },
+                            "placement": {"availabilityZone": "us-west-2b", "tenancy": "default"},
                             "privateDnsName": "ip-10-0-0-4.us-west-2.compute.internal",
                             "privateDnsNameOptions": {
                                 "enableResourceNameDnsAAAARecord": False,
@@ -416,12 +392,7 @@ awsec2_vulnerable_xz_image_launched_tests: List[RuleTest] = [
                             "enaSupport": True,
                             "enclaveOptions": {"enabled": False},
                             "groupSet": {
-                                "items": [
-                                    {
-                                        "groupId": "sg-00000000000000000",
-                                        "groupName": "ssh",
-                                    }
-                                ]
+                                "items": [{"groupId": "sg-00000000000000000", "groupName": "ssh"}]
                             },
                             "hypervisor": "xen",
                             "imageId": "ami-020a359780bc6f835",
@@ -484,10 +455,7 @@ awsec2_vulnerable_xz_image_launched_tests: List[RuleTest] = [
                                     }
                                 ]
                             },
-                            "placement": {
-                                "availabilityZone": "us-west-2b",
-                                "tenancy": "default",
-                            },
+                            "placement": {"availabilityZone": "us-west-2b", "tenancy": "default"},
                             "privateDnsName": "ip-10-0-0-5.us-west-2.compute.internal",
                             "privateDnsNameOptions": {
                                 "enableResourceNameDnsAAAARecord": False,
@@ -607,10 +575,7 @@ awsec2_vulnerable_xz_image_launched_tests: List[RuleTest] = [
                 },
                 "tagSpecificationSet": {
                     "items": [
-                        {
-                            "resourceType": "instance",
-                            "tags": [{"key": "Name", "value": "test"}],
-                        }
+                        {"resourceType": "instance", "tags": [{"key": "Name", "value": "test"}]}
                     ]
                 },
             },
@@ -632,12 +597,7 @@ awsec2_vulnerable_xz_image_launched_tests: List[RuleTest] = [
                             "enaSupport": True,
                             "enclaveOptions": {"enabled": False},
                             "groupSet": {
-                                "items": [
-                                    {
-                                        "groupId": "sg-00000000000000000",
-                                        "groupName": "ssh",
-                                    }
-                                ]
+                                "items": [{"groupId": "sg-00000000000000000", "groupName": "ssh"}]
                             },
                             "hypervisor": "xen",
                             "imageId": "ami-08038de0f4f90a9f0",
@@ -700,10 +660,7 @@ awsec2_vulnerable_xz_image_launched_tests: List[RuleTest] = [
                                     }
                                 ]
                             },
-                            "placement": {
-                                "availabilityZone": "us-west-2b",
-                                "tenancy": "default",
-                            },
+                            "placement": {"availabilityZone": "us-west-2b", "tenancy": "default"},
                             "privateDnsName": "ip-10-0-0-3.us-west-2.compute.internal",
                             "privateDnsNameOptions": {
                                 "enableResourceNameDnsAAAARecord": False,
@@ -771,7 +728,6 @@ class AWSEC2VulnerableXZImageLaunched(Rule):
     log_types = [LogType.AWS_CloudTrail]
     id_ = "AWS.EC2.Vulnerable.XZ.Image.Launched-prototype"
     tests = awsec2_vulnerable_xz_image_launched_tests
-
     # AMIs published by Fedora between 2024-03-26 and 2024-04-02
     # OpenSUSE and Kali do not have any recent [public] AMIs that would be affected
 

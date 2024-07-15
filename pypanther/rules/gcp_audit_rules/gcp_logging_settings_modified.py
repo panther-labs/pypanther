@@ -1,9 +1,7 @@
-from typing import List
-
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 
-gcp_logging_settings_modified_tests: List[RuleTest] = [
+gcp_logging_settings_modified_tests: list[RuleTest] = [
     RuleTest(
         name="Other Event",
         expected_result=False,
@@ -92,10 +90,7 @@ gcp_logging_settings_modified_tests: List[RuleTest] = [
                     "sink": {
                         "destination": "pubsub.googleapis.com/projects/gcp-project1/topics/gcp-topic1",
                         "exclusions": [
-                            {
-                                "filter": "protoPayload.serviceName = 'k8s.io",
-                                "name": "excludek8s",
-                            }
+                            {"filter": "protoPayload.serviceName = 'k8s.io", "name": "excludek8s"}
                         ],
                         "name": "log-sink",
                         "writerIdentity": "serviceAccount:p197946410614-915152@gcp-sa-logging.iam.gserviceaccount.com",
@@ -108,10 +103,7 @@ gcp_logging_settings_modified_tests: List[RuleTest] = [
                     "callerIP": "1.2.3.4",
                     "callerSuppliedUserAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36,gzip(gfe),gzip(gfe)",
                     "destinationAttributes": {},
-                    "requestAttributes": {
-                        "auth": {},
-                        "time": "2023-03-09T16:41:30.540045105Z",
-                    },
+                    "requestAttributes": {"auth": {}, "time": "2023-03-09T16:41:30.540045105Z"},
                 },
                 "resourceName": "projects/gcp-project1/sinks/log-sink",
                 "serviceName": "logging.googleapis.com",
@@ -119,11 +111,7 @@ gcp_logging_settings_modified_tests: List[RuleTest] = [
             },
             "receivetimestamp": "2023-03-09 16:41:32.21",
             "resource": {
-                "labels": {
-                    "destination": "",
-                    "name": "log-sink",
-                    "project_id": "gcp-project1",
-                },
+                "labels": {"destination": "", "name": "log-sink", "project_id": "gcp-project1"},
                 "type": "logging_sink",
             },
             "severity": "NOTICE",

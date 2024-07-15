@@ -1,9 +1,7 @@
-from typing import List
-
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 
-asana_service_account_created_tests: List[RuleTest] = [
+asana_service_account_created_tests: list[RuleTest] = [
     RuleTest(
         name="New domain created",
         expected_result=False,
@@ -24,11 +22,7 @@ asana_service_account_created_tests: List[RuleTest] = [
             "event_category": "admin_settings",
             "event_type": "workspace_associated_email_domain_added",
             "gid": "12345",
-            "resource": {
-                "gid": "12345",
-                "name": "Example IO",
-                "resource_type": "workspace",
-            },
+            "resource": {"gid": "12345", "name": "Example IO", "resource_type": "workspace"},
         },
     ),
     RuleTest(
@@ -51,11 +45,7 @@ asana_service_account_created_tests: List[RuleTest] = [
             "event_category": "apps",
             "event_type": "service_account_created",
             "gid": "12345",
-            "resource": {
-                "gid": "12345",
-                "name": "Slack Service Account",
-                "resource_type": "user",
-            },
+            "resource": {"gid": "12345", "name": "Slack Service Account", "resource_type": "user"},
         },
     ),
     RuleTest(

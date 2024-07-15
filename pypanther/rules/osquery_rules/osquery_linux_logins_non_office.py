@@ -1,10 +1,9 @@
 import ipaddress
-from typing import List
 
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 
-osquery_linux_login_from_non_office_tests: List[RuleTest] = [
+osquery_linux_login_from_non_office_tests: list[RuleTest] = [
     RuleTest(
         name="Non-office network login (logged_in_users)",
         expected_result=True,
@@ -47,12 +46,7 @@ class OsqueryLinuxLoginFromNonOffice(Rule):
     display_name = "A Login from Outside the Corporate Office"
     enabled = False
     log_types = [LogType.Osquery_Differential]
-    tags = [
-        "Configuration Required",
-        "Osquery",
-        "Linux",
-        "Initial Access:Valid Accounts",
-    ]
+    tags = ["Configuration Required", "Osquery", "Linux", "Initial Access:Valid Accounts"]
     reports = {"MITRE ATT&CK": ["TA0001:T1078"]}
     default_severity = Severity.high
     default_description = "A system has been logged into from a non approved IP space."
