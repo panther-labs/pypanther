@@ -145,3 +145,62 @@ class TestPrintFailedTestResults:
         results = Rule1.run_tests(DATA_MODEL_CACHE.data_model_of_logtype)
         testing.print_failed_test_results([results])
         assert "" == caplog.text
+
+    def test_prints_aux_func_failures(self, caplog) -> None:
+        false_test_1 = RuleTest(
+            name="false test 1",
+            expected_result=False,
+            log={},
+            expected_severity=Severity.LOW,
+            expected_title="bad",
+            expected_reference="bad",
+            expected_dedup="bad",
+            expected_alert_context={"bad": "bad"},
+            expected_runbook="bad",
+            expected_description="bad",
+            expected_destinations=["bad"],
+        )
+
+        class Rule1(Rule):
+            log_types = [LogType.Panther_Audit]
+            default_severity = Severity.HIGH
+            id = "Rule1"
+            tests = [false_test_1]
+
+            def rule(self, event):
+                return False
+
+        results = Rule1.run_tests(DATA_MODEL_CACHE.data_model_of_logtype)
+        testing.print_failed_test_results([results])
+        assert (
+            "Rule1: test 'false test 1' returned the wrong result calling severity(), expected LOW but got HIGH"
+            in caplog.text
+        )
+        assert (
+            "Rule1: test 'false test 1' returned the wrong result calling title(), expected bad but got Rule1"
+            in caplog.text
+        )
+        assert (
+            "Rule1: test 'false test 1' returned the wrong result calling dedup(), expected bad but got Rule1"
+            in caplog.text
+        )
+        assert (
+            "Rule1: test 'false test 1' returned the wrong result calling runbook(), expected bad but got ''"
+            in caplog.text
+        )
+        assert (
+            "Rule1: test 'false test 1' returned the wrong result calling reference(), expected bad but got ''"
+            in caplog.text
+        )
+        assert (
+            "Rule1: test 'false test 1' returned the wrong result calling description(), expected bad but got ''"
+            in caplog.text
+        )
+        assert (
+            "Rule1: test 'false test 1' returned the wrong result calling destinations(), expected ['bad'] but got ['SKIP']"
+            in caplog.text
+        )
+        assert (
+            "Rule1: test 'false test 1' returned the wrong result calling alert_context(), expected {'bad': 'bad'} but got {}"
+            in caplog.text
+        )
