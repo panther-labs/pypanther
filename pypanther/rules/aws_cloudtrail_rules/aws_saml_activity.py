@@ -260,7 +260,7 @@ class AWSSuspiciousSAMLActivity(Rule):
     default_reference = "https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pools-managing-saml-idp-console.html"
     default_severity = Severity.medium
     log_types = [LogType.AWS_CloudTrail]
-    id_ = "AWS.Suspicious.SAML.Activity-prototype"
+    id = "AWS.Suspicious.SAML.Activity-prototype"
     tests = aws_suspicious_saml_activity_tests
     SAML_ACTIONS = ["UpdateSAMLProvider", "CreateSAMLProvider", "DeleteSAMLProvider"]
 

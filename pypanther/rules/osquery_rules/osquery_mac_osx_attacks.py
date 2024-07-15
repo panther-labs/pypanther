@@ -33,7 +33,7 @@ osquery_mac_osx_attacks_tests: list[RuleTest] = [
 
 
 class OsqueryMacOSXAttacks(Rule):
-    id_ = "Osquery.Mac.OSXAttacks-prototype"
+    id = "Osquery.Mac.OSXAttacks-prototype"
     display_name = "macOS Malware Detected with osquery"
     log_types = [LogType.Osquery_Differential]
     tags = ["Osquery", "MacOS", "Malware", "Resource Development:Develop Capabilities"]

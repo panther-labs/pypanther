@@ -48,7 +48,7 @@ duo_user_denied_anomalous_push_tests: list[RuleTest] = [
 
 
 class DUOUserDeniedAnomalousPush(Rule):
-    id_ = "DUO.User.Denied.AnomalousPush-prototype"
+    id = "DUO.User.Denied.AnomalousPush-prototype"
     display_name = "Duo User Auth Denied For Anomalous Push"
     dedup_period_minutes = 15
     log_types = [LogType.Duo_Authentication]

@@ -311,7 +311,7 @@ class GCPDNSZoneModifiedorDeleted(Rule):
     default_reference = "https://cloud.google.com/dns/docs/zones"
     default_severity = Severity.low
     log_types = [LogType.GCP_AuditLog]
-    id_ = "GCP.DNS.Zone.Modified.or.Deleted-prototype"
+    id = "GCP.DNS.Zone.Modified.or.Deleted-prototype"
     tests = gcpdns_zone_modifiedor_deleted_tests
 
     def rule(self, event):

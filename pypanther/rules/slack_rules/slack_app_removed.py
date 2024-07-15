@@ -157,7 +157,7 @@ slack_audit_logs_app_removed_tests: list[RuleTest] = [
 
 
 class SlackAuditLogsAppRemoved(Rule):
-    id_ = "Slack.AuditLogs.AppRemoved-prototype"
+    id = "Slack.AuditLogs.AppRemoved-prototype"
     display_name = "Slack App Removed"
     log_types = [LogType.Slack_AuditLogs]
     tags = [

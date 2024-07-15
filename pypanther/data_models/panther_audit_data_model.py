@@ -30,7 +30,7 @@ def get_actor_user(event):
 
 
 class StandardPantherAudit(DataModel):
-    id_: str = "Standard.Panther.Audit"
+    id: str = "Standard.Panther.Audit"
     display_name: str = "Panther Audit Logs"
     enabled: bool = True
     log_types: list[str] = [LogType.Panther_Audit]

@@ -50,7 +50,7 @@ one_password_sensitive_item_tests: list[RuleTest] = [
 
 
 class OnePasswordSensitiveItem(Rule):
-    id_ = "OnePassword.Sensitive.Item-prototype"
+    id = "OnePassword.Sensitive.Item-prototype"
     dedup_period_minutes = 30
     display_name = "Configuration Required - Sensitive 1Password Item Accessed"
     enabled = False

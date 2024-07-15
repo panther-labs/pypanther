@@ -158,7 +158,7 @@ okta_identity_provider_sign_in_tests: list[RuleTest] = [
 
 
 class OktaIdentityProviderSignIn(Rule):
-    id_ = "Okta.Identity.Provider.SignIn-prototype"
+    id = "Okta.Identity.Provider.SignIn-prototype"
     display_name = "Okta Identity Provider Sign-in"
     enabled = False
     log_types = [LogType.Okta_SystemLog]

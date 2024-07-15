@@ -62,7 +62,7 @@ def get_user(event):
 
 
 class StandardZendeskAuditLog(DataModel):
-    id_: str = "Standard.Zendesk.AuditLog"
+    id: str = "Standard.Zendesk.AuditLog"
     display_name: str = "Zendesk Audit"
     enabled: bool = True
     log_types: list[str] = [LogType.Zendesk_Audit]

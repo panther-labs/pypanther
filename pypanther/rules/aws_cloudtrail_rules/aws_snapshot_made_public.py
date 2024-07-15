@@ -142,7 +142,7 @@ aws_cloud_trail_snapshot_made_public_tests: list[RuleTest] = [
 
 
 class AWSCloudTrailSnapshotMadePublic(Rule):
-    id_ = "AWS.CloudTrail.SnapshotMadePublic-prototype"
+    id = "AWS.CloudTrail.SnapshotMadePublic-prototype"
     display_name = "AWS Snapshot Made Public"
     log_types = [LogType.AWS_CloudTrail]
     tags = ["AWS", "Exfiltration:Transfer Data to Cloud Account"]

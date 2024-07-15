@@ -287,7 +287,7 @@ gcpk8_s_privileged_pod_created_tests: list[RuleTest] = [
 
 
 class GCPK8SPrivilegedPodCreated(Rule):
-    id_ = "GCP.K8S.Privileged.Pod.Created-prototype"
+    id = "GCP.K8S.Privileged.Pod.Created-prototype"
     display_name = "GCP K8S Privileged Pod Created"
     log_types = [LogType.GCP_AuditLog]
     default_severity = Severity.high

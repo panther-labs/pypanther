@@ -27,7 +27,7 @@ one_login_password_access_tests: list[RuleTest] = [
 
 
 class OneLoginPasswordAccess(Rule):
-    id_ = "OneLogin.PasswordAccess-prototype"
+    id = "OneLogin.PasswordAccess-prototype"
     display_name = "OneLogin Password Access"
     log_types = [LogType.OneLogin_Events]
     tags = ["OneLogin", "Credential Access:Unsecured Credentials"]

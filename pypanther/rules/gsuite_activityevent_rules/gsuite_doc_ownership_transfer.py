@@ -25,7 +25,7 @@ g_suite_doc_ownership_transfer_tests: list[RuleTest] = [
 
 
 class GSuiteDocOwnershipTransfer(Rule):
-    id_ = "GSuite.DocOwnershipTransfer-prototype"
+    id = "GSuite.DocOwnershipTransfer-prototype"
     display_name = "GSuite Document External Ownership Transfer"
     enabled = False
     log_types = [LogType.GSuite_ActivityEvent]

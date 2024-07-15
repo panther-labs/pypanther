@@ -22,7 +22,7 @@ class MongoDBIdentityProviderActivity(Rule):
     default_severity = Severity.medium
     default_reference = "https://attack.mitre.org/techniques/T1556/007/"
     log_types = [LogType.MongoDB_OrganizationEvent]
-    id_ = "MongoDB.Identity.Provider.Activity-prototype"
+    id = "MongoDB.Identity.Provider.Activity-prototype"
     tests = mongo_db_identity_provider_activity_tests
 
     def rule(self, event):

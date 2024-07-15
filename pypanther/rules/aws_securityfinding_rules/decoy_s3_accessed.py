@@ -255,7 +255,7 @@ decoy_s3_accessed_tests: list[RuleTest] = [
 
 
 class DecoyS3Accessed(Rule):
-    id_ = "Decoy.S3.Accessed-prototype"
+    id = "Decoy.S3.Accessed-prototype"
     display_name = "Decoy S3 Accessed"
     enabled = False
     log_types = [LogType.AWS_SecurityFindingFormat]

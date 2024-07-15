@@ -3,7 +3,7 @@ from pypanther.helpers.panther_notion_helpers import notion_alert_context
 
 
 class NotionLoginFromBlockedIP(Rule):
-    id_ = "Notion.LoginFromBlockedIP-prototype"
+    id = "Notion.LoginFromBlockedIP-prototype"
     display_name = "Notion Login From Blocked IP"
     enabled = False
     log_types = [LogType.Notion_AuditLogs]

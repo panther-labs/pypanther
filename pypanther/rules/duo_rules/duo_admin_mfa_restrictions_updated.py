@@ -35,7 +35,7 @@ class DuoAdminMFARestrictionsUpdated(Rule):
     default_reference = "https://duo.com/docs/essentials-overview"
     default_severity = Severity.medium
     log_types = [LogType.Duo_Administrator]
-    id_ = "Duo.Admin.MFA.Restrictions.Updated-prototype"
+    id = "Duo.Admin.MFA.Restrictions.Updated-prototype"
     tests = duo_admin_mfa_restrictions_updated_tests
 
     def rule(self, event):

@@ -53,7 +53,7 @@ box_content_workflow_policy_violation_tests: list[RuleTest] = [
 
 
 class BoxContentWorkflowPolicyViolation(Rule):
-    id_ = "Box.Content.Workflow.Policy.Violation-prototype"
+    id = "Box.Content.Workflow.Policy.Violation-prototype"
     display_name = "Box Content Workflow Policy Violation"
     log_types = [LogType.Box_Event]
     tags = ["Box"]

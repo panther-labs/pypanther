@@ -89,7 +89,7 @@ awss3_server_access_insecure_tests: list[RuleTest] = [
 
 
 class AWSS3ServerAccessInsecure(Rule):
-    id_ = "AWS.S3.ServerAccess.Insecure-prototype"
+    id = "AWS.S3.ServerAccess.Insecure-prototype"
     display_name = "AWS S3 Insecure Access"
     dedup_period_minutes = 720
     log_types = [LogType.AWS_S3ServerAccess]

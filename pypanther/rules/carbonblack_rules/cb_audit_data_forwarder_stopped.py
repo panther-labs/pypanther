@@ -35,7 +35,7 @@ carbon_black_audit_data_forwarder_stopped_tests: list[RuleTest] = [
 
 
 class CarbonBlackAuditDataForwarderStopped(Rule):
-    id_ = "CarbonBlack.Audit.Data.Forwarder.Stopped-prototype"
+    id = "CarbonBlack.Audit.Data.Forwarder.Stopped-prototype"
     log_types = [LogType.CarbonBlack_Audit]
     default_description = "Detects when a user disables or deletes a Data Forwarder."
     display_name = "Carbon Black Data Forwarder Stopped"

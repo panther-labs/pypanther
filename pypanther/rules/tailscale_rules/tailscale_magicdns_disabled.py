@@ -86,7 +86,7 @@ class TailscaleMagicDNSDisabled(Rule):
     default_reference = "https://tailscale.com/kb/1081/magicdns/"
     default_severity = Severity.high
     log_types = [LogType.Tailscale_Audit]
-    id_ = "Tailscale.Magic.DNS.Disabled-prototype"
+    id = "Tailscale.Magic.DNS.Disabled-prototype"
     tests = tailscale_magic_dns_disabled_tests
 
     def rule(self, event):

@@ -158,7 +158,7 @@ class OktaUserAccountLocked(Rule):
     default_reference = "https://support.okta.com/help/s/article/How-to-Configure-the-Number-of-Failed-Login-Attempts-Before-User-Lockout?language=en_US"
     default_severity = Severity.low
     log_types = [LogType.Okta_SystemLog]
-    id_ = "Okta.User.Account.Locked-prototype"
+    id = "Okta.User.Account.Locked-prototype"
     tests = okta_user_account_locked_tests
 
     def rule(self, event):

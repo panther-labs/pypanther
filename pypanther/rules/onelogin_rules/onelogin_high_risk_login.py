@@ -20,7 +20,7 @@ one_login_high_risk_login_tests: list[RuleTest] = [
 
 
 class OneLoginHighRiskLogin(Rule):
-    id_ = "OneLogin.HighRiskLogin-prototype"
+    id = "OneLogin.HighRiskLogin-prototype"
     display_name = "OneLogin High Risk Login"
     log_types = [LogType.OneLogin_Events]
     tags = ["OneLogin"]

@@ -52,7 +52,7 @@ netskope_admin_logged_out_login_failures_tests: list[RuleTest] = [
 
 
 class NetskopeAdminLoggedOutLoginFailures(Rule):
-    id_ = "Netskope.AdminLoggedOutLoginFailures-prototype"
+    id = "Netskope.AdminLoggedOutLoginFailures-prototype"
     display_name = "Admin logged out because of successive login failures"
     log_types = [LogType.Netskope_Audit]
     tags = ["Netskope", "Brute Force"]

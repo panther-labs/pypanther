@@ -84,7 +84,7 @@ class TailscaleHTTPSDisabled(Rule):
     default_reference = "https://tailscale.com/kb/1153/enabling-https/#disable-https"
     default_severity = Severity.high
     log_types = [LogType.Tailscale_Audit]
-    id_ = "Tailscale.HTTPS.Disabled-prototype"
+    id = "Tailscale.HTTPS.Disabled-prototype"
     tests = tailscale_https_disabled_tests
 
     def rule(self, event):

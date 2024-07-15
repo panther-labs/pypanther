@@ -229,7 +229,7 @@ decoy_iam_assumed_tests: list[RuleTest] = [
 
 
 class DecoyIAMAssumed(Rule):
-    id_ = "Decoy.IAM.Assumed-prototype"
+    id = "Decoy.IAM.Assumed-prototype"
     display_name = "Decoy IAM Assumed"
     enabled = False
     log_types = [LogType.AWS_SecurityFindingFormat]

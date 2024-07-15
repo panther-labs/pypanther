@@ -275,7 +275,7 @@ notion_login_from_new_location_tests: list[RuleTest] = [
 
 
 class NotionLoginFromNewLocation(Rule):
-    id_ = "Notion.LoginFromNewLocation-prototype"
+    id = "Notion.LoginFromNewLocation-prototype"
     display_name = "Notion Login from New Location"
     log_types = [LogType.Notion_AuditLogs]
     tags = ["Notion", "Identity & Access Management", "Login & Access Patterns"]

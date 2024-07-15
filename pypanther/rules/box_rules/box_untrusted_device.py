@@ -37,7 +37,7 @@ box_untrusted_device_tests: list[RuleTest] = [
 
 
 class BoxUntrustedDevice(Rule):
-    id_ = "Box.Untrusted.Device-prototype"
+    id = "Box.Untrusted.Device-prototype"
     display_name = "Box Untrusted Device Login"
     log_types = [LogType.Box_Event]
     tags = ["Box", "Initial Access:Valid Accounts"]

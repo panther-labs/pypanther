@@ -86,7 +86,7 @@ g_suite_workspace_gmail_security_sandbox_disabled_tests: list[RuleTest] = [
 
 
 class GSuiteWorkspaceGmailSecuritySandboxDisabled(Rule):
-    id_ = "GSuite.Workspace.GmailSecuritySandboxDisabled-prototype"
+    id = "GSuite.Workspace.GmailSecuritySandboxDisabled-prototype"
     display_name = "GSuite Workspace Gmail Security Sandbox Disabled"
     log_types = [LogType.GSuite_ActivityEvent]
     tags = ["GSuite"]

@@ -79,7 +79,7 @@ snyk_user_management_tests: list[RuleTest] = [
 
 
 class SnykUserManagement(Rule):
-    id_ = "Snyk.User.Management-prototype"
+    id = "Snyk.User.Management-prototype"
     display_name = "Snyk User Management"
     log_types = [LogType.Snyk_GroupAudit, LogType.Snyk_OrgAudit]
     tags = ["Snyk"]

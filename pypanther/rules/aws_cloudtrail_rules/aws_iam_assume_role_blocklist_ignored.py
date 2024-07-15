@@ -176,7 +176,7 @@ aws_cloud_trail_iam_assume_role_blacklist_ignored_tests: list[RuleTest] = [
 
 
 class AWSCloudTrailIAMAssumeRoleBlacklistIgnored(Rule):
-    id_ = "AWS.CloudTrail.IAMAssumeRoleBlacklistIgnored-prototype"
+    id = "AWS.CloudTrail.IAMAssumeRoleBlacklistIgnored-prototype"
     display_name = "IAM Assume Role Blocklist Ignored"
     enabled = False
     log_types = [LogType.AWS_CloudTrail]

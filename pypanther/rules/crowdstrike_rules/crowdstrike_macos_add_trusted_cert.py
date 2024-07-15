@@ -388,7 +388,7 @@ crowdstrike_macos_add_trusted_cert_tests: list[RuleTest] = [
 class CrowdstrikeMacosAddTrustedCert(Rule):
     display_name = "CrowdStrike MacOS Added Trusted Cert"
     default_description = "Detects attempt to install a root certificate on MacOS"
-    id_ = "Crowdstrike.Macos.Add.Trusted.Cert-prototype"
+    id = "Crowdstrike.Macos.Add.Trusted.Cert-prototype"
     default_reference = "https://docs.panther.com/data-onboarding/supported-logs/crowdstrike#crowdstrike.processrollup2"
     default_severity = Severity.medium
     log_types = [LogType.Crowdstrike_FDREvent]

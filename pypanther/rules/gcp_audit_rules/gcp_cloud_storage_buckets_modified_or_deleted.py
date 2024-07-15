@@ -120,7 +120,7 @@ class GCPCloudStorageBucketsModifiedOrDeleted(Rule):
     default_reference = "https://cloud.google.com/storage/docs/buckets"
     default_severity = Severity.low
     log_types = [LogType.GCP_AuditLog]
-    id_ = "GCP.Cloud.Storage.Buckets.Modified.Or.Deleted-prototype"
+    id = "GCP.Cloud.Storage.Buckets.Modified.Or.Deleted-prototype"
     tests = gcp_cloud_storage_buckets_modified_or_deleted_tests
     BUCKET_OPERATIONS = ["storage.buckets.delete", "storage.buckets.update"]
 

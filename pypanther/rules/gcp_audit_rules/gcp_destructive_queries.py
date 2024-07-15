@@ -141,7 +141,7 @@ class GCPDestructiveQueries(Rule):
     default_reference = "https://cloud.google.com/bigquery/docs/managing-tables"
     default_severity = Severity.info
     log_types = [LogType.GCP_AuditLog]
-    id_ = "GCP.Destructive.Queries-prototype"
+    id = "GCP.Destructive.Queries-prototype"
     tests = gcp_destructive_queries_tests
     DESTRUCTIVE_STATEMENTS = ["UPDATE", "DELETE", "DROP_TABLE", "ALTER_TABLE", "TRUNCATE_TABLE"]
 

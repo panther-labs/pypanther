@@ -61,7 +61,7 @@ okta_support_access_tests: list[RuleTest] = [
 
 
 class OktaSupportAccess(Rule):
-    id_ = "Okta.Support.Access-prototype"
+    id = "Okta.Support.Access-prototype"
     display_name = "Okta Support Access Granted"
     log_types = [LogType.Okta_SystemLog]
     tags = [

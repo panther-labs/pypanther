@@ -60,7 +60,7 @@ okta_global_mfa_disabled_tests: list[RuleTest] = [
 
 
 class OktaGlobalMFADisabled(Rule):
-    id_ = "Okta.Global.MFA.Disabled-prototype"
+    id = "Okta.Global.MFA.Disabled-prototype"
     display_name = "Okta MFA Globally Disabled"
     log_types = [LogType.Okta_SystemLog]
     tags = [

@@ -147,7 +147,7 @@ slack_audit_logs_legal_hold_policy_modified_tests: list[RuleTest] = [
 
 
 class SlackAuditLogsLegalHoldPolicyModified(Rule):
-    id_ = "Slack.AuditLogs.LegalHoldPolicyModified-prototype"
+    id = "Slack.AuditLogs.LegalHoldPolicyModified-prototype"
     display_name = "Slack Legal Hold Policy Modified"
     log_types = [LogType.Slack_AuditLogs]
     tags = ["Slack", "Defense Evasion", "Impair Defenses", "Disable or Modify Tools"]

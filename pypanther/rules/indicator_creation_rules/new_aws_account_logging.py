@@ -53,7 +53,7 @@ standard_new_aws_account_created_tests: list[RuleTest] = [
 
 
 class StandardNewAWSAccountCreated(Rule):
-    id_ = "Standard.NewAWSAccountCreated-prototype"
+    id = "Standard.NewAWSAccountCreated-prototype"
     display_name = "New AWS Account Created"
     log_types = [LogType.AWS_CloudTrail]
     tags = ["DataModel", "Indicator Collection", "Persistence:Create Account"]

@@ -154,7 +154,7 @@ awss3_bucket_policy_modified_tests: list[RuleTest] = [
 
 
 class AWSS3BucketPolicyModified(Rule):
-    id_ = "AWS.S3.BucketPolicyModified-prototype"
+    id = "AWS.S3.BucketPolicyModified-prototype"
     display_name = "AWS S3 Bucket Policy Modified"
     log_types = [LogType.AWS_CloudTrail]
     tags = ["AWS", "Identity & Access Management", "Exfiltration:Exfiltration Over Web Service"]

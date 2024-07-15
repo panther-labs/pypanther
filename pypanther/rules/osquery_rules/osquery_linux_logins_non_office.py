@@ -42,7 +42,7 @@ osquery_linux_login_from_non_office_tests: list[RuleTest] = [
 
 
 class OsqueryLinuxLoginFromNonOffice(Rule):
-    id_ = "Osquery.Linux.LoginFromNonOffice-prototype"
+    id = "Osquery.Linux.LoginFromNonOffice-prototype"
     display_name = "A Login from Outside the Corporate Office"
     enabled = False
     log_types = [LogType.Osquery_Differential]

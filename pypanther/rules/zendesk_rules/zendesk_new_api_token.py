@@ -43,7 +43,7 @@ zendesk_new_api_token_tests: list[RuleTest] = [
 
 
 class ZendeskNewAPIToken(Rule):
-    id_ = "Zendesk.NewAPIToken-prototype"
+    id = "Zendesk.NewAPIToken-prototype"
     display_name = "Zendesk API Token Created"
     log_types = [LogType.Zendesk_Audit]
     default_severity = Severity.high

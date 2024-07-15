@@ -247,7 +247,7 @@ okta_anonymizing_vpn_login_tests: list[RuleTest] = [
 
 
 class OktaAnonymizingVPNLogin(Rule):
-    id_ = "Okta.Anonymizing.VPN.Login-prototype"
+    id = "Okta.Anonymizing.VPN.Login-prototype"
     display_name = "Okta Sign-In from VPN Anonymizer"
     log_types = [LogType.Okta_SystemLog]
     reports = {"MITRE ATT&CK": ["TA0006:T1556"]}

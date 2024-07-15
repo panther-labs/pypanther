@@ -227,7 +227,7 @@ gcp_unused_regions_tests: list[RuleTest] = [
 
 
 class GCPUnusedRegions(Rule):
-    id_ = "GCP.UnusedRegions-prototype"
+    id = "GCP.UnusedRegions-prototype"
     display_name = "GCP Resource in Unused Region"
     enabled = False
     dedup_period_minutes = 15

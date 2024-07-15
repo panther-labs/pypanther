@@ -178,7 +178,7 @@ class OktaUserReportedSuspiciousActivity(Rule):
     display_name = "Okta User Reported Suspicious Activity"
     default_severity = Severity.high
     log_types = [LogType.Okta_SystemLog]
-    id_ = "Okta.User.Reported.Suspicious.Activity-prototype"
+    id = "Okta.User.Reported.Suspicious.Activity-prototype"
     tests = okta_user_reported_suspicious_activity_tests
 
     def rule(self, event):

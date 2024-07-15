@@ -334,7 +334,7 @@ class GCPcomputeinstancescreatePrivilegeEscalation(Rule):
     log_types = [LogType.GCP_AuditLog]
     default_description = "Detects compute.instances.create method for privilege escalation in GCP."
     display_name = "GCP compute.instances.create Privilege Escalation"
-    id_ = "GCP.compute.instances.create.Privilege.Escalation-prototype"
+    id = "GCP.compute.instances.create.Privilege.Escalation-prototype"
     default_reference = (
         "https://rhinosecuritylabs.com/gcp/privilege-escalation-google-cloud-platform-part-1/"
     )

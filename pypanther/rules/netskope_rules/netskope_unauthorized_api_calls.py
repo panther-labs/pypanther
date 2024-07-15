@@ -58,7 +58,7 @@ netskope_unauthorized_api_calls_tests: list[RuleTest] = [
 
 
 class NetskopeUnauthorizedAPICalls(Rule):
-    id_ = "Netskope.UnauthorizedAPICalls-prototype"
+    id = "Netskope.UnauthorizedAPICalls-prototype"
     display_name = "Netskope Many Unauthorized API Calls"
     log_types = [LogType.Netskope_Audit]
     tags = ["Netskope", "Configuration Required", "Brute Force"]

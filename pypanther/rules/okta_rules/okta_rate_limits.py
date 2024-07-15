@@ -230,7 +230,7 @@ class OktaRateLimits(Rule):
     default_reference = "https://developer.okta.com/docs/reference/rl-system-log-events/"
     dedup_period_minutes = 360
     log_types = [LogType.Okta_SystemLog]
-    id_ = "Okta.Rate.Limits-prototype"
+    id = "Okta.Rate.Limits-prototype"
     tests = okta_rate_limits_tests
     DETECTION_EVENTS = [
         "app.oauth2.client_id_rate_limit_warning",

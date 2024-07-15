@@ -171,7 +171,7 @@ class OktaGroupAdminRoleAssigned(Rule):
     default_reference = "https://support.okta.com/help/s/article/How-to-assign-Administrator-roles-to-groups?language=en_US#:~:text=Log%20in%20to%20the%20Admin,user%20and%20click%20Save%20changes"
     default_severity = Severity.high
     log_types = [LogType.Okta_SystemLog]
-    id_ = "Okta.Group.Admin.Role.Assigned-prototype"
+    id = "Okta.Group.Admin.Role.Assigned-prototype"
     tests = okta_group_admin_role_assigned_tests
 
     def rule(self, event):

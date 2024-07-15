@@ -241,7 +241,7 @@ crowdstrike_dns_request_tests: list[RuleTest] = [
 
 
 class CrowdstrikeDNSRequest(Rule):
-    id_ = "Crowdstrike.DNS.Request-prototype"
+    id = "Crowdstrike.DNS.Request-prototype"
     display_name = "DNS request to denylisted domain"
     enabled = False
     log_types = [LogType.Crowdstrike_DNSRequest, LogType.Crowdstrike_FDREvent]

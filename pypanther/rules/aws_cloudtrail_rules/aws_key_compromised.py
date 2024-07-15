@@ -64,7 +64,7 @@ awsiam_access_key_compromised_tests: list[RuleTest] = [
 
 
 class AWSIAMAccessKeyCompromised(Rule):
-    id_ = "AWS.IAM.AccessKeyCompromised-prototype"
+    id = "AWS.IAM.AccessKeyCompromised-prototype"
     display_name = "AWS Access Key Uploaded to Github"
     log_types = [LogType.AWS_CloudTrail]
     reports = {"MITRE ATT&CK": ["TA0006:T1552"]}

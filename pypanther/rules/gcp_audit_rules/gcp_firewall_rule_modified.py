@@ -164,7 +164,7 @@ gcp_firewall_rule_modified_tests: list[RuleTest] = [
 
 class GCPFirewallRuleModified(Rule):
     display_name = "GCP Firewall Rule Modified"
-    id_ = "GCP.Firewall.Rule.Modified-prototype"
+    id = "GCP.Firewall.Rule.Modified-prototype"
     default_severity = Severity.low
     log_types = [LogType.GCP_AuditLog]
     tags = ["GCP", "Firewall", "Networking", "Infrastructure"]

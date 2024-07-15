@@ -139,7 +139,7 @@ awsec2_route_table_modified_tests: list[RuleTest] = [
 
 
 class AWSEC2RouteTableModified(Rule):
-    id_ = "AWS.EC2.RouteTableModified-prototype"
+    id = "AWS.EC2.RouteTableModified-prototype"
     display_name = "EC2 Route Table Modified"
     log_types = [LogType.AWS_CloudTrail]
     tags = ["AWS", "Exfiltration:Exfiltration Over Alternative Protocol"]

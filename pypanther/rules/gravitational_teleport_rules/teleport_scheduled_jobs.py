@@ -97,7 +97,7 @@ teleport_scheduled_jobs_tests: list[RuleTest] = [
 
 
 class TeleportScheduledJobs(Rule):
-    id_ = "Teleport.ScheduledJobs-prototype"
+    id = "Teleport.ScheduledJobs-prototype"
     display_name = "Teleport Scheduled Jobs"
     log_types = [LogType.Gravitational_TeleportAudit]
     tags = ["SSH", "Execution:Scheduled Task/Job"]

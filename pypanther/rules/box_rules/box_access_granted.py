@@ -42,7 +42,7 @@ box_access_granted_tests: list[RuleTest] = [
 
 
 class BoxAccessGranted(Rule):
-    id_ = "Box.Access.Granted-prototype"
+    id = "Box.Access.Granted-prototype"
     display_name = "Box Access Granted"
     log_types = [LogType.Box_Event]
     tags = ["Box"]

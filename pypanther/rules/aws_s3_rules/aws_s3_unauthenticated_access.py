@@ -15,7 +15,7 @@ awss3_server_access_unauthenticated_tests: list[RuleTest] = [
 
 
 class AWSS3ServerAccessUnauthenticated(Rule):
-    id_ = "AWS.S3.ServerAccess.Unauthenticated-prototype"
+    id = "AWS.S3.ServerAccess.Unauthenticated-prototype"
     display_name = "AWS S3 Unauthenticated Access"
     enabled = False
     log_types = [LogType.AWS_S3ServerAccess]

@@ -69,7 +69,7 @@ slack_audit_logs_ekm_config_changed_tests: list[RuleTest] = [
 
 
 class SlackAuditLogsEKMConfigChanged(Rule):
-    id_ = "Slack.AuditLogs.EKMConfigChanged-prototype"
+    id = "Slack.AuditLogs.EKMConfigChanged-prototype"
     display_name = "Slack EKM Config Changed"
     log_types = [LogType.Slack_AuditLogs]
     tags = ["Slack", "Defense Evasion", "Impair Defenses", "Disable or Modify Cloud Logs"]

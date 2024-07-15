@@ -35,7 +35,7 @@ snyk_system_sso_tests: list[RuleTest] = [
 
 
 class SnykSystemSSO(Rule):
-    id_ = "Snyk.System.SSO-prototype"
+    id = "Snyk.System.SSO-prototype"
     display_name = "Snyk System SSO Settings Changed"
     log_types = [LogType.Snyk_GroupAudit]
     tags = ["Snyk"]

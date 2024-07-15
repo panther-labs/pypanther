@@ -228,7 +228,7 @@ aws_cloud_trail_ami_modified_for_public_access_tests: list[RuleTest] = [
 
 
 class AWSCloudTrailAMIModifiedForPublicAccess(Rule):
-    id_ = "AWS.CloudTrail.AMIModifiedForPublicAccess-prototype"
+    id = "AWS.CloudTrail.AMIModifiedForPublicAccess-prototype"
     display_name = "Amazon Machine Image (AMI) Modified to Allow Public Access"
     log_types = [LogType.AWS_CloudTrail]
     tags = ["AWS", "Exfiltration:Transfer Data to Cloud Account"]

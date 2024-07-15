@@ -162,7 +162,7 @@ gcpiam_org_folder_iam_changes_tests: list[RuleTest] = [
 
 
 class GCPIAMOrgFolderIAMChanges(Rule):
-    id_ = "GCP.IAM.OrgFolderIAMChanges-prototype"
+    id = "GCP.IAM.OrgFolderIAMChanges-prototype"
     display_name = "GCP Org or Folder Policy Was Changed Manually"
     dedup_period_minutes = 1440
     log_types = [LogType.GCP_AuditLog]

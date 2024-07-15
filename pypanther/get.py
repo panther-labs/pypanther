@@ -32,7 +32,7 @@ def get_panther_rules(**kwargs) -> list[Type[Rule]]:
                 for item in dir(m):
                     attr = getattr(m, item)
                     if isinstance(attr, type) and issubclass(attr, Rule) and attr is not Rule:
-                        if not hasattr(attr, "id_"):
+                        if not hasattr(attr, "id"):
                             continue
                         __RULES.add(attr)
 
@@ -68,7 +68,7 @@ def get_rules(module: Any) -> list[Type[Rule]]:
         for item in dir(m):
             attr = getattr(m, item)
             if isinstance(attr, type) and issubclass(attr, Rule) and attr is not Rule:
-                if not hasattr(attr, "id_"):
+                if not hasattr(attr, "id"):
                     continue
                 subclasses.add(attr)
 
@@ -126,7 +126,7 @@ def print_rule_table(rules: List[Type[Rule]]) -> None:
 
         table.add_row(
             [
-                rule.id_,
+                rule.id,
                 ", ".join([str(s) for s in log_types]),
                 rule.display_name,
                 rule.default_severity,

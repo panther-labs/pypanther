@@ -220,7 +220,7 @@ gcpk8_s_pot_create_or_modify_host_path_volume_mount_tests: list[RuleTest] = [
 
 
 class GCPK8SPotCreateOrModifyHostPathVolumeMount(Rule):
-    id_ = "GCP.K8S.Pot.Create.Or.Modify.Host.Path.Volume.Mount-prototype"
+    id = "GCP.K8S.Pot.Create.Or.Modify.Host.Path.Volume.Mount-prototype"
     display_name = "GCP K8S Pot Create Or Modify Host Path Volume Mount"
     log_types = [LogType.GCP_AuditLog]
     default_severity = Severity.high

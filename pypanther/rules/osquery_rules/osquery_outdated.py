@@ -72,7 +72,7 @@ osquery_outdated_agent_tests: list[RuleTest] = [
 
 
 class OsqueryOutdatedAgent(Rule):
-    id_ = "Osquery.OutdatedAgent-prototype"
+    id = "Osquery.OutdatedAgent-prototype"
     display_name = "Osquery Agent Outdated"
     log_types = [LogType.Osquery_Differential]
     tags = ["Osquery", "Compliance"]

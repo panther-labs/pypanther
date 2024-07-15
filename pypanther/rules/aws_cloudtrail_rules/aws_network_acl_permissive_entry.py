@@ -155,7 +155,7 @@ aws_cloud_trail_network_acl_permissive_entry_tests: list[RuleTest] = [
 
 
 class AWSCloudTrailNetworkACLPermissiveEntry(Rule):
-    id_ = "AWS.CloudTrail.NetworkACLPermissiveEntry-prototype"
+    id = "AWS.CloudTrail.NetworkACLPermissiveEntry-prototype"
     display_name = "AWS Network ACL Overly Permissive Entry Created"
     log_types = [LogType.AWS_CloudTrail]
     tags = ["AWS", "Persistence:Account Manipulation"]

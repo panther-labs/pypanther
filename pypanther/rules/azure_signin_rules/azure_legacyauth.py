@@ -280,7 +280,7 @@ azure_audit_legacy_auth_tests: list[RuleTest] = [
 
 
 class AzureAuditLegacyAuth(Rule):
-    id_ = "Azure.Audit.LegacyAuth-prototype"
+    id = "Azure.Audit.LegacyAuth-prototype"
     display_name = "Azure SignIn via Legacy Authentication Protocol"
     dedup_period_minutes = 10
     log_types = [LogType.Azure_Audit]

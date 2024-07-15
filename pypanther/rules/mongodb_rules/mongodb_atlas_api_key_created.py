@@ -74,7 +74,7 @@ class MongoDBAtlasApiKeyCreated(Rule):
         "https://www.mongodb.com/docs/atlas/configure-api-access/#std-label-about-org-api-keys"
     )
     log_types = [LogType.MongoDB_OrganizationEvent]
-    id_ = "MongoDB.Atlas.ApiKeyCreated-prototype"
+    id = "MongoDB.Atlas.ApiKeyCreated-prototype"
     tests = mongo_db_atlas_api_key_created_tests
 
     def rule(self, event):

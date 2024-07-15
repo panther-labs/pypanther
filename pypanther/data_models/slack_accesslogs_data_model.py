@@ -2,7 +2,7 @@ from pypanther.base import DataModel, DataModelMapping, LogType
 
 
 class StandardSlackAccessLogs(DataModel):
-    id_: str = "Standard.Slack.AccessLogs"
+    id: str = "Standard.Slack.AccessLogs"
     display_name: str = "Slack Access Logs"
     enabled: bool = True
     log_types: list[str] = [LogType.Slack_AccessLogs]

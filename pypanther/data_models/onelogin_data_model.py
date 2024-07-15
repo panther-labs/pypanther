@@ -16,7 +16,7 @@ def get_event_type(event):
 
 
 class StandardOneLoginEvents(DataModel):
-    id_: str = "Standard.OneLogin.Events"
+    id: str = "Standard.OneLogin.Events"
     display_name: str = "OneLogin Events"
     enabled: bool = True
     log_types: list[str] = [LogType.OneLogin_Events]

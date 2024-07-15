@@ -41,7 +41,7 @@ class AWSEC2EBSEncryptionDisabled(Rule):
     default_reference = "https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/EBSEncryption.html#encryption-by-default"
     default_severity = Severity.medium
     log_types = [LogType.AWS_CloudTrail]
-    id_ = "AWS.EC2.EBS.Encryption.Disabled-prototype"
+    id = "AWS.EC2.EBS.Encryption.Disabled-prototype"
     tests = awsec2_ebs_encryption_disabled_tests
 
     def rule(self, event):

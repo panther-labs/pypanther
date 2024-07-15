@@ -56,7 +56,7 @@ awsvpc_inbound_port_blacklist_tests: list[RuleTest] = [
 
 
 class AWSVPCInboundPortBlacklist(Rule):
-    id_ = "AWS.VPC.InboundPortBlacklist-prototype"
+    id = "AWS.VPC.InboundPortBlacklist-prototype"
     display_name = "VPC Flow Logs Inbound Port Blocklist"
     enabled = False
     log_types = [LogType.AWS_VPCFlow, LogType.OCSF_NetworkActivity]

@@ -157,7 +157,7 @@ class AWSCloudTrailAccountDiscovery(Rule):
     reports = {"MITRE ATT&CK": ["TA0007:T1087"]}
     default_severity = Severity.info
     log_types = [LogType.AWS_CloudTrail]
-    id_ = "AWS.CloudTrail.Account.Discovery-prototype"
+    id = "AWS.CloudTrail.Account.Discovery-prototype"
     tests = aws_cloud_trail_account_discovery_tests
     DISCOVERY_EVENTS = [
         "GetAlternateContact",

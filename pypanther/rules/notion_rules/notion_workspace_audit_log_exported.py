@@ -48,7 +48,7 @@ notion_audit_log_exported_tests: list[RuleTest] = [
 
 
 class NotionAuditLogExported(Rule):
-    id_ = "Notion.Audit.Log.Exported-prototype"
+    id = "Notion.Audit.Log.Exported-prototype"
     display_name = "Notion Audit Log Exported"
     log_types = [LogType.Notion_AuditLogs]
     tags = ["Notion", "Data Security", "Data Exfiltration"]

@@ -153,7 +153,7 @@ app_omni_alert_passthrough_tests: list[RuleTest] = [
 
 
 class AppOmniAlertPassthrough(Rule):
-    id_ = "AppOmni.Alert.Passthrough-prototype"
+    id = "AppOmni.Alert.Passthrough-prototype"
     display_name = "AppOmni Alert Passthrough"
     log_types = [LogType.AppOmni_Alerts]
     default_severity = Severity.medium

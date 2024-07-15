@@ -18,7 +18,7 @@ def get_event_type(event):
 
 
 class StandardGSuiteReports(DataModel):
-    id_: str = "Standard.GSuite.Reports"
+    id: str = "Standard.GSuite.Reports"
     display_name: str = "GSuite Reports"
     enabled: bool = True
     log_types: list[str] = [LogType.GSuite_Reports]

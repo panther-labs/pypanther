@@ -29,7 +29,7 @@ teleport_root_login_tests: list[RuleTest] = [
 
 
 class TeleportRootLogin(Rule):
-    id_ = "Teleport.RootLogin-prototype"
+    id = "Teleport.RootLogin-prototype"
     display_name = "User Logged in as root"
     log_types = [LogType.Gravitational_TeleportAudit]
     tags = ["SSH", "Execution:Command and Scripting Interpreter", "Teleport"]

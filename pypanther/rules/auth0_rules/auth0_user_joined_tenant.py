@@ -314,7 +314,7 @@ auth0_user_joined_tenant_tests: list[RuleTest] = [
 class Auth0UserJoinedTenant(Rule):
     display_name = "Auth0 User Joined Tenant"
     default_description = "User accepted invitation from Auth0 member to join an Auth0 tenant."
-    id_ = "Auth0.User.Joined.Tenant-prototype"
+    id = "Auth0.User.Joined.Tenant-prototype"
     default_reference = "https://auth0.com/docs/manage-users/organizations/configure-organizations/invite-members#send-membership-invitations:~:text=.-,Send%20membership%20invitations,-You%20can"
     default_severity = Severity.info
     log_types = [LogType.Auth0_Events]

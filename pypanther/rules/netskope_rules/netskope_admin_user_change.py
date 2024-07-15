@@ -52,7 +52,7 @@ netskope_admin_user_change_tests: list[RuleTest] = [
 
 
 class NetskopeAdminUserChange(Rule):
-    id_ = "Netskope.AdminUserChange-prototype"
+    id = "Netskope.AdminUserChange-prototype"
     display_name = "An administrator account was created, deleted, or modified."
     log_types = [LogType.Netskope_Audit]
     tags = ["Netskope", "Account Manipulation"]

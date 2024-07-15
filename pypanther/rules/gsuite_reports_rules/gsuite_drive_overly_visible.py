@@ -72,7 +72,7 @@ g_suite_drive_overly_visible_tests: list[RuleTest] = [
 
 
 class GSuiteDriveOverlyVisible(Rule):
-    id_ = "GSuite.DriveOverlyVisible-prototype"
+    id = "GSuite.DriveOverlyVisible-prototype"
     display_name = "GSuite Overly Visible Drive Document"
     log_types = [LogType.GSuite_Reports]
     tags = ["GSuite", "Collection:Data from Information Repositories"]

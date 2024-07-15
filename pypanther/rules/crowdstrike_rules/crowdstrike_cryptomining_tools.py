@@ -175,7 +175,7 @@ class CrowdstrikeCryptominingTools(Rule):
     default_reference = "https://www.crowdstrike.com/cybersecurity-101/cryptojacking/"
     default_severity = Severity.critical
     log_types = [LogType.Crowdstrike_FDREvent]
-    id_ = "Crowdstrike.Cryptomining.Tools-prototype"
+    id = "Crowdstrike.Cryptomining.Tools-prototype"
     tests = crowdstrike_cryptomining_tools_tests
     CRYPTOCURRENCY_MINING_TOOLS = {
         "xmrig.exe",

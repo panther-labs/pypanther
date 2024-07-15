@@ -124,7 +124,7 @@ okta_admin_role_assigned_tests: list[RuleTest] = [
 
 
 class OktaAdminRoleAssigned(Rule):
-    id_ = "Okta.AdminRoleAssigned-prototype"
+    id = "Okta.AdminRoleAssigned-prototype"
     display_name = "Okta Admin Role Assigned"
     log_types = [LogType.Okta_SystemLog]
     tags = ["Identity & Access Management", "Okta", "Privilege Escalation:Valid Accounts"]

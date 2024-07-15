@@ -35,7 +35,7 @@ class DuoAdminBypassCodeCreated(Rule):
     default_reference = "https://duo.com/docs/administration-users#generating-a-bypass-code"
     default_severity = Severity.medium
     log_types = [LogType.Duo_Administrator]
-    id_ = "Duo.Admin.Bypass.Code.Created-prototype"
+    id = "Duo.Admin.Bypass.Code.Created-prototype"
     tests = duo_admin_bypass_code_created_tests
 
     def rule(self, event):

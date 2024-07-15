@@ -184,7 +184,7 @@ gcp_workload_identity_pool_createdor_updated_tests: list[RuleTest] = [
 
 
 class GCPWorkloadIdentityPoolCreatedorUpdated(Rule):
-    id_ = "GCP.Workload.Identity.Pool.Created.or.Updated-prototype"
+    id = "GCP.Workload.Identity.Pool.Created.or.Updated-prototype"
     display_name = "GCP Workload Identity Pool Created or Updated"
     log_types = [LogType.GCP_AuditLog]
     tags = ["Account Manipulation", "Additional Cloud Roles", "GCP", "Privilege Escalation"]

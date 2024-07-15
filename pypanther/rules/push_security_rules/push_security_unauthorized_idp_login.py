@@ -92,7 +92,7 @@ push_security_unauthorized_id_p_login_tests: list[RuleTest] = [
 
 
 class PushSecurityUnauthorizedIdPLogin(Rule):
-    id_ = "Push.Security.Unauthorized.IdP.Login-prototype"
+    id = "Push.Security.Unauthorized.IdP.Login-prototype"
     display_name = "Push Security Unauthorized IdP Login"
     enabled = False
     tags = ["Configuration Required"]

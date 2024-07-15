@@ -2,7 +2,7 @@ from pypanther.base import DataModel, DataModelMapping, LogType
 
 
 class StandardCloudflareHttpReq(DataModel):
-    id_: str = "Standard.Cloudflare.HttpReq"
+    id: str = "Standard.Cloudflare.HttpReq"
     display_name: str = "Cloudflare Firewall"
     enabled: bool = True
     log_types: list[str] = [LogType.Cloudflare_HttpRequest]

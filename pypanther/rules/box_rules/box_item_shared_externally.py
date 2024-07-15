@@ -43,7 +43,7 @@ box_item_shared_externally_tests: list[RuleTest] = [
 
 
 class BoxItemSharedExternally(Rule):
-    id_ = "Box.Item.Shared.Externally-prototype"
+    id = "Box.Item.Shared.Externally-prototype"
     display_name = "Box item shared externally"
     enabled = False
     log_types = [LogType.Box_Event]

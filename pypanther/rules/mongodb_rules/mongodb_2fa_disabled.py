@@ -69,7 +69,7 @@ class MongoDB2FADisabled(Rule):
     default_severity = Severity.medium
     default_reference = "https://www.mongodb.com/docs/atlas/security-multi-factor-authentication/"
     log_types = [LogType.MongoDB_OrganizationEvent]
-    id_ = "MongoDB.2FA.Disabled-prototype"
+    id = "MongoDB.2FA.Disabled-prototype"
     tests = mongo_db2_fa_disabled_tests
 
     def rule(self, event):

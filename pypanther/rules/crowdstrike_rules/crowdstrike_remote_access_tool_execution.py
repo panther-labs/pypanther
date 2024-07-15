@@ -175,7 +175,7 @@ class CrowdstrikeRemoteAccessToolExecution(Rule):
     default_reference = "https://attack.mitre.org/techniques/T1219/"
     default_severity = Severity.medium
     log_types = [LogType.Crowdstrike_FDREvent]
-    id_ = "Crowdstrike.Remote.Access.Tool.Execution-prototype"
+    id = "Crowdstrike.Remote.Access.Tool.Execution-prototype"
     tests = crowdstrike_remote_access_tool_execution_tests
     REMOTE_ACCESS_EXECUTABLES = {
         "teamviewer_service.exe",

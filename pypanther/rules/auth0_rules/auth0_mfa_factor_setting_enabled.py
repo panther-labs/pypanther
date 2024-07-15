@@ -385,7 +385,7 @@ class Auth0MFAFactorSettingEnabled(Rule):
     default_reference = "https://auth0.com/docs/secure/multi-factor-authentication/multi-factor-authentication-factors"
     default_severity = Severity.info
     log_types = [LogType.Auth0_Events]
-    id_ = "Auth0.MFA.Factor.Setting.Enabled-prototype"
+    id = "Auth0.MFA.Factor.Setting.Enabled-prototype"
     tests = auth0_mfa_factor_setting_enabled_tests
 
     def rule(self, event):

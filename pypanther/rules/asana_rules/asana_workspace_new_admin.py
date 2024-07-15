@@ -71,7 +71,7 @@ class AsanaWorkspaceNewAdmin(Rule):
     default_reference = "https://help.asana.com/hc/en-us/articles/14141552580635-Admin-and-super-admin-roles-in-Asana"
     default_severity = Severity.high
     log_types = [LogType.Asana_Audit]
-    id_ = "Asana.Workspace.New.Admin-prototype"
+    id = "Asana.Workspace.New.Admin-prototype"
     tests = asana_workspace_new_admin_tests
 
     def rule(self, event):

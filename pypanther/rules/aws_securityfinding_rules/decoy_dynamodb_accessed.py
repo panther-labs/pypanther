@@ -231,7 +231,7 @@ decoy_dynamo_db_accessed_tests: list[RuleTest] = [
 
 
 class DecoyDynamoDBAccessed(Rule):
-    id_ = "Decoy.DynamoDB.Accessed-prototype"
+    id = "Decoy.DynamoDB.Accessed-prototype"
     display_name = "Decoy DynamoDB Accessed"
     enabled = False
     log_types = [LogType.AWS_SecurityFindingFormat]

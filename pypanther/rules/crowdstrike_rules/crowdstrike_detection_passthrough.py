@@ -171,7 +171,7 @@ crowdstrike_detectionpassthrough_tests: list[RuleTest] = [
 
 
 class CrowdstrikeDetectionpassthrough(Rule):
-    id_ = "Crowdstrike.Detection.passthrough-prototype"
+    id = "Crowdstrike.Detection.passthrough-prototype"
     display_name = "Crowdstrike Detection Passthrough"
     default_severity = Severity.medium
     log_types = [LogType.Crowdstrike_DetectionSummary, LogType.Crowdstrike_FDREvent]

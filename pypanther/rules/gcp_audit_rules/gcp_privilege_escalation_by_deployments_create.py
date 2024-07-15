@@ -47,7 +47,7 @@ gcp_privilege_escalation_by_deployments_create_tests: list[RuleTest] = [
 
 
 class GCPPrivilegeEscalationByDeploymentsCreate(Rule):
-    id_ = "GCP.Privilege.Escalation.By.Deployments.Create-prototype"
+    id = "GCP.Privilege.Escalation.By.Deployments.Create-prototype"
     display_name = "GCP.Privilege.Escalation.By.Deployments.Create"
     default_description = "Detects privilege escalation in GCP by taking over the deploymentsmanager.deployments.create permission"
     log_types = [LogType.GCP_AuditLog]

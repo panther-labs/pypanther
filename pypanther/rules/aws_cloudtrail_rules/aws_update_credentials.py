@@ -113,7 +113,7 @@ awsiam_credentials_updated_tests: list[RuleTest] = [
 
 
 class AWSIAMCredentialsUpdated(Rule):
-    id_ = "AWS.IAM.CredentialsUpdated-prototype"
+    id = "AWS.IAM.CredentialsUpdated-prototype"
     display_name = "New IAM Credentials Updated"
     log_types = [LogType.AWS_CloudTrail]
     reports = {"MITRE ATT&CK": ["TA0003:T1098"]}

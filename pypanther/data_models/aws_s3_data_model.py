@@ -2,7 +2,7 @@ from pypanther.base import DataModel, DataModelMapping, LogType
 
 
 class StandardAWSS3ServerAccess(DataModel):
-    id_: str = "Standard.AWS.S3ServerAccess"
+    id: str = "Standard.AWS.S3ServerAccess"
     display_name: str = "AWS S3 Server Access"
     enabled: bool = True
     log_types: list[str] = [LogType.AWS_S3ServerAccess]

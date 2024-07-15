@@ -26,7 +26,7 @@ g_suite_group_banned_user_tests: list[RuleTest] = [
 
 
 class GSuiteGroupBannedUser(Rule):
-    id_ = "GSuite.GroupBannedUser-prototype"
+    id = "GSuite.GroupBannedUser-prototype"
     display_name = "GSuite User Banned from Group"
     log_types = [LogType.GSuite_ActivityEvent]
     tags = ["GSuite"]

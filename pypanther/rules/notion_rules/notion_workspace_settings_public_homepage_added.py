@@ -63,7 +63,7 @@ notion_workspace_public_page_added_tests: list[RuleTest] = [
 
 
 class NotionWorkspacePublicPageAdded(Rule):
-    id_ = "Notion.Workspace.Public.Page.Added-prototype"
+    id = "Notion.Workspace.Public.Page.Added-prototype"
     display_name = "Notion Workspace public page added"
     log_types = [LogType.Notion_AuditLogs]
     tags = ["Notion", "Data Security", "Information Disclosure"]

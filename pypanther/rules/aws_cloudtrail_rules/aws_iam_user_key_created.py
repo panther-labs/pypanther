@@ -238,7 +238,7 @@ class AWSIAMBackdoorUserKeys(Rule):
     )
     default_severity = Severity.medium
     log_types = [LogType.AWS_CloudTrail]
-    id_ = "AWS.IAM.Backdoor.User.Keys-prototype"
+    id = "AWS.IAM.Backdoor.User.Keys-prototype"
     tests = awsiam_backdoor_user_keys_tests
 
     def rule(self, event):

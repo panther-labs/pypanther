@@ -58,7 +58,7 @@ class AsanaWorkspaceSAMLOptional(Rule):
     default_reference = "https://help.asana.com/hc/en-us/articles/14075208738587-Premium-Business-and-Enterprise-authentication#gl-saml:~:text=to%20your%20organization.-,SAML,-If%20your%20company"
     default_severity = Severity.medium
     log_types = [LogType.Asana_Audit]
-    id_ = "Asana.Workspace.SAML.Optional-prototype"
+    id = "Asana.Workspace.SAML.Optional-prototype"
     tests = asana_workspace_saml_optional_tests
 
     def rule(self, event):

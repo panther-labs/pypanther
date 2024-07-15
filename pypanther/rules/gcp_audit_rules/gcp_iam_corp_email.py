@@ -284,7 +284,7 @@ gcpiam_corporate_email_tests: list[RuleTest] = [
 
 
 class GCPIAMCorporateEmail(Rule):
-    id_ = "GCP.IAM.CorporateEmail-prototype"
+    id = "GCP.IAM.CorporateEmail-prototype"
     display_name = "GCP Corporate Email Not Used"
     dedup_period_minutes = 720
     log_types = [LogType.GCP_AuditLog]

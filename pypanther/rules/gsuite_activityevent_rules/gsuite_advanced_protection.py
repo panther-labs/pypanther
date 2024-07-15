@@ -26,7 +26,7 @@ g_suite_advanced_protection_tests: list[RuleTest] = [
 
 
 class GSuiteAdvancedProtection(Rule):
-    id_ = "GSuite.AdvancedProtection-prototype"
+    id = "GSuite.AdvancedProtection-prototype"
     display_name = "GSuite User Advanced Protection Change"
     log_types = [LogType.GSuite_ActivityEvent]
     tags = ["GSuite", "Defense Evasion:Impair Defenses"]

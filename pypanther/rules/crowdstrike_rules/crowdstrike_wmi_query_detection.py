@@ -340,7 +340,7 @@ class CrowdstrikeWMIQueryDetection(Rule):
     default_reference = "https://learn.microsoft.com/en-us/windows/win32/wmisdk/querying-wmi"
     default_severity = Severity.low
     log_types = [LogType.Crowdstrike_FDREvent]
-    id_ = "Crowdstrike.WMI.Query.Detection-prototype"
+    id = "Crowdstrike.WMI.Query.Detection-prototype"
     tests = crowdstrike_wmi_query_detection_tests
     WMIC_SIGNATURES = [
         "get",

@@ -290,7 +290,7 @@ okta_new_behavior_accessing_admin_console_tests: list[RuleTest] = [
 
 
 class OktaNewBehaviorAccessingAdminConsole(Rule):
-    id_ = "Okta.New.Behavior.Accessing.Admin.Console-prototype"
+    id = "Okta.New.Behavior.Accessing.Admin.Console-prototype"
     display_name = "Okta New Behaviors Acessing Admin Console"
     log_types = [LogType.Okta_SystemLog]
     reports = {"MITRE ATT&CK": ["TA0001:T1078.004"]}

@@ -138,7 +138,7 @@ class AWSUserLoginProfileModified(Rule):
     default_reference = "https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_examples_aws_my-sec-creds-self-manage-pass-accesskeys-ssh.html"
     default_severity = Severity.high
     log_types = [LogType.AWS_CloudTrail]
-    id_ = "AWS.User.Login.Profile.Modified-prototype"
+    id = "AWS.User.Login.Profile.Modified-prototype"
     tests = aws_user_login_profile_modified_tests
 
     def rule(self, event):

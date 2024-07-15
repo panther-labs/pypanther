@@ -272,7 +272,7 @@ class AWSIAMGroupReadOnlyEvents(Rule):
     default_severity = Severity.info
     tags = ["AWS", "Cloudtrail", "Configuration Required", "IAM", "MITRE"]
     log_types = [LogType.AWS_CloudTrail]
-    id_ = "AWS.IAM.Group.Read.Only.Events-prototype"
+    id = "AWS.IAM.Group.Read.Only.Events-prototype"
     threshold = 2
     tests = awsiam_group_read_only_events_tests
     # arn allow list to suppress alerts

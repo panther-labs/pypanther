@@ -136,7 +136,7 @@ class DropboxLinkedTeamApplicationAdded(Rule):
     default_severity = Severity.low
     tags = ["dropbox"]
     log_types = [LogType.Dropbox_TeamEvent]
-    id_ = "Dropbox.Linked.Team.Application.Added-prototype"
+    id = "Dropbox.Linked.Team.Application.Added-prototype"
     tests = dropbox_linked_team_application_added_tests
 
     def rule(self, event):

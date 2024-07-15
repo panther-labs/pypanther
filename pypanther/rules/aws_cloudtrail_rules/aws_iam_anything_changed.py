@@ -137,7 +137,7 @@ aws_cloud_trail_iam_anything_changed_tests: list[RuleTest] = [
 
 
 class AWSCloudTrailIAMAnythingChanged(Rule):
-    id_ = "AWS.CloudTrail.IAMAnythingChanged-prototype"
+    id = "AWS.CloudTrail.IAMAnythingChanged-prototype"
     display_name = "IAM Change"
     log_types = [LogType.AWS_CloudTrail]
     tags = ["AWS", "Identity and Access Management"]

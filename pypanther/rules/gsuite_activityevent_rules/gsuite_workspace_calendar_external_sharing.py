@@ -131,7 +131,7 @@ g_suite_workspace_calendar_external_sharing_setting_tests: list[RuleTest] = [
 
 
 class GSuiteWorkspaceCalendarExternalSharingSetting(Rule):
-    id_ = "GSuite.Workspace.CalendarExternalSharingSetting-prototype"
+    id = "GSuite.Workspace.CalendarExternalSharingSetting-prototype"
     display_name = "GSuite Workspace Calendar External Sharing Setting Change"
     log_types = [LogType.GSuite_ActivityEvent]
     tags = ["GSuite"]

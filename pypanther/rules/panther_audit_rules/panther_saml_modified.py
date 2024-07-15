@@ -47,7 +47,7 @@ panther_saml_modified_tests: list[RuleTest] = [
 
 
 class PantherSAMLModified(Rule):
-    id_ = "Panther.SAML.Modified-prototype"
+    id = "Panther.SAML.Modified-prototype"
     display_name = "Panther SAML configuration has been modified"
     log_types = [LogType.Panther_Audit]
     default_severity = Severity.high

@@ -118,7 +118,7 @@ awsrds_snapshot_shared_tests: list[RuleTest] = [
 
 
 class AWSRDSSnapshotShared(Rule):
-    id_ = "AWS.RDS.SnapshotShared-prototype"
+    id = "AWS.RDS.SnapshotShared-prototype"
     display_name = "AWS RDS Snapshot Shared"
     log_types = [LogType.AWS_CloudTrail]
     tags = ["AWS", "Exfiltration", "Transfer Data to Cloud Account"]

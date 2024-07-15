@@ -3,7 +3,7 @@ from pypanther import LogType, Rule, Severity
 
 class DRule(Rule):
     default_severity = Severity.info
-    id_ = "DRule"
+    id = "DRule"
     log_types = [LogType.Panther_Audit]
 
     def rule(self, event):
@@ -12,7 +12,7 @@ class DRule(Rule):
 
 class ERule(Rule):
     default_severity = Severity.info
-    id_ = "ERule"
+    id = "ERule"
     log_types = [LogType.Panther_Audit]
 
     def rule(self, event):

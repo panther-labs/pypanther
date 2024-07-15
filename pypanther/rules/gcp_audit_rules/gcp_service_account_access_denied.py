@@ -127,7 +127,7 @@ class GCPServiceAccountAccessDenied(Rule):
     dedup_period_minutes = 5
     threshold = 30
     display_name = "GCP Service Account Access Denied"
-    id_ = "GCP.Service.Account.Access.Denied-prototype"
+    id = "GCP.Service.Account.Access.Denied-prototype"
     default_severity = Severity.low
     log_types = [LogType.GCP_AuditLog]
     tags = ["GCP", "Service Account", "Access"]

@@ -42,7 +42,7 @@ git_hub_org_modified_tests: list[RuleTest] = [
 
 
 class GitHubOrgModified(Rule):
-    id_ = "GitHub.Org.Modified-prototype"
+    id = "GitHub.Org.Modified-prototype"
     display_name = "GitHub User Added or Removed from Org"
     log_types = [LogType.GitHub_Audit]
     tags = ["GitHub", "Initial Access:Supply Chain Compromise"]

@@ -104,7 +104,7 @@ g_suite_workspace_data_export_created_tests: list[RuleTest] = [
 
 
 class GSuiteWorkspaceDataExportCreated(Rule):
-    id_ = "GSuite.Workspace.DataExportCreated-prototype"
+    id = "GSuite.Workspace.DataExportCreated-prototype"
     display_name = "GSuite Workspace Data Export Has Been Created"
     log_types = [LogType.GSuite_ActivityEvent]
     tags = ["GSuite"]

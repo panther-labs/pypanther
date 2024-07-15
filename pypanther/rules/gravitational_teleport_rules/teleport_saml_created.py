@@ -19,7 +19,7 @@ teleport_saml_created_tests: list[RuleTest] = [
 
 
 class TeleportSAMLCreated(Rule):
-    id_ = "Teleport.SAMLCreated-prototype"
+    id = "Teleport.SAMLCreated-prototype"
     display_name = "A SAML Connector was created or modified"
     log_types = [LogType.Gravitational_TeleportAudit]
     tags = ["Teleport"]

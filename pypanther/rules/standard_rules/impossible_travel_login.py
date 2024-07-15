@@ -656,7 +656,7 @@ standard_impossible_travel_login_tests: list[RuleTest] = [
 
 
 class StandardImpossibleTravelLogin(Rule):
-    id_ = "Standard.ImpossibleTravel.Login-prototype"
+    id = "Standard.ImpossibleTravel.Login-prototype"
     display_name = "Impossible Travel for Login Action"
     log_types = [
         LogType.Asana_Audit,

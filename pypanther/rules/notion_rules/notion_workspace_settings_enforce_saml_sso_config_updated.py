@@ -70,7 +70,7 @@ notion_samlsso_configuration_changed_tests: list[RuleTest] = [
 
 
 class NotionSAMLSSOConfigurationChanged(Rule):
-    id_ = "Notion.SAML.SSO.Configuration.Changed-prototype"
+    id = "Notion.SAML.SSO.Configuration.Changed-prototype"
     display_name = "Notion SAML SSO Configuration Changed"
     log_types = [LogType.Notion_AuditLogs]
     tags = ["Notion", "Identity & Access Management", "Credential Security"]

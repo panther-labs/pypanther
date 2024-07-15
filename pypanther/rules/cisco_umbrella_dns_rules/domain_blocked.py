@@ -29,7 +29,7 @@ cisco_umbrella_dns_blocked_tests: list[RuleTest] = [
 
 
 class CiscoUmbrellaDNSBlocked(Rule):
-    id_ = "CiscoUmbrella.DNS.Blocked-prototype"
+    id = "CiscoUmbrella.DNS.Blocked-prototype"
     display_name = "Cisco Umbrella Domain Blocked"
     dedup_period_minutes = 480
     log_types = [LogType.CiscoUmbrella_DNS]

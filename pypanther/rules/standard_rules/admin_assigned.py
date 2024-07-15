@@ -262,7 +262,7 @@ standard_admin_role_assigned_tests: list[RuleTest] = [
 
 
 class StandardAdminRoleAssigned(Rule):
-    id_ = "Standard.AdminRoleAssigned-prototype"
+    id = "Standard.AdminRoleAssigned-prototype"
     display_name = "Admin Role Assigned"
     log_types = [
         LogType.Asana_Audit,

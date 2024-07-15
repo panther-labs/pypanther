@@ -29,7 +29,7 @@ cisco_umbrella_dns_suspicious_tests: list[RuleTest] = [
 
 
 class CiscoUmbrellaDNSSuspicious(Rule):
-    id_ = "CiscoUmbrella.DNS.Suspicious-prototype"
+    id = "CiscoUmbrella.DNS.Suspicious-prototype"
     display_name = "Cisco Umbrella Suspicious Domains"
     enabled = False
     dedup_period_minutes = 480

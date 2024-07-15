@@ -66,7 +66,7 @@ one_password_lut_sensitive_item_tests: list[RuleTest] = [
 
 
 class OnePasswordLutSensitiveItem(Rule):
-    id_ = "OnePassword.Lut.Sensitive.Item-prototype"
+    id = "OnePassword.Lut.Sensitive.Item-prototype"
     dedup_period_minutes = 30
     display_name = "BETA - Sensitive 1Password Item Accessed"
     enabled = False

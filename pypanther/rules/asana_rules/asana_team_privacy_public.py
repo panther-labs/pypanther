@@ -64,7 +64,7 @@ class AsanaTeamPrivacyPublic(Rule):
     default_reference = "https://help.asana.com/hc/en-us/articles/14211433439387-Team-permissions"
     default_severity = Severity.low
     log_types = [LogType.Asana_Audit]
-    id_ = "Asana.Team.Privacy.Public-prototype"
+    id = "Asana.Team.Privacy.Public-prototype"
     tests = asana_team_privacy_public_tests
 
     def rule(self, event):

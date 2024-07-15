@@ -39,7 +39,7 @@ g_suite_suspicious_logins_tests: list[RuleTest] = [
 
 
 class GSuiteSuspiciousLogins(Rule):
-    id_ = "GSuite.SuspiciousLogins-prototype"
+    id = "GSuite.SuspiciousLogins-prototype"
     display_name = "Suspicious GSuite Login"
     log_types = [LogType.GSuite_ActivityEvent]
     tags = ["GSuite"]

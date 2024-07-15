@@ -38,7 +38,7 @@ git_hub_org_ip_allowlist_tests: list[RuleTest] = [
 
 
 class GitHubOrgIpAllowlist(Rule):
-    id_ = "GitHub.Org.IpAllowlist-prototype"
+    id = "GitHub.Org.IpAllowlist-prototype"
     display_name = "GitHub Org IP Allow List modified"
     log_types = [LogType.GitHub_Audit]
     tags = ["GitHub", "Persistence:Account Manipulation"]

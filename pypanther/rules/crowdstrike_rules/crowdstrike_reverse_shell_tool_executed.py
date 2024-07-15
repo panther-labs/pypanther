@@ -247,7 +247,7 @@ class CrowdstrikeReverseShellToolExecuted(Rule):
     default_reference = "https://attack.mitre.org/techniques/T1059/"
     default_severity = Severity.high
     log_types = [LogType.Crowdstrike_FDREvent]
-    id_ = "Crowdstrike.Reverse.Shell.Tool.Executed-prototype"
+    id = "Crowdstrike.Reverse.Shell.Tool.Executed-prototype"
     tests = crowdstrike_reverse_shell_tool_executed_tests
     #   process name: reverse shell signature
     REMOTE_SHELL_TOOLS = {

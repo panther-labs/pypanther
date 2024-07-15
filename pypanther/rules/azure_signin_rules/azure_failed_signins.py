@@ -138,7 +138,7 @@ azure_audit_many_failed_sign_ins_tests: list[RuleTest] = [
 
 
 class AzureAuditManyFailedSignIns(Rule):
-    id_ = "Azure.Audit.ManyFailedSignIns-prototype"
+    id = "Azure.Audit.ManyFailedSignIns-prototype"
     display_name = "Azure Many Failed SignIns"
     threshold = 10
     dedup_period_minutes = 10

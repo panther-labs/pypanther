@@ -100,7 +100,7 @@ class MicrosoftGraphPassthrough(Rule):
     display_name = "Microsoft Graph Passthrough"
     default_severity = Severity.medium
     log_types = [LogType.MicrosoftGraph_SecurityAlert]
-    id_ = "Microsoft.Graph.Passthrough-prototype"
+    id = "Microsoft.Graph.Passthrough-prototype"
     tests = microsoft_graph_passthrough_tests
 
     def rule(self, event):

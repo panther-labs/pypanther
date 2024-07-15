@@ -95,7 +95,7 @@ slack_audit_logs_dlp_modified_tests: list[RuleTest] = [
 
 
 class SlackAuditLogsDLPModified(Rule):
-    id_ = "Slack.AuditLogs.DLPModified-prototype"
+    id = "Slack.AuditLogs.DLPModified-prototype"
     display_name = "Slack DLP Modified"
     log_types = [LogType.Slack_AuditLogs]
     tags = [

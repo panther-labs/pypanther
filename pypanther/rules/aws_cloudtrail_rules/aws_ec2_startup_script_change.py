@@ -106,7 +106,7 @@ class AWSEC2StartupScriptChange(Rule):
     )
     default_severity = Severity.high
     log_types = [LogType.AWS_CloudTrail]
-    id_ = "AWS.EC2.Startup.Script.Change-prototype"
+    id = "AWS.EC2.Startup.Script.Change-prototype"
     tests = awsec2_startup_script_change_tests
 
     def rule(self, event):

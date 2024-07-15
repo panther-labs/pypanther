@@ -378,7 +378,7 @@ aws_console_login_without_mfa_tests: list[RuleTest] = [
 
 
 class AWSConsoleLoginWithoutMFA(Rule):
-    id_ = "AWS.Console.LoginWithoutMFA-prototype"
+    id = "AWS.Console.LoginWithoutMFA-prototype"
     display_name = "Logins Without MFA"
     log_types = [LogType.AWS_CloudTrail]
     tags = [

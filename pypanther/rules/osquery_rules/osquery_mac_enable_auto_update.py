@@ -45,7 +45,7 @@ osquery_mac_auto_update_enabled_tests: list[RuleTest] = [
 
 
 class OsqueryMacAutoUpdateEnabled(Rule):
-    id_ = "Osquery.Mac.AutoUpdateEnabled-prototype"
+    id = "Osquery.Mac.AutoUpdateEnabled-prototype"
     display_name = "OSQuery Reports Application Firewall Disabled"
     log_types = [LogType.Osquery_Differential]
     tags = ["Osquery", "MacOS", "Security Control", "Defense Evasion:Impair Defenses"]

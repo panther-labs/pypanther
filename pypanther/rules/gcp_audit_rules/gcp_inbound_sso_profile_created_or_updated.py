@@ -155,7 +155,7 @@ gcp_inbound_sso_profile_created_tests: list[RuleTest] = [
 
 
 class GCPInboundSSOProfileCreated(Rule):
-    id_ = "GCP.Inbound.SSO.Profile.Created-prototype"
+    id = "GCP.Inbound.SSO.Profile.Created-prototype"
     display_name = "GCP Inbound SSO Profile Created"
     log_types = [LogType.GCP_AuditLog]
     tags = ["Account Manipulation", "Additional Cloud Roles", "GCP", "Privilege Escalation"]

@@ -73,7 +73,7 @@ class GithubRepositoryTransfer(Rule):
     default_severity = Severity.medium
     tags = ["Github Repository", "Github Repository Transfer", "Repository", "Transfer"]
     log_types = [LogType.GitHub_Audit]
-    id_ = "Github.Repository.Transfer-prototype"
+    id = "Github.Repository.Transfer-prototype"
     summary_attributes = ["action"]
     tests = github_repository_transfer_tests
 

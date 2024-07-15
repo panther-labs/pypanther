@@ -120,7 +120,7 @@ gcp_firewall_rule_deleted_tests: list[RuleTest] = [
 
 class GCPFirewallRuleDeleted(Rule):
     display_name = "GCP Firewall Rule Deleted"
-    id_ = "GCP.Firewall.Rule.Deleted-prototype"
+    id = "GCP.Firewall.Rule.Deleted-prototype"
     default_severity = Severity.low
     log_types = [LogType.GCP_AuditLog]
     tags = ["GCP", "Firewall", "Networking", "Infrastructure"]

@@ -91,7 +91,7 @@ g_suite_workspace_password_enforce_strong_disabled_tests: list[RuleTest] = [
 
 
 class GSuiteWorkspacePasswordEnforceStrongDisabled(Rule):
-    id_ = "GSuite.Workspace.PasswordEnforceStrongDisabled-prototype"
+    id = "GSuite.Workspace.PasswordEnforceStrongDisabled-prototype"
     display_name = "GSuite Workspace Strong Password Enforcement Has Been Disabled"
     log_types = [LogType.GSuite_ActivityEvent]
     tags = ["GSuite"]

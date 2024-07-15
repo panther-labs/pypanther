@@ -4,7 +4,7 @@ from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 
 
 class CiscoUmbrellaDNSFuzzyMatching(Rule):
-    id_ = "CiscoUmbrella.DNS.FuzzyMatching-prototype"
+    id = "CiscoUmbrella.DNS.FuzzyMatching-prototype"
     display_name = "Cisco Umbrella Domain Name Fuzzy Matching"
     enabled = False
     dedup_period_minutes = 15

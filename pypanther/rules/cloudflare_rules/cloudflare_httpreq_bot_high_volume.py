@@ -146,7 +146,7 @@ cloudflare_http_request_bot_high_volume_tests: list[RuleTest] = [
 
 
 class CloudflareHttpRequestBotHighVolume(Rule):
-    id_ = "Cloudflare.HttpRequest.BotHighVolume-prototype"
+    id = "Cloudflare.HttpRequest.BotHighVolume-prototype"
     display_name = "Cloudflare Bot High Volume"
     enabled = False
     log_types = [LogType.Cloudflare_HttpRequest]

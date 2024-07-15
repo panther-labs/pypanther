@@ -123,7 +123,7 @@ class Microsoft365MFADisabled(Rule):
     default_reference = "https://learn.microsoft.com/en-us/microsoft-365/admin/security-and-compliance/set-up-multi-factor-authentication?view=o365-worldwide"
     default_severity = Severity.low
     log_types = [LogType.Microsoft365_Audit_AzureActiveDirectory]
-    id_ = "Microsoft365.MFA.Disabled-prototype"
+    id = "Microsoft365.MFA.Disabled-prototype"
     tests = microsoft365_mfa_disabled_tests
 
     def rule(self, event):

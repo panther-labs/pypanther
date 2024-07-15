@@ -62,7 +62,7 @@ class DuoAdminUserMFABypassEnabled(Rule):
     default_reference = "https://duo.com/docs/policy#authentication-policy"
     default_severity = Severity.medium
     log_types = [LogType.Duo_Administrator]
-    id_ = "Duo.Admin.User.MFA.Bypass.Enabled-prototype"
+    id = "Duo.Admin.User.MFA.Bypass.Enabled-prototype"
     tests = duo_admin_user_mfa_bypass_enabled_tests
 
     def rule(self, event):

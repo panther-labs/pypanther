@@ -128,7 +128,7 @@ aws_config_service_created_tests: list[RuleTest] = [
 
 
 class AWSConfigServiceCreated(Rule):
-    id_ = "AWS.ConfigService.Created-prototype"
+    id = "AWS.ConfigService.Created-prototype"
     display_name = "AWS Config Service Created"
     log_types = [LogType.AWS_CloudTrail]
     tags = ["AWS", "Security Control", "Discovery:Cloud Service Discovery"]

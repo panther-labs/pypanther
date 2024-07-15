@@ -89,7 +89,7 @@ class TestPrintFailedTestResults:
         class Rule1(Rule):
             log_types = [LogType.Panther_Audit]
             default_severity = Severity.high
-            id_ = "Rule1"
+            id = "Rule1"
             tests = [false_test_1, false_test_2]
 
             def rule(self, event):
@@ -98,7 +98,7 @@ class TestPrintFailedTestResults:
         class Rule2(Rule):
             log_types = [LogType.Panther_Audit]
             default_severity = Severity.high
-            id_ = "Rule2"
+            id = "Rule2"
             tests = [false_test_1, false_test_2]
 
             def rule(self, event):
@@ -120,7 +120,7 @@ class TestPrintFailedTestResults:
         class Rule1(Rule):
             log_types = [LogType.Panther_Audit]
             default_severity = Severity.high
-            id_ = "Rule1"
+            id = "Rule1"
             tests = [false_test_1]
 
             def rule(self, event):
@@ -136,7 +136,7 @@ class TestPrintFailedTestResults:
         class Rule1(Rule):
             log_types = [LogType.Panther_Audit]
             default_severity = Severity.high
-            id_ = "Rule1"
+            id = "Rule1"
             tests = [false_test_1]
 
             def rule(self, event):

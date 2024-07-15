@@ -110,7 +110,7 @@ awss3_server_access_unknown_requester_tests: list[RuleTest] = [
 
 
 class AWSS3ServerAccessUnknownRequester(Rule):
-    id_ = "AWS.S3.ServerAccess.UnknownRequester-prototype"
+    id = "AWS.S3.ServerAccess.UnknownRequester-prototype"
     display_name = "AWS S3 Unknown Requester"
     enabled = False
     log_types = [LogType.AWS_S3ServerAccess]

@@ -37,7 +37,7 @@ class DuoAdminCreateAdmin(Rule):
     default_reference = "https://duo.com/docs/administration-admins#add-an-administrator"
     default_severity = Severity.high
     log_types = [LogType.Duo_Administrator]
-    id_ = "Duo.Admin.Create.Admin-prototype"
+    id = "Duo.Admin.Create.Admin-prototype"
     tests = duo_admin_create_admin_tests
 
     def rule(self, event):

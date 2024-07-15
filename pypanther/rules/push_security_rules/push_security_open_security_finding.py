@@ -94,7 +94,7 @@ push_security_open_security_finding_tests: list[RuleTest] = [
 
 
 class PushSecurityOpenSecurityFinding(Rule):
-    id_ = "Push.Security.Open.Security.Finding-prototype"
+    id = "Push.Security.Open.Security.Finding-prototype"
     display_name = "Push Security Open Security Finding"
     log_types = [LogType.PushSecurity_Entities]
     default_severity = Severity.info

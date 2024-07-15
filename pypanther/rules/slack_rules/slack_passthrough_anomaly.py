@@ -69,7 +69,7 @@ slack_audit_logs_passthrough_anomaly_tests: list[RuleTest] = [
 
 
 class SlackAuditLogsPassthroughAnomaly(Rule):
-    id_ = "Slack.AuditLogs.PassthroughAnomaly-prototype"
+    id = "Slack.AuditLogs.PassthroughAnomaly-prototype"
     display_name = "Slack Anomaly Detected"
     log_types = [LogType.Slack_AuditLogs]
     tags = ["Slack", "Command and Control", "Application Layer Protocol"]

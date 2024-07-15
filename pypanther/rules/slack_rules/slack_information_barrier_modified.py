@@ -95,7 +95,7 @@ slack_audit_logs_information_barrier_modified_tests: list[RuleTest] = [
 
 
 class SlackAuditLogsInformationBarrierModified(Rule):
-    id_ = "Slack.AuditLogs.InformationBarrierModified-prototype"
+    id = "Slack.AuditLogs.InformationBarrierModified-prototype"
     display_name = "Slack Information Barrier Modified"
     log_types = [LogType.Slack_AuditLogs]
     tags = ["Slack", "Defense Evasion", "Impair Defenses", "Disable or Modify Tools"]

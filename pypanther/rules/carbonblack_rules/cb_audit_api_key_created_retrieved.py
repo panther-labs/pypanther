@@ -48,7 +48,7 @@ carbon_black_audit_api_key_created_retrieved_tests: list[RuleTest] = [
 
 
 class CarbonBlackAuditAPIKeyCreatedRetrieved(Rule):
-    id_ = "CarbonBlack.Audit.API.Key.Created.Retrieved-prototype"
+    id = "CarbonBlack.Audit.API.Key.Created.Retrieved-prototype"
     log_types = [LogType.CarbonBlack_Audit]
     default_description = "Detects when a user creates a new API key or retrieves an existing key."
     display_name = "Carbon Black API Key Created or Retrieved"

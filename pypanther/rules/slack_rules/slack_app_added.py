@@ -206,7 +206,7 @@ slack_audit_logs_app_added_tests: list[RuleTest] = [
 
 
 class SlackAuditLogsAppAdded(Rule):
-    id_ = "Slack.AuditLogs.AppAdded-prototype"
+    id = "Slack.AuditLogs.AppAdded-prototype"
     display_name = "Slack App Added"
     log_types = [LogType.Slack_AuditLogs]
     tags = ["Slack", "Persistence", "Server Software Component"]

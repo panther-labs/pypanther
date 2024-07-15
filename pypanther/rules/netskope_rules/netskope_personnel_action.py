@@ -52,7 +52,7 @@ netskope_netskope_personnel_activity_tests: list[RuleTest] = [
 
 
 class NetskopeNetskopePersonnelActivity(Rule):
-    id_ = "Netskope.NetskopePersonnelActivity-prototype"
+    id = "Netskope.NetskopePersonnelActivity-prototype"
     display_name = "Action Performed by Netskope Personnel"
     log_types = [LogType.Netskope_Audit]
     tags = ["Netskope", "Supply Chain Compromise"]

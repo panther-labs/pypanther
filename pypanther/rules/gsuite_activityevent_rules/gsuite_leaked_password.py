@@ -36,7 +36,7 @@ g_suite_leaked_password_tests: list[RuleTest] = [
 
 
 class GSuiteLeakedPassword(Rule):
-    id_ = "GSuite.LeakedPassword-prototype"
+    id = "GSuite.LeakedPassword-prototype"
     display_name = "GSuite User Password Leaked"
     log_types = [LogType.GSuite_ActivityEvent]
     tags = ["GSuite", "Credential Access:Unsecured Credentials"]

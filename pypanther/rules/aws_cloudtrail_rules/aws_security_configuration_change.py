@@ -220,7 +220,7 @@ aws_cloud_trail_security_configuration_change_tests: list[RuleTest] = [
 
 
 class AWSCloudTrailSecurityConfigurationChange(Rule):
-    id_ = "AWS.CloudTrail.SecurityConfigurationChange-prototype"
+    id = "AWS.CloudTrail.SecurityConfigurationChange-prototype"
     display_name = "Account Security Configuration Changed"
     log_types = [LogType.AWS_CloudTrail]
     tags = ["AWS", "Defense Evasion:Impair Defenses"]

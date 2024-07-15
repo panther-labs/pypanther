@@ -57,7 +57,7 @@ g_suite_login_type_tests: list[RuleTest] = [
 
 
 class GSuiteLoginType(Rule):
-    id_ = "GSuite.LoginType-prototype"
+    id = "GSuite.LoginType-prototype"
     display_name = "GSuite Login Type"
     enabled = False
     log_types = [LogType.GSuite_ActivityEvent]

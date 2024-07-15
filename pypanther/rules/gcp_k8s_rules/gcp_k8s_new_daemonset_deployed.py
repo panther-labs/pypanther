@@ -47,7 +47,7 @@ gcpk8s_new_daemonset_deployed_tests: list[RuleTest] = [
 
 
 class GCPK8sNewDaemonsetDeployed(Rule):
-    id_ = "GCP.K8s.New.Daemonset.Deployed-prototype"
+    id = "GCP.K8s.New.Daemonset.Deployed-prototype"
     display_name = "GCP K8s New Daemonset Deployed"
     default_description = "Detects Daemonset creation in GCP Kubernetes clusters."
     log_types = [LogType.GCP_AuditLog]

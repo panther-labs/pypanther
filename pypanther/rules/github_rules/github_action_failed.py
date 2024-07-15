@@ -83,7 +83,7 @@ git_hub_action_failed_tests: list[RuleTest] = [
 
 
 class GitHubActionFailed(Rule):
-    id_ = "GitHub.Action.Failed-prototype"
+    id = "GitHub.Action.Failed-prototype"
     display_name = "GitHub Action Failed"
     enabled = False
     log_types = [LogType.GitHub_Audit]

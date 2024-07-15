@@ -48,7 +48,7 @@ duo_user_bypass_code_used_tests: list[RuleTest] = [
 
 
 class DUOUserBypassCodeUsed(Rule):
-    id_ = "DUO.User.BypassCode.Used-prototype"
+    id = "DUO.User.BypassCode.Used-prototype"
     display_name = "Duo User Bypass Code Used"
     dedup_period_minutes = 5
     log_types = [LogType.Duo_Authentication]

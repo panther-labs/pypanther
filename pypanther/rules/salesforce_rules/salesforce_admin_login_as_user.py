@@ -90,7 +90,7 @@ class SalesforceAdminLoginAsUser(Rule):
     )
     default_severity = Severity.info
     log_types = [LogType.Salesforce_LoginAs]
-    id_ = "Salesforce.Admin.Login.As.User-prototype"
+    id = "Salesforce.Admin.Login.As.User-prototype"
     tests = salesforce_admin_login_as_user_tests
 
     def rule(self, event):

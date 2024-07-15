@@ -44,7 +44,7 @@ class ZoomSignInMethodModified(Rule):
     default_reference = "https://support.zoom.com/hc/en/article?id=zm_kb&sysparm_article=KB0067602#:~:text=Go%20to%20the%20Zoom%20site,click%20Link%20and%20Sign%20In"
     default_severity = Severity.medium
     log_types = [LogType.Zoom_Operation]
-    id_ = "Zoom.Sign.In.Method.Modified-prototype"
+    id = "Zoom.Sign.In.Method.Modified-prototype"
     tests = zoom_sign_in_method_modified_tests
 
     def rule(self, event):

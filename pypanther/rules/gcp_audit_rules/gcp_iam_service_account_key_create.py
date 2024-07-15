@@ -47,7 +47,7 @@ gc_piamservice_account_keyscreate_tests: list[RuleTest] = [
 
 
 class GCPiamserviceAccountKeyscreate(Rule):
-    id_ = "GCP.iam.serviceAccountKeys.create-prototype"
+    id = "GCP.iam.serviceAccountKeys.create-prototype"
     display_name = "GCP.Iam.ServiceAccountKeys.Create"
     default_description = "If your user is assigned a custom IAM role, then iam.roles.update will allow you to update the “includedPermissons” on that role. Because it is assigned to you, you will gain the additional privileges, which could be anything you desire."
     log_types = [LogType.GCP_AuditLog]

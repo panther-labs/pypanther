@@ -67,7 +67,7 @@ gcpgke_kubernetes_cron_job_created_or_modified_tests: list[RuleTest] = [
 
 
 class GCPGKEKubernetesCronJobCreatedOrModified(Rule):
-    id_ = "GCP.GKE.Kubernetes.Cron.Job.Created.Or.Modified-prototype"
+    id = "GCP.GKE.Kubernetes.Cron.Job.Created.Or.Modified-prototype"
     display_name = "GCP GKE Kubernetes Cron Job Created Or Modified"
     default_description = "This detection monitor for any modifications or creations of a cron job in GKE. Attackers may create or modify an existing scheduled job in order to achieve cluster persistence."
     log_types = [LogType.GCP_AuditLog]

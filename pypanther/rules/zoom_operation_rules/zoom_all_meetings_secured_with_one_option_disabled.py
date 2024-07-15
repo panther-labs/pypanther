@@ -43,7 +43,7 @@ class ZoomAllMeetingsSecuredWithOneOptionDisabled(Rule):
     default_reference = "https://support.zoom.com/hc/en/article?id=zm_kb&sysparm_article=KB0059862"
     default_severity = Severity.medium
     log_types = [LogType.Zoom_Operation]
-    id_ = "Zoom.All.Meetings.Secured.With.One.Option.Disabled-prototype"
+    id = "Zoom.All.Meetings.Secured.With.One.Option.Disabled-prototype"
     tests = zoom_all_meetings_secured_with_one_option_disabled_tests
 
     def rule(self, event):

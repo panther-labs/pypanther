@@ -168,7 +168,7 @@ awsec2_security_group_modified_tests: list[RuleTest] = [
 
 
 class AWSEC2SecurityGroupModified(Rule):
-    id_ = "AWS.EC2.SecurityGroupModified-prototype"
+    id = "AWS.EC2.SecurityGroupModified-prototype"
     display_name = "EC2 Security Group Modified"
     log_types = [LogType.AWS_CloudTrail]
     tags = ["AWS", "Security Control", "Defense Evasion:Impair Defenses"]

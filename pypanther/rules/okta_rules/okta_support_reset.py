@@ -87,7 +87,7 @@ okta_support_reset_tests: list[RuleTest] = [
 
 
 class OktaSupportReset(Rule):
-    id_ = "Okta.Support.Reset-prototype"
+    id = "Okta.Support.Reset-prototype"
     display_name = "Okta Support Reset Credential"
     log_types = [LogType.Okta_SystemLog]
     tags = [

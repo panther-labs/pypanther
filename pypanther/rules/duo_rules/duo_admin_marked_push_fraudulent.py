@@ -28,7 +28,7 @@ duo_admin_action_marked_fraudulent_tests: list[RuleTest] = [
 
 
 class DUOAdminActionMarkedFraudulent(Rule):
-    id_ = "DUO.Admin.Action.MarkedFraudulent-prototype"
+    id = "DUO.Admin.Action.MarkedFraudulent-prototype"
     display_name = "Duo Admin Marked Push Fraudulent"
     dedup_period_minutes = 15
     log_types = [LogType.Duo_Administrator]

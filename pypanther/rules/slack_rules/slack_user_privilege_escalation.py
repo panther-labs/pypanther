@@ -147,7 +147,7 @@ slack_audit_logs_user_privilege_escalation_tests: list[RuleTest] = [
 
 
 class SlackAuditLogsUserPrivilegeEscalation(Rule):
-    id_ = "Slack.AuditLogs.UserPrivilegeEscalation-prototype"
+    id = "Slack.AuditLogs.UserPrivilegeEscalation-prototype"
     display_name = "Slack User Privilege Escalation"
     log_types = [LogType.Slack_AuditLogs]
     tags = ["Slack", "Privilege Escalation", "Account Manipulation", "Additional Cloud Roles"]

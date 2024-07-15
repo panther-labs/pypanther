@@ -15,7 +15,7 @@ def get_event_type(event):
 
 
 class StandardOnePasswordSignInAttempt(DataModel):
-    id_: str = "Standard.OnePassword.SignInAttempt"
+    id: str = "Standard.OnePassword.SignInAttempt"
     display_name: str = "1Password Signin Events"
     enabled: bool = True
     log_types: list[str] = [LogType.OnePassword_SignInAttempt]

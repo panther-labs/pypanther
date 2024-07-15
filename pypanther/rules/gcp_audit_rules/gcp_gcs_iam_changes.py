@@ -60,7 +60,7 @@ gcpgcsiam_changes_tests: list[RuleTest] = [
 
 
 class GCPGCSIAMChanges(Rule):
-    id_ = "GCP.GCS.IAMChanges-prototype"
+    id = "GCP.GCS.IAMChanges-prototype"
     display_name = "GCP GCS IAM Permission Changes"
     log_types = [LogType.GCP_AuditLog]
     tags = ["GCP", "Google Cloud Storage", "Collection:Data From Cloud Storage Object"]

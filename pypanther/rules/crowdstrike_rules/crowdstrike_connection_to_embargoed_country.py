@@ -157,7 +157,7 @@ class ConnectiontoEmbargoedCountry(Rule):
     default_reference = "U.S. Sanctioned Destinations - https://www.bis.doc.gov/index.php/policy-guidance/country-guidance/sanctioned-destinations"
     display_name = "Connection to Embargoed Country"
     log_types = [LogType.Crowdstrike_FDREvent]
-    id_ = "Connection.to.Embargoed.Country-prototype"
+    id = "Connection.to.Embargoed.Country-prototype"
     default_severity = Severity.low
     tests = connectionto_embargoed_country_tests
     # U.S. Gov Sanctioned Destinations

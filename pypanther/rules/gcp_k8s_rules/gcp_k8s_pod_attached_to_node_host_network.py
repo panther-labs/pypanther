@@ -41,7 +41,7 @@ gcpk8s_pod_attached_to_node_host_network_tests: list[RuleTest] = [
 
 
 class GCPK8sPodAttachedToNodeHostNetwork(Rule):
-    id_ = "GCP.K8s.Pod.Attached.To.Node.Host.Network-prototype"
+    id = "GCP.K8s.Pod.Attached.To.Node.Host.Network-prototype"
     display_name = "GCP K8s Pod Attached To Node Host Network"
     log_types = [LogType.GCP_AuditLog]
     tags = ["GCP", "Optional"]

@@ -69,7 +69,7 @@ slack_audit_logs_sso_settings_changed_tests: list[RuleTest] = [
 
 
 class SlackAuditLogsSSOSettingsChanged(Rule):
-    id_ = "Slack.AuditLogs.SSOSettingsChanged-prototype"
+    id = "Slack.AuditLogs.SSOSettingsChanged-prototype"
     display_name = "Slack SSO Settings Changed"
     log_types = [LogType.Slack_AuditLogs]
     tags = ["Slack", "Credential Access", "Persistence", "Modify Authentication Process"]

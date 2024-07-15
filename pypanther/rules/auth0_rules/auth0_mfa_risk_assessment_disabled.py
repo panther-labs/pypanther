@@ -394,7 +394,7 @@ class Auth0MFARiskAssessmentDisabled(Rule):
     default_reference = "https://auth0.com/docs/secure/multi-factor-authentication/enable-mfa#:~:text=Always%20policy%2C%20the-,MFA%20Risk%20Assessors,-section%20appears.%20By"
     default_severity = Severity.high
     log_types = [LogType.Auth0_Events]
-    id_ = "Auth0.MFA.Risk.Assessment.Disabled-prototype"
+    id = "Auth0.MFA.Risk.Assessment.Disabled-prototype"
     tests = auth0_mfa_risk_assessment_disabled_tests
 
     def rule(self, event):

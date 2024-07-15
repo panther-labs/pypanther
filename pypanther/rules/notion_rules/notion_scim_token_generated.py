@@ -48,7 +48,7 @@ notion_workspace_scim_token_generated_tests: list[RuleTest] = [
 
 
 class NotionWorkspaceSCIMTokenGenerated(Rule):
-    id_ = "Notion.Workspace.SCIM.Token.Generated-prototype"
+    id = "Notion.Workspace.SCIM.Token.Generated-prototype"
     display_name = "Notion SCIM Token Generated"
     log_types = [LogType.Notion_AuditLogs]
     tags = ["Notion", "Application Security", "Supply Chain Attack"]

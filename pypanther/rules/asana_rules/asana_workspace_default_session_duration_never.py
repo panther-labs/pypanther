@@ -59,7 +59,7 @@ class AsanaWorkspaceDefaultSessionDurationNever(Rule):
     )
     default_severity = Severity.low
     log_types = [LogType.Asana_Audit]
-    id_ = "Asana.Workspace.Default.Session.Duration.Never-prototype"
+    id = "Asana.Workspace.Default.Session.Duration.Never-prototype"
     tests = asana_workspace_default_session_duration_never_tests
 
     def rule(self, event):

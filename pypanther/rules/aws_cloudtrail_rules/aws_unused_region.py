@@ -150,7 +150,7 @@ aws_unused_region_tests: list[RuleTest] = [
 
 
 class AWSUnusedRegion(Rule):
-    id_ = "AWS.UnusedRegion-prototype"
+    id = "AWS.UnusedRegion-prototype"
     display_name = "Unused AWS Region"
     enabled = False
     log_types = [LogType.AWS_CloudTrail]

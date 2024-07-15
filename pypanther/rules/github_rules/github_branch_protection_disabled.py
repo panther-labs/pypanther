@@ -29,7 +29,7 @@ git_hub_branch_protection_disabled_tests: list[RuleTest] = [
 
 
 class GitHubBranchProtectionDisabled(Rule):
-    id_ = "GitHub.Branch.ProtectionDisabled-prototype"
+    id = "GitHub.Branch.ProtectionDisabled-prototype"
     display_name = "GitHub Branch Protection Disabled"
     log_types = [LogType.GitHub_Audit]
     tags = ["GitHub", "Initial Access:Supply Chain Compromise"]

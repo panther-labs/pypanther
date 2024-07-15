@@ -28,7 +28,7 @@ g_suite_device_suspicious_activity_tests: list[RuleTest] = [
 
 
 class GSuiteDeviceSuspiciousActivity(Rule):
-    id_ = "GSuite.DeviceSuspiciousActivity-prototype"
+    id = "GSuite.DeviceSuspiciousActivity-prototype"
     display_name = "GSuite Device Suspicious Activity"
     log_types = [LogType.GSuite_ActivityEvent]
     tags = ["GSuite"]

@@ -310,7 +310,7 @@ class Auth0PostLoginActionFlow(Rule):
     )
     default_severity = Severity.medium
     log_types = [LogType.Auth0_Events]
-    id_ = "Auth0.Post.Login.Action.Flow-prototype"
+    id = "Auth0.Post.Login.Action.Flow-prototype"
     tests = auth0_post_login_action_flow_tests
 
     def rule(self, event):

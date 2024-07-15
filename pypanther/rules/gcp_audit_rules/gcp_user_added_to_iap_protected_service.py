@@ -199,7 +199,7 @@ class GCPUserAddedtoIAPProtectedService(Rule):
     default_reference = "https://cloud.google.com/iap/docs/managing-access"
     default_severity = Severity.low
     log_types = [LogType.GCP_AuditLog]
-    id_ = "GCP.User.Added.to.IAP.Protected.Service-prototype"
+    id = "GCP.User.Added.to.IAP.Protected.Service-prototype"
     tests = gcp_user_addedto_iap_protected_service_tests
 
     def rule(self, event):

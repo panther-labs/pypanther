@@ -246,7 +246,7 @@ aws_cloud_trail_iam_entity_created_without_cloud_formation_tests: list[RuleTest]
 
 
 class AWSCloudTrailIAMEntityCreatedWithoutCloudFormation(Rule):
-    id_ = "AWS.CloudTrail.IAMEntityCreatedWithoutCloudFormation-prototype"
+    id = "AWS.CloudTrail.IAMEntityCreatedWithoutCloudFormation-prototype"
     display_name = "IAM Entity Created Without CloudFormation"
     enabled = False
     log_types = [LogType.AWS_CloudTrail]

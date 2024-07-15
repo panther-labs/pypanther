@@ -40,7 +40,7 @@ def get_actor_user(event):
 
 
 class StandardOktaSystemLog(DataModel):
-    id_: str = "Standard.Okta.SystemLog"
+    id: str = "Standard.Okta.SystemLog"
     display_name: str = "Okta System Log"
     enabled: bool = True
     log_types: list[str] = [LogType.Okta_SystemLog]

@@ -71,7 +71,7 @@ g_suite_external_mail_forwarding_tests: list[RuleTest] = [
 
 
 class GSuiteExternalMailForwarding(Rule):
-    id_ = "GSuite.ExternalMailForwarding-prototype"
+    id = "GSuite.ExternalMailForwarding-prototype"
     display_name = "Gsuite Mail forwarded to external domain"
     enabled = False
     log_types = [LogType.GSuite_ActivityEvent]

@@ -39,7 +39,7 @@ g_suite_user_suspended_tests: list[RuleTest] = [
 
 
 class GSuiteUserSuspended(Rule):
-    id_ = "GSuite.UserSuspended-prototype"
+    id = "GSuite.UserSuspended-prototype"
     display_name = "GSuite User Suspended"
     log_types = [LogType.GSuite_ActivityEvent]
     tags = ["GSuite"]

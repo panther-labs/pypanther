@@ -39,7 +39,7 @@ tines_story_items_destruction_tests: list[RuleTest] = [
 
 
 class TinesStoryItemsDestruction(Rule):
-    id_ = "Tines.Story.Items.Destruction-prototype"
+    id = "Tines.Story.Items.Destruction-prototype"
     display_name = "Tines Story Items Destruction"
     log_types = [LogType.Tines_Audit]
     tags = ["Tines"]

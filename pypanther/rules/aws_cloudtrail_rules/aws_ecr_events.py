@@ -168,7 +168,7 @@ awsecrevents_tests: list[RuleTest] = [
 
 
 class AWSECREVENTS(Rule):
-    id_ = "AWS.ECR.EVENTS-prototype"
+    id = "AWS.ECR.EVENTS-prototype"
     display_name = "AWS ECR Events"
     enabled = False
     log_types = [LogType.AWS_CloudTrail]

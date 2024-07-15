@@ -46,7 +46,7 @@ class ZoomNewMeetingPasscodeRequiredDisabled(Rule):
     default_reference = "https://support.zoom.com/hc/en/article?id=zm_kb&sysparm_article=KB0063160#:~:text=Since%20September%202022%2C%20Zoom%20requires,enforced%20for%20all%20free%20accounts"
     default_severity = Severity.medium
     log_types = [LogType.Zoom_Operation]
-    id_ = "Zoom.New.Meeting.Passcode.Required.Disabled-prototype"
+    id = "Zoom.New.Meeting.Passcode.Required.Disabled-prototype"
     tests = zoom_new_meeting_passcode_required_disabled_tests
 
     def rule(self, event):

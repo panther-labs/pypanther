@@ -39,7 +39,7 @@ teleport_company_domain_login_without_saml_tests: list[RuleTest] = [
 
 
 class TeleportCompanyDomainLoginWithoutSAML(Rule):
-    id_ = "Teleport.CompanyDomainLoginWithoutSAML-prototype"
+    id = "Teleport.CompanyDomainLoginWithoutSAML-prototype"
     display_name = "A User from the company domain(s) Logged in without SAML"
     log_types = [LogType.Gravitational_TeleportAudit]
     tags = ["Teleport"]

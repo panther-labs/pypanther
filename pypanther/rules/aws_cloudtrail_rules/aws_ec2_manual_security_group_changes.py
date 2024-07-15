@@ -319,7 +319,7 @@ awsec2_manual_security_group_change_tests: list[RuleTest] = [
 
 
 class AWSEC2ManualSecurityGroupChange(Rule):
-    id_ = "AWS.EC2.ManualSecurityGroupChange-prototype"
+    id = "AWS.EC2.ManualSecurityGroupChange-prototype"
     display_name = "AWS EC2 Manual Security Group Change"
     enabled = False
     log_types = [LogType.AWS_CloudTrail]

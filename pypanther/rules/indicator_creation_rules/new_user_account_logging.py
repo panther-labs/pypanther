@@ -78,7 +78,7 @@ standard_new_user_account_created_tests: list[RuleTest] = [
 
 
 class StandardNewUserAccountCreated(Rule):
-    id_ = "Standard.NewUserAccountCreated-prototype"
+    id = "Standard.NewUserAccountCreated-prototype"
     display_name = "New User Account Created"
     log_types = [LogType.OneLogin_Events, LogType.AWS_CloudTrail, LogType.Zoom_Operation]
     tags = ["DataModel", "Indicator Collection", "OneLogin", "Persistence:Create Account"]

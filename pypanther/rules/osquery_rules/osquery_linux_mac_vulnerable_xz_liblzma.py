@@ -50,7 +50,7 @@ osquery_linux_mac_vulnerable_x_zliblzma_tests: list[RuleTest] = [
 
 
 class OsqueryLinuxMacVulnerableXZliblzma(Rule):
-    id_ = "Osquery.Linux.Mac.VulnerableXZliblzma-prototype"
+    id = "Osquery.Linux.Mac.VulnerableXZliblzma-prototype"
     display_name = "A backdoored version of XZ or liblzma is vulnerable to CVE-2024-3094"
     log_types = [LogType.Osquery_Differential]
     tags = ["Osquery", "MacOS", "Linux", "Emerging Threats", "Supply Chain Compromise"]

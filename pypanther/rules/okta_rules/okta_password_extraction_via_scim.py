@@ -158,7 +158,7 @@ okta_password_extractionvia_scim_tests: list[RuleTest] = [
 
 
 class OktaPasswordExtractionviaSCIM(Rule):
-    id_ = "Okta.Password.Extraction.via.SCIM-prototype"
+    id = "Okta.Password.Extraction.via.SCIM-prototype"
     display_name = "Okta Cleartext Passwords Extracted via SCIM Application"
     log_types = [LogType.Okta_SystemLog]
     reports = {"MITRE ATT&CK": ["TA0006:T1556"]}

@@ -26,7 +26,7 @@ def get_process_name(event):
 
 
 class StandardCrowdstrikeFDR(DataModel):
-    id_: str = "Standard.Crowdstrike.FDR"
+    id: str = "Standard.Crowdstrike.FDR"
     display_name: str = "Crowdstrike FDR"
     enabled: bool = True
     log_types: list[str] = [LogType.Crowdstrike_FDREvent]

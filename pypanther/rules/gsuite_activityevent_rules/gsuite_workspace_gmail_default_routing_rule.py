@@ -112,7 +112,7 @@ g_suite_workspace_gmail_default_routing_rule_modified_tests: list[RuleTest] = [
 
 
 class GSuiteWorkspaceGmailDefaultRoutingRuleModified(Rule):
-    id_ = "GSuite.Workspace.GmailDefaultRoutingRuleModified-prototype"
+    id = "GSuite.Workspace.GmailDefaultRoutingRuleModified-prototype"
     display_name = "GSuite Workspace Gmail Default Routing Rule Modified"
     log_types = [LogType.GSuite_ActivityEvent]
     tags = ["GSuite"]

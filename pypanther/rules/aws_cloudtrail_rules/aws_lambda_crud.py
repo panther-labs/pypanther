@@ -89,7 +89,7 @@ awslambdacrud_tests: list[RuleTest] = [
 
 
 class AWSLAMBDACRUD(Rule):
-    id_ = "AWS.LAMBDA.CRUD-prototype"
+    id = "AWS.LAMBDA.CRUD-prototype"
     display_name = "Lambda CRUD Actions"
     enabled = False
     log_types = [LogType.AWS_CloudTrail]

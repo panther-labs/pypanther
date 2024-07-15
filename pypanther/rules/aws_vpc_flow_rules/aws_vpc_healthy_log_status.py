@@ -26,7 +26,7 @@ awsvpc_healthy_log_status_tests: list[RuleTest] = [
 
 
 class AWSVPCHealthyLogStatus(Rule):
-    id_ = "AWS.VPC.HealthyLogStatus-prototype"
+    id = "AWS.VPC.HealthyLogStatus-prototype"
     display_name = "AWS VPC Healthy Log Status"
     log_types = [LogType.AWS_VPCFlow, LogType.OCSF_NetworkActivity]
     tags = ["AWS", "DataModel", "Security Control"]

@@ -609,7 +609,7 @@ class AWSEC2TrafficMirroring(Rule):
     default_severity = Severity.medium
     tags = ["AWS", "Cloudtrail", "MITRE"]
     log_types = [LogType.AWS_CloudTrail]
-    id_ = "AWS.EC2.Traffic.Mirroring-prototype"
+    id = "AWS.EC2.Traffic.Mirroring-prototype"
     summary_attributes = ["userIdentity.type"]
     tests = awsec2_traffic_mirroring_tests
 

@@ -56,7 +56,7 @@ awsvpc_unapproved_outbound_dns_tests: list[RuleTest] = [
 
 
 class AWSVPCUnapprovedOutboundDNS(Rule):
-    id_ = "AWS.VPC.UnapprovedOutboundDNS-prototype"
+    id = "AWS.VPC.UnapprovedOutboundDNS-prototype"
     display_name = "VPC Flow Logs Unapproved Outbound DNS Traffic"
     enabled = False
     log_types = [LogType.AWS_VPCFlow, LogType.OCSF_NetworkActivity]

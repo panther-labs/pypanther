@@ -37,7 +37,7 @@ tines_actions_disabled_changes_tests: list[RuleTest] = [
 
 
 class TinesActionsDisabledChanges(Rule):
-    id_ = "Tines.Actions.DisabledChanges-prototype"
+    id = "Tines.Actions.DisabledChanges-prototype"
     display_name = "Tines Actions Disabled Change"
     log_types = [LogType.Tines_Audit]
     tags = ["Tines"]

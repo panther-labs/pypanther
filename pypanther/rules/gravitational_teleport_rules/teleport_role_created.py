@@ -20,7 +20,7 @@ teleport_role_created_tests: list[RuleTest] = [
 
 
 class TeleportRoleCreated(Rule):
-    id_ = "Teleport.RoleCreated-prototype"
+    id = "Teleport.RoleCreated-prototype"
     display_name = "A Teleport Role was modified or created"
     log_types = [LogType.Gravitational_TeleportAudit]
     tags = ["Teleport"]

@@ -29,7 +29,7 @@ github_repo_visibility_change_tests: list[RuleTest] = [
 
 
 class GithubRepoVisibilityChange(Rule):
-    id_ = "Github.Repo.VisibilityChange-prototype"
+    id = "Github.Repo.VisibilityChange-prototype"
     display_name = "GitHub Repository Visibility Change"
     log_types = [LogType.GitHub_Audit]
     tags = ["GitHub", "Exfiltration:Exfiltration Over Web Service"]

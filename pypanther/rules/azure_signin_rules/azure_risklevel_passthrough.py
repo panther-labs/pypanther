@@ -320,7 +320,7 @@ azure_audit_risk_level_passthrough_tests: list[RuleTest] = [
 
 
 class AzureAuditRiskLevelPassthrough(Rule):
-    id_ = "Azure.Audit.RiskLevelPassthrough-prototype"
+    id = "Azure.Audit.RiskLevelPassthrough-prototype"
     display_name = "Azure RiskLevel Passthrough"
     dedup_period_minutes = 10
     log_types = [LogType.Azure_Audit]

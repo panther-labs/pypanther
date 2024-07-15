@@ -69,7 +69,7 @@ class MongoDBLoggingToggled(Rule):
     default_severity = Severity.low
     default_reference = "https://attack.mitre.org/techniques/T1562/008/"
     log_types = [LogType.MongoDB_ProjectEvent]
-    id_ = "MongoDB.Logging.Toggled-prototype"
+    id = "MongoDB.Logging.Toggled-prototype"
     tests = mongo_db_logging_toggled_tests
 
     def rule(self, event):

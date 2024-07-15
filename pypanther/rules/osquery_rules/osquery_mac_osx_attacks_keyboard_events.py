@@ -66,7 +66,7 @@ osquery_mac_osx_attacks_keyboard_events_tests: list[RuleTest] = [
 
 
 class OsqueryMacOSXAttacksKeyboardEvents(Rule):
-    id_ = "Osquery.Mac.OSXAttacksKeyboardEvents-prototype"
+    id = "Osquery.Mac.OSXAttacksKeyboardEvents-prototype"
     display_name = "MacOS Keyboard Events"
     log_types = [LogType.Osquery_Differential]
     tags = ["Osquery", "MacOS", "Malware", "Collection:Input Capture"]

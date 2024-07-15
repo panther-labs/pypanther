@@ -142,7 +142,7 @@ class SentinelOneAlertPassthrough(Rule):
     )
     default_severity = Severity.high
     log_types = [LogType.SentinelOne_Activity]
-    id_ = "SentinelOne.Alert.Passthrough-prototype"
+    id = "SentinelOne.Alert.Passthrough-prototype"
     tests = sentinel_one_alert_passthrough_tests
     SENTINELONE_SEVERITY = {
         "E_LOW": "LOW",

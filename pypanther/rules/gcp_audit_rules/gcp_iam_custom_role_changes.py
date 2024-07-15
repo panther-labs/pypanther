@@ -89,7 +89,7 @@ gcpiam_custom_role_changes_tests: list[RuleTest] = [
 
 
 class GCPIAMCustomRoleChanges(Rule):
-    id_ = "GCP.IAM.CustomRoleChanges-prototype"
+    id = "GCP.IAM.CustomRoleChanges-prototype"
     display_name = "GCP IAM Role Has Changed"
     dedup_period_minutes = 1440
     log_types = [LogType.GCP_AuditLog]

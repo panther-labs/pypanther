@@ -171,7 +171,7 @@ aws_macie_evasion_tests: list[RuleTest] = [
 
 
 class AWSMacieEvasion(Rule):
-    id_ = "AWS.Macie.Evasion-prototype"
+    id = "AWS.Macie.Evasion-prototype"
     display_name = "AWS Macie Disabled/Updated"
     log_types = [LogType.AWS_CloudTrail]
     reports = {"MITRE ATT&CK": ["TA0005:T1562"]}

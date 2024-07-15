@@ -69,7 +69,7 @@ slack_audit_logs_intune_mdm_disabled_tests: list[RuleTest] = [
 
 
 class SlackAuditLogsIntuneMDMDisabled(Rule):
-    id_ = "Slack.AuditLogs.IntuneMDMDisabled-prototype"
+    id = "Slack.AuditLogs.IntuneMDMDisabled-prototype"
     display_name = "Slack Intune MDM Disabled"
     log_types = [LogType.Slack_AuditLogs]
     tags = ["Slack", "Defense Evasion", "Impair Defenses", "Disable or Modify Tools"]

@@ -145,7 +145,7 @@ aws_cloud_trail_stopped_tests: list[RuleTest] = [
 
 
 class AWSCloudTrailStopped(Rule):
-    id_ = "AWS.CloudTrail.Stopped-prototype"
+    id = "AWS.CloudTrail.Stopped-prototype"
     display_name = "CloudTrail Stopped"
     log_types = [LogType.AWS_CloudTrail]
     tags = ["AWS", "Security Control", "DemoThreatHunting", "Defense Evasion:Impair Defenses"]

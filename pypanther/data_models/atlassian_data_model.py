@@ -27,7 +27,7 @@ def get_event_type(event):
 
 
 class StandardAtlassianAudit(DataModel):
-    id_: str = "Standard.Atlassian.Audit"
+    id: str = "Standard.Atlassian.Audit"
     display_name: str = "Atlassian Audit Logs"
     enabled: bool = True
     log_types: list[str] = [LogType.Atlassian_Audit]

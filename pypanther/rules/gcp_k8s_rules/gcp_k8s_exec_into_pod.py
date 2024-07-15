@@ -79,7 +79,7 @@ gcpk8s_exec_into_pod_tests: list[RuleTest] = [
 
 
 class GCPK8sExecIntoPod(Rule):
-    id_ = "GCP.K8s.ExecIntoPod-prototype"
+    id = "GCP.K8s.ExecIntoPod-prototype"
     display_name = "Exec into Pod"
     enabled = False
     log_types = [LogType.GCP_AuditLog]

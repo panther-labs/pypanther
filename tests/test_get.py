@@ -9,7 +9,7 @@ from pypanther.get import get_rules, print_rule_table
 
 
 class TestEDRRule(Rule):
-    id_ = "EDR"
+    id = "EDR"
     log_types = ["CrowdStrike", "SentinelOne", "AWS"]
     display_name = "EDR Rule"
     default_severity = "High"
@@ -21,7 +21,7 @@ class TestEDRRule(Rule):
 
 
 class TestPaloAltoRule(Rule):
-    id_ = "Firewall"
+    id = "Firewall"
     log_types = ["PaloAlto"]
     display_name = "Firewall Rule"
     default_severity = "Medium"

@@ -150,7 +150,7 @@ git_hub_advanced_security_change_tests: list[RuleTest] = [
 
 
 class GitHubAdvancedSecurityChange(Rule):
-    id_ = "GitHub.Advanced.Security.Change-prototype"
+    id = "GitHub.Advanced.Security.Change-prototype"
     display_name = "GitHub Security Change, includes GitHub Advanced Security"
     log_types = [LogType.GitHub_Audit]
     tags = ["GitHub"]

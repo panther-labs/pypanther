@@ -86,7 +86,7 @@ g_suite_workspace_gmail_predelivery_scanning_disabled_tests: list[RuleTest] = [
 
 
 class GSuiteWorkspaceGmailPredeliveryScanningDisabled(Rule):
-    id_ = "GSuite.Workspace.GmailPredeliveryScanningDisabled-prototype"
+    id = "GSuite.Workspace.GmailPredeliveryScanningDisabled-prototype"
     display_name = "GSuite Workspace Gmail Pre-Delivery Message Scanning Disabled"
     log_types = [LogType.GSuite_ActivityEvent]
     tags = ["GSuite"]

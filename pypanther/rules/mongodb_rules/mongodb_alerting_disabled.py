@@ -43,7 +43,7 @@ class MongoDBAlertingDisabledOrDeleted(Rule):
     default_description = "MongoDB provides security alerting policies for notifying admins when certain conditions are met. This rule detects when these policies are disabled or deleted."
     display_name = "MongoDB security alerts disabled or deleted"
     log_types = [LogType.MongoDB_OrganizationEvent]
-    id_ = "MongoDB.Alerting.Disabled.Or.Deleted-prototype"
+    id = "MongoDB.Alerting.Disabled.Or.Deleted-prototype"
     default_severity = Severity.high
     reports = {"MITRE ATT&CK": ["TA0005:T1562.001"]}
     default_reference = "https://www.mongodb.com/docs/atlas/configure-alerts/"

@@ -239,7 +239,7 @@ decoy_secret_accessed_tests: list[RuleTest] = [
 
 
 class DecoySecretAccessed(Rule):
-    id_ = "Decoy.Secret.Accessed-prototype"
+    id = "Decoy.Secret.Accessed-prototype"
     display_name = "Decoy Secret Accessed"
     enabled = False
     log_types = [LogType.AWS_SecurityFindingFormat]

@@ -38,7 +38,7 @@ def to_snake_case(name: str) -> str:
 def convert_rule_attribute_name(name: str) -> str:
     match name:
         case "RuleID":
-            return "id_"
+            return "id"
         case "Severity":
             return "default_severity"
         case "OutputIds":
@@ -555,7 +555,7 @@ def convert_data_models(panther_analysis: Path, helpers: Set[str]):
             decorator_list=[],
             body=[
                 ast.AnnAssign(
-                    target=ast.Name(id="id_", ctx=ast.Store()),
+                    target=ast.Name(id="id", ctx=ast.Store()),
                     annotation=ast.Name(id="str", ctx=ast.Load()),
                     value=ast.Constant(value=dm["DataModelID"]),
                     simple=1,

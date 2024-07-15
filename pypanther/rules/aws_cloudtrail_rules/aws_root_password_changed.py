@@ -60,7 +60,7 @@ aws_cloud_trail_root_password_changed_tests: list[RuleTest] = [
 
 
 class AWSCloudTrailRootPasswordChanged(Rule):
-    id_ = "AWS.CloudTrail.RootPasswordChanged-prototype"
+    id = "AWS.CloudTrail.RootPasswordChanged-prototype"
     display_name = "Root Password Changed"
     log_types = [LogType.AWS_CloudTrail]
     tags = ["AWS", "Identity and Access Management", "Persistence:Account Manipulation"]

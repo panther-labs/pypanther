@@ -45,7 +45,7 @@ g_suite_device_compromise_tests: list[RuleTest] = [
 
 
 class GSuiteDeviceCompromise(Rule):
-    id_ = "GSuite.DeviceCompromise-prototype"
+    id = "GSuite.DeviceCompromise-prototype"
     display_name = "GSuite User Device Compromised"
     log_types = [LogType.GSuite_ActivityEvent]
     tags = ["GSuite"]

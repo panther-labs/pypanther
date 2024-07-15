@@ -41,7 +41,7 @@ gc_piamrolesupdate_privilege_escalation_tests: list[RuleTest] = [
 
 
 class GCPiamrolesupdatePrivilegeEscalation(Rule):
-    id_ = "GCP.iam.roles.update.Privilege.Escalation-prototype"
+    id = "GCP.iam.roles.update.Privilege.Escalation-prototype"
     display_name = "GCP iam.roles.update Privilege Escalation"
     default_description = "If your user is assigned a custom IAM role, then iam.roles.update will allow you to update the “includedPermissons” on that role. Because it is assigned to you, you will gain the additional privileges, which could be anything you desire."
     log_types = [LogType.GCP_AuditLog]

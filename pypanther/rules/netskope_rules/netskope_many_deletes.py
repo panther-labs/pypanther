@@ -48,7 +48,7 @@ netskope_many_deletes_tests: list[RuleTest] = [
 
 
 class NetskopeManyDeletes(Rule):
-    id_ = "Netskope.ManyDeletes-prototype"
+    id = "Netskope.ManyDeletes-prototype"
     display_name = "Netskope Many Objects Deleted"
     log_types = [LogType.Netskope_Audit]
     tags = ["Netskope", "Configuration Required", "Data Destruction"]

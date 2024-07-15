@@ -303,7 +303,7 @@ class AWSRDSMasterPasswordUpdated(Rule):
         "p_any_aws_account_ids",
     ]
     log_types = [LogType.AWS_CloudTrail]
-    id_ = "AWS.RDS.MasterPasswordUpdated-prototype"
+    id = "AWS.RDS.MasterPasswordUpdated-prototype"
     tests = awsrds_master_password_updated_tests
 
     def rule(self, event):

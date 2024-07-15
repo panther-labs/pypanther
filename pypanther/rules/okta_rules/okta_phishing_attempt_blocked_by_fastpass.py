@@ -158,7 +158,7 @@ okta_phishing_attempt_blocked_fast_pass_tests: list[RuleTest] = [
 
 
 class OktaPhishingAttemptBlockedFastPass(Rule):
-    id_ = "Okta.Phishing.Attempt.Blocked.FastPass-prototype"
+    id = "Okta.Phishing.Attempt.Blocked.FastPass-prototype"
     display_name = "Okta AiTM Phishing Attempt Blocked by FastPass"
     log_types = [LogType.Okta_SystemLog]
     reports = {"MITRE ATT&CK": ["TA0001:T1566", "TA0006:T1556", "TA0003:T1078.004"]}

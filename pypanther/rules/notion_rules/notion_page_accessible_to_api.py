@@ -4,7 +4,7 @@ from pypanther.helpers.panther_notion_helpers import notion_alert_context
 
 class NotionPagePermsAPIPermsChanged(Rule):
     display_name = "Notion Page API Permissions Changed"
-    id_ = "Notion.PagePerms.APIPermsChanged-prototype"
+    id = "Notion.PagePerms.APIPermsChanged-prototype"
     log_types = [LogType.Notion_AuditLogs]
     tags = ["Notion", "Data Security", "Unapproved 3rd Party Apps"]
     default_severity = Severity.low

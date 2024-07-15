@@ -28,7 +28,7 @@ g_suite_two_step_verification_tests: list[RuleTest] = [
 
 
 class GSuiteTwoStepVerification(Rule):
-    id_ = "GSuite.TwoStepVerification-prototype"
+    id = "GSuite.TwoStepVerification-prototype"
     display_name = "GSuite User Two Step Verification Change"
     log_types = [LogType.GSuite_ActivityEvent]
     tags = ["GSuite", "Defense Evasion:Modify Authentication Process"]

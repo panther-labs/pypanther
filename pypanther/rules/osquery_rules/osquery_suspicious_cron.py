@@ -123,7 +123,7 @@ osquery_suspicious_cron_tests: list[RuleTest] = [
 
 
 class OsquerySuspiciousCron(Rule):
-    id_ = "Osquery.SuspiciousCron-prototype"
+    id = "Osquery.SuspiciousCron-prototype"
     display_name = "Suspicious cron detected"
     log_types = [LogType.Osquery_Differential]
     tags = ["Osquery", "Execution:Scheduled Task/Job"]

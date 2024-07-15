@@ -27,7 +27,7 @@ def get_actor_user(event):
 
 
 class StandardNotionAuditLogs(DataModel):
-    id_: str = "Standard.Notion.AuditLogs"
+    id: str = "Standard.Notion.AuditLogs"
     display_name: str = "Notion Audit Logs"
     enabled: bool = True
     log_types: list[str] = [LogType.Notion_AuditLogs]

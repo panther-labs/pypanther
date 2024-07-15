@@ -37,7 +37,7 @@ box_shield_anomalous_download_tests: list[RuleTest] = [
 
 
 class BoxShieldAnomalousDownload(Rule):
-    id_ = "Box.Shield.Anomalous.Download-prototype"
+    id = "Box.Shield.Anomalous.Download-prototype"
     display_name = "Box Shield Detected Anomalous Download Activity"
     log_types = [LogType.Box_Event]
     tags = ["Box", "Exfiltration:Exfiltration Over Web Service"]

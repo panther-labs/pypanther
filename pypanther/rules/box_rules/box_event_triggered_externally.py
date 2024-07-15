@@ -37,7 +37,7 @@ box_event_triggered_externally_tests: list[RuleTest] = [
 
 
 class BoxEventTriggeredExternally(Rule):
-    id_ = "Box.Event.Triggered.Externally-prototype"
+    id = "Box.Event.Triggered.Externally-prototype"
     display_name = "Box event triggered by unknown or external user"
     enabled = False
     log_types = [LogType.Box_Event]

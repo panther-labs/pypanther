@@ -163,7 +163,7 @@ standard_malicious_ssodns_lookup_tests: list[RuleTest] = [
 
 
 class StandardMaliciousSSODNSLookup(Rule):
-    id_ = "Standard.MaliciousSSODNSLookup-prototype"
+    id = "Standard.MaliciousSSODNSLookup-prototype"
     dedup_period_minutes = 1440
     display_name = "Malicious SSO DNS Lookup"
     enabled = False

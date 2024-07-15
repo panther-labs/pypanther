@@ -57,7 +57,7 @@ notion_many_pages_deleted_tests: list[RuleTest] = [
 
 
 class NotionManyPagesDeleted(Rule):
-    id_ = "Notion.Many.Pages.Deleted-prototype"
+    id = "Notion.Many.Pages.Deleted-prototype"
     display_name = "Notion Many Pages Deleted"
     log_types = [LogType.Notion_AuditLogs]
     tags = ["Notion", "Data Security", "Data Destruction"]

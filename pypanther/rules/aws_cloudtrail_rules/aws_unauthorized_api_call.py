@@ -114,7 +114,7 @@ aws_cloud_trail_unauthorized_api_call_tests: list[RuleTest] = [
 
 
 class AWSCloudTrailUnauthorizedAPICall(Rule):
-    id_ = "AWS.CloudTrail.UnauthorizedAPICall-prototype"
+    id = "AWS.CloudTrail.UnauthorizedAPICall-prototype"
     display_name = "Monitor Unauthorized API Calls"
     dedup_period_minutes = 1440
     log_types = [LogType.AWS_CloudTrail]

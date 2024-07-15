@@ -84,7 +84,7 @@ git_hub_repo_initial_access_tests: list[RuleTest] = [
 
 
 class GitHubRepoInitialAccess(Rule):
-    id_ = "GitHub.Repo.InitialAccess-prototype"
+    id = "GitHub.Repo.InitialAccess-prototype"
     display_name = "GitHub User Initial Access to Private Repo"
     log_types = [LogType.GitHub_Audit]
     tags = ["GitHub"]

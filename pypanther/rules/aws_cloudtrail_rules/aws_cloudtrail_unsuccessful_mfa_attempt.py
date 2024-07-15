@@ -77,7 +77,7 @@ class AWSUnsuccessfulMFAattempt(Rule):
     default_severity = Severity.high
     dedup_period_minutes = 15
     log_types = [LogType.AWS_CloudTrail]
-    id_ = "AWS.Unsuccessful.MFA.attempt-prototype"
+    id = "AWS.Unsuccessful.MFA.attempt-prototype"
     threshold = 2
     tests = aws_unsuccessful_mf_aattempt_tests
 

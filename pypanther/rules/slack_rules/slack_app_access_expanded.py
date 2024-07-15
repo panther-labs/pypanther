@@ -222,7 +222,7 @@ slack_audit_logs_app_access_expanded_tests: list[RuleTest] = [
 
 
 class SlackAuditLogsAppAccessExpanded(Rule):
-    id_ = "Slack.AuditLogs.AppAccessExpanded-prototype"
+    id = "Slack.AuditLogs.AppAccessExpanded-prototype"
     display_name = "Slack App Access Expanded"
     log_types = [LogType.Slack_AuditLogs]
     tags = ["Slack", "Privilege Escalation", "Account Manipulation"]

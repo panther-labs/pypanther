@@ -76,7 +76,7 @@ awss3_server_access_error_tests: list[RuleTest] = [
 
 
 class AWSS3ServerAccessError(Rule):
-    id_ = "AWS.S3.ServerAccess.Error-prototype"
+    id = "AWS.S3.ServerAccess.Error-prototype"
     display_name = "AWS S3 Access Error"
     dedup_period_minutes = 180
     threshold = 5

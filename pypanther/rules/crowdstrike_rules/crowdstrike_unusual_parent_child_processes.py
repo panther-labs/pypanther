@@ -175,7 +175,7 @@ class CrowdstrikeUnusualParentChildProcesses(Rule):
     default_reference = "https://medium.com/falconforce/falconfriday-e4554e9e6665"
     default_severity = Severity.critical
     log_types = [LogType.Crowdstrike_FDREvent]
-    id_ = "Crowdstrike.Unusual.Parent.Child.Processes-prototype"
+    id = "Crowdstrike.Unusual.Parent.Child.Processes-prototype"
     tests = crowdstrike_unusual_parent_child_processes_tests
     SUSPICIOUS_PARENT_CHILD_COMBINATIONS_WINDOWS = {
         ("svchost.exe", "cmd.exe"),

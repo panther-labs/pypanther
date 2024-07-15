@@ -64,7 +64,7 @@ snyk_org_settings_tests: list[RuleTest] = [
 
 
 class SnykOrgSettings(Rule):
-    id_ = "Snyk.Org.Settings-prototype"
+    id = "Snyk.Org.Settings-prototype"
     display_name = "Snyk Org Settings"
     log_types = [LogType.Snyk_GroupAudit, LogType.Snyk_OrgAudit]
     tags = ["Snyk"]

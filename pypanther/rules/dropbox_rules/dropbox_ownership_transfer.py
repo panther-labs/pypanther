@@ -244,7 +244,7 @@ class DropboxOwnershipTransfer(Rule):
     default_reference = "https://help.dropbox.com/share/owner"
     default_severity = Severity.high
     log_types = [LogType.Dropbox_TeamEvent]
-    id_ = "Dropbox.Ownership.Transfer-prototype"
+    id = "Dropbox.Ownership.Transfer-prototype"
     tests = dropbox_ownership_transfer_tests
     DROPBOX_TRUSTED_OWNERSHIP_DOMAINS = config.DROPBOX_TRUSTED_OWNERSHIP_DOMAINS
 

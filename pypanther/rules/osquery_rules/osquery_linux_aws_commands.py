@@ -79,7 +79,7 @@ osquery_linux_aws_command_executed_tests: list[RuleTest] = [
 
 
 class OsqueryLinuxAWSCommandExecuted(Rule):
-    id_ = "Osquery.Linux.AWSCommandExecuted-prototype"
+    id = "Osquery.Linux.AWSCommandExecuted-prototype"
     display_name = "AWS command executed on the command line"
     log_types = [LogType.Osquery_Differential]
     tags = ["Osquery", "Linux", "Execution:User Execution"]

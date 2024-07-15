@@ -42,7 +42,7 @@ box_large_number_downloads_tests: list[RuleTest] = [
 
 
 class BoxLargeNumberDownloads(Rule):
-    id_ = "Box.Large.Number.Downloads-prototype"
+    id = "Box.Large.Number.Downloads-prototype"
     display_name = "Box Large Number of Downloads"
     log_types = [LogType.Box_Event]
     tags = ["Box", "Exfiltration:Exfiltration Over Web Service"]

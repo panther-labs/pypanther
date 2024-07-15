@@ -63,7 +63,7 @@ zendesk_mobile_app_access_updated_tests: list[RuleTest] = [
 
 
 class ZendeskMobileAppAccessUpdated(Rule):
-    id_ = "Zendesk.MobileAppAccessUpdated-prototype"
+    id = "Zendesk.MobileAppAccessUpdated-prototype"
     display_name = "Zendesk Mobile App Access Modified"
     log_types = [LogType.Zendesk_Audit]
     tags = ["Zendesk", "Persistence:Valid Accounts"]

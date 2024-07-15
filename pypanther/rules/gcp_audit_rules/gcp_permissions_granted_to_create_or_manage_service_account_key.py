@@ -179,7 +179,7 @@ class GCPPermissionsGrantedtoCreateorManageServiceAccountKey(Rule):
     default_reference = "https://cloud.google.com/iam/docs/keys-create-delete"
     default_severity = Severity.low
     log_types = [LogType.GCP_AuditLog]
-    id_ = "GCP.Permissions.Granted.to.Create.or.Manage.Service.Account.Key-prototype"
+    id = "GCP.Permissions.Granted.to.Create.or.Manage.Service.Account.Key-prototype"
     tests = gcp_permissions_grantedto_createor_manage_service_account_key_tests
     SERVICE_ACCOUNT_MANAGE_ROLES = [
         "roles/iam.serviceAccountTokenCreator",

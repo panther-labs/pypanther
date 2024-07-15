@@ -2,7 +2,7 @@ from pypanther.base import DataModel, DataModelMapping, LogType
 
 
 class StandardAWSALB(DataModel):
-    id_: str = "Standard.AWS.ALB"
+    id: str = "Standard.AWS.ALB"
     display_name: str = "AWS Application Load Balancer"
     enabled: bool = True
     log_types: list[str] = [LogType.AWS_ALB]

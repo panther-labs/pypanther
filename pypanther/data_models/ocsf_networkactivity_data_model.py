@@ -2,7 +2,7 @@ from pypanther.base import DataModel, DataModelMapping, LogType
 
 
 class StandardOCSFNetworkActivity(DataModel):
-    id_: str = "Standard.OCSF.NetworkActivity"
+    id: str = "Standard.OCSF.NetworkActivity"
     display_name: str = "OCSF Network Activity"
     enabled: bool = True
     log_types: list[str] = [LogType.OCSF_NetworkActivity]

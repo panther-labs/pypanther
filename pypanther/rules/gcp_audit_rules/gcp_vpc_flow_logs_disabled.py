@@ -175,7 +175,7 @@ class GCPVPCFlowLogsDisabled(Rule):
     default_reference = "https://cloud.google.com/vpc/docs/using-flow-logs"
     default_severity = Severity.medium
     log_types = [LogType.GCP_AuditLog]
-    id_ = "GCP.VPC.Flow.Logs.Disabled-prototype"
+    id = "GCP.VPC.Flow.Logs.Disabled-prototype"
     tests = gcpvpc_flow_logs_disabled_tests
 
     def rule(self, event):

@@ -346,7 +346,7 @@ okta_potentially_stolen_session_tests: list[RuleTest] = [
 
 
 class OktaPotentiallyStolenSession(Rule):
-    id_ = "Okta.PotentiallyStolenSession-prototype"
+    id = "Okta.PotentiallyStolenSession-prototype"
     display_name = "Okta Potentially Stolen Session"
     log_types = [LogType.Okta_SystemLog]
     tags = ["Identity & Access Management", "Okta"]

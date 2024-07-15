@@ -38,7 +38,7 @@ one_login_password_changed_tests: list[RuleTest] = [
 
 
 class OneLoginPasswordChanged(Rule):
-    id_ = "OneLogin.PasswordChanged-prototype"
+    id = "OneLogin.PasswordChanged-prototype"
     display_name = "OneLogin User Password Changed"
     log_types = [LogType.OneLogin_Events]
     tags = ["OneLogin", "Identity & Access Management"]

@@ -127,7 +127,7 @@ class GCPLoggingSettingsModified(Rule):
     default_reference = "https://cloud.google.com/logging/docs/default-settings"
     default_severity = Severity.low
     log_types = [LogType.GCP_AuditLog]
-    id_ = "GCP.Logging.Settings.Modified-prototype"
+    id = "GCP.Logging.Settings.Modified-prototype"
     tests = gcp_logging_settings_modified_tests
 
     def rule(self, event):

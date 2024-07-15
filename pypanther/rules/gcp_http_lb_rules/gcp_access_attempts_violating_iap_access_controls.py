@@ -107,7 +107,7 @@ class GCPAccessAttemptsViolatingIAPAccessControls(Rule):
     default_reference = "https://cloud.google.com/iap/docs/concepts-overview"
     default_severity = Severity.medium
     log_types = [LogType.GCP_HTTPLoadBalancer]
-    id_ = "GCP.Access.Attempts.Violating.IAP.Access.Controls-prototype"
+    id = "GCP.Access.Attempts.Violating.IAP.Access.Controls-prototype"
     tests = gcp_access_attempts_violating_iap_access_controls_tests
 
     def rule(self, event):

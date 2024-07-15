@@ -318,7 +318,7 @@ notion_account_changed_after_login_tests: list[RuleTest] = [
 
 
 class NotionAccountChangedAfterLogin(Rule):
-    id_ = "Notion.AccountChangedAfterLogin-prototype"
+    id = "Notion.AccountChangedAfterLogin-prototype"
     display_name = "Notion Account Changed Shortly After Login"
     log_types = [LogType.Notion_AuditLogs]
     tags = ["Notion", "Identity & Access Management", "Persistence"]

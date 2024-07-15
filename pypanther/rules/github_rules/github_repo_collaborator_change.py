@@ -44,7 +44,7 @@ github_repo_collaborator_change_tests: list[RuleTest] = [
 
 
 class GithubRepoCollaboratorChange(Rule):
-    id_ = "Github.Repo.CollaboratorChange-prototype"
+    id = "Github.Repo.CollaboratorChange-prototype"
     display_name = "GitHub Repository Collaborator Change"
     log_types = [LogType.GitHub_Audit]
     tags = ["GitHub", "Initial Access:Supply Chain Compromise"]

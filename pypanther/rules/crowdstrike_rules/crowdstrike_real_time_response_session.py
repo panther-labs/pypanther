@@ -127,7 +127,7 @@ crowdstrike_real_time_response_session_tests: list[RuleTest] = [
 
 class CrowdstrikeRealTimeResponseSession(Rule):
     display_name = "Crowdstrike Real Time Response (RTS) Session"
-    id_ = "Crowdstrike.RealTimeResponse.Session-prototype"
+    id = "Crowdstrike.RealTimeResponse.Session-prototype"
     default_severity = Severity.medium
     log_types = [LogType.Crowdstrike_Unknown, LogType.Crowdstrike_FDREvent]
     tags = ["Crowdstrike"]

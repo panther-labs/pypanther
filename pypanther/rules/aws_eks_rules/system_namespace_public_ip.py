@@ -320,7 +320,7 @@ amazon_eks_audit_system_namespace_from_public_ip_tests: list[RuleTest] = [
 
 
 class AmazonEKSAuditSystemNamespaceFromPublicIP(Rule):
-    id_ = "Amazon.EKS.Audit.SystemNamespaceFromPublicIP-prototype"
+    id = "Amazon.EKS.Audit.SystemNamespaceFromPublicIP-prototype"
     display_name = "EKS Audit Log Reporting system Namespace is Used From A Public IP"
     log_types = [LogType.Amazon_EKS_Audit]
     tags = ["EKS"]

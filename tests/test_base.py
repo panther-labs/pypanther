@@ -52,12 +52,12 @@ def test_rule_inheritance():
 
 def test_override():
     class Test(Rule):
-        id_ = "old"
+        id = "old"
         default_severity = Severity.high
         log_types = [LogType.Panther_Audit, LogType.AlphaSOC_Alert]
         tags = ["old", "old2"]
 
-    assert Test.id_ == "old"
+    assert Test.id == "old"
     assert Test.default_severity == Severity.high
     assert Test.log_types == [
         LogType.Panther_Audit,
@@ -66,13 +66,13 @@ def test_override():
     assert Test.tags == ["old", "old2"]
 
     Test.override(
-        id_="new",
+        id="new",
         default_severity=Severity.low,
         log_types=[LogType.Amazon_EKS_Audit],
         tags=Test.tags + ["new"],
     )
 
-    assert Test.id_ == "new"
+    assert Test.id == "new"
     assert Test.default_severity == Severity.low
     assert Test.log_types == [LogType.Amazon_EKS_Audit]
     assert Test.tags == ["old", "old2", "new"]
@@ -113,7 +113,7 @@ class TestRunningTests:
     )
     def test_returns_aux_function_exceptions(self, func: str):
         class TestRule(Rule):
-            id_ = "TestRule"
+            id = "TestRule"
             default_severity = Severity.high
             log_types = [LogType.AlphaSOC_Alert]
             tests = [RuleTest(name="test", expected_result=True, log={})]
@@ -137,7 +137,7 @@ class TestRunningTests:
 
     def test_returns_two_aux_function_exceptions(self):
         class TestRule(Rule):
-            id_ = "TestRule"
+            id = "TestRule"
             default_severity = Severity.high
             log_types = [LogType.AlphaSOC_Alert]
             tests = [RuleTest(name="test", expected_result=True, log={})]
@@ -170,7 +170,7 @@ class TestRunningTests:
         ]
 
         class TestRule(Rule):
-            id_ = "TestRule"
+            id = "TestRule"
             default_severity = Severity.high
             log_types = [LogType.AlphaSOC_Alert]
             tests = [RuleTest(name="test", expected_result=True, log={})]
@@ -197,7 +197,7 @@ class TestRunningTests:
         class Rule1(Rule):
             log_types = [LogType.Panther_Audit]
             default_severity = Severity.high
-            id_ = "Rule1"
+            id = "Rule1"
             tests = [false_test_1, false_test_2]
 
             def rule(self, event):
@@ -206,7 +206,7 @@ class TestRunningTests:
         class Rule2(Rule):
             log_types = [LogType.Panther_Audit]
             default_severity = Severity.high
-            id_ = "Rule2"
+            id = "Rule2"
             tests = [false_test_1, false_test_2]
 
             def rule(self, event):
@@ -227,7 +227,7 @@ class TestRunningTests:
         class Rule1(Rule):
             log_types = [LogType.Panther_Audit]
             default_severity = Severity.high
-            id_ = "Rule1"
+            id = "Rule1"
             tests = [false_test_1]
 
             def rule(self, event):
@@ -252,12 +252,12 @@ class TestValidation:
             rule.validate()
         errors = e.value.errors()
         assert len(errors) == 1
-        assert errors[0]["loc"] == ("id_",)
+        assert errors[0]["loc"] == ("id",)
         assert errors[0]["msg"] == "Field required"
 
     def test_create_rule_missing_method(self) -> None:
         class rule(Rule):
-            id_ = "test_create_rule_missing_method"
+            id = "test_create_rule_missing_method"
             default_severity = Severity.info
             log_types = ["test"]
 
@@ -293,7 +293,7 @@ class TestRule(TestCase):
 
     def test_rule_default_dedup_time(self) -> None:
         class rule(Rule):
-            id_ = "test_rule_default_dedup_time"
+            id = "test_rule_default_dedup_time"
             default_severity = Severity.info
 
             def rule(self, event):
@@ -303,7 +303,7 @@ class TestRule(TestCase):
 
     def test_rule_tags(self) -> None:
         class rule(Rule):
-            id_ = "test_rule_default_dedup_time"
+            id = "test_rule_default_dedup_time"
             default_tags = ["tag2", "tag1"]
             default_severity = Severity.info
 
@@ -314,7 +314,7 @@ class TestRule(TestCase):
 
     def test_rule_reports(self) -> None:
         class rule(Rule):
-            id_ = "test_rule_default_dedup_time"
+            id = "test_rule_default_dedup_time"
             default_reports = {"key1": ["value2", "value1"], "key2": ["value1"]}
             default_severity = Severity.info
 
@@ -328,7 +328,7 @@ class TestRule(TestCase):
 
     def test_rule_matches(self) -> None:
         class rule(Rule):
-            id_ = "test_rule_matches"
+            id = "test_rule_matches"
             dedup_period_minutes = 100
             default_severity = Severity.info
 
@@ -354,7 +354,7 @@ class TestRule(TestCase):
 
     def test_rule_doesnt_match(self) -> None:
         class rule(Rule):
-            id_ = "test_rule_doesnt_match"
+            id = "test_rule_doesnt_match"
             default_severity = Severity.info
 
             def rule(self, event):
@@ -371,7 +371,7 @@ class TestRule(TestCase):
 
     def test_rule_with_dedup(self) -> None:
         class rule(Rule):
-            id_ = "test_rule_with_dedup"
+            id = "test_rule_with_dedup"
             default_severity = Severity.info
 
             def rule(self, event):
@@ -399,7 +399,7 @@ class TestRule(TestCase):
 
     def test_restrict_dedup_size(self) -> None:
         class rule(Rule):
-            id_ = "test_restrict_dedup_size"
+            id = "test_restrict_dedup_size"
             default_severity = Severity.info
 
             def rule(self, event):
@@ -430,7 +430,7 @@ class TestRule(TestCase):
 
     def test_restrict_title_size(self) -> None:
         class rule(Rule):
-            id_ = "test_restrict_title_size"
+            id = "test_restrict_title_size"
             default_severity = Severity.info
 
             def rule(self, event):
@@ -464,7 +464,7 @@ class TestRule(TestCase):
 
     def test_empty_dedup_result_to_default(self) -> None:
         class rule(Rule):
-            id_ = "test_empty_dedup_result_to_default"
+            id = "test_empty_dedup_result_to_default"
             default_severity = Severity.info
 
             def rule(self, event):
@@ -492,7 +492,7 @@ class TestRule(TestCase):
 
     def test_rule_throws_exception(self) -> None:
         class rule(Rule):
-            id_ = "test_rule_throws_exception"
+            id = "test_rule_throws_exception"
             default_severity = Severity.info
 
             def rule(self, event):
@@ -506,7 +506,7 @@ class TestRule(TestCase):
 
     def test_rule_invalid_rule_return(self) -> None:
         class rule(Rule):
-            id_ = "test_rule_invalid_rule_return"
+            id = "test_rule_invalid_rule_return"
             default_severity = Severity.info
 
             def rule(self, event):
@@ -523,7 +523,7 @@ class TestRule(TestCase):
 
     def test_dedup_throws_exception(self) -> None:
         class rule(Rule):
-            id_ = "test_dedup_throws_exception"
+            id = "test_dedup_throws_exception"
             default_severity = Severity.info
 
             def rule(self, event):
@@ -551,7 +551,7 @@ class TestRule(TestCase):
 
     def test_dedup_exception_batch_mode(self) -> None:
         class rule(Rule):
-            id_ = "test_dedup_throws_exception"
+            id = "test_dedup_throws_exception"
             default_severity = Severity.info
 
             def rule(self, event):
@@ -568,7 +568,7 @@ class TestRule(TestCase):
 
     def test_rule_invalid_dedup_return(self) -> None:
         class rule(Rule):
-            id_ = "test_rule_invalid_dedup_return"
+            id = "test_rule_invalid_dedup_return"
             default_severity = Severity.info
 
             def rule(self, event):
@@ -596,7 +596,7 @@ class TestRule(TestCase):
 
     def test_rule_dedup_returns_empty_string(self) -> None:
         class rule(Rule):
-            id_ = "test_rule_dedup_returns_empty_string"
+            id = "test_rule_dedup_returns_empty_string"
             default_severity = Severity.info
 
             def rule(self, event):
@@ -624,7 +624,7 @@ class TestRule(TestCase):
 
     def test_rule_matches_with_title_without_dedup(self) -> None:
         class rule(Rule):
-            id_ = "test_rule_matches_with_title"
+            id = "test_rule_matches_with_title"
             default_severity = Severity.info
 
             def rule(self, event):
@@ -652,7 +652,7 @@ class TestRule(TestCase):
 
     def test_rule_title_throws_exception(self) -> None:
         class rule(Rule):
-            id_ = "test_rule_title_throws_exception"
+            id = "test_rule_title_throws_exception"
             default_severity = Severity.info
 
             def rule(self, event):
@@ -680,7 +680,7 @@ class TestRule(TestCase):
 
     def test_rule_invalid_title_return(self) -> None:
         class rule(Rule):
-            id_ = "test_rule_invalid_title_return"
+            id = "test_rule_invalid_title_return"
             default_severity = Severity.info
 
             def rule(self, event):
@@ -708,7 +708,7 @@ class TestRule(TestCase):
 
     def test_rule_title_returns_empty_string(self) -> None:
         class rule(Rule):
-            id_ = "test_rule_title_returns_empty_string"
+            id = "test_rule_title_returns_empty_string"
             default_severity = Severity.info
 
             def rule(self, event):
@@ -737,7 +737,7 @@ class TestRule(TestCase):
 
     def test_alert_context(self) -> None:
         class rule(Rule):
-            id_ = "test_alert_context"
+            id = "test_alert_context"
             default_severity = Severity.info
 
             def rule(self, event):
@@ -765,7 +765,7 @@ class TestRule(TestCase):
 
     def test_alert_context_invalid_return_value(self) -> None:
         class rule(Rule):
-            id_ = "test_alert_context_invalid_return_value"
+            id = "test_alert_context_invalid_return_value"
             default_severity = Severity.info
 
             def rule(self, event):
@@ -800,7 +800,7 @@ class TestRule(TestCase):
         # Function should generate alert_context exceeding limit
 
         class rule(Rule):
-            id_ = "test_alert_context_too_big"
+            id = "test_alert_context_too_big"
             default_severity = Severity.info
 
             def rule(self, event):
@@ -836,7 +836,7 @@ class TestRule(TestCase):
 
     def test_alert_context_immutable_event(self) -> None:
         class rule(Rule):
-            id_ = "test_alert_context_immutable_event"
+            id = "test_alert_context_immutable_event"
             default_severity = Severity.info
 
             def rule(self, event):
@@ -875,7 +875,7 @@ class TestRule(TestCase):
 
     def test_alert_context_returns_full_event(self) -> None:
         class rule(Rule):
-            id_ = "test_alert_context_returns_full_event"
+            id = "test_alert_context_returns_full_event"
             default_severity = Severity.info
 
             def rule(self, event):
@@ -907,7 +907,7 @@ class TestRule(TestCase):
     # Generated Fields Tests
     def test_rule_with_all_generated_fields(self) -> None:
         class rule(Rule):
-            id_ = "test_rule_with_all_generated_fields"
+            id = "test_rule_with_all_generated_fields"
             default_severity = Severity.info
 
             def rule(self, event):
@@ -954,7 +954,7 @@ class TestRule(TestCase):
 
     def test_rule_with_invalid_severity(self) -> None:
         class rule(Rule):
-            id_ = "test_rule_with_invalid_severity"
+            id = "test_rule_with_invalid_severity"
             default_severity = Severity.info
 
             def rule(self, event):
@@ -996,7 +996,7 @@ class TestRule(TestCase):
 
     def test_rule_with_valid_severity_case_insensitive(self) -> None:
         class rule(Rule):
-            id_ = "test_rule_with_valid_severity_case_insensitive"
+            id = "test_rule_with_valid_severity_case_insensitive"
             default_severity = Severity.info
 
             def rule(self, event):
@@ -1011,7 +1011,7 @@ class TestRule(TestCase):
 
     def test_rule_with_default_severity(self) -> None:
         class rule(Rule):
-            id_ = "test_rule_with_default_severity"
+            id = "test_rule_with_default_severity"
             default_severity = Severity.info
 
             def rule(self, event):
@@ -1046,7 +1046,7 @@ class TestRule(TestCase):
 
     def test_rule_with_default_severity_case_insensitive(self) -> None:
         class rule(Rule):
-            id_ = "test_rule_with_default_severity_case_insensitive"
+            id = "test_rule_with_default_severity_case_insensitive"
             default_severity = "MEDIUM"
 
             def rule(self, event):
@@ -1081,7 +1081,7 @@ class TestRule(TestCase):
 
     def test_rule_with_invalid_destinations_type(self) -> None:
         class rule(Rule):
-            id_ = "test_rule_with_invalid_destinations_type"
+            id = "test_rule_with_invalid_destinations_type"
             default_severity = Severity.info
 
             def rule(self, event):
@@ -1108,7 +1108,7 @@ class TestRule(TestCase):
             severity_output="CRITICAL",
             destinations_exception=FunctionReturnTypeError(
                 "detection [{}] method [{}] returned [{}], expected a list".format(
-                    rule.id_, "destinations", "str"
+                    rule.id, "destinations", "str"
                 )
             ),
             destinations_output=None,
@@ -1128,7 +1128,7 @@ class TestRule(TestCase):
 
     def test_rule_with_severity_raising_exception_unit_test(self) -> None:
         class rule(Rule):
-            id_ = "test_rule_with_severity_raising_exception_unit_test"
+            id = "test_rule_with_severity_raising_exception_unit_test"
             default_severity = Severity.info
 
             def rule(self, event):
@@ -1166,7 +1166,7 @@ class TestRule(TestCase):
 
     def test_rule_with_severity_raising_exception_batch_mode(self) -> None:
         class rule(Rule):
-            id_ = "test_rule_with_severity_raising_exception_batch_mode"
+            id = "test_rule_with_severity_raising_exception_batch_mode"
             default_severity = Severity.info
 
             def rule(self, event):
@@ -1198,7 +1198,7 @@ class TestRule(TestCase):
 
     def test_invalid_destination_during_run(self) -> None:
         class TestRule(Rule):
-            id_ = "TestRule"
+            id = "TestRule"
             log_types = [LogType.Panther_Audit]
             default_severity = Severity.critical
 
@@ -1219,7 +1219,7 @@ class TestRule(TestCase):
 
     def test_invalid_destination_during_test(self) -> None:
         class TestRule(Rule):
-            id_ = "TestRule"
+            id = "TestRule"
             log_types = [LogType.Panther_Audit]
             default_severity = Severity.critical
 

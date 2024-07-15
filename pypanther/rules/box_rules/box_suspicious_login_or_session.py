@@ -69,7 +69,7 @@ box_shield_suspicious_alert_tests: list[RuleTest] = [
 
 
 class BoxShieldSuspiciousAlert(Rule):
-    id_ = "Box.Shield.Suspicious.Alert-prototype"
+    id = "Box.Shield.Suspicious.Alert-prototype"
     display_name = "Box Shield Suspicious Alert Triggered"
     log_types = [LogType.Box_Event]
     tags = ["Box", "Initial Access:Valid Accounts"]

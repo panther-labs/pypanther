@@ -358,7 +358,7 @@ aws_cloud_trail_resource_made_public_tests: list[RuleTest] = [
 
 
 class AWSCloudTrailResourceMadePublic(Rule):
-    id_ = "AWS.CloudTrail.ResourceMadePublic-prototype"
+    id = "AWS.CloudTrail.ResourceMadePublic-prototype"
     display_name = "AWS Resource Made Public"
     log_types = [LogType.AWS_CloudTrail]
     tags = ["AWS", "Exfiltration:Transfer Data to Cloud Account"]

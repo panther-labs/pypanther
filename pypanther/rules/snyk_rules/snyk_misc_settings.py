@@ -30,7 +30,7 @@ snyk_misc_settings_tests: list[RuleTest] = [
 
 
 class SnykMiscSettings(Rule):
-    id_ = "Snyk.Misc.Settings-prototype"
+    id = "Snyk.Misc.Settings-prototype"
     display_name = "Snyk Miscellaneous Settings"
     log_types = [LogType.Snyk_GroupAudit, LogType.Snyk_OrgAudit]
     tags = ["Snyk"]

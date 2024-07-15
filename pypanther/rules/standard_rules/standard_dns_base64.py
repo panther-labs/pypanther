@@ -215,7 +215,7 @@ standard_dns_base64_tests: list[RuleTest] = [
 class StandardDNSBase64(Rule):
     display_name = "DNS Base64 Encoded Query"
     default_description = "Detects DNS queries with Base64 encoded subdomains, which could indicate an attempt to obfuscate data exfil."
-    id_ = "Standard.DNSBase64-prototype"
+    id = "Standard.DNSBase64-prototype"
     enabled = False
     default_reference = "https://zofixer.com/what-is-base64-disclosure-vulnerability/"
     default_severity = Severity.medium

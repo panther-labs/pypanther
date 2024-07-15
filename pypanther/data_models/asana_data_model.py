@@ -19,7 +19,7 @@ def get_event_type(event):
 
 
 class StandardAsanaAudit(DataModel):
-    id_: str = "Standard.Asana.Audit"
+    id: str = "Standard.Asana.Audit"
     display_name: str = "Asana Audit Logs"
     enabled: bool = True
     log_types: list[str] = [LogType.Asana_Audit]

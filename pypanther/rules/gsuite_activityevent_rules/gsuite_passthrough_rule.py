@@ -66,7 +66,7 @@ g_suite_rule_tests: list[RuleTest] = [
 
 
 class GSuiteRule(Rule):
-    id_ = "GSuite.Rule-prototype"
+    id = "GSuite.Rule-prototype"
     display_name = "GSuite Passthrough Rule Triggered"
     log_types = [LogType.GSuite_ActivityEvent]
     tags = ["GSuite"]

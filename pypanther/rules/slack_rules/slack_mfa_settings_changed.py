@@ -69,7 +69,7 @@ slack_audit_logs_mfa_settings_changed_tests: list[RuleTest] = [
 
 
 class SlackAuditLogsMFASettingsChanged(Rule):
-    id_ = "Slack.AuditLogs.MFASettingsChanged-prototype"
+    id = "Slack.AuditLogs.MFASettingsChanged-prototype"
     display_name = "Slack MFA Settings Changed"
     log_types = [LogType.Slack_AuditLogs]
     tags = [

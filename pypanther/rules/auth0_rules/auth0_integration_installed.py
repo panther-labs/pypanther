@@ -257,7 +257,7 @@ class Auth0IntegrationInstalled(Rule):
     default_reference = "https://auth0.com/blog/actions-integrations-are-now-ga/"
     default_severity = Severity.info
     log_types = [LogType.Auth0_Events]
-    id_ = "Auth0.Integration.Installed-prototype"
+    id = "Auth0.Integration.Installed-prototype"
     tests = auth0_integration_installed_tests
 
     def rule(self, event):

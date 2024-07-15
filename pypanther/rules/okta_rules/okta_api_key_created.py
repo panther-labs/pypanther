@@ -37,7 +37,7 @@ okta_api_key_created_tests: list[RuleTest] = [
 
 
 class OktaAPIKeyCreated(Rule):
-    id_ = "Okta.APIKeyCreated-prototype"
+    id = "Okta.APIKeyCreated-prototype"
     display_name = "Okta API Key Created"
     log_types = [LogType.Okta_SystemLog]
     tags = [

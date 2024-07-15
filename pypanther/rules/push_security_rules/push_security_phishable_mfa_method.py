@@ -106,7 +106,7 @@ push_security_phishable_mfa_method_tests: list[RuleTest] = [
 
 
 class PushSecurityPhishableMFAMethod(Rule):
-    id_ = "Push.Security.Phishable.MFA.Method-prototype"
+    id = "Push.Security.Phishable.MFA.Method-prototype"
     display_name = "Push Security Phishable MFA Method"
     log_types = [LogType.PushSecurity_Entities]
     default_severity = Severity.info

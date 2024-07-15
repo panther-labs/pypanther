@@ -135,7 +135,7 @@ awsiam_policy_modified_tests: list[RuleTest] = [
 
 
 class AWSIAMPolicyModified(Rule):
-    id_ = "AWS.IAM.PolicyModified-prototype"
+    id = "AWS.IAM.PolicyModified-prototype"
     display_name = "IAM Policy Modified"
     log_types = [LogType.AWS_CloudTrail]
     tags = [

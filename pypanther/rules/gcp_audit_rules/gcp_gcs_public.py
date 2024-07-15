@@ -60,7 +60,7 @@ gcpgcs_public_tests: list[RuleTest] = [
 
 
 class GCPGCSPublic(Rule):
-    id_ = "GCP.GCS.Public-prototype"
+    id = "GCP.GCS.Public-prototype"
     display_name = "GCS Bucket Made Public"
     dedup_period_minutes = 15
     log_types = [LogType.GCP_AuditLog]

@@ -90,7 +90,7 @@ class GoogleWorkspaceAppsNewMobileAppInstalled(Rule):
     default_reference = "https://support.google.com/a/answer/6089179?hl=en"
     default_severity = Severity.medium
     log_types = [LogType.GSuite_ActivityEvent]
-    id_ = "Google.Workspace.Apps.New.Mobile.App.Installed-prototype"
+    id = "Google.Workspace.Apps.New.Mobile.App.Installed-prototype"
     tests = google_workspace_apps_new_mobile_app_installed_tests
 
     def rule(self, event):

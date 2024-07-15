@@ -42,7 +42,7 @@ zoom_passcode_disabled_tests: list[RuleTest] = [
 
 
 class ZoomPasscodeDisabled(Rule):
-    id_ = "Zoom.PasscodeDisabled-prototype"
+    id = "Zoom.PasscodeDisabled-prototype"
     display_name = "Zoom Meeting Passcode Disabled"
     log_types = [LogType.Zoom_Operation]
     tags = ["Zoom", "Collection:Video Capture"]

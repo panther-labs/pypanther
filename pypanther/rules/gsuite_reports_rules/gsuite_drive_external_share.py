@@ -114,7 +114,7 @@ g_suite_drive_external_file_share_tests: list[RuleTest] = [
 
 
 class GSuiteDriveExternalFileShare(Rule):
-    id_ = "GSuite.Drive.ExternalFileShare-prototype"
+    id = "GSuite.Drive.ExternalFileShare-prototype"
     display_name = "External GSuite File Share"
     enabled = False
     log_types = [LogType.GSuite_Reports]

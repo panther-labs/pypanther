@@ -86,7 +86,7 @@ panther_detection_deleted_tests: list[RuleTest] = [
 
 
 class PantherDetectionDeleted(Rule):
-    id_ = "Panther.Detection.Deleted-prototype"
+    id = "Panther.Detection.Deleted-prototype"
     display_name = "Detection content has been deleted from Panther"
     log_types = [LogType.Panther_Audit]
     default_severity = Severity.info

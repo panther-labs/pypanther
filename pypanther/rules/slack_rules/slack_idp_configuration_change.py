@@ -124,7 +124,7 @@ slack_audit_logs_idp_configuration_changed_tests: list[RuleTest] = [
 
 
 class SlackAuditLogsIDPConfigurationChanged(Rule):
-    id_ = "Slack.AuditLogs.IDPConfigurationChanged-prototype"
+    id = "Slack.AuditLogs.IDPConfigurationChanged-prototype"
     display_name = "Slack IDP Configuration Changed"
     log_types = [LogType.Slack_AuditLogs]
     tags = ["Slack", "Persistence", "Credential Access", "Modify Authentication Process"]

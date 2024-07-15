@@ -2,7 +2,7 @@ from pypanther.base import DataModel, DataModelMapping, LogType
 
 
 class StandardAmazonEKSAudit(DataModel):
-    id_: str = "Standard.Amazon.EKS.Audit"
+    id: str = "Standard.Amazon.EKS.Audit"
     display_name: str = "AWS EKS Audit"
     enabled: bool = True
     log_types: list[str] = [LogType.Amazon_EKS_Audit]

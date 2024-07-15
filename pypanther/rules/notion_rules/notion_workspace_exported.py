@@ -57,7 +57,7 @@ notion_workspace_exported_tests: list[RuleTest] = [
 
 
 class NotionWorkspaceExported(Rule):
-    id_ = "Notion.Workspace.Exported-prototype"
+    id = "Notion.Workspace.Exported-prototype"
     display_name = "Notion Workspace Exported"
     log_types = [LogType.Notion_AuditLogs]
     tags = ["Notion", "Data Security", "Data Exfiltration"]

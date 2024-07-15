@@ -158,7 +158,7 @@ panther_sensitive_role_tests: list[RuleTest] = [
 
 
 class PantherSensitiveRole(Rule):
-    id_ = "Panther.Sensitive.Role-prototype"
+    id = "Panther.Sensitive.Role-prototype"
     display_name = "A User Role with Sensitive Permissions has been Created"
     log_types = [LogType.Panther_Audit]
     default_severity = Severity.high

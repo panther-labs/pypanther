@@ -63,7 +63,7 @@ box_large_number_permission_updates_tests: list[RuleTest] = [
 
 
 class BoxLargeNumberPermissionUpdates(Rule):
-    id_ = "Box.Large.Number.Permission.Updates-prototype"
+    id = "Box.Large.Number.Permission.Updates-prototype"
     display_name = "Box Large Number of Permission Changes"
     log_types = [LogType.Box_Event]
     tags = ["Box", "Privilege Escalation:Abuse Elevation Control Mechanism"]

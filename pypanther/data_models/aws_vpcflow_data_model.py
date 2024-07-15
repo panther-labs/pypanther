@@ -2,7 +2,7 @@ from pypanther.base import DataModel, DataModelMapping, LogType
 
 
 class StandardAWSVPCFlow(DataModel):
-    id_: str = "Standard.AWS.VPCFlow"
+    id: str = "Standard.AWS.VPCFlow"
     display_name: str = "AWS VPCFlow"
     enabled: bool = True
     log_types: list[str] = [LogType.AWS_VPCFlow]

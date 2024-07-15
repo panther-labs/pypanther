@@ -87,7 +87,7 @@ g_suite_workspace_password_reuse_enabled_tests: list[RuleTest] = [
 
 
 class GSuiteWorkspacePasswordReuseEnabled(Rule):
-    id_ = "GSuite.Workspace.PasswordReuseEnabled-prototype"
+    id = "GSuite.Workspace.PasswordReuseEnabled-prototype"
     display_name = "GSuite Workspace Password Reuse Has Been Enabled"
     log_types = [LogType.GSuite_ActivityEvent]
     tags = ["GSuite"]

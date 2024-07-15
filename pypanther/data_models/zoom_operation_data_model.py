@@ -35,7 +35,7 @@ def get_event_type(event):
 
 
 class StandardZoomOperation(DataModel):
-    id_: str = "Standard.Zoom.Operation"
+    id: str = "Standard.Zoom.Operation"
     display_name: str = None
     enabled: bool = True
     log_types: list[str] = [LogType.Zoom_Operation]

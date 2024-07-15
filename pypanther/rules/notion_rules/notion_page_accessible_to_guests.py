@@ -73,7 +73,7 @@ notion_page_perms_guest_perms_changed_tests: list[RuleTest] = [
 
 
 class NotionPagePermsGuestPermsChanged(Rule):
-    id_ = "Notion.PagePerms.GuestPermsChanged-prototype"
+    id = "Notion.PagePerms.GuestPermsChanged-prototype"
     display_name = "Notion Page Guest Permissions Changed"
     log_types = [LogType.Notion_AuditLogs]
     tags = ["Notion", "Data Security", "Information Disclosure"]

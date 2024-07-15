@@ -132,7 +132,7 @@ class AWSWAFDisassociation(Rule):
     default_severity = Severity.critical
     reports = {"MITRE ATT&CK": ["TA0004:T1498"]}
     log_types = [LogType.AWS_CloudTrail]
-    id_ = "AWS.WAF.Disassociation-prototype"
+    id = "AWS.WAF.Disassociation-prototype"
     tests = awswaf_disassociation_tests
 
     def rule(self, event):

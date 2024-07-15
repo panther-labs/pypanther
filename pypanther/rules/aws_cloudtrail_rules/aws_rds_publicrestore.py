@@ -356,7 +356,7 @@ class AWSRDSPublicRestore(Rule):
     )
     default_severity = Severity.high
     log_types = [LogType.AWS_CloudTrail]
-    id_ = "AWS.RDS.PublicRestore-prototype"
+    id = "AWS.RDS.PublicRestore-prototype"
     tests = awsrds_public_restore_tests
 
     def rule(self, event):

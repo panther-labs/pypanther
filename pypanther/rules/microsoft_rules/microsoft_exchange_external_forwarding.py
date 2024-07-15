@@ -211,7 +211,7 @@ class Microsoft365ExchangeExternalForwarding(Rule):
     default_reference = "https://learn.microsoft.com/en-us/microsoft-365/security/office-365-security/outbound-spam-policies-external-email-forwarding?view=o365-worldwide"
     default_severity = Severity.high
     log_types = [LogType.Microsoft365_Audit_Exchange]
-    id_ = "Microsoft365.Exchange.External.Forwarding-prototype"
+    id = "Microsoft365.Exchange.External.Forwarding-prototype"
     tests = microsoft365_exchange_external_forwarding_tests
 
     def rule(self, event):

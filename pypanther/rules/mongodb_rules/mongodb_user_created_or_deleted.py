@@ -98,7 +98,7 @@ class MongoDBUserCreatedOrDeleted(Rule):
     default_severity = Severity.medium
     default_reference = "https://www.mongodb.com/docs/v4.2/tutorial/create-users/"
     log_types = [LogType.MongoDB_OrganizationEvent]
-    id_ = "MongoDB.User.Created.Or.Deleted-prototype"
+    id = "MongoDB.User.Created.Or.Deleted-prototype"
     tests = mongo_db_user_created_or_deleted_tests
 
     def rule(self, event):

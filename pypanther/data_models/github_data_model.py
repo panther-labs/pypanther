@@ -33,7 +33,7 @@ def get_event_type(event):
 
 
 class StandardGithubAudit(DataModel):
-    id_: str = "Standard.Github.Audit"
+    id: str = "Standard.Github.Audit"
     display_name: str = "Github Audit"
     enabled: bool = True
     log_types: list[str] = [LogType.GitHub_Audit]

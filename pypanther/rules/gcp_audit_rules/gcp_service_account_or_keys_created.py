@@ -207,7 +207,7 @@ class GCPServiceAccountorKeysCreated(Rule):
     default_reference = "https://cloud.google.com/iam/docs/keys-create-delete"
     default_severity = Severity.low
     log_types = [LogType.GCP_AuditLog]
-    id_ = "GCP.Service.Account.or.Keys.Created-prototype"
+    id = "GCP.Service.Account.or.Keys.Created-prototype"
     tests = gcp_service_accountor_keys_created_tests
 
     def rule(self, event):

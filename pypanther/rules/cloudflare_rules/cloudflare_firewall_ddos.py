@@ -93,7 +93,7 @@ cloudflare_firewall_l7_d_do_s_tests: list[RuleTest] = [
 
 
 class CloudflareFirewallL7DDoS(Rule):
-    id_ = "Cloudflare.Firewall.L7DDoS-prototype"
+    id = "Cloudflare.Firewall.L7DDoS-prototype"
     display_name = "Cloudflare L7 DDoS"
     log_types = [LogType.Cloudflare_Firewall]
     tags = ["Cloudflare", "Variable Severity"]

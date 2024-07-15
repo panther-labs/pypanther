@@ -66,7 +66,7 @@ class AWSIPSetModified(Rule):
     default_reference = "https://docs.aws.amazon.com/managedservices/latest/ctref/management-monitoring-guardduty-ip-set-update-review-required.html"
     default_severity = Severity.high
     log_types = [LogType.AWS_CloudTrail]
-    id_ = "AWS.IPSet.Modified-prototype"
+    id = "AWS.IPSet.Modified-prototype"
     tests = awsip_set_modified_tests
     IPSET_ACTIONS = ["CreateIPSet", "UpdateIPSet"]
 

@@ -108,7 +108,7 @@ class GoogleWorkspaceAppsMarketplaceNewDomainApplication(Rule):
     default_reference = "https://developers.google.com/workspace/marketplace/overview"
     default_severity = Severity.medium
     log_types = [LogType.GSuite_ActivityEvent]
-    id_ = "Google.Workspace.Apps.Marketplace.New.Domain.Application-prototype"
+    id = "Google.Workspace.Apps.Marketplace.New.Domain.Application-prototype"
     tests = google_workspace_apps_marketplace_new_domain_application_tests
 
     def rule(self, event):

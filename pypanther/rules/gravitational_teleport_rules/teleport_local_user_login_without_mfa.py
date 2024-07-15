@@ -44,7 +44,7 @@ teleport_local_user_login_without_mfa_tests: list[RuleTest] = [
 
 
 class TeleportLocalUserLoginWithoutMFA(Rule):
-    id_ = "Teleport.LocalUserLoginWithoutMFA-prototype"
+    id = "Teleport.LocalUserLoginWithoutMFA-prototype"
     display_name = "User Logged in wihout MFA"
     log_types = [LogType.Gravitational_TeleportAudit]
     tags = ["Teleport"]

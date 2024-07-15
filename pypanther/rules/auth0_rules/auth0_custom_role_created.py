@@ -766,7 +766,7 @@ class Auth0CustomRoleCreated(Rule):
     )
     default_severity = Severity.high
     log_types = [LogType.Auth0_Events]
-    id_ = "Auth0.Custom.Role.Created-prototype"
+    id = "Auth0.Custom.Role.Created-prototype"
     tests = auth0_custom_role_created_tests
 
     def rule(self, event):

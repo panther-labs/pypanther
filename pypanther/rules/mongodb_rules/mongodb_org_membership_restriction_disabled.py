@@ -56,7 +56,7 @@ class MongoDBorgMembershipRestrictionDisabled(Rule):
     default_description = "You can configure Atlas to require API access lists at the organization level. When you enable IP access list for the Atlas Administration API, all API calls in that organization must originate from a valid entry in the associated Atlas Administration API key access list. This rule detects when IP access list is disabled"
     display_name = "MongoDB org membership restriction disabled"
     log_types = [LogType.MongoDB_OrganizationEvent]
-    id_ = "MongoDB.org.Membership.Restriction.Disabled-prototype"
+    id = "MongoDB.org.Membership.Restriction.Disabled-prototype"
     default_severity = Severity.high
     reports = {"MITRE ATT&CK": ["T1556"]}
     default_reference = "https://www.mongodb.com/docs/atlas/tutorial/manage-organizations/"

@@ -387,7 +387,7 @@ standard_brute_force_by_ip_tests: list[RuleTest] = [
 
 
 class StandardBruteForceByIP(Rule):
-    id_ = "Standard.BruteForceByIP-prototype"
+    id = "Standard.BruteForceByIP-prototype"
     display_name = "Brute Force By IP"
     log_types = [
         LogType.Asana_Audit,

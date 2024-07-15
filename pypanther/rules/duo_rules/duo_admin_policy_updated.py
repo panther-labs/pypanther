@@ -36,7 +36,7 @@ class DuoAdminPolicyUpdated(Rule):
     default_reference = "https://duo.com/docs/policy#authenticators-policy-settings"
     default_severity = Severity.medium
     log_types = [LogType.Duo_Administrator]
-    id_ = "Duo.Admin.Policy.Updated-prototype"
+    id = "Duo.Admin.Policy.Updated-prototype"
     tests = duo_admin_policy_updated_tests
 
     def rule(self, event):

@@ -46,7 +46,7 @@ snyk_system_external_access_tests: list[RuleTest] = [
 
 
 class SnykSystemExternalAccess(Rule):
-    id_ = "Snyk.System.ExternalAccess-prototype"
+    id = "Snyk.System.ExternalAccess-prototype"
     display_name = "Snyk System External Access Settings Changed"
     log_types = [LogType.Snyk_GroupAudit, LogType.Snyk_OrgAudit]
     tags = ["Snyk"]

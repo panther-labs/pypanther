@@ -128,7 +128,7 @@ aws_config_service_disabled_deleted_tests: list[RuleTest] = [
 
 
 class AWSConfigServiceDisabledDeleted(Rule):
-    id_ = "AWS.ConfigService.DisabledDeleted-prototype"
+    id = "AWS.ConfigService.DisabledDeleted-prototype"
     display_name = "AWS Config Service Disabled"
     log_types = [LogType.AWS_CloudTrail]
     tags = ["AWS", "Security Control", "Defense Evasion:Impair Defenses"]

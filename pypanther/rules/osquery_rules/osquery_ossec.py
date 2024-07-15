@@ -71,7 +71,7 @@ osquery_ossec_rootkit_detected_tests: list[RuleTest] = [
 
 
 class OsqueryOSSECRootkitDetected(Rule):
-    id_ = "Osquery.OSSECRootkitDetected-prototype"
+    id = "Osquery.OSSECRootkitDetected-prototype"
     display_name = "OSSEC Rootkit Detected via Osquery"
     log_types = [LogType.Osquery_Differential]
     tags = ["Osquery", "Malware", "Defense Evasion:Rootkit"]

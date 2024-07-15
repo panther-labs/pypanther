@@ -29,7 +29,7 @@ git_hub_user_role_updated_tests: list[RuleTest] = [
 
 
 class GitHubUserRoleUpdated(Rule):
-    id_ = "GitHub.User.RoleUpdated-prototype"
+    id = "GitHub.User.RoleUpdated-prototype"
     display_name = "GitHub User Role Updated"
     log_types = [LogType.GitHub_Audit]
     tags = ["GitHub", "Persistence:Account Manipulation"]

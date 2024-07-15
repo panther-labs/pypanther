@@ -27,7 +27,7 @@ one_login_threshold_accounts_modified_tests: list[RuleTest] = [
 
 
 class OneLoginThresholdAccountsModified(Rule):
-    id_ = "OneLogin.ThresholdAccountsModified-prototype"
+    id = "OneLogin.ThresholdAccountsModified-prototype"
     display_name = "OneLogin Multiple Accounts Modified"
     log_types = [LogType.OneLogin_Events]
     tags = ["OneLogin", "Impact:Account Access Removal"]

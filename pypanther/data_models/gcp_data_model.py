@@ -116,7 +116,7 @@ def get_verb(event):
 
 
 class StandardGCPAuditLog(DataModel):
-    id_: str = "Standard.GCP.AuditLog"
+    id: str = "Standard.GCP.AuditLog"
     display_name: str = "GCP Audit Log"
     enabled: bool = True
     log_types: list[str] = [LogType.GCP_AuditLog]

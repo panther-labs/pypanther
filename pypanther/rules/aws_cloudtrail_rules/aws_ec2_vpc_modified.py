@@ -180,7 +180,7 @@ awsec2_vpc_modified_tests: list[RuleTest] = [
 
 
 class AWSEC2VPCModified(Rule):
-    id_ = "AWS.EC2.VPCModified-prototype"
+    id = "AWS.EC2.VPCModified-prototype"
     display_name = "EC2 VPC Modified"
     log_types = [LogType.AWS_CloudTrail]
     tags = ["AWS", "Security Control", "Defense Evasion:Impair Defenses"]

@@ -392,7 +392,7 @@ class Auth0MFAPolicyDisabled(Rule):
     default_reference = "https://auth0.com/docs/secure/multi-factor-authentication/enable-mfa#:~:text=prompted%20for%20MFA.-,Never,-%3A%20MFA%20is%20not"
     default_severity = Severity.high
     log_types = [LogType.Auth0_Events]
-    id_ = "Auth0.MFA.Policy.Disabled-prototype"
+    id = "Auth0.MFA.Policy.Disabled-prototype"
     tests = auth0_mfa_policy_disabled_tests
 
     def rule(self, event):

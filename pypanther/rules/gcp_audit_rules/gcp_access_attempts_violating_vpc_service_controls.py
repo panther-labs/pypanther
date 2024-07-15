@@ -175,7 +175,7 @@ class GCPAccessAttemptsViolatingVPCServiceControls(Rule):
     )
     default_severity = Severity.medium
     log_types = [LogType.GCP_AuditLog]
-    id_ = "GCP.Access.Attempts.Violating.VPC.Service.Controls-prototype"
+    id = "GCP.Access.Attempts.Violating.VPC.Service.Controls-prototype"
     tests = gcp_access_attempts_violating_vpc_service_controls_tests
 
     def rule(self, event):

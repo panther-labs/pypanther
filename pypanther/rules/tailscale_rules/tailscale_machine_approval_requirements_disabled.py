@@ -85,7 +85,7 @@ class TailscaleMachineApprovalRequirementsDisabled(Rule):
     default_reference = "https://tailscale.com/kb/1099/device-approval/"
     default_severity = Severity.high
     log_types = [LogType.Tailscale_Audit]
-    id_ = "Tailscale.Machine.Approval.Requirements.Disabled-prototype"
+    id = "Tailscale.Machine.Approval.Requirements.Disabled-prototype"
     tests = tailscale_machine_approval_requirements_disabled_tests
 
     def rule(self, event):

@@ -93,7 +93,7 @@ aws_console_root_login_tests: list[RuleTest] = [
 
 
 class AWSConsoleRootLogin(Rule):
-    id_ = "AWS.Console.RootLogin-prototype"
+    id = "AWS.Console.RootLogin-prototype"
     display_name = "Root Console Login"
     dedup_period_minutes = 15
     log_types = [LogType.AWS_CloudTrail]

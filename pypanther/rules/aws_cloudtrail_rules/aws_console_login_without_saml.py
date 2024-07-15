@@ -68,7 +68,7 @@ aws_console_login_without_saml_tests: list[RuleTest] = [
 
 
 class AWSConsoleLoginWithoutSAML(Rule):
-    id_ = "AWS.Console.LoginWithoutSAML-prototype"
+    id = "AWS.Console.LoginWithoutSAML-prototype"
     display_name = "Logins Without SAML"
     enabled = False
     log_types = [LogType.AWS_CloudTrail]

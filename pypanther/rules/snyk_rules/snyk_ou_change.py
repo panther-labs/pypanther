@@ -62,7 +62,7 @@ snyk_ou_change_tests: list[RuleTest] = [
 
 
 class SnykOUChange(Rule):
-    id_ = "Snyk.OU.Change-prototype"
+    id = "Snyk.OU.Change-prototype"
     display_name = "Snyk Org or Group Settings Change"
     log_types = [LogType.Snyk_GroupAudit, LogType.Snyk_OrgAudit]
     tags = ["Snyk"]

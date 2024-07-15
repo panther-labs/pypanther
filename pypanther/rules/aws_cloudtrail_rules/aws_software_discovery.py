@@ -88,7 +88,7 @@ class AWSSoftwareDiscovery(Rule):
     default_severity = Severity.info
     dedup_period_minutes = 360
     log_types = [LogType.AWS_CloudTrail]
-    id_ = "AWS.Software.Discovery-prototype"
+    id = "AWS.Software.Discovery-prototype"
     threshold = 50
     tests = aws_software_discovery_tests
     DISCOVERY_EVENTS = [

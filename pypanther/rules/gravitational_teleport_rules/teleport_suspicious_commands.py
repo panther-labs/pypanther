@@ -51,7 +51,7 @@ teleport_suspicious_commands_tests: list[RuleTest] = [
 
 
 class TeleportSuspiciousCommands(Rule):
-    id_ = "Teleport.SuspiciousCommands-prototype"
+    id = "Teleport.SuspiciousCommands-prototype"
     display_name = "Teleport Suspicious Commands Executed"
     log_types = [LogType.Gravitational_TeleportAudit]
     tags = ["SSH", "Execution:Command and Scripting Interpreter"]

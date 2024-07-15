@@ -97,7 +97,7 @@ teleport_network_scanning_tests: list[RuleTest] = [
 
 
 class TeleportNetworkScanning(Rule):
-    id_ = "Teleport.NetworkScanning-prototype"
+    id = "Teleport.NetworkScanning-prototype"
     display_name = "Teleport Network Scan Initiated"
     log_types = [LogType.Gravitational_TeleportAudit]
     tags = ["SSH", "Discovery:Network Service Discovery"]

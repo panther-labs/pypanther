@@ -38,7 +38,7 @@ tines_custom_certificate_authority_tests: list[RuleTest] = [
 
 
 class TinesCustomCertificateAuthority(Rule):
-    id_ = "Tines.Custom.CertificateAuthority-prototype"
+    id = "Tines.Custom.CertificateAuthority-prototype"
     display_name = "Tines Custom CertificateAuthority setting changed"
     log_types = [LogType.Tines_Audit]
     tags = ["Tines", "IAM - Credential Security"]

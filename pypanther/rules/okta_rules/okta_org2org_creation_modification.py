@@ -290,7 +290,7 @@ okta_org2org_creation_modification_tests: list[RuleTest] = [
 
 
 class OktaOrg2orgCreationModification(Rule):
-    id_ = "Okta.Org2org.Creation.Modification-prototype"
+    id = "Okta.Org2org.Creation.Modification-prototype"
     display_name = "Okta Org2Org application created of modified"
     log_types = [LogType.Okta_SystemLog]
     reports = {"MITRE ATT&CK": ["TA0006:T1556", "TA0004:T1078.004"]}

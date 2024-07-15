@@ -229,7 +229,7 @@ decoy_systems_manager_parameter_accessed_tests: list[RuleTest] = [
 
 
 class DecoySystemsManagerParameterAccessed(Rule):
-    id_ = "Decoy.Systems.Manager.Parameter.Accessed-prototype"
+    id = "Decoy.Systems.Manager.Parameter.Accessed-prototype"
     display_name = "Decoy Systems Manager Parameter Accessed"
     enabled = False
     log_types = [LogType.AWS_SecurityFindingFormat]

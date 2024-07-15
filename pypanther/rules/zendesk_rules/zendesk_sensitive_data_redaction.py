@@ -62,7 +62,7 @@ zendesk_sensitive_data_redaction_off_tests: list[RuleTest] = [
 
 
 class ZendeskSensitiveDataRedactionOff(Rule):
-    id_ = "Zendesk.SensitiveDataRedactionOff-prototype"
+    id = "Zendesk.SensitiveDataRedactionOff-prototype"
     display_name = "Zendesk Credit Card Redaction Off"
     log_types = [LogType.Zendesk_Audit]
     tags = ["Zendesk", "Collection:Data from Information Repositories"]

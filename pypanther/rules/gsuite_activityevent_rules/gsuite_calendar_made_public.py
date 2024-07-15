@@ -112,7 +112,7 @@ g_suite_calendar_made_public_tests: list[RuleTest] = [
 
 
 class GSuiteCalendarMadePublic(Rule):
-    id_ = "GSuite.CalendarMadePublic-prototype"
+    id = "GSuite.CalendarMadePublic-prototype"
     display_name = "GSuite Calendar Has Been Made Public"
     log_types = [LogType.GSuite_ActivityEvent]
     tags = ["GSuite"]

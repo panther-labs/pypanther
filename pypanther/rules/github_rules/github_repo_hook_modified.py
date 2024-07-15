@@ -46,7 +46,7 @@ git_hub_repo_hook_modified_tests: list[RuleTest] = [
 
 
 class GitHubRepoHookModified(Rule):
-    id_ = "GitHub.Repo.HookModified-prototype"
+    id = "GitHub.Repo.HookModified-prototype"
     display_name = "GitHub Web Hook Modified"
     log_types = [LogType.GitHub_Audit]
     tags = ["GitHub", "Exfiltration:Automated Exfiltration"]

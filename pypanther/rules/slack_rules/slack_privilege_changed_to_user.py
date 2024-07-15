@@ -80,7 +80,7 @@ slack_audit_logs_user_privilege_changed_to_user_tests: list[RuleTest] = [
 
 
 class SlackAuditLogsUserPrivilegeChangedToUser(Rule):
-    id_ = "Slack.AuditLogs.UserPrivilegeChangedToUser-prototype"
+    id = "Slack.AuditLogs.UserPrivilegeChangedToUser-prototype"
     display_name = "Slack User Privileges Changed to User"
     log_types = [LogType.Slack_AuditLogs]
     tags = ["Slack", "Impact", "Account Access Removal"]

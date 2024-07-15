@@ -185,7 +185,7 @@ panther_user_modified_tests: list[RuleTest] = [
 
 
 class PantherUserModified(Rule):
-    id_ = "Panther.User.Modified-prototype"
+    id = "Panther.User.Modified-prototype"
     display_name = "A User's Panther Account was Modified"
     log_types = [LogType.Panther_Audit]
     default_severity = Severity.high

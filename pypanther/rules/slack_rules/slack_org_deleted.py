@@ -58,7 +58,7 @@ slack_audit_logs_org_deleted_tests: list[RuleTest] = [
 
 
 class SlackAuditLogsOrgDeleted(Rule):
-    id_ = "Slack.AuditLogs.OrgDeleted-prototype"
+    id = "Slack.AuditLogs.OrgDeleted-prototype"
     display_name = "Slack Organization Deleted"
     log_types = [LogType.Slack_AuditLogs]
     tags = ["Slack", "Impact", "Account Access Removal"]

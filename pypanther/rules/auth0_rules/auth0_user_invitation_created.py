@@ -319,7 +319,7 @@ class Auth0UserInvitationCreated(Rule):
     )
     default_severity = Severity.info
     log_types = [LogType.Auth0_Events]
-    id_ = "Auth0.User.Invitation.Created-prototype"
+    id = "Auth0.User.Invitation.Created-prototype"
     tests = auth0_user_invitation_created_tests
     org_re = re.compile("^/api/v2/organizations/[^/\\s]+/invitations$")
 

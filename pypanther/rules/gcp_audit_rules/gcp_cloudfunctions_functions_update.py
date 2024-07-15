@@ -47,7 +47,7 @@ gcp_cloudfunctions_functions_update_tests: list[RuleTest] = [
 
 
 class GCPCloudfunctionsFunctionsUpdate(Rule):
-    id_ = "GCP.Cloudfunctions.Functions.Update-prototype"
+    id = "GCP.Cloudfunctions.Functions.Update-prototype"
     display_name = "GCP cloudfunctions functions update"
     default_description = "The Identity and Access Management (IAM) service manages authorization and authentication for a GCP environment. This means that there are very likely multiple privilege escalation methods that use the IAM service and/or its permissions."
     log_types = [LogType.GCP_AuditLog]

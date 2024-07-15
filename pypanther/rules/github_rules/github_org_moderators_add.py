@@ -34,7 +34,7 @@ git_hub_org_moderators_add_tests: list[RuleTest] = [
 
 
 class GitHubOrgModeratorsAdd(Rule):
-    id_ = "GitHub.Org.Moderators.Add-prototype"
+    id = "GitHub.Org.Moderators.Add-prototype"
     display_name = "GitHub User Added to Org Moderators"
     log_types = [LogType.GitHub_Audit]
     tags = ["GitHub", "Initial Access:Supply Chain Compromise"]

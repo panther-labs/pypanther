@@ -12,7 +12,7 @@ def get_event_type(event):
 
 
 class StandardBoxEvent(DataModel):
-    id_: str = "Standard.Box.Event"
+    id: str = "Standard.Box.Event"
     display_name: str = "Box Events"
     enabled: bool = True
     log_types: list[str] = [LogType.Box_Event]

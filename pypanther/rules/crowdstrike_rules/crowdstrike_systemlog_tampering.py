@@ -175,7 +175,7 @@ class CrowdstrikeSystemlogTampering(Rule):
     default_reference = "https://attack.mitre.org/techniques/T1070/001/"
     default_severity = Severity.high
     log_types = [LogType.Crowdstrike_FDREvent]
-    id_ = "Crowdstrike.Systemlog.Tampering-prototype"
+    id = "Crowdstrike.Systemlog.Tampering-prototype"
     tests = crowdstrike_systemlog_tampering_tests
     CLEARING_SYSTEM_LOG_TOOLS = {
         "wevtutil.exe": ["cl", "clear-log"],

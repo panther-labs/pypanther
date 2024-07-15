@@ -101,7 +101,7 @@ gcpia_mservice_accountssign_blob_tests: list[RuleTest] = [
 
 
 class GCPIAMserviceAccountssignBlob(Rule):
-    id_ = "GCP.IAM.serviceAccounts.signBlob-prototype"
+    id = "GCP.IAM.serviceAccounts.signBlob-prototype"
     display_name = "GCP IAM serviceAccounts signBlob"
     log_types = [LogType.GCP_AuditLog]
     reports = {"MITRE ATT&CK": ["TA0004:T1548"]}

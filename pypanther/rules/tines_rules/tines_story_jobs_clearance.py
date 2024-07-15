@@ -39,7 +39,7 @@ tines_story_jobs_clearance_tests: list[RuleTest] = [
 
 
 class TinesStoryJobsClearance(Rule):
-    id_ = "Tines.Story.Jobs.Clearance-prototype"
+    id = "Tines.Story.Jobs.Clearance-prototype"
     display_name = "Tines Story Jobs Clearance"
     log_types = [LogType.Tines_Audit]
     tags = ["Tines"]

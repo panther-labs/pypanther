@@ -29,7 +29,7 @@ git_hub_org_auth_change_tests: list[RuleTest] = [
 
 
 class GitHubOrgAuthChange(Rule):
-    id_ = "GitHub.Org.AuthChange-prototype"
+    id = "GitHub.Org.AuthChange-prototype"
     display_name = "GitHub Org Authentication Method Changed"
     log_types = [LogType.GitHub_Audit]
     tags = ["GitHub", "Persistence:Account Manipulation"]

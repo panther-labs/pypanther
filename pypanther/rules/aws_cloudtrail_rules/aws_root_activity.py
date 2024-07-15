@@ -217,7 +217,7 @@ aws_root_activity_tests: list[RuleTest] = [
 
 
 class AWSRootActivity(Rule):
-    id_ = "AWS.Root.Activity-prototype"
+    id = "AWS.Root.Activity-prototype"
     display_name = "Root Account Activity"
     log_types = [LogType.AWS_CloudTrail]
     tags = [

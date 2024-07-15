@@ -256,7 +256,7 @@ awskms_customer_managed_key_loss_tests: list[RuleTest] = [
 
 
 class AWSKMSCustomerManagedKeyLoss(Rule):
-    id_ = "AWS.KMS.CustomerManagedKeyLoss-prototype"
+    id = "AWS.KMS.CustomerManagedKeyLoss-prototype"
     display_name = "KMS CMK Disabled or Deleted"
     log_types = [LogType.AWS_CloudTrail]
     tags = ["AWS", "Identity & Access Management", "Impact:Data Destruction"]

@@ -43,7 +43,7 @@ zendesk_user_assumption_tests: list[RuleTest] = [
 
 
 class ZendeskUserAssumption(Rule):
-    id_ = "Zendesk.UserAssumption-prototype"
+    id = "Zendesk.UserAssumption-prototype"
     display_name = "Enabled Zendesk Support to Assume Users"
     log_types = [LogType.Zendesk_Audit]
     tags = ["Zendesk", "Lateral Movement:Use Alternate Authentication Material"]

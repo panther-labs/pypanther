@@ -88,7 +88,7 @@ aws_guard_duty_low_severity_finding_tests: list[RuleTest] = [
 
 
 class AWSGuardDutyLowSeverityFinding(Rule):
-    id_ = "AWS.GuardDuty.LowSeverityFinding-prototype"
+    id = "AWS.GuardDuty.LowSeverityFinding-prototype"
     display_name = "AWS GuardDuty Low Severity Finding"
     log_types = [LogType.AWS_GuardDuty]
     tags = ["AWS"]

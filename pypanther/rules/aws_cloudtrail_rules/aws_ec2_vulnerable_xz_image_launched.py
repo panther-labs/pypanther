@@ -726,7 +726,7 @@ class AWSEC2VulnerableXZImageLaunched(Rule):
     reports = {"MITRE ATT&CK": ["TA0001:T1195.001"]}
     default_runbook = "- Verify that the AMI is indeed vulnerable to CVE-2024-3094 (xz -V being 5.6.0 or 5.6.1) - If the AMI is vulnerable, terminate the instance and launch a new instance with a non-vulnerable AMI\n"
     log_types = [LogType.AWS_CloudTrail]
-    id_ = "AWS.EC2.Vulnerable.XZ.Image.Launched-prototype"
+    id = "AWS.EC2.Vulnerable.XZ.Image.Launched-prototype"
     tests = awsec2_vulnerable_xz_image_launched_tests
     # AMIs published by Fedora between 2024-03-26 and 2024-04-02
     # OpenSUSE and Kali do not have any recent [public] AMIs that would be affected

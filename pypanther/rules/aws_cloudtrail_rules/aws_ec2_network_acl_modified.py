@@ -149,7 +149,7 @@ awsec2_network_acl_modified_tests: list[RuleTest] = [
 
 
 class AWSEC2NetworkACLModified(Rule):
-    id_ = "AWS.EC2.NetworkACLModified-prototype"
+    id = "AWS.EC2.NetworkACLModified-prototype"
     display_name = "EC2 Network ACL Modified"
     log_types = [LogType.AWS_CloudTrail]
     tags = ["AWS", "Security Control", "Defense Evasion:Impair Defenses"]

@@ -82,7 +82,7 @@ class GoogleWorkspaceAdminCustomRole(Rule):
     default_severity = Severity.medium
     tags = ["admin", "administrator", "google workspace", "role"]
     log_types = [LogType.GSuite_ActivityEvent]
-    id_ = "Google.Workspace.Admin.Custom.Role-prototype"
+    id = "Google.Workspace.Admin.Custom.Role-prototype"
     summary_attributes = ["name", "type"]
     tests = google_workspace_admin_custom_role_tests
 

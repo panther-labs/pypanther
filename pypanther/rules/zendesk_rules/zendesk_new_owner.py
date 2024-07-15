@@ -46,7 +46,7 @@ zendesk_account_owner_changed_tests: list[RuleTest] = [
 
 
 class ZendeskAccountOwnerChanged(Rule):
-    id_ = "Zendesk.AccountOwnerChanged-prototype"
+    id = "Zendesk.AccountOwnerChanged-prototype"
     display_name = "Zendesk Account Owner Changed"
     log_types = [LogType.Zendesk_Audit]
     default_severity = Severity.high

@@ -2,7 +2,7 @@ from pypanther.base import DataModel, DataModelMapping, LogType
 
 
 class StandardAWSVPCDns(DataModel):
-    id_: str = "Standard.AWS.VPCDns"
+    id: str = "Standard.AWS.VPCDns"
     display_name: str = "AWS VPC DNS"
     enabled: bool = True
     log_types: list[str] = [LogType.AWS_VPCDns]

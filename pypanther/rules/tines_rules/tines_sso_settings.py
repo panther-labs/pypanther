@@ -43,7 +43,7 @@ tines_sso_settings_tests: list[RuleTest] = [
 
 
 class TinesSSOSettings(Rule):
-    id_ = "Tines.SSO.Settings-prototype"
+    id = "Tines.SSO.Settings-prototype"
     display_name = "Tines SSO Settings"
     log_types = [LogType.Tines_Audit]
     tags = ["Tines", "IAM - Credential Security"]

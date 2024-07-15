@@ -125,7 +125,7 @@ aws_cloud_trail_codebuild_project_made_public_tests: list[RuleTest] = [
 
 
 class AWSCloudTrailCodebuildProjectMadePublic(Rule):
-    id_ = "AWS.CloudTrail.CodebuildProjectMadePublic-prototype"
+    id = "AWS.CloudTrail.CodebuildProjectMadePublic-prototype"
     display_name = "CodeBuild Project made Public"
     log_types = [LogType.AWS_CloudTrail]
     reports = {"MITRE ATT&CK": ["TA0010:T1567"]}

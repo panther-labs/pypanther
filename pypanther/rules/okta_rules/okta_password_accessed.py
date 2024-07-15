@@ -239,7 +239,7 @@ okta_password_access_tests: list[RuleTest] = [
 
 
 class OktaPasswordAccess(Rule):
-    id_ = "Okta.PasswordAccess-prototype"
+    id = "Okta.PasswordAccess-prototype"
     display_name = "Okta Password Accessed"
     log_types = [LogType.Okta_SystemLog]
     tags = ["Okta", "Credential Access:Unsecured Credentials"]

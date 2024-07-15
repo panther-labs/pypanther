@@ -55,7 +55,7 @@ notion_sharing_settings_updated_tests: list[RuleTest] = [
 
 
 class NotionSharingSettingsUpdated(Rule):
-    id_ = "Notion.SharingSettingsUpdated-prototype"
+    id = "Notion.SharingSettingsUpdated-prototype"
     display_name = "Notion Sharing Settings Updated"
     log_types = [LogType.Notion_AuditLogs]
     tags = ["Notion", "Data Exfiltration"]

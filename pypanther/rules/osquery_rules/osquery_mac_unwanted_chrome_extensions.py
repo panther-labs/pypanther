@@ -73,7 +73,7 @@ osquery_mac_unwanted_chrome_extensions_tests: list[RuleTest] = [
 
 
 class OsqueryMacUnwantedChromeExtensions(Rule):
-    id_ = "Osquery.Mac.UnwantedChromeExtensions-prototype"
+    id = "Osquery.Mac.UnwantedChromeExtensions-prototype"
     display_name = "OSQuery Detected Unwanted Chrome Extensions"
     log_types = [LogType.Osquery_Differential]
     tags = ["Osquery", "MacOS", "Malware", "Persistence:Browser Extensions"]

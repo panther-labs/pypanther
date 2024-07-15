@@ -3,7 +3,7 @@ from pypanther.helpers.panther_notion_helpers import notion_alert_context
 
 
 class NotionPageSharedToWeb(Rule):
-    id_ = "Notion.PageSharedToWeb-prototype"
+    id = "Notion.PageSharedToWeb-prototype"
     display_name = "Notion Page Published to Web"
     log_types = [LogType.Notion_AuditLogs]
     tags = ["Notion", "Data Security", "Information Disclosure"]

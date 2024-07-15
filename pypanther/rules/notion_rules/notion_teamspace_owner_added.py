@@ -74,7 +74,7 @@ notion_teamspace_owner_added_tests: list[RuleTest] = [
 
 
 class NotionTeamspaceOwnerAdded(Rule):
-    id_ = "Notion.TeamspaceOwnerAdded-prototype"
+    id = "Notion.TeamspaceOwnerAdded-prototype"
     display_name = "Notion Teamspace Owner Added"
     log_types = [LogType.Notion_AuditLogs]
     tags = ["Notion", "Privilege Escalation"]

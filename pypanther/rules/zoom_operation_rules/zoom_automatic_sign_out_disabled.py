@@ -33,7 +33,7 @@ class ZoomAutomaticSignOutDisabled(Rule):
     default_runbook = "Confirm this user acted with valid business intent and determine whether this activity was authorized."
     default_severity = Severity.medium
     log_types = [LogType.Zoom_Operation]
-    id_ = "Zoom.Automatic.Sign.Out.Disabled-prototype"
+    id = "Zoom.Automatic.Sign.Out.Disabled-prototype"
     tests = zoom_automatic_sign_out_disabled_tests
 
     def rule(self, event):

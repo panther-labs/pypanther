@@ -20,7 +20,7 @@ duo_user_action_fraudulent_tests: list[RuleTest] = [
 
 
 class DUOUserActionFraudulent(Rule):
-    id_ = "DUO.User.Action.Fraudulent-prototype"
+    id = "DUO.User.Action.Fraudulent-prototype"
     display_name = "Duo User Action Reported as Fraudulent"
     dedup_period_minutes = 15
     log_types = [LogType.Duo_Authentication]

@@ -37,7 +37,7 @@ box_new_login_tests: list[RuleTest] = [
 
 
 class BoxNewLogin(Rule):
-    id_ = "Box.New.Login-prototype"
+    id = "Box.New.Login-prototype"
     display_name = "Box New Login"
     log_types = [LogType.Box_Event]
     tags = ["Box", "Initial Access:Valid Accounts"]

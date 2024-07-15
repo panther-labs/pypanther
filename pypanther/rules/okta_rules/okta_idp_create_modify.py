@@ -158,7 +158,7 @@ okta_identity_provider_created_modified_tests: list[RuleTest] = [
 
 
 class OktaIdentityProviderCreatedModified(Rule):
-    id_ = "Okta.Identity.Provider.Created.Modified-prototype"
+    id = "Okta.Identity.Provider.Created.Modified-prototype"
     display_name = "Okta Identity Provider Created or Modified"
     log_types = [LogType.Okta_SystemLog]
     reports = {"MITRE ATT&CK": ["TA0006:T1556", "TA0001:T1199", "TA0003:T1098"]}

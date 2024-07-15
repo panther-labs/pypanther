@@ -41,7 +41,7 @@ gcpk8s_pod_using_host_pid_namespace_tests: list[RuleTest] = [
 
 
 class GCPK8sPodUsingHostPIDNamespace(Rule):
-    id_ = "GCP.K8s.Pod.Using.Host.PID.Namespace-prototype"
+    id = "GCP.K8s.Pod.Using.Host.PID.Namespace-prototype"
     display_name = "GCP K8s Pod Using Host PID Namespace"
     log_types = [LogType.GCP_AuditLog]
     tags = ["GCP", "Optional"]

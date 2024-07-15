@@ -70,7 +70,7 @@ box_malicious_content_tests: list[RuleTest] = [
 
 
 class BoxMaliciousContent(Rule):
-    id_ = "Box.Malicious.Content-prototype"
+    id = "Box.Malicious.Content-prototype"
     display_name = "Malicious Content Detected"
     log_types = [LogType.Box_Event]
     tags = ["Box", "Execution:User Execution"]

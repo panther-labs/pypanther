@@ -74,7 +74,7 @@ osquery_ssh_listener_tests: list[RuleTest] = [
 
 
 class OsquerySSHListener(Rule):
-    id_ = "Osquery.SSHListener-prototype"
+    id = "Osquery.SSHListener-prototype"
     display_name = "OSQuery Detected SSH Listener"
     log_types = [LogType.Osquery_Differential]
     tags = ["Osquery", "Lateral Movement:Remote Services"]

@@ -195,7 +195,7 @@ standard_mfa_disabled_tests: list[RuleTest] = [
 
 
 class StandardMFADisabled(Rule):
-    id_ = "Standard.MFADisabled-prototype"
+    id = "Standard.MFADisabled-prototype"
     display_name = "MFA Disabled"
     log_types = [
         LogType.Atlassian_Audit,

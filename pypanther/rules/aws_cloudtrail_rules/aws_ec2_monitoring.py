@@ -420,7 +420,7 @@ class AWSEC2Monitoring(Rule):
     default_severity = Severity.info
     tags = ["ec2"]
     log_types = [LogType.AWS_CloudTrail]
-    id_ = "AWS.EC2.Monitoring-prototype"
+    id = "AWS.EC2.Monitoring-prototype"
     tests = awsec2_monitoring_tests
     # AWS CloudTrail API eventNames for EC2 Image Actions
     EC2_IMAGE_ACTIONS = [

@@ -92,7 +92,7 @@ class Microsoft365BruteForceLoginbyUser(Rule):
     default_reference = "https://learn.microsoft.com/en-us/microsoft-365/troubleshoot/authentication/access-denied-when-connect-to-office-365"
     default_severity = Severity.medium
     log_types = [LogType.Microsoft365_Audit_AzureActiveDirectory]
-    id_ = "Microsoft365.Brute.Force.Login.by.User-prototype"
+    id = "Microsoft365.Brute.Force.Login.by.User-prototype"
     threshold = 10
     tests = microsoft365_brute_force_loginby_user_tests
 

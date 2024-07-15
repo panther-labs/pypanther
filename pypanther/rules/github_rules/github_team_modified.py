@@ -44,7 +44,7 @@ git_hub_team_modified_tests: list[RuleTest] = [
 
 
 class GitHubTeamModified(Rule):
-    id_ = "GitHub.Team.Modified-prototype"
+    id = "GitHub.Team.Modified-prototype"
     display_name = "GitHub Team Modified"
     log_types = [LogType.GitHub_Audit]
     tags = ["GitHub", "Initial Access:Supply Chain Compromise"]

@@ -41,7 +41,7 @@ teleport_auth_errors_tests: list[RuleTest] = [
 
 
 class TeleportAuthErrors(Rule):
-    id_ = "Teleport.AuthErrors-prototype"
+    id = "Teleport.AuthErrors-prototype"
     display_name = "Teleport SSH Auth Errors"
     log_types = [LogType.Gravitational_TeleportAudit]
     tags = ["SSH", "Credential Access:Brute Force"]

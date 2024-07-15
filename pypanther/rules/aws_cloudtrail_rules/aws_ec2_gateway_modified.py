@@ -131,7 +131,7 @@ awsec2_gateway_modified_tests: list[RuleTest] = [
 
 
 class AWSEC2GatewayModified(Rule):
-    id_ = "AWS.EC2.GatewayModified-prototype"
+    id = "AWS.EC2.GatewayModified-prototype"
     display_name = "EC2 Network Gateway Modified"
     log_types = [LogType.AWS_CloudTrail]
     tags = ["AWS", "Security Control", "Defense Evasion:Impair Defenses"]

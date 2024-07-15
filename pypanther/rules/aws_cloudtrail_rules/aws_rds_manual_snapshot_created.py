@@ -310,7 +310,7 @@ awsrds_manual_snapshot_created_tests: list[RuleTest] = [
 
 
 class AWSRDSManualSnapshotCreated(Rule):
-    id_ = "AWS.RDS.ManualSnapshotCreated-prototype"
+    id = "AWS.RDS.ManualSnapshotCreated-prototype"
     display_name = "AWS RDS Manual/Public Snapshot Created"
     log_types = [LogType.AWS_CloudTrail]
     tags = ["AWS", "Exfiltration", "Transfer Data to Cloud Account"]

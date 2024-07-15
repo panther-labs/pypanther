@@ -29,7 +29,7 @@ gcpsql_config_changes_tests: list[RuleTest] = [
 
 
 class GCPSQLConfigChanges(Rule):
-    id_ = "GCP.SQL.ConfigChanges-prototype"
+    id = "GCP.SQL.ConfigChanges-prototype"
     display_name = "GCP SQL Config Changes"
     dedup_period_minutes = 720
     log_types = [LogType.GCP_AuditLog]

@@ -58,7 +58,7 @@ slack_audit_logs_org_created_tests: list[RuleTest] = [
 
 
 class SlackAuditLogsOrgCreated(Rule):
-    id_ = "Slack.AuditLogs.OrgCreated-prototype"
+    id = "Slack.AuditLogs.OrgCreated-prototype"
     display_name = "Slack Organization Created"
     log_types = [LogType.Slack_AuditLogs]
     tags = ["Slack", "Persistence", "Create Account"]

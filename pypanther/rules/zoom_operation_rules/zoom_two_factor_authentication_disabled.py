@@ -44,7 +44,7 @@ class ZoomTwoFactorAuthenticationDisabled(Rule):
     default_reference = "https://support.zoom.com/hc/en/article?id=zm_kb&sysparm_article=KB0066054"
     default_severity = Severity.medium
     log_types = [LogType.Zoom_Operation]
-    id_ = "Zoom.Two.Factor.Authentication.Disabled-prototype"
+    id = "Zoom.Two.Factor.Authentication.Disabled-prototype"
     tests = zoom_two_factor_authentication_disabled_tests
 
     def rule(self, event):

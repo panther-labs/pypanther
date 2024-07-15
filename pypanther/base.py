@@ -88,7 +88,7 @@ RULE_ALL_ATTRS = [
     "display_name",
     "enabled",
     "log_types",
-    "id_",
+    "id",
     "scheduled_queries",
     "summary_attributes",
     "tests",
@@ -111,7 +111,7 @@ class DataModelMapping:
 
 
 class DataModel:
-    id_: str
+    id: str
     display_name: str
     enabled: bool
     log_types: List[str]
@@ -123,13 +123,13 @@ class DataModel:
 
         for mapping in self.mappings:
             if not mapping.name:
-                raise AssertionError(f"DataModel [{self.id_}] is missing required field: [Name]")
+                raise AssertionError(f"DataModel [{self.id}] is missing required field: [Name]")
             if mapping.path:
                 self.paths[mapping.name] = parse(mapping.path)
             elif mapping.method:
                 self.methods[mapping.name] = mapping.method
             else:
-                raise AssertionError(f"DataModel [{self.id_}] must define one of: [Path, Method]")
+                raise AssertionError(f"DataModel [{self.id}] must define one of: [Path, Method]")
 
 
 class RuleModel(BaseModel):
@@ -138,7 +138,7 @@ class RuleModel(BaseModel):
     display_name: str
     enabled: bool
     log_types: NonEmptyUniqueList[str]
-    id_: str
+    id: str
     scheduled_queries: UniqueList[str]
     summary_attributes: UniqueList[str]
     tests: List[RuleTest]
@@ -176,7 +176,7 @@ class Rule(metaclass=abc.ABCMeta):
     """A Panther rule class. This class should be subclassed to create a new rule."""
 
     log_types: List[LogType | str]
-    id_: str
+    id: str
     create_alert: bool = DEFAULT_CREATE_ALERT
     dedup_period_minutes: NonNegativeInt = DEFAULT_DEDUP_PERIOD_MINUTES
     display_name: str = DEFAULT_DISPLAY_NAME
@@ -209,7 +209,7 @@ class Rule(metaclass=abc.ABCMeta):
         return self.default_severity
 
     def title(self, event: PantherEvent) -> str:
-        return self.display_name if self.display_name else self.id_
+        return self.display_name if self.display_name else self.id
 
     def dedup(self, event: PantherEvent) -> str:
         return self.title(event)
@@ -261,7 +261,7 @@ class Rule(metaclass=abc.ABCMeta):
     def override(
         cls,
         log_types: Optional[List[str]] = None,
-        id_: Optional[str] = None,
+        id: Optional[str] = None,
         create_alert: Optional[bool] = None,
         dedup_period_minutes: Optional[NonNegativeInt] = None,
         display_name: Optional[str] = None,
@@ -346,7 +346,7 @@ class Rule(metaclass=abc.ABCMeta):
                     passed=False,
                     detection_result=detection_result,
                     test=test,
-                    rule_id=self.id_,
+                    rule_id=self.id,
                 )
 
             if isinstance(detection_result.destinations_exception, UnknownDestinationError):
@@ -369,7 +369,7 @@ class Rule(metaclass=abc.ABCMeta):
                     passed=False,
                     detection_result=detection_result,
                     test=test,
-                    rule_id=self.id_,
+                    rule_id=self.id,
                 )
 
         finally:
@@ -380,7 +380,7 @@ class Rule(metaclass=abc.ABCMeta):
             passed=True,
             detection_result=detection_result,
             test=test,
-            rule_id=self.id_,
+            rule_id=self.id,
         )
 
     def run(
@@ -391,7 +391,7 @@ class Rule(metaclass=abc.ABCMeta):
         batch_mode: bool = True,
     ) -> DetectionResult:
         result = DetectionResult(
-            detection_id=self.id_,
+            detection_id=self.id,
             detection_severity=self.default_severity,
             detection_type=TYPE_RULE,
             # set default to not alert
@@ -453,7 +453,7 @@ class Rule(metaclass=abc.ABCMeta):
         except Exception as e:
             title = self.display_name
             if not title or not isinstance(title, str):
-                title = self.id_
+                title = self.id
             return title, e
 
         return truncate(title, MAX_GENERATED_FIELD_SIZE), None
@@ -473,7 +473,7 @@ class Rule(metaclass=abc.ABCMeta):
         if dedup_string == "" or not isinstance(dedup_string, str):
             dedup_string, _ = self._get_title(event)
             if dedup_string == "" or not isinstance(dedup_string, str):
-                dedup_string = f"defaultDedupString:{self.id_}"
+                dedup_string = f"defaultDedupString:{self.id}"
 
         return truncate(dedup_string, MAX_DEDUP_STRING_SIZE), e
 
@@ -618,7 +618,7 @@ class Rule(metaclass=abc.ABCMeta):
     def _require_scalar(self, method_name: str, typ: Type, value: Any):
         if not isinstance(value, typ):
             raise FunctionReturnTypeError(
-                f"detection [{self.id_}] method [{method_name}] returned [{type(value).__name__}], expected [{typ.__name__}]"
+                f"detection [{self.id}] method [{method_name}] returned [{type(value).__name__}], expected [{typ.__name__}]"
             )
 
     def _require_str_list(self, method_name: str, value: Any):
@@ -627,7 +627,7 @@ class Rule(metaclass=abc.ABCMeta):
         if not isinstance(value, list) or not all(isinstance(x, (str, bool)) for x in value):
             raise FunctionReturnTypeError(
                 "detection [{}] method [{}] returned [{}], expected a list".format(
-                    self.id_, method_name, type(value).__name__
+                    self.id, method_name, type(value).__name__
                 )
             )
 

@@ -69,7 +69,7 @@ class MongoDBUserRolesChanged(Rule):
     default_severity = Severity.low
     default_reference = "https://www.mongodb.com/docs/v4.2/tutorial/create-users/"
     log_types = [LogType.MongoDB_OrganizationEvent]
-    id_ = "MongoDB.User.Roles.Changed-prototype"
+    id = "MongoDB.User.Roles.Changed-prototype"
     tests = mongo_db_user_roles_changed_tests
 
     def rule(self, event):

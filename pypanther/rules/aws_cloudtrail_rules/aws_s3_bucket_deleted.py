@@ -90,7 +90,7 @@ awss3_bucket_deleted_tests: list[RuleTest] = [
 
 
 class AWSS3BucketDeleted(Rule):
-    id_ = "AWS.S3.BucketDeleted-prototype"
+    id = "AWS.S3.BucketDeleted-prototype"
     display_name = "S3 Bucket Deleted"
     log_types = [LogType.AWS_CloudTrail]
     tags = ["AWS", "Impact:Data Destruction"]

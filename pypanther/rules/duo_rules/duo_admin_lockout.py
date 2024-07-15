@@ -46,7 +46,7 @@ class DuoAdminLockout(Rule):
     default_reference = "https://duo.com/docs/adminapi"
     default_severity = Severity.medium
     log_types = [LogType.Duo_Administrator]
-    id_ = "Duo.Admin.Lockout-prototype"
+    id = "Duo.Admin.Lockout-prototype"
     tests = duo_admin_lockout_tests
 
     def rule(self, event):

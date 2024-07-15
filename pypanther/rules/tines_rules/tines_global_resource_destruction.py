@@ -39,7 +39,7 @@ tines_global_resource_destruction_tests: list[RuleTest] = [
 
 
 class TinesGlobalResourceDestruction(Rule):
-    id_ = "Tines.Global.Resource.Destruction-prototype"
+    id = "Tines.Global.Resource.Destruction-prototype"
     display_name = "Tines Global Resource Destruction"
     summary_attributes = ["user_id", "operation_name", "tenant_id", "request_ip"]
     log_types = [LogType.Tines_Audit]

@@ -18,7 +18,7 @@ awss3_server_access_ip_whitelist_tests: list[RuleTest] = [
 
 
 class AWSS3ServerAccessIPWhitelist(Rule):
-    id_ = "AWS.S3.ServerAccess.IPWhitelist-prototype"
+    id = "AWS.S3.ServerAccess.IPWhitelist-prototype"
     display_name = "AWS S3 Access IP Allowlist"
     enabled = False
     log_types = [LogType.AWS_S3ServerAccess]

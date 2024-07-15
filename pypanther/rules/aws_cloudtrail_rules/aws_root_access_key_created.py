@@ -85,7 +85,7 @@ aws_cloud_trail_root_access_key_created_tests: list[RuleTest] = [
 
 
 class AWSCloudTrailRootAccessKeyCreated(Rule):
-    id_ = "AWS.CloudTrail.RootAccessKeyCreated-prototype"
+    id = "AWS.CloudTrail.RootAccessKeyCreated-prototype"
     display_name = "Root Account Access Key Created"
     log_types = [LogType.AWS_CloudTrail]
     tags = ["AWS", "Identity and Access Management", "Persistence:Account Manipulation"]

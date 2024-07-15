@@ -29,7 +29,7 @@ one_login_auth_factor_removed_tests: list[RuleTest] = [
 
 
 class OneLoginAuthFactorRemoved(Rule):
-    id_ = "OneLogin.AuthFactorRemoved-prototype"
+    id = "OneLogin.AuthFactorRemoved-prototype"
     display_name = "OneLogin Authentication Factor Removed"
     log_types = [LogType.OneLogin_Events]
     tags = [

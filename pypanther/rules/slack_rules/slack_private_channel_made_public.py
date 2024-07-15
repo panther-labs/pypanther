@@ -69,7 +69,7 @@ slack_audit_logs_private_channel_made_public_tests: list[RuleTest] = [
 
 
 class SlackAuditLogsPrivateChannelMadePublic(Rule):
-    id_ = "Slack.AuditLogs.PrivateChannelMadePublic-prototype"
+    id = "Slack.AuditLogs.PrivateChannelMadePublic-prototype"
     display_name = "Slack Private Channel Made Public"
     log_types = [LogType.Slack_AuditLogs]
     tags = [

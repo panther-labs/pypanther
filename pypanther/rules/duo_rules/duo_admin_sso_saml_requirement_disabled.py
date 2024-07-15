@@ -60,7 +60,7 @@ class DuoAdminSSOSAMLRequirementDisabled(Rule):
     default_reference = "https://duo.com/docs/sso#saml:~:text=Modify%20Authentication%20Sources"
     default_severity = Severity.medium
     log_types = [LogType.Duo_Administrator]
-    id_ = "Duo.Admin.SSO.SAML.Requirement.Disabled-prototype"
+    id = "Duo.Admin.SSO.SAML.Requirement.Disabled-prototype"
     tests = duo_admin_ssosaml_requirement_disabled_tests
 
     def rule(self, event):

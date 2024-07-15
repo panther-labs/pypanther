@@ -101,7 +101,7 @@ gcpia_mservice_accountsget_access_token_privilege_escalation_tests: list[RuleTes
 
 
 class GCPIAMserviceAccountsgetAccessTokenPrivilegeEscalation(Rule):
-    id_ = "GCP.IAM.serviceAccounts.getAccessToken.Privilege.Escalation-prototype"
+    id = "GCP.IAM.serviceAccounts.getAccessToken.Privilege.Escalation-prototype"
     display_name = "GCP IAM serviceAccounts getAccessToken Privilege Escalation"
     log_types = [LogType.GCP_AuditLog]
     reports = {"MITRE ATT&CK": ["TA0004:T1548"]}

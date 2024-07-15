@@ -11,7 +11,7 @@ def get_dns_query(event):
 
 
 class StandardCiscoUmbrellaDNS(DataModel):
-    id_: str = "Standard.CiscoUmbrella.DNS"
+    id: str = "Standard.CiscoUmbrella.DNS"
     display_name: str = "Cisco Umbrella DNS"
     enabled: bool = True
     log_types: list[str] = [LogType.CiscoUmbrella_DNS]

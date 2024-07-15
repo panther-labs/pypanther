@@ -16,7 +16,7 @@ g_suite_google_access_tests: list[RuleTest] = [
 
 
 class GSuiteGoogleAccess(Rule):
-    id_ = "GSuite.GoogleAccess-prototype"
+    id = "GSuite.GoogleAccess-prototype"
     display_name = "Google Accessed a GSuite Resource"
     log_types = [LogType.GSuite_ActivityEvent]
     tags = ["GSuite"]

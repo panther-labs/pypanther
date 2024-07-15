@@ -170,7 +170,7 @@ awsecrcrud_tests: list[RuleTest] = [
 
 
 class AWSECRCRUD(Rule):
-    id_ = "AWS.ECR.CRUD-prototype"
+    id = "AWS.ECR.CRUD-prototype"
     display_name = "ECR CRUD Actions"
     enabled = False
     log_types = [LogType.AWS_CloudTrail]

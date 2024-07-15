@@ -57,7 +57,7 @@ class AsanaWorkspaceEmailDomainAdded(Rule):
     default_reference = "https://help.asana.com/hc/en-us/articles/15901227439515-Email-domain-management-for-Asana-organizations"
     default_severity = Severity.low
     log_types = [LogType.Asana_Audit]
-    id_ = "Asana.Workspace.Email.Domain.Added-prototype"
+    id = "Asana.Workspace.Email.Domain.Added-prototype"
     tests = asana_workspace_email_domain_added_tests
 
     def rule(self, event):

@@ -80,7 +80,7 @@ okta_user_mfa_reset_single_tests: list[RuleTest] = [
 class OktaUserMFAResetSingle(Rule):
     default_description = "User has reset one of their own MFA factors"
     display_name = "Okta User MFA Own Reset"
-    id_ = "Okta.User.MFA.Reset.Single-prototype"
+    id = "Okta.User.MFA.Reset.Single-prototype"
     default_reference = "https://support.okta.com/help/s/article/How-to-avoid-lockouts-and-reset-your-Multifactor-Authentication-MFA-for-Okta-Admins?language=en_US"
     default_severity = Severity.info
     log_types = [LogType.Okta_SystemLog]

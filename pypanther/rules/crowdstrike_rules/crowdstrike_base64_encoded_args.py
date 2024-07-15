@@ -553,7 +553,7 @@ crowdstrike_base64_encoded_args_tests: list[RuleTest] = [
 
 
 class CrowdstrikeBase64EncodedArgs(Rule):
-    id_ = "Crowdstrike.Base64EncodedArgs-prototype"
+    id = "Crowdstrike.Base64EncodedArgs-prototype"
     display_name = "Execution of Command Line Tool with Base64 Encoded Arguments"
     log_types = [LogType.Crowdstrike_FDREvent]
     tags = ["Execution", "Obfuscation"]

@@ -54,7 +54,7 @@ class GithubOrganizationAppIntegrationInstalled(Rule):
     default_severity = Severity.low
     tags = ["Application Installation", "Github"]
     log_types = [LogType.GitHub_Audit]
-    id_ = "Github.Organization.App.Integration.Installed-prototype"
+    id = "Github.Organization.App.Integration.Installed-prototype"
     summary_attributes = ["actor", "name"]
     tests = github_organization_app_integration_installed_tests
     # def dedup(event):

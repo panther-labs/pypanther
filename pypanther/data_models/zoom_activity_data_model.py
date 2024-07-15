@@ -11,7 +11,7 @@ def get_event_type(event):
 
 
 class StandardZoomActivity(DataModel):
-    id_: str = "Standard.Zoom.Activity"
+    id: str = "Standard.Zoom.Activity"
     display_name: str = "Zoom Activity"
     enabled: bool = True
     log_types: list[str] = [LogType.Zoom_Activity]

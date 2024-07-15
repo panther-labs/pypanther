@@ -93,7 +93,7 @@ snyk_system_policy_setting_tests: list[RuleTest] = [
 
 
 class SnykSystemPolicySetting(Rule):
-    id_ = "Snyk.System.PolicySetting-prototype"
+    id = "Snyk.System.PolicySetting-prototype"
     display_name = "Snyk System Policy Settings Changed"
     log_types = [LogType.Snyk_GroupAudit, LogType.Snyk_OrgAudit]
     tags = ["Snyk"]

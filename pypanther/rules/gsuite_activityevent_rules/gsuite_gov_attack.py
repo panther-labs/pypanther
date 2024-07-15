@@ -28,7 +28,7 @@ g_suite_government_backed_attack_tests: list[RuleTest] = [
 
 
 class GSuiteGovernmentBackedAttack(Rule):
-    id_ = "GSuite.GovernmentBackedAttack-prototype"
+    id = "GSuite.GovernmentBackedAttack-prototype"
     display_name = "GSuite Government Backed Attack"
     log_types = [LogType.GSuite_ActivityEvent]
     tags = ["GSuite"]

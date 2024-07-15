@@ -25,7 +25,7 @@ one_login_unauthorized_access_tests: list[RuleTest] = [
 
 
 class OneLoginUnauthorizedAccess(Rule):
-    id_ = "OneLogin.UnauthorizedAccess-prototype"
+    id = "OneLogin.UnauthorizedAccess-prototype"
     display_name = "OneLogin Unauthorized Access"
     log_types = [LogType.OneLogin_Events]
     tags = ["OneLogin", "Lateral Movement:Use Alternate Authentication Material"]

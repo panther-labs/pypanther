@@ -5,7 +5,7 @@ from pypanther.base import DataModel, DataModelMapping, LogType
 
 
 class StandardOnePasswordItemUsage(DataModel):
-    id_: str = "Standard.OnePassword.ItemUsage"
+    id: str = "Standard.OnePassword.ItemUsage"
     display_name: str = "1Password Item Usage Events"
     enabled: bool = True
     log_types: list[str] = [LogType.OnePassword_ItemUsage]

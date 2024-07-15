@@ -218,7 +218,7 @@ gcpk8_s_service_type_node_port_deployed_tests: list[RuleTest] = [
 
 
 class GCPK8SServiceTypeNodePortDeployed(Rule):
-    id_ = "GCP.K8S.Service.Type.NodePort.Deployed-prototype"
+    id = "GCP.K8S.Service.Type.NodePort.Deployed-prototype"
     display_name = "GCP K8S Service Type NodePort Deployed"
     log_types = [LogType.GCP_AuditLog]
     default_severity = Severity.high

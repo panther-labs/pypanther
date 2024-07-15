@@ -32,7 +32,7 @@ git_lab_audit_password_reset_multiple_emails_tests: list[RuleTest] = [
 
 
 class GitLabAuditPasswordResetMultipleEmails(Rule):
-    id_ = "GitLab.Audit.Password.Reset.Multiple.Emails-prototype"
+    id = "GitLab.Audit.Password.Reset.Multiple.Emails-prototype"
     display_name = "CVE-2023-7028 - GitLab Audit Password Reset Multiple Emails"
     log_types = [LogType.GitLab_Audit]
     tags = ["GitLab", "CVE-2023-7028"]

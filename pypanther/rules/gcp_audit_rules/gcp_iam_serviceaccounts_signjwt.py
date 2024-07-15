@@ -101,7 +101,7 @@ gcpia_mservice_accountssign_jwt_privilege_escalation_tests: list[RuleTest] = [
 
 
 class GCPIAMserviceAccountssignJwtPrivilegeEscalation(Rule):
-    id_ = "GCP.IAM.serviceAccounts.signJwt.Privilege.Escalation-prototype"
+    id = "GCP.IAM.serviceAccounts.signJwt.Privilege.Escalation-prototype"
     display_name = "GCP IAM serviceAccounts.signJwt Privilege Escalation"
     log_types = [LogType.GCP_AuditLog]
     reports = {"MITRE ATT&CK": ["TA0004:T1548"]}

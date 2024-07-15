@@ -145,7 +145,7 @@ aws_cloud_trail_created_tests: list[RuleTest] = [
 
 
 class AWSCloudTrailCreated(Rule):
-    id_ = "AWS.CloudTrail.Created-prototype"
+    id = "AWS.CloudTrail.Created-prototype"
     display_name = "A CloudTrail Was Created or Updated"
     log_types = [LogType.AWS_CloudTrail]
     tags = ["AWS", "Security Control", "Discovery:Cloud Service Dashboard"]

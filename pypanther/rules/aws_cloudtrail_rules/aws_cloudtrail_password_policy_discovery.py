@@ -61,7 +61,7 @@ class AWSCloudTrailPasswordPolicyDiscovery(Rule):
     default_severity = Severity.info
     dedup_period_minutes = 30
     log_types = [LogType.AWS_CloudTrail]
-    id_ = "AWS.CloudTrail.Password.Policy.Discovery-prototype"
+    id = "AWS.CloudTrail.Password.Policy.Discovery-prototype"
     threshold = 2
     tests = aws_cloud_trail_password_policy_discovery_tests
     PASSWORD_DISCOVERY_EVENTS = [

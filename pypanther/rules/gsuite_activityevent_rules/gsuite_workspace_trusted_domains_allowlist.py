@@ -105,7 +105,7 @@ g_suite_workspace_trusted_domains_allowlist_tests: list[RuleTest] = [
 
 
 class GSuiteWorkspaceTrustedDomainsAllowlist(Rule):
-    id_ = "GSuite.Workspace.TrustedDomainsAllowlist-prototype"
+    id = "GSuite.Workspace.TrustedDomainsAllowlist-prototype"
     display_name = "GSuite Workspace Trusted Domain Allowlist Modified"
     log_types = [LogType.GSuite_ActivityEvent]
     tags = ["GSuite"]

@@ -53,7 +53,7 @@ g_suite_device_unlock_failure_tests: list[RuleTest] = [
 
 
 class GSuiteDeviceUnlockFailure(Rule):
-    id_ = "GSuite.DeviceUnlockFailure-prototype"
+    id = "GSuite.DeviceUnlockFailure-prototype"
     display_name = "GSuite User Device Unlock Failures"
     log_types = [LogType.GSuite_ActivityEvent]
     tags = ["GSuite", "Credential Access:Brute Force"]

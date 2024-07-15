@@ -7,7 +7,7 @@ def test_register_duplicate():
     class A(Rule):
         tags = ["test"]
         log_types = [""]
-        id_ = "test_register_duplicate"
+        id = "test_register_duplicate"
         default_severity = Severity.info
 
         def rule(self, _):

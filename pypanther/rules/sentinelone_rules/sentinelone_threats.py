@@ -114,7 +114,7 @@ class SentinelOneThreats(Rule):
     )
     default_severity = Severity.high
     log_types = [LogType.SentinelOne_Activity]
-    id_ = "SentinelOne.Threats-prototype"
+    id = "SentinelOne.Threats-prototype"
     tests = sentinel_one_threats_tests  # New Malicious Threat Not Mitigated
     # New Malicious Threat Not Mitigated
     # New Suspicious Threat Not Mitigated

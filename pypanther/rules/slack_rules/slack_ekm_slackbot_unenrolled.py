@@ -69,7 +69,7 @@ slack_audit_logs_ekm_slackbot_unenrolled_tests: list[RuleTest] = [
 
 
 class SlackAuditLogsEKMSlackbotUnenrolled(Rule):
-    id_ = "Slack.AuditLogs.EKMSlackbotUnenrolled-prototype"
+    id = "Slack.AuditLogs.EKMSlackbotUnenrolled-prototype"
     display_name = "Slack EKM Slackbot Unenrolled"
     log_types = [LogType.Slack_AuditLogs]
     tags = ["Slack", "Impact", "Service Stop"]

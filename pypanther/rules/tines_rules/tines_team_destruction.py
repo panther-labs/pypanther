@@ -39,7 +39,7 @@ tines_team_destruction_tests: list[RuleTest] = [
 
 
 class TinesTeamDestruction(Rule):
-    id_ = "Tines.Team.Destruction-prototype"
+    id = "Tines.Team.Destruction-prototype"
     display_name = "Tines Team Destruction"
     log_types = [LogType.Tines_Audit]
     tags = ["Tines"]

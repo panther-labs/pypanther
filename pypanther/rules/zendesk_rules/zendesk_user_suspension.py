@@ -63,7 +63,7 @@ zendesk_user_suspension_tests: list[RuleTest] = [
 
 
 class ZendeskUserSuspension(Rule):
-    id_ = "Zendesk.UserSuspension-prototype"
+    id = "Zendesk.UserSuspension-prototype"
     display_name = "Zendesk User Suspension Status Changed"
     log_types = [LogType.Zendesk_Audit]
     tags = ["Zendesk", "Impact:Account Access Removal"]

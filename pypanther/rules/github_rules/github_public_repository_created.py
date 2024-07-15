@@ -45,7 +45,7 @@ class GithubPublicRepositoryCreated(Rule):
     default_severity = Severity.medium
     tags = ["Github Repository", "Public", "Repository Created"]
     log_types = [LogType.GitHub_Audit]
-    id_ = "Github.Public.Repository.Created-prototype"
+    id = "Github.Public.Repository.Created-prototype"
     summary_attributes = ["actor", "repository", "visibility"]
     tests = github_public_repository_created_tests
     # def dedup(event):

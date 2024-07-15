@@ -71,7 +71,7 @@ slack_audit_logs_application_do_s_tests: list[RuleTest] = [
 
 
 class SlackAuditLogsApplicationDoS(Rule):
-    id_ = "Slack.AuditLogs.ApplicationDoS-prototype"
+    id = "Slack.AuditLogs.ApplicationDoS-prototype"
     display_name = "Slack Denial of Service"
     log_types = [LogType.Slack_AuditLogs]
     tags = ["Slack", "Impact", "Endpoint Denial of Service", "Application Exhaustion Flood"]

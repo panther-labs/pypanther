@@ -27,7 +27,7 @@ git_hub_user_access_key_created_tests: list[RuleTest] = [
 
 
 class GitHubUserAccessKeyCreated(Rule):
-    id_ = "GitHub.User.AccessKeyCreated-prototype"
+    id = "GitHub.User.AccessKeyCreated-prototype"
     display_name = "GitHub User Access Key Created"
     log_types = [LogType.GitHub_Audit]
     tags = ["GitHub", "Persistence:Valid Accounts"]

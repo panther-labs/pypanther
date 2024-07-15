@@ -50,7 +50,7 @@ class DuoAdminNewAdminAPIAppIntegration(Rule):
     default_reference = "https://duo.com/docs/adminapi#overview"
     default_severity = Severity.high
     log_types = [LogType.Duo_Administrator]
-    id_ = "Duo.Admin.New.Admin.API.App.Integration-prototype"
+    id = "Duo.Admin.New.Admin.API.App.Integration-prototype"
     tests = duo_admin_new_admin_api_app_integration_tests
 
     def rule(self, event):

@@ -268,7 +268,7 @@ class AWSDNSCryptoDomain(Rule):
     default_reference = "https://docs.aws.amazon.com/vpc/latest/userguide/flow-logs.html"
     default_severity = Severity.high
     log_types = [LogType.AWS_VPCDns, LogType.OCSF_DnsActivity]
-    id_ = "AWS.DNS.Crypto.Domain-prototype"
+    id = "AWS.DNS.Crypto.Domain-prototype"
     tests = awsdns_crypto_domain_tests
 
     def rule(self, event):

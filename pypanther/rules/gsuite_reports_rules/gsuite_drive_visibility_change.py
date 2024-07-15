@@ -368,7 +368,7 @@ g_suite_drive_visibility_changed_tests: list[RuleTest] = [
 
 
 class GSuiteDriveVisibilityChanged(Rule):
-    id_ = "GSuite.DriveVisibilityChanged-prototype"
+    id = "GSuite.DriveVisibilityChanged-prototype"
     display_name = "GSuite External Drive Document"
     enabled = False
     log_types = [LogType.GSuite_Reports]

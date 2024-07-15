@@ -49,7 +49,7 @@ one_login_user_account_locked_tests: list[RuleTest] = [
 
 
 class OneLoginUserAccountLocked(Rule):
-    id_ = "OneLogin.UserAccountLocked-prototype"
+    id = "OneLogin.UserAccountLocked-prototype"
     display_name = "OneLogin User Locked"
     log_types = [LogType.OneLogin_Events]
     tags = ["OneLogin", "Credential Access:Brute Force"]

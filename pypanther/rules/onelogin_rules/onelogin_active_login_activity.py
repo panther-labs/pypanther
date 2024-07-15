@@ -33,7 +33,7 @@ one_login_active_login_activity_tests: list[RuleTest] = [
 
 
 class OneLoginActiveLoginActivity(Rule):
-    id_ = "OneLogin.ActiveLoginActivity-prototype"
+    id = "OneLogin.ActiveLoginActivity-prototype"
     display_name = "OneLogin Active Login Activity"
     log_types = [LogType.OneLogin_Events]
     tags = ["OneLogin", "Lateral Movement:Use Alternate Authentication Material"]

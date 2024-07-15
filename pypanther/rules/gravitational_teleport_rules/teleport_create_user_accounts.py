@@ -52,7 +52,7 @@ teleport_create_user_accounts_tests: list[RuleTest] = [
 
 
 class TeleportCreateUserAccounts(Rule):
-    id_ = "Teleport.CreateUserAccounts-prototype"
+    id = "Teleport.CreateUserAccounts-prototype"
     display_name = "Teleport Create User Accounts"
     log_types = [LogType.Gravitational_TeleportAudit]
     tags = ["SSH", "Persistence:Create Account"]

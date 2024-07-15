@@ -27,7 +27,7 @@ one_login_user_assumption_tests: list[RuleTest] = [
 
 
 class OneLoginUserAssumption(Rule):
-    id_ = "OneLogin.UserAssumption-prototype"
+    id = "OneLogin.UserAssumption-prototype"
     display_name = "OneLogin User Assumed Another User"
     log_types = [LogType.OneLogin_Events]
     tags = ["OneLogin", "Lateral Movement:Use Alternate Authentication Material"]

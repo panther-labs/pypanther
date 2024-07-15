@@ -104,7 +104,7 @@ duo_user_endpoint_failure_tests: list[RuleTest] = [
 
 
 class DUOUserEndpointFailure(Rule):
-    id_ = "DUO.User.Endpoint.Failure-prototype"
+    id = "DUO.User.Endpoint.Failure-prototype"
     display_name = "Duo User Denied For Endpoint Error"
     dedup_period_minutes = 15
     log_types = [LogType.Duo_Authentication]

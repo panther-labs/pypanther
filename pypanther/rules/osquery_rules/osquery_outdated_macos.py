@@ -74,7 +74,7 @@ osquery_unsupported_mac_os_tests: list[RuleTest] = [
 
 
 class OsqueryUnsupportedMacOS(Rule):
-    id_ = "Osquery.UnsupportedMacOS-prototype"
+    id = "Osquery.UnsupportedMacOS-prototype"
     display_name = "Unsupported macOS version"
     log_types = [LogType.Osquery_Differential]
     tags = ["Osquery", "Compliance"]

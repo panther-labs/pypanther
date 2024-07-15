@@ -69,7 +69,7 @@ slack_audit_logs_ekm_unenrolled_tests: list[RuleTest] = [
 
 
 class SlackAuditLogsEKMUnenrolled(Rule):
-    id_ = "Slack.AuditLogs.EKMUnenrolled-prototype"
+    id = "Slack.AuditLogs.EKMUnenrolled-prototype"
     display_name = "Slack EKM Unenrolled"
     log_types = [LogType.Slack_AuditLogs]
     tags = ["Slack", "Defense Evasion", "Weaken Encryption"]

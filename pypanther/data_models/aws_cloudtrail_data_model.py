@@ -41,7 +41,7 @@ def load_ip_address(event):
 
 
 class StandardAWSCloudTrail(DataModel):
-    id_: str = "Standard.AWS.CloudTrail"
+    id: str = "Standard.AWS.CloudTrail"
     display_name: str = "AWS CloudTrail"
     enabled: bool = True
     log_types: list[str] = [LogType.AWS_CloudTrail]

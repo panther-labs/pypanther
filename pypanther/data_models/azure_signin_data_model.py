@@ -19,7 +19,7 @@ def get_actor_user(event):
 
 
 class StandardAzureAuditSignIn(DataModel):
-    id_: str = "Standard.Azure.Audit.SignIn"
+    id: str = "Standard.Azure.Audit.SignIn"
     display_name: str = "Azure SignIn Logs DataModel"
     enabled: bool = True
     log_types: list[str] = [LogType.Azure_Audit]

@@ -60,7 +60,7 @@ one_password_unusual_client_tests: list[RuleTest] = [
 
 
 class OnePasswordUnusualClient(Rule):
-    id_ = "OnePassword.Unusual.Client-prototype"
+    id = "OnePassword.Unusual.Client-prototype"
     dedup_period_minutes = 120
     display_name = "Unusual 1Password Client Detected"
     log_types = [LogType.OnePassword_SignInAttempt]

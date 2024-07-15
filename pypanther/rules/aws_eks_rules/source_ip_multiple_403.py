@@ -163,7 +163,7 @@ amazon_eks_audit_multiple403_tests: list[RuleTest] = [
 
 
 class AmazonEKSAuditMultiple403(Rule):
-    id_ = "Amazon.EKS.Audit.Multiple403-prototype"
+    id = "Amazon.EKS.Audit.Multiple403-prototype"
     display_name = "EKS Audit Log based single sourceIP is generating multiple 403s"
     log_types = [LogType.Amazon_EKS_Audit]
     tags = ["EKS"]

@@ -69,7 +69,7 @@ class MongoDBExternalUserInvitedNoConfig(Rule):
     default_severity = Severity.high
     default_reference = "https://www.mongodb.com/docs/v4.2/tutorial/create-users/"
     log_types = [LogType.MongoDB_OrganizationEvent]
-    id_ = "MongoDB.External.UserInvited.NoConfig-prototype"
+    id = "MongoDB.External.UserInvited.NoConfig-prototype"
     tests = mongo_db_external_user_invited_no_config_tests
 
     def rule(self, event):

@@ -116,7 +116,7 @@ aws_console_root_login_failed_tests: list[RuleTest] = [
 
 
 class AWSConsoleRootLoginFailed(Rule):
-    id_ = "AWS.Console.RootLoginFailed-prototype"
+    id = "AWS.Console.RootLoginFailed-prototype"
     display_name = "Failed Root Console Login"
     dedup_period_minutes = 15
     log_types = [LogType.AWS_CloudTrail]
