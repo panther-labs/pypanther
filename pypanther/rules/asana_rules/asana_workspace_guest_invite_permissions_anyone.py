@@ -55,7 +55,7 @@ class AsanaWorkspaceGuestInvitePermissionsAnyone(Rule):
     default_description = "Typically inviting guests to Asana is permitted by few users. Enabling anyone to invite guests can potentially lead to unauthorized users gaining access to Asana."
     display_name = "Asana Workspace Guest Invite Permissions Anyone"
     default_reference = "https://help.asana.com/hc/en-us/articles/14109494654875-Admin-console#:~:text=Google%20SSO%20password.-,Guest%20invite%20controls,-Super%20admins%20of"
-    default_severity = Severity.low
+    default_severity = Severity.LOW
     log_types = [LogType.Asana_Audit]
     id = "Asana.Workspace.Guest.Invite.Permissions.Anyone-prototype"
     tests = asana_workspace_guest_invite_permissions_anyone_tests

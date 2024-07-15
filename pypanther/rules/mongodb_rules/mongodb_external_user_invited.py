@@ -72,7 +72,7 @@ mongo_db_external_user_invited_tests: list[RuleTest] = [
 class MongoDBExternalUserInvited(Rule):
     default_description = "An external user has been invited to a MongoDB org. "
     display_name = "MongoDB External User Invited"
-    default_severity = Severity.medium
+    default_severity = Severity.MEDIUM
     default_reference = "https://www.mongodb.com/docs/v4.2/tutorial/create-users/"
     tags = ["Configuration Required"]
     log_types = [LogType.MongoDB_OrganizationEvent]

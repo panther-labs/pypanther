@@ -317,7 +317,7 @@ class Auth0UserInvitationCreated(Rule):
     default_reference = (
         "https://auth0.com/docs/manage-users/organizations/configure-organizations/invite-members"
     )
-    default_severity = Severity.info
+    default_severity = Severity.INFO
     log_types = [LogType.Auth0_Events]
     id = "Auth0.User.Invitation.Created-prototype"
     tests = auth0_user_invitation_created_tests

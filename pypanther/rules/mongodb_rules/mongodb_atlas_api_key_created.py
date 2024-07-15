@@ -69,7 +69,7 @@ mongo_db_atlas_api_key_created_tests: list[RuleTest] = [
 class MongoDBAtlasApiKeyCreated(Rule):
     default_description = "A MongoDB Atlas api key's access list was updated"
     display_name = "MongoDB Atlas API Key Created"
-    default_severity = Severity.medium
+    default_severity = Severity.MEDIUM
     default_reference = (
         "https://www.mongodb.com/docs/atlas/configure-api-access/#std-label-about-org-api-keys"
     )

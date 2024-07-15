@@ -149,7 +149,7 @@ class DropboxAdminsigninasSession(Rule):
     default_description = "Alerts when an admin starts a sign-in-as session."
     display_name = "Dropbox Admin sign-in-as Session"
     default_reference = "https://help.dropbox.com/security/sign-in-as-user"
-    default_severity = Severity.medium
+    default_severity = Severity.MEDIUM
     log_types = [LogType.Dropbox_TeamEvent]
     id = "Dropbox.Admin.sign.in.as.Session-prototype"
     tests = dropbox_adminsigninas_session_tests

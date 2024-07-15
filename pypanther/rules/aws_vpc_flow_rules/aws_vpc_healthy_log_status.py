@@ -30,7 +30,7 @@ class AWSVPCHealthyLogStatus(Rule):
     display_name = "AWS VPC Healthy Log Status"
     log_types = [LogType.AWS_VPCFlow, LogType.OCSF_NetworkActivity]
     tags = ["AWS", "DataModel", "Security Control"]
-    default_severity = Severity.low
+    default_severity = Severity.LOW
     default_description = "Checks for the log status `SKIP-DATA`, which indicates that data was lost either to an internal server error or due to capacity constraints.\n"
     default_reference = (
         "https://docs.aws.amazon.com/vpc/latest/userguide/flow-logs.html#flow-log-records"

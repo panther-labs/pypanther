@@ -118,7 +118,7 @@ class OktaUserMFAResetAll(Rule):
     default_description = "All MFA factors have been reset for a user."
     display_name = "Okta User MFA Reset All"
     default_reference = "https://help.okta.com/en-us/content/topics/security/mfa/mfa-reset-users.htm#:~:text=the%20Admin%20Console%3A-,In%20the%20Admin%20Console%2C%20go%20to%20DirectoryPeople.,Selected%20Factors%20or%20Reset%20All"
-    default_severity = Severity.low
+    default_severity = Severity.LOW
     log_types = [LogType.Okta_SystemLog]
     id = "Okta.User.MFA.Reset.All-prototype"
     tests = okta_user_mfa_reset_all_tests

@@ -67,7 +67,7 @@ class NotionWorkspacePublicPageAdded(Rule):
     display_name = "Notion Workspace public page added"
     log_types = [LogType.Notion_AuditLogs]
     tags = ["Notion", "Data Security", "Information Disclosure"]
-    default_severity = Severity.info
+    default_severity = Severity.INFO
     default_description = "A Notion page was set to public in your worksace."
     default_runbook = "A Notion page was made public. Check with the author to determine why this page was made public."
     default_reference = "https://www.notion.so/help/public-pages-and-web-publishing"

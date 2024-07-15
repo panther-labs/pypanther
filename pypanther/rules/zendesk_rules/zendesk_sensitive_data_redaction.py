@@ -67,7 +67,7 @@ class ZendeskSensitiveDataRedactionOff(Rule):
     log_types = [LogType.Zendesk_Audit]
     tags = ["Zendesk", "Collection:Data from Information Repositories"]
     reports = {"MITRE ATT&CK": ["TA0009:T1213"]}
-    default_severity = Severity.high
+    default_severity = Severity.HIGH
     default_description = "A user updated account setting that disabled credit card redaction."
     default_runbook = "Re-enable credit card redaction."
     default_reference = "https://support.zendesk.com/hc/en-us/articles/4408822124314-Automatically-redacting-credit-card-numbers-from-tickets"

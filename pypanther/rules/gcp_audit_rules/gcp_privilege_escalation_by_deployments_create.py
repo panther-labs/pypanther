@@ -51,7 +51,7 @@ class GCPPrivilegeEscalationByDeploymentsCreate(Rule):
     display_name = "GCP.Privilege.Escalation.By.Deployments.Create"
     default_description = "Detects privilege escalation in GCP by taking over the deploymentsmanager.deployments.create permission"
     log_types = [LogType.GCP_AuditLog]
-    default_severity = Severity.high
+    default_severity = Severity.HIGH
     default_reference = (
         "https://rhinosecuritylabs.com/gcp/privilege-escalation-google-cloud-platform-part-1/"
     )

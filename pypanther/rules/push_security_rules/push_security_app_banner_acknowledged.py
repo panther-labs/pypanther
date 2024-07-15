@@ -113,7 +113,7 @@ class PushSecurityAppBannerAcknowledged(Rule):
     id = "Push.Security.App.Banner.Acknowledged-prototype"
     display_name = "Push Security App Banner Acknowledged"
     log_types = [LogType.PushSecurity_Activity]
-    default_severity = Severity.low
+    default_severity = Severity.LOW
     tests = push_security_app_banner_acknowledged_tests
 
     def rule(self, event):

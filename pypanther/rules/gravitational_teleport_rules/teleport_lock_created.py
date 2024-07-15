@@ -26,7 +26,7 @@ class TeleportLockCreated(Rule):
     display_name = "A Teleport Lock was created"
     log_types = [LogType.Gravitational_TeleportAudit]
     tags = ["Teleport"]
-    default_severity = Severity.info
+    default_severity = Severity.INFO
     default_description = "A Teleport Lock was created"
     default_reference = "https://goteleport.com/docs/management/admin/"
     default_runbook = "A Teleport Lock was created; this is an unusual administrative action. Investigate to understand why a Lock was created.\n"

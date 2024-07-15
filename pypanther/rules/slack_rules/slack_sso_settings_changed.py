@@ -74,7 +74,7 @@ class SlackAuditLogsSSOSettingsChanged(Rule):
     log_types = [LogType.Slack_AuditLogs]
     tags = ["Slack", "Credential Access", "Persistence", "Modify Authentication Process"]
     reports = {"MITRE ATT&CK": ["TA0003:T1556", "TA0006:T1556"]}
-    default_severity = Severity.high
+    default_severity = Severity.HIGH
     default_description = "Detects changes to Single Sign On (SSO) restrictions"
     default_reference = (
         "https://slack.com/intl/en-gb/help/articles/220403548-Manage-single-sign-on-settings"

@@ -466,7 +466,7 @@ class AWSModifyCloudComputeInfrastructure(Rule):
     display_name = "AWS Modify Cloud Compute Infrastructure"
     enabled = False
     default_reference = "https://attack.mitre.org/techniques/T1578/"
-    default_severity = Severity.medium
+    default_severity = Severity.MEDIUM
     reports = {"MITRE ATT&CK": ["TA0005:T1578"]}
     tags = ["Configuration Required"]
     default_runbook = "This detection reports on eventSource ec2 Change events. This detection excludes Cross-Service change events.  As such, this detection will perform well in environments where changes are expected to originate only from AWS service entities.\nThis detection will emit alerts frequently in environments where users are making ec2 related changes.\n"

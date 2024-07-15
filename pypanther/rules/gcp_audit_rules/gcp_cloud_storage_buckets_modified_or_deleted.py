@@ -118,7 +118,7 @@ class GCPCloudStorageBucketsModifiedOrDeleted(Rule):
     default_description = "Detects GCP cloud storage bucket updates and deletes."
     display_name = "GCP Cloud Storage Buckets Modified Or Deleted"
     default_reference = "https://cloud.google.com/storage/docs/buckets"
-    default_severity = Severity.low
+    default_severity = Severity.LOW
     log_types = [LogType.GCP_AuditLog]
     id = "GCP.Cloud.Storage.Buckets.Modified.Or.Deleted-prototype"
     tests = gcp_cloud_storage_buckets_modified_or_deleted_tests

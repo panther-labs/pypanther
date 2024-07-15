@@ -165,7 +165,7 @@ gcp_firewall_rule_created_tests: list[RuleTest] = [
 class GCPFirewallRuleCreated(Rule):
     display_name = "GCP Firewall Rule Created"
     id = "GCP.Firewall.Rule.Created-prototype"
-    default_severity = Severity.low
+    default_severity = Severity.LOW
     log_types = [LogType.GCP_AuditLog]
     tags = ["GCP", "Firewall", "Networking", "Infrastructure"]
     default_description = "This rule detects creations of GCP firewall rules.\n"

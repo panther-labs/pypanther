@@ -88,7 +88,7 @@ class TestPrintFailedTestResults:
 
         class Rule1(Rule):
             log_types = [LogType.Panther_Audit]
-            default_severity = Severity.high
+            default_severity = Severity.HIGH
             id = "Rule1"
             tests = [false_test_1, false_test_2]
 
@@ -97,7 +97,7 @@ class TestPrintFailedTestResults:
 
         class Rule2(Rule):
             log_types = [LogType.Panther_Audit]
-            default_severity = Severity.high
+            default_severity = Severity.HIGH
             id = "Rule2"
             tests = [false_test_1, false_test_2]
 
@@ -119,7 +119,7 @@ class TestPrintFailedTestResults:
 
         class Rule1(Rule):
             log_types = [LogType.Panther_Audit]
-            default_severity = Severity.high
+            default_severity = Severity.HIGH
             id = "Rule1"
             tests = [false_test_1]
 
@@ -135,7 +135,7 @@ class TestPrintFailedTestResults:
 
         class Rule1(Rule):
             log_types = [LogType.Panther_Audit]
-            default_severity = Severity.high
+            default_severity = Severity.HIGH
             id = "Rule1"
             tests = [false_test_1]
 

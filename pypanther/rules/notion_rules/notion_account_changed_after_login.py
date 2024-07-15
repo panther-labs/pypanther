@@ -322,7 +322,7 @@ class NotionAccountChangedAfterLogin(Rule):
     display_name = "Notion Account Changed Shortly After Login"
     log_types = [LogType.Notion_AuditLogs]
     tags = ["Notion", "Identity & Access Management", "Persistence"]
-    default_severity = Severity.medium
+    default_severity = Severity.MEDIUM
     default_description = "A Notion User logged in then changed their account details."
     default_runbook = "Possible account takeover. Follow up with the Notion User to determine if this email change is genuine."
     default_reference = "https://www.notion.so/help/account-settings"

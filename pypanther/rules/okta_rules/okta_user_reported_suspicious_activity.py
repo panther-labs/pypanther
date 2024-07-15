@@ -176,7 +176,7 @@ class OktaUserReportedSuspiciousActivity(Rule):
         "https://help.okta.com/en-us/Content/Topics/Security/suspicious-activity-reporting.htm"
     )
     display_name = "Okta User Reported Suspicious Activity"
-    default_severity = Severity.high
+    default_severity = Severity.HIGH
     log_types = [LogType.Okta_SystemLog]
     id = "Okta.User.Reported.Suspicious.Activity-prototype"
     tests = okta_user_reported_suspicious_activity_tests

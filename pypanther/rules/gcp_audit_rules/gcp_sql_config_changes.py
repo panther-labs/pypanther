@@ -35,7 +35,7 @@ class GCPSQLConfigChanges(Rule):
     log_types = [LogType.GCP_AuditLog]
     tags = ["GCP", "Database"]
     reports = {"CIS": ["2.11"]}
-    default_severity = Severity.low
+    default_severity = Severity.LOW
     default_description = "Monitoring changes to Sql Instance configuration may reduce time to detect and correct misconfigurations done on sql server.\n"
     default_runbook = "Validate the Sql Instance configuration change was safe"
     default_reference = "https://cloud.google.com/sql/docs/mysql/instance-settings"

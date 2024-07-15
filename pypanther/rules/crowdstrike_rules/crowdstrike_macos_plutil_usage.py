@@ -314,7 +314,7 @@ class CrowdstrikeMacosPlutilUsage(Rule):
     default_description = "Detects the usage of plutil to modify plist files. Plist files run on start up and are often used by attackers to maintain persistence."
     id = "Crowdstrike.Macos.Plutil.Usage-prototype"
     default_reference = "https://www.crowdstrike.com/blog/reconstructing-command-line-activity-on-macos/#:~:text=Terminal.savedState/.-,Windows.plist,-The%20file%20windows"
-    default_severity = Severity.medium
+    default_severity = Severity.MEDIUM
     log_types = [LogType.Crowdstrike_FDREvent]
     tests = crowdstrike_macos_plutil_usage_tests
 

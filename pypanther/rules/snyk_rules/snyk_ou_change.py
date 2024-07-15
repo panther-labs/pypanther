@@ -66,7 +66,7 @@ class SnykOUChange(Rule):
     display_name = "Snyk Org or Group Settings Change"
     log_types = [LogType.Snyk_GroupAudit, LogType.Snyk_OrgAudit]
     tags = ["Snyk"]
-    default_severity = Severity.high
+    default_severity = Severity.HIGH
     default_description = "Detects when Snyk Group or Organization Settings are changed.\n"
     default_runbook = "These actions in the Snyk Audit logs indicate that a Organization or Group setting has changed, including Group and Org creation/deletion. Deletion events are marked with HIGH severity Creation events are marked with INFO severity Edit events are marked with MEDIUM Severity\n"
     default_reference = "https://docs.snyk.io/snyk-admin/introduction-to-snyk-administration"

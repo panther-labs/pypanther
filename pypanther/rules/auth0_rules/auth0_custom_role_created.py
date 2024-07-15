@@ -764,7 +764,7 @@ class Auth0CustomRoleCreated(Rule):
     default_reference = (
         "https://auth0.com/docs/manage-users/access-control/configure-core-rbac/roles/create-roles"
     )
-    default_severity = Severity.high
+    default_severity = Severity.HIGH
     log_types = [LogType.Auth0_Events]
     id = "Auth0.Custom.Role.Created-prototype"
     tests = auth0_custom_role_created_tests

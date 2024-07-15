@@ -205,7 +205,7 @@ class GCPServiceAccountorKeysCreated(Rule):
     default_description = "Detects when a service account or key is created manually by a user instead of an automated workflow."
     display_name = "GCP Service Account or Keys Created "
     default_reference = "https://cloud.google.com/iam/docs/keys-create-delete"
-    default_severity = Severity.low
+    default_severity = Severity.LOW
     log_types = [LogType.GCP_AuditLog]
     id = "GCP.Service.Account.or.Keys.Created-prototype"
     tests = gcp_service_accountor_keys_created_tests

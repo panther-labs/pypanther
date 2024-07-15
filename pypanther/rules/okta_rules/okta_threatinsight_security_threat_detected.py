@@ -184,7 +184,7 @@ class OktaThreatInsightSecurityThreatDetected(Rule):
     )
     default_reference = "https://help.okta.com/en-us/Content/Topics/Security/threat-insight/configure-threatinsight-system-log.htm"
     display_name = "Okta ThreatInsight Security Threat Detected"
-    default_severity = Severity.high
+    default_severity = Severity.HIGH
     log_types = [LogType.Okta_SystemLog]
     id = "Okta.ThreatInsight.Security.Threat.Detected-prototype"
     tests = okta_threat_insight_security_threat_detected_tests

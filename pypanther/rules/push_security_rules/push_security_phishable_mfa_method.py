@@ -109,7 +109,7 @@ class PushSecurityPhishableMFAMethod(Rule):
     id = "Push.Security.Phishable.MFA.Method-prototype"
     display_name = "Push Security Phishable MFA Method"
     log_types = [LogType.PushSecurity_Entities]
-    default_severity = Severity.info
+    default_severity = Severity.INFO
     tests = push_security_phishable_mfa_method_tests
     identity_providers = ("MICROSOFT_365", "GOOGLE_WORKSPACE", "OKTA", "JUMPCLOUD", "PING")
     phishable_mfa = ("EMAIL_OTP", "PHONE_CALL", "SMS", "APP_PASSWORD")

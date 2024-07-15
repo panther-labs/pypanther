@@ -58,7 +58,7 @@ class PushSecurityNewAppDetected(Rule):
     id = "Push.Security.New.App.Detected-prototype"
     display_name = "Push Security New App Detected"
     log_types = [LogType.PushSecurity_Entities]
-    default_severity = Severity.info
+    default_severity = Severity.INFO
     tests = push_security_new_app_detected_tests
 
     def rule(self, event):

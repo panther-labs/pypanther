@@ -41,7 +41,7 @@ class OktaAPIKeyRevoked(Rule):
     display_name = "Okta API Key Revoked"
     log_types = [LogType.Okta_SystemLog]
     tags = ["Identity & Access Management", "Okta"]
-    default_severity = Severity.info
+    default_severity = Severity.INFO
     default_description = "A user has revoked an API Key in Okta"
     default_reference = "https://help.okta.com/en/prod/Content/Topics/Security/API.htm"
     default_runbook = "Validate this action was authorized."

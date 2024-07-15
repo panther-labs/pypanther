@@ -98,7 +98,7 @@ class MicrosoftGraphPassthrough(Rule):
         "https://learn.microsoft.com/en-us/graph/api/resources/security-api-overview"
     )
     display_name = "Microsoft Graph Passthrough"
-    default_severity = Severity.medium
+    default_severity = Severity.MEDIUM
     log_types = [LogType.MicrosoftGraph_SecurityAlert]
     id = "Microsoft.Graph.Passthrough-prototype"
     tests = microsoft_graph_passthrough_tests

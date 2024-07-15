@@ -69,7 +69,7 @@ class AWSIAMAccessKeyCompromised(Rule):
     log_types = [LogType.AWS_CloudTrail]
     reports = {"MITRE ATT&CK": ["TA0006:T1552"]}
     tags = ["AWS", "Credential Access:Unsecured Credentials"]
-    default_severity = Severity.high
+    default_severity = Severity.HIGH
     default_description = "A users static AWS API key was uploaded to a public github repo."
     default_runbook = "Determine the key owner, disable/delete key, and delete the user to resolve the AWS case. If user needs a new IAM give them a stern talking to first."
     default_reference = (

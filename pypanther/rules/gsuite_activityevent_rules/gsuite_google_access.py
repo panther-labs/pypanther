@@ -20,7 +20,7 @@ class GSuiteGoogleAccess(Rule):
     display_name = "Google Accessed a GSuite Resource"
     log_types = [LogType.GSuite_ActivityEvent]
     tags = ["GSuite"]
-    default_severity = Severity.low
+    default_severity = Severity.LOW
     default_description = "Google accessed one of your GSuite resources directly, most likely in response to a support incident.\n"
     default_reference = "https://support.google.com/a/answer/9230474?hl=en"
     default_runbook = "Your GSuite Super Admin can visit the Access Transparency report in the GSuite Admin Dashboard to see more details about the access.\n"

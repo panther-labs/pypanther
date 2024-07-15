@@ -266,7 +266,7 @@ class AWSDNSCryptoDomain(Rule):
     display_name = "AWS DNS Crypto Domain"
     reports = {"MITRE ATT&CK": ["TA0040:T1496"]}
     default_reference = "https://docs.aws.amazon.com/vpc/latest/userguide/flow-logs.html"
-    default_severity = Severity.high
+    default_severity = Severity.HIGH
     log_types = [LogType.AWS_VPCDns, LogType.OCSF_DnsActivity]
     id = "AWS.DNS.Crypto.Domain-prototype"
     tests = awsdns_crypto_domain_tests

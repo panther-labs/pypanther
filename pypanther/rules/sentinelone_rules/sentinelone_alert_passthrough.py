@@ -140,7 +140,7 @@ class SentinelOneAlertPassthrough(Rule):
     default_reference = (
         "https://www.sentinelone.com/blog/feature-spotlight-introducing-the-new-threat-center/"
     )
-    default_severity = Severity.high
+    default_severity = Severity.HIGH
     log_types = [LogType.SentinelOne_Activity]
     id = "SentinelOne.Alert.Passthrough-prototype"
     tests = sentinel_one_alert_passthrough_tests

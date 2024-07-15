@@ -90,7 +90,7 @@ class AWSCloudTrailRootAccessKeyCreated(Rule):
     log_types = [LogType.AWS_CloudTrail]
     tags = ["AWS", "Identity and Access Management", "Persistence:Account Manipulation"]
     reports = {"MITRE ATT&CK": ["TA0003:T1098"]}
-    default_severity = Severity.critical
+    default_severity = Severity.CRITICAL
     default_description = "An access key was created for the Root account"
     default_runbook = "Verify that the root access key was created for legitimate reasons. If not, immediately revoke it and change the root login credentials. If it was created for legitimate reasons, monitor its use and ensure it is revoked when its need is gone.\n"
     default_reference = (

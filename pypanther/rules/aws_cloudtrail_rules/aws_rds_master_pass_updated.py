@@ -293,7 +293,7 @@ class AWSRDSMasterPasswordUpdated(Rule):
     default_reference = (
         "https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Overview.DBInstance.Modifying.html"
     )
-    default_severity = Severity.low
+    default_severity = Severity.LOW
     reports = {"MITRE ATT&CK": ["TA0003:T1098"]}
     summary_attributes = [
         "awsRegion",

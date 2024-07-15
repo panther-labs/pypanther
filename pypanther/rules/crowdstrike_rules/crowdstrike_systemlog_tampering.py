@@ -173,7 +173,7 @@ class CrowdstrikeSystemlogTampering(Rule):
     default_description = "Detects when a user attempts to clear system logs. "
     display_name = "Crowdstrike Systemlog Tampering"
     default_reference = "https://attack.mitre.org/techniques/T1070/001/"
-    default_severity = Severity.high
+    default_severity = Severity.HIGH
     log_types = [LogType.Crowdstrike_FDREvent]
     id = "Crowdstrike.Systemlog.Tampering-prototype"
     tests = crowdstrike_systemlog_tampering_tests

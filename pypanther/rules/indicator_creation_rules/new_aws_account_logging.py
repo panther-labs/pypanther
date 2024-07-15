@@ -57,7 +57,7 @@ class StandardNewAWSAccountCreated(Rule):
     display_name = "New AWS Account Created"
     log_types = [LogType.AWS_CloudTrail]
     tags = ["DataModel", "Indicator Collection", "Persistence:Create Account"]
-    default_severity = Severity.info
+    default_severity = Severity.INFO
     reports = {"MITRE ATT&CK": ["TA0003:T1136"]}
     default_description = "A new AWS account was created"
     default_runbook = "A new AWS account was created, ensure it was created through standard practice and is for a valid purpose."

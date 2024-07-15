@@ -57,7 +57,7 @@ class NetskopeNetskopePersonnelActivity(Rule):
     log_types = [LogType.Netskope_Audit]
     tags = ["Netskope", "Supply Chain Compromise"]
     reports = {"MITRE ATT&CK": ["TA0001:T1195"]}
-    default_severity = Severity.medium
+    default_severity = Severity.MEDIUM
     default_description = "An action was performed by Netskope personnel."
     default_runbook = (
         "Action taken by Netskope Personnel.  Validate that this action was authorized."

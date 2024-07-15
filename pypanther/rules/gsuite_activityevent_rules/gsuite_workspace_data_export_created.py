@@ -108,7 +108,7 @@ class GSuiteWorkspaceDataExportCreated(Rule):
     display_name = "GSuite Workspace Data Export Has Been Created"
     log_types = [LogType.GSuite_ActivityEvent]
     tags = ["GSuite"]
-    default_severity = Severity.medium
+    default_severity = Severity.MEDIUM
     default_description = "A Workspace Admin Has Created a Data Export\n"
     default_reference = (
         "https://support.google.com/a/answer/100458?hl=en&sjid=864417124752637253-EU"

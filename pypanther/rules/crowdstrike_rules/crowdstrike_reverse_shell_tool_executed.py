@@ -245,7 +245,7 @@ class CrowdstrikeReverseShellToolExecuted(Rule):
     )
     display_name = "Crowdstrike Reverse Shell Tool Executed"
     default_reference = "https://attack.mitre.org/techniques/T1059/"
-    default_severity = Severity.high
+    default_severity = Severity.HIGH
     log_types = [LogType.Crowdstrike_FDREvent]
     id = "Crowdstrike.Reverse.Shell.Tool.Executed-prototype"
     tests = crowdstrike_reverse_shell_tool_executed_tests

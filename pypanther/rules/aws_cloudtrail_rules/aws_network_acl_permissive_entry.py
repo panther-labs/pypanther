@@ -159,7 +159,7 @@ class AWSCloudTrailNetworkACLPermissiveEntry(Rule):
     display_name = "AWS Network ACL Overly Permissive Entry Created"
     log_types = [LogType.AWS_CloudTrail]
     tags = ["AWS", "Persistence:Account Manipulation"]
-    default_severity = Severity.medium
+    default_severity = Severity.MEDIUM
     reports = {"MITRE ATT&CK": ["TA0003:T1098"]}
     default_description = "A Network ACL entry that allows access from anywhere was added.\n"
     default_runbook = "Remove the overly permissive Network ACL entry and add a new entry with more restrictive permissions.\n"

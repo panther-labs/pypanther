@@ -175,7 +175,7 @@ class CrowdstrikeFDRLOLBAS(Rule):
     default_reference = "https://lolbas-project.github.io/"
     dedup_period_minutes = 1440
     enabled = False
-    default_severity = Severity.info
+    default_severity = Severity.INFO
     tags = ["Configuration Required"]
     tests = crowdstrike_fdrlolbas_tests
     LOLBAS_EXE = {

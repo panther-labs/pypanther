@@ -84,7 +84,7 @@ class OsqueryLinuxAWSCommandExecuted(Rule):
     log_types = [LogType.Osquery_Differential]
     tags = ["Osquery", "Linux", "Execution:User Execution"]
     reports = {"MITRE ATT&CK": ["TA0002:T1204"]}
-    default_severity = Severity.medium
+    default_severity = Severity.MEDIUM
     default_description = "An AWS command was executed on a Linux instance"
     default_runbook = (
         "See which other commands were executed, and then remove IAM role causing the access"

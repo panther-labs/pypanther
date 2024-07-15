@@ -101,7 +101,7 @@ class TeleportScheduledJobs(Rule):
     display_name = "Teleport Scheduled Jobs"
     log_types = [LogType.Gravitational_TeleportAudit]
     tags = ["SSH", "Execution:Scheduled Task/Job"]
-    default_severity = Severity.medium
+    default_severity = Severity.MEDIUM
     reports = {"MITRE ATT&CK": ["TA0002:T1053"]}
     default_description = "A user has manually edited the Linux crontab"
     threshold = 10

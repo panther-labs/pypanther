@@ -76,7 +76,7 @@ class OsqueryOutdatedAgent(Rule):
     display_name = "Osquery Agent Outdated"
     log_types = [LogType.Osquery_Differential]
     tags = ["Osquery", "Compliance"]
-    default_severity = Severity.info
+    default_severity = Severity.INFO
     default_description = "Keep track of osquery versions, current is 5.10.2."
     default_runbook = "Update the osquery agent."
     default_reference = "https://www.osquery.io/downloads/official/5.10.2"

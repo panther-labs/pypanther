@@ -150,7 +150,7 @@ class AWSCloudTrailCreated(Rule):
     log_types = [LogType.AWS_CloudTrail]
     tags = ["AWS", "Security Control", "Discovery:Cloud Service Dashboard"]
     reports = {"CIS": ["3.5"], "MITRE ATT&CK": ["TA0007:T1538"]}
-    default_severity = Severity.info
+    default_severity = Severity.INFO
     default_description = "A CloudTrail Trail was created, updated, or enabled.\n"
     default_runbook = (
         "https://docs.runpanther.io/alert-runbooks/built-in-rules/aws-cloudtrail-modified"

@@ -151,7 +151,7 @@ class CloudflareHttpRequestBotHighVolume(Rule):
     enabled = False
     log_types = [LogType.Cloudflare_HttpRequest]
     tags = ["Cloudflare"]
-    default_severity = Severity.low
+    default_severity = Severity.LOW
     default_description = "Monitors for bots making HTTP Requests at a rate higher than 2req/sec"
     default_runbook = "Inspect and monitor internet-facing services for potential outages"
     default_reference = "https://developers.cloudflare.com/waf/rate-limiting-rules/request-rate/"

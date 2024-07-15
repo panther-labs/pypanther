@@ -54,7 +54,7 @@ class OneLoginUserAccountLocked(Rule):
     log_types = [LogType.OneLogin_Events]
     tags = ["OneLogin", "Credential Access:Brute Force"]
     reports = {"MITRE ATT&CK": ["TA0006:T1110"]}
-    default_severity = Severity.low
+    default_severity = Severity.LOW
     default_description = "User locked or suspended from their account.\n"
     default_reference = (
         "https://onelogin.service-now.com/kb_view_customer.do?sysparm_article=KB0010420"

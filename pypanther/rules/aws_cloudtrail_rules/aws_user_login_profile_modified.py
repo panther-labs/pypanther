@@ -136,7 +136,7 @@ class AWSUserLoginProfileModified(Rule):
     display_name = "AWS User Login Profile Modified"
     reports = {"MITRE ATT&CK": ["TA0003:T1098", "TA0005:T1108", "TA0005:T1550", "TA0008:T1550"]}
     default_reference = "https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_examples_aws_my-sec-creds-self-manage-pass-accesskeys-ssh.html"
-    default_severity = Severity.high
+    default_severity = Severity.HIGH
     log_types = [LogType.AWS_CloudTrail]
     id = "AWS.User.Login.Profile.Modified-prototype"
     tests = aws_user_login_profile_modified_tests

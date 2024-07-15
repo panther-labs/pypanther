@@ -41,7 +41,7 @@ class ZoomAllMeetingsSecuredWithOneOptionDisabled(Rule):
     display_name = "Zoom All Meetings Secured With One Option Disabled"
     default_runbook = "Confirm this user acted with valid business intent and determine whether this activity was authorized."
     default_reference = "https://support.zoom.com/hc/en/article?id=zm_kb&sysparm_article=KB0059862"
-    default_severity = Severity.medium
+    default_severity = Severity.MEDIUM
     log_types = [LogType.Zoom_Operation]
     id = "Zoom.All.Meetings.Secured.With.One.Option.Disabled-prototype"
     tests = zoom_all_meetings_secured_with_one_option_disabled_tests

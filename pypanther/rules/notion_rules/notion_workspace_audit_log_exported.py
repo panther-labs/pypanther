@@ -52,7 +52,7 @@ class NotionAuditLogExported(Rule):
     display_name = "Notion Audit Log Exported"
     log_types = [LogType.Notion_AuditLogs]
     tags = ["Notion", "Data Security", "Data Exfiltration"]
-    default_severity = Severity.medium
+    default_severity = Severity.MEDIUM
     default_description = "A Notion User exported audit logs for your organization’s workspace."
     default_runbook = "Possible Data Exfiltration. Follow up with the Notion User to determine if this was done for a valid business reason."
     default_reference = "https://www.notion.so/help/audit-log#export-your-audit-log"

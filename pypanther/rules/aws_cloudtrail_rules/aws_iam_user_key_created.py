@@ -236,7 +236,7 @@ class AWSIAMBackdoorUserKeys(Rule):
     default_reference = (
         "https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_access-keys.html"
     )
-    default_severity = Severity.medium
+    default_severity = Severity.MEDIUM
     log_types = [LogType.AWS_CloudTrail]
     id = "AWS.IAM.Backdoor.User.Keys-prototype"
     tests = awsiam_backdoor_user_keys_tests

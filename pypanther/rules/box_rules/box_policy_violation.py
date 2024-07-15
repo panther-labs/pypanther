@@ -57,7 +57,7 @@ class BoxContentWorkflowPolicyViolation(Rule):
     display_name = "Box Content Workflow Policy Violation"
     log_types = [LogType.Box_Event]
     tags = ["Box"]
-    default_severity = Severity.low
+    default_severity = Severity.LOW
     default_description = "A user violated the content workflow policy.\n"
     default_reference = (
         "https://support.box.com/hc/en-us/articles/360043692594-Creating-a-Security-Policy"

@@ -57,7 +57,7 @@ class TeleportCreateUserAccounts(Rule):
     log_types = [LogType.Gravitational_TeleportAudit]
     tags = ["SSH", "Persistence:Create Account"]
     reports = {"MITRE ATT&CK": ["TA0003:T1136"]}
-    default_severity = Severity.high
+    default_severity = Severity.HIGH
     default_description = "A user has been manually created, modified, or deleted"
     dedup_period_minutes = 15
     default_reference = "https://goteleport.com/docs/management/admin/"

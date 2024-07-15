@@ -74,7 +74,7 @@ class SlackAuditLogsEKMUnenrolled(Rule):
     log_types = [LogType.Slack_AuditLogs]
     tags = ["Slack", "Defense Evasion", "Weaken Encryption"]
     reports = {"MITRE ATT&CK": ["TA0005:T1600"]}
-    default_severity = Severity.critical
+    default_severity = Severity.CRITICAL
     default_description = "Detects when a workspace is no longer enrolled or managed by EKM"
     default_reference = (
         "https://slack.com/intl/en-gb/help/articles/360019110974-Slack-Enterprise-Key-Management"

@@ -42,7 +42,7 @@ class OneLoginPasswordChanged(Rule):
     display_name = "OneLogin User Password Changed"
     log_types = [LogType.OneLogin_Events]
     tags = ["OneLogin", "Identity & Access Management"]
-    default_severity = Severity.info
+    default_severity = Severity.INFO
     default_description = "A user password was updated.\n"
     default_reference = (
         "https://onelogin.service-now.com/kb_view_customer.do?sysparm_article=KB0010510"

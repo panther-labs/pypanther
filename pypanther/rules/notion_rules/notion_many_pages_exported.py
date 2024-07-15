@@ -61,7 +61,7 @@ class NotionManyPagesExported(Rule):
     display_name = "Notion Many Pages Exported"
     log_types = [LogType.Notion_AuditLogs]
     tags = ["Notion", "Data Security", "Data Exfiltration"]
-    default_severity = Severity.high
+    default_severity = Severity.HIGH
     default_description = "A Notion User exported multiple pages."
     threshold = 10
     default_runbook = "Possible Data Exfiltration. Follow up with the Notion User to determine if this was done for a valid business reason."

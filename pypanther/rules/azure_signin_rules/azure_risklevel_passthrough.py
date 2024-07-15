@@ -324,7 +324,7 @@ class AzureAuditRiskLevelPassthrough(Rule):
     display_name = "Azure RiskLevel Passthrough"
     dedup_period_minutes = 10
     log_types = [LogType.Azure_Audit]
-    default_severity = Severity.medium
+    default_severity = Severity.MEDIUM
     default_description = "This detection surfaces an alert based on riskLevelAggregated, riskLevelDuringSignIn, and riskState.\nriskLevelAggregated and riskLevelDuringSignIn are only expected for Azure AD Premium P2 customers.\n"
     default_reference = "https://learn.microsoft.com/en-us/azure/active-directory/identity-protection/howto-identity-protection-risk-feedback"
     reports = {"MITRE ATT&CK": ["TA0006:T1110", "TA0001:T1078"]}

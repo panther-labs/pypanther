@@ -117,7 +117,7 @@ class GSuiteCalendarMadePublic(Rule):
     log_types = [LogType.GSuite_ActivityEvent]
     tags = ["GSuite"]
     reports = {"MITRE ATT&CK": ["TA0007:T1087"]}
-    default_severity = Severity.medium
+    default_severity = Severity.MEDIUM
     default_description = "A User or Admin Has Modified A Calendar To Be Public\n"
     default_reference = (
         "https://support.google.com/calendar/answer/37083?hl=en&sjid=864417124752637253-EU"

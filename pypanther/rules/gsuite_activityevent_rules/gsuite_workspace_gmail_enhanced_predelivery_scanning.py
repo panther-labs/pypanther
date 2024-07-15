@@ -91,7 +91,7 @@ class GSuiteWorkspaceGmailPredeliveryScanningDisabled(Rule):
     log_types = [LogType.GSuite_ActivityEvent]
     tags = ["GSuite"]
     reports = {"MITRE ATT&CK": ["TA0001:T1566"]}
-    default_severity = Severity.medium
+    default_severity = Severity.MEDIUM
     default_description = "A Workspace Admin Has Disabled Pre-Delivery Scanning For Gmail.\n"
     default_reference = "https://support.google.com/a/answer/7380368"
     default_runbook = "Pre-delivery scanning is a feature in Gmail that subjects suspicious emails to additional automated scrutiny by Google.\nIf this change was not intentional, inspect the other actions taken by this actor.\n"

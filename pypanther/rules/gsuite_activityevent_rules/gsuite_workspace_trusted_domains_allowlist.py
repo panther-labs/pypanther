@@ -109,7 +109,7 @@ class GSuiteWorkspaceTrustedDomainsAllowlist(Rule):
     display_name = "GSuite Workspace Trusted Domain Allowlist Modified"
     log_types = [LogType.GSuite_ActivityEvent]
     tags = ["GSuite"]
-    default_severity = Severity.medium
+    default_severity = Severity.MEDIUM
     default_description = "A Workspace Admin Has Modified The Trusted Domains List\n"
     default_reference = (
         "https://support.google.com/a/answer/6160020?hl=en&sjid=864417124752637253-EU"

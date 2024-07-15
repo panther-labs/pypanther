@@ -158,7 +158,7 @@ class ConnectiontoEmbargoedCountry(Rule):
     display_name = "Connection to Embargoed Country"
     log_types = [LogType.Crowdstrike_FDREvent]
     id = "Connection.to.Embargoed.Country-prototype"
-    default_severity = Severity.low
+    default_severity = Severity.LOW
     tests = connectionto_embargoed_country_tests
     # U.S. Gov Sanctioned Destinations
     # Cuba

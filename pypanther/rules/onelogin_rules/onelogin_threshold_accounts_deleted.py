@@ -31,7 +31,7 @@ class OneLoginThresholdAccountsDeleted(Rule):
     display_name = "OneLogin Multiple Accounts Deleted"
     log_types = [LogType.OneLogin_Events]
     tags = ["OneLogin", "Impact:Account Access Removal"]
-    default_severity = Severity.medium
+    default_severity = Severity.MEDIUM
     reports = {"MITRE ATT&CK": ["TA0040:T1531"]}
     default_description = (
         "Possible Denial of Service detected. Threshold for user account deletions exceeded.\n"

@@ -130,7 +130,7 @@ class GoogleWorkspaceAppsMarketplaceAllowlist(Rule):
     display_name = "Google Workspace Apps Marketplace Allowlist"
     default_runbook = "Confirm with the acting user that this change was authorized."
     default_reference = "https://support.google.com/a/answer/6089179?hl=en"
-    default_severity = Severity.medium
+    default_severity = Severity.MEDIUM
     log_types = [LogType.GSuite_ActivityEvent]
     id = "Google.Workspace.Apps.Marketplace.Allowlist-prototype"
     tests = google_workspace_apps_marketplace_allowlist_tests

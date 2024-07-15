@@ -417,7 +417,7 @@ class AWSEC2Monitoring(Rule):
     reports = {"MITRE ATT&CK": ["TA0002:T1204"]}
     default_runbook = "Verify that the action was not taken by a malicious actor."
     default_reference = "https://docs.aws.amazon.com/service-authorization/latest/reference/list_amazonec2imagebuilder.html#amazonec2imagebuilder-actions-as-permissions"
-    default_severity = Severity.info
+    default_severity = Severity.INFO
     tags = ["ec2"]
     log_types = [LogType.AWS_CloudTrail]
     id = "AWS.EC2.Monitoring-prototype"

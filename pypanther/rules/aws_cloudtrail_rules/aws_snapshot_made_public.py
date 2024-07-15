@@ -147,7 +147,7 @@ class AWSCloudTrailSnapshotMadePublic(Rule):
     log_types = [LogType.AWS_CloudTrail]
     tags = ["AWS", "Exfiltration:Transfer Data to Cloud Account"]
     reports = {"MITRE ATT&CK": ["TA0010:T1537"]}
-    default_severity = Severity.medium
+    default_severity = Severity.MEDIUM
     default_description = "An AWS storage snapshot was made public."
     default_runbook = "Adjust the snapshot configuration so that it is no longer public."
     default_reference = "https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-modifying-snapshot-permissions.html"

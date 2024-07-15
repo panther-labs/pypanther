@@ -162,7 +162,7 @@ class OktaIdentityProviderCreatedModified(Rule):
     display_name = "Okta Identity Provider Created or Modified"
     log_types = [LogType.Okta_SystemLog]
     reports = {"MITRE ATT&CK": ["TA0006:T1556", "TA0001:T1199", "TA0003:T1098"]}
-    default_severity = Severity.high
+    default_severity = Severity.HIGH
     default_description = 'A new 3rd party Identity Provider has been created or modified. Attackers have been observed configuring a second Identity Provider to act as an "impersonation app" to access applications within the compromised Org on behalf of other users. This second Identity Provider, also controlled by the attacker, would act as a “source” IdP in an inbound federation relationship (sometimes called “Org2Org”) with the target.\n'
     default_runbook = "Delegate access to this feature to a Custom Admin Role with the minimum required permissions. Constrain these roles to groups that exclude highly privileged administrators.\n"
     default_reference = "https://sec.okta.com/articles/2023/08/cross-tenant-impersonation-prevention-and-detection\n"

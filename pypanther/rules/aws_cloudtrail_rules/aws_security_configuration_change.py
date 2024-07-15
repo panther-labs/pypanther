@@ -224,7 +224,7 @@ class AWSCloudTrailSecurityConfigurationChange(Rule):
     display_name = "Account Security Configuration Changed"
     log_types = [LogType.AWS_CloudTrail]
     tags = ["AWS", "Defense Evasion:Impair Defenses"]
-    default_severity = Severity.medium
+    default_severity = Severity.MEDIUM
     reports = {"MITRE ATT&CK": ["TA0005:T1562"]}
     default_description = "An account wide security configuration was changed."
     default_runbook = "Verify that this change was planned. If not, revert the change and update the access control policies to ensure this doesn't happen again.\n"

@@ -186,7 +186,7 @@ class DropboxExternalShare(Rule):
     default_description = "Dropbox item shared externally"
     display_name = "Dropbox External Share"
     default_reference = "https://help.dropbox.com/share/share-outside-dropbox"
-    default_severity = Severity.medium
+    default_severity = Severity.MEDIUM
     log_types = [LogType.Dropbox_TeamEvent]
     id = "Dropbox.External.Share-prototype"
     tests = dropbox_external_share_tests

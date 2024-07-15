@@ -48,7 +48,7 @@ class DuoAdminNewAdminAPIAppIntegration(Rule):
     default_description = "Identifies creation of new Admin API integrations for Duo."
     display_name = "Duo Admin New Admin API App Integration"
     default_reference = "https://duo.com/docs/adminapi#overview"
-    default_severity = Severity.high
+    default_severity = Severity.HIGH
     log_types = [LogType.Duo_Administrator]
     id = "Duo.Admin.New.Admin.API.App.Integration-prototype"
     tests = duo_admin_new_admin_api_app_integration_tests

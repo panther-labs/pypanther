@@ -43,7 +43,7 @@ class GSuiteSuspiciousLogins(Rule):
     display_name = "Suspicious GSuite Login"
     log_types = [LogType.GSuite_ActivityEvent]
     tags = ["GSuite"]
-    default_severity = Severity.medium
+    default_severity = Severity.MEDIUM
     default_description = "GSuite reported a suspicious login for this user.\n"
     default_reference = "https://support.google.com/a/answer/7102416?hl=en"
     default_runbook = "Checkout the details of the login and verify this behavior with the user to ensure the account wasn't compromised.\n"

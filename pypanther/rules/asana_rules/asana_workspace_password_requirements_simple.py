@@ -62,7 +62,7 @@ class AsanaWorkspacePasswordRequirementsSimple(Rule):
     display_name = "Asana Workspace Password Requirements Simple"
     default_runbook = "Confirm this user acted with valid business intent and determine whether this activity was authorized."
     default_reference = "https://help.asana.com/hc/en-us/articles/14075208738587-Authentication-and-access-management-options-for-paid-plans"
-    default_severity = Severity.medium
+    default_severity = Severity.MEDIUM
     log_types = [LogType.Asana_Audit]
     id = "Asana.Workspace.Password.Requirements.Simple-prototype"
     tests = asana_workspace_password_requirements_simple_tests

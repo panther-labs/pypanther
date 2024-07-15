@@ -174,7 +174,7 @@ class AWSECREVENTS(Rule):
     log_types = [LogType.AWS_CloudTrail]
     tags = ["AWS", "Security Control", "Configuration Required"]
     reports = {"MITRE ATT&CK": ["TA0005:T1535"]}
-    default_severity = Severity.medium
+    default_severity = Severity.MEDIUM
     default_description = "An ECR event occurred outside of an expected account or region"
     default_runbook = (
         "https://docs.aws.amazon.com/AmazonECR/latest/userguide/logging-using-cloudtrail.html"

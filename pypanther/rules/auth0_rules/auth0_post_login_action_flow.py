@@ -308,7 +308,7 @@ class Auth0PostLoginActionFlow(Rule):
     default_reference = (
         "https://auth0.com/docs/customize/actions/flows-and-triggers/login-flow/api-object"
     )
-    default_severity = Severity.medium
+    default_severity = Severity.MEDIUM
     log_types = [LogType.Auth0_Events]
     id = "Auth0.Post.Login.Action.Flow-prototype"
     tests = auth0_post_login_action_flow_tests

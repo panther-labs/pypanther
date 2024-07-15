@@ -104,7 +104,7 @@ class AWSEC2StartupScriptChange(Rule):
     default_reference = (
         "https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/user-data.html#user-data-shell-scripts"
     )
-    default_severity = Severity.high
+    default_severity = Severity.HIGH
     log_types = [LogType.AWS_CloudTrail]
     id = "AWS.EC2.Startup.Script.Change-prototype"
     tests = awsec2_startup_script_change_tests

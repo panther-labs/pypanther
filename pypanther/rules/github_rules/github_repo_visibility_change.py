@@ -35,7 +35,7 @@ class GithubRepoVisibilityChange(Rule):
     tags = ["GitHub", "Exfiltration:Exfiltration Over Web Service"]
     reports = {"MITRE ATT&CK": ["TA0010:T1567"]}
     default_reference = "https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/managing-repository-settings/setting-repository-visibility"
-    default_severity = Severity.high
+    default_severity = Severity.HIGH
     default_description = "Detects when an organization repository visibility changes."
     tests = github_repo_visibility_change_tests
 

@@ -239,7 +239,7 @@ class GCPUnusedRegions(Rule):
         "Defense Evasion:Unused/Unsupported Cloud Regions",
     ]
     reports = {"MITRE ATT&CK": ["TA0005:T1535"]}
-    default_severity = Severity.medium
+    default_severity = Severity.MEDIUM
     default_description = "Adversaries may create cloud instances in unused geographic service regions in order to evade detection.\n"
     default_runbook = "Validate the user making the request and the resource created."
     default_reference = "https://cloud.google.com/docs/geography-and-regions"

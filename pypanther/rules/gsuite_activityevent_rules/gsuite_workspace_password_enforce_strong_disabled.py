@@ -95,7 +95,7 @@ class GSuiteWorkspacePasswordEnforceStrongDisabled(Rule):
     display_name = "GSuite Workspace Strong Password Enforcement Has Been Disabled"
     log_types = [LogType.GSuite_ActivityEvent]
     tags = ["GSuite"]
-    default_severity = Severity.high
+    default_severity = Severity.HIGH
     reports = {"MITRE ATT&CK": ["TA0006:T1110"]}
     default_description = "A Workspace Admin Has Disabled The Enforcement Of Strong Passwords\n"
     default_reference = "https://support.google.com/a/answer/139399?hl=en"

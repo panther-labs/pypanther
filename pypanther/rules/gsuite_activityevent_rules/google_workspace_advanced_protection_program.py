@@ -132,7 +132,7 @@ class GoogleWorkspaceAdvancedProtectionProgram(Rule):
     display_name = "Google Workspace Advanced Protection Program"
     default_runbook = "Confirm the changes made were authorized for your organization."
     default_reference = "https://support.google.com/a/answer/9378686?hl=en"
-    default_severity = Severity.medium
+    default_severity = Severity.MEDIUM
     log_types = [LogType.GSuite_ActivityEvent]
     id = "Google.Workspace.Advanced.Protection.Program-prototype"
     tests = google_workspace_advanced_protection_program_tests

@@ -37,7 +37,7 @@ class OneLoginActiveLoginActivity(Rule):
     display_name = "OneLogin Active Login Activity"
     log_types = [LogType.OneLogin_Events]
     tags = ["OneLogin", "Lateral Movement:Use Alternate Authentication Material"]
-    default_severity = Severity.medium
+    default_severity = Severity.MEDIUM
     reports = {"MITRE ATT&CK": ["TA0008:T1550"]}
     default_description = "Multiple user accounts logged in from the same ip address."
     default_reference = "https://support.onelogin.com/kb/4271392/user-policies"

@@ -71,7 +71,7 @@ class OsqueryMacOSXAttacksKeyboardEvents(Rule):
     log_types = [LogType.Osquery_Differential]
     tags = ["Osquery", "MacOS", "Malware", "Collection:Input Capture"]
     reports = {"MITRE ATT&CK": ["TA0009:T1056"]}
-    default_severity = Severity.medium
+    default_severity = Severity.MEDIUM
     default_description = "A Key Logger has potentially been detected on a macOS system"
     default_runbook = "Verify the Application monitoring the keyboard taps"
     default_reference = "https://support.apple.com/en-us/HT204899"

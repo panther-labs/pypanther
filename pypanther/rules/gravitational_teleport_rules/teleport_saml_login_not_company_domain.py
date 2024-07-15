@@ -43,7 +43,7 @@ class TeleportSAMLLoginWithoutCompanyDomain(Rule):
     display_name = "A user authenticated with SAML, but from an unknown company domain"
     log_types = [LogType.Gravitational_TeleportAudit]
     tags = ["Teleport"]
-    default_severity = Severity.high
+    default_severity = Severity.HIGH
     default_description = "A user authenticated with SAML, but from an unknown company domain"
     reports = {"MITRE ATT&CK": ["TA0003:T1098"]}
     default_reference = "https://goteleport.com/docs/management/admin/"

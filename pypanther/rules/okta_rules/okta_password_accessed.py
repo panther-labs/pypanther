@@ -244,7 +244,7 @@ class OktaPasswordAccess(Rule):
     log_types = [LogType.Okta_SystemLog]
     tags = ["Okta", "Credential Access:Unsecured Credentials"]
     reports = {"MITRE ATT&CK": ["TA0006:T1552"]}
-    default_severity = Severity.medium
+    default_severity = Severity.MEDIUM
     default_description = "User accessed another user's application password\n"
     default_reference = (
         "https://help.okta.com/en-us/content/topics/apps/apps_revealing_the_password.htm"

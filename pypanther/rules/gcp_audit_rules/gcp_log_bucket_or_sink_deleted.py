@@ -203,7 +203,7 @@ gcp_log_bucket_or_sink_deleted_tests: list[RuleTest] = [
 class GCPLogBucketOrSinkDeleted(Rule):
     display_name = "GCP Log Bucket or Sink Deleted"
     id = "GCP.Log.Bucket.Or.Sink.Deleted-prototype"
-    default_severity = Severity.medium
+    default_severity = Severity.MEDIUM
     log_types = [LogType.GCP_AuditLog]
     tags = ["GCP", "Logging", "Bucket", "Sink", "Infrastructure"]
     default_description = "This rule detects deletions of GCP Log Buckets or Sinks.\n"

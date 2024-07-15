@@ -173,7 +173,7 @@ class GCPAccessAttemptsViolatingVPCServiceControls(Rule):
     default_reference = (
         "https://cloud.google.com/vpc-service-controls/docs/troubleshooting#debugging"
     )
-    default_severity = Severity.medium
+    default_severity = Severity.MEDIUM
     log_types = [LogType.GCP_AuditLog]
     id = "GCP.Access.Attempts.Violating.VPC.Service.Controls-prototype"
     tests = gcp_access_attempts_violating_vpc_service_controls_tests

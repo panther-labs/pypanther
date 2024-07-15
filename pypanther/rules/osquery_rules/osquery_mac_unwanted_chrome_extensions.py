@@ -78,7 +78,7 @@ class OsqueryMacUnwantedChromeExtensions(Rule):
     log_types = [LogType.Osquery_Differential]
     tags = ["Osquery", "MacOS", "Malware", "Persistence:Browser Extensions"]
     reports = {"MITRE ATT&CK": ["TA0003:T1176"]}
-    default_severity = Severity.medium
+    default_severity = Severity.MEDIUM
     default_description = (
         "Monitor for chrome extensions that could lead to a credential compromise.\n"
     )

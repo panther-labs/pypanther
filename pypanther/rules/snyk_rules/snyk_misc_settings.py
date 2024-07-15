@@ -35,7 +35,7 @@ class SnykMiscSettings(Rule):
     log_types = [LogType.Snyk_GroupAudit, LogType.Snyk_OrgAudit]
     tags = ["Snyk"]
     default_reference = "https://docs.snyk.io/snyk-admin/manage-settings"
-    default_severity = Severity.low
+    default_severity = Severity.LOW
     default_description = (
         "Detects when Snyk settings that lack a clear security impact are changed\n"
     )

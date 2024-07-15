@@ -152,7 +152,7 @@ class SlackAuditLogsUserPrivilegeEscalation(Rule):
     log_types = [LogType.Slack_AuditLogs]
     tags = ["Slack", "Privilege Escalation", "Account Manipulation", "Additional Cloud Roles"]
     reports = {"MITRE ATT&CK": ["TA0004:T1098.003"]}
-    default_severity = Severity.high
+    default_severity = Severity.HIGH
     default_description = "Detects when a Slack user gains escalated privileges"
     default_reference = (
         "https://slack.com/intl/en-gb/help/articles/201314026-Permissions-by-role-in-Slack"

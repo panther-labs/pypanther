@@ -84,7 +84,7 @@ atlassian_user_logged_in_as_user_tests: list[RuleTest] = [
 class AtlassianUserLoggedInAsUser(Rule):
     display_name = "Atlassian admin impersonated another user"
     id = "Atlassian.User.LoggedInAsUser-prototype"
-    default_severity = Severity.high
+    default_severity = Severity.HIGH
     log_types = [LogType.Atlassian_Audit]
     tags = ["Atlassian", "User impersonation"]
     default_description = "Reports when an Atlassian user logs in (impersonates) another user.\n"

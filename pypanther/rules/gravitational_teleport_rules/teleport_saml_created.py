@@ -23,7 +23,7 @@ class TeleportSAMLCreated(Rule):
     display_name = "A SAML Connector was created or modified"
     log_types = [LogType.Gravitational_TeleportAudit]
     tags = ["Teleport"]
-    default_severity = Severity.high
+    default_severity = Severity.HIGH
     default_description = "A SAML connector was created or modified"
     reports = {"MITRE ATT&CK": ["TA0042:T1585"]}
     default_reference = "https://goteleport.com/docs/management/admin/"

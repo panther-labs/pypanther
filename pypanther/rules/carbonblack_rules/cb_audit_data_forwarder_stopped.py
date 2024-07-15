@@ -39,7 +39,7 @@ class CarbonBlackAuditDataForwarderStopped(Rule):
     log_types = [LogType.CarbonBlack_Audit]
     default_description = "Detects when a user disables or deletes a Data Forwarder."
     display_name = "Carbon Black Data Forwarder Stopped"
-    default_severity = Severity.high
+    default_severity = Severity.HIGH
     tags = ["Defense Evasion", "Impair Defenses", "Disable or Modify Cloud Logs"]
     reports = {"MITRE ATT&CK": ["TA0005:T1562.008"]}
     default_reference = "https://docs.vmware.com/en/VMware-Carbon-Black-Cloud/services/carbon-black-cloud-user-guide/GUID-E8D33F72-BABB-4157-A908-D8BBDB5AF349.html"

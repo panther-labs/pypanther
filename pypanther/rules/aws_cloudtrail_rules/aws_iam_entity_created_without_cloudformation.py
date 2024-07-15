@@ -257,7 +257,7 @@ class AWSCloudTrailIAMEntityCreatedWithoutCloudFormation(Rule):
         "Identity and Access Management",
         "Persistence:Create Account",
     ]
-    default_severity = Severity.medium
+    default_severity = Severity.MEDIUM
     default_description = "An IAM Entity (Group, Policy, Role, or User) was created manually. IAM entities should be created in code to ensure that permissions are tracked and managed correctly.\n"
     default_runbook = "Verify whether IAM entity needs to exist. If so, re-create it in an appropriate CloudFormation, Terraform, or other template. Delete the original manually created entity.\n"
     default_reference = "https://blog.awsfundamentals.com/aws-iam-roles-with-aws-cloudformation"

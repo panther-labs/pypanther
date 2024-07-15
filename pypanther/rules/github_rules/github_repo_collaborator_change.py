@@ -49,7 +49,7 @@ class GithubRepoCollaboratorChange(Rule):
     log_types = [LogType.GitHub_Audit]
     tags = ["GitHub", "Initial Access:Supply Chain Compromise"]
     reports = {"MITRE ATT&CK": ["TA0001:T1195"]}
-    default_severity = Severity.medium
+    default_severity = Severity.MEDIUM
     default_description = "Detects when a repository collaborator is added or removed."
     default_runbook = "Determine if the new collaborator is authorized to access the repository."
     default_reference = "https://docs.github.com/en/organizations/managing-user-access-to-your-organizations-repositories/managing-repository-roles/managing-an-individuals-access-to-an-organization-repository"

@@ -7,7 +7,7 @@ class NotionPageSharedToWeb(Rule):
     display_name = "Notion Page Published to Web"
     log_types = [LogType.Notion_AuditLogs]
     tags = ["Notion", "Data Security", "Information Disclosure"]
-    default_severity = Severity.low
+    default_severity = Severity.LOW
     default_description = "A Notion User published a page to the web."
     default_runbook = (
         "Potential information exposure - review the shared page and rectify if needed."

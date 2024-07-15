@@ -74,7 +74,7 @@ class SlackAuditLogsIntuneMDMDisabled(Rule):
     log_types = [LogType.Slack_AuditLogs]
     tags = ["Slack", "Defense Evasion", "Impair Defenses", "Disable or Modify Tools"]
     reports = {"MITRE ATT&CK": ["TA0005:T1562.001"]}
-    default_severity = Severity.critical
+    default_severity = Severity.CRITICAL
     default_description = "Detects the disabling of Microsoft Intune Enterprise MDM within Slack"
     default_reference = "https://slack.com/intl/en-gb/help/articles/6495319642387-Set-up-Slack-for-Intune-mobile-apps"
     summary_attributes = ["p_any_ip_addresses", "p_any_emails"]

@@ -56,7 +56,7 @@ class AsanaWorkspaceRequireAppApprovalsDisabled(Rule):
     display_name = "Asana Workspace Require App Approvals Disabled"
     default_runbook = "Confirm this user acted with valid business intent and determine whether this activity was authorized."
     default_reference = "https://help.asana.com/hc/en-us/articles/14109494654875-Admin-console#:~:text=used%20by%20default-,Require%20app%20approval,-Admins%20manage%20a"
-    default_severity = Severity.medium
+    default_severity = Severity.MEDIUM
     log_types = [LogType.Asana_Audit]
     id = "Asana.Workspace.Require.App.Approvals.Disabled-prototype"
     tests = asana_workspace_require_app_approvals_disabled_tests

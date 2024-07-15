@@ -53,7 +53,7 @@ class DUOUserDeniedAnomalousPush(Rule):
     dedup_period_minutes = 15
     log_types = [LogType.Duo_Authentication]
     tags = ["Duo"]
-    default_severity = Severity.medium
+    default_severity = Severity.MEDIUM
     default_description = "A Duo authentication was denied due to an anomalous 2FA push.\n"
     default_reference = "https://duo.com/docs/adminapi#authentication-logs"
     default_runbook = (

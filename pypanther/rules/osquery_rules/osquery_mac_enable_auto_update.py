@@ -50,7 +50,7 @@ class OsqueryMacAutoUpdateEnabled(Rule):
     log_types = [LogType.Osquery_Differential]
     tags = ["Osquery", "MacOS", "Security Control", "Defense Evasion:Impair Defenses"]
     reports = {"CIS": ["1.2"], "MITRE ATT&CK": ["TA0005:T1562"]}
-    default_severity = Severity.medium
+    default_severity = Severity.MEDIUM
     dedup_period_minutes = 1440
     default_description = "Verifies that MacOS has automatic software updates enabled.\n"
     default_runbook = "Enable the auto updates on the host.\n"

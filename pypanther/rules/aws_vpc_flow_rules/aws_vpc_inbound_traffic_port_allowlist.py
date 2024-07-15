@@ -69,7 +69,7 @@ class AWSVPCInboundPortWhitelist(Rule):
     ]
     reports = {"MITRE ATT&CK": ["TA0011:T1571"]}
     default_reference = "https://docs.aws.amazon.com/vpc/latest/userguide/flow-logs.html"
-    default_severity = Severity.high
+    default_severity = Severity.HIGH
     default_description = "VPC Flow Logs observed inbound traffic violating the port allowlist.\n"
     default_runbook = "Block the unapproved traffic, or update the approved ports list.\n"
     summary_attributes = ["srcaddr", "dstaddr", "dstport"]

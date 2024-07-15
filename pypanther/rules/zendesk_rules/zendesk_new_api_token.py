@@ -46,7 +46,7 @@ class ZendeskNewAPIToken(Rule):
     id = "Zendesk.NewAPIToken-prototype"
     display_name = "Zendesk API Token Created"
     log_types = [LogType.Zendesk_Audit]
-    default_severity = Severity.high
+    default_severity = Severity.HIGH
     tags = ["Zendesk", "Credential Access:Steal Application Access Token"]
     reports = {"MITRE ATT&CK": ["TA0006:T1528"]}
     default_description = "A user created a new API token to be used with Zendesk."

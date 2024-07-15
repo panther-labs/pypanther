@@ -33,7 +33,7 @@ class TeleportRootLogin(Rule):
     display_name = "User Logged in as root"
     log_types = [LogType.Gravitational_TeleportAudit]
     tags = ["SSH", "Execution:Command and Scripting Interpreter", "Teleport"]
-    default_severity = Severity.medium
+    default_severity = Severity.MEDIUM
     default_description = "A User logged in as root"
     reports = {"MITRE ATT&CK": ["TA0002:T1059"]}
     default_reference = "https://goteleport.com/docs/management/admin/"

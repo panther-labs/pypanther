@@ -85,7 +85,7 @@ class AWSSoftwareDiscovery(Rule):
     default_reference = "https://attack.mitre.org/techniques/T1518/001/"
     tags = ["Configuration Required"]
     reports = {"MITRE ATT&CK": ["TA0007:T1518"]}
-    default_severity = Severity.info
+    default_severity = Severity.INFO
     dedup_period_minutes = 360
     log_types = [LogType.AWS_CloudTrail]
     id = "AWS.Software.Discovery-prototype"

@@ -154,7 +154,7 @@ class AWSEC2NetworkACLModified(Rule):
     log_types = [LogType.AWS_CloudTrail]
     tags = ["AWS", "Security Control", "Defense Evasion:Impair Defenses"]
     reports = {"CIS": ["3.11"], "MITRE ATT&CK": ["TA0005:T1562"]}
-    default_severity = Severity.info
+    default_severity = Severity.INFO
     default_description = "An EC2 Network ACL was modified."
     default_runbook = (
         "https://docs.runpanther.io/alert-runbooks/built-in-rules/aws-ec2-network-acl-modified"

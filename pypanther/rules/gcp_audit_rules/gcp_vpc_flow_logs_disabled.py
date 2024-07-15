@@ -173,7 +173,7 @@ class GCPVPCFlowLogsDisabled(Rule):
     default_description = "VPC flow logs were disabled for a subnet."
     display_name = "GCP VPC Flow Logs Disabled"
     default_reference = "https://cloud.google.com/vpc/docs/using-flow-logs"
-    default_severity = Severity.medium
+    default_severity = Severity.MEDIUM
     log_types = [LogType.GCP_AuditLog]
     id = "GCP.VPC.Flow.Logs.Disabled-prototype"
     tests = gcpvpc_flow_logs_disabled_tests

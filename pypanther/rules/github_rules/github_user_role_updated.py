@@ -35,7 +35,7 @@ class GitHubUserRoleUpdated(Rule):
     tags = ["GitHub", "Persistence:Account Manipulation"]
     reports = {"MITRE ATT&CK": ["TA0003:T1098"]}
     default_reference = "https://docs.github.com/en/organizations/managing-peoples-access-to-your-organization-with-roles/roles-in-an-organization"
-    default_severity = Severity.high
+    default_severity = Severity.HIGH
     default_description = (
         "Detects when a GitHub user role is upgraded to an admin or downgraded to a member"
     )

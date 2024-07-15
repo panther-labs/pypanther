@@ -123,7 +123,7 @@ gcp_logging_sink_modified_tests: list[RuleTest] = [
 class GCPLoggingSinkModified(Rule):
     display_name = "GCP Logging Sink Modified"
     id = "GCP.Logging.Sink.Modified-prototype"
-    default_severity = Severity.info
+    default_severity = Severity.INFO
     log_types = [LogType.GCP_AuditLog]
     tags = ["GCP", "Logging", "Sink", "Infrastructure"]
     default_description = "This rule detects modifications to GCP Log Sinks.\n"

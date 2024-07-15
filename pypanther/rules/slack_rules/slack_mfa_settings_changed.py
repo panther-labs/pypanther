@@ -79,7 +79,7 @@ class SlackAuditLogsMFASettingsChanged(Rule):
         "Multi-Factor Authentication",
     ]
     reports = {"MITRE ATT&CK": ["TA0005:T1556.006"]}
-    default_severity = Severity.high
+    default_severity = Severity.HIGH
     default_description = "Detects changes to Multi-Factor Authentication requirements"
     default_reference = (
         "https://slack.com/intl/en-gb/help/articles/204509068-Set-up-two-factor-authentication"

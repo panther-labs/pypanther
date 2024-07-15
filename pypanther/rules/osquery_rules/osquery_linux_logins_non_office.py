@@ -48,7 +48,7 @@ class OsqueryLinuxLoginFromNonOffice(Rule):
     log_types = [LogType.Osquery_Differential]
     tags = ["Configuration Required", "Osquery", "Linux", "Initial Access:Valid Accounts"]
     reports = {"MITRE ATT&CK": ["TA0001:T1078"]}
-    default_severity = Severity.high
+    default_severity = Severity.HIGH
     default_description = "A system has been logged into from a non approved IP space."
     default_runbook = "Analyze the host IP, and if possible, update allowlist or fix ACL."
     default_reference = "https://attack.mitre.org/techniques/T1078/"

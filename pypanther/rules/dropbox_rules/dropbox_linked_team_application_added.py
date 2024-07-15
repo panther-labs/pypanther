@@ -133,7 +133,7 @@ class DropboxLinkedTeamApplicationAdded(Rule):
     display_name = "Dropbox Linked Team Application Added"
     default_reference = "https://help.dropbox.com/integrations/app-integrations"
     default_runbook = "Ensure that the application is valid and not malicious. Verify that this is expected. If not, determine other actions taken by this user recently and reach out to the user. If the event involved a non-team member, consider disabling the user's access while investigating.\n"
-    default_severity = Severity.low
+    default_severity = Severity.LOW
     tags = ["dropbox"]
     log_types = [LogType.Dropbox_TeamEvent]
     id = "Dropbox.Linked.Team.Application.Added-prototype"

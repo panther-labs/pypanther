@@ -188,7 +188,7 @@ class PantherUserModified(Rule):
     id = "Panther.User.Modified-prototype"
     display_name = "A User's Panther Account was Modified"
     log_types = [LogType.Panther_Audit]
-    default_severity = Severity.high
+    default_severity = Severity.HIGH
     tags = ["DataModel", "Persistence:Account Manipulation"]
     reports = {"MITRE ATT&CK": ["TA0003:T1098"]}
     default_description = "A Panther user's role has been modified. This could mean password, email, or role has changed for the user."

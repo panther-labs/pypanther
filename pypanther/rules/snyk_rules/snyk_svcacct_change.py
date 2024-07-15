@@ -209,7 +209,7 @@ class SnykServiceAccountChange(Rule):
     display_name = "Snyk Service Account Change"
     log_types = [LogType.Snyk_GroupAudit, LogType.Snyk_OrgAudit]
     tags = ["Snyk"]
-    default_severity = Severity.high
+    default_severity = Severity.HIGH
     default_description = "Detects when Snyk Service Accounts are changed\n"
     default_runbook = "These actions in the Snyk Audit logs indicate that a ServiceAccount has been created/deleted/modified.\nService Accounts are system user accounts with an API token associated to it in place of standard user credentials. All events where the Service Account's role is ADMIN have CRITICAL severity Deletion events are marked with HIGH severity Creation events are marked with HIGH severity Edit events are marked with MEDIUM Severity\n"
     default_reference = "https://docs.snyk.io/snyk-admin/service-accounts"

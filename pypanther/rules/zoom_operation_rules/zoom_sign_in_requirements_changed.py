@@ -53,7 +53,7 @@ class ZoomSignInRequirementsChanged(Rule):
     display_name = "Zoom Sign In Requirements Changed"
     default_runbook = "Confirm this user acted with valid business intent and determine whether this activity was authorized."
     default_reference = "https://support.zoom.com/hc/en/article?id=zm_kb&sysparm_article=KB0061263"
-    default_severity = Severity.medium
+    default_severity = Severity.MEDIUM
     log_types = [LogType.Zoom_Operation]
     id = "Zoom.Sign.In.Requirements.Changed-prototype"
     summary_attributes = ["operation_detail"]

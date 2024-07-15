@@ -79,7 +79,7 @@ class GoogleWorkspaceAdminCustomRole(Rule):
     display_name = "Google Workspace Admin Custom Role"
     default_runbook = "Please review this activity with the administrator and ensure this behavior was authorized."
     default_reference = "https://support.google.com/a/answer/2406043?hl=en#:~:text=under%20the%20limit.-,Create%20a%20custom%20role,-Before%20you%20begin"
-    default_severity = Severity.medium
+    default_severity = Severity.MEDIUM
     tags = ["admin", "administrator", "google workspace", "role"]
     log_types = [LogType.GSuite_ActivityEvent]
     id = "Google.Workspace.Admin.Custom.Role-prototype"

@@ -133,7 +133,7 @@ class AWSConfigServiceDisabledDeleted(Rule):
     log_types = [LogType.AWS_CloudTrail]
     tags = ["AWS", "Security Control", "Defense Evasion:Impair Defenses"]
     reports = {"CIS": ["3.9"], "MITRE ATT&CK": ["TA0005:T1562"]}
-    default_severity = Severity.medium
+    default_severity = Severity.MEDIUM
     default_description = "An AWS Config Recorder or Delivery Channel was disabled or deleted\n"
     default_runbook = "Verify that the Config Service changes were authorized. If not, revert them and investigate who caused the change. Consider altering permissions to prevent this from happening again in the future.\n"
     default_reference = "https://aws.amazon.com/config/"

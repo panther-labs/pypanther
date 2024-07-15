@@ -246,7 +246,7 @@ class CrowdstrikeDNSRequest(Rule):
     enabled = False
     log_types = [LogType.Crowdstrike_DNSRequest, LogType.Crowdstrike_FDREvent]
     tags = ["Crowdstrike", "Initial Access:Phishing", "Configuration Required"]
-    default_severity = Severity.critical
+    default_severity = Severity.CRITICAL
     reports = {"MITRE ATT&CK": ["TA0001:T1566"]}
     default_description = "A DNS request was made to a domain on an explicit denylist"
     default_reference = "https://docs.runpanther.io/data-onboarding/supported-logs/crowdstrike#crowdstrike-dnsrequest"

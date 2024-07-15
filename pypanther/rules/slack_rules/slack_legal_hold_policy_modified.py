@@ -152,7 +152,7 @@ class SlackAuditLogsLegalHoldPolicyModified(Rule):
     log_types = [LogType.Slack_AuditLogs]
     tags = ["Slack", "Defense Evasion", "Impair Defenses", "Disable or Modify Tools"]
     reports = {"MITRE ATT&CK": ["TA0005:T1562.001"]}
-    default_severity = Severity.high
+    default_severity = Severity.HIGH
     default_description = "Detects changes to configured legal hold policies"
     default_reference = (
         "https://slack.com/intl/en-gb/help/articles/4401830811795-Create-and-manage-legal-holds"

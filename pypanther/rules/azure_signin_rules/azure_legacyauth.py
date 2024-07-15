@@ -284,7 +284,7 @@ class AzureAuditLegacyAuth(Rule):
     display_name = "Azure SignIn via Legacy Authentication Protocol"
     dedup_period_minutes = 10
     log_types = [LogType.Azure_Audit]
-    default_severity = Severity.medium
+    default_severity = Severity.MEDIUM
     default_description = "This detection looks for Successful Logins that have used legacy authentication protocols\n"
     default_reference = "https://learn.microsoft.com/en-us/azure/active-directory/reports-monitoring/workbook-legacy-authentication"
     default_runbook = "Based on Microsoft's analysis more than 97 percent of credential stuffing attacks use legacy authentication and more than 99 percent of password spray attacks use legacy authentication protocols. These attacks would stop with basic authentication disabled or blocked. see https://learn.microsoft.com/en-us/azure/active-directory/conditional-access/block-legacy-authentication\nIf you are aware of this Legacy Auth need, and need to continue using this mechanism, add the principal name to KNOWN_EXCEPTIONS. The Reference link contains additional material hosted on Microsoft.com\n"

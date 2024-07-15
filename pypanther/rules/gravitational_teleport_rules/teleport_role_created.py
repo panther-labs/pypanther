@@ -24,7 +24,7 @@ class TeleportRoleCreated(Rule):
     display_name = "A Teleport Role was modified or created"
     log_types = [LogType.Gravitational_TeleportAudit]
     tags = ["Teleport"]
-    default_severity = Severity.medium
+    default_severity = Severity.MEDIUM
     default_description = "A Teleport Role was modified or created"
     reports = {"MITRE ATT&CK": ["TA0003:T1098.001"]}
     default_reference = "https://goteleport.com/docs/management/admin/"

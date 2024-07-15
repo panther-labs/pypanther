@@ -42,7 +42,7 @@ class BoxShieldAnomalousDownload(Rule):
     log_types = [LogType.Box_Event]
     tags = ["Box", "Exfiltration:Exfiltration Over Web Service"]
     reports = {"MITRE ATT&CK": ["TA0010:T1567"]}
-    default_severity = Severity.high
+    default_severity = Severity.HIGH
     default_description = "A user's download activity has altered significantly.\n"
     default_reference = "https://developer.box.com/guides/events/shield-alert-events/"
     default_runbook = "Investigate whether this was triggered by expected user download activity.\n"

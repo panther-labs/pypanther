@@ -233,7 +233,7 @@ class DecoySystemsManagerParameterAccessed(Rule):
     display_name = "Decoy Systems Manager Parameter Accessed"
     enabled = False
     log_types = [LogType.AWS_SecurityFindingFormat]
-    default_severity = Severity.high
+    default_severity = Severity.HIGH
     default_description = "Actor accessed Decoy Systems Manager parameter"
     default_reference = "https://aws.amazon.com/blogs/security/how-to-detect-suspicious-activity-in-your-aws-account-by-using-private-decoy-resources/"
     inline_filters = [{"All": []}]

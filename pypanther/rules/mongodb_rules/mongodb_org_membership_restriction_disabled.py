@@ -57,7 +57,7 @@ class MongoDBorgMembershipRestrictionDisabled(Rule):
     display_name = "MongoDB org membership restriction disabled"
     log_types = [LogType.MongoDB_OrganizationEvent]
     id = "MongoDB.org.Membership.Restriction.Disabled-prototype"
-    default_severity = Severity.high
+    default_severity = Severity.HIGH
     reports = {"MITRE ATT&CK": ["T1556"]}
     default_reference = "https://www.mongodb.com/docs/atlas/tutorial/manage-organizations/"
     default_runbook = "Check if this activity is legitimate. If not, re-enable IP access list for the Atlas Administration API"

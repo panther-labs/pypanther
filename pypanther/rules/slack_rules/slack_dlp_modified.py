@@ -106,7 +106,7 @@ class SlackAuditLogsDLPModified(Rule):
         "Indicator Removal",
     ]
     reports = {"MITRE ATT&CK": ["TA0005:T1562.001", "TA0005:T1070"]}
-    default_severity = Severity.high
+    default_severity = Severity.HIGH
     default_description = "Detects when a Data Loss Prevention (DLP) rule has been deactivated or a violation has been deleted\n"
     default_reference = "https://slack.com/intl/en-gb/help/articles/12914005852819-Slack-Connect--Data-loss-prevention"
     summary_attributes = ["action", "p_any_ip_addresses", "p_any_emails"]

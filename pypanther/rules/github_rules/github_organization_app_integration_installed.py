@@ -51,7 +51,7 @@ class GithubOrganizationAppIntegrationInstalled(Rule):
     display_name = "Github Organization App Integration Installed"
     default_reference = "https://docs.github.com/en/enterprise-server@3.4/developers/apps/managing-github-apps/installing-github-apps"
     default_runbook = "Confirm that the app integration installation was a desired behavior."
-    default_severity = Severity.low
+    default_severity = Severity.LOW
     tags = ["Application Installation", "Github"]
     log_types = [LogType.GitHub_Audit]
     id = "Github.Organization.App.Integration.Installed-prototype"

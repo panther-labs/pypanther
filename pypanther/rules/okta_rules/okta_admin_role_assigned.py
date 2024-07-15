@@ -129,7 +129,7 @@ class OktaAdminRoleAssigned(Rule):
     log_types = [LogType.Okta_SystemLog]
     tags = ["Identity & Access Management", "Okta", "Privilege Escalation:Valid Accounts"]
     reports = {"MITRE ATT&CK": ["TA0004:T1078"]}
-    default_severity = Severity.info
+    default_severity = Severity.INFO
     default_description = "A user has been granted administrative privileges in Okta"
     default_reference = (
         "https://help.okta.com/en/prod/Content/Topics/Security/administrators-admin-comparison.htm"

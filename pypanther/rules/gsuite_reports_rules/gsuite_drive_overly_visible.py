@@ -77,7 +77,7 @@ class GSuiteDriveOverlyVisible(Rule):
     log_types = [LogType.GSuite_Reports]
     tags = ["GSuite", "Collection:Data from Information Repositories"]
     reports = {"MITRE ATT&CK": ["TA0009:T1213"]}
-    default_severity = Severity.info
+    default_severity = Severity.INFO
     default_description = "A Google drive resource that is overly visible has been modified.\n"
     default_reference = "https://support.google.com/docs/answer/2494822?hl=en&co=GENIE.Platform%3DDesktop&sjid=864417124752637253-EU"
     default_runbook = "Investigate whether the drive document is appropriate to be this visible.\n"

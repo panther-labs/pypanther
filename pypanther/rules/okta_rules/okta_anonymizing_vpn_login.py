@@ -251,7 +251,7 @@ class OktaAnonymizingVPNLogin(Rule):
     display_name = "Okta Sign-In from VPN Anonymizer"
     log_types = [LogType.Okta_SystemLog]
     reports = {"MITRE ATT&CK": ["TA0006:T1556"]}
-    default_severity = Severity.medium
+    default_severity = Severity.MEDIUM
     default_description = "A user is attempting to sign-in to Okta from a known VPN anonymizer.  The threat actor would access the compromised account using anonymizing proxy services.\n"
     default_runbook = "Restrict this access to trusted Network Zones and deny access from anonymizing proxies in policy using a Dynamic Network Zone.\n"
     default_reference = "https://sec.okta.com/articles/2023/08/cross-tenant-impersonation-prevention-and-detection\n"

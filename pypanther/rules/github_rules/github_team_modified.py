@@ -50,7 +50,7 @@ class GitHubTeamModified(Rule):
     tags = ["GitHub", "Initial Access:Supply Chain Compromise"]
     reports = {"MITRE ATT&CK": ["TA0001:T1195"]}
     default_reference = "https://docs.github.com/en/organizations/organizing-members-into-teams"
-    default_severity = Severity.info
+    default_severity = Severity.INFO
     default_description = "Detects when a team is modified in some way, such as adding a new team, deleting a team, modifying members, or a change in repository control."
     tests = git_hub_team_modified_tests
 

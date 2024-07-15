@@ -62,7 +62,7 @@ class AsanaTeamPrivacyPublic(Rule):
     default_description = "An Asana team's privacy setting was changed to public to the organization (not public to internet)"
     display_name = "Asana Team Privacy Public"
     default_reference = "https://help.asana.com/hc/en-us/articles/14211433439387-Team-permissions"
-    default_severity = Severity.low
+    default_severity = Severity.LOW
     log_types = [LogType.Asana_Audit]
     id = "Asana.Team.Privacy.Public-prototype"
     tests = asana_team_privacy_public_tests

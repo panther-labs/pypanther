@@ -68,7 +68,7 @@ class ZendeskUserSuspension(Rule):
     log_types = [LogType.Zendesk_Audit]
     tags = ["Zendesk", "Impact:Account Access Removal"]
     reports = {"MITRE ATT&CK": ["TA0040:T1531"]}
-    default_severity = Severity.high
+    default_severity = Severity.HIGH
     default_description = "A user's Zendesk suspension status was changed."
     default_runbook = "Ensure the user's suspension status is appropriate."
     default_reference = "https://support.zendesk.com/hc/en-us/articles/4408889293978-Suspending-a-user#:~:text=select%20Unsuspend%20access.-,Identifying%20suspended%20users,name%20on%20the%20Customers%20page"

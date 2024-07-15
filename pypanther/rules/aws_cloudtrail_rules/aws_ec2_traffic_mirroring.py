@@ -606,7 +606,7 @@ class AWSEC2TrafficMirroring(Rule):
     display_name = "AWS EC2 Traffic Mirroring"
     default_reference = "https://attack.mitre.org/techniques/T1040/"
     default_runbook = "Examine other activities done by this user to determine whether or not activity is suspicious. If your network traffic is not encrypted, we recommend changing the severity to high or critical."
-    default_severity = Severity.medium
+    default_severity = Severity.MEDIUM
     tags = ["AWS", "Cloudtrail", "MITRE"]
     log_types = [LogType.AWS_CloudTrail]
     id = "AWS.EC2.Traffic.Mirroring-prototype"

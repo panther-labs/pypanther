@@ -55,7 +55,7 @@ class TeleportSuspiciousCommands(Rule):
     display_name = "Teleport Suspicious Commands Executed"
     log_types = [LogType.Gravitational_TeleportAudit]
     tags = ["SSH", "Execution:Command and Scripting Interpreter"]
-    default_severity = Severity.medium
+    default_severity = Severity.MEDIUM
     default_description = (
         "A user has invoked a suspicious command that could lead to a host compromise"
     )

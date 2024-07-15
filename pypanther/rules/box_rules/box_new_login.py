@@ -42,7 +42,7 @@ class BoxNewLogin(Rule):
     log_types = [LogType.Box_Event]
     tags = ["Box", "Initial Access:Valid Accounts"]
     reports = {"MITRE ATT&CK": ["TA0001:T1078"]}
-    default_severity = Severity.info
+    default_severity = Severity.INFO
     default_description = "A user logged in from a new device.\n"
     default_reference = "https://support.box.com/hc/en-us/articles/360043691914-Controlling-Devices-Used-to-Access-Box"
     default_runbook = "Investigate whether this is a valid user login.\n"

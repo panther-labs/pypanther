@@ -63,7 +63,7 @@ class NetskopeUnauthorizedAPICalls(Rule):
     log_types = [LogType.Netskope_Audit]
     tags = ["Netskope", "Configuration Required", "Brute Force"]
     reports = {"MITRE ATT&CK": ["TA0006:T1110"]}
-    default_severity = Severity.high
+    default_severity = Severity.HIGH
     default_description = (
         "Many unauthorized API calls were observed for a user in a short period of time."
     )

@@ -37,7 +37,7 @@ class GitLabAuditPasswordResetMultipleEmails(Rule):
     log_types = [LogType.GitLab_Audit]
     tags = ["GitLab", "CVE-2023-7028"]
     reports = {"MITRE ATT&CK": ["TA0001:T1195", "TA0001:T1190", "TA0003:T1098"]}
-    default_severity = Severity.high
+    default_severity = Severity.HIGH
     default_description = "Attackers are exploiting a Critical (CVSS 10.0) GitLab vulnerability in which user account password reset emails could be delivered to an unverified email address."
     default_reference = "https://about.gitlab.com/releases/2024/01/11/critical-security-release-gitlab-16-7-2-released/"
     tests = git_lab_audit_password_reset_multiple_emails_tests

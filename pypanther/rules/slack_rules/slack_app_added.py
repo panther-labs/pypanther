@@ -211,7 +211,7 @@ class SlackAuditLogsAppAdded(Rule):
     log_types = [LogType.Slack_AuditLogs]
     tags = ["Slack", "Persistence", "Server Software Component"]
     reports = {"MITRE ATT&CK": ["TA0003:T1505"]}
-    default_severity = Severity.medium
+    default_severity = Severity.MEDIUM
     default_description = "Detects when a Slack App has been added to a workspace"
     default_reference = (
         "https://slack.com/intl/en-gb/help/articles/202035138-Add-apps-to-your-Slack-workspace"

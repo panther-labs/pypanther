@@ -261,7 +261,7 @@ class AWSKMSCustomerManagedKeyLoss(Rule):
     log_types = [LogType.AWS_CloudTrail]
     tags = ["AWS", "Identity & Access Management", "Impact:Data Destruction"]
     reports = {"CIS": ["3.7"], "MITRE ATT&CK": ["TA0040:T1485"]}
-    default_severity = Severity.info
+    default_severity = Severity.INFO
     default_description = "A KMS Customer Managed Key was disabled or scheduled for deletion. This could potentially lead to permanent loss of encrypted data.\n"
     default_runbook = "https://docs.runpanther.io/alert-runbooks/built-in-rules/aws-kms-cmk-loss"
     default_reference = "https://docs.aws.amazon.com/kms/latest/developerguide/deleting-keys.html"

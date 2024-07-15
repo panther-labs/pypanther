@@ -294,7 +294,7 @@ class OktaNewBehaviorAccessingAdminConsole(Rule):
     display_name = "Okta New Behaviors Acessing Admin Console"
     log_types = [LogType.Okta_SystemLog]
     reports = {"MITRE ATT&CK": ["TA0001:T1078.004"]}
-    default_severity = Severity.high
+    default_severity = Severity.HIGH
     default_description = "New Behaviors Observed while Accessing Okta Admin Console. A user attempted to access the Okta Admin Console from a new device with a new IP.\n"
     default_runbook = "Configure Authentication Policies (Application Sign-on Policies) for access to privileged applications, including the Admin Console, to require re-authentication “at every sign-in”. Turn on and test New Device and Suspicious Activity end-user notifications.\n"
     default_reference = "https://sec.okta.com/articles/2023/08/cross-tenant-impersonation-prevention-and-detection\n"

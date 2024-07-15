@@ -64,7 +64,7 @@ class OnePasswordUnusualClient(Rule):
     dedup_period_minutes = 120
     display_name = "Unusual 1Password Client Detected"
     log_types = [LogType.OnePassword_SignInAttempt]
-    default_severity = Severity.medium
+    default_severity = Severity.MEDIUM
     default_description = (
         "Detects when unusual or undesirable 1Password clients access your 1Password account"
     )

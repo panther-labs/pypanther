@@ -43,7 +43,7 @@ class TinesStoryItemsDestruction(Rule):
     display_name = "Tines Story Items Destruction"
     log_types = [LogType.Tines_Audit]
     tags = ["Tines"]
-    default_severity = Severity.info
+    default_severity = Severity.INFO
     default_description = "A user has destroyed a story item"
     default_runbook = "Possible data destruction. Please reach out to the user and confirm this was done for valid business reasons."
     default_reference = "https://www.tines.com/docs/stories"

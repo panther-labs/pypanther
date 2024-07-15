@@ -21,7 +21,7 @@ class GCPK8sIOCActivity(Rule):
     display_name = "GCP K8s IOCActivity"
     log_types = [LogType.GCP_AuditLog]
     tags = ["GCP", "Optional"]
-    default_severity = Severity.medium
+    default_severity = Severity.MEDIUM
     default_description = "This detection monitors for any kubernetes API Request originating from an Indicator of Compromise."
     reports = {"MITRE ATT&CK": ["T1573.002"]}
     default_runbook = "Add IP address the request is originated from to banned addresses."

@@ -390,7 +390,7 @@ class CrowdstrikeMacosAddTrustedCert(Rule):
     default_description = "Detects attempt to install a root certificate on MacOS"
     id = "Crowdstrike.Macos.Add.Trusted.Cert-prototype"
     default_reference = "https://docs.panther.com/data-onboarding/supported-logs/crowdstrike#crowdstrike.processrollup2"
-    default_severity = Severity.medium
+    default_severity = Severity.MEDIUM
     log_types = [LogType.Crowdstrike_FDREvent]
     tests = crowdstrike_macos_add_trusted_cert_tests
 

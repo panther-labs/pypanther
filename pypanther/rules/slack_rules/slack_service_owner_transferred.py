@@ -82,7 +82,7 @@ class SlackAuditLogsServiceOwnerTransferred(Rule):
         "Account Access Removal",
     ]
     reports = {"MITRE ATT&CK": ["TA0005:T1222", "TA0003:T1098", "TA0040:T1531"]}
-    default_severity = Severity.critical
+    default_severity = Severity.CRITICAL
     default_description = "Detects transferring of service owner on request from primary owner"
     default_reference = "https://slack.com/intl/en-gb/help/articles/204401633-Transfer-ownership-of-a-workspace-or-org"
     summary_attributes = ["p_any_ip_addresses", "p_any_emails"]

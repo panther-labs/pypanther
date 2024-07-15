@@ -128,7 +128,7 @@ class OsquerySuspiciousCron(Rule):
     log_types = [LogType.Osquery_Differential]
     tags = ["Osquery", "Execution:Scheduled Task/Job"]
     reports = {"MITRE ATT&CK": ["TA0002:T1053"]}
-    default_severity = Severity.high
+    default_severity = Severity.HIGH
     default_description = "A suspicious cron has been added"
     default_runbook = "Analyze the command to ensure no nefarious activity is occurring"
     default_reference = "https://en.wikipedia.org/wiki/Cron"

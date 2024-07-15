@@ -242,7 +242,7 @@ class DropboxOwnershipTransfer(Rule):
     default_description = "Dropbox ownership of a document or folder has been transferred."
     display_name = "Dropbox Document/Folder Ownership Transfer"
     default_reference = "https://help.dropbox.com/share/owner"
-    default_severity = Severity.high
+    default_severity = Severity.HIGH
     log_types = [LogType.Dropbox_TeamEvent]
     id = "Dropbox.Ownership.Transfer-prototype"
     tests = dropbox_ownership_transfer_tests

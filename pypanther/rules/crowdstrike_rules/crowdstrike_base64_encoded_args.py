@@ -557,7 +557,7 @@ class CrowdstrikeBase64EncodedArgs(Rule):
     display_name = "Execution of Command Line Tool with Base64 Encoded Arguments"
     log_types = [LogType.Crowdstrike_FDREvent]
     tags = ["Execution", "Obfuscation"]
-    default_severity = Severity.medium
+    default_severity = Severity.MEDIUM
     default_description = "Detects the execution of common command line tools (e.g., PowerShell, cmd.exe) with Base64 encoded arguments, which could indicate an attempt to obfuscate malicious commands."
     default_runbook = "Investigate the endpoint for signs of command line tool execution with Base64 encoded arguments. Review the executed command, decode the Base64 string, and analyze the original content."
     default_reference = "https://www.crowdstrike.com/blog/blocking-fileless-script-based-attacks-using-falcon-script-control-feature/"

@@ -39,7 +39,7 @@ class CarbonBlackAuditUserAddedOutsideOrg(Rule):
         "Detects when a user from a different organization is added to Carbon Black."
     )
     display_name = "Carbon Black User Added Outside Org"
-    default_severity = Severity.high
+    default_severity = Severity.HIGH
     tags = ["Persistence", "Create Account"]
     reports = {"MITRE ATT&CK": ["TA0003:T1136"]}
     default_reference = "https://docs.vmware.com/en/VMware-Carbon-Black-Cloud/services/carbon-black-cloud-user-guide/GUID-516BAF8C-A13D-4FC7-AA92-923159C13083.html"

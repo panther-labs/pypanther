@@ -189,7 +189,7 @@ class GCPWorkloadIdentityPoolCreatedorUpdated(Rule):
     log_types = [LogType.GCP_AuditLog]
     tags = ["Account Manipulation", "Additional Cloud Roles", "GCP", "Privilege Escalation"]
     reports = {"MITRE ATT&CK": ["TA0003:T1136.003", "TA0003:T1098.003", "TA0004:T1098.003"]}
-    default_severity = Severity.high
+    default_severity = Severity.HIGH
     default_runbook = "Ensure that the Workload Identity Pool creation or modification was expected. Adversaries may use this to persist or allow additional access or escalate their privilege.\n"
     default_reference = "https://medium.com/google-cloud/detection-of-inbound-sso-persistence-techniques-in-gcp-c56f7b2a588b"
     tests = gcp_workload_identity_pool_createdor_updated_tests

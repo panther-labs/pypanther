@@ -46,7 +46,7 @@ class OktaAPIKeyCreated(Rule):
         "Credential Access:Steal Application Access Token",
     ]
     reports = {"MITRE ATT&CK": ["TA0006:T1528"]}
-    default_severity = Severity.info
+    default_severity = Severity.INFO
     default_description = "A user created an API Key in Okta"
     default_reference = "https://help.okta.com/en/prod/Content/Topics/Security/API.htm"
     default_runbook = "Reach out to the user if needed to validate the activity."

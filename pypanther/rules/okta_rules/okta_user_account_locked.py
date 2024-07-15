@@ -156,7 +156,7 @@ class OktaUserAccountLocked(Rule):
     default_description = "An Okta user has locked their account."
     display_name = "Okta User Account Locked"
     default_reference = "https://support.okta.com/help/s/article/How-to-Configure-the-Number-of-Failed-Login-Attempts-Before-User-Lockout?language=en_US"
-    default_severity = Severity.low
+    default_severity = Severity.LOW
     log_types = [LogType.Okta_SystemLog]
     id = "Okta.User.Account.Locked-prototype"
     tests = okta_user_account_locked_tests

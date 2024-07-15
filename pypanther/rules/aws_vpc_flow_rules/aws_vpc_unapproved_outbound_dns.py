@@ -69,7 +69,7 @@ class AWSVPCUnapprovedOutboundDNS(Rule):
     ]
     reports = {"MITRE ATT&CK": ["TA0011:T1071"]}
     default_reference = "https://docs.aws.amazon.com/vpc/latest/userguide/flow-logs.html"
-    default_severity = Severity.medium
+    default_severity = Severity.MEDIUM
     default_description = "Alerts if outbound DNS traffic is detected to a non-approved DNS server. DNS is often used as a means to exfiltrate data or perform command and control for compromised hosts. All DNS traffic should be routed through internal DNS servers or trusted 3rd parties.\n"
     default_runbook = "Investigate the host sending unapproved DNS activity for signs of compromise or other malicious activity. Update network configurations appropriately to ensure all DNS traffic is routed to approved DNS servers.\n"
     summary_attributes = ["srcaddr", "dstaddr", "dstport"]

@@ -68,7 +68,7 @@ class BoxLargeNumberPermissionUpdates(Rule):
     log_types = [LogType.Box_Event]
     tags = ["Box", "Privilege Escalation:Abuse Elevation Control Mechanism"]
     reports = {"MITRE ATT&CK": ["TA0004:T1548"]}
-    default_severity = Severity.low
+    default_severity = Severity.LOW
     default_description = "A user has exceeded the threshold for number of folder permission changes within a single time frame.\n"
     default_reference = (
         "https://support.box.com/hc/en-us/articles/360043697254-Understanding-Folder-Permissions"

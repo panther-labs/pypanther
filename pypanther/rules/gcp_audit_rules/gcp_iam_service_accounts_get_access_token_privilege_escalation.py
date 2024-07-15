@@ -105,7 +105,7 @@ class GCPIAMserviceAccountsgetAccessTokenPrivilegeEscalation(Rule):
     display_name = "GCP IAM serviceAccounts getAccessToken Privilege Escalation"
     log_types = [LogType.GCP_AuditLog]
     reports = {"MITRE ATT&CK": ["TA0004:T1548"]}
-    default_severity = Severity.high
+    default_severity = Severity.HIGH
     default_description = "The Identity and Access Management (IAM) service manages authorization and authentication for a GCP environment. This means that there are very likely multiple privilege escalation methods that use the IAM service and/or its permissions."
     default_reference = (
         "https://rhinosecuritylabs.com/gcp/privilege-escalation-google-cloud-platform-part-1/"

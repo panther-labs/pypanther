@@ -66,7 +66,7 @@ mongo_db_user_roles_changed_tests: list[RuleTest] = [
 class MongoDBUserRolesChanged(Rule):
     default_description = "User roles changed."
     display_name = "MongoDB user roles changed"
-    default_severity = Severity.low
+    default_severity = Severity.LOW
     default_reference = "https://www.mongodb.com/docs/v4.2/tutorial/create-users/"
     log_types = [LogType.MongoDB_OrganizationEvent]
     id = "MongoDB.User.Roles.Changed-prototype"

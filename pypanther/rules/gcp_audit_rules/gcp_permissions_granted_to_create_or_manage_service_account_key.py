@@ -177,7 +177,7 @@ class GCPPermissionsGrantedtoCreateorManageServiceAccountKey(Rule):
     default_description = "Permissions granted to impersonate a service account. This includes predefined service account IAM roles granted at the parent project, folder or organization-level."
     display_name = "GCP Permissions Granted to Create or Manage Service Account Key"
     default_reference = "https://cloud.google.com/iam/docs/keys-create-delete"
-    default_severity = Severity.low
+    default_severity = Severity.LOW
     log_types = [LogType.GCP_AuditLog]
     id = "GCP.Permissions.Granted.to.Create.or.Manage.Service.Account.Key-prototype"
     tests = gcp_permissions_grantedto_createor_manage_service_account_key_tests

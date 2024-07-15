@@ -34,7 +34,7 @@ class GitHubOrgAuthChange(Rule):
     log_types = [LogType.GitHub_Audit]
     tags = ["GitHub", "Persistence:Account Manipulation"]
     reports = {"MITRE ATT&CK": ["TA0003:T1098"]}
-    default_severity = Severity.critical
+    default_severity = Severity.CRITICAL
     summary_attributes = ["actor", "action"]
     default_description = "Detects changes to GitHub org authentication changes."
     default_runbook = "Verify that the GitHub admin performed this activity and validate its use."

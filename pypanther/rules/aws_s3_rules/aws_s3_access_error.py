@@ -83,7 +83,7 @@ class AWSS3ServerAccessError(Rule):
     log_types = [LogType.AWS_S3ServerAccess]
     tags = ["AWS", "Security Control", "Discovery:Cloud Storage Object Discovery"]
     reports = {"MITRE ATT&CK": ["TA0007:T1619"]}
-    default_severity = Severity.info
+    default_severity = Severity.INFO
     default_description = "Checks for errors during S3 Object access. This could be due to insufficient access permissions, non-existent buckets, or other reasons.\n"
     default_runbook = "Investigate the specific error and determine if it is an ongoing issue that needs to be addressed or a one off or transient error that can be ignored.\n"
     default_reference = "https://docs.aws.amazon.com/AmazonS3/latest/dev/ErrorCode.html"

@@ -45,7 +45,7 @@ class TeleportAuthErrors(Rule):
     display_name = "Teleport SSH Auth Errors"
     log_types = [LogType.Gravitational_TeleportAudit]
     tags = ["SSH", "Credential Access:Brute Force"]
-    default_severity = Severity.medium
+    default_severity = Severity.MEDIUM
     reports = {"MITRE ATT&CK": ["TA0006:T1110"]}
     default_description = "A high volume of SSH errors could indicate a brute-force attack"
     threshold = 10

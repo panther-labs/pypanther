@@ -34,7 +34,7 @@ class DuoAdminPolicyUpdated(Rule):
     )
     display_name = "Duo Admin Policy Updated"
     default_reference = "https://duo.com/docs/policy#authenticators-policy-settings"
-    default_severity = Severity.medium
+    default_severity = Severity.MEDIUM
     log_types = [LogType.Duo_Administrator]
     id = "Duo.Admin.Policy.Updated-prototype"
     tests = duo_admin_policy_updated_tests

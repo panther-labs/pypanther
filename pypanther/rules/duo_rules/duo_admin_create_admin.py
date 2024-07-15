@@ -35,7 +35,7 @@ class DuoAdminCreateAdmin(Rule):
     default_description = "A new Duo Administrator was created. "
     display_name = "Duo Admin Create Admin"
     default_reference = "https://duo.com/docs/administration-admins#add-an-administrator"
-    default_severity = Severity.high
+    default_severity = Severity.HIGH
     log_types = [LogType.Duo_Administrator]
     id = "Duo.Admin.Create.Admin-prototype"
     tests = duo_admin_create_admin_tests

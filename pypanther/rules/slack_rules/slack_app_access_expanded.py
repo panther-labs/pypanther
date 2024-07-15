@@ -227,7 +227,7 @@ class SlackAuditLogsAppAccessExpanded(Rule):
     log_types = [LogType.Slack_AuditLogs]
     tags = ["Slack", "Privilege Escalation", "Account Manipulation"]
     reports = {"MITRE ATT&CK": ["TA0004:T1098"]}
-    default_severity = Severity.medium
+    default_severity = Severity.MEDIUM
     default_description = "Detects when a Slack App has had its permission scopes expanded"
     default_reference = "https://slack.com/intl/en-gb/help/articles/1500009181142-Manage-app-settings-and-permissions"
     summary_attributes = ["action", "p_any_ip_addresses", "p_any_emails"]

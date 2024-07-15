@@ -47,7 +47,7 @@ class OsqueryMacApplicationFirewallSettings(Rule):
     log_types = [LogType.Osquery_Differential]
     tags = ["Osquery", "MacOS", "Security Control", "Defense Evasion:Impair Defenses"]
     reports = {"CIS": ["2.6.3", "2.6.4"], "MITRE ATT&CK": ["TA0005:T1562"]}
-    default_severity = Severity.high
+    default_severity = Severity.HIGH
     default_description = "The application level firewall blocks unwanted network connections made to your computer from other computers on your network.\n"
     default_runbook = "Re-enable the firewall manually or with configuration management"
     default_reference = "https://support.apple.com/en-us/HT201642"

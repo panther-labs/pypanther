@@ -70,7 +70,7 @@ class OktaGlobalMFADisabled(Rule):
         "Defense Evasion:Modify Authentication Process",
     ]
     reports = {"MITRE ATT&CK": ["TA0005:T1556"]}
-    default_severity = Severity.high
+    default_severity = Severity.HIGH
     default_description = "An admin user has disabled the MFA requirement for your Okta account"
     default_reference = "https://help.okta.com/oie/en-us/content/topics/identity-engine/authenticators/about-authenticators.htm"
     default_runbook = "Contact Admin to ensure this was sanctioned activity"

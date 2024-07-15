@@ -91,7 +91,7 @@ class GSuiteWorkspacePasswordReuseEnabled(Rule):
     display_name = "GSuite Workspace Password Reuse Has Been Enabled"
     log_types = [LogType.GSuite_ActivityEvent]
     tags = ["GSuite"]
-    default_severity = Severity.high
+    default_severity = Severity.HIGH
     reports = {"MITRE ATT&CK": ["TA0006:T1110"]}
     default_description = "A Workspace Admin Has Enabled Password Reuse\n"
     default_reference = "https://support.google.com/a/answer/139399?hl=en#"

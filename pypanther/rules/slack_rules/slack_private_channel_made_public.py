@@ -82,7 +82,7 @@ class SlackAuditLogsPrivateChannelMadePublic(Rule):
         "Exfiltration Over Web Service",
     ]
     reports = {"MITRE ATT&CK": ["TA0005:T1222", "TA0003:T1098", "TA0010:T1567"]}
-    default_severity = Severity.high
+    default_severity = Severity.HIGH
     default_description = "Detects when a channel that was previously private is made public"
     default_reference = "https://slack.com/intl/en-gb/help/articles/213185467-Convert-a-channel-to-private-or-public"
     summary_attributes = ["p_any_ip_addresses", "p_any_emails"]

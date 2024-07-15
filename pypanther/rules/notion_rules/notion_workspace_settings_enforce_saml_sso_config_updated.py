@@ -74,7 +74,7 @@ class NotionSAMLSSOConfigurationChanged(Rule):
     display_name = "Notion SAML SSO Configuration Changed"
     log_types = [LogType.Notion_AuditLogs]
     tags = ["Notion", "Identity & Access Management", "Credential Security"]
-    default_severity = Severity.high
+    default_severity = Severity.HIGH
     default_description = (
         "A Notion User changed settings to enforce SAML SSO configurations for your organization."
     )

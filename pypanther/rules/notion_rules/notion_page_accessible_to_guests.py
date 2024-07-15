@@ -77,7 +77,7 @@ class NotionPagePermsGuestPermsChanged(Rule):
     display_name = "Notion Page Guest Permissions Changed"
     log_types = [LogType.Notion_AuditLogs]
     tags = ["Notion", "Data Security", "Information Disclosure"]
-    default_severity = Severity.low
+    default_severity = Severity.LOW
     default_description = "The external guest permissions for a Notion page have been altered."
     default_runbook = (
         "Potential information exposure - review the shared page and rectify if needed."

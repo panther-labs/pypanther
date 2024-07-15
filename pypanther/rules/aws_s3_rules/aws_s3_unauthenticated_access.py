@@ -26,7 +26,7 @@ class AWSS3ServerAccessUnauthenticated(Rule):
         "Collection:Data From Cloud Storage Object",
     ]
     reports = {"MITRE ATT&CK": ["TA0009:T1530"]}
-    default_severity = Severity.low
+    default_severity = Severity.LOW
     default_description = (
         "Checks for S3 access attempts where the requester is not an authenticated AWS user.\n"
     )

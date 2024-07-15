@@ -155,7 +155,7 @@ class AWSCloudTrailAccountDiscovery(Rule):
     display_name = "AWS CloudTrail Account Discovery"
     default_reference = "https://attack.mitre.org/techniques/T1087/"
     reports = {"MITRE ATT&CK": ["TA0007:T1087"]}
-    default_severity = Severity.info
+    default_severity = Severity.INFO
     log_types = [LogType.AWS_CloudTrail]
     id = "AWS.CloudTrail.Account.Discovery-prototype"
     tests = aws_cloud_trail_account_discovery_tests

@@ -43,7 +43,7 @@ class GitHubOrgIpAllowlist(Rule):
     log_types = [LogType.GitHub_Audit]
     tags = ["GitHub", "Persistence:Account Manipulation"]
     reports = {"MITRE ATT&CK": ["TA0003:T1098"]}
-    default_severity = Severity.medium
+    default_severity = Severity.MEDIUM
     summary_attributes = ["actor", "action"]
     default_description = "Detects changes to a GitHub Org IP Allow List"
     default_runbook = "Verify that the change was authorized and appropriate."

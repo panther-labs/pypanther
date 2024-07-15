@@ -125,7 +125,7 @@ class GSuiteDriveExternalFileShare(Rule):
         "Collection:Data from Information Repositories",
     ]
     reports = {"MITRE ATT&CK": ["TA0009:T1213"]}
-    default_severity = Severity.high
+    default_severity = Severity.HIGH
     default_description = "An employee shared a sensitive file externally with another organization"
     default_runbook = "Contact the employee who made the share and make sure they redact the access. If the share was legitimate, add to the EXCEPTION_PATTERNS in the detection.\n"
     default_reference = "https://support.google.com/docs/answer/2494822?hl=en&co=GENIE.Platform%3DiOS&sjid=864417124752637253-EU"

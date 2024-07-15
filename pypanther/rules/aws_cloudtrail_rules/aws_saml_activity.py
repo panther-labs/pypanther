@@ -258,7 +258,7 @@ class AWSSuspiciousSAMLActivity(Rule):
     default_description = "Identifies when SAML activity has occurred in AWS. An adversary could gain backdoor access via SAML."
     display_name = "AWS SAML Activity"
     default_reference = "https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pools-managing-saml-idp-console.html"
-    default_severity = Severity.medium
+    default_severity = Severity.MEDIUM
     log_types = [LogType.AWS_CloudTrail]
     id = "AWS.Suspicious.SAML.Activity-prototype"
     tests = aws_suspicious_saml_activity_tests

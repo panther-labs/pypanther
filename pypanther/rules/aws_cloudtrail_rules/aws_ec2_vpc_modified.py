@@ -185,7 +185,7 @@ class AWSEC2VPCModified(Rule):
     log_types = [LogType.AWS_CloudTrail]
     tags = ["AWS", "Security Control", "Defense Evasion:Impair Defenses"]
     reports = {"CIS": ["3.14"], "MITRE ATT&CK": ["TA0005:T1562"]}
-    default_severity = Severity.info
+    default_severity = Severity.INFO
     dedup_period_minutes = 720
     default_description = "An EC2 VPC was modified."
     default_runbook = (

@@ -38,7 +38,7 @@ class OneLoginAuthFactorRemoved(Rule):
         "Defense Evasion:Modify Authentication Process",
     ]
     reports = {"MITRE ATT&CK": ["TA0005:T1556"]}
-    default_severity = Severity.low
+    default_severity = Severity.LOW
     default_description = "A user removed an authentication factor or otp device.\n"
     default_reference = (
         "https://onelogin.service-now.com/kb_view_customer.do?sysparm_article=KB0010426"

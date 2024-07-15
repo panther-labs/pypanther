@@ -79,7 +79,7 @@ class OsquerySSHListener(Rule):
     log_types = [LogType.Osquery_Differential]
     tags = ["Osquery", "Lateral Movement:Remote Services"]
     reports = {"MITRE ATT&CK": ["TA0008:T1021"]}
-    default_severity = Severity.medium
+    default_severity = Severity.MEDIUM
     default_description = "Check if SSH is listening in a non-production environment. This could be an indicator of persistent access within an environment.\n"
     default_runbook = "Terminate the SSH daemon, investigate for signs of compromise.\n"
     default_reference = (

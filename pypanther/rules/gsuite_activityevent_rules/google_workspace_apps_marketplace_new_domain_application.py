@@ -106,7 +106,7 @@ class GoogleWorkspaceAppsMarketplaceNewDomainApplication(Rule):
     display_name = "Google Workspace Apps Marketplace New Domain Application"
     default_runbook = "Confirm this was the intended behavior."
     default_reference = "https://developers.google.com/workspace/marketplace/overview"
-    default_severity = Severity.medium
+    default_severity = Severity.MEDIUM
     log_types = [LogType.GSuite_ActivityEvent]
     id = "Google.Workspace.Apps.Marketplace.New.Domain.Application-prototype"
     tests = google_workspace_apps_marketplace_new_domain_application_tests

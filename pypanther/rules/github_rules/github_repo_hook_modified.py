@@ -52,7 +52,7 @@ class GitHubRepoHookModified(Rule):
     tags = ["GitHub", "Exfiltration:Automated Exfiltration"]
     reports = {"MITRE ATT&CK": ["TA0010:T1020"]}
     default_reference = "https://docs.github.com/en/webhooks/about-webhooks"
-    default_severity = Severity.info
+    default_severity = Severity.INFO
     default_description = (
         "Detects when a web hook is added, modified, or deleted in an org repository."
     )

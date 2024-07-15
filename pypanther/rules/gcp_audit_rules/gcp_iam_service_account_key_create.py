@@ -51,7 +51,7 @@ class GCPiamserviceAccountKeyscreate(Rule):
     display_name = "GCP.Iam.ServiceAccountKeys.Create"
     default_description = "If your user is assigned a custom IAM role, then iam.roles.update will allow you to update the “includedPermissons” on that role. Because it is assigned to you, you will gain the additional privileges, which could be anything you desire."
     log_types = [LogType.GCP_AuditLog]
-    default_severity = Severity.high
+    default_severity = Severity.HIGH
     default_reference = (
         "https://rhinosecuritylabs.com/gcp/privilege-escalation-google-cloud-platform-part-1/"
     )

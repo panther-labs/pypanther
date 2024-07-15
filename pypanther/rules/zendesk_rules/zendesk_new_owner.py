@@ -49,7 +49,7 @@ class ZendeskAccountOwnerChanged(Rule):
     id = "Zendesk.AccountOwnerChanged-prototype"
     display_name = "Zendesk Account Owner Changed"
     log_types = [LogType.Zendesk_Audit]
-    default_severity = Severity.high
+    default_severity = Severity.HIGH
     tags = ["Zendesk", "Privilege Escalation:Valid Accounts"]
     reports = {"MITRE ATT&CK": ["TA0004:T1078"]}
     default_description = (

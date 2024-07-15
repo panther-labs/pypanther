@@ -43,7 +43,7 @@ class BoxEventTriggeredExternally(Rule):
     log_types = [LogType.Box_Event]
     tags = ["Box", "Exfiltration:Exfiltration Over Web Service", "Configuration Required"]
     reports = {"MITRE ATT&CK": ["TA0010:T1567"]}
-    default_severity = Severity.medium
+    default_severity = Severity.MEDIUM
     default_description = "An external user has triggered a box enterprise event.\n"
     default_reference = (
         "https://support.box.com/hc/en-us/articles/8391393127955-Using-the-Enterprise-Event-Stream"

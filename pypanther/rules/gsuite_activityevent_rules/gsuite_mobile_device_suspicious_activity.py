@@ -32,7 +32,7 @@ class GSuiteDeviceSuspiciousActivity(Rule):
     display_name = "GSuite Device Suspicious Activity"
     log_types = [LogType.GSuite_ActivityEvent]
     tags = ["GSuite"]
-    default_severity = Severity.low
+    default_severity = Severity.LOW
     default_description = "GSuite reported a suspicious activity on a user's device.\n"
     default_reference = (
         "https://support.google.com/a/answer/7562460?hl=en&sjid=864417124752637253-EU"

@@ -129,7 +129,7 @@ class SlackAuditLogsIDPConfigurationChanged(Rule):
     log_types = [LogType.Slack_AuditLogs]
     tags = ["Slack", "Persistence", "Credential Access", "Modify Authentication Process"]
     reports = {"MITRE ATT&CK": ["TA0003:T1556", "TA0006:T1556"]}
-    default_severity = Severity.high
+    default_severity = Severity.HIGH
     default_description = (
         "Detects changes to the identity provider (IdP) configuration for Slack organizations."
     )

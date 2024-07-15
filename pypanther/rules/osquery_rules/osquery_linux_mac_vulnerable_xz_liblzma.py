@@ -55,7 +55,7 @@ class OsqueryLinuxMacVulnerableXZliblzma(Rule):
     log_types = [LogType.Osquery_Differential]
     tags = ["Osquery", "MacOS", "Linux", "Emerging Threats", "Supply Chain Compromise"]
     reports = {"MITRE ATT&CK": ["TA0001:T1195.001"]}
-    default_severity = Severity.high
+    default_severity = Severity.HIGH
     default_description = "Detects vulnerable versions of XZ and liblzma on Linux and MacOS using Osquery logs. Versions 5.6.0 and 5.6.1 of xz and liblzma are most likely vulnerable to backdoor exploit. Vuln management pack must be enabled: https://github.com/osquery/osquery/blob/master/packs/vuln-management.conf\n"
     default_runbook = "Upgrade/downgrade xz and liblzma to non-vulnerable versions"
     default_reference = "https://gist.github.com/jamesspi/ee8319f55d49b4f44345c626f80c430f"

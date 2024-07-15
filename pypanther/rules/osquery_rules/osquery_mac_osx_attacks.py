@@ -38,7 +38,7 @@ class OsqueryMacOSXAttacks(Rule):
     log_types = [LogType.Osquery_Differential]
     tags = ["Osquery", "MacOS", "Malware", "Resource Development:Develop Capabilities"]
     reports = {"MITRE ATT&CK": ["TA0042:T1588"]}
-    default_severity = Severity.medium
+    default_severity = Severity.MEDIUM
     default_description = "Malware has potentially been detected on a macOS system"
     default_runbook = "Check the executable against VirusTotal"
     default_reference = "https://github.com/osquery/osquery/blob/master/packs/osx-attacks.conf"

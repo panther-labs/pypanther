@@ -177,7 +177,7 @@ class GCPBigQueryLargeScan(Rule):
     default_description = "Detect any BigQuery query that is doing a very large scan (> 1 GB)."
     display_name = "GCP BigQuery Large Scan"
     default_reference = "https://cloud.google.com/bigquery/docs/running-queries"
-    default_severity = Severity.info
+    default_severity = Severity.INFO
     log_types = [LogType.GCP_AuditLog]
     id = "GCP.BigQuery.Large.Scan-prototype"
     tests = gcp_big_query_large_scan_tests

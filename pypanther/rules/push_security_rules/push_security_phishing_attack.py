@@ -70,7 +70,7 @@ class PushSecurityPhishingAttack(Rule):
     id = "Push.Security.Phishing.Attack-prototype"
     display_name = "Push Security Phishing Attack"
     log_types = [LogType.PushSecurity_Controls]
-    default_severity = Severity.high
+    default_severity = Severity.HIGH
     tests = push_security_phishing_attack_tests
 
     def rule(self, event):

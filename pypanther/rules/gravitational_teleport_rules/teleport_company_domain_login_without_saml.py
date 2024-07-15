@@ -43,7 +43,7 @@ class TeleportCompanyDomainLoginWithoutSAML(Rule):
     display_name = "A User from the company domain(s) Logged in without SAML"
     log_types = [LogType.Gravitational_TeleportAudit]
     tags = ["Teleport"]
-    default_severity = Severity.high
+    default_severity = Severity.HIGH
     default_description = "A User from the company domain(s) Logged in without SAML"
     reports = {"MITRE ATT&CK": ["TA0005:T1562"]}
     default_reference = "https://goteleport.com/docs/management/admin/"

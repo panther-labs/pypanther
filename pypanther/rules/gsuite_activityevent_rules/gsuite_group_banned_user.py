@@ -30,7 +30,7 @@ class GSuiteGroupBannedUser(Rule):
     display_name = "GSuite User Banned from Group"
     log_types = [LogType.GSuite_ActivityEvent]
     tags = ["GSuite"]
-    default_severity = Severity.low
+    default_severity = Severity.LOW
     default_description = "A GSuite user was banned from an enterprise group by moderator action.\n"
     default_reference = (
         "https://support.google.com/a/users/answer/9303224?hl=en&sjid=864417124752637253-EU"

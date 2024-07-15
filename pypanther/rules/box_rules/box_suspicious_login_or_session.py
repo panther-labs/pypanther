@@ -74,7 +74,7 @@ class BoxShieldSuspiciousAlert(Rule):
     log_types = [LogType.Box_Event]
     tags = ["Box", "Initial Access:Valid Accounts"]
     reports = {"MITRE ATT&CK": ["TA0001:T1078"]}
-    default_severity = Severity.high
+    default_severity = Severity.HIGH
     default_description = (
         "A user login event or session event was tagged as medium to high severity by Box Shield.\n"
     )

@@ -169,7 +169,7 @@ class AmazonEKSAuditMultiple403(Rule):
     tags = ["EKS"]
     reports = {"MITRE ATT&CK": ["TA0007:T1613"]}
     default_reference = "https://aws.github.io/aws-eks-best-practices/security/docs/detective/"
-    default_severity = Severity.info
+    default_severity = Severity.INFO
     default_description = "This detection identifies if a public sourceIP is generating multiple 403s with the Kubernetes API server.\n"
     dedup_period_minutes = 30
     threshold = 10

@@ -38,7 +38,7 @@ class CarbonBlackAuditFlagged(Rule):
     log_types = [LogType.CarbonBlack_Audit]
     default_description = "Detects when Carbon Black has flagged a log as important, such as failed login attempts and locked accounts."
     display_name = "Carbon Black Log Entry Flagged"
-    default_severity = Severity.high
+    default_severity = Severity.HIGH
     tags = ["Credential Access", "Brute Force"]
     reports = {"MITRE ATT&CK": ["TA0006:T1110"]}
     default_reference = "https://docs.vmware.com/en/VMware-Carbon-Black-Cloud/services/carbon-black-cloud-user-guide/GUID-FB61E4E3-6431-4226-A4E3-5949FB75922B.html"

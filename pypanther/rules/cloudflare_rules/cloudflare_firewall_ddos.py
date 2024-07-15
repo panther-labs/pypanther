@@ -97,7 +97,7 @@ class CloudflareFirewallL7DDoS(Rule):
     display_name = "Cloudflare L7 DDoS"
     log_types = [LogType.Cloudflare_Firewall]
     tags = ["Cloudflare", "Variable Severity"]
-    default_severity = Severity.medium
+    default_severity = Severity.MEDIUM
     default_description = "Layer 7 Distributed Denial of Service (DDoS) detected"
     default_runbook = "Inspect and monitor internet-facing services for potential outages"
     default_reference = (

@@ -56,7 +56,7 @@ class OnePasswordSensitiveItem(Rule):
     enabled = False
     log_types = [LogType.OnePassword_ItemUsage]
     default_reference = "https://support.1password.com/1password-com-items/"
-    default_severity = Severity.low
+    default_severity = Severity.LOW
     default_description = (
         "Alerts when a user defined list of sensitive items in 1Password is accessed"
     )

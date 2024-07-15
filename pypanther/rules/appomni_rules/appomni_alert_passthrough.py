@@ -156,7 +156,7 @@ class AppOmniAlertPassthrough(Rule):
     id = "AppOmni.Alert.Passthrough-prototype"
     display_name = "AppOmni Alert Passthrough"
     log_types = [LogType.AppOmni_Alerts]
-    default_severity = Severity.medium
+    default_severity = Severity.MEDIUM
     reports = {
         "MITRE ATT&CK": [
             "TA0001:T1566",

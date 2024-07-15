@@ -91,7 +91,7 @@ class GSuiteWorkspaceGmailSecuritySandboxDisabled(Rule):
     log_types = [LogType.GSuite_ActivityEvent]
     tags = ["GSuite"]
     reports = {"MITRE ATT&CK": ["TA0001:T1566"]}
-    default_severity = Severity.medium
+    default_severity = Severity.MEDIUM
     default_description = "A Workspace Admin Has Disabled The Security Sandbox\n"
     default_reference = "https://support.google.com/a/answer/7676854?hl=en#zippy=%2Cfind-security-sandbox-settings%2Cabout-security-sandbox-rules-and-other-scans"
     default_runbook = "Gmail's Security Sandbox enables rule based scanning of email content.\nIf this change was not intentional, inspect the other actions taken by this actor.\n"

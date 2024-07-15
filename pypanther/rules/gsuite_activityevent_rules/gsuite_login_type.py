@@ -63,7 +63,7 @@ class GSuiteLoginType(Rule):
     log_types = [LogType.GSuite_ActivityEvent]
     tags = ["GSuite", "Configuration Required", "Initial Access:Valid Accounts"]
     reports = {"MITRE ATT&CK": ["TA0001:T1078"]}
-    default_severity = Severity.medium
+    default_severity = Severity.MEDIUM
     default_description = "A login of a non-approved type was detected for this user.\n"
     default_reference = (
         "https://support.google.com/a/answer/9039184?hl=en&sjid=864417124752637253-EU"

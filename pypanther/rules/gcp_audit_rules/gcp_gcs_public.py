@@ -66,7 +66,7 @@ class GCPGCSPublic(Rule):
     log_types = [LogType.GCP_AuditLog]
     tags = ["GCP", "Google Cloud Storage", "Collection:Data From Cloud Storage Object"]
     reports = {"MITRE ATT&CK": ["TA0009:T1530"]}
-    default_severity = Severity.high
+    default_severity = Severity.HIGH
     default_description = (
         "Adversaries may access data objects from improperly secured cloud storage."
     )

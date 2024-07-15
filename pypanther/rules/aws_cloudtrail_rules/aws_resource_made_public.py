@@ -362,7 +362,7 @@ class AWSCloudTrailResourceMadePublic(Rule):
     display_name = "AWS Resource Made Public"
     log_types = [LogType.AWS_CloudTrail]
     tags = ["AWS", "Exfiltration:Transfer Data to Cloud Account"]
-    default_severity = Severity.medium
+    default_severity = Severity.MEDIUM
     reports = {"MITRE ATT&CK": ["TA0010:T1537"]}
     default_description = "Some AWS resource was made publicly accessible over the internet. Checks ECR, Elasticsearch, KMS, S3, S3 Glacier, SNS, SQS, and Secrets Manager.\n"
     default_runbook = "Adjust the policy so that the resource is no longer publicly accessible"

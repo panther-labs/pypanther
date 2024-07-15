@@ -32,7 +32,7 @@ class OneLoginUserAssumption(Rule):
     log_types = [LogType.OneLogin_Events]
     tags = ["OneLogin", "Lateral Movement:Use Alternate Authentication Material"]
     reports = {"MITRE ATT&CK": ["TA0008:T1550"]}
-    default_severity = Severity.low
+    default_severity = Severity.LOW
     default_description = "User assumed another user account"
     default_reference = "https://onelogin.service-now.com/kb_view_customer.do?sysparm_article=KB0010594#:~:text=Prerequisites,Actions%20and%20select%20Assume%20User."
     default_runbook = "Investigate whether this was authorized access.\n"

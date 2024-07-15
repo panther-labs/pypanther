@@ -100,7 +100,7 @@ class SlackAuditLogsInformationBarrierModified(Rule):
     log_types = [LogType.Slack_AuditLogs]
     tags = ["Slack", "Defense Evasion", "Impair Defenses", "Disable or Modify Tools"]
     reports = {"MITRE ATT&CK": ["TA0005:T1562.001"]}
-    default_severity = Severity.medium
+    default_severity = Severity.MEDIUM
     default_description = "Detects when a Slack information barrier is deleted/updated"
     default_reference = "https://slack.com/intl/en-gb/help/articles/360056171734-Create-information-barriers-in-Slack"
     summary_attributes = ["action", "p_any_ip_addresses", "p_any_emails"]

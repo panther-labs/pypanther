@@ -70,7 +70,7 @@ class GSuiteRule(Rule):
     display_name = "GSuite Passthrough Rule Triggered"
     log_types = [LogType.GSuite_ActivityEvent]
     tags = ["GSuite"]
-    default_severity = Severity.info
+    default_severity = Severity.INFO
     default_description = "A GSuite rule was triggered.\n"
     default_reference = "https://support.google.com/a/answer/9420866"
     default_runbook = "Investigate what triggered the rule.\n"

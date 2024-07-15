@@ -64,7 +64,7 @@ class AWSCloudTrailRootPasswordChanged(Rule):
     display_name = "Root Password Changed"
     log_types = [LogType.AWS_CloudTrail]
     tags = ["AWS", "Identity and Access Management", "Persistence:Account Manipulation"]
-    default_severity = Severity.high
+    default_severity = Severity.HIGH
     reports = {"MITRE ATT&CK": ["TA0003:T1098"]}
     default_description = "Someone manually changed the Root console login password.\n"
     default_runbook = "Verify that the root password change was authorized. If not, AWS support should be contacted immediately as the root account cannot be recovered through normal means and grants complete access to the account.\n"

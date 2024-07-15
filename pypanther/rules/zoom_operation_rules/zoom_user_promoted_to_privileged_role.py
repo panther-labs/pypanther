@@ -87,7 +87,7 @@ class ZoomUserPromotedtoPrivilegedRole(Rule):
     default_description = "A Zoom user was promoted to a privileged role."
     display_name = "Zoom User Promoted to Privileged Role"
     default_reference = "https://support.zoom.com/hc/en/article?id=zm_kb&sysparm_article=KB0064983"
-    default_severity = Severity.medium
+    default_severity = Severity.MEDIUM
     log_types = [LogType.Zoom_Operation]
     id = "Zoom.User.Promoted.to.Privileged.Role-prototype"
     tests = zoom_user_promotedto_privileged_role_tests

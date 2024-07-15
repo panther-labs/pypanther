@@ -104,7 +104,7 @@ class AWSCloudTrailIAMCompromisedKeyQuarantine(Rule):
     default_description = "Detects when an IAM user has the AWSCompromisedKeyQuarantineV2 policy attached to their account."
     display_name = "AWS Compromised IAM Key Quarantine"
     id = "AWS.CloudTrail.IAMCompromisedKeyQuarantine-prototype"
-    default_severity = Severity.high
+    default_severity = Severity.HIGH
     tags = [
         "AWS",
         "Identity and Access Management",

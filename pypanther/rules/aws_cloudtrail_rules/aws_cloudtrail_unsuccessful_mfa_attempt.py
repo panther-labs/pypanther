@@ -74,7 +74,7 @@ class AWSUnsuccessfulMFAattempt(Rule):
     default_reference = "https://attack.mitre.org/techniques/T1621/"
     tags = ["Configuration Required"]
     reports = {"MITRE ATT&CK": ["TA0006:T1621"]}
-    default_severity = Severity.high
+    default_severity = Severity.HIGH
     dedup_period_minutes = 15
     log_types = [LogType.AWS_CloudTrail]
     id = "AWS.Unsuccessful.MFA.attempt-prototype"

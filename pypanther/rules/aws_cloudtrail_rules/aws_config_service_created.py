@@ -133,7 +133,7 @@ class AWSConfigServiceCreated(Rule):
     log_types = [LogType.AWS_CloudTrail]
     tags = ["AWS", "Security Control", "Discovery:Cloud Service Discovery"]
     reports = {"CIS": ["3.9"], "MITRE ATT&CK": ["TA0007:T1526"]}
-    default_severity = Severity.info
+    default_severity = Severity.INFO
     default_description = "An AWS Config Recorder or Delivery Channel was created\n"
     default_runbook = "Verify that the Config Service changes were authorized. If not, revert them and investigate who caused the change. Consider altering permissions to prevent this from happening again in the future.\n"
     default_reference = "https://aws.amazon.com/config/"

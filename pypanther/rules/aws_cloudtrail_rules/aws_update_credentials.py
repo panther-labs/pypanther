@@ -118,7 +118,7 @@ class AWSIAMCredentialsUpdated(Rule):
     log_types = [LogType.AWS_CloudTrail]
     reports = {"MITRE ATT&CK": ["TA0003:T1098"]}
     tags = ["AWS", "Identity & Access Management", "Persistence:Account Manipulation"]
-    default_severity = Severity.info
+    default_severity = Severity.INFO
     default_description = "A console password, access key, or user has been created."
     default_runbook = "This rule is purely informational, there is no action needed."
     default_reference = (

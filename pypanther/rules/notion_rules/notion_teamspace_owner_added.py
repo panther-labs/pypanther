@@ -79,7 +79,7 @@ class NotionTeamspaceOwnerAdded(Rule):
     log_types = [LogType.Notion_AuditLogs]
     tags = ["Notion", "Privilege Escalation"]
     default_description = "A Notion User was added as a Teamspace owner."
-    default_severity = Severity.medium
+    default_severity = Severity.MEDIUM
     default_runbook = "Possible Privilege Escalation. Follow up with the Notion User to determine if this was done for a valid business reason."
     tests = notion_teamspace_owner_added_tests
 

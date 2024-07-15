@@ -32,7 +32,7 @@ class GSuiteGovernmentBackedAttack(Rule):
     display_name = "GSuite Government Backed Attack"
     log_types = [LogType.GSuite_ActivityEvent]
     tags = ["GSuite"]
-    default_severity = Severity.critical
+    default_severity = Severity.CRITICAL
     default_description = (
         "GSuite reported that it detected a government backed attack against your account.\n"
     )

@@ -83,7 +83,7 @@ class AsanaServiceAccountCreated(Rule):
     display_name = "Asana Service Account Created"
     default_runbook = "Confirm this user acted with valid business intent and determine whether this activity was authorized."
     default_reference = "https://help.asana.com/hc/en-us/articles/14217496838427-Service-Accounts"
-    default_severity = Severity.medium
+    default_severity = Severity.MEDIUM
     log_types = [LogType.Asana_Audit]
     id = "Asana.Service.Account.Created-prototype"
     tests = asana_service_account_created_tests

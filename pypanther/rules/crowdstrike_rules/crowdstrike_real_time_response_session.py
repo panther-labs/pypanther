@@ -128,7 +128,7 @@ crowdstrike_real_time_response_session_tests: list[RuleTest] = [
 class CrowdstrikeRealTimeResponseSession(Rule):
     display_name = "Crowdstrike Real Time Response (RTS) Session"
     id = "Crowdstrike.RealTimeResponse.Session-prototype"
-    default_severity = Severity.medium
+    default_severity = Severity.MEDIUM
     log_types = [LogType.Crowdstrike_Unknown, LogType.Crowdstrike_FDREvent]
     tags = ["Crowdstrike"]
     default_description = "Alert when someone uses Crowdstrike’s RTR (real-time response) capability to access a machine remotely to run commands.\n"

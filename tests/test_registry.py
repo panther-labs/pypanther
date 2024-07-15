@@ -8,7 +8,7 @@ def test_register_duplicate():
         tags = ["test"]
         log_types = [""]
         id = "test_register_duplicate"
-        default_severity = Severity.info
+        default_severity = Severity.INFO
 
         def rule(self, _):
             pass

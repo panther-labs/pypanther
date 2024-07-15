@@ -13,7 +13,7 @@ class NotionLoginFromBlockedIP(Rule):
         "Malicious Connections",
         "Configuration Required",
     ]
-    default_severity = Severity.medium
+    default_severity = Severity.MEDIUM
     default_description = "A user attempted to access Notion from a blocked IP address. Note: before deployinh, make sure to add Rule Filters checking if event.ip_address is in a certain CIDR range(s)."
     default_runbook = (
         "Confirm with user if the login was legitimate. If so, determine why the IP is blocked."

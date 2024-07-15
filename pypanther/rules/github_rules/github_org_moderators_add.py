@@ -38,7 +38,7 @@ class GitHubOrgModeratorsAdd(Rule):
     display_name = "GitHub User Added to Org Moderators"
     log_types = [LogType.GitHub_Audit]
     tags = ["GitHub", "Initial Access:Supply Chain Compromise"]
-    default_severity = Severity.medium
+    default_severity = Severity.MEDIUM
     default_description = "Detects when a user is added to a GitHub org's list of moderators."
     default_reference = "https://docs.github.com/en/organizations/managing-peoples-access-to-your-organization-with-roles/managing-moderators-in-your-organization"
     tests = git_hub_org_moderators_add_tests

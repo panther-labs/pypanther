@@ -32,7 +32,7 @@ class OneLoginHighRiskFailedLogin(Rule):
     display_name = "OneLogin Failed High Risk Login"
     log_types = [LogType.OneLogin_Events]
     tags = ["OneLogin"]
-    default_severity = Severity.low
+    default_severity = Severity.LOW
     default_description = (
         "A OneLogin attempt with a high risk factor (>50) resulted in a failed authentication."
     )

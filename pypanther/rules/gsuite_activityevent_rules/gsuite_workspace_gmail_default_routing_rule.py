@@ -117,7 +117,7 @@ class GSuiteWorkspaceGmailDefaultRoutingRuleModified(Rule):
     log_types = [LogType.GSuite_ActivityEvent]
     tags = ["GSuite"]
     reports = {"MITRE ATT&CK": ["TA0003:T1098"]}
-    default_severity = Severity.high
+    default_severity = Severity.HIGH
     default_description = "A Workspace Admin Has Modified A Default Routing Rule In Gmail\n"
     default_reference = "https://support.google.com/a/answer/2368153?hl=en"
     default_runbook = "Administrators use Default Routing to set up how inbound email is delivered within an organization. The configuration of the default routing rule needs to be inspected in order to verify the intent of the rule is benign.\nIf this change was not planned, inspect the other actions taken by this actor.\n"

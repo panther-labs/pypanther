@@ -325,7 +325,7 @@ class AWSEC2ManualSecurityGroupChange(Rule):
     log_types = [LogType.AWS_CloudTrail]
     reports = {"MITRE ATT&CK": ["TA0005:T1562"]}
     tags = ["AWS", "Security Control", "Configuration Required", "Defense Evasion:Impair Defenses"]
-    default_severity = Severity.medium
+    default_severity = Severity.MEDIUM
     default_description = "An EC2 security group was manually updated without abiding by the organization's accepted processes. This rule expects organizations to either use the Console, CloudFormation, or Terraform, configurable in the rule's ALLOWED_USER_AGENTS.\n"
     default_runbook = (
         "Identify the actor who changed the security group and validate it was legitimate"

@@ -78,7 +78,7 @@ class OsqueryUnsupportedMacOS(Rule):
     display_name = "Unsupported macOS version"
     log_types = [LogType.Osquery_Differential]
     tags = ["Osquery", "Compliance"]
-    default_severity = Severity.low
+    default_severity = Severity.LOW
     default_description = "Check that all laptops on the corporate environment are on a version of MacOS supported by IT.\n"
     default_runbook = "Update the MacOs version"
     default_reference = "https://support.apple.com/en-eg/HT201260"

@@ -165,7 +165,7 @@ gcp_firewall_rule_modified_tests: list[RuleTest] = [
 class GCPFirewallRuleModified(Rule):
     display_name = "GCP Firewall Rule Modified"
     id = "GCP.Firewall.Rule.Modified-prototype"
-    default_severity = Severity.low
+    default_severity = Severity.LOW
     log_types = [LogType.GCP_AuditLog]
     tags = ["GCP", "Firewall", "Networking", "Infrastructure"]
     default_description = "This rule detects modifications to GCP firewall rules.\n"

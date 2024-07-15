@@ -206,7 +206,7 @@ class StandardMFADisabled(Rule):
     tags = ["DataModel", "Defense Evasion:Modify Authentication Process"]
     reports = {"MITRE ATT&CK": ["TA0005:T1556"]}
     default_reference = "https://en.wikipedia.org/wiki/Multi-factor_authentication"
-    default_severity = Severity.high
+    default_severity = Severity.HIGH
     default_description = "Detects when Multi-Factor Authentication (MFA) is disabled"
     summary_attributes = ["p_any_ip_addresses"]
     tests = standard_mfa_disabled_tests

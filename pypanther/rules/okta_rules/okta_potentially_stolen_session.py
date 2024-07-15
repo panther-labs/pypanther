@@ -351,7 +351,7 @@ class OktaPotentiallyStolenSession(Rule):
     log_types = [LogType.Okta_SystemLog]
     tags = ["Identity & Access Management", "Okta"]
     reports = {"MITRE ATT&CK": ["TA0006:T1539"]}
-    default_severity = Severity.high
+    default_severity = Severity.HIGH
     default_description = "This rule looks for the same session being used from two devices, indicating a compromised session token."
     default_runbook = "Confirm the session is used on two devices, one of which is unknown. Lock the users Okta account and clear the users sessions in down stream apps."
     default_reference = "https://sec.okta.com/sessioncookietheft"

@@ -49,7 +49,7 @@ class GSuiteDeviceCompromise(Rule):
     display_name = "GSuite User Device Compromised"
     log_types = [LogType.GSuite_ActivityEvent]
     tags = ["GSuite"]
-    default_severity = Severity.medium
+    default_severity = Severity.MEDIUM
     default_description = "GSuite reported a user's device has been compromised.\n"
     default_reference = (
         "https://support.google.com/a/answer/7562165?hl=en&sjid=864417124752637253-EU"

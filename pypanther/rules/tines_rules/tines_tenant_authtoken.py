@@ -58,7 +58,7 @@ class TinesTenantAuthToken(Rule):
     display_name = "Tines Tenant API Keys Added"
     log_types = [LogType.Tines_Audit]
     tags = ["Tines", "IAM - Credential Security"]
-    default_severity = Severity.medium
+    default_severity = Severity.MEDIUM
     default_description = "Detects when Tines Tenant API Keys are added\n"
     default_reference = "https://www.tines.com/api/authentication"
     summary_attributes = ["user_id", "operation_name", "tenant_id", "request_ip"]

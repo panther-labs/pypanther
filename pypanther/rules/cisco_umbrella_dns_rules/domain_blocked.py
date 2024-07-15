@@ -34,7 +34,7 @@ class CiscoUmbrellaDNSBlocked(Rule):
     dedup_period_minutes = 480
     log_types = [LogType.CiscoUmbrella_DNS]
     tags = ["DNS"]
-    default_severity = Severity.low
+    default_severity = Severity.LOW
     default_description = "Monitor blocked domains"
     default_runbook = "Inspect the blocked domain and lookup for malware"
     default_reference = "https://support.umbrella.com/hc/en-us/articles/230563627-How-to-determine-if-a-domain-or-resource-is-being-blocked-using-Chrome-Net-Internals"

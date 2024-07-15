@@ -105,7 +105,7 @@ class GCPAccessAttemptsViolatingIAPAccessControls(Rule):
     default_description = "GCP Access Attempts Violating IAP Access Controls"
     display_name = "GCP Access Attempts Violating IAP Access Controls"
     default_reference = "https://cloud.google.com/iap/docs/concepts-overview"
-    default_severity = Severity.medium
+    default_severity = Severity.MEDIUM
     log_types = [LogType.GCP_HTTPLoadBalancer]
     id = "GCP.Access.Attempts.Violating.IAP.Access.Controls-prototype"
     tests = gcp_access_attempts_violating_iap_access_controls_tests

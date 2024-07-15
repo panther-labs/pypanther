@@ -224,7 +224,7 @@ okta_rate_limits_tests: list[RuleTest] = [
 class OktaRateLimits(Rule):
     default_description = "Potential DoS/Bruteforce attack or hitting limits (system degradation)"
     display_name = "Okta Rate Limits"
-    default_severity = Severity.high
+    default_severity = Severity.HIGH
     tags = ["Credential Access", "Brute Force", "Impact", "Network Denial of Service"]
     reports = {"MITRE ATT&CK": ["TA0006:T1110", "TA0040:T1498"]}
     default_reference = "https://developer.okta.com/docs/reference/rl-system-log-events/"

@@ -11,7 +11,7 @@ class CiscoUmbrellaDNSFuzzyMatching(Rule):
     log_types = [LogType.CiscoUmbrella_DNS]
     tags = ["Configuration Required", "DNS"]
     default_reference = "https://umbrella.cisco.com/blog/abcs-of-dns"
-    default_severity = Severity.medium
+    default_severity = Severity.MEDIUM
     default_description = (
         "Identify lookups to suspicious domains that could indicate a phishing attack."
     )

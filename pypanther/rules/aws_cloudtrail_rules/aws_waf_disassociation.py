@@ -129,7 +129,7 @@ class AWSWAFDisassociation(Rule):
     default_description = "Detection to alert when a WAF disassociates from a source."
     display_name = "AWS WAF Disassociation"
     default_reference = "https://attack.mitre.org/techniques/T1078/"
-    default_severity = Severity.critical
+    default_severity = Severity.CRITICAL
     reports = {"MITRE ATT&CK": ["TA0004:T1498"]}
     log_types = [LogType.AWS_CloudTrail]
     id = "AWS.WAF.Disassociation-prototype"

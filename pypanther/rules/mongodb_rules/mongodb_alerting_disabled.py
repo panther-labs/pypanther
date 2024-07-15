@@ -44,7 +44,7 @@ class MongoDBAlertingDisabledOrDeleted(Rule):
     display_name = "MongoDB security alerts disabled or deleted"
     log_types = [LogType.MongoDB_OrganizationEvent]
     id = "MongoDB.Alerting.Disabled.Or.Deleted-prototype"
-    default_severity = Severity.high
+    default_severity = Severity.HIGH
     reports = {"MITRE ATT&CK": ["TA0005:T1562.001"]}
     default_reference = "https://www.mongodb.com/docs/atlas/configure-alerts/"
     default_runbook = "Re-enable security alerts"

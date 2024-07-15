@@ -121,7 +121,7 @@ class AWSS3ServerAccessUnknownRequester(Rule):
         "Collection:Data From Cloud Storage Object",
     ]
     reports = {"Panther": ["Data Access"], "MITRE ATT&CK": ["TA0009:T1530"]}
-    default_severity = Severity.low
+    default_severity = Severity.LOW
     default_description = "Validates that proper IAM entities are accessing sensitive data buckets."
     default_runbook = "If the S3 access is not expected for this bucket, investigate the requester's other traffic."
     default_reference = "https://docs.aws.amazon.com/AmazonS3/latest/userguide/walkthrough1.html"

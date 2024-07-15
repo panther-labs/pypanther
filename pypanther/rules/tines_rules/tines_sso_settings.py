@@ -47,7 +47,7 @@ class TinesSSOSettings(Rule):
     display_name = "Tines SSO Settings"
     log_types = [LogType.Tines_Audit]
     tags = ["Tines", "IAM - Credential Security"]
-    default_severity = Severity.high
+    default_severity = Severity.HIGH
     default_description = "Detects when Tines SSO settings are changed\n"
     default_reference = "https://www.tines.com/docs/admin/single-sign-on"
     summary_attributes = ["user_id", "operation_name", "tenant_id", "request_ip"]

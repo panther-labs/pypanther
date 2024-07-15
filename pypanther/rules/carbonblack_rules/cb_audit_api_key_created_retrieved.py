@@ -52,7 +52,7 @@ class CarbonBlackAuditAPIKeyCreatedRetrieved(Rule):
     log_types = [LogType.CarbonBlack_Audit]
     default_description = "Detects when a user creates a new API key or retrieves an existing key."
     display_name = "Carbon Black API Key Created or Retrieved"
-    default_severity = Severity.medium
+    default_severity = Severity.MEDIUM
     tags = ["Persistence", "Create Account"]
     reports = {"MITRE ATT&CK": ["TA0003:T1136"]}
     default_reference = "https://docs.vmware.com/en/VMware-Carbon-Black-Cloud/services/carbon-black-cloud-user-guide/GUID-F3816FB5-969F-4113-80FC-03981C65F969.html"

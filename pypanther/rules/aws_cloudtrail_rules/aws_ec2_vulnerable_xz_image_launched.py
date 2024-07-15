@@ -721,7 +721,7 @@ class AWSEC2VulnerableXZImageLaunched(Rule):
     default_description = "Detecting EC2 instances launched with AMIs containing potentially vulnerable versions of XZ (CVE-2024-3094)\n"
     display_name = "AWS EC2 Vulnerable XZ Image Launched"
     default_reference = "https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2024-3094"
-    default_severity = Severity.critical
+    default_severity = Severity.CRITICAL
     tags = ["AWS", "Linux", "Emerging Threats", "Supply Chain Compromise"]
     reports = {"MITRE ATT&CK": ["TA0001:T1195.001"]}
     default_runbook = "- Verify that the AMI is indeed vulnerable to CVE-2024-3094 (xz -V being 5.6.0 or 5.6.1) - If the AMI is vulnerable, terminate the instance and launch a new instance with a non-vulnerable AMI\n"

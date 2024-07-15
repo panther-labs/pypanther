@@ -399,7 +399,7 @@ class StandardBruteForceByIP(Rule):
         LogType.OneLogin_Events,
         LogType.OnePassword_SignInAttempt,
     ]
-    default_severity = Severity.info
+    default_severity = Severity.INFO
     tags = ["DataModel", "Credential Access:Brute Force"]
     threshold = 20
     reports = {"MITRE ATT&CK": ["TA0006:T1110"]}

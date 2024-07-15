@@ -60,7 +60,7 @@ class NotionSharingSettingsUpdated(Rule):
     log_types = [LogType.Notion_AuditLogs]
     tags = ["Notion", "Data Exfiltration"]
     default_description = "A Notion User enabled sharing for a Workspace or Teamspace."
-    default_severity = Severity.medium
+    default_severity = Severity.MEDIUM
     default_runbook = "Possible Data Exfiltration. Follow up with the Notion User to determine if this was done for a valid business reason."
     tests = notion_sharing_settings_updated_tests
     EVENTS = (

@@ -74,7 +74,7 @@ class SlackAuditLogsEKMConfigChanged(Rule):
     log_types = [LogType.Slack_AuditLogs]
     tags = ["Slack", "Defense Evasion", "Impair Defenses", "Disable or Modify Cloud Logs"]
     reports = {"MITRE ATT&CK": ["TA0005:T1562.008"]}
-    default_severity = Severity.high
+    default_severity = Severity.HIGH
     default_description = (
         "Detects when the logging settings for a workspace's EKM configuration has changed"
     )

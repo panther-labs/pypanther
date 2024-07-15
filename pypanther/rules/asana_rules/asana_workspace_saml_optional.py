@@ -56,7 +56,7 @@ class AsanaWorkspaceSAMLOptional(Rule):
     display_name = "Asana Workspace SAML Optional"
     default_runbook = "Confirm this user acted with valid business intent and determine whether this activity was authorized."
     default_reference = "https://help.asana.com/hc/en-us/articles/14075208738587-Premium-Business-and-Enterprise-authentication#gl-saml:~:text=to%20your%20organization.-,SAML,-If%20your%20company"
-    default_severity = Severity.medium
+    default_severity = Severity.MEDIUM
     log_types = [LogType.Asana_Audit]
     id = "Asana.Workspace.SAML.Optional-prototype"
     tests = asana_workspace_saml_optional_tests

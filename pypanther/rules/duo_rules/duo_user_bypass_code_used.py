@@ -53,7 +53,7 @@ class DUOUserBypassCodeUsed(Rule):
     dedup_period_minutes = 5
     log_types = [LogType.Duo_Authentication]
     tags = ["Duo"]
-    default_severity = Severity.low
+    default_severity = Severity.LOW
     default_description = "A Duo user's bypass code was used to authenticate"
     default_reference = "https://duo.com/docs/adminapi#authentication-logs"
     default_runbook = "Follow up with the user to confirm they used the bypass code themselves."

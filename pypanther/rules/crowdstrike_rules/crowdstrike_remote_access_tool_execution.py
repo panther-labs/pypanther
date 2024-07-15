@@ -173,7 +173,7 @@ class CrowdstrikeRemoteAccessToolExecution(Rule):
     default_description = "Detects usage of common remote access tools."
     display_name = "Crowdstrike Remote Access Tool Execution"
     default_reference = "https://attack.mitre.org/techniques/T1219/"
-    default_severity = Severity.medium
+    default_severity = Severity.MEDIUM
     log_types = [LogType.Crowdstrike_FDREvent]
     id = "Crowdstrike.Remote.Access.Tool.Execution-prototype"
     tests = crowdstrike_remote_access_tool_execution_tests

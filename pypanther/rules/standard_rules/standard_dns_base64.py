@@ -218,7 +218,7 @@ class StandardDNSBase64(Rule):
     id = "Standard.DNSBase64-prototype"
     enabled = False
     default_reference = "https://zofixer.com/what-is-base64-disclosure-vulnerability/"
-    default_severity = Severity.medium
+    default_severity = Severity.MEDIUM
     log_types = [LogType.Crowdstrike_FDREvent, LogType.AWS_VPCDns, LogType.CiscoUmbrella_DNS]
     tests = standard_dns_base64_tests
     DECODED = ""

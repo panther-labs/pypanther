@@ -82,7 +82,7 @@ class StandardNewUserAccountCreated(Rule):
     display_name = "New User Account Created"
     log_types = [LogType.OneLogin_Events, LogType.AWS_CloudTrail, LogType.Zoom_Operation]
     tags = ["DataModel", "Indicator Collection", "OneLogin", "Persistence:Create Account"]
-    default_severity = Severity.info
+    default_severity = Severity.INFO
     reports = {"MITRE ATT&CK": ["TA0003:T1136"]}
     default_description = "A new account was created"
     default_runbook = "A new user account was created, ensure it was created through standard practice and is for a valid purpose."

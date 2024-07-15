@@ -30,7 +30,7 @@ class OneLoginUnauthorizedAccess(Rule):
     log_types = [LogType.OneLogin_Events]
     tags = ["OneLogin", "Lateral Movement:Use Alternate Authentication Material"]
     reports = {"MITRE ATT&CK": ["TA0008:T1550"]}
-    default_severity = Severity.medium
+    default_severity = Severity.MEDIUM
     default_description = (
         "A OneLogin user was denied access to an app more times than the configured threshold."
     )

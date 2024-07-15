@@ -65,7 +65,7 @@ class SnykProjectSettings(Rule):
     log_types = [LogType.Snyk_GroupAudit, LogType.Snyk_OrgAudit]
     tags = ["Snyk"]
     default_reference = "https://docs.snyk.io/snyk-admin/introduction-to-snyk-projects/view-and-edit-project-settings"
-    default_severity = Severity.medium
+    default_severity = Severity.MEDIUM
     default_description = "Detects when Snyk Project settings are changed\n"
     summary_attributes = ["event"]
     tests = snyk_project_settings_tests

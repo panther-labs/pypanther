@@ -71,7 +71,7 @@ class SnykOrgSettings(Rule):
     default_reference = (
         "https://docs.snyk.io/snyk-admin/manage-settings/organization-general-settings"
     )
-    default_severity = Severity.medium
+    default_severity = Severity.MEDIUM
     default_description = (
         "Detects when Snyk Organization settings, like Integrations and Webhooks, are changed\n"
     )

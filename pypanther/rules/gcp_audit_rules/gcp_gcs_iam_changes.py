@@ -65,7 +65,7 @@ class GCPGCSIAMChanges(Rule):
     log_types = [LogType.GCP_AuditLog]
     tags = ["GCP", "Google Cloud Storage", "Collection:Data From Cloud Storage Object"]
     reports = {"CIS": ["2.1"], "MITRE ATT&CK": ["TA0009:T1530"]}
-    default_severity = Severity.low
+    default_severity = Severity.LOW
     default_description = "Monitoring changes to Cloud Storage bucket permissions may reduce time to detect and correct permissions on sensitive Cloud Storage bucket and objects inside the bucket.\n"
     default_runbook = "Validate the GCS bucket change was safe."
     default_reference = "https://cloud.google.com/storage/docs/access-control/iam-permissions"

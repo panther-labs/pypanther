@@ -31,7 +31,7 @@ class GSuiteDocOwnershipTransfer(Rule):
     log_types = [LogType.GSuite_ActivityEvent]
     tags = ["GSuite", "Configuration Required", "Collection:Data from Information Repositories"]
     reports = {"MITRE ATT&CK": ["TA0009:T1213"]}
-    default_severity = Severity.low
+    default_severity = Severity.LOW
     default_description = "A GSuite document's ownership was transferred to an external party.\n"
     default_reference = "https://support.google.com/drive/answer/2494892?hl=en&co=GENIE.Platform%3DDesktop&sjid=864417124752637253-EU"
     default_runbook = (

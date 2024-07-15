@@ -129,7 +129,7 @@ class AWSConsoleRootLoginFailed(Rule):
     ]
     threshold = 5
     reports = {"CIS": ["3.6"], "MITRE ATT&CK": ["TA0006:T1110"]}
-    default_severity = Severity.high
+    default_severity = Severity.HIGH
     default_description = "A Root console login failed."
     default_runbook = (
         "https://docs.runpanther.io/alert-runbooks/built-in-rules/aws-console-login-failed"

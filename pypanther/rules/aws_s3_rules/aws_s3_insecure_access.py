@@ -100,7 +100,7 @@ class AWSS3ServerAccessInsecure(Rule):
         "Collection:Data From Cloud Storage Object",
     ]
     reports = {"MITRE ATT&CK": ["TA0009:T1530"]}
-    default_severity = Severity.low
+    default_severity = Severity.LOW
     default_description = "Checks if HTTP (unencrypted) was used to access objects in an S3 bucket, as opposed to HTTPS (encrypted).\n"
     default_runbook = "Add a condition on the S3 bucket policy that denies access via http.\n"
     default_reference = (

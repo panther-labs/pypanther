@@ -143,7 +143,7 @@ class AzureAuditManyFailedSignIns(Rule):
     threshold = 10
     dedup_period_minutes = 10
     log_types = [LogType.Azure_Audit]
-    default_severity = Severity.medium
+    default_severity = Severity.MEDIUM
     default_description = "This detection looks for a number of failed sign-ins for the same ServicePrincipalName or UserPrincipalName\n"
     reports = {"MITRE ATT&CK": ["TA0006:T1110", "TA0001:T1078"]}
     default_runbook = "Querying Sign-In logs for the ServicePrincipalName or UserPrincipalName may indicate that the principal is under attack, or that a sign-in credential rolled and some user of the credential didn't get updated.\n"

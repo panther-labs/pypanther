@@ -127,7 +127,7 @@ class PushSecurityNewSaaSAccountCreated(Rule):
     id = "Push.Security.New.SaaS.Account.Created-prototype"
     display_name = "Push Security New SaaS Account Created"
     log_types = [LogType.PushSecurity_Entities]
-    default_severity = Severity.info
+    default_severity = Severity.INFO
     tests = push_security_new_saa_s_account_created_tests
 
     def rule(self, event):

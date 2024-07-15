@@ -354,7 +354,7 @@ class AWSRDSPublicRestore(Rule):
     default_reference = (
         "https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_RestoreFromSnapshot.html"
     )
-    default_severity = Severity.high
+    default_severity = Severity.HIGH
     log_types = [LogType.AWS_CloudTrail]
     id = "AWS.RDS.PublicRestore-prototype"
     tests = awsrds_public_restore_tests

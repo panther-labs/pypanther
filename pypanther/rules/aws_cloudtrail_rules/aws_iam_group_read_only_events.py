@@ -269,7 +269,7 @@ class AWSIAMGroupReadOnlyEvents(Rule):
     enabled = False
     default_reference = "https://attack.mitre.org/techniques/T1069/"
     default_runbook = "Examine other activities done by this user to determine whether or not activity is suspicious."
-    default_severity = Severity.info
+    default_severity = Severity.INFO
     tags = ["AWS", "Cloudtrail", "Configuration Required", "IAM", "MITRE"]
     log_types = [LogType.AWS_CloudTrail]
     id = "AWS.IAM.Group.Read.Only.Events-prototype"

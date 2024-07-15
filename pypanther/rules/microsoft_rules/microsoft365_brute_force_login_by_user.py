@@ -90,7 +90,7 @@ class Microsoft365BruteForceLoginbyUser(Rule):
     reports = {"MITRE ATT&CK": ["TA0006:T1110"]}
     default_runbook = "Analyze the IP they came from and actions taken before/after."
     default_reference = "https://learn.microsoft.com/en-us/microsoft-365/troubleshoot/authentication/access-denied-when-connect-to-office-365"
-    default_severity = Severity.medium
+    default_severity = Severity.MEDIUM
     log_types = [LogType.Microsoft365_Audit_AzureActiveDirectory]
     id = "Microsoft365.Brute.Force.Login.by.User-prototype"
     threshold = 10

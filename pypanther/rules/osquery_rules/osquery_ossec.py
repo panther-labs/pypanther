@@ -76,7 +76,7 @@ class OsqueryOSSECRootkitDetected(Rule):
     log_types = [LogType.Osquery_Differential]
     tags = ["Osquery", "Malware", "Defense Evasion:Rootkit"]
     reports = {"MITRE ATT&CK": ["TA0005:T1014"]}
-    default_severity = Severity.medium
+    default_severity = Severity.MEDIUM
     default_description = "Checks if any results are returned for the Osquery OSSEC Rootkit pack.\n"
     default_runbook = "Verify the presence of the rootkit and re-image the machine.\n"
     default_reference = "https://panther.com/blog/osquery-log-analysis/"

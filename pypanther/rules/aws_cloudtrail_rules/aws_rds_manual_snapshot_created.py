@@ -315,7 +315,7 @@ class AWSRDSManualSnapshotCreated(Rule):
     log_types = [LogType.AWS_CloudTrail]
     tags = ["AWS", "Exfiltration", "Transfer Data to Cloud Account"]
     reports = {"MITRE ATT&CK": ["TA0010:T1537"]}
-    default_severity = Severity.low
+    default_severity = Severity.LOW
     default_description = "A manual snapshot of an RDS database was created. An attacker may use this to exfiltrate the DB contents to another account; use this as a correlation rule.\n"
     default_runbook = "Ensure the snapshot was shared with an allowed AWS account. If not, delete the snapshot and quarantine the compromised IAM user.\n"
     default_reference = (

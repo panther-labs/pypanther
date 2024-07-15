@@ -42,7 +42,7 @@ class MongoDBAccessAllowedFromAnywhere(Rule):
     display_name = "MongoDB access allowed from anywhere"
     log_types = [LogType.MongoDB_ProjectEvent]
     id = "MongoDB.Access.Allowed.From.Anywhere-prototype"
-    default_severity = Severity.high
+    default_severity = Severity.HIGH
     reports = {"MITRE ATT&CK": ["T1021"]}
     default_reference = "https://www.mongodb.com/docs/atlas/security/ip-access-list/"
     default_runbook = "Check if this activity was legitimate. If not, delete 0.0.0.0/0 from the list of allowed ips."

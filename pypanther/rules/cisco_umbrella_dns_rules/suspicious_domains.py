@@ -36,7 +36,7 @@ class CiscoUmbrellaDNSSuspicious(Rule):
     log_types = [LogType.CiscoUmbrella_DNS]
     tags = ["DNS", "Configuration Required"]
     default_reference = "https://umbrella.cisco.com/blog/abcs-of-dns"
-    default_severity = Severity.low
+    default_severity = Severity.LOW
     default_description = "Monitor suspicious or known malicious domains"
     default_runbook = "Inspect the domain and check the host for other indicators of compromise"
     summary_attributes = ["action", "internalIp", "externalIp", "domain", "responseCode"]

@@ -33,7 +33,7 @@ class DuoAdminBypassCodeCreated(Rule):
     display_name = "Duo Admin Bypass Code Created"
     default_runbook = "Confirm this was authorized and necessary behavior."
     default_reference = "https://duo.com/docs/administration-users#generating-a-bypass-code"
-    default_severity = Severity.medium
+    default_severity = Severity.MEDIUM
     log_types = [LogType.Duo_Administrator]
     id = "Duo.Admin.Bypass.Code.Created-prototype"
     tests = duo_admin_bypass_code_created_tests

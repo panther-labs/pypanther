@@ -43,7 +43,7 @@ class TinesTeamDestruction(Rule):
     display_name = "Tines Team Destruction"
     log_types = [LogType.Tines_Audit]
     tags = ["Tines"]
-    default_severity = Severity.low
+    default_severity = Severity.LOW
     default_description = "A user has destroyed a team"
     default_runbook = "Possible data destruction. Please reach out to the user and confirm this was done for valid business reasons."
     default_reference = "https://www.tines.com/docs/admin/teams"

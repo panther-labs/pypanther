@@ -95,7 +95,7 @@ class GCPIAMCustomRoleChanges(Rule):
     log_types = [LogType.GCP_AuditLog]
     tags = ["GCP", "Identity & Access Management", "Privilege Escalation:Valid Accounts"]
     reports = {"CIS": ["2.6"], "MITRE ATT&CK": ["TA0004:T1078"]}
-    default_severity = Severity.info
+    default_severity = Severity.INFO
     default_description = "A custom role has been created, deleted, or updated."
     default_runbook = "No action needed, informational"
     default_reference = "https://cloud.google.com/iam/docs/creating-custom-roles"

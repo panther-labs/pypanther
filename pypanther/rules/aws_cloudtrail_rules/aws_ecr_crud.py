@@ -176,7 +176,7 @@ class AWSECRCRUD(Rule):
     log_types = [LogType.AWS_CloudTrail]
     tags = ["AWS", "Security Control", "Configuration Required"]
     reports = {"CIS": ["3.12"], "MITRE ATT&CK": ["TA0005:T1525"]}
-    default_severity = Severity.high
+    default_severity = Severity.HIGH
     default_description = "Unauthorized ECR Create, Read, Update, or Delete event occurred."
     default_runbook = (
         "https://docs.aws.amazon.com/AmazonECR/latest/userguide/logging-using-cloudtrail.html"

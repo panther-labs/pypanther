@@ -47,7 +47,7 @@ class BoxLargeNumberDownloads(Rule):
     log_types = [LogType.Box_Event]
     tags = ["Box", "Exfiltration:Exfiltration Over Web Service"]
     reports = {"MITRE ATT&CK": ["TA0010:T1567"]}
-    default_severity = Severity.low
+    default_severity = Severity.LOW
     default_description = (
         "A user has exceeded the threshold for number of downloads within a single time frame.\n"
     )

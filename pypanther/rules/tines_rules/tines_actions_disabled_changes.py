@@ -42,7 +42,7 @@ class TinesActionsDisabledChanges(Rule):
     log_types = [LogType.Tines_Audit]
     tags = ["Tines"]
     default_reference = "https://www.tines.com/university/tines-basics/architecture-of-an-action"
-    default_severity = Severity.medium
+    default_severity = Severity.MEDIUM
     default_description = "Detections when Tines Actions are set to Disabled Change\n"
     summary_attributes = ["user_id", "operation_name", "tenant_id", "request_ip"]
     tests = tines_actions_disabled_changes_tests

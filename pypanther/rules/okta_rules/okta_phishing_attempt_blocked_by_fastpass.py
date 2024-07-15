@@ -162,7 +162,7 @@ class OktaPhishingAttemptBlockedFastPass(Rule):
     display_name = "Okta AiTM Phishing Attempt Blocked by FastPass"
     log_types = [LogType.Okta_SystemLog]
     reports = {"MITRE ATT&CK": ["TA0001:T1566", "TA0006:T1556", "TA0003:T1078.004"]}
-    default_severity = Severity.high
+    default_severity = Severity.HIGH
     default_description = (
         "Okta FastPass detected a user targeted by attackers wielding real-time (AiTM) proxies.\n"
     )

@@ -155,7 +155,7 @@ class GitHubAdvancedSecurityChange(Rule):
     log_types = [LogType.GitHub_Audit]
     tags = ["GitHub"]
     reports = {"MITRE ATT&CK": ["TA0005:T1562"]}
-    default_severity = Severity.low
+    default_severity = Severity.LOW
     default_description = (
         "The rule alerts when GitHub Security tools (Dependabot, Secret Scanner, etc) are disabled."
     )

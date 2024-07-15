@@ -144,7 +144,7 @@ class AWSEC2RouteTableModified(Rule):
     log_types = [LogType.AWS_CloudTrail]
     tags = ["AWS", "Exfiltration:Exfiltration Over Alternative Protocol"]
     reports = {"CIS": ["3.13"], "MITRE ATT&CK": ["TA0010:T1048"]}
-    default_severity = Severity.info
+    default_severity = Severity.INFO
     default_description = "An EC2 Route Table was modified."
     default_runbook = (
         "https://docs.runpanther.io/alert-runbooks/built-in-rules/aws-ec2-route-table-modified"

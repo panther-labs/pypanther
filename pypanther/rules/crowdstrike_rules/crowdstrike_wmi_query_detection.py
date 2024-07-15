@@ -338,7 +338,7 @@ class CrowdstrikeWMIQueryDetection(Rule):
     display_name = "Crowdstrike WMI Query Detection"
     default_runbook = "Investigate the endpoint for signs of WMI query execution. Review the executed query and the associated user account."
     default_reference = "https://learn.microsoft.com/en-us/windows/win32/wmisdk/querying-wmi"
-    default_severity = Severity.low
+    default_severity = Severity.LOW
     log_types = [LogType.Crowdstrike_FDREvent]
     id = "Crowdstrike.WMI.Query.Detection-prototype"
     tests = crowdstrike_wmi_query_detection_tests

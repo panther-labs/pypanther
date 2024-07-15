@@ -290,7 +290,7 @@ class GCPIAMCorporateEmail(Rule):
     log_types = [LogType.GCP_AuditLog]
     tags = ["GCP", "Identity & Access Management", "Persistence:Create Account"]
     reports = {"MITRE ATT&CK": ["TA0003:T1136"], "CIS": ["1.1"]}
-    default_severity = Severity.low
+    default_severity = Severity.LOW
     default_description = "A Gmail account is being used instead of a corporate email"
     default_runbook = "Remove the user"
     default_reference = "https://cloud.google.com/iam/docs/service-account-overview"

@@ -60,7 +60,7 @@ class DuoAdminUserMFABypassEnabled(Rule):
     default_description = "An Administrator enabled a user to authenticate without MFA."
     display_name = "Duo Admin User MFA Bypass Enabled"
     default_reference = "https://duo.com/docs/policy#authentication-policy"
-    default_severity = Severity.medium
+    default_severity = Severity.MEDIUM
     log_types = [LogType.Duo_Administrator]
     id = "Duo.Admin.User.MFA.Bypass.Enabled-prototype"
     tests = duo_admin_user_mfa_bypass_enabled_tests

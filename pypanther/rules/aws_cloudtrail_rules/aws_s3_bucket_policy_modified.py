@@ -159,7 +159,7 @@ class AWSS3BucketPolicyModified(Rule):
     log_types = [LogType.AWS_CloudTrail]
     tags = ["AWS", "Identity & Access Management", "Exfiltration:Exfiltration Over Web Service"]
     reports = {"CIS": ["3.8"], "MITRE ATT&CK": ["TA0010:T1567"]}
-    default_severity = Severity.info
+    default_severity = Severity.INFO
     dedup_period_minutes = 720
     default_description = "An S3 Bucket was modified.\n"
     default_runbook = (

@@ -33,7 +33,7 @@ class DUOAdminActionMarkedFraudulent(Rule):
     dedup_period_minutes = 15
     log_types = [LogType.Duo_Administrator]
     tags = ["Duo"]
-    default_severity = Severity.medium
+    default_severity = Severity.MEDIUM
     default_description = "A Duo push was marked fraudulent by an admin."
     default_reference = "https://duo.com/docs/adminapi#administrator-logs"
     default_runbook = "Follow up with the administrator to determine reasoning for marking fraud."

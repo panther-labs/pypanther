@@ -50,7 +50,7 @@ class PantherSAMLModified(Rule):
     id = "Panther.SAML.Modified-prototype"
     display_name = "Panther SAML configuration has been modified"
     log_types = [LogType.Panther_Audit]
-    default_severity = Severity.high
+    default_severity = Severity.HIGH
     tags = ["DataModel", "Defense Evasion:Impair Defenses"]
     reports = {"MITRE ATT&CK": ["TA0005:T1562"]}
     default_description = "An Admin has modified Panther's SAML configuration."

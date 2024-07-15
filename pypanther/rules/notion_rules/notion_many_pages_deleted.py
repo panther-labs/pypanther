@@ -61,7 +61,7 @@ class NotionManyPagesDeleted(Rule):
     display_name = "Notion Many Pages Deleted"
     log_types = [LogType.Notion_AuditLogs]
     tags = ["Notion", "Data Security", "Data Destruction"]
-    default_severity = Severity.medium
+    default_severity = Severity.MEDIUM
     default_description = "A Notion User deleted multiple pages."
     threshold = 10
     default_runbook = "Possible Data Destruction. Follow up with the Notion User to determine if this was done for a valid business reason."

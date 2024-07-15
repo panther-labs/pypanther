@@ -95,7 +95,7 @@ class AWSLAMBDACRUD(Rule):
     log_types = [LogType.AWS_CloudTrail]
     tags = ["AWS", "Security Control", "Configuration Required"]
     reports = {"CIS": ["3.12"], "MITRE ATT&CK": ["TA0005:T1525"]}
-    default_severity = Severity.high
+    default_severity = Severity.HIGH
     default_description = "Unauthorized lambda Create, Read, Update, or Delete event occurred."
     default_runbook = "https://docs.aws.amazon.com/lambda/latest/dg/logging-using-cloudtrail.html"
     default_reference = "https://docs.aws.amazon.com/lambda/latest/dg/logging-using-cloudtrail.html"

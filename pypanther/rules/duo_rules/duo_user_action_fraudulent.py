@@ -25,7 +25,7 @@ class DUOUserActionFraudulent(Rule):
     dedup_period_minutes = 15
     log_types = [LogType.Duo_Authentication]
     tags = ["Duo"]
-    default_severity = Severity.medium
+    default_severity = Severity.MEDIUM
     default_description = "Alert when a user reports a Duo action as fraudulent.\n"
     default_reference = "https://duo.com/docs/adminapi#authentication-logs"
     default_runbook = "Follow up with the user to confirm."

@@ -61,7 +61,7 @@ class NotionWorkspaceExported(Rule):
     display_name = "Notion Workspace Exported"
     log_types = [LogType.Notion_AuditLogs]
     tags = ["Notion", "Data Security", "Data Exfiltration"]
-    default_severity = Severity.high
+    default_severity = Severity.HIGH
     default_description = "A Notion User exported an existing workspace."
     default_runbook = "Possible Data Exfiltration. Follow up with the Notion User to determine if this was done for a valid business reason."
     default_reference = "https://www.notion.so/help/workspace-settings#export-an-entire-workspace"

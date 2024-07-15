@@ -74,7 +74,7 @@ class SlackAuditLogsEKMSlackbotUnenrolled(Rule):
     log_types = [LogType.Slack_AuditLogs]
     tags = ["Slack", "Impact", "Service Stop"]
     reports = {"MITRE ATT&CK": ["TA0040:T1489"]}
-    default_severity = Severity.high
+    default_severity = Severity.HIGH
     default_description = "Detects when a workspace is longer enrolled in EKM"
     default_reference = (
         "https://slack.com/intl/en-gb/help/articles/360019110974-Slack-Enterprise-Key-Management"

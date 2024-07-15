@@ -75,7 +75,7 @@ class BoxMaliciousContent(Rule):
     log_types = [LogType.Box_Event]
     tags = ["Box", "Execution:User Execution"]
     reports = {"MITRE ATT&CK": ["TA0002:T1204"]}
-    default_severity = Severity.high
+    default_severity = Severity.HIGH
     default_description = "Box has detect malicious content, such as a virus.\n"
     default_reference = "https://developer.box.com/guides/events/shield-alert-events/\n"
     default_runbook = "Investigate whether this is a false positive or if the virus needs to be contained appropriately.\n"

@@ -45,7 +45,7 @@ class GCPK8sPodUsingHostPIDNamespace(Rule):
     display_name = "GCP K8s Pod Using Host PID Namespace"
     log_types = [LogType.GCP_AuditLog]
     tags = ["GCP", "Optional"]
-    default_severity = Severity.medium
+    default_severity = Severity.MEDIUM
     default_description = "This detection monitors for any pod creation or modification using the host PID namespace. The Host PID namespace enables a pod and its containers to have direct access and share the same view as of the host’s processes. This can offer a powerful escape hatch to the underlying host."
     default_runbook = "Investigate a reason of creating a pod using the host PID namespace. Advise that it is discouraged practice. Create ticket if appropriate."
     reports = {"MITRE ATT&CK": ["TA0004:T1611", "TA0002:T1610"]}

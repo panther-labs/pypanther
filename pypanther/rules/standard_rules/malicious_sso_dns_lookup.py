@@ -174,7 +174,7 @@ class StandardMaliciousSSODNSLookup(Rule):
         LogType.Suricata_DNS,
         LogType.Zeek_DNS,
     ]
-    default_severity = Severity.medium
+    default_severity = Severity.MEDIUM
     threshold = 1000
     tags = ["Configuration Required"]
     reports = {"MITRE ATT&CK": ["TA0001:T1566"]}

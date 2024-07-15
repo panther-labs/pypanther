@@ -42,7 +42,7 @@ class ZoomSignInMethodModified(Rule):
     display_name = "Zoom Sign In Method Modified"
     default_runbook = "Confirm this user acted with valid business intent and determine whether this activity was authorized."
     default_reference = "https://support.zoom.com/hc/en/article?id=zm_kb&sysparm_article=KB0067602#:~:text=Go%20to%20the%20Zoom%20site,click%20Link%20and%20Sign%20In"
-    default_severity = Severity.medium
+    default_severity = Severity.MEDIUM
     log_types = [LogType.Zoom_Operation]
     id = "Zoom.Sign.In.Method.Modified-prototype"
     tests = zoom_sign_in_method_modified_tests

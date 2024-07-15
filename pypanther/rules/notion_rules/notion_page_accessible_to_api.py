@@ -7,7 +7,7 @@ class NotionPagePermsAPIPermsChanged(Rule):
     id = "Notion.PagePerms.APIPermsChanged-prototype"
     log_types = [LogType.Notion_AuditLogs]
     tags = ["Notion", "Data Security", "Unapproved 3rd Party Apps"]
-    default_severity = Severity.low
+    default_severity = Severity.LOW
     default_description = (
         "A new API integration was added to a Notion page, or it's permissions were changed."
     )

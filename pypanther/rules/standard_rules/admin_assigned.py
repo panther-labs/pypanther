@@ -274,7 +274,7 @@ class StandardAdminRoleAssigned(Rule):
         LogType.Zendesk_Audit,
     ]
     tags = ["DataModel", "Privilege Escalation:Valid Accounts"]
-    default_severity = Severity.medium
+    default_severity = Severity.MEDIUM
     reports = {"MITRE ATT&CK": ["TA0004:T1078"]}
     default_description = "Assigning an admin role manually could be a sign of privilege escalation"
     default_runbook = "Verify with the user who attached the role or add to a allowlist"

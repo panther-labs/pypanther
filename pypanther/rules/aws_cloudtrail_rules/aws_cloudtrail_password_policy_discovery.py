@@ -58,7 +58,7 @@ class AWSCloudTrailPasswordPolicyDiscovery(Rule):
     display_name = "AWS CloudTrail Password Policy Discovery"
     reports = {"MITRE ATT&CK": ["TA0007:T1201"]}
     default_reference = "https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_passwords_account-policy.html"
-    default_severity = Severity.info
+    default_severity = Severity.INFO
     dedup_period_minutes = 30
     log_types = [LogType.AWS_CloudTrail]
     id = "AWS.CloudTrail.Password.Policy.Discovery-prototype"

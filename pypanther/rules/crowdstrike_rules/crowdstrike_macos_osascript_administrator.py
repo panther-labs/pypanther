@@ -392,7 +392,7 @@ class CrowdstrikeMacosOsascriptAdministrator(Rule):
     default_reference = (
         "https://www.sentinelone.com/blog/how-offensive-actors-use-applescript-for-attacking-macos/"
     )
-    default_severity = Severity.medium
+    default_severity = Severity.MEDIUM
     log_types = [LogType.Crowdstrike_FDREvent]
     tests = crowdstrike_macos_osascript_administrator_tests
 

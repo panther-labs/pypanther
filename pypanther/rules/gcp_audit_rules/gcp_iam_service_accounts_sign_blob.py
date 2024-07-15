@@ -105,7 +105,7 @@ class GCPIAMserviceAccountssignBlob(Rule):
     display_name = "GCP IAM serviceAccounts signBlob"
     log_types = [LogType.GCP_AuditLog]
     reports = {"MITRE ATT&CK": ["TA0004:T1548"]}
-    default_severity = Severity.high
+    default_severity = Severity.HIGH
     default_description = 'The iam.serviceAccounts.signBlob permission "allows signing of arbitrary payloads" in GCP. This means we can create a signed blob that requests an access token from the Service Account we are targeting.'
     default_reference = (
         "https://rhinosecuritylabs.com/gcp/privilege-escalation-google-cloud-platform-part-1/"

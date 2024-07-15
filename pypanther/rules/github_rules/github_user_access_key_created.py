@@ -33,7 +33,7 @@ class GitHubUserAccessKeyCreated(Rule):
     tags = ["GitHub", "Persistence:Valid Accounts"]
     reports = {"MITRE ATT&CK": ["TA0003:T1078"]}
     default_reference = "https://docs.github.com/en/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent"
-    default_severity = Severity.info
+    default_severity = Severity.INFO
     default_description = "Detects when a GitHub user access key is created."
     tests = git_hub_user_access_key_created_tests
 

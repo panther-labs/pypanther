@@ -66,7 +66,7 @@ mongo_db_logging_toggled_tests: list[RuleTest] = [
 class MongoDBLoggingToggled(Rule):
     default_description = "MongoDB logging toggled"
     display_name = "MongoDB logging toggled"
-    default_severity = Severity.low
+    default_severity = Severity.LOW
     default_reference = "https://attack.mitre.org/techniques/T1562/008/"
     log_types = [LogType.MongoDB_ProjectEvent]
     id = "MongoDB.Logging.Toggled-prototype"

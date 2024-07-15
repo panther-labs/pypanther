@@ -53,7 +53,7 @@ class NetskopeManyDeletes(Rule):
     log_types = [LogType.Netskope_Audit]
     tags = ["Netskope", "Configuration Required", "Data Destruction"]
     reports = {"MITRE ATT&CK": ["TA0040:T1485"]}
-    default_severity = Severity.high
+    default_severity = Severity.HIGH
     default_description = "A user deleted a large number of objects in a short period of time."
     threshold = 10
     default_runbook = "A user deleted a large number of objects in a short period of time.  Validate that this activity is expected and authorized."

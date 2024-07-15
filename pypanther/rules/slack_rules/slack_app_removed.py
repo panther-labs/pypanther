@@ -169,7 +169,7 @@ class SlackAuditLogsAppRemoved(Rule):
         "Clear Persistence",
     ]
     reports = {"MITRE ATT&CK": ["TA0040:T1489", "TA0005:T1070.009"]}
-    default_severity = Severity.medium
+    default_severity = Severity.MEDIUM
     default_description = "Detects when a Slack App has been removed"
     default_reference = "https://slack.com/intl/en-gb/help/articles/360003125231-Remove-apps-and-customised-integrations-from-your-workspace"
     summary_attributes = ["p_any_ip_addresses", "p_any_emails"]

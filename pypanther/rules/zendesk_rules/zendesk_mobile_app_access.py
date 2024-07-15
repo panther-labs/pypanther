@@ -68,7 +68,7 @@ class ZendeskMobileAppAccessUpdated(Rule):
     log_types = [LogType.Zendesk_Audit]
     tags = ["Zendesk", "Persistence:Valid Accounts"]
     reports = {"MITRE ATT&CK": ["TA0003:T1078"]}
-    default_severity = Severity.medium
+    default_severity = Severity.MEDIUM
     default_description = (
         "A user updated account setting that enabled or disabled mobile app access."
     )

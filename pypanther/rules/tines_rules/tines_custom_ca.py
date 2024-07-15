@@ -43,7 +43,7 @@ class TinesCustomCertificateAuthority(Rule):
     log_types = [LogType.Tines_Audit]
     tags = ["Tines", "IAM - Credential Security"]
     default_reference = "https://www.tines.com/docs/admin/custom-certificate-authority"
-    default_severity = Severity.high
+    default_severity = Severity.HIGH
     default_description = "Detects when Tines Custom CertificateAuthority settings are changed\n"
     summary_attributes = ["user_id", "operation_name", "tenant_id", "request_ip"]
     tests = tines_custom_certificate_authority_tests

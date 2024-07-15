@@ -50,7 +50,7 @@ class SnykSystemExternalAccess(Rule):
     display_name = "Snyk System External Access Settings Changed"
     log_types = [LogType.Snyk_GroupAudit, LogType.Snyk_OrgAudit]
     tags = ["Snyk"]
-    default_severity = Severity.high
+    default_severity = Severity.HIGH
     default_description = (
         "Detects when Snyk Settings that control access for external parties have been changed.\n"
     )

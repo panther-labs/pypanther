@@ -48,7 +48,7 @@ class ZendeskUserRoleChanged(Rule):
     id = "Zendesk.UserRoleChanged-prototype"
     display_name = "Zendesk User Role Changed"
     log_types = [LogType.Zendesk_Audit]
-    default_severity = Severity.info
+    default_severity = Severity.INFO
     default_description = "A user's Zendesk role was changed"
     default_reference = "https://support.zendesk.com/hc/en-us/articles/4408824375450-Setting-roles-and-access-in-Zendesk-Admin-Center"
     summary_attributes = ["p_any_ip_addresses"]

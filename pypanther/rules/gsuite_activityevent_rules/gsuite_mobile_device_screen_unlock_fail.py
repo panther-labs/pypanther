@@ -58,7 +58,7 @@ class GSuiteDeviceUnlockFailure(Rule):
     log_types = [LogType.GSuite_ActivityEvent]
     tags = ["GSuite", "Credential Access:Brute Force"]
     reports = {"MITRE ATT&CK": ["TA0006:T1110"]}
-    default_severity = Severity.medium
+    default_severity = Severity.MEDIUM
     default_description = (
         "Someone failed to unlock a user's device multiple times in quick succession.\n"
     )

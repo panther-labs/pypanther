@@ -48,7 +48,7 @@ class ZendeskUserAssumption(Rule):
     log_types = [LogType.Zendesk_Audit]
     tags = ["Zendesk", "Lateral Movement:Use Alternate Authentication Material"]
     reports = {"MITRE ATT&CK": ["TA0008:T1550"]}
-    default_severity = Severity.medium
+    default_severity = Severity.MEDIUM
     default_description = "User enabled or disabled zendesk support user assumption."
     default_runbook = "Investigate whether allowing zendesk support to assume users is necessary. If not, disable the feature.\n"
     default_reference = "https://support.zendesk.com/hc/en-us/articles/4408894200474-Assuming-end-users#:~:text=In%20Support%2C%20click%20the%20Customers,user%20in%20the%20information%20dialog"

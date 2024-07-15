@@ -19,7 +19,7 @@ mongo_db_identity_provider_activity_tests: list[RuleTest] = [
 class MongoDBIdentityProviderActivity(Rule):
     default_description = "Changes to identity provider settings are privileged activities that should be carefully audited.  Attackers may add or change IDP integrations to gain persistence to environments"
     display_name = "MongoDB Identity Provider Activity"
-    default_severity = Severity.medium
+    default_severity = Severity.MEDIUM
     default_reference = "https://attack.mitre.org/techniques/T1556/007/"
     log_types = [LogType.MongoDB_OrganizationEvent]
     id = "MongoDB.Identity.Provider.Activity-prototype"

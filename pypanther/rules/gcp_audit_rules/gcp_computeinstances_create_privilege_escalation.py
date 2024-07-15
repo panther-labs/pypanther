@@ -340,7 +340,7 @@ class GCPcomputeinstancescreatePrivilegeEscalation(Rule):
     )
     default_runbook = "Confirm this was authorized and necessary behavior."
     reports = {"MITRE ATT&CK": ["TA0004:T1548"]}
-    default_severity = Severity.high
+    default_severity = Severity.HIGH
     tests = gc_pcomputeinstancescreate_privilege_escalation_tests
     REQUIRED_PERMISSIONS = [
         "compute.disks.create",

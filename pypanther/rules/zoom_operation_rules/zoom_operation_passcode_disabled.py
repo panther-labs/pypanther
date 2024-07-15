@@ -46,7 +46,7 @@ class ZoomPasscodeDisabled(Rule):
     display_name = "Zoom Meeting Passcode Disabled"
     log_types = [LogType.Zoom_Operation]
     tags = ["Zoom", "Collection:Video Capture"]
-    default_severity = Severity.low
+    default_severity = Severity.LOW
     default_description = "Meeting passcode requirement has been disabled from usergroup\n"
     reports = {"MITRE ATT&CK": ["TA0009:T1125"]}
     default_reference = (

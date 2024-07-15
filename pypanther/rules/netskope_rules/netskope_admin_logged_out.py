@@ -57,7 +57,7 @@ class NetskopeAdminLoggedOutLoginFailures(Rule):
     log_types = [LogType.Netskope_Audit]
     tags = ["Netskope", "Brute Force"]
     reports = {"MITRE ATT&CK": ["TA0006:T1110"]}
-    default_severity = Severity.medium
+    default_severity = Severity.MEDIUM
     default_description = "An admin was logged out because of successive login failures."
     default_runbook = "An admin was logged out because of successive login failures.  This could indicate brute force activity against this account."
     default_reference = (

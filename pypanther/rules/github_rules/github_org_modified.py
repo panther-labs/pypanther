@@ -50,7 +50,7 @@ class GitHubOrgModified(Rule):
     default_reference = (
         "https://docs.github.com/en/organizations/managing-membership-in-your-organization"
     )
-    default_severity = Severity.info
+    default_severity = Severity.INFO
     default_description = "Detects when a user is added or removed from a GitHub Org."
     tests = git_hub_org_modified_tests
 

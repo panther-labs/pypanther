@@ -53,7 +53,7 @@ class NotionWorkspaceSCIMTokenGenerated(Rule):
     log_types = [LogType.Notion_AuditLogs]
     tags = ["Notion", "Application Security", "Supply Chain Attack"]
     default_description = "A Notion User generated a SCIM token."
-    default_severity = Severity.medium
+    default_severity = Severity.MEDIUM
     default_runbook = "Possible Initial Access. Follow up with the Notion User to determine if this was done for a valid business reason."
     default_reference = "https://www.notion.so/help/provision-users-and-groups-with-scim"
     tests = notion_workspace_scim_token_generated_tests

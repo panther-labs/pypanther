@@ -48,7 +48,7 @@ class TeleportLocalUserLoginWithoutMFA(Rule):
     display_name = "User Logged in wihout MFA"
     log_types = [LogType.Gravitational_TeleportAudit]
     tags = ["Teleport"]
-    default_severity = Severity.high
+    default_severity = Severity.HIGH
     default_description = "A local User logged in without MFA"
     reports = {"MITRE ATT&CK": ["TA0001:T1078"]}
     default_reference = "https://goteleport.com/docs/management/admin/"

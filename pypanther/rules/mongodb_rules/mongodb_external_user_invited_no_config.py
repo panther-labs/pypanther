@@ -66,7 +66,7 @@ mongo_db_external_user_invited_no_config_tests: list[RuleTest] = [
 class MongoDBExternalUserInvitedNoConfig(Rule):
     default_description = "An external user has been invited to a MongoDB org (no config)."
     display_name = "MongoDB External User Invited (no config)"
-    default_severity = Severity.high
+    default_severity = Severity.HIGH
     default_reference = "https://www.mongodb.com/docs/v4.2/tutorial/create-users/"
     log_types = [LogType.MongoDB_OrganizationEvent]
     id = "MongoDB.External.UserInvited.NoConfig-prototype"

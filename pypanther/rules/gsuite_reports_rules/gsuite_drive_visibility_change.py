@@ -374,7 +374,7 @@ class GSuiteDriveVisibilityChanged(Rule):
     log_types = [LogType.GSuite_Reports]
     tags = ["GSuite", "Collection:Data from Information Repositories", "Configuration Required"]
     reports = {"MITRE ATT&CK": ["TA0009:T1213"]}
-    default_severity = Severity.low
+    default_severity = Severity.LOW
     default_description = "A Google drive resource became externally accessible.\n"
     default_reference = (
         "https://support.google.com/a/users/answer/12380484?hl=en&sjid=864417124752637253-EU"

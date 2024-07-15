@@ -63,7 +63,7 @@ class SlackAuditLogsOrgCreated(Rule):
     log_types = [LogType.Slack_AuditLogs]
     tags = ["Slack", "Persistence", "Create Account"]
     reports = {"MITRE ATT&CK": ["TA0003:T1136"]}
-    default_severity = Severity.low
+    default_severity = Severity.LOW
     default_description = "Detects when a Slack organization is created"
     default_reference = (
         "https://slack.com/intl/en-gb/help/articles/206845317-Create-a-Slack-workspace"

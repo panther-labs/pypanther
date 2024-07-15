@@ -95,7 +95,7 @@ class AWSS3BucketDeleted(Rule):
     log_types = [LogType.AWS_CloudTrail]
     tags = ["AWS", "Impact:Data Destruction"]
     reports = {"MITRE ATT&CK": ["TA0040:T1485"]}
-    default_severity = Severity.info
+    default_severity = Severity.INFO
     default_description = "A S3 Bucket, Policy, or Website was deleted"
     default_runbook = "Explore if this bucket deletion was potentially destructive"
     default_reference = "https://docs.aws.amazon.com/AmazonS3/latest/userguide/DeletingObjects.html"

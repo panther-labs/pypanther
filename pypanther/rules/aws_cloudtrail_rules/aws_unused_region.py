@@ -156,7 +156,7 @@ class AWSUnusedRegion(Rule):
     log_types = [LogType.AWS_CloudTrail]
     tags = ["AWS", "Defense Evasion:Unused/Unsupported Cloud Regions", "Configuration Required"]
     reports = {"MITRE ATT&CK": ["TA0005:T1535"]}
-    default_severity = Severity.high
+    default_severity = Severity.HIGH
     default_description = "CloudTrail logged non-read activity from a verboten AWS region."
     default_runbook = "https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_examples_aws-enable-disable-regions.html"
     default_reference = "https://attack.mitre.org/techniques/T1535/"

@@ -92,7 +92,7 @@ class AWSGuardDutyLowSeverityFinding(Rule):
     display_name = "AWS GuardDuty Low Severity Finding"
     log_types = [LogType.AWS_GuardDuty]
     tags = ["AWS"]
-    default_severity = Severity.low
+    default_severity = Severity.LOW
     dedup_period_minutes = 1440
     default_description = "A low-severity GuardDuty finding has been identified.\n"
     default_runbook = "Search related logs to understand the root cause of the activity.\n"

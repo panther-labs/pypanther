@@ -63,7 +63,7 @@ class SlackAuditLogsOrgDeleted(Rule):
     log_types = [LogType.Slack_AuditLogs]
     tags = ["Slack", "Impact", "Account Access Removal"]
     reports = {"MITRE ATT&CK": ["TA0040:T1531"]}
-    default_severity = Severity.medium
+    default_severity = Severity.MEDIUM
     default_description = "Detects when a Slack organization is deleted"
     default_reference = "https://slack.com/intl/en-gb/help/articles/204067366-Delete-a-workspace"
     summary_attributes = ["p_any_ip_addresses", "p_any_emails"]

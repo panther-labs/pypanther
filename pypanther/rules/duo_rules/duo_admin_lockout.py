@@ -44,7 +44,7 @@ class DuoAdminLockout(Rule):
     default_description = "Alert when a duo administrator is locked out of their account."
     display_name = "Duo Admin Lockout"
     default_reference = "https://duo.com/docs/adminapi"
-    default_severity = Severity.medium
+    default_severity = Severity.MEDIUM
     log_types = [LogType.Duo_Administrator]
     id = "Duo.Admin.Lockout-prototype"
     tests = duo_admin_lockout_tests

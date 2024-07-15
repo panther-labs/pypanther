@@ -51,7 +51,7 @@ class GCPCloudfunctionsFunctionsUpdate(Rule):
     display_name = "GCP cloudfunctions functions update"
     default_description = "The Identity and Access Management (IAM) service manages authorization and authentication for a GCP environment. This means that there are very likely multiple privilege escalation methods that use the IAM service and/or its permissions."
     log_types = [LogType.GCP_AuditLog]
-    default_severity = Severity.high
+    default_severity = Severity.HIGH
     default_reference = (
         "https://rhinosecuritylabs.com/gcp/privilege-escalation-google-cloud-platform-part-1/"
     )

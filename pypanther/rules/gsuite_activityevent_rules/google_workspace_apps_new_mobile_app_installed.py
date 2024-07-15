@@ -88,7 +88,7 @@ class GoogleWorkspaceAppsNewMobileAppInstalled(Rule):
     display_name = "Google Workspace Apps New Mobile App Installed"
     default_runbook = "https://admin.google.com/ac/apps/unified"
     default_reference = "https://support.google.com/a/answer/6089179?hl=en"
-    default_severity = Severity.medium
+    default_severity = Severity.MEDIUM
     log_types = [LogType.GSuite_ActivityEvent]
     id = "Google.Workspace.Apps.New.Mobile.App.Installed-prototype"
     tests = google_workspace_apps_new_mobile_app_installed_tests

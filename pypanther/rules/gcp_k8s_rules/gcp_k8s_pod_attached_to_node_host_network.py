@@ -45,7 +45,7 @@ class GCPK8sPodAttachedToNodeHostNetwork(Rule):
     display_name = "GCP K8s Pod Attached To Node Host Network"
     log_types = [LogType.GCP_AuditLog]
     tags = ["GCP", "Optional"]
-    default_severity = Severity.medium
+    default_severity = Severity.MEDIUM
     default_description = "This detection monitor for the creation of pods which are attached to the host's network. This allows a pod to listen to all network traffic for all deployed computer on that particular node and communicate with other compute on the network namespace. Attackers can use this to capture secrets passed in arguments or connections."
     reports = {"MITRE ATT&CK": ["TA0004:T1611"]}
     default_runbook = "Investigate a reason of creating a pod which is attached to the host's network. Advise that it is discouraged practice. Create ticket if appropriate."

@@ -39,7 +39,7 @@ class SnykSystemSSO(Rule):
     display_name = "Snyk System SSO Settings Changed"
     log_types = [LogType.Snyk_GroupAudit]
     tags = ["Snyk"]
-    default_severity = Severity.high
+    default_severity = Severity.HIGH
     default_description = "Detects Snyk SSO Settings have been changed. The reference URL from Snyk indicates that these events are likely to originate exclusively from Snyk Support.\n"
     default_reference = "https://docs.snyk.io/user-and-group-management/setting-up-sso-for-authentication/set-up-snyk-single-sign-on-sso"
     summary_attributes = ["event", "p_any_ip_addresses", "p_any_emails"]

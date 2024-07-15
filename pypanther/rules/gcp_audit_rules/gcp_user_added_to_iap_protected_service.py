@@ -197,7 +197,7 @@ class GCPUserAddedtoIAPProtectedService(Rule):
     display_name = "GCP User Added to IAP Protected Service"
     default_runbook = "Note: GCP logs all bindings everytime this event occurs, not just changes. Bindings should be reviewed to ensure no unintended users have been added. "
     default_reference = "https://cloud.google.com/iap/docs/managing-access"
-    default_severity = Severity.low
+    default_severity = Severity.LOW
     log_types = [LogType.GCP_AuditLog]
     id = "GCP.User.Added.to.IAP.Protected.Service-prototype"
     tests = gcp_user_addedto_iap_protected_service_tests

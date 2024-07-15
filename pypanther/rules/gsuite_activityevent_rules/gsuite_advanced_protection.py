@@ -31,7 +31,7 @@ class GSuiteAdvancedProtection(Rule):
     log_types = [LogType.GSuite_ActivityEvent]
     tags = ["GSuite", "Defense Evasion:Impair Defenses"]
     reports = {"MITRE ATT&CK": ["TA0005:T1562"]}
-    default_severity = Severity.low
+    default_severity = Severity.LOW
     default_description = "A user disabled advanced protection for themselves.\n"
     default_reference = (
         "https://support.google.com/a/answer/9378686?hl=en&sjid=864417124752637253-EU"

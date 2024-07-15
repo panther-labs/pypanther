@@ -209,7 +209,7 @@ class Microsoft365ExchangeExternalForwarding(Rule):
     display_name = "Microsoft Exchange External Forwarding"
     reports = {"MITRE ATT&CK": ["TA0009:T1114"]}
     default_reference = "https://learn.microsoft.com/en-us/microsoft-365/security/office-365-security/outbound-spam-policies-external-email-forwarding?view=o365-worldwide"
-    default_severity = Severity.high
+    default_severity = Severity.HIGH
     log_types = [LogType.Microsoft365_Audit_Exchange]
     id = "Microsoft365.Exchange.External.Forwarding-prototype"
     tests = microsoft365_exchange_external_forwarding_tests

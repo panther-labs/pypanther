@@ -97,7 +97,7 @@ class OktaSupportReset(Rule):
         "Initial Access:Trusted Relationship",
     ]
     reports = {"MITRE ATT&CK": ["TA0001:T1199"]}
-    default_severity = Severity.high
+    default_severity = Severity.HIGH
     default_description = "A Password or MFA factor was reset by Okta Support"
     default_reference = "https://help.okta.com/en/prod/Content/Topics/Directory/get-support.htm#:~:text=Visit%20the%20Okta%20Help%20Center,1%2D800%2D219%2D0964"
     default_runbook = "Contact Admin to ensure this was sanctioned activity"

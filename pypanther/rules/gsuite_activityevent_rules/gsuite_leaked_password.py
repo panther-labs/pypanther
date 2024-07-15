@@ -41,7 +41,7 @@ class GSuiteLeakedPassword(Rule):
     log_types = [LogType.GSuite_ActivityEvent]
     tags = ["GSuite", "Credential Access:Unsecured Credentials"]
     reports = {"MITRE ATT&CK": ["TA0006:T1552"]}
-    default_severity = Severity.high
+    default_severity = Severity.HIGH
     default_description = (
         "GSuite reported a user's password has been compromised, so they disabled the account.\n"
     )

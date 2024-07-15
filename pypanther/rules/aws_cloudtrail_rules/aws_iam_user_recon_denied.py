@@ -156,7 +156,7 @@ class AWSIAMUserReconAccessDenied(Rule):
     log_types = [LogType.AWS_CloudTrail]
     tags = ["AWS", "Discovery:Cloud Service Discovery"]
     reports = {"MITRE ATT&CK": ["TA0007:T1526"]}
-    default_severity = Severity.info
+    default_severity = Severity.INFO
     threshold = 15
     dedup_period_minutes = 10
     default_description = "An IAM user has a high volume of access denied API calls."

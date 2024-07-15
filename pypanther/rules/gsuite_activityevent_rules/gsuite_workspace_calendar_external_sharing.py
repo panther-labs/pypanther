@@ -136,7 +136,7 @@ class GSuiteWorkspaceCalendarExternalSharingSetting(Rule):
     log_types = [LogType.GSuite_ActivityEvent]
     tags = ["GSuite"]
     reports = {"MITRE ATT&CK": ["TA0007:T1087"]}
-    default_severity = Severity.medium
+    default_severity = Severity.MEDIUM
     default_description = "A Workspace Admin Changed The Sharing Settings for Primary Calendars\n"
     default_reference = "https://support.google.com/a/answer/60765?hl=en"
     default_runbook = "Restore the calendar sharing setting to the previous value. If unplanned, use indicator search to identify other activity from this administrator.\n"

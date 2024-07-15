@@ -80,7 +80,7 @@ class AWSConsoleLoginWithoutSAML(Rule):
         "Authentication",
         "Initial Access:Valid Accounts",
     ]
-    default_severity = Severity.high
+    default_severity = Severity.HIGH
     default_description = "An AWS console login was made without SAML/SSO."
     default_runbook = "Modify the AWS account configuration."
     default_reference = "https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_providers_enable-console-saml.html"

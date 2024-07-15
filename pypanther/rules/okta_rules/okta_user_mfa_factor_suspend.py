@@ -160,7 +160,7 @@ class OktaUserMFAFactorSuspend(Rule):
     default_description = "Suspend factor or authenticator enrollment method for user."
     display_name = "Okta User MFA Factor Suspend"
     default_reference = "https://help.okta.com/en-us/content/topics/security/mfa/mfa-factors.htm"
-    default_severity = Severity.high
+    default_severity = Severity.HIGH
     log_types = [LogType.Okta_SystemLog]
     id = "Okta.User.MFA.Factor.Suspend-prototype"
     tests = okta_user_mfa_factor_suspend_tests

@@ -105,7 +105,7 @@ class AWSConsoleRootLogin(Rule):
         "Privilege Escalation:Valid Accounts",
     ]
     reports = {"CIS": ["3.6"], "MITRE ATT&CK": ["TA0004:T1078"]}
-    default_severity = Severity.high
+    default_severity = Severity.HIGH
     default_description = "The root account has been logged into."
     default_runbook = "Investigate the usage of the root account. If this root activity was not authorized, immediately change the root credentials and investigate what actions the root account took.\n"
     default_reference = "https://docs.aws.amazon.com/IAM/latest/UserGuide/id_root-user.html"

@@ -101,7 +101,7 @@ class TeleportNetworkScanning(Rule):
     display_name = "Teleport Network Scan Initiated"
     log_types = [LogType.Gravitational_TeleportAudit]
     tags = ["SSH", "Discovery:Network Service Discovery"]
-    default_severity = Severity.medium
+    default_severity = Severity.MEDIUM
     default_description = "A user has invoked a network scan that could potentially indicate enumeration of the network."
     reports = {"MITRE ATT&CK": ["TA0007:T1046"]}
     default_reference = "https://goteleport.com/docs/management/admin/"

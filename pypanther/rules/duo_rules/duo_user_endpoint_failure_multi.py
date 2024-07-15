@@ -109,7 +109,7 @@ class DUOUserEndpointFailure(Rule):
     dedup_period_minutes = 15
     log_types = [LogType.Duo_Authentication]
     tags = ["Duo"]
-    default_severity = Severity.medium
+    default_severity = Severity.MEDIUM
     default_description = (
         "A Duo user's authentication was denied due to a suspicious error on the endpoint"
     )

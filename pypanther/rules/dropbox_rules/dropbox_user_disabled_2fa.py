@@ -111,7 +111,7 @@ class DropboxUserDisabled2FA(Rule):
     default_description = "Dropbox user has disabled 2fa login"
     display_name = "Dropbox User Disabled 2FA"
     default_reference = "https://help.dropbox.com/account-access/enable-two-step-verification"
-    default_severity = Severity.low
+    default_severity = Severity.LOW
     log_types = [LogType.Dropbox_TeamEvent]
     id = "Dropbox.User.Disabled.2FA-prototype"
     tests = dropbox_user_disabled2_fa_tests

@@ -66,7 +66,7 @@ mongo_db2_fa_disabled_tests: list[RuleTest] = [
 class MongoDB2FADisabled(Rule):
     default_description = "2FA was disabled."
     display_name = "MongoDB 2FA Disabled"
-    default_severity = Severity.medium
+    default_severity = Severity.MEDIUM
     default_reference = "https://www.mongodb.com/docs/atlas/security-multi-factor-authentication/"
     log_types = [LogType.MongoDB_OrganizationEvent]
     id = "MongoDB.2FA.Disabled-prototype"

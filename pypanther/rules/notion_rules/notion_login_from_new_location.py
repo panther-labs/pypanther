@@ -279,7 +279,7 @@ class NotionLoginFromNewLocation(Rule):
     display_name = "Notion Login from New Location"
     log_types = [LogType.Notion_AuditLogs]
     tags = ["Notion", "Identity & Access Management", "Login & Access Patterns"]
-    default_severity = Severity.medium
+    default_severity = Severity.MEDIUM
     default_description = "A Notion User logged in from a new location."
     default_runbook = "Possible account takeover. Follow up with the Notion User to determine if this login is genuine."
     default_reference = "https://ipinfo.io/products/ip-geolocation-api"

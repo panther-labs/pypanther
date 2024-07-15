@@ -32,7 +32,7 @@ class OneLoginPasswordAccess(Rule):
     log_types = [LogType.OneLogin_Events]
     tags = ["OneLogin", "Credential Access:Unsecured Credentials"]
     reports = {"MITRE ATT&CK": ["TA0006:T1552"]}
-    default_severity = Severity.medium
+    default_severity = Severity.MEDIUM
     default_description = "User accessed another user's application password\n"
     default_reference = (
         "https://onelogin.service-now.com/kb_view_customer.do?sysparm_article=KB0010598"

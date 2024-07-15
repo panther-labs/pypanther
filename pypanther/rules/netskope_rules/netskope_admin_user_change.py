@@ -57,7 +57,7 @@ class NetskopeAdminUserChange(Rule):
     log_types = [LogType.Netskope_Audit]
     tags = ["Netskope", "Account Manipulation"]
     reports = {"MITRE ATT&CK": ["TA0004:T1098"]}
-    default_severity = Severity.high
+    default_severity = Severity.HIGH
     default_reference = "https://docs.netskope.com/en/netskope-help/admin-console/administration/managing-administrators/"
     default_description = "An administrator account was created, deleted, or modified."
     default_runbook = "An administrator account was created, deleted, or modified.  Validate that this activity is expected and authorized."

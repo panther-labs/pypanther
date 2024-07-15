@@ -187,7 +187,7 @@ class AWSCloudTrailIAMAssumeRoleBlacklistIgnored(Rule):
         "Privilege Escalation:Abuse Elevation Control Mechanism",
     ]
     reports = {"MITRE ATT&CK": ["TA0004:T1548"]}
-    default_severity = Severity.high
+    default_severity = Severity.HIGH
     default_description = (
         "A user assumed a role that was explicitly blocklisted for manual user assumption.\n"
     )

@@ -144,7 +144,7 @@ class AWSIAMPolicyModified(Rule):
         "Privilege Escalation:Abuse Elevation Control Mechanism",
     ]
     reports = {"CIS": ["3.4"], "MITRE ATT&CK": ["TA0004:T1548"]}
-    default_severity = Severity.info
+    default_severity = Severity.INFO
     dedup_period_minutes = 720
     default_description = "An IAM Policy was changed.\n"
     default_runbook = (

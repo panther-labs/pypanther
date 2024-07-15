@@ -150,7 +150,7 @@ class AWSCloudTrailStopped(Rule):
     log_types = [LogType.AWS_CloudTrail]
     tags = ["AWS", "Security Control", "DemoThreatHunting", "Defense Evasion:Impair Defenses"]
     reports = {"CIS": ["3.5"], "MITRE ATT&CK": ["TA0005:T1562"]}
-    default_severity = Severity.medium
+    default_severity = Severity.MEDIUM
     default_description = "A CloudTrail Trail was modified.\n"
     default_runbook = (
         "https://docs.runpanther.io/alert-runbooks/built-in-rules/aws-cloudtrail-modified"

@@ -71,7 +71,7 @@ class OktaSupportAccess(Rule):
         "Initial Access:Trusted Relationship",
     ]
     reports = {"MITRE ATT&CK": ["TA0001:T1199"]}
-    default_severity = Severity.medium
+    default_severity = Severity.MEDIUM
     default_description = "An admin user has granted access to Okta Support to your account"
     default_reference = (
         "https://help.okta.com/en/prod/Content/Topics/Settings/settings-support-access.htm"

@@ -43,7 +43,7 @@ class GSuiteUserSuspended(Rule):
     display_name = "GSuite User Suspended"
     log_types = [LogType.GSuite_ActivityEvent]
     tags = ["GSuite"]
-    default_severity = Severity.high
+    default_severity = Severity.HIGH
     default_description = (
         "A GSuite user was suspended, the account may have been compromised by a spam network.\n"
     )

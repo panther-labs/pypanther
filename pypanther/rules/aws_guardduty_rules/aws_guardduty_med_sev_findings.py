@@ -92,7 +92,7 @@ class AWSGuardDutyMediumSeverityFinding(Rule):
     display_name = "AWS GuardDuty Medium Severity Finding"
     log_types = [LogType.AWS_GuardDuty]
     tags = ["AWS"]
-    default_severity = Severity.medium
+    default_severity = Severity.MEDIUM
     dedup_period_minutes = 480
     default_description = "A medium-severity GuardDuty finding has been identified.\n"
     default_runbook = "Search related logs to understand the root cause of the activity.\n"

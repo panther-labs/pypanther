@@ -84,7 +84,7 @@ class GCPK8sExecIntoPod(Rule):
     enabled = False
     log_types = [LogType.GCP_AuditLog]
     tags = ["GCP", "Security Control", "Configuration Required"]
-    default_severity = Severity.medium
+    default_severity = Severity.MEDIUM
     default_description = "Alerts when users exec into pod. Possible to specify specific projects and allowed users.\n"
     default_runbook = "Investigate the user and determine why. Advise that it is discouraged practice. Create ticket if appropriate.\n"
     default_reference = (

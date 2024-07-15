@@ -122,7 +122,7 @@ class AWSRDSSnapshotShared(Rule):
     display_name = "AWS RDS Snapshot Shared"
     log_types = [LogType.AWS_CloudTrail]
     tags = ["AWS", "Exfiltration", "Transfer Data to Cloud Account"]
-    default_severity = Severity.high
+    default_severity = Severity.HIGH
     reports = {"MITRE ATT&CK": ["TA0010:T1537"]}
     default_description = "An RDS snapshot was shared with another account. This could be an indicator of exfiltration.\n"
     default_runbook = "Ensure that the snapshot was shared intentionally and with an approved account. If not, remove the snapshot and quarantine the compromised IAM user.\n"

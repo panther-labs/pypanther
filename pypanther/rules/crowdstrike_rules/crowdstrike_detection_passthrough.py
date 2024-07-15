@@ -173,7 +173,7 @@ crowdstrike_detectionpassthrough_tests: list[RuleTest] = [
 class CrowdstrikeDetectionpassthrough(Rule):
     id = "Crowdstrike.Detection.passthrough-prototype"
     display_name = "Crowdstrike Detection Passthrough"
-    default_severity = Severity.medium
+    default_severity = Severity.MEDIUM
     log_types = [LogType.Crowdstrike_DetectionSummary, LogType.Crowdstrike_FDREvent]
     tags = ["Crowdstrike"]
     default_description = "Crowdstrike Falcon has detected malicious activity on a host."

@@ -64,7 +64,7 @@ class AWSIPSetModified(Rule):
     display_name = "AWS Trusted IPSet Modified"
     reports = {"MITRE ATT&CK": ["TA0005:T1562"]}
     default_reference = "https://docs.aws.amazon.com/managedservices/latest/ctref/management-monitoring-guardduty-ip-set-update-review-required.html"
-    default_severity = Severity.high
+    default_severity = Severity.HIGH
     log_types = [LogType.AWS_CloudTrail]
     id = "AWS.IPSet.Modified-prototype"
     tests = awsip_set_modified_tests

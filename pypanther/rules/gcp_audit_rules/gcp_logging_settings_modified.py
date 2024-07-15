@@ -125,7 +125,7 @@ class GCPLoggingSettingsModified(Rule):
     default_description = "Detects any changes made to logging settings"
     display_name = "GCP Logging Settings Modified"
     default_reference = "https://cloud.google.com/logging/docs/default-settings"
-    default_severity = Severity.low
+    default_severity = Severity.LOW
     log_types = [LogType.GCP_AuditLog]
     id = "GCP.Logging.Settings.Modified-prototype"
     tests = gcp_logging_settings_modified_tests

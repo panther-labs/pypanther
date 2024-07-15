@@ -57,7 +57,7 @@ class GitHubSecretScanningAlertCreated(Rule):
     log_types = [LogType.GitHub_Audit]
     tags = ["GitHub"]
     reports = {"MITRE ATT&CK": ["TA0006:T1552"]}
-    default_severity = Severity.medium
+    default_severity = Severity.MEDIUM
     default_description = "GitHub detected a secret and created a secret scanning alert."
     default_runbook = (
         "Review the secret to determine if it needs to be revoked or the alert suppressed."

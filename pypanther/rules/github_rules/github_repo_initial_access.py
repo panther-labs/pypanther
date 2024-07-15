@@ -89,7 +89,7 @@ class GitHubRepoInitialAccess(Rule):
     log_types = [LogType.GitHub_Audit]
     tags = ["GitHub"]
     default_reference = "https://docs.github.com/en/organizations/managing-user-access-to-your-organizations-repositories/managing-repository-roles/managing-an-individuals-access-to-an-organization-repository"
-    default_severity = Severity.info
+    default_severity = Severity.INFO
     default_description = (
         "Detects when a user initially accesses a private organization repository."
     )

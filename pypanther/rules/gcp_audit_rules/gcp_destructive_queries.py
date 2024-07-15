@@ -139,7 +139,7 @@ class GCPDestructiveQueries(Rule):
     default_description = "Detect any destructive BigQuery queries or jobs such as update, delete, drop, alter or truncate."
     display_name = "GCP Destructive Queries"
     default_reference = "https://cloud.google.com/bigquery/docs/managing-tables"
-    default_severity = Severity.info
+    default_severity = Severity.INFO
     log_types = [LogType.GCP_AuditLog]
     id = "GCP.Destructive.Queries-prototype"
     tests = gcp_destructive_queries_tests

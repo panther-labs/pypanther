@@ -130,7 +130,7 @@ class AWSCloudTrailCodebuildProjectMadePublic(Rule):
     log_types = [LogType.AWS_CloudTrail]
     reports = {"MITRE ATT&CK": ["TA0010:T1567"]}
     tags = ["AWS", "Security Control", "Exfiltration:Exfiltration Over Web Service"]
-    default_severity = Severity.high
+    default_severity = Severity.HIGH
     default_description = "An AWS CodeBuild Project was made publicly accessible\n"
     default_runbook = "TBD"
     default_reference = "https://docs.aws.amazon.com/codebuild/latest/userguide/public-builds.html"

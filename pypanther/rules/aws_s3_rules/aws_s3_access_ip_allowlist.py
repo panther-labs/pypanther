@@ -29,7 +29,7 @@ class AWSS3ServerAccessIPWhitelist(Rule):
         "Collection:Data From Cloud Storage Object",
     ]
     reports = {"MITRE ATT&CK": ["TA0009:T1530"]}
-    default_severity = Severity.medium
+    default_severity = Severity.MEDIUM
     default_description = (
         "Checks that the remote IP accessing the S3 bucket is in the IP allowlist.\n"
     )

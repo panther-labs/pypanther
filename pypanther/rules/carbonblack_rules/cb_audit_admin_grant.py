@@ -54,7 +54,7 @@ class CarbonBlackAuditAdminGrant(Rule):
     log_types = [LogType.CarbonBlack_Audit]
     default_description = "Detects when a user is granted Admin or Super Admin permissions."
     display_name = "Carbon Black Admin Role Granted"
-    default_severity = Severity.high
+    default_severity = Severity.HIGH
     tags = ["Privilege Escalation", "Account Manipulation"]
     reports = {"MITRE ATT&CK": ["TA0004:T1098"]}
     default_reference = "https://docs.vmware.com/en/VMware-Carbon-Black-Cloud/services/carbon-black-cloud-user-guide/GUID-CF5ACD2C-A534-46C8-AE06-E1884DB37B58.html"

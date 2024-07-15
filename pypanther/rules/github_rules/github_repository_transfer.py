@@ -70,7 +70,7 @@ class GithubRepositoryTransfer(Rule):
     display_name = "Github Repository Transfer"
     default_reference = "https://docs.github.com/en/enterprise-server@3.3/repositories/creating-and-managing-repositories/transferring-a-repository\n\nhttps://docs.github.com/en/enterprise-cloud@latest/admin/monitoring-activity-in-your-enterprise/reviewing-audit-logs-for-your-enterprise/audit-log-events-for-your-enterprise#repo-category-actions"
     default_runbook = "Please check with the referenced users or their supervisors to ensure the transferring of this repository is expected and allowed."
-    default_severity = Severity.medium
+    default_severity = Severity.MEDIUM
     tags = ["Github Repository", "Github Repository Transfer", "Repository", "Transfer"]
     log_types = [LogType.GitHub_Audit]
     id = "Github.Repository.Transfer-prototype"

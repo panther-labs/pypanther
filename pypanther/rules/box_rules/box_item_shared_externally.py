@@ -49,7 +49,7 @@ class BoxItemSharedExternally(Rule):
     log_types = [LogType.Box_Event]
     tags = ["Box", "Exfiltration:Exfiltration Over Web Service", "Configuration Required"]
     reports = {"MITRE ATT&CK": ["TA0010:T1567"]}
-    default_severity = Severity.medium
+    default_severity = Severity.MEDIUM
     default_description = "A user has shared an item and it is accessible to anyone with the share link (internal or external to the company). This rule requires that the boxsdk[jwt] be installed in the environment.\n"
     default_reference = "https://support.box.com/hc/en-us/articles/4404822772755-Enterprise-Settings-Content-Sharing-Tab"
     default_runbook = "Investigate whether this user's activity is expected.\n"

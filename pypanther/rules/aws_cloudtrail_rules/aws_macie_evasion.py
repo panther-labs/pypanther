@@ -175,7 +175,7 @@ class AWSMacieEvasion(Rule):
     display_name = "AWS Macie Disabled/Updated"
     log_types = [LogType.AWS_CloudTrail]
     reports = {"MITRE ATT&CK": ["TA0005:T1562"]}
-    default_severity = Severity.medium
+    default_severity = Severity.MEDIUM
     default_description = "Amazon Macie is a data security and data privacy service to discover and protect sensitive data. Security teams use Macie to detect open S3 Buckets that could have potentially sensitive data in it along with policy violations, such as missing Encryption. If an attacker disables Macie, it could potentially hide data exfiltration.\n"
     default_reference = "https://aws.amazon.com/macie/"
     default_runbook = "Analyze the events to ensure it's not normal maintenance. If it's abnormal, run the Indicator Search on the UserIdentity:Arn for the past hour and analyze other services accessed/changed.\n"

@@ -112,7 +112,7 @@ class AWSSecurityHubFindingEvasion(Rule):
     display_name = "AWS SecurityHub Finding Evasion"
     reports = {"MITRE ATT&CK": ["TA0005:T1562"]}
     default_reference = "https://docs.aws.amazon.com/securityhub/latest/userguide/securityhub-insights-view-take-action.html"
-    default_severity = Severity.high
+    default_severity = Severity.HIGH
     log_types = [LogType.AWS_CloudTrail]
     id = "AWS.SecurityHub.Finding.Evasion-prototype"
     tests = aws_security_hub_finding_evasion_tests

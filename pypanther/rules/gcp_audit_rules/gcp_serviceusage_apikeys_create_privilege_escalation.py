@@ -179,7 +179,7 @@ class GCPserviceusageapiKeyscreatePrivilegeEscalation(Rule):
     default_reference = "https://rhinosecuritylabs.com/cloud-security/privilege-escalation-google-cloud-platform-part-2/"
     default_runbook = "Confirm this was authorized and necessary behavior. This is not a vulnerability in GCP, it is a vulnerability in how GCP environment is configured, so it is necessary to be aware of these attack vectors and to defend against them. It’s also important to remember that privilege escalation does not necessarily need to pass through the IAM service to be effective. Make sure to follow the principle of least-privilege in your environments to help mitigate these security risks."
     reports = {"MITRE ATT&CK": ["TA0004:T1548"]}
-    default_severity = Severity.high
+    default_severity = Severity.HIGH
     tests = gc_pserviceusageapi_keyscreate_privilege_escalation_tests
 
     def rule(self, event):

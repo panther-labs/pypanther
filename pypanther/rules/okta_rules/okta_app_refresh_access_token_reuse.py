@@ -184,7 +184,7 @@ class OktaRefreshAccessTokenReuse(Rule):
     )
     display_name = "Okta App Refresh Access Token Reuse"
     default_runbook = "Determine if the clientip is anomalous. Revoke tokens if deemed suspicious."
-    default_severity = Severity.medium
+    default_severity = Severity.MEDIUM
     log_types = [LogType.Okta_SystemLog]
     id = "Okta.Refresh.Access.Token.Reuse-prototype"
     tests = okta_refresh_access_token_reuse_tests

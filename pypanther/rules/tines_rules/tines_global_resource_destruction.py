@@ -44,7 +44,7 @@ class TinesGlobalResourceDestruction(Rule):
     summary_attributes = ["user_id", "operation_name", "tenant_id", "request_ip"]
     log_types = [LogType.Tines_Audit]
     tags = ["Tines"]
-    default_severity = Severity.low
+    default_severity = Severity.LOW
     default_description = "A Tines user has destroyed a global resource."
     default_runbook = "Possible data destruction. Please reach out to the user and confirm this was done for valid business reasons."
     default_reference = "https://www.tines.com/docs/resources"

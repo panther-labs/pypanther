@@ -46,7 +46,7 @@ class BoxAccessGranted(Rule):
     display_name = "Box Access Granted"
     log_types = [LogType.Box_Event]
     tags = ["Box"]
-    default_severity = Severity.low
+    default_severity = Severity.LOW
     default_description = "A user granted access to their box account to Box technical support from account settings.\n"
     default_reference = "https://support.box.com/hc/en-us/articles/7039943421715-Enabling-and-Disabling-Access-for-Box-Support"
     default_runbook = "Investigate whether the user purposefully granted access to their account.\n"

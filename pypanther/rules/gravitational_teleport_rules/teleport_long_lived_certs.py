@@ -76,7 +76,7 @@ class TeleportLongLivedCerts(Rule):
     display_name = "A long-lived cert was created"
     log_types = [LogType.Gravitational_TeleportAudit]
     tags = ["Teleport"]
-    default_severity = Severity.medium
+    default_severity = Severity.MEDIUM
     default_description = "An unusually long-lived Teleport certificate was created"
     reports = {"MITRE ATT&CK": ["TA0003:T1098"]}
     default_reference = "https://goteleport.com/docs/management/admin/"

@@ -141,7 +141,7 @@ class AWSCloudTrailIAMAnythingChanged(Rule):
     display_name = "IAM Change"
     log_types = [LogType.AWS_CloudTrail]
     tags = ["AWS", "Identity and Access Management"]
-    default_severity = Severity.info
+    default_severity = Severity.INFO
     dedup_period_minutes = 720
     default_description = "A change occurred in the IAM configuration. This could be a resource being created, deleted, or modified. This is a high level view of changes, helfpul to indicate how dynamic a certain IAM environment is.\n"
     default_runbook = "Ensure this was an approved IAM configuration change.\n"

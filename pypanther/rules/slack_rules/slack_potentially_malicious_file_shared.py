@@ -74,7 +74,7 @@ class SlackAuditLogsPotentiallyMaliciousFileShared(Rule):
     log_types = [LogType.Slack_AuditLogs]
     tags = ["Slack", "Initial Access", "Phishing", "Spearphising Attachment"]
     reports = {"MITRE ATT&CK": ["TA0001:T1566.001"]}
-    default_severity = Severity.critical
+    default_severity = Severity.CRITICAL
     default_description = "Detects when a potentially malicious file is shared within Slack"
     default_reference = "https://threatpost.com/slack-remote-file-hijacking-malware/144871/"
     summary_attributes = ["p_any_ip_addresses", "p_any_emails"]

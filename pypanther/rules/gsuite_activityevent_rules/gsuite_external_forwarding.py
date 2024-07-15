@@ -77,7 +77,7 @@ class GSuiteExternalMailForwarding(Rule):
     log_types = [LogType.GSuite_ActivityEvent]
     tags = ["GSuite", "Collection:Email Collection", "Configuration Required"]
     reports = {"MITRE ATT&CK": ["TA0009:T1114"]}
-    default_severity = Severity.high
+    default_severity = Severity.HIGH
     default_description = "A user has configured mail forwarding to an external domain\n"
     default_reference = (
         "https://support.google.com/mail/answer/10957?hl=en&sjid=864417124752637253-EU"

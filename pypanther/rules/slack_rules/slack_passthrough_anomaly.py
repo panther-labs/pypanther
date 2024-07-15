@@ -74,7 +74,7 @@ class SlackAuditLogsPassthroughAnomaly(Rule):
     log_types = [LogType.Slack_AuditLogs]
     tags = ["Slack", "Command and Control", "Application Layer Protocol"]
     reports = {"MITRE ATT&CK": ["TA0011:T1071"]}
-    default_severity = Severity.critical
+    default_severity = Severity.CRITICAL
     default_description = "Passthrough for anomalies detected by Slack"
     default_reference = "https://slack.com/intl/en-in/blog/news/three-new-security-features-to-protect-your-digital-hq"
     summary_attributes = ["p_any_ip_addresses", "p_any_emails"]
