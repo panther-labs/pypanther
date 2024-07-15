@@ -1253,12 +1253,10 @@ class TestRule(TestCase):
                 return event.get("domain") in self.allowed_domains
 
             @classmethod
-            def validate(cls, _validate_config: bool = False):
-                if _validate_config:
-                    assert (
-                        len(cls.allowed_domains) > 0
-                    ), "The allowed_domains field on your PantherOOTBRule must be populated before using this rule"
-                super().validate(_validate_config)
+            def validate_config(cls):
+                assert (
+                    len(cls.allowed_domains) > 0
+                ), "The allowed_domains field on your PantherOOTBRule must be populated before using this rule"
 
         assert (
             MyRule()
@@ -1286,12 +1284,10 @@ class TestRule(TestCase):
                 return event.get("domain") in self.allowed_domains
 
             @classmethod
-            def validate(cls, _validate_config: bool = False):
-                if _validate_config:
-                    assert (
-                        len(cls.allowed_domains) > 0
-                    ), "The allowed_domains field on your PantherOOTBRule must be populated before using this rule"
-                super().validate(_validate_config)
+            def validate_config(cls):
+                assert (
+                    len(cls.allowed_domains) > 0
+                ), "The allowed_domains field on your PantherOOTBRule must be populated before using this rule"
 
         with pytest.raises(AssertionError):
             MyRule().run_tests(DATA_MODEL_CACHE.data_model_of_logtype)

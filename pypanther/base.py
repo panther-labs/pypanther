@@ -233,6 +233,10 @@ class PantherRule(metaclass=abc.ABCMeta):
         }
 
     @classmethod
+    def validate_config(cls) -> None:
+        """To be defined by subclasses when an out-of-the-box rules requires configuration before use."""
+
+    @classmethod
     def validate(cls, _validate_config: bool = True) -> None:
         """
         Validates this PantherRule.
@@ -241,6 +245,8 @@ class PantherRule(metaclass=abc.ABCMeta):
             _validate_config: true if any configuration should be validated, false otherwise. Only meant to be used by Panther.
         """
         PantherRuleAdapter.validate_python(cls.asdict())
+        if _validate_config:
+            cls.validate_config()
 
         # instantiation confirms that abstract methods are implemented
         cls()
