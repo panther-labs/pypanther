@@ -1,14 +1,13 @@
 import re
-from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import ZENDESK_CHANGE_DESCRIPTION
 
-zendesk_account_owner_changed_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
-        Name="Zendesk - Owner Changed",
-        ExpectedResult=True,
-        Log={
+zendesk_account_owner_changed_tests: list[RuleTest] = [
+    RuleTest(
+        name="Zendesk - Owner Changed",
+        expected_result=True,
+        log={
             "url": "https://myzendek.zendesk.com/api/v2/audit_logs/111222333444.json",
             "id": 123456789123,
             "action_label": "Updated",
@@ -24,10 +23,10 @@ zendesk_account_owner_changed_tests: List[PantherRuleTest] = [
             "p_log_type": "Zendesk.Audit",
         },
     ),
-    PantherRuleTest(
-        Name="Zendesk - Admin Role Assigned",
-        ExpectedResult=False,
-        Log={
+    RuleTest(
+        name="Zendesk - Admin Role Assigned",
+        expected_result=False,
+        log={
             "url": "https://myzendek.zendesk.com/api/v2/audit_logs/111222333444.json",
             "id": 123456789123,
             "action_label": "Updated",
@@ -46,21 +45,21 @@ zendesk_account_owner_changed_tests: List[PantherRuleTest] = [
 ]
 
 
-class ZendeskAccountOwnerChanged(PantherRule):
-    RuleID = "Zendesk.AccountOwnerChanged-prototype"
-    DisplayName = "Zendesk Account Owner Changed"
-    LogTypes = [PantherLogType.Zendesk_Audit]
-    Severity = PantherSeverity.High
-    Tags = ["Zendesk", "Privilege Escalation:Valid Accounts"]
-    Reports = {"MITRE ATT&CK": ["TA0004:T1078"]}
-    Description = (
+class ZendeskAccountOwnerChanged(Rule):
+    id = "Zendesk.AccountOwnerChanged-prototype"
+    display_name = "Zendesk Account Owner Changed"
+    log_types = [LogType.Zendesk_Audit]
+    default_severity = Severity.HIGH
+    tags = ["Zendesk", "Privilege Escalation:Valid Accounts"]
+    reports = {"MITRE ATT&CK": ["TA0004:T1078"]}
+    default_description = (
         "Only one admin user can be the account owner. Ensure the change in ownership is expected."
     )
-    Reference = (
+    default_reference = (
         "https://support.zendesk.com/hc/en-us/articles/4408822084634-Changing-the-account-owner"
     )
-    SummaryAttributes = ["p_any_ip_addresses"]
-    Tests = zendesk_account_owner_changed_tests
+    summary_attributes = ["p_any_ip_addresses"]
+    tests = zendesk_account_owner_changed_tests
     ZENDESK_OWNER_CHANGED = re.compile(
         "Owner changed from (?P<old_owner>.+) to (?P<new_owner>[^$]+)", re.IGNORECASE
     )

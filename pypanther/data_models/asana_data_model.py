@@ -1,8 +1,5 @@
-from typing import List
-
 import pypanther.helpers.panther_event_type_helpers as event_type
-from pypanther.base import PantherDataModel, PantherDataModelMapping
-from pypanther.log_types import PantherLogType
+from pypanther.base import DataModel, DataModelMapping, LogType
 
 audit_log_type_map = {
     "user_login_succeeded": event_type.SUCCESSFUL_LOGIN,
@@ -21,14 +18,14 @@ def get_event_type(event):
     return audit_log_type_map.get(logged_event_type)
 
 
-class StandardAsanaAudit(PantherDataModel):
-    DataModelID: str = "Standard.Asana.Audit"
-    DisplayName: str = "Asana Audit Logs"
-    Enabled: bool = True
-    LogTypes: List[str] = [PantherLogType.Asana_Audit]
-    Mappings: List[PantherDataModelMapping] = [
-        PantherDataModelMapping(Name="actor_user", Path="$.actor.name"),
-        PantherDataModelMapping(Name="event_type", Method=get_event_type),
-        PantherDataModelMapping(Name="source_ip", Path="$.context.client_ip_address"),
-        PantherDataModelMapping(Name="user", Path="$.resource.name"),
+class StandardAsanaAudit(DataModel):
+    id: str = "Standard.Asana.Audit"
+    display_name: str = "Asana Audit Logs"
+    enabled: bool = True
+    log_types: list[str] = [LogType.Asana_Audit]
+    mappings: list[DataModelMapping] = [
+        DataModelMapping(name="actor_user", path="$.actor.name"),
+        DataModelMapping(name="event_type", method=get_event_type),
+        DataModelMapping(name="source_ip", path="$.context.client_ip_address"),
+        DataModelMapping(name="user", path="$.resource.name"),
     ]

@@ -1,12 +1,10 @@
-from typing import List
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
-
-osquery_mac_unwanted_chrome_extensions_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
-        Name="Unwanted Extension Detected",
-        ExpectedResult=True,
-        Log={
+osquery_mac_unwanted_chrome_extensions_tests: list[RuleTest] = [
+    RuleTest(
+        name="Unwanted Extension Detected",
+        expected_result=True,
+        log={
             "action": "added",
             "calendarTime": "Tue Sep 11 16:14:21 2018 UTC",
             "columns": {
@@ -37,10 +35,10 @@ osquery_mac_unwanted_chrome_extensions_tests: List[PantherRuleTest] = [
             "unixTime": "1536682461",
         },
     ),
-    PantherRuleTest(
-        Name="No Unwanted Chrome Extension Detected",
-        ExpectedResult=False,
-        Log={
+    RuleTest(
+        name="No Unwanted Chrome Extension Detected",
+        expected_result=False,
+        log={
             "action": "added",
             "calendarTime": "Tue Sep 11 16:14:21 2018 UTC",
             "columns": {
@@ -74,18 +72,20 @@ osquery_mac_unwanted_chrome_extensions_tests: List[PantherRuleTest] = [
 ]
 
 
-class OsqueryMacUnwantedChromeExtensions(PantherRule):
-    RuleID = "Osquery.Mac.UnwantedChromeExtensions-prototype"
-    DisplayName = "OSQuery Detected Unwanted Chrome Extensions"
-    LogTypes = [PantherLogType.Osquery_Differential]
-    Tags = ["Osquery", "MacOS", "Malware", "Persistence:Browser Extensions"]
-    Reports = {"MITRE ATT&CK": ["TA0003:T1176"]}
-    Severity = PantherSeverity.Medium
-    Description = "Monitor for chrome extensions that could lead to a credential compromise.\n"
-    Runbook = "Uninstall the unwanted extension"
-    Reference = "https://securelist.com/threat-in-your-browser-extensions/107181/"
-    SummaryAttributes = ["action", "hostIdentifier", "name"]
-    Tests = osquery_mac_unwanted_chrome_extensions_tests
+class OsqueryMacUnwantedChromeExtensions(Rule):
+    id = "Osquery.Mac.UnwantedChromeExtensions-prototype"
+    display_name = "OSQuery Detected Unwanted Chrome Extensions"
+    log_types = [LogType.Osquery_Differential]
+    tags = ["Osquery", "MacOS", "Malware", "Persistence:Browser Extensions"]
+    reports = {"MITRE ATT&CK": ["TA0003:T1176"]}
+    default_severity = Severity.MEDIUM
+    default_description = (
+        "Monitor for chrome extensions that could lead to a credential compromise.\n"
+    )
+    default_runbook = "Uninstall the unwanted extension"
+    default_reference = "https://securelist.com/threat-in-your-browser-extensions/107181/"
+    summary_attributes = ["action", "hostIdentifier", "name"]
+    tests = osquery_mac_unwanted_chrome_extensions_tests
 
     def rule(self, event):
         return "unwanted-chrome-extensions" in event.get("name") and event.get("action") == "added"

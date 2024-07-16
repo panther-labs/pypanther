@@ -1,14 +1,13 @@
 import shlex
-from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 
-osquery_linux_aws_command_executed_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
-        Name="AWS command executed on MacOS",
-        ExpectedResult=False,
-        Log={
+osquery_linux_aws_command_executed_tests: list[RuleTest] = [
+    RuleTest(
+        name="AWS command executed on MacOS",
+        expected_result=False,
+        log={
             "name": "pack_incident-response_shell_history",
             "action": "added",
             "decorations": {"platform": "darwin"},
@@ -20,10 +19,10 @@ osquery_linux_aws_command_executed_tests: List[PantherRuleTest] = [
             },
         },
     ),
-    PantherRuleTest(
-        Name="AWS command executed",
-        ExpectedResult=True,
-        Log={
+    RuleTest(
+        name="AWS command executed",
+        expected_result=True,
+        log={
             "name": "pack_incident-response_shell_history",
             "action": "added",
             "columns": {
@@ -34,10 +33,10 @@ osquery_linux_aws_command_executed_tests: List[PantherRuleTest] = [
             },
         },
     ),
-    PantherRuleTest(
-        Name="Tail command executed",
-        ExpectedResult=False,
-        Log={
+    RuleTest(
+        name="Tail command executed",
+        expected_result=False,
+        log={
             "name": "pack_incident-response_shell_history",
             "action": "added",
             "columns": {
@@ -48,10 +47,10 @@ osquery_linux_aws_command_executed_tests: List[PantherRuleTest] = [
             },
         },
     ),
-    PantherRuleTest(
-        Name="Command with quote executed",
-        ExpectedResult=False,
-        Log={
+    RuleTest(
+        name="Command with quote executed",
+        expected_result=False,
+        log={
             "name": "pack_incident-response_shell_history",
             "action": "added",
             "columns": {
@@ -62,10 +61,10 @@ osquery_linux_aws_command_executed_tests: List[PantherRuleTest] = [
             },
         },
     ),
-    PantherRuleTest(
-        Name="Invalid command ignored",
-        ExpectedResult=False,
-        Log={
+    RuleTest(
+        name="Invalid command ignored",
+        expected_result=False,
+        log={
             "name": "pack_incident-response_shell_history",
             "action": "added",
             "columns": {
@@ -79,18 +78,20 @@ osquery_linux_aws_command_executed_tests: List[PantherRuleTest] = [
 ]
 
 
-class OsqueryLinuxAWSCommandExecuted(PantherRule):
-    RuleID = "Osquery.Linux.AWSCommandExecuted-prototype"
-    DisplayName = "AWS command executed on the command line"
-    LogTypes = [PantherLogType.Osquery_Differential]
-    Tags = ["Osquery", "Linux", "Execution:User Execution"]
-    Reports = {"MITRE ATT&CK": ["TA0002:T1204"]}
-    Severity = PantherSeverity.Medium
-    Description = "An AWS command was executed on a Linux instance"
-    Runbook = "See which other commands were executed, and then remove IAM role causing the access"
-    Reference = "https://attack.mitre.org/techniques/T1078/"
-    SummaryAttributes = ["name", "action"]
-    Tests = osquery_linux_aws_command_executed_tests
+class OsqueryLinuxAWSCommandExecuted(Rule):
+    id = "Osquery.Linux.AWSCommandExecuted-prototype"
+    display_name = "AWS command executed on the command line"
+    log_types = [LogType.Osquery_Differential]
+    tags = ["Osquery", "Linux", "Execution:User Execution"]
+    reports = {"MITRE ATT&CK": ["TA0002:T1204"]}
+    default_severity = Severity.MEDIUM
+    default_description = "An AWS command was executed on a Linux instance"
+    default_runbook = (
+        "See which other commands were executed, and then remove IAM role causing the access"
+    )
+    default_reference = "https://attack.mitre.org/techniques/T1078/"
+    summary_attributes = ["name", "action"]
+    tests = osquery_linux_aws_command_executed_tests
     PLATFORM_IGNORE_LIST = {"darwin"}
 
     def rule(self, event):

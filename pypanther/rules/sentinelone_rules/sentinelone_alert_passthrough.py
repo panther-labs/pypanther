@@ -1,13 +1,11 @@
-from typing import List
-
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 
-sentinel_one_alert_passthrough_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
-        Name="CRITICAL",
-        ExpectedResult=True,
-        Log={
+sentinel_one_alert_passthrough_tests: list[RuleTest] = [
+    RuleTest(
+        name="CRITICAL",
+        expected_result=True,
+        log={
             "accountid": "12345",
             "accountname": "Account1",
             "activitytype": 3608,
@@ -53,10 +51,10 @@ sentinel_one_alert_passthrough_tests: List[PantherRuleTest] = [
             "userid": "1234",
         },
     ),
-    PantherRuleTest(
-        Name="MEDIUM",
-        ExpectedResult=True,
-        Log={
+    RuleTest(
+        name="MEDIUM",
+        expected_result=True,
+        log={
             "accountid": "12345",
             "accountname": "Account1",
             "activitytype": 3608,
@@ -102,10 +100,10 @@ sentinel_one_alert_passthrough_tests: List[PantherRuleTest] = [
             "userid": "1234",
         },
     ),
-    PantherRuleTest(
-        Name="Non-Alert",
-        ExpectedResult=False,
-        Log={
+    RuleTest(
+        name="Non-Alert",
+        expected_result=False,
+        log={
             "accountid": "12345",
             "accountname": "Account1",
             "activitytype": 90,
@@ -136,16 +134,16 @@ sentinel_one_alert_passthrough_tests: List[PantherRuleTest] = [
 ]
 
 
-class SentinelOneAlertPassthrough(PantherRule):
-    Description = "SentinelOne Alert Passthrough"
-    DisplayName = "SentinelOne Alert Passthrough"
-    Reference = (
+class SentinelOneAlertPassthrough(Rule):
+    default_description = "SentinelOne Alert Passthrough"
+    display_name = "SentinelOne Alert Passthrough"
+    default_reference = (
         "https://www.sentinelone.com/blog/feature-spotlight-introducing-the-new-threat-center/"
     )
-    Severity = PantherSeverity.High
-    LogTypes = [PantherLogType.SentinelOne_Activity]
-    RuleID = "SentinelOne.Alert.Passthrough-prototype"
-    Tests = sentinel_one_alert_passthrough_tests
+    default_severity = Severity.HIGH
+    log_types = [LogType.SentinelOne_Activity]
+    id = "SentinelOne.Alert.Passthrough-prototype"
+    tests = sentinel_one_alert_passthrough_tests
     SENTINELONE_SEVERITY = {
         "E_LOW": "LOW",
         "E_MEDIUM": "MEDIUM",

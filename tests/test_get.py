@@ -4,36 +4,36 @@ from typing import Type
 
 import pytest
 
-from pypanther.base import PantherRule
+from pypanther.base import Rule
 from pypanther.get import get_rules, print_rule_table
 
 
-class TestEDRRule(PantherRule):
-    RuleID = "EDR"
-    LogTypes = ["CrowdStrike", "SentinelOne", "AWS"]
-    DisplayName = "EDR Rule"
-    Severity = "High"
-    Enabled = True
-    CreateAlert = False
+class TestEDRRule(Rule):
+    id = "EDR"
+    log_types = ["CrowdStrike", "SentinelOne", "AWS"]
+    display_name = "EDR Rule"
+    default_severity = "High"
+    enabled = True
+    create_alert = False
 
     def rule(self, event):
         return True
 
 
-class TestPaloAltoRule(PantherRule):
-    RuleID = "Firewall"
-    LogTypes = ["PaloAlto"]
-    DisplayName = "Firewall Rule"
-    Severity = "Medium"
-    Enabled = True
-    CreateAlert = True
+class TestPaloAltoRule(Rule):
+    id = "Firewall"
+    log_types = ["PaloAlto"]
+    display_name = "Firewall Rule"
+    default_severity = "Medium"
+    enabled = True
+    create_alert = True
 
     def rule(self, event):
         return True
 
 
 def test_print_rule_table(capsys):
-    rules: list[Type[PantherRule]] = [TestEDRRule, TestPaloAltoRule]
+    rules: list[Type[Rule]] = [TestEDRRule, TestPaloAltoRule]
     print_rule_table(rules)
     std = capsys.readouterr()
 

@@ -1,12 +1,10 @@
-from typing import List
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
-
-okta_support_access_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
-        Name="Support Access Granted",
-        ExpectedResult=True,
-        Log={
+okta_support_access_tests: list[RuleTest] = [
+    RuleTest(
+        name="Support Access Granted",
+        expected_result=True,
+        log={
             "published": "2022-03-22 14:21:53.225",
             "eventType": "user.session.impersonation.grant",
             "version": "0",
@@ -32,10 +30,10 @@ okta_support_access_tests: List[PantherRuleTest] = [
             "p_log_type": "Okta.SystemLog",
         },
     ),
-    PantherRuleTest(
-        Name="Login Event",
-        ExpectedResult=False,
-        Log={
+    RuleTest(
+        name="Login Event",
+        expected_result=False,
+        log={
             "published": "2022-03-22 14:21:53.225",
             "eventType": "user.session.start",
             "version": "0",
@@ -62,24 +60,26 @@ okta_support_access_tests: List[PantherRuleTest] = [
 ]
 
 
-class OktaSupportAccess(PantherRule):
-    RuleID = "Okta.Support.Access-prototype"
-    DisplayName = "Okta Support Access Granted"
-    LogTypes = [PantherLogType.Okta_SystemLog]
-    Tags = [
+class OktaSupportAccess(Rule):
+    id = "Okta.Support.Access-prototype"
+    display_name = "Okta Support Access Granted"
+    log_types = [LogType.Okta_SystemLog]
+    tags = [
         "Identity & Access Management",
         "DataModel",
         "Okta",
         "Initial Access:Trusted Relationship",
     ]
-    Reports = {"MITRE ATT&CK": ["TA0001:T1199"]}
-    Severity = PantherSeverity.Medium
-    Description = "An admin user has granted access to Okta Support to your account"
-    Reference = "https://help.okta.com/en/prod/Content/Topics/Settings/settings-support-access.htm"
-    Runbook = "Contact Admin to ensure this was sanctioned activity"
-    DedupPeriodMinutes = 15
-    SummaryAttributes = ["eventType", "severity", "displayMessage", "p_any_ip_addresses"]
-    Tests = okta_support_access_tests
+    reports = {"MITRE ATT&CK": ["TA0001:T1199"]}
+    default_severity = Severity.MEDIUM
+    default_description = "An admin user has granted access to Okta Support to your account"
+    default_reference = (
+        "https://help.okta.com/en/prod/Content/Topics/Settings/settings-support-access.htm"
+    )
+    default_runbook = "Contact Admin to ensure this was sanctioned activity"
+    dedup_period_minutes = 15
+    summary_attributes = ["eventType", "severity", "displayMessage", "p_any_ip_addresses"]
+    tests = okta_support_access_tests
     OKTA_SUPPORT_ACCESS_EVENTS = [
         "user.session.impersonation.grant",
         "user.session.impersonation.initiate",

@@ -1,12 +1,10 @@
-from typing import List
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
-
-push_security_phishable_mfa_method_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
-        Name="Dropbox Phishable MFA",
-        ExpectedResult=True,
-        Log={
+push_security_phishable_mfa_method_tests: list[RuleTest] = [
+    RuleTest(
+        name="Dropbox Phishable MFA",
+        expected_result=True,
+        log={
             "id": "d1e5794f-666d-4cba-abae-c6d889ca1903",
             "new": {
                 "appId": "67ef5c13-b5e6-4945-af7b-c11ac98f630f",
@@ -30,10 +28,10 @@ push_security_phishable_mfa_method_tests: List[PantherRuleTest] = [
             "old": None,
         },
     ),
-    PantherRuleTest(
-        Name="Google Workspace Phishable MFA",
-        ExpectedResult=True,
-        Log={
+    RuleTest(
+        name="Google Workspace Phishable MFA",
+        expected_result=True,
+        log={
             "id": "d1e5794f-666d-4cba-abae-c6d889ca1903",
             "new": {
                 "appId": "67ef5c13-b5e6-4945-af7b-c11ac98f630f",
@@ -57,10 +55,10 @@ push_security_phishable_mfa_method_tests: List[PantherRuleTest] = [
             "old": None,
         },
     ),
-    PantherRuleTest(
-        Name="No MFA Enabled",
-        ExpectedResult=False,
-        Log={
+    RuleTest(
+        name="No MFA Enabled",
+        expected_result=False,
+        log={
             "id": "d1e5794f-666d-4cba-abae-c6d889ca1903",
             "new": {
                 "appId": "67ef5c13-b5e6-4945-af7b-c11ac98f630f",
@@ -107,12 +105,12 @@ push_security_phishable_mfa_method_tests: List[PantherRuleTest] = [
 ]
 
 
-class PushSecurityPhishableMFAMethod(PantherRule):
-    RuleID = "Push.Security.Phishable.MFA.Method-prototype"
-    DisplayName = "Push Security Phishable MFA Method"
-    LogTypes = [PantherLogType.PushSecurity_Entities]
-    Severity = PantherSeverity.Info
-    Tests = push_security_phishable_mfa_method_tests
+class PushSecurityPhishableMFAMethod(Rule):
+    id = "Push.Security.Phishable.MFA.Method-prototype"
+    display_name = "Push Security Phishable MFA Method"
+    log_types = [LogType.PushSecurity_Entities]
+    default_severity = Severity.INFO
+    tests = push_security_phishable_mfa_method_tests
     identity_providers = ("MICROSOFT_365", "GOOGLE_WORKSPACE", "OKTA", "JUMPCLOUD", "PING")
     phishable_mfa = ("EMAIL_OTP", "PHONE_CALL", "SMS", "APP_PASSWORD")
 

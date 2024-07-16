@@ -1,13 +1,11 @@
-from typing import List
-
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import crowdstrike_process_alert_context, deep_get
 
-crowdstrike_macos_plutil_usage_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
-        Name="Plutil used",
-        ExpectedResult=True,
-        Log={
+crowdstrike_macos_plutil_usage_tests: list[RuleTest] = [
+    RuleTest(
+        name="Plutil used",
+        expected_result=True,
+        log={
             "aid": "1234abcdefghijklmnop",
             "aip": "1.2.3.4",
             "cid": "abcde098654321xyz",
@@ -80,10 +78,10 @@ crowdstrike_macos_plutil_usage_tests: List[PantherRuleTest] = [
             "timestamp": "2023-05-26 17:59:17.235",
         },
     ),
-    PantherRuleTest(
-        Name="Slack settings update",
-        ExpectedResult=False,
-        Log={
+    RuleTest(
+        name="Slack settings update",
+        expected_result=False,
+        log={
             "aid": "1234abcdefghijklmnop",
             "aip": "1.2.3.4",
             "cid": "abcde098654321xyz",
@@ -156,10 +154,10 @@ crowdstrike_macos_plutil_usage_tests: List[PantherRuleTest] = [
             "timestamp": "2023-05-26 17:59:17.235",
         },
     ),
-    PantherRuleTest(
-        Name="Windows",
-        ExpectedResult=False,
-        Log={
+    RuleTest(
+        name="Windows",
+        expected_result=False,
+        log={
             "aid": "1234abcdefghijklmnop",
             "aip": "1.2.3.4",
             "cid": "abcde098654321xyz",
@@ -232,10 +230,10 @@ crowdstrike_macos_plutil_usage_tests: List[PantherRuleTest] = [
             "timestamp": "2023-05-26 17:59:17.235",
         },
     ),
-    PantherRuleTest(
-        Name="Non process event",
-        ExpectedResult=False,
-        Log={
+    RuleTest(
+        name="Non process event",
+        expected_result=False,
+        log={
             "aid": "1234abcdefghijklmnop",
             "aip": "1.2.3.4",
             "cid": "abcde098654321xyz",
@@ -311,14 +309,14 @@ crowdstrike_macos_plutil_usage_tests: List[PantherRuleTest] = [
 ]
 
 
-class CrowdstrikeMacosPlutilUsage(PantherRule):
-    DisplayName = "CrowdStrike MacOS plutil Usage"
-    Description = "Detects the usage of plutil to modify plist files. Plist files run on start up and are often used by attackers to maintain persistence."
-    RuleID = "Crowdstrike.Macos.Plutil.Usage-prototype"
-    Reference = "https://www.crowdstrike.com/blog/reconstructing-command-line-activity-on-macos/#:~:text=Terminal.savedState/.-,Windows.plist,-The%20file%20windows"
-    Severity = PantherSeverity.Medium
-    LogTypes = [PantherLogType.Crowdstrike_FDREvent]
-    Tests = crowdstrike_macos_plutil_usage_tests
+class CrowdstrikeMacosPlutilUsage(Rule):
+    display_name = "CrowdStrike MacOS plutil Usage"
+    default_description = "Detects the usage of plutil to modify plist files. Plist files run on start up and are often used by attackers to maintain persistence."
+    id = "Crowdstrike.Macos.Plutil.Usage-prototype"
+    default_reference = "https://www.crowdstrike.com/blog/reconstructing-command-line-activity-on-macos/#:~:text=Terminal.savedState/.-,Windows.plist,-The%20file%20windows"
+    default_severity = Severity.MEDIUM
+    log_types = [LogType.Crowdstrike_FDREvent]
+    tests = crowdstrike_macos_plutil_usage_tests
 
     def rule(self, event):
         command_line = deep_get(event, "event", "CommandLine", default="<UNKNOWN_COMMAND_LINE>")

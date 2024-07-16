@@ -1,13 +1,11 @@
-from typing import List
-
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get, slack_alert_context
 
-slack_audit_logs_user_privilege_escalation_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
-        Name="Owner Transferred",
-        ExpectedResult=True,
-        Log={
+slack_audit_logs_user_privilege_escalation_tests: list[RuleTest] = [
+    RuleTest(
+        name="Owner Transferred",
+        expected_result=True,
+        log={
             "action": "owner_transferred",
             "actor": {
                 "type": "user",
@@ -30,10 +28,10 @@ slack_audit_logs_user_privilege_escalation_tests: List[PantherRuleTest] = [
             },
         },
     ),
-    PantherRuleTest(
-        Name="Permissions Assigned",
-        ExpectedResult=True,
-        Log={
+    RuleTest(
+        name="Permissions Assigned",
+        expected_result=True,
+        log={
             "action": "permissions_assigned",
             "actor": {
                 "type": "user",
@@ -56,10 +54,10 @@ slack_audit_logs_user_privilege_escalation_tests: List[PantherRuleTest] = [
             },
         },
     ),
-    PantherRuleTest(
-        Name="Role Changed to Admin",
-        ExpectedResult=True,
-        Log={
+    RuleTest(
+        name="Role Changed to Admin",
+        expected_result=True,
+        log={
             "action": "role_change_to_admin",
             "actor": {
                 "type": "user",
@@ -82,10 +80,10 @@ slack_audit_logs_user_privilege_escalation_tests: List[PantherRuleTest] = [
             },
         },
     ),
-    PantherRuleTest(
-        Name="Role Changed to Owner",
-        ExpectedResult=True,
-        Log={
+    RuleTest(
+        name="Role Changed to Owner",
+        expected_result=True,
+        log={
             "action": "role_change_to_owner",
             "actor": {
                 "type": "user",
@@ -108,10 +106,10 @@ slack_audit_logs_user_privilege_escalation_tests: List[PantherRuleTest] = [
             },
         },
     ),
-    PantherRuleTest(
-        Name="User Logout",
-        ExpectedResult=False,
-        Log={
+    RuleTest(
+        name="User Logout",
+        expected_result=False,
+        log={
             "action": "user_logout",
             "actor": {
                 "type": "user",
@@ -148,17 +146,19 @@ slack_audit_logs_user_privilege_escalation_tests: List[PantherRuleTest] = [
 ]
 
 
-class SlackAuditLogsUserPrivilegeEscalation(PantherRule):
-    RuleID = "Slack.AuditLogs.UserPrivilegeEscalation-prototype"
-    DisplayName = "Slack User Privilege Escalation"
-    LogTypes = [PantherLogType.Slack_AuditLogs]
-    Tags = ["Slack", "Privilege Escalation", "Account Manipulation", "Additional Cloud Roles"]
-    Reports = {"MITRE ATT&CK": ["TA0004:T1098.003"]}
-    Severity = PantherSeverity.High
-    Description = "Detects when a Slack user gains escalated privileges"
-    Reference = "https://slack.com/intl/en-gb/help/articles/201314026-Permissions-by-role-in-Slack"
-    SummaryAttributes = ["p_any_ip_addresses", "p_any_emails"]
-    Tests = slack_audit_logs_user_privilege_escalation_tests
+class SlackAuditLogsUserPrivilegeEscalation(Rule):
+    id = "Slack.AuditLogs.UserPrivilegeEscalation-prototype"
+    display_name = "Slack User Privilege Escalation"
+    log_types = [LogType.Slack_AuditLogs]
+    tags = ["Slack", "Privilege Escalation", "Account Manipulation", "Additional Cloud Roles"]
+    reports = {"MITRE ATT&CK": ["TA0004:T1098.003"]}
+    default_severity = Severity.HIGH
+    default_description = "Detects when a Slack user gains escalated privileges"
+    default_reference = (
+        "https://slack.com/intl/en-gb/help/articles/201314026-Permissions-by-role-in-Slack"
+    )
+    summary_attributes = ["p_any_ip_addresses", "p_any_emails"]
+    tests = slack_audit_logs_user_privilege_escalation_tests
     USER_PRIV_ESC_ACTIONS = {
         "owner_transferred": "Slack Owner Transferred",
         "permissions_assigned": "Slack User Assigned Permissions",

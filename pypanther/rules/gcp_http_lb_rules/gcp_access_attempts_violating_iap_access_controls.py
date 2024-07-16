@@ -1,13 +1,11 @@
-from typing import List
-
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 
-gcp_access_attempts_violating_iap_access_controls_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
-        Name="Blocked By IAP",
-        ExpectedResult=True,
-        Log={
+gcp_access_attempts_violating_iap_access_controls_tests: list[RuleTest] = [
+    RuleTest(
+        name="Blocked By IAP",
+        expected_result=True,
+        log={
             "httprequest": {
                 "latency": "0.048180s",
                 "remoteIp": "1.2.3.4",
@@ -52,10 +50,10 @@ gcp_access_attempts_violating_iap_access_controls_tests: List[PantherRuleTest] =
             "trace": "projects/gcp-project1/traces/dd43c6eb7046da54fa3724d2753262e6",
         },
     ),
-    PantherRuleTest(
-        Name="Redirected by IAP",
-        ExpectedResult=False,
-        Log={
+    RuleTest(
+        name="Redirected by IAP",
+        expected_result=False,
+        log={
             "httprequest": {
                 "latency": "0.048180s",
                 "remoteIp": "1.2.3.4",
@@ -103,14 +101,14 @@ gcp_access_attempts_violating_iap_access_controls_tests: List[PantherRuleTest] =
 ]
 
 
-class GCPAccessAttemptsViolatingIAPAccessControls(PantherRule):
-    Description = "GCP Access Attempts Violating IAP Access Controls"
-    DisplayName = "GCP Access Attempts Violating IAP Access Controls"
-    Reference = "https://cloud.google.com/iap/docs/concepts-overview"
-    Severity = PantherSeverity.Medium
-    LogTypes = [PantherLogType.GCP_HTTPLoadBalancer]
-    RuleID = "GCP.Access.Attempts.Violating.IAP.Access.Controls-prototype"
-    Tests = gcp_access_attempts_violating_iap_access_controls_tests
+class GCPAccessAttemptsViolatingIAPAccessControls(Rule):
+    default_description = "GCP Access Attempts Violating IAP Access Controls"
+    display_name = "GCP Access Attempts Violating IAP Access Controls"
+    default_reference = "https://cloud.google.com/iap/docs/concepts-overview"
+    default_severity = Severity.MEDIUM
+    log_types = [LogType.GCP_HTTPLoadBalancer]
+    id = "GCP.Access.Attempts.Violating.IAP.Access.Controls-prototype"
+    tests = gcp_access_attempts_violating_iap_access_controls_tests
 
     def rule(self, event):
         return all(

@@ -1,13 +1,11 @@
-from typing import List
-
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get, pattern_match
 
-aws_macie_evasion_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
-        Name="ListMembers",
-        ExpectedResult=False,
-        Log={
+aws_macie_evasion_tests: list[RuleTest] = [
+    RuleTest(
+        name="ListMembers",
+        expected_result=False,
+        log={
             "awsRegion": "us-west-1",
             "eventCategory": "Management",
             "eventID": "5b3e4cf6-c37d-4c8c-9016-b8444a37ceaa",
@@ -59,10 +57,10 @@ aws_macie_evasion_tests: List[PantherRuleTest] = [
             },
         },
     ),
-    PantherRuleTest(
-        Name="UpdateSession",
-        ExpectedResult=True,
-        Log={
+    RuleTest(
+        name="UpdateSession",
+        expected_result=True,
+        log={
             "awsRegion": "us-east-2",
             "eventCategory": "Management",
             "eventID": "63033dfd-08c9-42f3-80ae-dca45e86ae84",
@@ -114,10 +112,10 @@ aws_macie_evasion_tests: List[PantherRuleTest] = [
             },
         },
     ),
-    PantherRuleTest(
-        Name="UpdateSession (Macie v1 event)",
-        ExpectedResult=True,
-        Log={
+    RuleTest(
+        name="UpdateSession (Macie v1 event)",
+        expected_result=True,
+        log={
             "awsRegion": "us-east-2",
             "eventCategory": "Management",
             "eventID": "63033dfd-08c9-42f3-80ae-dca45e86ae84",
@@ -172,17 +170,17 @@ aws_macie_evasion_tests: List[PantherRuleTest] = [
 ]
 
 
-class AWSMacieEvasion(PantherRule):
-    RuleID = "AWS.Macie.Evasion-prototype"
-    DisplayName = "AWS Macie Disabled/Updated"
-    LogTypes = [PantherLogType.AWS_CloudTrail]
-    Reports = {"MITRE ATT&CK": ["TA0005:T1562"]}
-    Severity = PantherSeverity.Medium
-    Description = "Amazon Macie is a data security and data privacy service to discover and protect sensitive data. Security teams use Macie to detect open S3 Buckets that could have potentially sensitive data in it along with policy violations, such as missing Encryption. If an attacker disables Macie, it could potentially hide data exfiltration.\n"
-    Reference = "https://aws.amazon.com/macie/"
-    Runbook = "Analyze the events to ensure it's not normal maintenance. If it's abnormal, run the Indicator Search on the UserIdentity:Arn for the past hour and analyze other services accessed/changed.\n"
-    Threshold = 5
-    SummaryAttributes = [
+class AWSMacieEvasion(Rule):
+    id = "AWS.Macie.Evasion-prototype"
+    display_name = "AWS Macie Disabled/Updated"
+    log_types = [LogType.AWS_CloudTrail]
+    reports = {"MITRE ATT&CK": ["TA0005:T1562"]}
+    default_severity = Severity.MEDIUM
+    default_description = "Amazon Macie is a data security and data privacy service to discover and protect sensitive data. Security teams use Macie to detect open S3 Buckets that could have potentially sensitive data in it along with policy violations, such as missing Encryption. If an attacker disables Macie, it could potentially hide data exfiltration.\n"
+    default_reference = "https://aws.amazon.com/macie/"
+    default_runbook = "Analyze the events to ensure it's not normal maintenance. If it's abnormal, run the Indicator Search on the UserIdentity:Arn for the past hour and analyze other services accessed/changed.\n"
+    threshold = 5
+    summary_attributes = [
         "awsRegion",
         "eventName",
         "p_any_aws_arns",
@@ -190,7 +188,7 @@ class AWSMacieEvasion(PantherRule):
         "userIdentity:type",
         "userIdentity:arn",
     ]
-    Tests = aws_macie_evasion_tests
+    tests = aws_macie_evasion_tests
     MACIE_EVENTS = {
         "ArchiveFindings",
         "CreateFindingsFilter",

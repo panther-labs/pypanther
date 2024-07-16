@@ -1,13 +1,11 @@
-from typing import List
-
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import aws_rule_context, deep_get
 
-aws_cloud_trail_root_access_key_created_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
-        Name="Root Access Key Created",
-        ExpectedResult=True,
-        Log={
+aws_cloud_trail_root_access_key_created_tests: list[RuleTest] = [
+    RuleTest(
+        name="Root Access Key Created",
+        expected_result=True,
+        log={
             "awsRegion": "us-east-1",
             "eventID": "1111",
             "eventName": "CreateAccessKey",
@@ -43,10 +41,10 @@ aws_cloud_trail_root_access_key_created_tests: List[PantherRuleTest] = [
             },
         },
     ),
-    PantherRuleTest(
-        Name="Root Created Access Key For User",
-        ExpectedResult=False,
-        Log={
+    RuleTest(
+        name="Root Created Access Key For User",
+        expected_result=False,
+        log={
             "awsRegion": "us-east-1",
             "eventID": "1111",
             "eventName": "CreateAccessKey",
@@ -86,18 +84,20 @@ aws_cloud_trail_root_access_key_created_tests: List[PantherRuleTest] = [
 ]
 
 
-class AWSCloudTrailRootAccessKeyCreated(PantherRule):
-    RuleID = "AWS.CloudTrail.RootAccessKeyCreated-prototype"
-    DisplayName = "Root Account Access Key Created"
-    LogTypes = [PantherLogType.AWS_CloudTrail]
-    Tags = ["AWS", "Identity and Access Management", "Persistence:Account Manipulation"]
-    Reports = {"MITRE ATT&CK": ["TA0003:T1098"]}
-    Severity = PantherSeverity.Critical
-    Description = "An access key was created for the Root account"
-    Runbook = "Verify that the root access key was created for legitimate reasons. If not, immediately revoke it and change the root login credentials. If it was created for legitimate reasons, monitor its use and ensure it is revoked when its need is gone.\n"
-    Reference = "https://docs.aws.amazon.com/general/latest/gr/managing-aws-access-keys.html"
-    SummaryAttributes = ["userAgent", "sourceIpAddress", "recipientAccountId", "p_any_aws_arns"]
-    Tests = aws_cloud_trail_root_access_key_created_tests
+class AWSCloudTrailRootAccessKeyCreated(Rule):
+    id = "AWS.CloudTrail.RootAccessKeyCreated-prototype"
+    display_name = "Root Account Access Key Created"
+    log_types = [LogType.AWS_CloudTrail]
+    tags = ["AWS", "Identity and Access Management", "Persistence:Account Manipulation"]
+    reports = {"MITRE ATT&CK": ["TA0003:T1098"]}
+    default_severity = Severity.CRITICAL
+    default_description = "An access key was created for the Root account"
+    default_runbook = "Verify that the root access key was created for legitimate reasons. If not, immediately revoke it and change the root login credentials. If it was created for legitimate reasons, monitor its use and ensure it is revoked when its need is gone.\n"
+    default_reference = (
+        "https://docs.aws.amazon.com/general/latest/gr/managing-aws-access-keys.html"
+    )
+    summary_attributes = ["userAgent", "sourceIpAddress", "recipientAccountId", "p_any_aws_arns"]
+    tests = aws_cloud_trail_root_access_key_created_tests
 
     def rule(self, event):
         # Only check access key creation events

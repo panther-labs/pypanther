@@ -1,13 +1,11 @@
-from typing import List
-
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import aws_rule_context
 
-awsiam_group_read_only_events_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
-        Name="Get Group",
-        ExpectedResult=True,
-        Log={
+awsiam_group_read_only_events_tests: list[RuleTest] = [
+    RuleTest(
+        name="Get Group",
+        expected_result=True,
+        log={
             "awsRegion": "us-east-1",
             "eventCategory": "Management",
             "eventID": "883efb94-aa58-4512-beb7-10a5fffa33e4",
@@ -47,10 +45,10 @@ awsiam_group_read_only_events_tests: List[PantherRuleTest] = [
             },
         },
     ),
-    PantherRuleTest(
-        Name="Get Group Policy",
-        ExpectedResult=True,
-        Log={
+    RuleTest(
+        name="Get Group Policy",
+        expected_result=True,
+        log={
             "awsRegion": "us-east-1",
             "eventCategory": "Management",
             "eventID": "883efb94-aa58-4512-beb7-10a5fffa33e4",
@@ -90,10 +88,10 @@ awsiam_group_read_only_events_tests: List[PantherRuleTest] = [
             },
         },
     ),
-    PantherRuleTest(
-        Name="List Attached Group Policies",
-        ExpectedResult=True,
-        Log={
+    RuleTest(
+        name="List Attached Group Policies",
+        expected_result=True,
+        log={
             "awsRegion": "us-east-1",
             "eventCategory": "Management",
             "eventID": "883efb94-aa58-4512-beb7-10a5fffa33e4",
@@ -133,10 +131,10 @@ awsiam_group_read_only_events_tests: List[PantherRuleTest] = [
             },
         },
     ),
-    PantherRuleTest(
-        Name="List Groups",
-        ExpectedResult=True,
-        Log={
+    RuleTest(
+        name="List Groups",
+        expected_result=True,
+        log={
             "awsRegion": "us-east-1",
             "eventCategory": "Management",
             "eventID": "883efb94-aa58-4512-beb7-10a5fffa33e4",
@@ -176,10 +174,10 @@ awsiam_group_read_only_events_tests: List[PantherRuleTest] = [
             },
         },
     ),
-    PantherRuleTest(
-        Name="List Groups for User",
-        ExpectedResult=True,
-        Log={
+    RuleTest(
+        name="List Groups for User",
+        expected_result=True,
+        log={
             "awsRegion": "us-east-1",
             "eventCategory": "Management",
             "eventID": "883efb94-aa58-4512-beb7-10a5fffa33e4",
@@ -219,10 +217,10 @@ awsiam_group_read_only_events_tests: List[PantherRuleTest] = [
             },
         },
     ),
-    PantherRuleTest(
-        Name="Detach User Group",
-        ExpectedResult=False,
-        Log={
+    RuleTest(
+        name="Detach User Group",
+        expected_result=False,
+        log={
             "awsRegion": "us-east-1",
             "eventCategory": "Management",
             "eventID": "883efb94-aa58-4512-beb7-10a5fffa33e4",
@@ -265,18 +263,18 @@ awsiam_group_read_only_events_tests: List[PantherRuleTest] = [
 ]
 
 
-class AWSIAMGroupReadOnlyEvents(PantherRule):
-    Description = "This rule captures multiple read/list events related to IAM group management in AWS Cloudtrail."
-    DisplayName = "AWS IAM Group Read Only Events"
-    Enabled = False
-    Reference = "https://attack.mitre.org/techniques/T1069/"
-    Runbook = "Examine other activities done by this user to determine whether or not activity is suspicious."
-    Severity = PantherSeverity.Info
-    Tags = ["AWS", "Cloudtrail", "Configuration Required", "IAM", "MITRE"]
-    LogTypes = [PantherLogType.AWS_CloudTrail]
-    RuleID = "AWS.IAM.Group.Read.Only.Events-prototype"
-    Threshold = 2
-    Tests = awsiam_group_read_only_events_tests
+class AWSIAMGroupReadOnlyEvents(Rule):
+    default_description = "This rule captures multiple read/list events related to IAM group management in AWS Cloudtrail."
+    display_name = "AWS IAM Group Read Only Events"
+    enabled = False
+    default_reference = "https://attack.mitre.org/techniques/T1069/"
+    default_runbook = "Examine other activities done by this user to determine whether or not activity is suspicious."
+    default_severity = Severity.INFO
+    tags = ["AWS", "Cloudtrail", "Configuration Required", "IAM", "MITRE"]
+    log_types = [LogType.AWS_CloudTrail]
+    id = "AWS.IAM.Group.Read.Only.Events-prototype"
+    threshold = 2
+    tests = awsiam_group_read_only_events_tests
     # arn allow list to suppress alerts
     ARN_ALLOW_LIST = []
     GROUP_ACTIONS = [

@@ -1,13 +1,11 @@
-from typing import List
-
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import okta_alert_context
 
-okta_user_reported_suspicious_activity_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
-        Name="Other Event",
-        ExpectedResult=False,
-        Log={
+okta_user_reported_suspicious_activity_tests: list[RuleTest] = [
+    RuleTest(
+        name="Other Event",
+        expected_result=False,
+        log={
             "actor": {
                 "alternateId": "homer.simpson@duff.com",
                 "displayName": "Homer Simpson",
@@ -80,10 +78,10 @@ okta_user_reported_suspicious_activity_tests: List[PantherRuleTest] = [
             "version": "0",
         },
     ),
-    PantherRuleTest(
-        Name="Suspicious Report Event",
-        ExpectedResult=True,
-        Log={
+    RuleTest(
+        name="Suspicious Report Event",
+        expected_result=True,
+        log={
             "actor": {
                 "alternateId": "homer.simpson@duff.com",
                 "displayName": "Homer Simpson",
@@ -172,16 +170,16 @@ okta_user_reported_suspicious_activity_tests: List[PantherRuleTest] = [
 ]
 
 
-class OktaUserReportedSuspiciousActivity(PantherRule):
-    Description = "Suspicious Activity Reporting provides an end user with the option to report unrecognized activity from an account activity email notification.\nThis detection alerts when a user marks the raised activity as suspicious."
-    Reference = (
+class OktaUserReportedSuspiciousActivity(Rule):
+    default_description = "Suspicious Activity Reporting provides an end user with the option to report unrecognized activity from an account activity email notification.\nThis detection alerts when a user marks the raised activity as suspicious."
+    default_reference = (
         "https://help.okta.com/en-us/Content/Topics/Security/suspicious-activity-reporting.htm"
     )
-    DisplayName = "Okta User Reported Suspicious Activity"
-    Severity = PantherSeverity.High
-    LogTypes = [PantherLogType.Okta_SystemLog]
-    RuleID = "Okta.User.Reported.Suspicious.Activity-prototype"
-    Tests = okta_user_reported_suspicious_activity_tests
+    display_name = "Okta User Reported Suspicious Activity"
+    default_severity = Severity.HIGH
+    log_types = [LogType.Okta_SystemLog]
+    id = "Okta.User.Reported.Suspicious.Activity-prototype"
+    tests = okta_user_reported_suspicious_activity_tests
 
     def rule(self, event):
         return event.get("eventtype") == "user.account.report_suspicious_activity_by_enduser"

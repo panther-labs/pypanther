@@ -1,14 +1,12 @@
-from typing import List
-
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 from pypanther.helpers.panther_tines_helpers import tines_alert_context
 
-tines_team_destruction_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
-        Name="Detection Trigger",
-        ExpectedResult=True,
-        Log={
+tines_team_destruction_tests: list[RuleTest] = [
+    RuleTest(
+        name="Detection Trigger",
+        expected_result=True,
+        log={
             "created_at": "2023-06-13 15:14:46",
             "id": 1234,
             "operation_name": "TeamDestruction",
@@ -21,10 +19,10 @@ tines_team_destruction_tests: List[PantherRuleTest] = [
             "user_name": "Tines User Person",
         },
     ),
-    PantherRuleTest(
-        Name="Tines Login",
-        ExpectedResult=False,
-        Log={
+    RuleTest(
+        name="Tines Login",
+        expected_result=False,
+        log={
             "created_at": "2023-05-17 14:45:19",
             "id": 7888888,
             "operation_name": "Login",
@@ -40,16 +38,16 @@ tines_team_destruction_tests: List[PantherRuleTest] = [
 ]
 
 
-class TinesTeamDestruction(PantherRule):
-    RuleID = "Tines.Team.Destruction-prototype"
-    DisplayName = "Tines Team Destruction"
-    LogTypes = [PantherLogType.Tines_Audit]
-    Tags = ["Tines"]
-    Severity = PantherSeverity.Low
-    Description = "A user has destroyed a team"
-    Runbook = "Possible data destruction. Please reach out to the user and confirm this was done for valid business reasons."
-    Reference = "https://www.tines.com/docs/admin/teams"
-    Tests = tines_team_destruction_tests
+class TinesTeamDestruction(Rule):
+    id = "Tines.Team.Destruction-prototype"
+    display_name = "Tines Team Destruction"
+    log_types = [LogType.Tines_Audit]
+    tags = ["Tines"]
+    default_severity = Severity.LOW
+    default_description = "A user has destroyed a team"
+    default_runbook = "Possible data destruction. Please reach out to the user and confirm this was done for valid business reasons."
+    default_reference = "https://www.tines.com/docs/admin/teams"
+    tests = tines_team_destruction_tests
 
     def rule(self, event):
         return deep_get(event, "operation_name", default="<NO_OPERATION_NAME>") == "TeamDestruction"

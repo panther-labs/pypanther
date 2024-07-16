@@ -1,13 +1,11 @@
-from typing import List
-
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_cloudflare_helpers import cloudflare_http_alert_context
 
-cloudflare_http_request_bot_high_volume_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
-        Name="Likely Human",
-        ExpectedResult=False,
-        Log={
+cloudflare_http_request_bot_high_volume_tests: list[RuleTest] = [
+    RuleTest(
+        name="Likely Human",
+        expected_result=False,
+        log={
             "BotScore": 99,
             "CacheCacheStatus": "miss",
             "CacheResponseBytes": 76931,
@@ -74,10 +72,10 @@ cloudflare_http_request_bot_high_volume_tests: List[PantherRuleTest] = [
             "p_source_label": "Cloudflare",
         },
     ),
-    PantherRuleTest(
-        Name="Likely Automated",
-        ExpectedResult=True,
-        Log={
+    RuleTest(
+        name="Likely Automated",
+        expected_result=True,
+        log={
             "BotScore": 29,
             "CacheCacheStatus": "miss",
             "CacheResponseBytes": 76931,
@@ -147,25 +145,25 @@ cloudflare_http_request_bot_high_volume_tests: List[PantherRuleTest] = [
 ]
 
 
-class CloudflareHttpRequestBotHighVolume(PantherRule):
-    RuleID = "Cloudflare.HttpRequest.BotHighVolume-prototype"
-    DisplayName = "Cloudflare Bot High Volume"
-    Enabled = False
-    LogTypes = [PantherLogType.Cloudflare_HttpRequest]
-    Tags = ["Cloudflare"]
-    Severity = PantherSeverity.Low
-    Description = "Monitors for bots making HTTP Requests at a rate higher than 2req/sec"
-    Runbook = "Inspect and monitor internet-facing services for potential outages"
-    Reference = "https://developers.cloudflare.com/waf/rate-limiting-rules/request-rate/"
-    Threshold = 7560
-    SummaryAttributes = [
+class CloudflareHttpRequestBotHighVolume(Rule):
+    id = "Cloudflare.HttpRequest.BotHighVolume-prototype"
+    display_name = "Cloudflare Bot High Volume"
+    enabled = False
+    log_types = [LogType.Cloudflare_HttpRequest]
+    tags = ["Cloudflare"]
+    default_severity = Severity.LOW
+    default_description = "Monitors for bots making HTTP Requests at a rate higher than 2req/sec"
+    default_runbook = "Inspect and monitor internet-facing services for potential outages"
+    default_reference = "https://developers.cloudflare.com/waf/rate-limiting-rules/request-rate/"
+    threshold = 7560
+    summary_attributes = [
         "ClientIP",
         "ClientRequestUserAgent",
         "EdgeResponseContentType",
         "ClientCountry",
         "ClientRequestURI",
     ]
-    Tests = cloudflare_http_request_bot_high_volume_tests
+    tests = cloudflare_http_request_bot_high_volume_tests
 
     def rule(self, event):
         # Bot scores are [0, 99] where scores >0 && <30 indicating likely automated

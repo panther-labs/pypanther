@@ -1,13 +1,11 @@
-from typing import List
-
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import aws_rule_context, deep_get
 
-awsrds_public_restore_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
-        Name="Not-Restore-RDS-Request",
-        ExpectedResult=False,
-        Log={
+awsrds_public_restore_tests: list[RuleTest] = [
+    RuleTest(
+        name="Not-Restore-RDS-Request",
+        expected_result=False,
+        log={
             "awsRegion": "us-east-1",
             "eventID": "797163d3-5726-441d-80a7-6eeb7464acd4",
             "eventName": "CreateDBInstance",
@@ -118,10 +116,10 @@ awsrds_public_restore_tests: List[PantherRuleTest] = [
             },
         },
     ),
-    PantherRuleTest(
-        Name="RDS-Restore-Not-Public",
-        ExpectedResult=False,
-        Log={
+    RuleTest(
+        name="RDS-Restore-Not-Public",
+        expected_result=False,
+        log={
             "awsRegion": "us-east-1",
             "eventID": "797163d3-5726-441d-80a7-6eeb7464acd4",
             "eventName": "RestoreDBInstanceFromDBSnapshot",
@@ -232,10 +230,10 @@ awsrds_public_restore_tests: List[PantherRuleTest] = [
             },
         },
     ),
-    PantherRuleTest(
-        Name="RDS-Restore-Public",
-        ExpectedResult=True,
-        Log={
+    RuleTest(
+        name="RDS-Restore-Public",
+        expected_result=True,
+        log={
             "awsRegion": "us-east-1",
             "eventID": "797163d3-5726-441d-80a7-6eeb7464acd4",
             "eventName": "RestoreDBInstanceFromDBSnapshot",
@@ -349,17 +347,17 @@ awsrds_public_restore_tests: List[PantherRuleTest] = [
 ]
 
 
-class AWSRDSPublicRestore(PantherRule):
-    Description = "Detects the recovery of a new public database instance from a snapshot. It may be part of data exfiltration."
-    DisplayName = "AWS Public RDS Restore"
-    Reports = {"MITRE ATT&CK": ["TA0010:T1020"]}
-    Reference = (
+class AWSRDSPublicRestore(Rule):
+    default_description = "Detects the recovery of a new public database instance from a snapshot. It may be part of data exfiltration."
+    display_name = "AWS Public RDS Restore"
+    reports = {"MITRE ATT&CK": ["TA0010:T1020"]}
+    default_reference = (
         "https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_RestoreFromSnapshot.html"
     )
-    Severity = PantherSeverity.High
-    LogTypes = [PantherLogType.AWS_CloudTrail]
-    RuleID = "AWS.RDS.PublicRestore-prototype"
-    Tests = awsrds_public_restore_tests
+    default_severity = Severity.HIGH
+    log_types = [LogType.AWS_CloudTrail]
+    id = "AWS.RDS.PublicRestore-prototype"
+    tests = awsrds_public_restore_tests
 
     def rule(self, event):
         if (

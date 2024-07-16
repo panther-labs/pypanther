@@ -1,14 +1,12 @@
-from typing import List
-
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 from pypanther.helpers.panther_tines_helpers import tines_alert_context
 
-tines_tenant_auth_token_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
-        Name="Tines Login",
-        ExpectedResult=False,
-        Log={
+tines_tenant_auth_token_tests: list[RuleTest] = [
+    RuleTest(
+        name="Tines Login",
+        expected_result=False,
+        log={
             "created_at": "2023-05-17 14:45:19",
             "id": 7888888,
             "operation_name": "Login",
@@ -20,10 +18,10 @@ tines_tenant_auth_token_tests: List[PantherRuleTest] = [
             "user_name": "user at company dot com",
         },
     ),
-    PantherRuleTest(
-        Name="Tines Personal API Token Created",
-        ExpectedResult=False,
-        Log={
+    RuleTest(
+        name="Tines Personal API Token Created",
+        expected_result=False,
+        log={
             "created_at": "2023-05-18 22:54:11",
             "id": 7111111,
             "inputs": {"inputs": {"isServiceToken": False, "name": "personal-api-key"}},
@@ -36,10 +34,10 @@ tines_tenant_auth_token_tests: List[PantherRuleTest] = [
             "user_name": "user at company dot com",
         },
     ),
-    PantherRuleTest(
-        Name="Tines Tenant API Token Created",
-        ExpectedResult=True,
-        Log={
+    RuleTest(
+        name="Tines Tenant API Token Created",
+        expected_result=True,
+        log={
             "created_at": "2023-05-18 22:54:01",
             "id": 7222222,
             "inputs": {"inputs": {"isServiceToken": True, "name": "tenant-api-key"}},
@@ -55,16 +53,16 @@ tines_tenant_auth_token_tests: List[PantherRuleTest] = [
 ]
 
 
-class TinesTenantAuthToken(PantherRule):
-    RuleID = "Tines.Tenant.AuthToken-prototype"
-    DisplayName = "Tines Tenant API Keys Added"
-    LogTypes = [PantherLogType.Tines_Audit]
-    Tags = ["Tines", "IAM - Credential Security"]
-    Severity = PantherSeverity.Medium
-    Description = "Detects when Tines Tenant API Keys are added\n"
-    Reference = "https://www.tines.com/api/authentication"
-    SummaryAttributes = ["user_id", "operation_name", "tenant_id", "request_ip"]
-    Tests = tines_tenant_auth_token_tests
+class TinesTenantAuthToken(Rule):
+    id = "Tines.Tenant.AuthToken-prototype"
+    display_name = "Tines Tenant API Keys Added"
+    log_types = [LogType.Tines_Audit]
+    tags = ["Tines", "IAM - Credential Security"]
+    default_severity = Severity.MEDIUM
+    default_description = "Detects when Tines Tenant API Keys are added\n"
+    default_reference = "https://www.tines.com/api/authentication"
+    summary_attributes = ["user_id", "operation_name", "tenant_id", "request_ip"]
+    tests = tines_tenant_auth_token_tests
     # AuthenticationTokenDeletion does not include
     #  the scope of the deleted token.
     # Leaving deletion un-implemented for now

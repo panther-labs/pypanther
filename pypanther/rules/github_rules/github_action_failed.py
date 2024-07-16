@@ -1,15 +1,14 @@
 import json
-from typing import List
 from unittest.mock import MagicMock
 
-from pypanther import PantherLogType, PantherRule, PantherRuleMock, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get, github_alert_context
 
-git_hub_action_failed_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
-        Name="GitHub - Branch Protection Disabled",
-        ExpectedResult=False,
-        Log={
+git_hub_action_failed_tests: list[RuleTest] = [
+    RuleTest(
+        name="GitHub - Branch Protection Disabled",
+        expected_result=False,
+        log={
             "actor": "cat",
             "action": "protected_branch.destroy",
             "created_at": 1621305118553,
@@ -18,10 +17,10 @@ git_hub_action_failed_tests: List[PantherRuleTest] = [
             "repo": "my-org/my-repo",
         },
     ),
-    PantherRuleTest(
-        Name="GitHub Action Failed - No Configuration",
-        ExpectedResult=False,
-        Log={
+    RuleTest(
+        name="GitHub Action Failed - No Configuration",
+        expected_result=False,
+        log={
             "_document_id": "pWWWWWWWWWWWWWWWWWWWWW",
             "action": "workflows.completed_workflow_run",
             "actor": "github_handle",
@@ -46,16 +45,16 @@ git_hub_action_failed_tests: List[PantherRuleTest] = [
             "workflow_run_id": 5555555555,
         },
     ),
-    PantherRuleTest(
-        Name="GitHub Action Failed - Monitored Action Configured",
-        ExpectedResult=True,
-        Mocks=[
-            PantherRuleMock(
-                ObjectName="MONITORED_ACTIONS",
-                ReturnValue='{\n  "your-org/panther-analysis-copy": [ "sync-panther-analysis-from-upstream"]\n}',
+    RuleTest(
+        name="GitHub Action Failed - Monitored Action Configured",
+        expected_result=True,
+        mocks=[
+            RuleMock(
+                object_name="MONITORED_ACTIONS",
+                return_value='{\n  "your-org/panther-analysis-copy": [ "sync-panther-analysis-from-upstream"]\n}',
             )
         ],
-        Log={
+        log={
             "_document_id": "pWWWWWWWWWWWWWWWWWWWWW",
             "action": "workflows.completed_workflow_run",
             "actor": "github_handle",
@@ -83,17 +82,17 @@ git_hub_action_failed_tests: List[PantherRuleTest] = [
 ]
 
 
-class GitHubActionFailed(PantherRule):
-    RuleID = "GitHub.Action.Failed-prototype"
-    DisplayName = "GitHub Action Failed"
-    Enabled = False
-    LogTypes = [PantherLogType.GitHub_Audit]
-    Tags = ["GitHub", "Configuration Required"]
-    Severity = PantherSeverity.High
-    Description = "A monitored github action has failed."
-    Runbook = "Inspect the action failure link and take appropriate response. There are no general plans of response for this activity.\n"
-    Reference = "https://docs.github.com/en/actions/creating-actions/setting-exit-codes-for-actions#about-exit-codes"
-    Tests = git_hub_action_failed_tests
+class GitHubActionFailed(Rule):
+    id = "GitHub.Action.Failed-prototype"
+    display_name = "GitHub Action Failed"
+    enabled = False
+    log_types = [LogType.GitHub_Audit]
+    tags = ["GitHub", "Configuration Required"]
+    default_severity = Severity.HIGH
+    default_description = "A monitored github action has failed."
+    default_runbook = "Inspect the action failure link and take appropriate response. There are no general plans of response for this activity.\n"
+    default_reference = "https://docs.github.com/en/actions/creating-actions/setting-exit-codes-for-actions#about-exit-codes"
+    tests = git_hub_action_failed_tests
     # The keys for MONITORED_ACTIONS are gh_org/repo_name
     # The values for MONITORED_ACTIONS are a list of ["action_names"]
     MONITORED_ACTIONS = {}

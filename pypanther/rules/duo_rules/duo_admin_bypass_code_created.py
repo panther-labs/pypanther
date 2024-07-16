@@ -1,12 +1,10 @@
-from typing import List
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
-
-duo_admin_bypass_code_created_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
-        Name="Bypass Create",
-        ExpectedResult=True,
-        Log={
+duo_admin_bypass_code_created_tests: list[RuleTest] = [
+    RuleTest(
+        name="Bypass Create",
+        expected_result=True,
+        log={
             "action": "bypass_create",
             "description": '{"bypass": "", "count": 1, "valid_secs": 3600, "auto_generated": true, "remaining_uses": 1, "user_id": "D12345", "bypass_code_ids": ["A12345"]}',
             "isotimestamp": "2022-12-14 21:17:39",
@@ -15,10 +13,10 @@ duo_admin_bypass_code_created_tests: List[PantherRuleTest] = [
             "username": "Homer Simpson",
         },
     ),
-    PantherRuleTest(
-        Name="Bypass Delete",
-        ExpectedResult=False,
-        Log={
+    RuleTest(
+        name="Bypass Delete",
+        expected_result=False,
+        log={
             "action": "bypass_detele",
             "description": '{"bypass": "", "count": 1, "valid_secs": 3600, "auto_generated": true, "remaining_uses": 1, "user_id": "D12345", "bypass_code_ids": ["A12345"]}',
             "isotimestamp": "2022-12-14 21:17:39",
@@ -30,15 +28,15 @@ duo_admin_bypass_code_created_tests: List[PantherRuleTest] = [
 ]
 
 
-class DuoAdminBypassCodeCreated(PantherRule):
-    Description = "A Duo administrator created an MFA bypass code for an application."
-    DisplayName = "Duo Admin Bypass Code Created"
-    Runbook = "Confirm this was authorized and necessary behavior."
-    Reference = "https://duo.com/docs/administration-users#generating-a-bypass-code"
-    Severity = PantherSeverity.Medium
-    LogTypes = [PantherLogType.Duo_Administrator]
-    RuleID = "Duo.Admin.Bypass.Code.Created-prototype"
-    Tests = duo_admin_bypass_code_created_tests
+class DuoAdminBypassCodeCreated(Rule):
+    default_description = "A Duo administrator created an MFA bypass code for an application."
+    display_name = "Duo Admin Bypass Code Created"
+    default_runbook = "Confirm this was authorized and necessary behavior."
+    default_reference = "https://duo.com/docs/administration-users#generating-a-bypass-code"
+    default_severity = Severity.MEDIUM
+    log_types = [LogType.Duo_Administrator]
+    id = "Duo.Admin.Bypass.Code.Created-prototype"
+    tests = duo_admin_bypass_code_created_tests
 
     def rule(self, event):
         # Return True to match the log event and trigger an alert.

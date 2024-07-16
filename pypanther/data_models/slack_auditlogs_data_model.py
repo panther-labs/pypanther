@@ -1,17 +1,14 @@
-from typing import List
-
-from pypanther.base import PantherDataModel, PantherDataModelMapping
-from pypanther.log_types import PantherLogType
+from pypanther.base import DataModel, DataModelMapping, LogType
 
 
-class StandardSlackAuditLogs(PantherDataModel):
-    DataModelID: str = "Standard.Slack.AuditLogs"
-    DisplayName: str = "Slack Audit Logs"
-    Enabled: bool = True
-    LogTypes: List[str] = [PantherLogType.Slack_AuditLogs]
-    Mappings: List[PantherDataModelMapping] = [
-        PantherDataModelMapping(Name="actor_user", Path="$.actor.user.name"),
-        PantherDataModelMapping(Name="user_agent", Path="$.context.ua"),
-        PantherDataModelMapping(Name="source_ip", Path="$.context.ip_address"),
-        PantherDataModelMapping(Name="user", Path="$.entity.user.name"),
+class StandardSlackAuditLogs(DataModel):
+    id: str = "Standard.Slack.AuditLogs"
+    display_name: str = "Slack Audit Logs"
+    enabled: bool = True
+    log_types: list[str] = [LogType.Slack_AuditLogs]
+    mappings: list[DataModelMapping] = [
+        DataModelMapping(name="actor_user", path="$.actor.user.name"),
+        DataModelMapping(name="user_agent", path="$.context.ua"),
+        DataModelMapping(name="source_ip", path="$.context.ip_address"),
+        DataModelMapping(name="user", path="$.entity.user.name"),
     ]

@@ -1,13 +1,11 @@
-from typing import List
-
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import crowdstrike_process_alert_context, deep_get
 
-crowdstrike_fdrlolbas_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
-        Name="At Usage (Positive)",
-        ExpectedResult=True,
-        Log={
+crowdstrike_fdrlolbas_tests: list[RuleTest] = [
+    RuleTest(
+        name="At Usage (Positive)",
+        expected_result=True,
+        log={
             "ConfigBuild": "1007.3.0016606.11",
             "ConfigStateHash": "3799024366",
             "Entitlements": "15",
@@ -85,10 +83,10 @@ crowdstrike_fdrlolbas_tests: List[PantherRuleTest] = [
             "timestamp": "2023-04-21 19:48:28.97",
         },
     ),
-    PantherRuleTest(
-        Name="Notepad Usage (Negative)",
-        ExpectedResult=False,
-        Log={
+    RuleTest(
+        name="Notepad Usage (Negative)",
+        expected_result=False,
+        log={
             "ConfigBuild": "1007.3.0016606.11",
             "ConfigStateHash": "3799024366",
             "Entitlements": "15",
@@ -169,17 +167,17 @@ crowdstrike_fdrlolbas_tests: List[PantherRuleTest] = [
 ]
 
 
-class CrowdstrikeFDRLOLBAS(PantherRule):
-    LogTypes = [PantherLogType.Crowdstrike_FDREvent]
-    RuleID = "Crowdstrike.FDR.LOLBAS-prototype"
-    DisplayName = "Crowdstrike FDR LOLBAS"
-    Description = "Living off the land binaries and script usage"
-    Reference = "https://lolbas-project.github.io/"
-    DedupPeriodMinutes = 1440
-    Enabled = False
-    Severity = PantherSeverity.Info
-    Tags = ["Configuration Required"]
-    Tests = crowdstrike_fdrlolbas_tests
+class CrowdstrikeFDRLOLBAS(Rule):
+    log_types = [LogType.Crowdstrike_FDREvent]
+    id = "Crowdstrike.FDR.LOLBAS-prototype"
+    display_name = "Crowdstrike FDR LOLBAS"
+    default_description = "Living off the land binaries and script usage"
+    default_reference = "https://lolbas-project.github.io/"
+    dedup_period_minutes = 1440
+    enabled = False
+    default_severity = Severity.INFO
+    tags = ["Configuration Required"]
+    tests = crowdstrike_fdrlolbas_tests
     LOLBAS_EXE = {
         "AppInstaller.exe",
         "At.exe",

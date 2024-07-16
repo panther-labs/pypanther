@@ -1,14 +1,12 @@
-from typing import List
-
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import aws_rule_context, deep_get
 from pypanther.helpers.panther_default import lookup_aws_account_name
 
-aws_cloud_trail_codebuild_project_made_public_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
-        Name="CodeBuild Project Made Public",
-        ExpectedResult=True,
-        Log={
+aws_cloud_trail_codebuild_project_made_public_tests: list[RuleTest] = [
+    RuleTest(
+        name="CodeBuild Project Made Public",
+        expected_result=True,
+        log={
             "eventVersion": "1.08",
             "userIdentity": {
                 "type": "AssumedRole",
@@ -46,10 +44,10 @@ aws_cloud_trail_codebuild_project_made_public_tests: List[PantherRuleTest] = [
             "eventCategory": "Management",
         },
     ),
-    PantherRuleTest(
-        Name="CodeBuild Project Made Private",
-        ExpectedResult=False,
-        Log={
+    RuleTest(
+        name="CodeBuild Project Made Private",
+        expected_result=False,
+        log={
             "eventVersion": "1.08",
             "userIdentity": {
                 "type": "AssumedRole",
@@ -87,10 +85,10 @@ aws_cloud_trail_codebuild_project_made_public_tests: List[PantherRuleTest] = [
             "eventCategory": "Management",
         },
     ),
-    PantherRuleTest(
-        Name="Not a UpdateProjectVisibility event",
-        ExpectedResult=False,
-        Log={
+    RuleTest(
+        name="Not a UpdateProjectVisibility event",
+        expected_result=False,
+        log={
             "eventVersion": "1.08",
             "userIdentity": {
                 "type": "AssumedRole",
@@ -126,24 +124,24 @@ aws_cloud_trail_codebuild_project_made_public_tests: List[PantherRuleTest] = [
 ]
 
 
-class AWSCloudTrailCodebuildProjectMadePublic(PantherRule):
-    RuleID = "AWS.CloudTrail.CodebuildProjectMadePublic-prototype"
-    DisplayName = "CodeBuild Project made Public"
-    LogTypes = [PantherLogType.AWS_CloudTrail]
-    Reports = {"MITRE ATT&CK": ["TA0010:T1567"]}
-    Tags = ["AWS", "Security Control", "Exfiltration:Exfiltration Over Web Service"]
-    Severity = PantherSeverity.High
-    Description = "An AWS CodeBuild Project was made publicly accessible\n"
-    Runbook = "TBD"
-    Reference = "https://docs.aws.amazon.com/codebuild/latest/userguide/public-builds.html"
-    SummaryAttributes = [
+class AWSCloudTrailCodebuildProjectMadePublic(Rule):
+    id = "AWS.CloudTrail.CodebuildProjectMadePublic-prototype"
+    display_name = "CodeBuild Project made Public"
+    log_types = [LogType.AWS_CloudTrail]
+    reports = {"MITRE ATT&CK": ["TA0010:T1567"]}
+    tags = ["AWS", "Security Control", "Exfiltration:Exfiltration Over Web Service"]
+    default_severity = Severity.HIGH
+    default_description = "An AWS CodeBuild Project was made publicly accessible\n"
+    default_runbook = "TBD"
+    default_reference = "https://docs.aws.amazon.com/codebuild/latest/userguide/public-builds.html"
+    summary_attributes = [
         "eventName",
         "userAgent",
         "sourceIpAddress",
         "recipientAccountId",
         "p_any_aws_arns",
     ]
-    Tests = aws_cloud_trail_codebuild_project_made_public_tests
+    tests = aws_cloud_trail_codebuild_project_made_public_tests
 
     def rule(self, event):
         return (

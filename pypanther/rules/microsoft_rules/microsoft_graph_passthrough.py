@@ -1,13 +1,11 @@
-from typing import List
-
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import msft_graph_alert_context
 
-microsoft_graph_passthrough_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
-        Name="Anonymous Login Event",
-        ExpectedResult=True,
-        Log={
+microsoft_graph_passthrough_tests: list[RuleTest] = [
+    RuleTest(
+        name="Anonymous Login Event",
+        expected_result=True,
+        log={
             "azuretenantid": "12345-abcde-a1b2k3",
             "category": "AnonymousLogin",
             "createddatetime": "2022-08-04 14:31:48.438",
@@ -33,10 +31,10 @@ microsoft_graph_passthrough_tests: List[PantherRuleTest] = [
             "vendorinformation": {"provider": "IPC", "vendor": "Microsoft"},
         },
     ),
-    PantherRuleTest(
-        Name="Password Spray Event",
-        ExpectedResult=True,
-        Log={
+    RuleTest(
+        name="Password Spray Event",
+        expected_result=True,
+        log={
             "azuretenantid": "abcdef-123456-ghijklmn",
             "category": "PasswordSpray",
             "createddatetime": "2022-08-17 09:28:04.767",
@@ -62,10 +60,10 @@ microsoft_graph_passthrough_tests: List[PantherRuleTest] = [
             "vendorinformation": {"provider": "IPC", "vendor": "Microsoft"},
         },
     ),
-    PantherRuleTest(
-        Name="Resolved Event",
-        ExpectedResult=False,
-        Log={
+    RuleTest(
+        name="Resolved Event",
+        expected_result=False,
+        log={
             "azuretenantid": "abcdefg-12345",
             "category": "AnonymousLogin",
             "createddatetime": "2022-09-12 19:54:13.725",
@@ -94,14 +92,16 @@ microsoft_graph_passthrough_tests: List[PantherRuleTest] = [
 ]
 
 
-class MicrosoftGraphPassthrough(PantherRule):
-    Description = "The Microsoft Graph security API federates queries to all onboarded security providers, including Azure AD Identity Protection, Microsoft 365, Microsoft Defender (Cloud, Endpoint, Identity) and Microsoft Sentinel"
-    Reference = "https://learn.microsoft.com/en-us/graph/api/resources/security-api-overview"
-    DisplayName = "Microsoft Graph Passthrough"
-    Severity = PantherSeverity.Medium
-    LogTypes = [PantherLogType.MicrosoftGraph_SecurityAlert]
-    RuleID = "Microsoft.Graph.Passthrough-prototype"
-    Tests = microsoft_graph_passthrough_tests
+class MicrosoftGraphPassthrough(Rule):
+    default_description = "The Microsoft Graph security API federates queries to all onboarded security providers, including Azure AD Identity Protection, Microsoft 365, Microsoft Defender (Cloud, Endpoint, Identity) and Microsoft Sentinel"
+    default_reference = (
+        "https://learn.microsoft.com/en-us/graph/api/resources/security-api-overview"
+    )
+    display_name = "Microsoft Graph Passthrough"
+    default_severity = Severity.MEDIUM
+    log_types = [LogType.MicrosoftGraph_SecurityAlert]
+    id = "Microsoft.Graph.Passthrough-prototype"
+    tests = microsoft_graph_passthrough_tests
 
     def rule(self, event):
         return event.get("status") == "newAlert"

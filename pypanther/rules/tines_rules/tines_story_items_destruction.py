@@ -1,14 +1,12 @@
-from typing import List
-
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 from pypanther.helpers.panther_tines_helpers import tines_alert_context
 
-tines_story_items_destruction_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
-        Name="Detection Trigger",
-        ExpectedResult=True,
-        Log={
+tines_story_items_destruction_tests: list[RuleTest] = [
+    RuleTest(
+        name="Detection Trigger",
+        expected_result=True,
+        log={
             "created_at": "2023-06-13 15:14:46",
             "id": 1234,
             "operation_name": "StoryItemsDestruction",
@@ -21,10 +19,10 @@ tines_story_items_destruction_tests: List[PantherRuleTest] = [
             "user_name": "Tines User Person",
         },
     ),
-    PantherRuleTest(
-        Name="Tines Login",
-        ExpectedResult=False,
-        Log={
+    RuleTest(
+        name="Tines Login",
+        expected_result=False,
+        log={
             "created_at": "2023-05-17 14:45:19",
             "id": 7888888,
             "operation_name": "Login",
@@ -40,16 +38,16 @@ tines_story_items_destruction_tests: List[PantherRuleTest] = [
 ]
 
 
-class TinesStoryItemsDestruction(PantherRule):
-    RuleID = "Tines.Story.Items.Destruction-prototype"
-    DisplayName = "Tines Story Items Destruction"
-    LogTypes = [PantherLogType.Tines_Audit]
-    Tags = ["Tines"]
-    Severity = PantherSeverity.Info
-    Description = "A user has destroyed a story item"
-    Runbook = "Possible data destruction. Please reach out to the user and confirm this was done for valid business reasons."
-    Reference = "https://www.tines.com/docs/stories"
-    Tests = tines_story_items_destruction_tests
+class TinesStoryItemsDestruction(Rule):
+    id = "Tines.Story.Items.Destruction-prototype"
+    display_name = "Tines Story Items Destruction"
+    log_types = [LogType.Tines_Audit]
+    tags = ["Tines"]
+    default_severity = Severity.INFO
+    default_description = "A user has destroyed a story item"
+    default_runbook = "Possible data destruction. Please reach out to the user and confirm this was done for valid business reasons."
+    default_reference = "https://www.tines.com/docs/stories"
+    tests = tines_story_items_destruction_tests
 
     def rule(self, event):
         return (

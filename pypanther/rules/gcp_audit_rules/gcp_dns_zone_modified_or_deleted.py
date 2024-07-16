@@ -1,14 +1,12 @@
-from typing import List
-
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.gcp_base_helpers import gcp_alert_context
 from pypanther.helpers.panther_base_helpers import deep_get
 
-gcpdns_zone_modifiedor_deleted_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
-        Name="dns.managedZones.delete-should-alert",
-        ExpectedResult=True,
-        Log={
+gcpdns_zone_modifiedor_deleted_tests: list[RuleTest] = [
+    RuleTest(
+        name="dns.managedZones.delete-should-alert",
+        expected_result=True,
+        log={
             "insertid": "-xxxxxxxxxxxx",
             "logName": "projects/test-project-123456/logs/cloudaudit.googleapis.com%2Factivity",
             "protoPayload": {
@@ -52,10 +50,10 @@ gcpdns_zone_modifiedor_deleted_tests: List[PantherRuleTest] = [
             "timestamp": "2023-05-23 19:08:11.697",
         },
     ),
-    PantherRuleTest(
-        Name="dns.managedZones.patch-should-alert",
-        ExpectedResult=True,
-        Log={
+    RuleTest(
+        name="dns.managedZones.patch-should-alert",
+        expected_result=True,
+        log={
             "insertid": "-xxxxxxxxxxxx",
             "logname": "projects/test-project-123456/logs/cloudaudit.googleapis.com%2Factivity",
             "protoPayload": {
@@ -168,10 +166,10 @@ gcpdns_zone_modifiedor_deleted_tests: List[PantherRuleTest] = [
             "timestamp": "2023-05-23 19:07:25.282",
         },
     ),
-    PantherRuleTest(
-        Name="dns.managedZones.update-should-alert",
-        ExpectedResult=True,
-        Log={
+    RuleTest(
+        name="dns.managedZones.update-should-alert",
+        expected_result=True,
+        log={
             "insertid": "xxxxxxxxxxxx",
             "logname": "projects/test-project-123456/logs/cloudaudit.googleapis.com%2Factivity",
             "protoPayload": {
@@ -258,10 +256,10 @@ gcpdns_zone_modifiedor_deleted_tests: List[PantherRuleTest] = [
             "timestamp": "2023-05-23 19:07:39.132",
         },
     ),
-    PantherRuleTest(
-        Name="dns.managedZones.get-should-not-alert",
-        ExpectedResult=False,
-        Log={
+    RuleTest(
+        name="dns.managedZones.get-should-not-alert",
+        expected_result=False,
+        log={
             "insertid": "-nkgd1se1zsiw",
             "logName": "projects/test-project-123456/logs/cloudaudit.googleapis.com%2Factivity",
             "protoPayload": {
@@ -306,15 +304,15 @@ gcpdns_zone_modifiedor_deleted_tests: List[PantherRuleTest] = [
 ]
 
 
-class GCPDNSZoneModifiedorDeleted(PantherRule):
-    Description = "Detection for GCP DNS zones that are deleted, patched, or updated."
-    DisplayName = "GCP DNS Zone Modified or Deleted"
-    Runbook = "Verify that this modification or deletion was expected. These operations are high-impact events and can result in downtimes or total outages."
-    Reference = "https://cloud.google.com/dns/docs/zones"
-    Severity = PantherSeverity.Low
-    LogTypes = [PantherLogType.GCP_AuditLog]
-    RuleID = "GCP.DNS.Zone.Modified.or.Deleted-prototype"
-    Tests = gcpdns_zone_modifiedor_deleted_tests
+class GCPDNSZoneModifiedorDeleted(Rule):
+    default_description = "Detection for GCP DNS zones that are deleted, patched, or updated."
+    display_name = "GCP DNS Zone Modified or Deleted"
+    default_runbook = "Verify that this modification or deletion was expected. These operations are high-impact events and can result in downtimes or total outages."
+    default_reference = "https://cloud.google.com/dns/docs/zones"
+    default_severity = Severity.LOW
+    log_types = [LogType.GCP_AuditLog]
+    id = "GCP.DNS.Zone.Modified.or.Deleted-prototype"
+    tests = gcpdns_zone_modifiedor_deleted_tests
 
     def rule(self, event):
         methods = (

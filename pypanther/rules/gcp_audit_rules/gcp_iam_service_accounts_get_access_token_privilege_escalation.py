@@ -1,14 +1,12 @@
-from typing import List
-
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.gcp_base_helpers import gcp_alert_context
 from pypanther.helpers.panther_base_helpers import deep_get
 
-gcpia_mservice_accountsget_access_token_privilege_escalation_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
-        Name="iam.serviceAccounts.getAccessToken granted",
-        ExpectedResult=True,
-        Log={
+gcpia_mservice_accountsget_access_token_privilege_escalation_tests: list[RuleTest] = [
+    RuleTest(
+        name="iam.serviceAccounts.getAccessToken granted",
+        expected_result=True,
+        log={
             "protoPayload": {
                 "@type": "type.googleapis.com/google.cloud.audit.AuditLog",
                 "status": {},
@@ -52,10 +50,10 @@ gcpia_mservice_accountsget_access_token_privilege_escalation_tests: List[Panther
             "receiveTimestamp": "2024-02-26T17:15:17.100020459Z",
         },
     ),
-    PantherRuleTest(
-        Name="iam.serviceAccounts.getAccessToken not granted",
-        ExpectedResult=False,
-        Log={
+    RuleTest(
+        name="iam.serviceAccounts.getAccessToken not granted",
+        expected_result=False,
+        log={
             "protoPayload": {
                 "@type": "type.googleapis.com/google.cloud.audit.AuditLog",
                 "status": {},
@@ -102,17 +100,17 @@ gcpia_mservice_accountsget_access_token_privilege_escalation_tests: List[Panther
 ]
 
 
-class GCPIAMserviceAccountsgetAccessTokenPrivilegeEscalation(PantherRule):
-    RuleID = "GCP.IAM.serviceAccounts.getAccessToken.Privilege.Escalation-prototype"
-    DisplayName = "GCP IAM serviceAccounts getAccessToken Privilege Escalation"
-    LogTypes = [PantherLogType.GCP_AuditLog]
-    Reports = {"MITRE ATT&CK": ["TA0004:T1548"]}
-    Severity = PantherSeverity.High
-    Description = "The Identity and Access Management (IAM) service manages authorization and authentication for a GCP environment. This means that there are very likely multiple privilege escalation methods that use the IAM service and/or its permissions."
-    Reference = (
+class GCPIAMserviceAccountsgetAccessTokenPrivilegeEscalation(Rule):
+    id = "GCP.IAM.serviceAccounts.getAccessToken.Privilege.Escalation-prototype"
+    display_name = "GCP IAM serviceAccounts getAccessToken Privilege Escalation"
+    log_types = [LogType.GCP_AuditLog]
+    reports = {"MITRE ATT&CK": ["TA0004:T1548"]}
+    default_severity = Severity.HIGH
+    default_description = "The Identity and Access Management (IAM) service manages authorization and authentication for a GCP environment. This means that there are very likely multiple privilege escalation methods that use the IAM service and/or its permissions."
+    default_reference = (
         "https://rhinosecuritylabs.com/gcp/privilege-escalation-google-cloud-platform-part-1/"
     )
-    Tests = gcpia_mservice_accountsget_access_token_privilege_escalation_tests
+    tests = gcpia_mservice_accountsget_access_token_privilege_escalation_tests
 
     def rule(self, event):
         authorization_info = event.deep_walk("protoPayload", "authorizationInfo")

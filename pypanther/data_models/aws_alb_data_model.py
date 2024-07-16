@@ -1,16 +1,13 @@
-from typing import List
-
-from pypanther.base import PantherDataModel, PantherDataModelMapping
-from pypanther.log_types import PantherLogType
+from pypanther.base import DataModel, DataModelMapping, LogType
 
 
-class StandardAWSALB(PantherDataModel):
-    DataModelID: str = "Standard.AWS.ALB"
-    DisplayName: str = "AWS Application Load Balancer"
-    Enabled: bool = True
-    LogTypes: List[str] = [PantherLogType.AWS_ALB]
-    Mappings: List[PantherDataModelMapping] = [
-        PantherDataModelMapping(Name="destination_ip", Path="targetIp"),
-        PantherDataModelMapping(Name="source_ip", Path="clientIp"),
-        PantherDataModelMapping(Name="user_agent", Path="userAgent"),
+class StandardAWSALB(DataModel):
+    id: str = "Standard.AWS.ALB"
+    display_name: str = "AWS Application Load Balancer"
+    enabled: bool = True
+    log_types: list[str] = [LogType.AWS_ALB]
+    mappings: list[DataModelMapping] = [
+        DataModelMapping(name="destination_ip", path="targetIp"),
+        DataModelMapping(name="source_ip", path="clientIp"),
+        DataModelMapping(name="user_agent", path="userAgent"),
     ]

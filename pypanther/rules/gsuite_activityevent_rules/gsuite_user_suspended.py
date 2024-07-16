@@ -1,13 +1,11 @@
-from typing import List
-
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 
-g_suite_user_suspended_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
-        Name="Normal Login Event",
-        ExpectedResult=False,
-        Log={
+g_suite_user_suspended_tests: list[RuleTest] = [
+    RuleTest(
+        name="Normal Login Event",
+        expected_result=False,
+        log={
             "id": {"applicationName": "login"},
             "kind": "admin#reports#activity",
             "type": "account_warning",
@@ -15,10 +13,10 @@ g_suite_user_suspended_tests: List[PantherRuleTest] = [
             "parameters": {"affected_email_address": "bobert@ext.runpanther.io"},
         },
     ),
-    PantherRuleTest(
-        Name="Account Warning Not For User Suspended",
-        ExpectedResult=False,
-        Log={
+    RuleTest(
+        name="Account Warning Not For User Suspended",
+        expected_result=False,
+        log={
             "id": {"applicationName": "login"},
             "kind": "admin#reports#activity",
             "type": "account_warning",
@@ -26,10 +24,10 @@ g_suite_user_suspended_tests: List[PantherRuleTest] = [
             "parameters": {"affected_email_address": "bobert@ext.runpanther.io"},
         },
     ),
-    PantherRuleTest(
-        Name="Account Warning For Suspended User",
-        ExpectedResult=True,
-        Log={
+    RuleTest(
+        name="Account Warning For Suspended User",
+        expected_result=True,
+        log={
             "id": {"applicationName": "login"},
             "kind": "admin#reports#activity",
             "type": "account_warning",
@@ -40,19 +38,21 @@ g_suite_user_suspended_tests: List[PantherRuleTest] = [
 ]
 
 
-class GSuiteUserSuspended(PantherRule):
-    RuleID = "GSuite.UserSuspended-prototype"
-    DisplayName = "GSuite User Suspended"
-    LogTypes = [PantherLogType.GSuite_ActivityEvent]
-    Tags = ["GSuite"]
-    Severity = PantherSeverity.High
-    Description = (
+class GSuiteUserSuspended(Rule):
+    id = "GSuite.UserSuspended-prototype"
+    display_name = "GSuite User Suspended"
+    log_types = [LogType.GSuite_ActivityEvent]
+    tags = ["GSuite"]
+    default_severity = Severity.HIGH
+    default_description = (
         "A GSuite user was suspended, the account may have been compromised by a spam network.\n"
     )
-    Reference = "https://support.google.com/drive/answer/40695?hl=en&sjid=864417124752637253-EU"
-    Runbook = "Investigate the behavior that got the account suspended. Verify with the user that this intended behavior. If not, the account may have been compromised.\n"
-    SummaryAttributes = ["actor:email"]
-    Tests = g_suite_user_suspended_tests
+    default_reference = (
+        "https://support.google.com/drive/answer/40695?hl=en&sjid=864417124752637253-EU"
+    )
+    default_runbook = "Investigate the behavior that got the account suspended. Verify with the user that this intended behavior. If not, the account may have been compromised.\n"
+    summary_attributes = ["actor:email"]
+    tests = g_suite_user_suspended_tests
     USER_SUSPENDED_EVENTS = {
         "account_disabled_generic",
         "account_disabled_spamming_through_relay",

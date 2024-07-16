@@ -1,12 +1,10 @@
-from typing import List
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
-
-push_security_open_security_finding_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
-        Name="Resolved Finding",
-        ExpectedResult=False,
-        Log={
+push_security_open_security_finding_tests: list[RuleTest] = [
+    RuleTest(
+        name="Resolved Finding",
+        expected_result=False,
+        log={
             "id": "c478966c-f927-411c-b919-179832d3d50c",
             "new": {
                 "accountId": None,
@@ -36,10 +34,10 @@ push_security_open_security_finding_tests: List[PantherRuleTest] = [
             "version": "1",
         },
     ),
-    PantherRuleTest(
-        Name="New Finding",
-        ExpectedResult=True,
-        Log={
+    RuleTest(
+        name="New Finding",
+        expected_result=True,
+        log={
             "id": "c478966c-f927-411c-b919-179832d3d50c",
             "new": {
                 "accountId": None,
@@ -59,10 +57,10 @@ push_security_open_security_finding_tests: List[PantherRuleTest] = [
             "version": "1",
         },
     ),
-    PantherRuleTest(
-        Name="Reopened Finding",
-        ExpectedResult=True,
-        Log={
+    RuleTest(
+        name="Reopened Finding",
+        expected_result=True,
+        log={
             "id": "c478966c-f927-411c-b919-179832d3d50c",
             "new": {
                 "accountId": None,
@@ -95,12 +93,12 @@ push_security_open_security_finding_tests: List[PantherRuleTest] = [
 ]
 
 
-class PushSecurityOpenSecurityFinding(PantherRule):
-    RuleID = "Push.Security.Open.Security.Finding-prototype"
-    DisplayName = "Push Security Open Security Finding"
-    LogTypes = [PantherLogType.PushSecurity_Entities]
-    Severity = PantherSeverity.Info
-    Tests = push_security_open_security_finding_tests
+class PushSecurityOpenSecurityFinding(Rule):
+    id = "Push.Security.Open.Security.Finding-prototype"
+    display_name = "Push Security Open Security Finding"
+    log_types = [LogType.PushSecurity_Entities]
+    default_severity = Severity.INFO
+    tests = push_security_open_security_finding_tests
 
     def rule(self, event):
         if event.get("object") != "FINDING":

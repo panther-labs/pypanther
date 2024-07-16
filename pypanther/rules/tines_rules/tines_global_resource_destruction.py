@@ -1,14 +1,12 @@
-from typing import List
-
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 from pypanther.helpers.panther_tines_helpers import tines_alert_context
 
-tines_global_resource_destruction_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
-        Name="Detection Trigger",
-        ExpectedResult=True,
-        Log={
+tines_global_resource_destruction_tests: list[RuleTest] = [
+    RuleTest(
+        name="Detection Trigger",
+        expected_result=True,
+        log={
             "created_at": "2023-06-13 15:14:46",
             "id": 1234,
             "operation_name": "GlobalResourceDestruction",
@@ -21,10 +19,10 @@ tines_global_resource_destruction_tests: List[PantherRuleTest] = [
             "user_name": "Tines User Person",
         },
     ),
-    PantherRuleTest(
-        Name="Tines Login",
-        ExpectedResult=False,
-        Log={
+    RuleTest(
+        name="Tines Login",
+        expected_result=False,
+        log={
             "created_at": "2023-05-17 14:45:19",
             "id": 7888888,
             "operation_name": "Login",
@@ -40,17 +38,17 @@ tines_global_resource_destruction_tests: List[PantherRuleTest] = [
 ]
 
 
-class TinesGlobalResourceDestruction(PantherRule):
-    RuleID = "Tines.Global.Resource.Destruction-prototype"
-    DisplayName = "Tines Global Resource Destruction"
-    SummaryAttributes = ["user_id", "operation_name", "tenant_id", "request_ip"]
-    LogTypes = [PantherLogType.Tines_Audit]
-    Tags = ["Tines"]
-    Severity = PantherSeverity.Low
-    Description = "A Tines user has destroyed a global resource."
-    Runbook = "Possible data destruction. Please reach out to the user and confirm this was done for valid business reasons."
-    Reference = "https://www.tines.com/docs/resources"
-    Tests = tines_global_resource_destruction_tests
+class TinesGlobalResourceDestruction(Rule):
+    id = "Tines.Global.Resource.Destruction-prototype"
+    display_name = "Tines Global Resource Destruction"
+    summary_attributes = ["user_id", "operation_name", "tenant_id", "request_ip"]
+    log_types = [LogType.Tines_Audit]
+    tags = ["Tines"]
+    default_severity = Severity.LOW
+    default_description = "A Tines user has destroyed a global resource."
+    default_runbook = "Possible data destruction. Please reach out to the user and confirm this was done for valid business reasons."
+    default_reference = "https://www.tines.com/docs/resources"
+    tests = tines_global_resource_destruction_tests
 
     def rule(self, event):
         return (

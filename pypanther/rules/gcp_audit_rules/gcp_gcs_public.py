@@ -1,13 +1,11 @@
-from typing import List
-
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 
-gcpgcs_public_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
-        Name="GCS AllUsers Read Permission",
-        ExpectedResult=True,
-        Log={
+gcpgcs_public_tests: list[RuleTest] = [
+    RuleTest(
+        name="GCS AllUsers Read Permission",
+        expected_result=True,
+        log={
             "protoPayload": {
                 "@type": "type.googleapis.com/google.cloud.audit.AuditLog",
                 "status": {},
@@ -61,19 +59,21 @@ gcpgcs_public_tests: List[PantherRuleTest] = [
 ]
 
 
-class GCPGCSPublic(PantherRule):
-    RuleID = "GCP.GCS.Public-prototype"
-    DisplayName = "GCS Bucket Made Public"
-    DedupPeriodMinutes = 15
-    LogTypes = [PantherLogType.GCP_AuditLog]
-    Tags = ["GCP", "Google Cloud Storage", "Collection:Data From Cloud Storage Object"]
-    Reports = {"MITRE ATT&CK": ["TA0009:T1530"]}
-    Severity = PantherSeverity.High
-    Description = "Adversaries may access data objects from improperly secured cloud storage."
-    Runbook = "Validate the GCS bucket change was safe."
-    Reference = "https://cloud.google.com/storage/docs/access-control/making-data-public"
-    SummaryAttributes = ["severity", "p_any_ip_addresses", "p_any_domain_names"]
-    Tests = gcpgcs_public_tests
+class GCPGCSPublic(Rule):
+    id = "GCP.GCS.Public-prototype"
+    display_name = "GCS Bucket Made Public"
+    dedup_period_minutes = 15
+    log_types = [LogType.GCP_AuditLog]
+    tags = ["GCP", "Google Cloud Storage", "Collection:Data From Cloud Storage Object"]
+    reports = {"MITRE ATT&CK": ["TA0009:T1530"]}
+    default_severity = Severity.HIGH
+    default_description = (
+        "Adversaries may access data objects from improperly secured cloud storage."
+    )
+    default_runbook = "Validate the GCS bucket change was safe."
+    default_reference = "https://cloud.google.com/storage/docs/access-control/making-data-public"
+    summary_attributes = ["severity", "p_any_ip_addresses", "p_any_domain_names"]
+    tests = gcpgcs_public_tests
     GCS_READ_ROLES = {
         "roles/storage.objectAdmin",
         "roles/storage.objectViewer",

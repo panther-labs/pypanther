@@ -1,15 +1,14 @@
 from datetime import timedelta
-from typing import List
 
 from panther_detection_helpers.caching import get_counter, increment_counter, reset_counter
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 
-one_login_high_risk_login_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
-        Name="Normal Login Event",
-        ExpectedResult=False,
-        Log={
+one_login_high_risk_login_tests: list[RuleTest] = [
+    RuleTest(
+        name="Normal Login Event",
+        expected_result=False,
+        log={
             "event_type_id": "6",
             "actor_user_id": 123456,
             "actor_user_name": "Bob Cat",
@@ -20,17 +19,19 @@ one_login_high_risk_login_tests: List[PantherRuleTest] = [
 ]
 
 
-class OneLoginHighRiskLogin(PantherRule):
-    RuleID = "OneLogin.HighRiskLogin-prototype"
-    DisplayName = "OneLogin High Risk Login"
-    LogTypes = [PantherLogType.OneLogin_Events]
-    Tags = ["OneLogin"]
-    Severity = PantherSeverity.Medium
-    Description = "A OneLogin user successfully logged in after a failed high-risk login attempt."
-    Reference = "https://resources.onelogin.com/OneLogin_RiskBasedAuthentication-WP-v5.pdf"
-    Runbook = "Investigate whether this was caused by expected user activity."
-    SummaryAttributes = ["account_id", "event_type_id", "user_name", "user_id"]
-    Tests = one_login_high_risk_login_tests
+class OneLoginHighRiskLogin(Rule):
+    id = "OneLogin.HighRiskLogin-prototype"
+    display_name = "OneLogin High Risk Login"
+    log_types = [LogType.OneLogin_Events]
+    tags = ["OneLogin"]
+    default_severity = Severity.MEDIUM
+    default_description = (
+        "A OneLogin user successfully logged in after a failed high-risk login attempt."
+    )
+    default_reference = "https://resources.onelogin.com/OneLogin_RiskBasedAuthentication-WP-v5.pdf"
+    default_runbook = "Investigate whether this was caused by expected user activity."
+    summary_attributes = ["account_id", "event_type_id", "user_name", "user_id"]
+    tests = one_login_high_risk_login_tests
     THRESH_TTL = timedelta(minutes=10).total_seconds()
 
     def rule(self, event):

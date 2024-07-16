@@ -1,12 +1,10 @@
-from typing import List
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
-
-teleport_scheduled_jobs_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
-        Name="Crontab no args",
-        ExpectedResult=True,
-        Log={
+teleport_scheduled_jobs_tests: list[RuleTest] = [
+    RuleTest(
+        name="Crontab no args",
+        expected_result=True,
+        log={
             "argv": [],
             "cgroup_id": 4294967717,
             "code": "T4000I",
@@ -26,10 +24,10 @@ teleport_scheduled_jobs_tests: List[PantherRuleTest] = [
             "user": "panther",
         },
     ),
-    PantherRuleTest(
-        Name="Crontab Edit",
-        ExpectedResult=True,
-        Log={
+    RuleTest(
+        name="Crontab Edit",
+        expected_result=True,
+        log={
             "argv": ["-e"],
             "cgroup_id": 4294967582,
             "code": "T4000I",
@@ -49,10 +47,10 @@ teleport_scheduled_jobs_tests: List[PantherRuleTest] = [
             "user": "panther",
         },
     ),
-    PantherRuleTest(
-        Name="Crontab List",
-        ExpectedResult=False,
-        Log={
+    RuleTest(
+        name="Crontab List",
+        expected_result=False,
+        log={
             "argv": ["-l"],
             "cgroup_id": 4294967582,
             "code": "T4000I",
@@ -72,10 +70,10 @@ teleport_scheduled_jobs_tests: List[PantherRuleTest] = [
             "user": "panther",
         },
     ),
-    PantherRuleTest(
-        Name="Echo command",
-        ExpectedResult=False,
-        Log={
+    RuleTest(
+        name="Echo command",
+        expected_result=False,
+        log={
             "argv": [],
             "cgroup_id": 4294967537,
             "code": "T4000I",
@@ -98,19 +96,19 @@ teleport_scheduled_jobs_tests: List[PantherRuleTest] = [
 ]
 
 
-class TeleportScheduledJobs(PantherRule):
-    RuleID = "Teleport.ScheduledJobs-prototype"
-    DisplayName = "Teleport Scheduled Jobs"
-    LogTypes = [PantherLogType.Gravitational_TeleportAudit]
-    Tags = ["SSH", "Execution:Scheduled Task/Job"]
-    Severity = PantherSeverity.Medium
-    Reports = {"MITRE ATT&CK": ["TA0002:T1053"]}
-    Description = "A user has manually edited the Linux crontab"
-    Threshold = 10
-    DedupPeriodMinutes = 15
-    Reference = "https://goteleport.com/docs/management/admin/"
-    Runbook = "Validate the user behavior and rotate the host if necessary."
-    SummaryAttributes = [
+class TeleportScheduledJobs(Rule):
+    id = "Teleport.ScheduledJobs-prototype"
+    display_name = "Teleport Scheduled Jobs"
+    log_types = [LogType.Gravitational_TeleportAudit]
+    tags = ["SSH", "Execution:Scheduled Task/Job"]
+    default_severity = Severity.MEDIUM
+    reports = {"MITRE ATT&CK": ["TA0002:T1053"]}
+    default_description = "A user has manually edited the Linux crontab"
+    threshold = 10
+    dedup_period_minutes = 15
+    default_reference = "https://goteleport.com/docs/management/admin/"
+    default_runbook = "Validate the user behavior and rotate the host if necessary."
+    summary_attributes = [
         "event",
         "code",
         "user",
@@ -121,7 +119,7 @@ class TeleportScheduledJobs(PantherRule):
         "server_id",
         "sid",
     ]
-    Tests = teleport_scheduled_jobs_tests
+    tests = teleport_scheduled_jobs_tests
 
     def rule(self, event):
         # Filter the events

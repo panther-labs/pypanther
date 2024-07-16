@@ -1,14 +1,13 @@
 import re
-from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_config import config
 
-teleport_saml_login_without_company_domain_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
-        Name="A user authenticated with SAML, but from a known company domain",
-        ExpectedResult=False,
-        Log={
+teleport_saml_login_without_company_domain_tests: list[RuleTest] = [
+    RuleTest(
+        name="A user authenticated with SAML, but from a known company domain",
+        expected_result=False,
+        log={
             "attributes": {"firstName": [""], "groups": ["employees"]},
             "cluster_name": "teleport.example.com",
             "code": "T1001I",
@@ -21,10 +20,10 @@ teleport_saml_login_without_company_domain_tests: List[PantherRuleTest] = [
             "user": "jane.doe@example.com",
         },
     ),
-    PantherRuleTest(
-        Name="A user authenticated with SAML, but not from a company domain",
-        ExpectedResult=True,
-        Log={
+    RuleTest(
+        name="A user authenticated with SAML, but not from a company domain",
+        expected_result=True,
+        log={
             "cluster_name": "teleport.example.com",
             "code": "T1001I",
             "ei": 0,
@@ -39,18 +38,18 @@ teleport_saml_login_without_company_domain_tests: List[PantherRuleTest] = [
 ]
 
 
-class TeleportSAMLLoginWithoutCompanyDomain(PantherRule):
-    RuleID = "Teleport.SAMLLoginWithoutCompanyDomain-prototype"
-    DisplayName = "A user authenticated with SAML, but from an unknown company domain"
-    LogTypes = [PantherLogType.Gravitational_TeleportAudit]
-    Tags = ["Teleport"]
-    Severity = PantherSeverity.High
-    Description = "A user authenticated with SAML, but from an unknown company domain"
-    Reports = {"MITRE ATT&CK": ["TA0003:T1098"]}
-    Reference = "https://goteleport.com/docs/management/admin/"
-    Runbook = "A user authenticated with SAML, but from an unknown company domain\n"
-    SummaryAttributes = ["event", "code", "user", "method", "mfa_device"]
-    Tests = teleport_saml_login_without_company_domain_tests
+class TeleportSAMLLoginWithoutCompanyDomain(Rule):
+    id = "Teleport.SAMLLoginWithoutCompanyDomain-prototype"
+    display_name = "A user authenticated with SAML, but from an unknown company domain"
+    log_types = [LogType.Gravitational_TeleportAudit]
+    tags = ["Teleport"]
+    default_severity = Severity.HIGH
+    default_description = "A user authenticated with SAML, but from an unknown company domain"
+    reports = {"MITRE ATT&CK": ["TA0003:T1098"]}
+    default_reference = "https://goteleport.com/docs/management/admin/"
+    default_runbook = "A user authenticated with SAML, but from an unknown company domain\n"
+    summary_attributes = ["event", "code", "user", "method", "mfa_device"]
+    tests = teleport_saml_login_without_company_domain_tests
     TELEPORT_COMPANY_DOMAINS_REGEX = "@(" + "|".join(config.TELEPORT_ORGANIZATION_DOMAINS) + ")$"
 
     def rule(self, event):

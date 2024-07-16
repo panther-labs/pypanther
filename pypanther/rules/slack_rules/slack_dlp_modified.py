@@ -1,13 +1,11 @@
-from typing import List
-
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import slack_alert_context
 
-slack_audit_logs_dlp_modified_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
-        Name="Native DLP Rule Deactivated",
-        ExpectedResult=True,
-        Log={
+slack_audit_logs_dlp_modified_tests: list[RuleTest] = [
+    RuleTest(
+        name="Native DLP Rule Deactivated",
+        expected_result=True,
+        log={
             "action": "native_dlp_rule_deactivated",
             "actor": {
                 "type": "user",
@@ -30,10 +28,10 @@ slack_audit_logs_dlp_modified_tests: List[PantherRuleTest] = [
             },
         },
     ),
-    PantherRuleTest(
-        Name="Native DLP Violation Deleted",
-        ExpectedResult=True,
-        Log={
+    RuleTest(
+        name="Native DLP Violation Deleted",
+        expected_result=True,
+        log={
             "action": "native_dlp_violation_deleted",
             "actor": {
                 "type": "user",
@@ -56,10 +54,10 @@ slack_audit_logs_dlp_modified_tests: List[PantherRuleTest] = [
             },
         },
     ),
-    PantherRuleTest(
-        Name="User Logout",
-        ExpectedResult=False,
-        Log={
+    RuleTest(
+        name="User Logout",
+        expected_result=False,
+        log={
             "action": "user_logout",
             "actor": {
                 "type": "user",
@@ -96,23 +94,23 @@ slack_audit_logs_dlp_modified_tests: List[PantherRuleTest] = [
 ]
 
 
-class SlackAuditLogsDLPModified(PantherRule):
-    RuleID = "Slack.AuditLogs.DLPModified-prototype"
-    DisplayName = "Slack DLP Modified"
-    LogTypes = [PantherLogType.Slack_AuditLogs]
-    Tags = [
+class SlackAuditLogsDLPModified(Rule):
+    id = "Slack.AuditLogs.DLPModified-prototype"
+    display_name = "Slack DLP Modified"
+    log_types = [LogType.Slack_AuditLogs]
+    tags = [
         "Slack",
         "Defense Evasion",
         "Impair Defenses",
         "Disable or Modify Tools",
         "Indicator Removal",
     ]
-    Reports = {"MITRE ATT&CK": ["TA0005:T1562.001", "TA0005:T1070"]}
-    Severity = PantherSeverity.High
-    Description = "Detects when a Data Loss Prevention (DLP) rule has been deactivated or a violation has been deleted\n"
-    Reference = "https://slack.com/intl/en-gb/help/articles/12914005852819-Slack-Connect--Data-loss-prevention"
-    SummaryAttributes = ["action", "p_any_ip_addresses", "p_any_emails"]
-    Tests = slack_audit_logs_dlp_modified_tests
+    reports = {"MITRE ATT&CK": ["TA0005:T1562.001", "TA0005:T1070"]}
+    default_severity = Severity.HIGH
+    default_description = "Detects when a Data Loss Prevention (DLP) rule has been deactivated or a violation has been deleted\n"
+    default_reference = "https://slack.com/intl/en-gb/help/articles/12914005852819-Slack-Connect--Data-loss-prevention"
+    summary_attributes = ["action", "p_any_ip_addresses", "p_any_emails"]
+    tests = slack_audit_logs_dlp_modified_tests
     DLP_ACTIONS = ["native_dlp_rule_deactivated", "native_dlp_violation_deleted"]
     # DLP violations can be removed by security engineers in the case of FPs
     # We still want to alert on these, however those should not constitute a High severity

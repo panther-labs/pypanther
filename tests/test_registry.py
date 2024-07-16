@@ -1,19 +1,19 @@
 from pypanther import register
-from pypanther.base import PantherRule, PantherSeverity
+from pypanther.base import Rule, Severity
 from pypanther.registry import registered_rules
 
 
 def test_register_duplicate():
-    class A(PantherRule):
-        Tags = ["test"]
-        LogTypes = [""]
-        RuleID = "test_register_duplicate"
-        Severity = PantherSeverity.Info
+    class A(Rule):
+        tags = ["test"]
+        log_types = [""]
+        id = "test_register_duplicate"
+        default_severity = Severity.INFO
 
         def rule(self, _):
             pass
 
     register(A)
-    A.Tags.append("test2")
+    A.tags.append("test2")
     register(A)
     assert len(registered_rules()) == 1

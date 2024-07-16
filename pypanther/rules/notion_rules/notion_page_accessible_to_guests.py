@@ -1,14 +1,12 @@
-from typing import List
-
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 from pypanther.helpers.panther_notion_helpers import notion_alert_context
 
-notion_page_perms_guest_perms_changed_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
-        Name="Guest Role Added",
-        ExpectedResult=True,
-        Log={
+notion_page_perms_guest_perms_changed_tests: list[RuleTest] = [
+    RuleTest(
+        name="Guest Role Added",
+        expected_result=True,
+        log={
             "event": {
                 "actor": {
                     "id": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
@@ -38,10 +36,10 @@ notion_page_perms_guest_perms_changed_tests: List[PantherRuleTest] = [
             }
         },
     ),
-    PantherRuleTest(
-        Name="Guest Role Changed",
-        ExpectedResult=True,
-        Log={
+    RuleTest(
+        name="Guest Role Changed",
+        expected_result=True,
+        log={
             "event": {
                 "actor": {
                     "id": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
@@ -74,16 +72,18 @@ notion_page_perms_guest_perms_changed_tests: List[PantherRuleTest] = [
 ]
 
 
-class NotionPagePermsGuestPermsChanged(PantherRule):
-    RuleID = "Notion.PagePerms.GuestPermsChanged-prototype"
-    DisplayName = "Notion Page Guest Permissions Changed"
-    LogTypes = [PantherLogType.Notion_AuditLogs]
-    Tags = ["Notion", "Data Security", "Information Disclosure"]
-    Severity = PantherSeverity.Low
-    Description = "The external guest permissions for a Notion page have been altered."
-    Runbook = "Potential information exposure - review the shared page and rectify if needed."
-    Reference = "https://www.notion.so/help/sharing-and-permissions"
-    Tests = notion_page_perms_guest_perms_changed_tests
+class NotionPagePermsGuestPermsChanged(Rule):
+    id = "Notion.PagePerms.GuestPermsChanged-prototype"
+    display_name = "Notion Page Guest Permissions Changed"
+    log_types = [LogType.Notion_AuditLogs]
+    tags = ["Notion", "Data Security", "Information Disclosure"]
+    default_severity = Severity.LOW
+    default_description = "The external guest permissions for a Notion page have been altered."
+    default_runbook = (
+        "Potential information exposure - review the shared page and rectify if needed."
+    )
+    default_reference = "https://www.notion.so/help/sharing-and-permissions"
+    tests = notion_page_perms_guest_perms_changed_tests
     # These event types correspond to users adding or editing the default role on a public page
     event_types = ("page.permissions.guest_role_added", "page.permissions.guest_role_updated")
 

@@ -1,17 +1,16 @@
 import json
-from typing import List
 from unittest.mock import MagicMock
 
-from pypanther import PantherLogType, PantherRule, PantherRuleMock, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 from pypanther.helpers.panther_mongodb_helpers import mongodb_alert_context
 
-mongo_db_external_user_invited_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
-        Name="Internal Invite",
-        ExpectedResult=False,
-        Mocks=[PantherRuleMock(ObjectName="ALLOWED_DOMAINS", ReturnValue='[\n  "company.com"\n]')],
-        Log={
+mongo_db_external_user_invited_tests: list[RuleTest] = [
+    RuleTest(
+        name="Internal Invite",
+        expected_result=False,
+        mocks=[RuleMock(object_name="ALLOWED_DOMAINS", return_value='[\n  "company.com"\n]')],
+        log={
             "created": "2023-06-07 16:57:55",
             "currentValue": {},
             "eventTypeName": "INVITED_TO_ORG",
@@ -37,11 +36,11 @@ mongo_db_external_user_invited_tests: List[PantherRuleTest] = [
             "username": "user@company.com",
         },
     ),
-    PantherRuleTest(
-        Name="External User Invite",
-        ExpectedResult=True,
-        Mocks=[PantherRuleMock(ObjectName="ALLOWED_DOMAINS", ReturnValue='[\n  "company.com"\n]')],
-        Log={
+    RuleTest(
+        name="External User Invite",
+        expected_result=True,
+        mocks=[RuleMock(object_name="ALLOWED_DOMAINS", return_value='[\n  "company.com"\n]')],
+        log={
             "created": "2023-06-07 16:57:55",
             "currentValue": {},
             "eventTypeName": "INVITED_TO_ORG",
@@ -70,15 +69,15 @@ mongo_db_external_user_invited_tests: List[PantherRuleTest] = [
 ]
 
 
-class MongoDBExternalUserInvited(PantherRule):
-    Description = "An external user has been invited to a MongoDB org. "
-    DisplayName = "MongoDB External User Invited"
-    Severity = PantherSeverity.Medium
-    Reference = "https://www.mongodb.com/docs/v4.2/tutorial/create-users/"
-    Tags = ["Configuration Required"]
-    LogTypes = [PantherLogType.MongoDB_OrganizationEvent]
-    RuleID = "MongoDB.External.UserInvited-prototype"
-    Tests = mongo_db_external_user_invited_tests
+class MongoDBExternalUserInvited(Rule):
+    default_description = "An external user has been invited to a MongoDB org. "
+    display_name = "MongoDB External User Invited"
+    default_severity = Severity.MEDIUM
+    default_reference = "https://www.mongodb.com/docs/v4.2/tutorial/create-users/"
+    tags = ["Configuration Required"]
+    log_types = [LogType.MongoDB_OrganizationEvent]
+    id = "MongoDB.External.UserInvited-prototype"
+    tests = mongo_db_external_user_invited_tests
     # Set domains allowed to join the organization ie. company.com
     ALLOWED_DOMAINS = []
 

@@ -1,13 +1,11 @@
-from typing import List
-
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import aws_rule_context, pattern_match
 
-awss3_server_access_insecure_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
-        Name="Secure Access to S3 Bucket",
-        ExpectedResult=False,
-        Log={
+awss3_server_access_insecure_tests: list[RuleTest] = [
+    RuleTest(
+        name="Secure Access to S3 Bucket",
+        expected_result=False,
+        log={
             "bucketowner": "f16a9e81a6589df1c902c86f7982fd14a88787db",
             "bucket": "cloudtrail",
             "time": "2020-02-14 00:53:48.000000000",
@@ -37,10 +35,10 @@ awss3_server_access_insecure_tests: List[PantherRuleTest] = [
             ],
         },
     ),
-    PantherRuleTest(
-        Name="Delete Marker Call",
-        ExpectedResult=False,
-        Log={
+    RuleTest(
+        name="Delete Marker Call",
+        expected_result=False,
+        log={
             "bucketowner": "06c722119dedc1896ef",
             "bucket": "panther-yyykkj4jj66e",
             "time": "2020-05-21 07:05:13.000000000",
@@ -56,10 +54,10 @@ awss3_server_access_insecure_tests: List[PantherRuleTest] = [
             "p_parse_time": "2020-05-21 08:19:50.085391216",
         },
     ),
-    PantherRuleTest(
-        Name="Insecure Access to S3 Bucket",
-        ExpectedResult=True,
-        Log={
+    RuleTest(
+        name="Insecure Access to S3 Bucket",
+        expected_result=True,
+        log={
             "authenticationtype": "AuthHeader",
             "bucket": "cloudtrail",
             "bucketowner": "f16a9e81a6589df1c902c86f7982fd14a88787db",
@@ -90,25 +88,25 @@ awss3_server_access_insecure_tests: List[PantherRuleTest] = [
 ]
 
 
-class AWSS3ServerAccessInsecure(PantherRule):
-    RuleID = "AWS.S3.ServerAccess.Insecure-prototype"
-    DisplayName = "AWS S3 Insecure Access"
-    DedupPeriodMinutes = 720
-    LogTypes = [PantherLogType.AWS_S3ServerAccess]
-    Tags = [
+class AWSS3ServerAccessInsecure(Rule):
+    id = "AWS.S3.ServerAccess.Insecure-prototype"
+    display_name = "AWS S3 Insecure Access"
+    dedup_period_minutes = 720
+    log_types = [LogType.AWS_S3ServerAccess]
+    tags = [
         "AWS",
         "Configuration Required",
         "Security Control",
         "Collection:Data From Cloud Storage Object",
     ]
-    Reports = {"MITRE ATT&CK": ["TA0009:T1530"]}
-    Severity = PantherSeverity.Low
-    Description = "Checks if HTTP (unencrypted) was used to access objects in an S3 bucket, as opposed to HTTPS (encrypted).\n"
-    Runbook = "Add a condition on the S3 bucket policy that denies access via http.\n"
-    Reference = (
+    reports = {"MITRE ATT&CK": ["TA0009:T1530"]}
+    default_severity = Severity.LOW
+    default_description = "Checks if HTTP (unencrypted) was used to access objects in an S3 bucket, as opposed to HTTPS (encrypted).\n"
+    default_runbook = "Add a condition on the S3 bucket policy that denies access via http.\n"
+    default_reference = (
         "https://aws.amazon.com/premiumsupport/knowledge-center/s3-bucket-policy-for-config-rule/"
     )
-    SummaryAttributes = [
+    summary_attributes = [
         "bucket",
         "key",
         "operation",
@@ -118,7 +116,7 @@ class AWSS3ServerAccessInsecure(PantherRule):
         "p_any_aws_arns",
         "p_any_aws_account_ids",
     ]
-    Tests = awss3_server_access_insecure_tests
+    tests = awss3_server_access_insecure_tests
 
     def rule(self, event):
         return pattern_match(event.get("operation", ""), "REST.*.OBJECT") and (

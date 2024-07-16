@@ -1,13 +1,11 @@
-from typing import List
-
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import aws_rule_context, deep_get
 
-aws_cloud_trail_root_password_changed_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
-        Name="Root Password Changed",
-        ExpectedResult=True,
-        Log={
+aws_cloud_trail_root_password_changed_tests: list[RuleTest] = [
+    RuleTest(
+        name="Root Password Changed",
+        expected_result=True,
+        log={
             "awsRegion": "us-east-1",
             "eventID": "1111",
             "eventName": "PasswordUpdated",
@@ -31,10 +29,10 @@ aws_cloud_trail_root_password_changed_tests: List[PantherRuleTest] = [
             },
         },
     ),
-    PantherRuleTest(
-        Name="Root Password Change Failed",
-        ExpectedResult=False,
-        Log={
+    RuleTest(
+        name="Root Password Change Failed",
+        expected_result=False,
+        log={
             "awsRegion": "us-east-1",
             "eventID": "1111",
             "eventName": "PasswordUpdated",
@@ -61,20 +59,20 @@ aws_cloud_trail_root_password_changed_tests: List[PantherRuleTest] = [
 ]
 
 
-class AWSCloudTrailRootPasswordChanged(PantherRule):
-    RuleID = "AWS.CloudTrail.RootPasswordChanged-prototype"
-    DisplayName = "Root Password Changed"
-    LogTypes = [PantherLogType.AWS_CloudTrail]
-    Tags = ["AWS", "Identity and Access Management", "Persistence:Account Manipulation"]
-    Severity = PantherSeverity.High
-    Reports = {"MITRE ATT&CK": ["TA0003:T1098"]}
-    Description = "Someone manually changed the Root console login password.\n"
-    Runbook = "Verify that the root password change was authorized. If not, AWS support should be contacted immediately as the root account cannot be recovered through normal means and grants complete access to the account.\n"
-    Reference = (
+class AWSCloudTrailRootPasswordChanged(Rule):
+    id = "AWS.CloudTrail.RootPasswordChanged-prototype"
+    display_name = "Root Password Changed"
+    log_types = [LogType.AWS_CloudTrail]
+    tags = ["AWS", "Identity and Access Management", "Persistence:Account Manipulation"]
+    default_severity = Severity.HIGH
+    reports = {"MITRE ATT&CK": ["TA0003:T1098"]}
+    default_description = "Someone manually changed the Root console login password.\n"
+    default_runbook = "Verify that the root password change was authorized. If not, AWS support should be contacted immediately as the root account cannot be recovered through normal means and grants complete access to the account.\n"
+    default_reference = (
         "https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_passwords_change-root.html"
     )
-    SummaryAttributes = ["userAgent", "sourceIpAddress", "recipientAccountId", "p_any_aws_arns"]
-    Tests = aws_cloud_trail_root_password_changed_tests
+    summary_attributes = ["userAgent", "sourceIpAddress", "recipientAccountId", "p_any_aws_arns"]
+    tests = aws_cloud_trail_root_password_changed_tests
 
     def rule(self, event):
         # Only check password update changes

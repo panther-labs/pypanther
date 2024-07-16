@@ -1,16 +1,14 @@
-from typing import List
-
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import (
     crowdstrike_network_detection_alert_context,
     deep_get,
 )
 
-connectionto_embargoed_country_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
-        Name="Connection To CU",
-        ExpectedResult=True,
-        Log={
+connectionto_embargoed_country_tests: list[RuleTest] = [
+    RuleTest(
+        name="Connection To CU",
+        expected_result=True,
+        log={
             "ConfigBuild": "1007.3.0016606.11",
             "ConfigStateHash": "1431649125",
             "ContextProcessId": "1685738",
@@ -127,10 +125,10 @@ connectionto_embargoed_country_tests: List[PantherRuleTest] = [
             "timestamp": "2023-04-28 18:49:38.681",
         },
     ),
-    PantherRuleTest(
-        Name="Google DNS",
-        ExpectedResult=False,
-        Log={
+    RuleTest(
+        name="Google DNS",
+        expected_result=False,
+        log={
             "p_any_ip_addresses": ["8.8.8.8"],
             "p_enrichment": {
                 "ipinfo_location": {
@@ -154,14 +152,14 @@ connectionto_embargoed_country_tests: List[PantherRuleTest] = [
 ]
 
 
-class ConnectiontoEmbargoedCountry(PantherRule):
-    Description = "Detection to alert when internal asset is communicating with an sanctioned destination. This detection leverages Panther UDM and IPInfo enrichment."
-    Reference = "U.S. Sanctioned Destinations - https://www.bis.doc.gov/index.php/policy-guidance/country-guidance/sanctioned-destinations"
-    DisplayName = "Connection to Embargoed Country"
-    LogTypes = [PantherLogType.Crowdstrike_FDREvent]
-    RuleID = "Connection.to.Embargoed.Country-prototype"
-    Severity = PantherSeverity.Low
-    Tests = connectionto_embargoed_country_tests
+class ConnectiontoEmbargoedCountry(Rule):
+    default_description = "Detection to alert when internal asset is communicating with an sanctioned destination. This detection leverages Panther UDM and IPInfo enrichment."
+    default_reference = "U.S. Sanctioned Destinations - https://www.bis.doc.gov/index.php/policy-guidance/country-guidance/sanctioned-destinations"
+    display_name = "Connection to Embargoed Country"
+    log_types = [LogType.Crowdstrike_FDREvent]
+    id = "Connection.to.Embargoed.Country-prototype"
+    default_severity = Severity.LOW
+    tests = connectionto_embargoed_country_tests
     # U.S. Gov Sanctioned Destinations
     # Cuba
     # Iran

@@ -1,13 +1,11 @@
-from typing import List
-
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import okta_alert_context
 
-okta_user_mfa_factor_suspend_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
-        Name="Suspend Event",
-        ExpectedResult=True,
-        Log={
+okta_user_mfa_factor_suspend_tests: list[RuleTest] = [
+    RuleTest(
+        name="Suspend Event",
+        expected_result=True,
+        log={
             "actor": {
                 "alternateId": "homer.simpson@duff.com",
                 "displayName": "Homer Simpson",
@@ -79,10 +77,10 @@ okta_user_mfa_factor_suspend_tests: List[PantherRuleTest] = [
             "version": "0",
         },
     ),
-    PantherRuleTest(
-        Name="Other Event",
-        ExpectedResult=False,
-        Log={
+    RuleTest(
+        name="Other Event",
+        expected_result=False,
+        log={
             "actor": {
                 "alternateId": "homer.simpson@duff.com",
                 "displayName": "Homer Simpson",
@@ -158,14 +156,14 @@ okta_user_mfa_factor_suspend_tests: List[PantherRuleTest] = [
 ]
 
 
-class OktaUserMFAFactorSuspend(PantherRule):
-    Description = "Suspend factor or authenticator enrollment method for user."
-    DisplayName = "Okta User MFA Factor Suspend"
-    Reference = "https://help.okta.com/en-us/content/topics/security/mfa/mfa-factors.htm"
-    Severity = PantherSeverity.High
-    LogTypes = [PantherLogType.Okta_SystemLog]
-    RuleID = "Okta.User.MFA.Factor.Suspend-prototype"
-    Tests = okta_user_mfa_factor_suspend_tests
+class OktaUserMFAFactorSuspend(Rule):
+    default_description = "Suspend factor or authenticator enrollment method for user."
+    display_name = "Okta User MFA Factor Suspend"
+    default_reference = "https://help.okta.com/en-us/content/topics/security/mfa/mfa-factors.htm"
+    default_severity = Severity.HIGH
+    log_types = [LogType.Okta_SystemLog]
+    id = "Okta.User.MFA.Factor.Suspend-prototype"
+    tests = okta_user_mfa_factor_suspend_tests
 
     def rule(self, event):
         return (
