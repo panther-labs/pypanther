@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 
 g_suite_group_banned_user_tests: list[RuleTest] = [
@@ -32,12 +32,8 @@ class GSuiteGroupBannedUser(Rule):
     tags = ["GSuite"]
     default_severity = Severity.LOW
     default_description = "A GSuite user was banned from an enterprise group by moderator action.\n"
-    default_reference = (
-        "https://support.google.com/a/users/answer/9303224?hl=en&sjid=864417124752637253-EU"
-    )
-    default_runbook = (
-        "Investigate the banned user to see if further disciplinary action needs to be taken.\n"
-    )
+    default_reference = "https://support.google.com/a/users/answer/9303224?hl=en&sjid=864417124752637253-EU"
+    default_runbook = "Investigate the banned user to see if further disciplinary action needs to be taken.\n"
     summary_attributes = ["actor:email"]
     tests = g_suite_group_banned_user_tests
 
@@ -49,4 +45,6 @@ class GSuiteGroupBannedUser(Rule):
         return False
 
     def title(self, event):
-        return f"User [{deep_get(event, 'actor', 'email', default='<UNKNOWN_EMAIL>')}] banned another user from a group."
+        return (
+            f"User [{deep_get(event, 'actor', 'email', default='<UNKNOWN_EMAIL>')}] banned another user from a group."
+        )

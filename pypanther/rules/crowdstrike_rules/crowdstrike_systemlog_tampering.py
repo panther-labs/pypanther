@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import crowdstrike_detection_alert_context, deep_get
 
 crowdstrike_systemlog_tampering_tests: list[RuleTest] = [
@@ -65,9 +65,7 @@ crowdstrike_systemlog_tampering_tests: list[RuleTest] = [
                 "abcdefghijklmnop123467890",
             ],
             "p_any_sha1_hashes": ["0000000000000000000000000000000000000000"],
-            "p_any_sha256_hashes": [
-                "488e74e2026d03f21b33f470c23b3de2f466643186c2e06ae7b4883cc2e59377"
-            ],
+            "p_any_sha256_hashes": ["488e74e2026d03f21b33f470c23b3de2f466643186c2e06ae7b4883cc2e59377"],
             "p_any_trace_ids": [
                 "4295752857",
                 "1234567890abcdefg654321",
@@ -147,9 +145,7 @@ crowdstrike_systemlog_tampering_tests: list[RuleTest] = [
                 "abcdefghijklmnop123467890",
             ],
             "p_any_sha1_hashes": ["0000000000000000000000000000000000000000"],
-            "p_any_sha256_hashes": [
-                "488e74e2026d03f21b33f470c23b3de2f466643186c2e06ae7b4883cc2e59377"
-            ],
+            "p_any_sha256_hashes": ["488e74e2026d03f21b33f470c23b3de2f466643186c2e06ae7b4883cc2e59377"],
             "p_any_trace_ids": [
                 "4295752857",
                 "1234567890abcdefg654321",
@@ -185,13 +181,9 @@ class CrowdstrikeSystemlogTampering(Rule):
     def rule(self, event):
         if event.get("fdr_event_type", "") == "ProcessRollup2":
             if event.get("event_platform", "") == "Win":
-                process_name = (
-                    deep_get(event, "event", "ImageFileName", default="").lower().split("\\")[-1]
-                )
+                process_name = deep_get(event, "event", "ImageFileName", default="").lower().split("\\")[-1]
                 if process_name in self.CLEARING_SYSTEM_LOG_TOOLS:
-                    process_command_line = deep_get(
-                        event, "event", "CommandLine", default=""
-                    ).split(" ")
+                    process_command_line = deep_get(event, "event", "CommandLine", default="").split(" ")
                     suspicious_command_lines = self.CLEARING_SYSTEM_LOG_TOOLS.get(process_name)
                     for suspicious_command_line in suspicious_command_lines:
                         if suspicious_command_line in process_command_line:

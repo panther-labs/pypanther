@@ -49,10 +49,7 @@ class TestPrintFailedTestResults:
 
         results = TestRule.run_tests(DATA_MODEL_CACHE.data_model_of_logtype)
         testing.print_failed_test_results([results])
-        assert (
-            "severity() and runbook() raised an exception, see log output for stacktrace"
-            in caplog.text
-        )
+        assert "severity() and runbook() raised an exception, see log output for stacktrace" in caplog.text
 
     def test_returns_all_aux_func_exceptions(self, caplog):
         funcs = [

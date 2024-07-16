@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 
 asana_workspace_require_app_approvals_disabled_tests: list[RuleTest] = [
@@ -52,9 +52,13 @@ asana_workspace_require_app_approvals_disabled_tests: list[RuleTest] = [
 
 
 class AsanaWorkspaceRequireAppApprovalsDisabled(Rule):
-    default_description = "An Asana user turned off app approval requirements for an application type for your organization."
+    default_description = (
+        "An Asana user turned off app approval requirements for an application type for your organization."
+    )
     display_name = "Asana Workspace Require App Approvals Disabled"
-    default_runbook = "Confirm this user acted with valid business intent and determine whether this activity was authorized."
+    default_runbook = (
+        "Confirm this user acted with valid business intent and determine whether this activity was authorized."
+    )
     default_reference = "https://help.asana.com/hc/en-us/articles/14109494654875-Admin-console#:~:text=used%20by%20default-,Require%20app%20approval,-Admins%20manage%20a"
     default_severity = Severity.MEDIUM
     log_types = [LogType.Asana_Audit]
@@ -65,8 +69,7 @@ class AsanaWorkspaceRequireAppApprovalsDisabled(Rule):
         new_val = deep_get(event, "details", "new_value", default="<NEW_VAL_NOT_FOUND>")
         return all(
             [
-                event.get("event_type", "<NO_EVENT_TYPE_FOUND>")
-                == "workspace_require_app_approvals_of_type_changed",
+                event.get("event_type", "<NO_EVENT_TYPE_FOUND>") == "workspace_require_app_approvals_of_type_changed",
                 new_val == "off",
             ]
         )
@@ -74,4 +77,6 @@ class AsanaWorkspaceRequireAppApprovalsDisabled(Rule):
     def title(self, event):
         actor_email = deep_get(event, "actor", "email", default="<ACTOR_NOT_FOUND>")
         context = deep_get(event, "context", "context_type", default="<APP_CONTEXT_NOT_FOUND>")
-        return f"Asana user [{actor_email}] disabled application approval requirements for [{context}] type applications."
+        return (
+            f"Asana user [{actor_email}] disabled application approval requirements for [{context}] type applications."
+        )

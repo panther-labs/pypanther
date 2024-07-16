@@ -1,9 +1,6 @@
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
-from pypanther.helpers.panther_tailscale_helpers import (
-    is_tailscale_admin_console_event,
-    tailscale_alert_context,
-)
+from pypanther.helpers.panther_tailscale_helpers import is_tailscale_admin_console_event, tailscale_alert_context
 
 tailscale_magic_dns_disabled_tests: list[RuleTest] = [
     RuleTest(
@@ -20,12 +17,7 @@ tailscale_magic_dns_disabled_tests: list[RuleTest] = [
                 },
                 "eventGroupID": "017676eb3de31cd31c0be96b965c2970",
                 "origin": "ADMIN_CONSOLE",
-                "target": {
-                    "id": "yoururl.com",
-                    "name": "yoururl.com",
-                    "property": "MAGIC_DNS",
-                    "type": "TAILNET",
-                },
+                "target": {"id": "yoururl.com", "name": "yoururl.com", "property": "MAGIC_DNS", "type": "TAILNET"},
             },
             "fields": {"recorded": "2023-07-19 16:10:38.825360311"},
             "p_any_actor_ids": ["uodc9f3CNTRL"],
@@ -78,9 +70,7 @@ tailscale_magic_dns_disabled_tests: list[RuleTest] = [
 
 
 class TailscaleMagicDNSDisabled(Rule):
-    default_description = (
-        "A Tailscale User disabled magic dns settings in your organization's tenant."
-    )
+    default_description = "A Tailscale User disabled magic dns settings in your organization's tenant."
     display_name = "Tailscale Magic DNS Disabled"
     default_runbook = "Assess if this was done by the user for a valid business reason. Be vigilant to re-enable this setting as it's in the best security interest for your organization's security posture."
     default_reference = "https://tailscale.com/kb/1081/magicdns/"
@@ -91,16 +81,8 @@ class TailscaleMagicDNSDisabled(Rule):
 
     def rule(self, event):
         action = deep_get(event, "event", "action", default="<NO_ACTION_FOUND>")
-        target_property = deep_get(
-            event, "event", "target", "property", default="<NO_TARGET_PROPERTY_FOUND>"
-        )
-        return all(
-            [
-                action == "DISABLE",
-                target_property == "MAGIC_DNS",
-                is_tailscale_admin_console_event(event),
-            ]
-        )
+        target_property = deep_get(event, "event", "target", "property", default="<NO_TARGET_PROPERTY_FOUND>")
+        return all([action == "DISABLE", target_property == "MAGIC_DNS", is_tailscale_admin_console_event(event)])
 
     def title(self, event):
         user = deep_get(event, "event", "actor", "loginName", default="<NO_USER_FOUND>")

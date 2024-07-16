@@ -26,9 +26,7 @@ azure_audit_legacy_auth_tests: list[RuleTest] = [
             "p_log_type": "Azure.Audit",
             "properties": {
                 "appId": "cfceb902-8fab-4f8c-88ba-374d3c975c3a",
-                "authenticationProcessingDetails": [
-                    {"key": "Azure AD App Authentication Library", "value": ""}
-                ],
+                "authenticationProcessingDetails": [{"key": "Azure AD App Authentication Library", "value": ""}],
                 "authenticationProtocol": "none",
                 "clientCredentialType": "none",
                 "conditionalAccessStatus": "notApplied",
@@ -286,7 +284,9 @@ class AzureAuditLegacyAuth(Rule):
     log_types = [LogType.Azure_Audit]
     default_severity = Severity.MEDIUM
     default_description = "This detection looks for Successful Logins that have used legacy authentication protocols\n"
-    default_reference = "https://learn.microsoft.com/en-us/azure/active-directory/reports-monitoring/workbook-legacy-authentication"
+    default_reference = (
+        "https://learn.microsoft.com/en-us/azure/active-directory/reports-monitoring/workbook-legacy-authentication"
+    )
     default_runbook = "Based on Microsoft's analysis more than 97 percent of credential stuffing attacks use legacy authentication and more than 99 percent of password spray attacks use legacy authentication protocols. These attacks would stop with basic authentication disabled or blocked. see https://learn.microsoft.com/en-us/azure/active-directory/conditional-access/block-legacy-authentication\nIf you are aware of this Legacy Auth need, and need to continue using this mechanism, add the principal name to KNOWN_EXCEPTIONS. The Reference link contains additional material hosted on Microsoft.com\n"
     summary_attributes = [
         "properties:ServicePrincipalName",
@@ -303,9 +303,7 @@ class AzureAuditLegacyAuth(Rule):
         if not is_sign_in_event(event):
             return False
         if isinstance(self.KNOWN_EXCEPTIONS, MagicMock):
-            self.KNOWN_EXCEPTIONS = json.loads(
-                self.KNOWN_EXCEPTIONS()
-            )  # pylint: disable=not-callable
+            self.KNOWN_EXCEPTIONS = json.loads(self.KNOWN_EXCEPTIONS())  # pylint: disable=not-callable
         if actor_user(event) in self.KNOWN_EXCEPTIONS:
             return False
         user_agent = deep_get(event, "properties", "userAgent", default="")

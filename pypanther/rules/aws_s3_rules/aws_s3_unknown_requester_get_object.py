@@ -1,6 +1,6 @@
 from fnmatch import fnmatch
 
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import aws_rule_context
 
 awss3_server_access_unknown_requester_tests: list[RuleTest] = [
@@ -152,12 +152,7 @@ class AWSS3ServerAccessUnknownRequester(Rule):
         for bucket_pattern, role_patterns in self.BUCKET_ROLE_MAPPING.items():
             if not fnmatch(event.get("bucket", ""), bucket_pattern):
                 continue
-            if not any(
-                (
-                    fnmatch(event.get("requester", ""), role_pattern)
-                    for role_pattern in role_patterns
-                )
-            ):
+            if not any((fnmatch(event.get("requester", ""), role_pattern) for role_pattern in role_patterns)):
                 return True
         return False
 

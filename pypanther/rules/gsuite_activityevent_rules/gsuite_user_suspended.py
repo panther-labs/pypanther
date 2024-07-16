@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 
 g_suite_user_suspended_tests: list[RuleTest] = [
@@ -44,12 +44,8 @@ class GSuiteUserSuspended(Rule):
     log_types = [LogType.GSuite_ActivityEvent]
     tags = ["GSuite"]
     default_severity = Severity.HIGH
-    default_description = (
-        "A GSuite user was suspended, the account may have been compromised by a spam network.\n"
-    )
-    default_reference = (
-        "https://support.google.com/drive/answer/40695?hl=en&sjid=864417124752637253-EU"
-    )
+    default_description = "A GSuite user was suspended, the account may have been compromised by a spam network.\n"
+    default_reference = "https://support.google.com/drive/answer/40695?hl=en&sjid=864417124752637253-EU"
     default_runbook = "Investigate the behavior that got the account suspended. Verify with the user that this intended behavior. If not, the account may have been compromised.\n"
     summary_attributes = ["actor:email"]
     tests = g_suite_user_suspended_tests

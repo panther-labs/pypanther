@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 
 g_suite_advanced_protection_tests: list[RuleTest] = [
@@ -33,9 +33,7 @@ class GSuiteAdvancedProtection(Rule):
     reports = {"MITRE ATT&CK": ["TA0005:T1562"]}
     default_severity = Severity.LOW
     default_description = "A user disabled advanced protection for themselves.\n"
-    default_reference = (
-        "https://support.google.com/a/answer/9378686?hl=en&sjid=864417124752637253-EU"
-    )
+    default_reference = "https://support.google.com/a/answer/9378686?hl=en&sjid=864417124752637253-EU"
     default_runbook = "Have the user re-enable Google Advanced Protection\n"
     summary_attributes = ["actor:email"]
     tests = g_suite_advanced_protection_tests

@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.gcp_base_helpers import gcp_alert_context
 from pypanther.helpers.panther_base_helpers import deep_get, deep_walk
 
@@ -176,39 +176,28 @@ class GCPserviceusageapiKeyscreatePrivilegeEscalation(Rule):
     default_description = "Detects serviceusage.apiKeys.create method for privilege escalation in GCP. By default, API Keys are created with no restrictions, which means they have access to the entire GCP project they were created in. We can capitalize on that fact by creating a new API key that may have more privileges than our own user."
     display_name = "GCP serviceusage.apiKeys.create Privilege Escalation"
     id = "GCP.serviceusage.apiKeys.create.Privilege.Escalation-prototype"
-    default_reference = "https://rhinosecuritylabs.com/cloud-security/privilege-escalation-google-cloud-platform-part-2/"
+    default_reference = (
+        "https://rhinosecuritylabs.com/cloud-security/privilege-escalation-google-cloud-platform-part-2/"
+    )
     default_runbook = "Confirm this was authorized and necessary behavior. This is not a vulnerability in GCP, it is a vulnerability in how GCP environment is configured, so it is necessary to be aware of these attack vectors and to defend against them. It’s also important to remember that privilege escalation does not necessarily need to pass through the IAM service to be effective. Make sure to follow the principle of least-privilege in your environments to help mitigate these security risks."
     reports = {"MITRE ATT&CK": ["TA0004:T1548"]}
     default_severity = Severity.HIGH
     tests = gc_pserviceusageapi_keyscreate_privilege_escalation_tests
 
     def rule(self, event):
-        if not deep_get(event, "protoPayload", "methodName", default="METHOD_NOT_FOUND").endswith(
-            "ApiKeys.CreateKey"
-        ):
+        if not deep_get(event, "protoPayload", "methodName", default="METHOD_NOT_FOUND").endswith("ApiKeys.CreateKey"):
             return False
         authorization_info = deep_walk(event, "protoPayload", "authorizationInfo")
         if not authorization_info:
             return False
         for auth in authorization_info:
-            if (
-                auth.get("permission") == "serviceusage.apiKeys.create"
-                and auth.get("granted") is True
-            ):
+            if auth.get("permission") == "serviceusage.apiKeys.create" and auth.get("granted") is True:
                 return True
         return False
 
     def title(self, event):
-        actor = deep_get(
-            event,
-            "protoPayload",
-            "authenticationInfo",
-            "principalEmail",
-            default="<ACTOR_NOT_FOUND>",
-        )
-        project_id = deep_get(
-            event, "resource", "labels", "project_id", default="<PROJECT_NOT_FOUND>"
-        )
+        actor = deep_get(event, "protoPayload", "authenticationInfo", "principalEmail", default="<ACTOR_NOT_FOUND>")
+        project_id = deep_get(event, "resource", "labels", "project_id", default="<PROJECT_NOT_FOUND>")
         return f"[GCP]: [{actor}] created new API Key in project [{project_id}]"
 
     def alert_context(self, event):

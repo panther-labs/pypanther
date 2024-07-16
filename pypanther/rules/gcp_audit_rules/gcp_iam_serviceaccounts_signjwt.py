@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.gcp_base_helpers import gcp_alert_context
 from pypanther.helpers.panther_base_helpers import deep_get, deep_walk
 
@@ -108,9 +108,7 @@ class GCPIAMserviceAccountssignJwtPrivilegeEscalation(Rule):
     default_severity = Severity.HIGH
     default_description = "Detects iam.serviceAccounts.signJwt method for privilege escalation in GCP. This method works by signing well-formed JSON web tokens (JWTs). The script for this method will sign a well-formed JWT and request a new access token belonging to the Service Account with it."
     default_runbook = "These is not a vulnerability in GCP, this is a vulnerability in how you have configured your GCP environment, so it is your responsibility to be aware of these attack vectors and to defend against them. Make sure to follow the principle of least-privilege in your environments to help mitigate these security risks."
-    default_reference = (
-        "https://rhinosecuritylabs.com/gcp/privilege-escalation-google-cloud-platform-part-1/"
-    )
+    default_reference = "https://rhinosecuritylabs.com/gcp/privilege-escalation-google-cloud-platform-part-1/"
     tests = gcpia_mservice_accountssign_jwt_privilege_escalation_tests
 
     def rule(self, event):
@@ -120,10 +118,7 @@ class GCPIAMserviceAccountssignJwtPrivilegeEscalation(Rule):
         if not authorization_info:
             return False
         for auth in authorization_info:
-            if (
-                auth.get("permission") == "iam.serviceAccounts.signJwt"
-                and auth.get("granted") is True
-            ):
+            if auth.get("permission") == "iam.serviceAccounts.signJwt" and auth.get("granted") is True:
                 return True
         return False
 
@@ -136,9 +131,7 @@ class GCPIAMserviceAccountssignJwtPrivilegeEscalation(Rule):
             default="<ACTOR_NOT_FOUND>",
         )
         operation = deep_get(event, "protoPayload", "methodName", default="<OPERATION_NOT_FOUND>")
-        project_id = deep_get(
-            event, "resource", "labels", "project_id", default="<PROJECT_NOT_FOUND>"
-        )
+        project_id = deep_get(event, "resource", "labels", "project_id", default="<PROJECT_NOT_FOUND>")
         return f"[GCP]: [{actor}] performed [{operation}] on project [{project_id}]"
 
     def alert_context(self, event):

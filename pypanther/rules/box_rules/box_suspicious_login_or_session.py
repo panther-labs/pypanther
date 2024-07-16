@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import box_parse_additional_details, deep_get
 
 box_shield_suspicious_alert_tests: list[RuleTest] = [
@@ -75,9 +75,7 @@ class BoxShieldSuspiciousAlert(Rule):
     tags = ["Box", "Initial Access:Valid Accounts"]
     reports = {"MITRE ATT&CK": ["TA0001:T1078"]}
     default_severity = Severity.HIGH
-    default_description = (
-        "A user login event or session event was tagged as medium to high severity by Box Shield.\n"
-    )
+    default_description = "A user login event or session event was tagged as medium to high severity by Box Shield.\n"
     default_reference = "https://developer.box.com/guides/events/shield-alert-events/"
     default_runbook = "Investigate whether this was triggered by an expected user event.\n"
     summary_attributes = ["event_type", "ip_address"]

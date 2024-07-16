@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import aws_rule_context, deep_get
 from pypanther.helpers.panther_default import aws_cloudtrail_success
 
@@ -121,9 +121,7 @@ class AWSIAMCredentialsUpdated(Rule):
     default_severity = Severity.INFO
     default_description = "A console password, access key, or user has been created."
     default_runbook = "This rule is purely informational, there is no action needed."
-    default_reference = (
-        "https://docs.aws.amazon.com/IAM/latest/UserGuide/list_identityandaccessmanagement.html"
-    )
+    default_reference = "https://docs.aws.amazon.com/IAM/latest/UserGuide/list_identityandaccessmanagement.html"
     summary_attributes = [
         "eventName",
         "userAgent",

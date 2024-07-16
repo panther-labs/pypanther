@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import aws_rule_context, deep_get
 
 aws_software_discovery_tests: list[RuleTest] = [
@@ -79,7 +79,9 @@ aws_software_discovery_tests: list[RuleTest] = [
 
 
 class AWSSoftwareDiscovery(Rule):
-    default_description = "A user is obtaining a list of security software, configurations, defensive tools, and sensors that are in AWS."
+    default_description = (
+        "A user is obtaining a list of security software, configurations, defensive tools, and sensors that are in AWS."
+    )
     display_name = "AWS Software Discovery"
     enabled = False
     default_reference = "https://attack.mitre.org/techniques/T1518/001/"

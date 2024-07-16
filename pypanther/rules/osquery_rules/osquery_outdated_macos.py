@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 
 osquery_unsupported_mac_os_tests: list[RuleTest] = [
@@ -79,7 +79,9 @@ class OsqueryUnsupportedMacOS(Rule):
     log_types = [LogType.Osquery_Differential]
     tags = ["Osquery", "Compliance"]
     default_severity = Severity.LOW
-    default_description = "Check that all laptops on the corporate environment are on a version of MacOS supported by IT.\n"
+    default_description = (
+        "Check that all laptops on the corporate environment are on a version of MacOS supported by IT.\n"
+    )
     default_runbook = "Update the MacOs version"
     default_reference = "https://support.apple.com/en-eg/HT201260"
     summary_attributes = ["name", "hostIdentifier", "action"]

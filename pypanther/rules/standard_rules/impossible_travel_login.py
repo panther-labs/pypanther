@@ -667,9 +667,7 @@ class StandardImpossibleTravelLogin(Rule):
     tags = ["Identity & Access Management", "Initial Access:Valid Accounts"]
     reports = {"MITRE ATT&CK": ["TA0001:T1078"]}
     default_severity = Severity.HIGH
-    default_description = (
-        "A user has subsequent logins from two geographic locations that are very far apart"
-    )
+    default_description = "A user has subsequent logins from two geographic locations that are very far apart"
     default_runbook = "Reach out to the user if needed to validate the activity, then lock the account.\nIf the user responds that the geolocation on the new location is incorrect, you can directly report the inaccuracy via  https://ipinfo.io/corrections\n"
     default_reference = "https://expertinsights.com/insights/what-are-impossible-travel-logins/#:~:text=An%20impossible%20travel%20login%20is,of%20the%20logins%20is%20fraudulent"
     summary_attributes = ["p_any_usernames", "p_any_ip_addresses", "p_any_domain_names"]

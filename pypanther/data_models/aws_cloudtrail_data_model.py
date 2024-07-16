@@ -7,10 +7,7 @@ from pypanther.helpers.panther_base_helpers import deep_get
 
 def get_event_type(event):
     # currently, only tracking a few event types
-    if (
-        event.get("eventName") == "ConsoleLogin"
-        and deep_get(event, "userIdentity", "type") == "IAMUser"
-    ):
+    if event.get("eventName") == "ConsoleLogin" and deep_get(event, "userIdentity", "type") == "IAMUser":
         if deep_get(event, "responseElements", "ConsoleLogin") == "Failure":
             return event_type.FAILED_LOGIN
         if deep_get(event, "responseElements", "ConsoleLogin") == "Success":

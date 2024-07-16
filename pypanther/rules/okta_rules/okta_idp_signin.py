@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get, deep_walk, okta_alert_context
 
 okta_identity_provider_sign_in_tests: list[RuleTest] = [
@@ -174,9 +174,7 @@ class OktaIdentityProviderSignIn(Rule):
         return event.get("eventType") == "user.authentication.auth_via_IDP"
 
     def title(self, event):
-        target = deep_walk(
-            event, "target", "displayName", default="displayName-not-found", return_val="first"
-        )
+        target = deep_walk(event, "target", "displayName", default="displayName-not-found", return_val="first")
         return f"{deep_get(event, 'actor', 'displayName', default='<displayName-not-found>')} <{deep_get(event, 'actor', 'alternateId', default='alternateId-not-found')}> signed in via 3rd party Identity Provider to {target}"
 
     def alert_context(self, event):

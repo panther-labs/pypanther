@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 
 gcpiam_org_folder_iam_changes_tests: list[RuleTest] = [
@@ -70,11 +70,7 @@ gcpiam_org_folder_iam_changes_tests: list[RuleTest] = [
                     "@type": "type.googleapis.com/google.iam.v1.logging.AuditData",
                     "policyDelta": {
                         "bindingDeltas": [
-                            {
-                                "action": "ADD",
-                                "member": "user:backdoor@example.com",
-                                "role": "roles/owner",
-                            }
+                            {"action": "ADD", "member": "user:backdoor@example.com", "role": "roles/owner"}
                         ]
                     },
                 },
@@ -193,16 +189,12 @@ class GCPIAMOrgFolderIAMChanges(Rule):
             "actor": event.udm("actor_user"),
             "policy_change": deep_get(event, "protoPayload", "serviceData", "policyDelta"),
             "caller_ip": deep_get(event, "protoPayload", "requestMetadata", "callerIP"),
-            "user_agent": deep_get(
-                event, "protoPayload", "requestMetadata", "callerSuppliedUserAgent"
-            ),
+            "user_agent": deep_get(event, "protoPayload", "requestMetadata", "callerSuppliedUserAgent"),
         }
 
     def severity(self, event):
         if (
-            deep_get(event, "protoPayload", "requestMetadata", "callerSuppliedUserAgent")
-            .lower()
-            .find("terraform")
+            deep_get(event, "protoPayload", "requestMetadata", "callerSuppliedUserAgent").lower().find("terraform")
             != -1
         ):
             return "INFO"

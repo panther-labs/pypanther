@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 
 g_suite_government_backed_attack_tests: list[RuleTest] = [
@@ -33,9 +33,7 @@ class GSuiteGovernmentBackedAttack(Rule):
     log_types = [LogType.GSuite_ActivityEvent]
     tags = ["GSuite"]
     default_severity = Severity.CRITICAL
-    default_description = (
-        "GSuite reported that it detected a government backed attack against your account.\n"
-    )
+    default_description = "GSuite reported that it detected a government backed attack against your account.\n"
     default_reference = "https://support.google.com/a/answer/9007870?hl=en"
     default_runbook = "Followup with GSuite support for more details.\n"
     summary_attributes = ["actor:email"]

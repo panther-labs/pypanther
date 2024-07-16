@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.gcp_base_helpers import gcp_alert_context
 from pypanther.helpers.panther_base_helpers import deep_get
 
@@ -61,9 +61,7 @@ class GCPK8sPodUsingHostPIDNamespace(Rule):
         method = deep_get(event, "protoPayload", "methodName")
         request_host_pid = deep_get(event, "protoPayload", "request", "spec", "hostPID")
         response_host_pid = deep_get(event, "protoPayload", "responce", "spec", "hostPID")
-        if (
-            request_host_pid is True or response_host_pid is True
-        ) and method in self.METHODS_TO_CHECK:
+        if (request_host_pid is True or response_host_pid is True) and method in self.METHODS_TO_CHECK:
             return True
         return False
 
@@ -75,9 +73,7 @@ class GCPK8sPodUsingHostPIDNamespace(Rule):
             "principalEmail",
             default="<ACTOR_NOT_FOUND>",
         )
-        project_id = deep_get(
-            event, "resource", "labels", "project_id", default="<PROJECT_NOT_FOUND>"
-        )
+        project_id = deep_get(event, "resource", "labels", "project_id", default="<PROJECT_NOT_FOUND>")
         return f"[GCP]: [{actor}] created or modified pod using the host PID namespace in project [{project_id}]"
 
     def alert_context(self, event):

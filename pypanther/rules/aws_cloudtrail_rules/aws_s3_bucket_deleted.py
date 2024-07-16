@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import aws_rule_context, deep_get
 from pypanther.helpers.panther_default import aws_cloudtrail_success
 
@@ -16,10 +16,7 @@ awss3_bucket_deleted_tests: list[RuleTest] = [
                 "accountId": "123456789012",
                 "accessKeyId": "AAAAAAAAAAAAAAAAAAAAA",
                 "sessionContext": {
-                    "attributes": {
-                        "mfaAuthenticated": "true",
-                        "creationDate": "2020-02-14T00:11:28Z",
-                    },
+                    "attributes": {"mfaAuthenticated": "true", "creationDate": "2020-02-14T00:11:28Z"},
                     "sessionIssuer": {
                         "type": "Role",
                         "principalId": "AAAAAAAAAAAAAAAAAAAAA",

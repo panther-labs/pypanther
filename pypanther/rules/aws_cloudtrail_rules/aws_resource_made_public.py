@@ -2,7 +2,7 @@ import json
 
 from policyuniverse.policy import Policy
 
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import aws_rule_context, deep_get
 from pypanther.helpers.panther_default import aws_cloudtrail_success
 
@@ -413,10 +413,7 @@ class AWSCloudTrailResourceMadePublic(Rule):
         if event["eventName"] in ["SetQueueAttributes", "CreateTopic"]:
             policy = deep_get(parameters, "attributes", "Policy", default={})
         # SNS
-        if (
-            event["eventName"] == "SetTopicAttributes"
-            and parameters.get("attributeName", "") == "Policy"
-        ):
+        if event["eventName"] == "SetTopicAttributes" and parameters.get("attributeName", "") == "Policy":
             policy = parameters.get("attributeValue", {})
         # SecretsManager
         if event["eventName"] == "PutResourcePolicy":
@@ -436,9 +433,7 @@ class AWSCloudTrailResourceMadePublic(Rule):
             default="<MISSING_USER>",
         )
         if event.get("Resources"):
-            return (
-                f"Resource {event.get('Resources')[0].get('arn', 'MISSING')} made public by {user}"
-            )
+            return f"Resource {event.get('Resources')[0].get('arn', 'MISSING')} made public by {user}"
         return f"{event.get('eventSource', 'MISSING SOURCE')} resource made public by {user}"
 
     def alert_context(self, event):

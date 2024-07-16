@@ -1,5 +1,4 @@
 """The default global accessible via the Panther web UI."""
-
 # Define common code here that all of your policies and rules can share.
 #
 # Example usage:
@@ -8,7 +7,6 @@
 # def policy(resource):
 #     return panther.example_helper()
 #
-
 
 import base64
 import binascii

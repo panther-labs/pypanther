@@ -253,9 +253,7 @@ class DropboxOwnershipTransfer(Rule):
 
     def title(self, event):
         actor = deep_get(event, "actor", "user", "email", default="<EMAIL_NOT_FOUND>")
-        previous_owner = deep_get(
-            event, "details", "previous_owner_email", default="<PREVIOUS_OWNER_NOT_FOUND>"
-        )
+        previous_owner = deep_get(event, "details", "previous_owner_email", default="<PREVIOUS_OWNER_NOT_FOUND>")
         new_owner = deep_get(event, "details", "new_owner_email", default="<NEW_OWNER_NOT_FOUND>")
         assets = event.get("assets", [{}])
         asset = [a.get("display_name", "<ASSET_NOT_FOUND>") for a in assets]
@@ -263,9 +261,7 @@ class DropboxOwnershipTransfer(Rule):
 
     def severity(self, event):
         if isinstance(self.DROPBOX_TRUSTED_OWNERSHIP_DOMAINS, MagicMock):
-            self.DROPBOX_TRUSTED_OWNERSHIP_DOMAINS = set(
-                json.loads(self.DROPBOX_TRUSTED_OWNERSHIP_DOMAINS())
-            )  # pylint: disable=not-callable
+            self.DROPBOX_TRUSTED_OWNERSHIP_DOMAINS = set(json.loads(self.DROPBOX_TRUSTED_OWNERSHIP_DOMAINS()))  # pylint: disable=not-callable
         new_owner = deep_get(event, "details", "new_owner_email", default="<NEW_OWNER_NOT_FOUND>")
         if new_owner.split("@")[-1] not in self.DROPBOX_TRUSTED_OWNERSHIP_DOMAINS:
             return "HIGH"

@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 from pypanther.helpers.panther_tines_helpers import tines_alert_context
 
@@ -45,7 +45,9 @@ class TinesTeamDestruction(Rule):
     tags = ["Tines"]
     default_severity = Severity.LOW
     default_description = "A user has destroyed a team"
-    default_runbook = "Possible data destruction. Please reach out to the user and confirm this was done for valid business reasons."
+    default_runbook = (
+        "Possible data destruction. Please reach out to the user and confirm this was done for valid business reasons."
+    )
     default_reference = "https://www.tines.com/docs/admin/teams"
     tests = tines_team_destruction_tests
 

@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import okta_alert_context
 
 okta_user_mfa_factor_suspend_tests: list[RuleTest] = [
@@ -166,10 +166,7 @@ class OktaUserMFAFactorSuspend(Rule):
     tests = okta_user_mfa_factor_suspend_tests
 
     def rule(self, event):
-        return (
-            event.get("eventtype") == "user.mfa.factor.suspend"
-            and event.deep_get("outcome", "result") == "SUCCESS"
-        )
+        return event.get("eventtype") == "user.mfa.factor.suspend" and event.deep_get("outcome", "result") == "SUCCESS"
 
     def title(self, event):
         return f"Okta: Authentication Factor for [{event.get('target', [{}])[0].get('alternateId', '<id-not-found>')}] has been suspended."

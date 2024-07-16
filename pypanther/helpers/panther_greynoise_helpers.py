@@ -63,10 +63,7 @@ class GreyNoiseBasic(LookupTableMatches):
         if not ip_address:
             return None
         if isinstance(ip_address, Sequence) and not isinstance(ip_address, str):
-            return [
-                f"https://www.greynoise.io/viz/ip/{list_ip_address}"
-                for list_ip_address in ip_address
-            ]
+            return [f"https://www.greynoise.io/viz/ip/{list_ip_address}" for list_ip_address in ip_address]
         return f"https://www.greynoise.io/viz/ip/{ip_address}"
 
     def context(self, match_field: str) -> dict:
@@ -230,10 +227,7 @@ class GreyNoiseRIOTBasic(LookupTableMatches):
         if not ip_stripped:
             return None
         if isinstance(ip_stripped, Sequence) and not isinstance(ip_stripped, str):
-            return [
-                f"https://www.greynoise.io/viz/ip/{list_ip_stripped}"
-                for list_ip_stripped in ip_stripped
-            ]
+            return [f"https://www.greynoise.io/viz/ip/{list_ip_stripped}" for list_ip_stripped in ip_stripped]
         return f"https://www.greynoise.io/viz/ip/{ip_stripped.split('/')[0]}"
 
     def last_updated(self, match_field: str) -> datetime.date:

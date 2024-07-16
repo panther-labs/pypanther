@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get, okta_alert_context
 
 okta_api_key_revoked_tests: list[RuleTest] = [
@@ -56,9 +56,7 @@ class OktaAPIKeyRevoked(Rule):
 
     def title(self, event):
         target = event.get("target", [{}])
-        key_name = (
-            target[0].get("displayName", "MISSING DISPLAY NAME") if target else "MISSING TARGET"
-        )
+        key_name = target[0].get("displayName", "MISSING DISPLAY NAME") if target else "MISSING TARGET"
         return f"{deep_get(event, 'actor', 'displayName')} <{deep_get(event, 'actor', 'alternateId')}>revoked API key - <{key_name}>"
 
     def alert_context(self, event):

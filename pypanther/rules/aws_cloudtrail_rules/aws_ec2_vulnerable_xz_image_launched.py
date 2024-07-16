@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import aws_rule_context
 from pypanther.helpers.panther_default import aws_cloudtrail_success
 from pypanther.helpers.panther_iocs import XZ_AMIS
@@ -69,9 +69,7 @@ awsec2_vulnerable_xz_image_launched_tests: list[RuleTest] = [
                     "hostnameType": "ip-name",
                 },
                 "tagSpecificationSet": {
-                    "items": [
-                        {"resourceType": "instance", "tags": [{"key": "Name", "value": "test"}]}
-                    ]
+                    "items": [{"resourceType": "instance", "tags": [{"key": "Name", "value": "test"}]}]
                 },
             },
             "responseElements": {
@@ -82,18 +80,14 @@ awsec2_vulnerable_xz_image_launched_tests: list[RuleTest] = [
                             "amiLaunchIndex": 0,
                             "architecture": "x86_64",
                             "blockDeviceMapping": {},
-                            "capacityReservationSpecification": {
-                                "capacityReservationPreference": "open"
-                            },
+                            "capacityReservationSpecification": {"capacityReservationPreference": "open"},
                             "clientToken": "8cda61da-eea9-495c-b178-e7014d9bc212",
                             "cpuOptions": {"coreCount": 1, "threadsPerCore": 2},
                             "currentInstanceBootMode": "legacy-bios",
                             "ebsOptimized": True,
                             "enaSupport": True,
                             "enclaveOptions": {"enabled": False},
-                            "groupSet": {
-                                "items": [{"groupId": "sg-00000000000000000", "groupName": "ssh"}]
-                            },
+                            "groupSet": {"items": [{"groupId": "sg-00000000000000000", "groupName": "ssh"}]},
                             "hypervisor": "xen",
                             "imageId": "ami-020a359780bc6f835",
                             "instanceId": "i-00000000000000000",
@@ -274,9 +268,7 @@ awsec2_vulnerable_xz_image_launched_tests: list[RuleTest] = [
                     "hostnameType": "ip-name",
                 },
                 "tagSpecificationSet": {
-                    "items": [
-                        {"resourceType": "instance", "tags": [{"key": "Name", "value": "test"}]}
-                    ]
+                    "items": [{"resourceType": "instance", "tags": [{"key": "Name", "value": "test"}]}]
                 },
             },
             "responseElements": {
@@ -287,18 +279,14 @@ awsec2_vulnerable_xz_image_launched_tests: list[RuleTest] = [
                             "amiLaunchIndex": 0,
                             "architecture": "x86_64",
                             "blockDeviceMapping": {},
-                            "capacityReservationSpecification": {
-                                "capacityReservationPreference": "open"
-                            },
+                            "capacityReservationSpecification": {"capacityReservationPreference": "open"},
                             "clientToken": "8945829d-0ef6-470d-bbfd-ea5bb2d82fdb",
                             "cpuOptions": {"coreCount": 1, "threadsPerCore": 2},
                             "currentInstanceBootMode": "legacy-bios",
                             "ebsOptimized": True,
                             "enaSupport": True,
                             "enclaveOptions": {"enabled": False},
-                            "groupSet": {
-                                "items": [{"groupId": "sg-00000000000000000", "groupName": "ssh"}]
-                            },
+                            "groupSet": {"items": [{"groupId": "sg-00000000000000000", "groupName": "ssh"}]},
                             "hypervisor": "xen",
                             "imageId": "ami-092e3b17e435e5e58",
                             "instanceId": "i-00000000000000000",
@@ -382,18 +370,14 @@ awsec2_vulnerable_xz_image_launched_tests: list[RuleTest] = [
                             "amiLaunchIndex": 1,
                             "architecture": "x86_64",
                             "blockDeviceMapping": {},
-                            "capacityReservationSpecification": {
-                                "capacityReservationPreference": "open"
-                            },
+                            "capacityReservationSpecification": {"capacityReservationPreference": "open"},
                             "clientToken": "8945829d-0ef6-470d-bbfd-ea5bb2d82fdb",
                             "cpuOptions": {"coreCount": 1, "threadsPerCore": 2},
                             "currentInstanceBootMode": "legacy-bios",
                             "ebsOptimized": True,
                             "enaSupport": True,
                             "enclaveOptions": {"enabled": False},
-                            "groupSet": {
-                                "items": [{"groupId": "sg-00000000000000000", "groupName": "ssh"}]
-                            },
+                            "groupSet": {"items": [{"groupId": "sg-00000000000000000", "groupName": "ssh"}]},
                             "hypervisor": "xen",
                             "imageId": "ami-020a359780bc6f835",
                             "instanceId": "i-00000000000000001",
@@ -574,9 +558,7 @@ awsec2_vulnerable_xz_image_launched_tests: list[RuleTest] = [
                     "hostnameType": "ip-name",
                 },
                 "tagSpecificationSet": {
-                    "items": [
-                        {"resourceType": "instance", "tags": [{"key": "Name", "value": "test"}]}
-                    ]
+                    "items": [{"resourceType": "instance", "tags": [{"key": "Name", "value": "test"}]}]
                 },
             },
             "responseElements": {
@@ -587,18 +569,14 @@ awsec2_vulnerable_xz_image_launched_tests: list[RuleTest] = [
                             "amiLaunchIndex": 0,
                             "architecture": "x86_64",
                             "blockDeviceMapping": {},
-                            "capacityReservationSpecification": {
-                                "capacityReservationPreference": "open"
-                            },
+                            "capacityReservationSpecification": {"capacityReservationPreference": "open"},
                             "clientToken": "8cda61da-eea9-495c-b178-e7014d9bc212",
                             "cpuOptions": {"coreCount": 1, "threadsPerCore": 2},
                             "currentInstanceBootMode": "legacy-bios",
                             "ebsOptimized": True,
                             "enaSupport": True,
                             "enclaveOptions": {"enabled": False},
-                            "groupSet": {
-                                "items": [{"groupId": "sg-00000000000000000", "groupName": "ssh"}]
-                            },
+                            "groupSet": {"items": [{"groupId": "sg-00000000000000000", "groupName": "ssh"}]},
                             "hypervisor": "xen",
                             "imageId": "ami-08038de0f4f90a9f0",
                             "instanceId": "i-00000000000000000",
@@ -718,7 +696,9 @@ awsec2_vulnerable_xz_image_launched_tests: list[RuleTest] = [
 
 
 class AWSEC2VulnerableXZImageLaunched(Rule):
-    default_description = "Detecting EC2 instances launched with AMIs containing potentially vulnerable versions of XZ (CVE-2024-3094)\n"
+    default_description = (
+        "Detecting EC2 instances launched with AMIs containing potentially vulnerable versions of XZ (CVE-2024-3094)\n"
+    )
     display_name = "AWS EC2 Vulnerable XZ Image Launched"
     default_reference = "https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2024-3094"
     default_severity = Severity.CRITICAL

@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 
 asana_workspace_password_requirements_simple_tests: list[RuleTest] = [
@@ -22,11 +22,7 @@ asana_workspace_password_requirements_simple_tests: list[RuleTest] = [
             "event_category": "admin_settings",
             "event_type": "workspace_password_requirements_changed",
             "gid": "12345",
-            "resource": {
-                "gid": "12345",
-                "name": "Company Example IO",
-                "resource_type": "workspace",
-            },
+            "resource": {"gid": "12345", "name": "Company Example IO", "resource_type": "workspace"},
         },
     ),
     RuleTest(
@@ -56,11 +52,11 @@ asana_workspace_password_requirements_simple_tests: list[RuleTest] = [
 
 
 class AsanaWorkspacePasswordRequirementsSimple(Rule):
-    default_description = (
-        "An asana user made your organization's password requirements less strict."
-    )
+    default_description = "An asana user made your organization's password requirements less strict."
     display_name = "Asana Workspace Password Requirements Simple"
-    default_runbook = "Confirm this user acted with valid business intent and determine whether this activity was authorized."
+    default_runbook = (
+        "Confirm this user acted with valid business intent and determine whether this activity was authorized."
+    )
     default_reference = "https://help.asana.com/hc/en-us/articles/14075208738587-Authentication-and-access-management-options-for-paid-plans"
     default_severity = Severity.MEDIUM
     log_types = [LogType.Asana_Audit]
@@ -71,8 +67,7 @@ class AsanaWorkspacePasswordRequirementsSimple(Rule):
         new_val = deep_get(event, "details", "new_value", default="<NEW_VAL_NOT_FOUND>")
         return all(
             [
-                event.get("event_type", "<NO_EVENT_TYPE_FOUND>")
-                == "workspace_password_requirements_changed",
+                event.get("event_type", "<NO_EVENT_TYPE_FOUND>") == "workspace_password_requirements_changed",
                 new_val == "simple",
             ]
         )

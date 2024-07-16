@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import aws_rule_context, deep_get
 
 awsec2_traffic_mirroring_tests: list[RuleTest] = [
@@ -33,9 +33,7 @@ awsec2_traffic_mirroring_tests: list[RuleTest] = [
             "recipientAccountId": "123451234515",
             "requestID": "200a9157-dff7-4578-87d6-205b01d90a56",
             "requestParameters": {
-                "CreateTrafficMirrorFilterRequest": {
-                    "ClientToken": "5b7eff74-2b70-4f92-8aa1-9c716bf151aa"
-                }
+                "CreateTrafficMirrorFilterRequest": {"ClientToken": "5b7eff74-2b70-4f92-8aa1-9c716bf151aa"}
             },
             "responseElements": {
                 "CreateTrafficMirrorFilterResponse": {
@@ -60,10 +58,7 @@ awsec2_traffic_mirroring_tests: list[RuleTest] = [
                 "arn": "arn:aws:sts::123123123123:assumed-role/MakeStuffPublic",
                 "principalId": "AROA57JLR4M2SBAPVC4BO",
                 "sessionContext": {
-                    "attributes": {
-                        "creationDate": "2022-11-15T22:38:17Z",
-                        "mfaAuthenticated": "true",
-                    },
+                    "attributes": {"creationDate": "2022-11-15T22:38:17Z", "mfaAuthenticated": "true"},
                     "sessionIssuer": {
                         "accountId": "123123123123",
                         "arn": "arn:aws:iam::123123123123:role/MakeStuffPublic",
@@ -145,10 +140,7 @@ awsec2_traffic_mirroring_tests: list[RuleTest] = [
                 "arn": "arn:aws:sts::123123123123:assumed-role/MakeStuffPublic",
                 "principalId": "AROA57JLR4M2SBAPVC4BO:MakeStuffPublic",
                 "sessionContext": {
-                    "attributes": {
-                        "creationDate": "2022-11-15T22:38:17Z",
-                        "mfaAuthenticated": "true",
-                    },
+                    "attributes": {"creationDate": "2022-11-15T22:38:17Z", "mfaAuthenticated": "true"},
                     "sessionIssuer": {
                         "accountId": "123123123123",
                         "arn": "arn:aws:iam::123123123123:role/MakeStuffPublic",
@@ -212,10 +204,7 @@ awsec2_traffic_mirroring_tests: list[RuleTest] = [
                 "arn": "arn:aws:sts::123123123123:assumed-role/MakeStuffPublic",
                 "principalId": "AROA57JLR4M2SBAPVC4BO:MakeStuffPublic",
                 "sessionContext": {
-                    "attributes": {
-                        "creationDate": "2022-11-15T22:38:17Z",
-                        "mfaAuthenticated": "true",
-                    },
+                    "attributes": {"creationDate": "2022-11-15T22:38:17Z", "mfaAuthenticated": "true"},
                     "sessionIssuer": {
                         "accountId": "123123123123",
                         "arn": "arn:aws:iam::123123123123:role/MakeStuffPublic",
@@ -288,10 +277,7 @@ awsec2_traffic_mirroring_tests: list[RuleTest] = [
                 "arn": "arn:aws:sts::123123123123:assumed-role/MakeStuffPublic",
                 "principalId": "AROA57JLR4M2SBAPVC4BO",
                 "sessionContext": {
-                    "attributes": {
-                        "creationDate": "2022-11-15T22:38:17Z",
-                        "mfaAuthenticated": "true",
-                    },
+                    "attributes": {"creationDate": "2022-11-15T22:38:17Z", "mfaAuthenticated": "true"},
                     "sessionIssuer": {
                         "accountId": "123123123123",
                         "arn": "arn:aws:iam::123123123123:role/MakeStuffPublic",
@@ -336,9 +322,7 @@ awsec2_traffic_mirroring_tests: list[RuleTest] = [
             "recipientAccountId": "123123123123",
             "requestID": "b56e2421-1fed-4052-b3ac-82daf374964c",
             "requestParameters": {
-                "DeleteTrafficMirrorTargetRequest": {
-                    "TrafficMirrorTargetId": "tmt-0fd4b591901182794"
-                }
+                "DeleteTrafficMirrorTargetRequest": {"TrafficMirrorTargetId": "tmt-0fd4b591901182794"}
             },
             "responseElements": {
                 "DeleteTrafficMirrorTargetResponse": {
@@ -356,10 +340,7 @@ awsec2_traffic_mirroring_tests: list[RuleTest] = [
                 "arn": "arn:aws:sts::123123123123:assumed-role/MakeStuffPublic",
                 "principalId": "AROA57JLR4M2SBAPVC4BO",
                 "sessionContext": {
-                    "attributes": {
-                        "creationDate": "2022-11-15T22:38:17Z",
-                        "mfaAuthenticated": "true",
-                    },
+                    "attributes": {"creationDate": "2022-11-15T22:38:17Z", "mfaAuthenticated": "true"},
                     "sessionIssuer": {
                         "accountId": "123123123123",
                         "arn": "arn:aws:iam::123123123123:role/MakeStuffPublic",
@@ -413,10 +394,7 @@ awsec2_traffic_mirroring_tests: list[RuleTest] = [
                 "arn": "arn:aws:sts::123123123123:assumed-role/MakeStuffPublic",
                 "principalId": "AROA57JLR4M2SBAPVC4BO",
                 "sessionContext": {
-                    "attributes": {
-                        "creationDate": "2022-11-15T22:38:17Z",
-                        "mfaAuthenticated": "true",
-                    },
+                    "attributes": {"creationDate": "2022-11-15T22:38:17Z", "mfaAuthenticated": "true"},
                     "sessionIssuer": {
                         "accountId": "123123123123",
                         "arn": "arn:aws:iam::123123123123:role/MakeStuffPublic",
@@ -462,10 +440,7 @@ awsec2_traffic_mirroring_tests: list[RuleTest] = [
             "requestID": "a39291d0-81b6-470f-ae0d-0f028d5676ce",
             "requestParameters": {
                 "ModifyTrafficMirrorSessionRequest": {
-                    "RemoveField": [
-                        {"content": "description", "tag": 1},
-                        {"content": "packet-length", "tag": 2},
-                    ],
+                    "RemoveField": [{"content": "description", "tag": 1}, {"content": "packet-length", "tag": 2}],
                     "SessionNumber": 2,
                     "TrafficMirrorFilterId": "tmf-010db9a7d8056cc2d",
                     "TrafficMirrorSessionId": "tms-05e1e21760419ecb6",
@@ -498,10 +473,7 @@ awsec2_traffic_mirroring_tests: list[RuleTest] = [
                 "arn": "arn:aws:sts::123123123123:assumed-role/MakeStuffPublic",
                 "principalId": "AROA57JLR4M2SBAPVC4BO",
                 "sessionContext": {
-                    "attributes": {
-                        "creationDate": "2022-11-15T22:38:17Z",
-                        "mfaAuthenticated": "true",
-                    },
+                    "attributes": {"creationDate": "2022-11-15T22:38:17Z", "mfaAuthenticated": "true"},
                     "sessionIssuer": {
                         "accountId": "123123123123",
                         "arn": "arn:aws:iam::123123123123:role/MakeStuffPublic",
@@ -545,10 +517,7 @@ awsec2_traffic_mirroring_tests: list[RuleTest] = [
                 "arn": "arn:aws:sts::111122223333:assumed-role/MakeStuffPublic",
                 "principalId": "111111111111",
                 "sessionContext": {
-                    "attributes": {
-                        "creationDate": "2021-08-18T14:54:10Z",
-                        "mfaAuthenticated": "false",
-                    },
+                    "attributes": {"creationDate": "2021-08-18T14:54:10Z", "mfaAuthenticated": "false"},
                     "sessionIssuer": {},
                     "webIdFederationData": {},
                 },
@@ -581,10 +550,7 @@ awsec2_traffic_mirroring_tests: list[RuleTest] = [
                 "invokedBy": "config.amazonaws.com",
                 "principalId": "AROAAAAAAAAAAAAAAAAAA:ConfigResourceCompositionSession",
                 "sessionContext": {
-                    "attributes": {
-                        "creationDate": "2023-02-13T18:08:33Z",
-                        "mfaAuthenticated": "false",
-                    },
+                    "attributes": {"creationDate": "2023-02-13T18:08:33Z", "mfaAuthenticated": "false"},
                     "sessionIssuer": {
                         "accountId": "123456789012",
                         "arn": "arn:aws:iam::123456789012:role/PantherAWSConfig",
@@ -633,10 +599,7 @@ class AWSEC2TrafficMirroring(Rule):
         ]
         if deep_get(event, "userIdentity", "invokedBy", default="").endswith(".amazonaws.com"):
             return False
-        return (
-            event.get("eventSource", "") == "ec2.amazonaws.com"
-            and event.get("eventName", "") in event_names
-        )
+        return event.get("eventSource", "") == "ec2.amazonaws.com" and event.get("eventName", "") in event_names
 
     def title(self, event):
         # (Optional) Return a string which will be shown as the alert title.

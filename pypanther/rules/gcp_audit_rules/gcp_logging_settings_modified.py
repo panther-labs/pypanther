@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 
 gcp_logging_settings_modified_tests: list[RuleTest] = [
@@ -89,9 +89,7 @@ gcp_logging_settings_modified_tests: list[RuleTest] = [
                     "@type": "type.googleapis.com/google.logging.v2.UpdateSinkRequest",
                     "sink": {
                         "destination": "pubsub.googleapis.com/projects/gcp-project1/topics/gcp-topic1",
-                        "exclusions": [
-                            {"filter": "protoPayload.serviceName = 'k8s.io", "name": "excludek8s"}
-                        ],
+                        "exclusions": [{"filter": "protoPayload.serviceName = 'k8s.io", "name": "excludek8s"}],
                         "name": "log-sink",
                         "writerIdentity": "serviceAccount:p197946410614-915152@gcp-sa-logging.iam.gserviceaccount.com",
                     },
@@ -133,34 +131,21 @@ class GCPLoggingSettingsModified(Rule):
     def rule(self, event):
         return all(
             [
-                deep_get(event, "protoPayload", "serviceName", default="")
-                == "logging.googleapis.com",
+                deep_get(event, "protoPayload", "serviceName", default="") == "logging.googleapis.com",
                 "Update" in deep_get(event, "protoPayload", "methodName", default=""),
             ]
         )
 
     def title(self, event):
         resource = deep_get(event, "protoPayload", "resourceName", default="<RESOURCE_NOT_FOUND>")
-        actor = deep_get(
-            event,
-            "protoPayload",
-            "authenticationInfo",
-            "principalEmail",
-            default="<ACTOR_NOT_FOUND>",
-        )
+        actor = deep_get(event, "protoPayload", "authenticationInfo", "principalEmail", default="<ACTOR_NOT_FOUND>")
         return f"GCP [{resource}] logging settings modified by [{actor}]."
 
     def alert_context(self, event):
         return {
-            "resource": deep_get(
-                event, "protoPayload", "resourceName", default="<RESOURCE_NOT_FOUND>"
-            ),
+            "resource": deep_get(event, "protoPayload", "resourceName", default="<RESOURCE_NOT_FOUND>"),
             "actor": deep_get(
-                event,
-                "protoPayload",
-                "authenticationInfo",
-                "principalEmail",
-                default="<ACTOR_NOT_FOUND>",
+                event, "protoPayload", "authenticationInfo", "principalEmail", default="<ACTOR_NOT_FOUND>"
             ),
             "method": deep_get(event, "protoPayload", "methodName", default="<METHOD_NOT_FOUND>"),
         }

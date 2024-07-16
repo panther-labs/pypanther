@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import aws_rule_context
 from pypanther.helpers.panther_default import aws_cloudtrail_success
 
@@ -80,9 +80,7 @@ awsec2_route_table_modified_tests: list[RuleTest] = [
             "userAgent": "Mozilla",
             "requestParameters": {
                 "routeTableIdSet": {},
-                "filterSet": {
-                    "items": [{"name": "resource-id", "valueSet": {"items": [{"value": "vpc-1"}]}}]
-                },
+                "filterSet": {"items": [{"name": "resource-id", "valueSet": {"items": [{"value": "vpc-1"}]}}]},
             },
             "responseElements": None,
             "requestID": "1",
@@ -146,9 +144,7 @@ class AWSEC2RouteTableModified(Rule):
     reports = {"CIS": ["3.13"], "MITRE ATT&CK": ["TA0010:T1048"]}
     default_severity = Severity.INFO
     default_description = "An EC2 Route Table was modified."
-    default_runbook = (
-        "https://docs.runpanther.io/alert-runbooks/built-in-rules/aws-ec2-route-table-modified"
-    )
+    default_runbook = "https://docs.runpanther.io/alert-runbooks/built-in-rules/aws-ec2-route-table-modified"
     default_reference = "https://docs.aws.amazon.com/vpc/latest/userguide/WorkWithRouteTables.html"
     summary_attributes = [
         "eventName",
@@ -170,9 +166,7 @@ class AWSEC2RouteTableModified(Rule):
     }
 
     def rule(self, event):
-        return (
-            aws_cloudtrail_success(event) and event.get("eventName") in self.EC2_RT_MODIFIED_EVENTS
-        )
+        return aws_cloudtrail_success(event) and event.get("eventName") in self.EC2_RT_MODIFIED_EVENTS
 
     def dedup(self, event):
         return event.get("recipientAccountId")

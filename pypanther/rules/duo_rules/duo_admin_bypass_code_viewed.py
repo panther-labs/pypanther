@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 
 duo_admin_bypass_code_viewed_tests: list[RuleTest] = [
     RuleTest(

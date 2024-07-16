@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 
 gcp_big_query_large_scan_tests: list[RuleTest] = [
@@ -26,11 +26,7 @@ gcp_big_query_large_scan_tests: list[RuleTest] = [
                 "at_sign_type": "type.googleapis.com/google.cloud.audit.AuditLog",
                 "authenticationInfo": {"principalEmail": "user@company.io"},
                 "authorizationInfo": [
-                    {
-                        "granted": True,
-                        "permission": "bigquery.jobs.create",
-                        "resource": "projects/gcp-project1",
-                    }
+                    {"granted": True, "permission": "bigquery.jobs.create", "resource": "projects/gcp-project1"}
                 ],
                 "metadata": {
                     "@type": "type.googleapis.com/google.cloud.audit.BigQueryAuditMetadata",
@@ -78,10 +74,7 @@ gcp_big_query_large_scan_tests: list[RuleTest] = [
                 "status": {},
             },
             "receivetimestamp": "2023-03-28 17:37:02.114",
-            "resource": {
-                "labels": {"location": "US", "project_id": "gcp-project1"},
-                "type": "bigquery_project",
-            },
+            "resource": {"labels": {"location": "US", "project_id": "gcp-project1"}, "type": "bigquery_project"},
             "severity": "INFO",
             "timestamp": "2023-03-28 17:37:02.096",
         },
@@ -110,11 +103,7 @@ gcp_big_query_large_scan_tests: list[RuleTest] = [
                 "at_sign_type": "type.googleapis.com/google.cloud.audit.AuditLog",
                 "authenticationInfo": {"principalEmail": "user@company.io"},
                 "authorizationInfo": [
-                    {
-                        "granted": True,
-                        "permission": "bigquery.jobs.create",
-                        "resource": "projects/gcp-project1",
-                    }
+                    {"granted": True, "permission": "bigquery.jobs.create", "resource": "projects/gcp-project1"}
                 ],
                 "metadata": {
                     "@type": "type.googleapis.com/google.cloud.audit.BigQueryAuditMetadata",
@@ -162,10 +151,7 @@ gcp_big_query_large_scan_tests: list[RuleTest] = [
                 "status": {},
             },
             "receivetimestamp": "2023-03-28 17:37:02.114",
-            "resource": {
-                "labels": {"location": "US", "project_id": "gcp-project1"},
-                "type": "bigquery_project",
-            },
+            "resource": {"labels": {"location": "US", "project_id": "gcp-project1"}, "type": "bigquery_project"},
             "severity": "INFO",
             "timestamp": "2023-03-28 17:37:02.096",
         },
@@ -187,21 +173,11 @@ class GCPBigQueryLargeScan(Rule):
     def rule(self, event):
         return all(
             [
-                deep_get(event, "resource", "type", default="<type not found>").startswith(
-                    "bigquery"
-                ),
+                deep_get(event, "resource", "type", default="<type not found>").startswith("bigquery"),
                 deep_get(event, "operation", "last") is True,
-                deep_get(event, "protoPayload", "metadata", "jobChange", "job", "jobConfig", "type")
-                == "QUERY",
+                deep_get(event, "protoPayload", "metadata", "jobChange", "job", "jobConfig", "type") == "QUERY",
                 deep_get(
-                    event,
-                    "protoPayload",
-                    "metadata",
-                    "jobChange",
-                    "job",
-                    "jobConfig",
-                    "queryConfig",
-                    "statementType",
+                    event, "protoPayload", "metadata", "jobChange", "job", "jobConfig", "queryConfig", "statementType"
                 )
                 == "SELECT",
                 int(
@@ -222,13 +198,7 @@ class GCPBigQueryLargeScan(Rule):
         )
 
     def title(self, event):
-        actor = deep_get(
-            event,
-            "protoPayload",
-            "authenticationInfo",
-            "principalEmail",
-            default="<ACTOR_NOT_FOUND>",
-        )
+        actor = deep_get(event, "protoPayload", "authenticationInfo", "principalEmail", default="<ACTOR_NOT_FOUND>")
         query_size = deep_get(
             event,
             "protoPayload",
@@ -256,11 +226,7 @@ class GCPBigQueryLargeScan(Rule):
                 default="<QUERY_NOT_FOUND>",
             ),
             "actor": deep_get(
-                event,
-                "protoPayload",
-                "authenticationInfo",
-                "principalEmail",
-                default="<ACTOR_NOT_FOUND>",
+                event, "protoPayload", "authenticationInfo", "principalEmail", default="<ACTOR_NOT_FOUND>"
             ),
             "query_size": deep_get(
                 event,

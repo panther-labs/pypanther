@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 
 one_login_user_account_locked_tests: list[RuleTest] = [
     RuleTest(
@@ -56,9 +56,7 @@ class OneLoginUserAccountLocked(Rule):
     reports = {"MITRE ATT&CK": ["TA0006:T1110"]}
     default_severity = Severity.LOW
     default_description = "User locked or suspended from their account.\n"
-    default_reference = (
-        "https://onelogin.service-now.com/kb_view_customer.do?sysparm_article=KB0010420"
-    )
+    default_reference = "https://onelogin.service-now.com/kb_view_customer.do?sysparm_article=KB0010420"
     default_runbook = "Investigate whether this was caused by expected action.\n"
     summary_attributes = ["account_id", "event_type_id", "user_name", "user_id"]
     tests = one_login_user_account_locked_tests

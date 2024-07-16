@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 from pypanther.helpers.panther_snyk_helpers import snyk_alert_context
 
@@ -255,12 +255,7 @@ class SnykServiceAccountChange(Rule):
         role = deep_get(event, "content", "role", "role", default=None)
         if not role:
             role = deep_get(event, "content", "role", default=None)
-        if all(
-            [
-                role == "ADMIN",
-                action.endswith((".service_account.create", ".service_account.delete")),
-            ]
-        ):
+        if all([role == "ADMIN", action.endswith((".service_account.create", ".service_account.delete"))]):
             return "CRITICAL"
         if action.endswith((".service_account.create", ".service_account.delete")):
             return "HIGH"

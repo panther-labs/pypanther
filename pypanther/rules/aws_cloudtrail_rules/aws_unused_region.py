@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import aws_rule_context, deep_get
 
 aws_unused_region_tests: list[RuleTest] = [
@@ -158,7 +158,9 @@ class AWSUnusedRegion(Rule):
     reports = {"MITRE ATT&CK": ["TA0005:T1535"]}
     default_severity = Severity.HIGH
     default_description = "CloudTrail logged non-read activity from a verboten AWS region."
-    default_runbook = "https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_examples_aws-enable-disable-regions.html"
+    default_runbook = (
+        "https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_examples_aws-enable-disable-regions.html"
+    )
     default_reference = "https://attack.mitre.org/techniques/T1535/"
     summary_attributes = [
         "eventSource",
@@ -173,17 +175,12 @@ class AWSUnusedRegion(Rule):
     UNUSED_REGIONS = {"ap-east-1", "eu-west-3", "eu-central-1"}
 
     def rule(self, event):
-        if (
-            event.get("awsRegion", "<UNKNOWN_AWS_REGION>") in self.UNUSED_REGIONS
-            and event.get("readOnly") is False
-        ):
+        if event.get("awsRegion", "<UNKNOWN_AWS_REGION>") in self.UNUSED_REGIONS and event.get("readOnly") is False:
             return True
         return False
 
     def title(self, event):
-        aws_username = deep_get(
-            event, "userIdentity", "sessionContext", "sessionIssuer", "userName"
-        )
+        aws_username = deep_get(event, "userIdentity", "sessionContext", "sessionIssuer", "userName")
         return f"Non-read-only API call in unused region {event.get('awsRegion', '<UNKNOWN_AWS_REGION>')} by user {aws_username}"
 
     def alert_context(self, event):

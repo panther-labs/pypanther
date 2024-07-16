@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 
 dropbox_user_disabled2_fa_tests: list[RuleTest] = [
@@ -38,17 +38,9 @@ dropbox_user_disabled2_fa_tests: list[RuleTest] = [
             "origin": {
                 "access_method": {
                     ".tag": "end_user",
-                    "end_user": {
-                        ".tag": "web",
-                        "session_id": "dbwsid:237034608707419186011941491025532848312",
-                    },
+                    "end_user": {".tag": "web", "session_id": "dbwsid:237034608707419186011941491025532848312"},
                 },
-                "geo_location": {
-                    "city": "Austin",
-                    "country": "US",
-                    "ip_address": "1.2.3.4",
-                    "region": "Texas",
-                },
+                "geo_location": {"city": "Austin", "country": "US", "ip_address": "1.2.3.4", "region": "Texas"},
             },
             "p_any_emails": ["alice.bob@company.io"],
             "p_any_ip_addresses": ["1.2.3.4"],
@@ -90,10 +82,7 @@ dropbox_user_disabled2_fa_tests: list[RuleTest] = [
             "event_type": {"_tag": "app_link_member", "description": "Linked app for member"},
             "involve_non_team_member": False,
             "origin": {
-                "access_method": {
-                    ".tag": "api",
-                    "request_id": "dbarod:xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
-                },
+                "access_method": {".tag": "api", "request_id": "dbarod:xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"},
                 "geo_location": {
                     "city": "Los Angeles",
                     "country": "US",

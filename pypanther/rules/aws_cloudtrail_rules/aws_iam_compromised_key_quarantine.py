@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 
 aws_cloud_trail_iam_compromised_key_quarantine_tests: list[RuleTest] = [
     RuleTest(
@@ -21,10 +21,7 @@ aws_cloud_trail_iam_compromised_key_quarantine_tests: list[RuleTest] = [
                         "userName": "a-role",
                     },
                     "webIdFederationData": {},
-                    "attributes": {
-                        "creationDate": "2023-11-21T22:28:31Z",
-                        "mfaAuthenticated": "false",
-                    },
+                    "attributes": {"creationDate": "2023-11-21T22:28:31Z", "mfaAuthenticated": "false"},
                 },
             },
             "eventTime": "2023-11-21T23:23:52Z",
@@ -68,10 +65,7 @@ aws_cloud_trail_iam_compromised_key_quarantine_tests: list[RuleTest] = [
                         "userName": "a-role",
                     },
                     "webIdFederationData": {},
-                    "attributes": {
-                        "creationDate": "2023-11-21T22:28:31Z",
-                        "mfaAuthenticated": "false",
-                    },
+                    "attributes": {"creationDate": "2023-11-21T22:28:31Z", "mfaAuthenticated": "false"},
                 },
             },
             "eventTime": "2023-11-21T23:31:17Z",
@@ -101,7 +95,9 @@ aws_cloud_trail_iam_compromised_key_quarantine_tests: list[RuleTest] = [
 
 class AWSCloudTrailIAMCompromisedKeyQuarantine(Rule):
     log_types = [LogType.AWS_CloudTrail]
-    default_description = "Detects when an IAM user has the AWSCompromisedKeyQuarantineV2 policy attached to their account."
+    default_description = (
+        "Detects when an IAM user has the AWSCompromisedKeyQuarantineV2 policy attached to their account."
+    )
     display_name = "AWS Compromised IAM Key Quarantine"
     id = "AWS.CloudTrail.IAMCompromisedKeyQuarantine-prototype"
     default_severity = Severity.HIGH
@@ -123,8 +119,7 @@ class AWSCloudTrailIAMCompromisedKeyQuarantine(Rule):
             [
                 event.get("eventSource", "") == "iam.amazonaws.com",
                 event.get("eventName", "") in self.IAM_ACTIONS,
-                event.deep_get("requestParameters", "policyArn", default="")
-                == self.QUARANTINE_MANAGED_POLICY,
+                event.deep_get("requestParameters", "policyArn", default="") == self.QUARANTINE_MANAGED_POLICY,
             ]
         )
 

@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 
 carbon_black_audit_data_forwarder_stopped_tests: list[RuleTest] = [
     RuleTest(

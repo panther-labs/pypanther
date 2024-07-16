@@ -13,9 +13,7 @@ def _validate_unique_list(v: list[T]) -> list[T]:
     return v
 
 
-UniqueList = Annotated[
-    List[T], AfterValidator(_validate_unique_list), Field(json_schema_extra={"uniqueItems": True})
-]
+UniqueList = Annotated[List[T], AfterValidator(_validate_unique_list), Field(json_schema_extra={"uniqueItems": True})]
 NonEmptyUniqueList = Annotated[
     List[T],
     annotated_types.Len(1, None),

@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 from pypanther.helpers.panther_snyk_helpers import snyk_alert_context
 
@@ -12,17 +12,9 @@ snyk_system_policy_setting_tests: list[RuleTest] = [
                     "configuration": {
                         "rules": [
                             {
-                                "actions": [
-                                    {"data": {"severity": "high"}, "type": "severity-override"}
-                                ],
+                                "actions": [{"data": {"severity": "high"}, "type": "severity-override"}],
                                 "conditions": {
-                                    "AND": [
-                                        {
-                                            "field": "exploit-maturity",
-                                            "operator": "includes",
-                                            "value": ["mature"],
-                                        }
-                                    ]
+                                    "AND": [{"field": "exploit-maturity", "operator": "includes", "value": ["mature"]}]
                                 },
                                 "name": "Rule 1",
                             }
@@ -51,11 +43,7 @@ snyk_system_policy_setting_tests: list[RuleTest] = [
                         "licenses": [
                             {"instructions": "", "licenseType": "ADSL", "severity": "medium"},
                             {"instructions": "", "licenseType": "AGPL-3.0", "severity": "medium"},
-                            {
-                                "instructions": "",
-                                "licenseType": "AGPL-3.0-only",
-                                "severity": "high",
-                            },
+                            {"instructions": "", "licenseType": "AGPL-3.0-only", "severity": "high"},
                         ]
                     },
                     "description": "this is a policy description",

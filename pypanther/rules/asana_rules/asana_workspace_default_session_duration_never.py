@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 
 asana_workspace_default_session_duration_never_tests: list[RuleTest] = [
@@ -54,9 +54,7 @@ asana_workspace_default_session_duration_never_tests: list[RuleTest] = [
 class AsanaWorkspaceDefaultSessionDurationNever(Rule):
     default_description = "An Asana workspace's default session duration (how often users need to re-authenticate) has been changed to never. "
     display_name = "Asana Workspace Default Session Duration Never"
-    default_reference = (
-        "https://help.asana.com/hc/en-us/articles/14218320495899-Manage-Session-Duration"
-    )
+    default_reference = "https://help.asana.com/hc/en-us/articles/14218320495899-Manage-Session-Duration"
     default_severity = Severity.LOW
     log_types = [LogType.Asana_Audit]
     id = "Asana.Workspace.Default.Session.Duration.Never-prototype"

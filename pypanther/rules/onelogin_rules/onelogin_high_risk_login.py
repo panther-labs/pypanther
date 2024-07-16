@@ -2,7 +2,7 @@ from datetime import timedelta
 
 from panther_detection_helpers.caching import get_counter, increment_counter, reset_counter
 
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 
 one_login_high_risk_login_tests: list[RuleTest] = [
     RuleTest(
@@ -25,9 +25,7 @@ class OneLoginHighRiskLogin(Rule):
     log_types = [LogType.OneLogin_Events]
     tags = ["OneLogin"]
     default_severity = Severity.MEDIUM
-    default_description = (
-        "A OneLogin user successfully logged in after a failed high-risk login attempt."
-    )
+    default_description = "A OneLogin user successfully logged in after a failed high-risk login attempt."
     default_reference = "https://resources.onelogin.com/OneLogin_RiskBasedAuthentication-WP-v5.pdf"
     default_runbook = "Investigate whether this was caused by expected user activity."
     summary_attributes = ["account_id", "event_type_id", "user_name", "user_id"]

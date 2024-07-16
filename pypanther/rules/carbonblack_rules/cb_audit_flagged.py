@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 
 carbon_black_audit_flagged_tests: list[RuleTest] = [
     RuleTest(
@@ -36,7 +36,9 @@ carbon_black_audit_flagged_tests: list[RuleTest] = [
 class CarbonBlackAuditFlagged(Rule):
     id = "CarbonBlack.Audit.Flagged-prototype"
     log_types = [LogType.CarbonBlack_Audit]
-    default_description = "Detects when Carbon Black has flagged a log as important, such as failed login attempts and locked accounts."
+    default_description = (
+        "Detects when Carbon Black has flagged a log as important, such as failed login attempts and locked accounts."
+    )
     display_name = "Carbon Black Log Entry Flagged"
     default_severity = Severity.HIGH
     tags = ["Credential Access", "Brute Force"]

@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_zoom_helpers import get_zoom_usergroup_context as get_context
 
 zoom_passcode_disabled_tests: list[RuleTest] = [
@@ -49,10 +49,10 @@ class ZoomPasscodeDisabled(Rule):
     default_severity = Severity.LOW
     default_description = "Meeting passcode requirement has been disabled from usergroup\n"
     reports = {"MITRE ATT&CK": ["TA0009:T1125"]}
-    default_reference = (
-        "https://support.zoom.us/hc/en-us/articles/360033559832-Zoom-Meeting-and-Webinar-passcodes"
+    default_reference = "https://support.zoom.us/hc/en-us/articles/360033559832-Zoom-Meeting-and-Webinar-passcodes"
+    default_runbook = (
+        "Follow up with user or Zoom admin to ensure this meeting room's use case does not allow a passcode.\n"
     )
-    default_runbook = "Follow up with user or Zoom admin to ensure this meeting room's use case does not allow a passcode.\n"
     summary_attributes = ["p_any_emails"]
     tests = zoom_passcode_disabled_tests
 
@@ -66,6 +66,4 @@ class ZoomPasscodeDisabled(Rule):
 
     def title(self, event):
         context = get_context(event)
-        return (
-            f"Group {context['GroupName']} passcode requirement disabled by {event.get('operator')}"
-        )
+        return f"Group {context['GroupName']} passcode requirement disabled by {event.get('operator')}"

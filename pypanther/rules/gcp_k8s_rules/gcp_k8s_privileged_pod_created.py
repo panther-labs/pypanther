@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.gcp_base_helpers import gcp_alert_context
 from pypanther.helpers.panther_base_helpers import deep_get, deep_walk
 
@@ -177,12 +177,7 @@ gcpk8_s_privileged_pod_created_tests: list[RuleTest] = [
                     "metadata": {"name": "test-non-privileged-pod", "namespace": "default"},
                     "spec": {
                         "containers": [
-                            {
-                                "image": "nginx",
-                                "imagePullPolicy": "Always",
-                                "name": "nginx",
-                                "resources": {},
-                            }
+                            {"image": "nginx", "imagePullPolicy": "Always", "name": "nginx", "resources": {}}
                         ]
                     },
                     "status": {},
@@ -196,12 +191,7 @@ gcpk8_s_privileged_pod_created_tests: list[RuleTest] = [
                     "metadata": {},
                     "spec": {
                         "containers": [
-                            {
-                                "image": "nginx",
-                                "imagePullPolicy": "Always",
-                                "name": "nginx",
-                                "resources": {},
-                            }
+                            {"image": "nginx", "imagePullPolicy": "Always", "name": "nginx", "resources": {}}
                         ]
                     },
                     "status": {},
@@ -307,10 +297,7 @@ class GCPK8SPrivilegedPodCreated(Rule):
             return False
         containers_info = deep_walk(event, "protoPayload", "response", "spec", "containers")
         for auth in authorization_info:
-            if (
-                auth.get("permission") == "io.k8s.core.v1.pods.create"
-                and auth.get("granted") is True
-            ):
+            if auth.get("permission") == "io.k8s.core.v1.pods.create" and auth.get("granted") is True:
                 for security_context in containers_info:
                     if (
                         deep_get(security_context, "securityContext", "privileged") is True
@@ -320,23 +307,13 @@ class GCPK8SPrivilegedPodCreated(Rule):
         return False
 
     def title(self, event):
-        actor = deep_get(
-            event,
-            "protoPayload",
-            "authenticationInfo",
-            "principalEmail",
-            default="<ACTOR_NOT_FOUND>",
-        )
+        actor = deep_get(event, "protoPayload", "authenticationInfo", "principalEmail", default="<ACTOR_NOT_FOUND>")
         pod_name = deep_get(event, "protoPayload", "resourceName", default="<RESOURCE_NOT_FOUND>")
-        project_id = deep_get(
-            event, "resource", "labels", "project_id", default="<PROJECT_NOT_FOUND>"
-        )
+        project_id = deep_get(event, "resource", "labels", "project_id", default="<PROJECT_NOT_FOUND>")
         return f"[GCP]: [{actor}] created a privileged pod [{pod_name}] in project [{project_id}]"
 
     def alert_context(self, event):
         context = gcp_alert_context(event)
-        containers_info = deep_walk(
-            event, "protoPayload", "response", "spec", "containers", default=[]
-        )
+        containers_info = deep_walk(event, "protoPayload", "response", "spec", "containers", default=[])
         context["pod_security_context"] = [i.get("securityContext") for i in containers_info]
         return context

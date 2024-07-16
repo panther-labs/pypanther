@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import crowdstrike_process_alert_context, deep_get
 
 crowdstrike_macos_osascript_administrator_tests: list[RuleTest] = [
@@ -64,9 +64,7 @@ crowdstrike_macos_osascript_administrator_tests: list[RuleTest] = [
                 "abcde098654321xyz",
             ],
             "p_any_sha1_hashes": ["0000000000000000000000000000000000000000"],
-            "p_any_sha256_hashes": [
-                "fc708414b7e7c0df8d7711d0362b4dbd79a45fba65bdc646848fa8f50e9035de"
-            ],
+            "p_any_sha256_hashes": ["fc708414b7e7c0df8d7711d0362b4dbd79a45fba65bdc646848fa8f50e9035de"],
             "p_any_trace_ids": ["1234abcdefghijklmnop", "abcde098654321xyz"],
             "p_event_time": "2023-05-26 17:59:17.235",
             "p_log_type": "Crowdstrike.FDREvent",
@@ -140,9 +138,7 @@ crowdstrike_macos_osascript_administrator_tests: list[RuleTest] = [
                 "abcde098654321xyz",
             ],
             "p_any_sha1_hashes": ["0000000000000000000000000000000000000000"],
-            "p_any_sha256_hashes": [
-                "fc708414b7e7c0df8d7711d0362b4dbd79a45fba65bdc646848fa8f50e9035de"
-            ],
+            "p_any_sha256_hashes": ["fc708414b7e7c0df8d7711d0362b4dbd79a45fba65bdc646848fa8f50e9035de"],
             "p_any_trace_ids": ["1234abcdefghijklmnop", "abcde098654321xyz"],
             "p_event_time": "2023-05-26 17:59:17.235",
             "p_log_type": "Crowdstrike.FDREvent",
@@ -216,9 +212,7 @@ crowdstrike_macos_osascript_administrator_tests: list[RuleTest] = [
                 "abcde098654321xyz",
             ],
             "p_any_sha1_hashes": ["0000000000000000000000000000000000000000"],
-            "p_any_sha256_hashes": [
-                "fc708414b7e7c0df8d7711d0362b4dbd79a45fba65bdc646848fa8f50e9035de"
-            ],
+            "p_any_sha256_hashes": ["fc708414b7e7c0df8d7711d0362b4dbd79a45fba65bdc646848fa8f50e9035de"],
             "p_any_trace_ids": ["1234abcdefghijklmnop", "abcde098654321xyz"],
             "p_event_time": "2023-05-26 17:59:17.235",
             "p_log_type": "Crowdstrike.FDREvent",
@@ -292,9 +286,7 @@ crowdstrike_macos_osascript_administrator_tests: list[RuleTest] = [
                 "abcde098654321xyz",
             ],
             "p_any_sha1_hashes": ["0000000000000000000000000000000000000000"],
-            "p_any_sha256_hashes": [
-                "fc708414b7e7c0df8d7711d0362b4dbd79a45fba65bdc646848fa8f50e9035de"
-            ],
+            "p_any_sha256_hashes": ["fc708414b7e7c0df8d7711d0362b4dbd79a45fba65bdc646848fa8f50e9035de"],
             "p_any_trace_ids": ["1234abcdefghijklmnop", "abcde098654321xyz"],
             "p_event_time": "2023-05-26 17:59:17.235",
             "p_log_type": "Crowdstrike.FDREvent",
@@ -368,9 +360,7 @@ crowdstrike_macos_osascript_administrator_tests: list[RuleTest] = [
                 "abcde098654321xyz",
             ],
             "p_any_sha1_hashes": ["0000000000000000000000000000000000000000"],
-            "p_any_sha256_hashes": [
-                "fc708414b7e7c0df8d7711d0362b4dbd79a45fba65bdc646848fa8f50e9035de"
-            ],
+            "p_any_sha256_hashes": ["fc708414b7e7c0df8d7711d0362b4dbd79a45fba65bdc646848fa8f50e9035de"],
             "p_any_trace_ids": ["1234abcdefghijklmnop", "abcde098654321xyz"],
             "p_event_time": "2023-05-26 17:59:17.235",
             "p_log_type": "Crowdstrike.FDREvent",
@@ -389,9 +379,7 @@ class CrowdstrikeMacosOsascriptAdministrator(Rule):
     display_name = "CrowdStrike MacOS Osascript as Administrator"
     default_description = "Detects usage of osascript with administrator privileges"
     id = "Crowdstrike.Macos.Osascript.Administrator-prototype"
-    default_reference = (
-        "https://www.sentinelone.com/blog/how-offensive-actors-use-applescript-for-attacking-macos/"
-    )
+    default_reference = "https://www.sentinelone.com/blog/how-offensive-actors-use-applescript-for-attacking-macos/"
     default_severity = Severity.MEDIUM
     log_types = [LogType.Crowdstrike_FDREvent]
     tests = crowdstrike_macos_osascript_administrator_tests
@@ -399,9 +387,7 @@ class CrowdstrikeMacosOsascriptAdministrator(Rule):
     def rule(self, event):
         event_platform = deep_get(event, "event_platform", default="<UNKNOWN_PLATFORM>")
         event_simplename = deep_get(event, "event_simplename", default="<UNKNOWN_EVENT_SIMPLENAME>")
-        image_filename = deep_get(
-            event, "event", "ImageFileName", default="<UNKNOWN_IMAGE_FILE_NAME>"
-        )
+        image_filename = deep_get(event, "event", "ImageFileName", default="<UNKNOWN_IMAGE_FILE_NAME>")
         command_line = deep_get(event, "event", "CommandLine", default="<UNKNOWN_COMMAND_LINE>")
         return all(
             [

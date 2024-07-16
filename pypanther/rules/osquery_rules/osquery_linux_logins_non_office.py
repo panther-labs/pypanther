@@ -1,6 +1,6 @@
 import ipaddress
 
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 
 osquery_linux_login_from_non_office_tests: list[RuleTest] = [

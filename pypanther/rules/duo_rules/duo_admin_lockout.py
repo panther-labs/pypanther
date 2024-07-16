@@ -1,6 +1,6 @@
 import json
 
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 
 duo_admin_lockout_tests: list[RuleTest] = [
     RuleTest(

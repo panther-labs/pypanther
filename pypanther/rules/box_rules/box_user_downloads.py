@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 
 box_large_number_downloads_tests: list[RuleTest] = [
@@ -48,12 +48,8 @@ class BoxLargeNumberDownloads(Rule):
     tags = ["Box", "Exfiltration:Exfiltration Over Web Service"]
     reports = {"MITRE ATT&CK": ["TA0010:T1567"]}
     default_severity = Severity.LOW
-    default_description = (
-        "A user has exceeded the threshold for number of downloads within a single time frame.\n"
-    )
-    default_reference = (
-        "https://support.box.com/hc/en-us/articles/360043697134-Download-Files-and-Folders-from-Box"
-    )
+    default_description = "A user has exceeded the threshold for number of downloads within a single time frame.\n"
+    default_reference = "https://support.box.com/hc/en-us/articles/360043697134-Download-Files-and-Folders-from-Box"
     default_runbook = "Investigate whether this user's download activity is expected.  Investigate the cause of this download activity.\n"
     summary_attributes = ["ip_address"]
     threshold = 100

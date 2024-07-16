@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import defang_ioc, is_base64
 
 standard_dns_base64_tests: list[RuleTest] = [
@@ -214,7 +214,9 @@ standard_dns_base64_tests: list[RuleTest] = [
 
 class StandardDNSBase64(Rule):
     display_name = "DNS Base64 Encoded Query"
-    default_description = "Detects DNS queries with Base64 encoded subdomains, which could indicate an attempt to obfuscate data exfil."
+    default_description = (
+        "Detects DNS queries with Base64 encoded subdomains, which could indicate an attempt to obfuscate data exfil."
+    )
     id = "Standard.DNSBase64-prototype"
     enabled = False
     default_reference = "https://zofixer.com/what-is-base64-disclosure-vulnerability/"

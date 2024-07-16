@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 from pypanther.helpers.panther_snyk_helpers import snyk_alert_context
 
@@ -68,13 +68,9 @@ class SnykOrgSettings(Rule):
     display_name = "Snyk Org Settings"
     log_types = [LogType.Snyk_GroupAudit, LogType.Snyk_OrgAudit]
     tags = ["Snyk"]
-    default_reference = (
-        "https://docs.snyk.io/snyk-admin/manage-settings/organization-general-settings"
-    )
+    default_reference = "https://docs.snyk.io/snyk-admin/manage-settings/organization-general-settings"
     default_severity = Severity.MEDIUM
-    default_description = (
-        "Detects when Snyk Organization settings, like Integrations and Webhooks, are changed\n"
-    )
+    default_description = "Detects when Snyk Organization settings, like Integrations and Webhooks, are changed\n"
     summary_attributes = ["event"]
     tests = snyk_org_settings_tests
     ACTIONS = [

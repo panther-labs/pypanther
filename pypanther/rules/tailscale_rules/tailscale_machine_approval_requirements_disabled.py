@@ -1,9 +1,6 @@
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
-from pypanther.helpers.panther_tailscale_helpers import (
-    is_tailscale_admin_console_event,
-    tailscale_alert_context,
-)
+from pypanther.helpers.panther_tailscale_helpers import is_tailscale_admin_console_event, tailscale_alert_context
 
 tailscale_machine_approval_requirements_disabled_tests: list[RuleTest] = [
     RuleTest(
@@ -90,15 +87,9 @@ class TailscaleMachineApprovalRequirementsDisabled(Rule):
 
     def rule(self, event):
         action = deep_get(event, "event", "action", default="<NO_ACTION_FOUND>")
-        target_property = deep_get(
-            event, "event", "target", "property", default="<NO_TARGET_PROPERTY_FOUND>"
-        )
+        target_property = deep_get(event, "event", "target", "property", default="<NO_TARGET_PROPERTY_FOUND>")
         return all(
-            [
-                action == "DISABLE",
-                target_property == "MACHINE_APPROVAL_NEEDED",
-                is_tailscale_admin_console_event(event),
-            ]
+            [action == "DISABLE", target_property == "MACHINE_APPROVAL_NEEDED", is_tailscale_admin_console_event(event)]
         )
 
     def title(self, event):

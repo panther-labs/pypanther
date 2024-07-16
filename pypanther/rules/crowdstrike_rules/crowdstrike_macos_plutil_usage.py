@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import crowdstrike_process_alert_context, deep_get
 
 crowdstrike_macos_plutil_usage_tests: list[RuleTest] = [
@@ -58,15 +58,9 @@ crowdstrike_macos_plutil_usage_tests: list[RuleTest] = [
             "id": "59c9d5fb-b9b7-43a3-913f-6df72d9e1969",
             "name": "ProcessRollup2MacV9",
             "p_any_ip_addresses": ["1.2.3.4"],
-            "p_any_md5_hashes": [
-                "1234abcdefghijklmnop",
-                "5a29b1ee210395604829dafd744a8039",
-                "abcde098654321xyz",
-            ],
+            "p_any_md5_hashes": ["1234abcdefghijklmnop", "5a29b1ee210395604829dafd744a8039", "abcde098654321xyz"],
             "p_any_sha1_hashes": ["0000000000000000000000000000000000000000"],
-            "p_any_sha256_hashes": [
-                "fc708414b7e7c0df8d7711d0362b4dbd79a45fba65bdc646848fa8f50e9035de"
-            ],
+            "p_any_sha256_hashes": ["fc708414b7e7c0df8d7711d0362b4dbd79a45fba65bdc646848fa8f50e9035de"],
             "p_any_trace_ids": ["1234abcdefghijklmnop", "abcde098654321xyz"],
             "p_event_time": "2023-05-26 17:59:17.235",
             "p_log_type": "Crowdstrike.FDREvent",
@@ -134,15 +128,9 @@ crowdstrike_macos_plutil_usage_tests: list[RuleTest] = [
             "id": "59c9d5fb-b9b7-43a3-913f-6df72d9e1969",
             "name": "ProcessRollup2MacV9",
             "p_any_ip_addresses": ["1.2.3.4"],
-            "p_any_md5_hashes": [
-                "1234abcdefghijklmnop",
-                "5a29b1ee210395604829dafd744a8039",
-                "abcde098654321xyz",
-            ],
+            "p_any_md5_hashes": ["1234abcdefghijklmnop", "5a29b1ee210395604829dafd744a8039", "abcde098654321xyz"],
             "p_any_sha1_hashes": ["0000000000000000000000000000000000000000"],
-            "p_any_sha256_hashes": [
-                "fc708414b7e7c0df8d7711d0362b4dbd79a45fba65bdc646848fa8f50e9035de"
-            ],
+            "p_any_sha256_hashes": ["fc708414b7e7c0df8d7711d0362b4dbd79a45fba65bdc646848fa8f50e9035de"],
             "p_any_trace_ids": ["1234abcdefghijklmnop", "abcde098654321xyz"],
             "p_event_time": "2023-05-26 17:59:17.235",
             "p_log_type": "Crowdstrike.FDREvent",
@@ -210,15 +198,9 @@ crowdstrike_macos_plutil_usage_tests: list[RuleTest] = [
             "id": "59c9d5fb-b9b7-43a3-913f-6df72d9e1969",
             "name": "ProcessRollup2MacV9",
             "p_any_ip_addresses": ["1.2.3.4"],
-            "p_any_md5_hashes": [
-                "1234abcdefghijklmnop",
-                "5a29b1ee210395604829dafd744a8039",
-                "abcde098654321xyz",
-            ],
+            "p_any_md5_hashes": ["1234abcdefghijklmnop", "5a29b1ee210395604829dafd744a8039", "abcde098654321xyz"],
             "p_any_sha1_hashes": ["0000000000000000000000000000000000000000"],
-            "p_any_sha256_hashes": [
-                "fc708414b7e7c0df8d7711d0362b4dbd79a45fba65bdc646848fa8f50e9035de"
-            ],
+            "p_any_sha256_hashes": ["fc708414b7e7c0df8d7711d0362b4dbd79a45fba65bdc646848fa8f50e9035de"],
             "p_any_trace_ids": ["1234abcdefghijklmnop", "abcde098654321xyz"],
             "p_event_time": "2023-05-26 17:59:17.235",
             "p_log_type": "Crowdstrike.FDREvent",
@@ -286,15 +268,9 @@ crowdstrike_macos_plutil_usage_tests: list[RuleTest] = [
             "id": "59c9d5fb-b9b7-43a3-913f-6df72d9e1969",
             "name": "ProcessRollup2MacV9",
             "p_any_ip_addresses": ["1.2.3.4"],
-            "p_any_md5_hashes": [
-                "1234abcdefghijklmnop",
-                "5a29b1ee210395604829dafd744a8039",
-                "abcde098654321xyz",
-            ],
+            "p_any_md5_hashes": ["1234abcdefghijklmnop", "5a29b1ee210395604829dafd744a8039", "abcde098654321xyz"],
             "p_any_sha1_hashes": ["0000000000000000000000000000000000000000"],
-            "p_any_sha256_hashes": [
-                "fc708414b7e7c0df8d7711d0362b4dbd79a45fba65bdc646848fa8f50e9035de"
-            ],
+            "p_any_sha256_hashes": ["fc708414b7e7c0df8d7711d0362b4dbd79a45fba65bdc646848fa8f50e9035de"],
             "p_any_trace_ids": ["1234abcdefghijklmnop", "abcde098654321xyz"],
             "p_event_time": "2023-05-26 17:59:17.235",
             "p_log_type": "Crowdstrike.FDREvent",
@@ -320,23 +296,12 @@ class CrowdstrikeMacosPlutilUsage(Rule):
 
     def rule(self, event):
         command_line = deep_get(event, "event", "CommandLine", default="<UNKNOWN_COMMAND_LINE>")
-        if (
-            command_line
-            == "plutil -convert binary1 /Library/Preferences/com.tinyspeck.slackmacgap.plist"
-        ):
+        if command_line == "plutil -convert binary1 /Library/Preferences/com.tinyspeck.slackmacgap.plist":
             return False
         event_platform = deep_get(event, "event_platform", default="<UNKNOWN_PLATFORM>")
         fdr_event_type = deep_get(event, "fdr_event_type", default="<UNKNOWN_FDR_EVENT_TYPE>")
-        image_filename = deep_get(
-            event, "event", "ImageFileName", default="<UNKNOWN_IMAGE_FILE_NAME>"
-        )
-        return all(
-            [
-                event_platform == "Mac",
-                fdr_event_type == "ProcessRollup2",
-                image_filename == "/usr/bin/plutil",
-            ]
-        )
+        image_filename = deep_get(event, "event", "ImageFileName", default="<UNKNOWN_IMAGE_FILE_NAME>")
+        return all([event_platform == "Mac", fdr_event_type == "ProcessRollup2", image_filename == "/usr/bin/plutil"])
 
     def title(self, event):
         aid = event.get("aid", "<UNKNOWN_AID>")

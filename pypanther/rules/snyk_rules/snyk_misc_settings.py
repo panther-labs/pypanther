@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 from pypanther.helpers.panther_snyk_helpers import snyk_alert_context
 
@@ -36,9 +36,7 @@ class SnykMiscSettings(Rule):
     tags = ["Snyk"]
     default_reference = "https://docs.snyk.io/snyk-admin/manage-settings"
     default_severity = Severity.LOW
-    default_description = (
-        "Detects when Snyk settings that lack a clear security impact are changed\n"
-    )
+    default_description = "Detects when Snyk settings that lack a clear security impact are changed\n"
     summary_attributes = ["event"]
     tests = snyk_misc_settings_tests
     ACTIONS = ["group.cloud_config.settings.edit", "group.feature_flags.edit"]

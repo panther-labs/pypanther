@@ -376,12 +376,8 @@ class GSuiteDriveVisibilityChanged(Rule):
     reports = {"MITRE ATT&CK": ["TA0009:T1213"]}
     default_severity = Severity.LOW
     default_description = "A Google drive resource became externally accessible.\n"
-    default_reference = (
-        "https://support.google.com/a/users/answer/12380484?hl=en&sjid=864417124752637253-EU"
-    )
-    default_runbook = (
-        "Investigate whether the drive document is appropriate to be publicly accessible.\n"
-    )
+    default_reference = "https://support.google.com/a/users/answer/12380484?hl=en&sjid=864417124752637253-EU"
+    default_runbook = "Investigate whether the drive document is appropriate to be publicly accessible.\n"
     summary_attributes = ["actor:email"]
     dedup_period_minutes = 360
     tests = g_suite_drive_visibility_changed_tests
@@ -430,9 +426,7 @@ class GSuiteDriveVisibilityChanged(Rule):
     def user_is_external(self, target_user):
         # We need to type-cast ALLOWED_DOMAINS for unit testing mocks
         if isinstance(self.ALLOWED_DOMAINS, MagicMock):
-            self.ALLOWED_DOMAINS = set(
-                json.loads(self.ALLOWED_DOMAINS())
-            )  # pylint: disable=not-callable
+            self.ALLOWED_DOMAINS = set(json.loads(self.ALLOWED_DOMAINS()))  # pylint: disable=not-callable
         for domain in self.ALLOWED_DOMAINS:
             if domain in target_user:
                 return False
@@ -456,29 +450,18 @@ class GSuiteDriveVisibilityChanged(Rule):
         change_document_visibility = False
         # We need to type-cast ALLOWED_DOMAINS for unit testing mocks
         if isinstance(self.ALLOWED_DOMAINS, MagicMock):
-            self.ALLOWED_DOMAINS = set(
-                json.loads(self.ALLOWED_DOMAINS())
-            )  # pylint: disable=not-callable
+            self.ALLOWED_DOMAINS = set(json.loads(self.ALLOWED_DOMAINS()))  # pylint: disable=not-callable
         for details in event.get("events", [{}]):
             if (
                 details.get("type") == "acl_change"
                 and details.get("name") == "change_document_visibility"
                 and (param_lookup(details.get("parameters", {}), "new_value") != ["private"])
-                and (
-                    not param_lookup(details.get("parameters", {}), "target_domain")
-                    in self.ALLOWED_DOMAINS
-                )
+                and (param_lookup(details.get("parameters", {}), "target_domain") not in self.ALLOWED_DOMAINS)
                 and (param_lookup(details.get("parameters", {}), "visibility") in self.VISIBILITY)
             ):
-                self.ALERT_DETAILS[log]["TARGET_DOMAIN"] = param_lookup(
-                    details.get("parameters", {}), "target_domain"
-                )
-                self.ALERT_DETAILS[log]["NEW_VISIBILITY"] = param_lookup(
-                    details.get("parameters", {}), "visibility"
-                )
-                self.ALERT_DETAILS[log]["DOC_TITLE"] = param_lookup(
-                    details.get("parameters", {}), "doc_title"
-                )
+                self.ALERT_DETAILS[log]["TARGET_DOMAIN"] = param_lookup(details.get("parameters", {}), "target_domain")
+                self.ALERT_DETAILS[log]["NEW_VISIBILITY"] = param_lookup(details.get("parameters", {}), "visibility")
+                self.ALERT_DETAILS[log]["DOC_TITLE"] = param_lookup(details.get("parameters", {}), "doc_title")
                 change_document_visibility = True
                 break
         # "change_document_visibility" events are always paired with
@@ -491,9 +474,7 @@ class GSuiteDriveVisibilityChanged(Rule):
                     and details.get("name") == "change_document_access_scope"
                     and (param_lookup(details.get("parameters", {}), "new_value") != ["none"])
                 ):
-                    self.ALERT_DETAILS[log]["ACCESS_SCOPE"] = param_lookup(
-                        details.get("parameters", {}), "new_value"
-                    )
+                    self.ALERT_DETAILS[log]["ACCESS_SCOPE"] = param_lookup(details.get("parameters", {}), "new_value")
             return True
         #########
         # for visibility changes that apply to a user
@@ -506,9 +487,7 @@ class GSuiteDriveVisibilityChanged(Rule):
                 details.get("type") == "acl_change"
                 and details.get("name") == "change_user_access"
                 and (param_lookup(details.get("parameters", {}), "new_value") != ["none"])
-                and self.user_is_external(
-                    param_lookup(details.get("parameters", {}), "target_user")
-                )
+                and self.user_is_external(param_lookup(details.get("parameters", {}), "target_user"))
             ):
                 if self.ALERT_DETAILS[log]["TARGET_USER_EMAILS"] != ["<UNKNOWN_USER>"]:
                     self.ALERT_DETAILS[log]["TARGET_USER_EMAILS"].append(
@@ -518,12 +497,8 @@ class GSuiteDriveVisibilityChanged(Rule):
                     self.ALERT_DETAILS[log]["TARGET_USER_EMAILS"] = [
                         param_lookup(details.get("parameters", {}), "target_user")
                     ]
-                    self.ALERT_DETAILS[log]["DOC_TITLE"] = param_lookup(
-                        details.get("parameters", {}), "doc_title"
-                    )
-                    self.ALERT_DETAILS[log]["ACCESS_SCOPE"] = param_lookup(
-                        details.get("parameters", {}), "new_value"
-                    )
+                    self.ALERT_DETAILS[log]["DOC_TITLE"] = param_lookup(details.get("parameters", {}), "doc_title")
+                    self.ALERT_DETAILS[log]["ACCESS_SCOPE"] = param_lookup(details.get("parameters", {}), "new_value")
                 change_user_access = True
         return change_user_access
 
@@ -554,9 +529,7 @@ class GSuiteDriveVisibilityChanged(Rule):
         else:
             sharing_scope = f"the {self.ALERT_DETAILS[log]['TARGET_DOMAIN']} domain"
             if self.ALERT_DETAILS[log]["NEW_VISIBILITY"] == "people_within_domain_with_link":
-                sharing_scope += (
-                    f" (anyone in {self.ALERT_DETAILS[log]['TARGET_DOMAIN']} with the link)"
-                )
+                sharing_scope += f" (anyone in {self.ALERT_DETAILS[log]['TARGET_DOMAIN']} with the link)"
             elif self.ALERT_DETAILS[log]["NEW_VISIBILITY"] == "public_in_the_domain":
                 sharing_scope += f" (anyone in {self.ALERT_DETAILS[log]['TARGET_DOMAIN']})"
         # alert_access_scope = ALERT_DETAILS[log]["ACCESS_SCOPE"][0].replace("can_", "")

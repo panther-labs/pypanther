@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 
 git_hub_user_access_key_created_tests: list[RuleTest] = [
     RuleTest(

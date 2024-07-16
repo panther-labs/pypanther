@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.gcp_base_helpers import gcp_alert_context
 from pypanther.helpers.panther_base_helpers import deep_get
 
@@ -335,9 +335,7 @@ class GCPcomputeinstancescreatePrivilegeEscalation(Rule):
     default_description = "Detects compute.instances.create method for privilege escalation in GCP."
     display_name = "GCP compute.instances.create Privilege Escalation"
     id = "GCP.compute.instances.create.Privilege.Escalation-prototype"
-    default_reference = (
-        "https://rhinosecuritylabs.com/gcp/privilege-escalation-google-cloud-platform-part-1/"
-    )
+    default_reference = "https://rhinosecuritylabs.com/gcp/privilege-escalation-google-cloud-platform-part-1/"
     default_runbook = "Confirm this was authorized and necessary behavior."
     reports = {"MITRE ATT&CK": ["TA0004:T1548"]}
     default_severity = Severity.HIGH

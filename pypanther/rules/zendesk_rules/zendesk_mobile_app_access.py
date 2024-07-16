@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import ZENDESK_CHANGE_DESCRIPTION
 
 zendesk_mobile_app_access_updated_tests: list[RuleTest] = [
@@ -69,9 +69,7 @@ class ZendeskMobileAppAccessUpdated(Rule):
     tags = ["Zendesk", "Persistence:Valid Accounts"]
     reports = {"MITRE ATT&CK": ["TA0003:T1078"]}
     default_severity = Severity.MEDIUM
-    default_description = (
-        "A user updated account setting that enabled or disabled mobile app access."
-    )
+    default_description = "A user updated account setting that enabled or disabled mobile app access."
     default_reference = "https://support.zendesk.com/hc/en-us/articles/4408846407066-About-the-Zendesk-Support-mobile-app#:~:text=More%20settings.-,Configuring%20the%20mobile%20app,-Activate%20the%20new"
     summary_attributes = ["p_any_ip_addresses"]
     tests = zendesk_mobile_app_access_updated_tests

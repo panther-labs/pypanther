@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.gcp_base_helpers import gcp_alert_context
 from pypanther.helpers.panther_base_helpers import deep_get, deep_walk
 
@@ -8,9 +8,7 @@ gcpk8s_new_daemonset_deployed_tests: list[RuleTest] = [
         expected_result=True,
         log={
             "protoPayload": {
-                "authorizationInfo": [
-                    {"granted": True, "permission": "io.k8s.apps.v1.daemonsets.create"}
-                ],
+                "authorizationInfo": [{"granted": True, "permission": "io.k8s.apps.v1.daemonsets.create"}],
                 "methodName": "v2.deploymentmanager.deployments.insert",
                 "serviceName": "deploymentmanager.googleapis.com",
             },
@@ -28,9 +26,7 @@ gcpk8s_new_daemonset_deployed_tests: list[RuleTest] = [
         expected_result=False,
         log={
             "protoPayload": {
-                "authorizationInfo": [
-                    {"granted": False, "permission": "io.k8s.apps.v1.daemonsets.create"}
-                ],
+                "authorizationInfo": [{"granted": False, "permission": "io.k8s.apps.v1.daemonsets.create"}],
                 "methodName": "v2.deploymentmanager.deployments.insert",
                 "serviceName": "deploymentmanager.googleapis.com",
             },
@@ -62,25 +58,14 @@ class GCPK8sNewDaemonsetDeployed(Rule):
         if not authorization_info:
             return False
         for auth in authorization_info:
-            if (
-                auth.get("permission") == "io.k8s.apps.v1.daemonsets.create"
-                and auth.get("granted") is True
-            ):
+            if auth.get("permission") == "io.k8s.apps.v1.daemonsets.create" and auth.get("granted") is True:
                 return True
         return False
 
     def title(self, event):
-        actor = deep_get(
-            event,
-            "protoPayload",
-            "authenticationInfo",
-            "principalEmail",
-            default="<ACTOR_NOT_FOUND>",
-        )
+        actor = deep_get(event, "protoPayload", "authenticationInfo", "principalEmail", default="<ACTOR_NOT_FOUND>")
         operation = deep_get(event, "protoPayload", "methodName", default="<OPERATION_NOT_FOUND>")
-        project_id = deep_get(
-            event, "resource", "labels", "project_id", default="<PROJECT_NOT_FOUND>"
-        )
+        project_id = deep_get(event, "resource", "labels", "project_id", default="<PROJECT_NOT_FOUND>")
         return f"[GCP]: [{actor}] performed [{operation}] on project [{project_id}]"
 
     def alert_context(self, event):

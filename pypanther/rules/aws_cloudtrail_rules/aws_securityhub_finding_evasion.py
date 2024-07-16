@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import aws_rule_context
 
 aws_security_hub_finding_evasion_tests: list[RuleTest] = [
@@ -16,11 +16,7 @@ aws_security_hub_finding_evasion_tests: list[RuleTest] = [
             "readOnly": False,
             "recipientAccountId": "012345678901",
             "requestID": "c0fffccd-f04d-11e8-93fc-ddcd14710066",
-            "requestParameters": {
-                "Filters": {},
-                "Name": "Test Insight",
-                "ResultField": "ResourceId",
-            },
+            "requestParameters": {"Filters": {}, "Name": "Test Insight", "ResultField": "ResourceId"},
             "responseElements": {
                 "InsightArn": "arn:aws:securityhub:us-west-2:0123456789010:insight/custom/f4c4890b-ac6b-4c26-95f9-e62cc46f3055"
             },
@@ -50,11 +46,7 @@ aws_security_hub_finding_evasion_tests: list[RuleTest] = [
             "readOnly": False,
             "recipientAccountId": "012345678901",
             "requestID": "c0fffccd-f04d-11e8-93fc-ddcd14710066",
-            "requestParameters": {
-                "Filters": {},
-                "Name": "Test Insight",
-                "ResultField": "ResourceId",
-            },
+            "requestParameters": {"Filters": {}, "Name": "Test Insight", "ResultField": "ResourceId"},
             "responseElements": {
                 "InsightArn": "arn:aws:securityhub:us-west-2:0123456789010:insight/custom/f4c4890b-ac6b-4c26-95f9-e62cc46f3055"
             },
@@ -84,11 +76,7 @@ aws_security_hub_finding_evasion_tests: list[RuleTest] = [
             "readOnly": False,
             "recipientAccountId": "012345678901",
             "requestID": "c0fffccd-f04d-11e8-93fc-ddcd14710066",
-            "requestParameters": {
-                "Filters": {},
-                "Name": "Test Insight",
-                "ResultField": "ResourceId",
-            },
+            "requestParameters": {"Filters": {}, "Name": "Test Insight", "ResultField": "ResourceId"},
             "responseElements": {
                 "InsightArn": "arn:aws:securityhub:us-west-2:0123456789010:insight/custom/f4c4890b-ac6b-4c26-95f9-e62cc46f3055"
             },
@@ -111,7 +99,9 @@ class AWSSecurityHubFindingEvasion(Rule):
     default_description = "Detections modification of findings in SecurityHub"
     display_name = "AWS SecurityHub Finding Evasion"
     reports = {"MITRE ATT&CK": ["TA0005:T1562"]}
-    default_reference = "https://docs.aws.amazon.com/securityhub/latest/userguide/securityhub-insights-view-take-action.html"
+    default_reference = (
+        "https://docs.aws.amazon.com/securityhub/latest/userguide/securityhub-insights-view-take-action.html"
+    )
     default_severity = Severity.HIGH
     log_types = [LogType.AWS_CloudTrail]
     id = "AWS.SecurityHub.Finding.Evasion-prototype"

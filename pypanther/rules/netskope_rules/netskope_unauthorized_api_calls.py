@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_walk
 
 netskope_unauthorized_api_calls_tests: list[RuleTest] = [
@@ -64,12 +64,12 @@ class NetskopeUnauthorizedAPICalls(Rule):
     tags = ["Netskope", "Configuration Required", "Brute Force"]
     reports = {"MITRE ATT&CK": ["TA0006:T1110"]}
     default_severity = Severity.HIGH
-    default_description = (
-        "Many unauthorized API calls were observed for a user in a short period of time."
-    )
+    default_description = "Many unauthorized API calls were observed for a user in a short period of time."
     threshold = 10
     default_runbook = "An account is making many unauthorized API calls.  This could indicate brute force activity, or expired service account credentials."
-    default_reference = "https://docs.netskope.com/en/netskope-help/data-security/netskope-private-access/private-access-rest-apis/"
+    default_reference = (
+        "https://docs.netskope.com/en/netskope-help/data-security/netskope-private-access/private-access-rest-apis/"
+    )
     tests = netskope_unauthorized_api_calls_tests
 
     def rule(self, event):

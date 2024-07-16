@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_mongodb_helpers import mongodb_alert_context
 
 mongo_db_access_allowed_from_anywhere_tests: list[RuleTest] = [

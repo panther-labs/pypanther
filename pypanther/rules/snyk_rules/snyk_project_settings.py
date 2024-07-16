@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 from pypanther.helpers.panther_snyk_helpers import snyk_alert_context
 
@@ -9,12 +9,7 @@ snyk_project_settings_tests: list[RuleTest] = [
         log={
             "content": {
                 "origin": "github",
-                "target": {
-                    "branch": "some-branch",
-                    "id": 222222222,
-                    "name": "repo-name",
-                    "owner": "github-org",
-                },
+                "target": {"branch": "some-branch", "id": 222222222, "name": "repo-name", "owner": "github-org"},
                 "targetFile": "go.mod",
                 "type": "gomodules",
             },

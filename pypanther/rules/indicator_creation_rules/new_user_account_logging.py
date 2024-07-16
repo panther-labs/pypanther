@@ -85,7 +85,9 @@ class StandardNewUserAccountCreated(Rule):
     default_severity = Severity.INFO
     reports = {"MITRE ATT&CK": ["TA0003:T1136"]}
     default_description = "A new account was created"
-    default_runbook = "A new user account was created, ensure it was created through standard practice and is for a valid purpose."
+    default_runbook = (
+        "A new user account was created, ensure it was created through standard practice and is for a valid purpose."
+    )
     default_reference = "https://attack.mitre.org/techniques/T1136/001/"
     summary_attributes = ["p_any_usernames"]
     tests = standard_new_user_account_created_tests
@@ -101,9 +103,7 @@ class StandardNewUserAccountCreated(Rule):
         event_time = resolve_timestamp_string(event.get("p_event_time"))
         expiry_time = event_time + self.TTL
         if new_user:
-            put_string_set(
-                new_user + "-" + str(new_account), [user_event_id], expiry_time.strftime("%s")
-            )
+            put_string_set(new_user + "-" + str(new_account), [user_event_id], expiry_time.strftime("%s"))
         return True
 
     def title(self, event):

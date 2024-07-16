@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.gcp_base_helpers import gcp_alert_context
 from pypanther.helpers.panther_base_helpers import deep_get, deep_walk
 
@@ -14,10 +14,7 @@ gcpk8s_pod_attached_to_node_host_network_tests: list[RuleTest] = [
                     "resource": "core/v1/namespaces/default/pods/nginx-test",
                 }
             ],
-            "protoPayload": {
-                "methodName": "io.k8s.core.v1.pods.create",
-                "request": {"spec": {"hostNetwork": True}},
-            },
+            "protoPayload": {"methodName": "io.k8s.core.v1.pods.create", "request": {"spec": {"hostNetwork": True}}},
         },
     ),
     RuleTest(
@@ -31,10 +28,7 @@ gcpk8s_pod_attached_to_node_host_network_tests: list[RuleTest] = [
                     "resource": "core/v1/namespaces/default/pods/nginx-test",
                 }
             ],
-            "protoPayload": {
-                "methodName": "io.k8s.core.v1.pods.create",
-                "request": {"spec": {"hostNetwork": False}},
-            },
+            "protoPayload": {"methodName": "io.k8s.core.v1.pods.create", "request": {"spec": {"hostNetwork": False}}},
         },
     ),
 ]
@@ -65,16 +59,8 @@ class GCPK8sPodAttachedToNodeHostNetwork(Rule):
         return True
 
     def title(self, event):
-        actor = deep_get(
-            event,
-            "protoPayload",
-            "authenticationInfo",
-            "principalEmail",
-            default="<ACTOR_NOT_FOUND>",
-        )
-        project_id = deep_get(
-            event, "resource", "labels", "project_id", default="<PROJECT_NOT_FOUND>"
-        )
+        actor = deep_get(event, "protoPayload", "authenticationInfo", "principalEmail", default="<ACTOR_NOT_FOUND>")
+        project_id = deep_get(event, "resource", "labels", "project_id", default="<PROJECT_NOT_FOUND>")
         return f"[GCP]: [{actor}] created or modified pod which is attached to the host's network in project [{project_id}]"
 
     def alert_context(self, event):

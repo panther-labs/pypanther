@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 
 gcp_workforce_pool_createdor_updated_tests: list[RuleTest] = [
     RuleTest(
@@ -183,7 +183,9 @@ class GCPWorkforcePoolCreatedorUpdated(Rule):
     reports = {"MITRE ATT&CK": ["TA0003:T1136.003", "TA0003:T1098.003", "TA0004:T1098.003"]}
     default_severity = Severity.HIGH
     default_runbook = "Ensure that the Workforce Pool creation or modification was expected. Adversaries may use this to persist or allow additional access or escalate their privilege.\n"
-    default_reference = "https://medium.com/google-cloud/detection-of-inbound-sso-persistence-techniques-in-gcp-c56f7b2a588b"
+    default_reference = (
+        "https://medium.com/google-cloud/detection-of-inbound-sso-persistence-techniques-in-gcp-c56f7b2a588b"
+    )
     tests = gcp_workforce_pool_createdor_updated_tests
     METHODS = [
         "google.iam.admin.v1.WorkforcePools.CreateWorkforcePool",
@@ -194,17 +196,13 @@ class GCPWorkforcePoolCreatedorUpdated(Rule):
         return event.deep_get("protoPayload", "methodName", default="") in self.METHODS
 
     def title(self, event):
-        actor = event.deep_get(
-            "protoPayload", "authenticationInfo", "principalEmail", default="<ACTOR_NOT_FOUND>"
-        )
-        workforce_pool = event.deep_get(
-            "protoPayload", "request", "workforcePool", "name", default=""
-        ).split("/")[-1]
-        resource = organization_id = event.deep_get(
-            "logName", default="<LOG_NAME_NOT_FOUND>"
-        ).split("/")
+        actor = event.deep_get("protoPayload", "authenticationInfo", "principalEmail", default="<ACTOR_NOT_FOUND>")
+        workforce_pool = event.deep_get("protoPayload", "request", "workforcePool", "name", default="").split("/")[-1]
+        resource = organization_id = event.deep_get("logName", default="<LOG_NAME_NOT_FOUND>").split("/")
         organization_id = resource[resource.index("organizations") + 1]
-        return f"GCP: [{actor}] created or updated workforce pool [{workforce_pool}] in organization [{organization_id}]"
+        return (
+            f"GCP: [{actor}] created or updated workforce pool [{workforce_pool}] in organization [{organization_id}]"
+        )
 
     def alert_context(self, event):
         return event.deep_get("protoPayload", "request", "workforcePool", default={})

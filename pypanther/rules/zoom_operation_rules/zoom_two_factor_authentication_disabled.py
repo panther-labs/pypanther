@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 
 zoom_two_factor_authentication_disabled_tests: list[RuleTest] = [
     RuleTest(
@@ -40,7 +40,9 @@ zoom_two_factor_authentication_disabled_tests: list[RuleTest] = [
 class ZoomTwoFactorAuthenticationDisabled(Rule):
     default_description = "A Zoom User disabled your organization's setting to sign in with Two-Factor Authentication."
     display_name = "Zoom Two Factor Authentication Disabled"
-    default_runbook = "Confirm this user acted with valid business intent and determine whether this activity was authorized."
+    default_runbook = (
+        "Confirm this user acted with valid business intent and determine whether this activity was authorized."
+    )
     default_reference = "https://support.zoom.com/hc/en/article?id=zm_kb&sysparm_article=KB0066054"
     default_severity = Severity.MEDIUM
     log_types = [LogType.Zoom_Operation]

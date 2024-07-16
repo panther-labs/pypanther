@@ -100,10 +100,7 @@ def filter_kwargs(
     return [
         x
         for x in iterable
-        if all(
-            __to_set(getattr(x, key, set())).intersection(__to_set(values))
-            for key, values in kwargs.items()
-        )
+        if all(__to_set(getattr(x, key, set())).intersection(__to_set(values)) for key, values in kwargs.items())
     ]
 
 

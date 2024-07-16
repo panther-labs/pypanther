@@ -408,9 +408,7 @@ class TestRule(TestCase):
             def dedup(self, event):
                 return "".join("a" for _ in range(MAX_DEDUP_STRING_SIZE + 1))
 
-        expected_dedup_string_prefix = "".join(
-            "a" for _ in range(MAX_DEDUP_STRING_SIZE - len(TRUNCATED_STRING_SUFFIX))
-        )
+        expected_dedup_string_prefix = "".join("a" for _ in range(MAX_DEDUP_STRING_SIZE - len(TRUNCATED_STRING_SUFFIX)))
         expected_rule = DetectionResult(
             detection_id="test_restrict_dedup_size",
             trigger_alert=True,
@@ -813,9 +811,7 @@ class TestRule(TestCase):
                 return test_dict
 
         expected_alert_context = json.dumps(
-            {
-                "_error": "alert_context size is [5588890] characters, bigger than maximum of [204800] characters"
-            }
+            {"_error": "alert_context size is [5588890] characters, bigger than maximum of [204800] characters"}
         )
         expected_result = DetectionResult(
             detection_id="test_alert_context_too_big",
@@ -853,9 +849,7 @@ class TestRule(TestCase):
             "query_string_args": [{"a": "1"}, {"b": "2"}],
         }
 
-        expected_alert_context = json.dumps(
-            {"headers": event["headers"], "get_params": event["query_string_args"]}
-        )
+        expected_alert_context = json.dumps({"headers": event["headers"], "get_params": event["query_string_args"]})
         expected_result = DetectionResult(
             detection_id="test_alert_context_immutable_event",
             trigger_alert=True,
@@ -989,9 +983,7 @@ class TestRule(TestCase):
             destinations_output=["SKIP"],
         )
         result = rule().run(PantherEvent({}, None), {}, {}, batch_mode=False)
-        self.assertDetectionResultEqual(
-            expected_result, result, fields_as_string=("severity_exception",)
-        )
+        self.assertDetectionResultEqual(expected_result, result, fields_as_string=("severity_exception",))
         self.assertTrue(result.errored)
 
     def test_rule_with_valid_severity_case_insensitive(self) -> None:
@@ -1107,9 +1099,7 @@ class TestRule(TestCase):
             dedup_output="test_rule_with_invalid_destinations_type",
             severity_output="CRITICAL",
             destinations_exception=FunctionReturnTypeError(
-                "detection [{}] method [{}] returned [{}], expected a list".format(
-                    rule.id, "destinations", "str"
-                )
+                "detection [{}] method [{}] returned [{}], expected a list".format(rule.id, "destinations", "str")
             ),
             destinations_output=None,
             detection_output=True,
@@ -1120,9 +1110,7 @@ class TestRule(TestCase):
             runbook_output="",
         )
         result = rule().run(PantherEvent({}, None), {}, {}, batch_mode=False)
-        self.assertDetectionResultEqual(
-            expected_result, result, fields_as_string=("destinations_exception",)
-        )
+        self.assertDetectionResultEqual(expected_result, result, fields_as_string=("destinations_exception",))
         self.assertTrue(result.errored)
         self.assertIsNotNone(result.destinations_exception)
 
@@ -1160,9 +1148,7 @@ class TestRule(TestCase):
         assert True is result.errored
         assert None is not result.severity_exception
         # Exception instances cannot be compared
-        self.assertDetectionResultEqual(
-            expected_result, result, fields_as_string=("severity_exception",)
-        )
+        self.assertDetectionResultEqual(expected_result, result, fields_as_string=("severity_exception",))
 
     def test_rule_with_severity_raising_exception_batch_mode(self) -> None:
         class rule(Rule):
@@ -1261,11 +1247,7 @@ class TestRule(TestCase):
                     len(cls.allowed_domains) > 0
                 ), "The allowed_domains field on your PantherOOTBRule must be populated before using this rule"
 
-        assert (
-            MyRule()
-            .run_tests(DATA_MODEL_CACHE.data_model_of_logtype, _validate_config=False)[0]
-            .passed
-        )
+        assert MyRule().run_tests(DATA_MODEL_CACHE.data_model_of_logtype, _validate_config=False)[0].passed
 
     def test_validate_external_fails(self) -> None:
         class MyRule(Rule):

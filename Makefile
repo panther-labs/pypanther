@@ -9,11 +9,10 @@ test:
 	poetry run pytest
 
 fmt:
-	poetry run isort .
-	poetry run black .
+	poetry run ruff check --select I --fix .
+	poetry run ruff format .
 
 lint: fmt
-	poetry run ruff check
-	poetry run isort --check .
-	poetry run black --check .
+	poetry run ruff check --fix .
+	poetry run ruff format --check .
 	poetry run mypy .

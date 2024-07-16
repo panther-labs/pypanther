@@ -15,13 +15,9 @@ def build_client(resource, service, region=None):
     fips_enabled = os.getenv("ENABLE_FIPS", "").lower() == "true"
     fips_suffix = "-fips." + PANTHER_MASTER_REGION + ".amazonaws.com"
 
-    sts_connection = boto3.client(
-        "sts", endpoint_url="https://sts" + fips_suffix if fips_enabled else None
-    )
+    sts_connection = boto3.client("sts", endpoint_url="https://sts" + fips_suffix if fips_enabled else None)
 
-    acct_b = sts_connection.assume_role(
-        RoleArn=role_arn, RoleSessionName="lambda_assume_audit_role"
-    )
+    acct_b = sts_connection.assume_role(RoleArn=role_arn, RoleSessionName="lambda_assume_audit_role")
     access_key = acct_b["Credentials"]["AccessKeyId"]
     secret_key = acct_b["Credentials"]["SecretAccessKey"]
     session_token = acct_b["Credentials"]["SessionToken"]

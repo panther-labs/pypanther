@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get, slack_alert_context
 
 slack_audit_logs_legal_hold_policy_modified_tests: list[RuleTest] = [
@@ -154,9 +154,7 @@ class SlackAuditLogsLegalHoldPolicyModified(Rule):
     reports = {"MITRE ATT&CK": ["TA0005:T1562.001"]}
     default_severity = Severity.HIGH
     default_description = "Detects changes to configured legal hold policies"
-    default_reference = (
-        "https://slack.com/intl/en-gb/help/articles/4401830811795-Create-and-manage-legal-holds"
-    )
+    default_reference = "https://slack.com/intl/en-gb/help/articles/4401830811795-Create-and-manage-legal-holds"
     summary_attributes = ["p_any_ip_addresses", "p_any_emails"]
     tests = slack_audit_logs_legal_hold_policy_modified_tests
     LEGAL_HOLD_POLICY_ACTIONS = {
