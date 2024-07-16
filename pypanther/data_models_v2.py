@@ -1,7 +1,7 @@
 import abc
 import dataclasses
 from enum import Enum
-from typing import List
+from typing import List, Optional
 import copy
 
 from pypanther import PantherLogType
@@ -70,6 +70,21 @@ class DataModel(metaclass=abc.ABCMeta):
     @classmethod
     def is_panther_managed(cls) -> bool:
         return cls.__module__.startswith("pypanther")
+
+    @classmethod
+    def override(
+            cls,
+            data_model_id: Optional[str] = None,
+            description: Optional[str] = None,
+            enabled: Optional[bool] = None,
+            fields: Optional[List[Field]] = None,
+    ):
+        for key, val in locals().items():
+            if key == "cls":
+                continue
+
+            if val is not None:
+                setattr(cls, key, val)
 
     def __init_subclass__(cls, **kwargs):
         """Creates a copy of all class attributes to avoid modifications affecting parent.fields.

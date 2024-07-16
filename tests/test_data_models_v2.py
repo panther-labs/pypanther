@@ -44,3 +44,60 @@ def test_data_model_inheritance():
     Test.fields.append(test_field_3)
     assert Test2.fields == [test_field_1, test_field_2]
     assert Test.fields == [test_field_1, test_field_3]
+
+
+def test_override():
+    class Test(DataModel):
+        data_model_id = "old"
+        description = "old description"
+        enabled = True
+        fields = [
+            Field(
+                name="test1",
+                field_type=FieldType.STRING,
+                mappings=[
+                    FieldMapping(log_type="Custom.Test", field_path="field.nested1")
+                ]
+            )
+        ]
+
+    assert Test.data_model_id == "old"
+    assert Test.description == "old description"
+    assert Test.enabled == True
+    assert Test.fields == [
+        Field(
+            name="test1",
+            field_type=FieldType.STRING,
+            mappings=[
+                FieldMapping(log_type="Custom.Test", field_path="field.nested1")
+            ]
+        )
+    ]
+
+    Test.override(
+        data_model_id="new",
+        description="new description",
+        enabled=False,
+        fields=[
+            Field(
+                name="test2",
+                field_type=FieldType.STRING,
+                mappings=[
+                    FieldMapping(log_type="Custom.Test", field_path="field.nested2")
+                ]
+            )
+        ]
+    )
+
+    assert Test.data_model_id == "new"
+    assert Test.description == "new description"
+    assert Test.enabled == False
+    assert Test.fields == [
+        Field(
+            name="test2",
+            field_type=FieldType.STRING,
+            mappings=[
+                FieldMapping(log_type="Custom.Test", field_path="field.nested2")
+            ]
+        )
+    ]
