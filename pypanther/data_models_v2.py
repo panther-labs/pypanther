@@ -59,7 +59,7 @@ class Field:
     """A description of the field."""
 
 
-class DataModel(metaclass=abc.ABCMeta):
+class DataModel(abc.ABC):
     """A Panther data model. This class should be subclassed to create a new Data Model."""
 
     data_model_id: str
