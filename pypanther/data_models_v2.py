@@ -1,11 +1,18 @@
 import abc
+import dataclasses
 from enum import Enum
 from typing import List
 
+from pydantic import BaseModel, TypeAdapter
+
 from pypanther import PantherLogType
 
+"""This file contains data model definitions for the PyPanther package.
+It is still in development and is subject to change.
+"""
 
-class FieldType(Enum, str):
+
+class FieldType(str, Enum):
     """Enumeration of all possible field types."""
     STRING = "string"
     INT = "int"
@@ -19,6 +26,7 @@ class FieldType(Enum, str):
     JSON = "json"
 
 
+@dataclasses.dataclass
 class FieldMapping:
     """Represents a field mapping in a data model."""
     log_type: PantherLogType | str
@@ -36,30 +44,31 @@ class FieldMapping:
         }
 
 
+@dataclasses.dataclass
 class Field:
     """Represents a field in a data model."""
     name: str
-    """The name of the field. This is the key that will be used to access the field in the data model."""
-    description: str = ""
-    """A description of the field."""
-    type_: FieldType
+    field_type: FieldType
     """The type of the field."""
+    """The name of the field. This is the key that will be used to access the field in the data model."""
     mappings: List[FieldMapping]
     """Mappings describe how the data model field is derived from the various log types."""
+    description: str = ""
+    """A description of the field."""
 
     @classmethod
-    def as_dict(cls)-> dict[str, any]:
+    def as_dict(cls) -> dict[str, any]:
         return {
             "name": cls.name,
             "description": cls.description,
-            "type": cls.type_,
+            "field_type": cls.field_type,
             "mappings": [mapping.as_dict() for mapping in cls.mappings]
         }
 
 
 class DataModel(metaclass=abc.ABCMeta):
     """A Panther data model. This class should be subclassed to create a new Data Model."""
-    id_: str
+    data_model_id: str
     """The unique identifier of the data model."""
     description: str = ""
     """A description of the data model."""
@@ -75,8 +84,15 @@ class DataModel(metaclass=abc.ABCMeta):
     @classmethod
     def as_dict(cls) -> dict[str, any]:
         return {
-            "id": cls.id_,
+            "data_model_id": cls.data_model_id,
             "description": cls.description,
             "enabled": cls.enabled,
             "fields": [field.as_dict() for field in cls.fields]
         }
+
+    @classmethod
+    def validate(cls):
+        _data_model_adapter.validate_python(cls.as_dict())
+
+        # instantiation confirms that abstract methods are implemented
+        cls()
