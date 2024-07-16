@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 
 box_large_number_permission_updates_tests: list[RuleTest] = [
@@ -69,10 +69,10 @@ class BoxLargeNumberPermissionUpdates(Rule):
     tags = ["Box", "Privilege Escalation:Abuse Elevation Control Mechanism"]
     reports = {"MITRE ATT&CK": ["TA0004:T1548"]}
     default_severity = Severity.LOW
-    default_description = "A user has exceeded the threshold for number of folder permission changes within a single time frame.\n"
-    default_reference = (
-        "https://support.box.com/hc/en-us/articles/360043697254-Understanding-Folder-Permissions"
+    default_description = (
+        "A user has exceeded the threshold for number of folder permission changes within a single time frame.\n"
     )
+    default_reference = "https://support.box.com/hc/en-us/articles/360043697254-Understanding-Folder-Permissions"
     default_runbook = "Investigate whether this user's activity is expected.\n"
     summary_attributes = ["ip_address"]
     threshold = 100

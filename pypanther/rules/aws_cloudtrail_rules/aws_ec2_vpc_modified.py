@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import aws_rule_context
 from pypanther.helpers.panther_default import aws_cloudtrail_success
 
@@ -188,9 +188,7 @@ class AWSEC2VPCModified(Rule):
     default_severity = Severity.INFO
     dedup_period_minutes = 720
     default_description = "An EC2 VPC was modified."
-    default_runbook = (
-        "https://docs.runpanther.io/alert-runbooks/built-in-rules/aws-ec2-vpc-modified"
-    )
+    default_runbook = "https://docs.runpanther.io/alert-runbooks/built-in-rules/aws-ec2-vpc-modified"
     default_reference = "https://docs.aws.amazon.com/vpc/latest/userguide/configure-your-vpc.html"
     summary_attributes = [
         "eventName",
@@ -216,9 +214,7 @@ class AWSEC2VPCModified(Rule):
     }
 
     def rule(self, event):
-        return (
-            aws_cloudtrail_success(event) and event.get("eventName") in self.EC2_VPC_MODIFIED_EVENTS
-        )
+        return aws_cloudtrail_success(event) and event.get("eventName") in self.EC2_VPC_MODIFIED_EVENTS
 
     def dedup(self, event):
         return event.get("recipientAccountId")

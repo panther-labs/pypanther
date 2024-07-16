@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_duo_helpers import duo_alert_context
 
 duo_admin_mfa_restrictions_updated_tests: list[RuleTest] = [
@@ -28,9 +28,7 @@ duo_admin_mfa_restrictions_updated_tests: list[RuleTest] = [
 
 
 class DuoAdminMFARestrictionsUpdated(Rule):
-    default_description = (
-        "Detects changes to allowed MFA factors administrators can use to log into the admin panel."
-    )
+    default_description = "Detects changes to allowed MFA factors administrators can use to log into the admin panel."
     display_name = "Duo Admin MFA Restrictions Updated"
     default_reference = "https://duo.com/docs/essentials-overview"
     default_severity = Severity.MEDIUM
@@ -42,9 +40,7 @@ class DuoAdminMFARestrictionsUpdated(Rule):
         return event.get("action") == "update_admin_factor_restrictions"
 
     def title(self, event):
-        return (
-            f"Duo Admin MFA Restrictions Updated by [{event.get('username', '<user_not_found>')}]"
-        )
+        return f"Duo Admin MFA Restrictions Updated by [{event.get('username', '<user_not_found>')}]"
 
     def alert_context(self, event):
         return duo_alert_context(event)

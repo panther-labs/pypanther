@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 
 netskope_admin_user_change_tests: list[RuleTest] = [
     RuleTest(
@@ -50,7 +50,9 @@ class NetskopeAdminUserChange(Rule):
     tags = ["Netskope", "Account Manipulation"]
     reports = {"MITRE ATT&CK": ["TA0004:T1098"]}
     default_severity = Severity.HIGH
-    default_reference = "https://docs.netskope.com/en/netskope-help/admin-console/administration/managing-administrators/"
+    default_reference = (
+        "https://docs.netskope.com/en/netskope-help/admin-console/administration/managing-administrators/"
+    )
     default_description = "An administrator account was created, deleted, or modified."
     default_runbook = "An administrator account was created, deleted, or modified.  Validate that this activity is expected and authorized."
     tests = netskope_admin_user_change_tests

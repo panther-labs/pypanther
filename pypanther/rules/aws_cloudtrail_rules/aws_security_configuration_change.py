@@ -1,6 +1,6 @@
 from fnmatch import fnmatch
 
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import aws_rule_context, deep_get
 from pypanther.helpers.panther_default import aws_cloudtrail_success
 
@@ -228,7 +228,9 @@ class AWSCloudTrailSecurityConfigurationChange(Rule):
     reports = {"MITRE ATT&CK": ["TA0005:T1562"]}
     default_description = "An account wide security configuration was changed."
     default_runbook = "Verify that this change was planned. If not, revert the change and update the access control policies to ensure this doesn't happen again.\n"
-    default_reference = "https://docs.aws.amazon.com/prescriptive-guidance/latest/aws-startup-security-baseline/controls-acct.html"
+    default_reference = (
+        "https://docs.aws.amazon.com/prescriptive-guidance/latest/aws-startup-security-baseline/controls-acct.html"
+    )
     summary_attributes = [
         "eventName",
         "userAgent",
@@ -257,9 +259,7 @@ class AWSCloudTrailSecurityConfigurationChange(Rule):
             return False
         for entry in self.ALLOW_LIST:
             if fnmatch(
-                deep_get(
-                    event, "userIdentity", "sessionContext", "sessionIssuer", "userName", default=""
-                ),
+                deep_get(event, "userIdentity", "sessionContext", "sessionIssuer", "userName", default=""),
                 entry["userName"],
             ):
                 if fnmatch(event.get("eventName"), entry["eventName"]):

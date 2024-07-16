@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 
 osquery_mac_osx_attacks_tests: list[RuleTest] = [
     RuleTest(

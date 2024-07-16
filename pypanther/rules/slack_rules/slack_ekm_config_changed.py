@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import slack_alert_context
 
 slack_audit_logs_ekm_config_changed_tests: list[RuleTest] = [
@@ -75,12 +75,8 @@ class SlackAuditLogsEKMConfigChanged(Rule):
     tags = ["Slack", "Defense Evasion", "Impair Defenses", "Disable or Modify Cloud Logs"]
     reports = {"MITRE ATT&CK": ["TA0005:T1562.008"]}
     default_severity = Severity.HIGH
-    default_description = (
-        "Detects when the logging settings for a workspace's EKM configuration has changed"
-    )
-    default_reference = (
-        "https://slack.com/intl/en-gb/help/articles/360019110974-Slack-Enterprise-Key-Management"
-    )
+    default_description = "Detects when the logging settings for a workspace's EKM configuration has changed"
+    default_reference = "https://slack.com/intl/en-gb/help/articles/360019110974-Slack-Enterprise-Key-Management"
     summary_attributes = ["p_any_ip_addresses", "p_any_emails"]
     tests = slack_audit_logs_ekm_config_changed_tests
 

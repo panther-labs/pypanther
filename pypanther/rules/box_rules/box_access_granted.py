@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 
 box_access_granted_tests: list[RuleTest] = [
@@ -33,7 +33,9 @@ class BoxAccessGranted(Rule):
     tags = ["Box"]
     default_severity = Severity.LOW
     default_description = "A user granted access to their box account to Box technical support from account settings.\n"
-    default_reference = "https://support.box.com/hc/en-us/articles/7039943421715-Enabling-and-Disabling-Access-for-Box-Support"
+    default_reference = (
+        "https://support.box.com/hc/en-us/articles/7039943421715-Enabling-and-Disabling-Access-for-Box-Support"
+    )
     default_runbook = "Investigate whether the user purposefully granted access to their account.\n"
     summary_attributes = ["p_any_ip_addresses"]
     tests = box_access_granted_tests

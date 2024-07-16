@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get, deep_walk
 
 gcp_permissions_grantedto_createor_manage_service_account_key_tests: list[RuleTest] = [
@@ -83,9 +83,7 @@ gcp_permissions_grantedto_createor_manage_service_account_key_tests: list[RuleTe
                         "granted": True,
                         "permission": "iam.serviceAccounts.setIamPolicy",
                         "resource": "projects/-/serviceAccounts/105537103139416651075",
-                        "resourceAttributes": {
-                            "name": "projects/-/serviceAccounts/105537103139416651075"
-                        },
+                        "resourceAttributes": {"name": "projects/-/serviceAccounts/105537103139416651075"},
                     }
                 ],
                 "methodName": "google.iam.admin.v1.SetIAMPolicy",
@@ -94,15 +92,11 @@ gcp_permissions_grantedto_createor_manage_service_account_key_tests: list[RuleTe
                     "policy": {
                         "bindings": [
                             {
-                                "members": [
-                                    "serviceAccount:test-account3@gcp-project1.iam.gserviceaccount.com"
-                                ],
+                                "members": ["serviceAccount:test-account3@gcp-project1.iam.gserviceaccount.com"],
                                 "role": "roles/iam.serviceAccountTokenCreator",
                             },
                             {
-                                "members": [
-                                    "serviceAccount:test-account3@gcp-project1.iam.gserviceaccount.com"
-                                ],
+                                "members": ["serviceAccount:test-account3@gcp-project1.iam.gserviceaccount.com"],
                                 "role": "roles/iam.serviceAccountUser",
                             },
                         ],
@@ -122,15 +116,11 @@ gcp_permissions_grantedto_createor_manage_service_account_key_tests: list[RuleTe
                     "@type": "type.googleapis.com/google.iam.v1.Policy",
                     "bindings": [
                         {
-                            "members": [
-                                "serviceAccount:test-account3@gcp-project1.iam.gserviceaccount.com"
-                            ],
+                            "members": ["serviceAccount:test-account3@gcp-project1.iam.gserviceaccount.com"],
                             "role": "roles/iam.serviceAccountTokenCreator",
                         },
                         {
-                            "members": [
-                                "serviceAccount:test-account3@gcp-project1.iam.gserviceaccount.com"
-                            ],
+                            "members": ["serviceAccount:test-account3@gcp-project1.iam.gserviceaccount.com"],
                             "role": "roles/iam.serviceAccountUser",
                         },
                     ],

@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 
 one_login_password_access_tests: list[RuleTest] = [
     RuleTest(
@@ -34,9 +34,7 @@ class OneLoginPasswordAccess(Rule):
     reports = {"MITRE ATT&CK": ["TA0006:T1552"]}
     default_severity = Severity.MEDIUM
     default_description = "User accessed another user's application password\n"
-    default_reference = (
-        "https://onelogin.service-now.com/kb_view_customer.do?sysparm_article=KB0010598"
-    )
+    default_reference = "https://onelogin.service-now.com/kb_view_customer.do?sysparm_article=KB0010598"
     default_runbook = "Investigate whether this was authorized access.\n"
     summary_attributes = ["account_id", "user_name", "user_id"]
     tests = one_login_password_access_tests

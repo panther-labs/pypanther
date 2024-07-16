@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_notion_helpers import notion_alert_context
 
 notion_teamspace_owner_added_tests: list[RuleTest] = [

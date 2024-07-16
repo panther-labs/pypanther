@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import crowdstrike_process_alert_context, is_base64
 
 crowdstrike_base64_encoded_args_tests: list[RuleTest] = [
@@ -560,7 +560,9 @@ class CrowdstrikeBase64EncodedArgs(Rule):
     default_severity = Severity.MEDIUM
     default_description = "Detects the execution of common command line tools (e.g., PowerShell, cmd.exe) with Base64 encoded arguments, which could indicate an attempt to obfuscate malicious commands."
     default_runbook = "Investigate the endpoint for signs of command line tool execution with Base64 encoded arguments. Review the executed command, decode the Base64 string, and analyze the original content."
-    default_reference = "https://www.crowdstrike.com/blog/blocking-fileless-script-based-attacks-using-falcon-script-control-feature/"
+    default_reference = (
+        "https://www.crowdstrike.com/blog/blocking-fileless-script-based-attacks-using-falcon-script-control-feature/"
+    )
     tests = crowdstrike_base64_encoded_args_tests
     DECODED = ""
     # List of command line tools to monitor for execution with Base64 encoded arguments
@@ -591,9 +593,7 @@ class CrowdstrikeBase64EncodedArgs(Rule):
     def title(self, event):
         process_name = event.udm("process_name").lower()
         command_line = event.udm("cmd")
-        return (
-            f"Crowdstrike: Execution with base64 encoded args: [{process_name}] - [{command_line}]"
-        )
+        return f"Crowdstrike: Execution with base64 encoded args: [{process_name}] - [{command_line}]"
 
     def alert_context(self, event):
         context = crowdstrike_process_alert_context(event)

@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 
 asana_workspace_org_export_tests: list[RuleTest] = [
@@ -54,7 +54,9 @@ asana_workspace_org_export_tests: list[RuleTest] = [
 class AsanaWorkspaceOrgExport(Rule):
     default_description = "An Asana user started an org export."
     display_name = "Asana Workspace Org Export"
-    default_runbook = "Confirm this user acted with valid business intent and determine whether this activity was authorized."
+    default_runbook = (
+        "Confirm this user acted with valid business intent and determine whether this activity was authorized."
+    )
     default_reference = "https://help.asana.com/hc/en-us/articles/14139896860955-Privacy-and-security#:~:text=like%20to%20see.-,Full%20export%20of%20an%20organization,-Available%20on%20Asana"
     default_severity = Severity.MEDIUM
     log_types = [LogType.Asana_Audit]
@@ -66,9 +68,5 @@ class AsanaWorkspaceOrgExport(Rule):
 
     def title(self, event):
         actor_email = deep_get(event, "actor", "email", default="<ACTOR_NOT_FOUND>")
-        context_type = deep_get(
-            event, "context", "context_type", default="<CONTEXT_TYPE_NOT_FOUND>"
-        )
-        return (
-            f"Asana user [{actor_email}] started a [{context_type}] export for your organization."
-        )
+        context_type = deep_get(event, "context", "context_type", default="<CONTEXT_TYPE_NOT_FOUND>")
+        return f"Asana user [{actor_email}] started a [{context_type}] export for your organization."

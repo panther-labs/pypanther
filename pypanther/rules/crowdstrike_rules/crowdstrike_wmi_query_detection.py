@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import crowdstrike_detection_alert_context, deep_get
 
 crowdstrike_wmi_query_detection_tests: list[RuleTest] = [
@@ -65,9 +65,7 @@ crowdstrike_wmi_query_detection_tests: list[RuleTest] = [
                 "abcdefghijklmnop123467890",
             ],
             "p_any_sha1_hashes": ["0000000000000000000000000000000000000000"],
-            "p_any_sha256_hashes": [
-                "488e74e2026d03f21b33f470c23b3de2f466643186c2e06ae7b4883cc2e59377"
-            ],
+            "p_any_sha256_hashes": ["488e74e2026d03f21b33f470c23b3de2f466643186c2e06ae7b4883cc2e59377"],
             "p_any_trace_ids": [
                 "4295752857",
                 "1234567890abcdefg654321",
@@ -147,9 +145,7 @@ crowdstrike_wmi_query_detection_tests: list[RuleTest] = [
                 "abcdefghijklmnop123467890",
             ],
             "p_any_sha1_hashes": ["0000000000000000000000000000000000000000"],
-            "p_any_sha256_hashes": [
-                "488e74e2026d03f21b33f470c23b3de2f466643186c2e06ae7b4883cc2e59377"
-            ],
+            "p_any_sha256_hashes": ["488e74e2026d03f21b33f470c23b3de2f466643186c2e06ae7b4883cc2e59377"],
             "p_any_trace_ids": [
                 "4295752857",
                 "1234567890abcdefg654321",
@@ -229,9 +225,7 @@ crowdstrike_wmi_query_detection_tests: list[RuleTest] = [
                 "abcdefghijklmnop123467890",
             ],
             "p_any_sha1_hashes": ["0000000000000000000000000000000000000000"],
-            "p_any_sha256_hashes": [
-                "488e74e2026d03f21b33f470c23b3de2f466643186c2e06ae7b4883cc2e59377"
-            ],
+            "p_any_sha256_hashes": ["488e74e2026d03f21b33f470c23b3de2f466643186c2e06ae7b4883cc2e59377"],
             "p_any_trace_ids": [
                 "4295752857",
                 "1234567890abcdefg654321",
@@ -311,9 +305,7 @@ crowdstrike_wmi_query_detection_tests: list[RuleTest] = [
                 "abcdefghijklmnop123467890",
             ],
             "p_any_sha1_hashes": ["0000000000000000000000000000000000000000"],
-            "p_any_sha256_hashes": [
-                "488e74e2026d03f21b33f470c23b3de2f466643186c2e06ae7b4883cc2e59377"
-            ],
+            "p_any_sha256_hashes": ["488e74e2026d03f21b33f470c23b3de2f466643186c2e06ae7b4883cc2e59377"],
             "p_any_trace_ids": [
                 "4295752857",
                 "1234567890abcdefg654321",
@@ -354,10 +346,7 @@ class CrowdstrikeWMIQueryDetection(Rule):
     def rule(self, event):
         if deep_get(event, "event", "event_simpleName") == "ProcessRollup2":
             if deep_get(event, "event", "event_platform") == "Win":
-                if (
-                    deep_get(event, "event", "ImageFileName", default="").split("\\")[-1]
-                    == "wmic.exe"
-                ):
+                if deep_get(event, "event", "ImageFileName", default="").split("\\")[-1] == "wmic.exe":
                     command_line = deep_get(event, "event", "CommandLine", default="")
                     for signature in self.WMIC_SIGNATURES:
                         if signature in command_line:

@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 
 git_hub_org_auth_change_tests: list[RuleTest] = [
     RuleTest(
@@ -38,7 +38,9 @@ class GitHubOrgAuthChange(Rule):
     summary_attributes = ["actor", "action"]
     default_description = "Detects changes to GitHub org authentication changes."
     default_runbook = "Verify that the GitHub admin performed this activity and validate its use."
-    default_reference = "https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/about-authentication-to-github"
+    default_reference = (
+        "https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/about-authentication-to-github"
+    )
     tests = git_hub_org_auth_change_tests
     AUTH_CHANGE_EVENTS = [
         "org.saml_disabled",

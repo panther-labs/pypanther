@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 from pypanther.helpers.panther_config import config
 
@@ -79,9 +79,7 @@ class GSuiteExternalMailForwarding(Rule):
     reports = {"MITRE ATT&CK": ["TA0009:T1114"]}
     default_severity = Severity.HIGH
     default_description = "A user has configured mail forwarding to an external domain\n"
-    default_reference = (
-        "https://support.google.com/mail/answer/10957?hl=en&sjid=864417124752637253-EU"
-    )
+    default_reference = "https://support.google.com/mail/answer/10957?hl=en&sjid=864417124752637253-EU"
     default_runbook = "Follow up with user to remove this forwarding rule if not allowed.\n"
     summary_attributes = ["p_any_emails"]
     tests = g_suite_external_mail_forwarding_tests

@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import aws_rule_context
 
 awsiam_group_read_only_events_tests: list[RuleTest] = [
@@ -246,7 +246,9 @@ awsiam_group_read_only_events_tests: list[RuleTest] = [
 
 
 class AWSIAMGroupReadOnlyEvents(Rule):
-    default_description = "This rule captures multiple read/list events related to IAM group management in AWS Cloudtrail."
+    default_description = (
+        "This rule captures multiple read/list events related to IAM group management in AWS Cloudtrail."
+    )
     display_name = "AWS IAM Group Read Only Events"
     enabled = False
     default_reference = "https://attack.mitre.org/techniques/T1069/"

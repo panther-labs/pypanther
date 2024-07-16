@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import aws_rule_context
 
 awsrds_snapshot_shared_tests: list[RuleTest] = [
@@ -116,11 +116,11 @@ class AWSRDSSnapshotShared(Rule):
     tags = ["AWS", "Exfiltration", "Transfer Data to Cloud Account"]
     default_severity = Severity.HIGH
     reports = {"MITRE ATT&CK": ["TA0010:T1537"]}
-    default_description = "An RDS snapshot was shared with another account. This could be an indicator of exfiltration.\n"
-    default_runbook = "Ensure that the snapshot was shared intentionally and with an approved account. If not, remove the snapshot and quarantine the compromised IAM user.\n"
-    default_reference = (
-        "https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_ShareSnapshot.html"
+    default_description = (
+        "An RDS snapshot was shared with another account. This could be an indicator of exfiltration.\n"
     )
+    default_runbook = "Ensure that the snapshot was shared intentionally and with an approved account. If not, remove the snapshot and quarantine the compromised IAM user.\n"
+    default_reference = "https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_ShareSnapshot.html"
     summary_attributes = ["eventSource", "recipientAccountId", "awsRegion", "p_any_aws_arns"]
     tests = awsrds_snapshot_shared_tests
 

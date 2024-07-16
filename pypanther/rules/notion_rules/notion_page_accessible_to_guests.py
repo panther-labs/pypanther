@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 from pypanther.helpers.panther_notion_helpers import notion_alert_context
 
@@ -73,9 +73,7 @@ class NotionPagePermsGuestPermsChanged(Rule):
     tags = ["Notion", "Data Security", "Information Disclosure"]
     default_severity = Severity.LOW
     default_description = "The external guest permissions for a Notion page have been altered."
-    default_runbook = (
-        "Potential information exposure - review the shared page and rectify if needed."
-    )
+    default_runbook = "Potential information exposure - review the shared page and rectify if needed."
     default_reference = "https://www.notion.so/help/sharing-and-permissions"
     tests = notion_page_perms_guest_perms_changed_tests
     # These event types correspond to users adding or editing the default role on a public page

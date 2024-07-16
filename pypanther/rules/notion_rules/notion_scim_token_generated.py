@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_notion_helpers import notion_alert_context
 
 notion_workspace_scim_token_generated_tests: list[RuleTest] = [

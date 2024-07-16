@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 
 netskope_netskope_personnel_activity_tests: list[RuleTest] = [
     RuleTest(
@@ -51,9 +51,7 @@ class NetskopeNetskopePersonnelActivity(Rule):
     reports = {"MITRE ATT&CK": ["TA0001:T1195"]}
     default_severity = Severity.MEDIUM
     default_description = "An action was performed by Netskope personnel."
-    default_runbook = (
-        "Action taken by Netskope Personnel.  Validate that this action was authorized."
-    )
+    default_runbook = "Action taken by Netskope Personnel.  Validate that this action was authorized."
     default_reference = "https://docs.netskope.com/en/netskope-help/admin-console/administration/audit-log/#filters-1"
     tests = netskope_netskope_personnel_activity_tests
 

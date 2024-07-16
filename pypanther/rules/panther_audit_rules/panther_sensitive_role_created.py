@@ -1,5 +1,5 @@
 import pypanther.helpers.panther_event_type_helpers as event_type
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 
 panther_sensitive_role_tests: list[RuleTest] = [
@@ -148,9 +148,7 @@ class PantherSensitiveRole(Rule):
     default_severity = Severity.HIGH
     tags = ["DataModel", "Persistence:Account Manipulation"]
     reports = {"MITRE ATT&CK": ["TA0003:T1098"]}
-    default_description = (
-        "A Panther user role has been created that contains admin level permissions."
-    )
+    default_description = "A Panther user role has been created that contains admin level permissions."
     default_runbook = "Contact the creator of this role to ensure its creation was appropriate."
     default_reference = "https://docs.panther.com/system-configuration/rbac"
     summary_attributes = ["p_any_ip_addresses"]

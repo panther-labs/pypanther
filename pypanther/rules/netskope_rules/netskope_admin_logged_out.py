@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 
 netskope_admin_logged_out_login_failures_tests: list[RuleTest] = [
     RuleTest(
@@ -52,9 +52,7 @@ class NetskopeAdminLoggedOutLoginFailures(Rule):
     default_severity = Severity.MEDIUM
     default_description = "An admin was logged out because of successive login failures."
     default_runbook = "An admin was logged out because of successive login failures.  This could indicate brute force activity against this account."
-    default_reference = (
-        "https://docs.netskope.com/en/netskope-help/admin-console/administration/audit-log/"
-    )
+    default_reference = "https://docs.netskope.com/en/netskope-help/admin-console/administration/audit-log/"
     tests = netskope_admin_logged_out_login_failures_tests
 
     def rule(self, event):

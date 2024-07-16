@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 
 sentinel_one_threats_tests: list[RuleTest] = [
@@ -109,9 +109,7 @@ sentinel_one_threats_tests: list[RuleTest] = [
 class SentinelOneThreats(Rule):
     default_description = "Passthrough SentinelOne Threats "
     display_name = "SentinelOne Threats"
-    default_reference = (
-        "https://www.sentinelone.com/blog/feature-spotlight-introducing-the-new-threat-center/"
-    )
+    default_reference = "https://www.sentinelone.com/blog/feature-spotlight-introducing-the-new-threat-center/"
     default_severity = Severity.HIGH
     log_types = [LogType.SentinelOne_Activity]
     id = "SentinelOne.Threats-prototype"

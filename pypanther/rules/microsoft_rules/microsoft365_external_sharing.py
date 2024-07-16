@@ -1,7 +1,7 @@
 import re
 from fnmatch import fnmatch
 
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import m365_alert_context
 
 microsoft365_external_document_sharing_tests: list[RuleTest] = [

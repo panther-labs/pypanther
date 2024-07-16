@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import box_parse_additional_details, deep_get
 
 box_malicious_content_tests: list[RuleTest] = [
@@ -52,7 +52,9 @@ class BoxMaliciousContent(Rule):
     default_severity = Severity.HIGH
     default_description = "Box has detect malicious content, such as a virus.\n"
     default_reference = "https://developer.box.com/guides/events/shield-alert-events/\n"
-    default_runbook = "Investigate whether this is a false positive or if the virus needs to be contained appropriately.\n"
+    default_runbook = (
+        "Investigate whether this is a false positive or if the virus needs to be contained appropriately.\n"
+    )
     summary_attributes = ["event_type"]
     tests = box_malicious_content_tests
 

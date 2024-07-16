@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 
 github_repo_visibility_change_tests: list[RuleTest] = [
     RuleTest(

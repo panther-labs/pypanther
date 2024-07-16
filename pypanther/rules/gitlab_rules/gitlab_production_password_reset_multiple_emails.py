@@ -1,6 +1,6 @@
 from panther_core.immutable import ImmutableList
 
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 
 git_lab_production_password_reset_multiple_emails_tests: list[RuleTest] = [

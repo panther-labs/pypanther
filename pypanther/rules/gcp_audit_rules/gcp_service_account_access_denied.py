@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.gcp_base_helpers import gcp_alert_context
 from pypanther.helpers.panther_base_helpers import deep_walk
 
@@ -132,7 +132,9 @@ class GCPServiceAccountAccessDenied(Rule):
     log_types = [LogType.GCP_AuditLog]
     tags = ["GCP", "Service Account", "Access"]
     default_description = "This rule detects deletions of GCP Log Buckets or Sinks.\n"
-    default_runbook = "Ensure that the bucket or sink deletion was expected. Adversaries may do this to cover their tracks.\n"
+    default_runbook = (
+        "Ensure that the bucket or sink deletion was expected. Adversaries may do this to cover their tracks.\n"
+    )
     default_reference = "https://cloud.google.com/iam/docs/service-account-overview"
     tests = gcp_service_account_access_denied_tests
 

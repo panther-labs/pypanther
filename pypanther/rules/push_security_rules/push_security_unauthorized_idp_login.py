@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 
 push_security_unauthorized_id_p_login_tests: list[RuleTest] = [
     RuleTest(
@@ -98,7 +98,9 @@ class PushSecurityUnauthorizedIdPLogin(Rule):
     tags = ["Configuration Required"]
     log_types = [LogType.PushSecurity_Activity]
     default_severity = Severity.HIGH
-    default_description = "Login to application with unauthorized identity provider which could indicate a SAMLjacking attack."
+    default_description = (
+        "Login to application with unauthorized identity provider which could indicate a SAMLjacking attack."
+    )
     default_reference = "https://github.com/pushsecurity/saas-attacks/blob/main/techniques/samljacking/description.md"
     tests = push_security_unauthorized_id_p_login_tests
     # Configure allowed identity provider logins to SaaS apps

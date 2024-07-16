@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get, deep_walk
 
 gcp_access_attempts_violating_vpc_service_controls_tests: list[RuleTest] = [
@@ -164,9 +164,7 @@ gcp_access_attempts_violating_vpc_service_controls_tests: list[RuleTest] = [
 class GCPAccessAttemptsViolatingVPCServiceControls(Rule):
     default_description = "An access attempt violating VPC service controls (such as Perimeter controls) has been made."
     display_name = "GCP Access Attempts Violating VPC Service Controls"
-    default_reference = (
-        "https://cloud.google.com/vpc-service-controls/docs/troubleshooting#debugging"
-    )
+    default_reference = "https://cloud.google.com/vpc-service-controls/docs/troubleshooting#debugging"
     default_severity = Severity.MEDIUM
     log_types = [LogType.GCP_AuditLog]
     id = "GCP.Access.Attempts.Violating.VPC.Service.Controls-prototype"

@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 
 one_login_threshold_accounts_deleted_tests: list[RuleTest] = [
     RuleTest(
@@ -33,9 +33,7 @@ class OneLoginThresholdAccountsDeleted(Rule):
     tags = ["OneLogin", "Impact:Account Access Removal"]
     default_severity = Severity.MEDIUM
     reports = {"MITRE ATT&CK": ["TA0040:T1531"]}
-    default_description = (
-        "Possible Denial of Service detected. Threshold for user account deletions exceeded.\n"
-    )
+    default_description = "Possible Denial of Service detected. Threshold for user account deletions exceeded.\n"
     threshold = 10
     dedup_period_minutes = 10
     default_reference = "https://en.wikipedia.org/wiki/Denial-of-service_attack"
@@ -48,4 +46,6 @@ class OneLoginThresholdAccountsDeleted(Rule):
         return str(event.get("event_type_id")) == "17"
 
     def title(self, event):
-        return f"User [{event.get('actor_user_name', '<UNKNOWN_USER>')}] has exceeded the user account deletion threshold"
+        return (
+            f"User [{event.get('actor_user_name', '<UNKNOWN_USER>')}] has exceeded the user account deletion threshold"
+        )

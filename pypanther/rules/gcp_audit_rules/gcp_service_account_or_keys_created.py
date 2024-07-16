@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 
 gcp_service_accountor_keys_created_tests: list[RuleTest] = [
@@ -26,9 +26,7 @@ gcp_service_accountor_keys_created_tests: list[RuleTest] = [
                         "granted": True,
                         "permission": "iam.serviceAccountKeys.create",
                         "resource": "projects/-/serviceAccounts/123456789098765434567",
-                        "resourceAttributes": {
-                            "name": "projects/-/serviceAccounts/123456789098765434567"
-                        },
+                        "resourceAttributes": {"name": "projects/-/serviceAccounts/123456789098765434567"},
                     }
                 ],
                 "methodName": "google.iam.admin.v1.CreateServiceAccountKey",
@@ -202,7 +200,9 @@ gcp_service_accountor_keys_created_tests: list[RuleTest] = [
 
 
 class GCPServiceAccountorKeysCreated(Rule):
-    default_description = "Detects when a service account or key is created manually by a user instead of an automated workflow."
+    default_description = (
+        "Detects when a service account or key is created manually by a user instead of an automated workflow."
+    )
     display_name = "GCP Service Account or Keys Created "
     default_reference = "https://cloud.google.com/iam/docs/keys-create-delete"
     default_severity = Severity.LOW
@@ -215,9 +215,9 @@ class GCPServiceAccountorKeysCreated(Rule):
             [
                 deep_get(event, "resource", "type", default="") == "service_account",
                 "CreateServiceAccount" in deep_get(event, "protoPayload", "methodName", default=""),
-                not deep_get(
-                    event, "protoPayload", "authenticationInfo", "principalEmail", default=""
-                ).endswith(".gserviceaccount.com"),
+                not deep_get(event, "protoPayload", "authenticationInfo", "principalEmail", default="").endswith(
+                    ".gserviceaccount.com"
+                ),
             ]
         )
 

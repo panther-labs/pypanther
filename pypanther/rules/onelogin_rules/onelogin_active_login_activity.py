@@ -2,7 +2,7 @@ from datetime import timedelta
 
 from panther_detection_helpers.caching import add_to_string_set, get_string_set, put_string_set
 
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import is_ip_in_network
 
 one_login_active_login_activity_tests: list[RuleTest] = [

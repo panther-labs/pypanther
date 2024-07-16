@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import github_alert_context
 
 github_public_repository_created_tests: list[RuleTest] = [
@@ -38,9 +38,7 @@ github_public_repository_created_tests: list[RuleTest] = [
 class GithubPublicRepositoryCreated(Rule):
     default_description = "A public Github repository was created."
     display_name = "Github Public Repository Created"
-    default_runbook = (
-        "Confirm this github repository was intended to be created as 'public' versus 'private'."
-    )
+    default_runbook = "Confirm this github repository was intended to be created as 'public' versus 'private'."
     default_reference = "https://docs.github.com/en/get-started/quickstart/create-a-repo"
     default_severity = Severity.MEDIUM
     tags = ["Github Repository", "Public", "Repository Created"]

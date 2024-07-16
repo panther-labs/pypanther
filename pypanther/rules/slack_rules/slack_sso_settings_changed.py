@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import slack_alert_context
 
 slack_audit_logs_sso_settings_changed_tests: list[RuleTest] = [
@@ -76,9 +76,7 @@ class SlackAuditLogsSSOSettingsChanged(Rule):
     reports = {"MITRE ATT&CK": ["TA0003:T1556", "TA0006:T1556"]}
     default_severity = Severity.HIGH
     default_description = "Detects changes to Single Sign On (SSO) restrictions"
-    default_reference = (
-        "https://slack.com/intl/en-gb/help/articles/220403548-Manage-single-sign-on-settings"
-    )
+    default_reference = "https://slack.com/intl/en-gb/help/articles/220403548-Manage-single-sign-on-settings"
     summary_attributes = ["p_any_ip_addresses", "p_any_emails"]
     tests = slack_audit_logs_sso_settings_changed_tests
 

@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import aws_rule_context
 from pypanther.helpers.panther_default import aws_cloudtrail_success
 
@@ -149,10 +149,7 @@ class AWSConfigServiceDisabledDeleted(Rule):
     CONFIG_SERVICE_DISABLE_DELETE_EVENTS = {"StopConfigurationRecorder", "DeleteDeliveryChannel"}
 
     def rule(self, event):
-        return (
-            aws_cloudtrail_success(event)
-            and event.get("eventName") in self.CONFIG_SERVICE_DISABLE_DELETE_EVENTS
-        )
+        return aws_cloudtrail_success(event) and event.get("eventName") in self.CONFIG_SERVICE_DISABLE_DELETE_EVENTS
 
     def alert_context(self, event):
         return aws_rule_context(event)

@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 
 decoy_s3_accessed_tests: list[RuleTest] = [
     RuleTest(

@@ -1,6 +1,6 @@
 import datetime
 
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get, pattern_match, pattern_match_list
 
 g_suite_drive_external_file_share_tests: list[RuleTest] = [
@@ -128,7 +128,9 @@ class GSuiteDriveExternalFileShare(Rule):
     default_severity = Severity.HIGH
     default_description = "An employee shared a sensitive file externally with another organization"
     default_runbook = "Contact the employee who made the share and make sure they redact the access. If the share was legitimate, add to the EXCEPTION_PATTERNS in the detection.\n"
-    default_reference = "https://support.google.com/docs/answer/2494822?hl=en&co=GENIE.Platform%3DiOS&sjid=864417124752637253-EU"
+    default_reference = (
+        "https://support.google.com/docs/answer/2494822?hl=en&co=GENIE.Platform%3DiOS&sjid=864417124752637253-EU"
+    )
     tests = g_suite_drive_external_file_share_tests
     COMPANY_DOMAIN = "your-company-name.com"
     # The glob pattern for the document title (lowercased)
@@ -151,10 +153,7 @@ class GSuiteDriveExternalFileShare(Rule):
     }
 
     def _check_acl_change_event(self, actor_email, acl_change_event):
-        parameters = {
-            p.get("name", ""): p.get("value") or p.get("multiValue")
-            for p in acl_change_event["parameters"]
-        }
+        parameters = {p.get("name", ""): p.get("value") or p.get("multiValue") for p in acl_change_event["parameters"]}
         doc_title = parameters.get("doc_title", "TITLE_UNKNOWN")
         old_visibility = parameters.get("old_visibility", "OLD_VISIBILITY_UNKNOWN")
         new_visibility = parameters.get("visibility", "NEW_VISIBILITY_UNKNOWN")
@@ -185,18 +184,9 @@ class GSuiteDriveExternalFileShare(Rule):
         application_name = deep_get(event, "id", "applicationName")
         events = event.get("events")
         actor_email = deep_get(event, "actor", "email", default="EMAIL_UNKNOWN")
-        if (
-            application_name == "drive"
-            and events
-            and ("acl_change" in set((e["type"] for e in events)))
-        ):
+        if application_name == "drive" and events and ("acl_change" in set((e["type"] for e in events))):
             # If any of the events in this record are a dangerous file share, alert:
-            return any(
-                (
-                    self._check_acl_change_event(actor_email, acl_change_event)
-                    for acl_change_event in events
-                )
-            )
+            return any((self._check_acl_change_event(actor_email, acl_change_event) for acl_change_event in events))
         return False
 
     def title(self, event):

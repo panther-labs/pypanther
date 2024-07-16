@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import box_parse_additional_details, deep_get
 
 box_shield_anomalous_download_tests: list[RuleTest] = [

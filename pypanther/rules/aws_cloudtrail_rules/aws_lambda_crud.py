@@ -1,6 +1,6 @@
 from fnmatch import fnmatch
 
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import aws_rule_context, deep_get
 
 awslambdacrud_tests: list[RuleTest] = [
@@ -125,10 +125,7 @@ class AWSLAMBDACRUD(Rule):
     ALLOWED_ROLES = ["*DeployRole"]
 
     def rule(self, event):
-        if (
-            event.get("eventSource") == "lambda.amazonaws.com"
-            and event.get("eventName") in self.LAMBDA_CRUD_EVENTS
-        ):
+        if event.get("eventSource") == "lambda.amazonaws.com" and event.get("eventName") in self.LAMBDA_CRUD_EVENTS:
             for role in self.ALLOWED_ROLES:
                 if fnmatch(deep_get(event, "userIdentity", "arn", default="unknown-arn"), role):
                     return False

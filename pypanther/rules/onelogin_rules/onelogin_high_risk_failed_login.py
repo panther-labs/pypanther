@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 
 one_login_high_risk_failed_login_tests: list[RuleTest] = [
     RuleTest(
@@ -33,9 +33,7 @@ class OneLoginHighRiskFailedLogin(Rule):
     log_types = [LogType.OneLogin_Events]
     tags = ["OneLogin"]
     default_severity = Severity.LOW
-    default_description = (
-        "A OneLogin attempt with a high risk factor (>50) resulted in a failed authentication."
-    )
+    default_description = "A OneLogin attempt with a high risk factor (>50) resulted in a failed authentication."
     default_reference = "https://resources.onelogin.com/OneLogin_RiskBasedAuthentication-WP-v5.pdf"
     default_runbook = "Investigate why this user login is tagged as high risk as well as whether this was caused by expected user activity."
     summary_attributes = ["account_id", "user_name", "user_id"]
@@ -49,6 +47,4 @@ class OneLoginHighRiskFailedLogin(Rule):
         return False
 
     def title(self, event):
-        return (
-            f"A user [{event.get('user_name', '<UNKNOWN_USER>')}] failed a high risk login attempt"
-        )
+        return f"A user [{event.get('user_name', '<UNKNOWN_USER>')}] failed a high risk login attempt"

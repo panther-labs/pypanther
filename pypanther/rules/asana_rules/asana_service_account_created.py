@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 
 asana_service_account_created_tests: list[RuleTest] = [
@@ -77,7 +77,9 @@ asana_service_account_created_tests: list[RuleTest] = [
 class AsanaServiceAccountCreated(Rule):
     default_description = "An Asana service account was created by someone in your organization."
     display_name = "Asana Service Account Created"
-    default_runbook = "Confirm this user acted with valid business intent and determine whether this activity was authorized."
+    default_runbook = (
+        "Confirm this user acted with valid business intent and determine whether this activity was authorized."
+    )
     default_reference = "https://help.asana.com/hc/en-us/articles/14217496838427-Service-Accounts"
     default_severity = Severity.MEDIUM
     log_types = [LogType.Asana_Audit]

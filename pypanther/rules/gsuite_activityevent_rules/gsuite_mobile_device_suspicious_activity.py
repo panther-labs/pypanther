@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 
 g_suite_device_suspicious_activity_tests: list[RuleTest] = [
@@ -34,9 +34,7 @@ class GSuiteDeviceSuspiciousActivity(Rule):
     tags = ["GSuite"]
     default_severity = Severity.LOW
     default_description = "GSuite reported a suspicious activity on a user's device.\n"
-    default_reference = (
-        "https://support.google.com/a/answer/7562460?hl=en&sjid=864417124752637253-EU"
-    )
+    default_reference = "https://support.google.com/a/answer/7562460?hl=en&sjid=864417124752637253-EU"
     default_runbook = "Validate that the suspicious activity was expected by the user.\n"
     summary_attributes = ["actor:email"]
     tests = g_suite_device_suspicious_activity_tests

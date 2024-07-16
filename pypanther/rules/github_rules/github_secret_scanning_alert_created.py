@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 
 git_hub_secret_scanning_alert_created_tests: list[RuleTest] = [
     RuleTest(
@@ -59,12 +59,8 @@ class GitHubSecretScanningAlertCreated(Rule):
     reports = {"MITRE ATT&CK": ["TA0006:T1552"]}
     default_severity = Severity.MEDIUM
     default_description = "GitHub detected a secret and created a secret scanning alert."
-    default_runbook = (
-        "Review the secret to determine if it needs to be revoked or the alert suppressed."
-    )
-    default_reference = (
-        "https://docs.github.com/en/code-security/secret-scanning/about-secret-scanning"
-    )
+    default_runbook = "Review the secret to determine if it needs to be revoked or the alert suppressed."
+    default_reference = "https://docs.github.com/en/code-security/secret-scanning/about-secret-scanning"
     tests = git_hub_secret_scanning_alert_created_tests
 
     def rule(self, event):

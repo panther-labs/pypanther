@@ -38,9 +38,7 @@ notion_account_changed_after_login_tests: list[RuleTest] = [
         name="Email Changed Shortly After Login",
         expected_result=True,
         mocks=[
-            RuleMock(
-                object_name="get_string_set", return_value='[\n  "2023-06-12 21:40:28.690000000"\n]'
-            ),
+            RuleMock(object_name="get_string_set", return_value='[\n  "2023-06-12 21:40:28.690000000"\n]'),
             RuleMock(object_name="put_string_set", return_value=""),
         ],
         log={
@@ -86,9 +84,7 @@ notion_account_changed_after_login_tests: list[RuleTest] = [
         name="Password Changed Shortly After Login",
         expected_result=True,
         mocks=[
-            RuleMock(
-                object_name="get_string_set", return_value='[\n  "2023-06-12 21:40:28.690000000"\n]'
-            ),
+            RuleMock(object_name="get_string_set", return_value='[\n  "2023-06-12 21:40:28.690000000"\n]'),
             RuleMock(object_name="put_string_set", return_value=""),
         ],
         log={
@@ -134,9 +130,7 @@ notion_account_changed_after_login_tests: list[RuleTest] = [
         name="Password Added Shortly After Login",
         expected_result=True,
         mocks=[
-            RuleMock(
-                object_name="get_string_set", return_value='[\n  "2023-06-12 21:40:28.690000000"\n]'
-            ),
+            RuleMock(object_name="get_string_set", return_value='[\n  "2023-06-12 21:40:28.690000000"\n]'),
             RuleMock(object_name="put_string_set", return_value=""),
         ],
         log={
@@ -182,9 +176,7 @@ notion_account_changed_after_login_tests: list[RuleTest] = [
         name="Password Removed Shortly After Login",
         expected_result=True,
         mocks=[
-            RuleMock(
-                object_name="get_string_set", return_value='[\n  "2023-06-12 21:40:28.690000000"\n]'
-            ),
+            RuleMock(object_name="get_string_set", return_value='[\n  "2023-06-12 21:40:28.690000000"\n]'),
             RuleMock(object_name="put_string_set", return_value=""),
         ],
         log={
@@ -324,7 +316,9 @@ class NotionAccountChangedAfterLogin(Rule):
     tags = ["Notion", "Identity & Access Management", "Persistence"]
     default_severity = Severity.MEDIUM
     default_description = "A Notion User logged in then changed their account details."
-    default_runbook = "Possible account takeover. Follow up with the Notion User to determine if this email change is genuine."
+    default_runbook = (
+        "Possible account takeover. Follow up with the Notion User to determine if this email change is genuine."
+    )
     default_reference = "https://www.notion.so/help/account-settings"
     tests = notion_account_changed_after_login_tests
     # Length of time in minutes. If a user logs in, then changes their email within this many
@@ -365,9 +359,7 @@ class NotionAccountChangedAfterLogin(Rule):
         # If we made it here, then this is an account change event.
         # We first check if the user recently logged in:
         if last_login := get_string_set(cache_key, force_ttl_check=True):
-            self.LOGIN_TS = list(last_login)[
-                0
-            ]  # Save the last login timestamp for the alert context
+            self.LOGIN_TS = list(last_login)[0]  # Save the last login timestamp for the alert context
             return True
         # If they haven't logged in recently, then return false
         return False

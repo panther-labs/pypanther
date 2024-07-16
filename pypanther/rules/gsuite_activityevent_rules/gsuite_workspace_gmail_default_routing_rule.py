@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 
 g_suite_workspace_gmail_default_routing_rule_modified_tests: list[RuleTest] = [
@@ -129,8 +129,7 @@ class GSuiteWorkspaceGmailDefaultRoutingRuleModified(Rule):
             [
                 event.get("type", "") == "EMAIL_SETTINGS",
                 event.get("name", "").endswith("_GMAIL_SETTING"),
-                deep_get(event, "parameters", "SETTING_NAME", default="")
-                == "MESSAGE_SECURITY_RULE",
+                deep_get(event, "parameters", "SETTING_NAME", default="") == "MESSAGE_SECURITY_RULE",
             ]
         ):
             return True

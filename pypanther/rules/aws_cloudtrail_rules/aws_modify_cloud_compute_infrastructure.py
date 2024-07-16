@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 
 aws_modify_cloud_compute_infrastructure_tests: list[RuleTest] = [
@@ -422,7 +422,9 @@ aws_modify_cloud_compute_infrastructure_tests: list[RuleTest] = [
 
 
 class AWSModifyCloudComputeInfrastructure(Rule):
-    default_description = "Detection when EC2 compute infrastructure is modified outside of expected automation methods."
+    default_description = (
+        "Detection when EC2 compute infrastructure is modified outside of expected automation methods."
+    )
     display_name = "AWS Modify Cloud Compute Infrastructure"
     enabled = False
     default_reference = "https://attack.mitre.org/techniques/T1578/"

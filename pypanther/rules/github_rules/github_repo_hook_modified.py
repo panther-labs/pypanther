@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 
 git_hub_repo_hook_modified_tests: list[RuleTest] = [
     RuleTest(
@@ -47,9 +47,7 @@ class GitHubRepoHookModified(Rule):
     reports = {"MITRE ATT&CK": ["TA0010:T1020"]}
     default_reference = "https://docs.github.com/en/webhooks/about-webhooks"
     default_severity = Severity.INFO
-    default_description = (
-        "Detects when a web hook is added, modified, or deleted in an org repository."
-    )
+    default_description = "Detects when a web hook is added, modified, or deleted in an org repository."
     tests = git_hub_repo_hook_modified_tests
 
     def rule(self, event):

@@ -17,12 +17,7 @@ def get_event_type(event):
     # currently, only tracking a handful of event types
     for delta in get_binding_deltas(event):
         if delta["action"] == "ADD":
-            if any(
-                (
-                    fnmatch(delta.get("role", ""), admin_role_pattern)
-                    for admin_role_pattern in ADMIN_ROLES
-                )
-            ):
+            if any((fnmatch(delta.get("role", ""), admin_role_pattern) for admin_role_pattern in ADMIN_ROLES)):
                 return event_type.ADMIN_ROLE_ASSIGNED
 
     return None
@@ -121,9 +116,7 @@ class StandardGCPAuditLog(DataModel):
     enabled: bool = True
     log_types: list[str] = [LogType.GCP_AuditLog]
     mappings: list[DataModelMapping] = [
-        DataModelMapping(
-            name="actor_user", path="$.protoPayload.authenticationInfo.principalEmail"
-        ),
+        DataModelMapping(name="actor_user", path="$.protoPayload.authenticationInfo.principalEmail"),
         DataModelMapping(name="assigned_admin_role", method=get_iam_roles),
         DataModelMapping(name="event_type", method=get_event_type),
         DataModelMapping(name="source_ip", path="$.protoPayload.requestMetadata.callerIP"),
@@ -138,9 +131,7 @@ class StandardGCPAuditLog(DataModel):
         DataModelMapping(name="responseStatus", path="$.protoPayload.status"),
         DataModelMapping(name="sourceIPs", method=get_source_ips),
         DataModelMapping(name="username", path="$.protoPayload.authenticationInfo.principalEmail"),
-        DataModelMapping(
-            name="userAgent", path="$.protoPayload.requestMetadata.callerSuppliedUserAgent"
-        ),
+        DataModelMapping(name="userAgent", path="$.protoPayload.requestMetadata.callerSuppliedUserAgent"),
         DataModelMapping(name="verb", method=get_verb),
         DataModelMapping(name="requestObject", path="$.protoPayload.request"),
         DataModelMapping(name="responseObject", path="$.protoPayload.response"),

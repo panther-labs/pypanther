@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 
 one_password_sensitive_item_tests: list[RuleTest] = [
@@ -57,9 +57,7 @@ class OnePasswordSensitiveItem(Rule):
     log_types = [LogType.OnePassword_ItemUsage]
     default_reference = "https://support.1password.com/1password-com-items/"
     default_severity = Severity.LOW
-    default_description = (
-        "Alerts when a user defined list of sensitive items in 1Password is accessed"
-    )
+    default_description = "Alerts when a user defined list of sensitive items in 1Password is accessed"
     summary_attributes = ["p_any_ip_addresses", "p_any_emails"]
     tags = ["Configuration Required", "1Password", "Credential Access:Unsecured Credentials"]
     reports = {"MITRE ATT&CK": ["TA0006:T1552"]}

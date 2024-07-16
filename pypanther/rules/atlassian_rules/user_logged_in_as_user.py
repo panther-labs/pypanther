@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 
 atlassian_user_logged_in_as_user_tests: list[RuleTest] = [
@@ -82,9 +82,7 @@ class AtlassianUserLoggedInAsUser(Rule):
     log_types = [LogType.Atlassian_Audit]
     tags = ["Atlassian", "User impersonation"]
     default_description = "Reports when an Atlassian user logs in (impersonates) another user.\n"
-    default_runbook = (
-        "Validate that the Atlassian admin did log in (impersonate) as another user.\n"
-    )
+    default_runbook = "Validate that the Atlassian admin did log in (impersonate) as another user.\n"
     default_reference = "https://support.atlassian.com/user-management/docs/log-in-as-another-user/"
     tests = atlassian_user_logged_in_as_user_tests
 

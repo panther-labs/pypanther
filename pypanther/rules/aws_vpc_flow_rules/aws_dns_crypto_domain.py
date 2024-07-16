@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_iocs import CRYPTO_MINING_DOMAINS
 
 awsdns_crypto_domain_tests: list[RuleTest] = [
@@ -248,7 +248,9 @@ awsdns_crypto_domain_tests: list[RuleTest] = [
 
 
 class AWSDNSCryptoDomain(Rule):
-    default_description = "Identifies clients that may be performing DNS lookups associated with common currency mining pools."
+    default_description = (
+        "Identifies clients that may be performing DNS lookups associated with common currency mining pools."
+    )
     display_name = "AWS DNS Crypto Domain"
     reports = {"MITRE ATT&CK": ["TA0040:T1496"]}
     default_reference = "https://docs.aws.amazon.com/vpc/latest/userguide/flow-logs.html"

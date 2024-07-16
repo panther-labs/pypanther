@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import aws_rule_context
 
 aws_security_hub_finding_evasion_tests: list[RuleTest] = [
@@ -99,7 +99,9 @@ class AWSSecurityHubFindingEvasion(Rule):
     default_description = "Detections modification of findings in SecurityHub"
     display_name = "AWS SecurityHub Finding Evasion"
     reports = {"MITRE ATT&CK": ["TA0005:T1562"]}
-    default_reference = "https://docs.aws.amazon.com/securityhub/latest/userguide/securityhub-insights-view-take-action.html"
+    default_reference = (
+        "https://docs.aws.amazon.com/securityhub/latest/userguide/securityhub-insights-view-take-action.html"
+    )
     default_severity = Severity.HIGH
     log_types = [LogType.AWS_CloudTrail]
     id = "AWS.SecurityHub.Finding.Evasion-prototype"

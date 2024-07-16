@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 from pypanther.helpers.panther_tines_helpers import tines_alert_context
 
@@ -45,14 +45,14 @@ class TinesStoryJobsClearance(Rule):
     tags = ["Tines"]
     default_severity = Severity.LOW
     default_description = "A Tines User has cleared story jobs."
-    default_runbook = "Possible data destruction. Please reach out to the user and confirm this was done for valid business reasons."
+    default_runbook = (
+        "Possible data destruction. Please reach out to the user and confirm this was done for valid business reasons."
+    )
     default_reference = "https://www.tines.com/docs/stories"
     tests = tines_story_jobs_clearance_tests
 
     def rule(self, event):
-        return (
-            deep_get(event, "operation_name", default="<NO_OPERATION_NAME>") == "StoryJobsClearance"
-        )
+        return deep_get(event, "operation_name", default="<NO_OPERATION_NAME>") == "StoryJobsClearance"
 
     def title(self, event):
         operation = deep_get(event, "operation_name", default="<NO_OPERATION_NAME>")

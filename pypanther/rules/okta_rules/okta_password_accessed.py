@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get, get_val_from_list
 
 okta_password_access_tests: list[RuleTest] = [
@@ -232,9 +232,7 @@ class OktaPasswordAccess(Rule):
     reports = {"MITRE ATT&CK": ["TA0006:T1552"]}
     default_severity = Severity.MEDIUM
     default_description = "User accessed another user's application password\n"
-    default_reference = (
-        "https://help.okta.com/en-us/content/topics/apps/apps_revealing_the_password.htm"
-    )
+    default_reference = "https://help.okta.com/en-us/content/topics/apps/apps_revealing_the_password.htm"
     default_runbook = "Investigate whether this was authorized access.\n"
     tests = okta_password_access_tests
 

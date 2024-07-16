@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import aws_rule_context, deep_get
 from pypanther.helpers.panther_default import aws_cloudtrail_success
 
@@ -162,9 +162,7 @@ class AWSS3BucketPolicyModified(Rule):
     default_severity = Severity.INFO
     dedup_period_minutes = 720
     default_description = "An S3 Bucket was modified.\n"
-    default_runbook = (
-        "https://docs.runpanther.io/alert-runbooks/built-in-rules/aws-s3-bucket-policy-modified"
-    )
+    default_runbook = "https://docs.runpanther.io/alert-runbooks/built-in-rules/aws-s3-bucket-policy-modified"
     default_reference = "https://docs.aws.amazon.com/AmazonS3/latest/dev/using-iam-policies.html"
     summary_attributes = ["eventName", "userAgent", "sourceIpAddress", "p_any_aws_arns"]
     tests = awss3_bucket_policy_modified_tests
@@ -182,9 +180,7 @@ class AWSS3BucketPolicyModified(Rule):
     }
 
     def rule(self, event):
-        return event.get("eventName") in self.S3_POLICY_CHANGE_EVENTS and aws_cloudtrail_success(
-            event
-        )
+        return event.get("eventName") in self.S3_POLICY_CHANGE_EVENTS and aws_cloudtrail_success(event)
 
     def title(self, event):
         return f"S3 bucket modified by [{deep_get(event, 'userIdentity', 'arn')}]"

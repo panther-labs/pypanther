@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import aws_rule_context, deep_get
 
 awsec2_startup_script_change_tests: list[RuleTest] = [
@@ -101,18 +101,14 @@ class AWSEC2StartupScriptChange(Rule):
     default_description = "Detects changes to the EC2 instance startup script. The shell script will be executed as root/SYSTEM every time the specific instances are booted up."
     display_name = "AWS EC2 Startup Script Change"
     reports = {"MITRE ATT&CK": ["TA0002:T1059"]}
-    default_reference = (
-        "https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/user-data.html#user-data-shell-scripts"
-    )
+    default_reference = "https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/user-data.html#user-data-shell-scripts"
     default_severity = Severity.HIGH
     log_types = [LogType.AWS_CloudTrail]
     id = "AWS.EC2.Startup.Script.Change-prototype"
     tests = awsec2_startup_script_change_tests
 
     def rule(self, event):
-        if event.get("eventName") == "ModifyInstanceAttribute" and deep_get(
-            event, "requestParameters", "userData"
-        ):
+        if event.get("eventName") == "ModifyInstanceAttribute" and deep_get(event, "requestParameters", "userData"):
             return True
         return False
 

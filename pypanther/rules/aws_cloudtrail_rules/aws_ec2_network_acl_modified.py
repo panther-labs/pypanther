@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import aws_rule_context
 from pypanther.helpers.panther_default import aws_cloudtrail_success
 
@@ -85,9 +85,7 @@ awsec2_network_acl_modified_tests: list[RuleTest] = [
             "userAgent": "Mozilla",
             "requestParameters": {
                 "networkAclIdSet": {},
-                "filterSet": {
-                    "items": [{"name": "vpc-id", "valueSet": {"items": [{"value": "vpc-1"}]}}]
-                },
+                "filterSet": {"items": [{"name": "vpc-id", "valueSet": {"items": [{"value": "vpc-1"}]}}]},
             },
             "responseElements": None,
             "requestID": "1",
@@ -156,12 +154,8 @@ class AWSEC2NetworkACLModified(Rule):
     reports = {"CIS": ["3.11"], "MITRE ATT&CK": ["TA0005:T1562"]}
     default_severity = Severity.INFO
     default_description = "An EC2 Network ACL was modified."
-    default_runbook = (
-        "https://docs.runpanther.io/alert-runbooks/built-in-rules/aws-ec2-network-acl-modified"
-    )
-    default_reference = (
-        "https://docs.aws.amazon.com/vpc/latest/userguide/vpc-network-acls.html#nacl-tasks"
-    )
+    default_runbook = "https://docs.runpanther.io/alert-runbooks/built-in-rules/aws-ec2-network-acl-modified"
+    default_reference = "https://docs.aws.amazon.com/vpc/latest/userguide/vpc-network-acls.html#nacl-tasks"
     summary_attributes = [
         "eventName",
         "userAgent",
@@ -181,10 +175,7 @@ class AWSEC2NetworkACLModified(Rule):
     }
 
     def rule(self, event):
-        return (
-            aws_cloudtrail_success(event)
-            and event.get("eventName") in self.EC2_NACL_MODIFIED_EVENTS
-        )
+        return aws_cloudtrail_success(event) and event.get("eventName") in self.EC2_NACL_MODIFIED_EVENTS
 
     def dedup(self, event):
         return event.get("recipientAccountId")

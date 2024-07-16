@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import slack_alert_context
 
 slack_audit_logs_org_created_tests: list[RuleTest] = [
@@ -55,9 +55,7 @@ class SlackAuditLogsOrgCreated(Rule):
     reports = {"MITRE ATT&CK": ["TA0003:T1136"]}
     default_severity = Severity.LOW
     default_description = "Detects when a Slack organization is created"
-    default_reference = (
-        "https://slack.com/intl/en-gb/help/articles/206845317-Create-a-Slack-workspace"
-    )
+    default_reference = "https://slack.com/intl/en-gb/help/articles/206845317-Create-a-Slack-workspace"
     summary_attributes = ["p_any_ip_addresses", "p_any_emails"]
     tests = slack_audit_logs_org_created_tests
 

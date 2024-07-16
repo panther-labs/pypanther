@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 
 zoom_all_meetings_secured_with_one_option_disabled_tests: list[RuleTest] = [
     RuleTest(
@@ -37,9 +37,13 @@ zoom_all_meetings_secured_with_one_option_disabled_tests: list[RuleTest] = [
 
 
 class ZoomAllMeetingsSecuredWithOneOptionDisabled(Rule):
-    default_description = "A Zoom User turned off your organization's requirement that all meetings are secured with one security option."
+    default_description = (
+        "A Zoom User turned off your organization's requirement that all meetings are secured with one security option."
+    )
     display_name = "Zoom All Meetings Secured With One Option Disabled"
-    default_runbook = "Confirm this user acted with valid business intent and determine whether this activity was authorized."
+    default_runbook = (
+        "Confirm this user acted with valid business intent and determine whether this activity was authorized."
+    )
     default_reference = "https://support.zoom.com/hc/en/article?id=zm_kb&sysparm_article=KB0059862"
     default_severity = Severity.MEDIUM
     log_types = [LogType.Zoom_Operation]
@@ -48,9 +52,7 @@ class ZoomAllMeetingsSecuredWithOneOptionDisabled(Rule):
 
     def rule(self, event):
         operation_detail = event.get("operation_detail", "<NO_OPS_DETAIL>")
-        operation_flag = (
-            "Require that all meetings are secured with one security option: from On to Off"
-        )
+        operation_flag = "Require that all meetings are secured with one security option: from On to Off"
         return (
             event.get("action", "<NO_ACTION>") == "Update"
             and event.get("category_type", "<NO_CATEGORY_TYPE>") == "Account"

@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 
 gcpgcs_public_tests: list[RuleTest] = [
@@ -67,9 +67,7 @@ class GCPGCSPublic(Rule):
     tags = ["GCP", "Google Cloud Storage", "Collection:Data From Cloud Storage Object"]
     reports = {"MITRE ATT&CK": ["TA0009:T1530"]}
     default_severity = Severity.HIGH
-    default_description = (
-        "Adversaries may access data objects from improperly secured cloud storage."
-    )
+    default_description = "Adversaries may access data objects from improperly secured cloud storage."
     default_runbook = "Validate the GCS bucket change was safe."
     default_reference = "https://cloud.google.com/storage/docs/access-control/making-data-public"
     summary_attributes = ["severity", "p_any_ip_addresses", "p_any_domain_names"]
@@ -94,10 +92,7 @@ class GCPGCSPublic(Rule):
         for delta in binding_deltas:
             if delta.get("action") != "ADD":
                 continue
-            if (
-                delta.get("member") in self.GLOBAL_USERS
-                and delta.get("role") in self.GCS_READ_ROLES
-            ):
+            if delta.get("member") in self.GLOBAL_USERS and delta.get("role") in self.GCS_READ_ROLES:
                 return True
         return False
 

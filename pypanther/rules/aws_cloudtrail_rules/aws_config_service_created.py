@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import aws_rule_context
 from pypanther.helpers.panther_default import aws_cloudtrail_success
 
@@ -153,10 +153,7 @@ class AWSConfigServiceCreated(Rule):
     }
 
     def rule(self, event):
-        return (
-            aws_cloudtrail_success(event)
-            and event.get("eventName") in self.CONFIG_SERVICE_CREATE_EVENTS
-        )
+        return aws_cloudtrail_success(event) and event.get("eventName") in self.CONFIG_SERVICE_CREATE_EVENTS
 
     def alert_context(self, event):
         return aws_rule_context(event)

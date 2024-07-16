@@ -1,6 +1,6 @@
 from ipaddress import ip_address
 
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import aws_rule_context, deep_get
 from pypanther.helpers.panther_default import lookup_aws_account_name
 
@@ -141,9 +141,7 @@ class AWSIAMUserReconAccessDenied(Rule):
     dedup_period_minutes = 10
     default_description = "An IAM user has a high volume of access denied API calls."
     default_runbook = "Analyze the IP they came from, and other actions taken before/after."
-    default_reference = (
-        "https://docs.aws.amazon.com/IAM/latest/UserGuide/troubleshoot_access-denied.html"
-    )
+    default_reference = "https://docs.aws.amazon.com/IAM/latest/UserGuide/troubleshoot_access-denied.html"
     summary_attributes = [
         "eventName",
         "userAgent",

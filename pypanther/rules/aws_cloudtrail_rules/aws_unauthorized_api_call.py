@@ -1,6 +1,6 @@
 from ipaddress import ip_address
 
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import aws_rule_context, deep_get
 
 aws_cloud_trail_unauthorized_api_call_tests: list[RuleTest] = [
@@ -122,9 +122,7 @@ class AWSCloudTrailUnauthorizedAPICall(Rule):
     reports = {"CIS": ["3.1"], "MITRE ATT&CK": ["TA0007:T1526"]}
     default_severity = Severity.INFO
     default_description = "An unauthorized AWS API call was made"
-    default_runbook = (
-        "https://docs.runpanther.io/alert-runbooks/built-in-rules/aws-unauthorized-api-call"
-    )
+    default_runbook = "https://docs.runpanther.io/alert-runbooks/built-in-rules/aws-unauthorized-api-call"
     default_reference = "https://amzn.to/3aOukaA"
     summary_attributes = [
         "eventName",
@@ -148,10 +146,7 @@ class AWSCloudTrailUnauthorizedAPICall(Rule):
             ip_address(event.get("sourceIPAddress"))
         except ValueError:
             return False
-        return (
-            event.get("errorCode") == "AccessDenied"
-            and event.get("eventName") not in self.EVENT_EXCEPTIONS
-        )
+        return event.get("errorCode") == "AccessDenied" and event.get("eventName") not in self.EVENT_EXCEPTIONS
 
     def dedup(self, event):
         return deep_get(event, "userIdentity", "principalId", default="<UNKNOWN_PRINCIPAL>")

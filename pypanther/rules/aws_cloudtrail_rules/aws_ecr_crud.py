@@ -1,6 +1,6 @@
 from fnmatch import fnmatch
 
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import aws_rule_context, deep_get
 
 awsecrcrud_tests: list[RuleTest] = [
@@ -178,10 +178,10 @@ class AWSECRCRUD(Rule):
     reports = {"CIS": ["3.12"], "MITRE ATT&CK": ["TA0005:T1525"]}
     default_severity = Severity.HIGH
     default_description = "Unauthorized ECR Create, Read, Update, or Delete event occurred."
-    default_runbook = (
-        "https://docs.aws.amazon.com/AmazonECR/latest/userguide/logging-using-cloudtrail.html"
+    default_runbook = "https://docs.aws.amazon.com/AmazonECR/latest/userguide/logging-using-cloudtrail.html"
+    default_reference = (
+        "https://docs.aws.amazon.com/AmazonECR/latest/userguide/security-iam.html#security_iam_authentication"
     )
-    default_reference = "https://docs.aws.amazon.com/AmazonECR/latest/userguide/security-iam.html#security_iam_authentication"
     summary_attributes = [
         "eventSource",
         "eventName",
@@ -209,10 +209,7 @@ class AWSECRCRUD(Rule):
     ALLOWED_ROLES = ["*DeployRole"]
 
     def rule(self, event):
-        if (
-            event.get("eventSource") == "ecr.amazonaws.com"
-            and event.get("eventName") in self.ECR_CRUD_EVENTS
-        ):
+        if event.get("eventSource") == "ecr.amazonaws.com" and event.get("eventName") in self.ECR_CRUD_EVENTS:
             for role in self.ALLOWED_ROLES:
                 if fnmatch(deep_get(event, "userIdentity", "arn", default="unknown-arn"), role):
                     return False

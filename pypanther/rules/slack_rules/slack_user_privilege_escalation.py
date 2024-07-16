@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get, slack_alert_context
 
 slack_audit_logs_user_privilege_escalation_tests: list[RuleTest] = [
@@ -134,9 +134,7 @@ class SlackAuditLogsUserPrivilegeEscalation(Rule):
     reports = {"MITRE ATT&CK": ["TA0004:T1098.003"]}
     default_severity = Severity.HIGH
     default_description = "Detects when a Slack user gains escalated privileges"
-    default_reference = (
-        "https://slack.com/intl/en-gb/help/articles/201314026-Permissions-by-role-in-Slack"
-    )
+    default_reference = "https://slack.com/intl/en-gb/help/articles/201314026-Permissions-by-role-in-Slack"
     summary_attributes = ["p_any_ip_addresses", "p_any_emails"]
     tests = slack_audit_logs_user_privilege_escalation_tests
     USER_PRIV_ESC_ACTIONS = {

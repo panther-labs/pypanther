@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 
 g_suite_leaked_password_tests: list[RuleTest] = [
@@ -42,9 +42,7 @@ class GSuiteLeakedPassword(Rule):
     tags = ["GSuite", "Credential Access:Unsecured Credentials"]
     reports = {"MITRE ATT&CK": ["TA0006:T1552"]}
     default_severity = Severity.HIGH
-    default_description = (
-        "GSuite reported a user's password has been compromised, so they disabled the account.\n"
-    )
+    default_description = "GSuite reported a user's password has been compromised, so they disabled the account.\n"
     default_reference = "https://support.google.com/a/answer/2984349?hl=en#zippy=%2Cstep-temporarily-suspend-the-suspected-compromised-user-account%2Cstep-investigate-the-account-for-unauthorized-activity%2Cstep-revoke-access-to-the-affected-account%2Cstep-return-access-to-the-user-again%2Cstep-enroll-in--step-verification-with-security-keys%2Cstep-add-secure-or-update-recovery-options%2Cstep-enable-account-activity-alerts"
     default_runbook = "GSuite has already disabled the compromised user's account. Consider investigating how the user's account was compromised, and reset their account and password. Advise the user to change any other passwords in use that are the sae as the compromised password.\n"
     summary_attributes = ["actor:email"]

@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import filter_crowdstrike_fdr_event_type
 
 standard_malicious_ssodns_lookup_tests: list[RuleTest] = [
@@ -172,9 +172,7 @@ class StandardMaliciousSSODNSLookup(Rule):
     threshold = 1000
     tags = ["Configuration Required"]
     reports = {"MITRE ATT&CK": ["TA0001:T1566"]}
-    default_description = (
-        "The rule looks for DNS requests to sites potentially posing as SSO domains."
-    )
+    default_description = "The rule looks for DNS requests to sites potentially posing as SSO domains."
     default_runbook = "Verify if the destination domain is owned by your organization."
     default_reference = "https://www.cloudns.net/wiki/article/254/#:~:text=A%20DNS%20query%20(also%20known,associated%20with%20a%20domain%20name"
     summary_attributes = ["p_any_ip_addresses"]

@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 from pypanther.helpers.panther_snyk_helpers import snyk_alert_context
 
@@ -51,13 +51,9 @@ class SnykSystemExternalAccess(Rule):
     log_types = [LogType.Snyk_GroupAudit, LogType.Snyk_OrgAudit]
     tags = ["Snyk"]
     default_severity = Severity.HIGH
-    default_description = (
-        "Detects when Snyk Settings that control access for external parties have been changed.\n"
-    )
+    default_description = "Detects when Snyk Settings that control access for external parties have been changed.\n"
     default_runbook = "This action in the Snyk Audit logs indicate that the setting for allowing external parties to request access to your Snyk installation have changed.\n"
-    default_reference = (
-        "https://docs.snyk.io/snyk-admin/manage-users-and-permissions/organization-access-requests"
-    )
+    default_reference = "https://docs.snyk.io/snyk-admin/manage-users-and-permissions/organization-access-requests"
     summary_attributes = ["event"]
     tests = snyk_system_external_access_tests
     ACTIONS = ["group.request_access_settings.edit", "org.request_access_settings.edit"]

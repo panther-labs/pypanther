@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_auth0_helpers import auth0_alert_context, is_auth0_config_event
 from pypanther.helpers.panther_base_helpers import deep_get
 
@@ -289,14 +289,10 @@ auth0_post_login_action_flow_tests: list[RuleTest] = [
 
 
 class Auth0PostLoginActionFlow(Rule):
-    default_description = (
-        "An Auth0 User updated a post login action flow for your organization's tenant."
-    )
+    default_description = "An Auth0 User updated a post login action flow for your organization's tenant."
     display_name = "Auth0 Post Login Action Flow Updated"
     default_runbook = "Assess if this was done by the user for a valid business reason. Be sure to replace any steps that were removed without authorization."
-    default_reference = (
-        "https://auth0.com/docs/customize/actions/flows-and-triggers/login-flow/api-object"
-    )
+    default_reference = "https://auth0.com/docs/customize/actions/flows-and-triggers/login-flow/api-object"
     default_severity = Severity.MEDIUM
     log_types = [LogType.Auth0_Events]
     id = "Auth0.Post.Login.Action.Flow-prototype"

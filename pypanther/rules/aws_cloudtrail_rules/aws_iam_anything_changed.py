@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import aws_rule_context
 from pypanther.helpers.panther_default import aws_cloudtrail_success
 
@@ -145,9 +145,7 @@ class AWSCloudTrailIAMAnythingChanged(Rule):
     dedup_period_minutes = 720
     default_description = "A change occurred in the IAM configuration. This could be a resource being created, deleted, or modified. This is a high level view of changes, helfpul to indicate how dynamic a certain IAM environment is.\n"
     default_runbook = "Ensure this was an approved IAM configuration change.\n"
-    default_reference = (
-        "https://docs.aws.amazon.com/IAM/latest/UserGuide/cloudtrail-integration.html"
-    )
+    default_reference = "https://docs.aws.amazon.com/IAM/latest/UserGuide/cloudtrail-integration.html"
     summary_attributes = [
         "eventName",
         "userAgent",
@@ -177,9 +175,7 @@ class AWSCloudTrailIAMAnythingChanged(Rule):
         # expensive and can often be skipped
         if not aws_cloudtrail_success(event) or event.get("eventSource") != "iam.amazonaws.com":
             return False
-        return any(
-            (event.get("eventName", "").startswith(action) for action in self.IAM_CHANGE_ACTIONS)
-        )
+        return any((event.get("eventName", "").startswith(action) for action in self.IAM_CHANGE_ACTIONS))
 
     def alert_context(self, event):
         return aws_rule_context(event)

@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 
 app_omni_alert_passthrough_tests: list[RuleTest] = [
     RuleTest(
