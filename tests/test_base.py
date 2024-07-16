@@ -1236,6 +1236,65 @@ class TestRule(TestCase):
         assert result.detection_result.destinations_exception is None
         assert result.detection_result.destinations_output == []
 
+    def test_validate_internal_does_not_fail(self) -> None:
+        class MyRule(Rule):
+            id = "MyRule"
+            default_severity = Severity.INFO
+            log_types = [LogType.Panther_Audit]
+
+            allowed_domains: list[str] = []
+
+            tests = [
+                RuleTest(
+                    name="domain max",
+                    expected_result=False,
+                    log={"domain": "max.com"},
+                )
+            ]
+
+            def rule(self, event):
+                return event.get("domain") in self.allowed_domains
+
+            @classmethod
+            def validate_config(cls):
+                assert (
+                    len(cls.allowed_domains) > 0
+                ), "The allowed_domains field on your PantherOOTBRule must be populated before using this rule"
+
+        assert (
+            MyRule()
+            .run_tests(DATA_MODEL_CACHE.data_model_of_logtype, _validate_config=False)[0]
+            .passed
+        )
+
+    def test_validate_external_fails(self) -> None:
+        class MyRule(Rule):
+            id = "MyRule"
+            default_severity = Severity.INFO
+            log_types = [LogType.Panther_Audit]
+
+            allowed_domains: list[str] = []
+
+            tests = [
+                RuleTest(
+                    name="domain max",
+                    expected_result=False,
+                    log={"domain": "max.com"},
+                )
+            ]
+
+            def rule(self, event):
+                return event.get("domain") in self.allowed_domains
+
+            @classmethod
+            def validate_config(cls):
+                assert (
+                    len(cls.allowed_domains) > 0
+                ), "The allowed_domains field on your PantherOOTBRule must be populated before using this rule"
+
+        with pytest.raises(AssertionError):
+            MyRule().run_tests(DATA_MODEL_CACHE.data_model_of_logtype)
+
 
 @dataclasses.dataclass
 class FakeDestination:
