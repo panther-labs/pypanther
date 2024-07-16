@@ -63,7 +63,7 @@ def test_override():
 
     assert Test.data_model_id == "old"
     assert Test.description == "old description"
-    assert Test.enabled == True
+    assert Test.enabled
     assert Test.fields == [
         Field(
             name="test1",
@@ -91,7 +91,7 @@ def test_override():
 
     assert Test.data_model_id == "new"
     assert Test.description == "new description"
-    assert Test.enabled == False
+    assert not Test.enabled
     assert Test.fields == [
         Field(
             name="test2",
