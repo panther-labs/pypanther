@@ -88,10 +88,7 @@ def print_failed_test_results(
             if had_aux_exc:
                 log_aux_func_failure(failed_result, aux_func_exceptions)
 
-            if (
-                result.detection_exception is None
-                and result.detection_output != test.expected_result
-            ):
+            if result.detection_exception is None and result.detection_output != test.expected_result:
                 log_rule_test_failure(
                     failed_result,
                     "rule",
@@ -158,9 +155,7 @@ def log_rule_test_failure(failed_result: RuleTestResult, func: str, exp: str, ou
     )
 
 
-def log_aux_func_failure(
-    failed_result: RuleTestResult, aux_func_exceptions: dict[str, Exception]
-) -> None:
+def log_aux_func_failure(failed_result: RuleTestResult, aux_func_exceptions: dict[str, Exception]) -> None:
     exc_msgs = [f"{name}()" for name, exc in aux_func_exceptions.items() if exc is not None]
     exc_msg = ", ".join(exc_msgs[:-1]) if len(exc_msgs) > 1 else exc_msgs[0]
     last_exc_msg = f" and {exc_msgs[-1]}" if len(exc_msgs) > 1 else ""
