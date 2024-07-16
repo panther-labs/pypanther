@@ -1247,11 +1247,7 @@ class TestRule(TestCase):
                     len(cls.allowed_domains) > 0
                 ), "The allowed_domains field on your PantherOOTBRule must be populated before using this rule"
 
-        assert (
-            MyRule()
-            .run_tests(DATA_MODEL_CACHE.data_model_of_logtype, _validate_config=False)[0]
-            .passed
-        )
+        assert MyRule().run_tests(DATA_MODEL_CACHE.data_model_of_logtype, _validate_config=False)[0].passed
 
     def test_validate_external_fails(self) -> None:
         class MyRule(Rule):
