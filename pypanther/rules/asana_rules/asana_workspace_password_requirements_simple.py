@@ -59,7 +59,7 @@ class AsanaWorkspacePasswordRequirementsSimple(Rule):
     )
     default_reference = "https://help.asana.com/hc/en-us/articles/14075208738587-Authentication-and-access-management-options-for-paid-plans"
     default_severity = Severity.MEDIUM
-    log_types = [LogType.Asana_Audit]
+    log_types = [LogType.ASANA_AUDIT]
     id = "Asana.Workspace.Password.Requirements.Simple-prototype"
     tests = asana_workspace_password_requirements_simple_tests
 

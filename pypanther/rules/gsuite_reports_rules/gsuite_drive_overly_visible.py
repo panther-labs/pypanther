@@ -21,13 +21,7 @@ g_suite_drive_overly_visible_tests: list[RuleTest] = [
             "p_row_id": "111222",
             "actor": {"email": "bobert@example.com"},
             "id": {"applicationName": "drive"},
-            "events": [
-                {
-                    "type": "access",
-                    "name": "edit",
-                    "parameters": [{"name": "visibility", "value": "private"}],
-                }
-            ],
+            "events": [{"type": "access", "name": "edit", "parameters": [{"name": "visibility", "value": "private"}]}],
         },
     ),
     RuleTest(
@@ -74,7 +68,7 @@ g_suite_drive_overly_visible_tests: list[RuleTest] = [
 class GSuiteDriveOverlyVisible(Rule):
     id = "GSuite.DriveOverlyVisible-prototype"
     display_name = "GSuite Overly Visible Drive Document"
-    log_types = [LogType.GSuite_Reports]
+    log_types = [LogType.GSUITE_REPORTS]
     tags = ["GSuite", "Collection:Data from Information Repositories"]
     reports = {"MITRE ATT&CK": ["TA0009:T1213"]}
     default_severity = Severity.INFO

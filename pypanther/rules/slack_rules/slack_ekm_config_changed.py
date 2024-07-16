@@ -9,12 +9,7 @@ slack_audit_logs_ekm_config_changed_tests: list[RuleTest] = [
             "action": "ekm_logging_config_set",
             "actor": {
                 "type": "user",
-                "user": {
-                    "email": "user@example.com",
-                    "id": "A012B3CDEFG",
-                    "name": "username",
-                    "team": "T01234N56GB",
-                },
+                "user": {"email": "user@example.com", "id": "A012B3CDEFG", "name": "username", "team": "T01234N56GB"},
             },
             "context": {
                 "ip_address": "1.2.3.4",
@@ -71,7 +66,7 @@ slack_audit_logs_ekm_config_changed_tests: list[RuleTest] = [
 class SlackAuditLogsEKMConfigChanged(Rule):
     id = "Slack.AuditLogs.EKMConfigChanged-prototype"
     display_name = "Slack EKM Config Changed"
-    log_types = [LogType.Slack_AuditLogs]
+    log_types = [LogType.SLACK_AUDIT_LOGS]
     tags = ["Slack", "Defense Evasion", "Impair Defenses", "Disable or Modify Cloud Logs"]
     reports = {"MITRE ATT&CK": ["TA0005:T1562.008"]}
     default_severity = Severity.HIGH

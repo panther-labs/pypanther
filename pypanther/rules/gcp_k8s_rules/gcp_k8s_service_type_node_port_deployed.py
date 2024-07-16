@@ -193,7 +193,7 @@ gcpk8_s_service_type_node_port_deployed_tests: list[RuleTest] = [
 class GCPK8SServiceTypeNodePortDeployed(Rule):
     id = "GCP.K8S.Service.Type.NodePort.Deployed-prototype"
     display_name = "GCP K8S Service Type NodePort Deployed"
-    log_types = [LogType.GCP_AuditLog]
+    log_types = [LogType.GCP_AUDIT_LOG]
     default_severity = Severity.HIGH
     default_description = "This detection monitors for any kubernetes service deployed with type node port. A Node Port service allows an attacker to expose a set of pods hosting the service to the internet by opening their port and redirecting traffic here. This can be used to bypass network controls and intercept traffic, creating a direct line to the outside network.\n"
     default_runbook = "Investigate the reason of creating NodePort service. Advise that it is discouraged practice. Create ticket if appropriate.\n"

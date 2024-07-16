@@ -135,7 +135,7 @@ aws_cloud_trail_snapshot_made_public_tests: list[RuleTest] = [
 class AWSCloudTrailSnapshotMadePublic(Rule):
     id = "AWS.CloudTrail.SnapshotMadePublic-prototype"
     display_name = "AWS Snapshot Made Public"
-    log_types = [LogType.AWS_CloudTrail]
+    log_types = [LogType.AWS_CLOUDTRAIL]
     tags = ["AWS", "Exfiltration:Transfer Data to Cloud Account"]
     reports = {"MITRE ATT&CK": ["TA0010:T1537"]}
     default_severity = Severity.MEDIUM

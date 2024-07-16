@@ -37,7 +37,7 @@ gcpk8s_pod_attached_to_node_host_network_tests: list[RuleTest] = [
 class GCPK8sPodAttachedToNodeHostNetwork(Rule):
     id = "GCP.K8s.Pod.Attached.To.Node.Host.Network-prototype"
     display_name = "GCP K8s Pod Attached To Node Host Network"
-    log_types = [LogType.GCP_AuditLog]
+    log_types = [LogType.GCP_AUDIT_LOG]
     tags = ["GCP", "Optional"]
     default_severity = Severity.MEDIUM
     default_description = "This detection monitor for the creation of pods which are attached to the host's network. This allows a pod to listen to all network traffic for all deployed computer on that particular node and communicate with other compute on the network namespace. Attackers can use this to capture secrets passed in arguments or connections."

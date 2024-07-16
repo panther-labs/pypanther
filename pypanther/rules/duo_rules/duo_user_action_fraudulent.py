@@ -23,7 +23,7 @@ class DUOUserActionFraudulent(Rule):
     id = "DUO.User.Action.Fraudulent-prototype"
     display_name = "Duo User Action Reported as Fraudulent"
     dedup_period_minutes = 15
-    log_types = [LogType.Duo_Authentication]
+    log_types = [LogType.DUO_AUTHENTICATION]
     tags = ["Duo"]
     default_severity = Severity.MEDIUM
     default_description = "Alert when a user reports a Duo action as fraudulent.\n"

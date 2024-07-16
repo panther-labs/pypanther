@@ -68,7 +68,7 @@ class MongoDB2FADisabled(Rule):
     display_name = "MongoDB 2FA Disabled"
     default_severity = Severity.MEDIUM
     default_reference = "https://www.mongodb.com/docs/atlas/security-multi-factor-authentication/"
-    log_types = [LogType.MongoDB_OrganizationEvent]
+    log_types = [LogType.MONGODB_ORGANIZATION_EVENT]
     id = "MongoDB.2FA.Disabled-prototype"
     tests = mongo_db2_fa_disabled_tests
 

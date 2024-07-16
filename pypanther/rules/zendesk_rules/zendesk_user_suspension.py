@@ -65,7 +65,7 @@ zendesk_user_suspension_tests: list[RuleTest] = [
 class ZendeskUserSuspension(Rule):
     id = "Zendesk.UserSuspension-prototype"
     display_name = "Zendesk User Suspension Status Changed"
-    log_types = [LogType.Zendesk_Audit]
+    log_types = [LogType.ZENDESK_AUDIT]
     tags = ["Zendesk", "Impact:Account Access Removal"]
     reports = {"MITRE ATT&CK": ["TA0040:T1531"]}
     default_severity = Severity.HIGH

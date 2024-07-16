@@ -14,7 +14,7 @@ class StandardCiscoUmbrellaDNS(DataModel):
     id: str = "Standard.CiscoUmbrella.DNS"
     display_name: str = "Cisco Umbrella DNS"
     enabled: bool = True
-    log_types: list[str] = [LogType.CiscoUmbrella_DNS]
+    log_types: list[str] = [LogType.CISCO_UMBRELLA_DNS]
     mappings: list[DataModelMapping] = [
         DataModelMapping(name="source_ip", path="internalIp"),
         DataModelMapping(name="source_port", path="srcPort"),

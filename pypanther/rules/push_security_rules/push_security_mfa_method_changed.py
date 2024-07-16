@@ -143,7 +143,7 @@ push_security_mfa_method_changed_tests: list[RuleTest] = [
 class PushSecurityMFAMethodChanged(Rule):
     id = "Push.Security.MFA.Method.Changed-prototype"
     display_name = "Push Security SaaS App MFA Method Changed"
-    log_types = [LogType.PushSecurity_Entities]
+    log_types = [LogType.PUSH_SECURITY_ENTITIES]
     default_severity = Severity.INFO
     default_description = "MFA method on SaaS app changed"
     tests = push_security_mfa_method_changed_tests

@@ -40,7 +40,7 @@ tines_custom_certificate_authority_tests: list[RuleTest] = [
 class TinesCustomCertificateAuthority(Rule):
     id = "Tines.Custom.CertificateAuthority-prototype"
     display_name = "Tines Custom CertificateAuthority setting changed"
-    log_types = [LogType.Tines_Audit]
+    log_types = [LogType.TINES_AUDIT]
     tags = ["Tines", "IAM - Credential Security"]
     default_reference = "https://www.tines.com/docs/admin/custom-certificate-authority"
     default_severity = Severity.HIGH

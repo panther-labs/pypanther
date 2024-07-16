@@ -83,7 +83,7 @@ snyk_system_policy_setting_tests: list[RuleTest] = [
 class SnykSystemPolicySetting(Rule):
     id = "Snyk.System.PolicySetting-prototype"
     display_name = "Snyk System Policy Settings Changed"
-    log_types = [LogType.Snyk_GroupAudit, LogType.Snyk_OrgAudit]
+    log_types = [LogType.SNYK_GROUP_AUDIT, LogType.SNYK_ORG_AUDIT]
     tags = ["Snyk"]
     default_severity = Severity.HIGH
     default_description = "Detects Snyk Policy Settings have been changed. Policies define Snyk's behavior when encountering security and licensing issues.\n"

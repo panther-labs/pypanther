@@ -86,7 +86,7 @@ git_hub_repo_initial_access_tests: list[RuleTest] = [
 class GitHubRepoInitialAccess(Rule):
     id = "GitHub.Repo.InitialAccess-prototype"
     display_name = "GitHub User Initial Access to Private Repo"
-    log_types = [LogType.GitHub_Audit]
+    log_types = [LogType.GITHUB_AUDIT]
     tags = ["GitHub"]
     default_reference = "https://docs.github.com/en/organizations/managing-user-access-to-your-organizations-repositories/managing-repository-roles/managing-an-individuals-access-to-an-organization-repository"
     default_severity = Severity.INFO

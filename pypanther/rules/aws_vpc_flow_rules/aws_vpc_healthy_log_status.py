@@ -2,15 +2,9 @@ from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import aws_rule_context
 
 awsvpc_healthy_log_status_tests: list[RuleTest] = [
+    RuleTest(name="Healthy Log Status", expected_result=False, log={"log-status": "OK", "p_log_type": "AWS.VPCFlow"}),
     RuleTest(
-        name="Healthy Log Status",
-        expected_result=False,
-        log={"log-status": "OK", "p_log_type": "AWS.VPCFlow"},
-    ),
-    RuleTest(
-        name="Unhealthy Log Status",
-        expected_result=True,
-        log={"log-status": "SKIPDATA", "p_log_type": "AWS.VPCFlow"},
+        name="Unhealthy Log Status", expected_result=True, log={"log-status": "SKIPDATA", "p_log_type": "AWS.VPCFlow"}
     ),
     RuleTest(
         name="Healthy Log Status - OCSF",
@@ -28,7 +22,7 @@ awsvpc_healthy_log_status_tests: list[RuleTest] = [
 class AWSVPCHealthyLogStatus(Rule):
     id = "AWS.VPC.HealthyLogStatus-prototype"
     display_name = "AWS VPC Healthy Log Status"
-    log_types = [LogType.AWS_VPCFlow, LogType.OCSF_NetworkActivity]
+    log_types = [LogType.AWS_VPC_FLOW, LogType.OCSF_NETWORK_ACTIVITY]
     tags = ["AWS", "DataModel", "Security Control"]
     default_severity = Severity.LOW
     default_description = "Checks for the log status `SKIP-DATA`, which indicates that data was lost either to an internal server error or due to capacity constraints.\n"

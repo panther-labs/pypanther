@@ -42,7 +42,7 @@ mongo_db_alerting_disabled_or_deleted_tests: list[RuleTest] = [
 class MongoDBAlertingDisabledOrDeleted(Rule):
     default_description = "MongoDB provides security alerting policies for notifying admins when certain conditions are met. This rule detects when these policies are disabled or deleted."
     display_name = "MongoDB security alerts disabled or deleted"
-    log_types = [LogType.MongoDB_OrganizationEvent]
+    log_types = [LogType.MONGODB_ORGANIZATION_EVENT]
     id = "MongoDB.Alerting.Disabled.Or.Deleted-prototype"
     default_severity = Severity.HIGH
     reports = {"MITRE ATT&CK": ["TA0005:T1562.001"]}

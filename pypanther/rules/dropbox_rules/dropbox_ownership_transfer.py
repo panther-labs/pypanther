@@ -51,17 +51,9 @@ dropbox_ownership_transfer_tests: list[RuleTest] = [
             "origin": {
                 "access_method": {
                     ".tag": "end_user",
-                    "end_user": {
-                        ".tag": "web",
-                        "session_id": "dbwsid:237034608707419186011941491025532848312",
-                    },
+                    "end_user": {".tag": "web", "session_id": "dbwsid:237034608707419186011941491025532848312"},
                 },
-                "geo_location": {
-                    "city": "Austin",
-                    "country": "US",
-                    "ip_address": "1.2.3.4",
-                    "region": "Texas",
-                },
+                "geo_location": {"city": "Austin", "country": "US", "ip_address": "1.2.3.4", "region": "Texas"},
             },
             "p_any_emails": ["alice.bob@company.io", "david.davidson@company.io"],
             "p_any_ip_addresses": ["1.2.3.4"],
@@ -123,17 +115,9 @@ dropbox_ownership_transfer_tests: list[RuleTest] = [
             "origin": {
                 "access_method": {
                     ".tag": "end_user",
-                    "end_user": {
-                        ".tag": "web",
-                        "session_id": "dbwsid:237034608707419186011941491025532848312",
-                    },
+                    "end_user": {".tag": "web", "session_id": "dbwsid:237034608707419186011941491025532848312"},
                 },
-                "geo_location": {
-                    "city": "Austin",
-                    "country": "US",
-                    "ip_address": "1.2.3.4",
-                    "region": "Texas",
-                },
+                "geo_location": {"city": "Austin", "country": "US", "ip_address": "1.2.3.4", "region": "Texas"},
             },
             "p_any_emails": ["alice.bob@company.io"],
             "p_any_ip_addresses": ["1.2.3.4"],
@@ -151,12 +135,7 @@ dropbox_ownership_transfer_tests: list[RuleTest] = [
     RuleTest(
         name="Folder Ownership Transfer to Internal",
         expected_result=True,
-        mocks=[
-            RuleMock(
-                object_name="DROPBOX_TRUSTED_OWNERSHIP_DOMAINS",
-                return_value='[\n    "example.com"\n]',
-            )
-        ],
+        mocks=[RuleMock(object_name="DROPBOX_TRUSTED_OWNERSHIP_DOMAINS", return_value='[\n    "example.com"\n]')],
         log={
             "actor": {
                 "_tag": "user",
@@ -199,17 +178,9 @@ dropbox_ownership_transfer_tests: list[RuleTest] = [
             "origin": {
                 "access_method": {
                     ".tag": "end_user",
-                    "end_user": {
-                        ".tag": "web",
-                        "session_id": "dbwsid:237034608707419186011941491025532848312",
-                    },
+                    "end_user": {".tag": "web", "session_id": "dbwsid:237034608707419186011941491025532848312"},
                 },
-                "geo_location": {
-                    "city": "Austin",
-                    "country": "US",
-                    "ip_address": "1.2.3.4",
-                    "region": "Texas",
-                },
+                "geo_location": {"city": "Austin", "country": "US", "ip_address": "1.2.3.4", "region": "Texas"},
             },
             "p_any_emails": ["alice.bob@company.io", "david.davidson@example.com"],
             "p_any_ip_addresses": ["1.2.3.4"],
@@ -243,7 +214,7 @@ class DropboxOwnershipTransfer(Rule):
     display_name = "Dropbox Document/Folder Ownership Transfer"
     default_reference = "https://help.dropbox.com/share/owner"
     default_severity = Severity.HIGH
-    log_types = [LogType.Dropbox_TeamEvent]
+    log_types = [LogType.DROPBOX_TEAM_EVENT]
     id = "Dropbox.Ownership.Transfer-prototype"
     tests = dropbox_ownership_transfer_tests
     DROPBOX_TRUSTED_OWNERSHIP_DOMAINS = config.DROPBOX_TRUSTED_OWNERSHIP_DOMAINS

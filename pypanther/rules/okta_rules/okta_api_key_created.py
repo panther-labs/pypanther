@@ -39,12 +39,8 @@ okta_api_key_created_tests: list[RuleTest] = [
 class OktaAPIKeyCreated(Rule):
     id = "Okta.APIKeyCreated-prototype"
     display_name = "Okta API Key Created"
-    log_types = [LogType.Okta_SystemLog]
-    tags = [
-        "Identity & Access Management",
-        "Okta",
-        "Credential Access:Steal Application Access Token",
-    ]
+    log_types = [LogType.OKTA_SYSTEM_LOG]
+    tags = ["Identity & Access Management", "Okta", "Credential Access:Steal Application Access Token"]
     reports = {"MITRE ATT&CK": ["TA0006:T1528"]}
     default_severity = Severity.INFO
     default_description = "A user created an API Key in Okta"

@@ -183,15 +183,12 @@ class OktaRefreshAccessTokenReuse(Rule):
     display_name = "Okta App Refresh Access Token Reuse"
     default_runbook = "Determine if the clientip is anomalous. Revoke tokens if deemed suspicious."
     default_severity = Severity.MEDIUM
-    log_types = [LogType.Okta_SystemLog]
+    log_types = [LogType.OKTA_SYSTEM_LOG]
     id = "Okta.Refresh.Access.Token.Reuse-prototype"
     tests = okta_refresh_access_token_reuse_tests
 
     def rule(self, event):
-        return event.get("eventtype") in (
-            "app.oauth2.as.token.detect_reuse",
-            "app.oauth2.token.detect_reuse",
-        )
+        return event.get("eventtype") in ("app.oauth2.as.token.detect_reuse", "app.oauth2.token.detect_reuse")
 
     def title(self, event):
         return f"Okta Access Token Reuse Attempted by [{event.get('client', {}).get('ipAddress')}] [{event.get('actor', {}).get('displayName', '<no-displayname-found>')}]"

@@ -84,7 +84,7 @@ class TestPrintFailedTestResults:
         false_test_2 = RuleTest(name="false test 2", expected_result=False, log={})
 
         class Rule1(Rule):
-            log_types = [LogType.Panther_Audit]
+            log_types = [LogType.PANTHER_AUDIT]
             default_severity = Severity.HIGH
             id = "Rule1"
             tests = [false_test_1, false_test_2]
@@ -93,7 +93,7 @@ class TestPrintFailedTestResults:
                 return True
 
         class Rule2(Rule):
-            log_types = [LogType.Panther_Audit]
+            log_types = [LogType.PANTHER_AUDIT]
             default_severity = Severity.HIGH
             id = "Rule2"
             tests = [false_test_1, false_test_2]
@@ -115,7 +115,7 @@ class TestPrintFailedTestResults:
         false_test_1 = RuleTest(name="false test 1", expected_result=False, log={})
 
         class Rule1(Rule):
-            log_types = [LogType.Panther_Audit]
+            log_types = [LogType.PANTHER_AUDIT]
             default_severity = Severity.HIGH
             id = "Rule1"
             tests = [false_test_1]
@@ -131,7 +131,7 @@ class TestPrintFailedTestResults:
         false_test_1 = RuleTest(name="false test 1", expected_result=False, log={})
 
         class Rule1(Rule):
-            log_types = [LogType.Panther_Audit]
+            log_types = [LogType.PANTHER_AUDIT]
             default_severity = Severity.HIGH
             id = "Rule1"
             tests = [false_test_1]

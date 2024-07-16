@@ -82,7 +82,7 @@ slack_audit_logs_user_privilege_changed_to_user_tests: list[RuleTest] = [
 class SlackAuditLogsUserPrivilegeChangedToUser(Rule):
     id = "Slack.AuditLogs.UserPrivilegeChangedToUser-prototype"
     display_name = "Slack User Privileges Changed to User"
-    log_types = [LogType.Slack_AuditLogs]
+    log_types = [LogType.SLACK_AUDIT_LOGS]
     tags = ["Slack", "Impact", "Account Access Removal"]
     reports = {"MITRE ATT&CK": ["TA0040:T1531"]}
     default_severity = Severity.MEDIUM

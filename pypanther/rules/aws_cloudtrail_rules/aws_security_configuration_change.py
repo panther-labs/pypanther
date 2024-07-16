@@ -30,10 +30,7 @@ aws_cloud_trail_security_configuration_change_tests: list[RuleTest] = [
                 "invokedBy": "cloudformation.amazonaws.com",
                 "principalId": "1111",
                 "sessionContext": {
-                    "attributes": {
-                        "creationDate": "2019-01-01T00:00:00Z",
-                        "mfaAuthenticated": "true",
-                    },
+                    "attributes": {"creationDate": "2019-01-01T00:00:00Z", "mfaAuthenticated": "true"},
                     "sessionIssuer": {
                         "accountId": "123456789012",
                         "arn": "arn:aws:iam::123456789012:role/example-role",
@@ -72,10 +69,7 @@ aws_cloud_trail_security_configuration_change_tests: list[RuleTest] = [
                 "invokedBy": "cloudformation.amazonaws.com",
                 "principalId": "1111",
                 "sessionContext": {
-                    "attributes": {
-                        "creationDate": "2019-01-01T00:00:00Z",
-                        "mfaAuthenticated": "true",
-                    },
+                    "attributes": {"creationDate": "2019-01-01T00:00:00Z", "mfaAuthenticated": "true"},
                     "sessionIssuer": {
                         "accountId": "123456789012",
                         "arn": "arn:aws:iam::123456789012:role/example-role",
@@ -114,10 +108,7 @@ aws_cloud_trail_security_configuration_change_tests: list[RuleTest] = [
                 "invokedBy": "cloudformation.amazonaws.com",
                 "principalId": "1111",
                 "sessionContext": {
-                    "attributes": {
-                        "creationDate": "2019-01-01T00:00:00Z",
-                        "mfaAuthenticated": "true",
-                    },
+                    "attributes": {"creationDate": "2019-01-01T00:00:00Z", "mfaAuthenticated": "true"},
                     "sessionIssuer": {
                         "accountId": "123456789012",
                         "arn": "arn:aws:iam::123456789012:role/example-role",
@@ -157,10 +148,7 @@ aws_cloud_trail_security_configuration_change_tests: list[RuleTest] = [
                 "invokedBy": "cloudformation.amazonaws.com",
                 "principalId": "1111",
                 "sessionContext": {
-                    "attributes": {
-                        "creationDate": "2019-01-01T00:00:00Z",
-                        "mfaAuthenticated": "true",
-                    },
+                    "attributes": {"creationDate": "2019-01-01T00:00:00Z", "mfaAuthenticated": "true"},
                     "sessionIssuer": {
                         "accountId": "123456789012",
                         "arn": "arn:aws:iam::123456789012:role/example-role",
@@ -199,10 +187,7 @@ aws_cloud_trail_security_configuration_change_tests: list[RuleTest] = [
                 "invokedBy": "cloudformation.amazonaws.com",
                 "principalId": "1111",
                 "sessionContext": {
-                    "attributes": {
-                        "creationDate": "2019-01-01T00:00:00Z",
-                        "mfaAuthenticated": "true",
-                    },
+                    "attributes": {"creationDate": "2019-01-01T00:00:00Z", "mfaAuthenticated": "true"},
                     "sessionIssuer": {
                         "accountId": "123456789012",
                         "arn": "arn:aws:iam::123456789012:role/example-role",
@@ -222,7 +207,7 @@ aws_cloud_trail_security_configuration_change_tests: list[RuleTest] = [
 class AWSCloudTrailSecurityConfigurationChange(Rule):
     id = "AWS.CloudTrail.SecurityConfigurationChange-prototype"
     display_name = "Account Security Configuration Changed"
-    log_types = [LogType.AWS_CloudTrail]
+    log_types = [LogType.AWS_CLOUDTRAIL]
     tags = ["AWS", "Defense Evasion:Impair Defenses"]
     default_severity = Severity.MEDIUM
     reports = {"MITRE ATT&CK": ["TA0005:T1562"]}
@@ -231,13 +216,7 @@ class AWSCloudTrailSecurityConfigurationChange(Rule):
     default_reference = (
         "https://docs.aws.amazon.com/prescriptive-guidance/latest/aws-startup-security-baseline/controls-acct.html"
     )
-    summary_attributes = [
-        "eventName",
-        "userAgent",
-        "sourceIpAddress",
-        "recipientAccountId",
-        "p_any_aws_arns",
-    ]
+    summary_attributes = ["eventName", "userAgent", "sourceIpAddress", "recipientAccountId", "p_any_aws_arns"]
     tests = aws_cloud_trail_security_configuration_change_tests
     SECURITY_CONFIG_ACTIONS = {
         "DeleteAccountPublicAccessBlock",

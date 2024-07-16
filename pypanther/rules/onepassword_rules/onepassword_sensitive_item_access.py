@@ -54,7 +54,7 @@ class OnePasswordSensitiveItem(Rule):
     dedup_period_minutes = 30
     display_name = "Configuration Required - Sensitive 1Password Item Accessed"
     enabled = False
-    log_types = [LogType.OnePassword_ItemUsage]
+    log_types = [LogType.ONEPASSWORD_ITEM_USAGE]
     default_reference = "https://support.1password.com/1password-com-items/"
     default_severity = Severity.LOW
     default_description = "Alerts when a user defined list of sensitive items in 1Password is accessed"

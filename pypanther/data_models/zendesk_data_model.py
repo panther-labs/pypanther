@@ -65,7 +65,7 @@ class StandardZendeskAuditLog(DataModel):
     id: str = "Standard.Zendesk.AuditLog"
     display_name: str = "Zendesk Audit"
     enabled: bool = True
-    log_types: list[str] = [LogType.Zendesk_Audit]
+    log_types: list[str] = [LogType.ZENDESK_AUDIT]
     mappings: list[DataModelMapping] = [
         DataModelMapping(name="actor_user", path="actor_name"),
         DataModelMapping(name="assigned_admin_role", method=get_assigned_admin_role),

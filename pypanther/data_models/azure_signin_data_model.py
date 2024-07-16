@@ -22,7 +22,7 @@ class StandardAzureAuditSignIn(DataModel):
     id: str = "Standard.Azure.Audit.SignIn"
     display_name: str = "Azure SignIn Logs DataModel"
     enabled: bool = True
-    log_types: list[str] = [LogType.Azure_Audit]
+    log_types: list[str] = [LogType.AZURE_AUDIT]
     mappings: list[DataModelMapping] = [
         DataModelMapping(name="actor_user", method=get_actor_user),
         DataModelMapping(name="event_type", method=get_event_type),

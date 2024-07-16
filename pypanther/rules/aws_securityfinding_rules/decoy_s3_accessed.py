@@ -246,7 +246,7 @@ class DecoyS3Accessed(Rule):
     id = "Decoy.S3.Accessed-prototype"
     display_name = "Decoy S3 Accessed"
     enabled = False
-    log_types = [LogType.AWS_SecurityFindingFormat]
+    log_types = [LogType.AWS_SECURITY_FINDING_FORMAT]
     default_severity = Severity.HIGH
     default_description = "Actor accessed S3 Manager decoy secret"
     default_reference = "https://aws.amazon.com/blogs/security/how-to-detect-suspicious-activity-in-your-aws-account-by-using-private-decoy-resources/"

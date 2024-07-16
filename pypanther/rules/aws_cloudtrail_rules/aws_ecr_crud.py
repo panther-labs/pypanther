@@ -16,12 +16,7 @@ awsecrcrud_tests: list[RuleTest] = [
                 "accountId": "123456789012",
                 "accessKeyId": "AKIAIOSFODNN7EXAMPLE",
                 "userName": "Mary_Major",
-                "sessionContext": {
-                    "attributes": {
-                        "mfaAuthenticated": "false",
-                        "creationDate": "2019-04-15T16:42:14Z",
-                    }
-                },
+                "sessionContext": {"attributes": {"mfaAuthenticated": "false", "creationDate": "2019-04-15T16:42:14Z"}},
             },
             "eventTime": "2019-04-15T16:45:00Z",
             "eventSource": "ecr.amazonaws.com",
@@ -49,10 +44,7 @@ awsecrcrud_tests: list[RuleTest] = [
             "requestID": "cf044b7d-5f9d-11e9-9b2a-95983139cc57",
             "eventID": "2bfd4ee2-2178-4a82-a27d-b12939923f0f",
             "resources": [
-                {
-                    "ARN": "arn:aws:ecr:us-east-2:123456789012:repository/testrepo",
-                    "accountId": "123456789012",
-                }
+                {"ARN": "arn:aws:ecr:us-east-2:123456789012:repository/testrepo", "accountId": "123456789012"}
             ],
             "eventType": "AwsApiCall",
             "recipientAccountId": "123456789012",
@@ -70,12 +62,7 @@ awsecrcrud_tests: list[RuleTest] = [
                 "accountId": "123456789000",
                 "accessKeyId": "AKIAIOSFODNN7EXAMPLE",
                 "userName": "Mary_Major",
-                "sessionContext": {
-                    "attributes": {
-                        "mfaAuthenticated": "false",
-                        "creationDate": "2019-04-15T16:42:14Z",
-                    }
-                },
+                "sessionContext": {"attributes": {"mfaAuthenticated": "false", "creationDate": "2019-04-15T16:42:14Z"}},
             },
             "eventTime": "2019-04-15T16:45:00Z",
             "eventSource": "ecr.amazonaws.com",
@@ -103,10 +90,7 @@ awsecrcrud_tests: list[RuleTest] = [
             "requestID": "cf044b7d-5f9d-11e9-9b2a-95983139cc57",
             "eventID": "2bfd4ee2-2178-4a82-a27d-b12939923f0f",
             "resources": [
-                {
-                    "ARN": "arn:aws:ecr:us-east-2:123456789000:repository/testrepo",
-                    "accountId": "123456789000",
-                }
+                {"ARN": "arn:aws:ecr:us-east-2:123456789000:repository/testrepo", "accountId": "123456789000"}
             ],
             "eventType": "AwsApiCall",
             "recipientAccountId": "123456789000",
@@ -124,12 +108,7 @@ awsecrcrud_tests: list[RuleTest] = [
                 "accountId": "123456789012",
                 "accessKeyId": "AKIAIOSFODNN7EXAMPLE",
                 "userName": "Mary_Major",
-                "sessionContext": {
-                    "attributes": {
-                        "mfaAuthenticated": "false",
-                        "creationDate": "2019-04-15T16:42:14Z",
-                    }
-                },
+                "sessionContext": {"attributes": {"mfaAuthenticated": "false", "creationDate": "2019-04-15T16:42:14Z"}},
             },
             "eventTime": "2019-04-15T16:45:00Z",
             "eventSource": "ecr.amazonaws.com",
@@ -157,10 +136,7 @@ awsecrcrud_tests: list[RuleTest] = [
             "requestID": "cf044b7d-5f9d-11e9-9b2a-95983139cc57",
             "eventID": "2bfd4ee2-2178-4a82-a27d-b12939923f0f",
             "resources": [
-                {
-                    "ARN": "arn:aws:ecr:us-east-2:123456789012:repository/testrepo",
-                    "accountId": "123456789012",
-                }
+                {"ARN": "arn:aws:ecr:us-east-2:123456789012:repository/testrepo", "accountId": "123456789012"}
             ],
             "eventType": "AwsApiCall",
             "recipientAccountId": "123456789012",
@@ -173,7 +149,7 @@ class AWSECRCRUD(Rule):
     id = "AWS.ECR.CRUD-prototype"
     display_name = "ECR CRUD Actions"
     enabled = False
-    log_types = [LogType.AWS_CloudTrail]
+    log_types = [LogType.AWS_CLOUDTRAIL]
     tags = ["AWS", "Security Control", "Configuration Required"]
     reports = {"CIS": ["3.12"], "MITRE ATT&CK": ["TA0005:T1525"]}
     default_severity = Severity.HIGH
@@ -182,13 +158,7 @@ class AWSECRCRUD(Rule):
     default_reference = (
         "https://docs.aws.amazon.com/AmazonECR/latest/userguide/security-iam.html#security_iam_authentication"
     )
-    summary_attributes = [
-        "eventSource",
-        "eventName",
-        "recipientAccountId",
-        "awsRegion",
-        "p_any_aws_arns",
-    ]
+    summary_attributes = ["eventSource", "eventName", "recipientAccountId", "awsRegion", "p_any_aws_arns"]
     tests = awsecrcrud_tests
     ECR_CRUD_EVENTS = {
         "BatchCheckLayerAvailability",

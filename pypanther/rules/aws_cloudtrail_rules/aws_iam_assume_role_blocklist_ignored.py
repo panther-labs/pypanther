@@ -33,11 +33,7 @@ aws_cloud_trail_iam_assume_role_blacklist_ignored_tests: list[RuleTest] = [
                     "arn": "arn:aws:sts::123456789012:assumed-role/FullAdminRole/1111",
                     "assumedRoleId": "ABCD:1111",
                 },
-                "credentials": {
-                    "accessKeyId": "1111",
-                    "expiration": "Jan 01, 2019 0:00:00 PM",
-                    "sessionToken": "1111",
-                },
+                "credentials": {"accessKeyId": "1111", "expiration": "Jan 01, 2019 0:00:00 PM", "sessionToken": "1111"},
             },
             "sharedEventID": "1111",
             "sourceIPAddress": "111.111.111.111",
@@ -48,12 +44,7 @@ aws_cloud_trail_iam_assume_role_blacklist_ignored_tests: list[RuleTest] = [
                 "accountId": "123456789012",
                 "arn": "arn:aws:iam::123456789012:user/example-user",
                 "principalId": "1111",
-                "sessionContext": {
-                    "attributes": {
-                        "creationDate": "2019-01-01T00:00:00Z",
-                        "mfaAuthenticated": "true",
-                    }
-                },
+                "sessionContext": {"attributes": {"creationDate": "2019-01-01T00:00:00Z", "mfaAuthenticated": "true"}},
                 "type": "IAMUser",
                 "userName": "example-user",
             },
@@ -89,11 +80,7 @@ aws_cloud_trail_iam_assume_role_blacklist_ignored_tests: list[RuleTest] = [
                     "arn": "arn:aws:sts::123456789012:assumed-role/example-role/1111",
                     "assumedRoleId": "ABCD:1111",
                 },
-                "credentials": {
-                    "accessKeyId": "1111",
-                    "expiration": "Jan 01, 2019 0:00:00 PM",
-                    "sessionToken": "1111",
-                },
+                "credentials": {"accessKeyId": "1111", "expiration": "Jan 01, 2019 0:00:00 PM", "sessionToken": "1111"},
             },
             "sharedEventID": "1111",
             "sourceIPAddress": "111.111.111.111",
@@ -104,12 +91,7 @@ aws_cloud_trail_iam_assume_role_blacklist_ignored_tests: list[RuleTest] = [
                 "accountId": "123456789012",
                 "arn": "arn:aws:iam::123456789012:user/example-user",
                 "principalId": "1111",
-                "sessionContext": {
-                    "attributes": {
-                        "creationDate": "2019-01-01T00:00:00Z",
-                        "mfaAuthenticated": "true",
-                    }
-                },
+                "sessionContext": {"attributes": {"creationDate": "2019-01-01T00:00:00Z", "mfaAuthenticated": "true"}},
                 "type": "IAMUser",
                 "userName": "example-user",
             },
@@ -146,11 +128,7 @@ aws_cloud_trail_iam_assume_role_blacklist_ignored_tests: list[RuleTest] = [
                     "arn": "arn:aws:sts::123456789012:assumed-role/FullAdminRole/1111",
                     "assumedRoleId": "ABCD:1111",
                 },
-                "credentials": {
-                    "accessKeyId": "1111",
-                    "expiration": "Jan 01, 2019 0:00:00 PM",
-                    "sessionToken": "1111",
-                },
+                "credentials": {"accessKeyId": "1111", "expiration": "Jan 01, 2019 0:00:00 PM", "sessionToken": "1111"},
             },
             "sharedEventID": "1111",
             "sourceIPAddress": "111.111.111.111",
@@ -161,12 +139,7 @@ aws_cloud_trail_iam_assume_role_blacklist_ignored_tests: list[RuleTest] = [
                 "accountId": "123456789012",
                 "arn": "arn:aws:iam::123456789012:user/example-user",
                 "principalId": "1111",
-                "sessionContext": {
-                    "attributes": {
-                        "creationDate": "2019-01-01T00:00:00Z",
-                        "mfaAuthenticated": "true",
-                    }
-                },
+                "sessionContext": {"attributes": {"creationDate": "2019-01-01T00:00:00Z", "mfaAuthenticated": "true"}},
                 "type": "IAMUser",
                 "userName": "example-user",
             },
@@ -179,7 +152,7 @@ class AWSCloudTrailIAMAssumeRoleBlacklistIgnored(Rule):
     id = "AWS.CloudTrail.IAMAssumeRoleBlacklistIgnored-prototype"
     display_name = "IAM Assume Role Blocklist Ignored"
     enabled = False
-    log_types = [LogType.AWS_CloudTrail]
+    log_types = [LogType.AWS_CLOUDTRAIL]
     tags = [
         "AWS",
         "Configuration Required",

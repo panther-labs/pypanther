@@ -54,27 +54,27 @@ def test_override():
     class Test(Rule):
         id = "old"
         default_severity = Severity.HIGH
-        log_types = [LogType.Panther_Audit, LogType.AlphaSOC_Alert]
+        log_types = [LogType.PANTHER_AUDIT, LogType.ALPHASOC_ALERT]
         tags = ["old", "old2"]
 
     assert Test.id == "old"
     assert Test.default_severity == Severity.HIGH
     assert Test.log_types == [
-        LogType.Panther_Audit,
-        LogType.AlphaSOC_Alert,
+        LogType.PANTHER_AUDIT,
+        LogType.ALPHASOC_ALERT,
     ]
     assert Test.tags == ["old", "old2"]
 
     Test.override(
         id="new",
         default_severity=Severity.LOW,
-        log_types=[LogType.Amazon_EKS_Audit],
+        log_types=[LogType.AMAZON_EKS_AUDIT],
         tags=Test.tags + ["new"],
     )
 
     assert Test.id == "new"
     assert Test.default_severity == Severity.LOW
-    assert Test.log_types == [LogType.Amazon_EKS_Audit]
+    assert Test.log_types == [LogType.AMAZON_EKS_AUDIT]
     assert Test.tags == ["old", "old2", "new"]
 
 
@@ -115,7 +115,7 @@ class TestRunningTests:
         class TestRule(Rule):
             id = "TestRule"
             default_severity = Severity.HIGH
-            log_types = [LogType.AlphaSOC_Alert]
+            log_types = [LogType.ALPHASOC_ALERT]
             tests = [RuleTest(name="test", expected_result=True, log={})]
 
             def rule(self, event):
@@ -139,7 +139,7 @@ class TestRunningTests:
         class TestRule(Rule):
             id = "TestRule"
             default_severity = Severity.HIGH
-            log_types = [LogType.AlphaSOC_Alert]
+            log_types = [LogType.ALPHASOC_ALERT]
             tests = [RuleTest(name="test", expected_result=True, log={})]
 
             def rule(self, event):
@@ -172,7 +172,7 @@ class TestRunningTests:
         class TestRule(Rule):
             id = "TestRule"
             default_severity = Severity.HIGH
-            log_types = [LogType.AlphaSOC_Alert]
+            log_types = [LogType.ALPHASOC_ALERT]
             tests = [RuleTest(name="test", expected_result=True, log={})]
 
             def rule(self, event):
@@ -195,7 +195,7 @@ class TestRunningTests:
         false_test_2 = RuleTest(name="false test 2", expected_result=False, log={})
 
         class Rule1(Rule):
-            log_types = [LogType.Panther_Audit]
+            log_types = [LogType.PANTHER_AUDIT]
             default_severity = Severity.HIGH
             id = "Rule1"
             tests = [false_test_1, false_test_2]
@@ -204,7 +204,7 @@ class TestRunningTests:
                 return True
 
         class Rule2(Rule):
-            log_types = [LogType.Panther_Audit]
+            log_types = [LogType.PANTHER_AUDIT]
             default_severity = Severity.HIGH
             id = "Rule2"
             tests = [false_test_1, false_test_2]
@@ -225,7 +225,7 @@ class TestRunningTests:
         false_test_1 = RuleTest(name="false test 1", expected_result=False, log={})
 
         class Rule1(Rule):
-            log_types = [LogType.Panther_Audit]
+            log_types = [LogType.PANTHER_AUDIT]
             default_severity = Severity.HIGH
             id = "Rule1"
             tests = [false_test_1]
@@ -1185,7 +1185,7 @@ class TestRule(TestCase):
     def test_invalid_destination_during_run(self) -> None:
         class TestRule(Rule):
             id = "TestRule"
-            log_types = [LogType.Panther_Audit]
+            log_types = [LogType.PANTHER_AUDIT]
             default_severity = Severity.CRITICAL
 
             def rule(self, event: PantherEvent) -> bool:
@@ -1206,7 +1206,7 @@ class TestRule(TestCase):
     def test_invalid_destination_during_test(self) -> None:
         class TestRule(Rule):
             id = "TestRule"
-            log_types = [LogType.Panther_Audit]
+            log_types = [LogType.PANTHER_AUDIT]
             default_severity = Severity.CRITICAL
 
             def rule(self, event: PantherEvent) -> bool:
@@ -1226,7 +1226,7 @@ class TestRule(TestCase):
         class MyRule(Rule):
             id = "MyRule"
             default_severity = Severity.INFO
-            log_types = [LogType.Panther_Audit]
+            log_types = [LogType.PANTHER_AUDIT]
 
             allowed_domains: list[str] = []
 
@@ -1253,7 +1253,7 @@ class TestRule(TestCase):
         class MyRule(Rule):
             id = "MyRule"
             default_severity = Severity.INFO
-            log_types = [LogType.Panther_Audit]
+            log_types = [LogType.PANTHER_AUDIT]
 
             allowed_domains: list[str] = []
 

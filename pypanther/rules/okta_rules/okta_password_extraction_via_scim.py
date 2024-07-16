@@ -160,7 +160,7 @@ okta_password_extractionvia_scim_tests: list[RuleTest] = [
 class OktaPasswordExtractionviaSCIM(Rule):
     id = "Okta.Password.Extraction.via.SCIM-prototype"
     display_name = "Okta Cleartext Passwords Extracted via SCIM Application"
-    log_types = [LogType.Okta_SystemLog]
+    log_types = [LogType.OKTA_SYSTEM_LOG]
     reports = {"MITRE ATT&CK": ["TA0006:T1556"]}
     default_severity = Severity.HIGH
     default_description = "An application admin has extracted cleartext user passwords via SCIM app. Malcious actors can extract plaintext passwords by creating a SCIM application under their control and configuring it to sync passwords from Okta.\n"

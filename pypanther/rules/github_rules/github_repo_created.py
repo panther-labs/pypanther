@@ -31,7 +31,7 @@ github_repo_created_tests: list[RuleTest] = [
 class GithubRepoCreated(Rule):
     id = "Github.Repo.Created-prototype"
     display_name = "GitHub Repository Created"
-    log_types = [LogType.GitHub_Audit]
+    log_types = [LogType.GITHUB_AUDIT]
     tags = ["GitHub"]
     default_reference = "https://docs.github.com/en/get-started/quickstart/create-a-repo"
     default_severity = Severity.INFO

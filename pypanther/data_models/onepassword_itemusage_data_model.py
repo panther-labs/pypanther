@@ -8,7 +8,7 @@ class StandardOnePasswordItemUsage(DataModel):
     id: str = "Standard.OnePassword.ItemUsage"
     display_name: str = "1Password Item Usage Events"
     enabled: bool = True
-    log_types: list[str] = [LogType.OnePassword_ItemUsage]
+    log_types: list[str] = [LogType.ONEPASSWORD_ITEM_USAGE]
     mappings: list[DataModelMapping] = [
         DataModelMapping(name="actor_user", path="$.user.email"),
         DataModelMapping(name="source_ip", path="$.client.ipaddress"),

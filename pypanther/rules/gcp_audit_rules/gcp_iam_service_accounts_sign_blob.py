@@ -23,11 +23,7 @@ gcpia_mservice_accountssign_blob_tests: list[RuleTest] = [
                 "serviceName": "iamcredentials.googleapis.com",
                 "methodName": "SignJwt",
                 "authorizationInfo": [
-                    {
-                        "permission": "iam.serviceAccounts.signBlob",
-                        "granted": True,
-                        "resourceAttributes": {},
-                    }
+                    {"permission": "iam.serviceAccounts.signBlob", "granted": True, "resourceAttributes": {}}
                 ],
                 "resourceName": "projects/-/serviceAccounts/114885146936855121342",
                 "request": {
@@ -70,11 +66,7 @@ gcpia_mservice_accountssign_blob_tests: list[RuleTest] = [
                 "serviceName": "iamcredentials.googleapis.com",
                 "methodName": "SignJwt",
                 "authorizationInfo": [
-                    {
-                        "permission": "iam.serviceAccounts.signBlob",
-                        "granted": False,
-                        "resourceAttributes": {},
-                    }
+                    {"permission": "iam.serviceAccounts.signBlob", "granted": False, "resourceAttributes": {}}
                 ],
                 "resourceName": "projects/-/serviceAccounts/114885146936855121342",
                 "request": {
@@ -103,7 +95,7 @@ gcpia_mservice_accountssign_blob_tests: list[RuleTest] = [
 class GCPIAMserviceAccountssignBlob(Rule):
     id = "GCP.IAM.serviceAccounts.signBlob-prototype"
     display_name = "GCP IAM serviceAccounts signBlob"
-    log_types = [LogType.GCP_AuditLog]
+    log_types = [LogType.GCP_AUDIT_LOG]
     reports = {"MITRE ATT&CK": ["TA0004:T1548"]}
     default_severity = Severity.HIGH
     default_description = 'The iam.serviceAccounts.signBlob permission "allows signing of arbitrary payloads" in GCP. This means we can create a signed blob that requests an access token from the Service Account we are targeting.'
@@ -120,13 +112,7 @@ class GCPIAMserviceAccountssignBlob(Rule):
         return False
 
     def title(self, event):
-        actor = deep_get(
-            event,
-            "protoPayload",
-            "authenticationInfo",
-            "principalEmail",
-            default="<ACTOR_NOT_FOUND>",
-        )
+        actor = deep_get(event, "protoPayload", "authenticationInfo", "principalEmail", default="<ACTOR_NOT_FOUND>")
         operation = deep_get(event, "protoPayload", "methodName", default="<OPERATION_NOT_FOUND>")
         project_id = deep_get(event, "resource", "labels", "project_id", default="<PROJECT_NOT_FOUND>")
         return f"[GCP]: [{actor}] performed [{operation}] on project [{project_id}]"

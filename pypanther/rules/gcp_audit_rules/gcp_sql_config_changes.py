@@ -32,7 +32,7 @@ class GCPSQLConfigChanges(Rule):
     id = "GCP.SQL.ConfigChanges-prototype"
     display_name = "GCP SQL Config Changes"
     dedup_period_minutes = 720
-    log_types = [LogType.GCP_AuditLog]
+    log_types = [LogType.GCP_AUDIT_LOG]
     tags = ["GCP", "Database"]
     reports = {"CIS": ["2.11"]}
     default_severity = Severity.LOW

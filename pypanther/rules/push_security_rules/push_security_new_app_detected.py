@@ -57,7 +57,7 @@ push_security_new_app_detected_tests: list[RuleTest] = [
 class PushSecurityNewAppDetected(Rule):
     id = "Push.Security.New.App.Detected-prototype"
     display_name = "Push Security New App Detected"
-    log_types = [LogType.PushSecurity_Entities]
+    log_types = [LogType.PUSH_SECURITY_ENTITIES]
     default_severity = Severity.INFO
     tests = push_security_new_app_detected_tests
 

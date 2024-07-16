@@ -129,9 +129,7 @@ standard_impossible_travel_login_tests: list[RuleTest] = [
         },
     ),
     RuleTest(
-        name="Okta Not sign-in",
-        expected_result=False,
-        log={"eventType": "logout", "p_log_type": "Okta.SystemLog"},
+        name="Okta Not sign-in", expected_result=False, log={"eventType": "logout", "p_log_type": "Okta.SystemLog"}
     ),
     RuleTest(
         name="Okta sign-in with history and impossible travel",
@@ -658,12 +656,7 @@ standard_impossible_travel_login_tests: list[RuleTest] = [
 class StandardImpossibleTravelLogin(Rule):
     id = "Standard.ImpossibleTravel.Login-prototype"
     display_name = "Impossible Travel for Login Action"
-    log_types = [
-        LogType.Asana_Audit,
-        LogType.AWS_CloudTrail,
-        LogType.Notion_AuditLogs,
-        LogType.Okta_SystemLog,
-    ]
+    log_types = [LogType.ASANA_AUDIT, LogType.AWS_CLOUDTRAIL, LogType.NOTION_AUDIT_LOGS, LogType.OKTA_SYSTEM_LOG]
     tags = ["Identity & Access Management", "Initial Access:Valid Accounts"]
     reports = {"MITRE ATT&CK": ["TA0001:T1078"]}
     default_severity = Severity.HIGH
@@ -701,10 +694,7 @@ class StandardImpossibleTravelLogin(Rule):
             # we couldn't go from p_event_time to a datetime object
             # we need to do this in order to make later time comparisons generic
             return False
-        new_login_stats = {
-            "p_event_time": p_event_datetime.isoformat(),
-            "source_ip": event.udm("source_ip"),
-        }
+        new_login_stats = {"p_event_time": p_event_datetime.isoformat(), "source_ip": event.udm("source_ip")}
         #
         src_ip_enrichments = LookupTableMatches().p_matches(event, event.udm("source_ip"))
         # stuff everything from ipinfo_location into the new_login_stats
@@ -733,10 +723,7 @@ class StandardImpossibleTravelLogin(Rule):
             #   offerings have the VPN attribute set to true, and
             #   do have a service name entry
             self.IS_VPN = all(
-                [
-                    deep_get(ipinfo_privacy, "vpn", default=False),
-                    deep_get(ipinfo_privacy, "service", default="") != "",
-                ]
+                [deep_get(ipinfo_privacy, "vpn", default=False), deep_get(ipinfo_privacy, "service", default="") != ""]
             )
         if self.IS_VPN or self.IS_PRIVATE_RELAY:
             new_login_stats.update(

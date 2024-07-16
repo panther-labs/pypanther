@@ -31,7 +31,7 @@ class DUOAdminActionMarkedFraudulent(Rule):
     id = "DUO.Admin.Action.MarkedFraudulent-prototype"
     display_name = "Duo Admin Marked Push Fraudulent"
     dedup_period_minutes = 15
-    log_types = [LogType.Duo_Administrator]
+    log_types = [LogType.DUO_ADMINISTRATOR]
     tags = ["Duo"]
     default_severity = Severity.MEDIUM
     default_description = "A Duo push was marked fraudulent by an admin."

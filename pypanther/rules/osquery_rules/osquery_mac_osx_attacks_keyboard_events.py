@@ -61,7 +61,7 @@ osquery_mac_osx_attacks_keyboard_events_tests: list[RuleTest] = [
 class OsqueryMacOSXAttacksKeyboardEvents(Rule):
     id = "Osquery.Mac.OSXAttacksKeyboardEvents-prototype"
     display_name = "MacOS Keyboard Events"
-    log_types = [LogType.Osquery_Differential]
+    log_types = [LogType.OSQUERY_DIFFERENTIAL]
     tags = ["Osquery", "MacOS", "Malware", "Collection:Input Capture"]
     reports = {"MITRE ATT&CK": ["TA0009:T1056"]}
     default_severity = Severity.MEDIUM

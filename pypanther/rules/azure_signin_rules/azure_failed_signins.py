@@ -1,9 +1,5 @@
 from pypanther import LogType, Rule, RuleTest, Severity
-from pypanther.helpers.panther_azuresignin_helpers import (
-    actor_user,
-    azure_signin_alert_context,
-    is_sign_in_event,
-)
+from pypanther.helpers.panther_azuresignin_helpers import actor_user, azure_signin_alert_context, is_sign_in_event
 from pypanther.helpers.panther_base_helpers import deep_get
 
 azure_audit_many_failed_sign_ins_tests: list[RuleTest] = [
@@ -39,10 +35,7 @@ azure_audit_many_failed_sign_ins_tests: list[RuleTest] = [
                 "location": {
                     "city": "Dublin",
                     "countryOrRegion": "IE",
-                    "geoCoordinates": {
-                        "latitude": 51.35555555555555,
-                        "longitude": -5.244444444444444,
-                    },
+                    "geoCoordinates": {"latitude": 51.35555555555555, "longitude": -5.244444444444444},
                     "state": "Dublin",
                 },
                 "managedIdentityType": "none",
@@ -103,10 +96,7 @@ azure_audit_many_failed_sign_ins_tests: list[RuleTest] = [
                 "location": {
                     "city": "Springfield",
                     "countryOrRegion": "US",
-                    "geoCoordinates": {
-                        "latitude": 42.73333333333333,
-                        "longitude": -110.88888888888889,
-                    },
+                    "geoCoordinates": {"latitude": 42.73333333333333, "longitude": -110.88888888888889},
                     "state": "Oregon",
                 },
                 "managedIdentityType": "none",
@@ -140,7 +130,7 @@ class AzureAuditManyFailedSignIns(Rule):
     display_name = "Azure Many Failed SignIns"
     threshold = 10
     dedup_period_minutes = 10
-    log_types = [LogType.Azure_Audit]
+    log_types = [LogType.AZURE_AUDIT]
     default_severity = Severity.MEDIUM
     default_description = (
         "This detection looks for a number of failed sign-ins for the same ServicePrincipalName or UserPrincipalName\n"
@@ -148,11 +138,7 @@ class AzureAuditManyFailedSignIns(Rule):
     reports = {"MITRE ATT&CK": ["TA0006:T1110", "TA0001:T1078"]}
     default_runbook = "Querying Sign-In logs for the ServicePrincipalName or UserPrincipalName may indicate that the principal is under attack, or that a sign-in credential rolled and some user of the credential didn't get updated.\n"
     default_reference = "https://learn.microsoft.com/en-us/entra/identity/authentication/overview-authentication"
-    summary_attributes = [
-        "properties:ServicePrincipalName",
-        "properties:UserPrincipalName",
-        "properties:ipAddress",
-    ]
+    summary_attributes = ["properties:ServicePrincipalName", "properties:UserPrincipalName", "properties:ipAddress"]
     tests = azure_audit_many_failed_sign_ins_tests
 
     def rule(self, event):

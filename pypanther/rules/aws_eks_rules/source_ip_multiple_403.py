@@ -8,10 +8,7 @@ amazon_eks_audit_multiple403_tests: list[RuleTest] = [
         name="Not 403",
         expected_result=False,
         log={
-            "annotations": {
-                "authorization.k8s.io/decision": "allow",
-                "authorization.k8s.io/reason": "",
-            },
+            "annotations": {"authorization.k8s.io/decision": "allow", "authorization.k8s.io/reason": ""},
             "apiVersion": "audit.k8s.io/v1",
             "auditID": "35506555-dffc-4337-b2b1-c4af52b88e18",
             "kind": "Event",
@@ -69,11 +66,7 @@ amazon_eks_audit_multiple403_tests: list[RuleTest] = [
             "auditID": "e2626946-90e1-4d0c-829e-ad5a78572926",
             "kind": "Event",
             "level": "Metadata",
-            "objectRef": {
-                "apiGroup": "discovery.k8s.io",
-                "apiVersion": "v1",
-                "resource": "endpointslices",
-            },
+            "objectRef": {"apiGroup": "discovery.k8s.io", "apiVersion": "v1", "resource": "endpointslices"},
             "p_any_ip_addresses": ["10.0.27.115"],
             "p_any_usernames": ["system:serviceaccount:kube-system:coredns"],
             "p_event_time": "2022-11-29 22:34:06.892",
@@ -93,11 +86,7 @@ amazon_eks_audit_multiple403_tests: list[RuleTest] = [
                     "authentication_kubernetes_io_slash_pod-name": ["coredns-57ff979f67-bl27n"],
                     "authentication_kubernetes_io_slash_pod-uid": ["5b9488ae-5563-42aa-850b-b0d82edb3e22"],
                 },
-                "groups": [
-                    "system:serviceaccounts",
-                    "system:serviceaccounts:kube-system",
-                    "system:authenticated",
-                ],
+                "groups": ["system:serviceaccounts", "system:serviceaccounts:kube-system", "system:authenticated"],
                 "uid": "5e4461f9-f529-4e66-9343-0b0cc9452284",
                 "username": "system:serviceaccount:kube-system:coredns",
             },
@@ -117,11 +106,7 @@ amazon_eks_audit_multiple403_tests: list[RuleTest] = [
             "auditID": "e2626946-90e1-4d0c-829e-ad5a78572926",
             "kind": "Event",
             "level": "Metadata",
-            "objectRef": {
-                "apiGroup": "discovery.k8s.io",
-                "apiVersion": "v1",
-                "resource": "endpointslices",
-            },
+            "objectRef": {"apiGroup": "discovery.k8s.io", "apiVersion": "v1", "resource": "endpointslices"},
             "p_any_ip_addresses": ["5.5.5.5"],
             "p_any_usernames": ["system:serviceaccount:kube-system:coredns"],
             "p_event_time": "2022-11-29 22:34:06.892",
@@ -141,11 +126,7 @@ amazon_eks_audit_multiple403_tests: list[RuleTest] = [
                     "authentication_kubernetes_io_slash_pod-name": ["coredns-57ff979f67-bl27n"],
                     "authentication_kubernetes_io_slash_pod-uid": ["5b9488ae-5563-42aa-850b-b0d82edb3e22"],
                 },
-                "groups": [
-                    "system:serviceaccounts",
-                    "system:serviceaccounts:kube-system",
-                    "system:authenticated",
-                ],
+                "groups": ["system:serviceaccounts", "system:serviceaccounts:kube-system", "system:authenticated"],
                 "uid": "5e4461f9-f529-4e66-9343-0b0cc9452284",
                 "username": "system:serviceaccount:kube-system:coredns",
             },
@@ -159,7 +140,7 @@ amazon_eks_audit_multiple403_tests: list[RuleTest] = [
 class AmazonEKSAuditMultiple403(Rule):
     id = "Amazon.EKS.Audit.Multiple403-prototype"
     display_name = "EKS Audit Log based single sourceIP is generating multiple 403s"
-    log_types = [LogType.Amazon_EKS_Audit]
+    log_types = [LogType.AMAZON_EKS_AUDIT]
     tags = ["EKS"]
     reports = {"MITRE ATT&CK": ["TA0007:T1613"]}
     default_reference = "https://aws.github.io/aws-eks-best-practices/security/docs/detective/"

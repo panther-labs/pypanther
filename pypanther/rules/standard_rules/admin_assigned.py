@@ -92,11 +92,7 @@ standard_admin_role_assigned_tests: list[RuleTest] = [
     RuleTest(
         name="OneLogin - Non super user permissions assigned",
         expected_result=False,
-        log={
-            "event_type_id": 72,
-            "privilege_name": "Manage users",
-            "p_log_type": "OneLogin.Events",
-        },
+        log={"event_type_id": 72, "privilege_name": "Manage users", "p_log_type": "OneLogin.Events"},
     ),
     RuleTest(
         name="OneLogin - Super user permissions assigned",
@@ -112,42 +108,22 @@ standard_admin_role_assigned_tests: list[RuleTest] = [
     RuleTest(
         name="Github - User Promoted",
         expected_result=True,
-        log={
-            "actor": "cat",
-            "action": "team.promote_maintainer",
-            "p_log_type": "GitHub.Audit",
-            "user": "bob",
-        },
+        log={"actor": "cat", "action": "team.promote_maintainer", "p_log_type": "GitHub.Audit", "user": "bob"},
     ),
     RuleTest(
         name="Github - Admin Added",
         expected_result=True,
-        log={
-            "actor": "cat",
-            "action": "business.add_admin",
-            "p_log_type": "GitHub.Audit",
-            "user": "bob",
-        },
+        log={"actor": "cat", "action": "business.add_admin", "p_log_type": "GitHub.Audit", "user": "bob"},
     ),
     RuleTest(
         name="Github - Admin Invited",
         expected_result=True,
-        log={
-            "actor": "cat",
-            "action": "business.invite_admin",
-            "p_log_type": "GitHub.Audit",
-            "user": "bob",
-        },
+        log={"actor": "cat", "action": "business.invite_admin", "p_log_type": "GitHub.Audit", "user": "bob"},
     ),
     RuleTest(
         name="Github - Unknown Admin Role",
         expected_result=False,
-        log={
-            "actor": "cat",
-            "action": "unknown.admin_role",
-            "p_log_type": "GitHub.Audit",
-            "user": "bob",
-        },
+        log={"actor": "cat", "action": "unknown.admin_role", "p_log_type": "GitHub.Audit", "user": "bob"},
     ),
     RuleTest(
         name="Zendesk - Admin Role Downgraded",
@@ -207,24 +183,14 @@ standard_admin_role_assigned_tests: list[RuleTest] = [
         name="Asana - Normal Login",
         expected_result=False,
         log={
-            "actor": {
-                "actor_type": "user",
-                "email": "homer@springfield.com",
-                "gid": "2222222",
-                "name": "Homer",
-            },
+            "actor": {"actor_type": "user", "email": "homer@springfield.com", "gid": "2222222", "name": "Homer"},
             "context": {"client_ip_address": "8.8.8.8", "context_type": "web"},
             "created_at": "2021-10-21T23:38:10.364Z",
             "details": {"method": ["ONE_TIME_KEY"]},
             "event_category": "logins",
             "event_type": "user_login_succeeded",
             "gid": "222222222",
-            "resource": {
-                "email": "homer@springfield.com",
-                "gid": "2222222",
-                "name": "homer",
-                "resource_type": "user",
-            },
+            "resource": {"email": "homer@springfield.com", "gid": "2222222", "name": "homer", "resource_type": "user"},
             "p_log_type": "Asana.Audit",
             "p_parse_time": "2021-06-04 10:02:33.650807",
             "p_event_time": "2021-06-04 09:59:53.650807",
@@ -265,13 +231,13 @@ class StandardAdminRoleAssigned(Rule):
     id = "Standard.AdminRoleAssigned-prototype"
     display_name = "Admin Role Assigned"
     log_types = [
-        LogType.Asana_Audit,
-        LogType.Atlassian_Audit,
-        LogType.GCP_AuditLog,
-        LogType.GitHub_Audit,
-        LogType.GSuite_Reports,
-        LogType.OneLogin_Events,
-        LogType.Zendesk_Audit,
+        LogType.ASANA_AUDIT,
+        LogType.ATLASSIAN_AUDIT,
+        LogType.GCP_AUDIT_LOG,
+        LogType.GITHUB_AUDIT,
+        LogType.GSUITE_REPORTS,
+        LogType.ONELOGIN_EVENTS,
+        LogType.ZENDESK_AUDIT,
     ]
     tags = ["DataModel", "Privilege Escalation:Valid Accounts"]
     default_severity = Severity.MEDIUM
@@ -291,8 +257,4 @@ class StandardAdminRoleAssigned(Rule):
         return f"{event.get('p_log_type')}: [{event.udm('actor_user')}] assigned admin privileges [{event.udm('assigned_admin_role')}] to [{event.udm('user')}]"
 
     def alert_context(self, event):
-        return {
-            "ips": event.get("p_any_ip_addresses", []),
-            "actor": event.udm("actor_user"),
-            "user": event.udm("user"),
-        }
+        return {"ips": event.get("p_any_ip_addresses", []), "actor": event.udm("actor_user"), "user": event.udm("user")}

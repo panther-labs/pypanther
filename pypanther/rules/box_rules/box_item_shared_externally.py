@@ -26,7 +26,7 @@ class BoxItemSharedExternally(Rule):
     id = "Box.Item.Shared.Externally-prototype"
     display_name = "Box item shared externally"
     enabled = False
-    log_types = [LogType.Box_Event]
+    log_types = [LogType.BOX_EVENT]
     tags = ["Box", "Exfiltration:Exfiltration Over Web Service", "Configuration Required"]
     reports = {"MITRE ATT&CK": ["TA0010:T1567"]}
     default_severity = Severity.MEDIUM

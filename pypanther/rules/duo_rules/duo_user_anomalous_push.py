@@ -51,7 +51,7 @@ class DUOUserDeniedAnomalousPush(Rule):
     id = "DUO.User.Denied.AnomalousPush-prototype"
     display_name = "Duo User Auth Denied For Anomalous Push"
     dedup_period_minutes = 15
-    log_types = [LogType.Duo_Authentication]
+    log_types = [LogType.DUO_AUTHENTICATION]
     tags = ["Duo"]
     default_severity = Severity.MEDIUM
     default_description = "A Duo authentication was denied due to an anomalous 2FA push.\n"

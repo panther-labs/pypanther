@@ -18,10 +18,7 @@ aws_cloud_trail_iam_entity_created_without_cloud_formation_tests: list[RuleTest]
                 "accessKeyId": "1",
                 "invokedBy": "cloudformation.amazonaws.com",
                 "sessionContext": {
-                    "attributes": {
-                        "mfaAuthenticated": "true",
-                        "creationDate": "2019-01-01T00:00:00Z",
-                    },
+                    "attributes": {"mfaAuthenticated": "true", "creationDate": "2019-01-01T00:00:00Z"},
                     "sessionIssuer": {
                         "type": "Role",
                         "principalId": "1111",
@@ -57,10 +54,7 @@ aws_cloud_trail_iam_entity_created_without_cloud_formation_tests: list[RuleTest]
                 "accountId": "123456789012",
                 "accessKeyId": "1",
                 "sessionContext": {
-                    "attributes": {
-                        "mfaAuthenticated": "true",
-                        "creationDate": "2019-01-01T00:00:00Z",
-                    },
+                    "attributes": {"mfaAuthenticated": "true", "creationDate": "2019-01-01T00:00:00Z"},
                     "sessionIssuer": {
                         "type": "Role",
                         "principalId": "1111",
@@ -97,10 +91,7 @@ aws_cloud_trail_iam_entity_created_without_cloud_formation_tests: list[RuleTest]
                 "accessKeyId": "1",
                 "invokedBy": "cloudformation.amazonaws.com",
                 "sessionContext": {
-                    "attributes": {
-                        "mfaAuthenticated": "true",
-                        "creationDate": "2019-01-01T00:00:00Z",
-                    },
+                    "attributes": {"mfaAuthenticated": "true", "creationDate": "2019-01-01T00:00:00Z"},
                     "sessionIssuer": {
                         "type": "Role",
                         "principalId": "1111",
@@ -136,10 +127,7 @@ aws_cloud_trail_iam_entity_created_without_cloud_formation_tests: list[RuleTest]
                 "accountId": "123456789012",
                 "accessKeyId": "1",
                 "sessionContext": {
-                    "attributes": {
-                        "mfaAuthenticated": "true",
-                        "creationDate": "2019-01-01T00:00:00Z",
-                    },
+                    "attributes": {"mfaAuthenticated": "true", "creationDate": "2019-01-01T00:00:00Z"},
                     "sessionIssuer": {
                         "type": "Role",
                         "principalId": "1111",
@@ -175,10 +163,7 @@ aws_cloud_trail_iam_entity_created_without_cloud_formation_tests: list[RuleTest]
                 "accountId": "123456789012",
                 "accessKeyId": "1",
                 "sessionContext": {
-                    "attributes": {
-                        "mfaAuthenticated": "true",
-                        "creationDate": "2019-01-01T00:00:00Z",
-                    },
+                    "attributes": {"mfaAuthenticated": "true", "creationDate": "2019-01-01T00:00:00Z"},
                     "sessionIssuer": {
                         "type": "Role",
                         "principalId": "1111",
@@ -215,10 +200,7 @@ aws_cloud_trail_iam_entity_created_without_cloud_formation_tests: list[RuleTest]
                 "accountId": "123456789012",
                 "accessKeyId": "1",
                 "sessionContext": {
-                    "attributes": {
-                        "mfaAuthenticated": "true",
-                        "creationDate": "2019-01-01T00:00:00Z",
-                    },
+                    "attributes": {"mfaAuthenticated": "true", "creationDate": "2019-01-01T00:00:00Z"},
                     "sessionIssuer": {
                         "type": "Role",
                         "principalId": "1111",
@@ -249,14 +231,9 @@ class AWSCloudTrailIAMEntityCreatedWithoutCloudFormation(Rule):
     id = "AWS.CloudTrail.IAMEntityCreatedWithoutCloudFormation-prototype"
     display_name = "IAM Entity Created Without CloudFormation"
     enabled = False
-    log_types = [LogType.AWS_CloudTrail]
+    log_types = [LogType.AWS_CLOUDTRAIL]
     reports = {"MITRE ATT&CK": ["TA0003:T1136"]}
-    tags = [
-        "AWS",
-        "Configuration Required",
-        "Identity and Access Management",
-        "Persistence:Create Account",
-    ]
+    tags = ["AWS", "Configuration Required", "Identity and Access Management", "Persistence:Create Account"]
     default_severity = Severity.MEDIUM
     default_description = "An IAM Entity (Group, Policy, Role, or User) was created manually. IAM entities should be created in code to ensure that permissions are tracked and managed correctly.\n"
     default_runbook = "Verify whether IAM entity needs to exist. If so, re-create it in an appropriate CloudFormation, Terraform, or other template. Delete the original manually created entity.\n"
@@ -292,8 +269,7 @@ class AWSCloudTrailIAMEntityCreatedWithoutCloudFormation(Rule):
             if (
                 len(
                     re.findall(
-                        admin_role_pattern,
-                        deep_get(event, "userIdentity", "sessionContext", "sessionIssuer", "arn"),
+                        admin_role_pattern, deep_get(event, "userIdentity", "sessionContext", "sessionIssuer", "arn")
                     )
                 )
                 > 0

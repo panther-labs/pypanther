@@ -156,7 +156,7 @@ class OktaGroupAdminRoleAssigned(Rule):
     display_name = "Okta Group Admin Role Assigned"
     default_reference = "https://support.okta.com/help/s/article/How-to-assign-Administrator-roles-to-groups?language=en_US#:~:text=Log%20in%20to%20the%20Admin,user%20and%20click%20Save%20changes"
     default_severity = Severity.HIGH
-    log_types = [LogType.Okta_SystemLog]
+    log_types = [LogType.OKTA_SYSTEM_LOG]
     id = "Okta.Group.Admin.Role.Assigned-prototype"
     tests = okta_group_admin_role_assigned_tests
 

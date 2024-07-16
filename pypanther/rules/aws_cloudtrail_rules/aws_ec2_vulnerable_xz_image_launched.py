@@ -43,14 +43,7 @@ awsec2_vulnerable_xz_image_launched_tests: list[RuleTest] = [
                 "ebsOptimized": True,
                 "instanceType": "t3a.micro",
                 "instancesSet": {
-                    "items": [
-                        {
-                            "imageId": "ami-020a359780bc6f835",
-                            "keyName": "a-key",
-                            "maxCount": 1,
-                            "minCount": 1,
-                        }
-                    ]
+                    "items": [{"imageId": "ami-020a359780bc6f835", "keyName": "a-key", "maxCount": 1, "minCount": 1}]
                 },
                 "monitoring": {"enabled": False},
                 "networkInterfaceSet": {
@@ -118,12 +111,7 @@ awsec2_vulnerable_xz_image_launched_tests: list[RuleTest] = [
                                             "status": "attaching",
                                         },
                                         "groupSet": {
-                                            "items": [
-                                                {
-                                                    "groupId": "sg-00000000000000000",
-                                                    "groupName": "ssh",
-                                                }
-                                            ]
+                                            "items": [{"groupId": "sg-00000000000000000", "groupName": "ssh"}]
                                         },
                                         "interfaceType": "interface",
                                         "ipv6AddressesSet": {},
@@ -187,10 +175,7 @@ awsec2_vulnerable_xz_image_launched_tests: list[RuleTest] = [
                 "arn": "arn:aws:sts::123456789012:assumed-role/ARole/user.name",
                 "principalId": "AROAVKVYIOO7JN7TN7NSA:user.name",
                 "sessionContext": {
-                    "attributes": {
-                        "creationDate": "2024-04-02T14:45:31Z",
-                        "mfaAuthenticated": "false",
-                    },
+                    "attributes": {"creationDate": "2024-04-02T14:45:31Z", "mfaAuthenticated": "false"},
                     "sessionIssuer": {
                         "accountId": "123456789012",
                         "arn": "arn:aws:iam::123456789012:role/aws-reserved/sso.amazonaws.com/us-west-2/ARole",
@@ -242,14 +227,7 @@ awsec2_vulnerable_xz_image_launched_tests: list[RuleTest] = [
                 "ebsOptimized": True,
                 "instanceType": "t3a.nano",
                 "instancesSet": {
-                    "items": [
-                        {
-                            "imageId": "ami-092e3b17e435e5e58",
-                            "keyName": "a-key",
-                            "maxCount": 2,
-                            "minCount": 2,
-                        }
-                    ]
+                    "items": [{"imageId": "ami-092e3b17e435e5e58", "keyName": "a-key", "maxCount": 2, "minCount": 2}]
                 },
                 "monitoring": {"enabled": False},
                 "networkInterfaceSet": {
@@ -317,12 +295,7 @@ awsec2_vulnerable_xz_image_launched_tests: list[RuleTest] = [
                                             "status": "attaching",
                                         },
                                         "groupSet": {
-                                            "items": [
-                                                {
-                                                    "groupId": "sg-00000000000000000",
-                                                    "groupName": "ssh",
-                                                }
-                                            ]
+                                            "items": [{"groupId": "sg-00000000000000000", "groupName": "ssh"}]
                                         },
                                         "interfaceType": "interface",
                                         "ipv6AddressesSet": {},
@@ -408,12 +381,7 @@ awsec2_vulnerable_xz_image_launched_tests: list[RuleTest] = [
                                             "status": "attaching",
                                         },
                                         "groupSet": {
-                                            "items": [
-                                                {
-                                                    "groupId": "sg-00000000000000000",
-                                                    "groupName": "ssh",
-                                                }
-                                            ]
+                                            "items": [{"groupId": "sg-00000000000000000", "groupName": "ssh"}]
                                         },
                                         "interfaceType": "interface",
                                         "ipv6AddressesSet": {},
@@ -477,10 +445,7 @@ awsec2_vulnerable_xz_image_launched_tests: list[RuleTest] = [
                 "arn": "arn:aws:sts::123456789012:assumed-role/ARole/user.name",
                 "principalId": "00000000000000000:user.name",
                 "sessionContext": {
-                    "attributes": {
-                        "creationDate": "2024-04-02T16:09:04Z",
-                        "mfaAuthenticated": "false",
-                    },
+                    "attributes": {"creationDate": "2024-04-02T16:09:04Z", "mfaAuthenticated": "false"},
                     "sessionIssuer": {
                         "accountId": "123456789012",
                         "arn": "arn:aws:iam::123456789012:role/aws-reserved/sso.amazonaws.com/us-west-2/ARole",
@@ -532,14 +497,7 @@ awsec2_vulnerable_xz_image_launched_tests: list[RuleTest] = [
                 "ebsOptimized": True,
                 "instanceType": "t3a.micro",
                 "instancesSet": {
-                    "items": [
-                        {
-                            "imageId": "ami-08038de0f4f90a9f0",
-                            "keyName": "a-key",
-                            "maxCount": 1,
-                            "minCount": 1,
-                        }
-                    ]
+                    "items": [{"imageId": "ami-08038de0f4f90a9f0", "keyName": "a-key", "maxCount": 1, "minCount": 1}]
                 },
                 "monitoring": {"enabled": False},
                 "networkInterfaceSet": {
@@ -607,12 +565,7 @@ awsec2_vulnerable_xz_image_launched_tests: list[RuleTest] = [
                                             "status": "attaching",
                                         },
                                         "groupSet": {
-                                            "items": [
-                                                {
-                                                    "groupId": "sg-00000000000000000",
-                                                    "groupName": "ssh",
-                                                }
-                                            ]
+                                            "items": [{"groupId": "sg-00000000000000000", "groupName": "ssh"}]
                                         },
                                         "interfaceType": "interface",
                                         "ipv6AddressesSet": {},
@@ -676,10 +629,7 @@ awsec2_vulnerable_xz_image_launched_tests: list[RuleTest] = [
                 "arn": "arn:aws:sts::123456789012:assumed-role/ARole/user.name",
                 "principalId": "AROAVKVYIOO7JN7TN7NSA:user.name",
                 "sessionContext": {
-                    "attributes": {
-                        "creationDate": "2024-04-02T14:45:31Z",
-                        "mfaAuthenticated": "false",
-                    },
+                    "attributes": {"creationDate": "2024-04-02T14:45:31Z", "mfaAuthenticated": "false"},
                     "sessionIssuer": {
                         "accountId": "123456789012",
                         "arn": "arn:aws:iam::123456789012:role/aws-reserved/sso.amazonaws.com/us-west-2/ARole",
@@ -705,7 +655,7 @@ class AWSEC2VulnerableXZImageLaunched(Rule):
     tags = ["AWS", "Linux", "Emerging Threats", "Supply Chain Compromise"]
     reports = {"MITRE ATT&CK": ["TA0001:T1195.001"]}
     default_runbook = "- Verify that the AMI is indeed vulnerable to CVE-2024-3094 (xz -V being 5.6.0 or 5.6.1) - If the AMI is vulnerable, terminate the instance and launch a new instance with a non-vulnerable AMI\n"
-    log_types = [LogType.AWS_CloudTrail]
+    log_types = [LogType.AWS_CLOUDTRAIL]
     id = "AWS.EC2.Vulnerable.XZ.Image.Launched-prototype"
     tests = awsec2_vulnerable_xz_image_launched_tests
     # AMIs published by Fedora between 2024-03-26 and 2024-04-02
@@ -715,12 +665,7 @@ class AWSEC2VulnerableXZImageLaunched(Rule):
         if not aws_cloudtrail_success(event) or event.get("eventName") != "RunInstances":
             return False
         amis_launched = event.deep_walk(
-            "responseElements",
-            "instancesSet",
-            "items",
-            "imageId",
-            default="<AMI ID not found>",
-            return_val="all",
+            "responseElements", "instancesSet", "items", "imageId", default="<AMI ID not found>", return_val="all"
         )
         # convert to a list if only one item is returned
         if not isinstance(amis_launched, list):
@@ -731,12 +676,7 @@ class AWSEC2VulnerableXZImageLaunched(Rule):
 
     def title(self, event):
         amis_launched = event.deep_walk(
-            "responseElements",
-            "instancesSet",
-            "items",
-            "imageId",
-            default="<AMI ID not found>",
-            return_val="all",
+            "responseElements", "instancesSet", "items", "imageId", default="<AMI ID not found>", return_val="all"
         )
         instance_ids = event.deep_walk(
             "responseElements",

@@ -161,7 +161,7 @@ class GCPIAMOrgFolderIAMChanges(Rule):
     id = "GCP.IAM.OrgFolderIAMChanges-prototype"
     display_name = "GCP Org or Folder Policy Was Changed Manually"
     dedup_period_minutes = 1440
-    log_types = [LogType.GCP_AuditLog]
+    log_types = [LogType.GCP_AUDIT_LOG]
     tags = ["GCP", "Identity & Access Management"]
     reports = {"GCP_CIS_1.3": ["1.8"], "MITRE ATT&CK": ["Privilege Escalation:Valid Accounts"]}
     default_severity = Severity.HIGH

@@ -70,18 +70,12 @@ class OnePasswordLutSensitiveItem(Rule):
     dedup_period_minutes = 30
     display_name = "BETA - Sensitive 1Password Item Accessed"
     enabled = False
-    log_types = [LogType.OnePassword_ItemUsage]
+    log_types = [LogType.ONEPASSWORD_ITEM_USAGE]
     default_reference = "https://support.1password.com/1password-com-items/"
     default_severity = Severity.LOW
     default_description = "Alerts when a user defined list of sensitive items in 1Password is accessed"
     summary_attributes = ["p_any_ip_addresses", "p_any_emails"]
-    tags = [
-        "Configuration Required",
-        "1Password",
-        "Lookup Table",
-        "BETA",
-        "Credential Access:Unsecured Credentials",
-    ]
+    tags = ["Configuration Required", "1Password", "Lookup Table", "BETA", "Credential Access:Unsecured Credentials"]
     reports = {"MITRE ATT&CK": ["TA0006:T1552"]}
     tests = one_password_lut_sensitive_item_tests
     "\nThis rule requires the use of the Lookup Table feature currently in Beta in Panther, 1Password\nlogs reference items by their UUID without human-friendly titles. The instructions to create a\nlookup table to do this translation can be found at :\n\n https://docs.runpanther.io/guides/using-lookup-tables-1password-uuids\n\nThe steps detailed in that document are required for this rule to function as intended.\n"

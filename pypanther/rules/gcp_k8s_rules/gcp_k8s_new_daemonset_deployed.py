@@ -46,7 +46,7 @@ class GCPK8sNewDaemonsetDeployed(Rule):
     id = "GCP.K8s.New.Daemonset.Deployed-prototype"
     display_name = "GCP K8s New Daemonset Deployed"
     default_description = "Detects Daemonset creation in GCP Kubernetes clusters."
-    log_types = [LogType.GCP_AuditLog]
+    log_types = [LogType.GCP_AUDIT_LOG]
     default_severity = Severity.MEDIUM
     default_reference = "https://medium.com/snowflake/from-logs-to-detection-using-snowflake-and-panther-to-detect-k8s-threats-d72f70a504d7"
     default_runbook = "Investigate a reason of creating Daemonset. Create ticket if appropriate."

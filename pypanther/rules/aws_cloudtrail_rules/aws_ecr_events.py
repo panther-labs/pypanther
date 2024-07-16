@@ -147,7 +147,7 @@ class AWSECREVENTS(Rule):
     id = "AWS.ECR.EVENTS-prototype"
     display_name = "AWS ECR Events"
     enabled = False
-    log_types = [LogType.AWS_CloudTrail]
+    log_types = [LogType.AWS_CLOUDTRAIL]
     tags = ["AWS", "Security Control", "Configuration Required"]
     reports = {"MITRE ATT&CK": ["TA0005:T1535"]}
     default_severity = Severity.MEDIUM

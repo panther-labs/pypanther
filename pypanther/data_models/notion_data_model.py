@@ -30,7 +30,7 @@ class StandardNotionAuditLogs(DataModel):
     id: str = "Standard.Notion.AuditLogs"
     display_name: str = "Notion Audit Logs"
     enabled: bool = True
-    log_types: list[str] = [LogType.Notion_AuditLogs]
+    log_types: list[str] = [LogType.NOTION_AUDIT_LOGS]
     mappings: list[DataModelMapping] = [
         DataModelMapping(name="actor_user", method=get_actor_user),
         DataModelMapping(name="event_type", method=get_event_type),

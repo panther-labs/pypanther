@@ -29,7 +29,7 @@ git_hub_user_access_key_created_tests: list[RuleTest] = [
 class GitHubUserAccessKeyCreated(Rule):
     id = "GitHub.User.AccessKeyCreated-prototype"
     display_name = "GitHub User Access Key Created"
-    log_types = [LogType.GitHub_Audit]
+    log_types = [LogType.GITHUB_AUDIT]
     tags = ["GitHub", "Persistence:Valid Accounts"]
     reports = {"MITRE ATT&CK": ["TA0003:T1078"]}
     default_reference = "https://docs.github.com/en/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent"

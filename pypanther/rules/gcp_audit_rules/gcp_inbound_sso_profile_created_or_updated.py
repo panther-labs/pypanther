@@ -148,7 +148,7 @@ gcp_inbound_sso_profile_created_tests: list[RuleTest] = [
 class GCPInboundSSOProfileCreated(Rule):
     id = "GCP.Inbound.SSO.Profile.Created-prototype"
     display_name = "GCP Inbound SSO Profile Created"
-    log_types = [LogType.GCP_AuditLog]
+    log_types = [LogType.GCP_AUDIT_LOG]
     tags = ["Account Manipulation", "Additional Cloud Roles", "GCP", "Privilege Escalation"]
     reports = {"MITRE ATT&CK": ["TA0003:T1136.003", "TA0003:T1098.003", "TA0004:T1098.003"]}
     default_severity = Severity.HIGH

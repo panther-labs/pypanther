@@ -17,10 +17,7 @@ aws_cloud_trail_codebuild_project_made_public_tests: list[RuleTest] = [
                 "sessionContext": {
                     "sessionIssuer": {},
                     "webIdFederationData": {},
-                    "attributes": {
-                        "creationDate": "2021-08-18T14:54:10Z",
-                        "mfaAuthenticated": "false",
-                    },
+                    "attributes": {"creationDate": "2021-08-18T14:54:10Z", "mfaAuthenticated": "false"},
                 },
             },
             "eventTime": "2021-08-18T14:54:53Z",
@@ -58,10 +55,7 @@ aws_cloud_trail_codebuild_project_made_public_tests: list[RuleTest] = [
                 "sessionContext": {
                     "sessionIssuer": {},
                     "webIdFederationData": {},
-                    "attributes": {
-                        "creationDate": "2021-08-18T14:54:10Z",
-                        "mfaAuthenticated": "false",
-                    },
+                    "attributes": {"creationDate": "2021-08-18T14:54:10Z", "mfaAuthenticated": "false"},
                 },
             },
             "eventTime": "2021-08-18T14:54:53Z",
@@ -99,10 +93,7 @@ aws_cloud_trail_codebuild_project_made_public_tests: list[RuleTest] = [
                 "sessionContext": {
                     "sessionIssuer": {},
                     "webIdFederationData": {},
-                    "attributes": {
-                        "creationDate": "2021-08-18T14:54:10Z",
-                        "mfaAuthenticated": "false",
-                    },
+                    "attributes": {"creationDate": "2021-08-18T14:54:10Z", "mfaAuthenticated": "false"},
                 },
             },
             "eventTime": "2021-08-18T14:54:53Z",
@@ -127,20 +118,14 @@ aws_cloud_trail_codebuild_project_made_public_tests: list[RuleTest] = [
 class AWSCloudTrailCodebuildProjectMadePublic(Rule):
     id = "AWS.CloudTrail.CodebuildProjectMadePublic-prototype"
     display_name = "CodeBuild Project made Public"
-    log_types = [LogType.AWS_CloudTrail]
+    log_types = [LogType.AWS_CLOUDTRAIL]
     reports = {"MITRE ATT&CK": ["TA0010:T1567"]}
     tags = ["AWS", "Security Control", "Exfiltration:Exfiltration Over Web Service"]
     default_severity = Severity.HIGH
     default_description = "An AWS CodeBuild Project was made publicly accessible\n"
     default_runbook = "TBD"
     default_reference = "https://docs.aws.amazon.com/codebuild/latest/userguide/public-builds.html"
-    summary_attributes = [
-        "eventName",
-        "userAgent",
-        "sourceIpAddress",
-        "recipientAccountId",
-        "p_any_aws_arns",
-    ]
+    summary_attributes = ["eventName", "userAgent", "sourceIpAddress", "recipientAccountId", "p_any_aws_arns"]
     tests = aws_cloud_trail_codebuild_project_made_public_tests
 
     def rule(self, event):

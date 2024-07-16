@@ -37,7 +37,7 @@ snyk_system_sso_tests: list[RuleTest] = [
 class SnykSystemSSO(Rule):
     id = "Snyk.System.SSO-prototype"
     display_name = "Snyk System SSO Settings Changed"
-    log_types = [LogType.Snyk_GroupAudit]
+    log_types = [LogType.SNYK_GROUP_AUDIT]
     tags = ["Snyk"]
     default_severity = Severity.HIGH
     default_description = "Detects Snyk SSO Settings have been changed. The reference URL from Snyk indicates that these events are likely to originate exclusively from Snyk Support.\n"

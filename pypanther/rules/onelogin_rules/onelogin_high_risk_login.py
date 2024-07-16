@@ -22,7 +22,7 @@ one_login_high_risk_login_tests: list[RuleTest] = [
 class OneLoginHighRiskLogin(Rule):
     id = "OneLogin.HighRiskLogin-prototype"
     display_name = "OneLogin High Risk Login"
-    log_types = [LogType.OneLogin_Events]
+    log_types = [LogType.ONELOGIN_EVENTS]
     tags = ["OneLogin"]
     default_severity = Severity.MEDIUM
     default_description = "A OneLogin user successfully logged in after a failed high-risk login attempt."

@@ -37,12 +37,7 @@ okta_threat_insight_security_threat_detected_tests: list[RuleTest] = [
         name="Threat Detected Event - Deny",
         expected_result=True,
         log={
-            "actor": {
-                "alternateId": "unknown",
-                "displayName": "1.2.3.4",
-                "id": "1.2.3.4",
-                "type": "IP address",
-            },
+            "actor": {"alternateId": "unknown", "displayName": "1.2.3.4", "id": "1.2.3.4", "type": "IP address"},
             "authenticationcontext": {"authenticationStep": 0},
             "client": {
                 "device": "Computer",
@@ -111,12 +106,7 @@ okta_threat_insight_security_threat_detected_tests: list[RuleTest] = [
         name="Threat Detected Event - Success",
         expected_result=True,
         log={
-            "actor": {
-                "alternateId": "unknown",
-                "displayName": "1.2.3.4",
-                "id": "1.2.3.4",
-                "type": "IP address",
-            },
+            "actor": {"alternateId": "unknown", "displayName": "1.2.3.4", "id": "1.2.3.4", "type": "IP address"},
             "authenticationcontext": {"authenticationStep": 0},
             "client": {
                 "device": "Computer",
@@ -183,7 +173,7 @@ class OktaThreatInsightSecurityThreatDetected(Rule):
     )
     display_name = "Okta ThreatInsight Security Threat Detected"
     default_severity = Severity.HIGH
-    log_types = [LogType.Okta_SystemLog]
+    log_types = [LogType.OKTA_SYSTEM_LOG]
     id = "Okta.ThreatInsight.Security.Threat.Detected-prototype"
     tests = okta_threat_insight_security_threat_detected_tests
 

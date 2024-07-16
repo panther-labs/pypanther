@@ -32,7 +32,7 @@ class DuoAdminMFARestrictionsUpdated(Rule):
     display_name = "Duo Admin MFA Restrictions Updated"
     default_reference = "https://duo.com/docs/essentials-overview"
     default_severity = Severity.MEDIUM
-    log_types = [LogType.Duo_Administrator]
+    log_types = [LogType.DUO_ADMINISTRATOR]
     id = "Duo.Admin.MFA.Restrictions.Updated-prototype"
     tests = duo_admin_mfa_restrictions_updated_tests
 

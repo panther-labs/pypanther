@@ -86,7 +86,7 @@ aws_guard_duty_high_severity_finding_tests: list[RuleTest] = [
 class AWSGuardDutyHighSeverityFinding(Rule):
     id = "AWS.GuardDuty.HighSeverityFinding-prototype"
     display_name = "AWS GuardDuty High Severity Finding"
-    log_types = [LogType.AWS_GuardDuty]
+    log_types = [LogType.AWS_GUARDDUTY]
     tags = ["AWS"]
     default_severity = Severity.HIGH
     default_description = "A high-severity GuardDuty finding has been identified.\n"
@@ -94,14 +94,7 @@ class AWSGuardDutyHighSeverityFinding(Rule):
     default_reference = (
         "https://docs.aws.amazon.com/guardduty/latest/ug/guardduty_findings.html#guardduty_findings-severity"
     )
-    summary_attributes = [
-        "severity",
-        "type",
-        "title",
-        "p_any_domain_names",
-        "p_any_aws_arns",
-        "p_any_aws_account_ids",
-    ]
+    summary_attributes = ["severity", "type", "title", "p_any_domain_names", "p_any_aws_arns", "p_any_aws_account_ids"]
     tests = aws_guard_duty_high_severity_finding_tests
 
     def rule(self, event):

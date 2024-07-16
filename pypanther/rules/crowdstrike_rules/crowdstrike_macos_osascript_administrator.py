@@ -58,11 +58,7 @@ crowdstrike_macos_osascript_administrator_tests: list[RuleTest] = [
             "id": "59c9d5fb-b9b7-43a3-913f-6df72d9e1969",
             "name": "ProcessRollup2MacV9",
             "p_any_ip_addresses": ["1.2.3.4"],
-            "p_any_md5_hashes": [
-                "1234abcdefghijklmnop",
-                "5a29b1ee210395604829dafd744a8039",
-                "abcde098654321xyz",
-            ],
+            "p_any_md5_hashes": ["1234abcdefghijklmnop", "5a29b1ee210395604829dafd744a8039", "abcde098654321xyz"],
             "p_any_sha1_hashes": ["0000000000000000000000000000000000000000"],
             "p_any_sha256_hashes": ["fc708414b7e7c0df8d7711d0362b4dbd79a45fba65bdc646848fa8f50e9035de"],
             "p_any_trace_ids": ["1234abcdefghijklmnop", "abcde098654321xyz"],
@@ -132,11 +128,7 @@ crowdstrike_macos_osascript_administrator_tests: list[RuleTest] = [
             "id": "59c9d5fb-b9b7-43a3-913f-6df72d9e1969",
             "name": "ProcessRollup2MacV9",
             "p_any_ip_addresses": ["1.2.3.4"],
-            "p_any_md5_hashes": [
-                "1234abcdefghijklmnop",
-                "5a29b1ee210395604829dafd744a8039",
-                "abcde098654321xyz",
-            ],
+            "p_any_md5_hashes": ["1234abcdefghijklmnop", "5a29b1ee210395604829dafd744a8039", "abcde098654321xyz"],
             "p_any_sha1_hashes": ["0000000000000000000000000000000000000000"],
             "p_any_sha256_hashes": ["fc708414b7e7c0df8d7711d0362b4dbd79a45fba65bdc646848fa8f50e9035de"],
             "p_any_trace_ids": ["1234abcdefghijklmnop", "abcde098654321xyz"],
@@ -206,11 +198,7 @@ crowdstrike_macos_osascript_administrator_tests: list[RuleTest] = [
             "id": "59c9d5fb-b9b7-43a3-913f-6df72d9e1969",
             "name": "ProcessRollup2MacV9",
             "p_any_ip_addresses": ["1.2.3.4"],
-            "p_any_md5_hashes": [
-                "1234abcdefghijklmnop",
-                "5a29b1ee210395604829dafd744a8039",
-                "abcde098654321xyz",
-            ],
+            "p_any_md5_hashes": ["1234abcdefghijklmnop", "5a29b1ee210395604829dafd744a8039", "abcde098654321xyz"],
             "p_any_sha1_hashes": ["0000000000000000000000000000000000000000"],
             "p_any_sha256_hashes": ["fc708414b7e7c0df8d7711d0362b4dbd79a45fba65bdc646848fa8f50e9035de"],
             "p_any_trace_ids": ["1234abcdefghijklmnop", "abcde098654321xyz"],
@@ -280,11 +268,7 @@ crowdstrike_macos_osascript_administrator_tests: list[RuleTest] = [
             "id": "59c9d5fb-b9b7-43a3-913f-6df72d9e1969",
             "name": "ProcessRollup2MacV9",
             "p_any_ip_addresses": ["1.2.3.4"],
-            "p_any_md5_hashes": [
-                "1234abcdefghijklmnop",
-                "5a29b1ee210395604829dafd744a8039",
-                "abcde098654321xyz",
-            ],
+            "p_any_md5_hashes": ["1234abcdefghijklmnop", "5a29b1ee210395604829dafd744a8039", "abcde098654321xyz"],
             "p_any_sha1_hashes": ["0000000000000000000000000000000000000000"],
             "p_any_sha256_hashes": ["fc708414b7e7c0df8d7711d0362b4dbd79a45fba65bdc646848fa8f50e9035de"],
             "p_any_trace_ids": ["1234abcdefghijklmnop", "abcde098654321xyz"],
@@ -354,11 +338,7 @@ crowdstrike_macos_osascript_administrator_tests: list[RuleTest] = [
             "id": "59c9d5fb-b9b7-43a3-913f-6df72d9e1969",
             "name": "ProcessRollup2MacV9",
             "p_any_ip_addresses": ["1.2.3.4"],
-            "p_any_md5_hashes": [
-                "1234abcdefghijklmnop",
-                "5a29b1ee210395604829dafd744a8039",
-                "abcde098654321xyz",
-            ],
+            "p_any_md5_hashes": ["1234abcdefghijklmnop", "5a29b1ee210395604829dafd744a8039", "abcde098654321xyz"],
             "p_any_sha1_hashes": ["0000000000000000000000000000000000000000"],
             "p_any_sha256_hashes": ["fc708414b7e7c0df8d7711d0362b4dbd79a45fba65bdc646848fa8f50e9035de"],
             "p_any_trace_ids": ["1234abcdefghijklmnop", "abcde098654321xyz"],
@@ -381,7 +361,7 @@ class CrowdstrikeMacosOsascriptAdministrator(Rule):
     id = "Crowdstrike.Macos.Osascript.Administrator-prototype"
     default_reference = "https://www.sentinelone.com/blog/how-offensive-actors-use-applescript-for-attacking-macos/"
     default_severity = Severity.MEDIUM
-    log_types = [LogType.Crowdstrike_FDREvent]
+    log_types = [LogType.CROWDSTRIKE_FDR_EVENT]
     tests = crowdstrike_macos_osascript_administrator_tests
 
     def rule(self, event):

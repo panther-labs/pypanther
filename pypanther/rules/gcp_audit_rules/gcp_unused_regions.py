@@ -129,10 +129,7 @@ gcp_unused_regions_tests: list[RuleTest] = [
                                 "members": ["projectViewer:western-verve-123456"],
                             },
                             {
-                                "members": [
-                                    "projectOwner:western-verve-123456",
-                                    "projectEditor:western-verve-123456",
-                                ],
+                                "members": ["projectOwner:western-verve-123456", "projectEditor:western-verve-123456"],
                                 "role": "roles/storage.legacyObjectOwner",
                             },
                         ],
@@ -209,16 +206,10 @@ gcp_unused_regions_tests: list[RuleTest] = [
                     },
                 },
                 "serviceName": "bigquery.googleapis.com",
-                "status": {
-                    "code": 11,
-                    "message": "Syntax error: Unexpected end of script at [17:7]",
-                },
+                "status": {"code": 11, "message": "Syntax error: Unexpected end of script at [17:7]"},
             },
             "receiveTimestamp": "2021-10-19 16:09:26.351861539",
-            "resource": {
-                "labels": {"project_id": "western-verve-123456"},
-                "type": "bigquery_resource",
-            },
+            "resource": {"labels": {"project_id": "western-verve-123456"}, "type": "bigquery_resource"},
             "severity": "ERROR",
             "timestamp": "2021-10-19 16:09:26.013200000",
         },
@@ -231,13 +222,8 @@ class GCPUnusedRegions(Rule):
     display_name = "GCP Resource in Unused Region"
     enabled = False
     dedup_period_minutes = 15
-    log_types = [LogType.GCP_AuditLog]
-    tags = [
-        "GCP",
-        "Database",
-        "Configuration Required",
-        "Defense Evasion:Unused/Unsupported Cloud Regions",
-    ]
+    log_types = [LogType.GCP_AUDIT_LOG]
+    tags = ["GCP", "Database", "Configuration Required", "Defense Evasion:Unused/Unsupported Cloud Regions"]
     reports = {"MITRE ATT&CK": ["TA0005:T1535"]}
     default_severity = Severity.MEDIUM
     default_description = (

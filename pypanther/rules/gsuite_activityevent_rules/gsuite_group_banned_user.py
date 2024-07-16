@@ -28,7 +28,7 @@ g_suite_group_banned_user_tests: list[RuleTest] = [
 class GSuiteGroupBannedUser(Rule):
     id = "GSuite.GroupBannedUser-prototype"
     display_name = "GSuite User Banned from Group"
-    log_types = [LogType.GSuite_ActivityEvent]
+    log_types = [LogType.GSUITE_ACTIVITY_EVENT]
     tags = ["GSuite"]
     default_severity = Severity.LOW
     default_description = "A GSuite user was banned from an enterprise group by moderator action.\n"

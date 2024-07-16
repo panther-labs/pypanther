@@ -31,7 +31,7 @@ github_repo_visibility_change_tests: list[RuleTest] = [
 class GithubRepoVisibilityChange(Rule):
     id = "Github.Repo.VisibilityChange-prototype"
     display_name = "GitHub Repository Visibility Change"
-    log_types = [LogType.GitHub_Audit]
+    log_types = [LogType.GITHUB_AUDIT]
     tags = ["GitHub", "Exfiltration:Exfiltration Over Web Service"]
     reports = {"MITRE ATT&CK": ["TA0010:T1567"]}
     default_reference = "https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/managing-repository-settings/setting-repository-visibility"

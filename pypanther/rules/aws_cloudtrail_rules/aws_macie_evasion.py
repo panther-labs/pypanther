@@ -164,7 +164,7 @@ aws_macie_evasion_tests: list[RuleTest] = [
 class AWSMacieEvasion(Rule):
     id = "AWS.Macie.Evasion-prototype"
     display_name = "AWS Macie Disabled/Updated"
-    log_types = [LogType.AWS_CloudTrail]
+    log_types = [LogType.AWS_CLOUDTRAIL]
     reports = {"MITRE ATT&CK": ["TA0005:T1562"]}
     default_severity = Severity.MEDIUM
     default_description = "Amazon Macie is a data security and data privacy service to discover and protect sensitive data. Security teams use Macie to detect open S3 Buckets that could have potentially sensitive data in it along with policy violations, such as missing Encryption. If an attacker disables Macie, it could potentially hide data exfiltration.\n"

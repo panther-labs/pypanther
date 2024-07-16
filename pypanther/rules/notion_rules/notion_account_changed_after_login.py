@@ -312,7 +312,7 @@ notion_account_changed_after_login_tests: list[RuleTest] = [
 class NotionAccountChangedAfterLogin(Rule):
     id = "Notion.AccountChangedAfterLogin-prototype"
     display_name = "Notion Account Changed Shortly After Login"
-    log_types = [LogType.Notion_AuditLogs]
+    log_types = [LogType.NOTION_AUDIT_LOGS]
     tags = ["Notion", "Identity & Access Management", "Persistence"]
     default_severity = Severity.MEDIUM
     default_description = "A Notion User logged in then changed their account details."

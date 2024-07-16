@@ -116,7 +116,7 @@ class GCPLoggingSinkModified(Rule):
     display_name = "GCP Logging Sink Modified"
     id = "GCP.Logging.Sink.Modified-prototype"
     default_severity = Severity.INFO
-    log_types = [LogType.GCP_AuditLog]
+    log_types = [LogType.GCP_AUDIT_LOG]
     tags = ["GCP", "Logging", "Sink", "Infrastructure"]
     default_description = "This rule detects modifications to GCP Log Sinks.\n"
     default_runbook = "Ensure that the modification was valid or expected. Adversaries may do this to exfiltrate logs or evade detection.\n"

@@ -23,10 +23,7 @@ aws_cloud_trail_created_tests: list[RuleTest] = [
                         "userName": "Tester",
                     },
                     "webIdFederationData": {},
-                    "attributes": {
-                        "mfaAuthenticated": "true",
-                        "creationDate": "2019-01-01T00:00:00Z",
-                    },
+                    "attributes": {"mfaAuthenticated": "true", "creationDate": "2019-01-01T00:00:00Z"},
                 },
             },
             "eventTime": "2019-01-01T00:00:00Z",
@@ -56,10 +53,7 @@ aws_cloud_trail_created_tests: list[RuleTest] = [
                 "accountId": "123456789012",
                 "accessKeyId": "1",
                 "sessionContext": {
-                    "attributes": {
-                        "mfaAuthenticated": "false",
-                        "creationDate": "2019-01-01T00:00:00Z",
-                    },
+                    "attributes": {"mfaAuthenticated": "false", "creationDate": "2019-01-01T00:00:00Z"},
                     "sessionIssuer": {
                         "type": "Role",
                         "principalId": "1111",
@@ -116,10 +110,7 @@ aws_cloud_trail_created_tests: list[RuleTest] = [
                         "userName": "Tester",
                     },
                     "webIdFederationData": {},
-                    "attributes": {
-                        "mfaAuthenticated": "true",
-                        "creationDate": "2019-01-01T00:00:00Z",
-                    },
+                    "attributes": {"mfaAuthenticated": "true", "creationDate": "2019-01-01T00:00:00Z"},
                 },
             },
             "eventTime": "2019-01-01T00:00:00Z",
@@ -143,7 +134,7 @@ aws_cloud_trail_created_tests: list[RuleTest] = [
 class AWSCloudTrailCreated(Rule):
     id = "AWS.CloudTrail.Created-prototype"
     display_name = "A CloudTrail Was Created or Updated"
-    log_types = [LogType.AWS_CloudTrail]
+    log_types = [LogType.AWS_CLOUDTRAIL]
     tags = ["AWS", "Security Control", "Discovery:Cloud Service Dashboard"]
     reports = {"CIS": ["3.5"], "MITRE ATT&CK": ["TA0007:T1538"]}
     default_severity = Severity.INFO
@@ -152,13 +143,7 @@ class AWSCloudTrailCreated(Rule):
     default_reference = (
         "https://docs.aws.amazon.com/awscloudtrail/latest/userguide/cloudtrail-create-and-update-a-trail.html"
     )
-    summary_attributes = [
-        "eventName",
-        "userAgent",
-        "sourceIpAddress",
-        "recipientAccountId",
-        "p_any_aws_arns",
-    ]
+    summary_attributes = ["eventName", "userAgent", "sourceIpAddress", "recipientAccountId", "p_any_aws_arns"]
     tests = aws_cloud_trail_created_tests
     # API calls that are indicative of CloudTrail changes
     CLOUDTRAIL_CREATE_UPDATE = {"CreateTrail", "UpdateTrail", "StartLogging"}

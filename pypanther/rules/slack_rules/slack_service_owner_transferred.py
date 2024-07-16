@@ -66,7 +66,7 @@ slack_audit_logs_service_owner_transferred_tests: list[RuleTest] = [
 class SlackAuditLogsServiceOwnerTransferred(Rule):
     id = "Slack.AuditLogs.ServiceOwnerTransferred-prototype"
     display_name = "Slack Service Owner Transferred"
-    log_types = [LogType.Slack_AuditLogs]
+    log_types = [LogType.SLACK_AUDIT_LOGS]
     tags = [
         "Slack",
         "Defense Evasion",

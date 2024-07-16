@@ -34,10 +34,7 @@ awsec2_manual_security_group_change_tests: list[RuleTest] = [
                     ]
                 },
             },
-            "responseElements": {
-                "_return": True,
-                "requestId": "91f34d65-513d-4e9f-a3de-e8d27f7ee4b2",
-            },
+            "responseElements": {"_return": True, "requestId": "91f34d65-513d-4e9f-a3de-e8d27f7ee4b2"},
             "sourceIPAddress": "136.25.37.134",
             "userAgent": "console.ec2.amazonaws.com",
             "userIdentity": {
@@ -47,10 +44,7 @@ awsec2_manual_security_group_change_tests: list[RuleTest] = [
                 "accountid": "112233445566",
                 "accesskeyid": "ASIASWJRT64Z7ZLFLJNI",
                 "sessioncontext": {
-                    "attributes": {
-                        "mfaauthenticated": "true",
-                        "creationdate": "2021-01-24T04:55:10Z",
-                    },
+                    "attributes": {"mfaauthenticated": "true", "creationdate": "2021-01-24T04:55:10Z"},
                     "sessionissuer": {
                         "type": "Role",
                         "principalid": "ARORJ4ULULLE0EEJAAKDO",
@@ -94,10 +88,7 @@ awsec2_manual_security_group_change_tests: list[RuleTest] = [
                         "userName": "Operator",
                     },
                     "webIdFederationData": {},
-                    "attributes": {
-                        "mfaAuthenticated": "false",
-                        "creationDate": "2020-04-30T23:50:12Z",
-                    },
+                    "attributes": {"mfaAuthenticated": "false", "creationDate": "2020-04-30T23:50:12Z"},
                 },
             },
             "eventTime": "2020-04-30T23:51:06Z",
@@ -142,10 +133,7 @@ awsec2_manual_security_group_change_tests: list[RuleTest] = [
                         "userName": "Operator",
                     },
                     "webIdFederationData": {},
-                    "attributes": {
-                        "mfaAuthenticated": "false",
-                        "creationDate": "2020-04-30T23:50:12Z",
-                    },
+                    "attributes": {"mfaAuthenticated": "false", "creationDate": "2020-04-30T23:50:12Z"},
                 },
             },
             "eventTime": "2020-04-30T23:51:08Z",
@@ -175,10 +163,7 @@ awsec2_manual_security_group_change_tests: list[RuleTest] = [
                     ]
                 },
             },
-            "responseElements": {
-                "requestId": "4c7a5036-09d3-46e8-b0b6-f611ff1959a6",
-                "_return": True,
-            },
+            "responseElements": {"requestId": "4c7a5036-09d3-46e8-b0b6-f611ff1959a6", "_return": True},
             "requestID": "4c7a5036-09d3-46e8-b0b6-f611ff1959a6",
             "eventID": "1a593035-e072-49c4-8c72-4ff35e195330",
             "eventType": "AwsApiCall",
@@ -205,10 +190,7 @@ awsec2_manual_security_group_change_tests: list[RuleTest] = [
                         "userName": "Operator",
                     },
                     "webIdFederationData": {},
-                    "attributes": {
-                        "mfaAuthenticated": "false",
-                        "creationDate": "2020-04-30T04:37:13Z",
-                    },
+                    "attributes": {"mfaAuthenticated": "false", "creationDate": "2020-04-30T04:37:13Z"},
                 },
             },
             "eventTime": "2020-04-30T04:40:52Z",
@@ -233,10 +215,7 @@ awsec2_manual_security_group_change_tests: list[RuleTest] = [
                     ]
                 },
             },
-            "responseElements": {
-                "requestId": "2be70b99-4937-4a76-b7d9-390b6d0eda73",
-                "_return": True,
-            },
+            "responseElements": {"requestId": "2be70b99-4937-4a76-b7d9-390b6d0eda73", "_return": True},
             "requestID": "2be70b99-4937-4a76-b7d9-390b6d0eda73",
             "eventID": "42155429-7e8e-43b5-9b5e-6953f80d51d5",
             "eventType": "AwsApiCall",
@@ -275,10 +254,7 @@ awsec2_manual_security_group_change_tests: list[RuleTest] = [
                     ]
                 },
             },
-            "responseElements": {
-                "_return": True,
-                "requestId": "91f34d65-513d-4e9f-a3de-e8d27f7ee4b2",
-            },
+            "responseElements": {"_return": True, "requestId": "91f34d65-513d-4e9f-a3de-e8d27f7ee4b2"},
             "sourceIPAddress": "136.25.37.134",
             "userAgent": "console.ec2.amazonaws.com",
             "userIdentity": {
@@ -288,10 +264,7 @@ awsec2_manual_security_group_change_tests: list[RuleTest] = [
                 "accountid": "112233445566",
                 "accesskeyid": "ASIASWJRT64Z7ZLFLJNI",
                 "sessioncontext": {
-                    "attributes": {
-                        "mfaauthenticated": "true",
-                        "creationdate": "2021-01-24T04:55:10Z",
-                    },
+                    "attributes": {"mfaauthenticated": "true", "creationdate": "2021-01-24T04:55:10Z"},
                     "sessionissuer": {
                         "type": "Role",
                         "principalid": "ARORJ4ULULLE0EEJAAKDO",
@@ -322,7 +295,7 @@ class AWSEC2ManualSecurityGroupChange(Rule):
     id = "AWS.EC2.ManualSecurityGroupChange-prototype"
     display_name = "AWS EC2 Manual Security Group Change"
     enabled = False
-    log_types = [LogType.AWS_CloudTrail]
+    log_types = [LogType.AWS_CLOUDTRAIL]
     reports = {"MITRE ATT&CK": ["TA0005:T1562"]}
     tags = ["AWS", "Security Control", "Configuration Required", "Defense Evasion:Impair Defenses"]
     default_severity = Severity.MEDIUM

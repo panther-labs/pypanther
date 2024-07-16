@@ -29,7 +29,7 @@ box_access_granted_tests: list[RuleTest] = [
 class BoxAccessGranted(Rule):
     id = "Box.Access.Granted-prototype"
     display_name = "Box Access Granted"
-    log_types = [LogType.Box_Event]
+    log_types = [LogType.BOX_EVENT]
     tags = ["Box"]
     default_severity = Severity.LOW
     default_description = "A user granted access to their box account to Box technical support from account settings.\n"

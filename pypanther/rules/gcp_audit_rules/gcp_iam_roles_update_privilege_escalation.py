@@ -44,7 +44,7 @@ class GCPiamrolesupdatePrivilegeEscalation(Rule):
     id = "GCP.iam.roles.update.Privilege.Escalation-prototype"
     display_name = "GCP iam.roles.update Privilege Escalation"
     default_description = "If your user is assigned a custom IAM role, then iam.roles.update will allow you to update the “includedPermissons” on that role. Because it is assigned to you, you will gain the additional privileges, which could be anything you desire."
-    log_types = [LogType.GCP_AuditLog]
+    log_types = [LogType.GCP_AUDIT_LOG]
     tags = ["GCP"]
     default_severity = Severity.HIGH
     reports = {"TA0004": ["T1548"]}
@@ -62,13 +62,7 @@ class GCPiamrolesupdatePrivilegeEscalation(Rule):
         return False
 
     def title(self, event):
-        actor = deep_get(
-            event,
-            "protoPayload",
-            "authenticationInfo",
-            "principalEmail",
-            default="<ACTOR_NOT_FOUND>",
-        )
+        actor = deep_get(event, "protoPayload", "authenticationInfo", "principalEmail", default="<ACTOR_NOT_FOUND>")
         operation = deep_get(event, "protoPayload", "methodName", default="<OPERATION_NOT_FOUND>")
         project_id = deep_get(event, "resource", "labels", "project_id", default="<PROJECT_NOT_FOUND>")
         return f"[GCP]: [{actor}] performed [{operation}] on project [{project_id}]"

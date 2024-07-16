@@ -44,7 +44,7 @@ git_hub_org_modified_tests: list[RuleTest] = [
 class GitHubOrgModified(Rule):
     id = "GitHub.Org.Modified-prototype"
     display_name = "GitHub User Added or Removed from Org"
-    log_types = [LogType.GitHub_Audit]
+    log_types = [LogType.GITHUB_AUDIT]
     tags = ["GitHub", "Initial Access:Supply Chain Compromise"]
     reports = {"MITRE ATT&CK": ["TA0001:T1195"]}
     default_reference = "https://docs.github.com/en/organizations/managing-membership-in-your-organization"

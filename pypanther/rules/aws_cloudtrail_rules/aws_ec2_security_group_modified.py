@@ -23,10 +23,7 @@ awsec2_security_group_modified_tests: list[RuleTest] = [
                         "userName": "tester",
                     },
                     "webIdFederationData": {},
-                    "attributes": {
-                        "mfaAuthenticated": "true",
-                        "creationDate": "2019-01-01T00:00:00Z",
-                    },
+                    "attributes": {"mfaAuthenticated": "true", "creationDate": "2019-01-01T00:00:00Z"},
                 },
             },
             "eventTime": "2019-01-01T00:00:00Z",
@@ -78,10 +75,7 @@ awsec2_security_group_modified_tests: list[RuleTest] = [
                         "userName": "tester",
                     },
                     "webIdFederationData": {},
-                    "attributes": {
-                        "mfaAuthenticated": "false",
-                        "creationDate": "2019-01-01T00:00:00Z",
-                    },
+                    "attributes": {"mfaAuthenticated": "false", "creationDate": "2019-01-01T00:00:00Z"},
                 },
             },
             "eventTime": "2019-01-01T00:00:00Z",
@@ -123,10 +117,7 @@ awsec2_security_group_modified_tests: list[RuleTest] = [
                         "userName": "tester",
                     },
                     "webIdFederationData": {},
-                    "attributes": {
-                        "mfaAuthenticated": "true",
-                        "creationDate": "2019-01-01T00:00:00Z",
-                    },
+                    "attributes": {"mfaAuthenticated": "true", "creationDate": "2019-01-01T00:00:00Z"},
                 },
             },
             "eventTime": "2019-01-01T00:00:00Z",
@@ -164,7 +155,7 @@ awsec2_security_group_modified_tests: list[RuleTest] = [
 class AWSEC2SecurityGroupModified(Rule):
     id = "AWS.EC2.SecurityGroupModified-prototype"
     display_name = "EC2 Security Group Modified"
-    log_types = [LogType.AWS_CloudTrail]
+    log_types = [LogType.AWS_CLOUDTRAIL]
     tags = ["AWS", "Security Control", "Defense Evasion:Impair Defenses"]
     reports = {"CIS": ["3.1"], "MITRE ATT&CK": ["TA0005:T1562"]}
     default_severity = Severity.INFO
@@ -172,13 +163,7 @@ class AWSEC2SecurityGroupModified(Rule):
     default_description = "An EC2 Security Group was modified.\n"
     default_runbook = "https://docs.runpanther.io/alert-runbooks/built-in-rules/aws-ec2-securitygroup-modified"
     default_reference = "https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/working-with-security-groups.html"
-    summary_attributes = [
-        "eventName",
-        "userAgent",
-        "sourceIpAddress",
-        "recipientAccountId",
-        "p_any_aws_arns",
-    ]
+    summary_attributes = ["eventName", "userAgent", "sourceIpAddress", "recipientAccountId", "p_any_aws_arns"]
     tests = awsec2_security_group_modified_tests
     # API calls that are indicative of an EC2 SecurityGroup modification
     EC2_SG_MODIFIED_EVENTS = {

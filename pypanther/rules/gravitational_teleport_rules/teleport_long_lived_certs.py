@@ -68,7 +68,7 @@ teleport_long_lived_certs_tests: list[RuleTest] = [
 class TeleportLongLivedCerts(Rule):
     id = "Teleport.LongLivedCerts-prototype"
     display_name = "A long-lived cert was created"
-    log_types = [LogType.Gravitational_TeleportAudit]
+    log_types = [LogType.GRAVITATIONAL_TELEPORT_AUDIT]
     tags = ["Teleport"]
     default_severity = Severity.MEDIUM
     default_description = "An unusually long-lived Teleport certificate was created"

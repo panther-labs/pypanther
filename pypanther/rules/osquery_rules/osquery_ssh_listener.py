@@ -76,7 +76,7 @@ osquery_ssh_listener_tests: list[RuleTest] = [
 class OsquerySSHListener(Rule):
     id = "Osquery.SSHListener-prototype"
     display_name = "OSQuery Detected SSH Listener"
-    log_types = [LogType.Osquery_Differential]
+    log_types = [LogType.OSQUERY_DIFFERENTIAL]
     tags = ["Osquery", "Lateral Movement:Remote Services"]
     reports = {"MITRE ATT&CK": ["TA0008:T1021"]}
     default_severity = Severity.MEDIUM

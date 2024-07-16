@@ -121,10 +121,7 @@ awsrds_master_password_updated_tests: list[RuleTest] = [
                 "arn": "arn:aws:sts::123456789012:assumed-role/Admin/Jack",
                 "principalId": "AROAJ4ULUNLE6DYF4PCOK:jack",
                 "sessionContext": {
-                    "attributes": {
-                        "creationDate": "2022-09-23T23:17:13Z",
-                        "mfaAuthenticated": "true",
-                    },
+                    "attributes": {"creationDate": "2022-09-23T23:17:13Z", "mfaAuthenticated": "true"},
                     "sessionIssuer": {
                         "accountId": "123456789012",
                         "arn": "arn:aws:iam::123456789012:role/Admin",
@@ -257,10 +254,7 @@ awsrds_master_password_updated_tests: list[RuleTest] = [
                 "arn": "arn:aws:sts::123456789012:assumed-role/Admin/Jack",
                 "principalId": "AROAJ4ULUNLE6DYF4PCOK:jack",
                 "sessionContext": {
-                    "attributes": {
-                        "creationDate": "2022-09-23T23:17:13Z",
-                        "mfaAuthenticated": "true",
-                    },
+                    "attributes": {"creationDate": "2022-09-23T23:17:13Z", "mfaAuthenticated": "true"},
                     "sessionIssuer": {
                         "accountId": "123456789012",
                         "arn": "arn:aws:iam::123456789012:role/Admin",
@@ -290,7 +284,7 @@ class AWSRDSMasterPasswordUpdated(Rule):
         "p_any_aws_arns",
         "p_any_aws_account_ids",
     ]
-    log_types = [LogType.AWS_CloudTrail]
+    log_types = [LogType.AWS_CLOUDTRAIL]
     id = "AWS.RDS.MasterPasswordUpdated-prototype"
     tests = awsrds_master_password_updated_tests
 

@@ -41,7 +41,7 @@ g_suite_user_suspended_tests: list[RuleTest] = [
 class GSuiteUserSuspended(Rule):
     id = "GSuite.UserSuspended-prototype"
     display_name = "GSuite User Suspended"
-    log_types = [LogType.GSuite_ActivityEvent]
+    log_types = [LogType.GSUITE_ACTIVITY_EVENT]
     tags = ["GSuite"]
     default_severity = Severity.HIGH
     default_description = "A GSuite user was suspended, the account may have been compromised by a spam network.\n"

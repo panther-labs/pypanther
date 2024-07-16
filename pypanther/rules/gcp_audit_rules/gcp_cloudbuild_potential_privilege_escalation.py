@@ -112,7 +112,7 @@ gcp_cloud_build_potential_privilege_escalation_tests: list[RuleTest] = [
 
 
 class GCPCloudBuildPotentialPrivilegeEscalation(Rule):
-    log_types = [LogType.GCP_AuditLog]
+    log_types = [LogType.GCP_AUDIT_LOG]
     default_description = "Detects privilege escalation attacks designed to gain access to the Cloud Build Service Account. A user with permissions to start a new build with Cloud Build can gain access to the Cloud Build Service Account and abuse it for more access to the environment."
     display_name = "GCP CloudBuild Potential Privilege Escalation"
     id = "GCP.CloudBuild.Potential.Privilege.Escalation-prototype"

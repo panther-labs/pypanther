@@ -38,7 +38,7 @@ class StandardZoomOperation(DataModel):
     id: str = "Standard.Zoom.Operation"
     display_name: str = None
     enabled: bool = True
-    log_types: list[str] = [LogType.Zoom_Operation]
+    log_types: list[str] = [LogType.ZOOM_OPERATION]
     mappings: list[DataModelMapping] = [
         DataModelMapping(name="actor_user", path="operator"),
         DataModelMapping(name="event_type", method=get_event_type),

@@ -19,7 +19,7 @@ gcpk8s_ioc_activity_tests: list[RuleTest] = [
 class GCPK8sIOCActivity(Rule):
     id = "GCP.K8s.IOC.Activity-prototype"
     display_name = "GCP K8s IOCActivity"
-    log_types = [LogType.GCP_AuditLog]
+    log_types = [LogType.GCP_AUDIT_LOG]
     tags = ["GCP", "Optional"]
     default_severity = Severity.MEDIUM
     default_description = (

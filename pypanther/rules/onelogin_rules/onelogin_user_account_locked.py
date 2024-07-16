@@ -51,7 +51,7 @@ one_login_user_account_locked_tests: list[RuleTest] = [
 class OneLoginUserAccountLocked(Rule):
     id = "OneLogin.UserAccountLocked-prototype"
     display_name = "OneLogin User Locked"
-    log_types = [LogType.OneLogin_Events]
+    log_types = [LogType.ONELOGIN_EVENTS]
     tags = ["OneLogin", "Credential Access:Brute Force"]
     reports = {"MITRE ATT&CK": ["TA0006:T1110"]}
     default_severity = Severity.LOW

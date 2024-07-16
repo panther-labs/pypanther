@@ -46,7 +46,7 @@ netskope_netskope_personnel_activity_tests: list[RuleTest] = [
 class NetskopeNetskopePersonnelActivity(Rule):
     id = "Netskope.NetskopePersonnelActivity-prototype"
     display_name = "Action Performed by Netskope Personnel"
-    log_types = [LogType.Netskope_Audit]
+    log_types = [LogType.NETSKOPE_AUDIT]
     tags = ["Netskope", "Supply Chain Compromise"]
     reports = {"MITRE ATT&CK": ["TA0001:T1195"]}
     default_severity = Severity.MEDIUM

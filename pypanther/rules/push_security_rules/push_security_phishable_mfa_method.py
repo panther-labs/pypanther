@@ -88,7 +88,7 @@ push_security_phishable_mfa_method_tests: list[RuleTest] = [
 class PushSecurityPhishableMFAMethod(Rule):
     id = "Push.Security.Phishable.MFA.Method-prototype"
     display_name = "Push Security Phishable MFA Method"
-    log_types = [LogType.PushSecurity_Entities]
+    log_types = [LogType.PUSH_SECURITY_ENTITIES]
     default_severity = Severity.INFO
     tests = push_security_phishable_mfa_method_tests
     identity_providers = ("MICROSOFT_365", "GOOGLE_WORKSPACE", "OKTA", "JUMPCLOUD", "PING")

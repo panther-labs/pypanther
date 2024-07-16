@@ -391,7 +391,7 @@ class Auth0MFARiskAssessmentDisabled(Rule):
     default_runbook = "Assess if this was done by the user for a valid business reason. Be vigilant to re-enable this setting as it's in the best security interest for your organization's security posture."
     default_reference = "https://auth0.com/docs/secure/multi-factor-authentication/enable-mfa#:~:text=Always%20policy%2C%20the-,MFA%20Risk%20Assessors,-section%20appears.%20By"
     default_severity = Severity.HIGH
-    log_types = [LogType.Auth0_Events]
+    log_types = [LogType.AUTH0_EVENTS]
     id = "Auth0.MFA.Risk.Assessment.Disabled-prototype"
     tests = auth0_mfa_risk_assessment_disabled_tests
 

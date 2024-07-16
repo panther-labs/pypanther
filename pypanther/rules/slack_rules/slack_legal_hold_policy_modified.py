@@ -9,12 +9,7 @@ slack_audit_logs_legal_hold_policy_modified_tests: list[RuleTest] = [
             "action": "legal_hold_policy_entities_deleted",
             "actor": {
                 "type": "user",
-                "user": {
-                    "email": "user@example.com",
-                    "id": "A012B3CDEFG",
-                    "name": "username",
-                    "team": "T01234N56GB",
-                },
+                "user": {"email": "user@example.com", "id": "A012B3CDEFG", "name": "username", "team": "T01234N56GB"},
             },
             "context": {
                 "ip_address": "1.2.3.4",
@@ -35,12 +30,7 @@ slack_audit_logs_legal_hold_policy_modified_tests: list[RuleTest] = [
             "action": "legal_hold_policy_exclusion_added",
             "actor": {
                 "type": "user",
-                "user": {
-                    "email": "user@example.com",
-                    "id": "A012B3CDEFG",
-                    "name": "username",
-                    "team": "T01234N56GB",
-                },
+                "user": {"email": "user@example.com", "id": "A012B3CDEFG", "name": "username", "team": "T01234N56GB"},
             },
             "context": {
                 "ip_address": "1.2.3.4",
@@ -61,12 +51,7 @@ slack_audit_logs_legal_hold_policy_modified_tests: list[RuleTest] = [
             "action": "legal_hold_policy_released",
             "actor": {
                 "type": "user",
-                "user": {
-                    "email": "user@example.com",
-                    "id": "A012B3CDEFG",
-                    "name": "username",
-                    "team": "T01234N56GB",
-                },
+                "user": {"email": "user@example.com", "id": "A012B3CDEFG", "name": "username", "team": "T01234N56GB"},
             },
             "context": {
                 "ip_address": "1.2.3.4",
@@ -87,12 +72,7 @@ slack_audit_logs_legal_hold_policy_modified_tests: list[RuleTest] = [
             "action": "legal_hold_policy_updated",
             "actor": {
                 "type": "user",
-                "user": {
-                    "email": "user@example.com",
-                    "id": "A012B3CDEFG",
-                    "name": "username",
-                    "team": "T01234N56GB",
-                },
+                "user": {"email": "user@example.com", "id": "A012B3CDEFG", "name": "username", "team": "T01234N56GB"},
             },
             "context": {
                 "ip_address": "1.2.3.4",
@@ -149,7 +129,7 @@ slack_audit_logs_legal_hold_policy_modified_tests: list[RuleTest] = [
 class SlackAuditLogsLegalHoldPolicyModified(Rule):
     id = "Slack.AuditLogs.LegalHoldPolicyModified-prototype"
     display_name = "Slack Legal Hold Policy Modified"
-    log_types = [LogType.Slack_AuditLogs]
+    log_types = [LogType.SLACK_AUDIT_LOGS]
     tags = ["Slack", "Defense Evasion", "Impair Defenses", "Disable or Modify Tools"]
     reports = {"MITRE ATT&CK": ["TA0005:T1562.001"]}
     default_severity = Severity.HIGH

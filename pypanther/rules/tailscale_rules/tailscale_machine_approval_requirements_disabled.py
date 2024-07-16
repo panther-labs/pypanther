@@ -81,7 +81,7 @@ class TailscaleMachineApprovalRequirementsDisabled(Rule):
     default_runbook = "Assess if this was done by the user for a valid business reason. Be vigilant to re-enable this setting as it's in the best security interest for your organization's security posture."
     default_reference = "https://tailscale.com/kb/1099/device-approval/"
     default_severity = Severity.HIGH
-    log_types = [LogType.Tailscale_Audit]
+    log_types = [LogType.TAILSCALE_AUDIT]
     id = "Tailscale.Machine.Approval.Requirements.Disabled-prototype"
     tests = tailscale_machine_approval_requirements_disabled_tests
 

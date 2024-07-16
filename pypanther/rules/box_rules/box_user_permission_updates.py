@@ -8,12 +8,7 @@ box_large_number_permission_updates_tests: list[RuleTest] = [
         log={
             "type": "event",
             "additional_details": '{"key": "value"}',
-            "created_by": {
-                "id": "12345678",
-                "type": "user",
-                "login": "cat@example",
-                "name": "Bob Cat",
-            },
+            "created_by": {"id": "12345678", "type": "user", "login": "cat@example", "name": "Bob Cat"},
             "event_type": "DELETE",
         },
     ),
@@ -23,19 +18,9 @@ box_large_number_permission_updates_tests: list[RuleTest] = [
         log={
             "type": "event",
             "additional_details": '{"key": "value"}',
-            "created_by": {
-                "id": "12345678",
-                "type": "user",
-                "login": "cat@example",
-                "name": "Bob Cat",
-            },
+            "created_by": {"id": "12345678", "type": "user", "login": "cat@example", "name": "Bob Cat"},
             "event_type": "CHANGE_FOLDER_PERMISSION",
-            "source": {
-                "id": "12345678",
-                "type": "user",
-                "login": "user@example",
-                "name": "Bob Cat",
-            },
+            "source": {"id": "12345678", "type": "user", "login": "user@example", "name": "Bob Cat"},
         },
     ),
     RuleTest(
@@ -44,19 +29,9 @@ box_large_number_permission_updates_tests: list[RuleTest] = [
         log={
             "type": "event",
             "additional_details": '{"key": "value"}',
-            "created_by": {
-                "id": "12345678",
-                "type": "user",
-                "login": "cat@example",
-                "name": "Bob Cat",
-            },
+            "created_by": {"id": "12345678", "type": "user", "login": "cat@example", "name": "Bob Cat"},
             "event_type": "ITEM_SHARED_CREATE",
-            "source": {
-                "id": "12345678",
-                "type": "user",
-                "login": "user@example",
-                "name": "Bob Cat",
-            },
+            "source": {"id": "12345678", "type": "user", "login": "user@example", "name": "Bob Cat"},
         },
     ),
 ]
@@ -65,7 +40,7 @@ box_large_number_permission_updates_tests: list[RuleTest] = [
 class BoxLargeNumberPermissionUpdates(Rule):
     id = "Box.Large.Number.Permission.Updates-prototype"
     display_name = "Box Large Number of Permission Changes"
-    log_types = [LogType.Box_Event]
+    log_types = [LogType.BOX_EVENT]
     tags = ["Box", "Privilege Escalation:Abuse Elevation Control Mechanism"]
     reports = {"MITRE ATT&CK": ["TA0004:T1548"]}
     default_severity = Severity.LOW
@@ -77,12 +52,7 @@ class BoxLargeNumberPermissionUpdates(Rule):
     summary_attributes = ["ip_address"]
     threshold = 100
     tests = box_large_number_permission_updates_tests
-    PERMISSION_UPDATE_EVENT_TYPES = {
-        "CHANGE_FOLDER_PERMISSION",
-        "ITEM_SHARED_CREATE",
-        "ITEM_SHARED",
-        "SHARE",
-    }
+    PERMISSION_UPDATE_EVENT_TYPES = {"CHANGE_FOLDER_PERMISSION", "ITEM_SHARED_CREATE", "ITEM_SHARED", "SHARE"}
 
     def rule(self, event):
         return event.get("event_type") in self.PERMISSION_UPDATE_EVENT_TYPES

@@ -51,7 +51,7 @@ class DUOUserBypassCodeUsed(Rule):
     id = "DUO.User.BypassCode.Used-prototype"
     display_name = "Duo User Bypass Code Used"
     dedup_period_minutes = 5
-    log_types = [LogType.Duo_Authentication]
+    log_types = [LogType.DUO_AUTHENTICATION]
     tags = ["Duo"]
     default_severity = Severity.LOW
     default_description = "A Duo user's bypass code was used to authenticate"

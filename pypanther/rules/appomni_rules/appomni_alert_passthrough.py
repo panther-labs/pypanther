@@ -155,7 +155,7 @@ app_omni_alert_passthrough_tests: list[RuleTest] = [
 class AppOmniAlertPassthrough(Rule):
     id = "AppOmni.Alert.Passthrough-prototype"
     display_name = "AppOmni Alert Passthrough"
-    log_types = [LogType.AppOmni_Alerts]
+    log_types = [LogType.APPOMNI_ALERTS]
     default_severity = Severity.MEDIUM
     reports = {
         "MITRE ATT&CK": [

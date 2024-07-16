@@ -69,7 +69,7 @@ notion_page_perms_guest_perms_changed_tests: list[RuleTest] = [
 class NotionPagePermsGuestPermsChanged(Rule):
     id = "Notion.PagePerms.GuestPermsChanged-prototype"
     display_name = "Notion Page Guest Permissions Changed"
-    log_types = [LogType.Notion_AuditLogs]
+    log_types = [LogType.NOTION_AUDIT_LOGS]
     tags = ["Notion", "Data Security", "Information Disclosure"]
     default_severity = Severity.LOW
     default_description = "The external guest permissions for a Notion page have been altered."

@@ -23,10 +23,7 @@ aws_config_service_disabled_deleted_tests: list[RuleTest] = [
                         "userName": "tester",
                     },
                     "webIdFederationData": {},
-                    "attributes": {
-                        "mfaAuthenticated": "true",
-                        "creationDate": "2019-01-01T00:00:00Z",
-                    },
+                    "attributes": {"mfaAuthenticated": "true", "creationDate": "2019-01-01T00:00:00Z"},
                 },
             },
             "eventTime": "2019-01-01T00:00:00Z",
@@ -63,10 +60,7 @@ aws_config_service_disabled_deleted_tests: list[RuleTest] = [
                         "userName": "tester",
                     },
                     "webIdFederationData": {},
-                    "attributes": {
-                        "mfaAuthenticated": "true",
-                        "creationDate": "2019-01-01T00:00:00Z",
-                    },
+                    "attributes": {"mfaAuthenticated": "true", "creationDate": "2019-01-01T00:00:00Z"},
                 },
             },
             "eventTime": "2019-01-01T00:00:00Z",
@@ -104,10 +98,7 @@ aws_config_service_disabled_deleted_tests: list[RuleTest] = [
                         "userName": "tester",
                     },
                     "webIdFederationData": {},
-                    "attributes": {
-                        "mfaAuthenticated": "true",
-                        "creationDate": "2019-01-01T00:00:00Z",
-                    },
+                    "attributes": {"mfaAuthenticated": "true", "creationDate": "2019-01-01T00:00:00Z"},
                 },
             },
             "eventTime": "2019-01-01T00:00:00Z",
@@ -130,20 +121,14 @@ aws_config_service_disabled_deleted_tests: list[RuleTest] = [
 class AWSConfigServiceDisabledDeleted(Rule):
     id = "AWS.ConfigService.DisabledDeleted-prototype"
     display_name = "AWS Config Service Disabled"
-    log_types = [LogType.AWS_CloudTrail]
+    log_types = [LogType.AWS_CLOUDTRAIL]
     tags = ["AWS", "Security Control", "Defense Evasion:Impair Defenses"]
     reports = {"CIS": ["3.9"], "MITRE ATT&CK": ["TA0005:T1562"]}
     default_severity = Severity.MEDIUM
     default_description = "An AWS Config Recorder or Delivery Channel was disabled or deleted\n"
     default_runbook = "Verify that the Config Service changes were authorized. If not, revert them and investigate who caused the change. Consider altering permissions to prevent this from happening again in the future.\n"
     default_reference = "https://aws.amazon.com/config/"
-    summary_attributes = [
-        "eventName",
-        "userAgent",
-        "sourceIpAddress",
-        "recipientAccountId",
-        "p_any_aws_arns",
-    ]
+    summary_attributes = ["eventName", "userAgent", "sourceIpAddress", "recipientAccountId", "p_any_aws_arns"]
     tests = aws_config_service_disabled_deleted_tests
     # API calls that are indicative of an AWS Config Service change
     CONFIG_SERVICE_DISABLE_DELETE_EVENTS = {"StopConfigurationRecorder", "DeleteDeliveryChannel"}

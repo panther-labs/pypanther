@@ -56,7 +56,7 @@ notion_workspace_public_page_added_tests: list[RuleTest] = [
 class NotionWorkspacePublicPageAdded(Rule):
     id = "Notion.Workspace.Public.Page.Added-prototype"
     display_name = "Notion Workspace public page added"
-    log_types = [LogType.Notion_AuditLogs]
+    log_types = [LogType.NOTION_AUDIT_LOGS]
     tags = ["Notion", "Data Security", "Information Disclosure"]
     default_severity = Severity.INFO
     default_description = "A Notion page was set to public in your worksace."

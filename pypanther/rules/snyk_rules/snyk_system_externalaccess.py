@@ -48,7 +48,7 @@ snyk_system_external_access_tests: list[RuleTest] = [
 class SnykSystemExternalAccess(Rule):
     id = "Snyk.System.ExternalAccess-prototype"
     display_name = "Snyk System External Access Settings Changed"
-    log_types = [LogType.Snyk_GroupAudit, LogType.Snyk_OrgAudit]
+    log_types = [LogType.SNYK_GROUP_AUDIT, LogType.SNYK_ORG_AUDIT]
     tags = ["Snyk"]
     default_severity = Severity.HIGH
     default_description = "Detects when Snyk Settings that control access for external parties have been changed.\n"

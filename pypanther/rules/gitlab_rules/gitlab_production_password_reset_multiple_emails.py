@@ -43,7 +43,7 @@ git_lab_production_password_reset_multiple_emails_tests: list[RuleTest] = [
 class GitLabProductionPasswordResetMultipleEmails(Rule):
     id = "GitLab.Production.Password.Reset.Multiple.Emails-prototype"
     display_name = "CVE-2023-7028 - GitLab Production Password Reset Multiple Emails"
-    log_types = [LogType.GitLab_Production]
+    log_types = [LogType.GITLAB_PRODUCTION]
     tags = ["GitLab", "CVE-2023-7028"]
     reports = {"MITRE ATT&CK": ["TA0001:T1195", "TA0001:T1190", "TA0003:T1098"]}
     default_severity = Severity.HIGH

@@ -45,7 +45,7 @@ class DuoAdminLockout(Rule):
     display_name = "Duo Admin Lockout"
     default_reference = "https://duo.com/docs/adminapi"
     default_severity = Severity.MEDIUM
-    log_types = [LogType.Duo_Administrator]
+    log_types = [LogType.DUO_ADMINISTRATOR]
     id = "Duo.Admin.Lockout-prototype"
     tests = duo_admin_lockout_tests
 

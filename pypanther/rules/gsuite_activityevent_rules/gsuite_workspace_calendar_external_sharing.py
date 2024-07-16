@@ -78,11 +78,7 @@ g_suite_workspace_calendar_external_sharing_setting_tests: list[RuleTest] = [
         name="Non-Default Calendar SHARING_OUTSIDE_DOMAIN event",
         expected_result=False,
         log={
-            "actor": {
-                "callerType": "USER",
-                "email": "user@example.io",
-                "profileId": "111111111111111111111",
-            },
+            "actor": {"callerType": "USER", "email": "user@example.io", "profileId": "111111111111111111111"},
             "id": {
                 "applicationName": "admin",
                 "customerId": "D12345",
@@ -133,7 +129,7 @@ g_suite_workspace_calendar_external_sharing_setting_tests: list[RuleTest] = [
 class GSuiteWorkspaceCalendarExternalSharingSetting(Rule):
     id = "GSuite.Workspace.CalendarExternalSharingSetting-prototype"
     display_name = "GSuite Workspace Calendar External Sharing Setting Change"
-    log_types = [LogType.GSuite_ActivityEvent]
+    log_types = [LogType.GSUITE_ACTIVITY_EVENT]
     tags = ["GSuite"]
     reports = {"MITRE ATT&CK": ["TA0007:T1087"]}
     default_severity = Severity.MEDIUM

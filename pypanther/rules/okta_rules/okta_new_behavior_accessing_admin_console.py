@@ -271,7 +271,7 @@ okta_new_behavior_accessing_admin_console_tests: list[RuleTest] = [
 class OktaNewBehaviorAccessingAdminConsole(Rule):
     id = "Okta.New.Behavior.Accessing.Admin.Console-prototype"
     display_name = "Okta New Behaviors Acessing Admin Console"
-    log_types = [LogType.Okta_SystemLog]
+    log_types = [LogType.OKTA_SYSTEM_LOG]
     reports = {"MITRE ATT&CK": ["TA0001:T1078.004"]}
     default_severity = Severity.HIGH
     default_description = "New Behaviors Observed while Accessing Okta Admin Console. A user attempted to access the Okta Admin Console from a new device with a new IP.\n"

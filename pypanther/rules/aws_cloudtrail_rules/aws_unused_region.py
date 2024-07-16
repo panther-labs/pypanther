@@ -33,10 +33,7 @@ aws_unused_region_tests: list[RuleTest] = [
                 "arn": "arn:aws:sts::123456789012:assumed-role/example-role/example-user",
                 "principalId": "1111",
                 "sessionContext": {
-                    "attributes": {
-                        "creationDate": "2021-10-19T04:01:27Z",
-                        "mfaAuthenticated": "false",
-                    },
+                    "attributes": {"creationDate": "2021-10-19T04:01:27Z", "mfaAuthenticated": "false"},
                     "sessionIssuer": {
                         "accountId": "123456789012",
                         "arn": "arn:aws:iam::123456789012:role/example-role",
@@ -84,10 +81,7 @@ aws_unused_region_tests: list[RuleTest] = [
                 "arn": "arn:aws:sts::123456789012:assumed-role/example-role/example-user",
                 "principalId": "1111",
                 "sessionContext": {
-                    "attributes": {
-                        "creationDate": "2021-10-19T00:31:41Z",
-                        "mfaAuthenticated": "false",
-                    },
+                    "attributes": {"creationDate": "2021-10-19T00:31:41Z", "mfaAuthenticated": "false"},
                     "sessionIssuer": {
                         "accountId": "123456789012",
                         "arn": "arn:aws:iam::123456789012:role/example-role",
@@ -129,10 +123,7 @@ aws_unused_region_tests: list[RuleTest] = [
                 "arn": "arn:aws:sts::123456789012:assumed-role/example-role/example-user",
                 "principalId": "1111",
                 "sessionContext": {
-                    "attributes": {
-                        "creationDate": "2021-10-21T22:29:02Z",
-                        "mfaAuthenticated": "false",
-                    },
+                    "attributes": {"creationDate": "2021-10-21T22:29:02Z", "mfaAuthenticated": "false"},
                     "sessionIssuer": {
                         "accountId": "123456789012",
                         "arn": "arn:aws:iam::123456789012:role/example-role",
@@ -153,7 +144,7 @@ class AWSUnusedRegion(Rule):
     id = "AWS.UnusedRegion-prototype"
     display_name = "Unused AWS Region"
     enabled = False
-    log_types = [LogType.AWS_CloudTrail]
+    log_types = [LogType.AWS_CLOUDTRAIL]
     tags = ["AWS", "Defense Evasion:Unused/Unsupported Cloud Regions", "Configuration Required"]
     reports = {"MITRE ATT&CK": ["TA0005:T1535"]}
     default_severity = Severity.HIGH
@@ -162,13 +153,7 @@ class AWSUnusedRegion(Rule):
         "https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_examples_aws-enable-disable-regions.html"
     )
     default_reference = "https://attack.mitre.org/techniques/T1535/"
-    summary_attributes = [
-        "eventSource",
-        "eventName",
-        "recipientAccountId",
-        "awsRegion",
-        "p_any_aws_arns",
-    ]
+    summary_attributes = ["eventSource", "eventName", "recipientAccountId", "awsRegion", "p_any_aws_arns"]
     tests = aws_unused_region_tests
     # Define a list of verboten or unused regions
     # Could modify to include expected user mappings: { "123456789012": { "us-west-1", "us-east-2" } }

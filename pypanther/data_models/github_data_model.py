@@ -36,7 +36,7 @@ class StandardGithubAudit(DataModel):
     id: str = "Standard.Github.Audit"
     display_name: str = "Github Audit"
     enabled: bool = True
-    log_types: list[str] = [LogType.GitHub_Audit]
+    log_types: list[str] = [LogType.GITHUB_AUDIT]
     mappings: list[DataModelMapping] = [
         DataModelMapping(name="actor_user", path="actor"),
         DataModelMapping(name="assigned_admin_role", method=get_admin_role),

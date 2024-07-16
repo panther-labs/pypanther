@@ -129,7 +129,7 @@ class GCPServiceAccountAccessDenied(Rule):
     display_name = "GCP Service Account Access Denied"
     id = "GCP.Service.Account.Access.Denied-prototype"
     default_severity = Severity.LOW
-    log_types = [LogType.GCP_AuditLog]
+    log_types = [LogType.GCP_AUDIT_LOG]
     tags = ["GCP", "Service Account", "Access"]
     default_description = "This rule detects deletions of GCP Log Buckets or Sinks.\n"
     default_runbook = (

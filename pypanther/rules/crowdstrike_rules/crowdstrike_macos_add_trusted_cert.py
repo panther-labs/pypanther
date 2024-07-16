@@ -361,7 +361,7 @@ class CrowdstrikeMacosAddTrustedCert(Rule):
     id = "Crowdstrike.Macos.Add.Trusted.Cert-prototype"
     default_reference = "https://docs.panther.com/data-onboarding/supported-logs/crowdstrike#crowdstrike.processrollup2"
     default_severity = Severity.MEDIUM
-    log_types = [LogType.Crowdstrike_FDREvent]
+    log_types = [LogType.CROWDSTRIKE_FDR_EVENT]
     tests = crowdstrike_macos_add_trusted_cert_tests
 
     def rule(self, event):
