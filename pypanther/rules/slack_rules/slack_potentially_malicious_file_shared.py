@@ -1,13 +1,11 @@
-from typing import List
-
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import slack_alert_context
 
-slack_audit_logs_potentially_malicious_file_shared_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
-        Name="Malicious Content Detected",
-        ExpectedResult=True,
-        Log={
+slack_audit_logs_potentially_malicious_file_shared_tests: list[RuleTest] = [
+    RuleTest(
+        name="Malicious Content Detected",
+        expected_result=True,
+        log={
             "action": "file_malicious_content_detected",
             "actor": {
                 "type": "user",
@@ -30,10 +28,10 @@ slack_audit_logs_potentially_malicious_file_shared_tests: List[PantherRuleTest] 
             },
         },
     ),
-    PantherRuleTest(
-        Name="User Logout",
-        ExpectedResult=False,
-        Log={
+    RuleTest(
+        name="User Logout",
+        expected_result=False,
+        log={
             "action": "user_logout",
             "actor": {
                 "type": "user",
@@ -70,17 +68,17 @@ slack_audit_logs_potentially_malicious_file_shared_tests: List[PantherRuleTest] 
 ]
 
 
-class SlackAuditLogsPotentiallyMaliciousFileShared(PantherRule):
-    RuleID = "Slack.AuditLogs.PotentiallyMaliciousFileShared-prototype"
-    DisplayName = "Slack Potentially Malicious File Shared"
-    LogTypes = [PantherLogType.Slack_AuditLogs]
-    Tags = ["Slack", "Initial Access", "Phishing", "Spearphising Attachment"]
-    Reports = {"MITRE ATT&CK": ["TA0001:T1566.001"]}
-    Severity = PantherSeverity.Critical
-    Description = "Detects when a potentially malicious file is shared within Slack"
-    Reference = "https://threatpost.com/slack-remote-file-hijacking-malware/144871/"
-    SummaryAttributes = ["p_any_ip_addresses", "p_any_emails"]
-    Tests = slack_audit_logs_potentially_malicious_file_shared_tests
+class SlackAuditLogsPotentiallyMaliciousFileShared(Rule):
+    id = "Slack.AuditLogs.PotentiallyMaliciousFileShared-prototype"
+    display_name = "Slack Potentially Malicious File Shared"
+    log_types = [LogType.Slack_AuditLogs]
+    tags = ["Slack", "Initial Access", "Phishing", "Spearphising Attachment"]
+    reports = {"MITRE ATT&CK": ["TA0001:T1566.001"]}
+    default_severity = Severity.CRITICAL
+    default_description = "Detects when a potentially malicious file is shared within Slack"
+    default_reference = "https://threatpost.com/slack-remote-file-hijacking-malware/144871/"
+    summary_attributes = ["p_any_ip_addresses", "p_any_emails"]
+    tests = slack_audit_logs_potentially_malicious_file_shared_tests
 
     def rule(self, event):
         return event.get("action") == "file_malicious_content_detected"

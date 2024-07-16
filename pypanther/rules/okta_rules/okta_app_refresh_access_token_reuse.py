@@ -1,13 +1,11 @@
-from typing import List
-
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import okta_alert_context
 
-okta_refresh_access_token_reuse_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
-        Name="Non-event",
-        ExpectedResult=False,
-        Log={
+okta_refresh_access_token_reuse_tests: list[RuleTest] = [
+    RuleTest(
+        name="Non-event",
+        expected_result=False,
+        log={
             "actor": {
                 "alternateId": "123456",
                 "displayName": "Okta User",
@@ -90,10 +88,10 @@ okta_refresh_access_token_reuse_tests: List[PantherRuleTest] = [
             "version": "0",
         },
     ),
-    PantherRuleTest(
-        Name="Reuse Event",
-        ExpectedResult=True,
-        Log={
+    RuleTest(
+        name="Reuse Event",
+        expected_result=True,
+        log={
             "actor": {
                 "alternateId": "123456",
                 "displayName": "Okta User",
@@ -179,17 +177,17 @@ okta_refresh_access_token_reuse_tests: List[PantherRuleTest] = [
 ]
 
 
-class OktaRefreshAccessTokenReuse(PantherRule):
-    Description = "When a client wants to renew an access token, it sends the refresh token with the access token request to the /token Okta endpoint.\nOkta validates the incoming refresh token, issues a new set of tokens and invalidates the refresh token that was passed with the initial request.\nThis detection alerts when a previously used refresh token is used again with the token request"
-    Reference = (
+class OktaRefreshAccessTokenReuse(Rule):
+    default_description = "When a client wants to renew an access token, it sends the refresh token with the access token request to the /token Okta endpoint.\nOkta validates the incoming refresh token, issues a new set of tokens and invalidates the refresh token that was passed with the initial request.\nThis detection alerts when a previously used refresh token is used again with the token request"
+    default_reference = (
         "https://developer.okta.com/docs/guides/refresh-tokens/main/#refresh-token-reuse-detection"
     )
-    DisplayName = "Okta App Refresh Access Token Reuse"
-    Runbook = "Determine if the clientip is anomalous. Revoke tokens if deemed suspicious."
-    Severity = PantherSeverity.Medium
-    LogTypes = [PantherLogType.Okta_SystemLog]
-    RuleID = "Okta.Refresh.Access.Token.Reuse-prototype"
-    Tests = okta_refresh_access_token_reuse_tests
+    display_name = "Okta App Refresh Access Token Reuse"
+    default_runbook = "Determine if the clientip is anomalous. Revoke tokens if deemed suspicious."
+    default_severity = Severity.MEDIUM
+    log_types = [LogType.Okta_SystemLog]
+    id = "Okta.Refresh.Access.Token.Reuse-prototype"
+    tests = okta_refresh_access_token_reuse_tests
 
     def rule(self, event):
         return event.get("eventtype") in (

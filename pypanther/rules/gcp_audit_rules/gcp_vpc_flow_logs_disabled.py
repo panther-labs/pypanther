@@ -1,13 +1,11 @@
-from typing import List
-
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 
-gcpvpc_flow_logs_disabled_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
-        Name="Disable Flow Logs Event",
-        ExpectedResult=True,
-        Log={
+gcpvpc_flow_logs_disabled_tests: list[RuleTest] = [
+    RuleTest(
+        name="Disable Flow Logs Event",
+        expected_result=True,
+        log={
             "insertId": "123456",
             "logName": "projects/gcp-project/logs/cloudaudit.googleapis.com%2Factivity",
             "operation": {
@@ -85,10 +83,10 @@ gcpvpc_flow_logs_disabled_tests: List[PantherRuleTest] = [
             "timestamp": "2023-03-08 18:52:58.322",
         },
     ),
-    PantherRuleTest(
-        Name="Enable Flow Logs Event",
-        ExpectedResult=False,
-        Log={
+    RuleTest(
+        name="Enable Flow Logs Event",
+        expected_result=False,
+        log={
             "insertId": "12345",
             "logName": "projects/test-project/logs/cloudaudit.googleapis.com%2Factivity",
             "operation": {
@@ -171,14 +169,14 @@ gcpvpc_flow_logs_disabled_tests: List[PantherRuleTest] = [
 ]
 
 
-class GCPVPCFlowLogsDisabled(PantherRule):
-    Description = "VPC flow logs were disabled for a subnet."
-    DisplayName = "GCP VPC Flow Logs Disabled"
-    Reference = "https://cloud.google.com/vpc/docs/using-flow-logs"
-    Severity = PantherSeverity.Medium
-    LogTypes = [PantherLogType.GCP_AuditLog]
-    RuleID = "GCP.VPC.Flow.Logs.Disabled-prototype"
-    Tests = gcpvpc_flow_logs_disabled_tests
+class GCPVPCFlowLogsDisabled(Rule):
+    default_description = "VPC flow logs were disabled for a subnet."
+    display_name = "GCP VPC Flow Logs Disabled"
+    default_reference = "https://cloud.google.com/vpc/docs/using-flow-logs"
+    default_severity = Severity.MEDIUM
+    log_types = [LogType.GCP_AuditLog]
+    id = "GCP.VPC.Flow.Logs.Disabled-prototype"
+    tests = gcpvpc_flow_logs_disabled_tests
 
     def rule(self, event):
         return all(

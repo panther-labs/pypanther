@@ -1,29 +1,28 @@
 from datetime import datetime, timedelta
 from json import dumps, loads
-from typing import List
 
 from panther_detection_helpers.caching import get_string_set, put_string_set
 
 import pypanther.helpers.panther_event_type_helpers as event_type
-from pypanther import PantherLogType, PantherRule, PantherRuleMock, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 from pypanther.helpers.panther_lookuptable_helpers import LookupTableMatches
 from pypanther.helpers.panther_oss_helpers import km_between_ipinfo_loc, resolve_timestamp_string
 
-standard_impossible_travel_login_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
-        Name="CloudTrail not ConsoleLogin",
-        ExpectedResult=False,
-        Log={"eventType": "logout", "p_log_type": "AWS.CloudTrail"},
+standard_impossible_travel_login_tests: list[RuleTest] = [
+    RuleTest(
+        name="CloudTrail not ConsoleLogin",
+        expected_result=False,
+        log={"eventType": "logout", "p_log_type": "AWS.CloudTrail"},
     ),
-    PantherRuleTest(
-        Name="CloudTrail ConsoleLogin no history",
-        ExpectedResult=False,
-        Mocks=[
-            PantherRuleMock(ObjectName="put_string_set", ReturnValue=""),
-            PantherRuleMock(ObjectName="get_string_set", ReturnValue=""),
+    RuleTest(
+        name="CloudTrail ConsoleLogin no history",
+        expected_result=False,
+        mocks=[
+            RuleMock(object_name="put_string_set", return_value=""),
+            RuleMock(object_name="get_string_set", return_value=""),
         ],
-        Log={
+        log={
             "additionalEventData": {"MFAUsed": "No", "MobileVersion": "No"},
             "awsRegion": "us-east-1",
             "eventCategory": "Management",
@@ -71,17 +70,17 @@ standard_impossible_travel_login_tests: List[PantherRuleTest] = [
             },
         },
     ),
-    PantherRuleTest(
-        Name="CloudTrail ConsoleLogin with history",
-        ExpectedResult=True,
-        Mocks=[
-            PantherRuleMock(ObjectName="put_string_set", ReturnValue=""),
-            PantherRuleMock(
-                ObjectName="get_string_set",
-                ReturnValue='[\n {\n  "p_event_time": "2023-05-26 18:14:51",\n  "city": "New York City",\n  "country": "US",\n  "lat": "40.71427",\n  "lng": "-74.00597",\n  "postal_code": "10004",\n  "region": "New York",\n  "region_code": "NY",\n  "timezone": "America/New_York"\n }\n]',
+    RuleTest(
+        name="CloudTrail ConsoleLogin with history",
+        expected_result=True,
+        mocks=[
+            RuleMock(object_name="put_string_set", return_value=""),
+            RuleMock(
+                object_name="get_string_set",
+                return_value='[\n {\n  "p_event_time": "2023-05-26 18:14:51",\n  "city": "New York City",\n  "country": "US",\n  "lat": "40.71427",\n  "lng": "-74.00597",\n  "postal_code": "10004",\n  "region": "New York",\n  "region_code": "NY",\n  "timezone": "America/New_York"\n }\n]',
             ),
         ],
-        Log={
+        log={
             "additionalEventData": {"MFAUsed": "No", "MobileVersion": "No"},
             "awsRegion": "us-east-1",
             "eventCategory": "Management",
@@ -129,22 +128,22 @@ standard_impossible_travel_login_tests: List[PantherRuleTest] = [
             },
         },
     ),
-    PantherRuleTest(
-        Name="Okta Not sign-in",
-        ExpectedResult=False,
-        Log={"eventType": "logout", "p_log_type": "Okta.SystemLog"},
+    RuleTest(
+        name="Okta Not sign-in",
+        expected_result=False,
+        log={"eventType": "logout", "p_log_type": "Okta.SystemLog"},
     ),
-    PantherRuleTest(
-        Name="Okta sign-in with history and impossible travel",
-        ExpectedResult=True,
-        Mocks=[
-            PantherRuleMock(ObjectName="put_string_set", ReturnValue=""),
-            PantherRuleMock(
-                ObjectName="get_string_set",
-                ReturnValue='[\n {\n  "p_event_time": "2023-05-26 18:14:51",\n  "city": "New York City",\n  "country": "US",\n  "lat": "40.71427",\n  "lng": "-74.00597",\n  "postal_code": "10004",\n  "region": "New York",\n  "region_code": "NY",\n  "timezone": "America/New_York"\n }\n]',
+    RuleTest(
+        name="Okta sign-in with history and impossible travel",
+        expected_result=True,
+        mocks=[
+            RuleMock(object_name="put_string_set", return_value=""),
+            RuleMock(
+                object_name="get_string_set",
+                return_value='[\n {\n  "p_event_time": "2023-05-26 18:14:51",\n  "city": "New York City",\n  "country": "US",\n  "lat": "40.71427",\n  "lng": "-74.00597",\n  "postal_code": "10004",\n  "region": "New York",\n  "region_code": "NY",\n  "timezone": "America/New_York"\n }\n]',
             ),
         ],
-        Log={
+        log={
             "actor": {
                 "alternateId": "homer.simpson@company.com",
                 "displayName": "Homer Simpson",
@@ -197,17 +196,17 @@ standard_impossible_travel_login_tests: List[PantherRuleTest] = [
             "version": "0",
         },
     ),
-    PantherRuleTest(
-        Name="Okta sign-in with history and impossible travel, Apple Private Relay",
-        ExpectedResult=True,
-        Mocks=[
-            PantherRuleMock(ObjectName="put_string_set", ReturnValue=""),
-            PantherRuleMock(
-                ObjectName="get_string_set",
-                ReturnValue='[\n {\n  "p_event_time": "2023-05-26 18:14:51",\n  "city": "New York City",\n  "country": "US",\n  "lat": "40.71427",\n  "lng": "-74.00597",\n  "postal_code": "10004",\n  "region": "New York",\n  "region_code": "NY",\n  "timezone": "America/New_York"\n }\n]',
+    RuleTest(
+        name="Okta sign-in with history and impossible travel, Apple Private Relay",
+        expected_result=True,
+        mocks=[
+            RuleMock(object_name="put_string_set", return_value=""),
+            RuleMock(
+                object_name="get_string_set",
+                return_value='[\n {\n  "p_event_time": "2023-05-26 18:14:51",\n  "city": "New York City",\n  "country": "US",\n  "lat": "40.71427",\n  "lng": "-74.00597",\n  "postal_code": "10004",\n  "region": "New York",\n  "region_code": "NY",\n  "timezone": "America/New_York"\n }\n]',
             ),
         ],
-        Log={
+        log={
             "actor": {
                 "alternateId": "homer.simpson@company.com",
                 "displayName": "Homer Simpson",
@@ -271,17 +270,17 @@ standard_impossible_travel_login_tests: List[PantherRuleTest] = [
             "version": "0",
         },
     ),
-    PantherRuleTest(
-        Name="Okta sign-in with history and impossible travel, VPN with service",
-        ExpectedResult=True,
-        Mocks=[
-            PantherRuleMock(ObjectName="put_string_set", ReturnValue=""),
-            PantherRuleMock(
-                ObjectName="get_string_set",
-                ReturnValue='[\n {\n  "p_event_time": "2023-05-26 18:14:51",\n  "city": "New York City",\n  "country": "US",\n  "lat": "40.71427",\n  "lng": "-74.00597",\n  "postal_code": "10004",\n  "region": "New York",\n  "region_code": "NY",\n  "timezone": "America/New_York"\n }\n]',
+    RuleTest(
+        name="Okta sign-in with history and impossible travel, VPN with service",
+        expected_result=True,
+        mocks=[
+            RuleMock(object_name="put_string_set", return_value=""),
+            RuleMock(
+                object_name="get_string_set",
+                return_value='[\n {\n  "p_event_time": "2023-05-26 18:14:51",\n  "city": "New York City",\n  "country": "US",\n  "lat": "40.71427",\n  "lng": "-74.00597",\n  "postal_code": "10004",\n  "region": "New York",\n  "region_code": "NY",\n  "timezone": "America/New_York"\n }\n]',
             ),
         ],
-        Log={
+        log={
             "actor": {
                 "alternateId": "homer.simpson@company.com",
                 "displayName": "Homer Simpson",
@@ -345,17 +344,17 @@ standard_impossible_travel_login_tests: List[PantherRuleTest] = [
             "version": "0",
         },
     ),
-    PantherRuleTest(
-        Name="Okta sign-in with history and impossible travel, VPN with no service",
-        ExpectedResult=True,
-        Mocks=[
-            PantherRuleMock(ObjectName="put_string_set", ReturnValue=""),
-            PantherRuleMock(
-                ObjectName="get_string_set",
-                ReturnValue='[\n {\n  "p_event_time": "2023-05-26 18:14:51",\n  "city": "New York City",\n  "country": "US",\n  "lat": "40.71427",\n  "lng": "-74.00597",\n  "postal_code": "10004",\n  "region": "New York",\n  "region_code": "NY",\n  "timezone": "America/New_York"\n }\n]',
+    RuleTest(
+        name="Okta sign-in with history and impossible travel, VPN with no service",
+        expected_result=True,
+        mocks=[
+            RuleMock(object_name="put_string_set", return_value=""),
+            RuleMock(
+                object_name="get_string_set",
+                return_value='[\n {\n  "p_event_time": "2023-05-26 18:14:51",\n  "city": "New York City",\n  "country": "US",\n  "lat": "40.71427",\n  "lng": "-74.00597",\n  "postal_code": "10004",\n  "region": "New York",\n  "region_code": "NY",\n  "timezone": "America/New_York"\n }\n]',
             ),
         ],
-        Log={
+        log={
             "actor": {
                 "alternateId": "homer.simpson@company.com",
                 "displayName": "Homer Simpson",
@@ -418,17 +417,17 @@ standard_impossible_travel_login_tests: List[PantherRuleTest] = [
             "version": "0",
         },
     ),
-    PantherRuleTest(
-        Name="Short Distances and Short Timedeltas",
-        ExpectedResult=True,
-        Mocks=[
-            PantherRuleMock(ObjectName="put_string_set", ReturnValue=""),
-            PantherRuleMock(
-                ObjectName="get_string_set",
-                ReturnValue='[\n  {\n    "city": "Los Angeles",\n    "country": "US",\n    "lat": "34.05223",\n    "lng": "-118.24368",\n    "p_event_time": "2023-06-12T22:23:51.964000",\n    "postal_code": "90009",\n    "region": "California",\n    "region_code": "CA",\n    "timezone": "America/Los_Angeles"\n  }\n]',
+    RuleTest(
+        name="Short Distances and Short Timedeltas",
+        expected_result=True,
+        mocks=[
+            RuleMock(object_name="put_string_set", return_value=""),
+            RuleMock(
+                object_name="get_string_set",
+                return_value='[\n  {\n    "city": "Los Angeles",\n    "country": "US",\n    "lat": "34.05223",\n    "lng": "-118.24368",\n    "p_event_time": "2023-06-12T22:23:51.964000",\n    "postal_code": "90009",\n    "region": "California",\n    "region_code": "CA",\n    "timezone": "America/Los_Angeles"\n  }\n]',
             ),
         ],
-        Log={
+        log={
             "actor": {
                 "alternateId": "homer.simpson@company.com",
                 "displayName": "Homer Simpson",
@@ -482,17 +481,17 @@ standard_impossible_travel_login_tests: List[PantherRuleTest] = [
             "version": "0",
         },
     ),
-    PantherRuleTest(
-        Name="Asana ImpossibleTravel",
-        ExpectedResult=True,
-        Mocks=[
-            PantherRuleMock(ObjectName="put_string_set", ReturnValue=""),
-            PantherRuleMock(
-                ObjectName="get_string_set",
-                ReturnValue='[\n {\n  "p_event_time": "2023-06-12T21:26:01.951000",\n  "city": "New York City",\n  "country": "US",\n  "lat": "40.71427",\n  "lng": "-74.00597",\n  "postal_code": "10004",\n  "region": "New York",\n  "region_code": "NY",\n  "timezone": "America/New_York"\n }\n]',
+    RuleTest(
+        name="Asana ImpossibleTravel",
+        expected_result=True,
+        mocks=[
+            RuleMock(object_name="put_string_set", return_value=""),
+            RuleMock(
+                object_name="get_string_set",
+                return_value='[\n {\n  "p_event_time": "2023-06-12T21:26:01.951000",\n  "city": "New York City",\n  "country": "US",\n  "lat": "40.71427",\n  "lng": "-74.00597",\n  "postal_code": "10004",\n  "region": "New York",\n  "region_code": "NY",\n  "timezone": "America/New_York"\n }\n]',
             ),
         ],
-        Log={
+        log={
             "actor": {
                 "actor_type": "user",
                 "email": "homer.simpsons@simpsons.com",
@@ -537,17 +536,17 @@ standard_impossible_travel_login_tests: List[PantherRuleTest] = [
             "p_event_time": "2023-06-12T22:26:01.951000",
         },
     ),
-    PantherRuleTest(
-        Name="Notion Impossible Travel",
-        ExpectedResult=True,
-        Mocks=[
-            PantherRuleMock(ObjectName="put_string_set", ReturnValue=""),
-            PantherRuleMock(
-                ObjectName="get_string_set",
-                ReturnValue='[\n  {\n    "p_event_time": "2023-10-03T18:26:01.951000",\n    "source_ip": "192.168.100.100",\n    "city": "Minas Tirith",\n    "country": "Gondor",\n    "lat": "0.00000",\n    "lng": "0.00000",\n    "p_match": "192.168.100.100",\n    "postal_code": "55555",\n    "region": "Pellenor",\n    "region_code": "PL",\n    "timezone": "Middle Earth/Pellenor"\n  }\n]',
+    RuleTest(
+        name="Notion Impossible Travel",
+        expected_result=True,
+        mocks=[
+            RuleMock(object_name="put_string_set", return_value=""),
+            RuleMock(
+                object_name="get_string_set",
+                return_value='[\n  {\n    "p_event_time": "2023-10-03T18:26:01.951000",\n    "source_ip": "192.168.100.100",\n    "city": "Minas Tirith",\n    "country": "Gondor",\n    "lat": "0.00000",\n    "lng": "0.00000",\n    "p_match": "192.168.100.100",\n    "postal_code": "55555",\n    "region": "Pellenor",\n    "region_code": "PL",\n    "timezone": "Middle Earth/Pellenor"\n  }\n]',
             ),
         ],
-        Log={
+        log={
             "event": {
                 "actor": {
                     "id": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
@@ -582,14 +581,14 @@ standard_impossible_travel_login_tests: List[PantherRuleTest] = [
             "p_source_label": "Notion-Panther-Labs",
         },
     ),
-    PantherRuleTest(
-        Name="First hit from VPN should not fail",
-        ExpectedResult=False,
-        Mocks=[
-            PantherRuleMock(ObjectName="put_string_set", ReturnValue=""),
-            PantherRuleMock(ObjectName="get_string_set", ReturnValue=""),
+    RuleTest(
+        name="First hit from VPN should not fail",
+        expected_result=False,
+        mocks=[
+            RuleMock(object_name="put_string_set", return_value=""),
+            RuleMock(object_name="get_string_set", return_value=""),
         ],
-        Log={
+        log={
             "actor": {
                 "alternateId": "homer.simpson@company.com",
                 "displayName": "Homer Simpson",
@@ -656,25 +655,25 @@ standard_impossible_travel_login_tests: List[PantherRuleTest] = [
 ]
 
 
-class StandardImpossibleTravelLogin(PantherRule):
-    RuleID = "Standard.ImpossibleTravel.Login-prototype"
-    DisplayName = "Impossible Travel for Login Action"
-    LogTypes = [
-        PantherLogType.Asana_Audit,
-        PantherLogType.AWS_CloudTrail,
-        PantherLogType.Notion_AuditLogs,
-        PantherLogType.Okta_SystemLog,
+class StandardImpossibleTravelLogin(Rule):
+    id = "Standard.ImpossibleTravel.Login-prototype"
+    display_name = "Impossible Travel for Login Action"
+    log_types = [
+        LogType.Asana_Audit,
+        LogType.AWS_CloudTrail,
+        LogType.Notion_AuditLogs,
+        LogType.Okta_SystemLog,
     ]
-    Tags = ["Identity & Access Management", "Initial Access:Valid Accounts"]
-    Reports = {"MITRE ATT&CK": ["TA0001:T1078"]}
-    Severity = PantherSeverity.High
-    Description = (
+    tags = ["Identity & Access Management", "Initial Access:Valid Accounts"]
+    reports = {"MITRE ATT&CK": ["TA0001:T1078"]}
+    default_severity = Severity.HIGH
+    default_description = (
         "A user has subsequent logins from two geographic locations that are very far apart"
     )
-    Runbook = "Reach out to the user if needed to validate the activity, then lock the account.\nIf the user responds that the geolocation on the new location is incorrect, you can directly report the inaccuracy via  https://ipinfo.io/corrections\n"
-    Reference = "https://expertinsights.com/insights/what-are-impossible-travel-logins/#:~:text=An%20impossible%20travel%20login%20is,of%20the%20logins%20is%20fraudulent"
-    SummaryAttributes = ["p_any_usernames", "p_any_ip_addresses", "p_any_domain_names"]
-    Tests = standard_impossible_travel_login_tests
+    default_runbook = "Reach out to the user if needed to validate the activity, then lock the account.\nIf the user responds that the geolocation on the new location is incorrect, you can directly report the inaccuracy via  https://ipinfo.io/corrections\n"
+    default_reference = "https://expertinsights.com/insights/what-are-impossible-travel-logins/#:~:text=An%20impossible%20travel%20login%20is,of%20the%20logins%20is%20fraudulent"
+    summary_attributes = ["p_any_usernames", "p_any_ip_addresses", "p_any_domain_names"]
+    tests = standard_impossible_travel_login_tests
 
     def gen_key(self, event):
         """

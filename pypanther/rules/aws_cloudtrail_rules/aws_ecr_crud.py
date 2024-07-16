@@ -1,14 +1,13 @@
 from fnmatch import fnmatch
-from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import aws_rule_context, deep_get
 
-awsecrcrud_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
-        Name="Authorized account, unauthorized region",
-        ExpectedResult=True,
-        Log={
+awsecrcrud_tests: list[RuleTest] = [
+    RuleTest(
+        name="Authorized account, unauthorized region",
+        expected_result=True,
+        log={
             "eventVersion": "1.04",
             "userIdentity": {
                 "type": "IAMUser",
@@ -59,10 +58,10 @@ awsecrcrud_tests: List[PantherRuleTest] = [
             "recipientAccountId": "123456789012",
         },
     ),
-    PantherRuleTest(
-        Name="Authorized account",
-        ExpectedResult=False,
-        Log={
+    RuleTest(
+        name="Authorized account",
+        expected_result=False,
+        log={
             "eventVersion": "1.04",
             "userIdentity": {
                 "type": "IAMUser",
@@ -113,10 +112,10 @@ awsecrcrud_tests: List[PantherRuleTest] = [
             "recipientAccountId": "123456789000",
         },
     ),
-    PantherRuleTest(
-        Name="Unauthorized Account",
-        ExpectedResult=True,
-        Log={
+    RuleTest(
+        name="Unauthorized Account",
+        expected_result=True,
+        log={
             "eventVersion": "1.04",
             "userIdentity": {
                 "type": "IAMUser",
@@ -170,25 +169,27 @@ awsecrcrud_tests: List[PantherRuleTest] = [
 ]
 
 
-class AWSECRCRUD(PantherRule):
-    RuleID = "AWS.ECR.CRUD-prototype"
-    DisplayName = "ECR CRUD Actions"
-    Enabled = False
-    LogTypes = [PantherLogType.AWS_CloudTrail]
-    Tags = ["AWS", "Security Control", "Configuration Required"]
-    Reports = {"CIS": ["3.12"], "MITRE ATT&CK": ["TA0005:T1525"]}
-    Severity = PantherSeverity.High
-    Description = "Unauthorized ECR Create, Read, Update, or Delete event occurred."
-    Runbook = "https://docs.aws.amazon.com/AmazonECR/latest/userguide/logging-using-cloudtrail.html"
-    Reference = "https://docs.aws.amazon.com/AmazonECR/latest/userguide/security-iam.html#security_iam_authentication"
-    SummaryAttributes = [
+class AWSECRCRUD(Rule):
+    id = "AWS.ECR.CRUD-prototype"
+    display_name = "ECR CRUD Actions"
+    enabled = False
+    log_types = [LogType.AWS_CloudTrail]
+    tags = ["AWS", "Security Control", "Configuration Required"]
+    reports = {"CIS": ["3.12"], "MITRE ATT&CK": ["TA0005:T1525"]}
+    default_severity = Severity.HIGH
+    default_description = "Unauthorized ECR Create, Read, Update, or Delete event occurred."
+    default_runbook = (
+        "https://docs.aws.amazon.com/AmazonECR/latest/userguide/logging-using-cloudtrail.html"
+    )
+    default_reference = "https://docs.aws.amazon.com/AmazonECR/latest/userguide/security-iam.html#security_iam_authentication"
+    summary_attributes = [
         "eventSource",
         "eventName",
         "recipientAccountId",
         "awsRegion",
         "p_any_aws_arns",
     ]
-    Tests = awsecrcrud_tests
+    tests = awsecrcrud_tests
     ECR_CRUD_EVENTS = {
         "BatchCheckLayerAvailability",
         "BatchDeleteImage",

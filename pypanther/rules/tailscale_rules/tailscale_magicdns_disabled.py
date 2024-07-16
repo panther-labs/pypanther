@@ -1,17 +1,15 @@
-from typing import List
-
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 from pypanther.helpers.panther_tailscale_helpers import (
     is_tailscale_admin_console_event,
     tailscale_alert_context,
 )
 
-tailscale_magic_dns_disabled_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
-        Name="Magic DNS Disabled",
-        ExpectedResult=True,
-        Log={
+tailscale_magic_dns_disabled_tests: list[RuleTest] = [
+    RuleTest(
+        name="Magic DNS Disabled",
+        expected_result=True,
+        log={
             "event": {
                 "action": "DISABLE",
                 "actor": {
@@ -44,10 +42,10 @@ tailscale_magic_dns_disabled_tests: List[PantherRuleTest] = [
             "time": "2023-07-19 16:10:38.365000000",
         },
     ),
-    PantherRuleTest(
-        Name="Other Event",
-        ExpectedResult=False,
-        Log={
+    RuleTest(
+        name="Other Event",
+        expected_result=False,
+        log={
             "event": {
                 "action": "CREATE",
                 "actor": {
@@ -79,15 +77,17 @@ tailscale_magic_dns_disabled_tests: List[PantherRuleTest] = [
 ]
 
 
-class TailscaleMagicDNSDisabled(PantherRule):
-    Description = "A Tailscale User disabled magic dns settings in your organization's tenant."
-    DisplayName = "Tailscale Magic DNS Disabled"
-    Runbook = "Assess if this was done by the user for a valid business reason. Be vigilant to re-enable this setting as it's in the best security interest for your organization's security posture."
-    Reference = "https://tailscale.com/kb/1081/magicdns/"
-    Severity = PantherSeverity.High
-    LogTypes = [PantherLogType.Tailscale_Audit]
-    RuleID = "Tailscale.Magic.DNS.Disabled-prototype"
-    Tests = tailscale_magic_dns_disabled_tests
+class TailscaleMagicDNSDisabled(Rule):
+    default_description = (
+        "A Tailscale User disabled magic dns settings in your organization's tenant."
+    )
+    display_name = "Tailscale Magic DNS Disabled"
+    default_runbook = "Assess if this was done by the user for a valid business reason. Be vigilant to re-enable this setting as it's in the best security interest for your organization's security posture."
+    default_reference = "https://tailscale.com/kb/1081/magicdns/"
+    default_severity = Severity.HIGH
+    log_types = [LogType.Tailscale_Audit]
+    id = "Tailscale.Magic.DNS.Disabled-prototype"
+    tests = tailscale_magic_dns_disabled_tests
 
     def rule(self, event):
         action = deep_get(event, "event", "action", default="<NO_ACTION_FOUND>")

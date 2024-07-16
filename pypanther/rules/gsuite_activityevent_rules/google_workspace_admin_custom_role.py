@@ -1,12 +1,10 @@
-from typing import List
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
-
-google_workspace_admin_custom_role_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
-        Name="Delete Role",
-        ExpectedResult=False,
-        Log={
+google_workspace_admin_custom_role_tests: list[RuleTest] = [
+    RuleTest(
+        name="Delete Role",
+        expected_result=False,
+        log={
             "actor": {"callerType": "USER", "email": "example@example.io", "profileId": "123456"},
             "id": {
                 "applicationName": "admin",
@@ -21,10 +19,10 @@ google_workspace_admin_custom_role_tests: List[PantherRuleTest] = [
             "type": "DELEGATED_ADMIN_SETTINGS",
         },
     ),
-    PantherRuleTest(
-        Name="New Custom Role Created",
-        ExpectedResult=True,
-        Log={
+    RuleTest(
+        name="New Custom Role Created",
+        expected_result=True,
+        log={
             "actor": {"callerType": "USER", "email": "example@example.io", "profileId": "123456"},
             "id": {
                 "applicationName": "admin",
@@ -39,10 +37,10 @@ google_workspace_admin_custom_role_tests: List[PantherRuleTest] = [
             "type": "DELEGATED_ADMIN_SETTINGS",
         },
     ),
-    PantherRuleTest(
-        Name="ListObject Type",
-        ExpectedResult=False,
-        Log={
+    RuleTest(
+        name="ListObject Type",
+        expected_result=False,
+        log={
             "actor": {"email": "user@example.io", "profileId": "118111111111111111111"},
             "id": {
                 "applicationName": "drive",
@@ -74,17 +72,19 @@ google_workspace_admin_custom_role_tests: List[PantherRuleTest] = [
 ]
 
 
-class GoogleWorkspaceAdminCustomRole(PantherRule):
-    Description = "A Google Workspace administrator created a new custom administrator role."
-    DisplayName = "Google Workspace Admin Custom Role"
-    Runbook = "Please review this activity with the administrator and ensure this behavior was authorized."
-    Reference = "https://support.google.com/a/answer/2406043?hl=en#:~:text=under%20the%20limit.-,Create%20a%20custom%20role,-Before%20you%20begin"
-    Severity = PantherSeverity.Medium
-    Tags = ["admin", "administrator", "google workspace", "role"]
-    LogTypes = [PantherLogType.GSuite_ActivityEvent]
-    RuleID = "Google.Workspace.Admin.Custom.Role-prototype"
-    SummaryAttributes = ["name", "type"]
-    Tests = google_workspace_admin_custom_role_tests
+class GoogleWorkspaceAdminCustomRole(Rule):
+    default_description = (
+        "A Google Workspace administrator created a new custom administrator role."
+    )
+    display_name = "Google Workspace Admin Custom Role"
+    default_runbook = "Please review this activity with the administrator and ensure this behavior was authorized."
+    default_reference = "https://support.google.com/a/answer/2406043?hl=en#:~:text=under%20the%20limit.-,Create%20a%20custom%20role,-Before%20you%20begin"
+    default_severity = Severity.MEDIUM
+    tags = ["admin", "administrator", "google workspace", "role"]
+    log_types = [LogType.GSuite_ActivityEvent]
+    id = "Google.Workspace.Admin.Custom.Role-prototype"
+    summary_attributes = ["name", "type"]
+    tests = google_workspace_admin_custom_role_tests
 
     def rule(self, event):
         # Return True to match the log event and trigger an alert.

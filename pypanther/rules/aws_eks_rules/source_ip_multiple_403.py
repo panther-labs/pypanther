@@ -1,14 +1,13 @@
 from ipaddress import ip_address
-from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import eks_panther_obj_ref
 
-amazon_eks_audit_multiple403_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
-        Name="Not 403",
-        ExpectedResult=False,
-        Log={
+amazon_eks_audit_multiple403_tests: list[RuleTest] = [
+    RuleTest(
+        name="Not 403",
+        expected_result=False,
+        log={
             "annotations": {
                 "authorization.k8s.io/decision": "allow",
                 "authorization.k8s.io/reason": "",
@@ -60,10 +59,10 @@ amazon_eks_audit_multiple403_tests: List[PantherRuleTest] = [
             "verb": "get",
         },
     ),
-    PantherRuleTest(
-        Name="403 and Private IP",
-        ExpectedResult=False,
-        Log={
+    RuleTest(
+        name="403 and Private IP",
+        expected_result=False,
+        log={
             "annotations": {
                 "authorization.k8s.io/decision": "allow",
                 "authorization.k8s.io/reason": 'RBAC: allowed by ClusterRoleBinding "system:coredns" of ClusterRole "system:coredns" to ServiceAccount "coredns/kube-system"',
@@ -110,10 +109,10 @@ amazon_eks_audit_multiple403_tests: List[PantherRuleTest] = [
             "verb": "watch",
         },
     ),
-    PantherRuleTest(
-        Name="403 and Public IP",
-        ExpectedResult=True,
-        Log={
+    RuleTest(
+        name="403 and Public IP",
+        expected_result=True,
+        log={
             "annotations": {
                 "authorization.k8s.io/decision": "allow",
                 "authorization.k8s.io/reason": 'RBAC: allowed by ClusterRoleBinding "system:coredns" of ClusterRole "system:coredns" to ServiceAccount "coredns/kube-system"',
@@ -163,19 +162,19 @@ amazon_eks_audit_multiple403_tests: List[PantherRuleTest] = [
 ]
 
 
-class AmazonEKSAuditMultiple403(PantherRule):
-    RuleID = "Amazon.EKS.Audit.Multiple403-prototype"
-    DisplayName = "EKS Audit Log based single sourceIP is generating multiple 403s"
-    LogTypes = [PantherLogType.Amazon_EKS_Audit]
-    Tags = ["EKS"]
-    Reports = {"MITRE ATT&CK": ["TA0007:T1613"]}
-    Reference = "https://aws.github.io/aws-eks-best-practices/security/docs/detective/"
-    Severity = PantherSeverity.Info
-    Description = "This detection identifies if a public sourceIP is generating multiple 403s with the Kubernetes API server.\n"
-    DedupPeriodMinutes = 30
-    Threshold = 10
-    SummaryAttributes = ["user:username", "p_any_ip_addresses", "p_source_label"]
-    Tests = amazon_eks_audit_multiple403_tests
+class AmazonEKSAuditMultiple403(Rule):
+    id = "Amazon.EKS.Audit.Multiple403-prototype"
+    display_name = "EKS Audit Log based single sourceIP is generating multiple 403s"
+    log_types = [LogType.Amazon_EKS_Audit]
+    tags = ["EKS"]
+    reports = {"MITRE ATT&CK": ["TA0007:T1613"]}
+    default_reference = "https://aws.github.io/aws-eks-best-practices/security/docs/detective/"
+    default_severity = Severity.INFO
+    default_description = "This detection identifies if a public sourceIP is generating multiple 403s with the Kubernetes API server.\n"
+    dedup_period_minutes = 30
+    threshold = 10
+    summary_attributes = ["user:username", "p_any_ip_addresses", "p_source_label"]
+    tests = amazon_eks_audit_multiple403_tests
     # Alert if
     #   state is ResponseComplete
     #   sourceIPs[0] is a Public Address

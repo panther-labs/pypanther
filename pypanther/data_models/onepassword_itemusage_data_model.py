@@ -1,18 +1,15 @@
-from typing import List
-
-from pypanther.base import PantherDataModel, PantherDataModelMapping
-from pypanther.log_types import PantherLogType
+from pypanther.base import DataModel, DataModelMapping, LogType
 
 # 1Password item usage logs don't have event types, this file is a placeholder. All events are
 # the viewing or usage of an item in 1Password
 
 
-class StandardOnePasswordItemUsage(PantherDataModel):
-    DataModelID: str = "Standard.OnePassword.ItemUsage"
-    DisplayName: str = "1Password Item Usage Events"
-    Enabled: bool = True
-    LogTypes: List[str] = [PantherLogType.OnePassword_ItemUsage]
-    Mappings: List[PantherDataModelMapping] = [
-        PantherDataModelMapping(Name="actor_user", Path="$.user.email"),
-        PantherDataModelMapping(Name="source_ip", Path="$.client.ipaddress"),
+class StandardOnePasswordItemUsage(DataModel):
+    id: str = "Standard.OnePassword.ItemUsage"
+    display_name: str = "1Password Item Usage Events"
+    enabled: bool = True
+    log_types: list[str] = [LogType.OnePassword_ItemUsage]
+    mappings: list[DataModelMapping] = [
+        DataModelMapping(name="actor_user", path="$.user.email"),
+        DataModelMapping(name="source_ip", path="$.client.ipaddress"),
     ]

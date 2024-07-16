@@ -1,16 +1,14 @@
-from typing import List
-
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import (
     crowdstrike_detection_alert_context,
     get_crowdstrike_field,
 )
 
-crowdstrike_detectionpassthrough_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
-        Name="Low Severity Finding",
-        ExpectedResult=True,
-        Log={
+crowdstrike_detectionpassthrough_tests: list[RuleTest] = [
+    RuleTest(
+        name="Low Severity Finding",
+        expected_result=True,
+        log={
             "cid": "11111111111111111111111111111111",
             "Technique": "PUP",
             "ProcessId": 377077835340488700,
@@ -56,10 +54,10 @@ crowdstrike_detectionpassthrough_tests: List[PantherRuleTest] = [
             "PatternDispositionFlags": '{\n  "BlockingUnsupportedOrDisabled": false,\n  "BootupSafeguardEnabled": false,\n  "CriticalProcessDisabled": false,\n  "Detect": false,\n  "FsOperationBlocked": false,\n  "HandleOperationDowngraded": false,\n  "InddetMask": false,\n  "Indicator": false,\n  "KillActionFailed": false,\n  "KillParent": false,\n  "KillProcess": false,\n  "KillSubProcess": false,\n  "OperationBlocked": false,\n  "PolicyDisabled": false,\n  "ProcessBlocked": true,\n  "QuarantineFile": true,\n  "QuarantineMachine": false,\n  "RegistryOperationBlocked": false,\n  "Rooting": false,\n  "SensorOnly": false,\n  "SuspendParent": false,\n  "SuspendProcess": false\n}',
         },
     ),
-    PantherRuleTest(
-        Name="Low Severity Finding (FDREvent)",
-        ExpectedResult=True,
-        Log={
+    RuleTest(
+        name="Low Severity Finding (FDREvent)",
+        expected_result=True,
+        log={
             "aid": "fa6a04a7f18d473fa06771b4961aa3d9",
             "cid": "712bcd164963442ea43d52917cecdecc",
             "ComputerName": "hostname.lan",
@@ -150,10 +148,10 @@ crowdstrike_detectionpassthrough_tests: List[PantherRuleTest] = [
             "timestamp": "2021-03-24 18:19:49",
         },
     ),
-    PantherRuleTest(
-        Name="Non-match (FDREvent)",
-        ExpectedResult=False,
-        Log={
+    RuleTest(
+        name="Non-match (FDREvent)",
+        expected_result=False,
+        log={
             "cid": "11111111111111111111111111111111",
             "CommandLine": "/Applications/app.app/Contents/MacOS/pup app",
             "Objective": "Falcon Detection Method",
@@ -172,18 +170,18 @@ crowdstrike_detectionpassthrough_tests: List[PantherRuleTest] = [
 ]
 
 
-class CrowdstrikeDetectionpassthrough(PantherRule):
-    RuleID = "Crowdstrike.Detection.passthrough-prototype"
-    DisplayName = "Crowdstrike Detection Passthrough"
-    Severity = PantherSeverity.Medium
-    LogTypes = [PantherLogType.Crowdstrike_DetectionSummary, PantherLogType.Crowdstrike_FDREvent]
-    Tags = ["Crowdstrike"]
-    Description = "Crowdstrike Falcon has detected malicious activity on a host."
-    Runbook = "Follow the Falcon console link and follow the IR process as needed."
-    Reference = "https://www.crowdstrike.com/blog/tech-center/hunt-threat-activity-falcon-endpoint-protection/"
-    DedupPeriodMinutes = 0
-    SummaryAttributes = ["p_any_ip_addresses"]
-    Tests = crowdstrike_detectionpassthrough_tests
+class CrowdstrikeDetectionpassthrough(Rule):
+    id = "Crowdstrike.Detection.passthrough-prototype"
+    display_name = "Crowdstrike Detection Passthrough"
+    default_severity = Severity.MEDIUM
+    log_types = [LogType.Crowdstrike_DetectionSummary, LogType.Crowdstrike_FDREvent]
+    tags = ["Crowdstrike"]
+    default_description = "Crowdstrike Falcon has detected malicious activity on a host."
+    default_runbook = "Follow the Falcon console link and follow the IR process as needed."
+    default_reference = "https://www.crowdstrike.com/blog/tech-center/hunt-threat-activity-falcon-endpoint-protection/"
+    dedup_period_minutes = 0
+    summary_attributes = ["p_any_ip_addresses"]
+    tests = crowdstrike_detectionpassthrough_tests
 
     def rule(self, event):
         return (

@@ -1,13 +1,11 @@
-from typing import List
-
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 
-one_password_lut_sensitive_item_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
-        Name="1Password - Sensitive Item Accessed",
-        ExpectedResult=True,
-        Log={
+one_password_lut_sensitive_item_tests: list[RuleTest] = [
+    RuleTest(
+        name="1Password - Sensitive Item Accessed",
+        expected_result=True,
+        log={
             "client": {
                 "app_name": "1Password Browser Extension",
                 "app_version": "20195",
@@ -34,10 +32,10 @@ one_password_lut_sensitive_item_tests: List[PantherRuleTest] = [
             "vault_uuid": "54321",
         },
     ),
-    PantherRuleTest(
-        Name="1Password - Non-Sensitive Item Accessed",
-        ExpectedResult=False,
-        Log={
+    RuleTest(
+        name="1Password - Non-Sensitive Item Accessed",
+        expected_result=False,
+        log={
             "client": {
                 "app_name": "1Password Browser Extension",
                 "app_version": "20195",
@@ -67,25 +65,27 @@ one_password_lut_sensitive_item_tests: List[PantherRuleTest] = [
 ]
 
 
-class OnePasswordLutSensitiveItem(PantherRule):
-    RuleID = "OnePassword.Lut.Sensitive.Item-prototype"
-    DedupPeriodMinutes = 30
-    DisplayName = "BETA - Sensitive 1Password Item Accessed"
-    Enabled = False
-    LogTypes = [PantherLogType.OnePassword_ItemUsage]
-    Reference = "https://support.1password.com/1password-com-items/"
-    Severity = PantherSeverity.Low
-    Description = "Alerts when a user defined list of sensitive items in 1Password is accessed"
-    SummaryAttributes = ["p_any_ip_addresses", "p_any_emails"]
-    Tags = [
+class OnePasswordLutSensitiveItem(Rule):
+    id = "OnePassword.Lut.Sensitive.Item-prototype"
+    dedup_period_minutes = 30
+    display_name = "BETA - Sensitive 1Password Item Accessed"
+    enabled = False
+    log_types = [LogType.OnePassword_ItemUsage]
+    default_reference = "https://support.1password.com/1password-com-items/"
+    default_severity = Severity.LOW
+    default_description = (
+        "Alerts when a user defined list of sensitive items in 1Password is accessed"
+    )
+    summary_attributes = ["p_any_ip_addresses", "p_any_emails"]
+    tags = [
         "Configuration Required",
         "1Password",
         "Lookup Table",
         "BETA",
         "Credential Access:Unsecured Credentials",
     ]
-    Reports = {"MITRE ATT&CK": ["TA0006:T1552"]}
-    Tests = one_password_lut_sensitive_item_tests
+    reports = {"MITRE ATT&CK": ["TA0006:T1552"]}
+    tests = one_password_lut_sensitive_item_tests
     "\nThis rule requires the use of the Lookup Table feature currently in Beta in Panther, 1Password\nlogs reference items by their UUID without human-friendly titles. The instructions to create a\nlookup table to do this translation can be found at :\n\n https://docs.runpanther.io/guides/using-lookup-tables-1password-uuids\n\nThe steps detailed in that document are required for this rule to function as intended.\n"
     # Add the human-readable names of 1Password items you want to monitor
     SENSITIVE_ITEM_WATCHLIST = ["demo_item"]

@@ -1,10 +1,7 @@
-from typing import List
-
 import pypanther.helpers.panther_event_type_helpers as event_type
-from pypanther.base import PantherDataModel, PantherDataModelMapping
+from pypanther.base import DataModel, DataModelMapping, LogType
 from pypanther.helpers.panther_base_helpers import deep_get
 from pypanther.helpers.panther_base_helpers import gsuite_details_lookup as details_lookup
-from pypanther.log_types import PantherLogType
 
 
 def get_event_type(event):
@@ -20,20 +17,20 @@ def get_event_type(event):
     return None
 
 
-class StandardGSuiteReports(PantherDataModel):
-    DataModelID: str = "Standard.GSuite.Reports"
-    DisplayName: str = "GSuite Reports"
-    Enabled: bool = True
-    LogTypes: List[str] = [PantherLogType.GSuite_Reports]
-    Mappings: List[PantherDataModelMapping] = [
-        PantherDataModelMapping(Name="actor_user", Path="$.actor.email"),
-        PantherDataModelMapping(
-            Name="assigned_admin_role",
-            Path="$.events[*].parameters[?(@.name == 'ROLE_NAME')].value",
+class StandardGSuiteReports(DataModel):
+    id: str = "Standard.GSuite.Reports"
+    display_name: str = "GSuite Reports"
+    enabled: bool = True
+    log_types: list[str] = [LogType.GSuite_Reports]
+    mappings: list[DataModelMapping] = [
+        DataModelMapping(name="actor_user", path="$.actor.email"),
+        DataModelMapping(
+            name="assigned_admin_role",
+            path="$.events[*].parameters[?(@.name == 'ROLE_NAME')].value",
         ),
-        PantherDataModelMapping(Name="event_type", Method=get_event_type),
-        PantherDataModelMapping(Name="source_ip", Path="ipAddress"),
-        PantherDataModelMapping(
-            Name="user", Path="$.events[*].parameters[?(@.name == 'USER_EMAIL')].value"
+        DataModelMapping(name="event_type", method=get_event_type),
+        DataModelMapping(name="source_ip", path="ipAddress"),
+        DataModelMapping(
+            name="user", path="$.events[*].parameters[?(@.name == 'USER_EMAIL')].value"
         ),
     ]

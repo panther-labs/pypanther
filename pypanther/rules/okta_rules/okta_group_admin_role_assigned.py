@@ -1,13 +1,11 @@
-from typing import List
-
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import okta_alert_context
 
-okta_group_admin_role_assigned_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
-        Name="Group Privilege Grant",
-        ExpectedResult=True,
-        Log={
+okta_group_admin_role_assigned_tests: list[RuleTest] = [
+    RuleTest(
+        name="Group Privilege Grant",
+        expected_result=True,
+        log={
             "actor": {
                 "alternateId": "homer.simpson@duff.com",
                 "displayName": "Homer Simpsons",
@@ -84,10 +82,10 @@ okta_group_admin_role_assigned_tests: List[PantherRuleTest] = [
             "version": "0",
         },
     ),
-    PantherRuleTest(
-        Name="Non Event",
-        ExpectedResult=False,
-        Log={
+    RuleTest(
+        name="Non Event",
+        expected_result=False,
+        log={
             "actor": {
                 "alternateId": "homer.simpson@duff.com",
                 "displayName": "Homer Simpsons",
@@ -167,14 +165,14 @@ okta_group_admin_role_assigned_tests: List[PantherRuleTest] = [
 ]
 
 
-class OktaGroupAdminRoleAssigned(PantherRule):
-    Description = "Detect when an admin role is assigned to a group"
-    DisplayName = "Okta Group Admin Role Assigned"
-    Reference = "https://support.okta.com/help/s/article/How-to-assign-Administrator-roles-to-groups?language=en_US#:~:text=Log%20in%20to%20the%20Admin,user%20and%20click%20Save%20changes"
-    Severity = PantherSeverity.High
-    LogTypes = [PantherLogType.Okta_SystemLog]
-    RuleID = "Okta.Group.Admin.Role.Assigned-prototype"
-    Tests = okta_group_admin_role_assigned_tests
+class OktaGroupAdminRoleAssigned(Rule):
+    default_description = "Detect when an admin role is assigned to a group"
+    display_name = "Okta Group Admin Role Assigned"
+    default_reference = "https://support.okta.com/help/s/article/How-to-assign-Administrator-roles-to-groups?language=en_US#:~:text=Log%20in%20to%20the%20Admin,user%20and%20click%20Save%20changes"
+    default_severity = Severity.HIGH
+    log_types = [LogType.Okta_SystemLog]
+    id = "Okta.Group.Admin.Role.Assigned-prototype"
+    tests = okta_group_admin_role_assigned_tests
 
     def rule(self, event):
         return event.get("eventtype", "") == "group.privilege.grant"

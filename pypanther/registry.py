@@ -1,12 +1,12 @@
 from typing import Iterable, Set, Type
 
-from pypanther.base import PantherRule
+from pypanther.base import Rule
 
-__REGISTRY: Set[Type[PantherRule]] = set()
+__REGISTRY: Set[Type[Rule]] = set()
 
 
-def register(rule: Type[PantherRule] | Iterable[Type[PantherRule]]):
-    if isinstance(rule, type) and issubclass(rule, PantherRule):
+def register(rule: Type[Rule] | Iterable[Type[Rule]]):
+    if isinstance(rule, type) and issubclass(rule, Rule):
         register_rule(rule)
         return
     try:
@@ -16,16 +16,16 @@ def register(rule: Type[PantherRule] | Iterable[Type[PantherRule]]):
     except TypeError:
         pass
 
-    raise ValueError(f"rule must be a PantherRule or an iterable of PantherRule not {rule}")
+    raise ValueError(f"rule must be a Rule or an iterable of Rule not {rule}")
 
 
-def register_rule(rule: Type[PantherRule]):
-    if not isinstance(rule, type) and issubclass(rule, PantherRule):
-        raise ValueError(f"rule must be a PantherRule subclass not {rule}")
+def register_rule(rule: Type[Rule]):
+    if not isinstance(rule, type) and issubclass(rule, Rule):
+        raise ValueError(f"rule must be a Rule subclass not {rule}")
 
     rule.validate()
     __REGISTRY.add(rule)
 
 
-def registered_rules() -> Set[Type[PantherRule]]:
+def registered_rules() -> Set[Type[Rule]]:
     return __REGISTRY

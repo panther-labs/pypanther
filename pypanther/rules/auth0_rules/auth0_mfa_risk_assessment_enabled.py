@@ -1,14 +1,12 @@
-from typing import List
-
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_auth0_helpers import auth0_alert_context, is_auth0_config_event
 from pypanther.helpers.panther_base_helpers import deep_get
 
-auth0_mfa_risk_assessment_enabled_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
-        Name="Other Event",
-        ExpectedResult=False,
-        Log={
+auth0_mfa_risk_assessment_enabled_tests: list[RuleTest] = [
+    RuleTest(
+        name="Other Event",
+        expected_result=False,
+        log={
             "data": {
                 "client_id": "1HXWWGKk1Zj3JF8GvMrnCSirccDs4qvr",
                 "client_name": "",
@@ -182,10 +180,10 @@ auth0_mfa_risk_assessment_enabled_tests: List[PantherRuleTest] = [
             "log_id": "90020230516172812328948000000000000001223372037498448373",
         },
     ),
-    PantherRuleTest(
-        Name="Risk Assessment Enabled",
-        ExpectedResult=True,
-        Log={
+    RuleTest(
+        name="Risk Assessment Enabled",
+        expected_result=True,
+        log={
             "data": {
                 "client_id": "1HXWWGKk1Zj3JF8GvMrnCSirccDs4qvr",
                 "client_name": "",
@@ -369,17 +367,17 @@ auth0_mfa_risk_assessment_enabled_tests: List[PantherRuleTest] = [
 ]
 
 
-class Auth0MFARiskAssessmentEnabled(PantherRule):
-    Description = (
+class Auth0MFARiskAssessmentEnabled(Rule):
+    default_description = (
         "An Auth0 User enabled the mfa risk assessment setting for your organization's tenant."
     )
-    DisplayName = "Auth0 MFA Risk Assessment Enabled"
-    Runbook = "Assess if this was done by the user for a valid business reason. Be vigilant when enabling this setting as it's in the best security interest for your organization's security posture."
-    Reference = "https://auth0.com/docs/secure/multi-factor-authentication/enable-mfa#:~:text=Always%20policy%2C%20the-,MFA%20Risk%20Assessors,-section%20appears.%20By"
-    Severity = PantherSeverity.Info
-    LogTypes = [PantherLogType.Auth0_Events]
-    RuleID = "Auth0.MFA.Risk.Assessment.Enabled-prototype"
-    Tests = auth0_mfa_risk_assessment_enabled_tests
+    display_name = "Auth0 MFA Risk Assessment Enabled"
+    default_runbook = "Assess if this was done by the user for a valid business reason. Be vigilant when enabling this setting as it's in the best security interest for your organization's security posture."
+    default_reference = "https://auth0.com/docs/secure/multi-factor-authentication/enable-mfa#:~:text=Always%20policy%2C%20the-,MFA%20Risk%20Assessors,-section%20appears.%20By"
+    default_severity = Severity.INFO
+    log_types = [LogType.Auth0_Events]
+    id = "Auth0.MFA.Risk.Assessment.Enabled-prototype"
+    tests = auth0_mfa_risk_assessment_enabled_tests
 
     def rule(self, event):
         data_description = deep_get(

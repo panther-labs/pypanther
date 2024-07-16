@@ -1,18 +1,17 @@
 import logging
-from typing import List
 
 from panther_detection_helpers.caching import check_account_age
 
-from pypanther import PantherLogType, PantherRule, PantherRuleMock, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import aws_rule_context, deep_get
 from pypanther.helpers.panther_default import lookup_aws_account_name
 
-aws_console_login_without_mfa_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
-        Name="No MFA Login - IAM User",
-        ExpectedResult=True,
-        Mocks=[PantherRuleMock(ObjectName="check_account_age", ReturnValue="False")],
-        Log={
+aws_console_login_without_mfa_tests: list[RuleTest] = [
+    RuleTest(
+        name="No MFA Login - IAM User",
+        expected_result=True,
+        mocks=[RuleMock(object_name="check_account_age", return_value="False")],
+        log={
             "eventVersion": "1.05",
             "userIdentity": {
                 "type": "IAMUser",
@@ -39,11 +38,11 @@ aws_console_login_without_mfa_tests: List[PantherRuleTest] = [
             "recipientAccountId": "123456789012",
         },
     ),
-    PantherRuleTest(
-        Name="No MFA Login - IAM User Unknown Account",
-        ExpectedResult=True,
-        Mocks=[PantherRuleMock(ObjectName="check_account_age", ReturnValue="False")],
-        Log={
+    RuleTest(
+        name="No MFA Login - IAM User Unknown Account",
+        expected_result=True,
+        mocks=[RuleMock(object_name="check_account_age", return_value="False")],
+        log={
             "eventVersion": "1.05",
             "userIdentity": {
                 "type": "IAMUser",
@@ -70,11 +69,11 @@ aws_console_login_without_mfa_tests: List[PantherRuleTest] = [
             "recipientAccountId": "123456789013",
         },
     ),
-    PantherRuleTest(
-        Name="No MFA Login - Root User",
-        ExpectedResult=True,
-        Mocks=[PantherRuleMock(ObjectName="check_account_age", ReturnValue="False")],
-        Log={
+    RuleTest(
+        name="No MFA Login - Root User",
+        expected_result=True,
+        mocks=[RuleMock(object_name="check_account_age", return_value="False")],
+        log={
             "eventVersion": "1.05",
             "userIdentity": {
                 "accessKeyId": "",
@@ -101,11 +100,11 @@ aws_console_login_without_mfa_tests: List[PantherRuleTest] = [
             "recipientAccountId": "123456789012",
         },
     ),
-    PantherRuleTest(
-        Name="MFA Login - SAML",
-        ExpectedResult=False,
-        Mocks=[PantherRuleMock(ObjectName="check_account_age", ReturnValue="False")],
-        Log={
+    RuleTest(
+        name="MFA Login - SAML",
+        expected_result=False,
+        mocks=[RuleMock(object_name="check_account_age", return_value="False")],
+        log={
             "additionalEventData": {
                 "LoginTo": "https://console.aws.amazon.com/console/home",
                 "MobileVersion": "No",
@@ -133,11 +132,11 @@ aws_console_login_without_mfa_tests: List[PantherRuleTest] = [
             "recipientAccountId": "123456789012",
         },
     ),
-    PantherRuleTest(
-        Name="MFA Login",
-        ExpectedResult=False,
-        Mocks=[PantherRuleMock(ObjectName="check_account_age", ReturnValue="False")],
-        Log={
+    RuleTest(
+        name="MFA Login",
+        expected_result=False,
+        mocks=[RuleMock(object_name="check_account_age", return_value="False")],
+        log={
             "eventVersion": "1.05",
             "userIdentity": {
                 "type": "IAMUser",
@@ -164,11 +163,11 @@ aws_console_login_without_mfa_tests: List[PantherRuleTest] = [
             "recipientAccountId": "123456789012",
         },
     ),
-    PantherRuleTest(
-        Name="No MFA - Login Failed",
-        ExpectedResult=False,
-        Mocks=[PantherRuleMock(ObjectName="check_account_age", ReturnValue="False")],
-        Log={
+    RuleTest(
+        name="No MFA - Login Failed",
+        expected_result=False,
+        mocks=[RuleMock(object_name="check_account_age", return_value="False")],
+        log={
             "eventVersion": "1.05",
             "userIdentity": {
                 "type": "IAMUser",
@@ -195,11 +194,11 @@ aws_console_login_without_mfa_tests: List[PantherRuleTest] = [
             "recipientAccountId": "123456789012",
         },
     ),
-    PantherRuleTest(
-        Name="No MFA - authenticated from session with MFA",
-        ExpectedResult=False,
-        Mocks=[PantherRuleMock(ObjectName="check_account_age", ReturnValue="False")],
-        Log={
+    RuleTest(
+        name="No MFA - authenticated from session with MFA",
+        expected_result=False,
+        mocks=[RuleMock(object_name="check_account_age", return_value="False")],
+        log={
             "p_event_time": "2019-01-01 00:20:04.000Z",
             "eventSource": "signin.amazonaws.com",
             "eventName": "ConsoleLogin",
@@ -225,11 +224,11 @@ aws_console_login_without_mfa_tests: List[PantherRuleTest] = [
             },
         },
     ),
-    PantherRuleTest(
-        Name="No MFA Login - New User",
-        ExpectedResult=False,
-        Mocks=[PantherRuleMock(ObjectName="check_account_age", ReturnValue="True")],
-        Log={
+    RuleTest(
+        name="No MFA Login - New User",
+        expected_result=False,
+        mocks=[RuleMock(object_name="check_account_age", return_value="True")],
+        log={
             "eventVersion": "1.05",
             "userIdentity": {
                 "type": "IAMUser",
@@ -256,11 +255,11 @@ aws_console_login_without_mfa_tests: List[PantherRuleTest] = [
             "recipientAccountId": "123456789012",
         },
     ),
-    PantherRuleTest(
-        Name="AWS SSOv2 Login",
-        ExpectedResult=False,
-        Mocks=[PantherRuleMock(ObjectName="check_account_age", ReturnValue="False")],
-        Log={
+    RuleTest(
+        name="AWS SSOv2 Login",
+        expected_result=False,
+        mocks=[RuleMock(object_name="check_account_age", return_value="False")],
+        log={
             "additionalEventData": {"MFAUsed": "No", "MobileVersion": "No"},
             "awsRegion": "us-east-2",
             "eventID": "1111111111",
@@ -297,11 +296,11 @@ aws_console_login_without_mfa_tests: List[PantherRuleTest] = [
             },
         },
     ),
-    PantherRuleTest(
-        Name="AssumeRole from MFA User Session",
-        ExpectedResult=False,
-        Mocks=[PantherRuleMock(ObjectName="check_account_age", ReturnValue="False")],
-        Log={
+    RuleTest(
+        name="AssumeRole from MFA User Session",
+        expected_result=False,
+        mocks=[RuleMock(object_name="check_account_age", return_value="False")],
+        log={
             "additionalEventData": {"MFAUsed": "No", "MobileVersion": "No"},
             "awsRegion": "us-east-1",
             "eventID": "sdsdsdsd",
@@ -330,11 +329,11 @@ aws_console_login_without_mfa_tests: List[PantherRuleTest] = [
             },
         },
     ),
-    PantherRuleTest(
-        Name="No MFA - IAM Role and External IDP",
-        ExpectedResult=False,
-        Mocks=[PantherRuleMock(ObjectName="ROLES_VIA_EXTERNAL_IDP", ReturnValue=True)],
-        Log={
+    RuleTest(
+        name="No MFA - IAM Role and External IDP",
+        expected_result=False,
+        mocks=[RuleMock(object_name="ROLES_VIA_EXTERNAL_IDP", return_value=True)],
+        log={
             "eventVersion": "1.05",
             "userIdentity": {
                 "accountId": "123456789012",
@@ -378,25 +377,25 @@ aws_console_login_without_mfa_tests: List[PantherRuleTest] = [
 ]
 
 
-class AWSConsoleLoginWithoutMFA(PantherRule):
-    RuleID = "AWS.Console.LoginWithoutMFA-prototype"
-    DisplayName = "Logins Without MFA"
-    LogTypes = [PantherLogType.AWS_CloudTrail]
-    Tags = [
+class AWSConsoleLoginWithoutMFA(Rule):
+    id = "AWS.Console.LoginWithoutMFA-prototype"
+    display_name = "Logins Without MFA"
+    log_types = [LogType.AWS_CloudTrail]
+    tags = [
         "AWS",
         "Identity & Access Management",
         "Authentication",
         "Initial Access:Valid Accounts",
     ]
-    Reports = {"CIS": ["3.2"], "MITRE ATT&CK": ["TA0001:T1078"]}
-    Severity = PantherSeverity.High
-    Description = "A console login was made without multi-factor authentication."
-    Runbook = (
+    reports = {"CIS": ["3.2"], "MITRE ATT&CK": ["TA0001:T1078"]}
+    default_severity = Severity.HIGH
+    default_description = "A console login was made without multi-factor authentication."
+    default_runbook = (
         "https://docs.runpanther.io/alert-runbooks/built-in-rules/aws-console-login-without-mfa"
     )
-    Reference = "https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_mfa.html"
-    SummaryAttributes = ["userAgent", "sourceIpAddress", "recipientAccountId", "p_any_aws_arns"]
-    Tests = aws_console_login_without_mfa_tests
+    default_reference = "https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_mfa.html"
+    summary_attributes = ["userAgent", "sourceIpAddress", "recipientAccountId", "p_any_aws_arns"]
+    tests = aws_console_login_without_mfa_tests
     # Set to True for environments that permit direct role assumption via external IDP
     ROLES_VIA_EXTERNAL_IDP = False
     # pylint: disable=R0911,R0912,R1260

@@ -1,20 +1,21 @@
 from difflib import SequenceMatcher
-from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 
 
-class CiscoUmbrellaDNSFuzzyMatching(PantherRule):
-    RuleID = "CiscoUmbrella.DNS.FuzzyMatching-prototype"
-    DisplayName = "Cisco Umbrella Domain Name Fuzzy Matching"
-    Enabled = False
-    DedupPeriodMinutes = 15
-    LogTypes = [PantherLogType.CiscoUmbrella_DNS]
-    Tags = ["Configuration Required", "DNS"]
-    Reference = "https://umbrella.cisco.com/blog/abcs-of-dns"
-    Severity = PantherSeverity.Medium
-    Description = "Identify lookups to suspicious domains that could indicate a phishing attack."
-    Runbook = "Validate if your organization owns the domain, otherwise investigate the host that made the domain resolution.\n"
+class CiscoUmbrellaDNSFuzzyMatching(Rule):
+    id = "CiscoUmbrella.DNS.FuzzyMatching-prototype"
+    display_name = "Cisco Umbrella Domain Name Fuzzy Matching"
+    enabled = False
+    dedup_period_minutes = 15
+    log_types = [LogType.CiscoUmbrella_DNS]
+    tags = ["Configuration Required", "DNS"]
+    default_reference = "https://umbrella.cisco.com/blog/abcs-of-dns"
+    default_severity = Severity.MEDIUM
+    default_description = (
+        "Identify lookups to suspicious domains that could indicate a phishing attack."
+    )
+    default_runbook = "Validate if your organization owns the domain, otherwise investigate the host that made the domain resolution.\n"
     DOMAIN = ""  # The domain to monitor for phishing, for example "google.com"
     # List all of your known-good domains here
     ALLOW_SET = {}

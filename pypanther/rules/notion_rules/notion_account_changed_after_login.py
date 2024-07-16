@@ -1,16 +1,15 @@
 import time
-from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleMock, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_notion_helpers import notion_alert_context
 from pypanther.helpers.panther_oss_helpers import get_string_set, put_string_set
 
-notion_account_changed_after_login_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
-        Name="Login event",
-        ExpectedResult=True,
-        Mocks=[PantherRuleMock(ObjectName="put_string_set", ReturnValue=True)],
-        Log={
+notion_account_changed_after_login_tests: list[RuleTest] = [
+    RuleTest(
+        name="Login event",
+        expected_result=True,
+        mocks=[RuleMock(object_name="put_string_set", return_value=True)],
+        log={
             "event": {
                 "actor": {
                     "id": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
@@ -35,16 +34,16 @@ notion_account_changed_after_login_tests: List[PantherRuleTest] = [
             "p_source_label": "Notion Logs",
         },
     ),
-    PantherRuleTest(
-        Name="Email Changed Shortly After Login",
-        ExpectedResult=True,
-        Mocks=[
-            PantherRuleMock(
-                ObjectName="get_string_set", ReturnValue='[\n  "2023-06-12 21:40:28.690000000"\n]'
+    RuleTest(
+        name="Email Changed Shortly After Login",
+        expected_result=True,
+        mocks=[
+            RuleMock(
+                object_name="get_string_set", return_value='[\n  "2023-06-12 21:40:28.690000000"\n]'
             ),
-            PantherRuleMock(ObjectName="put_string_set", ReturnValue=""),
+            RuleMock(object_name="put_string_set", return_value=""),
         ],
-        Log={
+        log={
             "event": {
                 "actor": {
                     "id": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
@@ -83,16 +82,16 @@ notion_account_changed_after_login_tests: List[PantherRuleTest] = [
             "p_source_label": "Notion Logs",
         },
     ),
-    PantherRuleTest(
-        Name="Password Changed Shortly After Login",
-        ExpectedResult=True,
-        Mocks=[
-            PantherRuleMock(
-                ObjectName="get_string_set", ReturnValue='[\n  "2023-06-12 21:40:28.690000000"\n]'
+    RuleTest(
+        name="Password Changed Shortly After Login",
+        expected_result=True,
+        mocks=[
+            RuleMock(
+                object_name="get_string_set", return_value='[\n  "2023-06-12 21:40:28.690000000"\n]'
             ),
-            PantherRuleMock(ObjectName="put_string_set", ReturnValue=""),
+            RuleMock(object_name="put_string_set", return_value=""),
         ],
-        Log={
+        log={
             "event": {
                 "actor": {
                     "id": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
@@ -131,16 +130,16 @@ notion_account_changed_after_login_tests: List[PantherRuleTest] = [
             "p_source_label": "Notion Logs",
         },
     ),
-    PantherRuleTest(
-        Name="Password Added Shortly After Login",
-        ExpectedResult=True,
-        Mocks=[
-            PantherRuleMock(
-                ObjectName="get_string_set", ReturnValue='[\n  "2023-06-12 21:40:28.690000000"\n]'
+    RuleTest(
+        name="Password Added Shortly After Login",
+        expected_result=True,
+        mocks=[
+            RuleMock(
+                object_name="get_string_set", return_value='[\n  "2023-06-12 21:40:28.690000000"\n]'
             ),
-            PantherRuleMock(ObjectName="put_string_set", ReturnValue=""),
+            RuleMock(object_name="put_string_set", return_value=""),
         ],
-        Log={
+        log={
             "event": {
                 "actor": {
                     "id": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
@@ -179,16 +178,16 @@ notion_account_changed_after_login_tests: List[PantherRuleTest] = [
             "p_source_label": "Notion Logs",
         },
     ),
-    PantherRuleTest(
-        Name="Password Removed Shortly After Login",
-        ExpectedResult=True,
-        Mocks=[
-            PantherRuleMock(
-                ObjectName="get_string_set", ReturnValue='[\n  "2023-06-12 21:40:28.690000000"\n]'
+    RuleTest(
+        name="Password Removed Shortly After Login",
+        expected_result=True,
+        mocks=[
+            RuleMock(
+                object_name="get_string_set", return_value='[\n  "2023-06-12 21:40:28.690000000"\n]'
             ),
-            PantherRuleMock(ObjectName="put_string_set", ReturnValue=""),
+            RuleMock(object_name="put_string_set", return_value=""),
         ],
-        Log={
+        log={
             "event": {
                 "actor": {
                     "id": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
@@ -227,14 +226,14 @@ notion_account_changed_after_login_tests: List[PantherRuleTest] = [
             "p_source_label": "Notion Logs",
         },
     ),
-    PantherRuleTest(
-        Name="Email Changed Not Shortly After Login",
-        ExpectedResult=False,
-        Mocks=[
-            PantherRuleMock(ObjectName="get_string_set", ReturnValue=False),
-            PantherRuleMock(ObjectName="put_string_set", ReturnValue=""),
+    RuleTest(
+        name="Email Changed Not Shortly After Login",
+        expected_result=False,
+        mocks=[
+            RuleMock(object_name="get_string_set", return_value=False),
+            RuleMock(object_name="put_string_set", return_value=""),
         ],
-        Log={
+        log={
             "event": {
                 "actor": {
                     "id": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
@@ -273,10 +272,10 @@ notion_account_changed_after_login_tests: List[PantherRuleTest] = [
             "p_source_label": "Notion Logs",
         },
     ),
-    PantherRuleTest(
-        Name="Unrelated event",
-        ExpectedResult=False,
-        Log={
+    RuleTest(
+        name="Unrelated event",
+        expected_result=False,
+        log={
             "event": {
                 "actor": {
                     "id": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
@@ -318,16 +317,16 @@ notion_account_changed_after_login_tests: List[PantherRuleTest] = [
 ]
 
 
-class NotionAccountChangedAfterLogin(PantherRule):
-    RuleID = "Notion.AccountChangedAfterLogin-prototype"
-    DisplayName = "Notion Account Changed Shortly After Login"
-    LogTypes = [PantherLogType.Notion_AuditLogs]
-    Tags = ["Notion", "Identity & Access Management", "Persistence"]
-    Severity = PantherSeverity.Medium
-    Description = "A Notion User logged in then changed their account details."
-    Runbook = "Possible account takeover. Follow up with the Notion User to determine if this email change is genuine."
-    Reference = "https://www.notion.so/help/account-settings"
-    Tests = notion_account_changed_after_login_tests
+class NotionAccountChangedAfterLogin(Rule):
+    id = "Notion.AccountChangedAfterLogin-prototype"
+    display_name = "Notion Account Changed Shortly After Login"
+    log_types = [LogType.Notion_AuditLogs]
+    tags = ["Notion", "Identity & Access Management", "Persistence"]
+    default_severity = Severity.MEDIUM
+    default_description = "A Notion User logged in then changed their account details."
+    default_runbook = "Possible account takeover. Follow up with the Notion User to determine if this email change is genuine."
+    default_reference = "https://www.notion.so/help/account-settings"
+    tests = notion_account_changed_after_login_tests
     # Length of time in minutes. If a user logs in, then changes their email within this many
     # minutes, raise an alert.
     DEFAULT_EMAIL_CHANGE_WINDOW_MINUTES = 10

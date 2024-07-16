@@ -1,13 +1,11 @@
-from typing import List
-
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import m365_alert_context
 
-microsoft365_brute_force_loginby_user_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
-        Name="Failed Login event",
-        ExpectedResult=True,
-        Log={
+microsoft365_brute_force_loginby_user_tests: list[RuleTest] = [
+    RuleTest(
+        name="Failed Login event",
+        expected_result=True,
+        log={
             "Actor": [
                 {"ID": "012345-abcde-543-xyz", "Type": 0},
                 {"ID": "sample.user@yourorg.onmicrosoft.com", "Type": 5},
@@ -45,10 +43,10 @@ microsoft365_brute_force_loginby_user_tests: List[PantherRuleTest] = [
             "Workload": "AzureActiveDirectory",
         },
     ),
-    PantherRuleTest(
-        Name="Login Event",
-        ExpectedResult=False,
-        Log={
+    RuleTest(
+        name="Login Event",
+        expected_result=False,
+        log={
             "Actor": [
                 {"ID": "012345-abcde-543-xyz", "Type": 0},
                 {"ID": "sample.user@yourorg.onmicrosoft.com", "Type": 5},
@@ -86,17 +84,17 @@ microsoft365_brute_force_loginby_user_tests: List[PantherRuleTest] = [
 ]
 
 
-class Microsoft365BruteForceLoginbyUser(PantherRule):
-    Description = "A Microsoft365 user was denied login access several times"
-    DisplayName = "Microsoft365 Brute Force Login by User"
-    Reports = {"MITRE ATT&CK": ["TA0006:T1110"]}
-    Runbook = "Analyze the IP they came from and actions taken before/after."
-    Reference = "https://learn.microsoft.com/en-us/microsoft-365/troubleshoot/authentication/access-denied-when-connect-to-office-365"
-    Severity = PantherSeverity.Medium
-    LogTypes = [PantherLogType.Microsoft365_Audit_AzureActiveDirectory]
-    RuleID = "Microsoft365.Brute.Force.Login.by.User-prototype"
-    Threshold = 10
-    Tests = microsoft365_brute_force_loginby_user_tests
+class Microsoft365BruteForceLoginbyUser(Rule):
+    default_description = "A Microsoft365 user was denied login access several times"
+    display_name = "Microsoft365 Brute Force Login by User"
+    reports = {"MITRE ATT&CK": ["TA0006:T1110"]}
+    default_runbook = "Analyze the IP they came from and actions taken before/after."
+    default_reference = "https://learn.microsoft.com/en-us/microsoft-365/troubleshoot/authentication/access-denied-when-connect-to-office-365"
+    default_severity = Severity.MEDIUM
+    log_types = [LogType.Microsoft365_Audit_AzureActiveDirectory]
+    id = "Microsoft365.Brute.Force.Login.by.User-prototype"
+    threshold = 10
+    tests = microsoft365_brute_force_loginby_user_tests
 
     def rule(self, event):
         return event.get("Operation", "") == "UserLoginFailed"

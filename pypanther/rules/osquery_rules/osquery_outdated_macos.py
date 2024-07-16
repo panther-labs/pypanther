@@ -1,13 +1,11 @@
-from typing import List
-
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 
-osquery_unsupported_mac_os_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
-        Name="MacOS out of date",
-        ExpectedResult=True,
-        Log={
+osquery_unsupported_mac_os_tests: list[RuleTest] = [
+    RuleTest(
+        name="MacOS out of date",
+        expected_result=True,
+        log={
             "action": "added",
             "calendarTime": "Tue Sep 11 16:14:21 2018 UTC",
             "columns": {
@@ -38,10 +36,10 @@ osquery_unsupported_mac_os_tests: List[PantherRuleTest] = [
             "unixTime": "1536682461",
         },
     ),
-    PantherRuleTest(
-        Name="MacOS up to date",
-        ExpectedResult=False,
-        Log={
+    RuleTest(
+        name="MacOS up to date",
+        expected_result=False,
+        log={
             "action": "added",
             "calendarTime": "Tue Sep 11 16:14:21 2018 UTC",
             "columns": {
@@ -75,17 +73,17 @@ osquery_unsupported_mac_os_tests: List[PantherRuleTest] = [
 ]
 
 
-class OsqueryUnsupportedMacOS(PantherRule):
-    RuleID = "Osquery.UnsupportedMacOS-prototype"
-    DisplayName = "Unsupported macOS version"
-    LogTypes = [PantherLogType.Osquery_Differential]
-    Tags = ["Osquery", "Compliance"]
-    Severity = PantherSeverity.Low
-    Description = "Check that all laptops on the corporate environment are on a version of MacOS supported by IT.\n"
-    Runbook = "Update the MacOs version"
-    Reference = "https://support.apple.com/en-eg/HT201260"
-    SummaryAttributes = ["name", "hostIdentifier", "action"]
-    Tests = osquery_unsupported_mac_os_tests
+class OsqueryUnsupportedMacOS(Rule):
+    id = "Osquery.UnsupportedMacOS-prototype"
+    display_name = "Unsupported macOS version"
+    log_types = [LogType.Osquery_Differential]
+    tags = ["Osquery", "Compliance"]
+    default_severity = Severity.LOW
+    default_description = "Check that all laptops on the corporate environment are on a version of MacOS supported by IT.\n"
+    default_runbook = "Update the MacOs version"
+    default_reference = "https://support.apple.com/en-eg/HT201260"
+    summary_attributes = ["name", "hostIdentifier", "action"]
+    tests = osquery_unsupported_mac_os_tests
     SUPPORTED_VERSIONS = ["10.15.1", "10.15.2", "10.15.3"]
 
     def rule(self, event):

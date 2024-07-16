@@ -1,14 +1,12 @@
-from typing import List
-
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 from pypanther.helpers.panther_snyk_helpers import snyk_alert_context
 
-snyk_role_change_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
-        Name="Snyk Group Role Edit -  ADMIN role ( CRIT )",
-        ExpectedResult=True,
-        Log={
+snyk_role_change_tests: list[RuleTest] = [
+    RuleTest(
+        name="Snyk Group Role Edit -  ADMIN role ( CRIT )",
+        expected_result=True,
+        log={
             "content": {
                 "after": {"role": "ADMIN", "rolePublicId": "8ddddddd-fbbb-4fff-8111-5eeeeeeeeeee"},
                 "before": {
@@ -23,10 +21,10 @@ snyk_role_change_tests: List[PantherRuleTest] = [
             "userId": "05555555-3333-4ddd-8ccc-755555555555",
         },
     ),
-    PantherRuleTest(
-        Name="Snyk Org Role Edit -  ADMIN role ( CRIT )",
-        ExpectedResult=True,
-        Log={
+    RuleTest(
+        name="Snyk Org Role Edit -  ADMIN role ( CRIT )",
+        expected_result=True,
+        log={
             "content": {
                 "afterRoleName": "ADMIN",
                 "afterRolePublicId": "d8999999-aaaa-4999-9f0b-9bbbbbbbbbbb",
@@ -41,10 +39,10 @@ snyk_role_change_tests: List[PantherRuleTest] = [
             "orgId": "21111111-a222-4eee-8ddd-a99999999999",
         },
     ),
-    PantherRuleTest(
-        Name="Snyk Group Role Edit -  MEMBER role ( MEDIUM )",
-        ExpectedResult=True,
-        Log={
+    RuleTest(
+        name="Snyk Group Role Edit -  MEMBER role ( MEDIUM )",
+        expected_result=True,
+        log={
             "content": {
                 "before": {"role": "ADMIN", "rolePublicId": "8ddddddd-fbbb-4fff-8111-5eeeeeeeeeee"},
                 "after": {"role": "MEMBER", "rolePublicId": "6aaaaaaa-c000-4ddd-9ddd-c55555555555"},
@@ -56,10 +54,10 @@ snyk_role_change_tests: List[PantherRuleTest] = [
             "userId": "05555555-3333-4ddd-8ccc-755555555555",
         },
     ),
-    PantherRuleTest(
-        Name="Snyk Group SSO Membership sync",
-        ExpectedResult=False,
-        Log={
+    RuleTest(
+        name="Snyk Group SSO Membership sync",
+        expected_result=False,
+        log={
             "content": {},
             "created": "2023-03-15 13:13:13.133",
             "event": "group.sso.membership.sync",
@@ -69,17 +67,17 @@ snyk_role_change_tests: List[PantherRuleTest] = [
 ]
 
 
-class SnykRoleChange(PantherRule):
-    RuleID = "Snyk.Role.Change-prototype"
-    DisplayName = "Snyk Role Change"
-    LogTypes = [PantherLogType.Snyk_GroupAudit, PantherLogType.Snyk_OrgAudit]
-    Tags = ["Snyk"]
-    Severity = PantherSeverity.High
-    Description = "Detects when Snyk Roles are changed\n"
-    Runbook = "These actions in the Snyk Audit logs indicate that a ServiceAccount has been created/deleted/modified.\nAll events where the Role is marked as ADMIN have CRITICAL severity Other events are marked with MEDIUM severity\n"
-    Reference = "https://docs.snyk.io/snyk-admin/manage-users-and-permissions/member-roles"
-    SummaryAttributes = ["event"]
-    Tests = snyk_role_change_tests
+class SnykRoleChange(Rule):
+    id = "Snyk.Role.Change-prototype"
+    display_name = "Snyk Role Change"
+    log_types = [LogType.Snyk_GroupAudit, LogType.Snyk_OrgAudit]
+    tags = ["Snyk"]
+    default_severity = Severity.HIGH
+    default_description = "Detects when Snyk Roles are changed\n"
+    default_runbook = "These actions in the Snyk Audit logs indicate that a ServiceAccount has been created/deleted/modified.\nAll events where the Role is marked as ADMIN have CRITICAL severity Other events are marked with MEDIUM severity\n"
+    default_reference = "https://docs.snyk.io/snyk-admin/manage-users-and-permissions/member-roles"
+    summary_attributes = ["event"]
+    tests = snyk_role_change_tests
     ACTIONS = [
         "group.role.create",
         "group.role.edit",

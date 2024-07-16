@@ -1,12 +1,10 @@
-from typing import List
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
-
-cisco_umbrella_dns_suspicious_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
-        Name="Suspicious Domain",
-        ExpectedResult=True,
-        Log={
+cisco_umbrella_dns_suspicious_tests: list[RuleTest] = [
+    RuleTest(
+        name="Suspicious Domain",
+        expected_result=True,
+        log={
             "action": "Allow",
             "internalIp": "136.24.229.58",
             "externalIp": "136.24.229.58",
@@ -15,10 +13,10 @@ cisco_umbrella_dns_suspicious_tests: List[PantherRuleTest] = [
             "domain": "cron.photoscape.ch.",
         },
     ),
-    PantherRuleTest(
-        Name="Safe Domain",
-        ExpectedResult=False,
-        Log={
+    RuleTest(
+        name="Safe Domain",
+        expected_result=False,
+        log={
             "action": "Allowed",
             "internalIp": "136.24.229.58",
             "externalIp": "136.24.229.58",
@@ -30,19 +28,19 @@ cisco_umbrella_dns_suspicious_tests: List[PantherRuleTest] = [
 ]
 
 
-class CiscoUmbrellaDNSSuspicious(PantherRule):
-    RuleID = "CiscoUmbrella.DNS.Suspicious-prototype"
-    DisplayName = "Cisco Umbrella Suspicious Domains"
-    Enabled = False
-    DedupPeriodMinutes = 480
-    LogTypes = [PantherLogType.CiscoUmbrella_DNS]
-    Tags = ["DNS", "Configuration Required"]
-    Reference = "https://umbrella.cisco.com/blog/abcs-of-dns"
-    Severity = PantherSeverity.Low
-    Description = "Monitor suspicious or known malicious domains"
-    Runbook = "Inspect the domain and check the host for other indicators of compromise"
-    SummaryAttributes = ["action", "internalIp", "externalIp", "domain", "responseCode"]
-    Tests = cisco_umbrella_dns_suspicious_tests
+class CiscoUmbrellaDNSSuspicious(Rule):
+    id = "CiscoUmbrella.DNS.Suspicious-prototype"
+    display_name = "Cisco Umbrella Suspicious Domains"
+    enabled = False
+    dedup_period_minutes = 480
+    log_types = [LogType.CiscoUmbrella_DNS]
+    tags = ["DNS", "Configuration Required"]
+    default_reference = "https://umbrella.cisco.com/blog/abcs-of-dns"
+    default_severity = Severity.LOW
+    default_description = "Monitor suspicious or known malicious domains"
+    default_runbook = "Inspect the domain and check the host for other indicators of compromise"
+    summary_attributes = ["action", "internalIp", "externalIp", "domain", "responseCode"]
+    tests = cisco_umbrella_dns_suspicious_tests
     DOMAINS_TO_MONITOR = {"photoscape.ch"}  # Sample malware domain
 
     def rule(self, event):

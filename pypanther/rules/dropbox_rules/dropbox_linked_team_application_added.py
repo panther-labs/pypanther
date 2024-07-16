@@ -1,13 +1,11 @@
-from typing import List
-
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 
-dropbox_linked_team_application_added_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
-        Name="App linked for team is LOW severity",
-        ExpectedResult=True,
-        Log={
+dropbox_linked_team_application_added_tests: list[RuleTest] = [
+    RuleTest(
+        name="App linked for team is LOW severity",
+        expected_result=True,
+        log={
             "actor": {
                 "_tag": "user",
                 "user": {
@@ -45,10 +43,10 @@ dropbox_linked_team_application_added_tests: List[PantherRuleTest] = [
             "timestamp": "2023-02-16 20:39:34",
         },
     ),
-    PantherRuleTest(
-        Name="A non-team linked event does not alert",
-        ExpectedResult=False,
-        Log={
+    RuleTest(
+        name="A non-team linked event does not alert",
+        expected_result=False,
+        log={
             "actor": {
                 "_tag": "user",
                 "user": {
@@ -86,10 +84,10 @@ dropbox_linked_team_application_added_tests: List[PantherRuleTest] = [
             "timestamp": "2023-02-16 20:39:34",
         },
     ),
-    PantherRuleTest(
-        Name="App linked for team involving non-team member is HIGH severity",
-        ExpectedResult=True,
-        Log={
+    RuleTest(
+        name="App linked for team involving non-team member is HIGH severity",
+        expected_result=True,
+        log={
             "actor": {
                 "_tag": "user",
                 "user": {
@@ -130,16 +128,16 @@ dropbox_linked_team_application_added_tests: List[PantherRuleTest] = [
 ]
 
 
-class DropboxLinkedTeamApplicationAdded(PantherRule):
-    Description = "An application was linked to your Dropbox Account"
-    DisplayName = "Dropbox Linked Team Application Added"
-    Reference = "https://help.dropbox.com/integrations/app-integrations"
-    Runbook = "Ensure that the application is valid and not malicious. Verify that this is expected. If not, determine other actions taken by this user recently and reach out to the user. If the event involved a non-team member, consider disabling the user's access while investigating.\n"
-    Severity = PantherSeverity.Low
-    Tags = ["dropbox"]
-    LogTypes = [PantherLogType.Dropbox_TeamEvent]
-    RuleID = "Dropbox.Linked.Team.Application.Added-prototype"
-    Tests = dropbox_linked_team_application_added_tests
+class DropboxLinkedTeamApplicationAdded(Rule):
+    default_description = "An application was linked to your Dropbox Account"
+    display_name = "Dropbox Linked Team Application Added"
+    default_reference = "https://help.dropbox.com/integrations/app-integrations"
+    default_runbook = "Ensure that the application is valid and not malicious. Verify that this is expected. If not, determine other actions taken by this user recently and reach out to the user. If the event involved a non-team member, consider disabling the user's access while investigating.\n"
+    default_severity = Severity.LOW
+    tags = ["dropbox"]
+    log_types = [LogType.Dropbox_TeamEvent]
+    id = "Dropbox.Linked.Team.Application.Added-prototype"
+    tests = dropbox_linked_team_application_added_tests
 
     def rule(self, event):
         return all(

@@ -1,23 +1,21 @@
-from typing import List
-
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 
-g_suite_advanced_protection_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
-        Name="Advanced Protection Enabled",
-        ExpectedResult=False,
-        Log={
+g_suite_advanced_protection_tests: list[RuleTest] = [
+    RuleTest(
+        name="Advanced Protection Enabled",
+        expected_result=False,
+        log={
             "id": {"applicationName": "user_accounts"},
             "actor": {"callerType": "USER", "email": "homer.simpson@example.com"},
             "type": "titanium_change",
             "name": "titanium_enroll",
         },
     ),
-    PantherRuleTest(
-        Name="Advanced Protection Disabled",
-        ExpectedResult=True,
-        Log={
+    RuleTest(
+        name="Advanced Protection Disabled",
+        expected_result=True,
+        log={
             "id": {"applicationName": "user_accounts"},
             "actor": {"callerType": "USER", "email": "homer.simpson@example.com"},
             "type": "titanium_change",
@@ -27,18 +25,20 @@ g_suite_advanced_protection_tests: List[PantherRuleTest] = [
 ]
 
 
-class GSuiteAdvancedProtection(PantherRule):
-    RuleID = "GSuite.AdvancedProtection-prototype"
-    DisplayName = "GSuite User Advanced Protection Change"
-    LogTypes = [PantherLogType.GSuite_ActivityEvent]
-    Tags = ["GSuite", "Defense Evasion:Impair Defenses"]
-    Reports = {"MITRE ATT&CK": ["TA0005:T1562"]}
-    Severity = PantherSeverity.Low
-    Description = "A user disabled advanced protection for themselves.\n"
-    Reference = "https://support.google.com/a/answer/9378686?hl=en&sjid=864417124752637253-EU"
-    Runbook = "Have the user re-enable Google Advanced Protection\n"
-    SummaryAttributes = ["actor:email"]
-    Tests = g_suite_advanced_protection_tests
+class GSuiteAdvancedProtection(Rule):
+    id = "GSuite.AdvancedProtection-prototype"
+    display_name = "GSuite User Advanced Protection Change"
+    log_types = [LogType.GSuite_ActivityEvent]
+    tags = ["GSuite", "Defense Evasion:Impair Defenses"]
+    reports = {"MITRE ATT&CK": ["TA0005:T1562"]}
+    default_severity = Severity.LOW
+    default_description = "A user disabled advanced protection for themselves.\n"
+    default_reference = (
+        "https://support.google.com/a/answer/9378686?hl=en&sjid=864417124752637253-EU"
+    )
+    default_runbook = "Have the user re-enable Google Advanced Protection\n"
+    summary_attributes = ["actor:email"]
+    tests = g_suite_advanced_protection_tests
 
     def rule(self, event):
         if deep_get(event, "id", "applicationName") != "user_accounts":

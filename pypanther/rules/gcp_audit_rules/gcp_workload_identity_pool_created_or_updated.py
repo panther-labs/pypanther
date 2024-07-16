@@ -1,12 +1,10 @@
-from typing import List
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
-
-gcp_workload_identity_pool_createdor_updated_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
-        Name="DeleteWorkloadIdentityPoolProvider-False",
-        ExpectedResult=False,
-        Log={
+gcp_workload_identity_pool_createdor_updated_tests: list[RuleTest] = [
+    RuleTest(
+        name="DeleteWorkloadIdentityPoolProvider-False",
+        expected_result=False,
+        log={
             "insertId": "1h09dxwe33il5",
             "logName": "projects/test-project/logs/cloudaudit.googleapis.com%2Factivity",
             "operation": {
@@ -55,10 +53,10 @@ gcp_workload_identity_pool_createdor_updated_tests: List[PantherRuleTest] = [
             "timestamp": "2023-11-17T18:58:13.511621185Z",
         },
     ),
-    PantherRuleTest(
-        Name="UpdateWorkloadIdentityPoolProvider-True",
-        ExpectedResult=True,
-        Log={
+    RuleTest(
+        name="UpdateWorkloadIdentityPoolProvider-True",
+        expected_result=True,
+        log={
             "insertId": "1plwiv7e2lak8",
             "logName": "projects/test-project/logs/cloudaudit.googleapis.com%2Factivity",
             "operation": {
@@ -118,10 +116,10 @@ gcp_workload_identity_pool_createdor_updated_tests: List[PantherRuleTest] = [
             "timestamp": "2023-11-17T18:56:57.730630771Z",
         },
     ),
-    PantherRuleTest(
-        Name="CreateWorkloadIdentityPoolProvider-True",
-        ExpectedResult=True,
-        Log={
+    RuleTest(
+        name="CreateWorkloadIdentityPoolProvider-True",
+        expected_result=True,
+        log={
             "insertId": "11gmdk5e1ne4r",
             "logName": "projects/test-project/logs/cloudaudit.googleapis.com%2Factivity",
             "operation": {
@@ -185,16 +183,16 @@ gcp_workload_identity_pool_createdor_updated_tests: List[PantherRuleTest] = [
 ]
 
 
-class GCPWorkloadIdentityPoolCreatedorUpdated(PantherRule):
-    RuleID = "GCP.Workload.Identity.Pool.Created.or.Updated-prototype"
-    DisplayName = "GCP Workload Identity Pool Created or Updated"
-    LogTypes = [PantherLogType.GCP_AuditLog]
-    Tags = ["Account Manipulation", "Additional Cloud Roles", "GCP", "Privilege Escalation"]
-    Reports = {"MITRE ATT&CK": ["TA0003:T1136.003", "TA0003:T1098.003", "TA0004:T1098.003"]}
-    Severity = PantherSeverity.High
-    Runbook = "Ensure that the Workload Identity Pool creation or modification was expected. Adversaries may use this to persist or allow additional access or escalate their privilege.\n"
-    Reference = "https://medium.com/google-cloud/detection-of-inbound-sso-persistence-techniques-in-gcp-c56f7b2a588b"
-    Tests = gcp_workload_identity_pool_createdor_updated_tests
+class GCPWorkloadIdentityPoolCreatedorUpdated(Rule):
+    id = "GCP.Workload.Identity.Pool.Created.or.Updated-prototype"
+    display_name = "GCP Workload Identity Pool Created or Updated"
+    log_types = [LogType.GCP_AuditLog]
+    tags = ["Account Manipulation", "Additional Cloud Roles", "GCP", "Privilege Escalation"]
+    reports = {"MITRE ATT&CK": ["TA0003:T1136.003", "TA0003:T1098.003", "TA0004:T1098.003"]}
+    default_severity = Severity.HIGH
+    default_runbook = "Ensure that the Workload Identity Pool creation or modification was expected. Adversaries may use this to persist or allow additional access or escalate their privilege.\n"
+    default_reference = "https://medium.com/google-cloud/detection-of-inbound-sso-persistence-techniques-in-gcp-c56f7b2a588b"
+    tests = gcp_workload_identity_pool_createdor_updated_tests
     METHODS = [
         "google.iam.v1.WorkloadIdentityPools.CreateWorkloadIdentityPoolProvider",
         "google.iam.v1.WorkloadIdentityPools.UpdateWorkloadIdentityPoolProvider",

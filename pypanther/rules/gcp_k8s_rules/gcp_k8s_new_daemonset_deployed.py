@@ -1,14 +1,12 @@
-from typing import List
-
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.gcp_base_helpers import gcp_alert_context
 from pypanther.helpers.panther_base_helpers import deep_get, deep_walk
 
-gcpk8s_new_daemonset_deployed_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
-        Name="privilege-escalation",
-        ExpectedResult=True,
-        Log={
+gcpk8s_new_daemonset_deployed_tests: list[RuleTest] = [
+    RuleTest(
+        name="privilege-escalation",
+        expected_result=True,
+        log={
             "protoPayload": {
                 "authorizationInfo": [
                     {"granted": True, "permission": "io.k8s.apps.v1.daemonsets.create"}
@@ -25,10 +23,10 @@ gcpk8s_new_daemonset_deployed_tests: List[PantherRuleTest] = [
             "timestamp": "2024-01-19 13:47:18.279921000",
         },
     ),
-    PantherRuleTest(
-        Name="fail",
-        ExpectedResult=False,
-        Log={
+    RuleTest(
+        name="fail",
+        expected_result=False,
+        log={
             "protoPayload": {
                 "authorizationInfo": [
                     {"granted": False, "permission": "io.k8s.apps.v1.daemonsets.create"}
@@ -48,16 +46,16 @@ gcpk8s_new_daemonset_deployed_tests: List[PantherRuleTest] = [
 ]
 
 
-class GCPK8sNewDaemonsetDeployed(PantherRule):
-    RuleID = "GCP.K8s.New.Daemonset.Deployed-prototype"
-    DisplayName = "GCP K8s New Daemonset Deployed"
-    Description = "Detects Daemonset creation in GCP Kubernetes clusters."
-    LogTypes = [PantherLogType.GCP_AuditLog]
-    Severity = PantherSeverity.Medium
-    Reference = "https://medium.com/snowflake/from-logs-to-detection-using-snowflake-and-panther-to-detect-k8s-threats-d72f70a504d7"
-    Runbook = "Investigate a reason of creating Daemonset. Create ticket if appropriate."
-    Reports = {"MITRE ATT&CK": ["TA0002:T1610"]}
-    Tests = gcpk8s_new_daemonset_deployed_tests
+class GCPK8sNewDaemonsetDeployed(Rule):
+    id = "GCP.K8s.New.Daemonset.Deployed-prototype"
+    display_name = "GCP K8s New Daemonset Deployed"
+    default_description = "Detects Daemonset creation in GCP Kubernetes clusters."
+    log_types = [LogType.GCP_AuditLog]
+    default_severity = Severity.MEDIUM
+    default_reference = "https://medium.com/snowflake/from-logs-to-detection-using-snowflake-and-panther-to-detect-k8s-threats-d72f70a504d7"
+    default_runbook = "Investigate a reason of creating Daemonset. Create ticket if appropriate."
+    reports = {"MITRE ATT&CK": ["TA0002:T1610"]}
+    tests = gcpk8s_new_daemonset_deployed_tests
 
     def rule(self, event):
         authorization_info = deep_walk(event, "protoPayload", "authorizationInfo")

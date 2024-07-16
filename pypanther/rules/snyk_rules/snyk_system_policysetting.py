@@ -1,14 +1,12 @@
-from typing import List
-
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 from pypanther.helpers.panther_snyk_helpers import snyk_alert_context
 
-snyk_system_policy_setting_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
-        Name="Snyk System Policy Setting event happened ( Security Policy )",
-        ExpectedResult=True,
-        Log={
+snyk_system_policy_setting_tests: list[RuleTest] = [
+    RuleTest(
+        name="Snyk System Policy Setting event happened ( Security Policy )",
+        expected_result=True,
+        log={
             "content": {
                 "after": {
                     "configuration": {
@@ -43,10 +41,10 @@ snyk_system_policy_setting_tests: List[PantherRuleTest] = [
             "userId": "05555555-3333-4ddd-8ccc-755555555555",
         },
     ),
-    PantherRuleTest(
-        Name="Snyk System Policy Setting event happened ( License Policy )",
-        ExpectedResult=True,
-        Log={
+    RuleTest(
+        name="Snyk System Policy Setting event happened ( License Policy )",
+        expected_result=True,
+        log={
             "content": {
                 "after": {
                     "configuration": {
@@ -74,10 +72,10 @@ snyk_system_policy_setting_tests: List[PantherRuleTest] = [
             "userId": "05555555-3333-4ddd-8ccc-755555555555",
         },
     ),
-    PantherRuleTest(
-        Name="Snyk Group SSO Membership sync",
-        ExpectedResult=False,
-        Log={
+    RuleTest(
+        name="Snyk Group SSO Membership sync",
+        expected_result=False,
+        log={
             "content": {
                 "addAsOrgAdmin": [],
                 "addAsOrgCollaborator": ["group.name"],
@@ -94,17 +92,17 @@ snyk_system_policy_setting_tests: List[PantherRuleTest] = [
 ]
 
 
-class SnykSystemPolicySetting(PantherRule):
-    RuleID = "Snyk.System.PolicySetting-prototype"
-    DisplayName = "Snyk System Policy Settings Changed"
-    LogTypes = [PantherLogType.Snyk_GroupAudit, PantherLogType.Snyk_OrgAudit]
-    Tags = ["Snyk"]
-    Severity = PantherSeverity.High
-    Description = "Detects Snyk Policy Settings have been changed. Policies define Snyk's behavior when encountering security and licensing issues.\n"
-    Runbook = "Snyk Policies can cause alerts to raise or not based on found security and license issues. Validate that that this change is expected.\n"
-    Reference = "https://docs.snyk.io/manage-issues/policies/shared-policies-overview"
-    SummaryAttributes = ["event"]
-    Tests = snyk_system_policy_setting_tests
+class SnykSystemPolicySetting(Rule):
+    id = "Snyk.System.PolicySetting-prototype"
+    display_name = "Snyk System Policy Settings Changed"
+    log_types = [LogType.Snyk_GroupAudit, LogType.Snyk_OrgAudit]
+    tags = ["Snyk"]
+    default_severity = Severity.HIGH
+    default_description = "Detects Snyk Policy Settings have been changed. Policies define Snyk's behavior when encountering security and licensing issues.\n"
+    default_runbook = "Snyk Policies can cause alerts to raise or not based on found security and license issues. Validate that that this change is expected.\n"
+    default_reference = "https://docs.snyk.io/manage-issues/policies/shared-policies-overview"
+    summary_attributes = ["event"]
+    tests = snyk_system_policy_setting_tests
     ACTIONS = [
         "group.policy.create",
         "group.policy.delete",

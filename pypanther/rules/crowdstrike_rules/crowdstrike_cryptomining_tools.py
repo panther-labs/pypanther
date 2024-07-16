@@ -1,13 +1,11 @@
-from typing import List
-
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import crowdstrike_detection_alert_context, deep_get
 
-crowdstrike_cryptomining_tools_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
-        Name="Crypto tool",
-        ExpectedResult=True,
-        Log={
+crowdstrike_cryptomining_tools_tests: list[RuleTest] = [
+    RuleTest(
+        name="Crypto tool",
+        expected_result=True,
+        log={
             "aid": "1234567890abcdefghijklmnop9876",
             "aip": "11.10.9.8",
             "cid": "abcdefghijklmnop123467890",
@@ -86,10 +84,10 @@ crowdstrike_cryptomining_tools_tests: List[PantherRuleTest] = [
             "treeid": "4295752857",
         },
     ),
-    PantherRuleTest(
-        Name="Other",
-        ExpectedResult=False,
-        Log={
+    RuleTest(
+        name="Other",
+        expected_result=False,
+        log={
             "aid": "1234567890abcdefghijklmnop9876",
             "aip": "11.10.9.8",
             "cid": "abcdefghijklmnop123467890",
@@ -171,14 +169,14 @@ crowdstrike_cryptomining_tools_tests: List[PantherRuleTest] = [
 ]
 
 
-class CrowdstrikeCryptominingTools(PantherRule):
-    Description = "Detects the execution of known crytocurrency mining tools."
-    DisplayName = "Crowdstrike Cryptomining Tools "
-    Reference = "https://www.crowdstrike.com/cybersecurity-101/cryptojacking/"
-    Severity = PantherSeverity.Critical
-    LogTypes = [PantherLogType.Crowdstrike_FDREvent]
-    RuleID = "Crowdstrike.Cryptomining.Tools-prototype"
-    Tests = crowdstrike_cryptomining_tools_tests
+class CrowdstrikeCryptominingTools(Rule):
+    default_description = "Detects the execution of known crytocurrency mining tools."
+    display_name = "Crowdstrike Cryptomining Tools "
+    default_reference = "https://www.crowdstrike.com/cybersecurity-101/cryptojacking/"
+    default_severity = Severity.CRITICAL
+    log_types = [LogType.Crowdstrike_FDREvent]
+    id = "Crowdstrike.Cryptomining.Tools-prototype"
+    tests = crowdstrike_cryptomining_tools_tests
     CRYPTOCURRENCY_MINING_TOOLS = {
         "xmrig.exe",
         "cgminer.exe",

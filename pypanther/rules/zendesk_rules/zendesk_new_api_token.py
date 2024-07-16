@@ -1,12 +1,10 @@
-from typing import List
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
-
-zendesk_new_api_token_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
-        Name="Zendesk - API Token Updated",
-        ExpectedResult=False,
-        Log={
+zendesk_new_api_token_tests: list[RuleTest] = [
+    RuleTest(
+        name="Zendesk - API Token Updated",
+        expected_result=False,
+        log={
             "url": "https://myzendek.zendesk.com/api/v2/audit_logs/111222333444.json",
             "id": 123456789123,
             "action_label": "Updated",
@@ -22,10 +20,10 @@ zendesk_new_api_token_tests: List[PantherRuleTest] = [
             "p_log_type": "Zendesk.Audit",
         },
     ),
-    PantherRuleTest(
-        Name="Zendesk - API Token Created",
-        ExpectedResult=True,
-        Log={
+    RuleTest(
+        name="Zendesk - API Token Created",
+        expected_result=True,
+        log={
             "url": "https://myzendek.zendesk.com/api/v2/audit_logs/111222333444.json",
             "id": 123456789123,
             "action_label": "Created",
@@ -44,18 +42,18 @@ zendesk_new_api_token_tests: List[PantherRuleTest] = [
 ]
 
 
-class ZendeskNewAPIToken(PantherRule):
-    RuleID = "Zendesk.NewAPIToken-prototype"
-    DisplayName = "Zendesk API Token Created"
-    LogTypes = [PantherLogType.Zendesk_Audit]
-    Severity = PantherSeverity.High
-    Tags = ["Zendesk", "Credential Access:Steal Application Access Token"]
-    Reports = {"MITRE ATT&CK": ["TA0006:T1528"]}
-    Description = "A user created a new API token to be used with Zendesk."
-    Runbook = "Validate the api token was created for valid use case, otherwise delete the token immediately."
-    Reference = "https://support.zendesk.com/hc/en-us/articles/4408889192858-Managing-access-to-the-Zendesk-API#topic_bsw_lfg_mmb:~:text=enable%20token%20access.-,Generating%20API%20tokens,-To%20generate%20an"
-    SummaryAttributes = ["p_any_ip_addresses"]
-    Tests = zendesk_new_api_token_tests
+class ZendeskNewAPIToken(Rule):
+    id = "Zendesk.NewAPIToken-prototype"
+    display_name = "Zendesk API Token Created"
+    log_types = [LogType.Zendesk_Audit]
+    default_severity = Severity.HIGH
+    tags = ["Zendesk", "Credential Access:Steal Application Access Token"]
+    reports = {"MITRE ATT&CK": ["TA0006:T1528"]}
+    default_description = "A user created a new API token to be used with Zendesk."
+    default_runbook = "Validate the api token was created for valid use case, otherwise delete the token immediately."
+    default_reference = "https://support.zendesk.com/hc/en-us/articles/4408889192858-Managing-access-to-the-Zendesk-API#topic_bsw_lfg_mmb:~:text=enable%20token%20access.-,Generating%20API%20tokens,-To%20generate%20an"
+    summary_attributes = ["p_any_ip_addresses"]
+    tests = zendesk_new_api_token_tests
     API_TOKEN_ACTIONS = {"create", "destroy"}
 
     def rule(self, event):

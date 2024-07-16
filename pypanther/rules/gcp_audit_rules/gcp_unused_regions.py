@@ -1,13 +1,11 @@
-from typing import List
-
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 
-gcp_unused_regions_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
-        Name="GCE Instance Terminated",
-        ExpectedResult=False,
-        Log={
+gcp_unused_regions_tests: list[RuleTest] = [
+    RuleTest(
+        name="GCE Instance Terminated",
+        expected_result=False,
+        log={
             "logName": "projects/western-verve-225918/logs/cloudaudit.googleapis.com%2Factivity",
             "severity": "NOTICE",
             "insertId": "81xwjyd5vh0",
@@ -40,10 +38,10 @@ gcp_unused_regions_tests: List[PantherRuleTest] = [
             },
         },
     ),
-    PantherRuleTest(
-        Name="GCE Create Instance in SouthAmerica",
-        ExpectedResult=True,
-        Log={
+    RuleTest(
+        name="GCE Create Instance in SouthAmerica",
+        expected_result=True,
+        log={
             "protoPayload": {
                 "@type": "type.googleapis.com/google.cloud.audit.AuditLog",
                 "authenticationInfo": {"principalEmail": "user.name@runpanther.io"},
@@ -76,10 +74,10 @@ gcp_unused_regions_tests: List[PantherRuleTest] = [
             "receiveTimestamp": "2020-05-15T17:15:43.377082868Z",
         },
     ),
-    PantherRuleTest(
-        Name="Create GCS in Asia",
-        ExpectedResult=True,
-        Log={
+    RuleTest(
+        name="Create GCS in Asia",
+        expected_result=True,
+        log={
             "protoPayload": {
                 "@type": "type.googleapis.com/google.cloud.audit.AuditLog",
                 "status": {},
@@ -158,10 +156,10 @@ gcp_unused_regions_tests: List[PantherRuleTest] = [
             "receiveTimestamp": "2020-05-15T17:25:09.393448555Z",
         },
     ),
-    PantherRuleTest(
-        Name="BigQuery access log (does not have standard attribute: resource.labels.location)",
-        ExpectedResult=False,
-        Log={
+    RuleTest(
+        name="BigQuery access log (does not have standard attribute: resource.labels.location)",
+        expected_result=False,
+        log={
             "insertId": "v3a96bedw1us",
             "logName": "projects/western-verve-123456/logs/cloudaudit.googleapis.com%2Fdata_access",
             "protoPayload": {
@@ -228,25 +226,25 @@ gcp_unused_regions_tests: List[PantherRuleTest] = [
 ]
 
 
-class GCPUnusedRegions(PantherRule):
-    RuleID = "GCP.UnusedRegions-prototype"
-    DisplayName = "GCP Resource in Unused Region"
-    Enabled = False
-    DedupPeriodMinutes = 15
-    LogTypes = [PantherLogType.GCP_AuditLog]
-    Tags = [
+class GCPUnusedRegions(Rule):
+    id = "GCP.UnusedRegions-prototype"
+    display_name = "GCP Resource in Unused Region"
+    enabled = False
+    dedup_period_minutes = 15
+    log_types = [LogType.GCP_AuditLog]
+    tags = [
         "GCP",
         "Database",
         "Configuration Required",
         "Defense Evasion:Unused/Unsupported Cloud Regions",
     ]
-    Reports = {"MITRE ATT&CK": ["TA0005:T1535"]}
-    Severity = PantherSeverity.Medium
-    Description = "Adversaries may create cloud instances in unused geographic service regions in order to evade detection.\n"
-    Runbook = "Validate the user making the request and the resource created."
-    Reference = "https://cloud.google.com/docs/geography-and-regions"
-    SummaryAttributes = ["severity", "p_any_ip_addresses", "p_any_domain_names"]
-    Tests = gcp_unused_regions_tests
+    reports = {"MITRE ATT&CK": ["TA0005:T1535"]}
+    default_severity = Severity.MEDIUM
+    default_description = "Adversaries may create cloud instances in unused geographic service regions in order to evade detection.\n"
+    default_runbook = "Validate the user making the request and the resource created."
+    default_reference = "https://cloud.google.com/docs/geography-and-regions"
+    summary_attributes = ["severity", "p_any_ip_addresses", "p_any_domain_names"]
+    tests = gcp_unused_regions_tests
     # 'asia',
     # 'australia',
     # 'eu',

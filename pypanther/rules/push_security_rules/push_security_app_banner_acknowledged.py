@@ -1,12 +1,10 @@
-from typing import List
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
-
-push_security_app_banner_acknowledged_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
-        Name="App Banner Acknowledged",
-        ExpectedResult=True,
-        Log={
+push_security_app_banner_acknowledged_tests: list[RuleTest] = [
+    RuleTest(
+        name="App Banner Acknowledged",
+        expected_result=True,
+        log={
             "id": "c478966c-f927-411c-b919-179832d3d50c",
             "new": {
                 "action": "ACKNOWLEDGED",
@@ -38,10 +36,10 @@ push_security_app_banner_acknowledged_tests: List[PantherRuleTest] = [
             "version": "1",
         },
     ),
-    PantherRuleTest(
-        Name="App Banner Displayed",
-        ExpectedResult=False,
-        Log={
+    RuleTest(
+        name="App Banner Displayed",
+        expected_result=False,
+        log={
             "id": "c478966c-f927-411c-b919-179832d3d50c",
             "new": {
                 "action": "DISPLAYED",
@@ -73,10 +71,10 @@ push_security_app_banner_acknowledged_tests: List[PantherRuleTest] = [
             "version": "1",
         },
     ),
-    PantherRuleTest(
-        Name="App Banner Inform Mode",
-        ExpectedResult=False,
-        Log={
+    RuleTest(
+        name="App Banner Inform Mode",
+        expected_result=False,
+        log={
             "id": "c478966c-f927-411c-b919-179832d3d50c",
             "new": {
                 "action": "DISPLAYED",
@@ -111,12 +109,12 @@ push_security_app_banner_acknowledged_tests: List[PantherRuleTest] = [
 ]
 
 
-class PushSecurityAppBannerAcknowledged(PantherRule):
-    RuleID = "Push.Security.App.Banner.Acknowledged-prototype"
-    DisplayName = "Push Security App Banner Acknowledged"
-    LogTypes = [PantherLogType.PushSecurity_Activity]
-    Severity = PantherSeverity.Low
-    Tests = push_security_app_banner_acknowledged_tests
+class PushSecurityAppBannerAcknowledged(Rule):
+    id = "Push.Security.App.Banner.Acknowledged-prototype"
+    display_name = "Push Security App Banner Acknowledged"
+    log_types = [LogType.PushSecurity_Activity]
+    default_severity = Severity.LOW
+    tests = push_security_app_banner_acknowledged_tests
 
     def rule(self, event):
         if event.get("object") != "APP_BANNER":

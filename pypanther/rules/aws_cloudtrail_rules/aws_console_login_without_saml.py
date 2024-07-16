@@ -1,14 +1,12 @@
-from typing import List
-
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import aws_rule_context, deep_get
 from pypanther.helpers.panther_default import lookup_aws_account_name
 
-aws_console_login_without_saml_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
-        Name="Login with SAML",
-        ExpectedResult=False,
-        Log={
+aws_console_login_without_saml_tests: list[RuleTest] = [
+    RuleTest(
+        name="Login with SAML",
+        expected_result=False,
+        log={
             "additionalEventData": {
                 "LoginTo": "https://console.aws.amazon.com/console/home",
                 "MobileVersion": "No",
@@ -36,10 +34,10 @@ aws_console_login_without_saml_tests: List[PantherRuleTest] = [
             "recipientAccountId": "123456789012",
         },
     ),
-    PantherRuleTest(
-        Name="Normal Login",
-        ExpectedResult=True,
-        Log={
+    RuleTest(
+        name="Normal Login",
+        expected_result=True,
+        log={
             "eventVersion": "1.05",
             "userIdentity": {
                 "type": "IAMUser",
@@ -69,25 +67,25 @@ aws_console_login_without_saml_tests: List[PantherRuleTest] = [
 ]
 
 
-class AWSConsoleLoginWithoutSAML(PantherRule):
-    RuleID = "AWS.Console.LoginWithoutSAML-prototype"
-    DisplayName = "Logins Without SAML"
-    Enabled = False
-    LogTypes = [PantherLogType.AWS_CloudTrail]
-    Reports = {"MITRE ATT&CK": ["TA0001:T1078"]}
-    Tags = [
+class AWSConsoleLoginWithoutSAML(Rule):
+    id = "AWS.Console.LoginWithoutSAML-prototype"
+    display_name = "Logins Without SAML"
+    enabled = False
+    log_types = [LogType.AWS_CloudTrail]
+    reports = {"MITRE ATT&CK": ["TA0001:T1078"]}
+    tags = [
         "AWS",
         "Configuration Required",
         "Identity & Access Management",
         "Authentication",
         "Initial Access:Valid Accounts",
     ]
-    Severity = PantherSeverity.High
-    Description = "An AWS console login was made without SAML/SSO."
-    Runbook = "Modify the AWS account configuration."
-    Reference = "https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_providers_enable-console-saml.html"
-    SummaryAttributes = ["userAgent", "sourceIpAddress", "recipientAccountId", "p_any_aws_arns"]
-    Tests = aws_console_login_without_saml_tests
+    default_severity = Severity.HIGH
+    default_description = "An AWS console login was made without SAML/SSO."
+    default_runbook = "Modify the AWS account configuration."
+    default_reference = "https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_providers_enable-console-saml.html"
+    summary_attributes = ["userAgent", "sourceIpAddress", "recipientAccountId", "p_any_aws_arns"]
+    tests = aws_console_login_without_saml_tests
 
     def rule(self, event):
         additional_event_data = event.get("additionalEventData", {})

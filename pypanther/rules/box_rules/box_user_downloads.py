@@ -1,13 +1,11 @@
-from typing import List
-
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 
-box_large_number_downloads_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
-        Name="Regular Event",
-        ExpectedResult=False,
-        Log={
+box_large_number_downloads_tests: list[RuleTest] = [
+    RuleTest(
+        name="Regular Event",
+        expected_result=False,
+        log={
             "type": "event",
             "additional_details": '{"key": "value"}',
             "created_by": {
@@ -19,10 +17,10 @@ box_large_number_downloads_tests: List[PantherRuleTest] = [
             "event_type": "DELETE",
         },
     ),
-    PantherRuleTest(
-        Name="User Download",
-        ExpectedResult=True,
-        Log={
+    RuleTest(
+        name="User Download",
+        expected_result=True,
+        log={
             "type": "event",
             "additional_details": '{"key": "value"}',
             "created_by": {
@@ -43,23 +41,23 @@ box_large_number_downloads_tests: List[PantherRuleTest] = [
 ]
 
 
-class BoxLargeNumberDownloads(PantherRule):
-    RuleID = "Box.Large.Number.Downloads-prototype"
-    DisplayName = "Box Large Number of Downloads"
-    LogTypes = [PantherLogType.Box_Event]
-    Tags = ["Box", "Exfiltration:Exfiltration Over Web Service"]
-    Reports = {"MITRE ATT&CK": ["TA0010:T1567"]}
-    Severity = PantherSeverity.Low
-    Description = (
+class BoxLargeNumberDownloads(Rule):
+    id = "Box.Large.Number.Downloads-prototype"
+    display_name = "Box Large Number of Downloads"
+    log_types = [LogType.Box_Event]
+    tags = ["Box", "Exfiltration:Exfiltration Over Web Service"]
+    reports = {"MITRE ATT&CK": ["TA0010:T1567"]}
+    default_severity = Severity.LOW
+    default_description = (
         "A user has exceeded the threshold for number of downloads within a single time frame.\n"
     )
-    Reference = (
+    default_reference = (
         "https://support.box.com/hc/en-us/articles/360043697134-Download-Files-and-Folders-from-Box"
     )
-    Runbook = "Investigate whether this user's download activity is expected.  Investigate the cause of this download activity.\n"
-    SummaryAttributes = ["ip_address"]
-    Threshold = 100
-    Tests = box_large_number_downloads_tests
+    default_runbook = "Investigate whether this user's download activity is expected.  Investigate the cause of this download activity.\n"
+    summary_attributes = ["ip_address"]
+    threshold = 100
+    tests = box_large_number_downloads_tests
 
     def rule(self, event):
         return event.get("event_type") == "DOWNLOAD"

@@ -1,14 +1,13 @@
 from fnmatch import fnmatch
-from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import aws_rule_context
 
-awss3_server_access_unknown_requester_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
-        Name="Expected Access",
-        ExpectedResult=False,
-        Log={
+awss3_server_access_unknown_requester_tests: list[RuleTest] = [
+    RuleTest(
+        name="Expected Access",
+        expected_result=False,
+        log={
             "bucketowner": "f16a9e81a6589df1c902c86f7982fd14a88787db",
             "bucket": "panther-bootstrap-processeddata-AF1341JAK",
             "time": "2020-02-14 00:53:48.000000000",
@@ -31,10 +30,10 @@ awss3_server_access_unknown_requester_tests: List[PantherRuleTest] = [
             "tlsVersion": "TLSv1.2",
         },
     ),
-    PantherRuleTest(
-        Name="Unexpected Access",
-        ExpectedResult=True,
-        Log={
+    RuleTest(
+        name="Unexpected Access",
+        expected_result=True,
+        log={
             "bucketowner": "f16a9e81a6589df1c902c86f7982fd14a88787db",
             "bucket": "panther-bootstrap-processeddata-AF1341JAK",
             "time": "2020-02-14 00:53:48.000000000",
@@ -57,10 +56,10 @@ awss3_server_access_unknown_requester_tests: List[PantherRuleTest] = [
             "tlsVersion": "TLSv1.2",
         },
     ),
-    PantherRuleTest(
-        Name="Failed Request",
-        ExpectedResult=False,
-        Log={
+    RuleTest(
+        name="Failed Request",
+        expected_result=False,
+        log={
             "bucketowner": "f16a9e81a6589df1c902c86f7982fd14a88787db",
             "bucket": "panther-bootstrap-processeddata-AF1341JAK",
             "time": "2020-02-14 00:53:48.000000000",
@@ -83,10 +82,10 @@ awss3_server_access_unknown_requester_tests: List[PantherRuleTest] = [
             "tlsVersion": "TLSv1.2",
         },
     ),
-    PantherRuleTest(
-        Name="Snowflake Request",
-        ExpectedResult=False,
-        Log={
+    RuleTest(
+        name="Snowflake Request",
+        expected_result=False,
+        log={
             "authenticationtype": "AuthHeader",
             "bucket": "panther-bootstrap-processeddata-AF1341JAK",
             "bucketowner": "f16a9e81a6589df1c902c86f7982fd14a88787db",
@@ -110,23 +109,23 @@ awss3_server_access_unknown_requester_tests: List[PantherRuleTest] = [
 ]
 
 
-class AWSS3ServerAccessUnknownRequester(PantherRule):
-    RuleID = "AWS.S3.ServerAccess.UnknownRequester-prototype"
-    DisplayName = "AWS S3 Unknown Requester"
-    Enabled = False
-    LogTypes = [PantherLogType.AWS_S3ServerAccess]
-    Tags = [
+class AWSS3ServerAccessUnknownRequester(Rule):
+    id = "AWS.S3.ServerAccess.UnknownRequester-prototype"
+    display_name = "AWS S3 Unknown Requester"
+    enabled = False
+    log_types = [LogType.AWS_S3ServerAccess]
+    tags = [
         "AWS",
         "Configuration Required",
         "Security Control",
         "Collection:Data From Cloud Storage Object",
     ]
-    Reports = {"Panther": ["Data Access"], "MITRE ATT&CK": ["TA0009:T1530"]}
-    Severity = PantherSeverity.Low
-    Description = "Validates that proper IAM entities are accessing sensitive data buckets."
-    Runbook = "If the S3 access is not expected for this bucket, investigate the requester's other traffic."
-    Reference = "https://docs.aws.amazon.com/AmazonS3/latest/userguide/walkthrough1.html"
-    SummaryAttributes = [
+    reports = {"Panther": ["Data Access"], "MITRE ATT&CK": ["TA0009:T1530"]}
+    default_severity = Severity.LOW
+    default_description = "Validates that proper IAM entities are accessing sensitive data buckets."
+    default_runbook = "If the S3 access is not expected for this bucket, investigate the requester's other traffic."
+    default_reference = "https://docs.aws.amazon.com/AmazonS3/latest/userguide/walkthrough1.html"
+    summary_attributes = [
         "bucket",
         "key",
         "operation",
@@ -136,7 +135,7 @@ class AWSS3ServerAccessUnknownRequester(PantherRule):
         "p_any_aws_arns",
         "p_any_aws_account_ids",
     ]
-    Tests = awss3_server_access_unknown_requester_tests
+    tests = awss3_server_access_unknown_requester_tests
     # pylint: disable=line-too-long
     BUCKET_ROLE_MAPPING = {
         "panther-bootstrap-processeddata-*": [

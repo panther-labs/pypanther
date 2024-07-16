@@ -1,15 +1,14 @@
 from ipaddress import ip_address
-from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import aws_rule_context, deep_get
 from pypanther.helpers.panther_default import lookup_aws_account_name
 
-awsiam_user_recon_access_denied_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
-        Name="Unauthorized API Call",
-        ExpectedResult=True,
-        Log={
+awsiam_user_recon_access_denied_tests: list[RuleTest] = [
+    RuleTest(
+        name="Unauthorized API Call",
+        expected_result=True,
+        log={
             "eventVersion": "1.05",
             "userIdentity": {
                 "type": "IAMUser",
@@ -42,10 +41,10 @@ awsiam_user_recon_access_denied_tests: List[PantherRuleTest] = [
             "recipientAccountId": "123456789012",
         },
     ),
-    PantherRuleTest(
-        Name="Unauthorized API Call from Within AWS (FQDN)",
-        ExpectedResult=False,
-        Log={
+    RuleTest(
+        name="Unauthorized API Call from Within AWS (FQDN)",
+        expected_result=False,
+        log={
             "eventVersion": "1.05",
             "userIdentity": {
                 "type": "IAMUser",
@@ -78,10 +77,10 @@ awsiam_user_recon_access_denied_tests: List[PantherRuleTest] = [
             "recipientAccountId": "123456789012",
         },
     ),
-    PantherRuleTest(
-        Name="Authorized API Call",
-        ExpectedResult=False,
-        Log={
+    RuleTest(
+        name="Authorized API Call",
+        expected_result=False,
+        log={
             "eventVersion": "1.05",
             "userIdentity": {
                 "type": "IAMUser",
@@ -112,10 +111,10 @@ awsiam_user_recon_access_denied_tests: List[PantherRuleTest] = [
             "recipientAccountId": "123456789012",
         },
     ),
-    PantherRuleTest(
-        Name="Unauthorized API Call - From AWS console",
-        ExpectedResult=False,
-        Log={
+    RuleTest(
+        name="Unauthorized API Call - From AWS console",
+        expected_result=False,
+        log={
             "eventVersion": "1.05",
             "userIdentity": {
                 "type": "IAMUser",
@@ -151,19 +150,21 @@ awsiam_user_recon_access_denied_tests: List[PantherRuleTest] = [
 ]
 
 
-class AWSIAMUserReconAccessDenied(PantherRule):
-    RuleID = "AWS.IAMUser.ReconAccessDenied-prototype"
-    DisplayName = "Detect Reconnaissance from IAM Users"
-    LogTypes = [PantherLogType.AWS_CloudTrail]
-    Tags = ["AWS", "Discovery:Cloud Service Discovery"]
-    Reports = {"MITRE ATT&CK": ["TA0007:T1526"]}
-    Severity = PantherSeverity.Info
-    Threshold = 15
-    DedupPeriodMinutes = 10
-    Description = "An IAM user has a high volume of access denied API calls."
-    Runbook = "Analyze the IP they came from, and other actions taken before/after."
-    Reference = "https://docs.aws.amazon.com/IAM/latest/UserGuide/troubleshoot_access-denied.html"
-    SummaryAttributes = [
+class AWSIAMUserReconAccessDenied(Rule):
+    id = "AWS.IAMUser.ReconAccessDenied-prototype"
+    display_name = "Detect Reconnaissance from IAM Users"
+    log_types = [LogType.AWS_CloudTrail]
+    tags = ["AWS", "Discovery:Cloud Service Discovery"]
+    reports = {"MITRE ATT&CK": ["TA0007:T1526"]}
+    default_severity = Severity.INFO
+    threshold = 15
+    dedup_period_minutes = 10
+    default_description = "An IAM user has a high volume of access denied API calls."
+    default_runbook = "Analyze the IP they came from, and other actions taken before/after."
+    default_reference = (
+        "https://docs.aws.amazon.com/IAM/latest/UserGuide/troubleshoot_access-denied.html"
+    )
+    summary_attributes = [
         "eventName",
         "userAgent",
         "sourceIpAddress",
@@ -171,7 +172,7 @@ class AWSIAMUserReconAccessDenied(PantherRule):
         "errorMessage",
         "p_any_aws_arns",
     ]
-    Tests = awsiam_user_recon_access_denied_tests
+    tests = awsiam_user_recon_access_denied_tests
     # service/event patterns to monitor
     RECON_ACTIONS = {
         "dynamodb": ["List", "Describe", "Get"],

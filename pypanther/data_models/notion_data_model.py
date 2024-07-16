@@ -1,9 +1,6 @@
-from typing import List
-
 import pypanther.helpers.panther_event_type_helpers as event_type
-from pypanther.base import PantherDataModel, PantherDataModelMapping
+from pypanther.base import DataModel, DataModelMapping, LogType
 from pypanther.helpers.panther_base_helpers import deep_get
-from pypanther.log_types import PantherLogType
 
 
 def get_event_type(event):
@@ -29,13 +26,13 @@ def get_actor_user(event):
     return actor
 
 
-class StandardNotionAuditLogs(PantherDataModel):
-    DataModelID: str = "Standard.Notion.AuditLogs"
-    DisplayName: str = "Notion Audit Logs"
-    Enabled: bool = True
-    LogTypes: List[str] = [PantherLogType.Notion_AuditLogs]
-    Mappings: List[PantherDataModelMapping] = [
-        PantherDataModelMapping(Name="actor_user", Method=get_actor_user),
-        PantherDataModelMapping(Name="event_type", Method=get_event_type),
-        PantherDataModelMapping(Name="source_ip", Path="$.event.ip_address"),
+class StandardNotionAuditLogs(DataModel):
+    id: str = "Standard.Notion.AuditLogs"
+    display_name: str = "Notion Audit Logs"
+    enabled: bool = True
+    log_types: list[str] = [LogType.Notion_AuditLogs]
+    mappings: list[DataModelMapping] = [
+        DataModelMapping(name="actor_user", method=get_actor_user),
+        DataModelMapping(name="event_type", method=get_event_type),
+        DataModelMapping(name="source_ip", path="$.event.ip_address"),
     ]

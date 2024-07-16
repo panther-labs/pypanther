@@ -1,13 +1,11 @@
-from typing import List
-
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 
-asana_workspace_default_session_duration_never_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
-        Name="Session Duration Never",
-        ExpectedResult=True,
-        Log={
+asana_workspace_default_session_duration_never_tests: list[RuleTest] = [
+    RuleTest(
+        name="Session Duration Never",
+        expected_result=True,
+        log={
             "actor": {
                 "actor_type": "user",
                 "email": "homer@example.io",
@@ -27,10 +25,10 @@ asana_workspace_default_session_duration_never_tests: List[PantherRuleTest] = [
             "resource": {"gid": "12345", "name": "Acme Co", "resource_type": "workspace"},
         },
     ),
-    PantherRuleTest(
-        Name="Other Event",
-        ExpectedResult=False,
-        Log={
+    RuleTest(
+        name="Other Event",
+        expected_result=False,
+        log={
             "actor": {
                 "actor_type": "user",
                 "email": "homer.simpson@panther.io",
@@ -53,14 +51,16 @@ asana_workspace_default_session_duration_never_tests: List[PantherRuleTest] = [
 ]
 
 
-class AsanaWorkspaceDefaultSessionDurationNever(PantherRule):
-    Description = "An Asana workspace's default session duration (how often users need to re-authenticate) has been changed to never. "
-    DisplayName = "Asana Workspace Default Session Duration Never"
-    Reference = "https://help.asana.com/hc/en-us/articles/14218320495899-Manage-Session-Duration"
-    Severity = PantherSeverity.Low
-    LogTypes = [PantherLogType.Asana_Audit]
-    RuleID = "Asana.Workspace.Default.Session.Duration.Never-prototype"
-    Tests = asana_workspace_default_session_duration_never_tests
+class AsanaWorkspaceDefaultSessionDurationNever(Rule):
+    default_description = "An Asana workspace's default session duration (how often users need to re-authenticate) has been changed to never. "
+    display_name = "Asana Workspace Default Session Duration Never"
+    default_reference = (
+        "https://help.asana.com/hc/en-us/articles/14218320495899-Manage-Session-Duration"
+    )
+    default_severity = Severity.LOW
+    log_types = [LogType.Asana_Audit]
+    id = "Asana.Workspace.Default.Session.Duration.Never-prototype"
+    tests = asana_workspace_default_session_duration_never_tests
 
     def rule(self, event):
         return (

@@ -1,14 +1,12 @@
-from typing import List
-
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.gcp_base_helpers import gcp_alert_context
 from pypanther.helpers.panther_base_helpers import deep_get, deep_walk
 
-gcpk8_s_privileged_pod_created_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
-        Name="Privileged Pod Created",
-        ExpectedResult=True,
-        Log={
+gcpk8_s_privileged_pod_created_tests: list[RuleTest] = [
+    RuleTest(
+        name="Privileged Pod Created",
+        expected_result=True,
+        log={
             "logName": "projects/some-project/logs/cloudaudit.googleapis.com%2Factivity",
             "operation": {},
             "protoPayload": {
@@ -80,10 +78,10 @@ gcpk8_s_privileged_pod_created_tests: List[PantherRuleTest] = [
             "timestamp": "2024-02-13 12:45:06.073905000",
         },
     ),
-    PantherRuleTest(
-        Name="Run-As-Root Pod Created",
-        ExpectedResult=True,
-        Log={
+    RuleTest(
+        name="Run-As-Root Pod Created",
+        expected_result=True,
+        log={
             "logName": "projects/some-project/logs/cloudaudit.googleapis.com%2Factivity",
             "operation": {},
             "protoPayload": {
@@ -150,10 +148,10 @@ gcpk8_s_privileged_pod_created_tests: List[PantherRuleTest] = [
             "timestamp": "2024-02-13 13:13:45.363388000",
         },
     ),
-    PantherRuleTest(
-        Name="Non-Privileged Pod Created",
-        ExpectedResult=False,
-        Log={
+    RuleTest(
+        name="Non-Privileged Pod Created",
+        expected_result=False,
+        log={
             "logName": "projects/some-project/logs/cloudaudit.googleapis.com%2Factivity",
             "operation": {
                 "first": True,
@@ -223,10 +221,10 @@ gcpk8_s_privileged_pod_created_tests: List[PantherRuleTest] = [
             "timestamp": "2024-02-13 13:07:29.505948000",
         },
     ),
-    PantherRuleTest(
-        Name="Error Creating Pod",
-        ExpectedResult=False,
-        Log={
+    RuleTest(
+        name="Error Creating Pod",
+        expected_result=False,
+        log={
             "logName": "projects/some-project/logs/cloudaudit.googleapis.com%2Factivity",
             "protoPayload": {
                 "at_sign_type": "type.googleapis.com/google.cloud.audit.AuditLog",
@@ -288,16 +286,16 @@ gcpk8_s_privileged_pod_created_tests: List[PantherRuleTest] = [
 ]
 
 
-class GCPK8SPrivilegedPodCreated(PantherRule):
-    RuleID = "GCP.K8S.Privileged.Pod.Created-prototype"
-    DisplayName = "GCP K8S Privileged Pod Created"
-    LogTypes = [PantherLogType.GCP_AuditLog]
-    Severity = PantherSeverity.High
-    Description = "Alerts when a user creates privileged pod. These particular pods have full access to the host’s namespace and devices, have the ability to exploit the kernel, have dangerous linux capabilities, and can be a powerful launching point for further attacks. In the event of a successful container escape where a user is operating with root privileges, the attacker retains this role on the node.\n"
-    Runbook = "Investigate the reason of creating privileged pod. Advise that it is discouraged practice. Create ticket if appropriate.\n"
-    Reference = "https://www.golinuxcloud.com/kubernetes-privileged-pod-examples/"
-    Reports = {"MITRE ATT&CK": ["TA0004:T1548"]}
-    Tests = gcpk8_s_privileged_pod_created_tests
+class GCPK8SPrivilegedPodCreated(Rule):
+    id = "GCP.K8S.Privileged.Pod.Created-prototype"
+    display_name = "GCP K8S Privileged Pod Created"
+    log_types = [LogType.GCP_AuditLog]
+    default_severity = Severity.HIGH
+    default_description = "Alerts when a user creates privileged pod. These particular pods have full access to the host’s namespace and devices, have the ability to exploit the kernel, have dangerous linux capabilities, and can be a powerful launching point for further attacks. In the event of a successful container escape where a user is operating with root privileges, the attacker retains this role on the node.\n"
+    default_runbook = "Investigate the reason of creating privileged pod. Advise that it is discouraged practice. Create ticket if appropriate.\n"
+    default_reference = "https://www.golinuxcloud.com/kubernetes-privileged-pod-examples/"
+    reports = {"MITRE ATT&CK": ["TA0004:T1548"]}
+    tests = gcpk8_s_privileged_pod_created_tests
 
     def rule(self, event):
         if deep_get(event, "protoPayload", "response", "status") == "Failure":

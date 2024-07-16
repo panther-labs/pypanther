@@ -1,14 +1,12 @@
-from typing import List
-
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 from pypanther.helpers.panther_snyk_helpers import snyk_alert_context
 
-snyk_misc_settings_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
-        Name="Snyk Feature Flags changed",
-        ExpectedResult=True,
-        Log={
+snyk_misc_settings_tests: list[RuleTest] = [
+    RuleTest(
+        name="Snyk Feature Flags changed",
+        expected_result=True,
+        log={
             "created": "2023-04-11 23:32:14.173",
             "event": "group.feature_flags.edit",
             "groupId": "8fffffff-1555-4444-b000-b55555555555",
@@ -16,10 +14,10 @@ snyk_misc_settings_tests: List[PantherRuleTest] = [
             "userId": "05555555-3333-4ddd-8ccc-755555555555",
         },
     ),
-    PantherRuleTest(
-        Name="Snyk User Invite Revoke",
-        ExpectedResult=False,
-        Log={
+    RuleTest(
+        name="Snyk User Invite Revoke",
+        expected_result=False,
+        log={
             "content": {},
             "created": "2023-04-11 23:32:13.248",
             "event": "org.user.invite.revoke",
@@ -31,16 +29,18 @@ snyk_misc_settings_tests: List[PantherRuleTest] = [
 ]
 
 
-class SnykMiscSettings(PantherRule):
-    RuleID = "Snyk.Misc.Settings-prototype"
-    DisplayName = "Snyk Miscellaneous Settings"
-    LogTypes = [PantherLogType.Snyk_GroupAudit, PantherLogType.Snyk_OrgAudit]
-    Tags = ["Snyk"]
-    Reference = "https://docs.snyk.io/snyk-admin/manage-settings"
-    Severity = PantherSeverity.Low
-    Description = "Detects when Snyk settings that lack a clear security impact are changed\n"
-    SummaryAttributes = ["event"]
-    Tests = snyk_misc_settings_tests
+class SnykMiscSettings(Rule):
+    id = "Snyk.Misc.Settings-prototype"
+    display_name = "Snyk Miscellaneous Settings"
+    log_types = [LogType.Snyk_GroupAudit, LogType.Snyk_OrgAudit]
+    tags = ["Snyk"]
+    default_reference = "https://docs.snyk.io/snyk-admin/manage-settings"
+    default_severity = Severity.LOW
+    default_description = (
+        "Detects when Snyk settings that lack a clear security impact are changed\n"
+    )
+    summary_attributes = ["event"]
+    tests = snyk_misc_settings_tests
     ACTIONS = ["group.cloud_config.settings.edit", "group.feature_flags.edit"]
 
     def rule(self, event):
