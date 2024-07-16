@@ -1237,18 +1237,18 @@ class TestRule(TestCase):
         assert result.detection_result.destinations_output == []
 
     def test_validate_internal_does_not_fail(self) -> None:
-        class MyRule(PantherRule):
-            RuleID = "MyRule"
-            Severity = PantherSeverity.Info
-            LogTypes = [PantherLogType.Panther_Audit]
+        class MyRule(Rule):
+            id = "MyRule"
+            default_severity = Severity.INFO
+            log_types = [LogType.Panther_Audit]
 
             allowed_domains: list[str] = []
 
-            Tests = [
-                PantherRuleTest(
-                    Name="domain max",
-                    ExpectedResult=False,
-                    Log={"domain": "max.com"},
+            tests = [
+                RuleTest(
+                    name="domain max",
+                    expected_result=False,
+                    log={"domain": "max.com"},
                 )
             ]
 
@@ -1264,22 +1264,22 @@ class TestRule(TestCase):
         assert (
             MyRule()
             .run_tests(DATA_MODEL_CACHE.data_model_of_logtype, _validate_config=False)[0]
-            .Passed
+            .passed
         )
 
     def test_validate_external_fails(self) -> None:
-        class MyRule(PantherRule):
-            RuleID = "MyRule"
-            Severity = PantherSeverity.Info
-            LogTypes = [PantherLogType.Panther_Audit]
+        class MyRule(Rule):
+            id = "MyRule"
+            default_severity = Severity.INFO
+            log_types = [LogType.Panther_Audit]
 
             allowed_domains: list[str] = []
 
-            Tests = [
-                PantherRuleTest(
-                    Name="domain max",
-                    ExpectedResult=False,
-                    Log={"domain": "max.com"},
+            tests = [
+                RuleTest(
+                    name="domain max",
+                    expected_result=False,
+                    log={"domain": "max.com"},
                 )
             ]
 

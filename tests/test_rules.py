@@ -10,9 +10,7 @@ from pypanther.get import get_panther_rules
 
 @pytest.mark.parametrize("rule", get_panther_rules(), ids=lambda x: x.id)
 def test_rule(rule: Type[Rule]):
-    results = rule.run_tests(
-        DATA_MODEL_CACHE.data_model_of_logtype, _validate_config=False
-    )
+    results = rule.run_tests(DATA_MODEL_CACHE.data_model_of_logtype, _validate_config=False)
     for result in results:
         assert result.passed
 
