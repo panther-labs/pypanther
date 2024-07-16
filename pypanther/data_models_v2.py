@@ -2,14 +2,20 @@ import abc
 import dataclasses
 from enum import Enum
 from typing import List
-
-from pydantic import BaseModel, TypeAdapter
+import copy
 
 from pypanther import PantherLogType
 
 """This file contains data model definitions for the PyPanther package.
 It is still in development and is subject to change.
 """
+
+DATA_MODEL_ALL_ATTRS = [
+    "data_model_id",
+    "description",
+    "enabled",
+    "fields",
+]
 
 
 class FieldType(str, Enum):
@@ -36,13 +42,6 @@ class FieldMapping:
     field_path: str
     """The path to the field in the log."""
 
-    @classmethod
-    def as_dict(cls) -> dict[str, any]:
-        return {
-            "log_type": cls.log_type,
-            "field_path": cls.field_path
-        }
-
 
 @dataclasses.dataclass
 class Field:
@@ -55,15 +54,6 @@ class Field:
     """Mappings describe how the data model field is derived from the various log types."""
     description: str = ""
     """A description of the field."""
-
-    @classmethod
-    def as_dict(cls) -> dict[str, any]:
-        return {
-            "name": cls.name,
-            "description": cls.description,
-            "field_type": cls.field_type,
-            "mappings": [mapping.as_dict() for mapping in cls.mappings]
-        }
 
 
 class DataModel(metaclass=abc.ABCMeta):
@@ -81,18 +71,18 @@ class DataModel(metaclass=abc.ABCMeta):
     def is_panther_managed(cls) -> bool:
         return cls.__module__.startswith("pypanther")
 
-    @classmethod
-    def as_dict(cls) -> dict[str, any]:
-        return {
-            "data_model_id": cls.data_model_id,
-            "description": cls.description,
-            "enabled": cls.enabled,
-            "fields": [field.as_dict() for field in cls.fields]
-        }
+    def __init_subclass__(cls, **kwargs):
+        """Creates a copy of all class attributes to avoid modifications affecting parent.fields.
+        child.fields.append(Field("foo",...))
+        parent.fields.append(Field("foo",...) # not inherited by children of parent
+        """
+        for attr in DATA_MODEL_ALL_ATTRS:
+            if attr not in cls.__dict__:
+                try:
+                    v = getattr(cls, attr)
+                except AttributeError:
+                    v = None
 
-    @classmethod
-    def validate(cls):
-        _data_model_adapter.validate_python(cls.as_dict())
-
-        # instantiation confirms that abstract methods are implemented
-        cls()
+                if v is not None:
+                    setattr(cls, attr, copy.deepcopy(v))
+        super().__init_subclass__(**kwargs)
