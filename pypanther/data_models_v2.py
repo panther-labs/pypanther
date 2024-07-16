@@ -50,9 +50,9 @@ class Field:
     """Represents a field in a data model."""
 
     name: str
+    """The name of the field. This is the key that will be used to access the field in the data model."""
     field_type: FieldType
     """The type of the field."""
-    """The name of the field. This is the key that will be used to access the field in the data model."""
     mappings: List[FieldMapping]
     """Mappings describe how the data model field is derived from the various log types."""
     description: str = ""
