@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import aws_rule_context, deep_get
 from pypanther.helpers.panther_default import aws_cloudtrail_success
 
@@ -35,10 +35,7 @@ aws_cloud_trail_network_acl_permissive_entry_tests: list[RuleTest] = [
                 "arn": "arn:aws:sts::123456789012:assumed-role/example-role/example-user",
                 "principalId": "1111",
                 "sessionContext": {
-                    "attributes": {
-                        "creationDate": "2019-01-01T00:00:00Z",
-                        "mfaAuthenticated": "true",
-                    },
+                    "attributes": {"creationDate": "2019-01-01T00:00:00Z", "mfaAuthenticated": "true"},
                     "sessionIssuer": {
                         "accountId": "123456789012",
                         "arn": "arn:aws:iam::123456789012:role/example-role",
@@ -84,10 +81,7 @@ aws_cloud_trail_network_acl_permissive_entry_tests: list[RuleTest] = [
                 "arn": "arn:aws:sts::123456789012:assumed-role/example-role/example-user",
                 "principalId": "1111",
                 "sessionContext": {
-                    "attributes": {
-                        "creationDate": "2019-01-01T00:00:00Z",
-                        "mfaAuthenticated": "true",
-                    },
+                    "attributes": {"creationDate": "2019-01-01T00:00:00Z", "mfaAuthenticated": "true"},
                     "sessionIssuer": {
                         "accountId": "123456789012",
                         "arn": "arn:aws:iam::123456789012:role/example-role",
@@ -134,10 +128,7 @@ aws_cloud_trail_network_acl_permissive_entry_tests: list[RuleTest] = [
                 "arn": "arn:aws:sts::123456789012:assumed-role/example-role/example-user",
                 "principalId": "1111",
                 "sessionContext": {
-                    "attributes": {
-                        "creationDate": "2019-01-01T00:00:00Z",
-                        "mfaAuthenticated": "true",
-                    },
+                    "attributes": {"creationDate": "2019-01-01T00:00:00Z", "mfaAuthenticated": "true"},
                     "sessionIssuer": {
                         "accountId": "123456789012",
                         "arn": "arn:aws:iam::123456789012:role/example-role",
@@ -162,10 +153,10 @@ class AWSCloudTrailNetworkACLPermissiveEntry(Rule):
     default_severity = Severity.MEDIUM
     reports = {"MITRE ATT&CK": ["TA0003:T1098"]}
     default_description = "A Network ACL entry that allows access from anywhere was added.\n"
-    default_runbook = "Remove the overly permissive Network ACL entry and add a new entry with more restrictive permissions.\n"
-    default_reference = (
-        "https://docs.aws.amazon.com/vpc/latest/userguide/vpc-network-acls.html#nacl-rules"
+    default_runbook = (
+        "Remove the overly permissive Network ACL entry and add a new entry with more restrictive permissions.\n"
     )
+    default_reference = "https://docs.aws.amazon.com/vpc/latest/userguide/vpc-network-acls.html#nacl-rules"
     summary_attributes = ["userAgent", "sourceIpAddress", "recipientAccountId", "p_any_aws_arns"]
     tests = aws_cloud_trail_network_acl_permissive_entry_tests
 

@@ -1,6 +1,6 @@
 import re
 
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.gcp_base_helpers import gcp_alert_context
 from pypanther.helpers.panther_base_helpers import deep_get, deep_walk
 
@@ -90,11 +90,7 @@ gcp_log_bucket_or_sink_deleted_tests: list[RuleTest] = [
             },
             "receivetimestamp": "2023-05-23 19:39:15.565",
             "resource": {
-                "labels": {
-                    "destination": "",
-                    "name": "test-1",
-                    "project_id": "test-project-123456",
-                },
+                "labels": {"destination": "", "name": "test-1", "project_id": "test-project-123456"},
                 "type": "logging_sink",
             },
             "severity": "NOTICE",
@@ -186,11 +182,7 @@ gcp_log_bucket_or_sink_deleted_tests: list[RuleTest] = [
             },
             "receivetimestamp": "2023-05-23 19:39:15.565",
             "resource": {
-                "labels": {
-                    "destination": "",
-                    "name": "test-1",
-                    "project_id": "test-project-123456",
-                },
+                "labels": {"destination": "", "name": "test-1", "project_id": "test-project-123456"},
                 "type": "logging_sink",
             },
             "severity": "NOTICE",
@@ -207,26 +199,20 @@ class GCPLogBucketOrSinkDeleted(Rule):
     log_types = [LogType.GCP_AuditLog]
     tags = ["GCP", "Logging", "Bucket", "Sink", "Infrastructure"]
     default_description = "This rule detects deletions of GCP Log Buckets or Sinks.\n"
-    default_runbook = "Ensure that the bucket or sink deletion was expected. Adversaries may do this to cover their tracks.\n"
+    default_runbook = (
+        "Ensure that the bucket or sink deletion was expected. Adversaries may do this to cover their tracks.\n"
+    )
     default_reference = "https://cloud.google.com/logging/docs"
     tests = gcp_log_bucket_or_sink_deleted_tests
 
     def rule(self, event):
-        authenticated = deep_walk(
-            event, "protoPayload", "authorizationInfo", "granted", default=False
-        )
+        authenticated = deep_walk(event, "protoPayload", "authorizationInfo", "granted", default=False)
         method_pattern = "(?:\\w+\\.)*v\\d\\.(?:ConfigServiceV\\d\\.(?:Delete(Bucket|Sink)))"
         match = re.search(method_pattern, deep_get(event, "protoPayload", "methodName", default=""))
         return authenticated and match is not None
 
     def title(self, event):
-        actor = deep_get(
-            event,
-            "protoPayload",
-            "authenticationInfo",
-            "principalEmail",
-            default="<ACTOR_NOT_FOUND>",
-        )
+        actor = deep_get(event, "protoPayload", "authenticationInfo", "principalEmail", default="<ACTOR_NOT_FOUND>")
         resource = deep_get(event, "protoPayload", "resourceName", default="<RESOURCE_NOT_FOUND>")
         return f"[GCP]: [{actor}] deleted logging bucket or sink [{resource}]"
 

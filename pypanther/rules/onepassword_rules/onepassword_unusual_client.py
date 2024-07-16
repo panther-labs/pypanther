@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 
 one_password_unusual_client_tests: list[RuleTest] = [
@@ -65,9 +65,7 @@ class OnePasswordUnusualClient(Rule):
     display_name = "Unusual 1Password Client Detected"
     log_types = [LogType.OnePassword_SignInAttempt]
     default_severity = Severity.MEDIUM
-    default_description = (
-        "Detects when unusual or undesirable 1Password clients access your 1Password account"
-    )
+    default_description = "Detects when unusual or undesirable 1Password clients access your 1Password account"
     default_reference = "https://support.1password.com/category/accounts/"
     tags = ["1Password", "Credential Access:Credentials from Password Stores"]
     reports = {"MITRE ATT&CK": ["TA0006:T1555"]}

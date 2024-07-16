@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 
 teleport_suspicious_commands_tests: list[RuleTest] = [
     RuleTest(
@@ -56,9 +56,7 @@ class TeleportSuspiciousCommands(Rule):
     log_types = [LogType.Gravitational_TeleportAudit]
     tags = ["SSH", "Execution:Command and Scripting Interpreter"]
     default_severity = Severity.MEDIUM
-    default_description = (
-        "A user has invoked a suspicious command that could lead to a host compromise"
-    )
+    default_description = "A user has invoked a suspicious command that could lead to a host compromise"
     reports = {"MITRE ATT&CK": ["TA0002:T1059"]}
     default_reference = "https://goteleport.com/docs/management/admin/"
     default_runbook = "Find related commands within the time window and determine if the command was invoked legitimately. Examine the arguments to determine how the command was used and reach out to the user to verify the intentions.\n"

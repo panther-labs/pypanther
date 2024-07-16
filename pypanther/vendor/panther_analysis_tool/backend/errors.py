@@ -5,9 +5,7 @@ UPLOAD_IN_PROGRESS_SUBSTR = "another upload"
 
 def is_retryable_error(err: Optional[Dict[str, Any]]) -> bool:
     if err:
-        if is_retryable_error_str(err.get("message", "")) or is_retryable_error_str(
-            err.get("body", "")
-        ):
+        if is_retryable_error_str(err.get("message", "")) or is_retryable_error_str(err.get("body", "")):
             return True
     return False
 

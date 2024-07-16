@@ -39,9 +39,7 @@ class FileLocationMeta(type):
         file_path = frame.f_globals.get("__file__", None)
         line_number = frame.f_lineno
         module = frame.f_globals.get("__name__", None)
-        instance = super().__call__(
-            *args, **kwargs, _file_path=file_path, _line_no=line_number, _module=module
-        )
+        instance = super().__call__(*args, **kwargs, _file_path=file_path, _line_no=line_number, _module=module)
         return instance
 
 

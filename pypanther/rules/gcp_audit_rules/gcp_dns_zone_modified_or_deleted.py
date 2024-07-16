@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.gcp_base_helpers import gcp_alert_context
 from pypanther.helpers.panther_base_helpers import deep_get
 
@@ -13,11 +13,7 @@ gcpdns_zone_modifiedor_deleted_tests: list[RuleTest] = [
                 "at_sign_type": "type.googleapis.com/google.cloud.audit.AuditLog",
                 "authenticationInfo": {"principalEmail": "user@domain.com"},
                 "authorizationInfo": [
-                    {
-                        "granted": True,
-                        "permission": "dns.managedZones.delete",
-                        "resourceAttributes": {},
-                    }
+                    {"granted": True, "permission": "dns.managedZones.delete", "resourceAttributes": {}}
                 ],
                 "methodName": "dns.managedZones.delete",
                 "request": {
@@ -31,19 +27,13 @@ gcpdns_zone_modifiedor_deleted_tests: list[RuleTest] = [
                     "requestAttributes": {"auth": {}, "time": "2023-05-23T19:08:13.820007Z"},
                 },
                 "resourceName": "managedZones/test-zone",
-                "response": {
-                    "@type": "type.googleapis.com/cloud.dns.api.ManagedZonesDeleteResponse"
-                },
+                "response": {"@type": "type.googleapis.com/cloud.dns.api.ManagedZonesDeleteResponse"},
                 "serviceName": "dns.googleapis.com",
                 "status": {},
             },
             "receivetimestamp": "2023-05-23 19:08:14.305",
             "resource": {
-                "labels": {
-                    "location": "global",
-                    "project_id": "test-project-123456",
-                    "zone_name": "test-zone",
-                },
+                "labels": {"location": "global", "project_id": "test-project-123456", "zone_name": "test-zone"},
                 "type": "dns_managed_zone",
             },
             "severity": "NOTICE",
@@ -60,11 +50,7 @@ gcpdns_zone_modifiedor_deleted_tests: list[RuleTest] = [
                 "at_sign_type": "type.googleapis.com/google.cloud.audit.AuditLog",
                 "authenticationInfo": {"principalEmail": "user@domain.com"},
                 "authorizationInfo": [
-                    {
-                        "granted": True,
-                        "permission": "dns.managedZones.update",
-                        "resourceAttributes": {},
-                    }
+                    {"granted": True, "permission": "dns.managedZones.update", "resourceAttributes": {}}
                 ],
                 "methodName": "dns.managedZones.patch",
                 "request": {
@@ -155,11 +141,7 @@ gcpdns_zone_modifiedor_deleted_tests: list[RuleTest] = [
             },
             "receivetimestamp": "2023-05-23 19:07:26.276",
             "resource": {
-                "labels": {
-                    "location": "global",
-                    "project_id": "test-project-123456",
-                    "zone_name": "test-zone",
-                },
+                "labels": {"location": "global", "project_id": "test-project-123456", "zone_name": "test-zone"},
                 "type": "dns_managed_zone",
             },
             "severity": "NOTICE",
@@ -175,9 +157,7 @@ gcpdns_zone_modifiedor_deleted_tests: list[RuleTest] = [
             "protoPayload": {
                 "at_sign_type": "type.googleapis.com/google.cloud.audit.AuditLog",
                 "authenticationInfo": {"principalEmail": "user@domain.com"},
-                "authorizationInfo": [
-                    {"granted": True, "permission": "dns.changes.create", "resourceAttributes": {}}
-                ],
+                "authorizationInfo": [{"granted": True, "permission": "dns.changes.create", "resourceAttributes": {}}],
                 "methodName": "dns.changes.create",
                 "request": {
                     "@type": "type.googleapis.com/cloud.dns.api.ChangesCreateRequest",
@@ -245,11 +225,7 @@ gcpdns_zone_modifiedor_deleted_tests: list[RuleTest] = [
             },
             "receivetimestamp": "2023-05-23 19:07:40.053",
             "resource": {
-                "labels": {
-                    "location": "global",
-                    "project_id": "test-project-123456",
-                    "zone_name": "test-zone",
-                },
+                "labels": {"location": "global", "project_id": "test-project-123456", "zone_name": "test-zone"},
                 "type": "dns_managed_zone",
             },
             "severity": "NOTICE",
@@ -266,11 +242,7 @@ gcpdns_zone_modifiedor_deleted_tests: list[RuleTest] = [
                 "at_sign_type": "type.googleapis.com/google.cloud.audit.AuditLog",
                 "authenticationInfo": {"principalEmail": "staging@pantherstaging.io"},
                 "authorizationInfo": [
-                    {
-                        "granted": True,
-                        "permission": "dns.managedZones.get",
-                        "resourceAttributes": {},
-                    }
+                    {"granted": True, "permission": "dns.managedZones.get", "resourceAttributes": {}}
                 ],
                 "methodName": "dns.managedZones.get",
                 "request": {
@@ -290,11 +262,7 @@ gcpdns_zone_modifiedor_deleted_tests: list[RuleTest] = [
             },
             "receivetimestamp": "2023-05-23 19:08:14.305",
             "resource": {
-                "labels": {
-                    "location": "global",
-                    "project_id": "test-project-123456",
-                    "zone_name": "test-zone",
-                },
+                "labels": {"location": "global", "project_id": "test-project-123456", "zone_name": "test-zone"},
                 "type": "dns_managed_zone",
             },
             "severity": "NOTICE",
@@ -315,22 +283,11 @@ class GCPDNSZoneModifiedorDeleted(Rule):
     tests = gcpdns_zone_modifiedor_deleted_tests
 
     def rule(self, event):
-        methods = (
-            "dns.changes.create",
-            "dns.managedZones.delete",
-            "dns.managedZones.patch",
-            "dns.managedZones.update",
-        )
+        methods = ("dns.changes.create", "dns.managedZones.delete", "dns.managedZones.patch", "dns.managedZones.update")
         return deep_get(event, "protoPayload", "methodName", default="") in methods
 
     def title(self, event):
-        actor = deep_get(
-            event,
-            "protoPayload",
-            "authenticationInfo",
-            "principalEmail",
-            default="<ACTOR_NOT_FOUND>",
-        )
+        actor = deep_get(event, "protoPayload", "authenticationInfo", "principalEmail", default="<ACTOR_NOT_FOUND>")
         resource = deep_get(event, "protoPayload", "resourceName", default="<RESOURCE_NOT_FOUND>")
         return f"[GCP]: [{actor}] modified managed DNS zone [{resource}]"
 

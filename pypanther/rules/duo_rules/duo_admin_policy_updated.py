@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_duo_helpers import duo_alert_context
 
 duo_admin_policy_updated_tests: list[RuleTest] = [
@@ -29,9 +29,7 @@ duo_admin_policy_updated_tests: list[RuleTest] = [
 
 
 class DuoAdminPolicyUpdated(Rule):
-    default_description = (
-        "A Duo Administrator updated a Policy, which governs how users authenticate."
-    )
+    default_description = "A Duo Administrator updated a Policy, which governs how users authenticate."
     display_name = "Duo Admin Policy Updated"
     default_reference = "https://duo.com/docs/policy#authenticators-policy-settings"
     default_severity = Severity.MEDIUM

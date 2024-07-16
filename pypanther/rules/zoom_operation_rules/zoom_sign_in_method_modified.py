@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 
 zoom_sign_in_method_modified_tests: list[RuleTest] = [
     RuleTest(
@@ -40,7 +40,9 @@ zoom_sign_in_method_modified_tests: list[RuleTest] = [
 class ZoomSignInMethodModified(Rule):
     default_description = "A Zoom User modified your organizations sign in method."
     display_name = "Zoom Sign In Method Modified"
-    default_runbook = "Confirm this user acted with valid business intent and determine whether this activity was authorized."
+    default_runbook = (
+        "Confirm this user acted with valid business intent and determine whether this activity was authorized."
+    )
     default_reference = "https://support.zoom.com/hc/en/article?id=zm_kb&sysparm_article=KB0067602#:~:text=Go%20to%20the%20Zoom%20site,click%20Link%20and%20Sign%20In"
     default_severity = Severity.MEDIUM
     log_types = [LogType.Zoom_Operation]
@@ -68,10 +70,5 @@ class ZoomSignInMethodModified(Rule):
         operation_flag = "Sign-in Methods  - Allow users to sign in with "
         setting_flag = "from Off to On"
         if operation_detail.startswith(operation_flag) and operation_detail.endswith(setting_flag):
-            service_detail = (
-                event.get("operation_detail", "<NO_OPS_DETAIL>")
-                .split("with")[1]
-                .split(":")[0]
-                .strip()
-            )
+            service_detail = event.get("operation_detail", "<NO_OPS_DETAIL>").split("with")[1].split(":")[0].strip()
         return f"Zoom User [{event.get('operator', '<NO_OPERATOR>')}] modified your organization's sign in methods to allow users to sign in with [{service_detail}]."

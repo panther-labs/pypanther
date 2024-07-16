@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 
 zoom_sign_in_requirements_changed_tests: list[RuleTest] = [
     RuleTest(
@@ -51,7 +51,9 @@ zoom_sign_in_requirements_changed_tests: list[RuleTest] = [
 class ZoomSignInRequirementsChanged(Rule):
     default_description = "A Zoom User changed your organization's sign in requirements. "
     display_name = "Zoom Sign In Requirements Changed"
-    default_runbook = "Confirm this user acted with valid business intent and determine whether this activity was authorized."
+    default_runbook = (
+        "Confirm this user acted with valid business intent and determine whether this activity was authorized."
+    )
     default_reference = "https://support.zoom.com/hc/en/article?id=zm_kb&sysparm_article=KB0061263"
     default_severity = Severity.MEDIUM
     log_types = [LogType.Zoom_Operation]

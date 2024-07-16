@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 
 one_login_auth_factor_removed_tests: list[RuleTest] = [
     RuleTest(
@@ -40,9 +40,7 @@ class OneLoginAuthFactorRemoved(Rule):
     reports = {"MITRE ATT&CK": ["TA0005:T1556"]}
     default_severity = Severity.LOW
     default_description = "A user removed an authentication factor or otp device.\n"
-    default_reference = (
-        "https://onelogin.service-now.com/kb_view_customer.do?sysparm_article=KB0010426"
-    )
+    default_reference = "https://onelogin.service-now.com/kb_view_customer.do?sysparm_article=KB0010426"
     default_runbook = "Investigate whether this was an intentional action and if other multifactor devices exist.\n"
     summary_attributes = [
         "account_id",

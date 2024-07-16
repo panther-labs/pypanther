@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get, okta_alert_context
 
 okta_phishing_attempt_blocked_fast_pass_tests: list[RuleTest] = [
@@ -163,10 +163,10 @@ class OktaPhishingAttemptBlockedFastPass(Rule):
     log_types = [LogType.Okta_SystemLog]
     reports = {"MITRE ATT&CK": ["TA0001:T1566", "TA0006:T1556", "TA0003:T1078.004"]}
     default_severity = Severity.HIGH
-    default_description = (
-        "Okta FastPass detected a user targeted by attackers wielding real-time (AiTM) proxies.\n"
+    default_description = "Okta FastPass detected a user targeted by attackers wielding real-time (AiTM) proxies.\n"
+    default_runbook = (
+        "Protect sign-in flows by enforcing phishing-resistant authentication with Okta FastPass and FIDO2 WebAuthn.\n"
     )
-    default_runbook = "Protect sign-in flows by enforcing phishing-resistant authentication with Okta FastPass and FIDO2 WebAuthn.\n"
     default_reference = "https://sec.okta.com/fastpassphishingdetection\n"
     dedup_period_minutes = 30
     tests = okta_phishing_attempt_blocked_fast_pass_tests

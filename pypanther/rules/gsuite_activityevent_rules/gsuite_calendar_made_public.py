@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 
 g_suite_calendar_made_public_tests: list[RuleTest] = [
@@ -119,9 +119,7 @@ class GSuiteCalendarMadePublic(Rule):
     reports = {"MITRE ATT&CK": ["TA0007:T1087"]}
     default_severity = Severity.MEDIUM
     default_description = "A User or Admin Has Modified A Calendar To Be Public\n"
-    default_reference = (
-        "https://support.google.com/calendar/answer/37083?hl=en&sjid=864417124752637253-EU"
-    )
+    default_reference = "https://support.google.com/calendar/answer/37083?hl=en&sjid=864417124752637253-EU"
     default_runbook = "Follow up with user about this calendar share.\n"
     summary_attributes = ["actor:email"]
     tests = g_suite_calendar_made_public_tests
@@ -129,8 +127,7 @@ class GSuiteCalendarMadePublic(Rule):
     def rule(self, event):
         return (
             event.get("name") == "change_calendar_acls"
-            and event.get("parameters", {}).get("grantee_email")
-            == "__public_principal__@public.calendar.google.com"
+            and event.get("parameters", {}).get("grantee_email") == "__public_principal__@public.calendar.google.com"
         )
 
     def title(self, event):

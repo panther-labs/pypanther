@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 
 gcp_workload_identity_pool_createdor_updated_tests: list[RuleTest] = [
     RuleTest(
@@ -191,7 +191,9 @@ class GCPWorkloadIdentityPoolCreatedorUpdated(Rule):
     reports = {"MITRE ATT&CK": ["TA0003:T1136.003", "TA0003:T1098.003", "TA0004:T1098.003"]}
     default_severity = Severity.HIGH
     default_runbook = "Ensure that the Workload Identity Pool creation or modification was expected. Adversaries may use this to persist or allow additional access or escalate their privilege.\n"
-    default_reference = "https://medium.com/google-cloud/detection-of-inbound-sso-persistence-techniques-in-gcp-c56f7b2a588b"
+    default_reference = (
+        "https://medium.com/google-cloud/detection-of-inbound-sso-persistence-techniques-in-gcp-c56f7b2a588b"
+    )
     tests = gcp_workload_identity_pool_createdor_updated_tests
     METHODS = [
         "google.iam.v1.WorkloadIdentityPools.CreateWorkloadIdentityPoolProvider",
@@ -202,16 +204,10 @@ class GCPWorkloadIdentityPoolCreatedorUpdated(Rule):
         return event.deep_get("protoPayload", "methodName", default="") in self.METHODS
 
     def title(self, event):
-        actor = event.deep_get(
-            "protoPayload", "authenticationInfo", "principalEmail", default="<ACTOR_NOT_FOUND>"
-        )
-        resource = event.deep_get(
-            "protoPayload", "resourceName", default="<RESOURCE_NOT_FOUND>"
-        ).split("/")
+        actor = event.deep_get("protoPayload", "authenticationInfo", "principalEmail", default="<ACTOR_NOT_FOUND>")
+        resource = event.deep_get("protoPayload", "resourceName", default="<RESOURCE_NOT_FOUND>").split("/")
         workload_identity_pool = resource[resource.index("workloadIdentityPools") + 1]
-        project_id = event.deep_get(
-            "resource", "labels", "project_id", default="<PROJECT_NOT_FOUND>"
-        )
+        project_id = event.deep_get("resource", "labels", "project_id", default="<PROJECT_NOT_FOUND>")
         return f"GCP: [{actor}] created or updated workforce pool [{workload_identity_pool}] in project [{project_id}]"
 
     def alert_context(self, event):

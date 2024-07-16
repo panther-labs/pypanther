@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.gcp_base_helpers import gcp_alert_context
 from pypanther.helpers.panther_base_helpers import deep_get
 
@@ -107,9 +107,7 @@ class GCPIAMserviceAccountssignBlob(Rule):
     reports = {"MITRE ATT&CK": ["TA0004:T1548"]}
     default_severity = Severity.HIGH
     default_description = 'The iam.serviceAccounts.signBlob permission "allows signing of arbitrary payloads" in GCP. This means we can create a signed blob that requests an access token from the Service Account we are targeting.'
-    default_reference = (
-        "https://rhinosecuritylabs.com/gcp/privilege-escalation-google-cloud-platform-part-1/"
-    )
+    default_reference = "https://rhinosecuritylabs.com/gcp/privilege-escalation-google-cloud-platform-part-1/"
     tests = gcpia_mservice_accountssign_blob_tests
 
     def rule(self, event):
@@ -117,10 +115,7 @@ class GCPIAMserviceAccountssignBlob(Rule):
         if not authorization_info:
             return False
         for auth in authorization_info:
-            if (
-                auth.get("permission") == "iam.serviceAccounts.signBlob"
-                and auth.get("granted") is True
-            ):
+            if auth.get("permission") == "iam.serviceAccounts.signBlob" and auth.get("granted") is True:
                 return True
         return False
 
@@ -133,9 +128,7 @@ class GCPIAMserviceAccountssignBlob(Rule):
             default="<ACTOR_NOT_FOUND>",
         )
         operation = deep_get(event, "protoPayload", "methodName", default="<OPERATION_NOT_FOUND>")
-        project_id = deep_get(
-            event, "resource", "labels", "project_id", default="<PROJECT_NOT_FOUND>"
-        )
+        project_id = deep_get(event, "resource", "labels", "project_id", default="<PROJECT_NOT_FOUND>")
         return f"[GCP]: [{actor}] performed [{operation}] on project [{project_id}]"
 
     def alert_context(self, event):

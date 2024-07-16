@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 
 git_hub_org_modified_tests: list[RuleTest] = [
     RuleTest(
@@ -47,9 +47,7 @@ class GitHubOrgModified(Rule):
     log_types = [LogType.GitHub_Audit]
     tags = ["GitHub", "Initial Access:Supply Chain Compromise"]
     reports = {"MITRE ATT&CK": ["TA0001:T1195"]}
-    default_reference = (
-        "https://docs.github.com/en/organizations/managing-membership-in-your-organization"
-    )
+    default_reference = "https://docs.github.com/en/organizations/managing-membership-in-your-organization"
     default_severity = Severity.INFO
     default_description = "Detects when a user is added or removed from a GitHub Org."
     tests = git_hub_org_modified_tests

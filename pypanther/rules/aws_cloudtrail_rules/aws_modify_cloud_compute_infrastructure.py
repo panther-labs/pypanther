@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 
 aws_modify_cloud_compute_infrastructure_tests: list[RuleTest] = [
@@ -27,9 +27,7 @@ aws_modify_cloud_compute_infrastructure_tests: list[RuleTest] = [
             "readOnly": False,
             "recipientAccountId": "111222333444",
             "requestID": "a520eeaf-c258-4260-954e-b4a976e6c72b",
-            "requestParameters": {
-                "instancesSet": {"items": [{"instanceId": "i-0d9853f67e40ab80b"}]}
-            },
+            "requestParameters": {"instancesSet": {"items": [{"instanceId": "i-0d9853f67e40ab80b"}]}},
             "responseElements": {
                 "instancesSet": {
                     "items": [
@@ -46,10 +44,7 @@ aws_modify_cloud_compute_infrastructure_tests: list[RuleTest] = [
                 "accountId": "111222333444",
                 "arn": "arn:aws:sts::111222333444:assumed-role/SomeRole/AThing",
                 "sessionContext": {
-                    "attributes": {
-                        "creationDate": "2021-10-29T23:50:08Z",
-                        "mfaAuthenticated": "false",
-                    },
+                    "attributes": {"creationDate": "2021-10-29T23:50:08Z", "mfaAuthenticated": "false"},
                     "webIdFederationData": {},
                 },
                 "type": "AssumedRole",
@@ -84,9 +79,7 @@ aws_modify_cloud_compute_infrastructure_tests: list[RuleTest] = [
             "readOnly": False,
             "recipientAccountId": "111222333444",
             "requestID": "a520eeaf-c258-4260-954e-b4a976e6c72b",
-            "requestParameters": {
-                "instancesSet": {"items": [{"instanceId": "i-0d9853f67e40ab80b"}]}
-            },
+            "requestParameters": {"instancesSet": {"items": [{"instanceId": "i-0d9853f67e40ab80b"}]}},
             "responseElements": {
                 "instancesSet": {
                     "items": [
@@ -107,10 +100,7 @@ aws_modify_cloud_compute_infrastructure_tests: list[RuleTest] = [
                 "invokedBy": "autoscaling.amazonaws.com",
                 "principalId": "AROATSZWD7TDLUEWEUXXI:AutoScaling",
                 "sessionContext": {
-                    "attributes": {
-                        "creationDate": "2021-10-29T23:50:08Z",
-                        "mfaAuthenticated": "false",
-                    },
+                    "attributes": {"creationDate": "2021-10-29T23:50:08Z", "mfaAuthenticated": "false"},
                     "sessionIssuer": {
                         "accountId": "111222333444",
                         "arn": "arn:aws:iam::111222333444:role/aws-service-role/autoscaling.amazonaws.com/AWSServiceRoleForAutoScaling",
@@ -129,9 +119,7 @@ aws_modify_cloud_compute_infrastructure_tests: list[RuleTest] = [
         expected_result=False,
         log={
             "additionalEventData": {
-                "insufficientLakeFormationPermissions": [
-                    "panther_rule_errors:gsuite_activityevent"
-                ],
+                "insufficientLakeFormationPermissions": ["panther_rule_errors:gsuite_activityevent"],
                 "lakeFormationPrincipal": "arn:aws:iam::111222333444:role/panther-Panther-4JL51Q6AU6SH-LogAnal-CompactorRole-W1WCIV3PHU0S",
             },
             "awsRegion": "us-east-1",
@@ -172,10 +160,7 @@ aws_modify_cloud_compute_infrastructure_tests: list[RuleTest] = [
                 "arn": "arn:aws:sts::111222333444:assumed-role/panther-Panther-4JL51Q6AU6SH-LogAnal-CompactorRole-W1WCIV3PHU0S/panther-datacatalog-compactor",
                 "principalId": "AROA4UN2W2PXWZMJ2L3PC:panther-datacatalog-compactor",
                 "sessionContext": {
-                    "attributes": {
-                        "creationDate": "2021-10-14T14:20:28Z",
-                        "mfaAuthenticated": "false",
-                    },
+                    "attributes": {"creationDate": "2021-10-14T14:20:28Z", "mfaAuthenticated": "false"},
                     "sessionIssuer": {
                         "accountId": "111222333444",
                         "arn": "arn:aws:iam::111222333444:role/panther-Panther-4JL51Q6AU6SH-LogAnal-CompactorRole-W1WCIV3PHU0S",
@@ -228,9 +213,7 @@ aws_modify_cloud_compute_infrastructure_tests: list[RuleTest] = [
                 "disableApiTermination": False,
                 "ebsOptimized": False,
                 "instanceType": "t2.micro",
-                "instancesSet": {
-                    "items": [{"imageId": "ami-08e2d37b6a0129927", "maxCount": 1, "minCount": 1}]
-                },
+                "instancesSet": {"items": [{"imageId": "ami-08e2d37b6a0129927", "maxCount": 1, "minCount": 1}]},
                 "monitoring": {"enabled": False},
                 "networkInterfaceSet": {
                     "items": [
@@ -248,12 +231,7 @@ aws_modify_cloud_compute_infrastructure_tests: list[RuleTest] = [
                     "hostnameType": "ip-name",
                 },
                 "tagSpecificationSet": {
-                    "items": [
-                        {
-                            "resourceType": "instance",
-                            "tags": [{"key": "Name", "value": "fake thing whatever"}],
-                        }
-                    ]
+                    "items": [{"resourceType": "instance", "tags": [{"key": "Name", "value": "fake thing whatever"}]}]
                 },
             },
             "responseElements": {
@@ -264,20 +242,13 @@ aws_modify_cloud_compute_infrastructure_tests: list[RuleTest] = [
                             "amiLaunchIndex": 0,
                             "architecture": "x86_64",
                             "blockDeviceMapping": {},
-                            "capacityReservationSpecification": {
-                                "capacityReservationPreference": "open"
-                            },
+                            "capacityReservationSpecification": {"capacityReservationPreference": "open"},
                             "cpuOptions": {"coreCount": 1, "threadsPerCore": 1},
                             "ebsOptimized": False,
                             "enaSupport": True,
                             "enclaveOptions": {"enabled": False},
                             "groupSet": {
-                                "items": [
-                                    {
-                                        "groupId": "sg-0077c778d7ad1f5f2",
-                                        "groupName": "launch-wizard-1",
-                                    }
-                                ]
+                                "items": [{"groupId": "sg-0077c778d7ad1f5f2", "groupName": "launch-wizard-1"}]
                             },
                             "hypervisor": "xen",
                             "imageId": "ami-08e2d37b6a0129927",
@@ -309,10 +280,7 @@ aws_modify_cloud_compute_infrastructure_tests: list[RuleTest] = [
                                         },
                                         "groupSet": {
                                             "items": [
-                                                {
-                                                    "groupId": "sg-0077c778d7ad1f5f2",
-                                                    "groupName": "launch-wizard-1",
-                                                }
+                                                {"groupId": "sg-0077c778d7ad1f5f2", "groupName": "launch-wizard-1"}
                                             ]
                                         },
                                         "interfaceType": "interface",
@@ -372,10 +340,7 @@ aws_modify_cloud_compute_infrastructure_tests: list[RuleTest] = [
                 "arn": "arn:aws:sts::123412341234:assumed-role/SomeRole/person",
                 "principalId": "AROARLIVEKVNIRVGDLJWJ:person",
                 "sessionContext": {
-                    "attributes": {
-                        "creationDate": "2022-10-14T00:34:59Z",
-                        "mfaAuthenticated": "true",
-                    },
+                    "attributes": {"creationDate": "2022-10-14T00:34:59Z", "mfaAuthenticated": "true"},
                     "sessionIssuer": {
                         "accountId": "123412341234",
                         "arn": "arn:aws:iam::123412341234:role/SomeRole",
@@ -426,9 +391,7 @@ aws_modify_cloud_compute_infrastructure_tests: list[RuleTest] = [
                 "disableApiStop": False,
                 "disableApiTermination": False,
                 "instanceType": "m5.xlarge",
-                "instancesSet": {
-                    "items": [{"imageId": "ami-05074c40f29040248", "maxCount": 1, "minCount": 1}]
-                },
+                "instancesSet": {"items": [{"imageId": "ami-05074c40f29040248", "maxCount": 1, "minCount": 1}]},
                 "launchTemplate": {"launchTemplateId": "lt-064c1a4dbc97b01fc", "version": "5"},
                 "monitoring": {"enabled": False},
                 "subnetId": "subnet-00559b970d3a60983",
@@ -441,10 +404,7 @@ aws_modify_cloud_compute_infrastructure_tests: list[RuleTest] = [
                 "invokedBy": "AWS Internal",
                 "principalId": "AROAZBD2CNPWEWKWTLX67:astronomer-managed-1665678811",
                 "sessionContext": {
-                    "attributes": {
-                        "creationDate": "2022-10-13T16:33:31Z",
-                        "mfaAuthenticated": "false",
-                    },
+                    "attributes": {"creationDate": "2022-10-13T16:33:31Z", "mfaAuthenticated": "false"},
                     "sessionIssuer": {
                         "accountId": "123412341234",
                         "arn": "arn:aws:iam::123412341234:role/funky-role-doing-dryrun",
@@ -462,7 +422,9 @@ aws_modify_cloud_compute_infrastructure_tests: list[RuleTest] = [
 
 
 class AWSModifyCloudComputeInfrastructure(Rule):
-    default_description = "Detection when EC2 compute infrastructure is modified outside of expected automation methods."
+    default_description = (
+        "Detection when EC2 compute infrastructure is modified outside of expected automation methods."
+    )
     display_name = "AWS Modify Cloud Compute Infrastructure"
     enabled = False
     default_reference = "https://attack.mitre.org/techniques/T1578/"
@@ -535,15 +497,11 @@ class AWSModifyCloudComputeInfrastructure(Rule):
         return False
 
     def title(self, event):
-        items = deep_get(
-            event, "requestParameters", "instancesSet", "items", default=[{"instanceId": "none"}]
-        )
+        items = deep_get(event, "requestParameters", "instancesSet", "items", default=[{"instanceId": "none"}])
         return f"AWS Event [{event.get('eventName')}] Instance ID [{items[0].get('instanceId')}] AWS Account ID [{event.get('recipientAccountId')}]"
 
     def alert_context(self, event):
-        items = deep_get(
-            event, "requestParameters", "instancesSet", "items", default=[{"instanceId": "none"}]
-        )
+        items = deep_get(event, "requestParameters", "instancesSet", "items", default=[{"instanceId": "none"}])
         return {
             "awsRegion": event.get("awsRegion"),
             "eventName": event.get("eventName"),

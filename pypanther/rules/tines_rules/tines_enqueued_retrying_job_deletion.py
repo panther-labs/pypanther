@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 from pypanther.helpers.panther_tines_helpers import tines_alert_context
 
@@ -61,7 +61,9 @@ class TinesEnqueuedRetryingJobDestruction(Rule):
     tags = ["Tines"]
     default_severity = Severity.LOW
     default_description = "Currently enqueued or retrying jobs were cleared"
-    default_runbook = "Possible data destruction. Please reach out to the user and confirm this was done for valid business reasons."
+    default_runbook = (
+        "Possible data destruction. Please reach out to the user and confirm this was done for valid business reasons."
+    )
     default_reference = "https://www.tines.com/docs/self-hosting/job-management"
     tests = tines_enqueued_retrying_job_destruction_tests
 

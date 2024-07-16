@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 
 awswaf_disassociation_tests: list[RuleTest] = [
@@ -45,10 +45,7 @@ awswaf_disassociation_tests: list[RuleTest] = [
                 "arn": "arn:aws:sts::012345678910:assumed-role/DevAdministrator/example_user",
                 "principalId": "AROARLIVEKVNIRVGDLJWJ:example_user",
                 "sessionContext": {
-                    "attributes": {
-                        "creationDate": "2022-09-29T22:51:13Z",
-                        "mfaAuthenticated": "true",
-                    },
+                    "attributes": {"creationDate": "2022-09-29T22:51:13Z", "mfaAuthenticated": "true"},
                     "sessionIssuer": {
                         "accountId": "012345678910",
                         "arn": "arn:aws:iam::012345678910:role/DevAdministrator",
@@ -105,10 +102,7 @@ awswaf_disassociation_tests: list[RuleTest] = [
                 "arn": "arn:aws:sts::012345678910:assumed-role/DevAdministrator/example_user",
                 "principalId": "AROARLIVEKVNIRVGDLJWJ:example_user",
                 "sessionContext": {
-                    "attributes": {
-                        "creationDate": "2022-09-29T22:51:13Z",
-                        "mfaAuthenticated": "true",
-                    },
+                    "attributes": {"creationDate": "2022-09-29T22:51:13Z", "mfaAuthenticated": "true"},
                     "sessionIssuer": {
                         "accountId": "012345678910",
                         "arn": "arn:aws:iam::012345678910:role/DevAdministrator",

@@ -18,9 +18,7 @@ jobs:
         poetry install
     - name: ruff
       run: poetry run ruff check --output-format=github .
-    - name: black
-      run: poetry run black --check .
-    - name: isort
-      run: poetry run isort --check .
+    - name: ruff
+      run: poetry run ruff format --check .
     - name: mypy
       run: poetry run mypy .

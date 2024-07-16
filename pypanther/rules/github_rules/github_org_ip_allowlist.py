@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 
 git_hub_org_ip_allowlist_tests: list[RuleTest] = [
     RuleTest(
@@ -47,7 +47,9 @@ class GitHubOrgIpAllowlist(Rule):
     summary_attributes = ["actor", "action"]
     default_description = "Detects changes to a GitHub Org IP Allow List"
     default_runbook = "Verify that the change was authorized and appropriate."
-    default_reference = "https://docs.github.com/en/apps/maintaining-github-apps/managing-allowed-ip-addresses-for-a-github-app"
+    default_reference = (
+        "https://docs.github.com/en/apps/maintaining-github-apps/managing-allowed-ip-addresses-for-a-github-app"
+    )
     tests = git_hub_org_ip_allowlist_tests
     ALLOWLIST_ACTIONS = [
         "ip_allow_list.enable",
@@ -60,10 +62,7 @@ class GitHubOrgIpAllowlist(Rule):
     ]
 
     def rule(self, event):
-        return (
-            event.get("action").startswith("ip_allow_list")
-            and event.get("action") in self.ALLOWLIST_ACTIONS
-        )
+        return event.get("action").startswith("ip_allow_list") and event.get("action") in self.ALLOWLIST_ACTIONS
 
     def title(self, event):
         return f"GitHub Org IP Allow list modified by {event.get('actor')}."

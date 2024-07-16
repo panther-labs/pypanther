@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import crowdstrike_detection_alert_context, deep_get
 
 crowdstrike_unusual_parent_child_processes_tests: list[RuleTest] = [
@@ -65,14 +65,8 @@ crowdstrike_unusual_parent_child_processes_tests: list[RuleTest] = [
                 "abcdefghijklmnop123467890",
             ],
             "p_any_sha1_hashes": ["0000000000000000000000000000000000000000"],
-            "p_any_sha256_hashes": [
-                "488e74e2026d03f21b33f470c23b3de2f466643186c2e06ae7b4883cc2e59377"
-            ],
-            "p_any_trace_ids": [
-                "4295752857",
-                "1234567890abcdefg654321",
-                "abcdefghijklmnop123467890",
-            ],
+            "p_any_sha256_hashes": ["488e74e2026d03f21b33f470c23b3de2f466643186c2e06ae7b4883cc2e59377"],
+            "p_any_trace_ids": ["4295752857", "1234567890abcdefg654321", "abcdefghijklmnop123467890"],
             "p_event_time": "2023-04-21 19:52:32.722",
             "p_log_type": "Crowdstrike.FDREvent",
             "p_parse_time": "2023-04-21 20:05:52.94",
@@ -147,14 +141,8 @@ crowdstrike_unusual_parent_child_processes_tests: list[RuleTest] = [
                 "abcdefghijklmnop123467890",
             ],
             "p_any_sha1_hashes": ["0000000000000000000000000000000000000000"],
-            "p_any_sha256_hashes": [
-                "488e74e2026d03f21b33f470c23b3de2f466643186c2e06ae7b4883cc2e59377"
-            ],
-            "p_any_trace_ids": [
-                "4295752857",
-                "1234567890abcdefg654321",
-                "abcdefghijklmnop123467890",
-            ],
+            "p_any_sha256_hashes": ["488e74e2026d03f21b33f470c23b3de2f466643186c2e06ae7b4883cc2e59377"],
+            "p_any_trace_ids": ["4295752857", "1234567890abcdefg654321", "abcdefghijklmnop123467890"],
             "p_event_time": "2023-04-21 19:52:32.722",
             "p_log_type": "Crowdstrike.FDREvent",
             "p_parse_time": "2023-04-21 20:05:52.94",
@@ -191,23 +179,14 @@ class CrowdstrikeUnusualParentChildProcesses(Rule):
     def rule(self, event):
         if event.get("fdr_event_type", "") == "ProcessRollup2":
             if event.get("event_platform", "") == "Win":
-                parent_process_name = deep_get(
-                    event, "event", "ParentBaseFileName", default=""
-                ).lower()
-                child_process_name = (
-                    deep_get(event, "event", "ImageFileName", default="").lower().split("\\")[-1]
-                )
-                return (
-                    parent_process_name,
-                    child_process_name,
-                ) in self.SUSPICIOUS_PARENT_CHILD_COMBINATIONS_WINDOWS
+                parent_process_name = deep_get(event, "event", "ParentBaseFileName", default="").lower()
+                child_process_name = deep_get(event, "event", "ImageFileName", default="").lower().split("\\")[-1]
+                return (parent_process_name, child_process_name) in self.SUSPICIOUS_PARENT_CHILD_COMBINATIONS_WINDOWS
         return False
 
     def title(self, event):
         parent_process_name = deep_get(event, "event", "ParentBaseFileName", default="").lower()
-        child_process_name = (
-            deep_get(event, "event", "ImageFileName", default="").lower().split("\\")[-1]
-        )
+        child_process_name = deep_get(event, "event", "ImageFileName", default="").lower().split("\\")[-1]
         procs = (parent_process_name, child_process_name)
         aid = event.get("aid", "<AID_NOT_FOUND>")
         return f"Crowdstrike: Suspicious parent/child combination [{procs}] detected on aid [{aid}]"

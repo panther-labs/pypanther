@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 
 g_suite_workspace_data_export_created_tests: list[RuleTest] = [
@@ -110,9 +110,7 @@ class GSuiteWorkspaceDataExportCreated(Rule):
     tags = ["GSuite"]
     default_severity = Severity.MEDIUM
     default_description = "A Workspace Admin Has Created a Data Export\n"
-    default_reference = (
-        "https://support.google.com/a/answer/100458?hl=en&sjid=864417124752637253-EU"
-    )
+    default_reference = "https://support.google.com/a/answer/100458?hl=en&sjid=864417124752637253-EU"
     default_runbook = "Verify the intent of this Data Export. If intent cannot be verified, then a search on the actor's other activities is advised.\n"
     summary_attributes = ["actor:email"]
     tests = g_suite_workspace_data_export_created_tests

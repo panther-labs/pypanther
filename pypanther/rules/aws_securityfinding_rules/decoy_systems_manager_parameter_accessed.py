@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 
 decoy_systems_manager_parameter_accessed_tests: list[RuleTest] = [
     RuleTest(
@@ -21,10 +21,7 @@ decoy_systems_manager_parameter_accessed_tests: list[RuleTest] = [
             "CompanyName": "Custom",
             "CreatedAt": "2024-05-24 22:34:07.000000000",
             "Description": "Private decoy Systems Manager parameter arn:aws:ssm:us-east-1:123456789012:parameter/info-parameter was accessed by arn:aws:iam::123456789012:user/tester. This Systems Manager parameter has been provisioned to monitor and generate security events when accessed and can be an indicator of unintended or unauthorized access to your AWS Account.",
-            "FindingProviderFields": {
-                "Severity": {"Label": "HIGH", "Normalized": 70},
-                "Types": ["Unusual Behaviors"],
-            },
+            "FindingProviderFields": {"Severity": {"Label": "HIGH", "Normalized": 70}, "Types": ["Unusual Behaviors"]},
             "GeneratorId": "ssm.amazonaws.com",
             "Id": "6abc0de0-69ea-4e15-91c6-27eb4a07bd21",
             "ProcessedAt": "2024-05-24T22:34:15.644Z",
@@ -63,10 +60,7 @@ decoy_systems_manager_parameter_accessed_tests: list[RuleTest] = [
                             "PrincipalId": "ABCDEFG0TOGJSGNQKI0:john.doe",
                             "PrincipalType": "AssumedRole",
                             "SessionContext": {
-                                "Attributes": {
-                                    "CreationDate": "2024-05-24T22:32:38Z",
-                                    "MfaAuthenticated": False,
-                                },
+                                "Attributes": {"CreationDate": "2024-05-24T22:32:38Z", "MfaAuthenticated": False},
                                 "SessionIssuer": {
                                     "AccountId": "123456789012",
                                     "Arn": "arn:aws:iam::123456789012:user/tester",
@@ -133,10 +127,7 @@ decoy_systems_manager_parameter_accessed_tests: list[RuleTest] = [
             "CompanyName": "Custom",
             "CreatedAt": "2024-05-24 22:34:07.000000000",
             "Description": "Private decoy Systems Manager parameter arn:aws:ssm:us-east-1:123456789012:parameter/info-parameter was not accessed by arn:aws:iam::123456789012:user/tester. This Systems Manager parameter has been provisioned to monitor and generate security events when accessed and can be an indicator of unintended or unauthorized access to your AWS Account.",
-            "FindingProviderFields": {
-                "Severity": {"Label": "HIGH", "Normalized": 70},
-                "Types": ["Unusual Behaviors"],
-            },
+            "FindingProviderFields": {"Severity": {"Label": "HIGH", "Normalized": 70}, "Types": ["Unusual Behaviors"]},
             "GeneratorId": "ssm.amazonaws.com",
             "Id": "6abc0de0-69ea-4e15-91c6-27eb4a07bd21",
             "ProcessedAt": "2024-05-24T22:34:15.644Z",
@@ -175,10 +166,7 @@ decoy_systems_manager_parameter_accessed_tests: list[RuleTest] = [
                             "PrincipalId": "ABCDEFG0TOGJSGNQKI0:john.doe",
                             "PrincipalType": "AssumedRole",
                             "SessionContext": {
-                                "Attributes": {
-                                    "CreationDate": "2024-05-24T22:32:38Z",
-                                    "MfaAuthenticated": False,
-                                },
+                                "Attributes": {"CreationDate": "2024-05-24T22:32:38Z", "MfaAuthenticated": False},
                                 "SessionIssuer": {
                                     "AccountId": "123456789012",
                                     "Arn": "arn:aws:iam::123456789012:user/tester",

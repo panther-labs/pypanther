@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.gcp_base_helpers import gcp_alert_context
 from pypanther.helpers.panther_base_helpers import deep_get, deep_walk
 
@@ -8,9 +8,7 @@ gcpgke_kubernetes_cron_job_created_or_modified_tests: list[RuleTest] = [
         expected_result=True,
         log={
             "protoPayload": {
-                "authorizationInfo": [
-                    {"granted": True, "permission": "io.k8s.batch.v1.cronjobs.create"}
-                ],
+                "authorizationInfo": [{"granted": True, "permission": "io.k8s.batch.v1.cronjobs.create"}],
                 "methodName": "v2.deploymentmanager.deployments.insert",
                 "serviceName": "deploymentmanager.googleapis.com",
             },
@@ -28,9 +26,7 @@ gcpgke_kubernetes_cron_job_created_or_modified_tests: list[RuleTest] = [
         expected_result=True,
         log={
             "protoPayload": {
-                "authorizationInfo": [
-                    {"granted": True, "permission": "io.k8s.batch.v1.cronjobs.update"}
-                ],
+                "authorizationInfo": [{"granted": True, "permission": "io.k8s.batch.v1.cronjobs.update"}],
                 "methodName": "v2.deploymentmanager.deployments.insert",
                 "serviceName": "deploymentmanager.googleapis.com",
             },
@@ -48,9 +44,7 @@ gcpgke_kubernetes_cron_job_created_or_modified_tests: list[RuleTest] = [
         expected_result=False,
         log={
             "protoPayload": {
-                "authorizationInfo": [
-                    {"granted": False, "permission": "cloudfunctions.functions.upsert"}
-                ],
+                "authorizationInfo": [{"granted": False, "permission": "cloudfunctions.functions.upsert"}],
                 "methodName": "v2.deploymentmanager.deployments.insert",
                 "serviceName": "deploymentmanager.googleapis.com",
             },
@@ -83,25 +77,16 @@ class GCPGKEKubernetesCronJobCreatedOrModified(Rule):
             return False
         for auth in authorization_info:
             if (
-                auth.get("permission")
-                in ["io.k8s.batch.v1.cronjobs.create", "io.k8s.batch.v1.cronjobs.update"]
+                auth.get("permission") in ["io.k8s.batch.v1.cronjobs.create", "io.k8s.batch.v1.cronjobs.update"]
                 and auth.get("granted") is True
             ):
                 return True
         return False
 
     def title(self, event):
-        actor = deep_get(
-            event,
-            "protoPayload",
-            "authenticationInfo",
-            "principalEmail",
-            default="<ACTOR_NOT_FOUND>",
-        )
+        actor = deep_get(event, "protoPayload", "authenticationInfo", "principalEmail", default="<ACTOR_NOT_FOUND>")
         operation = deep_get(event, "protoPayload", "methodName", default="<OPERATION_NOT_FOUND>")
-        project_id = deep_get(
-            event, "resource", "labels", "project_id", default="<PROJECT_NOT_FOUND>"
-        )
+        project_id = deep_get(event, "resource", "labels", "project_id", default="<PROJECT_NOT_FOUND>")
         return f"[GCP]: [{actor}] performed [{operation}] on project [{project_id}]"
 
     def alert_context(self, event):

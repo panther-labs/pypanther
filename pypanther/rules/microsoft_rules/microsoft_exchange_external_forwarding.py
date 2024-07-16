@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_config import config
 
 microsoft365_exchange_external_forwarding_tests: list[RuleTest] = [
@@ -217,11 +217,7 @@ class Microsoft365ExchangeExternalForwarding(Rule):
     def rule(self, event):
         if event.get("operation", "") in ("Set-Mailbox", "New-InboxRule"):
             for param in event.get("parameters", []):
-                if param.get("Name", "") in (
-                    "ForwardingSmtpAddress",
-                    "ForwardTo",
-                    "ForwardingAddress",
-                ):
+                if param.get("Name", "") in ("ForwardingSmtpAddress", "ForwardTo", "ForwardingAddress"):
                     to_email = param.get("Value", "")
                     if (
                         to_email.lower().replace("smtp:", "")

@@ -1,9 +1,6 @@
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
-from pypanther.helpers.panther_tailscale_helpers import (
-    is_tailscale_admin_console_event,
-    tailscale_alert_context,
-)
+from pypanther.helpers.panther_tailscale_helpers import is_tailscale_admin_console_event, tailscale_alert_context
 
 tailscale_https_disabled_tests: list[RuleTest] = [
     RuleTest(
@@ -20,12 +17,7 @@ tailscale_https_disabled_tests: list[RuleTest] = [
                 },
                 "eventGroupID": "1770eb26fb58fbf67fd8fbfcc2056e66",
                 "origin": "ADMIN_CONSOLE",
-                "target": {
-                    "id": "yoururl.com",
-                    "name": "yoururl.com",
-                    "property": "HTTPS",
-                    "type": "TAILNET",
-                },
+                "target": {"id": "yoururl.com", "name": "yoururl.com", "property": "HTTPS", "type": "TAILNET"},
             },
             "fields": {"recorded": "2023-07-19 16:10:48.385283827"},
             "p_any_actor_ids": ["uodc9f3CNTRL"],
@@ -89,16 +81,8 @@ class TailscaleHTTPSDisabled(Rule):
 
     def rule(self, event):
         action = deep_get(event, "event", "action", default="<NO_ACTION_FOUND>")
-        target_property = deep_get(
-            event, "event", "target", "property", default="<NO_TARGET_PROPERTY_FOUND>"
-        )
-        return all(
-            [
-                action == "DISABLE",
-                target_property == "HTTPS",
-                is_tailscale_admin_console_event(event),
-            ]
-        )
+        target_property = deep_get(event, "event", "target", "property", default="<NO_TARGET_PROPERTY_FOUND>")
+        return all([action == "DISABLE", target_property == "HTTPS", is_tailscale_admin_console_event(event)])
 
     def title(self, event):
         user = deep_get(event, "event", "actor", "loginName", default="<NO_USER_FOUND>")

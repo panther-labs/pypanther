@@ -621,12 +621,9 @@ class Rule(metaclass=abc.ABCMeta):
             # case for valid display name
             if (
                 each_destination in outputs_display_names
-                and outputs_display_names[each_destination].destination_id
-                not in standardized_destinations
+                and outputs_display_names[each_destination].destination_id not in standardized_destinations
             ):
-                standardized_destinations.append(
-                    outputs_display_names[each_destination].destination_id
-                )
+                standardized_destinations.append(outputs_display_names[each_destination].destination_id)
             # case for valid UUIDv4
             elif each_destination in outputs and each_destination not in standardized_destinations:
                 standardized_destinations.append(each_destination)

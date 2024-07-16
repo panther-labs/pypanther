@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_cloudflare_helpers import cloudflare_fw_alert_context
 
 cloudflare_firewall_l7_d_do_s_tests: list[RuleTest] = [
@@ -100,9 +100,7 @@ class CloudflareFirewallL7DDoS(Rule):
     default_severity = Severity.MEDIUM
     default_description = "Layer 7 Distributed Denial of Service (DDoS) detected"
     default_runbook = "Inspect and monitor internet-facing services for potential outages"
-    default_reference = (
-        "https://www.cloudflare.com/en-gb/learning/ddos/application-layer-ddos-attack/"
-    )
+    default_reference = "https://www.cloudflare.com/en-gb/learning/ddos/application-layer-ddos-attack/"
     threshold = 100
     summary_attributes = ["Action", "ClientCountry", "ClientIP", "ClientRequestUserAgent"]
     tests = cloudflare_firewall_l7_d_do_s_tests

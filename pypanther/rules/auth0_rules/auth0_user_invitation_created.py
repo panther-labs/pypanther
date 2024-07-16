@@ -1,6 +1,6 @@
 import re
 
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_auth0_helpers import auth0_alert_context, is_auth0_config_event
 from pypanther.helpers.panther_base_helpers import deep_get
 
@@ -314,9 +314,7 @@ auth0_user_invitation_created_tests: list[RuleTest] = [
 
 class Auth0UserInvitationCreated(Rule):
     display_name = "Auth0 User Invitation Created"
-    default_reference = (
-        "https://auth0.com/docs/manage-users/organizations/configure-organizations/invite-members"
-    )
+    default_reference = "https://auth0.com/docs/manage-users/organizations/configure-organizations/invite-members"
     default_severity = Severity.INFO
     log_types = [LogType.Auth0_Events]
     id = "Auth0.User.Invitation.Created-prototype"
@@ -332,18 +330,14 @@ class Auth0UserInvitationCreated(Rule):
         inv_type = self.invitation_type(event)
         if inv_type == "tenant":
             try:
-                invitee = deep_get(
-                    event, "data", "details", "request", "body", "owners", default=[]
-                )[0]
+                invitee = deep_get(event, "data", "details", "request", "body", "owners", default=[])[0]
             except IndexError:
                 invitee = "<NO_INVITEE>"
         elif inv_type == "organization":
             invitee = deep_get(event, "data", "details", "request", "body", "invitee", "email")
         else:
             invitee = "<NO_INVITEE>"
-        inviter = deep_get(
-            event, "data", "details", "request", "auth", "user", "email", default="<NO_INVITER>"
-        )
+        inviter = deep_get(event, "data", "details", "request", "auth", "user", "email", default="<NO_INVITER>")
         source = deep_get(event, "p_source_label", default="<NO_PSOURCE>")
         return f"Auth0 User [{inviter}] invited [{invitee}] to {inv_type} [{source}]]"
 

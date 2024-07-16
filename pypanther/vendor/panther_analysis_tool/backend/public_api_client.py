@@ -157,9 +157,7 @@ class PublicAPIRequests:  # pylint: disable=too-many-public-methods
 
     def _load(self, name: str) -> DocumentNode:
         if name not in self._cache:
-            self._cache[name] = Path(_get_graphql_content_filepath(name)).read_text(
-                encoding="utf-8"
-            )
+            self._cache[name] = Path(_get_graphql_content_filepath(name)).read_text(encoding="utf-8")
 
         return gql(self._cache[name])
 
@@ -193,9 +191,7 @@ class PublicAPIClient(Client):  # pylint: disable=too-many-public-methods
                 message="did not receive version in response",
             )
 
-        return BackendCheckResponse(
-            success=True, message=f"connected to Panther backend on version: {panther_version}"
-        )
+        return BackendCheckResponse(success=True, message=f"connected to Panther backend on version: {panther_version}")
 
     def async_bulk_upload(self, params: BulkUploadParams) -> BackendResponse[BulkUploadResponse]:
         query = self._requests.async_bulk_upload_mutation()
@@ -306,9 +302,7 @@ class PublicAPIClient(Client):  # pylint: disable=too-many-public-methods
             ),
         )
 
-    def test_correlation_rule(
-        self, params: TestCorrelationRuleParams
-    ) -> BackendResponse[TestCorrelationRuleResponse]:
+    def test_correlation_rule(self, params: TestCorrelationRuleParams) -> BackendResponse[TestCorrelationRuleResponse]:
         query = self._requests.test_correlation_rule()
         test_cr_input = {"input": {"yaml": params.yaml}}
         res = self._safe_execute(query, variable_values=test_cr_input)
@@ -320,9 +314,7 @@ class PublicAPIClient(Client):  # pylint: disable=too-many-public-methods
             ),
         )
 
-    def transpile_filters(
-        self, params: TranspileFiltersParams
-    ) -> BackendResponse[TranspileFiltersResponse]:
+    def transpile_filters(self, params: TranspileFiltersParams) -> BackendResponse[TranspileFiltersResponse]:
         query = self._requests.transpile_filters()
         transpile_input = {"input": {"data": params.data, "patVersion": params.pat_version}}
         res = self._safe_execute(query, variable_values=transpile_input)
@@ -335,9 +327,7 @@ class PublicAPIClient(Client):  # pylint: disable=too-many-public-methods
             ),
         )
 
-    def delete_saved_queries(
-        self, params: DeleteSavedQueriesParams
-    ) -> BackendResponse[DeleteSavedQueriesResponse]:
+    def delete_saved_queries(self, params: DeleteSavedQueriesParams) -> BackendResponse[DeleteSavedQueriesResponse]:
         query = self._requests.delete_saved_queries()
         delete_params = {
             "input": {
@@ -364,9 +354,7 @@ class PublicAPIClient(Client):  # pylint: disable=too-many-public-methods
             ),
         )
 
-    def delete_detections(
-        self, params: DeleteDetectionsParams
-    ) -> BackendResponse[DeleteDetectionsResponse]:
+    def delete_detections(self, params: DeleteDetectionsParams) -> BackendResponse[DeleteDetectionsResponse]:
         gql_params = {
             "input": {
                 "dryRun": params.dry_run,
@@ -483,9 +471,7 @@ class PublicAPIClient(Client):  # pylint: disable=too-many-public-methods
         return False
 
     def supports_async_uploads(self) -> bool:
-        return self.has_graphql_endpoints(
-            ["uploadDetectionEntitiesAsync", "detectionEntitiesUploadStatus"]
-        )
+        return self.has_graphql_endpoints(["uploadDetectionEntitiesAsync", "detectionEntitiesUploadStatus"])
 
     def supports_bulk_validate(self) -> bool:
         return True
@@ -593,10 +579,7 @@ class PublicAPIClient(Client):  # pylint: disable=too-many-public-methods
         query = self._requests.feature_flags_query()
         query_input = {
             "input": {
-                "flags": [
-                    {"flag": flag.flag, "defaultTreatment": flag.default_treatment}
-                    for flag in params.flags
-                ]
+                "flags": [{"flag": flag.flag, "defaultTreatment": flag.default_treatment} for flag in params.flags]
             }
         }
         res = self._safe_execute(query, variable_values=query_input)
@@ -617,9 +600,7 @@ class PublicAPIClient(Client):  # pylint: disable=too-many-public-methods
         request: DocumentNode,
         variable_values: Optional[Dict[str, Any]] = None,
     ) -> ExecutionResult:
-        return self._gql_client.execute(
-            request, variable_values=variable_values, get_execution_result=True
-        )
+        return self._gql_client.execute(request, variable_values=variable_values, get_execution_result=True)
 
     def _safe_execute(
         self,

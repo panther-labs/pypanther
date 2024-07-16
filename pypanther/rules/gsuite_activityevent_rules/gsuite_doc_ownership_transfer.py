@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 from pypanther.helpers.panther_config import config
 
@@ -33,22 +33,18 @@ class GSuiteDocOwnershipTransfer(Rule):
     reports = {"MITRE ATT&CK": ["TA0009:T1213"]}
     default_severity = Severity.LOW
     default_description = "A GSuite document's ownership was transferred to an external party.\n"
-    default_reference = "https://support.google.com/drive/answer/2494892?hl=en&co=GENIE.Platform%3DDesktop&sjid=864417124752637253-EU"
-    default_runbook = (
-        "Verify that this document did not contain sensitive or private company information.\n"
+    default_reference = (
+        "https://support.google.com/drive/answer/2494892?hl=en&co=GENIE.Platform%3DDesktop&sjid=864417124752637253-EU"
     )
+    default_runbook = "Verify that this document did not contain sensitive or private company information.\n"
     summary_attributes = ["actor:email"]
     tests = g_suite_doc_ownership_transfer_tests
-    GSUITE_TRUSTED_OWNERSHIP_DOMAINS = {
-        "@" + domain for domain in config.GSUITE_TRUSTED_OWNERSHIP_DOMAINS
-    }
+    GSUITE_TRUSTED_OWNERSHIP_DOMAINS = {"@" + domain for domain in config.GSUITE_TRUSTED_OWNERSHIP_DOMAINS}
 
     def rule(self, event):
         if deep_get(event, "id", "applicationName") != "admin":
             return False
         if bool(event.get("name") == "TRANSFER_DOCUMENT_OWNERSHIP"):
             new_owner = deep_get(event, "parameters", "NEW_VALUE", default="<UNKNOWN USER>")
-            return bool(new_owner) and (
-                not any((new_owner.endswith(x) for x in self.GSUITE_TRUSTED_OWNERSHIP_DOMAINS))
-            )
+            return bool(new_owner) and (not any((new_owner.endswith(x) for x in self.GSUITE_TRUSTED_OWNERSHIP_DOMAINS)))
         return False

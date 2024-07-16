@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 from pypanther.helpers.panther_notion_helpers import notion_alert_context
 
@@ -21,10 +21,7 @@ notion_workspace_public_page_added_tests: list[RuleTest] = [
                 "platform": "web",
                 "type": "workspace.settings.public_homepage_added",
                 "workspace.settings.public_homepage_added": {
-                    "new_public_page": {
-                        "type": "database_id",
-                        "database_id": "4b801dc7-d724-4fbb-afd0-9885cbc12405",
-                    }
+                    "new_public_page": {"type": "database_id", "database_id": "4b801dc7-d724-4fbb-afd0-9885cbc12405"}
                 },
             }
         },
@@ -41,14 +38,8 @@ notion_workspace_public_page_added_tests: list[RuleTest] = [
                     "type": "person",
                 },
                 "details": {
-                    "parent": {
-                        "type": "workspace_id",
-                        "workspace_id": "ab99as87-6abc-4dcf-808b-111999882299",
-                    },
-                    "target": {
-                        "page_id": "3cd2c560-d1b9-474e-b46e-gh8899002763",
-                        "type": "page_id",
-                    },
+                    "parent": {"type": "workspace_id", "workspace_id": "ab99as87-6abc-4dcf-808b-111999882299"},
+                    "target": {"page_id": "3cd2c560-d1b9-474e-b46e-gh8899002763", "type": "page_id"},
                 },
                 "id": "d4b9963f-12a8-4b01-b597-233a140abf5e",
                 "ip_address": "12.12.12.12",
@@ -88,9 +79,7 @@ class NotionWorkspacePublicPageAdded(Rule):
             "database_id",
             default="<NO_DATABASE_ID_FOUND>",
         )
-        return (
-            f"Notion User [{actor}] added a new public homepage [{db_id}] in workspace [{wkspc_id}]"
-        )
+        return f"Notion User [{actor}] added a new public homepage [{db_id}] in workspace [{wkspc_id}]"
 
     def alert_context(self, event):
         context = notion_alert_context(event)

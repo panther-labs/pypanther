@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 
 decoy_s3_accessed_tests: list[RuleTest] = [
     RuleTest(
@@ -28,10 +28,7 @@ decoy_s3_accessed_tests: list[RuleTest] = [
             "CompanyName": "Custom",
             "CreatedAt": "2024-05-24 00:26:57.000000000",
             "Description": "Private decoy S3 bucket panther-databucket was accessed by arn:aws:iam::123456789012:user/tester. This S3 bucket has been provisioned to monitor and generate security events when accessed and can be an indicator of unintended or unauthorized access to your AWS Account.",
-            "FindingProviderFields": {
-                "Severity": {"Label": "HIGH", "Normalized": 70},
-                "Types": ["Unusual Behaviors"],
-            },
+            "FindingProviderFields": {"Severity": {"Label": "HIGH", "Normalized": 70}, "Types": ["Unusual Behaviors"]},
             "GeneratorId": "s3.amazonaws.com",
             "Id": "ABC9ONWNS3155VIEJC8U",
             "ProcessedAt": "2024-05-24T00:27:12.237Z",
@@ -75,10 +72,7 @@ decoy_s3_accessed_tests: list[RuleTest] = [
                             "PrincipalId": "ABCDEFG1HIJ2KLMNOPQR:john.doe",
                             "PrincipalType": "AssumedRole",
                             "SessionContext": {
-                                "Attributes": {
-                                    "CreationDate": "2024-05-23T20:20:57Z",
-                                    "MfaAuthenticated": False,
-                                },
+                                "Attributes": {"CreationDate": "2024-05-23T20:20:57Z", "MfaAuthenticated": False},
                                 "SessionIssuer": {
                                     "AccountId": "123456789012",
                                     "Arn": "arn:aws:iam::123456789012:role/tester",
@@ -153,10 +147,7 @@ decoy_s3_accessed_tests: list[RuleTest] = [
             "CompanyName": "Custom",
             "CreatedAt": "2024-05-24 00:26:57.000000000",
             "Description": "Private decoy S3 bucket panther-databucket was not accessed by arn:aws:iam::123456789012:user/tester. This S3 bucket has been provisioned to monitor and generate security events when accessed and can be an indicator of unintended or unauthorized access to your AWS Account.",
-            "FindingProviderFields": {
-                "Severity": {"Label": "HIGH", "Normalized": 70},
-                "Types": ["Unusual Behaviors"],
-            },
+            "FindingProviderFields": {"Severity": {"Label": "HIGH", "Normalized": 70}, "Types": ["Unusual Behaviors"]},
             "GeneratorId": "s3.amazonaws.com",
             "Id": "ABC9ONWNS3155VIEJC8U",
             "ProcessedAt": "2024-05-24T00:27:12.237Z",
@@ -200,10 +191,7 @@ decoy_s3_accessed_tests: list[RuleTest] = [
                             "PrincipalId": "ABCDEFG1HIJ2KLMNOPQR:john.doe",
                             "PrincipalType": "AssumedRole",
                             "SessionContext": {
-                                "Attributes": {
-                                    "CreationDate": "2024-05-23T20:20:57Z",
-                                    "MfaAuthenticated": False,
-                                },
+                                "Attributes": {"CreationDate": "2024-05-23T20:20:57Z", "MfaAuthenticated": False},
                                 "SessionIssuer": {
                                     "AccountId": "123456789012",
                                     "Arn": "arn:aws:iam::123456789012:role/tester",

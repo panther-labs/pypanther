@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import aws_rule_context
 
 awsrds_snapshot_shared_tests: list[RuleTest] = [
@@ -22,10 +22,7 @@ awsrds_snapshot_shared_tests: list[RuleTest] = [
                         "userName": "AWSReservedSSO_DevAdmin_635426549a280cc6",
                     },
                     "webIdFederationData": {},
-                    "attributes": {
-                        "creationDate": "2023-12-12T19:43:57Z",
-                        "mfaAuthenticated": "false",
-                    },
+                    "attributes": {"creationDate": "2023-12-12T19:43:57Z", "mfaAuthenticated": "false"},
                 },
             },
             "eventTime": "2023-12-12T20:12:22Z",
@@ -41,9 +38,7 @@ awsrds_snapshot_shared_tests: list[RuleTest] = [
             },
             "responseElements": {
                 "dBSnapshotIdentifier": "exfiltration",
-                "dBSnapshotAttributes": [
-                    {"attributeName": "restore", "attributeValues": ["193672423079"]}
-                ],
+                "dBSnapshotAttributes": [{"attributeName": "restore", "attributeValues": ["193672423079"]}],
             },
             "requestID": "b7f91314-eb8b-4be5-995d-6b97d70dfb3b",
             "eventID": "86581591-0f39-4eae-9a8d-b2224a3c91fa",
@@ -79,10 +74,7 @@ awsrds_snapshot_shared_tests: list[RuleTest] = [
                         "userName": "AWSReservedSSO_DevAdmin_635426549a280cc6",
                     },
                     "webIdFederationData": {},
-                    "attributes": {
-                        "creationDate": "2023-12-12T19:43:57Z",
-                        "mfaAuthenticated": "false",
-                    },
+                    "attributes": {"creationDate": "2023-12-12T19:43:57Z", "mfaAuthenticated": "false"},
                 },
             },
             "eventTime": "2023-12-12T20:12:22Z",
@@ -124,11 +116,11 @@ class AWSRDSSnapshotShared(Rule):
     tags = ["AWS", "Exfiltration", "Transfer Data to Cloud Account"]
     default_severity = Severity.HIGH
     reports = {"MITRE ATT&CK": ["TA0010:T1537"]}
-    default_description = "An RDS snapshot was shared with another account. This could be an indicator of exfiltration.\n"
-    default_runbook = "Ensure that the snapshot was shared intentionally and with an approved account. If not, remove the snapshot and quarantine the compromised IAM user.\n"
-    default_reference = (
-        "https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_ShareSnapshot.html"
+    default_description = (
+        "An RDS snapshot was shared with another account. This could be an indicator of exfiltration.\n"
     )
+    default_runbook = "Ensure that the snapshot was shared intentionally and with an approved account. If not, remove the snapshot and quarantine the compromised IAM user.\n"
+    default_reference = "https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_ShareSnapshot.html"
     summary_attributes = ["eventSource", "recipientAccountId", "awsRegion", "p_any_aws_arns"]
     tests = awsrds_snapshot_shared_tests
 
@@ -144,13 +136,7 @@ class AWSRDSSnapshotShared(Rule):
             current_account_id = event.deep_get("userIdentity", "accountId", default="")
             shared_account_ids = event.deep_get("requestParameters", "valuesToAdd", default=[])
             if shared_account_ids:
-                return any(
-                    (
-                        account_id
-                        for account_id in shared_account_ids
-                        if account_id != current_account_id
-                    )
-                )
+                return any((account_id for account_id in shared_account_ids if account_id != current_account_id))
             return False
         return False
 

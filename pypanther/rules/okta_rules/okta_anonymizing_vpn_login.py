@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get, okta_alert_context
 
 okta_anonymizing_vpn_login_tests: list[RuleTest] = [
@@ -271,10 +271,7 @@ class OktaAnonymizingVPNLogin(Rule):
 
     def severity(self, event):
         # If the user is using Apple Private Relay, demote the severity to INFO
-        if (
-            event.deep_get("p_enrichment", "ipinfo_privacy", "client.ipAddress", "service")
-            == "Apple Private Relay"
-        ):
+        if event.deep_get("p_enrichment", "ipinfo_privacy", "client.ipAddress", "service") == "Apple Private Relay":
             return "INFO"
         # Return Medium by default
         return "MEDIUM"

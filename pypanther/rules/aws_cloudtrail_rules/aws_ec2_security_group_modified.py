@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import aws_rule_context
 from pypanther.helpers.panther_default import aws_cloudtrail_success
 
@@ -44,9 +44,7 @@ awsec2_security_group_modified_tests: list[RuleTest] = [
                             "fromPort": 22,
                             "toPort": 22,
                             "groups": {},
-                            "ipRanges": {
-                                "items": [{"cidrIp": "127.0.0.1/32", "description": "SSH for me"}]
-                            },
+                            "ipRanges": {"items": [{"cidrIp": "127.0.0.1/32", "description": "SSH for me"}]},
                             "ipv6Ranges": {},
                             "prefixListIds": {},
                         }
@@ -95,9 +93,7 @@ awsec2_security_group_modified_tests: list[RuleTest] = [
             "requestParameters": {
                 "securityGroupSet": {},
                 "securityGroupIdSet": {},
-                "filterSet": {
-                    "items": [{"name": "vpc-id", "valueSet": {"items": [{"value": "vpc-1"}]}}]
-                },
+                "filterSet": {"items": [{"name": "vpc-id", "valueSet": {"items": [{"value": "vpc-1"}]}}]},
             },
             "responseElements": None,
             "requestID": "1",
@@ -148,9 +144,7 @@ awsec2_security_group_modified_tests: list[RuleTest] = [
                             "fromPort": 22,
                             "toPort": 22,
                             "groups": {},
-                            "ipRanges": {
-                                "items": [{"cidrIp": "127.0.0.1/32", "description": "SSH for me"}]
-                            },
+                            "ipRanges": {"items": [{"cidrIp": "127.0.0.1/32", "description": "SSH for me"}]},
                             "ipv6Ranges": {},
                             "prefixListIds": {},
                         }
@@ -176,12 +170,8 @@ class AWSEC2SecurityGroupModified(Rule):
     default_severity = Severity.INFO
     dedup_period_minutes = 720
     default_description = "An EC2 Security Group was modified.\n"
-    default_runbook = (
-        "https://docs.runpanther.io/alert-runbooks/built-in-rules/aws-ec2-securitygroup-modified"
-    )
-    default_reference = (
-        "https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/working-with-security-groups.html"
-    )
+    default_runbook = "https://docs.runpanther.io/alert-runbooks/built-in-rules/aws-ec2-securitygroup-modified"
+    default_reference = "https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/working-with-security-groups.html"
     summary_attributes = [
         "eventName",
         "userAgent",
@@ -201,9 +191,7 @@ class AWSEC2SecurityGroupModified(Rule):
     }
 
     def rule(self, event):
-        return (
-            aws_cloudtrail_success(event) and event.get("eventName") in self.EC2_SG_MODIFIED_EVENTS
-        )
+        return aws_cloudtrail_success(event) and event.get("eventName") in self.EC2_SG_MODIFIED_EVENTS
 
     def dedup(self, event):
         return event.get("recipientAccountId")

@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import slack_alert_context
 
 slack_audit_logs_org_deleted_tests: list[RuleTest] = [
@@ -9,12 +9,7 @@ slack_audit_logs_org_deleted_tests: list[RuleTest] = [
             "action": "organization_deleted",
             "actor": {
                 "type": "user",
-                "user": {
-                    "email": "user@example.com",
-                    "id": "A012B3CDEFG",
-                    "name": "username",
-                    "team": "T01234N56GB",
-                },
+                "user": {"email": "user@example.com", "id": "A012B3CDEFG", "name": "username", "team": "T01234N56GB"},
             },
             "context": {
                 "ip_address": "1.2.3.4",
@@ -35,12 +30,7 @@ slack_audit_logs_org_deleted_tests: list[RuleTest] = [
             "action": "organization_created",
             "actor": {
                 "type": "user",
-                "user": {
-                    "email": "user@example.com",
-                    "id": "A012B3CDEFG",
-                    "name": "username",
-                    "team": "T01234N56GB",
-                },
+                "user": {"email": "user@example.com", "id": "A012B3CDEFG", "name": "username", "team": "T01234N56GB"},
             },
             "context": {
                 "ip_address": "1.2.3.4",

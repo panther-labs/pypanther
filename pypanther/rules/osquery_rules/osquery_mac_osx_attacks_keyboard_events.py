@@ -1,6 +1,6 @@
 from fnmatch import fnmatch
 
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 
 osquery_mac_osx_attacks_keyboard_events_tests: list[RuleTest] = [
@@ -11,11 +11,7 @@ osquery_mac_osx_attacks_keyboard_events_tests: list[RuleTest] = [
             "name": "pack_osx-attacks_Keyboard_Event_Taps",
             "action": "added",
             "hostIdentifier": "test-host",
-            "columns": {
-                "path": "/Users/johnny/Desktop/Siri.app/Contents/MacOS/Siri",
-                "pid": 100,
-                "name": "Siri",
-            },
+            "columns": {"path": "/Users/johnny/Desktop/Siri.app/Contents/MacOS/Siri", "pid": 100, "name": "Siri"},
         },
     ),
     RuleTest(
@@ -52,10 +48,7 @@ osquery_mac_osx_attacks_keyboard_events_tests: list[RuleTest] = [
                 "type": "apfs",
             },
             "counter": 28,
-            "decorations": {
-                "host_uuid": "0ec3540f-1dd9-4462-bd28-0f63b2611621",
-                "hostname": "MacBook-Pro.local",
-            },
+            "decorations": {"host_uuid": "0ec3540f-1dd9-4462-bd28-0f63b2611621", "hostname": "MacBook-Pro.local"},
             "epoch": 0,
             "hostIdentifier": "MacBook-Pro.local",
             "name": "pack/incident-response/mounts",

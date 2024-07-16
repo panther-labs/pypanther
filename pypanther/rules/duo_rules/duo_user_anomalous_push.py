@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 
 duo_user_denied_anomalous_push_tests: list[RuleTest] = [
@@ -56,9 +56,7 @@ class DUOUserDeniedAnomalousPush(Rule):
     default_severity = Severity.MEDIUM
     default_description = "A Duo authentication was denied due to an anomalous 2FA push.\n"
     default_reference = "https://duo.com/docs/adminapi#authentication-logs"
-    default_runbook = (
-        "Follow up with the user to confirm they intended several pushes in quick succession."
-    )
+    default_runbook = "Follow up with the user to confirm they intended several pushes in quick succession."
     tests = duo_user_denied_anomalous_push_tests
 
     def rule(self, event):

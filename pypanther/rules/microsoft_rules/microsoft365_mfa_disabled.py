@@ -1,6 +1,6 @@
 import json
 
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import m365_alert_context
 
 microsoft365_mfa_disabled_tests: list[RuleTest] = [
@@ -31,11 +31,7 @@ microsoft365_mfa_disabled_tests: list[RuleTest] = [
                     "NewValue": '[{"Default": true,"MethodType": 7}]',
                     "OldValue": "[]",
                 },
-                {
-                    "Name": "Included Updated Properties",
-                    "NewValue": "StrongAuthenticationMethod",
-                    "OldValue": "",
-                },
+                {"Name": "Included Updated Properties", "NewValue": "StrongAuthenticationMethod", "OldValue": ""},
                 {"Name": "TargetId.UserType", "NewValue": "Member", "OldValue": ""},
             ],
             "ObjectId": "sample.user@yourorg.onmicrosoft.com",
@@ -85,11 +81,7 @@ microsoft365_mfa_disabled_tests: list[RuleTest] = [
                     "NewValue": "[]",
                     "OldValue": '[{"Default": true,"MethodType": 7}]',
                 },
-                {
-                    "Name": "Included Updated Properties",
-                    "NewValue": "StrongAuthenticationMethod",
-                    "OldValue": "",
-                },
+                {"Name": "Included Updated Properties", "NewValue": "StrongAuthenticationMethod", "OldValue": ""},
                 {"Name": "TargetId.UserType", "NewValue": "Member", "OldValue": ""},
             ],
             "ObjectId": "sample.user@yourorg.onmicrosoft.com",

@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 
 osquery_mac_unwanted_chrome_extensions_tests: list[RuleTest] = [
     RuleTest(
@@ -79,9 +79,7 @@ class OsqueryMacUnwantedChromeExtensions(Rule):
     tags = ["Osquery", "MacOS", "Malware", "Persistence:Browser Extensions"]
     reports = {"MITRE ATT&CK": ["TA0003:T1176"]}
     default_severity = Severity.MEDIUM
-    default_description = (
-        "Monitor for chrome extensions that could lead to a credential compromise.\n"
-    )
+    default_description = "Monitor for chrome extensions that could lead to a credential compromise.\n"
     default_runbook = "Uninstall the unwanted extension"
     default_reference = "https://securelist.com/threat-in-your-browser-extensions/107181/"
     summary_attributes = ["action", "hostIdentifier", "name"]

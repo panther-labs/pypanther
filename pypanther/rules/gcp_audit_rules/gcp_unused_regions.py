@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 
 gcp_unused_regions_tests: list[RuleTest] = [
@@ -240,7 +240,9 @@ class GCPUnusedRegions(Rule):
     ]
     reports = {"MITRE ATT&CK": ["TA0005:T1535"]}
     default_severity = Severity.MEDIUM
-    default_description = "Adversaries may create cloud instances in unused geographic service regions in order to evade detection.\n"
+    default_description = (
+        "Adversaries may create cloud instances in unused geographic service regions in order to evade detection.\n"
+    )
     default_runbook = "Validate the user making the request and the resource created."
     default_reference = "https://cloud.google.com/docs/geography-and-regions"
     summary_attributes = ["severity", "p_any_ip_addresses", "p_any_domain_names"]
@@ -257,9 +259,7 @@ class GCPUnusedRegions(Rule):
         # in any of the places we would expect to find one.
         if location is False:
             return False
-        return not any(
-            (location.startswith(active_region) for active_region in self.APPROVED_ACTIVE_REGIONS)
-        )
+        return not any((location.startswith(active_region) for active_region in self.APPROVED_ACTIVE_REGIONS))
 
     def _get_location_or_zone(self, event):
         resource = event.get("resource")

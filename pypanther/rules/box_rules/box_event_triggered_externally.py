@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 from pypanther.helpers.panther_config import config
 
@@ -45,9 +45,7 @@ class BoxEventTriggeredExternally(Rule):
     reports = {"MITRE ATT&CK": ["TA0010:T1567"]}
     default_severity = Severity.MEDIUM
     default_description = "An external user has triggered a box enterprise event.\n"
-    default_reference = (
-        "https://support.box.com/hc/en-us/articles/8391393127955-Using-the-Enterprise-Event-Stream"
-    )
+    default_reference = "https://support.box.com/hc/en-us/articles/8391393127955-Using-the-Enterprise-Event-Stream"
     default_runbook = "Investigate whether this user's activity is expected.\n"
     summary_attributes = ["ip_address"]
     threshold = 10
@@ -61,11 +59,10 @@ class BoxEventTriggeredExternally(Rule):
             # user id 2 indicates an anonymous user
             if user.get("id", "") == "2":
                 return True
-            return bool(
-                user.get("login")
-                and (not any((user.get("login", "").endswith(x) for x in self.DOMAINS)))
-            )
+            return bool(user.get("login") and (not any((user.get("login", "").endswith(x) for x in self.DOMAINS))))
         return False
 
     def title(self, event):
-        return f"External user [{deep_get(event, 'created_by', 'login', default='<UNKNOWN_USER>')}] triggered a box event."
+        return (
+            f"External user [{deep_get(event, 'created_by', 'login', default='<UNKNOWN_USER>')}] triggered a box event."
+        )

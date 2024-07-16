@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import aws_rule_context, deep_get
 from pypanther.helpers.panther_default import aws_cloudtrail_success
 
@@ -35,9 +35,7 @@ aws_cloud_trail_created_tests: list[RuleTest] = [
             "awsRegion": "us-west-2",
             "sourceIPAddress": "111.111.111.111",
             "userAgent": "console.amazonaws.com",
-            "requestParameters": {
-                "name": "arn:aws:cloudtrail:us-west-2:123456789012:trail/example-trail"
-            },
+            "requestParameters": {"name": "arn:aws:cloudtrail:us-west-2:123456789012:trail/example-trail"},
             "responseElements": None,
             "requestID": "1",
             "eventID": "1",
@@ -130,9 +128,7 @@ aws_cloud_trail_created_tests: list[RuleTest] = [
             "awsRegion": "us-west-2",
             "sourceIPAddress": "111.111.111.111",
             "userAgent": "console.amazonaws.com",
-            "requestParameters": {
-                "name": "arn:aws:cloudtrail:us-west-2:123456789012:trail/example-trail"
-            },
+            "requestParameters": {"name": "arn:aws:cloudtrail:us-west-2:123456789012:trail/example-trail"},
             "responseElements": None,
             "requestID": "1",
             "eventID": "1",
@@ -152,10 +148,10 @@ class AWSCloudTrailCreated(Rule):
     reports = {"CIS": ["3.5"], "MITRE ATT&CK": ["TA0007:T1538"]}
     default_severity = Severity.INFO
     default_description = "A CloudTrail Trail was created, updated, or enabled.\n"
-    default_runbook = (
-        "https://docs.runpanther.io/alert-runbooks/built-in-rules/aws-cloudtrail-modified"
+    default_runbook = "https://docs.runpanther.io/alert-runbooks/built-in-rules/aws-cloudtrail-modified"
+    default_reference = (
+        "https://docs.aws.amazon.com/awscloudtrail/latest/userguide/cloudtrail-create-and-update-a-trail.html"
     )
-    default_reference = "https://docs.aws.amazon.com/awscloudtrail/latest/userguide/cloudtrail-create-and-update-a-trail.html"
     summary_attributes = [
         "eventName",
         "userAgent",
@@ -168,10 +164,7 @@ class AWSCloudTrailCreated(Rule):
     CLOUDTRAIL_CREATE_UPDATE = {"CreateTrail", "UpdateTrail", "StartLogging"}
 
     def rule(self, event):
-        return (
-            aws_cloudtrail_success(event)
-            and event.get("eventName") in self.CLOUDTRAIL_CREATE_UPDATE
-        )
+        return aws_cloudtrail_success(event) and event.get("eventName") in self.CLOUDTRAIL_CREATE_UPDATE
 
     def title(self, event):
         return f"CloudTrail [{deep_get(event, 'requestParameters', 'name')}] was created/updated"

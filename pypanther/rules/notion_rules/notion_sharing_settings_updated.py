@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_notion_helpers import notion_alert_context
 
 notion_sharing_settings_updated_tests: list[RuleTest] = [
@@ -36,11 +36,7 @@ notion_sharing_settings_updated_tests: list[RuleTest] = [
                 },
                 "details": {
                     "state": "disabled",
-                    "target": {
-                        "id": "a70a4074-5cac-4fc5-8e59-109df81e5a93",
-                        "name": "R&D",
-                        "object": "teamspace",
-                    },
+                    "target": {"id": "a70a4074-5cac-4fc5-8e59-109df81e5a93", "name": "R&D", "object": "teamspace"},
                 },
                 "id": "91b29a4b-4978-40e1-ab56-40221f801ce5",
                 "ip_address": "11.22.33.44",

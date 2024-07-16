@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import aws_rule_context, deep_get
 
 aws_cloud_trail_root_access_key_created_tests: list[RuleTest] = [
@@ -17,11 +17,7 @@ aws_cloud_trail_root_access_key_created_tests: list[RuleTest] = [
             "requestID": "1111",
             "requestParameters": None,
             "responseElements": {
-                "accessKey": {
-                    "accessKeyId": "1111",
-                    "createDate": "Jan 01, 2019 0:00:00 PM",
-                    "status": "Active",
-                }
+                "accessKey": {"accessKeyId": "1111", "createDate": "Jan 01, 2019 0:00:00 PM", "status": "Active"}
             },
             "sourceIPAddress": "111.111.111.111",
             "userAgent": "signin.amazonaws.com",
@@ -31,12 +27,7 @@ aws_cloud_trail_root_access_key_created_tests: list[RuleTest] = [
                 "arn": "arn:aws:iam::123456789012:root",
                 "invokedBy": "signin.amazonaws.com",
                 "principalId": "123456789012",
-                "sessionContext": {
-                    "attributes": {
-                        "creationDate": "2019-01-01T00:00:00Z",
-                        "mfaAuthenticated": "true",
-                    }
-                },
+                "sessionContext": {"attributes": {"creationDate": "2019-01-01T00:00:00Z", "mfaAuthenticated": "true"}},
                 "type": "Root",
             },
         },
@@ -71,12 +62,7 @@ aws_cloud_trail_root_access_key_created_tests: list[RuleTest] = [
                 "arn": "arn:aws:iam::123456789012:root",
                 "invokedBy": "signin.amazonaws.com",
                 "principalId": "123456789012",
-                "sessionContext": {
-                    "attributes": {
-                        "creationDate": "2019-01-01T00:00:00Z",
-                        "mfaAuthenticated": "true",
-                    }
-                },
+                "sessionContext": {"attributes": {"creationDate": "2019-01-01T00:00:00Z", "mfaAuthenticated": "true"}},
                 "type": "Root",
             },
         },
@@ -93,9 +79,7 @@ class AWSCloudTrailRootAccessKeyCreated(Rule):
     default_severity = Severity.CRITICAL
     default_description = "An access key was created for the Root account"
     default_runbook = "Verify that the root access key was created for legitimate reasons. If not, immediately revoke it and change the root login credentials. If it was created for legitimate reasons, monitor its use and ensure it is revoked when its need is gone.\n"
-    default_reference = (
-        "https://docs.aws.amazon.com/general/latest/gr/managing-aws-access-keys.html"
-    )
+    default_reference = "https://docs.aws.amazon.com/general/latest/gr/managing-aws-access-keys.html"
     summary_attributes = ["userAgent", "sourceIpAddress", "recipientAccountId", "p_any_aws_arns"]
     tests = aws_cloud_trail_root_access_key_created_tests
 

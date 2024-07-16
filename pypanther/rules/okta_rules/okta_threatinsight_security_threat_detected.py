@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get, okta_alert_context
 
 okta_threat_insight_security_threat_detected_tests: list[RuleTest] = [
@@ -27,9 +27,7 @@ okta_threat_insight_security_threat_detected_tests: list[RuleTest] = [
             "request": {},
             "securitycontext": {},
             "severity": "INFO",
-            "target": [
-                {"alternateId": "App ", "displayName": "App", "id": "12345", "type": "AppInstance"}
-            ],
+            "target": [{"alternateId": "App ", "displayName": "App", "id": "12345", "type": "AppInstance"}],
             "transaction": {"detail": {}, "id": "sdfg", "type": "JOB"},
             "uuid": "aaa-bb-ccc",
             "version": "0",
@@ -179,10 +177,10 @@ okta_threat_insight_security_threat_detected_tests: list[RuleTest] = [
 
 
 class OktaThreatInsightSecurityThreatDetected(Rule):
-    default_description = (
-        "Okta ThreatInsight identified request from potentially malicious IP address"
+    default_description = "Okta ThreatInsight identified request from potentially malicious IP address"
+    default_reference = (
+        "https://help.okta.com/en-us/Content/Topics/Security/threat-insight/configure-threatinsight-system-log.htm"
     )
-    default_reference = "https://help.okta.com/en-us/Content/Topics/Security/threat-insight/configure-threatinsight-system-log.htm"
     display_name = "Okta ThreatInsight Security Threat Detected"
     default_severity = Severity.HIGH
     log_types = [LogType.Okta_SystemLog]
@@ -216,9 +214,7 @@ class OktaThreatInsightSecurityThreatDetected(Rule):
         if outcome == "DENY":
             return "INFO"
         threat_detection = (
-            event.get("debugcontext", {})
-            .get("debugData", {})
-            .get("threatDetections", "<threat-detection-not-found>")
+            event.get("debugcontext", {}).get("debugData", {}).get("threatDetections", "<threat-detection-not-found>")
         )
         return self.severity_from_threat_string(threat_detection)
 

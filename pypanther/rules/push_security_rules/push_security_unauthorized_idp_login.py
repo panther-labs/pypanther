@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 
 push_security_unauthorized_id_p_login_tests: list[RuleTest] = [
     RuleTest(
@@ -98,7 +98,9 @@ class PushSecurityUnauthorizedIdPLogin(Rule):
     tags = ["Configuration Required"]
     log_types = [LogType.PushSecurity_Activity]
     default_severity = Severity.HIGH
-    default_description = "Login to application with unauthorized identity provider which could indicate a SAMLjacking attack."
+    default_description = (
+        "Login to application with unauthorized identity provider which could indicate a SAMLjacking attack."
+    )
     default_reference = "https://github.com/pushsecurity/saas-attacks/blob/main/techniques/samljacking/description.md"
     tests = push_security_unauthorized_id_p_login_tests
     # Configure allowed identity provider logins to SaaS apps
@@ -113,17 +115,12 @@ class PushSecurityUnauthorizedIdPLogin(Rule):
             return False
         identity_provider = event.deep_get("new", "identityProvider")
         login_type = event.deep_get("new", "loginType")
-        if (
-            identity_provider in self.allowed_idps
-            and login_type in self.allowed_idps[identity_provider]
-        ):
+        if identity_provider in self.allowed_idps and login_type in self.allowed_idps[identity_provider]:
             return False
         return True
 
     def title(self, event):
-        identity_provider = event.deep_get(
-            "new", "identityProvider", default="Null identityProvider"
-        )
+        identity_provider = event.deep_get("new", "identityProvider", default="Null identityProvider")
         login_type = event.deep_get("new", "loginType", default="Null loginType")
         app_type = event.deep_get("new", "appType", default="Null appType")
         new_email = event.deep_get("new", "email")

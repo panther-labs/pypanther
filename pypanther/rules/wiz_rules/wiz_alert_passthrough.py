@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 
 wiz_alert_passthrough_tests: list[RuleTest] = [
@@ -42,17 +42,11 @@ wiz_alert_passthrough_tests: list[RuleTest] = [
                 "resolutionRecommendation": "Alert Resolution Recommendation",
                 "securitySubCategories": [
                     {
-                        "category": {
-                            "framework": {"name": "Wiz for Risk Assessment"},
-                            "name": "High Profile Threats",
-                        },
+                        "category": {"framework": {"name": "Wiz for Risk Assessment"}, "name": "High Profile Threats"},
                         "title": "High-profile vulnerability exploited in the wild",
                     },
                     {
-                        "category": {
-                            "framework": {"name": "MITRE ATT&CK Matrix"},
-                            "name": "TA0001 Initial Access",
-                        },
+                        "category": {"framework": {"name": "MITRE ATT&CK Matrix"}, "name": "TA0001 Initial Access"},
                         "title": "T1190 Exploit Public-Facing Application",
                     },
                 ],
@@ -137,9 +131,7 @@ class WizAlertPassthrough(Rule):
         return event.deep_get("sourceRule", "controlDescription", default="<DESCRIPTION_NOT_FOUND>")
 
     def runbook(self, event):
-        return event.deep_get(
-            "sourceRule", "resolutionRecommendation", default="<RECOMMENDATION_NOT_FOUND>"
-        )
+        return event.deep_get("sourceRule", "resolutionRecommendation", default="<RECOMMENDATION_NOT_FOUND>")
 
     def alert_context(self, event):
         security_subcategories = event.deep_get("sourceRule", "securitySubCategories", default=[{}])

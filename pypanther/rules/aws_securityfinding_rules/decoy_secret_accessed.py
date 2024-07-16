@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 
 decoy_secret_accessed_tests: list[RuleTest] = [
     RuleTest(
@@ -21,10 +21,7 @@ decoy_secret_accessed_tests: list[RuleTest] = [
             "CompanyName": "Custom",
             "CreatedAt": "2024-05-23 20:49:02.000000000",
             "Description": "Private decoy secret arn:aws:secretsmanager:us-east-1:123456789012:secret:Dummy-Secret-ab12cde34f was accessed by arn:aws:iam::123456789012:user/tester. This secret has been provisioned to monitor and generate security events when accessed and can be an indicator of unintended or unauthorized access to your AWS Account.",
-            "FindingProviderFields": {
-                "Severity": {"Label": "HIGH", "Normalized": 70},
-                "Types": ["Unusual Behaviors"],
-            },
+            "FindingProviderFields": {"Severity": {"Label": "HIGH", "Normalized": 70}, "Types": ["Unusual Behaviors"]},
             "GeneratorId": "secretsmanager.amazonaws.com",
             "Id": "1abc2de3-69ea-4e15-91c6-27eb4a07bd21",
             "ProcessedAt": "2024-05-23T20:49:08.396Z",
@@ -68,10 +65,7 @@ decoy_secret_accessed_tests: list[RuleTest] = [
                             "PrincipalId": "ABC12DEFSG3455VIEJC8U:john.doe",
                             "PrincipalType": "AssumedRole",
                             "SessionContext": {
-                                "Attributes": {
-                                    "CreationDate": "2024-05-23T20:20:57Z",
-                                    "MfaAuthenticated": False,
-                                },
+                                "Attributes": {"CreationDate": "2024-05-23T20:20:57Z", "MfaAuthenticated": False},
                                 "SessionIssuer": {
                                     "AccountId": "123456789012",
                                     "Arn": "arn:aws:iam::123456789012:user/tester",
@@ -138,10 +132,7 @@ decoy_secret_accessed_tests: list[RuleTest] = [
             "CompanyName": "Custom",
             "CreatedAt": "2024-05-23 20:49:02.000000000",
             "Description": "Private decoy secret arn:aws:secretsmanager:us-east-1:123456789012:secret:Dummy-Secret-ab12cde34f was not accessed by arn:aws:iam::123456789012:user/tester. This secret has been provisioned to monitor and generate security events when accessed and can be an indicator of unintended or unauthorized access to your AWS Account.",
-            "FindingProviderFields": {
-                "Severity": {"Label": "HIGH", "Normalized": 70},
-                "Types": ["Unusual Behaviors"],
-            },
+            "FindingProviderFields": {"Severity": {"Label": "HIGH", "Normalized": 70}, "Types": ["Unusual Behaviors"]},
             "GeneratorId": "secretsmanager.amazonaws.com",
             "Id": "1abc2de3-69ea-4e15-91c6-27eb4a07bd21",
             "ProcessedAt": "2024-05-23T20:49:08.396Z",
@@ -185,10 +176,7 @@ decoy_secret_accessed_tests: list[RuleTest] = [
                             "PrincipalId": "ABC12DEFSG3455VIEJC8U:john.doe",
                             "PrincipalType": "AssumedRole",
                             "SessionContext": {
-                                "Attributes": {
-                                    "CreationDate": "2024-05-23T20:20:57Z",
-                                    "MfaAuthenticated": False,
-                                },
+                                "Attributes": {"CreationDate": "2024-05-23T20:20:57Z", "MfaAuthenticated": False},
                                 "SessionIssuer": {
                                     "AccountId": "123456789012",
                                     "Arn": "arn:aws:iam::123456789012:user/tester",

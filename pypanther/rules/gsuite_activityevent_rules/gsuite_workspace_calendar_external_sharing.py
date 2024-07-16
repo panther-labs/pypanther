@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 
 g_suite_workspace_calendar_external_sharing_setting_tests: list[RuleTest] = [
@@ -147,8 +147,7 @@ class GSuiteWorkspaceCalendarExternalSharingSetting(Rule):
         if not all(
             [
                 event.get("name", "") == "CHANGE_CALENDAR_SETTING",
-                deep_get(event, "parameters", "SETTING_NAME", default="")
-                == "SHARING_OUTSIDE_DOMAIN",
+                deep_get(event, "parameters", "SETTING_NAME", default="") == "SHARING_OUTSIDE_DOMAIN",
             ]
         ):
             return False

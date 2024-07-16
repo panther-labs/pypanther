@@ -1,6 +1,6 @@
 import re
 
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.gcp_base_helpers import gcp_alert_context
 from pypanther.helpers.panther_base_helpers import deep_get
 
@@ -74,10 +74,7 @@ gcp_firewall_rule_created_tests: list[RuleTest] = [
             },
             "receivetimestamp": "2023-05-23 19:19:41.238",
             "resource": {
-                "labels": {
-                    "firewall_rule_id": "6563507997690081088",
-                    "project_id": "test-project-123456",
-                },
+                "labels": {"firewall_rule_id": "6563507997690081088", "project_id": "test-project-123456"},
                 "type": "gce_firewall_rule",
             },
             "severity": "NOTICE",
@@ -114,12 +111,7 @@ gcp_firewall_rule_created_tests: list[RuleTest] = [
             },
             "receivetimestamp": "2023-05-23 19:28:35.479",
             "resource": {
-                "labels": {
-                    "module_id": "",
-                    "project_id": "test-project-123456",
-                    "version_id": "",
-                    "zone": "",
-                },
+                "labels": {"module_id": "", "project_id": "test-project-123456", "version_id": "", "zone": ""},
                 "type": "gae_app",
             },
             "severity": "NOTICE",
@@ -151,10 +143,7 @@ gcp_firewall_rule_created_tests: list[RuleTest] = [
                 },
             },
             "resource": {
-                "labels": {
-                    "firewall_rule_id": "6563507997690081088",
-                    "project_id": "test-project-123456",
-                },
+                "labels": {"firewall_rule_id": "6563507997690081088", "project_id": "test-project-123456"},
                 "type": "gce_firewall_rule",
             },
         },
@@ -179,17 +168,9 @@ class GCPFirewallRuleCreated(Rule):
         return match is not None
 
     def title(self, event):
-        actor = deep_get(
-            event,
-            "protoPayload",
-            "authenticationInfo",
-            "principalEmail",
-            default="<ACTOR_NOT_FOUND>",
-        )
+        actor = deep_get(event, "protoPayload", "authenticationInfo", "principalEmail", default="<ACTOR_NOT_FOUND>")
         resource = deep_get(event, "protoPayload", "resourceName", default="<RESOURCE_NOT_FOUND>")
-        resource_id = deep_get(
-            event, "resource", "labels", "firewall_rule_id", default="<RESOURCE_ID_NOT_FOUND>"
-        )
+        resource_id = deep_get(event, "resource", "labels", "firewall_rule_id", default="<RESOURCE_ID_NOT_FOUND>")
         if resource_id != "<RESOURCE_ID_NOT_FOUND>":
             return f"[GCP]: [{actor}] created firewall rule with resource ID [{resource_id}]"
         return f"[GCP]: [{actor}] created firewall rule for resource [{resource}]"

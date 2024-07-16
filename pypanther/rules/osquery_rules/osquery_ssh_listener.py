@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 
 osquery_ssh_listener_tests: list[RuleTest] = [
@@ -82,9 +82,7 @@ class OsquerySSHListener(Rule):
     default_severity = Severity.MEDIUM
     default_description = "Check if SSH is listening in a non-production environment. This could be an indicator of persistent access within an environment.\n"
     default_runbook = "Terminate the SSH daemon, investigate for signs of compromise.\n"
-    default_reference = (
-        "https://medium.com/uptycs/osquery-what-it-is-how-it-works-and-how-to-use-it-ce4e81e60dfc"
-    )
+    default_reference = "https://medium.com/uptycs/osquery-what-it-is-how-it-works-and-how-to-use-it-ce4e81e60dfc"
     summary_attributes = ["action", "hostIdentifier", "name"]
     tests = osquery_ssh_listener_tests
 

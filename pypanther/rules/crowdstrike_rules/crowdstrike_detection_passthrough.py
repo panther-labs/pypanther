@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import (
     crowdstrike_detection_alert_context,
     get_crowdstrike_field,
@@ -132,9 +132,7 @@ crowdstrike_detectionpassthrough_tests: list[RuleTest] = [
                 "fa6a04a7f18d473fa06771b4961aa3d9",
             ],
             "p_any_sha1_hashes": ["0000000000000000000000000000000000000000"],
-            "p_any_sha256_hashes": [
-                "9e8a9e9f8cab6f07d8e711043bf856893660143aaf4385cb4e7b6faa97d6e61e"
-            ],
+            "p_any_sha256_hashes": ["9e8a9e9f8cab6f07d8e711043bf856893660143aaf4385cb4e7b6faa97d6e61e"],
             "p_any_trace_ids": [
                 "712bcd164963442ea43d52917cecdecc",
                 "fa6a04a7f18d473fa06771b4961aa3d9",
@@ -184,10 +182,7 @@ class CrowdstrikeDetectionpassthrough(Rule):
     tests = crowdstrike_detectionpassthrough_tests
 
     def rule(self, event):
-        return (
-            get_crowdstrike_field(event, "ExternalApiType", default="none")
-            == "Event_DetectionSummaryEvent"
-        )
+        return get_crowdstrike_field(event, "ExternalApiType", default="none") == "Event_DetectionSummaryEvent"
 
     def title(self, event):
         return (
@@ -203,7 +198,4 @@ class CrowdstrikeDetectionpassthrough(Rule):
         return get_crowdstrike_field(event, "SeverityName")
 
     def dedup(self, event):
-        return (
-            f"{get_crowdstrike_field(event, 'EventUUID')} "
-            + f"- {get_crowdstrike_field(event, 'ComputerName')}"
-        )
+        return f"{get_crowdstrike_field(event, 'EventUUID')} " + f"- {get_crowdstrike_field(event, 'ComputerName')}"

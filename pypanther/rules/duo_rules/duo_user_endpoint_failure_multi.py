@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 
 duo_user_endpoint_failure_tests: list[RuleTest] = [
@@ -110,13 +110,9 @@ class DUOUserEndpointFailure(Rule):
     log_types = [LogType.Duo_Authentication]
     tags = ["Duo"]
     default_severity = Severity.MEDIUM
-    default_description = (
-        "A Duo user's authentication was denied due to a suspicious error on the endpoint"
-    )
+    default_description = "A Duo user's authentication was denied due to a suspicious error on the endpoint"
     default_reference = "https://duo.com/docs/adminapi#authentication-logs"
-    default_runbook = (
-        "Follow up with the endpoint owner to see status. Follow up with user to verify attempts."
-    )
+    default_runbook = "Follow up with the endpoint owner to see status. Follow up with user to verify attempts."
     tests = duo_user_endpoint_failure_tests
 
     def rule(self, event):

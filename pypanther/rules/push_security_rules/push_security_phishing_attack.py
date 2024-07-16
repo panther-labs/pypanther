@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 
 push_security_phishing_attack_tests: list[RuleTest] = [
     RuleTest(
@@ -87,4 +87,6 @@ class PushSecurityPhishingAttack(Rule):
         app_type = event.deep_get("new", "appType")
         employee_email = event.deep_get("new", "employee", "email")
         new_mode = event.deep_get("new", "mode")
-        return f"Phishing attack on app {app_type} user {employee_email}.              Attack detected in mode {new_mode}."
+        return (
+            f"Phishing attack on app {app_type} user {employee_email}.              Attack detected in mode {new_mode}."
+        )

@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import get_crowdstrike_field
 
 crowdstrike_real_time_response_session_tests: list[RuleTest] = [
@@ -72,14 +72,8 @@ crowdstrike_real_time_response_session_tests: list[RuleTest] = [
             "p_log_type": "Crowdstrike.FDREvent",
             "p_event_time": "2022-12-08T00:48:58Z",
             "p_any_domain_names": ["US-C02TEST"],
-            "p_any_md5_hashes": [
-                "42db160eec7948658374a28a4088f297",
-                "712bcd164963442ea43d52917cecdecc",
-            ],
-            "p_any_trace_ids": [
-                "42db160eec7948658374a28a4088f297",
-                "712bcd164963442ea43d52917cecdecc",
-            ],
+            "p_any_md5_hashes": ["42db160eec7948658374a28a4088f297", "712bcd164963442ea43d52917cecdecc"],
+            "p_any_trace_ids": ["42db160eec7948658374a28a4088f297", "712bcd164963442ea43d52917cecdecc"],
             "p_any_usernames": ["someone@runpanther.io"],
             "p_any_emails": ["someone@runpanther.io"],
         },
@@ -110,14 +104,8 @@ crowdstrike_real_time_response_session_tests: list[RuleTest] = [
             "p_log_type": "Crowdstrike.FDREvent",
             "p_event_time": "2022-12-08T00:48:58Z",
             "p_any_domain_names": ["US-C02TEST"],
-            "p_any_md5_hashes": [
-                "42db160eec7948658374a28a4088f297",
-                "712bcd164963442ea43d52917cecdecc",
-            ],
-            "p_any_trace_ids": [
-                "42db160eec7948658374a28a4088f297",
-                "712bcd164963442ea43d52917cecdecc",
-            ],
+            "p_any_md5_hashes": ["42db160eec7948658374a28a4088f297", "712bcd164963442ea43d52917cecdecc"],
+            "p_any_trace_ids": ["42db160eec7948658374a28a4088f297", "712bcd164963442ea43d52917cecdecc"],
             "p_any_usernames": ["someone@runpanther.io"],
             "p_any_emails": ["someone@runpanther.io"],
         },
@@ -144,21 +132,13 @@ class CrowdstrikeRealTimeResponseSession(Rule):
 
     def title(self, event):
         user_name = get_crowdstrike_field(event, "UserName", default="<unknown-UserName>")
-        hostname_field = get_crowdstrike_field(
-            event, "HostnameField", default="<unknown-HostNameField>"
-        )
-        return (
-            f"{user_name} started a Crowdstrike Real-Time Response (RTR) shell on {hostname_field}"
-        )
+        hostname_field = get_crowdstrike_field(event, "HostnameField", default="<unknown-HostNameField>")
+        return f"{user_name} started a Crowdstrike Real-Time Response (RTR) shell on {hostname_field}"
 
     def alert_context(self, event):
         return {
-            "Start Time": get_crowdstrike_field(
-                event, "StartTimestamp", default="<unknown-StartTimestamp>"
-            ),
+            "Start Time": get_crowdstrike_field(event, "StartTimestamp", default="<unknown-StartTimestamp>"),
             "SessionId": get_crowdstrike_field(event, "SessionId", default="<unknown-SessionId>"),
             "Actor": get_crowdstrike_field(event, "UserName", default="<unknown-UserName>"),
-            "Target Host": get_crowdstrike_field(
-                event, "HostnameField", default="<unknown-HostnameField>"
-            ),
+            "Target Host": get_crowdstrike_field(event, "HostnameField", default="<unknown-HostnameField>"),
         }

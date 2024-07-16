@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 
 google_workspace_apps_marketplace_new_domain_application_tests: list[RuleTest] = [
     RuleTest(
@@ -102,7 +102,9 @@ google_workspace_apps_marketplace_new_domain_application_tests: list[RuleTest] =
 
 
 class GoogleWorkspaceAppsMarketplaceNewDomainApplication(Rule):
-    default_description = "A Google Workspace User configured a new domain application from the Google Workspace Apps Marketplace."
+    default_description = (
+        "A Google Workspace User configured a new domain application from the Google Workspace Apps Marketplace."
+    )
     display_name = "Google Workspace Apps Marketplace New Domain Application"
     default_runbook = "Confirm this was the intended behavior."
     default_reference = "https://developers.google.com/workspace/marketplace/overview"
@@ -115,8 +117,7 @@ class GoogleWorkspaceAppsMarketplaceNewDomainApplication(Rule):
         # Return True to match the log event and trigger an alert.
         return (
             event.get("name") == "ADD_APPLICATION"
-            and event.get("parameters", {}).get("APPLICATION_ENABLED", "<NO_APPLICATION_FOUND>")
-            == "true"
+            and event.get("parameters", {}).get("APPLICATION_ENABLED", "<NO_APPLICATION_FOUND>") == "true"
         )
 
     def title(self, event):

@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 
 g_suite_rule_tests: list[RuleTest] = [
@@ -43,10 +43,7 @@ g_suite_rule_tests: list[RuleTest] = [
         log={
             "id": {"applicationName": "rules"},
             "actor": {"email": "some.user@somedomain.com"},
-            "parameters": {
-                "severity": "LOW",
-                "triggered_actions": [{"action_type": "DRIVE_UNFLAG_DOCUMENT"}],
-            },
+            "parameters": {"severity": "LOW", "triggered_actions": [{"action_type": "DRIVE_UNFLAG_DOCUMENT"}]},
         },
     ),
     RuleTest(
@@ -87,12 +84,7 @@ class GSuiteRule(Rule):
     def title(self, event):
         rule_severity = deep_get(event, "parameters", "severity")
         if deep_get(event, "parameters", "rule_name"):
-            return (
-                "GSuite "
-                + rule_severity
-                + " Severity Rule Triggered: "
-                + deep_get(event, "parameters", "rule_name")
-            )
+            return "GSuite " + rule_severity + " Severity Rule Triggered: " + deep_get(event, "parameters", "rule_name")
         return "GSuite " + rule_severity + " Severity Rule Triggered"
 
     def severity(self, event):

@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 
 teleport_network_scanning_tests: list[RuleTest] = [
     RuleTest(
@@ -102,7 +102,9 @@ class TeleportNetworkScanning(Rule):
     log_types = [LogType.Gravitational_TeleportAudit]
     tags = ["SSH", "Discovery:Network Service Discovery"]
     default_severity = Severity.MEDIUM
-    default_description = "A user has invoked a network scan that could potentially indicate enumeration of the network."
+    default_description = (
+        "A user has invoked a network scan that could potentially indicate enumeration of the network."
+    )
     reports = {"MITRE ATT&CK": ["TA0007:T1046"]}
     default_reference = "https://goteleport.com/docs/management/admin/"
     default_runbook = "Find related commands within the time window and determine if the command was invoked legitimately. Examine the arguments to determine how the command was used.\n"

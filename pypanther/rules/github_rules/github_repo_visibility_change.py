@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 
 github_repo_visibility_change_tests: list[RuleTest] = [
     RuleTest(
@@ -43,7 +43,5 @@ class GithubRepoVisibilityChange(Rule):
         return event.get("action") == "repo.access"
 
     def title(self, event):
-        repo_access_link = (
-            f"https://github.com/{event.get('repo', '<UNKNOWN_REPO>')}/settings/access"
-        )
+        repo_access_link = f"https://github.com/{event.get('repo', '<UNKNOWN_REPO>')}/settings/access"
         return f"Repository [{event.get('repo', '<UNKNOWN_REPO>')}] visibility changed. View current visibility here: {repo_access_link}"

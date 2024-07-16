@@ -1,6 +1,6 @@
 from ipaddress import ip_address
 
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import aws_rule_context, deep_get
 from pypanther.helpers.panther_default import lookup_aws_account_name
 
@@ -17,12 +17,7 @@ awsiam_user_recon_access_denied_tests: list[RuleTest] = [
                 "accountId": "123456789012",
                 "accessKeyId": "1",
                 "userName": "tester",
-                "sessionContext": {
-                    "attributes": {
-                        "mfaAuthenticated": "true",
-                        "creationDate": "2019-01-01T00:00:00Z",
-                    }
-                },
+                "sessionContext": {"attributes": {"mfaAuthenticated": "true", "creationDate": "2019-01-01T00:00:00Z"}},
                 "invokedBy": "signin.amazonaws.com",
             },
             "eventTime": "2019-01-01T00:00:00Z",
@@ -53,12 +48,7 @@ awsiam_user_recon_access_denied_tests: list[RuleTest] = [
                 "accountId": "123456789012",
                 "accessKeyId": "1",
                 "userName": "tester",
-                "sessionContext": {
-                    "attributes": {
-                        "mfaAuthenticated": "true",
-                        "creationDate": "2019-01-01T00:00:00Z",
-                    }
-                },
+                "sessionContext": {"attributes": {"mfaAuthenticated": "true", "creationDate": "2019-01-01T00:00:00Z"}},
                 "invokedBy": "signin.amazonaws.com",
             },
             "eventTime": "2019-01-01T00:00:00Z",
@@ -89,12 +79,7 @@ awsiam_user_recon_access_denied_tests: list[RuleTest] = [
                 "accountId": "123456789012",
                 "accessKeyId": "1",
                 "userName": "tester",
-                "sessionContext": {
-                    "attributes": {
-                        "mfaAuthenticated": "true",
-                        "creationDate": "2019-01-01T00:00:00Z",
-                    }
-                },
+                "sessionContext": {"attributes": {"mfaAuthenticated": "true", "creationDate": "2019-01-01T00:00:00Z"}},
                 "invokedBy": "signin.amazonaws.com",
             },
             "eventTime": "2019-01-01T00:00:00Z",
@@ -123,12 +108,7 @@ awsiam_user_recon_access_denied_tests: list[RuleTest] = [
                 "accountId": "123456789012",
                 "accessKeyId": "1",
                 "userName": "tester",
-                "sessionContext": {
-                    "attributes": {
-                        "mfaAuthenticated": "true",
-                        "creationDate": "2019-01-01T00:00:00Z",
-                    }
-                },
+                "sessionContext": {"attributes": {"mfaAuthenticated": "true", "creationDate": "2019-01-01T00:00:00Z"}},
                 "invokedBy": "signin.amazonaws.com",
             },
             "eventTime": "2019-01-01T00:00:00Z",
@@ -161,9 +141,7 @@ class AWSIAMUserReconAccessDenied(Rule):
     dedup_period_minutes = 10
     default_description = "An IAM user has a high volume of access denied API calls."
     default_runbook = "Analyze the IP they came from, and other actions taken before/after."
-    default_reference = (
-        "https://docs.aws.amazon.com/IAM/latest/UserGuide/troubleshoot_access-denied.html"
-    )
+    default_reference = "https://docs.aws.amazon.com/IAM/latest/UserGuide/troubleshoot_access-denied.html"
     summary_attributes = [
         "eventName",
         "userAgent",
@@ -200,10 +178,7 @@ class AWSIAMUserReconAccessDenied(Rule):
         # Pattern match this event to the recon actions
         for event_source, event_patterns in self.RECON_ACTIONS.items():
             if event.get("eventSource", "").startswith(event_source) and any(
-                (
-                    event.get("eventName", "").startswith(event_pattern)
-                    for event_pattern in event_patterns
-                )
+                (event.get("eventName", "").startswith(event_pattern) for event_pattern in event_patterns)
             ):
                 return True
         return False

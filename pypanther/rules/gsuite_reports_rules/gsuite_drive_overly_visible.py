@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 from pypanther.helpers.panther_base_helpers import gsuite_details_lookup as details_lookup
 from pypanther.helpers.panther_base_helpers import gsuite_parameter_lookup as param_lookup
@@ -79,7 +79,9 @@ class GSuiteDriveOverlyVisible(Rule):
     reports = {"MITRE ATT&CK": ["TA0009:T1213"]}
     default_severity = Severity.INFO
     default_description = "A Google drive resource that is overly visible has been modified.\n"
-    default_reference = "https://support.google.com/docs/answer/2494822?hl=en&co=GENIE.Platform%3DDesktop&sjid=864417124752637253-EU"
+    default_reference = (
+        "https://support.google.com/docs/answer/2494822?hl=en&co=GENIE.Platform%3DDesktop&sjid=864417124752637253-EU"
+    )
     default_runbook = "Investigate whether the drive document is appropriate to be this visible.\n"
     summary_attributes = ["actor:email"]
     dedup_period_minutes = 360
@@ -91,11 +93,7 @@ class GSuiteDriveOverlyVisible(Rule):
         if deep_get(event, "id", "applicationName") != "drive":
             return False
         details = details_lookup("access", self.RESOURCE_CHANGE_EVENTS, event)
-        return (
-            bool(details)
-            and param_lookup(details.get("parameters", {}), "visibility")
-            in self.PERMISSIVE_VISIBILITY
-        )
+        return bool(details) and param_lookup(details.get("parameters", {}), "visibility") in self.PERMISSIVE_VISIBILITY
 
     def dedup(self, event):
         user = deep_get(event, "actor", "email")

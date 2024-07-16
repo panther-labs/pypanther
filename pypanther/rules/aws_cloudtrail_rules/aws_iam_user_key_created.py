@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import aws_rule_context, deep_get
 from pypanther.helpers.panther_default import aws_cloudtrail_success
 
@@ -36,10 +36,7 @@ awsiam_backdoor_user_keys_tests: list[RuleTest] = [
                 "invokedBy": "cloudformation.amazonaws.com",
                 "principalId": "ABCDEFGH",
                 "sessionContext": {
-                    "attributes": {
-                        "creationDate": "2022-09-27T17:08:35Z",
-                        "mfaAuthenticated": "false",
-                    },
+                    "attributes": {"creationDate": "2022-09-27T17:08:35Z", "mfaAuthenticated": "false"},
                     "sessionIssuer": {},
                     "webIdFederationData": {},
                 },
@@ -81,10 +78,7 @@ awsiam_backdoor_user_keys_tests: list[RuleTest] = [
                 "invokedBy": "cloudformation.amazonaws.com",
                 "principalId": "ABCDEFGH",
                 "sessionContext": {
-                    "attributes": {
-                        "creationDate": "2022-09-27T17:08:35Z",
-                        "mfaAuthenticated": "false",
-                    },
+                    "attributes": {"creationDate": "2022-09-27T17:08:35Z", "mfaAuthenticated": "false"},
                     "sessionIssuer": {},
                     "webIdFederationData": {},
                 },
@@ -126,10 +120,7 @@ awsiam_backdoor_user_keys_tests: list[RuleTest] = [
                 "invokedBy": "cloudformation.amazonaws.com",
                 "principalId": "ABCDEFGH",
                 "sessionContext": {
-                    "attributes": {
-                        "creationDate": "2022-09-27T17:08:35Z",
-                        "mfaAuthenticated": "false",
-                    },
+                    "attributes": {"creationDate": "2022-09-27T17:08:35Z", "mfaAuthenticated": "false"},
                     "sessionIssuer": {},
                     "webIdFederationData": {},
                 },
@@ -171,10 +162,7 @@ awsiam_backdoor_user_keys_tests: list[RuleTest] = [
                 "invokedBy": "cloudformation.amazonaws.com",
                 "principalId": "ABCDEFGH",
                 "sessionContext": {
-                    "attributes": {
-                        "creationDate": "2022-09-27T17:08:35Z",
-                        "mfaAuthenticated": "false",
-                    },
+                    "attributes": {"creationDate": "2022-09-27T17:08:35Z", "mfaAuthenticated": "false"},
                     "sessionIssuer": {},
                     "webIdFederationData": {},
                 },
@@ -214,10 +202,7 @@ awsiam_backdoor_user_keys_tests: list[RuleTest] = [
                 "arn": "arn:aws:iam::123456789012:user/some_iam_user",
                 "principalId": "AIDA55555555555555555",
                 "sessionContext": {
-                    "attributes": {
-                        "creationDate": "2023-01-03T01:52:07Z",
-                        "mfaAuthenticated": "true",
-                    },
+                    "attributes": {"creationDate": "2023-01-03T01:52:07Z", "mfaAuthenticated": "true"},
                     "sessionIssuer": {},
                     "webIdFederationData": {},
                 },
@@ -233,9 +218,7 @@ class AWSIAMBackdoorUserKeys(Rule):
     default_description = "Detects AWS API key creation for a user by another user. Backdoored users can be used to obtain persistence in the AWS environment."
     display_name = "AWS User API Key Created"
     reports = {"MITRE ATT&CK": ["TA0003:T1098", "TA0005:T1108", "TA0005:T1550", "TA0008:T1550"]}
-    default_reference = (
-        "https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_access-keys.html"
-    )
+    default_reference = "https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_access-keys.html"
     default_severity = Severity.MEDIUM
     log_types = [LogType.AWS_CloudTrail]
     id = "AWS.IAM.Backdoor.User.Keys-prototype"

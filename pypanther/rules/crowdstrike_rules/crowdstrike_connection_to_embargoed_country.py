@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import (
     crowdstrike_network_detection_alert_context,
     deep_get,
@@ -168,9 +168,7 @@ class ConnectiontoEmbargoedCountry(Rule):
     EMBARGO_COUNTRY_CODES = {"CU", "IR", "KP", "SY"}
 
     def get_enrichment_obj(self, event):
-        return deep_get(
-            event, "p_enrichment", "ipinfo_location", "p_any_ip_addresses", default=None
-        )
+        return deep_get(event, "p_enrichment", "ipinfo_location", "p_any_ip_addresses", default=None)
 
     def rule(self, event):
         enrichment_obj = self.get_enrichment_obj(event)
@@ -185,11 +183,7 @@ class ConnectiontoEmbargoedCountry(Rule):
     def title(self, event):
         enrichment_obj = self.get_enrichment_obj(event)
         country_codes = set(
-            (
-                i.get("country")
-                for i in enrichment_obj
-                if i.get("country") in self.EMBARGO_COUNTRY_CODES
-            )
+            (i.get("country") for i in enrichment_obj if i.get("country") in self.EMBARGO_COUNTRY_CODES)
         )
         return f"Connection made to embargoed country: [{country_codes}]."
 

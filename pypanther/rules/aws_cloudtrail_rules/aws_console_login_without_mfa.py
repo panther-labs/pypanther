@@ -390,9 +390,7 @@ class AWSConsoleLoginWithoutMFA(Rule):
     reports = {"CIS": ["3.2"], "MITRE ATT&CK": ["TA0001:T1078"]}
     default_severity = Severity.HIGH
     default_description = "A console login was made without multi-factor authentication."
-    default_runbook = (
-        "https://docs.runpanther.io/alert-runbooks/built-in-rules/aws-console-login-without-mfa"
-    )
+    default_runbook = "https://docs.runpanther.io/alert-runbooks/built-in-rules/aws-console-login-without-mfa"
     default_reference = "https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_mfa.html"
     summary_attributes = ["userAgent", "sourceIpAddress", "recipientAccountId", "p_any_aws_arns"]
     tests = aws_console_login_without_mfa_tests
@@ -456,10 +454,7 @@ class AWSConsoleLoginWithoutMFA(Rule):
             # It is not recommended to remove this 'double negative"
             if (
                 additional_event_data.get("MFAUsed") != "Yes"
-                and deep_get(
-                    event, "userIdentity", "sessionContext", "attributes", "mfaAuthenticated"
-                )
-                != "true"
+                and deep_get(event, "userIdentity", "sessionContext", "attributes", "mfaAuthenticated") != "true"
             ):
                 return True
         return False
@@ -471,9 +466,7 @@ class AWSConsoleLoginWithoutMFA(Rule):
             user = deep_get(event, "userIdentity", "userName") or deep_get(
                 event, "userIdentity", "sessionContext", "sessionIssuer", "userName"
             )
-            type_ = deep_get(
-                event, "userIdentity", "sessionContext", "sessionIssuer", "type", default="user"
-            ).lower()
+            type_ = deep_get(event, "userIdentity", "sessionContext", "sessionIssuer", "type", default="user").lower()
             user_string = f"{type_} {user}"
         account_id = event.get("recipientAccountId")
         account_name = lookup_aws_account_name(account_id)

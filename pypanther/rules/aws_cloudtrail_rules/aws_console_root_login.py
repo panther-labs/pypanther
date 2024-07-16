@@ -125,9 +125,7 @@ class AWSConsoleRootLogin(Rule):
 
     def dedup(self, event):
         # Each Root login should generate a unique alert
-        return "-".join(
-            [event.get("recipientAccountId"), event.get("eventName"), event.get("eventTime")]
-        )
+        return "-".join([event.get("recipientAccountId"), event.get("eventName"), event.get("eventTime")])
 
     def alert_context(self, event):
         return {
