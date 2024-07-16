@@ -251,8 +251,20 @@ class Rule(metaclass=abc.ABCMeta):
         return {key: try_asdict(getattr(cls, key)) for key in RULE_ALL_ATTRS if hasattr(cls, key)}
 
     @classmethod
-    def validate(cls):
+    def validate_config(cls) -> None:
+        """To be defined by subclasses when an out-of-the-box rules requires configuration before use."""
+
+    @classmethod
+    def validate(cls, _validate_config: bool = True) -> None:
+        """
+        Validates this PantherRule.
+
+        Parameters:
+            _validate_config: true if any configuration should be validated, false otherwise. Only meant to be used by Panther.
+        """
         RuleAdapter.validate_python(cls.asdict())
+        if _validate_config:
+            cls.validate_config()
 
         # instantiation confirms that abstract methods are implemented
         cls()
@@ -289,17 +301,19 @@ class Rule(metaclass=abc.ABCMeta):
     def run_tests(
         cls,
         get_data_model: Callable[[str], Optional[DataModel]],
+        _validate_config: bool = True,
     ) -> list[RuleTestResult]:
         """
         Runs all RuleTests in this Rules' Test attribute over this Rule.
 
         Parameters:
             get_data_model: a helper function that will return a DataModel given a log type.
+            _validate_config: true if tests are being run should validate any configuration, false otherwise. Only meant to be used by Panther.
 
         Returns:
             a list of RuleTestResult objects.
         """
-        cls.validate()
+        cls.validate(_validate_config)
         rule = cls()
 
         return [rule.run_test(test, get_data_model) for test in rule.tests]
