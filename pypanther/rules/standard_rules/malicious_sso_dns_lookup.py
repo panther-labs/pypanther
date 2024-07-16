@@ -1,8 +1,7 @@
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import filter_crowdstrike_fdr_event_type
-from pypanther.log_types import PantherLogType
 
 standard_malicious_ssodns_lookup_tests: List[PantherRuleTest] = [
     PantherRuleTest(

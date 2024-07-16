@@ -1,8 +1,7 @@
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import slack_alert_context
-from pypanther.log_types import PantherLogType
 
 slack_audit_logs_ekm_slackbot_unenrolled_tests: List[PantherRuleTest] = [
     PantherRuleTest(

@@ -1,11 +1,10 @@
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_duo_helpers import (
     deserialize_administrator_log_event_description,
     duo_alert_context,
 )
-from pypanther.log_types import PantherLogType
 
 duo_admin_ssosaml_requirement_disabled_tests: List[PantherRuleTest] = [
     PantherRuleTest(

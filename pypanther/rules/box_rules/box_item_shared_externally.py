@@ -1,13 +1,12 @@
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import deep_get
 from pypanther.helpers.panther_box_helpers import (
     is_box_sdk_enabled,
     lookup_box_file,
     lookup_box_folder,
 )
-from pypanther.log_types import PantherLogType
 
 box_item_shared_externally_tests: List[PantherRuleTest] = [
     PantherRuleTest(

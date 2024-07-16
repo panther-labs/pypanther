@@ -33,8 +33,7 @@ def perror(*args, **kwargs):
 def do(filepath: Path, helpers: Set[str]) -> Optional[str]:
     imports = [
         "from typing import List",
-        f"from pypanther.base import {PantherRule.__name__}, {PantherRuleTest.__name__}, {PantherSeverity.__name__}",
-        "from pypanther.log_types import PantherLogType",
+        f"from pypanther import {PantherRule.__name__}, {PantherRuleTest.__name__}, {PantherSeverity.__name__}, PantherLogType",
     ]
 
     p = Path(filepath)
@@ -203,7 +202,6 @@ RULE_FUNCTIONS = {
     "description",
     "alert_context",
 }
-
 
 CAMEL_TO_SNAKE_RE = re.compile(r"(?<=[a-z0-9])(?=[A-Z])|(?<=[A-Z])(?=[A-Z][a-z])")
 

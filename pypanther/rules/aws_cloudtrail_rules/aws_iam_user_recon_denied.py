@@ -1,10 +1,9 @@
 from ipaddress import ip_address
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import aws_rule_context, deep_get
 from pypanther.helpers.panther_default import lookup_aws_account_name
-from pypanther.log_types import PantherLogType
 
 awsiam_user_recon_access_denied_tests: List[PantherRuleTest] = [
     PantherRuleTest(

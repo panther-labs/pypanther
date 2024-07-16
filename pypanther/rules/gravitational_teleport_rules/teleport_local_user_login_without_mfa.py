@@ -1,7 +1,6 @@
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
-from pypanther.log_types import PantherLogType
+from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
 
 teleport_local_user_login_without_mfa_tests: List[PantherRuleTest] = [
     PantherRuleTest(

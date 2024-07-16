@@ -1,8 +1,7 @@
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import deep_get, deep_walk, okta_alert_context
-from pypanther.log_types import PantherLogType
 
 okta_new_behavior_accessing_admin_console_tests: List[PantherRuleTest] = [
     PantherRuleTest(

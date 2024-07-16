@@ -1,9 +1,8 @@
 from typing import List
 
 import pypanther.helpers.panther_event_type_helpers as event_type
-from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import deep_get
-from pypanther.log_types import PantherLogType
 
 panther_sensitive_role_tests: List[PantherRuleTest] = [
     PantherRuleTest(

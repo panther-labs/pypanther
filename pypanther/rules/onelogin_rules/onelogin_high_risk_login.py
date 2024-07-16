@@ -3,8 +3,7 @@ from typing import List
 
 from panther_detection_helpers.caching import get_counter, increment_counter, reset_counter
 
-from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
-from pypanther.log_types import PantherLogType
+from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
 
 one_login_high_risk_login_tests: List[PantherRuleTest] = [
     PantherRuleTest(

@@ -1,12 +1,11 @@
 from datetime import datetime, timedelta
 from typing import Dict, List, Tuple
 
-from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import (
     golang_nanotime_to_python_datetime,
     panther_nanotime_to_python_datetime,
 )
-from pypanther.log_types import PantherLogType
 
 teleport_long_lived_certs_tests: List[PantherRuleTest] = [
     PantherRuleTest(

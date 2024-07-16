@@ -1,9 +1,8 @@
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.gcp_base_helpers import gcp_alert_context
 from pypanther.helpers.panther_base_helpers import deep_get, deep_walk
-from pypanther.log_types import PantherLogType
 
 gc_piamservice_account_keyscreate_tests: List[PantherRuleTest] = [
     PantherRuleTest(

@@ -1,8 +1,7 @@
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_duo_helpers import deserialize_administrator_log_event_description
-from pypanther.log_types import PantherLogType
 
 duo_admin_action_marked_fraudulent_tests: List[PantherRuleTest] = [
     PantherRuleTest(

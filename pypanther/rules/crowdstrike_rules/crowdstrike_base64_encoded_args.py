@@ -1,8 +1,7 @@
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import crowdstrike_process_alert_context, is_base64
-from pypanther.log_types import PantherLogType
 
 crowdstrike_base64_encoded_args_tests: List[PantherRuleTest] = [
     PantherRuleTest(

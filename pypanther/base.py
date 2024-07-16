@@ -1,14 +1,11 @@
 import abc
 import contextlib
 import copy
-import inspect
 import json
 import logging
 import os
 import sys
-from dataclasses import dataclass, field
-from enum import Enum
-from functools import total_ordering
+from dataclasses import dataclass
 from typing import Any, Callable, Dict, List, Literal, Mapping, Optional, Tuple, Type, Union
 from unittest.mock import MagicMock, patch
 
@@ -22,6 +19,9 @@ from panther_core.util import get_bool_env_var
 from pydantic import BaseModel, NonNegativeInt, PositiveInt, TypeAdapter
 
 from pypanther.log_types import PantherLogType
+from pypanther.severity import SEVERITY_DEFAULT, SEVERITY_TYPES, PantherSeverity
+from pypanther.unit_tests import PantherRuleTest, PantherRuleTestResult
+from pypanther.utils import truncate, try_asdict
 from pypanther.validate import NonEmptyUniqueList, UniqueList
 
 logger = logging.getLogger(__name__)
@@ -53,13 +53,7 @@ MAX_ALERT_CONTEXT_SIZE = 200 * 1024  # 200kb
 
 ALERT_CONTEXT_ERROR_KEY = "_error"
 
-TRUNCATED_STRING_SUFFIX = "... (truncated)"
-
 DEFAULT_DETECTION_DEDUP_PERIOD_MINS = 60
-
-# Used to check dynamic severity output
-SEVERITY_TYPES = ["INFO", "LOW", "MEDIUM", "HIGH", "CRITICAL"]
-SEVERITY_DEFAULT = "DEFAULT"
 
 RULE_METHOD = "rule"
 
@@ -84,7 +78,6 @@ AUXILIARY_METHODS = (
     TITLE_METHOD,
 )
 
-
 PANTHER_RULE_ALL_METHODS = [
     RULE_METHOD,
     SEVERITY_METHOD,
@@ -96,7 +89,6 @@ PANTHER_RULE_ALL_METHODS = [
     DESCRIPTION_METHOD,
     ALERT_CONTEXT_METHOD,
 ]
-
 
 PANTHER_RULE_ALL_ATTRS = [
     "CreateAlert",
@@ -117,125 +109,6 @@ PANTHER_RULE_ALL_ATTRS = [
     "Tests",
     "Threshold",
 ]
-
-
-PANTHER_RULE_TEST_ALL_ATTRS = [
-    "Name",
-    "ExpectedResult",
-    "Log",
-    "Mocks",
-]
-
-PANTHER_RULE_MOCK_ALL_ATTRS = [
-    "ObjectName",
-    "ReturnValue",
-    "SideEffect",
-]
-
-
-def try_asdict(item: Any) -> Any:
-    if hasattr(item, "asdict"):
-        return item.asdict()
-    if isinstance(item, list):
-        return [try_asdict(v) for v in item]
-    if isinstance(item, Enum):
-        return item.value
-    return item
-
-
-@total_ordering
-class PantherSeverity(str, Enum):
-    Info = "Info"
-    Low = "Low"
-    Medium = "Medium"
-    High = "High"
-    Critical = "Critical"
-
-    def __lt__(self, other):
-        return PantherSeverity.as_int(self.value) < PantherSeverity.as_int(other.value)
-
-    @staticmethod
-    def as_int(value: "PantherSeverity") -> int:
-        if value.upper() == PantherSeverity.Info.upper():
-            return 0
-        if value.upper() == PantherSeverity.Low.upper():
-            return 1
-        if value.upper() == PantherSeverity.Medium.upper():
-            return 2
-        if value.upper() == PantherSeverity.High.upper():
-            return 3
-        if value.upper() == PantherSeverity.Critical.upper():
-            return 4
-        raise ValueError(f"Unknown severity: {value}")
-
-    def __str__(self) -> str:
-        """Returns a string representation of the class' value."""
-        return self.value
-
-
-@dataclass
-class PantherRuleMock:
-    ObjectName: str
-    ReturnValue: Any = None
-    SideEffect: Any = None
-
-    def asdict(self):
-        """Returns a dictionary representation of the class."""
-        return {key: try_asdict(getattr(self, key)) for key in PANTHER_RULE_MOCK_ALL_ATTRS}
-
-
-class FileLocationMeta(type):
-    def __call__(cls, *args, **kwargs):
-        frame = inspect.currentframe().f_back
-        file_path = frame.f_globals.get("__file__", None)
-        line_number = frame.f_lineno
-        module = frame.f_globals.get("__name__", None)
-        instance = super().__call__(
-            *args, **kwargs, _file_path=file_path, _line_no=line_number, _module=module
-        )
-        return instance
-
-
-@dataclass
-class PantherRuleTest(metaclass=FileLocationMeta):
-    Name: str
-    ExpectedResult: bool
-    Log: Dict | str
-    Mocks: List[PantherRuleMock] = field(default_factory=list)
-    _file_path: str = ""
-    _line_no: int = 0
-    _module: str = ""
-
-    def log_data(self):
-        if isinstance(self.Log, str):
-            return json.loads(self.Log)
-        return self.Log
-
-    def location(self) -> str:
-        return f"{self._file_path}:{self._line_no}"
-
-    def asdict(self):
-        """Returns a dictionary representation of the class."""
-        return {key: try_asdict(getattr(self, key)) for key in PANTHER_RULE_TEST_ALL_ATTRS}
-
-
-@dataclass
-class PantherRuleTestResult:
-    """
-    PantherRuleTestResult is the output returned from running a PantherRuleTest
-    on a PantherRule.
-
-    Attributes:
-        Passed: If true, the PantherRuleTest passed. False, otherwise.
-        DetectionResult: The result of the run() function on the given PantherEvent.
-        Test: The test that was given and created this result.
-        Rule: The PantherRule the PantherRuleTest was run on.
-    """
-
-    Passed: bool
-    DetectionResult: DetectionResult
-    Test: PantherRuleTest
-    Rule: "PantherRule"
 
 
 class PantherRuleModel(BaseModel):
@@ -260,7 +133,6 @@ class PantherRuleModel(BaseModel):
 
 PantherRuleAdapter = TypeAdapter(PantherRuleModel)
 
-
 DEFAULT_CREATE_ALERT = True
 DEFAULT_DEDUP_PERIOD_MINUTES = 60
 DEFAULT_DESCRIPTION = ""
@@ -275,15 +147,6 @@ DEFAULT_SUMMARY_ATTRIBUTES: List[str] = []
 DEFAULT_TAGS: List[str] = []
 DEFAULT_TESTS: List[PantherRuleTest] = []
 DEFAULT_THRESHOLD = 1
-
-
-def truncate(s: str, max_size: int):
-    if len(s) > max_size:
-        # If generated field exceeds max size, truncate it
-        num_characters_to_keep = max_size - len(TRUNCATED_STRING_SUFFIX)
-        return s[:num_characters_to_keep] + TRUNCATED_STRING_SUFFIX
-    return s
-
 
 SeverityType = Union[PantherSeverity | Literal["DEFAULT"] | str]
 
@@ -466,7 +329,7 @@ class PantherRule(metaclass=abc.ABCMeta):
                     Passed=False,
                     DetectionResult=detection_result,
                     Test=test,
-                    Rule=self,
+                    RuleID=self.RuleID,
                 )
 
             if isinstance(detection_result.destinations_exception, UnknownDestinationError):
@@ -489,7 +352,7 @@ class PantherRule(metaclass=abc.ABCMeta):
                     Passed=False,
                     DetectionResult=detection_result,
                     Test=test,
-                    Rule=self,
+                    RuleID=self.RuleID,
                 )
 
         finally:
@@ -500,7 +363,7 @@ class PantherRule(metaclass=abc.ABCMeta):
             Passed=True,
             DetectionResult=detection_result,
             Test=test,
-            Rule=self,
+            RuleID=self.RuleID,
         )
 
     def run(

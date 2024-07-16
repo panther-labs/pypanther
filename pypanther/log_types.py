@@ -250,6 +250,7 @@ class PantherLogType(str, Enum):
     Tor_ExitNode = "Tor.ExitNode"
     TrailDiscover_CloudTrail = "TrailDiscover.CloudTrail"
     Windows_EventLogs = "Windows.EventLogs"
+    Wiz_Issues = "Wiz.Issues"
     Workday_Activity = "Workday.Activity"
     Workday_SignOnAttempt = "Workday.SignOnAttempt"
     Zeek_CaptureLoss = "Zeek.CaptureLoss"

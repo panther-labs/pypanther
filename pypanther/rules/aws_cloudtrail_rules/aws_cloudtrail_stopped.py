@@ -1,9 +1,8 @@
 from typing import List
 
-from pypanther.base import PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
 from pypanther.helpers.panther_base_helpers import aws_rule_context, deep_get
 from pypanther.helpers.panther_default import aws_cloudtrail_success, lookup_aws_account_name
-from pypanther.log_types import PantherLogType
 
 aws_cloud_trail_stopped_tests: List[PantherRuleTest] = [
     PantherRuleTest(
