@@ -1,13 +1,11 @@
-from typing import List
-
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 
-awsec2_monitoring_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
-        Name="CopyImage",
-        ExpectedResult=True,
-        Log={
+awsec2_monitoring_tests: list[RuleTest] = [
+    RuleTest(
+        name="CopyImage",
+        expected_result=True,
+        log={
             "awsRegion": "us-east-1",
             "eventCategory": "Management",
             "eventID": "0ea3f05a-066c-43f9-8869-393ba67e7936",
@@ -77,10 +75,10 @@ awsec2_monitoring_tests: List[PantherRuleTest] = [
             },
         },
     ),
-    PantherRuleTest(
-        Name="RunInstance",
-        ExpectedResult=False,
-        Log={
+    RuleTest(
+        name="RunInstance",
+        expected_result=False,
+        log={
             "awsRegion": "us-east-1",
             "eventCategory": "Management",
             "eventID": "015c585b-cbc2-4f9e-9c52-a2f22f3c09f4",
@@ -282,10 +280,10 @@ awsec2_monitoring_tests: List[PantherRuleTest] = [
             },
         },
     ),
-    PantherRuleTest(
-        Name="RunInstance - Dry Run ",
-        ExpectedResult=False,
-        Log={
+    RuleTest(
+        name="RunInstance - Dry Run ",
+        expected_result=False,
+        log={
             "awsRegion": "us-west-2",
             "errorCode": "Client.DryRunOperation",
             "errorMessage": "Request would have succeeded, but DryRun flag is set.",
@@ -350,10 +348,10 @@ awsec2_monitoring_tests: List[PantherRuleTest] = [
             },
         },
     ),
-    PantherRuleTest(
-        Name="CopyImage - UserIdentity Null",
-        ExpectedResult=True,
-        Log={
+    RuleTest(
+        name="CopyImage - UserIdentity Null",
+        expected_result=True,
+        log={
             "awsRegion": "us-east-1",
             "eventCategory": "Management",
             "eventID": "0ea3f05a-066c-43f9-8869-393ba67e7936",
@@ -413,17 +411,17 @@ awsec2_monitoring_tests: List[PantherRuleTest] = [
 ]
 
 
-class AWSEC2Monitoring(PantherRule):
-    Description = "Checks CloudTrail for occurrences of EC2 Image Actions."
-    DisplayName = "AWS EC2 Image Monitoring"
-    Reports = {"MITRE ATT&CK": ["TA0002:T1204"]}
-    Runbook = "Verify that the action was not taken by a malicious actor."
-    Reference = "https://docs.aws.amazon.com/service-authorization/latest/reference/list_amazonec2imagebuilder.html#amazonec2imagebuilder-actions-as-permissions"
-    Severity = PantherSeverity.Info
-    Tags = ["ec2"]
-    LogTypes = [PantherLogType.AWS_CloudTrail]
-    RuleID = "AWS.EC2.Monitoring-prototype"
-    Tests = awsec2_monitoring_tests
+class AWSEC2Monitoring(Rule):
+    default_description = "Checks CloudTrail for occurrences of EC2 Image Actions."
+    display_name = "AWS EC2 Image Monitoring"
+    reports = {"MITRE ATT&CK": ["TA0002:T1204"]}
+    default_runbook = "Verify that the action was not taken by a malicious actor."
+    default_reference = "https://docs.aws.amazon.com/service-authorization/latest/reference/list_amazonec2imagebuilder.html#amazonec2imagebuilder-actions-as-permissions"
+    default_severity = Severity.INFO
+    tags = ["ec2"]
+    log_types = [LogType.AWS_CloudTrail]
+    id = "AWS.EC2.Monitoring-prototype"
+    tests = awsec2_monitoring_tests
     # AWS CloudTrail API eventNames for EC2 Image Actions
     EC2_IMAGE_ACTIONS = [
         "CopyFpgaImage",

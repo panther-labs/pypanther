@@ -1,14 +1,9 @@
-from typing import List
-
-from pypanther.base import PantherDataModel, PantherDataModelMapping
-from pypanther.log_types import PantherLogType
+from pypanther.base import DataModel, DataModelMapping, LogType
 
 
-class StandardSlackIntegrationLogs(PantherDataModel):
-    DataModelID: str = "Standard.Slack.IntegrationLogs"
-    DisplayName: str = "Slack Integration Logs"
-    Enabled: bool = True
-    LogTypes: List[str] = [PantherLogType.Slack_IntegrationLogs]
-    Mappings: List[PantherDataModelMapping] = [
-        PantherDataModelMapping(Name="actor_user", Path="user_name")
-    ]
+class StandardSlackIntegrationLogs(DataModel):
+    id: str = "Standard.Slack.IntegrationLogs"
+    display_name: str = "Slack Integration Logs"
+    enabled: bool = True
+    log_types: list[str] = [LogType.Slack_IntegrationLogs]
+    mappings: list[DataModelMapping] = [DataModelMapping(name="actor_user", path="user_name")]

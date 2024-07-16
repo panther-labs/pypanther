@@ -1,9 +1,6 @@
-from typing import List
-
 import pypanther.helpers.panther_event_type_helpers as event_type
-from pypanther.base import PantherDataModel, PantherDataModelMapping
+from pypanther.base import DataModel, DataModelMapping, LogType
 from pypanther.helpers.panther_base_helpers import ZENDESK_CHANGE_DESCRIPTION, zendesk_get_roles
-from pypanther.log_types import PantherLogType
 
 ZENDESK_TWO_FACTOR_SOURCES = {
     "Two-Factor authentication for all admins and agents",
@@ -64,15 +61,15 @@ def get_user(event):
     return "<UNKNOWN_USER>"
 
 
-class StandardZendeskAuditLog(PantherDataModel):
-    DataModelID: str = "Standard.Zendesk.AuditLog"
-    DisplayName: str = "Zendesk Audit"
-    Enabled: bool = True
-    LogTypes: List[str] = [PantherLogType.Zendesk_Audit]
-    Mappings: List[PantherDataModelMapping] = [
-        PantherDataModelMapping(Name="actor_user", Path="actor_name"),
-        PantherDataModelMapping(Name="assigned_admin_role", Method=get_assigned_admin_role),
-        PantherDataModelMapping(Name="event_type", Method=get_event_type),
-        PantherDataModelMapping(Name="source_ip", Path="ip_address"),
-        PantherDataModelMapping(Name="user", Method=get_user),
+class StandardZendeskAuditLog(DataModel):
+    id: str = "Standard.Zendesk.AuditLog"
+    display_name: str = "Zendesk Audit"
+    enabled: bool = True
+    log_types: list[str] = [LogType.Zendesk_Audit]
+    mappings: list[DataModelMapping] = [
+        DataModelMapping(name="actor_user", path="actor_name"),
+        DataModelMapping(name="assigned_admin_role", method=get_assigned_admin_role),
+        DataModelMapping(name="event_type", method=get_event_type),
+        DataModelMapping(name="source_ip", path="ip_address"),
+        DataModelMapping(name="user", method=get_user),
     ]

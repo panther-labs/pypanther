@@ -1,12 +1,10 @@
-from typing import List
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
-
-push_security_mfa_method_changed_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
-        Name="All MFA methods removed",
-        ExpectedResult=True,
-        Log={
+push_security_mfa_method_changed_tests: list[RuleTest] = [
+    RuleTest(
+        name="All MFA methods removed",
+        expected_result=True,
+        log={
             "id": "d1e5794f-666d-4cba-abae-c6d889ca1903",
             "new": {
                 "appId": "67ef5c13-b5e6-4945-af7b-c11ac98f630f",
@@ -50,10 +48,10 @@ push_security_mfa_method_changed_tests: List[PantherRuleTest] = [
             "version": "1",
         },
     ),
-    PantherRuleTest(
-        Name="First seen",
-        ExpectedResult=False,
-        Log={
+    RuleTest(
+        name="First seen",
+        expected_result=False,
+        log={
             "id": "d1e5794f-666d-4cba-abae-c6d889ca1903",
             "new": {
                 "appId": "67ef5c13-b5e6-4945-af7b-c11ac98f630f",
@@ -80,10 +78,10 @@ push_security_mfa_method_changed_tests: List[PantherRuleTest] = [
             "version": "1",
         },
     ),
-    PantherRuleTest(
-        Name="MFA method added",
-        ExpectedResult=True,
-        Log={
+    RuleTest(
+        name="MFA method added",
+        expected_result=True,
+        log={
             "id": "d1e5794f-666d-4cba-abae-c6d889ca1903",
             "new": {
                 "appId": "67ef5c13-b5e6-4945-af7b-c11ac98f630f",
@@ -127,10 +125,10 @@ push_security_mfa_method_changed_tests: List[PantherRuleTest] = [
             "version": "1",
         },
     ),
-    PantherRuleTest(
-        Name="No MFA method change",
-        ExpectedResult=False,
-        Log={
+    RuleTest(
+        name="No MFA method change",
+        expected_result=False,
+        log={
             "id": "d1e5794f-666d-4cba-abae-c6d889ca1903",
             "new": {
                 "appId": "67ef5c13-b5e6-4945-af7b-c11ac98f630f",
@@ -177,13 +175,13 @@ push_security_mfa_method_changed_tests: List[PantherRuleTest] = [
 ]
 
 
-class PushSecurityMFAMethodChanged(PantherRule):
-    RuleID = "Push.Security.MFA.Method.Changed-prototype"
-    DisplayName = "Push Security SaaS App MFA Method Changed"
-    LogTypes = [PantherLogType.PushSecurity_Entities]
-    Severity = PantherSeverity.Info
-    Description = "MFA method on SaaS app changed"
-    Tests = push_security_mfa_method_changed_tests
+class PushSecurityMFAMethodChanged(Rule):
+    id = "Push.Security.MFA.Method.Changed-prototype"
+    display_name = "Push Security SaaS App MFA Method Changed"
+    log_types = [LogType.PushSecurity_Entities]
+    default_severity = Severity.INFO
+    default_description = "MFA method on SaaS app changed"
+    tests = push_security_mfa_method_changed_tests
 
     def rule(self, event):
         if event.get("object") != "ACCOUNT":

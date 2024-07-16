@@ -1,13 +1,11 @@
-from typing import List
-
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 
-atlassian_user_logged_in_as_user_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
-        Name="Admin impersonated user successfully",
-        ExpectedResult=True,
-        Log={
+atlassian_user_logged_in_as_user_tests: list[RuleTest] = [
+    RuleTest(
+        name="Admin impersonated user successfully",
+        expected_result=True,
+        log={
             "attributes": {
                 "action": "user_logged_in_as_user",
                 "actor": {
@@ -42,10 +40,10 @@ atlassian_user_logged_in_as_user_tests: List[PantherRuleTest] = [
             "message": {"content": "Logged in as example.user@example.io", "format": "simple"},
         },
     ),
-    PantherRuleTest(
-        Name="user_logged_in_as_user not in log",
-        ExpectedResult=False,
-        Log={
+    RuleTest(
+        name="user_logged_in_as_user not in log",
+        expected_result=False,
+        log={
             "attributes": {
                 "action": "user_login",
                 "actor": {
@@ -83,16 +81,18 @@ atlassian_user_logged_in_as_user_tests: List[PantherRuleTest] = [
 ]
 
 
-class AtlassianUserLoggedInAsUser(PantherRule):
-    DisplayName = "Atlassian admin impersonated another user"
-    RuleID = "Atlassian.User.LoggedInAsUser-prototype"
-    Severity = PantherSeverity.High
-    LogTypes = [PantherLogType.Atlassian_Audit]
-    Tags = ["Atlassian", "User impersonation"]
-    Description = "Reports when an Atlassian user logs in (impersonates) another user.\n"
-    Runbook = "Validate that the Atlassian admin did log in (impersonate) as another user.\n"
-    Reference = "https://support.atlassian.com/user-management/docs/log-in-as-another-user/"
-    Tests = atlassian_user_logged_in_as_user_tests
+class AtlassianUserLoggedInAsUser(Rule):
+    display_name = "Atlassian admin impersonated another user"
+    id = "Atlassian.User.LoggedInAsUser-prototype"
+    default_severity = Severity.HIGH
+    log_types = [LogType.Atlassian_Audit]
+    tags = ["Atlassian", "User impersonation"]
+    default_description = "Reports when an Atlassian user logs in (impersonates) another user.\n"
+    default_runbook = (
+        "Validate that the Atlassian admin did log in (impersonate) as another user.\n"
+    )
+    default_reference = "https://support.atlassian.com/user-management/docs/log-in-as-another-user/"
+    tests = atlassian_user_logged_in_as_user_tests
 
     def rule(self, event):
         return (

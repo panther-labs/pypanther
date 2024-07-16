@@ -1,15 +1,14 @@
 import re
-from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.gcp_base_helpers import gcp_alert_context
 from pypanther.helpers.panther_base_helpers import deep_get
 
-gcp_firewall_rule_modified_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
-        Name="compute.firewalls.update-should-alert",
-        ExpectedResult=True,
-        Log={
+gcp_firewall_rule_modified_tests: list[RuleTest] = [
+    RuleTest(
+        name="compute.firewalls.update-should-alert",
+        expected_result=True,
+        log={
             "insertid": "-xxxxxxxxxxxx",
             "logname": "projects/test-project-123456/cloudaudit.googleapis.com%2Factivity",
             "operation": {
@@ -85,10 +84,10 @@ gcp_firewall_rule_modified_tests: List[PantherRuleTest] = [
             "timestamp": "2023-05-23 19:19:40.353",
         },
     ),
-    PantherRuleTest(
-        Name="appengine.firewall.update-should-alert",
-        ExpectedResult=True,
-        Log={
+    RuleTest(
+        name="appengine.firewall.update-should-alert",
+        expected_result=True,
+        log={
             "insertid": "-xxxxxxxxxxxx",
             "logname": "projects/test-project-123456/logs/cloudaudit.googleapis.com%2Factivity",
             "protopayload": {
@@ -127,20 +126,20 @@ gcp_firewall_rule_modified_tests: List[PantherRuleTest] = [
             "timestamp": "2023-05-23 19:28:44.562",
         },
     ),
-    PantherRuleTest(
-        Name="compute.non-update.firewall.method-should-not-alert",
-        ExpectedResult=False,
-        Log={"methodName": "v1.compute.firewalls.insert"},
+    RuleTest(
+        name="compute.non-update.firewall.method-should-not-alert",
+        expected_result=False,
+        log={"methodName": "v1.compute.firewalls.insert"},
     ),
-    PantherRuleTest(
-        Name="appengine.compute.non-update.firewall.method-should-not-alert",
-        ExpectedResult=False,
-        Log={"methodName": "appengine.compute.v1.Firewall.PatchIngressRule"},
+    RuleTest(
+        name="appengine.compute.non-update.firewall.method-should-not-alert",
+        expected_result=False,
+        log={"methodName": "appengine.compute.v1.Firewall.PatchIngressRule"},
     ),
-    PantherRuleTest(
-        Name="randomservice.firewall-update.method-should-alert",
-        ExpectedResult=True,
-        Log={
+    RuleTest(
+        name="randomservice.firewall-update.method-should-alert",
+        expected_result=True,
+        log={
             "protoPayload": {
                 "authenticationInfo": {"principalEmail": "user@domain.com"},
                 "methodName": "randomservice.compute.v1.Firewall.UpdateIngressRule",
@@ -163,16 +162,16 @@ gcp_firewall_rule_modified_tests: List[PantherRuleTest] = [
 ]
 
 
-class GCPFirewallRuleModified(PantherRule):
-    DisplayName = "GCP Firewall Rule Modified"
-    RuleID = "GCP.Firewall.Rule.Modified-prototype"
-    Severity = PantherSeverity.Low
-    LogTypes = [PantherLogType.GCP_AuditLog]
-    Tags = ["GCP", "Firewall", "Networking", "Infrastructure"]
-    Description = "This rule detects modifications to GCP firewall rules.\n"
-    Runbook = "Ensure that the rule modification was expected. Firewall rule changes can cause service interruptions or outages.\n"
-    Reference = "https://cloud.google.com/firewall/docs/about-firewalls"
-    Tests = gcp_firewall_rule_modified_tests
+class GCPFirewallRuleModified(Rule):
+    display_name = "GCP Firewall Rule Modified"
+    id = "GCP.Firewall.Rule.Modified-prototype"
+    default_severity = Severity.LOW
+    log_types = [LogType.GCP_AuditLog]
+    tags = ["GCP", "Firewall", "Networking", "Infrastructure"]
+    default_description = "This rule detects modifications to GCP firewall rules.\n"
+    default_runbook = "Ensure that the rule modification was expected. Firewall rule changes can cause service interruptions or outages.\n"
+    default_reference = "https://cloud.google.com/firewall/docs/about-firewalls"
+    tests = gcp_firewall_rule_modified_tests
 
     def rule(self, event):
         method_pattern = (

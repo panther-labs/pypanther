@@ -1,13 +1,11 @@
-from typing import List
-
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get, slack_alert_context
 
-slack_audit_logs_legal_hold_policy_modified_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
-        Name="Legal Hold - Entities Deleted",
-        ExpectedResult=True,
-        Log={
+slack_audit_logs_legal_hold_policy_modified_tests: list[RuleTest] = [
+    RuleTest(
+        name="Legal Hold - Entities Deleted",
+        expected_result=True,
+        log={
             "action": "legal_hold_policy_entities_deleted",
             "actor": {
                 "type": "user",
@@ -30,10 +28,10 @@ slack_audit_logs_legal_hold_policy_modified_tests: List[PantherRuleTest] = [
             },
         },
     ),
-    PantherRuleTest(
-        Name="Legal Hold - Exclusions Added",
-        ExpectedResult=True,
-        Log={
+    RuleTest(
+        name="Legal Hold - Exclusions Added",
+        expected_result=True,
+        log={
             "action": "legal_hold_policy_exclusion_added",
             "actor": {
                 "type": "user",
@@ -56,10 +54,10 @@ slack_audit_logs_legal_hold_policy_modified_tests: List[PantherRuleTest] = [
             },
         },
     ),
-    PantherRuleTest(
-        Name="Legal Hold - Policy Released",
-        ExpectedResult=True,
-        Log={
+    RuleTest(
+        name="Legal Hold - Policy Released",
+        expected_result=True,
+        log={
             "action": "legal_hold_policy_released",
             "actor": {
                 "type": "user",
@@ -82,10 +80,10 @@ slack_audit_logs_legal_hold_policy_modified_tests: List[PantherRuleTest] = [
             },
         },
     ),
-    PantherRuleTest(
-        Name="Legal Hold - Policy Updated",
-        ExpectedResult=True,
-        Log={
+    RuleTest(
+        name="Legal Hold - Policy Updated",
+        expected_result=True,
+        log={
             "action": "legal_hold_policy_updated",
             "actor": {
                 "type": "user",
@@ -108,10 +106,10 @@ slack_audit_logs_legal_hold_policy_modified_tests: List[PantherRuleTest] = [
             },
         },
     ),
-    PantherRuleTest(
-        Name="User Logout",
-        ExpectedResult=False,
-        Log={
+    RuleTest(
+        name="User Logout",
+        expected_result=False,
+        log={
             "action": "user_logout",
             "actor": {
                 "type": "user",
@@ -148,19 +146,19 @@ slack_audit_logs_legal_hold_policy_modified_tests: List[PantherRuleTest] = [
 ]
 
 
-class SlackAuditLogsLegalHoldPolicyModified(PantherRule):
-    RuleID = "Slack.AuditLogs.LegalHoldPolicyModified-prototype"
-    DisplayName = "Slack Legal Hold Policy Modified"
-    LogTypes = [PantherLogType.Slack_AuditLogs]
-    Tags = ["Slack", "Defense Evasion", "Impair Defenses", "Disable or Modify Tools"]
-    Reports = {"MITRE ATT&CK": ["TA0005:T1562.001"]}
-    Severity = PantherSeverity.High
-    Description = "Detects changes to configured legal hold policies"
-    Reference = (
+class SlackAuditLogsLegalHoldPolicyModified(Rule):
+    id = "Slack.AuditLogs.LegalHoldPolicyModified-prototype"
+    display_name = "Slack Legal Hold Policy Modified"
+    log_types = [LogType.Slack_AuditLogs]
+    tags = ["Slack", "Defense Evasion", "Impair Defenses", "Disable or Modify Tools"]
+    reports = {"MITRE ATT&CK": ["TA0005:T1562.001"]}
+    default_severity = Severity.HIGH
+    default_description = "Detects changes to configured legal hold policies"
+    default_reference = (
         "https://slack.com/intl/en-gb/help/articles/4401830811795-Create-and-manage-legal-holds"
     )
-    SummaryAttributes = ["p_any_ip_addresses", "p_any_emails"]
-    Tests = slack_audit_logs_legal_hold_policy_modified_tests
+    summary_attributes = ["p_any_ip_addresses", "p_any_emails"]
+    tests = slack_audit_logs_legal_hold_policy_modified_tests
     LEGAL_HOLD_POLICY_ACTIONS = {
         "legal_hold_policy_entities_deleted": "Slack Legal Hold Policy Entities Deleted",
         "legal_hold_policy_exclusion_added": "Slack Exclusions Added to Legal Hold Policy",

@@ -1,19 +1,18 @@
 import json
 from datetime import timedelta
-from typing import List
 
 from panther_detection_helpers.caching import put_string_set
 
 import pypanther.helpers.panther_event_type_helpers as event_type
-from pypanther import PantherLogType, PantherRule, PantherRuleMock, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_oss_helpers import resolve_timestamp_string
 
-standard_new_aws_account_created_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
-        Name="AWS Account created",
-        ExpectedResult=True,
-        Mocks=[PantherRuleMock(ObjectName="put_string_set", ReturnValue="")],
-        Log={
+standard_new_aws_account_created_tests: list[RuleTest] = [
+    RuleTest(
+        name="AWS Account created",
+        expected_result=True,
+        mocks=[RuleMock(object_name="put_string_set", return_value="")],
+        log={
             "awsRegion": "us-east-1",
             "eventID": "axxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
             "eventName": "CreateAccountResult",
@@ -30,11 +29,11 @@ standard_new_aws_account_created_tests: List[PantherRuleTest] = [
             "serviceEventDetails": '{\n  "createAccountStatus": {\n    "accountId": "1111111111111111",\n    "accountName": "****",\n    "completedTimestamp": "May 20, 2021 3:53:47 PM",\n    "id": "car-aaaaaaaaaaaaaaaaaaaaaaaaaaa",\n    "requestedTimestamp": "May 20, 2021 3:53:44 PM",\n    "state": "SUCCEEDED"\n  }\n}',
         },
     ),
-    PantherRuleTest(
-        Name="Non-Account-Creation Event",
-        ExpectedResult=False,
-        Mocks=[PantherRuleMock(ObjectName="put_string_set", ReturnValue="")],
-        Log={
+    RuleTest(
+        name="Non-Account-Creation Event",
+        expected_result=False,
+        mocks=[RuleMock(object_name="put_string_set", return_value="")],
+        log={
             "awsRegion": "us-east-1",
             "eventName": "CreateAccount",
             "eventTime": "2020-11-05 21:21:46Z",
@@ -53,18 +52,18 @@ standard_new_aws_account_created_tests: List[PantherRuleTest] = [
 ]
 
 
-class StandardNewAWSAccountCreated(PantherRule):
-    RuleID = "Standard.NewAWSAccountCreated-prototype"
-    DisplayName = "New AWS Account Created"
-    LogTypes = [PantherLogType.AWS_CloudTrail]
-    Tags = ["DataModel", "Indicator Collection", "Persistence:Create Account"]
-    Severity = PantherSeverity.Info
-    Reports = {"MITRE ATT&CK": ["TA0003:T1136"]}
-    Description = "A new AWS account was created"
-    Runbook = "A new AWS account was created, ensure it was created through standard practice and is for a valid purpose."
-    Reference = "https://docs.aws.amazon.com/organizations/latest/userguide/orgs_security_incident-response.html#:~:text=AWS%20Organizations%20information%20in%20CloudTrail"
-    SummaryAttributes = ["p_any_aws_account_ids"]
-    Tests = standard_new_aws_account_created_tests
+class StandardNewAWSAccountCreated(Rule):
+    id = "Standard.NewAWSAccountCreated-prototype"
+    display_name = "New AWS Account Created"
+    log_types = [LogType.AWS_CloudTrail]
+    tags = ["DataModel", "Indicator Collection", "Persistence:Create Account"]
+    default_severity = Severity.INFO
+    reports = {"MITRE ATT&CK": ["TA0003:T1136"]}
+    default_description = "A new AWS account was created"
+    default_runbook = "A new AWS account was created, ensure it was created through standard practice and is for a valid purpose."
+    default_reference = "https://docs.aws.amazon.com/organizations/latest/userguide/orgs_security_incident-response.html#:~:text=AWS%20Organizations%20information%20in%20CloudTrail"
+    summary_attributes = ["p_any_aws_account_ids"]
+    tests = standard_new_aws_account_created_tests
     # Days an account is considered new
     TTL = timedelta(days=3)
 

@@ -1,13 +1,11 @@
-from typing import List
-
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get, okta_alert_context
 
-okta_support_reset_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
-        Name="Support Reset Credential",
-        ExpectedResult=True,
-        Log={
+okta_support_reset_tests: list[RuleTest] = [
+    RuleTest(
+        name="Support Reset Credential",
+        expected_result=True,
+        log={
             "uuid": "12343",
             "published": "2021-11-29 18:56:40.014",
             "eventType": "user.account.reset_password",
@@ -40,10 +38,10 @@ okta_support_reset_tests: List[PantherRuleTest] = [
             "p_log_type": "Okta.SystemLog",
         },
     ),
-    PantherRuleTest(
-        Name="Reset by Company Admin",
-        ExpectedResult=False,
-        Log={
+    RuleTest(
+        name="Reset by Company Admin",
+        expected_result=False,
+        log={
             "uuid": "2aaaaaaaaaabbbbbbbbbbbbddddddddddd",
             "eventType": "user.account.reset_password",
             "version": "0",
@@ -88,24 +86,24 @@ okta_support_reset_tests: List[PantherRuleTest] = [
 ]
 
 
-class OktaSupportReset(PantherRule):
-    RuleID = "Okta.Support.Reset-prototype"
-    DisplayName = "Okta Support Reset Credential"
-    LogTypes = [PantherLogType.Okta_SystemLog]
-    Tags = [
+class OktaSupportReset(Rule):
+    id = "Okta.Support.Reset-prototype"
+    display_name = "Okta Support Reset Credential"
+    log_types = [LogType.Okta_SystemLog]
+    tags = [
         "Identity & Access Management",
         "DataModel",
         "Okta",
         "Initial Access:Trusted Relationship",
     ]
-    Reports = {"MITRE ATT&CK": ["TA0001:T1199"]}
-    Severity = PantherSeverity.High
-    Description = "A Password or MFA factor was reset by Okta Support"
-    Reference = "https://help.okta.com/en/prod/Content/Topics/Directory/get-support.htm#:~:text=Visit%20the%20Okta%20Help%20Center,1%2D800%2D219%2D0964"
-    Runbook = "Contact Admin to ensure this was sanctioned activity"
-    DedupPeriodMinutes = 15
-    SummaryAttributes = ["eventType", "severity", "p_any_ip_addresses"]
-    Tests = okta_support_reset_tests
+    reports = {"MITRE ATT&CK": ["TA0001:T1199"]}
+    default_severity = Severity.HIGH
+    default_description = "A Password or MFA factor was reset by Okta Support"
+    default_reference = "https://help.okta.com/en/prod/Content/Topics/Directory/get-support.htm#:~:text=Visit%20the%20Okta%20Help%20Center,1%2D800%2D219%2D0964"
+    default_runbook = "Contact Admin to ensure this was sanctioned activity"
+    dedup_period_minutes = 15
+    summary_attributes = ["eventType", "severity", "p_any_ip_addresses"]
+    tests = okta_support_reset_tests
     OKTA_SUPPORT_RESET_EVENTS = [
         "user.account.reset_password",
         "user.mfa.factor.update",

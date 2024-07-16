@@ -1,21 +1,20 @@
 import json
-from typing import List
 from unittest.mock import MagicMock
 
-from pypanther import PantherLogType, PantherRule, PantherRuleMock, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 from pypanther.helpers.panther_config import config
 
-dropbox_external_share_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
-        Name="Domain in Allowlist",
-        ExpectedResult=False,
-        Mocks=[
-            PantherRuleMock(
-                ObjectName="DROPBOX_ALLOWED_SHARE_DOMAINS", ReturnValue='[\n    "example.com"\n]'
+dropbox_external_share_tests: list[RuleTest] = [
+    RuleTest(
+        name="Domain in Allowlist",
+        expected_result=False,
+        mocks=[
+            RuleMock(
+                object_name="DROPBOX_ALLOWED_SHARE_DOMAINS", return_value='[\n    "example.com"\n]'
             )
         ],
-        Log={
+        log={
             "actor": {
                 "_tag": "user",
                 "user": {
@@ -96,10 +95,10 @@ dropbox_external_share_tests: List[PantherRuleTest] = [
             "timestamp": "2023-04-18 22:31:03",
         },
     ),
-    PantherRuleTest(
-        Name="external share",
-        ExpectedResult=True,
-        Log={
+    RuleTest(
+        name="external share",
+        expected_result=True,
+        log={
             "actor": {
                 "_tag": "user",
                 "user": {
@@ -183,14 +182,14 @@ dropbox_external_share_tests: List[PantherRuleTest] = [
 ]
 
 
-class DropboxExternalShare(PantherRule):
-    Description = "Dropbox item shared externally"
-    DisplayName = "Dropbox External Share"
-    Reference = "https://help.dropbox.com/share/share-outside-dropbox"
-    Severity = PantherSeverity.Medium
-    LogTypes = [PantherLogType.Dropbox_TeamEvent]
-    RuleID = "Dropbox.External.Share-prototype"
-    Tests = dropbox_external_share_tests
+class DropboxExternalShare(Rule):
+    default_description = "Dropbox item shared externally"
+    display_name = "Dropbox External Share"
+    default_reference = "https://help.dropbox.com/share/share-outside-dropbox"
+    default_severity = Severity.MEDIUM
+    log_types = [LogType.Dropbox_TeamEvent]
+    id = "Dropbox.External.Share-prototype"
+    tests = dropbox_external_share_tests
     DROPBOX_ALLOWED_SHARE_DOMAINS = config.DROPBOX_ALLOWED_SHARE_DOMAINS
 
     def rule(self, event):

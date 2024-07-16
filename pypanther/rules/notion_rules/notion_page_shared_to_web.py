@@ -1,18 +1,18 @@
-from typing import List
-
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_notion_helpers import notion_alert_context
 
 
-class NotionPageSharedToWeb(PantherRule):
-    RuleID = "Notion.PageSharedToWeb-prototype"
-    DisplayName = "Notion Page Published to Web"
-    LogTypes = [PantherLogType.Notion_AuditLogs]
-    Tags = ["Notion", "Data Security", "Information Disclosure"]
-    Severity = PantherSeverity.Low
-    Description = "A Notion User published a page to the web."
-    Runbook = "Potential information exposure - review the shared page and rectify if needed."
-    Reference = "https://www.notion.so/help/public-pages-and-web-publishing"
+class NotionPageSharedToWeb(Rule):
+    id = "Notion.PageSharedToWeb-prototype"
+    display_name = "Notion Page Published to Web"
+    log_types = [LogType.Notion_AuditLogs]
+    tags = ["Notion", "Data Security", "Information Disclosure"]
+    default_severity = Severity.LOW
+    default_description = "A Notion User published a page to the web."
+    default_runbook = (
+        "Potential information exposure - review the shared page and rectify if needed."
+    )
+    default_reference = "https://www.notion.so/help/public-pages-and-web-publishing"
     # These event types correspond to users adding or editing the default role on a public page
     event_types = (
         "page.permissions.shared_to_public_role_added",

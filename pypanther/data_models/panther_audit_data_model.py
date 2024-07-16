@@ -1,9 +1,6 @@
-from typing import List
-
 import pypanther.helpers.panther_event_type_helpers as event_type
-from pypanther.base import PantherDataModel, PantherDataModelMapping
+from pypanther.base import DataModel, DataModelMapping, LogType
 from pypanther.helpers.panther_base_helpers import deep_get
-from pypanther.log_types import PantherLogType
 
 audit_log_type_map = {
     "CREATE_USER": event_type.USER_ACCOUNT_CREATED,
@@ -32,15 +29,15 @@ def get_actor_user(event):
     return actor_user
 
 
-class StandardPantherAudit(PantherDataModel):
-    DataModelID: str = "Standard.Panther.Audit"
-    DisplayName: str = "Panther Audit Logs"
-    Enabled: bool = True
-    LogTypes: List[str] = [PantherLogType.Panther_Audit]
-    Mappings: List[PantherDataModelMapping] = [
-        PantherDataModelMapping(Name="source_ip", Path="sourceIP"),
-        PantherDataModelMapping(Name="user_agent", Path="userAgent"),
-        PantherDataModelMapping(Name="actor_user", Method=get_actor_user),
-        PantherDataModelMapping(Name="user", Path="$.actionParams.input.email"),
-        PantherDataModelMapping(Name="event_type", Method=get_event_type),
+class StandardPantherAudit(DataModel):
+    id: str = "Standard.Panther.Audit"
+    display_name: str = "Panther Audit Logs"
+    enabled: bool = True
+    log_types: list[str] = [LogType.Panther_Audit]
+    mappings: list[DataModelMapping] = [
+        DataModelMapping(name="source_ip", path="sourceIP"),
+        DataModelMapping(name="user_agent", path="userAgent"),
+        DataModelMapping(name="actor_user", method=get_actor_user),
+        DataModelMapping(name="user", path="$.actionParams.input.email"),
+        DataModelMapping(name="event_type", method=get_event_type),
     ]

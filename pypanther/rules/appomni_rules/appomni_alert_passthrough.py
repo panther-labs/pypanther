@@ -1,12 +1,10 @@
-from typing import List
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
-
-app_omni_alert_passthrough_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
-        Name="Alert Type Severity 2",
-        ExpectedResult=True,
-        Log={
+app_omni_alert_passthrough_tests: list[RuleTest] = [
+    RuleTest(
+        name="Alert Type Severity 2",
+        expected_result=True,
+        log={
             "appomni": {
                 "alert": {"channel": "prod"},
                 "event": {
@@ -38,10 +36,10 @@ app_omni_alert_passthrough_tests: List[PantherRuleTest] = [
             "version": "2.0.0",
         },
     ),
-    PantherRuleTest(
-        Name="Event Type",
-        ExpectedResult=False,
-        Log={
+    RuleTest(
+        name="Event Type",
+        expected_result=False,
+        log={
             "appomni": {
                 "event": {
                     "collected_time": "2024-02-28T19:53:34.266Z",
@@ -69,10 +67,10 @@ app_omni_alert_passthrough_tests: List[PantherRuleTest] = [
             "version": "2.0.0",
         },
     ),
-    PantherRuleTest(
-        Name="External App Install - Severity 3",
-        ExpectedResult=True,
-        Log={
+    RuleTest(
+        name="External App Install - Severity 3",
+        expected_result=True,
+        log={
             "@timestamp": "2024-02-26T18:02:09.044Z",
             "appomni": {
                 "alert": {"channel": "prod"},
@@ -116,10 +114,10 @@ app_omni_alert_passthrough_tests: List[PantherRuleTest] = [
             "version": "2.0.0",
         },
     ),
-    PantherRuleTest(
-        Name="Multiple Services",
-        ExpectedResult=True,
-        Log={
+    RuleTest(
+        name="Multiple Services",
+        expected_result=True,
+        log={
             "appomni": {
                 "alert": {"channel": "prod"},
                 "event": {
@@ -154,12 +152,12 @@ app_omni_alert_passthrough_tests: List[PantherRuleTest] = [
 ]
 
 
-class AppOmniAlertPassthrough(PantherRule):
-    RuleID = "AppOmni.Alert.Passthrough-prototype"
-    DisplayName = "AppOmni Alert Passthrough"
-    LogTypes = [PantherLogType.AppOmni_Alerts]
-    Severity = PantherSeverity.Medium
-    Reports = {
+class AppOmniAlertPassthrough(Rule):
+    id = "AppOmni.Alert.Passthrough-prototype"
+    display_name = "AppOmni Alert Passthrough"
+    log_types = [LogType.AppOmni_Alerts]
+    default_severity = Severity.MEDIUM
+    reports = {
         "MITRE ATT&CK": [
             "TA0001:T1566",
             "TA0001:T1528",
@@ -202,7 +200,7 @@ class AppOmniAlertPassthrough(PantherRule):
             "TA0010:T1567",
         ]
     }
-    Tests = app_omni_alert_passthrough_tests
+    tests = app_omni_alert_passthrough_tests
     SEV_DICT = {0: "Critical", 1: "High", 2: "Medium", 3: "Low", 4: "Info"}
 
     def rule(self, event):

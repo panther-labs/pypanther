@@ -1,12 +1,10 @@
-from typing import List
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
-
-carbon_black_audit_admin_grant_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
-        Name="Super Admin granted",
-        ExpectedResult=True,
-        Log={
+carbon_black_audit_admin_grant_tests: list[RuleTest] = [
+    RuleTest(
+        name="Super Admin granted",
+        expected_result=True,
+        log={
             "clientIp": "12.34.56.78",
             "description": "Created grant: psc:cnn:A1234567:BC1234567890 with role Super Admin",
             "eventId": "66443924833011eeac3cb393f3d07f9f",
@@ -18,10 +16,10 @@ carbon_black_audit_admin_grant_tests: List[PantherRuleTest] = [
             "verbose": False,
         },
     ),
-    PantherRuleTest(
-        Name="Admin granted",
-        ExpectedResult=True,
-        Log={
+    RuleTest(
+        name="Admin granted",
+        expected_result=True,
+        log={
             "clientIp": "12.34.56.78",
             "description": "Created grant: psc:cnn:A1234567:BC1234567890 with role Administrator",
             "eventId": "66443924833011eeac3cb393f3d07f9f",
@@ -33,10 +31,10 @@ carbon_black_audit_admin_grant_tests: List[PantherRuleTest] = [
             "verbose": False,
         },
     ),
-    PantherRuleTest(
-        Name="Other role granted",
-        ExpectedResult=False,
-        Log={
+    RuleTest(
+        name="Other role granted",
+        expected_result=False,
+        log={
             "clientIp": "12.34.56.78",
             "description": "Created grant: psc:cnn:A1234567:BC1234567890 with role Read Only",
             "eventId": "66443924833011eeac3cb393f3d07f9f",
@@ -51,16 +49,16 @@ carbon_black_audit_admin_grant_tests: List[PantherRuleTest] = [
 ]
 
 
-class CarbonBlackAuditAdminGrant(PantherRule):
-    RuleID = "CarbonBlack.Audit.Admin.Grant-prototype"
-    LogTypes = [PantherLogType.CarbonBlack_Audit]
-    Description = "Detects when a user is granted Admin or Super Admin permissions."
-    DisplayName = "Carbon Black Admin Role Granted"
-    Severity = PantherSeverity.High
-    Tags = ["Privilege Escalation", "Account Manipulation"]
-    Reports = {"MITRE ATT&CK": ["TA0004:T1098"]}
-    Reference = "https://docs.vmware.com/en/VMware-Carbon-Black-Cloud/services/carbon-black-cloud-user-guide/GUID-CF5ACD2C-A534-46C8-AE06-E1884DB37B58.html"
-    Tests = carbon_black_audit_admin_grant_tests
+class CarbonBlackAuditAdminGrant(Rule):
+    id = "CarbonBlack.Audit.Admin.Grant-prototype"
+    log_types = [LogType.CarbonBlack_Audit]
+    default_description = "Detects when a user is granted Admin or Super Admin permissions."
+    display_name = "Carbon Black Admin Role Granted"
+    default_severity = Severity.HIGH
+    tags = ["Privilege Escalation", "Account Manipulation"]
+    reports = {"MITRE ATT&CK": ["TA0004:T1098"]}
+    default_reference = "https://docs.vmware.com/en/VMware-Carbon-Black-Cloud/services/carbon-black-cloud-user-guide/GUID-CF5ACD2C-A534-46C8-AE06-E1884DB37B58.html"
+    tests = carbon_black_audit_admin_grant_tests
     PREFIXES = ("Updated grant: ", "Created grant: ")
 
     def rule(self, event):

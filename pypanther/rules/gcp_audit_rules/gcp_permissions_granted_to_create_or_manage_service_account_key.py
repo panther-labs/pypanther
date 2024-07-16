@@ -1,13 +1,11 @@
-from typing import List
-
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get, deep_walk
 
-gcp_permissions_grantedto_createor_manage_service_account_key_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
-        Name="other event",
-        ExpectedResult=False,
-        Log={
+gcp_permissions_grantedto_createor_manage_service_account_key_tests: list[RuleTest] = [
+    RuleTest(
+        name="other event",
+        expected_result=False,
+        log={
             "insertid": "abcdefghijklmn",
             "logname": "projects/gcp-project1/logs/cloudaudit.googleapis.com%2Factivity",
             "operation": {
@@ -59,10 +57,10 @@ gcp_permissions_grantedto_createor_manage_service_account_key_tests: List[Panthe
             },
         },
     ),
-    PantherRuleTest(
-        Name="service account match",
-        ExpectedResult=True,
-        Log={
+    RuleTest(
+        name="service account match",
+        expected_result=True,
+        log={
             "insertId": "hhpfjvdgakc",
             "logName": "projects/gcp-project1/logs/cloudaudit.googleapis.com%2Factivity",
             "p_any_emails": ["user@company.io"],
@@ -175,14 +173,14 @@ gcp_permissions_grantedto_createor_manage_service_account_key_tests: List[Panthe
 ]
 
 
-class GCPPermissionsGrantedtoCreateorManageServiceAccountKey(PantherRule):
-    Description = "Permissions granted to impersonate a service account. This includes predefined service account IAM roles granted at the parent project, folder or organization-level."
-    DisplayName = "GCP Permissions Granted to Create or Manage Service Account Key"
-    Reference = "https://cloud.google.com/iam/docs/keys-create-delete"
-    Severity = PantherSeverity.Low
-    LogTypes = [PantherLogType.GCP_AuditLog]
-    RuleID = "GCP.Permissions.Granted.to.Create.or.Manage.Service.Account.Key-prototype"
-    Tests = gcp_permissions_grantedto_createor_manage_service_account_key_tests
+class GCPPermissionsGrantedtoCreateorManageServiceAccountKey(Rule):
+    default_description = "Permissions granted to impersonate a service account. This includes predefined service account IAM roles granted at the parent project, folder or organization-level."
+    display_name = "GCP Permissions Granted to Create or Manage Service Account Key"
+    default_reference = "https://cloud.google.com/iam/docs/keys-create-delete"
+    default_severity = Severity.LOW
+    log_types = [LogType.GCP_AuditLog]
+    id = "GCP.Permissions.Granted.to.Create.or.Manage.Service.Account.Key-prototype"
+    tests = gcp_permissions_grantedto_createor_manage_service_account_key_tests
     SERVICE_ACCOUNT_MANAGE_ROLES = [
         "roles/iam.serviceAccountTokenCreator",
         "roles/iam.serviceAccountUser",

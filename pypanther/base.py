@@ -6,21 +6,31 @@ import logging
 import os
 import sys
 from dataclasses import dataclass
-from typing import Any, Callable, Dict, List, Literal, Mapping, Optional, Tuple, Type, Union
+from typing import (
+    Any,
+    Callable,
+    Dict,
+    List,
+    Literal,
+    Mapping,
+    Optional,
+    Tuple,
+    Type,
+    Union,
+)
 from unittest.mock import MagicMock, patch
 
 from jsonpath_ng import Fields
 from jsonpath_ng.ext import parse
-from panther_core.data_model import DataModel
 from panther_core.detection import DetectionResult
 from panther_core.enriched_event import PantherEvent
 from panther_core.exceptions import FunctionReturnTypeError, UnknownDestinationError
 from panther_core.util import get_bool_env_var
 from pydantic import BaseModel, NonNegativeInt, PositiveInt, TypeAdapter
 
-from pypanther.log_types import PantherLogType
-from pypanther.severity import SEVERITY_DEFAULT, SEVERITY_TYPES, PantherSeverity
-from pypanther.unit_tests import PantherRuleTest, PantherRuleTestResult
+from pypanther.log_types import LogType
+from pypanther.severity import SEVERITY_DEFAULT, SEVERITY_TYPES, Severity
+from pypanther.unit_tests import RuleTest, RuleTestResult
 from pypanther.utils import truncate, try_asdict
 from pypanther.validate import NonEmptyUniqueList, UniqueList
 
@@ -78,60 +88,86 @@ AUXILIARY_METHODS = (
     TITLE_METHOD,
 )
 
-PANTHER_RULE_ALL_METHODS = [
+RULE_ALL_METHODS = [
     RULE_METHOD,
-    SEVERITY_METHOD,
-    TITLE_METHOD,
-    DEDUP_METHOD,
-    DESTINATIONS_METHOD,
-    RUNBOOK_METHOD,
-    REFERENCE_METHOD,
-    DESCRIPTION_METHOD,
-    ALERT_CONTEXT_METHOD,
+    *AUXILIARY_METHODS,
 ]
 
-PANTHER_RULE_ALL_ATTRS = [
-    "CreateAlert",
-    "DedupPeriodMinutes",
-    "Description",
-    "DisplayName",
-    "Enabled",
-    "LogTypes",
-    "OutputIds",
-    "Reference",
-    "Reports",
-    "RuleID",
-    "Runbook",
-    "ScheduledQueries",
-    "Severity",
-    "SummaryAttributes",
-    "Tags",
-    "Tests",
-    "Threshold",
+RULE_ALL_ATTRS = [
+    "create_alert",
+    "dedup_period_minutes",
+    "display_name",
+    "enabled",
+    "log_types",
+    "id",
+    "scheduled_queries",
+    "summary_attributes",
+    "tests",
+    "threshold",
+    "tags",
+    "reports",
+    "default_severity",
+    "default_description",
+    "default_destinations",
+    "default_runbook",
+    "default_reference",
 ]
 
 
-class PantherRuleModel(BaseModel):
-    CreateAlert: bool
-    DedupPeriodMinutes: NonNegativeInt
-    Description: str
-    DisplayName: str
-    Enabled: bool
-    LogTypes: NonEmptyUniqueList[str]
-    OutputIds: UniqueList[str]
-    Reference: str
-    Reports: Dict[str, NonEmptyUniqueList[str]]
-    RuleID: str
-    Runbook: str
-    ScheduledQueries: UniqueList[str]
-    Severity: PantherSeverity
-    SummaryAttributes: UniqueList[str]
-    Tags: UniqueList[str]
-    Tests: List[PantherRuleTest]
-    Threshold: PositiveInt
+@dataclass
+class DataModelMapping:
+    name: str
+    path: Optional[str] = None
+    method: Optional[Callable] = None
 
 
-PantherRuleAdapter = TypeAdapter(PantherRuleModel)
+class DataModel:
+    id: str
+    display_name: str
+    enabled: bool
+    log_types: List[str]
+    mappings: List[DataModelMapping]
+
+    def __init__(self) -> None:
+        self.paths: Dict[str, Fields] = {}
+        self.methods: Dict[str, Callable] = {}
+
+        for mapping in self.mappings:
+            if not mapping.name:
+                raise AssertionError(
+                    f"DataModel [{self.id}] is missing required field: [Name]"
+                )
+            if mapping.path:
+                self.paths[mapping.name] = parse(mapping.path)
+            elif mapping.method:
+                self.methods[mapping.name] = mapping.method
+            else:
+                raise AssertionError(
+                    f"DataModel [{self.id}] must define one of: [Path, Method]"
+                )
+
+
+class RuleModel(BaseModel):
+    create_alert: bool
+    dedup_period_minutes: NonNegativeInt
+    display_name: str
+    enabled: bool
+    log_types: NonEmptyUniqueList[str]
+    id: str
+    scheduled_queries: UniqueList[str]
+    summary_attributes: UniqueList[str]
+    tests: List[RuleTest]
+    threshold: PositiveInt
+    tags: UniqueList[str]
+    reports: Dict[str, NonEmptyUniqueList[str]]
+    default_destinations: UniqueList[str]
+    default_description: str
+    default_runbook: str
+    default_reference: str
+    default_severity: Severity
+
+
+RuleAdapter = TypeAdapter(RuleModel)
 
 DEFAULT_CREATE_ALERT = True
 DEFAULT_DEDUP_PERIOD_MINUTES = 60
@@ -145,32 +181,33 @@ DEFAULT_RUNBOOK = ""
 DEFAULT_SCHEDULED_QUERIES: List[str] = []
 DEFAULT_SUMMARY_ATTRIBUTES: List[str] = []
 DEFAULT_TAGS: List[str] = []
-DEFAULT_TESTS: List[PantherRuleTest] = []
+DEFAULT_TESTS: List[RuleTest] = []
 DEFAULT_THRESHOLD = 1
 
-SeverityType = Union[PantherSeverity | Literal["DEFAULT"] | str]
+SeverityType = Union[Severity | Literal["DEFAULT"] | str]
 
 
-class PantherRule(metaclass=abc.ABCMeta):
+class Rule(metaclass=abc.ABCMeta):
     """A Panther rule class. This class should be subclassed to create a new rule."""
 
-    LogTypes: List[PantherLogType | str]
-    RuleID: str
-    Severity: PantherSeverity | str
-    CreateAlert: bool = DEFAULT_CREATE_ALERT
-    DedupPeriodMinutes: NonNegativeInt = DEFAULT_DEDUP_PERIOD_MINUTES
-    Description: str = DEFAULT_DESCRIPTION
-    DisplayName: str = DEFAULT_DISPLAY_NAME
-    Enabled: bool = DEFAULT_ENABLED
-    OutputIds: List[str] = DEFAULT_OUTPUT_IDS
-    Reference: str = DEFAULT_REFERENCE
-    Reports: Dict[str, List[str]] = DEFAULT_REPORTS
-    Runbook: str = DEFAULT_RUNBOOK
-    ScheduledQueries: List[str] = DEFAULT_SCHEDULED_QUERIES
-    SummaryAttributes: List[str] = DEFAULT_SUMMARY_ATTRIBUTES
-    Tags: List[str] = DEFAULT_TAGS
-    Tests: List[PantherRuleTest] = DEFAULT_TESTS
-    Threshold: PositiveInt = DEFAULT_THRESHOLD
+    log_types: List[LogType | str]
+    id: str
+    create_alert: bool = DEFAULT_CREATE_ALERT
+    dedup_period_minutes: NonNegativeInt = DEFAULT_DEDUP_PERIOD_MINUTES
+    display_name: str = DEFAULT_DISPLAY_NAME
+    enabled: bool = DEFAULT_ENABLED
+    scheduled_queries: List[str] = DEFAULT_SCHEDULED_QUERIES
+    summary_attributes: List[str] = DEFAULT_SUMMARY_ATTRIBUTES
+    tests: List[RuleTest] = DEFAULT_TESTS
+    threshold: PositiveInt = DEFAULT_THRESHOLD
+    tags: List[str] = DEFAULT_TAGS
+    reports: Dict[str, List[str]] = DEFAULT_REPORTS
+
+    default_severity: Severity | str
+    default_destinations: List[str] = DEFAULT_OUTPUT_IDS
+    default_runbook: str = DEFAULT_RUNBOOK
+    default_reference: str = DEFAULT_REFERENCE
+    default_description: str = DEFAULT_DESCRIPTION
 
     def _analysis_type(self) -> str:
         return TYPE_RULE
@@ -181,38 +218,40 @@ class PantherRule(metaclass=abc.ABCMeta):
 
     @abc.abstractmethod
     def rule(self, event: PantherEvent) -> bool:
-        raise NotImplementedError("You must implement the rule method in your rule class.")
+        raise NotImplementedError(
+            "You must implement the rule method in your rule class."
+        )
 
     def severity(self, event: PantherEvent) -> SeverityType:
-        return self.Severity
+        return self.default_severity
 
     def title(self, event: PantherEvent) -> str:
-        return self.DisplayName if self.DisplayName else self.RuleID
+        return self.display_name if self.display_name else self.id
 
     def dedup(self, event: PantherEvent) -> str:
         return self.title(event)
 
-    def destinations(self, event: PantherEvent) -> List[str]:
-        return self.OutputIds
+    def destinations(self, event: PantherEvent) -> list[str]:
+        return self.default_destinations
 
     def runbook(self, event: PantherEvent) -> str:
-        return self.Runbook
+        return self.default_runbook
 
     def reference(self, event: PantherEvent) -> str:
-        return self.Reference
+        return self.default_reference
 
     def description(self, event: PantherEvent) -> str:
-        return self.Description
+        return self.default_description
 
-    def alert_context(self, event: PantherEvent) -> Dict:
+    def alert_context(self, event: PantherEvent) -> dict:
         return {}
 
     def __init_subclass__(cls, **kwargs):
         """Creates a copy of all class attributes to avoid mod
-        child.Tags.append("Foo")
-        parent.Tags.append("Foo") # not inherited by children of parent
+        child.tags.append("Foo")
+        parent.tags.append("Foo") # not inherited by children of parent
         """
-        for attr in PANTHER_RULE_ALL_ATTRS:
+        for attr in RULE_ALL_ATTRS:
             if attr not in cls.__dict__:
                 try:
                     v = getattr(cls, attr)
@@ -228,7 +267,7 @@ class PantherRule(metaclass=abc.ABCMeta):
         """Returns a dictionary representation of the class."""
         return {
             key: try_asdict(getattr(cls, key))
-            for key in PANTHER_RULE_ALL_ATTRS
+            for key in RULE_ALL_ATTRS
             if hasattr(cls, key)
         }
 
@@ -244,7 +283,7 @@ class PantherRule(metaclass=abc.ABCMeta):
         Parameters:
             _validate_config: true if any configuration should be validated, false otherwise. Only meant to be used by Panther.
         """
-        PantherRuleAdapter.validate_python(cls.asdict())
+        RuleAdapter.validate_python(cls.asdict())
         if _validate_config:
             cls.validate_config()
 
@@ -254,23 +293,23 @@ class PantherRule(metaclass=abc.ABCMeta):
     @classmethod
     def override(
         cls,
-        LogTypes: Optional[List[str]] = None,
-        RuleID: Optional[str] = None,
-        Severity: Optional[PantherSeverity] = None,
-        CreateAlert: Optional[bool] = None,
-        DedupPeriodMinutes: Optional[NonNegativeInt] = None,
-        Description: Optional[str] = None,
-        DisplayName: Optional[str] = None,
-        Enabled: Optional[bool] = None,
-        OutputIds: Optional[List[str]] = None,
-        Reference: Optional[str] = None,
-        Runbook: Optional[str] = None,
-        Reports: Optional[Dict[str, List[str]]] = None,
-        ScheduledQueries: Optional[List[str]] = None,
-        SummaryAttributes: Optional[List[str]] = None,
-        Tags: Optional[List[str]] = None,
-        Tests: Optional[List[PantherRuleTest]] = None,
-        Threshold: Optional[PositiveInt] = None,
+        log_types: Optional[List[str]] = None,
+        id: Optional[str] = None,
+        create_alert: Optional[bool] = None,
+        dedup_period_minutes: Optional[NonNegativeInt] = None,
+        display_name: Optional[str] = None,
+        enabled: Optional[bool] = None,
+        scheduled_queries: Optional[List[str]] = None,
+        summary_attributes: Optional[List[str]] = None,
+        tests: Optional[List[RuleTest]] = None,
+        threshold: Optional[PositiveInt] = None,
+        tags: Optional[List[str]] = None,
+        reports: Optional[Dict[str, List[str]]] = None,
+        default_severity: Optional[Severity] = None,
+        default_description: Optional[str] = None,
+        default_reference: Optional[str] = None,
+        default_runbook: Optional[str] = None,
+        default_destinations: Optional[List[str]] = None,
     ):
         for key, val in locals().items():
             if key == "cls":
@@ -284,37 +323,36 @@ class PantherRule(metaclass=abc.ABCMeta):
         cls,
         get_data_model: Callable[[str], Optional[DataModel]],
         _validate_config: bool = True,
-    ) -> list[PantherRuleTestResult]:
+    ) -> list[RuleTestResult]:
         """
-        Runs all PantherRuleTests in this PantherRules' Test attribute over this
-        PantherRule.
+        Runs all RuleTests in this Rules' Test attribute over this Rule.
 
         Parameters:
-            get_data_model: a helper function that will return a PantherDataModel given a log type.
+            get_data_model: a helper function that will return a DataModel given a log type.
             _validate_config: true if tests are being run should validate any configuration, false otherwise. Only meant to be used by Panther.
 
         Returns:
-            a list of PantherRuleTestResult objects.
+            a list of RuleTestResult objects.
         """
         cls.validate(_validate_config)
         rule = cls()
 
-        return [rule.run_test(test, get_data_model) for test in rule.Tests]
+        return [rule.run_test(test, get_data_model) for test in rule.tests]
 
     def run_test(
         self,
-        test: PantherRuleTest,
+        test: RuleTest,
         get_data_model: Callable[[str], Optional[DataModel]],
-    ) -> PantherRuleTestResult:
+    ) -> RuleTestResult:
         """
-        Runs a unit test over this PantherRule.
+        Runs a unit test over this Rule.
 
         Parameters:
-            test: the PantherRuleTest to run.
-            get_data_model: a helper function that will return a PantherDataModel given a log type.
+            test: the RuleTest to run.
+            get_data_model: a helper function that will return a DataModel given a log type.
 
         Returns:
-            a PantherRuleTestResult with the test result. If the Passed attribute is True,
+            a RuleTestResult with the test result. If the Passed attribute is True,
             then this tests passed.
         """
         log = test.log_data()
@@ -322,9 +360,11 @@ class PantherRule(metaclass=abc.ABCMeta):
 
         event = PantherEvent(log, get_data_model(log_type))
 
-        patches: List[Any] = []
-        for each_mock in test.Mocks:
-            kwargs = {each_mock.ObjectName: MagicMock(return_value=each_mock.ReturnValue)}
+        patches: list[Any] = []
+        for each_mock in test.mocks:
+            kwargs = {
+                each_mock.object_name: MagicMock(return_value=each_mock.return_value)
+            }
             p = patch.multiple(test._module, **kwargs)
             try:
                 p.start()
@@ -337,16 +377,18 @@ class PantherRule(metaclass=abc.ABCMeta):
 
             if (
                 detection_result.detection_exception is not None
-                or detection_result.detection_output != test.ExpectedResult
+                or detection_result.detection_output != test.expected_result
             ):
-                return PantherRuleTestResult(
-                    Passed=False,
-                    DetectionResult=detection_result,
-                    Test=test,
-                    RuleID=self.RuleID,
+                return RuleTestResult(
+                    passed=False,
+                    detection_result=detection_result,
+                    test=test,
+                    rule_id=self.id,
                 )
 
-            if isinstance(detection_result.destinations_exception, UnknownDestinationError):
+            if isinstance(
+                detection_result.destinations_exception, UnknownDestinationError
+            ):
                 # ignore unknown destinations during testing
                 detection_result.destinations_exception = None
 
@@ -362,22 +404,22 @@ class PantherRule(metaclass=abc.ABCMeta):
             }
 
             if any(True for _, exc in aux_func_exceptions.items() if exc is not None):
-                return PantherRuleTestResult(
-                    Passed=False,
-                    DetectionResult=detection_result,
-                    Test=test,
-                    RuleID=self.RuleID,
+                return RuleTestResult(
+                    passed=False,
+                    detection_result=detection_result,
+                    test=test,
+                    rule_id=self.id,
                 )
 
         finally:
             for p in patches:
                 p.stop()
 
-        return PantherRuleTestResult(
-            Passed=True,
-            DetectionResult=detection_result,
-            Test=test,
-            RuleID=self.RuleID,
+        return RuleTestResult(
+            passed=True,
+            detection_result=detection_result,
+            test=test,
+            rule_id=self.id,
         )
 
     def run(
@@ -388,8 +430,8 @@ class PantherRule(metaclass=abc.ABCMeta):
         batch_mode: bool = True,
     ) -> DetectionResult:
         result = DetectionResult(
-            detection_id=self.RuleID,
-            detection_severity=self.Severity,
+            detection_id=self.id,
+            detection_severity=self.default_severity,
             detection_type=TYPE_RULE,
             # set default to not alert
             trigger_alert=False,
@@ -413,17 +455,23 @@ class PantherRule(metaclass=abc.ABCMeta):
             self.ctx_mgr = suppress_output
 
         result.title_output, result.title_exception = self._get_title(event)
-        result.description_output, result.description_exception = self._get_description(event)
+        result.description_output, result.description_exception = self._get_description(
+            event
+        )
         result.reference_output, result.reference_exception = self._get_reference(event)
         result.severity_output, result.severity_exception = self._get_severity(event)
         result.runbook_output, result.runbook_exception = self._get_runbook(event)
-        result.destinations_output, result.destinations_exception = self._get_destinations(
-            event,
-            outputs,
-            outputs_names,
+        result.destinations_output, result.destinations_exception = (
+            self._get_destinations(
+                event,
+                outputs,
+                outputs_names,
+            )
         )
         result.dedup_output, result.dedup_exception = self._get_dedup(event)
-        result.alert_context_output, result.alert_context_exception = self._get_alert_context(event)
+        result.alert_context_output, result.alert_context_exception = (
+            self._get_alert_context(event)
+        )
 
         if batch_mode:
             # batch mode ignores errors
@@ -448,9 +496,9 @@ class PantherRule(metaclass=abc.ABCMeta):
 
             self._require_str(self.title.__name__, title)
         except Exception as e:
-            title = self.DisplayName
+            title = self.display_name
             if not title or not isinstance(title, str):
-                title = self.RuleID
+                title = self.id
             return title, e
 
         return truncate(title, MAX_GENERATED_FIELD_SIZE), None
@@ -470,7 +518,7 @@ class PantherRule(metaclass=abc.ABCMeta):
         if dedup_string == "" or not isinstance(dedup_string, str):
             dedup_string, _ = self._get_title(event)
             if dedup_string == "" or not isinstance(dedup_string, str):
-                dedup_string = f"defaultDedupString:{self.RuleID}"
+                dedup_string = f"defaultDedupString:{self.id}"
 
         return truncate(dedup_string, MAX_DEDUP_STRING_SIZE), e
 
@@ -510,7 +558,9 @@ class PantherRule(metaclass=abc.ABCMeta):
 
         return truncate(runbook, MAX_GENERATED_FIELD_SIZE), None
 
-    def _get_severity(self, event: Mapping) -> Tuple[Optional[str], Optional[Exception]]:
+    def _get_severity(
+        self, event: Mapping
+    ) -> Tuple[Optional[str], Optional[Exception]]:
         try:
             with self.ctx_mgr():
                 severity: str = self.severity(event)
@@ -518,23 +568,27 @@ class PantherRule(metaclass=abc.ABCMeta):
             self._require_str(self.severity.__name__, severity)
             severity = severity.upper()
             if severity == SEVERITY_DEFAULT:
-                return self.Severity, None
+                return self.default_severity, None
             if severity not in SEVERITY_TYPES:
                 raise AssertionError(
                     f"Expected severity to be any of the following: [{str(SEVERITY_TYPES)}], got [{severity}] instead."
                 )
         except Exception as e:
-            return self.Severity, e
+            return self.default_severity, e
 
         return severity, None
 
-    def _get_alert_context(self, event: Mapping) -> Tuple[Optional[str], Optional[Exception]]:
+    def _get_alert_context(
+        self, event: Mapping
+    ) -> Tuple[Optional[str], Optional[Exception]]:
         try:
             with self.ctx_mgr():
                 alert_context = self.alert_context(event)
 
             self._require_mapping(self.alert_context.__name__, alert_context)
-            serialized_alert_context = json.dumps(alert_context, default=PantherEvent.json_encoder)
+            serialized_alert_context = json.dumps(
+                alert_context, default=PantherEvent.json_encoder
+            )
         except Exception as err:
             return json.dumps({ALERT_CONTEXT_ERROR_KEY: repr(err)}), err
 
@@ -585,19 +639,26 @@ class PantherRule(metaclass=abc.ABCMeta):
                     outputs_display_names[each_destination].destination_id
                 )
             # case for valid UUIDv4
-            elif each_destination in outputs and each_destination not in standardized_destinations:
+            elif (
+                each_destination in outputs
+                and each_destination not in standardized_destinations
+            ):
                 standardized_destinations.append(each_destination)
             else:
                 invalid_destinations.append(each_destination)
 
         if len(standardized_destinations) > MAX_DESTINATIONS_SIZE:
             # If generated field exceeds max size, truncate it
-            standardized_destinations = standardized_destinations[:MAX_DESTINATIONS_SIZE]
+            standardized_destinations = standardized_destinations[
+                :MAX_DESTINATIONS_SIZE
+            ]
 
         if invalid_destinations:
             try:
                 # raise to get a stack trace
-                raise UnknownDestinationError("Invalid Destinations", invalid_destinations)
+                raise UnknownDestinationError(
+                    "Invalid Destinations", invalid_destinations
+                )
             except UnknownDestinationError as e:
                 return standardized_destinations, e
 
@@ -615,16 +676,18 @@ class PantherRule(metaclass=abc.ABCMeta):
     def _require_scalar(self, method_name: str, typ: Type, value: Any):
         if not isinstance(value, typ):
             raise FunctionReturnTypeError(
-                f"detection [{self.RuleID}] method [{method_name}] returned [{type(value).__name__}], expected [{typ.__name__}]"
+                f"detection [{self.id}] method [{method_name}] returned [{type(value).__name__}], expected [{typ.__name__}]"
             )
 
     def _require_str_list(self, method_name: str, value: Any):
         if value is None:
             return
-        if not isinstance(value, list) or not all(isinstance(x, (str, bool)) for x in value):
+        if not isinstance(value, list) or not all(
+            isinstance(x, (str, bool)) for x in value
+        ):
             raise FunctionReturnTypeError(
                 "detection [{}] method [{}] returned [{}], expected a list".format(
-                    self.RuleID, method_name, type(value).__name__
+                    self.id, method_name, type(value).__name__
                 )
             )
 
@@ -646,36 +709,3 @@ def suppress_output():
 @contextlib.contextmanager
 def noop():
     yield
-
-
-@dataclass
-class PantherDataModelMapping:
-    Name: str
-    Path: Optional[str] = None
-    Method: Optional[Callable] = None
-
-
-class PantherDataModel:
-    DataModelID: str
-    DisplayName: str
-    Enabled: bool
-    LogTypes: List[str]
-    Mappings: List[PantherDataModelMapping]
-
-    def __init__(self) -> None:
-        self.paths: Dict[str, Fields] = {}
-        self.methods: Dict[str, Callable] = {}
-
-        for mapping in self.Mappings:
-            if not mapping.Name:
-                raise AssertionError(
-                    f"DataModel [{self.DataModelID}] is missing required field: [Name]"
-                )
-            if mapping.Path:
-                self.paths[mapping.Name] = parse(mapping.Path)
-            elif mapping.Method:
-                self.methods[mapping.Name] = mapping.Method
-            else:
-                raise AssertionError(
-                    f"DataModel [{self.DataModelID}] must define one of: [Path, Method]"
-                )

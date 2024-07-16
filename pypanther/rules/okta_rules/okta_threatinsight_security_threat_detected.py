@@ -1,13 +1,11 @@
-from typing import List
-
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get, okta_alert_context
 
-okta_threat_insight_security_threat_detected_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
-        Name="Other Event",
-        ExpectedResult=False,
-        Log={
+okta_threat_insight_security_threat_detected_tests: list[RuleTest] = [
+    RuleTest(
+        name="Other Event",
+        expected_result=False,
+        log={
             "actor": {
                 "alternateId": "homer.simpson@duff.com",
                 "displayName": "Homer Simpson",
@@ -37,10 +35,10 @@ okta_threat_insight_security_threat_detected_tests: List[PantherRuleTest] = [
             "version": "0",
         },
     ),
-    PantherRuleTest(
-        Name="Threat Detected Event - Deny",
-        ExpectedResult=True,
-        Log={
+    RuleTest(
+        name="Threat Detected Event - Deny",
+        expected_result=True,
+        log={
             "actor": {
                 "alternateId": "unknown",
                 "displayName": "1.2.3.4",
@@ -111,10 +109,10 @@ okta_threat_insight_security_threat_detected_tests: List[PantherRuleTest] = [
             "version": "0",
         },
     ),
-    PantherRuleTest(
-        Name="Threat Detected Event - Success",
-        ExpectedResult=True,
-        Log={
+    RuleTest(
+        name="Threat Detected Event - Success",
+        expected_result=True,
+        log={
             "actor": {
                 "alternateId": "unknown",
                 "displayName": "1.2.3.4",
@@ -180,14 +178,16 @@ okta_threat_insight_security_threat_detected_tests: List[PantherRuleTest] = [
 ]
 
 
-class OktaThreatInsightSecurityThreatDetected(PantherRule):
-    Description = "Okta ThreatInsight identified request from potentially malicious IP address"
-    Reference = "https://help.okta.com/en-us/Content/Topics/Security/threat-insight/configure-threatinsight-system-log.htm"
-    DisplayName = "Okta ThreatInsight Security Threat Detected"
-    Severity = PantherSeverity.High
-    LogTypes = [PantherLogType.Okta_SystemLog]
-    RuleID = "Okta.ThreatInsight.Security.Threat.Detected-prototype"
-    Tests = okta_threat_insight_security_threat_detected_tests
+class OktaThreatInsightSecurityThreatDetected(Rule):
+    default_description = (
+        "Okta ThreatInsight identified request from potentially malicious IP address"
+    )
+    default_reference = "https://help.okta.com/en-us/Content/Topics/Security/threat-insight/configure-threatinsight-system-log.htm"
+    display_name = "Okta ThreatInsight Security Threat Detected"
+    default_severity = Severity.HIGH
+    log_types = [LogType.Okta_SystemLog]
+    id = "Okta.ThreatInsight.Security.Threat.Detected-prototype"
+    tests = okta_threat_insight_security_threat_detected_tests
 
     def severity_from_threat_string(self, threat_detection):
         # threat detection is a string but contains json data

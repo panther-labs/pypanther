@@ -1,13 +1,11 @@
-from typing import List
-
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import get_crowdstrike_field
 
-crowdstrike_real_time_response_session_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
-        Name="RTS session start event",
-        ExpectedResult=True,
-        Log={
+crowdstrike_real_time_response_session_tests: list[RuleTest] = [
+    RuleTest(
+        name="RTS session start event",
+        expected_result=True,
+        log={
             "cid": "12345abcdef",
             "unknown_payload": {
                 "AgentIdString": "12ab56cd",
@@ -26,10 +24,10 @@ crowdstrike_real_time_response_session_tests: List[PantherRuleTest] = [
             },
         },
     ),
-    PantherRuleTest(
-        Name="RTS session not started",
-        ExpectedResult=False,
-        Log={
+    RuleTest(
+        name="RTS session not started",
+        expected_result=False,
+        log={
             "cid": "12345abcdef",
             "unknown_payload": {
                 "AgentIdString": "12ab56cd",
@@ -48,10 +46,10 @@ crowdstrike_real_time_response_session_tests: List[PantherRuleTest] = [
             },
         },
     ),
-    PantherRuleTest(
-        Name="RTS session start event (FDREvent)",
-        ExpectedResult=True,
-        Log={
+    RuleTest(
+        name="RTS session start event (FDREvent)",
+        expected_result=True,
+        log={
             "event": {
                 "AgentIdString": "42db160eec7948658374a28a4088f297",
                 "CustomerIdString": "712bcd164963442ea43d52917cecdecc",
@@ -86,10 +84,10 @@ crowdstrike_real_time_response_session_tests: List[PantherRuleTest] = [
             "p_any_emails": ["someone@runpanther.io"],
         },
     ),
-    PantherRuleTest(
-        Name="RTS session not started (FDREvent)",
-        ExpectedResult=False,
-        Log={
+    RuleTest(
+        name="RTS session not started (FDREvent)",
+        expected_result=False,
+        log={
             "event": {
                 "AgentIdString": "42db160eec7948658374a28a4088f297",
                 "CustomerIdString": "712bcd164963442ea43d52917cecdecc",
@@ -127,16 +125,16 @@ crowdstrike_real_time_response_session_tests: List[PantherRuleTest] = [
 ]
 
 
-class CrowdstrikeRealTimeResponseSession(PantherRule):
-    DisplayName = "Crowdstrike Real Time Response (RTS) Session"
-    RuleID = "Crowdstrike.RealTimeResponse.Session-prototype"
-    Severity = PantherSeverity.Medium
-    LogTypes = [PantherLogType.Crowdstrike_Unknown, PantherLogType.Crowdstrike_FDREvent]
-    Tags = ["Crowdstrike"]
-    Description = "Alert when someone uses Crowdstrike’s RTR (real-time response) capability to access a machine remotely to run commands.\n"
-    Runbook = "Validate the real-time response session started by the Actor.\n"
-    Reference = "https://falcon.us-2.crowdstrike.com/documentation/71/real-time-response-and-network-containment#reviewing-real-time-response-audit-logs"
-    Tests = crowdstrike_real_time_response_session_tests
+class CrowdstrikeRealTimeResponseSession(Rule):
+    display_name = "Crowdstrike Real Time Response (RTS) Session"
+    id = "Crowdstrike.RealTimeResponse.Session-prototype"
+    default_severity = Severity.MEDIUM
+    log_types = [LogType.Crowdstrike_Unknown, LogType.Crowdstrike_FDREvent]
+    tags = ["Crowdstrike"]
+    default_description = "Alert when someone uses Crowdstrike’s RTR (real-time response) capability to access a machine remotely to run commands.\n"
+    default_runbook = "Validate the real-time response session started by the Actor.\n"
+    default_reference = "https://falcon.us-2.crowdstrike.com/documentation/71/real-time-response-and-network-containment#reviewing-real-time-response-audit-logs"
+    tests = crowdstrike_real_time_response_session_tests
 
     def rule(self, event):
         return (

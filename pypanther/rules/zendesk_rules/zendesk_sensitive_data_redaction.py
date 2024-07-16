@@ -1,13 +1,11 @@
-from typing import List
-
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import ZENDESK_CHANGE_DESCRIPTION
 
-zendesk_sensitive_data_redaction_off_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
-        Name="Zendesk - Credit Card Redaction Off",
-        ExpectedResult=True,
-        Log={
+zendesk_sensitive_data_redaction_off_tests: list[RuleTest] = [
+    RuleTest(
+        name="Zendesk - Credit Card Redaction Off",
+        expected_result=True,
+        log={
             "url": "https://myzendek.zendesk.com/api/v2/audit_logs/111222333444.json",
             "id": 123456789123,
             "action_label": "Updated",
@@ -23,10 +21,10 @@ zendesk_sensitive_data_redaction_off_tests: List[PantherRuleTest] = [
             "p_log_type": "Zendesk.Audit",
         },
     ),
-    PantherRuleTest(
-        Name="Zendesk - Credit Card Redaction On",
-        ExpectedResult=True,
-        Log={
+    RuleTest(
+        name="Zendesk - Credit Card Redaction On",
+        expected_result=True,
+        log={
             "url": "https://myzendek.zendesk.com/api/v2/audit_logs/111222333444.json",
             "id": 123456789123,
             "action_label": "Updated",
@@ -42,10 +40,10 @@ zendesk_sensitive_data_redaction_off_tests: List[PantherRuleTest] = [
             "p_log_type": "Zendesk.Audit",
         },
     ),
-    PantherRuleTest(
-        Name="User assumption settings changed",
-        ExpectedResult=False,
-        Log={
+    RuleTest(
+        name="User assumption settings changed",
+        expected_result=False,
+        log={
             "url": "https://myzendek.zendesk.com/api/v2/audit_logs/111222333444.json",
             "id": 123456789123,
             "action_label": "Updated",
@@ -63,18 +61,18 @@ zendesk_sensitive_data_redaction_off_tests: List[PantherRuleTest] = [
 ]
 
 
-class ZendeskSensitiveDataRedactionOff(PantherRule):
-    RuleID = "Zendesk.SensitiveDataRedactionOff-prototype"
-    DisplayName = "Zendesk Credit Card Redaction Off"
-    LogTypes = [PantherLogType.Zendesk_Audit]
-    Tags = ["Zendesk", "Collection:Data from Information Repositories"]
-    Reports = {"MITRE ATT&CK": ["TA0009:T1213"]}
-    Severity = PantherSeverity.High
-    Description = "A user updated account setting that disabled credit card redaction."
-    Runbook = "Re-enable credit card redaction."
-    Reference = "https://support.zendesk.com/hc/en-us/articles/4408822124314-Automatically-redacting-credit-card-numbers-from-tickets"
-    SummaryAttributes = ["p_any_ip_addresses"]
-    Tests = zendesk_sensitive_data_redaction_off_tests
+class ZendeskSensitiveDataRedactionOff(Rule):
+    id = "Zendesk.SensitiveDataRedactionOff-prototype"
+    display_name = "Zendesk Credit Card Redaction Off"
+    log_types = [LogType.Zendesk_Audit]
+    tags = ["Zendesk", "Collection:Data from Information Repositories"]
+    reports = {"MITRE ATT&CK": ["TA0009:T1213"]}
+    default_severity = Severity.HIGH
+    default_description = "A user updated account setting that disabled credit card redaction."
+    default_runbook = "Re-enable credit card redaction."
+    default_reference = "https://support.zendesk.com/hc/en-us/articles/4408822124314-Automatically-redacting-credit-card-numbers-from-tickets"
+    summary_attributes = ["p_any_ip_addresses"]
+    tests = zendesk_sensitive_data_redaction_off_tests
     REDACTION_ACTIONS = {"create", "destroy"}
 
     def rule(self, event):

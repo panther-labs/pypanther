@@ -1,14 +1,12 @@
-from typing import List
-
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 from pypanther.helpers.panther_snyk_helpers import snyk_alert_context
 
-snyk_org_settings_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
-        Name="placeholder",
-        ExpectedResult=True,
-        Log={
+snyk_org_settings_tests: list[RuleTest] = [
+    RuleTest(
+        name="placeholder",
+        expected_result=True,
+        log={
             "content": {
                 "after": {
                     "integrationSettings": {
@@ -51,10 +49,10 @@ snyk_org_settings_tests: List[PantherRuleTest] = [
             "userId": "05555555-3333-4ddd-8ccc-755555555555",
         },
     ),
-    PantherRuleTest(
-        Name="Snyk System SSO Setting event happened",
-        ExpectedResult=False,
-        Log={
+    RuleTest(
+        name="Snyk System SSO Setting event happened",
+        expected_result=False,
+        log={
             "userId": "05555555-3333-4ddd-8ccc-755555555555",
             "event": "group.sso.edit",
             "groupId": "8fffffff-1555-4444-b000-b55555555555",
@@ -65,18 +63,20 @@ snyk_org_settings_tests: List[PantherRuleTest] = [
 ]
 
 
-class SnykOrgSettings(PantherRule):
-    RuleID = "Snyk.Org.Settings-prototype"
-    DisplayName = "Snyk Org Settings"
-    LogTypes = [PantherLogType.Snyk_GroupAudit, PantherLogType.Snyk_OrgAudit]
-    Tags = ["Snyk"]
-    Reference = "https://docs.snyk.io/snyk-admin/manage-settings/organization-general-settings"
-    Severity = PantherSeverity.Medium
-    Description = (
+class SnykOrgSettings(Rule):
+    id = "Snyk.Org.Settings-prototype"
+    display_name = "Snyk Org Settings"
+    log_types = [LogType.Snyk_GroupAudit, LogType.Snyk_OrgAudit]
+    tags = ["Snyk"]
+    default_reference = (
+        "https://docs.snyk.io/snyk-admin/manage-settings/organization-general-settings"
+    )
+    default_severity = Severity.MEDIUM
+    default_description = (
         "Detects when Snyk Organization settings, like Integrations and Webhooks, are changed\n"
     )
-    SummaryAttributes = ["event"]
-    Tests = snyk_org_settings_tests
+    summary_attributes = ["event"]
+    tests = snyk_org_settings_tests
     ACTIONS = [
         "org.integration.create",
         "org.integration.delete",

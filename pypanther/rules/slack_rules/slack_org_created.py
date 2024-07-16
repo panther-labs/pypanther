@@ -1,13 +1,11 @@
-from typing import List
-
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import slack_alert_context
 
-slack_audit_logs_org_created_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
-        Name="Organization Created",
-        ExpectedResult=True,
-        Log={
+slack_audit_logs_org_created_tests: list[RuleTest] = [
+    RuleTest(
+        name="Organization Created",
+        expected_result=True,
+        log={
             "action": "organization_created",
             "actor": {
                 "type": "user",
@@ -30,10 +28,10 @@ slack_audit_logs_org_created_tests: List[PantherRuleTest] = [
             },
         },
     ),
-    PantherRuleTest(
-        Name="Organization Deleted",
-        ExpectedResult=False,
-        Log={
+    RuleTest(
+        name="Organization Deleted",
+        expected_result=False,
+        log={
             "action": "organization_deleted",
             "actor": {
                 "type": "user",
@@ -59,17 +57,19 @@ slack_audit_logs_org_created_tests: List[PantherRuleTest] = [
 ]
 
 
-class SlackAuditLogsOrgCreated(PantherRule):
-    RuleID = "Slack.AuditLogs.OrgCreated-prototype"
-    DisplayName = "Slack Organization Created"
-    LogTypes = [PantherLogType.Slack_AuditLogs]
-    Tags = ["Slack", "Persistence", "Create Account"]
-    Reports = {"MITRE ATT&CK": ["TA0003:T1136"]}
-    Severity = PantherSeverity.Low
-    Description = "Detects when a Slack organization is created"
-    Reference = "https://slack.com/intl/en-gb/help/articles/206845317-Create-a-Slack-workspace"
-    SummaryAttributes = ["p_any_ip_addresses", "p_any_emails"]
-    Tests = slack_audit_logs_org_created_tests
+class SlackAuditLogsOrgCreated(Rule):
+    id = "Slack.AuditLogs.OrgCreated-prototype"
+    display_name = "Slack Organization Created"
+    log_types = [LogType.Slack_AuditLogs]
+    tags = ["Slack", "Persistence", "Create Account"]
+    reports = {"MITRE ATT&CK": ["TA0003:T1136"]}
+    default_severity = Severity.LOW
+    default_description = "Detects when a Slack organization is created"
+    default_reference = (
+        "https://slack.com/intl/en-gb/help/articles/206845317-Create-a-Slack-workspace"
+    )
+    summary_attributes = ["p_any_ip_addresses", "p_any_emails"]
+    tests = slack_audit_logs_org_created_tests
 
     def rule(self, event):
         return event.get("action") == "organization_created"

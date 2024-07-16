@@ -1,12 +1,10 @@
-from typing import List
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
-
-duo_admin_bypass_code_viewed_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
-        Name="Bypass View",
-        ExpectedResult=True,
-        Log={
+duo_admin_bypass_code_viewed_tests: list[RuleTest] = [
+    RuleTest(
+        name="Bypass View",
+        expected_result=True,
+        log={
             "action": "bypass_view",
             "description": '{"user_id": "D1234", "bypass_code_id": "D5678"}',
             "isotimestamp": "2022-12-14 21:17:54",
@@ -15,10 +13,10 @@ duo_admin_bypass_code_viewed_tests: List[PantherRuleTest] = [
             "username": "Homer Simpson",
         },
     ),
-    PantherRuleTest(
-        Name="Bypass Create",
-        ExpectedResult=False,
-        Log={
+    RuleTest(
+        name="Bypass Create",
+        expected_result=False,
+        log={
             "action": "bypass_create",
             "description": '{"bypass": "", "count": 1, "valid_secs": 3600, "auto_generated": true, "remaining_uses": 1, "user_id": "D12345", "bypass_code_ids": ["A12345"]}',
             "isotimestamp": "2022-12-14 21:17:39",
@@ -30,15 +28,15 @@ duo_admin_bypass_code_viewed_tests: List[PantherRuleTest] = [
 ]
 
 
-class DuoAdminBypassCodeViewed(PantherRule):
-    Description = "An administrator viewed the MFA bypass code for a user."
-    DisplayName = "Duo Admin Bypass Code Viewed"
-    Reference = "https://duo.com/docs/adminapi"
-    Runbook = "Confirm this behavior is authorized. The security of your Duo application is tied to the security of your secret key (skey). Secure it as you would any sensitive credential. You should not share it with unauthorized individuals or email it to anyone under any circumstances!"
-    Severity = PantherSeverity.Medium
-    LogTypes = [PantherLogType.Duo_Administrator]
-    RuleID = "Duo.Admin.Bypass.Code.Viewed-prototype"
-    Tests = duo_admin_bypass_code_viewed_tests
+class DuoAdminBypassCodeViewed(Rule):
+    default_description = "An administrator viewed the MFA bypass code for a user."
+    display_name = "Duo Admin Bypass Code Viewed"
+    default_reference = "https://duo.com/docs/adminapi"
+    default_runbook = "Confirm this behavior is authorized. The security of your Duo application is tied to the security of your secret key (skey). Secure it as you would any sensitive credential. You should not share it with unauthorized individuals or email it to anyone under any circumstances!"
+    default_severity = Severity.MEDIUM
+    log_types = [LogType.Duo_Administrator]
+    id = "Duo.Admin.Bypass.Code.Viewed-prototype"
+    tests = duo_admin_bypass_code_viewed_tests
 
     def rule(self, event):
         # Return True to match the log event and trigger an alert.

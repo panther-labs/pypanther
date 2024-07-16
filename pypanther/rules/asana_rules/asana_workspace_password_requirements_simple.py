@@ -1,13 +1,11 @@
-from typing import List
-
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 
-asana_workspace_password_requirements_simple_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
-        Name="Simple",
-        ExpectedResult=True,
-        Log={
+asana_workspace_password_requirements_simple_tests: list[RuleTest] = [
+    RuleTest(
+        name="Simple",
+        expected_result=True,
+        log={
             "actor": {
                 "actor_type": "user",
                 "email": "homer.simpson@example.io",
@@ -31,10 +29,10 @@ asana_workspace_password_requirements_simple_tests: List[PantherRuleTest] = [
             },
         },
     ),
-    PantherRuleTest(
-        Name="web app approvals on",
-        ExpectedResult=False,
-        Log={
+    RuleTest(
+        name="web app approvals on",
+        expected_result=False,
+        log={
             "actor": {
                 "actor_type": "user",
                 "email": "homer.simpson@example.io",
@@ -57,15 +55,17 @@ asana_workspace_password_requirements_simple_tests: List[PantherRuleTest] = [
 ]
 
 
-class AsanaWorkspacePasswordRequirementsSimple(PantherRule):
-    Description = "An asana user made your organization's password requirements less strict."
-    DisplayName = "Asana Workspace Password Requirements Simple"
-    Runbook = "Confirm this user acted with valid business intent and determine whether this activity was authorized."
-    Reference = "https://help.asana.com/hc/en-us/articles/14075208738587-Authentication-and-access-management-options-for-paid-plans"
-    Severity = PantherSeverity.Medium
-    LogTypes = [PantherLogType.Asana_Audit]
-    RuleID = "Asana.Workspace.Password.Requirements.Simple-prototype"
-    Tests = asana_workspace_password_requirements_simple_tests
+class AsanaWorkspacePasswordRequirementsSimple(Rule):
+    default_description = (
+        "An asana user made your organization's password requirements less strict."
+    )
+    display_name = "Asana Workspace Password Requirements Simple"
+    default_runbook = "Confirm this user acted with valid business intent and determine whether this activity was authorized."
+    default_reference = "https://help.asana.com/hc/en-us/articles/14075208738587-Authentication-and-access-management-options-for-paid-plans"
+    default_severity = Severity.MEDIUM
+    log_types = [LogType.Asana_Audit]
+    id = "Asana.Workspace.Password.Requirements.Simple-prototype"
+    tests = asana_workspace_password_requirements_simple_tests
 
     def rule(self, event):
         new_val = deep_get(event, "details", "new_value", default="<NEW_VAL_NOT_FOUND>")

@@ -1,8 +1,5 @@
-from typing import List
-
-from pypanther.base import PantherDataModel, PantherDataModelMapping
+from pypanther.base import DataModel, DataModelMapping, LogType
 from pypanther.helpers.panther_base_helpers import deep_get
-from pypanther.log_types import PantherLogType
 
 
 def get_dns_query(event):
@@ -28,18 +25,18 @@ def get_process_name(event):
     return image_fn.split("/")[-1]
 
 
-class StandardCrowdstrikeFDR(PantherDataModel):
-    DataModelID: str = "Standard.Crowdstrike.FDR"
-    DisplayName: str = "Crowdstrike FDR"
-    Enabled: bool = True
-    LogTypes: List[str] = [PantherLogType.Crowdstrike_FDREvent]
-    Mappings: List[PantherDataModelMapping] = [
-        PantherDataModelMapping(Name="actor_user", Path="$.event.UserName"),
-        PantherDataModelMapping(Name="cmd", Path="$.event.CommandLine"),
-        PantherDataModelMapping(Name="destination_ip", Path="$.event.RemoteAddressIP4"),
-        PantherDataModelMapping(Name="destination_port", Path="$.event.RemotePort"),
-        PantherDataModelMapping(Name="dns_query", Method=get_dns_query),
-        PantherDataModelMapping(Name="process_name", Method=get_process_name),
-        PantherDataModelMapping(Name="source_ip", Path="$.aip"),
-        PantherDataModelMapping(Name="source_port", Path="$.event.LocalPort"),
+class StandardCrowdstrikeFDR(DataModel):
+    id: str = "Standard.Crowdstrike.FDR"
+    display_name: str = "Crowdstrike FDR"
+    enabled: bool = True
+    log_types: list[str] = [LogType.Crowdstrike_FDREvent]
+    mappings: list[DataModelMapping] = [
+        DataModelMapping(name="actor_user", path="$.event.UserName"),
+        DataModelMapping(name="cmd", path="$.event.CommandLine"),
+        DataModelMapping(name="destination_ip", path="$.event.RemoteAddressIP4"),
+        DataModelMapping(name="destination_port", path="$.event.RemotePort"),
+        DataModelMapping(name="dns_query", method=get_dns_query),
+        DataModelMapping(name="process_name", method=get_process_name),
+        DataModelMapping(name="source_ip", path="$.aip"),
+        DataModelMapping(name="source_port", path="$.event.LocalPort"),
     ]

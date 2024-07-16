@@ -1,13 +1,11 @@
-from typing import List
-
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 
-g_suite_workspace_gmail_predelivery_scanning_disabled_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
-        Name="Workspace Admin Disables Enhanced Pre-Delivery Scanning",
-        ExpectedResult=True,
-        Log={
+g_suite_workspace_gmail_predelivery_scanning_disabled_tests: list[RuleTest] = [
+    RuleTest(
+        name="Workspace Admin Disables Enhanced Pre-Delivery Scanning",
+        expected_result=True,
+        log={
             "actor": {"callerType": "USER", "email": "example@example.io", "profileId": "12345"},
             "id": {
                 "applicationName": "admin",
@@ -28,10 +26,10 @@ g_suite_workspace_gmail_predelivery_scanning_disabled_tests: List[PantherRuleTes
             "type": "APPLICATION_SETTINGS",
         },
     ),
-    PantherRuleTest(
-        Name="Admin Set Default Calendar SHARING_OUTSIDE_DOMAIN Setting to READ_ONLY_ACCESS",
-        ExpectedResult=False,
-        Log={
+    RuleTest(
+        name="Admin Set Default Calendar SHARING_OUTSIDE_DOMAIN Setting to READ_ONLY_ACCESS",
+        expected_result=False,
+        log={
             "actor": {"callerType": "USER", "email": "example@example.io", "profileId": "12345"},
             "id": {
                 "applicationName": "admin",
@@ -52,10 +50,10 @@ g_suite_workspace_gmail_predelivery_scanning_disabled_tests: List[PantherRuleTes
             "type": "CALENDAR_SETTINGS",
         },
     ),
-    PantherRuleTest(
-        Name="ListObject Type",
-        ExpectedResult=False,
-        Log={
+    RuleTest(
+        name="ListObject Type",
+        expected_result=False,
+        log={
             "actor": {"email": "user@example.io", "profileId": "118111111111111111111"},
             "id": {
                 "applicationName": "drive",
@@ -87,18 +85,18 @@ g_suite_workspace_gmail_predelivery_scanning_disabled_tests: List[PantherRuleTes
 ]
 
 
-class GSuiteWorkspaceGmailPredeliveryScanningDisabled(PantherRule):
-    RuleID = "GSuite.Workspace.GmailPredeliveryScanningDisabled-prototype"
-    DisplayName = "GSuite Workspace Gmail Pre-Delivery Message Scanning Disabled"
-    LogTypes = [PantherLogType.GSuite_ActivityEvent]
-    Tags = ["GSuite"]
-    Reports = {"MITRE ATT&CK": ["TA0001:T1566"]}
-    Severity = PantherSeverity.Medium
-    Description = "A Workspace Admin Has Disabled Pre-Delivery Scanning For Gmail.\n"
-    Reference = "https://support.google.com/a/answer/7380368"
-    Runbook = "Pre-delivery scanning is a feature in Gmail that subjects suspicious emails to additional automated scrutiny by Google.\nIf this change was not intentional, inspect the other actions taken by this actor.\n"
-    SummaryAttributes = ["actor:email"]
-    Tests = g_suite_workspace_gmail_predelivery_scanning_disabled_tests
+class GSuiteWorkspaceGmailPredeliveryScanningDisabled(Rule):
+    id = "GSuite.Workspace.GmailPredeliveryScanningDisabled-prototype"
+    display_name = "GSuite Workspace Gmail Pre-Delivery Message Scanning Disabled"
+    log_types = [LogType.GSuite_ActivityEvent]
+    tags = ["GSuite"]
+    reports = {"MITRE ATT&CK": ["TA0001:T1566"]}
+    default_severity = Severity.MEDIUM
+    default_description = "A Workspace Admin Has Disabled Pre-Delivery Scanning For Gmail.\n"
+    default_reference = "https://support.google.com/a/answer/7380368"
+    default_runbook = "Pre-delivery scanning is a feature in Gmail that subjects suspicious emails to additional automated scrutiny by Google.\nIf this change was not intentional, inspect the other actions taken by this actor.\n"
+    summary_attributes = ["actor:email"]
+    tests = g_suite_workspace_gmail_predelivery_scanning_disabled_tests
 
     def rule(self, event):
         # the shape of the items in parameters can change a bit ( like NEW_VALUE can be an array )

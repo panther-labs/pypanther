@@ -1,13 +1,11 @@
-from typing import List
-
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 
-gcp_big_query_large_scan_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
-        Name="small query",
-        ExpectedResult=False,
-        Log={
+gcp_big_query_large_scan_tests: list[RuleTest] = [
+    RuleTest(
+        name="small query",
+        expected_result=False,
+        log={
             "insertid": "ABCDEFGHIJKL",
             "logname": "projects/gcp-project1/logs/cloudaudit.googleapis.com%2Fdata_access",
             "operation": {
@@ -88,10 +86,10 @@ gcp_big_query_large_scan_tests: List[PantherRuleTest] = [
             "timestamp": "2023-03-28 17:37:02.096",
         },
     ),
-    PantherRuleTest(
-        Name="Large Query",
-        ExpectedResult=True,
-        Log={
+    RuleTest(
+        name="Large Query",
+        expected_result=True,
+        log={
             "insertid": "ABCDEFGHIJKL",
             "logname": "projects/gcp-project1/logs/cloudaudit.googleapis.com%2Fdata_access",
             "operation": {
@@ -175,14 +173,14 @@ gcp_big_query_large_scan_tests: List[PantherRuleTest] = [
 ]
 
 
-class GCPBigQueryLargeScan(PantherRule):
-    Description = "Detect any BigQuery query that is doing a very large scan (> 1 GB)."
-    DisplayName = "GCP BigQuery Large Scan"
-    Reference = "https://cloud.google.com/bigquery/docs/running-queries"
-    Severity = PantherSeverity.Info
-    LogTypes = [PantherLogType.GCP_AuditLog]
-    RuleID = "GCP.BigQuery.Large.Scan-prototype"
-    Tests = gcp_big_query_large_scan_tests
+class GCPBigQueryLargeScan(Rule):
+    default_description = "Detect any BigQuery query that is doing a very large scan (> 1 GB)."
+    display_name = "GCP BigQuery Large Scan"
+    default_reference = "https://cloud.google.com/bigquery/docs/running-queries"
+    default_severity = Severity.INFO
+    log_types = [LogType.GCP_AuditLog]
+    id = "GCP.BigQuery.Large.Scan-prototype"
+    tests = gcp_big_query_large_scan_tests
     # 1.07 GB
     QUERY_THRESHOLD_BYTES = 1073741824
 

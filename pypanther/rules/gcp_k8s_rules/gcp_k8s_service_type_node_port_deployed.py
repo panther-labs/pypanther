@@ -1,14 +1,12 @@
-from typing import List
-
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.gcp_base_helpers import gcp_alert_context
 from pypanther.helpers.panther_base_helpers import deep_get, deep_walk
 
-gcpk8_s_service_type_node_port_deployed_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
-        Name="Service Created",
-        ExpectedResult=True,
-        Log={
+gcpk8_s_service_type_node_port_deployed_tests: list[RuleTest] = [
+    RuleTest(
+        name="Service Created",
+        expected_result=True,
+        log={
             "logName": "projects/some-project/logs/cloudaudit.googleapis.com%2Factivity",
             "protoPayload": {
                 "at_sign_type": "type.googleapis.com/google.cloud.audit.AuditLog",
@@ -83,10 +81,10 @@ gcpk8_s_service_type_node_port_deployed_tests: List[PantherRuleTest] = [
             "timestamp": "2024-02-19 12:02:22.057586000",
         },
     ),
-    PantherRuleTest(
-        Name="Error Creating Service",
-        ExpectedResult=False,
-        Log={
+    RuleTest(
+        name="Error Creating Service",
+        expected_result=False,
+        log={
             "logName": "projects/some-project/logs/cloudaudit.googleapis.com%2Factivity",
             "protoPayload": {
                 "at_sign_type": "type.googleapis.com/google.cloud.audit.AuditLog",
@@ -146,10 +144,10 @@ gcpk8_s_service_type_node_port_deployed_tests: List[PantherRuleTest] = [
             "timestamp": "2024-02-20 13:47:43.126037000",
         },
     ),
-    PantherRuleTest(
-        Name="No Permission Granted",
-        ExpectedResult=False,
-        Log={
+    RuleTest(
+        name="No Permission Granted",
+        expected_result=False,
+        log={
             "logName": "projects/some-project/logs/cloudaudit.googleapis.com%2Factivity",
             "protoPayload": {
                 "at_sign_type": "type.googleapis.com/google.cloud.audit.AuditLog",
@@ -219,16 +217,18 @@ gcpk8_s_service_type_node_port_deployed_tests: List[PantherRuleTest] = [
 ]
 
 
-class GCPK8SServiceTypeNodePortDeployed(PantherRule):
-    RuleID = "GCP.K8S.Service.Type.NodePort.Deployed-prototype"
-    DisplayName = "GCP K8S Service Type NodePort Deployed"
-    LogTypes = [PantherLogType.GCP_AuditLog]
-    Severity = PantherSeverity.High
-    Description = "This detection monitors for any kubernetes service deployed with type node port. A Node Port service allows an attacker to expose a set of pods hosting the service to the internet by opening their port and redirecting traffic here. This can be used to bypass network controls and intercept traffic, creating a direct line to the outside network.\n"
-    Runbook = "Investigate the reason of creating NodePort service. Advise that it is discouraged practice. Create ticket if appropriate.\n"
-    Reference = "https://kubernetes.io/docs/tutorials/kubernetes-basics/expose/expose-intro/"
-    Reports = {"MITRE ATT&CK": ["T1190"]}
-    Tests = gcpk8_s_service_type_node_port_deployed_tests
+class GCPK8SServiceTypeNodePortDeployed(Rule):
+    id = "GCP.K8S.Service.Type.NodePort.Deployed-prototype"
+    display_name = "GCP K8S Service Type NodePort Deployed"
+    log_types = [LogType.GCP_AuditLog]
+    default_severity = Severity.HIGH
+    default_description = "This detection monitors for any kubernetes service deployed with type node port. A Node Port service allows an attacker to expose a set of pods hosting the service to the internet by opening their port and redirecting traffic here. This can be used to bypass network controls and intercept traffic, creating a direct line to the outside network.\n"
+    default_runbook = "Investigate the reason of creating NodePort service. Advise that it is discouraged practice. Create ticket if appropriate.\n"
+    default_reference = (
+        "https://kubernetes.io/docs/tutorials/kubernetes-basics/expose/expose-intro/"
+    )
+    reports = {"MITRE ATT&CK": ["T1190"]}
+    tests = gcpk8_s_service_type_node_port_deployed_tests
 
     def rule(self, event):
         if deep_get(event, "protoPayload", "response", "status") == "Failure":

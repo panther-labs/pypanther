@@ -1,13 +1,11 @@
-from typing import List
-
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get, deep_walk, okta_alert_context
 
-okta_new_behavior_accessing_admin_console_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
-        Name="New Behavior Accessing Admin Console (behavior)",
-        ExpectedResult=True,
-        Log={
+okta_new_behavior_accessing_admin_console_tests: list[RuleTest] = [
+    RuleTest(
+        name="New Behavior Accessing Admin Console (behavior)",
+        expected_result=True,
+        log={
             "actor": {
                 "alternateId": "homer.simpson@duff.com",
                 "displayName": "Homer Simpson",
@@ -97,10 +95,10 @@ okta_new_behavior_accessing_admin_console_tests: List[PantherRuleTest] = [
             "version": "0",
         },
     ),
-    PantherRuleTest(
-        Name="New Behavior Accessing Admin Console (logSecurityDataOnly)",
-        ExpectedResult=True,
-        Log={
+    RuleTest(
+        name="New Behavior Accessing Admin Console (logSecurityDataOnly)",
+        expected_result=True,
+        log={
             "actor": {
                 "alternateId": "homer.simpson@duff.com",
                 "displayName": "Homer Simpson",
@@ -193,10 +191,10 @@ okta_new_behavior_accessing_admin_console_tests: List[PantherRuleTest] = [
             "version": "0",
         },
     ),
-    PantherRuleTest(
-        Name="Not New Behavior",
-        ExpectedResult=False,
-        Log={
+    RuleTest(
+        name="Not New Behavior",
+        expected_result=False,
+        log={
             "actor": {
                 "alternateId": "homer.simpson@duff.com",
                 "displayName": "Homer Simpson",
@@ -291,16 +289,16 @@ okta_new_behavior_accessing_admin_console_tests: List[PantherRuleTest] = [
 ]
 
 
-class OktaNewBehaviorAccessingAdminConsole(PantherRule):
-    RuleID = "Okta.New.Behavior.Accessing.Admin.Console-prototype"
-    DisplayName = "Okta New Behaviors Acessing Admin Console"
-    LogTypes = [PantherLogType.Okta_SystemLog]
-    Reports = {"MITRE ATT&CK": ["TA0001:T1078.004"]}
-    Severity = PantherSeverity.High
-    Description = "New Behaviors Observed while Accessing Okta Admin Console. A user attempted to access the Okta Admin Console from a new device with a new IP.\n"
-    Runbook = "Configure Authentication Policies (Application Sign-on Policies) for access to privileged applications, including the Admin Console, to require re-authentication “at every sign-in”. Turn on and test New Device and Suspicious Activity end-user notifications.\n"
-    Reference = "https://sec.okta.com/articles/2023/08/cross-tenant-impersonation-prevention-and-detection\n"
-    Tests = okta_new_behavior_accessing_admin_console_tests
+class OktaNewBehaviorAccessingAdminConsole(Rule):
+    id = "Okta.New.Behavior.Accessing.Admin.Console-prototype"
+    display_name = "Okta New Behaviors Acessing Admin Console"
+    log_types = [LogType.Okta_SystemLog]
+    reports = {"MITRE ATT&CK": ["TA0001:T1078.004"]}
+    default_severity = Severity.HIGH
+    default_description = "New Behaviors Observed while Accessing Okta Admin Console. A user attempted to access the Okta Admin Console from a new device with a new IP.\n"
+    default_runbook = "Configure Authentication Policies (Application Sign-on Policies) for access to privileged applications, including the Admin Console, to require re-authentication “at every sign-in”. Turn on and test New Device and Suspicious Activity end-user notifications.\n"
+    default_reference = "https://sec.okta.com/articles/2023/08/cross-tenant-impersonation-prevention-and-detection\n"
+    tests = okta_new_behavior_accessing_admin_console_tests
 
     def rule(self, event):
         if event.get("eventtype") != "policy.evaluate_sign_on":

@@ -1,13 +1,11 @@
-from typing import List
-
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import okta_alert_context
 
-okta_user_account_locked_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
-        Name="Account Lock Event",
-        ExpectedResult=True,
-        Log={
+okta_user_account_locked_tests: list[RuleTest] = [
+    RuleTest(
+        name="Account Lock Event",
+        expected_result=True,
+        log={
             "actor": {
                 "alternateId": "homer.simpson@duff.com",
                 "displayName": "Homer Simpson",
@@ -71,10 +69,10 @@ okta_user_account_locked_tests: List[PantherRuleTest] = [
             "version": "0",
         },
     ),
-    PantherRuleTest(
-        Name="Non Event",
-        ExpectedResult=False,
-        Log={
+    RuleTest(
+        name="Non Event",
+        expected_result=False,
+        log={
             "actor": {
                 "alternateId": "homer.simpson@duff.com",
                 "displayName": "Homer Simpsons",
@@ -154,14 +152,14 @@ okta_user_account_locked_tests: List[PantherRuleTest] = [
 ]
 
 
-class OktaUserAccountLocked(PantherRule):
-    Description = "An Okta user has locked their account."
-    DisplayName = "Okta User Account Locked"
-    Reference = "https://support.okta.com/help/s/article/How-to-Configure-the-Number-of-Failed-Login-Attempts-Before-User-Lockout?language=en_US"
-    Severity = PantherSeverity.Low
-    LogTypes = [PantherLogType.Okta_SystemLog]
-    RuleID = "Okta.User.Account.Locked-prototype"
-    Tests = okta_user_account_locked_tests
+class OktaUserAccountLocked(Rule):
+    default_description = "An Okta user has locked their account."
+    display_name = "Okta User Account Locked"
+    default_reference = "https://support.okta.com/help/s/article/How-to-Configure-the-Number-of-Failed-Login-Attempts-Before-User-Lockout?language=en_US"
+    default_severity = Severity.LOW
+    log_types = [LogType.Okta_SystemLog]
+    id = "Okta.User.Account.Locked-prototype"
+    tests = okta_user_account_locked_tests
 
     def rule(self, event):
         return event.get("eventtype") in ("user.account.lock", "user.account.lock.limit")

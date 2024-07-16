@@ -1,13 +1,11 @@
-from typing import List
-
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 
-google_workspace_advanced_protection_program_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
-        Name="parameters json key set to null value",
-        ExpectedResult=False,
-        Log={
+google_workspace_advanced_protection_program_tests: list[RuleTest] = [
+    RuleTest(
+        name="parameters json key set to null value",
+        expected_result=False,
+        log={
             "actor": {
                 "callerType": "USER",
                 "email": "user@example.io",
@@ -26,10 +24,10 @@ google_workspace_advanced_protection_program_tests: List[PantherRuleTest] = [
             "type": "recovery_info_change",
         },
     ),
-    PantherRuleTest(
-        Name="Allow Security Codes",
-        ExpectedResult=True,
-        Log={
+    RuleTest(
+        name="Allow Security Codes",
+        expected_result=True,
+        log={
             "actor": {"callerType": "USER", "email": "example@example.io", "profileId": "12345"},
             "id": {
                 "applicationName": "admin",
@@ -50,10 +48,10 @@ google_workspace_advanced_protection_program_tests: List[PantherRuleTest] = [
             "type": "APPLICATION_SETTINGS",
         },
     ),
-    PantherRuleTest(
-        Name="Enable User Enrollment",
-        ExpectedResult=True,
-        Log={
+    RuleTest(
+        name="Enable User Enrollment",
+        expected_result=True,
+        log={
             "actor": {"callerType": "USER", "email": "example@example.io", "profileId": "12345"},
             "id": {
                 "applicationName": "admin",
@@ -74,10 +72,10 @@ google_workspace_advanced_protection_program_tests: List[PantherRuleTest] = [
             "type": "APPLICATION_SETTINGS",
         },
     ),
-    PantherRuleTest(
-        Name="New Custom Role Created",
-        ExpectedResult=False,
-        Log={
+    RuleTest(
+        name="New Custom Role Created",
+        expected_result=False,
+        log={
             "actor": {"callerType": "USER", "email": "example@example.io", "profileId": "123456"},
             "id": {
                 "applicationName": "admin",
@@ -92,10 +90,10 @@ google_workspace_advanced_protection_program_tests: List[PantherRuleTest] = [
             "type": "DELEGATED_ADMIN_SETTINGS",
         },
     ),
-    PantherRuleTest(
-        Name="ListObject Type",
-        ExpectedResult=False,
-        Log={
+    RuleTest(
+        name="ListObject Type",
+        expected_result=False,
+        log={
             "actor": {"email": "user@example.io", "profileId": "118111111111111111111"},
             "id": {
                 "applicationName": "drive",
@@ -127,17 +125,17 @@ google_workspace_advanced_protection_program_tests: List[PantherRuleTest] = [
 ]
 
 
-class GoogleWorkspaceAdvancedProtectionProgram(PantherRule):
-    Description = (
+class GoogleWorkspaceAdvancedProtectionProgram(Rule):
+    default_description = (
         "Your organization's Google Workspace Advanced Protection Program settings were modified."
     )
-    DisplayName = "Google Workspace Advanced Protection Program"
-    Runbook = "Confirm the changes made were authorized for your organization."
-    Reference = "https://support.google.com/a/answer/9378686?hl=en"
-    Severity = PantherSeverity.Medium
-    LogTypes = [PantherLogType.GSuite_ActivityEvent]
-    RuleID = "Google.Workspace.Advanced.Protection.Program-prototype"
-    Tests = google_workspace_advanced_protection_program_tests
+    display_name = "Google Workspace Advanced Protection Program"
+    default_runbook = "Confirm the changes made were authorized for your organization."
+    default_reference = "https://support.google.com/a/answer/9378686?hl=en"
+    default_severity = Severity.MEDIUM
+    log_types = [LogType.GSuite_ActivityEvent]
+    id = "Google.Workspace.Advanced.Protection.Program-prototype"
+    tests = google_workspace_advanced_protection_program_tests
 
     def rule(self, event):
         # Return True to match the log event and trigger an alert.

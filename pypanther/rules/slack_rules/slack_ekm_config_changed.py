@@ -1,13 +1,11 @@
-from typing import List
-
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import slack_alert_context
 
-slack_audit_logs_ekm_config_changed_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
-        Name="EKM Config Changed",
-        ExpectedResult=True,
-        Log={
+slack_audit_logs_ekm_config_changed_tests: list[RuleTest] = [
+    RuleTest(
+        name="EKM Config Changed",
+        expected_result=True,
+        log={
             "action": "ekm_logging_config_set",
             "actor": {
                 "type": "user",
@@ -30,10 +28,10 @@ slack_audit_logs_ekm_config_changed_tests: List[PantherRuleTest] = [
             },
         },
     ),
-    PantherRuleTest(
-        Name="User Logout",
-        ExpectedResult=False,
-        Log={
+    RuleTest(
+        name="User Logout",
+        expected_result=False,
+        log={
             "action": "user_logout",
             "actor": {
                 "type": "user",
@@ -70,21 +68,21 @@ slack_audit_logs_ekm_config_changed_tests: List[PantherRuleTest] = [
 ]
 
 
-class SlackAuditLogsEKMConfigChanged(PantherRule):
-    RuleID = "Slack.AuditLogs.EKMConfigChanged-prototype"
-    DisplayName = "Slack EKM Config Changed"
-    LogTypes = [PantherLogType.Slack_AuditLogs]
-    Tags = ["Slack", "Defense Evasion", "Impair Defenses", "Disable or Modify Cloud Logs"]
-    Reports = {"MITRE ATT&CK": ["TA0005:T1562.008"]}
-    Severity = PantherSeverity.High
-    Description = (
+class SlackAuditLogsEKMConfigChanged(Rule):
+    id = "Slack.AuditLogs.EKMConfigChanged-prototype"
+    display_name = "Slack EKM Config Changed"
+    log_types = [LogType.Slack_AuditLogs]
+    tags = ["Slack", "Defense Evasion", "Impair Defenses", "Disable or Modify Cloud Logs"]
+    reports = {"MITRE ATT&CK": ["TA0005:T1562.008"]}
+    default_severity = Severity.HIGH
+    default_description = (
         "Detects when the logging settings for a workspace's EKM configuration has changed"
     )
-    Reference = (
+    default_reference = (
         "https://slack.com/intl/en-gb/help/articles/360019110974-Slack-Enterprise-Key-Management"
     )
-    SummaryAttributes = ["p_any_ip_addresses", "p_any_emails"]
-    Tests = slack_audit_logs_ekm_config_changed_tests
+    summary_attributes = ["p_any_ip_addresses", "p_any_emails"]
+    tests = slack_audit_logs_ekm_config_changed_tests
 
     def rule(self, event):
         # Only alert on the `ekm_logging_config_set` action

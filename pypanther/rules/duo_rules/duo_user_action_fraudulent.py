@@ -1,13 +1,11 @@
-from typing import List
-
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 
-duo_user_action_fraudulent_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
-        Name="user_marked_fraud",
-        ExpectedResult=True,
-        Log={
+duo_user_action_fraudulent_tests: list[RuleTest] = [
+    RuleTest(
+        name="user_marked_fraud",
+        expected_result=True,
+        log={
             "access_device": {"ip": "12.12.112.25", "os": "Mac OS X"},
             "auth_device": {"ip": "12.12.12.12"},
             "application": {"key": "D12345", "name": "Slack"},
@@ -21,17 +19,17 @@ duo_user_action_fraudulent_tests: List[PantherRuleTest] = [
 ]
 
 
-class DUOUserActionFraudulent(PantherRule):
-    RuleID = "DUO.User.Action.Fraudulent-prototype"
-    DisplayName = "Duo User Action Reported as Fraudulent"
-    DedupPeriodMinutes = 15
-    LogTypes = [PantherLogType.Duo_Authentication]
-    Tags = ["Duo"]
-    Severity = PantherSeverity.Medium
-    Description = "Alert when a user reports a Duo action as fraudulent.\n"
-    Reference = "https://duo.com/docs/adminapi#authentication-logs"
-    Runbook = "Follow up with the user to confirm."
-    Tests = duo_user_action_fraudulent_tests
+class DUOUserActionFraudulent(Rule):
+    id = "DUO.User.Action.Fraudulent-prototype"
+    display_name = "Duo User Action Reported as Fraudulent"
+    dedup_period_minutes = 15
+    log_types = [LogType.Duo_Authentication]
+    tags = ["Duo"]
+    default_severity = Severity.MEDIUM
+    default_description = "Alert when a user reports a Duo action as fraudulent.\n"
+    default_reference = "https://duo.com/docs/adminapi#authentication-logs"
+    default_runbook = "Follow up with the user to confirm."
+    tests = duo_user_action_fraudulent_tests
 
     def rule(self, event):
         return event.get("result") == "fraud"

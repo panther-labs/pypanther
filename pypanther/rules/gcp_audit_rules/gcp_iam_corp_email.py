@@ -1,13 +1,11 @@
-from typing import List
-
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 
-gcpiam_corporate_email_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
-        Name="Gmail account added",
-        ExpectedResult=True,
-        Log={
+gcpiam_corporate_email_tests: list[RuleTest] = [
+    RuleTest(
+        name="Gmail account added",
+        expected_result=True,
+        log={
             "protoPayload": {
                 "@type": "type.googleapis.com/google.cloud.audit.AuditLog",
                 "status": {},
@@ -143,10 +141,10 @@ gcpiam_corporate_email_tests: List[PantherRuleTest] = [
             "receiveTimestamp": "2020-05-15T03:51:35.977314225Z",
         },
     ),
-    PantherRuleTest(
-        Name="Runpanther account added",
-        ExpectedResult=False,
-        Log={
+    RuleTest(
+        name="Runpanther account added",
+        expected_result=False,
+        log={
             "protoPayload": {
                 "@type": "type.googleapis.com/google.cloud.audit.AuditLog",
                 "status": {},
@@ -285,19 +283,19 @@ gcpiam_corporate_email_tests: List[PantherRuleTest] = [
 ]
 
 
-class GCPIAMCorporateEmail(PantherRule):
-    RuleID = "GCP.IAM.CorporateEmail-prototype"
-    DisplayName = "GCP Corporate Email Not Used"
-    DedupPeriodMinutes = 720
-    LogTypes = [PantherLogType.GCP_AuditLog]
-    Tags = ["GCP", "Identity & Access Management", "Persistence:Create Account"]
-    Reports = {"MITRE ATT&CK": ["TA0003:T1136"], "CIS": ["1.1"]}
-    Severity = PantherSeverity.Low
-    Description = "A Gmail account is being used instead of a corporate email"
-    Runbook = "Remove the user"
-    Reference = "https://cloud.google.com/iam/docs/service-account-overview"
-    SummaryAttributes = ["severity", "p_any_ip_addresses", "p_any_domain_names"]
-    Tests = gcpiam_corporate_email_tests
+class GCPIAMCorporateEmail(Rule):
+    id = "GCP.IAM.CorporateEmail-prototype"
+    display_name = "GCP Corporate Email Not Used"
+    dedup_period_minutes = 720
+    log_types = [LogType.GCP_AuditLog]
+    tags = ["GCP", "Identity & Access Management", "Persistence:Create Account"]
+    reports = {"MITRE ATT&CK": ["TA0003:T1136"], "CIS": ["1.1"]}
+    default_severity = Severity.LOW
+    default_description = "A Gmail account is being used instead of a corporate email"
+    default_runbook = "Remove the user"
+    default_reference = "https://cloud.google.com/iam/docs/service-account-overview"
+    summary_attributes = ["severity", "p_any_ip_addresses", "p_any_domain_names"]
+    tests = gcpiam_corporate_email_tests
 
     def rule(self, event):
         if deep_get(event, "protoPayload", "methodName") != "SetIamPolicy":

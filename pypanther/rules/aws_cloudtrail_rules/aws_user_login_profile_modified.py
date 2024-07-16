@@ -1,13 +1,11 @@
-from typing import List
-
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import aws_rule_context, deep_get
 
-aws_user_login_profile_modified_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
-        Name="ChangeOwnPassword",
-        ExpectedResult=False,
-        Log={
+aws_user_login_profile_modified_tests: list[RuleTest] = [
+    RuleTest(
+        name="ChangeOwnPassword",
+        expected_result=False,
+        log={
             "awsRegion": "us-east-1",
             "eventCategory": "Management",
             "eventID": "1234",
@@ -46,10 +44,10 @@ aws_user_login_profile_modified_tests: List[PantherRuleTest] = [
             },
         },
     ),
-    PantherRuleTest(
-        Name="User changed password for other",
-        ExpectedResult=True,
-        Log={
+    RuleTest(
+        name="User changed password for other",
+        expected_result=True,
+        log={
             "awsRegion": "us-east-1",
             "eventCategory": "Management",
             "eventID": "1234",
@@ -88,10 +86,10 @@ aws_user_login_profile_modified_tests: List[PantherRuleTest] = [
             },
         },
     ),
-    PantherRuleTest(
-        Name="User changed password for other reset required",
-        ExpectedResult=False,
-        Log={
+    RuleTest(
+        name="User changed password for other reset required",
+        expected_result=False,
+        log={
             "awsRegion": "us-east-1",
             "eventCategory": "Management",
             "eventID": "1234",
@@ -133,15 +131,15 @@ aws_user_login_profile_modified_tests: List[PantherRuleTest] = [
 ]
 
 
-class AWSUserLoginProfileModified(PantherRule):
-    Description = "An attacker with iam:UpdateLoginProfile permission on other users can change the password used to login to the AWS console. May be legitimate account administration."
-    DisplayName = "AWS User Login Profile Modified"
-    Reports = {"MITRE ATT&CK": ["TA0003:T1098", "TA0005:T1108", "TA0005:T1550", "TA0008:T1550"]}
-    Reference = "https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_examples_aws_my-sec-creds-self-manage-pass-accesskeys-ssh.html"
-    Severity = PantherSeverity.High
-    LogTypes = [PantherLogType.AWS_CloudTrail]
-    RuleID = "AWS.User.Login.Profile.Modified-prototype"
-    Tests = aws_user_login_profile_modified_tests
+class AWSUserLoginProfileModified(Rule):
+    default_description = "An attacker with iam:UpdateLoginProfile permission on other users can change the password used to login to the AWS console. May be legitimate account administration."
+    display_name = "AWS User Login Profile Modified"
+    reports = {"MITRE ATT&CK": ["TA0003:T1098", "TA0005:T1108", "TA0005:T1550", "TA0008:T1550"]}
+    default_reference = "https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_examples_aws_my-sec-creds-self-manage-pass-accesskeys-ssh.html"
+    default_severity = Severity.HIGH
+    log_types = [LogType.AWS_CloudTrail]
+    id = "AWS.User.Login.Profile.Modified-prototype"
+    tests = aws_user_login_profile_modified_tests
 
     def rule(self, event):
         return (

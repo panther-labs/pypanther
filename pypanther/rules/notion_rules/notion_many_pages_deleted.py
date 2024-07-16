@@ -1,13 +1,11 @@
-from typing import List
-
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_notion_helpers import notion_alert_context
 
-notion_many_pages_deleted_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
-        Name="Other Event",
-        ExpectedResult=False,
-        Log={
+notion_many_pages_deleted_tests: list[RuleTest] = [
+    RuleTest(
+        name="Other Event",
+        expected_result=False,
+        log={
             "event": {
                 "id": "...",
                 "timestamp": "2023-06-02T20:16:41.217Z",
@@ -25,10 +23,10 @@ notion_many_pages_deleted_tests: List[PantherRuleTest] = [
             }
         },
     ),
-    PantherRuleTest(
-        Name="Many Pages Deleted",
-        ExpectedResult=True,
-        Log={
+    RuleTest(
+        name="Many Pages Deleted",
+        expected_result=True,
+        log={
             "event": {
                 "actor": {
                     "id": "af06b6ff-dd5e-4024-b9ef-78fe77f55884",
@@ -58,17 +56,17 @@ notion_many_pages_deleted_tests: List[PantherRuleTest] = [
 ]
 
 
-class NotionManyPagesDeleted(PantherRule):
-    RuleID = "Notion.Many.Pages.Deleted-prototype"
-    DisplayName = "Notion Many Pages Deleted"
-    LogTypes = [PantherLogType.Notion_AuditLogs]
-    Tags = ["Notion", "Data Security", "Data Destruction"]
-    Severity = PantherSeverity.Medium
-    Description = "A Notion User deleted multiple pages."
-    Threshold = 10
-    Runbook = "Possible Data Destruction. Follow up with the Notion User to determine if this was done for a valid business reason."
-    Reference = "https://www.notion.so/help/duplicate-delete-and-restore-content"
-    Tests = notion_many_pages_deleted_tests
+class NotionManyPagesDeleted(Rule):
+    id = "Notion.Many.Pages.Deleted-prototype"
+    display_name = "Notion Many Pages Deleted"
+    log_types = [LogType.Notion_AuditLogs]
+    tags = ["Notion", "Data Security", "Data Destruction"]
+    default_severity = Severity.MEDIUM
+    default_description = "A Notion User deleted multiple pages."
+    threshold = 10
+    default_runbook = "Possible Data Destruction. Follow up with the Notion User to determine if this was done for a valid business reason."
+    default_reference = "https://www.notion.so/help/duplicate-delete-and-restore-content"
+    tests = notion_many_pages_deleted_tests
 
     def rule(self, event):
         return event.deep_get("event", "type", default="<NO_EVENT_TYPE_FOUND>") == "page.deleted"

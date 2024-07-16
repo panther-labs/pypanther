@@ -1,13 +1,11 @@
-from typing import List
-
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_duo_helpers import duo_alert_context
 
-duo_admin_policy_updated_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
-        Name="Policy Update",
-        ExpectedResult=True,
-        Log={
+duo_admin_policy_updated_tests: list[RuleTest] = [
+    RuleTest(
+        name="Policy Update",
+        expected_result=True,
+        log={
             "action": "policy_update",
             "description": '{"adaptive_auth_display_unit": "days", "trusted_mobile_endpoint_policy": "no action", "adaptive_auth_hours": 0, "admin_email": "homer.simpson@simpsons.com", "allow_factor_u2f": false, "device_certificate_policy": "no action", "allow_factor_phone": false, "local_trusted_sessions_display_val": 0, "allow_adaptive_auth": false, "local_trusted_sessions_display_unit": "days", "allow_factor_sms": false}',
             "isotimestamp": "2022-02-21 21:48:48",
@@ -16,10 +14,10 @@ duo_admin_policy_updated_tests: List[PantherRuleTest] = [
             "username": "Homer Simpson",
         },
     ),
-    PantherRuleTest(
-        Name="Other event",
-        ExpectedResult=False,
-        Log={
+    RuleTest(
+        name="Other event",
+        expected_result=False,
+        log={
             "action": "admin_login",
             "description": '{"ip_address": "1.2.3.4", "device": "123-456-123", "factor": "sms", "saml_idp": "OneLogin", "primary_auth_method": "Single Sign-On"}',
             "isotimestamp": "2021-07-02 18:31:25",
@@ -30,14 +28,16 @@ duo_admin_policy_updated_tests: List[PantherRuleTest] = [
 ]
 
 
-class DuoAdminPolicyUpdated(PantherRule):
-    Description = "A Duo Administrator updated a Policy, which governs how users authenticate."
-    DisplayName = "Duo Admin Policy Updated"
-    Reference = "https://duo.com/docs/policy#authenticators-policy-settings"
-    Severity = PantherSeverity.Medium
-    LogTypes = [PantherLogType.Duo_Administrator]
-    RuleID = "Duo.Admin.Policy.Updated-prototype"
-    Tests = duo_admin_policy_updated_tests
+class DuoAdminPolicyUpdated(Rule):
+    default_description = (
+        "A Duo Administrator updated a Policy, which governs how users authenticate."
+    )
+    display_name = "Duo Admin Policy Updated"
+    default_reference = "https://duo.com/docs/policy#authenticators-policy-settings"
+    default_severity = Severity.MEDIUM
+    log_types = [LogType.Duo_Administrator]
+    id = "Duo.Admin.Policy.Updated-prototype"
+    tests = duo_admin_policy_updated_tests
 
     def rule(self, event):
         return event.get("action") == "policy_update"

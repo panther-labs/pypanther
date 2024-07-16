@@ -1,9 +1,6 @@
-from typing import List
-
 import pypanther.helpers.panther_event_type_helpers as event_type
-from pypanther.base import PantherDataModel, PantherDataModelMapping
+from pypanther.base import DataModel, DataModelMapping, LogType
 from pypanther.helpers.panther_base_helpers import deep_get
-from pypanther.log_types import PantherLogType
 
 
 def get_event_type(event):
@@ -42,14 +39,14 @@ def get_actor_user(event):
     return actor
 
 
-class StandardOktaSystemLog(PantherDataModel):
-    DataModelID: str = "Standard.Okta.SystemLog"
-    DisplayName: str = "Okta System Log"
-    Enabled: bool = True
-    LogTypes: List[str] = [PantherLogType.Okta_SystemLog]
-    Mappings: List[PantherDataModelMapping] = [
-        PantherDataModelMapping(Name="actor_user", Method=get_actor_user),
-        PantherDataModelMapping(Name="event_type", Method=get_event_type),
-        PantherDataModelMapping(Name="source_ip", Path="$.client.ipAddress"),
-        PantherDataModelMapping(Name="user_agent", Path="$.client.userAgent.rawUserAgent"),
+class StandardOktaSystemLog(DataModel):
+    id: str = "Standard.Okta.SystemLog"
+    display_name: str = "Okta System Log"
+    enabled: bool = True
+    log_types: list[str] = [LogType.Okta_SystemLog]
+    mappings: list[DataModelMapping] = [
+        DataModelMapping(name="actor_user", method=get_actor_user),
+        DataModelMapping(name="event_type", method=get_event_type),
+        DataModelMapping(name="source_ip", path="$.client.ipAddress"),
+        DataModelMapping(name="user_agent", path="$.client.userAgent.rawUserAgent"),
     ]

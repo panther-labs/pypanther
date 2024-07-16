@@ -1,13 +1,11 @@
-from typing import List
-
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_mongodb_helpers import mongodb_alert_context
 
-mongo_db_user_roles_changed_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
-        Name="Random event",
-        ExpectedResult=False,
-        Log={
+mongo_db_user_roles_changed_tests: list[RuleTest] = [
+    RuleTest(
+        name="Random event",
+        expected_result=False,
+        log={
             "created": "2023-06-07 16:57:55",
             "currentValue": {},
             "eventTypeName": "CAT_JUMPED",
@@ -33,10 +31,10 @@ mongo_db_user_roles_changed_tests: List[PantherRuleTest] = [
             "username": "user@company.com",
         },
     ),
-    PantherRuleTest(
-        Name="User roles changed",
-        ExpectedResult=True,
-        Log={
+    RuleTest(
+        name="User roles changed",
+        expected_result=True,
+        log={
             "created": "2023-06-07 16:57:55",
             "currentValue": {},
             "eventTypeName": "USER_ROLES_CHANGED_AUDIT",
@@ -65,14 +63,14 @@ mongo_db_user_roles_changed_tests: List[PantherRuleTest] = [
 ]
 
 
-class MongoDBUserRolesChanged(PantherRule):
-    Description = "User roles changed."
-    DisplayName = "MongoDB user roles changed"
-    Severity = PantherSeverity.Low
-    Reference = "https://www.mongodb.com/docs/v4.2/tutorial/create-users/"
-    LogTypes = [PantherLogType.MongoDB_OrganizationEvent]
-    RuleID = "MongoDB.User.Roles.Changed-prototype"
-    Tests = mongo_db_user_roles_changed_tests
+class MongoDBUserRolesChanged(Rule):
+    default_description = "User roles changed."
+    display_name = "MongoDB user roles changed"
+    default_severity = Severity.LOW
+    default_reference = "https://www.mongodb.com/docs/v4.2/tutorial/create-users/"
+    log_types = [LogType.MongoDB_OrganizationEvent]
+    id = "MongoDB.User.Roles.Changed-prototype"
+    tests = mongo_db_user_roles_changed_tests
 
     def rule(self, event):
         return event.deep_get("eventTypeName") == "USER_ROLES_CHANGED_AUDIT"

@@ -1,12 +1,10 @@
-from typing import List
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
-
-aws_cloud_trail_iam_compromised_key_quarantine_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
-        Name="AttachUserPolicy AWSCompromisedKeyQuarantineV2-true",
-        ExpectedResult=True,
-        Log={
+aws_cloud_trail_iam_compromised_key_quarantine_tests: list[RuleTest] = [
+    RuleTest(
+        name="AttachUserPolicy AWSCompromisedKeyQuarantineV2-true",
+        expected_result=True,
+        log={
             "eventVersion": "1.08",
             "userIdentity": {
                 "type": "AssumedRole",
@@ -50,10 +48,10 @@ aws_cloud_trail_iam_compromised_key_quarantine_tests: List[PantherRuleTest] = [
             "sessionCredentialFromConsole": "true",
         },
     ),
-    PantherRuleTest(
-        Name="PutUserPolicy-false",
-        ExpectedResult=False,
-        Log={
+    RuleTest(
+        name="PutUserPolicy-false",
+        expected_result=False,
+        log={
             "eventVersion": "1.08",
             "userIdentity": {
                 "type": "AssumedRole",
@@ -101,22 +99,22 @@ aws_cloud_trail_iam_compromised_key_quarantine_tests: List[PantherRuleTest] = [
 ]
 
 
-class AWSCloudTrailIAMCompromisedKeyQuarantine(PantherRule):
-    LogTypes = [PantherLogType.AWS_CloudTrail]
-    Description = "Detects when an IAM user has the AWSCompromisedKeyQuarantineV2 policy attached to their account."
-    DisplayName = "AWS Compromised IAM Key Quarantine"
-    RuleID = "AWS.CloudTrail.IAMCompromisedKeyQuarantine-prototype"
-    Severity = PantherSeverity.High
-    Tags = [
+class AWSCloudTrailIAMCompromisedKeyQuarantine(Rule):
+    log_types = [LogType.AWS_CloudTrail]
+    default_description = "Detects when an IAM user has the AWSCompromisedKeyQuarantineV2 policy attached to their account."
+    display_name = "AWS Compromised IAM Key Quarantine"
+    id = "AWS.CloudTrail.IAMCompromisedKeyQuarantine-prototype"
+    default_severity = Severity.HIGH
+    tags = [
         "AWS",
         "Identity and Access Management",
         "Initial Access:Valid Accounts",
         "Credential Access:Unsecured Credentials",
     ]
-    Reports = {"MITRE ATT&CK": ["TA0001:T1078.004", "TA0006:T1552.001"]}
-    Runbook = "Check the quarantined IAM entity's key usage for signs of compromise and follow the instructions outlined in the AWS support case opened regarding this event.\n"
-    Reference = "https://unit42.paloaltonetworks.com/malicious-operations-of-exposed-iam-keys-cryptojacking/"
-    Tests = aws_cloud_trail_iam_compromised_key_quarantine_tests
+    reports = {"MITRE ATT&CK": ["TA0001:T1078.004", "TA0006:T1552.001"]}
+    default_runbook = "Check the quarantined IAM entity's key usage for signs of compromise and follow the instructions outlined in the AWS support case opened regarding this event.\n"
+    default_reference = "https://unit42.paloaltonetworks.com/malicious-operations-of-exposed-iam-keys-cryptojacking/"
+    tests = aws_cloud_trail_iam_compromised_key_quarantine_tests
     IAM_ACTIONS = {"AttachUserPolicy", "AttachGroupPolicy", "AttachRolePolicy"}
     QUARANTINE_MANAGED_POLICY = "arn:aws:iam::aws:policy/AWSCompromisedKeyQuarantineV2"
 

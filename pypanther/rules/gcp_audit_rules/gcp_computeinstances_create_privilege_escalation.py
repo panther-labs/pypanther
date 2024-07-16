@@ -1,14 +1,12 @@
-from typing import List
-
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.gcp_base_helpers import gcp_alert_context
 from pypanther.helpers.panther_base_helpers import deep_get
 
-gc_pcomputeinstancescreate_privilege_escalation_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
-        Name="GCP compute.instances - Potential Privilege Escalation",
-        ExpectedResult=True,
-        Log={
+gc_pcomputeinstancescreate_privilege_escalation_tests: list[RuleTest] = [
+    RuleTest(
+        name="GCP compute.instances - Potential Privilege Escalation",
+        expected_result=True,
+        log={
             "protoPayload": {
                 "at_sign_type": "type.googleapis.com/google.cloud.audit.AuditLog",
                 "authenticationInfo": {
@@ -133,10 +131,10 @@ gc_pcomputeinstancescreate_privilege_escalation_tests: List[PantherRuleTest] = [
             "timestamp": "2024-01-30 12:52:34.676384000",
         },
     ),
-    PantherRuleTest(
-        Name="GCP compute.instances - Error",
-        ExpectedResult=False,
-        Log={
+    RuleTest(
+        name="GCP compute.instances - Error",
+        expected_result=False,
+        log={
             "protoPayload": {
                 "at_sign_type": "type.googleapis.com/google.cloud.audit.AuditLog",
                 "authenticationInfo": {
@@ -255,10 +253,10 @@ gc_pcomputeinstancescreate_privilege_escalation_tests: List[PantherRuleTest] = [
             "timestamp": "2024-01-30 11:03:55.700872000",
         },
     ),
-    PantherRuleTest(
-        Name="GCP compute.instances - Not All Permissions",
-        ExpectedResult=False,
-        Log={
+    RuleTest(
+        name="GCP compute.instances - Not All Permissions",
+        expected_result=False,
+        log={
             "protoPayload": {
                 "at_sign_type": "type.googleapis.com/google.cloud.audit.AuditLog",
                 "authenticationInfo": {
@@ -332,18 +330,18 @@ gc_pcomputeinstancescreate_privilege_escalation_tests: List[PantherRuleTest] = [
 ]
 
 
-class GCPcomputeinstancescreatePrivilegeEscalation(PantherRule):
-    LogTypes = [PantherLogType.GCP_AuditLog]
-    Description = "Detects compute.instances.create method for privilege escalation in GCP."
-    DisplayName = "GCP compute.instances.create Privilege Escalation"
-    RuleID = "GCP.compute.instances.create.Privilege.Escalation-prototype"
-    Reference = (
+class GCPcomputeinstancescreatePrivilegeEscalation(Rule):
+    log_types = [LogType.GCP_AuditLog]
+    default_description = "Detects compute.instances.create method for privilege escalation in GCP."
+    display_name = "GCP compute.instances.create Privilege Escalation"
+    id = "GCP.compute.instances.create.Privilege.Escalation-prototype"
+    default_reference = (
         "https://rhinosecuritylabs.com/gcp/privilege-escalation-google-cloud-platform-part-1/"
     )
-    Runbook = "Confirm this was authorized and necessary behavior."
-    Reports = {"MITRE ATT&CK": ["TA0004:T1548"]}
-    Severity = PantherSeverity.High
-    Tests = gc_pcomputeinstancescreate_privilege_escalation_tests
+    default_runbook = "Confirm this was authorized and necessary behavior."
+    reports = {"MITRE ATT&CK": ["TA0004:T1548"]}
+    default_severity = Severity.HIGH
+    tests = gc_pcomputeinstancescreate_privilege_escalation_tests
     REQUIRED_PERMISSIONS = [
         "compute.disks.create",
         "compute.instances.create",

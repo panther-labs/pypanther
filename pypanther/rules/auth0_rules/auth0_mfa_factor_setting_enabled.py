@@ -1,14 +1,12 @@
-from typing import List
-
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_auth0_helpers import auth0_alert_context, is_auth0_config_event
 from pypanther.helpers.panther_base_helpers import deep_get
 
-auth0_mfa_factor_setting_enabled_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
-        Name="MFA Enabled",
-        ExpectedResult=True,
-        Log={
+auth0_mfa_factor_setting_enabled_tests: list[RuleTest] = [
+    RuleTest(
+        name="MFA Enabled",
+        expected_result=True,
+        log={
             "data": {
                 "client_id": "1HXWWGKk1Zj3JF8GvMrnCSirccDs4qvr",
                 "client_name": "",
@@ -191,10 +189,10 @@ auth0_mfa_factor_setting_enabled_tests: List[PantherRuleTest] = [
             "p_source_label": "Org Tenant Label",
         },
     ),
-    PantherRuleTest(
-        Name="MFA disabled",
-        ExpectedResult=False,
-        Log={
+    RuleTest(
+        name="MFA disabled",
+        expected_result=False,
+        log={
             "data": {
                 "client_id": "1HXWWGKk1Zj3JF8GvMrnCSirccDs4qvr",
                 "client_name": "",
@@ -380,15 +378,15 @@ auth0_mfa_factor_setting_enabled_tests: List[PantherRuleTest] = [
 ]
 
 
-class Auth0MFAFactorSettingEnabled(PantherRule):
-    Description = "An Auth0 user enabled an mfa factor in your organization's mfa settings."
-    DisplayName = "Auth0 mfa factor enabled"
-    Runbook = "Assess if this was done by the user for a valid business reason. Be vigilant to re-enable this setting as it's in the best security interest for your organization's security posture."
-    Reference = "https://auth0.com/docs/secure/multi-factor-authentication/multi-factor-authentication-factors"
-    Severity = PantherSeverity.Info
-    LogTypes = [PantherLogType.Auth0_Events]
-    RuleID = "Auth0.MFA.Factor.Setting.Enabled-prototype"
-    Tests = auth0_mfa_factor_setting_enabled_tests
+class Auth0MFAFactorSettingEnabled(Rule):
+    default_description = "An Auth0 user enabled an mfa factor in your organization's mfa settings."
+    display_name = "Auth0 mfa factor enabled"
+    default_runbook = "Assess if this was done by the user for a valid business reason. Be vigilant to re-enable this setting as it's in the best security interest for your organization's security posture."
+    default_reference = "https://auth0.com/docs/secure/multi-factor-authentication/multi-factor-authentication-factors"
+    default_severity = Severity.INFO
+    log_types = [LogType.Auth0_Events]
+    id = "Auth0.MFA.Factor.Setting.Enabled-prototype"
+    tests = auth0_mfa_factor_setting_enabled_tests
 
     def rule(self, event):
         description = deep_get(event, "data", "description", default="<NO_DESCRIPTION_FOUND>")

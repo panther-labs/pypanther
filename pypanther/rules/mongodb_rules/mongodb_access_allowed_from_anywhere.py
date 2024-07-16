@@ -1,13 +1,11 @@
-from typing import List
-
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_mongodb_helpers import mongodb_alert_context
 
-mongo_db_access_allowed_from_anywhere_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
-        Name="Allowed access from anywhere",
-        ExpectedResult=True,
-        Log={
+mongo_db_access_allowed_from_anywhere_tests: list[RuleTest] = [
+    RuleTest(
+        name="Allowed access from anywhere",
+        expected_result=True,
+        log={
             "created": "2024-04-03 11:13:04.000000000",
             "currentValue": {},
             "eventTypeName": "NETWORK_PERMISSION_ENTRY_ADDED",
@@ -20,10 +18,10 @@ mongo_db_access_allowed_from_anywhere_tests: List[PantherRuleTest] = [
             "whitelistEntry": "0.0.0.0/0",
         },
     ),
-    PantherRuleTest(
-        Name="Allowed access from specific ip",
-        ExpectedResult=False,
-        Log={
+    RuleTest(
+        name="Allowed access from specific ip",
+        expected_result=False,
+        log={
             "created": "2024-04-03 11:13:04.000000000",
             "currentValue": {},
             "eventTypeName": "NETWORK_PERMISSION_ENTRY_ADDED",
@@ -39,16 +37,16 @@ mongo_db_access_allowed_from_anywhere_tests: List[PantherRuleTest] = [
 ]
 
 
-class MongoDBAccessAllowedFromAnywhere(PantherRule):
-    Description = "Atlas only allows client connections to the database deployment from entries in the project's IP access list. This rule detects when 0.0.0.0/0 is added to that list, which allows access from anywhere."
-    DisplayName = "MongoDB access allowed from anywhere"
-    LogTypes = [PantherLogType.MongoDB_ProjectEvent]
-    RuleID = "MongoDB.Access.Allowed.From.Anywhere-prototype"
-    Severity = PantherSeverity.High
-    Reports = {"MITRE ATT&CK": ["T1021"]}
-    Reference = "https://www.mongodb.com/docs/atlas/security/ip-access-list/"
-    Runbook = "Check if this activity was legitimate. If not, delete 0.0.0.0/0 from the list of allowed ips."
-    Tests = mongo_db_access_allowed_from_anywhere_tests
+class MongoDBAccessAllowedFromAnywhere(Rule):
+    default_description = "Atlas only allows client connections to the database deployment from entries in the project's IP access list. This rule detects when 0.0.0.0/0 is added to that list, which allows access from anywhere."
+    display_name = "MongoDB access allowed from anywhere"
+    log_types = [LogType.MongoDB_ProjectEvent]
+    id = "MongoDB.Access.Allowed.From.Anywhere-prototype"
+    default_severity = Severity.HIGH
+    reports = {"MITRE ATT&CK": ["T1021"]}
+    default_reference = "https://www.mongodb.com/docs/atlas/security/ip-access-list/"
+    default_runbook = "Check if this activity was legitimate. If not, delete 0.0.0.0/0 from the list of allowed ips."
+    tests = mongo_db_access_allowed_from_anywhere_tests
 
     def rule(self, event):
         if (

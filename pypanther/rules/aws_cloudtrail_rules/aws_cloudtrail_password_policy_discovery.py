@@ -1,13 +1,11 @@
-from typing import List
-
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import aws_rule_context, deep_get
 
-aws_cloud_trail_password_policy_discovery_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
-        Name="Non-Discovery Event",
-        ExpectedResult=False,
-        Log={
+aws_cloud_trail_password_policy_discovery_tests: list[RuleTest] = [
+    RuleTest(
+        name="Non-Discovery Event",
+        expected_result=False,
+        log={
             "apiversion": "2012-08-10",
             "awsregion": "eu-west-1",
             "eventcategory": "Data",
@@ -21,10 +19,10 @@ aws_cloud_trail_password_policy_discovery_tests: List[PantherRuleTest] = [
             "useridentity": {"arn": "arn:aws:test_arn"},
         },
     ),
-    PantherRuleTest(
-        Name="Password Discovery ARN",
-        ExpectedResult=True,
-        Log={
+    RuleTest(
+        name="Password Discovery ARN",
+        expected_result=True,
+        log={
             "awsregion": "us-east-1",
             "eventcategory": "Management",
             "eventid": "1808ca3b-4311-4b48-9d1f-21061acb2329",
@@ -37,10 +35,10 @@ aws_cloud_trail_password_policy_discovery_tests: List[PantherRuleTest] = [
             "useridentity": {"arn": "arn:aws:test_arn"},
         },
     ),
-    PantherRuleTest(
-        Name="Password Discovery Service",
-        ExpectedResult=False,
-        Log={
+    RuleTest(
+        name="Password Discovery Service",
+        expected_result=False,
+        log={
             "awsregion": "us-east-1",
             "eventType": "AwsServiceEvent",
             "eventcategory": "Management",
@@ -55,17 +53,17 @@ aws_cloud_trail_password_policy_discovery_tests: List[PantherRuleTest] = [
 ]
 
 
-class AWSCloudTrailPasswordPolicyDiscovery(PantherRule):
-    Description = "This detection looks for *AccountPasswordPolicy events in AWS CloudTrail logs. If these events occur in a short period of time from the same ARN, it could constitute Password Policy reconnaissance."
-    DisplayName = "AWS CloudTrail Password Policy Discovery"
-    Reports = {"MITRE ATT&CK": ["TA0007:T1201"]}
-    Reference = "https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_passwords_account-policy.html"
-    Severity = PantherSeverity.Info
-    DedupPeriodMinutes = 30
-    LogTypes = [PantherLogType.AWS_CloudTrail]
-    RuleID = "AWS.CloudTrail.Password.Policy.Discovery-prototype"
-    Threshold = 2
-    Tests = aws_cloud_trail_password_policy_discovery_tests
+class AWSCloudTrailPasswordPolicyDiscovery(Rule):
+    default_description = "This detection looks for *AccountPasswordPolicy events in AWS CloudTrail logs. If these events occur in a short period of time from the same ARN, it could constitute Password Policy reconnaissance."
+    display_name = "AWS CloudTrail Password Policy Discovery"
+    reports = {"MITRE ATT&CK": ["TA0007:T1201"]}
+    default_reference = "https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_passwords_account-policy.html"
+    default_severity = Severity.INFO
+    dedup_period_minutes = 30
+    log_types = [LogType.AWS_CloudTrail]
+    id = "AWS.CloudTrail.Password.Policy.Discovery-prototype"
+    threshold = 2
+    tests = aws_cloud_trail_password_policy_discovery_tests
     PASSWORD_DISCOVERY_EVENTS = [
         "GetAccountPasswordPolicy",
         "UpdateAccountPasswordPolicy",
