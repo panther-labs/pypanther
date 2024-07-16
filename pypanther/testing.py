@@ -158,9 +158,7 @@ def log_rule_func_exception(failed_result: RuleTestResult) -> None:
     )
 
 
-def log_aux_func_exception(
-    failed_result: RuleTestResult, method_name: str, exc: Exception
-) -> None:
+def log_aux_func_exception(failed_result: RuleTestResult, method_name: str, exc: Exception) -> None:
     logging.warning(
         "%s: Exception in test '%s' calling %s()",
         failed_result.rule_id,
@@ -170,9 +168,7 @@ def log_aux_func_exception(
     )
 
 
-def log_rule_test_failure(
-    failed_result: RuleTestResult, func: str, exp: str, output: str
-) -> None:
+def log_rule_test_failure(failed_result: RuleTestResult, func: str, exp: str, output: str) -> None:
     logging.error(
         "%s: test '%s' returned the wrong result calling %s(), expected %s but got %s: %s",
         failed_result.rule_id,
@@ -187,9 +183,7 @@ def log_rule_test_failure(
 def log_aux_func_failure(
     failed_result: RuleTestResult, aux_func_exceptions: dict[str, Exception]
 ) -> None:
-    exc_msgs = [
-        f"{name}()" for name, exc in aux_func_exceptions.items() if exc is not None
-    ]
+    exc_msgs = [f"{name}()" for name, exc in aux_func_exceptions.items() if exc is not None]
     exc_msg = ", ".join(exc_msgs[:-1]) if len(exc_msgs) > 1 else exc_msgs[0]
     last_exc_msg = f" and {exc_msgs[-1]}" if len(exc_msgs) > 1 else ""
 
