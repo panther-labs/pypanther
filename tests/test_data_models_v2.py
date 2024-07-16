@@ -1,28 +1,22 @@
-from pypanther.data_models_v2 import DataModel, Field, FieldType, FieldMapping
+from pypanther.data_models_v2 import DataModel, Field, FieldMapping, FieldType
 
 
 def test_data_model_inheritance():
     test_field_1 = Field(
         name="test1",
         field_type=FieldType.STRING,
-        mappings=[
-            FieldMapping(log_type="Custom.Test", field_path="field.nested1")
-        ]
+        mappings=[FieldMapping(log_type="Custom.Test", field_path="field.nested1")],
     )
     test_field_2 = Field(
         name="test2",
         field_type=FieldType.STRING,
-        mappings=[
-            FieldMapping(log_type="Custom.Test", field_path="field.nested2")
-        ]
+        mappings=[FieldMapping(log_type="Custom.Test", field_path="field.nested2")],
     )
 
     test_field_3 = Field(
         name="test3",
         field_type=FieldType.STRING,
-        mappings=[
-            FieldMapping(log_type="Custom.Test", field_path="field.nested3")
-        ]
+        mappings=[FieldMapping(log_type="Custom.Test", field_path="field.nested3")],
     )
 
     class Test(DataModel):
@@ -55,9 +49,7 @@ def test_override():
             Field(
                 name="test1",
                 field_type=FieldType.STRING,
-                mappings=[
-                    FieldMapping(log_type="Custom.Test", field_path="field.nested1")
-                ]
+                mappings=[FieldMapping(log_type="Custom.Test", field_path="field.nested1")],
             )
         ]
 
@@ -68,9 +60,7 @@ def test_override():
         Field(
             name="test1",
             field_type=FieldType.STRING,
-            mappings=[
-                FieldMapping(log_type="Custom.Test", field_path="field.nested1")
-            ]
+            mappings=[FieldMapping(log_type="Custom.Test", field_path="field.nested1")],
         )
     ]
 
@@ -82,11 +72,9 @@ def test_override():
             Field(
                 name="test2",
                 field_type=FieldType.STRING,
-                mappings=[
-                    FieldMapping(log_type="Custom.Test", field_path="field.nested2")
-                ]
+                mappings=[FieldMapping(log_type="Custom.Test", field_path="field.nested2")],
             )
-        ]
+        ],
     )
 
     assert Test.data_model_id == "new"
@@ -96,8 +84,6 @@ def test_override():
         Field(
             name="test2",
             field_type=FieldType.STRING,
-            mappings=[
-                FieldMapping(log_type="Custom.Test", field_path="field.nested2")
-            ]
+            mappings=[FieldMapping(log_type="Custom.Test", field_path="field.nested2")],
         )
     ]

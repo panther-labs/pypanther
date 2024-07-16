@@ -1,8 +1,8 @@
 import abc
+import copy
 import dataclasses
 from enum import Enum
 from typing import List, Optional
-import copy
 
 from pypanther import PantherLogType
 
@@ -20,6 +20,7 @@ DATA_MODEL_ALL_ATTRS = [
 
 class FieldType(str, Enum):
     """Enumeration of all possible field types."""
+
     STRING = "string"
     INT = "int"
     SMALL_INT = "smallint"
@@ -35,6 +36,7 @@ class FieldType(str, Enum):
 @dataclasses.dataclass
 class FieldMapping:
     """Represents a field mapping in a data model."""
+
     log_type: PantherLogType | str
     """The log type that this field belongs to."""
     # TODO: Right now we support field_paths but we should be able to support transformations as well
@@ -46,6 +48,7 @@ class FieldMapping:
 @dataclasses.dataclass
 class Field:
     """Represents a field in a data model."""
+
     name: str
     field_type: FieldType
     """The type of the field."""
@@ -58,6 +61,7 @@ class Field:
 
 class DataModel(metaclass=abc.ABCMeta):
     """A Panther data model. This class should be subclassed to create a new Data Model."""
+
     data_model_id: str
     """The unique identifier of the data model."""
     description: str = ""
@@ -73,11 +77,11 @@ class DataModel(metaclass=abc.ABCMeta):
 
     @classmethod
     def override(
-            cls,
-            data_model_id: Optional[str] = None,
-            description: Optional[str] = None,
-            enabled: Optional[bool] = None,
-            fields: Optional[List[Field]] = None,
+        cls,
+        data_model_id: Optional[str] = None,
+        description: Optional[str] = None,
+        enabled: Optional[bool] = None,
+        fields: Optional[List[Field]] = None,
     ):
         for key, val in locals().items():
             if key == "cls":
