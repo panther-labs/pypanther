@@ -120,28 +120,6 @@ def print_failed_test_results(
                         str(exp),
                         str(output) if str(output) != "" else "''",
                     )
-            # if (
-            #     result.severity_exception is None
-            #     and test.expected_severity
-            #     and result.severity_output != test.expected_severity
-            # ):
-            #     log_rule_test_failure(
-            #         failed_result,
-            #         "severity",
-            #         str(test.expected_severity),
-            #         str(result.severity_output),
-            #     )
-            # if (
-            #     result.severity_exception is None
-            #     and test.expected_severity
-            #     and result.severity_output != test.expected_severity
-            # ):
-            #     log_rule_test_failure(
-            #         failed_result,
-            #         "severity",
-            #         str(test.expected_severity),
-            #         str(result.severity_output),
-            #     )
 
         if test_failure_separator:
             print(test_failure_separator)
