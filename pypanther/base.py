@@ -386,6 +386,26 @@ class Rule(metaclass=abc.ABCMeta):
                     rule_id=self.id,
                 )
 
+            if any(
+                [
+                    test.expected_severity and test.expected_severity != detection_result.severity_output,
+                    test.expected_title and test.expected_title != detection_result.title_output,
+                    test.expected_dedup and test.expected_dedup != detection_result.dedup_output,
+                    test.expected_destinations and test.expected_destinations != detection_result.destinations_output,
+                    test.expected_runbook and test.expected_runbook != detection_result.runbook_output,
+                    test.expected_reference and test.expected_reference != detection_result.reference_output,
+                    test.expected_description and test.expected_description != detection_result.description_output,
+                    test.expected_alert_context
+                    and test.expected_alert_context != json.loads(detection_result.alert_context_output),
+                ]
+            ):
+                return RuleTestResult(
+                    passed=False,
+                    detection_result=detection_result,
+                    test=test,
+                    rule_id=self.id,
+                )
+
         finally:
             for p in patches:
                 p.stop()
