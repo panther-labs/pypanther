@@ -1,12 +1,10 @@
-from typing import List
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
-
-teleport_lock_created_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
-        Name="A Lock was created",
-        ExpectedResult=True,
-        Log={
+teleport_lock_created_tests: list[RuleTest] = [
+    RuleTest(
+        name="A Lock was created",
+        expected_result=True,
+        log={
             "cluster_name": "teleport.example.com",
             "code": "TLK00I",
             "ei": 0,
@@ -23,17 +21,17 @@ teleport_lock_created_tests: List[PantherRuleTest] = [
 ]
 
 
-class TeleportLockCreated(PantherRule):
-    RuleID = "Teleport.LockCreated-prototype"
-    DisplayName = "A Teleport Lock was created"
-    LogTypes = [PantherLogType.Gravitational_TeleportAudit]
-    Tags = ["Teleport"]
-    Severity = PantherSeverity.Info
-    Description = "A Teleport Lock was created"
-    Reference = "https://goteleport.com/docs/management/admin/"
-    Runbook = "A Teleport Lock was created; this is an unusual administrative action. Investigate to understand why a Lock was created.\n"
-    SummaryAttributes = ["event", "code", "time", "identity"]
-    Tests = teleport_lock_created_tests
+class TeleportLockCreated(Rule):
+    id = "Teleport.LockCreated-prototype"
+    display_name = "A Teleport Lock was created"
+    log_types = [LogType.Gravitational_TeleportAudit]
+    tags = ["Teleport"]
+    default_severity = Severity.INFO
+    default_description = "A Teleport Lock was created"
+    default_reference = "https://goteleport.com/docs/management/admin/"
+    default_runbook = "A Teleport Lock was created; this is an unusual administrative action. Investigate to understand why a Lock was created.\n"
+    summary_attributes = ["event", "code", "time", "identity"]
+    tests = teleport_lock_created_tests
 
     def rule(self, event):
         return event.get("event") == "lock.created"

@@ -1,17 +1,24 @@
-from pypanther import PantherLogType, PantherRule, PantherSeverity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_notion_helpers import notion_alert_context
 
 
-class NotionLoginFromBlockedIP(PantherRule):
-    RuleID = "Notion.LoginFromBlockedIP-prototype"
-    DisplayName = "Notion Login From Blocked IP"
-    Enabled = False
-    LogTypes = [PantherLogType.Notion_AuditLogs]
-    Tags = ["Notion", "Network Security Monitoring", "Malicious Connections", "Configuration Required"]
-    Severity = PantherSeverity.Medium
-    Description = "A user attempted to access Notion from a blocked IP address. Note: before deployinh, make sure to add Rule Filters checking if event.ip_address is in a certain CIDR range(s)."
-    Runbook = "Confirm with user if the login was legitimate. If so, determine why the IP is blocked."
-    Reference = "https://www.notion.so/help/allowlist-ip"
+class NotionLoginFromBlockedIP(Rule):
+    id = "Notion.LoginFromBlockedIP-prototype"
+    display_name = "Notion Login From Blocked IP"
+    enabled = False
+    log_types = [LogType.Notion_AuditLogs]
+    tags = [
+        "Notion",
+        "Network Security Monitoring",
+        "Malicious Connections",
+        "Configuration Required",
+    ]
+    default_severity = Severity.MEDIUM
+    default_description = "A user attempted to access Notion from a blocked IP address. Note: before deployinh, make sure to add Rule Filters checking if event.ip_address is in a certain CIDR range(s)."
+    default_runbook = (
+        "Confirm with user if the login was legitimate. If so, determine why the IP is blocked."
+    )
+    default_reference = "https://www.notion.so/help/allowlist-ip"
 
     def rule(self, event):
         # Users can specify inline-filters to permit rules based on IPs

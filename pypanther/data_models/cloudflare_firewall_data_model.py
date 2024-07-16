@@ -1,16 +1,13 @@
-from typing import List
-
-from pypanther.base import PantherDataModel, PantherDataModelMapping
-from pypanther.log_types import PantherLogType
+from pypanther.base import DataModel, DataModelMapping, LogType
 
 
-class StandardCloudflareFirewall(PantherDataModel):
-    DataModelID: str = "Standard.Cloudflare.Firewall"
-    DisplayName: str = "Cloudflare Firewall"
-    Enabled: bool = True
-    LogTypes: List[str] = [PantherLogType.Cloudflare_Firewall]
-    Mappings: List[PantherDataModelMapping] = [
-        PantherDataModelMapping(Name="source_ip", Path="ClientIP"),
-        PantherDataModelMapping(Name="user_agent", Path="ClientRequestUserAgent"),
-        PantherDataModelMapping(Name="http_status", Path="EdgeResponseStatus"),
+class StandardCloudflareFirewall(DataModel):
+    id: str = "Standard.Cloudflare.Firewall"
+    display_name: str = "Cloudflare Firewall"
+    enabled: bool = True
+    log_types: list[str] = [LogType.Cloudflare_Firewall]
+    mappings: list[DataModelMapping] = [
+        DataModelMapping(name="source_ip", path="ClientIP"),
+        DataModelMapping(name="user_agent", path="ClientRequestUserAgent"),
+        DataModelMapping(name="http_status", path="EdgeResponseStatus"),
     ]

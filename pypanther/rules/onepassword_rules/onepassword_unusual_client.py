@@ -1,20 +1,22 @@
-from typing import List
-
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 
-one_password_unusual_client_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
-        Name="1Password - Expected Client",
-        ExpectedResult=False,
-        Log={
+one_password_unusual_client_tests: list[RuleTest] = [
+    RuleTest(
+        name="1Password - Expected Client",
+        expected_result=False,
+        log={
             "uuid": "1234",
             "session_uuid": "12345",
             "timestamp": "2021-12-15 18:02:23",
             "category": "success",
             "type": "credentials_ok",
             "country": "US",
-            "target_user": {"email": "homer@springfield.gov", "name": "Homer Simpson", "uuid": "1234"},
+            "target_user": {
+                "email": "homer@springfield.gov",
+                "name": "Homer Simpson",
+                "uuid": "1234",
+            },
             "client": {
                 "app_name": "1Password for Mac",
                 "app_version": "70902005",
@@ -27,17 +29,21 @@ one_password_unusual_client_tests: List[PantherRuleTest] = [
             "p_log_type": "OnePassword.SignInAttempt",
         },
     ),
-    PantherRuleTest(
-        Name="1Password - Bad Client",
-        ExpectedResult=True,
-        Log={
+    RuleTest(
+        name="1Password - Bad Client",
+        expected_result=True,
+        log={
             "uuid": "1234",
             "session_uuid": "12345",
             "timestamp": "2021-12-15 18:02:23",
             "category": "success",
             "type": "credentials_ok",
             "country": "US",
-            "target_user": {"email": "homer@springfield.gov", "name": "Homer Simpson", "uuid": "1234"},
+            "target_user": {
+                "email": "homer@springfield.gov",
+                "name": "Homer Simpson",
+                "uuid": "1234",
+            },
             "client": {
                 "app_name": "Bartco 1Password Manager",
                 "app_version": "70902005",
@@ -53,18 +59,20 @@ one_password_unusual_client_tests: List[PantherRuleTest] = [
 ]
 
 
-class OnePasswordUnusualClient(PantherRule):
-    RuleID = "OnePassword.Unusual.Client-prototype"
-    DedupPeriodMinutes = 120
-    DisplayName = "Unusual 1Password Client Detected"
-    LogTypes = [PantherLogType.OnePassword_SignInAttempt]
-    Severity = PantherSeverity.Medium
-    Description = "Detects when unusual or undesirable 1Password clients access your 1Password account"
-    Reference = "https://support.1password.com/category/accounts/"
-    Tags = ["1Password", "Credential Access:Credentials from Password Stores"]
-    Reports = {"MITRE ATT&CK": ["TA0006:T1555"]}
-    SummaryAttributes = ["p_any_ip_addresses", "p_any_emails"]
-    Tests = one_password_unusual_client_tests
+class OnePasswordUnusualClient(Rule):
+    id = "OnePassword.Unusual.Client-prototype"
+    dedup_period_minutes = 120
+    display_name = "Unusual 1Password Client Detected"
+    log_types = [LogType.OnePassword_SignInAttempt]
+    default_severity = Severity.MEDIUM
+    default_description = (
+        "Detects when unusual or undesirable 1Password clients access your 1Password account"
+    )
+    default_reference = "https://support.1password.com/category/accounts/"
+    tags = ["1Password", "Credential Access:Credentials from Password Stores"]
+    reports = {"MITRE ATT&CK": ["TA0006:T1555"]}
+    summary_attributes = ["p_any_ip_addresses", "p_any_emails"]
+    tests = one_password_unusual_client_tests
     "\nThis rule detects unusual or unauthorized clients connecting to your 1Password account.\nIn order to get a baseline of what clients are being used in your environment run the following\nquery in Data Explorer:\n\nselect distinct client:app_name from panther_logs.public.onepassword_signinattempt\n\nThe client_allowlist variable is a collection of standard 1Password clients.\nIf this differs from your orginization's needs this rule can be edited to suit your environment\n"
 
     def rule(self, event):  # Used for automated account provisioning

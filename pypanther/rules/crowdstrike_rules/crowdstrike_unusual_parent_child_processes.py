@@ -1,13 +1,11 @@
-from typing import List
-
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import crowdstrike_detection_alert_context, deep_get
 
-crowdstrike_unusual_parent_child_processes_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
-        Name="Suspicious Event",
-        ExpectedResult=True,
-        Log={
+crowdstrike_unusual_parent_child_processes_tests: list[RuleTest] = [
+    RuleTest(
+        name="Suspicious Event",
+        expected_result=True,
+        log={
             "aid": "1234567890abcdefg654321",
             "aip": "11.10.9.8",
             "cid": "abcdefghijklmnop123467890",
@@ -80,10 +78,10 @@ crowdstrike_unusual_parent_child_processes_tests: List[PantherRuleTest] = [
             "treeid": "4295752857",
         },
     ),
-    PantherRuleTest(
-        Name="Non Suspicious Event",
-        ExpectedResult=False,
-        Log={
+    RuleTest(
+        name="Non Suspicious Event",
+        expected_result=False,
+        log={
             "aid": "1234567890abcdefg654321",
             "aip": "11.10.9.8",
             "cid": "abcdefghijklmnop123467890",
@@ -159,14 +157,14 @@ crowdstrike_unusual_parent_child_processes_tests: List[PantherRuleTest] = [
 ]
 
 
-class CrowdstrikeUnusualParentChildProcesses(PantherRule):
-    Description = "Detects unusual parent child process pairings."
-    DisplayName = "Crowdstrike Unusual Parent Child Processes"
-    Reference = "https://medium.com/falconforce/falconfriday-e4554e9e6665"
-    Severity = PantherSeverity.Critical
-    LogTypes = [PantherLogType.Crowdstrike_FDREvent]
-    RuleID = "Crowdstrike.Unusual.Parent.Child.Processes-prototype"
-    Tests = crowdstrike_unusual_parent_child_processes_tests
+class CrowdstrikeUnusualParentChildProcesses(Rule):
+    default_description = "Detects unusual parent child process pairings."
+    display_name = "Crowdstrike Unusual Parent Child Processes"
+    default_reference = "https://medium.com/falconforce/falconfriday-e4554e9e6665"
+    default_severity = Severity.CRITICAL
+    log_types = [LogType.Crowdstrike_FDREvent]
+    id = "Crowdstrike.Unusual.Parent.Child.Processes-prototype"
+    tests = crowdstrike_unusual_parent_child_processes_tests
     SUSPICIOUS_PARENT_CHILD_COMBINATIONS_WINDOWS = {
         ("svchost.exe", "cmd.exe"),
         ("explorer.exe", "powershell.exe"),

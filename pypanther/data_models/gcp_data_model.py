@@ -1,11 +1,9 @@
 import json
 from fnmatch import fnmatch
-from typing import List
 
 import pypanther.helpers.panther_event_type_helpers as event_type
-from pypanther.base import PantherDataModel, PantherDataModelMapping
+from pypanther.base import DataModel, DataModelMapping, LogType
 from pypanther.helpers.panther_base_helpers import deep_get, get_binding_deltas
-from pypanther.log_types import PantherLogType
 
 ADMIN_ROLES = {
     # Primitive Rolesx
@@ -19,7 +17,12 @@ def get_event_type(event):
     # currently, only tracking a handful of event types
     for delta in get_binding_deltas(event):
         if delta["action"] == "ADD":
-            if any((fnmatch(delta.get("role", ""), admin_role_pattern) for admin_role_pattern in ADMIN_ROLES)):
+            if any(
+                (
+                    fnmatch(delta.get("role", ""), admin_role_pattern)
+                    for admin_role_pattern in ADMIN_ROLES
+                )
+            ):
                 return event_type.ADMIN_ROLE_ASSIGNED
 
     return None
@@ -112,29 +115,33 @@ def get_verb(event):
     return deep_get(event, "protoPayload", "methodName", default="").split(".")[-1]
 
 
-class StandardGCPAuditLog(PantherDataModel):
-    DataModelID: str = "Standard.GCP.AuditLog"
-    DisplayName: str = "GCP Audit Log"
-    Enabled: bool = True
-    LogTypes: List[str] = [PantherLogType.GCP_AuditLog]
-    Mappings: List[PantherDataModelMapping] = [
-        PantherDataModelMapping(Name="actor_user", Path="$.protoPayload.authenticationInfo.principalEmail"),
-        PantherDataModelMapping(Name="assigned_admin_role", Method=get_iam_roles),
-        PantherDataModelMapping(Name="event_type", Method=get_event_type),
-        PantherDataModelMapping(Name="source_ip", Path="$.protoPayload.requestMetadata.callerIP"),
-        PantherDataModelMapping(Name="user", Method=get_modified_users),
-        PantherDataModelMapping(Name="annotations", Path="$.labels"),
-        PantherDataModelMapping(Name="apiGroup", Method=get_api_group),
-        PantherDataModelMapping(Name="apiVersion", Method=get_api_version),
-        PantherDataModelMapping(Name="namespace", Method=get_namespace),
-        PantherDataModelMapping(Name="resource", Method=get_resource),
-        PantherDataModelMapping(Name="name", Method=get_name),
-        PantherDataModelMapping(Name="requestURI", Method=get_request_uri),
-        PantherDataModelMapping(Name="responseStatus", Path="$.protoPayload.status"),
-        PantherDataModelMapping(Name="sourceIPs", Method=get_source_ips),
-        PantherDataModelMapping(Name="username", Path="$.protoPayload.authenticationInfo.principalEmail"),
-        PantherDataModelMapping(Name="userAgent", Path="$.protoPayload.requestMetadata.callerSuppliedUserAgent"),
-        PantherDataModelMapping(Name="verb", Method=get_verb),
-        PantherDataModelMapping(Name="requestObject", Path="$.protoPayload.request"),
-        PantherDataModelMapping(Name="responseObject", Path="$.protoPayload.response"),
+class StandardGCPAuditLog(DataModel):
+    id: str = "Standard.GCP.AuditLog"
+    display_name: str = "GCP Audit Log"
+    enabled: bool = True
+    log_types: list[str] = [LogType.GCP_AuditLog]
+    mappings: list[DataModelMapping] = [
+        DataModelMapping(
+            name="actor_user", path="$.protoPayload.authenticationInfo.principalEmail"
+        ),
+        DataModelMapping(name="assigned_admin_role", method=get_iam_roles),
+        DataModelMapping(name="event_type", method=get_event_type),
+        DataModelMapping(name="source_ip", path="$.protoPayload.requestMetadata.callerIP"),
+        DataModelMapping(name="user", method=get_modified_users),
+        DataModelMapping(name="annotations", path="$.labels"),
+        DataModelMapping(name="apiGroup", method=get_api_group),
+        DataModelMapping(name="apiVersion", method=get_api_version),
+        DataModelMapping(name="namespace", method=get_namespace),
+        DataModelMapping(name="resource", method=get_resource),
+        DataModelMapping(name="name", method=get_name),
+        DataModelMapping(name="requestURI", method=get_request_uri),
+        DataModelMapping(name="responseStatus", path="$.protoPayload.status"),
+        DataModelMapping(name="sourceIPs", method=get_source_ips),
+        DataModelMapping(name="username", path="$.protoPayload.authenticationInfo.principalEmail"),
+        DataModelMapping(
+            name="userAgent", path="$.protoPayload.requestMetadata.callerSuppliedUserAgent"
+        ),
+        DataModelMapping(name="verb", method=get_verb),
+        DataModelMapping(name="requestObject", path="$.protoPayload.request"),
+        DataModelMapping(name="responseObject", path="$.protoPayload.response"),
     ]

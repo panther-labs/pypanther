@@ -1,13 +1,11 @@
-from typing import List
-
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import crowdstrike_process_alert_context, is_base64
 
-crowdstrike_base64_encoded_args_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
-        Name="Command Line Tool Execution with Base64 Argument (Positive)",
-        ExpectedResult=True,
-        Log={
+crowdstrike_base64_encoded_args_tests: list[RuleTest] = [
+    RuleTest(
+        name="Command Line Tool Execution with Base64 Argument (Positive)",
+        expected_result=True,
+        log={
             "ConfigBuild": "1007.3.0016606.11",
             "ConfigStateHash": "3645117824",
             "Entitlements": "15",
@@ -65,10 +63,10 @@ crowdstrike_base64_encoded_args_tests: List[PantherRuleTest] = [
             "timestamp": "2023-04-24 20:33:36.719",
         },
     ),
-    PantherRuleTest(
-        Name="Command Line Tool Execution with Base64 Argument 2 (Positive)",
-        ExpectedResult=True,
-        Log={
+    RuleTest(
+        name="Command Line Tool Execution with Base64 Argument 2 (Positive)",
+        expected_result=True,
+        log={
             "ConfigBuild": "1007.3.0016606.11",
             "ConfigStateHash": "3645117824",
             "Entitlements": "15",
@@ -126,10 +124,10 @@ crowdstrike_base64_encoded_args_tests: List[PantherRuleTest] = [
             "timestamp": "2023-04-24 20:33:36.719",
         },
     ),
-    PantherRuleTest(
-        Name="Command Line Tool Execution without Base64 Argument (Negative)",
-        ExpectedResult=False,
-        Log={
+    RuleTest(
+        name="Command Line Tool Execution without Base64 Argument (Negative)",
+        expected_result=False,
+        log={
             "ConfigBuild": "1007.3.0016606.11",
             "ConfigStateHash": "3645117824",
             "Entitlements": "15",
@@ -187,10 +185,10 @@ crowdstrike_base64_encoded_args_tests: List[PantherRuleTest] = [
             "timestamp": "2023-04-24 20:33:36.719",
         },
     ),
-    PantherRuleTest(
-        Name="Mac - Git",
-        ExpectedResult=False,
-        Log={
+    RuleTest(
+        name="Mac - Git",
+        expected_result=False,
+        log={
             "ConfigBuild": "1007.4.0016304.11",
             "ConfigStateHash": "3521399940",
             "Entitlements": "15",
@@ -246,10 +244,10 @@ crowdstrike_base64_encoded_args_tests: List[PantherRuleTest] = [
             "timestamp": "2023-02-03 16:23:00.83",
         },
     ),
-    PantherRuleTest(
-        Name="Command Line Tool Execution without Base64 Argument (Negative) 2",
-        ExpectedResult=False,
-        Log={
+    RuleTest(
+        name="Command Line Tool Execution without Base64 Argument (Negative) 2",
+        expected_result=False,
+        log={
             "ConfigBuild": "1007.3.0016606.11",
             "ConfigStateHash": "3645117824",
             "Entitlements": "15",
@@ -307,10 +305,10 @@ crowdstrike_base64_encoded_args_tests: List[PantherRuleTest] = [
             "timestamp": "2023-04-24 20:33:36.719",
         },
     ),
-    PantherRuleTest(
-        Name="Command Line Tool Execution without Base64 Argument (Negative) 3",
-        ExpectedResult=False,
-        Log={
+    RuleTest(
+        name="Command Line Tool Execution without Base64 Argument (Negative) 3",
+        expected_result=False,
+        log={
             "ConfigBuild": "1007.3.0016606.11",
             "ConfigStateHash": "3645117824",
             "Entitlements": "15",
@@ -368,10 +366,10 @@ crowdstrike_base64_encoded_args_tests: List[PantherRuleTest] = [
             "timestamp": "2023-04-24 20:33:36.719",
         },
     ),
-    PantherRuleTest(
-        Name="Command Line Tool Execution without Base64 Argument (Negative) 4",
-        ExpectedResult=False,
-        Log={
+    RuleTest(
+        name="Command Line Tool Execution without Base64 Argument (Negative) 4",
+        expected_result=False,
+        log={
             "ConfigBuild": "1007.3.0016606.11",
             "ConfigStateHash": "3645117824",
             "Entitlements": "15",
@@ -429,10 +427,10 @@ crowdstrike_base64_encoded_args_tests: List[PantherRuleTest] = [
             "timestamp": "2023-04-24 20:33:36.719",
         },
     ),
-    PantherRuleTest(
-        Name="Command Line Tool Execution without Base64 Argument (Negative) 5",
-        ExpectedResult=False,
-        Log={
+    RuleTest(
+        name="Command Line Tool Execution without Base64 Argument (Negative) 5",
+        expected_result=False,
+        log={
             "ConfigBuild": "1007.3.0016606.11",
             "ConfigStateHash": "3645117824",
             "Entitlements": "15",
@@ -490,10 +488,10 @@ crowdstrike_base64_encoded_args_tests: List[PantherRuleTest] = [
             "timestamp": "2023-04-24 20:33:36.719",
         },
     ),
-    PantherRuleTest(
-        Name="Command Line Tool Execution without Base64 Argument (Negative) 6",
-        ExpectedResult=False,
-        Log={
+    RuleTest(
+        name="Command Line Tool Execution without Base64 Argument (Negative) 6",
+        expected_result=False,
+        log={
             "ConfigBuild": "1007.3.0016606.11",
             "ConfigStateHash": "3645117824",
             "Entitlements": "15",
@@ -554,18 +552,16 @@ crowdstrike_base64_encoded_args_tests: List[PantherRuleTest] = [
 ]
 
 
-class CrowdstrikeBase64EncodedArgs(PantherRule):
-    RuleID = "Crowdstrike.Base64EncodedArgs-prototype"
-    DisplayName = "Execution of Command Line Tool with Base64 Encoded Arguments"
-    LogTypes = [PantherLogType.Crowdstrike_FDREvent]
-    Tags = ["Execution", "Obfuscation"]
-    Severity = PantherSeverity.Medium
-    Description = "Detects the execution of common command line tools (e.g., PowerShell, cmd.exe) with Base64 encoded arguments, which could indicate an attempt to obfuscate malicious commands."
-    Runbook = "Investigate the endpoint for signs of command line tool execution with Base64 encoded arguments. Review the executed command, decode the Base64 string, and analyze the original content."
-    Reference = (
-        "https://www.crowdstrike.com/blog/blocking-fileless-script-based-attacks-using-falcon-script-control-feature/"
-    )
-    Tests = crowdstrike_base64_encoded_args_tests
+class CrowdstrikeBase64EncodedArgs(Rule):
+    id = "Crowdstrike.Base64EncodedArgs-prototype"
+    display_name = "Execution of Command Line Tool with Base64 Encoded Arguments"
+    log_types = [LogType.Crowdstrike_FDREvent]
+    tags = ["Execution", "Obfuscation"]
+    default_severity = Severity.MEDIUM
+    default_description = "Detects the execution of common command line tools (e.g., PowerShell, cmd.exe) with Base64 encoded arguments, which could indicate an attempt to obfuscate malicious commands."
+    default_runbook = "Investigate the endpoint for signs of command line tool execution with Base64 encoded arguments. Review the executed command, decode the Base64 string, and analyze the original content."
+    default_reference = "https://www.crowdstrike.com/blog/blocking-fileless-script-based-attacks-using-falcon-script-control-feature/"
+    tests = crowdstrike_base64_encoded_args_tests
     DECODED = ""
     # List of command line tools to monitor for execution with Base64 encoded arguments
     COMMAND_LINE_TOOLS = {"powershell.exe", "cmd.exe", "cscript.exe", "wscript.exe", "rundll32.exe"}
@@ -595,7 +591,9 @@ class CrowdstrikeBase64EncodedArgs(PantherRule):
     def title(self, event):
         process_name = event.udm("process_name").lower()
         command_line = event.udm("cmd")
-        return f"Crowdstrike: Execution with base64 encoded args: [{process_name}] - [{command_line}]"
+        return (
+            f"Crowdstrike: Execution with base64 encoded args: [{process_name}] - [{command_line}]"
+        )
 
     def alert_context(self, event):
         context = crowdstrike_process_alert_context(event)

@@ -1,15 +1,14 @@
 import re
-from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.gcp_base_helpers import gcp_alert_context
 from pypanther.helpers.panther_base_helpers import deep_get
 
-gcp_logging_sink_modified_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
-        Name="logging-sink.modifed-should-alert",
-        ExpectedResult=True,
-        Log={
+gcp_logging_sink_modified_tests: list[RuleTest] = [
+    RuleTest(
+        name="logging-sink.modifed-should-alert",
+        expected_result=True,
+        log={
             "insertid": "6ns26jclap",
             "logname": "projects/test-project-123456/logs/cloudaudit.googleapis.com%2Factivity",
             "protoPayload": {
@@ -58,10 +57,10 @@ gcp_logging_sink_modified_tests: List[PantherRuleTest] = [
             "timestamp": "2023-05-23 19:39:07.272",
         },
     ),
-    PantherRuleTest(
-        Name="logging-sink.non-modified-should-not-alert",
-        ExpectedResult=False,
-        Log={
+    RuleTest(
+        name="logging-sink.non-modified-should-not-alert",
+        expected_result=False,
+        log={
             "insertid": "6ns26jclap",
             "logname": "projects/test-project-123456/logs/cloudaudit.googleapis.com%2Factivity",
             "protoPayload": {
@@ -113,16 +112,16 @@ gcp_logging_sink_modified_tests: List[PantherRuleTest] = [
 ]
 
 
-class GCPLoggingSinkModified(PantherRule):
-    DisplayName = "GCP Logging Sink Modified"
-    RuleID = "GCP.Logging.Sink.Modified-prototype"
-    Severity = PantherSeverity.Info
-    LogTypes = [PantherLogType.GCP_AuditLog]
-    Tags = ["GCP", "Logging", "Sink", "Infrastructure"]
-    Description = "This rule detects modifications to GCP Log Sinks.\n"
-    Runbook = "Ensure that the modification was valid or expected. Adversaries may do this to exfiltrate logs or evade detection.\n"
-    Reference = "https://cloud.google.com/logging/docs"
-    Tests = gcp_logging_sink_modified_tests
+class GCPLoggingSinkModified(Rule):
+    display_name = "GCP Logging Sink Modified"
+    id = "GCP.Logging.Sink.Modified-prototype"
+    default_severity = Severity.INFO
+    log_types = [LogType.GCP_AuditLog]
+    tags = ["GCP", "Logging", "Sink", "Infrastructure"]
+    default_description = "This rule detects modifications to GCP Log Sinks.\n"
+    default_runbook = "Ensure that the modification was valid or expected. Adversaries may do this to exfiltrate logs or evade detection.\n"
+    default_reference = "https://cloud.google.com/logging/docs"
+    tests = gcp_logging_sink_modified_tests
 
     def rule(self, event):
         method_pattern = "(?:\\w+\\.)*v\\d\\.(?:ConfigServiceV\\d\\.(?:UpdateSink))"

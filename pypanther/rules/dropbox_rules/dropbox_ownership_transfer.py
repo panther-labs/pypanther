@@ -1,16 +1,15 @@
 import json
-from typing import List
 from unittest.mock import MagicMock
 
-from pypanther import PantherLogType, PantherRule, PantherRuleMock, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 from pypanther.helpers.panther_config import config
 
-dropbox_ownership_transfer_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
-        Name="Folder Ownership Transfer to External",
-        ExpectedResult=True,
-        Log={
+dropbox_ownership_transfer_tests: list[RuleTest] = [
+    RuleTest(
+        name="Folder Ownership Transfer to External",
+        expected_result=True,
+        log={
             "actor": {
                 "_tag": "user",
                 "user": {
@@ -52,9 +51,17 @@ dropbox_ownership_transfer_tests: List[PantherRuleTest] = [
             "origin": {
                 "access_method": {
                     ".tag": "end_user",
-                    "end_user": {".tag": "web", "session_id": "dbwsid:237034608707419186011941491025532848312"},
+                    "end_user": {
+                        ".tag": "web",
+                        "session_id": "dbwsid:237034608707419186011941491025532848312",
+                    },
                 },
-                "geo_location": {"city": "Austin", "country": "US", "ip_address": "1.2.3.4", "region": "Texas"},
+                "geo_location": {
+                    "city": "Austin",
+                    "country": "US",
+                    "ip_address": "1.2.3.4",
+                    "region": "Texas",
+                },
             },
             "p_any_emails": ["alice.bob@company.io", "david.davidson@company.io"],
             "p_any_ip_addresses": ["1.2.3.4"],
@@ -80,10 +87,10 @@ dropbox_ownership_transfer_tests: List[PantherRuleTest] = [
             "timestamp": "2023-04-18 18:54:15",
         },
     ),
-    PantherRuleTest(
-        Name="Other",
-        ExpectedResult=False,
-        Log={
+    RuleTest(
+        name="Other",
+        expected_result=False,
+        log={
             "actor": {
                 "_tag": "user",
                 "user": {
@@ -116,9 +123,17 @@ dropbox_ownership_transfer_tests: List[PantherRuleTest] = [
             "origin": {
                 "access_method": {
                     ".tag": "end_user",
-                    "end_user": {".tag": "web", "session_id": "dbwsid:237034608707419186011941491025532848312"},
+                    "end_user": {
+                        ".tag": "web",
+                        "session_id": "dbwsid:237034608707419186011941491025532848312",
+                    },
                 },
-                "geo_location": {"city": "Austin", "country": "US", "ip_address": "1.2.3.4", "region": "Texas"},
+                "geo_location": {
+                    "city": "Austin",
+                    "country": "US",
+                    "ip_address": "1.2.3.4",
+                    "region": "Texas",
+                },
             },
             "p_any_emails": ["alice.bob@company.io"],
             "p_any_ip_addresses": ["1.2.3.4"],
@@ -133,11 +148,16 @@ dropbox_ownership_transfer_tests: List[PantherRuleTest] = [
             "timestamp": "2023-04-18 18:16:27",
         },
     ),
-    PantherRuleTest(
-        Name="Folder Ownership Transfer to Internal",
-        ExpectedResult=True,
-        Mocks=[PantherRuleMock(ObjectName="DROPBOX_TRUSTED_OWNERSHIP_DOMAINS", ReturnValue='[\n    "example.com"\n]')],
-        Log={
+    RuleTest(
+        name="Folder Ownership Transfer to Internal",
+        expected_result=True,
+        mocks=[
+            RuleMock(
+                object_name="DROPBOX_TRUSTED_OWNERSHIP_DOMAINS",
+                return_value='[\n    "example.com"\n]',
+            )
+        ],
+        log={
             "actor": {
                 "_tag": "user",
                 "user": {
@@ -179,9 +199,17 @@ dropbox_ownership_transfer_tests: List[PantherRuleTest] = [
             "origin": {
                 "access_method": {
                     ".tag": "end_user",
-                    "end_user": {".tag": "web", "session_id": "dbwsid:237034608707419186011941491025532848312"},
+                    "end_user": {
+                        ".tag": "web",
+                        "session_id": "dbwsid:237034608707419186011941491025532848312",
+                    },
                 },
-                "geo_location": {"city": "Austin", "country": "US", "ip_address": "1.2.3.4", "region": "Texas"},
+                "geo_location": {
+                    "city": "Austin",
+                    "country": "US",
+                    "ip_address": "1.2.3.4",
+                    "region": "Texas",
+                },
             },
             "p_any_emails": ["alice.bob@company.io", "david.davidson@example.com"],
             "p_any_ip_addresses": ["1.2.3.4"],
@@ -210,14 +238,14 @@ dropbox_ownership_transfer_tests: List[PantherRuleTest] = [
 ]
 
 
-class DropboxOwnershipTransfer(PantherRule):
-    Description = "Dropbox ownership of a document or folder has been transferred."
-    DisplayName = "Dropbox Document/Folder Ownership Transfer"
-    Reference = "https://help.dropbox.com/share/owner"
-    Severity = PantherSeverity.High
-    LogTypes = [PantherLogType.Dropbox_TeamEvent]
-    RuleID = "Dropbox.Ownership.Transfer-prototype"
-    Tests = dropbox_ownership_transfer_tests
+class DropboxOwnershipTransfer(Rule):
+    default_description = "Dropbox ownership of a document or folder has been transferred."
+    display_name = "Dropbox Document/Folder Ownership Transfer"
+    default_reference = "https://help.dropbox.com/share/owner"
+    default_severity = Severity.HIGH
+    log_types = [LogType.Dropbox_TeamEvent]
+    id = "Dropbox.Ownership.Transfer-prototype"
+    tests = dropbox_ownership_transfer_tests
     DROPBOX_TRUSTED_OWNERSHIP_DOMAINS = config.DROPBOX_TRUSTED_OWNERSHIP_DOMAINS
 
     def rule(self, event):
@@ -225,7 +253,9 @@ class DropboxOwnershipTransfer(PantherRule):
 
     def title(self, event):
         actor = deep_get(event, "actor", "user", "email", default="<EMAIL_NOT_FOUND>")
-        previous_owner = deep_get(event, "details", "previous_owner_email", default="<PREVIOUS_OWNER_NOT_FOUND>")
+        previous_owner = deep_get(
+            event, "details", "previous_owner_email", default="<PREVIOUS_OWNER_NOT_FOUND>"
+        )
         new_owner = deep_get(event, "details", "new_owner_email", default="<NEW_OWNER_NOT_FOUND>")
         assets = event.get("assets", [{}])
         asset = [a.get("display_name", "<ASSET_NOT_FOUND>") for a in assets]
@@ -233,7 +263,9 @@ class DropboxOwnershipTransfer(PantherRule):
 
     def severity(self, event):
         if isinstance(self.DROPBOX_TRUSTED_OWNERSHIP_DOMAINS, MagicMock):
-            self.DROPBOX_TRUSTED_OWNERSHIP_DOMAINS = set(json.loads(self.DROPBOX_TRUSTED_OWNERSHIP_DOMAINS()))  # pylint: disable=not-callable
+            self.DROPBOX_TRUSTED_OWNERSHIP_DOMAINS = set(
+                json.loads(self.DROPBOX_TRUSTED_OWNERSHIP_DOMAINS())
+            )  # pylint: disable=not-callable
         new_owner = deep_get(event, "details", "new_owner_email", default="<NEW_OWNER_NOT_FOUND>")
         if new_owner.split("@")[-1] not in self.DROPBOX_TRUSTED_OWNERSHIP_DOMAINS:
             return "HIGH"

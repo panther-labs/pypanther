@@ -1,23 +1,21 @@
-from typing import List
-
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 from pypanther.helpers.panther_config import config
 
-g_suite_doc_ownership_transfer_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
-        Name="Ownership Transferred Within Organization",
-        ExpectedResult=False,
-        Log={
+g_suite_doc_ownership_transfer_tests: list[RuleTest] = [
+    RuleTest(
+        name="Ownership Transferred Within Organization",
+        expected_result=False,
+        log={
             "id": {"applicationName": "admin"},
             "name": "TRANSFER_DOCUMENT_OWNERSHIP",
             "parameters": {"NEW_VALUE": "homer.simpson@example.com"},
         },
     ),
-    PantherRuleTest(
-        Name="Document Transferred to External User",
-        ExpectedResult=True,
-        Log={
+    RuleTest(
+        name="Document Transferred to External User",
+        expected_result=True,
+        log={
             "id": {"applicationName": "admin"},
             "name": "TRANSFER_DOCUMENT_OWNERSHIP",
             "parameters": {"NEW_VALUE": "monty.burns@badguy.com"},
@@ -26,27 +24,31 @@ g_suite_doc_ownership_transfer_tests: List[PantherRuleTest] = [
 ]
 
 
-class GSuiteDocOwnershipTransfer(PantherRule):
-    RuleID = "GSuite.DocOwnershipTransfer-prototype"
-    DisplayName = "GSuite Document External Ownership Transfer"
-    Enabled = False
-    LogTypes = [PantherLogType.GSuite_ActivityEvent]
-    Tags = ["GSuite", "Configuration Required", "Collection:Data from Information Repositories"]
-    Reports = {"MITRE ATT&CK": ["TA0009:T1213"]}
-    Severity = PantherSeverity.Low
-    Description = "A GSuite document's ownership was transferred to an external party.\n"
-    Reference = (
-        "https://support.google.com/drive/answer/2494892?hl=en&co=GENIE.Platform%3DDesktop&sjid=864417124752637253-EU"
+class GSuiteDocOwnershipTransfer(Rule):
+    id = "GSuite.DocOwnershipTransfer-prototype"
+    display_name = "GSuite Document External Ownership Transfer"
+    enabled = False
+    log_types = [LogType.GSuite_ActivityEvent]
+    tags = ["GSuite", "Configuration Required", "Collection:Data from Information Repositories"]
+    reports = {"MITRE ATT&CK": ["TA0009:T1213"]}
+    default_severity = Severity.LOW
+    default_description = "A GSuite document's ownership was transferred to an external party.\n"
+    default_reference = "https://support.google.com/drive/answer/2494892?hl=en&co=GENIE.Platform%3DDesktop&sjid=864417124752637253-EU"
+    default_runbook = (
+        "Verify that this document did not contain sensitive or private company information.\n"
     )
-    Runbook = "Verify that this document did not contain sensitive or private company information.\n"
-    SummaryAttributes = ["actor:email"]
-    Tests = g_suite_doc_ownership_transfer_tests
-    GSUITE_TRUSTED_OWNERSHIP_DOMAINS = {"@" + domain for domain in config.GSUITE_TRUSTED_OWNERSHIP_DOMAINS}
+    summary_attributes = ["actor:email"]
+    tests = g_suite_doc_ownership_transfer_tests
+    GSUITE_TRUSTED_OWNERSHIP_DOMAINS = {
+        "@" + domain for domain in config.GSUITE_TRUSTED_OWNERSHIP_DOMAINS
+    }
 
     def rule(self, event):
         if deep_get(event, "id", "applicationName") != "admin":
             return False
         if bool(event.get("name") == "TRANSFER_DOCUMENT_OWNERSHIP"):
             new_owner = deep_get(event, "parameters", "NEW_VALUE", default="<UNKNOWN USER>")
-            return bool(new_owner) and (not any((new_owner.endswith(x) for x in self.GSUITE_TRUSTED_OWNERSHIP_DOMAINS)))
+            return bool(new_owner) and (
+                not any((new_owner.endswith(x) for x in self.GSUITE_TRUSTED_OWNERSHIP_DOMAINS))
+            )
         return False

@@ -1,13 +1,11 @@
-from typing import List
-
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import pattern_match_list
 
-teleport_create_user_accounts_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
-        Name="Echo command",
-        ExpectedResult=False,
-        Log={
+teleport_create_user_accounts_tests: list[RuleTest] = [
+    RuleTest(
+        name="Echo command",
+        expected_result=False,
+        log={
             "argv": [],
             "cgroup_id": 4294967537,
             "code": "T4000I",
@@ -27,10 +25,10 @@ teleport_create_user_accounts_tests: List[PantherRuleTest] = [
             "user": "panther",
         },
     ),
-    PantherRuleTest(
-        Name="Userdel command",
-        ExpectedResult=True,
-        Log={
+    RuleTest(
+        name="Userdel command",
+        expected_result=True,
+        log={
             "argv": ["jacknew"],
             "cgroup_id": 4294967567,
             "code": "T4000I",
@@ -53,19 +51,29 @@ teleport_create_user_accounts_tests: List[PantherRuleTest] = [
 ]
 
 
-class TeleportCreateUserAccounts(PantherRule):
-    RuleID = "Teleport.CreateUserAccounts-prototype"
-    DisplayName = "Teleport Create User Accounts"
-    LogTypes = [PantherLogType.Gravitational_TeleportAudit]
-    Tags = ["SSH", "Persistence:Create Account"]
-    Reports = {"MITRE ATT&CK": ["TA0003:T1136"]}
-    Severity = PantherSeverity.High
-    Description = "A user has been manually created, modified, or deleted"
-    DedupPeriodMinutes = 15
-    Reference = "https://goteleport.com/docs/management/admin/"
-    Runbook = "Analyze why it was manually created and delete it if necessary."
-    SummaryAttributes = ["event", "code", "user", "program", "path", "return_code", "login", "server_id", "sid"]
-    Tests = teleport_create_user_accounts_tests  # user password expiry
+class TeleportCreateUserAccounts(Rule):
+    id = "Teleport.CreateUserAccounts-prototype"
+    display_name = "Teleport Create User Accounts"
+    log_types = [LogType.Gravitational_TeleportAudit]
+    tags = ["SSH", "Persistence:Create Account"]
+    reports = {"MITRE ATT&CK": ["TA0003:T1136"]}
+    default_severity = Severity.HIGH
+    default_description = "A user has been manually created, modified, or deleted"
+    dedup_period_minutes = 15
+    default_reference = "https://goteleport.com/docs/management/admin/"
+    default_runbook = "Analyze why it was manually created and delete it if necessary."
+    summary_attributes = [
+        "event",
+        "code",
+        "user",
+        "program",
+        "path",
+        "return_code",
+        "login",
+        "server_id",
+        "sid",
+    ]
+    tests = teleport_create_user_accounts_tests  # user password expiry
     # change passwords for users
     # create, modify, and delete users
     USER_CREATE_PATTERNS = ["chage", "passwd", "user*"]

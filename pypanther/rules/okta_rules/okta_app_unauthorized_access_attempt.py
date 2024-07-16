@@ -1,13 +1,11 @@
-from typing import List
-
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get, okta_alert_context
 
-okta_app_unauthorized_access_attempt_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
-        Name="Unauthorized Access Event",
-        ExpectedResult=True,
-        Log={
+okta_app_unauthorized_access_attempt_tests: list[RuleTest] = [
+    RuleTest(
+        name="Unauthorized Access Event",
+        expected_result=True,
+        log={
             "actor": {
                 "alternateId": "homer.simpson@duff.com",
                 "displayName": "Homer Simpsons",
@@ -77,10 +75,10 @@ okta_app_unauthorized_access_attempt_tests: List[PantherRuleTest] = [
             "version": "0",
         },
     ),
-    PantherRuleTest(
-        Name="Other Event",
-        ExpectedResult=False,
-        Log={
+    RuleTest(
+        name="Other Event",
+        expected_result=False,
+        log={
             "actor": {
                 "alternateId": "homer.simpson@duff.com",
                 "displayName": "Homer Simpsons",
@@ -153,15 +151,15 @@ okta_app_unauthorized_access_attempt_tests: List[PantherRuleTest] = [
 ]
 
 
-class OktaAppUnauthorizedAccessAttempt(PantherRule):
-    Description = "Detects when a user is denied access to an Okta application"
-    DisplayName = "Okta App Unauthorized Access Attempt"
-    Severity = PantherSeverity.Low
-    Reference = "https://support.okta.com/help/s/article/App-Sign-on-Error-403-User-attempted-unauthorized-access-to-app?language=en_US"
-    LogTypes = [PantherLogType.Okta_SystemLog]
-    RuleID = "Okta.App.Unauthorized.Access.Attempt-prototype"
-    Threshold = 5
-    Tests = okta_app_unauthorized_access_attempt_tests
+class OktaAppUnauthorizedAccessAttempt(Rule):
+    default_description = "Detects when a user is denied access to an Okta application"
+    display_name = "Okta App Unauthorized Access Attempt"
+    default_severity = Severity.LOW
+    default_reference = "https://support.okta.com/help/s/article/App-Sign-on-Error-403-User-attempted-unauthorized-access-to-app?language=en_US"
+    log_types = [LogType.Okta_SystemLog]
+    id = "Okta.App.Unauthorized.Access.Attempt-prototype"
+    threshold = 5
+    tests = okta_app_unauthorized_access_attempt_tests
 
     def rule(self, event):
         return event.get("eventtype", "") == "app.generic.unauth_app_access_attempt"

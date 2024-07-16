@@ -1,13 +1,11 @@
-from typing import List
-
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import crowdstrike_process_alert_context, deep_get
 
-crowdstrike_macos_add_trusted_cert_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
-        Name="Added root cert",
-        ExpectedResult=True,
-        Log={
+crowdstrike_macos_add_trusted_cert_tests: list[RuleTest] = [
+    RuleTest(
+        name="Added root cert",
+        expected_result=True,
+        log={
             "aid": "1234abcdefghijklmnop",
             "aip": "1.2.3.4",
             "cid": "abcde098654321xyz",
@@ -74,10 +72,10 @@ crowdstrike_macos_add_trusted_cert_tests: List[PantherRuleTest] = [
             "timestamp": "2023-05-26 17:59:17.235",
         },
     ),
-    PantherRuleTest(
-        Name="Windows log",
-        ExpectedResult=False,
-        Log={
+    RuleTest(
+        name="Windows log",
+        expected_result=False,
+        log={
             "aid": "1234abcdefghijklmnop",
             "aip": "1.2.3.4",
             "cid": "abcde098654321xyz",
@@ -144,10 +142,10 @@ crowdstrike_macos_add_trusted_cert_tests: List[PantherRuleTest] = [
             "timestamp": "2023-05-26 17:59:17.235",
         },
     ),
-    PantherRuleTest(
-        Name="Wrong FDR event type",
-        ExpectedResult=False,
-        Log={
+    RuleTest(
+        name="Wrong FDR event type",
+        expected_result=False,
+        log={
             "aid": "1234abcdefghijklmnop",
             "aip": "1.2.3.4",
             "cid": "abcde098654321xyz",
@@ -214,10 +212,10 @@ crowdstrike_macos_add_trusted_cert_tests: List[PantherRuleTest] = [
             "timestamp": "2023-05-26 17:59:17.235",
         },
     ),
-    PantherRuleTest(
-        Name="Wrong executable path",
-        ExpectedResult=False,
-        Log={
+    RuleTest(
+        name="Wrong executable path",
+        expected_result=False,
+        log={
             "aid": "1234abcdefghijklmnop",
             "aip": "1.2.3.4",
             "cid": "abcde098654321xyz",
@@ -284,10 +282,10 @@ crowdstrike_macos_add_trusted_cert_tests: List[PantherRuleTest] = [
             "timestamp": "2023-05-26 17:59:17.235",
         },
     ),
-    PantherRuleTest(
-        Name="Help command",
-        ExpectedResult=False,
-        Log={
+    RuleTest(
+        name="Help command",
+        expected_result=False,
+        log={
             "aid": "1234abcdefghijklmnop",
             "aip": "1.2.3.4",
             "cid": "abcde098654321xyz",
@@ -357,14 +355,14 @@ crowdstrike_macos_add_trusted_cert_tests: List[PantherRuleTest] = [
 ]
 
 
-class CrowdstrikeMacosAddTrustedCert(PantherRule):
-    DisplayName = "CrowdStrike MacOS Added Trusted Cert"
-    Description = "Detects attempt to install a root certificate on MacOS"
-    RuleID = "Crowdstrike.Macos.Add.Trusted.Cert-prototype"
-    Reference = "https://docs.panther.com/data-onboarding/supported-logs/crowdstrike#crowdstrike.processrollup2"
-    Severity = PantherSeverity.Medium
-    LogTypes = [PantherLogType.Crowdstrike_FDREvent]
-    Tests = crowdstrike_macos_add_trusted_cert_tests
+class CrowdstrikeMacosAddTrustedCert(Rule):
+    display_name = "CrowdStrike MacOS Added Trusted Cert"
+    default_description = "Detects attempt to install a root certificate on MacOS"
+    id = "Crowdstrike.Macos.Add.Trusted.Cert-prototype"
+    default_reference = "https://docs.panther.com/data-onboarding/supported-logs/crowdstrike#crowdstrike.processrollup2"
+    default_severity = Severity.MEDIUM
+    log_types = [LogType.Crowdstrike_FDREvent]
+    tests = crowdstrike_macos_add_trusted_cert_tests
 
     def rule(self, event):
         event_platform = deep_get(event, "event_platform", default="<UNKNOWN_PLATFORM>")

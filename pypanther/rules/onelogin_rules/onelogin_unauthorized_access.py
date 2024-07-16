@@ -1,35 +1,47 @@
-from typing import List
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
-
-one_login_unauthorized_access_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
-        Name="Normal Event",
-        ExpectedResult=False,
-        Log={"event_type_id": "8", "user_id": 123456, "user_name": "Bob Cat", "app_name": "confluence"},
+one_login_unauthorized_access_tests: list[RuleTest] = [
+    RuleTest(
+        name="Normal Event",
+        expected_result=False,
+        log={
+            "event_type_id": "8",
+            "user_id": 123456,
+            "user_name": "Bob Cat",
+            "app_name": "confluence",
+        },
     ),
-    PantherRuleTest(
-        Name="User Unauthorized Access Event",
-        ExpectedResult=True,
-        Log={"event_type_id": "90", "user_id": 123456, "user_name": "Bob Cat", "app_name": "confluence"},
+    RuleTest(
+        name="User Unauthorized Access Event",
+        expected_result=True,
+        log={
+            "event_type_id": "90",
+            "user_id": 123456,
+            "user_name": "Bob Cat",
+            "app_name": "confluence",
+        },
     ),
 ]
 
 
-class OneLoginUnauthorizedAccess(PantherRule):
-    RuleID = "OneLogin.UnauthorizedAccess-prototype"
-    DisplayName = "OneLogin Unauthorized Access"
-    LogTypes = [PantherLogType.OneLogin_Events]
-    Tags = ["OneLogin", "Lateral Movement:Use Alternate Authentication Material"]
-    Reports = {"MITRE ATT&CK": ["TA0008:T1550"]}
-    Severity = PantherSeverity.Medium
-    Description = "A OneLogin user was denied access to an app more times than the configured threshold."
-    Threshold = 10
-    DedupPeriodMinutes = 10
-    Reference = "https://onelogin.service-now.com/kb_view_customer.do?sysparm_article=KB0010420"
-    Runbook = "Analyze the user activity and actions."
-    SummaryAttributes = ["account_id", "user_name", "user_id", "app_name"]
-    Tests = one_login_unauthorized_access_tests
+class OneLoginUnauthorizedAccess(Rule):
+    id = "OneLogin.UnauthorizedAccess-prototype"
+    display_name = "OneLogin Unauthorized Access"
+    log_types = [LogType.OneLogin_Events]
+    tags = ["OneLogin", "Lateral Movement:Use Alternate Authentication Material"]
+    reports = {"MITRE ATT&CK": ["TA0008:T1550"]}
+    default_severity = Severity.MEDIUM
+    default_description = (
+        "A OneLogin user was denied access to an app more times than the configured threshold."
+    )
+    threshold = 10
+    dedup_period_minutes = 10
+    default_reference = (
+        "https://onelogin.service-now.com/kb_view_customer.do?sysparm_article=KB0010420"
+    )
+    default_runbook = "Analyze the user activity and actions."
+    summary_attributes = ["account_id", "user_name", "user_id", "app_name"]
+    tests = one_login_unauthorized_access_tests
 
     def rule(self, event):
         # filter events; event type 90 is an unauthorized application access event id

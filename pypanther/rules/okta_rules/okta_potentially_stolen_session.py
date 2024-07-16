@@ -1,25 +1,29 @@
 import json
 from datetime import timedelta
 from difflib import SequenceMatcher
-from typing import List
 
 from panther_detection_helpers.caching import get_string_set, put_string_set
 
-from pypanther import PantherLogType, PantherRule, PantherRuleMock, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get, okta_alert_context
 
-okta_potentially_stolen_session_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
-        Name="Same device and OS",
-        ExpectedResult=False,
-        Mocks=[
-            PantherRuleMock(
-                ObjectName="get_string_set",
-                ReturnValue='[\n    "263297",\n    "1.2.3.4",\n    "user_agent:Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/84.0.4147.135 Safari/537.36",\n    "CHROME",\n    "Linux"\n]\n',
+okta_potentially_stolen_session_tests: list[RuleTest] = [
+    RuleTest(
+        name="Same device and OS",
+        expected_result=False,
+        mocks=[
+            RuleMock(
+                object_name="get_string_set",
+                return_value='[\n    "263297",\n    "1.2.3.4",\n    "user_agent:Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/84.0.4147.135 Safari/537.36",\n    "CHROME",\n    "Linux"\n]\n',
             )
         ],
-        Log={
-            "actor": {"alternateId": "admin", "displayName": "unknown", "id": "unknown", "type": "User"},
+        log={
+            "actor": {
+                "alternateId": "admin",
+                "displayName": "unknown",
+                "id": "unknown",
+                "type": "User",
+            },
             "authenticationContext": {"authenticationStep": 0, "externalSessionId": "123456789"},
             "client": {
                 "device": "Computer",
@@ -89,17 +93,22 @@ okta_potentially_stolen_session_tests: List[PantherRuleTest] = [
             "version": "0",
         },
     ),
-    PantherRuleTest(
-        Name="Different device & ASN",
-        ExpectedResult=True,
-        Mocks=[
-            PantherRuleMock(
-                ObjectName="get_string_set",
-                ReturnValue='[\n    "123456",\n    "4.3.2.1",\n    "user_agent:Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/105.0.0.0 Safari/537.36",\n    "CHROME",\n    "MacOS"\n]\n',
+    RuleTest(
+        name="Different device & ASN",
+        expected_result=True,
+        mocks=[
+            RuleMock(
+                object_name="get_string_set",
+                return_value='[\n    "123456",\n    "4.3.2.1",\n    "user_agent:Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/105.0.0.0 Safari/537.36",\n    "CHROME",\n    "MacOS"\n]\n',
             )
         ],
-        Log={
-            "actor": {"alternateId": "admin", "displayName": "Bobert", "id": "unknown", "type": "User"},
+        log={
+            "actor": {
+                "alternateId": "admin",
+                "displayName": "Bobert",
+                "id": "unknown",
+                "type": "User",
+            },
             "authenticationContext": {"authenticationStep": 0, "externalSessionId": "123456789"},
             "client": {
                 "device": "Computer",
@@ -169,17 +178,22 @@ okta_potentially_stolen_session_tests: List[PantherRuleTest] = [
             "version": "0",
         },
     ),
-    PantherRuleTest(
-        Name="Different ASN & same device",
-        ExpectedResult=False,
-        Mocks=[
-            PantherRuleMock(
-                ObjectName="get_string_set",
-                ReturnValue='[\n    "654321",\n    "1.2.3.4",\n    "user_agent:Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/84.0.4147.135 Safari/537.36",\n    "CHROME",\n    "Linux"\n]\n',
+    RuleTest(
+        name="Different ASN & same device",
+        expected_result=False,
+        mocks=[
+            RuleMock(
+                object_name="get_string_set",
+                return_value='[\n    "654321",\n    "1.2.3.4",\n    "user_agent:Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/84.0.4147.135 Safari/537.36",\n    "CHROME",\n    "Linux"\n]\n',
             )
         ],
-        Log={
-            "actor": {"alternateId": "admin", "displayName": "Bobert", "id": "unknown", "type": "User"},
+        log={
+            "actor": {
+                "alternateId": "admin",
+                "displayName": "Bobert",
+                "id": "unknown",
+                "type": "User",
+            },
             "authenticationContext": {"authenticationStep": 0, "externalSessionId": "123456789"},
             "client": {
                 "device": "Computer",
@@ -249,17 +263,22 @@ okta_potentially_stolen_session_tests: List[PantherRuleTest] = [
             "version": "0",
         },
     ),
-    PantherRuleTest(
-        Name="Okta internal event should be ignored",
-        ExpectedResult=False,
-        Mocks=[
-            PantherRuleMock(
-                ObjectName="get_string_set",
-                ReturnValue='[\n    "123456",\n    "4.3.2.1",\n    "user_agent:Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/105.0.0.0 Safari/537.36",\n    "CHROME",\n    "MacOS"\n]\n',
+    RuleTest(
+        name="Okta internal event should be ignored",
+        expected_result=False,
+        mocks=[
+            RuleMock(
+                object_name="get_string_set",
+                return_value='[\n    "123456",\n    "4.3.2.1",\n    "user_agent:Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/105.0.0.0 Safari/537.36",\n    "CHROME",\n    "MacOS"\n]\n',
             )
         ],
-        Log={
-            "actor": {"alternateId": "admin", "displayName": "Bobert", "id": "unknown", "type": "User"},
+        log={
+            "actor": {
+                "alternateId": "admin",
+                "displayName": "Bobert",
+                "id": "unknown",
+                "type": "User",
+            },
             "authenticationContext": {"authenticationStep": 0, "externalSessionId": "123456789"},
             "client": {
                 "device": "Unknown",
@@ -272,7 +291,11 @@ okta_potentially_stolen_session_tests: List[PantherRuleTest] = [
                 },
                 "id": "okta.b58d5b75-07d4-5f25-bf59-368a1261a405",
                 "ipAddress": "44.238.82.114",
-                "userAgent": {"browser": "UNKNOWN", "os": "Unknown", "rawUserAgent": "Okta-Integrations"},
+                "userAgent": {
+                    "browser": "UNKNOWN",
+                    "os": "Unknown",
+                    "rawUserAgent": "Okta-Integrations",
+                },
                 "zone": "null",
             },
             "debugContext": {
@@ -322,20 +345,18 @@ okta_potentially_stolen_session_tests: List[PantherRuleTest] = [
 ]
 
 
-class OktaPotentiallyStolenSession(PantherRule):
-    RuleID = "Okta.PotentiallyStolenSession-prototype"
-    DisplayName = "Okta Potentially Stolen Session"
-    LogTypes = [PantherLogType.Okta_SystemLog]
-    Tags = ["Identity & Access Management", "Okta"]
-    Reports = {"MITRE ATT&CK": ["TA0006:T1539"]}
-    Severity = PantherSeverity.High
-    Description = (
-        "This rule looks for the same session being used from two devices, indicating a compromised session token."
-    )
-    Runbook = "Confirm the session is used on two devices, one of which is unknown. Lock the users Okta account and clear the users sessions in down stream apps."
-    Reference = "https://sec.okta.com/sessioncookietheft"
-    SummaryAttributes = ["eventType", "severity", "p_any_ip_addresses", "p_any_domain_names"]
-    Tests = okta_potentially_stolen_session_tests
+class OktaPotentiallyStolenSession(Rule):
+    id = "Okta.PotentiallyStolenSession-prototype"
+    display_name = "Okta Potentially Stolen Session"
+    log_types = [LogType.Okta_SystemLog]
+    tags = ["Identity & Access Management", "Okta"]
+    reports = {"MITRE ATT&CK": ["TA0006:T1539"]}
+    default_severity = Severity.HIGH
+    default_description = "This rule looks for the same session being used from two devices, indicating a compromised session token."
+    default_runbook = "Confirm the session is used on two devices, one of which is unknown. Lock the users Okta account and clear the users sessions in down stream apps."
+    default_reference = "https://sec.okta.com/sessioncookietheft"
+    summary_attributes = ["eventType", "severity", "p_any_ip_addresses", "p_any_domain_names"]
+    tests = okta_potentially_stolen_session_tests
     FUZZ_RATIO_MIN = 0.95
     PREVIOUS_SESSION = {}
     # the number of days an Okta session is valid for (configured in Okta)
@@ -344,17 +365,23 @@ class OktaPotentiallyStolenSession(PantherRule):
 
     def rule(self, event):
         # ensure previous session info is avaialable in the alert_context for investigation
-        session_id = deep_get(event, "authenticationContext", "externalSessionId", default="unknown")
+        session_id = deep_get(
+            event, "authenticationContext", "externalSessionId", default="unknown"
+        )
         dt_hash = deep_get(event, "debugContext", "debugData", "dtHash", default="unknown")
         # Some events by Okta admins may appear to have changed IPs
         # and user agents due to internal Okta behavior:
         # https://support.okta.com/help/s/article/okta-integrations-showing-as-rawuseragent-with-okta-ips
         # As such, we ignore certain client ids known to originate from Okta:
         # https://developer.okta.com/docs/api/openapi/okta-myaccount/myaccount/tag/OktaApplications/
-        if deep_get(event, "client", "id") in ["okta.b58d5b75-07d4-5f25-bf59-368a1261a405"]:  # Admin Console
+        if deep_get(event, "client", "id") in [
+            "okta.b58d5b75-07d4-5f25-bf59-368a1261a405"
+        ]:  # Admin Console
             return False
         # Filter only on app access and session start events
-        if event.get("eventType") not in self.EVENT_TYPES or (session_id == "unknown" or dt_hash == "unknown"):
+        if event.get("eventType") not in self.EVENT_TYPES or (
+            session_id == "unknown" or dt_hash == "unknown"
+        ):
             return False
         key = session_id + "-" + dt_hash
         # lookup if we've previously stored the session cookie
@@ -374,9 +401,12 @@ class OktaPotentiallyStolenSession(PantherRule):
                     deep_get(event, "client", "userAgent", "browser"),
                     deep_get(event, "client", "userAgent", "os"),
                     event.get("p_event_time"),
-                    "sign_on_mode:" + deep_get(event, "debugContext", "debugData", "signOnMode", default="unknown"),
+                    "sign_on_mode:"
+                    + deep_get(event, "debugContext", "debugData", "signOnMode", default="unknown"),
                     "threat_suspected:"
-                    + deep_get(event, "debugContext", "debugData", "threat_suspected", default="unknown"),
+                    + deep_get(
+                        event, "debugContext", "debugData", "threat_suspected", default="unknown"
+                    ),
                 ],
                 epoch_seconds=event.event_time_epoch() + self.SESSION_TIMEOUT,
             )
@@ -386,14 +416,19 @@ class OktaPotentiallyStolenSession(PantherRule):
             # We cannot do a direct match since Okta can occasionally maintain
             # a session across browser upgrades.
             # the user-agent was tagged during storage so we can find it, remove that tag
-            [prev_ua] = [x for x in self.PREVIOUS_SESSION if "user_agent:" in x] or ["prev_ua_not_found"]
+            [prev_ua] = [x for x in self.PREVIOUS_SESSION if "user_agent:" in x] or [
+                "prev_ua_not_found"
+            ]
             prev_ua = prev_ua.split("_agent:")[1]
             diff_ratio = SequenceMatcher(
-                None, deep_get(event, "client", "userAgent", "rawUserAgent", default="ua_not_found"), prev_ua
+                None,
+                deep_get(event, "client", "userAgent", "rawUserAgent", default="ua_not_found"),
+                prev_ua,
             ).ratio()
             # is this session being used from a new IP and a different browser
             if (
-                str(deep_get(event, "client", "ipAddress", default="ip_not_found")) not in self.PREVIOUS_SESSION
+                str(deep_get(event, "client", "ipAddress", default="ip_not_found"))
+                not in self.PREVIOUS_SESSION
                 and diff_ratio < self.FUZZ_RATIO_MIN
             ):
                 # make the fuzz ratio available in the alert context

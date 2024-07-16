@@ -1,32 +1,42 @@
-from typing import List
-
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 
-osquery_mac_auto_update_enabled_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
-        Name="Auto Updates Disabled",
-        ExpectedResult=True,
-        Log={
-            "columns": {"domain": "com.apple.SoftwareUpdate", "key": "AutomaticCheckEnabled", "value": "false"},
+osquery_mac_auto_update_enabled_tests: list[RuleTest] = [
+    RuleTest(
+        name="Auto Updates Disabled",
+        expected_result=True,
+        log={
+            "columns": {
+                "domain": "com.apple.SoftwareUpdate",
+                "key": "AutomaticCheckEnabled",
+                "value": "false",
+            },
             "action": "added",
             "name": "pack/mac-cis/SoftwareUpdate",
         },
     ),
-    PantherRuleTest(
-        Name="Auto Updates Enabled",
-        ExpectedResult=False,
-        Log={
-            "columns": {"domain": "com.apple.SoftwareUpdate", "key": "AutomaticCheckEnabled", "value": "true"},
+    RuleTest(
+        name="Auto Updates Enabled",
+        expected_result=False,
+        log={
+            "columns": {
+                "domain": "com.apple.SoftwareUpdate",
+                "key": "AutomaticCheckEnabled",
+                "value": "true",
+            },
             "action": "added",
             "name": "pack/mac-cis/SoftwareUpdate",
         },
     ),
-    PantherRuleTest(
-        Name="Wrong Key",
-        ExpectedResult=False,
-        Log={
-            "columns": {"domain": "com.apple.SoftwareUpdate", "key": "LastFullSuccessfulDate", "value": "false"},
+    RuleTest(
+        name="Wrong Key",
+        expected_result=False,
+        log={
+            "columns": {
+                "domain": "com.apple.SoftwareUpdate",
+                "key": "LastFullSuccessfulDate",
+                "value": "false",
+            },
             "action": "added",
             "name": "pack/mac-cis/SoftwareUpdate",
         },
@@ -34,19 +44,19 @@ osquery_mac_auto_update_enabled_tests: List[PantherRuleTest] = [
 ]
 
 
-class OsqueryMacAutoUpdateEnabled(PantherRule):
-    RuleID = "Osquery.Mac.AutoUpdateEnabled-prototype"
-    DisplayName = "OSQuery Reports Application Firewall Disabled"
-    LogTypes = [PantherLogType.Osquery_Differential]
-    Tags = ["Osquery", "MacOS", "Security Control", "Defense Evasion:Impair Defenses"]
-    Reports = {"CIS": ["1.2"], "MITRE ATT&CK": ["TA0005:T1562"]}
-    Severity = PantherSeverity.Medium
-    DedupPeriodMinutes = 1440
-    Description = "Verifies that MacOS has automatic software updates enabled.\n"
-    Runbook = "Enable the auto updates on the host.\n"
-    Reference = "https://support.apple.com/en-gb/guide/mac-help/mchlpx1065/mac"
-    SummaryAttributes = ["name", "action", "p_any_ip_addresses", "p_any_domain_names"]
-    Tests = osquery_mac_auto_update_enabled_tests
+class OsqueryMacAutoUpdateEnabled(Rule):
+    id = "Osquery.Mac.AutoUpdateEnabled-prototype"
+    display_name = "OSQuery Reports Application Firewall Disabled"
+    log_types = [LogType.Osquery_Differential]
+    tags = ["Osquery", "MacOS", "Security Control", "Defense Evasion:Impair Defenses"]
+    reports = {"CIS": ["1.2"], "MITRE ATT&CK": ["TA0005:T1562"]}
+    default_severity = Severity.MEDIUM
+    dedup_period_minutes = 1440
+    default_description = "Verifies that MacOS has automatic software updates enabled.\n"
+    default_runbook = "Enable the auto updates on the host.\n"
+    default_reference = "https://support.apple.com/en-gb/guide/mac-help/mchlpx1065/mac"
+    summary_attributes = ["name", "action", "p_any_ip_addresses", "p_any_domain_names"]
+    tests = osquery_mac_auto_update_enabled_tests
 
     def rule(self, event):
         # Send an alert if not set to "true"

@@ -1,17 +1,16 @@
 import json
-from typing import List
 
 from policyuniverse.policy import Policy
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import aws_rule_context, deep_get
 from pypanther.helpers.panther_default import aws_cloudtrail_success
 
-aws_cloud_trail_resource_made_public_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
-        Name="ECR Made Public",
-        ExpectedResult=True,
-        Log={
+aws_cloud_trail_resource_made_public_tests: list[RuleTest] = [
+    RuleTest(
+        name="ECR Made Public",
+        expected_result=True,
+        log={
             "awsRegion": "eu-west-1",
             "eventID": "685e066d-a3aa-4323-a6a1-2f187a2fc986",
             "eventName": "SetRepositoryPolicy",
@@ -27,7 +26,10 @@ aws_cloud_trail_resource_made_public_tests: List[PantherRuleTest] = [
                 "repositoryName": "community",
             },
             "resources": [
-                {"accountId": "112233445566", "arn": "arn:aws:ecr:eu-west-1:112233445566:repository/community"}
+                {
+                    "accountId": "112233445566",
+                    "arn": "arn:aws:ecr:eu-west-1:112233445566:repository/community",
+                }
             ],
             "responseElements": {
                 "policyText": '{\n  "Version" : "2012-10-17",\n  "Statement" : [ {\n    "Sid" : "PublicRead",\n    "Effect" : "Allow",\n    "Principal" : "*",\n    "Action" : [ "ecr:BatchCheckLayerAvailability", "ecr:BatchGetImage", "ecr:GetAuthorizationToken", "ecr:GetDownloadUrlForLayer" ]\n  } ]\n}',
@@ -43,7 +45,10 @@ aws_cloud_trail_resource_made_public_tests: List[PantherRuleTest] = [
                 "invokedBy": "cloudformation.amazonaws.com",
                 "principalId": "AROAJJJJTTTT44445IJJJ:AWSCloudFormation",
                 "sessionContext": {
-                    "attributes": {"creationDate": "2020-11-20T06:19:04Z", "mfaAuthenticated": "false"},
+                    "attributes": {
+                        "creationDate": "2020-11-20T06:19:04Z",
+                        "mfaAuthenticated": "false",
+                    },
                     "sessionIssuer": {
                         "accountId": "112233445566",
                         "arn": "arn:aws:iam::112233445566:role/ServiceRole",
@@ -67,10 +72,10 @@ aws_cloud_trail_resource_made_public_tests: List[PantherRuleTest] = [
             ],
         },
     ),
-    PantherRuleTest(
-        Name="S3 Made Publicly Accessible",
-        ExpectedResult=True,
-        Log={
+    RuleTest(
+        name="S3 Made Publicly Accessible",
+        expected_result=True,
+        log={
             "additionalEventData": {
                 "AuthenticationMethod": "AuthHeader",
                 "CipherSuite": "ECDHE-RSA-AES128-SHA",
@@ -112,7 +117,10 @@ aws_cloud_trail_resource_made_public_tests: List[PantherRuleTest] = [
                 "arn": "arn:aws:sts::123456789012:assumed-role/example-role/example-user",
                 "principalId": "1111",
                 "sessionContext": {
-                    "attributes": {"creationDate": "2019-01-01T00:00:00Z", "mfaAuthenticated": "true"},
+                    "attributes": {
+                        "creationDate": "2019-01-01T00:00:00Z",
+                        "mfaAuthenticated": "true",
+                    },
                     "sessionIssuer": {
                         "accountId": "123456789012",
                         "arn": "arn:aws:iam::123456789012:role/example-role",
@@ -126,10 +134,10 @@ aws_cloud_trail_resource_made_public_tests: List[PantherRuleTest] = [
             "vpcEndpointId": "vpce-1111",
         },
     ),
-    PantherRuleTest(
-        Name="S3 Not Made Publicly Accessible",
-        ExpectedResult=False,
-        Log={
+    RuleTest(
+        name="S3 Not Made Publicly Accessible",
+        expected_result=False,
+        log={
             "additionalEventData": {
                 "AuthenticationMethod": "AuthHeader",
                 "CipherSuite": "ECDHE-RSA-AES128-SHA",
@@ -171,7 +179,10 @@ aws_cloud_trail_resource_made_public_tests: List[PantherRuleTest] = [
                 "arn": "arn:aws:sts::123456789012:assumed-role/example-role/example-user",
                 "principalId": "1111",
                 "sessionContext": {
-                    "attributes": {"creationDate": "2019-01-01T00:00:00Z", "mfaAuthenticated": "true"},
+                    "attributes": {
+                        "creationDate": "2019-01-01T00:00:00Z",
+                        "mfaAuthenticated": "true",
+                    },
                     "sessionIssuer": {
                         "accountId": "123456789012",
                         "arn": "arn:aws:iam::123456789012:role/example-role",
@@ -185,10 +196,10 @@ aws_cloud_trail_resource_made_public_tests: List[PantherRuleTest] = [
             "vpcEndpointId": "vpce-1111",
         },
     ),
-    PantherRuleTest(
-        Name="Null Request Parameters",
-        ExpectedResult=False,
-        Log={
+    RuleTest(
+        name="Null Request Parameters",
+        expected_result=False,
+        log={
             "additionalEventData": {
                 "AuthenticationMethod": "AuthHeader",
                 "CipherSuite": "ECDHE-RSA-AES128-SHA",
@@ -214,7 +225,10 @@ aws_cloud_trail_resource_made_public_tests: List[PantherRuleTest] = [
                 "arn": "arn:aws:sts::123456789012:assumed-role/example-role/example-user",
                 "principalId": "1111",
                 "sessionContext": {
-                    "attributes": {"creationDate": "2019-01-01T00:00:00Z", "mfaAuthenticated": "true"},
+                    "attributes": {
+                        "creationDate": "2019-01-01T00:00:00Z",
+                        "mfaAuthenticated": "true",
+                    },
                     "sessionIssuer": {
                         "accountId": "123456789012",
                         "arn": "arn:aws:iam::123456789012:role/example-role",
@@ -228,10 +242,10 @@ aws_cloud_trail_resource_made_public_tests: List[PantherRuleTest] = [
             "vpcEndpointId": "vpce-1111",
         },
     ),
-    PantherRuleTest(
-        Name="S3 Failed to make Publicly Accessible",
-        ExpectedResult=False,
-        Log={
+    RuleTest(
+        name="S3 Failed to make Publicly Accessible",
+        expected_result=False,
+        log={
             "additionalEventData": {
                 "AuthenticationMethod": "AuthHeader",
                 "CipherSuite": "ECDHE-RSA-AES128-SHA",
@@ -274,7 +288,10 @@ aws_cloud_trail_resource_made_public_tests: List[PantherRuleTest] = [
                 "arn": "arn:aws:sts::123456789012:assumed-role/example-role/example-user",
                 "principalId": "1111",
                 "sessionContext": {
-                    "attributes": {"creationDate": "2019-01-01T00:00:00Z", "mfaAuthenticated": "true"},
+                    "attributes": {
+                        "creationDate": "2019-01-01T00:00:00Z",
+                        "mfaAuthenticated": "true",
+                    },
                     "sessionIssuer": {
                         "accountId": "123456789012",
                         "arn": "arn:aws:iam::123456789012:role/example-role",
@@ -288,10 +305,10 @@ aws_cloud_trail_resource_made_public_tests: List[PantherRuleTest] = [
             "vpcEndpointId": "vpce-1111",
         },
     ),
-    PantherRuleTest(
-        Name="Empty Policy Payload",
-        ExpectedResult=False,
-        Log={
+    RuleTest(
+        name="Empty Policy Payload",
+        expected_result=False,
+        log={
             "additionalEventData": {
                 "AuthenticationMethod": "AuthHeader",
                 "CipherSuite": "ECDHE-RSA-AES128-SHA",
@@ -320,7 +337,10 @@ aws_cloud_trail_resource_made_public_tests: List[PantherRuleTest] = [
                 "arn": "arn:aws:sts::123456789012:assumed-role/example-role/example-user",
                 "principalId": "1111",
                 "sessionContext": {
-                    "attributes": {"creationDate": "2019-01-01T00:00:00Z", "mfaAuthenticated": "true"},
+                    "attributes": {
+                        "creationDate": "2019-01-01T00:00:00Z",
+                        "mfaAuthenticated": "true",
+                    },
                     "sessionIssuer": {
                         "accountId": "123456789012",
                         "arn": "arn:aws:iam::123456789012:role/example-role",
@@ -337,18 +357,24 @@ aws_cloud_trail_resource_made_public_tests: List[PantherRuleTest] = [
 ]
 
 
-class AWSCloudTrailResourceMadePublic(PantherRule):
-    RuleID = "AWS.CloudTrail.ResourceMadePublic-prototype"
-    DisplayName = "AWS Resource Made Public"
-    LogTypes = [PantherLogType.AWS_CloudTrail]
-    Tags = ["AWS", "Exfiltration:Transfer Data to Cloud Account"]
-    Severity = PantherSeverity.Medium
-    Reports = {"MITRE ATT&CK": ["TA0010:T1537"]}
-    Description = "Some AWS resource was made publicly accessible over the internet. Checks ECR, Elasticsearch, KMS, S3, S3 Glacier, SNS, SQS, and Secrets Manager.\n"
-    Runbook = "Adjust the policy so that the resource is no longer publicly accessible"
-    Reference = "https://aws.amazon.com/blogs/security/identifying-publicly-accessible-resources-with-amazon-vpc-network-access-analyzer/"
-    SummaryAttributes = ["userAgent", "sourceIpAddress", "vpcEndpointId", "recipientAccountId", "p_any_aws_arns"]
-    Tests = aws_cloud_trail_resource_made_public_tests
+class AWSCloudTrailResourceMadePublic(Rule):
+    id = "AWS.CloudTrail.ResourceMadePublic-prototype"
+    display_name = "AWS Resource Made Public"
+    log_types = [LogType.AWS_CloudTrail]
+    tags = ["AWS", "Exfiltration:Transfer Data to Cloud Account"]
+    default_severity = Severity.MEDIUM
+    reports = {"MITRE ATT&CK": ["TA0010:T1537"]}
+    default_description = "Some AWS resource was made publicly accessible over the internet. Checks ECR, Elasticsearch, KMS, S3, S3 Glacier, SNS, SQS, and Secrets Manager.\n"
+    default_runbook = "Adjust the policy so that the resource is no longer publicly accessible"
+    default_reference = "https://aws.amazon.com/blogs/security/identifying-publicly-accessible-resources-with-amazon-vpc-network-access-analyzer/"
+    summary_attributes = [
+        "userAgent",
+        "sourceIpAddress",
+        "vpcEndpointId",
+        "recipientAccountId",
+        "p_any_aws_arns",
+    ]
+    tests = aws_cloud_trail_resource_made_public_tests
     # Check that the IAM policy allows resource accessibility via the Internet
     # Normally this check helps avoid overly complex functions that are doing too many things,
     # but in this case we explicitly want to handle 10 different cases in 10 different ways.
@@ -387,7 +413,10 @@ class AWSCloudTrailResourceMadePublic(PantherRule):
         if event["eventName"] in ["SetQueueAttributes", "CreateTopic"]:
             policy = deep_get(parameters, "attributes", "Policy", default={})
         # SNS
-        if event["eventName"] == "SetTopicAttributes" and parameters.get("attributeName", "") == "Policy":
+        if (
+            event["eventName"] == "SetTopicAttributes"
+            and parameters.get("attributeName", "") == "Policy"
+        ):
             policy = parameters.get("attributeValue", {})
         # SecretsManager
         if event["eventName"] == "PutResourcePolicy":
@@ -399,10 +428,17 @@ class AWSCloudTrailResourceMadePublic(PantherRule):
     def title(self, event):
         # TODO(): Update this rule to use data models
         user = deep_get(event, "userIdentity", "userName") or deep_get(
-            event, "userIdentity", "sessionContext", "sessionIssuer", "userName", default="<MISSING_USER>"
+            event,
+            "userIdentity",
+            "sessionContext",
+            "sessionIssuer",
+            "userName",
+            default="<MISSING_USER>",
         )
         if event.get("Resources"):
-            return f"Resource {event.get('Resources')[0].get('arn', 'MISSING')} made public by {user}"
+            return (
+                f"Resource {event.get('Resources')[0].get('arn', 'MISSING')} made public by {user}"
+            )
         return f"{event.get('eventSource', 'MISSING SOURCE')} resource made public by {user}"
 
     def alert_context(self, event):

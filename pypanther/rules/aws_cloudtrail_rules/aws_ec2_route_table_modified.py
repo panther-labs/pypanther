@@ -1,14 +1,12 @@
-from typing import List
-
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import aws_rule_context
 from pypanther.helpers.panther_default import aws_cloudtrail_success
 
-awsec2_route_table_modified_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
-        Name="Route Table Modified",
-        ExpectedResult=True,
-        Log={
+awsec2_route_table_modified_tests: list[RuleTest] = [
+    RuleTest(
+        name="Route Table Modified",
+        expected_result=True,
+        log={
             "eventVersion": "1.05",
             "userIdentity": {
                 "type": "AssumedRole",
@@ -17,7 +15,10 @@ awsec2_route_table_modified_tests: List[PantherRuleTest] = [
                 "accountId": "123456789012",
                 "accessKeyId": "1",
                 "sessionContext": {
-                    "attributes": {"mfaAuthenticated": "true", "creationDate": "2019-01-01T00:00:00Z"},
+                    "attributes": {
+                        "mfaAuthenticated": "true",
+                        "creationDate": "2019-01-01T00:00:00Z",
+                    },
                     "sessionIssuer": {
                         "type": "Role",
                         "principalId": "1111",
@@ -33,7 +34,11 @@ awsec2_route_table_modified_tests: List[PantherRuleTest] = [
             "awsRegion": "us-west-2",
             "sourceIPAddress": "111.111.111.111",
             "userAgent": "console.ec2.amazonaws.com",
-            "requestParameters": {"routeTableId": "rtb-1", "destinationCidrBlock": "0.0.0.0/0", "gatewayId": "igw-1"},
+            "requestParameters": {
+                "routeTableId": "rtb-1",
+                "destinationCidrBlock": "0.0.0.0/0",
+                "gatewayId": "igw-1",
+            },
             "responseElements": {"requestID": "1", "_return": True},
             "requestID": "1",
             "eventID": "1",
@@ -41,10 +46,10 @@ awsec2_route_table_modified_tests: List[PantherRuleTest] = [
             "recipientAccountId": "123456789012",
         },
     ),
-    PantherRuleTest(
-        Name="Route Table Not Modified",
-        ExpectedResult=False,
-        Log={
+    RuleTest(
+        name="Route Table Not Modified",
+        expected_result=False,
+        log={
             "eventVersion": "1.05",
             "userIdentity": {
                 "type": "AssumedRole",
@@ -61,7 +66,10 @@ awsec2_route_table_modified_tests: List[PantherRuleTest] = [
                         "userName": "tester",
                     },
                     "webIdFederationData": {},
-                    "attributes": {"mfaAuthenticated": "false", "creationDate": "2019-01-01T00:00:00Z"},
+                    "attributes": {
+                        "mfaAuthenticated": "false",
+                        "creationDate": "2019-01-01T00:00:00Z",
+                    },
                 },
             },
             "eventTime": "2019-01-01T00:00:00Z",
@@ -72,7 +80,9 @@ awsec2_route_table_modified_tests: List[PantherRuleTest] = [
             "userAgent": "Mozilla",
             "requestParameters": {
                 "routeTableIdSet": {},
-                "filterSet": {"items": [{"name": "resource-id", "valueSet": {"items": [{"value": "vpc-1"}]}}]},
+                "filterSet": {
+                    "items": [{"name": "resource-id", "valueSet": {"items": [{"value": "vpc-1"}]}}]
+                },
             },
             "responseElements": None,
             "requestID": "1",
@@ -81,10 +91,10 @@ awsec2_route_table_modified_tests: List[PantherRuleTest] = [
             "recipientAccountId": "123456789012",
         },
     ),
-    PantherRuleTest(
-        Name="Error Modifying Route Table",
-        ExpectedResult=False,
-        Log={
+    RuleTest(
+        name="Error Modifying Route Table",
+        expected_result=False,
+        log={
             "errorCode": "Blocked",
             "eventVersion": "1.05",
             "userIdentity": {
@@ -94,7 +104,10 @@ awsec2_route_table_modified_tests: List[PantherRuleTest] = [
                 "accountId": "123456789012",
                 "accessKeyId": "1",
                 "sessionContext": {
-                    "attributes": {"mfaAuthenticated": "true", "creationDate": "2019-01-01T00:00:00Z"},
+                    "attributes": {
+                        "mfaAuthenticated": "true",
+                        "creationDate": "2019-01-01T00:00:00Z",
+                    },
                     "sessionIssuer": {
                         "type": "Role",
                         "principalId": "1111",
@@ -110,7 +123,11 @@ awsec2_route_table_modified_tests: List[PantherRuleTest] = [
             "awsRegion": "us-west-2",
             "sourceIPAddress": "111.111.111.111",
             "userAgent": "console.ec2.amazonaws.com",
-            "requestParameters": {"routeTableId": "rtb-1", "destinationCidrBlock": "0.0.0.0/0", "gatewayId": "igw-1"},
+            "requestParameters": {
+                "routeTableId": "rtb-1",
+                "destinationCidrBlock": "0.0.0.0/0",
+                "gatewayId": "igw-1",
+            },
             "responseElements": {"requestID": "1", "_return": True},
             "requestID": "1",
             "eventID": "1",
@@ -121,18 +138,26 @@ awsec2_route_table_modified_tests: List[PantherRuleTest] = [
 ]
 
 
-class AWSEC2RouteTableModified(PantherRule):
-    RuleID = "AWS.EC2.RouteTableModified-prototype"
-    DisplayName = "EC2 Route Table Modified"
-    LogTypes = [PantherLogType.AWS_CloudTrail]
-    Tags = ["AWS", "Exfiltration:Exfiltration Over Alternative Protocol"]
-    Reports = {"CIS": ["3.13"], "MITRE ATT&CK": ["TA0010:T1048"]}
-    Severity = PantherSeverity.Info
-    Description = "An EC2 Route Table was modified."
-    Runbook = "https://docs.runpanther.io/alert-runbooks/built-in-rules/aws-ec2-route-table-modified"
-    Reference = "https://docs.aws.amazon.com/vpc/latest/userguide/WorkWithRouteTables.html"
-    SummaryAttributes = ["eventName", "userAgent", "sourceIpAddress", "recipientAccountId", "p_any_aws_arns"]
-    Tests = awsec2_route_table_modified_tests
+class AWSEC2RouteTableModified(Rule):
+    id = "AWS.EC2.RouteTableModified-prototype"
+    display_name = "EC2 Route Table Modified"
+    log_types = [LogType.AWS_CloudTrail]
+    tags = ["AWS", "Exfiltration:Exfiltration Over Alternative Protocol"]
+    reports = {"CIS": ["3.13"], "MITRE ATT&CK": ["TA0010:T1048"]}
+    default_severity = Severity.INFO
+    default_description = "An EC2 Route Table was modified."
+    default_runbook = (
+        "https://docs.runpanther.io/alert-runbooks/built-in-rules/aws-ec2-route-table-modified"
+    )
+    default_reference = "https://docs.aws.amazon.com/vpc/latest/userguide/WorkWithRouteTables.html"
+    summary_attributes = [
+        "eventName",
+        "userAgent",
+        "sourceIpAddress",
+        "recipientAccountId",
+        "p_any_aws_arns",
+    ]
+    tests = awsec2_route_table_modified_tests
     # API calls that are indicative of an EC2 Route Table modification
     EC2_RT_MODIFIED_EVENTS = {
         "CreateRoute",
@@ -145,7 +170,9 @@ class AWSEC2RouteTableModified(PantherRule):
     }
 
     def rule(self, event):
-        return aws_cloudtrail_success(event) and event.get("eventName") in self.EC2_RT_MODIFIED_EVENTS
+        return (
+            aws_cloudtrail_success(event) and event.get("eventName") in self.EC2_RT_MODIFIED_EVENTS
+        )
 
     def dedup(self, event):
         return event.get("recipientAccountId")

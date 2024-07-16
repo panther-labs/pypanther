@@ -1,23 +1,21 @@
-from typing import List
-
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 
-g_suite_group_banned_user_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
-        Name="User Added",
-        ExpectedResult=False,
-        Log={
+g_suite_group_banned_user_tests: list[RuleTest] = [
+    RuleTest(
+        name="User Added",
+        expected_result=False,
+        log={
             "id": {"applicationName": "groups_enterprise"},
             "actor": {"email": "homer.simpson@example.com"},
             "type": "moderator_action",
             "name": "add_member",
         },
     ),
-    PantherRuleTest(
-        Name="User Banned from Group",
-        ExpectedResult=True,
-        Log={
+    RuleTest(
+        name="User Banned from Group",
+        expected_result=True,
+        log={
             "id": {"applicationName": "groups_enterprise"},
             "actor": {"email": "homer.simpson@example.com"},
             "type": "moderator_action",
@@ -27,17 +25,21 @@ g_suite_group_banned_user_tests: List[PantherRuleTest] = [
 ]
 
 
-class GSuiteGroupBannedUser(PantherRule):
-    RuleID = "GSuite.GroupBannedUser-prototype"
-    DisplayName = "GSuite User Banned from Group"
-    LogTypes = [PantherLogType.GSuite_ActivityEvent]
-    Tags = ["GSuite"]
-    Severity = PantherSeverity.Low
-    Description = "A GSuite user was banned from an enterprise group by moderator action.\n"
-    Reference = "https://support.google.com/a/users/answer/9303224?hl=en&sjid=864417124752637253-EU"
-    Runbook = "Investigate the banned user to see if further disciplinary action needs to be taken.\n"
-    SummaryAttributes = ["actor:email"]
-    Tests = g_suite_group_banned_user_tests
+class GSuiteGroupBannedUser(Rule):
+    id = "GSuite.GroupBannedUser-prototype"
+    display_name = "GSuite User Banned from Group"
+    log_types = [LogType.GSuite_ActivityEvent]
+    tags = ["GSuite"]
+    default_severity = Severity.LOW
+    default_description = "A GSuite user was banned from an enterprise group by moderator action.\n"
+    default_reference = (
+        "https://support.google.com/a/users/answer/9303224?hl=en&sjid=864417124752637253-EU"
+    )
+    default_runbook = (
+        "Investigate the banned user to see if further disciplinary action needs to be taken.\n"
+    )
+    summary_attributes = ["actor:email"]
+    tests = g_suite_group_banned_user_tests
 
     def rule(self, event):
         if deep_get(event, "id", "applicationName") != "groups_enterprise":
@@ -47,6 +49,4 @@ class GSuiteGroupBannedUser(PantherRule):
         return False
 
     def title(self, event):
-        return (
-            f"User [{deep_get(event, 'actor', 'email', default='<UNKNOWN_EMAIL>')}] banned another user from a group."
-        )
+        return f"User [{deep_get(event, 'actor', 'email', default='<UNKNOWN_EMAIL>')}] banned another user from a group."

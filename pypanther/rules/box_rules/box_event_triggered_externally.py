@@ -1,52 +1,57 @@
-from typing import List
-
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 from pypanther.helpers.panther_config import config
 
-box_event_triggered_externally_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
-        Name="Regular Event",
-        ExpectedResult=False,
-        Log={
+box_event_triggered_externally_tests: list[RuleTest] = [
+    RuleTest(
+        name="Regular Event",
+        expected_result=False,
+        log={
             "type": "event",
             "additional_details": '{"key": "value"}',
-            "created_by": {"id": "12345678", "type": "user", "login": "cat@example.com", "name": "Bob Cat"},
+            "created_by": {
+                "id": "12345678",
+                "type": "user",
+                "login": "cat@example.com",
+                "name": "Bob Cat",
+            },
             "event_type": "DELETE",
         },
     ),
-    PantherRuleTest(
-        Name="Previewed Anonymously",
-        ExpectedResult=True,
-        Log={
+    RuleTest(
+        name="Previewed Anonymously",
+        expected_result=True,
+        log={
             "created_by": {"id": "2", "type": "user", "name": "Unknown User"},
             "event_type": "PREVIEW",
             "type": "event",
             "ip_address": "1.2.3.4",
         },
     ),
-    PantherRuleTest(
-        Name="Missing Created By",
-        ExpectedResult=False,
-        Log={"event_type": "PREVIEW", "type": "event", "ip_address": "1.2.3.4"},
+    RuleTest(
+        name="Missing Created By",
+        expected_result=False,
+        log={"event_type": "PREVIEW", "type": "event", "ip_address": "1.2.3.4"},
     ),
 ]
 
 
-class BoxEventTriggeredExternally(PantherRule):
-    RuleID = "Box.Event.Triggered.Externally-prototype"
-    DisplayName = "Box event triggered by unknown or external user"
-    Enabled = False
-    LogTypes = [PantherLogType.Box_Event]
-    Tags = ["Box", "Exfiltration:Exfiltration Over Web Service", "Configuration Required"]
-    Reports = {"MITRE ATT&CK": ["TA0010:T1567"]}
-    Severity = PantherSeverity.Medium
-    Description = "An external user has triggered a box enterprise event.\n"
-    Reference = "https://support.box.com/hc/en-us/articles/8391393127955-Using-the-Enterprise-Event-Stream"
-    Runbook = "Investigate whether this user's activity is expected.\n"
-    SummaryAttributes = ["ip_address"]
-    Threshold = 10
-    Tests = box_event_triggered_externally_tests
+class BoxEventTriggeredExternally(Rule):
+    id = "Box.Event.Triggered.Externally-prototype"
+    display_name = "Box event triggered by unknown or external user"
+    enabled = False
+    log_types = [LogType.Box_Event]
+    tags = ["Box", "Exfiltration:Exfiltration Over Web Service", "Configuration Required"]
+    reports = {"MITRE ATT&CK": ["TA0010:T1567"]}
+    default_severity = Severity.MEDIUM
+    default_description = "An external user has triggered a box enterprise event.\n"
+    default_reference = (
+        "https://support.box.com/hc/en-us/articles/8391393127955-Using-the-Enterprise-Event-Stream"
+    )
+    default_runbook = "Investigate whether this user's activity is expected.\n"
+    summary_attributes = ["ip_address"]
+    threshold = 10
+    tests = box_event_triggered_externally_tests
     DOMAINS = {"@" + domain for domain in config.ORGANIZATION_DOMAINS}
 
     def rule(self, event):
@@ -56,10 +61,11 @@ class BoxEventTriggeredExternally(PantherRule):
             # user id 2 indicates an anonymous user
             if user.get("id", "") == "2":
                 return True
-            return bool(user.get("login") and (not any((user.get("login", "").endswith(x) for x in self.DOMAINS))))
+            return bool(
+                user.get("login")
+                and (not any((user.get("login", "").endswith(x) for x in self.DOMAINS)))
+            )
         return False
 
     def title(self, event):
-        return (
-            f"External user [{deep_get(event, 'created_by', 'login', default='<UNKNOWN_USER>')}] triggered a box event."
-        )
+        return f"External user [{deep_get(event, 'created_by', 'login', default='<UNKNOWN_USER>')}] triggered a box event."

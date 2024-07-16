@@ -1,60 +1,88 @@
-from typing import List
-
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 
-box_large_number_permission_updates_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
-        Name="Regular Event",
-        ExpectedResult=False,
-        Log={
+box_large_number_permission_updates_tests: list[RuleTest] = [
+    RuleTest(
+        name="Regular Event",
+        expected_result=False,
+        log={
             "type": "event",
             "additional_details": '{"key": "value"}',
-            "created_by": {"id": "12345678", "type": "user", "login": "cat@example", "name": "Bob Cat"},
+            "created_by": {
+                "id": "12345678",
+                "type": "user",
+                "login": "cat@example",
+                "name": "Bob Cat",
+            },
             "event_type": "DELETE",
         },
     ),
-    PantherRuleTest(
-        Name="User Permission Change",
-        ExpectedResult=True,
-        Log={
+    RuleTest(
+        name="User Permission Change",
+        expected_result=True,
+        log={
             "type": "event",
             "additional_details": '{"key": "value"}',
-            "created_by": {"id": "12345678", "type": "user", "login": "cat@example", "name": "Bob Cat"},
+            "created_by": {
+                "id": "12345678",
+                "type": "user",
+                "login": "cat@example",
+                "name": "Bob Cat",
+            },
             "event_type": "CHANGE_FOLDER_PERMISSION",
-            "source": {"id": "12345678", "type": "user", "login": "user@example", "name": "Bob Cat"},
+            "source": {
+                "id": "12345678",
+                "type": "user",
+                "login": "user@example",
+                "name": "Bob Cat",
+            },
         },
     ),
-    PantherRuleTest(
-        Name="User Shares Item",
-        ExpectedResult=True,
-        Log={
+    RuleTest(
+        name="User Shares Item",
+        expected_result=True,
+        log={
             "type": "event",
             "additional_details": '{"key": "value"}',
-            "created_by": {"id": "12345678", "type": "user", "login": "cat@example", "name": "Bob Cat"},
+            "created_by": {
+                "id": "12345678",
+                "type": "user",
+                "login": "cat@example",
+                "name": "Bob Cat",
+            },
             "event_type": "ITEM_SHARED_CREATE",
-            "source": {"id": "12345678", "type": "user", "login": "user@example", "name": "Bob Cat"},
+            "source": {
+                "id": "12345678",
+                "type": "user",
+                "login": "user@example",
+                "name": "Bob Cat",
+            },
         },
     ),
 ]
 
 
-class BoxLargeNumberPermissionUpdates(PantherRule):
-    RuleID = "Box.Large.Number.Permission.Updates-prototype"
-    DisplayName = "Box Large Number of Permission Changes"
-    LogTypes = [PantherLogType.Box_Event]
-    Tags = ["Box", "Privilege Escalation:Abuse Elevation Control Mechanism"]
-    Reports = {"MITRE ATT&CK": ["TA0004:T1548"]}
-    Severity = PantherSeverity.Low
-    Description = (
-        "A user has exceeded the threshold for number of folder permission changes within a single time frame.\n"
+class BoxLargeNumberPermissionUpdates(Rule):
+    id = "Box.Large.Number.Permission.Updates-prototype"
+    display_name = "Box Large Number of Permission Changes"
+    log_types = [LogType.Box_Event]
+    tags = ["Box", "Privilege Escalation:Abuse Elevation Control Mechanism"]
+    reports = {"MITRE ATT&CK": ["TA0004:T1548"]}
+    default_severity = Severity.LOW
+    default_description = "A user has exceeded the threshold for number of folder permission changes within a single time frame.\n"
+    default_reference = (
+        "https://support.box.com/hc/en-us/articles/360043697254-Understanding-Folder-Permissions"
     )
-    Reference = "https://support.box.com/hc/en-us/articles/360043697254-Understanding-Folder-Permissions"
-    Runbook = "Investigate whether this user's activity is expected.\n"
-    SummaryAttributes = ["ip_address"]
-    Threshold = 100
-    Tests = box_large_number_permission_updates_tests
-    PERMISSION_UPDATE_EVENT_TYPES = {"CHANGE_FOLDER_PERMISSION", "ITEM_SHARED_CREATE", "ITEM_SHARED", "SHARE"}
+    default_runbook = "Investigate whether this user's activity is expected.\n"
+    summary_attributes = ["ip_address"]
+    threshold = 100
+    tests = box_large_number_permission_updates_tests
+    PERMISSION_UPDATE_EVENT_TYPES = {
+        "CHANGE_FOLDER_PERMISSION",
+        "ITEM_SHARED_CREATE",
+        "ITEM_SHARED",
+        "SHARE",
+    }
 
     def rule(self, event):
         return event.get("event_type") in self.PERMISSION_UPDATE_EVENT_TYPES

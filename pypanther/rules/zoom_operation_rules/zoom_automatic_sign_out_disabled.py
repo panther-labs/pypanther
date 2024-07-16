@@ -1,12 +1,10 @@
-from typing import List
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
-
-zoom_automatic_sign_out_disabled_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
-        Name="Automatic Signout Setting Disabled",
-        ExpectedResult=True,
-        Log={
+zoom_automatic_sign_out_disabled_tests: list[RuleTest] = [
+    RuleTest(
+        name="Automatic Signout Setting Disabled",
+        expected_result=True,
+        log={
             "action": "Update",
             "category_type": "Account",
             "operation_detail": "Security  - Automatically sign users out after a specified time: from On to Off",
@@ -14,10 +12,10 @@ zoom_automatic_sign_out_disabled_tests: List[PantherRuleTest] = [
             "time": "2022-12-16 18:20:42",
         },
     ),
-    PantherRuleTest(
-        Name="Meeting Setting Disabled",
-        ExpectedResult=False,
-        Log={
+    RuleTest(
+        name="Meeting Setting Disabled",
+        expected_result=False,
+        log={
             "action": "Update",
             "category_type": "Account",
             "operation_detail": "Security  - Require that all meetings are secured with one security option: from On to Off",
@@ -28,15 +26,15 @@ zoom_automatic_sign_out_disabled_tests: List[PantherRuleTest] = [
 ]
 
 
-class ZoomAutomaticSignOutDisabled(PantherRule):
-    Description = "A Zoom User turned off your organization's setting to automatically sign users out after a specified period of time."
-    DisplayName = "Zoom Automatic Sign Out Disabled"
-    Reference = "https://support.zoom.us/hc/en-us/articles/115005756143-Changing-account-security-settings#:~:text=Users%20need%20to%20sign%20in,of%205%20to%20120%20minutes"
-    Runbook = "Confirm this user acted with valid business intent and determine whether this activity was authorized."
-    Severity = PantherSeverity.Medium
-    LogTypes = [PantherLogType.Zoom_Operation]
-    RuleID = "Zoom.Automatic.Sign.Out.Disabled-prototype"
-    Tests = zoom_automatic_sign_out_disabled_tests
+class ZoomAutomaticSignOutDisabled(Rule):
+    default_description = "A Zoom User turned off your organization's setting to automatically sign users out after a specified period of time."
+    display_name = "Zoom Automatic Sign Out Disabled"
+    default_reference = "https://support.zoom.us/hc/en-us/articles/115005756143-Changing-account-security-settings#:~:text=Users%20need%20to%20sign%20in,of%205%20to%20120%20minutes"
+    default_runbook = "Confirm this user acted with valid business intent and determine whether this activity was authorized."
+    default_severity = Severity.MEDIUM
+    log_types = [LogType.Zoom_Operation]
+    id = "Zoom.Automatic.Sign.Out.Disabled-prototype"
+    tests = zoom_automatic_sign_out_disabled_tests
 
     def rule(self, event):
         operation_detail = event.get("operation_detail", "<NO_OPS_DETAIL>")

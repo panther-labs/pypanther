@@ -1,12 +1,10 @@
-from typing import List
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
-
-decoy_systems_manager_parameter_accessed_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
-        Name="Systems-Manager-Parameter-Decoy-Accessed",
-        ExpectedResult=True,
-        Log={
+decoy_systems_manager_parameter_accessed_tests: list[RuleTest] = [
+    RuleTest(
+        name="Systems-Manager-Parameter-Decoy-Accessed",
+        expected_result=True,
+        log={
             "Action": {
                 "ActionType": "AWS_API_CALL",
                 "AwsApiCallAction": {
@@ -109,10 +107,10 @@ decoy_systems_manager_parameter_accessed_tests: List[PantherRuleTest] = [
             "p_udm": {},
         },
     ),
-    PantherRuleTest(
-        Name="Systems-Manager-Parameter-Decoy-Not-Accessed",
-        ExpectedResult=False,
-        Log={
+    RuleTest(
+        name="Systems-Manager-Parameter-Decoy-Not-Accessed",
+        expected_result=False,
+        log={
             "Action": {
                 "ActionType": "AWS_API_CALL",
                 "AwsApiCallAction": {
@@ -218,16 +216,16 @@ decoy_systems_manager_parameter_accessed_tests: List[PantherRuleTest] = [
 ]
 
 
-class DecoySystemsManagerParameterAccessed(PantherRule):
-    RuleID = "Decoy.Systems.Manager.Parameter.Accessed-prototype"
-    DisplayName = "Decoy Systems Manager Parameter Accessed"
-    Enabled = False
-    LogTypes = [PantherLogType.AWS_SecurityFindingFormat]
-    Severity = PantherSeverity.High
-    Description = "Actor accessed Decoy Systems Manager parameter"
-    Reference = "https://aws.amazon.com/blogs/security/how-to-detect-suspicious-activity-in-your-aws-account-by-using-private-decoy-resources/"
-    InlineFilters = [{"All": []}]
-    Tests = decoy_systems_manager_parameter_accessed_tests
+class DecoySystemsManagerParameterAccessed(Rule):
+    id = "Decoy.Systems.Manager.Parameter.Accessed-prototype"
+    display_name = "Decoy Systems Manager Parameter Accessed"
+    enabled = False
+    log_types = [LogType.AWS_SecurityFindingFormat]
+    default_severity = Severity.HIGH
+    default_description = "Actor accessed Decoy Systems Manager parameter"
+    default_reference = "https://aws.amazon.com/blogs/security/how-to-detect-suspicious-activity-in-your-aws-account-by-using-private-decoy-resources/"
+    inline_filters = [{"All": []}]
+    tests = decoy_systems_manager_parameter_accessed_tests
 
     def rule(self, event):
         # List of suspicious API events

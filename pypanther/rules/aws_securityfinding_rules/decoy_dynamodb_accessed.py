@@ -1,12 +1,10 @@
-from typing import List
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
-
-decoy_dynamo_db_accessed_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
-        Name="DynamoDB-Decoy-Accessed",
-        ExpectedResult=True,
-        Log={
+decoy_dynamo_db_accessed_tests: list[RuleTest] = [
+    RuleTest(
+        name="DynamoDB-Decoy-Accessed",
+        expected_result=True,
+        log={
             "Action": {
                 "ActionType": "AWS_API_CALL",
                 "AwsApiCallAction": {
@@ -110,10 +108,10 @@ decoy_dynamo_db_accessed_tests: List[PantherRuleTest] = [
             "p_udm": {},
         },
     ),
-    PantherRuleTest(
-        Name="DynamoDB-Decoy-Not-Accessed",
-        ExpectedResult=False,
-        Log={
+    RuleTest(
+        name="DynamoDB-Decoy-Not-Accessed",
+        expected_result=False,
+        log={
             "Action": {
                 "ActionType": "AWS_API_CALL",
                 "AwsApiCallAction": {
@@ -220,16 +218,16 @@ decoy_dynamo_db_accessed_tests: List[PantherRuleTest] = [
 ]
 
 
-class DecoyDynamoDBAccessed(PantherRule):
-    RuleID = "Decoy.DynamoDB.Accessed-prototype"
-    DisplayName = "Decoy DynamoDB Accessed"
-    Enabled = False
-    LogTypes = [PantherLogType.AWS_SecurityFindingFormat]
-    Severity = PantherSeverity.High
-    Description = "Actor accessed Decoy DynamoDB"
-    Reference = "https://aws.amazon.com/blogs/security/how-to-detect-suspicious-activity-in-your-aws-account-by-using-private-decoy-resources/"
-    InlineFilters = [{"All": []}]
-    Tests = decoy_dynamo_db_accessed_tests
+class DecoyDynamoDBAccessed(Rule):
+    id = "Decoy.DynamoDB.Accessed-prototype"
+    display_name = "Decoy DynamoDB Accessed"
+    enabled = False
+    log_types = [LogType.AWS_SecurityFindingFormat]
+    default_severity = Severity.HIGH
+    default_description = "Actor accessed Decoy DynamoDB"
+    default_reference = "https://aws.amazon.com/blogs/security/how-to-detect-suspicious-activity-in-your-aws-account-by-using-private-decoy-resources/"
+    inline_filters = [{"All": []}]
+    tests = decoy_dynamo_db_accessed_tests
 
     def rule(self, event):
         # List of suspicious API events

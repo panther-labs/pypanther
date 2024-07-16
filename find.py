@@ -4,7 +4,7 @@ from importlib import import_module
 from pkgutil import walk_packages
 from typing import List
 
-from pypanther.base import PANTHER_RULE_ALL_ATTRS, PANTHER_RULE_ALL_METHODS, PantherRule
+from pypanther.base import RULE_ALL_ATTRS, RULE_ALL_METHODS, Rule
 from pypanther.get import get_panther_rules
 
 
@@ -17,14 +17,14 @@ def get_rules_by_category():
             group = module_info.name.split(".")[2]
             for item in dir(m):
                 attr = getattr(m, item)
-                if isinstance(attr, type) and issubclass(attr, PantherRule) and attr is not PantherRule:
+                if isinstance(attr, type) and issubclass(attr, Rule) and attr is not Rule:
                     rules[group].append(attr)
     return rules
 
 
-def compare_rules(rules: list[type[PantherRule]]):
+def compare_rules(rules: list[type[Rule]]):
     consistent_attrs = []
-    for attr in PANTHER_RULE_ALL_ATTRS:
+    for attr in RULE_ALL_ATTRS:
         all_attrs = [getattr(cls, attr) for cls in rules]
         unique_attrs: List = []
         for x in all_attrs:
@@ -32,19 +32,21 @@ def compare_rules(rules: list[type[PantherRule]]):
                 unique_attrs.append(x)
 
         if len(unique_attrs) == 1:
-            if hasattr(PantherRule, attr) and unique_attrs[0] == getattr(PantherRule, attr):
+            if hasattr(Rule, attr) and unique_attrs[0] == getattr(Rule, attr):
                 continue
             consistent_attrs.append(attr)
 
     consistent_methods = []
-    for method in PANTHER_RULE_ALL_METHODS:
+    for method in RULE_ALL_METHODS:
         all_methods = [inspect.getsource(getattr(cls, method)) for cls in rules]
         unique_methods: List = []
         for x in all_methods:
             if unique_methods.count(x) == 0:
                 unique_methods.append(x)
         if len(unique_methods) == 1 and unique_methods is not None:
-            if hasattr(PantherRule, method) and unique_methods[0] == inspect.getsource(getattr(PantherRule, method)):
+            if hasattr(Rule, method) and unique_methods[0] == inspect.getsource(
+                getattr(Rule, method)
+            ):
                 continue
             consistent_methods.append(method)
 
@@ -55,9 +57,9 @@ def stats_for_category():
     rules = get_rules_by_category()
     attr_count = Counter()
     method_count = Counter()
-    for attr in PANTHER_RULE_ALL_ATTRS:
+    for attr in RULE_ALL_ATTRS:
         attr_count[attr] = 0
-    for method in PANTHER_RULE_ALL_METHODS:
+    for method in RULE_ALL_METHODS:
         method_count[method] = 0
 
     for group, rule_list in rules.items():
@@ -85,13 +87,13 @@ def stats_for_category():
 def stats_for_logtype():
     rules_by_logtypes = defaultdict(list)
     for rule in get_panther_rules():
-        if len(rule.LogTypes) == 0:
+        if len(rule.log_types) == 0:
             rules_by_logtypes["None"].append(rule)
             continue
-        if len(rule.LogTypes) > 1:
+        if len(rule.log_types) > 1:
             rules_by_logtypes["Multiple"].append(rule)
             continue
-        rules_by_logtypes[rule.LogTypes[0]].append(rule)
+        rules_by_logtypes[rule.log_types[0]].append(rule)
 
     for group, rule_list in rules_by_logtypes.items():
         if len(rule_list) == 1:

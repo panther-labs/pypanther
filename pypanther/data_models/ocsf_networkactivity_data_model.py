@@ -1,18 +1,15 @@
-from typing import List
-
-from pypanther.base import PantherDataModel, PantherDataModelMapping
-from pypanther.log_types import PantherLogType
+from pypanther.base import DataModel, DataModelMapping, LogType
 
 
-class StandardOCSFNetworkActivity(PantherDataModel):
-    DataModelID: str = "Standard.OCSF.NetworkActivity"
-    DisplayName: str = "OCSF Network Activity"
-    Enabled: bool = True
-    LogTypes: List[str] = [PantherLogType.OCSF_NetworkActivity]
-    Mappings: List[PantherDataModelMapping] = [
-        PantherDataModelMapping(Name="destination_ip", Path="$.dst_endpoint.ip"),
-        PantherDataModelMapping(Name="destination_port", Path="$.dst_endpoint.port"),
-        PantherDataModelMapping(Name="source_ip", Path="$.src_endpoint.ip"),
-        PantherDataModelMapping(Name="source_port", Path="$.src_endpoint.port"),
-        PantherDataModelMapping(Name="log_status", Path="status_code"),
+class StandardOCSFNetworkActivity(DataModel):
+    id: str = "Standard.OCSF.NetworkActivity"
+    display_name: str = "OCSF Network Activity"
+    enabled: bool = True
+    log_types: list[str] = [LogType.OCSF_NetworkActivity]
+    mappings: list[DataModelMapping] = [
+        DataModelMapping(name="destination_ip", path="$.dst_endpoint.ip"),
+        DataModelMapping(name="destination_port", path="$.dst_endpoint.port"),
+        DataModelMapping(name="source_ip", path="$.src_endpoint.ip"),
+        DataModelMapping(name="source_port", path="$.src_endpoint.port"),
+        DataModelMapping(name="log_status", path="status_code"),
     ]

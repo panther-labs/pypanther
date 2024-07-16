@@ -1,12 +1,10 @@
-from typing import List
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
-
-push_security_phishing_attack_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
-        Name="Phishing Detected - Block Mode",
-        ExpectedResult=True,
-        Log={
+push_security_phishing_attack_tests: list[RuleTest] = [
+    RuleTest(
+        name="Phishing Detected - Block Mode",
+        expected_result=True,
+        log={
             "id": "c478966c-f927-411c-b919-179832d3d50c",
             "new": {
                 "appType": "OKTA",
@@ -34,10 +32,10 @@ push_security_phishing_attack_tests: List[PantherRuleTest] = [
             "version": "1",
         },
     ),
-    PantherRuleTest(
-        Name="Phishing Detected - Monitor Mode",
-        ExpectedResult=True,
-        Log={
+    RuleTest(
+        name="Phishing Detected - Monitor Mode",
+        expected_result=True,
+        log={
             "id": "c478966c-f927-411c-b919-179832d3d50c",
             "new": {
                 "appType": "OKTA",
@@ -68,12 +66,12 @@ push_security_phishing_attack_tests: List[PantherRuleTest] = [
 ]
 
 
-class PushSecurityPhishingAttack(PantherRule):
-    RuleID = "Push.Security.Phishing.Attack-prototype"
-    DisplayName = "Push Security Phishing Attack"
-    LogTypes = [PantherLogType.PushSecurity_Controls]
-    Severity = PantherSeverity.High
-    Tests = push_security_phishing_attack_tests
+class PushSecurityPhishingAttack(Rule):
+    id = "Push.Security.Phishing.Attack-prototype"
+    display_name = "Push Security Phishing Attack"
+    log_types = [LogType.PushSecurity_Controls]
+    default_severity = Severity.HIGH
+    tests = push_security_phishing_attack_tests
 
     def rule(self, event):
         if event.get("object") == "PASSWORD_PHISHING":

@@ -1,13 +1,11 @@
-from typing import List
-
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get, slack_alert_context
 
-slack_audit_logs_app_access_expanded_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
-        Name="App Scopes Expanded",
-        ExpectedResult=True,
-        Log={
+slack_audit_logs_app_access_expanded_tests: list[RuleTest] = [
+    RuleTest(
+        name="App Scopes Expanded",
+        expected_result=True,
+        log={
             "action": "app_scopes_expanded",
             "actor": {
                 "type": "user",
@@ -63,10 +61,10 @@ slack_audit_logs_app_access_expanded_tests: List[PantherRuleTest] = [
             "id": "9d9b76ce-47bb-4838-a96a-1b5fd4d1b564",
         },
     ),
-    PantherRuleTest(
-        Name="App Resources Added",
-        ExpectedResult=True,
-        Log={
+    RuleTest(
+        name="App Resources Added",
+        expected_result=True,
+        log={
             "action": "app_resources_added",
             "actor": {
                 "type": "user",
@@ -89,10 +87,10 @@ slack_audit_logs_app_access_expanded_tests: List[PantherRuleTest] = [
             "id": "72cac009-9eb3-4dde-bac6-ee49a32a1789",
         },
     ),
-    PantherRuleTest(
-        Name="App Resources Granted",
-        ExpectedResult=True,
-        Log={
+    RuleTest(
+        name="App Resources Granted",
+        expected_result=True,
+        log={
             "action": "app_resources_granted",
             "actor": {
                 "type": "user",
@@ -121,10 +119,10 @@ slack_audit_logs_app_access_expanded_tests: List[PantherRuleTest] = [
             "id": "9d9b76ce-47bb-4838-a96a-1b5fd4d1b564",
         },
     ),
-    PantherRuleTest(
-        Name="Bot Token Upgraded",
-        ExpectedResult=True,
-        Log={
+    RuleTest(
+        name="Bot Token Upgraded",
+        expected_result=True,
+        log={
             "action": "bot_token_upgraded",
             "actor": {
                 "type": "user",
@@ -147,10 +145,10 @@ slack_audit_logs_app_access_expanded_tests: List[PantherRuleTest] = [
             "id": "72cac009-9eb3-4dde-bac6-ee49a32a1789",
         },
     ),
-    PantherRuleTest(
-        Name="User Logout",
-        ExpectedResult=False,
-        Log={
+    RuleTest(
+        name="User Logout",
+        expected_result=False,
+        log={
             "action": "user_logout",
             "actor": {
                 "type": "user",
@@ -187,17 +185,17 @@ slack_audit_logs_app_access_expanded_tests: List[PantherRuleTest] = [
 ]
 
 
-class SlackAuditLogsAppAccessExpanded(PantherRule):
-    RuleID = "Slack.AuditLogs.AppAccessExpanded-prototype"
-    DisplayName = "Slack App Access Expanded"
-    LogTypes = [PantherLogType.Slack_AuditLogs]
-    Tags = ["Slack", "Privilege Escalation", "Account Manipulation"]
-    Reports = {"MITRE ATT&CK": ["TA0004:T1098"]}
-    Severity = PantherSeverity.Medium
-    Description = "Detects when a Slack App has had its permission scopes expanded"
-    Reference = "https://slack.com/intl/en-gb/help/articles/1500009181142-Manage-app-settings-and-permissions"
-    SummaryAttributes = ["action", "p_any_ip_addresses", "p_any_emails"]
-    Tests = slack_audit_logs_app_access_expanded_tests
+class SlackAuditLogsAppAccessExpanded(Rule):
+    id = "Slack.AuditLogs.AppAccessExpanded-prototype"
+    display_name = "Slack App Access Expanded"
+    log_types = [LogType.Slack_AuditLogs]
+    tags = ["Slack", "Privilege Escalation", "Account Manipulation"]
+    reports = {"MITRE ATT&CK": ["TA0004:T1098"]}
+    default_severity = Severity.MEDIUM
+    default_description = "Detects when a Slack App has had its permission scopes expanded"
+    default_reference = "https://slack.com/intl/en-gb/help/articles/1500009181142-Manage-app-settings-and-permissions"
+    summary_attributes = ["action", "p_any_ip_addresses", "p_any_emails"]
+    tests = slack_audit_logs_app_access_expanded_tests
     ACCESS_EXPANDED_ACTIONS = [
         "app_scopes_expanded",
         "app_resources_added",

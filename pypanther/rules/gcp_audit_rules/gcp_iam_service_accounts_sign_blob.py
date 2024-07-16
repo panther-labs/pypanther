@@ -1,14 +1,12 @@
-from typing import List
-
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.gcp_base_helpers import gcp_alert_context
 from pypanther.helpers.panther_base_helpers import deep_get
 
-gcpia_mservice_accountssign_blob_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
-        Name="iam.serviceAccounts.signBlob granted",
-        ExpectedResult=True,
-        Log={
+gcpia_mservice_accountssign_blob_tests: list[RuleTest] = [
+    RuleTest(
+        name="iam.serviceAccounts.signBlob granted",
+        expected_result=True,
+        log={
             "protoPayload": {
                 "@type": "type.googleapis.com/google.cloud.audit.AuditLog",
                 "status": {},
@@ -25,7 +23,11 @@ gcpia_mservice_accountssign_blob_tests: List[PantherRuleTest] = [
                 "serviceName": "iamcredentials.googleapis.com",
                 "methodName": "SignJwt",
                 "authorizationInfo": [
-                    {"permission": "iam.serviceAccounts.signBlob", "granted": True, "resourceAttributes": {}}
+                    {
+                        "permission": "iam.serviceAccounts.signBlob",
+                        "granted": True,
+                        "resourceAttributes": {},
+                    }
                 ],
                 "resourceName": "projects/-/serviceAccounts/114885146936855121342",
                 "request": {
@@ -48,10 +50,10 @@ gcpia_mservice_accountssign_blob_tests: List[PantherRuleTest] = [
             "receiveTimestamp": "2024-02-26T17:15:17.100020459Z",
         },
     ),
-    PantherRuleTest(
-        Name="iam.serviceAccounts.signBlob not granted",
-        ExpectedResult=False,
-        Log={
+    RuleTest(
+        name="iam.serviceAccounts.signBlob not granted",
+        expected_result=False,
+        log={
             "protoPayload": {
                 "@type": "type.googleapis.com/google.cloud.audit.AuditLog",
                 "status": {},
@@ -68,7 +70,11 @@ gcpia_mservice_accountssign_blob_tests: List[PantherRuleTest] = [
                 "serviceName": "iamcredentials.googleapis.com",
                 "methodName": "SignJwt",
                 "authorizationInfo": [
-                    {"permission": "iam.serviceAccounts.signBlob", "granted": False, "resourceAttributes": {}}
+                    {
+                        "permission": "iam.serviceAccounts.signBlob",
+                        "granted": False,
+                        "resourceAttributes": {},
+                    }
                 ],
                 "resourceName": "projects/-/serviceAccounts/114885146936855121342",
                 "request": {
@@ -94,29 +100,42 @@ gcpia_mservice_accountssign_blob_tests: List[PantherRuleTest] = [
 ]
 
 
-class GCPIAMserviceAccountssignBlob(PantherRule):
-    RuleID = "GCP.IAM.serviceAccounts.signBlob-prototype"
-    DisplayName = "GCP IAM serviceAccounts signBlob"
-    LogTypes = [PantherLogType.GCP_AuditLog]
-    Reports = {"MITRE ATT&CK": ["TA0004:T1548"]}
-    Severity = PantherSeverity.High
-    Description = 'The iam.serviceAccounts.signBlob permission "allows signing of arbitrary payloads" in GCP. This means we can create a signed blob that requests an access token from the Service Account we are targeting.'
-    Reference = "https://rhinosecuritylabs.com/gcp/privilege-escalation-google-cloud-platform-part-1/"
-    Tests = gcpia_mservice_accountssign_blob_tests
+class GCPIAMserviceAccountssignBlob(Rule):
+    id = "GCP.IAM.serviceAccounts.signBlob-prototype"
+    display_name = "GCP IAM serviceAccounts signBlob"
+    log_types = [LogType.GCP_AuditLog]
+    reports = {"MITRE ATT&CK": ["TA0004:T1548"]}
+    default_severity = Severity.HIGH
+    default_description = 'The iam.serviceAccounts.signBlob permission "allows signing of arbitrary payloads" in GCP. This means we can create a signed blob that requests an access token from the Service Account we are targeting.'
+    default_reference = (
+        "https://rhinosecuritylabs.com/gcp/privilege-escalation-google-cloud-platform-part-1/"
+    )
+    tests = gcpia_mservice_accountssign_blob_tests
 
     def rule(self, event):
         authorization_info = event.deep_walk("protoPayload", "authorizationInfo")
         if not authorization_info:
             return False
         for auth in authorization_info:
-            if auth.get("permission") == "iam.serviceAccounts.signBlob" and auth.get("granted") is True:
+            if (
+                auth.get("permission") == "iam.serviceAccounts.signBlob"
+                and auth.get("granted") is True
+            ):
                 return True
         return False
 
     def title(self, event):
-        actor = deep_get(event, "protoPayload", "authenticationInfo", "principalEmail", default="<ACTOR_NOT_FOUND>")
+        actor = deep_get(
+            event,
+            "protoPayload",
+            "authenticationInfo",
+            "principalEmail",
+            default="<ACTOR_NOT_FOUND>",
+        )
         operation = deep_get(event, "protoPayload", "methodName", default="<OPERATION_NOT_FOUND>")
-        project_id = deep_get(event, "resource", "labels", "project_id", default="<PROJECT_NOT_FOUND>")
+        project_id = deep_get(
+            event, "resource", "labels", "project_id", default="<PROJECT_NOT_FOUND>"
+        )
         return f"[GCP]: [{actor}] performed [{operation}] on project [{project_id}]"
 
     def alert_context(self, event):

@@ -1,13 +1,11 @@
-from typing import List
-
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get, okta_alert_context
 
-okta_anonymizing_vpn_login_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
-        Name="Other Event",
-        ExpectedResult=False,
-        Log={
+okta_anonymizing_vpn_login_tests: list[RuleTest] = [
+    RuleTest(
+        name="Other Event",
+        expected_result=False,
+        log={
             "actor": {
                 "alternateId": "homer.simpson@duff.com",
                 "displayName": "Homer Simpson",
@@ -80,10 +78,10 @@ okta_anonymizing_vpn_login_tests: List[PantherRuleTest] = [
             "version": "0",
         },
     ),
-    PantherRuleTest(
-        Name="Anonymizing Proxy Used",
-        ExpectedResult=True,
-        Log={
+    RuleTest(
+        name="Anonymizing Proxy Used",
+        expected_result=True,
+        log={
             "actor": {
                 "alternateId": "homer.simpson@duff.com",
                 "displayName": "Homer Simpson",
@@ -156,10 +154,10 @@ okta_anonymizing_vpn_login_tests: List[PantherRuleTest] = [
             "version": "0",
         },
     ),
-    PantherRuleTest(
-        Name="Apple Private Relay Used",
-        ExpectedResult=True,
-        Log={
+    RuleTest(
+        name="Apple Private Relay Used",
+        expected_result=True,
+        log={
             "actor": {
                 "alternateId": "homer.simpson@duff.com",
                 "displayName": "Homer Simpson",
@@ -248,17 +246,17 @@ okta_anonymizing_vpn_login_tests: List[PantherRuleTest] = [
 ]
 
 
-class OktaAnonymizingVPNLogin(PantherRule):
-    RuleID = "Okta.Anonymizing.VPN.Login-prototype"
-    DisplayName = "Okta Sign-In from VPN Anonymizer"
-    LogTypes = [PantherLogType.Okta_SystemLog]
-    Reports = {"MITRE ATT&CK": ["TA0006:T1556"]}
-    Severity = PantherSeverity.Medium
-    Description = "A user is attempting to sign-in to Okta from a known VPN anonymizer.  The threat actor would access the compromised account using anonymizing proxy services.\n"
-    Runbook = "Restrict this access to trusted Network Zones and deny access from anonymizing proxies in policy using a Dynamic Network Zone.\n"
-    Reference = "https://sec.okta.com/articles/2023/08/cross-tenant-impersonation-prevention-and-detection\n"
-    DedupPeriodMinutes = 360
-    Tests = okta_anonymizing_vpn_login_tests
+class OktaAnonymizingVPNLogin(Rule):
+    id = "Okta.Anonymizing.VPN.Login-prototype"
+    display_name = "Okta Sign-In from VPN Anonymizer"
+    log_types = [LogType.Okta_SystemLog]
+    reports = {"MITRE ATT&CK": ["TA0006:T1556"]}
+    default_severity = Severity.MEDIUM
+    default_description = "A user is attempting to sign-in to Okta from a known VPN anonymizer.  The threat actor would access the compromised account using anonymizing proxy services.\n"
+    default_runbook = "Restrict this access to trusted Network Zones and deny access from anonymizing proxies in policy using a Dynamic Network Zone.\n"
+    default_reference = "https://sec.okta.com/articles/2023/08/cross-tenant-impersonation-prevention-and-detection\n"
+    dedup_period_minutes = 360
+    tests = okta_anonymizing_vpn_login_tests
 
     def rule(self, event):
         return event.get("eventType") == "user.session.start" and deep_get(

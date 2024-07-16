@@ -1,16 +1,15 @@
 from datetime import timedelta
-from typing import List
 
 from panther_detection_helpers.caching import add_to_string_set, get_string_set, put_string_set
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import is_ip_in_network
 
-one_login_active_login_activity_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
-        Name="Normal Login Event",
-        ExpectedResult=False,
-        Log={
+one_login_active_login_activity_tests: list[RuleTest] = [
+    RuleTest(
+        name="Normal Login Event",
+        expected_result=False,
+        log={
             "event_type_id": "6",
             "actor_user_id": 123456,
             "actor_user_name": "Bob Cat",
@@ -18,10 +17,10 @@ one_login_active_login_activity_tests: List[PantherRuleTest] = [
             "user_name": "Bob Cat",
         },
     ),
-    PantherRuleTest(
-        Name="Shared IP Login Event",
-        ExpectedResult=False,
-        Log={
+    RuleTest(
+        name="Shared IP Login Event",
+        expected_result=False,
+        log={
             "event_type_id": "5",
             "actor_user_id": 123456,
             "actor_user_name": "Bob Cat",
@@ -33,18 +32,18 @@ one_login_active_login_activity_tests: List[PantherRuleTest] = [
 ]
 
 
-class OneLoginActiveLoginActivity(PantherRule):
-    RuleID = "OneLogin.ActiveLoginActivity-prototype"
-    DisplayName = "OneLogin Active Login Activity"
-    LogTypes = [PantherLogType.OneLogin_Events]
-    Tags = ["OneLogin", "Lateral Movement:Use Alternate Authentication Material"]
-    Severity = PantherSeverity.Medium
-    Reports = {"MITRE ATT&CK": ["TA0008:T1550"]}
-    Description = "Multiple user accounts logged in from the same ip address."
-    Reference = "https://support.onelogin.com/kb/4271392/user-policies"
-    Runbook = "Investigate whether multiple user's logging in from the same ip address is expected. Determine if this ip address should be added to the SHARED_IP_SPACE array."
-    SummaryAttributes = ["account_id", "user_name", "user_id"]
-    Tests = one_login_active_login_activity_tests
+class OneLoginActiveLoginActivity(Rule):
+    id = "OneLogin.ActiveLoginActivity-prototype"
+    display_name = "OneLogin Active Login Activity"
+    log_types = [LogType.OneLogin_Events]
+    tags = ["OneLogin", "Lateral Movement:Use Alternate Authentication Material"]
+    default_severity = Severity.MEDIUM
+    reports = {"MITRE ATT&CK": ["TA0008:T1550"]}
+    default_description = "Multiple user accounts logged in from the same ip address."
+    default_reference = "https://support.onelogin.com/kb/4271392/user-policies"
+    default_runbook = "Investigate whether multiple user's logging in from the same ip address is expected. Determine if this ip address should be added to the SHARED_IP_SPACE array."
+    summary_attributes = ["account_id", "user_name", "user_id"]
+    tests = one_login_active_login_activity_tests
     THRESH = 2
     THRESH_TTL = timedelta(hours=12).total_seconds()
     # Safelist for IP Subnets to ignore in this ruleset

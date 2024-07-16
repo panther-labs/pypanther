@@ -1,14 +1,13 @@
 from fnmatch import fnmatch
-from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import okta_alert_context
 
-okta_rate_limits_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
-        Name="system.org.ratelimit.warning",
-        ExpectedResult=True,
-        Log={
+okta_rate_limits_tests: list[RuleTest] = [
+    RuleTest(
+        name="system.org.ratelimit.warning",
+        expected_result=True,
+        log={
             "actor": {
                 "alternateId": "homer.simpson@duff.com",
                 "displayName": "Homer Simpson",
@@ -50,10 +49,10 @@ okta_rate_limits_tests: List[PantherRuleTest] = [
             "version": "0",
         },
     ),
-    PantherRuleTest(
-        Name="system.operation.ratelimit.violation",
-        ExpectedResult=True,
-        Log={
+    RuleTest(
+        name="system.operation.ratelimit.violation",
+        expected_result=True,
+        log={
             "actor": {
                 "alternateId": "homer.simpson@duff.com",
                 "displayName": "Homer Simpson",
@@ -96,10 +95,10 @@ okta_rate_limits_tests: List[PantherRuleTest] = [
             "version": "0",
         },
     ),
-    PantherRuleTest(
-        Name="application.integration.rate_limit_exceeded",
-        ExpectedResult=True,
-        Log={
+    RuleTest(
+        name="application.integration.rate_limit_exceeded",
+        expected_result=True,
+        log={
             "actor": {
                 "alternateId": "homer.simpson@duff.com",
                 "displayName": "Homer Simpson",
@@ -127,10 +126,10 @@ okta_rate_limits_tests: List[PantherRuleTest] = [
             "version": "0",
         },
     ),
-    PantherRuleTest(
-        Name="Non event",
-        ExpectedResult=False,
-        Log={
+    RuleTest(
+        name="Non event",
+        expected_result=False,
+        log={
             "actor": {
                 "alternateId": "homer.simpson@duff.com",
                 "displayName": "Homer Simpsons",
@@ -203,17 +202,17 @@ okta_rate_limits_tests: List[PantherRuleTest] = [
 ]
 
 
-class OktaRateLimits(PantherRule):
-    Description = "Potential DoS/Bruteforce attack or hitting limits (system degradation)"
-    DisplayName = "Okta Rate Limits"
-    Severity = PantherSeverity.High
-    Tags = ["Credential Access", "Brute Force", "Impact", "Network Denial of Service"]
-    Reports = {"MITRE ATT&CK": ["TA0006:T1110", "TA0040:T1498"]}
-    Reference = "https://developer.okta.com/docs/reference/rl-system-log-events/"
-    DedupPeriodMinutes = 360
-    LogTypes = [PantherLogType.Okta_SystemLog]
-    RuleID = "Okta.Rate.Limits-prototype"
-    Tests = okta_rate_limits_tests
+class OktaRateLimits(Rule):
+    default_description = "Potential DoS/Bruteforce attack or hitting limits (system degradation)"
+    display_name = "Okta Rate Limits"
+    default_severity = Severity.HIGH
+    tags = ["Credential Access", "Brute Force", "Impact", "Network Denial of Service"]
+    reports = {"MITRE ATT&CK": ["TA0006:T1110", "TA0040:T1498"]}
+    default_reference = "https://developer.okta.com/docs/reference/rl-system-log-events/"
+    dedup_period_minutes = 360
+    log_types = [LogType.Okta_SystemLog]
+    id = "Okta.Rate.Limits-prototype"
+    tests = okta_rate_limits_tests
     DETECTION_EVENTS = [
         "app.oauth2.client_id_rate_limit_warning",
         "application.integration.rate_limit_exceeded",

@@ -1,12 +1,10 @@
-from typing import List
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
-
-github_repo_collaborator_change_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
-        Name="GitHub - Collaborator Added",
-        ExpectedResult=True,
-        Log={
+github_repo_collaborator_change_tests: list[RuleTest] = [
+    RuleTest(
+        name="GitHub - Collaborator Added",
+        expected_result=True,
+        log={
             "actor": "bob",
             "action": "repo.add_member",
             "created_at": 1621305118553,
@@ -16,10 +14,10 @@ github_repo_collaborator_change_tests: List[PantherRuleTest] = [
             "user": "cat",
         },
     ),
-    PantherRuleTest(
-        Name="GitHub - Collaborator Removed",
-        ExpectedResult=True,
-        Log={
+    RuleTest(
+        name="GitHub - Collaborator Removed",
+        expected_result=True,
+        log={
             "actor": "bob",
             "action": "repo.remove_member",
             "created_at": 1621305118553,
@@ -29,10 +27,10 @@ github_repo_collaborator_change_tests: List[PantherRuleTest] = [
             "user": "cat",
         },
     ),
-    PantherRuleTest(
-        Name="GitHub - Non member action",
-        ExpectedResult=False,
-        Log={
+    RuleTest(
+        name="GitHub - Non member action",
+        expected_result=False,
+        log={
             "actor": "bob",
             "action": "repo.enable",
             "created_at": 1621305118553,
@@ -45,17 +43,17 @@ github_repo_collaborator_change_tests: List[PantherRuleTest] = [
 ]
 
 
-class GithubRepoCollaboratorChange(PantherRule):
-    RuleID = "Github.Repo.CollaboratorChange-prototype"
-    DisplayName = "GitHub Repository Collaborator Change"
-    LogTypes = [PantherLogType.GitHub_Audit]
-    Tags = ["GitHub", "Initial Access:Supply Chain Compromise"]
-    Reports = {"MITRE ATT&CK": ["TA0001:T1195"]}
-    Severity = PantherSeverity.Medium
-    Description = "Detects when a repository collaborator is added or removed."
-    Runbook = "Determine if the new collaborator is authorized to access the repository."
-    Reference = "https://docs.github.com/en/organizations/managing-user-access-to-your-organizations-repositories/managing-repository-roles/managing-an-individuals-access-to-an-organization-repository"
-    Tests = github_repo_collaborator_change_tests
+class GithubRepoCollaboratorChange(Rule):
+    id = "Github.Repo.CollaboratorChange-prototype"
+    display_name = "GitHub Repository Collaborator Change"
+    log_types = [LogType.GitHub_Audit]
+    tags = ["GitHub", "Initial Access:Supply Chain Compromise"]
+    reports = {"MITRE ATT&CK": ["TA0001:T1195"]}
+    default_severity = Severity.MEDIUM
+    default_description = "Detects when a repository collaborator is added or removed."
+    default_runbook = "Determine if the new collaborator is authorized to access the repository."
+    default_reference = "https://docs.github.com/en/organizations/managing-user-access-to-your-organizations-repositories/managing-repository-roles/managing-an-individuals-access-to-an-organization-repository"
+    tests = github_repo_collaborator_change_tests
 
     def rule(self, event):
         return event.get("action") in ("repo.add_member", "repo.remove_member")

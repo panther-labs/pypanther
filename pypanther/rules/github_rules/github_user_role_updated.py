@@ -1,12 +1,10 @@
-from typing import List
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
-
-git_hub_user_role_updated_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
-        Name="GitHub - Member Updated",
-        ExpectedResult=True,
-        Log={
+git_hub_user_role_updated_tests: list[RuleTest] = [
+    RuleTest(
+        name="GitHub - Member Updated",
+        expected_result=True,
+        log={
             "actor": "cat",
             "action": "org.update_member",
             "created_at": 1621305118553,
@@ -15,10 +13,10 @@ git_hub_user_role_updated_tests: List[PantherRuleTest] = [
             "user": "bob",
         },
     ),
-    PantherRuleTest(
-        Name="GitHub - Member Invited",
-        ExpectedResult=False,
-        Log={
+    RuleTest(
+        name="GitHub - Member Invited",
+        expected_result=False,
+        log={
             "actor": "cat",
             "action": "org.invite_member",
             "created_at": 1621305118553,
@@ -30,16 +28,18 @@ git_hub_user_role_updated_tests: List[PantherRuleTest] = [
 ]
 
 
-class GitHubUserRoleUpdated(PantherRule):
-    RuleID = "GitHub.User.RoleUpdated-prototype"
-    DisplayName = "GitHub User Role Updated"
-    LogTypes = [PantherLogType.GitHub_Audit]
-    Tags = ["GitHub", "Persistence:Account Manipulation"]
-    Reports = {"MITRE ATT&CK": ["TA0003:T1098"]}
-    Reference = "https://docs.github.com/en/organizations/managing-peoples-access-to-your-organization-with-roles/roles-in-an-organization"
-    Severity = PantherSeverity.High
-    Description = "Detects when a GitHub user role is upgraded to an admin or downgraded to a member"
-    Tests = git_hub_user_role_updated_tests
+class GitHubUserRoleUpdated(Rule):
+    id = "GitHub.User.RoleUpdated-prototype"
+    display_name = "GitHub User Role Updated"
+    log_types = [LogType.GitHub_Audit]
+    tags = ["GitHub", "Persistence:Account Manipulation"]
+    reports = {"MITRE ATT&CK": ["TA0003:T1098"]}
+    default_reference = "https://docs.github.com/en/organizations/managing-peoples-access-to-your-organization-with-roles/roles-in-an-organization"
+    default_severity = Severity.HIGH
+    default_description = (
+        "Detects when a GitHub user role is upgraded to an admin or downgraded to a member"
+    )
+    tests = git_hub_user_role_updated_tests
 
     def rule(self, event):
         return event.get("action") == "org.update_member"

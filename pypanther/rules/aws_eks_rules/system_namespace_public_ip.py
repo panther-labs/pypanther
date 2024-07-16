@@ -1,15 +1,17 @@
 from ipaddress import ip_address
-from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get, eks_panther_obj_ref
 
-amazon_eks_audit_system_namespace_from_public_ip_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
-        Name="non-system username",
-        ExpectedResult=False,
-        Log={
-            "annotations": {"authorization.k8s.io/decision": "allow", "authorization.k8s.io/reason": ""},
+amazon_eks_audit_system_namespace_from_public_ip_tests: list[RuleTest] = [
+    RuleTest(
+        name="non-system username",
+        expected_result=False,
+        log={
+            "annotations": {
+                "authorization.k8s.io/decision": "allow",
+                "authorization.k8s.io/reason": "",
+            },
             "apiVersion": "audit.k8s.io/v1",
             "auditID": "35506555-dffc-4337-b2b1-c4af52b88e18",
             "kind": "Event",
@@ -43,7 +45,9 @@ amazon_eks_audit_system_namespace_from_public_ip_tests: List[PantherRuleTest] = 
             "user": {
                 "extra": {
                     "accessKeyId": ["ASIARLIVEKVNN6Y6J5UW"],
-                    "arn": ["arn:aws:sts::123412341234:assumed-role/DevAdministrator/1669660343296132000"],
+                    "arn": [
+                        "arn:aws:sts::123412341234:assumed-role/DevAdministrator/1669660343296132000"
+                    ],
                     "canonicalArn": ["arn:aws:iam::123412341234:role/DevAdministrator"],
                     "sessionName": ["1669660343296132000"],
                 },
@@ -55,10 +59,10 @@ amazon_eks_audit_system_namespace_from_public_ip_tests: List[PantherRuleTest] = 
             "verb": "get",
         },
     ),
-    PantherRuleTest(
-        Name="system username - private ip",
-        ExpectedResult=False,
-        Log={
+    RuleTest(
+        name="system username - private ip",
+        expected_result=False,
+        log={
             "annotations": {
                 "authorization.k8s.io/decision": "allow",
                 "authorization.k8s.io/reason": 'RBAC: allowed by ClusterRoleBinding "system:coredns" of ClusterRole "system:coredns" to ServiceAccount "coredns/kube-system"',
@@ -67,7 +71,11 @@ amazon_eks_audit_system_namespace_from_public_ip_tests: List[PantherRuleTest] = 
             "auditID": "e2626946-90e1-4d0c-829e-ad5a78572926",
             "kind": "Event",
             "level": "Metadata",
-            "objectRef": {"apiGroup": "discovery.k8s.io", "apiVersion": "v1", "resource": "endpointslices"},
+            "objectRef": {
+                "apiGroup": "discovery.k8s.io",
+                "apiVersion": "v1",
+                "resource": "endpointslices",
+            },
             "p_any_ip_addresses": ["10.0.27.115"],
             "p_any_usernames": ["system:serviceaccount:kube-system:coredns"],
             "p_event_time": "2022-11-29 22:34:06.892",
@@ -85,9 +93,15 @@ amazon_eks_audit_system_namespace_from_public_ip_tests: List[PantherRuleTest] = 
             "user": {
                 "extra": {
                     "authentication_kubernetes_io_slash_pod-name": ["coredns-57ff979f67-bl27n"],
-                    "authentication_kubernetes_io_slash_pod-uid": ["5b9488ae-5563-42aa-850b-b0d82edb3e22"],
+                    "authentication_kubernetes_io_slash_pod-uid": [
+                        "5b9488ae-5563-42aa-850b-b0d82edb3e22"
+                    ],
                 },
-                "groups": ["system:serviceaccounts", "system:serviceaccounts:kube-system", "system:authenticated"],
+                "groups": [
+                    "system:serviceaccounts",
+                    "system:serviceaccounts:kube-system",
+                    "system:authenticated",
+                ],
                 "uid": "5e4461f9-f529-4e66-9343-0b0cc9452284",
                 "username": "system:serviceaccount:kube-system:coredns",
             },
@@ -95,10 +109,10 @@ amazon_eks_audit_system_namespace_from_public_ip_tests: List[PantherRuleTest] = 
             "verb": "watch",
         },
     ),
-    PantherRuleTest(
-        Name="403 from Public IP zero count",
-        ExpectedResult=True,
-        Log={
+    RuleTest(
+        name="403 from Public IP zero count",
+        expected_result=True,
+        log={
             "annotations": {
                 "authorization.k8s.io/decision": "allow",
                 "authorization.k8s.io/reason": 'RBAC: allowed by ClusterRoleBinding "system:coredns" of ClusterRole "system:coredns" to ServiceAccount "coredns/kube-system"',
@@ -107,7 +121,11 @@ amazon_eks_audit_system_namespace_from_public_ip_tests: List[PantherRuleTest] = 
             "auditID": "e2626946-90e1-4d0c-829e-ad5a78572926",
             "kind": "Event",
             "level": "Metadata",
-            "objectRef": {"apiGroup": "discovery.k8s.io", "apiVersion": "v1", "resource": "endpointslices"},
+            "objectRef": {
+                "apiGroup": "discovery.k8s.io",
+                "apiVersion": "v1",
+                "resource": "endpointslices",
+            },
             "p_any_ip_addresses": ["5.5.5.5"],
             "p_any_usernames": ["system:serviceaccount:kube-system:coredns"],
             "p_event_time": "2022-11-29 22:34:06.892",
@@ -125,9 +143,15 @@ amazon_eks_audit_system_namespace_from_public_ip_tests: List[PantherRuleTest] = 
             "user": {
                 "extra": {
                     "authentication_kubernetes_io_slash_pod-name": ["coredns-57ff979f67-bl27n"],
-                    "authentication_kubernetes_io_slash_pod-uid": ["5b9488ae-5563-42aa-850b-b0d82edb3e22"],
+                    "authentication_kubernetes_io_slash_pod-uid": [
+                        "5b9488ae-5563-42aa-850b-b0d82edb3e22"
+                    ],
                 },
-                "groups": ["system:serviceaccounts", "system:serviceaccounts:kube-system", "system:authenticated"],
+                "groups": [
+                    "system:serviceaccounts",
+                    "system:serviceaccounts:kube-system",
+                    "system:authenticated",
+                ],
                 "uid": "5e4461f9-f529-4e66-9343-0b0cc9452284",
                 "username": "system:serviceaccount:kube-system:coredns",
             },
@@ -135,10 +159,10 @@ amazon_eks_audit_system_namespace_from_public_ip_tests: List[PantherRuleTest] = 
             "verb": "watch",
         },
     ),
-    PantherRuleTest(
-        Name="system username - public ip - not ResponseComplete",
-        ExpectedResult=False,
-        Log={
+    RuleTest(
+        name="system username - public ip - not ResponseComplete",
+        expected_result=False,
+        log={
             "annotations": {
                 "authorization.k8s.io/decision": "allow",
                 "authorization.k8s.io/reason": 'RBAC: allowed by ClusterRoleBinding "system:coredns" of ClusterRole "system:coredns" to ServiceAccount "coredns/kube-system"',
@@ -147,7 +171,11 @@ amazon_eks_audit_system_namespace_from_public_ip_tests: List[PantherRuleTest] = 
             "auditID": "c8c5bc49-cd5d-45d6-999c-b55783c7840f",
             "kind": "Event",
             "level": "Metadata",
-            "objectRef": {"apiGroup": "discovery.k8s.io", "apiVersion": "v1", "resource": "endpointslices"},
+            "objectRef": {
+                "apiGroup": "discovery.k8s.io",
+                "apiVersion": "v1",
+                "resource": "endpointslices",
+            },
             "p_any_ip_addresses": ["5.5.5.5"],
             "p_any_usernames": ["system:serviceaccount:kube-system:coredns"],
             "p_event_time": "2022-11-29 22:46:37.995",
@@ -165,9 +193,15 @@ amazon_eks_audit_system_namespace_from_public_ip_tests: List[PantherRuleTest] = 
             "user": {
                 "extra": {
                     "authentication_kubernetes_io_slash_pod-name": ["coredns-57ff979f67-bl27n"],
-                    "authentication_kubernetes_io_slash_pod-uid": ["5b9488ae-5563-42aa-850b-b0d82edb3e22"],
+                    "authentication_kubernetes_io_slash_pod-uid": [
+                        "5b9488ae-5563-42aa-850b-b0d82edb3e22"
+                    ],
                 },
-                "groups": ["system:serviceaccounts", "system:serviceaccounts:kube-system", "system:authenticated"],
+                "groups": [
+                    "system:serviceaccounts",
+                    "system:serviceaccounts:kube-system",
+                    "system:authenticated",
+                ],
                 "uid": "5e4461f9-f529-4e66-9343-0b0cc9452284",
                 "username": "system:serviceaccount:kube-system:coredns",
             },
@@ -175,10 +209,10 @@ amazon_eks_audit_system_namespace_from_public_ip_tests: List[PantherRuleTest] = 
             "verb": "watch",
         },
     ),
-    PantherRuleTest(
-        Name="system username - public ip - 403",
-        ExpectedResult=False,
-        Log={
+    RuleTest(
+        name="system username - public ip - 403",
+        expected_result=False,
+        log={
             "annotations": {
                 "authorization.k8s.io/decision": "allow",
                 "authorization.k8s.io/reason": 'RBAC: allowed by ClusterRoleBinding "system:coredns" of ClusterRole "system:coredns" to ServiceAccount "coredns/kube-system"',
@@ -187,7 +221,11 @@ amazon_eks_audit_system_namespace_from_public_ip_tests: List[PantherRuleTest] = 
             "auditID": "c8c5bc49-cd5d-45d6-999c-b55783c7840f",
             "kind": "Event",
             "level": "Metadata",
-            "objectRef": {"apiGroup": "discovery.k8s.io", "apiVersion": "v1", "resource": "endpointslices"},
+            "objectRef": {
+                "apiGroup": "discovery.k8s.io",
+                "apiVersion": "v1",
+                "resource": "endpointslices",
+            },
             "p_any_ip_addresses": ["5.5.5.5"],
             "p_any_usernames": ["system:serviceaccount:kube-system:coredns"],
             "p_event_time": "2022-11-29 22:46:37.995",
@@ -205,9 +243,15 @@ amazon_eks_audit_system_namespace_from_public_ip_tests: List[PantherRuleTest] = 
             "user": {
                 "extra": {
                     "authentication_kubernetes_io_slash_pod-name": ["coredns-57ff979f67-bl27n"],
-                    "authentication_kubernetes_io_slash_pod-uid": ["5b9488ae-5563-42aa-850b-b0d82edb3e22"],
+                    "authentication_kubernetes_io_slash_pod-uid": [
+                        "5b9488ae-5563-42aa-850b-b0d82edb3e22"
+                    ],
                 },
-                "groups": ["system:serviceaccounts", "system:serviceaccounts:kube-system", "system:authenticated"],
+                "groups": [
+                    "system:serviceaccounts",
+                    "system:serviceaccounts:kube-system",
+                    "system:authenticated",
+                ],
                 "uid": "5e4461f9-f529-4e66-9343-0b0cc9452284",
                 "username": "system:serviceaccount:kube-system:coredns",
             },
@@ -215,10 +259,10 @@ amazon_eks_audit_system_namespace_from_public_ip_tests: List[PantherRuleTest] = 
             "verb": "watch",
         },
     ),
-    PantherRuleTest(
-        Name="eks:addon-manager from public ip as lambda",
-        ExpectedResult=False,
-        Log={
+    RuleTest(
+        name="eks:addon-manager from public ip as lambda",
+        expected_result=False,
+        log={
             "annotations": {
                 "authorization.k8s.io/decision": "allow",
                 "authorization.k8s.io/reason": 'RBAC: allowed by RoleBinding "eks:addon-manager/kube-system" of Role "eks:addon-manager" to User "eks:addon-manager"',
@@ -275,18 +319,18 @@ amazon_eks_audit_system_namespace_from_public_ip_tests: List[PantherRuleTest] = 
 ]
 
 
-class AmazonEKSAuditSystemNamespaceFromPublicIP(PantherRule):
-    RuleID = "Amazon.EKS.Audit.SystemNamespaceFromPublicIP-prototype"
-    DisplayName = "EKS Audit Log Reporting system Namespace is Used From A Public IP"
-    LogTypes = [PantherLogType.Amazon_EKS_Audit]
-    Tags = ["EKS"]
-    Reports = {"MITRE ATT&CK": ["TA0027:T1475"]}
-    Reference = "https://docs.aws.amazon.com/eks/latest/userguide/network_reqs.html"
-    Severity = PantherSeverity.Info
-    Description = 'This detection identifies if an activity is recorded in the Kubernetes audit log where the user:username attribute begins with "system:" or "eks:" and the requests originating IP Address is a Public IP Address\n'
-    DedupPeriodMinutes = 1440
-    SummaryAttributes = ["user:username", "p_source_label"]
-    Tests = amazon_eks_audit_system_namespace_from_public_ip_tests
+class AmazonEKSAuditSystemNamespaceFromPublicIP(Rule):
+    id = "Amazon.EKS.Audit.SystemNamespaceFromPublicIP-prototype"
+    display_name = "EKS Audit Log Reporting system Namespace is Used From A Public IP"
+    log_types = [LogType.Amazon_EKS_Audit]
+    tags = ["EKS"]
+    reports = {"MITRE ATT&CK": ["TA0027:T1475"]}
+    default_reference = "https://docs.aws.amazon.com/eks/latest/userguide/network_reqs.html"
+    default_severity = Severity.INFO
+    default_description = 'This detection identifies if an activity is recorded in the Kubernetes audit log where the user:username attribute begins with "system:" or "eks:" and the requests originating IP Address is a Public IP Address\n'
+    dedup_period_minutes = 1440
+    summary_attributes = ["user:username", "p_source_label"]
+    tests = amazon_eks_audit_system_namespace_from_public_ip_tests
     # Explicitly ignore eks:node-manager and eks:addon-manager
     #  which are run as Lambdas and originate from public IPs
     AMZ_PUBLICS = {"eks:addon-manager", "eks:node-manager"}
@@ -310,9 +354,9 @@ class AmazonEKSAuditSystemNamespaceFromPublicIP(PantherRule):
             in deep_get(event, "user", "extra", "arn", default=["not found"])[0]
         ):
             return False
-        if (p_eks.get("actor").startswith("system:") or p_eks.get("actor").startswith("eks:")) and ip_address(
-            p_eks.get("sourceIPs")[0]
-        ).is_global:
+        if (
+            p_eks.get("actor").startswith("system:") or p_eks.get("actor").startswith("eks:")
+        ) and ip_address(p_eks.get("sourceIPs")[0]).is_global:
             return True
         return False
 

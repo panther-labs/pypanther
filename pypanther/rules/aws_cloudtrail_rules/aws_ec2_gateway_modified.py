@@ -1,14 +1,12 @@
-from typing import List
-
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import aws_rule_context
 from pypanther.helpers.panther_default import aws_cloudtrail_success
 
-awsec2_gateway_modified_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
-        Name="Network Gateway Modified",
-        ExpectedResult=True,
-        Log={
+awsec2_gateway_modified_tests: list[RuleTest] = [
+    RuleTest(
+        name="Network Gateway Modified",
+        expected_result=True,
+        log={
             "eventVersion": "1.05",
             "userIdentity": {
                 "type": "AssumedRole",
@@ -17,7 +15,10 @@ awsec2_gateway_modified_tests: List[PantherRuleTest] = [
                 "accountId": "123456789012",
                 "accessKeyId": "1",
                 "sessionContext": {
-                    "attributes": {"mfaAuthenticated": "true", "creationDate": "2019-01-01T00:00:00Z"},
+                    "attributes": {
+                        "mfaAuthenticated": "true",
+                        "creationDate": "2019-01-01T00:00:00Z",
+                    },
                     "sessionIssuer": {
                         "type": "Role",
                         "principalId": "1111",
@@ -41,10 +42,10 @@ awsec2_gateway_modified_tests: List[PantherRuleTest] = [
             "recipientAccountId": "123456789012",
         },
     ),
-    PantherRuleTest(
-        Name="Network Gateway Not Modified",
-        ExpectedResult=False,
-        Log={
+    RuleTest(
+        name="Network Gateway Not Modified",
+        expected_result=False,
+        log={
             "eventVersion": "1.05",
             "userIdentity": {
                 "type": "AssumedRole",
@@ -61,7 +62,10 @@ awsec2_gateway_modified_tests: List[PantherRuleTest] = [
                         "userName": "tester",
                     },
                     "webIdFederationData": {},
-                    "attributes": {"mfaAuthenticated": "false", "creationDate": "2019-01-01T00:00:00Z"},
+                    "attributes": {
+                        "mfaAuthenticated": "false",
+                        "creationDate": "2019-01-01T00:00:00Z",
+                    },
                 },
             },
             "eventTime": "2019-01-01T00:00:00Z",
@@ -72,7 +76,9 @@ awsec2_gateway_modified_tests: List[PantherRuleTest] = [
             "userAgent": "Mozilla",
             "requestParameters": {
                 "routeTableIdSet": {},
-                "filterSet": {"items": [{"name": "resource-id", "valueSet": {"items": [{"value": "vpc-1"}]}}]},
+                "filterSet": {
+                    "items": [{"name": "resource-id", "valueSet": {"items": [{"value": "vpc-1"}]}}]
+                },
             },
             "responseElements": None,
             "requestID": "1",
@@ -81,10 +87,10 @@ awsec2_gateway_modified_tests: List[PantherRuleTest] = [
             "recipientAccountId": "123456789012",
         },
     ),
-    PantherRuleTest(
-        Name="Error Modifying Network Gateway",
-        ExpectedResult=False,
-        Log={
+    RuleTest(
+        name="Error Modifying Network Gateway",
+        expected_result=False,
+        log={
             "errorCode": "RequestExpired",
             "eventVersion": "1.05",
             "userIdentity": {
@@ -94,7 +100,10 @@ awsec2_gateway_modified_tests: List[PantherRuleTest] = [
                 "accountId": "123456789012",
                 "accessKeyId": "1",
                 "sessionContext": {
-                    "attributes": {"mfaAuthenticated": "true", "creationDate": "2019-01-01T00:00:00Z"},
+                    "attributes": {
+                        "mfaAuthenticated": "true",
+                        "creationDate": "2019-01-01T00:00:00Z",
+                    },
                     "sessionIssuer": {
                         "type": "Role",
                         "principalId": "1111",
@@ -121,18 +130,26 @@ awsec2_gateway_modified_tests: List[PantherRuleTest] = [
 ]
 
 
-class AWSEC2GatewayModified(PantherRule):
-    RuleID = "AWS.EC2.GatewayModified-prototype"
-    DisplayName = "EC2 Network Gateway Modified"
-    LogTypes = [PantherLogType.AWS_CloudTrail]
-    Tags = ["AWS", "Security Control", "Defense Evasion:Impair Defenses"]
-    Reports = {"CIS": ["3.12"], "MITRE ATT&CK": ["TA0005:T1562"]}
-    Severity = PantherSeverity.Info
-    Description = "An EC2 Network Gateway was modified."
-    Runbook = "https://docs.runpanther.io/alert-runbooks/built-in-rules/aws-ec2-gateway-modified"
-    Reference = "https://docs.aws.amazon.com/vpc/latest/userguide/VPC_Internet_Gateway.html"
-    SummaryAttributes = ["eventName", "userAgent", "sourceIpAddress", "recipientAccountId", "p_any_aws_arns"]
-    Tests = awsec2_gateway_modified_tests
+class AWSEC2GatewayModified(Rule):
+    id = "AWS.EC2.GatewayModified-prototype"
+    display_name = "EC2 Network Gateway Modified"
+    log_types = [LogType.AWS_CloudTrail]
+    tags = ["AWS", "Security Control", "Defense Evasion:Impair Defenses"]
+    reports = {"CIS": ["3.12"], "MITRE ATT&CK": ["TA0005:T1562"]}
+    default_severity = Severity.INFO
+    default_description = "An EC2 Network Gateway was modified."
+    default_runbook = (
+        "https://docs.runpanther.io/alert-runbooks/built-in-rules/aws-ec2-gateway-modified"
+    )
+    default_reference = "https://docs.aws.amazon.com/vpc/latest/userguide/VPC_Internet_Gateway.html"
+    summary_attributes = [
+        "eventName",
+        "userAgent",
+        "sourceIpAddress",
+        "recipientAccountId",
+        "p_any_aws_arns",
+    ]
+    tests = awsec2_gateway_modified_tests
     # API calls that are indicative of an EC2 Network Gateway modification
     EC2_GATEWAY_MODIFIED_EVENTS = {
         "CreateCustomerGateway",
@@ -144,7 +161,10 @@ class AWSEC2GatewayModified(PantherRule):
     }
 
     def rule(self, event):
-        return aws_cloudtrail_success(event) and event.get("eventName") in self.EC2_GATEWAY_MODIFIED_EVENTS
+        return (
+            aws_cloudtrail_success(event)
+            and event.get("eventName") in self.EC2_GATEWAY_MODIFIED_EVENTS
+        )
 
     def dedup(self, event):
         return event.get("recipientAccountId")

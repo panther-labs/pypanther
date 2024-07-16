@@ -1,13 +1,11 @@
-from typing import List
-
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 
-g_suite_login_type_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
-        Name="Login With Approved Type",
-        ExpectedResult=False,
-        Log={
+g_suite_login_type_tests: list[RuleTest] = [
+    RuleTest(
+        name="Login With Approved Type",
+        expected_result=False,
+        log={
             "id": {"applicationName": "login"},
             "actor": {"email": "some.user@somedomain.com"},
             "type": "login",
@@ -15,10 +13,10 @@ g_suite_login_type_tests: List[PantherRuleTest] = [
             "parameters": {"login_type": "saml"},
         },
     ),
-    PantherRuleTest(
-        Name="Login With Unapproved Type",
-        ExpectedResult=True,
-        Log={
+    RuleTest(
+        name="Login With Unapproved Type",
+        expected_result=True,
+        log={
             "id": {"applicationName": "login"},
             "actor": {"email": "some.user@somedomain.com"},
             "type": "login",
@@ -26,10 +24,10 @@ g_suite_login_type_tests: List[PantherRuleTest] = [
             "parameters": {"login_type": "turbo-snail"},
         },
     ),
-    PantherRuleTest(
-        Name="Non-Login event",
-        ExpectedResult=False,
-        Log={
+    RuleTest(
+        name="Non-Login event",
+        expected_result=False,
+        log={
             "id": {"applicationName": "logout"},
             "actor": {"email": "some.user@somedomain.com"},
             "type": "login",
@@ -37,10 +35,10 @@ g_suite_login_type_tests: List[PantherRuleTest] = [
             "parameters": {"login_type": "saml"},
         },
     ),
-    PantherRuleTest(
-        Name="Saml Login Event",
-        ExpectedResult=False,
-        Log={
+    RuleTest(
+        name="Saml Login Event",
+        expected_result=False,
+        log={
             "actor": {"email": "some.user@somedomain.com"},
             "id": {"applicationName": "saml", "time": "2022-05-26 15:26:09.421000000"},
             "ipAddress": "10.10.10.10",
@@ -58,19 +56,23 @@ g_suite_login_type_tests: List[PantherRuleTest] = [
 ]
 
 
-class GSuiteLoginType(PantherRule):
-    RuleID = "GSuite.LoginType-prototype"
-    DisplayName = "GSuite Login Type"
-    Enabled = False
-    LogTypes = [PantherLogType.GSuite_ActivityEvent]
-    Tags = ["GSuite", "Configuration Required", "Initial Access:Valid Accounts"]
-    Reports = {"MITRE ATT&CK": ["TA0001:T1078"]}
-    Severity = PantherSeverity.Medium
-    Description = "A login of a non-approved type was detected for this user.\n"
-    Reference = "https://support.google.com/a/answer/9039184?hl=en&sjid=864417124752637253-EU"
-    Runbook = "Correct the user account settings so that only logins of approved types are available.\n"
-    SummaryAttributes = ["actor:email"]
-    Tests = g_suite_login_type_tests
+class GSuiteLoginType(Rule):
+    id = "GSuite.LoginType-prototype"
+    display_name = "GSuite Login Type"
+    enabled = False
+    log_types = [LogType.GSuite_ActivityEvent]
+    tags = ["GSuite", "Configuration Required", "Initial Access:Valid Accounts"]
+    reports = {"MITRE ATT&CK": ["TA0001:T1078"]}
+    default_severity = Severity.MEDIUM
+    default_description = "A login of a non-approved type was detected for this user.\n"
+    default_reference = (
+        "https://support.google.com/a/answer/9039184?hl=en&sjid=864417124752637253-EU"
+    )
+    default_runbook = (
+        "Correct the user account settings so that only logins of approved types are available.\n"
+    )
+    summary_attributes = ["actor:email"]
+    tests = g_suite_login_type_tests
     # allow-list of approved login types
     APPROVED_LOGIN_TYPES = {"exchange", "google_password", "reauth", "saml", "unknown"}
     # allow-list any application names here

@@ -1,14 +1,12 @@
-from typing import List
-
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 from pypanther.helpers.panther_tines_helpers import tines_alert_context
 
-tines_actions_disabled_changes_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
-        Name="Tines Actions Disabled Change",
-        ExpectedResult=True,
-        Log={
+tines_actions_disabled_changes_tests: list[RuleTest] = [
+    RuleTest(
+        name="Tines Actions Disabled Change",
+        expected_result=True,
+        log={
             "created_at": "2023-05-23 23:16:41",
             "id": 7111111,
             "operation_name": "ActionsDisabledChange",
@@ -20,10 +18,10 @@ tines_actions_disabled_changes_tests: List[PantherRuleTest] = [
             "user_name": "user at company dot com",
         },
     ),
-    PantherRuleTest(
-        Name="Tines Login",
-        ExpectedResult=False,
-        Log={
+    RuleTest(
+        name="Tines Login",
+        expected_result=False,
+        log={
             "created_at": "2023-05-17 14:45:19",
             "id": 7888888,
             "operation_name": "Login",
@@ -38,16 +36,16 @@ tines_actions_disabled_changes_tests: List[PantherRuleTest] = [
 ]
 
 
-class TinesActionsDisabledChanges(PantherRule):
-    RuleID = "Tines.Actions.DisabledChanges-prototype"
-    DisplayName = "Tines Actions Disabled Change"
-    LogTypes = [PantherLogType.Tines_Audit]
-    Tags = ["Tines"]
-    Reference = "https://www.tines.com/university/tines-basics/architecture-of-an-action"
-    Severity = PantherSeverity.Medium
-    Description = "Detections when Tines Actions are set to Disabled Change\n"
-    SummaryAttributes = ["user_id", "operation_name", "tenant_id", "request_ip"]
-    Tests = tines_actions_disabled_changes_tests
+class TinesActionsDisabledChanges(Rule):
+    id = "Tines.Actions.DisabledChanges-prototype"
+    display_name = "Tines Actions Disabled Change"
+    log_types = [LogType.Tines_Audit]
+    tags = ["Tines"]
+    default_reference = "https://www.tines.com/university/tines-basics/architecture-of-an-action"
+    default_severity = Severity.MEDIUM
+    default_description = "Detections when Tines Actions are set to Disabled Change\n"
+    summary_attributes = ["user_id", "operation_name", "tenant_id", "request_ip"]
+    tests = tines_actions_disabled_changes_tests
     ACTIONS = ["ActionsDisabledChange"]
 
     def rule(self, event):

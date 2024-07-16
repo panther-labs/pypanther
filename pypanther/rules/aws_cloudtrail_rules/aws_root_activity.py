@@ -1,14 +1,12 @@
-from typing import List
-
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 from pypanther.helpers.panther_default import aws_cloudtrail_success, lookup_aws_account_name
 
-aws_root_activity_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
-        Name="Root Activity - CreateServiceLinkedRole",
-        ExpectedResult=False,
-        Log={
+aws_root_activity_tests: list[RuleTest] = [
+    RuleTest(
+        name="Root Activity - CreateServiceLinkedRole",
+        expected_result=False,
+        log={
             "eventVersion": "1.05",
             "userIdentity": {
                 "type": "Root",
@@ -16,7 +14,12 @@ aws_root_activity_tests: List[PantherRuleTest] = [
                 "arn": "arn:aws:iam::123456789012:root",
                 "accountId": "123456789012",
                 "accessKeyId": "1",
-                "sessionContext": {"attributes": {"mfaAuthenticated": "false", "creationDate": "2019-01-01T00:00:00Z"}},
+                "sessionContext": {
+                    "attributes": {
+                        "mfaAuthenticated": "false",
+                        "creationDate": "2019-01-01T00:00:00Z",
+                    }
+                },
             },
             "eventTime": "2019-01-01T00:00:00Z",
             "eventSource": "s3.amazonaws.com",
@@ -46,10 +49,10 @@ aws_root_activity_tests: List[PantherRuleTest] = [
             "recipientAccountId": "123456789012",
         },
     ),
-    PantherRuleTest(
-        Name="Root Activity",
-        ExpectedResult=True,
-        Log={
+    RuleTest(
+        name="Root Activity",
+        expected_result=True,
+        log={
             "eventVersion": "1.05",
             "userIdentity": {
                 "type": "Root",
@@ -57,7 +60,12 @@ aws_root_activity_tests: List[PantherRuleTest] = [
                 "arn": "arn:aws:iam::123456789012:root",
                 "accountId": "123456789012",
                 "accessKeyId": "1",
-                "sessionContext": {"attributes": {"mfaAuthenticated": "false", "creationDate": "2019-01-01T00:00:00Z"}},
+                "sessionContext": {
+                    "attributes": {
+                        "mfaAuthenticated": "false",
+                        "creationDate": "2019-01-01T00:00:00Z",
+                    }
+                },
             },
             "eventTime": "2019-01-01T00:00:00Z",
             "eventSource": "s3.amazonaws.com",
@@ -87,10 +95,10 @@ aws_root_activity_tests: List[PantherRuleTest] = [
             "recipientAccountId": "123456789012",
         },
     ),
-    PantherRuleTest(
-        Name="IAMUser Activity",
-        ExpectedResult=False,
-        Log={
+    RuleTest(
+        name="IAMUser Activity",
+        expected_result=False,
+        log={
             "eventVersion": "1.05",
             "userIdentity": {
                 "type": "IAMUser",
@@ -99,7 +107,12 @@ aws_root_activity_tests: List[PantherRuleTest] = [
                 "accountId": "123456789012",
                 "accessKeyId": "1",
                 "userName": "tester",
-                "sessionContext": {"attributes": {"mfaAuthenticated": "false", "creationDate": "2019-01-01T00:00:00Z"}},
+                "sessionContext": {
+                    "attributes": {
+                        "mfaAuthenticated": "false",
+                        "creationDate": "2019-01-01T00:00:00Z",
+                    }
+                },
                 "invokedBy": "signin.amazonaws.com",
             },
             "eventTime": "2019-01-01T00:00:00Z",
@@ -108,7 +121,11 @@ aws_root_activity_tests: List[PantherRuleTest] = [
             "awsRegion": "us-west-2",
             "sourceIPAddress": "111.111.111.111",
             "userAgent": "signin.amazonaws.com",
-            "requestParameters": {"host": ["bucket.s3.us-west-2.amazonaws.com"], "bucketName": "bucket", "acl": [""]},
+            "requestParameters": {
+                "host": ["bucket.s3.us-west-2.amazonaws.com"],
+                "bucketName": "bucket",
+                "acl": [""],
+            },
             "responseElements": None,
             "additionalEventData": {
                 "SignatureVersion": "SigV4",
@@ -123,10 +140,10 @@ aws_root_activity_tests: List[PantherRuleTest] = [
             "vpcEndpointId": "vpce-1",
         },
     ),
-    PantherRuleTest(
-        Name="Root User Failed Activity",
-        ExpectedResult=False,
-        Log={
+    RuleTest(
+        name="Root User Failed Activity",
+        expected_result=False,
+        log={
             "awsRegion": "redacted",
             "errorMessage": "Not a valid response for the provided request id: aws_ccV60redacted",
             "eventID": "redacted",
@@ -166,10 +183,10 @@ aws_root_activity_tests: List[PantherRuleTest] = [
             },
         },
     ),
-    PantherRuleTest(
-        Name="Successful Root Login",
-        ExpectedResult=True,
-        Log={
+    RuleTest(
+        name="Successful Root Login",
+        expected_result=True,
+        log={
             "eventVersion": "1.05",
             "userIdentity": {
                 "type": "Root",
@@ -199,17 +216,22 @@ aws_root_activity_tests: List[PantherRuleTest] = [
 ]
 
 
-class AWSRootActivity(PantherRule):
-    RuleID = "AWS.Root.Activity-prototype"
-    DisplayName = "Root Account Activity"
-    LogTypes = [PantherLogType.AWS_CloudTrail]
-    Tags = ["AWS", "Identity & Access Management", "DemoThreatHunting", "Privilege Escalation:Valid Accounts"]
-    Reports = {"CIS": ["3.3"], "MITRE ATT&CK": ["TA0004:T1078"]}
-    Severity = PantherSeverity.High
-    Description = "Root account activity was detected.\n"
-    Runbook = "Investigate the usage of the root account. If this root activity was not authorized, immediately change the root credentials and investigate what actions the root account took.\n"
-    Reference = "https://docs.aws.amazon.com/IAM/latest/UserGuide/id_root-user.html"
-    SummaryAttributes = [
+class AWSRootActivity(Rule):
+    id = "AWS.Root.Activity-prototype"
+    display_name = "Root Account Activity"
+    log_types = [LogType.AWS_CloudTrail]
+    tags = [
+        "AWS",
+        "Identity & Access Management",
+        "DemoThreatHunting",
+        "Privilege Escalation:Valid Accounts",
+    ]
+    reports = {"CIS": ["3.3"], "MITRE ATT&CK": ["TA0004:T1078"]}
+    default_severity = Severity.HIGH
+    default_description = "Root account activity was detected.\n"
+    default_runbook = "Investigate the usage of the root account. If this root activity was not authorized, immediately change the root credentials and investigate what actions the root account took.\n"
+    default_reference = "https://docs.aws.amazon.com/IAM/latest/UserGuide/id_root-user.html"
+    summary_attributes = [
         "awsRegion",
         "eventName",
         "eventSource",
@@ -218,7 +240,7 @@ class AWSRootActivity(PantherRule):
         "p_any_aws_arns",
         "p_any_ip_addresses",
     ]
-    Tests = aws_root_activity_tests
+    tests = aws_root_activity_tests
     EVENT_ALLOW_LIST = {"CreateServiceLinkedRole"}
 
     def rule(self, event):

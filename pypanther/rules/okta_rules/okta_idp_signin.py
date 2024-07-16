@@ -1,13 +1,11 @@
-from typing import List
-
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get, deep_walk, okta_alert_context
 
-okta_identity_provider_sign_in_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
-        Name="Other Event",
-        ExpectedResult=False,
-        Log={
+okta_identity_provider_sign_in_tests: list[RuleTest] = [
+    RuleTest(
+        name="Other Event",
+        expected_result=False,
+        log={
             "actor": {
                 "alternateId": "homer.simpson@duff.com",
                 "displayName": "Homer Simpson",
@@ -80,10 +78,10 @@ okta_identity_provider_sign_in_tests: List[PantherRuleTest] = [
             "version": "0",
         },
     ),
-    PantherRuleTest(
-        Name="FastPass Phishing Block Event",
-        ExpectedResult=True,
-        Log={
+    RuleTest(
+        name="FastPass Phishing Block Event",
+        expected_result=True,
+        log={
             "actor": {
                 "alternateId": "homer.simpson@duff.com",
                 "displayName": "Homer Simpson",
@@ -159,18 +157,18 @@ okta_identity_provider_sign_in_tests: List[PantherRuleTest] = [
 ]
 
 
-class OktaIdentityProviderSignIn(PantherRule):
-    RuleID = "Okta.Identity.Provider.SignIn-prototype"
-    DisplayName = "Okta Identity Provider Sign-in"
-    Enabled = False
-    LogTypes = [PantherLogType.Okta_SystemLog]
-    Tags = ["Configuration Required"]
-    Reports = {"MITRE ATT&CK": ["TA0001:T1199", "TA0003:T1098"]}
-    Severity = PantherSeverity.High
-    Description = 'A user has signed in using a 3rd party Identity Provider. Attackers have been observed configuring a second Identity Provider to act as an "impersonation app" to access applications within the compromised Org on behalf of other users. This second Identity Provider, also controlled by the attacker, would act as a “source” IdP in an inbound federation relationship (sometimes called “Org2Org”) with the target. From this “source” IdP, the threat actor manipulated the username parameter for targeted users in the second “source” Identity Provider to match a real user in the compromised “target” Identity Provider. This provided the ability to Single sign-on (SSO) into applications in the target IdP as the targeted user. Do not use this rule if your organization uses legitimate 3rd-party Identity Providers.\n'
-    Reference = "https://sec.okta.com/articles/2023/08/cross-tenant-impersonation-prevention-and-detection\n"
-    DedupPeriodMinutes = 30
-    Tests = okta_identity_provider_sign_in_tests
+class OktaIdentityProviderSignIn(Rule):
+    id = "Okta.Identity.Provider.SignIn-prototype"
+    display_name = "Okta Identity Provider Sign-in"
+    enabled = False
+    log_types = [LogType.Okta_SystemLog]
+    tags = ["Configuration Required"]
+    reports = {"MITRE ATT&CK": ["TA0001:T1199", "TA0003:T1098"]}
+    default_severity = Severity.HIGH
+    default_description = 'A user has signed in using a 3rd party Identity Provider. Attackers have been observed configuring a second Identity Provider to act as an "impersonation app" to access applications within the compromised Org on behalf of other users. This second Identity Provider, also controlled by the attacker, would act as a “source” IdP in an inbound federation relationship (sometimes called “Org2Org”) with the target. From this “source” IdP, the threat actor manipulated the username parameter for targeted users in the second “source” Identity Provider to match a real user in the compromised “target” Identity Provider. This provided the ability to Single sign-on (SSO) into applications in the target IdP as the targeted user. Do not use this rule if your organization uses legitimate 3rd-party Identity Providers.\n'
+    default_reference = "https://sec.okta.com/articles/2023/08/cross-tenant-impersonation-prevention-and-detection\n"
+    dedup_period_minutes = 30
+    tests = okta_identity_provider_sign_in_tests
 
     def rule(self, event):
         return event.get("eventType") == "user.authentication.auth_via_IDP"

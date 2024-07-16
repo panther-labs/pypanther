@@ -1,23 +1,22 @@
 import ipaddress
-from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 
-osquery_linux_login_from_non_office_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
-        Name="Non-office network login (logged_in_users)",
-        ExpectedResult=True,
-        Log={
+osquery_linux_login_from_non_office_tests: list[RuleTest] = [
+    RuleTest(
+        name="Non-office network login (logged_in_users)",
+        expected_result=True,
+        log={
             "name": "pack/incident_response/logged_in_users",
             "action": "added",
             "columns": {"host": "10.0.3.1", "type": "user", "user": "ubuntu"},
         },
     ),
-    PantherRuleTest(
-        Name="Non-office network login (last)",
-        ExpectedResult=True,
-        Log={
+    RuleTest(
+        name="Non-office network login (last)",
+        expected_result=True,
+        log={
             "name": "pack-incident_response-last",
             "action": "added",
             "columns": {
@@ -30,29 +29,36 @@ osquery_linux_login_from_non_office_tests: List[PantherRuleTest] = [
             },
         },
     ),
-    PantherRuleTest(
-        Name="Office network login",
-        ExpectedResult=False,
-        Log={"name": "pack-logged_in_users", "action": "added", "columns": {"host": "192.168.1.200", "user": "ubuntu"}},
+    RuleTest(
+        name="Office network login",
+        expected_result=False,
+        log={
+            "name": "pack-logged_in_users",
+            "action": "added",
+            "columns": {"host": "192.168.1.200", "user": "ubuntu"},
+        },
     ),
 ]
 
 
-class OsqueryLinuxLoginFromNonOffice(PantherRule):
-    RuleID = "Osquery.Linux.LoginFromNonOffice-prototype"
-    DisplayName = "A Login from Outside the Corporate Office"
-    Enabled = False
-    LogTypes = [PantherLogType.Osquery_Differential]
-    Tags = ["Configuration Required", "Osquery", "Linux", "Initial Access:Valid Accounts"]
-    Reports = {"MITRE ATT&CK": ["TA0001:T1078"]}
-    Severity = PantherSeverity.High
-    Description = "A system has been logged into from a non approved IP space."
-    Runbook = "Analyze the host IP, and if possible, update allowlist or fix ACL."
-    Reference = "https://attack.mitre.org/techniques/T1078/"
-    SummaryAttributes = ["name", "action", "p_any_ip_addresses", "p_any_domain_names"]
-    Tests = osquery_linux_login_from_non_office_tests
+class OsqueryLinuxLoginFromNonOffice(Rule):
+    id = "Osquery.Linux.LoginFromNonOffice-prototype"
+    display_name = "A Login from Outside the Corporate Office"
+    enabled = False
+    log_types = [LogType.Osquery_Differential]
+    tags = ["Configuration Required", "Osquery", "Linux", "Initial Access:Valid Accounts"]
+    reports = {"MITRE ATT&CK": ["TA0001:T1078"]}
+    default_severity = Severity.HIGH
+    default_description = "A system has been logged into from a non approved IP space."
+    default_runbook = "Analyze the host IP, and if possible, update allowlist or fix ACL."
+    default_reference = "https://attack.mitre.org/techniques/T1078/"
+    summary_attributes = ["name", "action", "p_any_ip_addresses", "p_any_domain_names"]
+    tests = osquery_linux_login_from_non_office_tests
     # This is only an example network, but you can set it to whatever you'd like
-    OFFICE_NETWORKS = [ipaddress.ip_network("192.168.1.100/32"), ipaddress.ip_network("192.168.1.200/32")]
+    OFFICE_NETWORKS = [
+        ipaddress.ip_network("192.168.1.100/32"),
+        ipaddress.ip_network("192.168.1.200/32"),
+    ]
 
     def _login_from_non_office_network(self, host):
         host_ipaddr = ipaddress.IPv4Address(host)

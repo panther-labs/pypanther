@@ -1,14 +1,12 @@
-from typing import List
-
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 from pypanther.helpers.panther_snyk_helpers import snyk_alert_context
 
-snyk_user_management_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
-        Name="Snyk User Removed",
-        ExpectedResult=True,
-        Log={
+snyk_user_management_tests: list[RuleTest] = [
+    RuleTest(
+        name="Snyk User Removed",
+        expected_result=True,
+        log={
             "content": {
                 "email": "user@example.com",
                 "force": True,
@@ -23,10 +21,10 @@ snyk_user_management_tests: List[PantherRuleTest] = [
             "userId": "05555555-3333-4ddd-8ccc-755555555555",
         },
     ),
-    PantherRuleTest(
-        Name="Snyk User Invite Revoke",
-        ExpectedResult=True,
-        Log={
+    RuleTest(
+        name="Snyk User Invite Revoke",
+        expected_result=True,
+        log={
             "content": {},
             "created": "2023-04-11 23:32:13.248",
             "event": "org.user.invite.revoke",
@@ -35,10 +33,10 @@ snyk_user_management_tests: List[PantherRuleTest] = [
             "userId": "05555555-3333-4ddd-8ccc-755555555555",
         },
     ),
-    PantherRuleTest(
-        Name="Snyk Group User add",
-        ExpectedResult=True,
-        Log={
+    RuleTest(
+        name="Snyk Group User add",
+        expected_result=True,
+        log={
             "content": {
                 "role": "Group Member",
                 "rolePublicId": "65555555-c000-4ddd-2222-cfffffffffff",
@@ -50,10 +48,10 @@ snyk_user_management_tests: List[PantherRuleTest] = [
             "userId": "05555555-3333-4ddd-8ccc-755555555555",
         },
     ),
-    PantherRuleTest(
-        Name="Snyk System SSO Setting event happened",
-        ExpectedResult=False,
-        Log={
+    RuleTest(
+        name="Snyk System SSO Setting event happened",
+        expected_result=False,
+        log={
             "userId": "05555555-3333-4ddd-8ccc-755555555555",
             "event": "group.sso.edit",
             "groupId": "8fffffff-1555-4444-b000-b55555555555",
@@ -61,10 +59,10 @@ snyk_user_management_tests: List[PantherRuleTest] = [
             "content": {"unknown": "contents"},
         },
     ),
-    PantherRuleTest(
-        Name="SAML User Added",
-        ExpectedResult=False,
-        Log={
+    RuleTest(
+        name="SAML User Added",
+        expected_result=False,
+        log={
             "content": {
                 "role": "Org Collaborator",
                 "rolePublicId": "beeeeeee-dddd-4444-aaaa-133333333333",
@@ -80,17 +78,17 @@ snyk_user_management_tests: List[PantherRuleTest] = [
 ]
 
 
-class SnykUserManagement(PantherRule):
-    RuleID = "Snyk.User.Management-prototype"
-    DisplayName = "Snyk User Management"
-    LogTypes = [PantherLogType.Snyk_GroupAudit, PantherLogType.Snyk_OrgAudit]
-    Tags = ["Snyk"]
-    Severity = PantherSeverity.Medium
-    Description = "Detects when Snyk Users are changed\n"
-    Runbook = "These actions in the Snyk Audit logs indicate that a User has been created/deleted/modified.\n"
-    Reference = "https://docs.snyk.io/snyk-admin/manage-users-and-permissions/member-roles"
-    SummaryAttributes = ["event"]
-    Tests = snyk_user_management_tests
+class SnykUserManagement(Rule):
+    id = "Snyk.User.Management-prototype"
+    display_name = "Snyk User Management"
+    log_types = [LogType.Snyk_GroupAudit, LogType.Snyk_OrgAudit]
+    tags = ["Snyk"]
+    default_severity = Severity.MEDIUM
+    default_description = "Detects when Snyk Users are changed\n"
+    default_runbook = "These actions in the Snyk Audit logs indicate that a User has been created/deleted/modified.\n"
+    default_reference = "https://docs.snyk.io/snyk-admin/manage-users-and-permissions/member-roles"
+    summary_attributes = ["event"]
+    tests = snyk_user_management_tests
     ACTIONS = [
         "group.user.add",
         "group.user.provision.accept",

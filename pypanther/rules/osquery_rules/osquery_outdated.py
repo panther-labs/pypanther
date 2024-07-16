@@ -1,13 +1,11 @@
-from typing import List
-
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 
-osquery_outdated_agent_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
-        Name="osquery out of date",
-        ExpectedResult=True,
-        Log={
+osquery_outdated_agent_tests: list[RuleTest] = [
+    RuleTest(
+        name="osquery out of date",
+        expected_result=True,
+        log={
             "action": "added",
             "calendarTime": "Tue Sep 11 16:14:21 2018 UTC",
             "columns": {
@@ -37,10 +35,10 @@ osquery_outdated_agent_tests: List[PantherRuleTest] = [
             "unixTime": "1536682461",
         },
     ),
-    PantherRuleTest(
-        Name="osquery up to date",
-        ExpectedResult=False,
-        Log={
+    RuleTest(
+        name="osquery up to date",
+        expected_result=False,
+        log={
             "action": "added",
             "calendarTime": "Tue Sep 11 16:14:21 2018 UTC",
             "columns": {
@@ -73,17 +71,17 @@ osquery_outdated_agent_tests: List[PantherRuleTest] = [
 ]
 
 
-class OsqueryOutdatedAgent(PantherRule):
-    RuleID = "Osquery.OutdatedAgent-prototype"
-    DisplayName = "Osquery Agent Outdated"
-    LogTypes = [PantherLogType.Osquery_Differential]
-    Tags = ["Osquery", "Compliance"]
-    Severity = PantherSeverity.Info
-    Description = "Keep track of osquery versions, current is 5.10.2."
-    Runbook = "Update the osquery agent."
-    Reference = "https://www.osquery.io/downloads/official/5.10.2"
-    SummaryAttributes = ["name", "hostIdentifier", "action"]
-    Tests = osquery_outdated_agent_tests
+class OsqueryOutdatedAgent(Rule):
+    id = "Osquery.OutdatedAgent-prototype"
+    display_name = "Osquery Agent Outdated"
+    log_types = [LogType.Osquery_Differential]
+    tags = ["Osquery", "Compliance"]
+    default_severity = Severity.INFO
+    default_description = "Keep track of osquery versions, current is 5.10.2."
+    default_runbook = "Update the osquery agent."
+    default_reference = "https://www.osquery.io/downloads/official/5.10.2"
+    summary_attributes = ["name", "hostIdentifier", "action"]
+    tests = osquery_outdated_agent_tests
     LATEST_VERSION = "5.10.2"
 
     def rule(self, event):

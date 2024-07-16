@@ -1,14 +1,12 @@
-from typing import List
-
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import aws_rule_context, deep_get
 from pypanther.helpers.panther_default import aws_cloudtrail_success
 
-aws_cloud_trail_iam_assume_role_blacklist_ignored_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
-        Name="IAM Blocklisted Role Assumed",
-        ExpectedResult=True,
-        Log={
+aws_cloud_trail_iam_assume_role_blacklist_ignored_tests: list[RuleTest] = [
+    RuleTest(
+        name="IAM Blocklisted Role Assumed",
+        expected_result=True,
+        log={
             "awsRegion": "us-east-1",
             "eventID": "1111",
             "eventName": "AssumeRole",
@@ -35,7 +33,11 @@ aws_cloud_trail_iam_assume_role_blacklist_ignored_tests: List[PantherRuleTest] =
                     "arn": "arn:aws:sts::123456789012:assumed-role/FullAdminRole/1111",
                     "assumedRoleId": "ABCD:1111",
                 },
-                "credentials": {"accessKeyId": "1111", "expiration": "Jan 01, 2019 0:00:00 PM", "sessionToken": "1111"},
+                "credentials": {
+                    "accessKeyId": "1111",
+                    "expiration": "Jan 01, 2019 0:00:00 PM",
+                    "sessionToken": "1111",
+                },
             },
             "sharedEventID": "1111",
             "sourceIPAddress": "111.111.111.111",
@@ -46,16 +48,21 @@ aws_cloud_trail_iam_assume_role_blacklist_ignored_tests: List[PantherRuleTest] =
                 "accountId": "123456789012",
                 "arn": "arn:aws:iam::123456789012:user/example-user",
                 "principalId": "1111",
-                "sessionContext": {"attributes": {"creationDate": "2019-01-01T00:00:00Z", "mfaAuthenticated": "true"}},
+                "sessionContext": {
+                    "attributes": {
+                        "creationDate": "2019-01-01T00:00:00Z",
+                        "mfaAuthenticated": "true",
+                    }
+                },
                 "type": "IAMUser",
                 "userName": "example-user",
             },
         },
     ),
-    PantherRuleTest(
-        Name="IAM Non Blocklisted Role Assumed",
-        ExpectedResult=False,
-        Log={
+    RuleTest(
+        name="IAM Non Blocklisted Role Assumed",
+        expected_result=False,
+        log={
             "awsRegion": "us-east-1",
             "eventID": "1111",
             "eventName": "AssumeRole",
@@ -82,7 +89,11 @@ aws_cloud_trail_iam_assume_role_blacklist_ignored_tests: List[PantherRuleTest] =
                     "arn": "arn:aws:sts::123456789012:assumed-role/example-role/1111",
                     "assumedRoleId": "ABCD:1111",
                 },
-                "credentials": {"accessKeyId": "1111", "expiration": "Jan 01, 2019 0:00:00 PM", "sessionToken": "1111"},
+                "credentials": {
+                    "accessKeyId": "1111",
+                    "expiration": "Jan 01, 2019 0:00:00 PM",
+                    "sessionToken": "1111",
+                },
             },
             "sharedEventID": "1111",
             "sourceIPAddress": "111.111.111.111",
@@ -93,16 +104,21 @@ aws_cloud_trail_iam_assume_role_blacklist_ignored_tests: List[PantherRuleTest] =
                 "accountId": "123456789012",
                 "arn": "arn:aws:iam::123456789012:user/example-user",
                 "principalId": "1111",
-                "sessionContext": {"attributes": {"creationDate": "2019-01-01T00:00:00Z", "mfaAuthenticated": "true"}},
+                "sessionContext": {
+                    "attributes": {
+                        "creationDate": "2019-01-01T00:00:00Z",
+                        "mfaAuthenticated": "true",
+                    }
+                },
                 "type": "IAMUser",
                 "userName": "example-user",
             },
         },
     ),
-    PantherRuleTest(
-        Name="Error Assuming IAM Blocked Role",
-        ExpectedResult=False,
-        Log={
+    RuleTest(
+        name="Error Assuming IAM Blocked Role",
+        expected_result=False,
+        log={
             "awsRegion": "us-east-1",
             "errorCode": "ExpiredToken",
             "eventID": "1111",
@@ -130,7 +146,11 @@ aws_cloud_trail_iam_assume_role_blacklist_ignored_tests: List[PantherRuleTest] =
                     "arn": "arn:aws:sts::123456789012:assumed-role/FullAdminRole/1111",
                     "assumedRoleId": "ABCD:1111",
                 },
-                "credentials": {"accessKeyId": "1111", "expiration": "Jan 01, 2019 0:00:00 PM", "sessionToken": "1111"},
+                "credentials": {
+                    "accessKeyId": "1111",
+                    "expiration": "Jan 01, 2019 0:00:00 PM",
+                    "sessionToken": "1111",
+                },
             },
             "sharedEventID": "1111",
             "sourceIPAddress": "111.111.111.111",
@@ -141,7 +161,12 @@ aws_cloud_trail_iam_assume_role_blacklist_ignored_tests: List[PantherRuleTest] =
                 "accountId": "123456789012",
                 "arn": "arn:aws:iam::123456789012:user/example-user",
                 "principalId": "1111",
-                "sessionContext": {"attributes": {"creationDate": "2019-01-01T00:00:00Z", "mfaAuthenticated": "true"}},
+                "sessionContext": {
+                    "attributes": {
+                        "creationDate": "2019-01-01T00:00:00Z",
+                        "mfaAuthenticated": "true",
+                    }
+                },
                 "type": "IAMUser",
                 "userName": "example-user",
             },
@@ -150,24 +175,28 @@ aws_cloud_trail_iam_assume_role_blacklist_ignored_tests: List[PantherRuleTest] =
 ]
 
 
-class AWSCloudTrailIAMAssumeRoleBlacklistIgnored(PantherRule):
-    RuleID = "AWS.CloudTrail.IAMAssumeRoleBlacklistIgnored-prototype"
-    DisplayName = "IAM Assume Role Blocklist Ignored"
-    Enabled = False
-    LogTypes = [PantherLogType.AWS_CloudTrail]
-    Tags = [
+class AWSCloudTrailIAMAssumeRoleBlacklistIgnored(Rule):
+    id = "AWS.CloudTrail.IAMAssumeRoleBlacklistIgnored-prototype"
+    display_name = "IAM Assume Role Blocklist Ignored"
+    enabled = False
+    log_types = [LogType.AWS_CloudTrail]
+    tags = [
         "AWS",
         "Configuration Required",
         "Identity and Access Management",
         "Privilege Escalation:Abuse Elevation Control Mechanism",
     ]
-    Reports = {"MITRE ATT&CK": ["TA0004:T1548"]}
-    Severity = PantherSeverity.High
-    Description = "A user assumed a role that was explicitly blocklisted for manual user assumption.\n"
-    Runbook = "Verify that this was an approved assume role action. If not, consider revoking the access immediately and updating the AssumeRolePolicyDocument to prevent this from happening again.\n"
-    Reference = "https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_boundaries.html"
-    SummaryAttributes = ["userAgent", "sourceIpAddress", "recipientAccountId", "p_any_aws_arns"]
-    Tests = aws_cloud_trail_iam_assume_role_blacklist_ignored_tests
+    reports = {"MITRE ATT&CK": ["TA0004:T1548"]}
+    default_severity = Severity.HIGH
+    default_description = (
+        "A user assumed a role that was explicitly blocklisted for manual user assumption.\n"
+    )
+    default_runbook = "Verify that this was an approved assume role action. If not, consider revoking the access immediately and updating the AssumeRolePolicyDocument to prevent this from happening again.\n"
+    default_reference = (
+        "https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_boundaries.html"
+    )
+    summary_attributes = ["userAgent", "sourceIpAddress", "recipientAccountId", "p_any_aws_arns"]
+    tests = aws_cloud_trail_iam_assume_role_blacklist_ignored_tests
     # This is a list of role ARNs that should not be assumed by users in normal operations
     ASSUME_ROLE_BLOCKLIST = ["arn:aws:iam::123456789012:role/FullAdminRole"]
 

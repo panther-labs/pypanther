@@ -1,12 +1,10 @@
-from typing import List
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
-
-push_security_new_app_detected_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
-        Name="New App",
-        ExpectedResult=True,
-        Log={
+push_security_new_app_detected_tests: list[RuleTest] = [
+    RuleTest(
+        name="New App",
+        expected_result=True,
+        log={
             "id": "c478966c-f927-411c-b919-179832d3d50c",
             "new": {
                 "approvalStatus": None,
@@ -24,10 +22,10 @@ push_security_new_app_detected_tests: List[PantherRuleTest] = [
             "version": "1",
         },
     ),
-    PantherRuleTest(
-        Name="App Updated",
-        ExpectedResult=False,
-        Log={
+    RuleTest(
+        name="App Updated",
+        expected_result=False,
+        log={
             "id": "c478966c-f927-411c-b919-179832d3d50c",
             "new": {
                 "approvalStatus": "APPROVED",
@@ -56,12 +54,12 @@ push_security_new_app_detected_tests: List[PantherRuleTest] = [
 ]
 
 
-class PushSecurityNewAppDetected(PantherRule):
-    RuleID = "Push.Security.New.App.Detected-prototype"
-    DisplayName = "Push Security New App Detected"
-    LogTypes = [PantherLogType.PushSecurity_Entities]
-    Severity = PantherSeverity.Info
-    Tests = push_security_new_app_detected_tests
+class PushSecurityNewAppDetected(Rule):
+    id = "Push.Security.New.App.Detected-prototype"
+    display_name = "Push Security New App Detected"
+    log_types = [LogType.PushSecurity_Entities]
+    default_severity = Severity.INFO
+    tests = push_security_new_app_detected_tests
 
     def rule(self, event):
         if event.get("object") != "APP":

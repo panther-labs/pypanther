@@ -1,17 +1,20 @@
 import json
-from typing import List
 from unittest.mock import MagicMock
 
-from pypanther import PantherLogType, PantherRule, PantherRuleMock, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 from pypanther.helpers.panther_config import config
 
-dropbox_external_share_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
-        Name="Domain in Allowlist",
-        ExpectedResult=False,
-        Mocks=[PantherRuleMock(ObjectName="DROPBOX_ALLOWED_SHARE_DOMAINS", ReturnValue='[\n    "example.com"\n]')],
-        Log={
+dropbox_external_share_tests: list[RuleTest] = [
+    RuleTest(
+        name="Domain in Allowlist",
+        expected_result=False,
+        mocks=[
+            RuleMock(
+                object_name="DROPBOX_ALLOWED_SHARE_DOMAINS", return_value='[\n    "example.com"\n]'
+            )
+        ],
+        log={
             "actor": {
                 "_tag": "user",
                 "user": {
@@ -44,7 +47,10 @@ dropbox_external_share_tests: List[PantherRuleTest] = [
                 "email": "alice.bob@company.com",
                 "team_member_id": "dbmid:AADSERs2cAsByYt8yQEDU4_qdNQiSdxgCl8",
             },
-            "details": {".tag": "shared_content_add_member_details", "shared_content_access_level": {".tag": "viewer"}},
+            "details": {
+                ".tag": "shared_content_add_member_details",
+                "shared_content_access_level": {".tag": "viewer"},
+            },
             "event_category": {"_tag": "sharing"},
             "event_type": {
                 "_tag": "shared_content_add_member",
@@ -54,9 +60,17 @@ dropbox_external_share_tests: List[PantherRuleTest] = [
             "origin": {
                 "access_method": {
                     ".tag": "end_user",
-                    "end_user": {".tag": "web", "session_id": "dbwsid:237034608707419186011941491025532848312"},
+                    "end_user": {
+                        ".tag": "web",
+                        "session_id": "dbwsid:237034608707419186011941491025532848312",
+                    },
                 },
-                "geo_location": {"city": "Austin", "country": "US", "ip_address": "1.2.3.4", "region": "Texas"},
+                "geo_location": {
+                    "city": "Austin",
+                    "country": "US",
+                    "ip_address": "1.2.3.4",
+                    "region": "Texas",
+                },
             },
             "p_any_emails": ["david.davidson@example.com", "alice.bob@company.com"],
             "p_any_ip_addresses": ["1.2.3.4"],
@@ -81,10 +95,10 @@ dropbox_external_share_tests: List[PantherRuleTest] = [
             "timestamp": "2023-04-18 22:31:03",
         },
     ),
-    PantherRuleTest(
-        Name="external share",
-        ExpectedResult=True,
-        Log={
+    RuleTest(
+        name="external share",
+        expected_result=True,
+        log={
             "actor": {
                 "_tag": "user",
                 "user": {
@@ -117,7 +131,10 @@ dropbox_external_share_tests: List[PantherRuleTest] = [
                 "email": "alice.bob@company.com",
                 "team_member_id": "dbmid:AADSERs2cAsByYt8yQEDU4_qdNQiSdxgCl8",
             },
-            "details": {".tag": "shared_content_add_member_details", "shared_content_access_level": {".tag": "viewer"}},
+            "details": {
+                ".tag": "shared_content_add_member_details",
+                "shared_content_access_level": {".tag": "viewer"},
+            },
             "event_category": {"_tag": "sharing"},
             "event_type": {
                 "_tag": "shared_content_add_member",
@@ -127,9 +144,17 @@ dropbox_external_share_tests: List[PantherRuleTest] = [
             "origin": {
                 "access_method": {
                     ".tag": "end_user",
-                    "end_user": {".tag": "web", "session_id": "dbwsid:237034608707419186011941491025532848312"},
+                    "end_user": {
+                        ".tag": "web",
+                        "session_id": "dbwsid:237034608707419186011941491025532848312",
+                    },
                 },
-                "geo_location": {"city": "Austin", "country": "US", "ip_address": "1.2.3.4", "region": "Texas"},
+                "geo_location": {
+                    "city": "Austin",
+                    "country": "US",
+                    "ip_address": "1.2.3.4",
+                    "region": "Texas",
+                },
             },
             "p_any_emails": ["david.davidson@david.co", "alice.bob@company.com"],
             "p_any_ip_addresses": ["1.2.3.4"],
@@ -157,19 +182,21 @@ dropbox_external_share_tests: List[PantherRuleTest] = [
 ]
 
 
-class DropboxExternalShare(PantherRule):
-    Description = "Dropbox item shared externally"
-    DisplayName = "Dropbox External Share"
-    Reference = "https://help.dropbox.com/share/share-outside-dropbox"
-    Severity = PantherSeverity.Medium
-    LogTypes = [PantherLogType.Dropbox_TeamEvent]
-    RuleID = "Dropbox.External.Share-prototype"
-    Tests = dropbox_external_share_tests
+class DropboxExternalShare(Rule):
+    default_description = "Dropbox item shared externally"
+    display_name = "Dropbox External Share"
+    default_reference = "https://help.dropbox.com/share/share-outside-dropbox"
+    default_severity = Severity.MEDIUM
+    log_types = [LogType.Dropbox_TeamEvent]
+    id = "Dropbox.External.Share-prototype"
+    tests = dropbox_external_share_tests
     DROPBOX_ALLOWED_SHARE_DOMAINS = config.DROPBOX_ALLOWED_SHARE_DOMAINS
 
     def rule(self, event):
         if isinstance(self.DROPBOX_ALLOWED_SHARE_DOMAINS, MagicMock):
-            self.DROPBOX_ALLOWED_SHARE_DOMAINS = set(json.loads(self.DROPBOX_ALLOWED_SHARE_DOMAINS()))  # pylint: disable=not-callable
+            self.DROPBOX_ALLOWED_SHARE_DOMAINS = set(
+                json.loads(self.DROPBOX_ALLOWED_SHARE_DOMAINS())
+            )  # pylint: disable=not-callable
         if deep_get(event, "event_type", "_tag", default="") == "shared_content_add_member":
             participants = event.get("participants", [{}])
             for participant in participants:

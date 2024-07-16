@@ -1,14 +1,12 @@
-from typing import List
-
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_auth0_helpers import auth0_alert_context, is_auth0_config_event
 from pypanther.helpers.panther_base_helpers import deep_get
 
-auth0_integration_installed_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
-        Name="Auth0 Integration Installed",
-        ExpectedResult=True,
-        Log={
+auth0_integration_installed_tests: list[RuleTest] = [
+    RuleTest(
+        name="Auth0 Integration Installed",
+        expected_result=True,
+        log={
             "data": {
                 "client_id": "1HXWWGKk1Zj3JF8GvMrnCSirccDs4qvr",
                 "client_name": "",
@@ -53,10 +51,10 @@ auth0_integration_installed_tests: List[PantherRuleTest] = [
             "p_source_label": "Org Auth0 Tenant Label",
         },
     ),
-    PantherRuleTest(
-        Name="Other Event",
-        ExpectedResult=False,
-        Log={
+    RuleTest(
+        name="Other Event",
+        expected_result=False,
+        log={
             "data": {
                 "client_id": "1HXWWGKk1Zj3JF8GvMrnCSirccDs4qvr",
                 "client_name": "",
@@ -249,15 +247,15 @@ auth0_integration_installed_tests: List[PantherRuleTest] = [
 ]
 
 
-class Auth0IntegrationInstalled(PantherRule):
-    Description = "An Auth0 integration was installed from the auth0 action library."
-    DisplayName = "Auth0 Integration Installed"
-    Runbook = "Assess if this was done by the user for a valid business reason. Be vigilant to re-enable this setting as it's in the best security interest for your organization's security posture."
-    Reference = "https://auth0.com/blog/actions-integrations-are-now-ga/"
-    Severity = PantherSeverity.Info
-    LogTypes = [PantherLogType.Auth0_Events]
-    RuleID = "Auth0.Integration.Installed-prototype"
-    Tests = auth0_integration_installed_tests
+class Auth0IntegrationInstalled(Rule):
+    default_description = "An Auth0 integration was installed from the auth0 action library."
+    display_name = "Auth0 Integration Installed"
+    default_runbook = "Assess if this was done by the user for a valid business reason. Be vigilant to re-enable this setting as it's in the best security interest for your organization's security posture."
+    default_reference = "https://auth0.com/blog/actions-integrations-are-now-ga/"
+    default_severity = Severity.INFO
+    log_types = [LogType.Auth0_Events]
+    id = "Auth0.Integration.Installed-prototype"
+    tests = auth0_integration_installed_tests
 
     def rule(self, event):
         data_description = deep_get(event, "data", "description", default="<NO_DATA_DESCRIPTION_FOUND>")

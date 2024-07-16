@@ -1,14 +1,12 @@
-from typing import List
-
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.gcp_base_helpers import gcp_alert_context
 from pypanther.helpers.panther_base_helpers import deep_get, deep_walk
 
-gcp_cloud_build_potential_privilege_escalation_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
-        Name="GCP CloudBuild - Build with Potentially Privileged Access",
-        ExpectedResult=True,
-        Log={
+gcp_cloud_build_potential_privilege_escalation_tests: list[RuleTest] = [
+    RuleTest(
+        name="GCP CloudBuild - Build with Potentially Privileged Access",
+        expected_result=True,
+        log={
             "logName": "projects/some-project/logs/cloudaudit.googleapis.com%2Factivity",
             "operation": {
                 "first": True,
@@ -59,10 +57,10 @@ gcp_cloud_build_potential_privilege_escalation_tests: List[PantherRuleTest] = [
             "timestamp": "2024-01-25 11:55:08.919358000",
         },
     ),
-    PantherRuleTest(
-        Name="GCP CreateBrand - No Privileged Access",
-        ExpectedResult=False,
-        Log={
+    RuleTest(
+        name="GCP CreateBrand - No Privileged Access",
+        expected_result=False,
+        log={
             "logName": "projects/some-project/logs/cloudaudit.googleapis.com%2Factivity",
             "protoPayload": {
                 "at_sign_type": "type.googleapis.com/google.cloud.audit.AuditLog",
@@ -113,16 +111,16 @@ gcp_cloud_build_potential_privilege_escalation_tests: List[PantherRuleTest] = [
 ]
 
 
-class GCPCloudBuildPotentialPrivilegeEscalation(PantherRule):
-    LogTypes = [PantherLogType.GCP_AuditLog]
-    Description = "Detects privilege escalation attacks designed to gain access to the Cloud Build Service Account. A user with permissions to start a new build with Cloud Build can gain access to the Cloud Build Service Account and abuse it for more access to the environment."
-    DisplayName = "GCP CloudBuild Potential Privilege Escalation"
-    RuleID = "GCP.CloudBuild.Potential.Privilege.Escalation-prototype"
-    Reference = "https://rhinosecuritylabs.com/gcp/iam-privilege-escalation-gcp-cloudbuild/"
-    Runbook = "Confirm this was authorized and necessary behavior. To defend against this privilege escalation attack, it is necessary to restrict the permissions granted to the Cloud Build Service Account and to be careful granting the cloudbuild.builds.create permission to any users in your Organization. Most importantly, you need to know that any user who is granted cloudbuild.builds.create, is also indirectly granted all the permissions granted to the Cloud Build Service Account. If that’s alright with you, then you may not need to worry about this attack vector, but it is still highly recommended to modify the default permissions granted to the Cloud Build Service Account."
-    Reports = {"MITRE ATT&CK": ["TA0004:T1548"]}
-    Severity = PantherSeverity.High
-    Tests = gcp_cloud_build_potential_privilege_escalation_tests
+class GCPCloudBuildPotentialPrivilegeEscalation(Rule):
+    log_types = [LogType.GCP_AuditLog]
+    default_description = "Detects privilege escalation attacks designed to gain access to the Cloud Build Service Account. A user with permissions to start a new build with Cloud Build can gain access to the Cloud Build Service Account and abuse it for more access to the environment."
+    display_name = "GCP CloudBuild Potential Privilege Escalation"
+    id = "GCP.CloudBuild.Potential.Privilege.Escalation-prototype"
+    default_reference = "https://rhinosecuritylabs.com/gcp/iam-privilege-escalation-gcp-cloudbuild/"
+    default_runbook = "Confirm this was authorized and necessary behavior. To defend against this privilege escalation attack, it is necessary to restrict the permissions granted to the Cloud Build Service Account and to be careful granting the cloudbuild.builds.create permission to any users in your Organization. Most importantly, you need to know that any user who is granted cloudbuild.builds.create, is also indirectly granted all the permissions granted to the Cloud Build Service Account. If that’s alright with you, then you may not need to worry about this attack vector, but it is still highly recommended to modify the default permissions granted to the Cloud Build Service Account."
+    reports = {"MITRE ATT&CK": ["TA0004:T1548"]}
+    default_severity = Severity.HIGH
+    tests = gcp_cloud_build_potential_privilege_escalation_tests
 
     def rule(self, event):
         if not deep_get(event, "protoPayload", "methodName", default="METHOD_NOT_FOUND").endswith(

@@ -1,12 +1,10 @@
-from typing import List
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
-
-zendesk_user_assumption_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
-        Name="User assumption settings changed",
-        ExpectedResult=True,
-        Log={
+zendesk_user_assumption_tests: list[RuleTest] = [
+    RuleTest(
+        name="User assumption settings changed",
+        expected_result=True,
+        log={
             "url": "https://myzendek.zendesk.com/api/v2/audit_logs/111222333444.json",
             "id": 123456789123,
             "action_label": "Updated",
@@ -22,10 +20,10 @@ zendesk_user_assumption_tests: List[PantherRuleTest] = [
             "p_log_type": "Zendesk.Audit",
         },
     ),
-    PantherRuleTest(
-        Name="Zendesk - Credit Card Redaction On",
-        ExpectedResult=False,
-        Log={
+    RuleTest(
+        name="Zendesk - Credit Card Redaction On",
+        expected_result=False,
+        log={
             "url": "https://myzendek.zendesk.com/api/v2/audit_logs/111222333444.json",
             "id": 123456789123,
             "action_label": "Updated",
@@ -44,28 +42,31 @@ zendesk_user_assumption_tests: List[PantherRuleTest] = [
 ]
 
 
-class ZendeskUserAssumption(PantherRule):
-    RuleID = "Zendesk.UserAssumption-prototype"
-    DisplayName = "Enabled Zendesk Support to Assume Users"
-    LogTypes = [PantherLogType.Zendesk_Audit]
-    Tags = ["Zendesk", "Lateral Movement:Use Alternate Authentication Material"]
-    Reports = {"MITRE ATT&CK": ["TA0008:T1550"]}
-    Severity = PantherSeverity.Medium
-    Description = "User enabled or disabled zendesk support user assumption."
-    Runbook = (
-        "Investigate whether allowing zendesk support to assume users is necessary. If not, disable the feature.\n"
-    )
-    Reference = "https://support.zendesk.com/hc/en-us/articles/4408894200474-Assuming-end-users#:~:text=In%20Support%2C%20click%20the%20Customers,user%20in%20the%20information%20dialog"
-    SummaryAttributes = ["p_any_ip_addresses"]
-    Tests = zendesk_user_assumption_tests
+class ZendeskUserAssumption(Rule):
+    id = "Zendesk.UserAssumption-prototype"
+    display_name = "Enabled Zendesk Support to Assume Users"
+    log_types = [LogType.Zendesk_Audit]
+    tags = ["Zendesk", "Lateral Movement:Use Alternate Authentication Material"]
+    reports = {"MITRE ATT&CK": ["TA0008:T1550"]}
+    default_severity = Severity.MEDIUM
+    default_description = "User enabled or disabled zendesk support user assumption."
+    default_runbook = "Investigate whether allowing zendesk support to assume users is necessary. If not, disable the feature.\n"
+    default_reference = "https://support.zendesk.com/hc/en-us/articles/4408894200474-Assuming-end-users#:~:text=In%20Support%2C%20click%20the%20Customers,user%20in%20the%20information%20dialog"
+    summary_attributes = ["p_any_ip_addresses"]
+    tests = zendesk_user_assumption_tests
     USER_SUSPENSION_ACTIONS = {"create", "update"}
 
     def rule(self, event):
         return (
             event.get("source_type") == "account_setting"
             and event.get("action", "") in self.USER_SUSPENSION_ACTIONS
-            and (event.get("source_label", "").lower() in {"account assumption", "assumption duration"})
+            and (
+                event.get("source_label", "").lower()
+                in {"account assumption", "assumption duration"}
+            )
         )
 
     def title(self, event):
-        return f"A user [{event.udm('actor_user')}] updated zendesk support user assumption settings"
+        return (
+            f"A user [{event.udm('actor_user')}] updated zendesk support user assumption settings"
+        )

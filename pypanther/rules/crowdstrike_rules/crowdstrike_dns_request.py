@@ -1,13 +1,14 @@
-from typing import List
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther.helpers.panther_base_helpers import (
+    filter_crowdstrike_fdr_event_type,
+    get_crowdstrike_field,
+)
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
-from pypanther.helpers.panther_base_helpers import filter_crowdstrike_fdr_event_type, get_crowdstrike_field
-
-crowdstrike_dns_request_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
-        Name="Denylisted Domain",
-        ExpectedResult=True,
-        Log={
+crowdstrike_dns_request_tests: list[RuleTest] = [
+    RuleTest(
+        name="Denylisted Domain",
+        expected_result=True,
+        log={
             "event_simpleName": "DnsRequest",
             "name": "DnsRequestMacV1",
             "aid": "00000000000000000000000000000001",
@@ -33,13 +34,16 @@ crowdstrike_dns_request_tests: List[PantherRuleTest] = [
             "p_source_label": "Crowdstrike",
             "p_any_ip_addresses": ["111.111.111.111"],
             "p_any_domain_names": ["baddomain.com"],
-            "p_any_trace_ids": ["00000000000000000000000000000001", "00000000000000000000000000000002"],
+            "p_any_trace_ids": [
+                "00000000000000000000000000000001",
+                "00000000000000000000000000000002",
+            ],
         },
     ),
-    PantherRuleTest(
-        Name="Non-denylisted Domain",
-        ExpectedResult=False,
-        Log={
+    RuleTest(
+        name="Non-denylisted Domain",
+        expected_result=False,
+        log={
             "event_simpleName": "DnsRequest",
             "name": "DnsRequestMacV1",
             "aid": "00000000000000000000000000000001",
@@ -65,13 +69,16 @@ crowdstrike_dns_request_tests: List[PantherRuleTest] = [
             "p_source_label": "Crowdstrike",
             "p_any_ip_addresses": ["111.111.111.111"],
             "p_any_domain_names": ["gooddomain.com"],
-            "p_any_trace_ids": ["00000000000000000000000000000001", "00000000000000000000000000000002"],
+            "p_any_trace_ids": [
+                "00000000000000000000000000000001",
+                "00000000000000000000000000000002",
+            ],
         },
     ),
-    PantherRuleTest(
-        Name="Denylisted Domain (FDREvent)",
-        ExpectedResult=True,
-        Log={
+    RuleTest(
+        name="Denylisted Domain (FDREvent)",
+        expected_result=True,
+        log={
             "aid": "307dc41ce39744f060622095f2805249",
             "aip": "10.0.0.0",
             "cid": "0cfb1a68ef6b49fdb0d2b12725057057",
@@ -106,8 +113,14 @@ crowdstrike_dns_request_tests: List[PantherRuleTest] = [
             "name": "DnsRequestMacV1",
             "p_any_domain_names": ["baddomain.com"],
             "p_any_ip_addresses": ["10.0.0.0"],
-            "p_any_md5_hashes": ["0cfb1a68ef6b49fdb0d2b12725057057", "307dc41ce39744f060622095f2805249"],
-            "p_any_trace_ids": ["0cfb1a68ef6b49fdb0d2b12725057057", "307dc41ce39744f060622095f2805249"],
+            "p_any_md5_hashes": [
+                "0cfb1a68ef6b49fdb0d2b12725057057",
+                "307dc41ce39744f060622095f2805249",
+            ],
+            "p_any_trace_ids": [
+                "0cfb1a68ef6b49fdb0d2b12725057057",
+                "307dc41ce39744f060622095f2805249",
+            ],
             "p_event_time": "2020-05-24 23:50:06.989",
             "p_log_type": "Crowdstrike.FDREvent",
             "p_parse_time": "2023-01-26 12:17:58.141",
@@ -116,10 +129,10 @@ crowdstrike_dns_request_tests: List[PantherRuleTest] = [
             "timestamp": "2020-05-24 23:50:07.259",
         },
     ),
-    PantherRuleTest(
-        Name="Non-denylisted Domain (FDREvent)",
-        ExpectedResult=False,
-        Log={
+    RuleTest(
+        name="Non-denylisted Domain (FDREvent)",
+        expected_result=False,
+        log={
             "aid": "307dc41ce39744f060622095f2805249",
             "aip": "10.0.0.0",
             "cid": "0cfb1a68ef6b49fdb0d2b12725057057",
@@ -154,8 +167,14 @@ crowdstrike_dns_request_tests: List[PantherRuleTest] = [
             "name": "DnsRequestMacV1",
             "p_any_domain_names": ["gooddomain.com"],
             "p_any_ip_addresses": ["10.0.0.0"],
-            "p_any_md5_hashes": ["0cfb1a68ef6b49fdb0d2b12725057057", "307dc41ce39744f060622095f2805249"],
-            "p_any_trace_ids": ["0cfb1a68ef6b49fdb0d2b12725057057", "307dc41ce39744f060622095f2805249"],
+            "p_any_md5_hashes": [
+                "0cfb1a68ef6b49fdb0d2b12725057057",
+                "307dc41ce39744f060622095f2805249",
+            ],
+            "p_any_trace_ids": [
+                "0cfb1a68ef6b49fdb0d2b12725057057",
+                "307dc41ce39744f060622095f2805249",
+            ],
             "p_event_time": "2020-05-24 23:50:06.989",
             "p_log_type": "Crowdstrike.FDREvent",
             "p_parse_time": "2023-01-26 12:17:58.141",
@@ -164,10 +183,10 @@ crowdstrike_dns_request_tests: List[PantherRuleTest] = [
             "timestamp": "2020-05-24 23:50:07.259",
         },
     ),
-    PantherRuleTest(
-        Name="Denylisted Domain (but Non-DNS type) (FDREvent)",
-        ExpectedResult=False,
-        Log={
+    RuleTest(
+        name="Denylisted Domain (but Non-DNS type) (FDREvent)",
+        expected_result=False,
+        log={
             "event_simpleName": "Event_DetectionSummaryEvent",
             "name": "DnsRequestMacV1",
             "aid": "00000000000000000000000000000001",
@@ -212,26 +231,29 @@ crowdstrike_dns_request_tests: List[PantherRuleTest] = [
             "p_source_label": "Crowdstrike",
             "p_any_ip_addresses": ["111.111.111.111"],
             "p_any_domain_names": ["baddomain.com"],
-            "p_any_trace_ids": ["00000000000000000000000000000001", "00000000000000000000000000000002"],
+            "p_any_trace_ids": [
+                "00000000000000000000000000000001",
+                "00000000000000000000000000000002",
+            ],
         },
     ),
 ]
 
 
-class CrowdstrikeDNSRequest(PantherRule):
-    RuleID = "Crowdstrike.DNS.Request-prototype"
-    DisplayName = "DNS request to denylisted domain"
-    Enabled = False
-    LogTypes = [PantherLogType.Crowdstrike_DNSRequest, PantherLogType.Crowdstrike_FDREvent]
-    Tags = ["Crowdstrike", "Initial Access:Phishing", "Configuration Required"]
-    Severity = PantherSeverity.Critical
-    Reports = {"MITRE ATT&CK": ["TA0001:T1566"]}
-    Description = "A DNS request was made to a domain on an explicit denylist"
-    Reference = "https://docs.runpanther.io/data-onboarding/supported-logs/crowdstrike#crowdstrike-dnsrequest"
-    Runbook = "Filter for host ID in title in Crowdstrike Host Management console to identify the system that queried the domain."
-    DedupPeriodMinutes = 15
-    SummaryAttributes = ["DomainName", "aid", "p_any_domain_names", "p_any_ip_addresses"]
-    Tests = crowdstrike_dns_request_tests
+class CrowdstrikeDNSRequest(Rule):
+    id = "Crowdstrike.DNS.Request-prototype"
+    display_name = "DNS request to denylisted domain"
+    enabled = False
+    log_types = [LogType.Crowdstrike_DNSRequest, LogType.Crowdstrike_FDREvent]
+    tags = ["Crowdstrike", "Initial Access:Phishing", "Configuration Required"]
+    default_severity = Severity.CRITICAL
+    reports = {"MITRE ATT&CK": ["TA0001:T1566"]}
+    default_description = "A DNS request was made to a domain on an explicit denylist"
+    default_reference = "https://docs.runpanther.io/data-onboarding/supported-logs/crowdstrike#crowdstrike-dnsrequest"
+    default_runbook = "Filter for host ID in title in Crowdstrike Host Management console to identify the system that queried the domain."
+    dedup_period_minutes = 15
+    summary_attributes = ["DomainName", "aid", "p_any_domain_names", "p_any_ip_addresses"]
+    tests = crowdstrike_dns_request_tests
     # baddomain.com is present for testing purposes. Add domains you wish to be alerted on to this list
     DENYLIST = ["baddomain.com"]
 

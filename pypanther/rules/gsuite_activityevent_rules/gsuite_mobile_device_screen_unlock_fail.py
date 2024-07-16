@@ -1,13 +1,11 @@
-from typing import List
-
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 
-g_suite_device_unlock_failure_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
-        Name="Normal Mobile Event",
-        ExpectedResult=False,
-        Log={
+g_suite_device_unlock_failure_tests: list[RuleTest] = [
+    RuleTest(
+        name="Normal Mobile Event",
+        expected_result=False,
+        log={
             "id": {"applicationName": "mobile"},
             "actor": {"callerType": "USER", "email": "homer.simpson@example.io"},
             "type": "device_updates",
@@ -15,10 +13,10 @@ g_suite_device_unlock_failure_tests: List[PantherRuleTest] = [
             "parameters": {"USER_EMAIL": "homer.simpson@example.io"},
         },
     ),
-    PantherRuleTest(
-        Name="Small Number of Failed Logins",
-        ExpectedResult=False,
-        Log={
+    RuleTest(
+        name="Small Number of Failed Logins",
+        expected_result=False,
+        log={
             "id": {"applicationName": "mobile"},
             "actor": {"callerType": "USER", "email": "homer.simpson@example.io"},
             "type": "device_updates",
@@ -26,10 +24,10 @@ g_suite_device_unlock_failure_tests: List[PantherRuleTest] = [
             "parameters": {"USER_EMAIL": "homer.simpson@example.io", "FAILED_PASSWD_ATTEMPTS": 2},
         },
     ),
-    PantherRuleTest(
-        Name="Multiple Failed Login Attempts with int Type",
-        ExpectedResult=True,
-        Log={
+    RuleTest(
+        name="Multiple Failed Login Attempts with int Type",
+        expected_result=True,
+        log={
             "id": {"applicationName": "mobile"},
             "actor": {"callerType": "USER", "email": "homer.simpson@example.io"},
             "type": "device_updates",
@@ -37,10 +35,10 @@ g_suite_device_unlock_failure_tests: List[PantherRuleTest] = [
             "parameters": {"USER_EMAIL": "homer.simpson@example.io", "FAILED_PASSWD_ATTEMPTS": 100},
         },
     ),
-    PantherRuleTest(
-        Name="Multiple Failed Login Attempts with String Type",
-        ExpectedResult=True,
-        Log={
+    RuleTest(
+        name="Multiple Failed Login Attempts with String Type",
+        expected_result=True,
+        log={
             "id": {"applicationName": "mobile"},
             "actor": {"callerType": "USER", "email": "homer.simpson@example.io"},
             "type": "device_updates",
@@ -51,18 +49,20 @@ g_suite_device_unlock_failure_tests: List[PantherRuleTest] = [
 ]
 
 
-class GSuiteDeviceUnlockFailure(PantherRule):
-    RuleID = "GSuite.DeviceUnlockFailure-prototype"
-    DisplayName = "GSuite User Device Unlock Failures"
-    LogTypes = [PantherLogType.GSuite_ActivityEvent]
-    Tags = ["GSuite", "Credential Access:Brute Force"]
-    Reports = {"MITRE ATT&CK": ["TA0006:T1110"]}
-    Severity = PantherSeverity.Medium
-    Description = "Someone failed to unlock a user's device multiple times in quick succession.\n"
-    Reference = "https://support.google.com/a/answer/6350074?hl=en"
-    Runbook = "Verify that these unlock attempts came from the user, and not a malicious actor which has acquired the user's device.\n"
-    SummaryAttributes = ["actor:email"]
-    Tests = g_suite_device_unlock_failure_tests
+class GSuiteDeviceUnlockFailure(Rule):
+    id = "GSuite.DeviceUnlockFailure-prototype"
+    display_name = "GSuite User Device Unlock Failures"
+    log_types = [LogType.GSuite_ActivityEvent]
+    tags = ["GSuite", "Credential Access:Brute Force"]
+    reports = {"MITRE ATT&CK": ["TA0006:T1110"]}
+    default_severity = Severity.MEDIUM
+    default_description = (
+        "Someone failed to unlock a user's device multiple times in quick succession.\n"
+    )
+    default_reference = "https://support.google.com/a/answer/6350074?hl=en"
+    default_runbook = "Verify that these unlock attempts came from the user, and not a malicious actor which has acquired the user's device.\n"
+    summary_attributes = ["actor:email"]
+    tests = g_suite_device_unlock_failure_tests
     MAX_UNLOCK_ATTEMPTS = 10
 
     def rule(self, event):

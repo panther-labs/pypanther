@@ -1,13 +1,11 @@
-from typing import List
-
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_iocs import CRYPTO_MINING_DOMAINS
 
-awsdns_crypto_domain_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
-        Name="Non Crypto Query",
-        ExpectedResult=False,
-        Log={
+awsdns_crypto_domain_tests: list[RuleTest] = [
+    RuleTest(
+        name="Non Crypto Query",
+        expected_result=False,
+        log={
             "account_id": "0123456789",
             "answers": {"Class": "IN", "Rdata": "1.2.3.4", "Type": "A"},
             "query_class": "IN",
@@ -25,10 +23,10 @@ awsdns_crypto_domain_tests: List[PantherRuleTest] = [
             "p_log_type": "AWS.VPCDns",
         },
     ),
-    PantherRuleTest(
-        Name="Non Crypto Query Trailing Period",
-        ExpectedResult=False,
-        Log={
+    RuleTest(
+        name="Non Crypto Query Trailing Period",
+        expected_result=False,
+        log={
             "account_id": "0123456789",
             "answers": {"Class": "IN", "Rdata": "1.2.3.4", "Type": "A"},
             "query_class": "IN",
@@ -46,10 +44,10 @@ awsdns_crypto_domain_tests: List[PantherRuleTest] = [
             "p_log_type": "AWS.VPCDns",
         },
     ),
-    PantherRuleTest(
-        Name="Crypto Query",
-        ExpectedResult=True,
-        Log={
+    RuleTest(
+        name="Crypto Query",
+        expected_result=True,
+        log={
             "account_id": "0123456789",
             "answers": {"Class": "IN", "Rdata": "1.2.3.4", "Type": "A"},
             "query_class": "IN",
@@ -67,10 +65,10 @@ awsdns_crypto_domain_tests: List[PantherRuleTest] = [
             "p_log_type": "AWS.VPCDns",
         },
     ),
-    PantherRuleTest(
-        Name="Crypto Query Subdomain",
-        ExpectedResult=True,
-        Log={
+    RuleTest(
+        name="Crypto Query Subdomain",
+        expected_result=True,
+        log={
             "account_id": "0123456789",
             "answers": {"Class": "IN", "Rdata": "1.2.3.4", "Type": "A"},
             "query_class": "IN",
@@ -88,10 +86,10 @@ awsdns_crypto_domain_tests: List[PantherRuleTest] = [
             "p_log_type": "AWS.VPCDns",
         },
     ),
-    PantherRuleTest(
-        Name="Crypto Query Trailing Period",
-        ExpectedResult=True,
-        Log={
+    RuleTest(
+        name="Crypto Query Trailing Period",
+        expected_result=True,
+        log={
             "account_id": "0123456789",
             "answers": {"Class": "IN", "Rdata": "1.2.3.4", "Type": "A"},
             "query_class": "IN",
@@ -109,10 +107,10 @@ awsdns_crypto_domain_tests: List[PantherRuleTest] = [
             "p_log_type": "AWS.VPCDns",
         },
     ),
-    PantherRuleTest(
-        Name="Crypto Query Subdomain Trailing Period",
-        ExpectedResult=True,
-        Log={
+    RuleTest(
+        name="Crypto Query Subdomain Trailing Period",
+        expected_result=True,
+        log={
             "account_id": "0123456789",
             "answers": {"Class": "IN", "Rdata": "1.2.3.4", "Type": "A"},
             "query_class": "IN",
@@ -130,10 +128,10 @@ awsdns_crypto_domain_tests: List[PantherRuleTest] = [
             "p_log_type": "AWS.VPCDns",
         },
     ),
-    PantherRuleTest(
-        Name="Checking Against Subdomain IOC",
-        ExpectedResult=True,
-        Log={
+    RuleTest(
+        name="Checking Against Subdomain IOC",
+        expected_result=True,
+        log={
             "account_id": "0123456789",
             "answers": {"Class": "IN", "Rdata": "1.2.3.4", "Type": "A"},
             "query_class": "IN",
@@ -151,10 +149,10 @@ awsdns_crypto_domain_tests: List[PantherRuleTest] = [
             "p_log_type": "AWS.VPCDns",
         },
     ),
-    PantherRuleTest(
-        Name="Checking Against Subdomain IOC Trailing Period",
-        ExpectedResult=True,
-        Log={
+    RuleTest(
+        name="Checking Against Subdomain IOC Trailing Period",
+        expected_result=True,
+        log={
             "account_id": "0123456789",
             "answers": {"Class": "IN", "Rdata": "1.2.3.4", "Type": "A"},
             "query_class": "IN",
@@ -172,10 +170,10 @@ awsdns_crypto_domain_tests: List[PantherRuleTest] = [
             "p_log_type": "AWS.VPCDns",
         },
     ),
-    PantherRuleTest(
-        Name="Non Crypto Query Trailing Period - OCSF",
-        ExpectedResult=False,
-        Log={
+    RuleTest(
+        name="Non Crypto Query Trailing Period - OCSF",
+        expected_result=False,
+        log={
             "activity_id": 2,
             "activity_name": "Response",
             "answers": [{"class": "IN", "rdata": "1.2.3.4", "type": "AAAA"}],
@@ -209,10 +207,10 @@ awsdns_crypto_domain_tests: List[PantherRuleTest] = [
             "p_log_type": "OCSF.DnsActivity",
         },
     ),
-    PantherRuleTest(
-        Name="Crypto Query - OCSF",
-        ExpectedResult=True,
-        Log={
+    RuleTest(
+        name="Crypto Query - OCSF",
+        expected_result=True,
+        log={
             "activity_id": 2,
             "activity_name": "Response",
             "answers": [{"class": "IN", "rdata": "1.2.3.4", "type": "AAAA"}],
@@ -249,15 +247,15 @@ awsdns_crypto_domain_tests: List[PantherRuleTest] = [
 ]
 
 
-class AWSDNSCryptoDomain(PantherRule):
-    Description = "Identifies clients that may be performing DNS lookups associated with common currency mining pools."
-    DisplayName = "AWS DNS Crypto Domain"
-    Reports = {"MITRE ATT&CK": ["TA0040:T1496"]}
-    Reference = "https://docs.aws.amazon.com/vpc/latest/userguide/flow-logs.html"
-    Severity = PantherSeverity.High
-    LogTypes = [PantherLogType.AWS_VPCDns, PantherLogType.OCSF_DnsActivity]
-    RuleID = "AWS.DNS.Crypto.Domain-prototype"
-    Tests = awsdns_crypto_domain_tests
+class AWSDNSCryptoDomain(Rule):
+    default_description = "Identifies clients that may be performing DNS lookups associated with common currency mining pools."
+    display_name = "AWS DNS Crypto Domain"
+    reports = {"MITRE ATT&CK": ["TA0040:T1496"]}
+    default_reference = "https://docs.aws.amazon.com/vpc/latest/userguide/flow-logs.html"
+    default_severity = Severity.HIGH
+    log_types = [LogType.AWS_VPCDns, LogType.OCSF_DnsActivity]
+    id = "AWS.DNS.Crypto.Domain-prototype"
+    tests = awsdns_crypto_domain_tests
 
     def rule(self, event):
         query_name = event.udm("dns_query")

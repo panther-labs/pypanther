@@ -1,13 +1,11 @@
-from typing import List
-
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import filter_crowdstrike_fdr_event_type
 
-standard_malicious_ssodns_lookup_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
-        Name="Known Good SSO Domain",
-        ExpectedResult=False,
-        Log={
+standard_malicious_ssodns_lookup_tests: list[RuleTest] = [
+    RuleTest(
+        name="Known Good SSO Domain",
+        expected_result=False,
+        log={
             "ContextProcessId": "440890253753908704",
             "ContextThreadId": "0",
             "ContextTimeStamp": "2022-08-31 07:03:48.879",
@@ -22,10 +20,10 @@ standard_malicious_ssodns_lookup_tests: List[PantherRuleTest] = [
             "timestamp": "2022-08-31 07:03:49.195",
         },
     ),
-    PantherRuleTest(
-        Name="Potentially Malicious SSO Domain",
-        ExpectedResult=True,
-        Log={
+    RuleTest(
+        name="Potentially Malicious SSO Domain",
+        expected_result=True,
+        log={
             "ContextProcessId": "440890253753908704",
             "ContextThreadId": "0",
             "ContextTimeStamp": "2022-08-31 07:03:48.879",
@@ -40,10 +38,10 @@ standard_malicious_ssodns_lookup_tests: List[PantherRuleTest] = [
             "timestamp": "2022-08-31 07:03:49.195",
         },
     ),
-    PantherRuleTest(
-        Name="No Domain",
-        ExpectedResult=False,
-        Log={
+    RuleTest(
+        name="No Domain",
+        expected_result=False,
+        log={
             "ContextProcessId": "440890253753908704",
             "ContextThreadId": "0",
             "ContextTimeStamp": "2022-08-31 07:03:48.879",
@@ -57,10 +55,10 @@ standard_malicious_ssodns_lookup_tests: List[PantherRuleTest] = [
             "timestamp": "2022-08-31 07:03:49.195",
         },
     ),
-    PantherRuleTest(
-        Name="Known good and malicious domain",
-        ExpectedResult=True,
-        Log={
+    RuleTest(
+        name="Known good and malicious domain",
+        expected_result=True,
+        log={
             "ContextProcessId": "440890253753908704",
             "ContextThreadId": "0",
             "ContextTimeStamp": "2022-08-31 07:03:48.879",
@@ -74,10 +72,10 @@ standard_malicious_ssodns_lookup_tests: List[PantherRuleTest] = [
             "timestamp": "2022-08-31 07:03:49.195",
         },
     ),
-    PantherRuleTest(
-        Name="Known good and malicious domain with Crowdstrike.FDREvent",
-        ExpectedResult=True,
-        Log={
+    RuleTest(
+        name="Known good and malicious domain with Crowdstrike.FDREvent",
+        expected_result=True,
+        log={
             "event_simpleName": "DnsRequest",
             "name": "DnsRequestMacV1",
             "aid": "00000000000000000000000000000001",
@@ -125,10 +123,10 @@ standard_malicious_ssodns_lookup_tests: List[PantherRuleTest] = [
             "p_any_trace_ids": ["00000000000000000000000000000001", "00000000000000000000000000000002"],
         },
     ),
-    PantherRuleTest(
-        Name="non DnsRequest Crowdstrike.FDREvent event",
-        ExpectedResult=False,
-        Log={
+    RuleTest(
+        name="non DnsRequest Crowdstrike.FDREvent event",
+        expected_result=False,
+        log={
             "event_simpleName": "something else",
             "event": {
                 "aid": "00000000000000000000000000000001",
@@ -158,27 +156,29 @@ standard_malicious_ssodns_lookup_tests: List[PantherRuleTest] = [
 ]
 
 
-class StandardMaliciousSSODNSLookup(PantherRule):
-    RuleID = "Standard.MaliciousSSODNSLookup-prototype"
-    DedupPeriodMinutes = 1440
-    DisplayName = "Malicious SSO DNS Lookup"
-    Enabled = False
-    LogTypes = [
-        PantherLogType.CiscoUmbrella_DNS,
-        PantherLogType.Crowdstrike_DNSRequest,
-        PantherLogType.Crowdstrike_FDREvent,
-        PantherLogType.Suricata_DNS,
-        PantherLogType.Zeek_DNS,
+class StandardMaliciousSSODNSLookup(Rule):
+    id = "Standard.MaliciousSSODNSLookup-prototype"
+    dedup_period_minutes = 1440
+    display_name = "Malicious SSO DNS Lookup"
+    enabled = False
+    log_types = [
+        LogType.CiscoUmbrella_DNS,
+        LogType.Crowdstrike_DNSRequest,
+        LogType.Crowdstrike_FDREvent,
+        LogType.Suricata_DNS,
+        LogType.Zeek_DNS,
     ]
-    Severity = PantherSeverity.Medium
-    Threshold = 1000
-    Tags = ["Configuration Required"]
-    Reports = {"MITRE ATT&CK": ["TA0001:T1566"]}
-    Description = "The rule looks for DNS requests to sites potentially posing as SSO domains."
-    Runbook = "Verify if the destination domain is owned by your organization."
-    Reference = "https://www.cloudns.net/wiki/article/254/#:~:text=A%20DNS%20query%20(also%20known,associated%20with%20a%20domain%20name"
-    SummaryAttributes = ["p_any_ip_addresses"]
-    Tests = standard_malicious_ssodns_lookup_tests
+    default_severity = Severity.MEDIUM
+    threshold = 1000
+    tags = ["Configuration Required"]
+    reports = {"MITRE ATT&CK": ["TA0001:T1566"]}
+    default_description = (
+        "The rule looks for DNS requests to sites potentially posing as SSO domains."
+    )
+    default_runbook = "Verify if the destination domain is owned by your organization."
+    default_reference = "https://www.cloudns.net/wiki/article/254/#:~:text=A%20DNS%20query%20(also%20known,associated%20with%20a%20domain%20name"
+    summary_attributes = ["p_any_ip_addresses"]
+    tests = standard_malicious_ssodns_lookup_tests
     '\nWe highly recommend running this logic over 30 days of historical data using data replay\nbefore enabling this in your Panther instance. If ALLOWED_DOMAINS is not fully populated with\ndomains you own, that contain your company name, false positive alerts will be generated.\n\nRecommended steps to enable:\n    1. Change COMPANY_NAME to match your organization\n    2. Update the occurrences of "company_name_here" in malicious_sso_dns_lookup.yml\n    3. Add known domains containing COMPANY_NAME to ALLOWED_DOMAINS\n    4. Run local tests\n    5. Run a Data Replay test to identify unknown domains that should be in ALLOWED_DOMAINS\n'
     # *** Change this to match your company name ***
     COMPANY_NAME = "company_name_here"

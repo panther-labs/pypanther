@@ -1,13 +1,11 @@
-from typing import List
-
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_notion_helpers import notion_alert_context
 
-notion_audit_log_exported_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
-        Name="Other Event",
-        ExpectedResult=False,
-        Log={
+notion_audit_log_exported_tests: list[RuleTest] = [
+    RuleTest(
+        name="Other Event",
+        expected_result=False,
+        log={
             "event": {
                 "id": "...",
                 "timestamp": "2023-05-15T19:14:21.031Z",
@@ -25,10 +23,10 @@ notion_audit_log_exported_tests: List[PantherRuleTest] = [
             }
         },
     ),
-    PantherRuleTest(
-        Name="Audit Log Exported",
-        ExpectedResult=True,
-        Log={
+    RuleTest(
+        name="Audit Log Exported",
+        expected_result=True,
+        log={
             "event": {
                 "id": "...",
                 "timestamp": "2023-05-15T19:14:21.031Z",
@@ -49,16 +47,16 @@ notion_audit_log_exported_tests: List[PantherRuleTest] = [
 ]
 
 
-class NotionAuditLogExported(PantherRule):
-    RuleID = "Notion.Audit.Log.Exported-prototype"
-    DisplayName = "Notion Audit Log Exported"
-    LogTypes = [PantherLogType.Notion_AuditLogs]
-    Tags = ["Notion", "Data Security", "Data Exfiltration"]
-    Severity = PantherSeverity.Medium
-    Description = "A Notion User exported audit logs for your organization’s workspace."
-    Runbook = "Possible Data Exfiltration. Follow up with the Notion User to determine if this was done for a valid business reason."
-    Reference = "https://www.notion.so/help/audit-log#export-your-audit-log"
-    Tests = notion_audit_log_exported_tests
+class NotionAuditLogExported(Rule):
+    id = "Notion.Audit.Log.Exported-prototype"
+    display_name = "Notion Audit Log Exported"
+    log_types = [LogType.Notion_AuditLogs]
+    tags = ["Notion", "Data Security", "Data Exfiltration"]
+    default_severity = Severity.MEDIUM
+    default_description = "A Notion User exported audit logs for your organization’s workspace."
+    default_runbook = "Possible Data Exfiltration. Follow up with the Notion User to determine if this was done for a valid business reason."
+    default_reference = "https://www.notion.so/help/audit-log#export-your-audit-log"
+    tests = notion_audit_log_exported_tests
 
     def rule(self, event):
         event_type = event.deep_get("event", "type", default="<NO_EVENT_TYPE_FOUND>")

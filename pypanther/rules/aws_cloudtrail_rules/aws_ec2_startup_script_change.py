@@ -1,13 +1,11 @@
-from typing import List
-
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import aws_rule_context, deep_get
 
-awsec2_startup_script_change_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
-        Name="ModifyInstanceAttribute-NoUserData",
-        ExpectedResult=False,
-        Log={
+awsec2_startup_script_change_tests: list[RuleTest] = [
+    RuleTest(
+        name="ModifyInstanceAttribute-NoUserData",
+        expected_result=False,
+        log={
             "awsregion": "us-east-1",
             "eventid": "abc-123",
             "eventname": "ModifyInstanceAttribute",
@@ -19,13 +17,16 @@ awsec2_startup_script_change_tests: List[PantherRuleTest] = [
             "p_event_time": "2022-07-17 04:50:23",
             "p_log_type": "AWS.CloudTrail",
             "p_parse_time": "2022-07-17 04:55:11.788",
-            "requestParameters": {"instanceId": "testinstanceid", "instanceType": {"value": "t3.nano"}},
+            "requestParameters": {
+                "instanceId": "testinstanceid",
+                "instanceType": {"value": "t3.nano"},
+            },
         },
     ),
-    PantherRuleTest(
-        Name="ModifyInstanceAttributeUserdata",
-        ExpectedResult=True,
-        Log={
+    RuleTest(
+        name="ModifyInstanceAttributeUserdata",
+        expected_result=True,
+        log={
             "awsRegion": "us-east-2",
             "eventCategory": "Management",
             "eventName": "ModifyInstanceAttribute",
@@ -37,7 +38,10 @@ awsec2_startup_script_change_tests: List[PantherRuleTest] = [
             "readOnly": False,
             "recipientAccountId": "0123456789",
             "requestID": "example-id",
-            "requestParameters": {"instanceId": "i-012345abcde", "userData": "<sensitiveDataRemoved>"},
+            "requestParameters": {
+                "instanceId": "i-012345abcde",
+                "userData": "<sensitiveDataRemoved>",
+            },
             "responseElements": {"_return": True, "requestId": "012345abcdef"},
             "sourceIPAddress": "1.2.3.4",
             "tlsDetails": {
@@ -52,7 +56,10 @@ awsec2_startup_script_change_tests: List[PantherRuleTest] = [
                 "arn": "arn:aws:sts::0123456789:assumed-role/Role-us-1/CodeBuild",
                 "principalId": "ABCDEXAMPLE:CodeBuild",
                 "sessionContext": {
-                    "attributes": {"creationDate": "2022-09-30T14:52:26Z", "mfaAuthenticated": "false"},
+                    "attributes": {
+                        "creationDate": "2022-09-30T14:52:26Z",
+                        "mfaAuthenticated": "false",
+                    },
                     "sessionIssuer": {
                         "accountId": "0123456789",
                         "arn": "arn:aws:iam::0123456789:role/CodeBuild-US-East",
@@ -66,10 +73,10 @@ awsec2_startup_script_change_tests: List[PantherRuleTest] = [
             },
         },
     ),
-    PantherRuleTest(
-        Name="NoModifyInstanceAttribute",
-        ExpectedResult=False,
-        Log={
+    RuleTest(
+        name="NoModifyInstanceAttribute",
+        expected_result=False,
+        log={
             "awsregion": "us-east-1",
             "eventid": "abc-123",
             "eventname": "ModifyImageAttribute",
@@ -81,24 +88,31 @@ awsec2_startup_script_change_tests: List[PantherRuleTest] = [
             "p_event_time": "2022-07-17 04:50:23",
             "p_log_type": "AWS.CloudTrail",
             "p_parse_time": "2022-07-17 04:55:11.788",
-            "requestParameters": {"instanceId": "testinstanceid", "instanceType": {"value": "t3.nano"}},
+            "requestParameters": {
+                "instanceId": "testinstanceid",
+                "instanceType": {"value": "t3.nano"},
+            },
         },
     ),
 ]
 
 
-class AWSEC2StartupScriptChange(PantherRule):
-    Description = "Detects changes to the EC2 instance startup script. The shell script will be executed as root/SYSTEM every time the specific instances are booted up."
-    DisplayName = "AWS EC2 Startup Script Change"
-    Reports = {"MITRE ATT&CK": ["TA0002:T1059"]}
-    Reference = "https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/user-data.html#user-data-shell-scripts"
-    Severity = PantherSeverity.High
-    LogTypes = [PantherLogType.AWS_CloudTrail]
-    RuleID = "AWS.EC2.Startup.Script.Change-prototype"
-    Tests = awsec2_startup_script_change_tests
+class AWSEC2StartupScriptChange(Rule):
+    default_description = "Detects changes to the EC2 instance startup script. The shell script will be executed as root/SYSTEM every time the specific instances are booted up."
+    display_name = "AWS EC2 Startup Script Change"
+    reports = {"MITRE ATT&CK": ["TA0002:T1059"]}
+    default_reference = (
+        "https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/user-data.html#user-data-shell-scripts"
+    )
+    default_severity = Severity.HIGH
+    log_types = [LogType.AWS_CloudTrail]
+    id = "AWS.EC2.Startup.Script.Change-prototype"
+    tests = awsec2_startup_script_change_tests
 
     def rule(self, event):
-        if event.get("eventName") == "ModifyInstanceAttribute" and deep_get(event, "requestParameters", "userData"):
+        if event.get("eventName") == "ModifyInstanceAttribute" and deep_get(
+            event, "requestParameters", "userData"
+        ):
             return True
         return False
 

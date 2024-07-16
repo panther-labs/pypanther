@@ -1,12 +1,10 @@
-from typing import List
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
-
-zoom_all_meetings_secured_with_one_option_disabled_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
-        Name="Turn off",
-        ExpectedResult=True,
-        Log={
+zoom_all_meetings_secured_with_one_option_disabled_tests: list[RuleTest] = [
+    RuleTest(
+        name="Turn off",
+        expected_result=True,
+        log={
             "action": "Update",
             "category_type": "Account",
             "operation_detail": "Security  - Require that all meetings are secured with one security option: from On to Off",
@@ -14,10 +12,10 @@ zoom_all_meetings_secured_with_one_option_disabled_tests: List[PantherRuleTest] 
             "time": "2022-12-16 18:15:38",
         },
     ),
-    PantherRuleTest(
-        Name="Turn on",
-        ExpectedResult=False,
-        Log={
+    RuleTest(
+        name="Turn on",
+        expected_result=False,
+        log={
             "action": "Update",
             "category_type": "Account",
             "operation_detail": "Security  - Require that all meetings are secured with one security option: from Off to On",
@@ -25,10 +23,10 @@ zoom_all_meetings_secured_with_one_option_disabled_tests: List[PantherRuleTest] 
             "time": "2022-12-16 18:15:38",
         },
     ),
-    PantherRuleTest(
-        Name="Non admin user update",
-        ExpectedResult=False,
-        Log={
+    RuleTest(
+        name="Non admin user update",
+        expected_result=False,
+        log={
             "action": "Update",
             "category_type": "User",
             "operation_detail": "Update User example@example.io  - Job Title: set to Contractor",
@@ -38,21 +36,21 @@ zoom_all_meetings_secured_with_one_option_disabled_tests: List[PantherRuleTest] 
 ]
 
 
-class ZoomAllMeetingsSecuredWithOneOptionDisabled(PantherRule):
-    Description = (
-        "A Zoom User turned off your organization's requirement that all meetings are secured with one security option."
-    )
-    DisplayName = "Zoom All Meetings Secured With One Option Disabled"
-    Runbook = "Confirm this user acted with valid business intent and determine whether this activity was authorized."
-    Reference = "https://support.zoom.com/hc/en/article?id=zm_kb&sysparm_article=KB0059862"
-    Severity = PantherSeverity.Medium
-    LogTypes = [PantherLogType.Zoom_Operation]
-    RuleID = "Zoom.All.Meetings.Secured.With.One.Option.Disabled-prototype"
-    Tests = zoom_all_meetings_secured_with_one_option_disabled_tests
+class ZoomAllMeetingsSecuredWithOneOptionDisabled(Rule):
+    default_description = "A Zoom User turned off your organization's requirement that all meetings are secured with one security option."
+    display_name = "Zoom All Meetings Secured With One Option Disabled"
+    default_runbook = "Confirm this user acted with valid business intent and determine whether this activity was authorized."
+    default_reference = "https://support.zoom.com/hc/en/article?id=zm_kb&sysparm_article=KB0059862"
+    default_severity = Severity.MEDIUM
+    log_types = [LogType.Zoom_Operation]
+    id = "Zoom.All.Meetings.Secured.With.One.Option.Disabled-prototype"
+    tests = zoom_all_meetings_secured_with_one_option_disabled_tests
 
     def rule(self, event):
         operation_detail = event.get("operation_detail", "<NO_OPS_DETAIL>")
-        operation_flag = "Require that all meetings are secured with one security option: from On to Off"
+        operation_flag = (
+            "Require that all meetings are secured with one security option: from On to Off"
+        )
         return (
             event.get("action", "<NO_ACTION>") == "Update"
             and event.get("category_type", "<NO_CATEGORY_TYPE>") == "Account"

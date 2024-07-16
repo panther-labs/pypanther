@@ -1,12 +1,10 @@
-from typing import List
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
-
-git_hub_repo_hook_modified_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
-        Name="GitHub - Webhook Created",
-        ExpectedResult=True,
-        Log={
+git_hub_repo_hook_modified_tests: list[RuleTest] = [
+    RuleTest(
+        name="GitHub - Webhook Created",
+        expected_result=True,
+        log={
             "actor": "cat",
             "action": "hook.create",
             "data": {"hook_id": 111222333444555, "events": ["fork", "public", "pull_request", "push", "repository"]},
@@ -15,10 +13,10 @@ git_hub_repo_hook_modified_tests: List[PantherRuleTest] = [
             "repository": "my-org/my-repo",
         },
     ),
-    PantherRuleTest(
-        Name="GitHub - Webhook Deleted",
-        ExpectedResult=True,
-        Log={
+    RuleTest(
+        name="GitHub - Webhook Deleted",
+        expected_result=True,
+        log={
             "actor": "cat",
             "action": "hook.destroy",
             "data": {"hook_id": 111222333444555, "events": ["fork", "public", "pull_request", "push", "repository"]},
@@ -27,10 +25,10 @@ git_hub_repo_hook_modified_tests: List[PantherRuleTest] = [
             "repository": "my-org/my-repo",
         },
     ),
-    PantherRuleTest(
-        Name="GitHub - Non Webhook Event",
-        ExpectedResult=False,
-        Log={
+    RuleTest(
+        name="GitHub - Non Webhook Event",
+        expected_result=False,
+        log={
             "actor": "cat",
             "action": "org.invite_member",
             "org": "my-org",
@@ -41,16 +39,18 @@ git_hub_repo_hook_modified_tests: List[PantherRuleTest] = [
 ]
 
 
-class GitHubRepoHookModified(PantherRule):
-    RuleID = "GitHub.Repo.HookModified-prototype"
-    DisplayName = "GitHub Web Hook Modified"
-    LogTypes = [PantherLogType.GitHub_Audit]
-    Tags = ["GitHub", "Exfiltration:Automated Exfiltration"]
-    Reports = {"MITRE ATT&CK": ["TA0010:T1020"]}
-    Reference = "https://docs.github.com/en/webhooks/about-webhooks"
-    Severity = PantherSeverity.Info
-    Description = "Detects when a web hook is added, modified, or deleted in an org repository."
-    Tests = git_hub_repo_hook_modified_tests
+class GitHubRepoHookModified(Rule):
+    id = "GitHub.Repo.HookModified-prototype"
+    display_name = "GitHub Web Hook Modified"
+    log_types = [LogType.GitHub_Audit]
+    tags = ["GitHub", "Exfiltration:Automated Exfiltration"]
+    reports = {"MITRE ATT&CK": ["TA0010:T1020"]}
+    default_reference = "https://docs.github.com/en/webhooks/about-webhooks"
+    default_severity = Severity.INFO
+    default_description = (
+        "Detects when a web hook is added, modified, or deleted in an org repository."
+    )
+    tests = git_hub_repo_hook_modified_tests
 
     def rule(self, event):
         return event.get("action").startswith("hook.")

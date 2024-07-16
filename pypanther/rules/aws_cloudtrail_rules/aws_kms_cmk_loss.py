@@ -1,14 +1,12 @@
-from typing import List
-
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import aws_rule_context
 from pypanther.helpers.panther_default import aws_cloudtrail_success
 
-awskms_customer_managed_key_loss_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
-        Name="KMS Key Disabled",
-        ExpectedResult=True,
-        Log={
+awskms_customer_managed_key_loss_tests: list[RuleTest] = [
+    RuleTest(
+        name="KMS Key Disabled",
+        expected_result=True,
+        log={
             "eventVersion": "1.05",
             "userIdentity": {
                 "type": "AssumedRole",
@@ -17,7 +15,10 @@ awskms_customer_managed_key_loss_tests: List[PantherRuleTest] = [
                 "accountId": "123456789012",
                 "accessKeyId": "1",
                 "sessionContext": {
-                    "attributes": {"mfaAuthenticated": "true", "creationDate": "2019-01-01T00:00:00Z"},
+                    "attributes": {
+                        "mfaAuthenticated": "true",
+                        "creationDate": "2019-01-01T00:00:00Z",
+                    },
                     "sessionIssuer": {
                         "type": "Role",
                         "principalId": "1111",
@@ -49,10 +50,10 @@ awskms_customer_managed_key_loss_tests: List[PantherRuleTest] = [
             "recipientAccountId": "123456789012",
         },
     ),
-    PantherRuleTest(
-        Name="KMS Key Scheduled For Deletion",
-        ExpectedResult=True,
-        Log={
+    RuleTest(
+        name="KMS Key Scheduled For Deletion",
+        expected_result=True,
+        log={
             "eventVersion": "1.05",
             "userIdentity": {
                 "type": "AssumedRole",
@@ -61,7 +62,10 @@ awskms_customer_managed_key_loss_tests: List[PantherRuleTest] = [
                 "accountId": "123456789012",
                 "accessKeyId": "1",
                 "sessionContext": {
-                    "attributes": {"mfaAuthenticated": "true", "creationDate": "2019-01-01T00:00:00Z"},
+                    "attributes": {
+                        "mfaAuthenticated": "true",
+                        "creationDate": "2019-01-01T00:00:00Z",
+                    },
                     "sessionIssuer": {
                         "type": "Role",
                         "principalId": "1111",
@@ -77,7 +81,11 @@ awskms_customer_managed_key_loss_tests: List[PantherRuleTest] = [
             "awsRegion": "us-west-2",
             "sourceIPAddress": "111.111.111.111",
             "userAgent": "Mozilla",
-            "requestParameters": {"keyId": "1", "pendingWindowInDays": 30, "overridePendingWindowCheck": False},
+            "requestParameters": {
+                "keyId": "1",
+                "pendingWindowInDays": 30,
+                "overridePendingWindowCheck": False,
+            },
             "responseElements": {
                 "keyId": "arn:aws:kms:us-west-2:123456789012:key/1",
                 "deletionDate": "Jan 1, 2019 12:00:00 AM",
@@ -96,10 +104,10 @@ awskms_customer_managed_key_loss_tests: List[PantherRuleTest] = [
             "recipientAccountId": "123456789012",
         },
     ),
-    PantherRuleTest(
-        Name="KMS Key Non Deletion Event",
-        ExpectedResult=False,
-        Log={
+    RuleTest(
+        name="KMS Key Non Deletion Event",
+        expected_result=False,
+        log={
             "eventVersion": "1.05",
             "userIdentity": {
                 "type": "AssumedRole",
@@ -108,7 +116,10 @@ awskms_customer_managed_key_loss_tests: List[PantherRuleTest] = [
                 "accountId": "123456789012",
                 "accessKeyId": "1",
                 "sessionContext": {
-                    "attributes": {"mfaAuthenticated": "false", "creationDate": "2019-01-01T00:00:00Z"},
+                    "attributes": {
+                        "mfaAuthenticated": "false",
+                        "creationDate": "2019-01-01T00:00:00Z",
+                    },
                     "sessionIssuer": {
                         "type": "Role",
                         "principalId": "1111",
@@ -144,10 +155,10 @@ awskms_customer_managed_key_loss_tests: List[PantherRuleTest] = [
             "recipientAccountId": "123456789012",
         },
     ),
-    PantherRuleTest(
-        Name="KMS Key Scheduled For Deletion - missing resources",
-        ExpectedResult=True,
-        Log={
+    RuleTest(
+        name="KMS Key Scheduled For Deletion - missing resources",
+        expected_result=True,
+        log={
             "eventVersion": "1.05",
             "userIdentity": {
                 "type": "AssumedRole",
@@ -156,7 +167,10 @@ awskms_customer_managed_key_loss_tests: List[PantherRuleTest] = [
                 "accountId": "123456789012",
                 "accessKeyId": "1",
                 "sessionContext": {
-                    "attributes": {"mfaAuthenticated": "true", "creationDate": "2019-01-01T00:00:00Z"},
+                    "attributes": {
+                        "mfaAuthenticated": "true",
+                        "creationDate": "2019-01-01T00:00:00Z",
+                    },
                     "sessionIssuer": {
                         "type": "Role",
                         "principalId": "1111",
@@ -172,7 +186,11 @@ awskms_customer_managed_key_loss_tests: List[PantherRuleTest] = [
             "awsRegion": "us-west-2",
             "sourceIPAddress": "111.111.111.111",
             "userAgent": "Mozilla",
-            "requestParameters": {"keyId": "1", "pendingWindowInDays": 30, "overridePendingWindowCheck": False},
+            "requestParameters": {
+                "keyId": "1",
+                "pendingWindowInDays": 30,
+                "overridePendingWindowCheck": False,
+            },
             "responseElements": {
                 "keyId": "arn:aws:kms:us-west-2:123456789012:key/1",
                 "deletionDate": "Jan 1, 2019 12:00:00 AM",
@@ -186,10 +204,10 @@ awskms_customer_managed_key_loss_tests: List[PantherRuleTest] = [
             "p_row_id": "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234",
         },
     ),
-    PantherRuleTest(
-        Name="KMS Disable Key Error",
-        ExpectedResult=False,
-        Log={
+    RuleTest(
+        name="KMS Disable Key Error",
+        expected_result=False,
+        log={
             "eventVersion": "1.05",
             "errorCode": "NotFoundException",
             "userIdentity": {
@@ -199,7 +217,10 @@ awskms_customer_managed_key_loss_tests: List[PantherRuleTest] = [
                 "accountId": "123456789012",
                 "accessKeyId": "1",
                 "sessionContext": {
-                    "attributes": {"mfaAuthenticated": "true", "creationDate": "2019-01-01T00:00:00Z"},
+                    "attributes": {
+                        "mfaAuthenticated": "true",
+                        "creationDate": "2019-01-01T00:00:00Z",
+                    },
                     "sessionIssuer": {
                         "type": "Role",
                         "principalId": "1111",
@@ -234,18 +255,24 @@ awskms_customer_managed_key_loss_tests: List[PantherRuleTest] = [
 ]
 
 
-class AWSKMSCustomerManagedKeyLoss(PantherRule):
-    RuleID = "AWS.KMS.CustomerManagedKeyLoss-prototype"
-    DisplayName = "KMS CMK Disabled or Deleted"
-    LogTypes = [PantherLogType.AWS_CloudTrail]
-    Tags = ["AWS", "Identity & Access Management", "Impact:Data Destruction"]
-    Reports = {"CIS": ["3.7"], "MITRE ATT&CK": ["TA0040:T1485"]}
-    Severity = PantherSeverity.Info
-    Description = "A KMS Customer Managed Key was disabled or scheduled for deletion. This could potentially lead to permanent loss of encrypted data.\n"
-    Runbook = "https://docs.runpanther.io/alert-runbooks/built-in-rules/aws-kms-cmk-loss"
-    Reference = "https://docs.aws.amazon.com/kms/latest/developerguide/deleting-keys.html"
-    SummaryAttributes = ["eventName", "userAgent", "sourceIpAddress", "recipientAccountId", "p_any_aws_arns"]
-    Tests = awskms_customer_managed_key_loss_tests
+class AWSKMSCustomerManagedKeyLoss(Rule):
+    id = "AWS.KMS.CustomerManagedKeyLoss-prototype"
+    display_name = "KMS CMK Disabled or Deleted"
+    log_types = [LogType.AWS_CloudTrail]
+    tags = ["AWS", "Identity & Access Management", "Impact:Data Destruction"]
+    reports = {"CIS": ["3.7"], "MITRE ATT&CK": ["TA0040:T1485"]}
+    default_severity = Severity.INFO
+    default_description = "A KMS Customer Managed Key was disabled or scheduled for deletion. This could potentially lead to permanent loss of encrypted data.\n"
+    default_runbook = "https://docs.runpanther.io/alert-runbooks/built-in-rules/aws-kms-cmk-loss"
+    default_reference = "https://docs.aws.amazon.com/kms/latest/developerguide/deleting-keys.html"
+    summary_attributes = [
+        "eventName",
+        "userAgent",
+        "sourceIpAddress",
+        "recipientAccountId",
+        "p_any_aws_arns",
+    ]
+    tests = awskms_customer_managed_key_loss_tests
     # API calls that are indicative of KMS CMK Deletion
     KMS_LOSS_EVENTS = {"DisableKey", "ScheduleKeyDeletion"}
     KMS_KEY_TYPE = "AWS::KMS::Key"

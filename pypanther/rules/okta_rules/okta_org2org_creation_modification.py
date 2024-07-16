@@ -1,13 +1,11 @@
-from typing import List
-
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get, deep_walk, okta_alert_context
 
-okta_org2org_creation_modification_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
-        Name="Org2Org modified",
-        ExpectedResult=True,
-        Log={
+okta_org2org_creation_modification_tests: list[RuleTest] = [
+    RuleTest(
+        name="Org2Org modified",
+        expected_result=True,
+        log={
             "actor": {
                 "alternateId": "homer.simpson@duff.com",
                 "displayName": "Homer Simpson",
@@ -51,7 +49,10 @@ okta_org2org_creation_modification_tests: List[PantherRuleTest] = [
             },
             "displaymessage": "Evaluation of sign-on policy",
             "eventtype": "application.lifecycle.update",
-            "outcome": {"reason": "Sign-on policy evaluation resulted in CHALLENGE", "result": "CHALLENGE"},
+            "outcome": {
+                "reason": "Sign-on policy evaluation resulted in CHALLENGE",
+                "result": "CHALLENGE",
+            },
             "published": "2022-06-22 18:18:29.015",
             "request": {
                 "ipChain": [
@@ -77,7 +78,11 @@ okta_org2org_creation_modification_tests: List[PantherRuleTest] = [
             },
             "severity": "INFO",
             "target": [
-                {"alternateId": "Okta Org2Org", "displayName": "Okta Org2Org", "type": "AppInstance"},
+                {
+                    "alternateId": "Okta Org2Org",
+                    "displayName": "Okta Org2Org",
+                    "type": "AppInstance",
+                },
                 {
                     "alternateId": "peter.griffin@company.com",
                     "displayName": "Peter Griffin",
@@ -90,10 +95,10 @@ okta_org2org_creation_modification_tests: List[PantherRuleTest] = [
             "version": "0",
         },
     ),
-    PantherRuleTest(
-        Name="Org2Org created",
-        ExpectedResult=True,
-        Log={
+    RuleTest(
+        name="Org2Org created",
+        expected_result=True,
+        log={
             "actor": {
                 "alternateId": "homer.simpson@duff.com",
                 "displayName": "Homer Simpson",
@@ -140,7 +145,10 @@ okta_org2org_creation_modification_tests: List[PantherRuleTest] = [
             },
             "displaymessage": "Evaluation of sign-on policy",
             "eventtype": "application.lifecycle.create",
-            "outcome": {"reason": "Sign-on policy evaluation resulted in CHALLENGE", "result": "CHALLENGE"},
+            "outcome": {
+                "reason": "Sign-on policy evaluation resulted in CHALLENGE",
+                "result": "CHALLENGE",
+            },
             "published": "2022-06-22 18:18:29.015",
             "request": {
                 "ipChain": [
@@ -166,7 +174,11 @@ okta_org2org_creation_modification_tests: List[PantherRuleTest] = [
             },
             "severity": "INFO",
             "target": [
-                {"alternateId": "Random Org2Org", "displayName": "Random Org2Org", "type": "AppInstance"},
+                {
+                    "alternateId": "Random Org2Org",
+                    "displayName": "Random Org2Org",
+                    "type": "AppInstance",
+                },
                 {
                     "alternateId": "peter.griffin@company.com",
                     "displayName": "Peter Griffin",
@@ -179,10 +191,10 @@ okta_org2org_creation_modification_tests: List[PantherRuleTest] = [
             "version": "0",
         },
     ),
-    PantherRuleTest(
-        Name="Not New Behavior",
-        ExpectedResult=False,
-        Log={
+    RuleTest(
+        name="Not New Behavior",
+        expected_result=False,
+        log={
             "actor": {
                 "alternateId": "homer.simpson@duff.com",
                 "displayName": "Homer Simpson",
@@ -228,7 +240,10 @@ okta_org2org_creation_modification_tests: List[PantherRuleTest] = [
             },
             "displaymessage": "Evaluation of sign-on policy",
             "eventtype": "policy.evaluate_sign_on",
-            "outcome": {"reason": "Sign-on policy evaluation resulted in CHALLENGE", "result": "CHALLENGE"},
+            "outcome": {
+                "reason": "Sign-on policy evaluation resulted in CHALLENGE",
+                "result": "CHALLENGE",
+            },
             "published": "2022-06-22 18:18:29.015",
             "request": {
                 "ipChain": [
@@ -254,7 +269,11 @@ okta_org2org_creation_modification_tests: List[PantherRuleTest] = [
             },
             "severity": "INFO",
             "target": [
-                {"alternateId": "Okta Admin Console", "displayName": "Okta Admin Console", "type": "AppInstance"},
+                {
+                    "alternateId": "Okta Admin Console",
+                    "displayName": "Okta Admin Console",
+                    "type": "AppInstance",
+                },
                 {
                     "alternateId": "peter.griffin@company.com",
                     "displayName": "Peter Griffin",
@@ -270,17 +289,15 @@ okta_org2org_creation_modification_tests: List[PantherRuleTest] = [
 ]
 
 
-class OktaOrg2orgCreationModification(PantherRule):
-    RuleID = "Okta.Org2org.Creation.Modification-prototype"
-    DisplayName = "Okta Org2Org application created of modified"
-    LogTypes = [PantherLogType.Okta_SystemLog]
-    Reports = {"MITRE ATT&CK": ["TA0006:T1556", "TA0004:T1078.004"]}
-    Severity = PantherSeverity.High
-    Description = "An Okta Org2Org application has been created or modified. Okta's Org2Org applications instances are used to push and match users from one Okta organization to another. A malicious actor can add an Org2Org application instance and create a user in the source organization (controlled by the attacker) with the same identifier as a Super Administrator in the target organization.\n"
-    Reference = (
-        "https://www.authomize.com/blog/authomize-discovers-password-stealing-and-impersonation-risks-to-in-okta/\n"
-    )
-    Tests = okta_org2org_creation_modification_tests
+class OktaOrg2orgCreationModification(Rule):
+    id = "Okta.Org2org.Creation.Modification-prototype"
+    display_name = "Okta Org2Org application created of modified"
+    log_types = [LogType.Okta_SystemLog]
+    reports = {"MITRE ATT&CK": ["TA0006:T1556", "TA0004:T1078.004"]}
+    default_severity = Severity.HIGH
+    default_description = "An Okta Org2Org application has been created or modified. Okta's Org2Org applications instances are used to push and match users from one Okta organization to another. A malicious actor can add an Org2Org application instance and create a user in the source organization (controlled by the attacker) with the same identifier as a Super Administrator in the target organization.\n"
+    default_reference = "https://www.authomize.com/blog/authomize-discovers-password-stealing-and-impersonation-risks-to-in-okta/\n"
+    tests = okta_org2org_creation_modification_tests
     APP_LIFECYCLE_EVENTS = (
         "application.lifecycle.update",
         "application.lifecycle.create",
@@ -290,11 +307,15 @@ class OktaOrg2orgCreationModification(PantherRule):
     def rule(self, event):
         if event.get("eventType") not in self.APP_LIFECYCLE_EVENTS:
             return False
-        return "Org2Org" in deep_walk(event, "target", "displayName", default="", return_val="first")
+        return "Org2Org" in deep_walk(
+            event, "target", "displayName", default="", return_val="first"
+        )
 
     def title(self, event):
         action = event.get("eventType").split(".")[-1]
-        target = deep_walk(event, "target", "alternateId", default="<alternateId-not-found>", return_val="first")
+        target = deep_walk(
+            event, "target", "alternateId", default="<alternateId-not-found>", return_val="first"
+        )
         return f"{deep_get(event, 'actor', 'displayName', default='<displayName-not-found>')} <{deep_get(event, 'actor', 'alternateId', default='alternateId-not-found')}> {action}d Org2Org app [{target}]"
 
     def severity(self, event):

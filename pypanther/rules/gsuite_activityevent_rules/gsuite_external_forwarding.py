@@ -1,14 +1,12 @@
-from typing import List
-
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 from pypanther.helpers.panther_config import config
 
-g_suite_external_mail_forwarding_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
-        Name="Forwarding to External Address",
-        ExpectedResult=True,
-        Log={
+g_suite_external_mail_forwarding_tests: list[RuleTest] = [
+    RuleTest(
+        name="Forwarding to External Address",
+        expected_result=True,
+        log={
             "id": {"applicationName": "user_accounts", "customerId": "D12345"},
             "actor": {"email": "homer.simpson@.springfield.io"},
             "type": "email_forwarding_change",
@@ -16,10 +14,10 @@ g_suite_external_mail_forwarding_tests: List[PantherRuleTest] = [
             "parameters": {"email_forwarding_destination_address": "HSimpson@gmail.com"},
         },
     ),
-    PantherRuleTest(
-        Name="Forwarding to External Address - Allowed Domain",
-        ExpectedResult=False,
-        Log={
+    RuleTest(
+        name="Forwarding to External Address - Allowed Domain",
+        expected_result=False,
+        log={
             "id": {"applicationName": "user_accounts", "customerId": "D12345"},
             "actor": {"email": "homer.simpson@.springfield.io"},
             "type": "email_forwarding_change",
@@ -27,20 +25,20 @@ g_suite_external_mail_forwarding_tests: List[PantherRuleTest] = [
             "parameters": {"email_forwarding_destination_address": "HSimpson@example.com"},
         },
     ),
-    PantherRuleTest(
-        Name="Non Forwarding Event",
-        ExpectedResult=False,
-        Log={
+    RuleTest(
+        name="Non Forwarding Event",
+        expected_result=False,
+        log={
             "id": {"applicationName": "user_accounts", "customerId": "D12345"},
             "actor": {"email": "homer.simpson@.springfield.io"},
             "type": "2sv_change",
             "name": "2sv_enroll",
         },
     ),
-    PantherRuleTest(
-        Name="ListObject Type",
-        ExpectedResult=False,
-        Log={
+    RuleTest(
+        name="ListObject Type",
+        expected_result=False,
+        log={
             "actor": {"email": "user@example.io", "profileId": "118111111111111111111"},
             "id": {
                 "applicationName": "drive",
@@ -72,19 +70,21 @@ g_suite_external_mail_forwarding_tests: List[PantherRuleTest] = [
 ]
 
 
-class GSuiteExternalMailForwarding(PantherRule):
-    RuleID = "GSuite.ExternalMailForwarding-prototype"
-    DisplayName = "Gsuite Mail forwarded to external domain"
-    Enabled = False
-    LogTypes = [PantherLogType.GSuite_ActivityEvent]
-    Tags = ["GSuite", "Collection:Email Collection", "Configuration Required"]
-    Reports = {"MITRE ATT&CK": ["TA0009:T1114"]}
-    Severity = PantherSeverity.High
-    Description = "A user has configured mail forwarding to an external domain\n"
-    Reference = "https://support.google.com/mail/answer/10957?hl=en&sjid=864417124752637253-EU"
-    Runbook = "Follow up with user to remove this forwarding rule if not allowed.\n"
-    SummaryAttributes = ["p_any_emails"]
-    Tests = g_suite_external_mail_forwarding_tests
+class GSuiteExternalMailForwarding(Rule):
+    id = "GSuite.ExternalMailForwarding-prototype"
+    display_name = "Gsuite Mail forwarded to external domain"
+    enabled = False
+    log_types = [LogType.GSuite_ActivityEvent]
+    tags = ["GSuite", "Collection:Email Collection", "Configuration Required"]
+    reports = {"MITRE ATT&CK": ["TA0009:T1114"]}
+    default_severity = Severity.HIGH
+    default_description = "A user has configured mail forwarding to an external domain\n"
+    default_reference = (
+        "https://support.google.com/mail/answer/10957?hl=en&sjid=864417124752637253-EU"
+    )
+    default_runbook = "Follow up with user to remove this forwarding rule if not allowed.\n"
+    summary_attributes = ["p_any_emails"]
+    tests = g_suite_external_mail_forwarding_tests
 
     def rule(self, event):
         if deep_get(event, "id", "applicationName") != "user_accounts":

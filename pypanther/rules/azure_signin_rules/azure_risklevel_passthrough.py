@@ -1,14 +1,16 @@
-from typing import List
-
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
-from pypanther.helpers.panther_azuresignin_helpers import actor_user, azure_signin_alert_context, is_sign_in_event
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther.helpers.panther_azuresignin_helpers import (
+    actor_user,
+    azure_signin_alert_context,
+    is_sign_in_event,
+)
 from pypanther.helpers.panther_base_helpers import deep_get
 
-azure_audit_risk_level_passthrough_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
-        Name="Failed Sign-In",
-        ExpectedResult=False,
-        Log={
+azure_audit_risk_level_passthrough_tests: list[RuleTest] = [
+    RuleTest(
+        name="Failed Sign-In",
+        expected_result=False,
+        log={
             "calleripaddress": "12.12.12.12",
             "category": "ServicePrincipalSignInLogs",
             "correlationid": "e1f237ef-6548-4172-be79-03818c04c06e",
@@ -21,7 +23,9 @@ azure_audit_risk_level_passthrough_tests: List[PantherRuleTest] = [
             "p_log_type": "Azure.Audit",
             "properties": {
                 "appId": "cfceb902-8fab-4f8c-88ba-374d3c975c3a",
-                "authenticationProcessingDetails": [{"key": "Azure AD App Authentication Library", "value": ""}],
+                "authenticationProcessingDetails": [
+                    {"key": "Azure AD App Authentication Library", "value": ""}
+                ],
                 "authenticationProtocol": "none",
                 "clientCredentialType": "none",
                 "conditionalAccessStatus": "notApplied",
@@ -37,7 +41,10 @@ azure_audit_risk_level_passthrough_tests: List[PantherRuleTest] = [
                 "location": {
                     "city": "Dublin",
                     "countryOrRegion": "IE",
-                    "geoCoordinates": {"latitude": 51.35555555555555, "longitude": -5.244444444444444},
+                    "geoCoordinates": {
+                        "latitude": 51.35555555555555,
+                        "longitude": -5.244444444444444,
+                    },
                     "state": "Dublin",
                 },
                 "managedIdentityType": "none",
@@ -62,10 +69,10 @@ azure_audit_risk_level_passthrough_tests: List[PantherRuleTest] = [
             "time": "2023-07-26 23:00:20.889",
         },
     ),
-    PantherRuleTest(
-        Name="Failed Sign-In with riskLevelAggregated",
-        ExpectedResult=True,
-        Log={
+    RuleTest(
+        name="Failed Sign-In with riskLevelAggregated",
+        expected_result=True,
+        log={
             "calleripaddress": "12.12.12.12",
             "category": "ServicePrincipalSignInLogs",
             "correlationid": "e1f237ef-6548-4172-be79-03818c04c06e",
@@ -78,7 +85,9 @@ azure_audit_risk_level_passthrough_tests: List[PantherRuleTest] = [
             "p_log_type": "Azure.Audit",
             "properties": {
                 "appId": "cfceb902-8fab-4f8c-88ba-374d3c975c3a",
-                "authenticationProcessingDetails": [{"key": "Azure AD App Authentication Library", "value": ""}],
+                "authenticationProcessingDetails": [
+                    {"key": "Azure AD App Authentication Library", "value": ""}
+                ],
                 "authenticationProtocol": "none",
                 "clientCredentialType": "none",
                 "conditionalAccessStatus": "notApplied",
@@ -94,7 +103,10 @@ azure_audit_risk_level_passthrough_tests: List[PantherRuleTest] = [
                 "location": {
                     "city": "Dublin",
                     "countryOrRegion": "IE",
-                    "geoCoordinates": {"latitude": 51.35555555555555, "longitude": -5.244444444444444},
+                    "geoCoordinates": {
+                        "latitude": 51.35555555555555,
+                        "longitude": -5.244444444444444,
+                    },
                     "state": "Dublin",
                 },
                 "managedIdentityType": "none",
@@ -119,10 +131,10 @@ azure_audit_risk_level_passthrough_tests: List[PantherRuleTest] = [
             "time": "2023-07-26 23:00:20.889",
         },
     ),
-    PantherRuleTest(
-        Name="Failed Sign-In with riskLevelDuringSignIn",
-        ExpectedResult=True,
-        Log={
+    RuleTest(
+        name="Failed Sign-In with riskLevelDuringSignIn",
+        expected_result=True,
+        log={
             "calleripaddress": "12.12.12.12",
             "category": "ServicePrincipalSignInLogs",
             "correlationid": "e1f237ef-6548-4172-be79-03818c04c06e",
@@ -135,7 +147,9 @@ azure_audit_risk_level_passthrough_tests: List[PantherRuleTest] = [
             "p_log_type": "Azure.Audit",
             "properties": {
                 "appId": "cfceb902-8fab-4f8c-88ba-374d3c975c3a",
-                "authenticationProcessingDetails": [{"key": "Azure AD App Authentication Library", "value": ""}],
+                "authenticationProcessingDetails": [
+                    {"key": "Azure AD App Authentication Library", "value": ""}
+                ],
                 "authenticationProtocol": "none",
                 "clientCredentialType": "none",
                 "conditionalAccessStatus": "notApplied",
@@ -151,7 +165,10 @@ azure_audit_risk_level_passthrough_tests: List[PantherRuleTest] = [
                 "location": {
                     "city": "Dublin",
                     "countryOrRegion": "IE",
-                    "geoCoordinates": {"latitude": 51.35555555555555, "longitude": -5.244444444444444},
+                    "geoCoordinates": {
+                        "latitude": 51.35555555555555,
+                        "longitude": -5.244444444444444,
+                    },
                     "state": "Dublin",
                 },
                 "managedIdentityType": "none",
@@ -176,10 +193,10 @@ azure_audit_risk_level_passthrough_tests: List[PantherRuleTest] = [
             "time": "2023-07-26 23:00:20.889",
         },
     ),
-    PantherRuleTest(
-        Name="Failed Sign-In with riskLevelDuringSignIn and dismissed",
-        ExpectedResult=False,
-        Log={
+    RuleTest(
+        name="Failed Sign-In with riskLevelDuringSignIn and dismissed",
+        expected_result=False,
+        log={
             "calleripaddress": "12.12.12.12",
             "category": "ServicePrincipalSignInLogs",
             "correlationid": "e1f237ef-6548-4172-be79-03818c04c06e",
@@ -192,7 +209,9 @@ azure_audit_risk_level_passthrough_tests: List[PantherRuleTest] = [
             "p_log_type": "Azure.Audit",
             "properties": {
                 "appId": "cfceb902-8fab-4f8c-88ba-374d3c975c3a",
-                "authenticationProcessingDetails": [{"key": "Azure AD App Authentication Library", "value": ""}],
+                "authenticationProcessingDetails": [
+                    {"key": "Azure AD App Authentication Library", "value": ""}
+                ],
                 "authenticationProtocol": "none",
                 "clientCredentialType": "none",
                 "conditionalAccessStatus": "notApplied",
@@ -208,7 +227,10 @@ azure_audit_risk_level_passthrough_tests: List[PantherRuleTest] = [
                 "location": {
                     "city": "Dublin",
                     "countryOrRegion": "IE",
-                    "geoCoordinates": {"latitude": 51.35555555555555, "longitude": -5.244444444444444},
+                    "geoCoordinates": {
+                        "latitude": 51.35555555555555,
+                        "longitude": -5.244444444444444,
+                    },
                     "state": "Dublin",
                 },
                 "managedIdentityType": "none",
@@ -233,10 +255,10 @@ azure_audit_risk_level_passthrough_tests: List[PantherRuleTest] = [
             "time": "2023-07-26 23:00:20.889",
         },
     ),
-    PantherRuleTest(
-        Name="Missing RiskState",
-        ExpectedResult=False,
-        Log={
+    RuleTest(
+        name="Missing RiskState",
+        expected_result=False,
+        log={
             "calleripaddress": "12.12.12.12",
             "category": "ServicePrincipalSignInLogs",
             "correlationid": "e1f237ef-6548-4172-be79-03818c04c06e",
@@ -249,7 +271,9 @@ azure_audit_risk_level_passthrough_tests: List[PantherRuleTest] = [
             "p_log_type": "Azure.Audit",
             "properties": {
                 "appId": "cfceb902-8fab-4f8c-88ba-374d3c975c3a",
-                "authenticationProcessingDetails": [{"key": "Azure AD App Authentication Library", "value": ""}],
+                "authenticationProcessingDetails": [
+                    {"key": "Azure AD App Authentication Library", "value": ""}
+                ],
                 "authenticationProtocol": "none",
                 "clientCredentialType": "none",
                 "conditionalAccessStatus": "notApplied",
@@ -265,7 +289,10 @@ azure_audit_risk_level_passthrough_tests: List[PantherRuleTest] = [
                 "location": {
                     "city": "Dublin",
                     "countryOrRegion": "IE",
-                    "geoCoordinates": {"latitude": 51.35555555555555, "longitude": -5.244444444444444},
+                    "geoCoordinates": {
+                        "latitude": 51.35555555555555,
+                        "longitude": -5.244444444444444,
+                    },
                     "state": "Dublin",
                 },
                 "managedIdentityType": "none",
@@ -292,17 +319,17 @@ azure_audit_risk_level_passthrough_tests: List[PantherRuleTest] = [
 ]
 
 
-class AzureAuditRiskLevelPassthrough(PantherRule):
-    RuleID = "Azure.Audit.RiskLevelPassthrough-prototype"
-    DisplayName = "Azure RiskLevel Passthrough"
-    DedupPeriodMinutes = 10
-    LogTypes = [PantherLogType.Azure_Audit]
-    Severity = PantherSeverity.Medium
-    Description = "This detection surfaces an alert based on riskLevelAggregated, riskLevelDuringSignIn, and riskState.\nriskLevelAggregated and riskLevelDuringSignIn are only expected for Azure AD Premium P2 customers.\n"
-    Reference = "https://learn.microsoft.com/en-us/azure/active-directory/identity-protection/howto-identity-protection-risk-feedback"
-    Reports = {"MITRE ATT&CK": ["TA0006:T1110", "TA0001:T1078"]}
-    Runbook = "There are a variety of potential responses to these sign-in risks. MSFT has provided an in-depth reference material at https://learn.microsoft.com/en-us/azure/active-directory/identity-protection/howto-identity-protection-risk-feedback\n"
-    SummaryAttributes = [
+class AzureAuditRiskLevelPassthrough(Rule):
+    id = "Azure.Audit.RiskLevelPassthrough-prototype"
+    display_name = "Azure RiskLevel Passthrough"
+    dedup_period_minutes = 10
+    log_types = [LogType.Azure_Audit]
+    default_severity = Severity.MEDIUM
+    default_description = "This detection surfaces an alert based on riskLevelAggregated, riskLevelDuringSignIn, and riskState.\nriskLevelAggregated and riskLevelDuringSignIn are only expected for Azure AD Premium P2 customers.\n"
+    default_reference = "https://learn.microsoft.com/en-us/azure/active-directory/identity-protection/howto-identity-protection-risk-feedback"
+    reports = {"MITRE ATT&CK": ["TA0006:T1110", "TA0001:T1078"]}
+    default_runbook = "There are a variety of potential responses to these sign-in risks. MSFT has provided an in-depth reference material at https://learn.microsoft.com/en-us/azure/active-directory/identity-protection/howto-identity-protection-risk-feedback\n"
+    summary_attributes = [
         "properties:ServicePrincipalName",
         "properties:UserPrincipalName",
         "properties:ipAddress",
@@ -310,7 +337,7 @@ class AzureAuditRiskLevelPassthrough(PantherRule):
         "properties:riskLevelDuringSignIn",
         "properties:riskState",
     ]
-    Tests = azure_audit_risk_level_passthrough_tests
+    tests = azure_audit_risk_level_passthrough_tests
     PASSTHROUGH_SEVERITIES = {"low", "medium", "high"}
 
     def rule(self, event):
@@ -318,11 +345,17 @@ class AzureAuditRiskLevelPassthrough(PantherRule):
             return False
         self.IDENTIFIED_RISK_LEVEL = ""
         # Do not pass through risks marked as dismissed or remediated in AD
-        if deep_get(event, "properties", "riskState", default="").lower() in ["dismissed", "remediated"]:
+        if deep_get(event, "properties", "riskState", default="").lower() in [
+            "dismissed",
+            "remediated",
+        ]:
             return False
         # check riskLevelAggregated
         for risk_type in ["riskLevelAggregated", "riskLevelDuringSignIn"]:
-            if deep_get(event, "properties", risk_type, default="").lower() in self.PASSTHROUGH_SEVERITIES:
+            if (
+                deep_get(event, "properties", risk_type, default="").lower()
+                in self.PASSTHROUGH_SEVERITIES
+            ):
                 self.IDENTIFIED_RISK_LEVEL = deep_get(event, "properties", risk_type).lower()
                 return True
         return False

@@ -1,16 +1,16 @@
-from pypanther.severity import PantherSeverity
+from pypanther.severity import Severity
 
 
 def test_severity_less_than():
-    assert PantherSeverity.Info < PantherSeverity.Low
-    assert PantherSeverity.Low < PantherSeverity.Medium
-    assert PantherSeverity.Medium < PantherSeverity.High
-    assert PantherSeverity.High < PantherSeverity.Critical
+    assert Severity.INFO < Severity.LOW
+    assert Severity.LOW < Severity.MEDIUM
+    assert Severity.MEDIUM < Severity.HIGH
+    assert Severity.HIGH < Severity.CRITICAL
 
 
 def test_severity_as_int():
-    assert PantherSeverity.as_int(PantherSeverity.Info) == 0
-    assert PantherSeverity.as_int(PantherSeverity.Low) == 1
-    assert PantherSeverity.as_int(PantherSeverity.Medium) == 2
-    assert PantherSeverity.as_int(PantherSeverity.High) == 3
-    assert PantherSeverity.as_int(PantherSeverity.Critical) == 4
+    assert Severity.as_int(Severity.INFO) == 0
+    assert Severity.as_int(Severity.LOW) == 1
+    assert Severity.as_int(Severity.MEDIUM) == 2
+    assert Severity.as_int(Severity.HIGH) == 3
+    assert Severity.as_int(Severity.CRITICAL) == 4

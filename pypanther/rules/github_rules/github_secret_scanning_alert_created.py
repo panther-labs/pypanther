@@ -1,12 +1,10 @@
-from typing import List
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
-
-git_hub_secret_scanning_alert_created_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
-        Name="secret_scanning_alert.create-true",
-        ExpectedResult=True,
-        Log={
+git_hub_secret_scanning_alert_created_tests: list[RuleTest] = [
+    RuleTest(
+        name="secret_scanning_alert.create-true",
+        expected_result=True,
+        log={
             "action": "secret_scanning_alert.create",
             "actor": "github",
             "actor_id": "1234",
@@ -20,10 +18,10 @@ git_hub_secret_scanning_alert_created_tests: List[PantherRuleTest] = [
             "repo_id": 123456789,
         },
     ),
-    PantherRuleTest(
-        Name="git.clone-false",
-        ExpectedResult=False,
-        Log={
+    RuleTest(
+        name="git.clone-false",
+        expected_result=False,
+        log={
             "_document_id": "KCYtigpnShPBSohA4OXbRg==",
             "action": "git.clone",
             "actor": "acme-inc-user",
@@ -53,17 +51,21 @@ git_hub_secret_scanning_alert_created_tests: List[PantherRuleTest] = [
 ]
 
 
-class GitHubSecretScanningAlertCreated(PantherRule):
-    RuleID = "GitHub.Secret.Scanning.Alert.Created-prototype"
-    DisplayName = "GitHub Secret Scanning Alert Created"
-    LogTypes = [PantherLogType.GitHub_Audit]
-    Tags = ["GitHub"]
-    Reports = {"MITRE ATT&CK": ["TA0006:T1552"]}
-    Severity = PantherSeverity.Medium
-    Description = "GitHub detected a secret and created a secret scanning alert."
-    Runbook = "Review the secret to determine if it needs to be revoked or the alert suppressed."
-    Reference = "https://docs.github.com/en/code-security/secret-scanning/about-secret-scanning"
-    Tests = git_hub_secret_scanning_alert_created_tests
+class GitHubSecretScanningAlertCreated(Rule):
+    id = "GitHub.Secret.Scanning.Alert.Created-prototype"
+    display_name = "GitHub Secret Scanning Alert Created"
+    log_types = [LogType.GitHub_Audit]
+    tags = ["GitHub"]
+    reports = {"MITRE ATT&CK": ["TA0006:T1552"]}
+    default_severity = Severity.MEDIUM
+    default_description = "GitHub detected a secret and created a secret scanning alert."
+    default_runbook = (
+        "Review the secret to determine if it needs to be revoked or the alert suppressed."
+    )
+    default_reference = (
+        "https://docs.github.com/en/code-security/secret-scanning/about-secret-scanning"
+    )
+    tests = git_hub_secret_scanning_alert_created_tests
 
     def rule(self, event):
         return event.get("action", "") == "secret_scanning_alert.create"

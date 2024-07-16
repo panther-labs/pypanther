@@ -1,12 +1,10 @@
-from typing import List
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
-
-gcp_inbound_sso_profile_created_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
-        Name="InboundSsoProfileDeleted-False",
-        ExpectedResult=False,
-        Log={
+gcp_inbound_sso_profile_created_tests: list[RuleTest] = [
+    RuleTest(
+        name="InboundSsoProfileDeleted-False",
+        expected_result=False,
+        log={
             "insertId": "chtsf1e7iek8",
             "logName": "organizations/325169835352/logs/cloudaudit.googleapis.com%2Factivity",
             "protoPayload": {
@@ -48,10 +46,10 @@ gcp_inbound_sso_profile_created_tests: List[PantherRuleTest] = [
             "timestamp": "2023-11-17T19:54:42.598435Z",
         },
     ),
-    PantherRuleTest(
-        Name="InboundSsoProfileUpdated-True",
-        ExpectedResult=True,
-        Log={
+    RuleTest(
+        name="InboundSsoProfileUpdated-True",
+        expected_result=True,
+        log={
             "insertId": "crpr6bdcjfg",
             "logName": "organizations/123456789012/logs/cloudaudit.googleapis.com%2Factivity",
             "protoPayload": {
@@ -99,10 +97,10 @@ gcp_inbound_sso_profile_created_tests: List[PantherRuleTest] = [
             "timestamp": "2023-11-17T19:55:56.956215Z",
         },
     ),
-    PantherRuleTest(
-        Name="InboundSsoProfileCreated-True",
-        ExpectedResult=True,
-        Log={
+    RuleTest(
+        name="InboundSsoProfileCreated-True",
+        expected_result=True,
+        log={
             "insertId": "-rqtp5gefopij",
             "logName": "organizations/123456789012/logs/cloudaudit.googleapis.com%2Factivity",
             "protoPayload": {
@@ -147,16 +145,16 @@ gcp_inbound_sso_profile_created_tests: List[PantherRuleTest] = [
 ]
 
 
-class GCPInboundSSOProfileCreated(PantherRule):
-    RuleID = "GCP.Inbound.SSO.Profile.Created-prototype"
-    DisplayName = "GCP Inbound SSO Profile Created"
-    LogTypes = [PantherLogType.GCP_AuditLog]
-    Tags = ["Account Manipulation", "Additional Cloud Roles", "GCP", "Privilege Escalation"]
-    Reports = {"MITRE ATT&CK": ["TA0003:T1136.003", "TA0003:T1098.003", "TA0004:T1098.003"]}
-    Severity = PantherSeverity.High
-    Runbook = "Ensure that the SSO profile creation or modification was expected. Adversaries may use this to persist or allow additional access or escalate their privilege.\n"
-    Reference = "https://medium.com/google-cloud/detection-of-inbound-sso-persistence-techniques-in-gcp-c56f7b2a588b"
-    Tests = gcp_inbound_sso_profile_created_tests
+class GCPInboundSSOProfileCreated(Rule):
+    id = "GCP.Inbound.SSO.Profile.Created-prototype"
+    display_name = "GCP Inbound SSO Profile Created"
+    log_types = [LogType.GCP_AuditLog]
+    tags = ["Account Manipulation", "Additional Cloud Roles", "GCP", "Privilege Escalation"]
+    reports = {"MITRE ATT&CK": ["TA0003:T1136.003", "TA0003:T1098.003", "TA0004:T1098.003"]}
+    default_severity = Severity.HIGH
+    default_runbook = "Ensure that the SSO profile creation or modification was expected. Adversaries may use this to persist or allow additional access or escalate their privilege.\n"
+    default_reference = "https://medium.com/google-cloud/detection-of-inbound-sso-persistence-techniques-in-gcp-c56f7b2a588b"
+    tests = gcp_inbound_sso_profile_created_tests
     METHODS = [
         "google.admin.AdminService.inboundSsoProfileCreated",
         "google.admin.AdminService.inboundSsoProfileUpdated",

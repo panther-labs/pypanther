@@ -1,14 +1,12 @@
-from typing import List
-
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 from pypanther.helpers.panther_snyk_helpers import snyk_alert_context
 
-snyk_project_settings_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
-        Name="Snyk Org Project Stop Monitor",
-        ExpectedResult=True,
-        Log={
+snyk_project_settings_tests: list[RuleTest] = [
+    RuleTest(
+        name="Snyk Org Project Stop Monitor",
+        expected_result=True,
+        log={
             "content": {
                 "origin": "github",
                 "target": {"branch": "some-branch", "id": 222222222, "name": "repo-name", "owner": "github-org"},
@@ -23,10 +21,10 @@ snyk_project_settings_tests: List[PantherRuleTest] = [
             "userId": "05555555-3333-4ddd-8ccc-75555555555",
         },
     ),
-    PantherRuleTest(
-        Name="Project Ignore Create",
-        ExpectedResult=True,
-        Log={
+    RuleTest(
+        name="Project Ignore Create",
+        expected_result=True,
+        log={
             "content": {
                 "created": "2023-03-20T12:23:06.356Z",
                 "ignorePath": "*",
@@ -43,10 +41,10 @@ snyk_project_settings_tests: List[PantherRuleTest] = [
             "userId": "05555555-3333-4ddd-8ccc-75555555555",
         },
     ),
-    PantherRuleTest(
-        Name="Snyk Group SSO Membership sync",
-        ExpectedResult=False,
-        Log={
+    RuleTest(
+        name="Snyk Group SSO Membership sync",
+        expected_result=False,
+        log={
             "content": {},
             "created": "2023-03-15 13:13:13.133",
             "event": "group.sso.membership.sync",
@@ -56,16 +54,16 @@ snyk_project_settings_tests: List[PantherRuleTest] = [
 ]
 
 
-class SnykProjectSettings(PantherRule):
-    RuleID = "Snyk.Project.Settings-prototype"
-    DisplayName = "Snyk Project Settings"
-    LogTypes = [PantherLogType.Snyk_GroupAudit, PantherLogType.Snyk_OrgAudit]
-    Tags = ["Snyk"]
-    Reference = "https://docs.snyk.io/snyk-admin/introduction-to-snyk-projects/view-and-edit-project-settings"
-    Severity = PantherSeverity.Medium
-    Description = "Detects when Snyk Project settings are changed\n"
-    SummaryAttributes = ["event"]
-    Tests = snyk_project_settings_tests
+class SnykProjectSettings(Rule):
+    id = "Snyk.Project.Settings-prototype"
+    display_name = "Snyk Project Settings"
+    log_types = [LogType.Snyk_GroupAudit, LogType.Snyk_OrgAudit]
+    tags = ["Snyk"]
+    default_reference = "https://docs.snyk.io/snyk-admin/introduction-to-snyk-projects/view-and-edit-project-settings"
+    default_severity = Severity.MEDIUM
+    default_description = "Detects when Snyk Project settings are changed\n"
+    summary_attributes = ["event"]
+    tests = snyk_project_settings_tests
     # The bodies of these actions are quite diverse.
     # When projects are added, the logged detail is the sourceOrgId.
     # org.project.stop_monitor is logged for individual files

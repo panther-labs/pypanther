@@ -1,13 +1,11 @@
-from typing import List
-
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import defang_ioc, is_base64
 
-standard_dns_base64_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
-        Name="AWS VPC DNS (Positive)",
-        ExpectedResult=True,
-        Log={
+standard_dns_base64_tests: list[RuleTest] = [
+    RuleTest(
+        name="AWS VPC DNS (Positive)",
+        expected_result=True,
+        log={
             "account_id": "123456789012",
             "answers": [{"Class": "IN", "Rdata": "172.31.46.187", "Type": "A"}],
             "p_log_type": "AWS.VPCDns",
@@ -25,10 +23,10 @@ standard_dns_base64_tests: List[PantherRuleTest] = [
             "vpc_id": "vpc-c26c48ba",
         },
     ),
-    PantherRuleTest(
-        Name="AWS VPS DNS (Negative)",
-        ExpectedResult=False,
-        Log={
+    RuleTest(
+        name="AWS VPS DNS (Negative)",
+        expected_result=False,
+        log={
             "account_id": "123456789012",
             "answers": [{"Class": "IN", "Rdata": "172.31.46.187", "Type": "A"}],
             "p_log_type": "AWS.VPCDns",
@@ -46,10 +44,10 @@ standard_dns_base64_tests: List[PantherRuleTest] = [
             "vpc_id": "vpc-c26c48ba",
         },
     ),
-    PantherRuleTest(
-        Name="AWS VPS DNS subdomain (Negative)",
-        ExpectedResult=False,
-        Log={
+    RuleTest(
+        name="AWS VPS DNS subdomain (Negative)",
+        expected_result=False,
+        log={
             "account_id": "123456789012",
             "answers": [{"Class": "IN", "Rdata": "172.31.46.187", "Type": "A"}],
             "p_log_type": "AWS.VPCDns",
@@ -67,10 +65,10 @@ standard_dns_base64_tests: List[PantherRuleTest] = [
             "vpc_id": "vpc-c26c48ba",
         },
     ),
-    PantherRuleTest(
-        Name="Crowdstrike DNS Request (Positive)",
-        ExpectedResult=True,
-        Log={
+    RuleTest(
+        name="Crowdstrike DNS Request (Positive)",
+        expected_result=True,
+        log={
             "ConfigBuild": "1007.3.0016606.11",
             "ConfigStateHash": "1331552299",
             "ContextProcessId": "21866918",
@@ -111,7 +109,10 @@ standard_dns_base64_tests: List[PantherRuleTest] = [
             "name": "DnsRequestV4",
             "p_any_domain_names": ["win8.ipv6.microsoft.com"],
             "p_any_ip_addresses": ["1.1.1.1"],
-            "p_any_md5_hashes": ["877761efa8db44d792ddc2redacted", "cfe698690964434083fecdredacted"],
+            "p_any_md5_hashes": [
+                "877761efa8db44d792ddc2redacted",
+                "cfe698690964434083fecdredacted",
+            ],
             "p_any_trace_ids": ["877761efa8db44d792ddc2redacted", "cfe698690964434083fecdredacted"],
             "p_event_time": "2023-04-23 18:50:03.172",
             "p_log_type": "Crowdstrike.FDREvent",
@@ -123,10 +124,10 @@ standard_dns_base64_tests: List[PantherRuleTest] = [
             "timestamp": "2023-04-23 18:50:05.712",
         },
     ),
-    PantherRuleTest(
-        Name="Crowdstrike DNS Request (Negative)",
-        ExpectedResult=False,
-        Log={
+    RuleTest(
+        name="Crowdstrike DNS Request (Negative)",
+        expected_result=False,
+        log={
             "ConfigBuild": "1007.3.0016606.11",
             "ConfigStateHash": "1331552299",
             "ContextProcessId": "21866918",
@@ -167,7 +168,10 @@ standard_dns_base64_tests: List[PantherRuleTest] = [
             "name": "DnsRequestV4",
             "p_any_domain_names": ["win8.ipv6.microsoft.com"],
             "p_any_ip_addresses": ["1.1.1.1"],
-            "p_any_md5_hashes": ["877761efa8db44d792ddc2redacted", "cfe698690964434083fecdredacted"],
+            "p_any_md5_hashes": [
+                "877761efa8db44d792ddc2redacted",
+                "cfe698690964434083fecdredacted",
+            ],
             "p_any_trace_ids": ["877761efa8db44d792ddc2redacted", "cfe698690964434083fecdredacted"],
             "p_event_time": "2023-04-23 18:50:03.172",
             "p_log_type": "Crowdstrike.FDREvent",
@@ -179,10 +183,10 @@ standard_dns_base64_tests: List[PantherRuleTest] = [
             "timestamp": "2023-04-23 18:50:05.712",
         },
     ),
-    PantherRuleTest(
-        Name="Cisco Umbrella DNS Request (Positive)",
-        ExpectedResult=True,
-        Log={
+    RuleTest(
+        name="Cisco Umbrella DNS Request (Positive)",
+        expected_result=True,
+        log={
             "action": "Allow",
             "internalIp": "136.24.229.58",
             "externalIp": "136.24.229.58",
@@ -192,10 +196,10 @@ standard_dns_base64_tests: List[PantherRuleTest] = [
             "p_log_type": "CiscoUmbrella.DNS",
         },
     ),
-    PantherRuleTest(
-        Name="Cisco Umbrella DNS Request (Negative)",
-        ExpectedResult=False,
-        Log={
+    RuleTest(
+        name="Cisco Umbrella DNS Request (Negative)",
+        expected_result=False,
+        log={
             "action": "Allow",
             "internalIp": "136.24.229.58",
             "externalIp": "136.24.229.58",
@@ -208,17 +212,15 @@ standard_dns_base64_tests: List[PantherRuleTest] = [
 ]
 
 
-class StandardDNSBase64(PantherRule):
-    DisplayName = "DNS Base64 Encoded Query"
-    Description = (
-        "Detects DNS queries with Base64 encoded subdomains, which could indicate an attempt to obfuscate data exfil."
-    )
-    RuleID = "Standard.DNSBase64-prototype"
-    Enabled = False
-    Reference = "https://zofixer.com/what-is-base64-disclosure-vulnerability/"
-    Severity = PantherSeverity.Medium
-    LogTypes = [PantherLogType.Crowdstrike_FDREvent, PantherLogType.AWS_VPCDns, PantherLogType.CiscoUmbrella_DNS]
-    Tests = standard_dns_base64_tests
+class StandardDNSBase64(Rule):
+    display_name = "DNS Base64 Encoded Query"
+    default_description = "Detects DNS queries with Base64 encoded subdomains, which could indicate an attempt to obfuscate data exfil."
+    id = "Standard.DNSBase64-prototype"
+    enabled = False
+    default_reference = "https://zofixer.com/what-is-base64-disclosure-vulnerability/"
+    default_severity = Severity.MEDIUM
+    log_types = [LogType.Crowdstrike_FDREvent, LogType.AWS_VPCDns, LogType.CiscoUmbrella_DNS]
+    tests = standard_dns_base64_tests
     DECODED = ""
 
     def rule(self, event):

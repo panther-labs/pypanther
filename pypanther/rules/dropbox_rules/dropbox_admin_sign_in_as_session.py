@@ -1,13 +1,11 @@
-from typing import List
-
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 
-dropbox_adminsigninas_session_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
-        Name="Other",
-        ExpectedResult=False,
-        Log={
+dropbox_adminsigninas_session_tests: list[RuleTest] = [
+    RuleTest(
+        name="Other",
+        expected_result=False,
+        log={
             "actor": {
                 "_tag": "user",
                 "user": {
@@ -77,10 +75,10 @@ dropbox_adminsigninas_session_tests: List[PantherRuleTest] = [
             "timestamp": "2023-04-18 22:31:03",
         },
     ),
-    PantherRuleTest(
-        Name="Sign-in-as Session",
-        ExpectedResult=True,
-        Log={
+    RuleTest(
+        name="Sign-in-as Session",
+        expected_result=True,
+        log={
             "actor": {
                 "_tag": "admin",
                 "admin": {
@@ -125,14 +123,14 @@ dropbox_adminsigninas_session_tests: List[PantherRuleTest] = [
 ]
 
 
-class DropboxAdminsigninasSession(PantherRule):
-    Description = "Alerts when an admin starts a sign-in-as session."
-    DisplayName = "Dropbox Admin sign-in-as Session"
-    Reference = "https://help.dropbox.com/security/sign-in-as-user"
-    Severity = PantherSeverity.Medium
-    LogTypes = [PantherLogType.Dropbox_TeamEvent]
-    RuleID = "Dropbox.Admin.sign.in.as.Session-prototype"
-    Tests = dropbox_adminsigninas_session_tests
+class DropboxAdminsigninasSession(Rule):
+    default_description = "Alerts when an admin starts a sign-in-as session."
+    display_name = "Dropbox Admin sign-in-as Session"
+    default_reference = "https://help.dropbox.com/security/sign-in-as-user"
+    default_severity = Severity.MEDIUM
+    log_types = [LogType.Dropbox_TeamEvent]
+    id = "Dropbox.Admin.sign.in.as.Session-prototype"
+    tests = dropbox_adminsigninas_session_tests
 
     def rule(self, event):
         return deep_get(event, "event_type", "_tag", default="") == "sign_in_as_session_start"

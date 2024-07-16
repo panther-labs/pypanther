@@ -1,13 +1,11 @@
-from typing import List
-
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import crowdstrike_detection_alert_context, deep_get
 
-crowdstrike_wmi_query_detection_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
-        Name="Benign wmic",
-        ExpectedResult=False,
-        Log={
+crowdstrike_wmi_query_detection_tests: list[RuleTest] = [
+    RuleTest(
+        name="Benign wmic",
+        expected_result=False,
+        log={
             "aid": "1234567890abcdefg654321",
             "aip": "11.10.9.8",
             "cid": "abcdefghijklmnop123467890",
@@ -67,8 +65,14 @@ crowdstrike_wmi_query_detection_tests: List[PantherRuleTest] = [
                 "abcdefghijklmnop123467890",
             ],
             "p_any_sha1_hashes": ["0000000000000000000000000000000000000000"],
-            "p_any_sha256_hashes": ["488e74e2026d03f21b33f470c23b3de2f466643186c2e06ae7b4883cc2e59377"],
-            "p_any_trace_ids": ["4295752857", "1234567890abcdefg654321", "abcdefghijklmnop123467890"],
+            "p_any_sha256_hashes": [
+                "488e74e2026d03f21b33f470c23b3de2f466643186c2e06ae7b4883cc2e59377"
+            ],
+            "p_any_trace_ids": [
+                "4295752857",
+                "1234567890abcdefg654321",
+                "abcdefghijklmnop123467890",
+            ],
             "p_event_time": "2023-04-21 19:52:32.722",
             "p_log_type": "Crowdstrike.FDREvent",
             "p_parse_time": "2023-04-21 20:05:52.94",
@@ -80,10 +84,10 @@ crowdstrike_wmi_query_detection_tests: List[PantherRuleTest] = [
             "treeid": "4295752857",
         },
     ),
-    PantherRuleTest(
-        Name="Other",
-        ExpectedResult=False,
-        Log={
+    RuleTest(
+        name="Other",
+        expected_result=False,
+        log={
             "aid": "1234567890abcdefg654321",
             "aip": "11.10.9.8",
             "cid": "abcdefghijklmnop123467890",
@@ -143,8 +147,14 @@ crowdstrike_wmi_query_detection_tests: List[PantherRuleTest] = [
                 "abcdefghijklmnop123467890",
             ],
             "p_any_sha1_hashes": ["0000000000000000000000000000000000000000"],
-            "p_any_sha256_hashes": ["488e74e2026d03f21b33f470c23b3de2f466643186c2e06ae7b4883cc2e59377"],
-            "p_any_trace_ids": ["4295752857", "1234567890abcdefg654321", "abcdefghijklmnop123467890"],
+            "p_any_sha256_hashes": [
+                "488e74e2026d03f21b33f470c23b3de2f466643186c2e06ae7b4883cc2e59377"
+            ],
+            "p_any_trace_ids": [
+                "4295752857",
+                "1234567890abcdefg654321",
+                "abcdefghijklmnop123467890",
+            ],
             "p_event_time": "2023-04-21 19:52:32.722",
             "p_log_type": "Crowdstrike.FDREvent",
             "p_parse_time": "2023-04-21 20:05:52.94",
@@ -156,10 +166,10 @@ crowdstrike_wmi_query_detection_tests: List[PantherRuleTest] = [
             "treeid": "4295752857",
         },
     ),
-    PantherRuleTest(
-        Name="wmic get name password",
-        ExpectedResult=True,
-        Log={
+    RuleTest(
+        name="wmic get name password",
+        expected_result=True,
+        log={
             "aid": "1234567890abcdefg654321",
             "aip": "11.10.9.8",
             "cid": "abcdefghijklmnop123467890",
@@ -219,8 +229,14 @@ crowdstrike_wmi_query_detection_tests: List[PantherRuleTest] = [
                 "abcdefghijklmnop123467890",
             ],
             "p_any_sha1_hashes": ["0000000000000000000000000000000000000000"],
-            "p_any_sha256_hashes": ["488e74e2026d03f21b33f470c23b3de2f466643186c2e06ae7b4883cc2e59377"],
-            "p_any_trace_ids": ["4295752857", "1234567890abcdefg654321", "abcdefghijklmnop123467890"],
+            "p_any_sha256_hashes": [
+                "488e74e2026d03f21b33f470c23b3de2f466643186c2e06ae7b4883cc2e59377"
+            ],
+            "p_any_trace_ids": [
+                "4295752857",
+                "1234567890abcdefg654321",
+                "abcdefghijklmnop123467890",
+            ],
             "p_event_time": "2023-04-21 19:52:32.722",
             "p_log_type": "Crowdstrike.FDREvent",
             "p_parse_time": "2023-04-21 20:05:52.94",
@@ -232,10 +248,10 @@ crowdstrike_wmi_query_detection_tests: List[PantherRuleTest] = [
             "treeid": "4295752857",
         },
     ),
-    PantherRuleTest(
-        Name="wmic process create",
-        ExpectedResult=True,
-        Log={
+    RuleTest(
+        name="wmic process create",
+        expected_result=True,
+        log={
             "aid": "1234567890abcdefg654321",
             "aip": "11.10.9.8",
             "cid": "abcdefghijklmnop123467890",
@@ -295,8 +311,14 @@ crowdstrike_wmi_query_detection_tests: List[PantherRuleTest] = [
                 "abcdefghijklmnop123467890",
             ],
             "p_any_sha1_hashes": ["0000000000000000000000000000000000000000"],
-            "p_any_sha256_hashes": ["488e74e2026d03f21b33f470c23b3de2f466643186c2e06ae7b4883cc2e59377"],
-            "p_any_trace_ids": ["4295752857", "1234567890abcdefg654321", "abcdefghijklmnop123467890"],
+            "p_any_sha256_hashes": [
+                "488e74e2026d03f21b33f470c23b3de2f466643186c2e06ae7b4883cc2e59377"
+            ],
+            "p_any_trace_ids": [
+                "4295752857",
+                "1234567890abcdefg654321",
+                "abcdefghijklmnop123467890",
+            ],
             "p_event_time": "2023-04-21 19:52:32.722",
             "p_log_type": "Crowdstrike.FDREvent",
             "p_parse_time": "2023-04-21 20:05:52.94",
@@ -311,21 +333,31 @@ crowdstrike_wmi_query_detection_tests: List[PantherRuleTest] = [
 ]
 
 
-class CrowdstrikeWMIQueryDetection(PantherRule):
-    Description = "Detects execution of WMI queries involving information gathering or actions on remote systems, which could indicate reconnaissance or lateral movement."
-    DisplayName = "Crowdstrike WMI Query Detection"
-    Runbook = "Investigate the endpoint for signs of WMI query execution. Review the executed query and the associated user account."
-    Reference = "https://learn.microsoft.com/en-us/windows/win32/wmisdk/querying-wmi"
-    Severity = PantherSeverity.Low
-    LogTypes = [PantherLogType.Crowdstrike_FDREvent]
-    RuleID = "Crowdstrike.WMI.Query.Detection-prototype"
-    Tests = crowdstrike_wmi_query_detection_tests
-    WMIC_SIGNATURES = ["get", "list", "process call create", "cmd.exe", "powershell.exe", "command.exe"]
+class CrowdstrikeWMIQueryDetection(Rule):
+    default_description = "Detects execution of WMI queries involving information gathering or actions on remote systems, which could indicate reconnaissance or lateral movement."
+    display_name = "Crowdstrike WMI Query Detection"
+    default_runbook = "Investigate the endpoint for signs of WMI query execution. Review the executed query and the associated user account."
+    default_reference = "https://learn.microsoft.com/en-us/windows/win32/wmisdk/querying-wmi"
+    default_severity = Severity.LOW
+    log_types = [LogType.Crowdstrike_FDREvent]
+    id = "Crowdstrike.WMI.Query.Detection-prototype"
+    tests = crowdstrike_wmi_query_detection_tests
+    WMIC_SIGNATURES = [
+        "get",
+        "list",
+        "process call create",
+        "cmd.exe",
+        "powershell.exe",
+        "command.exe",
+    ]
 
     def rule(self, event):
         if deep_get(event, "event", "event_simpleName") == "ProcessRollup2":
             if deep_get(event, "event", "event_platform") == "Win":
-                if deep_get(event, "event", "ImageFileName", default="").split("\\")[-1] == "wmic.exe":
+                if (
+                    deep_get(event, "event", "ImageFileName", default="").split("\\")[-1]
+                    == "wmic.exe"
+                ):
                     command_line = deep_get(event, "event", "CommandLine", default="")
                     for signature in self.WMIC_SIGNATURES:
                         if signature in command_line:

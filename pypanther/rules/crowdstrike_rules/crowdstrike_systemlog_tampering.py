@@ -1,13 +1,11 @@
-from typing import List
-
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import crowdstrike_detection_alert_context, deep_get
 
-crowdstrike_systemlog_tampering_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
-        Name="Clear Log Event",
-        ExpectedResult=True,
-        Log={
+crowdstrike_systemlog_tampering_tests: list[RuleTest] = [
+    RuleTest(
+        name="Clear Log Event",
+        expected_result=True,
+        log={
             "aid": "1234567890abcdefg654321",
             "aip": "11.10.9.8",
             "cid": "abcdefghijklmnop123467890",
@@ -67,8 +65,14 @@ crowdstrike_systemlog_tampering_tests: List[PantherRuleTest] = [
                 "abcdefghijklmnop123467890",
             ],
             "p_any_sha1_hashes": ["0000000000000000000000000000000000000000"],
-            "p_any_sha256_hashes": ["488e74e2026d03f21b33f470c23b3de2f466643186c2e06ae7b4883cc2e59377"],
-            "p_any_trace_ids": ["4295752857", "1234567890abcdefg654321", "abcdefghijklmnop123467890"],
+            "p_any_sha256_hashes": [
+                "488e74e2026d03f21b33f470c23b3de2f466643186c2e06ae7b4883cc2e59377"
+            ],
+            "p_any_trace_ids": [
+                "4295752857",
+                "1234567890abcdefg654321",
+                "abcdefghijklmnop123467890",
+            ],
             "p_event_time": "2023-04-21 19:52:32.722",
             "p_log_type": "Crowdstrike.FDREvent",
             "p_parse_time": "2023-04-21 20:05:52.94",
@@ -80,10 +84,10 @@ crowdstrike_systemlog_tampering_tests: List[PantherRuleTest] = [
             "treeid": "4295752857",
         },
     ),
-    PantherRuleTest(
-        Name="Other Event",
-        ExpectedResult=False,
-        Log={
+    RuleTest(
+        name="Other Event",
+        expected_result=False,
+        log={
             "aid": "1234567890abcdefg654321",
             "aip": "11.10.9.8",
             "cid": "abcdefghijklmnop123467890",
@@ -143,8 +147,14 @@ crowdstrike_systemlog_tampering_tests: List[PantherRuleTest] = [
                 "abcdefghijklmnop123467890",
             ],
             "p_any_sha1_hashes": ["0000000000000000000000000000000000000000"],
-            "p_any_sha256_hashes": ["488e74e2026d03f21b33f470c23b3de2f466643186c2e06ae7b4883cc2e59377"],
-            "p_any_trace_ids": ["4295752857", "1234567890abcdefg654321", "abcdefghijklmnop123467890"],
+            "p_any_sha256_hashes": [
+                "488e74e2026d03f21b33f470c23b3de2f466643186c2e06ae7b4883cc2e59377"
+            ],
+            "p_any_trace_ids": [
+                "4295752857",
+                "1234567890abcdefg654321",
+                "abcdefghijklmnop123467890",
+            ],
             "p_event_time": "2023-04-21 19:52:32.722",
             "p_log_type": "Crowdstrike.FDREvent",
             "p_parse_time": "2023-04-21 20:05:52.94",
@@ -159,22 +169,29 @@ crowdstrike_systemlog_tampering_tests: List[PantherRuleTest] = [
 ]
 
 
-class CrowdstrikeSystemlogTampering(PantherRule):
-    Description = "Detects when a user attempts to clear system logs. "
-    DisplayName = "Crowdstrike Systemlog Tampering"
-    Reference = "https://attack.mitre.org/techniques/T1070/001/"
-    Severity = PantherSeverity.High
-    LogTypes = [PantherLogType.Crowdstrike_FDREvent]
-    RuleID = "Crowdstrike.Systemlog.Tampering-prototype"
-    Tests = crowdstrike_systemlog_tampering_tests
-    CLEARING_SYSTEM_LOG_TOOLS = {"wevtutil.exe": ["cl", "clear-log"], "powershell.exe": ["clear-eventlog"]}
+class CrowdstrikeSystemlogTampering(Rule):
+    default_description = "Detects when a user attempts to clear system logs. "
+    display_name = "Crowdstrike Systemlog Tampering"
+    default_reference = "https://attack.mitre.org/techniques/T1070/001/"
+    default_severity = Severity.HIGH
+    log_types = [LogType.Crowdstrike_FDREvent]
+    id = "Crowdstrike.Systemlog.Tampering-prototype"
+    tests = crowdstrike_systemlog_tampering_tests
+    CLEARING_SYSTEM_LOG_TOOLS = {
+        "wevtutil.exe": ["cl", "clear-log"],
+        "powershell.exe": ["clear-eventlog"],
+    }
 
     def rule(self, event):
         if event.get("fdr_event_type", "") == "ProcessRollup2":
             if event.get("event_platform", "") == "Win":
-                process_name = deep_get(event, "event", "ImageFileName", default="").lower().split("\\")[-1]
+                process_name = (
+                    deep_get(event, "event", "ImageFileName", default="").lower().split("\\")[-1]
+                )
                 if process_name in self.CLEARING_SYSTEM_LOG_TOOLS:
-                    process_command_line = deep_get(event, "event", "CommandLine", default="").split(" ")
+                    process_command_line = deep_get(
+                        event, "event", "CommandLine", default=""
+                    ).split(" ")
                     suspicious_command_lines = self.CLEARING_SYSTEM_LOG_TOOLS.get(process_name)
                     for suspicious_command_line in suspicious_command_lines:
                         if suspicious_command_line in process_command_line:

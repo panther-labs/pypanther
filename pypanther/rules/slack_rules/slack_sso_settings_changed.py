@@ -1,17 +1,20 @@
-from typing import List
-
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import slack_alert_context
 
-slack_audit_logs_sso_settings_changed_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
-        Name="SSO Setting Changed",
-        ExpectedResult=True,
-        Log={
+slack_audit_logs_sso_settings_changed_tests: list[RuleTest] = [
+    RuleTest(
+        name="SSO Setting Changed",
+        expected_result=True,
+        log={
             "action": "pref.sso_setting_changed",
             "actor": {
                 "type": "user",
-                "user": {"email": "user@example.com", "id": "A012B3CDEFG", "name": "username", "team": "T01234N56GB"},
+                "user": {
+                    "email": "user@example.com",
+                    "id": "A012B3CDEFG",
+                    "name": "username",
+                    "team": "T01234N56GB",
+                },
             },
             "context": {
                 "ip_address": "1.2.3.4",
@@ -25,10 +28,10 @@ slack_audit_logs_sso_settings_changed_tests: List[PantherRuleTest] = [
             },
         },
     ),
-    PantherRuleTest(
-        Name="User Logout",
-        ExpectedResult=False,
-        Log={
+    RuleTest(
+        name="User Logout",
+        expected_result=False,
+        log={
             "action": "user_logout",
             "actor": {
                 "type": "user",
@@ -65,17 +68,19 @@ slack_audit_logs_sso_settings_changed_tests: List[PantherRuleTest] = [
 ]
 
 
-class SlackAuditLogsSSOSettingsChanged(PantherRule):
-    RuleID = "Slack.AuditLogs.SSOSettingsChanged-prototype"
-    DisplayName = "Slack SSO Settings Changed"
-    LogTypes = [PantherLogType.Slack_AuditLogs]
-    Tags = ["Slack", "Credential Access", "Persistence", "Modify Authentication Process"]
-    Reports = {"MITRE ATT&CK": ["TA0003:T1556", "TA0006:T1556"]}
-    Severity = PantherSeverity.High
-    Description = "Detects changes to Single Sign On (SSO) restrictions"
-    Reference = "https://slack.com/intl/en-gb/help/articles/220403548-Manage-single-sign-on-settings"
-    SummaryAttributes = ["p_any_ip_addresses", "p_any_emails"]
-    Tests = slack_audit_logs_sso_settings_changed_tests
+class SlackAuditLogsSSOSettingsChanged(Rule):
+    id = "Slack.AuditLogs.SSOSettingsChanged-prototype"
+    display_name = "Slack SSO Settings Changed"
+    log_types = [LogType.Slack_AuditLogs]
+    tags = ["Slack", "Credential Access", "Persistence", "Modify Authentication Process"]
+    reports = {"MITRE ATT&CK": ["TA0003:T1556", "TA0006:T1556"]}
+    default_severity = Severity.HIGH
+    default_description = "Detects changes to Single Sign On (SSO) restrictions"
+    default_reference = (
+        "https://slack.com/intl/en-gb/help/articles/220403548-Manage-single-sign-on-settings"
+    )
+    summary_attributes = ["p_any_ip_addresses", "p_any_emails"]
+    tests = slack_audit_logs_sso_settings_changed_tests
 
     def rule(self, event):
         return event.get("action") == "pref.sso_setting_changed"

@@ -1,14 +1,16 @@
-from typing import List
-
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 
-g_suite_workspace_trusted_domains_allowlist_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
-        Name="Workspace Admin Remove Trusted Domain",
-        ExpectedResult=True,
-        Log={
-            "actor": {"callerType": "USER", "email": "user@example.io", "profileId": "110506209185950390992"},
+g_suite_workspace_trusted_domains_allowlist_tests: list[RuleTest] = [
+    RuleTest(
+        name="Workspace Admin Remove Trusted Domain",
+        expected_result=True,
+        log={
+            "actor": {
+                "callerType": "USER",
+                "email": "user@example.io",
+                "profileId": "110506209185950390992",
+            },
             "id": {
                 "applicationName": "admin",
                 "customerId": "D12345",
@@ -22,11 +24,15 @@ g_suite_workspace_trusted_domains_allowlist_tests: List[PantherRuleTest] = [
             "type": "DOMAIN_SETTINGS",
         },
     ),
-    PantherRuleTest(
-        Name="Workspace Admin Add Trusted Domain",
-        ExpectedResult=True,
-        Log={
-            "actor": {"callerType": "USER", "email": "user@example.io", "profileId": "110506209185950390992"},
+    RuleTest(
+        name="Workspace Admin Add Trusted Domain",
+        expected_result=True,
+        log={
+            "actor": {
+                "callerType": "USER",
+                "email": "user@example.io",
+                "profileId": "110506209185950390992",
+            },
             "id": {
                 "applicationName": "admin",
                 "customerId": "D12345",
@@ -39,10 +45,10 @@ g_suite_workspace_trusted_domains_allowlist_tests: List[PantherRuleTest] = [
             "type": "DOMAIN_SETTINGS",
         },
     ),
-    PantherRuleTest(
-        Name="Admin Set Default Calendar SHARING_OUTSIDE_DOMAIN Setting to MANAGE_ACCESS",
-        ExpectedResult=False,
-        Log={
+    RuleTest(
+        name="Admin Set Default Calendar SHARING_OUTSIDE_DOMAIN Setting to MANAGE_ACCESS",
+        expected_result=False,
+        log={
             "actor": {"callerType": "USER", "email": "example@example.io", "profileId": "12345"},
             "id": {
                 "applicationName": "admin",
@@ -63,10 +69,10 @@ g_suite_workspace_trusted_domains_allowlist_tests: List[PantherRuleTest] = [
             "type": "CALENDAR_SETTINGS",
         },
     ),
-    PantherRuleTest(
-        Name="ListObject Type",
-        ExpectedResult=False,
-        Log={
+    RuleTest(
+        name="ListObject Type",
+        expected_result=False,
+        log={
             "actor": {"email": "user@example.io", "profileId": "118111111111111111111"},
             "id": {
                 "applicationName": "drive",
@@ -98,21 +104,25 @@ g_suite_workspace_trusted_domains_allowlist_tests: List[PantherRuleTest] = [
 ]
 
 
-class GSuiteWorkspaceTrustedDomainsAllowlist(PantherRule):
-    RuleID = "GSuite.Workspace.TrustedDomainsAllowlist-prototype"
-    DisplayName = "GSuite Workspace Trusted Domain Allowlist Modified"
-    LogTypes = [PantherLogType.GSuite_ActivityEvent]
-    Tags = ["GSuite"]
-    Severity = PantherSeverity.Medium
-    Description = "A Workspace Admin Has Modified The Trusted Domains List\n"
-    Reference = "https://support.google.com/a/answer/6160020?hl=en&sjid=864417124752637253-EU"
-    Runbook = "Verify the intent of this modification. If intent cannot be verified, then an indicator search on the actor is advised.\n"
-    SummaryAttributes = ["actor:email"]
-    Reports = {"MITRE ATT&CK": ["TA0003:T1098"]}
-    Tests = g_suite_workspace_trusted_domains_allowlist_tests
+class GSuiteWorkspaceTrustedDomainsAllowlist(Rule):
+    id = "GSuite.Workspace.TrustedDomainsAllowlist-prototype"
+    display_name = "GSuite Workspace Trusted Domain Allowlist Modified"
+    log_types = [LogType.GSuite_ActivityEvent]
+    tags = ["GSuite"]
+    default_severity = Severity.MEDIUM
+    default_description = "A Workspace Admin Has Modified The Trusted Domains List\n"
+    default_reference = (
+        "https://support.google.com/a/answer/6160020?hl=en&sjid=864417124752637253-EU"
+    )
+    default_runbook = "Verify the intent of this modification. If intent cannot be verified, then an indicator search on the actor is advised.\n"
+    summary_attributes = ["actor:email"]
+    reports = {"MITRE ATT&CK": ["TA0003:T1098"]}
+    tests = g_suite_workspace_trusted_domains_allowlist_tests
 
     def rule(self, event):
-        return event.get("type") == "DOMAIN_SETTINGS" and event.get("name", "").endswith("_TRUSTED_DOMAINS")
+        return event.get("type") == "DOMAIN_SETTINGS" and event.get("name", "").endswith(
+            "_TRUSTED_DOMAINS"
+        )
 
     def title(self, event):
         return f"GSuite Workspace Trusted Domains Modified [{event.get('name', '<NO_EVENT_NAME>')}] with [{deep_get(event, 'parameters', 'DOMAIN_NAME', default='<NO_DOMAIN_NAME>')}] performed by [{deep_get(event, 'actor', 'email', default='<NO_ACTOR_FOUND>')}]"

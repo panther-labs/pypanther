@@ -1,13 +1,11 @@
-from typing import List
-
 import pypanther.helpers.panther_event_type_helpers as event_type
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 
-okta_global_mfa_disabled_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
-        Name="MFA Disabled",
-        ExpectedResult=True,
-        Log={
+okta_global_mfa_disabled_tests: list[RuleTest] = [
+    RuleTest(
+        name="MFA Disabled",
+        expected_result=True,
+        log={
             "published": "2022-03-22 14:21:53.225",
             "eventType": "system.mfa.factor.deactivate",
             "version": "0",
@@ -31,10 +29,10 @@ okta_global_mfa_disabled_tests: List[PantherRuleTest] = [
             "p_log_type": "Okta.SystemLog",
         },
     ),
-    PantherRuleTest(
-        Name="Login Event",
-        ExpectedResult=False,
-        Log={
+    RuleTest(
+        name="Login Event",
+        expected_result=False,
+        log={
             "published": "2022-03-22 14:21:53.225",
             "eventType": "user.session.start",
             "version": "0",
@@ -61,19 +59,24 @@ okta_global_mfa_disabled_tests: List[PantherRuleTest] = [
 ]
 
 
-class OktaGlobalMFADisabled(PantherRule):
-    RuleID = "Okta.Global.MFA.Disabled-prototype"
-    DisplayName = "Okta MFA Globally Disabled"
-    LogTypes = [PantherLogType.Okta_SystemLog]
-    Tags = ["Identity & Access Management", "DataModel", "Okta", "Defense Evasion:Modify Authentication Process"]
-    Reports = {"MITRE ATT&CK": ["TA0005:T1556"]}
-    Severity = PantherSeverity.High
-    Description = "An admin user has disabled the MFA requirement for your Okta account"
-    Reference = "https://help.okta.com/oie/en-us/content/topics/identity-engine/authenticators/about-authenticators.htm"
-    Runbook = "Contact Admin to ensure this was sanctioned activity"
-    DedupPeriodMinutes = 15
-    SummaryAttributes = ["eventType", "severity", "displayMessage", "p_any_ip_addresses"]
-    Tests = okta_global_mfa_disabled_tests
+class OktaGlobalMFADisabled(Rule):
+    id = "Okta.Global.MFA.Disabled-prototype"
+    display_name = "Okta MFA Globally Disabled"
+    log_types = [LogType.Okta_SystemLog]
+    tags = [
+        "Identity & Access Management",
+        "DataModel",
+        "Okta",
+        "Defense Evasion:Modify Authentication Process",
+    ]
+    reports = {"MITRE ATT&CK": ["TA0005:T1556"]}
+    default_severity = Severity.HIGH
+    default_description = "An admin user has disabled the MFA requirement for your Okta account"
+    default_reference = "https://help.okta.com/oie/en-us/content/topics/identity-engine/authenticators/about-authenticators.htm"
+    default_runbook = "Contact Admin to ensure this was sanctioned activity"
+    dedup_period_minutes = 15
+    summary_attributes = ["eventType", "severity", "displayMessage", "p_any_ip_addresses"]
+    tests = okta_global_mfa_disabled_tests
 
     def rule(self, event):
         return event.udm("event_type") == event_type.ADMIN_MFA_DISABLED
@@ -82,5 +85,9 @@ class OktaGlobalMFADisabled(PantherRule):
         return f"Okta System-wide MFA Disabled by Admin User {event.udm('actor_user')}"
 
     def alert_context(self, event):
-        context = {"user": event.udm("actor_user"), "ip": event.udm("source_ip"), "event": event.get("eventType")}
+        context = {
+            "user": event.udm("actor_user"),
+            "ip": event.udm("source_ip"),
+            "event": event.get("eventType"),
+        }
         return context

@@ -1,14 +1,12 @@
-from typing import List
-
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import aws_rule_context, deep_get, pattern_match_list
 from pypanther.helpers.panther_default import aws_cloudtrail_success
 
-awsec2_manual_security_group_change_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
-        Name="AWS Console - Ingress SG Authorization",
-        ExpectedResult=True,
-        Log={
+awsec2_manual_security_group_change_tests: list[RuleTest] = [
+    RuleTest(
+        name="AWS Console - Ingress SG Authorization",
+        expected_result=True,
+        log={
             "awsRegion": "us-west-2",
             "eventID": "504b492f-7832-406b-a4fd-45a13e48adc4",
             "eventName": "AuthorizeSecurityGroupIngress",
@@ -36,7 +34,10 @@ awsec2_manual_security_group_change_tests: List[PantherRuleTest] = [
                     ]
                 },
             },
-            "responseElements": {"_return": True, "requestId": "91f34d65-513d-4e9f-a3de-e8d27f7ee4b2"},
+            "responseElements": {
+                "_return": True,
+                "requestId": "91f34d65-513d-4e9f-a3de-e8d27f7ee4b2",
+            },
             "sourceIPAddress": "136.25.37.134",
             "userAgent": "console.ec2.amazonaws.com",
             "userIdentity": {
@@ -46,7 +47,10 @@ awsec2_manual_security_group_change_tests: List[PantherRuleTest] = [
                 "accountid": "112233445566",
                 "accesskeyid": "ASIASWJRT64Z7ZLFLJNI",
                 "sessioncontext": {
-                    "attributes": {"mfaauthenticated": "true", "creationdate": "2021-01-24T04:55:10Z"},
+                    "attributes": {
+                        "mfaauthenticated": "true",
+                        "creationdate": "2021-01-24T04:55:10Z",
+                    },
                     "sessionissuer": {
                         "type": "Role",
                         "principalid": "ARORJ4ULULLE0EEJAAKDO",
@@ -70,10 +74,10 @@ awsec2_manual_security_group_change_tests: List[PantherRuleTest] = [
             ],
         },
     ),
-    PantherRuleTest(
-        Name="Terraform Security Group Creation",
-        ExpectedResult=False,
-        Log={
+    RuleTest(
+        name="Terraform Security Group Creation",
+        expected_result=False,
+        log={
             "eventVersion": "1.05",
             "userIdentity": {
                 "type": "AssumedRole",
@@ -90,7 +94,10 @@ awsec2_manual_security_group_change_tests: List[PantherRuleTest] = [
                         "userName": "Operator",
                     },
                     "webIdFederationData": {},
-                    "attributes": {"mfaAuthenticated": "false", "creationDate": "2020-04-30T23:50:12Z"},
+                    "attributes": {
+                        "mfaAuthenticated": "false",
+                        "creationDate": "2020-04-30T23:50:12Z",
+                    },
                 },
             },
             "eventTime": "2020-04-30T23:51:06Z",
@@ -115,10 +122,10 @@ awsec2_manual_security_group_change_tests: List[PantherRuleTest] = [
             "recipientAccountId": "112233445566",
         },
     ),
-    PantherRuleTest(
-        Name="Terraform Security Group Authorize Egress",
-        ExpectedResult=False,
-        Log={
+    RuleTest(
+        name="Terraform Security Group Authorize Egress",
+        expected_result=False,
+        log={
             "eventVersion": "1.05",
             "userIdentity": {
                 "type": "AssumedRole",
@@ -135,7 +142,10 @@ awsec2_manual_security_group_change_tests: List[PantherRuleTest] = [
                         "userName": "Operator",
                     },
                     "webIdFederationData": {},
-                    "attributes": {"mfaAuthenticated": "false", "creationDate": "2020-04-30T23:50:12Z"},
+                    "attributes": {
+                        "mfaAuthenticated": "false",
+                        "creationDate": "2020-04-30T23:50:12Z",
+                    },
                 },
             },
             "eventTime": "2020-04-30T23:51:08Z",
@@ -165,17 +175,20 @@ awsec2_manual_security_group_change_tests: List[PantherRuleTest] = [
                     ]
                 },
             },
-            "responseElements": {"requestId": "4c7a5036-09d3-46e8-b0b6-f611ff1959a6", "_return": True},
+            "responseElements": {
+                "requestId": "4c7a5036-09d3-46e8-b0b6-f611ff1959a6",
+                "_return": True,
+            },
             "requestID": "4c7a5036-09d3-46e8-b0b6-f611ff1959a6",
             "eventID": "1a593035-e072-49c4-8c72-4ff35e195330",
             "eventType": "AwsApiCall",
             "recipientAccountId": "112233445566",
         },
     ),
-    PantherRuleTest(
-        Name="Go Script Authorize Ingress",
-        ExpectedResult=True,
-        Log={
+    RuleTest(
+        name="Go Script Authorize Ingress",
+        expected_result=True,
+        log={
             "eventVersion": "1.05",
             "userIdentity": {
                 "type": "AssumedRole",
@@ -192,7 +205,10 @@ awsec2_manual_security_group_change_tests: List[PantherRuleTest] = [
                         "userName": "Operator",
                     },
                     "webIdFederationData": {},
-                    "attributes": {"mfaAuthenticated": "false", "creationDate": "2020-04-30T04:37:13Z"},
+                    "attributes": {
+                        "mfaAuthenticated": "false",
+                        "creationDate": "2020-04-30T04:37:13Z",
+                    },
                 },
             },
             "eventTime": "2020-04-30T04:40:52Z",
@@ -217,17 +233,20 @@ awsec2_manual_security_group_change_tests: List[PantherRuleTest] = [
                     ]
                 },
             },
-            "responseElements": {"requestId": "2be70b99-4937-4a76-b7d9-390b6d0eda73", "_return": True},
+            "responseElements": {
+                "requestId": "2be70b99-4937-4a76-b7d9-390b6d0eda73",
+                "_return": True,
+            },
             "requestID": "2be70b99-4937-4a76-b7d9-390b6d0eda73",
             "eventID": "42155429-7e8e-43b5-9b5e-6953f80d51d5",
             "eventType": "AwsApiCall",
             "recipientAccountId": "112233445566",
         },
     ),
-    PantherRuleTest(
-        Name="AWS Console - Ingress SG Authorization Error",
-        ExpectedResult=False,
-        Log={
+    RuleTest(
+        name="AWS Console - Ingress SG Authorization Error",
+        expected_result=False,
+        log={
             "awsRegion": "us-west-2",
             "errorCode": "UnauthorizedOperation",
             "eventID": "504b492f-7832-406b-a4fd-45a13e48adc4",
@@ -256,7 +275,10 @@ awsec2_manual_security_group_change_tests: List[PantherRuleTest] = [
                     ]
                 },
             },
-            "responseElements": {"_return": True, "requestId": "91f34d65-513d-4e9f-a3de-e8d27f7ee4b2"},
+            "responseElements": {
+                "_return": True,
+                "requestId": "91f34d65-513d-4e9f-a3de-e8d27f7ee4b2",
+            },
             "sourceIPAddress": "136.25.37.134",
             "userAgent": "console.ec2.amazonaws.com",
             "userIdentity": {
@@ -266,7 +288,10 @@ awsec2_manual_security_group_change_tests: List[PantherRuleTest] = [
                 "accountid": "112233445566",
                 "accesskeyid": "ASIASWJRT64Z7ZLFLJNI",
                 "sessioncontext": {
-                    "attributes": {"mfaauthenticated": "true", "creationdate": "2021-01-24T04:55:10Z"},
+                    "attributes": {
+                        "mfaauthenticated": "true",
+                        "creationdate": "2021-01-24T04:55:10Z",
+                    },
                     "sessionissuer": {
                         "type": "Role",
                         "principalid": "ARORJ4ULULLE0EEJAAKDO",
@@ -293,18 +318,22 @@ awsec2_manual_security_group_change_tests: List[PantherRuleTest] = [
 ]
 
 
-class AWSEC2ManualSecurityGroupChange(PantherRule):
-    RuleID = "AWS.EC2.ManualSecurityGroupChange-prototype"
-    DisplayName = "AWS EC2 Manual Security Group Change"
-    Enabled = False
-    LogTypes = [PantherLogType.AWS_CloudTrail]
-    Reports = {"MITRE ATT&CK": ["TA0005:T1562"]}
-    Tags = ["AWS", "Security Control", "Configuration Required", "Defense Evasion:Impair Defenses"]
-    Severity = PantherSeverity.Medium
-    Description = "An EC2 security group was manually updated without abiding by the organization's accepted processes. This rule expects organizations to either use the Console, CloudFormation, or Terraform, configurable in the rule's ALLOWED_USER_AGENTS.\n"
-    Runbook = "Identify the actor who changed the security group and validate it was legitimate"
-    Reference = "https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/working-with-security-groups.html"
-    Tests = awsec2_manual_security_group_change_tests
+class AWSEC2ManualSecurityGroupChange(Rule):
+    id = "AWS.EC2.ManualSecurityGroupChange-prototype"
+    display_name = "AWS EC2 Manual Security Group Change"
+    enabled = False
+    log_types = [LogType.AWS_CloudTrail]
+    reports = {"MITRE ATT&CK": ["TA0005:T1562"]}
+    tags = ["AWS", "Security Control", "Configuration Required", "Defense Evasion:Impair Defenses"]
+    default_severity = Severity.MEDIUM
+    default_description = "An EC2 security group was manually updated without abiding by the organization's accepted processes. This rule expects organizations to either use the Console, CloudFormation, or Terraform, configurable in the rule's ALLOWED_USER_AGENTS.\n"
+    default_runbook = (
+        "Identify the actor who changed the security group and validate it was legitimate"
+    )
+    default_reference = (
+        "https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/working-with-security-groups.html"
+    )
+    tests = awsec2_manual_security_group_change_tests
     PROD_ACCOUNT_IDS = {"11111111111111", "112233445566"}
     SG_CHANGE_EVENTS = {
         "CreateSecurityGroup": {
@@ -334,7 +363,12 @@ class AWSEC2ManualSecurityGroupChange(PantherRule):
             and (
                 not (
                     pattern_match_list(event.get("userAgent"), self.ALLOWED_USER_AGENTS)
-                    and any((role in deep_get(event, "userIdentity", "arn") for role in self.ALLOWED_ROLE_NAMES))
+                    and any(
+                        (
+                            role in deep_get(event, "userIdentity", "arn")
+                            for role in self.ALLOWED_ROLE_NAMES
+                        )
+                    )
                 )
             )
         )

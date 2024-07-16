@@ -1,27 +1,29 @@
-from typing import List
-
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_mongodb_helpers import mongodb_alert_context
 
-mongo_db_identity_provider_activity_tests: List[PantherRuleTest] = [
-    PantherRuleTest(Name="Random event", ExpectedResult=False, Log={"eventTypeName": "cat_jumped"}),
-    PantherRuleTest(
-        Name="FEDERATION_SETTINGS_CREATED", ExpectedResult=True, Log={"eventTypeName": "FEDERATION_SETTINGS_CREATED"}
+mongo_db_identity_provider_activity_tests: list[RuleTest] = [
+    RuleTest(name="Random event", expected_result=False, log={"eventTypeName": "cat_jumped"}),
+    RuleTest(
+        name="FEDERATION_SETTINGS_CREATED",
+        expected_result=True,
+        log={"eventTypeName": "FEDERATION_SETTINGS_CREATED"},
     ),
-    PantherRuleTest(
-        Name="IDENTITY_PROVIDER_CREATED", ExpectedResult=True, Log={"eventTypeName": "IDENTITY_PROVIDER_CREATED"}
+    RuleTest(
+        name="IDENTITY_PROVIDER_CREATED",
+        expected_result=True,
+        log={"eventTypeName": "IDENTITY_PROVIDER_CREATED"},
     ),
 ]
 
 
-class MongoDBIdentityProviderActivity(PantherRule):
-    Description = "Changes to identity provider settings are privileged activities that should be carefully audited.  Attackers may add or change IDP integrations to gain persistence to environments"
-    DisplayName = "MongoDB Identity Provider Activity"
-    Severity = PantherSeverity.Medium
-    Reference = "https://attack.mitre.org/techniques/T1556/007/"
-    LogTypes = [PantherLogType.MongoDB_OrganizationEvent]
-    RuleID = "MongoDB.Identity.Provider.Activity-prototype"
-    Tests = mongo_db_identity_provider_activity_tests
+class MongoDBIdentityProviderActivity(Rule):
+    default_description = "Changes to identity provider settings are privileged activities that should be carefully audited.  Attackers may add or change IDP integrations to gain persistence to environments"
+    display_name = "MongoDB Identity Provider Activity"
+    default_severity = Severity.MEDIUM
+    default_reference = "https://attack.mitre.org/techniques/T1556/007/"
+    log_types = [LogType.MongoDB_OrganizationEvent]
+    id = "MongoDB.Identity.Provider.Activity-prototype"
+    tests = mongo_db_identity_provider_activity_tests
 
     def rule(self, event):
         important_event_types = {

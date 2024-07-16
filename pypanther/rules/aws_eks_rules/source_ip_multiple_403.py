@@ -1,15 +1,17 @@
 from ipaddress import ip_address
-from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import eks_panther_obj_ref
 
-amazon_eks_audit_multiple403_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
-        Name="Not 403",
-        ExpectedResult=False,
-        Log={
-            "annotations": {"authorization.k8s.io/decision": "allow", "authorization.k8s.io/reason": ""},
+amazon_eks_audit_multiple403_tests: list[RuleTest] = [
+    RuleTest(
+        name="Not 403",
+        expected_result=False,
+        log={
+            "annotations": {
+                "authorization.k8s.io/decision": "allow",
+                "authorization.k8s.io/reason": "",
+            },
             "apiVersion": "audit.k8s.io/v1",
             "auditID": "35506555-dffc-4337-b2b1-c4af52b88e18",
             "kind": "Event",
@@ -43,7 +45,9 @@ amazon_eks_audit_multiple403_tests: List[PantherRuleTest] = [
             "user": {
                 "extra": {
                     "accessKeyId": ["ASIARLIVEKVNN6Y6J5UW"],
-                    "arn": ["arn:aws:sts::123412341234:assumed-role/DevAdministrator/1669660343296132000"],
+                    "arn": [
+                        "arn:aws:sts::123412341234:assumed-role/DevAdministrator/1669660343296132000"
+                    ],
                     "canonicalArn": ["arn:aws:iam::123412341234:role/DevAdministrator"],
                     "sessionName": ["1669660343296132000"],
                 },
@@ -55,10 +59,10 @@ amazon_eks_audit_multiple403_tests: List[PantherRuleTest] = [
             "verb": "get",
         },
     ),
-    PantherRuleTest(
-        Name="403 and Private IP",
-        ExpectedResult=False,
-        Log={
+    RuleTest(
+        name="403 and Private IP",
+        expected_result=False,
+        log={
             "annotations": {
                 "authorization.k8s.io/decision": "allow",
                 "authorization.k8s.io/reason": 'RBAC: allowed by ClusterRoleBinding "system:coredns" of ClusterRole "system:coredns" to ServiceAccount "coredns/kube-system"',
@@ -67,7 +71,11 @@ amazon_eks_audit_multiple403_tests: List[PantherRuleTest] = [
             "auditID": "e2626946-90e1-4d0c-829e-ad5a78572926",
             "kind": "Event",
             "level": "Metadata",
-            "objectRef": {"apiGroup": "discovery.k8s.io", "apiVersion": "v1", "resource": "endpointslices"},
+            "objectRef": {
+                "apiGroup": "discovery.k8s.io",
+                "apiVersion": "v1",
+                "resource": "endpointslices",
+            },
             "p_any_ip_addresses": ["10.0.27.115"],
             "p_any_usernames": ["system:serviceaccount:kube-system:coredns"],
             "p_event_time": "2022-11-29 22:34:06.892",
@@ -85,9 +93,15 @@ amazon_eks_audit_multiple403_tests: List[PantherRuleTest] = [
             "user": {
                 "extra": {
                     "authentication_kubernetes_io_slash_pod-name": ["coredns-57ff979f67-bl27n"],
-                    "authentication_kubernetes_io_slash_pod-uid": ["5b9488ae-5563-42aa-850b-b0d82edb3e22"],
+                    "authentication_kubernetes_io_slash_pod-uid": [
+                        "5b9488ae-5563-42aa-850b-b0d82edb3e22"
+                    ],
                 },
-                "groups": ["system:serviceaccounts", "system:serviceaccounts:kube-system", "system:authenticated"],
+                "groups": [
+                    "system:serviceaccounts",
+                    "system:serviceaccounts:kube-system",
+                    "system:authenticated",
+                ],
                 "uid": "5e4461f9-f529-4e66-9343-0b0cc9452284",
                 "username": "system:serviceaccount:kube-system:coredns",
             },
@@ -95,10 +109,10 @@ amazon_eks_audit_multiple403_tests: List[PantherRuleTest] = [
             "verb": "watch",
         },
     ),
-    PantherRuleTest(
-        Name="403 and Public IP",
-        ExpectedResult=True,
-        Log={
+    RuleTest(
+        name="403 and Public IP",
+        expected_result=True,
+        log={
             "annotations": {
                 "authorization.k8s.io/decision": "allow",
                 "authorization.k8s.io/reason": 'RBAC: allowed by ClusterRoleBinding "system:coredns" of ClusterRole "system:coredns" to ServiceAccount "coredns/kube-system"',
@@ -107,7 +121,11 @@ amazon_eks_audit_multiple403_tests: List[PantherRuleTest] = [
             "auditID": "e2626946-90e1-4d0c-829e-ad5a78572926",
             "kind": "Event",
             "level": "Metadata",
-            "objectRef": {"apiGroup": "discovery.k8s.io", "apiVersion": "v1", "resource": "endpointslices"},
+            "objectRef": {
+                "apiGroup": "discovery.k8s.io",
+                "apiVersion": "v1",
+                "resource": "endpointslices",
+            },
             "p_any_ip_addresses": ["5.5.5.5"],
             "p_any_usernames": ["system:serviceaccount:kube-system:coredns"],
             "p_event_time": "2022-11-29 22:34:06.892",
@@ -125,9 +143,15 @@ amazon_eks_audit_multiple403_tests: List[PantherRuleTest] = [
             "user": {
                 "extra": {
                     "authentication_kubernetes_io_slash_pod-name": ["coredns-57ff979f67-bl27n"],
-                    "authentication_kubernetes_io_slash_pod-uid": ["5b9488ae-5563-42aa-850b-b0d82edb3e22"],
+                    "authentication_kubernetes_io_slash_pod-uid": [
+                        "5b9488ae-5563-42aa-850b-b0d82edb3e22"
+                    ],
                 },
-                "groups": ["system:serviceaccounts", "system:serviceaccounts:kube-system", "system:authenticated"],
+                "groups": [
+                    "system:serviceaccounts",
+                    "system:serviceaccounts:kube-system",
+                    "system:authenticated",
+                ],
                 "uid": "5e4461f9-f529-4e66-9343-0b0cc9452284",
                 "username": "system:serviceaccount:kube-system:coredns",
             },
@@ -138,21 +162,19 @@ amazon_eks_audit_multiple403_tests: List[PantherRuleTest] = [
 ]
 
 
-class AmazonEKSAuditMultiple403(PantherRule):
-    RuleID = "Amazon.EKS.Audit.Multiple403-prototype"
-    DisplayName = "EKS Audit Log based single sourceIP is generating multiple 403s"
-    LogTypes = [PantherLogType.Amazon_EKS_Audit]
-    Tags = ["EKS"]
-    Reports = {"MITRE ATT&CK": ["TA0007:T1613"]}
-    Reference = "https://aws.github.io/aws-eks-best-practices/security/docs/detective/"
-    Severity = PantherSeverity.Info
-    Description = (
-        "This detection identifies if a public sourceIP is generating multiple 403s with the Kubernetes API server.\n"
-    )
-    DedupPeriodMinutes = 30
-    Threshold = 10
-    SummaryAttributes = ["user:username", "p_any_ip_addresses", "p_source_label"]
-    Tests = amazon_eks_audit_multiple403_tests
+class AmazonEKSAuditMultiple403(Rule):
+    id = "Amazon.EKS.Audit.Multiple403-prototype"
+    display_name = "EKS Audit Log based single sourceIP is generating multiple 403s"
+    log_types = [LogType.Amazon_EKS_Audit]
+    tags = ["EKS"]
+    reports = {"MITRE ATT&CK": ["TA0007:T1613"]}
+    default_reference = "https://aws.github.io/aws-eks-best-practices/security/docs/detective/"
+    default_severity = Severity.INFO
+    default_description = "This detection identifies if a public sourceIP is generating multiple 403s with the Kubernetes API server.\n"
+    dedup_period_minutes = 30
+    threshold = 10
+    summary_attributes = ["user:username", "p_any_ip_addresses", "p_source_label"]
+    tests = amazon_eks_audit_multiple403_tests
     # Alert if
     #   state is ResponseComplete
     #   sourceIPs[0] is a Public Address

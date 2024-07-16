@@ -1,14 +1,12 @@
-from typing import List
-
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_auth0_helpers import auth0_alert_context, is_auth0_config_event
 from pypanther.helpers.panther_base_helpers import deep_get
 
-auth0_post_login_action_flow_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
-        Name="Other Event",
-        ExpectedResult=False,
-        Log={
+auth0_post_login_action_flow_tests: list[RuleTest] = [
+    RuleTest(
+        name="Other Event",
+        expected_result=False,
+        log={
             "data": {
                 "client_id": "XXX",
                 "client_name": "",
@@ -48,10 +46,10 @@ auth0_post_login_action_flow_tests: List[PantherRuleTest] = [
             "p_source_label": "Org Tenant Label",
         },
     ),
-    PantherRuleTest(
-        Name="Action Added",
-        ExpectedResult=True,
-        Log={
+    RuleTest(
+        name="Action Added",
+        expected_result=True,
+        log={
             "data": {
                 "client_id": "XXX",
                 "client_name": "",
@@ -149,10 +147,10 @@ auth0_post_login_action_flow_tests: List[PantherRuleTest] = [
             "p_source_label": "Org Auth0 Tenant Label",
         },
     ),
-    PantherRuleTest(
-        Name="Action Removed",
-        ExpectedResult=True,
-        Log={
+    RuleTest(
+        name="Action Removed",
+        expected_result=True,
+        log={
             "data": {
                 "client_id": "XXX",
                 "client_name": "",
@@ -247,10 +245,10 @@ auth0_post_login_action_flow_tests: List[PantherRuleTest] = [
             "p_source_label": "Org Auth0 Tenant Label",
         },
     ),
-    PantherRuleTest(
-        Name="All Actions Removed",
-        ExpectedResult=True,
-        Log={
+    RuleTest(
+        name="All Actions Removed",
+        expected_result=True,
+        log={
             "data": {
                 "client_id": "XXX",
                 "client_name": "",
@@ -290,15 +288,19 @@ auth0_post_login_action_flow_tests: List[PantherRuleTest] = [
 ]
 
 
-class Auth0PostLoginActionFlow(PantherRule):
-    Description = "An Auth0 User updated a post login action flow for your organization's tenant."
-    DisplayName = "Auth0 Post Login Action Flow Updated"
-    Runbook = "Assess if this was done by the user for a valid business reason. Be sure to replace any steps that were removed without authorization."
-    Reference = "https://auth0.com/docs/customize/actions/flows-and-triggers/login-flow/api-object"
-    Severity = PantherSeverity.Medium
-    LogTypes = [PantherLogType.Auth0_Events]
-    RuleID = "Auth0.Post.Login.Action.Flow-prototype"
-    Tests = auth0_post_login_action_flow_tests
+class Auth0PostLoginActionFlow(Rule):
+    default_description = (
+        "An Auth0 User updated a post login action flow for your organization's tenant."
+    )
+    display_name = "Auth0 Post Login Action Flow Updated"
+    default_runbook = "Assess if this was done by the user for a valid business reason. Be sure to replace any steps that were removed without authorization."
+    default_reference = (
+        "https://auth0.com/docs/customize/actions/flows-and-triggers/login-flow/api-object"
+    )
+    default_severity = Severity.MEDIUM
+    log_types = [LogType.Auth0_Events]
+    id = "Auth0.Post.Login.Action.Flow-prototype"
+    tests = auth0_post_login_action_flow_tests
 
     def rule(self, event):
         data_description = deep_get(event, "data", "description", default="<NO_DATA_DESCRIPTION_FOUND>")

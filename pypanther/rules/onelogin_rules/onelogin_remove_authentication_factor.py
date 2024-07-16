@@ -1,12 +1,10 @@
-from typing import List
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
-
-one_login_auth_factor_removed_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
-        Name="User removed an auth factor",
-        ExpectedResult=True,
-        Log={
+one_login_auth_factor_removed_tests: list[RuleTest] = [
+    RuleTest(
+        name="User removed an auth factor",
+        expected_result=True,
+        log={
             "event_type_id": "172",
             "actor_user_id": 123456,
             "actor_user_name": "Bob Cat",
@@ -15,10 +13,10 @@ one_login_auth_factor_removed_tests: List[PantherRuleTest] = [
             "authentication_factor_description": "2FA Name",
         },
     ),
-    PantherRuleTest(
-        Name="User deactivated an otp deice",
-        ExpectedResult=True,
-        Log={
+    RuleTest(
+        name="User deactivated an otp deice",
+        expected_result=True,
+        log={
             "event_type_id": "24",
             "actor_user_id": 123456,
             "actor_user_name": "Bob Cat",
@@ -30,17 +28,23 @@ one_login_auth_factor_removed_tests: List[PantherRuleTest] = [
 ]
 
 
-class OneLoginAuthFactorRemoved(PantherRule):
-    RuleID = "OneLogin.AuthFactorRemoved-prototype"
-    DisplayName = "OneLogin Authentication Factor Removed"
-    LogTypes = [PantherLogType.OneLogin_Events]
-    Tags = ["OneLogin", "Identity & Access Management", "Defense Evasion:Modify Authentication Process"]
-    Reports = {"MITRE ATT&CK": ["TA0005:T1556"]}
-    Severity = PantherSeverity.Low
-    Description = "A user removed an authentication factor or otp device.\n"
-    Reference = "https://onelogin.service-now.com/kb_view_customer.do?sysparm_article=KB0010426"
-    Runbook = "Investigate whether this was an intentional action and if other multifactor devices exist.\n"
-    SummaryAttributes = [
+class OneLoginAuthFactorRemoved(Rule):
+    id = "OneLogin.AuthFactorRemoved-prototype"
+    display_name = "OneLogin Authentication Factor Removed"
+    log_types = [LogType.OneLogin_Events]
+    tags = [
+        "OneLogin",
+        "Identity & Access Management",
+        "Defense Evasion:Modify Authentication Process",
+    ]
+    reports = {"MITRE ATT&CK": ["TA0005:T1556"]}
+    default_severity = Severity.LOW
+    default_description = "A user removed an authentication factor or otp device.\n"
+    default_reference = (
+        "https://onelogin.service-now.com/kb_view_customer.do?sysparm_article=KB0010426"
+    )
+    default_runbook = "Investigate whether this was an intentional action and if other multifactor devices exist.\n"
+    summary_attributes = [
         "account_id",
         "event_type_id",
         "user_name",
@@ -48,7 +52,7 @@ class OneLoginAuthFactorRemoved(PantherRule):
         "authentication_factor_description",
         "otp_device_name",
     ]
-    Tests = one_login_auth_factor_removed_tests
+    tests = one_login_auth_factor_removed_tests
 
     def rule(self, event):
         # verify this is a auth factor being removed

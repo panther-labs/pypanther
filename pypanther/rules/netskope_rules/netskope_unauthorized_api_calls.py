@@ -1,13 +1,11 @@
-from typing import List
-
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_walk
 
-netskope_unauthorized_api_calls_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
-        Name="True positive",
-        ExpectedResult=True,
-        Log={
+netskope_unauthorized_api_calls_tests: list[RuleTest] = [
+    RuleTest(
+        name="True positive",
+        expected_result=True,
+        log={
             "_id": "1e589befa3da30132362f32a",
             "_insertion_epoch_timestamp": 1702318213,
             "audit_log_event": "Rest API V2 Call",
@@ -17,7 +15,12 @@ netskope_unauthorized_api_calls_tests: List[PantherRuleTest] = [
             "severity_level": 2,
             "supporting_data": {
                 "data_type": "incidents",
-                "data_values": [403, "POST", "/api/v2/incidents/uba/getuci", "trid=ccb898fgrhvdd0v0lebg"],
+                "data_values": [
+                    403,
+                    "POST",
+                    "/api/v2/incidents/uba/getuci",
+                    "trid=ccb898fgrhvdd0v0lebg",
+                ],
             },
             "timestamp": "2023-12-11 18:10:13.000000000",
             "type": "admin_audit_logs",
@@ -25,10 +28,10 @@ netskope_unauthorized_api_calls_tests: List[PantherRuleTest] = [
             "user": "service-account",
         },
     ),
-    PantherRuleTest(
-        Name="True negative",
-        ExpectedResult=False,
-        Log={
+    RuleTest(
+        name="True negative",
+        expected_result=False,
+        log={
             "_id": "1e589befa3da30132362f32a",
             "_insertion_epoch_timestamp": 1702318213,
             "audit_log_event": "Rest API V2 Call",
@@ -38,7 +41,12 @@ netskope_unauthorized_api_calls_tests: List[PantherRuleTest] = [
             "severity_level": 2,
             "supporting_data": {
                 "data_type": "incidents",
-                "data_values": [200, "POST", "/api/v2/incidents/uba/getuci", "trid=ccb898fgrhvdd0v0lebg"],
+                "data_values": [
+                    200,
+                    "POST",
+                    "/api/v2/incidents/uba/getuci",
+                    "trid=ccb898fgrhvdd0v0lebg",
+                ],
             },
             "timestamp": "2023-12-11 18:10:13.000000000",
             "type": "admin_audit_logs",
@@ -49,20 +57,20 @@ netskope_unauthorized_api_calls_tests: List[PantherRuleTest] = [
 ]
 
 
-class NetskopeUnauthorizedAPICalls(PantherRule):
-    RuleID = "Netskope.UnauthorizedAPICalls-prototype"
-    DisplayName = "Netskope Many Unauthorized API Calls"
-    LogTypes = [PantherLogType.Netskope_Audit]
-    Tags = ["Netskope", "Configuration Required", "Brute Force"]
-    Reports = {"MITRE ATT&CK": ["TA0006:T1110"]}
-    Severity = PantherSeverity.High
-    Description = "Many unauthorized API calls were observed for a user in a short period of time."
-    Threshold = 10
-    Runbook = "An account is making many unauthorized API calls.  This could indicate brute force activity, or expired service account credentials."
-    Reference = (
-        "https://docs.netskope.com/en/netskope-help/data-security/netskope-private-access/private-access-rest-apis/"
+class NetskopeUnauthorizedAPICalls(Rule):
+    id = "Netskope.UnauthorizedAPICalls-prototype"
+    display_name = "Netskope Many Unauthorized API Calls"
+    log_types = [LogType.Netskope_Audit]
+    tags = ["Netskope", "Configuration Required", "Brute Force"]
+    reports = {"MITRE ATT&CK": ["TA0006:T1110"]}
+    default_severity = Severity.HIGH
+    default_description = (
+        "Many unauthorized API calls were observed for a user in a short period of time."
     )
-    Tests = netskope_unauthorized_api_calls_tests
+    threshold = 10
+    default_runbook = "An account is making many unauthorized API calls.  This could indicate brute force activity, or expired service account credentials."
+    default_reference = "https://docs.netskope.com/en/netskope-help/data-security/netskope-private-access/private-access-rest-apis/"
+    tests = netskope_unauthorized_api_calls_tests
 
     def rule(self, event):
         data_values = deep_walk(event, "supporting_data", "data_values")

@@ -1,13 +1,11 @@
-from typing import List
-
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import crowdstrike_detection_alert_context, deep_get
 
-crowdstrike_reverse_shell_tool_executed_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
-        Name="Malicious Netcat",
-        ExpectedResult=True,
-        Log={
+crowdstrike_reverse_shell_tool_executed_tests: list[RuleTest] = [
+    RuleTest(
+        name="Malicious Netcat",
+        expected_result=True,
+        log={
             "aid": "1234abcd4567efghi8901abc",
             "aip": "11.10.9.8",
             "cid": "abc987jkl654mnop321",
@@ -61,9 +59,15 @@ crowdstrike_reverse_shell_tool_executed_tests: List[PantherRuleTest] = [
             "id": "081d64d7-17fb-40c0-8767-48ff1e2ee2dd",
             "name": "ProcessRollup2V19",
             "p_any_ip_addresses": ["11.10.9.8"],
-            "p_any_md5_hashes": ["5fd22b915c232378e567160d641cc9f2", "1234abcd4567efghi8901abc", "abc987jkl654mnop321"],
+            "p_any_md5_hashes": [
+                "5fd22b915c232378e567160d641cc9f2",
+                "1234abcd4567efghi8901abc",
+                "abc987jkl654mnop321",
+            ],
             "p_any_sha1_hashes": ["0000000000000000000000000000000000000000"],
-            "p_any_sha256_hashes": ["488e74e2026d03f21b33f470c23b3de2f466643186c2e06ae7b4883cc2e59377"],
+            "p_any_sha256_hashes": [
+                "488e74e2026d03f21b33f470c23b3de2f466643186c2e06ae7b4883cc2e59377"
+            ],
             "p_any_trace_ids": ["4295752857", "1234abcd4567efghi8901abc", "abc987jkl654mnop321"],
             "p_event_time": "2023-04-21 19:52:32.722",
             "p_log_type": "Crowdstrike.FDREvent",
@@ -76,10 +80,10 @@ crowdstrike_reverse_shell_tool_executed_tests: List[PantherRuleTest] = [
             "treeid": "4295752857",
         },
     ),
-    PantherRuleTest(
-        Name="Benign Netcat",
-        ExpectedResult=False,
-        Log={
+    RuleTest(
+        name="Benign Netcat",
+        expected_result=False,
+        log={
             "aid": "1234abcd4567efghi8901abc",
             "aip": "11.10.9.8",
             "cid": "abc987jkl654mnop321",
@@ -133,9 +137,15 @@ crowdstrike_reverse_shell_tool_executed_tests: List[PantherRuleTest] = [
             "id": "081d64d7-17fb-40c0-8767-48ff1e2ee2dd",
             "name": "ProcessRollup2V19",
             "p_any_ip_addresses": ["11.10.9.8"],
-            "p_any_md5_hashes": ["5fd22b915c232378e567160d641cc9f2", "1234abcd4567efghi8901abc", "abc987jkl654mnop321"],
+            "p_any_md5_hashes": [
+                "5fd22b915c232378e567160d641cc9f2",
+                "1234abcd4567efghi8901abc",
+                "abc987jkl654mnop321",
+            ],
             "p_any_sha1_hashes": ["0000000000000000000000000000000000000000"],
-            "p_any_sha256_hashes": ["488e74e2026d03f21b33f470c23b3de2f466643186c2e06ae7b4883cc2e59377"],
+            "p_any_sha256_hashes": [
+                "488e74e2026d03f21b33f470c23b3de2f466643186c2e06ae7b4883cc2e59377"
+            ],
             "p_any_trace_ids": ["4295752857", "1234abcd4567efghi8901abc", "abc987jkl654mnop321"],
             "p_event_time": "2023-04-21 19:52:32.722",
             "p_log_type": "Crowdstrike.FDREvent",
@@ -148,10 +158,10 @@ crowdstrike_reverse_shell_tool_executed_tests: List[PantherRuleTest] = [
             "treeid": "4295752857",
         },
     ),
-    PantherRuleTest(
-        Name="Other",
-        ExpectedResult=False,
-        Log={
+    RuleTest(
+        name="Other",
+        expected_result=False,
+        log={
             "aid": "1234abcd4567efghi8901abc",
             "aip": "11.10.9.8",
             "cid": "abc987jkl654mnop321",
@@ -205,9 +215,15 @@ crowdstrike_reverse_shell_tool_executed_tests: List[PantherRuleTest] = [
             "id": "081d64d7-17fb-40c0-8767-48ff1e2ee2dd",
             "name": "ProcessRollup2V19",
             "p_any_ip_addresses": ["11.10.9.8"],
-            "p_any_md5_hashes": ["5fd22b915c232378e567160d641cc9f2", "1234abcd4567efghi8901abc", "abc987jkl654mnop321"],
+            "p_any_md5_hashes": [
+                "5fd22b915c232378e567160d641cc9f2",
+                "1234abcd4567efghi8901abc",
+                "abc987jkl654mnop321",
+            ],
             "p_any_sha1_hashes": ["0000000000000000000000000000000000000000"],
-            "p_any_sha256_hashes": ["488e74e2026d03f21b33f470c23b3de2f466643186c2e06ae7b4883cc2e59377"],
+            "p_any_sha256_hashes": [
+                "488e74e2026d03f21b33f470c23b3de2f466643186c2e06ae7b4883cc2e59377"
+            ],
             "p_any_trace_ids": ["4295752857", "1234abcd4567efghi8901abc", "abc987jkl654mnop321"],
             "p_event_time": "2023-04-21 19:52:32.722",
             "p_log_type": "Crowdstrike.FDREvent",
@@ -223,14 +239,16 @@ crowdstrike_reverse_shell_tool_executed_tests: List[PantherRuleTest] = [
 ]
 
 
-class CrowdstrikeReverseShellToolExecuted(PantherRule):
-    Description = "Detects usage of tools commonly used to to establish reverse shells on Windows machines."
-    DisplayName = "Crowdstrike Reverse Shell Tool Executed"
-    Reference = "https://attack.mitre.org/techniques/T1059/"
-    Severity = PantherSeverity.High
-    LogTypes = [PantherLogType.Crowdstrike_FDREvent]
-    RuleID = "Crowdstrike.Reverse.Shell.Tool.Executed-prototype"
-    Tests = crowdstrike_reverse_shell_tool_executed_tests
+class CrowdstrikeReverseShellToolExecuted(Rule):
+    default_description = (
+        "Detects usage of tools commonly used to to establish reverse shells on Windows machines."
+    )
+    display_name = "Crowdstrike Reverse Shell Tool Executed"
+    default_reference = "https://attack.mitre.org/techniques/T1059/"
+    default_severity = Severity.HIGH
+    log_types = [LogType.Crowdstrike_FDREvent]
+    id = "Crowdstrike.Reverse.Shell.Tool.Executed-prototype"
+    tests = crowdstrike_reverse_shell_tool_executed_tests
     #   process name: reverse shell signature
     REMOTE_SHELL_TOOLS = {
         "nc.exe": ["cmd.exe", "powershell.exe", "command.exe"],
@@ -246,7 +264,9 @@ class CrowdstrikeReverseShellToolExecuted(PantherRule):
     def rule(self, event):
         if event.get("fdr_event_type", "") == "ProcessRollup2":
             if event.get("event_platform", "") == "Win":
-                process_name = deep_get(event, "event", "ImageFileName", default="").lower().split("\\")[-1]
+                process_name = (
+                    deep_get(event, "event", "ImageFileName", default="").lower().split("\\")[-1]
+                )
                 command_line = deep_get(event, "event", "CommandLine", default="")
                 signatures = self.REMOTE_SHELL_TOOLS.get(process_name, [])
                 for signature in signatures:
@@ -255,7 +275,11 @@ class CrowdstrikeReverseShellToolExecuted(PantherRule):
         return False
 
     def title(self, event):
-        tool = deep_get(event, "event", "ImageFileName", default="<TOOL_NOT_FOUND>").lower().split("\\")[-1]
+        tool = (
+            deep_get(event, "event", "ImageFileName", default="<TOOL_NOT_FOUND>")
+            .lower()
+            .split("\\")[-1]
+        )
         aid = event.get("aid", "<AID_NOT_FOUND>")
         return f"Crowdstrike: Reverse shell tool [{tool}] detected on aid [{aid}]"
 

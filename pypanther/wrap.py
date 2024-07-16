@@ -1,6 +1,6 @@
 from typing import Any, Callable, Type
 
-from pypanther.base import PantherRule
+from pypanther.base import Rule
 
 
 def exclude(func: Callable[[Any], bool]):
@@ -22,7 +22,7 @@ def exclude(func: Callable[[Any], bool]):
     ```
     """
 
-    def cls_wrapper(cls: Type[PantherRule]):
+    def cls_wrapper(cls: Type[Rule]):
         _rule = cls.rule
 
         def wrapper(self, event):
@@ -55,7 +55,7 @@ def include(func: Callable[[Any], bool]):
     ```
     """
 
-    def cls_wrapper(cls: Type[PantherRule]):
+    def cls_wrapper(cls: Type[Rule]):
         _rule = cls.rule
 
         def wrapper(self, event):

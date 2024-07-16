@@ -1,14 +1,12 @@
-from typing import List
-
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import aws_rule_context
 from pypanther.helpers.panther_default import aws_cloudtrail_success
 
-aws_cloud_trail_iam_anything_changed_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
-        Name="IAM Change",
-        ExpectedResult=True,
-        Log={
+aws_cloud_trail_iam_anything_changed_tests: list[RuleTest] = [
+    RuleTest(
+        name="IAM Change",
+        expected_result=True,
+        log={
             "awsRegion": "us-east-1",
             "eventID": "1111",
             "eventName": "AttachRolePolicy",
@@ -33,7 +31,10 @@ aws_cloud_trail_iam_anything_changed_tests: List[PantherRuleTest] = [
                 "invokedBy": "cloudformation.amazonaws.com",
                 "principalId": "1111:example-user",
                 "sessionContext": {
-                    "attributes": {"creationDate": "2019-01-01T00:00:00Z", "mfaAuthenticated": "true"},
+                    "attributes": {
+                        "creationDate": "2019-01-01T00:00:00Z",
+                        "mfaAuthenticated": "true",
+                    },
                     "sessionIssuer": {
                         "accountId": "123456789012",
                         "arn": "arn:aws:iam::123456789012:role/example-role",
@@ -46,10 +47,10 @@ aws_cloud_trail_iam_anything_changed_tests: List[PantherRuleTest] = [
             },
         },
     ),
-    PantherRuleTest(
-        Name="IAM Read Only Activity",
-        ExpectedResult=False,
-        Log={
+    RuleTest(
+        name="IAM Read Only Activity",
+        expected_result=False,
+        log={
             "awsRegion": "us-east-1",
             "eventID": "1111",
             "eventName": "DescribePolicy",
@@ -71,7 +72,10 @@ aws_cloud_trail_iam_anything_changed_tests: List[PantherRuleTest] = [
                 "invokedBy": "cloudformation.amazonaws.com",
                 "principalId": "1111:example-user",
                 "sessionContext": {
-                    "attributes": {"creationDate": "2019-01-01T00:00:00Z", "mfaAuthenticated": "true"},
+                    "attributes": {
+                        "creationDate": "2019-01-01T00:00:00Z",
+                        "mfaAuthenticated": "true",
+                    },
                     "sessionIssuer": {
                         "accountId": "123456789012",
                         "arn": "arn:aws:iam::123456789012:role/example-role",
@@ -84,10 +88,10 @@ aws_cloud_trail_iam_anything_changed_tests: List[PantherRuleTest] = [
             },
         },
     ),
-    PantherRuleTest(
-        Name="Error Making IAM Change",
-        ExpectedResult=False,
-        Log={
+    RuleTest(
+        name="Error Making IAM Change",
+        expected_result=False,
+        log={
             "awsRegion": "us-east-1",
             "errorCode": "NoSuchEntity",
             "eventID": "1111",
@@ -113,7 +117,10 @@ aws_cloud_trail_iam_anything_changed_tests: List[PantherRuleTest] = [
                 "invokedBy": "cloudformation.amazonaws.com",
                 "principalId": "1111:example-user",
                 "sessionContext": {
-                    "attributes": {"creationDate": "2019-01-01T00:00:00Z", "mfaAuthenticated": "true"},
+                    "attributes": {
+                        "creationDate": "2019-01-01T00:00:00Z",
+                        "mfaAuthenticated": "true",
+                    },
                     "sessionIssuer": {
                         "accountId": "123456789012",
                         "arn": "arn:aws:iam::123456789012:role/example-role",
@@ -129,18 +136,26 @@ aws_cloud_trail_iam_anything_changed_tests: List[PantherRuleTest] = [
 ]
 
 
-class AWSCloudTrailIAMAnythingChanged(PantherRule):
-    RuleID = "AWS.CloudTrail.IAMAnythingChanged-prototype"
-    DisplayName = "IAM Change"
-    LogTypes = [PantherLogType.AWS_CloudTrail]
-    Tags = ["AWS", "Identity and Access Management"]
-    Severity = PantherSeverity.Info
-    DedupPeriodMinutes = 720
-    Description = "A change occurred in the IAM configuration. This could be a resource being created, deleted, or modified. This is a high level view of changes, helfpul to indicate how dynamic a certain IAM environment is.\n"
-    Runbook = "Ensure this was an approved IAM configuration change.\n"
-    Reference = "https://docs.aws.amazon.com/IAM/latest/UserGuide/cloudtrail-integration.html"
-    SummaryAttributes = ["eventName", "userAgent", "sourceIpAddress", "recipientAccountId", "p_any_aws_arns"]
-    Tests = aws_cloud_trail_iam_anything_changed_tests
+class AWSCloudTrailIAMAnythingChanged(Rule):
+    id = "AWS.CloudTrail.IAMAnythingChanged-prototype"
+    display_name = "IAM Change"
+    log_types = [LogType.AWS_CloudTrail]
+    tags = ["AWS", "Identity and Access Management"]
+    default_severity = Severity.INFO
+    dedup_period_minutes = 720
+    default_description = "A change occurred in the IAM configuration. This could be a resource being created, deleted, or modified. This is a high level view of changes, helfpul to indicate how dynamic a certain IAM environment is.\n"
+    default_runbook = "Ensure this was an approved IAM configuration change.\n"
+    default_reference = (
+        "https://docs.aws.amazon.com/IAM/latest/UserGuide/cloudtrail-integration.html"
+    )
+    summary_attributes = [
+        "eventName",
+        "userAgent",
+        "sourceIpAddress",
+        "recipientAccountId",
+        "p_any_aws_arns",
+    ]
+    tests = aws_cloud_trail_iam_anything_changed_tests
     IAM_CHANGE_ACTIONS = [
         "Add",
         "Attach",
@@ -162,7 +177,9 @@ class AWSCloudTrailIAMAnythingChanged(PantherRule):
         # expensive and can often be skipped
         if not aws_cloudtrail_success(event) or event.get("eventSource") != "iam.amazonaws.com":
             return False
-        return any((event.get("eventName", "").startswith(action) for action in self.IAM_CHANGE_ACTIONS))
+        return any(
+            (event.get("eventName", "").startswith(action) for action in self.IAM_CHANGE_ACTIONS)
+        )
 
     def alert_context(self, event):
         return aws_rule_context(event)

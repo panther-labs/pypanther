@@ -1,12 +1,10 @@
-from typing import List
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
-
-github_repo_visibility_change_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
-        Name="GitHub - Repo Visibility Change",
-        ExpectedResult=True,
-        Log={
+github_repo_visibility_change_tests: list[RuleTest] = [
+    RuleTest(
+        name="GitHub - Repo Visibility Change",
+        expected_result=True,
+        log={
             "actor": "cat",
             "action": "repo.access",
             "created_at": 1621305118553,
@@ -15,10 +13,10 @@ github_repo_visibility_change_tests: List[PantherRuleTest] = [
             "repo": "my-org/my-repo",
         },
     ),
-    PantherRuleTest(
-        Name="GitHub - Repo disabled",
-        ExpectedResult=False,
-        Log={
+    RuleTest(
+        name="GitHub - Repo disabled",
+        expected_result=False,
+        log={
             "actor": "cat",
             "action": "repo.disable",
             "created_at": 1621305118553,
@@ -30,16 +28,16 @@ github_repo_visibility_change_tests: List[PantherRuleTest] = [
 ]
 
 
-class GithubRepoVisibilityChange(PantherRule):
-    RuleID = "Github.Repo.VisibilityChange-prototype"
-    DisplayName = "GitHub Repository Visibility Change"
-    LogTypes = [PantherLogType.GitHub_Audit]
-    Tags = ["GitHub", "Exfiltration:Exfiltration Over Web Service"]
-    Reports = {"MITRE ATT&CK": ["TA0010:T1567"]}
-    Reference = "https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/managing-repository-settings/setting-repository-visibility"
-    Severity = PantherSeverity.High
-    Description = "Detects when an organization repository visibility changes."
-    Tests = github_repo_visibility_change_tests
+class GithubRepoVisibilityChange(Rule):
+    id = "Github.Repo.VisibilityChange-prototype"
+    display_name = "GitHub Repository Visibility Change"
+    log_types = [LogType.GitHub_Audit]
+    tags = ["GitHub", "Exfiltration:Exfiltration Over Web Service"]
+    reports = {"MITRE ATT&CK": ["TA0010:T1567"]}
+    default_reference = "https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/managing-repository-settings/setting-repository-visibility"
+    default_severity = Severity.HIGH
+    default_description = "Detects when an organization repository visibility changes."
+    tests = github_repo_visibility_change_tests
 
     def rule(self, event):
         return event.get("action") == "repo.access"

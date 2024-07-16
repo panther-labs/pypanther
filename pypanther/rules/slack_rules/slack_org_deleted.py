@@ -1,13 +1,11 @@
-from typing import List
-
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import slack_alert_context
 
-slack_audit_logs_org_deleted_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
-        Name="Organization Deleted",
-        ExpectedResult=True,
-        Log={
+slack_audit_logs_org_deleted_tests: list[RuleTest] = [
+    RuleTest(
+        name="Organization Deleted",
+        expected_result=True,
+        log={
             "action": "organization_deleted",
             "actor": {
                 "type": "user",
@@ -25,10 +23,10 @@ slack_audit_logs_org_deleted_tests: List[PantherRuleTest] = [
             },
         },
     ),
-    PantherRuleTest(
-        Name="Organization Created",
-        ExpectedResult=False,
-        Log={
+    RuleTest(
+        name="Organization Created",
+        expected_result=False,
+        log={
             "action": "organization_created",
             "actor": {
                 "type": "user",
@@ -49,17 +47,17 @@ slack_audit_logs_org_deleted_tests: List[PantherRuleTest] = [
 ]
 
 
-class SlackAuditLogsOrgDeleted(PantherRule):
-    RuleID = "Slack.AuditLogs.OrgDeleted-prototype"
-    DisplayName = "Slack Organization Deleted"
-    LogTypes = [PantherLogType.Slack_AuditLogs]
-    Tags = ["Slack", "Impact", "Account Access Removal"]
-    Reports = {"MITRE ATT&CK": ["TA0040:T1531"]}
-    Severity = PantherSeverity.Medium
-    Description = "Detects when a Slack organization is deleted"
-    Reference = "https://slack.com/intl/en-gb/help/articles/204067366-Delete-a-workspace"
-    SummaryAttributes = ["p_any_ip_addresses", "p_any_emails"]
-    Tests = slack_audit_logs_org_deleted_tests
+class SlackAuditLogsOrgDeleted(Rule):
+    id = "Slack.AuditLogs.OrgDeleted-prototype"
+    display_name = "Slack Organization Deleted"
+    log_types = [LogType.Slack_AuditLogs]
+    tags = ["Slack", "Impact", "Account Access Removal"]
+    reports = {"MITRE ATT&CK": ["TA0040:T1531"]}
+    default_severity = Severity.MEDIUM
+    default_description = "Detects when a Slack organization is deleted"
+    default_reference = "https://slack.com/intl/en-gb/help/articles/204067366-Delete-a-workspace"
+    summary_attributes = ["p_any_ip_addresses", "p_any_emails"]
+    tests = slack_audit_logs_org_deleted_tests
 
     def rule(self, event):
         return event.get("action") == "organization_deleted"

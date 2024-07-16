@@ -1,13 +1,11 @@
-from typing import List
-
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 
-gcp_service_accountor_keys_created_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
-        Name="Created Service Account Key",
-        ExpectedResult=True,
-        Log={
+gcp_service_accountor_keys_created_tests: list[RuleTest] = [
+    RuleTest(
+        name="Created Service Account Key",
+        expected_result=True,
+        log={
             "insertId": "1iyadj0d5bmj",
             "logName": "projects/gcp-project1/logs/cloudaudit.googleapis.com%2Factivity",
             "p_any_ip_addresses": ["1.2.3.4"],
@@ -28,7 +26,9 @@ gcp_service_accountor_keys_created_tests: List[PantherRuleTest] = [
                         "granted": True,
                         "permission": "iam.serviceAccountKeys.create",
                         "resource": "projects/-/serviceAccounts/123456789098765434567",
-                        "resourceAttributes": {"name": "projects/-/serviceAccounts/123456789098765434567"},
+                        "resourceAttributes": {
+                            "name": "projects/-/serviceAccounts/123456789098765434567"
+                        },
                     }
                 ],
                 "methodName": "google.iam.admin.v1.CreateServiceAccountKey",
@@ -70,10 +70,10 @@ gcp_service_accountor_keys_created_tests: List[PantherRuleTest] = [
             "timestamp": "2023-03-09 15:50:36.148",
         },
     ),
-    PantherRuleTest(
-        Name="Created Service Account",
-        ExpectedResult=True,
-        Log={
+    RuleTest(
+        name="Created Service Account",
+        expected_result=True,
+        log={
             "insertId": "1iyadj0d5bcq",
             "logName": "projects/gcp-project1/logs/cloudaudit.googleapis.com%2Factivity",
             "p_any_ip_addresses": ["1.2.3.4"],
@@ -102,7 +102,10 @@ gcp_service_accountor_keys_created_tests: List[PantherRuleTest] = [
                     "@type": "type.googleapis.com/google.iam.admin.v1.CreateServiceAccountRequest",
                     "account_id": "created-service-account",
                     "name": "projects/gcp-project1",
-                    "service_account": {"description": "sa created", "display_name": "created-service-account"},
+                    "service_account": {
+                        "description": "sa created",
+                        "display_name": "created-service-account",
+                    },
                 },
                 "requestMetadata": {
                     "callerIP": "1.2.3.4",
@@ -138,10 +141,10 @@ gcp_service_accountor_keys_created_tests: List[PantherRuleTest] = [
             "timestamp": "2023-03-09 15:49:21.715",
         },
     ),
-    PantherRuleTest(
-        Name="Other",
-        ExpectedResult=False,
-        Log={
+    RuleTest(
+        name="Other",
+        expected_result=False,
+        log={
             "insertId": "46ee5sd38mw",
             "logName": "projects/gcp-project1/logs/cloudaudit.googleapis.com%2Factivity",
             "p_any_emails": ["staging@company.io"],
@@ -180,7 +183,10 @@ gcp_service_accountor_keys_created_tests: List[PantherRuleTest] = [
                     "requestAttributes": {"auth": {}, "time": "2023-04-25T19:20:57.295723118Z"},
                 },
                 "resourceName": "projects/123456789012/iap_web/compute/services/7312383563505470445",
-                "response": {"@type": "type.googleapis.com/google.iam.v1.Policy", "etag": "BwX6LgXbpsw="},
+                "response": {
+                    "@type": "type.googleapis.com/google.iam.v1.Policy",
+                    "etag": "BwX6LgXbpsw=",
+                },
                 "serviceName": "iap.googleapis.com",
             },
             "receiveTimestamp": "2023-04-25 19:20:58.16",
@@ -195,30 +201,34 @@ gcp_service_accountor_keys_created_tests: List[PantherRuleTest] = [
 ]
 
 
-class GCPServiceAccountorKeysCreated(PantherRule):
-    Description = (
-        "Detects when a service account or key is created manually by a user instead of an automated workflow."
-    )
-    DisplayName = "GCP Service Account or Keys Created "
-    Reference = "https://cloud.google.com/iam/docs/keys-create-delete"
-    Severity = PantherSeverity.Low
-    LogTypes = [PantherLogType.GCP_AuditLog]
-    RuleID = "GCP.Service.Account.or.Keys.Created-prototype"
-    Tests = gcp_service_accountor_keys_created_tests
+class GCPServiceAccountorKeysCreated(Rule):
+    default_description = "Detects when a service account or key is created manually by a user instead of an automated workflow."
+    display_name = "GCP Service Account or Keys Created "
+    default_reference = "https://cloud.google.com/iam/docs/keys-create-delete"
+    default_severity = Severity.LOW
+    log_types = [LogType.GCP_AuditLog]
+    id = "GCP.Service.Account.or.Keys.Created-prototype"
+    tests = gcp_service_accountor_keys_created_tests
 
     def rule(self, event):
         return all(
             [
                 deep_get(event, "resource", "type", default="") == "service_account",
                 "CreateServiceAccount" in deep_get(event, "protoPayload", "methodName", default=""),
-                not deep_get(event, "protoPayload", "authenticationInfo", "principalEmail", default="").endswith(
-                    ".gserviceaccount.com"
-                ),
+                not deep_get(
+                    event, "protoPayload", "authenticationInfo", "principalEmail", default=""
+                ).endswith(".gserviceaccount.com"),
             ]
         )
 
     def title(self, event):
-        actor = deep_get(event, "protoPayload", "authenticationInfo", "principalEmail", default="<ACTOR_NOT_FOUND>")
+        actor = deep_get(
+            event,
+            "protoPayload",
+            "authenticationInfo",
+            "principalEmail",
+            default="<ACTOR_NOT_FOUND>",
+        )
         target = deep_get(event, "resource", "labels", "email_id")
         project = deep_get(event, "resource", "labels", "project_id")
         resource = (

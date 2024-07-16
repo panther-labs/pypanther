@@ -1,13 +1,11 @@
-from typing import List
-
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import github_alert_context
 
-github_public_repository_created_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
-        Name="Public Repo Created",
-        ExpectedResult=True,
-        Log={
+github_public_repository_created_tests: list[RuleTest] = [
+    RuleTest(
+        name="Public Repo Created",
+        expected_result=True,
+        log={
             "_document_id": "abCD",
             "action": "repo.create",
             "actor": "example-actor",
@@ -19,10 +17,10 @@ github_public_repository_created_tests: List[PantherRuleTest] = [
             "visibility": "public",
         },
     ),
-    PantherRuleTest(
-        Name="Private Repo Created",
-        ExpectedResult=False,
-        Log={
+    RuleTest(
+        name="Private Repo Created",
+        expected_result=False,
+        log={
             "_document_id": "abCD",
             "action": "repo.create",
             "actor": "example-actor",
@@ -37,17 +35,19 @@ github_public_repository_created_tests: List[PantherRuleTest] = [
 ]
 
 
-class GithubPublicRepositoryCreated(PantherRule):
-    Description = "A public Github repository was created."
-    DisplayName = "Github Public Repository Created"
-    Runbook = "Confirm this github repository was intended to be created as 'public' versus 'private'."
-    Reference = "https://docs.github.com/en/get-started/quickstart/create-a-repo"
-    Severity = PantherSeverity.Medium
-    Tags = ["Github Repository", "Public", "Repository Created"]
-    LogTypes = [PantherLogType.GitHub_Audit]
-    RuleID = "Github.Public.Repository.Created-prototype"
-    SummaryAttributes = ["actor", "repository", "visibility"]
-    Tests = github_public_repository_created_tests
+class GithubPublicRepositoryCreated(Rule):
+    default_description = "A public Github repository was created."
+    display_name = "Github Public Repository Created"
+    default_runbook = (
+        "Confirm this github repository was intended to be created as 'public' versus 'private'."
+    )
+    default_reference = "https://docs.github.com/en/get-started/quickstart/create-a-repo"
+    default_severity = Severity.MEDIUM
+    tags = ["Github Repository", "Public", "Repository Created"]
+    log_types = [LogType.GitHub_Audit]
+    id = "Github.Public.Repository.Created-prototype"
+    summary_attributes = ["actor", "repository", "visibility"]
+    tests = github_public_repository_created_tests
     # def dedup(event):
     #  (Optional) Return a string which will be used to deduplicate similar alerts.
     # return ''

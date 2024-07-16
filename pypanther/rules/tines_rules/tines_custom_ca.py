@@ -1,14 +1,12 @@
-from typing import List
-
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 from pypanther.helpers.panther_tines_helpers import tines_alert_context
 
-tines_custom_certificate_authority_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
-        Name="Tines Login",
-        ExpectedResult=False,
-        Log={
+tines_custom_certificate_authority_tests: list[RuleTest] = [
+    RuleTest(
+        name="Tines Login",
+        expected_result=False,
+        log={
             "created_at": "2023-05-17 14:45:19",
             "id": 7888888,
             "operation_name": "Login",
@@ -20,10 +18,10 @@ tines_custom_certificate_authority_tests: List[PantherRuleTest] = [
             "user_name": "user at company dot com",
         },
     ),
-    PantherRuleTest(
-        Name="Tines Custom CA set",
-        ExpectedResult=True,
-        Log={
+    RuleTest(
+        name="Tines Custom CA set",
+        expected_result=True,
+        log={
             "created_at": "2023-05-18 22:54:11",
             "id": 7111111,
             "inputs": {},
@@ -39,16 +37,16 @@ tines_custom_certificate_authority_tests: List[PantherRuleTest] = [
 ]
 
 
-class TinesCustomCertificateAuthority(PantherRule):
-    RuleID = "Tines.Custom.CertificateAuthority-prototype"
-    DisplayName = "Tines Custom CertificateAuthority setting changed"
-    LogTypes = [PantherLogType.Tines_Audit]
-    Tags = ["Tines", "IAM - Credential Security"]
-    Reference = "https://www.tines.com/docs/admin/custom-certificate-authority"
-    Severity = PantherSeverity.High
-    Description = "Detects when Tines Custom CertificateAuthority settings are changed\n"
-    SummaryAttributes = ["user_id", "operation_name", "tenant_id", "request_ip"]
-    Tests = tines_custom_certificate_authority_tests
+class TinesCustomCertificateAuthority(Rule):
+    id = "Tines.Custom.CertificateAuthority-prototype"
+    display_name = "Tines Custom CertificateAuthority setting changed"
+    log_types = [LogType.Tines_Audit]
+    tags = ["Tines", "IAM - Credential Security"]
+    default_reference = "https://www.tines.com/docs/admin/custom-certificate-authority"
+    default_severity = Severity.HIGH
+    default_description = "Detects when Tines Custom CertificateAuthority settings are changed\n"
+    summary_attributes = ["user_id", "operation_name", "tenant_id", "request_ip"]
+    tests = tines_custom_certificate_authority_tests
     ACTIONS = ["CustomCertificateAuthoritySet"]
 
     def rule(self, event):

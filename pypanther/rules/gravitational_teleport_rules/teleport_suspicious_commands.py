@@ -1,12 +1,10 @@
-from typing import List
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
-
-teleport_suspicious_commands_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
-        Name="Echo command",
-        ExpectedResult=False,
-        Log={
+teleport_suspicious_commands_tests: list[RuleTest] = [
+    RuleTest(
+        name="Echo command",
+        expected_result=False,
+        log={
             "argv": [],
             "cgroup_id": 4294967537,
             "code": "T4000I",
@@ -26,10 +24,10 @@ teleport_suspicious_commands_tests: List[PantherRuleTest] = [
             "user": "panther",
         },
     ),
-    PantherRuleTest(
-        Name="Netcat command",
-        ExpectedResult=True,
-        Log={
+    RuleTest(
+        name="Netcat command",
+        expected_result=True,
+        log={
             "argv": ["-l", "-p", "11434"],
             "cgroup_id": 4294967537,
             "code": "T4000I",
@@ -52,18 +50,30 @@ teleport_suspicious_commands_tests: List[PantherRuleTest] = [
 ]
 
 
-class TeleportSuspiciousCommands(PantherRule):
-    RuleID = "Teleport.SuspiciousCommands-prototype"
-    DisplayName = "Teleport Suspicious Commands Executed"
-    LogTypes = [PantherLogType.Gravitational_TeleportAudit]
-    Tags = ["SSH", "Execution:Command and Scripting Interpreter"]
-    Severity = PantherSeverity.Medium
-    Description = "A user has invoked a suspicious command that could lead to a host compromise"
-    Reports = {"MITRE ATT&CK": ["TA0002:T1059"]}
-    Reference = "https://goteleport.com/docs/management/admin/"
-    Runbook = "Find related commands within the time window and determine if the command was invoked legitimately. Examine the arguments to determine how the command was used and reach out to the user to verify the intentions.\n"
-    SummaryAttributes = ["event", "code", "user", "program", "path", "return_code", "login", "server_id", "sid"]
-    Tests = teleport_suspicious_commands_tests
+class TeleportSuspiciousCommands(Rule):
+    id = "Teleport.SuspiciousCommands-prototype"
+    display_name = "Teleport Suspicious Commands Executed"
+    log_types = [LogType.Gravitational_TeleportAudit]
+    tags = ["SSH", "Execution:Command and Scripting Interpreter"]
+    default_severity = Severity.MEDIUM
+    default_description = (
+        "A user has invoked a suspicious command that could lead to a host compromise"
+    )
+    reports = {"MITRE ATT&CK": ["TA0002:T1059"]}
+    default_reference = "https://goteleport.com/docs/management/admin/"
+    default_runbook = "Find related commands within the time window and determine if the command was invoked legitimately. Examine the arguments to determine how the command was used and reach out to the user to verify the intentions.\n"
+    summary_attributes = [
+        "event",
+        "code",
+        "user",
+        "program",
+        "path",
+        "return_code",
+        "login",
+        "server_id",
+        "sid",
+    ]
+    tests = teleport_suspicious_commands_tests
     SUSPICIOUS_COMMANDS = {"nc", "wget"}
 
     def rule(self, event):

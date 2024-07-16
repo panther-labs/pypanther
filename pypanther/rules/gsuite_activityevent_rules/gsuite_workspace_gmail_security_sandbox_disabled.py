@@ -1,13 +1,11 @@
-from typing import List
-
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 
-g_suite_workspace_gmail_security_sandbox_disabled_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
-        Name="Workspace Admin Disables Security Sandbox",
-        ExpectedResult=True,
-        Log={
+g_suite_workspace_gmail_security_sandbox_disabled_tests: list[RuleTest] = [
+    RuleTest(
+        name="Workspace Admin Disables Security Sandbox",
+        expected_result=True,
+        log={
             "actor": {"callerType": "USER", "email": "example@example.io", "profileId": "12345"},
             "id": {
                 "applicationName": "admin",
@@ -28,10 +26,10 @@ g_suite_workspace_gmail_security_sandbox_disabled_tests: List[PantherRuleTest] =
             "type": "APPLICATION_SETTINGS",
         },
     ),
-    PantherRuleTest(
-        Name="Admin Set Default Calendar SHARING_OUTSIDE_DOMAIN Setting to READ_ONLY_ACCESS",
-        ExpectedResult=False,
-        Log={
+    RuleTest(
+        name="Admin Set Default Calendar SHARING_OUTSIDE_DOMAIN Setting to READ_ONLY_ACCESS",
+        expected_result=False,
+        log={
             "actor": {"callerType": "USER", "email": "example@example.io", "profileId": "12345"},
             "id": {
                 "applicationName": "admin",
@@ -52,10 +50,10 @@ g_suite_workspace_gmail_security_sandbox_disabled_tests: List[PantherRuleTest] =
             "type": "CALENDAR_SETTINGS",
         },
     ),
-    PantherRuleTest(
-        Name="ListObject Type",
-        ExpectedResult=False,
-        Log={
+    RuleTest(
+        name="ListObject Type",
+        expected_result=False,
+        log={
             "actor": {"email": "user@example.io", "profileId": "118111111111111111111"},
             "id": {
                 "applicationName": "drive",
@@ -87,18 +85,18 @@ g_suite_workspace_gmail_security_sandbox_disabled_tests: List[PantherRuleTest] =
 ]
 
 
-class GSuiteWorkspaceGmailSecuritySandboxDisabled(PantherRule):
-    RuleID = "GSuite.Workspace.GmailSecuritySandboxDisabled-prototype"
-    DisplayName = "GSuite Workspace Gmail Security Sandbox Disabled"
-    LogTypes = [PantherLogType.GSuite_ActivityEvent]
-    Tags = ["GSuite"]
-    Reports = {"MITRE ATT&CK": ["TA0001:T1566"]}
-    Severity = PantherSeverity.Medium
-    Description = "A Workspace Admin Has Disabled The Security Sandbox\n"
-    Reference = "https://support.google.com/a/answer/7676854?hl=en#zippy=%2Cfind-security-sandbox-settings%2Cabout-security-sandbox-rules-and-other-scans"
-    Runbook = "Gmail's Security Sandbox enables rule based scanning of email content.\nIf this change was not intentional, inspect the other actions taken by this actor.\n"
-    SummaryAttributes = ["actor:email"]
-    Tests = g_suite_workspace_gmail_security_sandbox_disabled_tests
+class GSuiteWorkspaceGmailSecuritySandboxDisabled(Rule):
+    id = "GSuite.Workspace.GmailSecuritySandboxDisabled-prototype"
+    display_name = "GSuite Workspace Gmail Security Sandbox Disabled"
+    log_types = [LogType.GSuite_ActivityEvent]
+    tags = ["GSuite"]
+    reports = {"MITRE ATT&CK": ["TA0001:T1566"]}
+    default_severity = Severity.MEDIUM
+    default_description = "A Workspace Admin Has Disabled The Security Sandbox\n"
+    default_reference = "https://support.google.com/a/answer/7676854?hl=en#zippy=%2Cfind-security-sandbox-settings%2Cabout-security-sandbox-rules-and-other-scans"
+    default_runbook = "Gmail's Security Sandbox enables rule based scanning of email content.\nIf this change was not intentional, inspect the other actions taken by this actor.\n"
+    summary_attributes = ["actor:email"]
+    tests = g_suite_workspace_gmail_security_sandbox_disabled_tests
 
     def rule(self, event):
         if deep_get(event, "id", "applicationName", default="").lower() != "admin":

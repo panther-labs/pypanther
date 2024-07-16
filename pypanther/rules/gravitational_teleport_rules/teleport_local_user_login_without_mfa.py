@@ -1,12 +1,10 @@
-from typing import List
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
-
-teleport_local_user_login_without_mfa_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
-        Name="User logged in with MFA",
-        ExpectedResult=False,
-        Log={
+teleport_local_user_login_without_mfa_tests: list[RuleTest] = [
+    RuleTest(
+        name="User logged in with MFA",
+        expected_result=False,
+        log={
             "addr.remote": "[2001:db8:feed:face:c0ff:eeb0:baf00:00d]:65123",
             "cluster_name": "teleport.example.com",
             "code": "T1000I",
@@ -25,10 +23,10 @@ teleport_local_user_login_without_mfa_tests: List[PantherRuleTest] = [
             "user_agent": "Examplecorp Spacedeck-web/99.9 (Hackintosh; ARM Cortex A1000)",
         },
     ),
-    PantherRuleTest(
-        Name="User logged in without MFA",
-        ExpectedResult=False,
-        Log={
+    RuleTest(
+        name="User logged in without MFA",
+        expected_result=False,
+        log={
             "addr.remote": "[2001:db8:face:face:face:face:face:face]:65123",
             "cluster_name": "teleport.example.com",
             "code": "T1000I",
@@ -45,18 +43,18 @@ teleport_local_user_login_without_mfa_tests: List[PantherRuleTest] = [
 ]
 
 
-class TeleportLocalUserLoginWithoutMFA(PantherRule):
-    RuleID = "Teleport.LocalUserLoginWithoutMFA-prototype"
-    DisplayName = "User Logged in wihout MFA"
-    LogTypes = [PantherLogType.Gravitational_TeleportAudit]
-    Tags = ["Teleport"]
-    Severity = PantherSeverity.High
-    Description = "A local User logged in without MFA"
-    Reports = {"MITRE ATT&CK": ["TA0001:T1078"]}
-    Reference = "https://goteleport.com/docs/management/admin/"
-    Runbook = "A local user logged in without Multi-Factor Authentication\n"
-    SummaryAttributes = ["event", "code", "user", "success", "mfa_device"]
-    Tests = teleport_local_user_login_without_mfa_tests
+class TeleportLocalUserLoginWithoutMFA(Rule):
+    id = "Teleport.LocalUserLoginWithoutMFA-prototype"
+    display_name = "User Logged in wihout MFA"
+    log_types = [LogType.Gravitational_TeleportAudit]
+    tags = ["Teleport"]
+    default_severity = Severity.HIGH
+    default_description = "A local User logged in without MFA"
+    reports = {"MITRE ATT&CK": ["TA0001:T1078"]}
+    default_reference = "https://goteleport.com/docs/management/admin/"
+    default_runbook = "A local user logged in without Multi-Factor Authentication\n"
+    summary_attributes = ["event", "code", "user", "success", "mfa_device"]
+    tests = teleport_local_user_login_without_mfa_tests
     SENSITIVE_LOCAL_USERS = ["breakglass"]
 
     def rule(self, event):

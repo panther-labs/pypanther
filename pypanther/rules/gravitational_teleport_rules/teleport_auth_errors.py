@@ -1,12 +1,10 @@
-from typing import List
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
-
-teleport_auth_errors_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
-        Name="SSH Errors",
-        ExpectedResult=True,
-        Log={
+teleport_auth_errors_tests: list[RuleTest] = [
+    RuleTest(
+        name="SSH Errors",
+        expected_result=True,
+        log={
             "code": "T3007W",
             "error": 'ssh: principal "jack" not in the set of valid principals for given certificate: ["ec2-user"]',
             "event": "auth",
@@ -16,10 +14,10 @@ teleport_auth_errors_tests: List[PantherRuleTest] = [
             "user": "panther",
         },
     ),
-    PantherRuleTest(
-        Name="Echo command",
-        ExpectedResult=False,
-        Log={
+    RuleTest(
+        name="Echo command",
+        expected_result=False,
+        log={
             "argv": [],
             "cgroup_id": 4294967537,
             "code": "T4000I",
@@ -42,20 +40,30 @@ teleport_auth_errors_tests: List[PantherRuleTest] = [
 ]
 
 
-class TeleportAuthErrors(PantherRule):
-    RuleID = "Teleport.AuthErrors-prototype"
-    DisplayName = "Teleport SSH Auth Errors"
-    LogTypes = [PantherLogType.Gravitational_TeleportAudit]
-    Tags = ["SSH", "Credential Access:Brute Force"]
-    Severity = PantherSeverity.Medium
-    Reports = {"MITRE ATT&CK": ["TA0006:T1110"]}
-    Description = "A high volume of SSH errors could indicate a brute-force attack"
-    Threshold = 10
-    DedupPeriodMinutes = 15
-    Reference = "https://goteleport.com/docs/management/admin/"
-    Runbook = "Check that the user making the failed requests legitimately tried logging in that many times.\n"
-    SummaryAttributes = ["event", "code", "user", "program", "path", "return_code", "login", "server_id", "sid"]
-    Tests = teleport_auth_errors_tests
+class TeleportAuthErrors(Rule):
+    id = "Teleport.AuthErrors-prototype"
+    display_name = "Teleport SSH Auth Errors"
+    log_types = [LogType.Gravitational_TeleportAudit]
+    tags = ["SSH", "Credential Access:Brute Force"]
+    default_severity = Severity.MEDIUM
+    reports = {"MITRE ATT&CK": ["TA0006:T1110"]}
+    default_description = "A high volume of SSH errors could indicate a brute-force attack"
+    threshold = 10
+    dedup_period_minutes = 15
+    default_reference = "https://goteleport.com/docs/management/admin/"
+    default_runbook = "Check that the user making the failed requests legitimately tried logging in that many times.\n"
+    summary_attributes = [
+        "event",
+        "code",
+        "user",
+        "program",
+        "path",
+        "return_code",
+        "login",
+        "server_id",
+        "sid",
+    ]
+    tests = teleport_auth_errors_tests
 
     def rule(self, event):
         return bool(event.get("error")) and event.get("event") == "auth"

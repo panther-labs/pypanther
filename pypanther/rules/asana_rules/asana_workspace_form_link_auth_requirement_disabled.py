@@ -1,13 +1,11 @@
-from typing import List
-
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 
-asana_workspace_form_link_auth_requirement_disabled_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
-        Name="form auth requirement disabled",
-        ExpectedResult=True,
-        Log={
+asana_workspace_form_link_auth_requirement_disabled_tests: list[RuleTest] = [
+    RuleTest(
+        name="form auth requirement disabled",
+        expected_result=True,
+        log={
             "actor": {
                 "actor_type": "user",
                 "email": "homer.simpson@simpsons.com",
@@ -27,10 +25,10 @@ asana_workspace_form_link_auth_requirement_disabled_tests: List[PantherRuleTest]
             "resource": {"gid": "111234", "name": "Simpsons Lab", "resource_type": "workspace"},
         },
     ),
-    PantherRuleTest(
-        Name="other",
-        ExpectedResult=False,
-        Log={
+    RuleTest(
+        name="other",
+        expected_result=False,
+        log={
             "actor": {
                 "actor_type": "user",
                 "email": "homer.simpson@panther.io",
@@ -53,14 +51,14 @@ asana_workspace_form_link_auth_requirement_disabled_tests: List[PantherRuleTest]
 ]
 
 
-class AsanaWorkspaceFormLinkAuthRequirementDisabled(PantherRule):
-    Description = "An Asana Workspace Form Link is a unique URL that allows you to create a task directly within a specific Workspace or Project in Asana, using a web form. Disabling authentication requirements may allow unauthorized users to create tasks. "
-    DisplayName = "Asana Workspace Form Link Auth Requirement Disabled"
-    Reference = "https://help.asana.com/hc/en-us/articles/14111697664923-Forms-access-permissions#:~:text=SSO%2C%20SAML%2C%20or-,no%20authentication%20method,-).%20If%20no%20authentication"
-    Severity = PantherSeverity.Low
-    LogTypes = [PantherLogType.Asana_Audit]
-    RuleID = "Asana.Workspace.Form.Link.Auth.Requirement.Disabled-prototype"
-    Tests = asana_workspace_form_link_auth_requirement_disabled_tests
+class AsanaWorkspaceFormLinkAuthRequirementDisabled(Rule):
+    default_description = "An Asana Workspace Form Link is a unique URL that allows you to create a task directly within a specific Workspace or Project in Asana, using a web form. Disabling authentication requirements may allow unauthorized users to create tasks. "
+    display_name = "Asana Workspace Form Link Auth Requirement Disabled"
+    default_reference = "https://help.asana.com/hc/en-us/articles/14111697664923-Forms-access-permissions#:~:text=SSO%2C%20SAML%2C%20or-,no%20authentication%20method,-).%20If%20no%20authentication"
+    default_severity = Severity.LOW
+    log_types = [LogType.Asana_Audit]
+    id = "Asana.Workspace.Form.Link.Auth.Requirement.Disabled-prototype"
+    tests = asana_workspace_form_link_auth_requirement_disabled_tests
 
     def rule(self, event):
         return event.get("event_type") == "workspace_form_link_authentication_required_disabled"

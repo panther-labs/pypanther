@@ -1,12 +1,10 @@
-from typing import List
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
-
-push_security_unauthorized_id_p_login_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
-        Name="Google Workspace Password Login",
-        ExpectedResult=True,
-        Log={
+push_security_unauthorized_id_p_login_tests: list[RuleTest] = [
+    RuleTest(
+        name="Google Workspace Password Login",
+        expected_result=True,
+        log={
             "id": "d240e3f2-3cd6-425f-a835-dad0ff237d09",
             "new": {
                 "accountId": "a93b45a7-fdce-489e-b76d-2bd6862a62ba",
@@ -32,10 +30,10 @@ push_security_unauthorized_id_p_login_tests: List[PantherRuleTest] = [
             "version": "1",
         },
     ),
-    PantherRuleTest(
-        Name="Microsoft 365 OIDC Login",
-        ExpectedResult=True,
-        Log={
+    RuleTest(
+        name="Microsoft 365 OIDC Login",
+        expected_result=True,
+        log={
             "id": "d240e3f2-3cd6-425f-a835-dad0ff237d09",
             "new": {
                 "accountId": "a93b45a7-fdce-489e-b76d-2bd6862a62ba",
@@ -61,10 +59,10 @@ push_security_unauthorized_id_p_login_tests: List[PantherRuleTest] = [
             "version": "1",
         },
     ),
-    PantherRuleTest(
-        Name="Password Login",
-        ExpectedResult=False,
-        Log={
+    RuleTest(
+        name="Password Login",
+        expected_result=False,
+        log={
             "id": "d240e3f2-3cd6-425f-a835-dad0ff237d09",
             "new": {
                 "accountId": "a93b45a7-fdce-489e-b76d-2bd6862a62ba",
@@ -93,16 +91,16 @@ push_security_unauthorized_id_p_login_tests: List[PantherRuleTest] = [
 ]
 
 
-class PushSecurityUnauthorizedIdPLogin(PantherRule):
-    RuleID = "Push.Security.Unauthorized.IdP.Login-prototype"
-    DisplayName = "Push Security Unauthorized IdP Login"
-    Enabled = False
-    Tags = ["Configuration Required"]
-    LogTypes = [PantherLogType.PushSecurity_Activity]
-    Severity = PantherSeverity.High
-    Description = "Login to application with unauthorized identity provider which could indicate a SAMLjacking attack."
-    Reference = "https://github.com/pushsecurity/saas-attacks/blob/main/techniques/samljacking/description.md"
-    Tests = push_security_unauthorized_id_p_login_tests
+class PushSecurityUnauthorizedIdPLogin(Rule):
+    id = "Push.Security.Unauthorized.IdP.Login-prototype"
+    display_name = "Push Security Unauthorized IdP Login"
+    enabled = False
+    tags = ["Configuration Required"]
+    log_types = [LogType.PushSecurity_Activity]
+    default_severity = Severity.HIGH
+    default_description = "Login to application with unauthorized identity provider which could indicate a SAMLjacking attack."
+    default_reference = "https://github.com/pushsecurity/saas-attacks/blob/main/techniques/samljacking/description.md"
+    tests = push_security_unauthorized_id_p_login_tests
     # Configure allowed identity provider logins to SaaS apps
     allowed_idps = {
         "GOOGLE_WORKSPACE": {"OIDC_LOGIN", "SAML_LOGIN"},

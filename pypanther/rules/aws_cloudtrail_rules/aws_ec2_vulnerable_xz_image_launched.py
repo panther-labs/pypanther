@@ -1,15 +1,13 @@
-from typing import List
-
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import aws_rule_context
 from pypanther.helpers.panther_default import aws_cloudtrail_success
 from pypanther.helpers.panther_iocs import XZ_AMIS
 
-awsec2_vulnerable_xz_image_launched_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
-        Name="Single vulnerable AMI Launched",
-        ExpectedResult=True,
-        Log={
+awsec2_vulnerable_xz_image_launched_tests: list[RuleTest] = [
+    RuleTest(
+        name="Single vulnerable AMI Launched",
+        expected_result=True,
+        log={
             "awsRegion": "us-west-2",
             "eventCategory": "Management",
             "eventID": "cd7919fe-34a2-4d26-b038-23a2556a79fb",
@@ -45,7 +43,14 @@ awsec2_vulnerable_xz_image_launched_tests: List[PantherRuleTest] = [
                 "ebsOptimized": True,
                 "instanceType": "t3a.micro",
                 "instancesSet": {
-                    "items": [{"imageId": "ami-020a359780bc6f835", "keyName": "a-key", "maxCount": 1, "minCount": 1}]
+                    "items": [
+                        {
+                            "imageId": "ami-020a359780bc6f835",
+                            "keyName": "a-key",
+                            "maxCount": 1,
+                            "minCount": 1,
+                        }
+                    ]
                 },
                 "monitoring": {"enabled": False},
                 "networkInterfaceSet": {
@@ -64,7 +69,9 @@ awsec2_vulnerable_xz_image_launched_tests: List[PantherRuleTest] = [
                     "hostnameType": "ip-name",
                 },
                 "tagSpecificationSet": {
-                    "items": [{"resourceType": "instance", "tags": [{"key": "Name", "value": "test"}]}]
+                    "items": [
+                        {"resourceType": "instance", "tags": [{"key": "Name", "value": "test"}]}
+                    ]
                 },
             },
             "responseElements": {
@@ -75,14 +82,18 @@ awsec2_vulnerable_xz_image_launched_tests: List[PantherRuleTest] = [
                             "amiLaunchIndex": 0,
                             "architecture": "x86_64",
                             "blockDeviceMapping": {},
-                            "capacityReservationSpecification": {"capacityReservationPreference": "open"},
+                            "capacityReservationSpecification": {
+                                "capacityReservationPreference": "open"
+                            },
                             "clientToken": "8cda61da-eea9-495c-b178-e7014d9bc212",
                             "cpuOptions": {"coreCount": 1, "threadsPerCore": 2},
                             "currentInstanceBootMode": "legacy-bios",
                             "ebsOptimized": True,
                             "enaSupport": True,
                             "enclaveOptions": {"enabled": False},
-                            "groupSet": {"items": [{"groupId": "sg-00000000000000000", "groupName": "ssh"}]},
+                            "groupSet": {
+                                "items": [{"groupId": "sg-00000000000000000", "groupName": "ssh"}]
+                            },
                             "hypervisor": "xen",
                             "imageId": "ami-020a359780bc6f835",
                             "instanceId": "i-00000000000000000",
@@ -113,7 +124,12 @@ awsec2_vulnerable_xz_image_launched_tests: List[PantherRuleTest] = [
                                             "status": "attaching",
                                         },
                                         "groupSet": {
-                                            "items": [{"groupId": "sg-00000000000000000", "groupName": "ssh"}]
+                                            "items": [
+                                                {
+                                                    "groupId": "sg-00000000000000000",
+                                                    "groupName": "ssh",
+                                                }
+                                            ]
                                         },
                                         "interfaceType": "interface",
                                         "ipv6AddressesSet": {},
@@ -177,7 +193,10 @@ awsec2_vulnerable_xz_image_launched_tests: List[PantherRuleTest] = [
                 "arn": "arn:aws:sts::123456789012:assumed-role/ARole/user.name",
                 "principalId": "AROAVKVYIOO7JN7TN7NSA:user.name",
                 "sessionContext": {
-                    "attributes": {"creationDate": "2024-04-02T14:45:31Z", "mfaAuthenticated": "false"},
+                    "attributes": {
+                        "creationDate": "2024-04-02T14:45:31Z",
+                        "mfaAuthenticated": "false",
+                    },
                     "sessionIssuer": {
                         "accountId": "123456789012",
                         "arn": "arn:aws:iam::123456789012:role/aws-reserved/sso.amazonaws.com/us-west-2/ARole",
@@ -190,10 +209,10 @@ awsec2_vulnerable_xz_image_launched_tests: List[PantherRuleTest] = [
             },
         },
     ),
-    PantherRuleTest(
-        Name="Multiple vulnerable AMIs Launched",
-        ExpectedResult=True,
-        Log={
+    RuleTest(
+        name="Multiple vulnerable AMIs Launched",
+        expected_result=True,
+        log={
             "awsRegion": "us-west-2",
             "eventCategory": "Management",
             "eventID": "762b9172-6148-4c76-aee4-f6fc0fd140af",
@@ -229,7 +248,14 @@ awsec2_vulnerable_xz_image_launched_tests: List[PantherRuleTest] = [
                 "ebsOptimized": True,
                 "instanceType": "t3a.nano",
                 "instancesSet": {
-                    "items": [{"imageId": "ami-092e3b17e435e5e58", "keyName": "a-key", "maxCount": 2, "minCount": 2}]
+                    "items": [
+                        {
+                            "imageId": "ami-092e3b17e435e5e58",
+                            "keyName": "a-key",
+                            "maxCount": 2,
+                            "minCount": 2,
+                        }
+                    ]
                 },
                 "monitoring": {"enabled": False},
                 "networkInterfaceSet": {
@@ -248,7 +274,9 @@ awsec2_vulnerable_xz_image_launched_tests: List[PantherRuleTest] = [
                     "hostnameType": "ip-name",
                 },
                 "tagSpecificationSet": {
-                    "items": [{"resourceType": "instance", "tags": [{"key": "Name", "value": "test"}]}]
+                    "items": [
+                        {"resourceType": "instance", "tags": [{"key": "Name", "value": "test"}]}
+                    ]
                 },
             },
             "responseElements": {
@@ -259,14 +287,18 @@ awsec2_vulnerable_xz_image_launched_tests: List[PantherRuleTest] = [
                             "amiLaunchIndex": 0,
                             "architecture": "x86_64",
                             "blockDeviceMapping": {},
-                            "capacityReservationSpecification": {"capacityReservationPreference": "open"},
+                            "capacityReservationSpecification": {
+                                "capacityReservationPreference": "open"
+                            },
                             "clientToken": "8945829d-0ef6-470d-bbfd-ea5bb2d82fdb",
                             "cpuOptions": {"coreCount": 1, "threadsPerCore": 2},
                             "currentInstanceBootMode": "legacy-bios",
                             "ebsOptimized": True,
                             "enaSupport": True,
                             "enclaveOptions": {"enabled": False},
-                            "groupSet": {"items": [{"groupId": "sg-00000000000000000", "groupName": "ssh"}]},
+                            "groupSet": {
+                                "items": [{"groupId": "sg-00000000000000000", "groupName": "ssh"}]
+                            },
                             "hypervisor": "xen",
                             "imageId": "ami-092e3b17e435e5e58",
                             "instanceId": "i-00000000000000000",
@@ -297,7 +329,12 @@ awsec2_vulnerable_xz_image_launched_tests: List[PantherRuleTest] = [
                                             "status": "attaching",
                                         },
                                         "groupSet": {
-                                            "items": [{"groupId": "sg-00000000000000000", "groupName": "ssh"}]
+                                            "items": [
+                                                {
+                                                    "groupId": "sg-00000000000000000",
+                                                    "groupName": "ssh",
+                                                }
+                                            ]
                                         },
                                         "interfaceType": "interface",
                                         "ipv6AddressesSet": {},
@@ -345,14 +382,18 @@ awsec2_vulnerable_xz_image_launched_tests: List[PantherRuleTest] = [
                             "amiLaunchIndex": 1,
                             "architecture": "x86_64",
                             "blockDeviceMapping": {},
-                            "capacityReservationSpecification": {"capacityReservationPreference": "open"},
+                            "capacityReservationSpecification": {
+                                "capacityReservationPreference": "open"
+                            },
                             "clientToken": "8945829d-0ef6-470d-bbfd-ea5bb2d82fdb",
                             "cpuOptions": {"coreCount": 1, "threadsPerCore": 2},
                             "currentInstanceBootMode": "legacy-bios",
                             "ebsOptimized": True,
                             "enaSupport": True,
                             "enclaveOptions": {"enabled": False},
-                            "groupSet": {"items": [{"groupId": "sg-00000000000000000", "groupName": "ssh"}]},
+                            "groupSet": {
+                                "items": [{"groupId": "sg-00000000000000000", "groupName": "ssh"}]
+                            },
                             "hypervisor": "xen",
                             "imageId": "ami-020a359780bc6f835",
                             "instanceId": "i-00000000000000001",
@@ -383,7 +424,12 @@ awsec2_vulnerable_xz_image_launched_tests: List[PantherRuleTest] = [
                                             "status": "attaching",
                                         },
                                         "groupSet": {
-                                            "items": [{"groupId": "sg-00000000000000000", "groupName": "ssh"}]
+                                            "items": [
+                                                {
+                                                    "groupId": "sg-00000000000000000",
+                                                    "groupName": "ssh",
+                                                }
+                                            ]
                                         },
                                         "interfaceType": "interface",
                                         "ipv6AddressesSet": {},
@@ -447,7 +493,10 @@ awsec2_vulnerable_xz_image_launched_tests: List[PantherRuleTest] = [
                 "arn": "arn:aws:sts::123456789012:assumed-role/ARole/user.name",
                 "principalId": "00000000000000000:user.name",
                 "sessionContext": {
-                    "attributes": {"creationDate": "2024-04-02T16:09:04Z", "mfaAuthenticated": "false"},
+                    "attributes": {
+                        "creationDate": "2024-04-02T16:09:04Z",
+                        "mfaAuthenticated": "false",
+                    },
                     "sessionIssuer": {
                         "accountId": "123456789012",
                         "arn": "arn:aws:iam::123456789012:role/aws-reserved/sso.amazonaws.com/us-west-2/ARole",
@@ -460,10 +509,10 @@ awsec2_vulnerable_xz_image_launched_tests: List[PantherRuleTest] = [
             },
         },
     ),
-    PantherRuleTest(
-        Name="Non-vulnerable AMI Launched",
-        ExpectedResult=False,
-        Log={
+    RuleTest(
+        name="Non-vulnerable AMI Launched",
+        expected_result=False,
+        log={
             "awsRegion": "us-west-2",
             "eventCategory": "Management",
             "eventID": "cd7919fe-34a2-4d26-b038-23a2556a79fb",
@@ -499,7 +548,14 @@ awsec2_vulnerable_xz_image_launched_tests: List[PantherRuleTest] = [
                 "ebsOptimized": True,
                 "instanceType": "t3a.micro",
                 "instancesSet": {
-                    "items": [{"imageId": "ami-08038de0f4f90a9f0", "keyName": "a-key", "maxCount": 1, "minCount": 1}]
+                    "items": [
+                        {
+                            "imageId": "ami-08038de0f4f90a9f0",
+                            "keyName": "a-key",
+                            "maxCount": 1,
+                            "minCount": 1,
+                        }
+                    ]
                 },
                 "monitoring": {"enabled": False},
                 "networkInterfaceSet": {
@@ -518,7 +574,9 @@ awsec2_vulnerable_xz_image_launched_tests: List[PantherRuleTest] = [
                     "hostnameType": "ip-name",
                 },
                 "tagSpecificationSet": {
-                    "items": [{"resourceType": "instance", "tags": [{"key": "Name", "value": "test"}]}]
+                    "items": [
+                        {"resourceType": "instance", "tags": [{"key": "Name", "value": "test"}]}
+                    ]
                 },
             },
             "responseElements": {
@@ -529,14 +587,18 @@ awsec2_vulnerable_xz_image_launched_tests: List[PantherRuleTest] = [
                             "amiLaunchIndex": 0,
                             "architecture": "x86_64",
                             "blockDeviceMapping": {},
-                            "capacityReservationSpecification": {"capacityReservationPreference": "open"},
+                            "capacityReservationSpecification": {
+                                "capacityReservationPreference": "open"
+                            },
                             "clientToken": "8cda61da-eea9-495c-b178-e7014d9bc212",
                             "cpuOptions": {"coreCount": 1, "threadsPerCore": 2},
                             "currentInstanceBootMode": "legacy-bios",
                             "ebsOptimized": True,
                             "enaSupport": True,
                             "enclaveOptions": {"enabled": False},
-                            "groupSet": {"items": [{"groupId": "sg-00000000000000000", "groupName": "ssh"}]},
+                            "groupSet": {
+                                "items": [{"groupId": "sg-00000000000000000", "groupName": "ssh"}]
+                            },
                             "hypervisor": "xen",
                             "imageId": "ami-08038de0f4f90a9f0",
                             "instanceId": "i-00000000000000000",
@@ -567,7 +629,12 @@ awsec2_vulnerable_xz_image_launched_tests: List[PantherRuleTest] = [
                                             "status": "attaching",
                                         },
                                         "groupSet": {
-                                            "items": [{"groupId": "sg-00000000000000000", "groupName": "ssh"}]
+                                            "items": [
+                                                {
+                                                    "groupId": "sg-00000000000000000",
+                                                    "groupName": "ssh",
+                                                }
+                                            ]
                                         },
                                         "interfaceType": "interface",
                                         "ipv6AddressesSet": {},
@@ -631,7 +698,10 @@ awsec2_vulnerable_xz_image_launched_tests: List[PantherRuleTest] = [
                 "arn": "arn:aws:sts::123456789012:assumed-role/ARole/user.name",
                 "principalId": "AROAVKVYIOO7JN7TN7NSA:user.name",
                 "sessionContext": {
-                    "attributes": {"creationDate": "2024-04-02T14:45:31Z", "mfaAuthenticated": "false"},
+                    "attributes": {
+                        "creationDate": "2024-04-02T14:45:31Z",
+                        "mfaAuthenticated": "false",
+                    },
                     "sessionIssuer": {
                         "accountId": "123456789012",
                         "arn": "arn:aws:iam::123456789012:role/aws-reserved/sso.amazonaws.com/us-west-2/ARole",
@@ -647,19 +717,17 @@ awsec2_vulnerable_xz_image_launched_tests: List[PantherRuleTest] = [
 ]
 
 
-class AWSEC2VulnerableXZImageLaunched(PantherRule):
-    Description = (
-        "Detecting EC2 instances launched with AMIs containing potentially vulnerable versions of XZ (CVE-2024-3094)\n"
-    )
-    DisplayName = "AWS EC2 Vulnerable XZ Image Launched"
-    Reference = "https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2024-3094"
-    Severity = PantherSeverity.Critical
-    Tags = ["AWS", "Linux", "Emerging Threats", "Supply Chain Compromise"]
-    Reports = {"MITRE ATT&CK": ["TA0001:T1195.001"]}
-    Runbook = "- Verify that the AMI is indeed vulnerable to CVE-2024-3094 (xz -V being 5.6.0 or 5.6.1) - If the AMI is vulnerable, terminate the instance and launch a new instance with a non-vulnerable AMI\n"
-    LogTypes = [PantherLogType.AWS_CloudTrail]
-    RuleID = "AWS.EC2.Vulnerable.XZ.Image.Launched-prototype"
-    Tests = awsec2_vulnerable_xz_image_launched_tests
+class AWSEC2VulnerableXZImageLaunched(Rule):
+    default_description = "Detecting EC2 instances launched with AMIs containing potentially vulnerable versions of XZ (CVE-2024-3094)\n"
+    display_name = "AWS EC2 Vulnerable XZ Image Launched"
+    default_reference = "https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2024-3094"
+    default_severity = Severity.CRITICAL
+    tags = ["AWS", "Linux", "Emerging Threats", "Supply Chain Compromise"]
+    reports = {"MITRE ATT&CK": ["TA0001:T1195.001"]}
+    default_runbook = "- Verify that the AMI is indeed vulnerable to CVE-2024-3094 (xz -V being 5.6.0 or 5.6.1) - If the AMI is vulnerable, terminate the instance and launch a new instance with a non-vulnerable AMI\n"
+    log_types = [LogType.AWS_CloudTrail]
+    id = "AWS.EC2.Vulnerable.XZ.Image.Launched-prototype"
+    tests = awsec2_vulnerable_xz_image_launched_tests
     # AMIs published by Fedora between 2024-03-26 and 2024-04-02
     # OpenSUSE and Kali do not have any recent [public] AMIs that would be affected
 
@@ -667,7 +735,12 @@ class AWSEC2VulnerableXZImageLaunched(PantherRule):
         if not aws_cloudtrail_success(event) or event.get("eventName") != "RunInstances":
             return False
         amis_launched = event.deep_walk(
-            "responseElements", "instancesSet", "items", "imageId", default="<AMI ID not found>", return_val="all"
+            "responseElements",
+            "instancesSet",
+            "items",
+            "imageId",
+            default="<AMI ID not found>",
+            return_val="all",
         )
         # convert to a list if only one item is returned
         if not isinstance(amis_launched, list):
@@ -678,7 +751,12 @@ class AWSEC2VulnerableXZImageLaunched(PantherRule):
 
     def title(self, event):
         amis_launched = event.deep_walk(
-            "responseElements", "instancesSet", "items", "imageId", default="<AMI ID not found>", return_val="all"
+            "responseElements",
+            "instancesSet",
+            "items",
+            "imageId",
+            default="<AMI ID not found>",
+            return_val="all",
         )
         instance_ids = event.deep_walk(
             "responseElements",

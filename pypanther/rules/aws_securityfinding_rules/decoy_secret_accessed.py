@@ -1,12 +1,10 @@
-from typing import List
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
-
-decoy_secret_accessed_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
-        Name="Secret-Decoy-Accessed",
-        ExpectedResult=True,
-        Log={
+decoy_secret_accessed_tests: list[RuleTest] = [
+    RuleTest(
+        name="Secret-Decoy-Accessed",
+        expected_result=True,
+        log={
             "Action": {
                 "ActionType": "AWS_API_CALL",
                 "AwsApiCallAction": {
@@ -114,10 +112,10 @@ decoy_secret_accessed_tests: List[PantherRuleTest] = [
             "p_udm": {},
         },
     ),
-    PantherRuleTest(
-        Name="Secret-Decoy-Listed-Not-Accessed",
-        ExpectedResult=False,
-        Log={
+    RuleTest(
+        name="Secret-Decoy-Listed-Not-Accessed",
+        expected_result=False,
+        log={
             "Action": {
                 "ActionType": "AWS_API_CALL",
                 "AwsApiCallAction": {
@@ -228,16 +226,16 @@ decoy_secret_accessed_tests: List[PantherRuleTest] = [
 ]
 
 
-class DecoySecretAccessed(PantherRule):
-    RuleID = "Decoy.Secret.Accessed-prototype"
-    DisplayName = "Decoy Secret Accessed"
-    Enabled = False
-    LogTypes = [PantherLogType.AWS_SecurityFindingFormat]
-    Severity = PantherSeverity.High
-    Description = "Actor accessed Secrets Manager decoy secret"
-    Reference = "https://aws.amazon.com/blogs/security/how-to-detect-suspicious-activity-in-your-aws-account-by-using-private-decoy-resources/"
-    InlineFilters = [{"All": []}]
-    Tests = decoy_secret_accessed_tests
+class DecoySecretAccessed(Rule):
+    id = "Decoy.Secret.Accessed-prototype"
+    display_name = "Decoy Secret Accessed"
+    enabled = False
+    log_types = [LogType.AWS_SecurityFindingFormat]
+    default_severity = Severity.HIGH
+    default_description = "Actor accessed Secrets Manager decoy secret"
+    default_reference = "https://aws.amazon.com/blogs/security/how-to-detect-suspicious-activity-in-your-aws-account-by-using-private-decoy-resources/"
+    inline_filters = [{"All": []}]
+    tests = decoy_secret_accessed_tests
 
     def rule(self, event):
         # List of suspicious API events

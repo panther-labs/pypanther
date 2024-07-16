@@ -1,13 +1,14 @@
-from typing import List
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther.helpers.panther_duo_helpers import (
+    deserialize_administrator_log_event_description,
+    duo_alert_context,
+)
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
-from pypanther.helpers.panther_duo_helpers import deserialize_administrator_log_event_description, duo_alert_context
-
-duo_admin_ssosaml_requirement_disabled_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
-        Name="Enforcement Disabled",
-        ExpectedResult=True,
-        Log={
+duo_admin_ssosaml_requirement_disabled_tests: list[RuleTest] = [
+    RuleTest(
+        name="Enforcement Disabled",
+        expected_result=True,
+        log={
             "action": "admin_single_sign_on_update",
             "description": '{"enforcement_status": "disabled"}',
             "isotimestamp": "2021-10-12 21:29:22",
@@ -15,10 +16,10 @@ duo_admin_ssosaml_requirement_disabled_tests: List[PantherRuleTest] = [
             "username": "Homer Simpson",
         },
     ),
-    PantherRuleTest(
-        Name="Enforcement Optional",
-        ExpectedResult=True,
-        Log={
+    RuleTest(
+        name="Enforcement Optional",
+        expected_result=True,
+        log={
             "action": "admin_single_sign_on_update",
             "description": '{"enforcement_status": "optional"}',
             "isotimestamp": "2021-10-12 21:29:22",
@@ -26,10 +27,10 @@ duo_admin_ssosaml_requirement_disabled_tests: List[PantherRuleTest] = [
             "username": "Homer Simpson",
         },
     ),
-    PantherRuleTest(
-        Name="Enforcement Required",
-        ExpectedResult=False,
-        Log={
+    RuleTest(
+        name="Enforcement Required",
+        expected_result=False,
+        log={
             "action": "admin_single_sign_on_update",
             "description": '{"enforcement_status": "required"}',
             "isotimestamp": "2021-10-12 21:29:22",
@@ -37,10 +38,10 @@ duo_admin_ssosaml_requirement_disabled_tests: List[PantherRuleTest] = [
             "username": "Homer Simpson",
         },
     ),
-    PantherRuleTest(
-        Name="SSO Update",
-        ExpectedResult=False,
-        Log={
+    RuleTest(
+        name="SSO Update",
+        expected_result=False,
+        log={
             "action": "admin_single_sign_on_update",
             "description": '{"sso_url": "https://duff.okta.com/app/duoadminpanel/abcdefghijklm/sso/saml", "slo_url": null, "idp_type": "okta", "cert": "C=US/CN=duff/L=Springfield/O=Okta/OU=SSOProvider/ST=California/emailAddress=info@okta.com - 2031-08-10 13:39:00+00:00", "require_signed_response": true, "entity_id": "http://www.okta.com/abcdefghijk"}',
             "isotimestamp": "2021-10-12 21:33:40",
@@ -51,14 +52,16 @@ duo_admin_ssosaml_requirement_disabled_tests: List[PantherRuleTest] = [
 ]
 
 
-class DuoAdminSSOSAMLRequirementDisabled(PantherRule):
-    Description = "Detects when SAML Authentication for Administrators is marked as Disabled or Optional."
-    DisplayName = "Duo Admin SSO SAML Requirement Disabled"
-    Reference = "https://duo.com/docs/sso#saml:~:text=Modify%20Authentication%20Sources"
-    Severity = PantherSeverity.Medium
-    LogTypes = [PantherLogType.Duo_Administrator]
-    RuleID = "Duo.Admin.SSO.SAML.Requirement.Disabled-prototype"
-    Tests = duo_admin_ssosaml_requirement_disabled_tests
+class DuoAdminSSOSAMLRequirementDisabled(Rule):
+    default_description = (
+        "Detects when SAML Authentication for Administrators is marked as Disabled or Optional."
+    )
+    display_name = "Duo Admin SSO SAML Requirement Disabled"
+    default_reference = "https://duo.com/docs/sso#saml:~:text=Modify%20Authentication%20Sources"
+    default_severity = Severity.MEDIUM
+    log_types = [LogType.Duo_Administrator]
+    id = "Duo.Admin.SSO.SAML.Requirement.Disabled-prototype"
+    tests = duo_admin_ssosaml_requirement_disabled_tests
 
     def rule(self, event):
         if event.get("action") == "admin_single_sign_on_update":

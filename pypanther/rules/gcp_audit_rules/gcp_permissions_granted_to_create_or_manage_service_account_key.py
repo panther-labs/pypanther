@@ -1,13 +1,11 @@
-from typing import List
-
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get, deep_walk
 
-gcp_permissions_grantedto_createor_manage_service_account_key_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
-        Name="other event",
-        ExpectedResult=False,
-        Log={
+gcp_permissions_grantedto_createor_manage_service_account_key_tests: list[RuleTest] = [
+    RuleTest(
+        name="other event",
+        expected_result=False,
+        log={
             "insertid": "abcdefghijklmn",
             "logname": "projects/gcp-project1/logs/cloudaudit.googleapis.com%2Factivity",
             "operation": {
@@ -59,10 +57,10 @@ gcp_permissions_grantedto_createor_manage_service_account_key_tests: List[Panthe
             },
         },
     ),
-    PantherRuleTest(
-        Name="service account match",
-        ExpectedResult=True,
-        Log={
+    RuleTest(
+        name="service account match",
+        expected_result=True,
+        log={
             "insertId": "hhpfjvdgakc",
             "logName": "projects/gcp-project1/logs/cloudaudit.googleapis.com%2Factivity",
             "p_any_emails": ["user@company.io"],
@@ -76,13 +74,18 @@ gcp_permissions_grantedto_createor_manage_service_account_key_tests: List[Panthe
             "p_source_label": "gcplogsource2",
             "protoPayload": {
                 "at_sign_type": "type.googleapis.com/google.cloud.audit.AuditLog",
-                "authenticationInfo": {"principalEmail": "user@company.io", "principalSubject": "user:user@company.io"},
+                "authenticationInfo": {
+                    "principalEmail": "user@company.io",
+                    "principalSubject": "user:user@company.io",
+                },
                 "authorizationInfo": [
                     {
                         "granted": True,
                         "permission": "iam.serviceAccounts.setIamPolicy",
                         "resource": "projects/-/serviceAccounts/105537103139416651075",
-                        "resourceAttributes": {"name": "projects/-/serviceAccounts/105537103139416651075"},
+                        "resourceAttributes": {
+                            "name": "projects/-/serviceAccounts/105537103139416651075"
+                        },
                     }
                 ],
                 "methodName": "google.iam.admin.v1.SetIAMPolicy",
@@ -91,11 +94,15 @@ gcp_permissions_grantedto_createor_manage_service_account_key_tests: List[Panthe
                     "policy": {
                         "bindings": [
                             {
-                                "members": ["serviceAccount:test-account3@gcp-project1.iam.gserviceaccount.com"],
+                                "members": [
+                                    "serviceAccount:test-account3@gcp-project1.iam.gserviceaccount.com"
+                                ],
                                 "role": "roles/iam.serviceAccountTokenCreator",
                             },
                             {
-                                "members": ["serviceAccount:test-account3@gcp-project1.iam.gserviceaccount.com"],
+                                "members": [
+                                    "serviceAccount:test-account3@gcp-project1.iam.gserviceaccount.com"
+                                ],
                                 "role": "roles/iam.serviceAccountUser",
                             },
                         ],
@@ -115,11 +122,15 @@ gcp_permissions_grantedto_createor_manage_service_account_key_tests: List[Panthe
                     "@type": "type.googleapis.com/google.iam.v1.Policy",
                     "bindings": [
                         {
-                            "members": ["serviceAccount:test-account3@gcp-project1.iam.gserviceaccount.com"],
+                            "members": [
+                                "serviceAccount:test-account3@gcp-project1.iam.gserviceaccount.com"
+                            ],
                             "role": "roles/iam.serviceAccountTokenCreator",
                         },
                         {
-                            "members": ["serviceAccount:test-account3@gcp-project1.iam.gserviceaccount.com"],
+                            "members": [
+                                "serviceAccount:test-account3@gcp-project1.iam.gserviceaccount.com"
+                            ],
                             "role": "roles/iam.serviceAccountUser",
                         },
                     ],
@@ -162,15 +173,18 @@ gcp_permissions_grantedto_createor_manage_service_account_key_tests: List[Panthe
 ]
 
 
-class GCPPermissionsGrantedtoCreateorManageServiceAccountKey(PantherRule):
-    Description = "Permissions granted to impersonate a service account. This includes predefined service account IAM roles granted at the parent project, folder or organization-level."
-    DisplayName = "GCP Permissions Granted to Create or Manage Service Account Key"
-    Reference = "https://cloud.google.com/iam/docs/keys-create-delete"
-    Severity = PantherSeverity.Low
-    LogTypes = [PantherLogType.GCP_AuditLog]
-    RuleID = "GCP.Permissions.Granted.to.Create.or.Manage.Service.Account.Key-prototype"
-    Tests = gcp_permissions_grantedto_createor_manage_service_account_key_tests
-    SERVICE_ACCOUNT_MANAGE_ROLES = ["roles/iam.serviceAccountTokenCreator", "roles/iam.serviceAccountUser"]
+class GCPPermissionsGrantedtoCreateorManageServiceAccountKey(Rule):
+    default_description = "Permissions granted to impersonate a service account. This includes predefined service account IAM roles granted at the parent project, folder or organization-level."
+    display_name = "GCP Permissions Granted to Create or Manage Service Account Key"
+    default_reference = "https://cloud.google.com/iam/docs/keys-create-delete"
+    default_severity = Severity.LOW
+    log_types = [LogType.GCP_AuditLog]
+    id = "GCP.Permissions.Granted.to.Create.or.Manage.Service.Account.Key-prototype"
+    tests = gcp_permissions_grantedto_createor_manage_service_account_key_tests
+    SERVICE_ACCOUNT_MANAGE_ROLES = [
+        "roles/iam.serviceAccountTokenCreator",
+        "roles/iam.serviceAccountUser",
+    ]
 
     def rule(self, event):
         if "SetIAMPolicy" in deep_get(event, "protoPayload", "methodName", default=""):
@@ -198,11 +212,20 @@ class GCPPermissionsGrantedtoCreateorManageServiceAccountKey(PantherRule):
         return False
 
     def title(self, event):
-        actor = deep_get(event, "protoPayload", "authenticationInfo", "principalEmail", default="<ACTOR_NOT_FOUND>")
+        actor = deep_get(
+            event,
+            "protoPayload",
+            "authenticationInfo",
+            "principalEmail",
+            default="<ACTOR_NOT_FOUND>",
+        )
         target = deep_get(event, "resource", "labels", "email_id") or deep_get(
             event, "resource", "labels", "project_id", default="<TARGET_NOT_FOUND>"
         )
         return f"GCP: [{actor}] granted permissions to create or manage service account keys to [{target}]"
 
     def alert_context(self, event):
-        return {"resource": deep_get(event, "resource"), "serviceData": deep_get(event, "protoPayload", "serviceData")}
+        return {
+            "resource": deep_get(event, "resource"),
+            "serviceData": deep_get(event, "protoPayload", "serviceData"),
+        }

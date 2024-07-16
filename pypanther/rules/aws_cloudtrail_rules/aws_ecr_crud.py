@@ -1,14 +1,13 @@
 from fnmatch import fnmatch
-from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import aws_rule_context, deep_get
 
-awsecrcrud_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
-        Name="Authorized account, unauthorized region",
-        ExpectedResult=True,
-        Log={
+awsecrcrud_tests: list[RuleTest] = [
+    RuleTest(
+        name="Authorized account, unauthorized region",
+        expected_result=True,
+        log={
             "eventVersion": "1.04",
             "userIdentity": {
                 "type": "IAMUser",
@@ -17,7 +16,12 @@ awsecrcrud_tests: List[PantherRuleTest] = [
                 "accountId": "123456789012",
                 "accessKeyId": "AKIAIOSFODNN7EXAMPLE",
                 "userName": "Mary_Major",
-                "sessionContext": {"attributes": {"mfaAuthenticated": "false", "creationDate": "2019-04-15T16:42:14Z"}},
+                "sessionContext": {
+                    "attributes": {
+                        "mfaAuthenticated": "false",
+                        "creationDate": "2019-04-15T16:42:14Z",
+                    }
+                },
             },
             "eventTime": "2019-04-15T16:45:00Z",
             "eventSource": "ecr.amazonaws.com",
@@ -45,16 +49,19 @@ awsecrcrud_tests: List[PantherRuleTest] = [
             "requestID": "cf044b7d-5f9d-11e9-9b2a-95983139cc57",
             "eventID": "2bfd4ee2-2178-4a82-a27d-b12939923f0f",
             "resources": [
-                {"ARN": "arn:aws:ecr:us-east-2:123456789012:repository/testrepo", "accountId": "123456789012"}
+                {
+                    "ARN": "arn:aws:ecr:us-east-2:123456789012:repository/testrepo",
+                    "accountId": "123456789012",
+                }
             ],
             "eventType": "AwsApiCall",
             "recipientAccountId": "123456789012",
         },
     ),
-    PantherRuleTest(
-        Name="Authorized account",
-        ExpectedResult=False,
-        Log={
+    RuleTest(
+        name="Authorized account",
+        expected_result=False,
+        log={
             "eventVersion": "1.04",
             "userIdentity": {
                 "type": "IAMUser",
@@ -63,7 +70,12 @@ awsecrcrud_tests: List[PantherRuleTest] = [
                 "accountId": "123456789000",
                 "accessKeyId": "AKIAIOSFODNN7EXAMPLE",
                 "userName": "Mary_Major",
-                "sessionContext": {"attributes": {"mfaAuthenticated": "false", "creationDate": "2019-04-15T16:42:14Z"}},
+                "sessionContext": {
+                    "attributes": {
+                        "mfaAuthenticated": "false",
+                        "creationDate": "2019-04-15T16:42:14Z",
+                    }
+                },
             },
             "eventTime": "2019-04-15T16:45:00Z",
             "eventSource": "ecr.amazonaws.com",
@@ -91,16 +103,19 @@ awsecrcrud_tests: List[PantherRuleTest] = [
             "requestID": "cf044b7d-5f9d-11e9-9b2a-95983139cc57",
             "eventID": "2bfd4ee2-2178-4a82-a27d-b12939923f0f",
             "resources": [
-                {"ARN": "arn:aws:ecr:us-east-2:123456789000:repository/testrepo", "accountId": "123456789000"}
+                {
+                    "ARN": "arn:aws:ecr:us-east-2:123456789000:repository/testrepo",
+                    "accountId": "123456789000",
+                }
             ],
             "eventType": "AwsApiCall",
             "recipientAccountId": "123456789000",
         },
     ),
-    PantherRuleTest(
-        Name="Unauthorized Account",
-        ExpectedResult=True,
-        Log={
+    RuleTest(
+        name="Unauthorized Account",
+        expected_result=True,
+        log={
             "eventVersion": "1.04",
             "userIdentity": {
                 "type": "IAMUser",
@@ -109,7 +124,12 @@ awsecrcrud_tests: List[PantherRuleTest] = [
                 "accountId": "123456789012",
                 "accessKeyId": "AKIAIOSFODNN7EXAMPLE",
                 "userName": "Mary_Major",
-                "sessionContext": {"attributes": {"mfaAuthenticated": "false", "creationDate": "2019-04-15T16:42:14Z"}},
+                "sessionContext": {
+                    "attributes": {
+                        "mfaAuthenticated": "false",
+                        "creationDate": "2019-04-15T16:42:14Z",
+                    }
+                },
             },
             "eventTime": "2019-04-15T16:45:00Z",
             "eventSource": "ecr.amazonaws.com",
@@ -137,7 +157,10 @@ awsecrcrud_tests: List[PantherRuleTest] = [
             "requestID": "cf044b7d-5f9d-11e9-9b2a-95983139cc57",
             "eventID": "2bfd4ee2-2178-4a82-a27d-b12939923f0f",
             "resources": [
-                {"ARN": "arn:aws:ecr:us-east-2:123456789012:repository/testrepo", "accountId": "123456789012"}
+                {
+                    "ARN": "arn:aws:ecr:us-east-2:123456789012:repository/testrepo",
+                    "accountId": "123456789012",
+                }
             ],
             "eventType": "AwsApiCall",
             "recipientAccountId": "123456789012",
@@ -146,19 +169,27 @@ awsecrcrud_tests: List[PantherRuleTest] = [
 ]
 
 
-class AWSECRCRUD(PantherRule):
-    RuleID = "AWS.ECR.CRUD-prototype"
-    DisplayName = "ECR CRUD Actions"
-    Enabled = False
-    LogTypes = [PantherLogType.AWS_CloudTrail]
-    Tags = ["AWS", "Security Control", "Configuration Required"]
-    Reports = {"CIS": ["3.12"], "MITRE ATT&CK": ["TA0005:T1525"]}
-    Severity = PantherSeverity.High
-    Description = "Unauthorized ECR Create, Read, Update, or Delete event occurred."
-    Runbook = "https://docs.aws.amazon.com/AmazonECR/latest/userguide/logging-using-cloudtrail.html"
-    Reference = "https://docs.aws.amazon.com/AmazonECR/latest/userguide/security-iam.html#security_iam_authentication"
-    SummaryAttributes = ["eventSource", "eventName", "recipientAccountId", "awsRegion", "p_any_aws_arns"]
-    Tests = awsecrcrud_tests
+class AWSECRCRUD(Rule):
+    id = "AWS.ECR.CRUD-prototype"
+    display_name = "ECR CRUD Actions"
+    enabled = False
+    log_types = [LogType.AWS_CloudTrail]
+    tags = ["AWS", "Security Control", "Configuration Required"]
+    reports = {"CIS": ["3.12"], "MITRE ATT&CK": ["TA0005:T1525"]}
+    default_severity = Severity.HIGH
+    default_description = "Unauthorized ECR Create, Read, Update, or Delete event occurred."
+    default_runbook = (
+        "https://docs.aws.amazon.com/AmazonECR/latest/userguide/logging-using-cloudtrail.html"
+    )
+    default_reference = "https://docs.aws.amazon.com/AmazonECR/latest/userguide/security-iam.html#security_iam_authentication"
+    summary_attributes = [
+        "eventSource",
+        "eventName",
+        "recipientAccountId",
+        "awsRegion",
+        "p_any_aws_arns",
+    ]
+    tests = awsecrcrud_tests
     ECR_CRUD_EVENTS = {
         "BatchCheckLayerAvailability",
         "BatchDeleteImage",
@@ -178,7 +209,10 @@ class AWSECRCRUD(PantherRule):
     ALLOWED_ROLES = ["*DeployRole"]
 
     def rule(self, event):
-        if event.get("eventSource") == "ecr.amazonaws.com" and event.get("eventName") in self.ECR_CRUD_EVENTS:
+        if (
+            event.get("eventSource") == "ecr.amazonaws.com"
+            and event.get("eventName") in self.ECR_CRUD_EVENTS
+        ):
             for role in self.ALLOWED_ROLES:
                 if fnmatch(deep_get(event, "userIdentity", "arn", default="unknown-arn"), role):
                     return False

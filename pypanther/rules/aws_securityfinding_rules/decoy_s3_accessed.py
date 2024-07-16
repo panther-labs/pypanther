@@ -1,12 +1,10 @@
-from typing import List
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
-
-decoy_s3_accessed_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
-        Name="S3-Decoy-Accessed",
-        ExpectedResult=True,
-        Log={
+decoy_s3_accessed_tests: list[RuleTest] = [
+    RuleTest(
+        name="S3-Decoy-Accessed",
+        expected_result=True,
+        log={
             "Action": {
                 "ActionType": "AWS_API_CALL",
                 "AwsApiCallAction": {
@@ -122,10 +120,10 @@ decoy_s3_accessed_tests: List[PantherRuleTest] = [
             "p_udm": {},
         },
     ),
-    PantherRuleTest(
-        Name="S3-Decoy-Not-Accessed",
-        ExpectedResult=False,
-        Log={
+    RuleTest(
+        name="S3-Decoy-Not-Accessed",
+        expected_result=False,
+        log={
             "Action": {
                 "ActionType": "AWS_API_CALL",
                 "AwsApiCallAction": {
@@ -244,16 +242,16 @@ decoy_s3_accessed_tests: List[PantherRuleTest] = [
 ]
 
 
-class DecoyS3Accessed(PantherRule):
-    RuleID = "Decoy.S3.Accessed-prototype"
-    DisplayName = "Decoy S3 Accessed"
-    Enabled = False
-    LogTypes = [PantherLogType.AWS_SecurityFindingFormat]
-    Severity = PantherSeverity.High
-    Description = "Actor accessed S3 Manager decoy secret"
-    Reference = "https://aws.amazon.com/blogs/security/how-to-detect-suspicious-activity-in-your-aws-account-by-using-private-decoy-resources/"
-    InlineFilters = [{"All": []}]
-    Tests = decoy_s3_accessed_tests
+class DecoyS3Accessed(Rule):
+    id = "Decoy.S3.Accessed-prototype"
+    display_name = "Decoy S3 Accessed"
+    enabled = False
+    log_types = [LogType.AWS_SecurityFindingFormat]
+    default_severity = Severity.HIGH
+    default_description = "Actor accessed S3 Manager decoy secret"
+    default_reference = "https://aws.amazon.com/blogs/security/how-to-detect-suspicious-activity-in-your-aws-account-by-using-private-decoy-resources/"
+    inline_filters = [{"All": []}]
+    tests = decoy_s3_accessed_tests
 
     def rule(self, event):
         # List of suspicious API events

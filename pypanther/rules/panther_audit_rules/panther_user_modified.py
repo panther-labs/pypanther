@@ -1,14 +1,12 @@
-from typing import List
-
 import pypanther.helpers.panther_event_type_helpers as event_type
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 
-panther_user_modified_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
-        Name="Admin Role Created",
-        ExpectedResult=False,
-        Log={
+panther_user_modified_tests: list[RuleTest] = [
+    RuleTest(
+        name="Admin Role Created",
+        expected_result=False,
+        log={
             "actionName": "CREATE_USER_ROLE",
             "actionParams": {
                 "input": {
@@ -19,7 +17,11 @@ panther_user_modified_tests: List[PantherRuleTest] = [
             },
             "actionResult": "SUCCEEDED",
             "actor": {
-                "attributes": {"email": "homer@springfield.gov", "emailVerified": True, "roleId": "1111111"},
+                "attributes": {
+                    "email": "homer@springfield.gov",
+                    "emailVerified": True,
+                    "roleId": "1111111",
+                },
                 "id": "11111111",
                 "name": "Homer Simpson",
                 "type": "USER",
@@ -31,10 +33,10 @@ panther_user_modified_tests: List[PantherRuleTest] = [
             "timestamp": "2022-04-27 20:47:09.425",
         },
     ),
-    PantherRuleTest(
-        Name="Users's email was changed",
-        ExpectedResult=True,
-        Log={
+    RuleTest(
+        name="Users's email was changed",
+        expected_result=True,
+        log={
             "XForwardedFor": ["1.2.3.4", "5.6.7.8"],
             "actionDescription": "Updates the information for a user",
             "actionName": "UPDATE_USER",
@@ -77,10 +79,10 @@ panther_user_modified_tests: List[PantherRuleTest] = [
             "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36",
         },
     ),
-    PantherRuleTest(
-        Name="Users's role was changed",
-        ExpectedResult=True,
-        Log={
+    RuleTest(
+        name="Users's role was changed",
+        expected_result=True,
+        log={
             "XForwardedFor": ["5.6.7.8", "1.2.3.4"],
             "actionDescription": "Updates the information for a user",
             "actionName": "UPDATE_USER",
@@ -123,10 +125,10 @@ panther_user_modified_tests: List[PantherRuleTest] = [
             "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36",
         },
     ),
-    PantherRuleTest(
-        Name="SCIM based user provision - INFO level",
-        ExpectedResult=True,
-        Log={
+    RuleTest(
+        name="SCIM based user provision - INFO level",
+        expected_result=True,
+        log={
             "actionDescription": "User updated via SCIM",
             "actionName": "UPDATE_USER",
             "actionParams": {
@@ -151,10 +153,10 @@ panther_user_modified_tests: List[PantherRuleTest] = [
             "timestamp": "2023-06-23 17:49:37.553847671",
         },
     ),
-    PantherRuleTest(
-        Name="User modified by System account",
-        ExpectedResult=True,
-        Log={
+    RuleTest(
+        name="User modified by System account",
+        expected_result=True,
+        log={
             "actionDescription": "User updated automatically by SAML.",
             "actionName": "UPDATE_USER",
             "actionParams": {
@@ -168,7 +170,11 @@ panther_user_modified_tests: List[PantherRuleTest] = [
                 }
             },
             "actionResult": "SUCCEEDED",
-            "actor": {"id": "00000000-0000-4000-8000-000000000000", "name": "System", "type": "USER"},
+            "actor": {
+                "id": "00000000-0000-4000-8000-000000000000",
+                "name": "System",
+                "type": "USER",
+            },
             "p_log_type": "Panther.Audit",
             "pantherVersion": "1.86.15",
             "sourceIP": "",
@@ -178,20 +184,20 @@ panther_user_modified_tests: List[PantherRuleTest] = [
 ]
 
 
-class PantherUserModified(PantherRule):
-    RuleID = "Panther.User.Modified-prototype"
-    DisplayName = "A User's Panther Account was Modified"
-    LogTypes = [PantherLogType.Panther_Audit]
-    Severity = PantherSeverity.High
-    Tags = ["DataModel", "Persistence:Account Manipulation"]
-    Reports = {"MITRE ATT&CK": ["TA0003:T1098"]}
-    Description = (
-        "A Panther user's role has been modified. This could mean password, email, or role has changed for the user."
+class PantherUserModified(Rule):
+    id = "Panther.User.Modified-prototype"
+    display_name = "A User's Panther Account was Modified"
+    log_types = [LogType.Panther_Audit]
+    default_severity = Severity.HIGH
+    tags = ["DataModel", "Persistence:Account Manipulation"]
+    reports = {"MITRE ATT&CK": ["TA0003:T1098"]}
+    default_description = "A Panther user's role has been modified. This could mean password, email, or role has changed for the user."
+    default_runbook = "Validate that this user modification was intentional."
+    default_reference = (
+        "https://docs.panther.com/panther-developer-workflows/api/operations/user-management"
     )
-    Runbook = "Validate that this user modification was intentional."
-    Reference = "https://docs.panther.com/panther-developer-workflows/api/operations/user-management"
-    SummaryAttributes = ["p_any_ip_addresses"]
-    Tests = panther_user_modified_tests
+    summary_attributes = ["p_any_ip_addresses"]
+    tests = panther_user_modified_tests
     PANTHER_USER_ACTIONS = [event_type.USER_ACCOUNT_MODIFIED]
 
     def rule(self, event):
@@ -210,8 +216,14 @@ class PantherUserModified(PantherRule):
     def alert_context(self, event):
         change_target = deep_get(event, "actionParams", "dynamic", "input", "email")
         if change_target is None:
-            change_target = deep_get(event, "actionParams", "input", "email", default="<UNKNOWN_USER>")
-        return {"user": event.udm("actor_user"), "change_target": change_target, "ip": event.udm("source_ip")}
+            change_target = deep_get(
+                event, "actionParams", "input", "email", default="<UNKNOWN_USER>"
+            )
+        return {
+            "user": event.udm("actor_user"),
+            "change_target": change_target,
+            "ip": event.udm("source_ip"),
+        }
 
     def severity(self, event):
         user = event.udm("actor_user")

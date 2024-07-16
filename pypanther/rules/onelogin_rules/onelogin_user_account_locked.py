@@ -1,12 +1,10 @@
-from typing import List
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
-
-one_login_user_account_locked_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
-        Name="User account locked via api - first method.",
-        ExpectedResult=True,
-        Log={
+one_login_user_account_locked_tests: list[RuleTest] = [
+    RuleTest(
+        name="User account locked via api - first method.",
+        expected_result=True,
+        log={
             "event_type_id": "531",
             "actor_user_id": 123456,
             "actor_user_name": "Bob Cat",
@@ -14,10 +12,10 @@ one_login_user_account_locked_tests: List[PantherRuleTest] = [
             "user_name": "Bob Cat",
         },
     ),
-    PantherRuleTest(
-        Name="User account locked via api - second method.",
-        ExpectedResult=True,
-        Log={
+    RuleTest(
+        name="User account locked via api - second method.",
+        expected_result=True,
+        log={
             "event_type_id": "553",
             "actor_user_id": 654321,
             "actor_user_name": "Mountain Lion",
@@ -25,10 +23,10 @@ one_login_user_account_locked_tests: List[PantherRuleTest] = [
             "user_name": "Bob Cat",
         },
     ),
-    PantherRuleTest(
-        Name="User account suspended via api.",
-        ExpectedResult=True,
-        Log={
+    RuleTest(
+        name="User account suspended via api.",
+        expected_result=True,
+        log={
             "event_type_id": "551",
             "actor_user_id": 654321,
             "actor_user_name": "Mountain Lion",
@@ -36,10 +34,10 @@ one_login_user_account_locked_tests: List[PantherRuleTest] = [
             "user_name": "Bob Cat",
         },
     ),
-    PantherRuleTest(
-        Name="Normal User Activated Event",
-        ExpectedResult=False,
-        Log={
+    RuleTest(
+        name="Normal User Activated Event",
+        expected_result=False,
+        log={
             "event_type_id": "11",
             "actor_user_id": 654321,
             "actor_user_name": "Mountain Lion",
@@ -50,18 +48,20 @@ one_login_user_account_locked_tests: List[PantherRuleTest] = [
 ]
 
 
-class OneLoginUserAccountLocked(PantherRule):
-    RuleID = "OneLogin.UserAccountLocked-prototype"
-    DisplayName = "OneLogin User Locked"
-    LogTypes = [PantherLogType.OneLogin_Events]
-    Tags = ["OneLogin", "Credential Access:Brute Force"]
-    Reports = {"MITRE ATT&CK": ["TA0006:T1110"]}
-    Severity = PantherSeverity.Low
-    Description = "User locked or suspended from their account.\n"
-    Reference = "https://onelogin.service-now.com/kb_view_customer.do?sysparm_article=KB0010420"
-    Runbook = "Investigate whether this was caused by expected action.\n"
-    SummaryAttributes = ["account_id", "event_type_id", "user_name", "user_id"]
-    Tests = one_login_user_account_locked_tests
+class OneLoginUserAccountLocked(Rule):
+    id = "OneLogin.UserAccountLocked-prototype"
+    display_name = "OneLogin User Locked"
+    log_types = [LogType.OneLogin_Events]
+    tags = ["OneLogin", "Credential Access:Brute Force"]
+    reports = {"MITRE ATT&CK": ["TA0006:T1110"]}
+    default_severity = Severity.LOW
+    default_description = "User locked or suspended from their account.\n"
+    default_reference = (
+        "https://onelogin.service-now.com/kb_view_customer.do?sysparm_article=KB0010420"
+    )
+    default_runbook = "Investigate whether this was caused by expected action.\n"
+    summary_attributes = ["account_id", "event_type_id", "user_name", "user_id"]
+    tests = one_login_user_account_locked_tests
 
     def rule(self, event):
         # check for a user locked event

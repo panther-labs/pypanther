@@ -1,14 +1,12 @@
-from typing import List
-
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 from pypanther.helpers.panther_snyk_helpers import snyk_alert_context
 
-snyk_system_external_access_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
-        Name="Snyk External Access Allowed By External Parties - Enabled",
-        ExpectedResult=True,
-        Log={
+snyk_system_external_access_tests: list[RuleTest] = [
+    RuleTest(
+        name="Snyk External Access Allowed By External Parties - Enabled",
+        expected_result=True,
+        log={
             "groupId": "8fffffff-1555-4444-b000-b55555555555",
             "event": "group.request_access_settings.edit",
             "content": {"after": {"isEnabled": True}, "before": {}},
@@ -16,10 +14,10 @@ snyk_system_external_access_tests: List[PantherRuleTest] = [
             "userId": "05555555-3333-4ddd-8ccc-755555555555",
         },
     ),
-    PantherRuleTest(
-        Name="Snyk External Access Allowed By External Parties - Disabled",
-        ExpectedResult=True,
-        Log={
+    RuleTest(
+        name="Snyk External Access Allowed By External Parties - Disabled",
+        expected_result=True,
+        log={
             "groupId": "8fffffff-1555-4444-b000-b55555555555",
             "event": "group.request_access_settings.edit",
             "content": {"after": {}, "before": {"isEnabled": True}},
@@ -27,10 +25,10 @@ snyk_system_external_access_tests: List[PantherRuleTest] = [
             "userId": "05555555-3333-4ddd-8ccc-755555555555",
         },
     ),
-    PantherRuleTest(
-        Name="Snyk Group SSO Membership sync",
-        ExpectedResult=False,
-        Log={
+    RuleTest(
+        name="Snyk Group SSO Membership sync",
+        expected_result=False,
+        log={
             "content": {
                 "addAsOrgAdmin": [],
                 "addAsOrgCollaborator": ["group.name"],
@@ -47,17 +45,21 @@ snyk_system_external_access_tests: List[PantherRuleTest] = [
 ]
 
 
-class SnykSystemExternalAccess(PantherRule):
-    RuleID = "Snyk.System.ExternalAccess-prototype"
-    DisplayName = "Snyk System External Access Settings Changed"
-    LogTypes = [PantherLogType.Snyk_GroupAudit, PantherLogType.Snyk_OrgAudit]
-    Tags = ["Snyk"]
-    Severity = PantherSeverity.High
-    Description = "Detects when Snyk Settings that control access for external parties have been changed.\n"
-    Runbook = "This action in the Snyk Audit logs indicate that the setting for allowing external parties to request access to your Snyk installation have changed.\n"
-    Reference = "https://docs.snyk.io/snyk-admin/manage-users-and-permissions/organization-access-requests"
-    SummaryAttributes = ["event"]
-    Tests = snyk_system_external_access_tests
+class SnykSystemExternalAccess(Rule):
+    id = "Snyk.System.ExternalAccess-prototype"
+    display_name = "Snyk System External Access Settings Changed"
+    log_types = [LogType.Snyk_GroupAudit, LogType.Snyk_OrgAudit]
+    tags = ["Snyk"]
+    default_severity = Severity.HIGH
+    default_description = (
+        "Detects when Snyk Settings that control access for external parties have been changed.\n"
+    )
+    default_runbook = "This action in the Snyk Audit logs indicate that the setting for allowing external parties to request access to your Snyk installation have changed.\n"
+    default_reference = (
+        "https://docs.snyk.io/snyk-admin/manage-users-and-permissions/organization-access-requests"
+    )
+    summary_attributes = ["event"]
+    tests = snyk_system_external_access_tests
     ACTIONS = ["group.request_access_settings.edit", "org.request_access_settings.edit"]
 
     def rule(self, event):

@@ -1,13 +1,11 @@
-from typing import List
-
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 
-aws_modify_cloud_compute_infrastructure_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
-        Name="Terminate Instance from AssumedRole",
-        ExpectedResult=True,
-        Log={
+aws_modify_cloud_compute_infrastructure_tests: list[RuleTest] = [
+    RuleTest(
+        name="Terminate Instance from AssumedRole",
+        expected_result=True,
+        log={
             "awsRegion": "us-west-2",
             "eventID": "59e8d6b8-de7b-43ca-961f-0c6f4531fcf0",
             "eventName": "TerminateInstances",
@@ -53,10 +51,10 @@ aws_modify_cloud_compute_infrastructure_tests: List[PantherRuleTest] = [
             },
         },
     ),
-    PantherRuleTest(
-        Name="Terminate Instance from autoscaling",
-        ExpectedResult=False,
-        Log={
+    RuleTest(
+        name="Terminate Instance from autoscaling",
+        expected_result=False,
+        log={
             "awsRegion": "us-west-2",
             "eventID": "59e8d6b8-de7b-43ca-961f-0c6f4531fcf0",
             "eventName": "TerminateInstances",
@@ -116,10 +114,10 @@ aws_modify_cloud_compute_infrastructure_tests: List[PantherRuleTest] = [
             },
         },
     ),
-    PantherRuleTest(
-        Name="Get Partition",
-        ExpectedResult=False,
-        Log={
+    RuleTest(
+        name="Get Partition",
+        expected_result=False,
+        log={
             "additionalEventData": {
                 "insufficientLakeFormationPermissions": ["panther_rule_errors:gsuite_activityevent"],
                 "lakeFormationPrincipal": "arn:aws:iam::111222333444:role/panther-Panther-4JL51Q6AU6SH-LogAnal-CompactorRole-W1WCIV3PHU0S",
@@ -176,10 +174,10 @@ aws_modify_cloud_compute_infrastructure_tests: List[PantherRuleTest] = [
             },
         },
     ),
-    PantherRuleTest(
-        Name="Terminate instance From WebUI with assumedRole",
-        ExpectedResult=True,
-        Log={
+    RuleTest(
+        name="Terminate instance From WebUI with assumedRole",
+        expected_result=True,
+        log={
             "awsRegion": "us-west-2",
             "eventCategory": "Management",
             "eventID": "01f39d3b-4a26-4045-bb36-1e57b7d07997",
@@ -356,10 +354,10 @@ aws_modify_cloud_compute_infrastructure_tests: List[PantherRuleTest] = [
             },
         },
     ),
-    PantherRuleTest(
-        Name="Weird AWS Internal Message",
-        ExpectedResult=False,
-        Log={
+    RuleTest(
+        name="Weird AWS Internal Message",
+        expected_result=False,
+        log={
             "awsRegion": "us-west-2",
             "errorCode": "Client.DryRunOperation",
             "errorMessage": "Request would have succeeded, but DryRun flag is set.",
@@ -423,18 +421,18 @@ aws_modify_cloud_compute_infrastructure_tests: List[PantherRuleTest] = [
 ]
 
 
-class AWSModifyCloudComputeInfrastructure(PantherRule):
-    Description = "Detection when EC2 compute infrastructure is modified outside of expected automation methods."
-    DisplayName = "AWS Modify Cloud Compute Infrastructure"
-    Enabled = False
-    Reference = "https://attack.mitre.org/techniques/T1578/"
-    Severity = PantherSeverity.Medium
-    Reports = {"MITRE ATT&CK": ["TA0005:T1578"]}
-    Tags = ["Configuration Required"]
-    Runbook = "This detection reports on eventSource ec2 Change events. This detection excludes Cross-Service change events.  As such, this detection will perform well in environments where changes are expected to originate only from AWS service entities.\nThis detection will emit alerts frequently in environments where users are making ec2 related changes.\n"
-    LogTypes = [PantherLogType.AWS_CloudTrail]
-    RuleID = "AWS.Modify.Cloud.Compute.Infrastructure-prototype"
-    Tests = aws_modify_cloud_compute_infrastructure_tests
+class AWSModifyCloudComputeInfrastructure(Rule):
+    default_description = "Detection when EC2 compute infrastructure is modified outside of expected automation methods."
+    display_name = "AWS Modify Cloud Compute Infrastructure"
+    enabled = False
+    default_reference = "https://attack.mitre.org/techniques/T1578/"
+    default_severity = Severity.MEDIUM
+    reports = {"MITRE ATT&CK": ["TA0005:T1578"]}
+    tags = ["Configuration Required"]
+    default_runbook = "This detection reports on eventSource ec2 Change events. This detection excludes Cross-Service change events.  As such, this detection will perform well in environments where changes are expected to originate only from AWS service entities.\nThis detection will emit alerts frequently in environments where users are making ec2 related changes.\n"
+    log_types = [LogType.AWS_CloudTrail]
+    id = "AWS.Modify.Cloud.Compute.Infrastructure-prototype"
+    tests = aws_modify_cloud_compute_infrastructure_tests
     EC2_CRUD_ACTIONS = {
         "AssociateIamInstanceProfile",
         "AssociateInstanceEventWindow",

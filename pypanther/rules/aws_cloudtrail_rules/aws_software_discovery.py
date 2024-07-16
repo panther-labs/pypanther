@@ -1,13 +1,11 @@
-from typing import List
-
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import aws_rule_context, deep_get
 
-aws_software_discovery_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
-        Name="Discovery Event Names",
-        ExpectedResult=True,
-        Log={
+aws_software_discovery_tests: list[RuleTest] = [
+    RuleTest(
+        name="Discovery Event Names",
+        expected_result=True,
+        log={
             "awsRegion": "us-west-2",
             "eventID": "6faccad9-b6ae-4549-8e39-03430cbce2aa",
             "eventName": "DescribeSecurityGroups",
@@ -44,7 +42,10 @@ aws_software_discovery_tests: List[PantherRuleTest] = [
                 "arn": "arn:aws:sts::853509373758:assumed-role/PantherAuditRole-us-east-2/1634605518650090138",
                 "principalId": "AROA4NOI7P47OHH3NQORX:1634605518650090138",
                 "sessionContext": {
-                    "attributes": {"creationDate": "2021-10-19T01:05:18Z", "mfaAuthenticated": "false"},
+                    "attributes": {
+                        "creationDate": "2021-10-19T01:05:18Z",
+                        "mfaAuthenticated": "false",
+                    },
                     "sessionIssuer": {
                         "accountId": "853509373758",
                         "arn": "arn:aws:iam::853509373758:role/PantherAuditRole-us-east-2",
@@ -58,10 +59,10 @@ aws_software_discovery_tests: List[PantherRuleTest] = [
             },
         },
     ),
-    PantherRuleTest(
-        Name="Non Discovery Event Names",
-        ExpectedResult=False,
-        Log={
+    RuleTest(
+        name="Non Discovery Event Names",
+        expected_result=False,
+        log={
             "apiVersion": "2012-08-10",
             "awsRegion": "us-east-1",
             "eventCategory": "Data",
@@ -77,21 +78,19 @@ aws_software_discovery_tests: List[PantherRuleTest] = [
 ]
 
 
-class AWSSoftwareDiscovery(PantherRule):
-    Description = (
-        "A user is obtaining a list of security software, configurations, defensive tools, and sensors that are in AWS."
-    )
-    DisplayName = "AWS Software Discovery"
-    Enabled = False
-    Reference = "https://attack.mitre.org/techniques/T1518/001/"
-    Tags = ["Configuration Required"]
-    Reports = {"MITRE ATT&CK": ["TA0007:T1518"]}
-    Severity = PantherSeverity.Info
-    DedupPeriodMinutes = 360
-    LogTypes = [PantherLogType.AWS_CloudTrail]
-    RuleID = "AWS.Software.Discovery-prototype"
-    Threshold = 50
-    Tests = aws_software_discovery_tests
+class AWSSoftwareDiscovery(Rule):
+    default_description = "A user is obtaining a list of security software, configurations, defensive tools, and sensors that are in AWS."
+    display_name = "AWS Software Discovery"
+    enabled = False
+    default_reference = "https://attack.mitre.org/techniques/T1518/001/"
+    tags = ["Configuration Required"]
+    reports = {"MITRE ATT&CK": ["TA0007:T1518"]}
+    default_severity = Severity.INFO
+    dedup_period_minutes = 360
+    log_types = [LogType.AWS_CloudTrail]
+    id = "AWS.Software.Discovery-prototype"
+    threshold = 50
+    tests = aws_software_discovery_tests
     DISCOVERY_EVENTS = [
         "ListDocuments",
         "ListMembers",

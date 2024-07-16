@@ -1,13 +1,11 @@
-from typing import List
-
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get, okta_alert_context
 
-okta_phishing_attempt_blocked_fast_pass_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
-        Name="Other Event",
-        ExpectedResult=False,
-        Log={
+okta_phishing_attempt_blocked_fast_pass_tests: list[RuleTest] = [
+    RuleTest(
+        name="Other Event",
+        expected_result=False,
+        log={
             "actor": {
                 "alternateId": "homer.simpson@duff.com",
                 "displayName": "Homer Simpson",
@@ -80,10 +78,10 @@ okta_phishing_attempt_blocked_fast_pass_tests: List[PantherRuleTest] = [
             "version": "0",
         },
     ),
-    PantherRuleTest(
-        Name="FastPass Phishing Block Event",
-        ExpectedResult=True,
-        Log={
+    RuleTest(
+        name="FastPass Phishing Block Event",
+        expected_result=True,
+        log={
             "actor": {
                 "alternateId": "homer.simpson@duff.com",
                 "displayName": "Homer Simpson",
@@ -159,19 +157,19 @@ okta_phishing_attempt_blocked_fast_pass_tests: List[PantherRuleTest] = [
 ]
 
 
-class OktaPhishingAttemptBlockedFastPass(PantherRule):
-    RuleID = "Okta.Phishing.Attempt.Blocked.FastPass-prototype"
-    DisplayName = "Okta AiTM Phishing Attempt Blocked by FastPass"
-    LogTypes = [PantherLogType.Okta_SystemLog]
-    Reports = {"MITRE ATT&CK": ["TA0001:T1566", "TA0006:T1556", "TA0003:T1078.004"]}
-    Severity = PantherSeverity.High
-    Description = "Okta FastPass detected a user targeted by attackers wielding real-time (AiTM) proxies.\n"
-    Runbook = (
-        "Protect sign-in flows by enforcing phishing-resistant authentication with Okta FastPass and FIDO2 WebAuthn.\n"
+class OktaPhishingAttemptBlockedFastPass(Rule):
+    id = "Okta.Phishing.Attempt.Blocked.FastPass-prototype"
+    display_name = "Okta AiTM Phishing Attempt Blocked by FastPass"
+    log_types = [LogType.Okta_SystemLog]
+    reports = {"MITRE ATT&CK": ["TA0001:T1566", "TA0006:T1556", "TA0003:T1078.004"]}
+    default_severity = Severity.HIGH
+    default_description = (
+        "Okta FastPass detected a user targeted by attackers wielding real-time (AiTM) proxies.\n"
     )
-    Reference = "https://sec.okta.com/fastpassphishingdetection\n"
-    DedupPeriodMinutes = 30
-    Tests = okta_phishing_attempt_blocked_fast_pass_tests
+    default_runbook = "Protect sign-in flows by enforcing phishing-resistant authentication with Okta FastPass and FIDO2 WebAuthn.\n"
+    default_reference = "https://sec.okta.com/fastpassphishingdetection\n"
+    dedup_period_minutes = 30
+    tests = okta_phishing_attempt_blocked_fast_pass_tests
 
     def rule(self, event):
         return (

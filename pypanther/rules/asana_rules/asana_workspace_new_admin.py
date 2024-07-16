@@ -1,14 +1,12 @@
-from typing import List
-
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_asana_helpers import asana_alert_context
 from pypanther.helpers.panther_base_helpers import deep_get
 
-asana_workspace_new_admin_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
-        Name="Team made public",
-        ExpectedResult=False,
-        Log={
+asana_workspace_new_admin_tests: list[RuleTest] = [
+    RuleTest(
+        name="Team made public",
+        expected_result=False,
+        log={
             "actor": {
                 "actor_type": "user",
                 "email": "homer.simpson@panther.io",
@@ -29,10 +27,10 @@ asana_workspace_new_admin_tests: List[PantherRuleTest] = [
             "p_log_type": "Asana.Audit",
         },
     ),
-    PantherRuleTest(
-        Name="New Workspace Admin",
-        ExpectedResult=True,
-        Log={
+    RuleTest(
+        name="New Workspace Admin",
+        expected_result=True,
+        log={
             "p_log_type": "Asana.Audit",
             "actor": {
                 "actor_type": "user",
@@ -60,14 +58,16 @@ asana_workspace_new_admin_tests: List[PantherRuleTest] = [
 ]
 
 
-class AsanaWorkspaceNewAdmin(PantherRule):
-    Description = "Admin role was granted to the user who previously did not have admin permissions"
-    DisplayName = "Asana Workspace New Admin"
-    Reference = "https://help.asana.com/hc/en-us/articles/14141552580635-Admin-and-super-admin-roles-in-Asana"
-    Severity = PantherSeverity.High
-    LogTypes = [PantherLogType.Asana_Audit]
-    RuleID = "Asana.Workspace.New.Admin-prototype"
-    Tests = asana_workspace_new_admin_tests
+class AsanaWorkspaceNewAdmin(Rule):
+    default_description = (
+        "Admin role was granted to the user who previously did not have admin permissions"
+    )
+    display_name = "Asana Workspace New Admin"
+    default_reference = "https://help.asana.com/hc/en-us/articles/14141552580635-Admin-and-super-admin-roles-in-Asana"
+    default_severity = Severity.HIGH
+    log_types = [LogType.Asana_Audit]
+    id = "Asana.Workspace.New.Admin-prototype"
+    tests = asana_workspace_new_admin_tests
 
     def rule(self, event):
         new = deep_get(event, "details", "new_value", default="")

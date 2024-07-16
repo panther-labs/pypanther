@@ -1,13 +1,11 @@
-from typing import List
-
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_mongodb_helpers import mongodb_alert_context
 
-mongo_db_external_user_invited_no_config_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
-        Name="Internal Invite",
-        ExpectedResult=False,
-        Log={
+mongo_db_external_user_invited_no_config_tests: list[RuleTest] = [
+    RuleTest(
+        name="Internal Invite",
+        expected_result=False,
+        log={
             "created": "2023-06-07 16:57:55",
             "currentValue": {},
             "eventTypeName": "INVITED_TO_ORG",
@@ -33,10 +31,10 @@ mongo_db_external_user_invited_no_config_tests: List[PantherRuleTest] = [
             "username": "user@company.com",
         },
     ),
-    PantherRuleTest(
-        Name="External User Invite",
-        ExpectedResult=True,
-        Log={
+    RuleTest(
+        name="External User Invite",
+        expected_result=True,
+        log={
             "created": "2023-06-07 16:57:55",
             "currentValue": {},
             "eventTypeName": "INVITED_TO_ORG",
@@ -65,14 +63,14 @@ mongo_db_external_user_invited_no_config_tests: List[PantherRuleTest] = [
 ]
 
 
-class MongoDBExternalUserInvitedNoConfig(PantherRule):
-    Description = "An external user has been invited to a MongoDB org (no config)."
-    DisplayName = "MongoDB External User Invited (no config)"
-    Severity = PantherSeverity.High
-    Reference = "https://www.mongodb.com/docs/v4.2/tutorial/create-users/"
-    LogTypes = [PantherLogType.MongoDB_OrganizationEvent]
-    RuleID = "MongoDB.External.UserInvited.NoConfig-prototype"
-    Tests = mongo_db_external_user_invited_no_config_tests
+class MongoDBExternalUserInvitedNoConfig(Rule):
+    default_description = "An external user has been invited to a MongoDB org (no config)."
+    display_name = "MongoDB External User Invited (no config)"
+    default_severity = Severity.HIGH
+    default_reference = "https://www.mongodb.com/docs/v4.2/tutorial/create-users/"
+    log_types = [LogType.MongoDB_OrganizationEvent]
+    id = "MongoDB.External.UserInvited.NoConfig-prototype"
+    tests = mongo_db_external_user_invited_no_config_tests
 
     def rule(self, event):
         if event.deep_get("eventTypeName", default="") != "INVITED_TO_ORG":

@@ -1,27 +1,24 @@
-from typing import List
-
-from pypanther.base import PantherDataModel, PantherDataModelMapping
-from pypanther.log_types import PantherLogType
+from pypanther.base import DataModel, DataModelMapping, LogType
 
 
-class StandardAmazonEKSAudit(PantherDataModel):
-    DataModelID: str = "Standard.Amazon.EKS.Audit"
-    DisplayName: str = "AWS EKS Audit"
-    Enabled: bool = True
-    LogTypes: List[str] = [PantherLogType.Amazon_EKS_Audit]
-    Mappings: List[PantherDataModelMapping] = [
-        PantherDataModelMapping(Name="annotations", Path="$.annotations"),
-        PantherDataModelMapping(Name="apiGroup", Path="$.objectRef.apiGroup"),
-        PantherDataModelMapping(Name="apiVersion", Path="$.objectRef.apiVersion"),
-        PantherDataModelMapping(Name="namespace", Path="$.objectRef.namespace"),
-        PantherDataModelMapping(Name="resource", Path="$.objectRef.resource"),
-        PantherDataModelMapping(Name="name", Path="$.objectRef.name"),
-        PantherDataModelMapping(Name="requestURI", Path="$.requestURI"),
-        PantherDataModelMapping(Name="responseStatus", Path="$.responseStatus"),
-        PantherDataModelMapping(Name="sourceIPs", Path="$.sourceIPs"),
-        PantherDataModelMapping(Name="username", Path="$.user.username"),
-        PantherDataModelMapping(Name="userAgent", Path="$.userAgent"),
-        PantherDataModelMapping(Name="verb", Path="$.verb"),
-        PantherDataModelMapping(Name="requestObject", Path="$.requestObject"),
-        PantherDataModelMapping(Name="responseObject", Path="$.responseObject"),
+class StandardAmazonEKSAudit(DataModel):
+    id: str = "Standard.Amazon.EKS.Audit"
+    display_name: str = "AWS EKS Audit"
+    enabled: bool = True
+    log_types: list[str] = [LogType.Amazon_EKS_Audit]
+    mappings: list[DataModelMapping] = [
+        DataModelMapping(name="annotations", path="$.annotations"),
+        DataModelMapping(name="apiGroup", path="$.objectRef.apiGroup"),
+        DataModelMapping(name="apiVersion", path="$.objectRef.apiVersion"),
+        DataModelMapping(name="namespace", path="$.objectRef.namespace"),
+        DataModelMapping(name="resource", path="$.objectRef.resource"),
+        DataModelMapping(name="name", path="$.objectRef.name"),
+        DataModelMapping(name="requestURI", path="$.requestURI"),
+        DataModelMapping(name="responseStatus", path="$.responseStatus"),
+        DataModelMapping(name="sourceIPs", path="$.sourceIPs"),
+        DataModelMapping(name="username", path="$.user.username"),
+        DataModelMapping(name="userAgent", path="$.userAgent"),
+        DataModelMapping(name="verb", path="$.verb"),
+        DataModelMapping(name="requestObject", path="$.requestObject"),
+        DataModelMapping(name="responseObject", path="$.responseObject"),
     ]

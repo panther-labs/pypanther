@@ -1,18 +1,16 @@
-from typing import List
-
 from panther_detection_helpers.caching import get_string_set, put_string_set
 
-from pypanther import PantherLogType, PantherRule, PantherRuleMock, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 
-git_hub_repo_initial_access_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
-        Name="GitHub - Initial Access",
-        ExpectedResult=True,
-        Mocks=[
-            PantherRuleMock(ObjectName="get_string_set", ReturnValue=""),
-            PantherRuleMock(ObjectName="put_string_set", ReturnValue=""),
+git_hub_repo_initial_access_tests: list[RuleTest] = [
+    RuleTest(
+        name="GitHub - Initial Access",
+        expected_result=True,
+        mocks=[
+            RuleMock(object_name="get_string_set", return_value=""),
+            RuleMock(object_name="put_string_set", return_value=""),
         ],
-        Log={
+        log={
             "@timestamp": 1623971719091,
             "business": "",
             "org": "my-org",
@@ -26,11 +24,11 @@ git_hub_repo_initial_access_tests: List[PantherRuleTest] = [
             "user": "",
         },
     ),
-    PantherRuleTest(
-        Name="GitHub - Repeated Access",
-        ExpectedResult=False,
-        Mocks=[PantherRuleMock(ObjectName="get_string_set", ReturnValue='"cat":"my-repo"\n')],
-        Log={
+    RuleTest(
+        name="GitHub - Repeated Access",
+        expected_result=False,
+        mocks=[RuleMock(object_name="get_string_set", return_value='"cat":"my-repo"\n')],
+        log={
             "@timestamp": 1623971719091,
             "business": "",
             "org": "my-org",
@@ -44,14 +42,14 @@ git_hub_repo_initial_access_tests: List[PantherRuleTest] = [
             "user": "",
         },
     ),
-    PantherRuleTest(
-        Name="GitHub - Initial Access Public Repo",
-        ExpectedResult=False,
-        Mocks=[
-            PantherRuleMock(ObjectName="get_string_set", ReturnValue=""),
-            PantherRuleMock(ObjectName="put_string_set", ReturnValue=""),
+    RuleTest(
+        name="GitHub - Initial Access Public Repo",
+        expected_result=False,
+        mocks=[
+            RuleMock(object_name="get_string_set", return_value=""),
+            RuleMock(object_name="put_string_set", return_value=""),
         ],
-        Log={
+        log={
             "@timestamp": 1623971719091,
             "business": "",
             "org": "my-org",
@@ -65,10 +63,10 @@ git_hub_repo_initial_access_tests: List[PantherRuleTest] = [
             "user": "",
         },
     ),
-    PantherRuleTest(
-        Name="GitHub - Clone without Actor",
-        ExpectedResult=False,
-        Log={
+    RuleTest(
+        name="GitHub - Clone without Actor",
+        expected_result=False,
+        log={
             "@timestamp": 1623971719091,
             "business": "",
             "org": "my-org",
@@ -85,15 +83,17 @@ git_hub_repo_initial_access_tests: List[PantherRuleTest] = [
 ]
 
 
-class GitHubRepoInitialAccess(PantherRule):
-    RuleID = "GitHub.Repo.InitialAccess-prototype"
-    DisplayName = "GitHub User Initial Access to Private Repo"
-    LogTypes = [PantherLogType.GitHub_Audit]
-    Tags = ["GitHub"]
-    Reference = "https://docs.github.com/en/organizations/managing-user-access-to-your-organizations-repositories/managing-repository-roles/managing-an-individuals-access-to-an-organization-repository"
-    Severity = PantherSeverity.Info
-    Description = "Detects when a user initially accesses a private organization repository."
-    Tests = git_hub_repo_initial_access_tests
+class GitHubRepoInitialAccess(Rule):
+    id = "GitHub.Repo.InitialAccess-prototype"
+    display_name = "GitHub User Initial Access to Private Repo"
+    log_types = [LogType.GitHub_Audit]
+    tags = ["GitHub"]
+    default_reference = "https://docs.github.com/en/organizations/managing-user-access-to-your-organizations-repositories/managing-repository-roles/managing-an-individuals-access-to-an-organization-repository"
+    default_severity = Severity.INFO
+    default_description = (
+        "Detects when a user initially accesses a private organization repository."
+    )
+    tests = git_hub_repo_initial_access_tests
     CODE_ACCESS_ACTIONS = ["git.clone", "git.push", "git.fetch"]
 
     def rule(self, event):

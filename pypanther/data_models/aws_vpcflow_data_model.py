@@ -1,19 +1,16 @@
-from typing import List
-
-from pypanther.base import PantherDataModel, PantherDataModelMapping
-from pypanther.log_types import PantherLogType
+from pypanther.base import DataModel, DataModelMapping, LogType
 
 
-class StandardAWSVPCFlow(PantherDataModel):
-    DataModelID: str = "Standard.AWS.VPCFlow"
-    DisplayName: str = "AWS VPCFlow"
-    Enabled: bool = True
-    LogTypes: List[str] = [PantherLogType.AWS_VPCFlow]
-    Mappings: List[PantherDataModelMapping] = [
-        PantherDataModelMapping(Name="destination_ip", Path="dstAddr"),
-        PantherDataModelMapping(Name="destination_port", Path="dstPort"),
-        PantherDataModelMapping(Name="source_ip", Path="srcAddr"),
-        PantherDataModelMapping(Name="source_port", Path="srcPort"),
-        PantherDataModelMapping(Name="user_agent", Path="userAgent"),
-        PantherDataModelMapping(Name="log_status", Path="log-status"),
+class StandardAWSVPCFlow(DataModel):
+    id: str = "Standard.AWS.VPCFlow"
+    display_name: str = "AWS VPCFlow"
+    enabled: bool = True
+    log_types: list[str] = [LogType.AWS_VPCFlow]
+    mappings: list[DataModelMapping] = [
+        DataModelMapping(name="destination_ip", path="dstAddr"),
+        DataModelMapping(name="destination_port", path="dstPort"),
+        DataModelMapping(name="source_ip", path="srcAddr"),
+        DataModelMapping(name="source_port", path="srcPort"),
+        DataModelMapping(name="user_agent", path="userAgent"),
+        DataModelMapping(name="log_status", path="log-status"),
     ]

@@ -1,13 +1,11 @@
-from typing import List
-
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import aws_rule_context
 
-awsrds_snapshot_shared_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
-        Name="Snapshot shared with another account",
-        ExpectedResult=True,
-        Log={
+awsrds_snapshot_shared_tests: list[RuleTest] = [
+    RuleTest(
+        name="Snapshot shared with another account",
+        expected_result=True,
+        log={
             "eventVersion": "1.08",
             "userIdentity": {
                 "type": "AssumedRole",
@@ -56,10 +54,10 @@ awsrds_snapshot_shared_tests: List[PantherRuleTest] = [
             },
         },
     ),
-    PantherRuleTest(
-        Name="Snapshot shared with no accounts",
-        ExpectedResult=False,
-        Log={
+    RuleTest(
+        name="Snapshot shared with no accounts",
+        expected_result=False,
+        log={
             "eventVersion": "1.08",
             "userIdentity": {
                 "type": "AssumedRole",
@@ -111,18 +109,20 @@ awsrds_snapshot_shared_tests: List[PantherRuleTest] = [
 ]
 
 
-class AWSRDSSnapshotShared(PantherRule):
-    RuleID = "AWS.RDS.SnapshotShared-prototype"
-    DisplayName = "AWS RDS Snapshot Shared"
-    LogTypes = [PantherLogType.AWS_CloudTrail]
-    Tags = ["AWS", "Exfiltration", "Transfer Data to Cloud Account"]
-    Severity = PantherSeverity.High
-    Reports = {"MITRE ATT&CK": ["TA0010:T1537"]}
-    Description = "An RDS snapshot was shared with another account. This could be an indicator of exfiltration.\n"
-    Runbook = "Ensure that the snapshot was shared intentionally and with an approved account. If not, remove the snapshot and quarantine the compromised IAM user.\n"
-    Reference = "https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_ShareSnapshot.html"
-    SummaryAttributes = ["eventSource", "recipientAccountId", "awsRegion", "p_any_aws_arns"]
-    Tests = awsrds_snapshot_shared_tests
+class AWSRDSSnapshotShared(Rule):
+    id = "AWS.RDS.SnapshotShared-prototype"
+    display_name = "AWS RDS Snapshot Shared"
+    log_types = [LogType.AWS_CloudTrail]
+    tags = ["AWS", "Exfiltration", "Transfer Data to Cloud Account"]
+    default_severity = Severity.HIGH
+    reports = {"MITRE ATT&CK": ["TA0010:T1537"]}
+    default_description = "An RDS snapshot was shared with another account. This could be an indicator of exfiltration.\n"
+    default_runbook = "Ensure that the snapshot was shared intentionally and with an approved account. If not, remove the snapshot and quarantine the compromised IAM user.\n"
+    default_reference = (
+        "https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_ShareSnapshot.html"
+    )
+    summary_attributes = ["eventSource", "recipientAccountId", "awsRegion", "p_any_aws_arns"]
+    tests = awsrds_snapshot_shared_tests
 
     def rule(self, event):
         if all(

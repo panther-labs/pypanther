@@ -1,13 +1,11 @@
-from typing import List
-
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 
-g_suite_calendar_made_public_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
-        Name="User Publically Shared a Calendar",
-        ExpectedResult=True,
-        Log={
+g_suite_calendar_made_public_tests: list[RuleTest] = [
+    RuleTest(
+        name="User Publically Shared a Calendar",
+        expected_result=True,
+        log={
             "actor": {"email": "user@example.io", "profileId": "110111111111111111111"},
             "id": {
                 "applicationName": "calendar",
@@ -29,10 +27,10 @@ g_suite_calendar_made_public_tests: List[PantherRuleTest] = [
             "type": "calendar_change",
         },
     ),
-    PantherRuleTest(
-        Name="User Made Calendar Private",
-        ExpectedResult=True,
-        Log={
+    RuleTest(
+        name="User Made Calendar Private",
+        expected_result=True,
+        log={
             "actor": {"email": "user@example.io", "profileId": "110111111111111111111"},
             "id": {
                 "applicationName": "calendar",
@@ -54,10 +52,10 @@ g_suite_calendar_made_public_tests: List[PantherRuleTest] = [
             "type": "calendar_change",
         },
     ),
-    PantherRuleTest(
-        Name="Admin Set Default Calendar SHARING_OUTSIDE_DOMAIN Setting to READ_WRITE_ACCESS",
-        ExpectedResult=False,
-        Log={
+    RuleTest(
+        name="Admin Set Default Calendar SHARING_OUTSIDE_DOMAIN Setting to READ_WRITE_ACCESS",
+        expected_result=False,
+        log={
             "actor": {"callerType": "USER", "email": "example@example.io", "profileId": "12345"},
             "id": {
                 "applicationName": "admin",
@@ -78,10 +76,10 @@ g_suite_calendar_made_public_tests: List[PantherRuleTest] = [
             "type": "CALENDAR_SETTINGS",
         },
     ),
-    PantherRuleTest(
-        Name="ListObject Type",
-        ExpectedResult=False,
-        Log={
+    RuleTest(
+        name="ListObject Type",
+        expected_result=False,
+        log={
             "actor": {"email": "user@example.io", "profileId": "118111111111111111111"},
             "id": {
                 "applicationName": "drive",
@@ -113,18 +111,20 @@ g_suite_calendar_made_public_tests: List[PantherRuleTest] = [
 ]
 
 
-class GSuiteCalendarMadePublic(PantherRule):
-    RuleID = "GSuite.CalendarMadePublic-prototype"
-    DisplayName = "GSuite Calendar Has Been Made Public"
-    LogTypes = [PantherLogType.GSuite_ActivityEvent]
-    Tags = ["GSuite"]
-    Reports = {"MITRE ATT&CK": ["TA0007:T1087"]}
-    Severity = PantherSeverity.Medium
-    Description = "A User or Admin Has Modified A Calendar To Be Public\n"
-    Reference = "https://support.google.com/calendar/answer/37083?hl=en&sjid=864417124752637253-EU"
-    Runbook = "Follow up with user about this calendar share.\n"
-    SummaryAttributes = ["actor:email"]
-    Tests = g_suite_calendar_made_public_tests
+class GSuiteCalendarMadePublic(Rule):
+    id = "GSuite.CalendarMadePublic-prototype"
+    display_name = "GSuite Calendar Has Been Made Public"
+    log_types = [LogType.GSuite_ActivityEvent]
+    tags = ["GSuite"]
+    reports = {"MITRE ATT&CK": ["TA0007:T1087"]}
+    default_severity = Severity.MEDIUM
+    default_description = "A User or Admin Has Modified A Calendar To Be Public\n"
+    default_reference = (
+        "https://support.google.com/calendar/answer/37083?hl=en&sjid=864417124752637253-EU"
+    )
+    default_runbook = "Follow up with user about this calendar share.\n"
+    summary_attributes = ["actor:email"]
+    tests = g_suite_calendar_made_public_tests
 
     def rule(self, event):
         return (

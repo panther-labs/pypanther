@@ -1,12 +1,10 @@
-from typing import List
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
-
-git_hub_org_modified_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
-        Name="GitHub - Team Deleted",
-        ExpectedResult=False,
-        Log={
+git_hub_org_modified_tests: list[RuleTest] = [
+    RuleTest(
+        name="GitHub - Team Deleted",
+        expected_result=False,
+        log={
             "actor": "cat",
             "action": "team.destroy",
             "created_at": 1621305118553,
@@ -16,10 +14,10 @@ git_hub_org_modified_tests: List[PantherRuleTest] = [
             "repo": "my-org/my-repo",
         },
     ),
-    PantherRuleTest(
-        Name="GitHub - Org - User Added",
-        ExpectedResult=True,
-        Log={
+    RuleTest(
+        name="GitHub - Org - User Added",
+        expected_result=True,
+        log={
             "actor": "cat",
             "action": "org.add_member",
             "created_at": 1621305118553,
@@ -28,10 +26,10 @@ git_hub_org_modified_tests: List[PantherRuleTest] = [
             "user": "cat",
         },
     ),
-    PantherRuleTest(
-        Name="GitHub - Org - User Removed",
-        ExpectedResult=True,
-        Log={
+    RuleTest(
+        name="GitHub - Org - User Removed",
+        expected_result=True,
+        log={
             "actor": "cat",
             "action": "org.remove_member",
             "created_at": 1621305118553,
@@ -43,16 +41,18 @@ git_hub_org_modified_tests: List[PantherRuleTest] = [
 ]
 
 
-class GitHubOrgModified(PantherRule):
-    RuleID = "GitHub.Org.Modified-prototype"
-    DisplayName = "GitHub User Added or Removed from Org"
-    LogTypes = [PantherLogType.GitHub_Audit]
-    Tags = ["GitHub", "Initial Access:Supply Chain Compromise"]
-    Reports = {"MITRE ATT&CK": ["TA0001:T1195"]}
-    Reference = "https://docs.github.com/en/organizations/managing-membership-in-your-organization"
-    Severity = PantherSeverity.Info
-    Description = "Detects when a user is added or removed from a GitHub Org."
-    Tests = git_hub_org_modified_tests
+class GitHubOrgModified(Rule):
+    id = "GitHub.Org.Modified-prototype"
+    display_name = "GitHub User Added or Removed from Org"
+    log_types = [LogType.GitHub_Audit]
+    tags = ["GitHub", "Initial Access:Supply Chain Compromise"]
+    reports = {"MITRE ATT&CK": ["TA0001:T1195"]}
+    default_reference = (
+        "https://docs.github.com/en/organizations/managing-membership-in-your-organization"
+    )
+    default_severity = Severity.INFO
+    default_description = "Detects when a user is added or removed from a GitHub Org."
+    tests = git_hub_org_modified_tests
 
     def rule(self, event):
         return event.get("action") == "org.add_member" or event.get("action") == "org.remove_member"

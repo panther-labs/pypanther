@@ -1,13 +1,11 @@
-from typing import List
-
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import aws_rule_context
 
-aws_security_hub_finding_evasion_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
-        Name="CreateInsight",
-        ExpectedResult=False,
-        Log={
+aws_security_hub_finding_evasion_tests: list[RuleTest] = [
+    RuleTest(
+        name="CreateInsight",
+        expected_result=False,
+        log={
             "awsRegion": "us-west-2",
             "eventID": "3dabcebf-35b0-443f-a1a2-26e186ce23bf",
             "eventName": "CreateInsight",
@@ -34,10 +32,10 @@ aws_security_hub_finding_evasion_tests: List[PantherRuleTest] = [
             },
         },
     ),
-    PantherRuleTest(
-        Name="DeleteInsight",
-        ExpectedResult=True,
-        Log={
+    RuleTest(
+        name="DeleteInsight",
+        expected_result=True,
+        log={
             "awsRegion": "us-west-2",
             "eventID": "3dabcebf-35b0-443f-a1a2-26e186ce23bf",
             "eventName": "DeleteInsight",
@@ -64,10 +62,10 @@ aws_security_hub_finding_evasion_tests: List[PantherRuleTest] = [
             },
         },
     ),
-    PantherRuleTest(
-        Name="UpdateFindings",
-        ExpectedResult=True,
-        Log={
+    RuleTest(
+        name="UpdateFindings",
+        expected_result=True,
+        log={
             "awsRegion": "us-west-2",
             "eventID": "3dabcebf-35b0-443f-a1a2-26e186ce23bf",
             "eventName": "UpdateFindings",
@@ -97,15 +95,15 @@ aws_security_hub_finding_evasion_tests: List[PantherRuleTest] = [
 ]
 
 
-class AWSSecurityHubFindingEvasion(PantherRule):
-    Description = "Detections modification of findings in SecurityHub"
-    DisplayName = "AWS SecurityHub Finding Evasion"
-    Reports = {"MITRE ATT&CK": ["TA0005:T1562"]}
-    Reference = "https://docs.aws.amazon.com/securityhub/latest/userguide/securityhub-insights-view-take-action.html"
-    Severity = PantherSeverity.High
-    LogTypes = [PantherLogType.AWS_CloudTrail]
-    RuleID = "AWS.SecurityHub.Finding.Evasion-prototype"
-    Tests = aws_security_hub_finding_evasion_tests
+class AWSSecurityHubFindingEvasion(Rule):
+    default_description = "Detections modification of findings in SecurityHub"
+    display_name = "AWS SecurityHub Finding Evasion"
+    reports = {"MITRE ATT&CK": ["TA0005:T1562"]}
+    default_reference = "https://docs.aws.amazon.com/securityhub/latest/userguide/securityhub-insights-view-take-action.html"
+    default_severity = Severity.HIGH
+    log_types = [LogType.AWS_CloudTrail]
+    id = "AWS.SecurityHub.Finding.Evasion-prototype"
+    tests = aws_security_hub_finding_evasion_tests
     EVASION_OPERATIONS = ["BatchUpdateFindings", "DeleteInsight", "UpdateFindings", "UpdateInsight"]
 
     def rule(self, event):

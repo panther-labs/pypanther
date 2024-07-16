@@ -1,13 +1,11 @@
-from typing import List
-
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 
-awswaf_disassociation_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
-        Name="WAF-Disassociate",
-        ExpectedResult=True,
-        Log={
+awswaf_disassociation_tests: list[RuleTest] = [
+    RuleTest(
+        name="WAF-Disassociate",
+        expected_result=True,
+        log={
             "apiVersion": "2019-04-23",
             "awsRegion": "us-west-2",
             "eventCategory": "Management",
@@ -61,10 +59,10 @@ awswaf_disassociation_tests: List[PantherRuleTest] = [
             },
         },
     ),
-    PantherRuleTest(
-        Name="WAF - List WebACLs",
-        ExpectedResult=False,
-        Log={
+    RuleTest(
+        name="WAF - List WebACLs",
+        expected_result=False,
+        log={
             "apiVersion": "2019-04-23",
             "awsRegion": "us-west-2",
             "eventCategory": "Management",
@@ -121,15 +119,15 @@ awswaf_disassociation_tests: List[PantherRuleTest] = [
 ]
 
 
-class AWSWAFDisassociation(PantherRule):
-    Description = "Detection to alert when a WAF disassociates from a source."
-    DisplayName = "AWS WAF Disassociation"
-    Reference = "https://attack.mitre.org/techniques/T1078/"
-    Severity = PantherSeverity.Critical
-    Reports = {"MITRE ATT&CK": ["TA0004:T1498"]}
-    LogTypes = [PantherLogType.AWS_CloudTrail]
-    RuleID = "AWS.WAF.Disassociation-prototype"
-    Tests = awswaf_disassociation_tests
+class AWSWAFDisassociation(Rule):
+    default_description = "Detection to alert when a WAF disassociates from a source."
+    display_name = "AWS WAF Disassociation"
+    default_reference = "https://attack.mitre.org/techniques/T1078/"
+    default_severity = Severity.CRITICAL
+    reports = {"MITRE ATT&CK": ["TA0004:T1498"]}
+    log_types = [LogType.AWS_CloudTrail]
+    id = "AWS.WAF.Disassociation-prototype"
+    tests = awswaf_disassociation_tests
 
     def rule(self, event):
         return event.get("eventName") == "DisassociateWebACL"

@@ -1,15 +1,13 @@
-from typing import List
-
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.gcp_base_helpers import get_k8s_info
 from pypanther.helpers.gcp_environment import PRODUCTION_PROJECT_IDS, rule_exceptions
 from pypanther.helpers.panther_base_helpers import deep_walk
 
-gcpk8s_exec_into_pod_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
-        Name="Allowed User",
-        ExpectedResult=False,
-        Log={
+gcpk8s_exec_into_pod_tests: list[RuleTest] = [
+    RuleTest(
+        name="Allowed User",
+        expected_result=False,
+        log={
             "protoPayload": {
                 "authenticationInfo": {
                     "principalEmail": "system:serviceaccount:example-namespace:example-namespace-service-account"
@@ -31,10 +29,10 @@ gcpk8s_exec_into_pod_tests: List[PantherRuleTest] = [
             "resource": {"type": "k8s_cluster", "labels": {"project_id": "rigup-production"}},
         },
     ),
-    PantherRuleTest(
-        Name="Disallowed User",
-        ExpectedResult=True,
-        Log={
+    RuleTest(
+        name="Disallowed User",
+        expected_result=True,
+        log={
             "protoPayload": {
                 "authenticationInfo": {"principalEmail": "disallowed.user@example.com"},
                 "authorizationInfo": [
@@ -54,10 +52,10 @@ gcpk8s_exec_into_pod_tests: List[PantherRuleTest] = [
             "resource": {"type": "k8s_cluster", "labels": {"project_id": "rigup-production"}},
         },
     ),
-    PantherRuleTest(
-        Name="Disallowed User2 - not an allowed namespace",
-        ExpectedResult=True,
-        Log={
+    RuleTest(
+        name="Disallowed User2 - not an allowed namespace",
+        expected_result=True,
+        log={
             "protoPayload": {
                 "authenticationInfo": {"principalEmail": "example-allowed-user@example.com"},
                 "authorizationInfo": [
@@ -80,17 +78,19 @@ gcpk8s_exec_into_pod_tests: List[PantherRuleTest] = [
 ]
 
 
-class GCPK8sExecIntoPod(PantherRule):
-    RuleID = "GCP.K8s.ExecIntoPod-prototype"
-    DisplayName = "Exec into Pod"
-    Enabled = False
-    LogTypes = [PantherLogType.GCP_AuditLog]
-    Tags = ["GCP", "Security Control", "Configuration Required"]
-    Severity = PantherSeverity.Medium
-    Description = "Alerts when users exec into pod. Possible to specify specific projects and allowed users.\n"
-    Runbook = "Investigate the user and determine why. Advise that it is discouraged practice. Create ticket if appropriate.\n"
-    Reference = "https://cloud.google.com/migrate/containers/docs/troubleshooting/executing-shell-commands"
-    Tests = gcpk8s_exec_into_pod_tests
+class GCPK8sExecIntoPod(Rule):
+    id = "GCP.K8s.ExecIntoPod-prototype"
+    display_name = "Exec into Pod"
+    enabled = False
+    log_types = [LogType.GCP_AuditLog]
+    tags = ["GCP", "Security Control", "Configuration Required"]
+    default_severity = Severity.MEDIUM
+    default_description = "Alerts when users exec into pod. Possible to specify specific projects and allowed users.\n"
+    default_runbook = "Investigate the user and determine why. Advise that it is discouraged practice. Create ticket if appropriate.\n"
+    default_reference = (
+        "https://cloud.google.com/migrate/containers/docs/troubleshooting/executing-shell-commands"
+    )
+    tests = gcpk8s_exec_into_pod_tests
 
     def rule(self, event):
         # Defaults to False (no alert) unless method is exec and principal not allowed
@@ -107,7 +107,9 @@ class GCPK8sExecIntoPod(PantherRule):
         project_id = deep_walk(k8s_info, "project_id", default="<NO PROJECT_ID>")
         # rule_exceptions that are allowed temporarily are defined in gcp_environment.py
         # Some execs have principal which is long numerical UUID, appears to be k8s internals
-        for allowed_principal in deep_walk(rule_exceptions, "gcp_k8s_exec_into_pod", "allowed_principals", default=[]):
+        for allowed_principal in deep_walk(
+            rule_exceptions, "gcp_k8s_exec_into_pod", "allowed_principals", default=[]
+        ):
             allowed_principals = deep_walk(allowed_principal, "principals", default=[])
             allowed_namespaces = deep_walk(allowed_principal, "namespaces", default=[])
             allowed_project_ids = deep_walk(allowed_principal, "projects", default=[])

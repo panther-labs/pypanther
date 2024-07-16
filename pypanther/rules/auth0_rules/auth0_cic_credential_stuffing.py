@@ -1,13 +1,11 @@
-from typing import List
-
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_auth0_helpers import auth0_alert_context
 
-auth0_cic_credential_stuffing_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
-        Name="Auth0 Credential Stuffing Event",
-        ExpectedResult=True,
-        Log={
+auth0_cic_credential_stuffing_tests: list[RuleTest] = [
+    RuleTest(
+        name="Auth0 Credential Stuffing Event",
+        expected_result=True,
+        log={
             "data": {
                 "client_id": "1HXWWGKk1Zj3JF8GvMrnCSirccDs4qvr",
                 "client_name": "",
@@ -32,7 +30,10 @@ auth0_cic_credential_stuffing_tests: List[PantherRuleTest] = [
                         "query": {},
                         "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Safari/537.36",
                     },
-                    "response": {"body": {"integration_id": "64bee519-818f-4473-ab08-7c380f28da77"}, "statusCode": 200},
+                    "response": {
+                        "body": {"integration_id": "64bee519-818f-4473-ab08-7c380f28da77"},
+                        "statusCode": 200,
+                    },
                 },
                 "ip": "12.12.12.12",
                 "log_id": "90020230523204756343781000000000000001223372037583230452",
@@ -43,10 +44,10 @@ auth0_cic_credential_stuffing_tests: List[PantherRuleTest] = [
             "log_id": "90020230523204756343781000000000000001223372037583230452",
         },
     ),
-    PantherRuleTest(
-        Name="Other Event",
-        ExpectedResult=False,
-        Log={
+    RuleTest(
+        name="Other Event",
+        expected_result=False,
+        log={
             "data": {
                 "client_id": "1HXWWGKk1Zj3JF8GvMrnCSirccDs4qvr",
                 "client_name": "",
@@ -230,17 +231,15 @@ auth0_cic_credential_stuffing_tests: List[PantherRuleTest] = [
 ]
 
 
-class Auth0CICCredentialStuffing(PantherRule):
-    LogTypes = [PantherLogType.Auth0_Events]
-    RuleID = "Auth0.CIC.Credential.Stuffing-prototype"
-    DisplayName = "Auth0 CIC Credential Stuffing"
-    Description = "Okta has determined that the cross-origin authentication feature in Customer Identity Cloud (CIC) is prone to being targeted by threat actors orchestrating credential-stuffing attacks.  Okta has observed suspicious activity that started on April 15, 2024.  Review tenant logs for unexpected fcoa, scoa, and pwd_leak events."
-    Severity = PantherSeverity.High
-    Runbook = "If a user password was compromised in a credential stuffing attack, the user's credentials should be rotated immediately out of an abundance of caution."
-    Reference = (
-        "https://sec.okta.com/articles/2024/05/detecting-cross-origin-authentication-credential-stuffing-attacks"
-    )
-    Tests = auth0_cic_credential_stuffing_tests
+class Auth0CICCredentialStuffing(Rule):
+    log_types = [LogType.Auth0_Events]
+    id = "Auth0.CIC.Credential.Stuffing-prototype"
+    display_name = "Auth0 CIC Credential Stuffing"
+    default_description = "Okta has determined that the cross-origin authentication feature in Customer Identity Cloud (CIC) is prone to being targeted by threat actors orchestrating credential-stuffing attacks.  Okta has observed suspicious activity that started on April 15, 2024.  Review tenant logs for unexpected fcoa, scoa, and pwd_leak events."
+    default_severity = Severity.HIGH
+    default_runbook = "If a user password was compromised in a credential stuffing attack, the user's credentials should be rotated immediately out of an abundance of caution."
+    default_reference = "https://sec.okta.com/articles/2024/05/detecting-cross-origin-authentication-credential-stuffing-attacks"
+    tests = auth0_cic_credential_stuffing_tests
     SUSPICIOUS_EVENT_TYPES = ("scoa", "fcoa", "pwd_leak")
 
     def rule(self, event):
@@ -248,7 +247,9 @@ class Auth0CICCredentialStuffing(PantherRule):
 
     def title(self, event):
         event_type = event.deep_get("data", "type")
-        user = event.deep_get("data", "details", "request", "auth", "user", "email", default="<NO_USER_FOUND>")
+        user = event.deep_get(
+            "data", "details", "request", "auth", "user", "email", default="<NO_USER_FOUND>"
+        )
         p_source_label = event.deep_get("p_source_label", default="<NO_P_SOURCE_LABEL_FOUND>")
         return f"Auth0 User [{user}] had a suspicious [{event_type}] event in your organization's tenant [{p_source_label}]."
 

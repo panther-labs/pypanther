@@ -1,13 +1,11 @@
-from typing import List
-
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_zoom_helpers import get_zoom_usergroup_context as get_context
 
-zoom_passcode_disabled_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
-        Name="Meeting Passcode Disabled",
-        ExpectedResult=True,
-        Log={
+zoom_passcode_disabled_tests: list[RuleTest] = [
+    RuleTest(
+        name="Meeting Passcode Disabled",
+        expected_result=True,
+        log={
             "time": "2021-11-17 00:37:24Z",
             "operator": "homer@panther.io",
             "category_type": "User Group",
@@ -16,10 +14,10 @@ zoom_passcode_disabled_tests: List[PantherRuleTest] = [
             "p_log_type": "Zoom.Operation",
         },
     ),
-    PantherRuleTest(
-        Name="Meeting Passcode Enabled",
-        ExpectedResult=False,
-        Log={
+    RuleTest(
+        name="Meeting Passcode Enabled",
+        expected_result=False,
+        log={
             "time": "2021-11-17 00:37:24Z",
             "operator": "homer@panther.io",
             "category_type": "User Group",
@@ -28,10 +26,10 @@ zoom_passcode_disabled_tests: List[PantherRuleTest] = [
             "p_log_type": "Zoom.Operation",
         },
     ),
-    PantherRuleTest(
-        Name="Add User Group",
-        ExpectedResult=False,
-        Log={
+    RuleTest(
+        name="Add User Group",
+        expected_result=False,
+        log={
             "time": "2021-11-17 00:37:24Z",
             "operator": "homer@panther.io",
             "category_type": "User Group",
@@ -43,18 +41,20 @@ zoom_passcode_disabled_tests: List[PantherRuleTest] = [
 ]
 
 
-class ZoomPasscodeDisabled(PantherRule):
-    RuleID = "Zoom.PasscodeDisabled-prototype"
-    DisplayName = "Zoom Meeting Passcode Disabled"
-    LogTypes = [PantherLogType.Zoom_Operation]
-    Tags = ["Zoom", "Collection:Video Capture"]
-    Severity = PantherSeverity.Low
-    Description = "Meeting passcode requirement has been disabled from usergroup\n"
-    Reports = {"MITRE ATT&CK": ["TA0009:T1125"]}
-    Reference = "https://support.zoom.us/hc/en-us/articles/360033559832-Zoom-Meeting-and-Webinar-passcodes"
-    Runbook = "Follow up with user or Zoom admin to ensure this meeting room's use case does not allow a passcode.\n"
-    SummaryAttributes = ["p_any_emails"]
-    Tests = zoom_passcode_disabled_tests
+class ZoomPasscodeDisabled(Rule):
+    id = "Zoom.PasscodeDisabled-prototype"
+    display_name = "Zoom Meeting Passcode Disabled"
+    log_types = [LogType.Zoom_Operation]
+    tags = ["Zoom", "Collection:Video Capture"]
+    default_severity = Severity.LOW
+    default_description = "Meeting passcode requirement has been disabled from usergroup\n"
+    reports = {"MITRE ATT&CK": ["TA0009:T1125"]}
+    default_reference = (
+        "https://support.zoom.us/hc/en-us/articles/360033559832-Zoom-Meeting-and-Webinar-passcodes"
+    )
+    default_runbook = "Follow up with user or Zoom admin to ensure this meeting room's use case does not allow a passcode.\n"
+    summary_attributes = ["p_any_emails"]
+    tests = zoom_passcode_disabled_tests
 
     def rule(self, event):
         if event.get("category_type") != "User Group":
@@ -66,4 +66,6 @@ class ZoomPasscodeDisabled(PantherRule):
 
     def title(self, event):
         context = get_context(event)
-        return f"Group {context['GroupName']} passcode requirement disabled by {event.get('operator')}"
+        return (
+            f"Group {context['GroupName']} passcode requirement disabled by {event.get('operator')}"
+        )

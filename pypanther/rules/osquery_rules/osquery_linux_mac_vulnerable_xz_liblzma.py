@@ -1,12 +1,10 @@
-from typing import List
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
-
-osquery_linux_mac_vulnerable_x_zliblzma_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
-        Name="Vulnerable liblzma",
-        ExpectedResult=True,
-        Log={
+osquery_linux_mac_vulnerable_x_zliblzma_tests: list[RuleTest] = [
+    RuleTest(
+        name="Vulnerable liblzma",
+        expected_result=True,
+        log={
             "name": "pack_vuln-management_rpm_packages",
             "action": "added",
             "hostIdentifier": "test-host",
@@ -18,10 +16,10 @@ osquery_linux_mac_vulnerable_x_zliblzma_tests: List[PantherRuleTest] = [
             },
         },
     ),
-    PantherRuleTest(
-        Name="Vulnerable xz",
-        ExpectedResult=True,
-        Log={
+    RuleTest(
+        name="Vulnerable xz",
+        expected_result=True,
+        log={
             "name": "pack_vuln-management_deb_packages",
             "action": "added",
             "hostIdentifier": "test-host",
@@ -33,10 +31,10 @@ osquery_linux_mac_vulnerable_x_zliblzma_tests: List[PantherRuleTest] = [
             },
         },
     ),
-    PantherRuleTest(
-        Name="Not vulnerable",
-        ExpectedResult=False,
-        Log={
+    RuleTest(
+        name="Not vulnerable",
+        expected_result=False,
+        log={
             "name": "pack_vuln-management_rpm_packages",
             "action": "added",
             "hostIdentifier": "test-host",
@@ -51,18 +49,18 @@ osquery_linux_mac_vulnerable_x_zliblzma_tests: List[PantherRuleTest] = [
 ]
 
 
-class OsqueryLinuxMacVulnerableXZliblzma(PantherRule):
-    RuleID = "Osquery.Linux.Mac.VulnerableXZliblzma-prototype"
-    DisplayName = "A backdoored version of XZ or liblzma is vulnerable to CVE-2024-3094"
-    LogTypes = [PantherLogType.Osquery_Differential]
-    Tags = ["Osquery", "MacOS", "Linux", "Emerging Threats", "Supply Chain Compromise"]
-    Reports = {"MITRE ATT&CK": ["TA0001:T1195.001"]}
-    Severity = PantherSeverity.High
-    Description = "Detects vulnerable versions of XZ and liblzma on Linux and MacOS using Osquery logs. Versions 5.6.0 and 5.6.1 of xz and liblzma are most likely vulnerable to backdoor exploit. Vuln management pack must be enabled: https://github.com/osquery/osquery/blob/master/packs/vuln-management.conf\n"
-    Runbook = "Upgrade/downgrade xz and liblzma to non-vulnerable versions"
-    Reference = "https://gist.github.com/jamesspi/ee8319f55d49b4f44345c626f80c430f"
-    SummaryAttributes = ["name", "hostIdentifier", "action"]
-    Tests = osquery_linux_mac_vulnerable_x_zliblzma_tests
+class OsqueryLinuxMacVulnerableXZliblzma(Rule):
+    id = "Osquery.Linux.Mac.VulnerableXZliblzma-prototype"
+    display_name = "A backdoored version of XZ or liblzma is vulnerable to CVE-2024-3094"
+    log_types = [LogType.Osquery_Differential]
+    tags = ["Osquery", "MacOS", "Linux", "Emerging Threats", "Supply Chain Compromise"]
+    reports = {"MITRE ATT&CK": ["TA0001:T1195.001"]}
+    default_severity = Severity.HIGH
+    default_description = "Detects vulnerable versions of XZ and liblzma on Linux and MacOS using Osquery logs. Versions 5.6.0 and 5.6.1 of xz and liblzma are most likely vulnerable to backdoor exploit. Vuln management pack must be enabled: https://github.com/osquery/osquery/blob/master/packs/vuln-management.conf\n"
+    default_runbook = "Upgrade/downgrade xz and liblzma to non-vulnerable versions"
+    default_reference = "https://gist.github.com/jamesspi/ee8319f55d49b4f44345c626f80c430f"
+    summary_attributes = ["name", "hostIdentifier", "action"]
+    tests = osquery_linux_mac_vulnerable_x_zliblzma_tests
     QUERY_NAMES = {
         "pack_vuln-management_homebrew_packages",
         "pack_vuln-management_deb_packages",

@@ -1,14 +1,13 @@
 import datetime
-from typing import List
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get, pattern_match, pattern_match_list
 
-g_suite_drive_external_file_share_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
-        Name="Dangerous Share of Known Document with a Missing User",
-        ExpectedResult=True,
-        Log={
+g_suite_drive_external_file_share_tests: list[RuleTest] = [
+    RuleTest(
+        name="Dangerous Share of Known Document with a Missing User",
+        expected_result=True,
+        log={
             "kind": "admin#reports#activity",
             "id": {
                 "time": "2020-09-07T15:50:49.617Z",
@@ -40,10 +39,10 @@ g_suite_drive_external_file_share_tests: List[PantherRuleTest] = [
             ],
         },
     ),
-    PantherRuleTest(
-        Name="Dangerous Share of Unknown Document",
-        ExpectedResult=True,
-        Log={
+    RuleTest(
+        name="Dangerous Share of Unknown Document",
+        expected_result=True,
+        log={
             "kind": "admin#reports#activity",
             "id": {
                 "time": "2020-09-07T15:50:49.617Z",
@@ -75,10 +74,10 @@ g_suite_drive_external_file_share_tests: List[PantherRuleTest] = [
             ],
         },
     ),
-    PantherRuleTest(
-        Name="Share Allowed by Exception",
-        ExpectedResult=False,
-        Log={
+    RuleTest(
+        name="Share Allowed by Exception",
+        expected_result=False,
+        log={
             "kind": "admin#reports#activity",
             "id": {
                 "time": "2020-07-07T15:50:49.617Z",
@@ -114,20 +113,23 @@ g_suite_drive_external_file_share_tests: List[PantherRuleTest] = [
 ]
 
 
-class GSuiteDriveExternalFileShare(PantherRule):
-    RuleID = "GSuite.Drive.ExternalFileShare-prototype"
-    DisplayName = "External GSuite File Share"
-    Enabled = False
-    LogTypes = [PantherLogType.GSuite_Reports]
-    Tags = ["GSuite", "Security Control", "Configuration Required", "Collection:Data from Information Repositories"]
-    Reports = {"MITRE ATT&CK": ["TA0009:T1213"]}
-    Severity = PantherSeverity.High
-    Description = "An employee shared a sensitive file externally with another organization"
-    Runbook = "Contact the employee who made the share and make sure they redact the access. If the share was legitimate, add to the EXCEPTION_PATTERNS in the detection.\n"
-    Reference = (
-        "https://support.google.com/docs/answer/2494822?hl=en&co=GENIE.Platform%3DiOS&sjid=864417124752637253-EU"
-    )
-    Tests = g_suite_drive_external_file_share_tests
+class GSuiteDriveExternalFileShare(Rule):
+    id = "GSuite.Drive.ExternalFileShare-prototype"
+    display_name = "External GSuite File Share"
+    enabled = False
+    log_types = [LogType.GSuite_Reports]
+    tags = [
+        "GSuite",
+        "Security Control",
+        "Configuration Required",
+        "Collection:Data from Information Repositories",
+    ]
+    reports = {"MITRE ATT&CK": ["TA0009:T1213"]}
+    default_severity = Severity.HIGH
+    default_description = "An employee shared a sensitive file externally with another organization"
+    default_runbook = "Contact the employee who made the share and make sure they redact the access. If the share was legitimate, add to the EXCEPTION_PATTERNS in the detection.\n"
+    default_reference = "https://support.google.com/docs/answer/2494822?hl=en&co=GENIE.Platform%3DiOS&sjid=864417124752637253-EU"
+    tests = g_suite_drive_external_file_share_tests
     COMPANY_DOMAIN = "your-company-name.com"
     # The glob pattern for the document title (lowercased)
     # All actors allowed to receive the file share
@@ -138,13 +140,21 @@ class GSuiteDriveExternalFileShare(PantherRule):
     # The time limit for how long the file share stays valid
     EXCEPTION_PATTERNS = {
         "document title p*": {
-            "allowed_for": {"alice@acme.com", "samuel@acme.com", "nathan@acme.com", "barry@acme.com"},
+            "allowed_for": {
+                "alice@acme.com",
+                "samuel@acme.com",
+                "nathan@acme.com",
+                "barry@acme.com",
+            },
             "allowed_until": datetime.datetime(year=2030, month=6, day=2),
         }
     }
 
     def _check_acl_change_event(self, actor_email, acl_change_event):
-        parameters = {p.get("name", ""): p.get("value") or p.get("multiValue") for p in acl_change_event["parameters"]}
+        parameters = {
+            p.get("name", ""): p.get("value") or p.get("multiValue")
+            for p in acl_change_event["parameters"]
+        }
         doc_title = parameters.get("doc_title", "TITLE_UNKNOWN")
         old_visibility = parameters.get("old_visibility", "OLD_VISIBILITY_UNKNOWN")
         new_visibility = parameters.get("visibility", "NEW_VISIBILITY_UNKNOWN")
@@ -175,9 +185,18 @@ class GSuiteDriveExternalFileShare(PantherRule):
         application_name = deep_get(event, "id", "applicationName")
         events = event.get("events")
         actor_email = deep_get(event, "actor", "email", default="EMAIL_UNKNOWN")
-        if application_name == "drive" and events and ("acl_change" in set((e["type"] for e in events))):
+        if (
+            application_name == "drive"
+            and events
+            and ("acl_change" in set((e["type"] for e in events)))
+        ):
             # If any of the events in this record are a dangerous file share, alert:
-            return any((self._check_acl_change_event(actor_email, acl_change_event) for acl_change_event in events))
+            return any(
+                (
+                    self._check_acl_change_event(actor_email, acl_change_event)
+                    for acl_change_event in events
+                )
+            )
         return False
 
     def title(self, event):

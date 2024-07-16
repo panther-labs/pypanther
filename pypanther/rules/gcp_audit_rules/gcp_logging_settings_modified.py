@@ -1,13 +1,11 @@
-from typing import List
-
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 
-gcp_logging_settings_modified_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
-        Name="Other Event",
-        ExpectedResult=False,
-        Log={
+gcp_logging_settings_modified_tests: list[RuleTest] = [
+    RuleTest(
+        name="Other Event",
+        expected_result=False,
+        log={
             "insertid": "abcdefghijklmn",
             "logname": "projects/gcp-project1/logs/cloudaudit.googleapis.com%2Factivity",
             "operation": {
@@ -59,10 +57,10 @@ gcp_logging_settings_modified_tests: List[PantherRuleTest] = [
             },
         },
     ),
-    PantherRuleTest(
-        Name="Sink Update Event",
-        ExpectedResult=True,
-        Log={
+    RuleTest(
+        name="Sink Update Event",
+        expected_result=True,
+        log={
             "insertid": "ezyd47c12y",
             "logname": "projects/gcp-project1/logs/cloudaudit.googleapis.com%2Factivity",
             "p_any_ip_addresses": ["1.2.3.4"],
@@ -121,14 +119,14 @@ gcp_logging_settings_modified_tests: List[PantherRuleTest] = [
 ]
 
 
-class GCPLoggingSettingsModified(PantherRule):
-    Description = "Detects any changes made to logging settings"
-    DisplayName = "GCP Logging Settings Modified"
-    Reference = "https://cloud.google.com/logging/docs/default-settings"
-    Severity = PantherSeverity.Low
-    LogTypes = [PantherLogType.GCP_AuditLog]
-    RuleID = "GCP.Logging.Settings.Modified-prototype"
-    Tests = gcp_logging_settings_modified_tests
+class GCPLoggingSettingsModified(Rule):
+    default_description = "Detects any changes made to logging settings"
+    display_name = "GCP Logging Settings Modified"
+    default_reference = "https://cloud.google.com/logging/docs/default-settings"
+    default_severity = Severity.LOW
+    log_types = [LogType.GCP_AuditLog]
+    id = "GCP.Logging.Settings.Modified-prototype"
+    tests = gcp_logging_settings_modified_tests
 
     def rule(self, event):
         return all(

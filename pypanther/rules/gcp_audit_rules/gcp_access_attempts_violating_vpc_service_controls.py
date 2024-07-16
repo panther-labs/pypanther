@@ -1,13 +1,11 @@
-from typing import List
-
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get, deep_walk
 
-gcp_access_attempts_violating_vpc_service_controls_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
-        Name="Other Event",
-        ExpectedResult=False,
-        Log={
+gcp_access_attempts_violating_vpc_service_controls_tests: list[RuleTest] = [
+    RuleTest(
+        name="Other Event",
+        expected_result=False,
+        log={
             "insertId": "12345",
             "logName": "projects/test-project/logs/cloudaudit.googleapis.com%2Factivity",
             "operation": {
@@ -87,10 +85,10 @@ gcp_access_attempts_violating_vpc_service_controls_tests: List[PantherRuleTest] 
             "timestamp": "2023-03-08 18:52:52.114",
         },
     ),
-    PantherRuleTest(
-        Name="VPC control violation",
-        ExpectedResult=True,
-        Log={
+    RuleTest(
+        name="VPC control violation",
+        expected_result=True,
+        log={
             "insertId": "13ogcded7jh2",
             "insertid": "15wr7lbb6j",
             "logName": "projects/gcpproject/logs/cloudaudit.googleapis.com%2Fpolicy",
@@ -163,14 +161,16 @@ gcp_access_attempts_violating_vpc_service_controls_tests: List[PantherRuleTest] 
 ]
 
 
-class GCPAccessAttemptsViolatingVPCServiceControls(PantherRule):
-    Description = "An access attempt violating VPC service controls (such as Perimeter controls) has been made."
-    DisplayName = "GCP Access Attempts Violating VPC Service Controls"
-    Reference = "https://cloud.google.com/vpc-service-controls/docs/troubleshooting#debugging"
-    Severity = PantherSeverity.Medium
-    LogTypes = [PantherLogType.GCP_AuditLog]
-    RuleID = "GCP.Access.Attempts.Violating.VPC.Service.Controls-prototype"
-    Tests = gcp_access_attempts_violating_vpc_service_controls_tests
+class GCPAccessAttemptsViolatingVPCServiceControls(Rule):
+    default_description = "An access attempt violating VPC service controls (such as Perimeter controls) has been made."
+    display_name = "GCP Access Attempts Violating VPC Service Controls"
+    default_reference = (
+        "https://cloud.google.com/vpc-service-controls/docs/troubleshooting#debugging"
+    )
+    default_severity = Severity.MEDIUM
+    log_types = [LogType.GCP_AuditLog]
+    id = "GCP.Access.Attempts.Violating.VPC.Service.Controls-prototype"
+    tests = gcp_access_attempts_violating_vpc_service_controls_tests
 
     def rule(self, event):
         severity = deep_get(event, "severity", default="")

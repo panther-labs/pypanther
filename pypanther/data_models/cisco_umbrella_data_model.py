@@ -1,7 +1,4 @@
-from typing import List
-
-from pypanther.base import PantherDataModel, PantherDataModelMapping
-from pypanther.log_types import PantherLogType
+from pypanther.base import DataModel, DataModelMapping, LogType
 
 
 def get_dns_query(event):
@@ -13,13 +10,13 @@ def get_dns_query(event):
     return domain
 
 
-class StandardCiscoUmbrellaDNS(PantherDataModel):
-    DataModelID: str = "Standard.CiscoUmbrella.DNS"
-    DisplayName: str = "Cisco Umbrella DNS"
-    Enabled: bool = True
-    LogTypes: List[str] = [PantherLogType.CiscoUmbrella_DNS]
-    Mappings: List[PantherDataModelMapping] = [
-        PantherDataModelMapping(Name="source_ip", Path="internalIp"),
-        PantherDataModelMapping(Name="source_port", Path="srcPort"),
-        PantherDataModelMapping(Name="dns_query", Method=get_dns_query),
+class StandardCiscoUmbrellaDNS(DataModel):
+    id: str = "Standard.CiscoUmbrella.DNS"
+    display_name: str = "Cisco Umbrella DNS"
+    enabled: bool = True
+    log_types: list[str] = [LogType.CiscoUmbrella_DNS]
+    mappings: list[DataModelMapping] = [
+        DataModelMapping(name="source_ip", path="internalIp"),
+        DataModelMapping(name="source_port", path="srcPort"),
+        DataModelMapping(name="dns_query", method=get_dns_query),
     ]

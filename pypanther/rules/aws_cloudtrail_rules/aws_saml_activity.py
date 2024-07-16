@@ -1,13 +1,11 @@
-from typing import List
-
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import aws_rule_context, deep_get
 
-aws_suspicious_saml_activity_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
-        Name="CreateSAMLProvider",
-        ExpectedResult=True,
-        Log={
+aws_suspicious_saml_activity_tests: list[RuleTest] = [
+    RuleTest(
+        name="CreateSAMLProvider",
+        expected_result=True,
+        log={
             "awsRegion": "us-east-1",
             "eventID": "EID12345",
             "eventName": "CreateSAMLProvider",
@@ -27,7 +25,10 @@ aws_suspicious_saml_activity_tests: List[PantherRuleTest] = [
                 "invokedBy": "cloudformation.amazonaws.com",
                 "principalId": "0123456789:AWSCloudFormation",
                 "sessionContext": {
-                    "attributes": {"creationDate": "2021-10-14T21:25:20Z", "mfaAuthenticated": "false"},
+                    "attributes": {
+                        "creationDate": "2021-10-14T21:25:20Z",
+                        "mfaAuthenticated": "false",
+                    },
                     "sessionIssuer": {
                         "accountId": "0123456789",
                         "arn": "arn:aws:iam::0123456789:role/ServiceRole",
@@ -41,10 +42,10 @@ aws_suspicious_saml_activity_tests: List[PantherRuleTest] = [
             },
         },
     ),
-    PantherRuleTest(
-        Name="DeleteSAMLProvider",
-        ExpectedResult=True,
-        Log={
+    RuleTest(
+        name="DeleteSAMLProvider",
+        expected_result=True,
+        log={
             "awsRegion": "us-east-1",
             "eventID": "EID12345",
             "eventName": "DeleteSAMLProvider",
@@ -64,7 +65,10 @@ aws_suspicious_saml_activity_tests: List[PantherRuleTest] = [
                 "invokedBy": "cloudformation.amazonaws.com",
                 "principalId": "0123456789:AWSCloudFormation",
                 "sessionContext": {
-                    "attributes": {"creationDate": "2021-10-14T21:25:20Z", "mfaAuthenticated": "false"},
+                    "attributes": {
+                        "creationDate": "2021-10-14T21:25:20Z",
+                        "mfaAuthenticated": "false",
+                    },
                     "sessionIssuer": {
                         "accountId": "0123456789",
                         "arn": "arn:aws:iam::0123456789:role/ServiceRole",
@@ -78,10 +82,10 @@ aws_suspicious_saml_activity_tests: List[PantherRuleTest] = [
             },
         },
     ),
-    PantherRuleTest(
-        Name="Non Target Event",
-        ExpectedResult=False,
-        Log={
+    RuleTest(
+        name="Non Target Event",
+        expected_result=False,
+        log={
             "awsRegion": "us-east-1",
             "eventID": "EID12345",
             "eventName": "ListAccessKeys",
@@ -101,7 +105,10 @@ aws_suspicious_saml_activity_tests: List[PantherRuleTest] = [
                 "arn": "arn:aws:iam::0123456789:user/bob",
                 "principalId": "ABCDEF012345",
                 "sessionContext": {
-                    "attributes": {"creationDate": "2021-10-13T18:35:02Z", "mfaAuthenticated": "true"},
+                    "attributes": {
+                        "creationDate": "2021-10-13T18:35:02Z",
+                        "mfaAuthenticated": "true",
+                    },
                     "sessionIssuer": {},
                     "webIdFederationData": {},
                 },
@@ -110,10 +117,10 @@ aws_suspicious_saml_activity_tests: List[PantherRuleTest] = [
             },
         },
     ),
-    PantherRuleTest(
-        Name="UpdateSAMLProvider",
-        ExpectedResult=True,
-        Log={
+    RuleTest(
+        name="UpdateSAMLProvider",
+        expected_result=True,
+        log={
             "awsRegion": "us-east-1",
             "eventID": "EID12345",
             "eventName": "UpdateSAMLProvider",
@@ -133,7 +140,10 @@ aws_suspicious_saml_activity_tests: List[PantherRuleTest] = [
                 "invokedBy": "cloudformation.amazonaws.com",
                 "principalId": "0123456789:AWSCloudFormation",
                 "sessionContext": {
-                    "attributes": {"creationDate": "2021-10-14T21:25:20Z", "mfaAuthenticated": "false"},
+                    "attributes": {
+                        "creationDate": "2021-10-14T21:25:20Z",
+                        "mfaAuthenticated": "false",
+                    },
                     "sessionIssuer": {
                         "accountId": "0123456789",
                         "arn": "arn:aws:iam::0123456789:role/ServiceRole",
@@ -147,10 +157,10 @@ aws_suspicious_saml_activity_tests: List[PantherRuleTest] = [
             },
         },
     ),
-    PantherRuleTest(
-        Name="Activity from AWSSSO Service Managed Role",
-        ExpectedResult=False,
-        Log={
+    RuleTest(
+        name="Activity from AWSSSO Service Managed Role",
+        expected_result=False,
+        log={
             "awsRegion": "us-east-1",
             "eventCategory": "Management",
             "eventName": "CreateSAMLProvider",
@@ -173,7 +183,10 @@ aws_suspicious_saml_activity_tests: List[PantherRuleTest] = [
                     "invokedBy": "sso.amazonaws.com",
                     "principalId": "AROAT7BCMNLMONMOFFFFF:AWS-SSO",
                     "sessionContext": {
-                        "attributes": {"creationDate": "2022-12-12T21:46:16Z", "mfaAuthenticated": "false"},
+                        "attributes": {
+                            "creationDate": "2022-12-12T21:46:16Z",
+                            "mfaAuthenticated": "false",
+                        },
                         "sessionIssuer": {
                             "accountId": "123412341234",
                             "arn": "arn:aws:iam::123412341234:role/aws-service-role/sso.amazonaws.com/AWSServiceRoleForSSO",
@@ -221,7 +234,10 @@ aws_suspicious_saml_activity_tests: List[PantherRuleTest] = [
                 "invokedBy": "sso.amazonaws.com",
                 "principalId": "AROAT7BCMNLMONMOFFFFF:AWS-SSO",
                 "sessionContext": {
-                    "attributes": {"creationDate": "2022-12-12T21:46:16Z", "mfaAuthenticated": "false"},
+                    "attributes": {
+                        "creationDate": "2022-12-12T21:46:16Z",
+                        "mfaAuthenticated": "false",
+                    },
                     "sessionIssuer": {
                         "accountId": "123412341234",
                         "arn": "arn:aws:iam::123412341234:role/aws-service-role/sso.amazonaws.com/AWSServiceRoleForSSO",
@@ -238,23 +254,26 @@ aws_suspicious_saml_activity_tests: List[PantherRuleTest] = [
 ]
 
 
-class AWSSuspiciousSAMLActivity(PantherRule):
-    Description = "Identifies when SAML activity has occurred in AWS. An adversary could gain backdoor access via SAML."
-    DisplayName = "AWS SAML Activity"
-    Reference = (
-        "https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pools-managing-saml-idp-console.html"
-    )
-    Severity = PantherSeverity.Medium
-    LogTypes = [PantherLogType.AWS_CloudTrail]
-    RuleID = "AWS.Suspicious.SAML.Activity-prototype"
-    Tests = aws_suspicious_saml_activity_tests
+class AWSSuspiciousSAMLActivity(Rule):
+    default_description = "Identifies when SAML activity has occurred in AWS. An adversary could gain backdoor access via SAML."
+    display_name = "AWS SAML Activity"
+    default_reference = "https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pools-managing-saml-idp-console.html"
+    default_severity = Severity.MEDIUM
+    log_types = [LogType.AWS_CloudTrail]
+    id = "AWS.Suspicious.SAML.Activity-prototype"
+    tests = aws_suspicious_saml_activity_tests
     SAML_ACTIONS = ["UpdateSAMLProvider", "CreateSAMLProvider", "DeleteSAMLProvider"]
 
     def rule(self, event):
         # Allow AWSSSO to manage
-        if deep_get(event, "userIdentity", "arn", default="").endswith(":assumed-role/AWSServiceRoleForSSO/AWS-SSO"):
+        if deep_get(event, "userIdentity", "arn", default="").endswith(
+            ":assumed-role/AWSServiceRoleForSSO/AWS-SSO"
+        ):
             return False
-        return event.get("eventSource") == "iam.amazonaws.com" and event.get("eventName") in self.SAML_ACTIONS
+        return (
+            event.get("eventSource") == "iam.amazonaws.com"
+            and event.get("eventName") in self.SAML_ACTIONS
+        )
 
     def title(self, event):
         return f"[{deep_get(event, 'userIdentity', 'arn')}] performed [{event.get('eventName')}] in account [{event.get('recipientAccountId')}]"

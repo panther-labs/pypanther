@@ -1,12 +1,10 @@
-from typing import List
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
-
-google_workspace_apps_marketplace_new_domain_application_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
-        Name="Change Email Setting Default",
-        ExpectedResult=False,
-        Log={
+google_workspace_apps_marketplace_new_domain_application_tests: list[RuleTest] = [
+    RuleTest(
+        name="Change Email Setting Default",
+        expected_result=False,
+        log={
             "actor": {"callerType": "USER", "email": "example@example.io", "profileId": "12345"},
             "id": {
                 "applicationName": "admin",
@@ -26,10 +24,10 @@ google_workspace_apps_marketplace_new_domain_application_tests: List[PantherRule
             "type": "EMAIL_SETTINGS",
         },
     ),
-    PantherRuleTest(
-        Name="DocuSign for Google",
-        ExpectedResult=True,
-        Log={
+    RuleTest(
+        name="DocuSign for Google",
+        expected_result=True,
+        log={
             "actor": {"callerType": "USER", "email": "example@example.io", "profileId": "12345"},
             "id": {
                 "applicationName": "admin",
@@ -47,10 +45,10 @@ google_workspace_apps_marketplace_new_domain_application_tests: List[PantherRule
             "type": "DOMAIN_SETTINGS",
         },
     ),
-    PantherRuleTest(
-        Name="Microsoft Apps for Google",
-        ExpectedResult=True,
-        Log={
+    RuleTest(
+        name="Microsoft Apps for Google",
+        expected_result=True,
+        log={
             "actor": {"callerType": "USER", "email": "example@example.io", "profileId": "12345"},
             "id": {
                 "applicationName": "admin",
@@ -68,10 +66,10 @@ google_workspace_apps_marketplace_new_domain_application_tests: List[PantherRule
             "type": "DOMAIN_SETTINGS",
         },
     ),
-    PantherRuleTest(
-        Name="ListObject Type",
-        ExpectedResult=False,
-        Log={
+    RuleTest(
+        name="ListObject Type",
+        expected_result=False,
+        log={
             "actor": {"email": "user@example.io", "profileId": "118111111111111111111"},
             "id": {
                 "applicationName": "drive",
@@ -103,23 +101,22 @@ google_workspace_apps_marketplace_new_domain_application_tests: List[PantherRule
 ]
 
 
-class GoogleWorkspaceAppsMarketplaceNewDomainApplication(PantherRule):
-    Description = (
-        "A Google Workspace User configured a new domain application from the Google Workspace Apps Marketplace."
-    )
-    DisplayName = "Google Workspace Apps Marketplace New Domain Application"
-    Runbook = "Confirm this was the intended behavior."
-    Reference = "https://developers.google.com/workspace/marketplace/overview"
-    Severity = PantherSeverity.Medium
-    LogTypes = [PantherLogType.GSuite_ActivityEvent]
-    RuleID = "Google.Workspace.Apps.Marketplace.New.Domain.Application-prototype"
-    Tests = google_workspace_apps_marketplace_new_domain_application_tests
+class GoogleWorkspaceAppsMarketplaceNewDomainApplication(Rule):
+    default_description = "A Google Workspace User configured a new domain application from the Google Workspace Apps Marketplace."
+    display_name = "Google Workspace Apps Marketplace New Domain Application"
+    default_runbook = "Confirm this was the intended behavior."
+    default_reference = "https://developers.google.com/workspace/marketplace/overview"
+    default_severity = Severity.MEDIUM
+    log_types = [LogType.GSuite_ActivityEvent]
+    id = "Google.Workspace.Apps.Marketplace.New.Domain.Application-prototype"
+    tests = google_workspace_apps_marketplace_new_domain_application_tests
 
     def rule(self, event):
         # Return True to match the log event and trigger an alert.
         return (
             event.get("name") == "ADD_APPLICATION"
-            and event.get("parameters", {}).get("APPLICATION_ENABLED", "<NO_APPLICATION_FOUND>") == "true"
+            and event.get("parameters", {}).get("APPLICATION_ENABLED", "<NO_APPLICATION_FOUND>")
+            == "true"
         )
 
     def title(self, event):

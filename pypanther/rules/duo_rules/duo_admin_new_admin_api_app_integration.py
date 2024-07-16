@@ -1,13 +1,14 @@
-from typing import List
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther.helpers.panther_duo_helpers import (
+    deserialize_administrator_log_event_description,
+    duo_alert_context,
+)
 
-from pypanther import PantherLogType, PantherRule, PantherRuleTest, PantherSeverity
-from pypanther.helpers.panther_duo_helpers import deserialize_administrator_log_event_description, duo_alert_context
-
-duo_admin_new_admin_api_app_integration_tests: List[PantherRuleTest] = [
-    PantherRuleTest(
-        Name="Admin API Integration Created",
-        ExpectedResult=True,
-        Log={
+duo_admin_new_admin_api_app_integration_tests: list[RuleTest] = [
+    RuleTest(
+        name="Admin API Integration Created",
+        expected_result=True,
+        log={
             "action": "integration_create",
             "description": '{"greeting": "", "notes": "", "offline_auth_enabled": 0, "offline_max_days": 0, "offline_max_attempts": 0, "type": "Admin API", "raw_type": "adminapi", "name": "Admin API", "self_service_allowed": false, "username_normalization_policy": "None", "missing_web_referer_policy": "deny", "networks_for_api_access": "", "group_access": ""}',
             "isotimestamp": "2021-11-30 17:15:33",
@@ -16,10 +17,10 @@ duo_admin_new_admin_api_app_integration_tests: List[PantherRuleTest] = [
             "username": "Homer Simpson",
         },
     ),
-    PantherRuleTest(
-        Name="Non Admin API Integration",
-        ExpectedResult=False,
-        Log={
+    RuleTest(
+        name="Non Admin API Integration",
+        expected_result=False,
+        log={
             "action": "integration_create",
             "description": '{"greeting": "", "notes": "", "offline_auth_enabled": 0, "offline_max_days": 0, "offline_max_attempts": 0, "type": "1Password", "raw_type": "1password", "name": "1Password", "self_service_allowed": false, "username_normalization_policy": "None", "missing_web_referer_policy": "deny", "networks_for_api_access": "", "group_access": ""}',
             "isotimestamp": "2021-11-30 17:11:51",
@@ -28,10 +29,10 @@ duo_admin_new_admin_api_app_integration_tests: List[PantherRuleTest] = [
             "username": "Homer Simpson",
         },
     ),
-    PantherRuleTest(
-        Name="Other Event",
-        ExpectedResult=False,
-        Log={
+    RuleTest(
+        name="Other Event",
+        expected_result=False,
+        log={
             "action": "user_update",
             "description": '{"phones": ""}',
             "isotimestamp": "2021-07-02 18:31:56",
@@ -43,14 +44,14 @@ duo_admin_new_admin_api_app_integration_tests: List[PantherRuleTest] = [
 ]
 
 
-class DuoAdminNewAdminAPIAppIntegration(PantherRule):
-    Description = "Identifies creation of new Admin API integrations for Duo."
-    DisplayName = "Duo Admin New Admin API App Integration"
-    Reference = "https://duo.com/docs/adminapi#overview"
-    Severity = PantherSeverity.High
-    LogTypes = [PantherLogType.Duo_Administrator]
-    RuleID = "Duo.Admin.New.Admin.API.App.Integration-prototype"
-    Tests = duo_admin_new_admin_api_app_integration_tests
+class DuoAdminNewAdminAPIAppIntegration(Rule):
+    default_description = "Identifies creation of new Admin API integrations for Duo."
+    display_name = "Duo Admin New Admin API App Integration"
+    default_reference = "https://duo.com/docs/adminapi#overview"
+    default_severity = Severity.HIGH
+    log_types = [LogType.Duo_Administrator]
+    id = "Duo.Admin.New.Admin.API.App.Integration-prototype"
+    tests = duo_admin_new_admin_api_app_integration_tests
 
     def rule(self, event):
         if event.get("action") == "integration_create":
