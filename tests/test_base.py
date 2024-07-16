@@ -157,7 +157,9 @@ class TestRunningTests:
         assert len(results) == 1
         assert not results[0].passed
         for func in ["runbook", "severity"]:
-            assert "bad" in str(getattr(results[0].detection_result, f"{func}_exception"))
+            assert "bad" in str(
+                getattr(results[0].detection_result, f"{func}_exception")
+            )
 
     def test_returns_all_aux_func_exceptions(self):
         funcs = [
@@ -190,7 +192,9 @@ class TestRunningTests:
         assert len(results) == 1
         assert not results[0].passed
         for func in funcs:
-            assert "bad" in str(getattr(results[0].detection_result, f"{func}_exception"))
+            assert "bad" in str(
+                getattr(results[0].detection_result, f"{func}_exception")
+            )
 
     def test_runs_all_rule_tests(self):
         false_test_1 = RuleTest(name="false test 1", expected_result=False, log={})
@@ -268,7 +272,9 @@ class TestValidation:
 
         with pytest.raises(TypeError) as e:
             rule.validate()
-        assert e.value.args == ("Can't instantiate abstract class rule with abstract method rule",)
+        assert e.value.args == (
+            "Can't instantiate abstract class rule with abstract method rule",
+        )
 
 
 class TestRule(TestCase):
@@ -952,7 +958,9 @@ class TestRule(TestCase):
             detection_type=TYPE_RULE,
         )
         self.maxDiff = None
-        assert expected_result == rule().run(PantherEvent({}, None), {}, {}, batch_mode=False)
+        assert expected_result == rule().run(
+            PantherEvent({}, None), {}, {}, batch_mode=False
+        )
 
     def test_rule_with_invalid_severity(self) -> None:
         class rule(Rule):
@@ -1213,7 +1221,11 @@ class TestRule(TestCase):
         result = TestRule().run(
             PantherEvent({}),
             {},
-            {"boom": FakeDestination(destination_display_name="boom", destination_id="123")},
+            {
+                "boom": FakeDestination(
+                    destination_display_name="boom", destination_id="123"
+                )
+            },
             False,
         )
         assert isinstance(result.destinations_exception, UnknownDestinationError)
@@ -1237,6 +1249,67 @@ class TestRule(TestCase):
         )
         assert result.detection_result.destinations_exception is None
         assert result.detection_result.destinations_output == []
+
+    def test_validate_internal_does_not_fail(self) -> None:
+        class MyRule(Rule):
+            id = "MyRule"
+            default_severity = Severity.INFO
+            log_types = [LogType.Panther_Audit]
+
+            allowed_domains: list[str] = []
+
+            tests = [
+                RuleTest(
+                    name="domain max",
+                    expected_result=False,
+                    log={"domain": "max.com"},
+                )
+            ]
+
+            def rule(self, event):
+                return event.get("domain") in self.allowed_domains
+
+            @classmethod
+            def validate_config(cls):
+                assert (
+                    len(cls.allowed_domains) > 0
+                ), "The allowed_domains field on your PantherOOTBRule must be populated before using this rule"
+
+        assert (
+            MyRule()
+            .run_tests(DATA_MODEL_CACHE.data_model_of_logtype, _validate_config=False)[
+                0
+            ]
+            .passed
+        )
+
+    def test_validate_external_fails(self) -> None:
+        class MyRule(Rule):
+            id = "MyRule"
+            default_severity = Severity.INFO
+            log_types = [LogType.Panther_Audit]
+
+            allowed_domains: list[str] = []
+
+            tests = [
+                RuleTest(
+                    name="domain max",
+                    expected_result=False,
+                    log={"domain": "max.com"},
+                )
+            ]
+
+            def rule(self, event):
+                return event.get("domain") in self.allowed_domains
+
+            @classmethod
+            def validate_config(cls):
+                assert (
+                    len(cls.allowed_domains) > 0
+                ), "The allowed_domains field on your PantherOOTBRule must be populated before using this rule"
+
+        with pytest.raises(AssertionError):
+            MyRule().run_tests(DATA_MODEL_CACHE.data_model_of_logtype)
 
     def test_expected_severity(self) -> None:
         class Test(Rule):
@@ -1278,7 +1351,9 @@ class TestRule(TestCase):
         test = RuleTest(name="test", expected_result=True, log={})
         assert Test().run_test(test, get_data_model).passed
 
-        test = RuleTest(name="test", expected_result=True, log={}, expected_title="TestRule")
+        test = RuleTest(
+            name="test", expected_result=True, log={}, expected_title="TestRule"
+        )
         assert Test().run_test(test, get_data_model).passed
 
         test = RuleTest(name="test", expected_result=True, log={}, expected_title="bad")
@@ -1296,7 +1371,9 @@ class TestRule(TestCase):
         test = RuleTest(name="test", expected_result=True, log={})
         assert Test().run_test(test, get_data_model).passed
 
-        test = RuleTest(name="test", expected_result=True, log={}, expected_dedup="TestRule")
+        test = RuleTest(
+            name="test", expected_result=True, log={}, expected_dedup="TestRule"
+        )
         assert Test().run_test(test, get_data_model).passed
 
         test = RuleTest(name="test", expected_result=True, log={}, expected_dedup="bad")
@@ -1326,7 +1403,9 @@ class TestRule(TestCase):
         )
         assert Test().run_test(test, get_data_model).passed
 
-        test = RuleTest(name="test", expected_result=True, log={}, expected_destinations=["bad"])
+        test = RuleTest(
+            name="test", expected_result=True, log={}, expected_destinations=["bad"]
+        )
         assert not Test().run_test(test, get_data_model).passed
 
     def test_expected_runbook(self) -> None:
@@ -1350,7 +1429,9 @@ class TestRule(TestCase):
         )
         assert Test().run_test(test, get_data_model).passed
 
-        test = RuleTest(name="test", expected_result=True, log={}, expected_runbook="bad")
+        test = RuleTest(
+            name="test", expected_result=True, log={}, expected_runbook="bad"
+        )
         assert not Test().run_test(test, get_data_model).passed
 
     def test_expected_reference(self) -> None:
@@ -1374,7 +1455,9 @@ class TestRule(TestCase):
         )
         assert Test().run_test(test, get_data_model).passed
 
-        test = RuleTest(name="test", expected_result=True, log={}, expected_reference="bad")
+        test = RuleTest(
+            name="test", expected_result=True, log={}, expected_reference="bad"
+        )
         assert not Test().run_test(test, get_data_model).passed
 
     def test_expected_description(self) -> None:
@@ -1398,7 +1481,9 @@ class TestRule(TestCase):
         )
         assert Test().run_test(test, get_data_model).passed
 
-        test = RuleTest(name="test", expected_result=True, log={}, expected_description="bad")
+        test = RuleTest(
+            name="test", expected_result=True, log={}, expected_description="bad"
+        )
         assert not Test().run_test(test, get_data_model).passed
 
     def test_expected_alert_context(self) -> None:
