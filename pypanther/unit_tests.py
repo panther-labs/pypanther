@@ -5,6 +5,7 @@ from typing import Any
 
 from panther_core.detection import DetectionResult
 
+from pypanther.severity import Severity
 from pypanther.utils import try_asdict
 
 RULE_TEST_ALL_ATTRS = [
@@ -48,6 +49,14 @@ class RuleTest(metaclass=FileLocationMeta):
     expected_result: bool
     log: dict | str
     mocks: list[RuleMock] = field(default_factory=list)
+    expected_severity: Severity | str | None = None
+    expected_title: str | None = None
+    expected_dedup: str | None = None
+    expected_destinations: list[str] | None = None
+    expected_runbook: str | None = None
+    expected_reference: str | None = None
+    expected_description: str | None = None
+    expected_alert_context: dict | None = None
     _file_path: str = ""
     _line_no: int = 0
     _module: str = ""
