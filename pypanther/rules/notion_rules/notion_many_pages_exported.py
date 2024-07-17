@@ -53,7 +53,7 @@ notion_many_pages_exported_tests: list[RuleTest] = [
 class NotionManyPagesExported(Rule):
     id = "Notion.Many.Pages.Exported-prototype"
     display_name = "Notion Many Pages Exported"
-    log_types = [LogType.Notion_AuditLogs]
+    log_types = [LogType.NOTION_AUDIT_LOGS]
     tags = ["Notion", "Data Security", "Data Exfiltration"]
     default_severity = Severity.HIGH
     default_description = "A Notion User exported multiple pages."

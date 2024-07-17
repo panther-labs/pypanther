@@ -29,7 +29,7 @@ one_login_threshold_accounts_modified_tests: list[RuleTest] = [
 class OneLoginThresholdAccountsModified(Rule):
     id = "OneLogin.ThresholdAccountsModified-prototype"
     display_name = "OneLogin Multiple Accounts Modified"
-    log_types = [LogType.OneLogin_Events]
+    log_types = [LogType.ONELOGIN_EVENTS]
     tags = ["OneLogin", "Impact:Account Access Removal"]
     default_severity = Severity.MEDIUM
     reports = {"MITRE ATT&CK": ["TA0040:T1531"]}

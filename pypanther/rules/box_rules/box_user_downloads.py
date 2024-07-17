@@ -8,12 +8,7 @@ box_large_number_downloads_tests: list[RuleTest] = [
         log={
             "type": "event",
             "additional_details": '{"key": "value"}',
-            "created_by": {
-                "id": "12345678",
-                "type": "user",
-                "login": "cat@example",
-                "name": "Bob Cat",
-            },
+            "created_by": {"id": "12345678", "type": "user", "login": "cat@example", "name": "Bob Cat"},
             "event_type": "DELETE",
         },
     ),
@@ -23,19 +18,9 @@ box_large_number_downloads_tests: list[RuleTest] = [
         log={
             "type": "event",
             "additional_details": '{"key": "value"}',
-            "created_by": {
-                "id": "12345678",
-                "type": "user",
-                "login": "cat@example",
-                "name": "Bob Cat",
-            },
+            "created_by": {"id": "12345678", "type": "user", "login": "cat@example", "name": "Bob Cat"},
             "event_type": "DOWNLOAD",
-            "source": {
-                "id": "12345678",
-                "type": "user",
-                "login": "user@example",
-                "name": "Bob Cat",
-            },
+            "source": {"id": "12345678", "type": "user", "login": "user@example", "name": "Bob Cat"},
         },
     ),
 ]
@@ -44,7 +29,7 @@ box_large_number_downloads_tests: list[RuleTest] = [
 class BoxLargeNumberDownloads(Rule):
     id = "Box.Large.Number.Downloads-prototype"
     display_name = "Box Large Number of Downloads"
-    log_types = [LogType.Box_Event]
+    log_types = [LogType.BOX_EVENT]
     tags = ["Box", "Exfiltration:Exfiltration Over Web Service"]
     reports = {"MITRE ATT&CK": ["TA0010:T1567"]}
     default_severity = Severity.LOW

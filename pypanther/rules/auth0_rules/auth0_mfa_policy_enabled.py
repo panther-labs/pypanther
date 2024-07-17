@@ -577,7 +577,7 @@ class Auth0MFAPolicyEnabled(Rule):
     default_runbook = "Assess if this was done by the user for a valid business reason and was expected. This alert indicates a setting change that aligns with best security practices, follow-up may be unnecessary."
     default_reference = "https://auth0.com/docs/secure/multi-factor-authentication/enable-mfa#:~:text=In%20the-,Define%20policies,-section%2C%20select%20a"
     default_severity = Severity.MEDIUM
-    log_types = [LogType.Auth0_Events]
+    log_types = [LogType.AUTH0_EVENTS]
     id = "Auth0.MFA.Policy.Enabled-prototype"
     tests = auth0_mfa_policy_enabled_tests
 

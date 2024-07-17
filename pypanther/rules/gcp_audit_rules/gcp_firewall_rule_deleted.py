@@ -111,7 +111,7 @@ class GCPFirewallRuleDeleted(Rule):
     display_name = "GCP Firewall Rule Deleted"
     id = "GCP.Firewall.Rule.Deleted-prototype"
     default_severity = Severity.LOW
-    log_types = [LogType.GCP_AuditLog]
+    log_types = [LogType.GCP_AUDIT_LOG]
     tags = ["GCP", "Firewall", "Networking", "Infrastructure"]
     default_description = "This rule detects deletions of GCP firewall rules.\n"
     default_runbook = "Ensure that the rule deletion was expected. Firewall rule deletions can cause service interruptions or outages.\n"

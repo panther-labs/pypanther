@@ -54,7 +54,7 @@ teleport_create_user_accounts_tests: list[RuleTest] = [
 class TeleportCreateUserAccounts(Rule):
     id = "Teleport.CreateUserAccounts-prototype"
     display_name = "Teleport Create User Accounts"
-    log_types = [LogType.Gravitational_TeleportAudit]
+    log_types = [LogType.GRAVITATIONAL_TELEPORT_AUDIT]
     tags = ["SSH", "Persistence:Create Account"]
     reports = {"MITRE ATT&CK": ["TA0003:T1136"]}
     default_severity = Severity.HIGH
@@ -62,17 +62,7 @@ class TeleportCreateUserAccounts(Rule):
     dedup_period_minutes = 15
     default_reference = "https://goteleport.com/docs/management/admin/"
     default_runbook = "Analyze why it was manually created and delete it if necessary."
-    summary_attributes = [
-        "event",
-        "code",
-        "user",
-        "program",
-        "path",
-        "return_code",
-        "login",
-        "server_id",
-        "sid",
-    ]
+    summary_attributes = ["event", "code", "user", "program", "path", "return_code", "login", "server_id", "sid"]
     tests = teleport_create_user_accounts_tests  # user password expiry
     # change passwords for users
     # create, modify, and delete users

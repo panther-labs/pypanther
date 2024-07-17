@@ -3,20 +3,11 @@ import json
 from pypanther import LogType, Rule, RuleTest, Severity
 
 git_lab_audit_password_reset_multiple_emails_tests: list[RuleTest] = [
-    RuleTest(
-        name="not a password reset",
-        expected_result=False,
-        log={"detail": {"custom_message": "hello world"}},
-    ),
+    RuleTest(name="not a password reset", expected_result=False, log={"detail": {"custom_message": "hello world"}}),
     RuleTest(
         name="one email",
         expected_result=False,
-        log={
-            "detail": {
-                "custom_message": "Ask for password reset",
-                "target_details": "example@test.com",
-            }
-        },
+        log={"detail": {"custom_message": "Ask for password reset", "target_details": "example@test.com"}},
     ),
     RuleTest(
         name="multiple emails",
@@ -34,7 +25,7 @@ git_lab_audit_password_reset_multiple_emails_tests: list[RuleTest] = [
 class GitLabAuditPasswordResetMultipleEmails(Rule):
     id = "GitLab.Audit.Password.Reset.Multiple.Emails-prototype"
     display_name = "CVE-2023-7028 - GitLab Audit Password Reset Multiple Emails"
-    log_types = [LogType.GitLab_Audit]
+    log_types = [LogType.GITLAB_AUDIT]
     tags = ["GitLab", "CVE-2023-7028"]
     reports = {"MITRE ATT&CK": ["TA0001:T1195", "TA0001:T1190", "TA0003:T1098"]}
     default_severity = Severity.HIGH

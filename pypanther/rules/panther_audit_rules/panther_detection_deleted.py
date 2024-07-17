@@ -74,7 +74,7 @@ panther_detection_deleted_tests: list[RuleTest] = [
 class PantherDetectionDeleted(Rule):
     id = "Panther.Detection.Deleted-prototype"
     display_name = "Detection content has been deleted from Panther"
-    log_types = [LogType.Panther_Audit]
+    log_types = [LogType.PANTHER_AUDIT]
     default_severity = Severity.INFO
     tags = ["DataModel", "Defense Evasion:Impair Defenses"]
     reports = {"MITRE ATT&CK": ["TA0005:T1562"]}

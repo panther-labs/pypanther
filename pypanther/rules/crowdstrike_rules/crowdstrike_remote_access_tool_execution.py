@@ -162,7 +162,7 @@ class CrowdstrikeRemoteAccessToolExecution(Rule):
     display_name = "Crowdstrike Remote Access Tool Execution"
     default_reference = "https://attack.mitre.org/techniques/T1219/"
     default_severity = Severity.MEDIUM
-    log_types = [LogType.Crowdstrike_FDREvent]
+    log_types = [LogType.CROWDSTRIKE_FDR_EVENT]
     id = "Crowdstrike.Remote.Access.Tool.Execution-prototype"
     tests = crowdstrike_remote_access_tool_execution_tests
     REMOTE_ACCESS_EXECUTABLES = {

@@ -31,7 +31,7 @@ git_hub_user_role_updated_tests: list[RuleTest] = [
 class GitHubUserRoleUpdated(Rule):
     id = "GitHub.User.RoleUpdated-prototype"
     display_name = "GitHub User Role Updated"
-    log_types = [LogType.GitHub_Audit]
+    log_types = [LogType.GITHUB_AUDIT]
     tags = ["GitHub", "Persistence:Account Manipulation"]
     reports = {"MITRE ATT&CK": ["TA0003:T1098"]}
     default_reference = "https://docs.github.com/en/organizations/managing-peoples-access-to-your-organization-with-roles/roles-in-an-organization"

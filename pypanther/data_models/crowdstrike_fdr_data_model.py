@@ -29,7 +29,7 @@ class StandardCrowdstrikeFDR(DataModel):
     id: str = "Standard.Crowdstrike.FDR"
     display_name: str = "Crowdstrike FDR"
     enabled: bool = True
-    log_types: list[str] = [LogType.Crowdstrike_FDREvent]
+    log_types: list[str] = [LogType.CROWDSTRIKE_FDR_EVENT]
     mappings: list[DataModelMapping] = [
         DataModelMapping(name="actor_user", path="$.event.UserName"),
         DataModelMapping(name="cmd", path="$.event.CommandLine"),

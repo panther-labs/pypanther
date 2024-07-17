@@ -48,7 +48,7 @@ zendesk_account_owner_changed_tests: list[RuleTest] = [
 class ZendeskAccountOwnerChanged(Rule):
     id = "Zendesk.AccountOwnerChanged-prototype"
     display_name = "Zendesk Account Owner Changed"
-    log_types = [LogType.Zendesk_Audit]
+    log_types = [LogType.ZENDESK_AUDIT]
     default_severity = Severity.HIGH
     tags = ["Zendesk", "Privilege Escalation:Valid Accounts"]
     reports = {"MITRE ATT&CK": ["TA0004:T1078"]}

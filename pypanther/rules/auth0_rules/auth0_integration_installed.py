@@ -253,7 +253,7 @@ class Auth0IntegrationInstalled(Rule):
     default_runbook = "Assess if this was done by the user for a valid business reason. Be vigilant to re-enable this setting as it's in the best security interest for your organization's security posture."
     default_reference = "https://auth0.com/blog/actions-integrations-are-now-ga/"
     default_severity = Severity.INFO
-    log_types = [LogType.Auth0_Events]
+    log_types = [LogType.AUTH0_EVENTS]
     id = "Auth0.Integration.Installed-prototype"
     tests = auth0_integration_installed_tests
 

@@ -6,11 +6,7 @@ g_suite_workspace_data_export_created_tests: list[RuleTest] = [
         name="Workspace Admin Data Export Created",
         expected_result=True,
         log={
-            "actor": {
-                "callerType": "USER",
-                "email": "admin@example.io",
-                "profileId": "11011111111111111111111",
-            },
+            "actor": {"callerType": "USER", "email": "admin@example.io", "profileId": "11011111111111111111111"},
             "id": {
                 "applicationName": "admin",
                 "customerId": "D12345",
@@ -27,11 +23,7 @@ g_suite_workspace_data_export_created_tests: list[RuleTest] = [
         name="Workspace Admin Data Export Succeeded",
         expected_result=True,
         log={
-            "actor": {
-                "callerType": "USER",
-                "email": "admin@example.io",
-                "profileId": "11011111111111111111111",
-            },
+            "actor": {"callerType": "USER", "email": "admin@example.io", "profileId": "11011111111111111111111"},
             "id": {
                 "applicationName": "admin",
                 "customerId": "D12345",
@@ -106,7 +98,7 @@ g_suite_workspace_data_export_created_tests: list[RuleTest] = [
 class GSuiteWorkspaceDataExportCreated(Rule):
     id = "GSuite.Workspace.DataExportCreated-prototype"
     display_name = "GSuite Workspace Data Export Has Been Created"
-    log_types = [LogType.GSuite_ActivityEvent]
+    log_types = [LogType.GSUITE_ACTIVITY_EVENT]
     tags = ["GSuite"]
     default_severity = Severity.MEDIUM
     default_description = "A Workspace Admin Has Created a Data Export\n"

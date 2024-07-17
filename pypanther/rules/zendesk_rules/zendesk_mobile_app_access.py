@@ -65,7 +65,7 @@ zendesk_mobile_app_access_updated_tests: list[RuleTest] = [
 class ZendeskMobileAppAccessUpdated(Rule):
     id = "Zendesk.MobileAppAccessUpdated-prototype"
     display_name = "Zendesk Mobile App Access Modified"
-    log_types = [LogType.Zendesk_Audit]
+    log_types = [LogType.ZENDESK_AUDIT]
     tags = ["Zendesk", "Persistence:Valid Accounts"]
     reports = {"MITRE ATT&CK": ["TA0003:T1078"]}
     default_severity = Severity.MEDIUM

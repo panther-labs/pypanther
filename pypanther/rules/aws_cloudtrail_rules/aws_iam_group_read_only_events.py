@@ -255,7 +255,7 @@ class AWSIAMGroupReadOnlyEvents(Rule):
     default_runbook = "Examine other activities done by this user to determine whether or not activity is suspicious."
     default_severity = Severity.INFO
     tags = ["AWS", "Cloudtrail", "Configuration Required", "IAM", "MITRE"]
-    log_types = [LogType.AWS_CloudTrail]
+    log_types = [LogType.AWS_CLOUDTRAIL]
     id = "AWS.IAM.Group.Read.Only.Events-prototype"
     threshold = 2
     tests = awsiam_group_read_only_events_tests

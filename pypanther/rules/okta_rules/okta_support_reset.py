@@ -89,13 +89,8 @@ okta_support_reset_tests: list[RuleTest] = [
 class OktaSupportReset(Rule):
     id = "Okta.Support.Reset-prototype"
     display_name = "Okta Support Reset Credential"
-    log_types = [LogType.Okta_SystemLog]
-    tags = [
-        "Identity & Access Management",
-        "DataModel",
-        "Okta",
-        "Initial Access:Trusted Relationship",
-    ]
+    log_types = [LogType.OKTA_SYSTEM_LOG]
+    tags = ["Identity & Access Management", "DataModel", "Okta", "Initial Access:Trusted Relationship"]
     reports = {"MITRE ATT&CK": ["TA0001:T1199"]}
     default_severity = Severity.HIGH
     default_description = "A Password or MFA factor was reset by Okta Support"

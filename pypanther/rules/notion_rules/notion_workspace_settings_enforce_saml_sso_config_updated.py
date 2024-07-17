@@ -72,7 +72,7 @@ notion_samlsso_configuration_changed_tests: list[RuleTest] = [
 class NotionSAMLSSOConfigurationChanged(Rule):
     id = "Notion.SAML.SSO.Configuration.Changed-prototype"
     display_name = "Notion SAML SSO Configuration Changed"
-    log_types = [LogType.Notion_AuditLogs]
+    log_types = [LogType.NOTION_AUDIT_LOGS]
     tags = ["Notion", "Identity & Access Management", "Credential Security"]
     default_severity = Severity.HIGH
     default_description = "A Notion User changed settings to enforce SAML SSO configurations for your organization."
@@ -90,11 +90,7 @@ class NotionSAMLSSOConfigurationChanged(Rule):
         user = event.deep_get("event", "actor", "person", "email", default="<NO_USER_FOUND>")
         workspace_id = event.deep_get("event", "workspace_id", default="<NO_WORKSPACE_ID_FOUND>")
         state = deep_get(
-            event,
-            "event",
-            "workspace.settings.enforce_saml_sso_config_updated",
-            "state",
-            default="<NO_STATE_FOUND>",
+            event, "event", "workspace.settings.enforce_saml_sso_config_updated", "state", default="<NO_STATE_FOUND>"
         )
         if state == "enabled":
             return f"Notion User [{user}] updated settings to enable SAML SSO config from workspace id {workspace_id}"
@@ -102,11 +98,7 @@ class NotionSAMLSSOConfigurationChanged(Rule):
 
     def severity(self, event):
         state = deep_get(
-            event,
-            "event",
-            "workspace.settings.enforce_saml_sso_config_updated",
-            "state",
-            default="<NO_STATE_FOUND>",
+            event, "event", "workspace.settings.enforce_saml_sso_config_updated", "state", default="<NO_STATE_FOUND>"
         )
         if state == "enabled":
             return "INFO"

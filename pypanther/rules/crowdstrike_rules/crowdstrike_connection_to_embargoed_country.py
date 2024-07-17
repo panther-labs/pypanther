@@ -1,8 +1,5 @@
 from pypanther import LogType, Rule, RuleTest, Severity
-from pypanther.helpers.panther_base_helpers import (
-    crowdstrike_network_detection_alert_context,
-    deep_get,
-)
+from pypanther.helpers.panther_base_helpers import crowdstrike_network_detection_alert_context, deep_get
 
 connectionto_embargoed_country_tests: list[RuleTest] = [
     RuleTest(
@@ -110,14 +107,7 @@ connectionto_embargoed_country_tests: list[RuleTest] = [
                 },
                 "ipinfo_privacy": {
                     "p_any_ip_addresses": [
-                        {
-                            "hosting": True,
-                            "proxy": False,
-                            "relay": False,
-                            "service": "",
-                            "tor": False,
-                            "vpn": False,
-                        }
+                        {"hosting": True, "proxy": False, "relay": False, "service": "", "tor": False, "vpn": False}
                     ]
                 },
             },
@@ -156,7 +146,7 @@ class ConnectiontoEmbargoedCountry(Rule):
     default_description = "Detection to alert when internal asset is communicating with an sanctioned destination. This detection leverages Panther UDM and IPInfo enrichment."
     default_reference = "U.S. Sanctioned Destinations - https://www.bis.doc.gov/index.php/policy-guidance/country-guidance/sanctioned-destinations"
     display_name = "Connection to Embargoed Country"
-    log_types = [LogType.Crowdstrike_FDREvent]
+    log_types = [LogType.CROWDSTRIKE_FDR_EVENT]
     id = "Connection.to.Embargoed.Country-prototype"
     default_severity = Severity.LOW
     tests = connectionto_embargoed_country_tests

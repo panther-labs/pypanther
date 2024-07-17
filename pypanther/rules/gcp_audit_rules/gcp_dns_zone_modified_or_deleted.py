@@ -278,7 +278,7 @@ class GCPDNSZoneModifiedorDeleted(Rule):
     default_runbook = "Verify that this modification or deletion was expected. These operations are high-impact events and can result in downtimes or total outages."
     default_reference = "https://cloud.google.com/dns/docs/zones"
     default_severity = Severity.LOW
-    log_types = [LogType.GCP_AuditLog]
+    log_types = [LogType.GCP_AUDIT_LOG]
     id = "GCP.DNS.Zone.Modified.or.Deleted-prototype"
     tests = gcpdns_zone_modifiedor_deleted_tests
 

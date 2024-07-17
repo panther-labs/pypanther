@@ -112,7 +112,7 @@ push_security_app_banner_acknowledged_tests: list[RuleTest] = [
 class PushSecurityAppBannerAcknowledged(Rule):
     id = "Push.Security.App.Banner.Acknowledged-prototype"
     display_name = "Push Security App Banner Acknowledged"
-    log_types = [LogType.PushSecurity_Activity]
+    log_types = [LogType.PUSH_SECURITY_ACTIVITY]
     default_severity = Severity.LOW
     tests = push_security_app_banner_acknowledged_tests
 

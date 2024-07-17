@@ -87,7 +87,7 @@ class SalesforceAdminLoginAsUser(Rule):
     default_runbook = "Please do an indicator search on USER_ID to find which user was assumed. "
     default_reference = "https://help.salesforce.com/s/articleView?id=sf.logging_in_as_another_user.htm&type=5"
     default_severity = Severity.INFO
-    log_types = [LogType.Salesforce_LoginAs]
+    log_types = [LogType.SALESFORCE_LOGIN_AS]
     id = "Salesforce.Admin.Login.As.User-prototype"
     tests = salesforce_admin_login_as_user_tests
 

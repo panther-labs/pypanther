@@ -30,10 +30,7 @@ auth0_cic_credential_stuffing_tests: list[RuleTest] = [
                         "query": {},
                         "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Safari/537.36",
                     },
-                    "response": {
-                        "body": {"integration_id": "64bee519-818f-4473-ab08-7c380f28da77"},
-                        "statusCode": 200,
-                    },
+                    "response": {"body": {"integration_id": "64bee519-818f-4473-ab08-7c380f28da77"}, "statusCode": 200},
                 },
                 "ip": "12.12.12.12",
                 "log_id": "90020230523204756343781000000000000001223372037583230452",
@@ -232,7 +229,7 @@ auth0_cic_credential_stuffing_tests: list[RuleTest] = [
 
 
 class Auth0CICCredentialStuffing(Rule):
-    log_types = [LogType.Auth0_Events]
+    log_types = [LogType.AUTH0_EVENTS]
     id = "Auth0.CIC.Credential.Stuffing-prototype"
     display_name = "Auth0 CIC Credential Stuffing"
     default_description = "Okta has determined that the cross-origin authentication feature in Customer Identity Cloud (CIC) is prone to being targeted by threat actors orchestrating credential-stuffing attacks.  Okta has observed suspicious activity that started on April 15, 2024.  Review tenant logs for unexpected fcoa, scoa, and pwd_leak events."

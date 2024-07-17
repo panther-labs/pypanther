@@ -52,7 +52,7 @@ gcpgcsiam_changes_tests: list[RuleTest] = [
 class GCPGCSIAMChanges(Rule):
     id = "GCP.GCS.IAMChanges-prototype"
     display_name = "GCP GCS IAM Permission Changes"
-    log_types = [LogType.GCP_AuditLog]
+    log_types = [LogType.GCP_AUDIT_LOG]
     tags = ["GCP", "Google Cloud Storage", "Collection:Data From Cloud Storage Object"]
     reports = {"CIS": ["2.1"], "MITRE ATT&CK": ["TA0009:T1530"]}
     default_severity = Severity.LOW

@@ -56,7 +56,7 @@ class AsanaWorkspaceGuestInvitePermissionsAnyone(Rule):
     display_name = "Asana Workspace Guest Invite Permissions Anyone"
     default_reference = "https://help.asana.com/hc/en-us/articles/14109494654875-Admin-console#:~:text=Google%20SSO%20password.-,Guest%20invite%20controls,-Super%20admins%20of"
     default_severity = Severity.LOW
-    log_types = [LogType.Asana_Audit]
+    log_types = [LogType.ASANA_AUDIT]
     id = "Asana.Workspace.Guest.Invite.Permissions.Anyone-prototype"
     tests = asana_workspace_guest_invite_permissions_anyone_tests
 

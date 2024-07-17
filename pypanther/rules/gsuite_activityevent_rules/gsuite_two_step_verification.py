@@ -30,7 +30,7 @@ g_suite_two_step_verification_tests: list[RuleTest] = [
 class GSuiteTwoStepVerification(Rule):
     id = "GSuite.TwoStepVerification-prototype"
     display_name = "GSuite User Two Step Verification Change"
-    log_types = [LogType.GSuite_ActivityEvent]
+    log_types = [LogType.GSUITE_ACTIVITY_EVENT]
     tags = ["GSuite", "Defense Evasion:Modify Authentication Process"]
     reports = {"MITRE ATT&CK": ["TA0005:T1556"]}
     default_severity = Severity.LOW

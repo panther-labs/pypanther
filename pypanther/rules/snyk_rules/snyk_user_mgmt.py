@@ -81,7 +81,7 @@ snyk_user_management_tests: list[RuleTest] = [
 class SnykUserManagement(Rule):
     id = "Snyk.User.Management-prototype"
     display_name = "Snyk User Management"
-    log_types = [LogType.Snyk_GroupAudit, LogType.Snyk_OrgAudit]
+    log_types = [LogType.SNYK_GROUP_AUDIT, LogType.SNYK_ORG_AUDIT]
     tags = ["Snyk"]
     default_severity = Severity.MEDIUM
     default_description = "Detects when Snyk Users are changed\n"

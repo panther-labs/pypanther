@@ -53,7 +53,7 @@ notion_sharing_settings_updated_tests: list[RuleTest] = [
 class NotionSharingSettingsUpdated(Rule):
     id = "Notion.SharingSettingsUpdated-prototype"
     display_name = "Notion Sharing Settings Updated"
-    log_types = [LogType.Notion_AuditLogs]
+    log_types = [LogType.NOTION_AUDIT_LOGS]
     tags = ["Notion", "Data Exfiltration"]
     default_description = "A Notion User enabled sharing for a Workspace or Teamspace."
     default_severity = Severity.MEDIUM

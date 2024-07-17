@@ -159,15 +159,8 @@ slack_audit_logs_app_removed_tests: list[RuleTest] = [
 class SlackAuditLogsAppRemoved(Rule):
     id = "Slack.AuditLogs.AppRemoved-prototype"
     display_name = "Slack App Removed"
-    log_types = [LogType.Slack_AuditLogs]
-    tags = [
-        "Slack",
-        "Impact",
-        "Service Stop",
-        "Defense Evasion",
-        "Indicator Removal",
-        "Clear Persistence",
-    ]
+    log_types = [LogType.SLACK_AUDIT_LOGS]
+    tags = ["Slack", "Impact", "Service Stop", "Defense Evasion", "Indicator Removal", "Clear Persistence"]
     reports = {"MITRE ATT&CK": ["TA0040:T1489", "TA0005:T1070.009"]}
     default_severity = Severity.MEDIUM
     default_description = "Detects when a Slack App has been removed"

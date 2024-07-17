@@ -55,7 +55,7 @@ standard_new_aws_account_created_tests: list[RuleTest] = [
 class StandardNewAWSAccountCreated(Rule):
     id = "Standard.NewAWSAccountCreated-prototype"
     display_name = "New AWS Account Created"
-    log_types = [LogType.AWS_CloudTrail]
+    log_types = [LogType.AWS_CLOUDTRAIL]
     tags = ["DataModel", "Indicator Collection", "Persistence:Create Account"]
     default_severity = Severity.INFO
     reports = {"MITRE ATT&CK": ["TA0003:T1136"]}

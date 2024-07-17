@@ -162,7 +162,7 @@ class CrowdstrikeUnusualParentChildProcesses(Rule):
     display_name = "Crowdstrike Unusual Parent Child Processes"
     default_reference = "https://medium.com/falconforce/falconfriday-e4554e9e6665"
     default_severity = Severity.CRITICAL
-    log_types = [LogType.Crowdstrike_FDREvent]
+    log_types = [LogType.CROWDSTRIKE_FDR_EVENT]
     id = "Crowdstrike.Unusual.Parent.Child.Processes-prototype"
     tests = crowdstrike_unusual_parent_child_processes_tests
     SUSPICIOUS_PARENT_CHILD_COMBINATIONS_WINDOWS = {

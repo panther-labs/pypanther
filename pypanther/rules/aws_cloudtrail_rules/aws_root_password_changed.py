@@ -62,7 +62,7 @@ aws_cloud_trail_root_password_changed_tests: list[RuleTest] = [
 class AWSCloudTrailRootPasswordChanged(Rule):
     id = "AWS.CloudTrail.RootPasswordChanged-prototype"
     display_name = "Root Password Changed"
-    log_types = [LogType.AWS_CloudTrail]
+    log_types = [LogType.AWS_CLOUDTRAIL]
     tags = ["AWS", "Identity and Access Management", "Persistence:Account Manipulation"]
     default_severity = Severity.HIGH
     reports = {"MITRE ATT&CK": ["TA0003:T1098"]}

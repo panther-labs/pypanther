@@ -14,7 +14,7 @@ class StandardZoomActivity(DataModel):
     id: str = "Standard.Zoom.Activity"
     display_name: str = "Zoom Activity"
     enabled: bool = True
-    log_types: list[str] = [LogType.Zoom_Activity]
+    log_types: list[str] = [LogType.ZOOM_ACTIVITY]
     mappings: list[DataModelMapping] = [
         DataModelMapping(name="actor_user", path="email"),
         DataModelMapping(name="event_type", method=get_event_type),

@@ -25,10 +25,7 @@ aws_suspicious_saml_activity_tests: list[RuleTest] = [
                 "invokedBy": "cloudformation.amazonaws.com",
                 "principalId": "0123456789:AWSCloudFormation",
                 "sessionContext": {
-                    "attributes": {
-                        "creationDate": "2021-10-14T21:25:20Z",
-                        "mfaAuthenticated": "false",
-                    },
+                    "attributes": {"creationDate": "2021-10-14T21:25:20Z", "mfaAuthenticated": "false"},
                     "sessionIssuer": {
                         "accountId": "0123456789",
                         "arn": "arn:aws:iam::0123456789:role/ServiceRole",
@@ -65,10 +62,7 @@ aws_suspicious_saml_activity_tests: list[RuleTest] = [
                 "invokedBy": "cloudformation.amazonaws.com",
                 "principalId": "0123456789:AWSCloudFormation",
                 "sessionContext": {
-                    "attributes": {
-                        "creationDate": "2021-10-14T21:25:20Z",
-                        "mfaAuthenticated": "false",
-                    },
+                    "attributes": {"creationDate": "2021-10-14T21:25:20Z", "mfaAuthenticated": "false"},
                     "sessionIssuer": {
                         "accountId": "0123456789",
                         "arn": "arn:aws:iam::0123456789:role/ServiceRole",
@@ -105,10 +99,7 @@ aws_suspicious_saml_activity_tests: list[RuleTest] = [
                 "arn": "arn:aws:iam::0123456789:user/bob",
                 "principalId": "ABCDEF012345",
                 "sessionContext": {
-                    "attributes": {
-                        "creationDate": "2021-10-13T18:35:02Z",
-                        "mfaAuthenticated": "true",
-                    },
+                    "attributes": {"creationDate": "2021-10-13T18:35:02Z", "mfaAuthenticated": "true"},
                     "sessionIssuer": {},
                     "webIdFederationData": {},
                 },
@@ -140,10 +131,7 @@ aws_suspicious_saml_activity_tests: list[RuleTest] = [
                 "invokedBy": "cloudformation.amazonaws.com",
                 "principalId": "0123456789:AWSCloudFormation",
                 "sessionContext": {
-                    "attributes": {
-                        "creationDate": "2021-10-14T21:25:20Z",
-                        "mfaAuthenticated": "false",
-                    },
+                    "attributes": {"creationDate": "2021-10-14T21:25:20Z", "mfaAuthenticated": "false"},
                     "sessionIssuer": {
                         "accountId": "0123456789",
                         "arn": "arn:aws:iam::0123456789:role/ServiceRole",
@@ -183,10 +171,7 @@ aws_suspicious_saml_activity_tests: list[RuleTest] = [
                     "invokedBy": "sso.amazonaws.com",
                     "principalId": "AROAT7BCMNLMONMOFFFFF:AWS-SSO",
                     "sessionContext": {
-                        "attributes": {
-                            "creationDate": "2022-12-12T21:46:16Z",
-                            "mfaAuthenticated": "false",
-                        },
+                        "attributes": {"creationDate": "2022-12-12T21:46:16Z", "mfaAuthenticated": "false"},
                         "sessionIssuer": {
                             "accountId": "123412341234",
                             "arn": "arn:aws:iam::123412341234:role/aws-service-role/sso.amazonaws.com/AWSServiceRoleForSSO",
@@ -234,10 +219,7 @@ aws_suspicious_saml_activity_tests: list[RuleTest] = [
                 "invokedBy": "sso.amazonaws.com",
                 "principalId": "AROAT7BCMNLMONMOFFFFF:AWS-SSO",
                 "sessionContext": {
-                    "attributes": {
-                        "creationDate": "2022-12-12T21:46:16Z",
-                        "mfaAuthenticated": "false",
-                    },
+                    "attributes": {"creationDate": "2022-12-12T21:46:16Z", "mfaAuthenticated": "false"},
                     "sessionIssuer": {
                         "accountId": "123412341234",
                         "arn": "arn:aws:iam::123412341234:role/aws-service-role/sso.amazonaws.com/AWSServiceRoleForSSO",
@@ -263,7 +245,7 @@ class AWSSuspiciousSAMLActivity(Rule):
         "https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pools-managing-saml-idp-console.html"
     )
     default_severity = Severity.MEDIUM
-    log_types = [LogType.AWS_CloudTrail]
+    log_types = [LogType.AWS_CLOUDTRAIL]
     id = "AWS.Suspicious.SAML.Activity-prototype"
     tests = aws_suspicious_saml_activity_tests
     SAML_ACTIONS = ["UpdateSAMLProvider", "CreateSAMLProvider", "DeleteSAMLProvider"]

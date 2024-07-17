@@ -555,7 +555,7 @@ crowdstrike_base64_encoded_args_tests: list[RuleTest] = [
 class CrowdstrikeBase64EncodedArgs(Rule):
     id = "Crowdstrike.Base64EncodedArgs-prototype"
     display_name = "Execution of Command Line Tool with Base64 Encoded Arguments"
-    log_types = [LogType.Crowdstrike_FDREvent]
+    log_types = [LogType.CROWDSTRIKE_FDR_EVENT]
     tags = ["Execution", "Obfuscation"]
     default_severity = Severity.MEDIUM
     default_description = "Detects the execution of common command line tools (e.g., PowerShell, cmd.exe) with Base64 encoded arguments, which could indicate an attempt to obfuscate malicious commands."

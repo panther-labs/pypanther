@@ -8,10 +8,7 @@ aws_console_root_login_tests: list[RuleTest] = [
         name="Successful Root Login",
         expected_result=True,
         mocks=[
-            RuleMock(
-                object_name="geoinfo_from_ip_formatted",
-                return_value="111.111.111.111 in SF, California in USA",
-            )
+            RuleMock(object_name="geoinfo_from_ip_formatted", return_value="111.111.111.111 in SF, California in USA")
         ],
         log={
             "eventVersion": "1.05",
@@ -59,10 +56,7 @@ aws_console_root_login_tests: list[RuleTest] = [
                         "accountId": "123456789012",
                         "userName": "tester",
                     },
-                    "attributes": {
-                        "creationDate": "2019-01-01T00:00:00Z",
-                        "mfaAuthenticated": "true",
-                    },
+                    "attributes": {"creationDate": "2019-01-01T00:00:00Z", "mfaAuthenticated": "true"},
                 },
             },
             "eventTime": "2019-01-01T00:00:00Z",
@@ -76,13 +70,7 @@ aws_console_root_login_tests: list[RuleTest] = [
             "requestID": "1",
             "eventID": "1",
             "readOnly": True,
-            "resources": [
-                {
-                    "accountId": "123456789012",
-                    "type": "AWS::DynamoDB::Table",
-                    "ARN": "arn::::table/table",
-                }
-            ],
+            "resources": [{"accountId": "123456789012", "type": "AWS::DynamoDB::Table", "ARN": "arn::::table/table"}],
             "eventType": "AwsApiCall",
             "apiVersion": "2012-08-10",
             "managementEvent": True,
@@ -96,7 +84,7 @@ class AWSConsoleRootLogin(Rule):
     id = "AWS.Console.RootLogin-prototype"
     display_name = "Root Console Login"
     dedup_period_minutes = 15
-    log_types = [LogType.AWS_CloudTrail]
+    log_types = [LogType.AWS_CLOUDTRAIL]
     tags = [
         "AWS",
         "Identity & Access Management",

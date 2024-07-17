@@ -68,7 +68,7 @@ class MongoDBUserRolesChanged(Rule):
     display_name = "MongoDB user roles changed"
     default_severity = Severity.LOW
     default_reference = "https://www.mongodb.com/docs/v4.2/tutorial/create-users/"
-    log_types = [LogType.MongoDB_OrganizationEvent]
+    log_types = [LogType.MONGODB_ORGANIZATION_EVENT]
     id = "MongoDB.User.Roles.Changed-prototype"
     tests = mongo_db_user_roles_changed_tests
 

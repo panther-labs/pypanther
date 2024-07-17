@@ -15,7 +15,7 @@ class StandardBoxEvent(DataModel):
     id: str = "Standard.Box.Event"
     display_name: str = "Box Events"
     enabled: bool = True
-    log_types: list[str] = [LogType.Box_Event]
+    log_types: list[str] = [LogType.BOX_EVENT]
     mappings: list[DataModelMapping] = [
         DataModelMapping(name="actor_user", path="$.created_by.name"),
         DataModelMapping(name="event_type", method=get_event_type),

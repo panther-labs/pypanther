@@ -133,7 +133,7 @@ awsiam_user_recon_access_denied_tests: list[RuleTest] = [
 class AWSIAMUserReconAccessDenied(Rule):
     id = "AWS.IAMUser.ReconAccessDenied-prototype"
     display_name = "Detect Reconnaissance from IAM Users"
-    log_types = [LogType.AWS_CloudTrail]
+    log_types = [LogType.AWS_CLOUDTRAIL]
     tags = ["AWS", "Discovery:Cloud Service Discovery"]
     reports = {"MITRE ATT&CK": ["TA0007:T1526"]}
     default_severity = Severity.INFO

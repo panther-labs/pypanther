@@ -49,7 +49,7 @@ carbon_black_audit_api_key_created_retrieved_tests: list[RuleTest] = [
 
 class CarbonBlackAuditAPIKeyCreatedRetrieved(Rule):
     id = "CarbonBlack.Audit.API.Key.Created.Retrieved-prototype"
-    log_types = [LogType.CarbonBlack_Audit]
+    log_types = [LogType.CARBON_BLACK_AUDIT]
     default_description = "Detects when a user creates a new API key or retrieves an existing key."
     display_name = "Carbon Black API Key Created or Retrieved"
     default_severity = Severity.MEDIUM
@@ -57,12 +57,7 @@ class CarbonBlackAuditAPIKeyCreatedRetrieved(Rule):
     reports = {"MITRE ATT&CK": ["TA0003:T1136"]}
     default_reference = "https://docs.vmware.com/en/VMware-Carbon-Black-Cloud/services/carbon-black-cloud-user-guide/GUID-F3816FB5-969F-4113-80FC-03981C65F969.html"
     tests = carbon_black_audit_api_key_created_retrieved_tests
-    PATTERNS = (
-        " retrieved secret for API ID ",
-        "Added API ID ",
-        "Regenerated API key for API ID ",
-        "Updated API ID ",
-    )
+    PATTERNS = (" retrieved secret for API ID ", "Added API ID ", "Regenerated API key for API ID ", "Updated API ID ")
 
     def rule(self, event):
         desc = event.get("description", "")

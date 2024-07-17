@@ -300,7 +300,7 @@ awsrds_manual_snapshot_created_tests: list[RuleTest] = [
 class AWSRDSManualSnapshotCreated(Rule):
     id = "AWS.RDS.ManualSnapshotCreated-prototype"
     display_name = "AWS RDS Manual/Public Snapshot Created"
-    log_types = [LogType.AWS_CloudTrail]
+    log_types = [LogType.AWS_CLOUDTRAIL]
     tags = ["AWS", "Exfiltration", "Transfer Data to Cloud Account"]
     reports = {"MITRE ATT&CK": ["TA0010:T1537"]}
     default_severity = Severity.LOW

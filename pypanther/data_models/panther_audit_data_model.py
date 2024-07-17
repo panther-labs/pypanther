@@ -33,7 +33,7 @@ class StandardPantherAudit(DataModel):
     id: str = "Standard.Panther.Audit"
     display_name: str = "Panther Audit Logs"
     enabled: bool = True
-    log_types: list[str] = [LogType.Panther_Audit]
+    log_types: list[str] = [LogType.PANTHER_AUDIT]
     mappings: list[DataModelMapping] = [
         DataModelMapping(name="source_ip", path="sourceIP"),
         DataModelMapping(name="user_agent", path="userAgent"),

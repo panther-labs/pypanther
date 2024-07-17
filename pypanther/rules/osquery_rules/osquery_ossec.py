@@ -73,7 +73,7 @@ osquery_ossec_rootkit_detected_tests: list[RuleTest] = [
 class OsqueryOSSECRootkitDetected(Rule):
     id = "Osquery.OSSECRootkitDetected-prototype"
     display_name = "OSSEC Rootkit Detected via Osquery"
-    log_types = [LogType.Osquery_Differential]
+    log_types = [LogType.OSQUERY_DIFFERENTIAL]
     tags = ["Osquery", "Malware", "Defense Evasion:Rootkit"]
     reports = {"MITRE ATT&CK": ["TA0005:T1014"]}
     default_severity = Severity.MEDIUM

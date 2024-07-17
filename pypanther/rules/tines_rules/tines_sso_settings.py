@@ -45,7 +45,7 @@ tines_sso_settings_tests: list[RuleTest] = [
 class TinesSSOSettings(Rule):
     id = "Tines.SSO.Settings-prototype"
     display_name = "Tines SSO Settings"
-    log_types = [LogType.Tines_Audit]
+    log_types = [LogType.TINES_AUDIT]
     tags = ["Tines", "IAM - Credential Security"]
     default_severity = Severity.HIGH
     default_description = "Detects when Tines SSO settings are changed\n"

@@ -40,7 +40,7 @@ mongo_db_access_allowed_from_anywhere_tests: list[RuleTest] = [
 class MongoDBAccessAllowedFromAnywhere(Rule):
     default_description = "Atlas only allows client connections to the database deployment from entries in the project's IP access list. This rule detects when 0.0.0.0/0 is added to that list, which allows access from anywhere."
     display_name = "MongoDB access allowed from anywhere"
-    log_types = [LogType.MongoDB_ProjectEvent]
+    log_types = [LogType.MONGODB_PROJECT_EVENT]
     id = "MongoDB.Access.Allowed.From.Anywhere-prototype"
     default_severity = Severity.HIGH
     reports = {"MITRE ATT&CK": ["T1021"]}

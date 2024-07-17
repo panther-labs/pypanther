@@ -109,10 +109,7 @@ standard_dns_base64_tests: list[RuleTest] = [
             "name": "DnsRequestV4",
             "p_any_domain_names": ["win8.ipv6.microsoft.com"],
             "p_any_ip_addresses": ["1.1.1.1"],
-            "p_any_md5_hashes": [
-                "877761efa8db44d792ddc2redacted",
-                "cfe698690964434083fecdredacted",
-            ],
+            "p_any_md5_hashes": ["877761efa8db44d792ddc2redacted", "cfe698690964434083fecdredacted"],
             "p_any_trace_ids": ["877761efa8db44d792ddc2redacted", "cfe698690964434083fecdredacted"],
             "p_event_time": "2023-04-23 18:50:03.172",
             "p_log_type": "Crowdstrike.FDREvent",
@@ -168,10 +165,7 @@ standard_dns_base64_tests: list[RuleTest] = [
             "name": "DnsRequestV4",
             "p_any_domain_names": ["win8.ipv6.microsoft.com"],
             "p_any_ip_addresses": ["1.1.1.1"],
-            "p_any_md5_hashes": [
-                "877761efa8db44d792ddc2redacted",
-                "cfe698690964434083fecdredacted",
-            ],
+            "p_any_md5_hashes": ["877761efa8db44d792ddc2redacted", "cfe698690964434083fecdredacted"],
             "p_any_trace_ids": ["877761efa8db44d792ddc2redacted", "cfe698690964434083fecdredacted"],
             "p_event_time": "2023-04-23 18:50:03.172",
             "p_log_type": "Crowdstrike.FDREvent",
@@ -221,7 +215,7 @@ class StandardDNSBase64(Rule):
     enabled = False
     default_reference = "https://zofixer.com/what-is-base64-disclosure-vulnerability/"
     default_severity = Severity.MEDIUM
-    log_types = [LogType.Crowdstrike_FDREvent, LogType.AWS_VPCDns, LogType.CiscoUmbrella_DNS]
+    log_types = [LogType.CROWDSTRIKE_FDR_EVENT, LogType.AWS_VPC_DNS, LogType.CISCO_UMBRELLA_DNS]
     tests = standard_dns_base64_tests
     DECODED = ""
 

@@ -46,7 +46,7 @@ box_malicious_content_tests: list[RuleTest] = [
 class BoxMaliciousContent(Rule):
     id = "Box.Malicious.Content-prototype"
     display_name = "Malicious Content Detected"
-    log_types = [LogType.Box_Event]
+    log_types = [LogType.BOX_EVENT]
     tags = ["Box", "Execution:User Execution"]
     reports = {"MITRE ATT&CK": ["TA0002:T1204"]}
     default_severity = Severity.HIGH

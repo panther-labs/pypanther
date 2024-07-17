@@ -40,7 +40,7 @@ git_hub_org_ip_allowlist_tests: list[RuleTest] = [
 class GitHubOrgIpAllowlist(Rule):
     id = "GitHub.Org.IpAllowlist-prototype"
     display_name = "GitHub Org IP Allow List modified"
-    log_types = [LogType.GitHub_Audit]
+    log_types = [LogType.GITHUB_AUDIT]
     tags = ["GitHub", "Persistence:Account Manipulation"]
     reports = {"MITRE ATT&CK": ["TA0003:T1098"]}
     default_severity = Severity.MEDIUM

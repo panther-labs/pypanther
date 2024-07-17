@@ -34,7 +34,7 @@ carbon_black_audit_user_added_outside_org_tests: list[RuleTest] = [
 
 class CarbonBlackAuditUserAddedOutsideOrg(Rule):
     id = "CarbonBlack.Audit.User.Added.Outside.Org-prototype"
-    log_types = [LogType.CarbonBlack_Audit]
+    log_types = [LogType.CARBON_BLACK_AUDIT]
     default_description = "Detects when a user from a different organization is added to Carbon Black."
     display_name = "Carbon Black User Added Outside Org"
     default_severity = Severity.HIGH

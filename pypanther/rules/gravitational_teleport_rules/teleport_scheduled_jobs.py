@@ -99,7 +99,7 @@ teleport_scheduled_jobs_tests: list[RuleTest] = [
 class TeleportScheduledJobs(Rule):
     id = "Teleport.ScheduledJobs-prototype"
     display_name = "Teleport Scheduled Jobs"
-    log_types = [LogType.Gravitational_TeleportAudit]
+    log_types = [LogType.GRAVITATIONAL_TELEPORT_AUDIT]
     tags = ["SSH", "Execution:Scheduled Task/Job"]
     default_severity = Severity.MEDIUM
     reports = {"MITRE ATT&CK": ["TA0002:T1053"]}
@@ -108,17 +108,7 @@ class TeleportScheduledJobs(Rule):
     dedup_period_minutes = 15
     default_reference = "https://goteleport.com/docs/management/admin/"
     default_runbook = "Validate the user behavior and rotate the host if necessary."
-    summary_attributes = [
-        "event",
-        "code",
-        "user",
-        "program",
-        "path",
-        "return_code",
-        "login",
-        "server_id",
-        "sid",
-    ]
+    summary_attributes = ["event", "code", "user", "program", "path", "return_code", "login", "server_id", "sid"]
     tests = teleport_scheduled_jobs_tests
 
     def rule(self, event):

@@ -5,7 +5,7 @@ class StandardCloudflareFirewall(DataModel):
     id: str = "Standard.Cloudflare.Firewall"
     display_name: str = "Cloudflare Firewall"
     enabled: bool = True
-    log_types: list[str] = [LogType.Cloudflare_Firewall]
+    log_types: list[str] = [LogType.CLOUDFLARE_FIREWALL]
     mappings: list[DataModelMapping] = [
         DataModelMapping(name="source_ip", path="ClientIP"),
         DataModelMapping(name="user_agent", path="ClientRequestUserAgent"),

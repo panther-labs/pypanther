@@ -12,11 +12,7 @@ one_password_unusual_client_tests: list[RuleTest] = [
             "category": "success",
             "type": "credentials_ok",
             "country": "US",
-            "target_user": {
-                "email": "homer@springfield.gov",
-                "name": "Homer Simpson",
-                "uuid": "1234",
-            },
+            "target_user": {"email": "homer@springfield.gov", "name": "Homer Simpson", "uuid": "1234"},
             "client": {
                 "app_name": "1Password for Mac",
                 "app_version": "70902005",
@@ -39,11 +35,7 @@ one_password_unusual_client_tests: list[RuleTest] = [
             "category": "success",
             "type": "credentials_ok",
             "country": "US",
-            "target_user": {
-                "email": "homer@springfield.gov",
-                "name": "Homer Simpson",
-                "uuid": "1234",
-            },
+            "target_user": {"email": "homer@springfield.gov", "name": "Homer Simpson", "uuid": "1234"},
             "client": {
                 "app_name": "Bartco 1Password Manager",
                 "app_version": "70902005",
@@ -63,7 +55,7 @@ class OnePasswordUnusualClient(Rule):
     id = "OnePassword.Unusual.Client-prototype"
     dedup_period_minutes = 120
     display_name = "Unusual 1Password Client Detected"
-    log_types = [LogType.OnePassword_SignInAttempt]
+    log_types = [LogType.ONEPASSWORD_SIGNIN_ATTEMPT]
     default_severity = Severity.MEDIUM
     default_description = "Detects when unusual or undesirable 1Password clients access your 1Password account"
     default_reference = "https://support.1password.com/category/accounts/"

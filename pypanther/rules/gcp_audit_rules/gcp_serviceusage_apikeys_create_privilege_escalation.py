@@ -172,7 +172,7 @@ gc_pserviceusageapi_keyscreate_privilege_escalation_tests: list[RuleTest] = [
 
 
 class GCPserviceusageapiKeyscreatePrivilegeEscalation(Rule):
-    log_types = [LogType.GCP_AuditLog]
+    log_types = [LogType.GCP_AUDIT_LOG]
     default_description = "Detects serviceusage.apiKeys.create method for privilege escalation in GCP. By default, API Keys are created with no restrictions, which means they have access to the entire GCP project they were created in. We can capitalize on that fact by creating a new API key that may have more privileges than our own user."
     display_name = "GCP serviceusage.apiKeys.create Privilege Escalation"
     id = "GCP.serviceusage.apiKeys.create.Privilege.Escalation-prototype"

@@ -72,7 +72,7 @@ class GithubRepositoryTransfer(Rule):
     default_runbook = "Please check with the referenced users or their supervisors to ensure the transferring of this repository is expected and allowed."
     default_severity = Severity.MEDIUM
     tags = ["Github Repository", "Github Repository Transfer", "Repository", "Transfer"]
-    log_types = [LogType.GitHub_Audit]
+    log_types = [LogType.GITHUB_AUDIT]
     id = "Github.Repository.Transfer-prototype"
     summary_attributes = ["action"]
     tests = github_repository_transfer_tests

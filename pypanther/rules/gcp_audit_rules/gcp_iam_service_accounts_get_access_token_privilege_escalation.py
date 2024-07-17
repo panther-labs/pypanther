@@ -23,11 +23,7 @@ gcpia_mservice_accountsget_access_token_privilege_escalation_tests: list[RuleTes
                 "serviceName": "iamcredentials.googleapis.com",
                 "methodName": "SignJwt",
                 "authorizationInfo": [
-                    {
-                        "permission": "iam.serviceAccounts.getAccessToken",
-                        "granted": True,
-                        "resourceAttributes": {},
-                    }
+                    {"permission": "iam.serviceAccounts.getAccessToken", "granted": True, "resourceAttributes": {}}
                 ],
                 "resourceName": "projects/-/serviceAccounts/114885146936855121342",
                 "request": {
@@ -70,11 +66,7 @@ gcpia_mservice_accountsget_access_token_privilege_escalation_tests: list[RuleTes
                 "serviceName": "iamcredentials.googleapis.com",
                 "methodName": "SignJwt",
                 "authorizationInfo": [
-                    {
-                        "permission": "iam.serviceAccounts.getAccessToken",
-                        "granted": False,
-                        "resourceAttributes": {},
-                    }
+                    {"permission": "iam.serviceAccounts.getAccessToken", "granted": False, "resourceAttributes": {}}
                 ],
                 "resourceName": "projects/-/serviceAccounts/114885146936855121342",
                 "request": {
@@ -103,7 +95,7 @@ gcpia_mservice_accountsget_access_token_privilege_escalation_tests: list[RuleTes
 class GCPIAMserviceAccountsgetAccessTokenPrivilegeEscalation(Rule):
     id = "GCP.IAM.serviceAccounts.getAccessToken.Privilege.Escalation-prototype"
     display_name = "GCP IAM serviceAccounts getAccessToken Privilege Escalation"
-    log_types = [LogType.GCP_AuditLog]
+    log_types = [LogType.GCP_AUDIT_LOG]
     reports = {"MITRE ATT&CK": ["TA0004:T1548"]}
     default_severity = Severity.HIGH
     default_description = "The Identity and Access Management (IAM) service manages authorization and authentication for a GCP environment. This means that there are very likely multiple privilege escalation methods that use the IAM service and/or its permissions."
@@ -120,13 +112,7 @@ class GCPIAMserviceAccountsgetAccessTokenPrivilegeEscalation(Rule):
         return False
 
     def title(self, event):
-        actor = deep_get(
-            event,
-            "protoPayload",
-            "authenticationInfo",
-            "principalEmail",
-            default="<ACTOR_NOT_FOUND>",
-        )
+        actor = deep_get(event, "protoPayload", "authenticationInfo", "principalEmail", default="<ACTOR_NOT_FOUND>")
         operation = deep_get(event, "protoPayload", "methodName", default="<OPERATION_NOT_FOUND>")
         project_id = deep_get(event, "resource", "labels", "project_id", default="<PROJECT_NOT_FOUND>")
         return f"[GCP]: [{actor}] performed [{operation}] on project [{project_id}]"

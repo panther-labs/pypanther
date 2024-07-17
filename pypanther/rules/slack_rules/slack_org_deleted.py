@@ -50,7 +50,7 @@ slack_audit_logs_org_deleted_tests: list[RuleTest] = [
 class SlackAuditLogsOrgDeleted(Rule):
     id = "Slack.AuditLogs.OrgDeleted-prototype"
     display_name = "Slack Organization Deleted"
-    log_types = [LogType.Slack_AuditLogs]
+    log_types = [LogType.SLACK_AUDIT_LOGS]
     tags = ["Slack", "Impact", "Account Access Removal"]
     reports = {"MITRE ATT&CK": ["TA0040:T1531"]}
     default_severity = Severity.MEDIUM

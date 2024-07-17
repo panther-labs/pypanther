@@ -6,11 +6,7 @@ google_workspace_apps_marketplace_allowlist_tests: list[RuleTest] = [
         name="parameters json key set to null value",
         expected_result=False,
         log={
-            "actor": {
-                "callerType": "USER",
-                "email": "user@example.io",
-                "profileId": "111111111111111111111",
-            },
+            "actor": {"callerType": "USER", "email": "user@example.io", "profileId": "111111111111111111111"},
             "id": {
                 "applicationName": "user_accounts",
                 "customerId": "C00000000",
@@ -129,7 +125,7 @@ class GoogleWorkspaceAppsMarketplaceAllowlist(Rule):
     default_runbook = "Confirm with the acting user that this change was authorized."
     default_reference = "https://support.google.com/a/answer/6089179?hl=en"
     default_severity = Severity.MEDIUM
-    log_types = [LogType.GSuite_ActivityEvent]
+    log_types = [LogType.GSUITE_ACTIVITY_EVENT]
     id = "Google.Workspace.Apps.Marketplace.Allowlist-prototype"
     tests = google_workspace_apps_marketplace_allowlist_tests
 

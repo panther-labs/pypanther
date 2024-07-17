@@ -8,7 +8,7 @@ class CiscoUmbrellaDNSFuzzyMatching(Rule):
     display_name = "Cisco Umbrella Domain Name Fuzzy Matching"
     enabled = False
     dedup_period_minutes = 15
-    log_types = [LogType.CiscoUmbrella_DNS]
+    log_types = [LogType.CISCO_UMBRELLA_DNS]
     tags = ["Configuration Required", "DNS"]
     default_reference = "https://umbrella.cisco.com/blog/abcs-of-dns"
     default_severity = Severity.MEDIUM

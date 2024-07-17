@@ -126,7 +126,7 @@ push_security_new_saa_s_account_created_tests: list[RuleTest] = [
 class PushSecurityNewSaaSAccountCreated(Rule):
     id = "Push.Security.New.SaaS.Account.Created-prototype"
     display_name = "Push Security New SaaS Account Created"
-    log_types = [LogType.PushSecurity_Entities]
+    log_types = [LogType.PUSH_SECURITY_ENTITIES]
     default_severity = Severity.INFO
     tests = push_security_new_saa_s_account_created_tests
 

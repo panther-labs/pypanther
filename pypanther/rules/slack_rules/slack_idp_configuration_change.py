@@ -9,12 +9,7 @@ slack_audit_logs_idp_configuration_changed_tests: list[RuleTest] = [
             "action": "idp_configuration_added",
             "actor": {
                 "type": "user",
-                "user": {
-                    "email": "user@example.com",
-                    "id": "A012B3CDEFG",
-                    "name": "username",
-                    "team": "T01234N56GB",
-                },
+                "user": {"email": "user@example.com", "id": "A012B3CDEFG", "name": "username", "team": "T01234N56GB"},
             },
             "context": {
                 "ip_address": "1.2.3.4",
@@ -36,12 +31,7 @@ slack_audit_logs_idp_configuration_changed_tests: list[RuleTest] = [
             "action": "idp_configuration_deleted",
             "actor": {
                 "type": "user",
-                "user": {
-                    "email": "user@example.com",
-                    "id": "A012B3CDEFG",
-                    "name": "username",
-                    "team": "T01234N56GB",
-                },
+                "user": {"email": "user@example.com", "id": "A012B3CDEFG", "name": "username", "team": "T01234N56GB"},
             },
             "context": {
                 "ip_address": "1.2.3.4",
@@ -63,12 +53,7 @@ slack_audit_logs_idp_configuration_changed_tests: list[RuleTest] = [
             "action": "idp_prod_configuration_updated",
             "actor": {
                 "type": "user",
-                "user": {
-                    "email": "user@example.com",
-                    "id": "A012B3CDEFG",
-                    "name": "username",
-                    "team": "T01234N56GB",
-                },
+                "user": {"email": "user@example.com", "id": "A012B3CDEFG", "name": "username", "team": "T01234N56GB"},
             },
             "context": {
                 "ip_address": "1.2.3.4",
@@ -126,7 +111,7 @@ slack_audit_logs_idp_configuration_changed_tests: list[RuleTest] = [
 class SlackAuditLogsIDPConfigurationChanged(Rule):
     id = "Slack.AuditLogs.IDPConfigurationChanged-prototype"
     display_name = "Slack IDP Configuration Changed"
-    log_types = [LogType.Slack_AuditLogs]
+    log_types = [LogType.SLACK_AUDIT_LOGS]
     tags = ["Slack", "Persistence", "Credential Access", "Modify Authentication Process"]
     reports = {"MITRE ATT&CK": ["TA0003:T1556", "TA0006:T1556"]}
     default_severity = Severity.HIGH

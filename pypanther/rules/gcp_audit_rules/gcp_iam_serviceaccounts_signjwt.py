@@ -23,11 +23,7 @@ gcpia_mservice_accountssign_jwt_privilege_escalation_tests: list[RuleTest] = [
                 "serviceName": "iamcredentials.googleapis.com",
                 "methodName": "SignJwt",
                 "authorizationInfo": [
-                    {
-                        "permission": "iam.serviceAccounts.signJwt",
-                        "granted": True,
-                        "resourceAttributes": {},
-                    }
+                    {"permission": "iam.serviceAccounts.signJwt", "granted": True, "resourceAttributes": {}}
                 ],
                 "resourceName": "projects/-/serviceAccounts/114885146936855121342",
                 "request": {
@@ -70,11 +66,7 @@ gcpia_mservice_accountssign_jwt_privilege_escalation_tests: list[RuleTest] = [
                 "serviceName": "iamcredentials.googleapis.com",
                 "methodName": "SignJwt",
                 "authorizationInfo": [
-                    {
-                        "permission": "iam.serviceAccounts.signJwt",
-                        "granted": False,
-                        "resourceAttributes": {},
-                    }
+                    {"permission": "iam.serviceAccounts.signJwt", "granted": False, "resourceAttributes": {}}
                 ],
                 "resourceName": "projects/-/serviceAccounts/114885146936855121342",
                 "request": {
@@ -103,7 +95,7 @@ gcpia_mservice_accountssign_jwt_privilege_escalation_tests: list[RuleTest] = [
 class GCPIAMserviceAccountssignJwtPrivilegeEscalation(Rule):
     id = "GCP.IAM.serviceAccounts.signJwt.Privilege.Escalation-prototype"
     display_name = "GCP IAM serviceAccounts.signJwt Privilege Escalation"
-    log_types = [LogType.GCP_AuditLog]
+    log_types = [LogType.GCP_AUDIT_LOG]
     reports = {"MITRE ATT&CK": ["TA0004:T1548"]}
     default_severity = Severity.HIGH
     default_description = "Detects iam.serviceAccounts.signJwt method for privilege escalation in GCP. This method works by signing well-formed JSON web tokens (JWTs). The script for this method will sign a well-formed JWT and request a new access token belonging to the Service Account with it."
@@ -123,13 +115,7 @@ class GCPIAMserviceAccountssignJwtPrivilegeEscalation(Rule):
         return False
 
     def title(self, event):
-        actor = deep_get(
-            event,
-            "protoPayload",
-            "authenticationInfo",
-            "principalEmail",
-            default="<ACTOR_NOT_FOUND>",
-        )
+        actor = deep_get(event, "protoPayload", "authenticationInfo", "principalEmail", default="<ACTOR_NOT_FOUND>")
         operation = deep_get(event, "protoPayload", "methodName", default="<OPERATION_NOT_FOUND>")
         project_id = deep_get(event, "resource", "labels", "project_id", default="<PROJECT_NOT_FOUND>")
         return f"[GCP]: [{actor}] performed [{operation}] on project [{project_id}]"

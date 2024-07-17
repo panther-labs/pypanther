@@ -24,7 +24,7 @@ teleport_lock_created_tests: list[RuleTest] = [
 class TeleportLockCreated(Rule):
     id = "Teleport.LockCreated-prototype"
     display_name = "A Teleport Lock was created"
-    log_types = [LogType.Gravitational_TeleportAudit]
+    log_types = [LogType.GRAVITATIONAL_TELEPORT_AUDIT]
     tags = ["Teleport"]
     default_severity = Severity.INFO
     default_description = "A Teleport Lock was created"

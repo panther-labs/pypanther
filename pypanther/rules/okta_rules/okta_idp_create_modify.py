@@ -160,7 +160,7 @@ okta_identity_provider_created_modified_tests: list[RuleTest] = [
 class OktaIdentityProviderCreatedModified(Rule):
     id = "Okta.Identity.Provider.Created.Modified-prototype"
     display_name = "Okta Identity Provider Created or Modified"
-    log_types = [LogType.Okta_SystemLog]
+    log_types = [LogType.OKTA_SYSTEM_LOG]
     reports = {"MITRE ATT&CK": ["TA0006:T1556", "TA0001:T1199", "TA0003:T1098"]}
     default_severity = Severity.HIGH
     default_description = 'A new 3rd party Identity Provider has been created or modified. Attackers have been observed configuring a second Identity Provider to act as an "impersonation app" to access applications within the compromised Org on behalf of other users. This second Identity Provider, also controlled by the attacker, would act as a “source” IdP in an inbound federation relationship (sometimes called “Org2Org”) with the target.\n'

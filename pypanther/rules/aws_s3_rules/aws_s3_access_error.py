@@ -80,7 +80,7 @@ class AWSS3ServerAccessError(Rule):
     display_name = "AWS S3 Access Error"
     dedup_period_minutes = 180
     threshold = 5
-    log_types = [LogType.AWS_S3ServerAccess]
+    log_types = [LogType.AWS_S3_SERVER_ACCESS]
     tags = ["AWS", "Security Control", "Discovery:Cloud Storage Object Discovery"]
     reports = {"MITRE ATT&CK": ["TA0007:T1619"]}
     default_severity = Severity.INFO

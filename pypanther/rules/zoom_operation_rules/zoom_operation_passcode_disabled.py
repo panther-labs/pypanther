@@ -44,7 +44,7 @@ zoom_passcode_disabled_tests: list[RuleTest] = [
 class ZoomPasscodeDisabled(Rule):
     id = "Zoom.PasscodeDisabled-prototype"
     display_name = "Zoom Meeting Passcode Disabled"
-    log_types = [LogType.Zoom_Operation]
+    log_types = [LogType.ZOOM_OPERATION]
     tags = ["Zoom", "Collection:Video Capture"]
     default_severity = Severity.LOW
     default_description = "Meeting passcode requirement has been disabled from usergroup\n"

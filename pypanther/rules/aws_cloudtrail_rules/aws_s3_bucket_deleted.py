@@ -89,7 +89,7 @@ awss3_bucket_deleted_tests: list[RuleTest] = [
 class AWSS3BucketDeleted(Rule):
     id = "AWS.S3.BucketDeleted-prototype"
     display_name = "S3 Bucket Deleted"
-    log_types = [LogType.AWS_CloudTrail]
+    log_types = [LogType.AWS_CLOUDTRAIL]
     tags = ["AWS", "Impact:Data Destruction"]
     reports = {"MITRE ATT&CK": ["TA0040:T1485"]}
     default_severity = Severity.INFO

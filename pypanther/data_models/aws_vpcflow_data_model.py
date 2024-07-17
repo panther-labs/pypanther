@@ -5,7 +5,7 @@ class StandardAWSVPCFlow(DataModel):
     id: str = "Standard.AWS.VPCFlow"
     display_name: str = "AWS VPCFlow"
     enabled: bool = True
-    log_types: list[str] = [LogType.AWS_VPCFlow]
+    log_types: list[str] = [LogType.AWS_VPC_FLOW]
     mappings: list[DataModelMapping] = [
         DataModelMapping(name="destination_ip", path="dstAddr"),
         DataModelMapping(name="destination_port", path="dstPort"),

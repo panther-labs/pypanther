@@ -6,11 +6,7 @@ google_workspace_advanced_protection_program_tests: list[RuleTest] = [
         name="parameters json key set to null value",
         expected_result=False,
         log={
-            "actor": {
-                "callerType": "USER",
-                "email": "user@example.io",
-                "profileId": "111111111111111111111",
-            },
+            "actor": {"callerType": "USER", "email": "user@example.io", "profileId": "111111111111111111111"},
             "id": {
                 "applicationName": "user_accounts",
                 "customerId": "C00000000",
@@ -131,7 +127,7 @@ class GoogleWorkspaceAdvancedProtectionProgram(Rule):
     default_runbook = "Confirm the changes made were authorized for your organization."
     default_reference = "https://support.google.com/a/answer/9378686?hl=en"
     default_severity = Severity.MEDIUM
-    log_types = [LogType.GSuite_ActivityEvent]
+    log_types = [LogType.GSUITE_ACTIVITY_EVENT]
     id = "Google.Workspace.Advanced.Protection.Program-prototype"
     tests = google_workspace_advanced_protection_program_tests
 

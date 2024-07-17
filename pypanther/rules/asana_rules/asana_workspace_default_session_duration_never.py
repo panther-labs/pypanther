@@ -6,12 +6,7 @@ asana_workspace_default_session_duration_never_tests: list[RuleTest] = [
         name="Session Duration Never",
         expected_result=True,
         log={
-            "actor": {
-                "actor_type": "user",
-                "email": "homer@example.io",
-                "gid": "12345",
-                "name": "Homer Simpson",
-            },
+            "actor": {"actor_type": "user", "email": "homer@example.io", "gid": "12345", "name": "Homer Simpson"},
             "context": {
                 "client_ip_address": "12.12.12.12",
                 "context_type": "web",
@@ -56,7 +51,7 @@ class AsanaWorkspaceDefaultSessionDurationNever(Rule):
     display_name = "Asana Workspace Default Session Duration Never"
     default_reference = "https://help.asana.com/hc/en-us/articles/14218320495899-Manage-Session-Duration"
     default_severity = Severity.LOW
-    log_types = [LogType.Asana_Audit]
+    log_types = [LogType.ASANA_AUDIT]
     id = "Asana.Workspace.Default.Session.Duration.Never-prototype"
     tests = asana_workspace_default_session_duration_never_tests
 

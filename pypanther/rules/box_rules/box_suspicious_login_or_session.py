@@ -8,12 +8,7 @@ box_shield_suspicious_alert_tests: list[RuleTest] = [
         log={
             "type": "event",
             "additional_details": '{"key": "value"}',
-            "created_by": {
-                "id": "12345678",
-                "type": "user",
-                "login": "ceo@example",
-                "name": "Bob Cat",
-            },
+            "created_by": {"id": "12345678", "type": "user", "login": "ceo@example", "name": "Bob Cat"},
             "event_type": "DELETE",
         },
     ),
@@ -23,12 +18,7 @@ box_shield_suspicious_alert_tests: list[RuleTest] = [
         log={
             "type": "event",
             "additional_details": '{"shield_alert":{"rule_category":"Suspicious Locations","risk_score":60,"user":{"email":"bob@example"}}}',
-            "created_by": {
-                "id": "12345678",
-                "type": "user",
-                "login": "bob@example",
-                "name": "Bob Cat",
-            },
+            "created_by": {"id": "12345678", "type": "user", "login": "bob@example", "name": "Bob Cat"},
             "event_type": "SHIELD_ALERT",
             "source": {"id": "12345678", "type": "user"},
         },
@@ -39,12 +29,7 @@ box_shield_suspicious_alert_tests: list[RuleTest] = [
         log={
             "type": "event",
             "additional_details": '{"shield_alert":{"rule_category":"Suspicious Sessions","risk_score":70,"alert_summary":{"description":"First time in prior month user connected from ip 1.2.3.4."},"user":{"email":"bob@example"}}}',
-            "created_by": {
-                "id": "12345678",
-                "type": "user",
-                "login": "bob@example",
-                "name": "Bob Cat",
-            },
+            "created_by": {"id": "12345678", "type": "user", "login": "bob@example", "name": "Bob Cat"},
             "event_type": "SHIELD_ALERT",
             "source": {"id": "12345678", "type": "user"},
         },
@@ -55,12 +40,7 @@ box_shield_suspicious_alert_tests: list[RuleTest] = [
         log={
             "type": "event",
             "additional_details": '{"shield_alert":{"rule_category":"Suspicious Sessions","risk_score":10,"alert_summary":{"description":"First time in prior month user connected from ip 1.2.3.4."},"user":{"email":"bob@example"}}}',
-            "created_by": {
-                "id": "12345678",
-                "type": "user",
-                "login": "bob@example",
-                "name": "Bob Cat",
-            },
+            "created_by": {"id": "12345678", "type": "user", "login": "bob@example", "name": "Bob Cat"},
             "event_type": "SHIELD_ALERT",
             "source": {"id": "12345678", "type": "user"},
         },
@@ -71,7 +51,7 @@ box_shield_suspicious_alert_tests: list[RuleTest] = [
 class BoxShieldSuspiciousAlert(Rule):
     id = "Box.Shield.Suspicious.Alert-prototype"
     display_name = "Box Shield Suspicious Alert Triggered"
-    log_types = [LogType.Box_Event]
+    log_types = [LogType.BOX_EVENT]
     tags = ["Box", "Initial Access:Valid Accounts"]
     reports = {"MITRE ATT&CK": ["TA0001:T1078"]}
     default_severity = Severity.HIGH

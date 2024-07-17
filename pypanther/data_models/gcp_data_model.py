@@ -114,7 +114,7 @@ class StandardGCPAuditLog(DataModel):
     id: str = "Standard.GCP.AuditLog"
     display_name: str = "GCP Audit Log"
     enabled: bool = True
-    log_types: list[str] = [LogType.GCP_AuditLog]
+    log_types: list[str] = [LogType.GCP_AUDIT_LOG]
     mappings: list[DataModelMapping] = [
         DataModelMapping(name="actor_user", path="$.protoPayload.authenticationInfo.principalEmail"),
         DataModelMapping(name="assigned_admin_role", method=get_iam_roles),

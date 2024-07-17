@@ -112,7 +112,7 @@ class WizAlertPassthrough(Rule):
     default_runbook = "Review the Wiz alert details to determine what malicious behavior was detected, and whether or not it was blocked."
     default_reference = "https://www.wiz.io/product"
     default_severity = Severity.MEDIUM
-    log_types = [LogType.Wiz_Issues]
+    log_types = [LogType.WIZ_ISSUES]
     tests = wiz_alert_passthrough_tests
 
     def rule(self, event):

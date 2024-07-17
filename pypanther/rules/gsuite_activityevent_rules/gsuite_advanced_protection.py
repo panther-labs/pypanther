@@ -28,7 +28,7 @@ g_suite_advanced_protection_tests: list[RuleTest] = [
 class GSuiteAdvancedProtection(Rule):
     id = "GSuite.AdvancedProtection-prototype"
     display_name = "GSuite User Advanced Protection Change"
-    log_types = [LogType.GSuite_ActivityEvent]
+    log_types = [LogType.GSUITE_ACTIVITY_EVENT]
     tags = ["GSuite", "Defense Evasion:Impair Defenses"]
     reports = {"MITRE ATT&CK": ["TA0005:T1562"]}
     default_severity = Severity.LOW

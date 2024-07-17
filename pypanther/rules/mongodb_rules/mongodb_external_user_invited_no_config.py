@@ -68,7 +68,7 @@ class MongoDBExternalUserInvitedNoConfig(Rule):
     display_name = "MongoDB External User Invited (no config)"
     default_severity = Severity.HIGH
     default_reference = "https://www.mongodb.com/docs/v4.2/tutorial/create-users/"
-    log_types = [LogType.MongoDB_OrganizationEvent]
+    log_types = [LogType.MONGODB_ORGANIZATION_EVENT]
     id = "MongoDB.External.UserInvited.NoConfig-prototype"
     tests = mongo_db_external_user_invited_no_config_tests
 

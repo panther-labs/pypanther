@@ -42,7 +42,7 @@ class GithubPublicRepositoryCreated(Rule):
     default_reference = "https://docs.github.com/en/get-started/quickstart/create-a-repo"
     default_severity = Severity.MEDIUM
     tags = ["Github Repository", "Public", "Repository Created"]
-    log_types = [LogType.GitHub_Audit]
+    log_types = [LogType.GITHUB_AUDIT]
     id = "Github.Public.Repository.Created-prototype"
     summary_attributes = ["actor", "repository", "visibility"]
     tests = github_public_repository_created_tests

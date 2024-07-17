@@ -82,7 +82,7 @@ class AsanaServiceAccountCreated(Rule):
     )
     default_reference = "https://help.asana.com/hc/en-us/articles/14217496838427-Service-Accounts"
     default_severity = Severity.MEDIUM
-    log_types = [LogType.Asana_Audit]
+    log_types = [LogType.ASANA_AUDIT]
     id = "Asana.Service.Account.Created-prototype"
     tests = asana_service_account_created_tests
 

@@ -67,7 +67,7 @@ snyk_role_change_tests: list[RuleTest] = [
 class SnykRoleChange(Rule):
     id = "Snyk.Role.Change-prototype"
     display_name = "Snyk Role Change"
-    log_types = [LogType.Snyk_GroupAudit, LogType.Snyk_OrgAudit]
+    log_types = [LogType.SNYK_GROUP_AUDIT, LogType.SNYK_ORG_AUDIT]
     tags = ["Snyk"]
     default_severity = Severity.HIGH
     default_description = "Detects when Snyk Roles are changed\n"

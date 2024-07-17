@@ -45,7 +45,7 @@ netskope_many_deletes_tests: list[RuleTest] = [
 class NetskopeManyDeletes(Rule):
     id = "Netskope.ManyDeletes-prototype"
     display_name = "Netskope Many Objects Deleted"
-    log_types = [LogType.Netskope_Audit]
+    log_types = [LogType.NETSKOPE_AUDIT]
     tags = ["Netskope", "Configuration Required", "Data Destruction"]
     reports = {"MITRE ATT&CK": ["TA0040:T1485"]}
     default_severity = Severity.HIGH

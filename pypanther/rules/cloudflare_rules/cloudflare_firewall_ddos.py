@@ -95,7 +95,7 @@ cloudflare_firewall_l7_d_do_s_tests: list[RuleTest] = [
 class CloudflareFirewallL7DDoS(Rule):
     id = "Cloudflare.Firewall.L7DDoS-prototype"
     display_name = "Cloudflare L7 DDoS"
-    log_types = [LogType.Cloudflare_Firewall]
+    log_types = [LogType.CLOUDFLARE_FIREWALL]
     tags = ["Cloudflare", "Variable Severity"]
     default_severity = Severity.MEDIUM
     default_description = "Layer 7 Distributed Denial of Service (DDoS) detected"

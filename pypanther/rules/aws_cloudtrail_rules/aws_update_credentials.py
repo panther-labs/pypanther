@@ -15,12 +15,7 @@ awsiam_credentials_updated_tests: list[RuleTest] = [
                 "accountId": "123456789012",
                 "accessKeyId": "AAAAIIIIIIU74NPJW5K76",
                 "userName": "test_user",
-                "sessionContext": {
-                    "attributes": {
-                        "mfaAuthenticated": "true",
-                        "creationDate": "2019-12-31T01:50:17Z",
-                    }
-                },
+                "sessionContext": {"attributes": {"mfaAuthenticated": "true", "creationDate": "2019-12-31T01:50:17Z"}},
                 "invokedBy": "signin.amazonaws.com",
             },
             "eventTime": "2019-12-31T01:50:46Z",
@@ -50,12 +45,7 @@ awsiam_credentials_updated_tests: list[RuleTest] = [
                 "accountId": "123456789012",
                 "accessKeyId": "AAAAIIIIIIU74NPJW5K76",
                 "userName": "test_user",
-                "sessionContext": {
-                    "attributes": {
-                        "mfaAuthenticated": "true",
-                        "creationDate": "2019-12-31T01:50:17Z",
-                    }
-                },
+                "sessionContext": {"attributes": {"mfaAuthenticated": "true", "creationDate": "2019-12-31T01:50:17Z"}},
                 "invokedBy": "signin.amazonaws.com",
             },
             "eventTime": "2019-12-31T01:50:46Z",
@@ -86,12 +76,7 @@ awsiam_credentials_updated_tests: list[RuleTest] = [
                 "accountId": "123456789012",
                 "accessKeyId": "AAAAIIIIIIU74NPJW5K76",
                 "userName": "test_user",
-                "sessionContext": {
-                    "attributes": {
-                        "mfaAuthenticated": "true",
-                        "creationDate": "2019-12-31T01:50:17Z",
-                    }
-                },
+                "sessionContext": {"attributes": {"mfaAuthenticated": "true", "creationDate": "2019-12-31T01:50:17Z"}},
                 "invokedBy": "signin.amazonaws.com",
             },
             "eventTime": "2019-12-31T01:50:46Z",
@@ -115,20 +100,14 @@ awsiam_credentials_updated_tests: list[RuleTest] = [
 class AWSIAMCredentialsUpdated(Rule):
     id = "AWS.IAM.CredentialsUpdated-prototype"
     display_name = "New IAM Credentials Updated"
-    log_types = [LogType.AWS_CloudTrail]
+    log_types = [LogType.AWS_CLOUDTRAIL]
     reports = {"MITRE ATT&CK": ["TA0003:T1098"]}
     tags = ["AWS", "Identity & Access Management", "Persistence:Account Manipulation"]
     default_severity = Severity.INFO
     default_description = "A console password, access key, or user has been created."
     default_runbook = "This rule is purely informational, there is no action needed."
     default_reference = "https://docs.aws.amazon.com/IAM/latest/UserGuide/list_identityandaccessmanagement.html"
-    summary_attributes = [
-        "eventName",
-        "userAgent",
-        "sourceIpAddress",
-        "recipientAccountId",
-        "p_any_aws_arns",
-    ]
+    summary_attributes = ["eventName", "userAgent", "sourceIpAddress", "recipientAccountId", "p_any_aws_arns"]
     tests = awsiam_credentials_updated_tests
     UPDATE_EVENTS = {"ChangePassword", "CreateAccessKey", "CreateLoginProfile", "CreateUser"}
 

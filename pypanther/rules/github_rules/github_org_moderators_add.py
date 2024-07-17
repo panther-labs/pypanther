@@ -36,7 +36,7 @@ git_hub_org_moderators_add_tests: list[RuleTest] = [
 class GitHubOrgModeratorsAdd(Rule):
     id = "GitHub.Org.Moderators.Add-prototype"
     display_name = "GitHub User Added to Org Moderators"
-    log_types = [LogType.GitHub_Audit]
+    log_types = [LogType.GITHUB_AUDIT]
     tags = ["GitHub", "Initial Access:Supply Chain Compromise"]
     default_severity = Severity.MEDIUM
     default_description = "Detects when a user is added to a GitHub org's list of moderators."

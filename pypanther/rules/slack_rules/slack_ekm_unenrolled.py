@@ -9,12 +9,7 @@ slack_audit_logs_ekm_unenrolled_tests: list[RuleTest] = [
             "action": "ekm_unenrolled",
             "actor": {
                 "type": "user",
-                "user": {
-                    "email": "user@example.com",
-                    "id": "A012B3CDEFG",
-                    "name": "username",
-                    "team": "T01234N56GB",
-                },
+                "user": {"email": "user@example.com", "id": "A012B3CDEFG", "name": "username", "team": "T01234N56GB"},
             },
             "context": {
                 "ip_address": "1.2.3.4",
@@ -71,7 +66,7 @@ slack_audit_logs_ekm_unenrolled_tests: list[RuleTest] = [
 class SlackAuditLogsEKMUnenrolled(Rule):
     id = "Slack.AuditLogs.EKMUnenrolled-prototype"
     display_name = "Slack EKM Unenrolled"
-    log_types = [LogType.Slack_AuditLogs]
+    log_types = [LogType.SLACK_AUDIT_LOGS]
     tags = ["Slack", "Defense Evasion", "Weaken Encryption"]
     reports = {"MITRE ATT&CK": ["TA0005:T1600"]}
     default_severity = Severity.CRITICAL

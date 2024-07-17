@@ -69,7 +69,7 @@ push_security_phishing_attack_tests: list[RuleTest] = [
 class PushSecurityPhishingAttack(Rule):
     id = "Push.Security.Phishing.Attack-prototype"
     display_name = "Push Security Phishing Attack"
-    log_types = [LogType.PushSecurity_Controls]
+    log_types = [LogType.PUSH_SECURITY_CONTROLS]
     default_severity = Severity.HIGH
     tests = push_security_phishing_attack_tests
 

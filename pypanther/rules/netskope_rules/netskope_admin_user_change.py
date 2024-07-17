@@ -46,7 +46,7 @@ netskope_admin_user_change_tests: list[RuleTest] = [
 class NetskopeAdminUserChange(Rule):
     id = "Netskope.AdminUserChange-prototype"
     display_name = "An administrator account was created, deleted, or modified."
-    log_types = [LogType.Netskope_Audit]
+    log_types = [LogType.NETSKOPE_AUDIT]
     tags = ["Netskope", "Account Manipulation"]
     reports = {"MITRE ATT&CK": ["TA0004:T1098"]}
     default_severity = Severity.HIGH

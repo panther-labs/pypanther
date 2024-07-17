@@ -152,7 +152,7 @@ class GCPFirewallRuleModified(Rule):
     display_name = "GCP Firewall Rule Modified"
     id = "GCP.Firewall.Rule.Modified-prototype"
     default_severity = Severity.LOW
-    log_types = [LogType.GCP_AuditLog]
+    log_types = [LogType.GCP_AUDIT_LOG]
     tags = ["GCP", "Firewall", "Networking", "Infrastructure"]
     default_description = "This rule detects modifications to GCP firewall rules.\n"
     default_runbook = "Ensure that the rule modification was expected. Firewall rule changes can cause service interruptions or outages.\n"

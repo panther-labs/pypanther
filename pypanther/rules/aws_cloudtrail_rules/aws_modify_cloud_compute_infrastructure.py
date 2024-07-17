@@ -432,7 +432,7 @@ class AWSModifyCloudComputeInfrastructure(Rule):
     reports = {"MITRE ATT&CK": ["TA0005:T1578"]}
     tags = ["Configuration Required"]
     default_runbook = "This detection reports on eventSource ec2 Change events. This detection excludes Cross-Service change events.  As such, this detection will perform well in environments where changes are expected to originate only from AWS service entities.\nThis detection will emit alerts frequently in environments where users are making ec2 related changes.\n"
-    log_types = [LogType.AWS_CloudTrail]
+    log_types = [LogType.AWS_CLOUDTRAIL]
     id = "AWS.Modify.Cloud.Compute.Infrastructure-prototype"
     tests = aws_modify_cloud_compute_infrastructure_tests
     EC2_CRUD_ACTIONS = {

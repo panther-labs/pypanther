@@ -207,10 +207,7 @@ aws_console_login_without_mfa_tests: list[RuleTest] = [
                 "arn": "arn:aws:sts::123456789012:assumed-role/testrole_34c15ddd84cb4648/tester@example.com",
                 "principalId": "AROAXXXXXXXXXXXXXXXXX:tester@example.com",
                 "sessionContext": {
-                    "attributes": {
-                        "creationDate": "2019-09-01T21:20:03Z",
-                        "mfaAuthenticated": "true",
-                    },
+                    "attributes": {"creationDate": "2019-09-01T21:20:03Z", "mfaAuthenticated": "true"},
                     "sessionIssuer": {
                         "accountId": "123456789012",
                         "arn": "arn:aws:iam::123456789012:role/aws-reserved/sso.amazonaws.com/us-east-1/testrole_34c15ddd84cb4648",
@@ -279,10 +276,7 @@ aws_console_login_without_mfa_tests: list[RuleTest] = [
                 "arn": "arn:aws:sts::xxx:assumed-role/AWSReservedSSO_developer_admin_asdf/foo@bar.com",
                 "principalId": "xxx:foo@bar.com",
                 "sessionContext": {
-                    "attributes": {
-                        "creationDate": "2022-03-16T19:17:41Z",
-                        "mfaAuthenticated": "false",
-                    },
+                    "attributes": {"creationDate": "2022-03-16T19:17:41Z", "mfaAuthenticated": "false"},
                     "sessionIssuer": {
                         "accountId": "xxx",
                         "arn": "arn:aws:iam::xxx:role/aws-reserved/sso.amazonaws.com/us-east-2/AWSReservedSSO_developer_admin_asdf",
@@ -318,10 +312,7 @@ aws_console_login_without_mfa_tests: list[RuleTest] = [
             "userIdentity": {
                 "accountId": "11111",
                 "sessionContext": {
-                    "attributes": {
-                        "creationDate": "2022-03-29T17:16:35Z",
-                        "mfaAuthenticated": "true",
-                    },
+                    "attributes": {"creationDate": "2022-03-29T17:16:35Z", "mfaAuthenticated": "true"},
                     "sessionIssuer": {"accountId": "2222", "type": "Role", "userName": "asdsda"},
                     "webIdFederationData": {},
                 },
@@ -340,10 +331,7 @@ aws_console_login_without_mfa_tests: list[RuleTest] = [
                 "arn": "arn:aws:sts::123456789012:assumed-role/SomeRole/1641313043312360000",
                 "principalId": "AROAXXXXXXXXXXXXXXXXX:1641313043312360000",
                 "sessionContext": {
-                    "attributes": {
-                        "creationDate": "2022-01-04T16:17:27Z",
-                        "mfaAuthenticated": "false",
-                    },
+                    "attributes": {"creationDate": "2022-01-04T16:17:27Z", "mfaAuthenticated": "false"},
                     "sessionIssuer": {
                         "accountId": "123456789012",
                         "arn": "arn:aws:iam::123456789012:role/SomeRole",
@@ -380,13 +368,8 @@ aws_console_login_without_mfa_tests: list[RuleTest] = [
 class AWSConsoleLoginWithoutMFA(Rule):
     id = "AWS.Console.LoginWithoutMFA-prototype"
     display_name = "Logins Without MFA"
-    log_types = [LogType.AWS_CloudTrail]
-    tags = [
-        "AWS",
-        "Identity & Access Management",
-        "Authentication",
-        "Initial Access:Valid Accounts",
-    ]
+    log_types = [LogType.AWS_CLOUDTRAIL]
+    tags = ["AWS", "Identity & Access Management", "Authentication", "Initial Access:Valid Accounts"]
     reports = {"CIS": ["3.2"], "MITRE ATT&CK": ["TA0001:T1078"]}
     default_severity = Severity.HIGH
     default_description = "A console login was made without multi-factor authentication."

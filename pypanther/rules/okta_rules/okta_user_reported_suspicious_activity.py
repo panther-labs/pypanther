@@ -155,12 +155,7 @@ okta_user_reported_suspicious_activity_tests: list[RuleTest] = [
             },
             "severity": "WARN",
             "target": [
-                {
-                    "alternateId": "homer.simpson@duff.com",
-                    "displayName": "Homer Simpson",
-                    "id": "01234",
-                    "type": "User",
-                }
+                {"alternateId": "homer.simpson@duff.com", "displayName": "Homer Simpson", "id": "01234", "type": "User"}
             ],
             "transaction": {"detail": {}, "id": "1234ABC", "type": "WEB"},
             "uuid": "ABC1234",
@@ -175,7 +170,7 @@ class OktaUserReportedSuspiciousActivity(Rule):
     default_reference = "https://help.okta.com/en-us/Content/Topics/Security/suspicious-activity-reporting.htm"
     display_name = "Okta User Reported Suspicious Activity"
     default_severity = Severity.HIGH
-    log_types = [LogType.Okta_SystemLog]
+    log_types = [LogType.OKTA_SYSTEM_LOG]
     id = "Okta.User.Reported.Suspicious.Activity-prototype"
     tests = okta_user_reported_suspicious_activity_tests
 

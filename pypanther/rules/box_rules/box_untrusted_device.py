@@ -29,7 +29,7 @@ box_untrusted_device_tests: list[RuleTest] = [
 class BoxUntrustedDevice(Rule):
     id = "Box.Untrusted.Device-prototype"
     display_name = "Box Untrusted Device Login"
-    log_types = [LogType.Box_Event]
+    log_types = [LogType.BOX_EVENT]
     tags = ["Box", "Initial Access:Valid Accounts"]
     reports = {"MITRE ATT&CK": ["TA0001:T1078"]}
     default_severity = Severity.INFO

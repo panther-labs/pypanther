@@ -53,7 +53,7 @@ notion_many_pages_deleted_tests: list[RuleTest] = [
 class NotionManyPagesDeleted(Rule):
     id = "Notion.Many.Pages.Deleted-prototype"
     display_name = "Notion Many Pages Deleted"
-    log_types = [LogType.Notion_AuditLogs]
+    log_types = [LogType.NOTION_AUDIT_LOGS]
     tags = ["Notion", "Data Security", "Data Destruction"]
     default_severity = Severity.MEDIUM
     default_description = "A Notion User deleted multiple pages."
