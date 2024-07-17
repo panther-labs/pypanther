@@ -36,11 +36,12 @@ class FieldType(str, Enum):
 @dataclasses.dataclass
 class FieldMapping:
     """Represents a field mapping in a data model."""
+    # TODO: Right now we support field_paths but we should be able to support transformations as well
+    # TODO: This could be pointing to a schema attribute in the log type
 
     log_type: PantherLogType | str
     """The log type that this field belongs to."""
-    # TODO: Right now we support field_paths but we should be able to support transformations as well
-    # TODO: This could be pointing to a schema attribute in the log type
+
     field_path: str
     """The path to the field in the log."""
 
@@ -51,10 +52,13 @@ class Field:
 
     name: str
     """The name of the field. This is the key that will be used to access the field in the data model."""
+
     field_type: FieldType
     """The type of the field."""
+
     mappings: List[FieldMapping]
     """Mappings describe how the data model field is derived from the various log types."""
+
     description: str = ""
     """A description of the field."""
 
@@ -64,10 +68,13 @@ class DataModel(abc.ABC):
 
     data_model_id: str
     """The unique identifier of the data model."""
+
     description: str = ""
     """A description of the data model."""
+
     enabled: bool = True
     """Whether the data model is enabled can can be used."""
+
     fields: List[Field]
     """The fields that make up the data model."""
 
