@@ -1,7 +1,7 @@
 from pypanther import register
 from pypanther.base import Rule, Severity
 from pypanther.data_models_v2 import DataModel
-from pypanther.registry import registered_rules, registered_data_models
+from pypanther.registry import registered_data_models, registered_rules
 
 
 def test_register_rule_duplicate():
