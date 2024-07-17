@@ -1282,7 +1282,7 @@ class TestRule(TestCase):
     def test_expected_severity(self) -> None:
         class Test(Rule):
             id = "TestRule"
-            log_types = [LogType.Panther_Audit]
+            log_types = [LogType.PANTHER_AUDIT]
             default_severity = Severity.CRITICAL
 
             def rule(self, event: PantherEvent) -> bool:
@@ -1310,7 +1310,7 @@ class TestRule(TestCase):
     def test_expected_title(self) -> None:
         class Test(Rule):
             id = "TestRule"
-            log_types = [LogType.Panther_Audit]
+            log_types = [LogType.PANTHER_AUDIT]
             default_severity = Severity.CRITICAL
 
             def rule(self, event: PantherEvent) -> bool:
@@ -1328,7 +1328,7 @@ class TestRule(TestCase):
     def test_expected_dedup(self) -> None:
         class Test(Rule):
             id = "TestRule"
-            log_types = [LogType.Panther_Audit]
+            log_types = [LogType.PANTHER_AUDIT]
             default_severity = Severity.CRITICAL
 
             def rule(self, event: PantherEvent) -> bool:
@@ -1346,7 +1346,7 @@ class TestRule(TestCase):
     def test_expected_destinations(self) -> None:
         class Test(Rule):
             id = "TestRule"
-            log_types = [LogType.Panther_Audit]
+            log_types = [LogType.PANTHER_AUDIT]
             default_severity = Severity.CRITICAL
 
             def rule(self, event: PantherEvent) -> bool:
@@ -1373,7 +1373,7 @@ class TestRule(TestCase):
     def test_expected_runbook(self) -> None:
         class Test(Rule):
             id = "TestRule"
-            log_types = [LogType.Panther_Audit]
+            log_types = [LogType.PANTHER_AUDIT]
             default_severity = Severity.CRITICAL
             default_runbook = "hi"
 
@@ -1397,7 +1397,7 @@ class TestRule(TestCase):
     def test_expected_reference(self) -> None:
         class Test(Rule):
             id = "TestRule"
-            log_types = [LogType.Panther_Audit]
+            log_types = [LogType.PANTHER_AUDIT]
             default_severity = Severity.CRITICAL
             default_reference = "hi"
 
@@ -1421,7 +1421,7 @@ class TestRule(TestCase):
     def test_expected_description(self) -> None:
         class Test(Rule):
             id = "TestRule"
-            log_types = [LogType.Panther_Audit]
+            log_types = [LogType.PANTHER_AUDIT]
             default_severity = Severity.CRITICAL
             default_description = "hi"
 
@@ -1445,7 +1445,7 @@ class TestRule(TestCase):
     def test_expected_alert_context(self) -> None:
         class Test(Rule):
             id = "TestRule"
-            log_types = [LogType.Panther_Audit]
+            log_types = [LogType.PANTHER_AUDIT]
             default_severity = Severity.CRITICAL
 
             def rule(self, event: PantherEvent) -> bool:

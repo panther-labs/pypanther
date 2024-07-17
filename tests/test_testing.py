@@ -159,7 +159,7 @@ class TestPrintFailedTestResults:
         )
 
         class Rule1(Rule):
-            log_types = [LogType.Panther_Audit]
+            log_types = [LogType.PANTHER_AUDIT]
             default_severity = Severity.HIGH
             id = "Rule1"
             tests = [false_test_1]
