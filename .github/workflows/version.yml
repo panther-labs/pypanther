@@ -3,7 +3,7 @@ name: Version Increment
 on:
   push:
     branches:
-    - main
+      - main
 
 jobs:
   bump_version:
@@ -12,35 +12,36 @@ jobs:
     permissions:
       id-token: write
       contents: write
-    if: ${{ github.event.head_commit.message != 'Updating version' && github.event.head_commit.author.username != 'panther-airplane-bot' }}
     steps:
-    - name: Checkout Repo
-      uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332
-      with:
-        ref: ${{ github.ref_name }}
-        token: ${{ secrets.PANTHER_BOT_AUTOMATION_TOKEN }}
-    - uses: chainguard-dev/actions/setup-gitsign@e82b4e5ae10182af72972addcb3fedf7454621c8
-    - name: Set up Python
-      uses: actions/setup-python@39cd14951b08e74b54015e9e001cdefcf80e669f
-      with:
-        python-version: '3.11'
-    - name: Install Requirements
-      run: |
-        pip install --upgrade pip poetry
-    - name: Bump patch version
-      run: poetry version prerelease
-    - name: Push updated VERSION file
-      run: |
-        git config --global user.email "github-service-account-automation@panther.io"
-        git config --global user.name "panther-bot-automation"
-        git fetch --depth=1 origin ${{ github.ref_name }}
-        git add pyproject.toml
-        git commit -m "Updating version"
-        git push -u origin ${{ github.ref_name }}
-        gitsign verify $(git rev-parse HEAD) --certificate-identity-regexp="https://github.com/${{ github.repository }}/*" --certificate-oidc-issuer="https://token.actions.githubusercontent.com"
-    - name: Tag the release
-      run: |
-        echo "Tagging v$(poetry version --short)"
-        git tag "v$(poetry version --short)"
-        git push --tags
-        gitsign verify $(git rev-list --tags --max-count=1) --certificate-identity-regexp="https://github.com/${{ github.repository }}/*" --certificate-oidc-issuer="https://token.actions.githubusercontent.com"
+      - name: Checkout Repo
+        uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332
+        with:
+          ref: ${{ github.ref_name }}
+          token: ${{ secrets.PANTHER_BOT_AUTOMATION_TOKEN }}
+      - uses: chainguard-dev/actions/setup-gitsign@e82b4e5ae10182af72972addcb3fedf7454621c8
+      - name: Set up Python
+        uses: actions/setup-python@39cd14951b08e74b54015e9e001cdefcf80e669f
+        with:
+          python-version: '3.11'
+      - name: Install Requirements
+        run: |
+          pip install --upgrade pip poetry
+      - name: Bump patch version
+        run: poetry version prerelease
+      #    - name: Tag the release
+      #      run: |
+      #        echo "Tagging v$(poetry version --short)"
+      #        git tag "v$(poetry version --short)"
+      #        git push --tags
+      #        gitsign verify $(git rev-list --tags --max-count=1) --certificate-identity-regexp="https://github.com/${{ github.repository }}/*" --certificate-oidc-issuer="https://token.actions.githubusercontent.com"
+      - name: Create Branch and Pull Request
+        run: |
+          NEW_VERSION="$(poetry version --short)"
+          git config user.name "dac-bot[bot]"
+          git config user.email "dac-bot@panther.com"
+          git checkout -b "$NEW_VERSION"
+          git commit -a -m "Bump version to $NEW_VERSION"
+          git push --set-upstream origin "$NEW_VERSION"
+          gh pr create -t "Version bump to v$NEW_VERSION" -b "Bumping Version to v$NEW_VERSION"
+        env:
+          GH_TOKEN: ${{ secrets.PANTHER_BOT_AUTOMATION_TOKEN }}
