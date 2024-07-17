@@ -9,18 +9,18 @@ __DATA_MODEL_REGISTRY: Set[Type[DataModel]] = set()
 
 def register(arg: Type[Rule] | Iterable[Type[Rule]] | Type[DataModel] | Iterable[Type[DataModel]]):
     """The register function is used to register rules and data models with the pypanther library."""
-    if _is_rule(arg):
-        register_rule(arg)
+    if _is_rule(arg):  # type: ignore[arg-type]
+        register_rule(arg)  # type: ignore[arg-type]
         return
-    if _is_data_model(arg):
-        __DATA_MODEL_REGISTRY.add(arg)
+    if _is_data_model(arg):  # type: ignore[arg-type]
+        __DATA_MODEL_REGISTRY.add(arg)  # type: ignore[arg-type]
         return
 
-    for e in iter(arg):
-        if _is_rule(e):
-            register_rule(e)
-        elif isinstance(e, type) and issubclass(e, DataModel):
-            __DATA_MODEL_REGISTRY.add(e)
+    for e in iter(arg):  # type: ignore[arg-type]
+        if _is_rule(e):  # type: ignore[arg-type]
+            register_rule(e)  # type: ignore[arg-type]
+        elif _is_data_model(e):  # type: ignore[arg-type]
+            __DATA_MODEL_REGISTRY.add(e)  # type: ignore[arg-type]
         else:
             ValueError(f"argument must be a Rule or DataModel or an iterable them not {arg}")
 
