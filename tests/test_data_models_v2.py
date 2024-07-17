@@ -110,13 +110,8 @@ def test_asdict():
             {
                 "name": "test1",
                 "type": FieldType.STRING,
-                "mappings": [
-                    {
-                        "log_type": "Custom.Test",
-                        "field_path": "field.nested1"
-                    }
-                ],
-                "description": ""
+                "mappings": [{"log_type": "Custom.Test", "field_path": "field.nested1"}],
+                "description": "",
             }
-        ]
+        ],
     }
