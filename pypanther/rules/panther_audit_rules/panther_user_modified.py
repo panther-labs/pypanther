@@ -17,11 +17,7 @@ panther_user_modified_tests: list[RuleTest] = [
             },
             "actionResult": "SUCCEEDED",
             "actor": {
-                "attributes": {
-                    "email": "homer@springfield.gov",
-                    "emailVerified": True,
-                    "roleId": "1111111",
-                },
+                "attributes": {"email": "homer@springfield.gov", "emailVerified": True, "roleId": "1111111"},
                 "id": "11111111",
                 "name": "Homer Simpson",
                 "type": "USER",
@@ -170,11 +166,7 @@ panther_user_modified_tests: list[RuleTest] = [
                 }
             },
             "actionResult": "SUCCEEDED",
-            "actor": {
-                "id": "00000000-0000-4000-8000-000000000000",
-                "name": "System",
-                "type": "USER",
-            },
+            "actor": {"id": "00000000-0000-4000-8000-000000000000", "name": "System", "type": "USER"},
             "p_log_type": "Panther.Audit",
             "pantherVersion": "1.86.15",
             "sourceIP": "",
@@ -187,7 +179,7 @@ panther_user_modified_tests: list[RuleTest] = [
 class PantherUserModified(Rule):
     id = "Panther.User.Modified-prototype"
     display_name = "A User's Panther Account was Modified"
-    log_types = [LogType.Panther_Audit]
+    log_types = [LogType.PANTHER_AUDIT]
     default_severity = Severity.HIGH
     tags = ["DataModel", "Persistence:Account Manipulation"]
     reports = {"MITRE ATT&CK": ["TA0003:T1098"]}
@@ -217,11 +209,7 @@ class PantherUserModified(Rule):
         change_target = deep_get(event, "actionParams", "dynamic", "input", "email")
         if change_target is None:
             change_target = deep_get(event, "actionParams", "input", "email", default="<UNKNOWN_USER>")
-        return {
-            "user": event.udm("actor_user"),
-            "change_target": change_target,
-            "ip": event.udm("source_ip"),
-        }
+        return {"user": event.udm("actor_user"), "change_target": change_target, "ip": event.udm("source_ip")}
 
     def severity(self, event):
         user = event.udm("actor_user")

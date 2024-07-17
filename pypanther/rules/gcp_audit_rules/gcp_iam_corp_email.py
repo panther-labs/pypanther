@@ -249,7 +249,7 @@ class GCPIAMCorporateEmail(Rule):
     id = "GCP.IAM.CorporateEmail-prototype"
     display_name = "GCP Corporate Email Not Used"
     dedup_period_minutes = 720
-    log_types = [LogType.GCP_AuditLog]
+    log_types = [LogType.GCP_AUDIT_LOG]
     tags = ["GCP", "Identity & Access Management", "Persistence:Create Account"]
     reports = {"MITRE ATT&CK": ["TA0003:T1136"], "CIS": ["1.1"]}
     default_severity = Severity.LOW

@@ -38,7 +38,7 @@ g_suite_leaked_password_tests: list[RuleTest] = [
 class GSuiteLeakedPassword(Rule):
     id = "GSuite.LeakedPassword-prototype"
     display_name = "GSuite User Password Leaked"
-    log_types = [LogType.GSuite_ActivityEvent]
+    log_types = [LogType.GSUITE_ACTIVITY_EVENT]
     tags = ["GSuite", "Credential Access:Unsecured Credentials"]
     reports = {"MITRE ATT&CK": ["TA0006:T1552"]}
     default_severity = Severity.HIGH

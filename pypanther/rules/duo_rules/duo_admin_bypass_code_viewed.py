@@ -34,7 +34,7 @@ class DuoAdminBypassCodeViewed(Rule):
     default_reference = "https://duo.com/docs/adminapi"
     default_runbook = "Confirm this behavior is authorized. The security of your Duo application is tied to the security of your secret key (skey). Secure it as you would any sensitive credential. You should not share it with unauthorized individuals or email it to anyone under any circumstances!"
     default_severity = Severity.MEDIUM
-    log_types = [LogType.Duo_Administrator]
+    log_types = [LogType.DUO_ADMINISTRATOR]
     id = "Duo.Admin.Bypass.Code.Viewed-prototype"
     tests = duo_admin_bypass_code_viewed_tests
 

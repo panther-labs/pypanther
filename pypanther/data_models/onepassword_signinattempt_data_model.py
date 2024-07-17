@@ -18,7 +18,7 @@ class StandardOnePasswordSignInAttempt(DataModel):
     id: str = "Standard.OnePassword.SignInAttempt"
     display_name: str = "1Password Signin Events"
     enabled: bool = True
-    log_types: list[str] = [LogType.OnePassword_SignInAttempt]
+    log_types: list[str] = [LogType.ONEPASSWORD_SIGNIN_ATTEMPT]
     mappings: list[DataModelMapping] = [
         DataModelMapping(name="actor_user", path="$.target_user.email"),
         DataModelMapping(name="source_ip", path="$.client.ip_address"),

@@ -126,7 +126,7 @@ okta_admin_role_assigned_tests: list[RuleTest] = [
 class OktaAdminRoleAssigned(Rule):
     id = "Okta.AdminRoleAssigned-prototype"
     display_name = "Okta Admin Role Assigned"
-    log_types = [LogType.Okta_SystemLog]
+    log_types = [LogType.OKTA_SYSTEM_LOG]
     tags = ["Identity & Access Management", "Okta", "Privilege Escalation:Valid Accounts"]
     reports = {"MITRE ATT&CK": ["TA0004:T1078"]}
     default_severity = Severity.INFO

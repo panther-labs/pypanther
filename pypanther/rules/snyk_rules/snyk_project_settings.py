@@ -57,7 +57,7 @@ snyk_project_settings_tests: list[RuleTest] = [
 class SnykProjectSettings(Rule):
     id = "Snyk.Project.Settings-prototype"
     display_name = "Snyk Project Settings"
-    log_types = [LogType.Snyk_GroupAudit, LogType.Snyk_OrgAudit]
+    log_types = [LogType.SNYK_GROUP_AUDIT, LogType.SNYK_ORG_AUDIT]
     tags = ["Snyk"]
     default_reference = "https://docs.snyk.io/snyk-admin/introduction-to-snyk-projects/view-and-edit-project-settings"
     default_severity = Severity.MEDIUM

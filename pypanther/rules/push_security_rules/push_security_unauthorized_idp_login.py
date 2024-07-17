@@ -96,7 +96,7 @@ class PushSecurityUnauthorizedIdPLogin(Rule):
     display_name = "Push Security Unauthorized IdP Login"
     enabled = False
     tags = ["Configuration Required"]
-    log_types = [LogType.PushSecurity_Activity]
+    log_types = [LogType.PUSH_SECURITY_ACTIVITY]
     default_severity = Severity.HIGH
     default_description = (
         "Login to application with unauthorized identity provider which could indicate a SAMLjacking attack."

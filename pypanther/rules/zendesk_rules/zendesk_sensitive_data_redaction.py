@@ -64,7 +64,7 @@ zendesk_sensitive_data_redaction_off_tests: list[RuleTest] = [
 class ZendeskSensitiveDataRedactionOff(Rule):
     id = "Zendesk.SensitiveDataRedactionOff-prototype"
     display_name = "Zendesk Credit Card Redaction Off"
-    log_types = [LogType.Zendesk_Audit]
+    log_types = [LogType.ZENDESK_AUDIT]
     tags = ["Zendesk", "Collection:Data from Information Repositories"]
     reports = {"MITRE ATT&CK": ["TA0009:T1213"]}
     default_severity = Severity.HIGH

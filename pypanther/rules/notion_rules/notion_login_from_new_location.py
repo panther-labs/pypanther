@@ -12,10 +12,7 @@ notion_login_from_new_location_tests: list[RuleTest] = [
         name="Login from normal location",
         expected_result=False,
         mocks=[
-            RuleMock(
-                object_name="get_dictionary",
-                return_value='{ "Minas Tirith_Pellenor_Gondor": 1686542031 }',
-            ),
+            RuleMock(object_name="get_dictionary", return_value='{ "Minas Tirith_Pellenor_Gondor": 1686542031 }'),
             RuleMock(object_name="put_dictionary", return_value=False),
         ],
         log={
@@ -107,10 +104,7 @@ notion_login_from_new_location_tests: list[RuleTest] = [
         name="Login from different location",
         expected_result=True,
         mocks=[
-            RuleMock(
-                object_name="get_dictionary",
-                return_value='{ "Minas Tirith_Pellenor_Gondor": 1686542031 }',
-            ),
+            RuleMock(object_name="get_dictionary", return_value='{ "Minas Tirith_Pellenor_Gondor": 1686542031 }'),
             RuleMock(object_name="put_dictionary", return_value=False),
         ],
         log={
@@ -227,10 +221,7 @@ notion_login_from_new_location_tests: list[RuleTest] = [
         name="Login from different location - no region",
         expected_result=True,
         mocks=[
-            RuleMock(
-                object_name="get_dictionary",
-                return_value='{ "Minas Tirith_Pellenor_Gondor": 1686542031 }',
-            ),
+            RuleMock(object_name="get_dictionary", return_value='{ "Minas Tirith_Pellenor_Gondor": 1686542031 }'),
             RuleMock(object_name="put_dictionary", return_value=False),
         ],
         log={
@@ -277,7 +268,7 @@ notion_login_from_new_location_tests: list[RuleTest] = [
 class NotionLoginFromNewLocation(Rule):
     id = "Notion.LoginFromNewLocation-prototype"
     display_name = "Notion Login from New Location"
-    log_types = [LogType.Notion_AuditLogs]
+    log_types = [LogType.NOTION_AUDIT_LOGS]
     tags = ["Notion", "Identity & Access Management", "Login & Access Patterns"]
     default_severity = Severity.MEDIUM
     default_description = "A Notion User logged in from a new location."

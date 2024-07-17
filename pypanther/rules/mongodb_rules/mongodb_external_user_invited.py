@@ -75,7 +75,7 @@ class MongoDBExternalUserInvited(Rule):
     default_severity = Severity.MEDIUM
     default_reference = "https://www.mongodb.com/docs/v4.2/tutorial/create-users/"
     tags = ["Configuration Required"]
-    log_types = [LogType.MongoDB_OrganizationEvent]
+    log_types = [LogType.MONGODB_ORGANIZATION_EVENT]
     id = "MongoDB.External.UserInvited-prototype"
     tests = mongo_db_external_user_invited_tests
     # Set domains allowed to join the organization ie. company.com

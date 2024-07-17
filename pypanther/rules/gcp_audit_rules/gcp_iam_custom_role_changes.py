@@ -92,7 +92,7 @@ class GCPIAMCustomRoleChanges(Rule):
     id = "GCP.IAM.CustomRoleChanges-prototype"
     display_name = "GCP IAM Role Has Changed"
     dedup_period_minutes = 1440
-    log_types = [LogType.GCP_AuditLog]
+    log_types = [LogType.GCP_AUDIT_LOG]
     tags = ["GCP", "Identity & Access Management", "Privilege Escalation:Valid Accounts"]
     reports = {"CIS": ["2.6"], "MITRE ATT&CK": ["TA0004:T1078"]}
     default_severity = Severity.INFO

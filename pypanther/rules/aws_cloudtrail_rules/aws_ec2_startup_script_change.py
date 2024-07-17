@@ -17,10 +17,7 @@ awsec2_startup_script_change_tests: list[RuleTest] = [
             "p_event_time": "2022-07-17 04:50:23",
             "p_log_type": "AWS.CloudTrail",
             "p_parse_time": "2022-07-17 04:55:11.788",
-            "requestParameters": {
-                "instanceId": "testinstanceid",
-                "instanceType": {"value": "t3.nano"},
-            },
+            "requestParameters": {"instanceId": "testinstanceid", "instanceType": {"value": "t3.nano"}},
         },
     ),
     RuleTest(
@@ -38,10 +35,7 @@ awsec2_startup_script_change_tests: list[RuleTest] = [
             "readOnly": False,
             "recipientAccountId": "0123456789",
             "requestID": "example-id",
-            "requestParameters": {
-                "instanceId": "i-012345abcde",
-                "userData": "<sensitiveDataRemoved>",
-            },
+            "requestParameters": {"instanceId": "i-012345abcde", "userData": "<sensitiveDataRemoved>"},
             "responseElements": {"_return": True, "requestId": "012345abcdef"},
             "sourceIPAddress": "1.2.3.4",
             "tlsDetails": {
@@ -56,10 +50,7 @@ awsec2_startup_script_change_tests: list[RuleTest] = [
                 "arn": "arn:aws:sts::0123456789:assumed-role/Role-us-1/CodeBuild",
                 "principalId": "ABCDEXAMPLE:CodeBuild",
                 "sessionContext": {
-                    "attributes": {
-                        "creationDate": "2022-09-30T14:52:26Z",
-                        "mfaAuthenticated": "false",
-                    },
+                    "attributes": {"creationDate": "2022-09-30T14:52:26Z", "mfaAuthenticated": "false"},
                     "sessionIssuer": {
                         "accountId": "0123456789",
                         "arn": "arn:aws:iam::0123456789:role/CodeBuild-US-East",
@@ -88,10 +79,7 @@ awsec2_startup_script_change_tests: list[RuleTest] = [
             "p_event_time": "2022-07-17 04:50:23",
             "p_log_type": "AWS.CloudTrail",
             "p_parse_time": "2022-07-17 04:55:11.788",
-            "requestParameters": {
-                "instanceId": "testinstanceid",
-                "instanceType": {"value": "t3.nano"},
-            },
+            "requestParameters": {"instanceId": "testinstanceid", "instanceType": {"value": "t3.nano"}},
         },
     ),
 ]
@@ -103,7 +91,7 @@ class AWSEC2StartupScriptChange(Rule):
     reports = {"MITRE ATT&CK": ["TA0002:T1059"]}
     default_reference = "https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/user-data.html#user-data-shell-scripts"
     default_severity = Severity.HIGH
-    log_types = [LogType.AWS_CloudTrail]
+    log_types = [LogType.AWS_CLOUDTRAIL]
     id = "AWS.EC2.Startup.Script.Change-prototype"
     tests = awsec2_startup_script_change_tests
 

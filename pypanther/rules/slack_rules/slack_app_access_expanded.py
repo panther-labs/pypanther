@@ -188,7 +188,7 @@ slack_audit_logs_app_access_expanded_tests: list[RuleTest] = [
 class SlackAuditLogsAppAccessExpanded(Rule):
     id = "Slack.AuditLogs.AppAccessExpanded-prototype"
     display_name = "Slack App Access Expanded"
-    log_types = [LogType.Slack_AuditLogs]
+    log_types = [LogType.SLACK_AUDIT_LOGS]
     tags = ["Slack", "Privilege Escalation", "Account Manipulation"]
     reports = {"MITRE ATT&CK": ["TA0004:T1098"]}
     default_severity = Severity.MEDIUM

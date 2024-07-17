@@ -31,10 +31,7 @@ aws_cloud_trail_iam_anything_changed_tests: list[RuleTest] = [
                 "invokedBy": "cloudformation.amazonaws.com",
                 "principalId": "1111:example-user",
                 "sessionContext": {
-                    "attributes": {
-                        "creationDate": "2019-01-01T00:00:00Z",
-                        "mfaAuthenticated": "true",
-                    },
+                    "attributes": {"creationDate": "2019-01-01T00:00:00Z", "mfaAuthenticated": "true"},
                     "sessionIssuer": {
                         "accountId": "123456789012",
                         "arn": "arn:aws:iam::123456789012:role/example-role",
@@ -72,10 +69,7 @@ aws_cloud_trail_iam_anything_changed_tests: list[RuleTest] = [
                 "invokedBy": "cloudformation.amazonaws.com",
                 "principalId": "1111:example-user",
                 "sessionContext": {
-                    "attributes": {
-                        "creationDate": "2019-01-01T00:00:00Z",
-                        "mfaAuthenticated": "true",
-                    },
+                    "attributes": {"creationDate": "2019-01-01T00:00:00Z", "mfaAuthenticated": "true"},
                     "sessionIssuer": {
                         "accountId": "123456789012",
                         "arn": "arn:aws:iam::123456789012:role/example-role",
@@ -117,10 +111,7 @@ aws_cloud_trail_iam_anything_changed_tests: list[RuleTest] = [
                 "invokedBy": "cloudformation.amazonaws.com",
                 "principalId": "1111:example-user",
                 "sessionContext": {
-                    "attributes": {
-                        "creationDate": "2019-01-01T00:00:00Z",
-                        "mfaAuthenticated": "true",
-                    },
+                    "attributes": {"creationDate": "2019-01-01T00:00:00Z", "mfaAuthenticated": "true"},
                     "sessionIssuer": {
                         "accountId": "123456789012",
                         "arn": "arn:aws:iam::123456789012:role/example-role",
@@ -139,20 +130,14 @@ aws_cloud_trail_iam_anything_changed_tests: list[RuleTest] = [
 class AWSCloudTrailIAMAnythingChanged(Rule):
     id = "AWS.CloudTrail.IAMAnythingChanged-prototype"
     display_name = "IAM Change"
-    log_types = [LogType.AWS_CloudTrail]
+    log_types = [LogType.AWS_CLOUDTRAIL]
     tags = ["AWS", "Identity and Access Management"]
     default_severity = Severity.INFO
     dedup_period_minutes = 720
     default_description = "A change occurred in the IAM configuration. This could be a resource being created, deleted, or modified. This is a high level view of changes, helfpul to indicate how dynamic a certain IAM environment is.\n"
     default_runbook = "Ensure this was an approved IAM configuration change.\n"
     default_reference = "https://docs.aws.amazon.com/IAM/latest/UserGuide/cloudtrail-integration.html"
-    summary_attributes = [
-        "eventName",
-        "userAgent",
-        "sourceIpAddress",
-        "recipientAccountId",
-        "p_any_aws_arns",
-    ]
+    summary_attributes = ["eventName", "userAgent", "sourceIpAddress", "recipientAccountId", "p_any_aws_arns"]
     tests = aws_cloud_trail_iam_anything_changed_tests
     IAM_CHANGE_ACTIONS = [
         "Add",

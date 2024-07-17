@@ -71,7 +71,7 @@ class MongoDBAtlasApiKeyCreated(Rule):
     display_name = "MongoDB Atlas API Key Created"
     default_severity = Severity.MEDIUM
     default_reference = "https://www.mongodb.com/docs/atlas/configure-api-access/#std-label-about-org-api-keys"
-    log_types = [LogType.MongoDB_OrganizationEvent]
+    log_types = [LogType.MONGODB_ORGANIZATION_EVENT]
     id = "MongoDB.Atlas.ApiKeyCreated-prototype"
     tests = mongo_db_atlas_api_key_created_tests
 

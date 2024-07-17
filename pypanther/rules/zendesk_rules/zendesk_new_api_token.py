@@ -45,7 +45,7 @@ zendesk_new_api_token_tests: list[RuleTest] = [
 class ZendeskNewAPIToken(Rule):
     id = "Zendesk.NewAPIToken-prototype"
     display_name = "Zendesk API Token Created"
-    log_types = [LogType.Zendesk_Audit]
+    log_types = [LogType.ZENDESK_AUDIT]
     default_severity = Severity.HIGH
     tags = ["Zendesk", "Credential Access:Steal Application Access Token"]
     reports = {"MITRE ATT&CK": ["TA0006:T1528"]}

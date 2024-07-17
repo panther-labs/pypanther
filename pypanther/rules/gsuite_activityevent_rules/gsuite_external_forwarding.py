@@ -74,7 +74,7 @@ class GSuiteExternalMailForwarding(Rule):
     id = "GSuite.ExternalMailForwarding-prototype"
     display_name = "Gsuite Mail forwarded to external domain"
     enabled = False
-    log_types = [LogType.GSuite_ActivityEvent]
+    log_types = [LogType.GSUITE_ACTIVITY_EVENT]
     tags = ["GSuite", "Collection:Email Collection", "Configuration Required"]
     reports = {"MITRE ATT&CK": ["TA0009:T1114"]}
     default_severity = Severity.HIGH

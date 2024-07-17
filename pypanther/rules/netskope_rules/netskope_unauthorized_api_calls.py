@@ -15,12 +15,7 @@ netskope_unauthorized_api_calls_tests: list[RuleTest] = [
             "severity_level": 2,
             "supporting_data": {
                 "data_type": "incidents",
-                "data_values": [
-                    403,
-                    "POST",
-                    "/api/v2/incidents/uba/getuci",
-                    "trid=ccb898fgrhvdd0v0lebg",
-                ],
+                "data_values": [403, "POST", "/api/v2/incidents/uba/getuci", "trid=ccb898fgrhvdd0v0lebg"],
             },
             "timestamp": "2023-12-11 18:10:13.000000000",
             "type": "admin_audit_logs",
@@ -41,12 +36,7 @@ netskope_unauthorized_api_calls_tests: list[RuleTest] = [
             "severity_level": 2,
             "supporting_data": {
                 "data_type": "incidents",
-                "data_values": [
-                    200,
-                    "POST",
-                    "/api/v2/incidents/uba/getuci",
-                    "trid=ccb898fgrhvdd0v0lebg",
-                ],
+                "data_values": [200, "POST", "/api/v2/incidents/uba/getuci", "trid=ccb898fgrhvdd0v0lebg"],
             },
             "timestamp": "2023-12-11 18:10:13.000000000",
             "type": "admin_audit_logs",
@@ -60,7 +50,7 @@ netskope_unauthorized_api_calls_tests: list[RuleTest] = [
 class NetskopeUnauthorizedAPICalls(Rule):
     id = "Netskope.UnauthorizedAPICalls-prototype"
     display_name = "Netskope Many Unauthorized API Calls"
-    log_types = [LogType.Netskope_Audit]
+    log_types = [LogType.NETSKOPE_AUDIT]
     tags = ["Netskope", "Configuration Required", "Brute Force"]
     reports = {"MITRE ATT&CK": ["TA0006:T1110"]}
     default_severity = Severity.HIGH

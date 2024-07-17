@@ -44,7 +44,7 @@ osquery_mac_application_firewall_settings_tests: list[RuleTest] = [
 class OsqueryMacApplicationFirewallSettings(Rule):
     id = "Osquery.Mac.ApplicationFirewallSettings-prototype"
     display_name = "MacOS ALF is misconfigured"
-    log_types = [LogType.Osquery_Differential]
+    log_types = [LogType.OSQUERY_DIFFERENTIAL]
     tags = ["Osquery", "MacOS", "Security Control", "Defense Evasion:Impair Defenses"]
     reports = {"CIS": ["2.6.3", "2.6.4"], "MITRE ATT&CK": ["TA0005:T1562"]}
     default_severity = Severity.HIGH

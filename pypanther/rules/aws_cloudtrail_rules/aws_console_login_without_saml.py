@@ -71,7 +71,7 @@ class AWSConsoleLoginWithoutSAML(Rule):
     id = "AWS.Console.LoginWithoutSAML-prototype"
     display_name = "Logins Without SAML"
     enabled = False
-    log_types = [LogType.AWS_CloudTrail]
+    log_types = [LogType.AWS_CLOUDTRAIL]
     reports = {"MITRE ATT&CK": ["TA0001:T1078"]}
     tags = [
         "AWS",

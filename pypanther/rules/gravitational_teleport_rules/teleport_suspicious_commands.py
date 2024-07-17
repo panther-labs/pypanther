@@ -53,24 +53,14 @@ teleport_suspicious_commands_tests: list[RuleTest] = [
 class TeleportSuspiciousCommands(Rule):
     id = "Teleport.SuspiciousCommands-prototype"
     display_name = "Teleport Suspicious Commands Executed"
-    log_types = [LogType.Gravitational_TeleportAudit]
+    log_types = [LogType.GRAVITATIONAL_TELEPORT_AUDIT]
     tags = ["SSH", "Execution:Command and Scripting Interpreter"]
     default_severity = Severity.MEDIUM
     default_description = "A user has invoked a suspicious command that could lead to a host compromise"
     reports = {"MITRE ATT&CK": ["TA0002:T1059"]}
     default_reference = "https://goteleport.com/docs/management/admin/"
     default_runbook = "Find related commands within the time window and determine if the command was invoked legitimately. Examine the arguments to determine how the command was used and reach out to the user to verify the intentions.\n"
-    summary_attributes = [
-        "event",
-        "code",
-        "user",
-        "program",
-        "path",
-        "return_code",
-        "login",
-        "server_id",
-        "sid",
-    ]
+    summary_attributes = ["event", "code", "user", "program", "path", "return_code", "login", "server_id", "sid"]
     tests = teleport_suspicious_commands_tests
     SUSPICIOUS_COMMANDS = {"nc", "wget"}
 

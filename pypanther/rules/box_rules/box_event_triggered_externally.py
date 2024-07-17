@@ -9,12 +9,7 @@ box_event_triggered_externally_tests: list[RuleTest] = [
         log={
             "type": "event",
             "additional_details": '{"key": "value"}',
-            "created_by": {
-                "id": "12345678",
-                "type": "user",
-                "login": "cat@example.com",
-                "name": "Bob Cat",
-            },
+            "created_by": {"id": "12345678", "type": "user", "login": "cat@example.com", "name": "Bob Cat"},
             "event_type": "DELETE",
         },
     ),
@@ -40,7 +35,7 @@ class BoxEventTriggeredExternally(Rule):
     id = "Box.Event.Triggered.Externally-prototype"
     display_name = "Box event triggered by unknown or external user"
     enabled = False
-    log_types = [LogType.Box_Event]
+    log_types = [LogType.BOX_EVENT]
     tags = ["Box", "Exfiltration:Exfiltration Over Web Service", "Configuration Required"]
     reports = {"MITRE ATT&CK": ["TA0010:T1567"]}
     default_severity = Severity.MEDIUM

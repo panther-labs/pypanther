@@ -208,7 +208,7 @@ slack_audit_logs_app_added_tests: list[RuleTest] = [
 class SlackAuditLogsAppAdded(Rule):
     id = "Slack.AuditLogs.AppAdded-prototype"
     display_name = "Slack App Added"
-    log_types = [LogType.Slack_AuditLogs]
+    log_types = [LogType.SLACK_AUDIT_LOGS]
     tags = ["Slack", "Persistence", "Server Software Component"]
     reports = {"MITRE ATT&CK": ["TA0003:T1505"]}
     default_severity = Severity.MEDIUM

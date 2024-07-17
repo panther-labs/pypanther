@@ -56,7 +56,7 @@ class ZoomSignInRequirementsChanged(Rule):
     )
     default_reference = "https://support.zoom.com/hc/en/article?id=zm_kb&sysparm_article=KB0061263"
     default_severity = Severity.MEDIUM
-    log_types = [LogType.Zoom_Operation]
+    log_types = [LogType.ZOOM_OPERATION]
     id = "Zoom.Sign.In.Requirements.Changed-prototype"
     summary_attributes = ["operation_detail"]
     tests = zoom_sign_in_requirements_changed_tests

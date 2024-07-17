@@ -144,7 +144,7 @@ panther_sensitive_role_tests: list[RuleTest] = [
 class PantherSensitiveRole(Rule):
     id = "Panther.Sensitive.Role-prototype"
     display_name = "A User Role with Sensitive Permissions has been Created"
-    log_types = [LogType.Panther_Audit]
+    log_types = [LogType.PANTHER_AUDIT]
     default_severity = Severity.HIGH
     tags = ["DataModel", "Persistence:Account Manipulation"]
     reports = {"MITRE ATT&CK": ["TA0003:T1098"]}

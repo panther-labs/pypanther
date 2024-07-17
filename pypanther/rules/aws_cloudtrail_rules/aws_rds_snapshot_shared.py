@@ -112,7 +112,7 @@ awsrds_snapshot_shared_tests: list[RuleTest] = [
 class AWSRDSSnapshotShared(Rule):
     id = "AWS.RDS.SnapshotShared-prototype"
     display_name = "AWS RDS Snapshot Shared"
-    log_types = [LogType.AWS_CloudTrail]
+    log_types = [LogType.AWS_CLOUDTRAIL]
     tags = ["AWS", "Exfiltration", "Transfer Data to Cloud Account"]
     default_severity = Severity.HIGH
     reports = {"MITRE ATT&CK": ["TA0010:T1537"]}

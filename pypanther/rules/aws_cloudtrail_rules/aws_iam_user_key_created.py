@@ -220,7 +220,7 @@ class AWSIAMBackdoorUserKeys(Rule):
     reports = {"MITRE ATT&CK": ["TA0003:T1098", "TA0005:T1108", "TA0005:T1550", "TA0008:T1550"]}
     default_reference = "https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_access-keys.html"
     default_severity = Severity.MEDIUM
-    log_types = [LogType.AWS_CloudTrail]
+    log_types = [LogType.AWS_CLOUDTRAIL]
     id = "AWS.IAM.Backdoor.User.Keys-prototype"
     tests = awsiam_backdoor_user_keys_tests
 

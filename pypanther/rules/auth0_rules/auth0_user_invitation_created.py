@@ -316,7 +316,7 @@ class Auth0UserInvitationCreated(Rule):
     display_name = "Auth0 User Invitation Created"
     default_reference = "https://auth0.com/docs/manage-users/organizations/configure-organizations/invite-members"
     default_severity = Severity.INFO
-    log_types = [LogType.Auth0_Events]
+    log_types = [LogType.AUTH0_EVENTS]
     id = "Auth0.User.Invitation.Created-prototype"
     tests = auth0_user_invitation_created_tests
     org_re = re.compile("^/api/v2/organizations/[^/\\s]+/invitations$")

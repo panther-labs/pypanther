@@ -35,7 +35,7 @@ one_login_active_login_activity_tests: list[RuleTest] = [
 class OneLoginActiveLoginActivity(Rule):
     id = "OneLogin.ActiveLoginActivity-prototype"
     display_name = "OneLogin Active Login Activity"
-    log_types = [LogType.OneLogin_Events]
+    log_types = [LogType.ONELOGIN_EVENTS]
     tags = ["OneLogin", "Lateral Movement:Use Alternate Authentication Material"]
     default_severity = Severity.MEDIUM
     reports = {"MITRE ATT&CK": ["TA0008:T1550"]}

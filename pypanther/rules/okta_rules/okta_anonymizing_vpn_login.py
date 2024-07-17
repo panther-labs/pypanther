@@ -249,7 +249,7 @@ okta_anonymizing_vpn_login_tests: list[RuleTest] = [
 class OktaAnonymizingVPNLogin(Rule):
     id = "Okta.Anonymizing.VPN.Login-prototype"
     display_name = "Okta Sign-In from VPN Anonymizer"
-    log_types = [LogType.Okta_SystemLog]
+    log_types = [LogType.OKTA_SYSTEM_LOG]
     reports = {"MITRE ATT&CK": ["TA0006:T1556"]}
     default_severity = Severity.MEDIUM
     default_description = "A user is attempting to sign-in to Okta from a known VPN anonymizer.  The threat actor would access the compromised account using anonymizing proxy services.\n"

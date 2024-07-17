@@ -1,9 +1,5 @@
 from pypanther import LogType, Rule, RuleTest, Severity
-from pypanther.helpers.panther_azuresignin_helpers import (
-    actor_user,
-    azure_signin_alert_context,
-    is_sign_in_event,
-)
+from pypanther.helpers.panther_azuresignin_helpers import actor_user, azure_signin_alert_context, is_sign_in_event
 from pypanther.helpers.panther_base_helpers import deep_get
 
 azure_audit_risk_level_passthrough_tests: list[RuleTest] = [
@@ -39,10 +35,7 @@ azure_audit_risk_level_passthrough_tests: list[RuleTest] = [
                 "location": {
                     "city": "Dublin",
                     "countryOrRegion": "IE",
-                    "geoCoordinates": {
-                        "latitude": 51.35555555555555,
-                        "longitude": -5.244444444444444,
-                    },
+                    "geoCoordinates": {"latitude": 51.35555555555555, "longitude": -5.244444444444444},
                     "state": "Dublin",
                 },
                 "managedIdentityType": "none",
@@ -99,10 +92,7 @@ azure_audit_risk_level_passthrough_tests: list[RuleTest] = [
                 "location": {
                     "city": "Dublin",
                     "countryOrRegion": "IE",
-                    "geoCoordinates": {
-                        "latitude": 51.35555555555555,
-                        "longitude": -5.244444444444444,
-                    },
+                    "geoCoordinates": {"latitude": 51.35555555555555, "longitude": -5.244444444444444},
                     "state": "Dublin",
                 },
                 "managedIdentityType": "none",
@@ -159,10 +149,7 @@ azure_audit_risk_level_passthrough_tests: list[RuleTest] = [
                 "location": {
                     "city": "Dublin",
                     "countryOrRegion": "IE",
-                    "geoCoordinates": {
-                        "latitude": 51.35555555555555,
-                        "longitude": -5.244444444444444,
-                    },
+                    "geoCoordinates": {"latitude": 51.35555555555555, "longitude": -5.244444444444444},
                     "state": "Dublin",
                 },
                 "managedIdentityType": "none",
@@ -219,10 +206,7 @@ azure_audit_risk_level_passthrough_tests: list[RuleTest] = [
                 "location": {
                     "city": "Dublin",
                     "countryOrRegion": "IE",
-                    "geoCoordinates": {
-                        "latitude": 51.35555555555555,
-                        "longitude": -5.244444444444444,
-                    },
+                    "geoCoordinates": {"latitude": 51.35555555555555, "longitude": -5.244444444444444},
                     "state": "Dublin",
                 },
                 "managedIdentityType": "none",
@@ -279,10 +263,7 @@ azure_audit_risk_level_passthrough_tests: list[RuleTest] = [
                 "location": {
                     "city": "Dublin",
                     "countryOrRegion": "IE",
-                    "geoCoordinates": {
-                        "latitude": 51.35555555555555,
-                        "longitude": -5.244444444444444,
-                    },
+                    "geoCoordinates": {"latitude": 51.35555555555555, "longitude": -5.244444444444444},
                     "state": "Dublin",
                 },
                 "managedIdentityType": "none",
@@ -313,7 +294,7 @@ class AzureAuditRiskLevelPassthrough(Rule):
     id = "Azure.Audit.RiskLevelPassthrough-prototype"
     display_name = "Azure RiskLevel Passthrough"
     dedup_period_minutes = 10
-    log_types = [LogType.Azure_Audit]
+    log_types = [LogType.AZURE_AUDIT]
     default_severity = Severity.MEDIUM
     default_description = "This detection surfaces an alert based on riskLevelAggregated, riskLevelDuringSignIn, and riskState.\nriskLevelAggregated and riskLevelDuringSignIn are only expected for Azure AD Premium P2 customers.\n"
     default_reference = "https://learn.microsoft.com/en-us/azure/active-directory/identity-protection/howto-identity-protection-risk-feedback"
@@ -335,10 +316,7 @@ class AzureAuditRiskLevelPassthrough(Rule):
             return False
         self.IDENTIFIED_RISK_LEVEL = ""
         # Do not pass through risks marked as dismissed or remediated in AD
-        if deep_get(event, "properties", "riskState", default="").lower() in [
-            "dismissed",
-            "remediated",
-        ]:
+        if deep_get(event, "properties", "riskState", default="").lower() in ["dismissed", "remediated"]:
             return False
         # check riskLevelAggregated
         for risk_type in ["riskLevelAggregated", "riskLevelDuringSignIn"]:

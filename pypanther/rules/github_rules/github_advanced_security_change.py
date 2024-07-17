@@ -152,7 +152,7 @@ git_hub_advanced_security_change_tests: list[RuleTest] = [
 class GitHubAdvancedSecurityChange(Rule):
     id = "GitHub.Advanced.Security.Change-prototype"
     display_name = "GitHub Security Change, includes GitHub Advanced Security"
-    log_types = [LogType.GitHub_Audit]
+    log_types = [LogType.GITHUB_AUDIT]
     tags = ["GitHub"]
     reports = {"MITRE ATT&CK": ["TA0005:T1562"]}
     default_severity = Severity.LOW

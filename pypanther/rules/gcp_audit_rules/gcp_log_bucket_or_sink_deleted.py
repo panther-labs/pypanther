@@ -196,7 +196,7 @@ class GCPLogBucketOrSinkDeleted(Rule):
     display_name = "GCP Log Bucket or Sink Deleted"
     id = "GCP.Log.Bucket.Or.Sink.Deleted-prototype"
     default_severity = Severity.MEDIUM
-    log_types = [LogType.GCP_AuditLog]
+    log_types = [LogType.GCP_AUDIT_LOG]
     tags = ["GCP", "Logging", "Bucket", "Sink", "Infrastructure"]
     default_description = "This rule detects deletions of GCP Log Buckets or Sinks.\n"
     default_runbook = (

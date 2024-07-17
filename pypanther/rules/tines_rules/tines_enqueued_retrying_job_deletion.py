@@ -57,7 +57,7 @@ tines_enqueued_retrying_job_destruction_tests: list[RuleTest] = [
 class TinesEnqueuedRetryingJobDestruction(Rule):
     id = "Tines.Enqueued.Retrying.Job.Destruction-prototype"
     display_name = "Tines Enqueued/Retrying Job Deletion"
-    log_types = [LogType.Tines_Audit]
+    log_types = [LogType.TINES_AUDIT]
     tags = ["Tines"]
     default_severity = Severity.LOW
     default_description = "Currently enqueued or retrying jobs were cleared"

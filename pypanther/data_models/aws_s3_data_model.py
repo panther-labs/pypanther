@@ -5,7 +5,7 @@ class StandardAWSS3ServerAccess(DataModel):
     id: str = "Standard.AWS.S3ServerAccess"
     display_name: str = "AWS S3 Server Access"
     enabled: bool = True
-    log_types: list[str] = [LogType.AWS_S3ServerAccess]
+    log_types: list[str] = [LogType.AWS_S3_SERVER_ACCESS]
     mappings: list[DataModelMapping] = [
         DataModelMapping(name="http_status", path="httpstatus"),
         DataModelMapping(name="source_ip", path="remoteip"),

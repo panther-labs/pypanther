@@ -21,13 +21,10 @@ class StandardGSuiteReports(DataModel):
     id: str = "Standard.GSuite.Reports"
     display_name: str = "GSuite Reports"
     enabled: bool = True
-    log_types: list[str] = [LogType.GSuite_Reports]
+    log_types: list[str] = [LogType.GSUITE_REPORTS]
     mappings: list[DataModelMapping] = [
         DataModelMapping(name="actor_user", path="$.actor.email"),
-        DataModelMapping(
-            name="assigned_admin_role",
-            path="$.events[*].parameters[?(@.name == 'ROLE_NAME')].value",
-        ),
+        DataModelMapping(name="assigned_admin_role", path="$.events[*].parameters[?(@.name == 'ROLE_NAME')].value"),
         DataModelMapping(name="event_type", method=get_event_type),
         DataModelMapping(name="source_ip", path="ipAddress"),
         DataModelMapping(name="user", path="$.events[*].parameters[?(@.name == 'USER_EMAIL')].value"),

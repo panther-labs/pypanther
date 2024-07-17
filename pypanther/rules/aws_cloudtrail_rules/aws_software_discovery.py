@@ -42,10 +42,7 @@ aws_software_discovery_tests: list[RuleTest] = [
                 "arn": "arn:aws:sts::853509373758:assumed-role/PantherAuditRole-us-east-2/1634605518650090138",
                 "principalId": "AROA4NOI7P47OHH3NQORX:1634605518650090138",
                 "sessionContext": {
-                    "attributes": {
-                        "creationDate": "2021-10-19T01:05:18Z",
-                        "mfaAuthenticated": "false",
-                    },
+                    "attributes": {"creationDate": "2021-10-19T01:05:18Z", "mfaAuthenticated": "false"},
                     "sessionIssuer": {
                         "accountId": "853509373758",
                         "arn": "arn:aws:iam::853509373758:role/PantherAuditRole-us-east-2",
@@ -89,7 +86,7 @@ class AWSSoftwareDiscovery(Rule):
     reports = {"MITRE ATT&CK": ["TA0007:T1518"]}
     default_severity = Severity.INFO
     dedup_period_minutes = 360
-    log_types = [LogType.AWS_CloudTrail]
+    log_types = [LogType.AWS_CLOUDTRAIL]
     id = "AWS.Software.Discovery-prototype"
     threshold = 50
     tests = aws_software_discovery_tests

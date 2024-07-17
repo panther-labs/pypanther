@@ -68,7 +68,7 @@ class MongoDBLoggingToggled(Rule):
     display_name = "MongoDB logging toggled"
     default_severity = Severity.LOW
     default_reference = "https://attack.mitre.org/techniques/T1562/008/"
-    log_types = [LogType.MongoDB_ProjectEvent]
+    log_types = [LogType.MONGODB_PROJECT_EVENT]
     id = "MongoDB.Logging.Toggled-prototype"
     tests = mongo_db_logging_toggled_tests
 

@@ -71,7 +71,7 @@ slack_audit_logs_potentially_malicious_file_shared_tests: list[RuleTest] = [
 class SlackAuditLogsPotentiallyMaliciousFileShared(Rule):
     id = "Slack.AuditLogs.PotentiallyMaliciousFileShared-prototype"
     display_name = "Slack Potentially Malicious File Shared"
-    log_types = [LogType.Slack_AuditLogs]
+    log_types = [LogType.SLACK_AUDIT_LOGS]
     tags = ["Slack", "Initial Access", "Phishing", "Spearphising Attachment"]
     reports = {"MITRE ATT&CK": ["TA0001:T1566.001"]}
     default_severity = Severity.CRITICAL

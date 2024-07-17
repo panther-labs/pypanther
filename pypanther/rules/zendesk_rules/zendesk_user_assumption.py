@@ -45,7 +45,7 @@ zendesk_user_assumption_tests: list[RuleTest] = [
 class ZendeskUserAssumption(Rule):
     id = "Zendesk.UserAssumption-prototype"
     display_name = "Enabled Zendesk Support to Assume Users"
-    log_types = [LogType.Zendesk_Audit]
+    log_types = [LogType.ZENDESK_AUDIT]
     tags = ["Zendesk", "Lateral Movement:Use Alternate Authentication Material"]
     reports = {"MITRE ATT&CK": ["TA0008:T1550"]}
     default_severity = Severity.MEDIUM

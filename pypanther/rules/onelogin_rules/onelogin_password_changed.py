@@ -40,7 +40,7 @@ one_login_password_changed_tests: list[RuleTest] = [
 class OneLoginPasswordChanged(Rule):
     id = "OneLogin.PasswordChanged-prototype"
     display_name = "OneLogin User Password Changed"
-    log_types = [LogType.OneLogin_Events]
+    log_types = [LogType.ONELOGIN_EVENTS]
     tags = ["OneLogin", "Identity & Access Management"]
     default_severity = Severity.INFO
     default_description = "A user password was updated.\n"

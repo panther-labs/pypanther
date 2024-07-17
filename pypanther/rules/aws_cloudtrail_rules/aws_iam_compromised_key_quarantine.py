@@ -94,7 +94,7 @@ aws_cloud_trail_iam_compromised_key_quarantine_tests: list[RuleTest] = [
 
 
 class AWSCloudTrailIAMCompromisedKeyQuarantine(Rule):
-    log_types = [LogType.AWS_CloudTrail]
+    log_types = [LogType.AWS_CLOUDTRAIL]
     default_description = (
         "Detects when an IAM user has the AWSCompromisedKeyQuarantineV2 policy attached to their account."
     )

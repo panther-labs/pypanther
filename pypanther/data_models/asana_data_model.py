@@ -22,7 +22,7 @@ class StandardAsanaAudit(DataModel):
     id: str = "Standard.Asana.Audit"
     display_name: str = "Asana Audit Logs"
     enabled: bool = True
-    log_types: list[str] = [LogType.Asana_Audit]
+    log_types: list[str] = [LogType.ASANA_AUDIT]
     mappings: list[DataModelMapping] = [
         DataModelMapping(name="actor_user", path="$.actor.name"),
         DataModelMapping(name="event_type", method=get_event_type),

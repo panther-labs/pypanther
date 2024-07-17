@@ -160,7 +160,7 @@ class Microsoft365ExternalDocumentSharing(Rule):
     default_runbook = "Check the document metadata to ensure it is not a sensitive document."
     default_reference = "https://support.microsoft.com/en-us/topic/manage-sharing-with-external-users-in-microsoft-365-small-business-2951a85f-c970-4375-aa4f-6b0d7035fe35#:~:text=Top%20of%20Page-,Turn%20external%20sharing%20on%20or%20off,-The%20ability%20to"
     default_severity = Severity.LOW
-    log_types = [LogType.Microsoft365_Audit_SharePoint]
+    log_types = [LogType.MICROSOFT365_AUDIT_SHAREPOINT]
     id = "Microsoft365.External.Document.Sharing-prototype"
     tests = microsoft365_external_document_sharing_tests
     email_regex = re.compile("([A-Za-z0-9]+[.-_])*[A-Za-z0-9]+@[A-Za-z0-9-]+(\\.[A-Z|a-z]{2,})+")

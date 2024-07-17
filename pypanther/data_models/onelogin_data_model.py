@@ -19,7 +19,7 @@ class StandardOneLoginEvents(DataModel):
     id: str = "Standard.OneLogin.Events"
     display_name: str = "OneLogin Events"
     enabled: bool = True
-    log_types: list[str] = [LogType.OneLogin_Events]
+    log_types: list[str] = [LogType.ONELOGIN_EVENTS]
     mappings: list[DataModelMapping] = [
         DataModelMapping(name="actor_user", path="actor_user_name"),
         DataModelMapping(name="assigned_admin_role", path="privilege_name"),

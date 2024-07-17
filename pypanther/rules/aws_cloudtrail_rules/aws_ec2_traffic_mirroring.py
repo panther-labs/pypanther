@@ -574,7 +574,7 @@ class AWSEC2TrafficMirroring(Rule):
     default_runbook = "Examine other activities done by this user to determine whether or not activity is suspicious. If your network traffic is not encrypted, we recommend changing the severity to high or critical."
     default_severity = Severity.MEDIUM
     tags = ["AWS", "Cloudtrail", "MITRE"]
-    log_types = [LogType.AWS_CloudTrail]
+    log_types = [LogType.AWS_CLOUDTRAIL]
     id = "AWS.EC2.Traffic.Mirroring-prototype"
     summary_attributes = ["userIdentity.type"]
     tests = awsec2_traffic_mirroring_tests

@@ -59,11 +59,7 @@ crowdstrike_reverse_shell_tool_executed_tests: list[RuleTest] = [
             "id": "081d64d7-17fb-40c0-8767-48ff1e2ee2dd",
             "name": "ProcessRollup2V19",
             "p_any_ip_addresses": ["11.10.9.8"],
-            "p_any_md5_hashes": [
-                "5fd22b915c232378e567160d641cc9f2",
-                "1234abcd4567efghi8901abc",
-                "abc987jkl654mnop321",
-            ],
+            "p_any_md5_hashes": ["5fd22b915c232378e567160d641cc9f2", "1234abcd4567efghi8901abc", "abc987jkl654mnop321"],
             "p_any_sha1_hashes": ["0000000000000000000000000000000000000000"],
             "p_any_sha256_hashes": ["488e74e2026d03f21b33f470c23b3de2f466643186c2e06ae7b4883cc2e59377"],
             "p_any_trace_ids": ["4295752857", "1234abcd4567efghi8901abc", "abc987jkl654mnop321"],
@@ -135,11 +131,7 @@ crowdstrike_reverse_shell_tool_executed_tests: list[RuleTest] = [
             "id": "081d64d7-17fb-40c0-8767-48ff1e2ee2dd",
             "name": "ProcessRollup2V19",
             "p_any_ip_addresses": ["11.10.9.8"],
-            "p_any_md5_hashes": [
-                "5fd22b915c232378e567160d641cc9f2",
-                "1234abcd4567efghi8901abc",
-                "abc987jkl654mnop321",
-            ],
+            "p_any_md5_hashes": ["5fd22b915c232378e567160d641cc9f2", "1234abcd4567efghi8901abc", "abc987jkl654mnop321"],
             "p_any_sha1_hashes": ["0000000000000000000000000000000000000000"],
             "p_any_sha256_hashes": ["488e74e2026d03f21b33f470c23b3de2f466643186c2e06ae7b4883cc2e59377"],
             "p_any_trace_ids": ["4295752857", "1234abcd4567efghi8901abc", "abc987jkl654mnop321"],
@@ -211,11 +203,7 @@ crowdstrike_reverse_shell_tool_executed_tests: list[RuleTest] = [
             "id": "081d64d7-17fb-40c0-8767-48ff1e2ee2dd",
             "name": "ProcessRollup2V19",
             "p_any_ip_addresses": ["11.10.9.8"],
-            "p_any_md5_hashes": [
-                "5fd22b915c232378e567160d641cc9f2",
-                "1234abcd4567efghi8901abc",
-                "abc987jkl654mnop321",
-            ],
+            "p_any_md5_hashes": ["5fd22b915c232378e567160d641cc9f2", "1234abcd4567efghi8901abc", "abc987jkl654mnop321"],
             "p_any_sha1_hashes": ["0000000000000000000000000000000000000000"],
             "p_any_sha256_hashes": ["488e74e2026d03f21b33f470c23b3de2f466643186c2e06ae7b4883cc2e59377"],
             "p_any_trace_ids": ["4295752857", "1234abcd4567efghi8901abc", "abc987jkl654mnop321"],
@@ -238,7 +226,7 @@ class CrowdstrikeReverseShellToolExecuted(Rule):
     display_name = "Crowdstrike Reverse Shell Tool Executed"
     default_reference = "https://attack.mitre.org/techniques/T1059/"
     default_severity = Severity.HIGH
-    log_types = [LogType.Crowdstrike_FDREvent]
+    log_types = [LogType.CROWDSTRIKE_FDR_EVENT]
     id = "Crowdstrike.Reverse.Shell.Tool.Executed-prototype"
     tests = crowdstrike_reverse_shell_tool_executed_tests
     #   process name: reverse shell signature

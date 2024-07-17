@@ -763,7 +763,7 @@ class Auth0CustomRoleCreated(Rule):
     default_runbook = "Assess if this was done by the user for a valid business reason. Be vigilant if a user created a role without proper authorization."
     default_reference = "https://auth0.com/docs/manage-users/access-control/configure-core-rbac/roles/create-roles"
     default_severity = Severity.HIGH
-    log_types = [LogType.Auth0_Events]
+    log_types = [LogType.AUTH0_EVENTS]
     id = "Auth0.Custom.Role.Created-prototype"
     tests = auth0_custom_role_created_tests
 

@@ -88,7 +88,7 @@ g_suite_workspace_gmail_predelivery_scanning_disabled_tests: list[RuleTest] = [
 class GSuiteWorkspaceGmailPredeliveryScanningDisabled(Rule):
     id = "GSuite.Workspace.GmailPredeliveryScanningDisabled-prototype"
     display_name = "GSuite Workspace Gmail Pre-Delivery Message Scanning Disabled"
-    log_types = [LogType.GSuite_ActivityEvent]
+    log_types = [LogType.GSUITE_ACTIVITY_EVENT]
     tags = ["GSuite"]
     reports = {"MITRE ATT&CK": ["TA0001:T1566"]}
     default_severity = Severity.MEDIUM

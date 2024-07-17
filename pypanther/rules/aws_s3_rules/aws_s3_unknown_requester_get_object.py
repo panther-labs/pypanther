@@ -113,13 +113,8 @@ class AWSS3ServerAccessUnknownRequester(Rule):
     id = "AWS.S3.ServerAccess.UnknownRequester-prototype"
     display_name = "AWS S3 Unknown Requester"
     enabled = False
-    log_types = [LogType.AWS_S3ServerAccess]
-    tags = [
-        "AWS",
-        "Configuration Required",
-        "Security Control",
-        "Collection:Data From Cloud Storage Object",
-    ]
+    log_types = [LogType.AWS_S3_SERVER_ACCESS]
+    tags = ["AWS", "Configuration Required", "Security Control", "Collection:Data From Cloud Storage Object"]
     reports = {"Panther": ["Data Access"], "MITRE ATT&CK": ["TA0009:T1530"]}
     default_severity = Severity.LOW
     default_description = "Validates that proper IAM entities are accessing sensitive data buckets."

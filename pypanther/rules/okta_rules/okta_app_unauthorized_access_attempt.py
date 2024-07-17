@@ -156,7 +156,7 @@ class OktaAppUnauthorizedAccessAttempt(Rule):
     display_name = "Okta App Unauthorized Access Attempt"
     default_severity = Severity.LOW
     default_reference = "https://support.okta.com/help/s/article/App-Sign-on-Error-403-User-attempted-unauthorized-access-to-app?language=en_US"
-    log_types = [LogType.Okta_SystemLog]
+    log_types = [LogType.OKTA_SYSTEM_LOG]
     id = "Okta.App.Unauthorized.Access.Attempt-prototype"
     threshold = 5
     tests = okta_app_unauthorized_access_attempt_tests

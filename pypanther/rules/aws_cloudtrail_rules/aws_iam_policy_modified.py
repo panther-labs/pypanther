@@ -15,10 +15,7 @@ awsiam_policy_modified_tests: list[RuleTest] = [
                 "accountId": "123456789012",
                 "accessKeyId": "1",
                 "sessionContext": {
-                    "attributes": {
-                        "mfaAuthenticated": "true",
-                        "creationDate": "2019-01-01T00:00:00Z",
-                    },
+                    "attributes": {"mfaAuthenticated": "true", "creationDate": "2019-01-01T00:00:00Z"},
                     "sessionIssuer": {
                         "type": "Role",
                         "principalId": "1111",
@@ -61,10 +58,7 @@ awsiam_policy_modified_tests: list[RuleTest] = [
                         "accountId": "123456789012",
                         "userName": "tester",
                     },
-                    "attributes": {
-                        "creationDate": "2019-01-01T00:00:00Z",
-                        "mfaAuthenticated": "true",
-                    },
+                    "attributes": {"creationDate": "2019-01-01T00:00:00Z", "mfaAuthenticated": "true"},
                 },
             },
             "eventTime": "2019-01-01T00:00:00Z",
@@ -104,10 +98,7 @@ awsiam_policy_modified_tests: list[RuleTest] = [
                 "accountId": "123456789012",
                 "accessKeyId": "1",
                 "sessionContext": {
-                    "attributes": {
-                        "mfaAuthenticated": "true",
-                        "creationDate": "2019-01-01T00:00:00Z",
-                    },
+                    "attributes": {"mfaAuthenticated": "true", "creationDate": "2019-01-01T00:00:00Z"},
                     "sessionIssuer": {
                         "type": "Role",
                         "principalId": "1111",
@@ -137,25 +128,15 @@ awsiam_policy_modified_tests: list[RuleTest] = [
 class AWSIAMPolicyModified(Rule):
     id = "AWS.IAM.PolicyModified-prototype"
     display_name = "IAM Policy Modified"
-    log_types = [LogType.AWS_CloudTrail]
-    tags = [
-        "AWS",
-        "Identity & Access Management",
-        "Privilege Escalation:Abuse Elevation Control Mechanism",
-    ]
+    log_types = [LogType.AWS_CLOUDTRAIL]
+    tags = ["AWS", "Identity & Access Management", "Privilege Escalation:Abuse Elevation Control Mechanism"]
     reports = {"CIS": ["3.4"], "MITRE ATT&CK": ["TA0004:T1548"]}
     default_severity = Severity.INFO
     dedup_period_minutes = 720
     default_description = "An IAM Policy was changed.\n"
     default_runbook = "https://docs.runpanther.io/alert-runbooks/built-in-rules/aws-iam-policy-modified"
     default_reference = "https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies.html"
-    summary_attributes = [
-        "eventName",
-        "userAgent",
-        "sourceIpAddress",
-        "recipientAccountId",
-        "p_any_aws_arns",
-    ]
+    summary_attributes = ["eventName", "userAgent", "sourceIpAddress", "recipientAccountId", "p_any_aws_arns"]
     tests = awsiam_policy_modified_tests
     # API calls that are indicative of IAM Policy changes
     # Put<Entity>Policy is for inline policies.

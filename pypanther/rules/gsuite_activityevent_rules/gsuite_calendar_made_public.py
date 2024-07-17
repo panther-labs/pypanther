@@ -114,7 +114,7 @@ g_suite_calendar_made_public_tests: list[RuleTest] = [
 class GSuiteCalendarMadePublic(Rule):
     id = "GSuite.CalendarMadePublic-prototype"
     display_name = "GSuite Calendar Has Been Made Public"
-    log_types = [LogType.GSuite_ActivityEvent]
+    log_types = [LogType.GSUITE_ACTIVITY_EVENT]
     tags = ["GSuite"]
     reports = {"MITRE ATT&CK": ["TA0007:T1087"]}
     default_severity = Severity.MEDIUM

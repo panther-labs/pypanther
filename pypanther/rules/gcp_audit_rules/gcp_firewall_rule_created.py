@@ -155,7 +155,7 @@ class GCPFirewallRuleCreated(Rule):
     display_name = "GCP Firewall Rule Created"
     id = "GCP.Firewall.Rule.Created-prototype"
     default_severity = Severity.LOW
-    log_types = [LogType.GCP_AuditLog]
+    log_types = [LogType.GCP_AUDIT_LOG]
     tags = ["GCP", "Firewall", "Networking", "Infrastructure"]
     default_description = "This rule detects creations of GCP firewall rules.\n"
     default_runbook = "Ensure that the rule creation was expected. Firewall rule creations can expose [vulnerable] resoures to the internet.\n"

@@ -35,7 +35,7 @@ carbon_black_audit_flagged_tests: list[RuleTest] = [
 
 class CarbonBlackAuditFlagged(Rule):
     id = "CarbonBlack.Audit.Flagged-prototype"
-    log_types = [LogType.CarbonBlack_Audit]
+    log_types = [LogType.CARBON_BLACK_AUDIT]
     default_description = (
         "Detects when Carbon Black has flagged a log as important, such as failed login attempts and locked accounts."
     )

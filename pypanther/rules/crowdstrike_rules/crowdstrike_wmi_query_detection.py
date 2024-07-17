@@ -66,11 +66,7 @@ crowdstrike_wmi_query_detection_tests: list[RuleTest] = [
             ],
             "p_any_sha1_hashes": ["0000000000000000000000000000000000000000"],
             "p_any_sha256_hashes": ["488e74e2026d03f21b33f470c23b3de2f466643186c2e06ae7b4883cc2e59377"],
-            "p_any_trace_ids": [
-                "4295752857",
-                "1234567890abcdefg654321",
-                "abcdefghijklmnop123467890",
-            ],
+            "p_any_trace_ids": ["4295752857", "1234567890abcdefg654321", "abcdefghijklmnop123467890"],
             "p_event_time": "2023-04-21 19:52:32.722",
             "p_log_type": "Crowdstrike.FDREvent",
             "p_parse_time": "2023-04-21 20:05:52.94",
@@ -146,11 +142,7 @@ crowdstrike_wmi_query_detection_tests: list[RuleTest] = [
             ],
             "p_any_sha1_hashes": ["0000000000000000000000000000000000000000"],
             "p_any_sha256_hashes": ["488e74e2026d03f21b33f470c23b3de2f466643186c2e06ae7b4883cc2e59377"],
-            "p_any_trace_ids": [
-                "4295752857",
-                "1234567890abcdefg654321",
-                "abcdefghijklmnop123467890",
-            ],
+            "p_any_trace_ids": ["4295752857", "1234567890abcdefg654321", "abcdefghijklmnop123467890"],
             "p_event_time": "2023-04-21 19:52:32.722",
             "p_log_type": "Crowdstrike.FDREvent",
             "p_parse_time": "2023-04-21 20:05:52.94",
@@ -226,11 +218,7 @@ crowdstrike_wmi_query_detection_tests: list[RuleTest] = [
             ],
             "p_any_sha1_hashes": ["0000000000000000000000000000000000000000"],
             "p_any_sha256_hashes": ["488e74e2026d03f21b33f470c23b3de2f466643186c2e06ae7b4883cc2e59377"],
-            "p_any_trace_ids": [
-                "4295752857",
-                "1234567890abcdefg654321",
-                "abcdefghijklmnop123467890",
-            ],
+            "p_any_trace_ids": ["4295752857", "1234567890abcdefg654321", "abcdefghijklmnop123467890"],
             "p_event_time": "2023-04-21 19:52:32.722",
             "p_log_type": "Crowdstrike.FDREvent",
             "p_parse_time": "2023-04-21 20:05:52.94",
@@ -306,11 +294,7 @@ crowdstrike_wmi_query_detection_tests: list[RuleTest] = [
             ],
             "p_any_sha1_hashes": ["0000000000000000000000000000000000000000"],
             "p_any_sha256_hashes": ["488e74e2026d03f21b33f470c23b3de2f466643186c2e06ae7b4883cc2e59377"],
-            "p_any_trace_ids": [
-                "4295752857",
-                "1234567890abcdefg654321",
-                "abcdefghijklmnop123467890",
-            ],
+            "p_any_trace_ids": ["4295752857", "1234567890abcdefg654321", "abcdefghijklmnop123467890"],
             "p_event_time": "2023-04-21 19:52:32.722",
             "p_log_type": "Crowdstrike.FDREvent",
             "p_parse_time": "2023-04-21 20:05:52.94",
@@ -331,17 +315,10 @@ class CrowdstrikeWMIQueryDetection(Rule):
     default_runbook = "Investigate the endpoint for signs of WMI query execution. Review the executed query and the associated user account."
     default_reference = "https://learn.microsoft.com/en-us/windows/win32/wmisdk/querying-wmi"
     default_severity = Severity.LOW
-    log_types = [LogType.Crowdstrike_FDREvent]
+    log_types = [LogType.CROWDSTRIKE_FDR_EVENT]
     id = "Crowdstrike.WMI.Query.Detection-prototype"
     tests = crowdstrike_wmi_query_detection_tests
-    WMIC_SIGNATURES = [
-        "get",
-        "list",
-        "process call create",
-        "cmd.exe",
-        "powershell.exe",
-        "command.exe",
-    ]
+    WMIC_SIGNATURES = ["get", "list", "process call create", "cmd.exe", "powershell.exe", "command.exe"]
 
     def rule(self, event):
         if deep_get(event, "event", "event_simpleName") == "ProcessRollup2":

@@ -6,11 +6,7 @@ g_suite_workspace_password_enforce_strong_disabled_tests: list[RuleTest] = [
         name="Workspace Admin Disabled Strong Password Enforcement",
         expected_result=True,
         log={
-            "actor": {
-                "callerType": "USER",
-                "email": "user@example.io",
-                "profileId": "110111111111111111111",
-            },
+            "actor": {"callerType": "USER", "email": "user@example.io", "profileId": "110111111111111111111"},
             "id": {
                 "applicationName": "admin",
                 "customerId": "D12345",
@@ -93,7 +89,7 @@ g_suite_workspace_password_enforce_strong_disabled_tests: list[RuleTest] = [
 class GSuiteWorkspacePasswordEnforceStrongDisabled(Rule):
     id = "GSuite.Workspace.PasswordEnforceStrongDisabled-prototype"
     display_name = "GSuite Workspace Strong Password Enforcement Has Been Disabled"
-    log_types = [LogType.GSuite_ActivityEvent]
+    log_types = [LogType.GSUITE_ACTIVITY_EVENT]
     tags = ["GSuite"]
     default_severity = Severity.HIGH
     reports = {"MITRE ATT&CK": ["TA0006:T1110"]}

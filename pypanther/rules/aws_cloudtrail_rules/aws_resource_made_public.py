@@ -26,10 +26,7 @@ aws_cloud_trail_resource_made_public_tests: list[RuleTest] = [
                 "repositoryName": "community",
             },
             "resources": [
-                {
-                    "accountId": "112233445566",
-                    "arn": "arn:aws:ecr:eu-west-1:112233445566:repository/community",
-                }
+                {"accountId": "112233445566", "arn": "arn:aws:ecr:eu-west-1:112233445566:repository/community"}
             ],
             "responseElements": {
                 "policyText": '{\n  "Version" : "2012-10-17",\n  "Statement" : [ {\n    "Sid" : "PublicRead",\n    "Effect" : "Allow",\n    "Principal" : "*",\n    "Action" : [ "ecr:BatchCheckLayerAvailability", "ecr:BatchGetImage", "ecr:GetAuthorizationToken", "ecr:GetDownloadUrlForLayer" ]\n  } ]\n}',
@@ -45,10 +42,7 @@ aws_cloud_trail_resource_made_public_tests: list[RuleTest] = [
                 "invokedBy": "cloudformation.amazonaws.com",
                 "principalId": "AROAJJJJTTTT44445IJJJ:AWSCloudFormation",
                 "sessionContext": {
-                    "attributes": {
-                        "creationDate": "2020-11-20T06:19:04Z",
-                        "mfaAuthenticated": "false",
-                    },
+                    "attributes": {"creationDate": "2020-11-20T06:19:04Z", "mfaAuthenticated": "false"},
                     "sessionIssuer": {
                         "accountId": "112233445566",
                         "arn": "arn:aws:iam::112233445566:role/ServiceRole",
@@ -117,10 +111,7 @@ aws_cloud_trail_resource_made_public_tests: list[RuleTest] = [
                 "arn": "arn:aws:sts::123456789012:assumed-role/example-role/example-user",
                 "principalId": "1111",
                 "sessionContext": {
-                    "attributes": {
-                        "creationDate": "2019-01-01T00:00:00Z",
-                        "mfaAuthenticated": "true",
-                    },
+                    "attributes": {"creationDate": "2019-01-01T00:00:00Z", "mfaAuthenticated": "true"},
                     "sessionIssuer": {
                         "accountId": "123456789012",
                         "arn": "arn:aws:iam::123456789012:role/example-role",
@@ -179,10 +170,7 @@ aws_cloud_trail_resource_made_public_tests: list[RuleTest] = [
                 "arn": "arn:aws:sts::123456789012:assumed-role/example-role/example-user",
                 "principalId": "1111",
                 "sessionContext": {
-                    "attributes": {
-                        "creationDate": "2019-01-01T00:00:00Z",
-                        "mfaAuthenticated": "true",
-                    },
+                    "attributes": {"creationDate": "2019-01-01T00:00:00Z", "mfaAuthenticated": "true"},
                     "sessionIssuer": {
                         "accountId": "123456789012",
                         "arn": "arn:aws:iam::123456789012:role/example-role",
@@ -225,10 +213,7 @@ aws_cloud_trail_resource_made_public_tests: list[RuleTest] = [
                 "arn": "arn:aws:sts::123456789012:assumed-role/example-role/example-user",
                 "principalId": "1111",
                 "sessionContext": {
-                    "attributes": {
-                        "creationDate": "2019-01-01T00:00:00Z",
-                        "mfaAuthenticated": "true",
-                    },
+                    "attributes": {"creationDate": "2019-01-01T00:00:00Z", "mfaAuthenticated": "true"},
                     "sessionIssuer": {
                         "accountId": "123456789012",
                         "arn": "arn:aws:iam::123456789012:role/example-role",
@@ -288,10 +273,7 @@ aws_cloud_trail_resource_made_public_tests: list[RuleTest] = [
                 "arn": "arn:aws:sts::123456789012:assumed-role/example-role/example-user",
                 "principalId": "1111",
                 "sessionContext": {
-                    "attributes": {
-                        "creationDate": "2019-01-01T00:00:00Z",
-                        "mfaAuthenticated": "true",
-                    },
+                    "attributes": {"creationDate": "2019-01-01T00:00:00Z", "mfaAuthenticated": "true"},
                     "sessionIssuer": {
                         "accountId": "123456789012",
                         "arn": "arn:aws:iam::123456789012:role/example-role",
@@ -337,10 +319,7 @@ aws_cloud_trail_resource_made_public_tests: list[RuleTest] = [
                 "arn": "arn:aws:sts::123456789012:assumed-role/example-role/example-user",
                 "principalId": "1111",
                 "sessionContext": {
-                    "attributes": {
-                        "creationDate": "2019-01-01T00:00:00Z",
-                        "mfaAuthenticated": "true",
-                    },
+                    "attributes": {"creationDate": "2019-01-01T00:00:00Z", "mfaAuthenticated": "true"},
                     "sessionIssuer": {
                         "accountId": "123456789012",
                         "arn": "arn:aws:iam::123456789012:role/example-role",
@@ -360,20 +339,14 @@ aws_cloud_trail_resource_made_public_tests: list[RuleTest] = [
 class AWSCloudTrailResourceMadePublic(Rule):
     id = "AWS.CloudTrail.ResourceMadePublic-prototype"
     display_name = "AWS Resource Made Public"
-    log_types = [LogType.AWS_CloudTrail]
+    log_types = [LogType.AWS_CLOUDTRAIL]
     tags = ["AWS", "Exfiltration:Transfer Data to Cloud Account"]
     default_severity = Severity.MEDIUM
     reports = {"MITRE ATT&CK": ["TA0010:T1537"]}
     default_description = "Some AWS resource was made publicly accessible over the internet. Checks ECR, Elasticsearch, KMS, S3, S3 Glacier, SNS, SQS, and Secrets Manager.\n"
     default_runbook = "Adjust the policy so that the resource is no longer publicly accessible"
     default_reference = "https://aws.amazon.com/blogs/security/identifying-publicly-accessible-resources-with-amazon-vpc-network-access-analyzer/"
-    summary_attributes = [
-        "userAgent",
-        "sourceIpAddress",
-        "vpcEndpointId",
-        "recipientAccountId",
-        "p_any_aws_arns",
-    ]
+    summary_attributes = ["userAgent", "sourceIpAddress", "vpcEndpointId", "recipientAccountId", "p_any_aws_arns"]
     tests = aws_cloud_trail_resource_made_public_tests
     # Check that the IAM policy allows resource accessibility via the Internet
     # Normally this check helps avoid overly complex functions that are doing too many things,
@@ -425,12 +398,7 @@ class AWSCloudTrailResourceMadePublic(Rule):
     def title(self, event):
         # TODO(): Update this rule to use data models
         user = deep_get(event, "userIdentity", "userName") or deep_get(
-            event,
-            "userIdentity",
-            "sessionContext",
-            "sessionIssuer",
-            "userName",
-            default="<MISSING_USER>",
+            event, "userIdentity", "sessionContext", "sessionIssuer", "userName", default="<MISSING_USER>"
         )
         if event.get("Resources"):
             return f"Resource {event.get('Resources')[0].get('arn', 'MISSING')} made public by {user}"

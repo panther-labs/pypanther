@@ -384,7 +384,7 @@ class Auth0MFAFactorSettingEnabled(Rule):
     default_runbook = "Assess if this was done by the user for a valid business reason. Be vigilant to re-enable this setting as it's in the best security interest for your organization's security posture."
     default_reference = "https://auth0.com/docs/secure/multi-factor-authentication/multi-factor-authentication-factors"
     default_severity = Severity.INFO
-    log_types = [LogType.Auth0_Events]
+    log_types = [LogType.AUTH0_EVENTS]
     id = "Auth0.MFA.Factor.Setting.Enabled-prototype"
     tests = auth0_mfa_factor_setting_enabled_tests
 

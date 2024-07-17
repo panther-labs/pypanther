@@ -156,7 +156,7 @@ crowdstrike_fdrlolbas_tests: list[RuleTest] = [
 
 
 class CrowdstrikeFDRLOLBAS(Rule):
-    log_types = [LogType.Crowdstrike_FDREvent]
+    log_types = [LogType.CROWDSTRIKE_FDR_EVENT]
     id = "Crowdstrike.FDR.LOLBAS-prototype"
     display_name = "Crowdstrike FDR LOLBAS"
     default_description = "Living off the land binaries and script usage"

@@ -5,7 +5,7 @@ class StandardAmazonEKSAudit(DataModel):
     id: str = "Standard.Amazon.EKS.Audit"
     display_name: str = "AWS EKS Audit"
     enabled: bool = True
-    log_types: list[str] = [LogType.Amazon_EKS_Audit]
+    log_types: list[str] = [LogType.AMAZON_EKS_AUDIT]
     mappings: list[DataModelMapping] = [
         DataModelMapping(name="annotations", path="$.annotations"),
         DataModelMapping(name="apiGroup", path="$.objectRef.apiGroup"),

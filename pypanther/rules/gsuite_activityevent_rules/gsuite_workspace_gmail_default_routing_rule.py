@@ -6,11 +6,7 @@ g_suite_workspace_gmail_default_routing_rule_modified_tests: list[RuleTest] = [
         name="Workspace Admin Creates Default Routing Rule",
         expected_result=True,
         log={
-            "actor": {
-                "callerType": "USER",
-                "email": "user@example.io",
-                "profileId": "110555555555555555555",
-            },
+            "actor": {"callerType": "USER", "email": "user@example.io", "profileId": "110555555555555555555"},
             "id": {
                 "applicationName": "admin",
                 "customerId": "D12345",
@@ -20,10 +16,7 @@ g_suite_workspace_gmail_default_routing_rule_modified_tests: list[RuleTest] = [
             "ipAddress": "12.12.12.12",
             "kind": "admin#reports#activity",
             "name": "CREATE_GMAIL_SETTING",
-            "parameters": {
-                "SETTING_NAME": "MESSAGE_SECURITY_RULE",
-                "USER_DEFINED_SETTING_NAME": "44444",
-            },
+            "parameters": {"SETTING_NAME": "MESSAGE_SECURITY_RULE", "USER_DEFINED_SETTING_NAME": "44444"},
             "type": "EMAIL_SETTINGS",
         },
     ),
@@ -31,11 +24,7 @@ g_suite_workspace_gmail_default_routing_rule_modified_tests: list[RuleTest] = [
         name="Workspace Admin Deletes Default Routing Rule",
         expected_result=True,
         log={
-            "actor": {
-                "callerType": "USER",
-                "email": "user@example.io",
-                "profileId": "110555555555555555555",
-            },
+            "actor": {"callerType": "USER", "email": "user@example.io", "profileId": "110555555555555555555"},
             "id": {
                 "applicationName": "admin",
                 "customerId": "D12345",
@@ -45,10 +34,7 @@ g_suite_workspace_gmail_default_routing_rule_modified_tests: list[RuleTest] = [
             "ipAddress": "12.12.12.12",
             "kind": "admin#reports#activity",
             "name": "DELETE_GMAIL_SETTING",
-            "parameters": {
-                "SETTING_NAME": "MESSAGE_SECURITY_RULE",
-                "USER_DEFINED_SETTING_NAME": "44444",
-            },
+            "parameters": {"SETTING_NAME": "MESSAGE_SECURITY_RULE", "USER_DEFINED_SETTING_NAME": "44444"},
             "type": "EMAIL_SETTINGS",
         },
     ),
@@ -114,7 +100,7 @@ g_suite_workspace_gmail_default_routing_rule_modified_tests: list[RuleTest] = [
 class GSuiteWorkspaceGmailDefaultRoutingRuleModified(Rule):
     id = "GSuite.Workspace.GmailDefaultRoutingRuleModified-prototype"
     display_name = "GSuite Workspace Gmail Default Routing Rule Modified"
-    log_types = [LogType.GSuite_ActivityEvent]
+    log_types = [LogType.GSUITE_ACTIVITY_EVENT]
     tags = ["GSuite"]
     reports = {"MITRE ATT&CK": ["TA0003:T1098"]}
     default_severity = Severity.HIGH

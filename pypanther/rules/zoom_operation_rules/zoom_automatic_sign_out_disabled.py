@@ -34,7 +34,7 @@ class ZoomAutomaticSignOutDisabled(Rule):
         "Confirm this user acted with valid business intent and determine whether this activity was authorized."
     )
     default_severity = Severity.MEDIUM
-    log_types = [LogType.Zoom_Operation]
+    log_types = [LogType.ZOOM_OPERATION]
     id = "Zoom.Automatic.Sign.Out.Disabled-prototype"
     tests = zoom_automatic_sign_out_disabled_tests
 

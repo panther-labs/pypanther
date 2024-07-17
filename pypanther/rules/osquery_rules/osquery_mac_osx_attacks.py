@@ -31,7 +31,7 @@ osquery_mac_osx_attacks_tests: list[RuleTest] = [
 class OsqueryMacOSXAttacks(Rule):
     id = "Osquery.Mac.OSXAttacks-prototype"
     display_name = "macOS Malware Detected with osquery"
-    log_types = [LogType.Osquery_Differential]
+    log_types = [LogType.OSQUERY_DIFFERENTIAL]
     tags = ["Osquery", "MacOS", "Malware", "Resource Development:Develop Capabilities"]
     reports = {"MITRE ATT&CK": ["TA0042:T1588"]}
     default_severity = Severity.MEDIUM

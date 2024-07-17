@@ -7,32 +7,17 @@ awsvpc_inbound_port_blacklist_tests: list[RuleTest] = [
     RuleTest(
         name="Public to Private IP on Restricted Port",
         expected_result=True,
-        log={
-            "dstPort": 22,
-            "dstAddr": "10.0.0.1",
-            "srcAddr": "1.1.1.1",
-            "p_log_type": "AWS.VPCFlow",
-        },
+        log={"dstPort": 22, "dstAddr": "10.0.0.1", "srcAddr": "1.1.1.1", "p_log_type": "AWS.VPCFlow"},
     ),
     RuleTest(
         name="Public to Private IP on Allowed Port",
         expected_result=False,
-        log={
-            "dstPort": 443,
-            "dstAddr": "10.0.0.1",
-            "srcAddr": "1.1.1.1",
-            "p_log_type": "AWS.VPCFlow",
-        },
+        log={"dstPort": 443, "dstAddr": "10.0.0.1", "srcAddr": "1.1.1.1", "p_log_type": "AWS.VPCFlow"},
     ),
     RuleTest(
         name="Private to Private IP on Restricted Port",
         expected_result=False,
-        log={
-            "dstPort": 22,
-            "dstAddr": "10.0.0.1",
-            "srcAddr": "10.10.10.1",
-            "p_log_type": "AWS.VPCFlow",
-        },
+        log={"dstPort": 22, "dstAddr": "10.0.0.1", "srcAddr": "10.10.10.1", "p_log_type": "AWS.VPCFlow"},
     ),
     RuleTest(
         name="Public to Private IP on Restricted Port - OCSF",
@@ -59,14 +44,8 @@ class AWSVPCInboundPortBlacklist(Rule):
     id = "AWS.VPC.InboundPortBlacklist-prototype"
     display_name = "VPC Flow Logs Inbound Port Blocklist"
     enabled = False
-    log_types = [LogType.AWS_VPCFlow, LogType.OCSF_NetworkActivity]
-    tags = [
-        "AWS",
-        "DataModel",
-        "Configuration Required",
-        "Security Control",
-        "Command and Control:Non-Standard Port",
-    ]
+    log_types = [LogType.AWS_VPC_FLOW, LogType.OCSF_NETWORK_ACTIVITY]
+    tags = ["AWS", "DataModel", "Configuration Required", "Security Control", "Command and Control:Non-Standard Port"]
     reports = {"MITRE ATT&CK": ["TA0011:T1571"]}
     default_reference = "https://docs.aws.amazon.com/vpc/latest/userguide/flow-logs.html"
     default_severity = Severity.HIGH

@@ -337,7 +337,7 @@ class AWSRDSPublicRestore(Rule):
     reports = {"MITRE ATT&CK": ["TA0010:T1020"]}
     default_reference = "https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_RestoreFromSnapshot.html"
     default_severity = Severity.HIGH
-    log_types = [LogType.AWS_CloudTrail]
+    log_types = [LogType.AWS_CLOUDTRAIL]
     id = "AWS.RDS.PublicRestore-prototype"
     tests = awsrds_public_restore_tests
 

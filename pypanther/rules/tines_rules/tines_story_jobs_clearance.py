@@ -41,7 +41,7 @@ tines_story_jobs_clearance_tests: list[RuleTest] = [
 class TinesStoryJobsClearance(Rule):
     id = "Tines.Story.Jobs.Clearance-prototype"
     display_name = "Tines Story Jobs Clearance"
-    log_types = [LogType.Tines_Audit]
+    log_types = [LogType.TINES_AUDIT]
     tags = ["Tines"]
     default_severity = Severity.LOW
     default_description = "A Tines User has cleared story jobs."

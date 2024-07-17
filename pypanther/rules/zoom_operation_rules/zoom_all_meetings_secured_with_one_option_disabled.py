@@ -46,7 +46,7 @@ class ZoomAllMeetingsSecuredWithOneOptionDisabled(Rule):
     )
     default_reference = "https://support.zoom.com/hc/en/article?id=zm_kb&sysparm_article=KB0059862"
     default_severity = Severity.MEDIUM
-    log_types = [LogType.Zoom_Operation]
+    log_types = [LogType.ZOOM_OPERATION]
     id = "Zoom.All.Meetings.Secured.With.One.Option.Disabled-prototype"
     tests = zoom_all_meetings_secured_with_one_option_disabled_tests
 

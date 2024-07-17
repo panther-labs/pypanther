@@ -210,7 +210,7 @@ class OktaRateLimits(Rule):
     reports = {"MITRE ATT&CK": ["TA0006:T1110", "TA0040:T1498"]}
     default_reference = "https://developer.okta.com/docs/reference/rl-system-log-events/"
     dedup_period_minutes = 360
-    log_types = [LogType.Okta_SystemLog]
+    log_types = [LogType.OKTA_SYSTEM_LOG]
     id = "Okta.Rate.Limits-prototype"
     tests = okta_rate_limits_tests
     DETECTION_EVENTS = [

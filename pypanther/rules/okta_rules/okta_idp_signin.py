@@ -161,7 +161,7 @@ class OktaIdentityProviderSignIn(Rule):
     id = "Okta.Identity.Provider.SignIn-prototype"
     display_name = "Okta Identity Provider Sign-in"
     enabled = False
-    log_types = [LogType.Okta_SystemLog]
+    log_types = [LogType.OKTA_SYSTEM_LOG]
     tags = ["Configuration Required"]
     reports = {"MITRE ATT&CK": ["TA0001:T1199", "TA0003:T1098"]}
     default_severity = Severity.HIGH

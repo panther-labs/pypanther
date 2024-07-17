@@ -111,7 +111,7 @@ class SentinelOneThreats(Rule):
     display_name = "SentinelOne Threats"
     default_reference = "https://www.sentinelone.com/blog/feature-spotlight-introducing-the-new-threat-center/"
     default_severity = Severity.HIGH
-    log_types = [LogType.SentinelOne_Activity]
+    log_types = [LogType.SENTINELONE_ACTIVITY]
     id = "SentinelOne.Threats-prototype"
     tests = sentinel_one_threats_tests  # New Malicious Threat Not Mitigated
     # New Malicious Threat Not Mitigated

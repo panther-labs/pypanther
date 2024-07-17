@@ -41,7 +41,7 @@ tines_team_destruction_tests: list[RuleTest] = [
 class TinesTeamDestruction(Rule):
     id = "Tines.Team.Destruction-prototype"
     display_name = "Tines Team Destruction"
-    log_types = [LogType.Tines_Audit]
+    log_types = [LogType.TINES_AUDIT]
     tags = ["Tines"]
     default_severity = Severity.LOW
     default_description = "A user has destroyed a team"

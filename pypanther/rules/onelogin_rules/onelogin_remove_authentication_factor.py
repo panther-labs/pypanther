@@ -31,12 +31,8 @@ one_login_auth_factor_removed_tests: list[RuleTest] = [
 class OneLoginAuthFactorRemoved(Rule):
     id = "OneLogin.AuthFactorRemoved-prototype"
     display_name = "OneLogin Authentication Factor Removed"
-    log_types = [LogType.OneLogin_Events]
-    tags = [
-        "OneLogin",
-        "Identity & Access Management",
-        "Defense Evasion:Modify Authentication Process",
-    ]
+    log_types = [LogType.ONELOGIN_EVENTS]
+    tags = ["OneLogin", "Identity & Access Management", "Defense Evasion:Modify Authentication Process"]
     reports = {"MITRE ATT&CK": ["TA0005:T1556"]}
     default_severity = Severity.LOW
     default_description = "A user removed an authentication factor or otp device.\n"

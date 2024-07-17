@@ -120,11 +120,7 @@ gc_pcomputeinstancescreate_privilege_escalation_tests: list[RuleTest] = [
             },
             "receiveTimestamp": "2024-01-30 12:52:36.642422049",
             "resource": {
-                "labels": {
-                    "instance_id": "1454427709413609468",
-                    "project_id": "some-project",
-                    "zone": "us-central1-f",
-                },
+                "labels": {"instance_id": "1454427709413609468", "project_id": "some-project", "zone": "us-central1-f"},
                 "type": "gce_instance",
             },
             "severity": "NOTICE",
@@ -228,11 +224,7 @@ gc_pcomputeinstancescreate_privilege_escalation_tests: list[RuleTest] = [
                     "error": {
                         "code": 404,
                         "errors": [
-                            {
-                                "domain": "global",
-                                "message": "The resource 'abc' was not found",
-                                "reason": "notFound",
-                            }
+                            {"domain": "global", "message": "The resource 'abc' was not found", "reason": "notFound"}
                         ],
                         "message": "The resource 'abc' was not found",
                     },
@@ -242,11 +234,7 @@ gc_pcomputeinstancescreate_privilege_escalation_tests: list[RuleTest] = [
             },
             "receiveTimestamp": "2024-01-30 11:03:56.719662927",
             "resource": {
-                "labels": {
-                    "instance_id": "",
-                    "project_id": "some-project",
-                    "zone": "us-central1-f",
-                },
+                "labels": {"instance_id": "", "project_id": "some-project", "zone": "us-central1-f"},
                 "type": "gce_instance",
             },
             "severity": "ERROR",
@@ -331,7 +319,7 @@ gc_pcomputeinstancescreate_privilege_escalation_tests: list[RuleTest] = [
 
 
 class GCPcomputeinstancescreatePrivilegeEscalation(Rule):
-    log_types = [LogType.GCP_AuditLog]
+    log_types = [LogType.GCP_AUDIT_LOG]
     default_description = "Detects compute.instances.create method for privilege escalation in GCP."
     display_name = "GCP compute.instances.create Privilege Escalation"
     id = "GCP.compute.instances.create.Privilege.Escalation-prototype"
@@ -367,13 +355,7 @@ class GCPcomputeinstancescreatePrivilegeEscalation(Rule):
         return True
 
     def title(self, event):
-        actor = deep_get(
-            event,
-            "protoPayload",
-            "authenticationInfo",
-            "principalEmail",
-            default="<ACTOR_NOT_FOUND>",
-        )
+        actor = deep_get(event, "protoPayload", "authenticationInfo", "principalEmail", default="<ACTOR_NOT_FOUND>")
         service_accounts = deep_get(event, "protoPayload", "request", "serviceAccounts")
         if not service_accounts:
             service_account_emails = "<SERVICE_ACCOUNT_EMAILS_NOT_FOUND>"
