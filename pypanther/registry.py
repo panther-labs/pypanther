@@ -40,8 +40,10 @@ def registered_rules() -> Set[Type[Rule]]:
 def registered_data_models() -> Set[Type[DataModel]]:
     return __DATA_MODEL_REGISTRY
 
+
 def _is_rule(rule: Type[Rule]) -> bool:
     return isinstance(rule, type) and issubclass(rule, Rule)
+
 
 def _is_data_model(data_model: Type[DataModel]) -> bool:
     return isinstance(data_model, type) and issubclass(data_model, DataModel)
