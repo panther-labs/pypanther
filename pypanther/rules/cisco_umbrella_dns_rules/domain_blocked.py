@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 
 cisco_umbrella_dns_blocked_tests: list[RuleTest] = [
     RuleTest(

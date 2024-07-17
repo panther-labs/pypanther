@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 
 git_hub_user_role_updated_tests: list[RuleTest] = [
     RuleTest(
@@ -36,9 +36,7 @@ class GitHubUserRoleUpdated(Rule):
     reports = {"MITRE ATT&CK": ["TA0003:T1098"]}
     default_reference = "https://docs.github.com/en/organizations/managing-peoples-access-to-your-organization-with-roles/roles-in-an-organization"
     default_severity = Severity.HIGH
-    default_description = (
-        "Detects when a GitHub user role is upgraded to an admin or downgraded to a member"
-    )
+    default_description = "Detects when a GitHub user role is upgraded to an admin or downgraded to a member"
     tests = git_hub_user_role_updated_tests
 
     def rule(self, event):

@@ -3,7 +3,7 @@ import logging
 import os
 from typing import Optional, Tuple
 
-from pypanther.base import RuleTestResult
+from pypanther.base import Rule, RuleTestResult
 from pypanther.cache import DATA_MODEL_CACHE
 from pypanther.import_main import NoMainModuleError, import_main
 from pypanther.registry import registered_rules
@@ -59,21 +59,24 @@ def print_failed_test_results(
             print(f"{' ' * side_count}{failed_results[0].rule_id}{' ' * side_count}")
 
         for failed_result in failed_results:
+            result = failed_result.detection_result
+            test = failed_result.test
+
             if single_test_failure_separator:
                 print(single_test_failure_separator)
 
-            if failed_result.detection_result.detection_exception is not None:
+            if result.detection_exception is not None:
                 log_rule_func_exception(failed_result)
 
             aux_func_exceptions = {
-                "title": failed_result.detection_result.title_exception,
-                "description": failed_result.detection_result.description_exception,
-                "reference": failed_result.detection_result.reference_exception,
-                "severity": failed_result.detection_result.severity_exception,
-                "runbook": failed_result.detection_result.runbook_exception,
-                "destinations": failed_result.detection_result.destinations_exception,
-                "dedup": failed_result.detection_result.dedup_exception,
-                "alert_context": failed_result.detection_result.alert_context_exception,
+                "title": result.title_exception,
+                "description": result.description_exception,
+                "reference": result.reference_exception,
+                "severity": result.severity_exception,
+                "runbook": result.runbook_exception,
+                "destinations": result.destinations_exception,
+                "dedup": result.dedup_exception,
+                "alert_context": result.alert_context_exception,
             }
 
             had_aux_exc = False
@@ -85,12 +88,35 @@ def print_failed_test_results(
             if had_aux_exc:
                 log_aux_func_failure(failed_result, aux_func_exceptions)
 
-            if (
-                failed_result.detection_result.detection_exception is None
-                and failed_result.detection_result.detection_output
-                != failed_result.test.expected_result
-            ):
-                log_rule_test_failure(failed_result)
+            if result.detection_exception is None and result.detection_output != test.expected_result:
+                log_rule_test_failure(
+                    failed_result,
+                    "rule",
+                    str(test.expected_result),
+                    str(result.detection_output),
+                )
+
+            for func in [
+                Rule.severity.__name__,
+                Rule.title.__name__,
+                Rule.description.__name__,
+                Rule.runbook.__name__,
+                Rule.destinations.__name__,
+                Rule.alert_context.__name__,
+                Rule.reference.__name__,
+                Rule.dedup.__name__,
+            ]:
+                exc = getattr(result, f"{func}_exception")
+                exp = getattr(test, f"expected_{func}")
+                output = getattr(result, f"{func}_output")
+
+                if exc is None and exp is not None and output != exp:
+                    log_rule_test_failure(
+                        failed_result,
+                        func,
+                        str(exp),
+                        str(output) if str(output) != "" else "''",
+                    )
 
         if test_failure_separator:
             print(test_failure_separator)
@@ -117,20 +143,19 @@ def log_aux_func_exception(failed_result: RuleTestResult, method_name: str, exc:
     )
 
 
-def log_rule_test_failure(failed_result: RuleTestResult) -> None:
+def log_rule_test_failure(failed_result: RuleTestResult, func: str, exp: str, output: str) -> None:
     logging.error(
-        "%s: test '%s' returned the wrong result, expected %s but got %s: %s",
+        "%s: test '%s' returned the wrong result calling %s(), expected %s but got %s: %s",
         failed_result.rule_id,
         failed_result.test.name,
-        failed_result.test.expected_result,
-        failed_result.detection_result.detection_output,
+        func,
+        exp,
+        output,
         failed_result.test.location(),
     )
 
 
-def log_aux_func_failure(
-    failed_result: RuleTestResult, aux_func_exceptions: dict[str, Exception]
-) -> None:
+def log_aux_func_failure(failed_result: RuleTestResult, aux_func_exceptions: dict[str, Exception]) -> None:
     exc_msgs = [f"{name}()" for name, exc in aux_func_exceptions.items() if exc is not None]
     exc_msg = ", ".join(exc_msgs[:-1]) if len(exc_msgs) > 1 else exc_msgs[0]
     last_exc_msg = f" and {exc_msgs[-1]}" if len(exc_msgs) > 1 else ""

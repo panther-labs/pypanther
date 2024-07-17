@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 
 push_security_app_banner_acknowledged_tests: list[RuleTest] = [
     RuleTest(

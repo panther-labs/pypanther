@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import aws_rule_context, deep_get
 
 awsiam_access_key_compromised_tests: list[RuleTest] = [
@@ -72,9 +72,7 @@ class AWSIAMAccessKeyCompromised(Rule):
     default_severity = Severity.HIGH
     default_description = "A users static AWS API key was uploaded to a public github repo."
     default_runbook = "Determine the key owner, disable/delete key, and delete the user to resolve the AWS case. If user needs a new IAM give them a stern talking to first."
-    default_reference = (
-        "https://docs.github.com/en/code-security/secret-scanning/about-secret-scanning"
-    )
+    default_reference = "https://docs.github.com/en/code-security/secret-scanning/about-secret-scanning"
     tests = awsiam_access_key_compromised_tests
     EXPOSED_CRED_POLICY = "AWSExposedCredentialPolicy_DO_NOT_REMOVE"
 

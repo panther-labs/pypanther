@@ -15,7 +15,7 @@ try:
     #   in the pip env
     from boxsdk import Client, JWTAuth
     from boxsdk.exception import BoxAPIException
-except ImportError as err:
+except ImportError:
     Client = None
     JWTAuth = None
     BoxAPIException = Exception

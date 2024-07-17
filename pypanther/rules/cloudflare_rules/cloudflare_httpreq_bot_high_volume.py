@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_cloudflare_helpers import cloudflare_http_alert_context
 
 cloudflare_http_request_bot_high_volume_tests: list[RuleTest] = [

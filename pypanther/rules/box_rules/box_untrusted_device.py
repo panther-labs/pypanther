@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 
 box_untrusted_device_tests: list[RuleTest] = [
@@ -8,12 +8,7 @@ box_untrusted_device_tests: list[RuleTest] = [
         log={
             "type": "event",
             "additional_details": '{"key": "value"}',
-            "created_by": {
-                "id": "12345678",
-                "type": "user",
-                "login": "cat@example",
-                "name": "Bob Cat",
-            },
+            "created_by": {"id": "12345678", "type": "user", "login": "cat@example", "name": "Bob Cat"},
             "event_type": "DELETE",
         },
     ),
@@ -23,12 +18,7 @@ box_untrusted_device_tests: list[RuleTest] = [
         log={
             "type": "event",
             "additional_details": '{"key": "value"}',
-            "created_by": {
-                "id": "12345678",
-                "type": "user",
-                "login": "cat@example",
-                "name": "Bob Cat",
-            },
+            "created_by": {"id": "12345678", "type": "user", "login": "cat@example", "name": "Bob Cat"},
             "event_type": "DEVICE_TRUST_CHECK_FAILED",
             "source": {"id": "12345678", "type": "user", "login": "user@example"},
         },
@@ -44,7 +34,9 @@ class BoxUntrustedDevice(Rule):
     reports = {"MITRE ATT&CK": ["TA0001:T1078"]}
     default_severity = Severity.INFO
     default_description = "A user attempted to login from an untrusted device.\n"
-    default_reference = "https://support.box.com/hc/en-us/articles/360044194993-Setting-Up-Device-Trust-Security-Requirements"
+    default_reference = (
+        "https://support.box.com/hc/en-us/articles/360044194993-Setting-Up-Device-Trust-Security-Requirements"
+    )
     default_runbook = "Investigate whether this is a valid user attempting to login to box.\n"
     summary_attributes = ["ip_address"]
     tests = box_untrusted_device_tests

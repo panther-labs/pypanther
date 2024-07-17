@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import aws_rule_context, deep_get
 
 aws_unsuccessful_mf_aattempt_tests: list[RuleTest] = [
@@ -82,10 +82,7 @@ class AWSUnsuccessfulMFAattempt(Rule):
     tests = aws_unsuccessful_mf_aattempt_tests
 
     def rule(self, event):
-        if (
-            event.get("eventSource") != "signin.amazonaws.com"
-            and event.get("eventName") != "ConsoleLogin"
-        ):
+        if event.get("eventSource") != "signin.amazonaws.com" and event.get("eventName") != "ConsoleLogin":
             return False
         mfa_used = deep_get(event, "additionalEventData", "MFAUsed", default="")
         console_login = deep_get(event, "responseElements", "ConsoleLogin", default="")

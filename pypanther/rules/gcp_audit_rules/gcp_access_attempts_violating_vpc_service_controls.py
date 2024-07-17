@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get, deep_walk
 
 gcp_access_attempts_violating_vpc_service_controls_tests: list[RuleTest] = [
@@ -113,9 +113,7 @@ gcp_access_attempts_violating_vpc_service_controls_tests: list[RuleTest] = [
                             "targetResourcePermissions": ["NO_PERMISSIONS"],
                         }
                     ],
-                    "resourceNames": [
-                        "projects/_/buckets/test-restricted-bucket/objects/test1.txt"
-                    ],
+                    "resourceNames": ["projects/_/buckets/test-restricted-bucket/objects/test1.txt"],
                     "securityPolicyInfo": {
                         "organizationId": "645568414902",
                         "servicePerimeterName": "accessPolicies/123456789012/servicePerimeters/test_perimeter",
@@ -124,11 +122,7 @@ gcp_access_attempts_violating_vpc_service_controls_tests: list[RuleTest] = [
                     "vpcServiceControlsUniqueId": "gBc-wuGVCapNMnTUePoHos_VyJmr3CsMKlr48kVa4b6XpsT_OWKRng",
                 },
                 "methodName": "google.storage.objects.get",
-                "requestMetadata": {
-                    "callerIp": "1.2.3.4",
-                    "destinationAttributes": {},
-                    "requestAttributes": {},
-                },
+                "requestMetadata": {"callerIp": "1.2.3.4", "destinationAttributes": {}, "requestAttributes": {}},
                 "resourceName": "projects/197946410614",
                 "serviceName": "storage.googleapis.com",
                 "status": {
@@ -170,9 +164,7 @@ gcp_access_attempts_violating_vpc_service_controls_tests: list[RuleTest] = [
 class GCPAccessAttemptsViolatingVPCServiceControls(Rule):
     default_description = "An access attempt violating VPC service controls (such as Perimeter controls) has been made."
     display_name = "GCP Access Attempts Violating VPC Service Controls"
-    default_reference = (
-        "https://cloud.google.com/vpc-service-controls/docs/troubleshooting#debugging"
-    )
+    default_reference = "https://cloud.google.com/vpc-service-controls/docs/troubleshooting#debugging"
     default_severity = Severity.MEDIUM
     log_types = [LogType.GCP_AuditLog]
     id = "GCP.Access.Attempts.Violating.VPC.Service.Controls-prototype"
@@ -181,20 +173,12 @@ class GCPAccessAttemptsViolatingVPCServiceControls(Rule):
     def rule(self, event):
         severity = deep_get(event, "severity", default="")
         status_code = deep_get(event, "protoPayload", "status", "code", default="")
-        violation_types = deep_walk(
-            event, "protoPayload", "status", "details", "violations", "type", default=[]
-        )
+        violation_types = deep_walk(event, "protoPayload", "status", "details", "violations", "type", default=[])
         if all([severity == "ERROR", status_code == 7, "VPC_SERVICE_CONTROLS" in violation_types]):
             return True
         return False
 
     def title(self, event):
-        actor = deep_get(
-            event,
-            "protoPayload",
-            "authenticationInfo",
-            "principalEmail",
-            default="<ACTOR_NOT_FOUND>",
-        )
+        actor = deep_get(event, "protoPayload", "authenticationInfo", "principalEmail", default="<ACTOR_NOT_FOUND>")
         method = deep_get(event, "protoPayload", "methodName", default="<METHOD_NOT_FOUND>")
         return f"GCP: [{actor}] performed a [{method}] request that violates VPC Service Controls"

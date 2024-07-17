@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import slack_alert_context
 
 slack_audit_logs_ekm_unenrolled_tests: list[RuleTest] = [
@@ -76,9 +76,7 @@ class SlackAuditLogsEKMUnenrolled(Rule):
     reports = {"MITRE ATT&CK": ["TA0005:T1600"]}
     default_severity = Severity.CRITICAL
     default_description = "Detects when a workspace is no longer enrolled or managed by EKM"
-    default_reference = (
-        "https://slack.com/intl/en-gb/help/articles/360019110974-Slack-Enterprise-Key-Management"
-    )
+    default_reference = "https://slack.com/intl/en-gb/help/articles/360019110974-Slack-Enterprise-Key-Management"
     summary_attributes = ["p_any_ip_addresses", "p_any_emails"]
     tests = slack_audit_logs_ekm_unenrolled_tests
 

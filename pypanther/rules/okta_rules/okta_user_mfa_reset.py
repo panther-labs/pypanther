@@ -1,5 +1,5 @@
 import pypanther.helpers.panther_event_type_helpers as event_type
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import okta_alert_context
 
 okta_user_mfa_reset_single_tests: list[RuleTest] = [
@@ -66,9 +66,7 @@ okta_user_mfa_reset_single_tests: list[RuleTest] = [
             "request": {},
             "securitycontext": {},
             "severity": "INFO",
-            "target": [
-                {"alternateId": "App ", "displayName": "App", "id": "12345", "type": "AppInstance"}
-            ],
+            "target": [{"alternateId": "App ", "displayName": "App", "id": "12345", "type": "AppInstance"}],
             "transaction": {"detail": {}, "id": "sdfg", "type": "JOB"},
             "uuid": "aaa-bb-ccc",
             "version": "0",

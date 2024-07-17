@@ -1,6 +1,6 @@
 from ipaddress import ip_address
 
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import eks_panther_obj_ref
 
 amazon_eks_audit_multiple403_tests: list[RuleTest] = [
@@ -45,9 +45,7 @@ amazon_eks_audit_multiple403_tests: list[RuleTest] = [
             "user": {
                 "extra": {
                     "accessKeyId": ["ASIARLIVEKVNN6Y6J5UW"],
-                    "arn": [
-                        "arn:aws:sts::123412341234:assumed-role/DevAdministrator/1669660343296132000"
-                    ],
+                    "arn": ["arn:aws:sts::123412341234:assumed-role/DevAdministrator/1669660343296132000"],
                     "canonicalArn": ["arn:aws:iam::123412341234:role/DevAdministrator"],
                     "sessionName": ["1669660343296132000"],
                 },
@@ -93,9 +91,7 @@ amazon_eks_audit_multiple403_tests: list[RuleTest] = [
             "user": {
                 "extra": {
                     "authentication_kubernetes_io_slash_pod-name": ["coredns-57ff979f67-bl27n"],
-                    "authentication_kubernetes_io_slash_pod-uid": [
-                        "5b9488ae-5563-42aa-850b-b0d82edb3e22"
-                    ],
+                    "authentication_kubernetes_io_slash_pod-uid": ["5b9488ae-5563-42aa-850b-b0d82edb3e22"],
                 },
                 "groups": [
                     "system:serviceaccounts",
@@ -143,9 +139,7 @@ amazon_eks_audit_multiple403_tests: list[RuleTest] = [
             "user": {
                 "extra": {
                     "authentication_kubernetes_io_slash_pod-name": ["coredns-57ff979f67-bl27n"],
-                    "authentication_kubernetes_io_slash_pod-uid": [
-                        "5b9488ae-5563-42aa-850b-b0d82edb3e22"
-                    ],
+                    "authentication_kubernetes_io_slash_pod-uid": ["5b9488ae-5563-42aa-850b-b0d82edb3e22"],
                 },
                 "groups": [
                     "system:serviceaccounts",
@@ -170,7 +164,9 @@ class AmazonEKSAuditMultiple403(Rule):
     reports = {"MITRE ATT&CK": ["TA0007:T1613"]}
     default_reference = "https://aws.github.io/aws-eks-best-practices/security/docs/detective/"
     default_severity = Severity.INFO
-    default_description = "This detection identifies if a public sourceIP is generating multiple 403s with the Kubernetes API server.\n"
+    default_description = (
+        "This detection identifies if a public sourceIP is generating multiple 403s with the Kubernetes API server.\n"
+    )
     dedup_period_minutes = 30
     threshold = 10
     summary_attributes = ["user:username", "p_any_ip_addresses", "p_source_label"]

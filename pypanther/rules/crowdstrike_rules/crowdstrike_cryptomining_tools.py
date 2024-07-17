@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import crowdstrike_detection_alert_context, deep_get
 
 crowdstrike_cryptomining_tools_tests: list[RuleTest] = [
@@ -65,14 +65,8 @@ crowdstrike_cryptomining_tools_tests: list[RuleTest] = [
                 "abcdefghijklmnop123467890",
             ],
             "p_any_sha1_hashes": ["0000000000000000000000000000000000000000"],
-            "p_any_sha256_hashes": [
-                "488e74e2026d03f21b33f470c23b3de2f466643186c2e06ae7b4883cc2e59377"
-            ],
-            "p_any_trace_ids": [
-                "4295752857",
-                "1234567890abcdefghijklmnop9876",
-                "abcdefghijklmnop123467890",
-            ],
+            "p_any_sha256_hashes": ["488e74e2026d03f21b33f470c23b3de2f466643186c2e06ae7b4883cc2e59377"],
+            "p_any_trace_ids": ["4295752857", "1234567890abcdefghijklmnop9876", "abcdefghijklmnop123467890"],
             "p_event_time": "2023-04-21 19:52:32.722",
             "p_log_type": "Crowdstrike.FDREvent",
             "p_parse_time": "2023-04-21 20:05:52.94",
@@ -147,14 +141,8 @@ crowdstrike_cryptomining_tools_tests: list[RuleTest] = [
                 "abcdefghijklmnop123467890",
             ],
             "p_any_sha1_hashes": ["0000000000000000000000000000000000000000"],
-            "p_any_sha256_hashes": [
-                "488e74e2026d03f21b33f470c23b3de2f466643186c2e06ae7b4883cc2e59377"
-            ],
-            "p_any_trace_ids": [
-                "4295752857",
-                "1234567890abcdefghijklmnop9876",
-                "abcdefghijklmnop123467890",
-            ],
+            "p_any_sha256_hashes": ["488e74e2026d03f21b33f470c23b3de2f466643186c2e06ae7b4883cc2e59377"],
+            "p_any_trace_ids": ["4295752857", "1234567890abcdefghijklmnop9876", "abcdefghijklmnop123467890"],
             "p_event_time": "2023-04-21 19:52:32.722",
             "p_log_type": "Crowdstrike.FDREvent",
             "p_parse_time": "2023-04-21 20:05:52.94",
@@ -206,18 +194,12 @@ class CrowdstrikeCryptominingTools(Rule):
     def rule(self, event):
         if event.get("fdr_event_type", "") == "ProcessRollup2":
             if event.get("event_platform", "") == "Win":
-                process_name = (
-                    deep_get(event, "event", "ImageFileName", default="").lower().split("\\")[-1]
-                )
+                process_name = deep_get(event, "event", "ImageFileName", default="").lower().split("\\")[-1]
                 return process_name in self.CRYPTOCURRENCY_MINING_TOOLS
         return False
 
     def title(self, event):
-        tool = (
-            deep_get(event, "event", "ImageFileName", default="<TOOL_NOT_FOUND>")
-            .lower()
-            .split("\\")[-1]
-        )
+        tool = deep_get(event, "event", "ImageFileName", default="<TOOL_NOT_FOUND>").lower().split("\\")[-1]
         aid = event.get("aid", "<AID_NOT_FOUND>")
         return f"Crowdstrike: Cryptocurrency mining tool [{tool}] detected on aid [{aid}]"
 

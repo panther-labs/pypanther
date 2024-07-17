@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import aws_rule_context
 from pypanther.helpers.panther_default import aws_cloudtrail_success
 
@@ -76,9 +76,7 @@ awsec2_gateway_modified_tests: list[RuleTest] = [
             "userAgent": "Mozilla",
             "requestParameters": {
                 "routeTableIdSet": {},
-                "filterSet": {
-                    "items": [{"name": "resource-id", "valueSet": {"items": [{"value": "vpc-1"}]}}]
-                },
+                "filterSet": {"items": [{"name": "resource-id", "valueSet": {"items": [{"value": "vpc-1"}]}}]},
             },
             "responseElements": None,
             "requestID": "1",
@@ -138,9 +136,7 @@ class AWSEC2GatewayModified(Rule):
     reports = {"CIS": ["3.12"], "MITRE ATT&CK": ["TA0005:T1562"]}
     default_severity = Severity.INFO
     default_description = "An EC2 Network Gateway was modified."
-    default_runbook = (
-        "https://docs.runpanther.io/alert-runbooks/built-in-rules/aws-ec2-gateway-modified"
-    )
+    default_runbook = "https://docs.runpanther.io/alert-runbooks/built-in-rules/aws-ec2-gateway-modified"
     default_reference = "https://docs.aws.amazon.com/vpc/latest/userguide/VPC_Internet_Gateway.html"
     summary_attributes = [
         "eventName",
@@ -161,10 +157,7 @@ class AWSEC2GatewayModified(Rule):
     }
 
     def rule(self, event):
-        return (
-            aws_cloudtrail_success(event)
-            and event.get("eventName") in self.EC2_GATEWAY_MODIFIED_EVENTS
-        )
+        return aws_cloudtrail_success(event) and event.get("eventName") in self.EC2_GATEWAY_MODIFIED_EVENTS
 
     def dedup(self, event):
         return event.get("recipientAccountId")

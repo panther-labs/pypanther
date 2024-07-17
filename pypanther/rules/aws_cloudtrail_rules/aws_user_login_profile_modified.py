@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import aws_rule_context, deep_get
 
 aws_user_login_profile_modified_tests: list[RuleTest] = [
@@ -27,10 +27,7 @@ aws_user_login_profile_modified_tests: list[RuleTest] = [
                 "arn": "arn:aws:sts::98765432:assumed-role/IAM/alice",
                 "principalId": "ABCDE:alice",
                 "sessionContext": {
-                    "attributes": {
-                        "creationDate": "2022-09-15T13:36:47Z",
-                        "mfaAuthenticated": "true",
-                    },
+                    "attributes": {"creationDate": "2022-09-15T13:36:47Z", "mfaAuthenticated": "true"},
                     "sessionIssuer": {
                         "accountId": "987654321",
                         "arn": "arn:aws:iam::9876432:role/IAM",
@@ -69,10 +66,7 @@ aws_user_login_profile_modified_tests: list[RuleTest] = [
                 "arn": "arn:aws:sts::98765432:assumed-role/IAM/alice",
                 "principalId": "ABCDE:alice",
                 "sessionContext": {
-                    "attributes": {
-                        "creationDate": "2022-09-15T13:36:47Z",
-                        "mfaAuthenticated": "true",
-                    },
+                    "attributes": {"creationDate": "2022-09-15T13:36:47Z", "mfaAuthenticated": "true"},
                     "sessionIssuer": {
                         "accountId": "987654321",
                         "arn": "arn:aws:iam::9876432:role/IAM",
@@ -111,10 +105,7 @@ aws_user_login_profile_modified_tests: list[RuleTest] = [
                 "arn": "arn:aws:sts::98765432:assumed-role/IAM/alice",
                 "principalId": "ABCDE:alice",
                 "sessionContext": {
-                    "attributes": {
-                        "creationDate": "2022-09-15T13:36:47Z",
-                        "mfaAuthenticated": "true",
-                    },
+                    "attributes": {"creationDate": "2022-09-15T13:36:47Z", "mfaAuthenticated": "true"},
                     "sessionIssuer": {
                         "accountId": "987654321",
                         "arn": "arn:aws:iam::9876432:role/IAM",

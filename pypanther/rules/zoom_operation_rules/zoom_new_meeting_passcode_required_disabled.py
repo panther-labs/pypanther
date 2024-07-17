@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 
 zoom_new_meeting_passcode_required_disabled_tests: list[RuleTest] = [
     RuleTest(
@@ -38,11 +38,11 @@ zoom_new_meeting_passcode_required_disabled_tests: list[RuleTest] = [
 
 
 class ZoomNewMeetingPasscodeRequiredDisabled(Rule):
-    default_description = (
-        "A Zoom User turned off your organization's setting to require passcodes for new meetings."
-    )
+    default_description = "A Zoom User turned off your organization's setting to require passcodes for new meetings."
     display_name = "Zoom New Meeting Passcode Required Disabled"
-    default_runbook = "Confirm this user acted with valid business intent and determine whether this activity was authorized."
+    default_runbook = (
+        "Confirm this user acted with valid business intent and determine whether this activity was authorized."
+    )
     default_reference = "https://support.zoom.com/hc/en/article?id=zm_kb&sysparm_article=KB0063160#:~:text=Since%20September%202022%2C%20Zoom%20requires,enforced%20for%20all%20free%20accounts"
     default_severity = Severity.MEDIUM
     log_types = [LogType.Zoom_Operation]
@@ -51,9 +51,7 @@ class ZoomNewMeetingPasscodeRequiredDisabled(Rule):
 
     def rule(self, event):
         operation_detail = event.get("operation_detail", "<NO_OPS_DETAIL>")
-        operation_flag = (
-            "Security  - Require a passcode when scheduling new meetings: from On to Off"
-        )
+        operation_flag = "Security  - Require a passcode when scheduling new meetings: from On to Off"
         return all(
             [
                 event.get("action", "<NO_ACTION>") == "Update",

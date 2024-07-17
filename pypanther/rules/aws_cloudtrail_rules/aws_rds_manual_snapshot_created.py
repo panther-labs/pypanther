@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import aws_rule_context
 
 awsrds_manual_snapshot_created_tests: list[RuleTest] = [
@@ -22,10 +22,7 @@ awsrds_manual_snapshot_created_tests: list[RuleTest] = [
                         "userName": "ARole",
                     },
                     "webIdFederationData": {},
-                    "attributes": {
-                        "creationDate": "2023-12-08T13:53:48Z",
-                        "mfaAuthenticated": "false",
-                    },
+                    "attributes": {"creationDate": "2023-12-08T13:53:48Z", "mfaAuthenticated": "false"},
                 },
             },
             "eventTime": "2023-12-08T14:55:19Z",
@@ -98,10 +95,7 @@ awsrds_manual_snapshot_created_tests: list[RuleTest] = [
                         "userName": "ARole",
                     },
                     "webIdFederationData": {},
-                    "attributes": {
-                        "creationDate": "2023-12-08T13:53:48Z",
-                        "mfaAuthenticated": "false",
-                    },
+                    "attributes": {"creationDate": "2023-12-08T13:53:48Z", "mfaAuthenticated": "false"},
                 },
             },
             "eventTime": "2023-12-08T14:55:19Z",
@@ -174,10 +168,7 @@ awsrds_manual_snapshot_created_tests: list[RuleTest] = [
                         "userName": "ARole",
                     },
                     "webIdFederationData": {},
-                    "attributes": {
-                        "creationDate": "2023-12-08T13:53:48Z",
-                        "mfaAuthenticated": "false",
-                    },
+                    "attributes": {"creationDate": "2023-12-08T13:53:48Z", "mfaAuthenticated": "false"},
                 },
             },
             "eventTime": "2023-12-08T14:55:19Z",
@@ -250,10 +241,7 @@ awsrds_manual_snapshot_created_tests: list[RuleTest] = [
                         "userName": "ARole",
                     },
                     "webIdFederationData": {},
-                    "attributes": {
-                        "creationDate": "2023-12-08T13:53:48Z",
-                        "mfaAuthenticated": "false",
-                    },
+                    "attributes": {"creationDate": "2023-12-08T13:53:48Z", "mfaAuthenticated": "false"},
                 },
             },
             "eventTime": "2023-12-08T14:55:19Z",
@@ -318,9 +306,7 @@ class AWSRDSManualSnapshotCreated(Rule):
     default_severity = Severity.LOW
     default_description = "A manual snapshot of an RDS database was created. An attacker may use this to exfiltrate the DB contents to another account; use this as a correlation rule.\n"
     default_runbook = "Ensure the snapshot was shared with an allowed AWS account. If not, delete the snapshot and quarantine the compromised IAM user.\n"
-    default_reference = (
-        "https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_CreateSnapshot.html"
-    )
+    default_reference = "https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_CreateSnapshot.html"
     summary_attributes = ["eventSource", "recipientAccountId", "awsRegion", "p_any_aws_arns"]
     tests = awsrds_manual_snapshot_created_tests
 

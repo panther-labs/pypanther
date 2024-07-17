@@ -30,7 +30,5 @@ class StandardGSuiteReports(DataModel):
         ),
         DataModelMapping(name="event_type", method=get_event_type),
         DataModelMapping(name="source_ip", path="ipAddress"),
-        DataModelMapping(
-            name="user", path="$.events[*].parameters[?(@.name == 'USER_EMAIL')].value"
-        ),
+        DataModelMapping(name="user", path="$.events[*].parameters[?(@.name == 'USER_EMAIL')].value"),
     ]

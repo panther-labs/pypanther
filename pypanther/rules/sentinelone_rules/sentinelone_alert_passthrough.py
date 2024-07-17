@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 
 sentinel_one_alert_passthrough_tests: list[RuleTest] = [
@@ -137,9 +137,7 @@ sentinel_one_alert_passthrough_tests: list[RuleTest] = [
 class SentinelOneAlertPassthrough(Rule):
     default_description = "SentinelOne Alert Passthrough"
     display_name = "SentinelOne Alert Passthrough"
-    default_reference = (
-        "https://www.sentinelone.com/blog/feature-spotlight-introducing-the-new-threat-center/"
-    )
+    default_reference = "https://www.sentinelone.com/blog/feature-spotlight-introducing-the-new-threat-center/"
     default_severity = Severity.HIGH
     log_types = [LogType.SentinelOne_Activity]
     id = "SentinelOne.Alert.Passthrough-prototype"
@@ -162,9 +160,7 @@ class SentinelOneAlertPassthrough(Rule):
         return f"s1alerts:{event.get('id')}"
 
     def severity(self, event):
-        return self.SENTINELONE_SEVERITY.get(
-            deep_get(event, "data", "severity", default=""), "MEDIUM"
-        )
+        return self.SENTINELONE_SEVERITY.get(deep_get(event, "data", "severity", default=""), "MEDIUM")
 
     def alert_context(self, event):
         data_cleaned = {k: v for k, v in event.get("data", {}).items() if v != ""}

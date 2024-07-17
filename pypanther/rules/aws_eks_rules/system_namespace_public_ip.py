@@ -1,6 +1,6 @@
 from ipaddress import ip_address
 
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get, eks_panther_obj_ref
 
 amazon_eks_audit_system_namespace_from_public_ip_tests: list[RuleTest] = [
@@ -45,9 +45,7 @@ amazon_eks_audit_system_namespace_from_public_ip_tests: list[RuleTest] = [
             "user": {
                 "extra": {
                     "accessKeyId": ["ASIARLIVEKVNN6Y6J5UW"],
-                    "arn": [
-                        "arn:aws:sts::123412341234:assumed-role/DevAdministrator/1669660343296132000"
-                    ],
+                    "arn": ["arn:aws:sts::123412341234:assumed-role/DevAdministrator/1669660343296132000"],
                     "canonicalArn": ["arn:aws:iam::123412341234:role/DevAdministrator"],
                     "sessionName": ["1669660343296132000"],
                 },
@@ -93,9 +91,7 @@ amazon_eks_audit_system_namespace_from_public_ip_tests: list[RuleTest] = [
             "user": {
                 "extra": {
                     "authentication_kubernetes_io_slash_pod-name": ["coredns-57ff979f67-bl27n"],
-                    "authentication_kubernetes_io_slash_pod-uid": [
-                        "5b9488ae-5563-42aa-850b-b0d82edb3e22"
-                    ],
+                    "authentication_kubernetes_io_slash_pod-uid": ["5b9488ae-5563-42aa-850b-b0d82edb3e22"],
                 },
                 "groups": [
                     "system:serviceaccounts",
@@ -143,9 +139,7 @@ amazon_eks_audit_system_namespace_from_public_ip_tests: list[RuleTest] = [
             "user": {
                 "extra": {
                     "authentication_kubernetes_io_slash_pod-name": ["coredns-57ff979f67-bl27n"],
-                    "authentication_kubernetes_io_slash_pod-uid": [
-                        "5b9488ae-5563-42aa-850b-b0d82edb3e22"
-                    ],
+                    "authentication_kubernetes_io_slash_pod-uid": ["5b9488ae-5563-42aa-850b-b0d82edb3e22"],
                 },
                 "groups": [
                     "system:serviceaccounts",
@@ -193,9 +187,7 @@ amazon_eks_audit_system_namespace_from_public_ip_tests: list[RuleTest] = [
             "user": {
                 "extra": {
                     "authentication_kubernetes_io_slash_pod-name": ["coredns-57ff979f67-bl27n"],
-                    "authentication_kubernetes_io_slash_pod-uid": [
-                        "5b9488ae-5563-42aa-850b-b0d82edb3e22"
-                    ],
+                    "authentication_kubernetes_io_slash_pod-uid": ["5b9488ae-5563-42aa-850b-b0d82edb3e22"],
                 },
                 "groups": [
                     "system:serviceaccounts",
@@ -243,9 +235,7 @@ amazon_eks_audit_system_namespace_from_public_ip_tests: list[RuleTest] = [
             "user": {
                 "extra": {
                     "authentication_kubernetes_io_slash_pod-name": ["coredns-57ff979f67-bl27n"],
-                    "authentication_kubernetes_io_slash_pod-uid": [
-                        "5b9488ae-5563-42aa-850b-b0d82edb3e22"
-                    ],
+                    "authentication_kubernetes_io_slash_pod-uid": ["5b9488ae-5563-42aa-850b-b0d82edb3e22"],
                 },
                 "groups": [
                     "system:serviceaccounts",
@@ -354,9 +344,9 @@ class AmazonEKSAuditSystemNamespaceFromPublicIP(Rule):
             in deep_get(event, "user", "extra", "arn", default=["not found"])[0]
         ):
             return False
-        if (
-            p_eks.get("actor").startswith("system:") or p_eks.get("actor").startswith("eks:")
-        ) and ip_address(p_eks.get("sourceIPs")[0]).is_global:
+        if (p_eks.get("actor").startswith("system:") or p_eks.get("actor").startswith("eks:")) and ip_address(
+            p_eks.get("sourceIPs")[0]
+        ).is_global:
             return True
         return False
 

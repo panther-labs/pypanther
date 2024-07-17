@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 
 one_login_password_changed_tests: list[RuleTest] = [
     RuleTest(
@@ -44,9 +44,7 @@ class OneLoginPasswordChanged(Rule):
     tags = ["OneLogin", "Identity & Access Management"]
     default_severity = Severity.INFO
     default_description = "A user password was updated.\n"
-    default_reference = (
-        "https://onelogin.service-now.com/kb_view_customer.do?sysparm_article=KB0010510"
-    )
+    default_reference = "https://onelogin.service-now.com/kb_view_customer.do?sysparm_article=KB0010510"
     default_runbook = "Investigate whether this was an authorized action.\n"
     summary_attributes = ["account_id", "user_name", "user_id"]
     tests = one_login_password_changed_tests

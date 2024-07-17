@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 
 one_password_lut_sensitive_item_tests: list[RuleTest] = [
@@ -73,9 +73,7 @@ class OnePasswordLutSensitiveItem(Rule):
     log_types = [LogType.OnePassword_ItemUsage]
     default_reference = "https://support.1password.com/1password-com-items/"
     default_severity = Severity.LOW
-    default_description = (
-        "Alerts when a user defined list of sensitive items in 1Password is accessed"
-    )
+    default_description = "Alerts when a user defined list of sensitive items in 1Password is accessed"
     summary_attributes = ["p_any_ip_addresses", "p_any_emails"]
     tags = [
         "Configuration Required",
@@ -102,9 +100,7 @@ class OnePasswordLutSensitiveItem(Rule):
     def alert_context(self, event):
         context = {
             "user": deep_get(event, "user", "name"),
-            "item_name": deep_get(
-                event, "p_enrichment", "1Password Translation", "item_uuid", "title"
-            ),
+            "item_name": deep_get(event, "p_enrichment", "1Password Translation", "item_uuid", "title"),
             "client": deep_get(event, "client", "app_name"),
             "ip_address": event.udm("source_ip"),
             "event_time": event.get("timestamp"),

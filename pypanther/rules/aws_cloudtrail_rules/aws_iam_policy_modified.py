@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import aws_rule_context
 from pypanther.helpers.panther_default import aws_cloudtrail_success
 
@@ -147,9 +147,7 @@ class AWSIAMPolicyModified(Rule):
     default_severity = Severity.INFO
     dedup_period_minutes = 720
     default_description = "An IAM Policy was changed.\n"
-    default_runbook = (
-        "https://docs.runpanther.io/alert-runbooks/built-in-rules/aws-iam-policy-modified"
-    )
+    default_runbook = "https://docs.runpanther.io/alert-runbooks/built-in-rules/aws-iam-policy-modified"
     default_reference = "https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies.html"
     summary_attributes = [
         "eventName",

@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 from pypanther.helpers.panther_notion_helpers import notion_alert_context
 
@@ -75,9 +75,7 @@ class NotionSAMLSSOConfigurationChanged(Rule):
     log_types = [LogType.Notion_AuditLogs]
     tags = ["Notion", "Identity & Access Management", "Credential Security"]
     default_severity = Severity.HIGH
-    default_description = (
-        "A Notion User changed settings to enforce SAML SSO configurations for your organization."
-    )
+    default_description = "A Notion User changed settings to enforce SAML SSO configurations for your organization."
     default_runbook = "Follow up with the Notion User to determine if this was done for a valid business reason and to ensure these settings get re-enabled quickly for best security practices."
     default_reference = "https://www.notion.so/help/saml-sso-configuration"
     tests = notion_samlsso_configuration_changed_tests

@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get, get_val_from_list
 
 okta_password_access_tests: list[RuleTest] = [
@@ -12,10 +12,7 @@ okta_password_access_tests: list[RuleTest] = [
                 "id": "XXXXXXXXXXXXXXXX",
                 "type": "User",
             },
-            "authenticationContext": {
-                "authenticationStep": 0,
-                "externalSessionId": "XXXXXXXXXXXXXXXXX",
-            },
+            "authenticationContext": {"authenticationStep": 0, "externalSessionId": "XXXXXXXXXXXXXXXXX"},
             "client": {
                 "device": "Mobile",
                 "geographicalContext": {
@@ -95,10 +92,7 @@ okta_password_access_tests: list[RuleTest] = [
                 "id": "XXXXXXXXXXXXXXXX",
                 "type": "User",
             },
-            "authenticationContext": {
-                "authenticationStep": 0,
-                "externalSessionId": "XXXXXXXXXXXXXXXXX",
-            },
+            "authenticationContext": {"authenticationStep": 0, "externalSessionId": "XXXXXXXXXXXXXXXXX"},
             "client": {
                 "device": "Mobile",
                 "geographicalContext": {
@@ -178,10 +172,7 @@ okta_password_access_tests: list[RuleTest] = [
                 "id": "00u3nwfjxxxxxxxxxxxx",
                 "type": "User",
             },
-            "authenticationContext": {
-                "authenticationStep": 0,
-                "externalSessionId": "XXXXXXXXXXXXXXXXX",
-            },
+            "authenticationContext": {"authenticationStep": 0, "externalSessionId": "XXXXXXXXXXXXXXXXX"},
             "client": {
                 "device": "Mobile",
                 "geographicalContext": {
@@ -211,12 +202,7 @@ okta_password_access_tests: list[RuleTest] = [
                 "isp": "t-mobile usa  inc.",
             },
             "target": [
-                {
-                    "alternateId": "John Doe",
-                    "displayName": "John Doe",
-                    "id": "00u3nwfjxxxxxxxxxxxx",
-                    "type": "AppUser",
-                },
+                {"alternateId": "John Doe", "displayName": "John Doe", "id": "00u3nwfjxxxxxxxxxxxx", "type": "AppUser"},
                 {
                     "alternateId": "Software",
                     "displayName": "On The Fly App",
@@ -246,9 +232,7 @@ class OktaPasswordAccess(Rule):
     reports = {"MITRE ATT&CK": ["TA0006:T1552"]}
     default_severity = Severity.MEDIUM
     default_description = "User accessed another user's application password\n"
-    default_reference = (
-        "https://help.okta.com/en-us/content/topics/apps/apps_revealing_the_password.htm"
-    )
+    default_reference = "https://help.okta.com/en-us/content/topics/apps/apps_revealing_the_password.htm"
     default_runbook = "Investigate whether this was authorized access.\n"
     tests = okta_password_access_tests
 
@@ -256,12 +240,8 @@ class OktaPasswordAccess(Rule):
         if event.get("eventType") != "application.user_membership.show_password":
             return False
         # event['target'] = [{...}, {...}, {...}]
-        self.TARGET_USERS = get_val_from_list(
-            event.get("target", [{}]), "alternateId", "type", "User"
-        )
-        self.TARGET_APP_NAMES = get_val_from_list(
-            event.get("target", [{}]), "alternateId", "type", "AppInstance"
-        )
+        self.TARGET_USERS = get_val_from_list(event.get("target", [{}]), "alternateId", "type", "User")
+        self.TARGET_APP_NAMES = get_val_from_list(event.get("target", [{}]), "alternateId", "type", "AppInstance")
         if deep_get(event, "actor", "alternateId") not in self.TARGET_USERS:
             return True
         return False

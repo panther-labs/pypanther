@@ -499,9 +499,7 @@ class Client(ABC):
         pass
 
     @abstractmethod
-    def test_correlation_rule(
-        self, params: TestCorrelationRuleParams
-    ) -> BackendResponse[TestCorrelationRuleResponse]:
+    def test_correlation_rule(self, params: TestCorrelationRuleParams) -> BackendResponse[TestCorrelationRuleResponse]:
         pass
 
     @abstractmethod
@@ -511,21 +509,15 @@ class Client(ABC):
         pass
 
     @abstractmethod
-    def transpile_filters(
-        self, params: TranspileFiltersParams
-    ) -> BackendResponse[TranspileFiltersResponse]:
+    def transpile_filters(self, params: TranspileFiltersParams) -> BackendResponse[TranspileFiltersResponse]:
         pass
 
     @abstractmethod
-    def delete_saved_queries(
-        self, params: DeleteSavedQueriesParams
-    ) -> BackendResponse[DeleteSavedQueriesResponse]:
+    def delete_saved_queries(self, params: DeleteSavedQueriesParams) -> BackendResponse[DeleteSavedQueriesResponse]:
         pass
 
     @abstractmethod
-    def delete_detections(
-        self, params: DeleteDetectionsParams
-    ) -> BackendResponse[DeleteDetectionsResponse]:
+    def delete_detections(self, params: DeleteDetectionsParams) -> BackendResponse[DeleteDetectionsResponse]:
         pass
 
     @abstractmethod

@@ -24,6 +24,8 @@ from pypanther.rules.aws_cloudtrail_rules.aws_console_login_without_mfa import (
 from pypanther.severity import Severity
 from pypanther.unit_tests import RuleTest
 
+get_data_model = DATA_MODEL_CACHE.data_model_of_logtype
+
 
 def test_rule_inheritance():
     class Test(Rule):
@@ -408,9 +410,7 @@ class TestRule(TestCase):
             def dedup(self, event):
                 return "".join("a" for _ in range(MAX_DEDUP_STRING_SIZE + 1))
 
-        expected_dedup_string_prefix = "".join(
-            "a" for _ in range(MAX_DEDUP_STRING_SIZE - len(TRUNCATED_STRING_SUFFIX))
-        )
+        expected_dedup_string_prefix = "".join("a" for _ in range(MAX_DEDUP_STRING_SIZE - len(TRUNCATED_STRING_SUFFIX)))
         expected_rule = DetectionResult(
             detection_id="test_restrict_dedup_size",
             trigger_alert=True,
@@ -813,9 +813,7 @@ class TestRule(TestCase):
                 return test_dict
 
         expected_alert_context = json.dumps(
-            {
-                "_error": "alert_context size is [5588890] characters, bigger than maximum of [204800] characters"
-            }
+            {"_error": "alert_context size is [5588890] characters, bigger than maximum of [204800] characters"}
         )
         expected_result = DetectionResult(
             detection_id="test_alert_context_too_big",
@@ -853,9 +851,7 @@ class TestRule(TestCase):
             "query_string_args": [{"a": "1"}, {"b": "2"}],
         }
 
-        expected_alert_context = json.dumps(
-            {"headers": event["headers"], "get_params": event["query_string_args"]}
-        )
+        expected_alert_context = json.dumps({"headers": event["headers"], "get_params": event["query_string_args"]})
         expected_result = DetectionResult(
             detection_id="test_alert_context_immutable_event",
             trigger_alert=True,
@@ -989,9 +985,7 @@ class TestRule(TestCase):
             destinations_output=["SKIP"],
         )
         result = rule().run(PantherEvent({}, None), {}, {}, batch_mode=False)
-        self.assertDetectionResultEqual(
-            expected_result, result, fields_as_string=("severity_exception",)
-        )
+        self.assertDetectionResultEqual(expected_result, result, fields_as_string=("severity_exception",))
         self.assertTrue(result.errored)
 
     def test_rule_with_valid_severity_case_insensitive(self) -> None:
@@ -1107,9 +1101,7 @@ class TestRule(TestCase):
             dedup_output="test_rule_with_invalid_destinations_type",
             severity_output="CRITICAL",
             destinations_exception=FunctionReturnTypeError(
-                "detection [{}] method [{}] returned [{}], expected a list".format(
-                    rule.id, "destinations", "str"
-                )
+                "detection [{}] method [{}] returned [{}], expected a list".format(rule.id, "destinations", "str")
             ),
             destinations_output=None,
             detection_output=True,
@@ -1120,9 +1112,7 @@ class TestRule(TestCase):
             runbook_output="",
         )
         result = rule().run(PantherEvent({}, None), {}, {}, batch_mode=False)
-        self.assertDetectionResultEqual(
-            expected_result, result, fields_as_string=("destinations_exception",)
-        )
+        self.assertDetectionResultEqual(expected_result, result, fields_as_string=("destinations_exception",))
         self.assertTrue(result.errored)
         self.assertIsNotNone(result.destinations_exception)
 
@@ -1160,9 +1150,7 @@ class TestRule(TestCase):
         assert True is result.errored
         assert None is not result.severity_exception
         # Exception instances cannot be compared
-        self.assertDetectionResultEqual(
-            expected_result, result, fields_as_string=("severity_exception",)
-        )
+        self.assertDetectionResultEqual(expected_result, result, fields_as_string=("severity_exception",))
 
     def test_rule_with_severity_raising_exception_batch_mode(self) -> None:
         class rule(Rule):
@@ -1261,11 +1249,7 @@ class TestRule(TestCase):
                     len(cls.allowed_domains) > 0
                 ), "The allowed_domains field on your PantherOOTBRule must be populated before using this rule"
 
-        assert (
-            MyRule()
-            .run_tests(DATA_MODEL_CACHE.data_model_of_logtype, _validate_config=False)[0]
-            .passed
-        )
+        assert MyRule().run_tests(DATA_MODEL_CACHE.data_model_of_logtype, _validate_config=False)[0].passed
 
     def test_validate_external_fails(self) -> None:
         class MyRule(Rule):
@@ -1294,6 +1278,200 @@ class TestRule(TestCase):
 
         with pytest.raises(AssertionError):
             MyRule().run_tests(DATA_MODEL_CACHE.data_model_of_logtype)
+
+    def test_expected_severity(self) -> None:
+        class Test(Rule):
+            id = "TestRule"
+            log_types = [LogType.Panther_Audit]
+            default_severity = Severity.CRITICAL
+
+            def rule(self, event: PantherEvent) -> bool:
+                return True
+
+        test = RuleTest(name="test", expected_result=True, log={})
+        assert Test().run_test(test, get_data_model).passed
+
+        test = RuleTest(
+            name="test",
+            expected_result=True,
+            log={},
+            expected_severity=Severity.CRITICAL,
+        )
+        assert Test().run_test(test, get_data_model).passed
+
+        test = RuleTest(
+            name="test",
+            expected_result=True,
+            log={},
+            expected_severity=Severity.INFO,
+        )
+        assert not Test().run_test(test, get_data_model).passed
+
+    def test_expected_title(self) -> None:
+        class Test(Rule):
+            id = "TestRule"
+            log_types = [LogType.Panther_Audit]
+            default_severity = Severity.CRITICAL
+
+            def rule(self, event: PantherEvent) -> bool:
+                return True
+
+        test = RuleTest(name="test", expected_result=True, log={})
+        assert Test().run_test(test, get_data_model).passed
+
+        test = RuleTest(name="test", expected_result=True, log={}, expected_title="TestRule")
+        assert Test().run_test(test, get_data_model).passed
+
+        test = RuleTest(name="test", expected_result=True, log={}, expected_title="bad")
+        assert not Test().run_test(test, get_data_model).passed
+
+    def test_expected_dedup(self) -> None:
+        class Test(Rule):
+            id = "TestRule"
+            log_types = [LogType.Panther_Audit]
+            default_severity = Severity.CRITICAL
+
+            def rule(self, event: PantherEvent) -> bool:
+                return True
+
+        test = RuleTest(name="test", expected_result=True, log={})
+        assert Test().run_test(test, get_data_model).passed
+
+        test = RuleTest(name="test", expected_result=True, log={}, expected_dedup="TestRule")
+        assert Test().run_test(test, get_data_model).passed
+
+        test = RuleTest(name="test", expected_result=True, log={}, expected_dedup="bad")
+        assert not Test().run_test(test, get_data_model).passed
+
+    def test_expected_destinations(self) -> None:
+        class Test(Rule):
+            id = "TestRule"
+            log_types = [LogType.Panther_Audit]
+            default_severity = Severity.CRITICAL
+
+            def rule(self, event: PantherEvent) -> bool:
+                return True
+
+            def destinations(self, event) -> list[str]:
+                return ["hi"]
+
+        test = RuleTest(name="test", expected_result=True, log={})
+        assert Test().run_test(test, get_data_model).passed
+
+        test = RuleTest(
+            name="test",
+            expected_result=True,
+            log={},
+            # TODO: you can't supply output names in tests right now so this list will always come back empty
+            expected_destinations=[],
+        )
+        assert Test().run_test(test, get_data_model).passed
+
+        test = RuleTest(name="test", expected_result=True, log={}, expected_destinations=["bad"])
+        assert not Test().run_test(test, get_data_model).passed
+
+    def test_expected_runbook(self) -> None:
+        class Test(Rule):
+            id = "TestRule"
+            log_types = [LogType.Panther_Audit]
+            default_severity = Severity.CRITICAL
+            default_runbook = "hi"
+
+            def rule(self, event: PantherEvent) -> bool:
+                return True
+
+        test = RuleTest(name="test", expected_result=True, log={})
+        assert Test().run_test(test, get_data_model).passed
+
+        test = RuleTest(
+            name="test",
+            expected_result=True,
+            log={},
+            expected_runbook="hi",
+        )
+        assert Test().run_test(test, get_data_model).passed
+
+        test = RuleTest(name="test", expected_result=True, log={}, expected_runbook="bad")
+        assert not Test().run_test(test, get_data_model).passed
+
+    def test_expected_reference(self) -> None:
+        class Test(Rule):
+            id = "TestRule"
+            log_types = [LogType.Panther_Audit]
+            default_severity = Severity.CRITICAL
+            default_reference = "hi"
+
+            def rule(self, event: PantherEvent) -> bool:
+                return True
+
+        test = RuleTest(name="test", expected_result=True, log={})
+        assert Test().run_test(test, get_data_model).passed
+
+        test = RuleTest(
+            name="test",
+            expected_result=True,
+            log={},
+            expected_reference="hi",
+        )
+        assert Test().run_test(test, get_data_model).passed
+
+        test = RuleTest(name="test", expected_result=True, log={}, expected_reference="bad")
+        assert not Test().run_test(test, get_data_model).passed
+
+    def test_expected_description(self) -> None:
+        class Test(Rule):
+            id = "TestRule"
+            log_types = [LogType.Panther_Audit]
+            default_severity = Severity.CRITICAL
+            default_description = "hi"
+
+            def rule(self, event: PantherEvent) -> bool:
+                return True
+
+        test = RuleTest(name="test", expected_result=True, log={})
+        assert Test().run_test(test, get_data_model).passed
+
+        test = RuleTest(
+            name="test",
+            expected_result=True,
+            log={},
+            expected_description="hi",
+        )
+        assert Test().run_test(test, get_data_model).passed
+
+        test = RuleTest(name="test", expected_result=True, log={}, expected_description="bad")
+        assert not Test().run_test(test, get_data_model).passed
+
+    def test_expected_alert_context(self) -> None:
+        class Test(Rule):
+            id = "TestRule"
+            log_types = [LogType.Panther_Audit]
+            default_severity = Severity.CRITICAL
+
+            def rule(self, event: PantherEvent) -> bool:
+                return True
+
+            def alert_context(self, event: PantherEvent) -> dict:
+                return {"field": ["val"]}
+
+        test = RuleTest(name="test", expected_result=True, log={})
+        assert Test().run_test(test, get_data_model).passed
+
+        test = RuleTest(
+            name="test",
+            expected_result=True,
+            log={},
+            expected_alert_context={"field": ["val"]},
+        )
+        assert Test().run_test(test, get_data_model).passed
+
+        test = RuleTest(
+            name="test",
+            expected_result=True,
+            log={},
+            expected_alert_context={"field": ["bad"]},
+        )
+        assert not Test().run_test(test, get_data_model).passed
 
 
 @dataclasses.dataclass

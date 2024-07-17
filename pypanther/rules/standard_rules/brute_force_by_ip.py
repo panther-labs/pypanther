@@ -403,9 +403,7 @@ class StandardBruteForceByIP(Rule):
     tags = ["DataModel", "Credential Access:Brute Force"]
     threshold = 20
     reports = {"MITRE ATT&CK": ["TA0006:T1110"]}
-    default_description = (
-        "An actor user was denied login access more times than the configured threshold."
-    )
+    default_description = "An actor user was denied login access more times than the configured threshold."
     default_runbook = "Analyze the IP they came from, and other actions taken before/after. Check if a user from this ip eventually authenticated successfully."
     default_reference = "https://owasp.org/www-community/controls/Blocking_Brute_Force_Attacks"
     summary_attributes = ["p_any_ip_addresses"]
@@ -418,9 +416,7 @@ class StandardBruteForceByIP(Rule):
     def title(self, event):
         # use unified data model field in title
         log_type = event.get("p_log_type")
-        title_str = (
-            f"{log_type}: User [{event.udm('actor_user')}] has exceeded the failed logins threshold"
-        )
+        title_str = f"{log_type}: User [{event.udm('actor_user')}] has exceeded the failed logins threshold"
         if log_type == "AWS.CloudTrail":
             title_str += f" in [{lookup_aws_account_name(event.get('recipientAccountId'))}]"
         return title_str
@@ -433,9 +429,7 @@ class StandardBruteForceByIP(Rule):
         if isinstance(geoinfo, str):
             geoinfo = loads(geoinfo)
         context = {}
-        context["geolocation"] = (
-            f"{geoinfo.get('city')}, {geoinfo.get('region')} in {geoinfo.get('country')}"
-        )
+        context["geolocation"] = f"{geoinfo.get('city')}, {geoinfo.get('region')} in {geoinfo.get('country')}"
         context["ip"] = geoinfo.get("ip")
         context["reverse_lookup"] = geoinfo.get("hostname", "No reverse lookup hostname")
         context["ip_org"] = geoinfo.get("org", "No organization listed")

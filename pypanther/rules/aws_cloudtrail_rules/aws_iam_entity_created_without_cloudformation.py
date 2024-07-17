@@ -1,6 +1,6 @@
 import re
 
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import aws_rule_context, deep_get
 from pypanther.helpers.panther_default import aws_cloudtrail_success
 
@@ -281,10 +281,7 @@ class AWSCloudTrailIAMEntityCreatedWithoutCloudFormation(Rule):
 
     def rule(self, event):
         # Check if this event is in scope
-        if (
-            not aws_cloudtrail_success(event)
-            or event.get("eventName") not in self.IAM_ENTITY_CREATION_EVENTS
-        ):
+        if not aws_cloudtrail_success(event) or event.get("eventName") not in self.IAM_ENTITY_CREATION_EVENTS:
             return False
         # All IAM changes MUST go through CloudFormation
         if deep_get(event, "userIdentity", "invokedBy") != "cloudformation.amazonaws.com":
@@ -302,10 +299,7 @@ class AWSCloudTrailIAMEntityCreatedWithoutCloudFormation(Rule):
                 > 0
             ):
                 return False
-        return (
-            deep_get(event, "userIdentity", "sessionContext", "sessionIssuer", "arn")
-            not in self.IAM_ADMIN_ROLES
-        )
+        return deep_get(event, "userIdentity", "sessionContext", "sessionIssuer", "arn") not in self.IAM_ADMIN_ROLES
 
     def alert_context(self, event):
         return aws_rule_context(event)

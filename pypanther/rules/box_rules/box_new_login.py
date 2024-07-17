@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 
 box_new_login_tests: list[RuleTest] = [
@@ -8,12 +8,7 @@ box_new_login_tests: list[RuleTest] = [
         log={
             "type": "event",
             "additional_details": '{"key": "value"}',
-            "created_by": {
-                "id": "12345678",
-                "type": "user",
-                "login": "cat@example",
-                "name": "Bob Cat",
-            },
+            "created_by": {"id": "12345678", "type": "user", "login": "cat@example", "name": "Bob Cat"},
             "event_type": "DELETE",
         },
     ),
@@ -23,12 +18,7 @@ box_new_login_tests: list[RuleTest] = [
         log={
             "type": "event",
             "additional_details": '{"key": "value"}',
-            "created_by": {
-                "id": "12345678",
-                "type": "user",
-                "login": "cat@example",
-                "name": "Bob Cat",
-            },
+            "created_by": {"id": "12345678", "type": "user", "login": "cat@example", "name": "Bob Cat"},
             "event_type": "ADD_LOGIN_ACTIVITY_DEVICE",
             "source": {"id": "12345678", "type": "user", "login": "user@example"},
         },

@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 
 g_suite_device_compromise_tests: list[RuleTest] = [
@@ -21,10 +21,7 @@ g_suite_device_compromise_tests: list[RuleTest] = [
             "actor": {"callerType": "USER", "email": "homer.simpson@example.io"},
             "type": "device_updates",
             "name": "DEVICE_COMPROMISED_EVENT",
-            "parameters": {
-                "USER_EMAIL": "homer.simpson@example.io",
-                "DEVICE_COMPROMISED_STATE": "NOT_COMPROMISED",
-            },
+            "parameters": {"USER_EMAIL": "homer.simpson@example.io", "DEVICE_COMPROMISED_STATE": "NOT_COMPROMISED"},
         },
     ),
     RuleTest(
@@ -35,10 +32,7 @@ g_suite_device_compromise_tests: list[RuleTest] = [
             "actor": {"callerType": "USER", "email": "homer.simpson@example.io"},
             "type": "device_updates",
             "name": "DEVICE_COMPROMISED_EVENT",
-            "parameters": {
-                "USER_EMAIL": "homer.simpson@example.io",
-                "DEVICE_COMPROMISED_STATE": "COMPROMISED",
-            },
+            "parameters": {"USER_EMAIL": "homer.simpson@example.io", "DEVICE_COMPROMISED_STATE": "COMPROMISED"},
         },
     ),
 ]
@@ -51,9 +45,7 @@ class GSuiteDeviceCompromise(Rule):
     tags = ["GSuite"]
     default_severity = Severity.MEDIUM
     default_description = "GSuite reported a user's device has been compromised.\n"
-    default_reference = (
-        "https://support.google.com/a/answer/7562165?hl=en&sjid=864417124752637253-EU"
-    )
+    default_reference = "https://support.google.com/a/answer/7562165?hl=en&sjid=864417124752637253-EU"
     default_runbook = "Have the user change their passwords and reset the device.\n"
     summary_attributes = ["actor:email"]
     tests = g_suite_device_compromise_tests
@@ -66,4 +58,6 @@ class GSuiteDeviceCompromise(Rule):
         return False
 
     def title(self, event):
-        return f"User [{deep_get(event, 'parameters', 'USER_EMAIL', default='<UNKNOWN_USER>')}]'s device was compromised"
+        return (
+            f"User [{deep_get(event, 'parameters', 'USER_EMAIL', default='<UNKNOWN_USER>')}]'s device was compromised"
+        )

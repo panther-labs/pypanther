@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 
 git_hub_branch_protection_disabled_tests: list[RuleTest] = [
     RuleTest(

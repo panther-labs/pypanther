@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 
 zendesk_user_assumption_tests: list[RuleTest] = [
     RuleTest(
@@ -50,7 +50,9 @@ class ZendeskUserAssumption(Rule):
     reports = {"MITRE ATT&CK": ["TA0008:T1550"]}
     default_severity = Severity.MEDIUM
     default_description = "User enabled or disabled zendesk support user assumption."
-    default_runbook = "Investigate whether allowing zendesk support to assume users is necessary. If not, disable the feature.\n"
+    default_runbook = (
+        "Investigate whether allowing zendesk support to assume users is necessary. If not, disable the feature.\n"
+    )
     default_reference = "https://support.zendesk.com/hc/en-us/articles/4408894200474-Assuming-end-users#:~:text=In%20Support%2C%20click%20the%20Customers,user%20in%20the%20information%20dialog"
     summary_attributes = ["p_any_ip_addresses"]
     tests = zendesk_user_assumption_tests
@@ -60,13 +62,8 @@ class ZendeskUserAssumption(Rule):
         return (
             event.get("source_type") == "account_setting"
             and event.get("action", "") in self.USER_SUSPENSION_ACTIONS
-            and (
-                event.get("source_label", "").lower()
-                in {"account assumption", "assumption duration"}
-            )
+            and (event.get("source_label", "").lower() in {"account assumption", "assumption duration"})
         )
 
     def title(self, event):
-        return (
-            f"A user [{event.udm('actor_user')}] updated zendesk support user assumption settings"
-        )
+        return f"A user [{event.udm('actor_user')}] updated zendesk support user assumption settings"

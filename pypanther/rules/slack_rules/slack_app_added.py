@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get, slack_alert_context
 
 slack_audit_logs_app_added_tests: list[RuleTest] = [
@@ -213,9 +213,7 @@ class SlackAuditLogsAppAdded(Rule):
     reports = {"MITRE ATT&CK": ["TA0003:T1505"]}
     default_severity = Severity.MEDIUM
     default_description = "Detects when a Slack App has been added to a workspace"
-    default_reference = (
-        "https://slack.com/intl/en-gb/help/articles/202035138-Add-apps-to-your-Slack-workspace"
-    )
+    default_reference = "https://slack.com/intl/en-gb/help/articles/202035138-Add-apps-to-your-Slack-workspace"
     summary_attributes = ["p_any_ip_addresses", "p_any_emails"]
     tests = slack_audit_logs_app_added_tests
     APP_ADDED_ACTIONS = ["app_approved", "app_installed", "org_app_workspace_added"]

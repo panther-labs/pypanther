@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 
 okta_support_access_tests: list[RuleTest] = [
     RuleTest(
@@ -73,9 +73,7 @@ class OktaSupportAccess(Rule):
     reports = {"MITRE ATT&CK": ["TA0001:T1199"]}
     default_severity = Severity.MEDIUM
     default_description = "An admin user has granted access to Okta Support to your account"
-    default_reference = (
-        "https://help.okta.com/en/prod/Content/Topics/Settings/settings-support-access.htm"
-    )
+    default_reference = "https://help.okta.com/en/prod/Content/Topics/Settings/settings-support-access.htm"
     default_runbook = "Contact Admin to ensure this was sanctioned activity"
     dedup_period_minutes = 15
     summary_attributes = ["eventType", "severity", "displayMessage", "p_any_ip_addresses"]

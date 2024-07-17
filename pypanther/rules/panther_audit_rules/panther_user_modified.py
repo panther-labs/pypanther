@@ -1,5 +1,5 @@
 import pypanther.helpers.panther_event_type_helpers as event_type
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 
 panther_user_modified_tests: list[RuleTest] = [
@@ -191,11 +191,11 @@ class PantherUserModified(Rule):
     default_severity = Severity.HIGH
     tags = ["DataModel", "Persistence:Account Manipulation"]
     reports = {"MITRE ATT&CK": ["TA0003:T1098"]}
-    default_description = "A Panther user's role has been modified. This could mean password, email, or role has changed for the user."
-    default_runbook = "Validate that this user modification was intentional."
-    default_reference = (
-        "https://docs.panther.com/panther-developer-workflows/api/operations/user-management"
+    default_description = (
+        "A Panther user's role has been modified. This could mean password, email, or role has changed for the user."
     )
+    default_runbook = "Validate that this user modification was intentional."
+    default_reference = "https://docs.panther.com/panther-developer-workflows/api/operations/user-management"
     summary_attributes = ["p_any_ip_addresses"]
     tests = panther_user_modified_tests
     PANTHER_USER_ACTIONS = [event_type.USER_ACCOUNT_MODIFIED]
@@ -216,9 +216,7 @@ class PantherUserModified(Rule):
     def alert_context(self, event):
         change_target = deep_get(event, "actionParams", "dynamic", "input", "email")
         if change_target is None:
-            change_target = deep_get(
-                event, "actionParams", "input", "email", default="<UNKNOWN_USER>"
-            )
+            change_target = deep_get(event, "actionParams", "input", "email", default="<UNKNOWN_USER>")
         return {
             "user": event.udm("actor_user"),
             "change_target": change_target,

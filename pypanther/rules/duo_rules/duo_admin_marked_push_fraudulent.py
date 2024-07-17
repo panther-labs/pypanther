@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_duo_helpers import deserialize_administrator_log_event_description
 
 duo_admin_action_marked_fraudulent_tests: list[RuleTest] = [
@@ -41,18 +41,13 @@ class DUOAdminActionMarkedFraudulent(Rule):
 
     def rule(self, event):
         event_description = deserialize_administrator_log_event_description(event)
-        return (
-            event.get("action") == "admin_2fa_error"
-            and "fraudulent" in event_description.get("error", "").lower()
-        )
+        return event.get("action") == "admin_2fa_error" and "fraudulent" in event_description.get("error", "").lower()
 
     def title(self, event):
         event_description = deserialize_administrator_log_event_description(event)
         admin_username = event.get("username", "Unknown")
         user_email = event_description.get("email", "Unknown")
-        return (
-            f"Duo Admin [{admin_username}] denied due to an anomalous 2FA push for [{user_email}]"
-        )
+        return f"Duo Admin [{admin_username}] denied due to an anomalous 2FA push for [{user_email}]"
 
     def alert_context(self, event):
         event_description = deserialize_administrator_log_event_description(event)

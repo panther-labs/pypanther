@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import aws_rule_context, deep_get, pattern_match_list
 from pypanther.helpers.panther_default import aws_cloudtrail_success
 
@@ -327,12 +327,8 @@ class AWSEC2ManualSecurityGroupChange(Rule):
     tags = ["AWS", "Security Control", "Configuration Required", "Defense Evasion:Impair Defenses"]
     default_severity = Severity.MEDIUM
     default_description = "An EC2 security group was manually updated without abiding by the organization's accepted processes. This rule expects organizations to either use the Console, CloudFormation, or Terraform, configurable in the rule's ALLOWED_USER_AGENTS.\n"
-    default_runbook = (
-        "Identify the actor who changed the security group and validate it was legitimate"
-    )
-    default_reference = (
-        "https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/working-with-security-groups.html"
-    )
+    default_runbook = "Identify the actor who changed the security group and validate it was legitimate"
+    default_reference = "https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/working-with-security-groups.html"
     tests = awsec2_manual_security_group_change_tests
     PROD_ACCOUNT_IDS = {"11111111111111", "112233445566"}
     SG_CHANGE_EVENTS = {
@@ -363,12 +359,7 @@ class AWSEC2ManualSecurityGroupChange(Rule):
             and (
                 not (
                     pattern_match_list(event.get("userAgent"), self.ALLOWED_USER_AGENTS)
-                    and any(
-                        (
-                            role in deep_get(event, "userIdentity", "arn")
-                            for role in self.ALLOWED_ROLE_NAMES
-                        )
-                    )
+                    and any((role in deep_get(event, "userIdentity", "arn") for role in self.ALLOWED_ROLE_NAMES))
                 )
             )
         )

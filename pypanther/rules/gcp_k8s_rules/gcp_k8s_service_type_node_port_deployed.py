@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.gcp_base_helpers import gcp_alert_context
 from pypanther.helpers.panther_base_helpers import deep_get, deep_walk
 
@@ -24,14 +24,7 @@ gcpk8_s_service_type_node_port_deployed_tests: list[RuleTest] = [
                     "apiVersion": "v1",
                     "kind": "Service",
                     "spec": {
-                        "ports": [
-                            {
-                                "name": "5678-8080",
-                                "port": 5678,
-                                "protocol": "TCP",
-                                "targetPort": 8080,
-                            }
-                        ],
+                        "ports": [{"name": "5678-8080", "port": 5678, "protocol": "TCP", "targetPort": 8080}],
                         "type": "NodePort",
                     },
                 },
@@ -102,14 +95,7 @@ gcpk8_s_service_type_node_port_deployed_tests: list[RuleTest] = [
                     "apiVersion": "v1",
                     "kind": "Service",
                     "spec": {
-                        "ports": [
-                            {
-                                "name": "5678-8080",
-                                "port": 5678,
-                                "protocol": "TCP",
-                                "targetPort": 8080,
-                            }
-                        ],
+                        "ports": [{"name": "5678-8080", "port": 5678, "protocol": "TCP", "targetPort": 8080}],
                         "type": "NodePort",
                     },
                 },
@@ -165,14 +151,7 @@ gcpk8_s_service_type_node_port_deployed_tests: list[RuleTest] = [
                     "apiVersion": "v1",
                     "kind": "Service",
                     "spec": {
-                        "ports": [
-                            {
-                                "name": "5678-8080",
-                                "port": 5678,
-                                "protocol": "TCP",
-                                "targetPort": 8080,
-                            }
-                        ],
+                        "ports": [{"name": "5678-8080", "port": 5678, "protocol": "TCP", "targetPort": 8080}],
                         "type": "NodePort",
                     },
                 },
@@ -189,13 +168,7 @@ gcpk8_s_service_type_node_port_deployed_tests: list[RuleTest] = [
                     "ipFamilies": ["IPv4"],
                     "ipFamilyPolicy": "SingleStack",
                     "ports": [
-                        {
-                            "name": "5678-8080",
-                            "nodePort": 32361,
-                            "port": 5678,
-                            "protocol": "TCP",
-                            "targetPort": 8080,
-                        }
+                        {"name": "5678-8080", "nodePort": 32361, "port": 5678, "protocol": "TCP", "targetPort": 8080}
                     ],
                     "type": "NodePort",
                 },
@@ -224,9 +197,7 @@ class GCPK8SServiceTypeNodePortDeployed(Rule):
     default_severity = Severity.HIGH
     default_description = "This detection monitors for any kubernetes service deployed with type node port. A Node Port service allows an attacker to expose a set of pods hosting the service to the internet by opening their port and redirecting traffic here. This can be used to bypass network controls and intercept traffic, creating a direct line to the outside network.\n"
     default_runbook = "Investigate the reason of creating NodePort service. Advise that it is discouraged practice. Create ticket if appropriate.\n"
-    default_reference = (
-        "https://kubernetes.io/docs/tutorials/kubernetes-basics/expose/expose-intro/"
-    )
+    default_reference = "https://kubernetes.io/docs/tutorials/kubernetes-basics/expose/expose-intro/"
     reports = {"MITRE ATT&CK": ["T1190"]}
     tests = gcpk8_s_service_type_node_port_deployed_tests
 
@@ -241,24 +212,13 @@ class GCPK8SServiceTypeNodePortDeployed(Rule):
         if not authorization_info:
             return False
         for auth in authorization_info:
-            if (
-                auth.get("permission") == "io.k8s.core.v1.services.create"
-                and auth.get("granted") is True
-            ):
+            if auth.get("permission") == "io.k8s.core.v1.services.create" and auth.get("granted") is True:
                 return True
         return False
 
     def title(self, event):
-        actor = deep_get(
-            event,
-            "protoPayload",
-            "authenticationInfo",
-            "principalEmail",
-            default="<ACTOR_NOT_FOUND>",
-        )
-        project_id = deep_get(
-            event, "resource", "labels", "project_id", default="<PROJECT_NOT_FOUND>"
-        )
+        actor = deep_get(event, "protoPayload", "authenticationInfo", "principalEmail", default="<ACTOR_NOT_FOUND>")
+        project_id = deep_get(event, "resource", "labels", "project_id", default="<PROJECT_NOT_FOUND>")
         return f"[GCP]: [{actor}] created NodePort service in project [{project_id}]"
 
     def alert_context(self, event):

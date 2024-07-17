@@ -44,9 +44,7 @@ def compare_rules(rules: list[type[Rule]]):
             if unique_methods.count(x) == 0:
                 unique_methods.append(x)
         if len(unique_methods) == 1 and unique_methods is not None:
-            if hasattr(Rule, method) and unique_methods[0] == inspect.getsource(
-                getattr(Rule, method)
-            ):
+            if hasattr(Rule, method) and unique_methods[0] == inspect.getsource(getattr(Rule, method)):
                 continue
             consistent_methods.append(method)
 

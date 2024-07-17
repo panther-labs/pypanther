@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_mongodb_helpers import mongodb_alert_context
 
 mongo_d_borg_membership_restriction_disabled_tests: list[RuleTest] = [
@@ -60,13 +60,13 @@ class MongoDBorgMembershipRestrictionDisabled(Rule):
     default_severity = Severity.HIGH
     reports = {"MITRE ATT&CK": ["T1556"]}
     default_reference = "https://www.mongodb.com/docs/atlas/tutorial/manage-organizations/"
-    default_runbook = "Check if this activity is legitimate. If not, re-enable IP access list for the Atlas Administration API"
+    default_runbook = (
+        "Check if this activity is legitimate. If not, re-enable IP access list for the Atlas Administration API"
+    )
     tests = mongo_d_borg_membership_restriction_disabled_tests
 
     def rule(self, event):
-        return (
-            event.deep_get("eventTypeName", default="") == "ORG_PUBLIC_API_ACCESS_LIST_NOT_REQUIRED"
-        )
+        return event.deep_get("eventTypeName", default="") == "ORG_PUBLIC_API_ACCESS_LIST_NOT_REQUIRED"
 
     def title(self, event):
         user = event.deep_get("username", default="<USER_NOT_FOUND>")

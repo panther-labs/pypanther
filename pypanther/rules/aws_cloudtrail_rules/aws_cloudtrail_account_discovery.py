@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 
 aws_cloud_trail_account_discovery_tests: list[RuleTest] = [
@@ -46,10 +46,7 @@ aws_cloud_trail_account_discovery_tests: list[RuleTest] = [
                 "arn": "arn:aws:sts::123456789123:assumed-role/TestUser/test_123456789123",
                 "principalId": "AR0A354LKJXC87G9XC89V:test_123456789123",
                 "sessionContext": {
-                    "attributes": {
-                        "creationDate": "2022-11-21T18:06:36Z",
-                        "mfaAuthenticated": "false",
-                    },
+                    "attributes": {"creationDate": "2022-11-21T18:06:36Z", "mfaAuthenticated": "false"},
                     "sessionIssuer": {
                         "accountId": "123456789123",
                         "arn": "arn:aws:iam::123456789123:role/TestUser",

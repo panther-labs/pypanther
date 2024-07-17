@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get, slack_alert_context
 
 slack_audit_logs_user_privilege_escalation_tests: list[RuleTest] = [
@@ -9,12 +9,7 @@ slack_audit_logs_user_privilege_escalation_tests: list[RuleTest] = [
             "action": "owner_transferred",
             "actor": {
                 "type": "user",
-                "user": {
-                    "email": "user@example.com",
-                    "id": "A012B3CDEFG",
-                    "name": "username",
-                    "team": "T01234N56GB",
-                },
+                "user": {"email": "user@example.com", "id": "A012B3CDEFG", "name": "username", "team": "T01234N56GB"},
             },
             "context": {
                 "ip_address": "1.2.3.4",
@@ -35,12 +30,7 @@ slack_audit_logs_user_privilege_escalation_tests: list[RuleTest] = [
             "action": "permissions_assigned",
             "actor": {
                 "type": "user",
-                "user": {
-                    "email": "user@example.com",
-                    "id": "A012B3CDEFG",
-                    "name": "username",
-                    "team": "T01234N56GB",
-                },
+                "user": {"email": "user@example.com", "id": "A012B3CDEFG", "name": "username", "team": "T01234N56GB"},
             },
             "context": {
                 "ip_address": "1.2.3.4",
@@ -61,12 +51,7 @@ slack_audit_logs_user_privilege_escalation_tests: list[RuleTest] = [
             "action": "role_change_to_admin",
             "actor": {
                 "type": "user",
-                "user": {
-                    "email": "user@example.com",
-                    "id": "A012B3CDEFG",
-                    "name": "username",
-                    "team": "T01234N56GB",
-                },
+                "user": {"email": "user@example.com", "id": "A012B3CDEFG", "name": "username", "team": "T01234N56GB"},
             },
             "context": {
                 "ip_address": "1.2.3.4",
@@ -87,12 +72,7 @@ slack_audit_logs_user_privilege_escalation_tests: list[RuleTest] = [
             "action": "role_change_to_owner",
             "actor": {
                 "type": "user",
-                "user": {
-                    "email": "user@example.com",
-                    "id": "A012B3CDEFG",
-                    "name": "username",
-                    "team": "T01234N56GB",
-                },
+                "user": {"email": "user@example.com", "id": "A012B3CDEFG", "name": "username", "team": "T01234N56GB"},
             },
             "context": {
                 "ip_address": "1.2.3.4",
@@ -154,9 +134,7 @@ class SlackAuditLogsUserPrivilegeEscalation(Rule):
     reports = {"MITRE ATT&CK": ["TA0004:T1098.003"]}
     default_severity = Severity.HIGH
     default_description = "Detects when a Slack user gains escalated privileges"
-    default_reference = (
-        "https://slack.com/intl/en-gb/help/articles/201314026-Permissions-by-role-in-Slack"
-    )
+    default_reference = "https://slack.com/intl/en-gb/help/articles/201314026-Permissions-by-role-in-Slack"
     summary_attributes = ["p_any_ip_addresses", "p_any_emails"]
     tests = slack_audit_logs_user_privilege_escalation_tests
     USER_PRIV_ESC_ACTIONS = {
@@ -180,9 +158,7 @@ class SlackAuditLogsUserPrivilegeEscalation(Rule):
             return f"Slack User, {username} ({email}), promoted to admin"
         if event.get("action") == "role_change_to_owner":
             return f"Slack User, {username} ({email}), promoted to Owner"
-        return (
-            f"Slack User Privilege Escalation event {event.get('action')} on {username} ({email})"
-        )
+        return f"Slack User Privilege Escalation event {event.get('action')} on {username} ({email})"
 
     def severity(self, event):
         # Downgrade severity for users assigned permissions

@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import github_alert_context
 
 git_hub_advanced_security_change_tests: list[RuleTest] = [
@@ -156,13 +156,9 @@ class GitHubAdvancedSecurityChange(Rule):
     tags = ["GitHub"]
     reports = {"MITRE ATT&CK": ["TA0005:T1562"]}
     default_severity = Severity.LOW
-    default_description = (
-        "The rule alerts when GitHub Security tools (Dependabot, Secret Scanner, etc) are disabled."
-    )
+    default_description = "The rule alerts when GitHub Security tools (Dependabot, Secret Scanner, etc) are disabled."
     default_runbook = "Confirm with GitHub administrators and re-enable the tools as applicable."
-    default_reference = (
-        "https://docs.github.com/en/code-security/getting-started/auditing-security-alerts"
-    )
+    default_reference = "https://docs.github.com/en/code-security/getting-started/auditing-security-alerts"
     tests = git_hub_advanced_security_change_tests
     # List of actions in markdown format
     # pylint: disable=line-too-long

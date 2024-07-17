@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 
 box_content_workflow_policy_violation_tests: list[RuleTest] = [
@@ -59,9 +59,7 @@ class BoxContentWorkflowPolicyViolation(Rule):
     tags = ["Box"]
     default_severity = Severity.LOW
     default_description = "A user violated the content workflow policy.\n"
-    default_reference = (
-        "https://support.box.com/hc/en-us/articles/360043692594-Creating-a-Security-Policy"
-    )
+    default_reference = "https://support.box.com/hc/en-us/articles/360043692594-Creating-a-Security-Policy"
     default_runbook = "Investigate whether the user continues to violate the policy and take measure to ensure they understand policy.\n"
     summary_attributes = ["event_type"]
     tests = box_content_workflow_policy_violation_tests

@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import aws_rule_context, deep_get
 from pypanther.helpers.panther_default import aws_cloudtrail_success
 
@@ -188,13 +188,9 @@ class AWSCloudTrailIAMAssumeRoleBlacklistIgnored(Rule):
     ]
     reports = {"MITRE ATT&CK": ["TA0004:T1548"]}
     default_severity = Severity.HIGH
-    default_description = (
-        "A user assumed a role that was explicitly blocklisted for manual user assumption.\n"
-    )
+    default_description = "A user assumed a role that was explicitly blocklisted for manual user assumption.\n"
     default_runbook = "Verify that this was an approved assume role action. If not, consider revoking the access immediately and updating the AssumeRolePolicyDocument to prevent this from happening again.\n"
-    default_reference = (
-        "https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_boundaries.html"
-    )
+    default_reference = "https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_boundaries.html"
     summary_attributes = ["userAgent", "sourceIpAddress", "recipientAccountId", "p_any_aws_arns"]
     tests = aws_cloud_trail_iam_assume_role_blacklist_ignored_tests
     # This is a list of role ARNs that should not be assumed by users in normal operations

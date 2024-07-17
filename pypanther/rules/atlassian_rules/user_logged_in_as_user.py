@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 
 atlassian_user_logged_in_as_user_tests: list[RuleTest] = [
@@ -15,10 +15,7 @@ atlassian_user_logged_in_as_user_tests: list[RuleTest] = [
                 },
                 "container": [
                     {
-                        "attributes": {
-                            "siteHostName": "https://example.atlassian.net",
-                            "siteName": "example",
-                        },
+                        "attributes": {"siteHostName": "https://example.atlassian.net", "siteName": "example"},
                         "id": "12345678-abcd-9012-efgh-1234567890abcd",
                         "links": {"alt": "https://example.atlassian.net"},
                         "type": "sites",
@@ -53,10 +50,7 @@ atlassian_user_logged_in_as_user_tests: list[RuleTest] = [
                 },
                 "container": [
                     {
-                        "attributes": {
-                            "siteHostName": "https://example.atlassian.net",
-                            "siteName": "example",
-                        },
+                        "attributes": {"siteHostName": "https://example.atlassian.net", "siteName": "example"},
                         "id": "12345678-abcd-9012-efgh-1234567890abcd",
                         "links": {"alt": "https://example.atlassian.net"},
                         "type": "sites",
@@ -88,17 +82,12 @@ class AtlassianUserLoggedInAsUser(Rule):
     log_types = [LogType.Atlassian_Audit]
     tags = ["Atlassian", "User impersonation"]
     default_description = "Reports when an Atlassian user logs in (impersonates) another user.\n"
-    default_runbook = (
-        "Validate that the Atlassian admin did log in (impersonate) as another user.\n"
-    )
+    default_runbook = "Validate that the Atlassian admin did log in (impersonate) as another user.\n"
     default_reference = "https://support.atlassian.com/user-management/docs/log-in-as-another-user/"
     tests = atlassian_user_logged_in_as_user_tests
 
     def rule(self, event):
-        return (
-            deep_get(event, "attributes", "action", default="<unknown-action>")
-            == "user_logged_in_as_user"
-        )
+        return deep_get(event, "attributes", "action", default="<unknown-action>") == "user_logged_in_as_user"
 
     def title(self, event):
         actor = deep_get(event, "attributes", "actor", "email", default="<unknown-email>")
@@ -109,9 +98,7 @@ class AtlassianUserLoggedInAsUser(Rule):
     def alert_context(self, event):
         return {
             "Timestamp": deep_get(event, "attributes", "time", default="<unknown-time>"),
-            "Actor": deep_get(
-                event, "attributes", "actor", "email", default="<unknown-actor-email>"
-            ),
+            "Actor": deep_get(event, "attributes", "actor", "email", default="<unknown-actor-email>"),
             "Impersonated user": deep_get(event, "attributes", "context", default=[{}])[0]
             .get("attributes", {})
             .get("email", "<unknown-email>"),

@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 
 push_security_phishable_mfa_method_tests: list[RuleTest] = [
     RuleTest(
@@ -14,12 +14,7 @@ push_security_phishable_mfa_method_tests: list[RuleTest] = [
                 "employeeId": "ca6cf7ce-90e6-4eb5-a262-7899bc48c39c",
                 "id": "5e15ce4c-6b93-4fbf-aed9-1890775efa90",
                 "lastUsedTimestamp": None,
-                "loginMethods": {
-                    "oidcLogin": None,
-                    "oktaSwaLogin": False,
-                    "passwordLogin": False,
-                    "samlLogin": None,
-                },
+                "loginMethods": {"oidcLogin": None, "oktaSwaLogin": False, "passwordLogin": False, "samlLogin": None},
                 "mfaMethods": ["SMS", "EMAIL_OTP"],
                 "mfaRegistered": False,
                 "passwordId": None,
@@ -41,12 +36,7 @@ push_security_phishable_mfa_method_tests: list[RuleTest] = [
                 "employeeId": "ca6cf7ce-90e6-4eb5-a262-7899bc48c39c",
                 "id": "5e15ce4c-6b93-4fbf-aed9-1890775efa90",
                 "lastUsedTimestamp": None,
-                "loginMethods": {
-                    "oidcLogin": None,
-                    "oktaSwaLogin": False,
-                    "passwordLogin": False,
-                    "samlLogin": None,
-                },
+                "loginMethods": {"oidcLogin": None, "oktaSwaLogin": False, "passwordLogin": False, "samlLogin": None},
                 "mfaMethods": ["SMS", "EMAIL_OTP"],
                 "mfaRegistered": False,
                 "passwordId": None,
@@ -68,12 +58,7 @@ push_security_phishable_mfa_method_tests: list[RuleTest] = [
                 "employeeId": "ca6cf7ce-90e6-4eb5-a262-7899bc48c39c",
                 "id": "5e15ce4c-6b93-4fbf-aed9-1890775efa90",
                 "lastUsedTimestamp": None,
-                "loginMethods": {
-                    "oidcLogin": None,
-                    "oktaSwaLogin": False,
-                    "passwordLogin": False,
-                    "samlLogin": None,
-                },
+                "loginMethods": {"oidcLogin": None, "oktaSwaLogin": False, "passwordLogin": False, "samlLogin": None},
                 "mfaMethods": [],
                 "mfaRegistered": False,
                 "passwordId": None,
@@ -87,12 +72,7 @@ push_security_phishable_mfa_method_tests: list[RuleTest] = [
                 "employeeId": "ca6cf7ce-90e6-4eb5-a262-7899bc48c39c",
                 "id": "5e15ce4c-6b93-4fbf-aed9-1890775efa90",
                 "lastUsedTimestamp": None,
-                "loginMethods": {
-                    "oidcLogin": None,
-                    "oktaSwaLogin": False,
-                    "passwordLogin": False,
-                    "samlLogin": None,
-                },
+                "loginMethods": {"oidcLogin": None, "oktaSwaLogin": False, "passwordLogin": False, "samlLogin": None},
                 "mfaMethods": [],
                 "mfaRegistered": False,
                 "passwordId": None,

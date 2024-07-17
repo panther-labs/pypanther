@@ -1,5 +1,5 @@
 import pypanther.helpers.panther_event_type_helpers as event_type
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import zendesk_get_roles
 
 zendesk_user_role_changed_tests: list[RuleTest] = [
@@ -50,7 +50,9 @@ class ZendeskUserRoleChanged(Rule):
     log_types = [LogType.Zendesk_Audit]
     default_severity = Severity.INFO
     default_description = "A user's Zendesk role was changed"
-    default_reference = "https://support.zendesk.com/hc/en-us/articles/4408824375450-Setting-roles-and-access-in-Zendesk-Admin-Center"
+    default_reference = (
+        "https://support.zendesk.com/hc/en-us/articles/4408824375450-Setting-roles-and-access-in-Zendesk-Admin-Center"
+    )
     summary_attributes = ["p_any_ip_addresses"]
     tests = zendesk_user_role_changed_tests
 
@@ -64,4 +66,6 @@ class ZendeskUserRoleChanged(Rule):
 
     def title(self, event):
         old_role, new_role = zendesk_get_roles(event)
-        return f"Actor user [{event.udm('actor_user')}] changed [{event.udm('user')}] role from {old_role} to {new_role}"
+        return (
+            f"Actor user [{event.udm('actor_user')}] changed [{event.udm('user')}] role from {old_role} to {new_role}"
+        )

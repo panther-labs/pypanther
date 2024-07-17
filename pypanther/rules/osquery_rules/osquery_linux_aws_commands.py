@@ -1,6 +1,6 @@
 import shlex
 
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 
 osquery_linux_aws_command_executed_tests: list[RuleTest] = [
@@ -25,12 +25,7 @@ osquery_linux_aws_command_executed_tests: list[RuleTest] = [
         log={
             "name": "pack_incident-response_shell_history",
             "action": "added",
-            "columns": {
-                "command": "aws s3 ls",
-                "uid": "1000",
-                "directory": "/home/ubuntu",
-                "username": "ubuntu",
-            },
+            "columns": {"command": "aws s3 ls", "uid": "1000", "directory": "/home/ubuntu", "username": "ubuntu"},
         },
     ),
     RuleTest(
@@ -67,12 +62,7 @@ osquery_linux_aws_command_executed_tests: list[RuleTest] = [
         log={
             "name": "pack_incident-response_shell_history",
             "action": "added",
-            "columns": {
-                "command": "unopened '",
-                "uid": "1000",
-                "directory": "/home/ubuntu",
-                "username": "ubuntu",
-            },
+            "columns": {"command": "unopened '", "uid": "1000", "directory": "/home/ubuntu", "username": "ubuntu"},
         },
     ),
 ]
@@ -86,9 +76,7 @@ class OsqueryLinuxAWSCommandExecuted(Rule):
     reports = {"MITRE ATT&CK": ["TA0002:T1204"]}
     default_severity = Severity.MEDIUM
     default_description = "An AWS command was executed on a Linux instance"
-    default_runbook = (
-        "See which other commands were executed, and then remove IAM role causing the access"
-    )
+    default_runbook = "See which other commands were executed, and then remove IAM role causing the access"
     default_reference = "https://attack.mitre.org/techniques/T1078/"
     summary_attributes = ["name", "action"]
     tests = osquery_linux_aws_command_executed_tests

@@ -1,5 +1,5 @@
 import pypanther.helpers.panther_event_type_helpers as event_type
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 
 standard_admin_role_assigned_tests: list[RuleTest] = [
     RuleTest(
@@ -278,9 +278,7 @@ class StandardAdminRoleAssigned(Rule):
     reports = {"MITRE ATT&CK": ["TA0004:T1078"]}
     default_description = "Assigning an admin role manually could be a sign of privilege escalation"
     default_runbook = "Verify with the user who attached the role or add to a allowlist"
-    default_reference = (
-        "https://medium.com/@gokulelango1040/privilege-escalation-attacks-28a9ef226abb"
-    )
+    default_reference = "https://medium.com/@gokulelango1040/privilege-escalation-attacks-28a9ef226abb"
     summary_attributes = ["p_any_ip_addresses"]
     tests = standard_admin_role_assigned_tests
 

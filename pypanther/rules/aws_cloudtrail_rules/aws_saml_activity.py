@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import aws_rule_context, deep_get
 
 aws_suspicious_saml_activity_tests: list[RuleTest] = [
@@ -255,9 +255,13 @@ aws_suspicious_saml_activity_tests: list[RuleTest] = [
 
 
 class AWSSuspiciousSAMLActivity(Rule):
-    default_description = "Identifies when SAML activity has occurred in AWS. An adversary could gain backdoor access via SAML."
+    default_description = (
+        "Identifies when SAML activity has occurred in AWS. An adversary could gain backdoor access via SAML."
+    )
     display_name = "AWS SAML Activity"
-    default_reference = "https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pools-managing-saml-idp-console.html"
+    default_reference = (
+        "https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pools-managing-saml-idp-console.html"
+    )
     default_severity = Severity.MEDIUM
     log_types = [LogType.AWS_CloudTrail]
     id = "AWS.Suspicious.SAML.Activity-prototype"
@@ -266,14 +270,9 @@ class AWSSuspiciousSAMLActivity(Rule):
 
     def rule(self, event):
         # Allow AWSSSO to manage
-        if deep_get(event, "userIdentity", "arn", default="").endswith(
-            ":assumed-role/AWSServiceRoleForSSO/AWS-SSO"
-        ):
+        if deep_get(event, "userIdentity", "arn", default="").endswith(":assumed-role/AWSServiceRoleForSSO/AWS-SSO"):
             return False
-        return (
-            event.get("eventSource") == "iam.amazonaws.com"
-            and event.get("eventName") in self.SAML_ACTIONS
-        )
+        return event.get("eventSource") == "iam.amazonaws.com" and event.get("eventName") in self.SAML_ACTIONS
 
     def title(self, event):
         return f"[{deep_get(event, 'userIdentity', 'arn')}] performed [{event.get('eventName')}] in account [{event.get('recipientAccountId')}]"

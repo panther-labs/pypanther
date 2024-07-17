@@ -90,9 +90,7 @@ class GitHubRepoInitialAccess(Rule):
     tags = ["GitHub"]
     default_reference = "https://docs.github.com/en/organizations/managing-user-access-to-your-organizations-repositories/managing-repository-roles/managing-an-individuals-access-to-an-organization-repository"
     default_severity = Severity.INFO
-    default_description = (
-        "Detects when a user initially accesses a private organization repository."
-    )
+    default_description = "Detects when a user initially accesses a private organization repository."
     tests = git_hub_repo_initial_access_tests
     CODE_ACCESS_ACTIONS = ["git.clone", "git.push", "git.fetch"]
 

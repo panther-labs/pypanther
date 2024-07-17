@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import aws_rule_context
 
 awss3_server_access_unauthenticated_tests: list[RuleTest] = [
@@ -27,11 +27,11 @@ class AWSS3ServerAccessUnauthenticated(Rule):
     ]
     reports = {"MITRE ATT&CK": ["TA0009:T1530"]}
     default_severity = Severity.LOW
-    default_description = (
-        "Checks for S3 access attempts where the requester is not an authenticated AWS user.\n"
-    )
+    default_description = "Checks for S3 access attempts where the requester is not an authenticated AWS user.\n"
     default_runbook = "If unauthenticated S3 access is not expected for this bucket, update its access policies.\n"
-    default_reference = "https://docs.aws.amazon.com/AmazonS3/latest/userguide/access-control-auth-workflow-bucket-operation.html"
+    default_reference = (
+        "https://docs.aws.amazon.com/AmazonS3/latest/userguide/access-control-auth-workflow-bucket-operation.html"
+    )
     summary_attributes = ["bucket", "key", "requester"]
     tests = awss3_server_access_unauthenticated_tests
     # A list of buckets where authenticated access is expected

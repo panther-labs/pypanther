@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import aws_rule_context, deep_get
 from pypanther.helpers.panther_default import lookup_aws_account_name
 
@@ -82,10 +82,7 @@ aws_console_root_login_failed_tests: list[RuleTest] = [
                         "accountId": "123456789012",
                         "userName": "tester",
                     },
-                    "attributes": {
-                        "creationDate": "2019-01-01T00:00:00Z",
-                        "mfaAuthenticated": "true",
-                    },
+                    "attributes": {"creationDate": "2019-01-01T00:00:00Z", "mfaAuthenticated": "true"},
                 },
             },
             "eventTime": "2019-01-01T00:00:00Z",
@@ -99,13 +96,7 @@ aws_console_root_login_failed_tests: list[RuleTest] = [
             "requestID": "1",
             "eventID": "1",
             "readOnly": True,
-            "resources": [
-                {
-                    "accountId": "123456789012",
-                    "type": "AWS::DynamoDB::Table",
-                    "ARN": "arn::::table/table",
-                }
-            ],
+            "resources": [{"accountId": "123456789012", "type": "AWS::DynamoDB::Table", "ARN": "arn::::table/table"}],
             "eventType": "AwsApiCall",
             "apiVersion": "2012-08-10",
             "managementEvent": True,
@@ -131,9 +122,7 @@ class AWSConsoleRootLoginFailed(Rule):
     reports = {"CIS": ["3.6"], "MITRE ATT&CK": ["TA0006:T1110"]}
     default_severity = Severity.HIGH
     default_description = "A Root console login failed."
-    default_runbook = (
-        "https://docs.runpanther.io/alert-runbooks/built-in-rules/aws-console-login-failed"
-    )
+    default_runbook = "https://docs.runpanther.io/alert-runbooks/built-in-rules/aws-console-login-failed"
     default_reference = "https://amzn.to/3aMSmTd"
     summary_attributes = ["userAgent", "sourceIpAddress", "recipientAccountId", "p_any_aws_arns"]
     tests = aws_console_root_login_failed_tests

@@ -77,7 +77,9 @@ class SlackAuditLogsApplicationDoS(Rule):
     tags = ["Slack", "Impact", "Endpoint Denial of Service", "Application Exhaustion Flood"]
     reports = {"MITRE ATT&CK": ["TA0040:T1499.003"]}
     default_severity = Severity.CRITICAL
-    default_description = "Detects when slack admin invalidates user session(s) more than once in a 24 hour period which can lead to DoS"
+    default_description = (
+        "Detects when slack admin invalidates user session(s) more than once in a 24 hour period which can lead to DoS"
+    )
     default_reference = "https://slack.com/intl/en-gb/help/articles/115005223763-Manage-session-duration-#pro-and-business+-subscriptions-2"
     threshold = 60
     summary_attributes = ["action", "p_any_ip_addresses", "p_any_emails"]

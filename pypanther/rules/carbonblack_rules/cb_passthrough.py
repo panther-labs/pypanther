@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 
 carbon_black_alert_v2_passthrough_tests: list[RuleTest] = [
     RuleTest(

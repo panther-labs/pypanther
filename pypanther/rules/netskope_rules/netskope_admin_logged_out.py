@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 
 netskope_admin_logged_out_login_failures_tests: list[RuleTest] = [
     RuleTest(
@@ -12,10 +12,7 @@ netskope_admin_logged_out_login_failures_tests: list[RuleTest] = [
             "is_netskope_personnel": True,
             "organization_unit": "",
             "severity_level": 2,
-            "supporting_data": {
-                "data_type": "user",
-                "data_values": ["11.22.33.44", "adminsupport@netskope.com"],
-            },
+            "supporting_data": {"data_type": "user", "data_values": ["11.22.33.44", "adminsupport@netskope.com"]},
             "timestamp": "2023-12-11 15:25:31.000000000",
             "type": "admin_audit_logs",
             "ur_normalized": "adminsupport@netskope.com",
@@ -35,12 +32,7 @@ netskope_admin_logged_out_login_failures_tests: list[RuleTest] = [
             "severity_level": 2,
             "supporting_data": {
                 "data_type": "incidents",
-                "data_values": [
-                    200,
-                    "POST",
-                    "/api/v2/incidents/uba/getuci",
-                    "trid=ccb898fgrhvdd0v0lebg",
-                ],
+                "data_values": [200, "POST", "/api/v2/incidents/uba/getuci", "trid=ccb898fgrhvdd0v0lebg"],
             },
             "timestamp": "2023-12-11 18:10:13.000000000",
             "type": "admin_audit_logs",
@@ -60,9 +52,7 @@ class NetskopeAdminLoggedOutLoginFailures(Rule):
     default_severity = Severity.MEDIUM
     default_description = "An admin was logged out because of successive login failures."
     default_runbook = "An admin was logged out because of successive login failures.  This could indicate brute force activity against this account."
-    default_reference = (
-        "https://docs.netskope.com/en/netskope-help/admin-console/administration/audit-log/"
-    )
+    default_reference = "https://docs.netskope.com/en/netskope-help/admin-console/administration/audit-log/"
     tests = netskope_admin_logged_out_login_failures_tests
 
     def rule(self, event):

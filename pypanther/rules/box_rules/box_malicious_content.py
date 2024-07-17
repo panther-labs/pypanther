@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import box_parse_additional_details, deep_get
 
 box_malicious_content_tests: list[RuleTest] = [
@@ -8,12 +8,7 @@ box_malicious_content_tests: list[RuleTest] = [
         log={
             "type": "event",
             "additional_details": '{"key": "value"}',
-            "created_by": {
-                "id": "12345678",
-                "type": "user",
-                "login": "cat@example",
-                "name": "Bob Cat",
-            },
+            "created_by": {"id": "12345678", "type": "user", "login": "cat@example", "name": "Bob Cat"},
             "event_type": "DELETE",
         },
     ),
@@ -23,30 +18,14 @@ box_malicious_content_tests: list[RuleTest] = [
         log={
             "type": "event",
             "additional_details": '{"key": "value"}',
-            "created_by": {
-                "id": "12345678",
-                "type": "user",
-                "login": "cat@example",
-                "name": "Bob Cat",
-            },
+            "created_by": {"id": "12345678", "type": "user", "login": "cat@example", "name": "Bob Cat"},
             "event_type": "FILE_MARKED_MALICIOUS",
             "source": {
                 "item_id": "123456789012",
                 "item_name": "bad_file.pdf",
                 "item_type": "file",
-                "owned_by": {
-                    "id": "12345678",
-                    "type": "user",
-                    "login": "cat@example",
-                    "name": "Bob",
-                },
-                "parent": {
-                    "id": "12345",
-                    "type": "folder",
-                    "etag": "1",
-                    "name": "Parent_Folder",
-                    "sequence_id": "2",
-                },
+                "owned_by": {"id": "12345678", "type": "user", "login": "cat@example", "name": "Bob"},
+                "parent": {"id": "12345", "type": "folder", "etag": "1", "name": "Parent_Folder", "sequence_id": "2"},
             },
         },
     ),
@@ -56,12 +35,7 @@ box_malicious_content_tests: list[RuleTest] = [
         log={
             "type": "event",
             "additional_details": '{"shield_alert":{"rule_category":"Malicious Content","risk_score":100,"alert_summary":{"upload_activity":{"item_name":"malware.exe"}},"user":{"email":"cat@example"}}}',
-            "created_by": {
-                "id": 12345678,
-                "type": "user",
-                "login": "bob@example",
-                "name": "Bob Cat",
-            },
+            "created_by": {"id": 12345678, "type": "user", "login": "bob@example", "name": "Bob Cat"},
             "event_type": "SHIELD_ALERT",
             "source": {"id": 12345678, "type": "user", "login": "bob@example"},
         },
@@ -78,7 +52,9 @@ class BoxMaliciousContent(Rule):
     default_severity = Severity.HIGH
     default_description = "Box has detect malicious content, such as a virus.\n"
     default_reference = "https://developer.box.com/guides/events/shield-alert-events/\n"
-    default_runbook = "Investigate whether this is a false positive or if the virus needs to be contained appropriately.\n"
+    default_runbook = (
+        "Investigate whether this is a false positive or if the virus needs to be contained appropriately.\n"
+    )
     summary_attributes = ["event_type"]
     tests = box_malicious_content_tests
 

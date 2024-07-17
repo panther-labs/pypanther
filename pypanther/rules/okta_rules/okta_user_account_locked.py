@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import okta_alert_context
 
 okta_user_account_locked_tests: list[RuleTest] = [
@@ -136,14 +136,7 @@ okta_user_account_locked_tests: list[RuleTest] = [
                 "isp": "charter communications inc",
             },
             "severity": "WARN",
-            "target": [
-                {
-                    "alternateId": "App (123)",
-                    "displayName": "App (123)",
-                    "id": "12345",
-                    "type": "AppInstance",
-                }
-            ],
+            "target": [{"alternateId": "App (123)", "displayName": "App (123)", "id": "12345", "type": "AppInstance"}],
             "transaction": {"detail": {}, "id": "aaa-bbb-123", "type": "WEB"},
             "uuid": "aa-11-22-33-44-bb",
             "version": "0",

@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 
 one_login_user_assumption_tests: list[RuleTest] = [
     RuleTest(
@@ -41,9 +41,9 @@ class OneLoginUserAssumption(Rule):
 
     def rule(self, event):
         # check that this is a user assumption event; event id 3
-        return str(event.get("event_type_id")) == "3" and event.get(
-            "actor_user_id", "UNKNOWN_USER"
-        ) != event.get("user_id", "UNKNOWN_USER")
+        return str(event.get("event_type_id")) == "3" and event.get("actor_user_id", "UNKNOWN_USER") != event.get(
+            "user_id", "UNKNOWN_USER"
+        )
 
     def title(self, event):
         return f"A user [{event.get('actor_user_name', '<UNKNOWN_USER>')}] assumed another user [{event.get('user_name', '<UNKNOWN_USER>')}] account"

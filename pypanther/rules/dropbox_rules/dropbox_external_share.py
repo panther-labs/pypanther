@@ -9,11 +9,7 @@ dropbox_external_share_tests: list[RuleTest] = [
     RuleTest(
         name="Domain in Allowlist",
         expected_result=False,
-        mocks=[
-            RuleMock(
-                object_name="DROPBOX_ALLOWED_SHARE_DOMAINS", return_value='[\n    "example.com"\n]'
-            )
-        ],
+        mocks=[RuleMock(object_name="DROPBOX_ALLOWED_SHARE_DOMAINS", return_value='[\n    "example.com"\n]')],
         log={
             "actor": {
                 "_tag": "user",
@@ -194,9 +190,7 @@ class DropboxExternalShare(Rule):
 
     def rule(self, event):
         if isinstance(self.DROPBOX_ALLOWED_SHARE_DOMAINS, MagicMock):
-            self.DROPBOX_ALLOWED_SHARE_DOMAINS = set(
-                json.loads(self.DROPBOX_ALLOWED_SHARE_DOMAINS())
-            )  # pylint: disable=not-callable
+            self.DROPBOX_ALLOWED_SHARE_DOMAINS = set(json.loads(self.DROPBOX_ALLOWED_SHARE_DOMAINS()))  # pylint: disable=not-callable
         if deep_get(event, "event_type", "_tag", default="") == "shared_content_add_member":
             participants = event.get("participants", [{}])
             for participant in participants:

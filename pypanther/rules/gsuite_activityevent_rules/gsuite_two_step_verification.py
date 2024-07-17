@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 
 g_suite_two_step_verification_tests: list[RuleTest] = [
@@ -35,8 +35,12 @@ class GSuiteTwoStepVerification(Rule):
     reports = {"MITRE ATT&CK": ["TA0005:T1556"]}
     default_severity = Severity.LOW
     default_description = "A user disabled two step verification for themselves.\n"
-    default_reference = "https://support.google.com/mail/answer/185839?hl=en&co=GENIE.Platform%3DDesktop&sjid=864417124752637253-EU"
-    default_runbook = "Depending on company policy, either suggest or require the user re-enable two step verification.\n"
+    default_reference = (
+        "https://support.google.com/mail/answer/185839?hl=en&co=GENIE.Platform%3DDesktop&sjid=864417124752637253-EU"
+    )
+    default_runbook = (
+        "Depending on company policy, either suggest or require the user re-enable two step verification.\n"
+    )
     summary_attributes = ["actor:email"]
     tests = g_suite_two_step_verification_tests
 

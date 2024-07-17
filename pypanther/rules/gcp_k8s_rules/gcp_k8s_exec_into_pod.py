@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.gcp_base_helpers import get_k8s_info
 from pypanther.helpers.gcp_environment import PRODUCTION_PROJECT_IDS, rule_exceptions
 from pypanther.helpers.panther_base_helpers import deep_walk
@@ -87,9 +87,7 @@ class GCPK8sExecIntoPod(Rule):
     default_severity = Severity.MEDIUM
     default_description = "Alerts when users exec into pod. Possible to specify specific projects and allowed users.\n"
     default_runbook = "Investigate the user and determine why. Advise that it is discouraged practice. Create ticket if appropriate.\n"
-    default_reference = (
-        "https://cloud.google.com/migrate/containers/docs/troubleshooting/executing-shell-commands"
-    )
+    default_reference = "https://cloud.google.com/migrate/containers/docs/troubleshooting/executing-shell-commands"
     tests = gcpk8s_exec_into_pod_tests
 
     def rule(self, event):
@@ -107,9 +105,7 @@ class GCPK8sExecIntoPod(Rule):
         project_id = deep_walk(k8s_info, "project_id", default="<NO PROJECT_ID>")
         # rule_exceptions that are allowed temporarily are defined in gcp_environment.py
         # Some execs have principal which is long numerical UUID, appears to be k8s internals
-        for allowed_principal in deep_walk(
-            rule_exceptions, "gcp_k8s_exec_into_pod", "allowed_principals", default=[]
-        ):
+        for allowed_principal in deep_walk(rule_exceptions, "gcp_k8s_exec_into_pod", "allowed_principals", default=[]):
             allowed_principals = deep_walk(allowed_principal, "principals", default=[])
             allowed_namespaces = deep_walk(allowed_principal, "namespaces", default=[])
             allowed_project_ids = deep_walk(allowed_principal, "projects", default=[])

@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 
 gcp_inbound_sso_profile_created_tests: list[RuleTest] = [
     RuleTest(
@@ -12,10 +12,7 @@ gcp_inbound_sso_profile_created_tests: list[RuleTest] = [
                 "authenticationInfo": {"principalEmail": "user@example.com"},
                 "metadata": {
                     "@type": "type.googleapis.com/ccc_hosted_reporting.ActivityProto",
-                    "activityId": {
-                        "timeUsec": "1700250882598435",
-                        "uniqQualifier": "6879748717081533837",
-                    },
+                    "activityId": {"timeUsec": "1700250882598435", "uniqQualifier": "6879748717081533837"},
                     "event": [
                         {
                             "eventId": "dd0c44e2",
@@ -60,10 +57,7 @@ gcp_inbound_sso_profile_created_tests: list[RuleTest] = [
                 "authenticationInfo": {"principalEmail": "user@@example.com"},
                 "metadata": {
                     "@type": "type.googleapis.com/ccc_hosted_reporting.ActivityProto",
-                    "activityId": {
-                        "timeUsec": "1700250956956215",
-                        "uniqQualifier": "2009471038637356014",
-                    },
+                    "activityId": {"timeUsec": "1700250956956215", "uniqQualifier": "2009471038637356014"},
                     "event": [
                         {
                             "eventId": "bdbc47ad",
@@ -114,10 +108,7 @@ gcp_inbound_sso_profile_created_tests: list[RuleTest] = [
                 "authenticationInfo": {"principalEmail": "user@example.com"},
                 "metadata": {
                     "@type": "type.googleapis.com/ccc_hosted_reporting.ActivityProto",
-                    "activityId": {
-                        "timeUsec": "1700250924521362",
-                        "uniqQualifier": "6051731645161637785",
-                    },
+                    "activityId": {"timeUsec": "1700250924521362", "uniqQualifier": "6051731645161637785"},
                     "event": [
                         {
                             "eventId": "637d2b33",
@@ -162,7 +153,9 @@ class GCPInboundSSOProfileCreated(Rule):
     reports = {"MITRE ATT&CK": ["TA0003:T1136.003", "TA0003:T1098.003", "TA0004:T1098.003"]}
     default_severity = Severity.HIGH
     default_runbook = "Ensure that the SSO profile creation or modification was expected. Adversaries may use this to persist or allow additional access or escalate their privilege.\n"
-    default_reference = "https://medium.com/google-cloud/detection-of-inbound-sso-persistence-techniques-in-gcp-c56f7b2a588b"
+    default_reference = (
+        "https://medium.com/google-cloud/detection-of-inbound-sso-persistence-techniques-in-gcp-c56f7b2a588b"
+    )
     tests = gcp_inbound_sso_profile_created_tests
     METHODS = [
         "google.admin.AdminService.inboundSsoProfileCreated",
@@ -173,12 +166,8 @@ class GCPInboundSSOProfileCreated(Rule):
         return event.deep_get("protoPayload", "methodName", default="") in self.METHODS
 
     def title(self, event):
-        actor = event.deep_get(
-            "protoPayload", "authenticationInfo", "principalEmail", default="<ACTOR_NOT_FOUND>"
-        )
-        event_name = event.deep_walk(
-            "protoPayload", "metadata", "event", "eventName", default="<EVENT_NAME_NOT_FOUND>"
-        )
+        actor = event.deep_get("protoPayload", "authenticationInfo", "principalEmail", default="<ACTOR_NOT_FOUND>")
+        event_name = event.deep_walk("protoPayload", "metadata", "event", "eventName", default="<EVENT_NAME_NOT_FOUND>")
         resource = organization_id = event.deep_walk(
             "protoPayload", "resourceName", default="<RESOURCE_NOT_FOUND>"
         ).split("/")
@@ -187,10 +176,6 @@ class GCPInboundSSOProfileCreated(Rule):
 
     def alert_context(self, event):
         return {
-            "resourceName": event.deep_get(
-                "protoPayload", "resourceName", default="<RESOURCE_NOT_FOUND>"
-            ),
-            "serviceName": event.deep_get(
-                "protoPayload", "serviceName", default="<SERVICE_NOT_FOUND>"
-            ),
+            "resourceName": event.deep_get("protoPayload", "resourceName", default="<RESOURCE_NOT_FOUND>"),
+            "serviceName": event.deep_get("protoPayload", "serviceName", default="<SERVICE_NOT_FOUND>"),
         }

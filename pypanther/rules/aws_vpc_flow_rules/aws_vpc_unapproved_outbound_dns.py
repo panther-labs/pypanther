@@ -1,6 +1,6 @@
 from ipaddress import ip_network
 
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import aws_rule_context
 
 awsvpc_unapproved_outbound_dns_tests: list[RuleTest] = [
@@ -91,10 +91,7 @@ class AWSVPCUnapprovedOutboundDNS(Rule):
         if ip_network(source_ip).is_global:
             return False
         # No clean way to default to False (no alert), so explicitly check for key
-        return (
-            bool(event.udm("destination_ip"))
-            and event.udm("destination_ip") not in self.APPROVED_DNS_SERVERS
-        )
+        return bool(event.udm("destination_ip")) and event.udm("destination_ip") not in self.APPROVED_DNS_SERVERS
 
     def alert_context(self, event):
         return aws_rule_context(event)

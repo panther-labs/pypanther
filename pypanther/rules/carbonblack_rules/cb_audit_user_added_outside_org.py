@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 
 carbon_black_audit_user_added_outside_org_tests: list[RuleTest] = [
     RuleTest(
@@ -35,9 +35,7 @@ carbon_black_audit_user_added_outside_org_tests: list[RuleTest] = [
 class CarbonBlackAuditUserAddedOutsideOrg(Rule):
     id = "CarbonBlack.Audit.User.Added.Outside.Org-prototype"
     log_types = [LogType.CarbonBlack_Audit]
-    default_description = (
-        "Detects when a user from a different organization is added to Carbon Black."
-    )
+    default_description = "Detects when a user from a different organization is added to Carbon Black."
     display_name = "Carbon Black User Added Outside Org"
     default_severity = Severity.HIGH
     tags = ["Persistence", "Create Account"]

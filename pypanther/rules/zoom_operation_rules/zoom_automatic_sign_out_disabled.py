@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 
 zoom_automatic_sign_out_disabled_tests: list[RuleTest] = [
     RuleTest(
@@ -30,7 +30,9 @@ class ZoomAutomaticSignOutDisabled(Rule):
     default_description = "A Zoom User turned off your organization's setting to automatically sign users out after a specified period of time."
     display_name = "Zoom Automatic Sign Out Disabled"
     default_reference = "https://support.zoom.us/hc/en-us/articles/115005756143-Changing-account-security-settings#:~:text=Users%20need%20to%20sign%20in,of%205%20to%20120%20minutes"
-    default_runbook = "Confirm this user acted with valid business intent and determine whether this activity was authorized."
+    default_runbook = (
+        "Confirm this user acted with valid business intent and determine whether this activity was authorized."
+    )
     default_severity = Severity.MEDIUM
     log_types = [LogType.Zoom_Operation]
     id = "Zoom.Automatic.Sign.Out.Disabled-prototype"

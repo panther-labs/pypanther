@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import aws_rule_context, deep_get
 
 aws_cloud_trail_root_password_changed_tests: list[RuleTest] = [
@@ -68,9 +68,7 @@ class AWSCloudTrailRootPasswordChanged(Rule):
     reports = {"MITRE ATT&CK": ["TA0003:T1098"]}
     default_description = "Someone manually changed the Root console login password.\n"
     default_runbook = "Verify that the root password change was authorized. If not, AWS support should be contacted immediately as the root account cannot be recovered through normal means and grants complete access to the account.\n"
-    default_reference = (
-        "https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_passwords_change-root.html"
-    )
+    default_reference = "https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_passwords_change-root.html"
     summary_attributes = ["userAgent", "sourceIpAddress", "recipientAccountId", "p_any_aws_arns"]
     tests = aws_cloud_trail_root_password_changed_tests
 

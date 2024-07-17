@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import slack_alert_context
 
 slack_audit_logs_idp_configuration_changed_tests: list[RuleTest] = [
@@ -130,9 +130,7 @@ class SlackAuditLogsIDPConfigurationChanged(Rule):
     tags = ["Slack", "Persistence", "Credential Access", "Modify Authentication Process"]
     reports = {"MITRE ATT&CK": ["TA0003:T1556", "TA0006:T1556"]}
     default_severity = Severity.HIGH
-    default_description = (
-        "Detects changes to the identity provider (IdP) configuration for Slack organizations."
-    )
+    default_description = "Detects changes to the identity provider (IdP) configuration for Slack organizations."
     default_reference = "https://slack.com/intl/en-gb/help/articles/115001435788-Connect-identity-provider-groups-to-your-Enterprise-Grid-org"
     summary_attributes = ["action", "p_any_ip_addresses", "p_any_emails"]
     tests = slack_audit_logs_idp_configuration_changed_tests

@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import aws_guardduty_context, deep_get
 
 aws_guard_duty_high_severity_finding_tests: list[RuleTest] = [
@@ -22,9 +22,7 @@ aws_guard_duty_high_severity_finding_tests: list[RuleTest] = [
                         "serviceName": "iam.amazonaws.com",
                         "callerType": "Domain",
                         "domainDetails": {"domain": "cloudformation.amazonaws.com"},
-                        "affectedResources": {
-                            "AWS::IAM::Role": "arn:aws:iam::123456789012:role/IAMRole"
-                        },
+                        "affectedResources": {"AWS::IAM::Role": "arn:aws:iam::123456789012:role/IAMRole"},
                     },
                 },
                 "resourceRole": "TARGET",
@@ -63,9 +61,7 @@ aws_guard_duty_high_severity_finding_tests: list[RuleTest] = [
                         "serviceName": "iam.amazonaws.com",
                         "callerType": "Domain",
                         "domainDetails": {"domain": "cloudformation.amazonaws.com"},
-                        "affectedResources": {
-                            "AWS::IAM::Role": "arn:aws:iam::123456789012:role/IAMRole"
-                        },
+                        "affectedResources": {"AWS::IAM::Role": "arn:aws:iam::123456789012:role/IAMRole"},
                     },
                 },
                 "resourceRole": "TARGET",
@@ -95,7 +91,9 @@ class AWSGuardDutyHighSeverityFinding(Rule):
     default_severity = Severity.HIGH
     default_description = "A high-severity GuardDuty finding has been identified.\n"
     default_runbook = "Search related logs to understand the root cause of the activity.\n"
-    default_reference = "https://docs.aws.amazon.com/guardduty/latest/ug/guardduty_findings.html#guardduty_findings-severity"
+    default_reference = (
+        "https://docs.aws.amazon.com/guardduty/latest/ug/guardduty_findings.html#guardduty_findings-severity"
+    )
     summary_attributes = [
         "severity",
         "type",

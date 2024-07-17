@@ -22,10 +22,7 @@ import re
 from typing import Any, Callable, Tuple
 
 from pypanther.vendor.panther_analysis_tool.backend.client import Client as BackendClient
-from pypanther.vendor.panther_analysis_tool.backend.public_api_client import (
-    PublicAPIClient,
-    PublicAPIClientOptions,
-)
+from pypanther.vendor.panther_analysis_tool.backend.public_api_client import PublicAPIClient, PublicAPIClientOptions
 from pypanther.vendor.panther_analysis_tool.constants import PANTHER_USER_ID
 
 UNKNOWN_VERSION = "unknown"
@@ -36,7 +33,7 @@ class BackendNotFoundException(Exception):
 
 
 def func_with_backend(
-    func: Callable[[BackendClient, argparse.Namespace], Any]
+    func: Callable[[BackendClient, argparse.Namespace], Any],
 ) -> Callable[[argparse.Namespace], Tuple[int, str]]:
     return lambda args: func(get_backend(args), args)
 
@@ -45,9 +42,7 @@ def get_backend(args: argparse.Namespace) -> BackendClient:
     if not args.api_token:
         raise BackendNotFoundException("API token is required")
 
-    return PublicAPIClient(
-        PublicAPIClientOptions(token=args.api_token, user_id=PANTHER_USER_ID, host=args.api_host)
-    )
+    return PublicAPIClient(PublicAPIClientOptions(token=args.api_token, user_id=PANTHER_USER_ID, host=args.api_host))
 
 
 def convert_unicode(obj: Any) -> str:

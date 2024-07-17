@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_azuresignin_helpers import (
     actor_user,
     azure_signin_alert_context,
@@ -23,9 +23,7 @@ azure_audit_risk_level_passthrough_tests: list[RuleTest] = [
             "p_log_type": "Azure.Audit",
             "properties": {
                 "appId": "cfceb902-8fab-4f8c-88ba-374d3c975c3a",
-                "authenticationProcessingDetails": [
-                    {"key": "Azure AD App Authentication Library", "value": ""}
-                ],
+                "authenticationProcessingDetails": [{"key": "Azure AD App Authentication Library", "value": ""}],
                 "authenticationProtocol": "none",
                 "clientCredentialType": "none",
                 "conditionalAccessStatus": "notApplied",
@@ -85,9 +83,7 @@ azure_audit_risk_level_passthrough_tests: list[RuleTest] = [
             "p_log_type": "Azure.Audit",
             "properties": {
                 "appId": "cfceb902-8fab-4f8c-88ba-374d3c975c3a",
-                "authenticationProcessingDetails": [
-                    {"key": "Azure AD App Authentication Library", "value": ""}
-                ],
+                "authenticationProcessingDetails": [{"key": "Azure AD App Authentication Library", "value": ""}],
                 "authenticationProtocol": "none",
                 "clientCredentialType": "none",
                 "conditionalAccessStatus": "notApplied",
@@ -147,9 +143,7 @@ azure_audit_risk_level_passthrough_tests: list[RuleTest] = [
             "p_log_type": "Azure.Audit",
             "properties": {
                 "appId": "cfceb902-8fab-4f8c-88ba-374d3c975c3a",
-                "authenticationProcessingDetails": [
-                    {"key": "Azure AD App Authentication Library", "value": ""}
-                ],
+                "authenticationProcessingDetails": [{"key": "Azure AD App Authentication Library", "value": ""}],
                 "authenticationProtocol": "none",
                 "clientCredentialType": "none",
                 "conditionalAccessStatus": "notApplied",
@@ -209,9 +203,7 @@ azure_audit_risk_level_passthrough_tests: list[RuleTest] = [
             "p_log_type": "Azure.Audit",
             "properties": {
                 "appId": "cfceb902-8fab-4f8c-88ba-374d3c975c3a",
-                "authenticationProcessingDetails": [
-                    {"key": "Azure AD App Authentication Library", "value": ""}
-                ],
+                "authenticationProcessingDetails": [{"key": "Azure AD App Authentication Library", "value": ""}],
                 "authenticationProtocol": "none",
                 "clientCredentialType": "none",
                 "conditionalAccessStatus": "notApplied",
@@ -271,9 +263,7 @@ azure_audit_risk_level_passthrough_tests: list[RuleTest] = [
             "p_log_type": "Azure.Audit",
             "properties": {
                 "appId": "cfceb902-8fab-4f8c-88ba-374d3c975c3a",
-                "authenticationProcessingDetails": [
-                    {"key": "Azure AD App Authentication Library", "value": ""}
-                ],
+                "authenticationProcessingDetails": [{"key": "Azure AD App Authentication Library", "value": ""}],
                 "authenticationProtocol": "none",
                 "clientCredentialType": "none",
                 "conditionalAccessStatus": "notApplied",
@@ -352,10 +342,7 @@ class AzureAuditRiskLevelPassthrough(Rule):
             return False
         # check riskLevelAggregated
         for risk_type in ["riskLevelAggregated", "riskLevelDuringSignIn"]:
-            if (
-                deep_get(event, "properties", risk_type, default="").lower()
-                in self.PASSTHROUGH_SEVERITIES
-            ):
+            if deep_get(event, "properties", risk_type, default="").lower() in self.PASSTHROUGH_SEVERITIES:
                 self.IDENTIFIED_RISK_LEVEL = deep_get(event, "properties", risk_type).lower()
                 return True
         return False

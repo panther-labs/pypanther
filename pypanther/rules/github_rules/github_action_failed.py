@@ -91,7 +91,9 @@ class GitHubActionFailed(Rule):
     default_severity = Severity.HIGH
     default_description = "A monitored github action has failed."
     default_runbook = "Inspect the action failure link and take appropriate response. There are no general plans of response for this activity.\n"
-    default_reference = "https://docs.github.com/en/actions/creating-actions/setting-exit-codes-for-actions#about-exit-codes"
+    default_reference = (
+        "https://docs.github.com/en/actions/creating-actions/setting-exit-codes-for-actions#about-exit-codes"
+    )
     tests = git_hub_action_failed_tests
     # The keys for MONITORED_ACTIONS are gh_org/repo_name
     # The values for MONITORED_ACTIONS are a list of ["action_names"]
@@ -99,9 +101,7 @@ class GitHubActionFailed(Rule):
 
     def rule(self, event):
         if isinstance(self.MONITORED_ACTIONS, MagicMock):
-            self.MONITORED_ACTIONS = json.loads(
-                self.MONITORED_ACTIONS()
-            )  # pylint: disable=not-callable
+            self.MONITORED_ACTIONS = json.loads(self.MONITORED_ACTIONS())  # pylint: disable=not-callable
         repo = deep_get(event, "repo", default="")
         action_name = deep_get(event, "name", default="")
         return all(

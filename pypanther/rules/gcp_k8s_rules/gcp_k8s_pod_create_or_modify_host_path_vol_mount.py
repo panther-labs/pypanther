@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.gcp_base_helpers import gcp_alert_context
 from pypanther.helpers.panther_base_helpers import deep_get, deep_walk
 
@@ -35,10 +35,7 @@ gcpk8_s_pot_create_or_modify_host_path_volume_mount_tests: list[RuleTest] = [
                         ],
                         "volumes": [
                             {
-                                "hostPath": {
-                                    "path": "/var/lib/kubelet",
-                                    "type": "DirectoryOrCreate",
-                                },
+                                "hostPath": {"path": "/var/lib/kubelet", "type": "DirectoryOrCreate"},
                                 "name": "test-volume",
                             }
                         ],
@@ -61,10 +58,7 @@ gcpk8_s_pot_create_or_modify_host_path_volume_mount_tests: list[RuleTest] = [
                         ],
                         "volumes": [
                             {
-                                "hostPath": {
-                                    "path": "/var/lib/kubelet",
-                                    "type": "DirectoryOrCreate",
-                                },
+                                "hostPath": {"path": "/var/lib/kubelet", "type": "DirectoryOrCreate"},
                                 "name": "test-volume",
                             }
                         ],
@@ -115,10 +109,7 @@ gcpk8_s_pot_create_or_modify_host_path_volume_mount_tests: list[RuleTest] = [
                             }
                         ],
                         "volumes": [
-                            {
-                                "hostPath": {"path": "/data", "type": "DirectoryOrCreate"},
-                                "name": "test-volume",
-                            }
+                            {"hostPath": {"path": "/data", "type": "DirectoryOrCreate"}, "name": "test-volume"}
                         ],
                     },
                 },
@@ -138,10 +129,7 @@ gcpk8_s_pot_create_or_modify_host_path_volume_mount_tests: list[RuleTest] = [
                             }
                         ],
                         "volumes": [
-                            {
-                                "hostPath": {"path": "/data", "type": "DirectoryOrCreate"},
-                                "name": "test-volume",
-                            }
+                            {"hostPath": {"path": "/data", "type": "DirectoryOrCreate"}, "name": "test-volume"}
                         ],
                     },
                     "status": {"phase": "Pending", "qosClass": "BestEffort"},
@@ -191,10 +179,7 @@ gcpk8_s_pot_create_or_modify_host_path_volume_mount_tests: list[RuleTest] = [
                         ],
                         "volumes": [
                             {
-                                "hostPath": {
-                                    "path": "/var/lib/kubelet",
-                                    "type": "DirectoryOrCreate",
-                                },
+                                "hostPath": {"path": "/var/lib/kubelet", "type": "DirectoryOrCreate"},
                                 "name": "test-volume",
                             }
                         ],
@@ -250,9 +235,7 @@ class GCPK8SPotCreateOrModifyHostPathVolumeMount(Rule):
             "io.k8s.core.v1.pods.patch",
         ):
             return False
-        volume_mount_path = deep_walk(
-            event, "protoPayload", "request", "spec", "volumes", "hostPath", "path"
-        )
+        volume_mount_path = deep_walk(event, "protoPayload", "request", "spec", "volumes", "hostPath", "path")
         if not volume_mount_path or (
             volume_mount_path not in self.SUSPICIOUS_PATHS
             and (not any((path in self.SUSPICIOUS_PATHS for path in volume_mount_path)))
@@ -264,34 +247,20 @@ class GCPK8SPotCreateOrModifyHostPathVolumeMount(Rule):
         for auth in authorization_info:
             if (
                 auth.get("permission")
-                in (
-                    "io.k8s.core.v1.pods.create",
-                    "io.k8s.core.v1.pods.update",
-                    "io.k8s.core.v1.pods.patch",
-                )
+                in ("io.k8s.core.v1.pods.create", "io.k8s.core.v1.pods.update", "io.k8s.core.v1.pods.patch")
                 and auth.get("granted") is True
             ):
                 return True
         return False
 
     def title(self, event):
-        actor = deep_get(
-            event,
-            "protoPayload",
-            "authenticationInfo",
-            "principalEmail",
-            default="<ACTOR_NOT_FOUND>",
-        )
+        actor = deep_get(event, "protoPayload", "authenticationInfo", "principalEmail", default="<ACTOR_NOT_FOUND>")
         pod_name = deep_get(event, "protoPayload", "resourceName", default="<RESOURCE_NOT_FOUND>")
-        project_id = deep_get(
-            event, "resource", "labels", "project_id", default="<PROJECT_NOT_FOUND>"
-        )
+        project_id = deep_get(event, "resource", "labels", "project_id", default="<PROJECT_NOT_FOUND>")
         return f"[GCP]: [{actor}] created k8s pod [{pod_name}] with a hostPath volume mount in project [{project_id}]"
 
     def alert_context(self, event):
         context = gcp_alert_context(event)
-        volume_mount_path = deep_walk(
-            event, "protoPayload", "request", "spec", "volumes", "hostPath", "path"
-        )
+        volume_mount_path = deep_walk(event, "protoPayload", "request", "spec", "volumes", "hostPath", "path")
         context["volume_mount_path"] = volume_mount_path
         return context

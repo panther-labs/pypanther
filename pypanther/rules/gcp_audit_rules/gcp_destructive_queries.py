@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 
 gcp_destructive_queries_tests: list[RuleTest] = [
@@ -26,11 +26,7 @@ gcp_destructive_queries_tests: list[RuleTest] = [
                 "at_sign_type": "type.googleapis.com/google.cloud.audit.AuditLog",
                 "authenticationInfo": {"principalEmail": "user@company.io"},
                 "authorizationInfo": [
-                    {
-                        "granted": True,
-                        "permission": "bigquery.jobs.create",
-                        "resource": "projects/gcp-project1",
-                    }
+                    {"granted": True, "permission": "bigquery.jobs.create", "resource": "projects/gcp-project1"}
                 ],
                 "metadata": {
                     "@type": "type.googleapis.com/google.cloud.audit.BigQueryAuditMetadata",
@@ -69,10 +65,7 @@ gcp_destructive_queries_tests: list[RuleTest] = [
                 "status": {},
             },
             "receivetimestamp": "2023-03-28 18:37:06.745",
-            "resource": {
-                "labels": {"location": "US", "project_id": "gcp-project1"},
-                "type": "bigquery_project",
-            },
+            "resource": {"labels": {"location": "US", "project_id": "gcp-project1"}, "type": "bigquery_project"},
             "severity": "INFO",
             "timestamp": "2023-03-28 18:37:06.079",
         },
@@ -136,7 +129,9 @@ gcp_destructive_queries_tests: list[RuleTest] = [
 
 
 class GCPDestructiveQueries(Rule):
-    default_description = "Detect any destructive BigQuery queries or jobs such as update, delete, drop, alter or truncate."
+    default_description = (
+        "Detect any destructive BigQuery queries or jobs such as update, delete, drop, alter or truncate."
+    )
     display_name = "GCP Destructive Queries"
     default_reference = "https://cloud.google.com/bigquery/docs/managing-tables"
     default_severity = Severity.INFO
@@ -148,11 +143,8 @@ class GCPDestructiveQueries(Rule):
     def rule(self, event):
         if all(
             [
-                deep_get(event, "resource", "type", default="<RESOURCE_NOT_FOUND>").startswith(
-                    "bigquery"
-                ),
-                deep_get(event, "protoPayload", "metadata", "jobChange", "job", "jobConfig", "type")
-                == "QUERY",
+                deep_get(event, "resource", "type", default="<RESOURCE_NOT_FOUND>").startswith("bigquery"),
+                deep_get(event, "protoPayload", "metadata", "jobChange", "job", "jobConfig", "type") == "QUERY",
                 deep_get(
                     event,
                     "protoPayload",
@@ -175,13 +167,7 @@ class GCPDestructiveQueries(Rule):
         return False
 
     def title(self, event):
-        actor = deep_get(
-            event,
-            "protoPayload",
-            "authenticationInfo",
-            "principalEmail",
-            default="<ACTOR_NOT_FOUND>",
-        )
+        actor = deep_get(event, "protoPayload", "authenticationInfo", "principalEmail", default="<ACTOR_NOT_FOUND>")
         statement = deep_get(
             event,
             "protoPayload",
@@ -194,17 +180,8 @@ class GCPDestructiveQueries(Rule):
             default="<STATEMENT_NOT_FOUND>",
         )
         table = deep_get(
-            event,
-            "protoPayload",
-            "metadata",
-            "jobChange",
-            "job",
-            "jobConfig",
-            "queryConfig",
-            "destinationTable",
-        ) or deep_get(
-            event, "protoPayload", "metadata", "resourceName", default="<TABLE_NOT_FOUND>"
-        )
+            event, "protoPayload", "metadata", "jobChange", "job", "jobConfig", "queryConfig", "destinationTable"
+        ) or deep_get(event, "protoPayload", "metadata", "resourceName", default="<TABLE_NOT_FOUND>")
         return f"GCP: [{actor}] performed a destructive BigQuery [{statement}] query on [{table}]."
 
     def alert_context(self, event):
@@ -221,11 +198,7 @@ class GCPDestructiveQueries(Rule):
                 default="<QUERY_NOT_FOUND>",
             ),
             "actor": deep_get(
-                event,
-                "protoPayload",
-                "authenticationInfo",
-                "principalEmail",
-                default="<ACTOR_NOT_FOUND>",
+                event, "protoPayload", "authenticationInfo", "principalEmail", default="<ACTOR_NOT_FOUND>"
             ),
             "statement": deep_get(
                 event,
@@ -239,16 +212,7 @@ class GCPDestructiveQueries(Rule):
                 default="<STATEMENT_NOT_FOUND>",
             ),
             "table": deep_get(
-                event,
-                "protoPayload",
-                "metadata",
-                "jobChange",
-                "job",
-                "jobConfig",
-                "queryConfig",
-                "destinationTable",
+                event, "protoPayload", "metadata", "jobChange", "job", "jobConfig", "queryConfig", "destinationTable"
             )
-            or deep_get(
-                event, "protoPayload", "metadata", "resourceName", default="<TABLE_NOT_FOUND>"
-            ),
+            or deep_get(event, "protoPayload", "metadata", "resourceName", default="<TABLE_NOT_FOUND>"),
         }

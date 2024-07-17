@@ -1,6 +1,6 @@
 import re
 
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_config import config
 
 teleport_company_domain_login_without_saml_tests: list[RuleTest] = [
@@ -50,9 +50,7 @@ class TeleportCompanyDomainLoginWithoutSAML(Rule):
     default_runbook = "A User from the company domain(s) Logged in without SAML\n"
     summary_attributes = ["event", "code", "user", "method", "mfa_device"]
     tests = teleport_company_domain_login_without_saml_tests
-    TELEPORT_ORGANIZATION_DOMAINS_REGEX = (
-        "@(" + "|".join(config.TELEPORT_ORGANIZATION_DOMAINS) + ")$"
-    )
+    TELEPORT_ORGANIZATION_DOMAINS_REGEX = "@(" + "|".join(config.TELEPORT_ORGANIZATION_DOMAINS) + ")$"
 
     def rule(self, event):
         return bool(

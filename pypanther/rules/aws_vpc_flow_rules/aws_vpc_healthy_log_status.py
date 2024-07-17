@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import aws_rule_context
 
 awsvpc_healthy_log_status_tests: list[RuleTest] = [
@@ -32,9 +32,7 @@ class AWSVPCHealthyLogStatus(Rule):
     tags = ["AWS", "DataModel", "Security Control"]
     default_severity = Severity.LOW
     default_description = "Checks for the log status `SKIP-DATA`, which indicates that data was lost either to an internal server error or due to capacity constraints.\n"
-    default_reference = (
-        "https://docs.aws.amazon.com/vpc/latest/userguide/flow-logs.html#flow-log-records"
-    )
+    default_reference = "https://docs.aws.amazon.com/vpc/latest/userguide/flow-logs.html#flow-log-records"
     default_runbook = "Determine if the cause of the issue is capacity constraints, and consider adjusting VPC Flow Log configurations accordingly.\n"
     tests = awsvpc_healthy_log_status_tests
 

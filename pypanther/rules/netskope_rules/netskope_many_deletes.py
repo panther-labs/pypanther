@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 
 netskope_many_deletes_tests: list[RuleTest] = [
     RuleTest(
@@ -31,12 +31,7 @@ netskope_many_deletes_tests: list[RuleTest] = [
             "severity_level": 2,
             "supporting_data": {
                 "data_type": "incidents",
-                "data_values": [
-                    200,
-                    "POST",
-                    "/api/v2/incidents/uba/getuci",
-                    "trid=ccb898fgrhvdd0v0lebg",
-                ],
+                "data_values": [200, "POST", "/api/v2/incidents/uba/getuci", "trid=ccb898fgrhvdd0v0lebg"],
             },
             "timestamp": "2023-12-11 18:10:13.000000000",
             "type": "admin_audit_logs",
@@ -57,9 +52,7 @@ class NetskopeManyDeletes(Rule):
     default_description = "A user deleted a large number of objects in a short period of time."
     threshold = 10
     default_runbook = "A user deleted a large number of objects in a short period of time.  Validate that this activity is expected and authorized."
-    default_reference = (
-        "https://docs.netskope.com/en/netskope-help/admin-console/administration/audit-log/"
-    )
+    default_reference = "https://docs.netskope.com/en/netskope-help/admin-console/administration/audit-log/"
     tests = netskope_many_deletes_tests
 
     def rule(self, event):

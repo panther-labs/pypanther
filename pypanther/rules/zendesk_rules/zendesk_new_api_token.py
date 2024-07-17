@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 
 zendesk_new_api_token_tests: list[RuleTest] = [
     RuleTest(
@@ -57,16 +57,11 @@ class ZendeskNewAPIToken(Rule):
     API_TOKEN_ACTIONS = {"create", "destroy"}
 
     def rule(self, event):
-        return (
-            event.get("source_type") == "api_token"
-            and event.get("action", "") in self.API_TOKEN_ACTIONS
-        )
+        return event.get("source_type") == "api_token" and event.get("action", "") in self.API_TOKEN_ACTIONS
 
     def title(self, event):
         action = event.get("action", "<UNKNOWN_ACTION>")
-        return (
-            f"[{event.get('p_log_type')}]: User [{event.udm('actor_user')}] {action} an api token"
-        )
+        return f"[{event.get('p_log_type')}]: User [{event.udm('actor_user')}] {action} an api token"
 
     def severity(self, event):
         if event.get("action", "") == "destroy":

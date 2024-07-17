@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 
 g_suite_workspace_trusted_domains_allowlist_tests: list[RuleTest] = [
@@ -111,18 +111,14 @@ class GSuiteWorkspaceTrustedDomainsAllowlist(Rule):
     tags = ["GSuite"]
     default_severity = Severity.MEDIUM
     default_description = "A Workspace Admin Has Modified The Trusted Domains List\n"
-    default_reference = (
-        "https://support.google.com/a/answer/6160020?hl=en&sjid=864417124752637253-EU"
-    )
+    default_reference = "https://support.google.com/a/answer/6160020?hl=en&sjid=864417124752637253-EU"
     default_runbook = "Verify the intent of this modification. If intent cannot be verified, then an indicator search on the actor is advised.\n"
     summary_attributes = ["actor:email"]
     reports = {"MITRE ATT&CK": ["TA0003:T1098"]}
     tests = g_suite_workspace_trusted_domains_allowlist_tests
 
     def rule(self, event):
-        return event.get("type") == "DOMAIN_SETTINGS" and event.get("name", "").endswith(
-            "_TRUSTED_DOMAINS"
-        )
+        return event.get("type") == "DOMAIN_SETTINGS" and event.get("name", "").endswith("_TRUSTED_DOMAINS")
 
     def title(self, event):
         return f"GSuite Workspace Trusted Domains Modified [{event.get('name', '<NO_EVENT_NAME>')}] with [{deep_get(event, 'parameters', 'DOMAIN_NAME', default='<NO_DOMAIN_NAME>')}] performed by [{deep_get(event, 'actor', 'email', default='<NO_ACTOR_FOUND>')}]"

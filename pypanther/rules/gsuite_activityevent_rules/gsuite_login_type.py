@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 
 g_suite_login_type_tests: list[RuleTest] = [
@@ -65,12 +65,8 @@ class GSuiteLoginType(Rule):
     reports = {"MITRE ATT&CK": ["TA0001:T1078"]}
     default_severity = Severity.MEDIUM
     default_description = "A login of a non-approved type was detected for this user.\n"
-    default_reference = (
-        "https://support.google.com/a/answer/9039184?hl=en&sjid=864417124752637253-EU"
-    )
-    default_runbook = (
-        "Correct the user account settings so that only logins of approved types are available.\n"
-    )
+    default_reference = "https://support.google.com/a/answer/9039184?hl=en&sjid=864417124752637253-EU"
+    default_runbook = "Correct the user account settings so that only logins of approved types are available.\n"
     summary_attributes = ["actor:email"]
     tests = g_suite_login_type_tests
     # allow-list of approved login types

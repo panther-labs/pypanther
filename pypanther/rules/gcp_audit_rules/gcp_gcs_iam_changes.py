@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 
 gcpgcsiam_changes_tests: list[RuleTest] = [
@@ -30,13 +30,7 @@ gcpgcsiam_changes_tests: list[RuleTest] = [
                 "serviceData": {
                     "@type": "type.googleapis.com/google.iam.v1.logging.AuditData",
                     "policyDelta": {
-                        "bindingDeltas": [
-                            {
-                                "action": "ADD",
-                                "role": "roles/storage.objectViewer",
-                                "member": "allUsers",
-                            }
-                        ]
+                        "bindingDeltas": [{"action": "ADD", "role": "roles/storage.objectViewer", "member": "allUsers"}]
                     },
                 },
                 "resourceLocation": {"currentLocations": ["us"]},
@@ -44,11 +38,7 @@ gcpgcsiam_changes_tests: list[RuleTest] = [
             "insertId": "15cp9rve72xt1",
             "resource": {
                 "type": "gcs_bucket",
-                "labels": {
-                    "bucket_name": "jacks-test-bucket",
-                    "project_id": "western-verve-123456",
-                    "location": "us",
-                },
+                "labels": {"bucket_name": "jacks-test-bucket", "project_id": "western-verve-123456", "location": "us"},
             },
             "timestamp": "2020-05-15T04:28:42.237027213Z",
             "severity": "NOTICE",

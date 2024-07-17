@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import slack_alert_context
 
 slack_audit_logs_mfa_settings_changed_tests: list[RuleTest] = [
@@ -81,9 +81,7 @@ class SlackAuditLogsMFASettingsChanged(Rule):
     reports = {"MITRE ATT&CK": ["TA0005:T1556.006"]}
     default_severity = Severity.HIGH
     default_description = "Detects changes to Multi-Factor Authentication requirements"
-    default_reference = (
-        "https://slack.com/intl/en-gb/help/articles/204509068-Set-up-two-factor-authentication"
-    )
+    default_reference = "https://slack.com/intl/en-gb/help/articles/204509068-Set-up-two-factor-authentication"
     summary_attributes = ["p_any_ip_addresses", "p_any_emails"]
     tests = slack_audit_logs_mfa_settings_changed_tests
 

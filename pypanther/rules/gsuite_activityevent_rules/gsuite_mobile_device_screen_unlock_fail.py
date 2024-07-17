@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 
 g_suite_device_unlock_failure_tests: list[RuleTest] = [
@@ -43,10 +43,7 @@ g_suite_device_unlock_failure_tests: list[RuleTest] = [
             "actor": {"callerType": "USER", "email": "homer.simpson@example.io"},
             "type": "device_updates",
             "name": "FAILED_PASSWORD_ATTEMPTS_EVENT",
-            "parameters": {
-                "USER_EMAIL": "homer.simpson@example.io",
-                "FAILED_PASSWD_ATTEMPTS": "100",
-            },
+            "parameters": {"USER_EMAIL": "homer.simpson@example.io", "FAILED_PASSWD_ATTEMPTS": "100"},
         },
     ),
 ]
@@ -59,9 +56,7 @@ class GSuiteDeviceUnlockFailure(Rule):
     tags = ["GSuite", "Credential Access:Brute Force"]
     reports = {"MITRE ATT&CK": ["TA0006:T1110"]}
     default_severity = Severity.MEDIUM
-    default_description = (
-        "Someone failed to unlock a user's device multiple times in quick succession.\n"
-    )
+    default_description = "Someone failed to unlock a user's device multiple times in quick succession.\n"
     default_reference = "https://support.google.com/a/answer/6350074?hl=en"
     default_runbook = "Verify that these unlock attempts came from the user, and not a malicious actor which has acquired the user's device.\n"
     summary_attributes = ["actor:email"]

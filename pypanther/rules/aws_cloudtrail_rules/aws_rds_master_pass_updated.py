@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import deep_get
 
 awsrds_master_password_updated_tests: list[RuleTest] = [
@@ -55,9 +55,7 @@ awsrds_master_password_updated_tests: list[RuleTest] = [
                 "dBInstanceIdentifier": "my-database",
                 "dBInstanceStatus": "available",
                 "dBName": "test",
-                "dBParameterGroups": [
-                    {"dBParameterGroupName": "default.mysql8.0", "parameterApplyStatus": "in-sync"}
-                ],
+                "dBParameterGroups": [{"dBParameterGroupName": "default.mysql8.0", "parameterApplyStatus": "in-sync"}],
                 "dBSecurityGroups": [],
                 "dBSubnetGroup": {
                     "dBSubnetGroupDescription": "Created from the RDS Management Console",
@@ -101,9 +99,7 @@ awsrds_master_password_updated_tests: list[RuleTest] = [
                 "monitoringInterval": 0,
                 "multiAZ": False,
                 "networkType": "IPV4",
-                "optionGroupMemberships": [
-                    {"optionGroupName": "default:mysql-8-0", "status": "in-sync"}
-                ],
+                "optionGroupMemberships": [{"optionGroupName": "default:mysql-8-0", "status": "in-sync"}],
                 "pendingModifiedValues": {"allocatedStorage": 22},
                 "performanceInsightsEnabled": False,
                 "preferredBackupWindow": "11:52-12:22",
@@ -195,9 +191,7 @@ awsrds_master_password_updated_tests: list[RuleTest] = [
                 "dBInstanceIdentifier": "my-database",
                 "dBInstanceStatus": "available",
                 "dBName": "test",
-                "dBParameterGroups": [
-                    {"dBParameterGroupName": "default.mysql8.0", "parameterApplyStatus": "in-sync"}
-                ],
+                "dBParameterGroups": [{"dBParameterGroupName": "default.mysql8.0", "parameterApplyStatus": "in-sync"}],
                 "dBSecurityGroups": [],
                 "dBSubnetGroup": {
                     "dBSubnetGroupDescription": "Created from the RDS Management Console",
@@ -241,9 +235,7 @@ awsrds_master_password_updated_tests: list[RuleTest] = [
                 "monitoringInterval": 0,
                 "multiAZ": False,
                 "networkType": "IPV4",
-                "optionGroupMemberships": [
-                    {"optionGroupName": "default:mysql-8-0", "status": "in-sync"}
-                ],
+                "optionGroupMemberships": [{"optionGroupName": "default:mysql-8-0", "status": "in-sync"}],
                 "pendingModifiedValues": {"masterUserPassword": "****"},
                 "performanceInsightsEnabled": False,
                 "preferredBackupWindow": "11:52-12:22",
@@ -286,13 +278,9 @@ awsrds_master_password_updated_tests: list[RuleTest] = [
 
 
 class AWSRDSMasterPasswordUpdated(Rule):
-    default_description = (
-        "A sensitive database operation that should be performed carefully or rarely"
-    )
+    default_description = "A sensitive database operation that should be performed carefully or rarely"
     display_name = "AWS RDS Master Password Updated"
-    default_reference = (
-        "https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Overview.DBInstance.Modifying.html"
-    )
+    default_reference = "https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Overview.DBInstance.Modifying.html"
     default_severity = Severity.LOW
     reports = {"MITRE ATT&CK": ["TA0003:T1098"]}
     summary_attributes = [
@@ -310,9 +298,7 @@ class AWSRDSMasterPasswordUpdated(Rule):
         return (
             event.get("eventName") == "ModifyDBInstance"
             and event.get("eventSource") == "rds.amazonaws.com"
-            and bool(
-                deep_get(event, "responseElements", "pendingModifiedValues", "masterUserPassword")
-            )
+            and bool(deep_get(event, "responseElements", "pendingModifiedValues", "masterUserPassword"))
         )
 
     def title(self, event):

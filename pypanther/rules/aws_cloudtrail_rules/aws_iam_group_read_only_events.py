@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity
 from pypanther.helpers.panther_base_helpers import aws_rule_context
 
 awsiam_group_read_only_events_tests: list[RuleTest] = [
@@ -28,10 +28,7 @@ awsiam_group_read_only_events_tests: list[RuleTest] = [
                 "invokedBy": "cloudformation.amazonaws.com",
                 "principalId": "AROAVKVYIOO7JN7TN7NSA:123123123456",
                 "sessionContext": {
-                    "attributes": {
-                        "creationDate": "2022-12-11T19:42:54Z",
-                        "mfaAuthenticated": "false",
-                    },
+                    "attributes": {"creationDate": "2022-12-11T19:42:54Z", "mfaAuthenticated": "false"},
                     "sessionIssuer": {
                         "accountId": "1231231234",
                         "arn": "arn:aws:iam::1231231234:role/PAssumedRole-us-east-2",
@@ -71,10 +68,7 @@ awsiam_group_read_only_events_tests: list[RuleTest] = [
                 "invokedBy": "cloudformation.amazonaws.com",
                 "principalId": "AROAVKVYIOO7JN7TN7NSA:123123123456",
                 "sessionContext": {
-                    "attributes": {
-                        "creationDate": "2022-12-11T19:42:54Z",
-                        "mfaAuthenticated": "false",
-                    },
+                    "attributes": {"creationDate": "2022-12-11T19:42:54Z", "mfaAuthenticated": "false"},
                     "sessionIssuer": {
                         "accountId": "1231231234",
                         "arn": "arn:aws:iam::1231231234:role/PAssumedRole-us-east-2",
@@ -114,10 +108,7 @@ awsiam_group_read_only_events_tests: list[RuleTest] = [
                 "invokedBy": "cloudformation.amazonaws.com",
                 "principalId": "AROAVKVYIOO7JN7TN7NSA:123123123456",
                 "sessionContext": {
-                    "attributes": {
-                        "creationDate": "2022-12-11T19:42:54Z",
-                        "mfaAuthenticated": "false",
-                    },
+                    "attributes": {"creationDate": "2022-12-11T19:42:54Z", "mfaAuthenticated": "false"},
                     "sessionIssuer": {
                         "accountId": "1231231234",
                         "arn": "arn:aws:iam::1231231234:role/PAssumedRole-us-east-2",
@@ -157,10 +148,7 @@ awsiam_group_read_only_events_tests: list[RuleTest] = [
                 "invokedBy": "cloudformation.amazonaws.com",
                 "principalId": "AROAVKVYIOO7JN7TN7NSA:123123123456",
                 "sessionContext": {
-                    "attributes": {
-                        "creationDate": "2022-12-11T19:42:54Z",
-                        "mfaAuthenticated": "false",
-                    },
+                    "attributes": {"creationDate": "2022-12-11T19:42:54Z", "mfaAuthenticated": "false"},
                     "sessionIssuer": {
                         "accountId": "1231231234",
                         "arn": "arn:aws:iam::1231231234:role/PAssumedRole-us-east-2",
@@ -200,10 +188,7 @@ awsiam_group_read_only_events_tests: list[RuleTest] = [
                 "invokedBy": "cloudformation.amazonaws.com",
                 "principalId": "AROAVKVYIOO7JN7TN7NSA:123123123456",
                 "sessionContext": {
-                    "attributes": {
-                        "creationDate": "2022-12-11T19:42:54Z",
-                        "mfaAuthenticated": "false",
-                    },
+                    "attributes": {"creationDate": "2022-12-11T19:42:54Z", "mfaAuthenticated": "false"},
                     "sessionIssuer": {
                         "accountId": "1231231234",
                         "arn": "arn:aws:iam::1231231234:role/PAssumedRole-us-east-2",
@@ -243,10 +228,7 @@ awsiam_group_read_only_events_tests: list[RuleTest] = [
                 "invokedBy": "cloudformation.amazonaws.com",
                 "principalId": "AROAVKVYIOO7JN7TN7NSA:123123123456",
                 "sessionContext": {
-                    "attributes": {
-                        "creationDate": "2022-12-11T19:42:54Z",
-                        "mfaAuthenticated": "false",
-                    },
+                    "attributes": {"creationDate": "2022-12-11T19:42:54Z", "mfaAuthenticated": "false"},
                     "sessionIssuer": {
                         "accountId": "1231231234",
                         "arn": "arn:aws:iam::1231231234:role/PAssumedRole-us-east-2",
@@ -264,7 +246,9 @@ awsiam_group_read_only_events_tests: list[RuleTest] = [
 
 
 class AWSIAMGroupReadOnlyEvents(Rule):
-    default_description = "This rule captures multiple read/list events related to IAM group management in AWS Cloudtrail."
+    default_description = (
+        "This rule captures multiple read/list events related to IAM group management in AWS Cloudtrail."
+    )
     display_name = "AWS IAM Group Read Only Events"
     enabled = False
     default_reference = "https://attack.mitre.org/techniques/T1069/"
