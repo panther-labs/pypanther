@@ -4,6 +4,7 @@ app_omni_alert_passthrough_tests: list[RuleTest] = [
     RuleTest(
         name="Alert Type Severity 2",
         expected_result=True,
+        expected_severity=Severity.MEDIUM,
         log={
             "appomni": {
                 "alert": {"channel": "prod"},
@@ -70,6 +71,7 @@ app_omni_alert_passthrough_tests: list[RuleTest] = [
     RuleTest(
         name="External App Install - Severity 3",
         expected_result=True,
+        expected_severity=Severity.LOW,
         log={
             "@timestamp": "2024-02-26T18:02:09.044Z",
             "appomni": {
@@ -117,6 +119,7 @@ app_omni_alert_passthrough_tests: list[RuleTest] = [
     RuleTest(
         name="Multiple Services",
         expected_result=True,
+        expected_severity=Severity.MEDIUM,
         log={
             "appomni": {
                 "alert": {"channel": "prod"},
