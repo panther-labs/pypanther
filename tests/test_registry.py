@@ -1,10 +1,12 @@
 from pypanther import register
 from pypanther.base import Rule, Severity
 from pypanther.data_models_v2 import DataModel
-from pypanther.registry import registered_data_models, registered_rules
+from pypanther.registry import __DATA_MODEL_REGISTRY, __RULE_REGISTRY, registered_data_models, registered_rules
 
 
 def test_register_rule_duplicate():
+    _reset_registry()
+
     class A(Rule):
         tags = ["test"]
         log_types = [""]
@@ -21,6 +23,8 @@ def test_register_rule_duplicate():
 
 
 def test_register_rules():
+    _reset_registry()
+
     class A(Rule):
         log_types = [""]
         id = "a"
@@ -44,6 +48,8 @@ def test_register_rules():
 
 
 def test_register_data_model_duplicate():
+    _reset_registry()
+
     class A(DataModel):
         data_model_id = "test_register_duplicate"
 
@@ -53,6 +59,8 @@ def test_register_data_model_duplicate():
 
 
 def test_register_data_models():
+    _reset_registry()
+
     class A(DataModel):
         id = "a"
 
@@ -66,8 +74,15 @@ def test_register_data_models():
 
 
 def test_invalid_argument():
+    _reset_registry()
     register("hello")
 
 
 def test_invalid_argument_in_iterable():
+    _reset_registry()
     register(["hello"])
+
+
+def _reset_registry():
+    __RULE_REGISTRY.clear()
+    __DATA_MODEL_REGISTRY.clear()
