@@ -4,7 +4,7 @@ import dataclasses
 from enum import Enum
 from typing import List, Optional
 
-from pypanther import PantherLogType
+from pypanther import LogType
 
 """This file contains data model definitions for the PyPanther package.
 It is still in development and is subject to change.
@@ -36,10 +36,11 @@ class FieldType(str, Enum):
 @dataclasses.dataclass
 class FieldMapping:
     """Represents a field mapping in a data model."""
+
     # TODO: Right now we support field_paths but we should be able to support transformations as well
     # TODO: This could be pointing to a schema attribute in the log type
 
-    log_type: PantherLogType | str
+    log_type: LogType | str
     """The log type that this field belongs to."""
 
     field_path: str
