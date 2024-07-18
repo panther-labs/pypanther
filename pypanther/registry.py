@@ -24,11 +24,12 @@ def register(arg: Type[Rule] | Iterable[Type[Rule]] | Type[DataModel] | Iterable
             continue
         if _register_data_model(e):  # type: ignore
             continue
-        raise ValueError(f"argument must be a Rule or DataModel or an iterable them not {arg}")
+        raise ValueError(f"argument must be a Rule or DataModel or an iterable of them not {arg}")
 
 
 def _register_rule(rule: Type[Rule]) -> bool:
     """Register a rule with the pypanther library. Returns True if the rule was registered, False otherwise."""
+
     if isinstance(rule, type) and issubclass(rule, Rule):
         rule.validate()
         _RULE_REGISTRY.add(rule)
