@@ -49,12 +49,18 @@ def run():
 
 
 def setup_parser() -> argparse.ArgumentParser:
-    parser = argparse.ArgumentParser(description="Command line tool for uploading files.", prog="pypanther")
+    parser = argparse.ArgumentParser(
+        description="Command line tool for uploading files.",
+        prog="pypanther",
+        formatter_class=argparse.ArgumentDefaultsHelpFormatter,
+    )
     parser.add_argument("--debug", action="store_true", dest="debug")
     subparsers = parser.add_subparsers(dest="command", help="Available commands")
 
     # Upload command
-    upload_parser = subparsers.add_parser("upload", help="Upload a file")
+    upload_parser = subparsers.add_parser(
+        "upload", help="Upload a file", formatter_class=argparse.ArgumentDefaultsHelpFormatter
+    )
 
     standard_args.for_public_api(upload_parser, required=False)
     upload_parser.set_defaults(func=util.func_with_backend(upload.run))
@@ -81,11 +87,15 @@ def setup_parser() -> argparse.ArgumentParser:
     )
 
     # Test command
-    test_parser = subparsers.add_parser("test", help="run tests")
+    test_parser = subparsers.add_parser(
+        "test", help="run tests", formatter_class=argparse.ArgumentDefaultsHelpFormatter
+    )
     test_parser.set_defaults(func=testing.run)
 
     # Version command
-    version_parser = subparsers.add_parser("version", help="version")
+    version_parser = subparsers.add_parser(
+        "version", help="version", formatter_class=argparse.ArgumentDefaultsHelpFormatter
+    )
     version_parser.set_defaults(func=version)
 
     return parser
