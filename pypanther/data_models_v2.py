@@ -109,11 +109,11 @@ class DataModel(abc.ABC):
 
     @classmethod
     def override(
-            cls,
-            data_model_id: Optional[str] = None,
-            description: Optional[str] = None,
-            enabled: Optional[bool] = None,
-            fields: Optional[List[Field]] = None,
+        cls,
+        data_model_id: Optional[str] = None,
+        description: Optional[str] = None,
+        enabled: Optional[bool] = None,
+        fields: Optional[List[Field]] = None,
     ):
         for key, val in locals().items():
             if key == "cls":
