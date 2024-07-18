@@ -96,7 +96,9 @@ def test_mock_patching():
 
     # ensure the base class has a mock defined
     assert len(TestRule.__base__.tests[0].mocks) > 0
-    TestRule.run_tests(DATA_MODEL_CACHE.data_model_of_logtype)
+    results = TestRule.run_tests(DATA_MODEL_CACHE.data_model_of_logtype)
+    for result in results:
+        assert result.passed
 
 
 def test_mock_patching_new():
@@ -127,9 +129,15 @@ def test_mock_patching_new():
         thing = "foo"
 
         def rule(self, event):
-            return self.thing == "bar"
+            if self.thing == "bar":
+                return True
+            if self.thing == "foo":
+                return False
+            raise Exception("thing is not foo or bar")
 
-    TestRule.run_tests(DATA_MODEL_CACHE.data_model_of_logtype)
+    results = TestRule.run_tests(DATA_MODEL_CACHE.data_model_of_logtype)
+    for result in results:
+        assert result.passed
 
 
 class TestRunningTests:
