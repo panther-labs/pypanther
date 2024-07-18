@@ -680,3 +680,10 @@ def suppress_output():
 @contextlib.contextmanager
 def noop():
     yield
+
+
+def panther_managed(cls: Type[Rule]) -> Type[Rule]:
+    """Decorator to apply to OOTB rules written by Panther."""
+    cls._tests = cls.tests
+    cls.tests = []
+    return cls

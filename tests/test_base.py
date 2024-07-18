@@ -15,7 +15,7 @@ from panther_core.rule import (
 )
 from pydantic import ValidationError
 
-from pypanther.base import RULE_ALL_ATTRS, Rule, RuleModel
+from pypanther.base import RULE_ALL_ATTRS, Rule, RuleModel, panther_managed
 from pypanther.cache import DATA_MODEL_CACHE
 from pypanther.log_types import LogType
 from pypanther.rules.aws_cloudtrail_rules.aws_console_login_without_mfa import (
@@ -23,6 +23,7 @@ from pypanther.rules.aws_cloudtrail_rules.aws_console_login_without_mfa import (
 )
 from pypanther.severity import Severity
 from pypanther.unit_tests import RuleTest
+from pypanther.wrap import include
 
 get_data_model = DATA_MODEL_CACHE.data_model_of_logtype
 
@@ -1472,6 +1473,28 @@ class TestRule(TestCase):
             expected_alert_context={"field": ["bad"]},
         )
         assert not Test().run_test(test, get_data_model).passed
+
+
+class TestPantherManagedDecorator(TestCase):
+    def test_no_subclass_tests(self) -> None:
+        @panther_managed
+        class Test(Rule):
+            id = "TestRule"
+            log_types = [LogType.PANTHER_AUDIT]
+            default_severity = Severity.CRITICAL
+            tests = [RuleTest(name="test", expected_result=True, log={})]
+
+            def rule(self, event: PantherEvent) -> bool:
+                return True
+
+        for test_result in Test().run_tests(get_data_model):
+            assert test_result.passed, test_result
+
+        include(lambda x: False)(Test)
+
+        Test.tests.append(RuleTest(name="new test", expected_result=False, log={}))
+        for test_result in Test().run_tests(get_data_model):
+            assert test_result.passed, test_result
 
 
 @dataclasses.dataclass
