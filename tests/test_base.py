@@ -1510,7 +1510,20 @@ class TestRule(TestCase):
 
 
 class TestPantherManagedDecorator(TestCase):
-    def test_no_subclass_tests(self) -> None:
+    def test_no_test(self) -> None:
+        @panther_managed
+        class Test(Rule):
+            id = "TestRule"
+            log_types = [LogType.PANTHER_AUDIT]
+            default_severity = Severity.CRITICAL
+            tests = [RuleTest(name="test", expected_result=True, log={})]
+
+            def rule(self, event: PantherEvent) -> bool:
+                return True
+
+        assert len(Test.tests) == 0
+
+    def test_no_tests_break_with_filter(self) -> None:
         @panther_managed
         class Test(Rule):
             id = "TestRule"
