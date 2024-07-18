@@ -22,7 +22,7 @@ from pypanther.rules.aws_cloudtrail_rules.aws_console_login_without_mfa import (
     AWSConsoleLoginWithoutMFA,
 )
 from pypanther.severity import Severity
-from pypanther.unit_tests import RuleTest
+from pypanther.unit_tests import RuleMock, RuleTest
 
 get_data_model = DATA_MODEL_CACHE.data_model_of_logtype
 
@@ -96,6 +96,39 @@ def test_mock_patching():
 
     # ensure the base class has a mock defined
     assert len(TestRule.__base__.tests[0].mocks) > 0
+    TestRule.run_tests(DATA_MODEL_CACHE.data_model_of_logtype)
+
+
+def test_mock_patching_new():
+    # ensure that mock patches work on the file the mock is defined in
+    class TestRule(Rule):
+        id = "test"
+        log_types = [LogType.PANTHER_AUDIT]
+        default_severity = Severity.HIGH
+        tests = [
+            RuleTest(
+                name="false without mocking",
+                expected_result=False,
+                log={},
+            ),
+            RuleTest(
+                name="true with mocking",
+                expected_result=True,
+                log={},
+                mocks=[
+                    RuleMock(
+                        object_name="thing",
+                        new="bar",
+                    )
+                ],
+            ),
+        ]
+
+        thing = "foo"
+
+        def rule(self, event):
+            return self.thing == "bar"
+
     TestRule.run_tests(DATA_MODEL_CACHE.data_model_of_logtype)
 
 
