@@ -27,6 +27,21 @@ class TestRegister(unittest.TestCase):
         A.tags.append("test2")
         register(A)
         assert len(registered_rules()) == 1
+        assert A in registered_rules()
+
+    def test_register_rule_duplicate_in_list(self):
+        class A(Rule):
+            tags = ["test"]
+            log_types = [""]
+            id = "test_register_duplicate"
+            default_severity = Severity.INFO
+
+            def rule(self, _):
+                pass
+
+        register([A, A])
+        assert len(registered_rules()) == 1
+        assert A in registered_rules()
 
     def test_register_rules(self):
         class A(Rule):
@@ -57,6 +72,7 @@ class TestRegister(unittest.TestCase):
         register(A)
         register(A)
         assert len(registered_data_models()) == 1
+        assert A in registered_data_models()
 
     def test_register_data_model_duplicate_in_list(self):
         class A(DataModel):
