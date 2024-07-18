@@ -1,7 +1,7 @@
 from pypanther import register
 from pypanther.base import Rule, Severity
 from pypanther.data_models_v2 import DataModel
-from pypanther.registry import __DATA_MODEL_REGISTRY, __RULE_REGISTRY, registered_data_models, registered_rules
+from pypanther.registry import _DATA_MODEL_REGISTRY, _RULE_REGISTRY, registered_data_models, registered_rules
 
 
 def test_register_rule_duplicate():
@@ -84,5 +84,5 @@ def test_invalid_argument_in_iterable():
 
 
 def _reset_registry():
-    __RULE_REGISTRY.clear()
-    __DATA_MODEL_REGISTRY.clear()
+    _RULE_REGISTRY.clear()
+    _DATA_MODEL_REGISTRY.clear()
