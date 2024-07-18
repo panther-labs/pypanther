@@ -77,3 +77,21 @@ class TestRegister(unittest.TestCase):
     def test_invalid_argument_in_iterable(self):
         with pytest.raises(ValueError, match="argument must be a Rule or DataModel or an iterable of them not"):
             register([42])
+
+    def test_invalid_argument_passed_along_rule(self):
+        with pytest.raises(ValueError, match="argument must be a Rule or DataModel or an iterable of them not"):
+            class A(Rule):
+                log_types = [""]
+                id = "a"
+                default_severity = Severity.INFO
+
+                def rule(self, _):
+                    pass
+
+            register([A, 42])
+
+    def test_invalid_argument_passed_along_data_model(self):
+        with pytest.raises(ValueError, match="argument must be a Rule or DataModel or an iterable of them not"):
+            class A(DataModel):
+                id = "a"
+            register([A, 42])
