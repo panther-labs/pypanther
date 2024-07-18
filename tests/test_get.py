@@ -1,11 +1,13 @@
+import argparse
 import textwrap
 import unittest
+from typing import Type
 from unittest import TestCase
 
 import pytest
 
-from pypanther.base import Rule
-from pypanther.get import get_panther_rules, get_rules, print_rule_table
+from pypanther.base import TYPE_RULE, Rule
+from pypanther.get import get_panther_rules, get_rules, print_rule_table, run
 
 
 class TestGetPantherRules(TestCase):
@@ -98,5 +100,26 @@ class TestGetRules(unittest.TestCase):
             get_rules(module="str")
 
 
+class TestRun:
+    def test_not_found(self) -> None:
+        rule_id = "Not.A.Real.ID"
+        rc, err_msg = run(argparse.Namespace(id=rule_id, type=TYPE_RULE.lower()))
+        assert rc == 1
+        assert rule_id in err_msg
+
+    def test_invalid_type(self) -> None:
+        rule_id = "GitHub.Team.Modified-prototype"
+        fake_type = "fake_type"
+        rc, err_msg = run(argparse.Namespace(id=rule_id, type=fake_type))
+        assert rc == 1
+        assert fake_type in err_msg
+
+    @pytest.mark.parametrize("rule", get_panther_rules(), ids=lambda x: x.id)
+    def test_happy_path(self, rule: Type[Rule]) -> None:
+        rc, err_msg = run(argparse.Namespace(id=rule.id, type=TYPE_RULE.lower()))
+        assert rc == 0
+        assert err_msg == ""
+
+
 if __name__ == "__main__":
-    unittest.main()
+    pytest.main()

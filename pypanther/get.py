@@ -1,12 +1,14 @@
+import argparse
+import inspect
 from importlib import import_module
 from pkgutil import walk_packages
 from types import ModuleType
-from typing import Any, List, Set, Type
+from typing import Any, List, Set, Tuple, Type
 
 from prettytable import PrettyTable
 from pydantic import NonNegativeInt, PositiveInt
 
-from pypanther.base import DataModel, Rule
+from pypanther.base import TYPE_RULE, DataModel, Rule
 from pypanther.severity import Severity
 from pypanther.unit_tests import RuleTest
 
@@ -20,6 +22,23 @@ def __to_set(value):
         return set(value)
     except TypeError:
         return {value}
+
+
+def run(args: argparse.Namespace) -> Tuple[int, str]:
+    if args.type == TYPE_RULE.lower():
+        found_rules = get_panther_rules(id=args.id)
+        if len(found_rules) == 0:
+            return 1, f"Found no rules matching id={args.id}"
+        if len(found_rules) > 1:
+            return 1, f"Found multiple rules matching id={args.id}"
+        rule = found_rules[0]
+        try:
+            with open(inspect.getfile(rule)) as rule_file:
+                print(rule_file.read())
+        except (TypeError, OSError) as e:
+            return 1, f"Error getting details for rule {args.id}: {repr(e)}"
+        return 0, ""
+    return 1, f"Unsupported type: {args.type}"
 
 
 def get_panther_rules(

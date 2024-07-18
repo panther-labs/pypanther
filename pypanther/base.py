@@ -194,6 +194,9 @@ class Rule(metaclass=abc.ABCMeta):
     default_reference: str = DEFAULT_REFERENCE
     default_description: str = DEFAULT_DESCRIPTION
 
+    def __str__(self) -> str:
+        return str(vars(self))
+
     def _analysis_type(self) -> str:
         return TYPE_RULE
 
