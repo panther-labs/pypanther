@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.panther_base_helpers import deep_get
 
 gcpvpc_flow_logs_disabled_tests: list[RuleTest] = [
@@ -164,6 +164,7 @@ gcpvpc_flow_logs_disabled_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class GCPVPCFlowLogsDisabled(Rule):
     default_description = "VPC flow logs were disabled for a subnet."
     display_name = "GCP VPC Flow Logs Disabled"

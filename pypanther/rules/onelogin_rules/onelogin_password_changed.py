@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 
 one_login_password_changed_tests: list[RuleTest] = [
     RuleTest(
@@ -37,6 +37,7 @@ one_login_password_changed_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class OneLoginPasswordChanged(Rule):
     id = "OneLogin.PasswordChanged-prototype"
     display_name = "OneLogin User Password Changed"

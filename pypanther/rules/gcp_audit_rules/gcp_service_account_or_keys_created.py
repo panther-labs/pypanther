@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.panther_base_helpers import deep_get
 
 gcp_service_accountor_keys_created_tests: list[RuleTest] = [
@@ -193,6 +193,7 @@ gcp_service_accountor_keys_created_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class GCPServiceAccountorKeysCreated(Rule):
     default_description = (
         "Detects when a service account or key is created manually by a user instead of an automated workflow."

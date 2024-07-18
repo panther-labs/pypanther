@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.panther_base_helpers import deep_get
 
 one_password_lut_sensitive_item_tests: list[RuleTest] = [
@@ -65,6 +65,7 @@ one_password_lut_sensitive_item_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class OnePasswordLutSensitiveItem(Rule):
     id = "OnePassword.Lut.Sensitive.Item-prototype"
     dedup_period_minutes = 30

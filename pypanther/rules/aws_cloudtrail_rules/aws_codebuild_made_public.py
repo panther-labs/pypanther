@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.panther_base_helpers import aws_rule_context, deep_get
 from pypanther.helpers.panther_default import lookup_aws_account_name
 
@@ -115,6 +115,7 @@ aws_cloud_trail_codebuild_project_made_public_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class AWSCloudTrailCodebuildProjectMadePublic(Rule):
     id = "AWS.CloudTrail.CodebuildProjectMadePublic-prototype"
     display_name = "CodeBuild Project made Public"

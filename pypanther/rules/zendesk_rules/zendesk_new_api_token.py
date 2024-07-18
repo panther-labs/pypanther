@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 
 zendesk_new_api_token_tests: list[RuleTest] = [
     RuleTest(
@@ -42,6 +42,7 @@ zendesk_new_api_token_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class ZendeskNewAPIToken(Rule):
     id = "Zendesk.NewAPIToken-prototype"
     display_name = "Zendesk API Token Created"

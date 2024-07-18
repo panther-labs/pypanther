@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.panther_base_helpers import deep_get
 from pypanther.helpers.panther_config import config
 
@@ -24,6 +24,7 @@ g_suite_doc_ownership_transfer_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class GSuiteDocOwnershipTransfer(Rule):
     id = "GSuite.DocOwnershipTransfer-prototype"
     display_name = "GSuite Document External Ownership Transfer"

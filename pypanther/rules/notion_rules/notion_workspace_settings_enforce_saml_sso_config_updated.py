@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.panther_base_helpers import deep_get
 from pypanther.helpers.panther_notion_helpers import notion_alert_context
 
@@ -69,6 +69,7 @@ notion_samlsso_configuration_changed_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class NotionSAMLSSOConfigurationChanged(Rule):
     id = "Notion.SAML.SSO.Configuration.Changed-prototype"
     display_name = "Notion SAML SSO Configuration Changed"

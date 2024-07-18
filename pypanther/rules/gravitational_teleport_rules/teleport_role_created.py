@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 
 teleport_role_created_tests: list[RuleTest] = [
     RuleTest(
@@ -19,6 +19,7 @@ teleport_role_created_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class TeleportRoleCreated(Rule):
     id = "Teleport.RoleCreated-prototype"
     display_name = "A Teleport Role was modified or created"

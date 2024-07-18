@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.panther_base_helpers import deep_get
 
 g_suite_device_unlock_failure_tests: list[RuleTest] = [
@@ -49,6 +49,7 @@ g_suite_device_unlock_failure_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class GSuiteDeviceUnlockFailure(Rule):
     id = "GSuite.DeviceUnlockFailure-prototype"
     display_name = "GSuite User Device Unlock Failures"

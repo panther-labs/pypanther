@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.panther_base_helpers import deep_get
 
 g_suite_government_backed_attack_tests: list[RuleTest] = [
@@ -27,6 +27,7 @@ g_suite_government_backed_attack_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class GSuiteGovernmentBackedAttack(Rule):
     id = "GSuite.GovernmentBackedAttack-prototype"
     display_name = "GSuite Government Backed Attack"

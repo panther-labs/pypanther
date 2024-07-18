@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.panther_notion_helpers import notion_alert_context
 
 notion_workspace_scim_token_generated_tests: list[RuleTest] = [
@@ -47,6 +47,7 @@ notion_workspace_scim_token_generated_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class NotionWorkspaceSCIMTokenGenerated(Rule):
     id = "Notion.Workspace.SCIM.Token.Generated-prototype"
     display_name = "Notion SCIM Token Generated"

@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.panther_mongodb_helpers import mongodb_alert_context
 
 mongo_db2_fa_disabled_tests: list[RuleTest] = [
@@ -63,6 +63,7 @@ mongo_db2_fa_disabled_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class MongoDB2FADisabled(Rule):
     default_description = "2FA was disabled."
     display_name = "MongoDB 2FA Disabled"

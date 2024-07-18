@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.gcp_base_helpers import gcp_alert_context
 from pypanther.helpers.panther_base_helpers import deep_get, deep_walk
 
@@ -92,6 +92,7 @@ gcpia_mservice_accountssign_jwt_privilege_escalation_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class GCPIAMserviceAccountssignJwtPrivilegeEscalation(Rule):
     id = "GCP.IAM.serviceAccounts.signJwt.Privilege.Escalation-prototype"
     display_name = "GCP IAM serviceAccounts.signJwt Privilege Escalation"

@@ -1,6 +1,6 @@
 import re
 
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.gcp_base_helpers import gcp_alert_context
 from pypanther.helpers.panther_base_helpers import deep_get
 
@@ -148,6 +148,7 @@ gcp_firewall_rule_modified_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class GCPFirewallRuleModified(Rule):
     display_name = "GCP Firewall Rule Modified"
     id = "GCP.Firewall.Rule.Modified-prototype"

@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 
 app_omni_alert_passthrough_tests: list[RuleTest] = [
     RuleTest(
@@ -152,6 +152,7 @@ app_omni_alert_passthrough_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class AppOmniAlertPassthrough(Rule):
     id = "AppOmni.Alert.Passthrough-prototype"
     display_name = "AppOmni Alert Passthrough"

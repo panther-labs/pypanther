@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 
 github_repo_created_tests: list[RuleTest] = [
     RuleTest(
@@ -28,6 +28,7 @@ github_repo_created_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class GithubRepoCreated(Rule):
     id = "Github.Repo.Created-prototype"
     display_name = "GitHub Repository Created"

@@ -1,6 +1,6 @@
 from ipaddress import ip_network
 
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.panther_base_helpers import aws_rule_context
 
 awsvpc_unapproved_outbound_dns_tests: list[RuleTest] = [
@@ -40,6 +40,7 @@ awsvpc_unapproved_outbound_dns_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class AWSVPCUnapprovedOutboundDNS(Rule):
     id = "AWS.VPC.UnapprovedOutboundDNS-prototype"
     display_name = "VPC Flow Logs Unapproved Outbound DNS Traffic"

@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 
 okta_support_access_tests: list[RuleTest] = [
     RuleTest(
@@ -60,6 +60,7 @@ okta_support_access_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class OktaSupportAccess(Rule):
     id = "Okta.Support.Access-prototype"
     display_name = "Okta Support Access Granted"

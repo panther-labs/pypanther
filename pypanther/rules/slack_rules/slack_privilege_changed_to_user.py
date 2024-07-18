@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.panther_base_helpers import deep_get, slack_alert_context
 
 slack_audit_logs_user_privilege_changed_to_user_tests: list[RuleTest] = [
@@ -79,6 +79,7 @@ slack_audit_logs_user_privilege_changed_to_user_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class SlackAuditLogsUserPrivilegeChangedToUser(Rule):
     id = "Slack.AuditLogs.UserPrivilegeChangedToUser-prototype"
     display_name = "Slack User Privileges Changed to User"

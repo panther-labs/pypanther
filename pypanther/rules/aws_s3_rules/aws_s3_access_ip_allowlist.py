@@ -1,6 +1,6 @@
 from ipaddress import ip_network
 
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.panther_base_helpers import aws_rule_context
 
 awss3_server_access_ip_whitelist_tests: list[RuleTest] = [
@@ -13,6 +13,7 @@ awss3_server_access_ip_whitelist_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class AWSS3ServerAccessIPWhitelist(Rule):
     id = "AWS.S3.ServerAccess.IPWhitelist-prototype"
     display_name = "AWS S3 Access IP Allowlist"

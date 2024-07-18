@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 
 gcp_workload_identity_pool_createdor_updated_tests: list[RuleTest] = [
     RuleTest(
@@ -183,6 +183,7 @@ gcp_workload_identity_pool_createdor_updated_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class GCPWorkloadIdentityPoolCreatedorUpdated(Rule):
     id = "GCP.Workload.Identity.Pool.Created.or.Updated-prototype"
     display_name = "GCP Workload Identity Pool Created or Updated"

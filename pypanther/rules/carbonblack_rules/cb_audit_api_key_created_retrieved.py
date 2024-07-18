@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 
 carbon_black_audit_api_key_created_retrieved_tests: list[RuleTest] = [
     RuleTest(
@@ -47,6 +47,7 @@ carbon_black_audit_api_key_created_retrieved_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class CarbonBlackAuditAPIKeyCreatedRetrieved(Rule):
     id = "CarbonBlack.Audit.API.Key.Created.Retrieved-prototype"
     log_types = [LogType.CARBON_BLACK_AUDIT]

@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.gcp_base_helpers import gcp_alert_context
 from pypanther.helpers.panther_base_helpers import deep_get
 
@@ -272,6 +272,7 @@ gcpdns_zone_modifiedor_deleted_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class GCPDNSZoneModifiedorDeleted(Rule):
     default_description = "Detection for GCP DNS zones that are deleted, patched, or updated."
     display_name = "GCP DNS Zone Modified or Deleted"

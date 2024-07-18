@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.panther_base_helpers import deep_get
 
 box_content_workflow_policy_violation_tests: list[RuleTest] = [
@@ -37,6 +37,7 @@ box_content_workflow_policy_violation_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class BoxContentWorkflowPolicyViolation(Rule):
     id = "Box.Content.Workflow.Policy.Violation-prototype"
     display_name = "Box Content Workflow Policy Violation"

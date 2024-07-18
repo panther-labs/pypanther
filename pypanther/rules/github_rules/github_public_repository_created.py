@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.panther_base_helpers import github_alert_context
 
 github_public_repository_created_tests: list[RuleTest] = [
@@ -35,6 +35,7 @@ github_public_repository_created_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class GithubPublicRepositoryCreated(Rule):
     default_description = "A public Github repository was created."
     display_name = "Github Public Repository Created"

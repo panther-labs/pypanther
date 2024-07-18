@@ -1,6 +1,6 @@
 from panther_core.immutable import ImmutableList
 
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.panther_base_helpers import deep_get
 
 git_lab_production_password_reset_multiple_emails_tests: list[RuleTest] = [
@@ -40,6 +40,7 @@ git_lab_production_password_reset_multiple_emails_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class GitLabProductionPasswordResetMultipleEmails(Rule):
     id = "GitLab.Production.Password.Reset.Multiple.Emails-prototype"
     display_name = "CVE-2023-7028 - GitLab Production Password Reset Multiple Emails"

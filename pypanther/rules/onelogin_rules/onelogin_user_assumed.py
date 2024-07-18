@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 
 one_login_user_assumption_tests: list[RuleTest] = [
     RuleTest(
@@ -26,6 +26,7 @@ one_login_user_assumption_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class OneLoginUserAssumption(Rule):
     id = "OneLogin.UserAssumption-prototype"
     display_name = "OneLogin User Assumed Another User"

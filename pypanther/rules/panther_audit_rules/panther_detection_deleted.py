@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.panther_base_helpers import deep_get
 
 panther_detection_deleted_tests: list[RuleTest] = [
@@ -71,6 +71,7 @@ panther_detection_deleted_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class PantherDetectionDeleted(Rule):
     id = "Panther.Detection.Deleted-prototype"
     display_name = "Detection content has been deleted from Panther"

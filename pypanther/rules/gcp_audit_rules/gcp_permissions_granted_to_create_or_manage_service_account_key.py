@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.panther_base_helpers import deep_get, deep_walk
 
 gcp_permissions_grantedto_createor_manage_service_account_key_tests: list[RuleTest] = [
@@ -160,6 +160,7 @@ gcp_permissions_grantedto_createor_manage_service_account_key_tests: list[RuleTe
 ]
 
 
+@panther_managed
 class GCPPermissionsGrantedtoCreateorManageServiceAccountKey(Rule):
     default_description = "Permissions granted to impersonate a service account. This includes predefined service account IAM roles granted at the parent project, folder or organization-level."
     display_name = "GCP Permissions Granted to Create or Manage Service Account Key"

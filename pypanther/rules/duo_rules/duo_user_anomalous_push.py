@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.panther_base_helpers import deep_get
 
 duo_user_denied_anomalous_push_tests: list[RuleTest] = [
@@ -47,6 +47,7 @@ duo_user_denied_anomalous_push_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class DUOUserDeniedAnomalousPush(Rule):
     id = "DUO.User.Denied.AnomalousPush-prototype"
     display_name = "Duo User Auth Denied For Anomalous Push"

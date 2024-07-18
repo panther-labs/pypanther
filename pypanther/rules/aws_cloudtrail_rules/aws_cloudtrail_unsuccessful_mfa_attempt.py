@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.panther_base_helpers import aws_rule_context, deep_get
 
 aws_unsuccessful_mf_aattempt_tests: list[RuleTest] = [
@@ -67,6 +67,7 @@ aws_unsuccessful_mf_aattempt_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class AWSUnsuccessfulMFAattempt(Rule):
     default_description = "Monitor application logs for suspicious events including repeated MFA failures that may indicate user's primary credentials have been compromised."
     display_name = "AWS Unsuccessful MFA attempt"

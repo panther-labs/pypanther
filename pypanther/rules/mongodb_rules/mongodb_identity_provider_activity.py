@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.panther_mongodb_helpers import mongodb_alert_context
 
 mongo_db_identity_provider_activity_tests: list[RuleTest] = [
@@ -12,6 +12,7 @@ mongo_db_identity_provider_activity_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class MongoDBIdentityProviderActivity(Rule):
     default_description = "Changes to identity provider settings are privileged activities that should be carefully audited.  Attackers may add or change IDP integrations to gain persistence to environments"
     display_name = "MongoDB Identity Provider Activity"

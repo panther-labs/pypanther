@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.panther_base_helpers import aws_rule_context, deep_get
 
 aws_cloud_trail_root_password_changed_tests: list[RuleTest] = [
@@ -59,6 +59,7 @@ aws_cloud_trail_root_password_changed_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class AWSCloudTrailRootPasswordChanged(Rule):
     id = "AWS.CloudTrail.RootPasswordChanged-prototype"
     display_name = "Root Password Changed"

@@ -1,6 +1,6 @@
 import json
 
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.panther_base_helpers import m365_alert_context
 
 microsoft365_mfa_disabled_tests: list[RuleTest] = [
@@ -107,6 +107,7 @@ microsoft365_mfa_disabled_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class Microsoft365MFADisabled(Rule):
     default_description = "A user's MFA has been removed"
     display_name = "Microsoft365 MFA Disabled"

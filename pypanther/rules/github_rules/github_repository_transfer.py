@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.panther_base_helpers import github_alert_context
 
 github_repository_transfer_tests: list[RuleTest] = [
@@ -65,6 +65,7 @@ github_repository_transfer_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class GithubRepositoryTransfer(Rule):
     default_description = "A user accepted a request to receive a transferred Github repository, a  Github repository was transferred to another repository network, or a user sent a request to transfer a repository to another user or organization."
     display_name = "Github Repository Transfer"

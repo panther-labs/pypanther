@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 
 teleport_auth_errors_tests: list[RuleTest] = [
     RuleTest(
@@ -40,6 +40,7 @@ teleport_auth_errors_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class TeleportAuthErrors(Rule):
     id = "Teleport.AuthErrors-prototype"
     display_name = "Teleport SSH Auth Errors"

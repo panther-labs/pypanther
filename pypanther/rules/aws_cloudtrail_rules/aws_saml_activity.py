@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.panther_base_helpers import aws_rule_context, deep_get
 
 aws_suspicious_saml_activity_tests: list[RuleTest] = [
@@ -236,6 +236,7 @@ aws_suspicious_saml_activity_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class AWSSuspiciousSAMLActivity(Rule):
     default_description = (
         "Identifies when SAML activity has occurred in AWS. An adversary could gain backdoor access via SAML."

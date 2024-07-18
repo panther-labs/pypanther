@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 
 gcp_workforce_pool_createdor_updated_tests: list[RuleTest] = [
     RuleTest(
@@ -175,6 +175,7 @@ gcp_workforce_pool_createdor_updated_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class GCPWorkforcePoolCreatedorUpdated(Rule):
     id = "GCP.Workforce.Pool.Created.or.Updated-prototype"
     display_name = "GCP Workforce Pool Created or Updated"

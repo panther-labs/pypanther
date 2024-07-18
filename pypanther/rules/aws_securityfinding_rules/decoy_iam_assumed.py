@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 
 decoy_iam_assumed_tests: list[RuleTest] = [
     RuleTest(
@@ -216,6 +216,7 @@ decoy_iam_assumed_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class DecoyIAMAssumed(Rule):
     id = "Decoy.IAM.Assumed-prototype"
     display_name = "Decoy IAM Assumed"

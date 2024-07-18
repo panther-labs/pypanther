@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.panther_base_helpers import deep_get
 from pypanther.helpers.panther_tines_helpers import tines_alert_context
 
@@ -38,6 +38,7 @@ tines_story_items_destruction_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class TinesStoryItemsDestruction(Rule):
     id = "Tines.Story.Items.Destruction-prototype"
     display_name = "Tines Story Items Destruction"

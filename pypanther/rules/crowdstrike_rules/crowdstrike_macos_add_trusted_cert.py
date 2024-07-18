@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.panther_base_helpers import crowdstrike_process_alert_context, deep_get
 
 crowdstrike_macos_add_trusted_cert_tests: list[RuleTest] = [
@@ -355,6 +355,7 @@ crowdstrike_macos_add_trusted_cert_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class CrowdstrikeMacosAddTrustedCert(Rule):
     display_name = "CrowdStrike MacOS Added Trusted Cert"
     default_description = "Detects attempt to install a root certificate on MacOS"

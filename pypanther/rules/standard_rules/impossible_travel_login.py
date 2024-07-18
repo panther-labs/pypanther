@@ -4,7 +4,7 @@ from json import dumps, loads
 from panther_detection_helpers.caching import get_string_set, put_string_set
 
 import pypanther.helpers.panther_event_type_helpers as event_type
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity, panther_managed
 from pypanther.helpers.panther_base_helpers import deep_get
 from pypanther.helpers.panther_lookuptable_helpers import LookupTableMatches
 from pypanther.helpers.panther_oss_helpers import km_between_ipinfo_loc, resolve_timestamp_string
@@ -653,6 +653,7 @@ standard_impossible_travel_login_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class StandardImpossibleTravelLogin(Rule):
     id = "Standard.ImpossibleTravel.Login-prototype"
     display_name = "Impossible Travel for Login Action"

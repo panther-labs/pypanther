@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 
 netskope_admin_user_change_tests: list[RuleTest] = [
     RuleTest(
@@ -43,6 +43,7 @@ netskope_admin_user_change_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class NetskopeAdminUserChange(Rule):
     id = "Netskope.AdminUserChange-prototype"
     display_name = "An administrator account was created, deleted, or modified."

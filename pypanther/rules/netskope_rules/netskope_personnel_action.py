@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 
 netskope_netskope_personnel_activity_tests: list[RuleTest] = [
     RuleTest(
@@ -43,6 +43,7 @@ netskope_netskope_personnel_activity_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class NetskopeNetskopePersonnelActivity(Rule):
     id = "Netskope.NetskopePersonnelActivity-prototype"
     display_name = "Action Performed by Netskope Personnel"

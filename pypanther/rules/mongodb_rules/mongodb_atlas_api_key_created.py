@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.panther_base_helpers import deep_get, deep_walk
 from pypanther.helpers.panther_mongodb_helpers import mongodb_alert_context
 
@@ -66,6 +66,7 @@ mongo_db_atlas_api_key_created_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class MongoDBAtlasApiKeyCreated(Rule):
     default_description = "A MongoDB Atlas api key's access list was updated"
     display_name = "MongoDB Atlas API Key Created"

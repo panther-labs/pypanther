@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 
 push_security_mfa_method_changed_tests: list[RuleTest] = [
     RuleTest(
@@ -140,6 +140,7 @@ push_security_mfa_method_changed_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class PushSecurityMFAMethodChanged(Rule):
     id = "Push.Security.MFA.Method.Changed-prototype"
     display_name = "Push Security SaaS App MFA Method Changed"

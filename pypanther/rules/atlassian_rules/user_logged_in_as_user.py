@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.panther_base_helpers import deep_get
 
 atlassian_user_logged_in_as_user_tests: list[RuleTest] = [
@@ -75,6 +75,7 @@ atlassian_user_logged_in_as_user_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class AtlassianUserLoggedInAsUser(Rule):
     display_name = "Atlassian admin impersonated another user"
     id = "Atlassian.User.LoggedInAsUser-prototype"

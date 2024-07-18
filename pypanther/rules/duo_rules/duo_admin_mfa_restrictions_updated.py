@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.panther_duo_helpers import duo_alert_context
 
 duo_admin_mfa_restrictions_updated_tests: list[RuleTest] = [
@@ -27,6 +27,7 @@ duo_admin_mfa_restrictions_updated_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class DuoAdminMFARestrictionsUpdated(Rule):
     default_description = "Detects changes to allowed MFA factors administrators can use to log into the admin panel."
     display_name = "Duo Admin MFA Restrictions Updated"

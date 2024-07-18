@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 
 teleport_local_user_login_without_mfa_tests: list[RuleTest] = [
     RuleTest(
@@ -43,6 +43,7 @@ teleport_local_user_login_without_mfa_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class TeleportLocalUserLoginWithoutMFA(Rule):
     id = "Teleport.LocalUserLoginWithoutMFA-prototype"
     display_name = "User Logged in wihout MFA"

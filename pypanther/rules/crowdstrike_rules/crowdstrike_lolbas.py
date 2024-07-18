@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.panther_base_helpers import crowdstrike_process_alert_context, deep_get
 
 crowdstrike_fdrlolbas_tests: list[RuleTest] = [
@@ -155,6 +155,7 @@ crowdstrike_fdrlolbas_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class CrowdstrikeFDRLOLBAS(Rule):
     log_types = [LogType.CROWDSTRIKE_FDR_EVENT]
     id = "Crowdstrike.FDR.LOLBAS-prototype"

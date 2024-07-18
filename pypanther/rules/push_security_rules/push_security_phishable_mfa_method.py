@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 
 push_security_phishable_mfa_method_tests: list[RuleTest] = [
     RuleTest(
@@ -85,6 +85,7 @@ push_security_phishable_mfa_method_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class PushSecurityPhishableMFAMethod(Rule):
     id = "Push.Security.Phishable.MFA.Method-prototype"
     display_name = "Push Security Phishable MFA Method"

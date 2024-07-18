@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 
 zoom_all_meetings_secured_with_one_option_disabled_tests: list[RuleTest] = [
     RuleTest(
@@ -36,6 +36,7 @@ zoom_all_meetings_secured_with_one_option_disabled_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class ZoomAllMeetingsSecuredWithOneOptionDisabled(Rule):
     default_description = (
         "A Zoom User turned off your organization's requirement that all meetings are secured with one security option."

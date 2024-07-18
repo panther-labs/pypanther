@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 
 git_hub_org_auth_change_tests: list[RuleTest] = [
     RuleTest(
@@ -28,6 +28,7 @@ git_hub_org_auth_change_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class GitHubOrgAuthChange(Rule):
     id = "GitHub.Org.AuthChange-prototype"
     display_name = "GitHub Org Authentication Method Changed"

@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.panther_base_helpers import ZENDESK_CHANGE_DESCRIPTION
 
 zendesk_mobile_app_access_updated_tests: list[RuleTest] = [
@@ -62,6 +62,7 @@ zendesk_mobile_app_access_updated_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class ZendeskMobileAppAccessUpdated(Rule):
     id = "Zendesk.MobileAppAccessUpdated-prototype"
     display_name = "Zendesk Mobile App Access Modified"

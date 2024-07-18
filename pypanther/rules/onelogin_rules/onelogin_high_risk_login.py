@@ -2,7 +2,7 @@ from datetime import timedelta
 
 from panther_detection_helpers.caching import get_counter, increment_counter, reset_counter
 
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 
 one_login_high_risk_login_tests: list[RuleTest] = [
     RuleTest(
@@ -19,6 +19,7 @@ one_login_high_risk_login_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class OneLoginHighRiskLogin(Rule):
     id = "OneLogin.HighRiskLogin-prototype"
     display_name = "OneLogin High Risk Login"

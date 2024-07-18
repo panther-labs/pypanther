@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 
 duo_admin_app_integration_secret_key_viewed_tests: list[RuleTest] = [
     RuleTest(
@@ -26,6 +26,7 @@ duo_admin_app_integration_secret_key_viewed_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class DuoAdminAppIntegrationSecretKeyViewed(Rule):
     default_description = "An administrator viewed a Secret Key for an Application Integration"
     display_name = "Duo Admin App Integration Secret Key Viewed"

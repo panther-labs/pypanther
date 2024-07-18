@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.panther_base_helpers import aws_rule_context, pattern_match
 
 awss3_server_access_insecure_tests: list[RuleTest] = [
@@ -84,6 +84,7 @@ awss3_server_access_insecure_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class AWSS3ServerAccessInsecure(Rule):
     id = "AWS.S3.ServerAccess.Insecure-prototype"
     display_name = "AWS S3 Insecure Access"

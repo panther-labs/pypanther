@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.panther_base_helpers import aws_rule_context
 
 awsvpc_healthy_log_status_tests: list[RuleTest] = [
@@ -19,6 +19,7 @@ awsvpc_healthy_log_status_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class AWSVPCHealthyLogStatus(Rule):
     id = "AWS.VPC.HealthyLogStatus-prototype"
     display_name = "AWS VPC Healthy Log Status"

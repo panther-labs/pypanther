@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.gcp_base_helpers import gcp_alert_context
 from pypanther.helpers.panther_base_helpers import deep_get, deep_walk
 
@@ -171,6 +171,7 @@ gc_pserviceusageapi_keyscreate_privilege_escalation_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class GCPserviceusageapiKeyscreatePrivilegeEscalation(Rule):
     log_types = [LogType.GCP_AUDIT_LOG]
     default_description = "Detects serviceusage.apiKeys.create method for privilege escalation in GCP. By default, API Keys are created with no restrictions, which means they have access to the entire GCP project they were created in. We can capitalize on that fact by creating a new API key that may have more privileges than our own user."

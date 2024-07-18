@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 
 zoom_two_factor_authentication_disabled_tests: list[RuleTest] = [
     RuleTest(
@@ -37,6 +37,7 @@ zoom_two_factor_authentication_disabled_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class ZoomTwoFactorAuthenticationDisabled(Rule):
     default_description = "A Zoom User disabled your organization's setting to sign in with Two-Factor Authentication."
     display_name = "Zoom Two Factor Authentication Disabled"

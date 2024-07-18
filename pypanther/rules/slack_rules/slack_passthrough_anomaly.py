@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.panther_base_helpers import slack_alert_context
 
 slack_audit_logs_passthrough_anomaly_tests: list[RuleTest] = [
@@ -68,6 +68,7 @@ slack_audit_logs_passthrough_anomaly_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class SlackAuditLogsPassthroughAnomaly(Rule):
     id = "Slack.AuditLogs.PassthroughAnomaly-prototype"
     display_name = "Slack Anomaly Detected"

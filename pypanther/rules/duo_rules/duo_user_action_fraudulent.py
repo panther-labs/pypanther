@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.panther_base_helpers import deep_get
 
 duo_user_action_fraudulent_tests: list[RuleTest] = [
@@ -19,6 +19,7 @@ duo_user_action_fraudulent_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class DUOUserActionFraudulent(Rule):
     id = "DUO.User.Action.Fraudulent-prototype"
     display_name = "Duo User Action Reported as Fraudulent"

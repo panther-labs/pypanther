@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.panther_base_helpers import aws_rule_context
 
 awsec2_ebs_encryption_disabled_tests: list[RuleTest] = [
@@ -31,6 +31,7 @@ awsec2_ebs_encryption_disabled_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class AWSEC2EBSEncryptionDisabled(Rule):
     default_description = "Identifies disabling of default EBS encryption. Disabling default encryption does not change the encryption status of existing volumes. "
     display_name = "AWS EC2 EBS Encryption Disabled"

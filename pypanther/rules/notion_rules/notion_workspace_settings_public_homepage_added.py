@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.panther_base_helpers import deep_get
 from pypanther.helpers.panther_notion_helpers import notion_alert_context
 
@@ -53,6 +53,7 @@ notion_workspace_public_page_added_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class NotionWorkspacePublicPageAdded(Rule):
     id = "Notion.Workspace.Public.Page.Added-prototype"
     display_name = "Notion Workspace public page added"

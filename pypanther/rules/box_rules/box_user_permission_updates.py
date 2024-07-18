@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.panther_base_helpers import deep_get
 
 box_large_number_permission_updates_tests: list[RuleTest] = [
@@ -37,6 +37,7 @@ box_large_number_permission_updates_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class BoxLargeNumberPermissionUpdates(Rule):
     id = "Box.Large.Number.Permission.Updates-prototype"
     display_name = "Box Large Number of Permission Changes"

@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.panther_base_helpers import crowdstrike_detection_alert_context, deep_get
 
 crowdstrike_remote_access_tool_execution_tests: list[RuleTest] = [
@@ -157,6 +157,7 @@ crowdstrike_remote_access_tool_execution_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class CrowdstrikeRemoteAccessToolExecution(Rule):
     default_description = "Detects usage of common remote access tools."
     display_name = "Crowdstrike Remote Access Tool Execution"

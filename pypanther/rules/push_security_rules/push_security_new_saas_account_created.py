@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 
 push_security_new_saa_s_account_created_tests: list[RuleTest] = [
     RuleTest(
@@ -123,6 +123,7 @@ push_security_new_saa_s_account_created_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class PushSecurityNewSaaSAccountCreated(Rule):
     id = "Push.Security.New.SaaS.Account.Created-prototype"
     display_name = "Push Security New SaaS Account Created"

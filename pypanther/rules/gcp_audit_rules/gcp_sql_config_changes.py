@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.panther_base_helpers import deep_get
 
 gcpsql_config_changes_tests: list[RuleTest] = [
@@ -28,6 +28,7 @@ gcpsql_config_changes_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class GCPSQLConfigChanges(Rule):
     id = "GCP.SQL.ConfigChanges-prototype"
     display_name = "GCP SQL Config Changes"

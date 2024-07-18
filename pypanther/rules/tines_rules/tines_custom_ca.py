@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.panther_base_helpers import deep_get
 from pypanther.helpers.panther_tines_helpers import tines_alert_context
 
@@ -37,6 +37,7 @@ tines_custom_certificate_authority_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class TinesCustomCertificateAuthority(Rule):
     id = "Tines.Custom.CertificateAuthority-prototype"
     display_name = "Tines Custom CertificateAuthority setting changed"

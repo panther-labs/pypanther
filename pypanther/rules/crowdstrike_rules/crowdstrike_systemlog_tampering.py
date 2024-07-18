@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.panther_base_helpers import crowdstrike_detection_alert_context, deep_get
 
 crowdstrike_systemlog_tampering_tests: list[RuleTest] = [
@@ -157,6 +157,7 @@ crowdstrike_systemlog_tampering_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class CrowdstrikeSystemlogTampering(Rule):
     default_description = "Detects when a user attempts to clear system logs. "
     display_name = "Crowdstrike Systemlog Tampering"

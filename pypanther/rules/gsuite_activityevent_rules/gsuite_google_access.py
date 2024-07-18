@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.panther_base_helpers import deep_get
 
 g_suite_google_access_tests: list[RuleTest] = [
@@ -13,6 +13,7 @@ g_suite_google_access_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class GSuiteGoogleAccess(Rule):
     id = "GSuite.GoogleAccess-prototype"
     display_name = "Google Accessed a GSuite Resource"

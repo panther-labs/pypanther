@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 
 teleport_scheduled_jobs_tests: list[RuleTest] = [
     RuleTest(
@@ -96,6 +96,7 @@ teleport_scheduled_jobs_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class TeleportScheduledJobs(Rule):
     id = "Teleport.ScheduledJobs-prototype"
     display_name = "Teleport Scheduled Jobs"

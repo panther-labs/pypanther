@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 
 git_hub_branch_protection_disabled_tests: list[RuleTest] = [
     RuleTest(
@@ -28,6 +28,7 @@ git_hub_branch_protection_disabled_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class GitHubBranchProtectionDisabled(Rule):
     id = "GitHub.Branch.ProtectionDisabled-prototype"
     display_name = "GitHub Branch Protection Disabled"

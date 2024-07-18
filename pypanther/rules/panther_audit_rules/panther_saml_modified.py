@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 
 panther_saml_modified_tests: list[RuleTest] = [
     RuleTest(
@@ -38,6 +38,7 @@ panther_saml_modified_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class PantherSAMLModified(Rule):
     id = "Panther.SAML.Modified-prototype"
     display_name = "Panther SAML configuration has been modified"

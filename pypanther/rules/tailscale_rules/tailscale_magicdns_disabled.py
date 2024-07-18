@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.panther_base_helpers import deep_get
 from pypanther.helpers.panther_tailscale_helpers import is_tailscale_admin_console_event, tailscale_alert_context
 
@@ -69,6 +69,7 @@ tailscale_magic_dns_disabled_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class TailscaleMagicDNSDisabled(Rule):
     default_description = "A Tailscale User disabled magic dns settings in your organization's tenant."
     display_name = "Tailscale Magic DNS Disabled"

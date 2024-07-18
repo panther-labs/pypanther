@@ -1,6 +1,6 @@
 import time
 
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity, panther_managed
 from pypanther.helpers.panther_notion_helpers import notion_alert_context
 from pypanther.helpers.panther_oss_helpers import get_string_set, put_string_set
 
@@ -309,6 +309,7 @@ notion_account_changed_after_login_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class NotionAccountChangedAfterLogin(Rule):
     id = "Notion.AccountChangedAfterLogin-prototype"
     display_name = "Notion Account Changed Shortly After Login"

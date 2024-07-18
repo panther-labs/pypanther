@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.panther_base_helpers import deep_get
 
 box_access_granted_tests: list[RuleTest] = [
@@ -26,6 +26,7 @@ box_access_granted_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class BoxAccessGranted(Rule):
     id = "Box.Access.Granted-prototype"
     display_name = "Box Access Granted"

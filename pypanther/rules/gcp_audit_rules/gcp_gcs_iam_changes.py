@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.panther_base_helpers import deep_get
 
 gcpgcsiam_changes_tests: list[RuleTest] = [
@@ -49,6 +49,7 @@ gcpgcsiam_changes_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class GCPGCSIAMChanges(Rule):
     id = "GCP.GCS.IAMChanges-prototype"
     display_name = "GCP GCS IAM Permission Changes"

@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.panther_base_helpers import slack_alert_context
 
 slack_audit_logs_private_channel_made_public_tests: list[RuleTest] = [
@@ -63,6 +63,7 @@ slack_audit_logs_private_channel_made_public_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class SlackAuditLogsPrivateChannelMadePublic(Rule):
     id = "Slack.AuditLogs.PrivateChannelMadePublic-prototype"
     display_name = "Slack Private Channel Made Public"

@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.panther_base_helpers import deep_get
 
 g_suite_device_suspicious_activity_tests: list[RuleTest] = [
@@ -27,6 +27,7 @@ g_suite_device_suspicious_activity_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class GSuiteDeviceSuspiciousActivity(Rule):
     id = "GSuite.DeviceSuspiciousActivity-prototype"
     display_name = "GSuite Device Suspicious Activity"

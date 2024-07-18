@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 
 git_hub_team_modified_tests: list[RuleTest] = [
     RuleTest(
@@ -43,6 +43,7 @@ git_hub_team_modified_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class GitHubTeamModified(Rule):
     id = "GitHub.Team.Modified-prototype"
     display_name = "GitHub Team Modified"

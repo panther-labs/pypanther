@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.panther_base_helpers import deep_get, deep_walk, okta_alert_context
 
 okta_new_behavior_accessing_admin_console_tests: list[RuleTest] = [
@@ -268,6 +268,7 @@ okta_new_behavior_accessing_admin_console_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class OktaNewBehaviorAccessingAdminConsole(Rule):
     id = "Okta.New.Behavior.Accessing.Admin.Console-prototype"
     display_name = "Okta New Behaviors Acessing Admin Console"

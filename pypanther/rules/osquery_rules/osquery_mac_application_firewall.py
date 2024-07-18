@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.panther_base_helpers import deep_get
 
 osquery_mac_application_firewall_settings_tests: list[RuleTest] = [
@@ -41,6 +41,7 @@ osquery_mac_application_firewall_settings_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class OsqueryMacApplicationFirewallSettings(Rule):
     id = "Osquery.Mac.ApplicationFirewallSettings-prototype"
     display_name = "MacOS ALF is misconfigured"

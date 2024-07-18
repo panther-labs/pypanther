@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.panther_base_helpers import deep_get
 
 g_suite_group_banned_user_tests: list[RuleTest] = [
@@ -25,6 +25,7 @@ g_suite_group_banned_user_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class GSuiteGroupBannedUser(Rule):
     id = "GSuite.GroupBannedUser-prototype"
     display_name = "GSuite User Banned from Group"

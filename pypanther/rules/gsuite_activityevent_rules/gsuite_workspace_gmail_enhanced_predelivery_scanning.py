@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.panther_base_helpers import deep_get
 
 g_suite_workspace_gmail_predelivery_scanning_disabled_tests: list[RuleTest] = [
@@ -85,6 +85,7 @@ g_suite_workspace_gmail_predelivery_scanning_disabled_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class GSuiteWorkspaceGmailPredeliveryScanningDisabled(Rule):
     id = "GSuite.Workspace.GmailPredeliveryScanningDisabled-prototype"
     display_name = "GSuite Workspace Gmail Pre-Delivery Message Scanning Disabled"

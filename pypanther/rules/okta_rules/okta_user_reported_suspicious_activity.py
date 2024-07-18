@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.panther_base_helpers import okta_alert_context
 
 okta_user_reported_suspicious_activity_tests: list[RuleTest] = [
@@ -165,6 +165,7 @@ okta_user_reported_suspicious_activity_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class OktaUserReportedSuspiciousActivity(Rule):
     default_description = "Suspicious Activity Reporting provides an end user with the option to report unrecognized activity from an account activity email notification.\nThis detection alerts when a user marks the raised activity as suspicious."
     default_reference = "https://help.okta.com/en-us/Content/Topics/Security/suspicious-activity-reporting.htm"

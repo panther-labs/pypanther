@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.panther_base_helpers import aws_rule_context, deep_get
 from pypanther.helpers.panther_default import aws_cloudtrail_success
 
@@ -86,6 +86,7 @@ awss3_bucket_deleted_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class AWSS3BucketDeleted(Rule):
     id = "AWS.S3.BucketDeleted-prototype"
     display_name = "S3 Bucket Deleted"

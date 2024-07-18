@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.panther_base_helpers import deep_get
 
 google_workspace_apps_marketplace_allowlist_tests: list[RuleTest] = [
@@ -119,6 +119,7 @@ google_workspace_apps_marketplace_allowlist_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class GoogleWorkspaceAppsMarketplaceAllowlist(Rule):
     default_description = "Google Workspace Marketplace application allowlist settings were modified."
     display_name = "Google Workspace Apps Marketplace Allowlist"

@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.panther_duo_helpers import deserialize_administrator_log_event_description
 
 duo_admin_action_marked_fraudulent_tests: list[RuleTest] = [
@@ -27,6 +27,7 @@ duo_admin_action_marked_fraudulent_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class DUOAdminActionMarkedFraudulent(Rule):
     id = "DUO.Admin.Action.MarkedFraudulent-prototype"
     display_name = "Duo Admin Marked Push Fraudulent"

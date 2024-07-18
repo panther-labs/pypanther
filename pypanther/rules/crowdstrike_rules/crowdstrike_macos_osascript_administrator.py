@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.panther_base_helpers import crowdstrike_process_alert_context, deep_get
 
 crowdstrike_macos_osascript_administrator_tests: list[RuleTest] = [
@@ -355,6 +355,7 @@ crowdstrike_macos_osascript_administrator_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class CrowdstrikeMacosOsascriptAdministrator(Rule):
     display_name = "CrowdStrike MacOS Osascript as Administrator"
     default_description = "Detects usage of osascript with administrator privileges"

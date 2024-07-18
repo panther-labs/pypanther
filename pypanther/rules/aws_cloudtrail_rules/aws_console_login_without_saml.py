@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.panther_base_helpers import aws_rule_context, deep_get
 from pypanther.helpers.panther_default import lookup_aws_account_name
 
@@ -67,6 +67,7 @@ aws_console_login_without_saml_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class AWSConsoleLoginWithoutSAML(Rule):
     id = "AWS.Console.LoginWithoutSAML-prototype"
     display_name = "Logins Without SAML"

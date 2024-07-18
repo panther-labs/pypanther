@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 
 osquery_mac_osx_attacks_tests: list[RuleTest] = [
     RuleTest(
@@ -28,6 +28,7 @@ osquery_mac_osx_attacks_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class OsqueryMacOSXAttacks(Rule):
     id = "Osquery.Mac.OSXAttacks-prototype"
     display_name = "macOS Malware Detected with osquery"

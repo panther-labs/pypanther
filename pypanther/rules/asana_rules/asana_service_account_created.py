@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.panther_base_helpers import deep_get
 
 asana_service_account_created_tests: list[RuleTest] = [
@@ -74,6 +74,7 @@ asana_service_account_created_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class AsanaServiceAccountCreated(Rule):
     default_description = "An Asana service account was created by someone in your organization."
     display_name = "Asana Service Account Created"

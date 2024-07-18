@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 
 salesforce_admin_login_as_user_tests: list[RuleTest] = [
     RuleTest(
@@ -81,6 +81,7 @@ salesforce_admin_login_as_user_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class SalesforceAdminLoginAsUser(Rule):
     default_description = "Salesforce detection that alerts when an admin logs in as another user. "
     display_name = "Salesforce Admin Login As User"

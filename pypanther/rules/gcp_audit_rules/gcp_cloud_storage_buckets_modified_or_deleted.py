@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.panther_base_helpers import deep_get
 
 gcp_cloud_storage_buckets_modified_or_deleted_tests: list[RuleTest] = [
@@ -108,6 +108,7 @@ gcp_cloud_storage_buckets_modified_or_deleted_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class GCPCloudStorageBucketsModifiedOrDeleted(Rule):
     default_description = "Detects GCP cloud storage bucket updates and deletes."
     display_name = "GCP Cloud Storage Buckets Modified Or Deleted"

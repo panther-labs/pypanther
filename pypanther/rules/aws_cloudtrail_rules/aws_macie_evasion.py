@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.panther_base_helpers import deep_get, pattern_match
 
 aws_macie_evasion_tests: list[RuleTest] = [
@@ -161,6 +161,7 @@ aws_macie_evasion_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class AWSMacieEvasion(Rule):
     id = "AWS.Macie.Evasion-prototype"
     display_name = "AWS Macie Disabled/Updated"

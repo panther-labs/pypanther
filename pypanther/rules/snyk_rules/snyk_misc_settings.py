@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.panther_base_helpers import deep_get
 from pypanther.helpers.panther_snyk_helpers import snyk_alert_context
 
@@ -29,6 +29,7 @@ snyk_misc_settings_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class SnykMiscSettings(Rule):
     id = "Snyk.Misc.Settings-prototype"
     display_name = "Snyk Miscellaneous Settings"

@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.panther_base_helpers import deep_get, okta_alert_context
 
 okta_anonymizing_vpn_login_tests: list[RuleTest] = [
@@ -246,6 +246,7 @@ okta_anonymizing_vpn_login_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class OktaAnonymizingVPNLogin(Rule):
     id = "Okta.Anonymizing.VPN.Login-prototype"
     display_name = "Okta Sign-In from VPN Anonymizer"

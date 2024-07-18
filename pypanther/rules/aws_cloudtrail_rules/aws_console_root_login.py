@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity, panther_managed
 from pypanther.helpers.panther_base_helpers import deep_get
 from pypanther.helpers.panther_default import lookup_aws_account_name
 from pypanther.helpers.panther_oss_helpers import geoinfo_from_ip_formatted
@@ -80,6 +80,7 @@ aws_console_root_login_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class AWSConsoleRootLogin(Rule):
     id = "AWS.Console.RootLogin-prototype"
     display_name = "Root Console Login"

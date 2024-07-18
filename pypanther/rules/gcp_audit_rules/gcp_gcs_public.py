@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.panther_base_helpers import deep_get
 
 gcpgcs_public_tests: list[RuleTest] = [
@@ -49,6 +49,7 @@ gcpgcs_public_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class GCPGCSPublic(Rule):
     id = "GCP.GCS.Public-prototype"
     display_name = "GCS Bucket Made Public"

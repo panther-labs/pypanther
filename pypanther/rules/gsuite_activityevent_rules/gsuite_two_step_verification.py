@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.panther_base_helpers import deep_get
 
 g_suite_two_step_verification_tests: list[RuleTest] = [
@@ -27,6 +27,7 @@ g_suite_two_step_verification_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class GSuiteTwoStepVerification(Rule):
     id = "GSuite.TwoStepVerification-prototype"
     display_name = "GSuite User Two Step Verification Change"

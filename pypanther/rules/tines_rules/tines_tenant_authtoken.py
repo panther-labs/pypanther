@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.panther_base_helpers import deep_get
 from pypanther.helpers.panther_tines_helpers import tines_alert_context
 
@@ -53,6 +53,7 @@ tines_tenant_auth_token_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class TinesTenantAuthToken(Rule):
     id = "Tines.Tenant.AuthToken-prototype"
     display_name = "Tines Tenant API Keys Added"

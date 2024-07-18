@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.panther_asana_helpers import asana_alert_context
 from pypanther.helpers.panther_base_helpers import deep_get
 
@@ -58,6 +58,7 @@ asana_workspace_new_admin_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class AsanaWorkspaceNewAdmin(Rule):
     default_description = "Admin role was granted to the user who previously did not have admin permissions"
     display_name = "Asana Workspace New Admin"

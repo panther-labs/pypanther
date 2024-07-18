@@ -92,12 +92,14 @@ def test_panther_rule_fields_match():
 
 def test_mock_patching():
     # ensure that mock patches work on the file the mock is defined in
-    class TestRule(AWSConsoleLoginWithoutMFA):
+    class Test(AWSConsoleLoginWithoutMFA):
         pass
 
+    # Undo what @panther_managed does
+    AWSConsoleLoginWithoutMFA.tests = AWSConsoleLoginWithoutMFA._tests
     # ensure the base class has a mock defined
-    assert len(TestRule.__base__.tests[0].mocks) > 0
-    TestRule.run_tests(DATA_MODEL_CACHE.data_model_of_logtype)
+    assert len(Test.__base__.tests[0].mocks) > 0
+    Test.run_tests(DATA_MODEL_CACHE.data_model_of_logtype)
 
 
 class TestRunningTests:

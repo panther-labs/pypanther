@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.panther_base_helpers import deep_get, get_val_from_list
 
 okta_password_access_tests: list[RuleTest] = [
@@ -224,6 +224,7 @@ okta_password_access_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class OktaPasswordAccess(Rule):
     id = "Okta.PasswordAccess-prototype"
     display_name = "Okta Password Accessed"
