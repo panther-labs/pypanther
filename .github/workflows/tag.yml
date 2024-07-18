@@ -33,6 +33,8 @@ jobs:
         run: |
           VERSION="v$(poetry version --short)"
           
+          git show-ref
+          
           if git show-ref --tags --verify --quiet "refs/tags/$VERSION"; then
             echo "Tag $VERSION already exists"
           else
