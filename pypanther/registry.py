@@ -28,6 +28,7 @@ def register(arg: Type[Rule] | Iterable[Type[Rule]] | Type[DataModel] | Iterable
 
 
 def _register_rule(rule: Type[Rule]) -> bool:
+    """Register a rule with the pypanther library. Returns True if the rule was registered, False otherwise."""
     if isinstance(rule, type) and issubclass(rule, Rule):
         rule.validate()
         _RULE_REGISTRY.add(rule)
@@ -36,6 +37,9 @@ def _register_rule(rule: Type[Rule]) -> bool:
 
 
 def _register_data_model(dm: Type[DataModel]) -> bool:
+    """Register a data model with the pypanther library.
+    Returns True if the data model was registered, False otherwise."""
+
     if isinstance(dm, type) and issubclass(dm, DataModel):
         _DATA_MODEL_REGISTRY.add(dm)
         return True
