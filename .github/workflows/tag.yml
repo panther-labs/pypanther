@@ -31,9 +31,7 @@ jobs:
           git config user.email "dac-bot@panther.com"
       - name: Check and update tag
         run: |
-          VERSION="v$(poetry version --short)"
-          
-          echo "ANSWER: $(git tag -l $VERSION)"
+          VERSION="v222" # "v$(poetry version --short)"
           
           if [[ $(git tag -l $VERSION) ]]; then
             echo "Tagging with $VERSION"
