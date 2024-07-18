@@ -101,8 +101,7 @@ def test_mock_patching():
         assert result.passed
 
 
-def test_mock_patching_new():
-    # ensure that mock patches work on the file the mock is defined in
+def test_mock_patching_new_kwarg():
     class TestRule(Rule):
         id = "test"
         log_types = [LogType.PANTHER_AUDIT]
