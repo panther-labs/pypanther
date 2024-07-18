@@ -388,14 +388,17 @@ class Rule(metaclass=abc.ABCMeta):
 
             if any(
                 [
-                    test.expected_severity and test.expected_severity != detection_result.severity_output,
-                    test.expected_title and test.expected_title != detection_result.title_output,
-                    test.expected_dedup and test.expected_dedup != detection_result.dedup_output,
-                    test.expected_destinations and test.expected_destinations != detection_result.destinations_output,
-                    test.expected_runbook and test.expected_runbook != detection_result.runbook_output,
-                    test.expected_reference and test.expected_reference != detection_result.reference_output,
-                    test.expected_description and test.expected_description != detection_result.description_output,
-                    test.expected_alert_context
+                    test.expected_severity is not None and test.expected_severity != detection_result.severity_output,
+                    test.expected_title is not None and test.expected_title != detection_result.title_output,
+                    test.expected_dedup is not None and test.expected_dedup != detection_result.dedup_output,
+                    test.expected_destinations is not None
+                    and test.expected_destinations != detection_result.destinations_output,
+                    test.expected_runbook is not None and test.expected_runbook != detection_result.runbook_output,
+                    test.expected_reference is not None
+                    and test.expected_reference != detection_result.reference_output,
+                    test.expected_description is not None
+                    and test.expected_description != detection_result.description_output,
+                    test.expected_alert_context is not None
                     and test.expected_alert_context != json.loads(detection_result.alert_context_output),
                 ]
             ):
