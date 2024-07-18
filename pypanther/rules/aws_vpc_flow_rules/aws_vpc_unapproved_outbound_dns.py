@@ -7,32 +7,17 @@ awsvpc_unapproved_outbound_dns_tests: list[RuleTest] = [
     RuleTest(
         name="Approved Outbound DNS Traffic",
         expected_result=False,
-        log={
-            "dstPort": 53,
-            "dstAddr": "1.1.1.1",
-            "srcAddr": "10.0.0.1",
-            "p_log_type": "AWS.VPCFlow",
-        },
+        log={"dstPort": 53, "dstAddr": "1.1.1.1", "srcAddr": "10.0.0.1", "p_log_type": "AWS.VPCFlow"},
     ),
     RuleTest(
         name="Unapproved Outbound DNS Traffic",
         expected_result=True,
-        log={
-            "dstPort": 53,
-            "dstAddr": "100.100.100.100",
-            "srcAddr": "10.0.0.1",
-            "p_log_type": "AWS.VPCFlow",
-        },
+        log={"dstPort": 53, "dstAddr": "100.100.100.100", "srcAddr": "10.0.0.1", "p_log_type": "AWS.VPCFlow"},
     ),
     RuleTest(
         name="Outbound Non-DNS Traffic",
         expected_result=False,
-        log={
-            "dstPort": 80,
-            "dstAddr": "100.100.100.100",
-            "srcAddr": "10.0.0.1",
-            "p_log_type": "AWS.VPCFlow",
-        },
+        log={"dstPort": 80, "dstAddr": "100.100.100.100", "srcAddr": "10.0.0.1", "p_log_type": "AWS.VPCFlow"},
     ),
     RuleTest(
         name="Approved Outbound DNS Traffic - OCSF",
@@ -59,7 +44,7 @@ class AWSVPCUnapprovedOutboundDNS(Rule):
     id = "AWS.VPC.UnapprovedOutboundDNS-prototype"
     display_name = "VPC Flow Logs Unapproved Outbound DNS Traffic"
     enabled = False
-    log_types = [LogType.AWS_VPCFlow, LogType.OCSF_NetworkActivity]
+    log_types = [LogType.AWS_VPC_FLOW, LogType.OCSF_NETWORK_ACTIVITY]
     tags = [
         "AWS",
         "DataModel",

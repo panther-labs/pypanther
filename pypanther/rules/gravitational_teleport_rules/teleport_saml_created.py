@@ -21,7 +21,7 @@ teleport_saml_created_tests: list[RuleTest] = [
 class TeleportSAMLCreated(Rule):
     id = "Teleport.SAMLCreated-prototype"
     display_name = "A SAML Connector was created or modified"
-    log_types = [LogType.Gravitational_TeleportAudit]
+    log_types = [LogType.GRAVITATIONAL_TELEPORT_AUDIT]
     tags = ["Teleport"]
     default_severity = Severity.HIGH
     default_description = "A SAML connector was created or modified"

@@ -279,7 +279,7 @@ gcpk8_s_privileged_pod_created_tests: list[RuleTest] = [
 class GCPK8SPrivilegedPodCreated(Rule):
     id = "GCP.K8S.Privileged.Pod.Created-prototype"
     display_name = "GCP K8S Privileged Pod Created"
-    log_types = [LogType.GCP_AuditLog]
+    log_types = [LogType.GCP_AUDIT_LOG]
     default_severity = Severity.HIGH
     default_description = "Alerts when a user creates privileged pod. These particular pods have full access to the host’s namespace and devices, have the ability to exploit the kernel, have dangerous linux capabilities, and can be a powerful launching point for further attacks. In the event of a successful container escape where a user is operating with root privileges, the attacker retains this role on the node.\n"
     default_runbook = "Investigate the reason of creating privileged pod. Advise that it is discouraged practice. Create ticket if appropriate.\n"

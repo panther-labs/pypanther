@@ -71,7 +71,7 @@ osquery_linux_aws_command_executed_tests: list[RuleTest] = [
 class OsqueryLinuxAWSCommandExecuted(Rule):
     id = "Osquery.Linux.AWSCommandExecuted-prototype"
     display_name = "AWS command executed on the command line"
-    log_types = [LogType.Osquery_Differential]
+    log_types = [LogType.OSQUERY_DIFFERENTIAL]
     tags = ["Osquery", "Linux", "Execution:User Execution"]
     reports = {"MITRE ATT&CK": ["TA0002:T1204"]}
     default_severity = Severity.MEDIUM

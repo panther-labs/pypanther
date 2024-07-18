@@ -29,7 +29,7 @@ one_login_password_access_tests: list[RuleTest] = [
 class OneLoginPasswordAccess(Rule):
     id = "OneLogin.PasswordAccess-prototype"
     display_name = "OneLogin Password Access"
-    log_types = [LogType.OneLogin_Events]
+    log_types = [LogType.ONELOGIN_EVENTS]
     tags = ["OneLogin", "Credential Access:Unsecured Credentials"]
     reports = {"MITRE ATT&CK": ["TA0006:T1552"]}
     default_severity = Severity.MEDIUM

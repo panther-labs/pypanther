@@ -41,7 +41,7 @@ tines_story_items_destruction_tests: list[RuleTest] = [
 class TinesStoryItemsDestruction(Rule):
     id = "Tines.Story.Items.Destruction-prototype"
     display_name = "Tines Story Items Destruction"
-    log_types = [LogType.Tines_Audit]
+    log_types = [LogType.TINES_AUDIT]
     tags = ["Tines"]
     default_severity = Severity.INFO
     default_description = "A user has destroyed a story item"

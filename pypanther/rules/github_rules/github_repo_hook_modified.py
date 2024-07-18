@@ -42,7 +42,7 @@ git_hub_repo_hook_modified_tests: list[RuleTest] = [
 class GitHubRepoHookModified(Rule):
     id = "GitHub.Repo.HookModified-prototype"
     display_name = "GitHub Web Hook Modified"
-    log_types = [LogType.GitHub_Audit]
+    log_types = [LogType.GITHUB_AUDIT]
     tags = ["GitHub", "Exfiltration:Automated Exfiltration"]
     reports = {"MITRE ATT&CK": ["TA0010:T1020"]}
     default_reference = "https://docs.github.com/en/webhooks/about-webhooks"

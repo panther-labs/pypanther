@@ -29,7 +29,7 @@ one_login_user_assumption_tests: list[RuleTest] = [
 class OneLoginUserAssumption(Rule):
     id = "OneLogin.UserAssumption-prototype"
     display_name = "OneLogin User Assumed Another User"
-    log_types = [LogType.OneLogin_Events]
+    log_types = [LogType.ONELOGIN_EVENTS]
     tags = ["OneLogin", "Lateral Movement:Use Alternate Authentication Material"]
     reports = {"MITRE ATT&CK": ["TA0008:T1550"]}
     default_severity = Severity.LOW

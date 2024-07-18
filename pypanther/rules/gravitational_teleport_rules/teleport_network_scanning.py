@@ -99,7 +99,7 @@ teleport_network_scanning_tests: list[RuleTest] = [
 class TeleportNetworkScanning(Rule):
     id = "Teleport.NetworkScanning-prototype"
     display_name = "Teleport Network Scan Initiated"
-    log_types = [LogType.Gravitational_TeleportAudit]
+    log_types = [LogType.GRAVITATIONAL_TELEPORT_AUDIT]
     tags = ["SSH", "Discovery:Network Service Discovery"]
     default_severity = Severity.MEDIUM
     default_description = (
@@ -108,17 +108,7 @@ class TeleportNetworkScanning(Rule):
     reports = {"MITRE ATT&CK": ["TA0007:T1046"]}
     default_reference = "https://goteleport.com/docs/management/admin/"
     default_runbook = "Find related commands within the time window and determine if the command was invoked legitimately. Examine the arguments to determine how the command was used.\n"
-    summary_attributes = [
-        "event",
-        "code",
-        "user",
-        "program",
-        "path",
-        "return_code",
-        "login",
-        "server_id",
-        "sid",
-    ]
+    summary_attributes = ["event", "code", "user", "program", "path", "return_code", "login", "server_id", "sid"]
     tests = teleport_network_scanning_tests
     SCAN_COMMANDS = {"arp", "arp-scan", "fping", "nmap"}
 

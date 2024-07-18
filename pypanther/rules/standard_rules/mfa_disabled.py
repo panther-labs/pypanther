@@ -197,12 +197,7 @@ standard_mfa_disabled_tests: list[RuleTest] = [
 class StandardMFADisabled(Rule):
     id = "Standard.MFADisabled-prototype"
     display_name = "MFA Disabled"
-    log_types = [
-        LogType.Atlassian_Audit,
-        LogType.GitHub_Audit,
-        LogType.Zendesk_Audit,
-        LogType.Okta_SystemLog,
-    ]
+    log_types = [LogType.ATLASSIAN_AUDIT, LogType.GITHUB_AUDIT, LogType.ZENDESK_AUDIT, LogType.OKTA_SYSTEM_LOG]
     tags = ["DataModel", "Defense Evasion:Modify Authentication Process"]
     reports = {"MITRE ATT&CK": ["TA0005:T1556"]}
     default_reference = "https://en.wikipedia.org/wiki/Multi-factor_authentication"

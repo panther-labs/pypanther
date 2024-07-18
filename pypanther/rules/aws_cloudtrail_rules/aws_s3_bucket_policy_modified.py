@@ -15,10 +15,7 @@ awss3_bucket_policy_modified_tests: list[RuleTest] = [
                 "accountId": "123456789012",
                 "accessKeyId": "1",
                 "sessionContext": {
-                    "attributes": {
-                        "mfaAuthenticated": "true",
-                        "creationDate": "2019-01-01T00:00:00Z",
-                    },
+                    "attributes": {"mfaAuthenticated": "true", "creationDate": "2019-01-01T00:00:00Z"},
                     "sessionIssuer": {
                         "type": "Role",
                         "principalId": "1111",
@@ -64,10 +61,7 @@ awss3_bucket_policy_modified_tests: list[RuleTest] = [
                 "accountId": "123456789012",
                 "accessKeyId": "1",
                 "sessionContext": {
-                    "attributes": {
-                        "mfaAuthenticated": "true",
-                        "creationDate": "2019-01-01T00:00:00Z",
-                    },
+                    "attributes": {"mfaAuthenticated": "true", "creationDate": "2019-01-01T00:00:00Z"},
                     "sessionIssuer": {
                         "type": "Role",
                         "principalId": "1111",
@@ -114,10 +108,7 @@ awss3_bucket_policy_modified_tests: list[RuleTest] = [
                 "accountId": "123456789012",
                 "accessKeyId": "1",
                 "sessionContext": {
-                    "attributes": {
-                        "mfaAuthenticated": "false",
-                        "creationDate": "2019-01-01T00:00:00Z",
-                    },
+                    "attributes": {"mfaAuthenticated": "false", "creationDate": "2019-01-01T00:00:00Z"},
                     "sessionIssuer": {
                         "type": "Role",
                         "principalId": "1111",
@@ -156,7 +147,7 @@ awss3_bucket_policy_modified_tests: list[RuleTest] = [
 class AWSS3BucketPolicyModified(Rule):
     id = "AWS.S3.BucketPolicyModified-prototype"
     display_name = "AWS S3 Bucket Policy Modified"
-    log_types = [LogType.AWS_CloudTrail]
+    log_types = [LogType.AWS_CLOUDTRAIL]
     tags = ["AWS", "Identity & Access Management", "Exfiltration:Exfiltration Over Web Service"]
     reports = {"CIS": ["3.8"], "MITRE ATT&CK": ["TA0010:T1567"]}
     default_severity = Severity.INFO

@@ -86,7 +86,7 @@ aws_guard_duty_low_severity_finding_tests: list[RuleTest] = [
 class AWSGuardDutyLowSeverityFinding(Rule):
     id = "AWS.GuardDuty.LowSeverityFinding-prototype"
     display_name = "AWS GuardDuty Low Severity Finding"
-    log_types = [LogType.AWS_GuardDuty]
+    log_types = [LogType.AWS_GUARDDUTY]
     tags = ["AWS"]
     default_severity = Severity.LOW
     dedup_period_minutes = 1440
@@ -95,14 +95,7 @@ class AWSGuardDutyLowSeverityFinding(Rule):
     default_reference = (
         "https://docs.aws.amazon.com/guardduty/latest/ug/guardduty_findings.html#guardduty_findings-severity"
     )
-    summary_attributes = [
-        "severity",
-        "type",
-        "title",
-        "p_any_domain_names",
-        "p_any_aws_arns",
-        "p_any_aws_account_ids",
-    ]
+    summary_attributes = ["severity", "type", "title", "p_any_domain_names", "p_any_aws_arns", "p_any_aws_account_ids"]
     tests = aws_guard_duty_low_severity_finding_tests
 
     def rule(self, event):

@@ -162,7 +162,7 @@ class CrowdstrikeCryptominingTools(Rule):
     display_name = "Crowdstrike Cryptomining Tools "
     default_reference = "https://www.crowdstrike.com/cybersecurity-101/cryptojacking/"
     default_severity = Severity.CRITICAL
-    log_types = [LogType.Crowdstrike_FDREvent]
+    log_types = [LogType.CROWDSTRIKE_FDR_EVENT]
     id = "Crowdstrike.Cryptomining.Tools-prototype"
     tests = crowdstrike_cryptomining_tools_tests
     CRYPTOCURRENCY_MINING_TOOLS = {

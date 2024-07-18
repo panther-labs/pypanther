@@ -31,7 +31,7 @@ git_hub_org_auth_change_tests: list[RuleTest] = [
 class GitHubOrgAuthChange(Rule):
     id = "GitHub.Org.AuthChange-prototype"
     display_name = "GitHub Org Authentication Method Changed"
-    log_types = [LogType.GitHub_Audit]
+    log_types = [LogType.GITHUB_AUDIT]
     tags = ["GitHub", "Persistence:Account Manipulation"]
     reports = {"MITRE ATT&CK": ["TA0003:T1098"]}
     default_severity = Severity.CRITICAL

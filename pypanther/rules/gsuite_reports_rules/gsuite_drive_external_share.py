@@ -117,13 +117,8 @@ class GSuiteDriveExternalFileShare(Rule):
     id = "GSuite.Drive.ExternalFileShare-prototype"
     display_name = "External GSuite File Share"
     enabled = False
-    log_types = [LogType.GSuite_Reports]
-    tags = [
-        "GSuite",
-        "Security Control",
-        "Configuration Required",
-        "Collection:Data from Information Repositories",
-    ]
+    log_types = [LogType.GSUITE_REPORTS]
+    tags = ["GSuite", "Security Control", "Configuration Required", "Collection:Data from Information Repositories"]
     reports = {"MITRE ATT&CK": ["TA0009:T1213"]}
     default_severity = Severity.HIGH
     default_description = "An employee shared a sensitive file externally with another organization"
@@ -142,12 +137,7 @@ class GSuiteDriveExternalFileShare(Rule):
     # The time limit for how long the file share stays valid
     EXCEPTION_PATTERNS = {
         "document title p*": {
-            "allowed_for": {
-                "alice@acme.com",
-                "samuel@acme.com",
-                "nathan@acme.com",
-                "barry@acme.com",
-            },
+            "allowed_for": {"alice@acme.com", "samuel@acme.com", "nathan@acme.com", "barry@acme.com"},
             "allowed_until": datetime.datetime(year=2030, month=6, day=2),
         }
     }

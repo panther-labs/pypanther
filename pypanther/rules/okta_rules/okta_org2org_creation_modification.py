@@ -49,10 +49,7 @@ okta_org2org_creation_modification_tests: list[RuleTest] = [
             },
             "displaymessage": "Evaluation of sign-on policy",
             "eventtype": "application.lifecycle.update",
-            "outcome": {
-                "reason": "Sign-on policy evaluation resulted in CHALLENGE",
-                "result": "CHALLENGE",
-            },
+            "outcome": {"reason": "Sign-on policy evaluation resulted in CHALLENGE", "result": "CHALLENGE"},
             "published": "2022-06-22 18:18:29.015",
             "request": {
                 "ipChain": [
@@ -78,11 +75,7 @@ okta_org2org_creation_modification_tests: list[RuleTest] = [
             },
             "severity": "INFO",
             "target": [
-                {
-                    "alternateId": "Okta Org2Org",
-                    "displayName": "Okta Org2Org",
-                    "type": "AppInstance",
-                },
+                {"alternateId": "Okta Org2Org", "displayName": "Okta Org2Org", "type": "AppInstance"},
                 {
                     "alternateId": "peter.griffin@company.com",
                     "displayName": "Peter Griffin",
@@ -145,10 +138,7 @@ okta_org2org_creation_modification_tests: list[RuleTest] = [
             },
             "displaymessage": "Evaluation of sign-on policy",
             "eventtype": "application.lifecycle.create",
-            "outcome": {
-                "reason": "Sign-on policy evaluation resulted in CHALLENGE",
-                "result": "CHALLENGE",
-            },
+            "outcome": {"reason": "Sign-on policy evaluation resulted in CHALLENGE", "result": "CHALLENGE"},
             "published": "2022-06-22 18:18:29.015",
             "request": {
                 "ipChain": [
@@ -174,11 +164,7 @@ okta_org2org_creation_modification_tests: list[RuleTest] = [
             },
             "severity": "INFO",
             "target": [
-                {
-                    "alternateId": "Random Org2Org",
-                    "displayName": "Random Org2Org",
-                    "type": "AppInstance",
-                },
+                {"alternateId": "Random Org2Org", "displayName": "Random Org2Org", "type": "AppInstance"},
                 {
                     "alternateId": "peter.griffin@company.com",
                     "displayName": "Peter Griffin",
@@ -240,10 +226,7 @@ okta_org2org_creation_modification_tests: list[RuleTest] = [
             },
             "displaymessage": "Evaluation of sign-on policy",
             "eventtype": "policy.evaluate_sign_on",
-            "outcome": {
-                "reason": "Sign-on policy evaluation resulted in CHALLENGE",
-                "result": "CHALLENGE",
-            },
+            "outcome": {"reason": "Sign-on policy evaluation resulted in CHALLENGE", "result": "CHALLENGE"},
             "published": "2022-06-22 18:18:29.015",
             "request": {
                 "ipChain": [
@@ -269,11 +252,7 @@ okta_org2org_creation_modification_tests: list[RuleTest] = [
             },
             "severity": "INFO",
             "target": [
-                {
-                    "alternateId": "Okta Admin Console",
-                    "displayName": "Okta Admin Console",
-                    "type": "AppInstance",
-                },
+                {"alternateId": "Okta Admin Console", "displayName": "Okta Admin Console", "type": "AppInstance"},
                 {
                     "alternateId": "peter.griffin@company.com",
                     "displayName": "Peter Griffin",
@@ -292,7 +271,7 @@ okta_org2org_creation_modification_tests: list[RuleTest] = [
 class OktaOrg2orgCreationModification(Rule):
     id = "Okta.Org2org.Creation.Modification-prototype"
     display_name = "Okta Org2Org application created of modified"
-    log_types = [LogType.Okta_SystemLog]
+    log_types = [LogType.OKTA_SYSTEM_LOG]
     reports = {"MITRE ATT&CK": ["TA0006:T1556", "TA0004:T1078.004"]}
     default_severity = Severity.HIGH
     default_description = "An Okta Org2Org application has been created or modified. Okta's Org2Org applications instances are used to push and match users from one Okta organization to another. A malicious actor can add an Org2Org application instance and create a user in the source organization (controlled by the attacker) with the same identifier as a Super Administrator in the target organization.\n"

@@ -31,7 +31,7 @@ git_hub_branch_policy_override_tests: list[RuleTest] = [
 class GitHubBranchPolicyOverride(Rule):
     id = "GitHub.Branch.PolicyOverride-prototype"
     display_name = "GitHub Branch Protection Policy Override"
-    log_types = [LogType.GitHub_Audit]
+    log_types = [LogType.GITHUB_AUDIT]
     tags = ["GitHub", "Initial Access:Supply Chain Compromise"]
     reports = {"MITRE ATT&CK": ["TA0001:T1195"]}
     default_severity = Severity.HIGH

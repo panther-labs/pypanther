@@ -298,12 +298,7 @@ g_suite_drive_visibility_changed_tests: list[RuleTest] = [
     RuleTest(
         name="Doc Shared With Multiple Users All From ALLOWED_DOMAINS",
         expected_result=False,
-        mocks=[
-            RuleMock(
-                object_name="ALLOWED_DOMAINS",
-                return_value='[\n  "example.com", "notexample.com"\n]',
-            )
-        ],
+        mocks=[RuleMock(object_name="ALLOWED_DOMAINS", return_value='[\n  "example.com", "notexample.com"\n]')],
         log={
             "id": {"applicationName": "drive"},
             "actor": {"email": "bobert@example.com"},
@@ -371,7 +366,7 @@ class GSuiteDriveVisibilityChanged(Rule):
     id = "GSuite.DriveVisibilityChanged-prototype"
     display_name = "GSuite External Drive Document"
     enabled = False
-    log_types = [LogType.GSuite_Reports]
+    log_types = [LogType.GSUITE_REPORTS]
     tags = ["GSuite", "Collection:Data from Information Repositories", "Configuration Required"]
     reports = {"MITRE ATT&CK": ["TA0009:T1213"]}
     default_severity = Severity.LOW

@@ -43,10 +43,7 @@ dropbox_external_share_tests: list[RuleTest] = [
                 "email": "alice.bob@company.com",
                 "team_member_id": "dbmid:AADSERs2cAsByYt8yQEDU4_qdNQiSdxgCl8",
             },
-            "details": {
-                ".tag": "shared_content_add_member_details",
-                "shared_content_access_level": {".tag": "viewer"},
-            },
+            "details": {".tag": "shared_content_add_member_details", "shared_content_access_level": {".tag": "viewer"}},
             "event_category": {"_tag": "sharing"},
             "event_type": {
                 "_tag": "shared_content_add_member",
@@ -56,17 +53,9 @@ dropbox_external_share_tests: list[RuleTest] = [
             "origin": {
                 "access_method": {
                     ".tag": "end_user",
-                    "end_user": {
-                        ".tag": "web",
-                        "session_id": "dbwsid:237034608707419186011941491025532848312",
-                    },
+                    "end_user": {".tag": "web", "session_id": "dbwsid:237034608707419186011941491025532848312"},
                 },
-                "geo_location": {
-                    "city": "Austin",
-                    "country": "US",
-                    "ip_address": "1.2.3.4",
-                    "region": "Texas",
-                },
+                "geo_location": {"city": "Austin", "country": "US", "ip_address": "1.2.3.4", "region": "Texas"},
             },
             "p_any_emails": ["david.davidson@example.com", "alice.bob@company.com"],
             "p_any_ip_addresses": ["1.2.3.4"],
@@ -127,10 +116,7 @@ dropbox_external_share_tests: list[RuleTest] = [
                 "email": "alice.bob@company.com",
                 "team_member_id": "dbmid:AADSERs2cAsByYt8yQEDU4_qdNQiSdxgCl8",
             },
-            "details": {
-                ".tag": "shared_content_add_member_details",
-                "shared_content_access_level": {".tag": "viewer"},
-            },
+            "details": {".tag": "shared_content_add_member_details", "shared_content_access_level": {".tag": "viewer"}},
             "event_category": {"_tag": "sharing"},
             "event_type": {
                 "_tag": "shared_content_add_member",
@@ -140,17 +126,9 @@ dropbox_external_share_tests: list[RuleTest] = [
             "origin": {
                 "access_method": {
                     ".tag": "end_user",
-                    "end_user": {
-                        ".tag": "web",
-                        "session_id": "dbwsid:237034608707419186011941491025532848312",
-                    },
+                    "end_user": {".tag": "web", "session_id": "dbwsid:237034608707419186011941491025532848312"},
                 },
-                "geo_location": {
-                    "city": "Austin",
-                    "country": "US",
-                    "ip_address": "1.2.3.4",
-                    "region": "Texas",
-                },
+                "geo_location": {"city": "Austin", "country": "US", "ip_address": "1.2.3.4", "region": "Texas"},
             },
             "p_any_emails": ["david.davidson@david.co", "alice.bob@company.com"],
             "p_any_ip_addresses": ["1.2.3.4"],
@@ -183,7 +161,7 @@ class DropboxExternalShare(Rule):
     display_name = "Dropbox External Share"
     default_reference = "https://help.dropbox.com/share/share-outside-dropbox"
     default_severity = Severity.MEDIUM
-    log_types = [LogType.Dropbox_TeamEvent]
+    log_types = [LogType.DROPBOX_TEAM_EVENT]
     id = "Dropbox.External.Share-prototype"
     tests = dropbox_external_share_tests
     DROPBOX_ALLOWED_SHARE_DOMAINS = config.DROPBOX_ALLOWED_SHARE_DOMAINS

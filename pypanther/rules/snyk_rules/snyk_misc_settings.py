@@ -32,7 +32,7 @@ snyk_misc_settings_tests: list[RuleTest] = [
 class SnykMiscSettings(Rule):
     id = "Snyk.Misc.Settings-prototype"
     display_name = "Snyk Miscellaneous Settings"
-    log_types = [LogType.Snyk_GroupAudit, LogType.Snyk_OrgAudit]
+    log_types = [LogType.SNYK_GROUP_AUDIT, LogType.SNYK_ORG_AUDIT]
     tags = ["Snyk"]
     default_reference = "https://docs.snyk.io/snyk-admin/manage-settings"
     default_severity = Severity.LOW

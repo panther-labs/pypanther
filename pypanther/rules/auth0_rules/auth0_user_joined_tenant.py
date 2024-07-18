@@ -317,7 +317,7 @@ class Auth0UserJoinedTenant(Rule):
     id = "Auth0.User.Joined.Tenant-prototype"
     default_reference = "https://auth0.com/docs/manage-users/organizations/configure-organizations/invite-members#send-membership-invitations:~:text=.-,Send%20membership%20invitations,-You%20can"
     default_severity = Severity.INFO
-    log_types = [LogType.Auth0_Events]
+    log_types = [LogType.AUTH0_EVENTS]
     tests = auth0_user_joined_tenant_tests
 
     def rule(self, event):

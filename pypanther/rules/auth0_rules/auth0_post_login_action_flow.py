@@ -294,7 +294,7 @@ class Auth0PostLoginActionFlow(Rule):
     default_runbook = "Assess if this was done by the user for a valid business reason. Be sure to replace any steps that were removed without authorization."
     default_reference = "https://auth0.com/docs/customize/actions/flows-and-triggers/login-flow/api-object"
     default_severity = Severity.MEDIUM
-    log_types = [LogType.Auth0_Events]
+    log_types = [LogType.AUTH0_EVENTS]
     id = "Auth0.Post.Login.Action.Flow-prototype"
     tests = auth0_post_login_action_flow_tests
 

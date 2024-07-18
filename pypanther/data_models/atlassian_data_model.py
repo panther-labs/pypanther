@@ -30,7 +30,7 @@ class StandardAtlassianAudit(DataModel):
     id: str = "Standard.Atlassian.Audit"
     display_name: str = "Atlassian Audit Logs"
     enabled: bool = True
-    log_types: list[str] = [LogType.Atlassian_Audit]
+    log_types: list[str] = [LogType.ATLASSIAN_AUDIT]
     mappings: list[DataModelMapping] = [
         DataModelMapping(name="actor_user", path="$.EventActor.Name"),
         DataModelMapping(name="event_type", method=get_event_type),

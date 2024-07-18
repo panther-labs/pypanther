@@ -41,7 +41,7 @@ g_suite_suspicious_logins_tests: list[RuleTest] = [
 class GSuiteSuspiciousLogins(Rule):
     id = "GSuite.SuspiciousLogins-prototype"
     display_name = "Suspicious GSuite Login"
-    log_types = [LogType.GSuite_ActivityEvent]
+    log_types = [LogType.GSUITE_ACTIVITY_EVENT]
     tags = ["GSuite"]
     default_severity = Severity.MEDIUM
     default_description = "GSuite reported a suspicious login for this user.\n"
@@ -49,11 +49,7 @@ class GSuiteSuspiciousLogins(Rule):
     default_runbook = "Checkout the details of the login and verify this behavior with the user to ensure the account wasn't compromised.\n"
     summary_attributes = ["actor:email"]
     tests = g_suite_suspicious_logins_tests
-    SUSPICIOUS_LOGIN_TYPES = {
-        "suspicious_login",
-        "suspicious_login_less_secure_app",
-        "suspicious_programmatic_login",
-    }
+    SUSPICIOUS_LOGIN_TYPES = {"suspicious_login", "suspicious_login_less_secure_app", "suspicious_programmatic_login"}
 
     def rule(self, event):
         if deep_get(event, "id", "applicationName") != "login":

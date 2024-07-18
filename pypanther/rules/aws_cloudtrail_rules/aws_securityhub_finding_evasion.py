@@ -103,7 +103,7 @@ class AWSSecurityHubFindingEvasion(Rule):
         "https://docs.aws.amazon.com/securityhub/latest/userguide/securityhub-insights-view-take-action.html"
     )
     default_severity = Severity.HIGH
-    log_types = [LogType.AWS_CloudTrail]
+    log_types = [LogType.AWS_CLOUDTRAIL]
     id = "AWS.SecurityHub.Finding.Evasion-prototype"
     tests = aws_security_hub_finding_evasion_tests
     EVASION_OPERATIONS = ["BatchUpdateFindings", "DeleteInsight", "UpdateFindings", "UpdateInsight"]

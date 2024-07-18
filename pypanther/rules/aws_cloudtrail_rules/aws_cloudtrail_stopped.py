@@ -23,10 +23,7 @@ aws_cloud_trail_stopped_tests: list[RuleTest] = [
                         "userName": "Tester",
                     },
                     "webIdFederationData": {},
-                    "attributes": {
-                        "mfaAuthenticated": "true",
-                        "creationDate": "2019-01-01T00:00:00Z",
-                    },
+                    "attributes": {"mfaAuthenticated": "true", "creationDate": "2019-01-01T00:00:00Z"},
                 },
             },
             "eventTime": "2019-01-01T00:00:00Z",
@@ -56,10 +53,7 @@ aws_cloud_trail_stopped_tests: list[RuleTest] = [
                 "accountId": "123456789012",
                 "accessKeyId": "1",
                 "sessionContext": {
-                    "attributes": {
-                        "mfaAuthenticated": "false",
-                        "creationDate": "2019-01-01T00:00:00Z",
-                    },
+                    "attributes": {"mfaAuthenticated": "false", "creationDate": "2019-01-01T00:00:00Z"},
                     "sessionIssuer": {
                         "type": "Role",
                         "principalId": "1111",
@@ -116,10 +110,7 @@ aws_cloud_trail_stopped_tests: list[RuleTest] = [
                         "userName": "Tester",
                     },
                     "webIdFederationData": {},
-                    "attributes": {
-                        "mfaAuthenticated": "true",
-                        "creationDate": "2019-01-01T00:00:00Z",
-                    },
+                    "attributes": {"mfaAuthenticated": "true", "creationDate": "2019-01-01T00:00:00Z"},
                 },
             },
             "eventTime": "2019-01-01T00:00:00Z",
@@ -143,7 +134,7 @@ aws_cloud_trail_stopped_tests: list[RuleTest] = [
 class AWSCloudTrailStopped(Rule):
     id = "AWS.CloudTrail.Stopped-prototype"
     display_name = "CloudTrail Stopped"
-    log_types = [LogType.AWS_CloudTrail]
+    log_types = [LogType.AWS_CLOUDTRAIL]
     tags = ["AWS", "Security Control", "DemoThreatHunting", "Defense Evasion:Impair Defenses"]
     reports = {"CIS": ["3.5"], "MITRE ATT&CK": ["TA0005:T1562"]}
     default_severity = Severity.MEDIUM
@@ -152,13 +143,7 @@ class AWSCloudTrailStopped(Rule):
     default_reference = (
         "https://docs.aws.amazon.com/awscloudtrail/latest/userguide/cloudtrail-delete-trails-console.html"
     )
-    summary_attributes = [
-        "eventName",
-        "userAgent",
-        "sourceIpAddress",
-        "recipientAccountId",
-        "p_any_aws_arns",
-    ]
+    summary_attributes = ["eventName", "userAgent", "sourceIpAddress", "recipientAccountId", "p_any_aws_arns"]
     tests = aws_cloud_trail_stopped_tests
     # API calls that are indicative of CloudTrail changes
     CLOUDTRAIL_STOP_DELETE = {"DeleteTrail", "StopLogging"}

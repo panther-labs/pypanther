@@ -50,7 +50,7 @@ slack_audit_logs_org_created_tests: list[RuleTest] = [
 class SlackAuditLogsOrgCreated(Rule):
     id = "Slack.AuditLogs.OrgCreated-prototype"
     display_name = "Slack Organization Created"
-    log_types = [LogType.Slack_AuditLogs]
+    log_types = [LogType.SLACK_AUDIT_LOGS]
     tags = ["Slack", "Persistence", "Create Account"]
     reports = {"MITRE ATT&CK": ["TA0003:T1136"]}
     default_severity = Severity.LOW

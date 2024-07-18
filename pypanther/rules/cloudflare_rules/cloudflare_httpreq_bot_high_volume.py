@@ -149,7 +149,7 @@ class CloudflareHttpRequestBotHighVolume(Rule):
     id = "Cloudflare.HttpRequest.BotHighVolume-prototype"
     display_name = "Cloudflare Bot High Volume"
     enabled = False
-    log_types = [LogType.Cloudflare_HttpRequest]
+    log_types = [LogType.CLOUDFLARE_HTTP_REQUEST]
     tags = ["Cloudflare"]
     default_severity = Severity.LOW
     default_description = "Monitors for bots making HTTP Requests at a rate higher than 2req/sec"

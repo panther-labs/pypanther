@@ -129,7 +129,7 @@ slack_audit_logs_user_privilege_escalation_tests: list[RuleTest] = [
 class SlackAuditLogsUserPrivilegeEscalation(Rule):
     id = "Slack.AuditLogs.UserPrivilegeEscalation-prototype"
     display_name = "Slack User Privilege Escalation"
-    log_types = [LogType.Slack_AuditLogs]
+    log_types = [LogType.SLACK_AUDIT_LOGS]
     tags = ["Slack", "Privilege Escalation", "Account Manipulation", "Additional Cloud Roles"]
     reports = {"MITRE ATT&CK": ["TA0004:T1098.003"]}
     default_severity = Severity.HIGH

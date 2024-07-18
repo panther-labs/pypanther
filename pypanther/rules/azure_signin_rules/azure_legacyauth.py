@@ -2,11 +2,7 @@ import json
 from unittest.mock import MagicMock
 
 from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
-from pypanther.helpers.panther_azuresignin_helpers import (
-    actor_user,
-    azure_signin_alert_context,
-    is_sign_in_event,
-)
+from pypanther.helpers.panther_azuresignin_helpers import actor_user, azure_signin_alert_context, is_sign_in_event
 from pypanther.helpers.panther_base_helpers import deep_get
 
 azure_audit_legacy_auth_tests: list[RuleTest] = [
@@ -42,10 +38,7 @@ azure_audit_legacy_auth_tests: list[RuleTest] = [
                 "location": {
                     "city": "Dublin",
                     "countryOrRegion": "IE",
-                    "geoCoordinates": {
-                        "latitude": 51.35555555555555,
-                        "longitude": -5.244444444444444,
-                    },
+                    "geoCoordinates": {"latitude": 51.35555555555555, "longitude": -5.244444444444444},
                     "state": "Dublin",
                 },
                 "managedIdentityType": "none",
@@ -123,10 +116,7 @@ azure_audit_legacy_auth_tests: list[RuleTest] = [
                 "location": {
                     "city": "Springfield",
                     "countryOrRegion": "US",
-                    "geoCoordinates": {
-                        "latitude": 34.55555555555555,
-                        "longitude": -74.4444444444444,
-                    },
+                    "geoCoordinates": {"latitude": 34.55555555555555, "longitude": -74.4444444444444},
                     "state": "Virginia",
                 },
                 "mfaDetail": {},
@@ -148,10 +138,7 @@ azure_audit_legacy_auth_tests: list[RuleTest] = [
                 "servicePrincipalId": "",
                 "sessionLifetimePolicies": [],
                 "ssoExtensionVersion": "",
-                "status": {
-                    "additionalDetails": "MFA requirement satisfied by claim in the token",
-                    "errorCode": 0,
-                },
+                "status": {"additionalDetails": "MFA requirement satisfied by claim in the token", "errorCode": 0},
                 "tenantId": "237c496d-1ca2-4b13-aa0f-69e44d745a27",
                 "tokenIssuerName": "",
                 "tokenIssuerType": "AzureAD",
@@ -172,12 +159,7 @@ azure_audit_legacy_auth_tests: list[RuleTest] = [
     RuleTest(
         name="Sign-In with legacy auth, KNOWN_EXCEPTION",
         expected_result=False,
-        mocks=[
-            RuleMock(
-                object_name="KNOWN_EXCEPTIONS",
-                return_value='[\n  "homer.simpson@springfield.org"\n]',
-            )
-        ],
+        mocks=[RuleMock(object_name="KNOWN_EXCEPTIONS", return_value='[\n  "homer.simpson@springfield.org"\n]')],
         log={
             "calleripaddress": "173.53.70.163",
             "category": "SignInLogs",
@@ -228,10 +210,7 @@ azure_audit_legacy_auth_tests: list[RuleTest] = [
                 "location": {
                     "city": "Springfield",
                     "countryOrRegion": "US",
-                    "geoCoordinates": {
-                        "latitude": 34.55555555555555,
-                        "longitude": -74.4444444444444,
-                    },
+                    "geoCoordinates": {"latitude": 34.55555555555555, "longitude": -74.4444444444444},
                     "state": "Virginia",
                 },
                 "mfaDetail": {},
@@ -253,10 +232,7 @@ azure_audit_legacy_auth_tests: list[RuleTest] = [
                 "servicePrincipalId": "",
                 "sessionLifetimePolicies": [],
                 "ssoExtensionVersion": "",
-                "status": {
-                    "additionalDetails": "MFA requirement satisfied by claim in the token",
-                    "errorCode": 0,
-                },
+                "status": {"additionalDetails": "MFA requirement satisfied by claim in the token", "errorCode": 0},
                 "tenantId": "237c496d-1ca2-4b13-aa0f-69e44d745a27",
                 "tokenIssuerName": "",
                 "tokenIssuerType": "AzureAD",
@@ -281,18 +257,14 @@ class AzureAuditLegacyAuth(Rule):
     id = "Azure.Audit.LegacyAuth-prototype"
     display_name = "Azure SignIn via Legacy Authentication Protocol"
     dedup_period_minutes = 10
-    log_types = [LogType.Azure_Audit]
+    log_types = [LogType.AZURE_AUDIT]
     default_severity = Severity.MEDIUM
     default_description = "This detection looks for Successful Logins that have used legacy authentication protocols\n"
     default_reference = (
         "https://learn.microsoft.com/en-us/azure/active-directory/reports-monitoring/workbook-legacy-authentication"
     )
     default_runbook = "Based on Microsoft's analysis more than 97 percent of credential stuffing attacks use legacy authentication and more than 99 percent of password spray attacks use legacy authentication protocols. These attacks would stop with basic authentication disabled or blocked. see https://learn.microsoft.com/en-us/azure/active-directory/conditional-access/block-legacy-authentication\nIf you are aware of this Legacy Auth need, and need to continue using this mechanism, add the principal name to KNOWN_EXCEPTIONS. The Reference link contains additional material hosted on Microsoft.com\n"
-    summary_attributes = [
-        "properties:ServicePrincipalName",
-        "properties:UserPrincipalName",
-        "properties:ipAddress",
-    ]
+    summary_attributes = ["properties:ServicePrincipalName", "properties:UserPrincipalName", "properties:ipAddress"]
     tests = azure_audit_legacy_auth_tests
     LEGACY_AUTH_USERAGENTS = ["BAV2ROPC", "CBAInPROD"]  # CBAInPROD is reported to be IMAP
     # Add ServicePrincipalName/UserPrincipalName to

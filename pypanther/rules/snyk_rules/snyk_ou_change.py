@@ -64,7 +64,7 @@ snyk_ou_change_tests: list[RuleTest] = [
 class SnykOUChange(Rule):
     id = "Snyk.OU.Change-prototype"
     display_name = "Snyk Org or Group Settings Change"
-    log_types = [LogType.Snyk_GroupAudit, LogType.Snyk_OrgAudit]
+    log_types = [LogType.SNYK_GROUP_AUDIT, LogType.SNYK_ORG_AUDIT]
     tags = ["Snyk"]
     default_severity = Severity.HIGH
     default_description = "Detects when Snyk Group or Organization Settings are changed.\n"

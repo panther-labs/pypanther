@@ -74,7 +74,7 @@ osquery_outdated_agent_tests: list[RuleTest] = [
 class OsqueryOutdatedAgent(Rule):
     id = "Osquery.OutdatedAgent-prototype"
     display_name = "Osquery Agent Outdated"
-    log_types = [LogType.Osquery_Differential]
+    log_types = [LogType.OSQUERY_DIFFERENTIAL]
     tags = ["Osquery", "Compliance"]
     default_severity = Severity.INFO
     default_description = "Keep track of osquery versions, current is 5.10.2."

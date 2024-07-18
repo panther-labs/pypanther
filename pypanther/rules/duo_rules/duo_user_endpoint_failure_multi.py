@@ -107,7 +107,7 @@ class DUOUserEndpointFailure(Rule):
     id = "DUO.User.Endpoint.Failure-prototype"
     display_name = "Duo User Denied For Endpoint Error"
     dedup_period_minutes = 15
-    log_types = [LogType.Duo_Authentication]
+    log_types = [LogType.DUO_AUTHENTICATION]
     tags = ["Duo"]
     default_severity = Severity.MEDIUM
     default_description = "A Duo user's authentication was denied due to a suspicious error on the endpoint"

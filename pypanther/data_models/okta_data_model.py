@@ -37,7 +37,7 @@ class StandardOktaSystemLog(DataModel):
     id: str = "Standard.Okta.SystemLog"
     display_name: str = "Okta System Log"
     enabled: bool = True
-    log_types: list[str] = [LogType.Okta_SystemLog]
+    log_types: list[str] = [LogType.OKTA_SYSTEM_LOG]
     mappings: list[DataModelMapping] = [
         DataModelMapping(name="actor_user", method=get_actor_user),
         DataModelMapping(name="event_type", method=get_event_type),

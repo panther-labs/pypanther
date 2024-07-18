@@ -86,7 +86,7 @@ class GitHubActionFailed(Rule):
     id = "GitHub.Action.Failed-prototype"
     display_name = "GitHub Action Failed"
     enabled = False
-    log_types = [LogType.GitHub_Audit]
+    log_types = [LogType.GITHUB_AUDIT]
     tags = ["GitHub", "Configuration Required"]
     default_severity = Severity.HIGH
     default_description = "A monitored github action has failed."

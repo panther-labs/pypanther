@@ -14,12 +14,7 @@ aws_root_activity_tests: list[RuleTest] = [
                 "arn": "arn:aws:iam::123456789012:root",
                 "accountId": "123456789012",
                 "accessKeyId": "1",
-                "sessionContext": {
-                    "attributes": {
-                        "mfaAuthenticated": "false",
-                        "creationDate": "2019-01-01T00:00:00Z",
-                    }
-                },
+                "sessionContext": {"attributes": {"mfaAuthenticated": "false", "creationDate": "2019-01-01T00:00:00Z"}},
             },
             "eventTime": "2019-01-01T00:00:00Z",
             "eventSource": "s3.amazonaws.com",
@@ -60,12 +55,7 @@ aws_root_activity_tests: list[RuleTest] = [
                 "arn": "arn:aws:iam::123456789012:root",
                 "accountId": "123456789012",
                 "accessKeyId": "1",
-                "sessionContext": {
-                    "attributes": {
-                        "mfaAuthenticated": "false",
-                        "creationDate": "2019-01-01T00:00:00Z",
-                    }
-                },
+                "sessionContext": {"attributes": {"mfaAuthenticated": "false", "creationDate": "2019-01-01T00:00:00Z"}},
             },
             "eventTime": "2019-01-01T00:00:00Z",
             "eventSource": "s3.amazonaws.com",
@@ -107,12 +97,7 @@ aws_root_activity_tests: list[RuleTest] = [
                 "accountId": "123456789012",
                 "accessKeyId": "1",
                 "userName": "tester",
-                "sessionContext": {
-                    "attributes": {
-                        "mfaAuthenticated": "false",
-                        "creationDate": "2019-01-01T00:00:00Z",
-                    }
-                },
+                "sessionContext": {"attributes": {"mfaAuthenticated": "false", "creationDate": "2019-01-01T00:00:00Z"}},
                 "invokedBy": "signin.amazonaws.com",
             },
             "eventTime": "2019-01-01T00:00:00Z",
@@ -121,11 +106,7 @@ aws_root_activity_tests: list[RuleTest] = [
             "awsRegion": "us-west-2",
             "sourceIPAddress": "111.111.111.111",
             "userAgent": "signin.amazonaws.com",
-            "requestParameters": {
-                "host": ["bucket.s3.us-west-2.amazonaws.com"],
-                "bucketName": "bucket",
-                "acl": [""],
-            },
+            "requestParameters": {"host": ["bucket.s3.us-west-2.amazonaws.com"], "bucketName": "bucket", "acl": [""]},
             "responseElements": None,
             "additionalEventData": {
                 "SignatureVersion": "SigV4",
@@ -219,13 +200,8 @@ aws_root_activity_tests: list[RuleTest] = [
 class AWSRootActivity(Rule):
     id = "AWS.Root.Activity-prototype"
     display_name = "Root Account Activity"
-    log_types = [LogType.AWS_CloudTrail]
-    tags = [
-        "AWS",
-        "Identity & Access Management",
-        "DemoThreatHunting",
-        "Privilege Escalation:Valid Accounts",
-    ]
+    log_types = [LogType.AWS_CLOUDTRAIL]
+    tags = ["AWS", "Identity & Access Management", "DemoThreatHunting", "Privilege Escalation:Valid Accounts"]
     reports = {"CIS": ["3.3"], "MITRE ATT&CK": ["TA0004:T1078"]}
     default_severity = Severity.HIGH
     default_description = "Root account activity was detected.\n"

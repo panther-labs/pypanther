@@ -80,7 +80,7 @@ standard_new_user_account_created_tests: list[RuleTest] = [
 class StandardNewUserAccountCreated(Rule):
     id = "Standard.NewUserAccountCreated-prototype"
     display_name = "New User Account Created"
-    log_types = [LogType.OneLogin_Events, LogType.AWS_CloudTrail, LogType.Zoom_Operation]
+    log_types = [LogType.ONELOGIN_EVENTS, LogType.AWS_CLOUDTRAIL, LogType.ZOOM_OPERATION]
     tags = ["DataModel", "Indicator Collection", "OneLogin", "Persistence:Create Account"]
     default_severity = Severity.INFO
     reports = {"MITRE ATT&CK": ["TA0003:T1136"]}

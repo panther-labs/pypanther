@@ -64,7 +64,7 @@ class GCPGKEKubernetesCronJobCreatedOrModified(Rule):
     id = "GCP.GKE.Kubernetes.Cron.Job.Created.Or.Modified-prototype"
     display_name = "GCP GKE Kubernetes Cron Job Created Or Modified"
     default_description = "This detection monitor for any modifications or creations of a cron job in GKE. Attackers may create or modify an existing scheduled job in order to achieve cluster persistence."
-    log_types = [LogType.GCP_AuditLog]
+    log_types = [LogType.GCP_AUDIT_LOG]
     default_severity = Severity.MEDIUM
     default_reference = "https://medium.com/snowflake/from-logs-to-detection-using-snowflake-and-panther-to-detect-k8s-threats-d72f70a504d7"
     default_runbook = "Investigate a reason of creating or modifying a cron job in GKE. Create ticket if appropriate."

@@ -9,12 +9,7 @@ slack_audit_logs_dlp_modified_tests: list[RuleTest] = [
             "action": "native_dlp_rule_deactivated",
             "actor": {
                 "type": "user",
-                "user": {
-                    "email": "user@example.com",
-                    "id": "A012B3CDEFG",
-                    "name": "username",
-                    "team": "T01234N56GB",
-                },
+                "user": {"email": "user@example.com", "id": "A012B3CDEFG", "name": "username", "team": "T01234N56GB"},
             },
             "context": {
                 "ip_address": "1.2.3.4",
@@ -35,12 +30,7 @@ slack_audit_logs_dlp_modified_tests: list[RuleTest] = [
             "action": "native_dlp_violation_deleted",
             "actor": {
                 "type": "user",
-                "user": {
-                    "email": "user@example.com",
-                    "id": "A012B3CDEFG",
-                    "name": "username",
-                    "team": "T01234N56GB",
-                },
+                "user": {"email": "user@example.com", "id": "A012B3CDEFG", "name": "username", "team": "T01234N56GB"},
             },
             "context": {
                 "ip_address": "1.2.3.4",
@@ -97,14 +87,8 @@ slack_audit_logs_dlp_modified_tests: list[RuleTest] = [
 class SlackAuditLogsDLPModified(Rule):
     id = "Slack.AuditLogs.DLPModified-prototype"
     display_name = "Slack DLP Modified"
-    log_types = [LogType.Slack_AuditLogs]
-    tags = [
-        "Slack",
-        "Defense Evasion",
-        "Impair Defenses",
-        "Disable or Modify Tools",
-        "Indicator Removal",
-    ]
+    log_types = [LogType.SLACK_AUDIT_LOGS]
+    tags = ["Slack", "Defense Evasion", "Impair Defenses", "Disable or Modify Tools", "Indicator Removal"]
     reports = {"MITRE ATT&CK": ["TA0005:T1562.001", "TA0005:T1070"]}
     default_severity = Severity.HIGH
     default_description = (

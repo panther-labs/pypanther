@@ -39,7 +39,7 @@ okta_api_key_revoked_tests: list[RuleTest] = [
 class OktaAPIKeyRevoked(Rule):
     id = "Okta.APIKeyRevoked-prototype"
     display_name = "Okta API Key Revoked"
-    log_types = [LogType.Okta_SystemLog]
+    log_types = [LogType.OKTA_SYSTEM_LOG]
     tags = ["Identity & Access Management", "Okta"]
     default_severity = Severity.INFO
     default_description = "A user has revoked an API Key in Okta"

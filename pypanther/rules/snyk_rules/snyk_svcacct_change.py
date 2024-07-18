@@ -207,7 +207,7 @@ snyk_service_account_change_tests: list[RuleTest] = [
 class SnykServiceAccountChange(Rule):
     id = "Snyk.ServiceAccount.Change-prototype"
     display_name = "Snyk Service Account Change"
-    log_types = [LogType.Snyk_GroupAudit, LogType.Snyk_OrgAudit]
+    log_types = [LogType.SNYK_GROUP_AUDIT, LogType.SNYK_ORG_AUDIT]
     tags = ["Snyk"]
     default_severity = Severity.HIGH
     default_description = "Detects when Snyk Service Accounts are changed\n"

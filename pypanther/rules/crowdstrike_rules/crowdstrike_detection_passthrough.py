@@ -1,8 +1,5 @@
 from pypanther import LogType, Rule, RuleTest, Severity
-from pypanther.helpers.panther_base_helpers import (
-    crowdstrike_detection_alert_context,
-    get_crowdstrike_field,
-)
+from pypanther.helpers.panther_base_helpers import crowdstrike_detection_alert_context, get_crowdstrike_field
 
 crowdstrike_detectionpassthrough_tests: list[RuleTest] = [
     RuleTest(
@@ -133,10 +130,7 @@ crowdstrike_detectionpassthrough_tests: list[RuleTest] = [
             ],
             "p_any_sha1_hashes": ["0000000000000000000000000000000000000000"],
             "p_any_sha256_hashes": ["9e8a9e9f8cab6f07d8e711043bf856893660143aaf4385cb4e7b6faa97d6e61e"],
-            "p_any_trace_ids": [
-                "712bcd164963442ea43d52917cecdecc",
-                "fa6a04a7f18d473fa06771b4961aa3d9",
-            ],
+            "p_any_trace_ids": ["712bcd164963442ea43d52917cecdecc", "fa6a04a7f18d473fa06771b4961aa3d9"],
             "p_any_usernames": ["russ"],
             "p_event_time": "2021-03-24 18:19:49",
             "p_log_type": "Crowdstrike.FDREvent",
@@ -172,7 +166,7 @@ class CrowdstrikeDetectionpassthrough(Rule):
     id = "Crowdstrike.Detection.passthrough-prototype"
     display_name = "Crowdstrike Detection Passthrough"
     default_severity = Severity.MEDIUM
-    log_types = [LogType.Crowdstrike_DetectionSummary, LogType.Crowdstrike_FDREvent]
+    log_types = [LogType.CROWDSTRIKE_DETECTION_SUMMARY, LogType.CROWDSTRIKE_FDR_EVENT]
     tags = ["Crowdstrike"]
     default_description = "Crowdstrike Falcon has detected malicious activity on a host."
     default_runbook = "Follow the Falcon console link and follow the IR process as needed."

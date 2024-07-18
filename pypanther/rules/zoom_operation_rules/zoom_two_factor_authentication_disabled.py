@@ -45,7 +45,7 @@ class ZoomTwoFactorAuthenticationDisabled(Rule):
     )
     default_reference = "https://support.zoom.com/hc/en/article?id=zm_kb&sysparm_article=KB0066054"
     default_severity = Severity.MEDIUM
-    log_types = [LogType.Zoom_Operation]
+    log_types = [LogType.ZOOM_OPERATION]
     id = "Zoom.Two.Factor.Authentication.Disabled-prototype"
     tests = zoom_two_factor_authentication_disabled_tests
 

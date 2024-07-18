@@ -41,7 +41,7 @@ class StandardAWSCloudTrail(DataModel):
     id: str = "Standard.AWS.CloudTrail"
     display_name: str = "AWS CloudTrail"
     enabled: bool = True
-    log_types: list[str] = [LogType.AWS_CloudTrail]
+    log_types: list[str] = [LogType.AWS_CLOUDTRAIL]
     mappings: list[DataModelMapping] = [
         DataModelMapping(name="actor_user", path="$.userIdentity..userName"),
         DataModelMapping(name="event_type", method=get_event_type),

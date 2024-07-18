@@ -79,7 +79,7 @@ class AtlassianUserLoggedInAsUser(Rule):
     display_name = "Atlassian admin impersonated another user"
     id = "Atlassian.User.LoggedInAsUser-prototype"
     default_severity = Severity.HIGH
-    log_types = [LogType.Atlassian_Audit]
+    log_types = [LogType.ATLASSIAN_AUDIT]
     tags = ["Atlassian", "User impersonation"]
     default_description = "Reports when an Atlassian user logs in (impersonates) another user.\n"
     default_runbook = "Validate that the Atlassian admin did log in (impersonate) as another user.\n"

@@ -87,7 +87,7 @@ slack_audit_logs_information_barrier_modified_tests: list[RuleTest] = [
 class SlackAuditLogsInformationBarrierModified(Rule):
     id = "Slack.AuditLogs.InformationBarrierModified-prototype"
     display_name = "Slack Information Barrier Modified"
-    log_types = [LogType.Slack_AuditLogs]
+    log_types = [LogType.SLACK_AUDIT_LOGS]
     tags = ["Slack", "Defense Evasion", "Impair Defenses", "Disable or Modify Tools"]
     reports = {"MITRE ATT&CK": ["TA0005:T1562.001"]}
     default_severity = Severity.MEDIUM

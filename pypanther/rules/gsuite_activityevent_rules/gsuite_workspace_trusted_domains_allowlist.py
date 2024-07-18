@@ -6,11 +6,7 @@ g_suite_workspace_trusted_domains_allowlist_tests: list[RuleTest] = [
         name="Workspace Admin Remove Trusted Domain",
         expected_result=True,
         log={
-            "actor": {
-                "callerType": "USER",
-                "email": "user@example.io",
-                "profileId": "110506209185950390992",
-            },
+            "actor": {"callerType": "USER", "email": "user@example.io", "profileId": "110506209185950390992"},
             "id": {
                 "applicationName": "admin",
                 "customerId": "D12345",
@@ -28,11 +24,7 @@ g_suite_workspace_trusted_domains_allowlist_tests: list[RuleTest] = [
         name="Workspace Admin Add Trusted Domain",
         expected_result=True,
         log={
-            "actor": {
-                "callerType": "USER",
-                "email": "user@example.io",
-                "profileId": "110506209185950390992",
-            },
+            "actor": {"callerType": "USER", "email": "user@example.io", "profileId": "110506209185950390992"},
             "id": {
                 "applicationName": "admin",
                 "customerId": "D12345",
@@ -107,7 +99,7 @@ g_suite_workspace_trusted_domains_allowlist_tests: list[RuleTest] = [
 class GSuiteWorkspaceTrustedDomainsAllowlist(Rule):
     id = "GSuite.Workspace.TrustedDomainsAllowlist-prototype"
     display_name = "GSuite Workspace Trusted Domain Allowlist Modified"
-    log_types = [LogType.GSuite_ActivityEvent]
+    log_types = [LogType.GSUITE_ACTIVITY_EVENT]
     tags = ["GSuite"]
     default_severity = Severity.MEDIUM
     default_description = "A Workspace Admin Has Modified The Trusted Domains List\n"

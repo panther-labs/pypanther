@@ -227,7 +227,7 @@ okta_password_access_tests: list[RuleTest] = [
 class OktaPasswordAccess(Rule):
     id = "Okta.PasswordAccess-prototype"
     display_name = "Okta Password Accessed"
-    log_types = [LogType.Okta_SystemLog]
+    log_types = [LogType.OKTA_SYSTEM_LOG]
     tags = ["Okta", "Credential Access:Unsecured Credentials"]
     reports = {"MITRE ATT&CK": ["TA0006:T1552"]}
     default_severity = Severity.MEDIUM

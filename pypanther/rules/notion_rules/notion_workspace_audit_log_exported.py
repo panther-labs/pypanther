@@ -50,7 +50,7 @@ notion_audit_log_exported_tests: list[RuleTest] = [
 class NotionAuditLogExported(Rule):
     id = "Notion.Audit.Log.Exported-prototype"
     display_name = "Notion Audit Log Exported"
-    log_types = [LogType.Notion_AuditLogs]
+    log_types = [LogType.NOTION_AUDIT_LOGS]
     tags = ["Notion", "Data Security", "Data Exfiltration"]
     default_severity = Severity.MEDIUM
     default_description = "A Notion User exported audit logs for your organization’s workspace."

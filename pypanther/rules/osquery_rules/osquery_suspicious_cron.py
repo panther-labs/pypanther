@@ -125,7 +125,7 @@ osquery_suspicious_cron_tests: list[RuleTest] = [
 class OsquerySuspiciousCron(Rule):
     id = "Osquery.SuspiciousCron-prototype"
     display_name = "Suspicious cron detected"
-    log_types = [LogType.Osquery_Differential]
+    log_types = [LogType.OSQUERY_DIFFERENTIAL]
     tags = ["Osquery", "Execution:Scheduled Task/Job"]
     reports = {"MITRE ATT&CK": ["TA0002:T1053"]}
     default_severity = Severity.HIGH

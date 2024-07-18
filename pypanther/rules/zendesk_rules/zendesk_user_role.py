@@ -47,7 +47,7 @@ zendesk_user_role_changed_tests: list[RuleTest] = [
 class ZendeskUserRoleChanged(Rule):
     id = "Zendesk.UserRoleChanged-prototype"
     display_name = "Zendesk User Role Changed"
-    log_types = [LogType.Zendesk_Audit]
+    log_types = [LogType.ZENDESK_AUDIT]
     default_severity = Severity.INFO
     default_description = "A user's Zendesk role was changed"
     default_reference = (

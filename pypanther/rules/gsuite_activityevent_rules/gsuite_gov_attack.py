@@ -30,7 +30,7 @@ g_suite_government_backed_attack_tests: list[RuleTest] = [
 class GSuiteGovernmentBackedAttack(Rule):
     id = "GSuite.GovernmentBackedAttack-prototype"
     display_name = "GSuite Government Backed Attack"
-    log_types = [LogType.GSuite_ActivityEvent]
+    log_types = [LogType.GSUITE_ACTIVITY_EVENT]
     tags = ["GSuite"]
     default_severity = Severity.CRITICAL
     default_description = "GSuite reported that it detected a government backed attack against your account.\n"

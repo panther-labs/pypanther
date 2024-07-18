@@ -82,7 +82,7 @@ class GCPK8sExecIntoPod(Rule):
     id = "GCP.K8s.ExecIntoPod-prototype"
     display_name = "Exec into Pod"
     enabled = False
-    log_types = [LogType.GCP_AuditLog]
+    log_types = [LogType.GCP_AUDIT_LOG]
     tags = ["GCP", "Security Control", "Configuration Required"]
     default_severity = Severity.MEDIUM
     default_description = "Alerts when users exec into pod. Possible to specify specific projects and allowed users.\n"

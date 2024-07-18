@@ -18,12 +18,7 @@ okta_potentially_stolen_session_tests: list[RuleTest] = [
             )
         ],
         log={
-            "actor": {
-                "alternateId": "admin",
-                "displayName": "unknown",
-                "id": "unknown",
-                "type": "User",
-            },
+            "actor": {"alternateId": "admin", "displayName": "unknown", "id": "unknown", "type": "User"},
             "authenticationContext": {"authenticationStep": 0, "externalSessionId": "123456789"},
             "client": {
                 "device": "Computer",
@@ -103,12 +98,7 @@ okta_potentially_stolen_session_tests: list[RuleTest] = [
             )
         ],
         log={
-            "actor": {
-                "alternateId": "admin",
-                "displayName": "Bobert",
-                "id": "unknown",
-                "type": "User",
-            },
+            "actor": {"alternateId": "admin", "displayName": "Bobert", "id": "unknown", "type": "User"},
             "authenticationContext": {"authenticationStep": 0, "externalSessionId": "123456789"},
             "client": {
                 "device": "Computer",
@@ -188,12 +178,7 @@ okta_potentially_stolen_session_tests: list[RuleTest] = [
             )
         ],
         log={
-            "actor": {
-                "alternateId": "admin",
-                "displayName": "Bobert",
-                "id": "unknown",
-                "type": "User",
-            },
+            "actor": {"alternateId": "admin", "displayName": "Bobert", "id": "unknown", "type": "User"},
             "authenticationContext": {"authenticationStep": 0, "externalSessionId": "123456789"},
             "client": {
                 "device": "Computer",
@@ -273,12 +258,7 @@ okta_potentially_stolen_session_tests: list[RuleTest] = [
             )
         ],
         log={
-            "actor": {
-                "alternateId": "admin",
-                "displayName": "Bobert",
-                "id": "unknown",
-                "type": "User",
-            },
+            "actor": {"alternateId": "admin", "displayName": "Bobert", "id": "unknown", "type": "User"},
             "authenticationContext": {"authenticationStep": 0, "externalSessionId": "123456789"},
             "client": {
                 "device": "Unknown",
@@ -291,11 +271,7 @@ okta_potentially_stolen_session_tests: list[RuleTest] = [
                 },
                 "id": "okta.b58d5b75-07d4-5f25-bf59-368a1261a405",
                 "ipAddress": "44.238.82.114",
-                "userAgent": {
-                    "browser": "UNKNOWN",
-                    "os": "Unknown",
-                    "rawUserAgent": "Okta-Integrations",
-                },
+                "userAgent": {"browser": "UNKNOWN", "os": "Unknown", "rawUserAgent": "Okta-Integrations"},
                 "zone": "null",
             },
             "debugContext": {
@@ -348,7 +324,7 @@ okta_potentially_stolen_session_tests: list[RuleTest] = [
 class OktaPotentiallyStolenSession(Rule):
     id = "Okta.PotentiallyStolenSession-prototype"
     display_name = "Okta Potentially Stolen Session"
-    log_types = [LogType.Okta_SystemLog]
+    log_types = [LogType.OKTA_SYSTEM_LOG]
     tags = ["Identity & Access Management", "Okta"]
     reports = {"MITRE ATT&CK": ["TA0006:T1539"]}
     default_severity = Severity.HIGH
@@ -412,9 +388,7 @@ class OktaPotentiallyStolenSession(Rule):
             [prev_ua] = [x for x in self.PREVIOUS_SESSION if "user_agent:" in x] or ["prev_ua_not_found"]
             prev_ua = prev_ua.split("_agent:")[1]
             diff_ratio = SequenceMatcher(
-                None,
-                deep_get(event, "client", "userAgent", "rawUserAgent", default="ua_not_found"),
-                prev_ua,
+                None, deep_get(event, "client", "userAgent", "rawUserAgent", default="ua_not_found"), prev_ua
             ).ratio()
             # is this session being used from a new IP and a different browser
             if (

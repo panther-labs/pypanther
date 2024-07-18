@@ -128,7 +128,7 @@ class DropboxAdminsigninasSession(Rule):
     display_name = "Dropbox Admin sign-in-as Session"
     default_reference = "https://help.dropbox.com/security/sign-in-as-user"
     default_severity = Severity.MEDIUM
-    log_types = [LogType.Dropbox_TeamEvent]
+    log_types = [LogType.DROPBOX_TEAM_EVENT]
     id = "Dropbox.Admin.sign.in.as.Session-prototype"
     tests = dropbox_adminsigninas_session_tests
 

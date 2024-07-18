@@ -51,7 +51,7 @@ carbon_black_audit_admin_grant_tests: list[RuleTest] = [
 
 class CarbonBlackAuditAdminGrant(Rule):
     id = "CarbonBlack.Audit.Admin.Grant-prototype"
-    log_types = [LogType.CarbonBlack_Audit]
+    log_types = [LogType.CARBON_BLACK_AUDIT]
     default_description = "Detects when a user is granted Admin or Super Admin permissions."
     display_name = "Carbon Black Admin Role Granted"
     default_severity = Severity.HIGH

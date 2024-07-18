@@ -66,7 +66,7 @@ snyk_org_settings_tests: list[RuleTest] = [
 class SnykOrgSettings(Rule):
     id = "Snyk.Org.Settings-prototype"
     display_name = "Snyk Org Settings"
-    log_types = [LogType.Snyk_GroupAudit, LogType.Snyk_OrgAudit]
+    log_types = [LogType.SNYK_GROUP_AUDIT, LogType.SNYK_ORG_AUDIT]
     tags = ["Snyk"]
     default_reference = "https://docs.snyk.io/snyk-admin/manage-settings/organization-general-settings"
     default_severity = Severity.MEDIUM

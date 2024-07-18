@@ -55,7 +55,7 @@ class GithubOrganizationAppIntegrationInstalled(Rule):
     default_runbook = "Confirm that the app integration installation was a desired behavior."
     default_severity = Severity.LOW
     tags = ["Application Installation", "Github"]
-    log_types = [LogType.GitHub_Audit]
+    log_types = [LogType.GITHUB_AUDIT]
     id = "Github.Organization.App.Integration.Installed-prototype"
     summary_attributes = ["actor", "name"]
     tests = github_organization_app_integration_installed_tests

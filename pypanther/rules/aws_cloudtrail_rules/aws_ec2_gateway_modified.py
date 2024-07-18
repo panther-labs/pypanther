@@ -15,10 +15,7 @@ awsec2_gateway_modified_tests: list[RuleTest] = [
                 "accountId": "123456789012",
                 "accessKeyId": "1",
                 "sessionContext": {
-                    "attributes": {
-                        "mfaAuthenticated": "true",
-                        "creationDate": "2019-01-01T00:00:00Z",
-                    },
+                    "attributes": {"mfaAuthenticated": "true", "creationDate": "2019-01-01T00:00:00Z"},
                     "sessionIssuer": {
                         "type": "Role",
                         "principalId": "1111",
@@ -62,10 +59,7 @@ awsec2_gateway_modified_tests: list[RuleTest] = [
                         "userName": "tester",
                     },
                     "webIdFederationData": {},
-                    "attributes": {
-                        "mfaAuthenticated": "false",
-                        "creationDate": "2019-01-01T00:00:00Z",
-                    },
+                    "attributes": {"mfaAuthenticated": "false", "creationDate": "2019-01-01T00:00:00Z"},
                 },
             },
             "eventTime": "2019-01-01T00:00:00Z",
@@ -98,10 +92,7 @@ awsec2_gateway_modified_tests: list[RuleTest] = [
                 "accountId": "123456789012",
                 "accessKeyId": "1",
                 "sessionContext": {
-                    "attributes": {
-                        "mfaAuthenticated": "true",
-                        "creationDate": "2019-01-01T00:00:00Z",
-                    },
+                    "attributes": {"mfaAuthenticated": "true", "creationDate": "2019-01-01T00:00:00Z"},
                     "sessionIssuer": {
                         "type": "Role",
                         "principalId": "1111",
@@ -131,20 +122,14 @@ awsec2_gateway_modified_tests: list[RuleTest] = [
 class AWSEC2GatewayModified(Rule):
     id = "AWS.EC2.GatewayModified-prototype"
     display_name = "EC2 Network Gateway Modified"
-    log_types = [LogType.AWS_CloudTrail]
+    log_types = [LogType.AWS_CLOUDTRAIL]
     tags = ["AWS", "Security Control", "Defense Evasion:Impair Defenses"]
     reports = {"CIS": ["3.12"], "MITRE ATT&CK": ["TA0005:T1562"]}
     default_severity = Severity.INFO
     default_description = "An EC2 Network Gateway was modified."
     default_runbook = "https://docs.runpanther.io/alert-runbooks/built-in-rules/aws-ec2-gateway-modified"
     default_reference = "https://docs.aws.amazon.com/vpc/latest/userguide/VPC_Internet_Gateway.html"
-    summary_attributes = [
-        "eventName",
-        "userAgent",
-        "sourceIpAddress",
-        "recipientAccountId",
-        "p_any_aws_arns",
-    ]
+    summary_attributes = ["eventName", "userAgent", "sourceIpAddress", "recipientAccountId", "p_any_aws_arns"]
     tests = awsec2_gateway_modified_tests
     # API calls that are indicative of an EC2 Network Gateway modification
     EC2_GATEWAY_MODIFIED_EVENTS = {

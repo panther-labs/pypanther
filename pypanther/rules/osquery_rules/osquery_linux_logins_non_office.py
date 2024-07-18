@@ -32,11 +32,7 @@ osquery_linux_login_from_non_office_tests: list[RuleTest] = [
     RuleTest(
         name="Office network login",
         expected_result=False,
-        log={
-            "name": "pack-logged_in_users",
-            "action": "added",
-            "columns": {"host": "192.168.1.200", "user": "ubuntu"},
-        },
+        log={"name": "pack-logged_in_users", "action": "added", "columns": {"host": "192.168.1.200", "user": "ubuntu"}},
     ),
 ]
 
@@ -45,7 +41,7 @@ class OsqueryLinuxLoginFromNonOffice(Rule):
     id = "Osquery.Linux.LoginFromNonOffice-prototype"
     display_name = "A Login from Outside the Corporate Office"
     enabled = False
-    log_types = [LogType.Osquery_Differential]
+    log_types = [LogType.OSQUERY_DIFFERENTIAL]
     tags = ["Configuration Required", "Osquery", "Linux", "Initial Access:Valid Accounts"]
     reports = {"MITRE ATT&CK": ["TA0001:T1078"]}
     default_severity = Severity.HIGH
@@ -55,10 +51,7 @@ class OsqueryLinuxLoginFromNonOffice(Rule):
     summary_attributes = ["name", "action", "p_any_ip_addresses", "p_any_domain_names"]
     tests = osquery_linux_login_from_non_office_tests
     # This is only an example network, but you can set it to whatever you'd like
-    OFFICE_NETWORKS = [
-        ipaddress.ip_network("192.168.1.100/32"),
-        ipaddress.ip_network("192.168.1.200/32"),
-    ]
+    OFFICE_NETWORKS = [ipaddress.ip_network("192.168.1.100/32"), ipaddress.ip_network("192.168.1.200/32")]
 
     def _login_from_non_office_network(self, host):
         host_ipaddr = ipaddress.IPv4Address(host)

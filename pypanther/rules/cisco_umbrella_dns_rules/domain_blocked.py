@@ -32,7 +32,7 @@ class CiscoUmbrellaDNSBlocked(Rule):
     id = "CiscoUmbrella.DNS.Blocked-prototype"
     display_name = "Cisco Umbrella Domain Blocked"
     dedup_period_minutes = 480
-    log_types = [LogType.CiscoUmbrella_DNS]
+    log_types = [LogType.CISCO_UMBRELLA_DNS]
     tags = ["DNS"]
     default_severity = Severity.LOW
     default_description = "Monitor blocked domains"

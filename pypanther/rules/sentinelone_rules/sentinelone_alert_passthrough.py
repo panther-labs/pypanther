@@ -139,15 +139,10 @@ class SentinelOneAlertPassthrough(Rule):
     display_name = "SentinelOne Alert Passthrough"
     default_reference = "https://www.sentinelone.com/blog/feature-spotlight-introducing-the-new-threat-center/"
     default_severity = Severity.HIGH
-    log_types = [LogType.SentinelOne_Activity]
+    log_types = [LogType.SENTINELONE_ACTIVITY]
     id = "SentinelOne.Alert.Passthrough-prototype"
     tests = sentinel_one_alert_passthrough_tests
-    SENTINELONE_SEVERITY = {
-        "E_LOW": "LOW",
-        "E_MEDIUM": "MEDIUM",
-        "E_HIGH": "HIGH",
-        "E_CRITICAL": "CRITICAL",
-    }
+    SENTINELONE_SEVERITY = {"E_LOW": "LOW", "E_MEDIUM": "MEDIUM", "E_HIGH": "HIGH", "E_CRITICAL": "CRITICAL"}
 
     def rule(self, event):
         # 3608 corresponds to new alerts

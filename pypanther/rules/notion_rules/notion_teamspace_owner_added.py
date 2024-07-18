@@ -68,7 +68,7 @@ notion_teamspace_owner_added_tests: list[RuleTest] = [
 class NotionTeamspaceOwnerAdded(Rule):
     id = "Notion.TeamspaceOwnerAdded-prototype"
     display_name = "Notion Teamspace Owner Added"
-    log_types = [LogType.Notion_AuditLogs]
+    log_types = [LogType.NOTION_AUDIT_LOGS]
     tags = ["Notion", "Privilege Escalation"]
     default_description = "A Notion User was added as a Teamspace owner."
     default_severity = Severity.MEDIUM

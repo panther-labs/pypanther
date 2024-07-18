@@ -38,7 +38,7 @@ class AWSEC2EBSEncryptionDisabled(Rule):
     default_runbook = "Verify this action was intended and if any EBS volumes were created after the change."
     default_reference = "https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/EBSEncryption.html#encryption-by-default"
     default_severity = Severity.MEDIUM
-    log_types = [LogType.AWS_CloudTrail]
+    log_types = [LogType.AWS_CLOUDTRAIL]
     id = "AWS.EC2.EBS.Encryption.Disabled-prototype"
     tests = awsec2_ebs_encryption_disabled_tests
 

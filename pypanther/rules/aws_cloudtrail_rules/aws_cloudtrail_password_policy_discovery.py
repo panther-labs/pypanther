@@ -60,15 +60,11 @@ class AWSCloudTrailPasswordPolicyDiscovery(Rule):
     default_reference = "https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_passwords_account-policy.html"
     default_severity = Severity.INFO
     dedup_period_minutes = 30
-    log_types = [LogType.AWS_CloudTrail]
+    log_types = [LogType.AWS_CLOUDTRAIL]
     id = "AWS.CloudTrail.Password.Policy.Discovery-prototype"
     threshold = 2
     tests = aws_cloud_trail_password_policy_discovery_tests
-    PASSWORD_DISCOVERY_EVENTS = [
-        "GetAccountPasswordPolicy",
-        "UpdateAccountPasswordPolicy",
-        "PutAccountPasswordPolicy",
-    ]
+    PASSWORD_DISCOVERY_EVENTS = ["GetAccountPasswordPolicy", "UpdateAccountPasswordPolicy", "PutAccountPasswordPolicy"]
 
     def rule(self, event):
         service_event = event.get("eventType") == "AwsServiceEvent"

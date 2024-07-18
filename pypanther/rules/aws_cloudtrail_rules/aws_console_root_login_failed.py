@@ -110,7 +110,7 @@ class AWSConsoleRootLoginFailed(Rule):
     id = "AWS.Console.RootLoginFailed-prototype"
     display_name = "Failed Root Console Login"
     dedup_period_minutes = 15
-    log_types = [LogType.AWS_CloudTrail]
+    log_types = [LogType.AWS_CLOUDTRAIL]
     tags = [
         "AWS",
         "Identity & Access Management",

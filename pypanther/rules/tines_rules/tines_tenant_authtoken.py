@@ -56,7 +56,7 @@ tines_tenant_auth_token_tests: list[RuleTest] = [
 class TinesTenantAuthToken(Rule):
     id = "Tines.Tenant.AuthToken-prototype"
     display_name = "Tines Tenant API Keys Added"
-    log_types = [LogType.Tines_Audit]
+    log_types = [LogType.TINES_AUDIT]
     tags = ["Tines", "IAM - Credential Security"]
     default_severity = Severity.MEDIUM
     default_description = "Detects when Tines Tenant API Keys are added\n"

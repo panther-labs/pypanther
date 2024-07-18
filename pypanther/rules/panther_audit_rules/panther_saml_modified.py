@@ -41,7 +41,7 @@ panther_saml_modified_tests: list[RuleTest] = [
 class PantherSAMLModified(Rule):
     id = "Panther.SAML.Modified-prototype"
     display_name = "Panther SAML configuration has been modified"
-    log_types = [LogType.Panther_Audit]
+    log_types = [LogType.PANTHER_AUDIT]
     default_severity = Severity.HIGH
     tags = ["DataModel", "Defense Evasion:Impair Defenses"]
     reports = {"MITRE ATT&CK": ["TA0005:T1562"]}

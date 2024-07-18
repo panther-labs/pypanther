@@ -162,7 +162,7 @@ class CrowdstrikeCredentialDumpingTool(Rule):
     display_name = "Crowdstrike Credential Dumping Tool"
     default_reference = "https://www.crowdstrike.com/blog/adversary-credential-theft/"
     default_severity = Severity.CRITICAL
-    log_types = [LogType.Crowdstrike_FDREvent]
+    log_types = [LogType.CROWDSTRIKE_FDR_EVENT]
     id = "Crowdstrike.Credential.Dumping.Tool-prototype"
     tests = crowdstrike_credential_dumping_tool_tests
     CREDENTIAL_DUMPING_TOOLS = {

@@ -162,11 +162,11 @@ class StandardMaliciousSSODNSLookup(Rule):
     display_name = "Malicious SSO DNS Lookup"
     enabled = False
     log_types = [
-        LogType.CiscoUmbrella_DNS,
-        LogType.Crowdstrike_DNSRequest,
-        LogType.Crowdstrike_FDREvent,
-        LogType.Suricata_DNS,
-        LogType.Zeek_DNS,
+        LogType.CISCO_UMBRELLA_DNS,
+        LogType.CROWDSTRIKE_DNS_REQUEST,
+        LogType.CROWDSTRIKE_FDR_EVENT,
+        LogType.SURICATA_DNS,
+        LogType.ZEEK_DNS,
     ]
     default_severity = Severity.MEDIUM
     threshold = 1000

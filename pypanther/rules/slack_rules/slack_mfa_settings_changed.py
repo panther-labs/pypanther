@@ -9,12 +9,7 @@ slack_audit_logs_mfa_settings_changed_tests: list[RuleTest] = [
             "action": "pref.two_factor_auth_changed",
             "actor": {
                 "type": "user",
-                "user": {
-                    "email": "user@example.com",
-                    "id": "A012B3CDEFG",
-                    "name": "username",
-                    "team": "T01234N56GB",
-                },
+                "user": {"email": "user@example.com", "id": "A012B3CDEFG", "name": "username", "team": "T01234N56GB"},
             },
             "context": {
                 "ip_address": "1.2.3.4",
@@ -71,13 +66,8 @@ slack_audit_logs_mfa_settings_changed_tests: list[RuleTest] = [
 class SlackAuditLogsMFASettingsChanged(Rule):
     id = "Slack.AuditLogs.MFASettingsChanged-prototype"
     display_name = "Slack MFA Settings Changed"
-    log_types = [LogType.Slack_AuditLogs]
-    tags = [
-        "Slack",
-        "Defense Evasion",
-        "Modify Authentication Process",
-        "Multi-Factor Authentication",
-    ]
+    log_types = [LogType.SLACK_AUDIT_LOGS]
+    tags = ["Slack", "Defense Evasion", "Modify Authentication Process", "Multi-Factor Authentication"]
     reports = {"MITRE ATT&CK": ["TA0005:T1556.006"]}
     default_severity = Severity.HIGH
     default_description = "Detects changes to Multi-Factor Authentication requirements"

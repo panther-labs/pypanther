@@ -28,7 +28,7 @@ class GSuiteDocOwnershipTransfer(Rule):
     id = "GSuite.DocOwnershipTransfer-prototype"
     display_name = "GSuite Document External Ownership Transfer"
     enabled = False
-    log_types = [LogType.GSuite_ActivityEvent]
+    log_types = [LogType.GSUITE_ACTIVITY_EVENT]
     tags = ["GSuite", "Configuration Required", "Collection:Data from Information Repositories"]
     reports = {"MITRE ATT&CK": ["TA0009:T1213"]}
     default_severity = Severity.LOW

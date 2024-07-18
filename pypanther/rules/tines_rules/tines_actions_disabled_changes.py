@@ -39,7 +39,7 @@ tines_actions_disabled_changes_tests: list[RuleTest] = [
 class TinesActionsDisabledChanges(Rule):
     id = "Tines.Actions.DisabledChanges-prototype"
     display_name = "Tines Actions Disabled Change"
-    log_types = [LogType.Tines_Audit]
+    log_types = [LogType.TINES_AUDIT]
     tags = ["Tines"]
     default_reference = "https://www.tines.com/university/tines-basics/architecture-of-an-action"
     default_severity = Severity.MEDIUM

@@ -4,22 +4,12 @@ one_login_unauthorized_access_tests: list[RuleTest] = [
     RuleTest(
         name="Normal Event",
         expected_result=False,
-        log={
-            "event_type_id": "8",
-            "user_id": 123456,
-            "user_name": "Bob Cat",
-            "app_name": "confluence",
-        },
+        log={"event_type_id": "8", "user_id": 123456, "user_name": "Bob Cat", "app_name": "confluence"},
     ),
     RuleTest(
         name="User Unauthorized Access Event",
         expected_result=True,
-        log={
-            "event_type_id": "90",
-            "user_id": 123456,
-            "user_name": "Bob Cat",
-            "app_name": "confluence",
-        },
+        log={"event_type_id": "90", "user_id": 123456, "user_name": "Bob Cat", "app_name": "confluence"},
     ),
 ]
 
@@ -27,7 +17,7 @@ one_login_unauthorized_access_tests: list[RuleTest] = [
 class OneLoginUnauthorizedAccess(Rule):
     id = "OneLogin.UnauthorizedAccess-prototype"
     display_name = "OneLogin Unauthorized Access"
-    log_types = [LogType.OneLogin_Events]
+    log_types = [LogType.ONELOGIN_EVENTS]
     tags = ["OneLogin", "Lateral Movement:Use Alternate Authentication Material"]
     reports = {"MITRE ATT&CK": ["TA0008:T1550"]}
     default_severity = Severity.MEDIUM

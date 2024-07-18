@@ -114,7 +114,7 @@ class Microsoft365MFADisabled(Rule):
     default_runbook = "Depending on company policy, either suggest or require the user re-enable two step verification."
     default_reference = "https://learn.microsoft.com/en-us/microsoft-365/admin/security-and-compliance/set-up-multi-factor-authentication?view=o365-worldwide"
     default_severity = Severity.LOW
-    log_types = [LogType.Microsoft365_Audit_AzureActiveDirectory]
+    log_types = [LogType.MICROSOFT365_AUDIT_AZURE_ACTIVE_DIRECTORY]
     id = "Microsoft365.MFA.Disabled-prototype"
     tests = microsoft365_mfa_disabled_tests
 

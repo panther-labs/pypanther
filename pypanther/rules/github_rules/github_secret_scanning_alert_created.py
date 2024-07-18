@@ -54,7 +54,7 @@ git_hub_secret_scanning_alert_created_tests: list[RuleTest] = [
 class GitHubSecretScanningAlertCreated(Rule):
     id = "GitHub.Secret.Scanning.Alert.Created-prototype"
     display_name = "GitHub Secret Scanning Alert Created"
-    log_types = [LogType.GitHub_Audit]
+    log_types = [LogType.GITHUB_AUDIT]
     tags = ["GitHub"]
     reports = {"MITRE ATT&CK": ["TA0006:T1552"]}
     default_severity = Severity.MEDIUM
