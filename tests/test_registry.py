@@ -58,6 +58,13 @@ class TestRegister(unittest.TestCase):
         register(A)
         assert len(registered_data_models()) == 1
 
+    def test_register_data_model_duplicate_in_list(self):
+        class A(DataModel):
+            data_model_id = "test_register_duplicate"
+
+        register([A, A])
+        assert len(registered_data_models()) == 1
+
     def test_register_data_models(self):
         class A(DataModel):
             id = "a"
@@ -69,6 +76,25 @@ class TestRegister(unittest.TestCase):
         assert len(registered_data_models()) == 2
         assert A in registered_data_models()
         assert B in registered_data_models()
+
+    def test_register_rule_and_data_model_same_list(self):
+        class RuleA(Rule):
+            tags = ["test"]
+            log_types = [""]
+            id = "test_register_duplicate"
+            default_severity = Severity.INFO
+
+            def rule(self, _):
+                pass
+
+        class DataModelA(DataModel):
+            id = "a"
+
+        register([RuleA, DataModelA])
+        assert len(registered_rules()) == 1
+        assert RuleA in registered_rules()
+        assert len(registered_data_models()) == 1
+        assert DataModelA in registered_data_models()
 
     def test_invalid_argument(self):
         with pytest.raises(ValueError, match="argument must be a Rule or DataModel or an iterable of them not"):

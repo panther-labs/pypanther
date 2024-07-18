@@ -7,7 +7,7 @@ _RULE_REGISTRY: Set[Type[Rule]] = set()
 _DATA_MODEL_REGISTRY: Set[Type[DataModel]] = set()
 
 
-def register(arg: Type[Rule] | Iterable[Type[Rule]] | Type[DataModel] | Iterable[Type[DataModel]]):
+def register(arg: Type[Rule] | Type[DataModel] | Iterable[Type[Rule] | Type[DataModel]]) -> None:
     """The register function is used to register rules and data models with the pypanther library."""
     if _register_rule(arg):  # type: ignore
         return
