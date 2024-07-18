@@ -34,10 +34,10 @@ jobs:
           VERSION="v222" # "v$(poetry version --short)"
           
           if [[ $(git tag -l $VERSION) ]]; then
-            echo "Tagging with $VERSION"
-          #            git tag "$VERSION"
-          #            git push --tags
-          #            gitsign verify $(git rev-list --tags --max-count=1) --certificate-identity-regexp="https://github.com/${{ github.repository }}/*" --certificate-oidc-issuer="https://token.actions.githubusercontent.com"
-          else
             echo "Tag $VERSION already exists"
+          else
+            echo "Tagging with $VERSION"
+            #            git tag "$VERSION"
+            #            git push --tags
+            gitsign verify $(git rev-list --tags --max-count=1) --certificate-identity-regexp="https://github.com/${{ github.repository }}/*" --certificate-oidc-issuer="https://token.actions.githubusercontent.com"
           fi
