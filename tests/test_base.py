@@ -1307,6 +1307,14 @@ class TestRule(TestCase):
         )
         assert not Test().run_test(test, get_data_model).passed
 
+        test = RuleTest(
+            name="test",
+            expected_result=True,
+            log={},
+            expected_severity="",
+        )
+        assert not Test().run_test(test, get_data_model).passed
+
     def test_expected_title(self) -> None:
         class Test(Rule):
             id = "TestRule"
@@ -1325,6 +1333,9 @@ class TestRule(TestCase):
         test = RuleTest(name="test", expected_result=True, log={}, expected_title="bad")
         assert not Test().run_test(test, get_data_model).passed
 
+        test = RuleTest(name="test", expected_result=True, log={}, expected_title="")
+        assert not Test().run_test(test, get_data_model).passed
+
     def test_expected_dedup(self) -> None:
         class Test(Rule):
             id = "TestRule"
@@ -1341,6 +1352,9 @@ class TestRule(TestCase):
         assert Test().run_test(test, get_data_model).passed
 
         test = RuleTest(name="test", expected_result=True, log={}, expected_dedup="bad")
+        assert not Test().run_test(test, get_data_model).passed
+
+        test = RuleTest(name="test", expected_result=True, log={}, expected_dedup="")
         assert not Test().run_test(test, get_data_model).passed
 
     def test_expected_destinations(self) -> None:
@@ -1370,6 +1384,9 @@ class TestRule(TestCase):
         test = RuleTest(name="test", expected_result=True, log={}, expected_destinations=["bad"])
         assert not Test().run_test(test, get_data_model).passed
 
+        test = RuleTest(name="test", expected_result=True, log={}, expected_destinations=[""])
+        assert not Test().run_test(test, get_data_model).passed
+
     def test_expected_runbook(self) -> None:
         class Test(Rule):
             id = "TestRule"
@@ -1392,6 +1409,9 @@ class TestRule(TestCase):
         assert Test().run_test(test, get_data_model).passed
 
         test = RuleTest(name="test", expected_result=True, log={}, expected_runbook="bad")
+        assert not Test().run_test(test, get_data_model).passed
+
+        test = RuleTest(name="test", expected_result=True, log={}, expected_runbook="")
         assert not Test().run_test(test, get_data_model).passed
 
     def test_expected_reference(self) -> None:
@@ -1418,6 +1438,9 @@ class TestRule(TestCase):
         test = RuleTest(name="test", expected_result=True, log={}, expected_reference="bad")
         assert not Test().run_test(test, get_data_model).passed
 
+        test = RuleTest(name="test", expected_result=True, log={}, expected_reference="")
+        assert not Test().run_test(test, get_data_model).passed
+
     def test_expected_description(self) -> None:
         class Test(Rule):
             id = "TestRule"
@@ -1440,6 +1463,9 @@ class TestRule(TestCase):
         assert Test().run_test(test, get_data_model).passed
 
         test = RuleTest(name="test", expected_result=True, log={}, expected_description="bad")
+        assert not Test().run_test(test, get_data_model).passed
+
+        test = RuleTest(name="test", expected_result=True, log={}, expected_description="")
         assert not Test().run_test(test, get_data_model).passed
 
     def test_expected_alert_context(self) -> None:
@@ -1470,6 +1496,14 @@ class TestRule(TestCase):
             expected_result=True,
             log={},
             expected_alert_context={"field": ["bad"]},
+        )
+        assert not Test().run_test(test, get_data_model).passed
+
+        test = RuleTest(
+            name="test",
+            expected_result=True,
+            log={},
+            expected_alert_context={},
         )
         assert not Test().run_test(test, get_data_model).passed
 
