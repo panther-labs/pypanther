@@ -33,9 +33,7 @@ jobs:
           git config user.email "dac-bot@panther.com"
       - name: Check and update tag
         run: |
-          VERSION="v$(poetry version --short)"
-          
-          git rev-parse "refs/tags/$VERSION"
+          VERSION=v3 #"v$(poetry version --short)"
           
           if [[ $(git tag -l $VERSION) ]]; then
             echo "Tag $VERSION already exists"
