@@ -1,15 +1,12 @@
-name: Tag on PR Merge
-
-#on:
-#  pull_request:
-#    types: [ closed ]
+name: Tag with Latest Version on PR Merge
 
 on:
   pull_request:
+    types: [ closed ]
 
 jobs:
   tag-on-merge:
-    #    if: github.event.pull_request.merged == true && github.event.pull_request.base.ref == 'main'
+    if: github.event.pull_request.merged == true && github.event.pull_request.base.ref == 'main'
     runs-on: ubuntu-latest
 
     steps:
@@ -33,12 +30,12 @@ jobs:
           git config user.email "dac-bot@panther.com"
       - name: Check and update tag
         run: |
-          VERSION=v3 #"v$(poetry version --short)"
+          VERSION="v$(poetry version --short)"
           
           if [[ $(git tag -l $VERSION) ]]; then
             echo "Tag $VERSION already exists"
           else
             echo "Tagging with $VERSION"
-            #            git tag "$VERSION"
-            #            git push --tags
+            git tag "$VERSION"
+            git push origin --tags
           fi
