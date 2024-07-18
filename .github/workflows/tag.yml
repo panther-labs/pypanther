@@ -31,7 +31,7 @@ jobs:
           git config user.email "dac-bot@panther.com"
       - name: Check and update tag
         run: |
-          VERSION="v222" # "v$(poetry version --short)"
+          VERSION="v$(poetry version --short)"
           
           if [[ $(git tag -l $VERSION) ]]; then
             echo "Tag $VERSION already exists"
@@ -39,5 +39,4 @@ jobs:
             echo "Tagging with $VERSION"
             #            git tag "$VERSION"
             #            git push --tags
-            gitsign verify $(git rev-list --tags --max-count=1) --certificate-identity-regexp="https://github.com/${{ github.repository }}/*" --certificate-oidc-issuer="https://token.actions.githubusercontent.com"
           fi
