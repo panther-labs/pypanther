@@ -1,8 +1,11 @@
 name: Tag on PR Merge
 
+#on:
+#  pull_request:
+#    types: [ closed ]
+
 on:
   pull_request:
-    types: [ closed ]
 
 jobs:
   tag-on-merge:
@@ -10,6 +13,9 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - uses: step-security/harden-runner@17d0e2bd7d51742c71671bd19fa12bdc9d40a3d6 # v2.8.1
+        with:
+          egress-policy: audit
       - name: Checkout repository
         uses: actions/checkout@v2
       - name: Set up Python
