@@ -1,0 +1,31 @@
+name: Tag on PR Merge
+
+on:
+  pull_request:
+    types: [ closed ]
+
+jobs:
+  tag-on-merge:
+    if: github.event.pull_request.merged == true && github.event.pull_request.base.ref == 'main'
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Set up Git
+        run: |
+          git config user.name "dac-bot[bot]"
+          git config user.email "dac-bot@panther.com"
+      - name: Calculate next tag
+        run: |
+          VERSION="v$(poetry version --short)"
+          
+          if git show-ref --tags --verify --quiet "refs/tags/$VERSION"; then
+            echo "Tag $VERSION already exists"
+          else
+            echo "Tagging with $VERSION"
+            git tag "$VERSION"
+            git push --tags
+            gitsign verify $(git rev-list --tags --max-count=1) --certificate-identity-regexp="https://github.com/${{ github.repository }}/*" --certificate-oidc-issuer="https://token.actions.githubusercontent.com"
+          fi

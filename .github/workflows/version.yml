@@ -1,24 +1,28 @@
-name: Version Increment
+name: Version Bump PR
 
 on:
-  push:
-    branches:
-      - main
+  workflow_dispatch:
+    inputs:
+      bump_type:
+        description: 'Version Bump Type (patch, minor, major, prepatch, preminor, premajor, prerelease)'
+        required: true
+        default: 'prerelease'
+
+permissions:
+  contents: write
 
 jobs:
-  bump_version:
-    name: Update version
+  version_bump_pr:
     runs-on: ubuntu-latest
-    permissions:
-      id-token: write
-      contents: write
+
     steps:
-      - name: Checkout Repo
+      - uses: step-security/harden-runner@17d0e2bd7d51742c71671bd19fa12bdc9d40a3d6 # v2.8.1
+        with:
+          egress-policy: audit
+      - name: Check out the repository
         uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332
         with:
-          ref: ${{ github.ref_name }}
-          token: ${{ secrets.PANTHER_BOT_AUTOMATION_TOKEN }}
-      - uses: chainguard-dev/actions/setup-gitsign@e82b4e5ae10182af72972addcb3fedf7454621c8
+          fetch-depth: 0
       - name: Set up Python
         uses: actions/setup-python@39cd14951b08e74b54015e9e001cdefcf80e669f
         with:
@@ -26,22 +30,20 @@ jobs:
       - name: Install Requirements
         run: |
           pip install --upgrade pip poetry
-      - name: Bump patch version
-        run: poetry version prerelease
-      #    - name: Tag the release
-      #      run: |
-      #        echo "Tagging v$(poetry version --short)"
-      #        git tag "v$(poetry version --short)"
-      #        git push --tags
-      #        gitsign verify $(git rev-list --tags --max-count=1) --certificate-identity-regexp="https://github.com/${{ github.repository }}/*" --certificate-oidc-issuer="https://token.actions.githubusercontent.com"
+      - name: Collect old version
+        id: collect_old_version
+        run: echo "old_version=$(poetry version --short)" >> $GITHUB_OUTPUT
+      - name: Bump version
+        run: poetry version "${{ github.event.inputs.bump_type }}"
       - name: Create Branch and Pull Request
+        env:
+          GH_TOKEN: ${{ secrets.PANTHER_BOT_AUTOMATION_TOKEN }}
         run: |
           NEW_VERSION="$(poetry version --short)"
+          OLD_VERSION="${{ steps.collect_old_version.outputs.old_version }}"
           git config user.name "dac-bot[bot]"
           git config user.email "dac-bot@panther.com"
           git checkout -b "$NEW_VERSION"
           git commit -a -m "Bump version to $NEW_VERSION"
           git push --set-upstream origin "$NEW_VERSION"
-          gh pr create -t "Version bump to v$NEW_VERSION" -b "Bumping Version to v$NEW_VERSION"
-        env:
-          GH_TOKEN: ${{ secrets.PANTHER_BOT_AUTOMATION_TOKEN }}
+          gh pr create -t "Version bump to v$NEW_VERSION" -b "Bumping Version from v$OLD_VERSION to v$NEW_VERSION."
