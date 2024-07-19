@@ -1,0 +1,41 @@
+name: Tag with Latest Version on PR Merge
+
+on:
+  pull_request:
+    types: [ closed ]
+
+jobs:
+  tag-on-merge:
+    if: github.event.pull_request.merged == true && github.event.pull_request.base.ref == 'main'
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: step-security/harden-runner@17d0e2bd7d51742c71671bd19fa12bdc9d40a3d6 # v2.8.1
+        with:
+          egress-policy: audit
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Set up Python
+        uses: actions/setup-python@39cd14951b08e74b54015e9e001cdefcf80e669f
+        with:
+          python-version: '3.11'
+      - name: Install Requirements
+        run: |
+          pip install --upgrade pip poetry
+      - name: Set up Git
+        run: |
+          git config user.name "dac-bot[bot]"
+          git config user.email "dac-bot@panther.com"
+      - name: Check and update tag
+        run: |
+          VERSION="v$(poetry version --short)"
+          
+          if [[ $(git tag -l $VERSION) ]]; then
+            echo "Tag $VERSION already exists"
+          else
+            echo "Tagging with $VERSION"
+            git tag "$VERSION"
+            git push origin --tags
+          fi

@@ -66,7 +66,7 @@ class Field:
     name: str
     """The name of the field. This is the key that will be used to access the field in the data model."""
 
-    field_type: FieldType
+    type: FieldType
     """The type of the field."""
 
     mappings: List[FieldMapping]
@@ -91,7 +91,7 @@ _DATA_MODEL_ALL_ATTRS = [
 class DataModel(abc.ABC):
     """A Panther data model. This class should be subclassed to create a new Data Model."""
 
-    data_model_id: str
+    id: str
     """The unique identifier of the data model."""
 
     description: str = ""
@@ -110,7 +110,7 @@ class DataModel(abc.ABC):
     @classmethod
     def override(
         cls,
-        data_model_id: Optional[str] = None,
+        id: Optional[str] = None,
         description: Optional[str] = None,
         enabled: Optional[bool] = None,
         fields: Optional[List[Field]] = None,
