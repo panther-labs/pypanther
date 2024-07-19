@@ -4,18 +4,18 @@ from pypanther.data_models_v2 import DataModel, Field, FieldMapping, FieldType
 def test_data_model_inheritance():
     test_field_1 = Field(
         name="test1",
-        field_type=FieldType.STRING,
+        type=FieldType.STRING,
         mappings=[FieldMapping(log_type="Custom.Test", field_path="field.nested1")],
     )
     test_field_2 = Field(
         name="test2",
-        field_type=FieldType.STRING,
+        type=FieldType.STRING,
         mappings=[FieldMapping(log_type="Custom.Test", field_path="field.nested2")],
     )
 
     test_field_3 = Field(
         name="test3",
-        field_type=FieldType.STRING,
+        type=FieldType.STRING,
         mappings=[FieldMapping(log_type="Custom.Test", field_path="field.nested3")],
     )
 
@@ -42,48 +42,76 @@ def test_data_model_inheritance():
 
 def test_override():
     class Test(DataModel):
-        data_model_id = "old"
+        id = "old"
         description = "old description"
         enabled = True
         fields = [
             Field(
                 name="test1",
-                field_type=FieldType.STRING,
+                type=FieldType.STRING,
                 mappings=[FieldMapping(log_type="Custom.Test", field_path="field.nested1")],
             )
         ]
 
-    assert Test.data_model_id == "old"
+    assert Test.id == "old"
     assert Test.description == "old description"
     assert Test.enabled
     assert Test.fields == [
         Field(
             name="test1",
-            field_type=FieldType.STRING,
+            type=FieldType.STRING,
             mappings=[FieldMapping(log_type="Custom.Test", field_path="field.nested1")],
         )
     ]
 
     Test.override(
-        data_model_id="new",
+        id="new",
         description="new description",
         enabled=False,
         fields=[
             Field(
                 name="test2",
-                field_type=FieldType.STRING,
+                type=FieldType.STRING,
                 mappings=[FieldMapping(log_type="Custom.Test", field_path="field.nested2")],
             )
         ],
     )
 
-    assert Test.data_model_id == "new"
+    assert Test.id == "new"
     assert Test.description == "new description"
     assert not Test.enabled
     assert Test.fields == [
         Field(
             name="test2",
-            field_type=FieldType.STRING,
+            type=FieldType.STRING,
             mappings=[FieldMapping(log_type="Custom.Test", field_path="field.nested2")],
         )
     ]
+
+
+def test_asdict():
+    class Test(DataModel):
+        id = "old"
+        description = "old description"
+        enabled = True
+        fields = [
+            Field(
+                name="test1",
+                type=FieldType.STRING,
+                mappings=[FieldMapping(log_type="Custom.Test", field_path="field.nested1")],
+            )
+        ]
+
+    assert Test.asdict() == {
+        "id": "old",
+        "description": "old description",
+        "enabled": True,
+        "fields": [
+            {
+                "name": "test1",
+                "type": FieldType.STRING,
+                "mappings": [{"log_type": "Custom.Test", "field_path": "field.nested1"}],
+                "description": "",
+            }
+        ],
+    }
