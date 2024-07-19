@@ -91,25 +91,25 @@ def test_override():
 
 def test_asdict():
     class Test(DataModel):
-        data_model_id = "old"
+        id = "old"
         description = "old description"
         enabled = True
         fields = [
             Field(
                 name="test1",
-                field_type=FieldType.STRING,
+                type=FieldType.STRING,
                 mappings=[FieldMapping(log_type="Custom.Test", field_path="field.nested1")],
             )
         ]
 
     assert Test.asdict() == {
-        "data_model_id": "old",
+        "id": "old",
         "description": "old description",
         "enabled": True,
         "fields": [
             {
                 "name": "test1",
-                "field_type": FieldType.STRING,
+                "type": FieldType.STRING,
                 "mappings": [{"log_type": "Custom.Test", "field_path": "field.nested1"}],
                 "description": "",
             }

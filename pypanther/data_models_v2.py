@@ -53,7 +53,7 @@ class FieldMapping:
 
 _FIELD_ALL_ATTRIBUTES = [
     "name",
-    "field_type",
+    "type",
     "mappings",
     "description",
 ]
@@ -81,7 +81,7 @@ class Field:
 
 
 _DATA_MODEL_ALL_ATTRS = [
-    "data_model_id",
+    "id",
     "description",
     "enabled",
     "fields",
