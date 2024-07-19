@@ -27,6 +27,7 @@ class RuleMock:
     object_name: str
     return_value: Any = None
     side_effect: Any = None
+    new: Any = None
 
     def asdict(self):
         """Returns a dictionary representation of the class."""
