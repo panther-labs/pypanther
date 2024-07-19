@@ -59,7 +59,6 @@ def get_panther_rules(
                             continue
                         __RULES.add(attr)
 
-    print(len(__RULES))
     return filter_kwargs(
         __RULES,
         **filters,
