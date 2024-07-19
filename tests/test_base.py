@@ -1397,36 +1397,6 @@ class TestRule(TestCase):
         test = RuleTest(name="test", expected_result=True, log={}, expected_dedup="")
         assert not Test().run_test(test, get_data_model).passed
 
-    def test_expected_destinations(self) -> None:
-        class Test(Rule):
-            id = "TestRule"
-            log_types = [LogType.PANTHER_AUDIT]
-            default_severity = Severity.CRITICAL
-
-            def rule(self, event: PantherEvent) -> bool:
-                return True
-
-            def destinations(self, event) -> list[str]:
-                return ["hi"]
-
-        test = RuleTest(name="test", expected_result=True, log={})
-        assert Test().run_test(test, get_data_model).passed
-
-        test = RuleTest(
-            name="test",
-            expected_result=True,
-            log={},
-            # TODO: you can't supply output names in tests right now so this list will always come back empty
-            expected_destinations=[],
-        )
-        assert Test().run_test(test, get_data_model).passed
-
-        test = RuleTest(name="test", expected_result=True, log={}, expected_destinations=["bad"])
-        assert not Test().run_test(test, get_data_model).passed
-
-        test = RuleTest(name="test", expected_result=True, log={}, expected_destinations=[""])
-        assert not Test().run_test(test, get_data_model).passed
-
     def test_expected_runbook(self) -> None:
         class Test(Rule):
             id = "TestRule"

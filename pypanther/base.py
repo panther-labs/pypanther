@@ -393,8 +393,6 @@ class Rule(metaclass=abc.ABCMeta):
                     test.expected_severity is not None and test.expected_severity != detection_result.severity_output,
                     test.expected_title is not None and test.expected_title != detection_result.title_output,
                     test.expected_dedup is not None and test.expected_dedup != detection_result.dedup_output,
-                    test.expected_destinations is not None
-                    and test.expected_destinations != detection_result.destinations_output,
                     test.expected_runbook is not None and test.expected_runbook != detection_result.runbook_output,
                     test.expected_reference is not None
                     and test.expected_reference != detection_result.reference_output,
