@@ -163,7 +163,8 @@ def test_mock_patching_side_effect_kwarg():
             ),
         ]
 
-        thing = lambda _: "foo"
+        def thing(self):
+            return "foo"
 
         def rule(self, event):
             if self.thing() == "bar":
