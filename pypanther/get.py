@@ -1,4 +1,3 @@
-import pprint
 from importlib import import_module
 from pkgutil import walk_packages
 from types import ModuleType
@@ -125,7 +124,6 @@ def filter_kwargs(
     iterable,
     **kwargs,
 ):
-    pprint.pprint(kwargs)
     return [
         x
         for x in iterable
