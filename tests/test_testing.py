@@ -155,7 +155,6 @@ class TestPrintFailedTestResults:
             expected_alert_context={"bad": "bad"},
             expected_runbook="bad",
             expected_description="bad",
-            expected_destinations=["bad"],
         )
 
         class Rule1(Rule):
@@ -191,10 +190,6 @@ class TestPrintFailedTestResults:
         )
         assert (
             "Rule1: test 'false test 1' returned the wrong result calling description(), expected bad but got ''"
-            in caplog.text
-        )
-        assert (
-            "Rule1: test 'false test 1' returned the wrong result calling destinations(), expected ['bad'] but got ['SKIP']"
             in caplog.text
         )
         assert (

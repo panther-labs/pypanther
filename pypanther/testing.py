@@ -101,7 +101,6 @@ def print_failed_test_results(
                 Rule.title.__name__,
                 Rule.description.__name__,
                 Rule.runbook.__name__,
-                Rule.destinations.__name__,
                 Rule.alert_context.__name__,
                 Rule.reference.__name__,
                 Rule.dedup.__name__,
