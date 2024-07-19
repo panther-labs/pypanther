@@ -1,6 +1,5 @@
 import textwrap
 import unittest
-from typing import Type
 
 import pytest
 
@@ -33,7 +32,7 @@ class TestPaloAltoRule(Rule):
 
 
 def test_print_rule_table(capsys):
-    rules: list[Type[Rule]] = [TestEDRRule, TestPaloAltoRule]
+    rules = [TestEDRRule, TestPaloAltoRule]
     print_rule_table(rules)
     std = capsys.readouterr()
 
