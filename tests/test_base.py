@@ -139,6 +139,44 @@ def test_mock_patching_new_kwarg():
         assert result.passed
 
 
+def test_mock_patching_side_effect_kwarg():
+    class TestRule(Rule):
+        id = "test"
+        log_types = [LogType.PANTHER_AUDIT]
+        default_severity = Severity.HIGH
+        tests = [
+            RuleTest(
+                name="false without mocking",
+                expected_result=False,
+                log={},
+            ),
+            RuleTest(
+                name="true with mocking",
+                expected_result=True,
+                log={},
+                mocks=[
+                    RuleMock(
+                        object_name="thing",
+                        side_effect=lambda: "bar",
+                    )
+                ],
+            ),
+        ]
+
+        thing = lambda _: "foo"
+
+        def rule(self, event):
+            if self.thing() == "bar":
+                return True
+            if self.thing() == "foo":
+                return False
+            raise Exception("thing is not foo or bar")
+
+    results = TestRule.run_tests(DATA_MODEL_CACHE.data_model_of_logtype)
+    for result in results:
+        assert result.passed
+
+
 class TestRunningTests:
     @pytest.mark.parametrize(
         "func",
