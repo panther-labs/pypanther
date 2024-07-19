@@ -1,3 +1,4 @@
+import pprint
 from importlib import import_module
 from pkgutil import walk_packages
 from types import ModuleType
@@ -45,6 +46,8 @@ def get_panther_rules(
     If the filter argument is not provided, all rules are returned. If a filter value is a list, any value in the
     list will match. If a filter value is a string, the value must match exactly.
     """
+    filters = locals()
+
     if not __RULES:
         p_a_r = import_module("pypanther.rules")
         for module_info in walk_packages(p_a_r.__path__, "pypanther.rules."):
@@ -57,25 +60,10 @@ def get_panther_rules(
                             continue
                         __RULES.add(attr)
 
+    print(len(__RULES))
     return filter_kwargs(
         __RULES,
-        log_types=log_types,
-        id=id,
-        create_alert=create_alert,
-        dedup_period_minutes=dedup_period_minutes,
-        display_name=display_name,
-        enabled=enabled,
-        scheduled_queries=scheduled_queries,
-        summary_attributes=summary_attributes,
-        tests=tests,
-        threshold=threshold,
-        tags=tags,
-        reports=reports,
-        default_severity=default_severity,
-        default_description=default_description,
-        default_reference=default_reference,
-        default_runbook=default_runbook,
-        default_destinations=default_destinations,
+        **filters,
     )
 
 
@@ -137,10 +125,15 @@ def filter_kwargs(
     iterable,
     **kwargs,
 ):
+    pprint.pprint(kwargs)
     return [
         x
         for x in iterable
-        if all(__to_set(getattr(x, key, set())).intersection(__to_set(values)) for key, values in kwargs.items())
+        if all(
+            __to_set(getattr(x, key, set())).intersection(__to_set(values))
+            for key, values in kwargs.items()
+            if values is not None
+        )
     ]
 
 
