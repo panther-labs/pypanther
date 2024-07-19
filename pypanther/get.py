@@ -4,7 +4,10 @@ from types import ModuleType
 from typing import Any, List, Set, Type
 
 from prettytable import PrettyTable
+from pydantic import PositiveInt, NonNegativeInt
 
+from pypanther.severity import Severity
+from pypanther.unit_tests import RuleTest
 from pypanther.base import DataModel, Rule
 
 __RULES: Set[Type[Rule]] = set()
@@ -19,7 +22,25 @@ def __to_set(value):
         return {value}
 
 
-def get_panther_rules(**kwargs) -> list[Type[Rule]]:
+def get_panther_rules(
+    log_types: List[str] | None = None,
+    id: str | None = None,
+    create_alert: bool | None = None,
+    dedup_period_minutes: NonNegativeInt | None = None,
+    display_name: str | None = None,
+    enabled: bool | None = None,
+    scheduled_queries: List[str] | None = None,
+    summary_attributes: List[str] | None = None,
+    tests: List[RuleTest] | None = None,
+    threshold: PositiveInt | None = None,
+    tags: List[str] | None = None,
+    reports: dict[str, List[str]] | None = None,
+    default_severity: Severity | None = None,
+    default_description: str | None = None,
+    default_reference: str | None = None,
+    default_runbook: str | None = None,
+    default_destinations: List[str] | None = None,
+) -> list[Type[Rule]]:
     """Return an iterator of all PantherRules in the pypanther.rules based on the provided filters.
     If the filter argument is not provided, all rules are returned. If a filter value is a list, any value in the
     list will match. If a filter value is a string, the value must match exactly.
@@ -36,7 +57,26 @@ def get_panther_rules(**kwargs) -> list[Type[Rule]]:
                             continue
                         __RULES.add(attr)
 
-    return filter_kwargs(__RULES, **kwargs)
+    return filter_kwargs(
+        __RULES,
+        log_types=log_types,
+        id=id,
+        create_alert=create_alert,
+        dedup_period_minutes=dedup_period_minutes,
+        display_name=display_name,
+        enabled=enabled,
+        scheduled_queries=scheduled_queries,
+        summary_attributes=summary_attributes,
+        tests=tests,
+        threshold=threshold,
+        tags=tags,
+        reports=reports,
+        default_severity=default_severity,
+        default_description=default_description,
+        default_reference=default_reference,
+        default_runbook=default_runbook,
+        default_destinations=default_destinations,
+    )
 
 
 __DATA_MODELS: Set[Type[Rule]] = set()
