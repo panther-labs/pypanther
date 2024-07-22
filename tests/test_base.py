@@ -1545,6 +1545,30 @@ class TestPantherManagedDecorator(TestCase):
         for test_result in Test().run_tests(get_data_model):
             assert test_result.passed, test_result
 
+    def test_validate_still_works(self) -> None:
+        @panther_managed
+        class Test(Rule):
+            id = "TestRule"
+            log_types = [LogType.PANTHER_AUDIT]
+            default_severity = Severity.CRITICAL
+            tests = [RuleTest(name="test", expected_result=True, log={})]
+            thing: str | None = None
+
+            def rule(self, event: PantherEvent) -> bool:
+                return True
+
+            @classmethod
+            def validate_config(cls) -> None:
+                assert cls.thing is not None
+
+        with pytest.raises(AssertionError):
+            Test().run_tests(get_data_model)
+
+        Test.thing = "thing"
+
+        for test_result in Test().run_tests(get_data_model):
+            assert test_result.passed, test_result
+
 
 @dataclasses.dataclass
 class FakeDestination:
