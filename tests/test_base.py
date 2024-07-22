@@ -171,7 +171,7 @@ def test_mock_patching_side_effect_kwarg():
                 return True
             if self.thing("hi") == "hi foo":
                 return False
-            raise Exception("thing() is not \"hi foo\" or \"hi bar\"")
+            raise Exception('thing() is not "hi foo" or "hi bar"')
 
     results = TestRule.run_tests(DATA_MODEL_CACHE.data_model_of_logtype)
     for result in results:
