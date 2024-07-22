@@ -157,21 +157,21 @@ def test_mock_patching_side_effect_kwarg():
                 mocks=[
                     RuleMock(
                         object_name="thing",
-                        side_effect=lambda: "bar",
+                        side_effect=lambda x: x + " bar",
                     )
                 ],
             ),
         ]
 
-        def thing(self):
-            return "foo"
+        def thing(self, arg1):
+            return arg1 + " foo"
 
         def rule(self, event):
-            if self.thing() == "bar":
+            if self.thing("hi") == "hi bar":
                 return True
-            if self.thing() == "foo":
+            if self.thing("hi") == "hi foo":
                 return False
-            raise Exception("thing is not foo or bar")
+            raise Exception("thing() is not \"hi foo\" or \"hi bar\"")
 
     results = TestRule.run_tests(DATA_MODEL_CACHE.data_model_of_logtype)
     for result in results:
