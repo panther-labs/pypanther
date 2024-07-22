@@ -4,7 +4,36 @@ import unittest
 import pytest
 
 from pypanther.base import Rule
-from pypanther.get import get_rules, print_rule_table
+from pypanther.get import get_rules, print_rule_table, get_panther_rules
+from unittest import TestCase
+
+
+class TestGetPantherRules(TestCase):
+    def test_has_rules(self) -> None:
+        assert len(get_panther_rules()) > 400
+
+    def test_supported_args(self) -> None:
+        # this just statically checks that all the args are still there
+        # mostly just prevents breaking changes. no need to assert anything
+        get_panther_rules(
+            log_types=None,
+            id=None,
+            create_alert=None,
+            dedup_period_minutes=None,
+            display_name=None,
+            enabled=None,
+            scheduled_queries=None,
+            summary_attributes=None,
+            tests=None,
+            threshold=None,
+            tags=None,
+            reports=None,
+            default_severity=None,
+            default_description=None,
+            default_reference=None,
+            default_runbook=None,
+            default_destinations=None,
+        )
 
 
 class TestEDRRule(Rule):

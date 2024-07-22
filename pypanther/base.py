@@ -341,7 +341,9 @@ class Rule(metaclass=abc.ABCMeta):
 
         patches: list[Any] = []
         for each_mock in test.mocks:
-            kwargs = {each_mock.object_name: MagicMock(return_value=each_mock.return_value)}
+            kwargs = {
+                each_mock.object_name: MagicMock(return_value=each_mock.return_value, side_effect=each_mock.side_effect)
+            }
             if each_mock.new is not None:
                 kwargs[each_mock.object_name] = each_mock.new
             p = patch.multiple(test._module, **kwargs)
