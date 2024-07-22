@@ -59,7 +59,7 @@ def get_panther_rules(
                             continue
                         __RULES.add(attr)
 
-    return filter_kwargs(
+    return filter_iterable_by_kwargs(
         __RULES,
         **filters,
     )
@@ -115,11 +115,11 @@ def get_panther_data_models(**kwargs):
                 if isinstance(attr, type) and issubclass(attr, DataModel) and attr is not DataModel:
                     __DATA_MODELS.add(attr)
 
-    return filter_kwargs(__DATA_MODELS, **kwargs)
+    return filter_iterable_by_kwargs(__DATA_MODELS, **kwargs)
 
 
 # Get rules based on filter criteria
-def filter_kwargs(
+def filter_iterable_by_kwargs(
     iterable,
     **kwargs,
 ):

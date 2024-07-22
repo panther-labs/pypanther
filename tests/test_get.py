@@ -13,6 +13,8 @@ class TestGetPantherRules(TestCase):
         assert len(get_panther_rules()) > 400
 
     def test_supported_args(self) -> None:
+        # this just statically checks that all the args are still there
+        # mostly just prevents breaking changes. no need to assert anything
         get_panther_rules(
             log_types=None,
             id=None,
