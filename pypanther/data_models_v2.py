@@ -81,7 +81,6 @@ class Field:
 
 
 _DATA_MODEL_ALL_ATTRS = [
-    "id",
     "description",
     "enabled",
     "fields",
@@ -90,9 +89,6 @@ _DATA_MODEL_ALL_ATTRS = [
 
 class DataModel(abc.ABC):
     """A Panther data model. This class should be subclassed to create a new Data Model."""
-
-    id: str
-    """The unique identifier of the data model."""
 
     description: str = ""
     """A description of the data model."""
