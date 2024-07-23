@@ -15,8 +15,6 @@ def test_data_model():
 
     class A(Rule):
         tags = ["test"]
-        log_types = [""]
-        id = "test_register_duplicate"
         default_severity = Severity.INFO
 
         def rule(self, event: DNS):
