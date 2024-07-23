@@ -4,11 +4,11 @@ from types import ModuleType
 from typing import Any, List, Set, Type
 
 from prettytable import PrettyTable
-from pydantic import PositiveInt, NonNegativeInt
+from pydantic import NonNegativeInt, PositiveInt
 
+from pypanther.base import DataModel, Rule
 from pypanther.severity import Severity
 from pypanther.unit_tests import RuleTest
-from pypanther.base import DataModel, Rule
 
 __RULES: Set[Type[Rule]] = set()
 
