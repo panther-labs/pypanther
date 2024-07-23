@@ -4,7 +4,7 @@ import logging
 import sys
 
 from gql.transport.aiohttp import log as aiohttp_logger
-
+from pypanther.setup_subparsers import setup_list_rules_parser
 from pypanther import testing, upload
 from pypanther.custom_logging import setup_logging
 from pypanther.vendor.panther_analysis_tool import util
@@ -97,6 +97,18 @@ def setup_parser() -> argparse.ArgumentParser:
         "version", help="version", formatter_class=argparse.ArgumentDefaultsHelpFormatter
     )
     version_parser.set_defaults(func=version)
+
+    # List command
+    list_parser = subparsers.add_parser(
+        name="list", help="List managed or register content", formatter_class=argparse.ArgumentDefaultsHelpFormatter
+    )
+    list_subparsers = list_parser.add_subparsers()
+    list_rules_parser = list_subparsers.add_parser(
+        name="rules",
+        help="List panther managed and registered rules",
+        formatter_class=argparse.ArgumentDefaultsHelpFormatter,
+    )
+    setup_list_rules_parser(list_rules_parser)
 
     return parser
 
