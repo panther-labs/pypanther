@@ -112,9 +112,9 @@ def setup_parser() -> argparse.ArgumentParser:
         type=str,
     )
     get_parser.add_argument(
-        "--type",
-        help="Required. The type of the Panther-managed item to get. Case-insensitive",
-        required=True,
+        "type",
+        metavar="T",
+        help="The type of the Panther-managed item to get. Case-insensitive",
         choices=["rule"],
         type=str.lower,
     )
