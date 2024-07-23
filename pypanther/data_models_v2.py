@@ -106,7 +106,6 @@ class DataModel(abc.ABC):
     @classmethod
     def override(
         cls,
-        id: Optional[str] = None,
         description: Optional[str] = None,
         enabled: Optional[bool] = None,
         fields: Optional[List[Field]] = None,

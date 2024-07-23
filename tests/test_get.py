@@ -1,11 +1,11 @@
 import textwrap
 import unittest
+from unittest import TestCase
 
 import pytest
 
 from pypanther.base import Rule
-from pypanther.get import get_rules, print_rule_table, get_panther_rules
-from unittest import TestCase
+from pypanther.get import get_panther_rules, get_rules, print_rule_table
 
 
 class TestGetPantherRules(TestCase):
