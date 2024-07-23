@@ -1,117 +1,23 @@
-from pypanther.data_models_v2 import DataModel, Field, FieldMapping, FieldType
+from pypanther import LogType, Rule, Severity
+from pypanther.data_models_v2 import DataModel, FieldMapping, new_string
 
 
-def test_data_model_inheritance():
-    test_field_1 = Field(
-        name="test1",
-        type=FieldType.STRING,
-        mappings=[FieldMapping(log_type="Custom.Test", field_path="field.nested1")],
-    )
-    test_field_2 = Field(
-        name="test2",
-        type=FieldType.STRING,
-        mappings=[FieldMapping(log_type="Custom.Test", field_path="field.nested2")],
-    )
+def test_data_model():
+    class DNS(DataModel):
+        source_ip: str = new_string([
+            FieldMapping(log_type=LogType.AWS_VPC_DNS, field_path="srcAddr"),
+            FieldMapping(log_type=LogType.OCSF_DNS_ACTIVITY, field_path="src_endpoint.ip"),
+        ])
+        dns_query: str = new_string([
+            FieldMapping(log_type=LogType.AWS_VPC_DNS, field_path="queryName"),
+            FieldMapping(log_type=LogType.OCSF_DNS_ACTIVITY, field_path="query.hostname"),
+        ])
 
-    test_field_3 = Field(
-        name="test3",
-        type=FieldType.STRING,
-        mappings=[FieldMapping(log_type="Custom.Test", field_path="field.nested3")],
-    )
+    class A(Rule):
+        tags = ["test"]
+        log_types = [""]
+        id = "test_register_duplicate"
+        default_severity = Severity.INFO
 
-    class Test(DataModel):
-        data_model_id = "test"
-        fields = [test_field_1]
-
-    class Test2(Test):
-        data_model_id = "test2"
-
-    # values are inherited as copies
-    assert Test2.fields == [test_field_1]
-    assert Test.fields == [test_field_1]
-    assert Test.fields is not Test2.fields
-
-    # updates do not affect the parent or children
-    Test2.fields.append(test_field_2)
-    assert Test2.fields == [test_field_1, test_field_2]
-    assert Test.fields == [test_field_1]
-    Test.fields.append(test_field_3)
-    assert Test2.fields == [test_field_1, test_field_2]
-    assert Test.fields == [test_field_1, test_field_3]
-
-
-def test_override():
-    class Test(DataModel):
-        id = "old"
-        description = "old description"
-        enabled = True
-        fields = [
-            Field(
-                name="test1",
-                type=FieldType.STRING,
-                mappings=[FieldMapping(log_type="Custom.Test", field_path="field.nested1")],
-            )
-        ]
-
-    assert Test.id == "old"
-    assert Test.description == "old description"
-    assert Test.enabled
-    assert Test.fields == [
-        Field(
-            name="test1",
-            type=FieldType.STRING,
-            mappings=[FieldMapping(log_type="Custom.Test", field_path="field.nested1")],
-        )
-    ]
-
-    Test.override(
-        id="new",
-        description="new description",
-        enabled=False,
-        fields=[
-            Field(
-                name="test2",
-                type=FieldType.STRING,
-                mappings=[FieldMapping(log_type="Custom.Test", field_path="field.nested2")],
-            )
-        ],
-    )
-
-    assert Test.id == "new"
-    assert Test.description == "new description"
-    assert not Test.enabled
-    assert Test.fields == [
-        Field(
-            name="test2",
-            type=FieldType.STRING,
-            mappings=[FieldMapping(log_type="Custom.Test", field_path="field.nested2")],
-        )
-    ]
-
-
-def test_asdict():
-    class Test(DataModel):
-        id = "old"
-        description = "old description"
-        enabled = True
-        fields = [
-            Field(
-                name="test1",
-                type=FieldType.STRING,
-                mappings=[FieldMapping(log_type="Custom.Test", field_path="field.nested1")],
-            )
-        ]
-
-    assert Test.asdict() == {
-        "id": "old",
-        "description": "old description",
-        "enabled": True,
-        "fields": [
-            {
-                "name": "test1",
-                "type": FieldType.STRING,
-                "mappings": [{"log_type": "Custom.Test", "field_path": "field.nested1"}],
-                "description": "",
-            }
-        ],
-    }
+        def rule(self, event: DNS):
+            return event.source_ip == ""

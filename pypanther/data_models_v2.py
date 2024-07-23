@@ -83,7 +83,7 @@ def new_string(mappings: list[FieldMapping]) -> String:
 
 @final
 @dataclass
-class SmallInt(Field, int):
+class SmallInt(int, Field):
     """ Represents a 32-bit signed integer """
     pass
 
