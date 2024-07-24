@@ -32,6 +32,14 @@ FILTER_ARGS = [
 ]
 
 
+def test_list_no_mangaed() -> None:
+    args = setup_parser().parse_args(f"{LIST_RULES_CMD}".split(" "))
+    assert not args.managed and not args.registered
+    code, err = list_rules.run(args)
+    assert code == 1
+    assert "At least one of --registered or --managed is required" == str(err)
+
+
 def test_list_registered_no_main() -> None:
     args = setup_parser().parse_args(f"{LIST_RULES_CMD} {REGISTERED_ARG}".split(" "))
     code, err = list_rules.run(args)

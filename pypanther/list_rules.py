@@ -1,5 +1,4 @@
 import argparse
-import logging
 import os
 from typing import Tuple
 
@@ -13,8 +12,7 @@ def run(args: argparse.Namespace) -> Tuple[int, str]:
     rules = set()
 
     if not args.registered and not args.managed:
-        logging.error("--registered or --managed is required")
-        return 1, ""
+        return 1, "At least one of --registered or --managed is required"
 
     if args.registered:
         try:
