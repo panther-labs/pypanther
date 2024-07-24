@@ -2,6 +2,7 @@ import argparse
 import importlib
 import logging
 import sys
+from typing import Callable, Tuple
 
 from gql.transport.aiohttp import log as aiohttp_logger
 
@@ -51,7 +52,7 @@ def run():
 
 def setup_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
-        description="Command line tool for uploading files.",
+        description="Command line tool for using Panther's Detections-as-Code V2.",
         prog="pypanther",
         formatter_class=argparse.ArgumentDefaultsHelpFormatter,
     )
@@ -103,6 +104,7 @@ def setup_parser() -> argparse.ArgumentParser:
     list_parser = subparsers.add_parser(
         name="list", help="List managed or register content", formatter_class=argparse.ArgumentDefaultsHelpFormatter
     )
+    list_parser.set_defaults(func=help_printer(list_parser))
     list_subparsers = list_parser.add_subparsers()
     list_rules_parser = list_subparsers.add_parser(
         name="rules",
@@ -112,6 +114,14 @@ def setup_parser() -> argparse.ArgumentParser:
     setup_list_rules_parser(list_rules_parser)
 
     return parser
+
+
+def help_printer(parser: argparse.ArgumentParser) -> Callable[[argparse.Namespace], Tuple[int, str]]:
+    def wrapper(_: argparse.Namespace) -> Tuple[int, str]:
+        parser.print_help()
+        return 0, ""
+
+    return wrapper
 
 
 def version(args):
