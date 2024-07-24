@@ -1,5 +1,6 @@
 import argparse
 import inspect
+import json
 from importlib import import_module
 from pkgutil import walk_packages
 from types import ModuleType
@@ -33,10 +34,20 @@ def run(args: argparse.Namespace) -> Tuple[int, str]:
             return 1, f"Found multiple rules matching id={args.id}"
         rule = found_rules[0]
         try:
-            with open(inspect.getfile(rule)) as rule_file:
-                print(rule_file.read())
-        except (TypeError, OSError) as e:
+            source = inspect.getsource(rule)
+        except OSError as e:
             return 1, f"Error getting details for rule {args.id}: {repr(e)}"
+        match args.output:
+            case "text":
+                print(source)
+            case "json":
+                rule_dict = rule.asdict()
+                del rule_dict["tests"]
+                rule_dict["class_definition"] = source
+                rule_json = json.dumps(rule_dict, indent=2)
+                print(rule_json)
+            case _:
+                return 1, f"Unsupported output: {args.output}"
         return 0, ""
     return 1, f"Unsupported type: {args.type}"
 

@@ -101,7 +101,7 @@ def setup_parser() -> argparse.ArgumentParser:
     # Get command
     get_parser = subparsers.add_parser(
         "get",
-        help="Get file text for the file containing a specific Panther-managed id",
+        help="Get the class associated with a specific Panther-managed id",
         formatter_class=argparse.ArgumentDefaultsHelpFormatter,
     )
     get_parser.set_defaults(func=get.run)
@@ -113,7 +113,7 @@ def setup_parser() -> argparse.ArgumentParser:
     )
     get_parser.add_argument(
         "type",
-        metavar="T",
+        metavar="TYPE",
         help="The type of the Panther-managed item to get. Case-insensitive",
         choices=["rule"],
         type=str.lower,
