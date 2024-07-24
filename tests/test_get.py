@@ -1,11 +1,9 @@
-import textwrap
 import unittest
 from unittest import TestCase
 
 import pytest
 
-from pypanther.base import Rule
-from pypanther.get import get_panther_rules, get_rules, print_rule_table
+from pypanther.get import get_panther_rules, get_rules
 
 
 class TestGetPantherRules(TestCase):
@@ -34,50 +32,6 @@ class TestGetPantherRules(TestCase):
             default_runbook=None,
             default_destinations=None,
         )
-
-
-class TestEDRRule(Rule):
-    id = "EDR"
-    log_types = ["CrowdStrike", "SentinelOne", "AWS"]
-    display_name = "EDR Rule"
-    default_severity = "High"
-    enabled = True
-    create_alert = False
-
-    def rule(self, event):
-        return True
-
-
-class TestPaloAltoRule(Rule):
-    id = "Firewall"
-    log_types = ["PaloAlto"]
-    display_name = "Firewall Rule"
-    default_severity = "Medium"
-    enabled = True
-    create_alert = True
-
-    def rule(self, event):
-        return True
-
-
-def test_print_rule_table(capsys):
-    rules = [TestEDRRule, TestPaloAltoRule]
-    print_rule_table(rules)
-    std = capsys.readouterr()
-
-    pytest.maxDiff = None
-    exp = textwrap.dedent(
-        """
-        +----------+------------------------------+---------------+----------+---------+-------------+
-        |  RuleID  |           LogTypes           |  DisplayName  | Severity | Enabled | CreateAlert |
-        +----------+------------------------------+---------------+----------+---------+-------------+
-        |   EDR    | CrowdStrike, SentinelOne, +1 |    EDR Rule   |   High   |   True  |    False    |
-        | Firewall |           PaloAlto           | Firewall Rule |  Medium  |   True  |     True    |
-        +----------+------------------------------+---------------+----------+---------+-------------+
-    """
-    ).lstrip()
-    assert std.out == exp
-    assert std.err == ""
 
 
 class TestGetRules(unittest.TestCase):

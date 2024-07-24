@@ -27,6 +27,8 @@ FILTER_ARGS = [
     "--default-runbook run",
     "--default-destinations a b",
     "--attributes id severity",
+    "--output json",
+    "--output text",
 ]
 
 
@@ -34,7 +36,21 @@ def test_list_registered_no_main() -> None:
     args = setup_parser().parse_args(f"{LIST_RULES_CMD} {REGISTERED_ARG}".split(" "))
     code, err = list_rules.run(args)
     assert code == 1
-    assert err == "No main.py found"
+    assert err == "No main.py found. Cannot use --registered option without main.py."
+
+
+def test_list_managed_bad_attribute() -> None:
+    args = setup_parser().parse_args(f"{LIST_RULES_CMD} {MANAGED_ARG} --attributes bad".split(" "))
+    code, err = list_rules.run(args)
+    assert code == 1
+    assert "Invalid attribute was given in --attributes option: Attribute 'bad' does not exist on rule" in err
+
+
+def test_list_managed_bad_attribute_json() -> None:
+    args = setup_parser().parse_args(f"{LIST_RULES_CMD} {MANAGED_ARG} --output json --attributes bad".split(" "))
+    code, err = list_rules.run(args)
+    assert code == 1
+    assert "Invalid attribute was given in --attributes option: Attribute 'bad' does not exist on rule" in err
 
 
 @pytest.mark.parametrize("cmd", [f"{LIST_RULES_CMD} {MANAGED_ARG} {f}" for f in FILTER_ARGS])
@@ -61,13 +77,6 @@ def test_list_registered_and_managed_rules(cmd: str) -> None:
         code, err = list_rules.run(args)
         assert code == 0
         assert err == ""
-
-
-def test_list_managed_bad_attribute() -> None:
-    args = setup_parser().parse_args(f"{LIST_RULES_CMD} {MANAGED_ARG} --attributes bad".split(" "))
-    code, err = list_rules.run(args)
-    assert code == 1
-    assert "Invalid attribute was given in --attributes option: Attribute 'bad' does not exist on rule" in err
 
 
 @contextlib.contextmanager

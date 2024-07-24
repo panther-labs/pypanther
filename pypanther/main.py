@@ -4,9 +4,10 @@ import logging
 import sys
 
 from gql.transport.aiohttp import log as aiohttp_logger
-from pypanther.setup_subparsers import setup_list_rules_parser
+
 from pypanther import testing, upload
 from pypanther.custom_logging import setup_logging
+from pypanther.setup_subparsers import setup_list_rules_parser
 from pypanther.vendor.panther_analysis_tool import util
 from pypanther.vendor.panther_analysis_tool.command import standard_args
 from pypanther.vendor.panther_analysis_tool.config import dynaconf_argparse_merge, setup_dynaconf

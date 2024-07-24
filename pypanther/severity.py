@@ -15,15 +15,16 @@ class Severity(str, Enum):
 
     @staticmethod
     def as_int(value: "Severity") -> int:
-        if value.upper() == Severity.INFO:
+        val = value.upper()
+        if val == Severity.INFO:
             return 0
-        if value.upper() == Severity.LOW:
+        if val == Severity.LOW:
             return 1
-        if value.upper() == Severity.MEDIUM:
+        if val == Severity.MEDIUM:
             return 2
-        if value.upper() == Severity.HIGH:
+        if val == Severity.HIGH:
             return 3
-        if value.upper() == Severity.CRITICAL:
+        if val == Severity.CRITICAL:
             return 4
         raise ValueError(f"Unknown severity: {value}")
 
