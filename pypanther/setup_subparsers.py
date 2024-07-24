@@ -117,3 +117,17 @@ def setup_list_rules_parser(list_rules_parser: argparse.ArgumentParser):
         default=None,
         required=False,
     )
+    list_rules_parser.add_argument(
+        "--attributes",
+        help="Display attributes of rules as columns in printed table (i.e --attributes threshold default_display_name)",
+        nargs="+",
+        default=None,
+        required=False,
+    )
+    list_rules_parser.add_argument(
+        "--output",
+        help="The format to use for the output.",
+        required=False,
+        choices=["json", "text"],
+        default="text",
+    )

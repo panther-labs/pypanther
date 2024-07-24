@@ -1,31 +1,43 @@
-from unittest import TestCase
+import contextlib
+import os.path
+from pathlib import Path
 
 import pytest
 
 from pypanther import list_rules
 from pypanther.main import setup_parser
 
+LIST_RULES_CMD = "list rules"
+MANAGED_ARG = "--managed"
+REGISTERED_ARG = "--registered"
+FILTER_ARGS = [
+    ""  # no filter
+    "--log-types a b",
+    "--id abc",
+    "--create-alert true",
+    "--dedup-period-minutes 5",
+    "--display-name 5",
+    "--enabled true",
+    "--summary-attributes a b",
+    "--threshold 9",
+    "--tags a b",
+    "--default-severity low",
+    "--default-description desc",
+    "--default-reference ref",
+    "--default-runbook run",
+    "--default-destinations a b",
+    "--attributes id severity",
+]
 
-@pytest.mark.parametrize(
-    "cmd",
-    [
-        "list rules --managed",
-        "list rules --managed --log-types a b",
-        "list rules --managed --id abc",
-        "list rules --managed --create-alert true",
-        "list rules --managed --dedup-period-minutes 5",
-        "list rules --managed --display-name 5",
-        "list rules --managed --enabled true",
-        "list rules --managed --summary-attributes a b",
-        "list rules --managed --threshold 9",
-        "list rules --managed --tags a b",
-        "list rules --managed --default-severity low",
-        "list rules --managed --default-description desc",
-        "list rules --managed --default-reference ref",
-        "list rules --managed --default-runbook run",
-        "list rules --managed --default-destinations a b",
-    ],
-)
+
+def test_list_registered_no_main() -> None:
+    args = setup_parser().parse_args(f"{LIST_RULES_CMD} {REGISTERED_ARG}".split(" "))
+    code, err = list_rules.run(args)
+    assert code == 1
+    assert err == "No main.py found"
+
+
+@pytest.mark.parametrize("cmd", [f"{LIST_RULES_CMD} {MANAGED_ARG} {f}" for f in FILTER_ARGS])
 def test_list_managed_rules(cmd: str) -> None:
     args = setup_parser().parse_args(cmd.split(" "))
     code, err = list_rules.run(args)
@@ -33,33 +45,44 @@ def test_list_managed_rules(cmd: str) -> None:
     assert err == ""
 
 
-class TestListRules(TestCase):
-    def test_list_rules_log_types_filter(self):
-        args = setup_parser().parse_args("list rules --managed --log-types a b".split(" "))
+@pytest.mark.parametrize("cmd", [f"{LIST_RULES_CMD} {REGISTERED_ARG} {f}" for f in FILTER_ARGS])
+def test_list_registered_rules(cmd: str) -> None:
+    with create_main():
+        args = setup_parser().parse_args(cmd.split(" "))
         code, err = list_rules.run(args)
         assert code == 0
         assert err == ""
 
-    def test_list_rules_id_filter(self):
-        args = setup_parser().parse_args("list rules --managed --id abc".split(" "))
+
+@pytest.mark.parametrize("cmd", [f"{LIST_RULES_CMD} {MANAGED_ARG} {REGISTERED_ARG} {f}" for f in FILTER_ARGS])
+def test_list_registered_and_managed_rules(cmd: str) -> None:
+    with create_main():
+        args = setup_parser().parse_args(cmd.split(" "))
         code, err = list_rules.run(args)
         assert code == 0
         assert err == ""
 
-    def test_list_rules_create_alert_filter(self):
-        args = setup_parser().parse_args("list rules --managed --create-alert true".split(" "))
-        code, err = list_rules.run(args)
-        assert code == 0
-        assert err == ""
 
-    def test_list_rules_dedup_period_minutes_filter(self):
-        args = setup_parser().parse_args("list rules --managed --dedup-period-minutes 5".split(" "))
-        code, err = list_rules.run(args)
-        assert code == 0
-        assert err == ""
+def test_list_managed_bad_attribute() -> None:
+    args = setup_parser().parse_args(f"{LIST_RULES_CMD} {MANAGED_ARG} --attributes bad".split(" "))
+    code, err = list_rules.run(args)
+    assert code == 1
+    assert "Invalid attribute was given in --attributes option: Attribute 'bad' does not exist on rule" in err
 
-    def test_list_rules_display_name_filter(self):
-        args = setup_parser().parse_args("list rules --managed --display-name 5".split(" "))
-        code, err = list_rules.run(args)
-        assert code == 0
-        assert err == ""
+
+@contextlib.contextmanager
+def create_main():
+    """Creates a main.py at the cwd if it does not exist."""
+    main_path = Path(os.getcwd()) / "main.py"
+    created_main = False
+
+    if not os.path.exists(main_path):
+        with open(main_path, "w") as f:
+            created_main = True
+            f.write("from pypanther import get_panther_rules, register; register(get_panther_rules())")
+
+    try:
+        yield
+    finally:
+        if created_main:
+            os.remove(main_path)
