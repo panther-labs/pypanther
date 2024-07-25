@@ -132,3 +132,20 @@ def setup_list_rules_parser(list_rules_parser: argparse.ArgumentParser):
         choices=display.VALID_CLI_OUTPUT_TYPES,
         default=display.DEFAULT_CLI_OUTPUT_TYPE,
     )
+
+
+def setup_test_parser(test_parser: argparse.ArgumentParser):
+    test_parser.add_argument(
+        "--verbose",
+        help="Verbose output",
+        default=False,
+        required=False,
+        action="store_true",
+    )
+    test_parser.add_argument(
+        "--output",
+        help="The format to use for the output.",
+        required=False,
+        choices=display.VALID_CLI_OUTPUT_TYPES,
+        default=display.DEFAULT_CLI_OUTPUT_TYPE,
+    )

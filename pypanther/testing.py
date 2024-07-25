@@ -1,12 +1,55 @@
 import argparse
+import collections
 import logging
 import os
 from typing import Optional, Tuple
 
+from pypanther import cli_output, display
 from pypanther.base import Rule, RuleTestResult
 from pypanther.cache import DATA_MODEL_CACHE
 from pypanther.import_main import NoMainModuleError, import_main
 from pypanther.registry import registered_rules
+
+INDENT = " " * 4
+
+
+class TestResults:
+    passed_rule_tests: dict[str, list[RuleTestResult]] = collections.defaultdict(list)
+    """dict of rule ids to the tests that passed on the rule"""
+
+    failed_rule_tests: dict[str, list[RuleTestResult]] = collections.defaultdict(list)
+    """dict of rule ids to the tests that failed on the rule"""
+
+    skipped_rules: list[str] = []
+    """list of rule ids that had no tests"""
+
+    def add_test_results(self, rule_id: str, results: list[RuleTestResult]) -> None:
+        if len(results) == 0:
+            self.skipped_rules.append(rule_id)
+
+        for result in results:
+            if result.passed:
+                self.passed_rule_tests[rule_id].append(result)
+            else:
+                self.failed_rule_tests[rule_id].append(result)
+
+    def total_passed(self) -> int:
+        return sum([len(v) for _, v in self.passed_rule_tests.items()])
+
+    def total_failed(self) -> int:
+        return sum([len(v) for _, v in self.failed_rule_tests.items()])
+
+    def total_skipped(self) -> int:
+        return len(self.skipped_rules)
+
+    def total_tests(self) -> int:
+        return self.total_passed() + self.total_failed()
+
+    def total_rules_tested(self) -> int:
+        return len(self.passed_rule_tests) + len(self.failed_rule_tests) + len(self.skipped_rules)
+
+    def had_failed_tests(self) -> bool:
+        return len(self.failed_rule_tests) > 0
 
 
 def run(args: argparse.Namespace) -> Tuple[int, str]:
@@ -16,19 +59,63 @@ def run(args: argparse.Namespace) -> Tuple[int, str]:
         logging.error("No main.py found")
         return 1, ""
 
-    failed_test_results: list[list[RuleTestResult]] = []
+    test_results = TestResults()
+
     for rule in registered_rules():
         results = rule.run_tests(DATA_MODEL_CACHE.data_model_of_logtype)
-        failures = [result for result in results if not result.passed]
-        if len(failures) > 0:
-            failed_test_results.append(failures)
+        test_results.add_test_results(rule.id, results)
 
-    print_failed_test_results(failed_test_results)
+        if args.output == display.OUTPUT_TYPE_TEXT:
+            print_rule_test_results(rule.id, results)
 
-    if len(failed_test_results) > 0:
-        return 1, "One or more rule tests are failing"
+    match args.output:
+        case display.OUTPUT_TYPE_JSON:
+            pass
+        case display.OUTPUT_TYPE_TEXT:
+            print_failed_test_summary(test_results)
+            print_test_summary(test_results)
+        case _:
+            return 1, f"Unsupported output: {args.output}"
 
-    return 0, "All tests passed"
+    if test_results.had_failed_tests():
+        return 1, ""
+
+    return 0, ""
+
+
+def print_rule_test_results(rule_id: str, results: list[RuleTestResult]) -> None:
+    print(cli_output.header(rule_id) + ":")
+
+    if len(results) == 0:
+        print(INDENT, "SKIP:", "rule had no tests")
+
+    for result in results:
+        if result.passed:
+            print(INDENT, cli_output.success("PASS") + ":", result.test.name)
+        else:
+            print(INDENT, cli_output.bold(cli_output.failed("FAIL")) + ":", result.test.name)
+
+    print()  # new line
+
+
+def print_failed_test_summary(test_results: TestResults) -> None:
+    print(cli_output.header("Failed Tests") + ":")
+
+    for i, failure in enumerate(test_results.failed_rule_tests.items(), start=1):
+        rule_id, failed_tests = failure
+        print(INDENT, str(i) + ".", cli_output.bold(rule_id) + ":")
+        for failed_test in failed_tests:
+            print(INDENT * 2, "-", failed_test.test.name)
+
+    print()  # new line
+
+
+def print_test_summary(test_results: TestResults) -> None:
+    print(cli_output.header("Summary") + ":")
+    print(INDENT, "Skipped rules:", "{:>3}".format(test_results.total_skipped()))
+    print(INDENT, "Passed tests: ", "{:>3}".format(test_results.total_passed()))
+    print(INDENT, "Failed tests: ", "{:>3}".format(test_results.total_failed()))
+    print(INDENT, "Total tests:  ", "{:>3}".format(test_results.total_tests()))
 
 
 def print_failed_test_results(
