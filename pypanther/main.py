@@ -5,7 +5,7 @@ import sys
 
 from gql.transport.aiohttp import log as aiohttp_logger
 
-from pypanther import testing, upload
+from pypanther import get, testing, upload
 from pypanther.custom_logging import setup_logging
 from pypanther.vendor.panther_analysis_tool import util
 from pypanther.vendor.panther_analysis_tool.command import standard_args
@@ -97,6 +97,34 @@ def setup_parser() -> argparse.ArgumentParser:
         "version", help="version", formatter_class=argparse.ArgumentDefaultsHelpFormatter
     )
     version_parser.set_defaults(func=version)
+
+    # Get command
+    get_parser = subparsers.add_parser(
+        "get",
+        help="Get the class associated with a specific Panther-managed id",
+        formatter_class=argparse.ArgumentDefaultsHelpFormatter,
+    )
+    get_parser.set_defaults(func=get.run)
+    get_parser.add_argument(
+        "--id",
+        help="Required. The id of the Panther-managed item to get",
+        required=True,
+        type=str,
+    )
+    get_parser.add_argument(
+        "type",
+        metavar="TYPE",
+        help="The type of the Panther-managed item to get. Case-insensitive",
+        choices=["rule"],
+        type=str.lower,
+    )
+    get_parser.add_argument(
+        "--output",
+        help="The format to use for the output.",
+        required=False,
+        choices=["json", "text"],
+        default="text",
+    )
 
     return parser
 
