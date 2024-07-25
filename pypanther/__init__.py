@@ -2,7 +2,7 @@ from pypanther.base import DataModel as DataModel
 from pypanther.base import DataModelMapping as DataModelMapping
 from pypanther.base import Rule as Rule
 from pypanther.get import get_panther_rules as get_panther_rules
-from pypanther.get import get_rules_from_module as get_rules_from_module
+from pypanther.get import get_rules as get_rules
 from pypanther.log_types import LogType as LogType
 from pypanther.registry import register as register
 from pypanther.registry import registered_rules as registered_rules

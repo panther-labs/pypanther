@@ -1,6 +1,6 @@
 import argparse
 
-from pypanther import display, get_rules, list_rules
+from pypanther import display, get_rule, list_rules
 
 
 def setup_list_rules_parser(list_rules_parser: argparse.ArgumentParser):
@@ -135,7 +135,7 @@ def setup_list_rules_parser(list_rules_parser: argparse.ArgumentParser):
 
 
 def setup_get_rules_parser(get_rules_parser: argparse.ArgumentParser):
-    get_rules_parser.set_defaults(func=get_rules.run)
+    get_rules_parser.set_defaults(func=get_rule.run)
     get_rules_parser.add_argument(
         "--id",
         help="Required. The id of the Panther-managed item to get",

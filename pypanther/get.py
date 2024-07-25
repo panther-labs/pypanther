@@ -67,7 +67,7 @@ def get_panther_rules(
 __DATA_MODELS: Set[Type[Rule]] = set()
 
 
-def get_rules_from_module(module: Any) -> list[Type[Rule]]:
+def get_rules(module: Any) -> list[Type[Rule]]:
     """
     Returns a list of PantherRule subclasses that are declared within the given module, recursively.
     All sub-packages of the given module must have an __init__.py declared for PantherRule subclasses

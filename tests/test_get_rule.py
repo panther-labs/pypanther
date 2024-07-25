@@ -5,7 +5,7 @@ import pytest
 
 from pypanther.base import TYPE_RULE, Rule
 from pypanther.get import get_panther_rules
-from pypanther.get_rules import run
+from pypanther.get_rule import run
 
 
 class TestRun:
