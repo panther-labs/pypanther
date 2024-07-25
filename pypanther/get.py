@@ -1,14 +1,12 @@
 import argparse
-import inspect
-import json
 from importlib import import_module
 from pkgutil import walk_packages
 from types import ModuleType
 from typing import Any, List, Set, Tuple, Type
 
-from prettytable import PrettyTable
 from pydantic import NonNegativeInt, PositiveInt
 
+from pypanther import display
 from pypanther.base import TYPE_RULE, DataModel, Rule
 from pypanther.severity import Severity
 from pypanther.unit_tests import RuleTest
@@ -33,21 +31,18 @@ def run(args: argparse.Namespace) -> Tuple[int, str]:
         if len(found_rules) > 1:
             return 1, f"Found multiple rules matching id={args.id}"
         rule = found_rules[0]
+
         try:
-            source = inspect.getsource(rule)
+            match args.output:
+                case "text":
+                    display.print_rule_as_text(rule)
+                case "json":
+                    display.print_rule_as_json(rule)
+                case _:
+                    return 1, f"Unsupported output: {args.output}"
         except OSError as e:
             return 1, f"Error getting details for rule {args.id}: {repr(e)}"
-        match args.output:
-            case "text":
-                print(source)
-            case "json":
-                rule_dict = rule.asdict()
-                del rule_dict["tests"]
-                rule_dict["class_definition"] = source
-                rule_json = json.dumps(rule_dict, indent=2)
-                print(rule_json)
-            case _:
-                return 1, f"Unsupported output: {args.output}"
+
         return 0, ""
     return 1, f"Unsupported type: {args.type}"
 
@@ -162,35 +157,3 @@ def filter_iterable_by_kwargs(
             if values is not None
         )
     ]
-
-
-def print_rule_table(rules: List[Type[Rule]]) -> None:
-    """Prints rules in a table format for easy viewing."""
-    table = PrettyTable()
-    table.field_names = [
-        "RuleID",
-        "LogTypes",
-        "DisplayName",
-        "Severity",
-        "Enabled",
-        "CreateAlert",
-    ]
-
-    for rule in rules:
-        log_types = rule.log_types
-        if len(log_types) > 2:
-            log_types = log_types[:2] + ["+{}".format(len(log_types) - 2)]
-
-        table.add_row(
-            [
-                rule.id,
-                ", ".join([str(s) for s in log_types]),
-                rule.display_name,
-                rule.default_severity,
-                rule.enabled,
-                rule.create_alert,
-            ]
-        )
-    table.sortby = "RuleID"
-
-    print(table)

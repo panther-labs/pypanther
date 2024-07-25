@@ -2,11 +2,13 @@ import argparse
 import importlib
 import logging
 import sys
+from typing import Callable, Tuple
 
 from gql.transport.aiohttp import log as aiohttp_logger
 
 from pypanther import get, testing, upload
 from pypanther.custom_logging import setup_logging
+from pypanther.setup_subparsers import setup_list_rules_parser
 from pypanther.vendor.panther_analysis_tool import util
 from pypanther.vendor.panther_analysis_tool.command import standard_args
 from pypanther.vendor.panther_analysis_tool.config import dynaconf_argparse_merge, setup_dynaconf
@@ -50,7 +52,7 @@ def run():
 
 def setup_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
-        description="Command line tool for uploading files.",
+        description="Command line tool for using Panther's Detections-as-Code V2.",
         prog="pypanther",
         formatter_class=argparse.ArgumentDefaultsHelpFormatter,
     )
@@ -126,7 +128,33 @@ def setup_parser() -> argparse.ArgumentParser:
         default="text",
     )
 
+    # List command
+    list_parser = subparsers.add_parser(
+        name="list", help="List managed or register content", formatter_class=argparse.ArgumentDefaultsHelpFormatter
+    )
+    list_parser.set_defaults(func=help_printer(list_parser))
+    list_subparsers = list_parser.add_subparsers()
+    list_rules_parser = list_subparsers.add_parser(
+        name="rules",
+        help="List panther managed and registered rules",
+        formatter_class=argparse.ArgumentDefaultsHelpFormatter,
+    )
+    setup_list_rules_parser(list_rules_parser)
+
     return parser
+
+
+def help_printer(parser: argparse.ArgumentParser) -> Callable[[argparse.Namespace], Tuple[int, str]]:
+    """
+    A helper function for printing help messages. To be used as a commands func when you want the help message
+    to be printed when it is run. Useful for when things have subcommands and running the top command is meaningless.
+    """
+
+    def wrapper(_: argparse.Namespace) -> Tuple[int, str]:
+        parser.print_help()
+        return 0, ""
+
+    return wrapper
 
 
 def version(args):

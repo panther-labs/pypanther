@@ -20,3 +20,8 @@ def truncate(s: str, max_size: int):
         num_characters_to_keep = max_size - len(TRUNCATED_STRING_SUFFIX)
         return s[:num_characters_to_keep] + TRUNCATED_STRING_SUFFIX
     return s
+
+
+def dedup_list_preserving_order(items: list) -> list:
+    s = set(items)
+    return [item for item in items if item in s]
