@@ -6,9 +6,9 @@ from typing import Callable, Tuple
 
 from gql.transport.aiohttp import log as aiohttp_logger
 
-from pypanther import get, testing, upload
+from pypanther import testing, upload
 from pypanther.custom_logging import setup_logging
-from pypanther.setup_subparsers import setup_list_rules_parser
+from pypanther.setup_subparsers import setup_get_rules_parser, setup_list_rules_parser
 from pypanther.vendor.panther_analysis_tool import util
 from pypanther.vendor.panther_analysis_tool.command import standard_args
 from pypanther.vendor.panther_analysis_tool.config import dynaconf_argparse_merge, setup_dynaconf
@@ -106,27 +106,14 @@ def setup_parser() -> argparse.ArgumentParser:
         help="Get the class associated with a specific Panther-managed id",
         formatter_class=argparse.ArgumentDefaultsHelpFormatter,
     )
-    get_parser.set_defaults(func=get.run)
-    get_parser.add_argument(
-        "--id",
-        help="Required. The id of the Panther-managed item to get",
-        required=True,
-        type=str,
+    get_parser.set_defaults(func=help_printer(get_parser))
+    get_subparsers = get_parser.add_subparsers()
+    get_rules_parser = get_subparsers.add_parser(
+        name="rules",
+        help="Get the class associated with a specific Panther-managed rule by id",
+        formatter_class=argparse.ArgumentDefaultsHelpFormatter,
     )
-    get_parser.add_argument(
-        "type",
-        metavar="TYPE",
-        help="The type of the Panther-managed item to get. Case-insensitive",
-        choices=["rule"],
-        type=str.lower,
-    )
-    get_parser.add_argument(
-        "--output",
-        help="The format to use for the output.",
-        required=False,
-        choices=["json", "text"],
-        default="text",
-    )
+    setup_get_rules_parser(get_rules_parser)
 
     # List command
     list_parser = subparsers.add_parser(
