@@ -6,7 +6,7 @@ from typing import Callable, Tuple
 
 from gql.transport.aiohttp import log as aiohttp_logger
 
-from pypanther import testing, upload
+from pypanther import get, testing, upload
 from pypanther.custom_logging import setup_logging
 from pypanther.setup_subparsers import setup_list_rules_parser
 from pypanther.vendor.panther_analysis_tool import util
@@ -100,6 +100,34 @@ def setup_parser() -> argparse.ArgumentParser:
     )
     version_parser.set_defaults(func=version)
 
+    # Get command
+    get_parser = subparsers.add_parser(
+        "get",
+        help="Get the class associated with a specific Panther-managed id",
+        formatter_class=argparse.ArgumentDefaultsHelpFormatter,
+    )
+    get_parser.set_defaults(func=get.run)
+    get_parser.add_argument(
+        "--id",
+        help="Required. The id of the Panther-managed item to get",
+        required=True,
+        type=str,
+    )
+    get_parser.add_argument(
+        "type",
+        metavar="TYPE",
+        help="The type of the Panther-managed item to get. Case-insensitive",
+        choices=["rule"],
+        type=str.lower,
+    )
+    get_parser.add_argument(
+        "--output",
+        help="The format to use for the output.",
+        required=False,
+        choices=["json", "text"],
+        default="text",
+    )
+
     # List command
     list_parser = subparsers.add_parser(
         name="list", help="List managed or register content", formatter_class=argparse.ArgumentDefaultsHelpFormatter
@@ -117,6 +145,11 @@ def setup_parser() -> argparse.ArgumentParser:
 
 
 def help_printer(parser: argparse.ArgumentParser) -> Callable[[argparse.Namespace], Tuple[int, str]]:
+    """
+    A helper function for printing help messages. To be used as a commands func when you want the help message
+    to be printed when it is run. Useful for when things have subcommands and running the top command is meaningless.
+    """
+
     def wrapper(_: argparse.Namespace) -> Tuple[int, str]:
         parser.print_help()
         return 0, ""

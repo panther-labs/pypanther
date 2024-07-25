@@ -1,3 +1,4 @@
+import inspect
 import json
 from typing import Any, Type
 
@@ -32,6 +33,8 @@ VALID_CLI_OUTPUT_TYPES = [
     DEFAULT_CLI_OUTPUT_TYPE,
     "json",
 ]
+
+JSON_INDENT_LEVEL = 2
 
 
 def print_rule_table(rules: list[Type[Rule]], attributes: list[str] | None = None) -> None:
@@ -94,10 +97,23 @@ def print_rules_as_json(rules: list[Type[Rule]], attributes: list[str] | None = 
         attributes = DEFAULT_RULE_TABLE_ATTRS
 
     rule_dicts = [{attr: getattr(rule, attr) for attr in attributes} for rule in rules]
-    print(json.dumps(rule_dicts, indent=2))
+    print(json.dumps(rule_dicts, indent=JSON_INDENT_LEVEL))
 
 
 def check_rule_attributes(attributes: list[str]) -> None:
     for attr in attributes or []:
         if attr not in VALID_RULE_TABLE_ATTRS:
             raise AttributeError(f"Attribute '{attr}' is not allowed.")
+
+
+def print_rule_as_json(rule: Type[Rule]) -> None:
+    source = inspect.getsource(rule)
+    rule_dict = rule.asdict()
+    del rule_dict["tests"]
+    rule_dict["class_definition"] = source
+    rule_json = json.dumps(rule_dict, indent=JSON_INDENT_LEVEL)
+    print(rule_json)
+
+
+def print_rule_as_text(rule: Type[Rule]) -> None:
+    print(inspect.getsource(rule))
