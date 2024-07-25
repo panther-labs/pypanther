@@ -9,7 +9,7 @@ def test_pypanther_imports():
         RuleTest,  # noqa: F401
         Severity,  # noqa: F401
         get_panther_rules,  # noqa: F401
-        get_rules,  # noqa: F401
+        get_rules_from_module,  # noqa: F401
         register,  # noqa: F401
         registered_rules,  # noqa: F401
     )

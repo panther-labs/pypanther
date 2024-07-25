@@ -1,12 +1,10 @@
-import argparse
 from importlib import import_module
 from pkgutil import walk_packages
 from types import ModuleType
-from typing import Any, List, Set, Tuple, Type
+from typing import Any, List, Set, Type
 
 from pydantic import NonNegativeInt, PositiveInt
 
-from pypanther import display
 from pypanther.base import DataModel, Rule
 from pypanther.severity import Severity
 from pypanther.unit_tests import RuleTest
@@ -21,28 +19,6 @@ def __to_set(value):
         return set(value)
     except TypeError:
         return {value}
-
-
-def run_rules(args: argparse.Namespace) -> Tuple[int, str]:
-    found_rules = get_panther_rules(id=args.id)
-    if len(found_rules) == 0:
-        return 1, f"Found no rules matching id={args.id}"
-    if len(found_rules) > 1:
-        return 1, f"Found multiple rules matching id={args.id}"
-    rule = found_rules[0]
-
-    try:
-        match args.output:
-            case "text":
-                display.print_rule_as_text(rule)
-            case "json":
-                display.print_rule_as_json(rule)
-            case _:
-                return 1, f"Unsupported output: {args.output}"
-    except OSError as e:
-        return 1, f"Error getting details for rule {args.id}: {repr(e)}"
-
-    return 0, ""
 
 
 def get_panther_rules(
@@ -91,7 +67,7 @@ def get_panther_rules(
 __DATA_MODELS: Set[Type[Rule]] = set()
 
 
-def get_rules(module: Any) -> list[Type[Rule]]:
+def get_rules_from_module(module: Any) -> list[Type[Rule]]:
     """
     Returns a list of PantherRule subclasses that are declared within the given module, recursively.
     All sub-packages of the given module must have an __init__.py declared for PantherRule subclasses
