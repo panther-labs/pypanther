@@ -1,6 +1,6 @@
 import argparse
 
-from pypanther import list_rules
+from pypanther import display, list_rules
 
 
 def setup_list_rules_parser(list_rules_parser: argparse.ArgumentParser):
@@ -123,11 +123,12 @@ def setup_list_rules_parser(list_rules_parser: argparse.ArgumentParser):
         nargs="+",
         default=None,
         required=False,
+        choices=display.VALID_RULE_TABLE_ATTRS,
     )
     list_rules_parser.add_argument(
         "--output",
         help="The format to use for the output.",
         required=False,
-        choices=["json", "text"],
-        default="text",
+        choices=display.VALID_CLI_OUTPUT_TYPES,
+        default=display.DEFAULT_CLI_OUTPUT_TYPE,
     )

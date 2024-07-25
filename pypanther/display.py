@@ -1,9 +1,37 @@
 import json
-from typing import Type
+from typing import Any, Type
 
 from prettytable import PrettyTable
 
+from pypanther import utils
 from pypanther.base import Rule
+
+DEFAULT_RULE_TABLE_ATTRS = [
+    "id",
+    "log_types",
+    "default_severity",
+    "enabled",
+]
+
+VALID_RULE_TABLE_ATTRS = [
+    *DEFAULT_RULE_TABLE_ATTRS,
+    "create_alert",
+    "dedup_period_minutes",
+    "display_name",
+    "summary_attributes",
+    "threshold",
+    "tags",
+    "default_description",
+    "default_reference",
+    "default_runbook",
+    "default_destinations",
+]
+
+DEFAULT_CLI_OUTPUT_TYPE = "text"
+VALID_CLI_OUTPUT_TYPES = [
+    DEFAULT_CLI_OUTPUT_TYPE,
+    "json",
+]
 
 
 def print_rule_table(rules: list[Type[Rule]], attributes: list[str] | None = None) -> None:
@@ -12,18 +40,13 @@ def print_rule_table(rules: list[Type[Rule]], attributes: list[str] | None = Non
     Parameters:
         rules (list[Type[Rule]]): The list of PantherRule subclasses that will be printed in table format.
         attributes (list[str] | None): The list of attributes that will appear as columns in the table.
-            Supplying None or an empty list will use defaults of [id, log_types, default_severity, enabled, create_alert].
+            Supplying None or an empty list will use defaults of [id, log_types, default_severity, enabled].
     """
-    check_rule_attributes(rules, attributes)
+    attributes = utils.dedup_list_preserving_order(attributes or [])
+    check_rule_attributes(attributes)
 
-    if attributes is None or len(attributes) == 0:
-        attributes = [
-            "id",
-            "log_types",
-            "default_severity",
-            "enabled",
-            "create_alert",
-        ]
+    if len(attributes) == 0:
+        attributes = DEFAULT_RULE_TABLE_ATTRS
 
     table = PrettyTable()
     table.field_names = attributes
@@ -31,10 +54,19 @@ def print_rule_table(rules: list[Type[Rule]], attributes: list[str] | None = Non
     for rule in rules:
         table.add_row([getattr(rule, attr) if attr != "log_types" else fmt_log_types_attr(rule) for attr in attributes])
 
-    if "id" in attributes:
-        table.sortby = "id"
-    else:
-        table.sortby = attributes[0]
+    # sort the table by the first attr given or the ID
+    # sortby must be set before setting sort_key
+    table.sortby = "id" if "id" in attributes else (attributes or [])[0]
+
+    # sort all columns in alphanumeric order by joining them
+    def key(row: list[Any]) -> list[Any]:
+        # row[0] is the sortby attr, row[1:] are all attrs in the row
+        # for example: [id, id, log_type, enabled]
+        # by replacing the [0] item we replace what it sorts by
+        row[0] = "".join(str(val) for val in row[1:])
+        return row
+
+    table.sort_key = key
 
     print(table)
 
@@ -53,25 +85,19 @@ def print_rules_as_json(rules: list[Type[Rule]], attributes: list[str] | None = 
     Parameters:
         rules (list[Type[Rule]]): The list of PantherRule subclasses that will be printed in JSON format.
         attributes (list[str] | None): The list of attributes that will appear as attributes in the JSON.
-            Supplying None or an empty list will use defaults of [id, log_types, default_severity, enabled, create_alert].
+            Supplying None or an empty list will use defaults of [id, log_types, default_severity, enabled].
     """
-    check_rule_attributes(rules, attributes)
+    attributes = utils.dedup_list_preserving_order(attributes or [])
+    check_rule_attributes(attributes)
 
-    if attributes is None or len(attributes) == 0:
-        attributes = [
-            "id",
-            "log_types",
-            "default_severity",
-            "enabled",
-            "create_alert",
-        ]
+    if len(attributes) == 0:
+        attributes = DEFAULT_RULE_TABLE_ATTRS
 
     rule_dicts = [{attr: getattr(rule, attr) for attr in attributes} for rule in rules]
     print(json.dumps(rule_dicts, indent=2))
 
 
-def check_rule_attributes(rules: list[Type[Rule]], attributes: list[str] | None = None) -> None:
+def check_rule_attributes(attributes: list[str]) -> None:
     for attr in attributes or []:
-        for rule in rules:
-            if not hasattr(rule, attr):
-                raise AttributeError(f"Attribute '{attr}' does not exist on rule {rule.__name__}")
+        if attr not in VALID_RULE_TABLE_ATTRS:
+            raise AttributeError(f"Attribute '{attr}' is not allowed.")

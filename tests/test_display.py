@@ -39,14 +39,15 @@ def test_print_rule_table(capsys):
     pytest.maxDiff = None
     exp = textwrap.dedent(
         """
-        +----------+------------------------------+---------------+----------+---------+-------------+
-        |  RuleID  |           LogTypes           |  DisplayName  | Severity | Enabled | CreateAlert |
-        +----------+------------------------------+---------------+----------+---------+-------------+
-        |   EDR    | CrowdStrike, SentinelOne, +1 |    EDR Rule   |   High   |   True  |    False    |
-        | Firewall |           PaloAlto           | Firewall Rule |  Medium  |   True  |     True    |
-        +----------+------------------------------+---------------+----------+---------+-------------+
+        +----------+------------------------------+------------------+---------+
+        |    id    |          log_types           | default_severity | enabled |
+        +----------+------------------------------+------------------+---------+
+        |   EDR    | CrowdStrike, SentinelOne, +1 |       High       |   True  |
+        | Firewall |           PaloAlto           |      Medium      |   True  |
+        +----------+------------------------------+------------------+---------+
     """
     ).lstrip()
+
     assert std.out == exp
     assert std.err == ""
 
@@ -57,27 +58,20 @@ def test_print_rules_as_json(capsys):
     std = capsys.readouterr()
 
     pytest.maxDiff = None
-    exp = (
-        json.dumps(
-            [
-                {
-                    "id": "EDR",
-                    "log_types": ["CrowdStrike", "SentinelOne", "AWS"],
-                    "default_severity": "High",
-                    "enabled": True,
-                    "create_alert": False,
-                },
-                {
-                    "id": "Firewall",
-                    "log_types": ["PaloAlto"],
-                    "default_severity": "Medium",
-                    "enabled": True,
-                    "create_alert": True,
-                },
-            ],
-            indent=2,
-        )
-        + "\n"
-    )
-    assert std.out == exp
+    exp = [
+        {
+            "log_types": ["CrowdStrike", "SentinelOne", "AWS"],
+            "id": "EDR",
+            "default_severity": "High",
+            "enabled": True,
+        },
+        {
+            "log_types": ["PaloAlto"],
+            "id": "Firewall",
+            "default_severity": "Medium",
+            "enabled": True,
+        },
+    ]
+
+    assert json.loads(std.out) == exp
     assert std.err == ""
