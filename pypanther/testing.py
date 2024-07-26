@@ -66,6 +66,68 @@ class TestResults:
     def num_failed_rules(self) -> int:
         return len(self.failed_rule_tests)
 
+    def all_rule_tests(self) -> dict[str, list[RuleTestResult]]:
+        rule_test_results = collections.defaultdict(list)
+
+        for rule_id, tests in self.passed_rule_tests.items():
+            rule_test_results[rule_id].extend(tests)
+        for rule_id, tests in self.failed_rule_tests.items():
+            rule_test_results[rule_id].extend(tests)
+        for rule_id in self.skipped_rules:
+            rule_test_results[rule_id] = []
+
+        return rule_test_results
+
+    def asdict(self) -> dict[str, Any]:
+        return {
+            "test_results": {
+                rule_id: [
+                    {
+                        "test": result.test.asdict(),
+                        "passed": result.passed,
+                        "exceptions": [
+                            {
+                                "func": func,
+                                "exception": str(exc),
+                                "stacktrace": "".join(traceback.format_exception(exc)),
+                            }
+                            for func, exc in get_rule_exceptions(result).items()
+                            if exc is not None
+                        ],
+                        "failed_results": [
+                            {
+                                "func": func,
+                                "expected": exp,
+                                "output": exp,
+                                "matched": match,
+                            }
+                            for func, exp, out, match in get_rule_results(result)
+                            if exp is not None
+                        ],
+                    }
+                    for result in results
+                ]
+                for rule_id, results in self.all_rule_tests().items()
+            },
+            "failed_tests_summary": [
+                {
+                    "rule_id": rule_id,
+                    "num_failed_tests": len(failed_tests),
+                    "failed_tests": [failed_test.test.name for failed_test in failed_tests],
+                }
+                for rule_id, failed_tests in self.failed_rule_tests.items()
+            ],
+            "summary": {
+                "skipped_rules": self.num_skipped_rules(),
+                "passed_rules": self.num_passed_rules(),
+                "failed_rules": self.num_failed_rules(),
+                "total_rules": self.total_rules(),
+                "passed_tests": self.num_passed_tests(),
+                "failed_tests": self.num_failed_tests(),
+                "total_tests": self.total_tests(),
+            },
+        }
+
 
 def run(args: argparse.Namespace) -> Tuple[int, str]:
     try:
@@ -85,7 +147,7 @@ def run(args: argparse.Namespace) -> Tuple[int, str]:
 
     match args.output:
         case display.OUTPUT_TYPE_JSON:
-            pass
+            print(json.dumps(test_results.asdict(), indent=display.JSON_INDENT_LEVEL))
         case display.OUTPUT_TYPE_TEXT:
             print_failed_test_summary(test_results)
             print()  # new line
@@ -202,3 +264,7 @@ def get_rule_results(result: RuleTestResult) -> list[Tuple[str, Any, Any, bool]]
             t.expected_alert_context == json.loads(r.alert_context_output),
         ),
     ]
+
+
+def print_test_results_json(test_results: TestResults) -> None:
+    print()
