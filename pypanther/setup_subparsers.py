@@ -137,7 +137,7 @@ def setup_list_rules_parser(list_rules_parser: argparse.ArgumentParser):
 def setup_test_parser(test_parser: argparse.ArgumentParser):
     test_parser.add_argument(
         "--verbose",
-        help="Verbose output",
+        help="Verbose output, includes passing tests, skipped tests, and exception stack traces",
         default=False,
         required=False,
         action="store_true",
