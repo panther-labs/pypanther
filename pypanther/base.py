@@ -442,7 +442,7 @@ class Rule(metaclass=abc.ABCMeta):
 
         try:
             result.detection_output = self.rule(event)
-            self._require_bool(self.rule.__name__, result.detection_output)
+            # self._require_bool(self.rule.__name__, result.detection_output)
         except Exception as e:
             result.detection_exception = e
 
