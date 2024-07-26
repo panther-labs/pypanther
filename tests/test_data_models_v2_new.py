@@ -1,4 +1,5 @@
-from pypanther.data_models_v2 import DataModel
+from pypanther import LogType
+from pypanther.data_model_v2_new import DataModel, new_string, FieldMapping
 
 
 def test_rule():
