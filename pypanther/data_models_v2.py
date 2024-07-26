@@ -71,7 +71,6 @@ def new_json(description: str, mappings: List[FieldMapping]) -> Field[Any]:
     return Field[Any](description, FieldType.JSON, mappings)
 
 
-
 class DataModelMeta(type):
     """Metaclass for DataModel class. This metaclass is used to automatically populate the fields of a DataModel
     instance"""
@@ -88,6 +87,7 @@ class DataModelMeta(type):
 
 
 class DataModel(metaclass=DataModelMeta):
+
     _fields: Dict[str, Field] = {}
     p_raw_event: Dict[str, Any] = {}
 
@@ -106,4 +106,3 @@ class DataModel(metaclass=DataModelMeta):
         if isinstance(attr, Field):
             return attr.value
         return attr
-
