@@ -7,3 +7,6 @@ dist/
 
 # Merge Conflicts
 *.orig
+
+# Make it easy to add a main.py file for testing things
+main.py
