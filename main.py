@@ -1,6 +1,10 @@
 from pypanther import register, RuleTest, Rule, RuleMock, LogType, Severity
 
 
+OUTSIDE = "outside"
+def outside():
+    return OUTSIDE
+
 class MockTestRule(Rule):
     id = "mock_test_rule"
     display_name = "Mock Test Rule"
@@ -54,5 +58,57 @@ class MockTestRule(Rule):
     VARIABLE = []
     def rule(self, event):
         return self.VARIABLE != []
+    
+class OutsideMockTest(Rule):
+    id = "outside_mock_test"
+    display_name = "Outside Mock Test"
+    log_types = [LogType.AZURE_AUDIT]
+    default_severity = Severity.INFO
+    tests = [
+                RuleTest(
+            name="Mock outside new",
+            expected_result=False,
+            mocks=[
+                RuleMock(
+                    object_name="OUTSIDE",
+                    new="inside"
+                )
+            ],
+            log={
+                "action": "Blocked",
+                "internalIp": ""
+            }
+        ),
+        RuleTest(
+            name="Mock outside return_value",
+            expected_result=False,
+            mocks=[
+                RuleMock(
+                    object_name="outside",
+                    return_value="inside"
+                )
+            ],
+            log={
+                "action": "Blocked",
+                "internalIp": ""
+            }
+        ),
+        RuleTest(
+            name="Mock outside side_effect",
+            expected_result=False,
+            mocks=[
+                RuleMock(
+                    object_name="outside",
+                    side_effect=lambda: "inside"
+                )
+            ],
+            log={
+                "action": "Blocked",
+                "internalIp": ""
+            }
+        ),
+    ]
+    def rule(self, event):
+        return outside() == "outside"
 
-register(MockTestRule)
+register([MockTestRule, OutsideMockTest])
