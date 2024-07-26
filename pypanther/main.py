@@ -8,7 +8,7 @@ from gql.transport.aiohttp import log as aiohttp_logger
 
 from pypanther import testing, upload
 from pypanther.custom_logging import setup_logging
-from pypanther.setup_subparsers import setup_get_rules_parser, setup_list_rules_parser
+from pypanther.setup_subparsers import setup_get_rule_parser, setup_list_rules_parser
 from pypanther.vendor.panther_analysis_tool import util
 from pypanther.vendor.panther_analysis_tool.command import standard_args
 from pypanther.vendor.panther_analysis_tool.config import dynaconf_argparse_merge, setup_dynaconf
@@ -108,12 +108,12 @@ def setup_parser() -> argparse.ArgumentParser:
     )
     get_parser.set_defaults(func=help_printer(get_parser))
     get_subparsers = get_parser.add_subparsers()
-    get_rules_parser = get_subparsers.add_parser(
-        name="rules",
+    get_rule_parser = get_subparsers.add_parser(
+        name="rule",
         help="Get the class associated with a specific Panther-managed rule by id",
         formatter_class=argparse.ArgumentDefaultsHelpFormatter,
     )
-    setup_get_rules_parser(get_rules_parser)
+    setup_get_rule_parser(get_rule_parser)
 
     # List command
     list_parser = subparsers.add_parser(
