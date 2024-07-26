@@ -30,15 +30,23 @@ T = TypeVar('T')
 
 @dataclass
 class Field(Generic[T]):
+    """The Field class is used to define the schema of a data model. The type T represents the Python type of the
+    field value."""
+
+    # These are the properties of the field that define the data model's schema
     description: str
     type: FieldType
     mappings: List[FieldMapping]
+
+    # Value holds the actual value of the field that will be used when running rules
     value: Optional[T] = None
 
     def __set__(self, instance, value):
         self.value = value
 
 
+# Note: I have added the following functions to make it easier to create new fields
+# There might be a nicer way to achieve this... but I'm not sure how to do it yet
 def new_string(description: str, mappings: List[FieldMapping]) -> Field[str]:
     return Field[str](description, FieldType.STRING, mappings)
 
@@ -63,9 +71,13 @@ def new_json(description: str, mappings: List[FieldMapping]) -> Field[Any]:
     return Field[Any](description, FieldType.JSON, mappings)
 
 
+
 class DataModelMeta(type):
+    """Metaclass for DataModel class. This metaclass is used to automatically populate the fields of a DataModel
+    instance"""
 
     def __new__(cls, name, bases, attrs):
+        """ This method is called when a new class is created. It is used to extract the fields from the class"""
         fields: dict[str, Field] = {}
         for key, value in attrs.items():
             if isinstance(value, Field):
