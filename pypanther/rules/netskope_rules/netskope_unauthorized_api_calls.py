@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.panther_base_helpers import deep_walk
 
 netskope_unauthorized_api_calls_tests: list[RuleTest] = [
@@ -47,6 +47,7 @@ netskope_unauthorized_api_calls_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class NetskopeUnauthorizedAPICalls(Rule):
     id = "Netskope.UnauthorizedAPICalls-prototype"
     display_name = "Netskope Many Unauthorized API Calls"

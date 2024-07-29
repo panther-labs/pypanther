@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.panther_base_helpers import deep_get
 from pypanther.helpers.panther_config import config
 
@@ -70,6 +70,7 @@ g_suite_external_mail_forwarding_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class GSuiteExternalMailForwarding(Rule):
     id = "GSuite.ExternalMailForwarding-prototype"
     display_name = "Gsuite Mail forwarded to external domain"

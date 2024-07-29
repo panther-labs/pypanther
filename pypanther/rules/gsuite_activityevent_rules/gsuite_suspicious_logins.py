@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.panther_base_helpers import deep_get
 
 g_suite_suspicious_logins_tests: list[RuleTest] = [
@@ -38,6 +38,7 @@ g_suite_suspicious_logins_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class GSuiteSuspiciousLogins(Rule):
     id = "GSuite.SuspiciousLogins-prototype"
     display_name = "Suspicious GSuite Login"

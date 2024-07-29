@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.panther_base_helpers import aws_rule_context
 from pypanther.helpers.panther_default import aws_cloudtrail_success
 
@@ -119,6 +119,7 @@ awsec2_gateway_modified_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class AWSEC2GatewayModified(Rule):
     id = "AWS.EC2.GatewayModified-prototype"
     display_name = "EC2 Network Gateway Modified"

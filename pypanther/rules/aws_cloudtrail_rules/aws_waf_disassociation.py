@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.panther_base_helpers import deep_get
 
 awswaf_disassociation_tests: list[RuleTest] = [
@@ -119,6 +119,7 @@ awswaf_disassociation_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class AWSWAFDisassociation(Rule):
     default_description = "Detection to alert when a WAF disassociates from a source."
     display_name = "AWS WAF Disassociation"

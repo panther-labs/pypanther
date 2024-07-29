@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 
 zoom_sign_in_method_modified_tests: list[RuleTest] = [
     RuleTest(
@@ -37,6 +37,7 @@ zoom_sign_in_method_modified_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class ZoomSignInMethodModified(Rule):
     default_description = "A Zoom User modified your organizations sign in method."
     display_name = "Zoom Sign In Method Modified"

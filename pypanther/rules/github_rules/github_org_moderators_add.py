@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.panther_base_helpers import github_alert_context
 
 git_hub_org_moderators_add_tests: list[RuleTest] = [
@@ -33,6 +33,7 @@ git_hub_org_moderators_add_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class GitHubOrgModeratorsAdd(Rule):
     id = "GitHub.Org.Moderators.Add-prototype"
     display_name = "GitHub User Added to Org Moderators"

@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 
 github_repo_collaborator_change_tests: list[RuleTest] = [
     RuleTest(
@@ -43,6 +43,7 @@ github_repo_collaborator_change_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class GithubRepoCollaboratorChange(Rule):
     id = "Github.Repo.CollaboratorChange-prototype"
     display_name = "GitHub Repository Collaborator Change"

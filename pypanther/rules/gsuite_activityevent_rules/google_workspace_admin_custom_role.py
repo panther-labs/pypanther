@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 
 google_workspace_admin_custom_role_tests: list[RuleTest] = [
     RuleTest(
@@ -72,6 +72,7 @@ google_workspace_admin_custom_role_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class GoogleWorkspaceAdminCustomRole(Rule):
     default_description = "A Google Workspace administrator created a new custom administrator role."
     display_name = "Google Workspace Admin Custom Role"

@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.panther_base_helpers import deep_get
 from pypanther.helpers.panther_snyk_helpers import snyk_alert_context
 
@@ -61,6 +61,7 @@ snyk_ou_change_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class SnykOUChange(Rule):
     id = "Snyk.OU.Change-prototype"
     display_name = "Snyk Org or Group Settings Change"

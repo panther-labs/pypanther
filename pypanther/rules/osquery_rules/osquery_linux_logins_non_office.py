@@ -1,6 +1,6 @@
 import ipaddress
 
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.panther_base_helpers import deep_get
 
 osquery_linux_login_from_non_office_tests: list[RuleTest] = [
@@ -37,6 +37,7 @@ osquery_linux_login_from_non_office_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class OsqueryLinuxLoginFromNonOffice(Rule):
     id = "Osquery.Linux.LoginFromNonOffice-prototype"
     display_name = "A Login from Outside the Corporate Office"

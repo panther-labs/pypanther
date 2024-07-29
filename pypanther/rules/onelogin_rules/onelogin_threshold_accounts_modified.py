@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 
 one_login_threshold_accounts_modified_tests: list[RuleTest] = [
     RuleTest(
@@ -26,6 +26,7 @@ one_login_threshold_accounts_modified_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class OneLoginThresholdAccountsModified(Rule):
     id = "OneLogin.ThresholdAccountsModified-prototype"
     display_name = "OneLogin Multiple Accounts Modified"

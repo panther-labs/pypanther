@@ -1,6 +1,6 @@
 import re
 
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 
 zoom_user_promotedto_privileged_role_tests: list[RuleTest] = [
     RuleTest(
@@ -83,6 +83,7 @@ zoom_user_promotedto_privileged_role_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class ZoomUserPromotedtoPrivilegedRole(Rule):
     default_description = "A Zoom user was promoted to a privileged role."
     display_name = "Zoom User Promoted to Privileged Role"

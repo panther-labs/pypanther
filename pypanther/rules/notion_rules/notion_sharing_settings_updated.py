@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.panther_notion_helpers import notion_alert_context
 
 notion_sharing_settings_updated_tests: list[RuleTest] = [
@@ -50,6 +50,7 @@ notion_sharing_settings_updated_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class NotionSharingSettingsUpdated(Rule):
     id = "Notion.SharingSettingsUpdated-prototype"
     display_name = "Notion Sharing Settings Updated"

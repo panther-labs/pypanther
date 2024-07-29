@@ -1,5 +1,5 @@
 import pypanther.helpers.panther_event_type_helpers as event_type
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 
 standard_admin_role_assigned_tests: list[RuleTest] = [
     RuleTest(
@@ -227,6 +227,7 @@ standard_admin_role_assigned_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class StandardAdminRoleAssigned(Rule):
     id = "Standard.AdminRoleAssigned-prototype"
     display_name = "Admin Role Assigned"

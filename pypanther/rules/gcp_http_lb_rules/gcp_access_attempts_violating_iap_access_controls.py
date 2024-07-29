@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.panther_base_helpers import deep_get
 
 gcp_access_attempts_violating_iap_access_controls_tests: list[RuleTest] = [
@@ -101,6 +101,7 @@ gcp_access_attempts_violating_iap_access_controls_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class GCPAccessAttemptsViolatingIAPAccessControls(Rule):
     default_description = "GCP Access Attempts Violating IAP Access Controls"
     display_name = "GCP Access Attempts Violating IAP Access Controls"

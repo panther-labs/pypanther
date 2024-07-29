@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 
 duo_admin_bypass_code_viewed_tests: list[RuleTest] = [
     RuleTest(
@@ -28,6 +28,7 @@ duo_admin_bypass_code_viewed_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class DuoAdminBypassCodeViewed(Rule):
     default_description = "An administrator viewed the MFA bypass code for a user."
     display_name = "Duo Admin Bypass Code Viewed"

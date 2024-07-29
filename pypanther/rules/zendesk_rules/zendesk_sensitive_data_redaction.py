@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.panther_base_helpers import ZENDESK_CHANGE_DESCRIPTION
 
 zendesk_sensitive_data_redaction_off_tests: list[RuleTest] = [
@@ -61,6 +61,7 @@ zendesk_sensitive_data_redaction_off_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class ZendeskSensitiveDataRedactionOff(Rule):
     id = "Zendesk.SensitiveDataRedactionOff-prototype"
     display_name = "Zendesk Credit Card Redaction Off"

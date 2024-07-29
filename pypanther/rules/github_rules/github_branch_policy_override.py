@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 
 git_hub_branch_policy_override_tests: list[RuleTest] = [
     RuleTest(
@@ -28,6 +28,7 @@ git_hub_branch_policy_override_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class GitHubBranchPolicyOverride(Rule):
     id = "GitHub.Branch.PolicyOverride-prototype"
     display_name = "GitHub Branch Protection Policy Override"

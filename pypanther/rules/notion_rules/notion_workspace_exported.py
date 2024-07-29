@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.panther_notion_helpers import notion_alert_context
 
 notion_workspace_exported_tests: list[RuleTest] = [
@@ -50,6 +50,7 @@ notion_workspace_exported_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class NotionWorkspaceExported(Rule):
     id = "Notion.Workspace.Exported-prototype"
     display_name = "Notion Workspace Exported"

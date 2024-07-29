@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.panther_base_helpers import aws_rule_context, deep_get
 
 awsrds_public_restore_tests: list[RuleTest] = [
@@ -329,6 +329,7 @@ awsrds_public_restore_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class AWSRDSPublicRestore(Rule):
     default_description = (
         "Detects the recovery of a new public database instance from a snapshot. It may be part of data exfiltration."

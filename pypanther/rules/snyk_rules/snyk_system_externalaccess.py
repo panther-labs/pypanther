@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.panther_base_helpers import deep_get
 from pypanther.helpers.panther_snyk_helpers import snyk_alert_context
 
@@ -45,6 +45,7 @@ snyk_system_external_access_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class SnykSystemExternalAccess(Rule):
     id = "Snyk.System.ExternalAccess-prototype"
     display_name = "Snyk System External Access Settings Changed"

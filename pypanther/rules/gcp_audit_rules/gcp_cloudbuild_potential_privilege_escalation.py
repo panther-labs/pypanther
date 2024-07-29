@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.gcp_base_helpers import gcp_alert_context
 from pypanther.helpers.panther_base_helpers import deep_get, deep_walk
 
@@ -111,6 +111,7 @@ gcp_cloud_build_potential_privilege_escalation_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class GCPCloudBuildPotentialPrivilegeEscalation(Rule):
     log_types = [LogType.GCP_AUDIT_LOG]
     default_description = "Detects privilege escalation attacks designed to gain access to the Cloud Build Service Account. A user with permissions to start a new build with Cloud Build can gain access to the Cloud Build Service Account and abuse it for more access to the environment."

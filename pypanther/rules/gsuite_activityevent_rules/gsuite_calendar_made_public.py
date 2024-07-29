@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.panther_base_helpers import deep_get
 
 g_suite_calendar_made_public_tests: list[RuleTest] = [
@@ -111,6 +111,7 @@ g_suite_calendar_made_public_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class GSuiteCalendarMadePublic(Rule):
     id = "GSuite.CalendarMadePublic-prototype"
     display_name = "GSuite Calendar Has Been Made Public"

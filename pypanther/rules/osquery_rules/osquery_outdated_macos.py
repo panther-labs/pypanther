@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.panther_base_helpers import deep_get
 
 osquery_unsupported_mac_os_tests: list[RuleTest] = [
@@ -73,6 +73,7 @@ osquery_unsupported_mac_os_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class OsqueryUnsupportedMacOS(Rule):
     id = "Osquery.UnsupportedMacOS-prototype"
     display_name = "Unsupported macOS version"

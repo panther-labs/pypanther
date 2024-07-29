@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.panther_base_helpers import aws_rule_context, deep_get
 
 awsec2_startup_script_change_tests: list[RuleTest] = [
@@ -85,6 +85,7 @@ awsec2_startup_script_change_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class AWSEC2StartupScriptChange(Rule):
     default_description = "Detects changes to the EC2 instance startup script. The shell script will be executed as root/SYSTEM every time the specific instances are booted up."
     display_name = "AWS EC2 Startup Script Change"

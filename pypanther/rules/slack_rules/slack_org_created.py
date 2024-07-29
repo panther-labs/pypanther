@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.panther_base_helpers import slack_alert_context
 
 slack_audit_logs_org_created_tests: list[RuleTest] = [
@@ -47,6 +47,7 @@ slack_audit_logs_org_created_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class SlackAuditLogsOrgCreated(Rule):
     id = "Slack.AuditLogs.OrgCreated-prototype"
     display_name = "Slack Organization Created"

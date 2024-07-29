@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.panther_base_helpers import deep_get
 
 asana_workspace_password_requirements_simple_tests: list[RuleTest] = [
@@ -51,6 +51,7 @@ asana_workspace_password_requirements_simple_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class AsanaWorkspacePasswordRequirementsSimple(Rule):
     default_description = "An asana user made your organization's password requirements less strict."
     display_name = "Asana Workspace Password Requirements Simple"

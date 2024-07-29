@@ -1,7 +1,8 @@
-from pypanther import LogType, Rule, Severity
+from pypanther import LogType, Rule, Severity, panther_managed
 from pypanther.helpers.panther_notion_helpers import notion_alert_context
 
 
+@panther_managed
 class NotionLoginFromBlockedIP(Rule):
     id = "Notion.LoginFromBlockedIP-prototype"
     display_name = "Notion Login From Blocked IP"

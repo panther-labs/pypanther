@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.panther_base_helpers import crowdstrike_detection_alert_context, deep_get
 
 crowdstrike_wmi_query_detection_tests: list[RuleTest] = [
@@ -309,6 +309,7 @@ crowdstrike_wmi_query_detection_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class CrowdstrikeWMIQueryDetection(Rule):
     default_description = "Detects execution of WMI queries involving information gathering or actions on remote systems, which could indicate reconnaissance or lateral movement."
     display_name = "Crowdstrike WMI Query Detection"

@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.panther_base_helpers import get_crowdstrike_field
 
 crowdstrike_real_time_response_session_tests: list[RuleTest] = [
@@ -113,6 +113,7 @@ crowdstrike_real_time_response_session_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class CrowdstrikeRealTimeResponseSession(Rule):
     display_name = "Crowdstrike Real Time Response (RTS) Session"
     id = "Crowdstrike.RealTimeResponse.Session-prototype"

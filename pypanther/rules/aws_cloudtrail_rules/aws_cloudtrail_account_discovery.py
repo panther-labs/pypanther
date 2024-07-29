@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.panther_base_helpers import deep_get
 
 aws_cloud_trail_account_discovery_tests: list[RuleTest] = [
@@ -147,6 +147,7 @@ aws_cloud_trail_account_discovery_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class AWSCloudTrailAccountDiscovery(Rule):
     default_description = "Adversaries may attempt to get a listing of accounts on a system or within an environment. This information can help adversaries determine which accounts exist to aid in follow-on behavior."
     display_name = "AWS CloudTrail Account Discovery"

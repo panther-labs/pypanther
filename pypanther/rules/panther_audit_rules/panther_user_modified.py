@@ -1,5 +1,5 @@
 import pypanther.helpers.panther_event_type_helpers as event_type
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.panther_base_helpers import deep_get
 
 panther_user_modified_tests: list[RuleTest] = [
@@ -176,6 +176,7 @@ panther_user_modified_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class PantherUserModified(Rule):
     id = "Panther.User.Modified-prototype"
     display_name = "A User's Panther Account was Modified"

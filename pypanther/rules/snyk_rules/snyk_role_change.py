@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.panther_base_helpers import deep_get
 from pypanther.helpers.panther_snyk_helpers import snyk_alert_context
 
@@ -64,6 +64,7 @@ snyk_role_change_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class SnykRoleChange(Rule):
     id = "Snyk.Role.Change-prototype"
     display_name = "Snyk Role Change"

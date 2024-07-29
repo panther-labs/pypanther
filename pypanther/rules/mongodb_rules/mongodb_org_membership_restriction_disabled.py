@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.panther_mongodb_helpers import mongodb_alert_context
 
 mongo_d_borg_membership_restriction_disabled_tests: list[RuleTest] = [
@@ -52,6 +52,7 @@ mongo_d_borg_membership_restriction_disabled_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class MongoDBorgMembershipRestrictionDisabled(Rule):
     default_description = "You can configure Atlas to require API access lists at the organization level. When you enable IP access list for the Atlas Administration API, all API calls in that organization must originate from a valid entry in the associated Atlas Administration API key access list. This rule detects when IP access list is disabled"
     display_name = "MongoDB org membership restriction disabled"

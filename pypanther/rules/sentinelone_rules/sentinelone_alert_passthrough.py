@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.panther_base_helpers import deep_get
 
 sentinel_one_alert_passthrough_tests: list[RuleTest] = [
@@ -134,6 +134,7 @@ sentinel_one_alert_passthrough_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class SentinelOneAlertPassthrough(Rule):
     default_description = "SentinelOne Alert Passthrough"
     display_name = "SentinelOne Alert Passthrough"

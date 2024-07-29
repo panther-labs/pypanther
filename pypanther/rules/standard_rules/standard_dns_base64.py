@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.panther_base_helpers import defang_ioc, is_base64
 
 standard_dns_base64_tests: list[RuleTest] = [
@@ -206,6 +206,7 @@ standard_dns_base64_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class StandardDNSBase64(Rule):
     display_name = "DNS Base64 Encoded Query"
     default_description = (

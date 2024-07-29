@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 
 git_hub_repo_hook_modified_tests: list[RuleTest] = [
     RuleTest(
@@ -39,6 +39,7 @@ git_hub_repo_hook_modified_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class GitHubRepoHookModified(Rule):
     id = "GitHub.Repo.HookModified-prototype"
     display_name = "GitHub Web Hook Modified"

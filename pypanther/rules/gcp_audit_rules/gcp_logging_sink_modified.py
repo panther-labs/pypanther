@@ -1,6 +1,6 @@
 import re
 
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.gcp_base_helpers import gcp_alert_context
 from pypanther.helpers.panther_base_helpers import deep_get
 
@@ -112,6 +112,7 @@ gcp_logging_sink_modified_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class GCPLoggingSinkModified(Rule):
     display_name = "GCP Logging Sink Modified"
     id = "GCP.Logging.Sink.Modified-prototype"

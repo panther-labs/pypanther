@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 
 push_security_new_app_detected_tests: list[RuleTest] = [
     RuleTest(
@@ -54,6 +54,7 @@ push_security_new_app_detected_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class PushSecurityNewAppDetected(Rule):
     id = "Push.Security.New.App.Detected-prototype"
     display_name = "Push Security New App Detected"

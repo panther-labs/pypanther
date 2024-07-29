@@ -1,6 +1,6 @@
 import re
 
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.gcp_base_helpers import gcp_alert_context
 from pypanther.helpers.panther_base_helpers import deep_get, deep_walk
 
@@ -192,6 +192,7 @@ gcp_log_bucket_or_sink_deleted_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class GCPLogBucketOrSinkDeleted(Rule):
     display_name = "GCP Log Bucket or Sink Deleted"
     id = "GCP.Log.Bucket.Or.Sink.Deleted-prototype"

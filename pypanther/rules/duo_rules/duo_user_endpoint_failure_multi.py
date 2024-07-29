@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.panther_base_helpers import deep_get
 
 duo_user_endpoint_failure_tests: list[RuleTest] = [
@@ -103,6 +103,7 @@ duo_user_endpoint_failure_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class DUOUserEndpointFailure(Rule):
     id = "DUO.User.Endpoint.Failure-prototype"
     display_name = "Duo User Denied For Endpoint Error"

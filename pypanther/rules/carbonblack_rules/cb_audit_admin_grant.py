@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 
 carbon_black_audit_admin_grant_tests: list[RuleTest] = [
     RuleTest(
@@ -49,6 +49,7 @@ carbon_black_audit_admin_grant_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class CarbonBlackAuditAdminGrant(Rule):
     id = "CarbonBlack.Audit.Admin.Grant-prototype"
     log_types = [LogType.CARBON_BLACK_AUDIT]

@@ -1,6 +1,6 @@
 import json
 
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 
 git_lab_audit_password_reset_multiple_emails_tests: list[RuleTest] = [
     RuleTest(name="not a password reset", expected_result=False, log={"detail": {"custom_message": "hello world"}}),
@@ -22,6 +22,7 @@ git_lab_audit_password_reset_multiple_emails_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class GitLabAuditPasswordResetMultipleEmails(Rule):
     id = "GitLab.Audit.Password.Reset.Multiple.Emails-prototype"
     display_name = "CVE-2023-7028 - GitLab Audit Password Reset Multiple Emails"

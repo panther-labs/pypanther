@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.panther_notion_helpers import notion_alert_context
 
 notion_many_pages_deleted_tests: list[RuleTest] = [
@@ -50,6 +50,7 @@ notion_many_pages_deleted_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class NotionManyPagesDeleted(Rule):
     id = "Notion.Many.Pages.Deleted-prototype"
     display_name = "Notion Many Pages Deleted"

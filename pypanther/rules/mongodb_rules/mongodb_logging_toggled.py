@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.panther_mongodb_helpers import mongodb_alert_context
 
 mongo_db_logging_toggled_tests: list[RuleTest] = [
@@ -63,6 +63,7 @@ mongo_db_logging_toggled_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class MongoDBLoggingToggled(Rule):
     default_description = "MongoDB logging toggled"
     display_name = "MongoDB logging toggled"

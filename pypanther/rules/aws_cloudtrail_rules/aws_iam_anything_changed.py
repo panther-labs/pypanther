@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.panther_base_helpers import aws_rule_context
 from pypanther.helpers.panther_default import aws_cloudtrail_success
 
@@ -127,6 +127,7 @@ aws_cloud_trail_iam_anything_changed_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class AWSCloudTrailIAMAnythingChanged(Rule):
     id = "AWS.CloudTrail.IAMAnythingChanged-prototype"
     display_name = "IAM Change"

@@ -1,6 +1,6 @@
 from ipaddress import ip_address
 
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.panther_base_helpers import aws_rule_context, deep_get
 from pypanther.helpers.panther_default import lookup_aws_account_name
 
@@ -130,6 +130,7 @@ awsiam_user_recon_access_denied_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class AWSIAMUserReconAccessDenied(Rule):
     id = "AWS.IAMUser.ReconAccessDenied-prototype"
     display_name = "Detect Reconnaissance from IAM Users"

@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.panther_base_helpers import deep_get
 
 g_suite_rule_tests: list[RuleTest] = [
@@ -62,6 +62,7 @@ g_suite_rule_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class GSuiteRule(Rule):
     id = "GSuite.Rule-prototype"
     display_name = "GSuite Passthrough Rule Triggered"

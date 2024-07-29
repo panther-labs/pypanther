@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.panther_base_helpers import deep_get
 
 gcp_big_query_large_scan_tests: list[RuleTest] = [
@@ -159,6 +159,7 @@ gcp_big_query_large_scan_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class GCPBigQueryLargeScan(Rule):
     default_description = "Detect any BigQuery query that is doing a very large scan (> 1 GB)."
     display_name = "GCP BigQuery Large Scan"

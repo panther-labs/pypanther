@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 
 google_workspace_apps_marketplace_new_domain_application_tests: list[RuleTest] = [
     RuleTest(
@@ -101,6 +101,7 @@ google_workspace_apps_marketplace_new_domain_application_tests: list[RuleTest] =
 ]
 
 
+@panther_managed
 class GoogleWorkspaceAppsMarketplaceNewDomainApplication(Rule):
     default_description = (
         "A Google Workspace User configured a new domain application from the Google Workspace Apps Marketplace."

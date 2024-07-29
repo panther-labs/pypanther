@@ -1,6 +1,6 @@
 import re
 
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.panther_base_helpers import deep_get, okta_alert_context
 
 okta_admin_role_assigned_tests: list[RuleTest] = [
@@ -123,6 +123,7 @@ okta_admin_role_assigned_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class OktaAdminRoleAssigned(Rule):
     id = "Okta.AdminRoleAssigned-prototype"
     display_name = "Okta Admin Role Assigned"

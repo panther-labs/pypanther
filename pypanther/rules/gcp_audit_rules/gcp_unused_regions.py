@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.panther_base_helpers import deep_get
 
 gcp_unused_regions_tests: list[RuleTest] = [
@@ -217,6 +217,7 @@ gcp_unused_regions_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class GCPUnusedRegions(Rule):
     id = "GCP.UnusedRegions-prototype"
     display_name = "GCP Resource in Unused Region"

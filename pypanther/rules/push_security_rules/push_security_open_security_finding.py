@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 
 push_security_open_security_finding_tests: list[RuleTest] = [
     RuleTest(
@@ -93,6 +93,7 @@ push_security_open_security_finding_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class PushSecurityOpenSecurityFinding(Rule):
     id = "Push.Security.Open.Security.Finding-prototype"
     display_name = "Push Security Open Security Finding"

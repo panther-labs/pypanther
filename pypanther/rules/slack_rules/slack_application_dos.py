@@ -3,7 +3,7 @@ from json import dumps
 
 from panther_detection_helpers.caching import get_string_set, put_string_set
 
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity, panther_managed
 from pypanther.helpers.panther_base_helpers import deep_get, slack_alert_context
 
 slack_audit_logs_application_do_s_tests: list[RuleTest] = [
@@ -70,6 +70,7 @@ slack_audit_logs_application_do_s_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class SlackAuditLogsApplicationDoS(Rule):
     id = "Slack.AuditLogs.ApplicationDoS-prototype"
     display_name = "Slack Denial of Service"

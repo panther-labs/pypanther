@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.panther_base_helpers import deep_get
 
 gcpiam_corporate_email_tests: list[RuleTest] = [
@@ -245,6 +245,7 @@ gcpiam_corporate_email_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class GCPIAMCorporateEmail(Rule):
     id = "GCP.IAM.CorporateEmail-prototype"
     display_name = "GCP Corporate Email Not Used"

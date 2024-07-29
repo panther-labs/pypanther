@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.panther_base_helpers import deep_get, okta_alert_context
 
 okta_api_key_created_tests: list[RuleTest] = [
@@ -36,6 +36,7 @@ okta_api_key_created_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class OktaAPIKeyCreated(Rule):
     id = "Okta.APIKeyCreated-prototype"
     display_name = "Okta API Key Created"

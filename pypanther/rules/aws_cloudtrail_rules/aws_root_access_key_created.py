@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.panther_base_helpers import aws_rule_context, deep_get
 
 aws_cloud_trail_root_access_key_created_tests: list[RuleTest] = [
@@ -70,6 +70,7 @@ aws_cloud_trail_root_access_key_created_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class AWSCloudTrailRootAccessKeyCreated(Rule):
     id = "AWS.CloudTrail.RootAccessKeyCreated-prototype"
     display_name = "Root Account Access Key Created"

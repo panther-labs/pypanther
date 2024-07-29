@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.panther_base_helpers import deep_get
 
 dropbox_user_disabled2_fa_tests: list[RuleTest] = [
@@ -96,6 +96,7 @@ dropbox_user_disabled2_fa_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class DropboxUserDisabled2FA(Rule):
     default_description = "Dropbox user has disabled 2fa login"
     display_name = "Dropbox User Disabled 2FA"

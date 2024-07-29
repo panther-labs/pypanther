@@ -12,7 +12,7 @@ from typing import List, Optional, Set
 from ast_comments import Comment, parse, unparse
 from ruamel.yaml import YAML
 
-from pypanther import DataModel, DataModelMapping, LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import DataModel, DataModelMapping, LogType, Rule, RuleMock, RuleTest, Severity, panther_managed
 
 ID_POSTFIX = "-prototype"
 
@@ -53,7 +53,7 @@ def convert_rule_attribute_name(name: str) -> str:
 
 def convert_rule(filepath: Path, helpers: Set[str]) -> Optional[str]:
     imports = [
-        f"from pypanther import {Rule.__name__}, {RuleTest.__name__}, {Severity.__name__}, {LogType.__name__}, {RuleMock.__name__}",
+        f"from pypanther import {Rule.__name__}, {RuleTest.__name__}, {Severity.__name__}, {LogType.__name__}, {RuleMock.__name__}, {panther_managed.__name__}",
     ]
 
     p = Path(filepath)
@@ -316,6 +316,7 @@ def parse_py(
         decorator_list=[],
         body=assignments + other + functions,
     )
+    c.decorator_list.append(ast.Name(id="panther_managed", ctx=ast.Load()))
     tree.body.append(c)
 
     # rewrite function calls and globals since they are now part of the class

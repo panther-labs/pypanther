@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 
 gcp_inbound_sso_profile_created_tests: list[RuleTest] = [
     RuleTest(
@@ -145,6 +145,7 @@ gcp_inbound_sso_profile_created_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class GCPInboundSSOProfileCreated(Rule):
     id = "GCP.Inbound.SSO.Profile.Created-prototype"
     display_name = "GCP Inbound SSO Profile Created"

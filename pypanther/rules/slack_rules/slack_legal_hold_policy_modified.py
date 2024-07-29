@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.panther_base_helpers import deep_get, slack_alert_context
 
 slack_audit_logs_legal_hold_policy_modified_tests: list[RuleTest] = [
@@ -126,6 +126,7 @@ slack_audit_logs_legal_hold_policy_modified_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class SlackAuditLogsLegalHoldPolicyModified(Rule):
     id = "Slack.AuditLogs.LegalHoldPolicyModified-prototype"
     display_name = "Slack Legal Hold Policy Modified"

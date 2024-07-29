@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.panther_mongodb_helpers import mongodb_alert_context
 
 mongo_db_user_roles_changed_tests: list[RuleTest] = [
@@ -63,6 +63,7 @@ mongo_db_user_roles_changed_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class MongoDBUserRolesChanged(Rule):
     default_description = "User roles changed."
     display_name = "MongoDB user roles changed"

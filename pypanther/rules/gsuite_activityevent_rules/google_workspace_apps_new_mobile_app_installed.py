@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 
 google_workspace_apps_new_mobile_app_installed_tests: list[RuleTest] = [
     RuleTest(
@@ -83,6 +83,7 @@ google_workspace_apps_new_mobile_app_installed_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class GoogleWorkspaceAppsNewMobileAppInstalled(Rule):
     default_description = (
         "A new mobile application was added to your organization's mobile apps whitelist in Google Workspace Apps."

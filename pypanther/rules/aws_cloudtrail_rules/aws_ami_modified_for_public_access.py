@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.panther_base_helpers import aws_rule_context, deep_get
 from pypanther.helpers.panther_default import aws_cloudtrail_success
 
@@ -212,6 +212,7 @@ aws_cloud_trail_ami_modified_for_public_access_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class AWSCloudTrailAMIModifiedForPublicAccess(Rule):
     id = "AWS.CloudTrail.AMIModifiedForPublicAccess-prototype"
     display_name = "Amazon Machine Image (AMI) Modified to Allow Public Access"

@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.panther_base_helpers import deep_get
 
 box_untrusted_device_tests: list[RuleTest] = [
@@ -26,6 +26,7 @@ box_untrusted_device_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class BoxUntrustedDevice(Rule):
     id = "Box.Untrusted.Device-prototype"
     display_name = "Box Untrusted Device Login"

@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.panther_base_helpers import deep_get
 
 g_suite_user_suspended_tests: list[RuleTest] = [
@@ -38,6 +38,7 @@ g_suite_user_suspended_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class GSuiteUserSuspended(Rule):
     id = "GSuite.UserSuspended-prototype"
     display_name = "GSuite User Suspended"

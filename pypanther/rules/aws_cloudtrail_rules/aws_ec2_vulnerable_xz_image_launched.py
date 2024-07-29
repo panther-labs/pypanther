@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.panther_base_helpers import aws_rule_context
 from pypanther.helpers.panther_default import aws_cloudtrail_success
 from pypanther.helpers.panther_iocs import XZ_AMIS
@@ -645,6 +645,7 @@ awsec2_vulnerable_xz_image_launched_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class AWSEC2VulnerableXZImageLaunched(Rule):
     default_description = (
         "Detecting EC2 instances launched with AMIs containing potentially vulnerable versions of XZ (CVE-2024-3094)\n"

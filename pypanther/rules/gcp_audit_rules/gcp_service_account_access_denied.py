@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.gcp_base_helpers import gcp_alert_context
 from pypanther.helpers.panther_base_helpers import deep_walk
 
@@ -123,6 +123,7 @@ gcp_service_account_access_denied_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class GCPServiceAccountAccessDenied(Rule):
     dedup_period_minutes = 5
     threshold = 30

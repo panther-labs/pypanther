@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.panther_base_helpers import aws_rule_context
 from pypanther.helpers.panther_default import aws_cloudtrail_success
 
@@ -125,6 +125,7 @@ awsiam_policy_modified_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class AWSIAMPolicyModified(Rule):
     id = "AWS.IAM.PolicyModified-prototype"
     display_name = "IAM Policy Modified"

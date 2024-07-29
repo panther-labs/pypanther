@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.panther_base_helpers import crowdstrike_detection_alert_context, deep_get
 
 crowdstrike_cryptomining_tools_tests: list[RuleTest] = [
@@ -157,6 +157,7 @@ crowdstrike_cryptomining_tools_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class CrowdstrikeCryptominingTools(Rule):
     default_description = "Detects the execution of known crytocurrency mining tools."
     display_name = "Crowdstrike Cryptomining Tools "

@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.panther_base_helpers import crowdstrike_network_detection_alert_context, deep_get
 
 connectionto_embargoed_country_tests: list[RuleTest] = [
@@ -142,6 +142,7 @@ connectionto_embargoed_country_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class ConnectiontoEmbargoedCountry(Rule):
     default_description = "Detection to alert when internal asset is communicating with an sanctioned destination. This detection leverages Panther UDM and IPInfo enrichment."
     default_reference = "U.S. Sanctioned Destinations - https://www.bis.doc.gov/index.php/policy-guidance/country-guidance/sanctioned-destinations"

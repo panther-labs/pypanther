@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 
 decoy_dynamo_db_accessed_tests: list[RuleTest] = [
     RuleTest(
@@ -218,6 +218,7 @@ decoy_dynamo_db_accessed_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class DecoyDynamoDBAccessed(Rule):
     id = "Decoy.DynamoDB.Accessed-prototype"
     display_name = "Decoy DynamoDB Accessed"

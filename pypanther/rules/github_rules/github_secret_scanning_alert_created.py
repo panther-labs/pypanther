@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 
 git_hub_secret_scanning_alert_created_tests: list[RuleTest] = [
     RuleTest(
@@ -51,6 +51,7 @@ git_hub_secret_scanning_alert_created_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class GitHubSecretScanningAlertCreated(Rule):
     id = "GitHub.Secret.Scanning.Alert.Created-prototype"
     display_name = "GitHub Secret Scanning Alert Created"

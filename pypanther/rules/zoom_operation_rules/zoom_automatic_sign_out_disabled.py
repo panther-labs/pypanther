@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 
 zoom_automatic_sign_out_disabled_tests: list[RuleTest] = [
     RuleTest(
@@ -26,6 +26,7 @@ zoom_automatic_sign_out_disabled_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class ZoomAutomaticSignOutDisabled(Rule):
     default_description = "A Zoom User turned off your organization's setting to automatically sign users out after a specified period of time."
     display_name = "Zoom Automatic Sign Out Disabled"

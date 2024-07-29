@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.panther_base_helpers import deep_get
 from pypanther.helpers.panther_notion_helpers import notion_alert_context
 
@@ -66,6 +66,7 @@ notion_page_perms_guest_perms_changed_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class NotionPagePermsGuestPermsChanged(Rule):
     id = "Notion.PagePerms.GuestPermsChanged-prototype"
     display_name = "Notion Page Guest Permissions Changed"

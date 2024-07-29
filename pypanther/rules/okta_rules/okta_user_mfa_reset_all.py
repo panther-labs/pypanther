@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.panther_base_helpers import okta_alert_context
 
 okta_user_mfa_reset_all_tests: list[RuleTest] = [
@@ -112,6 +112,7 @@ okta_user_mfa_reset_all_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class OktaUserMFAResetAll(Rule):
     default_description = "All MFA factors have been reset for a user."
     display_name = "Okta User MFA Reset All"

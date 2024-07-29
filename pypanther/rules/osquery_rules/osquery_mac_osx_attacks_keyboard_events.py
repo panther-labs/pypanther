@@ -1,6 +1,6 @@
 from fnmatch import fnmatch
 
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.panther_base_helpers import deep_get
 
 osquery_mac_osx_attacks_keyboard_events_tests: list[RuleTest] = [
@@ -58,6 +58,7 @@ osquery_mac_osx_attacks_keyboard_events_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class OsqueryMacOSXAttacksKeyboardEvents(Rule):
     id = "Osquery.Mac.OSXAttacksKeyboardEvents-prototype"
     display_name = "MacOS Keyboard Events"

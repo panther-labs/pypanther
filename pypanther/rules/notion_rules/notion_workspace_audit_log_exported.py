@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.panther_notion_helpers import notion_alert_context
 
 notion_audit_log_exported_tests: list[RuleTest] = [
@@ -47,6 +47,7 @@ notion_audit_log_exported_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class NotionAuditLogExported(Rule):
     id = "Notion.Audit.Log.Exported-prototype"
     display_name = "Notion Audit Log Exported"

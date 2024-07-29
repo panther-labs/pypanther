@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.panther_base_helpers import deep_get
 from pypanther.helpers.panther_tines_helpers import tines_alert_context
 
@@ -38,6 +38,7 @@ tines_global_resource_destruction_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class TinesGlobalResourceDestruction(Rule):
     id = "Tines.Global.Resource.Destruction-prototype"
     display_name = "Tines Global Resource Destruction"

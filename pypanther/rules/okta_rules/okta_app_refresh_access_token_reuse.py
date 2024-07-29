@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.panther_base_helpers import okta_alert_context
 
 okta_refresh_access_token_reuse_tests: list[RuleTest] = [
@@ -177,6 +177,7 @@ okta_refresh_access_token_reuse_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class OktaRefreshAccessTokenReuse(Rule):
     default_description = "When a client wants to renew an access token, it sends the refresh token with the access token request to the /token Okta endpoint.\nOkta validates the incoming refresh token, issues a new set of tokens and invalidates the refresh token that was passed with the initial request.\nThis detection alerts when a previously used refresh token is used again with the token request"
     default_reference = "https://developer.okta.com/docs/guides/refresh-tokens/main/#refresh-token-reuse-detection"

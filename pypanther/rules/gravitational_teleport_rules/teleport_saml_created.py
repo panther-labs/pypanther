@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 
 teleport_saml_created_tests: list[RuleTest] = [
     RuleTest(
@@ -18,6 +18,7 @@ teleport_saml_created_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class TeleportSAMLCreated(Rule):
     id = "Teleport.SAMLCreated-prototype"
     display_name = "A SAML Connector was created or modified"

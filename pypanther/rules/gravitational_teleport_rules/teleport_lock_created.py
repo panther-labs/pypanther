@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 
 teleport_lock_created_tests: list[RuleTest] = [
     RuleTest(
@@ -21,6 +21,7 @@ teleport_lock_created_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class TeleportLockCreated(Rule):
     id = "Teleport.LockCreated-prototype"
     display_name = "A Teleport Lock was created"

@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 
 teleport_suspicious_commands_tests: list[RuleTest] = [
     RuleTest(
@@ -50,6 +50,7 @@ teleport_suspicious_commands_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class TeleportSuspiciousCommands(Rule):
     id = "Teleport.SuspiciousCommands-prototype"
     display_name = "Teleport Suspicious Commands Executed"

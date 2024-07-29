@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 
 decoy_secret_accessed_tests: list[RuleTest] = [
     RuleTest(
@@ -226,6 +226,7 @@ decoy_secret_accessed_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class DecoySecretAccessed(Rule):
     id = "Decoy.Secret.Accessed-prototype"
     display_name = "Decoy Secret Accessed"

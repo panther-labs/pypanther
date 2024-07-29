@@ -1,6 +1,6 @@
 import shlex
 
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.panther_base_helpers import deep_get
 
 osquery_linux_aws_command_executed_tests: list[RuleTest] = [
@@ -68,6 +68,7 @@ osquery_linux_aws_command_executed_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class OsqueryLinuxAWSCommandExecuted(Rule):
     id = "Osquery.Linux.AWSCommandExecuted-prototype"
     display_name = "AWS command executed on the command line"

@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.panther_base_helpers import box_parse_additional_details, deep_get
 
 box_shield_suspicious_alert_tests: list[RuleTest] = [
@@ -48,6 +48,7 @@ box_shield_suspicious_alert_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class BoxShieldSuspiciousAlert(Rule):
     id = "Box.Shield.Suspicious.Alert-prototype"
     display_name = "Box Shield Suspicious Alert Triggered"

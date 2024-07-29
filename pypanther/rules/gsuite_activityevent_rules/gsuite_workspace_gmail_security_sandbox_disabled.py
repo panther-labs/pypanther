@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.panther_base_helpers import deep_get
 
 g_suite_workspace_gmail_security_sandbox_disabled_tests: list[RuleTest] = [
@@ -85,6 +85,7 @@ g_suite_workspace_gmail_security_sandbox_disabled_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class GSuiteWorkspaceGmailSecuritySandboxDisabled(Rule):
     id = "GSuite.Workspace.GmailSecuritySandboxDisabled-prototype"
     display_name = "GSuite Workspace Gmail Security Sandbox Disabled"

@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.panther_base_helpers import deep_get
 
 asana_workspace_email_domain_added_tests: list[RuleTest] = [
@@ -51,6 +51,7 @@ asana_workspace_email_domain_added_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class AsanaWorkspaceEmailDomainAdded(Rule):
     default_description = "A new email domain has been added to an Asana workspace. Reviewer should validate that the new domain is a part of the organization. "
     display_name = "Asana Workspace Email Domain Added"

@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.panther_base_helpers import deep_get
 
 gcp_user_addedto_iap_protected_service_tests: list[RuleTest] = [
@@ -185,6 +185,7 @@ gcp_user_addedto_iap_protected_service_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class GCPUserAddedtoIAPProtectedService(Rule):
     default_description = "A user has been granted access to a IAP protected service."
     display_name = "GCP User Added to IAP Protected Service"

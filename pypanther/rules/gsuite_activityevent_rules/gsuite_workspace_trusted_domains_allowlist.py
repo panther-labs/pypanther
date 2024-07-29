@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.panther_base_helpers import deep_get
 
 g_suite_workspace_trusted_domains_allowlist_tests: list[RuleTest] = [
@@ -96,6 +96,7 @@ g_suite_workspace_trusted_domains_allowlist_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class GSuiteWorkspaceTrustedDomainsAllowlist(Rule):
     id = "GSuite.Workspace.TrustedDomainsAllowlist-prototype"
     display_name = "GSuite Workspace Trusted Domain Allowlist Modified"

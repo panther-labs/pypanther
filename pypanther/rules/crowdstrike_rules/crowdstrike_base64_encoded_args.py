@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.panther_base_helpers import crowdstrike_process_alert_context, is_base64
 
 crowdstrike_base64_encoded_args_tests: list[RuleTest] = [
@@ -552,6 +552,7 @@ crowdstrike_base64_encoded_args_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class CrowdstrikeBase64EncodedArgs(Rule):
     id = "Crowdstrike.Base64EncodedArgs-prototype"
     display_name = "Execution of Command Line Tool with Base64 Encoded Arguments"

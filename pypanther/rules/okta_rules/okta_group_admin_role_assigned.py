@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.panther_base_helpers import okta_alert_context
 
 okta_group_admin_role_assigned_tests: list[RuleTest] = [
@@ -151,6 +151,7 @@ okta_group_admin_role_assigned_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class OktaGroupAdminRoleAssigned(Rule):
     default_description = "Detect when an admin role is assigned to a group"
     display_name = "Okta Group Admin Role Assigned"

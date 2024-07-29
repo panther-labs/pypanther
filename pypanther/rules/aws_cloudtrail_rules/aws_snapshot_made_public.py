@@ -1,6 +1,6 @@
 from collections.abc import Mapping
 
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.panther_base_helpers import aws_rule_context, deep_get
 from pypanther.helpers.panther_default import aws_cloudtrail_success
 
@@ -132,6 +132,7 @@ aws_cloud_trail_snapshot_made_public_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class AWSCloudTrailSnapshotMadePublic(Rule):
     id = "AWS.CloudTrail.SnapshotMadePublic-prototype"
     display_name = "AWS Snapshot Made Public"

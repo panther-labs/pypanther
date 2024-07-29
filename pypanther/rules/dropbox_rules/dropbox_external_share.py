@@ -1,7 +1,7 @@
 import json
 from unittest.mock import MagicMock
 
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity, panther_managed
 from pypanther.helpers.panther_base_helpers import deep_get
 from pypanther.helpers.panther_config import config
 
@@ -156,6 +156,7 @@ dropbox_external_share_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class DropboxExternalShare(Rule):
     default_description = "Dropbox item shared externally"
     display_name = "Dropbox External Share"

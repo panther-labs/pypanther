@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.panther_base_helpers import box_parse_additional_details, deep_get
 
 box_malicious_content_tests: list[RuleTest] = [
@@ -43,6 +43,7 @@ box_malicious_content_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class BoxMaliciousContent(Rule):
     id = "Box.Malicious.Content-prototype"
     display_name = "Malicious Content Detected"

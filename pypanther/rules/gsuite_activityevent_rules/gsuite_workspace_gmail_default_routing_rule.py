@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.panther_base_helpers import deep_get
 
 g_suite_workspace_gmail_default_routing_rule_modified_tests: list[RuleTest] = [
@@ -97,6 +97,7 @@ g_suite_workspace_gmail_default_routing_rule_modified_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class GSuiteWorkspaceGmailDefaultRoutingRuleModified(Rule):
     id = "GSuite.Workspace.GmailDefaultRoutingRuleModified-prototype"
     display_name = "GSuite Workspace Gmail Default Routing Rule Modified"

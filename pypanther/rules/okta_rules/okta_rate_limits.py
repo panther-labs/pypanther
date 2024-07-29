@@ -1,6 +1,6 @@
 from fnmatch import fnmatch
 
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.panther_base_helpers import okta_alert_context
 
 okta_rate_limits_tests: list[RuleTest] = [
@@ -202,6 +202,7 @@ okta_rate_limits_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class OktaRateLimits(Rule):
     default_description = "Potential DoS/Bruteforce attack or hitting limits (system degradation)"
     display_name = "Okta Rate Limits"

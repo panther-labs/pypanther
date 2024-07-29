@@ -2,7 +2,7 @@ import datetime
 import json
 import time
 
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity, panther_managed
 from pypanther.helpers.panther_ipinfo_helpers import IPInfoLocation
 from pypanther.helpers.panther_notion_helpers import notion_alert_context
 from pypanther.helpers.panther_oss_helpers import get_dictionary, put_dictionary
@@ -265,6 +265,7 @@ notion_login_from_new_location_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class NotionLoginFromNewLocation(Rule):
     id = "Notion.LoginFromNewLocation-prototype"
     display_name = "Notion Login from New Location"

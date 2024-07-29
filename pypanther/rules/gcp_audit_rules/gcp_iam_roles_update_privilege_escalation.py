@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.gcp_base_helpers import gcp_alert_context
 from pypanther.helpers.panther_base_helpers import deep_get, deep_walk
 
@@ -40,6 +40,7 @@ gc_piamrolesupdate_privilege_escalation_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class GCPiamrolesupdatePrivilegeEscalation(Rule):
     id = "GCP.iam.roles.update.Privilege.Escalation-prototype"
     display_name = "GCP iam.roles.update Privilege Escalation"

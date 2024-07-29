@@ -1,8 +1,9 @@
 from difflib import SequenceMatcher
 
-from pypanther import LogType, Rule, Severity
+from pypanther import LogType, Rule, Severity, panther_managed
 
 
+@panther_managed
 class CiscoUmbrellaDNSFuzzyMatching(Rule):
     id = "CiscoUmbrella.DNS.FuzzyMatching-prototype"
     display_name = "Cisco Umbrella Domain Name Fuzzy Matching"

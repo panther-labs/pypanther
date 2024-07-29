@@ -1,6 +1,6 @@
 from ipaddress import ip_network
 
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.panther_base_helpers import aws_rule_context
 
 awsvpc_inbound_port_whitelist_tests: list[RuleTest] = [
@@ -40,6 +40,7 @@ awsvpc_inbound_port_whitelist_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class AWSVPCInboundPortWhitelist(Rule):
     id = "AWS.VPC.InboundPortWhitelist-prototype"
     display_name = "VPC Flow Logs Inbound Port Allowlist"

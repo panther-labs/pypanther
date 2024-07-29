@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.panther_base_helpers import deep_get, deep_walk, okta_alert_context
 
 okta_identity_provider_sign_in_tests: list[RuleTest] = [
@@ -157,6 +157,7 @@ okta_identity_provider_sign_in_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class OktaIdentityProviderSignIn(Rule):
     id = "Okta.Identity.Provider.SignIn-prototype"
     display_name = "Okta Identity Provider Sign-in"

@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.panther_base_helpers import deep_get
 
 gcp_logging_settings_modified_tests: list[RuleTest] = [
@@ -119,6 +119,7 @@ gcp_logging_settings_modified_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class GCPLoggingSettingsModified(Rule):
     default_description = "Detects any changes made to logging settings"
     display_name = "GCP Logging Settings Modified"

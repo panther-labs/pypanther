@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 
 gcp_storage_hmac_keys_create_tests: list[RuleTest] = [
     RuleTest(
@@ -40,6 +40,7 @@ gcp_storage_hmac_keys_create_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class GCPStorageHmacKeysCreate(Rule):
     id = "GCP.Storage.Hmac.Keys.Create-prototype"
     display_name = "GCP storage hmac keys create"

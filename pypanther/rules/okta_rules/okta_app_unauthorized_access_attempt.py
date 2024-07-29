@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.panther_base_helpers import deep_get, okta_alert_context
 
 okta_app_unauthorized_access_attempt_tests: list[RuleTest] = [
@@ -151,6 +151,7 @@ okta_app_unauthorized_access_attempt_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class OktaAppUnauthorizedAccessAttempt(Rule):
     default_description = "Detects when a user is denied access to an Okta application"
     display_name = "Okta App Unauthorized Access Attempt"

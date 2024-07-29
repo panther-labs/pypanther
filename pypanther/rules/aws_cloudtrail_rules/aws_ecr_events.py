@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.panther_base_helpers import aws_rule_context, deep_get
 
 awsecrevents_tests: list[RuleTest] = [
@@ -143,6 +143,7 @@ awsecrevents_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class AWSECREVENTS(Rule):
     id = "AWS.ECR.EVENTS-prototype"
     display_name = "AWS ECR Events"

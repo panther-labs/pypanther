@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.panther_mongodb_helpers import mongodb_alert_context
 
 mongo_db_external_user_invited_no_config_tests: list[RuleTest] = [
@@ -63,6 +63,7 @@ mongo_db_external_user_invited_no_config_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class MongoDBExternalUserInvitedNoConfig(Rule):
     default_description = "An external user has been invited to a MongoDB org (no config)."
     display_name = "MongoDB External User Invited (no config)"

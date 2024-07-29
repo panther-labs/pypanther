@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 
 osquery_mac_unwanted_chrome_extensions_tests: list[RuleTest] = [
     RuleTest(
@@ -72,6 +72,7 @@ osquery_mac_unwanted_chrome_extensions_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class OsqueryMacUnwantedChromeExtensions(Rule):
     id = "Osquery.Mac.UnwantedChromeExtensions-prototype"
     display_name = "OSQuery Detected Unwanted Chrome Extensions"

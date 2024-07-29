@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.panther_base_helpers import deep_get
 
 awsrds_master_password_updated_tests: list[RuleTest] = [
@@ -271,6 +271,7 @@ awsrds_master_password_updated_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class AWSRDSMasterPasswordUpdated(Rule):
     default_description = "A sensitive database operation that should be performed carefully or rarely"
     display_name = "AWS RDS Master Password Updated"

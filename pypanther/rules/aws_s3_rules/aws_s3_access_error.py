@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.panther_base_helpers import aws_rule_context, pattern_match
 
 awss3_server_access_error_tests: list[RuleTest] = [
@@ -75,6 +75,7 @@ awss3_server_access_error_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class AWSS3ServerAccessError(Rule):
     id = "AWS.S3.ServerAccess.Error-prototype"
     display_name = "AWS S3 Access Error"

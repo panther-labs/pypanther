@@ -1,5 +1,5 @@
 import pypanther.helpers.panther_event_type_helpers as event_type
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.panther_base_helpers import deep_get
 
 panther_sensitive_role_tests: list[RuleTest] = [
@@ -141,6 +141,7 @@ panther_sensitive_role_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class PantherSensitiveRole(Rule):
     id = "Panther.Sensitive.Role-prototype"
     display_name = "A User Role with Sensitive Permissions has been Created"

@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.panther_base_helpers import deep_get
 
 awsec2_monitoring_tests: list[RuleTest] = [
@@ -370,6 +370,7 @@ awsec2_monitoring_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class AWSEC2Monitoring(Rule):
     default_description = "Checks CloudTrail for occurrences of EC2 Image Actions."
     display_name = "AWS EC2 Image Monitoring"

@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.panther_config import config
 
 microsoft365_exchange_external_forwarding_tests: list[RuleTest] = [
@@ -204,6 +204,7 @@ microsoft365_exchange_external_forwarding_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class Microsoft365ExchangeExternalForwarding(Rule):
     default_description = "Detects creation of forwarding rule to external domains"
     display_name = "Microsoft Exchange External Forwarding"

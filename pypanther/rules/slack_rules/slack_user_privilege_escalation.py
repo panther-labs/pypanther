@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.panther_base_helpers import deep_get, slack_alert_context
 
 slack_audit_logs_user_privilege_escalation_tests: list[RuleTest] = [
@@ -126,6 +126,7 @@ slack_audit_logs_user_privilege_escalation_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class SlackAuditLogsUserPrivilegeEscalation(Rule):
     id = "Slack.AuditLogs.UserPrivilegeEscalation-prototype"
     display_name = "Slack User Privilege Escalation"

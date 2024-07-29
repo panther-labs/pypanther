@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.panther_base_helpers import aws_rule_context, deep_get
 from pypanther.helpers.panther_default import aws_cloudtrail_success
 
@@ -214,6 +214,7 @@ awsiam_backdoor_user_keys_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class AWSIAMBackdoorUserKeys(Rule):
     default_description = "Detects AWS API key creation for a user by another user. Backdoored users can be used to obtain persistence in the AWS environment."
     display_name = "AWS User API Key Created"

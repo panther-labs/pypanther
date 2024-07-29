@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.panther_cloudflare_helpers import cloudflare_http_alert_context
 
 cloudflare_http_request_bot_high_volume_tests: list[RuleTest] = [
@@ -145,6 +145,7 @@ cloudflare_http_request_bot_high_volume_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class CloudflareHttpRequestBotHighVolume(Rule):
     id = "Cloudflare.HttpRequest.BotHighVolume-prototype"
     display_name = "Cloudflare Bot High Volume"

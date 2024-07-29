@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.panther_base_helpers import deep_get
 from pypanther.helpers.panther_snyk_helpers import snyk_alert_context
 
@@ -204,6 +204,7 @@ snyk_service_account_change_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class SnykServiceAccountChange(Rule):
     id = "Snyk.ServiceAccount.Change-prototype"
     display_name = "Snyk Service Account Change"

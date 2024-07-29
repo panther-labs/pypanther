@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.panther_base_helpers import deep_get, okta_alert_context
 
 okta_threat_insight_security_threat_detected_tests: list[RuleTest] = [
@@ -166,6 +166,7 @@ okta_threat_insight_security_threat_detected_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class OktaThreatInsightSecurityThreatDetected(Rule):
     default_description = "Okta ThreatInsight identified request from potentially malicious IP address"
     default_reference = (

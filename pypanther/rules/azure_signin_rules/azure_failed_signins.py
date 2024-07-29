@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.panther_azuresignin_helpers import actor_user, azure_signin_alert_context, is_sign_in_event
 from pypanther.helpers.panther_base_helpers import deep_get
 
@@ -125,6 +125,7 @@ azure_audit_many_failed_sign_ins_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class AzureAuditManyFailedSignIns(Rule):
     id = "Azure.Audit.ManyFailedSignIns-prototype"
     display_name = "Azure Many Failed SignIns"

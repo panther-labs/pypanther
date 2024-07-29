@@ -4,7 +4,7 @@ from datetime import timedelta
 from panther_detection_helpers.caching import put_string_set
 
 import pypanther.helpers.panther_event_type_helpers as event_type
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity, panther_managed
 from pypanther.helpers.panther_oss_helpers import resolve_timestamp_string
 
 standard_new_aws_account_created_tests: list[RuleTest] = [
@@ -52,6 +52,7 @@ standard_new_aws_account_created_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class StandardNewAWSAccountCreated(Rule):
     id = "Standard.NewAWSAccountCreated-prototype"
     display_name = "New AWS Account Created"

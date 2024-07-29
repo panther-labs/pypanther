@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.panther_base_helpers import deep_get, slack_alert_context
 
 slack_audit_logs_app_access_expanded_tests: list[RuleTest] = [
@@ -185,6 +185,7 @@ slack_audit_logs_app_access_expanded_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class SlackAuditLogsAppAccessExpanded(Rule):
     id = "Slack.AuditLogs.AppAccessExpanded-prototype"
     display_name = "Slack App Access Expanded"

@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.panther_base_helpers import deep_get
 
 asana_team_privacy_public_tests: list[RuleTest] = [
@@ -58,6 +58,7 @@ asana_team_privacy_public_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class AsanaTeamPrivacyPublic(Rule):
     default_description = (
         "An Asana team's privacy setting was changed to public to the organization (not public to internet)"

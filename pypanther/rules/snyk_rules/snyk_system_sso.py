@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.panther_base_helpers import deep_get
 from pypanther.helpers.panther_snyk_helpers import snyk_alert_context
 
@@ -34,6 +34,7 @@ snyk_system_sso_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class SnykSystemSSO(Rule):
     id = "Snyk.System.SSO-prototype"
     display_name = "Snyk System SSO Settings Changed"

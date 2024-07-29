@@ -1,6 +1,6 @@
 import datetime
 
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.panther_base_helpers import deep_get, pattern_match, pattern_match_list
 
 g_suite_drive_external_file_share_tests: list[RuleTest] = [
@@ -113,6 +113,7 @@ g_suite_drive_external_file_share_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class GSuiteDriveExternalFileShare(Rule):
     id = "GSuite.Drive.ExternalFileShare-prototype"
     display_name = "External GSuite File Share"

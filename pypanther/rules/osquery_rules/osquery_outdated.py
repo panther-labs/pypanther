@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.panther_base_helpers import deep_get
 
 osquery_outdated_agent_tests: list[RuleTest] = [
@@ -71,6 +71,7 @@ osquery_outdated_agent_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class OsqueryOutdatedAgent(Rule):
     id = "Osquery.OutdatedAgent-prototype"
     display_name = "Osquery Agent Outdated"

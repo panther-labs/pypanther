@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.panther_auth0_helpers import auth0_alert_context, is_auth0_config_event
 from pypanther.helpers.panther_base_helpers import deep_get
 
@@ -288,6 +288,7 @@ auth0_post_login_action_flow_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class Auth0PostLoginActionFlow(Rule):
     default_description = "An Auth0 User updated a post login action flow for your organization's tenant."
     display_name = "Auth0 Post Login Action Flow Updated"

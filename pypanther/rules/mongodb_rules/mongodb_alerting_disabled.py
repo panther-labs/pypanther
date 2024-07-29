@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.panther_mongodb_helpers import mongodb_alert_context
 
 mongo_db_alerting_disabled_or_deleted_tests: list[RuleTest] = [
@@ -39,6 +39,7 @@ mongo_db_alerting_disabled_or_deleted_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class MongoDBAlertingDisabledOrDeleted(Rule):
     default_description = "MongoDB provides security alerting policies for notifying admins when certain conditions are met. This rule detects when these policies are disabled or deleted."
     display_name = "MongoDB security alerts disabled or deleted"

@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 
 push_security_app_banner_acknowledged_tests: list[RuleTest] = [
     RuleTest(
@@ -109,6 +109,7 @@ push_security_app_banner_acknowledged_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class PushSecurityAppBannerAcknowledged(Rule):
     id = "Push.Security.App.Banner.Acknowledged-prototype"
     display_name = "Push Security App Banner Acknowledged"

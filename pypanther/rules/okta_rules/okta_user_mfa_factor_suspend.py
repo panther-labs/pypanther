@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.panther_base_helpers import okta_alert_context
 
 okta_user_mfa_factor_suspend_tests: list[RuleTest] = [
@@ -156,6 +156,7 @@ okta_user_mfa_factor_suspend_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class OktaUserMFAFactorSuspend(Rule):
     default_description = "Suspend factor or authenticator enrollment method for user."
     display_name = "Okta User MFA Factor Suspend"

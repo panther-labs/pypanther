@@ -1,6 +1,6 @@
 from ipaddress import ip_address
 
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.panther_base_helpers import eks_panther_obj_ref
 
 amazon_eks_audit_multiple403_tests: list[RuleTest] = [
@@ -137,6 +137,7 @@ amazon_eks_audit_multiple403_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class AmazonEKSAuditMultiple403(Rule):
     id = "Amazon.EKS.Audit.Multiple403-prototype"
     display_name = "EKS Audit Log based single sourceIP is generating multiple 403s"

@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.panther_base_helpers import aws_rule_context, deep_get
 
 aws_user_login_profile_modified_tests: list[RuleTest] = [
@@ -122,6 +122,7 @@ aws_user_login_profile_modified_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class AWSUserLoginProfileModified(Rule):
     default_description = "An attacker with iam:UpdateLoginProfile permission on other users can change the password used to login to the AWS console. May be legitimate account administration."
     display_name = "AWS User Login Profile Modified"

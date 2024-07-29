@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.panther_base_helpers import aws_rule_context
 
 aws_security_hub_finding_evasion_tests: list[RuleTest] = [
@@ -95,6 +95,7 @@ aws_security_hub_finding_evasion_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class AWSSecurityHubFindingEvasion(Rule):
     default_description = "Detections modification of findings in SecurityHub"
     display_name = "AWS SecurityHub Finding Evasion"
