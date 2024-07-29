@@ -6,7 +6,7 @@ from typing import Callable, Tuple
 
 from gql.transport.aiohttp import log as aiohttp_logger
 
-from pypanther import testing, upload
+from pypanther import shared_args, testing, upload
 from pypanther.custom_logging import setup_logging
 from pypanther.setup_subparsers import setup_get_rule_parser, setup_list_rules_parser
 from pypanther.vendor.panther_analysis_tool import util
@@ -93,6 +93,7 @@ def setup_parser() -> argparse.ArgumentParser:
         "test", help="run tests", formatter_class=argparse.ArgumentDefaultsHelpFormatter
     )
     test_parser.set_defaults(func=testing.run)
+    shared_args.for_filtering(test_parser)
 
     # Version command
     version_parser = subparsers.add_parser(

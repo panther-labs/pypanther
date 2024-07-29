@@ -17,7 +17,22 @@ def run(args: argparse.Namespace) -> Tuple[int, str]:
         return 1, ""
 
     failed_test_results: list[list[RuleTestResult]] = []
-    for rule in registered_rules():
+    for rule in registered_rules(
+        log_types=args.log_types,
+        id=args.id,
+        create_alert=args.create_alert,
+        dedup_period_minutes=args.dedup_period_minutes,
+        display_name=args.display_name,
+        enabled=args.enabled,
+        summary_attributes=args.summary_attributes,
+        threshold=args.threshold,
+        tags=args.tags,
+        default_severity=args.default_severity,
+        default_description=args.default_description,
+        default_reference=args.default_reference,
+        default_runbook=args.default_runbook,
+        default_destinations=args.default_destinations,
+    ):
         results = rule.run_tests(DATA_MODEL_CACHE.data_model_of_logtype)
         failures = [result for result in results if not result.passed]
         if len(failures) > 0:
