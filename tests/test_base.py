@@ -97,9 +97,10 @@ def test_mock_patching():
 
     # Undo what @panther_managed does
     AWSConsoleLoginWithoutMFA.tests = AWSConsoleLoginWithoutMFA._tests
+
     # ensure the base class has a mock defined
-    assert len(TestRule.__base__.tests[0].mocks) > 0
-    results = TestRule.run_tests(DATA_MODEL_CACHE.data_model_of_logtype)
+    assert len(Test.__base__.tests[0].mocks) > 0
+    results = Test.run_tests(DATA_MODEL_CACHE.data_model_of_logtype)
     for result in results:
         assert result.passed
 
@@ -179,8 +180,6 @@ def test_mock_patching_side_effect_kwarg():
     results = Test.run_tests(DATA_MODEL_CACHE.data_model_of_logtype)
     for result in results:
         assert result.passed
-    assert len(Test.__base__.tests[0].mocks) > 0
-    Test.run_tests(DATA_MODEL_CACHE.data_model_of_logtype)
 
 
 class TestRunningTests:
