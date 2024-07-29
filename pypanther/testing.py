@@ -4,7 +4,7 @@ import json
 import logging
 import os
 import traceback
-from typing import Tuple, Any
+from typing import Any, Tuple
 
 from pypanther import cli_output, display
 from pypanther.base import Rule, RuleTestResult
@@ -78,56 +78,6 @@ class TestResults:
 
         return rule_test_results
 
-    def asdict(self) -> dict[str, Any]:
-        return {
-            "test_results": {
-                rule_id: [
-                    {
-                        "test": result.test.asdict(),
-                        "passed": result.passed,
-                        "exceptions": [
-                            {
-                                "func": func,
-                                "exception": str(exc),
-                                "stacktrace": "".join(traceback.format_exception(exc)),
-                            }
-                            for func, exc in get_rule_exceptions(result).items()
-                            if exc is not None
-                        ],
-                        "failed_results": [
-                            {
-                                "func": func,
-                                "expected": exp,
-                                "output": exp,
-                                "matched": match,
-                            }
-                            for func, exp, out, match in get_rule_results(result)
-                            if exp is not None
-                        ],
-                    }
-                    for result in results
-                ]
-                for rule_id, results in self.all_rule_tests().items()
-            },
-            "failed_tests_summary": [
-                {
-                    "rule_id": rule_id,
-                    "num_failed_tests": len(failed_tests),
-                    "failed_tests": [failed_test.test.name for failed_test in failed_tests],
-                }
-                for rule_id, failed_tests in self.failed_rule_tests.items()
-            ],
-            "summary": {
-                "skipped_rules": self.num_skipped_rules(),
-                "passed_rules": self.num_passed_rules(),
-                "failed_rules": self.num_failed_rules(),
-                "total_rules": self.total_rules(),
-                "passed_tests": self.num_passed_tests(),
-                "failed_tests": self.num_failed_tests(),
-                "total_tests": self.total_tests(),
-            },
-        }
-
 
 def run(args: argparse.Namespace) -> Tuple[int, str]:
     try:
@@ -143,11 +93,20 @@ def run(args: argparse.Namespace) -> Tuple[int, str]:
         test_results.add_test_results(rule.id, results)
 
         if args.output == display.OUTPUT_TYPE_TEXT:
-            print_rule_test_results(args, rule.id, results)
+            print_rule_test_results(args.verbose, rule.id, results)
 
     match args.output:
         case display.OUTPUT_TYPE_JSON:
-            print(json.dumps(test_results.asdict(), indent=display.JSON_INDENT_LEVEL))
+            print(
+                json.dumps(
+                    {
+                        "test_results": get_test_results_as_dict(test_results, args.verbose),
+                        "failed_tests_summary": get_failed_test_summary_as_dict(test_results),
+                        "summary": get_test_summary_as_dict(test_results),
+                    },
+                    indent=display.JSON_INDENT_LEVEL,
+                )
+            )
         case display.OUTPUT_TYPE_TEXT:
             print_failed_test_summary(test_results)
             print()  # new line
@@ -161,15 +120,86 @@ def run(args: argparse.Namespace) -> Tuple[int, str]:
     return 0, ""
 
 
-def print_rule_test_results(args: argparse.Namespace, rule_id: str, results: list[RuleTestResult]) -> None:
-    if args.verbose or any(not result.passed for result in results):
+def get_test_results_as_dict(test_results: TestResults, verbose: bool) -> dict[str, Any]:
+    test_results_dict = {
+        rule_id: [
+            {
+                "test_name": result.test.name,
+                "passed": result.passed,
+                "exceptions": [
+                    {
+                        "func": func,
+                        "exception": str(exc),
+                        "stacktrace": "".join(traceback.format_exception(exc)),
+                    }
+                    for func, exc in get_rule_exceptions(result).items()
+                    if exc is not None
+                ],
+                "failed_results": [
+                    {
+                        "func": func,
+                        "expected": exp,
+                        "output": exp,
+                        "matched": match,
+                    }
+                    for func, exp, out, match in get_rule_results(result)
+                    if not match and exp is not None
+                ],
+            }
+            for result in results
+        ]
+        for rule_id, results in test_results.all_rule_tests().items()
+    }
+
+    if not verbose:
+        # remove passing test results
+        test_results_dict = {
+            rule_id: [result for result in results if not result["passed"]]
+            for rule_id, results in test_results_dict.items()
+        }
+        # prune empty lists because all tests passed or had no tests
+        test_results_dict = {rule_id: results for rule_id, results in test_results_dict.items() if len(results) > 0}
+        # remove stacktraces from exceptions
+        for _, results in test_results_dict.items():
+            for result in results:
+                for exc_dict in result["exceptions"]:  # type: ignore
+                    del exc_dict["stacktrace"]
+
+    return test_results_dict
+
+
+def get_failed_test_summary_as_dict(test_results: TestResults) -> list[dict[str, Any]]:
+    return [
+        {
+            "rule_id": rule_id,
+            "num_failed_tests": len(failed_tests),
+            "failed_tests": [failed_test.test.name for failed_test in failed_tests],
+        }
+        for rule_id, failed_tests in test_results.failed_rule_tests.items()
+    ]
+
+
+def get_test_summary_as_dict(test_results: TestResults) -> dict[str, Any]:
+    return {
+        "skipped_rules": test_results.num_skipped_rules(),
+        "passed_rules": test_results.num_passed_rules(),
+        "failed_rules": test_results.num_failed_rules(),
+        "total_rules": test_results.total_rules(),
+        "passed_tests": test_results.num_passed_tests(),
+        "failed_tests": test_results.num_failed_tests(),
+        "total_tests": test_results.total_tests(),
+    }
+
+
+def print_rule_test_results(verbose: bool, rule_id: str, results: list[RuleTestResult]) -> None:
+    if verbose or any(not result.passed for result in results):
         print(cli_output.header(rule_id) + ":")
 
-    if len(results) == 0 and args.verbose:
+    if len(results) == 0 and verbose:
         print(INDENT, "SKIP:", "rule had no tests")
 
     for result in results:
-        if result.passed and args.verbose:
+        if result.passed and verbose:
             print(INDENT, cli_output.success("PASS") + ":", result.test.name)
 
         elif not result.passed:
@@ -179,14 +209,14 @@ def print_rule_test_results(args: argparse.Namespace, rule_id: str, results: lis
             for func, exc in exceptions.items():
                 if exc is not None:
                     print(INDENT * 2, "-", f"Exception occurred in {func}(){': ' + str(exc) if str(exc) else ''}")
-                    if args.verbose:
+                    if verbose:
                         print_failed_test_exception(exc)
 
             for func, exp, out, match in get_rule_results(result):
                 if exp is not None and exceptions.get(func, None) is None and not match:
                     print(INDENT * 2, "-", f"Expected {func}() to return '{exp}', but got '{out}'")
 
-    if args.verbose or any(not result.passed for result in results):
+    if verbose or any(not result.passed for result in results):
         print()  # new line
 
 

@@ -9,8 +9,7 @@ from dataclasses import asdict
 from fnmatch import fnmatch
 from typing import Optional, Tuple
 
-from pypanther import testing
-from pypanther import cli_output
+from pypanther import cli_output, testing
 from pypanther.vendor.panther_analysis_tool.backend.client import (
     BackendError,
     BulkUploadMultipartError,
