@@ -25,3 +25,28 @@ def truncate(s: str, max_size: int):
 def dedup_list_preserving_order(items: list) -> list:
     s = set(items)
     return [item for item in items if item in s]
+
+
+def __to_set(value):
+    if isinstance(value, str):
+        return {value}
+    try:
+        return set(value)
+    except TypeError:
+        return {value}
+
+
+# Get rules based on filter criteria
+def filter_iterable_by_kwargs(
+    iterable,
+    **kwargs,
+):
+    return [
+        x
+        for x in iterable
+        if all(
+            __to_set(getattr(x, key, set())).intersection(__to_set(values))
+            for key, values in kwargs.items()
+            if values is not None
+        )
+    ]
