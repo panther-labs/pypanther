@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.panther_auth0_helpers import auth0_alert_context, is_auth0_config_event
 from pypanther.helpers.panther_base_helpers import deep_get
 
@@ -757,6 +757,7 @@ auth0_custom_role_created_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class Auth0CustomRoleCreated(Rule):
     default_description = "An Auth0 User created a role in your organization's tenant."
     display_name = "Auth0 Custom Role Created"

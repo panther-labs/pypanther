@@ -1,7 +1,7 @@
 import json
 from unittest.mock import MagicMock
 
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity, panther_managed
 from pypanther.helpers.panther_azuresignin_helpers import actor_user, azure_signin_alert_context, is_sign_in_event
 from pypanther.helpers.panther_base_helpers import deep_get
 
@@ -253,6 +253,7 @@ azure_audit_legacy_auth_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class AzureAuditLegacyAuth(Rule):
     id = "Azure.Audit.LegacyAuth-prototype"
     display_name = "Azure SignIn via Legacy Authentication Protocol"

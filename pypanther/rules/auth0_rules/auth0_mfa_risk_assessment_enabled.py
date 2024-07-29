@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.panther_auth0_helpers import auth0_alert_context, is_auth0_config_event
 from pypanther.helpers.panther_base_helpers import deep_get
 
@@ -367,6 +367,7 @@ auth0_mfa_risk_assessment_enabled_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class Auth0MFARiskAssessmentEnabled(Rule):
     default_description = "An Auth0 User enabled the mfa risk assessment setting for your organization's tenant."
     display_name = "Auth0 MFA Risk Assessment Enabled"

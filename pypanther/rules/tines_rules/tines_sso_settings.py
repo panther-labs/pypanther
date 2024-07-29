@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.panther_base_helpers import deep_get
 from pypanther.helpers.panther_tines_helpers import tines_alert_context
 
@@ -42,6 +42,7 @@ tines_sso_settings_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class TinesSSOSettings(Rule):
     id = "Tines.SSO.Settings-prototype"
     display_name = "Tines SSO Settings"

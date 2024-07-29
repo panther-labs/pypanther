@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 
 duo_admin_bypass_code_created_tests: list[RuleTest] = [
     RuleTest(
@@ -28,6 +28,7 @@ duo_admin_bypass_code_created_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class DuoAdminBypassCodeCreated(Rule):
     default_description = "A Duo administrator created an MFA bypass code for an application."
     display_name = "Duo Admin Bypass Code Created"

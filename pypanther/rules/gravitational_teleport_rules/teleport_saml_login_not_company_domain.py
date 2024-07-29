@@ -1,6 +1,6 @@
 import re
 
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.panther_config import config
 
 teleport_saml_login_without_company_domain_tests: list[RuleTest] = [
@@ -38,6 +38,7 @@ teleport_saml_login_without_company_domain_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class TeleportSAMLLoginWithoutCompanyDomain(Rule):
     id = "Teleport.SAMLLoginWithoutCompanyDomain-prototype"
     display_name = "A user authenticated with SAML, but from an unknown company domain"

@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.panther_base_helpers import ZENDESK_CHANGE_DESCRIPTION
 
 zendesk_user_suspension_tests: list[RuleTest] = [
@@ -62,6 +62,7 @@ zendesk_user_suspension_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class ZendeskUserSuspension(Rule):
     id = "Zendesk.UserSuspension-prototype"
     display_name = "Zendesk User Suspension Status Changed"

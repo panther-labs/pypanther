@@ -1,6 +1,6 @@
 import re
 
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.panther_auth0_helpers import auth0_alert_context, is_auth0_config_event
 from pypanther.helpers.panther_base_helpers import deep_get
 
@@ -312,6 +312,7 @@ auth0_user_invitation_created_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class Auth0UserInvitationCreated(Rule):
     display_name = "Auth0 User Invitation Created"
     default_reference = "https://auth0.com/docs/manage-users/organizations/configure-organizations/invite-members"

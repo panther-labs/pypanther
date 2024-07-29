@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.panther_base_helpers import aws_rule_context
 
 awsip_set_modified_tests: list[RuleTest] = [
@@ -59,6 +59,7 @@ awsip_set_modified_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class AWSIPSetModified(Rule):
     default_description = "Detects creation and updates of the list of trusted IPs used by GuardDuty and WAF. Potentially to disable security alerts against malicious IPs."
     display_name = "AWS Trusted IPSet Modified"

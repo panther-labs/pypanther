@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.panther_base_helpers import deep_get
 
 dropbox_adminsigninas_session_tests: list[RuleTest] = [
@@ -123,6 +123,7 @@ dropbox_adminsigninas_session_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class DropboxAdminsigninasSession(Rule):
     default_description = "Alerts when an admin starts a sign-in-as session."
     display_name = "Dropbox Admin sign-in-as Session"

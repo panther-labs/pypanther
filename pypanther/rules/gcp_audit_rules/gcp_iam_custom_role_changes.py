@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.panther_base_helpers import deep_get
 
 gcpiam_custom_role_changes_tests: list[RuleTest] = [
@@ -88,6 +88,7 @@ gcpiam_custom_role_changes_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class GCPIAMCustomRoleChanges(Rule):
     id = "GCP.IAM.CustomRoleChanges-prototype"
     display_name = "GCP IAM Role Has Changed"

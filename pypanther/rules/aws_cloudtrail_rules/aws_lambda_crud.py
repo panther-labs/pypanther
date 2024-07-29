@@ -1,6 +1,6 @@
 from fnmatch import fnmatch
 
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.panther_base_helpers import aws_rule_context, deep_get
 
 awslambdacrud_tests: list[RuleTest] = [
@@ -88,6 +88,7 @@ awslambdacrud_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class AWSLAMBDACRUD(Rule):
     id = "AWS.LAMBDA.CRUD-prototype"
     display_name = "Lambda CRUD Actions"

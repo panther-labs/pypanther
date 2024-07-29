@@ -1,5 +1,5 @@
 import pypanther.helpers.panther_event_type_helpers as event_type
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 
 standard_mfa_disabled_tests: list[RuleTest] = [
     RuleTest(
@@ -194,6 +194,7 @@ standard_mfa_disabled_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class StandardMFADisabled(Rule):
     id = "Standard.MFADisabled-prototype"
     display_name = "MFA Disabled"

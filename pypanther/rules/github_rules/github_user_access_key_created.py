@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 
 git_hub_user_access_key_created_tests: list[RuleTest] = [
     RuleTest(
@@ -26,6 +26,7 @@ git_hub_user_access_key_created_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class GitHubUserAccessKeyCreated(Rule):
     id = "GitHub.User.AccessKeyCreated-prototype"
     display_name = "GitHub User Access Key Created"

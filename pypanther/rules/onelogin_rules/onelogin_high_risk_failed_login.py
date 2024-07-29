@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 
 one_login_high_risk_failed_login_tests: list[RuleTest] = [
     RuleTest(
@@ -27,6 +27,7 @@ one_login_high_risk_failed_login_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class OneLoginHighRiskFailedLogin(Rule):
     id = "OneLogin.HighRiskFailedLogin-prototype"
     display_name = "OneLogin Failed High Risk Login"

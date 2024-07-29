@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.panther_duo_helpers import deserialize_administrator_log_event_description, duo_alert_context
 
 duo_admin_user_mfa_bypass_enabled_tests: list[RuleTest] = [
@@ -53,6 +53,7 @@ duo_admin_user_mfa_bypass_enabled_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class DuoAdminUserMFABypassEnabled(Rule):
     default_description = "An Administrator enabled a user to authenticate without MFA."
     display_name = "Duo Admin User MFA Bypass Enabled"

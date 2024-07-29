@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.panther_auth0_helpers import auth0_alert_context, is_auth0_config_event
 from pypanther.helpers.panther_base_helpers import deep_get
 
@@ -247,6 +247,7 @@ auth0_integration_installed_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class Auth0IntegrationInstalled(Rule):
     default_description = "An Auth0 integration was installed from the auth0 action library."
     display_name = "Auth0 Integration Installed"

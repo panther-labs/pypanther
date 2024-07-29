@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.panther_mongodb_helpers import mongodb_alert_context
 
 mongo_db_user_created_or_deleted_tests: list[RuleTest] = [
@@ -92,6 +92,7 @@ mongo_db_user_created_or_deleted_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class MongoDBUserCreatedOrDeleted(Rule):
     default_description = "User was created or deleted."
     display_name = "MongoDB user was created or deleted"

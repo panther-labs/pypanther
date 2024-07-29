@@ -1,7 +1,7 @@
 import shlex
 from fnmatch import fnmatch
 
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.panther_base_helpers import deep_get
 
 osquery_suspicious_cron_tests: list[RuleTest] = [
@@ -122,6 +122,7 @@ osquery_suspicious_cron_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class OsquerySuspiciousCron(Rule):
     id = "Osquery.SuspiciousCron-prototype"
     display_name = "Suspicious cron detected"

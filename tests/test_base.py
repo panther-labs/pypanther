@@ -15,7 +15,7 @@ from panther_core.rule import (
 )
 from pydantic import ValidationError
 
-from pypanther.base import RULE_ALL_ATTRS, Rule, RuleModel
+from pypanther.base import RULE_ALL_ATTRS, Rule, RuleModel, panther_managed
 from pypanther.cache import DATA_MODEL_CACHE
 from pypanther.log_types import LogType
 from pypanther.rules.aws_cloudtrail_rules.aws_console_login_without_mfa import (
@@ -23,6 +23,7 @@ from pypanther.rules.aws_cloudtrail_rules.aws_console_login_without_mfa import (
 )
 from pypanther.severity import Severity
 from pypanther.unit_tests import RuleMock, RuleTest
+from pypanther.wrap import include
 
 get_data_model = DATA_MODEL_CACHE.data_model_of_logtype
 
@@ -91,18 +92,21 @@ def test_panther_rule_fields_match():
 
 def test_mock_patching():
     # ensure that mock patches work on the file the mock is defined in
-    class TestRule(AWSConsoleLoginWithoutMFA):
+    class Test(AWSConsoleLoginWithoutMFA):
         pass
 
+    # Undo what @panther_managed does
+    AWSConsoleLoginWithoutMFA.tests = AWSConsoleLoginWithoutMFA._tests
+
     # ensure the base class has a mock defined
-    assert len(TestRule.__base__.tests[0].mocks) > 0
-    results = TestRule.run_tests(DATA_MODEL_CACHE.data_model_of_logtype)
+    assert len(Test.__base__.tests[0].mocks) > 0
+    results = Test.run_tests(DATA_MODEL_CACHE.data_model_of_logtype)
     for result in results:
         assert result.passed
 
 
 def test_mock_patching_new_kwarg():
-    class TestRule(Rule):
+    class Test(Rule):
         id = "test"
         log_types = [LogType.PANTHER_AUDIT]
         default_severity = Severity.HIGH
@@ -134,13 +138,13 @@ def test_mock_patching_new_kwarg():
                 return False
             raise Exception("thing is not foo or bar")
 
-    results = TestRule.run_tests(DATA_MODEL_CACHE.data_model_of_logtype)
+    results = Test.run_tests(DATA_MODEL_CACHE.data_model_of_logtype)
     for result in results:
         assert result.passed
 
 
 def test_mock_patching_side_effect_kwarg():
-    class TestRule(Rule):
+    class Test(Rule):
         id = "test"
         log_types = [LogType.PANTHER_AUDIT]
         default_severity = Severity.HIGH
@@ -173,7 +177,7 @@ def test_mock_patching_side_effect_kwarg():
                 return False
             raise Exception('thing() is not "hi foo" or "hi bar"')
 
-    results = TestRule.run_tests(DATA_MODEL_CACHE.data_model_of_logtype)
+    results = Test.run_tests(DATA_MODEL_CACHE.data_model_of_logtype)
     for result in results:
         assert result.passed
 
@@ -1555,6 +1559,65 @@ class TestRule(TestCase):
             expected_alert_context={},
         )
         assert not Test().run_test(test, get_data_model).passed
+
+
+class TestPantherManagedDecorator(TestCase):
+    def test_no_test(self) -> None:
+        @panther_managed
+        class Test(Rule):
+            id = "TestRule"
+            log_types = [LogType.PANTHER_AUDIT]
+            default_severity = Severity.CRITICAL
+            tests = [RuleTest(name="test", expected_result=True, log={})]
+
+            def rule(self, event: PantherEvent) -> bool:
+                return True
+
+        assert len(Test.tests) == 0
+
+    def test_no_tests_break_with_filter(self) -> None:
+        @panther_managed
+        class Test(Rule):
+            id = "TestRule"
+            log_types = [LogType.PANTHER_AUDIT]
+            default_severity = Severity.CRITICAL
+            tests = [RuleTest(name="test", expected_result=True, log={})]
+
+            def rule(self, event: PantherEvent) -> bool:
+                return True
+
+        for test_result in Test().run_tests(get_data_model):
+            assert test_result.passed, test_result
+
+        include(lambda x: False)(Test)
+
+        Test.tests.append(RuleTest(name="new test", expected_result=False, log={}))
+        for test_result in Test().run_tests(get_data_model):
+            assert test_result.passed, test_result
+
+    def test_validate_still_works(self) -> None:
+        @panther_managed
+        class Test(Rule):
+            id = "TestRule"
+            log_types = [LogType.PANTHER_AUDIT]
+            default_severity = Severity.CRITICAL
+            tests = [RuleTest(name="test", expected_result=True, log={})]
+            thing: str | None = None
+
+            def rule(self, event: PantherEvent) -> bool:
+                return True
+
+            @classmethod
+            def validate_config(cls) -> None:
+                assert cls.thing is not None
+
+        with pytest.raises(AssertionError):
+            Test().run_tests(get_data_model)
+
+        Test.thing = "thing"
+
+        for test_result in Test().run_tests(get_data_model):
+            assert test_result.passed, test_result
 
 
 @dataclasses.dataclass

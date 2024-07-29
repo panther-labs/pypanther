@@ -4,7 +4,7 @@ from difflib import SequenceMatcher
 
 from panther_detection_helpers.caching import get_string_set, put_string_set
 
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity, panther_managed
 from pypanther.helpers.panther_base_helpers import deep_get, okta_alert_context
 
 okta_potentially_stolen_session_tests: list[RuleTest] = [
@@ -321,6 +321,7 @@ okta_potentially_stolen_session_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class OktaPotentiallyStolenSession(Rule):
     id = "Okta.PotentiallyStolenSession-prototype"
     display_name = "Okta Potentially Stolen Session"

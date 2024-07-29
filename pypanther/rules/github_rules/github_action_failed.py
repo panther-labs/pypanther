@@ -1,7 +1,7 @@
 import json
 from unittest.mock import MagicMock
 
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity, panther_managed
 from pypanther.helpers.panther_base_helpers import deep_get, github_alert_context
 
 git_hub_action_failed_tests: list[RuleTest] = [
@@ -82,6 +82,7 @@ git_hub_action_failed_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class GitHubActionFailed(Rule):
     id = "GitHub.Action.Failed-prototype"
     display_name = "GitHub Action Failed"

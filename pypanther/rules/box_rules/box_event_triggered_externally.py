@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.panther_base_helpers import deep_get
 from pypanther.helpers.panther_config import config
 
@@ -31,6 +31,7 @@ box_event_triggered_externally_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class BoxEventTriggeredExternally(Rule):
     id = "Box.Event.Triggered.Externally-prototype"
     display_name = "Box event triggered by unknown or external user"

@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 
 netskope_admin_logged_out_login_failures_tests: list[RuleTest] = [
     RuleTest(
@@ -43,6 +43,7 @@ netskope_admin_logged_out_login_failures_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class NetskopeAdminLoggedOutLoginFailures(Rule):
     id = "Netskope.AdminLoggedOutLoginFailures-prototype"
     display_name = "Admin logged out because of successive login failures"

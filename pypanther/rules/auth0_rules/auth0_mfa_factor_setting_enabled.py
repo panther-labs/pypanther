@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.panther_auth0_helpers import auth0_alert_context, is_auth0_config_event
 from pypanther.helpers.panther_base_helpers import deep_get
 
@@ -378,6 +378,7 @@ auth0_mfa_factor_setting_enabled_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class Auth0MFAFactorSettingEnabled(Rule):
     default_description = "An Auth0 user enabled an mfa factor in your organization's mfa settings."
     display_name = "Auth0 mfa factor enabled"

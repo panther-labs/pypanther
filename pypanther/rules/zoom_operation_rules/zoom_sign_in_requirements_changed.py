@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 
 zoom_sign_in_requirements_changed_tests: list[RuleTest] = [
     RuleTest(
@@ -48,6 +48,7 @@ zoom_sign_in_requirements_changed_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class ZoomSignInRequirementsChanged(Rule):
     default_description = "A Zoom User changed your organization's sign in requirements. "
     display_name = "Zoom Sign In Requirements Changed"

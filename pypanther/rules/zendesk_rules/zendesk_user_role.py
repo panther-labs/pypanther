@@ -1,5 +1,5 @@
 import pypanther.helpers.panther_event_type_helpers as event_type
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.panther_base_helpers import zendesk_get_roles
 
 zendesk_user_role_changed_tests: list[RuleTest] = [
@@ -44,6 +44,7 @@ zendesk_user_role_changed_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class ZendeskUserRoleChanged(Rule):
     id = "Zendesk.UserRoleChanged-prototype"
     display_name = "Zendesk User Role Changed"

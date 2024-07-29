@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.panther_auth0_helpers import auth0_alert_context, is_auth0_config_event
 from pypanther.helpers.panther_base_helpers import deep_get
 
@@ -311,6 +311,7 @@ auth0_user_joined_tenant_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class Auth0UserJoinedTenant(Rule):
     display_name = "Auth0 User Joined Tenant"
     default_description = "User accepted invitation from Auth0 member to join an Auth0 tenant."

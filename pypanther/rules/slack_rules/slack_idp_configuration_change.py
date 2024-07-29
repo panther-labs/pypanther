@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.panther_base_helpers import slack_alert_context
 
 slack_audit_logs_idp_configuration_changed_tests: list[RuleTest] = [
@@ -108,6 +108,7 @@ slack_audit_logs_idp_configuration_changed_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class SlackAuditLogsIDPConfigurationChanged(Rule):
     id = "Slack.AuditLogs.IDPConfigurationChanged-prototype"
     display_name = "Slack IDP Configuration Changed"

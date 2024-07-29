@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.panther_base_helpers import deep_get, okta_alert_context
 
 okta_phishing_attempt_blocked_fast_pass_tests: list[RuleTest] = [
@@ -157,6 +157,7 @@ okta_phishing_attempt_blocked_fast_pass_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class OktaPhishingAttemptBlockedFastPass(Rule):
     id = "Okta.Phishing.Attempt.Blocked.FastPass-prototype"
     display_name = "Okta AiTM Phishing Attempt Blocked by FastPass"

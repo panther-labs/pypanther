@@ -1,6 +1,6 @@
 import re
 
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.panther_base_helpers import ZENDESK_CHANGE_DESCRIPTION
 
 zendesk_account_owner_changed_tests: list[RuleTest] = [
@@ -45,6 +45,7 @@ zendesk_account_owner_changed_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class ZendeskAccountOwnerChanged(Rule):
     id = "Zendesk.AccountOwnerChanged-prototype"
     display_name = "Zendesk Account Owner Changed"

@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 
 teleport_network_scanning_tests: list[RuleTest] = [
     RuleTest(
@@ -96,6 +96,7 @@ teleport_network_scanning_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class TeleportNetworkScanning(Rule):
     id = "Teleport.NetworkScanning-prototype"
     display_name = "Teleport Network Scan Initiated"

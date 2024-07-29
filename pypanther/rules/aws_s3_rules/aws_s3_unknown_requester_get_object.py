@@ -1,6 +1,6 @@
 from fnmatch import fnmatch
 
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.panther_base_helpers import aws_rule_context
 
 awss3_server_access_unknown_requester_tests: list[RuleTest] = [
@@ -109,6 +109,7 @@ awss3_server_access_unknown_requester_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class AWSS3ServerAccessUnknownRequester(Rule):
     id = "AWS.S3.ServerAccess.UnknownRequester-prototype"
     display_name = "AWS S3 Unknown Requester"

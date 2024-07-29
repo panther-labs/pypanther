@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 
 zendesk_user_assumption_tests: list[RuleTest] = [
     RuleTest(
@@ -42,6 +42,7 @@ zendesk_user_assumption_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class ZendeskUserAssumption(Rule):
     id = "Zendesk.UserAssumption-prototype"
     display_name = "Enabled Zendesk Support to Assume Users"

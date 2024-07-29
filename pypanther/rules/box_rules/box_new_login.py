@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.panther_base_helpers import deep_get
 
 box_new_login_tests: list[RuleTest] = [
@@ -26,6 +26,7 @@ box_new_login_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class BoxNewLogin(Rule):
     id = "Box.New.Login-prototype"
     display_name = "Box New Login"

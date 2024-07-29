@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 
 osquery_linux_mac_vulnerable_x_zliblzma_tests: list[RuleTest] = [
     RuleTest(
@@ -49,6 +49,7 @@ osquery_linux_mac_vulnerable_x_zliblzma_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class OsqueryLinuxMacVulnerableXZliblzma(Rule):
     id = "Osquery.Linux.Mac.VulnerableXZliblzma-prototype"
     display_name = "A backdoored version of XZ or liblzma is vulnerable to CVE-2024-3094"

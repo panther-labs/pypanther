@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.panther_base_helpers import github_alert_context
 
 git_hub_advanced_security_change_tests: list[RuleTest] = [
@@ -149,6 +149,7 @@ git_hub_advanced_security_change_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class GitHubAdvancedSecurityChange(Rule):
     id = "GitHub.Advanced.Security.Change-prototype"
     display_name = "GitHub Security Change, includes GitHub Advanced Security"

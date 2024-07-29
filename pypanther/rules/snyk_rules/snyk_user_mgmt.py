@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.panther_base_helpers import deep_get
 from pypanther.helpers.panther_snyk_helpers import snyk_alert_context
 
@@ -78,6 +78,7 @@ snyk_user_management_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class SnykUserManagement(Rule):
     id = "Snyk.User.Management-prototype"
     display_name = "Snyk User Management"

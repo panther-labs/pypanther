@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 
 git_hub_org_ip_allowlist_tests: list[RuleTest] = [
     RuleTest(
@@ -37,6 +37,7 @@ git_hub_org_ip_allowlist_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class GitHubOrgIpAllowlist(Rule):
     id = "GitHub.Org.IpAllowlist-prototype"
     display_name = "GitHub Org IP Allow List modified"

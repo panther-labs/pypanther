@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.panther_mongodb_helpers import mongodb_alert_context
 
 mongo_db_access_allowed_from_anywhere_tests: list[RuleTest] = [
@@ -37,6 +37,7 @@ mongo_db_access_allowed_from_anywhere_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class MongoDBAccessAllowedFromAnywhere(Rule):
     default_description = "Atlas only allows client connections to the database deployment from entries in the project's IP access list. This rule detects when 0.0.0.0/0 is added to that list, which allows access from anywhere."
     display_name = "MongoDB access allowed from anywhere"

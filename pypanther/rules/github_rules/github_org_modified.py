@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 
 git_hub_org_modified_tests: list[RuleTest] = [
     RuleTest(
@@ -41,6 +41,7 @@ git_hub_org_modified_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class GitHubOrgModified(Rule):
     id = "GitHub.Org.Modified-prototype"
     display_name = "GitHub User Added or Removed from Org"

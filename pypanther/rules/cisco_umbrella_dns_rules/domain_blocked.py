@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 
 cisco_umbrella_dns_blocked_tests: list[RuleTest] = [
     RuleTest(
@@ -28,6 +28,7 @@ cisco_umbrella_dns_blocked_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class CiscoUmbrellaDNSBlocked(Rule):
     id = "CiscoUmbrella.DNS.Blocked-prototype"
     display_name = "Cisco Umbrella Domain Blocked"

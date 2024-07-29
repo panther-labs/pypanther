@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.gcp_base_helpers import gcp_alert_context
 from pypanther.helpers.panther_base_helpers import deep_get
 
@@ -318,6 +318,7 @@ gc_pcomputeinstancescreate_privilege_escalation_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class GCPcomputeinstancescreatePrivilegeEscalation(Rule):
     log_types = [LogType.GCP_AUDIT_LOG]
     default_description = "Detects compute.instances.create method for privilege escalation in GCP."

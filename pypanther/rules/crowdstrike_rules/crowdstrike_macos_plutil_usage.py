@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.panther_base_helpers import crowdstrike_process_alert_context, deep_get
 
 crowdstrike_macos_plutil_usage_tests: list[RuleTest] = [
@@ -285,6 +285,7 @@ crowdstrike_macos_plutil_usage_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class CrowdstrikeMacosPlutilUsage(Rule):
     display_name = "CrowdStrike MacOS plutil Usage"
     default_description = "Detects the usage of plutil to modify plist files. Plist files run on start up and are often used by attackers to maintain persistence."

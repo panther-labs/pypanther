@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.panther_base_helpers import deep_get
 
 box_large_number_downloads_tests: list[RuleTest] = [
@@ -26,6 +26,7 @@ box_large_number_downloads_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class BoxLargeNumberDownloads(Rule):
     id = "Box.Large.Number.Downloads-prototype"
     display_name = "Box Large Number of Downloads"

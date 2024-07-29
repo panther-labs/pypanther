@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 
 netskope_many_deletes_tests: list[RuleTest] = [
     RuleTest(
@@ -42,6 +42,7 @@ netskope_many_deletes_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class NetskopeManyDeletes(Rule):
     id = "Netskope.ManyDeletes-prototype"
     display_name = "Netskope Many Objects Deleted"

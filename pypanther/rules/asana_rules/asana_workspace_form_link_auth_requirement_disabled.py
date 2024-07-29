@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.panther_base_helpers import deep_get
 
 asana_workspace_form_link_auth_requirement_disabled_tests: list[RuleTest] = [
@@ -51,6 +51,7 @@ asana_workspace_form_link_auth_requirement_disabled_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class AsanaWorkspaceFormLinkAuthRequirementDisabled(Rule):
     default_description = "An Asana Workspace Form Link is a unique URL that allows you to create a task directly within a specific Workspace or Project in Asana, using a web form. Disabling authentication requirements may allow unauthorized users to create tasks. "
     display_name = "Asana Workspace Form Link Auth Requirement Disabled"

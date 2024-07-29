@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.gcp_base_helpers import gcp_alert_context
 from pypanther.helpers.panther_base_helpers import deep_get, deep_walk
 
@@ -42,6 +42,7 @@ gc_piamservice_account_keyscreate_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class GCPiamserviceAccountKeyscreate(Rule):
     id = "GCP.iam.serviceAccountKeys.create-prototype"
     display_name = "GCP.Iam.ServiceAccountKeys.Create"

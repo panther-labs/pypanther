@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.panther_base_helpers import deep_get, deep_walk, okta_alert_context
 
 okta_org2org_creation_modification_tests: list[RuleTest] = [
@@ -268,6 +268,7 @@ okta_org2org_creation_modification_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class OktaOrg2orgCreationModification(Rule):
     id = "Okta.Org2org.Creation.Modification-prototype"
     display_name = "Okta Org2Org application created of modified"

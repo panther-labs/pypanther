@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.panther_auth0_helpers import auth0_alert_context
 
 auth0_cic_credential_stuffing_tests: list[RuleTest] = [
@@ -228,6 +228,7 @@ auth0_cic_credential_stuffing_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class Auth0CICCredentialStuffing(Rule):
     log_types = [LogType.AUTH0_EVENTS]
     id = "Auth0.CIC.Credential.Stuffing-prototype"

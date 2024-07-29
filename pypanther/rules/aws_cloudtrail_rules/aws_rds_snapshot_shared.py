@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.panther_base_helpers import aws_rule_context
 
 awsrds_snapshot_shared_tests: list[RuleTest] = [
@@ -109,6 +109,7 @@ awsrds_snapshot_shared_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class AWSRDSSnapshotShared(Rule):
     id = "AWS.RDS.SnapshotShared-prototype"
     display_name = "AWS RDS Snapshot Shared"

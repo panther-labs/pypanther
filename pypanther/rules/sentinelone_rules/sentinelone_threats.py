@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.panther_base_helpers import deep_get
 
 sentinel_one_threats_tests: list[RuleTest] = [
@@ -106,6 +106,7 @@ sentinel_one_threats_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class SentinelOneThreats(Rule):
     default_description = "Passthrough SentinelOne Threats "
     display_name = "SentinelOne Threats"

@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.panther_base_helpers import deep_get, deep_walk, okta_alert_context
 
 okta_password_extractionvia_scim_tests: list[RuleTest] = [
@@ -157,6 +157,7 @@ okta_password_extractionvia_scim_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class OktaPasswordExtractionviaSCIM(Rule):
     id = "Okta.Password.Extraction.via.SCIM-prototype"
     display_name = "Okta Cleartext Passwords Extracted via SCIM Application"

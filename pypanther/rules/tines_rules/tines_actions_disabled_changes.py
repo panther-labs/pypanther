@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.panther_base_helpers import deep_get
 from pypanther.helpers.panther_tines_helpers import tines_alert_context
 
@@ -36,6 +36,7 @@ tines_actions_disabled_changes_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class TinesActionsDisabledChanges(Rule):
     id = "Tines.Actions.DisabledChanges-prototype"
     display_name = "Tines Actions Disabled Change"

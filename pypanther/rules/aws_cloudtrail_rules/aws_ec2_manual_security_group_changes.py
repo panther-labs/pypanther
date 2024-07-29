@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.panther_base_helpers import aws_rule_context, deep_get, pattern_match_list
 from pypanther.helpers.panther_default import aws_cloudtrail_success
 
@@ -291,6 +291,7 @@ awsec2_manual_security_group_change_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class AWSEC2ManualSecurityGroupChange(Rule):
     id = "AWS.EC2.ManualSecurityGroupChange-prototype"
     display_name = "AWS EC2 Manual Security Group Change"

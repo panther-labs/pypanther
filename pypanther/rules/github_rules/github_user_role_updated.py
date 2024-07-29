@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 
 git_hub_user_role_updated_tests: list[RuleTest] = [
     RuleTest(
@@ -28,6 +28,7 @@ git_hub_user_role_updated_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class GitHubUserRoleUpdated(Rule):
     id = "GitHub.User.RoleUpdated-prototype"
     display_name = "GitHub User Role Updated"

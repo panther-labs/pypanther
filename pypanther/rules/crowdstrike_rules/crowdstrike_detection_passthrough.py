@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.panther_base_helpers import crowdstrike_detection_alert_context, get_crowdstrike_field
 
 crowdstrike_detectionpassthrough_tests: list[RuleTest] = [
@@ -162,6 +162,7 @@ crowdstrike_detectionpassthrough_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class CrowdstrikeDetectionpassthrough(Rule):
     id = "Crowdstrike.Detection.passthrough-prototype"
     display_name = "Crowdstrike Detection Passthrough"

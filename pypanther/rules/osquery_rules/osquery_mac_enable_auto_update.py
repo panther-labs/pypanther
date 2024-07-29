@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.panther_base_helpers import deep_get
 
 osquery_mac_auto_update_enabled_tests: list[RuleTest] = [
@@ -32,6 +32,7 @@ osquery_mac_auto_update_enabled_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class OsqueryMacAutoUpdateEnabled(Rule):
     id = "Osquery.Mac.AutoUpdateEnabled-prototype"
     display_name = "OSQuery Reports Application Firewall Disabled"

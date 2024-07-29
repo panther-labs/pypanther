@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 
 teleport_root_login_tests: list[RuleTest] = [
     RuleTest(
@@ -28,6 +28,7 @@ teleport_root_login_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class TeleportRootLogin(Rule):
     id = "Teleport.RootLogin-prototype"
     display_name = "User Logged in as root"

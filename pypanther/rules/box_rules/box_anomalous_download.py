@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.panther_base_helpers import box_parse_additional_details, deep_get
 
 box_shield_anomalous_download_tests: list[RuleTest] = [
@@ -26,6 +26,7 @@ box_shield_anomalous_download_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class BoxShieldAnomalousDownload(Rule):
     id = "Box.Shield.Anomalous.Download-prototype"
     display_name = "Box Shield Detected Anomalous Download Activity"

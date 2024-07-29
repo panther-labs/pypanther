@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.panther_base_helpers import msft_graph_alert_context
 
 microsoft_graph_passthrough_tests: list[RuleTest] = [
@@ -92,6 +92,7 @@ microsoft_graph_passthrough_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class MicrosoftGraphPassthrough(Rule):
     default_description = "The Microsoft Graph security API federates queries to all onboarded security providers, including Azure AD Identity Protection, Microsoft 365, Microsoft Defender (Cloud, Endpoint, Identity) and Microsoft Sentinel"
     default_reference = "https://learn.microsoft.com/en-us/graph/api/resources/security-api-overview"

@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.panther_base_helpers import m365_alert_context
 
 microsoft365_brute_force_loginby_user_tests: list[RuleTest] = [
@@ -84,6 +84,7 @@ microsoft365_brute_force_loginby_user_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class Microsoft365BruteForceLoginbyUser(Rule):
     default_description = "A Microsoft365 user was denied login access several times"
     display_name = "Microsoft365 Brute Force Login by User"

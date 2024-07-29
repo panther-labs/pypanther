@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.panther_base_helpers import deep_get
 
 dropbox_linked_team_application_added_tests: list[RuleTest] = [
@@ -119,6 +119,7 @@ dropbox_linked_team_application_added_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class DropboxLinkedTeamApplicationAdded(Rule):
     default_description = "An application was linked to your Dropbox Account"
     display_name = "Dropbox Linked Team Application Added"

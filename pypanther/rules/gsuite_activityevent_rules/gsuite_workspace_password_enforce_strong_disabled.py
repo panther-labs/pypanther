@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.panther_base_helpers import deep_get
 
 g_suite_workspace_password_enforce_strong_disabled_tests: list[RuleTest] = [
@@ -86,6 +86,7 @@ g_suite_workspace_password_enforce_strong_disabled_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class GSuiteWorkspacePasswordEnforceStrongDisabled(Rule):
     id = "GSuite.Workspace.PasswordEnforceStrongDisabled-prototype"
     display_name = "GSuite Workspace Strong Password Enforcement Has Been Disabled"

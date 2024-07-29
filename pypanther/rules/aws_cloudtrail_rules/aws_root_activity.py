@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.panther_base_helpers import deep_get
 from pypanther.helpers.panther_default import aws_cloudtrail_success, lookup_aws_account_name
 
@@ -197,6 +197,7 @@ aws_root_activity_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class AWSRootActivity(Rule):
     id = "AWS.Root.Activity-prototype"
     display_name = "Root Account Activity"

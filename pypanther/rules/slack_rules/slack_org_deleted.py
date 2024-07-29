@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.panther_base_helpers import slack_alert_context
 
 slack_audit_logs_org_deleted_tests: list[RuleTest] = [
@@ -47,6 +47,7 @@ slack_audit_logs_org_deleted_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class SlackAuditLogsOrgDeleted(Rule):
     id = "Slack.AuditLogs.OrgDeleted-prototype"
     display_name = "Slack Organization Deleted"

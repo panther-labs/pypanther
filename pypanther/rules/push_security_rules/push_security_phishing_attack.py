@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 
 push_security_phishing_attack_tests: list[RuleTest] = [
     RuleTest(
@@ -66,6 +66,7 @@ push_security_phishing_attack_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class PushSecurityPhishingAttack(Rule):
     id = "Push.Security.Phishing.Attack-prototype"
     display_name = "Push Security Phishing Attack"

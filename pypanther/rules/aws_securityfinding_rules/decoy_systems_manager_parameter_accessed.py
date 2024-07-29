@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 
 decoy_systems_manager_parameter_accessed_tests: list[RuleTest] = [
     RuleTest(
@@ -216,6 +216,7 @@ decoy_systems_manager_parameter_accessed_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class DecoySystemsManagerParameterAccessed(Rule):
     id = "Decoy.Systems.Manager.Parameter.Accessed-prototype"
     display_name = "Decoy Systems Manager Parameter Accessed"

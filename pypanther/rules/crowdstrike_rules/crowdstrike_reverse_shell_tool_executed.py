@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.panther_base_helpers import crowdstrike_detection_alert_context, deep_get
 
 crowdstrike_reverse_shell_tool_executed_tests: list[RuleTest] = [
@@ -221,6 +221,7 @@ crowdstrike_reverse_shell_tool_executed_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class CrowdstrikeReverseShellToolExecuted(Rule):
     default_description = "Detects usage of tools commonly used to to establish reverse shells on Windows machines."
     display_name = "Crowdstrike Reverse Shell Tool Executed"

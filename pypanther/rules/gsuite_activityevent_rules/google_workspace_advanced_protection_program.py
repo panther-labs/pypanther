@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.panther_base_helpers import deep_get
 
 google_workspace_advanced_protection_program_tests: list[RuleTest] = [
@@ -121,6 +121,7 @@ google_workspace_advanced_protection_program_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class GoogleWorkspaceAdvancedProtectionProgram(Rule):
     default_description = "Your organization's Google Workspace Advanced Protection Program settings were modified."
     display_name = "Google Workspace Advanced Protection Program"

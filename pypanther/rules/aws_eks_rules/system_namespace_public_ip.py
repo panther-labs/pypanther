@@ -1,6 +1,6 @@
 from ipaddress import ip_address
 
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.panther_base_helpers import deep_get, eks_panther_obj_ref
 
 amazon_eks_audit_system_namespace_from_public_ip_tests: list[RuleTest] = [
@@ -274,6 +274,7 @@ amazon_eks_audit_system_namespace_from_public_ip_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class AmazonEKSAuditSystemNamespaceFromPublicIP(Rule):
     id = "Amazon.EKS.Audit.SystemNamespaceFromPublicIP-prototype"
     display_name = "EKS Audit Log Reporting system Namespace is Used From A Public IP"

@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.gcp_base_helpers import gcp_alert_context
 from pypanther.helpers.panther_base_helpers import deep_get
 
@@ -16,6 +16,7 @@ gcpk8s_ioc_activity_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class GCPK8sIOCActivity(Rule):
     id = "GCP.K8s.IOC.Activity-prototype"
     display_name = "GCP K8s IOCActivity"

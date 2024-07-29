@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.panther_base_helpers import aws_rule_context
 
 awsrds_manual_snapshot_created_tests: list[RuleTest] = [
@@ -297,6 +297,7 @@ awsrds_manual_snapshot_created_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class AWSRDSManualSnapshotCreated(Rule):
     id = "AWS.RDS.ManualSnapshotCreated-prototype"
     display_name = "AWS RDS Manual/Public Snapshot Created"

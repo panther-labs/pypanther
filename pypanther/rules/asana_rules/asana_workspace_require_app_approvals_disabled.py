@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.panther_base_helpers import deep_get
 
 asana_workspace_require_app_approvals_disabled_tests: list[RuleTest] = [
@@ -51,6 +51,7 @@ asana_workspace_require_app_approvals_disabled_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class AsanaWorkspaceRequireAppApprovalsDisabled(Rule):
     default_description = (
         "An Asana user turned off app approval requirements for an application type for your organization."

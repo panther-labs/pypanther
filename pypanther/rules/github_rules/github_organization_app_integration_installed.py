@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.panther_base_helpers import github_alert_context
 
 github_organization_app_integration_installed_tests: list[RuleTest] = [
@@ -46,6 +46,7 @@ github_organization_app_integration_installed_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class GithubOrganizationAppIntegrationInstalled(Rule):
     default_description = "An application integration was installed to your organization's Github account by someone in your organization."
     display_name = "Github Organization App Integration Installed"

@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.panther_base_helpers import deep_get
 
 g_suite_login_type_tests: list[RuleTest] = [
@@ -56,6 +56,7 @@ g_suite_login_type_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class GSuiteLoginType(Rule):
     id = "GSuite.LoginType-prototype"
     display_name = "GSuite Login Type"

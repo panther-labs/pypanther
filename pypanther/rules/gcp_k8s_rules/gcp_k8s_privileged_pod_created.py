@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.gcp_base_helpers import gcp_alert_context
 from pypanther.helpers.panther_base_helpers import deep_get, deep_walk
 
@@ -276,6 +276,7 @@ gcpk8_s_privileged_pod_created_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class GCPK8SPrivilegedPodCreated(Rule):
     id = "GCP.K8S.Privileged.Pod.Created-prototype"
     display_name = "GCP K8S Privileged Pod Created"

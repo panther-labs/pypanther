@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.panther_base_helpers import deep_get
 
 asana_workspace_saml_optional_tests: list[RuleTest] = [
@@ -51,6 +51,7 @@ asana_workspace_saml_optional_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class AsanaWorkspaceSAMLOptional(Rule):
     default_description = "An Asana user made SAML optional for your organization."
     display_name = "Asana Workspace SAML Optional"

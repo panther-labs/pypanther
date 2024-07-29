@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.panther_base_helpers import aws_rule_context, deep_get
 from pypanther.helpers.panther_default import aws_cloudtrail_success
 
@@ -97,6 +97,7 @@ awsiam_credentials_updated_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class AWSIAMCredentialsUpdated(Rule):
     id = "AWS.IAM.CredentialsUpdated-prototype"
     display_name = "New IAM Credentials Updated"

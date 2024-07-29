@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.panther_cloudflare_helpers import cloudflare_fw_alert_context
 
 cloudflare_firewall_l7_d_do_s_tests: list[RuleTest] = [
@@ -92,6 +92,7 @@ cloudflare_firewall_l7_d_do_s_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class CloudflareFirewallL7DDoS(Rule):
     id = "Cloudflare.Firewall.L7DDoS-prototype"
     display_name = "Cloudflare L7 DDoS"

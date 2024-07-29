@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.panther_base_helpers import deep_get, slack_alert_context
 
 slack_audit_logs_app_removed_tests: list[RuleTest] = [
@@ -156,6 +156,7 @@ slack_audit_logs_app_removed_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class SlackAuditLogsAppRemoved(Rule):
     id = "Slack.AuditLogs.AppRemoved-prototype"
     display_name = "Slack App Removed"

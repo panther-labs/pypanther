@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.panther_base_helpers import deep_get
 
 osquery_ssh_listener_tests: list[RuleTest] = [
@@ -73,6 +73,7 @@ osquery_ssh_listener_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class OsquerySSHListener(Rule):
     id = "Osquery.SSHListener-prototype"
     display_name = "OSQuery Detected SSH Listener"

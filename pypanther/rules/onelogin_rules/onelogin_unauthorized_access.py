@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 
 one_login_unauthorized_access_tests: list[RuleTest] = [
     RuleTest(
@@ -14,6 +14,7 @@ one_login_unauthorized_access_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class OneLoginUnauthorizedAccess(Rule):
     id = "OneLogin.UnauthorizedAccess-prototype"
     display_name = "OneLogin Unauthorized Access"

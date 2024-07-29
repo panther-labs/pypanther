@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.panther_base_helpers import aws_rule_context, deep_get
 from pypanther.helpers.panther_default import aws_cloudtrail_success
 
@@ -145,6 +145,7 @@ aws_cloud_trail_network_acl_permissive_entry_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class AWSCloudTrailNetworkACLPermissiveEntry(Rule):
     id = "AWS.CloudTrail.NetworkACLPermissiveEntry-prototype"
     display_name = "AWS Network ACL Overly Permissive Entry Created"

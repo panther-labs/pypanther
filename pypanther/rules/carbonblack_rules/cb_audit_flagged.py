@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 
 carbon_black_audit_flagged_tests: list[RuleTest] = [
     RuleTest(
@@ -33,6 +33,7 @@ carbon_black_audit_flagged_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class CarbonBlackAuditFlagged(Rule):
     id = "CarbonBlack.Audit.Flagged-prototype"
     log_types = [LogType.CARBON_BLACK_AUDIT]

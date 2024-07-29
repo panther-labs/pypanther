@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.panther_base_helpers import aws_guardduty_context, deep_get
 
 aws_guard_duty_medium_severity_finding_tests: list[RuleTest] = [
@@ -83,6 +83,7 @@ aws_guard_duty_medium_severity_finding_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class AWSGuardDutyMediumSeverityFinding(Rule):
     id = "AWS.GuardDuty.MediumSeverityFinding-prototype"
     display_name = "AWS GuardDuty Medium Severity Finding"

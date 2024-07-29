@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.panther_iocs import CRYPTO_MINING_DOMAINS
 
 awsdns_crypto_domain_tests: list[RuleTest] = [
@@ -247,6 +247,7 @@ awsdns_crypto_domain_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class AWSDNSCryptoDomain(Rule):
     default_description = (
         "Identifies clients that may be performing DNS lookups associated with common currency mining pools."

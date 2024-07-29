@@ -1,7 +1,7 @@
 from datetime import datetime, timedelta
 from typing import Dict, Tuple
 
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.panther_base_helpers import (
     golang_nanotime_to_python_datetime,
     panther_nanotime_to_python_datetime,
@@ -65,6 +65,7 @@ teleport_long_lived_certs_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class TeleportLongLivedCerts(Rule):
     id = "Teleport.LongLivedCerts-prototype"
     display_name = "A long-lived cert was created"

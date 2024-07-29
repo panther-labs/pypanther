@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 
 zoom_new_meeting_passcode_required_disabled_tests: list[RuleTest] = [
     RuleTest(
@@ -37,6 +37,7 @@ zoom_new_meeting_passcode_required_disabled_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class ZoomNewMeetingPasscodeRequiredDisabled(Rule):
     default_description = "A Zoom User turned off your organization's setting to require passcodes for new meetings."
     display_name = "Zoom New Meeting Passcode Required Disabled"

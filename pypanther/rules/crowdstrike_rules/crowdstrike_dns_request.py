@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.panther_base_helpers import filter_crowdstrike_fdr_event_type, get_crowdstrike_field
 
 crowdstrike_dns_request_tests: list[RuleTest] = [
@@ -216,6 +216,7 @@ crowdstrike_dns_request_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class CrowdstrikeDNSRequest(Rule):
     id = "Crowdstrike.DNS.Request-prototype"
     display_name = "DNS request to denylisted domain"

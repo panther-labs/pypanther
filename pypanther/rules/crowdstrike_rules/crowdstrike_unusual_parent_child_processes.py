@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.panther_base_helpers import crowdstrike_detection_alert_context, deep_get
 
 crowdstrike_unusual_parent_child_processes_tests: list[RuleTest] = [
@@ -157,6 +157,7 @@ crowdstrike_unusual_parent_child_processes_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class CrowdstrikeUnusualParentChildProcesses(Rule):
     default_description = "Detects unusual parent child process pairings."
     display_name = "Crowdstrike Unusual Parent Child Processes"

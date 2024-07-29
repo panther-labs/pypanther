@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 
 push_security_unauthorized_id_p_login_tests: list[RuleTest] = [
     RuleTest(
@@ -91,6 +91,7 @@ push_security_unauthorized_id_p_login_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class PushSecurityUnauthorizedIdPLogin(Rule):
     id = "Push.Security.Unauthorized.IdP.Login-prototype"
     display_name = "Push Security Unauthorized IdP Login"

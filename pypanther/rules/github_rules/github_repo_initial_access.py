@@ -1,6 +1,6 @@
 from panther_detection_helpers.caching import get_string_set, put_string_set
 
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity, panther_managed
 
 git_hub_repo_initial_access_tests: list[RuleTest] = [
     RuleTest(
@@ -83,6 +83,7 @@ git_hub_repo_initial_access_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class GitHubRepoInitialAccess(Rule):
     id = "GitHub.Repo.InitialAccess-prototype"
     display_name = "GitHub User Initial Access to Private Repo"

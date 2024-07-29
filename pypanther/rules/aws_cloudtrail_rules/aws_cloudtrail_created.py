@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.panther_base_helpers import aws_rule_context, deep_get
 from pypanther.helpers.panther_default import aws_cloudtrail_success
 
@@ -131,6 +131,7 @@ aws_cloud_trail_created_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class AWSCloudTrailCreated(Rule):
     id = "AWS.CloudTrail.Created-prototype"
     display_name = "A CloudTrail Was Created or Updated"

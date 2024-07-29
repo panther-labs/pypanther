@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.panther_base_helpers import deep_get
 
 gcpiam_org_folder_iam_changes_tests: list[RuleTest] = [
@@ -157,6 +157,7 @@ gcpiam_org_folder_iam_changes_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class GCPIAMOrgFolderIAMChanges(Rule):
     id = "GCP.IAM.OrgFolderIAMChanges-prototype"
     display_name = "GCP Org or Folder Policy Was Changed Manually"

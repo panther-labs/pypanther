@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.panther_base_helpers import filter_crowdstrike_fdr_event_type
 
 standard_malicious_ssodns_lookup_tests: list[RuleTest] = [
@@ -156,6 +156,7 @@ standard_malicious_ssodns_lookup_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class StandardMaliciousSSODNSLookup(Rule):
     id = "Standard.MaliciousSSODNSLookup-prototype"
     dedup_period_minutes = 1440

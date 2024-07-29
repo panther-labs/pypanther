@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 
 one_login_auth_factor_removed_tests: list[RuleTest] = [
     RuleTest(
@@ -28,6 +28,7 @@ one_login_auth_factor_removed_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class OneLoginAuthFactorRemoved(Rule):
     id = "OneLogin.AuthFactorRemoved-prototype"
     display_name = "OneLogin Authentication Factor Removed"

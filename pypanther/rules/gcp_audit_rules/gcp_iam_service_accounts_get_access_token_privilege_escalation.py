@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.gcp_base_helpers import gcp_alert_context
 from pypanther.helpers.panther_base_helpers import deep_get
 
@@ -92,6 +92,7 @@ gcpia_mservice_accountsget_access_token_privilege_escalation_tests: list[RuleTes
 ]
 
 
+@panther_managed
 class GCPIAMserviceAccountsgetAccessTokenPrivilegeEscalation(Rule):
     id = "GCP.IAM.serviceAccounts.getAccessToken.Privilege.Escalation-prototype"
     display_name = "GCP IAM serviceAccounts getAccessToken Privilege Escalation"

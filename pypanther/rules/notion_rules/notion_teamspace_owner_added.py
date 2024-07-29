@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.panther_notion_helpers import notion_alert_context
 
 notion_teamspace_owner_added_tests: list[RuleTest] = [
@@ -65,6 +65,7 @@ notion_teamspace_owner_added_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class NotionTeamspaceOwnerAdded(Rule):
     id = "Notion.TeamspaceOwnerAdded-prototype"
     display_name = "Notion Teamspace Owner Added"

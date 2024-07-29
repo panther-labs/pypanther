@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 
 osquery_ossec_rootkit_detected_tests: list[RuleTest] = [
     RuleTest(
@@ -70,6 +70,7 @@ osquery_ossec_rootkit_detected_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class OsqueryOSSECRootkitDetected(Rule):
     id = "Osquery.OSSECRootkitDetected-prototype"
     display_name = "OSSEC Rootkit Detected via Osquery"

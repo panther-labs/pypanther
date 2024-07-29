@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.panther_base_helpers import deep_get
 
 asana_workspace_guest_invite_permissions_anyone_tests: list[RuleTest] = [
@@ -51,6 +51,7 @@ asana_workspace_guest_invite_permissions_anyone_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class AsanaWorkspaceGuestInvitePermissionsAnyone(Rule):
     default_description = "Typically inviting guests to Asana is permitted by few users. Enabling anyone to invite guests can potentially lead to unauthorized users gaining access to Asana."
     display_name = "Asana Workspace Guest Invite Permissions Anyone"

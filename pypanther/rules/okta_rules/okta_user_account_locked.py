@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.panther_base_helpers import okta_alert_context
 
 okta_user_account_locked_tests: list[RuleTest] = [
@@ -145,6 +145,7 @@ okta_user_account_locked_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class OktaUserAccountLocked(Rule):
     default_description = "An Okta user has locked their account."
     display_name = "Okta User Account Locked"

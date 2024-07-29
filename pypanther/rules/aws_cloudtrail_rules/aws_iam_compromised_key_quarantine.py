@@ -1,4 +1,4 @@
-from pypanther import LogType, Rule, RuleTest, Severity
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 
 aws_cloud_trail_iam_compromised_key_quarantine_tests: list[RuleTest] = [
     RuleTest(
@@ -93,6 +93,7 @@ aws_cloud_trail_iam_compromised_key_quarantine_tests: list[RuleTest] = [
 ]
 
 
+@panther_managed
 class AWSCloudTrailIAMCompromisedKeyQuarantine(Rule):
     log_types = [LogType.AWS_CLOUDTRAIL]
     default_description = (
