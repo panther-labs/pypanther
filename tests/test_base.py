@@ -24,6 +24,7 @@ from pypanther.rules.aws_cloudtrail_rules.aws_console_login_without_mfa import (
 from pypanther.severity import Severity
 from pypanther.unit_tests import RuleTest
 from pypanther.wrap import include
+from pypanther.unit_tests import RuleMock
 
 get_data_model = DATA_MODEL_CACHE.data_model_of_logtype
 
@@ -98,6 +99,87 @@ def test_mock_patching():
     # Undo what @panther_managed does
     AWSConsoleLoginWithoutMFA.tests = AWSConsoleLoginWithoutMFA._tests
     # ensure the base class has a mock defined
+    assert len(TestRule.__base__.tests[0].mocks) > 0
+    results = TestRule.run_tests(DATA_MODEL_CACHE.data_model_of_logtype)
+    for result in results:
+        assert result.passed
+
+
+def test_mock_patching_new_kwarg():
+    class TestRule(Rule):
+        id = "test"
+        log_types = [LogType.PANTHER_AUDIT]
+        default_severity = Severity.HIGH
+        tests = [
+            RuleTest(
+                name="false without mocking",
+                expected_result=False,
+                log={},
+            ),
+            RuleTest(
+                name="true with mocking",
+                expected_result=True,
+                log={},
+                mocks=[
+                    RuleMock(
+                        object_name="thing",
+                        new="bar",
+                    )
+                ],
+            ),
+        ]
+
+        thing = "foo"
+
+        def rule(self, event):
+            if self.thing == "bar":
+                return True
+            if self.thing == "foo":
+                return False
+            raise Exception("thing is not foo or bar")
+
+    results = TestRule.run_tests(DATA_MODEL_CACHE.data_model_of_logtype)
+    for result in results:
+        assert result.passed
+
+
+def test_mock_patching_side_effect_kwarg():
+    class Test(Rule):
+        id = "test"
+        log_types = [LogType.PANTHER_AUDIT]
+        default_severity = Severity.HIGH
+        tests = [
+            RuleTest(
+                name="false without mocking",
+                expected_result=False,
+                log={},
+            ),
+            RuleTest(
+                name="true with mocking",
+                expected_result=True,
+                log={},
+                mocks=[
+                    RuleMock(
+                        object_name="thing",
+                        side_effect=lambda x: x + " bar",
+                    )
+                ],
+            ),
+        ]
+
+        def thing(self, arg1):
+            return arg1 + " foo"
+
+        def rule(self, event):
+            if self.thing("hi") == "hi bar":
+                return True
+            if self.thing("hi") == "hi foo":
+                return False
+            raise Exception('thing() is not "hi foo" or "hi bar"')
+
+    results = Test.run_tests(DATA_MODEL_CACHE.data_model_of_logtype)
+    for result in results:
+        assert result.passed
     assert len(Test.__base__.tests[0].mocks) > 0
     Test.run_tests(DATA_MODEL_CACHE.data_model_of_logtype)
 
@@ -1358,36 +1440,6 @@ class TestRule(TestCase):
         assert not Test().run_test(test, get_data_model).passed
 
         test = RuleTest(name="test", expected_result=True, log={}, expected_dedup="")
-        assert not Test().run_test(test, get_data_model).passed
-
-    def test_expected_destinations(self) -> None:
-        class Test(Rule):
-            id = "TestRule"
-            log_types = [LogType.PANTHER_AUDIT]
-            default_severity = Severity.CRITICAL
-
-            def rule(self, event: PantherEvent) -> bool:
-                return True
-
-            def destinations(self, event) -> list[str]:
-                return ["hi"]
-
-        test = RuleTest(name="test", expected_result=True, log={})
-        assert Test().run_test(test, get_data_model).passed
-
-        test = RuleTest(
-            name="test",
-            expected_result=True,
-            log={},
-            # TODO: you can't supply output names in tests right now so this list will always come back empty
-            expected_destinations=[],
-        )
-        assert Test().run_test(test, get_data_model).passed
-
-        test = RuleTest(name="test", expected_result=True, log={}, expected_destinations=["bad"])
-        assert not Test().run_test(test, get_data_model).passed
-
-        test = RuleTest(name="test", expected_result=True, log={}, expected_destinations=[""])
         assert not Test().run_test(test, get_data_model).passed
 
     def test_expected_runbook(self) -> None:

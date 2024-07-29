@@ -5,17 +5,11 @@ from enum import Enum
 from typing import List, Optional
 
 from pypanther import LogType
+from pypanther.utils import try_asdict
 
 """This file contains data model definitions for the PyPanther package.
 It is still in development and is subject to change.
 """
-
-DATA_MODEL_ALL_ATTRS = [
-    "id",
-    "description",
-    "enabled",
-    "fields",
-]
 
 
 class FieldType(str, Enum):
@@ -33,6 +27,12 @@ class FieldType(str, Enum):
     JSON = "json"
 
 
+_FIELD_MAPPING_ALL_ATTRIBUTES = [
+    "log_type",
+    "field_path",
+]
+
+
 @dataclasses.dataclass
 class FieldMapping:
     """Represents a field mapping in a data model."""
@@ -45,6 +45,18 @@ class FieldMapping:
 
     field_path: str
     """The path to the field in the log."""
+
+    def asdict(self):
+        """Returns a dictionary representation of the instance."""
+        return {key: try_asdict(getattr(self, key)) for key in _FIELD_MAPPING_ALL_ATTRIBUTES if hasattr(self, key)}
+
+
+_FIELD_ALL_ATTRIBUTES = [
+    "name",
+    "type",
+    "mappings",
+    "description",
+]
 
 
 @dataclasses.dataclass
@@ -63,12 +75,20 @@ class Field:
     description: str = ""
     """A description of the field."""
 
+    def asdict(self):
+        """Returns a dictionary representation of the instance."""
+        return {key: try_asdict(getattr(self, key)) for key in _FIELD_ALL_ATTRIBUTES if hasattr(self, key)}
+
+
+_DATA_MODEL_ALL_ATTRS = [
+    "description",
+    "enabled",
+    "fields",
+]
+
 
 class DataModel(abc.ABC):
     """A Panther data model. This class should be subclassed to create a new Data Model."""
-
-    id: str
-    """The unique identifier of the data model."""
 
     description: str = ""
     """A description of the data model."""
@@ -86,7 +106,6 @@ class DataModel(abc.ABC):
     @classmethod
     def override(
         cls,
-        id: Optional[str] = None,
         description: Optional[str] = None,
         enabled: Optional[bool] = None,
         fields: Optional[List[Field]] = None,
@@ -103,7 +122,7 @@ class DataModel(abc.ABC):
         child.fields.append(Field("foo",...))
         parent.fields.append(Field("foo",...) # not inherited by children of parent
         """
-        for attr in DATA_MODEL_ALL_ATTRS:
+        for attr in _DATA_MODEL_ALL_ATTRS:
             if attr not in cls.__dict__:
                 try:
                     v = getattr(cls, attr)
@@ -113,3 +132,8 @@ class DataModel(abc.ABC):
                 if v is not None:
                     setattr(cls, attr, copy.deepcopy(v))
         super().__init_subclass__(**kwargs)
+
+    @classmethod
+    def asdict(cls):
+        """Returns a dictionary representation of the class."""
+        return {key: try_asdict(getattr(cls, key)) for key in _DATA_MODEL_ALL_ATTRS if hasattr(cls, key)}

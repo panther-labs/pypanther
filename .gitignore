@@ -4,3 +4,6 @@ dist/
 .idea/
 .DS_Store
 .panther_settings.yml
+
+# Merge Conflicts
+*.orig

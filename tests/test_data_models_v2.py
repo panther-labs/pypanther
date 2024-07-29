@@ -20,11 +20,10 @@ def test_data_model_inheritance():
     )
 
     class Test(DataModel):
-        data_model_id = "test"
         fields = [test_field_1]
 
     class Test2(Test):
-        data_model_id = "test2"
+        pass
 
     # values are inherited as copies
     assert Test2.fields == [test_field_1]
@@ -42,7 +41,6 @@ def test_data_model_inheritance():
 
 def test_override():
     class Test(DataModel):
-        id = "old"
         description = "old description"
         enabled = True
         fields = [
@@ -53,7 +51,6 @@ def test_override():
             )
         ]
 
-    assert Test.id == "old"
     assert Test.description == "old description"
     assert Test.enabled
     assert Test.fields == [
@@ -65,7 +62,6 @@ def test_override():
     ]
 
     Test.override(
-        id="new",
         description="new description",
         enabled=False,
         fields=[
@@ -77,7 +73,6 @@ def test_override():
         ],
     )
 
-    assert Test.id == "new"
     assert Test.description == "new description"
     assert not Test.enabled
     assert Test.fields == [
@@ -87,3 +82,29 @@ def test_override():
             mappings=[FieldMapping(log_type="Custom.Test", field_path="field.nested2")],
         )
     ]
+
+
+def test_asdict():
+    class Test(DataModel):
+        description = "old description"
+        enabled = True
+        fields = [
+            Field(
+                name="test1",
+                type=FieldType.STRING,
+                mappings=[FieldMapping(log_type="Custom.Test", field_path="field.nested1")],
+            )
+        ]
+
+    assert Test.asdict() == {
+        "description": "old description",
+        "enabled": True,
+        "fields": [
+            {
+                "name": "test1",
+                "type": FieldType.STRING,
+                "mappings": [{"log_type": "Custom.Test", "field_path": "field.nested1"}],
+                "description": "",
+            }
+        ],
+    }

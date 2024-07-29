@@ -27,6 +27,7 @@ class RuleMock:
     object_name: str
     return_value: Any = None
     side_effect: Any = None
+    new: Any = None
 
     def asdict(self):
         """Returns a dictionary representation of the class."""
@@ -52,11 +53,14 @@ class RuleTest(metaclass=FileLocationMeta):
     expected_severity: Severity | str | None = None
     expected_title: str | None = None
     expected_dedup: str | None = None
-    expected_destinations: list[str] | None = None
     expected_runbook: str | None = None
     expected_reference: str | None = None
     expected_description: str | None = None
     expected_alert_context: dict | None = None
+    # expected_destinations is not included here because the `destinations` function
+    # checks a list of valid destinations to check if the destination exists, and if it is
+    # the name of the destination, it gets the id of it. pypanther does not provide support
+    # for supplying that list to tests yet so this aux check is excluded.
     _file_path: str = ""
     _line_no: int = 0
     _module: str = ""
