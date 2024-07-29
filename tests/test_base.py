@@ -22,9 +22,8 @@ from pypanther.rules.aws_cloudtrail_rules.aws_console_login_without_mfa import (
     AWSConsoleLoginWithoutMFA,
 )
 from pypanther.severity import Severity
-from pypanther.unit_tests import RuleTest
+from pypanther.unit_tests import RuleMock, RuleTest
 from pypanther.wrap import include
-from pypanther.unit_tests import RuleMock
 
 get_data_model = DATA_MODEL_CACHE.data_model_of_logtype
 
@@ -106,7 +105,7 @@ def test_mock_patching():
 
 
 def test_mock_patching_new_kwarg():
-    class TestRule(Rule):
+    class Test(Rule):
         id = "test"
         log_types = [LogType.PANTHER_AUDIT]
         default_severity = Severity.HIGH
@@ -138,7 +137,7 @@ def test_mock_patching_new_kwarg():
                 return False
             raise Exception("thing is not foo or bar")
 
-    results = TestRule.run_tests(DATA_MODEL_CACHE.data_model_of_logtype)
+    results = Test.run_tests(DATA_MODEL_CACHE.data_model_of_logtype)
     for result in results:
         assert result.passed
 
