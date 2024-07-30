@@ -122,30 +122,6 @@ class TestPrintRuleTestResults:
         assert std.out == exp
         assert std.err == ""
 
-    # TODO: Fix this to test exceptions regular and verbose
-    # def test_exceptions(self, capsys) -> None:
-    #     class Sub(Test):
-    #         def severity(self, event: PantherEvent) -> SeverityType:
-    #             assert 1 == 0
-    #
-    #         def alert_context(self, event: PantherEvent) -> dict:
-    #             assert 1 == 0, "msg"
-    #
-    #     Sub.tests = [RuleTest(name="test", expected_result=False, log={})]
-    #     args = setup_parser().parse_args("test".split(" "))
-    #     testing.print_rule_test_results(args, Sub.id, Sub.run_tests(get_data_model))
-    #
-    #     exp = (
-    #         "\x1b[95mTest\x1b[0m:\n"
-    #         "   \x1b[1m\x1b[91mFAIL\x1b[0m\x1b[0m: test\n"
-    #         "     - Exception occurred in severity()\n"
-    #         "     - Exception occurred in alert_context(): msg\n"
-    #         "\n"
-    #     )
-    #     std = capsys.readouterr()
-    #     assert std.out == exp
-    #     assert std.err == ""
-
     def test_many_tests(self, capsys) -> None:
         Test.tests = [
             RuleTest(name="test1", expected_result=True, log={}),
