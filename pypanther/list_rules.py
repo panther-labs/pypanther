@@ -19,7 +19,22 @@ def run(args: argparse.Namespace) -> Tuple[int, str]:
             import_main(os.getcwd(), "main")
         except NoMainModuleError:
             return 1, "No main.py found. Cannot use --registered option without main.py."
-        rules = registered_rules()
+        rules = registered_rules(
+            log_types=args.log_types,
+            id=args.id,
+            create_alert=args.create_alert,
+            dedup_period_minutes=args.dedup_period_minutes,
+            display_name=args.display_name,
+            enabled=args.enabled,
+            summary_attributes=args.summary_attributes,
+            threshold=args.threshold,
+            tags=args.tags,
+            default_severity=args.default_severity,
+            default_description=args.default_description,
+            default_reference=args.default_reference,
+            default_runbook=args.default_runbook,
+            default_destinations=args.default_destinations,
+        )
 
     if args.managed:
         panther_rules = get_panther_rules(
