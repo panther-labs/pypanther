@@ -138,7 +138,7 @@ def setup_get_rule_parser(get_rules_parser: argparse.ArgumentParser):
     get_rules_parser.set_defaults(func=get_rule.run)
     get_rules_parser.add_argument(
         "--id",
-        help="Required. The id of the Panther-managed item to get",
+        help="Required. The id of the rule to get",
         required=True,
         type=str,
     )
