@@ -1,7 +1,12 @@
-from typing import Iterable, Set, Type
+from typing import Iterable, List, Set, Type
+
+from pydantic import NonNegativeInt, PositiveInt
 
 from pypanther.base import Rule
 from pypanther.data_models_v2 import DataModel
+from pypanther.severity import Severity
+from pypanther.unit_tests import RuleTest
+from pypanther.utils import filter_iterable_by_kwargs
 
 _RULE_REGISTRY: Set[Type[Rule]] = set()
 _DATA_MODEL_REGISTRY: Set[Type[DataModel]] = set()
@@ -47,8 +52,32 @@ def _register_data_model(dm: Type[DataModel]) -> bool:
     return False
 
 
-def registered_rules() -> Set[Type[Rule]]:
-    return _RULE_REGISTRY
+def registered_rules(
+    log_types: List[str] | None = None,
+    id: str | None = None,
+    create_alert: bool | None = None,
+    dedup_period_minutes: NonNegativeInt | None = None,
+    display_name: str | None = None,
+    enabled: bool | None = None,
+    scheduled_queries: List[str] | None = None,
+    summary_attributes: List[str] | None = None,
+    tests: List[RuleTest] | None = None,
+    threshold: PositiveInt | None = None,
+    tags: List[str] | None = None,
+    reports: dict[str, List[str]] | None = None,
+    default_severity: Severity | None = None,
+    default_description: str | None = None,
+    default_reference: str | None = None,
+    default_runbook: str | None = None,
+    default_destinations: List[str] | None = None,
+) -> Set[Type[Rule]]:
+    filters = locals()
+    return set(
+        filter_iterable_by_kwargs(
+            _RULE_REGISTRY,
+            **filters,
+        )
+    )
 
 
 def registered_data_models() -> Set[Type[DataModel]]:

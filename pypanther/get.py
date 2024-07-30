@@ -8,17 +8,9 @@ from pydantic import NonNegativeInt, PositiveInt
 from pypanther.base import DataModel, Rule
 from pypanther.severity import Severity
 from pypanther.unit_tests import RuleTest
+from pypanther.utils import filter_iterable_by_kwargs
 
 __RULES: Set[Type[Rule]] = set()
-
-
-def __to_set(value):
-    if isinstance(value, str):
-        return {value}
-    try:
-        return set(value)
-    except TypeError:
-        return {value}
 
 
 def get_panther_rules(
@@ -115,19 +107,3 @@ def get_panther_data_models(**kwargs):
                     __DATA_MODELS.add(attr)
 
     return filter_iterable_by_kwargs(__DATA_MODELS, **kwargs)
-
-
-# Get rules based on filter criteria
-def filter_iterable_by_kwargs(
-    iterable,
-    **kwargs,
-):
-    return [
-        x
-        for x in iterable
-        if all(
-            __to_set(getattr(x, key, set())).intersection(__to_set(values))
-            for key, values in kwargs.items()
-            if values is not None
-        )
-    ]
