@@ -199,3 +199,10 @@ def setup_upload_parser(upload_parser: argparse.ArgumentParser):
         required=False,
         action="store_true",
     )
+    upload_parser.add_argument(
+        "--output",
+        help="The format to use for the output.",
+        required=False,
+        choices=display.VALID_CLI_OUTPUT_TYPES,
+        default=display.DEFAULT_CLI_OUTPUT_TYPE,
+    )

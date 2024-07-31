@@ -86,40 +86,47 @@ def run(args: argparse.Namespace) -> Tuple[int, str]:
         logging.error("No main.py found")
         return 1, ""
 
+    test_results = run_tests(args.verbose, args.output)
+
+    if args.output == display.OUTPUT_TYPE_JSON:
+        print(
+            json.dumps(
+                test_output_dict(test_results, args.verbose),
+                indent=display.JSON_INDENT_LEVEL,
+            )
+        )
+
+    if test_results.had_failed_tests():
+        return 1, ""
+
+    return 0, ""
+
+
+def run_tests(verbose: bool, output_type: str) -> TestResults:
     test_results = TestResults()
 
     for rule in registered_rules():
         results = rule.run_tests(DATA_MODEL_CACHE.data_model_of_logtype)
         test_results.add_test_results(rule.id, results)
 
-        if args.output == display.OUTPUT_TYPE_TEXT:
+        if output_type == display.OUTPUT_TYPE_TEXT:
             # intent here is to give the user more interactive feedback by printing
             # the tests as they are running instead of waiting until the very end.
-            print_rule_test_results(args.verbose, rule.id, results)
+            print_rule_test_results(verbose, rule.id, results)
 
-    match args.output:
-        case display.OUTPUT_TYPE_JSON:
-            print(
-                json.dumps(
-                    {
-                        "test_results": get_test_results_as_dict(test_results, args.verbose),
-                        "failed_tests_summary": get_failed_test_summary_as_dict(test_results),
-                        "summary": get_test_summary_as_dict(test_results),
-                    },
-                    indent=display.JSON_INDENT_LEVEL,
-                )
-            )
-        case display.OUTPUT_TYPE_TEXT:
-            print_failed_test_summary(test_results)
-            print()  # new line
-            print_test_summary(test_results)
-        case _:
-            return 1, f"Unsupported output: {args.output}"
+    if output_type == display.OUTPUT_TYPE_TEXT:
+        print_failed_test_summary(test_results)
+        print_test_summary(test_results)
 
-    if test_results.had_failed_tests():
-        return 1, ""
+    return test_results
 
-    return 0, ""
+
+def test_output_dict(test_results: TestResults, verbose: bool) -> dict:
+    return {
+        "test_results": get_test_results_as_dict(test_results, verbose),
+        "failed_tests_summary": get_failed_test_summary_as_dict(test_results),
+        "test_summary": get_test_summary_as_dict(test_results),
+    }
 
 
 def get_test_results_as_dict(test_results: TestResults, verbose: bool) -> dict[str, Any]:
@@ -244,9 +251,11 @@ def print_failed_test_summary(test_results: TestResults) -> None:
         for failed_test in failed_tests:
             print(INDENT * 2, "-", failed_test.test.name)
 
+    print()  # new line
+
 
 def print_test_summary(test_results: TestResults) -> None:
-    print(cli_output.header("Summary") + ":")
+    print(cli_output.header("Test Summary") + ":")
 
     print(INDENT, "Skipped rules: {:>3}".format(test_results.num_skipped_rules()))
     print(INDENT, "Passed rules:  {:>3}".format(test_results.num_passed_rules()))

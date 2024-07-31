@@ -191,6 +191,12 @@ class BulkUploadMultipartError(BackendMultipartError):
 
         return self.issues or []
 
+    def asdict(self) -> dict[str, Any]:
+        return {
+            "error": self.get_error(),
+            "issues": [{"path": issue.path, "error_message": issue.error_message} for issue in self.get_issues()],
+        }
+
 
 @dataclass(frozen=True)
 class BulkUploadValidateResult:
