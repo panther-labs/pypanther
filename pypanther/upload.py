@@ -33,6 +33,10 @@ IGNORE_FOLDERS = [
     "tests",
 ]
 
+UPLOAD_RESULT_SUCCESS = "UPLOAD_SUCCEEDED"
+UPLOAD_RESULT_FAILURE = "UPLOAD_FAILED"
+UPLOAD_RESULT_TESTS_FAILED = "TESTS_FAILED"
+
 
 def run(backend: BackendClient, args: argparse.Namespace) -> Tuple[int, str]:
     if not args.confirm:
@@ -54,7 +58,9 @@ def run(backend: BackendClient, args: argparse.Namespace) -> Tuple[int, str]:
     if not args.skip_tests:
         test_results = testing.run_tests(args)
         if test_results.had_failed_tests():
-            output = get_upload_output_as_dict(None, test_results, [], args.verbose, args.skip_tests)
+            output = get_upload_output_as_dict(
+                None, test_results, [], args.verbose, args.skip_tests, UPLOAD_RESULT_TESTS_FAILED
+            )
             print(json.dumps(output, indent=display.JSON_INDENT_LEVEL))
             return 1, ""
 
@@ -76,7 +82,9 @@ def run(backend: BackendClient, args: argparse.Namespace) -> Tuple[int, str]:
             )
 
             if args.output == display.OUTPUT_TYPE_JSON:
-                output = get_upload_output_as_dict(upload_stats, test_results, zip_info, args.verbose, args.skip_tests)
+                output = get_upload_output_as_dict(
+                    upload_stats, test_results, zip_info, args.verbose, args.skip_tests, UPLOAD_RESULT_SUCCESS
+                )
                 print(json.dumps(output, indent=display.JSON_INDENT_LEVEL))
 
         except BackendError as be_err:
@@ -84,7 +92,9 @@ def run(backend: BackendClient, args: argparse.Namespace) -> Tuple[int, str]:
             if args.output == display.OUTPUT_TYPE_TEXT:
                 print_backend_issues(multi_err)
             elif args.output == display.OUTPUT_TYPE_JSON:
-                output = get_failed_upload_as_dict(multi_err, test_results, zip_info, args.verbose, args.skip_tests)
+                output = get_failed_upload_as_dict(
+                    multi_err, test_results, zip_info, args.verbose, args.skip_tests, UPLOAD_RESULT_FAILURE
+                )
                 print(json.dumps(output, indent=display.JSON_INDENT_LEVEL))
             return 1, ""
 
@@ -116,7 +126,6 @@ def upload_zip(
     backend: BackendClient, archive: str, verbose: bool, output_type: str, max_retries: int = 10
 ) -> AsyncBulkUploadStatusResponse:
     # extract max retries we should handle
-    # _max_retries = 10
     if max_retries > 10:
         logging.warning("max_retries cannot be greater than 10, defaulting to 10")
         max_retries = 10
@@ -147,8 +156,6 @@ def upload_zip(
                     AsyncBulkUploadStatusParams(receipt_id=start_upload_response.data.receipt_id)
                 )
                 if not status_response.data.empty():
-                    # resp_dict = asdict(response.data)
-
                     if output_type == display.OUTPUT_TYPE_TEXT:
                         if verbose:
                             print(INDENT, "- Upload finished")
@@ -209,8 +216,9 @@ def get_upload_output_as_dict(
     zip_infos: list[zipfile.ZipInfo],
     verbose: bool,
     skip_tests: bool,
+    upload_result: str,
 ) -> dict:
-    output = {}
+    output = {"result": upload_result}
     if upload_stats is not None:
         output["upload_statistics"] = asdict(upload_stats)
     if not skip_tests:
@@ -229,8 +237,9 @@ def get_failed_upload_as_dict(
     zip_infos: list[zipfile.ZipInfo],
     verbose: bool,
     skip_tests: bool,
+    upload_result: str,
 ) -> dict:
-    output = {"failed_upload_details": err.asdict()}
+    output = {"failed_upload_details": err.asdict(), "result": upload_result}
     if not skip_tests:
         output["tests"] = testing.test_output_dict(test_results, verbose)
     if verbose:
