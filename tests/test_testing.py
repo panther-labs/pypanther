@@ -241,6 +241,7 @@ class TestPrintFailureSummary:
             "   2. \x1b[1mSub2\x1b[0m:\n"
             "     - test4\n"
             "     - test6\n"
+            "\n"
         )
         std = capsys.readouterr()
         assert std.out == exp
@@ -255,7 +256,7 @@ class TestPrintTestSummary:
         testing.print_test_summary(test_results)
 
         exp = (
-            "\x1b[95mSummary\x1b[0m:\n"
+            "\x1b[95mTest Summary\x1b[0m:\n"
             "   Skipped rules:   1\n"
             "   Passed rules:    0\n"
             "   \x1b[4mFailed rules:    0\x1b[0m\n"
@@ -279,7 +280,7 @@ class TestPrintTestSummary:
         testing.print_test_summary(test_results)
 
         exp = (
-            "\x1b[95mSummary\x1b[0m:\n"
+            "\x1b[95mTest Summary\x1b[0m:\n"
             "   Skipped rules:   0\n"
             "   Passed rules:    1\n"
             "   \x1b[4mFailed rules:    0\x1b[0m\n"
@@ -303,7 +304,7 @@ class TestPrintTestSummary:
         testing.print_test_summary(test_results)
 
         exp = (
-            "\x1b[95mSummary\x1b[0m:\n"
+            "\x1b[95mTest Summary\x1b[0m:\n"
             "   Skipped rules:   1\n"
             "   Passed rules:    0\n"
             "   \x1b[4mFailed rules:    2\x1b[0m\n"

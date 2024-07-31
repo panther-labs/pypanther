@@ -35,8 +35,13 @@ from gql.transport.exceptions import TransportQueryError
 from graphql import DocumentNode, ExecutionResult
 
 from pypanther import display
+
 from ..constants import VERSION_STRING, ReplayStatus
 from .client import (
+    AsyncBulkUploadParams,
+    AsyncBulkUploadResponse,
+    AsyncBulkUploadStatusParams,
+    AsyncBulkUploadStatusResponse,
     BackendCheckResponse,
     BackendError,
     BackendResponse,
@@ -73,12 +78,8 @@ from .client import (
     UnsupportedEndpointError,
     UpdateSchemaParams,
     UpdateSchemaResponse,
-    AsyncBulkUploadParams,
-    AsyncBulkUploadResponse,
-    AsyncBulkUploadStatusParams,
-    AsyncBulkUploadStatusResponse,
-    to_bulk_upload_statistics,
     to_bulk_upload_response,
+    to_bulk_upload_statistics,
 )
 from .errors import is_retryable_error, is_retryable_error_str
 

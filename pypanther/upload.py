@@ -7,18 +7,18 @@ import time
 import zipfile
 from dataclasses import asdict
 from fnmatch import fnmatch
-from typing import Optional, Tuple, Any
+from typing import Any, Optional, Tuple
 
-from pypanther import testing, cli_output, display
-from pypanther.import_main import import_main, NoMainModuleError
+from pypanther import cli_output, display, testing
+from pypanther.import_main import NoMainModuleError, import_main
 from pypanther.registry import registered_rules
 from pypanther.vendor.panther_analysis_tool.backend.client import (
-    BackendError,
-    BulkUploadMultipartError,
     AsyncBulkUploadParams,
     AsyncBulkUploadStatusParams,
     AsyncBulkUploadStatusResponse,
+    BackendError,
     BackendResponse,
+    BulkUploadMultipartError,
 )
 from pypanther.vendor.panther_analysis_tool.backend.client import Client as BackendClient
 from pypanther.vendor.panther_analysis_tool.util import convert_unicode
@@ -80,11 +80,11 @@ def run(backend: BackendClient, args: argparse.Namespace) -> Tuple[int, str]:
                 print(json.dumps(output, indent=display.JSON_INDENT_LEVEL))
 
         except BackendError as be_err:
-            err = BulkUploadMultipartError.from_jsons(convert_unicode(be_err))
+            multi_err = BulkUploadMultipartError.from_jsons(convert_unicode(be_err))
             if args.output == display.OUTPUT_TYPE_TEXT:
-                print_backend_issues(err)
+                print_backend_issues(multi_err)
             elif args.output == display.OUTPUT_TYPE_JSON:
-                output = get_failed_upload_as_dict(err, test_results, zip_info, args.verbose, args.skip_tests)
+                output = get_failed_upload_as_dict(multi_err, test_results, zip_info, args.verbose, args.skip_tests)
                 print(json.dumps(output, indent=display.JSON_INDENT_LEVEL))
             return 1, ""
 
@@ -109,7 +109,7 @@ def zip_contents(named_temp_file: Any) -> list[zipfile.ZipInfo]:
                     arcname=filepath,
                 )
 
-            return zip_out.infolist()
+        return zip_out.infolist()
 
 
 def upload_zip(

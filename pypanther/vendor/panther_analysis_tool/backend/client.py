@@ -619,7 +619,7 @@ def to_bulk_upload_response(data: Any) -> BackendResponse[BulkUploadResponse]:
     default_stats = {"total": 0, "new": 0, "modified": 0, "deleted": 0}
     return BackendResponse(
         status_code=200,
-        data=AsyncBulkUploadStatusResponse(
+        data=BulkUploadResponse(
             rules=BulkUploadStatistics(**data.get("rules", default_stats)),
         ),
     )
