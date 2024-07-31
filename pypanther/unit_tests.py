@@ -13,12 +13,26 @@ RULE_TEST_ALL_ATTRS = [
     "expected_result",
     "log",
     "mocks",
+    "expected_severity",
+    "expected_title",
+    "expected_dedup",
+    "expected_runbook",
+    "expected_reference",
+    "expected_description",
+    "expected_alert_context",
 ]
 
 RULE_MOCK_ALL_ATTRS = [
     "object_name",
     "return_value",
     "side_effect",
+]
+
+RULE_TEST_RESULT_ALL_ATTRS = [
+    "passed",
+    "detection_result",
+    "test",
+    "rule_id",
 ]
 
 

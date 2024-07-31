@@ -7,9 +7,8 @@ import zipfile
 from fnmatch import fnmatch
 from typing import Optional, Tuple, Any
 
-from pypanther import testing
+from pypanther import testing, cli_output
 from pypanther.registry import registered_rules
-from pypanther.vendor.panther_analysis_tool import cli_output
 from pypanther.vendor.panther_analysis_tool.backend.client import (
     BackendError,
     BulkUploadMultipartError,
