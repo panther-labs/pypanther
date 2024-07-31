@@ -61,11 +61,24 @@ class BackendCheckResponse:
 
 
 @dataclass(frozen=True)
+class AsyncBulkUploadParams:
+    zip_bytes: bytes
+
+    def encoded_bytes(self) -> str:
+        return base64.b64encode(self.zip_bytes).decode("utf-8")
+
+
+@dataclass(frozen=True)
 class BulkUploadParams:
     zip_bytes: bytes
 
     def encoded_bytes(self) -> str:
         return base64.b64encode(self.zip_bytes).decode("utf-8")
+
+
+@dataclass(frozen=True)
+class AsyncBulkUploadStatusParams:
+    receipt_id: str
 
 
 @dataclass(frozen=True)
@@ -236,8 +249,21 @@ class BulkUploadValidateStatusResponse(BackendMultipartError):
 
 
 @dataclass(frozen=True)
+class AsyncBulkUploadStatusResponse:
+    rules: BulkUploadStatistics
+
+    def empty(self) -> bool:
+        return self.rules.total == 0 and self.rules.modified == 0 and self.rules.deleted == 0 and self.rules.new == 0
+
+
+@dataclass(frozen=True)
 class BulkUploadResponse:
     rules: BulkUploadStatistics
+
+
+@dataclass(frozen=True)
+class AsyncBulkUploadResponse:
+    receipt_id: str
 
 
 @dataclass(frozen=True)
@@ -483,7 +509,13 @@ class Client(ABC):
         pass
 
     @abstractmethod
-    def async_bulk_upload(self, params: BulkUploadParams) -> BackendResponse[BulkUploadResponse]:
+    def async_bulk_upload(self, params: AsyncBulkUploadParams) -> BackendResponse[AsyncBulkUploadResponse]:
+        pass
+
+    @abstractmethod
+    def async_bulk_upload_status(
+        self, params: AsyncBulkUploadStatusParams
+    ) -> BackendResponse[AsyncBulkUploadStatusResponse]:
         pass
 
     @abstractmethod
@@ -567,11 +599,21 @@ def backend_response_failed(resp: BackendResponse) -> bool:
     return resp.status_code >= 400 or resp.data.get("statusCode", 0) >= 400
 
 
+def to_bulk_upload_statistics(data: Any) -> BackendResponse[AsyncBulkUploadStatusResponse]:
+    default_stats = {"total": 0, "new": 0, "modified": 0, "deleted": 0}
+    return BackendResponse(
+        status_code=200,
+        data=AsyncBulkUploadStatusResponse(
+            rules=BulkUploadStatistics(**data.get("rules", default_stats)),
+        ),
+    )
+
+
 def to_bulk_upload_response(data: Any) -> BackendResponse[BulkUploadResponse]:
     default_stats = {"total": 0, "new": 0, "modified": 0, "deleted": 0}
     return BackendResponse(
         status_code=200,
-        data=BulkUploadResponse(
+        data=AsyncBulkUploadStatusResponse(
             rules=BulkUploadStatistics(**data.get("rules", default_stats)),
         ),
     )

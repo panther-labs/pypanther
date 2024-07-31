@@ -6,9 +6,9 @@ from typing import Callable, Tuple
 
 from gql.transport.aiohttp import log as aiohttp_logger
 
-from pypanther import testing, upload
+from pypanther import testing
 from pypanther.custom_logging import setup_logging
-from pypanther.setup_subparsers import setup_get_rule_parser, setup_list_rules_parser
+from pypanther.setup_subparsers import setup_get_rule_parser, setup_list_rules_parser, setup_upload_parser
 from pypanther.vendor.panther_analysis_tool import util
 from pypanther.vendor.panther_analysis_tool.command import standard_args
 from pypanther.vendor.panther_analysis_tool.config import dynaconf_argparse_merge, setup_dynaconf
@@ -63,30 +63,8 @@ def setup_parser() -> argparse.ArgumentParser:
     upload_parser = subparsers.add_parser(
         "upload", help="Upload a file", formatter_class=argparse.ArgumentDefaultsHelpFormatter
     )
-
     standard_args.for_public_api(upload_parser, required=False)
-    upload_parser.set_defaults(func=util.func_with_backend(upload.run))
-    upload_parser.add_argument(
-        "--max-retries",
-        help="Retry to upload on a failure for a maximum number of times",
-        default=10,
-        type=int,
-        required=False,
-    )
-    upload_parser.add_argument(
-        "--skip-tests",
-        help="Skip running tests and go directly to upload",
-        default=False,
-        required=False,
-        action="store_true",
-    )
-    upload_parser.add_argument(
-        "--confirm",
-        help="Proceed with the upload without requiring user input",
-        default=False,
-        required=False,
-        action="store_true",
-    )
+    setup_upload_parser(upload_parser)
 
     # Test command
     test_parser = subparsers.add_parser(

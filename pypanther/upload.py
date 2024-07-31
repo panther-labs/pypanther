@@ -1,25 +1,33 @@
 import argparse
-import json
 import logging
 import os
 import tempfile
 import time
 import zipfile
-from dataclasses import asdict
 from fnmatch import fnmatch
-from typing import Optional, Tuple
+from typing import Optional, Tuple, Any
 
 from pypanther import testing
+from pypanther.registry import registered_rules
 from pypanther.vendor.panther_analysis_tool import cli_output
 from pypanther.vendor.panther_analysis_tool.backend.client import (
     BackendError,
     BulkUploadMultipartError,
-    BulkUploadParams,
+    AsyncBulkUploadParams,
+    AsyncBulkUploadStatusParams,
 )
 from pypanther.vendor.panther_analysis_tool.backend.client import Client as BackendClient
 from pypanther.vendor.panther_analysis_tool.util import convert_unicode
 
-IGNORE_FOLDERS = [".mypy_cache", "pypanther", "panther_analysis", ".git", "__pycache__"]
+INDENT = " " * 2
+IGNORE_FOLDERS = [
+    ".mypy_cache",
+    "pypanther",
+    "panther_analysis",
+    ".git",
+    "__pycache__",
+    "tests",
+]
 
 
 def run(backend: BackendClient, args: argparse.Namespace) -> Tuple[int, str]:
@@ -33,51 +41,93 @@ def run(backend: BackendClient, args: argparse.Namespace) -> Tuple[int, str]:
         if code > 0:
             return code, err
 
+    if args.verbose:
+        # main.py imported during testing.run
+        print(cli_output.header("Registered Rules"))
+        for i, rule in enumerate(registered_rules(), start=1):
+            print(INDENT, f"{i}. {rule.id}")
+        print()  # new line
+
     with tempfile.NamedTemporaryFile() as tmp:
-        with zipfile.ZipFile(tmp, "w") as zip_out:
-            logging.info(f"Writing to temporary zip file at {tmp.name}")
-
-            for root, dir, files in os.walk("."):
-                for bad in IGNORE_FOLDERS:
-                    if bad in dir:
-                        dir.remove(bad)
-
-                for file in files:
-                    if not fnmatch(file, "*.py"):
-                        continue
-
-                    filepath = os.path.join(root, file)
-
-                    zip_out.write(
-                        filepath,
-                        arcname=filepath,
-                    )
-        return upload_zip(backend, args, archive=tmp.name)
+        zip_contents(tmp, args.verbose)
+        return upload_zip(backend, archive=tmp.name, verbose=args.verbose, max_retries=args.max_retries)
 
 
-def upload_zip(backend: BackendClient, args: argparse.Namespace, archive: str) -> Tuple[int, str]:
+def zip_contents(named_temp_file: Any, verbose: bool):
+    with zipfile.ZipFile(named_temp_file, "w") as zip_out:
+        for root, dir_, files in os.walk("."):
+            for bad in IGNORE_FOLDERS:
+                if bad in dir_:
+                    dir_.remove(bad)
+
+            for file in files:
+                if not fnmatch(file, "*.py"):
+                    continue
+
+                filepath = os.path.join(root, file)
+
+                zip_out.write(
+                    filepath,
+                    arcname=filepath,
+                )
+
+        if verbose:
+            print(cli_output.header("Included files:"))
+            for info in zip_out.infolist():
+                print(INDENT, f"- {info.filename}")
+            print()  # new line
+
+
+def upload_zip(backend: BackendClient, archive: str, verbose: bool, max_retries: int = 10) -> Tuple[int, str]:
     # extract max retries we should handle
-    max_retries = 10
-    if args.max_retries > 10:
+    # _max_retries = 10
+    if max_retries > 10:
         logging.warning("max_retries cannot be greater than 10, defaulting to 10")
-    elif args.max_retries < 0:
+        max_retries = 10
+    elif max_retries < 0:
         logging.warning("max_retries cannot be negative, defaulting to 0")
         max_retries = 0
 
     with open(archive, "rb") as analysis_zip:
-        logging.info("Uploading items to Panther")
+        if verbose:
+            print(cli_output.header("Uploading to Panther"))
+        else:
+            print("Uploading to Panther")
 
-        upload_params = BulkUploadParams(zip_bytes=analysis_zip.read())
+        upload_params = AsyncBulkUploadParams(zip_bytes=analysis_zip.read())
         retry_count = 0
 
         while True:
             try:
-                response = backend.async_bulk_upload(upload_params)
+                start_upload_response = backend.async_bulk_upload(upload_params)
+                if verbose:
+                    print(INDENT, "- Upload started")
 
-                resp_dict = asdict(response.data)
+                while True:
+                    time.sleep(2)
 
-                logging.info("API Response:\n%s", json.dumps(resp_dict, indent=4))
-                return 0, cli_output.success("Upload succeeded")
+                    status_response = backend.async_bulk_upload_status(
+                        AsyncBulkUploadStatusParams(receipt_id=start_upload_response.data.receipt_id)
+                    )
+                    if not status_response.data.empty():
+                        # resp_dict = asdict(response.data)
+
+                        if verbose:
+                            print(INDENT, "- Upload finished")
+                            print()  # new line
+                            print(cli_output.header("Upload Statistics"))
+                            print(INDENT, cli_output.bold("Rules:"))
+                            print(INDENT * 2, f"New:     {status_response.data.rules.new}")
+                            print(INDENT * 2, f"Modified: {status_response.data.rules.modified}")
+                            print(INDENT * 2, f"Deleted: {status_response.data.rules.deleted}")
+                            print(INDENT * 2, f"Total:   {status_response.data.rules.total}")
+                            print()  # new line
+
+                        print(cli_output.success("Upload succeeded"))
+                        return 0, ""
+
+                    if verbose:
+                        print(INDENT, "- Upload still in progress")
 
             except BackendError as be_err:
                 err = cli_output.multipart_error_msg(

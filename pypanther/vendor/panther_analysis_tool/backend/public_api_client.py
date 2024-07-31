@@ -72,6 +72,11 @@ from .client import (
     UnsupportedEndpointError,
     UpdateSchemaParams,
     UpdateSchemaResponse,
+    AsyncBulkUploadParams,
+    AsyncBulkUploadResponse,
+    AsyncBulkUploadStatusParams,
+    AsyncBulkUploadStatusResponse,
+    to_bulk_upload_statistics,
     to_bulk_upload_response,
 )
 from .errors import is_retryable_error, is_retryable_error_str
@@ -84,6 +89,7 @@ class PublicAPIClientOptions:
     host: str
     token: str
     user_id: str
+    verbose: bool
 
 
 class PublicAPIRequests:  # pylint: disable=too-many-public-methods
@@ -170,7 +176,7 @@ class PublicAPIClient(Client):  # pylint: disable=too-many-public-methods
     def __init__(self, opts: PublicAPIClientOptions):
         self._user_id = opts.user_id
         self._requests = PublicAPIRequests()
-        self._gql_client = _build_client(opts.host, opts.token)
+        self._gql_client = _build_client(opts.host, opts.token, opts.verbose)
 
     def check(self) -> BackendCheckResponse:
         res = self._execute(self._requests.version_query())
@@ -193,7 +199,7 @@ class PublicAPIClient(Client):  # pylint: disable=too-many-public-methods
 
         return BackendCheckResponse(success=True, message=f"connected to Panther backend on version: {panther_version}")
 
-    def async_bulk_upload(self, params: BulkUploadParams) -> BackendResponse[BulkUploadResponse]:
+    def async_bulk_upload(self, params: AsyncBulkUploadParams) -> BackendResponse[AsyncBulkUploadResponse]:
         query = self._requests.async_bulk_upload_mutation()
         upload_params = {
             "input": {
@@ -207,25 +213,54 @@ class PublicAPIClient(Client):  # pylint: disable=too-many-public-methods
         if not receipt_id:
             raise BackendError("empty data")
 
-        while True:
-            time.sleep(2)
-            query = self._requests.async_bulk_upload_status_query()
-            params = {"input": receipt_id}  # type: ignore
-            res = self._safe_execute(query, variable_values=params)  # type: ignore
-            result = res.data.get("detectionEntitiesUploadStatus", {})  # type: ignore
-            status = result.get("status", "")
-            error = result.get("error")
-            data = result.get("result")
-            if status == "FAILED":
-                if is_retryable_error_str(error):
-                    raise BackendError(error)
-                raise PermanentBackendError(error)
+        return BackendResponse(
+            status_code=200,
+            data=AsyncBulkUploadResponse(receipt_id=receipt_id),
+        )
 
-            if status == "COMPLETED":
-                return to_bulk_upload_response(data)
+        # while True:
+        #     time.sleep(2)
+        #     query = self._requests.async_bulk_upload_status_query()
+        #     params = {"input": receipt_id}  # type: ignore
+        #     res = self._safe_execute(query, variable_values=params)  # type: ignore
+        #     result = res.data.get("detectionEntitiesUploadStatus", {})  # type: ignore
+        #     status = result.get("status", "")
+        #     error = result.get("error")
+        #     data = result.get("result")
+        #     if status == "FAILED":
+        #         if is_retryable_error_str(error):
+        #             raise BackendError(error)
+        #         raise PermanentBackendError(error)
+        #
+        #     if status == "COMPLETED":
+        #         return to_bulk_upload_response(data)
+        #
+        #     if status not in ["NOT_PROCESSED"]:
+        #         raise BackendError(f"unexpected status: {status}")
 
-            if status not in ["NOT_PROCESSED"]:
-                raise BackendError(f"unexpected status: {status}")
+    def async_bulk_upload_status(
+        self, params: AsyncBulkUploadStatusParams
+    ) -> BackendResponse[AsyncBulkUploadStatusResponse]:
+        query = self._requests.async_bulk_upload_status_query()
+        params = {"input": params.receipt_id}  # type: ignore
+        res = self._safe_execute(query, variable_values=params)  # type: ignore
+        result = res.data.get("detectionEntitiesUploadStatus", {})  # type: ignore
+        status = result.get("status", "")
+        error = result.get("error")
+        data = result.get("result")
+
+        if status == "FAILED":
+            if is_retryable_error_str(error):
+                raise BackendError(error)
+            raise PermanentBackendError(error)
+
+        if status == "COMPLETED":
+            return to_bulk_upload_statistics(data)
+
+        if status not in ["NOT_PROCESSED"]:
+            raise BackendError(f"unexpected status: {status}")
+
+        return to_bulk_upload_statistics({})
 
     def bulk_upload(self, params: BulkUploadParams) -> BackendResponse[BulkUploadResponse]:
         query = self._requests.bulk_upload_mutation()
@@ -656,9 +691,11 @@ _API_DOMAIN_PREFIX = "api"
 _API_TOKEN_HEADER = "X-API-Key"  # nosec
 
 
-def _build_client(host: str, token: str) -> GraphQLClient:
+def _build_client(host: str, token: str, verbose: bool) -> GraphQLClient:
     graphql_url = _build_api_url(host)
-    logging.info("Panther Public API endpoint: %s", graphql_url)
+    if verbose:
+        print("Panther Public API endpoint: %s", graphql_url)
+        print()  # new line
 
     transport = AIOHTTPTransport(url=graphql_url, headers={_API_TOKEN_HEADER: token})
 

@@ -1,6 +1,7 @@
 import argparse
 
-from pypanther import display, get_rule, list_rules
+from pypanther import display, get_rule, list_rules, upload
+from pypanther.vendor.panther_analysis_tool import util
 
 
 def setup_list_rules_parser(list_rules_parser: argparse.ArgumentParser):
@@ -148,4 +149,36 @@ def setup_get_rule_parser(get_rules_parser: argparse.ArgumentParser):
         required=False,
         choices=display.VALID_CLI_OUTPUT_TYPES,
         default=display.DEFAULT_CLI_OUTPUT_TYPE,
+    )
+
+
+def setup_upload_parser(upload_parser: argparse.ArgumentParser):
+    upload_parser.set_defaults(func=util.func_with_backend(upload.run))
+    upload_parser.add_argument(
+        "--max-retries",
+        help="Retry to upload on a failure for a maximum number of times",
+        default=10,
+        type=int,
+        required=False,
+    )
+    upload_parser.add_argument(
+        "--skip-tests",
+        help="Skip running tests and go directly to upload",
+        default=False,
+        required=False,
+        action="store_true",
+    )
+    upload_parser.add_argument(
+        "--confirm",
+        help="Proceed with the upload without requiring user input",
+        default=False,
+        required=False,
+        action="store_true",
+    )
+    upload_parser.add_argument(
+        "--verbose",
+        help="Verbose output",
+        default=False,
+        required=False,
+        action="store_true",
     )

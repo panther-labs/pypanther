@@ -42,7 +42,10 @@ def get_backend(args: argparse.Namespace) -> BackendClient:
     if not args.api_token:
         raise BackendNotFoundException("API token is required")
 
-    return PublicAPIClient(PublicAPIClientOptions(token=args.api_token, user_id=PANTHER_USER_ID, host=args.api_host))
+    verbose = args.verbose if hasattr(args, "verbose") else False
+    return PublicAPIClient(
+        PublicAPIClientOptions(token=args.api_token, user_id=PANTHER_USER_ID, host=args.api_host, verbose=verbose)
+    )
 
 
 def convert_unicode(obj: Any) -> str:
