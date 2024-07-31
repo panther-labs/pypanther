@@ -179,7 +179,7 @@ class BulkUploadMultipartError(BackendMultipartError):
     def has_error(self) -> bool:
         return self.error is not None and len(self.error) > 0
 
-    def get_error(self) -> Optional[str]:
+    def get_error(self) -> str:
         return self.error
 
     def has_issues(self) -> bool:

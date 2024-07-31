@@ -218,7 +218,7 @@ def get_upload_output_as_dict(
     skip_tests: bool,
     upload_result: str,
 ) -> dict:
-    output = {"result": upload_result}
+    output: dict[str, Any] = {"result": upload_result}
     if upload_stats is not None:
         output["upload_statistics"] = asdict(upload_stats)
     if not skip_tests:
