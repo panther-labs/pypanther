@@ -246,6 +246,8 @@ class AWSIAMBackdoorUserKeys(Rule):
     def alert_context(self, event):
         base = aws_rule_context(event)
         base["ip_accessKeyId"] = (
-            event.get("sourceIpAddress") + ":" + event.deep_get("responseElements", "accessKey", "accessKeyId")
+            event.get("sourceIpAddress", "<NO_IP_ADDRESS>")
+            + ":"
+            + event.deep_get("responseElements", "accessKey", "accessKeyId")
         )
         return base
