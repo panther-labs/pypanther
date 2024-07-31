@@ -6,7 +6,7 @@ from typing import Callable, Tuple
 
 from gql.transport.aiohttp import log as aiohttp_logger
 
-from pypanther import testing, upload
+from pypanther import shared_args, testing, upload
 from pypanther.custom_logging import setup_logging
 from pypanther.setup_subparsers import setup_get_rule_parser, setup_list_rules_parser, setup_test_parser
 from pypanther.vendor.panther_analysis_tool import util
