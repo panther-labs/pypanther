@@ -50,18 +50,15 @@ def run(backend: BackendClient, args: argparse.Namespace) -> Tuple[int, str]:
         logging.error("No main.py found")
         return 1, ""
 
-    if len(registered_rules()) == 0:
-        logging.error("No registered rules found")
-        return 1, ""
-
     test_results = testing.TestResults()  # default to something, so it can be used below in output
     if not args.skip_tests:
         test_results = testing.run_tests(args)
         if test_results.had_failed_tests():
-            output = get_upload_output_as_dict(
-                None, test_results, [], args.verbose, args.skip_tests, UPLOAD_RESULT_TESTS_FAILED
-            )
-            print(json.dumps(output, indent=display.JSON_INDENT_LEVEL))
+            if args.output == display.OUTPUT_TYPE_JSON:
+                output = get_upload_output_as_dict(
+                    None, test_results, [], args.verbose, args.skip_tests, UPLOAD_RESULT_TESTS_FAILED
+                )
+                print(json.dumps(output, indent=display.JSON_INDENT_LEVEL))
             return 1, ""
 
         if args.output == display.OUTPUT_TYPE_TEXT:
@@ -251,6 +248,9 @@ def get_failed_upload_as_dict(
 
 
 def print_registered_rules() -> None:
+    if len(registered_rules()) == 0:
+        return
+
     print(cli_output.header("Registered Rules"))
     for i, rule in enumerate(registered_rules(), start=1):
         print(INDENT, f"{i}. {rule.id}")
