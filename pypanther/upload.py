@@ -38,12 +38,16 @@ def run(backend: BackendClient, args: argparse.Namespace) -> Tuple[int, str]:
     if not args.confirm:
         err = confirm()
         if err is not None:
-            return 0, err
+            return 0, ""
 
     try:
         import_main(os.getcwd(), "main")
     except NoMainModuleError:
         logging.error("No main.py found")
+        return 1, ""
+
+    if len(registered_rules()) == 0:
+        logging.error("No registered rules found")
         return 1, ""
 
     test_results = testing.TestResults()  # default to something, so it can be used below in output

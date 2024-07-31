@@ -21,6 +21,7 @@ import argparse
 import re
 from typing import Any, Callable, Tuple
 
+from pypanther import display
 from pypanther.vendor.panther_analysis_tool.backend.client import Client as BackendClient
 from pypanther.vendor.panther_analysis_tool.backend.public_api_client import PublicAPIClient, PublicAPIClientOptions
 from pypanther.vendor.panther_analysis_tool.constants import PANTHER_USER_ID
@@ -43,8 +44,15 @@ def get_backend(args: argparse.Namespace) -> BackendClient:
         raise BackendNotFoundException("API token is required")
 
     verbose = args.verbose if hasattr(args, "verbose") else False
+    output_type = args.output if hasattr(args, "output") else display.OUTPUT_TYPE_TEXT
     return PublicAPIClient(
-        PublicAPIClientOptions(token=args.api_token, user_id=PANTHER_USER_ID, host=args.api_host, verbose=verbose)
+        PublicAPIClientOptions(
+            token=args.api_token,
+            user_id=PANTHER_USER_ID,
+            host=args.api_host,
+            verbose=verbose,
+            output_type=output_type,
+        )
     )
 
 
