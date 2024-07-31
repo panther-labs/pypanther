@@ -52,7 +52,7 @@ def run(backend: BackendClient, args: argparse.Namespace) -> Tuple[int, str]:
 
     test_results = testing.TestResults()  # default to something, so it can be used below in output
     if not args.skip_tests:
-        test_results = testing.run_tests(args.verbose, args.output)
+        test_results = testing.run_tests(args)
         if test_results.had_failed_tests():
             output = get_upload_output_as_dict(None, test_results, [], args.verbose, args.skip_tests)
             print(json.dumps(output, indent=display.JSON_INDENT_LEVEL))

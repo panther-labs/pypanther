@@ -1,11 +1,16 @@
+import contextlib
+import os.path
+from pathlib import Path
 from typing import Any
 
+import pytest
 from panther_core import PantherEvent
 
 from pypanther import testing
 from pypanther.base import Rule, RuleTest, Severity
 from pypanther.cache import DATA_MODEL_CACHE
 from pypanther.log_types import LogType
+from pypanther.main import setup_parser
 
 get_data_model = DATA_MODEL_CACHE.data_model_of_logtype
 
@@ -524,3 +529,49 @@ class TestGetTestSummaryAsDict:
             "total_tests": 6,
         }
         assert out == exp
+
+
+class TestRun:
+    FILTER_ARGS = [
+        ""  # no filter
+        "--log-types a b",
+        "--id abc",
+        "--create-alert true",
+        "--dedup-period-minutes 5",
+        "--display-name 5",
+        "--enabled true",
+        "--summary-attributes a b",
+        "--threshold 9",
+        "--tags a b",
+        "--default-severity low",
+        "--default-description desc",
+        "--default-reference ref",
+        "--default-runbook run",
+        "--default-destinations a b",
+    ]
+
+    @pytest.mark.parametrize("cmd", [f"test {f}" for f in FILTER_ARGS])
+    def test_test_filters(self, cmd: str) -> None:
+        with create_main():
+            args = setup_parser().parse_args(cmd.split(" "))
+            code, result = testing.run(args)
+            assert code == 0
+            assert result == ""
+
+
+@contextlib.contextmanager
+def create_main():
+    """Creates a main.py at the cwd if it does not exist."""
+    main_path = Path(os.getcwd()) / "main.py"
+    created_main = False
+
+    if not os.path.exists(main_path):
+        with open(main_path, "w") as f:
+            created_main = True
+            f.write("from pypanther import get_panther_rules, register; register(get_panther_rules())")
+
+    try:
+        yield
+    finally:
+        if created_main:
+            os.remove(main_path)

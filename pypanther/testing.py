@@ -86,7 +86,7 @@ def run(args: argparse.Namespace) -> Tuple[int, str]:
         logging.error("No main.py found")
         return 1, ""
 
-    test_results = run_tests(args.verbose, args.output)
+    test_results = run_tests(args)
 
     if args.output == display.OUTPUT_TYPE_JSON:
         print(
@@ -102,19 +102,34 @@ def run(args: argparse.Namespace) -> Tuple[int, str]:
     return 0, ""
 
 
-def run_tests(verbose: bool, output_type: str) -> TestResults:
+def run_tests(args: argparse.Namespace) -> TestResults:
     test_results = TestResults()
 
-    for rule in registered_rules():
+    for rule in registered_rules(
+        log_types=args.log_types,
+        id=args.id,
+        create_alert=args.create_alert,
+        dedup_period_minutes=args.dedup_period_minutes,
+        display_name=args.display_name,
+        enabled=args.enabled,
+        summary_attributes=args.summary_attributes,
+        threshold=args.threshold,
+        tags=args.tags,
+        default_severity=args.default_severity,
+        default_description=args.default_description,
+        default_reference=args.default_reference,
+        default_runbook=args.default_runbook,
+        default_destinations=args.default_destinations,
+    ):
         results = rule.run_tests(DATA_MODEL_CACHE.data_model_of_logtype)
         test_results.add_test_results(rule.id, results)
 
-        if output_type == display.OUTPUT_TYPE_TEXT:
+        if args.output == display.OUTPUT_TYPE_TEXT:
             # intent here is to give the user more interactive feedback by printing
             # the tests as they are running instead of waiting until the very end.
-            print_rule_test_results(verbose, rule.id, results)
+            print_rule_test_results(args.verbose, rule.id, results)
 
-    if output_type == display.OUTPUT_TYPE_TEXT:
+    if args.output == display.OUTPUT_TYPE_TEXT:
         print_failed_test_summary(test_results)
         print_test_summary(test_results)
 

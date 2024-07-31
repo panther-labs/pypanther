@@ -1,11 +1,12 @@
 import argparse
 
-from pypanther import display, get_rule, list_rules, upload
+from pypanther import display, get_rule, list_rules, shared_args, upload
 from pypanther.vendor.panther_analysis_tool import util
 
 
 def setup_list_rules_parser(list_rules_parser: argparse.ArgumentParser):
     list_rules_parser.set_defaults(func=list_rules.run)
+    shared_args.for_filtering(list_rules_parser)
     list_rules_parser.add_argument(
         "--managed",
         help="List panther managed rules",
@@ -19,104 +20,6 @@ def setup_list_rules_parser(list_rules_parser: argparse.ArgumentParser):
         default=False,
         required=False,
         action="store_true",
-    )
-    list_rules_parser.add_argument(
-        "--log-types",
-        help="Filter results by log types (i.e --log-types AWS.ALB Panther.Audit)",
-        default=None,
-        nargs="+",
-        required=False,
-    )
-    list_rules_parser.add_argument(
-        "--id",
-        help="Filter results by id",
-        type=str,
-        default=None,
-        required=False,
-    )
-    list_rules_parser.add_argument(
-        "--create-alert",
-        help="Filter results by create alert",
-        type=bool,
-        default=None,
-        required=False,
-    )
-    list_rules_parser.add_argument(
-        "--dedup-period-minutes",
-        help="Filter results by dedup period minutes",
-        type=int,
-        default=None,
-        required=False,
-    )
-    list_rules_parser.add_argument(
-        "--display-name",
-        help="Filter results by display name",
-        type=str,
-        default=None,
-        required=False,
-    )
-    list_rules_parser.add_argument(
-        "--enabled",
-        help="Filter results by enabled status",
-        type=bool,
-        default=None,
-        required=False,
-    )
-    list_rules_parser.add_argument(
-        "--summary-attributes",
-        help="Filter results by summary attributes (i.e --summary-attributes abc dce)",
-        nargs="+",
-        default=None,
-        required=False,
-    )
-    list_rules_parser.add_argument(
-        "--threshold",
-        help="Filter results by threshold",
-        type=int,
-        default=None,
-        required=False,
-    )
-    list_rules_parser.add_argument(
-        "--tags",
-        help="Filter results by tags (e.g. --tags security prod)",
-        nargs="+",
-        default=None,
-        required=False,
-    )
-    list_rules_parser.add_argument(
-        "--default-severity",
-        help="Filter results by default severity",
-        type=str,
-        default=None,
-        required=False,
-    )
-    list_rules_parser.add_argument(
-        "--default-description",
-        help="Filter results by default description",
-        type=str,
-        default=None,
-        required=False,
-    )
-    list_rules_parser.add_argument(
-        "--default-reference",
-        help="Filter results by default reference",
-        type=str,
-        default=None,
-        required=False,
-    )
-    list_rules_parser.add_argument(
-        "--default-runbook",
-        help="Filter results by default runbook",
-        type=str,
-        default=None,
-        required=False,
-    )
-    list_rules_parser.add_argument(
-        "--default-destinations",
-        help="Filter results by default destinations",
-        nargs="+",
-        default=None,
-        required=False,
     )
     list_rules_parser.add_argument(
         "--attributes",
@@ -153,6 +56,7 @@ def setup_get_rule_parser(get_rules_parser: argparse.ArgumentParser):
 
 
 def setup_test_parser(test_parser: argparse.ArgumentParser):
+    shared_args.for_filtering(test_parser)
     test_parser.add_argument(
         "--verbose",
         help="Verbose output, includes passing tests, skipped tests, and exception stack traces",
