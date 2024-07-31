@@ -8,7 +8,7 @@ from gql.transport.aiohttp import log as aiohttp_logger
 
 from pypanther import testing, upload
 from pypanther.custom_logging import setup_logging
-from pypanther.setup_subparsers import setup_get_rule_parser, setup_list_rules_parser
+from pypanther.setup_subparsers import setup_get_rule_parser, setup_list_rules_parser, setup_test_parser
 from pypanther.vendor.panther_analysis_tool import util
 from pypanther.vendor.panther_analysis_tool.command import standard_args
 from pypanther.vendor.panther_analysis_tool.config import dynaconf_argparse_merge, setup_dynaconf
@@ -93,6 +93,7 @@ def setup_parser() -> argparse.ArgumentParser:
         "test", help="run tests", formatter_class=argparse.ArgumentDefaultsHelpFormatter
     )
     test_parser.set_defaults(func=testing.run)
+    setup_test_parser(test_parser)
 
     # Version command
     version_parser = subparsers.add_parser(
