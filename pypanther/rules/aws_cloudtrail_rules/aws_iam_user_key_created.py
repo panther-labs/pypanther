@@ -244,4 +244,8 @@ class AWSIAMBackdoorUserKeys(Rule):
         return f"{deep_get(event, 'userIdentity', 'arn')}"
 
     def alert_context(self, event):
-        return aws_rule_context(event)
+        base = aws_rule_context(event)
+        base["ip_accessKeyId"] = (
+            event.get("sourceIpAddress") + ":" + event.deep_get("responseElements", "accessKey", "accessKeyId")
+        )
+        return base

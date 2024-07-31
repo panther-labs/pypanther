@@ -1,5 +1,5 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
-from pypanther.helpers.panther_base_helpers import crowdstrike_detection_alert_context, deep_get
+from pypanther.helpers.panther_base_helpers import crowdstrike_detection_alert_context
 
 crowdstrike_systemlog_tampering_tests: list[RuleTest] = [
     RuleTest(
@@ -171,9 +171,9 @@ class CrowdstrikeSystemlogTampering(Rule):
     def rule(self, event):
         if event.get("fdr_event_type", "") == "ProcessRollup2":
             if event.get("event_platform", "") == "Win":
-                process_name = deep_get(event, "event", "ImageFileName", default="").lower().split("\\")[-1]
+                process_name = event.deep_get("event", "ImageFileName", default="").lower().split("\\")[-1]
                 if process_name in self.CLEARING_SYSTEM_LOG_TOOLS:
-                    process_command_line = deep_get(event, "event", "CommandLine", default="").split(" ")
+                    process_command_line = event.deep_get("event", "CommandLine", default="").split(" ")
                     suspicious_command_lines = self.CLEARING_SYSTEM_LOG_TOOLS.get(process_name)
                     for suspicious_command_line in suspicious_command_lines:
                         if suspicious_command_line in process_command_line:
@@ -182,7 +182,7 @@ class CrowdstrikeSystemlogTampering(Rule):
 
     def title(self, event):
         aid = event.get("aid", "<AID_NOT_FOUND>")
-        command = deep_get(event, "event", "CommandLine", default="<COMMAND_NOT_FOUND>")
+        command = event.deep_get("event", "CommandLine", default="<COMMAND_NOT_FOUND>")
         return f"Crowdstrike: System log tampering attempt detected on aid [{aid}] with command [{command}]"
 
     def alert_context(self, event):

@@ -21,6 +21,15 @@ slack_audit_logs_user_privilege_escalation_tests: list[RuleTest] = [
                 },
                 "ua": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/103.0.0.0 Safari/537.36",
             },
+            "entity": {
+                "type": "user",
+                "user": {
+                    "email": "user@example.com",
+                    "id": "W012J3FEWAU",
+                    "name": "primary-owner",
+                    "team": "T01234N56GB",
+                },
+            },
         },
     ),
     RuleTest(
@@ -41,6 +50,15 @@ slack_audit_logs_user_privilege_escalation_tests: list[RuleTest] = [
                     "type": "workspace",
                 },
                 "ua": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/103.0.0.0 Safari/537.36",
+            },
+            "entity": {
+                "type": "user",
+                "user": {
+                    "email": "user@example.com",
+                    "id": "W012J3FEWAU",
+                    "name": "primary-owner",
+                    "team": "T01234N56GB",
+                },
             },
         },
     ),
@@ -63,6 +81,15 @@ slack_audit_logs_user_privilege_escalation_tests: list[RuleTest] = [
                 },
                 "ua": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/103.0.0.0 Safari/537.36",
             },
+            "entity": {
+                "type": "user",
+                "user": {
+                    "email": "user@example.com",
+                    "id": "W012J3FEWAU",
+                    "name": "primary-owner",
+                    "team": "T01234N56GB",
+                },
+            },
         },
     ),
     RuleTest(
@@ -83,6 +110,15 @@ slack_audit_logs_user_privilege_escalation_tests: list[RuleTest] = [
                     "type": "workspace",
                 },
                 "ua": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/103.0.0.0 Safari/537.36",
+            },
+            "entity": {
+                "type": "user",
+                "user": {
+                    "email": "user@example.com",
+                    "id": "W012J3FEWAU",
+                    "name": "primary-owner",
+                    "team": "T01234N56GB",
+                },
             },
         },
     ),
@@ -149,17 +185,22 @@ class SlackAuditLogsUserPrivilegeEscalation(Rule):
         return event.get("action") in self.USER_PRIV_ESC_ACTIONS
 
     def title(self, event):
-        username = deep_get(event, "actor", "user", "name", default="<unknown-actor>")
-        email = deep_get(event, "actor", "user", "email", default="<unknown-email>")
-        if event.get("action") == "owner_transferred":
-            return f"Slack Owner Transferred from {username} ({email})"
-        if event.get("action") == "permissions_assigned":
-            return f"Slack User, {username} ({email}), assigned permissions"
-        if event.get("action") == "role_change_to_admin":
-            return f"Slack User, {username} ({email}), promoted to admin"
-        if event.get("action") == "role_change_to_owner":
-            return f"Slack User, {username} ({email}), promoted to Owner"
-        return f"Slack User Privilege Escalation event {event.get('action')} on {username} ({email})"
+        # This is the user taking the action.
+        actor_username = deep_get(event, "actor", "user", "name", default="<unknown-actor>")
+        actor_email = deep_get(event, "actor", "user", "email", default="<unknown-email>")
+        # This is the user the action is taken on.
+        entity_username = deep_get(event, "entity", "user", "name", default="<unknown-actor>")
+        entity_email = deep_get(event, "entity", "user", "email", default="<unknown-email>")
+        action = event.get("action")
+        if action == "owner_transferred":
+            return f"{self.USER_PRIV_ESC_ACTIONS[action]} from {actor_username} ({actor_email})"
+        if action == "permissions_assigned":
+            return f"{self.USER_PRIV_ESC_ACTIONS[action]} {entity_username} ({entity_email})"
+        if action == "role_change_to_admin":
+            return f"{self.USER_PRIV_ESC_ACTIONS[action]} {entity_username} ({entity_email})"
+        if action == "role_change_to_owner":
+            return f"{self.USER_PRIV_ESC_ACTIONS[action]} {entity_username} ({entity_email})"
+        return f"Slack User Privilege Escalation event {action} on {entity_username} ({entity_email})"
 
     def severity(self, event):
         # Downgrade severity for users assigned permissions
