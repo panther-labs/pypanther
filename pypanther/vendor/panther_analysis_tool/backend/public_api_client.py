@@ -223,7 +223,7 @@ class PublicAPIClient(Client):  # pylint: disable=too-many-public-methods
 
     def async_bulk_upload_status(
         self, params: AsyncBulkUploadStatusParams
-    ) -> BackendResponse[AsyncBulkUploadStatusResponse]:
+    ) -> BackendResponse[AsyncBulkUploadStatusResponse] | None:
         query = self._requests.async_bulk_upload_status_query()
         params = {"input": params.receipt_id}  # type: ignore
         res = self._safe_execute(query, variable_values=params)  # type: ignore
@@ -243,7 +243,7 @@ class PublicAPIClient(Client):  # pylint: disable=too-many-public-methods
         if status not in ["NOT_PROCESSED"]:
             raise BackendError(f"unexpected status: {status}")
 
-        return to_bulk_upload_statistics({})
+        return None
 
     def bulk_upload(self, params: BulkUploadParams) -> BackendResponse[BulkUploadResponse]:
         query = self._requests.bulk_upload_mutation()

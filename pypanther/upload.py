@@ -152,7 +152,7 @@ def upload_zip(
                 status_response = backend.async_bulk_upload_status(
                     AsyncBulkUploadStatusParams(receipt_id=start_upload_response.data.receipt_id)
                 )
-                if not status_response.data.empty():
+                if status_response is not None:
                     if output_type == display.OUTPUT_TYPE_TEXT:
                         if verbose:
                             print(INDENT, "- Upload finished")

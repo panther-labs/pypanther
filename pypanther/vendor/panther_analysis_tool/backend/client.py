@@ -258,9 +258,6 @@ class BulkUploadValidateStatusResponse(BackendMultipartError):
 class AsyncBulkUploadStatusResponse:
     rules: BulkUploadStatistics
 
-    def empty(self) -> bool:
-        return self.rules.total == 0 and self.rules.modified == 0 and self.rules.deleted == 0 and self.rules.new == 0
-
 
 @dataclass(frozen=True)
 class BulkUploadResponse:
@@ -521,7 +518,7 @@ class Client(ABC):
     @abstractmethod
     def async_bulk_upload_status(
         self, params: AsyncBulkUploadStatusParams
-    ) -> BackendResponse[AsyncBulkUploadStatusResponse]:
+    ) -> BackendResponse[AsyncBulkUploadStatusResponse] | None:
         pass
 
     @abstractmethod
