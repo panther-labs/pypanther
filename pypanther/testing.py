@@ -93,6 +93,8 @@ def run(args: argparse.Namespace) -> Tuple[int, str]:
         test_results.add_test_results(rule.id, results)
 
         if args.output == display.OUTPUT_TYPE_TEXT:
+            # intent here is to give the user more interactive feedback by printing
+            # the tests as they are running instead of waiting until the very end.
             print_rule_test_results(args.verbose, rule.id, results)
 
     match args.output:
