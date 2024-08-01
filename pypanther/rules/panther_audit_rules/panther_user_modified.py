@@ -13,7 +13,7 @@ panther_user_modified_tests: list[RuleTest] = [
                     "logTypeAccessKind": "DENY_ALL",
                     "name": "New Admins",
                     "permissions": ["GeneralSettingsModify", "GeneralSettingsRead", "SummaryRead"],
-                }
+                },
             },
             "actionResult": "SUCCEEDED",
             "actor": {
@@ -44,7 +44,7 @@ panther_user_modified_tests: list[RuleTest] = [
                         "givenName": "User",
                         "id": "75757575-7575-7575-7575-757575757575",
                         "role": {"kind": "ID", "value": "(redacted)"},
-                    }
+                    },
                 },
                 "static": {},
             },
@@ -90,7 +90,7 @@ panther_user_modified_tests: list[RuleTest] = [
                         "givenName": "User",
                         "id": "PantherSSO_user.email@springfield.gov",
                         "role": {"kind": "ID", "value": "(redacted)"},
-                    }
+                    },
                 },
                 "static": {},
             },
@@ -135,7 +135,7 @@ panther_user_modified_tests: list[RuleTest] = [
                     "id": "PantherSSO_user.email@springfield.gov",
                     "requesterId": "00000000-0000-4000-8000-000000000000",
                     "roleId": None,
-                }
+                },
             },
             "actionResult": "SUCCEEDED",
             "actor": {"id": "scim", "name": "scim", "type": "TOKEN"},
@@ -162,8 +162,8 @@ panther_user_modified_tests: list[RuleTest] = [
                         "familyName": "Doe",
                         "givenName": "John",
                         "role": "AnalystReadOnly",
-                    }
-                }
+                    },
+                },
             },
             "actionResult": "SUCCEEDED",
             "actor": {"id": "00000000-0000-4000-8000-000000000000", "name": "System", "type": "USER"},

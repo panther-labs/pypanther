@@ -39,7 +39,7 @@ okta_app_unauthorized_access_attempt_tests: list[RuleTest] = [
                     "requestUri": "/idp/idx/identify",
                     "threatSuspected": "false",
                     "url": "/idp/idx/identify?",
-                }
+                },
             },
             "displaymessage": "User attempted unauthorized access to app",
             "eventtype": "app.generic.unauth_app_access_attempt",
@@ -58,8 +58,8 @@ okta_app_unauthorized_access_attempt_tests: list[RuleTest] = [
                         },
                         "ip": "1.2.3.4",
                         "version": "V4",
-                    }
-                ]
+                    },
+                ],
             },
             "securitycontext": {
                 "asNumber": 11351,
@@ -112,7 +112,7 @@ okta_app_unauthorized_access_attempt_tests: list[RuleTest] = [
                     "requestUri": "/idp/idx/identify",
                     "threatSuspected": "false",
                     "url": "/idp/idx/identify?",
-                }
+                },
             },
             "displaymessage": "User attempted to reuse tokens",
             "eventtype": "app.token.reuse",
@@ -131,8 +131,8 @@ okta_app_unauthorized_access_attempt_tests: list[RuleTest] = [
                         },
                         "ip": "1.2.3.4",
                         "version": "V4",
-                    }
-                ]
+                    },
+                ],
             },
             "securitycontext": {
                 "asNumber": 11351,

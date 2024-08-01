@@ -77,7 +77,7 @@ awsiam_policy_modified_tests: list[RuleTest] = [
                     "accountId": "123456789012",
                     "type": "AWS::DynamoDB::Table",
                     "ARN": "arn:aws:dynamodb:us-west-2:123456789012:table/table",
-                }
+                },
             ],
             "eventType": "AwsApiCall",
             "apiVersion": "2012-08-10",

@@ -24,15 +24,19 @@ AWS_ACCOUNTS = {
 
 
 def lookup_aws_account_name(account_id):
-    """Lookup the AWS account name, return the ID if not found
+    """
+    Lookup the AWS account name, return the ID if not found
 
     Args:
+    ----
         account_id (str): The AWS account ID
 
     Returns:
+    -------
         str: The name of the AWS account ID
         or
         str: The AWS account ID (unnamed account)
+
     """
     return AWS_ACCOUNTS.get(account_id, f"{account_id} (unnamed account)")
 
@@ -44,17 +48,21 @@ def aws_cloudtrail_success(event):
 
 
 def aws_event_tense(event_name):
-    """Convert an AWS CloudTrail eventName to be interpolated in alert titles
+    """
+    Convert an AWS CloudTrail eventName to be interpolated in alert titles
 
     An example is passing in StartInstance and returning 'started'.
     This would then be used in an alert title such as
     'The EC2 instance my-instance was started'.
 
     Args:
+    ----
         event_name (str): The CloudTrail eventName
 
     Returns:
+    -------
         str: A tensed version of the event name
+
     """
     mapping = {
         "Create": "created",
@@ -72,7 +80,7 @@ def aws_event_tense(event_name):
 
 # Adapted from https://medium.com/@TalBeerySec/a-short-note-on-aws-key-id-f88cc4317489
 def aws_key_account_id(aws_key: str):
-    """retrieve the AWS account ID associated with a given access key ID"""
+    """Retrieve the AWS account ID associated with a given access key ID"""
     key_no_prefix = aws_key[4:]  # remove the four-character prefix
     base32_key = base64.b32decode(key_no_prefix)  # remainder of the key is base32-encoded
     decoded_key = base32_key[0:6]  # retrieve the 10-byte string
@@ -88,7 +96,7 @@ def aws_key_account_id(aws_key: str):
 
 
 def aws_regions() -> List[str]:
-    """return a list of AWS regions"""
+    """Return a list of AWS regions"""
     return [
         "ap-east-1",
         "ap-northeast-1",

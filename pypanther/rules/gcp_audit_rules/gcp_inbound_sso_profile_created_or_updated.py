@@ -24,9 +24,9 @@ gcp_inbound_sso_profile_created_tests: list[RuleTest] = [
                                     "name": "INBOUND_SSO_PROFILE_NAME",
                                     "type": "TYPE_STRING",
                                     "value": "inboundSamlSsoProfiles/01lmf7wd3jt9atc",
-                                }
+                                },
                             ],
-                        }
+                        },
                     ],
                 },
                 "methodName": "google.admin.AdminService.inboundSsoProfileDeleted",
@@ -77,7 +77,7 @@ gcp_inbound_sso_profile_created_tests: list[RuleTest] = [
                                     "value": "inboundSamlSsoProfiles/03vsz0843d02br4",
                                 },
                             ],
-                        }
+                        },
                     ],
                 },
                 "methodName": "google.admin.AdminService.inboundSsoProfileUpdated",
@@ -120,9 +120,9 @@ gcp_inbound_sso_profile_created_tests: list[RuleTest] = [
                                     "name": "INBOUND_SSO_PROFILE_NAME",
                                     "type": "TYPE_STRING",
                                     "value": "inboundSamlSsoProfiles/03vsz0843d02br4",
-                                }
+                                },
                             ],
-                        }
+                        },
                     ],
                 },
                 "methodName": "google.admin.AdminService.inboundSsoProfileCreated",
@@ -170,7 +170,9 @@ class GCPInboundSSOProfileCreated(Rule):
         actor = event.deep_get("protoPayload", "authenticationInfo", "principalEmail", default="<ACTOR_NOT_FOUND>")
         event_name = event.deep_walk("protoPayload", "metadata", "event", "eventName", default="<EVENT_NAME_NOT_FOUND>")
         resource = organization_id = event.deep_walk(
-            "protoPayload", "resourceName", default="<RESOURCE_NOT_FOUND>"
+            "protoPayload",
+            "resourceName",
+            default="<RESOURCE_NOT_FOUND>",
         ).split("/")
         organization_id = resource[resource.index("organizations") + 1]
         return f"GCP: [{actor}] performed {event_name} in organization {organization_id}"

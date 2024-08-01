@@ -1,6 +1,4 @@
-"""
-Global helpers for Notion detections
-"""
+"""Global helpers for Notion detections"""
 
 from pypanther.helpers.panther_base_helpers import deep_get
 

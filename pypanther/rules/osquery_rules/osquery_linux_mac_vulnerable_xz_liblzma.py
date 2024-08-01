@@ -77,8 +77,8 @@ class OsqueryLinuxMacVulnerableXZliblzma(Rule):
             [
                 event.get("name") in self.QUERY_NAMES,
                 package in self.VULNERABLE_PACKAGES or package.startswith("liblzma"),
-                any((version.startswith(v) for v in self.VULNERABLE_VERSIONS)),
-            ]
+                any(version.startswith(v) for v in self.VULNERABLE_VERSIONS),
+            ],
         )
 
     def title(self, event):

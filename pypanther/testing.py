@@ -57,7 +57,7 @@ class TestResults:
 
     def total_rules(self) -> int:
         return len(
-            {k for k in list(self.failed_rule_tests.keys()) + list(self.passed_rule_tests.keys()) + self.skipped_rules}
+            {k for k in list(self.failed_rule_tests.keys()) + list(self.passed_rule_tests.keys()) + self.skipped_rules},
         )
 
     def num_passed_rules(self) -> int:
@@ -83,7 +83,7 @@ def run(args: argparse.Namespace) -> Tuple[int, str]:
     try:
         import_main(os.getcwd(), "main")
     except NoMainModuleError:
-        logging.error("No main.py found")
+        logging.error("No main.py found")  # noqa: TRY400
         return 1, ""
 
     test_results = run_tests(args)
@@ -93,7 +93,7 @@ def run(args: argparse.Namespace) -> Tuple[int, str]:
             json.dumps(
                 test_output_dict(test_results, args.verbose),
                 indent=display.JSON_INDENT_LEVEL,
-            )
+            ),
         )
 
     if test_results.had_failed_tests():
@@ -272,15 +272,15 @@ def print_failed_test_summary(test_results: TestResults) -> None:
 def print_test_summary(test_results: TestResults) -> None:
     print(cli_output.header("Test Summary") + ":")
 
-    print(INDENT, "Skipped rules: {:>3}".format(test_results.num_skipped_rules()))
-    print(INDENT, "Passed rules:  {:>3}".format(test_results.num_passed_rules()))
-    print(INDENT, cli_output.underline("Failed rules:  {:>3}".format(test_results.num_failed_rules())))
-    print(INDENT, "Total rules:   {:>3}".format(test_results.total_rules()))
+    print(INDENT, f"Skipped rules: {test_results.num_skipped_rules():>3}")
+    print(INDENT, f"Passed rules:  {test_results.num_passed_rules():>3}")
+    print(INDENT, cli_output.underline(f"Failed rules:  {test_results.num_failed_rules():>3}"))
+    print(INDENT, f"Total rules:   {test_results.total_rules():>3}")
     print()  # new line
 
-    print(INDENT, "Passed tests:  {:>3}".format(test_results.num_passed_tests()))
-    print(INDENT, cli_output.underline("Failed tests:  {:>3}".format(test_results.num_failed_tests())))
-    print(INDENT, "Total tests:   {:>3}".format(test_results.total_tests()))
+    print(INDENT, f"Passed tests:  {test_results.num_passed_tests():>3}")
+    print(INDENT, cli_output.underline(f"Failed tests:  {test_results.num_failed_tests():>3}"))
+    print(INDENT, f"Total tests:   {test_results.total_tests():>3}")
 
 
 def get_rule_exceptions(result: RuleTestResult) -> dict[str, Exception]:

@@ -256,10 +256,10 @@ amazon_eks_audit_system_namespace_from_public_ip_tests: list[RuleTest] = [
                 "extra": {
                     "accessKeyId": ["ASIAXXXXXXXXXXXXXXXX"],
                     "arn": [
-                        "arn:aws:sts::123412341234:assumed-role/AWSWesleyClusterManagerLambda-Add-AddonManagerRole-G332QAM69HWF/1669918824986835422"
+                        "arn:aws:sts::123412341234:assumed-role/AWSWesleyClusterManagerLambda-Add-AddonManagerRole-G332QAM69HWF/1669918824986835422",
                     ],
                     "canonicalArn": [
-                        "arn:aws:iam::123412341234:role/AWSWesleyClusterManagerLambda-Add-AddonManagerRole-G332QAM69HWF"
+                        "arn:aws:iam::123412341234:role/AWSWesleyClusterManagerLambda-Add-AddonManagerRole-G332QAM69HWF",
                     ],
                     "sessionName": ["1669918824986835422"],
                 },
@@ -311,7 +311,7 @@ class AmazonEKSAuditSystemNamespaceFromPublicIP(Rule):
         ):
             return False
         if (p_eks.get("actor").startswith("system:") or p_eks.get("actor").startswith("eks:")) and ip_address(
-            p_eks.get("sourceIPs")[0]
+            p_eks.get("sourceIPs")[0],
         ).is_global:
             return True
         return False

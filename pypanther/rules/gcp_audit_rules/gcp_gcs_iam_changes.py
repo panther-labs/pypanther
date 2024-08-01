@@ -24,13 +24,15 @@ gcpgcsiam_changes_tests: list[RuleTest] = [
                         "permission": "storage.buckets.setIamPolicy",
                         "granted": True,
                         "resourceAttributes": {},
-                    }
+                    },
                 ],
                 "resourceName": "projects/_/buckets/jacks-test-bucket",
                 "serviceData": {
                     "@type": "type.googleapis.com/google.iam.v1.logging.AuditData",
                     "policyDelta": {
-                        "bindingDeltas": [{"action": "ADD", "role": "roles/storage.objectViewer", "member": "allUsers"}]
+                        "bindingDeltas": [
+                            {"action": "ADD", "role": "roles/storage.objectViewer", "member": "allUsers"},
+                        ],
                     },
                 },
                 "resourceLocation": {"currentLocations": ["us"]},
@@ -45,7 +47,7 @@ gcpgcsiam_changes_tests: list[RuleTest] = [
             "logName": "projects/western-verve-123456/logs/cloudaudit.googleapis.com%2Factivity",
             "receiveTimestamp": "2020-05-15T04:28:42.900626148Z",
         },
-    )
+    ),
 ]
 
 

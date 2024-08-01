@@ -376,7 +376,7 @@ class CrowdstrikeMacosOsascriptAdministrator(Rule):
                 event_simplename == "ProcessRollup2",
                 image_filename == "/usr/bin/osascript",
                 "with administrator privileges" in command_line,
-            ]
+            ],
         )
 
     def title(self, event):

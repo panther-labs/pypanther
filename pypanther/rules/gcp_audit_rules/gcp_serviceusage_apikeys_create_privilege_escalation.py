@@ -26,7 +26,7 @@ gc_pserviceusageapi_keyscreate_privilege_escalation_tests: list[RuleTest] = [
                         "permission": "serviceusage.apiKeys.create",
                         "resource": "projectnumbers/1028347245602",
                         "resourceAttributes": {},
-                    }
+                    },
                 ],
                 "methodName": "google.api.apikeys.v2.ApiKeys.CreateKey",
                 "request": {
@@ -86,7 +86,7 @@ gc_pserviceusageapi_keyscreate_privilege_escalation_tests: list[RuleTest] = [
                         "permission": "serviceusage.apiKeys.create",
                         "resource": "projectnumbers/1028347245602",
                         "resourceAttributes": {},
-                    }
+                    },
                 ],
                 "methodName": "google.api.apikeys.v2.ApiKeys.CreateKey",
                 "request": {

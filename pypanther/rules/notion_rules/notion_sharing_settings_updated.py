@@ -20,7 +20,7 @@ notion_sharing_settings_updated_tests: list[RuleTest] = [
                 "timestamp": "2023-12-13 16:39:06.860000000",
                 "type": "workspace.settings.allow_guests_setting_updated",
                 "workspace_id": "ea65b016-6abc-4dcf-808b-e119617b55d1",
-            }
+            },
         },
     ),
     RuleTest(
@@ -44,7 +44,7 @@ notion_sharing_settings_updated_tests: list[RuleTest] = [
                 "timestamp": "2023-12-13 16:39:06.860000000",
                 "type": "teamspace.settings.allow_guests_setting_updated",
                 "workspace_id": "ea65b016-6abc-4dcf-808b-e119617b55d1",
-            }
+            },
         },
     ),
 ]
@@ -74,7 +74,7 @@ class NotionSharingSettingsUpdated(Rule):
             [
                 event.deep_get("event", "type", default="") in self.EVENTS,
                 event.deep_get("event", "details", "state", default="") == "enabled",
-            ]
+            ],
         )
 
     def title(self, event):

@@ -27,7 +27,7 @@ gcp_service_accountor_keys_created_tests: list[RuleTest] = [
                         "permission": "iam.serviceAccountKeys.create",
                         "resource": "projects/-/serviceAccounts/123456789098765434567",
                         "resourceAttributes": {"name": "projects/-/serviceAccounts/123456789098765434567"},
-                    }
+                    },
                 ],
                 "methodName": "google.iam.admin.v1.CreateServiceAccountKey",
                 "request": {
@@ -93,7 +93,7 @@ gcp_service_accountor_keys_created_tests: list[RuleTest] = [
                         "permission": "iam.serviceAccounts.create",
                         "resource": "projects/gcp-project1",
                         "resourceAttributes": {},
-                    }
+                    },
                 ],
                 "methodName": "google.iam.admin.v1.CreateServiceAccount",
                 "request": {
@@ -163,7 +163,7 @@ gcp_service_accountor_keys_created_tests: list[RuleTest] = [
                             "service": "iap.googleapis.com",
                             "type": "iap.googleapis.com/WebService",
                         },
-                    }
+                    },
                 ],
                 "methodName": "google.cloud.iap.v1.IdentityAwareProxyAdminService.SetIamPolicy",
                 "request": {
@@ -211,9 +211,9 @@ class GCPServiceAccountorKeysCreated(Rule):
                 deep_get(event, "resource", "type", default="") == "service_account",
                 "CreateServiceAccount" in deep_get(event, "protoPayload", "methodName", default=""),
                 not deep_get(event, "protoPayload", "authenticationInfo", "principalEmail", default="").endswith(
-                    ".gserviceaccount.com"
+                    ".gserviceaccount.com",
                 ),
-            ]
+            ],
         )
 
     def title(self, event):

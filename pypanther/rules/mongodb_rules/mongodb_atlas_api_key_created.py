@@ -16,7 +16,7 @@ mongo_db_atlas_api_key_created_tests: list[RuleTest] = [
                 {
                     "href": "https://cloud.mongodb.com/api/atlas/v1.0/orgs/9876xyz123lmnop0/events/1234abcd13f2804962409423",
                     "rel": "self",
-                }
+                },
             ],
             "orgid": "9876xyz123lmnop0",
             "p_event_time": "2023-06-14 15:47:15",
@@ -46,7 +46,7 @@ mongo_db_atlas_api_key_created_tests: list[RuleTest] = [
                 {
                     "href": "https://cloud.mongodb.com/api/atlas/v1.0/orgs/9876xyz123lmnop0/events/1234abcd13f2804962409423",
                     "rel": "self",
-                }
+                },
             ],
             "orgid": "9876xyz123lmnop0",
             "p_event_time": "2023-06-14 15:47:15",

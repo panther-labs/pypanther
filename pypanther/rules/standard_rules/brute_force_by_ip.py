@@ -47,7 +47,7 @@ standard_brute_force_by_ip_tests: list[RuleTest] = [
             RuleMock(
                 object_name="geoinfo_from_ip",
                 return_value='{ "ip": "111.111.111.111", "region": "UnitTestRegion", "city": "UnitTestCityNew", "country": "UnitTestCountry", "hostname": "somedomain.com", "org": "Some Org" }',
-            )
+            ),
         ],
         log={
             "eventVersion": "1.05",
@@ -100,7 +100,7 @@ standard_brute_force_by_ip_tests: list[RuleTest] = [
             RuleMock(
                 object_name="geoinfo_from_ip",
                 return_value='{ "ip": "111.111.111.111", "region": "UnitTestRegion", "city": "UnitTestCityNew", "country": "UnitTestCountry", "hostname": "somedomain.com", "org": "Some Org" }',
-            )
+            ),
         ],
         log={
             "type": "event",
@@ -133,7 +133,7 @@ standard_brute_force_by_ip_tests: list[RuleTest] = [
             RuleMock(
                 object_name="geoinfo_from_ip",
                 return_value='{ "ip": "111.111.111.111", "region": "UnitTestRegion", "city": "UnitTestCityNew", "country": "UnitTestCountry", "hostname": "somedomain.com", "org": "Some Org" }',
-            )
+            ),
         ],
         log={
             "actor": {"email": "bob@example.com"},
@@ -165,7 +165,7 @@ standard_brute_force_by_ip_tests: list[RuleTest] = [
             RuleMock(
                 object_name="geoinfo_from_ip",
                 return_value='{ "ip": "111.111.111.111", "region": "UnitTestRegion", "city": "UnitTestCityNew", "country": "UnitTestCountry", "hostname": "somedomain.com", "org": "Some Org" }',
-            )
+            ),
         ],
         log={
             "actor": {"alternateId": "admin", "displayName": "unknown", "id": "unknown", "type": "User"},
@@ -199,7 +199,7 @@ standard_brute_force_by_ip_tests: list[RuleTest] = [
             RuleMock(
                 object_name="geoinfo_from_ip",
                 return_value='{ "ip": "111.111.111.111", "region": "UnitTestRegion", "city": "UnitTestCityNew", "country": "UnitTestCountry", "hostname": "somedomain.com", "org": "Some Org" }',
-            )
+            ),
         ],
         log={
             "event_type_id": 6,
@@ -231,8 +231,8 @@ standard_brute_force_by_ip_tests: list[RuleTest] = [
                                 "action": "ADD",
                                 "member": "cat@example.com",
                                 "role": "roles/resourcemanager.organizationAdmin",
-                            }
-                        ]
+                            },
+                        ],
                     },
                 },
             },
@@ -248,7 +248,7 @@ standard_brute_force_by_ip_tests: list[RuleTest] = [
             RuleMock(
                 object_name="geoinfo_from_ip",
                 return_value='{ "ip": "111.111.111.111", "region": "UnitTestRegion", "city": "UnitTestCityNew", "country": "UnitTestCountry", "hostname": "somedomain.com", "org": "Some Org" }',
-            )
+            ),
         ],
         log={
             "actor": {"actor_type": "user", "email": "homer@springfield.com", "gid": "2222222", "name": "Homer"},
@@ -311,7 +311,7 @@ standard_brute_force_by_ip_tests: list[RuleTest] = [
             RuleMock(
                 object_name="geoinfo_from_ip",
                 return_value='{ "ip": "111.111.111.111", "region": "UnitTestRegion", "city": "UnitTestCityNew", "country": "UnitTestCountry", "hostname": "somedomain.com", "org": "Some Org" }',
-            )
+            ),
         ],
         log={
             "uuid": "1234",

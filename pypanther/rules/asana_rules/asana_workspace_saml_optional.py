@@ -72,7 +72,7 @@ class AsanaWorkspaceSAMLOptional(Rule):
                 event.get("event_type", "<NO_EVENT_TYPE_FOUND>") == "workspace_saml_settings_changed",
                 old_val == "required",
                 new_val == "optional",
-            ]
+            ],
         )
 
     def title(self, event):

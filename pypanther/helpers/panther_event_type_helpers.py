@@ -1,6 +1,4 @@
-"""
-Used to define global event_types
-"""
+"""Used to define global event_types"""
 
 # a place to hold event type constants used among many data models, rules, or policies
 ADMIN_ROLE_ASSIGNED = "admin_role_assigned"

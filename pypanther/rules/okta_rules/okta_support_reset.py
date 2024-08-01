@@ -32,7 +32,7 @@ okta_support_reset_tests: list[RuleTest] = [
                     "displayName": "Homer Simpson",
                     "id": "1111111",
                     "type": "User",
-                }
+                },
             ],
             "transaction": {"detail": {}, "id": "unknown", "type": "WEB"},
             "p_log_type": "Okta.SystemLog",
@@ -77,7 +77,7 @@ okta_support_reset_tests: list[RuleTest] = [
                     "displayName": "Homer Simpson",
                     "id": "1.1.1.1",
                     "type": "User",
-                }
+                },
             ],
             "transaction": {"detail": {}, "id": "1111", "type": "WEB"},
             "p_log_type": "Okta.SystemLog",

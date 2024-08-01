@@ -39,7 +39,7 @@ g_suite_drive_overly_visible_tests: list[RuleTest] = [
                         {"name": "visibility", "value": "people_with_link"},
                         {"name": "doc_title", "value": "my shared document"},
                     ],
-                }
+                },
             ],
         },
     ),
@@ -58,7 +58,7 @@ g_suite_drive_overly_visible_tests: list[RuleTest] = [
                         {"name": "visibility", "value": "people_with_link"},
                         {"name": "doc_title", "value": "my shared document"},
                     ],
-                }
+                },
             ],
         },
     ),

@@ -576,7 +576,7 @@ class CrowdstrikeBase64EncodedArgs(Rule):
                 event.get("fdr_event_type") == "ProcessRollup2",
                 event.get("event_platform") == "Win",
                 event.udm("process_name").lower() in self.COMMAND_LINE_TOOLS,
-            ]
+            ],
         ):
             return False
         # Split arguments from process path

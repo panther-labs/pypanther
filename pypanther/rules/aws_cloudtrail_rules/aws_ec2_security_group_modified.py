@@ -44,8 +44,8 @@ awsec2_security_group_modified_tests: list[RuleTest] = [
                             "ipRanges": {"items": [{"cidrIp": "127.0.0.1/32", "description": "SSH for me"}]},
                             "ipv6Ranges": {},
                             "prefixListIds": {},
-                        }
-                    ]
+                        },
+                    ],
                 },
             },
             "responseElements": {"requestID": "1", "_return": True},
@@ -138,8 +138,8 @@ awsec2_security_group_modified_tests: list[RuleTest] = [
                             "ipRanges": {"items": [{"cidrIp": "127.0.0.1/32", "description": "SSH for me"}]},
                             "ipv6Ranges": {},
                             "prefixListIds": {},
-                        }
-                    ]
+                        },
+                    ],
                 },
             },
             "responseElements": {"requestID": "1", "_return": True},

@@ -34,7 +34,7 @@ awswaf_disassociation_tests: list[RuleTest] = [
             "recipientAccountId": "012345678910",
             "requestID": "e4d47992-90f1-47f0-bff7-de18a8277005",
             "requestParameters": {
-                "resourceArn": "arn:aws:elasticloadbalancing:us-west-2:012345678910:loadbalancer/app/web/84dc5457e450dba5"
+                "resourceArn": "arn:aws:elasticloadbalancing:us-west-2:012345678910:loadbalancer/app/web/84dc5457e450dba5",
             },
             "sessionCredentialFromConsole": True,
             "sourceIPAddress": "AWS Internal",
@@ -91,7 +91,7 @@ awswaf_disassociation_tests: list[RuleTest] = [
             "recipientAccountId": "012345678910",
             "requestID": "e4d47992-90f1-47f0-bff7-de18a8277005",
             "requestParameters": {
-                "resourceArn": "arn:aws:elasticloadbalancing:us-west-2:012345678910:loadbalancer/app/web/84dc5457e450dba5"
+                "resourceArn": "arn:aws:elasticloadbalancing:us-west-2:012345678910:loadbalancer/app/web/84dc5457e450dba5",
             },
             "sessionCredentialFromConsole": True,
             "sourceIPAddress": "AWS Internal",

@@ -1,6 +1,4 @@
-"""
-Global helpers for Tines detections
-"""
+"""Global helpers for Tines detections"""
 
 
 def tines_alert_context(event) -> dict:

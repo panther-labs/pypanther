@@ -30,13 +30,16 @@ class LookupTableMatches:
         return self._p_matched
 
     def p_matches(self, event: dict, p_match: str = "") -> dict:
-        """Collect enrichments by searching for a value match in the p_match field
+        """
+        Collect enrichments by searching for a value match in the p_match field
 
-        Parameters:
+        Parameters
+        ----------
         event (dict): the original log event, as passed to rule(event)
         p_match (str): the value to match on in a p_match field
 
-        Returns:
+        Returns
+        -------
         dict: All enrichments that hold the searched value in the p_match field
 
         """

@@ -1,6 +1,4 @@
-"""
-Used to define global helpers and variables for Box events.
-"""
+"""Used to define global helpers and variables for Box events."""
 
 import base64
 import json

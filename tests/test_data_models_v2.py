@@ -48,7 +48,7 @@ def test_override():
                 name="test1",
                 type=FieldType.STRING,
                 mappings=[FieldMapping(log_type="Custom.Test", field_path="field.nested1")],
-            )
+            ),
         ]
 
     assert Test.description == "old description"
@@ -58,7 +58,7 @@ def test_override():
             name="test1",
             type=FieldType.STRING,
             mappings=[FieldMapping(log_type="Custom.Test", field_path="field.nested1")],
-        )
+        ),
     ]
 
     Test.override(
@@ -69,7 +69,7 @@ def test_override():
                 name="test2",
                 type=FieldType.STRING,
                 mappings=[FieldMapping(log_type="Custom.Test", field_path="field.nested2")],
-            )
+            ),
         ],
     )
 
@@ -80,7 +80,7 @@ def test_override():
             name="test2",
             type=FieldType.STRING,
             mappings=[FieldMapping(log_type="Custom.Test", field_path="field.nested2")],
-        )
+        ),
     ]
 
 
@@ -93,7 +93,7 @@ def test_asdict():
                 name="test1",
                 type=FieldType.STRING,
                 mappings=[FieldMapping(log_type="Custom.Test", field_path="field.nested1")],
-            )
+            ),
         ]
 
     assert Test.asdict() == {
@@ -105,6 +105,6 @@ def test_asdict():
                 "type": FieldType.STRING,
                 "mappings": [{"log_type": "Custom.Test", "field_path": "field.nested1"}],
                 "description": "",
-            }
+            },
         ],
     }

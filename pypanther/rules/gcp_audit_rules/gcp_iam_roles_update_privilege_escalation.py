@@ -15,8 +15,8 @@ gc_piamrolesupdate_privilege_escalation_tests: list[RuleTest] = [
                         "permission": "iam.roles.dunno",
                         "resource": "projects/some-research/roles/CustomRole",
                         "resourceAttributes": {},
-                    }
-                ]
+                    },
+                ],
             },
         },
     ),
@@ -32,8 +32,8 @@ gc_piamrolesupdate_privilege_escalation_tests: list[RuleTest] = [
                         "permission": "iam.roles.update",
                         "resource": "projects/some-research/roles/CustomRole",
                         "resourceAttributes": {},
-                    }
-                ]
+                    },
+                ],
             },
         },
     ),

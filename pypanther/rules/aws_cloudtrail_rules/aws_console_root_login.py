@@ -8,7 +8,7 @@ aws_console_root_login_tests: list[RuleTest] = [
         name="Successful Root Login",
         expected_result=True,
         mocks=[
-            RuleMock(object_name="geoinfo_from_ip_formatted", return_value="111.111.111.111 in SF, California in USA")
+            RuleMock(object_name="geoinfo_from_ip_formatted", return_value="111.111.111.111 in SF, California in USA"),
         ],
         log={
             "eventVersion": "1.05",

@@ -143,12 +143,12 @@ class OsquerySuspiciousCron(Rule):
     SUSPICIOUS_CRON_CMDS = {"*|*sh", "*sh -c *"}
 
     def suspicious_cmd_pairs(self, command):
-        return any((fnmatch(command, c) for c in self.SUSPICIOUS_CRON_CMDS))
+        return any(fnmatch(command, c) for c in self.SUSPICIOUS_CRON_CMDS)
 
     def suspicious_cmd_args(self, command):
         command_args = shlex.split(command.replace("'", "\\'"))  # escape single quotes
         for cmd in command_args:
-            if any((fnmatch(cmd, c) for c in self.SUSPICIOUS_CRON_CMD_ARGS)):
+            if any(fnmatch(cmd, c) for c in self.SUSPICIOUS_CRON_CMD_ARGS):
                 return True
         return False
 

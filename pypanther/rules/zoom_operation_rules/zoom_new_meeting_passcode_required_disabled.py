@@ -58,7 +58,7 @@ class ZoomNewMeetingPasscodeRequiredDisabled(Rule):
                 event.get("action", "<NO_ACTION>") == "Update",
                 event.get("category_type", "<NO_CATEGORY_TYPE>") == "Account",
                 operation_flag == operation_detail,
-            ]
+            ],
         )
 
     def title(self, event):

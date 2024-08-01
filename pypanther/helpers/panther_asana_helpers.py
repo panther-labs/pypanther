@@ -1,6 +1,4 @@
-"""
-Used to define global helpers for Asana events
-"""
+"""Used to define global helpers for Asana events"""
 
 from pypanther.helpers.panther_base_helpers import deep_get
 

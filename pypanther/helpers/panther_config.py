@@ -2,8 +2,7 @@
 
 from typing import Any
 
-import pypanther.helpers.panther_config_defaults as panther_config_defaults
-import pypanther.helpers.panther_config_overrides as panther_config_overrides
+from pypanther.helpers import panther_config_defaults, panther_config_overrides
 
 
 class Config:  # pylint: disable=too-few-public-methods

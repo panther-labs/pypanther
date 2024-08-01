@@ -72,7 +72,7 @@ class AsanaWorkspaceRequireAppApprovalsDisabled(Rule):
             [
                 event.get("event_type", "<NO_EVENT_TYPE_FOUND>") == "workspace_require_app_approvals_of_type_changed",
                 new_val == "off",
-            ]
+            ],
         )
 
     def title(self, event):

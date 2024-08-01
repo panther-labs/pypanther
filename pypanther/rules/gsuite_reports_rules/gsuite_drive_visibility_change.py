@@ -124,7 +124,7 @@ g_suite_drive_visibility_changed_tests: list[RuleTest] = [
                     ],
                     "name": "change_document_visibility",
                     "type": "acl_change",
-                }
+                },
             ],
             "id": {"applicationName": "drive"},
             "p_row_id": "111222",
@@ -240,7 +240,7 @@ g_suite_drive_visibility_changed_tests: list[RuleTest] = [
                     "name": "change_user_access_hierarchy_reconciled",
                     "type": "acl_change",
                     "parameters": [{"name": "visibility_change", "value": "internal"}],
-                }
+                },
             ],
         },
     ),
@@ -256,7 +256,7 @@ g_suite_drive_visibility_changed_tests: list[RuleTest] = [
                     "name": "change_document_access_scope_hierarchy_reconciled",
                     "type": "acl_change",
                     "parameters": [{"name": "visibility_change", "value": "internal"}],
-                }
+                },
             ],
         },
     ),
@@ -487,11 +487,11 @@ class GSuiteDriveVisibilityChanged(Rule):
             ):
                 if self.ALERT_DETAILS[log]["TARGET_USER_EMAILS"] != ["<UNKNOWN_USER>"]:
                     self.ALERT_DETAILS[log]["TARGET_USER_EMAILS"].append(
-                        param_lookup(details.get("parameters", {}), "target_user")
+                        param_lookup(details.get("parameters", {}), "target_user"),
                     )
                 else:
                     self.ALERT_DETAILS[log]["TARGET_USER_EMAILS"] = [
-                        param_lookup(details.get("parameters", {}), "target_user")
+                        param_lookup(details.get("parameters", {}), "target_user"),
                     ]
                     self.ALERT_DETAILS[log]["DOC_TITLE"] = param_lookup(details.get("parameters", {}), "doc_title")
                     self.ALERT_DETAILS[log]["ACCESS_SCOPE"] = param_lookup(details.get("parameters", {}), "new_value")

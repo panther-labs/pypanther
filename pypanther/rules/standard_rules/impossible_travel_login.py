@@ -45,8 +45,8 @@ standard_impossible_travel_login_tests: list[RuleTest] = [
                         "region": "Auckland",
                         "region_code": "AUK",
                         "timezone": "Pacific/Auckland",
-                    }
-                }
+                    },
+                },
             },
             "p_log_type": "AWS.CloudTrail",
             "p_parse_time": "2023-05-26 20:19:14.002",
@@ -103,8 +103,8 @@ standard_impossible_travel_login_tests: list[RuleTest] = [
                         "region": "Auckland",
                         "region_code": "AUK",
                         "timezone": "Pacific/Auckland",
-                    }
-                }
+                    },
+                },
             },
             "p_log_type": "AWS.CloudTrail",
             "p_parse_time": "2023-05-26 20:19:14.002",
@@ -129,7 +129,9 @@ standard_impossible_travel_login_tests: list[RuleTest] = [
         },
     ),
     RuleTest(
-        name="Okta Not sign-in", expected_result=False, log={"eventType": "logout", "p_log_type": "Okta.SystemLog"}
+        name="Okta Not sign-in",
+        expected_result=False,
+        log={"eventType": "logout", "p_log_type": "Okta.SystemLog"},
     ),
     RuleTest(
         name="Okta sign-in with history and impossible travel",
@@ -178,8 +180,8 @@ standard_impossible_travel_login_tests: list[RuleTest] = [
                         "region": "Auckland",
                         "region_code": "AUK",
                         "timezone": "Pacific/Auckland",
-                    }
-                }
+                    },
+                },
             },
             "p_log_type": "Okta.SystemLog",
             "p_source_label": "Okta Logs",
@@ -241,7 +243,7 @@ standard_impossible_travel_login_tests: list[RuleTest] = [
                         "region": "California",
                         "region_code": "CA",
                         "timezone": "America/Los_Angeles",
-                    }
+                    },
                 },
                 "ipinfo_privacy": {
                     "client.ipAddress": {
@@ -252,7 +254,7 @@ standard_impossible_travel_login_tests: list[RuleTest] = [
                         "service": "Apple Private Relay",
                         "tor": False,
                         "vpn": False,
-                    }
+                    },
                 },
             },
             "p_log_type": "Okta.SystemLog",
@@ -315,7 +317,7 @@ standard_impossible_travel_login_tests: list[RuleTest] = [
                         "region": "California",
                         "region_code": "CA",
                         "timezone": "America/Los_Angeles",
-                    }
+                    },
                 },
                 "ipinfo_privacy": {
                     "client.ipAddress": {
@@ -326,7 +328,7 @@ standard_impossible_travel_login_tests: list[RuleTest] = [
                         "service": "Private Internet Access",
                         "tor": False,
                         "vpn": True,
-                    }
+                    },
                 },
             },
             "p_log_type": "Okta.SystemLog",
@@ -389,7 +391,7 @@ standard_impossible_travel_login_tests: list[RuleTest] = [
                         "region": "California",
                         "region_code": "CA",
                         "timezone": "America/Los_Angeles",
-                    }
+                    },
                 },
                 "ipinfo_privacy": {
                     "client.ipAddress": {
@@ -399,7 +401,7 @@ standard_impossible_travel_login_tests: list[RuleTest] = [
                         "service": "",
                         "tor": False,
                         "vpn": True,
-                    }
+                    },
                 },
             },
             "p_log_type": "Okta.SystemLog",
@@ -463,8 +465,8 @@ standard_impossible_travel_login_tests: list[RuleTest] = [
                         "region": "California",
                         "region_code": "CA",
                         "timezone": "America/Los_Angeles",
-                    }
-                }
+                    },
+                },
             },
             "p_log_type": "Okta.SystemLog",
             "p_source_label": "Okta Logs",
@@ -528,7 +530,7 @@ standard_impossible_travel_login_tests: list[RuleTest] = [
                         "region": "California",
                         "region_code": "CA",
                         "timezone": "America/Los_Angeles",
-                    }
+                    },
                 },
             },
             "p_event_time": "2023-06-12T22:26:01.951000",
@@ -571,8 +573,8 @@ standard_impossible_travel_login_tests: list[RuleTest] = [
                         "region": "Mount Doom",
                         "region_code": "MD",
                         "timezone": "Middle Earth/Mordor",
-                    }
-                }
+                    },
+                },
             },
             "p_event_time": "2023-10-03T19:02:28.044000Z",
             "p_log_type": "Notion.AuditLogs",
@@ -623,7 +625,7 @@ standard_impossible_travel_login_tests: list[RuleTest] = [
                         "region": "California",
                         "region_code": "CA",
                         "timezone": "America/Los_Angeles",
-                    }
+                    },
                 },
                 "ipinfo_privacy": {
                     "client.ipAddress": {
@@ -634,7 +636,7 @@ standard_impossible_travel_login_tests: list[RuleTest] = [
                         "service": "Apple Private Relay",
                         "tor": False,
                         "vpn": False,
-                    }
+                    },
                 },
             },
             "p_log_type": "Okta.SystemLog",
@@ -715,7 +717,7 @@ class StandardImpossibleTravelLogin(Rule):
                 [
                     deep_get(ipinfo_privacy, "relay", default=False),
                     deep_get(ipinfo_privacy, "service", default="") == "Apple Private Relay",
-                ]
+                ],
             )
             # We've found that some places, like WeWork locations,
             #   have the VPN attribute set to true, but do not have a
@@ -724,7 +726,7 @@ class StandardImpossibleTravelLogin(Rule):
             #   offerings have the VPN attribute set to true, and
             #   do have a service name entry
             self.IS_VPN = all(
-                [deep_get(ipinfo_privacy, "vpn", default=False), deep_get(ipinfo_privacy, "service", default="") != ""]
+                [deep_get(ipinfo_privacy, "vpn", default=False), deep_get(ipinfo_privacy, "service", default="") != ""],
             )
         if self.IS_VPN or self.IS_PRIVATE_RELAY:
             new_login_stats.update(
@@ -733,7 +735,7 @@ class StandardImpossibleTravelLogin(Rule):
                     "is_apple_priv_relay": f"{self.IS_PRIVATE_RELAY}",
                     "service_name": f"{deep_get(ipinfo_privacy, 'service', default='<NO_SERVICE>')}",
                     "NOTE": "APPLE PRIVATE RELAY AND VPN LOGINS ARE NOT CACHED FOR COMPARISON",
-                }
+                },
             )
         # Generate a unique cache key for each user per log type
         self.CACHE_KEY = self.gen_key(event)

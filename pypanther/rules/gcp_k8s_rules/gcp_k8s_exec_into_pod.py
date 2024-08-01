@@ -10,13 +10,13 @@ gcpk8s_exec_into_pod_tests: list[RuleTest] = [
         log={
             "protoPayload": {
                 "authenticationInfo": {
-                    "principalEmail": "system:serviceaccount:example-namespace:example-namespace-service-account"
+                    "principalEmail": "system:serviceaccount:example-namespace:example-namespace-service-account",
                 },
                 "authorizationInfo": [
                     {
                         "permission": "io.k8s.core.v1.pods.exec.create",
                         "resource": "core/v1/namespaces/opa/pods/opa-57998cf7c5-bjkfk/exec",
-                    }
+                    },
                 ],
                 "methodName": "io.k8s.core.v1.pods.exec.create",
                 "requestMetadata": {
@@ -39,7 +39,7 @@ gcpk8s_exec_into_pod_tests: list[RuleTest] = [
                     {
                         "permission": "io.k8s.core.v1.pods.exec.create",
                         "resource": "core/v1/namespaces/example/pods/example-57998cf7c5-bjkfk/exec",
-                    }
+                    },
                 ],
                 "methodName": "io.k8s.core.v1.pods.exec.create",
                 "requestMetadata": {
@@ -62,7 +62,7 @@ gcpk8s_exec_into_pod_tests: list[RuleTest] = [
                     {
                         "permission": "io.k8s.core.v1.pods.exec.create",
                         "resource": "core/v1/namespaces/istio-system/pods/opa-57998cf7c5-bjkfk/exec",
-                    }
+                    },
                 ],
                 "methodName": "io.k8s.core.v1.pods.exec.create",
                 "requestMetadata": {
@@ -97,7 +97,7 @@ class GCPK8sExecIntoPod(Rule):
             [
                 deep_walk(event, "protoPayload", "methodName") == "io.k8s.core.v1.pods.exec.create",
                 deep_walk(event, "resource", "type") == "k8s_cluster",
-            ]
+            ],
         ):
             return False
         k8s_info = get_k8s_info(event)

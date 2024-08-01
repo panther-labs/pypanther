@@ -124,7 +124,7 @@ def test_mock_patching_new_kwarg():
                     RuleMock(
                         object_name="thing",
                         new="bar",
-                    )
+                    ),
                 ],
             ),
         ]
@@ -162,7 +162,7 @@ def test_mock_patching_side_effect_kwarg():
                     RuleMock(
                         object_name="thing",
                         side_effect=lambda x: x + " bar",
-                    )
+                    ),
                 ],
             ),
         ]
@@ -207,7 +207,7 @@ class TestRunningTests:
                 return True
 
             def dedup(self, event):
-                """dedup defaults to title so need to define this for test to work"""
+                """Dedup defaults to title so need to define this for test to work"""
                 return "dedup"
 
         def aux(self, event):
@@ -384,7 +384,7 @@ class TestRule(TestCase):
             def rule(self, event):
                 return True
 
-        assert 60 == rule.dedup_period_minutes
+        assert rule.dedup_period_minutes == 60
 
     def test_rule_tags(self) -> None:
         class rule(Rule):
@@ -859,8 +859,8 @@ class TestRule(TestCase):
 
         expected_alert_context = json.dumps(
             {
-                "_error": "FunctionReturnTypeError('detection [test_alert_context_invalid_return_value] method [alert_context] returned [str], expected [Mapping]')"
-            }
+                "_error": "FunctionReturnTypeError('detection [test_alert_context_invalid_return_value] method [alert_context] returned [str], expected [Mapping]')",
+            },
         )
         expected_result = DetectionResult(
             detection_id="test_alert_context_invalid_return_value",
@@ -896,7 +896,7 @@ class TestRule(TestCase):
                 return test_dict
 
         expected_alert_context = json.dumps(
-            {"_error": "alert_context size is [5588890] characters, bigger than maximum of [204800] characters"}
+            {"_error": "alert_context size is [5588890] characters, bigger than maximum of [204800] characters"},
         )
         expected_result = DetectionResult(
             detection_id="test_alert_context_too_big",
@@ -1057,7 +1057,7 @@ class TestRule(TestCase):
             severity_output="INFO",
             severity_exception=AssertionError(
                 "Expected severity to be any of the following: [['INFO', 'LOW', 'MEDIUM', 'HIGH', "
-                "'CRITICAL']], got [CRITICAL-ISH] instead."
+                "'CRITICAL']], got [CRITICAL-ISH] instead.",
             ),
             detection_output=True,
             detection_severity="INFO",
@@ -1083,8 +1083,8 @@ class TestRule(TestCase):
                 return "cRiTiCaL"
 
         result = rule().run(PantherEvent({}, None), {}, {}, batch_mode=False)
-        assert "CRITICAL" == result.severity_output
-        assert "INFO" == result.detection_severity
+        assert result.severity_output == "CRITICAL"
+        assert result.detection_severity == "INFO"
 
     def test_rule_with_default_severity(self) -> None:
         class rule(Rule):
@@ -1184,7 +1184,7 @@ class TestRule(TestCase):
             dedup_output="test_rule_with_invalid_destinations_type",
             severity_output="CRITICAL",
             destinations_exception=FunctionReturnTypeError(
-                "detection [{}] method [{}] returned [{}], expected a list".format(rule.id, "destinations", "str")
+                "detection [{}] method [{}] returned [{}], expected a list".format(rule.id, "destinations", "str"),
             ),
             destinations_output=None,
             detection_output=True,
@@ -1320,7 +1320,7 @@ class TestRule(TestCase):
                     name="domain max",
                     expected_result=False,
                     log={"domain": "max.com"},
-                )
+                ),
             ]
 
             def rule(self, event):
@@ -1347,7 +1347,7 @@ class TestRule(TestCase):
                     name="domain max",
                     expected_result=False,
                     log={"domain": "max.com"},
-                )
+                ),
             ]
 
             def rule(self, event):
@@ -1622,8 +1622,10 @@ class TestPantherManagedDecorator(TestCase):
 
 @dataclasses.dataclass
 class FakeDestination:
-    """Stub class as a replacement for the Destination class
-    that wraps alert output metadata."""
+    """
+    Stub class as a replacement for the Destination class
+    that wraps alert output metadata.
+    """
 
     destination_id: str
     destination_display_name: str

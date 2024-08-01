@@ -60,7 +60,7 @@ class ZoomSignInMethodModified(Rule):
                 event.get("category_type", "<NO_CATEGORY_TYPE>") == "Account",
                 operation_detail.startswith(operation_flag),
                 operation_detail.endswith(setting_flag),
-            ]
+            ],
         )
 
     def title(self, event):

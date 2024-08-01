@@ -64,7 +64,7 @@ okta_threat_insight_security_threat_detected_tests: list[RuleTest] = [
                     "threatDetections": '{"Login failures with high unknown users count":"HIGH","Password Spray":"HIGH","Login Failures":"MEDIUM"}',
                     "threatSuspected": "true",
                     "url": "/oauth2/v1/authorize",
-                }
+                },
             },
             "displaymessage": "Request from suspicious actor",
             "eventtype": "security.threat.detected",
@@ -85,9 +85,9 @@ okta_threat_insight_security_threat_detected_tests: list[RuleTest] = [
                             "state": "Texas",
                             "ip": "1.2.3.4",
                             "version": "V4",
-                        }
-                    }
-                ]
+                        },
+                    },
+                ],
             },
             "securitycontext": {
                 "asNumber": 62240,
@@ -125,7 +125,7 @@ okta_threat_insight_security_threat_detected_tests: list[RuleTest] = [
                     "threatDetections": '{"Login failures with high unknown users count":"HIGH","Password Spray":"HIGH","Login Failures":"MEDIUM"}',
                     "threatSuspected": "true",
                     "url": "/oauth2/v1/authorize",
-                }
+                },
             },
             "displaymessage": "Request from suspicious actor",
             "eventtype": "security.threat.detected",
@@ -146,9 +146,9 @@ okta_threat_insight_security_threat_detected_tests: list[RuleTest] = [
                             "state": "Texas",
                             "ip": "1.2.3.4",
                             "version": "V4",
-                        }
-                    }
-                ]
+                        },
+                    },
+                ],
             },
             "securitycontext": {
                 "asNumber": 62240,

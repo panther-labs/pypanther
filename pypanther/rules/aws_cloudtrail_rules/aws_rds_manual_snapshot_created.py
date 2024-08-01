@@ -317,7 +317,7 @@ class AWSRDSManualSnapshotCreated(Rule):
                 event.get("eventSource", "") == "rds.amazonaws.com",
                 event.get("eventName", "") == "CreateDBSnapshot",
                 event.deep_get("responseElements", "snapshotType") in {"manual", "public"},
-            ]
+            ],
         )
 
     def title(self, event):

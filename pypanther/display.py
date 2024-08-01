@@ -40,12 +40,15 @@ JSON_INDENT_LEVEL = 2
 
 
 def print_rule_table(rules: list[Type[Rule]], attributes: list[str] | None = None) -> None:
-    """Prints rules in a table format for easy viewing.
+    """
+    Prints rules in a table format for easy viewing.
 
-    Parameters:
+    Parameters
+    ----------
         rules (list[Type[Rule]]): The list of PantherRule subclasses that will be printed in table format.
         attributes (list[str] | None): The list of attributes that will appear as columns in the table.
             Supplying None or an empty list will use defaults of [id, log_types, default_severity, enabled].
+
     """
     attributes = utils.dedup_list_preserving_order(attributes or [])
     check_rule_attributes(attributes)
@@ -79,18 +82,21 @@ def print_rule_table(rules: list[Type[Rule]], attributes: list[str] | None = Non
 def fmt_log_types_attr(rule: Type[Rule]) -> str:
     log_types = rule.log_types
     if len(log_types) > 2:
-        log_types = log_types[:2] + ["+{}".format(len(log_types) - 2)]
+        log_types = log_types[:2] + [f"+{len(log_types) - 2}"]
 
     return ", ".join([str(s) for s in log_types])
 
 
 def print_rules_as_json(rules: list[Type[Rule]], attributes: list[str] | None = None) -> None:
-    """Prints rules in JSON format for easy viewing.
+    """
+    Prints rules in JSON format for easy viewing.
 
-    Parameters:
+    Parameters
+    ----------
         rules (list[Type[Rule]]): The list of PantherRule subclasses that will be printed in JSON format.
         attributes (list[str] | None): The list of attributes that will appear as attributes in the JSON.
             Supplying None or an empty list will use defaults of [id, log_types, default_severity, enabled].
+
     """
     attributes = utils.dedup_list_preserving_order(attributes or [])
     check_rule_attributes(attributes)

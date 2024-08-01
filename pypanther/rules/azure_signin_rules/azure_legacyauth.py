@@ -91,7 +91,7 @@ azure_audit_legacy_auth_tests: list[RuleTest] = [
                         "authenticationStepRequirement": "",
                         "authenticationStepResultDetail": "Correct password",
                         "succeeded": True,
-                    }
+                    },
                 ],
                 "authenticationProcessingDetails": [],
                 "authenticationProtocol": "rpoc",
@@ -185,7 +185,7 @@ azure_audit_legacy_auth_tests: list[RuleTest] = [
                         "authenticationStepRequirement": "",
                         "authenticationStepResultDetail": "Correct password",
                         "succeeded": True,
-                    }
+                    },
                 ],
                 "authenticationProcessingDetails": [],
                 "authenticationProtocol": "rpoc",

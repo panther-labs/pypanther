@@ -3,7 +3,9 @@ from pypanther.helpers.panther_base_helpers import deep_get
 
 g_suite_google_access_tests: list[RuleTest] = [
     RuleTest(
-        name="Normal Login Event", expected_result=False, log={"id": {"applicationName": "login"}, "type": "login"}
+        name="Normal Login Event",
+        expected_result=False,
+        log={"id": {"applicationName": "login"}, "type": "login"},
     ),
     RuleTest(
         name="Resource Accessed by Google",

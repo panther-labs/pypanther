@@ -145,7 +145,7 @@ class GSuiteWorkspaceCalendarExternalSharingSetting(Rule):
             [
                 event.get("name", "") == "CHANGE_CALENDAR_SETTING",
                 deep_get(event, "parameters", "SETTING_NAME", default="") == "SHARING_OUTSIDE_DOMAIN",
-            ]
+            ],
         ):
             return False
         return deep_get(event, "parameters", "NEW_VALUE", default="") in [

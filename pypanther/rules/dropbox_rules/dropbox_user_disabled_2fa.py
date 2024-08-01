@@ -111,7 +111,7 @@ class DropboxUserDisabled2FA(Rule):
             [
                 deep_get(event, "details", ".tag", default="") == "tfa_change_status_details",
                 deep_get(event, "details", "new_value", ".tag") == "disabled",
-            ]
+            ],
         )
 
     def title(self, event):

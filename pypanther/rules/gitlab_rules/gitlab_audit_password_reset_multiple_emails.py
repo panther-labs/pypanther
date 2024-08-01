@@ -16,7 +16,7 @@ git_lab_audit_password_reset_multiple_emails_tests: list[RuleTest] = [
             "detail": {
                 "custom_message": "Ask for password reset",
                 "target_details": '["example@test.com", "example2@test.com"]',
-            }
+            },
         },
     ),
 ]

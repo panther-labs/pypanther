@@ -1,6 +1,4 @@
-"""
-Used to define global helpers and variables.
-"""
+"""Used to define global helpers and variables."""
 
 import json
 import re
@@ -150,7 +148,8 @@ def gsuite_details_lookup(detail_type, detail_names, event):
 # key names
 ZENDESK_CHANGE_DESCRIPTION = "change_description"
 ZENDESK_APP_ROLE_ASSIGNED = re.compile(
-    r"(?P<app>.*) role changed from (?P<old_role>.+) to (?P<new_role>.*)", re.IGNORECASE
+    r"(?P<app>.*) role changed from (?P<old_role>.+) to (?P<new_role>.*)",
+    re.IGNORECASE,
 )
 ZENDESK_ROLE_ASSIGNED = re.compile(r"Role changed from (?P<old_role>.+) to (?P<new_role>[^$]+)", re.IGNORECASE)
 
@@ -299,7 +298,8 @@ def github_alert_context(event: dict):
 
 
 def deep_get(dictionary: dict, *keys, default=None):
-    """Safely return the value of an arbitrarily nested map
+    """
+    Safely return the value of an arbitrarily nested map
 
     Inspired by https://bit.ly/3a0hq9E
     """
@@ -311,13 +311,18 @@ def deep_get(dictionary: dict, *keys, default=None):
 
 # pylint: disable=too-complex,too-many-return-statements
 def deep_walk(
-    obj: Optional[Any], *keys: str, default: Optional[str] = None, return_val: str = "all"
+    obj: Optional[Any],
+    *keys: str,
+    default: Optional[str] = None,
+    return_val: str = "all",
 ) -> Union[Optional[Any], Optional[List[Any]]]:
-    """Safely retrieve a value stored in complex dictionary structure
+    """
+    Safely retrieve a value stored in complex dictionary structure
 
     Similar to deep_get but supports accessing dictionary keys within nested lists as well
 
-    Parameters:
+    Parameters
+    ----------
     obj (any): the original log event passed to rule(event)
                and nested objects retrieved recursively
     keys (str): comma-separated list of keys used to traverse the event object
@@ -325,10 +330,12 @@ def deep_walk(
     return_val (str): string specifying which value to return
                       possible values are "first", "last", or "all"
 
-    Returns:
+    Returns
+    -------
     any | list[any]: A single value if return_val is "first", "last",
                      or if "all" is a list containing one element,
                      otherwise a list of values
+
     """
 
     def _empty_list(sub_obj: Any):
@@ -370,8 +377,10 @@ def deep_walk(
 
 
 def get_val_from_list(list_of_dicts, return_field_key, field_cmp_key, field_cmp_val):
-    """Return a specific field in a list of Python dictionaries.
-    We return the empty set if the comparison key is not found"""
+    """
+    Return a specific field in a list of Python dictionaries.
+    We return the empty set if the comparison key is not found
+    """
     values_of_return_field = set()
     for item in list_of_dicts:
         if item.get(field_cmp_key) == field_cmp_val:
@@ -448,7 +457,8 @@ def pattern_match_list(string_to_match: str, patterns: Sequence[str]):
 
 
 def get_binding_deltas(event):
-    """A GCP helper function to return the binding deltas from audit events
+    """
+    A GCP helper function to return the binding deltas from audit events
 
     Binding deltas provide context on a permission change, including the
     action, role, and member associated with the request.
@@ -490,7 +500,7 @@ def m365_alert_context(event):
 
 
 def defang_ioc(ioc):
-    """return defanged IOC from 1.1.1.1 to 1[.]1[.]1[.]1"""
+    """Return defanged IOC from 1.1.1.1 to 1[.]1[.]1[.]1"""
     return ioc.replace(".", "[.]")
 
 

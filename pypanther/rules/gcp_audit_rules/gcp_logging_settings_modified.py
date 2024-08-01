@@ -30,7 +30,7 @@ gcp_logging_settings_modified_tests: list[RuleTest] = [
                         "granted": True,
                         "permission": "bigquery.tables.delete",
                         "resource": "projects/gcp-project1/datasets/test1/tables/newtable",
-                    }
+                    },
                 ],
                 "metadata": {
                     "@type": "type.googleapis.com/google.cloud.audit.BigQueryAuditMetadata",
@@ -82,7 +82,7 @@ gcp_logging_settings_modified_tests: list[RuleTest] = [
                             "name": "projects/gcp-project1/sinks/log-sink",
                             "service": "logging.googleapis.com",
                         },
-                    }
+                    },
                 ],
                 "methodName": "google.logging.v2.ConfigServiceV2.UpdateSink",
                 "request": {
@@ -134,7 +134,7 @@ class GCPLoggingSettingsModified(Rule):
             [
                 deep_get(event, "protoPayload", "serviceName", default="") == "logging.googleapis.com",
                 "Update" in deep_get(event, "protoPayload", "methodName", default=""),
-            ]
+            ],
         )
 
     def title(self, event):
@@ -146,7 +146,11 @@ class GCPLoggingSettingsModified(Rule):
         return {
             "resource": deep_get(event, "protoPayload", "resourceName", default="<RESOURCE_NOT_FOUND>"),
             "actor": deep_get(
-                event, "protoPayload", "authenticationInfo", "principalEmail", default="<ACTOR_NOT_FOUND>"
+                event,
+                "protoPayload",
+                "authenticationInfo",
+                "principalEmail",
+                default="<ACTOR_NOT_FOUND>",
             ),
             "method": deep_get(event, "protoPayload", "methodName", default="<METHOD_NOT_FOUND>"),
         }

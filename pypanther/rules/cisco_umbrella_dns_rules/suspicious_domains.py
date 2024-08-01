@@ -45,7 +45,7 @@ class CiscoUmbrellaDNSSuspicious(Rule):
     DOMAINS_TO_MONITOR = {"photoscape.ch"}  # Sample malware domain
 
     def rule(self, event):
-        return any((domain in event.get("domain") for domain in self.DOMAINS_TO_MONITOR))
+        return any(domain in event.get("domain") for domain in self.DOMAINS_TO_MONITOR)
 
     def title(self, event):
         return "Suspicious lookup to domain " + event.get("domain", "<UNKNOWN_DOMAIN>")

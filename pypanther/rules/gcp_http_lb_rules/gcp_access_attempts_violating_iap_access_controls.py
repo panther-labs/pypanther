@@ -120,9 +120,9 @@ class GCPAccessAttemptsViolatingIAPAccessControls(Rule):
                     [
                         str(deep_get(event, "httprequest", "status", default=0)).startswith("2"),
                         str(deep_get(event, "httprequest", "status", default=0)).startswith("3"),
-                    ]
+                    ],
                 ),
-            ]
+            ],
         )
 
     def title(self, event):

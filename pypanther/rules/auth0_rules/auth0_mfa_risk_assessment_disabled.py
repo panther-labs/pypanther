@@ -406,7 +406,7 @@ class Auth0MFARiskAssessmentDisabled(Rule):
                 request_path == "/api/v2/risk-assessment/config",
                 request_body is False,
                 is_auth0_config_event(event),
-            ]
+            ],
         )
 
     def title(self, event):

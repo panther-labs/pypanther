@@ -24,7 +24,7 @@ teleport_root_login_tests: list[RuleTest] = [
             "uid": "12345678-1111-2222-3333-54e9467ff0e6",
             "user": "max.mustermann@zumbeispiel.example",
         },
-    )
+    ),
 ]
 
 

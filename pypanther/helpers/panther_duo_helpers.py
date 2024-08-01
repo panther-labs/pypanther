@@ -1,13 +1,12 @@
-"""
-Used to define global helpers and variables for Duo events.
-"""
+"""Used to define global helpers and variables for Duo events."""
 
 import json
 from json import JSONDecodeError
 
 
 def deserialize_administrator_log_event_description(event: dict) -> dict:
-    """Intelligently try and decode a field that is usually stringified json into a python dict.
+    """
+    Intelligently try and decode a field that is usually stringified json into a python dict.
 
     This description field seems to take the form of stringified json, So this function
     makes an educated guess on how to transform it into a useful dict structure. and is resilient

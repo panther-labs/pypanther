@@ -1,6 +1,4 @@
-"""
-Global helpers for Azure SignIn detections
-"""
+"""Global helpers for Azure SignIn detections"""
 
 from pypanther.helpers.panther_base_helpers import deep_get
 
@@ -27,7 +25,10 @@ def azure_signin_alert_context(event) -> dict:
     a_c["source_ip"] = deep_get(event, "properties", "ipAddress", default="<NO_SOURCEIP>")
     a_c["actor_user"] = ac_actor_user
     a_c["resourceDisplayName"] = deep_get(
-        event, "properties", "resourceDisplayName", default="<NO_RESOURCEDISPLAYNAME>"
+        event,
+        "properties",
+        "resourceDisplayName",
+        default="<NO_RESOURCEDISPLAYNAME>",
     )
     a_c["resourceId"] = deep_get(event, "properties", "resourceId", default="<NO_RESOURCEID>")
     return a_c

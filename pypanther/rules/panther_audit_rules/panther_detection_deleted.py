@@ -34,9 +34,9 @@ panther_detection_deleted_tests: list[RuleTest] = [
                             {"id": "Okta.Global.MFA.Disabled"},
                             {"id": "Okta.AdminRoleAssigned"},
                             {"id": "Okta.BruteForceLogins"},
-                        ]
-                    }
-                }
+                        ],
+                    },
+                },
             },
             "actionResult": "SUCCEEDED",
             "actor": {

@@ -209,7 +209,7 @@ class PublicAPIClient(Client):  # pylint: disable=too-many-public-methods
                 "data": params.encoded_bytes(),
                 "pypantherVersion": importlib.metadata.version("pypanther"),
                 "mode": BULK_UPLOAD_MODE_V2_ZIP,
-            }
+            },
         }
         res = self._safe_execute(query, variable_values=upload_params)
         receipt_id = res.data.get("uploadDetectionEntitiesAsync", {}).get("receiptId")  # type: ignore
@@ -222,7 +222,8 @@ class PublicAPIClient(Client):  # pylint: disable=too-many-public-methods
         )
 
     def async_bulk_upload_status(
-        self, params: AsyncBulkUploadStatusParams
+        self,
+        params: AsyncBulkUploadStatusParams,
     ) -> BackendResponse[AsyncBulkUploadStatusResponse] | None:
         query = self._requests.async_bulk_upload_status_query()
         params = {"input": params.receipt_id}  # type: ignore
@@ -306,7 +307,8 @@ class PublicAPIClient(Client):  # pylint: disable=too-many-public-methods
 
     # This function was generated in whole or in part by GitHub Copilot.
     def transpile_simple_detection_to_python(
-        self, params: TranspileToPythonParams
+        self,
+        params: TranspileToPythonParams,
     ) -> BackendResponse[TranspileToPythonResponse]:
         query = self._requests.transpile_simple_detection_to_python()
         transpile_input = {"input": {"data": params.data}}
@@ -352,7 +354,7 @@ class PublicAPIClient(Client):  # pylint: disable=too-many-public-methods
                 "dryRun": params.dry_run,
                 "includeDetections": params.include_detections,
                 "names": params.names,
-            }
+            },
         }
         res = self._execute(query, variable_values=delete_params)
 
@@ -378,7 +380,7 @@ class PublicAPIClient(Client):  # pylint: disable=too-many-public-methods
                 "dryRun": params.dry_run,
                 "includeSavedQueries": params.include_saved_queries,
                 "ids": params.ids,
-            }
+            },
         }
         res = self._execute(self._requests.delete_detections_query(), gql_params)
         if res.errors:
@@ -404,7 +406,7 @@ class PublicAPIClient(Client):  # pylint: disable=too-many-public-methods
         gql_params = {
             "input": {
                 "isManaged": params.is_managed,
-            }
+            },
         }
         res = self._execute(self._requests.list_schemas_query(), gql_params)
         if res.errors:
@@ -442,7 +444,7 @@ class PublicAPIClient(Client):  # pylint: disable=too-many-public-methods
                 "revision": params.revision,
                 "spec": params.spec,
                 "isFieldDiscoveryEnabled": params.field_discovery_enabled,
-            }
+            },
         }
         res = self._execute(self._requests.update_schema_mutation(), gql_params)
         if res.errors:
@@ -467,7 +469,7 @@ class PublicAPIClient(Client):  # pylint: disable=too-many-public-methods
                     spec=schema.get("spec", ""),
                     updated_at=schema.get("updatedAt", ""),
                     field_discovery_enabled=schema.get("fieldDiscoveryEnabled", False),
-                )
+                ),
             ),
         )
 
@@ -503,7 +505,7 @@ class PublicAPIClient(Client):  # pylint: disable=too-many-public-methods
                 "fromDate": params.from_date.astimezone().isoformat(),
                 "toDate": params.to_date.astimezone().isoformat(),
                 "intervalInMinutes": params.interval_in_minutes,
-            }
+            },
         }
         res = self._execute(self._requests.metrics_query(), gql_params)
         if res.errors:
@@ -527,7 +529,7 @@ class PublicAPIClient(Client):  # pylint: disable=too-many-public-methods
                         value=x["value"],
                     )
                     for x in bytes_processed_per_source_list
-                ]
+                ],
             ),
         )
 
@@ -538,7 +540,7 @@ class PublicAPIClient(Client):  # pylint: disable=too-many-public-methods
                 "detection": params.encoded_bytes(),
                 "hour": params.hour.astimezone().isoformat(),
                 "logType": params.log_type,
-            }
+            },
         }
         res = self._potentially_supported_execute(query, variable_values=create_params)
         replay_id = res.data.get("createPerfTest", {}).get("replay", {}).get("id")  # type: ignore
@@ -578,7 +580,8 @@ class PublicAPIClient(Client):  # pylint: disable=too-many-public-methods
         return True
 
     def generate_enriched_event_input(
-        self, params: GenerateEnrichedEventParams
+        self,
+        params: GenerateEnrichedEventParams,
     ) -> BackendResponse[GenerateEnrichedEventResponse]:
         query = self._requests.generate_enriched_event_query()
         query_input = {"input": {"event": params.event}}
@@ -597,8 +600,8 @@ class PublicAPIClient(Client):  # pylint: disable=too-many-public-methods
         query = self._requests.feature_flags_query()
         query_input = {
             "input": {
-                "flags": [{"flag": flag.flag, "defaultTreatment": flag.default_treatment} for flag in params.flags]
-            }
+                "flags": [{"flag": flag.flag, "defaultTreatment": flag.default_treatment} for flag in params.flags],
+            },
         }
         res = self._safe_execute(query, variable_values=query_input)
         data = res.data.get("featureFlags", {})  # type: ignore
@@ -609,7 +612,7 @@ class PublicAPIClient(Client):  # pylint: disable=too-many-public-methods
                 flags=[
                     FeatureFlagTreatment(flag=flag.get("flag"), treatment=flag.get("treatment"))
                     for flag in data.get("flags") or []
-                ]
+                ],
             ),
         )
 

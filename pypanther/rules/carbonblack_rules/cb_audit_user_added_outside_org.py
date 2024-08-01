@@ -47,7 +47,7 @@ class CarbonBlackAuditUserAddedOutsideOrg(Rule):
 
     def rule(self, event):
         desc = event.get("description", "")
-        if not any((desc.startswith(pattern) for pattern in self.PATTERNS)):
+        if not any(desc.startswith(pattern) for pattern in self.PATTERNS):
             return False
         src_user = event.get("loginName", "")
         src_domain = src_user.split("@")[1]

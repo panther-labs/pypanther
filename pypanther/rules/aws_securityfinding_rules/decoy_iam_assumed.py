@@ -69,7 +69,7 @@ decoy_iam_assumed_tests: list[RuleTest] = [
                                     "UserName": "user_ab21cde50f",
                                 },
                             },
-                        }
+                        },
                     },
                     "Id": "ABC9ONWNS3155VIEJC8U",
                     "Partition": "aws",
@@ -175,7 +175,7 @@ decoy_iam_assumed_tests: list[RuleTest] = [
                                     "UserName": "user_ab21cde50f",
                                 },
                             },
-                        }
+                        },
                     },
                     "Id": "ABC9ONWNS3155VIEJC8U",
                     "Partition": "aws",

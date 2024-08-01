@@ -22,7 +22,7 @@ snyk_org_settings_tests: list[RuleTest] = [
                         },
                         "pullRequestTestEnabled": True,
                         "reachableVulns": {},
-                    }
+                    },
                 },
                 "before": {
                     "integrationSettings": {
@@ -37,7 +37,7 @@ snyk_org_settings_tests: list[RuleTest] = [
                             "type": "manual",
                         },
                         "reachableVulns": {},
-                    }
+                    },
                 },
                 "integrationPublicId": "81111111-cccc-4eee-bfff-3ccccccccccc",
                 "interface": "ui",
