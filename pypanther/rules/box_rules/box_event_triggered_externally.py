@@ -55,7 +55,7 @@ class BoxEventTriggeredExternally(Rule):
             # user id 2 indicates an anonymous user
             if user.get("id", "") == "2":
                 return True
-            return bool(user.get("login") and (not any((user.get("login", "").endswith(x) for x in self.DOMAINS))))
+            return bool(user.get("login") and (not any(user.get("login", "").endswith(x) for x in self.DOMAINS)))
         return False
 
     def title(self, event):

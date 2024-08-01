@@ -26,7 +26,7 @@ aws_cloud_trail_iam_assume_role_blacklist_ignored_tests: list[RuleTest] = [
                     "ARN": "arn:aws:iam::123456789012:role/FullAdminRole",
                     "accountId": "123456789012",
                     "type": "AWS::IAM::Role",
-                }
+                },
             ],
             "responseElements": {
                 "assumedRoleUser": {
@@ -73,7 +73,7 @@ aws_cloud_trail_iam_assume_role_blacklist_ignored_tests: list[RuleTest] = [
                     "ARN": "arn:aws:iam::123456789012:role/example-role",
                     "accountId": "123456789012",
                     "type": "AWS::IAM::Role",
-                }
+                },
             ],
             "responseElements": {
                 "assumedRoleUser": {
@@ -121,7 +121,7 @@ aws_cloud_trail_iam_assume_role_blacklist_ignored_tests: list[RuleTest] = [
                     "ARN": "arn:aws:iam::123456789012:role/FullAdminRole",
                     "accountId": "123456789012",
                     "type": "AWS::IAM::Role",
-                }
+                },
             ],
             "responseElements": {
                 "assumedRoleUser": {

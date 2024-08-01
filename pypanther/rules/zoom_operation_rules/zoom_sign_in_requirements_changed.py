@@ -72,7 +72,7 @@ class ZoomSignInRequirementsChanged(Rule):
                 event.get("category_type", "<NO_CATEGORY_TYPE>") == "Account",
                 operation_flag_one in operation_detail,
                 operation_flag_two in operation_detail,
-            ]
+            ],
         )
 
     def title(self, event):

@@ -30,7 +30,7 @@ wiz_alert_passthrough_tests: list[RuleTest] = [
                     "name": "Project 2",
                     "riskProfile": {"businessImpact": "MBI"},
                     "slug": "project-2",
-                }
+                },
             ],
             "serviceTickets": [],
             "severity": "HIGH",
@@ -85,7 +85,7 @@ wiz_alert_passthrough_tests: list[RuleTest] = [
                     "name": "Project 2",
                     "riskProfile": {"businessImpact": "MBI"},
                     "slug": "project-2",
-                }
+                },
             ],
             "serviceTickets": [],
             "severity": "HIGH",

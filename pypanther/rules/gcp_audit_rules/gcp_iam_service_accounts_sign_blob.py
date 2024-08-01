@@ -23,7 +23,7 @@ gcpia_mservice_accountssign_blob_tests: list[RuleTest] = [
                 "serviceName": "iamcredentials.googleapis.com",
                 "methodName": "SignJwt",
                 "authorizationInfo": [
-                    {"permission": "iam.serviceAccounts.signBlob", "granted": True, "resourceAttributes": {}}
+                    {"permission": "iam.serviceAccounts.signBlob", "granted": True, "resourceAttributes": {}},
                 ],
                 "resourceName": "projects/-/serviceAccounts/114885146936855121342",
                 "request": {
@@ -66,7 +66,7 @@ gcpia_mservice_accountssign_blob_tests: list[RuleTest] = [
                 "serviceName": "iamcredentials.googleapis.com",
                 "methodName": "SignJwt",
                 "authorizationInfo": [
-                    {"permission": "iam.serviceAccounts.signBlob", "granted": False, "resourceAttributes": {}}
+                    {"permission": "iam.serviceAccounts.signBlob", "granted": False, "resourceAttributes": {}},
                 ],
                 "resourceName": "projects/-/serviceAccounts/114885146936855121342",
                 "request": {

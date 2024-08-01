@@ -98,11 +98,13 @@ class RuleTestResult:
     PantherRuleTestResult is the output returned from running a PantherRuleTest
     on a PantherRule.
 
-    Attributes:
+    Attributes
+    ----------
         passed: If true, the PantherRuleTest passed. False, otherwise.
         detection_result: The result of the run() function on the given PantherEvent.
         test: The test that was given and created this result.
         rule_id: The ID of the PantherRule the PantherRuleTest was run on.
+
     """
 
     passed: bool

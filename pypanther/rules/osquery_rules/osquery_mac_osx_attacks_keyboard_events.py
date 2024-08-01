@@ -90,7 +90,7 @@ class OsqueryMacOSXAttacksKeyboardEvents(Rule):
             return False
         # Alert if the process is running outside any of the approved paths
         # TODO: Convert this fnmatch pattern below to a helper
-        return not any((fnmatch(process_path, p) for p in self.APPROVED_PROCESS_PATHS))
+        return not any(fnmatch(process_path, p) for p in self.APPROVED_PROCESS_PATHS)
 
     def title(self, event):
         return f"Keylogger malware detected on [{event.get('hostIdentifier')}]"

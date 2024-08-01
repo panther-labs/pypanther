@@ -46,8 +46,8 @@ okta_password_access_tests: list[RuleTest] = [
                         },
                         "ip": "218.56.201.220",
                         "version": "V4",
-                    }
-                ]
+                    },
+                ],
             },
             "securityContext": {
                 "asNumber": 940252,
@@ -126,8 +126,8 @@ okta_password_access_tests: list[RuleTest] = [
                         },
                         "ip": "218.56.201.220",
                         "version": "V4",
-                    }
-                ]
+                    },
+                ],
             },
             "securityContext": {
                 "asNumber": 124526,

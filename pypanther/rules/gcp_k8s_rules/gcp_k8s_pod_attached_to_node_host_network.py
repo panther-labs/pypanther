@@ -12,7 +12,7 @@ gcpk8s_pod_attached_to_node_host_network_tests: list[RuleTest] = [
                     "granted": True,
                     "permission": "io.k8s.core.v1.pods.create",
                     "resource": "core/v1/namespaces/default/pods/nginx-test",
-                }
+                },
             ],
             "protoPayload": {"methodName": "io.k8s.core.v1.pods.create", "request": {"spec": {"hostNetwork": True}}},
         },
@@ -26,7 +26,7 @@ gcpk8s_pod_attached_to_node_host_network_tests: list[RuleTest] = [
                     "granted": True,
                     "permission": "io.k8s.core.v1.pods.create",
                     "resource": "core/v1/namespaces/default/pods/nginx-test",
-                }
+                },
             ],
             "protoPayload": {"methodName": "io.k8s.core.v1.pods.create", "request": {"spec": {"hostNetwork": False}}},
         },

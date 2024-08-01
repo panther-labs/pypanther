@@ -27,7 +27,7 @@ gcpiam_custom_role_changes_tests: list[RuleTest] = [
                         "permission": "iam.roles.create",
                         "granted": True,
                         "resourceAttributes": {},
-                    }
+                    },
                 ],
                 "resourceName": "projects/western-verve-123456/roles/CustomRole",
                 "serviceData": {
@@ -37,7 +37,7 @@ gcpiam_custom_role_changes_tests: list[RuleTest] = [
                             "apigee.apiproducts.create",
                             "apigee.apiproducts.delete",
                             "apigee.apiproducts.get",
-                        ]
+                        ],
                     },
                 },
                 "request": {
@@ -84,7 +84,7 @@ gcpiam_custom_role_changes_tests: list[RuleTest] = [
             "logName": "projects/western-verve-123456/logs/cloudaudit.googleapis.com%2Factivity",
             "receiveTimestamp": "2020-05-15T04:11:29.472913078Z",
         },
-    )
+    ),
 ]
 
 

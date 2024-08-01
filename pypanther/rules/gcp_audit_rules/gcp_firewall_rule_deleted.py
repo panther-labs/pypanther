@@ -52,7 +52,7 @@ gcp_firewall_rule_deleted_tests: list[RuleTest] = [
                         "permission": "appengine.applications.update",
                         "resource": "apps/test-project-123456/firewall/ingressRules/1000",
                         "resourceAttributes": {},
-                    }
+                    },
                 ],
                 "methodName": "google.appengine.v1.Firewall.DeleteIngressRule",
                 "requestMetadata": {

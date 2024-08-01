@@ -199,7 +199,7 @@ class AppOmniAlertPassthrough(Rule):
             "TA0004:T1078",
             "TA0010:T1537",
             "TA0010:T1567",
-        ]
+        ],
     }
     tests = app_omni_alert_passthrough_tests
     SEV_DICT = {0: "Critical", 1: "High", 2: "Medium", 3: "Low", 4: "Info"}

@@ -35,7 +35,7 @@ okta_password_extractionvia_scim_tests: list[RuleTest] = [
                     "requestId": "AbCdEf12G",
                     "requestUri": "/api/v1/users/AbCdEfG/lifecycle/reset_factors",
                     "url": "/api/v1/users/AbCdEfG/lifecycle/reset_factors?",
-                }
+                },
             },
             "displaymessage": "Authentication of user via MFA",
             "eventtype": "user.authentication.auth_via_mfa",
@@ -54,8 +54,8 @@ okta_password_extractionvia_scim_tests: list[RuleTest] = [
                         },
                         "ip": "1.3.2.4",
                         "version": "V4",
-                    }
-                ]
+                    },
+                ],
             },
             "securitycontext": {
                 "asNumber": 701,
@@ -71,7 +71,7 @@ okta_password_extractionvia_scim_tests: list[RuleTest] = [
                     "displayName": "Peter Griffin",
                     "id": "0002222AAAA",
                     "type": "User",
-                }
+                },
             ],
             "transaction": {"detail": {}, "id": "ABcDeFgG", "type": "WEB"},
             "uuid": "AbC-123-XyZ",
@@ -111,7 +111,7 @@ okta_password_extractionvia_scim_tests: list[RuleTest] = [
                     "requestId": "AbCdEf12G",
                     "requestUri": "/api/v1/users/AbCdEfG/lifecycle/reset_factors",
                     "url": "/api/v1/users/AbCdEfG/lifecycle/reset_factors?",
-                }
+                },
             },
             "displaymessage": "Authentication of user via MFA",
             "eventtype": "application.lifecycle.update",
@@ -130,8 +130,8 @@ okta_password_extractionvia_scim_tests: list[RuleTest] = [
                         },
                         "ip": "1.3.2.4",
                         "version": "V4",
-                    }
-                ]
+                    },
+                ],
             },
             "securitycontext": {
                 "asNumber": 701,
@@ -147,7 +147,7 @@ okta_password_extractionvia_scim_tests: list[RuleTest] = [
                     "displayName": "Peter Griffin",
                     "id": "0002222AAAA",
                     "type": "User",
-                }
+                },
             ],
             "transaction": {"detail": {}, "id": "ABcDeFgG", "type": "WEB"},
             "uuid": "AbC-123-XyZ",
@@ -173,7 +173,10 @@ class OktaPasswordExtractionviaSCIM(Rule):
 
     def rule(self, event):
         return event.get("eventType") == "application.lifecycle.update" and "Pushing user passwords" in deep_get(
-            event, "outcome", "reason", default=""
+            event,
+            "outcome",
+            "reason",
+            default="",
         )
 
     def title(self, event):

@@ -34,8 +34,8 @@ awsec2_vulnerable_xz_image_launched_tests: list[RuleTest] = [
                                 "volumeSize": 10,
                                 "volumeType": "gp3",
                             },
-                        }
-                    ]
+                        },
+                    ],
                 },
                 "clientToken": "00000000-0000-0000-0000-000000000000",
                 "disableApiStop": False,
@@ -43,7 +43,7 @@ awsec2_vulnerable_xz_image_launched_tests: list[RuleTest] = [
                 "ebsOptimized": True,
                 "instanceType": "t3a.micro",
                 "instancesSet": {
-                    "items": [{"imageId": "ami-020a359780bc6f835", "keyName": "a-key", "maxCount": 1, "minCount": 1}]
+                    "items": [{"imageId": "ami-020a359780bc6f835", "keyName": "a-key", "maxCount": 1, "minCount": 1}],
                 },
                 "monitoring": {"enabled": False},
                 "networkInterfaceSet": {
@@ -53,8 +53,8 @@ awsec2_vulnerable_xz_image_launched_tests: list[RuleTest] = [
                             "deviceIndex": 0,
                             "groupSet": {"items": [{"groupId": "sg-00000000000000000"}]},
                             "subnetId": "subnet-00000000000000000",
-                        }
-                    ]
+                        },
+                    ],
                 },
                 "privateDnsNameOptions": {
                     "enableResourceNameDnsAAAARecord": False,
@@ -62,7 +62,7 @@ awsec2_vulnerable_xz_image_launched_tests: list[RuleTest] = [
                     "hostnameType": "ip-name",
                 },
                 "tagSpecificationSet": {
-                    "items": [{"resourceType": "instance", "tags": [{"key": "Name", "value": "test"}]}]
+                    "items": [{"resourceType": "instance", "tags": [{"key": "Name", "value": "test"}]}],
                 },
             },
             "responseElements": {
@@ -111,7 +111,7 @@ awsec2_vulnerable_xz_image_launched_tests: list[RuleTest] = [
                                             "status": "attaching",
                                         },
                                         "groupSet": {
-                                            "items": [{"groupId": "sg-00000000000000000", "groupName": "ssh"}]
+                                            "items": [{"groupId": "sg-00000000000000000", "groupName": "ssh"}],
                                         },
                                         "interfaceType": "interface",
                                         "ipv6AddressesSet": {},
@@ -126,16 +126,16 @@ awsec2_vulnerable_xz_image_launched_tests: list[RuleTest] = [
                                                     "primary": True,
                                                     "privateDnsName": "ip-10-0-0-3.us-west-2.compute.internal",
                                                     "privateIpAddress": "10.0.0.3",
-                                                }
-                                            ]
+                                                },
+                                            ],
                                         },
                                         "sourceDestCheck": True,
                                         "status": "in-use",
                                         "subnetId": "subnet-00000000000000000",
                                         "tagSet": {},
                                         "vpcId": "vpc-00000000000000000",
-                                    }
-                                ]
+                                    },
+                                ],
                             },
                             "placement": {"availabilityZone": "us-west-2b", "tenancy": "default"},
                             "privateDnsName": "ip-10-0-0-3.us-west-2.compute.internal",
@@ -154,8 +154,8 @@ awsec2_vulnerable_xz_image_launched_tests: list[RuleTest] = [
                             "tagSet": {"items": [{"key": "Name", "value": "test"}]},
                             "virtualizationType": "hvm",
                             "vpcId": "vpc-00000000000000000",
-                        }
-                    ]
+                        },
+                    ],
                 },
                 "ownerId": "123456789012",
                 "requestId": "439a7e66-d8b6-4bad-98d9-214c20161939",
@@ -218,8 +218,8 @@ awsec2_vulnerable_xz_image_launched_tests: list[RuleTest] = [
                                 "volumeSize": 6,
                                 "volumeType": "gp3",
                             },
-                        }
-                    ]
+                        },
+                    ],
                 },
                 "clientToken": "8945829d-0ef6-470d-bbfd-ea5bb2d82fdb",
                 "disableApiStop": False,
@@ -227,7 +227,7 @@ awsec2_vulnerable_xz_image_launched_tests: list[RuleTest] = [
                 "ebsOptimized": True,
                 "instanceType": "t3a.nano",
                 "instancesSet": {
-                    "items": [{"imageId": "ami-092e3b17e435e5e58", "keyName": "a-key", "maxCount": 2, "minCount": 2}]
+                    "items": [{"imageId": "ami-092e3b17e435e5e58", "keyName": "a-key", "maxCount": 2, "minCount": 2}],
                 },
                 "monitoring": {"enabled": False},
                 "networkInterfaceSet": {
@@ -237,8 +237,8 @@ awsec2_vulnerable_xz_image_launched_tests: list[RuleTest] = [
                             "deviceIndex": 0,
                             "groupSet": {"items": [{"groupId": "sg-00000000000000000"}]},
                             "subnetId": "subnet-00000000000000000",
-                        }
-                    ]
+                        },
+                    ],
                 },
                 "privateDnsNameOptions": {
                     "enableResourceNameDnsAAAARecord": False,
@@ -246,7 +246,7 @@ awsec2_vulnerable_xz_image_launched_tests: list[RuleTest] = [
                     "hostnameType": "ip-name",
                 },
                 "tagSpecificationSet": {
-                    "items": [{"resourceType": "instance", "tags": [{"key": "Name", "value": "test"}]}]
+                    "items": [{"resourceType": "instance", "tags": [{"key": "Name", "value": "test"}]}],
                 },
             },
             "responseElements": {
@@ -295,7 +295,7 @@ awsec2_vulnerable_xz_image_launched_tests: list[RuleTest] = [
                                             "status": "attaching",
                                         },
                                         "groupSet": {
-                                            "items": [{"groupId": "sg-00000000000000000", "groupName": "ssh"}]
+                                            "items": [{"groupId": "sg-00000000000000000", "groupName": "ssh"}],
                                         },
                                         "interfaceType": "interface",
                                         "ipv6AddressesSet": {},
@@ -310,16 +310,16 @@ awsec2_vulnerable_xz_image_launched_tests: list[RuleTest] = [
                                                     "primary": True,
                                                     "privateDnsName": "ip-10-0-0-4.us-west-2.compute.internal",
                                                     "privateIpAddress": "10.0.0.4",
-                                                }
-                                            ]
+                                                },
+                                            ],
                                         },
                                         "sourceDestCheck": True,
                                         "status": "in-use",
                                         "subnetId": "subnet-00000000000000000",
                                         "tagSet": {},
                                         "vpcId": "vpc-00000000000000000",
-                                    }
-                                ]
+                                    },
+                                ],
                             },
                             "placement": {"availabilityZone": "us-west-2b", "tenancy": "default"},
                             "privateDnsName": "ip-10-0-0-4.us-west-2.compute.internal",
@@ -381,7 +381,7 @@ awsec2_vulnerable_xz_image_launched_tests: list[RuleTest] = [
                                             "status": "attaching",
                                         },
                                         "groupSet": {
-                                            "items": [{"groupId": "sg-00000000000000000", "groupName": "ssh"}]
+                                            "items": [{"groupId": "sg-00000000000000000", "groupName": "ssh"}],
                                         },
                                         "interfaceType": "interface",
                                         "ipv6AddressesSet": {},
@@ -396,16 +396,16 @@ awsec2_vulnerable_xz_image_launched_tests: list[RuleTest] = [
                                                     "primary": True,
                                                     "privateDnsName": "ip-10-0-0-5.us-west-2.compute.internal",
                                                     "privateIpAddress": "10.0.0.5",
-                                                }
-                                            ]
+                                                },
+                                            ],
                                         },
                                         "sourceDestCheck": True,
                                         "status": "in-use",
                                         "subnetId": "subnet-00000000000000000",
                                         "tagSet": {},
                                         "vpcId": "vpc-00000000000000000",
-                                    }
-                                ]
+                                    },
+                                ],
                             },
                             "placement": {"availabilityZone": "us-west-2b", "tenancy": "default"},
                             "privateDnsName": "ip-10-0-0-5.us-west-2.compute.internal",
@@ -425,7 +425,7 @@ awsec2_vulnerable_xz_image_launched_tests: list[RuleTest] = [
                             "virtualizationType": "hvm",
                             "vpcId": "vpc-00000000000000000",
                         },
-                    ]
+                    ],
                 },
                 "ownerId": "123456789012",
                 "requestId": "a71ca9b3-be94-4e22-95c5-e93b2280306c",
@@ -488,8 +488,8 @@ awsec2_vulnerable_xz_image_launched_tests: list[RuleTest] = [
                                 "volumeSize": 10,
                                 "volumeType": "gp3",
                             },
-                        }
-                    ]
+                        },
+                    ],
                 },
                 "clientToken": "00000000-0000-0000-0000-000000000000",
                 "disableApiStop": False,
@@ -497,7 +497,7 @@ awsec2_vulnerable_xz_image_launched_tests: list[RuleTest] = [
                 "ebsOptimized": True,
                 "instanceType": "t3a.micro",
                 "instancesSet": {
-                    "items": [{"imageId": "ami-08038de0f4f90a9f0", "keyName": "a-key", "maxCount": 1, "minCount": 1}]
+                    "items": [{"imageId": "ami-08038de0f4f90a9f0", "keyName": "a-key", "maxCount": 1, "minCount": 1}],
                 },
                 "monitoring": {"enabled": False},
                 "networkInterfaceSet": {
@@ -507,8 +507,8 @@ awsec2_vulnerable_xz_image_launched_tests: list[RuleTest] = [
                             "deviceIndex": 0,
                             "groupSet": {"items": [{"groupId": "sg-00000000000000000"}]},
                             "subnetId": "subnet-00000000000000000",
-                        }
-                    ]
+                        },
+                    ],
                 },
                 "privateDnsNameOptions": {
                     "enableResourceNameDnsAAAARecord": False,
@@ -516,7 +516,7 @@ awsec2_vulnerable_xz_image_launched_tests: list[RuleTest] = [
                     "hostnameType": "ip-name",
                 },
                 "tagSpecificationSet": {
-                    "items": [{"resourceType": "instance", "tags": [{"key": "Name", "value": "test"}]}]
+                    "items": [{"resourceType": "instance", "tags": [{"key": "Name", "value": "test"}]}],
                 },
             },
             "responseElements": {
@@ -565,7 +565,7 @@ awsec2_vulnerable_xz_image_launched_tests: list[RuleTest] = [
                                             "status": "attaching",
                                         },
                                         "groupSet": {
-                                            "items": [{"groupId": "sg-00000000000000000", "groupName": "ssh"}]
+                                            "items": [{"groupId": "sg-00000000000000000", "groupName": "ssh"}],
                                         },
                                         "interfaceType": "interface",
                                         "ipv6AddressesSet": {},
@@ -580,16 +580,16 @@ awsec2_vulnerable_xz_image_launched_tests: list[RuleTest] = [
                                                     "primary": True,
                                                     "privateDnsName": "ip-10-0-0-3.us-west-2.compute.internal",
                                                     "privateIpAddress": "10.0.0.3",
-                                                }
-                                            ]
+                                                },
+                                            ],
                                         },
                                         "sourceDestCheck": True,
                                         "status": "in-use",
                                         "subnetId": "subnet-00000000000000000",
                                         "tagSet": {},
                                         "vpcId": "vpc-00000000000000000",
-                                    }
-                                ]
+                                    },
+                                ],
                             },
                             "placement": {"availabilityZone": "us-west-2b", "tenancy": "default"},
                             "privateDnsName": "ip-10-0-0-3.us-west-2.compute.internal",
@@ -608,8 +608,8 @@ awsec2_vulnerable_xz_image_launched_tests: list[RuleTest] = [
                             "tagSet": {"items": [{"key": "Name", "value": "test"}]},
                             "virtualizationType": "hvm",
                             "vpcId": "vpc-00000000000000000",
-                        }
-                    ]
+                        },
+                    ],
                 },
                 "ownerId": "123456789012",
                 "requestId": "439a7e66-d8b6-4bad-98d9-214c20161939",
@@ -666,18 +666,28 @@ class AWSEC2VulnerableXZImageLaunched(Rule):
         if not aws_cloudtrail_success(event) or event.get("eventName") != "RunInstances":
             return False
         amis_launched = event.deep_walk(
-            "responseElements", "instancesSet", "items", "imageId", default="<AMI ID not found>", return_val="all"
+            "responseElements",
+            "instancesSet",
+            "items",
+            "imageId",
+            default="<AMI ID not found>",
+            return_val="all",
         )
         # convert to a list if only one item is returned
         if not isinstance(amis_launched, list):
             amis_launched = [amis_launched]
-        if any((ami in XZ_AMIS for ami in amis_launched)):
+        if any(ami in XZ_AMIS for ami in amis_launched):
             return True
         return False
 
     def title(self, event):
         amis_launched = event.deep_walk(
-            "responseElements", "instancesSet", "items", "imageId", default="<AMI ID not found>", return_val="all"
+            "responseElements",
+            "instancesSet",
+            "items",
+            "imageId",
+            default="<AMI ID not found>",
+            return_val="all",
         )
         instance_ids = event.deep_walk(
             "responseElements",

@@ -101,7 +101,7 @@ def convert_rule(filepath: Path, helpers: Set[str]) -> Optional[str]:
                         value=ast.Name(id=f"{LogType.__name__}", ctx=ast.Load()),
                         attr=LogType.get_attribute_name(x),
                         ctx=ast.Load(),
-                    )
+                    ),
                 )
             value = ast.List(elts=log_type_elts)
         if k == "RuleID":
@@ -112,7 +112,7 @@ def convert_rule(filepath: Path, helpers: Set[str]) -> Optional[str]:
                 targets=[ast.Name(id=convert_rule_attribute_name(k), ctx=ast.Store())],
                 value=value,
                 lineno=0,
-            )
+            ),
         )
 
     tests = loaded.get("Tests", [])
@@ -145,7 +145,7 @@ def convert_rule(filepath: Path, helpers: Set[str]) -> Optional[str]:
                         func=ast.Name(id=RuleMock.__name__, ctx=ast.Load()),
                         args=[],
                         keywords=mock_keywords,
-                    )
+                    ),
                 )
 
             keywords.insert(
@@ -158,7 +158,7 @@ def convert_rule(filepath: Path, helpers: Set[str]) -> Optional[str]:
                 func=ast.Name(id=RuleTest.__name__, ctx=ast.Load()),
                 args=[],
                 keywords=keywords,
-            )
+            ),
         )
 
     tree = parse_py(
@@ -177,7 +177,7 @@ def convert_rule(filepath: Path, helpers: Set[str]) -> Optional[str]:
                 "from unittest.mock import MagicMock",
                 """if isinstance(filter_include_event, MagicMock):
     pass""",
-            ]
+            ],
         ).visit(tree)
 
     return unparse(tree)
@@ -222,7 +222,7 @@ def parse_py(
     tests: List[ast.Call],
     helpers: Set[str],
 ) -> ast.Module:
-    with open(filepath, "r", encoding="utf-8") as f:
+    with open(filepath, encoding="utf-8") as f:
         lines = f.read()
     tree = parse(lines)
 
@@ -297,7 +297,7 @@ def parse_py(
                 annotation=ast.Name(id="list[RuleTest]", ctx=ast.Load()),
                 value=ast.List(elts=tests),
                 simple=1,
-            )
+            ),
         )
 
         assignments.append(
@@ -305,7 +305,7 @@ def parse_py(
                 targets=[ast.Name(id="tests", ctx=ast.Store())],
                 value=ast.Name(id=tests_name, ctx=ast.Load()),
                 lineno=0,
-            )
+            ),
         )
 
     # add class def to tree
@@ -468,7 +468,7 @@ def convert_global_helpers(panther_analysis: Path) -> Set[str]:
 
         description = gh.get("Description", "")
 
-        with open(global_helpers_path / gh["Filename"], "r", encoding="utf-8") as f:
+        with open(global_helpers_path / gh["Filename"], encoding="utf-8") as f:
             code = f.read()
 
         # strip panther_analysis from path
@@ -517,7 +517,7 @@ def convert_data_models(panther_analysis: Path, helpers: Set[str]):
                     func=ast.Name(id="DataModelMapping", ctx=ast.Load()),
                     args=[],
                     keywords=keywords,
-                )
+                ),
             )
 
         classname = to_ascii(dm["DataModelID"])
@@ -558,7 +558,7 @@ def convert_data_models(panther_analysis: Path, helpers: Set[str]):
                                 ctx=ast.Load(),
                             )
                             for x in dm["LogTypes"]
-                        ]
+                        ],
                     ),
                     simple=1,
                 ),
@@ -576,7 +576,7 @@ def convert_data_models(panther_analysis: Path, helpers: Set[str]):
 
         code = imports + "\n"
         if "Filename" in dm:
-            with open(data_models_path / dm["Filename"], "r", encoding="utf-8") as f:
+            with open(data_models_path / dm["Filename"], encoding="utf-8") as f:
                 code += f.read()
 
         code = rewrite_imports_str(code, helpers)
@@ -780,7 +780,7 @@ def main():
     strip_global_filters()
 
     # convert_queries(Path(panther_analysis))
-    run_ruff([Path(".")])
+    run_ruff([Path(".")])  # noqa: PTH201
 
 
 if __name__ == "__main__":

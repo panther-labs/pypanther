@@ -406,7 +406,7 @@ class Auth0MFAPolicyDisabled(Rule):
                 request_path == "/api/v2/guardian/policies",
                 request_body == [],
                 is_auth0_config_event(event),
-            ]
+            ],
         )
 
     def title(self, event):

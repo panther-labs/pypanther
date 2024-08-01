@@ -29,10 +29,10 @@ okta_api_key_revoked_tests: list[RuleTest] = [
                     "alternateId": "unknown",
                     "displayName": "test_key",
                     "details": None,
-                }
+                },
             ],
         },
-    )
+    ),
 ]
 
 

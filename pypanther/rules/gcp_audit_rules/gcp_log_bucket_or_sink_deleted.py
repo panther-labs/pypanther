@@ -23,7 +23,7 @@ gcp_log_bucket_or_sink_deleted_tests: list[RuleTest] = [
                             "name": "projects/test-project-123456/locations/global/buckets/testloggingbucket",
                             "service": "logging.googleapis.com",
                         },
-                    }
+                    },
                 ],
                 "methodName": "google.logging.v2.ConfigServiceV2.DeleteBucket",
                 "request": {
@@ -71,7 +71,7 @@ gcp_log_bucket_or_sink_deleted_tests: list[RuleTest] = [
                             "name": "projects/test-project-123456/sinks/test-1",
                             "service": "logging.googleapis.com",
                         },
-                    }
+                    },
                 ],
                 "methodName": "google.logging.v2.ConfigServiceV2.DeleteSink",
                 "request": {
@@ -115,7 +115,7 @@ gcp_log_bucket_or_sink_deleted_tests: list[RuleTest] = [
                             "name": "projects/test-project-123456/locations/global/buckets/testloggingbucket",
                             "service": "logging.googleapis.com",
                         },
-                    }
+                    },
                 ],
                 "methodName": "google.logging.v2.ConfigServiceV2.GetBucket",
                 "request": {
@@ -163,7 +163,7 @@ gcp_log_bucket_or_sink_deleted_tests: list[RuleTest] = [
                             "name": "projects/test-project-123456/sinks/test-1",
                             "service": "logging.googleapis.com",
                         },
-                    }
+                    },
                 ],
                 "methodName": "google.logging.v2.ConfigServiceV2.GetSink",
                 "request": {

@@ -152,7 +152,7 @@ class BackendMultipartError(ABC):
 @dataclass
 class BulkUploadMultipartError(BackendMultipartError):
     error: str
-    issues: List[BulkUploadIssue] = field(default_factory=lambda: [])
+    issues: List[BulkUploadIssue] = field(default_factory=list)
 
     @classmethod
     def from_jsons(cls, data: str) -> "BulkUploadMultipartError":
@@ -200,7 +200,7 @@ class BulkUploadMultipartError(BackendMultipartError):
 
 @dataclass(frozen=True)
 class BulkUploadValidateResult:
-    issues: List[BulkUploadIssue] = field(default_factory=lambda: [])
+    issues: List[BulkUploadIssue] = field(default_factory=list)
 
     @classmethod
     def from_json(cls, data: Optional[Dict[str, Any]]) -> Optional["BulkUploadValidateResult"]:
@@ -517,7 +517,8 @@ class Client(ABC):
 
     @abstractmethod
     def async_bulk_upload_status(
-        self, params: AsyncBulkUploadStatusParams
+        self,
+        params: AsyncBulkUploadStatusParams,
     ) -> BackendResponse[AsyncBulkUploadStatusResponse] | None:
         pass
 
@@ -539,7 +540,8 @@ class Client(ABC):
 
     @abstractmethod
     def transpile_simple_detection_to_python(
-        self, params: TranspileToPythonParams
+        self,
+        params: TranspileToPythonParams,
     ) -> BackendResponse[TranspileToPythonResponse]:
         pass
 
@@ -589,7 +591,8 @@ class Client(ABC):
 
     @abstractmethod
     def generate_enriched_event_input(
-        self, params: GenerateEnrichedEventParams
+        self,
+        params: GenerateEnrichedEventParams,
     ) -> BackendResponse[GenerateEnrichedEventResponse]:
         pass
 

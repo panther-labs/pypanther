@@ -20,7 +20,7 @@ gcp_cloud_run_service_created_tests: list[RuleTest] = [
                         "permission": "cloudbuild.builds.create",
                         "resource": "projects/00000000aaaaaaaa",
                         "resourceAttributes": {},
-                    }
+                    },
                 ],
                 "requestMetadata": {
                     "destinationAttributes": {},
@@ -54,7 +54,7 @@ gcp_cloud_run_service_created_tests: list[RuleTest] = [
                         "permission": "run.services.create",
                         "resource": "namespaces/some-project/services/cloudrun-exfil",
                         "resourceAttributes": {},
-                    }
+                    },
                 ],
                 "methodName": "google.cloud.run.v1.Services.CreateService",
                 "request": {
@@ -65,7 +65,7 @@ gcp_cloud_run_service_created_tests: list[RuleTest] = [
                         "kind": "Service",
                         "metadata": {
                             "annotations": {
-                                "client.knative.dev/user-image": "us-west1-docker.pkg.dev/some-project/abc-test/run_services_create_test"
+                                "client.knative.dev/user-image": "us-west1-docker.pkg.dev/some-project/abc-test/run_services_create_test",
                             },
                             "name": "cloudrun-exfil",
                             "namespace": "some-project",
@@ -74,13 +74,13 @@ gcp_cloud_run_service_created_tests: list[RuleTest] = [
                             "template": {
                                 "metadata": {
                                     "annotations": {
-                                        "client.knative.dev/user-image": "us-west1-docker.pkg.dev/some-project/abc-test/run_services_create_test"
+                                        "client.knative.dev/user-image": "us-west1-docker.pkg.dev/some-project/abc-test/run_services_create_test",
                                     },
                                     "labels": {"cloud.googleapis.com/location": "us-west1"},
                                     "name": "cloudrun-exfil-00001-zif",
                                 },
                                 "spec": {"serviceAccountName": "abc-test@some-project.iam.gserviceaccount.com"},
-                            }
+                            },
                         },
                     },
                 },
@@ -168,7 +168,7 @@ gcp_cloud_run_service_created_tests: list[RuleTest] = [
                         "permission": "run.services.create",
                         "resource": "namespaces/some-project/services/cloudrun-exfil",
                         "resourceAttributes": {},
-                    }
+                    },
                 ],
                 "methodName": "google.cloud.run.v1.Services.CreateService",
                 "request": "...",

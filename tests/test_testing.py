@@ -111,7 +111,7 @@ class TestPrintRuleTestResults:
                 expected_severity=Severity.HIGH,
                 expected_result=True,
                 log={},
-            )
+            ),
         ]
         testing.print_rule_test_results(False, Test.id, Test.run_tests(get_data_model))
 
@@ -197,7 +197,7 @@ class TestPrintRuleTestResults:
         ]
         testing.print_rule_test_results(True, Test.id, Test.run_tests(get_data_model))
 
-        exp = "\x1b[95mTest\x1b[0m:\n   \x1b[92mPASS\x1b[0m: test1\n   \x1b[92mPASS\x1b[0m: test2\n" "\n"
+        exp = "\x1b[95mTest\x1b[0m:\n   \x1b[92mPASS\x1b[0m: test1\n   \x1b[92mPASS\x1b[0m: test2\n\n"
         std = capsys.readouterr()
         assert std.out == exp
         assert std.err == ""
@@ -378,7 +378,7 @@ class TestGetTestResultsAsDict:
                     "passed": True,
                     "test_name": "test2",
                 },
-            ]
+            ],
         }
         assert out == exp
 

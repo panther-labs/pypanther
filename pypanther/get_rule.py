@@ -29,6 +29,6 @@ def run(args: argparse.Namespace) -> Tuple[int, str]:
             case _:
                 return 1, f"Unsupported output: {args.output}"
     except OSError as e:
-        return 1, f"Error getting details for rule {args.id}: {repr(e)}"
+        return 1, f"Error getting details for rule {args.id}: {e!r}"
 
     return 0, ""

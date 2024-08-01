@@ -35,7 +35,7 @@ okta_user_mfa_factor_suspend_tests: list[RuleTest] = [
                     "requestId": "AbCdEf12G",
                     "requestUri": "/api/v1/users/AbCdEfG/lifecycle/reset_factors",
                     "url": "/api/v1/users/AbCdEfG/lifecycle/reset_factors?",
-                }
+                },
             },
             "displaymessage": "Suspend factor for user",
             "eventtype": "user.mfa.factor.suspend",
@@ -53,8 +53,8 @@ okta_user_mfa_factor_suspend_tests: list[RuleTest] = [
                         },
                         "ip": "1.3.2.4",
                         "version": "V4",
-                    }
-                ]
+                    },
+                ],
             },
             "securitycontext": {
                 "asNumber": 701,
@@ -70,7 +70,7 @@ okta_user_mfa_factor_suspend_tests: list[RuleTest] = [
                     "displayName": "Peter Griffin",
                     "id": "0002222AAAA",
                     "type": "User",
-                }
+                },
             ],
             "transaction": {"detail": {}, "id": "ABcDeFgG", "type": "WEB"},
             "uuid": "AbC-123-XyZ",
@@ -110,7 +110,7 @@ okta_user_mfa_factor_suspend_tests: list[RuleTest] = [
                     "requestId": "AbCdEf12G",
                     "requestUri": "/api/v1/users/AbCdEfG/lifecycle/reset_factors",
                     "url": "/api/v1/users/AbCdEfG/lifecycle/reset_factors?",
-                }
+                },
             },
             "displaymessage": "Reset all factors for user",
             "eventtype": "user.mfa.factor.reset_all",
@@ -129,8 +129,8 @@ okta_user_mfa_factor_suspend_tests: list[RuleTest] = [
                         },
                         "ip": "1.3.2.4",
                         "version": "V4",
-                    }
-                ]
+                    },
+                ],
             },
             "securitycontext": {
                 "asNumber": 701,
@@ -146,7 +146,7 @@ okta_user_mfa_factor_suspend_tests: list[RuleTest] = [
                     "displayName": "Peter Griffin",
                     "id": "0002222AAAA",
                     "type": "User",
-                }
+                },
             ],
             "transaction": {"detail": {}, "id": "ABcDeFgG", "type": "WEB"},
             "uuid": "AbC-123-XyZ",

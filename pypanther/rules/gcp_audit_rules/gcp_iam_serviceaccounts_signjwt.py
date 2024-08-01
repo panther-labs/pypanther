@@ -23,7 +23,7 @@ gcpia_mservice_accountssign_jwt_privilege_escalation_tests: list[RuleTest] = [
                 "serviceName": "iamcredentials.googleapis.com",
                 "methodName": "SignJwt",
                 "authorizationInfo": [
-                    {"permission": "iam.serviceAccounts.signJwt", "granted": True, "resourceAttributes": {}}
+                    {"permission": "iam.serviceAccounts.signJwt", "granted": True, "resourceAttributes": {}},
                 ],
                 "resourceName": "projects/-/serviceAccounts/114885146936855121342",
                 "request": {
@@ -66,7 +66,7 @@ gcpia_mservice_accountssign_jwt_privilege_escalation_tests: list[RuleTest] = [
                 "serviceName": "iamcredentials.googleapis.com",
                 "methodName": "SignJwt",
                 "authorizationInfo": [
-                    {"permission": "iam.serviceAccounts.signJwt", "granted": False, "resourceAttributes": {}}
+                    {"permission": "iam.serviceAccounts.signJwt", "granted": False, "resourceAttributes": {}},
                 ],
                 "resourceName": "projects/-/serviceAccounts/114885146936855121342",
                 "request": {
@@ -124,6 +124,9 @@ class GCPIAMserviceAccountssignJwtPrivilegeEscalation(Rule):
     def alert_context(self, event):
         context = gcp_alert_context(event)
         context["serviceAccountKeyName"] = deep_get(
-            event, "protoPayload", "authenticationInfo", "serviceAccountKeyName"
+            event,
+            "protoPayload",
+            "authenticationInfo",
+            "serviceAccountKeyName",
         )
         return context

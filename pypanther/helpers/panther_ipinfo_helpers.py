@@ -148,7 +148,8 @@ def get_ipinfo_privacy(event):
 
 
 def geoinfo_from_ip(event, match_field: str):
-    """Returns a dictionary with geolocation information that is the same format as
+    """
+    Returns a dictionary with geolocation information that is the same format as
     panther_oss_helper.geoinfo_from_ip() with the following differences:
 
     - instead of providing the ip, you must provide the event and the match_field

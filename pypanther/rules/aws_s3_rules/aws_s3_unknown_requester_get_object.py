@@ -140,7 +140,7 @@ class AWSS3ServerAccessUnknownRequester(Rule):
             "arn:aws:sts::*:assumed-role/panther-log-analysis-RulesEngineFunctionRole-*/panther-rules-engine",
             "arn:aws:sts::*:assumed-role/panther-snowflake-logprocessing-role-*/snowflake",
             "arn:aws:sts::*:assumed-role/panther-data-replication-role-*/s3-replication",
-        ]
+        ],
     }
     # pylint: enable=line-too-long
 
@@ -148,7 +148,7 @@ class AWSS3ServerAccessUnknownRequester(Rule):
         for bucket_pattern, role_patterns in self.BUCKET_ROLE_MAPPING.items():
             if not fnmatch(event.get("bucket", ""), bucket_pattern):
                 continue
-            if not any((fnmatch(event.get("requester", ""), role_pattern) for role_pattern in role_patterns)):
+            if not any(fnmatch(event.get("requester", ""), role_pattern) for role_pattern in role_patterns):
                 return True
         return False
 

@@ -1,6 +1,4 @@
-"""
-Used to define global helpers and variables for Cloudflare events.
-"""
+"""Used to define global helpers and variables for Cloudflare events."""
 
 from typing import Any
 

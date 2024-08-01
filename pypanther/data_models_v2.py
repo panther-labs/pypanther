@@ -118,7 +118,8 @@ class DataModel(abc.ABC):
                 setattr(cls, key, val)
 
     def __init_subclass__(cls, **kwargs):
-        """Creates a copy of all class attributes to avoid modifications affecting parent.fields.
+        """
+        Creates a copy of all class attributes to avoid modifications affecting parent.fields.
         child.fields.append(Field("foo",...))
         parent.fields.append(Field("foo",...) # not inherited by children of parent
         """

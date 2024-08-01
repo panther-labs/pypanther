@@ -47,7 +47,7 @@ def run(backend: BackendClient, args: argparse.Namespace) -> Tuple[int, str]:
     try:
         import_main(os.getcwd(), "main")
     except NoMainModuleError:
-        logging.error("No main.py found")
+        logging.error("No main.py found")  # noqa: TRY400
         return 1, ""
 
     test_results = testing.TestResults()  # default to something, so it can be used below in output
@@ -56,7 +56,12 @@ def run(backend: BackendClient, args: argparse.Namespace) -> Tuple[int, str]:
         if test_results.had_failed_tests():
             if args.output == display.OUTPUT_TYPE_JSON:
                 output = get_upload_output_as_dict(
-                    None, test_results, [], args.verbose, args.skip_tests, UPLOAD_RESULT_TESTS_FAILED
+                    None,
+                    test_results,
+                    [],
+                    args.verbose,
+                    args.skip_tests,
+                    UPLOAD_RESULT_TESTS_FAILED,
                 )
                 print(json.dumps(output, indent=display.JSON_INDENT_LEVEL))
             return 1, ""
@@ -75,12 +80,21 @@ def run(backend: BackendClient, args: argparse.Namespace) -> Tuple[int, str]:
 
         try:
             upload_stats = upload_zip(
-                backend, archive=tmp.name, verbose=args.verbose, output_type=args.output, max_retries=args.max_retries
+                backend,
+                archive=tmp.name,
+                verbose=args.verbose,
+                output_type=args.output,
+                max_retries=args.max_retries,
             )
 
             if args.output == display.OUTPUT_TYPE_JSON:
                 output = get_upload_output_as_dict(
-                    upload_stats, test_results, zip_info, args.verbose, args.skip_tests, UPLOAD_RESULT_SUCCESS
+                    upload_stats,
+                    test_results,
+                    zip_info,
+                    args.verbose,
+                    args.skip_tests,
+                    UPLOAD_RESULT_SUCCESS,
                 )
                 print(json.dumps(output, indent=display.JSON_INDENT_LEVEL))
 
@@ -90,7 +104,12 @@ def run(backend: BackendClient, args: argparse.Namespace) -> Tuple[int, str]:
                 print_backend_issues(multi_err)
             elif args.output == display.OUTPUT_TYPE_JSON:
                 output = get_failed_upload_as_dict(
-                    multi_err, test_results, zip_info, args.verbose, args.skip_tests, UPLOAD_RESULT_FAILURE
+                    multi_err,
+                    test_results,
+                    zip_info,
+                    args.verbose,
+                    args.skip_tests,
+                    UPLOAD_RESULT_FAILURE,
                 )
                 print(json.dumps(output, indent=display.JSON_INDENT_LEVEL))
             return 1, ""
@@ -120,7 +139,11 @@ def zip_contents(named_temp_file: Any) -> list[zipfile.ZipInfo]:
 
 
 def upload_zip(
-    backend: BackendClient, archive: str, verbose: bool, output_type: str, max_retries: int = 10
+    backend: BackendClient,
+    archive: str,
+    verbose: bool,
+    output_type: str,
+    max_retries: int = 10,
 ) -> AsyncBulkUploadStatusResponse:
     # extract max retries we should handle
     if max_retries > 10:
@@ -150,7 +173,7 @@ def upload_zip(
                 time.sleep(2)
 
                 status_response = backend.async_bulk_upload_status(
-                    AsyncBulkUploadStatusParams(receipt_id=start_upload_response.data.receipt_id)
+                    AsyncBulkUploadStatusParams(receipt_id=start_upload_response.data.receipt_id),
                 )
                 if status_response is not None:
                     if output_type == display.OUTPUT_TYPE_TEXT:
@@ -196,7 +219,7 @@ def upload_zip(
 def confirm() -> Optional[str]:
     warning_text = cli_output.warning(
         "WARNING: pypanther upload is under active development and not recommended for use"
-        " without guidance from the Panther team. Would you like to proceed? [y/n]: "
+        " without guidance from the Panther team. Would you like to proceed? [y/n]: ",
     )
     choice = input(warning_text).lower()
     if choice != "y":

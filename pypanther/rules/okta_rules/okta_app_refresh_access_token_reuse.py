@@ -49,7 +49,7 @@ okta_refresh_access_token_reuse_tests: list[RuleTest] = [
                     "threatSuspected": "false",
                     "url": "/login/token/redirect?stateToken=02.id.ASDDFJLKF",
                     "userId": "00abc124",
-                }
+                },
             },
             "displaymessage": "OIDC authorization code request",
             "eventtype": "app.oauth2.authorize.code",
@@ -68,8 +68,8 @@ okta_refresh_access_token_reuse_tests: list[RuleTest] = [
                         },
                         "ip": "1.2.3.4",
                         "version": "V4",
-                    }
-                ]
+                    },
+                ],
             },
             "securitycontext": {
                 "asNumber": 701,
@@ -135,7 +135,7 @@ okta_refresh_access_token_reuse_tests: list[RuleTest] = [
                     "threatSuspected": "false",
                     "url": "/login/token/redirect?stateToken=02.id.ASDDFJLKF",
                     "userId": "00abc124",
-                }
+                },
             },
             "displaymessage": "Token Reuse",
             "eventtype": "app.oauth2.token.detect_reuse",
@@ -154,8 +154,8 @@ okta_refresh_access_token_reuse_tests: list[RuleTest] = [
                         },
                         "ip": "1.2.3.4",
                         "version": "V4",
-                    }
-                ]
+                    },
+                ],
             },
             "securitycontext": {
                 "asNumber": 701,

@@ -62,7 +62,7 @@ class CarbonBlackAuditAPIKeyCreatedRetrieved(Rule):
 
     def rule(self, event):
         desc = event.get("description", "")
-        return any((pattern in desc for pattern in self.PATTERNS))
+        return any(pattern in desc for pattern in self.PATTERNS)
 
     def title(self, event):
         user = event.get("loginName", "<NO_USERNAME_FOUND>")

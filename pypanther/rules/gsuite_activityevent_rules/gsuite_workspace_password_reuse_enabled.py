@@ -110,7 +110,7 @@ class GSuiteWorkspacePasswordReuseEnabled(Rule):
                 deep_get(event, "parameters", "NEW_VALUE", default="").lower() == "true",
                 deep_get(event, "parameters", "SETTING_NAME", default="")
                 == "Password Management - Enable password reuse",
-            ]
+            ],
         ):
             return True
         return False

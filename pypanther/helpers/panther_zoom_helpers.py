@@ -1,6 +1,4 @@
-"""
-Used to define global helpers for Zoom events
-"""
+"""Used to define global helpers for Zoom events"""
 
 
 def get_zoom_user_context(event):
@@ -21,7 +19,7 @@ def get_zoom_user_context(event):
 
         if action == "Update":
             operation_context["User"] = raw_string.split()[2]
-            operation_context["Change"] = " ".join((raw_string.split("-"))).strip()
+            operation_context["Change"] = " ".join(raw_string.split("-")).strip()
             operation_context["DisabledSetting"] = "On to Off" in operation_context["Change"]
             operation_context["EnabledSetting"] = "Off to On" in operation_context["Change"]
 

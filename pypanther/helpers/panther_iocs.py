@@ -65,7 +65,7 @@ SUNBURST_SHA256_IOCS = {
 
 LOG4J_IP_IOCS = {
     # The rule using this set has been deprecated and disabled by default
-    "0.0.0.1"
+    "0.0.0.1",
 }
 
 # Example sources:
@@ -609,7 +609,8 @@ XZ_AMIS = {
 
 # IOC Helper functions:
 def ioc_match(indicators: list, known_iocs: set) -> list:
-    """Matches a set of indicators against known Indicators of Compromise
+    """
+    Matches a set of indicators against known Indicators of Compromise
 
     :param indicators: List of potential indicators of compromise
     :param known_iocs: Set of known indicators of compromise
@@ -620,7 +621,8 @@ def ioc_match(indicators: list, known_iocs: set) -> list:
 
 
 def sanitize_domain(domain: str) -> str:
-    """Makes a potential malicious domain not render as a domain in most systems
+    """
+    Makes a potential malicious domain not render as a domain in most systems
 
     :param domain: Original domain
     :return: Sanitized domain

@@ -208,7 +208,7 @@ aws_suspicious_saml_activity_tests: list[RuleTest] = [
                 "sAMLMetadataDocument": '<?xml version="1.0" encoding="UTF-8"?></xml>',
             },
             "responseElements": {
-                "sAMLProviderArn": "arn:aws:iam::123412341234:saml-provider/AWSSSO_abdf34fd171b4a7e_DO_NOT_DELETE"
+                "sAMLProviderArn": "arn:aws:iam::123412341234:saml-provider/AWSSSO_abdf34fd171b4a7e_DO_NOT_DELETE",
             },
             "sourceIPAddress": "sso.amazonaws.com",
             "userAgent": "sso.amazonaws.com",

@@ -37,7 +37,7 @@ def test_list_no_mangaed() -> None:
     assert not args.managed and not args.registered
     code, err = list_rules.run(args)
     assert code == 1
-    assert "At least one of --registered or --managed is required" == str(err)
+    assert str(err) == "At least one of --registered or --managed is required"
 
 
 def test_list_registered_no_main() -> None:

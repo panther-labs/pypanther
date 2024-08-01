@@ -60,8 +60,8 @@ connectionto_embargoed_country_tests: list[RuleTest] = [
                                 "trust_level": "1",
                             },
                             "scan_time": "2023-04-28 21:11:03.820349735",
-                        }
-                    ]
+                        },
+                    ],
                 },
                 "ipinfo_asn": {
                     "p_any_ip_addresses": [
@@ -79,7 +79,7 @@ connectionto_embargoed_country_tests: list[RuleTest] = [
                             "route": "1.1.1.0/24",
                             "type": "hosting",
                         },
-                    ]
+                    ],
                 },
                 "ipinfo_location": {
                     "p_any_ip_addresses": [
@@ -103,12 +103,12 @@ connectionto_embargoed_country_tests: list[RuleTest] = [
                             "region_code": "CA",
                             "timezone": "America/Los_Angeles",
                         },
-                    ]
+                    ],
                 },
                 "ipinfo_privacy": {
                     "p_any_ip_addresses": [
-                        {"hosting": True, "proxy": False, "relay": False, "service": "", "tor": False, "vpn": False}
-                    ]
+                        {"hosting": True, "proxy": False, "relay": False, "service": "", "tor": False, "vpn": False},
+                    ],
                 },
             },
             "p_log_type": "Crowdstrike.FDREvent",
@@ -132,9 +132,9 @@ connectionto_embargoed_country_tests: list[RuleTest] = [
                             "region": "California",
                             "region_code": "CA",
                             "timezone": "America/Los_Angeles",
-                        }
-                    ]
-                }
+                        },
+                    ],
+                },
             },
             "p_log_type": "Crowdstrike.FDREvent",
         },
@@ -173,14 +173,12 @@ class ConnectiontoEmbargoedCountry(Rule):
 
     def title(self, event):
         enrichment_obj = self.get_enrichment_obj(event)
-        country_codes = set(
-            (i.get("country") for i in enrichment_obj if i.get("country") in self.EMBARGO_COUNTRY_CODES)
-        )
+        country_codes = set(i.get("country") for i in enrichment_obj if i.get("country") in self.EMBARGO_COUNTRY_CODES)
         return f"Connection made to embargoed country: [{country_codes}]."
 
     def alert_context(self, event):
         if event.get("p_log_type") == "Crowdstrike.FDREvent":
             return crowdstrike_network_detection_alert_context(event) | {
-                "p_any_ip_addresses": event.get("p_any_ip_addresses")
+                "p_any_ip_addresses": event.get("p_any_ip_addresses"),
             }
         return {"p_any_ip_addresses": event.get("p_any_ip_addresses")}

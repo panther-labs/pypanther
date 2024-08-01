@@ -111,7 +111,7 @@ class GSuiteWorkspaceGmailPredeliveryScanningDisabled(Rule):
                 deep_get(event, "parameters", "NEW_VALUE", default="").lower() == "true",
                 deep_get(event, "parameters", "SETTING_NAME", default="")
                 == "DelayedDeliverySettingsProto disable_delayed_delivery_for_suspicious_email",
-            ]
+            ],
         ):
             return True
         return False

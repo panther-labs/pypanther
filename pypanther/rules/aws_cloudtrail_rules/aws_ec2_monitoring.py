@@ -34,7 +34,7 @@ awsec2_monitoring_tests: list[RuleTest] = [
             "requestID": "e686939a-a08a-4fd6-abf5-9ea34793cf25",
             "requestParameters": {
                 "blockDeviceMapping": {
-                    "items": [{"deviceName": "/dev/xvda", "ebs": {"deleteOnTermination": True, "volumeSize": 8}}]
+                    "items": [{"deviceName": "/dev/xvda", "ebs": {"deleteOnTermination": True, "volumeSize": 8}}],
                 },
                 "instanceId": "i-0381a3817f72a949d",
                 "name": "testimage",
@@ -107,7 +107,7 @@ awsec2_monitoring_tests: list[RuleTest] = [
                 "ebsOptimized": False,
                 "instanceType": "t1.micro",
                 "instancesSet": {
-                    "items": [{"imageId": "ami-026b57f3c383c2eec", "keyName": "kp1", "maxCount": 1, "minCount": 1}]
+                    "items": [{"imageId": "ami-026b57f3c383c2eec", "keyName": "kp1", "maxCount": 1, "minCount": 1}],
                 },
                 "monitoring": {"enabled": False},
                 "networkInterfaceSet": {
@@ -116,8 +116,8 @@ awsec2_monitoring_tests: list[RuleTest] = [
                             "associatePublicIpAddress": True,
                             "deviceIndex": 0,
                             "groupSet": {"items": [{"groupId": "sg-0aebfa21f302bded9"}]},
-                        }
-                    ]
+                        },
+                    ],
                 },
                 "privateDnsNameOptions": {
                     "enableResourceNameDnsAAAARecord": False,
@@ -125,7 +125,7 @@ awsec2_monitoring_tests: list[RuleTest] = [
                     "hostnameType": "ip-name",
                 },
                 "tagSpecificationSet": {
-                    "items": [{"resourceType": "instance", "tags": [{"key": "Name", "value": "test2"}]}]
+                    "items": [{"resourceType": "instance", "tags": [{"key": "Name", "value": "test2"}]}],
                 },
             },
             "responseElements": {
@@ -143,7 +143,7 @@ awsec2_monitoring_tests: list[RuleTest] = [
                             "enaSupport": True,
                             "enclaveOptions": {"enabled": False},
                             "groupSet": {
-                                "items": [{"groupId": "sg-0aebfa21f302bded9", "groupName": "launch-wizard-4"}]
+                                "items": [{"groupId": "sg-0aebfa21f302bded9", "groupName": "launch-wizard-4"}],
                             },
                             "hypervisor": "xen",
                             "imageId": "ami-026b57f3c383c2eec",
@@ -176,8 +176,8 @@ awsec2_monitoring_tests: list[RuleTest] = [
                                         },
                                         "groupSet": {
                                             "items": [
-                                                {"groupId": "sg-0aebfa21f302bded9", "groupName": "launch-wizard-4"}
-                                            ]
+                                                {"groupId": "sg-0aebfa21f302bded9", "groupName": "launch-wizard-4"},
+                                            ],
                                         },
                                         "interfaceType": "interface",
                                         "ipv6AddressesSet": {},
@@ -192,16 +192,16 @@ awsec2_monitoring_tests: list[RuleTest] = [
                                                     "primary": True,
                                                     "privateDnsName": "ip-111.111.111.111.ec2.internal",
                                                     "privateIpAddress": "111.111.111.111",
-                                                }
-                                            ]
+                                                },
+                                            ],
                                         },
                                         "sourceDestCheck": True,
                                         "status": "in-use",
                                         "subnetId": "subnet-0ae6d533cb0b18193",
                                         "tagSet": {},
                                         "vpcId": "vpc-0f59e8f1222b0de6a",
-                                    }
-                                ]
+                                    },
+                                ],
                             },
                             "placement": {"availabilityZone": "us-east-1a", "tenancy": "default"},
                             "privateDnsName": "ip-111.111.111.111.ec2.internal",
@@ -220,8 +220,8 @@ awsec2_monitoring_tests: list[RuleTest] = [
                             "tagSet": {"items": [{"key": "Name", "value": "test2"}]},
                             "virtualizationType": "hvm",
                             "vpcId": "vpc-0f59e8f1222b0de6a",
-                        }
-                    ]
+                        },
+                    ],
                 },
                 "ownerId": "123123123123",
                 "requestId": "25c95576-a825-44fd-971d-5a52c1e3b2be",
@@ -333,7 +333,7 @@ awsec2_monitoring_tests: list[RuleTest] = [
             "requestID": "e686939a-a08a-4fd6-abf5-ffffffffffff",
             "requestParameters": {
                 "blockDeviceMapping": {
-                    "items": [{"deviceName": "/dev/xvda", "ebs": {"deleteOnTermination": True, "volumeSize": 8}}]
+                    "items": [{"deviceName": "/dev/xvda", "ebs": {"deleteOnTermination": True, "volumeSize": 8}}],
                 },
                 "instanceId": "i-0381a3817f72a949d",
                 "name": "testimage",

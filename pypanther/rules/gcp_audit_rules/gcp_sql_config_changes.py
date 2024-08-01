@@ -24,7 +24,7 @@ gcpsql_config_changes_tests: list[RuleTest] = [
                 "labels": {"project_id": "western-verve-123456", "location": "asia-northeast2"},
             },
         },
-    )
+    ),
 ]
 
 

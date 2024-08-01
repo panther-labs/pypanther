@@ -105,7 +105,7 @@ class AWSCloudTrailLoginProfileCreatedOrModified(Rule):
             and event.get("eventName", "") in self.PROFILE_EVENTS
             and (
                 not deep_get(event, "userIdentity", "arn", default="").endswith(
-                    f"/{deep_get(event, 'requestParameters', 'userName', default='')}"
+                    f"/{deep_get(event, 'requestParameters', 'userName', default='')}",
                 )
             )
         )

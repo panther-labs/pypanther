@@ -109,7 +109,7 @@ class GSuiteWorkspaceGmailSecuritySandboxDisabled(Rule):
                 deep_get(event, "parameters", "NEW_VALUE", default="").lower() == "false",
                 deep_get(event, "parameters", "SETTING_NAME", default="")
                 == "AttachmentDeepScanningSettingsProto deep_scanning_enabled",
-            ]
+            ],
         ):
             return True
         return False

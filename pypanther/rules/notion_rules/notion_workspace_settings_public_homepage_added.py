@@ -21,9 +21,9 @@ notion_workspace_public_page_added_tests: list[RuleTest] = [
                 "platform": "web",
                 "type": "workspace.settings.public_homepage_added",
                 "workspace.settings.public_homepage_added": {
-                    "new_public_page": {"type": "database_id", "database_id": "4b801dc7-d724-4fbb-afd0-9885cbc12405"}
+                    "new_public_page": {"type": "database_id", "database_id": "4b801dc7-d724-4fbb-afd0-9885cbc12405"},
                 },
-            }
+            },
         },
     ),
     RuleTest(
@@ -47,7 +47,7 @@ notion_workspace_public_page_added_tests: list[RuleTest] = [
                 "timestamp": "2023-06-01 18:57:07.486000000",
                 "type": "page.exported",
                 "workspace_id": "ea65b016-6abc-4dcf-808b-e119617b55d1",
-            }
+            },
         },
     ),
 ]

@@ -35,7 +35,7 @@ okta_identity_provider_created_modified_tests: list[RuleTest] = [
                     "requestId": "AbCdEf12G",
                     "requestUri": "/api/v1/users/AbCdEfG/lifecycle/reset_factors",
                     "url": "/api/v1/users/AbCdEfG/lifecycle/reset_factors?",
-                }
+                },
             },
             "displaymessage": "Authentication of user via MFA",
             "eventtype": "user.authentication.auth_via_mfa",
@@ -54,8 +54,8 @@ okta_identity_provider_created_modified_tests: list[RuleTest] = [
                         },
                         "ip": "1.3.2.4",
                         "version": "V4",
-                    }
-                ]
+                    },
+                ],
             },
             "securitycontext": {
                 "asNumber": 701,
@@ -71,7 +71,7 @@ okta_identity_provider_created_modified_tests: list[RuleTest] = [
                     "displayName": "Peter Griffin",
                     "id": "0002222AAAA",
                     "type": "User",
-                }
+                },
             ],
             "transaction": {"detail": {}, "id": "ABcDeFgG", "type": "WEB"},
             "uuid": "AbC-123-XyZ",
@@ -111,7 +111,7 @@ okta_identity_provider_created_modified_tests: list[RuleTest] = [
                     "requestId": "AbCdEf12G",
                     "requestUri": "/api/v1/users/AbCdEfG/lifecycle/reset_factors",
                     "url": "/api/v1/users/AbCdEfG/lifecycle/reset_factors?",
-                }
+                },
             },
             "displaymessage": "Authentication of user via MFA",
             "eventtype": "system.idp.lifecycle.create",
@@ -130,8 +130,8 @@ okta_identity_provider_created_modified_tests: list[RuleTest] = [
                         },
                         "ip": "1.3.2.4",
                         "version": "V4",
-                    }
-                ]
+                    },
+                ],
             },
             "securitycontext": {
                 "asNumber": 701,
@@ -147,7 +147,7 @@ okta_identity_provider_created_modified_tests: list[RuleTest] = [
                     "displayName": "Peter Griffin",
                     "id": "0002222AAAA",
                     "type": "User",
-                }
+                },
             ],
             "transaction": {"detail": {}, "id": "ABcDeFgG", "type": "WEB"},
             "uuid": "AbC-123-XyZ",

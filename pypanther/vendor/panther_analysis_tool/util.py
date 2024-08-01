@@ -52,12 +52,14 @@ def get_backend(args: argparse.Namespace) -> BackendClient:
             host=args.api_host,
             verbose=verbose,
             output_type=output_type,
-        )
+        ),
     )
 
 
 def convert_unicode(obj: Any) -> str:
-    """Swap unicode 4 byte strings with arbitrary numbers of leading slashes with the actual character
-    e.g. \\\\u003c => <"""
+    """
+    Swap unicode 4 byte strings with arbitrary numbers of leading slashes with the actual character
+    e.g. \\\\u003c => <
+    """
     string_to_convert = str(obj)
     return re.sub(r"\\*\\u([0-9a-f]{4})", lambda m: chr(int(m.group(1), 16)), string_to_convert)

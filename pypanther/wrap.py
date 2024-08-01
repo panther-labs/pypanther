@@ -30,7 +30,7 @@ def exclude(func: Callable[[Any], bool]):
                 return False
             return _rule(self, event)
 
-        setattr(cls, "rule", wrapper)
+        setattr(cls, "rule", wrapper)  # noqa: B010
         return cls
 
     return cls_wrapper
@@ -63,7 +63,7 @@ def include(func: Callable[[Any], bool]):
                 return False
             return _rule(self, event)
 
-        setattr(cls, "rule", wrapper)
+        setattr(cls, "rule", wrapper)  # noqa: B010
         return cls
 
     return cls_wrapper

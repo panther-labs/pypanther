@@ -117,7 +117,7 @@ class GSuiteWorkspaceGmailDefaultRoutingRuleModified(Rule):
                 event.get("type", "") == "EMAIL_SETTINGS",
                 event.get("name", "").endswith("_GMAIL_SETTING"),
                 deep_get(event, "parameters", "SETTING_NAME", default="") == "MESSAGE_SECURITY_RULE",
-            ]
+            ],
         ):
             return True
         return False

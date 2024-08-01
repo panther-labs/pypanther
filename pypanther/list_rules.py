@@ -65,6 +65,6 @@ def run(args: argparse.Namespace) -> Tuple[int, str]:
             case _:
                 return 1, f"Unsupported output: {args.output}"
     except AttributeError as err:
-        return 1, f"Invalid attribute was given in --attributes option: {str(err)}"
+        return 1, f"Invalid attribute was given in --attributes option: {err!s}"
 
     return 0, ""

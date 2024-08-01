@@ -179,7 +179,7 @@ class AWSIAMUserReconAccessDenied(Rule):
         # Pattern match this event to the recon actions
         for event_source, event_patterns in self.RECON_ACTIONS.items():
             if event.get("eventSource", "").startswith(event_source) and any(
-                (event.get("eventName", "").startswith(event_pattern) for event_pattern in event_patterns)
+                event.get("eventName", "").startswith(event_pattern) for event_pattern in event_patterns
             ):
                 return True
         return False

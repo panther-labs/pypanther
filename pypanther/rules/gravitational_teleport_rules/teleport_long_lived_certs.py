@@ -113,12 +113,13 @@ class TeleportLongLivedCerts(Rule):
     CLUSTER_ROLE_MAX_VALIDITIES: Dict[str, Dict[str, Tuple[timedelta, datetime]]] = {}
 
     def rule(self, event):
-        if not event.get("event") == "cert.create":
+        if event.get("event") != "cert.create":
             return False
         max_validity = self.MAXIMUM_NORMAL_VALIDITY_INTERVAL + self.ISSUANCE_GRACE_PERIOD
         for role in event.deep_get("identity", "roles", default=[]):
             validity, expiration = self.CLUSTER_ROLE_MAX_VALIDITIES.get(event.get("cluster_name"), {}).get(
-                role, (None, None)
+                role,
+                (None, None),
             )
             if validity and expiration:
                 # Ignore exceptions that have passed their expiry date

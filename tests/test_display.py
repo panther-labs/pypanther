@@ -45,7 +45,7 @@ def test_print_rule_table(capsys):
         |   EDR    | CrowdStrike, SentinelOne, +1 |       High       |   True  |
         | Firewall |           PaloAlto           |      Medium      |   True  |
         +----------+------------------------------+------------------+---------+
-    """
+    """,
     ).lstrip()
 
     assert std.out == exp

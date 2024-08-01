@@ -52,7 +52,7 @@ git_hub_action_failed_tests: list[RuleTest] = [
             RuleMock(
                 object_name="MONITORED_ACTIONS",
                 return_value='{\n  "your-org/panther-analysis-copy": [ "sync-panther-analysis-from-upstream"]\n}',
-            )
+            ),
         ],
         log={
             "_document_id": "pWWWWWWWWWWWWWWWWWWWWW",
@@ -111,7 +111,7 @@ class GitHubActionFailed(Rule):
                 repo in self.MONITORED_ACTIONS,
                 action_name in self.MONITORED_ACTIONS.get(repo, []),
                 deep_get(event, "conclusion", default="") == "failure",
-            ]
+            ],
         )
 
     def title(self, event):

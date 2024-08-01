@@ -35,7 +35,7 @@ g_suite_drive_external_file_share_tests: list[RuleTest] = [
                         {"name": "old_value", "multiValue": ["none"]},
                         {"name": "new_value", "multiValue": ["can_edit"]},
                     ],
-                }
+                },
             ],
         },
     ),
@@ -70,7 +70,7 @@ g_suite_drive_external_file_share_tests: list[RuleTest] = [
                         {"name": "old_value", "multiValue": ["none"]},
                         {"name": "new_value", "multiValue": ["can_edit"]},
                     ],
-                }
+                },
             ],
         },
     ),
@@ -106,7 +106,7 @@ g_suite_drive_external_file_share_tests: list[RuleTest] = [
                         {"name": "old_value", "multiValue": ["none"]},
                         {"name": "new_value", "multiValue": ["people_within_domain_with_link"]},
                     ],
-                }
+                },
             ],
         },
     ),
@@ -140,7 +140,7 @@ class GSuiteDriveExternalFileShare(Rule):
         "document title p*": {
             "allowed_for": {"alice@acme.com", "samuel@acme.com", "nathan@acme.com", "barry@acme.com"},
             "allowed_until": datetime.datetime(year=2030, month=6, day=2),
-        }
+        },
     }
 
     def _check_acl_change_event(self, actor_email, acl_change_event):
@@ -175,9 +175,9 @@ class GSuiteDriveExternalFileShare(Rule):
         application_name = deep_get(event, "id", "applicationName")
         events = event.get("events")
         actor_email = deep_get(event, "actor", "email", default="EMAIL_UNKNOWN")
-        if application_name == "drive" and events and ("acl_change" in set((e["type"] for e in events))):
+        if application_name == "drive" and events and ("acl_change" in set(e["type"] for e in events)):
             # If any of the events in this record are a dangerous file share, alert:
-            return any((self._check_acl_change_event(actor_email, acl_change_event) for acl_change_event in events))
+            return any(self._check_acl_change_event(actor_email, acl_change_event) for acl_change_event in events)
         return False
 
     def title(self, event):

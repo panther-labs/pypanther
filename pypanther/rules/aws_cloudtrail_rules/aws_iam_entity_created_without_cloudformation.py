@@ -270,8 +270,9 @@ class AWSCloudTrailIAMEntityCreatedWithoutCloudFormation(Rule):
             if (
                 len(
                     re.findall(
-                        admin_role_pattern, deep_get(event, "userIdentity", "sessionContext", "sessionIssuer", "arn")
-                    )
+                        admin_role_pattern,
+                        deep_get(event, "userIdentity", "sessionContext", "sessionIssuer", "arn"),
+                    ),
                 )
                 > 0
             ):

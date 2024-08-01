@@ -136,7 +136,7 @@ class DropboxLinkedTeamApplicationAdded(Rule):
             [
                 deep_get(event, "event_type", "_tag", default="") == "app_link_team",
                 deep_get(event, "event_type", "description", default="") == "Linked app for team",
-            ]
+            ],
         )
 
     def severity(self, event):
@@ -181,7 +181,11 @@ class DropboxLinkedTeamApplicationAdded(Rule):
         return {
             "additional_user_details": additional_user_details,
             "app_display_name": deep_get(
-                event, "details", "app_info", "display_name", default="<Unknown app display name>"
+                event,
+                "details",
+                "app_info",
+                "display_name",
+                default="<Unknown app display name>",
             ),
             "ip_address": deep_get(event, "origin", "geo_location", "ip_address", default="<Unknown IP address>"),
             "request_id": deep_get(event, "origin", "access_method", "request_id", default="<Unknown request ID>"),

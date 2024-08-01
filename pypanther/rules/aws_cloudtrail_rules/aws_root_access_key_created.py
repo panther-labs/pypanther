@@ -17,7 +17,7 @@ aws_cloud_trail_root_access_key_created_tests: list[RuleTest] = [
             "requestID": "1111",
             "requestParameters": None,
             "responseElements": {
-                "accessKey": {"accessKeyId": "1111", "createDate": "Jan 01, 2019 0:00:00 PM", "status": "Active"}
+                "accessKey": {"accessKeyId": "1111", "createDate": "Jan 01, 2019 0:00:00 PM", "status": "Active"},
             },
             "sourceIPAddress": "111.111.111.111",
             "userAgent": "signin.amazonaws.com",
@@ -52,7 +52,7 @@ aws_cloud_trail_root_access_key_created_tests: list[RuleTest] = [
                     "createDate": "Jan 01, 2019 0:00:00 PM",
                     "status": "Active",
                     "userName": "example-user",
-                }
+                },
             },
             "sourceIPAddress": "111.111.111.111",
             "userAgent": "signin.amazonaws.com",

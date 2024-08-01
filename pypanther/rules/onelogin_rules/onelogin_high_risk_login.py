@@ -15,7 +15,7 @@ one_login_high_risk_login_tests: list[RuleTest] = [
             "user_id": 123456,
             "user_name": "Bob Cat",
         },
-    )
+    ),
 ]
 
 

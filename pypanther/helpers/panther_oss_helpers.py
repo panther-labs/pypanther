@@ -166,92 +166,120 @@ def resource_lookup(resource_id: str) -> Dict[str, Any]:
 
 
 def ttl_expired(response: dict) -> bool:
-    """Global `ttl_expired` is DEPRECATED.
-    Instead, use `from panther_detection_helpers.caching import ttl_expired`."""
+    """
+    Global `ttl_expired` is DEPRECATED.
+    Instead, use `from panther_detection_helpers.caching import ttl_expired`.
+    """
     return caching.ttl_expired(response)
 
 
 def get_counter(key: str, force_ttl_check: bool = False) -> int:
-    """Global `get_counter` is DEPRECATED.
-    Instead, use `from panther_detection_helpers.caching import get_counter`."""
+    """
+    Global `get_counter` is DEPRECATED.
+    Instead, use `from panther_detection_helpers.caching import get_counter`.
+    """
     return caching.get_counter(key=key, force_ttl_check=force_ttl_check)
 
 
 def increment_counter(key: str, val: int = 1) -> int:
-    """Global `increment_counter` is DEPRECATED.
-    Instead, use `from panther_detection_helpers.caching import increment_counter`."""
+    """
+    Global `increment_counter` is DEPRECATED.
+    Instead, use `from panther_detection_helpers.caching import increment_counter`.
+    """
     return caching.increment_counter(key=key, val=val)
 
 
 def reset_counter(key: str) -> None:
-    """Global `reset_counter` is DEPRECATED.
-    Instead, use `from panther_detection_helpers.caching import reset_counter`."""
+    """
+    Global `reset_counter` is DEPRECATED.
+    Instead, use `from panther_detection_helpers.caching import reset_counter`.
+    """
     return caching.reset_counter(key=key)
 
 
 def set_key_expiration(key: str, epoch_seconds: int) -> None:
-    """Global `set_key_expiration` is DEPRECATED.
-    Instead, use `from panther_detection_helpers.caching import set_key_expiration`."""
+    """
+    Global `set_key_expiration` is DEPRECATED.
+    Instead, use `from panther_detection_helpers.caching import set_key_expiration`.
+    """
     return caching.set_key_expiration(key=key, epoch_seconds=epoch_seconds)
 
 
 def put_dictionary(key: str, val: dict, epoch_seconds: int = None):
-    """Global `put_dictionary` is DEPRECATED.
-    Instead, use `from panther_detection_helpers.caching import put_dictionary`."""
+    """
+    Global `put_dictionary` is DEPRECATED.
+    Instead, use `from panther_detection_helpers.caching import put_dictionary`.
+    """
     return caching.put_dictionary(key=key, val=val, epoch_seconds=epoch_seconds)
 
 
 def get_dictionary(key: str, force_ttl_check: bool = False) -> dict:
-    """Global `get_dictionary` is DEPRECATED.
-    Instead, use `from panther_detection_helpers.caching import get_dictionary`."""
+    """
+    Global `get_dictionary` is DEPRECATED.
+    Instead, use `from panther_detection_helpers.caching import get_dictionary`.
+    """
     return caching.get_dictionary(key=key, force_ttl_check=force_ttl_check)
 
 
 def get_string_set(key: str, force_ttl_check: bool = False) -> Set[str]:
-    """Global `get_string_set` is DEPRECATED.
-    Instead, use `from panther_detection_helpers.caching import get_string_set`."""
+    """
+    Global `get_string_set` is DEPRECATED.
+    Instead, use `from panther_detection_helpers.caching import get_string_set`.
+    """
     return caching.get_string_set(key=key, force_ttl_check=force_ttl_check)
 
 
 def put_string_set(key: str, val: Sequence[str], epoch_seconds: int = None) -> None:
-    """Global `put_string_set` is DEPRECATED.
-    Instead, use `from panther_detection_helpers.caching import put_string_set`."""
+    """
+    Global `put_string_set` is DEPRECATED.
+    Instead, use `from panther_detection_helpers.caching import put_string_set`.
+    """
     return caching.put_string_set(key=key, val=val, epoch_seconds=epoch_seconds)
 
 
 def add_to_string_set(key: str, val: Union[str, Sequence[str]]) -> Set[str]:
-    """Global `add_to_string_set` is DEPRECATED.
-    Instead, use `from panther_detection_helpers.caching import add_to_string_set`."""
+    """
+    Global `add_to_string_set` is DEPRECATED.
+    Instead, use `from panther_detection_helpers.caching import add_to_string_set`.
+    """
     return caching.add_to_string_set(key=key, val=val)
 
 
 def remove_from_string_set(key: str, val: Union[str, Sequence[str]]) -> Set[str]:
-    """Global `remove_from_string_set` is DEPRECATED.
-    Instead, use `from panther_detection_helpers.caching import remove_from_string_set`."""
+    """
+    Global `remove_from_string_set` is DEPRECATED.
+    Instead, use `from panther_detection_helpers.caching import remove_from_string_set`.
+    """
     return caching.remove_from_string_set(key=key, val=val)
 
 
 def reset_string_set(key: str) -> None:
-    """Global `reset_string_set` is DEPRECATED.
-    Instead, use `from panther_detection_helpers.caching import reset_string_set`."""
+    """
+    Global `reset_string_set` is DEPRECATED.
+    Instead, use `from panther_detection_helpers.caching import reset_string_set`.
+    """
     return caching.reset_string_set(key=key)
 
 
 def evaluate_threshold(key: str, threshold: int = 10, expiry_seconds: int = 3600) -> bool:
-    """Global `evaluate_threshold` is DEPRECATED.
-    Instead, use `from panther_detection_helpers.caching import evaluate_threshold`."""
+    """
+    Global `evaluate_threshold` is DEPRECATED.
+    Instead, use `from panther_detection_helpers.caching import evaluate_threshold`.
+    """
     return caching.evaluate_threshold(key=key, threshold=threshold, expiry_seconds=expiry_seconds)
 
 
 def check_account_age(key):
-    """Global `check_account_age` is DEPRECATED.
-    Instead, use `from panther_detection_helpers.caching import check_account_age`."""
+    """
+    Global `check_account_age` is DEPRECATED.
+    Instead, use `from panther_detection_helpers.caching import check_account_age`.
+    """
     return caching.check_account_age(key=key)
 
 
 def km_between_ipinfo_loc(ipinfo_loc_one: dict, ipinfo_loc_two: dict):
     """
-    compute the number of kilometers between two ipinfo_location enrichments
+    Compute the number of kilometers between two ipinfo_location enrichments
     This uses a haversine computation which is imperfect and holds the benefit
     of being supportable via stdlib. At polar opposites, haversine might be
     0.3-0.5% off
@@ -281,7 +309,8 @@ def km_between_ipinfo_loc(ipinfo_loc_one: dict, ipinfo_loc_two: dict):
 
 
 def geoinfo_from_ip(ip: str) -> dict:  # pylint: disable=invalid-name
-    """Looks up the geolocation of an IP address using ipinfo.io
+    """
+    Looks up the geolocation of an IP address using ipinfo.io
 
     Example ipinfo output:
     {
@@ -298,7 +327,6 @@ def geoinfo_from_ip(ip: str) -> dict:  # pylint: disable=invalid-name
       "readme": "https://ipinfo.io/missingauth"
     }
     """
-
     valid_ip = ip_address(ip)
     url = f"https://ipinfo.io/{valid_ip}/json"
     resp = requests.get(url, timeout=5)
@@ -312,7 +340,7 @@ def geoinfo_from_ip(ip: str) -> dict:  # pylint: disable=invalid-name
 def geoinfo_from_ip_formatted(ip: str) -> str:  # pylint: disable=invalid-name
     """Formatting wrapper for geoinfo_from_ip for use in human-readable text"""
     geoinfo = geoinfo_from_ip(ip)
-    return f"{geoinfo.get('ip')} in {geoinfo.get('city')}, " f"{geoinfo.get('region')} in {geoinfo.get('country')}"
+    return f"{geoinfo.get('ip')} in {geoinfo.get('city')}, {geoinfo.get('region')} in {geoinfo.get('country')}"
 
 
 # returns the difference between time1 and later time 2 in human-readable time period string
@@ -338,7 +366,7 @@ def time_delta(time1, time2: str) -> str:
 def nano_to_micro(time_str: str) -> str:
     parts = time_str.split(":")
     # pylint: disable=consider-using-f-string
-    parts[-1] = "{:06f}".format(float(parts[-1]))
+    parts[-1] = f"{float(parts[-1]):06f}"
     return ":".join(parts)
 
 

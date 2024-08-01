@@ -42,8 +42,8 @@ notion_login_from_new_location_tests: list[RuleTest] = [
                         "region": "Pellenor",
                         "region_code": "PL",
                         "timezone": "Middle Earth/Pellenor",
-                    }
-                }
+                    },
+                },
             },
             "p_event_time": "2023-06-12 21:40:28.690000000",
             "p_log_type": "Notion.AuditLogs",
@@ -88,8 +88,8 @@ notion_login_from_new_location_tests: list[RuleTest] = [
                         "region": "Pellenor",
                         "region_code": "PL",
                         "timezone": "Middle Earth/Pellenor",
-                    }
-                }
+                    },
+                },
             },
             "p_event_time": "2023-06-12 21:40:28.690000000",
             "p_log_type": "Notion.AuditLogs",
@@ -134,8 +134,8 @@ notion_login_from_new_location_tests: list[RuleTest] = [
                         "region": "Mount Doom",
                         "region_code": "MD",
                         "timezone": "Middle Earth/Mordor",
-                    }
-                }
+                    },
+                },
             },
             "p_event_time": "2023-06-12 21:40:28.690000000",
             "p_log_type": "Notion.AuditLogs",
@@ -205,8 +205,8 @@ notion_login_from_new_location_tests: list[RuleTest] = [
                         "region": "Mount Doom",
                         "region_code": "MD",
                         "timezone": "Middle Earth/Mordor",
-                    }
-                }
+                    },
+                },
             },
             "p_event_time": "2023-06-12 21:40:28.690000000",
             "p_log_type": "Notion.AuditLogs",
@@ -250,8 +250,8 @@ notion_login_from_new_location_tests: list[RuleTest] = [
                         "postal_code": "55555",
                         "region_code": "MD",
                         "timezone": "Middle Earth/Mordor",
-                    }
-                }
+                    },
+                },
             },
             "p_event_time": "2023-06-12 21:40:28.690000000",
             "p_log_type": "Notion.AuditLogs",
@@ -342,7 +342,7 @@ class NotionLoginFromNewLocation(Rule):
     def is_recent_login(self, cache: dict, loc_string: str, parse_time: str) -> bool:
         # Use p_parse_time to calculate current timestamp, so that unit tests work.
         now = time.mktime(
-            datetime.datetime.fromisoformat(parse_time[:23]).timetuple()
+            datetime.datetime.fromisoformat(parse_time[:23]).timetuple(),
         )  # location was previously recorded
         # last recorded login is recent
         return loc_string in cache and cache[loc_string] > now - self.DEFAULT_CACHE_PERIOD

@@ -161,7 +161,7 @@ class AWSCloudTrailIAMAnythingChanged(Rule):
         # expensive and can often be skipped
         if not aws_cloudtrail_success(event) or event.get("eventSource") != "iam.amazonaws.com":
             return False
-        return any((event.get("eventName", "").startswith(action) for action in self.IAM_CHANGE_ACTIONS))
+        return any(event.get("eventName", "").startswith(action) for action in self.IAM_CHANGE_ACTIONS)
 
     def alert_context(self, event):
         return aws_rule_context(event)

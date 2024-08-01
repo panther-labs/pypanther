@@ -34,7 +34,7 @@ okta_user_account_locked_tests: list[RuleTest] = [
                     "requestUri": "/idp/idx/identify",
                     "threatSuspected": "false",
                     "url": "/idp/idx/identify?",
-                }
+                },
             },
             "displaymessage": "Account Locked from New Devices - Max sign-in attempts exceeded.",
             "eventtype": "user.account.lock",
@@ -53,8 +53,8 @@ okta_user_account_locked_tests: list[RuleTest] = [
                         },
                         "ip": "1.2.3.4",
                         "version": "V4",
-                    }
-                ]
+                    },
+                ],
             },
             "securitycontext": {
                 "asNumber": 7018,
@@ -106,7 +106,7 @@ okta_user_account_locked_tests: list[RuleTest] = [
                     "requestUri": "/idp/idx/identify",
                     "threatSuspected": "false",
                     "url": "/idp/idx/identify?",
-                }
+                },
             },
             "displaymessage": "Group Privilege granted",
             "eventtype": "group.privilege.grant",
@@ -125,8 +125,8 @@ okta_user_account_locked_tests: list[RuleTest] = [
                         },
                         "ip": "1.2.3.4",
                         "version": "V4",
-                    }
-                ]
+                    },
+                ],
             },
             "securitycontext": {
                 "asNumber": 11351,

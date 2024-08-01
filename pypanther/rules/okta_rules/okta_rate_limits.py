@@ -33,7 +33,7 @@ okta_rate_limits_tests: list[RuleTest] = [
                     "url": "/api/v1/users?limit=100",
                     "userId": "abc1234",
                     "warningPercent": "80",
-                }
+                },
             },
             "displaymessage": "Rate limit warning",
             "eventtype": "system.org.rate_limit.warning",
@@ -80,7 +80,7 @@ okta_rate_limits_tests: list[RuleTest] = [
                     "requestId": "asfsagadffdaf",
                     "requestUri": "/app/google/",
                     "url": "/app/google/",
-                }
+                },
             },
             "displaymessage": "Operation rate limit violation",
             "eventtype": "system.operation.rate_limit.violation",
@@ -163,7 +163,7 @@ okta_rate_limits_tests: list[RuleTest] = [
                     "requestUri": "/idp/idx/identify",
                     "threatSuspected": "false",
                     "url": "/idp/idx/identify?",
-                }
+                },
             },
             "displaymessage": "Group Privilege granted",
             "eventtype": "group.privilege.grant",
@@ -182,8 +182,8 @@ okta_rate_limits_tests: list[RuleTest] = [
                         },
                         "ip": "1.2.3.4",
                         "version": "V4",
-                    }
-                ]
+                    },
+                ],
             },
             "securitycontext": {
                 "asNumber": 11351,

@@ -233,7 +233,8 @@ class Rule(metaclass=abc.ABCMeta):
         return {}
 
     def __init_subclass__(cls, **kwargs):
-        """Creates a copy of all class attributes to avoid mod
+        """
+        Creates a copy of all class attributes to avoid mod
         child.tags.append("Foo")
         parent.tags.append("Foo") # not inherited by children of parent
         """
@@ -262,8 +263,10 @@ class Rule(metaclass=abc.ABCMeta):
         """
         Validates this PantherRule.
 
-        Parameters:
+        Parameters
+        ----------
             _validate_config: true if any configuration should be validated, false otherwise. Only meant to be used by Panther.
+
         """
         RuleAdapter.validate_python(cls.asdict())
         if _validate_config:
@@ -309,12 +312,15 @@ class Rule(metaclass=abc.ABCMeta):
         """
         Runs all RuleTests in this Rules' Test attribute over this Rule.
 
-        Parameters:
+        Parameters
+        ----------
             get_data_model: a helper function that will return a DataModel given a log type.
             _validate_config: true if tests are being run should validate any configuration, false otherwise. Only meant to be used by Panther.
 
-        Returns:
+        Returns
+        -------
             a list of RuleTestResult objects.
+
         """
         cls.validate(_validate_config)
         rule = cls()
@@ -329,13 +335,16 @@ class Rule(metaclass=abc.ABCMeta):
         """
         Runs a unit test over this Rule.
 
-        Parameters:
+        Parameters
+        ----------
             test: the RuleTest to run.
             get_data_model: a helper function that will return a DataModel given a log type.
 
-        Returns:
+        Returns
+        -------
             a RuleTestResult with the test result. If the Passed attribute is True,
             then this tests passed.
+
         """
         log = test.log_data()
         log_type = log.get("p_log_type", "default")
@@ -345,7 +354,10 @@ class Rule(metaclass=abc.ABCMeta):
         patches: list[Any] = []
         for each_mock in test.mocks:
             kwargs = {
-                each_mock.object_name: MagicMock(return_value=each_mock.return_value, side_effect=each_mock.side_effect)
+                each_mock.object_name: MagicMock(
+                    return_value=each_mock.return_value,
+                    side_effect=each_mock.side_effect,
+                ),
             }
             if each_mock.new is not None:
                 kwargs[each_mock.object_name] = each_mock.new
@@ -405,7 +417,7 @@ class Rule(metaclass=abc.ABCMeta):
                     and test.expected_description != detection_result.description_output,
                     test.expected_alert_context is not None
                     and test.expected_alert_context != json.loads(detection_result.alert_context_output),
-                ]
+                ],
             ):
                 return RuleTestResult(
                     passed=False,
@@ -566,7 +578,7 @@ class Rule(metaclass=abc.ABCMeta):
                 return self.default_severity, None
             if severity not in SEVERITY_TYPES:
                 raise AssertionError(
-                    f"Expected severity to be any of the following: [{str(SEVERITY_TYPES)}], got [{severity}] instead."
+                    f"Expected severity to be any of the following: [{SEVERITY_TYPES!s}], got [{severity}] instead.",
                 )
         except Exception as e:
             return self.default_severity, e
@@ -657,7 +669,7 @@ class Rule(metaclass=abc.ABCMeta):
     def _require_scalar(self, method_name: str, typ: Type, value: Any):
         if not isinstance(value, typ):
             raise FunctionReturnTypeError(
-                f"detection [{self.id}] method [{method_name}] returned [{type(value).__name__}], expected [{typ.__name__}]"
+                f"detection [{self.id}] method [{method_name}] returned [{type(value).__name__}], expected [{typ.__name__}]",
             )
 
     def _require_str_list(self, method_name: str, value: Any):
@@ -665,9 +677,7 @@ class Rule(metaclass=abc.ABCMeta):
             return
         if not isinstance(value, list) or not all(isinstance(x, (str, bool)) for x in value):
             raise FunctionReturnTypeError(
-                "detection [{}] method [{}] returned [{}], expected a list".format(
-                    self.id, method_name, type(value).__name__
-                )
+                f"detection [{self.id}] method [{method_name}] returned [{type(value).__name__}], expected a list",
             )
 
 

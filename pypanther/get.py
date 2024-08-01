@@ -11,6 +11,7 @@ from pypanther.unit_tests import RuleTest
 from pypanther.utils import filter_iterable_by_kwargs
 
 __RULES: Set[Type[Rule]] = set()
+__DATA_MODELS: Set[Type[DataModel]] = set()
 
 
 def get_panther_rules(
@@ -32,7 +33,8 @@ def get_panther_rules(
     default_runbook: str | None = None,
     default_destinations: List[str] | None = None,
 ) -> list[Type[Rule]]:
-    """Return an iterator of all PantherRules in the pypanther.rules based on the provided filters.
+    """
+    Return an iterator of all PantherRules in the pypanther.rules based on the provided filters.
     If the filter argument is not provided, all rules are returned. If a filter value is a list, any value in the
     list will match. If a filter value is a string, the value must match exactly.
     """
@@ -54,9 +56,6 @@ def get_panther_rules(
         __RULES,
         **filters,
     )
-
-
-__DATA_MODELS: Set[Type[Rule]] = set()
 
 
 def get_rules(module: Any) -> list[Type[Rule]]:
@@ -92,8 +91,9 @@ def get_rules(module: Any) -> list[Type[Rule]]:
     return list(subclasses)
 
 
-def get_panther_data_models(**kwargs):
-    """Return an iterator of all PantherDataModels in the pypanther.rules based on the provided filters.
+def get_panther_data_models(**kwargs) -> list[Type[DataModel]]:
+    """
+    Return an iterator of all PantherDataModels in the pypanther.rules based on the provided filters.
     If the filter argument is not provided, all data models are returned. If a filter value is a list, any value in the
     list will match. If a filter value is a string, the value must match exactly.
     """
