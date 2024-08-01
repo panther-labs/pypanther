@@ -31,7 +31,7 @@ retrieve_ss_oaccesstoken_tests: list[RuleTest] = [
                 "userName": "<victim display name>",
             },
         },
-    )
+    ),
 ]
 
 

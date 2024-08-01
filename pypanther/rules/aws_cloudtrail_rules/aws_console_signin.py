@@ -15,7 +15,7 @@ aws_console_sign_in_tests: list[RuleTest] = [
             "eventVersion": "1.08",
             "managementEvent": True,
         },
-    )
+    ),
 ]
 
 

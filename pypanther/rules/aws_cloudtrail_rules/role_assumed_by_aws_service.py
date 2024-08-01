@@ -26,21 +26,21 @@ role_assumedby_aws_service_tests: list[RuleTest] = [
                     "accountId": "123456789123",
                     "arn": "arn:aws:iam::123456789123:role/my_role_arn",
                     "type": "AWS::IAM::Role",
-                }
+                },
             ],
             "responseElements": {
                 "credentials": {
                     "accessKeyId": "REDACTED",
                     "expiration": "Jun 2, 2024, 10:37:12 PM",
                     "sessionToken": "REDACTED",
-                }
+                },
             },
             "sharedEventID": "95e84e79-100a-40a6-985e-3c9c4b41f622",
             "sourceIPAddress": "lambda.amazonaws.com",
             "userAgent": "lambda.amazonaws.com",
             "userIdentity": {"invokedBy": "lambda.amazonaws.com", "type": "AWSService"},
         },
-    )
+    ),
 ]
 
 
@@ -56,5 +56,5 @@ class RoleAssumedbyAWSService(Rule):
     def rule(self, event):
         aws_service = event.deep_get("userIdentity", "type") == "AWSService"
         return all(
-            [event.get("eventName") == "AssumeRole", event.deep_get("requestParameters", "roleArn"), aws_service]
+            [event.get("eventName") == "AssumeRole", event.deep_get("requestParameters", "roleArn"), aws_service],
         )
