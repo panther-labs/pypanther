@@ -1,5 +1,5 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
-from pypanther.helpers.panther_base_helpers import crowdstrike_process_alert_context, deep_get
+from pypanther.helpers.panther_base_helpers import crowdstrike_process_alert_context
 
 crowdstrike_fdrlolbas_tests: list[RuleTest] = [
     RuleTest(
@@ -277,20 +277,20 @@ class CrowdstrikeFDRLOLBAS(Rule):
     }
 
     def rule(self, event):
-        if deep_get(event, "event", "event_simpleName") == "ProcessRollup2":
-            if deep_get(event, "event", "event_platform") == "Win":
+        if event.deep_get("event", "event_simpleName") == "ProcessRollup2":
+            if event.deep_get("event", "event_platform") == "Win":
                 exe = event.udm("process_name")
                 return bool(exe.lower() in [x.lower() for x in self.LOLBAS_EXE])
         return False
 
     def title(self, event):
-        exe = deep_get(event, "event", "ImageFileName").split("\\")[-1]
-        return f"Crowdstrike: LOLBAS execution - [{exe}] - [{deep_get(event, 'event', 'CommandLine')}]"
+        exe = event.deep_get("event", "ImageFileName").split("\\")[-1]
+        return f"Crowdstrike: LOLBAS execution - [{exe}] - [{event.deep_get('event', 'CommandLine')}]"
 
     def dedup(self, event):
         # dedup string on "{aid}-{exe}"
         exe = event.udm("process_name")
-        return f"{deep_get(event, 'event', 'aid')}-{exe}"
+        return f"{event.deep_get('event', 'aid')}-{exe}"
 
     def alert_context(self, event):
         return crowdstrike_process_alert_context(event)

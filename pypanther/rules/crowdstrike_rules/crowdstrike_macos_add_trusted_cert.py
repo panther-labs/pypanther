@@ -1,5 +1,5 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
-from pypanther.helpers.panther_base_helpers import crowdstrike_process_alert_context, deep_get
+from pypanther.helpers.panther_base_helpers import crowdstrike_process_alert_context
 
 crowdstrike_macos_add_trusted_cert_tests: list[RuleTest] = [
     RuleTest(
@@ -366,10 +366,10 @@ class CrowdstrikeMacosAddTrustedCert(Rule):
     tests = crowdstrike_macos_add_trusted_cert_tests
 
     def rule(self, event):
-        event_platform = deep_get(event, "event_platform", default="<UNKNOWN_PLATFORM>")
-        fdr_event_type = deep_get(event, "fdr_event_type", default="<UNKNOWN_FDR_EVENT_TYPE>")
-        image_filename = deep_get(event, "event", "ImageFileName", default="<UNKNOWN_IMAGE_FILE_NAME>")
-        command_line = deep_get(event, "event", "CommandLine", default="<UNKNOWN_COMMAND_LINE>")
+        event_platform = event.deep_get("event_platform", default="<UNKNOWN_PLATFORM>")
+        fdr_event_type = event.deep_get("fdr_event_type", default="<UNKNOWN_FDR_EVENT_TYPE>")
+        image_filename = event.deep_get("event", "ImageFileName", default="<UNKNOWN_IMAGE_FILE_NAME>")
+        command_line = event.deep_get("event", "CommandLine", default="<UNKNOWN_COMMAND_LINE>")
         return all(
             [
                 event_platform == "Mac",

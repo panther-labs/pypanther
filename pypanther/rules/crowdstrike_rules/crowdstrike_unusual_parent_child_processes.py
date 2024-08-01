@@ -1,5 +1,5 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
-from pypanther.helpers.panther_base_helpers import crowdstrike_detection_alert_context, deep_get
+from pypanther.helpers.panther_base_helpers import crowdstrike_detection_alert_context
 
 crowdstrike_unusual_parent_child_processes_tests: list[RuleTest] = [
     RuleTest(
@@ -168,7 +168,6 @@ class CrowdstrikeUnusualParentChildProcesses(Rule):
     tests = crowdstrike_unusual_parent_child_processes_tests
     SUSPICIOUS_PARENT_CHILD_COMBINATIONS_WINDOWS = {
         ("svchost.exe", "cmd.exe"),
-        ("explorer.exe", "powershell.exe"),
         ("winword.exe", "cmd.exe"),
         ("winword.exe", "powershell.exe"),
         ("excel.exe", "cmd.exe"),
@@ -180,14 +179,14 @@ class CrowdstrikeUnusualParentChildProcesses(Rule):
     def rule(self, event):
         if event.get("fdr_event_type", "") == "ProcessRollup2":
             if event.get("event_platform", "") == "Win":
-                parent_process_name = deep_get(event, "event", "ParentBaseFileName", default="").lower()
-                child_process_name = deep_get(event, "event", "ImageFileName", default="").lower().split("\\")[-1]
+                parent_process_name = event.deep_get("event", "ParentBaseFileName", default="").lower()
+                child_process_name = event.deep_get("event", "ImageFileName", default="").lower().split("\\")[-1]
                 return (parent_process_name, child_process_name) in self.SUSPICIOUS_PARENT_CHILD_COMBINATIONS_WINDOWS
         return False
 
     def title(self, event):
-        parent_process_name = deep_get(event, "event", "ParentBaseFileName", default="").lower()
-        child_process_name = deep_get(event, "event", "ImageFileName", default="").lower().split("\\")[-1]
+        parent_process_name = event.deep_get("event", "ParentBaseFileName", default="").lower()
+        child_process_name = event.deep_get("event", "ImageFileName", default="").lower().split("\\")[-1]
         procs = (parent_process_name, child_process_name)
         aid = event.get("aid", "<AID_NOT_FOUND>")
         return f"Crowdstrike: Suspicious parent/child combination [{procs}] detected on aid [{aid}]"

@@ -91,7 +91,7 @@ class AWSGuardDutyHighSeverityFinding(Rule):
     tags = ["AWS"]
     default_severity = Severity.HIGH
     default_description = "A high-severity GuardDuty finding has been identified.\n"
-    default_runbook = "Search related logs to understand the root cause of the activity.\n"
+    default_runbook = "Search related logs to understand the root cause of the activity. Search the Panther Summary Attribute type value in https://docs.aws.amazon.com/guardduty/latest/ug/guardduty_finding-types-active.html for additional details.\n"
     default_reference = (
         "https://docs.aws.amazon.com/guardduty/latest/ug/guardduty_findings.html#guardduty_findings-severity"
     )

@@ -30,6 +30,20 @@ carbon_black_audit_flagged_tests: list[RuleTest] = [
             "verbose": False,
         },
     ),
+    RuleTest(
+        name="Sensor update requested",
+        expected_result=True,
+        log={
+            "description": "Requested sensor update to version: 2.16.0.2566828 for the following device: ABCDEFG012 (ID: 21360056)",
+            "eventId": "ac5f46923e9c11efaadd07ba65d6cd7b",
+            "eventTime": "2024-07-10 09:13:29.952000000",
+            "flagged": True,
+            "loginName": "",
+            "orgName": "acme.com",
+            "requestUrl": "/settings/users/pushSensorKits",
+            "verbose": False,
+        },
+    ),
 ]
 
 
@@ -41,7 +55,7 @@ class CarbonBlackAuditFlagged(Rule):
         "Detects when Carbon Black has flagged a log as important, such as failed login attempts and locked accounts."
     )
     display_name = "Carbon Black Log Entry Flagged"
-    default_severity = Severity.HIGH
+    default_severity = Severity.MEDIUM
     tags = ["Credential Access", "Brute Force"]
     reports = {"MITRE ATT&CK": ["TA0006:T1110"]}
     default_reference = "https://docs.vmware.com/en/VMware-Carbon-Black-Cloud/services/carbon-black-cloud-user-guide/GUID-FB61E4E3-6431-4226-A4E3-5949FB75922B.html"
@@ -55,3 +69,8 @@ class CarbonBlackAuditFlagged(Rule):
         ip_addr = event.get("clientIp", "<NO_IP_FOUND>")
         desc = event.get("description", "<NO_DESCRIPTION_FOUND>")
         return f"{user} [{ip_addr}] {desc}"
+
+    def severity(self, event):
+        if event.get("description").startswith("Requested sensor update"):
+            return "INFO"
+        return "DEFAULT"

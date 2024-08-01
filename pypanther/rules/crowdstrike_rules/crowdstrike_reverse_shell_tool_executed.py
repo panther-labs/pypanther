@@ -1,5 +1,5 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
-from pypanther.helpers.panther_base_helpers import crowdstrike_detection_alert_context, deep_get
+from pypanther.helpers.panther_base_helpers import crowdstrike_detection_alert_context
 
 crowdstrike_reverse_shell_tool_executed_tests: list[RuleTest] = [
     RuleTest(
@@ -245,8 +245,8 @@ class CrowdstrikeReverseShellToolExecuted(Rule):
     def rule(self, event):
         if event.get("fdr_event_type", "") == "ProcessRollup2":
             if event.get("event_platform", "") == "Win":
-                process_name = deep_get(event, "event", "ImageFileName", default="").lower().split("\\")[-1]
-                command_line = deep_get(event, "event", "CommandLine", default="")
+                process_name = event.deep_get("event", "ImageFileName", default="").lower().split("\\")[-1]
+                command_line = event.deep_get("event", "CommandLine", default="")
                 signatures = self.REMOTE_SHELL_TOOLS.get(process_name, [])
                 for signature in signatures:
                     if signature in command_line:
@@ -254,7 +254,7 @@ class CrowdstrikeReverseShellToolExecuted(Rule):
         return False
 
     def title(self, event):
-        tool = deep_get(event, "event", "ImageFileName", default="<TOOL_NOT_FOUND>").lower().split("\\")[-1]
+        tool = event.deep_get("event", "ImageFileName", default="<TOOL_NOT_FOUND>").lower().split("\\")[-1]
         aid = event.get("aid", "<AID_NOT_FOUND>")
         return f"Crowdstrike: Reverse shell tool [{tool}] detected on aid [{aid}]"
 
