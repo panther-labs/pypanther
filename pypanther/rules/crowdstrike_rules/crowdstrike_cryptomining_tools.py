@@ -1,5 +1,5 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
-from pypanther.helpers.panther_base_helpers import crowdstrike_detection_alert_context, deep_get
+from pypanther.helpers.panther_base_helpers import crowdstrike_detection_alert_context
 
 crowdstrike_cryptomining_tools_tests: list[RuleTest] = [
     RuleTest(
@@ -195,12 +195,12 @@ class CrowdstrikeCryptominingTools(Rule):
     def rule(self, event):
         if event.get("fdr_event_type", "") == "ProcessRollup2":
             if event.get("event_platform", "") == "Win":
-                process_name = deep_get(event, "event", "ImageFileName", default="").lower().split("\\")[-1]
+                process_name = event.deep_get("event", "ImageFileName", default="").lower().split("\\")[-1]
                 return process_name in self.CRYPTOCURRENCY_MINING_TOOLS
         return False
 
     def title(self, event):
-        tool = deep_get(event, "event", "ImageFileName", default="<TOOL_NOT_FOUND>").lower().split("\\")[-1]
+        tool = event.deep_get("event", "ImageFileName", default="<TOOL_NOT_FOUND>").lower().split("\\")[-1]
         aid = event.get("aid", "<AID_NOT_FOUND>")
         return f"Crowdstrike: Cryptocurrency mining tool [{tool}] detected on aid [{aid}]"
 

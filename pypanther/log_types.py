@@ -52,6 +52,7 @@ class LogType(str, Enum):
     CROWDSTRIKE_CRITICAL_FILE = "Crowdstrike.CriticalFile"
     CROWDSTRIKE_DNS_REQUEST = "Crowdstrike.DNSRequest"
     CROWDSTRIKE_DETECTION_SUMMARY = "Crowdstrike.DetectionSummary"
+    CROWDSTRIKE_EVENT_STREAMS = "Crowdstrike.EventStreams"
     CROWDSTRIKE_FDR_EVENT = "Crowdstrike.FDREvent"
     CROWDSTRIKE_GROUP_IDENTITY = "Crowdstrike.GroupIdentity"
     CROWDSTRIKE_MANAGED_ASSETS = "Crowdstrike.ManagedAssets"

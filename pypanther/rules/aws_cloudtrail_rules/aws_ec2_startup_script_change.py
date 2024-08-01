@@ -108,4 +108,6 @@ class AWSEC2StartupScriptChange(Rule):
         return deep_get(event, "requestParameters", "instanceId")
 
     def alert_context(self, event):
-        return aws_rule_context(event)
+        context = aws_rule_context(event)
+        context["instance_ids"] = [deep_get(event, "requestParameters", "instanceId"), "no_instance_id"]
+        return context
