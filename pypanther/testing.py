@@ -86,23 +86,40 @@ def run(args: argparse.Namespace) -> Tuple[int, str]:
         logging.error("No main.py found")
         return 1, ""
 
+    test_results = run_tests(args)
+
+    if args.output == display.OUTPUT_TYPE_JSON:
+        print(
+            json.dumps(
+                test_output_dict(test_results, args.verbose),
+                indent=display.JSON_INDENT_LEVEL,
+            )
+        )
+
+    if test_results.had_failed_tests():
+        return 1, ""
+
+    return 0, ""
+
+
+def run_tests(args: argparse.Namespace) -> TestResults:
     test_results = TestResults()
 
     for rule in registered_rules(
-        log_types=args.log_types,
-        id=args.id,
-        create_alert=args.create_alert,
-        dedup_period_minutes=args.dedup_period_minutes,
-        display_name=args.display_name,
-        enabled=args.enabled,
-        summary_attributes=args.summary_attributes,
-        threshold=args.threshold,
-        tags=args.tags,
-        default_severity=args.default_severity,
-        default_description=args.default_description,
-        default_reference=args.default_reference,
-        default_runbook=args.default_runbook,
-        default_destinations=args.default_destinations,
+        log_types=args.log_types if hasattr(args, "log_types") else None,
+        id=args.id if hasattr(args, "id") else None,
+        create_alert=args.create_alert if hasattr(args, "create_alert") else None,
+        dedup_period_minutes=args.dedup_period_minutes if hasattr(args, "dedup_period_minutes") else None,
+        display_name=args.display_name if hasattr(args, "display_name") else None,
+        enabled=args.enabled if hasattr(args, "enabled") else None,
+        summary_attributes=args.summary_attributes if hasattr(args, "summary_attributes") else None,
+        threshold=args.threshold if hasattr(args, "threshold") else None,
+        tags=args.tags if hasattr(args, "tags") else None,
+        default_severity=args.default_severity if hasattr(args, "default_severity") else None,
+        default_description=args.default_description if hasattr(args, "default_description") else None,
+        default_reference=args.default_reference if hasattr(args, "default_reference") else None,
+        default_runbook=args.default_runbook if hasattr(args, "default_runbook") else None,
+        default_destinations=args.default_destinations if hasattr(args, "default_destinations") else None,
     ):
         results = rule.run_tests(DATA_MODEL_CACHE.data_model_of_logtype)
         test_results.add_test_results(rule.id, results)
@@ -112,29 +129,19 @@ def run(args: argparse.Namespace) -> Tuple[int, str]:
             # the tests as they are running instead of waiting until the very end.
             print_rule_test_results(args.verbose, rule.id, results)
 
-    match args.output:
-        case display.OUTPUT_TYPE_JSON:
-            print(
-                json.dumps(
-                    {
-                        "test_results": get_test_results_as_dict(test_results, args.verbose),
-                        "failed_tests_summary": get_failed_test_summary_as_dict(test_results),
-                        "summary": get_test_summary_as_dict(test_results),
-                    },
-                    indent=display.JSON_INDENT_LEVEL,
-                )
-            )
-        case display.OUTPUT_TYPE_TEXT:
-            print_failed_test_summary(test_results)
-            print()  # new line
-            print_test_summary(test_results)
-        case _:
-            return 1, f"Unsupported output: {args.output}"
+    if args.output == display.OUTPUT_TYPE_TEXT:
+        print_failed_test_summary(test_results)
+        print_test_summary(test_results)
 
-    if test_results.had_failed_tests():
-        return 1, ""
+    return test_results
 
-    return 0, ""
+
+def test_output_dict(test_results: TestResults, verbose: bool) -> dict:
+    return {
+        "test_results": get_test_results_as_dict(test_results, verbose),
+        "failed_tests_summary": get_failed_test_summary_as_dict(test_results),
+        "test_summary": get_test_summary_as_dict(test_results),
+    }
 
 
 def get_test_results_as_dict(test_results: TestResults, verbose: bool) -> dict[str, Any]:
@@ -259,9 +266,11 @@ def print_failed_test_summary(test_results: TestResults) -> None:
         for failed_test in failed_tests:
             print(INDENT * 2, "-", failed_test.test.name)
 
+    print()  # new line
+
 
 def print_test_summary(test_results: TestResults) -> None:
-    print(cli_output.header("Summary") + ":")
+    print(cli_output.header("Test Summary") + ":")
 
     print(INDENT, "Skipped rules: {:>3}".format(test_results.num_skipped_rules()))
     print(INDENT, "Passed rules:  {:>3}".format(test_results.num_passed_rules()))
