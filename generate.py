@@ -780,7 +780,7 @@ def main():
     strip_global_filters()
 
     # convert_queries(Path(panther_analysis))
-    run_ruff([Path()])
+    run_ruff([Path(".")])  # noqa: PTH201
 
 
 if __name__ == "__main__":
