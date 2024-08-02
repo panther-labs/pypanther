@@ -16,7 +16,7 @@ from panther_core.rule import (
 from pydantic import ValidationError
 
 from pypanther.base import RULE_ALL_ATTRS, Rule, RuleModel, panther_managed
-from pypanther.cache import DATA_MODEL_CACHE
+from pypanther.cache import data_model_cache
 from pypanther.log_types import LogType
 from pypanther.rules.aws_cloudtrail_rules.aws_console_login_without_mfa import (
     AWSConsoleLoginWithoutMFA,
@@ -25,7 +25,7 @@ from pypanther.severity import Severity
 from pypanther.unit_tests import RuleMock, RuleTest
 from pypanther.wrap import include
 
-get_data_model = DATA_MODEL_CACHE.data_model_of_logtype
+get_data_model = data_model_cache().data_model_of_logtype
 
 
 def test_rule_inheritance():
@@ -100,7 +100,7 @@ def test_mock_patching():
 
     # ensure the base class has a mock defined
     assert len(Test.__base__.tests[0].mocks) > 0
-    results = Test.run_tests(DATA_MODEL_CACHE.data_model_of_logtype)
+    results = Test.run_tests(get_data_model)
     for result in results:
         assert result.passed
 
@@ -138,7 +138,7 @@ def test_mock_patching_new_kwarg():
                 return False
             raise Exception("thing is not foo or bar")
 
-    results = Test.run_tests(DATA_MODEL_CACHE.data_model_of_logtype)
+    results = Test.run_tests(get_data_model)
     for result in results:
         assert result.passed
 
@@ -177,7 +177,7 @@ def test_mock_patching_side_effect_kwarg():
                 return False
             raise Exception('thing() is not "hi foo" or "hi bar"')
 
-    results = Test.run_tests(DATA_MODEL_CACHE.data_model_of_logtype)
+    results = Test.run_tests(get_data_model)
     for result in results:
         assert result.passed
 
@@ -215,7 +215,7 @@ class TestRunningTests:
 
         setattr(TestRule, func, aux)
 
-        results = TestRule.run_tests(DATA_MODEL_CACHE.data_model_of_logtype)
+        results = TestRule.run_tests(get_data_model)
         assert len(results) == 1
         assert not results[0].passed
         assert "bad" in str(getattr(results[0].detection_result, f"{func}_exception"))
@@ -236,7 +236,7 @@ class TestRunningTests:
             def severity(self, event):
                 raise Exception("bad")
 
-        results = TestRule.run_tests(DATA_MODEL_CACHE.data_model_of_logtype)
+        results = TestRule.run_tests(get_data_model)
         assert len(results) == 1
         assert not results[0].passed
         for func in ["runbook", "severity"]:
@@ -269,7 +269,7 @@ class TestRunningTests:
         for func in funcs:
             setattr(TestRule, func, aux)
 
-        results = TestRule.run_tests(DATA_MODEL_CACHE.data_model_of_logtype)
+        results = TestRule.run_tests(get_data_model)
         assert len(results) == 1
         assert not results[0].passed
         for func in funcs:
@@ -297,11 +297,11 @@ class TestRunningTests:
             def rule(self, event):
                 return True
 
-        results = Rule1.run_tests(DATA_MODEL_CACHE.data_model_of_logtype)
+        results = Rule1.run_tests(get_data_model)
         assert len(results) == 2
         assert not results[0].passed
         assert not results[1].passed
-        Rule2.run_tests(DATA_MODEL_CACHE.data_model_of_logtype)
+        Rule2.run_tests(get_data_model)
         assert len(results) == 2
         assert not results[0].passed
         assert not results[1].passed
@@ -318,7 +318,7 @@ class TestRunningTests:
             def rule(self, event):
                 raise Exception("bad")
 
-        results = Rule1.run_tests(DATA_MODEL_CACHE.data_model_of_logtype)
+        results = Rule1.run_tests(get_data_model)
         assert len(results) == 1
         assert not results[0].passed
         assert "bad" in str(results[0].detection_result.detection_exception)
@@ -1302,7 +1302,7 @@ class TestRule(TestCase):
 
         result = TestRule().run_test(
             RuleTest(name="test", expected_result=True, log={}),
-            DATA_MODEL_CACHE.data_model_of_logtype,
+            get_data_model,
         )
         assert result.detection_result.destinations_exception is None
         assert result.detection_result.destinations_output == []
@@ -1332,7 +1332,7 @@ class TestRule(TestCase):
                     len(cls.allowed_domains) > 0
                 ), "The allowed_domains field on your PantherOOTBRule must be populated before using this rule"
 
-        assert MyRule().run_tests(DATA_MODEL_CACHE.data_model_of_logtype, _validate_config=False)[0].passed
+        assert MyRule().run_tests(get_data_model, _validate_config=False)[0].passed
 
     def test_validate_external_fails(self) -> None:
         class MyRule(Rule):
@@ -1360,7 +1360,7 @@ class TestRule(TestCase):
                 ), "The allowed_domains field on your PantherOOTBRule must be populated before using this rule"
 
         with pytest.raises(AssertionError):
-            MyRule().run_tests(DATA_MODEL_CACHE.data_model_of_logtype)
+            MyRule().run_tests(get_data_model)
 
     def test_expected_severity(self) -> None:
         class Test(Rule):

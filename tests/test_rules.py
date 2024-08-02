@@ -4,7 +4,7 @@ from typing import Type
 import pytest
 
 from pypanther.base import Rule
-from pypanther.cache import DATA_MODEL_CACHE
+from pypanther.cache import data_model_cache
 from pypanther.get import get_panther_rules
 
 
@@ -13,7 +13,7 @@ def test_rule(rule: Type[Rule]):
     if hasattr(rule, "_tests"):
         rule.tests = rule._tests
 
-    for result in rule.run_tests(DATA_MODEL_CACHE.data_model_of_logtype, _validate_config=False):
+    for result in rule.run_tests(data_model_cache().data_model_of_logtype, _validate_config=False):
         assert result.passed
 
 
