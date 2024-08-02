@@ -25,14 +25,13 @@ import os
 import time
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Any, Dict, List, Optional
+from typing import TYPE_CHECKING, Any, Dict, List, Optional
 from urllib.parse import urlparse
 
-from gql import Client as GraphQLClient
-from gql import gql
-from gql.transport.aiohttp import AIOHTTPTransport
-from gql.transport.exceptions import TransportQueryError
-from graphql import DocumentNode, ExecutionResult
+if TYPE_CHECKING:
+    # defer loading to improve performance
+    from gql import Client as GraphQLClient
+    from graphql import DocumentNode, ExecutionResult
 
 from pypanther import display
 
@@ -101,70 +100,73 @@ class PublicAPIRequests:  # pylint: disable=too-many-public-methods
     def __init__(self) -> None:
         self._cache = {}
 
-    def version_query(self) -> DocumentNode:
+    def version_query(self) -> "DocumentNode":
         return self._load("get_version")
 
-    def delete_detections_query(self) -> DocumentNode:
+    def delete_detections_query(self) -> "DocumentNode":
         return self._load("delete_detections")
 
-    def async_bulk_upload_mutation(self) -> DocumentNode:
+    def async_bulk_upload_mutation(self) -> "DocumentNode":
         return self._load("async_bulk_upload")
 
-    def async_bulk_upload_status_query(self) -> DocumentNode:
+    def async_bulk_upload_status_query(self) -> "DocumentNode":
         return self._load("async_bulk_upload_status")
 
-    def bulk_upload_mutation(self) -> DocumentNode:
+    def bulk_upload_mutation(self) -> "DocumentNode":
         return self._load("bulk_upload")
 
-    def validate_bulk_upload_mutation(self) -> DocumentNode:
+    def validate_bulk_upload_mutation(self) -> "DocumentNode":
         return self._load("validate_bulk_upload")
 
-    def validate_bulk_upload_status_query(self) -> DocumentNode:
+    def validate_bulk_upload_status_query(self) -> "DocumentNode":
         return self._load("validate_bulk_upload_status")
 
-    def list_schemas_query(self) -> DocumentNode:
+    def list_schemas_query(self) -> "DocumentNode":
         return self._load("list_schemas")
 
-    def update_schema_mutation(self) -> DocumentNode:
+    def update_schema_mutation(self) -> "DocumentNode":
         return self._load("create_or_update_schema")
 
-    def delete_saved_queries(self) -> DocumentNode:
+    def delete_saved_queries(self) -> "DocumentNode":
         return self._load("delete_saved_queries")
 
-    def get_rule_body(self) -> DocumentNode:
+    def get_rule_body(self) -> "DocumentNode":
         return self._load("get_rule_body")
 
-    def transpile_simple_detection_to_python(self) -> DocumentNode:
+    def transpile_simple_detection_to_python(self) -> "DocumentNode":
         return self._load("transpile_sdl")
 
-    def transpile_filters(self) -> DocumentNode:
+    def transpile_filters(self) -> "DocumentNode":
         return self._load("transpile_filters")
 
-    def test_correlation_rule(self) -> DocumentNode:
+    def test_correlation_rule(self) -> "DocumentNode":
         return self._load("test_correlation_rule")
 
-    def introspection_query(self) -> DocumentNode:
+    def introspection_query(self) -> "DocumentNode":
         return self._load("introspection_query")
 
-    def metrics_query(self) -> DocumentNode:
+    def metrics_query(self) -> "DocumentNode":
         return self._load("metrics")
 
-    def create_perf_test_mutation(self) -> DocumentNode:
+    def create_perf_test_mutation(self) -> "DocumentNode":
         return self._load("create_perf_test")
 
-    def replay_query(self) -> DocumentNode:
+    def replay_query(self) -> "DocumentNode":
         return self._load("replay")
 
-    def stop_replay_mutation(self) -> DocumentNode:
+    def stop_replay_mutation(self) -> "DocumentNode":
         return self._load("stop_replay")
 
-    def generate_enriched_event_query(self) -> DocumentNode:
+    def generate_enriched_event_query(self) -> "DocumentNode":
         return self._load("generate_enriched_event")
 
-    def feature_flags_query(self) -> DocumentNode:
+    def feature_flags_query(self) -> "DocumentNode":
         return self._load("feature_flags")
 
-    def _load(self, name: str) -> DocumentNode:
+    def _load(self, name: str) -> "DocumentNode":
+        # defer loading to improve performance
+        from gql import gql
+
         if name not in self._cache:
             self._cache[name] = Path(_get_graphql_content_filepath(name)).read_text(encoding="utf-8")
 
@@ -174,7 +176,7 @@ class PublicAPIRequests:  # pylint: disable=too-many-public-methods
 class PublicAPIClient(Client):  # pylint: disable=too-many-public-methods
     _user_id: str
     _requests: PublicAPIRequests
-    _gql_client: GraphQLClient
+    _gql_client: "GraphQLClient"
 
     def __init__(self, opts: PublicAPIClientOptions):
         self._user_id = opts.user_id
@@ -618,16 +620,19 @@ class PublicAPIClient(Client):  # pylint: disable=too-many-public-methods
 
     def _execute(
         self,
-        request: DocumentNode,
+        request: "DocumentNode",
         variable_values: Optional[Dict[str, Any]] = None,
-    ) -> ExecutionResult:
+    ) -> "ExecutionResult":
         return self._gql_client.execute(request, variable_values=variable_values, get_execution_result=True)
 
     def _safe_execute(
         self,
-        request: DocumentNode,
+        request: "DocumentNode",
         variable_values: Optional[Dict[str, Any]] = None,
-    ) -> ExecutionResult:
+    ) -> "ExecutionResult":
+        # defer loading to improve performance
+        from gql.transport.exceptions import TransportQueryError
+
         try:
             res = self._execute(request, variable_values=variable_values)
         except TransportQueryError as e:  # pylint: disable=C0103
@@ -647,9 +652,9 @@ class PublicAPIClient(Client):  # pylint: disable=too-many-public-methods
 
     def _potentially_supported_execute(
         self,
-        request: DocumentNode,
+        request: "DocumentNode",
         variable_values: Optional[Dict[str, Any]] = None,
-    ) -> ExecutionResult:
+    ) -> "ExecutionResult":
         """
         Same behavior as _safe_execute but throws an UnSupportedEndpointError
         whenever a graphql validation error is detected
@@ -677,7 +682,10 @@ _API_DOMAIN_PREFIX = "api"
 _API_TOKEN_HEADER = "X-API-Key"  # nosec
 
 
-def _build_client(host: str, token: str, verbose: bool, output_type: str = display.OUTPUT_TYPE_TEXT) -> GraphQLClient:
+def _build_client(host: str, token: str, verbose: bool, output_type: str = display.OUTPUT_TYPE_TEXT) -> "GraphQLClient":
+    from gql import Client as GraphQLClient
+    from gql.transport.aiohttp import AIOHTTPTransport
+
     graphql_url = _build_api_url(host)
     if verbose and output_type == display.OUTPUT_TYPE_TEXT:
         print("Panther Public API endpoint: %s", graphql_url)

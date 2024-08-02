@@ -4,8 +4,6 @@ import logging
 import sys
 from typing import Callable, Tuple
 
-from gql.transport.aiohttp import log as aiohttp_logger
-
 from pypanther import testing
 from pypanther.custom_logging import setup_logging
 from pypanther.setup_subparsers import (
@@ -31,7 +29,7 @@ def run():
     if args.debug:
         logging.getLogger().setLevel(logging.DEBUG)
     else:
-        aiohttp_logger.setLevel(logging.WARNING)
+        logging.getLogger('gql.transport.aiohttp').setLevel(logging.WARNING)
 
     config_file_settings = setup_dynaconf()
     dynaconf_argparse_merge(vars(args), config_file_settings)

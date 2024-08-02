@@ -14,4 +14,11 @@ class DataModelCache:
         return self.data_models.get(log_type)
 
 
-DATA_MODEL_CACHE = DataModelCache()
+__data_model_cache = None
+
+
+def data_model_cache():
+    global __data_model_cache
+    if __data_model_cache is None:
+        __data_model_cache = DataModelCache()
+    return __data_model_cache
