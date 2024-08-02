@@ -8,7 +8,7 @@ from typing import Any, Tuple
 
 from pypanther import cli_output, display
 from pypanther.base import Rule, RuleTestResult
-from pypanther.cache import DATA_MODEL_CACHE
+from pypanther.cache import data_model_cache
 from pypanther.import_main import NoMainModuleError, import_main
 from pypanther.registry import registered_rules
 
@@ -124,7 +124,7 @@ def run_tests(args: argparse.Namespace) -> TestResults:
         default_runbook=args.default_runbook if hasattr(args, "default_runbook") else None,
         default_destinations=args.default_destinations if hasattr(args, "default_destinations") else None,
     ):
-        results = rule.run_tests(DATA_MODEL_CACHE.data_model_of_logtype)
+        results = rule.run_tests(data_model_cache().data_model_of_logtype)
         test_results.add_test_results(rule.id, results)
 
         if args.output == display.OUTPUT_TYPE_TEXT:

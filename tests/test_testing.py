@@ -8,11 +8,11 @@ from panther_core import PantherEvent
 
 from pypanther import testing
 from pypanther.base import Rule, RuleTest, Severity
-from pypanther.cache import DATA_MODEL_CACHE
+from pypanther.cache import data_model_cache
 from pypanther.log_types import LogType
 from pypanther.main import setup_parser
 
-get_data_model = DATA_MODEL_CACHE.data_model_of_logtype
+get_data_model = data_model_cache().data_model_of_logtype
 
 
 class Test(Rule):
