@@ -14,6 +14,9 @@ from pypanther.registry import registered_rules
 
 INDENT = " " * 2
 
+TEST_RESULT_SUCCESS = "TESTS_PASSED"
+TEST_RESULT_FAILURE = "TESTS_FAILED"
+
 
 class TestResults:
     passed_rule_tests: dict[str, list[RuleTestResult]]
@@ -141,6 +144,7 @@ def test_output_dict(test_results: TestResults, verbose: bool) -> dict:
         "test_results": get_test_results_as_dict(test_results, verbose),
         "failed_tests_summary": get_failed_test_summary_as_dict(test_results),
         "test_summary": get_test_summary_as_dict(test_results),
+        "result": TEST_RESULT_FAILURE if test_results.had_failed_tests() else TEST_RESULT_SUCCESS,
     }
 
 
