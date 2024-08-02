@@ -25,7 +25,7 @@ import os
 import time
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Any, Dict, List, Optional, TYPE_CHECKING
+from typing import TYPE_CHECKING, Any, Dict, List, Optional
 from urllib.parse import urlparse
 
 if TYPE_CHECKING:
@@ -632,7 +632,7 @@ class PublicAPIClient(Client):  # pylint: disable=too-many-public-methods
     ) -> "ExecutionResult":
         # defer loading to improve performance
         from gql.transport.exceptions import TransportQueryError
-        
+
         try:
             res = self._execute(request, variable_values=variable_values)
         except TransportQueryError as e:  # pylint: disable=C0103
@@ -685,7 +685,7 @@ _API_TOKEN_HEADER = "X-API-Key"  # nosec
 def _build_client(host: str, token: str, verbose: bool, output_type: str = display.OUTPUT_TYPE_TEXT) -> "GraphQLClient":
     from gql import Client as GraphQLClient
     from gql.transport.aiohttp import AIOHTTPTransport
-    
+
     graphql_url = _build_api_url(host)
     if verbose and output_type == display.OUTPUT_TYPE_TEXT:
         print("Panther Public API endpoint: %s", graphql_url)

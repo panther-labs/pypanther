@@ -1,13 +1,13 @@
 import argparse
 from typing import Any, Dict
 
-
 from pypanther.vendor.panther_analysis_tool.constants import CONFIG_FILE
 
 
 def setup_dynaconf() -> Dict[str, Any]:
     # defer loading to improve performance
     from dynaconf import Dynaconf, Validator
+
     config_file_settings_raw = Dynaconf(
         settings_file=CONFIG_FILE,
         envvar_prefix="PANTHER",
