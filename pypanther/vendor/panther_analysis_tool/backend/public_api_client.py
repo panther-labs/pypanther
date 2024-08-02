@@ -280,7 +280,7 @@ class PublicAPIClient(Client):  # pylint: disable=too-many-public-methods
 
     # This function was generated in whole or in part by GitHub Copilot.
     def get_rule_body(self, params: GetRuleBodyParams) -> BackendResponse[GetRuleBodyResponse]:
-        query: "DocumentNode" = self._requests.get_rule_body()
+        query: DocumentNode = self._requests.get_rule_body()
         params = {"input": params.id}  # type: ignore
         res = self._safe_execute(query, variable_values=params)  # type: ignore
         data = res.data.get("rulePythonBody", {})  # type: ignore
