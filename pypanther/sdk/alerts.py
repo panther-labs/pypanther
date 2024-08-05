@@ -43,7 +43,8 @@ find_alerts = gql(
         }
       }
     }
-    """)
+    """,
+)
 
 transport = AIOHTTPTransport(
     url=GRAPHQL_ENDPOINT,
@@ -67,7 +68,7 @@ def list_alerts_by_id(rule_id: str) -> list:
     now = datetime.datetime.now(datetime.timezone.utc)
     # Calculate the start of the current month
     # from_date = now.replace(day=1, hour=0, minute=0, second=0, microsecond=0).isoformat(timespec="milliseconds").replace("+00:00", "Z") # month to date
-    from_date = (now - relativedelta(months=1)).isoformat(timespec="milliseconds").replace("+00:00", "Z") # one month ago
+    from_date = (now - relativedelta(days=7)).isoformat(timespec="milliseconds").replace("+00:00", "Z")  # one month ago
 
     # Current date and time
     to_date = now.isoformat(timespec="milliseconds").replace("+00:00", "Z")
@@ -120,7 +121,7 @@ def get_alert_stats():
     # Month to date
     # from_date = now.replace(day=1, hour=0, minute=0, second=0, microsecond=0).isoformat(timespec="milliseconds").replace("+00:00", "Z")
     # Last month
-    from_date = (now - relativedelta(months=1)).isoformat(timespec="milliseconds").replace("+00:00", "Z") # one month ago
+    from_date = (now - relativedelta(days=7)).isoformat(timespec="milliseconds").replace("+00:00", "Z")  # one month ago
     # Current date and time
     to_date = now.isoformat(timespec="milliseconds").replace("+00:00", "Z")
 
@@ -135,14 +136,24 @@ def get_alert_stats():
     query_data = client.execute(fetch_metrics_query, variable_values={"input": metrics_input})
     return query_data.get("metrics", {}).get("alertsPerRule", [])
 
-for alert in get_alert_stats():
+
+alerts = get_alert_stats()
+print(f"Getting details for {len(alerts)} rules...")
+for alert in alerts:
+    if "test" in alert["entityId"].lower():
+        print("Skipping test rule %s..." % alert["entityId"])
+        continue
     alert_count = alert["value"]
     if alert_count > 0:
+        print(f"Getting alerts for {alert['entityId']}...")
         alerts = list_alerts_by_id(alert["entityId"])
+
         rule = get_panther_rules(id=alert["entityId"] + "-prototype")
         if not rule:
             continue
+
         output = {}
+
         if any(alert["severity"] != "INFO" for alert in alerts):
             output["rule_id"] = alert["entityId"]
             output["alert_count"] = alert_count
@@ -154,4 +165,4 @@ for alert in get_alert_stats():
                 output["alerts"].append(alert)
             if rule:
                 output["rule_source_code"] = json.dumps(inspect.getsource(rule[0]))
-            print(output + "\n")
+            print(output)
