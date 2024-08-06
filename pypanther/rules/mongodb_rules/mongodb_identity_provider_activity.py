@@ -4,14 +4,10 @@ from pypanther.helpers.panther_mongodb_helpers import mongodb_alert_context
 mongo_db_identity_provider_activity_tests: list[RuleTest] = [
     RuleTest(name="Random event", expected_result=False, log={"eventTypeName": "cat_jumped"}),
     RuleTest(
-        name="FEDERATION_SETTINGS_CREATED",
-        expected_result=True,
-        log={"eventTypeName": "FEDERATION_SETTINGS_CREATED"},
+        name="FEDERATION_SETTINGS_CREATED", expected_result=True, log={"eventTypeName": "FEDERATION_SETTINGS_CREATED"},
     ),
     RuleTest(
-        name="IDENTITY_PROVIDER_CREATED",
-        expected_result=True,
-        log={"eventTypeName": "IDENTITY_PROVIDER_CREATED"},
+        name="IDENTITY_PROVIDER_CREATED", expected_result=True, log={"eventTypeName": "IDENTITY_PROVIDER_CREATED"},
     ),
 ]
 

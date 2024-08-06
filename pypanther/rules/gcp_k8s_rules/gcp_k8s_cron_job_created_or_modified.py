@@ -69,7 +69,7 @@ class GCPGKEKubernetesCronJobCreatedOrModified(Rule):
     default_severity = Severity.MEDIUM
     default_reference = "https://medium.com/snowflake/from-logs-to-detection-using-snowflake-and-panther-to-detect-k8s-threats-d72f70a504d7"
     default_runbook = "Investigate a reason of creating or modifying a cron job in GKE. Create ticket if appropriate."
-    reports = {"MITRE ATT&CK": ["T1053.003"]}
+    reports = {"MITRE ATT&CK": ["TA0003:T1053.003"]}
     tests = gcpgke_kubernetes_cron_job_created_or_modified_tests
 
     def rule(self, event):

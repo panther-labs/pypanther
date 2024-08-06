@@ -173,10 +173,7 @@ class OktaPasswordExtractionviaSCIM(Rule):
 
     def rule(self, event):
         return event.get("eventType") == "application.lifecycle.update" and "Pushing user passwords" in deep_get(
-            event,
-            "outcome",
-            "reason",
-            default="",
+            event, "outcome", "reason", default="",
         )
 
     def title(self, event):

@@ -181,14 +181,7 @@ class GCPDestructiveQueries(Rule):
             default="<STATEMENT_NOT_FOUND>",
         )
         table = deep_get(
-            event,
-            "protoPayload",
-            "metadata",
-            "jobChange",
-            "job",
-            "jobConfig",
-            "queryConfig",
-            "destinationTable",
+            event, "protoPayload", "metadata", "jobChange", "job", "jobConfig", "queryConfig", "destinationTable",
         ) or deep_get(event, "protoPayload", "metadata", "resourceName", default="<TABLE_NOT_FOUND>")
         return f"GCP: [{actor}] performed a destructive BigQuery [{statement}] query on [{table}]."
 
@@ -206,11 +199,7 @@ class GCPDestructiveQueries(Rule):
                 default="<QUERY_NOT_FOUND>",
             ),
             "actor": deep_get(
-                event,
-                "protoPayload",
-                "authenticationInfo",
-                "principalEmail",
-                default="<ACTOR_NOT_FOUND>",
+                event, "protoPayload", "authenticationInfo", "principalEmail", default="<ACTOR_NOT_FOUND>",
             ),
             "statement": deep_get(
                 event,
@@ -224,14 +213,7 @@ class GCPDestructiveQueries(Rule):
                 default="<STATEMENT_NOT_FOUND>",
             ),
             "table": deep_get(
-                event,
-                "protoPayload",
-                "metadata",
-                "jobChange",
-                "job",
-                "jobConfig",
-                "queryConfig",
-                "destinationTable",
+                event, "protoPayload", "metadata", "jobChange", "job", "jobConfig", "queryConfig", "destinationTable",
             )
             or deep_get(event, "protoPayload", "metadata", "resourceName", default="<TABLE_NOT_FOUND>"),
         }

@@ -178,14 +178,7 @@ class GCPBigQueryLargeScan(Rule):
                 deep_get(event, "operation", "last") is True,
                 deep_get(event, "protoPayload", "metadata", "jobChange", "job", "jobConfig", "type") == "QUERY",
                 deep_get(
-                    event,
-                    "protoPayload",
-                    "metadata",
-                    "jobChange",
-                    "job",
-                    "jobConfig",
-                    "queryConfig",
-                    "statementType",
+                    event, "protoPayload", "metadata", "jobChange", "job", "jobConfig", "queryConfig", "statementType",
                 )
                 == "SELECT",
                 int(
@@ -234,11 +227,7 @@ class GCPBigQueryLargeScan(Rule):
                 default="<QUERY_NOT_FOUND>",
             ),
             "actor": deep_get(
-                event,
-                "protoPayload",
-                "authenticationInfo",
-                "principalEmail",
-                default="<ACTOR_NOT_FOUND>",
+                event, "protoPayload", "authenticationInfo", "principalEmail", default="<ACTOR_NOT_FOUND>",
             ),
             "query_size": deep_get(
                 event,

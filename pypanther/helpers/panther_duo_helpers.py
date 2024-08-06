@@ -1,4 +1,6 @@
-"""Used to define global helpers and variables for Duo events."""
+"""
+Used to define global helpers and variables for Duo events.
+"""
 
 import json
 from json import JSONDecodeError

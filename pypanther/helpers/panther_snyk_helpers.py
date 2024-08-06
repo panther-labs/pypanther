@@ -1,4 +1,6 @@
-"""Global helpers for Snyk detections"""
+"""
+Global helpers for Snyk detections
+"""
 
 
 def snyk_alert_context(event) -> dict:

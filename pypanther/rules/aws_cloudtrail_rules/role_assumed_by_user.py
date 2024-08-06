@@ -48,6 +48,7 @@ role_assumedby_user_tests: list[RuleTest] = [
 class RoleAssumedbyUser(Rule):
     id = "Role.Assumed.by.User-prototype"
     display_name = "SIGNAL - Role Assumed by User"
+    enabled = False
     create_alert = False
     log_types = [LogType.AWS_CLOUDTRAIL]
     default_severity = Severity.INFO

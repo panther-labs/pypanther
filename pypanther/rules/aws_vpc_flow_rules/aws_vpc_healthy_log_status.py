@@ -4,9 +4,7 @@ from pypanther.helpers.panther_base_helpers import aws_rule_context
 awsvpc_healthy_log_status_tests: list[RuleTest] = [
     RuleTest(name="Healthy Log Status", expected_result=False, log={"log-status": "OK", "p_log_type": "AWS.VPCFlow"}),
     RuleTest(
-        name="Unhealthy Log Status",
-        expected_result=True,
-        log={"log-status": "SKIPDATA", "p_log_type": "AWS.VPCFlow"},
+        name="Unhealthy Log Status", expected_result=True, log={"log-status": "SKIPDATA", "p_log_type": "AWS.VPCFlow"},
     ),
     RuleTest(
         name="Healthy Log Status - OCSF",

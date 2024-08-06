@@ -173,7 +173,9 @@ class ConnectiontoEmbargoedCountry(Rule):
 
     def title(self, event):
         enrichment_obj = self.get_enrichment_obj(event)
-        country_codes = set(i.get("country") for i in enrichment_obj if i.get("country") in self.EMBARGO_COUNTRY_CODES)
+        country_codes = set(
+            i.get("country") for i in enrichment_obj if i.get("country") in self.EMBARGO_COUNTRY_CODES
+        )
         return f"Connection made to embargoed country: [{country_codes}]."
 
     def alert_context(self, event):

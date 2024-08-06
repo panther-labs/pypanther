@@ -1,4 +1,6 @@
-"""Global helpers for Auth0 detections"""
+"""
+Global helpers for Auth0 detections
+"""
 
 from pypanther.helpers.panther_base_helpers import deep_get
 
