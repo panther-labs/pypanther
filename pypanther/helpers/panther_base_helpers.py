@@ -150,7 +150,8 @@ def gsuite_details_lookup(detail_type, detail_names, event):
 # key names
 ZENDESK_CHANGE_DESCRIPTION = "change_description"
 ZENDESK_APP_ROLE_ASSIGNED = re.compile(
-    r"(?P<app>.*) role changed from (?P<old_role>.+) to (?P<new_role>.*)", re.IGNORECASE,
+    r"(?P<app>.*) role changed from (?P<old_role>.+) to (?P<new_role>.*)",
+    re.IGNORECASE,
 )
 ZENDESK_ROLE_ASSIGNED = re.compile(r"Role changed from (?P<old_role>.+) to (?P<new_role>[^$]+)", re.IGNORECASE)
 
@@ -312,7 +313,10 @@ def deep_get(dictionary: dict, *keys, default=None):
 
 # pylint: disable=too-complex,too-many-return-statements
 def deep_walk(
-    obj: Optional[Any], *keys: str, default: Optional[str] = None, return_val: str = "all",
+    obj: Optional[Any],
+    *keys: str,
+    default: Optional[str] = None,
+    return_val: str = "all",
 ) -> Union[Optional[Any], Optional[List[Any]]]:
     """
     Safely retrieve a value stored in complex dictionary structure

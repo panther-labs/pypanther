@@ -129,7 +129,9 @@ standard_impossible_travel_login_tests: list[RuleTest] = [
         },
     ),
     RuleTest(
-        name="Okta Not sign-in", expected_result=False, log={"eventType": "logout", "p_log_type": "Okta.SystemLog"},
+        name="Okta Not sign-in",
+        expected_result=False,
+        log={"eventType": "logout", "p_log_type": "Okta.SystemLog"},
     ),
     RuleTest(
         name="Okta sign-in with history and impossible travel",

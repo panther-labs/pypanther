@@ -146,7 +146,11 @@ class GCPLoggingSettingsModified(Rule):
         return {
             "resource": deep_get(event, "protoPayload", "resourceName", default="<RESOURCE_NOT_FOUND>"),
             "actor": deep_get(
-                event, "protoPayload", "authenticationInfo", "principalEmail", default="<ACTOR_NOT_FOUND>",
+                event,
+                "protoPayload",
+                "authenticationInfo",
+                "principalEmail",
+                default="<ACTOR_NOT_FOUND>",
             ),
             "method": deep_get(event, "protoPayload", "methodName", default="<METHOD_NOT_FOUND>"),
         }

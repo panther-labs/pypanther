@@ -261,7 +261,10 @@ class OktaAnonymizingVPNLogin(Rule):
 
     def rule(self, event):
         return event.get("eventType") == "user.session.start" and deep_get(
-            event, "securityContext", "isProxy", default=False,
+            event,
+            "securityContext",
+            "isProxy",
+            default=False,
         )
 
     def title(self, event):

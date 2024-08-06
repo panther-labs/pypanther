@@ -30,7 +30,9 @@ gcpgcs_public_tests: list[RuleTest] = [
                 "serviceData": {
                     "@type": "type.googleapis.com/google.iam.v1.logging.AuditData",
                     "policyDelta": {
-                        "bindingDeltas": [{"action": "ADD", "role": "roles/storage.objectViewer", "member": "allUsers"}],
+                        "bindingDeltas": [
+                            {"action": "ADD", "role": "roles/storage.objectViewer", "member": "allUsers"},
+                        ],
                     },
                 },
                 "resourceLocation": {"currentLocations": ["us"]},

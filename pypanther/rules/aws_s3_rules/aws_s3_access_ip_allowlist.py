@@ -5,10 +5,14 @@ from pypanther.helpers.panther_base_helpers import aws_rule_context
 
 awss3_server_access_ip_whitelist_tests: list[RuleTest] = [
     RuleTest(
-        name="Access From Approved IP", expected_result=False, log={"remoteip": "10.0.0.1", "bucket": "my-test-bucket"},
+        name="Access From Approved IP",
+        expected_result=False,
+        log={"remoteip": "10.0.0.1", "bucket": "my-test-bucket"},
     ),
     RuleTest(
-        name="Access From Unapproved IP", expected_result=True, log={"remoteip": "11.0.0.1", "bucket": "my-test-bucket"},
+        name="Access From Unapproved IP",
+        expected_result=True,
+        log={"remoteip": "11.0.0.1", "bucket": "my-test-bucket"},
     ),
 ]
 
