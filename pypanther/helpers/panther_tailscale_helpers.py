@@ -1,4 +1,6 @@
-"""Global helpers for Tailscale detections"""
+"""
+Global helpers for Tailscale detections
+"""
 
 from pypanther.helpers.panther_base_helpers import deep_get
 

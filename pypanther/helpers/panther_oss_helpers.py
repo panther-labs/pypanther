@@ -279,7 +279,7 @@ def check_account_age(key):
 
 def km_between_ipinfo_loc(ipinfo_loc_one: dict, ipinfo_loc_two: dict):
     """
-    Compute the number of kilometers between two ipinfo_location enrichments
+    compute the number of kilometers between two ipinfo_location enrichments
     This uses a haversine computation which is imperfect and holds the benefit
     of being supportable via stdlib. At polar opposites, haversine might be
     0.3-0.5% off
@@ -340,7 +340,7 @@ def geoinfo_from_ip(ip: str) -> dict:  # pylint: disable=invalid-name
 def geoinfo_from_ip_formatted(ip: str) -> str:  # pylint: disable=invalid-name
     """Formatting wrapper for geoinfo_from_ip for use in human-readable text"""
     geoinfo = geoinfo_from_ip(ip)
-    return f"{geoinfo.get('ip')} in {geoinfo.get('city')}, {geoinfo.get('region')} in {geoinfo.get('country')}"
+    return f"{geoinfo.get('ip')} in {geoinfo.get('city')}, " f"{geoinfo.get('region')} in {geoinfo.get('country')}"
 
 
 # returns the difference between time1 and later time 2 in human-readable time period string

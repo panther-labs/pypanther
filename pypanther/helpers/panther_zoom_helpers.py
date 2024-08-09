@@ -1,4 +1,6 @@
-"""Used to define global helpers for Zoom events"""
+"""
+Used to define global helpers for Zoom events
+"""
 
 
 def get_zoom_user_context(event):

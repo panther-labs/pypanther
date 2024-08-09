@@ -1,4 +1,6 @@
-"""get_info, get_k8s_info, get_flow_logs_info etc return dicts of the most commonly used fields."""
+"""
+get_info, get_k8s_info, get_flow_logs_info etc return dicts of the most commonly used fields.
+"""
 
 from pypanther.helpers.panther_base_helpers import deep_get
 

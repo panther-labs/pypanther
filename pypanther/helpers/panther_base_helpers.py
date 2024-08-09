@@ -1,4 +1,6 @@
-"""Used to define global helpers and variables."""
+"""
+Used to define global helpers and variables.
+"""
 
 import json
 import re

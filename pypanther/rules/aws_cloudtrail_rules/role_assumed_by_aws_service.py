@@ -48,6 +48,7 @@ role_assumedby_aws_service_tests: list[RuleTest] = [
 class RoleAssumedbyAWSService(Rule):
     id = "Role.Assumed.by.AWS.Service-prototype"
     display_name = "SIGNAL - Role Assumed by AWS Service"
+    enabled = False
     create_alert = False
     log_types = [LogType.AWS_CLOUDTRAIL]
     default_severity = Severity.INFO
