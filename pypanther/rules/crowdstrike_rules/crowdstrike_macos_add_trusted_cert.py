@@ -376,7 +376,7 @@ class CrowdstrikeMacosAddTrustedCert(Rule):
                 fdr_event_type == "ProcessRollup2",
                 image_filename == "/usr/bin/security",
                 "add-trusted-cert" in command_line,
-            ],
+            ]
         )
 
     def title(self, event):

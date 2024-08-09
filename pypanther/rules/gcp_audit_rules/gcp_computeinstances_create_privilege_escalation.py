@@ -89,7 +89,7 @@ gc_pcomputeinstancescreate_privilege_escalation_tests: list[RuleTest] = [
                                 "https://www.googleapis.com/auth/cloud-platform",
                                 "https://www.googleapis.com/auth/iam",
                             ],
-                        },
+                        }
                     ],
                 },
                 "requestMetadata": {
@@ -213,7 +213,7 @@ gc_pcomputeinstancescreate_privilege_escalation_tests: list[RuleTest] = [
                                 "https://www.googleapis.com/auth/cloud-platform",
                                 "https://www.googleapis.com/auth/iam",
                             ],
-                        },
+                        }
                     ],
                 },
                 "requestMetadata": "...",
@@ -224,7 +224,7 @@ gc_pcomputeinstancescreate_privilege_escalation_tests: list[RuleTest] = [
                     "error": {
                         "code": 404,
                         "errors": [
-                            {"domain": "global", "message": "The resource 'abc' was not found", "reason": "notFound"},
+                            {"domain": "global", "message": "The resource 'abc' was not found", "reason": "notFound"}
                         ],
                         "message": "The resource 'abc' was not found",
                     },

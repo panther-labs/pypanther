@@ -50,8 +50,8 @@ awsec2_vpc_modified_tests: list[RuleTest] = [
                                 "cidrBlock": "0.0.0.0/26",
                                 "associationId": "vpc-cidr-assoc-1",
                                 "cidrBlockState": {"state": "associated"},
-                            },
-                        ],
+                            }
+                        ]
                     },
                     "ipv6CidrBlockAssociationSet": {},
                     "dhcpOptionsId": "dopt-1",
@@ -151,8 +151,8 @@ awsec2_vpc_modified_tests: list[RuleTest] = [
                                 "cidrBlock": "0.0.0.0/26",
                                 "associationId": "vpc-cidr-assoc-1",
                                 "cidrBlockState": {"state": "associated"},
-                            },
-                        ],
+                            }
+                        ]
                     },
                     "ipv6CidrBlockAssociationSet": {},
                     "dhcpOptionsId": "dopt-1",

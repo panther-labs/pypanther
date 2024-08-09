@@ -17,7 +17,7 @@ gcpk8_s_privileged_pod_created_tests: list[RuleTest] = [
                         "granted": True,
                         "permission": "io.k8s.core.v1.pods.create",
                         "resource": "core/v1/namespaces/default/pods/test-privileged-pod",
-                    },
+                    }
                 ],
                 "methodName": "io.k8s.core.v1.pods.create",
                 "request": {
@@ -33,7 +33,7 @@ gcpk8_s_privileged_pod_created_tests: list[RuleTest] = [
                                 "name": "nginx",
                                 "resources": {},
                                 "securityContext": {"privileged": True},
-                            },
+                            }
                         ],
                         "securityContext": {},
                     },
@@ -54,7 +54,7 @@ gcpk8_s_privileged_pod_created_tests: list[RuleTest] = [
                                 "name": "nginx",
                                 "resources": {},
                                 "securityContext": {"privileged": True},
-                            },
+                            }
                         ],
                         "securityContext": {},
                         "serviceAccount": "default",
@@ -92,7 +92,7 @@ gcpk8_s_privileged_pod_created_tests: list[RuleTest] = [
                         "granted": True,
                         "permission": "io.k8s.core.v1.pods.create",
                         "resource": "core/v1/namespaces/default/pods/test-runasroot-pod",
-                    },
+                    }
                 ],
                 "methodName": "io.k8s.core.v1.pods.create",
                 "request": {
@@ -108,8 +108,8 @@ gcpk8_s_privileged_pod_created_tests: list[RuleTest] = [
                                 "name": "nginx",
                                 "resources": {},
                                 "securityContext": {"runAsNonRoot": False},
-                            },
-                        ],
+                            }
+                        ]
                     },
                     "status": {},
                 },
@@ -128,8 +128,8 @@ gcpk8_s_privileged_pod_created_tests: list[RuleTest] = [
                                 "name": "nginx",
                                 "resources": {},
                                 "securityContext": {"runAsNonRoot": False},
-                            },
-                        ],
+                            }
+                        ]
                     },
                     "status": {"phase": "Pending", "qosClass": "BestEffort"},
                 },
@@ -167,7 +167,7 @@ gcpk8_s_privileged_pod_created_tests: list[RuleTest] = [
                         "granted": True,
                         "permission": "io.k8s.core.v1.pods.create",
                         "resource": "core/v1/namespaces/default/pods/test-non-privileged-pod",
-                    },
+                    }
                 ],
                 "methodName": "io.k8s.core.v1.pods.create",
                 "request": {
@@ -177,8 +177,8 @@ gcpk8_s_privileged_pod_created_tests: list[RuleTest] = [
                     "metadata": {"name": "test-non-privileged-pod", "namespace": "default"},
                     "spec": {
                         "containers": [
-                            {"image": "nginx", "imagePullPolicy": "Always", "name": "nginx", "resources": {}},
-                        ],
+                            {"image": "nginx", "imagePullPolicy": "Always", "name": "nginx", "resources": {}}
+                        ]
                     },
                     "status": {},
                 },
@@ -191,8 +191,8 @@ gcpk8_s_privileged_pod_created_tests: list[RuleTest] = [
                     "metadata": {},
                     "spec": {
                         "containers": [
-                            {"image": "nginx", "imagePullPolicy": "Always", "name": "nginx", "resources": {}},
-                        ],
+                            {"image": "nginx", "imagePullPolicy": "Always", "name": "nginx", "resources": {}}
+                        ]
                     },
                     "status": {},
                 },
@@ -224,7 +224,7 @@ gcpk8_s_privileged_pod_created_tests: list[RuleTest] = [
                         "granted": True,
                         "permission": "io.k8s.core.v1.pods.create",
                         "resource": "core/v1/namespaces/default/pods/test-privileged-pod",
-                    },
+                    }
                 ],
                 "methodName": "io.k8s.core.v1.pods.create",
                 "request": {
@@ -240,8 +240,8 @@ gcpk8_s_privileged_pod_created_tests: list[RuleTest] = [
                                 "name": "nginx",
                                 "resources": {},
                                 "securityContext": {"runAsNonRoot": False},
-                            },
-                        ],
+                            }
+                        ]
                     },
                     "status": {},
                 },

@@ -111,7 +111,7 @@ standard_mfa_disabled_tests: list[RuleTest] = [
                     "displayName": "Homer Simpson",
                     "id": "1111111",
                     "type": "User",
-                },
+                }
             ],
             "authenticationcontext": {"authenticationStep": 0, "externalSessionId": "1111111"},
             "p_log_type": "Okta.SystemLog",
@@ -148,7 +148,7 @@ standard_mfa_disabled_tests: list[RuleTest] = [
                     "displayName": "Homer Simpson",
                     "id": "1111111",
                     "type": "User",
-                },
+                }
             ],
             "authenticationcontext": {"authenticationStep": 0, "externalSessionId": "1111111"},
             "p_log_type": "Okta.SystemLog",
@@ -185,7 +185,7 @@ standard_mfa_disabled_tests: list[RuleTest] = [
                     "displayName": "Homer Simpson",
                     "id": "1111111",
                     "type": "User",
-                },
+                }
             ],
             "authenticationcontext": {"authenticationStep": 0, "externalSessionId": "1111111"},
             "p_log_type": "Okta.SystemLog",

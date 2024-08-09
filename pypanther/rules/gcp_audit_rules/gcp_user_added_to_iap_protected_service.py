@@ -30,7 +30,7 @@ gcp_user_addedto_iap_protected_service_tests: list[RuleTest] = [
                         "granted": True,
                         "permission": "bigquery.tables.delete",
                         "resource": "projects/gcp-project1/datasets/test1/tables/newtable",
-                    },
+                    }
                 ],
                 "metadata": {
                     "@type": "type.googleapis.com/google.cloud.audit.BigQueryAuditMetadata",
@@ -84,7 +84,7 @@ gcp_user_addedto_iap_protected_service_tests: list[RuleTest] = [
                             "service": "iap.googleapis.com",
                             "type": "iap.googleapis.com/WebService",
                         },
-                    },
+                    }
                 ],
                 "methodName": "google.cloud.iap.v1.IdentityAwareProxyAdminService.SetIamPolicy",
                 "request": {
@@ -138,7 +138,7 @@ gcp_user_addedto_iap_protected_service_tests: list[RuleTest] = [
                             "service": "iap.googleapis.com",
                             "type": "iap.googleapis.com/WebService",
                         },
-                    },
+                    }
                 ],
                 "methodName": "google.cloud.iap.v1.IdentityAwareProxyAdminService.SetIamPolicy",
                 "request": {
@@ -148,7 +148,7 @@ gcp_user_addedto_iap_protected_service_tests: list[RuleTest] = [
                             {
                                 "members": ["serviceAccount:test-account3@gcp-project1.iam.gserviceaccount.com"],
                                 "role": "roles/viewer",
-                            },
+                            }
                         ],
                         "etag": "ACAB",
                     },
@@ -167,7 +167,7 @@ gcp_user_addedto_iap_protected_service_tests: list[RuleTest] = [
                         {
                             "members": ["serviceAccount:test-account3@gcp-project1.iam.gserviceaccount.com"],
                             "role": "roles/viewer",
-                        },
+                        }
                     ],
                     "etag": "BwX6LgT4YMw=",
                 },

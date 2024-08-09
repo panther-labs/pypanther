@@ -99,7 +99,7 @@ class ZoomUserPromotedtoPrivilegedRole(Rule):
         operation_detail = event.get("operation_detail", "")
         email = re.search("[\\w.+-c]+@[\\w-]+\\.[\\w.-]+", operation_detail)[0] or "<email-not-found>"
         fromto = re.findall("from ([-\\s\\w]+) to ([-\\s\\w]+)", operation_detail) or [
-            ("<from-role-not-found>", "<to-role-not-found>"),
+            ("<from-role-not-found>", "<to-role-not-found>")
         ]
         from_role, to_role = fromto[0] or ("<role-not-found>", "<role-not-found>")
         return (operator, email, from_role, to_role)

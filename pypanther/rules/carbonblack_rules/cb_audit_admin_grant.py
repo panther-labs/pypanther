@@ -69,7 +69,7 @@ class CarbonBlackAuditAdminGrant(Rule):
                 event.get("requestUrl", "").startswith("/access/"),
                 any(desc.startswith(prefix) for prefix in self.PREFIXES),
                 "Admin" in desc,
-            ],
+            ]
         )
 
     def title(self, event):

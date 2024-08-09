@@ -23,7 +23,7 @@ gcpia_mservice_accountsget_access_token_privilege_escalation_tests: list[RuleTes
                 "serviceName": "iamcredentials.googleapis.com",
                 "methodName": "SignJwt",
                 "authorizationInfo": [
-                    {"permission": "iam.serviceAccounts.getAccessToken", "granted": True, "resourceAttributes": {}},
+                    {"permission": "iam.serviceAccounts.getAccessToken", "granted": True, "resourceAttributes": {}}
                 ],
                 "resourceName": "projects/-/serviceAccounts/114885146936855121342",
                 "request": {
@@ -66,7 +66,7 @@ gcpia_mservice_accountsget_access_token_privilege_escalation_tests: list[RuleTes
                 "serviceName": "iamcredentials.googleapis.com",
                 "methodName": "SignJwt",
                 "authorizationInfo": [
-                    {"permission": "iam.serviceAccounts.getAccessToken", "granted": False, "resourceAttributes": {}},
+                    {"permission": "iam.serviceAccounts.getAccessToken", "granted": False, "resourceAttributes": {}}
                 ],
                 "resourceName": "projects/-/serviceAccounts/114885146936855121342",
                 "request": {

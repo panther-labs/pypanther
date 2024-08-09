@@ -69,7 +69,7 @@ decoy_dynamo_db_accessed_tests: list[RuleTest] = [
                                     "UserName": "user/tester",
                                 },
                             },
-                        },
+                        }
                     },
                     "Id": "ABC9ONWNS3155VIEJC8U",
                     "Partition": "aws",
@@ -176,7 +176,7 @@ decoy_dynamo_db_accessed_tests: list[RuleTest] = [
                                     "UserName": "user/tester",
                                 },
                             },
-                        },
+                        }
                     },
                     "Id": "ABC9ONWNS3155VIEJC8U",
                     "Partition": "aws",

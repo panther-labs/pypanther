@@ -30,7 +30,7 @@ notion_page_perms_guest_perms_changed_tests: list[RuleTest] = [
                 "timestamp": "2023-08-11 23:02:53.113000000",
                 "type": "page.permissions.guest_role_added",
                 "workspace_id": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
-            },
+            }
         },
     ),
     RuleTest(
@@ -60,7 +60,7 @@ notion_page_perms_guest_perms_changed_tests: list[RuleTest] = [
                 "timestamp": "2023-08-11 23:02:53.113000000",
                 "type": "page.permissions.guest_role_updated",
                 "workspace_id": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
-            },
+            }
         },
     ),
 ]

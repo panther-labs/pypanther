@@ -32,7 +32,7 @@ okta_login_success_tests: list[RuleTest] = [
                     "url": "/api/v1/logs?since=2023-09-21T17%3A04%3A22Z&limit=1000&after=1714675441520_1",
                     "userId": "00u99ped55av2JpGs5d7",
                     "warningPercent": "60",
-                },
+                }
             },
             "displayMessage": "Rate limit warning",
             "eventType": "system.org.rate_limit.warning",
@@ -93,7 +93,7 @@ okta_login_success_tests: list[RuleTest] = [
                     "requestUri": "/idp/idx/challenge/answer",
                     "threatSuspected": "false",
                     "url": "/idp/idx/challenge/answer?",
-                },
+                }
             },
             "displayMessage": "User login to Okta",
             "eventType": "user.session.start",
@@ -112,8 +112,8 @@ okta_login_success_tests: list[RuleTest] = [
                         },
                         "ip": "99.108.5.25",
                         "version": "V4",
-                    },
-                ],
+                    }
+                ]
             },
             "securityContext": {
                 "asNumber": 7018,
@@ -180,7 +180,7 @@ okta_login_success_tests: list[RuleTest] = [
                     "requestUri": "/idp/idx/challenge/answer",
                     "threatSuspected": "false",
                     "url": "/idp/idx/challenge/answer?",
-                },
+                }
             },
             "displayMessage": "User login to Okta",
             "eventType": "user.session.start",
@@ -199,8 +199,8 @@ okta_login_success_tests: list[RuleTest] = [
                         },
                         "ip": "99.108.5.25",
                         "version": "V4",
-                    },
-                ],
+                    }
+                ]
             },
             "securityContext": {
                 "asNumber": 7018,

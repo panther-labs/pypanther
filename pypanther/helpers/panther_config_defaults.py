@@ -23,7 +23,7 @@ DMZ_NETWORKS = [
 DMZ_TAGS = set(
     [
         ("environment", "dmz"),
-    ],
+    ]
 )
 
 PCI_NETWORKS = [

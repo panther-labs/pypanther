@@ -34,7 +34,7 @@ okta_user_mfa_reset_single_tests: list[RuleTest] = [
                     "displayName": "Homer Simpson",
                     "id": "1111111",
                     "type": "User",
-                },
+                }
             ],
             "authenticationcontext": {"authenticationStep": 0, "externalSessionId": "1111111"},
             "p_log_type": "Okta.SystemLog",

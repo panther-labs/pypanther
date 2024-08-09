@@ -21,7 +21,7 @@ gcp_workforce_pool_createdor_updated_tests: list[RuleTest] = [
                         "permission": "iam.workforcePools.delete",
                         "resource": "locations/global/workforcePools/test-pool",
                         "resourceAttributes": {},
-                    },
+                    }
                 ],
                 "methodName": "google.iam.admin.v1.WorkforcePools.DeleteWorkforcePool",
                 "request": {
@@ -73,7 +73,7 @@ gcp_workforce_pool_createdor_updated_tests: list[RuleTest] = [
                         "permission": "iam.workforcePools.update",
                         "resource": "locations/global/workforcePools/test-pool",
                         "resourceAttributes": {},
-                    },
+                    }
                 ],
                 "methodName": "google.iam.admin.v1.WorkforcePools.UpdateWorkforcePool",
                 "request": {
@@ -131,7 +131,7 @@ gcp_workforce_pool_createdor_updated_tests: list[RuleTest] = [
                         "permission": "iam.workforcePools.create",
                         "resource": "organizations/123456789012",
                         "resourceAttributes": {},
-                    },
+                    }
                 ],
                 "methodName": "google.iam.admin.v1.WorkforcePools.CreateWorkforcePool",
                 "request": {

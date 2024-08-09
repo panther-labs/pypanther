@@ -96,7 +96,7 @@ gcp_unused_regions_tests: list[RuleTest] = [
                         "permission": "storage.buckets.create",
                         "granted": True,
                         "resourceAttributes": {},
-                    },
+                    }
                 ],
                 "resourceName": "projects/_/buckets/jacks-test-bucket-200",
                 "serviceData": {
@@ -118,7 +118,7 @@ gcp_unused_regions_tests: list[RuleTest] = [
                                 "role": "roles/storage.legacyBucketReader",
                                 "member": "projectViewer:western-verve-123456",
                             },
-                        ],
+                        ]
                     },
                 },
                 "request": {
@@ -134,7 +134,7 @@ gcp_unused_regions_tests: list[RuleTest] = [
                             },
                         ],
                         "@type": "type.googleapis.com/google.iam.v1.Policy",
-                    },
+                    }
                 },
                 "resourceLocation": {"currentLocations": ["asia-northeast2"]},
             },
@@ -168,7 +168,7 @@ gcp_unused_regions_tests: list[RuleTest] = [
                         "permission": "bigquery.jobs.create",
                         "resource": "projects/western-verve-123456",
                         "resourceAttributes": {},
-                    },
+                    }
                 ],
                 "methodName": "jobservice.insert",
                 "requestMetadata": {
@@ -194,7 +194,7 @@ gcp_unused_regions_tests: list[RuleTest] = [
                                 },
                             },
                             "jobName": {"location": "US", "projectId": "western-verve-123456"},
-                        },
+                        }
                     },
                     "jobInsertResponse": {
                         "resource": {
@@ -202,7 +202,7 @@ gcp_unused_regions_tests: list[RuleTest] = [
                             "jobName": {},
                             "jobStatistics": {},
                             "jobStatus": {"error": {}, "state": "PENDING"},
-                        },
+                        }
                     },
                 },
                 "serviceName": "bigquery.googleapis.com",

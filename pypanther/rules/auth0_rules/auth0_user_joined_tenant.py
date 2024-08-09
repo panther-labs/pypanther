@@ -285,7 +285,7 @@ auth0_user_joined_tenant_tests: list[RuleTest] = [
                                 "email": "marge.simpson@yourcompany.io",
                                 "expires_at": "2023-05-18T16:13:53.600Z",
                                 "invitation_id": "inv_TEyzbreI336AHrfU",
-                            },
+                            }
                         ],
                         "statusCode": 201,
                     },
@@ -324,14 +324,7 @@ class Auth0UserJoinedTenant(Rule):
     def rule(self, event):
         data_description = deep_get(event, "data", "description", default="<NO_DATA_DESCRIPTION_FOUND>")
         scopes = deep_get(
-            event,
-            "data",
-            "details",
-            "request",
-            "auth",
-            "credentials",
-            "scopes",
-            default=["<NO_CREDENTIAL_SCOPE>"],
+            event, "data", "details", "request", "auth", "credentials", "scopes", default=["<NO_CREDENTIAL_SCOPE>"]
         )
         state = deep_get(event, "data", "details", "request", "body", "state", default="<NO_STATE>")
         return all(
@@ -340,7 +333,7 @@ class Auth0UserJoinedTenant(Rule):
                 "update:tenant_invitations" in scopes,
                 state == "accepted",
                 is_auth0_config_event(event),
-            ],
+            ]
         )
 
     def title(self, event):

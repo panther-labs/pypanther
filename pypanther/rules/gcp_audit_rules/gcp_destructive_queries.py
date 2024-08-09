@@ -26,7 +26,7 @@ gcp_destructive_queries_tests: list[RuleTest] = [
                 "at_sign_type": "type.googleapis.com/google.cloud.audit.AuditLog",
                 "authenticationInfo": {"principalEmail": "user@company.io"},
                 "authorizationInfo": [
-                    {"granted": True, "permission": "bigquery.jobs.create", "resource": "projects/gcp-project1"},
+                    {"granted": True, "permission": "bigquery.jobs.create", "resource": "projects/gcp-project1"}
                 ],
                 "metadata": {
                     "@type": "type.googleapis.com/google.cloud.audit.BigQueryAuditMetadata",
@@ -98,7 +98,7 @@ gcp_destructive_queries_tests: list[RuleTest] = [
                         "granted": True,
                         "permission": "bigquery.tables.delete",
                         "resource": "projects/gcp-project1/datasets/test1/tables/newtable",
-                    },
+                    }
                 ],
                 "metadata": {
                     "@type": "type.googleapis.com/google.cloud.audit.BigQueryAuditMetadata",
@@ -158,7 +158,7 @@ class GCPDestructiveQueries(Rule):
                     default="<STATEMENT_NOT_FOUND>",
                 )
                 in self.DESTRUCTIVE_STATEMENTS,
-            ],
+            ]
         ):
             return True
         if deep_get(event, "protoPayload", "metadata", "tableDeletion"):
@@ -181,14 +181,7 @@ class GCPDestructiveQueries(Rule):
             default="<STATEMENT_NOT_FOUND>",
         )
         table = deep_get(
-            event,
-            "protoPayload",
-            "metadata",
-            "jobChange",
-            "job",
-            "jobConfig",
-            "queryConfig",
-            "destinationTable",
+            event, "protoPayload", "metadata", "jobChange", "job", "jobConfig", "queryConfig", "destinationTable"
         ) or deep_get(event, "protoPayload", "metadata", "resourceName", default="<TABLE_NOT_FOUND>")
         return f"GCP: [{actor}] performed a destructive BigQuery [{statement}] query on [{table}]."
 
@@ -206,11 +199,7 @@ class GCPDestructiveQueries(Rule):
                 default="<QUERY_NOT_FOUND>",
             ),
             "actor": deep_get(
-                event,
-                "protoPayload",
-                "authenticationInfo",
-                "principalEmail",
-                default="<ACTOR_NOT_FOUND>",
+                event, "protoPayload", "authenticationInfo", "principalEmail", default="<ACTOR_NOT_FOUND>"
             ),
             "statement": deep_get(
                 event,
@@ -224,14 +213,7 @@ class GCPDestructiveQueries(Rule):
                 default="<STATEMENT_NOT_FOUND>",
             ),
             "table": deep_get(
-                event,
-                "protoPayload",
-                "metadata",
-                "jobChange",
-                "job",
-                "jobConfig",
-                "queryConfig",
-                "destinationTable",
+                event, "protoPayload", "metadata", "jobChange", "job", "jobConfig", "queryConfig", "destinationTable"
             )
             or deep_get(event, "protoPayload", "metadata", "resourceName", default="<TABLE_NOT_FOUND>"),
         }

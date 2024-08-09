@@ -29,7 +29,7 @@ notion_teamspace_owner_added_tests: list[RuleTest] = [
                 "timestamp": "2023-12-13 16:20:14.966000000",
                 "type": "teamspace.permissions.member_added",
                 "workspace_id": "ea65b016-6abc-4dcf-808b-e119617b55d1",
-            },
+            }
         },
     ),
     RuleTest(
@@ -59,7 +59,7 @@ notion_teamspace_owner_added_tests: list[RuleTest] = [
                 "timestamp": "2023-12-13 16:38:04.264000000",
                 "type": "teamspace.permissions.member_role_updated",
                 "workspace_id": "ea65b016-6abc-4dcf-808b-e119617b55d1",
-            },
+            }
         },
     ),
 ]

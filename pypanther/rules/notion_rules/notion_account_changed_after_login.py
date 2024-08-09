@@ -68,8 +68,8 @@ notion_account_changed_after_login_tests: list[RuleTest] = [
                         "region": "Mount Doom",
                         "region_code": "MD",
                         "timezone": "Middle Earth/Mordor",
-                    },
-                },
+                    }
+                }
             },
             "p_event_time": "2023-06-12 21:40:28.690000000",
             "p_log_type": "Notion.AuditLogs",
@@ -114,8 +114,8 @@ notion_account_changed_after_login_tests: list[RuleTest] = [
                         "region": "Mount Doom",
                         "region_code": "MD",
                         "timezone": "Middle Earth/Mordor",
-                    },
-                },
+                    }
+                }
             },
             "p_event_time": "2023-06-12 21:40:28.690000000",
             "p_log_type": "Notion.AuditLogs",
@@ -160,8 +160,8 @@ notion_account_changed_after_login_tests: list[RuleTest] = [
                         "region": "Mount Doom",
                         "region_code": "MD",
                         "timezone": "Middle Earth/Mordor",
-                    },
-                },
+                    }
+                }
             },
             "p_event_time": "2023-06-12 21:40:28.690000000",
             "p_log_type": "Notion.AuditLogs",
@@ -206,8 +206,8 @@ notion_account_changed_after_login_tests: list[RuleTest] = [
                         "region": "Mount Doom",
                         "region_code": "MD",
                         "timezone": "Middle Earth/Mordor",
-                    },
-                },
+                    }
+                }
             },
             "p_event_time": "2023-06-12 21:40:28.690000000",
             "p_log_type": "Notion.AuditLogs",
@@ -252,8 +252,8 @@ notion_account_changed_after_login_tests: list[RuleTest] = [
                         "region": "Mount Doom",
                         "region_code": "MD",
                         "timezone": "Middle Earth/Mordor",
-                    },
-                },
+                    }
+                }
             },
             "p_event_time": "2023-06-12 21:40:28.690000000",
             "p_log_type": "Notion.AuditLogs",
@@ -294,8 +294,8 @@ notion_account_changed_after_login_tests: list[RuleTest] = [
                         "region": "Mount Doom",
                         "region_code": "MD",
                         "timezone": "Middle Earth/Mordor",
-                    },
-                },
+                    }
+                }
             },
             "p_event_time": "2023-06-12 21:40:28.690000000",
             "p_log_type": "Notion.AuditLogs",
@@ -355,7 +355,7 @@ class NotionAccountChangedAfterLogin(Rule):
                     cache_key,
                     [str(event.get("p_event_time"))],
                     time.time() + self.DEFAULT_EMAIL_CHANGE_WINDOW_MINUTES * 60,
-                ),
+                )
             )
         # If we made it here, then this is an account change event.
         # We first check if the user recently logged in:

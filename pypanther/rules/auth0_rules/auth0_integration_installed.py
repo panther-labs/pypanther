@@ -266,7 +266,7 @@ class Auth0IntegrationInstalled(Rule):
                 data_description == "Install an available integration",
                 request_path == "/api/v2/integrations/installed",
                 is_auth0_config_event(event),
-            ],
+            ]
         )
 
     def title(self, event):

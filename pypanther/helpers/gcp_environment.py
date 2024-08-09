@@ -18,6 +18,6 @@ rule_exceptions = {
                 "namespaces": ["istio-system"],
                 "projects": [],
             },
-        ],
-    },
+        ]
+    }
 }

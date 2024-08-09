@@ -45,7 +45,7 @@ okta_new_behavior_accessing_admin_console_tests: list[RuleTest] = [
                         "Velocity=NEGATIVE": None,
                         "New City=NEGATIVE": None,
                     },
-                },
+                }
             },
             "displaymessage": "Evaluation of sign-on policy",
             "eventtype": "policy.evaluate_sign_on",
@@ -62,9 +62,9 @@ okta_new_behavior_accessing_admin_console_tests: list[RuleTest] = [
                             "state": "Ohio",
                             "ip": "1.3.2.4",
                             "version": "V4",
-                        },
-                    },
-                ],
+                        }
+                    }
+                ]
             },
             "securitycontext": {
                 "asNumber": 701,
@@ -134,7 +134,7 @@ okta_new_behavior_accessing_admin_console_tests: list[RuleTest] = [
                             "New City": "NEGATIVE",
                         },
                     },
-                },
+                }
             },
             "displaymessage": "Evaluation of sign-on policy",
             "eventtype": "policy.evaluate_sign_on",
@@ -151,9 +151,9 @@ okta_new_behavior_accessing_admin_console_tests: list[RuleTest] = [
                             "state": "Ohio",
                             "ip": "1.3.2.4",
                             "version": "V4",
-                        },
-                    },
-                ],
+                        }
+                    }
+                ]
             },
             "securitycontext": {
                 "asNumber": 701,
@@ -222,7 +222,7 @@ okta_new_behavior_accessing_admin_console_tests: list[RuleTest] = [
                             "New City": "NEGATIVE",
                         },
                     },
-                },
+                }
             },
             "displaymessage": "Evaluation of sign-on policy",
             "eventtype": "policy.evaluate_sign_on",
@@ -239,9 +239,9 @@ okta_new_behavior_accessing_admin_console_tests: list[RuleTest] = [
                             "state": "Ohio",
                             "ip": "1.3.2.4",
                             "version": "V4",
-                        },
-                    },
-                ],
+                        }
+                    }
+                ]
             },
             "securitycontext": {
                 "asNumber": 701,

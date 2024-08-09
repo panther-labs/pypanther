@@ -20,7 +20,7 @@ notion_many_pages_deleted_tests: list[RuleTest] = [
                 "platform": "mac-desktop",
                 "type": "workspace.content_exported",
                 "workspace.content_exported": {},
-            },
+            }
         },
     ),
     RuleTest(
@@ -44,7 +44,7 @@ notion_many_pages_deleted_tests: list[RuleTest] = [
                 "timestamp": "2023-05-24 20:17:41.905000000",
                 "type": "page.deleted",
                 "workspace_id": "ea65b016-6abc-4dcf-808b-sdfg445654",
-            },
+            }
         },
     ),
 ]

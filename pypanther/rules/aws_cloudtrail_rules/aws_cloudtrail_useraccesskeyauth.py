@@ -152,7 +152,7 @@ aws_cloud_trail_user_access_key_auth_tests: list[RuleTest] = [
                     "arns": [
                         "arn:aws:iam::187901811700:role/aws-reserved/sso.amazonaws.com/AWSReservedSSO_DevAdmin_635426549a280cc6",
                         "arn:aws:sts::187901811700:assumed-role/AWSReservedSSO_DevAdmin_635426549a280cc6/nicholas.hakmiller",
-                    ],
+                    ]
                 },
             },
             "readOnly": False,
@@ -226,7 +226,7 @@ aws_cloud_trail_user_access_key_auth_tests: list[RuleTest] = [
                     "arns": [
                         "arn:aws:iam::187901811700:role/aws-reserved/sso.amazonaws.com/AWSReservedSSO_DevAdmin_635426549a280cc6",
                         "arn:aws:sts::187901811700:assumed-role/AWSReservedSSO_DevAdmin_635426549a280cc6/nicholas.hakmiller",
-                    ],
+                    ]
                 },
             },
             "readOnly": False,
@@ -281,5 +281,5 @@ class AWSCloudTrailUserAccessKeyAuth(Rule):
         return {
             "ip_accessKeyId": event.get("sourceIpAddress", default="{not found}")
             + ":"
-            + event.deep_get("userIdentity", "accessKeyId", default="{not found}"),
+            + event.deep_get("userIdentity", "accessKeyId", default="{not found}")
         }

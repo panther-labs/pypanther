@@ -39,7 +39,7 @@ okta_group_admin_role_assigned_tests: list[RuleTest] = [
                     "requestUri": "/idp/idx/identify",
                     "threatSuspected": "false",
                     "url": "/idp/idx/identify?",
-                },
+                }
             },
             "displaymessage": "Group Privilege granted",
             "eventtype": "group.privilege.grant",
@@ -58,8 +58,8 @@ okta_group_admin_role_assigned_tests: list[RuleTest] = [
                         },
                         "ip": "1.2.3.4",
                         "version": "V4",
-                    },
-                ],
+                    }
+                ]
             },
             "securitycontext": {
                 "asNumber": 11351,
@@ -112,7 +112,7 @@ okta_group_admin_role_assigned_tests: list[RuleTest] = [
                     "requestUri": "/idp/idx/identify",
                     "threatSuspected": "false",
                     "url": "/idp/idx/identify?",
-                },
+                }
             },
             "displaymessage": "User attempted to reuse tokens",
             "eventtype": "app.token.reuse",
@@ -131,8 +131,8 @@ okta_group_admin_role_assigned_tests: list[RuleTest] = [
                         },
                         "ip": "1.2.3.4",
                         "version": "V4",
-                    },
-                ],
+                    }
+                ]
             },
             "securitycontext": {
                 "asNumber": 11351,

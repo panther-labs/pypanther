@@ -16,7 +16,7 @@ gcpk8_s_service_type_node_port_deployed_tests: list[RuleTest] = [
                         "granted": True,
                         "permission": "io.k8s.core.v1.services.create",
                         "resource": "core/v1/namespaces/default/services/test-ns",
-                    },
+                    }
                 ],
                 "methodName": "io.k8s.core.v1.services.create",
                 "request": {
@@ -54,7 +54,7 @@ gcpk8_s_service_type_node_port_deployed_tests: list[RuleTest] = [
                                 "port": 5678,
                                 "protocol": "TCP",
                                 "targetPort": 8080,
-                            },
+                            }
                         ],
                         "type": "NodePort",
                     },
@@ -87,7 +87,7 @@ gcpk8_s_service_type_node_port_deployed_tests: list[RuleTest] = [
                         "granted": True,
                         "permission": "io.k8s.core.v1.services.create",
                         "resource": "core/v1/namespaces/default/services/test-ns",
-                    },
+                    }
                 ],
                 "methodName": "io.k8s.core.v1.services.create",
                 "request": {
@@ -143,7 +143,7 @@ gcpk8_s_service_type_node_port_deployed_tests: list[RuleTest] = [
                         "granted": False,
                         "permission": "io.k8s.core.v1.services.create",
                         "resource": "core/v1/namespaces/default/services/test-ns",
-                    },
+                    }
                 ],
                 "methodName": "io.k8s.core.v1.services.create",
                 "request": {
@@ -168,7 +168,7 @@ gcpk8_s_service_type_node_port_deployed_tests: list[RuleTest] = [
                     "ipFamilies": ["IPv4"],
                     "ipFamilyPolicy": "SingleStack",
                     "ports": [
-                        {"name": "5678-8080", "nodePort": 32361, "port": 5678, "protocol": "TCP", "targetPort": 8080},
+                        {"name": "5678-8080", "nodePort": 32361, "port": 5678, "protocol": "TCP", "targetPort": 8080}
                     ],
                     "type": "NodePort",
                 },

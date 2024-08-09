@@ -21,7 +21,7 @@ gcp_service_account_access_denied_tests: list[RuleTest] = [
                         "permission": "iam.serviceAccounts.create",
                         "resource": "projects/test-project-123456",
                         "resourceAttributes": {},
-                    },
+                    }
                 ],
                 "methodName": "google.iam.admin.v1.CreateServiceAccount",
                 "request": {
@@ -47,7 +47,7 @@ gcp_service_account_access_denied_tests: list[RuleTest] = [
                             "domain": "iam.googleapis.com",
                             "metadata": {"permission": "iam.serviceAccounts.create"},
                             "reason": "IAM_PERMISSION_DENIED",
-                        },
+                        }
                     ],
                     "message": "Permission 'iam.serviceAccounts.create' denied on resource (or it may not exist).",
                 },
@@ -76,7 +76,7 @@ gcp_service_account_access_denied_tests: list[RuleTest] = [
                         "permission": "iam.serviceAccounts.create",
                         "resource": "projects/test-project-123456",
                         "resourceAttributes": {},
-                    },
+                    }
                 ],
                 "methodName": "google.iam.admin.v1.CreateServiceAccount",
                 "request": {

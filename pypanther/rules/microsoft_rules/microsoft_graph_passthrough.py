@@ -26,7 +26,7 @@ microsoft_graph_passthrough_tests: list[RuleTest] = [
                     "logonIp": "185.220.103.6",
                     "logonLocation": "Brooklyn, New York, US",
                     "userPrincipalName": "homer.simpson@corporation.onmicrosoft.com",
-                },
+                }
             ],
             "vendorinformation": {"provider": "IPC", "vendor": "Microsoft"},
         },
@@ -55,7 +55,7 @@ microsoft_graph_passthrough_tests: list[RuleTest] = [
                     "logonIp": "109.70.100.21",
                     "logonLocation": "San Francisco, CA",
                     "userPrincipalName": "homer.simpson@corporation.onmicrosoft.com",
-                },
+                }
             ],
             "vendorinformation": {"provider": "IPC", "vendor": "Microsoft"},
         },
@@ -84,7 +84,7 @@ microsoft_graph_passthrough_tests: list[RuleTest] = [
                     "logonIp": "109.70.100.35",
                     "logonLocation": "San Francisco, CA",
                     "userPrincipalName": "homer.simpson@corporation.onmicrosoft.com",
-                },
+                }
             ],
             "vendorinformation": {"provider": "IPC", "vendor": "Microsoft"},
         },

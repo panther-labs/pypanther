@@ -96,7 +96,7 @@ gcp_firewall_rule_created_tests: list[RuleTest] = [
                         "permission": "appengine.applications.update",
                         "resource": "apps/test-project-123456",
                         "resourceAttributes": {},
-                    },
+                    }
                 ],
                 "methodName": "google.appengine.v1.Firewall.CreateIngressRule",
                 "requestMetadata": {

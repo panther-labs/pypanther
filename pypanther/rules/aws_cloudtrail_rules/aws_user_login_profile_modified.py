@@ -140,7 +140,7 @@ class AWSUserLoginProfileModified(Rule):
             and (not deep_get(event, "requestParameters", "passwordResetRequired", default=False))
             and (
                 not deep_get(event, "userIdentity", "arn", default="").endswith(
-                    f"/{deep_get(event, 'requestParameters', 'userName', default='')}",
+                    f"/{deep_get(event, 'requestParameters', 'userName', default='')}"
                 )
             )
         )

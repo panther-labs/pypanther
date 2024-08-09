@@ -20,7 +20,7 @@ notion_audit_log_exported_tests: list[RuleTest] = [
                 "platform": "web",
                 "type": "workspace.content_exported",
                 "workspace.content_exported": {},
-            },
+            }
         },
     ),
     RuleTest(
@@ -41,7 +41,7 @@ notion_audit_log_exported_tests: list[RuleTest] = [
                 "platform": "web",
                 "type": "workspace.audit_log_exported",
                 "details": {"duration_in_days": 30},
-            },
+            }
         },
     ),
 ]

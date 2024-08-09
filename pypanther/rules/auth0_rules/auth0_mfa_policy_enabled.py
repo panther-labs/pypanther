@@ -590,7 +590,7 @@ class Auth0MFAPolicyEnabled(Rule):
                 data_description == "Set the Multi-factor Authentication policies",
                 request_path == "/api/v2/guardian/policies",
                 is_auth0_config_event(event),
-            ],
+            ]
         )
 
     def title(self, event):

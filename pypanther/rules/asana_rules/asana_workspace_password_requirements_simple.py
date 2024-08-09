@@ -70,7 +70,7 @@ class AsanaWorkspacePasswordRequirementsSimple(Rule):
             [
                 event.get("event_type", "<NO_EVENT_TYPE_FOUND>") == "workspace_password_requirements_changed",
                 new_val == "simple",
-            ],
+            ]
         )
 
     def title(self, event):

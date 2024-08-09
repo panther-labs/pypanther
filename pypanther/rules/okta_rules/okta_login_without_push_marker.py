@@ -32,7 +32,7 @@ okta_login_without_push_marker_tests: list[RuleTest] = [
                     "url": "/api/v1/logs?since=2023-09-21T17%3A04%3A22Z&limit=1000&after=1714675441520_1",
                     "userId": "00u99ped55av2JpGs5d7",
                     "warningPercent": "60",
-                },
+                }
             },
             "displayMessage": "Rate limit warning",
             "eventType": "system.org.rate_limit.warning",
@@ -86,7 +86,7 @@ okta_login_without_push_marker_tests: list[RuleTest] = [
                     "url": "/api/v1/logs?since=2023-09-21T17%3A04%3A22Z&limit=1000&after=1714675441520_1",
                     "userId": "00u99ped55av2JpGs5d7",
                     "warningPercent": "60",
-                },
+                }
             },
             "displayMessage": "Rate limit warning",
             "eventType": "system.org.rate_limit.warning",

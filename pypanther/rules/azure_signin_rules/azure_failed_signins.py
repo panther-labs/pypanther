@@ -79,7 +79,7 @@ azure_audit_many_failed_sign_ins_tests: list[RuleTest] = [
                     {
                         "key": "Azure AD App Authentication Library",
                         "value": "Family: Unknown Library: Unknown 1.0.0 Platform: Unknown",
-                    },
+                    }
                 ],
                 "authenticationProtocol": "none",
                 "clientCredentialType": "none",

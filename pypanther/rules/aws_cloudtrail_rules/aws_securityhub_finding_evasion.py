@@ -18,7 +18,7 @@ aws_security_hub_finding_evasion_tests: list[RuleTest] = [
             "requestID": "c0fffccd-f04d-11e8-93fc-ddcd14710066",
             "requestParameters": {"Filters": {}, "Name": "Test Insight", "ResultField": "ResourceId"},
             "responseElements": {
-                "InsightArn": "arn:aws:securityhub:us-west-2:0123456789010:insight/custom/f4c4890b-ac6b-4c26-95f9-e62cc46f3055",
+                "InsightArn": "arn:aws:securityhub:us-west-2:0123456789010:insight/custom/f4c4890b-ac6b-4c26-95f9-e62cc46f3055"
             },
             "sourceIPAddress": "205.251.233.179",
             "userAgent": "aws-cli/1.11.76 Python/2.7.10 Darwin/17.7.0 botocore/1.5.39",
@@ -48,7 +48,7 @@ aws_security_hub_finding_evasion_tests: list[RuleTest] = [
             "requestID": "c0fffccd-f04d-11e8-93fc-ddcd14710066",
             "requestParameters": {"Filters": {}, "Name": "Test Insight", "ResultField": "ResourceId"},
             "responseElements": {
-                "InsightArn": "arn:aws:securityhub:us-west-2:0123456789010:insight/custom/f4c4890b-ac6b-4c26-95f9-e62cc46f3055",
+                "InsightArn": "arn:aws:securityhub:us-west-2:0123456789010:insight/custom/f4c4890b-ac6b-4c26-95f9-e62cc46f3055"
             },
             "sourceIPAddress": "205.251.233.179",
             "userAgent": "aws-cli/1.11.76 Python/2.7.10 Darwin/17.7.0 botocore/1.5.39",
@@ -78,7 +78,7 @@ aws_security_hub_finding_evasion_tests: list[RuleTest] = [
             "requestID": "c0fffccd-f04d-11e8-93fc-ddcd14710066",
             "requestParameters": {"Filters": {}, "Name": "Test Insight", "ResultField": "ResourceId"},
             "responseElements": {
-                "InsightArn": "arn:aws:securityhub:us-west-2:0123456789010:insight/custom/f4c4890b-ac6b-4c26-95f9-e62cc46f3055",
+                "InsightArn": "arn:aws:securityhub:us-west-2:0123456789010:insight/custom/f4c4890b-ac6b-4c26-95f9-e62cc46f3055"
             },
             "sourceIPAddress": "205.251.233.179",
             "userAgent": "aws-cli/1.11.76 Python/2.7.10 Darwin/17.7.0 botocore/1.5.39",

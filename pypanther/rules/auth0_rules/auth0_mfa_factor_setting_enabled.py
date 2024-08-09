@@ -397,7 +397,7 @@ class Auth0MFAFactorSettingEnabled(Rule):
                 description == "Update a Multi-factor Authentication Factor",
                 enabled is True,
                 is_auth0_config_event(event),
-            ],
+            ]
         )
 
     def title(self, event):

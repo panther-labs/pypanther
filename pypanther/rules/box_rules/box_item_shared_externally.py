@@ -18,7 +18,7 @@ box_item_shared_externally_tests: list[RuleTest] = [
                 "parent": {"id": 12345, "type": "folder", "etag": 1, "name": "Parent_Folder", "sequence_id": 2},
             },
         },
-    ),
+    )
 ]
 
 

@@ -90,11 +90,7 @@ class TailscaleMachineApprovalRequirementsDisabled(Rule):
         action = deep_get(event, "event", "action", default="<NO_ACTION_FOUND>")
         target_property = deep_get(event, "event", "target", "property", default="<NO_TARGET_PROPERTY_FOUND>")
         return all(
-            [
-                action == "DISABLE",
-                target_property == "MACHINE_APPROVAL_NEEDED",
-                is_tailscale_admin_console_event(event),
-            ],
+            [action == "DISABLE", target_property == "MACHINE_APPROVAL_NEEDED", is_tailscale_admin_console_event(event)]
         )
 
     def title(self, event):

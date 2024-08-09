@@ -24,7 +24,7 @@ gcp_workload_identity_pool_createdor_updated_tests: list[RuleTest] = [
                         "permission": "iam.workloadIdentityPools.delete",
                         "resource": "projects/test-project/locations/global/workloadIdentityPools/test-pool",
                         "resourceAttributes": {},
-                    },
+                    }
                 ],
                 "methodName": "google.iam.v1.WorkloadIdentityPools.DeleteWorkloadIdentityPool",
                 "request": {
@@ -76,7 +76,7 @@ gcp_workload_identity_pool_createdor_updated_tests: list[RuleTest] = [
                         "permission": "iam.workloadIdentityPoolProviders.update",
                         "resource": "projects/test-project/locations/global/workloadIdentityPools/test-pool/providers/test-project",
                         "resourceAttributes": {},
-                    },
+                    }
                 ],
                 "methodName": "google.iam.v1.WorkloadIdentityPools.UpdateWorkloadIdentityPoolProvider",
                 "request": {
@@ -139,7 +139,7 @@ gcp_workload_identity_pool_createdor_updated_tests: list[RuleTest] = [
                         "permission": "iam.workloadIdentityPoolProviders.create",
                         "resource": "projects/test-project/locations/global/workloadIdentityPools/test-pool",
                         "resourceAttributes": {},
-                    },
+                    }
                 ],
                 "methodName": "google.iam.v1.WorkloadIdentityPools.CreateWorkloadIdentityPoolProvider",
                 "request": {

@@ -12,7 +12,7 @@ gcpk8s_pod_using_host_pid_namespace_tests: list[RuleTest] = [
                     "granted": True,
                     "permission": "io.k8s.core.v1.pods.create",
                     "resource": "core/v1/namespaces/default/pods/nginx-test",
-                },
+                }
             ],
             "protoPayload": {"methodName": "io.k8s.core.v1.pods.create", "request": {"spec": {"hostPID": True}}},
         },
@@ -26,7 +26,7 @@ gcpk8s_pod_using_host_pid_namespace_tests: list[RuleTest] = [
                     "granted": True,
                     "permission": "io.k8s.core.v1.pods.create",
                     "resource": "core/v1/namespaces/default/pods/nginx-test",
-                },
+                }
             ],
             "protoPayload": {"methodName": "io.k8s.core.v1.pods.create", "request": {"spec": {"hostPID": False}}},
         },

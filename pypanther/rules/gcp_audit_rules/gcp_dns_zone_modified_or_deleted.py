@@ -13,7 +13,7 @@ gcpdns_zone_modifiedor_deleted_tests: list[RuleTest] = [
                 "at_sign_type": "type.googleapis.com/google.cloud.audit.AuditLog",
                 "authenticationInfo": {"principalEmail": "user@domain.com"},
                 "authorizationInfo": [
-                    {"granted": True, "permission": "dns.managedZones.delete", "resourceAttributes": {}},
+                    {"granted": True, "permission": "dns.managedZones.delete", "resourceAttributes": {}}
                 ],
                 "methodName": "dns.managedZones.delete",
                 "request": {
@@ -50,7 +50,7 @@ gcpdns_zone_modifiedor_deleted_tests: list[RuleTest] = [
                 "at_sign_type": "type.googleapis.com/google.cloud.audit.AuditLog",
                 "authenticationInfo": {"principalEmail": "user@domain.com"},
                 "authorizationInfo": [
-                    {"granted": True, "permission": "dns.managedZones.update", "resourceAttributes": {}},
+                    {"granted": True, "permission": "dns.managedZones.update", "resourceAttributes": {}}
                 ],
                 "methodName": "dns.managedZones.patch",
                 "request": {
@@ -61,9 +61,9 @@ gcpdns_zone_modifiedor_deleted_tests: list[RuleTest] = [
                         "privateVisibilityConfig": {
                             "networks": [
                                 {
-                                    "networkUrl": "https://www.googleapis.com/compute/v1/projects/test-project-123456/global/networks/default",
-                                },
-                            ],
+                                    "networkUrl": "https://www.googleapis.com/compute/v1/projects/test-project-123456/global/networks/default"
+                                }
+                            ]
                         },
                     },
                     "project": "test-project-123456",
@@ -88,9 +88,9 @@ gcpdns_zone_modifiedor_deleted_tests: list[RuleTest] = [
                         "privateVisibilityConfig": {
                             "networks": [
                                 {
-                                    "networkUrl": "https://www.googleapis.com/compute/v1/projects/test-project-123456/global/networks/default",
-                                },
-                            ],
+                                    "networkUrl": "https://www.googleapis.com/compute/v1/projects/test-project-123456/global/networks/default"
+                                }
+                            ]
                         },
                         "rrsetCount": 2,
                         "visibility": "PRIVATE",
@@ -114,9 +114,9 @@ gcpdns_zone_modifiedor_deleted_tests: list[RuleTest] = [
                                 "privateVisibilityConfig": {
                                     "networks": [
                                         {
-                                            "networkUrl": "https://www.googleapis.com/compute/v1/projects/test-project-123456/global/networks/default",
-                                        },
-                                    ],
+                                            "networkUrl": "https://www.googleapis.com/compute/v1/projects/test-project-123456/global/networks/default"
+                                        }
+                                    ]
                                 },
                                 "rrsetCount": 2,
                                 "visibility": "PRIVATE",
@@ -166,21 +166,21 @@ gcpdns_zone_modifiedor_deleted_tests: list[RuleTest] = [
                             {
                                 "name": "test.detectiontesting.com.",
                                 "rrdata": [
-                                    "ns-gcp-private.googledomains.com. cloud-dns-hostmaster.google.com. 1 21600 3600 259200 300",
+                                    "ns-gcp-private.googledomains.com. cloud-dns-hostmaster.google.com. 1 21600 3600 259200 300"
                                 ],
                                 "ttl": 3600,
                                 "type": "SOA",
-                            },
+                            }
                         ],
                         "deletions": [
                             {
                                 "name": "test.detectiontesting.com.",
                                 "rrdata": [
-                                    "ns-gcp-private.googledomains.com. cloud-dns-hostmaster.google.com. 1 21600 3600 259200 300",
+                                    "ns-gcp-private.googledomains.com. cloud-dns-hostmaster.google.com. 1 21600 3600 259200 300"
                                 ],
                                 "ttl": 21600,
                                 "type": "SOA",
-                            },
+                            }
                         ],
                     },
                     "managedZone": "test-zone",
@@ -199,21 +199,21 @@ gcpdns_zone_modifiedor_deleted_tests: list[RuleTest] = [
                             {
                                 "name": "test.detectiontesting.com.",
                                 "rrdata": [
-                                    "ns-gcp-private.googledomains.com. cloud-dns-hostmaster.google.com. 1 21600 3600 259200 300",
+                                    "ns-gcp-private.googledomains.com. cloud-dns-hostmaster.google.com. 1 21600 3600 259200 300"
                                 ],
                                 "ttl": 3600,
                                 "type": "SOA",
-                            },
+                            }
                         ],
                         "deletions": [
                             {
                                 "name": "test.detectiontesting.com.",
                                 "rrdata": [
-                                    "ns-gcp-private.googledomains.com. cloud-dns-hostmaster.google.com. 1 21600 3600 259200 300",
+                                    "ns-gcp-private.googledomains.com. cloud-dns-hostmaster.google.com. 1 21600 3600 259200 300"
                                 ],
                                 "ttl": 21600,
                                 "type": "SOA",
-                            },
+                            }
                         ],
                         "id": "1",
                         "startTime": "2023-05-23T19:07:39.155Z",
@@ -242,7 +242,7 @@ gcpdns_zone_modifiedor_deleted_tests: list[RuleTest] = [
                 "at_sign_type": "type.googleapis.com/google.cloud.audit.AuditLog",
                 "authenticationInfo": {"principalEmail": "staging@pantherstaging.io"},
                 "authorizationInfo": [
-                    {"granted": True, "permission": "dns.managedZones.get", "resourceAttributes": {}},
+                    {"granted": True, "permission": "dns.managedZones.get", "resourceAttributes": {}}
                 ],
                 "methodName": "dns.managedZones.get",
                 "request": {

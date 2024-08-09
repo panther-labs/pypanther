@@ -65,7 +65,7 @@ SUNBURST_SHA256_IOCS = {
 
 LOG4J_IP_IOCS = {
     # The rule using this set has been deprecated and disabled by default
-    "0.0.0.1",
+    "0.0.0.1"
 }
 
 # Example sources:

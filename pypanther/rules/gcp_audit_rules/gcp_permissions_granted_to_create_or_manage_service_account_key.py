@@ -30,7 +30,7 @@ gcp_permissions_grantedto_createor_manage_service_account_key_tests: list[RuleTe
                         "granted": True,
                         "permission": "bigquery.tables.delete",
                         "resource": "projects/gcp-project1/datasets/test1/tables/newtable",
-                    },
+                    }
                 ],
                 "metadata": {
                     "@type": "type.googleapis.com/google.cloud.audit.BigQueryAuditMetadata",
@@ -81,7 +81,7 @@ gcp_permissions_grantedto_createor_manage_service_account_key_tests: list[RuleTe
                         "permission": "iam.serviceAccounts.setIamPolicy",
                         "resource": "projects/-/serviceAccounts/105537103139416651075",
                         "resourceAttributes": {"name": "projects/-/serviceAccounts/105537103139416651075"},
-                    },
+                    }
                 ],
                 "methodName": "google.iam.admin.v1.SetIAMPolicy",
                 "request": {
@@ -138,7 +138,7 @@ gcp_permissions_grantedto_createor_manage_service_account_key_tests: list[RuleTe
                                 "member": "serviceAccount:test-account3@gcp-project1.iam.gserviceaccount.com",
                                 "role": "roles/iam.serviceAccountUser",
                             },
-                        ],
+                        ]
                     },
                 },
                 "serviceName": "iam.googleapis.com",
@@ -199,11 +199,7 @@ class GCPPermissionsGrantedtoCreateorManageServiceAccountKey(Rule):
     def title(self, event):
         actor = deep_get(event, "protoPayload", "authenticationInfo", "principalEmail", default="<ACTOR_NOT_FOUND>")
         target = deep_get(event, "resource", "labels", "email_id") or deep_get(
-            event,
-            "resource",
-            "labels",
-            "project_id",
-            default="<TARGET_NOT_FOUND>",
+            event, "resource", "labels", "project_id", default="<TARGET_NOT_FOUND>"
         )
         return f"GCP: [{actor}] granted permissions to create or manage service account keys to [{target}]"
 

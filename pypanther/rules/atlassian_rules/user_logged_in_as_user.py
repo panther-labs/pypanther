@@ -19,7 +19,7 @@ atlassian_user_logged_in_as_user_tests: list[RuleTest] = [
                         "id": "12345678-abcd-9012-efgh-1234567890abcd",
                         "links": {"alt": "https://example.atlassian.net"},
                         "type": "sites",
-                    },
+                    }
                 ],
                 "context": [
                     {
@@ -29,7 +29,7 @@ atlassian_user_logged_in_as_user_tests: list[RuleTest] = [
                             "name": "example.user@example.io",
                         },
                         "type": "users",
-                    },
+                    }
                 ],
                 "time": "2022-12-15T00:35:15.890Z",
             },
@@ -54,7 +54,7 @@ atlassian_user_logged_in_as_user_tests: list[RuleTest] = [
                         "id": "12345678-abcd-9012-efgh-1234567890abcd",
                         "links": {"alt": "https://example.atlassian.net"},
                         "type": "sites",
-                    },
+                    }
                 ],
                 "context": [
                     {
@@ -64,7 +64,7 @@ atlassian_user_logged_in_as_user_tests: list[RuleTest] = [
                             "name": "example.user@example.io",
                         },
                         "type": "users",
-                    },
+                    }
                 ],
                 "time": "2022-12-15T00:35:15.890Z",
             },

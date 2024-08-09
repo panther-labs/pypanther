@@ -28,7 +28,7 @@ awsec2_stop_instances_tests: list[RuleTest] = [
             "userAgent": "aws-cli/2.13.5 Python/3.11.4 Linux/4.14.255-314-253.539.amzn2.x86_64 exec-env/CloudShell exe/x86_64.amzn.2 prompt/off command/ec2.stop-instances",
             "requestParameters": {
                 "instancesSet": {
-                    "items": [{"instanceId": "i-EXAMPLE56126103cb"}, {"instanceId": "i-EXAMPLEaff4840c22"}],
+                    "items": [{"instanceId": "i-EXAMPLE56126103cb"}, {"instanceId": "i-EXAMPLEaff4840c22"}]
                 },
                 "force": False,
             },
@@ -46,7 +46,7 @@ awsec2_stop_instances_tests: list[RuleTest] = [
                             "currentState": {"code": 64, "name": "stopping"},
                             "previousState": {"code": 16, "name": "running"},
                         },
-                    ],
+                    ]
                 },
             },
             "requestID": "c308a950-e43e-444e-afc1-EXAMPLE73e49",
@@ -90,8 +90,8 @@ awsec2_stop_instances_tests: list[RuleTest] = [
             "userAgent": "aws-cli/2.13.5 Python/3.11.4 Linux/4.14.255-314-253.539.amzn2.x86_64 exec-env/CloudShell exe/x86_64.amzn.2 prompt/off command/ec2.start-instances",
             "requestParameters": {
                 "instancesSet": {
-                    "items": [{"instanceId": "i-EXAMPLE56126103cb"}, {"instanceId": "i-EXAMPLEaff4840c22"}],
-                },
+                    "items": [{"instanceId": "i-EXAMPLE56126103cb"}, {"instanceId": "i-EXAMPLEaff4840c22"}]
+                }
             },
             "responseElements": {
                 "requestId": "e4336db0-149f-4a6b-844d-EXAMPLEb9d16",
@@ -107,7 +107,7 @@ awsec2_stop_instances_tests: list[RuleTest] = [
                             "currentState": {"code": 0, "name": "pending"},
                             "previousState": {"code": 80, "name": "stopped"},
                         },
-                    ],
+                    ]
                 },
             },
             "requestID": "e4336db0-149f-4a6b-844d-EXAMPLEb9d16",
@@ -152,7 +152,7 @@ awsec2_stop_instances_tests: list[RuleTest] = [
             "userAgent": "aws-cli/2.13.5 Python/3.11.4 Linux/4.14.255-314-253.539.amzn2.x86_64 exec-env/CloudShell exe/x86_64.amzn.2 prompt/off command/ec2.stop-instances",
             "requestParameters": {
                 "instancesSet": {
-                    "items": [{"instanceId": "i-EXAMPLE56126103cb"}, {"instanceId": "i-EXAMPLEaff4840c22"}],
+                    "items": [{"instanceId": "i-EXAMPLE56126103cb"}, {"instanceId": "i-EXAMPLEaff4840c22"}]
                 },
                 "force": False,
             },
@@ -188,7 +188,7 @@ class AWSEC2StopInstances(Rule):
 
     def rule(self, event):
         return all(
-            [not event.get("errorCode"), not event.get("errorMessage"), event.get("eventName") == "StopInstances"],
+            [not event.get("errorCode"), not event.get("errorMessage"), event.get("eventName") == "StopInstances"]
         )
 
     def title(self, event):

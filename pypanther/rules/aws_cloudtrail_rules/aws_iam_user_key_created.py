@@ -25,7 +25,7 @@ awsiam_backdoor_user_keys_tests: list[RuleTest] = [
                     "createDate": "Sep 27, 2022 5:09:18 PM",
                     "status": "Active",
                     "userName": "user1",
-                },
+                }
             },
             "sourceIPAddress": "cloudformation.amazonaws.com",
             "userAgent": "cloudformation.amazonaws.com",
@@ -67,7 +67,7 @@ awsiam_backdoor_user_keys_tests: list[RuleTest] = [
                     "createDate": "Sep 27, 2022 5:09:18 PM",
                     "status": "Active",
                     "userName": "user2",
-                },
+                }
             },
             "sourceIPAddress": "cloudformation.amazonaws.com",
             "userAgent": "cloudformation.amazonaws.com",
@@ -109,7 +109,7 @@ awsiam_backdoor_user_keys_tests: list[RuleTest] = [
                     "createDate": "Sep 27, 2022 5:09:18 PM",
                     "status": "Active",
                     "userName": "jack",
-                },
+                }
             },
             "sourceIPAddress": "cloudformation.amazonaws.com",
             "userAgent": "cloudformation.amazonaws.com",
@@ -151,7 +151,7 @@ awsiam_backdoor_user_keys_tests: list[RuleTest] = [
                     "createDate": "Sep 27, 2022 5:09:18 PM",
                     "status": "Active",
                     "userName": "jackson",
-                },
+                }
             },
             "sourceIPAddress": "cloudformation.amazonaws.com",
             "userAgent": "cloudformation.amazonaws.com",
@@ -232,7 +232,7 @@ class AWSIAMBackdoorUserKeys(Rule):
             and (event.get("eventName") == "CreateAccessKey")
             and (
                 not deep_get(event, "userIdentity", "arn", default="").endswith(
-                    f"user/{deep_get(event, 'responseElements', 'accessKey', 'userName', default='')}",
+                    f"user/{deep_get(event, 'responseElements', 'accessKey', 'userName', default='')}"
                 )
             )
         )

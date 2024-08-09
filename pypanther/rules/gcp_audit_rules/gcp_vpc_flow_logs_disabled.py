@@ -26,7 +26,7 @@ gcpvpc_flow_logs_disabled_tests: list[RuleTest] = [
                             "service": "compute",
                             "type": "compute.subnetworks",
                         },
-                    },
+                    }
                 ],
                 "methodName": "v1.compute.subnetworks.patch",
                 "request": {
@@ -109,7 +109,7 @@ gcpvpc_flow_logs_disabled_tests: list[RuleTest] = [
                             "service": "compute",
                             "type": "compute.subnetworks",
                         },
-                    },
+                    }
                 ],
                 "methodName": "v1.compute.subnetworks.patch",
                 "request": {
@@ -180,7 +180,7 @@ class GCPVPCFlowLogsDisabled(Rule):
                 event.get("protoPayload"),
                 deep_get(event, "protoPayload", "methodName", default="") == "v1.compute.subnetworks.patch",
                 deep_get(event, "protoPayload", "request", "enableFlowLogs") is False,
-            ],
+            ]
         )
 
     def title(self, event):

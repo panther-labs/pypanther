@@ -33,7 +33,7 @@ gcp_access_attempts_violating_vpc_service_controls_tests: list[RuleTest] = [
                             "service": "compute",
                             "type": "compute.subnetworks",
                         },
-                    },
+                    }
                 ],
                 "methodName": "v1.compute.subnetworks.patch",
                 "request": {
@@ -111,7 +111,7 @@ gcp_access_attempts_violating_vpc_service_controls_tests: list[RuleTest] = [
                             "servicePerimeter": "accessPolicies/123456789012/servicePerimeters/test_perimeter",
                             "targetResource": "projects/197946410614",
                             "targetResourcePermissions": ["NO_PERMISSIONS"],
-                        },
+                        }
                     ],
                     "resourceNames": ["projects/_/buckets/test-restricted-bucket/objects/test1.txt"],
                     "securityPolicyInfo": {
@@ -140,7 +140,7 @@ gcp_access_attempts_violating_vpc_service_controls_tests: list[RuleTest] = [
                                     "type": "OTHER_CONTROL_VIOLATION",
                                 },
                             ],
-                        },
+                        }
                     ],
                     "message": "Request is prohibited by organization's policy. vpcServiceControlsUniqueIdentifier: gBc-wuGVCapNMnTUePoHos_VyJmr3CsMKlr48kVa4b6XpsT_OWKRng",
                 },

@@ -58,7 +58,7 @@ class TeleportCompanyDomainLoginWithoutSAML(Rule):
             event.get("event") == "user.login"
             and event.get("success") is True
             and bool(re.search(self.TELEPORT_ORGANIZATION_DOMAINS_REGEX, event.get("user")))
-            and (event.get("method") != "saml"),
+            and (event.get("method") != "saml")
         )
 
     def title(self, event):

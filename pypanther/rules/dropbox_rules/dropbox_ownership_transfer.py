@@ -28,7 +28,7 @@ dropbox_ownership_transfer_tests: list[RuleTest] = [
                         "contextual": "/Alice Bob/test1",
                         "namespace_relative": {"is_shared_namespace": True, "ns_id": "12345"},
                     },
-                },
+                }
             ],
             "context": {
                 "_tag": "team_member",
@@ -73,8 +73,8 @@ dropbox_ownership_transfer_tests: list[RuleTest] = [
                         "display_name": "company",
                         "email": "david.davidson@company.io",
                         "team_member_id": "dbmid:DEFG",
-                    },
-                },
+                    }
+                }
             ],
             "timestamp": "2023-04-18 18:54:15",
         },
@@ -155,7 +155,7 @@ dropbox_ownership_transfer_tests: list[RuleTest] = [
                         "contextual": "/Alice Bob/test1",
                         "namespace_relative": {"is_shared_namespace": True, "ns_id": "12345"},
                     },
-                },
+                }
             ],
             "context": {
                 "_tag": "team_member",
@@ -200,8 +200,8 @@ dropbox_ownership_transfer_tests: list[RuleTest] = [
                         "display_name": "company",
                         "email": "david.davidson@example.com",
                         "team_member_id": "dbmid:DEFG",
-                    },
-                },
+                    }
+                }
             ],
             "timestamp": "2023-04-18 18:54:15",
         },

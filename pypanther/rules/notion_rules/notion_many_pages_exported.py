@@ -20,7 +20,7 @@ notion_many_pages_exported_tests: list[RuleTest] = [
                 "platform": "mac-desktop",
                 "type": "workspace.content_exported",
                 "workspace.content_exported": {},
-            },
+            }
         },
     ),
     RuleTest(
@@ -44,7 +44,7 @@ notion_many_pages_exported_tests: list[RuleTest] = [
                 "timestamp": "2023-06-01 18:57:07.486000000",
                 "type": "page.exported",
                 "workspace_id": "ea65b016-6abc-4dcf-808b-e119617b55d1",
-            },
+            }
         },
     ),
 ]

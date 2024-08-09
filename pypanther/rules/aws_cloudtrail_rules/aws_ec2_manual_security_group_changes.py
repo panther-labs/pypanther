@@ -30,8 +30,8 @@ awsec2_manual_security_group_change_tests: list[RuleTest] = [
                             "groups": {},
                             "ipProtocol": "tcp",
                             "ipv6Ranges": {},
-                        },
-                    ],
+                        }
+                    ]
                 },
             },
             "responseElements": {"_return": True, "requestId": "91f34d65-513d-4e9f-a3de-e8d27f7ee4b2"},
@@ -154,13 +154,13 @@ awsec2_manual_security_group_change_tests: list[RuleTest] = [
                                     {
                                         "cidrIp": "0.0.0.0/0",
                                         "description": "Allow egress to the internet. Required for now until we land ECS/ECR endpoints in the VPC",
-                                    },
-                                ],
+                                    }
+                                ]
                             },
                             "ipv6Ranges": {},
                             "prefixListIds": {},
-                        },
-                    ],
+                        }
+                    ]
                 },
             },
             "responseElements": {"requestId": "4c7a5036-09d3-46e8-b0b6-f611ff1959a6", "_return": True},
@@ -211,8 +211,8 @@ awsec2_manual_security_group_change_tests: list[RuleTest] = [
                             "ipRanges": {"items": [{"cidrIp": "0.0.0.0/0"}]},
                             "ipv6Ranges": {},
                             "prefixListIds": {},
-                        },
-                    ],
+                        }
+                    ]
                 },
             },
             "responseElements": {"requestId": "2be70b99-4937-4a76-b7d9-390b6d0eda73", "_return": True},
@@ -250,8 +250,8 @@ awsec2_manual_security_group_change_tests: list[RuleTest] = [
                             "groups": {},
                             "ipProtocol": "tcp",
                             "ipv6Ranges": {},
-                        },
-                    ],
+                        }
+                    ]
                 },
             },
             "responseElements": {"_return": True, "requestId": "91f34d65-513d-4e9f-a3de-e8d27f7ee4b2"},

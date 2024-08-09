@@ -32,7 +32,7 @@ crowdstrike_api_key_created_tests: list[RuleTest] = [
                 "version": "1.0",
             },
         },
-    ),
+    )
 ]
 
 

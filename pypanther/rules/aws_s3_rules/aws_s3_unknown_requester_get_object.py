@@ -140,7 +140,7 @@ class AWSS3ServerAccessUnknownRequester(Rule):
             "arn:aws:sts::*:assumed-role/panther-log-analysis-RulesEngineFunctionRole-*/panther-rules-engine",
             "arn:aws:sts::*:assumed-role/panther-snowflake-logprocessing-role-*/snowflake",
             "arn:aws:sts::*:assumed-role/panther-data-replication-role-*/s3-replication",
-        ],
+        ]
     }
     # pylint: enable=line-too-long
 

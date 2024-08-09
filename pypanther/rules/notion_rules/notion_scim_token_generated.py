@@ -20,7 +20,7 @@ notion_workspace_scim_token_generated_tests: list[RuleTest] = [
                 "platform": "mac-desktop",
                 "type": "workspace.content_exported",
                 "workspace.content_exported": {},
-            },
+            }
         },
     ),
     RuleTest(
@@ -41,7 +41,7 @@ notion_workspace_scim_token_generated_tests: list[RuleTest] = [
                 "platform": "mac-desktop",
                 "type": "workspace.scim_token_generated",
                 "workspace.scim_token_generated": {},
-            },
+            }
         },
     ),
 ]

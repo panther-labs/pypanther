@@ -29,7 +29,7 @@ dropbox_adminsigninas_session_tests: list[RuleTest] = [
                             "relative_path": "/paper1.paper",
                         },
                     },
-                },
+                }
             ],
             "context": {
                 "_tag": "team_member",
@@ -69,8 +69,8 @@ dropbox_adminsigninas_session_tests: list[RuleTest] = [
                         "account_id": "dbid:AABbWylBrTJ3Je-M37jeWShWuMAFHchEsKM",
                         "display_name": "david davidson",
                         "email": "david.davidson@david.co",
-                    },
-                },
+                    }
+                }
             ],
             "timestamp": "2023-04-18 22:31:03",
         },

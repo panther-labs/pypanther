@@ -14,8 +14,8 @@ panther_sensitive_role_tests: list[RuleTest] = [
                         "logTypeAccessKind": "DENY_ALL",
                         "name": "New Admins",
                         "permissions": ["GeneralSettingsModify", "GeneralSettingsRead", "SummaryRead"],
-                    },
-                },
+                    }
+                }
             },
             "actionResult": "SUCCEEDED",
             "actor": {
@@ -38,8 +38,8 @@ panther_sensitive_role_tests: list[RuleTest] = [
             "actionName": "CREATE_USER_ROLE",
             "actionParams": {
                 "dynamic": {
-                    "input": {"logTypeAccessKind": "DENY_ALL", "name": "New Admins", "permissions": ["SummaryRead"]},
-                },
+                    "input": {"logTypeAccessKind": "DENY_ALL", "name": "New Admins", "permissions": ["SummaryRead"]}
+                }
             },
             "actionResult": "SUCCEEDED",
             "actor": {
@@ -69,7 +69,7 @@ panther_sensitive_role_tests: list[RuleTest] = [
                         "logTypeAccessKind": "ALLOW",
                         "name": "ITE Role",
                         "permissions": ["AlertRead", "DataAnalyticsRead"],
-                    },
+                    }
                 },
                 "static": {},
             },
@@ -87,8 +87,8 @@ panther_sensitive_role_tests: list[RuleTest] = [
             },
             "errors": [
                 {
-                    "message": "You cannot save a role that has both log type restrictions and alerts/detections permissions at this time.",
-                },
+                    "message": "You cannot save a role that has both log type restrictions and alerts/detections permissions at this time."
+                }
             ],
             "p_alert_creation_time": "2023-02-09 21:47:09.745566000",
             "p_alert_id": "7eb5ca596b2153f95885cb2440e12345",
@@ -105,7 +105,7 @@ panther_sensitive_role_tests: list[RuleTest] = [
                         "name": "Google LLC",
                         "route": "208.127.224.0/21",
                         "type": "hosting",
-                    },
+                    }
                 },
                 "ipinfo_location": {
                     "sourceIP": {
@@ -117,7 +117,7 @@ panther_sensitive_role_tests: list[RuleTest] = [
                         "region": "Virginia",
                         "region_code": "VA",
                         "timezone": "America/New_York",
-                    },
+                    }
                 },
             },
             "p_event_time": "2023-02-09 21:45:59.352910070",

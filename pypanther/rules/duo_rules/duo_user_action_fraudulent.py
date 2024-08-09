@@ -15,7 +15,7 @@ duo_user_action_fraudulent_tests: list[RuleTest] = [
             "result": "fraud",
             "user": {"name": "example@example.io"},
         },
-    ),
+    )
 ]
 
 

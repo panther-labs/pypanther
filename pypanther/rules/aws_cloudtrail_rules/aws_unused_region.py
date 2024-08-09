@@ -71,7 +71,7 @@ aws_unused_region_tests: list[RuleTest] = [
                     "accountId": "123456789012",
                     "arn": "arn:aws:kms:us-west-2:123456789012:key/1111",
                     "type": "AWS::KMS::Key",
-                },
+                }
             ],
             "sourceIPAddress": "AWS Internal",
             "userAgent": "AWS Internal",

@@ -15,7 +15,7 @@ okta_potentially_stolen_session_tests: list[RuleTest] = [
             RuleMock(
                 object_name="get_string_set",
                 return_value='[\n    "263297",\n    "1.2.3.4",\n    "user_agent:Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/84.0.4147.135 Safari/537.36",\n    "CHROME",\n    "Linux"\n]\n',
-            ),
+            )
         ],
         log={
             "actor": {"alternateId": "admin", "displayName": "unknown", "id": "unknown", "type": "User"},
@@ -45,7 +45,7 @@ okta_potentially_stolen_session_tests: list[RuleTest] = [
                     "threatSuspected": "false",
                     "url": "redacted",
                     "dtHash": "kzpx58a99d2oam082rlu588wgy1mb0zfi1e1l63f9cjx4uxc455k4t6xdiwbxian",
-                },
+                }
             },
             "displayMessage": "User login to Okta",
             "eventType": "user.session.start",
@@ -72,8 +72,8 @@ okta_potentially_stolen_session_tests: list[RuleTest] = [
                         },
                         "ip": "redacted",
                         "version": "V4",
-                    },
-                ],
+                    }
+                ]
             },
             "securityContext": {
                 "asNumber": 263297,
@@ -95,7 +95,7 @@ okta_potentially_stolen_session_tests: list[RuleTest] = [
             RuleMock(
                 object_name="get_string_set",
                 return_value='[\n    "123456",\n    "4.3.2.1",\n    "user_agent:Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/105.0.0.0 Safari/537.36",\n    "CHROME",\n    "MacOS"\n]\n',
-            ),
+            )
         ],
         log={
             "actor": {"alternateId": "admin", "displayName": "Bobert", "id": "unknown", "type": "User"},
@@ -125,7 +125,7 @@ okta_potentially_stolen_session_tests: list[RuleTest] = [
                     "requestUri": "redacted",
                     "threatSuspected": "false",
                     "url": "redacted",
-                },
+                }
             },
             "displayMessage": "User login to Okta",
             "eventType": "user.session.start",
@@ -152,8 +152,8 @@ okta_potentially_stolen_session_tests: list[RuleTest] = [
                         },
                         "ip": "redacted",
                         "version": "V4",
-                    },
-                ],
+                    }
+                ]
             },
             "securityContext": {
                 "asNumber": 263297,
@@ -175,7 +175,7 @@ okta_potentially_stolen_session_tests: list[RuleTest] = [
             RuleMock(
                 object_name="get_string_set",
                 return_value='[\n    "654321",\n    "1.2.3.4",\n    "user_agent:Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/84.0.4147.135 Safari/537.36",\n    "CHROME",\n    "Linux"\n]\n',
-            ),
+            )
         ],
         log={
             "actor": {"alternateId": "admin", "displayName": "Bobert", "id": "unknown", "type": "User"},
@@ -205,7 +205,7 @@ okta_potentially_stolen_session_tests: list[RuleTest] = [
                     "threatSuspected": "false",
                     "url": "redacted",
                     "dtHash": "kzpx58a99d2oam082rlu588wgy1mb0zfi1e1l63f9cjx4uxc455k4t6xdiwbxian",
-                },
+                }
             },
             "displayMessage": "User login to Okta",
             "eventType": "user.session.start",
@@ -232,8 +232,8 @@ okta_potentially_stolen_session_tests: list[RuleTest] = [
                         },
                         "ip": "redacted",
                         "version": "V4",
-                    },
-                ],
+                    }
+                ]
             },
             "securityContext": {
                 "asNumber": 263297,
@@ -255,7 +255,7 @@ okta_potentially_stolen_session_tests: list[RuleTest] = [
             RuleMock(
                 object_name="get_string_set",
                 return_value='[\n    "123456",\n    "4.3.2.1",\n    "user_agent:Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/105.0.0.0 Safari/537.36",\n    "CHROME",\n    "MacOS"\n]\n',
-            ),
+            )
         ],
         log={
             "actor": {"alternateId": "admin", "displayName": "Bobert", "id": "unknown", "type": "User"},
@@ -281,7 +281,7 @@ okta_potentially_stolen_session_tests: list[RuleTest] = [
                     "requestUri": "redacted",
                     "threatSuspected": "false",
                     "url": "redacted",
-                },
+                }
             },
             "displayMessage": "User login to Okta",
             "eventType": "user.session.start",
@@ -308,8 +308,8 @@ okta_potentially_stolen_session_tests: list[RuleTest] = [
                         },
                         "ip": "44.238.82.114",
                         "version": "V4",
-                    },
-                ],
+                    }
+                ]
             },
             "securityContext": {},
             "severity": "INFO",
@@ -389,9 +389,7 @@ class OktaPotentiallyStolenSession(Rule):
             [prev_ua] = [x for x in self.PREVIOUS_SESSION if "user_agent:" in x] or ["prev_ua_not_found"]
             prev_ua = prev_ua.split("_agent:")[1]
             diff_ratio = SequenceMatcher(
-                None,
-                deep_get(event, "client", "userAgent", "rawUserAgent", default="ua_not_found"),
-                prev_ua,
+                None, deep_get(event, "client", "userAgent", "rawUserAgent", default="ua_not_found"), prev_ua
             ).ratio()
             # is this session being used from a new IP and a different browser
             if (

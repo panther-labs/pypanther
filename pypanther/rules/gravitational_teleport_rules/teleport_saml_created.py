@@ -14,7 +14,7 @@ teleport_saml_created_tests: list[RuleTest] = [
             "uid": "88888888-4444-4444-4444-222222222222",
             "user": "max.mustermann@zumbeispiel.example",
         },
-    ),
+    )
 ]
 
 

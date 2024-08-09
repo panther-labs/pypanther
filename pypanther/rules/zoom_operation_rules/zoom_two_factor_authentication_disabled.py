@@ -58,7 +58,7 @@ class ZoomTwoFactorAuthenticationDisabled(Rule):
                 event.get("action", "<NO_ACTION>") == "Update",
                 event.get("category_type", "<NO_CATEGORY_TYPE>") == "Account",
                 operation_detail == operation_flag,
-            ],
+            ]
         )
 
     def title(self, event):

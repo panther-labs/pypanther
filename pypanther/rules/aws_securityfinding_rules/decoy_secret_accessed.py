@@ -74,7 +74,7 @@ decoy_secret_accessed_tests: list[RuleTest] = [
                                     "UserName": "tester",
                                 },
                             },
-                        },
+                        }
                     },
                     "Id": "ABC12DEFSG3455VIEJC8U",
                     "Partition": "aws",
@@ -185,7 +185,7 @@ decoy_secret_accessed_tests: list[RuleTest] = [
                                     "UserName": "tester",
                                 },
                             },
-                        },
+                        }
                     },
                     "Id": "ABC12DEFSG3455VIEJC8U",
                     "Partition": "aws",

@@ -26,7 +26,7 @@ gcp_big_query_large_scan_tests: list[RuleTest] = [
                 "at_sign_type": "type.googleapis.com/google.cloud.audit.AuditLog",
                 "authenticationInfo": {"principalEmail": "user@company.io"},
                 "authorizationInfo": [
-                    {"granted": True, "permission": "bigquery.jobs.create", "resource": "projects/gcp-project1"},
+                    {"granted": True, "permission": "bigquery.jobs.create", "resource": "projects/gcp-project1"}
                 ],
                 "metadata": {
                     "@type": "type.googleapis.com/google.cloud.audit.BigQueryAuditMetadata",
@@ -52,7 +52,7 @@ gcp_big_query_large_scan_tests: list[RuleTest] = [
                                     "billingTier": 1,
                                     "outputRowCount": "43683701",
                                     "referencedTables": [
-                                        "projects/bigquery-public-data/datasets/google_trends/tables/top_terms",
+                                        "projects/bigquery-public-data/datasets/google_trends/tables/top_terms"
                                     ],
                                     "totalBilledBytes": "100000",
                                     "totalProcessedBytes": "100000",
@@ -103,7 +103,7 @@ gcp_big_query_large_scan_tests: list[RuleTest] = [
                 "at_sign_type": "type.googleapis.com/google.cloud.audit.AuditLog",
                 "authenticationInfo": {"principalEmail": "user@company.io"},
                 "authorizationInfo": [
-                    {"granted": True, "permission": "bigquery.jobs.create", "resource": "projects/gcp-project1"},
+                    {"granted": True, "permission": "bigquery.jobs.create", "resource": "projects/gcp-project1"}
                 ],
                 "metadata": {
                     "@type": "type.googleapis.com/google.cloud.audit.BigQueryAuditMetadata",
@@ -129,7 +129,7 @@ gcp_big_query_large_scan_tests: list[RuleTest] = [
                                     "billingTier": 1,
                                     "outputRowCount": "43683701",
                                     "referencedTables": [
-                                        "projects/bigquery-public-data/datasets/google_trends/tables/top_terms",
+                                        "projects/bigquery-public-data/datasets/google_trends/tables/top_terms"
                                     ],
                                     "totalBilledBytes": "3097493504",
                                     "totalProcessedBytes": "3096864198",
@@ -178,14 +178,7 @@ class GCPBigQueryLargeScan(Rule):
                 deep_get(event, "operation", "last") is True,
                 deep_get(event, "protoPayload", "metadata", "jobChange", "job", "jobConfig", "type") == "QUERY",
                 deep_get(
-                    event,
-                    "protoPayload",
-                    "metadata",
-                    "jobChange",
-                    "job",
-                    "jobConfig",
-                    "queryConfig",
-                    "statementType",
+                    event, "protoPayload", "metadata", "jobChange", "job", "jobConfig", "queryConfig", "statementType"
                 )
                 == "SELECT",
                 int(
@@ -199,10 +192,10 @@ class GCPBigQueryLargeScan(Rule):
                         "queryStats",
                         "totalBilledBytes",
                         default=0,
-                    ),
+                    )
                 )
                 > self.QUERY_THRESHOLD_BYTES,
-            ],
+            ]
         )
 
     def title(self, event):
@@ -234,11 +227,7 @@ class GCPBigQueryLargeScan(Rule):
                 default="<QUERY_NOT_FOUND>",
             ),
             "actor": deep_get(
-                event,
-                "protoPayload",
-                "authenticationInfo",
-                "principalEmail",
-                default="<ACTOR_NOT_FOUND>",
+                event, "protoPayload", "authenticationInfo", "principalEmail", default="<ACTOR_NOT_FOUND>"
             ),
             "query_size": deep_get(
                 event,

@@ -33,7 +33,7 @@ awsec2_traffic_mirroring_tests: list[RuleTest] = [
             "recipientAccountId": "123451234515",
             "requestID": "200a9157-dff7-4578-87d6-205b01d90a56",
             "requestParameters": {
-                "CreateTrafficMirrorFilterRequest": {"ClientToken": "5b7eff74-2b70-4f92-8aa1-9c716bf151aa"},
+                "CreateTrafficMirrorFilterRequest": {"ClientToken": "5b7eff74-2b70-4f92-8aa1-9c716bf151aa"}
             },
             "responseElements": {
                 "CreateTrafficMirrorFilterResponse": {
@@ -47,7 +47,7 @@ awsec2_traffic_mirroring_tests: list[RuleTest] = [
                         "trafficMirrorFilterId": "tmf-010db9a7d8056cc2d",
                     },
                     "xmlns": "http://ec2.amazonaws.com/doc/2016-11-15/",
-                },
+                }
             },
             "sessionCredentialFromConsole": True,
             "sourceIPAddress": "AWS Internal",
@@ -112,7 +112,7 @@ awsec2_traffic_mirroring_tests: list[RuleTest] = [
                     "SourceCidrBlock": "0.0.0.0/0",
                     "TrafficDirection": "egress",
                     "TrafficMirrorFilterId": "tmf-010db9a7d8056cc2d",
-                },
+                }
             },
             "responseElements": {
                 "CreateTrafficMirrorFilterRuleResponse": {
@@ -129,7 +129,7 @@ awsec2_traffic_mirroring_tests: list[RuleTest] = [
                         "trafficMirrorFilterRuleId": "tmfr-01669e70d44b9705a",
                     },
                     "xmlns": "http://ec2.amazonaws.com/doc/2016-11-15/",
-                },
+                }
             },
             "sessionCredentialFromConsole": True,
             "sourceIPAddress": "AWS Internal",
@@ -193,7 +193,7 @@ awsec2_traffic_mirroring_tests: list[RuleTest] = [
                     "SessionNumber": 1,
                     "TrafficMirrorFilterId": "tmf-010db9a7d8056cc2d",
                     "TrafficMirrorTargetId": "tmt-0fd4b591901182794",
-                },
+                }
             },
             "sessionCredentialFromConsole": True,
             "sourceIPAddress": "AWS Internal",
@@ -252,7 +252,7 @@ awsec2_traffic_mirroring_tests: list[RuleTest] = [
                 "CreateTrafficMirrorTargetRequest": {
                     "ClientToken": "fc50f178-783d-4420-b788-345988244b83",
                     "NetworkInterfaceId": "eni-0fd6cc8547555878f",
-                },
+                }
             },
             "responseElements": {
                 "CreateTrafficMirrorTargetResponse": {
@@ -266,7 +266,7 @@ awsec2_traffic_mirroring_tests: list[RuleTest] = [
                         "type": "network-interface",
                     },
                     "xmlns": "http://ec2.amazonaws.com/doc/2016-11-15/",
-                },
+                }
             },
             "sessionCredentialFromConsole": True,
             "sourceIPAddress": "AWS Internal",
@@ -322,14 +322,14 @@ awsec2_traffic_mirroring_tests: list[RuleTest] = [
             "recipientAccountId": "123123123123",
             "requestID": "b56e2421-1fed-4052-b3ac-82daf374964c",
             "requestParameters": {
-                "DeleteTrafficMirrorTargetRequest": {"TrafficMirrorTargetId": "tmt-0fd4b591901182794"},
+                "DeleteTrafficMirrorTargetRequest": {"TrafficMirrorTargetId": "tmt-0fd4b591901182794"}
             },
             "responseElements": {
                 "DeleteTrafficMirrorTargetResponse": {
                     "requestId": "b56e2421-1fed-4052-b3ac-82daf374964c",
                     "trafficMirrorTargetId": "tmt-0fd4b591901182794",
                     "xmlns": "http://ec2.amazonaws.com/doc/2016-11-15/",
-                },
+                }
             },
             "sessionCredentialFromConsole": True,
             "sourceIPAddress": "AWS Internal",
@@ -446,7 +446,7 @@ awsec2_traffic_mirroring_tests: list[RuleTest] = [
                     "TrafficMirrorSessionId": "tms-05e1e21760419ecb6",
                     "TrafficMirrorTargetId": "tmt-0a45c694b91bcea54",
                     "VirtualNetworkId": 12348395.0,
-                },
+                }
             },
             "responseElements": {
                 "ModifyTrafficMirrorSessionResponse": {
@@ -462,7 +462,7 @@ awsec2_traffic_mirroring_tests: list[RuleTest] = [
                         "virtualNetworkId": 12348395.0,
                     },
                     "xmlns": "http://ec2.amazonaws.com/doc/2016-11-15/",
-                },
+                }
             },
             "sessionCredentialFromConsole": True,
             "sourceIPAddress": "AWS Internal",

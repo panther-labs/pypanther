@@ -17,7 +17,7 @@ teleport_lock_created_tests: list[RuleTest] = [
             "updated_by": "max.mustermann@example.com",
             "user": "max.mustermann@example.com",
         },
-    ),
+    )
 ]
 
 

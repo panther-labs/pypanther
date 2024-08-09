@@ -26,7 +26,7 @@ gcp_cloud_build_potential_privilege_escalation_tests: list[RuleTest] = [
                         "permission": "cloudbuild.builds.create",
                         "resource": "projects/some-project",
                         "resourceAttributes": {},
-                    },
+                    }
                 ],
                 "methodName": "google.devtools.cloudbuild.v1.CloudBuild.CreateBuild",
                 "request": {
@@ -71,7 +71,7 @@ gcp_cloud_build_potential_privilege_escalation_tests: list[RuleTest] = [
                         "permission": "clientauthconfig.brands.create",
                         "resource": "brands/1028347248702",
                         "resourceAttributes": {},
-                    },
+                    }
                 ],
                 "methodName": "CreateBrand",
                 "request": {
@@ -125,7 +125,7 @@ class GCPCloudBuildPotentialPrivilegeEscalation(Rule):
 
     def rule(self, event):
         if not deep_get(event, "protoPayload", "methodName", default="METHOD_NOT_FOUND").endswith(
-            "CloudBuild.CreateBuild",
+            "CloudBuild.CreateBuild"
         ):
             return False
         authorization_info = deep_walk(event, "protoPayload", "authorizationInfo")

@@ -16,7 +16,7 @@ gcpk8_s_pot_create_or_modify_host_path_volume_mount_tests: list[RuleTest] = [
                         "granted": True,
                         "permission": "io.k8s.core.v1.pods.create",
                         "resource": "core/v1/namespaces/default/pods/test",
-                    },
+                    }
                 ],
                 "methodName": "io.k8s.core.v1.pods.create",
                 "request": {
@@ -31,13 +31,13 @@ gcpk8_s_pot_create_or_modify_host_path_volume_mount_tests: list[RuleTest] = [
                                 "imagePullPolicy": "Always",
                                 "name": "test",
                                 "volumeMounts": [{"mountPath": "/test", "name": "test-volume"}],
-                            },
+                            }
                         ],
                         "volumes": [
                             {
                                 "hostPath": {"path": "/var/lib/kubelet", "type": "DirectoryOrCreate"},
                                 "name": "test-volume",
-                            },
+                            }
                         ],
                     },
                 },
@@ -54,13 +54,13 @@ gcpk8_s_pot_create_or_modify_host_path_volume_mount_tests: list[RuleTest] = [
                                 "imagePullPolicy": "Always",
                                 "name": "test",
                                 "volumeMounts": [{"mountPath": "/test", "name": "test-volume"}],
-                            },
+                            }
                         ],
                         "volumes": [
                             {
                                 "hostPath": {"path": "/var/lib/kubelet", "type": "DirectoryOrCreate"},
                                 "name": "test-volume",
-                            },
+                            }
                         ],
                     },
                     "status": {"phase": "Pending", "qosClass": "BestEffort"},
@@ -91,7 +91,7 @@ gcpk8_s_pot_create_or_modify_host_path_volume_mount_tests: list[RuleTest] = [
                         "granted": True,
                         "permission": "io.k8s.core.v1.pods.create",
                         "resource": "core/v1/namespaces/default/pods/test",
-                    },
+                    }
                 ],
                 "methodName": "io.k8s.core.v1.pods.create",
                 "request": {
@@ -106,10 +106,10 @@ gcpk8_s_pot_create_or_modify_host_path_volume_mount_tests: list[RuleTest] = [
                                 "imagePullPolicy": "Always",
                                 "name": "test",
                                 "volumeMounts": [{"mountPath": "/test", "name": "test-volume"}],
-                            },
+                            }
                         ],
                         "volumes": [
-                            {"hostPath": {"path": "/data", "type": "DirectoryOrCreate"}, "name": "test-volume"},
+                            {"hostPath": {"path": "/data", "type": "DirectoryOrCreate"}, "name": "test-volume"}
                         ],
                     },
                 },
@@ -126,10 +126,10 @@ gcpk8_s_pot_create_or_modify_host_path_volume_mount_tests: list[RuleTest] = [
                                 "imagePullPolicy": "Always",
                                 "name": "test",
                                 "volumeMounts": [{"mountPath": "/test", "name": "test-volume"}],
-                            },
+                            }
                         ],
                         "volumes": [
-                            {"hostPath": {"path": "/data", "type": "DirectoryOrCreate"}, "name": "test-volume"},
+                            {"hostPath": {"path": "/data", "type": "DirectoryOrCreate"}, "name": "test-volume"}
                         ],
                     },
                     "status": {"phase": "Pending", "qosClass": "BestEffort"},
@@ -160,7 +160,7 @@ gcpk8_s_pot_create_or_modify_host_path_volume_mount_tests: list[RuleTest] = [
                         "granted": True,
                         "permission": "io.k8s.core.v1.pods.create",
                         "resource": "core/v1/namespaces/default/pods/test",
-                    },
+                    }
                 ],
                 "methodName": "io.k8s.core.v1.pods.create",
                 "request": {
@@ -175,13 +175,13 @@ gcpk8_s_pot_create_or_modify_host_path_volume_mount_tests: list[RuleTest] = [
                                 "imagePullPolicy": "Always",
                                 "name": "test",
                                 "volumeMounts": [{"mountPath": "/test", "name": "test-volume"}],
-                            },
+                            }
                         ],
                         "volumes": [
                             {
                                 "hostPath": {"path": "/var/lib/kubelet", "type": "DirectoryOrCreate"},
                                 "name": "test-volume",
-                            },
+                            }
                         ],
                     },
                     "status": {},

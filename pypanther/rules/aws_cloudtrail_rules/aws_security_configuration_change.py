@@ -250,11 +250,7 @@ class AWSCloudTrailSecurityConfigurationChange(Rule):
 
     def title(self, event):
         user = deep_get(event, "userIdentity", "userName") or deep_get(
-            event,
-            "userIdentity",
-            "sessionContext",
-            "sessionIssuer",
-            "userName",
+            event, "userIdentity", "sessionContext", "sessionIssuer", "userName"
         )
         return f"Sensitive AWS API call {event.get('eventName')} made by {user}"
 

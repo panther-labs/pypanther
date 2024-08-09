@@ -35,7 +35,7 @@ okta_user_reported_suspicious_activity_tests: list[RuleTest] = [
                     "requestId": "AbCdEf12G",
                     "requestUri": "/api/v1/users/AbCdEfG/lifecycle/reset_factors",
                     "url": "/api/v1/users/AbCdEfG/lifecycle/reset_factors?",
-                },
+                }
             },
             "displaymessage": "Reset all factors for user",
             "eventtype": "user.mfa.factor.reset_all",
@@ -54,8 +54,8 @@ okta_user_reported_suspicious_activity_tests: list[RuleTest] = [
                         },
                         "ip": "1.3.2.4",
                         "version": "V4",
-                    },
-                ],
+                    }
+                ]
             },
             "securitycontext": {
                 "asNumber": 701,
@@ -71,7 +71,7 @@ okta_user_reported_suspicious_activity_tests: list[RuleTest] = [
                     "displayName": "Peter Griffin",
                     "id": "0002222AAAA",
                     "type": "User",
-                },
+                }
             ],
             "transaction": {"detail": {}, "id": "ABcDeFgG", "type": "WEB"},
             "uuid": "AbC-123-XyZ",
@@ -124,7 +124,7 @@ okta_user_reported_suspicious_activity_tests: list[RuleTest] = [
                     "suspiciousActivityOs": "Mac OS X (iPhone)",
                     "suspiciousActivityTimestamp": "2022-12-14T15:58:50.347Z",
                     "url": "/api/internal/users/me/report-suspicious-activity?i=aaaaaa",
-                },
+                }
             },
             "displaymessage": "User report suspicious activity",
             "eventtype": "user.account.report_suspicious_activity_by_enduser",
@@ -143,8 +143,8 @@ okta_user_reported_suspicious_activity_tests: list[RuleTest] = [
                         },
                         "ip": "9.8.7.6",
                         "version": "V4",
-                    },
-                ],
+                    }
+                ]
             },
             "securitycontext": {
                 "asNumber": 11427,
@@ -155,12 +155,7 @@ okta_user_reported_suspicious_activity_tests: list[RuleTest] = [
             },
             "severity": "WARN",
             "target": [
-                {
-                    "alternateId": "homer.simpson@duff.com",
-                    "displayName": "Homer Simpson",
-                    "id": "01234",
-                    "type": "User",
-                },
+                {"alternateId": "homer.simpson@duff.com", "displayName": "Homer Simpson", "id": "01234", "type": "User"}
             ],
             "transaction": {"detail": {}, "id": "1234ABC", "type": "WEB"},
             "uuid": "ABC1234",

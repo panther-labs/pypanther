@@ -37,8 +37,8 @@ gcpiam_corporate_email_tests: list[RuleTest] = [
                     "@type": "type.googleapis.com/google.iam.v1.logging.AuditData",
                     "policyDelta": {
                         "bindingDeltas": [
-                            {"action": "ADD", "role": "roles/viewer", "member": "user:username@gmail.com"},
-                        ],
+                            {"action": "ADD", "role": "roles/viewer", "member": "user:username@gmail.com"}
+                        ]
                     },
                 },
                 "request": {
@@ -49,7 +49,7 @@ gcpiam_corporate_email_tests: list[RuleTest] = [
                             {"members": ["user:user-two@gmail.com"], "role": "roles/appengine.serviceAdmin"},
                             {
                                 "members": [
-                                    "serviceAccount:service-951849100836@compute-system.iam.gserviceaccount.com",
+                                    "serviceAccount:service-951849100836@compute-system.iam.gserviceaccount.com"
                                 ],
                                 "role": "roles/compute.serviceAgent",
                             },
@@ -64,13 +64,13 @@ gcpiam_corporate_email_tests: list[RuleTest] = [
                             {"members": ["user:user-two@gmail.com"], "role": "roles/pubsub.admin"},
                             {
                                 "members": [
-                                    "serviceAccount:pubsub-reader@western-verve-123456.iam.gserviceaccount.com",
+                                    "serviceAccount:pubsub-reader@western-verve-123456.iam.gserviceaccount.com"
                                 ],
                                 "role": "roles/pubsub.subscriber",
                             },
                             {
                                 "members": [
-                                    "serviceAccount:pubsub-reader@western-verve-123456.iam.gserviceaccount.com",
+                                    "serviceAccount:pubsub-reader@western-verve-123456.iam.gserviceaccount.com"
                                 ],
                                 "role": "roles/pubsub.viewer",
                             },
@@ -157,8 +157,8 @@ gcpiam_corporate_email_tests: list[RuleTest] = [
                     "@type": "type.googleapis.com/google.iam.v1.logging.AuditData",
                     "policyDelta": {
                         "bindingDeltas": [
-                            {"action": "ADD", "role": "roles/viewer", "member": "user:username@runpanther.com"},
-                        ],
+                            {"action": "ADD", "role": "roles/viewer", "member": "user:username@runpanther.com"}
+                        ]
                     },
                 },
                 "request": {
@@ -169,7 +169,7 @@ gcpiam_corporate_email_tests: list[RuleTest] = [
                             {"members": ["user:user-two@gmail.com"], "role": "roles/appengine.serviceAdmin"},
                             {
                                 "members": [
-                                    "serviceAccount:service-951849100836@compute-system.iam.gserviceaccount.com",
+                                    "serviceAccount:service-951849100836@compute-system.iam.gserviceaccount.com"
                                 ],
                                 "role": "roles/compute.serviceAgent",
                             },
@@ -184,13 +184,13 @@ gcpiam_corporate_email_tests: list[RuleTest] = [
                             {"members": ["user:user-two@gmail.com"], "role": "roles/pubsub.admin"},
                             {
                                 "members": [
-                                    "serviceAccount:pubsub-reader@western-verve-123456.iam.gserviceaccount.com",
+                                    "serviceAccount:pubsub-reader@western-verve-123456.iam.gserviceaccount.com"
                                 ],
                                 "role": "roles/pubsub.subscriber",
                             },
                             {
                                 "members": [
-                                    "serviceAccount:pubsub-reader@western-verve-123456.iam.gserviceaccount.com",
+                                    "serviceAccount:pubsub-reader@western-verve-123456.iam.gserviceaccount.com"
                                 ],
                                 "role": "roles/pubsub.viewer",
                             },

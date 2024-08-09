@@ -46,7 +46,7 @@ okta_admin_role_assigned_tests: list[RuleTest] = [
                     "type": "User",
                     "alternateId": "alice@acme.io",
                     "displayName": "Alice Green",
-                },
+                }
             ],
             "transaction": {},
             "debugContext": {
@@ -56,7 +56,7 @@ okta_admin_role_assigned_tests: list[RuleTest] = [
                     "threatSuspected": "false",
                     "url": "/api/internal/administrators/00u6eu8c68bb72a21b57",
                     "requestId": "X777JJ9sssQQHHrrrQTyYQAABBE",
-                },
+                }
             },
             "authenticationContext": {},
             "securityContext": {},
@@ -104,7 +104,7 @@ okta_admin_role_assigned_tests: list[RuleTest] = [
                     "type": "User",
                     "alternateId": "alice@acme.io",
                     "displayName": "Alice Green",
-                },
+                }
             ],
             "transaction": {},
             "debugContext": {
@@ -114,7 +114,7 @@ okta_admin_role_assigned_tests: list[RuleTest] = [
                     "threatSuspected": "false",
                     "url": "/api/internal/administrators/00u6eu8c68bb72a21b57",
                     "requestId": "X777JJ9sssQQHHrrrQTyYQAABBE",
-                },
+                }
             },
             "authenticationContext": {},
             "securityContext": {},
@@ -144,7 +144,7 @@ class OktaAdminRoleAssigned(Rule):
             event.get("eventType", None) == "user.account.privilege.grant"
             and deep_get(event, "outcome", "result") == "SUCCESS"
             and bool(
-                self.ADMIN_PATTERN.search(deep_get(event, "debugContext", "debugData", "privilegeGranted", default="")),
+                self.ADMIN_PATTERN.search(deep_get(event, "debugContext", "debugData", "privilegeGranted", default=""))
             )
         )
 

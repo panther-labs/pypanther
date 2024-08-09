@@ -23,7 +23,7 @@ gcp_logging_sink_modified_tests: list[RuleTest] = [
                             "name": "projects/test-project-123456/sinks/test-1",
                             "service": "logging.googleapis.com",
                         },
-                    },
+                    }
                 ],
                 "methodName": "google.logging.v2.ConfigServiceV2.UpdateSink",
                 "request": {
@@ -75,7 +75,7 @@ gcp_logging_sink_modified_tests: list[RuleTest] = [
                             "name": "projects/test-project-123456/sinks/test-1",
                             "service": "logging.googleapis.com",
                         },
-                    },
+                    }
                 ],
                 "methodName": "google.logging.v2.ConfigServiceV2.ListSink",
                 "request": {

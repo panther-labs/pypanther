@@ -35,8 +35,8 @@ aws_modify_cloud_compute_infrastructure_tests: list[RuleTest] = [
                             "currentState": {"code": 32, "name": "shutting-down"},
                             "instanceId": "i-0d9853f67e40ab80b",
                             "previousState": {"code": 16, "name": "running"},
-                        },
-                    ],
+                        }
+                    ]
                 },
                 "requestId": "a520eeaf-c258-4260-954e-b4a976e6c72b",
             },
@@ -87,8 +87,8 @@ aws_modify_cloud_compute_infrastructure_tests: list[RuleTest] = [
                             "currentState": {"code": 32, "name": "shutting-down"},
                             "instanceId": "i-0d9853f67e40ab80b",
                             "previousState": {"code": 16, "name": "running"},
-                        },
-                    ],
+                        }
+                    ]
                 },
                 "requestId": "a520eeaf-c258-4260-954e-b4a976e6c72b",
             },
@@ -222,8 +222,8 @@ aws_modify_cloud_compute_infrastructure_tests: list[RuleTest] = [
                             "deviceIndex": 0,
                             "groupSet": {"items": [{"groupId": "sg-0077c778d7ad1f5f2"}]},
                             "subnetId": "subnet-0e3a508e43776c435",
-                        },
-                    ],
+                        }
+                    ]
                 },
                 "privateDnsNameOptions": {
                     "enableResourceNameDnsAAAARecord": False,
@@ -231,7 +231,7 @@ aws_modify_cloud_compute_infrastructure_tests: list[RuleTest] = [
                     "hostnameType": "ip-name",
                 },
                 "tagSpecificationSet": {
-                    "items": [{"resourceType": "instance", "tags": [{"key": "Name", "value": "fake thing whatever"}]}],
+                    "items": [{"resourceType": "instance", "tags": [{"key": "Name", "value": "fake thing whatever"}]}]
                 },
             },
             "responseElements": {
@@ -248,7 +248,7 @@ aws_modify_cloud_compute_infrastructure_tests: list[RuleTest] = [
                             "enaSupport": True,
                             "enclaveOptions": {"enabled": False},
                             "groupSet": {
-                                "items": [{"groupId": "sg-0077c778d7ad1f5f2", "groupName": "launch-wizard-1"}],
+                                "items": [{"groupId": "sg-0077c778d7ad1f5f2", "groupName": "launch-wizard-1"}]
                             },
                             "hypervisor": "xen",
                             "imageId": "ami-08e2d37b6a0129927",
@@ -280,8 +280,8 @@ aws_modify_cloud_compute_infrastructure_tests: list[RuleTest] = [
                                         },
                                         "groupSet": {
                                             "items": [
-                                                {"groupId": "sg-0077c778d7ad1f5f2", "groupName": "launch-wizard-1"},
-                                            ],
+                                                {"groupId": "sg-0077c778d7ad1f5f2", "groupName": "launch-wizard-1"}
+                                            ]
                                         },
                                         "interfaceType": "interface",
                                         "ipv6AddressesSet": {},
@@ -296,16 +296,16 @@ aws_modify_cloud_compute_infrastructure_tests: list[RuleTest] = [
                                                     "primary": True,
                                                     "privateDnsName": "ip-10-1-0-14.us-west-2.compute.internal",
                                                     "privateIpAddress": "10.1.0.14",
-                                                },
-                                            ],
+                                                }
+                                            ]
                                         },
                                         "sourceDestCheck": True,
                                         "status": "in-use",
                                         "subnetId": "subnet-0e3a508e43776c435",
                                         "tagSet": {},
                                         "vpcId": "vpc-04fe895571b367c47",
-                                    },
-                                ],
+                                    }
+                                ]
                             },
                             "placement": {"availabilityZone": "us-west-2a", "tenancy": "default"},
                             "privateDnsName": "ip-10-1-0-14.us-west-2.compute.internal",
@@ -324,8 +324,8 @@ aws_modify_cloud_compute_infrastructure_tests: list[RuleTest] = [
                             "tagSet": {"items": [{"key": "Name", "value": "fake thing whatever"}]},
                             "virtualizationType": "hvm",
                             "vpcId": "vpc-04fe895571b367c47",
-                        },
-                    ],
+                        }
+                    ]
                 },
                 "ownerId": "123412341234",
                 "requestId": "557e2d68-904a-4fe7-81d4-33c056444a13",

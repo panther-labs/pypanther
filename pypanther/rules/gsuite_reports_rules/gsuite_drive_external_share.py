@@ -35,7 +35,7 @@ g_suite_drive_external_file_share_tests: list[RuleTest] = [
                         {"name": "old_value", "multiValue": ["none"]},
                         {"name": "new_value", "multiValue": ["can_edit"]},
                     ],
-                },
+                }
             ],
         },
     ),
@@ -70,7 +70,7 @@ g_suite_drive_external_file_share_tests: list[RuleTest] = [
                         {"name": "old_value", "multiValue": ["none"]},
                         {"name": "new_value", "multiValue": ["can_edit"]},
                     ],
-                },
+                }
             ],
         },
     ),
@@ -106,7 +106,7 @@ g_suite_drive_external_file_share_tests: list[RuleTest] = [
                         {"name": "old_value", "multiValue": ["none"]},
                         {"name": "new_value", "multiValue": ["people_within_domain_with_link"]},
                     ],
-                },
+                }
             ],
         },
     ),
@@ -140,7 +140,7 @@ class GSuiteDriveExternalFileShare(Rule):
         "document title p*": {
             "allowed_for": {"alice@acme.com", "samuel@acme.com", "nathan@acme.com", "barry@acme.com"},
             "allowed_until": datetime.datetime(year=2030, month=6, day=2),
-        },
+        }
     }
 
     def _check_acl_change_event(self, actor_email, acl_change_event):

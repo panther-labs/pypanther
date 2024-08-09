@@ -81,7 +81,7 @@ decoy_s3_accessed_tests: list[RuleTest] = [
                                     "UserName": "tester",
                                 },
                             },
-                        },
+                        }
                     },
                     "Id": "ABCDEFG1HIJ2KLMNOPQR",
                     "Partition": "aws",
@@ -200,7 +200,7 @@ decoy_s3_accessed_tests: list[RuleTest] = [
                                     "UserName": "tester",
                                 },
                             },
-                        },
+                        }
                     },
                     "Id": "ABCDEFG1HIJ2KLMNOPQR",
                     "Partition": "aws",

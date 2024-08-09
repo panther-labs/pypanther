@@ -68,8 +68,8 @@ auth0_post_login_action_flow_tests: list[RuleTest] = [
                         },
                         "body": {
                             "bindings": [
-                                {"display_name": "Password Rotation", "ref": {"type": "action_id", "value": "XXX"}},
-                            ],
+                                {"display_name": "Password Rotation", "ref": {"type": "action_id", "value": "XXX"}}
+                            ]
                         },
                         "channel": "https://manage.auth0.com/",
                         "ip": "12.12.12.12",
@@ -122,7 +122,7 @@ auth0_post_login_action_flow_tests: list[RuleTest] = [
                                         },
                                         "name": "Password Rotation v1",
                                         "supported_triggers": [
-                                            {"id": "post-login", "status": "CURRENT", "version": "v3"},
+                                            {"id": "post-login", "status": "CURRENT", "version": "v3"}
                                         ],
                                         "updated_at": "2023-04-24T19:33:44.217168082Z",
                                     },
@@ -131,8 +131,8 @@ auth0_post_login_action_flow_tests: list[RuleTest] = [
                                     "id": "a12b9e2a-ec0f-4060-b476-18547030088a",
                                     "trigger_id": "post-login",
                                     "updated_at": "2023-05-23T20:53:36.528608347Z",
-                                },
-                            ],
+                                }
+                            ]
                         },
                         "statusCode": 200,
                     },
@@ -220,7 +220,7 @@ auth0_post_login_action_flow_tests: list[RuleTest] = [
                                         },
                                         "name": "Country-based Access v2",
                                         "supported_triggers": [
-                                            {"id": "post-login", "status": "CURRENT", "version": "v2"},
+                                            {"id": "post-login", "status": "CURRENT", "version": "v2"}
                                         ],
                                         "updated_at": "2022-05-26T20:45:09.128843683Z",
                                     },
@@ -229,8 +229,8 @@ auth0_post_login_action_flow_tests: list[RuleTest] = [
                                     "id": "XXX",
                                     "trigger_id": "post-login",
                                     "updated_at": "2023-05-23T21:35:54.464801212Z",
-                                },
-                            ],
+                                }
+                            ]
                         },
                         "statusCode": 200,
                     },
@@ -307,7 +307,7 @@ class Auth0PostLoginActionFlow(Rule):
                 data_description == "Update trigger bindings",
                 request_path == "/api/v2/actions/triggers/post-login/bindings",
                 is_auth0_config_event(event),
-            ],
+            ]
         )
 
     def title(self, event):

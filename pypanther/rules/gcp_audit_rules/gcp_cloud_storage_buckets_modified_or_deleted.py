@@ -27,7 +27,7 @@ gcp_cloud_storage_buckets_modified_or_deleted_tests: list[RuleTest] = [
                             "name": "projects/gcp-project1/sinks/log-sink",
                             "service": "logging.googleapis.com",
                         },
-                    },
+                    }
                 ],
                 "methodName": "google.logging.v2.ConfigServiceV2.UpdateSink",
                 "request": {
@@ -83,7 +83,7 @@ gcp_cloud_storage_buckets_modified_or_deleted_tests: list[RuleTest] = [
                         "permission": "storage.buckets.update",
                         "resource": "projects/_/buckets/my-bucket",
                         "resourceAttributes": {},
-                    },
+                    }
                 ],
                 "methodName": "storage.buckets.update",
                 "requestMetadata": {
@@ -124,7 +124,7 @@ class GCPCloudStorageBucketsModifiedOrDeleted(Rule):
             [
                 deep_get(event, "protoPayload", "serviceName", default="") == "storage.googleapis.com",
                 deep_get(event, "protoPayload", "methodName", default="") in self.BUCKET_OPERATIONS,
-            ],
+            ]
         )
 
     def title(self, event):

@@ -26,7 +26,7 @@ gcpiam_org_folder_iam_changes_tests: list[RuleTest] = [
                             "service": "cloudresourcemanager.googleapis.com",
                             "type": "cloudresourcemanager.googleapis.com/Organization",
                         },
-                    },
+                    }
                 ],
                 "methodName": "SetIamPolicy",
                 "request": {
@@ -39,7 +39,7 @@ gcpiam_org_folder_iam_changes_tests: list[RuleTest] = [
                                     "serviceAccount:terraform@platform.iam.gserviceaccount.com",
                                 ],
                                 "role": "roles/owner",
-                            },
+                            }
                         ],
                         "etag": "BwXcRFUAtX4=",
                     },
@@ -62,7 +62,7 @@ gcpiam_org_folder_iam_changes_tests: list[RuleTest] = [
                                 "serviceAccount:terraform@platform.iam.gserviceaccount.com",
                             ],
                             "role": "roles/owner",
-                        },
+                        }
                     ],
                     "etag": "BwXeRCtKxCw=",
                 },
@@ -70,8 +70,8 @@ gcpiam_org_folder_iam_changes_tests: list[RuleTest] = [
                     "@type": "type.googleapis.com/google.iam.v1.logging.AuditData",
                     "policyDelta": {
                         "bindingDeltas": [
-                            {"action": "ADD", "member": "user:backdoor@example.com", "role": "roles/owner"},
-                        ],
+                            {"action": "ADD", "member": "user:backdoor@example.com", "role": "roles/owner"}
+                        ]
                     },
                 },
                 "serviceName": "cloudresourcemanager.googleapis.com",
@@ -103,7 +103,7 @@ gcpiam_org_folder_iam_changes_tests: list[RuleTest] = [
                             "service": "cloudresourcemanager.googleapis.com",
                             "type": "cloudresourcemanager.googleapis.com/Organization",
                         },
-                    },
+                    }
                 ],
                 "methodName": "SetIamPolicy",
                 "request": {
@@ -117,8 +117,8 @@ gcpiam_org_folder_iam_changes_tests: list[RuleTest] = [
                                     "serviceAccount:diana@platform.iam.gserviceaccount.com",
                                 ],
                                 "role": "roles/owner",
-                            },
-                        ],
+                            }
+                        ]
                     },
                 },
                 "receiveTimestamp": "2022-02-17T22:52:03.190032712Z",
@@ -143,8 +143,8 @@ gcpiam_org_folder_iam_changes_tests: list[RuleTest] = [
                                 "action": "REMOVE",
                                 "member": "serviceAccount:diana@platform.iam.gserviceaccount.com",
                                 "role": "roles/owner",
-                            },
-                        ],
+                            }
+                        ]
                     },
                 },
             },

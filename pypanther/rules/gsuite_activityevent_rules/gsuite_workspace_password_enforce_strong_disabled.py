@@ -110,7 +110,7 @@ class GSuiteWorkspacePasswordEnforceStrongDisabled(Rule):
                 deep_get(event, "parameters", "NEW_VALUE", default="").lower() == "off",
                 deep_get(event, "parameters", "SETTING_NAME", default="")
                 == "Password Management - Enforce strong password",
-            ],
+            ]
         ):
             return True
         return False

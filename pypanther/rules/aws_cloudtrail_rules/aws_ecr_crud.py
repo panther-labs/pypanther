@@ -39,12 +39,12 @@ awsecrcrud_tests: list[RuleTest] = [
                         "imageDigest": "sha256:98c8b060c21d9adbb6b8c41b916e95e6307102786973ab93a41e8b86d1fc6d3e",
                         "imageTag": "latest",
                     },
-                },
+                }
             },
             "requestID": "cf044b7d-5f9d-11e9-9b2a-95983139cc57",
             "eventID": "2bfd4ee2-2178-4a82-a27d-b12939923f0f",
             "resources": [
-                {"ARN": "arn:aws:ecr:us-east-2:123456789012:repository/testrepo", "accountId": "123456789012"},
+                {"ARN": "arn:aws:ecr:us-east-2:123456789012:repository/testrepo", "accountId": "123456789012"}
             ],
             "eventType": "AwsApiCall",
             "recipientAccountId": "123456789012",
@@ -85,12 +85,12 @@ awsecrcrud_tests: list[RuleTest] = [
                         "imageDigest": "sha256:98c8b060c21d9adbb6b8c41b916e95e6307102786973ab93a41e8b86d1fc6d3e",
                         "imageTag": "latest",
                     },
-                },
+                }
             },
             "requestID": "cf044b7d-5f9d-11e9-9b2a-95983139cc57",
             "eventID": "2bfd4ee2-2178-4a82-a27d-b12939923f0f",
             "resources": [
-                {"ARN": "arn:aws:ecr:us-east-2:123456789000:repository/testrepo", "accountId": "123456789000"},
+                {"ARN": "arn:aws:ecr:us-east-2:123456789000:repository/testrepo", "accountId": "123456789000"}
             ],
             "eventType": "AwsApiCall",
             "recipientAccountId": "123456789000",
@@ -131,12 +131,12 @@ awsecrcrud_tests: list[RuleTest] = [
                         "imageDigest": "sha256:98c8b060c21d9adbb6b8c41b916e95e6307102786973ab93a41e8b86d1fc6d3e",
                         "imageTag": "latest",
                     },
-                },
+                }
             },
             "requestID": "cf044b7d-5f9d-11e9-9b2a-95983139cc57",
             "eventID": "2bfd4ee2-2178-4a82-a27d-b12939923f0f",
             "resources": [
-                {"ARN": "arn:aws:ecr:us-east-2:123456789012:repository/testrepo", "accountId": "123456789012"},
+                {"ARN": "arn:aws:ecr:us-east-2:123456789012:repository/testrepo", "accountId": "123456789012"}
             ],
             "eventType": "AwsApiCall",
             "recipientAccountId": "123456789012",

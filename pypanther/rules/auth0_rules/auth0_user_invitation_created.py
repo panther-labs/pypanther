@@ -166,7 +166,7 @@ auth0_user_invitation_created_tests: list[RuleTest] = [
                                 "email": "marge.simpson@yourcompany.io",
                                 "expires_at": "2023-05-18T16:13:53.600Z",
                                 "invitation_id": "inv_TEyzbreI336AHrfU",
-                            },
+                            }
                         ],
                         "statusCode": 201,
                     },
@@ -226,7 +226,7 @@ auth0_user_invitation_created_tests: list[RuleTest] = [
                                 "email": "marge.simpson@yourcompany.io",
                                 "expires_at": "2023-05-18T16:13:53.600Z",
                                 "invitation_id": "inv_TEyzbreI336AHrfU",
-                            },
+                            }
                         ],
                         "statusCode": 201,
                     },
@@ -286,7 +286,7 @@ auth0_user_invitation_created_tests: list[RuleTest] = [
                                 "email": "marge.simpson@yourcompany.io",
                                 "expires_at": "2023-05-18T16:13:53.600Z",
                                 "invitation_id": "inv_TEyzbreI336AHrfU",
-                            },
+                            }
                         ],
                         "statusCode": 201,
                     },

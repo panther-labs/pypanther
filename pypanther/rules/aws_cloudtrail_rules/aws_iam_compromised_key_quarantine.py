@@ -121,7 +121,7 @@ class AWSCloudTrailIAMCompromisedKeyQuarantine(Rule):
                 event.get("eventSource", "") == "iam.amazonaws.com",
                 event.get("eventName", "") in self.IAM_ACTIONS,
                 event.deep_get("requestParameters", "policyArn", default="") == self.QUARANTINE_MANAGED_POLICY,
-            ],
+            ]
         )
 
     def title(self, event):

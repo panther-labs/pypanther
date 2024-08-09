@@ -20,8 +20,8 @@ standard_admin_role_assigned_tests: list[RuleTest] = [
                                 "action": "ADD",
                                 "member": "cat@example.com",
                                 "role": "roles/resourcemanager.organizationAdmin",
-                            },
-                        ],
+                            }
+                        ]
                     },
                 },
             },
@@ -48,7 +48,7 @@ standard_admin_role_assigned_tests: list[RuleTest] = [
                                 "role": "roles/resourcemanager.organizationAdmin",
                             },
                             {"action": "ADD", "member": "dog@example.com", "role": "roles/owner"},
-                        ],
+                        ]
                     },
                 },
             },
@@ -79,7 +79,7 @@ standard_admin_role_assigned_tests: list[RuleTest] = [
                         {"name": "ROLE_NAME", "value": "Some Admin Role"},
                         {"name": "USER_EMAIL", "value": "bob@example.com"},
                     ],
-                },
+                }
             ],
             "p_log_type": "GSuite.Reports",
         },

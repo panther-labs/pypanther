@@ -71,8 +71,8 @@ aws_cloud_trail_created_tests: list[RuleTest] = [
             "userAgent": "Mozilla",
             "requestParameters": {
                 "encryptionContext": {
-                    "aws:lambda:FunctionArn": "arn:aws:lambda:us-west-2:123456789012:function:test-function",
-                },
+                    "aws:lambda:FunctionArn": "arn:aws:lambda:us-west-2:123456789012:function:test-function"
+                }
             },
             "responseElements": None,
             "requestID": "1",
@@ -83,7 +83,7 @@ aws_cloud_trail_created_tests: list[RuleTest] = [
                     "ARN": "arn:aws:kms:us-west-2:123456789012:key/1",
                     "accountId": "123456789012",
                     "type": "AWS::KMS::Key",
-                },
+                }
             ],
             "eventType": "AwsApiCall",
             "recipientAccountId": "123456789012",

@@ -18,7 +18,7 @@ signinwith_awscl_iprompt_tests: list[RuleTest] = [
                 "userName": "<victim display name>",
             },
         },
-    ),
+    )
 ]
 
 

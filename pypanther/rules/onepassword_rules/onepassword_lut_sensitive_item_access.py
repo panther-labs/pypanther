@@ -22,8 +22,8 @@ one_password_lut_sensitive_item_tests: list[RuleTest] = [
                         "title": "demo_item",
                         "updatedAt": "2022-02-14 17:44:50.000000000",
                         "uuid": "12344321",
-                    },
-                },
+                    }
+                }
             },
             "p_log_type": "OnePassword.ItemUsage",
             "timestamp": "2022-02-23 22:11:50.591",
@@ -52,8 +52,8 @@ one_password_lut_sensitive_item_tests: list[RuleTest] = [
                         "title": "not_sensitive",
                         "updatedAt": "2022-02-14 17:44:50.000000000",
                         "uuid": "12344321",
-                    },
-                },
+                    }
+                }
             },
             "p_log_type": "OnePassword.ItemUsage",
             "timestamp": "2022-02-23 22:11:50.591",

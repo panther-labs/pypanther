@@ -35,7 +35,7 @@ okta_anonymizing_vpn_login_tests: list[RuleTest] = [
                     "requestId": "AbCdEf12G",
                     "requestUri": "/api/v1/users/AbCdEfG/lifecycle/reset_factors",
                     "url": "/api/v1/users/AbCdEfG/lifecycle/reset_factors?",
-                },
+                }
             },
             "displaymessage": "Authentication of user via MFA",
             "eventtype": "user.session.start",
@@ -54,8 +54,8 @@ okta_anonymizing_vpn_login_tests: list[RuleTest] = [
                         },
                         "ip": "1.3.2.4",
                         "version": "V4",
-                    },
-                ],
+                    }
+                ]
             },
             "securitycontext": {
                 "asNumber": 701,
@@ -71,7 +71,7 @@ okta_anonymizing_vpn_login_tests: list[RuleTest] = [
                     "displayName": "Peter Griffin",
                     "id": "0002222AAAA",
                     "type": "User",
-                },
+                }
             ],
             "transaction": {"detail": {}, "id": "ABcDeFgG", "type": "WEB"},
             "uuid": "AbC-123-XyZ",
@@ -111,7 +111,7 @@ okta_anonymizing_vpn_login_tests: list[RuleTest] = [
                     "requestId": "AbCdEf12G",
                     "requestUri": "/api/v1/users/AbCdEfG/lifecycle/reset_factors",
                     "url": "/api/v1/users/AbCdEfG/lifecycle/reset_factors?",
-                },
+                }
             },
             "displaymessage": "Authentication of user via MFA",
             "eventtype": "user.session.start",
@@ -130,8 +130,8 @@ okta_anonymizing_vpn_login_tests: list[RuleTest] = [
                         },
                         "ip": "1.3.2.4",
                         "version": "V4",
-                    },
-                ],
+                    }
+                ]
             },
             "securitycontext": {
                 "asNumber": 701,
@@ -147,7 +147,7 @@ okta_anonymizing_vpn_login_tests: list[RuleTest] = [
                     "displayName": "Peter Griffin",
                     "id": "0002222AAAA",
                     "type": "User",
-                },
+                }
             ],
             "transaction": {"detail": {}, "id": "ABcDeFgG", "type": "WEB"},
             "uuid": "AbC-123-XyZ",
@@ -187,7 +187,7 @@ okta_anonymizing_vpn_login_tests: list[RuleTest] = [
                     "requestId": "AbCdEf12G",
                     "requestUri": "/api/v1/users/AbCdEfG/lifecycle/reset_factors",
                     "url": "/api/v1/users/AbCdEfG/lifecycle/reset_factors?",
-                },
+                }
             },
             "displaymessage": "Authentication of user via MFA",
             "eventtype": "user.session.start",
@@ -203,8 +203,8 @@ okta_anonymizing_vpn_login_tests: list[RuleTest] = [
                         "service": "Apple Private Relay",
                         "tor": False,
                         "vpn": False,
-                    },
-                },
+                    }
+                }
             },
             "published": "2022-06-22 18:18:29.015",
             "request": {
@@ -219,8 +219,8 @@ okta_anonymizing_vpn_login_tests: list[RuleTest] = [
                         },
                         "ip": "1.3.2.4",
                         "version": "V4",
-                    },
-                ],
+                    }
+                ]
             },
             "securitycontext": {
                 "asNumber": 701,
@@ -236,7 +236,7 @@ okta_anonymizing_vpn_login_tests: list[RuleTest] = [
                     "displayName": "Peter Griffin",
                     "id": "0002222AAAA",
                     "type": "User",
-                },
+                }
             ],
             "transaction": {"detail": {}, "id": "ABcDeFgG", "type": "WEB"},
             "uuid": "AbC-123-XyZ",
@@ -261,10 +261,7 @@ class OktaAnonymizingVPNLogin(Rule):
 
     def rule(self, event):
         return event.get("eventType") == "user.session.start" and deep_get(
-            event,
-            "securityContext",
-            "isProxy",
-            default=False,
+            event, "securityContext", "isProxy", default=False
         )
 
     def title(self, event):
