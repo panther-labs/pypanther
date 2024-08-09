@@ -36,6 +36,9 @@ jobs:
     - name: Run generate against panther-analysis
       run: |
         poetry run python ./generate.py panther-analysis
+    - name: Cleanup
+      run: |
+        rm -rf panther-analysis
     - name: fmt
       run: |
         poetry run ruff check --select I --fix .
