@@ -41,8 +41,8 @@ jobs:
         rm -rf panther-analysis
     - name: fmt and lint
       run: |
-        poetry run ruff format .
         poetry run ruff check --fix .
+        poetry run ruff format .
         poetry run mypy .
     - name: Create PR
       env:
