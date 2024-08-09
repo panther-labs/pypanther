@@ -39,13 +39,13 @@ jobs:
     - name: Cleanup
       run: |
         rm -rf panther-analysis
+    - name: lint
+      run: |
+        poetry run mypy .
     - name: fmt
       run: |
         poetry run ruff check --fix .
         poetry run ruff format .
-    - name: lint
-      run: |
-        poetry run mypy .
     - name: Create PR
       env:
         GH_TOKEN: ${{ secrets.PANTHER_BOT_AUTOMATION_TOKEN }}
