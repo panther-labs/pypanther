@@ -36,12 +36,15 @@ jobs:
     - name: Run generate against panther-analysis
       run: |
         poetry run python ./generate.py panther-analysis
-    - name: ruff
-      run: poetry run ruff check --output-format=github .
-    - name: ruff
-      run: poetry run ruff format --check .
-    - name: mypy
-      run: poetry run mypy .
+    - name: fmt
+      run: |
+        poetry run ruff check --select I --fix .
+        poetry run ruff format .
+    - name: lint
+      run: |
+        poetry run ruff check --fix .
+        poetry run ruff format --check .
+        poetry run mypy .
     - name: Create PR
       env:
         GH_TOKEN: ${{ secrets.PANTHER_BOT_AUTOMATION_TOKEN }}
