@@ -96,6 +96,7 @@ ignore = [
     "C414", # Unnecessary `tuple` call within `set()`
     "C416", # Unnecessary `set` comprehension (rewrite using `set()`)
     "C901", # `upload_zip` is too complex (19 > 10)
+    "COM812", # Missing trailing comma in a single-line tuple
     "D100", # Missing docstring in public module
     "D101", # Missing docstring in public class
     "D102", # Missing docstring in public method

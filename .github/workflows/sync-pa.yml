@@ -1,0 +1,57 @@
+name: Sync Panther-Analysis Release
+
+on:
+  pull_request:
+  workflow_dispatch:
+    inputs:
+      pa_branch:
+        description: 'Panther-Analysis Branch to Sync'
+        required: true
+        default: 'main'
+
+permissions:
+  contents: write
+
+jobs:
+  sync-pa-release:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: step-security/harden-runner@5c7944e73c4c2a096b17a9cb74d65b6c2bbafbde # v2.9.1
+      with:
+        egress-policy: audit
+    - name: Check out this repository
+      uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332
+    - name: Set up Python
+      uses: actions/setup-python@39cd14951b08e74b54015e9e001cdefcf80e669f
+      with:
+        python-version: '3.11'
+    - name: Install Requirements
+      run: |
+        pip install --upgrade pip poetry
+        poetry install
+    - name: Download panther-analysis
+      run: |
+        git clone --branch release https://github.com/panther-labs/panther-analysis.git 
+    - name: Run generate against panther-analysis
+      run: |
+        poetry run python ./generate.py panther-analysis
+    - name: Cleanup
+      run: |
+        rm -rf panther-analysis
+    - name: fmt and lint
+      run: |
+        poetry run ruff check --fix .
+        poetry run ruff format .
+        poetry run mypy .
+    - name: Create PR
+      env:
+        GH_TOKEN: ${{ secrets.PANTHER_BOT_AUTOMATION_TOKEN }}
+      run: |
+        git config user.name "dac-bot[bot]"
+        git config user.email "dac-bot@panther.com"
+        git add .
+        git commit -a -m "sync panther-analysis release"
+        git checkout -b sync-panther-analysis-release
+        git push --set-upstream origin sync-panther-analysis-release
+        gh pr create -t "Sync latest panther-analysis release" -b "Generated files from latest panther-analysis release."
