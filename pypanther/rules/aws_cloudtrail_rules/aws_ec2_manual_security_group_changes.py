@@ -340,8 +340,10 @@ class AWSEC2ManualSecurityGroupChange(Rule):
 
     def dedup(self, event):
         return ":".join(
-            deep_get(event, "requestParameters", field, default="<UNKNOWN_FIELD>")
-            for field in self.SG_CHANGE_EVENTS[event.get("eventName")]["fields"]
+
+                deep_get(event, "requestParameters", field, default="<UNKNOWN_FIELD>")
+                for field in self.SG_CHANGE_EVENTS[event.get("eventName")]["fields"]
+
         )
 
     def title(self, event):

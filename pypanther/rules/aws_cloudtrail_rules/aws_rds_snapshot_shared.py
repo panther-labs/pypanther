@@ -144,9 +144,7 @@ class AWSRDSSnapshotShared(Rule):
     def title(self, event):
         account_id = event.get("recipientAccountId", default="<ACCOUNT_ID_NOT_FOUND>")
         rds_instance_id = event.deep_get(
-            "responseElements",
-            "dBInstanceIdentifier",
-            default="<DB_INSTANCE_ID_NOT_FOUND>",
+            "responseElements", "dBInstanceIdentifier", default="<DB_INSTANCE_ID_NOT_FOUND>",
         )
         return f"RDS Snapshot Shared in [{account_id}] for RDS instance [{rds_instance_id}]"
 

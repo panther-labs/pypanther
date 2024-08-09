@@ -448,11 +448,7 @@ class AWSConsoleLoginWithoutMFA(Rule):
             user_string = "the root user"
         else:
             user = deep_get(event, "userIdentity", "userName") or deep_get(
-                event,
-                "userIdentity",
-                "sessionContext",
-                "sessionIssuer",
-                "userName",
+                event, "userIdentity", "sessionContext", "sessionIssuer", "userName",
             )
             type_ = deep_get(event, "userIdentity", "sessionContext", "sessionIssuer", "type", default="user").lower()
             user_string = f"{type_} {user}"

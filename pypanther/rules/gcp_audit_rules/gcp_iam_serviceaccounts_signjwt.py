@@ -124,9 +124,6 @@ class GCPIAMserviceAccountssignJwtPrivilegeEscalation(Rule):
     def alert_context(self, event):
         context = gcp_alert_context(event)
         context["serviceAccountKeyName"] = deep_get(
-            event,
-            "protoPayload",
-            "authenticationInfo",
-            "serviceAccountKeyName",
+            event, "protoPayload", "authenticationInfo", "serviceAccountKeyName",
         )
         return context

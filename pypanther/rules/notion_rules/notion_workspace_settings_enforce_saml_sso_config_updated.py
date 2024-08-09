@@ -91,11 +91,7 @@ class NotionSAMLSSOConfigurationChanged(Rule):
         user = event.deep_get("event", "actor", "person", "email", default="<NO_USER_FOUND>")
         workspace_id = event.deep_get("event", "workspace_id", default="<NO_WORKSPACE_ID_FOUND>")
         state = deep_get(
-            event,
-            "event",
-            "workspace.settings.enforce_saml_sso_config_updated",
-            "state",
-            default="<NO_STATE_FOUND>",
+            event, "event", "workspace.settings.enforce_saml_sso_config_updated", "state", default="<NO_STATE_FOUND>",
         )
         if state == "enabled":
             return f"Notion User [{user}] updated settings to enable SAML SSO config from workspace id {workspace_id}"
@@ -103,11 +99,7 @@ class NotionSAMLSSOConfigurationChanged(Rule):
 
     def severity(self, event):
         state = deep_get(
-            event,
-            "event",
-            "workspace.settings.enforce_saml_sso_config_updated",
-            "state",
-            default="<NO_STATE_FOUND>",
+            event, "event", "workspace.settings.enforce_saml_sso_config_updated", "state", default="<NO_STATE_FOUND>",
         )
         if state == "enabled":
             return "INFO"

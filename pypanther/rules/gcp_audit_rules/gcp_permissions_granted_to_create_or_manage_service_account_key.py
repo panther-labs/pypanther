@@ -199,11 +199,7 @@ class GCPPermissionsGrantedtoCreateorManageServiceAccountKey(Rule):
     def title(self, event):
         actor = deep_get(event, "protoPayload", "authenticationInfo", "principalEmail", default="<ACTOR_NOT_FOUND>")
         target = deep_get(event, "resource", "labels", "email_id") or deep_get(
-            event,
-            "resource",
-            "labels",
-            "project_id",
-            default="<TARGET_NOT_FOUND>",
+            event, "resource", "labels", "project_id", default="<TARGET_NOT_FOUND>",
         )
         return f"GCP: [{actor}] granted permissions to create or manage service account keys to [{target}]"
 
