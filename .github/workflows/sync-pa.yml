@@ -13,7 +13,7 @@ permissions:
   contents: write
 
 jobs:
-  run-script-and-create-pr:
+  sync-pa-release:
     runs-on: ubuntu-latest
 
     steps:
@@ -35,7 +35,7 @@ jobs:
         git clone --branch main https://github.com/panther-labs/panther-analysis.git
     - name: Run generate against panther-analysis
       run: |
-        python ./generate.py panther-analysis
+        poetry run python ./generate.py panther-analysis
     - name: ruff
       run: poetry run ruff check --output-format=github .
     - name: ruff
