@@ -1,6 +1,7 @@
 name: Sync Panther-Analysis Release
 
 on:
+  pull_request:
   workflow_dispatch:
     inputs:
       pa_branch:
@@ -31,17 +32,19 @@ jobs:
         poetry install
     - name: Download panther-analysis
       run: |
-        git clone --branch ${{ github.event.inputs.pa_branch }} https://github.com/panther-labs/panther-analysis.git
+        git clone --branch main https://github.com/panther-labs/panther-analysis.git 
     - name: Run generate against panther-analysis
       run: |
         poetry run python ./generate.py panther-analysis
     - name: Cleanup
       run: |
         rm -rf panther-analysis
-    - name: fmt and lint
+    - name: fmt
       run: |
         poetry run ruff check --fix .
         poetry run ruff format .
+    - name: lint
+      run: |
         poetry run mypy .
     - name: Create PR
       env:
