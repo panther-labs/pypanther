@@ -46,7 +46,7 @@ jobs:
     - name: lint
       run: |
         poetry run ruff check --fix .
-        poetry run ruff format --check .
+        poetry run ruff format .
         poetry run mypy .
     - name: Create PR
       env:
