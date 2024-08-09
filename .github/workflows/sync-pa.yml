@@ -32,7 +32,7 @@ jobs:
         poetry install
     - name: Download panther-analysis
       run: |
-        git clone --branch ${{ github.event.inputs.pa_branch }} https://github.com/panther-labs/panther-analysis.git
+        git clone --branch main https://github.com/panther-labs/panther-analysis.git
     - name: Run generate against panther-analysis
       run: |
         python ./generate.py panther-analysis
