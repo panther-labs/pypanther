@@ -301,7 +301,7 @@ class TestRunningTests:
         assert len(results) == 2
         assert not results[0].passed
         assert not results[1].passed
-        Rule2.run_tests(get_data_model)
+        results = Rule2.run_tests(get_data_model)
         assert len(results) == 2
         assert not results[0].passed
         assert not results[1].passed
@@ -322,6 +322,34 @@ class TestRunningTests:
         assert len(results) == 1
         assert not results[0].passed
         assert "bad" in str(results[0].detection_result.detection_exception)
+
+    def test_runs_filtered_rule_tests(self):
+        false_test_1 = RuleTest(name="false test 1", expected_result=False, log={})
+        false_test_2 = RuleTest(name="false test 2", expected_result=False, log={})
+
+        class Rule1(Rule):
+            log_types = [LogType.PANTHER_AUDIT]
+            default_severity = Severity.HIGH
+            id = "Rule1"
+            tests = [false_test_1, false_test_2]
+
+            def rule(self, event):
+                return True
+
+        results = Rule1.run_tests(get_data_model, test_names=[false_test_1.name, false_test_2.name])
+        assert len(results) == 2
+        assert not results[0].passed
+        assert not results[1].passed
+        results = Rule1.run_tests(get_data_model, test_names=[false_test_1.name])
+        assert len(results) == 1
+        assert not results[0].passed
+        results = Rule1.run_tests(get_data_model, test_names=["not a test name", false_test_2.name])
+        assert len(results) == 1
+        assert not results[0].passed
+        results = Rule1.run_tests(get_data_model, test_names=["not a test name"])
+        assert len(results) == 0
+        results = Rule1.run_tests(get_data_model, test_names=[])
+        assert len(results) == 0
 
 
 class TestValidation:

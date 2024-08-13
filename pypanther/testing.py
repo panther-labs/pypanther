@@ -109,22 +109,22 @@ def run_tests(args: argparse.Namespace) -> TestResults:
     test_results = TestResults()
 
     for rule in registered_rules(
-        log_types=args.log_types if hasattr(args, "log_types") else None,
-        id=args.id if hasattr(args, "id") else None,
-        create_alert=args.create_alert if hasattr(args, "create_alert") else None,
-        dedup_period_minutes=args.dedup_period_minutes if hasattr(args, "dedup_period_minutes") else None,
-        display_name=args.display_name if hasattr(args, "display_name") else None,
-        enabled=args.enabled if hasattr(args, "enabled") else None,
-        summary_attributes=args.summary_attributes if hasattr(args, "summary_attributes") else None,
-        threshold=args.threshold if hasattr(args, "threshold") else None,
-        tags=args.tags if hasattr(args, "tags") else None,
-        default_severity=args.default_severity if hasattr(args, "default_severity") else None,
-        default_description=args.default_description if hasattr(args, "default_description") else None,
-        default_reference=args.default_reference if hasattr(args, "default_reference") else None,
-        default_runbook=args.default_runbook if hasattr(args, "default_runbook") else None,
-        default_destinations=args.default_destinations if hasattr(args, "default_destinations") else None,
+        log_types=getattr(args, "log_types", None),
+        id=getattr(args, "id", None),
+        create_alert=getattr(args, "create_alert", None),
+        dedup_period_minutes=getattr(args, "dedup_period_minutes", None),
+        display_name=getattr(args, "display_name", None),
+        enabled=getattr(args, "enabled", None),
+        summary_attributes=getattr(args, "summary_attributes", None),
+        threshold=getattr(args, "threshold", None),
+        tags=getattr(args, "tags", None),
+        default_severity=getattr(args, "default_severity", None),
+        default_description=getattr(args, "default_description", None),
+        default_reference=getattr(args, "default_reference", None),
+        default_runbook=getattr(args, "default_runbook", None),
+        default_destinations=getattr(args, "default_destinations", None),
     ):
-        results = rule.run_tests(data_model_cache().data_model_of_logtype)
+        results = rule.run_tests(data_model_cache().data_model_of_logtype, test_names=getattr(args, "test_names", None))
         test_results.add_test_results(rule.id, results)
 
         if args.output == display.OUTPUT_TYPE_TEXT:

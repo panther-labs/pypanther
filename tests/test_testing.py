@@ -548,6 +548,7 @@ class TestRun:
         "--default-reference ref",
         "--default-runbook run",
         "--default-destinations a b",
+        "--test-names a b",
     ]
 
     @pytest.mark.parametrize("cmd", [f"test {f}" for f in FILTER_ARGS])

@@ -308,6 +308,7 @@ class Rule(metaclass=abc.ABCMeta):
         cls,
         get_data_model: Callable[[str], Optional[DataModel]],
         _validate_config: bool = True,
+        test_names: Optional[List[str]] = None,
     ) -> list[RuleTestResult]:
         """
         Runs all RuleTests in this Rules' Test attribute over this Rule.
@@ -316,6 +317,7 @@ class Rule(metaclass=abc.ABCMeta):
         ----------
             get_data_model: a helper function that will return a DataModel given a log type.
             _validate_config: true if tests are being run should validate any configuration, false otherwise. Only meant to be used by Panther.
+            test_names: if provided, the names of the tests on the rule to run, otherwise run all tests
 
         Returns
         -------
@@ -324,6 +326,9 @@ class Rule(metaclass=abc.ABCMeta):
         """
         cls.validate(_validate_config)
         rule = cls()
+
+        if test_names is not None:
+            return [rule.run_test(test, get_data_model) for test in rule.tests if test.name in test_names]
 
         return [rule.run_test(test, get_data_model) for test in rule.tests]
 

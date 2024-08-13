@@ -58,6 +58,13 @@ def setup_get_rule_parser(get_rules_parser: argparse.ArgumentParser):
 def setup_test_parser(test_parser: argparse.ArgumentParser):
     shared_args.for_filtering(test_parser)
     test_parser.add_argument(
+        "--test-names",
+        help="The names of the tests to run, space delimited. If not specified, all tests on filtered items will be run",
+        nargs="+",
+        default=None,
+        required=False,
+    )
+    test_parser.add_argument(
         "--verbose",
         help="Verbose output, includes passing tests, skipped tests, and exception stack traces",
         default=False,
