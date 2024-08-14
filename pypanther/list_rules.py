@@ -12,7 +12,8 @@ def run(args: argparse.Namespace) -> Tuple[int, str]:
     rules = set()
 
     if not args.registered and not args.managed:
-        return 1, "At least one of --registered or --managed is required"
+        args.registered = True
+        args.managed = True
 
     if args.registered:
         try:

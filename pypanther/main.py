@@ -105,7 +105,10 @@ def setup_parser() -> argparse.ArgumentParser:
     list_subparsers = list_parser.add_subparsers()
     list_rules_parser = list_subparsers.add_parser(
         name="rules",
-        help="List panther managed and registered rules",
+        help="List panther managed and registered rules. "
+             "Lists both managed and registered by default. "
+             "Use --managed flag to only show managed Panther rules or "
+             "--registered flag to only show registered Panther rules",
         formatter_class=argparse.ArgumentDefaultsHelpFormatter,
     )
     setup_list_rules_parser(list_rules_parser)
