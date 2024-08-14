@@ -33,18 +33,19 @@ FILTER_ARGS = [
 
 
 def test_list_no_managed_or_registered() -> None:
-    args = setup_parser().parse_args(f"{LIST_RULES_CMD}".split(" "))
-    assert not args.managed and not args.registered
-    code, err = list_rules.run(args)
-    assert code == 0
-    assert err == ""
+    with create_main():
+        args = setup_parser().parse_args(f"{LIST_RULES_CMD}".split(" "))
+        assert not args.managed and not args.registered
+        code, err = list_rules.run(args)
+        assert code == 0
+        assert err == ""
 
 
 def test_list_registered_no_main() -> None:
     args = setup_parser().parse_args(f"{LIST_RULES_CMD} {REGISTERED_ARG}".split(" "))
     code, err = list_rules.run(args)
     assert code == 1
-    assert err == "No main.py found. Cannot use --registered option without main.py."
+    assert err == "No main.py found. Cannot list registered rules without main.py."
 
 
 @pytest.mark.parametrize("cmd", [f"{LIST_RULES_CMD} {MANAGED_ARG} {f}" for f in FILTER_ARGS])

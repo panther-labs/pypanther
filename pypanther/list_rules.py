@@ -19,7 +19,7 @@ def run(args: argparse.Namespace) -> Tuple[int, str]:
         try:
             import_main(os.getcwd(), "main")
         except NoMainModuleError:
-            return 1, "No main.py found. Cannot use --registered option without main.py."
+            return 1, "No main.py found. Cannot list registered rules without main.py."
         rules = registered_rules(
             log_types=getattr(args, "log_types", None),
             id=getattr(args, "id", None),
