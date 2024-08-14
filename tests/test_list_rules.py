@@ -32,12 +32,12 @@ FILTER_ARGS = [
 ]
 
 
-def test_list_no_mangaed() -> None:
+def test_list_no_managed_or_registered() -> None:
     args = setup_parser().parse_args(f"{LIST_RULES_CMD}".split(" "))
     assert not args.managed and not args.registered
     code, err = list_rules.run(args)
-    assert code == 1
-    assert str(err) == "At least one of --registered or --managed is required"
+    assert code == 0
+    assert err == ""
 
 
 def test_list_registered_no_main() -> None:
