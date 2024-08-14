@@ -8,9 +8,10 @@ from pypanther import testing
 from pypanther.custom_logging import setup_logging
 from pypanther.setup_subparsers import (
     setup_get_rule_parser,
+    setup_list_log_types_parser,
     setup_list_rules_parser,
-    setup_upload_parser,
     setup_test_parser,
+    setup_upload_parser,
 )
 from pypanther.vendor.panther_analysis_tool import util
 from pypanther.vendor.panther_analysis_tool.command import standard_args
@@ -24,12 +25,12 @@ def run():
     args = parser.parse_args()
     if args.command is None:
         parser.print_help()
-        return
+        return None
 
     if args.debug:
         logging.getLogger().setLevel(logging.DEBUG)
     else:
-        logging.getLogger('gql.transport.aiohttp').setLevel(logging.WARNING)
+        logging.getLogger("gql.transport.aiohttp").setLevel(logging.WARNING)
 
     config_file_settings = setup_dynaconf()
     dynaconf_argparse_merge(vars(args), config_file_settings)
@@ -37,7 +38,7 @@ def run():
     try:
         return_code, out = args.func(args)
     except util.BackendNotFoundException as err:
-        logging.error('Backend not found: "%s"', err)
+        logging.exception('Backend not found: "%s"', err)
         return 1
     except Exception as err:  # pylint: disable=broad-except
         # Catch arbitrary exceptions without printing help message
@@ -64,21 +65,27 @@ def setup_parser() -> argparse.ArgumentParser:
 
     # Upload command
     upload_parser = subparsers.add_parser(
-        "upload", help="Upload a file", formatter_class=argparse.ArgumentDefaultsHelpFormatter
+        "upload",
+        help="Upload a file",
+        formatter_class=argparse.ArgumentDefaultsHelpFormatter,
     )
     standard_args.for_public_api(upload_parser, required=False)
     setup_upload_parser(upload_parser)
 
     # Test command
     test_parser = subparsers.add_parser(
-        "test", help="run tests", formatter_class=argparse.ArgumentDefaultsHelpFormatter
+        "test",
+        help="run tests",
+        formatter_class=argparse.ArgumentDefaultsHelpFormatter,
     )
     test_parser.set_defaults(func=testing.run)
     setup_test_parser(test_parser)
 
     # Version command
     version_parser = subparsers.add_parser(
-        "version", help="version", formatter_class=argparse.ArgumentDefaultsHelpFormatter
+        "version",
+        help="version",
+        formatter_class=argparse.ArgumentDefaultsHelpFormatter,
     )
     version_parser.set_defaults(func=version)
 
@@ -99,7 +106,9 @@ def setup_parser() -> argparse.ArgumentParser:
 
     # List command
     list_parser = subparsers.add_parser(
-        name="list", help="List managed or register content", formatter_class=argparse.ArgumentDefaultsHelpFormatter
+        name="list",
+        help="List managed or register content",
+        formatter_class=argparse.ArgumentDefaultsHelpFormatter,
     )
     list_parser.set_defaults(func=help_printer(list_parser))
     list_subparsers = list_parser.add_subparsers()
@@ -109,6 +118,12 @@ def setup_parser() -> argparse.ArgumentParser:
         formatter_class=argparse.ArgumentDefaultsHelpFormatter,
     )
     setup_list_rules_parser(list_rules_parser)
+    list_log_types_parser = list_subparsers.add_parser(
+        name="log-types",
+        help="List panther managed log-types. A case-insensitive substring can be provided to filter the results (e.g list log-types zee).",
+        formatter_class=argparse.ArgumentDefaultsHelpFormatter,
+    )
+    setup_list_log_types_parser(list_log_types_parser)
 
     return parser
 
