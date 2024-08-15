@@ -9,7 +9,6 @@ from pypanther.main import setup_parser
 
 LIST_RULES_CMD = "list rules"
 MANAGED_ARG = "--managed"
-REGISTERED_ARG = "--registered"
 FILTER_ARGS = [
     ""  # no filter
     "--log-types a b",
@@ -32,19 +31,13 @@ FILTER_ARGS = [
 ]
 
 
-def test_list_no_mangaed() -> None:
-    args = setup_parser().parse_args(f"{LIST_RULES_CMD}".split(" "))
-    assert not args.managed and not args.registered
-    code, err = list_rules.run(args)
-    assert code == 1
-    assert str(err) == "At least one of --registered or --managed is required"
-
-
-def test_list_registered_no_main() -> None:
-    args = setup_parser().parse_args(f"{LIST_RULES_CMD} {REGISTERED_ARG}".split(" "))
-    code, err = list_rules.run(args)
-    assert code == 1
-    assert err == "No main.py found. Cannot use --registered option without main.py."
+def test_list_default() -> None:
+    with create_main():
+        args = setup_parser().parse_args(f"{LIST_RULES_CMD}".split(" "))
+        assert not args.managed
+        code, err = list_rules.run(args)
+        assert code == 0
+        assert err == ""
 
 
 @pytest.mark.parametrize("cmd", [f"{LIST_RULES_CMD} {MANAGED_ARG} {f}" for f in FILTER_ARGS])
@@ -53,24 +46,6 @@ def test_list_managed_rules(cmd: str) -> None:
     code, err = list_rules.run(args)
     assert code == 0
     assert err == ""
-
-
-@pytest.mark.parametrize("cmd", [f"{LIST_RULES_CMD} {REGISTERED_ARG} {f}" for f in FILTER_ARGS])
-def test_list_registered_rules(cmd: str) -> None:
-    with create_main():
-        args = setup_parser().parse_args(cmd.split(" "))
-        code, err = list_rules.run(args)
-        assert code == 0
-        assert err == ""
-
-
-@pytest.mark.parametrize("cmd", [f"{LIST_RULES_CMD} {MANAGED_ARG} {REGISTERED_ARG} {f}" for f in FILTER_ARGS])
-def test_list_registered_and_managed_rules(cmd: str) -> None:
-    with create_main():
-        args = setup_parser().parse_args(cmd.split(" "))
-        code, err = list_rules.run(args)
-        assert code == 0
-        assert err == ""
 
 
 @contextlib.contextmanager

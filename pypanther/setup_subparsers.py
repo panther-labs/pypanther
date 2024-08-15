@@ -9,14 +9,7 @@ def setup_list_rules_parser(list_rules_parser: argparse.ArgumentParser):
     shared_args.for_filtering(list_rules_parser)
     list_rules_parser.add_argument(
         "--managed",
-        help="List panther managed rules",
-        default=False,
-        required=False,
-        action="store_true",
-    )
-    list_rules_parser.add_argument(
-        "--registered",
-        help="List registered rules",
+        help="List panther managed rules instead of registered rules to view available rules",
         default=False,
         required=False,
         action="store_true",
