@@ -57,7 +57,6 @@ def run(args: argparse.Namespace) -> Tuple[int, str]:
         match args.output:
             case "text":
                 print_rule_table(list(rules), args.attributes)
-                print(f"Total rules: {len(rules)}")
             case "json":
                 print_rules_as_json(list(rules), args.attributes)
             case _:
