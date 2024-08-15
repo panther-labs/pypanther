@@ -1,6 +1,6 @@
 import argparse
 
-from pypanther import display, get_rule, list_rules, shared_args, upload
+from pypanther import display, get_rule, list_log_types, list_rules, shared_args, upload
 from pypanther.vendor.panther_analysis_tool import util
 
 
@@ -104,6 +104,22 @@ def setup_upload_parser(upload_parser: argparse.ArgumentParser):
         action="store_true",
     )
     upload_parser.add_argument(
+        "--output",
+        help="The format to use for the output.",
+        required=False,
+        choices=display.VALID_CLI_OUTPUT_TYPES,
+        default=display.DEFAULT_CLI_OUTPUT_TYPE,
+    )
+
+
+def setup_list_log_types_parser(list_log_types_parser: argparse.ArgumentParser):
+    list_log_types_parser.set_defaults(func=list_log_types.run)
+    list_log_types_parser.add_argument(
+        "substring",
+        nargs="?",
+        help="Filter log types by a substring. Only log types that include the substring will be printed.",
+    )
+    list_log_types_parser.add_argument(
         "--output",
         help="The format to use for the output.",
         required=False,

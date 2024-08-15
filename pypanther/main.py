@@ -8,6 +8,7 @@ from pypanther import testing
 from pypanther.custom_logging import setup_logging
 from pypanther.setup_subparsers import (
     setup_get_rule_parser,
+    setup_list_log_types_parser,
     setup_list_rules_parser,
     setup_test_parser,
     setup_upload_parser,
@@ -119,6 +120,12 @@ def setup_parser() -> argparse.ArgumentParser:
         formatter_class=argparse.ArgumentDefaultsHelpFormatter,
     )
     setup_list_rules_parser(list_rules_parser)
+    list_log_types_parser = list_subparsers.add_parser(
+        name="log-types",
+        help="List panther managed log-types. A case-insensitive substring can be provided to filter the results (e.g list log-types zee).",
+        formatter_class=argparse.ArgumentDefaultsHelpFormatter,
+    )
+    setup_list_log_types_parser(list_log_types_parser)
 
     return parser
 
