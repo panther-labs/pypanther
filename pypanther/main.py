@@ -38,7 +38,7 @@ def run():
     try:
         return_code, out = args.func(args)
     except util.BackendNotFoundException as err:
-        logging.exception('Backend not found: "%s"', err)
+        logging.error('Backend not found: "%s"', err)  # noqa: TRY400
         return 1
     except Exception as err:  # pylint: disable=broad-except
         # Catch arbitrary exceptions without printing help message
