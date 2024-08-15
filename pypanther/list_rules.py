@@ -11,14 +11,11 @@ from pypanther.registry import registered_rules
 def run(args: argparse.Namespace) -> Tuple[int, str]:
     rules = set()
 
-    if not args.registered and not args.managed:
-        return 1, "At least one of --registered or --managed is required"
-
-    if args.registered:
+    if not args.managed:
         try:
             import_main(os.getcwd(), "main")
         except NoMainModuleError:
-            return 1, "No main.py found. Cannot use --registered option without main.py."
+            return 1, "No main.py found. Cannot list registered rules without main.py."
         rules = registered_rules(
             log_types=getattr(args, "log_types", None),
             id=getattr(args, "id", None),
