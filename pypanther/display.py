@@ -60,7 +60,9 @@ def print_rule_table(rules: list[Type[Rule]], attributes: list[str] | None = Non
     table.field_names = attributes
 
     for rule in rules:
-        table.add_row([getattr(rule, attr) if attr != "log_types" else fmt_log_types_attr(rule) for attr in attributes])
+        table.add_row(
+            [rule_table_row_attr(rule, attr) for attr in attributes],
+        )
 
     # sort the table by the first attr given or the ID
     # sortby must be set before setting sort_key
@@ -79,12 +81,23 @@ def print_rule_table(rules: list[Type[Rule]], attributes: list[str] | None = Non
     print(table)
 
 
-def fmt_log_types_attr(rule: Type[Rule]) -> str:
-    log_types = rule.log_types
-    if len(log_types) > 2:
-        log_types = log_types[:2] + [f"+{len(log_types) - 2}"]
+def rule_table_row_attr(rule: Type[Rule], attr: str) -> str:
+    val = getattr(rule, attr)
 
-    return ", ".join([str(s) for s in log_types])
+    if val == "" or val is None or val == []:
+        return "-"
+
+    if isinstance(val, list):
+        return fmt_list_attr(val)
+
+    return val
+
+
+def fmt_list_attr(val: list) -> str:
+    if len(val) > 2:
+        val = val[:2] + [f"+{len(val) - 2}"]
+
+    return ", ".join([str(s) for s in val])
 
 
 def print_rules_as_json(rules: list[Type[Rule]], attributes: list[str] | None = None) -> None:
