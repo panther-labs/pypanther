@@ -11,11 +11,7 @@ from pypanther.registry import registered_rules
 def run(args: argparse.Namespace) -> Tuple[int, str]:
     rules = set()
 
-    if not args.registered and not args.managed:
-        args.registered = True
-        args.managed = True
-
-    if args.registered:
+    if not args.managed:
         try:
             import_main(os.getcwd(), "main")
         except NoMainModuleError:

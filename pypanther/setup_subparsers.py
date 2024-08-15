@@ -15,13 +15,6 @@ def setup_list_rules_parser(list_rules_parser: argparse.ArgumentParser):
         action="store_true",
     )
     list_rules_parser.add_argument(
-        "--registered",
-        help="List registered rules",
-        default=False,
-        required=False,
-        action="store_true",
-    )
-    list_rules_parser.add_argument(
         "--attributes",
         help="Display attributes of rules as columns in printed table (i.e --attributes threshold default_display_name)",
         nargs="+",
