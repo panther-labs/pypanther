@@ -4,7 +4,7 @@ import textwrap
 import pytest
 
 from pypanther.base import Rule
-from pypanther.display import print_rule_table, print_rules_as_json
+from pypanther.display import print_rule_table, print_rules_as_csv, print_rules_as_json
 
 
 class TestEDRRule(Rule):
@@ -74,4 +74,22 @@ def test_print_rules_as_json(capsys):
     ]
 
     assert json.loads(std.out) == exp
+    assert std.err == ""
+
+
+def test_print_rule_table(capsys):
+    rules = [TestEDRRule, TestPaloAltoRule]
+    print_rules_as_csv(rules)
+    std = capsys.readouterr()
+
+    pytest.maxDiff = None
+    exp = textwrap.dedent(
+        """
+        id,log_types,default_severity,enabled
+        EDR,"CrowdStrike,SentinelOne,AWS",High,True
+        Firewall,"PaloAlto",Medium,True
+    """,
+    ).lstrip()
+
+    assert std.out == exp
     assert std.err == ""

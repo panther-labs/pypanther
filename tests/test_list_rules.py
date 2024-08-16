@@ -28,6 +28,7 @@ FILTER_ARGS = [
     "--attributes id default_severity",
     "--output json",
     "--output text",
+    "--output csv",
 ]
 
 

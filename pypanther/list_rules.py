@@ -2,7 +2,7 @@ import argparse
 import os
 from typing import Tuple
 
-from pypanther.display import print_rule_table, print_rules_as_json
+from pypanther import display
 from pypanther.get import get_panther_rules
 from pypanther.import_main import NoMainModuleError, import_main
 from pypanther.registry import registered_rules
@@ -56,9 +56,11 @@ def run(args: argparse.Namespace) -> Tuple[int, str]:
     try:
         match args.output:
             case "text":
-                print_rule_table(list(rules), args.attributes)
+                display.print_rule_table(list(rules), args.attributes)
             case "json":
-                print_rules_as_json(list(rules), args.attributes)
+                display.print_rules_as_json(list(rules), args.attributes)
+            case "csv":
+                display.print_rules_as_csv(list(rules), args.attributes)
             case _:
                 return 1, f"Unsupported output: {args.output}"
     except AttributeError as err:

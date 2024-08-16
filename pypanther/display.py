@@ -30,8 +30,9 @@ VALID_RULE_TABLE_ATTRS = [
 
 OUTPUT_TYPE_JSON = "json"
 OUTPUT_TYPE_TEXT = "text"
+OUTPUT_TYPE_CSV = "csv"
 DEFAULT_CLI_OUTPUT_TYPE = OUTPUT_TYPE_TEXT
-VALID_CLI_OUTPUT_TYPES = [
+COMMON_CLI_OUTPUT_TYPES = [
     OUTPUT_TYPE_TEXT,
     OUTPUT_TYPE_JSON,
 ]
@@ -119,6 +120,41 @@ def print_rules_as_json(rules: list[Type[Rule]], attributes: list[str] | None = 
 
     rule_dicts = [{attr: getattr(rule, attr) for attr in attributes} for rule in rules]
     print(json.dumps(rule_dicts, indent=JSON_INDENT_LEVEL))
+
+
+def print_rules_as_csv(rules: list[Type[Rule]], attributes: list[str] | None = None) -> None:
+    """
+    Prints rules in CSV format for easy viewing and parsing.
+
+    Parameters
+    ----------
+        rules (list[Type[Rule]]): The list of PantherRule subclasses that will be printed in JSON format.
+        attributes (list[str] | None): The list of attributes that will appear as attributes in the JSON.
+            Supplying None or an empty list will use defaults of [id, log_types, default_severity, enabled].
+
+    """
+    attributes = utils.dedup_list_preserving_order(attributes or [])
+    check_rule_attributes(attributes)
+
+    if len(attributes) == 0:
+        attributes = DEFAULT_RULE_TABLE_ATTRS
+
+    rule_dicts = [{attr: getattr(rule, attr) for attr in attributes} for rule in rules]
+
+    # print the column labels as the header row
+    print(",".join(attributes))
+
+    # print the data rows
+    for rule_dict in rule_dicts:
+        print(",".join([attr_to_csv_fmt(rule_dict[k]) for k in rule_dict]))
+
+
+def attr_to_csv_fmt(attr: Any) -> str:
+    # take care of lists by quoting them
+    if isinstance(attr, list):
+        return f'"{",".join([str(val) for val in attr])}"'
+
+    return str(attr)
 
 
 def check_rule_attributes(attributes: list[str]) -> None:
