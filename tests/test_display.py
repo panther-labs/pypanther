@@ -77,7 +77,7 @@ def test_print_rules_as_json(capsys):
     assert std.err == ""
 
 
-def test_print_rule_table(capsys):
+def test_print_rules_as_csv(capsys):
     rules = [TestEDRRule, TestPaloAltoRule]
     print_rules_as_csv(rules)
     std = capsys.readouterr()
