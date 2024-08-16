@@ -2,6 +2,7 @@ import argparse
 import os
 from typing import Tuple
 
+from pypanther import display
 from pypanther.display import print_rule_table, print_rules_as_json
 from pypanther.get import get_panther_rules
 from pypanther.import_main import NoMainModuleError, import_main
