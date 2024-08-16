@@ -128,8 +128,8 @@ def print_rules_as_csv(rules: list[Type[Rule]], attributes: list[str] | None = N
 
     Parameters
     ----------
-        rules (list[Type[Rule]]): The list of PantherRule subclasses that will be printed in JSON format.
-        attributes (list[str] | None): The list of attributes that will appear as attributes in the JSON.
+        rules (list[Type[Rule]]): The list of PantherRule subclasses that will be printed in CSV format.
+        attributes (list[str] | None): The list of attributes that will appear as attributes in the CSV.
             Supplying None or an empty list will use defaults of [id, log_types, default_severity, enabled].
 
     """
