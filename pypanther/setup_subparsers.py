@@ -18,7 +18,7 @@ def setup_list_rules_parser(list_rules_parser: argparse.ArgumentParser):
         "--attributes",
         help="Display attributes of rules as columns in printed table (i.e --attributes threshold default_display_name)",
         nargs="+",
-        default=None,
+        default=display.DEFAULT_RULE_TABLE_ATTRS,
         required=False,
         choices=display.VALID_RULE_TABLE_ATTRS,
     )

@@ -45,6 +45,28 @@ def test_print_rule_table(capsys):
         |   EDR    | CrowdStrike, SentinelOne, +1 |       High       |   True  |
         | Firewall |           PaloAlto           |      Medium      |   True  |
         +----------+------------------------------+------------------+---------+
+        Total rules: 2
+    """,
+    ).lstrip()
+
+    assert std.out == exp
+    assert std.err == ""
+
+
+def test_print_rule_table_no_total(capsys):
+    rules = [TestEDRRule, TestPaloAltoRule]
+    print_rule_table(rules, print_total=False)
+    std = capsys.readouterr()
+
+    pytest.maxDiff = None
+    exp = textwrap.dedent(
+        """
+        +----------+------------------------------+------------------+---------+
+        |    id    |          log_types           | default_severity | enabled |
+        +----------+------------------------------+------------------+---------+
+        |   EDR    | CrowdStrike, SentinelOne, +1 |       High       |   True  |
+        | Firewall |           PaloAlto           |      Medium      |   True  |
+        +----------+------------------------------+------------------+---------+
     """,
     ).lstrip()
 
@@ -58,20 +80,23 @@ def test_print_rules_as_json(capsys):
     std = capsys.readouterr()
 
     pytest.maxDiff = None
-    exp = [
-        {
-            "log_types": ["CrowdStrike", "SentinelOne", "AWS"],
-            "id": "EDR",
-            "default_severity": "High",
-            "enabled": True,
-        },
-        {
-            "log_types": ["PaloAlto"],
-            "id": "Firewall",
-            "default_severity": "Medium",
-            "enabled": True,
-        },
-    ]
+    exp = {
+        "rules": [
+            {
+                "log_types": ["CrowdStrike", "SentinelOne", "AWS"],
+                "id": "EDR",
+                "default_severity": "High",
+                "enabled": True,
+            },
+            {
+                "log_types": ["PaloAlto"],
+                "id": "Firewall",
+                "default_severity": "Medium",
+                "enabled": True,
+            },
+        ],
+        "total_rules": 2,
+    }
 
     assert json.loads(std.out) == exp
     assert std.err == ""

@@ -40,7 +40,7 @@ COMMON_CLI_OUTPUT_TYPES = [
 JSON_INDENT_LEVEL = 2
 
 
-def print_rule_table(rules: list[Type[Rule]], attributes: list[str] | None = None) -> None:
+def print_rule_table(rules: list[Type[Rule]], attributes: list[str] | None = None, print_total: bool = True) -> None:
     """
     Prints rules in a table format for easy viewing.
 
@@ -80,6 +80,8 @@ def print_rule_table(rules: list[Type[Rule]], attributes: list[str] | None = Non
     table.sort_key = key
 
     print(table)
+    if print_total:
+        print(f"Total rules: {len(rules)}")
 
 
 def rule_table_row_attr(rule: Type[Rule], attr: str) -> str:
@@ -119,7 +121,7 @@ def print_rules_as_json(rules: list[Type[Rule]], attributes: list[str] | None = 
         attributes = DEFAULT_RULE_TABLE_ATTRS
 
     rule_dicts = [{attr: getattr(rule, attr) for attr in attributes} for rule in rules]
-    print(json.dumps(rule_dicts, indent=JSON_INDENT_LEVEL))
+    print(json.dumps({"rules": rule_dicts, "total_rules": len(rule_dicts)}, indent=JSON_INDENT_LEVEL))
 
 
 def print_rules_as_csv(rules: list[Type[Rule]], attributes: list[str] | None = None) -> None:
