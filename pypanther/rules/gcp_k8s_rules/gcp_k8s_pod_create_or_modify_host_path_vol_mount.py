@@ -214,6 +214,7 @@ class GCPK8SPotCreateOrModifyHostPathVolumeMount(Rule):
     default_runbook = "Investigate the reason of adding hostPath volume mount. Advise that it is discouraged practice. Create ticket if appropriate.\n"
     default_reference = "https://linuxhint.com/kubernetes-hostpath-volumes/"
     reports = {"MITRE ATT&CK": ["TA0001", "TA0002"]}
+    dedup_period_minutes = 360
     tests = gcpk8_s_pot_create_or_modify_host_path_volume_mount_tests
     SUSPICIOUS_PATHS = [
         "/var/run/docker.sock",
@@ -259,6 +260,9 @@ class GCPK8SPotCreateOrModifyHostPathVolumeMount(Rule):
         pod_name = deep_get(event, "protoPayload", "resourceName", default="<RESOURCE_NOT_FOUND>")
         project_id = deep_get(event, "resource", "labels", "project_id", default="<PROJECT_NOT_FOUND>")
         return f"[GCP]: [{actor}] created k8s pod [{pod_name}] with a hostPath volume mount in project [{project_id}]"
+
+    def dedup(self, event):
+        return deep_get(event, "protoPayload", "authenticationInfo", "principalEmail", default="<ACTOR_NOT_FOUND>")
 
     def alert_context(self, event):
         context = gcp_alert_context(event)

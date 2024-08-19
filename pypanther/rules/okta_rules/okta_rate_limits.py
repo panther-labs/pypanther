@@ -6,7 +6,7 @@ from pypanther.helpers.panther_base_helpers import okta_alert_context
 okta_rate_limits_tests: list[RuleTest] = [
     RuleTest(
         name="system.org.ratelimit.warning",
-        expected_result=True,
+        expected_result=False,
         log={
             "actor": {
                 "alternateId": "homer.simpson@duff.com",
@@ -97,7 +97,7 @@ okta_rate_limits_tests: list[RuleTest] = [
     ),
     RuleTest(
         name="application.integration.rate_limit_exceeded",
-        expected_result=True,
+        expected_result=False,
         log={
             "actor": {
                 "alternateId": "homer.simpson@duff.com",
@@ -206,11 +206,11 @@ okta_rate_limits_tests: list[RuleTest] = [
 class OktaRateLimits(Rule):
     default_description = "Potential DoS/Bruteforce attack or hitting limits (system degradation)"
     display_name = "Okta Rate Limits"
-    default_severity = Severity.HIGH
+    default_severity = Severity.LOW
     tags = ["Credential Access", "Brute Force", "Impact", "Network Denial of Service"]
     reports = {"MITRE ATT&CK": ["TA0006:T1110", "TA0040:T1498"]}
     default_reference = "https://developer.okta.com/docs/reference/rl-system-log-events/"
-    dedup_period_minutes = 360
+    dedup_period_minutes = 1440
     log_types = [LogType.OKTA_SYSTEM_LOG]
     id = "Okta.Rate.Limits-prototype"
     tests = okta_rate_limits_tests
@@ -227,24 +227,15 @@ class OktaRateLimits(Rule):
     def rule(self, event):
         eventtype = event.get("eventtype", "")
         for detection_event in self.DETECTION_EVENTS:
-            if fnmatch(eventtype, detection_event):
+            if fnmatch(eventtype, detection_event) and "violation" in eventtype:
                 return True
         return False
 
     def title(self, event):
-        return f"Okta Rate Limit Event: [{event.get('eventtype', '')}] by [{event.get('actor', {}).get('alternateId', '<id-not-found>')}]"
+        return f"Okta Rate Limit Event: [{event.get('eventtype', '')}] by [{event.deep_get('actor', 'alternateId', default='<id-not-found>')}]"
 
-    def severity(self, event):
-        if event.get("severity", "") == "INFO":
-            return "INFO"
-        eventtype = event.get("eventtype", "")
-        if "notification" in eventtype:
-            return "LOW"
-        if "warning" in eventtype:
-            return "MEDIUM"
-        if "violation" in eventtype:
-            return "HIGH"
-        return "DEFAULT"
+    def dedup(self, event):
+        return event.deep_get("actor", "alternateId", default="<id-not-found>")
 
     def alert_context(self, event):
         return okta_alert_context(event)

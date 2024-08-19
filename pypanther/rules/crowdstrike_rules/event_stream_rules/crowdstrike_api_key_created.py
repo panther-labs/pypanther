@@ -40,9 +40,9 @@ crowdstrike_api_key_created_tests: list[RuleTest] = [
 class CrowdstrikeAPIKeyCreated(Rule):
     id = "Crowdstrike.API.Key.Created-prototype"
     display_name = "Crowdstrike API Key Created"
-    reports = {"MITRE ATT&CK": ["T1098.001"]}
     log_types = [LogType.CROWDSTRIKE_EVENT_STREAMS]
     default_severity = Severity.MEDIUM
+    reports = {"MITRE ATT&CK": ["T1098.001"]}
     default_description = "A user created an API Key in CrowdStrike"
     default_runbook = "Reach out to the user if needed to validate the activity."
     tests = crowdstrike_api_key_created_tests

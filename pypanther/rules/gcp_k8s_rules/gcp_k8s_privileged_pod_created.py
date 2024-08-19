@@ -286,6 +286,7 @@ class GCPK8SPrivilegedPodCreated(Rule):
     default_runbook = "Investigate the reason of creating privileged pod. Advise that it is discouraged practice. Create ticket if appropriate.\n"
     default_reference = "https://www.golinuxcloud.com/kubernetes-privileged-pod-examples/"
     reports = {"MITRE ATT&CK": ["TA0004:T1548"]}
+    dedup_period_minutes = 360
     tests = gcpk8_s_privileged_pod_created_tests
 
     def rule(self, event):
@@ -312,6 +313,9 @@ class GCPK8SPrivilegedPodCreated(Rule):
         pod_name = deep_get(event, "protoPayload", "resourceName", default="<RESOURCE_NOT_FOUND>")
         project_id = deep_get(event, "resource", "labels", "project_id", default="<PROJECT_NOT_FOUND>")
         return f"[GCP]: [{actor}] created a privileged pod [{pod_name}] in project [{project_id}]"
+
+    def dedup(self, event):
+        return deep_get(event, "protoPayload", "authenticationInfo", "principalEmail", default="<ACTOR_NOT_FOUND>")
 
     def alert_context(self, event):
         context = gcp_alert_context(event)

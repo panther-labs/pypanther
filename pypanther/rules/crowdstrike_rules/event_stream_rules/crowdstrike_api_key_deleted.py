@@ -71,9 +71,9 @@ crowdstrike_api_key_deleted_tests: list[RuleTest] = [
 class CrowdstrikeAPIKeyDeleted(Rule):
     id = "Crowdstrike.API.Key.Deleted-prototype"
     display_name = "Crowdstrike API Key Deleted"
-    reports = {"MITRE ATT&CK": ["T1531", "T1070"]}
     log_types = [LogType.CROWDSTRIKE_EVENT_STREAMS]
     default_severity = Severity.MEDIUM
+    reports = {"MITRE ATT&CK": ["T1531", "T1070"]}
     default_description = "A user deleted an API Key in CrowdStrike"
     default_runbook = "Validate this action was authorized."
     tests = crowdstrike_api_key_deleted_tests

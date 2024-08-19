@@ -103,7 +103,7 @@ class MicrosoftGraphPassthrough(Rule):
     tests = microsoft_graph_passthrough_tests
 
     def rule(self, event):
-        return event.get("status") == "newAlert"
+        return event.get("status") == "newAlert" and event.get("severity", "").lower() != "informational"
 
     def title(self, event):
         return f"Microsoft Graph Alert ({event.get('title')})"

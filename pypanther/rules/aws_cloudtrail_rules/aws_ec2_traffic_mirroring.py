@@ -356,7 +356,7 @@ awsec2_traffic_mirroring_tests: list[RuleTest] = [
     ),
     RuleTest(
         name="DescribeTrafficMirrorTargets",
-        expected_result=True,
+        expected_result=False,
         log={
             "awsRegion": "us-east-1",
             "eventCategory": "Management",
@@ -575,6 +575,7 @@ class AWSEC2TrafficMirroring(Rule):
     default_runbook = "Examine other activities done by this user to determine whether or not activity is suspicious. If your network traffic is not encrypted, we recommend changing the severity to high or critical."
     default_severity = Severity.MEDIUM
     tags = ["AWS", "Cloudtrail", "MITRE"]
+    dedup_period_minutes = 1440
     log_types = [LogType.AWS_CLOUDTRAIL]
     id = "AWS.EC2.Traffic.Mirroring-prototype"
     summary_attributes = ["userIdentity.type"]
@@ -582,6 +583,9 @@ class AWSEC2TrafficMirroring(Rule):
 
     def rule(self, event):
         # Return True to match the log event and trigger an alert.
+        # "DescribeTrafficMirrorFilters",
+        # "DescribeTrafficMirrorSessions",
+        # "DescribeTrafficMirrorTargets",
         event_names = [
             "CreateTrafficMirrorFilter",
             "CreateTrafficMirrorFilterRule",
@@ -591,9 +595,6 @@ class AWSEC2TrafficMirroring(Rule):
             "DeleteTrafficMirrorFilterRule",
             "DeleteTrafficMirrorSession",
             "DeleteTrafficMirrorTarget",
-            "DescribeTrafficMirrorFilters",
-            "DescribeTrafficMirrorSessions",
-            "DescribeTrafficMirrorTargets",
             "ModifyTrafficMirrorFilterNetworkServices",
             "ModifyTrafficMirrorFilterRule",
             "ModifyTrafficMirrorSession",
@@ -603,17 +604,10 @@ class AWSEC2TrafficMirroring(Rule):
         return event.get("eventSource", "") == "ec2.amazonaws.com" and event.get("eventName", "") in event_names
 
     def title(self, event):
-        # (Optional) Return a string which will be shown as the alert title.
-        # If no 'dedup' function is defined, the return value of this method will
-        # act as deduplication string.
         return f"{event.get('userIdentity', {}).get('arn', 'no-type')} ec2 activity found for {event.get('eventName')} in account {event.get('recipientAccountId')} in region {event.get('awsRegion')}."
 
     def dedup(self, event):
-        #  (Optional) Return a string which will be used to deduplicate similar alerts.
-        # Dedupe based on user identity, to not include multiple events from the same identity.
         return f"{event.get('userIdentity', {}).get('arn', 'no-user-identity-provided')}"
 
     def alert_context(self, event):
-        #  (Optional) Return a dictionary with additional data to be included
-        #  in the alert sent to the SNS/SQS/Webhook destination
         return aws_rule_context(event)

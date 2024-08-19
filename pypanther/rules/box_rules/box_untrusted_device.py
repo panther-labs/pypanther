@@ -34,6 +34,7 @@ class BoxUntrustedDevice(Rule):
     tags = ["Box", "Initial Access:Valid Accounts"]
     reports = {"MITRE ATT&CK": ["TA0001:T1078"]}
     default_severity = Severity.INFO
+    create_alert = False
     default_description = "A user attempted to login from an untrusted device.\n"
     default_reference = (
         "https://support.box.com/hc/en-us/articles/360044194993-Setting-Up-Device-Trust-Security-Requirements"
