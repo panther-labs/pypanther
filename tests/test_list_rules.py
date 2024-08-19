@@ -41,6 +41,22 @@ def test_list_default() -> None:
         assert err == ""
 
 
+def test_list_with_more_than_all() -> None:
+    with create_main():
+        args = setup_parser().parse_args(f"{LIST_RULES_CMD} --attributes all log_types".split(" "))
+        code, err = list_rules.run(args)
+        assert code == 1
+        assert err == "Cannot use any other attributes with 'all'."
+
+
+def test_list_with_all() -> None:
+    with create_main():
+        args = setup_parser().parse_args(f"{LIST_RULES_CMD} --attributes all".split(" "))
+        code, err = list_rules.run(args)
+        assert code == 0
+        assert err == ""
+
+
 @pytest.mark.parametrize("cmd", [f"{LIST_RULES_CMD} {MANAGED_ARG} {f}" for f in FILTER_ARGS])
 def test_list_managed_rules(cmd: str) -> None:
     args = setup_parser().parse_args(cmd.split(" "))
