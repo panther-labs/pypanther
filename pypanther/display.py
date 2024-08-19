@@ -165,14 +165,23 @@ def check_rule_attributes(attributes: list[str]) -> None:
             raise AttributeError(f"Attribute '{attr}' is not allowed.")
 
 
-def print_rule_as_json(rule: Type[Rule]) -> None:
-    source = inspect.getsource(rule)
+def print_rule_as_json(rule: Type[Rule], class_definition: bool) -> None:
     rule_dict = rule.asdict()
     del rule_dict["tests"]
-    rule_dict["class_definition"] = source
+    if class_definition:
+        source = inspect.getsource(rule)
+        rule_dict["class_definition"] = source
     rule_json = json.dumps(rule_dict, indent=JSON_INDENT_LEVEL)
     print(rule_json)
 
 
-def print_rule_as_text(rule: Type[Rule]) -> None:
-    print(inspect.getsource(rule))
+def print_rule_as_text(rule: Type[Rule], class_definition: bool) -> None:
+    rule_dict = rule.asdict()
+    del rule_dict["tests"]
+    rule_text = ""
+    for k, v in rule_dict.items():
+        rule_text += f"{k} = {v}\n"
+    if class_definition:
+        rule_text += "\n--------\n\n"
+        rule_text += inspect.getsource(rule)
+    print(rule_text)
