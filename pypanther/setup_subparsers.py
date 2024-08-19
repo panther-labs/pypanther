@@ -27,7 +27,7 @@ def setup_list_rules_parser(list_rules_parser: argparse.ArgumentParser):
         "--output",
         help="The format to use for the output.",
         required=False,
-        choices=display.VALID_CLI_OUTPUT_TYPES,
+        choices=display.COMMON_CLI_OUTPUT_TYPES + [display.OUTPUT_TYPE_CSV],
         default=display.DEFAULT_CLI_OUTPUT_TYPE,
     )
 
@@ -44,7 +44,7 @@ def setup_get_rule_parser(get_rules_parser: argparse.ArgumentParser):
         "--output",
         help="The format to use for the output.",
         required=False,
-        choices=display.VALID_CLI_OUTPUT_TYPES,
+        choices=display.COMMON_CLI_OUTPUT_TYPES,
         default=display.DEFAULT_CLI_OUTPUT_TYPE,
     )
 
@@ -69,7 +69,7 @@ def setup_test_parser(test_parser: argparse.ArgumentParser):
         "--output",
         help="The format to use for the output.",
         required=False,
-        choices=display.VALID_CLI_OUTPUT_TYPES,
+        choices=display.COMMON_CLI_OUTPUT_TYPES,
         default=display.DEFAULT_CLI_OUTPUT_TYPE,
     )
 
@@ -108,7 +108,7 @@ def setup_upload_parser(upload_parser: argparse.ArgumentParser):
         "--output",
         help="The format to use for the output.",
         required=False,
-        choices=display.VALID_CLI_OUTPUT_TYPES,
+        choices=display.COMMON_CLI_OUTPUT_TYPES,
         default=display.DEFAULT_CLI_OUTPUT_TYPE,
     )
 
@@ -124,6 +124,6 @@ def setup_list_log_types_parser(list_log_types_parser: argparse.ArgumentParser):
         "--output",
         help="The format to use for the output.",
         required=False,
-        choices=display.VALID_CLI_OUTPUT_TYPES,
+        choices=display.COMMON_CLI_OUTPUT_TYPES,
         default=display.DEFAULT_CLI_OUTPUT_TYPE,
     )

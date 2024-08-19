@@ -7,7 +7,7 @@ from typing import Type
 import pytest
 
 from pypanther.base import TYPE_RULE, Rule
-from pypanther.display import VALID_CLI_OUTPUT_TYPES
+from pypanther.display import COMMON_CLI_OUTPUT_TYPES
 from pypanther.get import get_panther_rules
 from pypanther.get_rule import run
 from pypanther.log_types import LogType
@@ -63,7 +63,7 @@ class TestRun:
             assert rc == 0
             assert err_msg == ""
 
-    @pytest.mark.parametrize("output", VALID_CLI_OUTPUT_TYPES)
+    @pytest.mark.parametrize("output", COMMON_CLI_OUTPUT_TYPES)
     def test_happy_path_registered(self, output: str) -> None:
         with create_main():
             rule_id = "Custom.Rule.ID"
