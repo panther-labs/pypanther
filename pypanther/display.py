@@ -14,6 +14,7 @@ DEFAULT_RULE_TABLE_ATTRS = [
     "enabled",
 ]
 
+ALL_TABLE_ATTR = "all"
 VALID_RULE_TABLE_ATTRS = [
     *DEFAULT_RULE_TABLE_ATTRS,
     "create_alert",

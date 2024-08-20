@@ -7,6 +7,7 @@ import time
 import zipfile
 from dataclasses import asdict
 from fnmatch import fnmatch
+from pathlib import Path
 from typing import Any, Optional, Tuple
 
 from pypanther import cli_output, display, testing
@@ -36,6 +37,14 @@ IGNORE_FOLDERS = [
 UPLOAD_RESULT_SUCCESS = "UPLOAD_SUCCEEDED"
 UPLOAD_RESULT_FAILURE = "UPLOAD_FAILED"
 UPLOAD_RESULT_TESTS_FAILED = "TESTS_FAILED"
+
+# There are a couple backend limitations that require the size to be this low.
+# The graphql client requires it to be a limit of 4MB. On top of this, there is
+# another backend error that requires it to be even lower. This number was calculated
+# by registering all OOTB rules and then adding in custom rules after it.
+# To be fixed here: https://panther-labs.atlassian.net/browse/EPD-903
+UPLOAD_SIZE_LIMIT_MB = 1.5
+UPLOAD_SIZE_LIMIT_BYTES = UPLOAD_SIZE_LIMIT_MB * 1024 * 1024
 
 
 def run(backend: BackendClient, args: argparse.Namespace) -> Tuple[int, str]:
@@ -74,6 +83,13 @@ def run(backend: BackendClient, args: argparse.Namespace) -> Tuple[int, str]:
 
     with tempfile.NamedTemporaryFile() as tmp:
         zip_info = zip_contents(tmp)
+        zip_size = Path.stat(Path(tmp.name)).st_size
+
+        if zip_size > UPLOAD_SIZE_LIMIT_BYTES:
+            return 1, (
+                "Zip file is too big. Reduce number of files or contents of files before "
+                f"uploading again (Limit: {UPLOAD_SIZE_LIMIT_MB} MB, Zip size: {zip_size / (1024 * 1024):0.3f} MB)."
+            )
 
         if args.verbose and args.output == display.OUTPUT_TYPE_TEXT:
             print_included_files(zip_info)

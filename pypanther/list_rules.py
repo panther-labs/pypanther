@@ -11,6 +11,12 @@ from pypanther.registry import registered_rules
 def run(args: argparse.Namespace) -> Tuple[int, str]:
     rules = set()
 
+    if len(args.attributes) > 1 and display.ALL_TABLE_ATTR in args.attributes:
+        return 1, f"Cannot use any other attributes with '{display.ALL_TABLE_ATTR}'."
+
+    if display.ALL_TABLE_ATTR in args.attributes:
+        args.attributes = display.VALID_RULE_TABLE_ATTRS
+
     if not args.managed:
         try:
             import_main(os.getcwd(), "main")
