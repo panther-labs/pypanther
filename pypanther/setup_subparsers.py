@@ -35,9 +35,8 @@ def setup_list_rules_parser(list_rules_parser: argparse.ArgumentParser):
 def setup_get_rule_parser(get_rules_parser: argparse.ArgumentParser):
     get_rules_parser.set_defaults(func=get_rule.run)
     get_rules_parser.add_argument(
-        "--id",
+        "id",
         help="Required. The id of the rule to get",
-        required=True,
         type=str,
     )
     get_rules_parser.add_argument(
@@ -46,6 +45,13 @@ def setup_get_rule_parser(get_rules_parser: argparse.ArgumentParser):
         required=False,
         choices=display.COMMON_CLI_OUTPUT_TYPES,
         default=display.DEFAULT_CLI_OUTPUT_TYPE,
+    )
+    get_rules_parser.add_argument(
+        "--class-definition",
+        help="Include the original class definition in addition to the final versions of the attributes",
+        required=False,
+        default=False,
+        action="store_true",
     )
 
 
