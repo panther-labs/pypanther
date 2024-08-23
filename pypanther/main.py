@@ -75,7 +75,12 @@ def setup_parser() -> argparse.ArgumentParser:
     # Test command
     test_parser = subparsers.add_parser(
         "test",
-        help="run tests",
+        help="Run tests on all your rules. Test failures will be printed out, along with a summary of "
+        "the rules that were run and the test results. If a rule had no tests, the rule is marked "
+        "as 'skipped' from testing. A rule will have no tests if no tests were set on the rule or "
+        "the rule has a @panther_managed decorator. Tests can still be added to @panther_managed "
+        "rules and those new tests will be tested. Run with the verbose flag to see information on "
+        "which tests passed and which rules were skipped.",
         formatter_class=argparse.ArgumentDefaultsHelpFormatter,
     )
     test_parser.set_defaults(func=testing.run)
