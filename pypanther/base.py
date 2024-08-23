@@ -709,5 +709,5 @@ def panther_managed(cls: Type[Rule]) -> Type[Rule]:
     """Decorator to apply to OOTB rules written by Panther."""
     cls._tests = cls.tests  # type: ignore
     cls.tests = []
-    cls._panther_managed = True
+    cls._panther_managed = True  # type: ignore
     return cls
