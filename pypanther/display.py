@@ -1,11 +1,11 @@
 import inspect
 import json
-from typing import Any, Type
+from typing import Any, Dict, Type
 
 from prettytable import PrettyTable
 
 from pypanther import utils
-from pypanther.base import Rule
+from pypanther.base import RULE_ALL_METHODS, Rule
 
 DEFAULT_RULE_TABLE_ATTRS = [
     "id",
@@ -166,9 +166,20 @@ def check_rule_attributes(attributes: list[str]) -> None:
             raise AttributeError(f"Attribute '{attr}' is not allowed.")
 
 
-def print_rule_as_json(rule: Type[Rule], class_definition: bool) -> None:
+def _get_rule_dict_base(rule: Type[Rule]) -> Dict[str, Any]:
     rule_dict = rule.asdict()
     del rule_dict["tests"]
+    for method in RULE_ALL_METHODS:
+        method_attr = getattr(rule, method)
+        try:
+            rule_dict[method] = "\n" + inspect.getsource(method_attr)
+        except BaseException:
+            rule_dict[method] = repr(method_attr)
+    return rule_dict
+
+
+def print_rule_as_json(rule: Type[Rule], class_definition: bool) -> None:
+    rule_dict = _get_rule_dict_base(rule)
     if class_definition:
         source = inspect.getsource(rule)
         rule_dict["class_definition"] = source
@@ -177,8 +188,7 @@ def print_rule_as_json(rule: Type[Rule], class_definition: bool) -> None:
 
 
 def print_rule_as_text(rule: Type[Rule], class_definition: bool) -> None:
-    rule_dict = rule.asdict()
-    del rule_dict["tests"]
+    rule_dict = _get_rule_dict_base(rule)
     rule_text = ""
     for k, v in rule_dict.items():
         rule_text += f"{k} = {v}\n"
