@@ -39,11 +39,9 @@ UPLOAD_RESULT_FAILURE = "UPLOAD_FAILED"
 UPLOAD_RESULT_TESTS_FAILED = "TESTS_FAILED"
 
 # There are a couple backend limitations that require the size to be this low.
-# The graphql client requires it to be a limit of 4MB. On top of this, there is
-# another backend error that requires it to be even lower. This number was calculated
-# by registering all OOTB rules and then adding in custom rules after it.
-# To be fixed here: https://panther-labs.atlassian.net/browse/EPD-903
-UPLOAD_SIZE_LIMIT_MB = 1.5
+# Lambda has a payload size limit of 6MB.
+# The graphql client requires it to be a limit of 4MB (not an exact number).
+UPLOAD_SIZE_LIMIT_MB = 4
 UPLOAD_SIZE_LIMIT_BYTES = UPLOAD_SIZE_LIMIT_MB * 1024 * 1024
 
 
