@@ -4,7 +4,7 @@ import json
 import logging
 import os
 import traceback
-from typing import Any, Tuple
+from typing import Any, Tuple, Type
 
 from pypanther import cli_output, display
 from pypanther.base import Rule, RuleTestResult
@@ -25,23 +25,29 @@ class TestResults:
     failed_rule_tests: dict[str, list[RuleTestResult]]
     """dict of rule ids to the tests that failed on the rule"""
 
-    skipped_rules: list[str] = []
+    skipped_rules: set[str]
     """list of rule ids that had no tests"""
+
+    panther_managed_rules: set[str]
+    """list of rule ids that were panther managed rules"""
 
     def __init__(self):
         self.passed_rule_tests = collections.defaultdict(list)
         self.failed_rule_tests = collections.defaultdict(list)
-        self.skipped_rules = []
+        self.skipped_rules = set()
+        self.panther_managed_rules = set()
 
-    def add_test_results(self, rule_id: str, results: list[RuleTestResult]) -> None:
+    def add_test_results(self, rule: Type[Rule], results: list[RuleTestResult]) -> None:
         if len(results) == 0:
-            self.skipped_rules.append(rule_id)
+            self.skipped_rules.add(rule.id)
+        if rule.is_panther_managed():
+            self.panther_managed_rules.add(rule.id)
 
         for result in results:
             if result.passed:
-                self.passed_rule_tests[rule_id].append(result)
+                self.passed_rule_tests[rule.id].append(result)
             else:
-                self.failed_rule_tests[rule_id].append(result)
+                self.failed_rule_tests[rule.id].append(result)
 
     def num_passed_tests(self) -> int:
         return sum([len(v) for _, v in self.passed_rule_tests.items()])
@@ -52,6 +58,15 @@ class TestResults:
     def num_skipped_rules(self) -> int:
         return len(self.skipped_rules)
 
+    def num_skipped_managed_rules(self) -> int:
+        return len([rule_id for rule_id in self.skipped_rules if rule_id in self.panther_managed_rules])
+
+    def num_passed_managed_rules(self) -> int:
+        return len([rule_id for rule_id in self.passed_rule_tests if rule_id in self.panther_managed_rules])
+
+    def num_failed_managed_rules(self) -> int:
+        return len([rule_id for rule_id in self.failed_rule_tests if rule_id in self.panther_managed_rules])
+
     def total_tests(self) -> int:
         return self.num_passed_tests() + self.num_failed_tests()
 
@@ -60,7 +75,12 @@ class TestResults:
 
     def total_rules(self) -> int:
         return len(
-            {k for k in list(self.failed_rule_tests.keys()) + list(self.passed_rule_tests.keys()) + self.skipped_rules},
+            {
+                k
+                for k in list(self.failed_rule_tests.keys())
+                + list(self.passed_rule_tests.keys())
+                + list(self.skipped_rules)
+            },
         )
 
     def num_passed_rules(self) -> int:
@@ -125,7 +145,7 @@ def run_tests(args: argparse.Namespace) -> TestResults:
         default_destinations=getattr(args, "default_destinations", None),
     ):
         results = rule.run_tests(data_model_cache().data_model_of_logtype, test_names=getattr(args, "test_names", None))
-        test_results.add_test_results(rule.id, results)
+        test_results.add_test_results(rule, results)
 
         if args.output == display.OUTPUT_TYPE_TEXT:
             # intent here is to give the user more interactive feedback by printing
@@ -274,11 +294,18 @@ def print_failed_test_summary(test_results: TestResults) -> None:
 
 
 def print_test_summary(test_results: TestResults) -> None:
+    num_skipped_mgd_rules = test_results.num_skipped_managed_rules()
+    num_passed_mgd_rules = test_results.num_passed_managed_rules()
+    num_failed_mgd_rules = test_results.num_failed_managed_rules()
+    skipped_mgd_rules_msg = f"({num_skipped_mgd_rules} panther managed)" if num_skipped_mgd_rules > 0 else ""
+    passed_mgd_rules_msg = f"({num_passed_mgd_rules} panther managed)" if num_passed_mgd_rules > 0 else ""
+    failed_mgd_rules_msg = f"({num_failed_mgd_rules} panther managed)" if num_failed_mgd_rules > 0 else ""
+
     print(cli_output.header("Test Summary") + ":")
 
-    print(INDENT, f"Skipped rules: {test_results.num_skipped_rules():>3}")
-    print(INDENT, f"Passed rules:  {test_results.num_passed_rules():>3}")
-    print(INDENT, cli_output.underline(f"Failed rules:  {test_results.num_failed_rules():>3}"))
+    print(INDENT, f"Skipped rules: {test_results.num_skipped_rules():>3}", skipped_mgd_rules_msg)
+    print(INDENT, f"Passed rules:  {test_results.num_passed_rules():>3}", passed_mgd_rules_msg)
+    print(INDENT, cli_output.underline(f"Failed rules:  {test_results.num_failed_rules():>3}"), failed_mgd_rules_msg)
     print(INDENT, f"Total rules:   {test_results.total_rules():>3}")
     print()  # new line
 

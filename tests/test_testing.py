@@ -207,7 +207,7 @@ class TestPrintFailureSummary:
     def test_no_tests(self, capsys) -> None:
         Test.tests = []
         test_results = testing.TestResults()
-        test_results.add_test_results(Test.id, Test.run_tests(get_data_model))
+        test_results.add_test_results(Test, Test.run_tests(get_data_model))
         testing.print_failed_test_summary(test_results)
 
         exp = ""
@@ -221,7 +221,7 @@ class TestPrintFailureSummary:
             RuleTest(name="test2", expected_result=False, log={}),
         ]
         test_results = testing.TestResults()
-        test_results.add_test_results(Test.id, Test.run_tests(get_data_model))
+        test_results.add_test_results(Test, Test.run_tests(get_data_model))
         testing.print_failed_test_summary(test_results)
 
         exp = ""
@@ -233,9 +233,9 @@ class TestPrintFailureSummary:
         Test.tests = []
 
         test_results = testing.TestResults()
-        test_results.add_test_results(Test.id, Test.run_tests(get_data_model))
-        test_results.add_test_results(Sub1.id, Sub1.run_tests(get_data_model))
-        test_results.add_test_results(Sub2.id, Sub2.run_tests(get_data_model))
+        test_results.add_test_results(Test, Test.run_tests(get_data_model))
+        test_results.add_test_results(Sub1, Sub1.run_tests(get_data_model))
+        test_results.add_test_results(Sub2, Sub2.run_tests(get_data_model))
         testing.print_failed_test_summary(test_results)
 
         exp = (
@@ -257,14 +257,14 @@ class TestPrintTestSummary:
     def test_no_tests(self, capsys) -> None:
         Test.tests = []
         test_results = testing.TestResults()
-        test_results.add_test_results(Test.id, Test.run_tests(get_data_model))
+        test_results.add_test_results(Test, Test.run_tests(get_data_model))
         testing.print_test_summary(test_results)
 
         exp = (
             "\x1b[95mTest Summary\x1b[0m:\n"
-            "   Skipped rules:   1\n"
-            "   Passed rules:    0\n"
-            "   \x1b[4mFailed rules:    0\x1b[0m\n"
+            "   Skipped rules:   1 \n"
+            "   Passed rules:    0 \n"
+            "   \x1b[4mFailed rules:    0\x1b[0m \n"
             "   Total rules:     1\n"
             "\n"
             "   Passed tests:    0\n"
@@ -281,14 +281,14 @@ class TestPrintTestSummary:
             RuleTest(name="test2", expected_result=False, log={}),
         ]
         test_results = testing.TestResults()
-        test_results.add_test_results(Test.id, Test.run_tests(get_data_model))
+        test_results.add_test_results(Test, Test.run_tests(get_data_model))
         testing.print_test_summary(test_results)
 
         exp = (
             "\x1b[95mTest Summary\x1b[0m:\n"
-            "   Skipped rules:   0\n"
-            "   Passed rules:    1\n"
-            "   \x1b[4mFailed rules:    0\x1b[0m\n"
+            "   Skipped rules:   0 \n"
+            "   Passed rules:    1 \n"
+            "   \x1b[4mFailed rules:    0\x1b[0m \n"
             "   Total rules:     1\n"
             "\n"
             "   Passed tests:    2\n"
@@ -303,16 +303,16 @@ class TestPrintTestSummary:
         Test.tests = []
 
         test_results = testing.TestResults()
-        test_results.add_test_results(Test.id, Test.run_tests(get_data_model))
-        test_results.add_test_results(Sub1.id, Sub1.run_tests(get_data_model))
-        test_results.add_test_results(Sub2.id, Sub2.run_tests(get_data_model))
+        test_results.add_test_results(Test, Test.run_tests(get_data_model))
+        test_results.add_test_results(Sub1, Sub1.run_tests(get_data_model))
+        test_results.add_test_results(Sub2, Sub2.run_tests(get_data_model))
         testing.print_test_summary(test_results)
 
         exp = (
             "\x1b[95mTest Summary\x1b[0m:\n"
-            "   Skipped rules:   1\n"
-            "   Passed rules:    0\n"
-            "   \x1b[4mFailed rules:    2\x1b[0m\n"
+            "   Skipped rules:   1 \n"
+            "   Passed rules:    0 \n"
+            "   \x1b[4mFailed rules:    2\x1b[0m \n"
             "   Total rules:     3\n"
             "\n"
             "   Passed tests:    2\n"
@@ -328,7 +328,7 @@ class TestGetTestResultsAsDict:
     def test_no_tests(self) -> None:
         Test.tests = []
         test_results = testing.TestResults()
-        test_results.add_test_results(Test.id, Test.run_tests(get_data_model))
+        test_results.add_test_results(Test, Test.run_tests(get_data_model))
         out = testing.get_test_results_as_dict(test_results, False)
 
         exp: dict[str, Any] = {}
@@ -337,7 +337,7 @@ class TestGetTestResultsAsDict:
     def test_no_tests_verbose(self) -> None:
         Test.tests = []
         test_results = testing.TestResults()
-        test_results.add_test_results(Test.id, Test.run_tests(get_data_model))
+        test_results.add_test_results(Test, Test.run_tests(get_data_model))
         out = testing.get_test_results_as_dict(test_results, True)
 
         exp: dict[str, Any] = {"Test": []}
@@ -349,7 +349,7 @@ class TestGetTestResultsAsDict:
             RuleTest(name="test2", expected_result=False, log={}),
         ]
         test_results = testing.TestResults()
-        test_results.add_test_results(Test.id, Test.run_tests(get_data_model))
+        test_results.add_test_results(Test, Test.run_tests(get_data_model))
         out = testing.get_test_results_as_dict(test_results, False)
 
         exp: dict[str, Any] = {}
@@ -361,7 +361,7 @@ class TestGetTestResultsAsDict:
             RuleTest(name="test2", expected_result=False, log={}),
         ]
         test_results = testing.TestResults()
-        test_results.add_test_results(Test.id, Test.run_tests(get_data_model))
+        test_results.add_test_results(Test, Test.run_tests(get_data_model))
         out = testing.get_test_results_as_dict(test_results, True)
 
         exp = {
@@ -386,9 +386,9 @@ class TestGetTestResultsAsDict:
         Test.tests = []
 
         test_results = testing.TestResults()
-        test_results.add_test_results(Test.id, Test.run_tests(get_data_model))
-        test_results.add_test_results(Sub1.id, Sub1.run_tests(get_data_model))
-        test_results.add_test_results(Sub2.id, Sub2.run_tests(get_data_model))
+        test_results.add_test_results(Test, Test.run_tests(get_data_model))
+        test_results.add_test_results(Sub1, Sub1.run_tests(get_data_model))
+        test_results.add_test_results(Sub2, Sub2.run_tests(get_data_model))
         out = testing.get_test_results_as_dict(test_results, False)
 
         rule_func_failure = {"expected": True, "func": "rule", "matched": False, "output": True}
@@ -430,9 +430,9 @@ class TestGetTestResultsAsDict:
         Test.tests = []
 
         test_results = testing.TestResults()
-        test_results.add_test_results(Test.id, Test.run_tests(get_data_model))
-        test_results.add_test_results(Sub1.id, Sub1.run_tests(get_data_model))
-        test_results.add_test_results(Sub2.id, Sub2.run_tests(get_data_model))
+        test_results.add_test_results(Test, Test.run_tests(get_data_model))
+        test_results.add_test_results(Sub1, Sub1.run_tests(get_data_model))
+        test_results.add_test_results(Sub2, Sub2.run_tests(get_data_model))
         out = testing.get_test_results_as_dict(test_results, True)
 
         rule_func_failure = {"expected": True, "func": "rule", "matched": False, "output": True}
@@ -489,9 +489,9 @@ class TestGetFailedTestSummaryAsDict:
         Test.tests = []
 
         test_results = testing.TestResults()
-        test_results.add_test_results(Test.id, Test.run_tests(get_data_model))
-        test_results.add_test_results(Sub1.id, Sub1.run_tests(get_data_model))
-        test_results.add_test_results(Sub2.id, Sub2.run_tests(get_data_model))
+        test_results.add_test_results(Test, Test.run_tests(get_data_model))
+        test_results.add_test_results(Sub1, Sub1.run_tests(get_data_model))
+        test_results.add_test_results(Sub2, Sub2.run_tests(get_data_model))
         out = testing.get_failed_test_summary_as_dict(test_results)
 
         exp = [
@@ -514,9 +514,9 @@ class TestGetTestSummaryAsDict:
         Test.tests = []
 
         test_results = testing.TestResults()
-        test_results.add_test_results(Test.id, Test.run_tests(get_data_model))
-        test_results.add_test_results(Sub1.id, Sub1.run_tests(get_data_model))
-        test_results.add_test_results(Sub2.id, Sub2.run_tests(get_data_model))
+        test_results.add_test_results(Test, Test.run_tests(get_data_model))
+        test_results.add_test_results(Sub1, Sub1.run_tests(get_data_model))
+        test_results.add_test_results(Sub2, Sub2.run_tests(get_data_model))
         out = testing.get_test_summary_as_dict(test_results)
 
         exp = {
