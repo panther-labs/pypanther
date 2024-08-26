@@ -3,7 +3,7 @@
 import datetime
 from collections.abc import Sequence
 
-from pypanther.helpers.panther_lookuptable_helpers import LookupTableMatches
+from pypanther.helpers.lookuptable import LookupTableMatches
 
 
 class TorExitNodes(LookupTableMatches):

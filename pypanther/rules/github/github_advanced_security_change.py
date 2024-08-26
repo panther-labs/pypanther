@@ -1,5 +1,5 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
-from pypanther.helpers.panther_base_helpers import github_alert_context
+from pypanther.helpers.base import github_alert_context
 
 git_hub_advanced_security_change_tests: list[RuleTest] = [
     RuleTest(

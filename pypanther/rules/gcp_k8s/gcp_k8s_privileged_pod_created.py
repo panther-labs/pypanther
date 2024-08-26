@@ -1,6 +1,6 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
-from pypanther.helpers.gcp_base_helpers import gcp_alert_context
-from pypanther.helpers.panther_base_helpers import deep_get, deep_walk
+from pypanther.helpers.base import deep_get, deep_walk
+from pypanther.helpers.gcp_base import gcp_alert_context
 
 gcpk8_s_privileged_pod_created_tests: list[RuleTest] = [
     RuleTest(

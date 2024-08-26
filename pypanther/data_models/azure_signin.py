@@ -1,7 +1,7 @@
-import pypanther.helpers.panther_event_type_helpers as event_type
 from pypanther.base import DataModel, DataModelMapping, LogType
-from pypanther.helpers.panther_azuresignin_helpers import actor_user, is_sign_in_event
-from pypanther.helpers.panther_base_helpers import deep_get
+from pypanther.helpers import event_type
+from pypanther.helpers.azuresignin import actor_user, is_sign_in_event
+from pypanther.helpers.base import deep_get
 
 
 def get_event_type(event):

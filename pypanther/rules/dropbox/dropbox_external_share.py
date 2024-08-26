@@ -2,8 +2,8 @@ import json
 from unittest.mock import MagicMock
 
 from pypanther import LogType, Rule, RuleMock, RuleTest, Severity, panther_managed
-from pypanther.helpers.panther_base_helpers import deep_get
-from pypanther.helpers.panther_config import config
+from pypanther.helpers.base import deep_get
+from pypanther.helpers.config import config
 
 dropbox_external_share_tests: list[RuleTest] = [
     RuleTest(

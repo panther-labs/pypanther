@@ -1,6 +1,6 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
-from pypanther.helpers.panther_base_helpers import deep_get
-from pypanther.helpers.panther_tailscale_helpers import is_tailscale_admin_console_event, tailscale_alert_context
+from pypanther.helpers.base import deep_get
+from pypanther.helpers.tailscale import is_tailscale_admin_console_event, tailscale_alert_context
 
 tailscale_machine_approval_requirements_disabled_tests: list[RuleTest] = [
     RuleTest(

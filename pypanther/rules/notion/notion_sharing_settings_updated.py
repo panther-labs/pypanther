@@ -1,5 +1,5 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
-from pypanther.helpers.panther_notion_helpers import notion_alert_context
+from pypanther.helpers.notion import notion_alert_context
 
 notion_sharing_settings_updated_tests: list[RuleTest] = [
     RuleTest(

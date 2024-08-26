@@ -1,7 +1,7 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
-from pypanther.helpers.panther_base_helpers import deep_get
-from pypanther.helpers.panther_base_helpers import gsuite_details_lookup as details_lookup
-from pypanther.helpers.panther_base_helpers import gsuite_parameter_lookup as param_lookup
+from pypanther.helpers.base import deep_get
+from pypanther.helpers.base import gsuite_details_lookup as details_lookup
+from pypanther.helpers.base import gsuite_parameter_lookup as param_lookup
 
 g_suite_drive_overly_visible_tests: list[RuleTest] = [
     RuleTest(

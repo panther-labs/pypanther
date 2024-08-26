@@ -1,7 +1,7 @@
 import shlex
 
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
-from pypanther.helpers.panther_base_helpers import deep_get
+from pypanther.helpers.base import deep_get
 
 osquery_linux_aws_command_executed_tests: list[RuleTest] = [
     RuleTest(

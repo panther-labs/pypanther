@@ -1,7 +1,7 @@
 from fnmatch import fnmatch
 
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
-from pypanther.helpers.panther_base_helpers import aws_rule_context
+from pypanther.helpers.base import aws_rule_context
 
 awss3_server_access_unknown_requester_tests: list[RuleTest] = [
     RuleTest(

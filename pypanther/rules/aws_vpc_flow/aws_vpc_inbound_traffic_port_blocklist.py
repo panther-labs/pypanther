@@ -1,7 +1,7 @@
 from ipaddress import ip_network
 
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
-from pypanther.helpers.panther_base_helpers import aws_rule_context
+from pypanther.helpers.base import aws_rule_context
 
 awsvpc_inbound_port_blacklist_tests: list[RuleTest] = [
     RuleTest(

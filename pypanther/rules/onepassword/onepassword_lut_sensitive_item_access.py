@@ -1,5 +1,5 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
-from pypanther.helpers.panther_base_helpers import deep_get
+from pypanther.helpers.base import deep_get
 
 one_password_lut_sensitive_item_tests: list[RuleTest] = [
     RuleTest(

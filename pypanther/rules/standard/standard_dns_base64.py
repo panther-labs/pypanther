@@ -1,5 +1,5 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
-from pypanther.helpers.panther_base_helpers import defang_ioc, is_base64
+from pypanther.helpers.base import defang_ioc, is_base64
 
 standard_dns_base64_tests: list[RuleTest] = [
     RuleTest(

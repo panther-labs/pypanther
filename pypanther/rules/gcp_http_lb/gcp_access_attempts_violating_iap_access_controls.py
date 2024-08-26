@@ -1,5 +1,5 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
-from pypanther.helpers.panther_base_helpers import deep_get
+from pypanther.helpers.base import deep_get
 
 gcp_access_attempts_violating_iap_access_controls_tests: list[RuleTest] = [
     RuleTest(

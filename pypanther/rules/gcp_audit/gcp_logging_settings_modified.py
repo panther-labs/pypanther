@@ -1,5 +1,5 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
-from pypanther.helpers.panther_base_helpers import deep_get
+from pypanther.helpers.base import deep_get
 
 gcp_logging_settings_modified_tests: list[RuleTest] = [
     RuleTest(

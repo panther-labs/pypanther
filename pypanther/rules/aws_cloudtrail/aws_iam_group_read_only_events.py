@@ -1,5 +1,5 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
-from pypanther.helpers.panther_base_helpers import aws_rule_context
+from pypanther.helpers.base import aws_rule_context
 
 awsiam_group_read_only_events_tests: list[RuleTest] = [
     RuleTest(

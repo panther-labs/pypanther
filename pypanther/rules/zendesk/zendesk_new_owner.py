@@ -1,7 +1,7 @@
 import re
 
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
-from pypanther.helpers.panther_base_helpers import ZENDESK_CHANGE_DESCRIPTION
+from pypanther.helpers.base import ZENDESK_CHANGE_DESCRIPTION
 
 zendesk_account_owner_changed_tests: list[RuleTest] = [
     RuleTest(

@@ -1,6 +1,6 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
-from pypanther.helpers.panther_base_helpers import deep_get
-from pypanther.helpers.panther_notion_helpers import notion_alert_context
+from pypanther.helpers.base import deep_get
+from pypanther.helpers.notion import notion_alert_context
 
 notion_page_perms_guest_perms_changed_tests: list[RuleTest] = [
     RuleTest(

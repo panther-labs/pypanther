@@ -1,5 +1,5 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
-from pypanther.helpers.panther_auth0_helpers import auth0_alert_context
+from pypanther.helpers.auth0 import auth0_alert_context
 
 auth0_cic_credential_stuffing_tests: list[RuleTest] = [
     RuleTest(

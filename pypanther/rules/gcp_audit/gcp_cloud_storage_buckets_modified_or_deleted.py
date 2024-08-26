@@ -1,5 +1,5 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
-from pypanther.helpers.panther_base_helpers import deep_get
+from pypanther.helpers.base import deep_get
 
 gcp_cloud_storage_buckets_modified_or_deleted_tests: list[RuleTest] = [
     RuleTest(

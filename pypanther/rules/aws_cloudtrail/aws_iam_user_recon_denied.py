@@ -1,8 +1,8 @@
 from ipaddress import ip_address
 
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
-from pypanther.helpers.panther_base_helpers import aws_rule_context, deep_get
-from pypanther.helpers.panther_default import lookup_aws_account_name
+from pypanther.helpers.base import aws_rule_context, deep_get
+from pypanther.helpers.default import lookup_aws_account_name
 
 awsiam_user_recon_access_denied_tests: list[RuleTest] = [
     RuleTest(

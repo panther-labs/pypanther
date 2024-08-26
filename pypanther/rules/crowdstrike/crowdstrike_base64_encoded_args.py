@@ -1,5 +1,5 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
-from pypanther.helpers.panther_base_helpers import crowdstrike_process_alert_context, is_base64
+from pypanther.helpers.base import crowdstrike_process_alert_context, is_base64
 
 crowdstrike_base64_encoded_args_tests: list[RuleTest] = [
     RuleTest(

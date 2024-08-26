@@ -1,5 +1,5 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
-from pypanther.helpers.panther_mongodb_helpers import mongodb_alert_context
+from pypanther.helpers.mongodb import mongodb_alert_context
 
 mongo_d_borg_membership_restriction_disabled_tests: list[RuleTest] = [
     RuleTest(

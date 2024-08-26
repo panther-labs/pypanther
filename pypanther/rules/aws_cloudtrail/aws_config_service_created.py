@@ -1,6 +1,6 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
-from pypanther.helpers.panther_base_helpers import aws_rule_context
-from pypanther.helpers.panther_default import aws_cloudtrail_success
+from pypanther.helpers.base import aws_rule_context
+from pypanther.helpers.default import aws_cloudtrail_success
 
 aws_config_service_created_tests: list[RuleTest] = [
     RuleTest(

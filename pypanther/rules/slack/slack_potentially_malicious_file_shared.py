@@ -1,5 +1,5 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
-from pypanther.helpers.panther_base_helpers import slack_alert_context
+from pypanther.helpers.base import slack_alert_context
 
 slack_audit_logs_potentially_malicious_file_shared_tests: list[RuleTest] = [
     RuleTest(

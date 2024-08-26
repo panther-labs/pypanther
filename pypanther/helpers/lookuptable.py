@@ -2,7 +2,7 @@
 
 from collections.abc import Mapping, Sequence
 
-from pypanther.helpers.panther_base_helpers import deep_get
+from pypanther.helpers.base import deep_get
 
 ENRICHMENT_KEY = "p_enrichment"
 IGNORE_ENRICHMENTS = "p_any_"

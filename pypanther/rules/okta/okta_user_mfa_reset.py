@@ -1,6 +1,6 @@
-import pypanther.helpers.panther_event_type_helpers as event_type
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
-from pypanther.helpers.panther_base_helpers import okta_alert_context
+from pypanther.helpers import event_type
+from pypanther.helpers.base import okta_alert_context
 
 okta_user_mfa_reset_single_tests: list[RuleTest] = [
     RuleTest(

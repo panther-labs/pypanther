@@ -1,5 +1,5 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
-from pypanther.helpers.panther_base_helpers import msft_graph_alert_context
+from pypanther.helpers.base import msft_graph_alert_context
 
 microsoft_graph_passthrough_tests: list[RuleTest] = [
     RuleTest(

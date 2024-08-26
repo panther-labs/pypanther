@@ -1,9 +1,9 @@
 import json
 from fnmatch import fnmatch
 
-import pypanther.helpers.panther_event_type_helpers as event_type
 from pypanther.base import DataModel, DataModelMapping, LogType
-from pypanther.helpers.panther_base_helpers import deep_get, get_binding_deltas
+from pypanther.helpers import event_type
+from pypanther.helpers.base import deep_get, get_binding_deltas
 
 ADMIN_ROLES = {
     # Primitive Rolesx

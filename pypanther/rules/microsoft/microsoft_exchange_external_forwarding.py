@@ -1,5 +1,5 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
-from pypanther.helpers.panther_config import config
+from pypanther.helpers.config import config
 
 microsoft365_exchange_external_forwarding_tests: list[RuleTest] = [
     RuleTest(

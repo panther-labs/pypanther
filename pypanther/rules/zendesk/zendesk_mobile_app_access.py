@@ -1,5 +1,5 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
-from pypanther.helpers.panther_base_helpers import ZENDESK_CHANGE_DESCRIPTION
+from pypanther.helpers.base import ZENDESK_CHANGE_DESCRIPTION
 
 zendesk_mobile_app_access_updated_tests: list[RuleTest] = [
     RuleTest(

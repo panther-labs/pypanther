@@ -1,5 +1,5 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
-from pypanther.helpers.panther_duo_helpers import deserialize_administrator_log_event_description
+from pypanther.helpers.duo import deserialize_administrator_log_event_description
 
 duo_admin_action_marked_fraudulent_tests: list[RuleTest] = [
     RuleTest(

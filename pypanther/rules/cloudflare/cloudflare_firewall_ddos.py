@@ -1,5 +1,5 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
-from pypanther.helpers.panther_cloudflare_helpers import cloudflare_fw_alert_context
+from pypanther.helpers.cloudflare import cloudflare_fw_alert_context
 
 cloudflare_firewall_l7_d_do_s_tests: list[RuleTest] = [
     RuleTest(

@@ -1,5 +1,5 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
-from pypanther.helpers.panther_base_helpers import pattern_match_list
+from pypanther.helpers.base import pattern_match_list
 
 teleport_create_user_accounts_tests: list[RuleTest] = [
     RuleTest(

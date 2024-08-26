@@ -1,5 +1,5 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
-from pypanther.helpers.panther_base_helpers import deep_walk
+from pypanther.helpers.base import deep_walk
 
 netskope_unauthorized_api_calls_tests: list[RuleTest] = [
     RuleTest(

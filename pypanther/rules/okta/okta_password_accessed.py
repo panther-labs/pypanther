@@ -1,5 +1,5 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
-from pypanther.helpers.panther_base_helpers import deep_get, get_val_from_list
+from pypanther.helpers.base import deep_get, get_val_from_list
 
 okta_password_access_tests: list[RuleTest] = [
     RuleTest(

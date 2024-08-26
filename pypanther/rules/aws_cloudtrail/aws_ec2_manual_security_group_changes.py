@@ -1,6 +1,6 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
-from pypanther.helpers.panther_base_helpers import aws_rule_context, deep_get, pattern_match_list
-from pypanther.helpers.panther_default import aws_cloudtrail_success
+from pypanther.helpers.base import aws_rule_context, deep_get, pattern_match_list
+from pypanther.helpers.default import aws_cloudtrail_success
 
 awsec2_manual_security_group_change_tests: list[RuleTest] = [
     RuleTest(

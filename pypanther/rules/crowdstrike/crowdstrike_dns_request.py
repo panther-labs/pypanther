@@ -1,5 +1,5 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
-from pypanther.helpers.panther_base_helpers import filter_crowdstrike_fdr_event_type, get_crowdstrike_field
+from pypanther.helpers.base import filter_crowdstrike_fdr_event_type, get_crowdstrike_field
 
 crowdstrike_dns_request_tests: list[RuleTest] = [
     RuleTest(

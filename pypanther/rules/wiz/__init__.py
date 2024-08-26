@@ -1,2 +1,2 @@
-from wiz.wiz_alert_passthrough import WizAlertPassthrough as WizAlertPassthrough
-from wiz.wiz_alert_passthrough import wiz_alert_passthrough_tests as wiz_alert_passthrough_tests
+from pypanther.rules.wiz.wiz_alert_passthrough import WizAlertPassthrough as WizAlertPassthrough
+from pypanther.rules.wiz.wiz_alert_passthrough import wiz_alert_passthrough_tests as wiz_alert_passthrough_tests

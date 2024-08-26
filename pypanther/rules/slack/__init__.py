@@ -1,94 +1,116 @@
-from slack.slack_app_access_expanded import SlackAuditLogsAppAccessExpanded as SlackAuditLogsAppAccessExpanded
-from slack.slack_app_access_expanded import (
+from pypanther.rules.slack.slack_app_access_expanded import (
+    SlackAuditLogsAppAccessExpanded as SlackAuditLogsAppAccessExpanded,
+)
+from pypanther.rules.slack.slack_app_access_expanded import (
     slack_audit_logs_app_access_expanded_tests as slack_audit_logs_app_access_expanded_tests,
 )
-from slack.slack_app_added import SlackAuditLogsAppAdded as SlackAuditLogsAppAdded
-from slack.slack_app_added import slack_audit_logs_app_added_tests as slack_audit_logs_app_added_tests
-from slack.slack_app_removed import SlackAuditLogsAppRemoved as SlackAuditLogsAppRemoved
-from slack.slack_app_removed import slack_audit_logs_app_removed_tests as slack_audit_logs_app_removed_tests
-from slack.slack_application_dos import SlackAuditLogsApplicationDoS as SlackAuditLogsApplicationDoS
-from slack.slack_application_dos import (
+from pypanther.rules.slack.slack_app_added import SlackAuditLogsAppAdded as SlackAuditLogsAppAdded
+from pypanther.rules.slack.slack_app_added import slack_audit_logs_app_added_tests as slack_audit_logs_app_added_tests
+from pypanther.rules.slack.slack_app_removed import SlackAuditLogsAppRemoved as SlackAuditLogsAppRemoved
+from pypanther.rules.slack.slack_app_removed import (
+    slack_audit_logs_app_removed_tests as slack_audit_logs_app_removed_tests,
+)
+from pypanther.rules.slack.slack_application_dos import SlackAuditLogsApplicationDoS as SlackAuditLogsApplicationDoS
+from pypanther.rules.slack.slack_application_dos import (
     slack_audit_logs_application_do_s_tests as slack_audit_logs_application_do_s_tests,
 )
-from slack.slack_dlp_modified import SlackAuditLogsDLPModified as SlackAuditLogsDLPModified
-from slack.slack_dlp_modified import slack_audit_logs_dlp_modified_tests as slack_audit_logs_dlp_modified_tests
-from slack.slack_ekm_config_changed import SlackAuditLogsEKMConfigChanged as SlackAuditLogsEKMConfigChanged
-from slack.slack_ekm_config_changed import (
+from pypanther.rules.slack.slack_dlp_modified import SlackAuditLogsDLPModified as SlackAuditLogsDLPModified
+from pypanther.rules.slack.slack_dlp_modified import (
+    slack_audit_logs_dlp_modified_tests as slack_audit_logs_dlp_modified_tests,
+)
+from pypanther.rules.slack.slack_ekm_config_changed import (
+    SlackAuditLogsEKMConfigChanged as SlackAuditLogsEKMConfigChanged,
+)
+from pypanther.rules.slack.slack_ekm_config_changed import (
     slack_audit_logs_ekm_config_changed_tests as slack_audit_logs_ekm_config_changed_tests,
 )
-from slack.slack_ekm_slackbot_unenrolled import (
+from pypanther.rules.slack.slack_ekm_slackbot_unenrolled import (
     SlackAuditLogsEKMSlackbotUnenrolled as SlackAuditLogsEKMSlackbotUnenrolled,
 )
-from slack.slack_ekm_slackbot_unenrolled import (
+from pypanther.rules.slack.slack_ekm_slackbot_unenrolled import (
     slack_audit_logs_ekm_slackbot_unenrolled_tests as slack_audit_logs_ekm_slackbot_unenrolled_tests,
 )
-from slack.slack_ekm_unenrolled import SlackAuditLogsEKMUnenrolled as SlackAuditLogsEKMUnenrolled
-from slack.slack_ekm_unenrolled import slack_audit_logs_ekm_unenrolled_tests as slack_audit_logs_ekm_unenrolled_tests
-from slack.slack_idp_configuration_change import (
+from pypanther.rules.slack.slack_ekm_unenrolled import SlackAuditLogsEKMUnenrolled as SlackAuditLogsEKMUnenrolled
+from pypanther.rules.slack.slack_ekm_unenrolled import (
+    slack_audit_logs_ekm_unenrolled_tests as slack_audit_logs_ekm_unenrolled_tests,
+)
+from pypanther.rules.slack.slack_idp_configuration_change import (
     SlackAuditLogsIDPConfigurationChanged as SlackAuditLogsIDPConfigurationChanged,
 )
-from slack.slack_idp_configuration_change import (
+from pypanther.rules.slack.slack_idp_configuration_change import (
     slack_audit_logs_idp_configuration_changed_tests as slack_audit_logs_idp_configuration_changed_tests,
 )
-from slack.slack_information_barrier_modified import (
+from pypanther.rules.slack.slack_information_barrier_modified import (
     SlackAuditLogsInformationBarrierModified as SlackAuditLogsInformationBarrierModified,
 )
-from slack.slack_information_barrier_modified import (
+from pypanther.rules.slack.slack_information_barrier_modified import (
     slack_audit_logs_information_barrier_modified_tests as slack_audit_logs_information_barrier_modified_tests,
 )
-from slack.slack_intune_mdm_disabled import SlackAuditLogsIntuneMDMDisabled as SlackAuditLogsIntuneMDMDisabled
-from slack.slack_intune_mdm_disabled import (
+from pypanther.rules.slack.slack_intune_mdm_disabled import (
+    SlackAuditLogsIntuneMDMDisabled as SlackAuditLogsIntuneMDMDisabled,
+)
+from pypanther.rules.slack.slack_intune_mdm_disabled import (
     slack_audit_logs_intune_mdm_disabled_tests as slack_audit_logs_intune_mdm_disabled_tests,
 )
-from slack.slack_legal_hold_policy_modified import (
+from pypanther.rules.slack.slack_legal_hold_policy_modified import (
     SlackAuditLogsLegalHoldPolicyModified as SlackAuditLogsLegalHoldPolicyModified,
 )
-from slack.slack_legal_hold_policy_modified import (
+from pypanther.rules.slack.slack_legal_hold_policy_modified import (
     slack_audit_logs_legal_hold_policy_modified_tests as slack_audit_logs_legal_hold_policy_modified_tests,
 )
-from slack.slack_mfa_settings_changed import SlackAuditLogsMFASettingsChanged as SlackAuditLogsMFASettingsChanged
-from slack.slack_mfa_settings_changed import (
+from pypanther.rules.slack.slack_mfa_settings_changed import (
+    SlackAuditLogsMFASettingsChanged as SlackAuditLogsMFASettingsChanged,
+)
+from pypanther.rules.slack.slack_mfa_settings_changed import (
     slack_audit_logs_mfa_settings_changed_tests as slack_audit_logs_mfa_settings_changed_tests,
 )
-from slack.slack_org_created import SlackAuditLogsOrgCreated as SlackAuditLogsOrgCreated
-from slack.slack_org_created import slack_audit_logs_org_created_tests as slack_audit_logs_org_created_tests
-from slack.slack_org_deleted import SlackAuditLogsOrgDeleted as SlackAuditLogsOrgDeleted
-from slack.slack_org_deleted import slack_audit_logs_org_deleted_tests as slack_audit_logs_org_deleted_tests
-from slack.slack_passthrough_anomaly import SlackAuditLogsPassthroughAnomaly as SlackAuditLogsPassthroughAnomaly
-from slack.slack_passthrough_anomaly import (
+from pypanther.rules.slack.slack_org_created import SlackAuditLogsOrgCreated as SlackAuditLogsOrgCreated
+from pypanther.rules.slack.slack_org_created import (
+    slack_audit_logs_org_created_tests as slack_audit_logs_org_created_tests,
+)
+from pypanther.rules.slack.slack_org_deleted import SlackAuditLogsOrgDeleted as SlackAuditLogsOrgDeleted
+from pypanther.rules.slack.slack_org_deleted import (
+    slack_audit_logs_org_deleted_tests as slack_audit_logs_org_deleted_tests,
+)
+from pypanther.rules.slack.slack_passthrough_anomaly import (
+    SlackAuditLogsPassthroughAnomaly as SlackAuditLogsPassthroughAnomaly,
+)
+from pypanther.rules.slack.slack_passthrough_anomaly import (
     slack_audit_logs_passthrough_anomaly_tests as slack_audit_logs_passthrough_anomaly_tests,
 )
-from slack.slack_potentially_malicious_file_shared import (
+from pypanther.rules.slack.slack_potentially_malicious_file_shared import (
     SlackAuditLogsPotentiallyMaliciousFileShared as SlackAuditLogsPotentiallyMaliciousFileShared,
 )
-from slack.slack_potentially_malicious_file_shared import (
+from pypanther.rules.slack.slack_potentially_malicious_file_shared import (
     slack_audit_logs_potentially_malicious_file_shared_tests as slack_audit_logs_potentially_malicious_file_shared_tests,
 )
-from slack.slack_private_channel_made_public import (
+from pypanther.rules.slack.slack_private_channel_made_public import (
     SlackAuditLogsPrivateChannelMadePublic as SlackAuditLogsPrivateChannelMadePublic,
 )
-from slack.slack_private_channel_made_public import (
+from pypanther.rules.slack.slack_private_channel_made_public import (
     slack_audit_logs_private_channel_made_public_tests as slack_audit_logs_private_channel_made_public_tests,
 )
-from slack.slack_privilege_changed_to_user import (
+from pypanther.rules.slack.slack_privilege_changed_to_user import (
     SlackAuditLogsUserPrivilegeChangedToUser as SlackAuditLogsUserPrivilegeChangedToUser,
 )
-from slack.slack_privilege_changed_to_user import (
+from pypanther.rules.slack.slack_privilege_changed_to_user import (
     slack_audit_logs_user_privilege_changed_to_user_tests as slack_audit_logs_user_privilege_changed_to_user_tests,
 )
-from slack.slack_service_owner_transferred import (
+from pypanther.rules.slack.slack_service_owner_transferred import (
     SlackAuditLogsServiceOwnerTransferred as SlackAuditLogsServiceOwnerTransferred,
 )
-from slack.slack_service_owner_transferred import (
+from pypanther.rules.slack.slack_service_owner_transferred import (
     slack_audit_logs_service_owner_transferred_tests as slack_audit_logs_service_owner_transferred_tests,
 )
-from slack.slack_sso_settings_changed import SlackAuditLogsSSOSettingsChanged as SlackAuditLogsSSOSettingsChanged
-from slack.slack_sso_settings_changed import (
+from pypanther.rules.slack.slack_sso_settings_changed import (
+    SlackAuditLogsSSOSettingsChanged as SlackAuditLogsSSOSettingsChanged,
+)
+from pypanther.rules.slack.slack_sso_settings_changed import (
     slack_audit_logs_sso_settings_changed_tests as slack_audit_logs_sso_settings_changed_tests,
 )
-from slack.slack_user_privilege_escalation import (
+from pypanther.rules.slack.slack_user_privilege_escalation import (
     SlackAuditLogsUserPrivilegeEscalation as SlackAuditLogsUserPrivilegeEscalation,
 )
-from slack.slack_user_privilege_escalation import (
+from pypanther.rules.slack.slack_user_privilege_escalation import (
     slack_audit_logs_user_privilege_escalation_tests as slack_audit_logs_user_privilege_escalation_tests,
 )

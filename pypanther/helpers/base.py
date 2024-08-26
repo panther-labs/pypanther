@@ -14,7 +14,7 @@ from functools import reduce
 from ipaddress import ip_address, ip_network
 from typing import Any, List, Optional, Sequence, Union
 
-from pypanther.helpers.panther_config import config
+from pypanther.helpers.config import config
 
 # # # # # # # # # # # # # #
 #       Exceptions        #

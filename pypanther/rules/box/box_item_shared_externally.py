@@ -1,6 +1,6 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
-from pypanther.helpers.panther_base_helpers import deep_get
-from pypanther.helpers.panther_box_helpers import is_box_sdk_enabled, lookup_box_file, lookup_box_folder
+from pypanther.helpers.base import deep_get
+from pypanther.helpers.box import is_box_sdk_enabled, lookup_box_file, lookup_box_folder
 
 box_item_shared_externally_tests: list[RuleTest] = [
     RuleTest(

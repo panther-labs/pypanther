@@ -2,8 +2,8 @@ import json
 from unittest.mock import MagicMock
 
 from pypanther import LogType, Rule, RuleMock, RuleTest, Severity, panther_managed
-from pypanther.helpers.panther_base_helpers import deep_get
-from pypanther.helpers.panther_mongodb_helpers import mongodb_alert_context
+from pypanther.helpers.base import deep_get
+from pypanther.helpers.mongodb import mongodb_alert_context
 
 mongo_db_external_user_invited_tests: list[RuleTest] = [
     RuleTest(

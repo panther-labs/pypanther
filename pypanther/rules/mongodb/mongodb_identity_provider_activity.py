@@ -1,5 +1,5 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
-from pypanther.helpers.panther_mongodb_helpers import mongodb_alert_context
+from pypanther.helpers.mongodb import mongodb_alert_context
 
 mongo_db_identity_provider_activity_tests: list[RuleTest] = [
     RuleTest(name="Random event", expected_result=False, log={"eventTypeName": "cat_jumped"}),

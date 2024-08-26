@@ -1,5 +1,5 @@
-import pypanther.helpers.panther_event_type_helpers as event_type
 from pypanther.base import DataModel, DataModelMapping, LogType
+from pypanther.helpers import event_type
 
 
 def get_event_type(event):

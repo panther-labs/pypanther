@@ -5,8 +5,8 @@ import time
 from panther_detection_helpers.caching import get_dictionary, put_dictionary
 
 from pypanther import LogType, Rule, RuleMock, RuleTest, Severity, panther_managed
-from pypanther.helpers.panther_ipinfo_helpers import IPInfoLocation
-from pypanther.helpers.panther_notion_helpers import notion_alert_context
+from pypanther.helpers.ipinfo import IPInfoLocation
+from pypanther.helpers.notion import notion_alert_context
 
 notion_login_from_new_location_tests: list[RuleTest] = [
     RuleTest(

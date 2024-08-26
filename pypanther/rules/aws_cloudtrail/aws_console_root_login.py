@@ -1,7 +1,7 @@
 from pypanther import LogType, Rule, RuleMock, RuleTest, Severity, panther_managed
-from pypanther.helpers.panther_base_helpers import deep_get
-from pypanther.helpers.panther_default import lookup_aws_account_name
-from pypanther.helpers.panther_oss_helpers import geoinfo_from_ip_formatted
+from pypanther.helpers.base import deep_get
+from pypanther.helpers.default import lookup_aws_account_name
+from pypanther.helpers.oss import geoinfo_from_ip_formatted
 
 aws_console_root_login_tests: list[RuleTest] = [
     RuleTest(

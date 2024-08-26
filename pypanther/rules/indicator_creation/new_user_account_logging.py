@@ -2,9 +2,9 @@ from datetime import timedelta
 
 from panther_detection_helpers.caching import put_string_set
 
-import pypanther.helpers.panther_event_type_helpers as event_type
 from pypanther import LogType, Rule, RuleMock, RuleTest, Severity, panther_managed
-from pypanther.helpers.panther_oss_helpers import resolve_timestamp_string
+from pypanther.helpers import event_type
+from pypanther.helpers.oss import resolve_timestamp_string
 
 standard_new_user_account_created_tests: list[RuleTest] = [
     RuleTest(

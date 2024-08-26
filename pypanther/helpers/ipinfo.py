@@ -2,8 +2,8 @@
 
 from typing import Union
 
-from pypanther.helpers.panther_base_helpers import deep_get
-from pypanther.helpers.panther_lookuptable_helpers import LookupTableMatches
+from pypanther.helpers.base import deep_get
+from pypanther.helpers.lookuptable import LookupTableMatches
 
 IPINFO_LOCATION_LUT_NAME = "ipinfo_location"
 IPINFO_ASN_LUT_NAME = "ipinfo_asn"

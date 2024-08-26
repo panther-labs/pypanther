@@ -1,7 +1,7 @@
 import json
 
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
-from pypanther.helpers.panther_base_helpers import m365_alert_context
+from pypanther.helpers.base import m365_alert_context
 
 microsoft365_mfa_disabled_tests: list[RuleTest] = [
     RuleTest(

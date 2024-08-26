@@ -1,5 +1,5 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
-from pypanther.helpers.panther_zoom_helpers import get_zoom_usergroup_context as get_context
+from pypanther.helpers.zoom import get_zoom_usergroup_context as get_context
 
 zoom_passcode_disabled_tests: list[RuleTest] = [
     RuleTest(

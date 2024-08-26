@@ -1,5 +1,5 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
-from pypanther.helpers.panther_base_helpers import deep_get, slack_alert_context
+from pypanther.helpers.base import deep_get, slack_alert_context
 
 slack_audit_logs_legal_hold_policy_modified_tests: list[RuleTest] = [
     RuleTest(

@@ -1,5 +1,5 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
-from pypanther.helpers.panther_base_helpers import deep_get, deep_walk, okta_alert_context
+from pypanther.helpers.base import deep_get, deep_walk, okta_alert_context
 
 okta_new_behavior_accessing_admin_console_tests: list[RuleTest] = [
     RuleTest(

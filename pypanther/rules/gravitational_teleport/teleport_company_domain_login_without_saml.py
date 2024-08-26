@@ -1,7 +1,7 @@
 import re
 
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
-from pypanther.helpers.panther_config import config
+from pypanther.helpers.config import config
 
 teleport_company_domain_login_without_saml_tests: list[RuleTest] = [
     RuleTest(

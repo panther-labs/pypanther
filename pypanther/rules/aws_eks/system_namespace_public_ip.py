@@ -1,7 +1,7 @@
 from ipaddress import ip_address
 
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
-from pypanther.helpers.panther_base_helpers import deep_get, eks_panther_obj_ref
+from pypanther.helpers.base import deep_get, eks_panther_obj_ref
 
 amazon_eks_audit_system_namespace_from_public_ip_tests: list[RuleTest] = [
     RuleTest(

@@ -1,5 +1,5 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
-from pypanther.helpers.panther_base_helpers import box_parse_additional_details, deep_get
+from pypanther.helpers.base import box_parse_additional_details, deep_get
 
 box_malicious_content_tests: list[RuleTest] = [
     RuleTest(

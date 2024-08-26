@@ -2,7 +2,7 @@
 Helpers for Crowdstrike Event Streams detections.
 """
 
-from pypanther.helpers.panther_base_helpers import key_value_list_to_dict
+from pypanther.helpers.base import key_value_list_to_dict
 
 
 def cs_alert_context(event):

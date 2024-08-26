@@ -1,5 +1,5 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
-from pypanther.helpers.panther_base_helpers import aws_rule_context, deep_get
+from pypanther.helpers.base import aws_rule_context, deep_get
 
 aws_unsuccessful_mf_aattempt_tests: list[RuleTest] = [
     RuleTest(

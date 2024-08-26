@@ -1,5 +1,5 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
-from pypanther.helpers.panther_base_helpers import slack_alert_context
+from pypanther.helpers.base import slack_alert_context
 
 slack_audit_logs_ekm_config_changed_tests: list[RuleTest] = [
     RuleTest(

@@ -1,5 +1,5 @@
-import pypanther.helpers.panther_event_type_helpers as event_type
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
+from pypanther.helpers import event_type
 
 standard_mfa_disabled_tests: list[RuleTest] = [
     RuleTest(

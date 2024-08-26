@@ -3,7 +3,7 @@ import time
 from panther_detection_helpers.caching import get_string_set, put_string_set
 
 from pypanther import LogType, Rule, RuleMock, RuleTest, Severity, panther_managed
-from pypanther.helpers.panther_notion_helpers import notion_alert_context
+from pypanther.helpers.notion import notion_alert_context
 
 notion_account_changed_after_login_tests: list[RuleTest] = [
     RuleTest(

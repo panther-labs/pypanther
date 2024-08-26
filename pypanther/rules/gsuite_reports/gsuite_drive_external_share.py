@@ -1,7 +1,7 @@
 import datetime
 
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
-from pypanther.helpers.panther_base_helpers import deep_get, pattern_match, pattern_match_list
+from pypanther.helpers.base import deep_get, pattern_match, pattern_match_list
 
 g_suite_drive_external_file_share_tests: list[RuleTest] = [
     RuleTest(

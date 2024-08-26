@@ -1,5 +1,5 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
-from pypanther.helpers.panther_base_helpers import deep_get, pattern_match
+from pypanther.helpers.base import deep_get, pattern_match
 
 aws_macie_evasion_tests: list[RuleTest] = [
     RuleTest(

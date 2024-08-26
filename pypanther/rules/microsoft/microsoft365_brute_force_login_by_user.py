@@ -1,5 +1,5 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
-from pypanther.helpers.panther_base_helpers import m365_alert_context
+from pypanther.helpers.base import m365_alert_context
 
 microsoft365_brute_force_loginby_user_tests: list[RuleTest] = [
     RuleTest(

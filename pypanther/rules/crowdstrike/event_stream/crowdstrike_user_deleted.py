@@ -1,5 +1,5 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
-from pypanther.helpers.crowdstrike_event_streams_helpers import cs_alert_context
+from pypanther.helpers.crowdstrike_event_streams import cs_alert_context
 
 crowdstrike_user_deleted_tests: list[RuleTest] = [
     RuleTest(

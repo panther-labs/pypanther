@@ -1,5 +1,5 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
-from pypanther.helpers.panther_base_helpers import crowdstrike_detection_alert_context
+from pypanther.helpers.base import crowdstrike_detection_alert_context
 
 crowdstrike_credential_dumping_tool_tests: list[RuleTest] = [
     RuleTest(

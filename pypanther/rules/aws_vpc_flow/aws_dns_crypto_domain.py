@@ -1,5 +1,5 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
-from pypanther.helpers.panther_iocs import CRYPTO_MINING_DOMAINS
+from pypanther.helpers.iocs import CRYPTO_MINING_DOMAINS
 
 awsdns_crypto_domain_tests: list[RuleTest] = [
     RuleTest(

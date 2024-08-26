@@ -349,10 +349,13 @@ def rewrite_imports_ast(imps: List[ast.AST], helpers: Set[str]):
                     asname = name.asname
                     if asname is None:
                         asname = name.name
-                    imp.names[i] = ast.alias(name="pypanther.helpers." + name.name, asname=asname)
+                    imp.names[i] = ast.alias(
+                        name="pypanther.helpers." + name.name.replace("_helpers", "").replace("panther_", ""),
+                        asname=asname,
+                    )
         elif isinstance(imp, ast.ImportFrom):
             if imp.module is not None and imp.module.split(".")[0] in helpers:
-                imp.module = "pypanther.helpers." + imp.module
+                imp.module = "pypanther.helpers." + imp.module.replace("_helpers", "").replace("panther_", "")
 
 
 def rewrite_imports_str(code: str, helpers: Set[str]):
@@ -363,7 +366,10 @@ def rewrite_imports_str(code: str, helpers: Set[str]):
         if m is not None:
             for name in m.group(1).split(","):
                 if name.split(".")[0] in helpers:
-                    line = line.replace(name, f"pypanther.helpers.{name}")
+                    line = line.replace(
+                        name,
+                        f"pypanther.helpers.{name}".replace("_helpers", "").replace("panther_", ""),
+                    )
 
                     if m.group(2) is None and len(name.split(".")) == 1:
                         line += f" as {name}"
@@ -371,7 +377,11 @@ def rewrite_imports_str(code: str, helpers: Set[str]):
         m = re.match(r"^ *from (.*) import (.*)", line)
         if m is not None:
             if m.group(1).split(".")[0] in helpers:
-                line = line.replace(m.group(1), "pypanther.helpers." + m.group(1))
+                line = (
+                    line.replace(m.group(1), "pypanther.helpers." + m.group(1))
+                    .replace("_helpers", "")
+                    .replace("panther_", "")
+                )
         ret.append(line)
 
     return "\n".join(ret) + "\n"
@@ -484,7 +494,9 @@ def convert_global_helpers(panther_analysis: Path) -> Set[str]:
         code = rewrite_imports_str(code, helpers)
 
         with open(
-            helpers_path / gh["Filename"].replace("_helpers", "").replace("panther_", ""), "w", encoding="utf-8",
+            helpers_path / gh["Filename"].replace("_helpers", "").replace("panther_", ""),
+            "w",
+            encoding="utf-8",
         ) as f:
             f.write(code)
 
@@ -634,7 +646,7 @@ def create_init_py(directory: Path, root_directory: Path):
             classes, functions, variables = get_classes_functions_variables_from_file(py_file)
             for things in (classes, functions, variables):
                 for thing in things:
-                    f.write(f"from {module_path}.{module_name} import {thing} as {thing}\n")
+                    f.write(f"from pypanther.rules.{module_path}.{module_name} import {thing} as {thing}\n")
 
     print(f"Created __init__.py in {directory}")
 

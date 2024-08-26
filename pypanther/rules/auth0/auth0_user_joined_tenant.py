@@ -1,6 +1,6 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
-from pypanther.helpers.panther_auth0_helpers import auth0_alert_context, is_auth0_config_event
-from pypanther.helpers.panther_base_helpers import deep_get
+from pypanther.helpers.auth0 import auth0_alert_context, is_auth0_config_event
+from pypanther.helpers.base import deep_get
 
 auth0_user_joined_tenant_tests: list[RuleTest] = [
     RuleTest(

@@ -1,7 +1,7 @@
 from ipaddress import ip_address
 
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
-from pypanther.helpers.panther_base_helpers import aws_rule_context, deep_get
+from pypanther.helpers.base import aws_rule_context, deep_get
 
 aws_cloud_trail_unauthorized_api_call_tests: list[RuleTest] = [
     RuleTest(

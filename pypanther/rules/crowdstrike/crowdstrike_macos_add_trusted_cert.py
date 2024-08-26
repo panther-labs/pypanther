@@ -1,5 +1,5 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
-from pypanther.helpers.panther_base_helpers import crowdstrike_process_alert_context
+from pypanther.helpers.base import crowdstrike_process_alert_context
 
 crowdstrike_macos_add_trusted_cert_tests: list[RuleTest] = [
     RuleTest(

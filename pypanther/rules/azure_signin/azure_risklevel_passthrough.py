@@ -1,6 +1,6 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
-from pypanther.helpers.panther_azuresignin_helpers import actor_user, azure_signin_alert_context, is_sign_in_event
-from pypanther.helpers.panther_base_helpers import deep_get
+from pypanther.helpers.azuresignin import actor_user, azure_signin_alert_context, is_sign_in_event
+from pypanther.helpers.base import deep_get
 
 azure_audit_risk_level_passthrough_tests: list[RuleTest] = [
     RuleTest(

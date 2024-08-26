@@ -1,7 +1,7 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
-from pypanther.helpers.gcp_base_helpers import get_k8s_info
+from pypanther.helpers.base import deep_walk
+from pypanther.helpers.gcp_base import get_k8s_info
 from pypanther.helpers.gcp_environment import PRODUCTION_PROJECT_IDS, rule_exceptions
-from pypanther.helpers.panther_base_helpers import deep_walk
 
 gcpk8s_exec_into_pod_tests: list[RuleTest] = [
     RuleTest(

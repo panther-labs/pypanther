@@ -1,5 +1,5 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
-from pypanther.helpers.panther_duo_helpers import duo_alert_context
+from pypanther.helpers.duo import duo_alert_context
 
 duo_admin_policy_updated_tests: list[RuleTest] = [
     RuleTest(

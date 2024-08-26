@@ -2,7 +2,7 @@ import json
 from unittest.mock import MagicMock
 
 from pypanther import LogType, Rule, RuleMock, RuleTest, Severity, panther_managed
-from pypanther.helpers.panther_base_helpers import deep_get, github_alert_context
+from pypanther.helpers.base import deep_get, github_alert_context
 
 git_hub_action_failed_tests: list[RuleTest] = [
     RuleTest(

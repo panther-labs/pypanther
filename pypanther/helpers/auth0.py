@@ -2,7 +2,7 @@
 Global helpers for Auth0 detections
 """
 
-from pypanther.helpers.panther_base_helpers import deep_get
+from pypanther.helpers.base import deep_get
 
 
 def auth0_alert_context(event) -> dict:

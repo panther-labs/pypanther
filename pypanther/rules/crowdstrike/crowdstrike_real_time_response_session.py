@@ -1,5 +1,5 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
-from pypanther.helpers.panther_base_helpers import get_crowdstrike_field
+from pypanther.helpers.base import get_crowdstrike_field
 
 crowdstrike_real_time_response_session_tests: list[RuleTest] = [
     RuleTest(

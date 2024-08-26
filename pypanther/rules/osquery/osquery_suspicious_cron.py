@@ -2,7 +2,7 @@ import shlex
 from fnmatch import fnmatch
 
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
-from pypanther.helpers.panther_base_helpers import deep_get
+from pypanther.helpers.base import deep_get
 
 osquery_suspicious_cron_tests: list[RuleTest] = [
     RuleTest(

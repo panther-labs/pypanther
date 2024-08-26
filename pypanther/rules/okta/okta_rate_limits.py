@@ -1,7 +1,7 @@
 from fnmatch import fnmatch
 
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
-from pypanther.helpers.panther_base_helpers import okta_alert_context
+from pypanther.helpers.base import okta_alert_context
 
 okta_rate_limits_tests: list[RuleTest] = [
     RuleTest(

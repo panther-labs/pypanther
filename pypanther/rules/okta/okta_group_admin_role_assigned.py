@@ -1,5 +1,5 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
-from pypanther.helpers.panther_base_helpers import okta_alert_context
+from pypanther.helpers.base import okta_alert_context
 
 okta_group_admin_role_assigned_tests: list[RuleTest] = [
     RuleTest(

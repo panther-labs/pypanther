@@ -1,5 +1,5 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
-from pypanther.helpers.panther_base_helpers import aws_rule_context
+from pypanther.helpers.base import aws_rule_context
 
 aws_security_hub_finding_evasion_tests: list[RuleTest] = [
     RuleTest(

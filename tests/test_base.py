@@ -18,7 +18,7 @@ from pydantic import ValidationError
 from pypanther.base import RULE_ALL_ATTRS, Rule, RuleModel, panther_managed
 from pypanther.cache import data_model_cache
 from pypanther.log_types import LogType
-from pypanther.rules.aws_cloudtrail_rules.aws_console_login_without_mfa import (
+from pypanther.rules.aws_cloudtrail import (
     AWSConsoleLoginWithoutMFA,
 )
 from pypanther.severity import Severity

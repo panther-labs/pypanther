@@ -1,6 +1,6 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
-from pypanther.helpers.crowdstrike_event_streams_helpers import cs_alert_context
-from pypanther.helpers.panther_base_helpers import key_value_list_to_dict
+from pypanther.helpers.base import key_value_list_to_dict
+from pypanther.helpers.crowdstrike_event_streams import cs_alert_context
 
 crowdstrike_new_user_created_tests: list[RuleTest] = [
     RuleTest(

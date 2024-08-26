@@ -1,5 +1,5 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
-from pypanther.helpers.panther_base_helpers import deep_get, deep_walk
+from pypanther.helpers.base import deep_get, deep_walk
 
 gcp_permissions_grantedto_createor_manage_service_account_key_tests: list[RuleTest] = [
     RuleTest(

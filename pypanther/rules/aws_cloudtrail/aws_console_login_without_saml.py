@@ -1,6 +1,6 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
-from pypanther.helpers.panther_base_helpers import aws_rule_context, deep_get
-from pypanther.helpers.panther_default import lookup_aws_account_name
+from pypanther.helpers.base import aws_rule_context, deep_get
+from pypanther.helpers.default import lookup_aws_account_name
 
 aws_console_login_without_saml_tests: list[RuleTest] = [
     RuleTest(

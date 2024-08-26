@@ -1,5 +1,5 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
-from pypanther.helpers.panther_base_helpers import crowdstrike_network_detection_alert_context
+from pypanther.helpers.base import crowdstrike_network_detection_alert_context
 
 connectionto_embargoed_country_tests: list[RuleTest] = [
     RuleTest(

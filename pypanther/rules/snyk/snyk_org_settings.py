@@ -1,6 +1,6 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
-from pypanther.helpers.panther_base_helpers import deep_get
-from pypanther.helpers.panther_snyk_helpers import snyk_alert_context
+from pypanther.helpers.base import deep_get
+from pypanther.helpers.snyk import snyk_alert_context
 
 snyk_org_settings_tests: list[RuleTest] = [
     RuleTest(

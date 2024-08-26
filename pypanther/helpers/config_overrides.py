@@ -19,7 +19,7 @@ SUSPICIOUS_DOMAINS = [ "betrug.example.com" ]
 
 and at lookup-time:
 ```
-from pypanther.helpers.panther_config import config
+from pypanther.helpers.config import config
 print(config.SUSPICIOUS_DOMAINS)
 ```
 prints ["betrug.example.com"]
@@ -32,13 +32,13 @@ INTERNAL_NETWORKS = [ "10.0.0.0/8" ]
 
 panther_config_overrides.py
 ```
-import pypanther.helpers.panther_config_defaults as panther_config_defaults
+import pypanther.helpers.config_defaults as panther_config_defaults
 INTERNAL_NETWORKS = panther_config_defaults.INTERNAL_NETWORKS + [ "192.0.2.0/24" ]
 ```
 
 and at lookup-time:
 ```
-from pypanther.helpers.panther_config import config
+from pypanther.helpers.config import config
 print(config.INTERNAL_NETWORKS)
 ```
 prints ["10.0.0.0/8", "192.0.2.0/24" ]

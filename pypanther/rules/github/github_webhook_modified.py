@@ -1,5 +1,5 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
-from pypanther.helpers.panther_base_helpers import deep_get, github_alert_context
+from pypanther.helpers.base import deep_get, github_alert_context
 
 git_hub_webhook_modified_tests: list[RuleTest] = [
     RuleTest(
