@@ -1,14 +1,5 @@
 from pypanther.rules.tailscale.tailscale_https_disabled import TailscaleHTTPSDisabled as TailscaleHTTPSDisabled
-from pypanther.rules.tailscale.tailscale_https_disabled import (
-    tailscale_https_disabled_tests as tailscale_https_disabled_tests,
-)
 from pypanther.rules.tailscale.tailscale_machine_approval_requirements_disabled import (
     TailscaleMachineApprovalRequirementsDisabled as TailscaleMachineApprovalRequirementsDisabled,
 )
-from pypanther.rules.tailscale.tailscale_machine_approval_requirements_disabled import (
-    tailscale_machine_approval_requirements_disabled_tests as tailscale_machine_approval_requirements_disabled_tests,
-)
 from pypanther.rules.tailscale.tailscale_magicdns_disabled import TailscaleMagicDNSDisabled as TailscaleMagicDNSDisabled
-from pypanther.rules.tailscale.tailscale_magicdns_disabled import (
-    tailscale_magic_dns_disabled_tests as tailscale_magic_dns_disabled_tests,
-)

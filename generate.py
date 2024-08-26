@@ -616,16 +616,14 @@ def add_inits(path: Path):
             dirnames.remove("__pycache__")
 
 
-def get_classes_functions_variables_from_file(py_file: Path):
+def get_classes_from_file(py_file: Path):
     """Parses a Python file and returns a list of class, function, and variable names defined in it."""
     with open(py_file) as file:
         node = ast.parse(file.read(), filename=py_file)
 
     classes = [n.name for n in node.body if isinstance(n, ast.ClassDef)]
-    functions = [n.name for n in node.body if isinstance(n, ast.FunctionDef)]
-    variables = [n.target.id for n in node.body if isinstance(n, ast.AnnAssign) and isinstance(n.target, ast.Name)]
 
-    return classes, functions, variables
+    return classes
 
 
 def create_init_py(directory: Path, root_directory: Path):
@@ -639,10 +637,9 @@ def create_init_py(directory: Path, root_directory: Path):
                 continue  # Skip the __init__.py file itself
 
             module_name = py_file.stem
-            classes, functions, variables = get_classes_functions_variables_from_file(py_file)
-            for things in (classes, functions, variables):
-                for thing in things:
-                    f.write(f"from pypanther.rules.{module_path}.{module_name} import {thing} as {thing}\n")
+            classes = get_classes_from_file(py_file)
+            for cls in classes:
+                f.write(f"from pypanther.rules.{module_path}.{module_name} import {cls} as {cls}\n")
 
     print(f"Created __init__.py in {directory}")
 

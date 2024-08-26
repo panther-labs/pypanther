@@ -107,6 +107,7 @@ class AWSCloudTrailUnauthorizedAPICall(Rule):
     tags = ["AWS", "Discovery:Cloud Service Discovery"]
     reports = {"CIS": ["3.1"], "MITRE ATT&CK": ["TA0007:T1526"]}
     default_severity = Severity.INFO
+    create_alert = False
     default_description = "An unauthorized AWS API call was made"
     default_runbook = "https://docs.runpanther.io/alert-runbooks/built-in-rules/aws-unauthorized-api-call"
     default_reference = "https://amzn.to/3aOukaA"

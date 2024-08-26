@@ -283,6 +283,7 @@ class AmazonEKSAuditSystemNamespaceFromPublicIP(Rule):
     reports = {"MITRE ATT&CK": ["TA0027:T1475"]}
     default_reference = "https://docs.aws.amazon.com/eks/latest/userguide/network_reqs.html"
     default_severity = Severity.INFO
+    create_alert = False
     default_description = 'This detection identifies if an activity is recorded in the Kubernetes audit log where the user:username attribute begins with "system:" or "eks:" and the requests originating IP Address is a Public IP Address\n'
     dedup_period_minutes = 1440
     summary_attributes = ["user:username", "p_source_label"]

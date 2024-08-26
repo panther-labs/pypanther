@@ -1,4 +1,1 @@
 from pypanther.rules.atlassian.user_logged_in_as_user import AtlassianUserLoggedInAsUser as AtlassianUserLoggedInAsUser
-from pypanther.rules.atlassian.user_logged_in_as_user import (
-    atlassian_user_logged_in_as_user_tests as atlassian_user_logged_in_as_user_tests,
-)
