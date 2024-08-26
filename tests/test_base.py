@@ -434,10 +434,10 @@ class TestRule(TestCase):
             def rule(self, event):
                 return True
 
-        assert {
+        assert rule.default_reports == {
             "key1": ["value2", "value1"],
             "key2": ["value1"],
-        } == rule.default_reports
+        }
 
     def test_rule_matches(self) -> None:
         class rule(Rule):

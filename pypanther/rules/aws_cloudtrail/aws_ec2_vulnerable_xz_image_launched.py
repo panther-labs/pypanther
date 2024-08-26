@@ -666,7 +666,12 @@ class AWSEC2VulnerableXZImageLaunched(Rule):
         if not aws_cloudtrail_success(event) or event.get("eventName") != "RunInstances":
             return False
         amis_launched = event.deep_walk(
-            "responseElements", "instancesSet", "items", "imageId", default="<AMI ID not found>", return_val="all",
+            "responseElements",
+            "instancesSet",
+            "items",
+            "imageId",
+            default="<AMI ID not found>",
+            return_val="all",
         )
         # convert to a list if only one item is returned
         if not isinstance(amis_launched, list):
@@ -677,7 +682,12 @@ class AWSEC2VulnerableXZImageLaunched(Rule):
 
     def title(self, event):
         amis_launched = event.deep_walk(
-            "responseElements", "instancesSet", "items", "imageId", default="<AMI ID not found>", return_val="all",
+            "responseElements",
+            "instancesSet",
+            "items",
+            "imageId",
+            default="<AMI ID not found>",
+            return_val="all",
         )
         instance_ids = event.deep_walk(
             "responseElements",

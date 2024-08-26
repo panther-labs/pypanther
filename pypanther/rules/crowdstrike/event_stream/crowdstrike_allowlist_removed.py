@@ -146,7 +146,8 @@ class CrowdstrikeAllowlistRemoved(Rule):
         audit_keys = audit_keys_dict(event)
         list_name = audit_keys.get("group_name", "UNKNOWN_GROUP")
         verb = {"DeleteAllowlistGroup": "deleted", "UpdateAllowlistGroup": "disabled"}.get(
-            event.deep_get("event", "OperationName"), "removed",
+            event.deep_get("event", "OperationName"),
+            "removed",
         )
         return f'{actor} {verb} IP allowlist "{list_name}"'
 

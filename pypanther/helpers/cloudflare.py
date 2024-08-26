@@ -37,10 +37,7 @@ FIREWALL_SOURCE_MAPPING = {
 def map_source_to_name(event: Any) -> str:
     if isinstance(event, str):
         return FIREWALL_SOURCE_MAPPING.get(event.lower(), event)
-    return FIREWALL_SOURCE_MAPPING.get(
-        event.get("Source", "").lower(),
-        event.get("Source", "<NO_SOURCE>"),
-    )
+    return FIREWALL_SOURCE_MAPPING.get(event.get("Source", "").lower(), event.get("Source", "<NO_SOURCE>"))
 
 
 def cloudflare_fw_alert_context(event: dict = None):

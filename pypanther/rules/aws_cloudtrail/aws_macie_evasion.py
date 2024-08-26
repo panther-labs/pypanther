@@ -197,7 +197,8 @@ class AWSMacieEvasion(Rule):
 
     def rule(self, event):
         return event.get("eventName") in self.MACIE_EVENTS and pattern_match(
-            event.get("eventSource"), "macie*.amazonaws.com",
+            event.get("eventSource"),
+            "macie*.amazonaws.com",
         )
 
     def title(self, event):

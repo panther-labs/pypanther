@@ -325,7 +325,14 @@ class Auth0UserJoinedTenant(Rule):
     def rule(self, event):
         data_description = deep_get(event, "data", "description", default="<NO_DATA_DESCRIPTION_FOUND>")
         scopes = deep_get(
-            event, "data", "details", "request", "auth", "credentials", "scopes", default=["<NO_CREDENTIAL_SCOPE>"],
+            event,
+            "data",
+            "details",
+            "request",
+            "auth",
+            "credentials",
+            "scopes",
+            default=["<NO_CREDENTIAL_SCOPE>"],
         )
         state = deep_get(event, "data", "details", "request", "body", "state", default="<NO_STATE>")
         return all(

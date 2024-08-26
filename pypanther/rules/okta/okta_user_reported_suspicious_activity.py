@@ -155,7 +155,12 @@ okta_user_reported_suspicious_activity_tests: list[RuleTest] = [
             },
             "severity": "WARN",
             "target": [
-                {"alternateId": "homer.simpson@duff.com", "displayName": "Homer Simpson", "id": "01234", "type": "User"},
+                {
+                    "alternateId": "homer.simpson@duff.com",
+                    "displayName": "Homer Simpson",
+                    "id": "01234",
+                    "type": "User",
+                },
             ],
             "transaction": {"detail": {}, "id": "1234ABC", "type": "WEB"},
             "uuid": "ABC1234",

@@ -10,11 +10,7 @@ def cs_alert_context(event):
 
 
 def audit_keys_dict(event):
-    return key_value_list_to_dict(
-        event.deep_get("event", "AuditKeyValues", default=[]),
-        "Key",
-        "ValueString",
-    )
+    return key_value_list_to_dict(event.deep_get("event", "AuditKeyValues", default=[]), "Key", "ValueString")
 
 
 def str_to_list(liststr: str) -> list[str]:

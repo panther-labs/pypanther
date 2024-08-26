@@ -184,10 +184,7 @@ def convert_rule(filepath: Path, helpers: Set[str]) -> Optional[str]:
 
 
 def run_ruff(paths: List[Path]):
-    subprocess.run(["poetry", "run", "ruff", "check", "--fix", "--unsafe-fixes"] + list(paths), check=False)
-    subprocess.run(["poetry", "run", "ruff", "format"] + list(paths), check=False)
-    subprocess.run(["poetry", "run", "ruff", "check", "--fix", "--unsafe-fixes"] + list(paths), check=False)
-    subprocess.run(["poetry", "run", "mypy"] + list(paths), check=False)
+    subprocess.run(["ruff", "format"] + list(paths), check=True)
 
 
 def to_ascii(s):

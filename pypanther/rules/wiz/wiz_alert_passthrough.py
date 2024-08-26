@@ -130,7 +130,8 @@ class WizAlertPassthrough(Rule):
 
     def dedup(self, event):
         return event.deep_get("entitySnapshot", "externalId", default="<RESOURCE_NOT_FOUND>") + event.get(
-            "severity", "<SEVERITY_NOT_FOUND>",
+            "severity",
+            "<SEVERITY_NOT_FOUND>",
         )
 
     def description(self, event):

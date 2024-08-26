@@ -43,13 +43,7 @@ def get_flow_log_info(event):
 def gcp_alert_context(event):
     return {
         "project": deep_get(event, "resource", "labels", "project_id", default=""),
-        "principal": deep_get(
-            event,
-            "protoPayload",
-            "authenticationInfo",
-            "principalEmail",
-            default="",
-        ),
+        "principal": deep_get(event, "protoPayload", "authenticationInfo", "principalEmail", default=""),
         "caller_ip": deep_get(event, "protoPayload", "requestMetadata", "callerIP", default=""),
         "methodName": deep_get(event, "protoPayload", "methodName", default=""),
         "resourceName": deep_get(event, "protoPayload", "resourceName", default=""),
