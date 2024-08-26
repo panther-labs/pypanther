@@ -1,0 +1,12 @@
+from tailscale.tailscale_https_disabled import TailscaleHTTPSDisabled as TailscaleHTTPSDisabled
+from tailscale.tailscale_https_disabled import tailscale_https_disabled_tests as tailscale_https_disabled_tests
+from tailscale.tailscale_machine_approval_requirements_disabled import (
+    TailscaleMachineApprovalRequirementsDisabled as TailscaleMachineApprovalRequirementsDisabled,
+)
+from tailscale.tailscale_machine_approval_requirements_disabled import (
+    tailscale_machine_approval_requirements_disabled_tests as tailscale_machine_approval_requirements_disabled_tests,
+)
+from tailscale.tailscale_magicdns_disabled import TailscaleMagicDNSDisabled as TailscaleMagicDNSDisabled
+from tailscale.tailscale_magicdns_disabled import (
+    tailscale_magic_dns_disabled_tests as tailscale_magic_dns_disabled_tests,
+)
