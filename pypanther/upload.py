@@ -32,6 +32,7 @@ IGNORE_FOLDERS = [
     ".git",
     "__pycache__",
     "tests",
+    ".venv",
 ]
 
 UPLOAD_RESULT_SUCCESS = "UPLOAD_SUCCEEDED"
