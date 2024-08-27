@@ -1,0 +1,3 @@
+from pypanther.rules.gcp_http_lb.gcp_access_attempts_violating_iap_access_controls import (
+    GCPAccessAttemptsViolatingIAPAccessControls as GCPAccessAttemptsViolatingIAPAccessControls,
+)

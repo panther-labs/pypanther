@@ -1,0 +1,4 @@
+from pypanther.rules.panther_audit.panther_detection_deleted import PantherDetectionDeleted as PantherDetectionDeleted
+from pypanther.rules.panther_audit.panther_saml_modified import PantherSAMLModified as PantherSAMLModified
+from pypanther.rules.panther_audit.panther_sensitive_role_created import PantherSensitiveRole as PantherSensitiveRole
+from pypanther.rules.panther_audit.panther_user_modified import PantherUserModified as PantherUserModified

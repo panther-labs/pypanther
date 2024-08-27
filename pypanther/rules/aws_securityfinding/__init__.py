@@ -1,0 +1,7 @@
+from pypanther.rules.aws_securityfinding.decoy_dynamodb_accessed import DecoyDynamoDBAccessed as DecoyDynamoDBAccessed
+from pypanther.rules.aws_securityfinding.decoy_iam_assumed import DecoyIAMAssumed as DecoyIAMAssumed
+from pypanther.rules.aws_securityfinding.decoy_s3_accessed import DecoyS3Accessed as DecoyS3Accessed
+from pypanther.rules.aws_securityfinding.decoy_secret_accessed import DecoySecretAccessed as DecoySecretAccessed
+from pypanther.rules.aws_securityfinding.decoy_systems_manager_parameter_accessed import (
+    DecoySystemsManagerParameterAccessed as DecoySystemsManagerParameterAccessed,
+)
