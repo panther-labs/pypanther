@@ -23,7 +23,6 @@ from pypanther.rules.aws_cloudtrail import (
 )
 from pypanther.severity import Severity
 from pypanther.unit_tests import RuleMock, RuleTest
-from pypanther.wrap import include
 
 get_data_model = data_model_cache().data_model_of_logtype
 
@@ -1617,7 +1616,7 @@ class TestPantherManagedDecorator(TestCase):
         for test_result in Test().run_tests(get_data_model):
             assert test_result.passed, test_result
 
-        include(lambda x: False)(Test)
+        Test.include_filters.append(lambda x: False)
 
         Test.tests.append(RuleTest(name="new test", expected_result=False, log={}))
         for test_result in Test().run_tests(get_data_model):
@@ -1646,6 +1645,85 @@ class TestPantherManagedDecorator(TestCase):
 
         for test_result in Test().run_tests(get_data_model):
             assert test_result.passed, test_result
+
+
+class TestRuleFilters(TestCase):
+    class Test(Rule):
+        id = "TestRule"
+        log_types = [LogType.PANTHER_AUDIT]
+        default_severity = Severity.CRITICAL
+        tests = [RuleTest(name="test", expected_result=True, log={})]
+
+        def rule(self, event: PantherEvent) -> bool:
+            return True
+
+    def test_no_filters(self) -> None:
+        self.Test.include_filters = []
+        self.Test.exclude_filters = []
+        assert self.Test().run_tests(get_data_model)[0].passed
+
+    def test_include_filters(self) -> None:
+        self.Test.exclude_filters = []
+
+        self.Test.include_filters = [lambda x: True, lambda x: True]
+        assert self.Test().run_tests(get_data_model)[0].passed
+
+        self.Test.include_filters = [lambda x: False, lambda x: True]
+        assert not self.Test().run_tests(get_data_model)[0].passed
+
+        self.Test.include_filters = [lambda x: True, lambda x: False]
+        assert not self.Test().run_tests(get_data_model)[0].passed
+
+        self.Test.include_filters = [lambda x: False, lambda x: False]
+        assert not self.Test().run_tests(get_data_model)[0].passed
+
+    def test_exclude_filters(self) -> None:
+        self.Test.include_filters = []
+
+        self.Test.exclude_filters = [lambda x: True, lambda x: True]
+        assert not self.Test().run_tests(get_data_model)[0].passed
+
+        self.Test.exclude_filters = [lambda x: True, lambda x: False]
+        assert not self.Test().run_tests(get_data_model)[0].passed
+
+        self.Test.exclude_filters = [lambda x: False, lambda x: True]
+        assert not self.Test().run_tests(get_data_model)[0].passed
+
+        self.Test.exclude_filters = [lambda x: False, lambda x: False]
+        assert self.Test().run_tests(get_data_model)[0].passed
+
+    def test_include_and_exclude_filters(self) -> None:
+        self.Test.include_filters = [lambda x: True]
+        self.Test.exclude_filters = [lambda x: True]
+        assert not self.Test().run_tests(get_data_model)[0].passed
+
+        self.Test.include_filters = [lambda x: True]
+        self.Test.exclude_filters = [lambda x: False]
+        assert self.Test().run_tests(get_data_model)[0].passed
+
+        self.Test.include_filters = [lambda x: False]
+        self.Test.exclude_filters = [lambda x: True]
+        assert not self.Test().run_tests(get_data_model)[0].passed
+
+        self.Test.include_filters = [lambda x: False]
+        self.Test.exclude_filters = [lambda x: False]
+        assert not self.Test().run_tests(get_data_model)[0].passed
+
+    def test_include_filter_exception(self) -> None:
+        def filter(event):
+            raise Exception
+
+        self.Test.exclude_filters = []
+        self.Test.include_filters = [filter]
+        assert not self.Test().run_tests(get_data_model)[0].passed
+
+    def test_exclude_filter_exception(self) -> None:
+        def filter(event):
+            raise Exception
+
+        self.Test.exclude_filters = [filter]
+        self.Test.include_filters = []
+        assert not self.Test().run_tests(get_data_model)[0].passed
 
 
 @dataclasses.dataclass

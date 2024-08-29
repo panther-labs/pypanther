@@ -168,6 +168,8 @@ DEFAULT_SUMMARY_ATTRIBUTES: List[str] = []
 DEFAULT_TAGS: List[str] = []
 DEFAULT_TESTS: List[RuleTest] = []
 DEFAULT_THRESHOLD = 1
+DEFAULT_INCLUDE_FILTERS = []
+DEFAULT_EXCLUDE_FILTERS = []
 
 SeverityType = Union[Severity | Literal["DEFAULT"] | str]
 
@@ -187,6 +189,8 @@ class Rule(metaclass=abc.ABCMeta):
     threshold: PositiveInt = DEFAULT_THRESHOLD
     tags: List[str] = DEFAULT_TAGS
     reports: Dict[str, List[str]] = DEFAULT_REPORTS
+    include_filters: list[Callable[[PantherEvent], bool]] = DEFAULT_INCLUDE_FILTERS
+    exclude_filters: list[Callable[[PantherEvent], bool]] = DEFAULT_EXCLUDE_FILTERS
 
     default_severity: Severity | str
     default_destinations: List[str] = DEFAULT_OUTPUT_IDS
@@ -290,6 +294,8 @@ class Rule(metaclass=abc.ABCMeta):
         threshold: Optional[PositiveInt] = None,
         tags: Optional[List[str]] = None,
         reports: Optional[Dict[str, List[str]]] = None,
+        include_filters: Optional[List[Callable[[PantherEvent], bool]]] = None,
+        exclude_filters: Optional[List[Callable[[PantherEvent], bool]]] = None,
         default_severity: Optional[Severity] = None,
         default_description: Optional[str] = None,
         default_reference: Optional[str] = None,
@@ -302,6 +308,38 @@ class Rule(metaclass=abc.ABCMeta):
 
             if val is not None:
                 setattr(cls, key, val)
+
+    @classmethod
+    def extend(
+        cls,
+        log_types: Optional[List[str]] = None,
+        scheduled_queries: Optional[List[str]] = None,
+        summary_attributes: Optional[List[str]] = None,
+        tests: Optional[List[RuleTest]] = None,
+        tags: Optional[List[str]] = None,
+        reports: Optional[Dict[str, List[str]]] = None,
+        include_filters: Optional[List[Callable[[PantherEvent], bool]]] = None,
+        exclude_filters: Optional[List[Callable[[PantherEvent], bool]]] = None,
+        default_destinations: Optional[List[str]] = None,
+    ):
+        """
+        Extends this class' list or dict attributes with the
+        lists or dicts given. If the attribute is a dict and the keys
+        already exist in the dict, the new keys will overwrite the old
+        keys' values. If the existing value in the class is None, the
+        new given value will be set in place.
+        """
+        for key, val in locals().items():
+            if key == "cls":
+                continue
+
+            if val is not None:
+                if isinstance(val, list):
+                    getattr(cls, key, []).extend(val)
+                elif isinstance(val, dict):
+                    getattr(cls, key, {}).update(val)
+                elif getattr(cls, key) is None:
+                    setattr(cls, key, val)
 
     @classmethod
     def run_tests(
@@ -458,7 +496,16 @@ class Rule(metaclass=abc.ABCMeta):
         )
 
         try:
-            result.detection_output = self.rule(event)
+            result.filter_output = all(f(event) for f in self.include_filters)
+            result.filter_output &= all(not f(event) for f in self.exclude_filters)
+        except Exception as e:
+            result.filter_exception = e
+
+        try:
+            if result.filters_did_not_match:
+                result.detection_output = False
+            elif result.filters_not_ran or result.all_filters_matched:
+                result.detection_output = self.rule(event)
             self._require_bool(self.rule.__name__, result.detection_output)
         except Exception as e:
             result.detection_exception = e
