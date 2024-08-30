@@ -95,6 +95,8 @@ RULE_ALL_ATTRS = [
     "threshold",
     "tags",
     "reports",
+    "include_filters",
+    "exclude_filters",
     "default_severity",
     "default_description",
     "default_destinations",
@@ -145,6 +147,8 @@ class RuleModel(BaseModel):
     threshold: PositiveInt
     tags: UniqueList[str]
     reports: Dict[str, NonEmptyUniqueList[str]]
+    include_filters: list[Callable[[PantherEvent], bool]]
+    exclude_filters: list[Callable[[PantherEvent], bool]]
     default_destinations: UniqueList[str]
     default_description: str
     default_runbook: str
@@ -496,8 +500,9 @@ class Rule(metaclass=abc.ABCMeta):
         )
 
         try:
-            result.filter_output = all(f(event) for f in self.include_filters)
-            result.filter_output &= all(not f(event) for f in self.exclude_filters)
+            if len(self.include_filters) > 0 or len(self.exclude_filters) > 0:
+                result.filter_output = all(f(event) for f in self.include_filters)
+                result.filter_output &= all(not f(event) for f in self.exclude_filters)
         except Exception as e:
             result.filter_exception = e
 

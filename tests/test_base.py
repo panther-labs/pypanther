@@ -87,6 +87,7 @@ def test_panther_rule_fields_match():
         == set(Rule.__annotations__)
         == set(Rule.override.__annotations__)
     )
+    assert set(Rule.extend.__annotations__).issubset(set(RULE_ALL_ATTRS))
 
 
 def test_mock_patching():
