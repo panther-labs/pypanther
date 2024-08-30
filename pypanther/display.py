@@ -3,6 +3,8 @@ import json
 from typing import Any, Type
 
 from prettytable import PrettyTable
+from textual.app import App, ComposeResult
+from textual.widgets import DataTable, Footer
 
 from pypanther import utils
 from pypanther.base import Rule
@@ -32,6 +34,7 @@ VALID_RULE_TABLE_ATTRS = [
 OUTPUT_TYPE_JSON = "json"
 OUTPUT_TYPE_TEXT = "text"
 OUTPUT_TYPE_CSV = "csv"
+OUTPUT_TYPE_INTERACTIVE = "interactive"
 DEFAULT_CLI_OUTPUT_TYPE = OUTPUT_TYPE_TEXT
 COMMON_CLI_OUTPUT_TYPES = [
     OUTPUT_TYPE_TEXT,
@@ -39,6 +42,38 @@ COMMON_CLI_OUTPUT_TYPES = [
 ]
 
 JSON_INDENT_LEVEL = 2
+
+
+class RuleTable(App):
+    table: DataTable
+
+    BINDINGS = [("q", "quit", "Quit")]
+
+    def compose(self) -> ComposeResult:
+        yield self.table
+        yield Footer()
+
+    def add_rules(self, rules: list[Type[Rule]], attributes: list[str]) -> None:
+        self.table = DataTable()
+        self.table.add_columns(*attributes)
+        self.table.sort(*attributes)
+        for i, rule in enumerate(rules, start=1):
+            self.table.add_row(
+                *[rule_table_row_attr(rule, attr, truncate_list=False) for attr in attributes],
+                label=f"{i}",
+            )
+
+
+def show_rule_table(rules: list[Type[Rule]], attributes: list[str] | None = None) -> None:
+    attributes = utils.dedup_list_preserving_order(attributes or [])
+    check_rule_attributes(attributes)
+
+    if len(attributes) == 0:
+        attributes = DEFAULT_RULE_TABLE_ATTRS
+
+    table = RuleTable()
+    table.add_rules(rules, attributes)
+    table.run()
 
 
 def print_rule_table(rules: list[Type[Rule]], attributes: list[str] | None = None, print_total: bool = True) -> None:
@@ -85,20 +120,20 @@ def print_rule_table(rules: list[Type[Rule]], attributes: list[str] | None = Non
         print(f"Total rules: {len(rules)}")
 
 
-def rule_table_row_attr(rule: Type[Rule], attr: str) -> str:
+def rule_table_row_attr(rule: Type[Rule], attr: str, truncate_list: bool = True) -> str:
     val = getattr(rule, attr)
 
     if val == "" or val is None or val == []:
         return "-"
 
     if isinstance(val, list):
-        return fmt_list_attr(val)
+        return fmt_list_attr(val, truncate_list)
 
     return val
 
 
-def fmt_list_attr(val: list) -> str:
-    if len(val) > 2:
+def fmt_list_attr(val: list, truncate: bool = True) -> str:
+    if len(val) > 2 and truncate:
         val = val[:2] + [f"+{len(val) - 2}"]
 
     return ", ".join([str(s) for s in val])

@@ -61,11 +61,13 @@ def run(args: argparse.Namespace) -> Tuple[int, str]:
 
     try:
         match args.output:
-            case "text":
+            case display.OUTPUT_TYPE_INTERACTIVE:
+                display.show_rule_table(list(rules), args.attributes)
+            case display.OUTPUT_TYPE_TEXT:
                 display.print_rule_table(list(rules), args.attributes)
-            case "json":
+            case display.OUTPUT_TYPE_JSON:
                 display.print_rules_as_json(list(rules), args.attributes)
-            case "csv":
+            case display.OUTPUT_TYPE_CSV:
                 display.print_rules_as_csv(list(rules), args.attributes)
             case _:
                 return 1, f"Unsupported output: {args.output}"

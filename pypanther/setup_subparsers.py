@@ -27,8 +27,8 @@ def setup_list_rules_parser(list_rules_parser: argparse.ArgumentParser):
         "--output",
         help="The format to use for the output.",
         required=False,
-        choices=display.COMMON_CLI_OUTPUT_TYPES + [display.OUTPUT_TYPE_CSV],
-        default=display.DEFAULT_CLI_OUTPUT_TYPE,
+        choices=display.COMMON_CLI_OUTPUT_TYPES + [display.OUTPUT_TYPE_CSV, display.OUTPUT_TYPE_INTERACTIVE],
+        default=display.OUTPUT_TYPE_INTERACTIVE,
     )
 
 
