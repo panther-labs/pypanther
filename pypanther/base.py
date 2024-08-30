@@ -168,8 +168,8 @@ DEFAULT_SUMMARY_ATTRIBUTES: List[str] = []
 DEFAULT_TAGS: List[str] = []
 DEFAULT_TESTS: List[RuleTest] = []
 DEFAULT_THRESHOLD = 1
-DEFAULT_INCLUDE_FILTERS = []
-DEFAULT_EXCLUDE_FILTERS = []
+DEFAULT_INCLUDE_FILTERS: list[Callable[[PantherEvent], bool]] = []
+DEFAULT_EXCLUDE_FILTERS: list[Callable[[PantherEvent], bool]] = []
 
 SeverityType = Union[Severity | Literal["DEFAULT"] | str]
 
@@ -334,12 +334,12 @@ class Rule(metaclass=abc.ABCMeta):
                 continue
 
             if val is not None:
-                if isinstance(val, list):
+                if getattr(cls, key) is None:
+                    setattr(cls, key, val)
+                elif isinstance(val, list):
                     getattr(cls, key, []).extend(val)
                 elif isinstance(val, dict):
                     getattr(cls, key, {}).update(val)
-                elif getattr(cls, key) is None:
-                    setattr(cls, key, val)
 
     @classmethod
     def run_tests(

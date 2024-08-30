@@ -196,3 +196,6 @@ ignore = [
     # next time it is generated
     "E402", # Module level import not at top of file
 ]
+"tests/*" = [
+    "D106", # Missing docstring in public nested class
+]
