@@ -345,10 +345,13 @@ def rewrite_imports_ast(imps: List[ast.AST], helpers: Set[str]):
                     asname = name.asname
                     if asname is None:
                         asname = name.name
-                    imp.names[i] = ast.alias(name="pypanther.helpers." + name.name, asname=asname)
+                    imp.names[i] = ast.alias(
+                        name="pypanther.helpers." + name.name.replace("_helpers", "").replace("panther_", ""),
+                        asname=asname,
+                    )
         elif isinstance(imp, ast.ImportFrom):
             if imp.module is not None and imp.module.split(".")[0] in helpers:
-                imp.module = "pypanther.helpers." + imp.module
+                imp.module = "pypanther.helpers." + imp.module.replace("_helpers", "").replace("panther_", "")
 
 
 def rewrite_imports_str(code: str, helpers: Set[str]):
@@ -359,7 +362,10 @@ def rewrite_imports_str(code: str, helpers: Set[str]):
         if m is not None:
             for name in m.group(1).split(","):
                 if name.split(".")[0] in helpers:
-                    line = line.replace(name, f"pypanther.helpers.{name}")
+                    line = line.replace(
+                        name,
+                        f"pypanther.helpers.{name}".replace("_helpers", "").replace("panther_", ""),
+                    )
 
                     if m.group(2) is None and len(name.split(".")) == 1:
                         line += f" as {name}"
@@ -367,7 +373,11 @@ def rewrite_imports_str(code: str, helpers: Set[str]):
         m = re.match(r"^ *from (.*) import (.*)", line)
         if m is not None:
             if m.group(1).split(".")[0] in helpers:
-                line = line.replace(m.group(1), "pypanther.helpers." + m.group(1))
+                line = (
+                    line.replace(m.group(1), "pypanther.helpers." + m.group(1))
+                    .replace("_helpers", "")
+                    .replace("panther_", "")
+                )
         ret.append(line)
 
     return "\n".join(ret) + "\n"
@@ -479,7 +489,11 @@ def convert_global_helpers(panther_analysis: Path) -> Set[str]:
 
         code = rewrite_imports_str(code, helpers)
 
-        with open(helpers_path / gh["Filename"], "w", encoding="utf-8") as f:
+        with open(
+            helpers_path / gh["Filename"].replace("_helpers", "").replace("panther_", ""),
+            "w",
+            encoding="utf-8",
+        ) as f:
             f.write(code)
 
         helpers.add(Path(gh["Filename"]).stem)
@@ -583,7 +597,8 @@ def convert_data_models(panther_analysis: Path, helpers: Set[str]):
 
         code += "\n\n" + unparse(as_class) + "\n"
 
-        p = Path("pypanther") / p.relative_to(panther_analysis)
+        p_str = str(p.relative_to(panther_analysis)).replace("_data_model", "")
+        p = Path("pypanther") / Path(p_str)
         p.parent.mkdir(parents=True, exist_ok=True)
         with open(p.with_suffix(".py"), "w", encoding="utf-8") as f:
             f.write(code)
@@ -601,6 +616,40 @@ def add_inits(path: Path):
             dirnames.remove("__pycache__")
 
 
+def get_classes_from_file(py_file: Path):
+    """Parses a Python file and returns a list of class, function, and variable names defined in it."""
+    with open(py_file) as file:
+        node = ast.parse(file.read(), filename=py_file)
+
+    classes = [n.name for n in node.body if isinstance(n, ast.ClassDef)]
+
+    return classes
+
+
+def create_init_py(directory: Path, root_directory: Path):
+    init_file = directory / "__init__.py"
+    relative_dir = directory.relative_to(root_directory)
+    module_path = ".".join(relative_dir.parts)
+
+    with open(init_file, "w") as f:
+        for py_file in directory.glob("*.py"):
+            if py_file.name == "__init__.py":
+                continue  # Skip the __init__.py file itself
+
+            module_name = py_file.stem
+            classes = get_classes_from_file(py_file)
+            for cls in classes:
+                f.write(f"from pypanther.rules.{module_path}.{module_name} import {cls} as {cls}\n")
+
+    print(f"Created __init__.py in {directory}")
+
+
+def process_directory(root_directory: Path):
+    for dirpath, _dirnames, filenames in os.walk(root_directory):
+        if any(f.endswith(".py") for f in filenames):
+            create_init_py(Path(dirpath), root_directory)
+
+
 def _convert_rules(p: Path, panther_analysis: Path, helpers: Set[str]):
     try:
         new_rule = convert_rule(p, helpers)
@@ -612,7 +661,8 @@ def _convert_rules(p: Path, panther_analysis: Path, helpers: Set[str]):
         return
 
     # strip panther_analysis from path
-    p = Path("pypanther") / p.relative_to(panther_analysis)
+    p_str = str(p.relative_to(panther_analysis)).replace("_rules", "")
+    p = Path("pypanther") / Path(p_str)
 
     p.parent.mkdir(parents=True, exist_ok=True)
     with open(p.with_suffix(".py"), "w", encoding="utf-8") as f:
@@ -630,6 +680,7 @@ def convert_rules(panther_analysis: Path, helpers: Set[str]):
 
     # __init__.py to all folders
     add_inits(Path("pypanther") / "rules")
+    process_directory(Path("pypanther") / "rules")
 
 
 def convert_queries(

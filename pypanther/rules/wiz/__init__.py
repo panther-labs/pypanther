@@ -1,0 +1,1 @@
+from pypanther.rules.wiz.wiz_alert_passthrough import WizAlertPassthrough as WizAlertPassthrough

@@ -18,12 +18,11 @@ from pydantic import ValidationError
 from pypanther.base import RULE_ALL_ATTRS, Rule, RuleModel, panther_managed
 from pypanther.cache import data_model_cache
 from pypanther.log_types import LogType
-from pypanther.rules.aws_cloudtrail_rules.aws_console_login_without_mfa import (
+from pypanther.rules.aws_cloudtrail import (
     AWSConsoleLoginWithoutMFA,
 )
 from pypanther.severity import Severity
 from pypanther.unit_tests import RuleMock, RuleTest
-from pypanther.wrap import include
 
 get_data_model = data_model_cache().data_model_of_logtype
 
@@ -88,6 +87,7 @@ def test_panther_rule_fields_match():
         == set(Rule.__annotations__)
         == set(Rule.override.__annotations__)
     )
+    assert set(Rule.extend.__annotations__).issubset(set(RULE_ALL_ATTRS))
 
 
 def test_mock_patching():
@@ -434,10 +434,10 @@ class TestRule(TestCase):
             def rule(self, event):
                 return True
 
-        assert {
+        assert rule.default_reports == {
             "key1": ["value2", "value1"],
             "key2": ["value1"],
-        } == rule.default_reports
+        }
 
     def test_rule_matches(self) -> None:
         class rule(Rule):
@@ -1617,7 +1617,7 @@ class TestPantherManagedDecorator(TestCase):
         for test_result in Test().run_tests(get_data_model):
             assert test_result.passed, test_result
 
-        include(lambda x: False)(Test)
+        Test.include_filters.append(lambda x: False)
 
         Test.tests.append(RuleTest(name="new test", expected_result=False, log={}))
         for test_result in Test().run_tests(get_data_model):
@@ -1646,6 +1646,191 @@ class TestPantherManagedDecorator(TestCase):
 
         for test_result in Test().run_tests(get_data_model):
             assert test_result.passed, test_result
+
+
+class TestRuleFilters(TestCase):
+    class Test(Rule):
+        id = "TestRule"
+        log_types = [LogType.PANTHER_AUDIT]
+        default_severity = Severity.CRITICAL
+        tests = [RuleTest(name="test", expected_result=True, log={})]
+
+        def rule(self, event: PantherEvent) -> bool:
+            return True
+
+    def test_no_filters(self) -> None:
+        self.Test.include_filters = []
+        self.Test.exclude_filters = []
+        assert self.Test().run_tests(get_data_model)[0].passed
+
+    def test_include_filters(self) -> None:
+        self.Test.exclude_filters = []
+
+        self.Test.include_filters = [lambda x: True, lambda x: True]
+        assert self.Test().run_tests(get_data_model)[0].passed
+
+        self.Test.include_filters = [lambda x: False, lambda x: True]
+        assert not self.Test().run_tests(get_data_model)[0].passed
+
+        self.Test.include_filters = [lambda x: True, lambda x: False]
+        assert not self.Test().run_tests(get_data_model)[0].passed
+
+        self.Test.include_filters = [lambda x: False, lambda x: False]
+        assert not self.Test().run_tests(get_data_model)[0].passed
+
+    def test_exclude_filters(self) -> None:
+        self.Test.include_filters = []
+
+        self.Test.exclude_filters = [lambda x: True, lambda x: True]
+        assert not self.Test().run_tests(get_data_model)[0].passed
+
+        self.Test.exclude_filters = [lambda x: True, lambda x: False]
+        assert not self.Test().run_tests(get_data_model)[0].passed
+
+        self.Test.exclude_filters = [lambda x: False, lambda x: True]
+        assert not self.Test().run_tests(get_data_model)[0].passed
+
+        self.Test.exclude_filters = [lambda x: False, lambda x: False]
+        assert self.Test().run_tests(get_data_model)[0].passed
+
+    def test_include_and_exclude_filters(self) -> None:
+        self.Test.include_filters = [lambda x: True]
+        self.Test.exclude_filters = [lambda x: True]
+        assert not self.Test().run_tests(get_data_model)[0].passed
+
+        self.Test.include_filters = [lambda x: True]
+        self.Test.exclude_filters = [lambda x: False]
+        assert self.Test().run_tests(get_data_model)[0].passed
+
+        self.Test.include_filters = [lambda x: False]
+        self.Test.exclude_filters = [lambda x: True]
+        assert not self.Test().run_tests(get_data_model)[0].passed
+
+        self.Test.include_filters = [lambda x: False]
+        self.Test.exclude_filters = [lambda x: False]
+        assert not self.Test().run_tests(get_data_model)[0].passed
+
+    def test_include_filter_exception(self) -> None:
+        def filt(event):
+            raise Exception
+
+        self.Test.exclude_filters = []
+        self.Test.include_filters = [filt]
+        assert not self.Test().run_tests(get_data_model)[0].passed
+
+    def test_exclude_filter_exception(self) -> None:
+        def filt(event):
+            raise Exception
+
+        self.Test.exclude_filters = [filt]
+        self.Test.include_filters = []
+        assert not self.Test().run_tests(get_data_model)[0].passed
+
+
+class TestRuleExtendFunc(TestCase):
+    def test_extend_nothing(self) -> None:
+        class Test(Rule):
+            id = "TestRule"
+            log_types = [LogType.PANTHER_AUDIT]
+            default_severity = Severity.CRITICAL
+            tests = [RuleTest(name="test", expected_result=True, log={})]
+
+            def rule(self, event: PantherEvent) -> bool:
+                return True
+
+        Test.extend()
+
+        assert Test.log_types == [LogType.PANTHER_AUDIT]
+        assert Test.scheduled_queries == []
+        assert Test.summary_attributes == []
+        assert len(Test.tests) == 1
+        assert Test.tags == []
+        assert Test.reports == {}
+        assert Test.include_filters == []
+        assert Test.exclude_filters == []
+        assert Test.default_destinations == []
+
+    def test_extend_nones(self) -> None:
+        def filt(event):
+            return True
+
+        class Test(Rule):
+            id = "TestRule"
+            log_types = None  # type: ignore
+            default_severity = Severity.CRITICAL
+            tests = None  # type: ignore
+            scheduled_queries = None  # type: ignore
+            summary_attributes = None  # type: ignore
+            tags = None  # type: ignore
+            reports = None  # type: ignore
+            include_filters = None  # type: ignore
+            exclude_filters = None  # type: ignore
+            default_destinations = None  # type: ignore
+
+            def rule(self, event: PantherEvent) -> bool:
+                return True
+
+        Test.extend(
+            log_types=["hi"],
+            tests=[RuleTest(name="test", expected_result=True, log={})],
+            scheduled_queries=["hi"],
+            summary_attributes=["hi"],
+            tags=["hi"],
+            reports={"foo": ["bar"]},
+            include_filters=[filt],
+            exclude_filters=[filt],
+            default_destinations=["hi"],
+        )
+
+        assert Test.log_types == ["hi"]  # type: ignore
+        assert Test.scheduled_queries == ["hi"]  # type: ignore
+        assert Test.summary_attributes == ["hi"]  # type: ignore
+        assert len(Test.tests) == 1  # type: ignore
+        assert Test.tags == ["hi"]  # type: ignore
+        assert Test.reports == {"foo": ["bar"]}  # type: ignore
+        assert Test.include_filters == [filt]  # type: ignore
+        assert Test.exclude_filters == [filt]  # type: ignore
+        assert Test.default_destinations == ["hi"]  # type: ignore
+
+    def test_extend_all(self) -> None:
+        def filt(event):
+            return True
+
+        class Test(Rule):
+            log_types = ["hi"]
+            tests = [RuleTest(name="test", expected_result=True, log={})]
+            scheduled_queries = ["hi"]
+            summary_attributes = ["hi"]
+            tags = ["hi"]
+            reports = {"foo": ["bar"], "dup": ["dup"]}
+            include_filters = [filt]
+            exclude_filters = [filt]
+            default_destinations = ["hi"]
+
+            def rule(self, event: PantherEvent) -> bool:
+                return True
+
+        Test.extend(
+            log_types=["hi"],
+            tests=[RuleTest(name="test", expected_result=True, log={})],
+            scheduled_queries=["hi"],
+            summary_attributes=["hi"],
+            tags=["hi"],
+            reports={"bax": ["baz"], "dup": ["new"]},
+            include_filters=[filt],
+            exclude_filters=[filt],
+            default_destinations=["hi"],
+        )
+
+        assert Test.log_types == ["hi", "hi"]
+        assert Test.scheduled_queries == ["hi", "hi"]
+        assert Test.summary_attributes == ["hi", "hi"]
+        assert len(Test.tests) == 2
+        assert Test.tags == ["hi", "hi"]
+        assert Test.reports == {"foo": ["bar"], "bax": ["baz"], "dup": ["new"]}
+        assert Test.include_filters == [filt, filt]
+        assert Test.exclude_filters == [filt, filt]
+        assert Test.default_destinations == ["hi", "hi"]
 
 
 @dataclasses.dataclass

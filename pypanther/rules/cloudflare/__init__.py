@@ -1,0 +1,4 @@
+from pypanther.rules.cloudflare.cloudflare_firewall_ddos import CloudflareFirewallL7DDoS as CloudflareFirewallL7DDoS
+from pypanther.rules.cloudflare.cloudflare_httpreq_bot_high_volume import (
+    CloudflareHttpRequestBotHighVolume as CloudflareHttpRequestBotHighVolume,
+)

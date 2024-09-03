@@ -1,0 +1,1 @@
+from pypanther.rules.appomni.appomni_alert_passthrough import AppOmniAlertPassthrough as AppOmniAlertPassthrough

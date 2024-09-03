@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "pypanther"
-version = "0.1.1a44"
+version = "0.1.1a47"
 description = ""
 authors = ["Panther Labs Inc <pypi@runpanther.io>"]
 readme = "README.md"
@@ -195,4 +195,7 @@ ignore = [
     # Helpers are converted automatically, so we don't want to fix this because it could be reverted
     # next time it is generated
     "E402", # Module level import not at top of file
+]
+"tests/*" = [
+    "D106", # Missing docstring in public nested class
 ]
