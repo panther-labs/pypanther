@@ -207,8 +207,5 @@ def print_rule_as_text(rule: Type[Rule], managed: bool) -> None:
         rule_text = f"class {rule.__name__}:\n"
         rule_dict = _get_rule_dict_base(rule)
         for k, v in rule_dict.items():
-            if k in RULE_ALL_METHODS:
-                rule_text += f"{v}"
-            else:
-                rule_text += f"    {k} = {v}\n"
+            rule_text += f"    {k} = {v}\n"
     print(rule_text)
