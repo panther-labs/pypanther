@@ -184,28 +184,31 @@ def _get_rule_dict_base(rule: Type[Rule]) -> Dict[str, Any]:
 def _prettify_filters(filters: list[Callable[[PantherEvent], bool]]) -> list[str]:
     pretty_filters = []
     for filter_ in filters:
-        try:
-            pretty_filters.append(inspect.getsource(filter_))
-        except BaseException:
-            pretty_filters.append(repr(filter_))
+        pretty_filters.append(filter_.__name__)
     return pretty_filters
 
 
-def print_rule_as_json(rule: Type[Rule], class_definition: bool) -> None:
-    rule_dict = _get_rule_dict_base(rule)
-    if class_definition:
+def print_rule_as_json(rule: Type[Rule], managed: bool) -> None:
+    rule_dict = {}
+    if managed:
         source = inspect.getsource(rule)
         rule_dict["class_definition"] = source
+    else:
+        rule_dict = _get_rule_dict_base(rule)
     rule_json = json.dumps(rule_dict, indent=JSON_INDENT_LEVEL)
     print(rule_json)
 
 
-def print_rule_as_text(rule: Type[Rule], class_definition: bool) -> None:
-    rule_dict = _get_rule_dict_base(rule)
+def print_rule_as_text(rule: Type[Rule], managed: bool) -> None:
     rule_text = ""
-    for k, v in rule_dict.items():
-        rule_text += f"{k} = {v}\n"
-    if class_definition:
-        rule_text += "\n--------\n\n"
-        rule_text += inspect.getsource(rule)
+    if managed:
+        rule_text = inspect.getsource(rule)
+    else:
+        rule_text = f"class {rule.__name__}:\n"
+        rule_dict = _get_rule_dict_base(rule)
+        for k, v in rule_dict.items():
+            if k in RULE_ALL_METHODS:
+                rule_text += f"{v}"
+            else:
+                rule_text += f"    {k} = {v}\n"
     print(rule_text)
