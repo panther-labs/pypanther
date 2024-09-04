@@ -1,23 +1,6 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.base import deep_get
 
-duo_user_action_fraudulent_tests: list[RuleTest] = [
-    RuleTest(
-        name="user_marked_fraud",
-        expected_result=True,
-        log={
-            "access_device": {"ip": "12.12.112.25", "os": "Mac OS X"},
-            "auth_device": {"ip": "12.12.12.12"},
-            "application": {"key": "D12345", "name": "Slack"},
-            "event_type": "authentication",
-            "factor": "duo_push",
-            "reason": "user_marked_fraud",
-            "result": "fraud",
-            "user": {"name": "example@example.io"},
-        },
-    ),
-]
-
 
 @panther_managed
 class DUOUserActionFraudulent(Rule):
@@ -30,7 +13,6 @@ class DUOUserActionFraudulent(Rule):
     default_description = "Alert when a user reports a Duo action as fraudulent.\n"
     default_reference = "https://duo.com/docs/adminapi#authentication-logs"
     default_runbook = "Follow up with the user to confirm."
-    tests = duo_user_action_fraudulent_tests
 
     def rule(self, event):
         return event.get("result") == "fraud"
@@ -49,3 +31,20 @@ class DUOUserActionFraudulent(Rule):
             "ip_auth": deep_get(event, "auth_device", "ip", default=""),
             "application": deep_get(event, "application", "name", default=""),
         }
+
+    tests = [
+        RuleTest(
+            name="user_marked_fraud",
+            expected_result=True,
+            log={
+                "access_device": {"ip": "12.12.112.25", "os": "Mac OS X"},
+                "auth_device": {"ip": "12.12.12.12"},
+                "application": {"key": "D12345", "name": "Slack"},
+                "event_type": "authentication",
+                "factor": "duo_push",
+                "reason": "user_marked_fraud",
+                "result": "fraud",
+                "user": {"name": "example@example.io"},
+            },
+        ),
+    ]

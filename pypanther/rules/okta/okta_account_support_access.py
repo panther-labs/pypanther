@@ -1,64 +1,5 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 
-okta_support_access_tests: list[RuleTest] = [
-    RuleTest(
-        name="Support Access Granted",
-        expected_result=True,
-        log={
-            "published": "2022-03-22 14:21:53.225",
-            "eventType": "user.session.impersonation.grant",
-            "version": "0",
-            "severity": "INFO",
-            "legacyEventType": "core.user.impersonation.grant.enabled",
-            "displayMessage": "Enable impersonation grant",
-            "actor": {
-                "alternateId": "homer@springfield.gov",
-                "displayName": "Homer Simpson",
-                "id": "111111",
-                "type": "User",
-            },
-            "client": {
-                "device": "Computer",
-                "ipAddress": "1.1.1.1",
-                "userAgent": {
-                    "browser": "CHROME",
-                    "os": "Mac OS X",
-                    "rawUserAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/99.0.4844.83 Safari/537.36",
-                },
-                "zone": "null",
-            },
-            "p_log_type": "Okta.SystemLog",
-        },
-    ),
-    RuleTest(
-        name="Login Event",
-        expected_result=False,
-        log={
-            "published": "2022-03-22 14:21:53.225",
-            "eventType": "user.session.start",
-            "version": "0",
-            "severity": "INFO",
-            "actor": {
-                "alternateId": "homer@springfield.gov",
-                "displayName": "Homer Simpson",
-                "id": "111111",
-                "type": "User",
-            },
-            "client": {
-                "device": "Computer",
-                "ipAddress": "1.1.1.1",
-                "userAgent": {
-                    "browser": "CHROME",
-                    "os": "Mac OS X",
-                    "rawUserAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/99.0.4844.83 Safari/537.36",
-                },
-                "zone": "null",
-            },
-            "p_log_type": "Okta.SystemLog",
-        },
-    ),
-]
-
 
 @panther_managed
 class OktaSupportAccess(Rule):
@@ -73,7 +14,6 @@ class OktaSupportAccess(Rule):
     default_runbook = "Contact Admin to ensure this was sanctioned activity"
     dedup_period_minutes = 15
     summary_attributes = ["eventType", "severity", "displayMessage", "p_any_ip_addresses"]
-    tests = okta_support_access_tests
     OKTA_SUPPORT_ACCESS_EVENTS = ["user.session.impersonation.grant", "user.session.impersonation.initiate"]
 
     def rule(self, event):
@@ -85,3 +25,62 @@ class OktaSupportAccess(Rule):
     def alert_context(self, event):
         context = {"user": event.udm("actor_user"), "ip": event.udm("source_ip"), "event": event.get("eventType")}
         return context
+
+    tests = [
+        RuleTest(
+            name="Support Access Granted",
+            expected_result=True,
+            log={
+                "published": "2022-03-22 14:21:53.225",
+                "eventType": "user.session.impersonation.grant",
+                "version": "0",
+                "severity": "INFO",
+                "legacyEventType": "core.user.impersonation.grant.enabled",
+                "displayMessage": "Enable impersonation grant",
+                "actor": {
+                    "alternateId": "homer@springfield.gov",
+                    "displayName": "Homer Simpson",
+                    "id": "111111",
+                    "type": "User",
+                },
+                "client": {
+                    "device": "Computer",
+                    "ipAddress": "1.1.1.1",
+                    "userAgent": {
+                        "browser": "CHROME",
+                        "os": "Mac OS X",
+                        "rawUserAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/99.0.4844.83 Safari/537.36",
+                    },
+                    "zone": "null",
+                },
+                "p_log_type": "Okta.SystemLog",
+            },
+        ),
+        RuleTest(
+            name="Login Event",
+            expected_result=False,
+            log={
+                "published": "2022-03-22 14:21:53.225",
+                "eventType": "user.session.start",
+                "version": "0",
+                "severity": "INFO",
+                "actor": {
+                    "alternateId": "homer@springfield.gov",
+                    "displayName": "Homer Simpson",
+                    "id": "111111",
+                    "type": "User",
+                },
+                "client": {
+                    "device": "Computer",
+                    "ipAddress": "1.1.1.1",
+                    "userAgent": {
+                        "browser": "CHROME",
+                        "os": "Mac OS X",
+                        "rawUserAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/99.0.4844.83 Safari/537.36",
+                    },
+                    "zone": "null",
+                },
+                "p_log_type": "Okta.SystemLog",
+            },
+        ),
+    ]

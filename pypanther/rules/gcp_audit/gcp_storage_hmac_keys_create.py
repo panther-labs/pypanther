@@ -1,44 +1,5 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 
-gcp_storage_hmac_keys_create_tests: list[RuleTest] = [
-    RuleTest(
-        name="privilege-escalation",
-        expected_result=True,
-        log={
-            "protoPayload": {
-                "authorizationInfo": [{"granted": True, "permission": "storage.hmacKeys.create"}],
-                "methodName": "v2.deploymentmanager.deployments.insert",
-                "serviceName": "deploymentmanager.googleapis.com",
-            },
-            "receiveTimestamp": "2024-01-19 13:47:19.465856238",
-            "resource": {
-                "labels": {"name": "test-vm-deployment", "project_id": "panther-threat-research"},
-                "type": "deployment",
-            },
-            "severity": "NOTICE",
-            "timestamp": "2024-01-19 13:47:18.279921000",
-        },
-    ),
-    RuleTest(
-        name="fail",
-        expected_result=False,
-        log={
-            "protoPayload": {
-                "authorizationInfo": [{"granted": False, "permission": "storage.hmacKeys.create"}],
-                "methodName": "v2.deploymentmanager.deployments.insert",
-                "serviceName": "deploymentmanager.googleapis.com",
-            },
-            "receiveTimestamp": "2024-01-19 13:47:19.465856238",
-            "resource": {
-                "labels": {"name": "test-vm-deployment", "project_id": "panther-threat-research"},
-                "type": "deployment",
-            },
-            "severity": "NOTICE",
-            "timestamp": "2024-01-19 13:47:18.279921000",
-        },
-    ),
-]
-
 
 @panther_managed
 class GCPStorageHmacKeysCreate(Rule):
@@ -51,7 +12,6 @@ class GCPStorageHmacKeysCreate(Rule):
         "https://rhinosecuritylabs.com/cloud-security/privilege-escalation-google-cloud-platform-part-2/"
     )
     reports = {"MITRE ATT&CK": ["TA0004:T1548"]}
-    tests = gcp_storage_hmac_keys_create_tests
 
     def rule(self, event):
         auth_info = event.deep_walk("protoPayload", "authorizationInfo", default=[])
@@ -60,3 +20,42 @@ class GCPStorageHmacKeysCreate(Rule):
             if auth.get("granted", False) and auth.get("permission", "") == "storage.hmacKeys.create":
                 return True
         return False
+
+    tests = [
+        RuleTest(
+            name="privilege-escalation",
+            expected_result=True,
+            log={
+                "protoPayload": {
+                    "authorizationInfo": [{"granted": True, "permission": "storage.hmacKeys.create"}],
+                    "methodName": "v2.deploymentmanager.deployments.insert",
+                    "serviceName": "deploymentmanager.googleapis.com",
+                },
+                "receiveTimestamp": "2024-01-19 13:47:19.465856238",
+                "resource": {
+                    "labels": {"name": "test-vm-deployment", "project_id": "panther-threat-research"},
+                    "type": "deployment",
+                },
+                "severity": "NOTICE",
+                "timestamp": "2024-01-19 13:47:18.279921000",
+            },
+        ),
+        RuleTest(
+            name="fail",
+            expected_result=False,
+            log={
+                "protoPayload": {
+                    "authorizationInfo": [{"granted": False, "permission": "storage.hmacKeys.create"}],
+                    "methodName": "v2.deploymentmanager.deployments.insert",
+                    "serviceName": "deploymentmanager.googleapis.com",
+                },
+                "receiveTimestamp": "2024-01-19 13:47:19.465856238",
+                "resource": {
+                    "labels": {"name": "test-vm-deployment", "project_id": "panther-threat-research"},
+                    "type": "deployment",
+                },
+                "severity": "NOTICE",
+                "timestamp": "2024-01-19 13:47:18.279921000",
+            },
+        ),
+    ]

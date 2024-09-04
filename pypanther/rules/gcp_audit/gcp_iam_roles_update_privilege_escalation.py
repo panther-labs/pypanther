@@ -2,43 +2,6 @@ from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.base import deep_get, deep_walk
 from pypanther.helpers.gcp_base import gcp_alert_context
 
-gc_piamrolesupdate_privilege_escalation_tests: list[RuleTest] = [
-    RuleTest(
-        name="Test-876cde",
-        expected_result=False,
-        log={
-            "p_enrichment": None,
-            "protoPayload": {
-                "authorizationInfo": [
-                    {
-                        "granted": True,
-                        "permission": "iam.roles.dunno",
-                        "resource": "projects/some-research/roles/CustomRole",
-                        "resourceAttributes": {},
-                    },
-                ],
-            },
-        },
-    ),
-    RuleTest(
-        name="Test-ffdf6",
-        expected_result=True,
-        log={
-            "p_enrichment": None,
-            "protoPayload": {
-                "authorizationInfo": [
-                    {
-                        "granted": True,
-                        "permission": "iam.roles.update",
-                        "resource": "projects/some-research/roles/CustomRole",
-                        "resourceAttributes": {},
-                    },
-                ],
-            },
-        },
-    ),
-]
-
 
 @panther_managed
 class GCPiamrolesupdatePrivilegeEscalation(Rule):
@@ -51,7 +14,6 @@ class GCPiamrolesupdatePrivilegeEscalation(Rule):
     reports = {"TA0004": ["T1548"]}
     default_reference = "https://rhinosecuritylabs.com/gcp/privilege-escalation-google-cloud-platform-part-1/"
     default_runbook = "Confirm this was authorized and necessary behavior. This is not a vulnerability in GCP, it is a vulnerability in how GCP environment is configured, so it is necessary to be aware of these attack vectors and to defend against them. It’s also important to remember that privilege escalation does not necessarily need to pass through the IAM service to be effective. Make sure to follow the principle of least-privilege in your environments to help mitigate these security risks."
-    tests = gc_piamrolesupdate_privilege_escalation_tests
 
     def rule(self, event):
         authorization_info = deep_walk(event, "protoPayload", "authorizationInfo")
@@ -70,3 +32,40 @@ class GCPiamrolesupdatePrivilegeEscalation(Rule):
 
     def alert_context(self, event):
         return gcp_alert_context(event)
+
+    tests = [
+        RuleTest(
+            name="Test-876cde",
+            expected_result=False,
+            log={
+                "p_enrichment": None,
+                "protoPayload": {
+                    "authorizationInfo": [
+                        {
+                            "granted": True,
+                            "permission": "iam.roles.dunno",
+                            "resource": "projects/some-research/roles/CustomRole",
+                            "resourceAttributes": {},
+                        },
+                    ],
+                },
+            },
+        ),
+        RuleTest(
+            name="Test-ffdf6",
+            expected_result=True,
+            log={
+                "p_enrichment": None,
+                "protoPayload": {
+                    "authorizationInfo": [
+                        {
+                            "granted": True,
+                            "permission": "iam.roles.update",
+                            "resource": "projects/some-research/roles/CustomRole",
+                            "resourceAttributes": {},
+                        },
+                    ],
+                },
+            },
+        ),
+    ]

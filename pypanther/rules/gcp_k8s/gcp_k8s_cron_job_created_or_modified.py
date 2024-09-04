@@ -2,63 +2,6 @@ from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.base import deep_get, deep_walk
 from pypanther.helpers.gcp_base import gcp_alert_context
 
-gcpgke_kubernetes_cron_job_created_or_modified_tests: list[RuleTest] = [
-    RuleTest(
-        name="create",
-        expected_result=True,
-        log={
-            "protoPayload": {
-                "authorizationInfo": [{"granted": True, "permission": "io.k8s.batch.v1.cronjobs.create"}],
-                "methodName": "v2.deploymentmanager.deployments.insert",
-                "serviceName": "deploymentmanager.googleapis.com",
-            },
-            "receiveTimestamp": "2024-01-19 13:47:19.465856238",
-            "resource": {
-                "labels": {"name": "test-vm-deployment", "project_id": "panther-threat-research"},
-                "type": "deployment",
-            },
-            "severity": "NOTICE",
-            "timestamp": "2024-01-19 13:47:18.279921000",
-        },
-    ),
-    RuleTest(
-        name="update",
-        expected_result=True,
-        log={
-            "protoPayload": {
-                "authorizationInfo": [{"granted": True, "permission": "io.k8s.batch.v1.cronjobs.update"}],
-                "methodName": "v2.deploymentmanager.deployments.insert",
-                "serviceName": "deploymentmanager.googleapis.com",
-            },
-            "receiveTimestamp": "2024-01-19 13:47:19.465856238",
-            "resource": {
-                "labels": {"name": "test-vm-deployment", "project_id": "panther-threat-research"},
-                "type": "deployment",
-            },
-            "severity": "NOTICE",
-            "timestamp": "2024-01-19 13:47:18.279921000",
-        },
-    ),
-    RuleTest(
-        name="fail",
-        expected_result=False,
-        log={
-            "protoPayload": {
-                "authorizationInfo": [{"granted": False, "permission": "cloudfunctions.functions.upsert"}],
-                "methodName": "v2.deploymentmanager.deployments.insert",
-                "serviceName": "deploymentmanager.googleapis.com",
-            },
-            "receiveTimestamp": "2024-01-19 13:47:19.465856238",
-            "resource": {
-                "labels": {"name": "test-vm-deployment", "project_id": "panther-threat-research"},
-                "type": "deployment",
-            },
-            "severity": "NOTICE",
-            "timestamp": "2024-01-19 13:47:18.279921000",
-        },
-    ),
-]
-
 
 @panther_managed
 class GCPGKEKubernetesCronJobCreatedOrModified(Rule):
@@ -70,7 +13,6 @@ class GCPGKEKubernetesCronJobCreatedOrModified(Rule):
     default_reference = "https://medium.com/snowflake/from-logs-to-detection-using-snowflake-and-panther-to-detect-k8s-threats-d72f70a504d7"
     default_runbook = "Investigate a reason of creating or modifying a cron job in GKE. Create ticket if appropriate."
     reports = {"MITRE ATT&CK": ["TA0003:T1053.003"]}
-    tests = gcpgke_kubernetes_cron_job_created_or_modified_tests
 
     def rule(self, event):
         authorization_info = deep_walk(event, "protoPayload", "authorizationInfo")
@@ -92,3 +34,60 @@ class GCPGKEKubernetesCronJobCreatedOrModified(Rule):
 
     def alert_context(self, event):
         return gcp_alert_context(event)
+
+    tests = [
+        RuleTest(
+            name="create",
+            expected_result=True,
+            log={
+                "protoPayload": {
+                    "authorizationInfo": [{"granted": True, "permission": "io.k8s.batch.v1.cronjobs.create"}],
+                    "methodName": "v2.deploymentmanager.deployments.insert",
+                    "serviceName": "deploymentmanager.googleapis.com",
+                },
+                "receiveTimestamp": "2024-01-19 13:47:19.465856238",
+                "resource": {
+                    "labels": {"name": "test-vm-deployment", "project_id": "panther-threat-research"},
+                    "type": "deployment",
+                },
+                "severity": "NOTICE",
+                "timestamp": "2024-01-19 13:47:18.279921000",
+            },
+        ),
+        RuleTest(
+            name="update",
+            expected_result=True,
+            log={
+                "protoPayload": {
+                    "authorizationInfo": [{"granted": True, "permission": "io.k8s.batch.v1.cronjobs.update"}],
+                    "methodName": "v2.deploymentmanager.deployments.insert",
+                    "serviceName": "deploymentmanager.googleapis.com",
+                },
+                "receiveTimestamp": "2024-01-19 13:47:19.465856238",
+                "resource": {
+                    "labels": {"name": "test-vm-deployment", "project_id": "panther-threat-research"},
+                    "type": "deployment",
+                },
+                "severity": "NOTICE",
+                "timestamp": "2024-01-19 13:47:18.279921000",
+            },
+        ),
+        RuleTest(
+            name="fail",
+            expected_result=False,
+            log={
+                "protoPayload": {
+                    "authorizationInfo": [{"granted": False, "permission": "cloudfunctions.functions.upsert"}],
+                    "methodName": "v2.deploymentmanager.deployments.insert",
+                    "serviceName": "deploymentmanager.googleapis.com",
+                },
+                "receiveTimestamp": "2024-01-19 13:47:19.465856238",
+                "resource": {
+                    "labels": {"name": "test-vm-deployment", "project_id": "panther-threat-research"},
+                    "type": "deployment",
+                },
+                "severity": "NOTICE",
+                "timestamp": "2024-01-19 13:47:18.279921000",
+            },
+        ),
+    ]

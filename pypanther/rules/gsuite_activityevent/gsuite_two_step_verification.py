@@ -1,31 +1,6 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.base import deep_get
 
-g_suite_two_step_verification_tests: list[RuleTest] = [
-    RuleTest(
-        name="Two Step Verification Enabled",
-        expected_result=False,
-        log={
-            "id": {"applicationName": "user_accounts"},
-            "actor": {"callerType": "USER", "email": "some.user@somedomain.com"},
-            "kind": "admin#reports#activity",
-            "type": "2sv_change",
-            "name": "2sv_enroll",
-        },
-    ),
-    RuleTest(
-        name="Two Step Verification Disabled",
-        expected_result=True,
-        log={
-            "id": {"applicationName": "user_accounts"},
-            "actor": {"callerType": "USER", "email": "some.user@somedomain.com"},
-            "kind": "admin#reports#activity",
-            "type": "2sv_change",
-            "name": "2sv_disable",
-        },
-    ),
-]
-
 
 @panther_managed
 class GSuiteTwoStepVerification(Rule):
@@ -43,7 +18,6 @@ class GSuiteTwoStepVerification(Rule):
         "Depending on company policy, either suggest or require the user re-enable two step verification.\n"
     )
     summary_attributes = ["actor:email"]
-    tests = g_suite_two_step_verification_tests
 
     def rule(self, event):
         if deep_get(event, "id", "applicationName") != "user_accounts":
@@ -54,3 +28,28 @@ class GSuiteTwoStepVerification(Rule):
 
     def title(self, event):
         return f"Two step verification was disabled for user [{deep_get(event, 'actor', 'email', default='<UNKNOWN_USER>')}]"
+
+    tests = [
+        RuleTest(
+            name="Two Step Verification Enabled",
+            expected_result=False,
+            log={
+                "id": {"applicationName": "user_accounts"},
+                "actor": {"callerType": "USER", "email": "some.user@somedomain.com"},
+                "kind": "admin#reports#activity",
+                "type": "2sv_change",
+                "name": "2sv_enroll",
+            },
+        ),
+        RuleTest(
+            name="Two Step Verification Disabled",
+            expected_result=True,
+            log={
+                "id": {"applicationName": "user_accounts"},
+                "actor": {"callerType": "USER", "email": "some.user@somedomain.com"},
+                "kind": "admin#reports#activity",
+                "type": "2sv_change",
+                "name": "2sv_disable",
+            },
+        ),
+    ]

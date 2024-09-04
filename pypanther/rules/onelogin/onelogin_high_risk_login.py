@@ -4,20 +4,6 @@ from panther_detection_helpers.caching import get_counter, increment_counter, re
 
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 
-one_login_high_risk_login_tests: list[RuleTest] = [
-    RuleTest(
-        name="Normal Login Event",
-        expected_result=False,
-        log={
-            "event_type_id": "6",
-            "actor_user_id": 123456,
-            "actor_user_name": "Bob Cat",
-            "user_id": 123456,
-            "user_name": "Bob Cat",
-        },
-    ),
-]
-
 
 @panther_managed
 class OneLoginHighRiskLogin(Rule):
@@ -30,7 +16,6 @@ class OneLoginHighRiskLogin(Rule):
     default_reference = "https://resources.onelogin.com/OneLogin_RiskBasedAuthentication-WP-v5.pdf"
     default_runbook = "Investigate whether this was caused by expected user activity."
     summary_attributes = ["account_id", "event_type_id", "user_name", "user_id"]
-    tests = one_login_high_risk_login_tests
     THRESH_TTL = timedelta(minutes=10).total_seconds()
 
     def rule(self, event):
@@ -57,3 +42,17 @@ class OneLoginHighRiskLogin(Rule):
 
     def title(self, event):
         return f"A user [{event.get('user_name', '<UNKNOWN_USER>')}] successfully logged in after a failed high risk login event"
+
+    tests = [
+        RuleTest(
+            name="Normal Login Event",
+            expected_result=False,
+            log={
+                "event_type_id": "6",
+                "actor_user_id": 123456,
+                "actor_user_name": "Bob Cat",
+                "user_id": 123456,
+                "user_name": "Bob Cat",
+            },
+        ),
+    ]

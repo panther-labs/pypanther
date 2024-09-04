@@ -1,30 +1,5 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 
-one_login_threshold_accounts_modified_tests: list[RuleTest] = [
-    RuleTest(
-        name="Normal User Activated Event",
-        expected_result=False,
-        log={
-            "event_type_id": "16",
-            "actor_user_id": 654321,
-            "actor_user_name": "Mountain Lion",
-            "user_id": 123456,
-            "user_name": "Bob Cat",
-        },
-    ),
-    RuleTest(
-        name="User Password Changed Event",
-        expected_result=True,
-        log={
-            "event_type_id": "11",
-            "actor_user_id": 654321,
-            "actor_user_name": "Mountain Lion",
-            "user_id": 123456,
-            "user_name": "Bob Cat",
-        },
-    ),
-]
-
 
 @panther_managed
 class OneLoginThresholdAccountsModified(Rule):
@@ -40,7 +15,6 @@ class OneLoginThresholdAccountsModified(Rule):
     default_reference = "https://en.wikipedia.org/wiki/Denial-of-service_attack"
     default_runbook = "Determine if this is normal user-cleanup activity."
     summary_attributes = ["account_id", "user_name", "user_id"]
-    tests = one_login_threshold_accounts_modified_tests
 
     def rule(self, event):
         # filter events; event type 11 is an actor_user changed user password
@@ -48,3 +22,28 @@ class OneLoginThresholdAccountsModified(Rule):
 
     def title(self, event):
         return f"User [{event.get('actor_user_name', '<UNKNOWN_USER>')}] has exceeded the user account password change threshold"
+
+    tests = [
+        RuleTest(
+            name="Normal User Activated Event",
+            expected_result=False,
+            log={
+                "event_type_id": "16",
+                "actor_user_id": 654321,
+                "actor_user_name": "Mountain Lion",
+                "user_id": 123456,
+                "user_name": "Bob Cat",
+            },
+        ),
+        RuleTest(
+            name="User Password Changed Event",
+            expected_result=True,
+            log={
+                "event_type_id": "11",
+                "actor_user_id": 654321,
+                "actor_user_name": "Mountain Lion",
+                "user_id": 123456,
+                "user_name": "Bob Cat",
+            },
+        ),
+    ]

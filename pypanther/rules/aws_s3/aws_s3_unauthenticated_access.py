@@ -1,18 +1,6 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.base import aws_rule_context
 
-awss3_server_access_unauthenticated_tests: list[RuleTest] = [
-    RuleTest(
-        name="Authenticated Access",
-        expected_result=False,
-        log={
-            "bucket": "example-bucket",
-            "requester": "79a59df900b949e55d96a1e698fbacedfd6e09d98eacf8f8d5218e7cd47ef2be",
-        },
-    ),
-    RuleTest(name="Unauthenticated Access", expected_result=True, log={"bucket": "example-bucket"}),
-]
-
 
 @panther_managed
 class AWSS3ServerAccessUnauthenticated(Rule):
@@ -29,7 +17,6 @@ class AWSS3ServerAccessUnauthenticated(Rule):
         "https://docs.aws.amazon.com/AmazonS3/latest/userguide/access-control-auth-workflow-bucket-operation.html"
     )
     summary_attributes = ["bucket", "key", "requester"]
-    tests = awss3_server_access_unauthenticated_tests
     # A list of buckets where authenticated access is expected
     AUTH_BUCKETS = {"example-bucket"}
 
@@ -41,3 +28,15 @@ class AWSS3ServerAccessUnauthenticated(Rule):
 
     def alert_context(self, event):
         return aws_rule_context(event)
+
+    tests = [
+        RuleTest(
+            name="Authenticated Access",
+            expected_result=False,
+            log={
+                "bucket": "example-bucket",
+                "requester": "79a59df900b949e55d96a1e698fbacedfd6e09d98eacf8f8d5218e7cd47ef2be",
+            },
+        ),
+        RuleTest(name="Unauthenticated Access", expected_result=True, log={"bucket": "example-bucket"}),
+    ]

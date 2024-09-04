@@ -4,174 +4,6 @@ from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.base import aws_rule_context, deep_get
 from pypanther.helpers.default import aws_cloudtrail_success
 
-aws_cloud_trail_snapshot_made_public_tests: list[RuleTest] = [
-    RuleTest(
-        name="Snapshot Made Publicly Accessible",
-        expected_result=True,
-        log={
-            "awsRegion": "us-west-2",
-            "eventID": "1111",
-            "eventName": "ModifySnapshotAttribute",
-            "eventSource": "ec2.amazonaws.com",
-            "eventTime": "2019-01-01T00:00:00Z",
-            "eventType": "AwsApiCall",
-            "eventVersion": "1.05",
-            "recipientAccountId": "123456789012",
-            "requestID": "1111",
-            "requestParameters": {
-                "attributeType": "CREATE_VOLUME_PERMISSION",
-                "createVolumePermission": {"add": {"items": [{"group": "all"}]}},
-                "snapshotId": "snap-1111",
-            },
-            "responseElements": {"_return": True, "requestId": "1111"},
-            "sourceIPAddress": "111.111.111.111",
-            "userAgent": "Mozilla/2.0 (compatible; NEWT ActiveX; Win32)",
-            "userIdentity": {
-                "accessKeyId": "1111",
-                "accountId": "123456789012",
-                "arn": "arn:aws:sts::123456789012:assumed-role/example-role/example-user",
-                "principalId": "1111",
-                "sessionContext": {
-                    "attributes": {"creationDate": "2019-01-01T00:00:00Z", "mfaAuthenticated": "true"},
-                    "sessionIssuer": {
-                        "accountId": "123456789012",
-                        "arn": "arn:aws:iam::123456789012:role/example-role",
-                        "principalId": "1111",
-                        "type": "Role",
-                        "userName": "example-role",
-                    },
-                    "webIdFederationData": {},
-                },
-                "type": "AssumedRole",
-            },
-        },
-    ),
-    RuleTest(
-        name="Snapshot Not Made Publicly Accessible",
-        expected_result=False,
-        log={
-            "awsRegion": "us-west-2",
-            "eventID": "1111",
-            "eventName": "ModifySnapshotAttribute",
-            "eventSource": "ec2.amazonaws.com",
-            "eventTime": "2019-01-01T00:00:00Z",
-            "eventType": "AwsApiCall",
-            "eventVersion": "1.05",
-            "recipientAccountId": "123456789012",
-            "requestID": "1111",
-            "requestParameters": {
-                "attributeType": "CREATE_VOLUME_PERMISSION",
-                "createVolumePermission": {"add": {"items": [{"group": "none"}]}},
-                "snapshotId": "snap-1111",
-            },
-            "responseElements": {"_return": True, "requestId": "1111"},
-            "sourceIPAddress": "111.111.111.111",
-            "userAgent": "Mozilla/2.0 (compatible; NEWT ActiveX; Win32)",
-            "userIdentity": {
-                "accessKeyId": "1111",
-                "accountId": "123456789012",
-                "arn": "arn:aws:sts::123456789012:assumed-role/example-role/example-user",
-                "principalId": "1111",
-                "sessionContext": {
-                    "attributes": {"creationDate": "2019-01-01T00:00:00Z", "mfaAuthenticated": "true"},
-                    "sessionIssuer": {
-                        "accountId": "123456789012",
-                        "arn": "arn:aws:iam::123456789012:role/example-role",
-                        "principalId": "1111",
-                        "type": "Role",
-                        "userName": "example-role",
-                    },
-                    "webIdFederationData": {},
-                },
-                "type": "AssumedRole",
-            },
-        },
-    ),
-    RuleTest(
-        name="Error Making Snapshot Publicly Accessible",
-        expected_result=False,
-        log={
-            "awsRegion": "us-west-2",
-            "errorCode": "ValidationError",
-            "eventID": "1111",
-            "eventName": "ModifySnapshotAttribute",
-            "eventSource": "ec2.amazonaws.com",
-            "eventTime": "2019-01-01T00:00:00Z",
-            "eventType": "AwsApiCall",
-            "eventVersion": "1.05",
-            "recipientAccountId": "123456789012",
-            "requestID": "1111",
-            "requestParameters": {
-                "attributeType": "CREATE_VOLUME_PERMISSION",
-                "createVolumePermission": {"add": {"items": [{"group": "all"}]}},
-                "snapshotId": "snap-1111",
-            },
-            "responseElements": {"_return": True, "requestId": "1111"},
-            "sourceIPAddress": "111.111.111.111",
-            "userAgent": "Mozilla/2.0 (compatible; NEWT ActiveX; Win32)",
-            "userIdentity": {
-                "accessKeyId": "1111",
-                "accountId": "123456789012",
-                "arn": "arn:aws:sts::123456789012:assumed-role/example-role/example-user",
-                "principalId": "1111",
-                "sessionContext": {
-                    "attributes": {"creationDate": "2019-01-01T00:00:00Z", "mfaAuthenticated": "true"},
-                    "sessionIssuer": {
-                        "accountId": "123456789012",
-                        "arn": "arn:aws:iam::123456789012:role/example-role",
-                        "principalId": "1111",
-                        "type": "Role",
-                        "userName": "example-role",
-                    },
-                    "webIdFederationData": {},
-                },
-                "type": "AssumedRole",
-            },
-        },
-    ),
-    RuleTest(
-        name="Snapshot Mader Available to Single Person",
-        expected_result=True,
-        log={
-            "awsRegion": "us-west-2",
-            "eventID": "1111",
-            "eventName": "ModifySnapshotAttribute",
-            "eventSource": "ec2.amazonaws.com",
-            "eventTime": "2019-01-01T00:00:00Z",
-            "eventType": "AwsApiCall",
-            "eventVersion": "1.05",
-            "recipientAccountId": "123456789012",
-            "requestID": "1111",
-            "requestParameters": {
-                "attributeType": "CREATE_VOLUME_PERMISSION",
-                "createVolumePermission": {"add": {"items": [{"userId": "111122223333"}]}},
-                "snapshotId": "snap-1111",
-            },
-            "responseElements": {"_return": True, "requestId": "1111"},
-            "sourceIPAddress": "111.111.111.111",
-            "userAgent": "Mozilla/2.0 (compatible; NEWT ActiveX; Win32)",
-            "userIdentity": {
-                "accessKeyId": "1111",
-                "accountId": "123456789012",
-                "arn": "arn:aws:sts::123456789012:assumed-role/example-role/example-user",
-                "principalId": "1111",
-                "sessionContext": {
-                    "attributes": {"creationDate": "2019-01-01T00:00:00Z", "mfaAuthenticated": "true"},
-                    "sessionIssuer": {
-                        "accountId": "123456789012",
-                        "arn": "arn:aws:iam::123456789012:role/example-role",
-                        "principalId": "1111",
-                        "type": "Role",
-                        "userName": "example-role",
-                    },
-                    "webIdFederationData": {},
-                },
-                "type": "AssumedRole",
-            },
-        },
-    ),
-]
-
 
 @panther_managed
 class AWSCloudTrailSnapshotMadePublic(Rule):
@@ -185,7 +17,6 @@ class AWSCloudTrailSnapshotMadePublic(Rule):
     default_runbook = "Adjust the snapshot configuration so that it is no longer public."
     summary_attributes = ["userAgent", "sourceIpAddress", "recipientAccountId", "p_any_aws_arns"]
     tags = ["AWS", "Exfiltration:Transfer Data to Cloud Account"]
-    tests = aws_cloud_trail_snapshot_made_public_tests
     IS_SINGLE_USER_SHARE = False  # Used to adjust severity
 
     def rule(self, event):
@@ -214,3 +45,171 @@ class AWSCloudTrailSnapshotMadePublic(Rule):
 
     def alert_context(self, event):
         return aws_rule_context(event)
+
+    tests = [
+        RuleTest(
+            name="Snapshot Made Publicly Accessible",
+            expected_result=True,
+            log={
+                "awsRegion": "us-west-2",
+                "eventID": "1111",
+                "eventName": "ModifySnapshotAttribute",
+                "eventSource": "ec2.amazonaws.com",
+                "eventTime": "2019-01-01T00:00:00Z",
+                "eventType": "AwsApiCall",
+                "eventVersion": "1.05",
+                "recipientAccountId": "123456789012",
+                "requestID": "1111",
+                "requestParameters": {
+                    "attributeType": "CREATE_VOLUME_PERMISSION",
+                    "createVolumePermission": {"add": {"items": [{"group": "all"}]}},
+                    "snapshotId": "snap-1111",
+                },
+                "responseElements": {"_return": True, "requestId": "1111"},
+                "sourceIPAddress": "111.111.111.111",
+                "userAgent": "Mozilla/2.0 (compatible; NEWT ActiveX; Win32)",
+                "userIdentity": {
+                    "accessKeyId": "1111",
+                    "accountId": "123456789012",
+                    "arn": "arn:aws:sts::123456789012:assumed-role/example-role/example-user",
+                    "principalId": "1111",
+                    "sessionContext": {
+                        "attributes": {"creationDate": "2019-01-01T00:00:00Z", "mfaAuthenticated": "true"},
+                        "sessionIssuer": {
+                            "accountId": "123456789012",
+                            "arn": "arn:aws:iam::123456789012:role/example-role",
+                            "principalId": "1111",
+                            "type": "Role",
+                            "userName": "example-role",
+                        },
+                        "webIdFederationData": {},
+                    },
+                    "type": "AssumedRole",
+                },
+            },
+        ),
+        RuleTest(
+            name="Snapshot Not Made Publicly Accessible",
+            expected_result=False,
+            log={
+                "awsRegion": "us-west-2",
+                "eventID": "1111",
+                "eventName": "ModifySnapshotAttribute",
+                "eventSource": "ec2.amazonaws.com",
+                "eventTime": "2019-01-01T00:00:00Z",
+                "eventType": "AwsApiCall",
+                "eventVersion": "1.05",
+                "recipientAccountId": "123456789012",
+                "requestID": "1111",
+                "requestParameters": {
+                    "attributeType": "CREATE_VOLUME_PERMISSION",
+                    "createVolumePermission": {"add": {"items": [{"group": "none"}]}},
+                    "snapshotId": "snap-1111",
+                },
+                "responseElements": {"_return": True, "requestId": "1111"},
+                "sourceIPAddress": "111.111.111.111",
+                "userAgent": "Mozilla/2.0 (compatible; NEWT ActiveX; Win32)",
+                "userIdentity": {
+                    "accessKeyId": "1111",
+                    "accountId": "123456789012",
+                    "arn": "arn:aws:sts::123456789012:assumed-role/example-role/example-user",
+                    "principalId": "1111",
+                    "sessionContext": {
+                        "attributes": {"creationDate": "2019-01-01T00:00:00Z", "mfaAuthenticated": "true"},
+                        "sessionIssuer": {
+                            "accountId": "123456789012",
+                            "arn": "arn:aws:iam::123456789012:role/example-role",
+                            "principalId": "1111",
+                            "type": "Role",
+                            "userName": "example-role",
+                        },
+                        "webIdFederationData": {},
+                    },
+                    "type": "AssumedRole",
+                },
+            },
+        ),
+        RuleTest(
+            name="Error Making Snapshot Publicly Accessible",
+            expected_result=False,
+            log={
+                "awsRegion": "us-west-2",
+                "errorCode": "ValidationError",
+                "eventID": "1111",
+                "eventName": "ModifySnapshotAttribute",
+                "eventSource": "ec2.amazonaws.com",
+                "eventTime": "2019-01-01T00:00:00Z",
+                "eventType": "AwsApiCall",
+                "eventVersion": "1.05",
+                "recipientAccountId": "123456789012",
+                "requestID": "1111",
+                "requestParameters": {
+                    "attributeType": "CREATE_VOLUME_PERMISSION",
+                    "createVolumePermission": {"add": {"items": [{"group": "all"}]}},
+                    "snapshotId": "snap-1111",
+                },
+                "responseElements": {"_return": True, "requestId": "1111"},
+                "sourceIPAddress": "111.111.111.111",
+                "userAgent": "Mozilla/2.0 (compatible; NEWT ActiveX; Win32)",
+                "userIdentity": {
+                    "accessKeyId": "1111",
+                    "accountId": "123456789012",
+                    "arn": "arn:aws:sts::123456789012:assumed-role/example-role/example-user",
+                    "principalId": "1111",
+                    "sessionContext": {
+                        "attributes": {"creationDate": "2019-01-01T00:00:00Z", "mfaAuthenticated": "true"},
+                        "sessionIssuer": {
+                            "accountId": "123456789012",
+                            "arn": "arn:aws:iam::123456789012:role/example-role",
+                            "principalId": "1111",
+                            "type": "Role",
+                            "userName": "example-role",
+                        },
+                        "webIdFederationData": {},
+                    },
+                    "type": "AssumedRole",
+                },
+            },
+        ),
+        RuleTest(
+            name="Snapshot Mader Available to Single Person",
+            expected_result=True,
+            log={
+                "awsRegion": "us-west-2",
+                "eventID": "1111",
+                "eventName": "ModifySnapshotAttribute",
+                "eventSource": "ec2.amazonaws.com",
+                "eventTime": "2019-01-01T00:00:00Z",
+                "eventType": "AwsApiCall",
+                "eventVersion": "1.05",
+                "recipientAccountId": "123456789012",
+                "requestID": "1111",
+                "requestParameters": {
+                    "attributeType": "CREATE_VOLUME_PERMISSION",
+                    "createVolumePermission": {"add": {"items": [{"userId": "111122223333"}]}},
+                    "snapshotId": "snap-1111",
+                },
+                "responseElements": {"_return": True, "requestId": "1111"},
+                "sourceIPAddress": "111.111.111.111",
+                "userAgent": "Mozilla/2.0 (compatible; NEWT ActiveX; Win32)",
+                "userIdentity": {
+                    "accessKeyId": "1111",
+                    "accountId": "123456789012",
+                    "arn": "arn:aws:sts::123456789012:assumed-role/example-role/example-user",
+                    "principalId": "1111",
+                    "sessionContext": {
+                        "attributes": {"creationDate": "2019-01-01T00:00:00Z", "mfaAuthenticated": "true"},
+                        "sessionIssuer": {
+                            "accountId": "123456789012",
+                            "arn": "arn:aws:iam::123456789012:role/example-role",
+                            "principalId": "1111",
+                            "type": "Role",
+                            "userName": "example-role",
+                        },
+                        "webIdFederationData": {},
+                    },
+                    "type": "AssumedRole",
+                },
+            },
+        ),
+    ]

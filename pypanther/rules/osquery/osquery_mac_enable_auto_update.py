@@ -1,36 +1,6 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.base import deep_get
 
-osquery_mac_auto_update_enabled_tests: list[RuleTest] = [
-    RuleTest(
-        name="Auto Updates Disabled",
-        expected_result=True,
-        log={
-            "columns": {"domain": "com.apple.SoftwareUpdate", "key": "AutomaticCheckEnabled", "value": "false"},
-            "action": "added",
-            "name": "pack/mac-cis/SoftwareUpdate",
-        },
-    ),
-    RuleTest(
-        name="Auto Updates Enabled",
-        expected_result=False,
-        log={
-            "columns": {"domain": "com.apple.SoftwareUpdate", "key": "AutomaticCheckEnabled", "value": "true"},
-            "action": "added",
-            "name": "pack/mac-cis/SoftwareUpdate",
-        },
-    ),
-    RuleTest(
-        name="Wrong Key",
-        expected_result=False,
-        log={
-            "columns": {"domain": "com.apple.SoftwareUpdate", "key": "LastFullSuccessfulDate", "value": "false"},
-            "action": "added",
-            "name": "pack/mac-cis/SoftwareUpdate",
-        },
-    ),
-]
-
 
 @panther_managed
 class OsqueryMacAutoUpdateEnabled(Rule):
@@ -45,7 +15,6 @@ class OsqueryMacAutoUpdateEnabled(Rule):
     default_runbook = "Enable the auto updates on the host.\n"
     default_reference = "https://support.apple.com/en-gb/guide/mac-help/mchlpx1065/mac"
     summary_attributes = ["name", "action", "p_any_ip_addresses", "p_any_domain_names"]
-    tests = osquery_mac_auto_update_enabled_tests
 
     def rule(self, event):
         # Send an alert if not set to "true"
@@ -56,3 +25,33 @@ class OsqueryMacAutoUpdateEnabled(Rule):
             and (deep_get(event, "columns", "key") == "AutomaticCheckEnabled")
             and (deep_get(event, "columns", "value") == "false")
         )
+
+    tests = [
+        RuleTest(
+            name="Auto Updates Disabled",
+            expected_result=True,
+            log={
+                "columns": {"domain": "com.apple.SoftwareUpdate", "key": "AutomaticCheckEnabled", "value": "false"},
+                "action": "added",
+                "name": "pack/mac-cis/SoftwareUpdate",
+            },
+        ),
+        RuleTest(
+            name="Auto Updates Enabled",
+            expected_result=False,
+            log={
+                "columns": {"domain": "com.apple.SoftwareUpdate", "key": "AutomaticCheckEnabled", "value": "true"},
+                "action": "added",
+                "name": "pack/mac-cis/SoftwareUpdate",
+            },
+        ),
+        RuleTest(
+            name="Wrong Key",
+            expected_result=False,
+            log={
+                "columns": {"domain": "com.apple.SoftwareUpdate", "key": "LastFullSuccessfulDate", "value": "false"},
+                "action": "added",
+                "name": "pack/mac-cis/SoftwareUpdate",
+            },
+        ),
+    ]

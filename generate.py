@@ -288,25 +288,35 @@ def parse_py(
 
     tree.body = imports + imps
 
-    tests_name = camel_to_snake(class_name + "Tests")
+    # tests_name = camel_to_snake(class_name + "Tests")
 
+    test_attribute = []
     if len(tests):
-        tree.body.append(
-            ast.AnnAssign(
-                target=ast.Name(id=tests_name, ctx=ast.Store()),
-                annotation=ast.Name(id="list[RuleTest]", ctx=ast.Load()),
-                value=ast.List(elts=tests),
-                simple=1,
-            ),
-        )
-
-        assignments.append(
+        test_attribute.append(
             ast.Assign(
                 targets=[ast.Name(id="tests", ctx=ast.Store())],
-                value=ast.Name(id=tests_name, ctx=ast.Load()),
+                value=ast.List(elts=tests),
+                simple=1,
                 lineno=0,
             ),
         )
+
+        # tree.body.append(
+        #     ast.AnnAssign(
+        #         target=ast.Name(id=tests_name, ctx=ast.Store()),
+        #         annotation=ast.Name(id="list[RuleTest]", ctx=ast.Load()),
+        #         value=ast.List(elts=tests),
+        #         simple=1,
+        #     ),
+        # )
+
+        # assignments.append(
+        #     ast.Assign(
+        #         targets=[ast.Name(id="tests", ctx=ast.Store())],
+        #         value=ast.Name(id=tests_name, ctx=ast.Load()),
+        #         lineno=0,
+        #     ),
+        # )
 
     # add class def to tree
     c = ast.ClassDef(
@@ -314,7 +324,7 @@ def parse_py(
         bases=[ast.Name(Rule.__name__, ctx=ast.Load())],
         keywords=[],
         decorator_list=[],
-        body=assignments + other + functions,
+        body=assignments + other + functions + test_attribute,
     )
     c.decorator_list.append(ast.Name(id="panther_managed", ctx=ast.Load()))
     tree.body.append(c)

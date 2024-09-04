@@ -1,51 +1,6 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.notion import notion_alert_context
 
-notion_audit_log_exported_tests: list[RuleTest] = [
-    RuleTest(
-        name="Other Event",
-        expected_result=False,
-        log={
-            "event": {
-                "id": "...",
-                "timestamp": "2023-05-15T19:14:21.031Z",
-                "workspace_id": "..",
-                "actor": {
-                    "id": "..",
-                    "object": "user",
-                    "type": "person",
-                    "person": {"email": "homer.simpson@yourcompany.io"},
-                },
-                "ip_address": "...",
-                "platform": "web",
-                "type": "workspace.content_exported",
-                "workspace.content_exported": {},
-            },
-        },
-    ),
-    RuleTest(
-        name="Audit Log Exported",
-        expected_result=True,
-        log={
-            "event": {
-                "id": "...",
-                "timestamp": "2023-05-15T19:14:21.031Z",
-                "workspace_id": "..",
-                "actor": {
-                    "object": "user",
-                    "id": "..",
-                    "type": "person",
-                    "person": {"email": "homer.simpson@yourcompany.io"},
-                },
-                "ip_address": "...",
-                "platform": "web",
-                "type": "workspace.audit_log_exported",
-                "details": {"duration_in_days": 30},
-            },
-        },
-    ),
-]
-
 
 @panther_managed
 class NotionAuditLogExported(Rule):
@@ -57,7 +12,6 @@ class NotionAuditLogExported(Rule):
     default_description = "A Notion User exported audit logs for your organization’s workspace."
     default_runbook = "Possible Data Exfiltration. Follow up with the Notion User to determine if this was done for a valid business reason."
     default_reference = "https://www.notion.so/help/audit-log#export-your-audit-log"
-    tests = notion_audit_log_exported_tests
 
     def rule(self, event):
         event_type = event.deep_get("event", "type", default="<NO_EVENT_TYPE_FOUND>")
@@ -71,3 +25,48 @@ class NotionAuditLogExported(Rule):
 
     def alert_context(self, event):
         return notion_alert_context(event)
+
+    tests = [
+        RuleTest(
+            name="Other Event",
+            expected_result=False,
+            log={
+                "event": {
+                    "id": "...",
+                    "timestamp": "2023-05-15T19:14:21.031Z",
+                    "workspace_id": "..",
+                    "actor": {
+                        "id": "..",
+                        "object": "user",
+                        "type": "person",
+                        "person": {"email": "homer.simpson@yourcompany.io"},
+                    },
+                    "ip_address": "...",
+                    "platform": "web",
+                    "type": "workspace.content_exported",
+                    "workspace.content_exported": {},
+                },
+            },
+        ),
+        RuleTest(
+            name="Audit Log Exported",
+            expected_result=True,
+            log={
+                "event": {
+                    "id": "...",
+                    "timestamp": "2023-05-15T19:14:21.031Z",
+                    "workspace_id": "..",
+                    "actor": {
+                        "object": "user",
+                        "id": "..",
+                        "type": "person",
+                        "person": {"email": "homer.simpson@yourcompany.io"},
+                    },
+                    "ip_address": "...",
+                    "platform": "web",
+                    "type": "workspace.audit_log_exported",
+                    "details": {"duration_in_days": 30},
+                },
+            },
+        ),
+    ]

@@ -1,272 +1,6 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.base import deep_get, deep_walk, okta_alert_context
 
-okta_org2org_creation_modification_tests: list[RuleTest] = [
-    RuleTest(
-        name="Org2Org modified",
-        expected_result=True,
-        log={
-            "actor": {
-                "alternateId": "homer.simpson@duff.com",
-                "displayName": "Homer Simpson",
-                "id": "00abc123",
-                "type": "User",
-            },
-            "authenticationcontext": {"authenticationStep": 0, "externalSessionId": "100-abc-9999"},
-            "client": {
-                "device": "Computer",
-                "geographicalContext": {
-                    "city": "Springfield",
-                    "country": "United States",
-                    "geolocation": {"lat": 20, "lon": -25},
-                    "postalCode": "12345",
-                    "state": "Ohio",
-                },
-                "ipAddress": "1.3.2.4",
-                "userAgent": {
-                    "browser": "CHROME",
-                    "os": "Mac OS X",
-                    "rawUserAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/102.0.0.0 Safari/537.36",
-                },
-                "zone": "null",
-            },
-            "device": {"name": "Evil Computer"},
-            "debugcontext": {
-                "debugData": {
-                    "requestId": "AbCdEf12G",
-                    "requestUri": "/api/v1/users/AbCdEfG/lifecycle/reset_factors",
-                    "url": "/api/v1/users/AbCdEfG/lifecycle/reset_factors?",
-                    "behaviors": {
-                        "New Geo-Location=NEGATIVE": None,
-                        "New Device=POSITIVE": None,
-                        "New IP=POSITIVE": None,
-                        "New State=NEGATIVE": None,
-                        "New Country=NEGATIVE": None,
-                        "Velocity=NEGATIVE": None,
-                        "New City=NEGATIVE": None,
-                    },
-                },
-            },
-            "displaymessage": "Evaluation of sign-on policy",
-            "eventtype": "application.lifecycle.update",
-            "outcome": {"reason": "Sign-on policy evaluation resulted in CHALLENGE", "result": "CHALLENGE"},
-            "published": "2022-06-22 18:18:29.015",
-            "request": {
-                "ipChain": [
-                    {
-                        "geographicalContext": {
-                            "city": "Springfield",
-                            "country": "United States",
-                            "geolocation": {"lat": 20, "lon": -25},
-                            "postalCode": "12345",
-                            "state": "Ohio",
-                            "ip": "1.3.2.4",
-                            "version": "V4",
-                        },
-                    },
-                ],
-            },
-            "securitycontext": {
-                "asNumber": 701,
-                "asOrg": "verizon",
-                "domain": "verizon.net",
-                "isProxy": False,
-                "isp": "verizon",
-            },
-            "severity": "INFO",
-            "target": [
-                {"alternateId": "Okta Org2Org", "displayName": "Okta Org2Org", "type": "AppInstance"},
-                {
-                    "alternateId": "peter.griffin@company.com",
-                    "displayName": "Peter Griffin",
-                    "id": "0002222AAAA",
-                    "type": "User",
-                },
-            ],
-            "transaction": {"detail": {}, "id": "ABcDeFgG", "type": "WEB"},
-            "uuid": "AbC-123-XyZ",
-            "version": "0",
-        },
-    ),
-    RuleTest(
-        name="Org2Org created",
-        expected_result=True,
-        log={
-            "actor": {
-                "alternateId": "homer.simpson@duff.com",
-                "displayName": "Homer Simpson",
-                "id": "00abc123",
-                "type": "User",
-            },
-            "authenticationcontext": {"authenticationStep": 0, "externalSessionId": "100-abc-9999"},
-            "client": {
-                "device": "Computer",
-                "geographicalContext": {
-                    "city": "Springfield",
-                    "country": "United States",
-                    "geolocation": {"lat": 20, "lon": -25},
-                    "postalCode": "12345",
-                    "state": "Ohio",
-                },
-                "ipAddress": "1.3.2.4",
-                "userAgent": {
-                    "browser": "CHROME",
-                    "os": "Mac OS X",
-                    "rawUserAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/102.0.0.0 Safari/537.36",
-                },
-                "zone": "null",
-            },
-            "device": {"name": "Evil Computer"},
-            "debugcontext": {
-                "debugData": {
-                    "requestId": "AbCdEf12G",
-                    "requestUri": "/api/v1/users/AbCdEfG/lifecycle/reset_factors",
-                    "url": "/api/v1/users/AbCdEfG/lifecycle/reset_factors?",
-                    "logOnlySecurityData": {
-                        "risk": {"level": "LOW"},
-                        "behaviors": {
-                            "New Geo-Location": "NEGATIVE",
-                            "New Device": "POSITIVE",
-                            "New IP": "POSITIVE",
-                            "New State": "NEGATIVE",
-                            "New Country": "NEGATIVE",
-                            "Velocity": "NEGATIVE",
-                            "New City": "NEGATIVE",
-                        },
-                    },
-                },
-            },
-            "displaymessage": "Evaluation of sign-on policy",
-            "eventtype": "application.lifecycle.create",
-            "outcome": {"reason": "Sign-on policy evaluation resulted in CHALLENGE", "result": "CHALLENGE"},
-            "published": "2022-06-22 18:18:29.015",
-            "request": {
-                "ipChain": [
-                    {
-                        "geographicalContext": {
-                            "city": "Springfield",
-                            "country": "United States",
-                            "geolocation": {"lat": 20, "lon": -25},
-                            "postalCode": "12345",
-                            "state": "Ohio",
-                            "ip": "1.3.2.4",
-                            "version": "V4",
-                        },
-                    },
-                ],
-            },
-            "securitycontext": {
-                "asNumber": 701,
-                "asOrg": "verizon",
-                "domain": "verizon.net",
-                "isProxy": False,
-                "isp": "verizon",
-            },
-            "severity": "INFO",
-            "target": [
-                {"alternateId": "Random Org2Org", "displayName": "Random Org2Org", "type": "AppInstance"},
-                {
-                    "alternateId": "peter.griffin@company.com",
-                    "displayName": "Peter Griffin",
-                    "id": "0002222AAAA",
-                    "type": "User",
-                },
-            ],
-            "transaction": {"detail": {}, "id": "ABcDeFgG", "type": "WEB"},
-            "uuid": "AbC-123-XyZ",
-            "version": "0",
-        },
-    ),
-    RuleTest(
-        name="Not New Behavior",
-        expected_result=False,
-        log={
-            "actor": {
-                "alternateId": "homer.simpson@duff.com",
-                "displayName": "Homer Simpson",
-                "id": "00abc123",
-                "type": "User",
-            },
-            "authenticationcontext": {"authenticationStep": 0, "externalSessionId": "100-abc-9999"},
-            "client": {
-                "device": "Computer",
-                "geographicalContext": {
-                    "city": "Springfield",
-                    "country": "United States",
-                    "geolocation": {"lat": 20, "lon": -25},
-                    "postalCode": "12345",
-                    "state": "Ohio",
-                },
-                "ipAddress": "1.3.2.4",
-                "userAgent": {
-                    "browser": "CHROME",
-                    "os": "Mac OS X",
-                    "rawUserAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/102.0.0.0 Safari/537.36",
-                },
-                "zone": "null",
-            },
-            "debugcontext": {
-                "debugData": {
-                    "requestId": "AbCdEf12G",
-                    "requestUri": "/api/v1/users/AbCdEfG/lifecycle/reset_factors",
-                    "url": "/api/v1/users/AbCdEfG/lifecycle/reset_factors?",
-                    "logOnlySecurityData": {
-                        "risk": {"level": "LOW"},
-                        "behaviors": {
-                            "New Geo-Location": "NEGATIVE",
-                            "New Device": "NEGATIVE",
-                            "New IP": "NEGATIVE",
-                            "New State": "NEGATIVE",
-                            "New Country": "NEGATIVE",
-                            "Velocity": "NEGATIVE",
-                            "New City": "NEGATIVE",
-                        },
-                    },
-                },
-            },
-            "displaymessage": "Evaluation of sign-on policy",
-            "eventtype": "policy.evaluate_sign_on",
-            "outcome": {"reason": "Sign-on policy evaluation resulted in CHALLENGE", "result": "CHALLENGE"},
-            "published": "2022-06-22 18:18:29.015",
-            "request": {
-                "ipChain": [
-                    {
-                        "geographicalContext": {
-                            "city": "Springfield",
-                            "country": "United States",
-                            "geolocation": {"lat": 20, "lon": -25},
-                            "postalCode": "12345",
-                            "state": "Ohio",
-                            "ip": "1.3.2.4",
-                            "version": "V4",
-                        },
-                    },
-                ],
-            },
-            "securitycontext": {
-                "asNumber": 701,
-                "asOrg": "verizon",
-                "domain": "verizon.net",
-                "isProxy": False,
-                "isp": "verizon",
-            },
-            "severity": "INFO",
-            "target": [
-                {"alternateId": "Okta Admin Console", "displayName": "Okta Admin Console", "type": "AppInstance"},
-                {
-                    "alternateId": "peter.griffin@company.com",
-                    "displayName": "Peter Griffin",
-                    "id": "0002222AAAA",
-                    "type": "User",
-                },
-            ],
-            "transaction": {"detail": {}, "id": "ABcDeFgG", "type": "WEB"},
-            "uuid": "AbC-123-XyZ",
-            "version": "0",
-        },
-    ),
-]
-
 
 @panther_managed
 class OktaOrg2orgCreationModification(Rule):
@@ -279,7 +13,6 @@ class OktaOrg2orgCreationModification(Rule):
     default_reference = (
         "https://www.authomize.com/blog/authomize-discovers-password-stealing-and-impersonation-risks-to-in-okta/\n"
     )
-    tests = okta_org2org_creation_modification_tests
     APP_LIFECYCLE_EVENTS = (
         "application.lifecycle.update",
         "application.lifecycle.create",
@@ -303,3 +36,269 @@ class OktaOrg2orgCreationModification(Rule):
 
     def alert_context(self, event):
         return okta_alert_context(event)
+
+    tests = [
+        RuleTest(
+            name="Org2Org modified",
+            expected_result=True,
+            log={
+                "actor": {
+                    "alternateId": "homer.simpson@duff.com",
+                    "displayName": "Homer Simpson",
+                    "id": "00abc123",
+                    "type": "User",
+                },
+                "authenticationcontext": {"authenticationStep": 0, "externalSessionId": "100-abc-9999"},
+                "client": {
+                    "device": "Computer",
+                    "geographicalContext": {
+                        "city": "Springfield",
+                        "country": "United States",
+                        "geolocation": {"lat": 20, "lon": -25},
+                        "postalCode": "12345",
+                        "state": "Ohio",
+                    },
+                    "ipAddress": "1.3.2.4",
+                    "userAgent": {
+                        "browser": "CHROME",
+                        "os": "Mac OS X",
+                        "rawUserAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/102.0.0.0 Safari/537.36",
+                    },
+                    "zone": "null",
+                },
+                "device": {"name": "Evil Computer"},
+                "debugcontext": {
+                    "debugData": {
+                        "requestId": "AbCdEf12G",
+                        "requestUri": "/api/v1/users/AbCdEfG/lifecycle/reset_factors",
+                        "url": "/api/v1/users/AbCdEfG/lifecycle/reset_factors?",
+                        "behaviors": {
+                            "New Geo-Location=NEGATIVE": None,
+                            "New Device=POSITIVE": None,
+                            "New IP=POSITIVE": None,
+                            "New State=NEGATIVE": None,
+                            "New Country=NEGATIVE": None,
+                            "Velocity=NEGATIVE": None,
+                            "New City=NEGATIVE": None,
+                        },
+                    },
+                },
+                "displaymessage": "Evaluation of sign-on policy",
+                "eventtype": "application.lifecycle.update",
+                "outcome": {"reason": "Sign-on policy evaluation resulted in CHALLENGE", "result": "CHALLENGE"},
+                "published": "2022-06-22 18:18:29.015",
+                "request": {
+                    "ipChain": [
+                        {
+                            "geographicalContext": {
+                                "city": "Springfield",
+                                "country": "United States",
+                                "geolocation": {"lat": 20, "lon": -25},
+                                "postalCode": "12345",
+                                "state": "Ohio",
+                                "ip": "1.3.2.4",
+                                "version": "V4",
+                            },
+                        },
+                    ],
+                },
+                "securitycontext": {
+                    "asNumber": 701,
+                    "asOrg": "verizon",
+                    "domain": "verizon.net",
+                    "isProxy": False,
+                    "isp": "verizon",
+                },
+                "severity": "INFO",
+                "target": [
+                    {"alternateId": "Okta Org2Org", "displayName": "Okta Org2Org", "type": "AppInstance"},
+                    {
+                        "alternateId": "peter.griffin@company.com",
+                        "displayName": "Peter Griffin",
+                        "id": "0002222AAAA",
+                        "type": "User",
+                    },
+                ],
+                "transaction": {"detail": {}, "id": "ABcDeFgG", "type": "WEB"},
+                "uuid": "AbC-123-XyZ",
+                "version": "0",
+            },
+        ),
+        RuleTest(
+            name="Org2Org created",
+            expected_result=True,
+            log={
+                "actor": {
+                    "alternateId": "homer.simpson@duff.com",
+                    "displayName": "Homer Simpson",
+                    "id": "00abc123",
+                    "type": "User",
+                },
+                "authenticationcontext": {"authenticationStep": 0, "externalSessionId": "100-abc-9999"},
+                "client": {
+                    "device": "Computer",
+                    "geographicalContext": {
+                        "city": "Springfield",
+                        "country": "United States",
+                        "geolocation": {"lat": 20, "lon": -25},
+                        "postalCode": "12345",
+                        "state": "Ohio",
+                    },
+                    "ipAddress": "1.3.2.4",
+                    "userAgent": {
+                        "browser": "CHROME",
+                        "os": "Mac OS X",
+                        "rawUserAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/102.0.0.0 Safari/537.36",
+                    },
+                    "zone": "null",
+                },
+                "device": {"name": "Evil Computer"},
+                "debugcontext": {
+                    "debugData": {
+                        "requestId": "AbCdEf12G",
+                        "requestUri": "/api/v1/users/AbCdEfG/lifecycle/reset_factors",
+                        "url": "/api/v1/users/AbCdEfG/lifecycle/reset_factors?",
+                        "logOnlySecurityData": {
+                            "risk": {"level": "LOW"},
+                            "behaviors": {
+                                "New Geo-Location": "NEGATIVE",
+                                "New Device": "POSITIVE",
+                                "New IP": "POSITIVE",
+                                "New State": "NEGATIVE",
+                                "New Country": "NEGATIVE",
+                                "Velocity": "NEGATIVE",
+                                "New City": "NEGATIVE",
+                            },
+                        },
+                    },
+                },
+                "displaymessage": "Evaluation of sign-on policy",
+                "eventtype": "application.lifecycle.create",
+                "outcome": {"reason": "Sign-on policy evaluation resulted in CHALLENGE", "result": "CHALLENGE"},
+                "published": "2022-06-22 18:18:29.015",
+                "request": {
+                    "ipChain": [
+                        {
+                            "geographicalContext": {
+                                "city": "Springfield",
+                                "country": "United States",
+                                "geolocation": {"lat": 20, "lon": -25},
+                                "postalCode": "12345",
+                                "state": "Ohio",
+                                "ip": "1.3.2.4",
+                                "version": "V4",
+                            },
+                        },
+                    ],
+                },
+                "securitycontext": {
+                    "asNumber": 701,
+                    "asOrg": "verizon",
+                    "domain": "verizon.net",
+                    "isProxy": False,
+                    "isp": "verizon",
+                },
+                "severity": "INFO",
+                "target": [
+                    {"alternateId": "Random Org2Org", "displayName": "Random Org2Org", "type": "AppInstance"},
+                    {
+                        "alternateId": "peter.griffin@company.com",
+                        "displayName": "Peter Griffin",
+                        "id": "0002222AAAA",
+                        "type": "User",
+                    },
+                ],
+                "transaction": {"detail": {}, "id": "ABcDeFgG", "type": "WEB"},
+                "uuid": "AbC-123-XyZ",
+                "version": "0",
+            },
+        ),
+        RuleTest(
+            name="Not New Behavior",
+            expected_result=False,
+            log={
+                "actor": {
+                    "alternateId": "homer.simpson@duff.com",
+                    "displayName": "Homer Simpson",
+                    "id": "00abc123",
+                    "type": "User",
+                },
+                "authenticationcontext": {"authenticationStep": 0, "externalSessionId": "100-abc-9999"},
+                "client": {
+                    "device": "Computer",
+                    "geographicalContext": {
+                        "city": "Springfield",
+                        "country": "United States",
+                        "geolocation": {"lat": 20, "lon": -25},
+                        "postalCode": "12345",
+                        "state": "Ohio",
+                    },
+                    "ipAddress": "1.3.2.4",
+                    "userAgent": {
+                        "browser": "CHROME",
+                        "os": "Mac OS X",
+                        "rawUserAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/102.0.0.0 Safari/537.36",
+                    },
+                    "zone": "null",
+                },
+                "debugcontext": {
+                    "debugData": {
+                        "requestId": "AbCdEf12G",
+                        "requestUri": "/api/v1/users/AbCdEfG/lifecycle/reset_factors",
+                        "url": "/api/v1/users/AbCdEfG/lifecycle/reset_factors?",
+                        "logOnlySecurityData": {
+                            "risk": {"level": "LOW"},
+                            "behaviors": {
+                                "New Geo-Location": "NEGATIVE",
+                                "New Device": "NEGATIVE",
+                                "New IP": "NEGATIVE",
+                                "New State": "NEGATIVE",
+                                "New Country": "NEGATIVE",
+                                "Velocity": "NEGATIVE",
+                                "New City": "NEGATIVE",
+                            },
+                        },
+                    },
+                },
+                "displaymessage": "Evaluation of sign-on policy",
+                "eventtype": "policy.evaluate_sign_on",
+                "outcome": {"reason": "Sign-on policy evaluation resulted in CHALLENGE", "result": "CHALLENGE"},
+                "published": "2022-06-22 18:18:29.015",
+                "request": {
+                    "ipChain": [
+                        {
+                            "geographicalContext": {
+                                "city": "Springfield",
+                                "country": "United States",
+                                "geolocation": {"lat": 20, "lon": -25},
+                                "postalCode": "12345",
+                                "state": "Ohio",
+                                "ip": "1.3.2.4",
+                                "version": "V4",
+                            },
+                        },
+                    ],
+                },
+                "securitycontext": {
+                    "asNumber": 701,
+                    "asOrg": "verizon",
+                    "domain": "verizon.net",
+                    "isProxy": False,
+                    "isp": "verizon",
+                },
+                "severity": "INFO",
+                "target": [
+                    {"alternateId": "Okta Admin Console", "displayName": "Okta Admin Console", "type": "AppInstance"},
+                    {
+                        "alternateId": "peter.griffin@company.com",
+                        "displayName": "Peter Griffin",
+                        "id": "0002222AAAA",
+                        "type": "User",
+                    },
+                ],
+                "transaction": {"detail": {}, "id": "ABcDeFgG", "type": "WEB"},
+                "uuid": "AbC-123-XyZ",
+                "version": "0",
+            },
+        ),
+    ]

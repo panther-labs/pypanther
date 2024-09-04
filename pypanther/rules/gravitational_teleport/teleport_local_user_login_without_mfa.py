@@ -1,47 +1,5 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 
-teleport_local_user_login_without_mfa_tests: list[RuleTest] = [
-    RuleTest(
-        name="User logged in with MFA",
-        expected_result=False,
-        log={
-            "addr.remote": "[2001:db8:feed:face:c0ff:eeb0:baf00:00d]:65123",
-            "cluster_name": "teleport.example.com",
-            "code": "T1000I",
-            "ei": 0,
-            "event": "user.login",
-            "method": "local",
-            "mfa_device": {
-                "mfa_device_name": "1Password",
-                "mfa_device_type": "WebAuthn",
-                "mfa_device_uuid": "88888888-4444-4444-4444-222222222222",
-            },
-            "success": True,
-            "time": "2023-09-20T19:00:00.123456Z",
-            "uid": "88888888-4444-4444-4444-222222222222",
-            "user": "max.mustermann",
-            "user_agent": "Examplecorp Spacedeck-web/99.9 (Hackintosh; ARM Cortex A1000)",
-        },
-    ),
-    RuleTest(
-        name="User logged in without MFA",
-        expected_result=False,
-        log={
-            "addr.remote": "[2001:db8:face:face:face:face:face:face]:65123",
-            "cluster_name": "teleport.example.com",
-            "code": "T1000I",
-            "ei": 0,
-            "event": "user.login",
-            "method": "local",
-            "success": True,
-            "time": "2023-09-20T19:00:00.123456Z",
-            "uid": "88888888-4444-4444-4444-222222222222",
-            "user": "max.mustermann",
-            "user_agent": "Examplecorp Spacedeck-web/99.9 (Hackintosh; ARM Cortex A1000)",
-        },
-    ),
-]
-
 
 @panther_managed
 class TeleportLocalUserLoginWithoutMFA(Rule):
@@ -55,7 +13,6 @@ class TeleportLocalUserLoginWithoutMFA(Rule):
     default_reference = "https://goteleport.com/docs/management/admin/"
     default_runbook = "A local user logged in without Multi-Factor Authentication\n"
     summary_attributes = ["event", "code", "user", "success", "mfa_device"]
-    tests = teleport_local_user_login_without_mfa_tests
     SENSITIVE_LOCAL_USERS = ["breakglass"]
 
     def rule(self, event):
@@ -73,3 +30,45 @@ class TeleportLocalUserLoginWithoutMFA(Rule):
 
     def title(self, event):
         return f"User [{event.get('user', '<UNKNOWN_USER>')}] logged into [{event.get('cluster_name', '<UNNAMED_CLUSTER>')}] locally without using MFA"
+
+    tests = [
+        RuleTest(
+            name="User logged in with MFA",
+            expected_result=False,
+            log={
+                "addr.remote": "[2001:db8:feed:face:c0ff:eeb0:baf00:00d]:65123",
+                "cluster_name": "teleport.example.com",
+                "code": "T1000I",
+                "ei": 0,
+                "event": "user.login",
+                "method": "local",
+                "mfa_device": {
+                    "mfa_device_name": "1Password",
+                    "mfa_device_type": "WebAuthn",
+                    "mfa_device_uuid": "88888888-4444-4444-4444-222222222222",
+                },
+                "success": True,
+                "time": "2023-09-20T19:00:00.123456Z",
+                "uid": "88888888-4444-4444-4444-222222222222",
+                "user": "max.mustermann",
+                "user_agent": "Examplecorp Spacedeck-web/99.9 (Hackintosh; ARM Cortex A1000)",
+            },
+        ),
+        RuleTest(
+            name="User logged in without MFA",
+            expected_result=False,
+            log={
+                "addr.remote": "[2001:db8:face:face:face:face:face:face]:65123",
+                "cluster_name": "teleport.example.com",
+                "code": "T1000I",
+                "ei": 0,
+                "event": "user.login",
+                "method": "local",
+                "success": True,
+                "time": "2023-09-20T19:00:00.123456Z",
+                "uid": "88888888-4444-4444-4444-222222222222",
+                "user": "max.mustermann",
+                "user_agent": "Examplecorp Spacedeck-web/99.9 (Hackintosh; ARM Cortex A1000)",
+            },
+        ),
+    ]

@@ -1,57 +1,6 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.base import aws_rule_context, deep_get
 
-aws_cloud_trail_password_policy_discovery_tests: list[RuleTest] = [
-    RuleTest(
-        name="Non-Discovery Event",
-        expected_result=False,
-        log={
-            "apiversion": "2012-08-10",
-            "awsregion": "eu-west-1",
-            "eventcategory": "Data",
-            "eventid": "5d4b45ed-a15c-41b6-80e9-031729fa060d",
-            "eventname": "GetRecords",
-            "eventsource": "dynamodb.amazonaws.com",
-            "eventtime": "2023-01-10 21:04:02",
-            "eventtype": "AwsApiCall",
-            "eventversion": "1.08",
-            "managementevent": False,
-            "useridentity": {"arn": "arn:aws:test_arn"},
-        },
-    ),
-    RuleTest(
-        name="Password Discovery ARN",
-        expected_result=True,
-        log={
-            "awsregion": "us-east-1",
-            "eventcategory": "Management",
-            "eventid": "1808ca3b-4311-4b48-9d1f-21061acb2329",
-            "eventname": "GetAccountPasswordPolicy",
-            "eventsource": "iam.amazonaws.com",
-            "eventtime": "2023-01-10 23:10:06",
-            "eventtype": "AwsApiCall",
-            "eventversion": "1.08",
-            "managementevent": True,
-            "useridentity": {"arn": "arn:aws:test_arn"},
-        },
-    ),
-    RuleTest(
-        name="Password Discovery Service",
-        expected_result=False,
-        log={
-            "awsregion": "us-east-1",
-            "eventType": "AwsServiceEvent",
-            "eventcategory": "Management",
-            "eventid": "1808ca3b-4311-4b48-9d1f-21061acb2329",
-            "eventname": "GetAccountPasswordPolicy",
-            "eventsource": "iam.amazonaws.com",
-            "eventtime": "2023-01-10 23:10:06",
-            "eventversion": "1.08",
-            "managementevent": True,
-        },
-    ),
-]
-
 
 @panther_managed
 class AWSCloudTrailPasswordPolicyDiscovery(Rule):
@@ -64,7 +13,6 @@ class AWSCloudTrailPasswordPolicyDiscovery(Rule):
     log_types = [LogType.AWS_CLOUDTRAIL]
     id = "AWS.CloudTrail.Password.Policy.Discovery-prototype"
     threshold = 2
-    tests = aws_cloud_trail_password_policy_discovery_tests
     PASSWORD_DISCOVERY_EVENTS = ["GetAccountPasswordPolicy", "UpdateAccountPasswordPolicy", "PutAccountPasswordPolicy"]
 
     def rule(self, event):
@@ -77,3 +25,54 @@ class AWSCloudTrailPasswordPolicyDiscovery(Rule):
 
     def alert_context(self, event):
         return aws_rule_context(event)
+
+    tests = [
+        RuleTest(
+            name="Non-Discovery Event",
+            expected_result=False,
+            log={
+                "apiversion": "2012-08-10",
+                "awsregion": "eu-west-1",
+                "eventcategory": "Data",
+                "eventid": "5d4b45ed-a15c-41b6-80e9-031729fa060d",
+                "eventname": "GetRecords",
+                "eventsource": "dynamodb.amazonaws.com",
+                "eventtime": "2023-01-10 21:04:02",
+                "eventtype": "AwsApiCall",
+                "eventversion": "1.08",
+                "managementevent": False,
+                "useridentity": {"arn": "arn:aws:test_arn"},
+            },
+        ),
+        RuleTest(
+            name="Password Discovery ARN",
+            expected_result=True,
+            log={
+                "awsregion": "us-east-1",
+                "eventcategory": "Management",
+                "eventid": "1808ca3b-4311-4b48-9d1f-21061acb2329",
+                "eventname": "GetAccountPasswordPolicy",
+                "eventsource": "iam.amazonaws.com",
+                "eventtime": "2023-01-10 23:10:06",
+                "eventtype": "AwsApiCall",
+                "eventversion": "1.08",
+                "managementevent": True,
+                "useridentity": {"arn": "arn:aws:test_arn"},
+            },
+        ),
+        RuleTest(
+            name="Password Discovery Service",
+            expected_result=False,
+            log={
+                "awsregion": "us-east-1",
+                "eventType": "AwsServiceEvent",
+                "eventcategory": "Management",
+                "eventid": "1808ca3b-4311-4b48-9d1f-21061acb2329",
+                "eventname": "GetAccountPasswordPolicy",
+                "eventsource": "iam.amazonaws.com",
+                "eventtime": "2023-01-10 23:10:06",
+                "eventversion": "1.08",
+                "managementevent": True,
+            },
+        ),
+    ]

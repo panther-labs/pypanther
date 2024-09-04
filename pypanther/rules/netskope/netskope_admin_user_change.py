@@ -1,47 +1,5 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 
-netskope_admin_user_change_tests: list[RuleTest] = [
-    RuleTest(
-        name="True positive",
-        expected_result=True,
-        log={
-            "_id": "e5ca619b059fccdd0cfd9398",
-            "_insertion_epoch_timestamp": 1702308331,
-            "audit_log_event": "Created new admin",
-            "count": 1,
-            "is_netskope_personnel": True,
-            "organization_unit": "",
-            "severity_level": 2,
-            "supporting_data": {"data_type": "user", "data_values": ["11.22.33.44", "adminsupport@netskope.com"]},
-            "timestamp": "2023-12-11 15:25:31.000000000",
-            "type": "admin_audit_logs",
-            "ur_normalized": "adminsupport@netskope.com",
-            "user": "adminsupport@netskope.com",
-        },
-    ),
-    RuleTest(
-        name="True negative",
-        expected_result=False,
-        log={
-            "_id": "1e589befa3da30132362f32a",
-            "_insertion_epoch_timestamp": 1702318213,
-            "audit_log_event": "Rest API V2 Call",
-            "count": 1,
-            "is_netskope_personnel": False,
-            "organization_unit": "",
-            "severity_level": 2,
-            "supporting_data": {
-                "data_type": "incidents",
-                "data_values": [200, "POST", "/api/v2/incidents/uba/getuci", "trid=ccb898fgrhvdd0v0lebg"],
-            },
-            "timestamp": "2023-12-11 18:10:13.000000000",
-            "type": "admin_audit_logs",
-            "ur_normalized": "service-account",
-            "user": "service-account",
-        },
-    ),
-]
-
 
 @panther_managed
 class NetskopeAdminUserChange(Rule):
@@ -56,7 +14,6 @@ class NetskopeAdminUserChange(Rule):
     )
     default_description = "An administrator account was created, deleted, or modified."
     default_runbook = "An administrator account was created, deleted, or modified.  Validate that this activity is expected and authorized."
-    tests = netskope_admin_user_change_tests
     ADMIN_USER_CHANGE_EVENTS = [
         "Created new admin",
         "Added SSO Admin",
@@ -86,3 +43,45 @@ class NetskopeAdminUserChange(Rule):
         if "create" in audit_log_event or "add" in audit_log_event or "delete" in audit_log_event:
             return "CRITICAL"
         return "HIGH"
+
+    tests = [
+        RuleTest(
+            name="True positive",
+            expected_result=True,
+            log={
+                "_id": "e5ca619b059fccdd0cfd9398",
+                "_insertion_epoch_timestamp": 1702308331,
+                "audit_log_event": "Created new admin",
+                "count": 1,
+                "is_netskope_personnel": True,
+                "organization_unit": "",
+                "severity_level": 2,
+                "supporting_data": {"data_type": "user", "data_values": ["11.22.33.44", "adminsupport@netskope.com"]},
+                "timestamp": "2023-12-11 15:25:31.000000000",
+                "type": "admin_audit_logs",
+                "ur_normalized": "adminsupport@netskope.com",
+                "user": "adminsupport@netskope.com",
+            },
+        ),
+        RuleTest(
+            name="True negative",
+            expected_result=False,
+            log={
+                "_id": "1e589befa3da30132362f32a",
+                "_insertion_epoch_timestamp": 1702318213,
+                "audit_log_event": "Rest API V2 Call",
+                "count": 1,
+                "is_netskope_personnel": False,
+                "organization_unit": "",
+                "severity_level": 2,
+                "supporting_data": {
+                    "data_type": "incidents",
+                    "data_values": [200, "POST", "/api/v2/incidents/uba/getuci", "trid=ccb898fgrhvdd0v0lebg"],
+                },
+                "timestamp": "2023-12-11 18:10:13.000000000",
+                "type": "admin_audit_logs",
+                "ur_normalized": "service-account",
+                "user": "service-account",
+            },
+        ),
+    ]

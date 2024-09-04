@@ -1,31 +1,6 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.duo import deserialize_administrator_log_event_description
 
-duo_admin_action_marked_fraudulent_tests: list[RuleTest] = [
-    RuleTest(
-        name="marked_fraud",
-        expected_result=True,
-        log={
-            "action": "admin_2fa_error",
-            "description": '{"ip_address": "12.12.12.12", "email": "example@example.io", "factor": "push", "error": "Login request reported as fraudulent."}',
-            "isotimestamp": "2022-12-14 20:11:53",
-            "timestamp": "2022-12-14 20:11:53",
-            "username": "John P. Admin",
-        },
-    ),
-    RuleTest(
-        name="different_admin_action",
-        expected_result=False,
-        log={
-            "action": "admin_update",
-            "description": "{}",
-            "isotimestamp": "2022-12-14 20:11:53",
-            "timestamp": "2022-12-14 20:11:53",
-            "username": "John P. Admin",
-        },
-    ),
-]
-
 
 @panther_managed
 class DUOAdminActionMarkedFraudulent(Rule):
@@ -38,7 +13,6 @@ class DUOAdminActionMarkedFraudulent(Rule):
     default_description = "A Duo push was marked fraudulent by an admin."
     default_reference = "https://duo.com/docs/adminapi#administrator-logs"
     default_runbook = "Follow up with the administrator to determine reasoning for marking fraud."
-    tests = duo_admin_action_marked_fraudulent_tests
 
     def rule(self, event):
         event_description = deserialize_administrator_log_event_description(event)
@@ -58,3 +32,28 @@ class DUOAdminActionMarkedFraudulent(Rule):
             "user": event_description.get("email", ""),
             "ip_address": event_description.get("ip_address", ""),
         }
+
+    tests = [
+        RuleTest(
+            name="marked_fraud",
+            expected_result=True,
+            log={
+                "action": "admin_2fa_error",
+                "description": '{"ip_address": "12.12.12.12", "email": "example@example.io", "factor": "push", "error": "Login request reported as fraudulent."}',
+                "isotimestamp": "2022-12-14 20:11:53",
+                "timestamp": "2022-12-14 20:11:53",
+                "username": "John P. Admin",
+            },
+        ),
+        RuleTest(
+            name="different_admin_action",
+            expected_result=False,
+            log={
+                "action": "admin_update",
+                "description": "{}",
+                "isotimestamp": "2022-12-14 20:11:53",
+                "timestamp": "2022-12-14 20:11:53",
+                "username": "John P. Admin",
+            },
+        ),
+    ]
