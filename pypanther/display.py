@@ -1,12 +1,12 @@
 import inspect
 import json
-from typing import Any, Dict, Type, Callable
+from typing import Any, Callable, Dict, Type
 
+from panther_core.enriched_event import PantherEvent
 from prettytable import PrettyTable
 
 from pypanther import utils
 from pypanther.base import RULE_ALL_METHODS, Rule
-from panther_core.enriched_event import PantherEvent
 
 DEFAULT_RULE_TABLE_ATTRS = [
     "id",
@@ -183,11 +183,11 @@ def _get_rule_dict_base(rule: Type[Rule]) -> Dict[str, Any]:
 
 def _prettify_filters(filters: list[Callable[[PantherEvent], bool]]) -> list[str]:
     pretty_filters = []
-    for filter in filters:
+    for filter_ in filters:
         try:
-            pretty_filters.append(inspect.getsource(filter))
+            pretty_filters.append(inspect.getsource(filter_))
         except BaseException:
-            pretty_filters.append(repr(filter))
+            pretty_filters.append(repr(filter_))
     return pretty_filters
 
 
