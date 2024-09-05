@@ -1,11 +1,12 @@
 import inspect
 import json
-from typing import Any, Type
+from typing import Any, Callable, Dict, Type
 
+from panther_core.enriched_event import PantherEvent
 from prettytable import PrettyTable
 
 from pypanther import utils
-from pypanther.base import Rule
+from pypanther.base import RULE_ALL_METHODS, Rule
 
 DEFAULT_RULE_TABLE_ATTRS = [
     "id",
@@ -166,23 +167,45 @@ def check_rule_attributes(attributes: list[str]) -> None:
             raise AttributeError(f"Attribute '{attr}' is not allowed.")
 
 
-def print_rule_as_json(rule: Type[Rule], class_definition: bool) -> None:
+def _get_rule_dict_base(rule: Type[Rule]) -> Dict[str, Any]:
     rule_dict = rule.asdict()
     del rule_dict["tests"]
-    if class_definition:
+    rule_dict["include_filters"] = _prettify_filters(rule_dict["include_filters"])
+    rule_dict["exclude_filters"] = _prettify_filters(rule_dict["exclude_filters"])
+    for method in RULE_ALL_METHODS:
+        method_attr = getattr(rule, method)
+        try:
+            rule_dict[method] = "\n" + inspect.getsource(method_attr)
+        except BaseException:
+            rule_dict[method] = repr(method_attr)
+    return rule_dict
+
+
+def _prettify_filters(filters: list[Callable[[PantherEvent], bool]]) -> list[str]:
+    pretty_filters = []
+    for filter_ in filters:
+        pretty_filters.append(filter_.__name__)
+    return pretty_filters
+
+
+def print_rule_as_json(rule: Type[Rule], managed: bool) -> None:
+    rule_dict = {}
+    if managed:
         source = inspect.getsource(rule)
         rule_dict["class_definition"] = source
+    else:
+        rule_dict = _get_rule_dict_base(rule)
     rule_json = json.dumps(rule_dict, indent=JSON_INDENT_LEVEL)
     print(rule_json)
 
 
-def print_rule_as_text(rule: Type[Rule], class_definition: bool) -> None:
-    rule_dict = rule.asdict()
-    del rule_dict["tests"]
+def print_rule_as_text(rule: Type[Rule], managed: bool) -> None:
     rule_text = ""
-    for k, v in rule_dict.items():
-        rule_text += f"{k} = {v}\n"
-    if class_definition:
-        rule_text += "\n--------\n\n"
-        rule_text += inspect.getsource(rule)
+    if managed:
+        rule_text = inspect.getsource(rule)
+    else:
+        rule_text = f"class {rule.__name__}:\n"
+        rule_dict = _get_rule_dict_base(rule)
+        for k, v in rule_dict.items():
+            rule_text += f"    {k} = {v}\n"
     print(rule_text)

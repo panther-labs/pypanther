@@ -20,7 +20,7 @@ class TestRun:
         with create_main():
             rule_id = "Not.A.Real.ID"
             rc, err_msg = run(
-                argparse.Namespace(id=rule_id, type=TYPE_RULE.lower(), output="text", class_definition=False),
+                argparse.Namespace(id=rule_id, type=TYPE_RULE.lower(), output="text", managed=False),
             )
             assert rc == 1
             assert rule_id in err_msg and "no" in err_msg
@@ -39,7 +39,7 @@ class TestRun:
 
             register(DupIDRule)
             rc, err_msg = run(
-                argparse.Namespace(id=rule_id, type=TYPE_RULE.lower(), output="text", class_definition=False),
+                argparse.Namespace(id=rule_id, type=TYPE_RULE.lower(), output="text", managed=False),
             )
             assert rc == 1
             assert rule_id in err_msg and "multiple" in err_msg
@@ -50,7 +50,7 @@ class TestRun:
             rule_id = "GitHub.Team.Modified-prototype"
             fake_output = "fake_output"
             rc, err_msg = run(
-                argparse.Namespace(id=rule_id, type=TYPE_RULE.lower(), output=fake_output, class_definition=False),
+                argparse.Namespace(id=rule_id, type=TYPE_RULE.lower(), output=fake_output, managed=False),
             )
             assert rc == 1
             assert fake_output in err_msg
@@ -59,7 +59,7 @@ class TestRun:
     def test_happy_path_managed_text(self, rule: Type[Rule]) -> None:
         with create_main():
             rc, err_msg = run(
-                argparse.Namespace(id=rule.id, type=TYPE_RULE.lower(), output="text", class_definition=False),
+                argparse.Namespace(id=rule.id, type=TYPE_RULE.lower(), output="text", managed=False),
             )
             assert rc == 0
             assert err_msg == ""
@@ -68,25 +68,25 @@ class TestRun:
     def test_happy_path_managed_json(self, rule: Type[Rule]) -> None:
         with create_main():
             rc, err_msg = run(
-                argparse.Namespace(id=rule.id, type=TYPE_RULE.lower(), output="json", class_definition=False),
+                argparse.Namespace(id=rule.id, type=TYPE_RULE.lower(), output="json", managed=False),
             )
             assert rc == 0
             assert err_msg == ""
 
     @pytest.mark.parametrize("rule", get_panther_rules(), ids=lambda x: x.id)
-    def test_happy_path_managed_text_class_definition(self, rule: Type[Rule]) -> None:
+    def test_happy_path_managed_text_managed(self, rule: Type[Rule]) -> None:
         with create_main():
             rc, err_msg = run(
-                argparse.Namespace(id=rule.id, type=TYPE_RULE.lower(), output="text", class_definition=True),
+                argparse.Namespace(id=rule.id, type=TYPE_RULE.lower(), output="text", managed=True),
             )
             assert rc == 0
             assert err_msg == ""
 
     @pytest.mark.parametrize("rule", get_panther_rules(), ids=lambda x: x.id)
-    def test_happy_path_managed_json_class_definition(self, rule: Type[Rule]) -> None:
+    def test_happy_path_managed_json_managed(self, rule: Type[Rule]) -> None:
         with create_main():
             rc, err_msg = run(
-                argparse.Namespace(id=rule.id, type=TYPE_RULE.lower(), output="json", class_definition=True),
+                argparse.Namespace(id=rule.id, type=TYPE_RULE.lower(), output="json", managed=True),
             )
             assert rc == 0
             assert err_msg == ""
@@ -106,7 +106,7 @@ class TestRun:
 
             register(CustomRule)
             rc, err_msg = run(
-                argparse.Namespace(id=rule_id, type=TYPE_RULE.lower(), output=output, class_definition=False),
+                argparse.Namespace(id=rule_id, type=TYPE_RULE.lower(), output=output, managed=False),
             )
             assert rc == 0
             assert err_msg == ""
