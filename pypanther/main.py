@@ -6,6 +6,7 @@ from typing import Callable, Tuple
 
 from pypanther import testing
 from pypanther.custom_logging import setup_logging
+from pypanther.sdk.alerts import get_alert_stats
 from pypanther.setup_subparsers import (
     setup_get_rule_parser,
     setup_list_log_types_parser,
@@ -71,6 +72,21 @@ def setup_parser() -> argparse.ArgumentParser:
     )
     standard_args.for_public_api(upload_parser, required=False)
     setup_upload_parser(upload_parser)
+
+    # Get Alert Stats command
+    get_alert_stats_parser = subparsers.add_parser(
+        "get-alert-stats",
+        help="Get alert stats for all rules in the past n days",
+        formatter_class=argparse.ArgumentDefaultsHelpFormatter,
+    )
+    # help_printer(get_alert_stats_parser)
+    get_alert_stats_parser.add_argument(
+        "--days",
+        type=int,
+        default=7,
+        help="Number of days to look back for alert stats",
+    )
+    get_alert_stats_parser.set_defaults(func=get_alert_stats)
 
     # Test command
     test_parser = subparsers.add_parser(

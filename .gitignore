@@ -13,3 +13,5 @@ main.py
 
 .env
 *.graphql
+out.json
+analyzed_out.json
