@@ -7,6 +7,7 @@ gcpia_mservice_accountsget_access_token_privilege_escalation_tests: list[RuleTes
         name="iam.serviceAccounts.getAccessToken granted",
         expected_result=True,
         log={
+            "p_log_type": "GCP.AuditLog",
             "protoPayload": {
                 "@type": "type.googleapis.com/google.cloud.audit.AuditLog",
                 "status": {},
@@ -50,6 +51,7 @@ gcpia_mservice_accountsget_access_token_privilege_escalation_tests: list[RuleTes
         name="iam.serviceAccounts.getAccessToken not granted",
         expected_result=False,
         log={
+            "p_log_type": "GCP.AuditLog",
             "protoPayload": {
                 "@type": "type.googleapis.com/google.cloud.audit.AuditLog",
                 "status": {},
@@ -89,6 +91,57 @@ gcpia_mservice_accountsget_access_token_privilege_escalation_tests: list[RuleTes
             "receiveTimestamp": "2024-02-26T17:15:17.100020459Z",
         },
     ),
+    RuleTest(
+        name="Principal Subject Used",
+        expected_result=True,
+        log={
+            "p_log_type": "GCP.AuditLog",
+            "insertId": "1dy9ihte4iyjz",
+            "logName": "projects/mylogs/logs/cloudaudit.googleapis.com%2Fdata_access",
+            "operation": {
+                "first": True,
+                "id": "10172500524907939495",
+                "last": True,
+                "producer": "\xadiamcredentials.googleapis.com",
+            },
+            "protoPayload": {
+                "at_sign_type": "\xadtype.googleapis.com/google.cloud.audit.AuditLog",
+                "authenticationInfo": {
+                    "principalSubject": "example_principal_subject",
+                    "serviceAccountDelegationInfo": [{}],
+                },
+                "authorizationInfo": [
+                    {"granted": True, "permission": "iam.serviceAccounts.getAccessToken", "resourceAttributes": {}},
+                ],
+                "metadata": {"identityDelegationChain": ["projects/-/serviceAccounts/xxxxx.iam.gserviceaccount.com"]},
+                "methodName": "GenerateAccessToken",
+                "request": {
+                    "@type": "\xadtype.googleapis.com/google.iam.credentials.v1.GenerateAccessTokenRequest",
+                    "name": "projects/-/serviceAccounts/xxxxx.iam.gserviceaccount.com",
+                },
+                "requestMetadata": {
+                    "callerIP": "gce-internal-ip",
+                    "callerSuppliedUserAgent": "google-api-go-client/0.5 gke-metadata-server,gzip(gfe)",
+                    "destinationAttributes": {},
+                    "requestAttributes": {"auth": {}, "time": "2024-08-29T19:30:36.353462175Z"},
+                },
+                "resourceName": "projects/-/serviceAccounts/11111222223333444455",
+                "serviceName": "\xadiamcredentials.googleapis.com",
+                "status": {},
+            },
+            "receiveTimestamp": "2024-08-29 19:30:36.424542070",
+            "resource": {
+                "labels": {
+                    "email_id": "sample@email.com",
+                    "project_id": "sample_project_id",
+                    "unique_id": "11111222223333444455",
+                },
+                "type": "service_account",
+            },
+            "severity": "INFO",
+            "timestamp": "2024-08-29 19:30:36.339983306",
+        },
+    ),
 ]
 
 
@@ -113,7 +166,7 @@ class GCPIAMserviceAccountsgetAccessTokenPrivilegeEscalation(Rule):
         return False
 
     def title(self, event):
-        actor = deep_get(event, "protoPayload", "authenticationInfo", "principalEmail", default="<ACTOR_NOT_FOUND>")
+        actor = event.udm("actor_user")
         operation = deep_get(event, "protoPayload", "methodName", default="<OPERATION_NOT_FOUND>")
         project_id = deep_get(event, "resource", "labels", "project_id", default="<PROJECT_NOT_FOUND>")
         return f"[GCP]: [{actor}] performed [{operation}] on project [{project_id}]"

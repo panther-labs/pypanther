@@ -1,5 +1,4 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
-from pypanther.helpers.base import deep_get
 from pypanther.helpers.snyk import snyk_alert_context
 
 snyk_project_settings_tests: list[RuleTest] = [
@@ -51,6 +50,33 @@ snyk_project_settings_tests: list[RuleTest] = [
             "groupId": "8fffffff-1555-4444-b000-b55555555555",
         },
     ),
+    RuleTest(
+        name="Snyk Org Project Edit",
+        expected_result=False,
+        log={
+            "content": {"snapshotId": "69af7170-87cc-4939-bbaf-1fd99f80cde4"},
+            "created": "2024-09-02 23:49:37.552000000",
+            "event": "org.project.edit",
+            "orgId": "69af7170-87cc-4939-bbaf-1fd99f80cde4",
+            "projectId": "69af7170-87cc-4939-bbaf-1fd99f80cde4",
+        },
+    ),
+    RuleTest(
+        name="Snyk No New Code Issues Found",
+        expected_result=False,
+        log={
+            "content": {
+                "after": {"description": "No new Code Analysis issues found", "state": "success"},
+                "before": {"state": "processing"},
+                "prCheckPublicId": "69af7170-87cc-4939-bbaf-1fd99f80cde4",
+                "prChecksGroupPublicId": "69af7170-87cc-4939-bbaf-1fd99f80cde4",
+            },
+            "created": "2024-08-27 14:02:48.823000000",
+            "event": "org.project.pr_check.edit",
+            "orgId": "69af7170-87cc-4939-bbaf-1fd99f80cde4",
+            "projectId": "69af7170-87cc-4939-bbaf-1fd99f80cde4",
+        },
+    ),
 ]
 
 
@@ -75,7 +101,6 @@ class SnykProjectSettings(Rule):
         "org.project.attributes.edit",
         "org.project.add",
         "org.project.delete",
-        "org.project.edit",
         "org.project.fix_pr.manual_open",
         "org.project.ignore.create",
         "org.project.ignore.delete",
@@ -92,17 +117,19 @@ class SnykProjectSettings(Rule):
     ]
 
     def rule(self, event):
-        action = deep_get(event, "event", default="<NO_EVENT>")
+        if event.deep_get("content", "after", "description") == "No new Code Analysis issues found":
+            return False
+        action = event.deep_get("event", default="<NO_EVENT>")
         return action in self.ACTIONS
 
     def title(self, event):
         group_or_org = "<GROUP_OR_ORG>"
         operation = "<NO_OPERATION>"
-        action = deep_get(event, "event", default="<NO_EVENT>")
+        action = event.deep_get("event", default="<NO_EVENT>")
         if "." in action:
             group_or_org = action.split(".")[0].title()
             operation = ".".join(action.split(".")[1:]).title()
-        return f"Snyk: [{group_or_org}] [{operation}] performed by [{deep_get(event, 'userId', default='<NO_USERID>')}]"
+        return f"Snyk: [{group_or_org}] [{operation}] performed by [{event.deep_get('userId', default='<NO_USERID>')}]"
 
     def alert_context(self, event):
         a_c = snyk_alert_context(event)
@@ -111,10 +138,10 @@ class SnykProjectSettings(Rule):
         return a_c
 
     def dedup(self, event):
-        return f"{deep_get(event, 'userId', default='<NO_USERID>')}{deep_get(event, 'orgId', default='<NO_ORGID>')}{deep_get(event, 'groupId', default='<NO_GROUPID>')}{deep_get(event, 'event', default='<NO_EVENT>')}"
+        return f"{event.deep_get('userId', default='<NO_USERID>')}{event.deep_get('orgId', default='<NO_ORGID>')}{event.deep_get('groupId', default='<NO_GROUPID>')}{event.deep_get('event', default='<NO_EVENT>')}"
 
     def severity(self, event):
-        action = deep_get(event, "event", default="<NO_EVENT>")
+        action = event.deep_get("event", default="<NO_EVENT>")
         if action == "org.project.fix_pr.manual_open":
             return "INFO"
         return "LOW"
