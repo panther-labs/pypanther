@@ -648,9 +648,9 @@ class Rule(metaclass=abc.ABCMeta):
                 alert_context = self.alert_context(event)
 
             self._require_mapping(self.alert_context.__name__, alert_context)
-            serialized_alert_context = json.dumps(alert_context, default=PantherEvent.json_encoder)
+            serialized_alert_context = json.dumps(alert_context, default=PantherEvent.json_encoder, allow_nan=False)
         except Exception as err:
-            return json.dumps({ALERT_CONTEXT_ERROR_KEY: repr(err)}), err
+            return json.dumps({ALERT_CONTEXT_ERROR_KEY: repr(err)}, allow_nan=False), err
 
         if len(serialized_alert_context) > MAX_ALERT_CONTEXT_SIZE:
             # If context exceeds max size, return empty one
@@ -658,7 +658,7 @@ class Rule(metaclass=abc.ABCMeta):
                 f"alert_context size is [{len(serialized_alert_context)}] characters,"
                 f" bigger than maximum of [{MAX_ALERT_CONTEXT_SIZE}] characters"
             )
-            return json.dumps({ALERT_CONTEXT_ERROR_KEY: alert_context_error}), None
+            return json.dumps({ALERT_CONTEXT_ERROR_KEY: alert_context_error}, allow_nan=False), None
 
         return serialized_alert_context, None
 
