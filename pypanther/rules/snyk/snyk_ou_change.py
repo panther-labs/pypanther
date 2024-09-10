@@ -1,5 +1,4 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
-from pypanther.helpers.base import deep_get
 from pypanther.helpers.snyk import snyk_alert_context
 
 snyk_ou_change_tests: list[RuleTest] = [
@@ -89,24 +88,24 @@ class SnykOUChange(Rule):
     ]
 
     def rule(self, event):
-        action = deep_get(event, "event", default="<NO_EVENT>")
+        action = event.deep_get("event", default="<NO_EVENT>")
         return action in self.ACTIONS
 
     def title(self, event):
         group_or_org = "<GROUP_OR_ORG>"
-        action = deep_get(event, "event", default="<NO_EVENT>")
+        action = event.deep_get("event", default="<NO_EVENT>")
         if "." in action:
             group_or_org = action.split(".")[0].title()
-        return f"Snyk: [{group_or_org}] Organizational Unit settings have been modified via [{action}] performed by [{deep_get(event, 'userId', default='<NO_USERID>')}]"
+        return f"Snyk: [{group_or_org}] Organizational Unit settings have been modified via [{action}] performed by [{event.deep_get('userId', default='<NO_USERID>')}]"
 
     def alert_context(self, event):
         return snyk_alert_context(event)
 
     def dedup(self, event):
-        return f"{deep_get(event, 'userId', default='<NO_USERID>')}{deep_get(event, 'orgId', default='<NO_ORGID>')}{deep_get(event, 'groupId', default='<NO_GROUPID>')}{deep_get(event, 'event', default='<NO_EVENT>')}"
+        return f"{event.deep_get('userId', default='<NO_USERID>')}{event.deep_get('orgId', default='<NO_ORGID>')}{event.deep_get('groupId', default='<NO_GROUPID>')}{event.deep_get('event', default='<NO_EVENT>')}"
 
     def severity(self, event):
-        action = deep_get(event, "event", default="<NO_EVENT>")
+        action = event.deep_get("event", default="<NO_EVENT>")
         if action.endswith((".remove", ".delete")):
             return "HIGH"
         if action.endswith(".edit"):

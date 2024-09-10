@@ -1,5 +1,4 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
-from pypanther.helpers.base import deep_get
 from pypanther.helpers.snyk import snyk_alert_context
 
 snyk_system_policy_setting_tests: list[RuleTest] = [
@@ -101,22 +100,22 @@ class SnykSystemPolicySetting(Rule):
     ]
 
     def rule(self, event):
-        action = deep_get(event, "event", default="<NO_EVENT>")
+        action = event.deep_get("event", default="<NO_EVENT>")
         return action in self.ACTIONS
 
     def title(self, event):
         policy_type = "<NO_POLICY_TYPE_FOUND>"
-        license_or_rule = deep_get(event, "content", "after", "configuration", default={})
+        license_or_rule = event.deep_get("content", "after", "configuration", default={})
         if "rules" in license_or_rule:
             policy_type = "security"
         elif "licenses" in license_or_rule:
             policy_type = "license"
-        return f"Snyk: System [{policy_type}] Policy Setting event [{deep_get(event, 'event', default='<NO_EVENT>')}] performed by [{deep_get(event, 'userId', default='<NO_USERID>')}]"
+        return f"Snyk: System [{policy_type}] Policy Setting event [{event.deep_get('event', default='<NO_EVENT>')}] performed by [{event.deep_get('userId', default='<NO_USERID>')}]"
 
     def alert_context(self, event):
         a_c = snyk_alert_context(event)
         a_c["policy_type"] = "<NO_POLICY_TYPE_FOUND>"
-        license_or_rule = deep_get(event, "content", "after", "configuration", default={})
+        license_or_rule = event.deep_get("content", "after", "configuration", default={})
         if "rules" in license_or_rule:
             a_c["policy_type"] = "security"
         elif "licenses" in license_or_rule:
@@ -125,4 +124,4 @@ class SnykSystemPolicySetting(Rule):
 
     def dedup(self, event):
         # Licenses can apply at org or group levels
-        return f"{deep_get(event, 'userId', default='<NO_USERID>')}{deep_get(event, 'orgId', default='<NO_ORGID>')}{deep_get(event, 'groupId', default='<NO_GROUPID>')}{deep_get(event, 'content', 'publicId', default='<NO_PUBLICID>')}"
+        return f"{event.deep_get('userId', default='<NO_USERID>')}{event.deep_get('orgId', default='<NO_ORGID>')}{event.deep_get('groupId', default='<NO_GROUPID>')}{event.deep_get('content', 'publicId', default='<NO_PUBLICID>')}"

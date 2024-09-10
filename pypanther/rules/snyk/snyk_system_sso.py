@@ -1,5 +1,4 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
-from pypanther.helpers.base import deep_get
 from pypanther.helpers.snyk import snyk_alert_context
 
 snyk_system_sso_tests: list[RuleTest] = [
@@ -53,11 +52,11 @@ class SnykSystemSSO(Rule):
     ]
 
     def rule(self, event):
-        action = deep_get(event, "event", default="<NO_EVENT>")
+        action = event.deep_get("event", default="<NO_EVENT>")
         return action in self.ACTIONS
 
     def title(self, event):
-        return f"Snyk: System SSO Setting event [{deep_get(event, 'event', default='<NO_EVENT>')}] performed by [{deep_get(event, 'userId', default='<NO_USERID>')}]"
+        return f"Snyk: System SSO Setting event [{event.deep_get('event', default='<NO_EVENT>')}] performed by [{event.deep_get('userId', default='<NO_USERID>')}]"
 
     def alert_context(self, event):
         return snyk_alert_context(event)
