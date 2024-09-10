@@ -1,5 +1,7 @@
 import ast
+import difflib
 import functools
+import inspect
 import os
 import re
 import shutil
@@ -12,6 +14,7 @@ from typing import List, Optional, Set
 from ast_comments import Comment, parse, unparse
 from ruamel.yaml import YAML
 
+import pypanther
 from pypanther import DataModel, DataModelMapping, LogType, Rule, RuleMock, RuleTest, Severity, panther_managed
 
 ID_POSTFIX = "-prototype"
@@ -184,6 +187,7 @@ def convert_rule(filepath: Path, helpers: Set[str]) -> Optional[str]:
 
 
 def run_ruff(paths: List[Path]):
+    subprocess.run(["ruff", "check", "--fix", "--ignore", "E402"] + list(paths), check=True)
     subprocess.run(["ruff", "format"] + list(paths), check=True)
 
 
@@ -810,6 +814,49 @@ def strip_global_filters():
         p.unlink()
 
 
+def delete_unmodified_panther_managed_rules() -> None:
+    # assuming that "pypanther" is available as a module and it
+    # contains the V2-converted panther managed rules
+    original_rules_path = Path(inspect.getfile(pypanther)).parent / "rules"
+
+    # assuming this directory has been created by the conversion
+    # functions called before this one
+    generated_rules_path = Path("pypanther/rules/")
+
+    to_delete = []
+    for generated_path in generated_rules_path.glob("**/[A-Za-z]*.py"):
+        # assuming that the directory structure of the generated rules is
+        # identical to the structure of the pypanther module rules directory
+        original_path = original_rules_path / (generated_path.relative_to(generated_rules_path))
+
+        with original_path.open(mode="rb") as fo, generated_path.open(mode="rb") as fg:
+            original_code = ast.parse(fo.read())
+            code = ast.parse(fg.read())
+
+        # assuming that ruff has formatted the generated file before this comparison
+        diff = list(
+            difflib.unified_diff(ast.unparse(original_code).splitlines(), ast.unparse(code).splitlines(), lineterm=""),
+        )
+        if not diff:
+            to_delete.append(generated_path)
+
+    # delete unmodified rules as identified above
+    for path in to_delete:
+        path.unlink()
+        if not any(path.parent.iterdir()):
+            path.parent.rmdir()
+
+    # delete empty directories or directories that contain only __init__.py files
+    for root, dirs, files in os.walk(str(generated_rules_path), topdown=False):
+        if len(files) == 1 and files[0] == "__init__.py":
+            Path(os.path.join(root, files[0])).unlink()
+        for name in dirs:
+            directory = Path(os.path.join(root, name))
+            if not any(directory.iterdir()):
+                # directory is empty
+                directory.rmdir()
+
+
 def main():
     if len(sys.argv) != 2:
         perror("Usage: generate.py <panther_analysis>")
@@ -824,6 +871,8 @@ def main():
 
     # convert_queries(Path(panther_analysis))
     run_ruff([Path(".")])  # noqa: PTH201
+
+    delete_unmodified_panther_managed_rules()
 
 
 if __name__ == "__main__":
