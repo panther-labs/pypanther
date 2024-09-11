@@ -1,3 +1,4 @@
+import argparse
 import ast
 import difflib
 import functools
@@ -857,12 +858,19 @@ def delete_unmodified_panther_managed_rules() -> None:
                 directory.rmdir()
 
 
-def main():
-    if len(sys.argv) != 2:
-        perror("Usage: generate.py <panther_analysis>")
-        sys.exit(1)
+def create_argument_parser() -> argparse.ArgumentParser:
+    parser = argparse.ArgumentParser()
+    parser.add_argument("panther_analysis_path", type=Path)
+    parser.add_argument("--keep-only-modified-rules", default=False, action="store_true")
+    return parser
 
-    panther_analysis = Path(sys.argv[1])
+
+def main():
+    parser = create_argument_parser()
+    args = parser.parse_args()
+
+    panther_analysis = args.panther_analysis_path
+    keep_only_modified_rules = args.keep_only_modified_rules
 
     helpers = convert_global_helpers(panther_analysis)
     convert_data_models(panther_analysis, helpers)
@@ -872,7 +880,8 @@ def main():
     # convert_queries(Path(panther_analysis))
     run_ruff([Path(".")])  # noqa: PTH201
 
-    delete_unmodified_panther_managed_rules()
+    if keep_only_modified_rules:
+        delete_unmodified_panther_managed_rules()
 
 
 if __name__ == "__main__":
