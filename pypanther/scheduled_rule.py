@@ -15,44 +15,43 @@ class Period:
         min_duration = timedelta(minutes=5)
         max_duration = timedelta(days=30)
         if not (min_duration <= duration <= max_duration):
-            raise ValueError(f"Period must be between {min_duration} and {max_duration}")
+            raise ValueError("Period must be set between 5 mins and 30 days")
         self.duration = duration
 
     @classmethod
     def from_minutes(cls, minutes: int):
-        return cls(timedelta(minutes=minutes))
+        return cls(timedelta(minutes=int(minutes)))
 
     @classmethod
     def from_hours(cls, hours: int):
-        return cls(timedelta(hours=hours))
+        return cls(timedelta(hours=int(hours)))
 
     @classmethod
     def from_days(cls, days: int):
-        return cls(timedelta(days=days))
+        return cls(timedelta(days=int(days)))
 
     def total_minutes(self):
-        return self.duration.total_seconds() // 60
+        return int(self.duration.total_seconds() // 60)
 
     def total_hours(self):
-        return self.duration.total_seconds() // 3600
+        return int(self.duration.total_seconds() // 3600)
 
     def total_days(self):
-        return self.duration.total_seconds() // 86400
+        return int(self.duration.total_seconds() // 86400)
 
     def to_string(self):
         total_seconds = self.duration.total_seconds()
-        days = total_seconds // 86400
-        hours = (total_seconds % 86400) // 3600
-        minutes = (total_seconds % 3600) // 60
+        days = int(total_seconds // 86400)
+        hours = int((total_seconds % 86400) // 3600)
+        minutes = int((total_seconds % 3600) // 60)
 
         if days > 0:
             return f"{days}d"
-        elif hours > 0:
+        if hours > 0:
             return f"{hours}h"
-        elif minutes > 0:
+        if minutes > 0:
             return f"{minutes}m"
-        else:
-            return f"{total_seconds}s"
+        return f"{int(total_seconds)}s"
 
     def __str__(self):
         return self.to_string()
@@ -86,9 +85,9 @@ class Schedule:
             self.cron = None
 
         if not self.cron and not self.period:
-            raise ValueError("Either cron or period must be defined")
+            raise ValueError("Either cron or period must be provided")
         if self.cron and self.period:
-            raise ValueError("Only one of cron or period can be defined")
+            raise ValueError("Cannot provide both cron and period")
 
     def __repr__(self):
         return f"Schedule(enabled={self.enabled}, timeout_mins={self.timeout_mins}, cron='{self.cron}', period='{self.period}')"

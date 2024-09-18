@@ -4,7 +4,7 @@ from datetime import datetime, timedelta
 import pytest
 
 from pypanther import Severity
-from pypanther.scheduled_rule import PantherFlowQuery, Period, Query, Schedule, ScheduledRule, SQLQuery
+from pypanther.scheduled_rule import PantherFlowQuery, Period, Schedule, ScheduledRule, SQLQuery
 
 
 class TestScheduledRule(unittest.TestCase):
@@ -14,15 +14,24 @@ class TestScheduledRule(unittest.TestCase):
         self.assertEqual(str(period), "30m")
 
     def test_period_invalid_initialization(self):
-        with self.assertRaises(ValueError):
+        with pytest.raises(ValueError, match="Period must be set between 5 mins and 30 days"):
             Period(timedelta(minutes=4))
-        with self.assertRaises(ValueError):
+        with pytest.raises(ValueError, match="Period must be set between 5 mins and 30 days"):
             Period(timedelta(days=31))
 
     def test_schedule_initialization_with_cron(self):
         schedule = Schedule(cron="0 0 * * *")
         self.assertIsNotNone(schedule.cron)
         self.assertIsNone(schedule.period)
+
+    def test_schedule_initialization_with_daily_cron(self):
+        schedule = Schedule(cron="@daily")
+        self.assertIsNotNone(schedule.cron)
+        self.assertIsNone(schedule.period)
+
+    def test_schedule_invalid_cron_expression(self):
+        with pytest.raises(ValueError, match="Invalid cron expression: invalid_cron"):
+            Schedule(cron="invalid_cron")
 
     def test_schedule_initialization_with_period(self):
         period = Period.from_hours(1)
@@ -31,9 +40,9 @@ class TestScheduledRule(unittest.TestCase):
         self.assertEqual(schedule.period, period)
 
     def test_schedule_invalid_initialization(self):
-        with self.assertRaises(ValueError):
+        with pytest.raises(ValueError, match="Either cron or period must be provided"):
             Schedule()
-        with self.assertRaises(ValueError):
+        with pytest.raises(ValueError, match="Cannot provide both cron and period"):
             Schedule(cron="0 0 * * *", period=Period.from_hours(1))
 
     def test_schedule_get_next_run_time(self):
