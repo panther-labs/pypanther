@@ -4,6 +4,8 @@ dist/
 .idea/
 .DS_Store
 .panther_settings.yml
+*.graphql
+.env
 
 # Merge Conflicts
 *.orig
