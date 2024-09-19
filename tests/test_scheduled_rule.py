@@ -2,6 +2,7 @@ import unittest
 from datetime import datetime, timedelta
 
 import pytest
+from panther_core.enriched_event import PantherEvent
 
 from pypanther import Severity
 from pypanther.scheduled_rule import PantherFlowQuery, Period, Schedule, ScheduledRule, SQLQuery
@@ -13,15 +14,14 @@ class OCSFBruteForceConnections(ScheduledRule):
     default_severity = Severity.MEDIUM
     query = PantherFlowQuery(
         expression="""
-                panther_logs.public.ocsf_networkactivity
-                | where p_event_time > time.ago({period})
-                | where metadata.product.name == 'Amazon VPC'
-                | where connection_info.direction == 'Inbound'
-                | where activity_name == 'Refuse'
-                | where dst_endpoint.port between 1 .. {max_dst_port}
-                | summarize Count=agg.count() by dst_endpoint.interface_uid
-                | extend AboveThresh = Count >= {refuse_count}
-                | where AboveThresh
+panther_logs.public.ocsf_networkactivity
+| where p_event_time > time.ago({period})
+| where metadata.product.name == 'Amazon VPC'
+| where connection_info.direction == 'Inbound'
+| where activity_name == 'Refuse'
+| where dst_endpoint.port between 1 .. {max_dst_port}
+| summarize Count=agg.count() by dst_endpoint.interface_uid
+| extend AboveThresh = Count >= {refuse_count}
         """,
         params=PantherFlowQuery.Params(
             refuse_count=5,
@@ -31,9 +31,18 @@ class OCSFBruteForceConnections(ScheduledRule):
     )
     schedule = Schedule(period=Period.from_minutes(30))
 
-    def title(self, event):
+    def rule(self, event: PantherEvent):
+        return event.get("AboveThresh")
+
+    def severity(self, event: PantherEvent):
+        if event.get("Count") > 90:
+            return Severity.HIGH
+        return self.default_severity
+
+    def title(self, event: PantherEvent):
         interface = event.get("dst_endpoint.interface_uid")
-        return f"Endpoint [{interface}] has refused a high # of connections in the past {self.period}"
+        period = "30m"
+        return f"Endpoint [{interface}] has seen a high # of refused connections in the last [{period}]"
 
 
 class SnowflakeBruteForceByUsername(ScheduledRule):
@@ -42,19 +51,19 @@ class SnowflakeBruteForceByUsername(ScheduledRule):
     default_severity = Severity.MEDIUM
     query = SQLQuery(
         expression="""
-            SELECT
-            user_name,
-            reported_client_type,
-            ARRAY_AGG(DISTINCT error_code) as error_codes,
-            ARRAY_AGG(DISTINCT error_message) as error_messages,
-            COUNT(event_id) AS counts
-        FROM snowflake.account_usage.login_history
-        WHERE
-            DATEDIFF(HOUR, event_timestamp, CURRENT_TIMESTAMP) < 24
-            AND event_type = 'LOGIN'
-            AND error_code IS NOT NULL
-        GROUP BY reported_client_type, user_name
-        HAVING counts >=5;
+SELECT
+    user_name,
+    reported_client_type,
+    ARRAY_AGG(DISTINCT error_code) as error_codes,
+    ARRAY_AGG(DISTINCT error_message) as error_messages,
+    COUNT(event_id) AS counts
+FROM snowflake.account_usage.login_history
+WHERE
+    DATEDIFF(HOUR, event_timestamp, CURRENT_TIMESTAMP) < 24
+    AND event_type = 'LOGIN'
+    AND error_code IS NOT NULL
+GROUP BY reported_client_type, user_name
+HAVING counts >=5;
         """,
         description="Detect brute force via failed logins to Snowflake",
     )
