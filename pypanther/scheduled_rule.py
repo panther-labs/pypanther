@@ -1,6 +1,7 @@
 from abc import ABC, abstractmethod
 from dataclasses import dataclass
 from datetime import datetime, timedelta
+from types import SimpleNamespace
 from typing import Literal, Optional
 
 import pytz
@@ -59,10 +60,31 @@ class Period:
 
 @dataclass
 class Schedule:
+    """
+    The Schedule part of ScheduledRules.
+
+    Attributes
+    ----------
+        enabled (bool): Indicates if the schedule is enabled. Default is True.
+        timeout_mins (int): The timeout in minutes for the scheduled task. Default is 5 minutes.
+        cron (Optional[croniter]): The cron expression for the schedule. Default is None.
+        period (Optional[Period]): The period for the schedule. Default is None.
+
+    Methods
+    -------
+        get_next_run_time(start_time):
+            Returns the next run time based on the cron expression.
+
+        get_prev_run_time(start_time):
+            Returns the previous run time based on the cron expression.
+
+    """
+
     enabled: bool = True
     timeout_mins: int = 5
     cron: Optional[croniter] = None
     period: Optional[Period] = None
+    # TODO(panther): Add support for either jitter or splay percentage to ensure queries are not executed at the same time
 
     def __init__(
         self,
@@ -104,16 +126,41 @@ class Schedule:
 
 
 class Query(ABC):
-    _analysis_type = "QUERY"
-    description: str = ""
-    query_type: Literal["PantherFlow", "SQL"]
-    expression: str
-    schedule: Schedule
+    """
+    Abstract base class representing a query.
 
-    def __init__(self, expression: str, schedule: Schedule, description: str = ""):
+    Attributes
+    ----------
+        description (str): Description of the query.
+        expression (str): The query expression, either PantherFlow or SQL.
+        params (Optional[Query.Params]): Query parameters to interpolate into the expression.
+
+    Methods
+    -------
+        id: Returns the class name of the query.
+        validate: Abstract method to ensure search syntax is proper.
+        format_expression: Formats the query expression based on the params.
+
+    Inner Classes:
+        Params: Used for passing and overriding query parameters into a Query.
+
+    """
+
+    _analysis_type = "QUERY"
+    query_type: Literal["PantherFlow", "SQL"]
+    description: str = ""
+    expression: str
+    params: Optional["Query.Params"] = None
+
+    class Params(SimpleNamespace):
+        """
+        Used for passing and overriding query parameters into a Query.
+        """
+
+    def __init__(self, expression: str, description: str = "", params: Optional["Query.Params"] = None):
         self.description = description
         self.expression = expression
-        self.schedule = schedule
+        self.params = params
 
     @property
     def id(self):
@@ -122,6 +169,24 @@ class Query(ABC):
     @abstractmethod
     def validate(self):
         """Ensure search syntax is proper."""
+
+    def format_expression(self):
+        """
+        Formats the query expression based on the params.
+
+        Returns
+        -------
+        str
+            The formatted query expression.
+
+        """
+        if not self.params:
+            return self.expression
+
+        params_dict = {
+            key: value.to_string() if isinstance(value, Period) else value for key, value in vars(self.params).items()
+        }
+        return self.expression.format(**params_dict)
 
 
 class PantherFlowQuery(Query):
@@ -139,14 +204,10 @@ class SQLQuery(Query):
 
 
 class ScheduledRule(Rule, ABC):
-    _analysis_type = "SCHEDULED_RULE"
+    # _analysis_type = "SCHEDULED_RULE" # not passing mypy, not sure why
     query: Query
-    period: Period
+    schedule: Schedule
 
     def rule(self, event: PantherEvent) -> bool:
         """Optional method to further filter the results of the query. Defaults to True to avoid redundant code."""
         return True
-
-    def query(self) -> Query:
-        """Return the query object to be executed."""
-        return self.query

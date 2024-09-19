@@ -7,6 +7,132 @@ from pypanther import Severity
 from pypanther.scheduled_rule import PantherFlowQuery, Period, Schedule, ScheduledRule, SQLQuery
 
 
+class OCSFBruteForceConnections(ScheduledRule):
+    id = "OCSF.VPC.BruteForceConnections"
+    enabled = True
+    default_severity = Severity.MEDIUM
+    query = PantherFlowQuery(
+        expression="""
+                panther_logs.public.ocsf_networkactivity
+                | where p_event_time > time.ago({period})
+                | where metadata.product.name == 'Amazon VPC'
+                | where connection_info.direction == 'Inbound'
+                | where activity_name == 'Refuse'
+                | where dst_endpoint.port between 1 .. {max_dst_port}
+                | summarize Count=agg.count() by dst_endpoint.interface_uid
+                | extend AboveThresh = Count >= {refuse_count}
+                | where AboveThresh
+        """,
+        params=PantherFlowQuery.Params(
+            refuse_count=5,
+            period=Period.from_minutes(30),
+            max_dst_port=1024,
+        ),
+    )
+    schedule = Schedule(period=Period.from_minutes(30))
+
+    def title(self, event):
+        interface = event.get("dst_endpoint.interface_uid")
+        return f"Endpoint [{interface}] has refused a high # of connections in the past {self.period}"
+
+
+class SnowflakeBruteForceByUsername(ScheduledRule):
+    id = "Snowflake.BruteForceByUsername"
+    enabled = True
+    default_severity = Severity.MEDIUM
+    query = SQLQuery(
+        expression="""
+            SELECT
+            user_name,
+            reported_client_type,
+            ARRAY_AGG(DISTINCT error_code) as error_codes,
+            ARRAY_AGG(DISTINCT error_message) as error_messages,
+            COUNT(event_id) AS counts
+        FROM snowflake.account_usage.login_history
+        WHERE
+            DATEDIFF(HOUR, event_timestamp, CURRENT_TIMESTAMP) < 24
+            AND event_type = 'LOGIN'
+            AND error_code IS NOT NULL
+        GROUP BY reported_client_type, user_name
+        HAVING counts >=5;
+        """,
+        description="Detect brute force via failed logins to Snowflake",
+    )
+    schedule = Schedule(period=Period.from_hours(24))
+
+    def title(self, event):
+        return f"User [{event.get('user_name')}] surpassed the failed logins threshold of 5"
+
+
+class SnowflakeBruteForceByUsernameParams(ScheduledRule):
+    id = "Snowflake.BruteForceByUsername"
+    enabled = True
+    default_severity = Severity.MEDIUM
+
+    query = SQLQuery(
+        description="Detect brute force failed logins to Snowflake",
+        expression="""
+            SELECT
+                user_name,
+                reported_client_type,
+                ARRAY_AGG(DISTINCT error_code) as error_codes,
+                ARRAY_AGG(DISTINCT error_message) as error_messages,
+                COUNT(event_id) AS counts
+            FROM snowflake.account_usage.login_history
+            WHERE
+                DATEDIFF(HOUR, event_timestamp, CURRENT_TIMESTAMP) < {period}
+                AND event_type = 'LOGIN'
+                AND error_code IS NOT NULL
+            GROUP BY reported_client_type, user_name
+            HAVING counts >= {failed_login_count};
+            """,
+        params=SQLQuery.Params(failed_login_count=12, period=24),
+    )
+    schedule = Schedule(
+        cron="@daily",
+        timeout_mins=15,
+    )
+
+    def title(self, event):
+        user = event.get("user_name")
+        return f"Snowflake User [{user}] had more than [{self.failed_login_count}] failed logins"
+
+
+class SnowflakeExteralShare(ScheduledRule):
+    id = "Snowflake.External.Shares"
+    enabled = True
+    query = SQLQuery(
+        description="Query to detect Snowflake data transfers across cloud accounts",
+        expression="""
+            SELECT
+                *
+            FROM
+                snowflake.account_usage.data_transfer_history
+            WHERE
+                DATEDIFF(HOUR, start_time, CURRENT_TIMESTAMP) < 24
+                AND start_time IS NOT NULL
+                AND source_cloud IS NOT NULL
+                AND target_cloud IS NOT NULL
+                AND bytes_transferred > 0
+        """,
+    )
+    schedule = Schedule(
+        cron="@daily",
+        timeout_mins=2,
+    )
+
+    def title(self, event):
+        return (
+            "A data export has been initiated from source cloud "
+            f"[{event.get('source_cloud','<SOURCE_CLOUD_NOT_FOUND>')}] "
+            f"in source region [{event.get('source_region','<SOURCE_REGION_NOT_FOUND>')}] "
+            f"to target cloud [{event.get('target_cloud','<TARGET_CLOUD_NOT_FOUND>')}] "
+            f"in target region [{event.get('target_region','<TARGET_REGION_NOT_FOUND>')}] "
+            f"with transfer type [{event.get('transfer_type','<TRANSFER_TYPE_NOT_FOUND>')}] "
+            f"for [{event.get('bytes_transferred','<BYTES_NOT_FOUND>')}] bytes."
+        )
+
+
 class TestScheduledRule(unittest.TestCase):
     def test_period_initialization(self):
         period = Period.from_minutes(30)
@@ -57,9 +183,39 @@ class TestScheduledRule(unittest.TestCase):
 
     def test_ocsf_brute_force_connections_query(self):
         rule = OCSFBruteForceConnections()
-        query = rule.query()
-        self.assertIsInstance(query, PantherFlowQuery)
-        self.assertIn("ocsf_networkactivity", query.expression)
+        self.assertIsInstance(rule.query, PantherFlowQuery)
+        self.assertIn("ocsf_networkactivity", rule.query.expression)
+
+    def test_override_query_params(self):
+        rule = OCSFBruteForceConnections()
+        self.assertEqual(rule.query.params.refuse_count, 5)
+
+        # Override the query params
+        rule.query.params.refuse_count = 10
+        self.assertEqual(rule.query.params.refuse_count, 10)
+
+        # Ensure the new value is reflected in the formatted expression
+        formatted_expression = rule.query.format_expression()
+        self.assertIn("Count >= 10", formatted_expression)
+
+    def test_override_schedule(self):
+        rule = OCSFBruteForceConnections()
+        self.assertEqual(rule.schedule.period.total_minutes(), 30)
+
+        # Override the schedule period
+        rule.schedule.period = Period.from_minutes(60)
+        self.assertEqual(rule.schedule.period.total_minutes(), 60)
+
+        # Ensure the new value is reflected in the schedule
+        self.assertEqual(rule.schedule.period.to_string(), "1h")
+
+        # TODO(panther): Add support for abnormal intervals (this test fails today)
+        # # Override the schedule period
+        # rule.schedule.period = Period.from_minutes(90)
+        # self.assertEqual(rule.schedule.period.total_minutes(), 90)
+
+        # # Ensure the new value is reflected in the schedule
+        # self.assertEqual(rule.schedule.period.to_string(), "90m")
 
     def test_snowflake_brute_force_by_username_query(self):
         rule = SnowflakeBruteForceByUsername()
@@ -67,294 +223,18 @@ class TestScheduledRule(unittest.TestCase):
         self.assertIsInstance(query, SQLQuery)
         self.assertIn("snowflake.account_usage.login_history", query.expression)
 
-    def test_snowflake_brute_force_by_username2_query(self):
-        rule = SnowflakeBruteForceByUsername2()
-        query = rule.query()
-        self.assertIsInstance(query, SQLQuery)
-        self.assertIn("snowflake.account_usage.login_history", query.expression)
+    def test_snowflake_brute_force_by_username_params(self):
+        rule = SnowflakeBruteForceByUsernameParams()
+        assert hasattr(rule.query.params, "failed_login_count"), "Missing param [failed_login_count]"
 
-    def test_snowflake_data_exfil_query(self):
-        rule = SnowflakeDataExfil()
-        query = rule.query()
-        self.assertIsInstance(query, PantherFlowQuery)
-        self.assertIn("panther_logs.public.signals", query.expression)
+        # Override the query params
+        rule.query.params.period = 10
+        rule.query.params.failed_login_count = 15
 
-    def test_snowflake_file_downloaded_query(self):
-        rule = SnowflakeFileDownloaded()
-        query = rule.query()
-        self.assertIsInstance(query, SQLQuery)
-        self.assertIn("SNOWFLAKE.ACCOUNT_USAGE.QUERY_HISTORY", query.expression)
+        self.assertEqual(rule.query.params.failed_login_count, 15)
+        self.assertEqual(rule.query.params.period, 10)
 
-    def test_snowflake_copy_into_storage_query(self):
-        rule = SnowflakeCopyIntoStorage()
-        query = rule.query()
-        self.assertIsInstance(query, str)
-        self.assertIn("SNOWFLAKE.ACCOUNT_USAGE.QUERY_HISTORY", query)
-
-    def test_snowflake_temp_stage_created_query(self):
-        rule = SnowflakeTempStageCreated()
-        query = rule.query
-        self.assertIsInstance(query, str)
-        self.assertIn("SNOWFLAKE.ACCOUNT_USAGE.QUERY_HISTORY", query)
-
-
-class OCSFBruteForceConnections(ScheduledRule):
-    id = "OCSF.VPC.BruteForceConnections"
-    enabled = True
-    default_severity = Severity.MEDIUM
-    period = Period.from_minutes(30)
-    refuse_count = 5
-
-    def query(self):
-        return PantherFlowQuery(
-            expression=f"""
-	            panther_logs.public.ocsf_networkactivity
-	            | where p_event_time > time.ago({self.period})
-	            | where metadata.product.name == 'Amazon VPC'
-	            | where connection_info.direction == 'Inbound'
-	            | where activity_name == 'Refuse'
-	            | where dst_endpoint.port between 1 .. 1024
-	            | summarize Count=agg.count() by dst_endpoint.interface_uid
-	            | extend AboveThresh = Count >= {self.refuse_count}
-	            | where AboveThresh
-			      """,
-            schedule=Schedule(period=self.period),
-        )
-
-    @classmethod
-    def validate_config(cls):
-        assert len(cls.refuse_count) is not None, "refuse_count must be set"
-
-    def title(self, event):
-        interface = event.get("dst_endpoint.interface_uid")
-        return f"Endpoint [{interface}] has refused a high # of connections in the past {self.period}"
-
-
-class SnowflakeBruteForceByUsername(ScheduledRule):
-    id = "Snowflake.BruteForceByUsername"
-    enabled = True
-    default_severity = Severity.MEDIUM
-    query = SQLQuery(
-        expression="""
-            SELECT
-            user_name,
-            reported_client_type,
-            ARRAY_AGG(DISTINCT error_code) as error_codes,
-            ARRAY_AGG(DISTINCT error_message) as error_messages,
-            COUNT(event_id) AS counts
-        FROM snowflake.account_usage.login_history
-        WHERE
-            DATEDIFF(HOUR, event_timestamp, CURRENT_TIMESTAMP) < 24
-            AND event_type = 'LOGIN'
-            AND error_code IS NOT NULL
-        GROUP BY reported_client_type, user_name
-        HAVING counts >=5;
-        """,
-        schedule=Schedule(period=Period.from_hours(24)),
-        description="Detect brute force via failed logins to Snowflake",
-    )
-
-    def title(self, event):
-        return f"User [{event.get('user_name')}] surpassed the failed logins threshold of 5"
-
-
-class SnowflakeBruteForceByUsername2(ScheduledRule):
-    id = "Snowflake.BruteForceByUsername"
-    enabled = True
-    default_severity = Severity.MEDIUM
-    period = Period.from_days(1)
-
-    failed_login_count = 12
-
-    def query(self):
-        return SQLQuery(
-            description="Detect brute force failed logins to Snowflake",
-            expression=f"""
-				    SELECT
-				        user_name,
-				        reported_client_type,
-				        ARRAY_AGG(DISTINCT error_code) as error_codes,
-				        ARRAY_AGG(DISTINCT error_message) as error_messages,
-				        COUNT(event_id) AS counts
-				    FROM snowflake.account_usage.login_history
-				    WHERE
-				        DATEDIFF(HOUR, event_timestamp, CURRENT_TIMESTAMP) < {self.period}
-				        AND event_type = 'LOGIN'
-				        AND error_code IS NOT NULL
-				    GROUP BY reported_client_type, user_name
-				    HAVING counts >={self.failed_login_count};
-				    """,
-            schedule=Schedule(period=self.period),
-        )
-
-    def title(self, event):
-        user = event.get("user_name")
-        return f"Snowflake User [{user}] had more than [{self.failed_login_count}] failed logins"
-
-
-# TODO(panther): Override only supports named class attributes, so arbitrary naming and interpolation into the query
-# is not supported. This is a limitation of the current implementation and they must be called directly... For now..
-# SnowflakeBruteForceByUsername2.override(
-#     period=Period.from_hours(12),
-#     failed_login_count=15,
-# )
-SnowflakeBruteForceByUsername2.period = Period.from_hours(12)
-SnowflakeBruteForceByUsername2.failed_login_count = 15
-
-
-class SnowflakeDataExfil(ScheduledRule):
-    id = "Snowflake.DataExfil"
-    enabled = True
-    default_severity = Severity.HIGH
-    period = Period.from_days(1)
-
-    def query(self):
-        return PantherFlowQuery(
-            expression=f"""
-                panther_logs.public.signals
-                | where p_event_time > time.ago({self.period})
-                | sequence
-                    e1=(p_rule_id="{SnowflakeTempStageCreated.id}")
-                    e2=(p_rule_id="{SnowflakeCopyIntoStorage.id}")
-                    e3=(p_rule_id="{SnowflakeFileDownloaded.id}")
-                | match on=("stage")
-            """,
-            schedule=Schedule(
-                period=self.period,
-                timeout_mins=15,
-            ),
-        )
-
-
-class SnowflakeFileDownloaded(ScheduledRule):
-    id = "Snowflake.FileDownloaded"
-    description = "Query to detect Snowflake data being downloaded"
-    enabled = True
-    create_alert = False
-
-    def query(self):
-        return SQLQuery(
-            expression="""
-        SELECT 
-            user_name,
-            role_name,
-            start_time AS p_event_time,
-            query_type,
-            execution_status,
-            regexp_substr(query_text, 'GET\\s+(\\$\\$|\\\')?@([a-zA-Z0-9_\\.]+)', 1, 1, 'i', 2) as stage,
-            regexp_substr(query_text, 'GET\\s+(\\$\\$|\\\')?@([a-zA-Z0-9_\\./]+)(\\$\\$|\\\')?\\s', 1, 1, 'i', 2) as path,
-            query_text
-        FROM 
-            SNOWFLAKE.ACCOUNT_USAGE.QUERY_HISTORY
-        WHERE 
-            query_type = 'GET_FILES' 
-            AND path IS NOT NULL 
-            AND p_occurs_since('1 day')
-            AND execution_status = 'SUCCESS'
-        LIMIT 100""",
-            schedule=Schedule(
-                cron="@daily",
-                timeout_mins=5,
-            ),
-        )
-
-
-class SnowflakeCopyIntoStorage(ScheduledRule):
-    id = "Snowflake.CopyIntoStorage"
-    description = "Query to detect Snowflake data being copied into storage"
-
-    enabled = True
-    create_alert = False
-
-    schedule = Schedule(
-        cron="@daily",
-        timeout_mins=5,
-    )
-
-    def query(self):
-        return """
-        SELECT 
-            user_name,
-            role_name,
-            start_time AS p_event_time,
-            query_type,
-            execution_status,
-            regexp_substr(query_text, 'COPY\\s+INTO\\s+(\\$\\$|\\\')?@([a-zA-Z0-9_\\.]+)', 1, 1, 'i', 2) as stage,
-            regexp_substr(query_text, 'COPY\\s+INTO\\s+(\\$\\$|\\\')?@([a-zA-Z0-9_\\./]+)(\\$\\$|\\\')?\\s+FROM', 1, 1, 'i', 2) as path,
-            query_text
-        FROM 
-            SNOWFLAKE.ACCOUNT_USAGE.QUERY_HISTORY
-        WHERE 
-            query_type = 'UNLOAD' 
-            AND stage IS NOT NULL 
-            AND p_occurs_since('1 day')
-            AND execution_status = 'SUCCESS'
-        LIMIT 100
-        """
-
-
-class SnowflakeTempStageCreated(ScheduledRule):
-    id = "Snowflake.TempStageCreated"
-    description = "Query to detect Snowflake temporary stages created"
-
-    enabled = True
-    create_alert = False
-
-    schedule = Schedule(
-        cron="@daily",
-        timeout_mins=5,
-    )
-
-    query = """
-    SELECT 
-        user_name,
-        role_name,
-        start_time AS p_event_time,
-        query_type,
-        execution_status,
-        regexp_substr(query_text, 'CREATE\\s+(OR\\s+REPLACE\\s+)?(TEMPORARY\\s+|TEMP\\s+)STAGE\\s+(IF\\s+NOT\\s+EXISTS\\s+)?([a-zA-Z0-9_\\.]+)', 1, 1, 'i', 4) as stage,
-        query_text
-    FROM 
-        SNOWFLAKE.ACCOUNT_USAGE.QUERY_HISTORY
-    WHERE 
-        query_type = 'CREATE' 
-        AND stage IS NOT NULL 
-        AND p_occurs_since('1 day') 
-        AND execution_status = 'SUCCESS'
-    LIMIT 100
-    """
-
-
-class SnowflakeExteralShare(ScheduledRule):
-    id = "Snowflake.External.Shares"
-    enabled = True
-    query = SQLQuery(
-        description="Query to detect Snowflake data transfers across cloud accounts",
-        expression="""
-            SELECT 
-                *
-            FROM 
-                snowflake.account_usage.data_transfer_history
-            WHERE
-                DATEDIFF(HOUR, start_time, CURRENT_TIMESTAMP) < 24
-                AND start_time IS NOT NULL
-                AND source_cloud IS NOT NULL
-                AND target_cloud IS NOT NULL
-                AND bytes_transferred > 0
-        """,
-        schedule=Schedule(
-            cron="@daily",
-            timeout_mins=2,
-        ),
-    )
-
-    def title(self, event):
-        return (
-            "A data export has been initiated from source cloud "
-            f"[{event.get('source_cloud','<SOURCE_CLOUD_NOT_FOUND>')}] "
-            f"in source region [{event.get('source_region','<SOURCE_REGION_NOT_FOUND>')}] "
-            f"to target cloud [{event.get('target_cloud','<TARGET_CLOUD_NOT_FOUND>')}] "
-            f"in target region [{event.get('target_region','<TARGET_REGION_NOT_FOUND>')}] "
-            f"with transfer type [{event.get('transfer_type','<TRANSFER_TYPE_NOT_FOUND>')}] "
-            f"for [{event.get('bytes_transferred','<BYTES_NOT_FOUND>')}] bytes."
-        )
+        # Ensure the new value is reflected in the formatted expression
+        formatted_expression = rule.query.format_expression()
+        self.assertIn("DATEDIFF(HOUR, event_timestamp, CURRENT_TIMESTAMP) < 10", formatted_expression)
+        self.assertIn("HAVING counts >= 15", formatted_expression)

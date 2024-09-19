@@ -1291,6 +1291,17 @@ files = [
 ]
 
 [[package]]
+name = "types-croniter"
+version = "3.0.3.20240731"
+description = "Typing stubs for croniter"
+optional = false
+python-versions = ">=3.8"
+files = [
+    {file = "types-croniter-3.0.3.20240731.tar.gz", hash = "sha256:7a170660642da662c704a463b011e31c049f5a218d27d30199a80ac5e8d15002"},
+    {file = "types_croniter-3.0.3.20240731-py3-none-any.whl", hash = "sha256:da039d543e07b1db4ad93680cb837afd0f5c64974970287da8c6432d19441b71"},
+]
+
+[[package]]
 name = "types-python-dateutil"
 version = "2.9.0.20240906"
 description = "Typing stubs for python-dateutil"
@@ -1299,6 +1310,17 @@ python-versions = ">=3.8"
 files = [
     {file = "types-python-dateutil-2.9.0.20240906.tar.gz", hash = "sha256:9706c3b68284c25adffc47319ecc7947e5bb86b3773f843c73906fd598bc176e"},
     {file = "types_python_dateutil-2.9.0.20240906-py3-none-any.whl", hash = "sha256:27c8cc2d058ccb14946eebcaaa503088f4f6dbc4fb6093d3d456a49aef2753f6"},
+]
+
+[[package]]
+name = "types-pytz"
+version = "2024.2.0.20240913"
+description = "Typing stubs for pytz"
+optional = false
+python-versions = ">=3.8"
+files = [
+    {file = "types-pytz-2024.2.0.20240913.tar.gz", hash = "sha256:4433b5df4a6fc587bbed41716d86a5ba5d832b4378e506f40d34bc9c81df2c24"},
+    {file = "types_pytz-2024.2.0.20240913-py3-none-any.whl", hash = "sha256:a1eebf57ebc6e127a99d2fa2ba0a88d2b173784ef9b3defcc2004ab6855a44df"},
 ]
 
 [[package]]
@@ -1479,4 +1501,4 @@ multidict = ">=4.0"
 [metadata]
 lock-version = "2.0"
 python-versions = "3.11.*"
-content-hash = "229177f608e9ef139cb688650c5a947ea8d37a12cb6c736f15a9bab2c591f5b2"
+content-hash = "80e2de58bc51c8c2bb1d5abc4679f57f8492ebdb91c8d3bc26674258f50b58d4"

@@ -24,6 +24,8 @@ aiohttp = "^3.9.5, < 3.10.2"
 dynaconf = "^3.2.5"
 colorama = "^0.4.6"
 prettytable = "^3.10.0"
+types-pytz = "^2024.2.0.20240913"
+types-croniter = "^3.0.3.20240731"
 
 [tool.poetry.scripts]
 pypanther = 'pypanther.main:run'
