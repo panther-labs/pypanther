@@ -20,16 +20,28 @@ class Period:
         self.duration = duration
 
     @classmethod
-    def from_minutes(cls, minutes: int):
-        return cls(timedelta(minutes=int(minutes)))
+    def run_every(cls, **kwargs):
+        """
+        Create a Period specifying a combination of days, hours, minutes, and/or seconds.
 
-    @classmethod
-    def from_hours(cls, hours: int):
-        return cls(timedelta(hours=int(hours)))
+        Usage:
+            Period.run_every(days=1, hours=2, minutes=30)
+            Period.run_every(hours=5)
+            Period.run_every(minutes=45, seconds=30)
 
-    @classmethod
-    def from_days(cls, days: int):
-        return cls(timedelta(days=int(days)))
+        Parameters
+        ----------
+            **kwargs: Arbitrary keyword arguments representing time units (days, hours, minutes, seconds).
+
+        Returns
+        -------
+            Period: A new Period instance with the specified duration.
+
+        """
+        total_duration = timedelta()
+        for key, value in kwargs.items():
+            total_duration += timedelta(**{key: value})
+        return cls(total_duration)
 
     def total_minutes(self):
         return int(self.duration.total_seconds() // 60)

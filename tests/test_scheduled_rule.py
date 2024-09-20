@@ -12,6 +12,7 @@ class OCSFBruteForceConnections(ScheduledRule):
     id = "OCSF.VPC.BruteForceConnections"
     enabled = True
     default_severity = Severity.MEDIUM
+
     query = PantherFlowQuery(
         expression="""
 panther_logs.public.ocsf_networkactivity
@@ -25,11 +26,11 @@ panther_logs.public.ocsf_networkactivity
         """,
         params=PantherFlowQuery.Params(
             refuse_count=5,
-            period=Period.from_minutes(30),
+            period=Period.run_every(minutes=30),
             max_dst_port=1024,
         ),
     )
-    schedule = Schedule(period=Period.from_minutes(30))
+    schedule = Schedule(period=Period.run_every(minutes=30))
 
     def rule(self, event: PantherEvent):
         return event.get("AboveThresh")
@@ -68,7 +69,7 @@ HAVING counts >=5;
         description="Detect brute force via failed logins to Snowflake",
     )
     schedule = Schedule(
-        period=Period.from_hours(24),
+        period=Period.run_every(hours=1, minutes=42),
         enabled=True,
     )
 
@@ -148,7 +149,7 @@ WHERE
 
 class TestScheduledRule(unittest.TestCase):
     def test_period_initialization(self):
-        period = Period.from_minutes(30)
+        period = Period.run_every(minutes=30)
         self.assertEqual(period.total_minutes(), 30)
         self.assertEqual(str(period), "30m")
 
@@ -173,7 +174,7 @@ class TestScheduledRule(unittest.TestCase):
             Schedule(cron="invalid_cron")
 
     def test_schedule_initialization_with_period(self):
-        period = Period.from_hours(1)
+        period = Period.run_every(hours=1)
         schedule = Schedule(period=period)
         self.assertIsNone(schedule.cron)
         self.assertEqual(schedule.period, period)
@@ -182,7 +183,7 @@ class TestScheduledRule(unittest.TestCase):
         with pytest.raises(ValueError, match="Either cron or period must be provided"):
             Schedule()
         with pytest.raises(ValueError, match="Cannot provide both cron and period"):
-            Schedule(cron="0 0 * * *", period=Period.from_hours(1))
+            Schedule(cron="0 0 * * *", period=Period.run_every(hours=1))
 
     def test_schedule_get_next_run_time(self):
         schedule = Schedule(cron="0 0 * * *")
@@ -216,7 +217,7 @@ class TestScheduledRule(unittest.TestCase):
         self.assertEqual(rule.schedule.period.total_minutes(), 30)
 
         # Override the schedule period
-        rule.schedule.period = Period.from_minutes(60)
+        rule.schedule.period = Period.run_every(minutes=60)
         self.assertEqual(rule.schedule.period.total_minutes(), 60)
 
         # Ensure the new value is reflected in the schedule
@@ -224,7 +225,7 @@ class TestScheduledRule(unittest.TestCase):
 
         # TODO(panther): Add support for abnormal intervals (this test fails today)
         # # Override the schedule period
-        # rule.schedule.period = Period.from_minutes(90)
+        # rule.schedule.period = Period.run_every(minutes=90)
         # self.assertEqual(rule.schedule.period.total_minutes(), 90)
 
         # # Ensure the new value is reflected in the schedule
@@ -235,6 +236,12 @@ class TestScheduledRule(unittest.TestCase):
         query = rule.query
         self.assertIsInstance(query, SQLQuery)
         self.assertIn("snowflake.account_usage.login_history", query.expression)
+
+    def test_snowflake_brute_force_by_username_schedule(self):
+        rule = SnowflakeBruteForceByUsername()
+        schedule = rule.schedule
+        self.assertIsInstance(schedule, Schedule)
+        self.assertEqual(schedule.period.total_minutes(), 102)
 
     def test_snowflake_brute_force_by_username_params(self):
         rule = SnowflakeBruteForceByUsernameParams()
@@ -251,3 +258,9 @@ class TestScheduledRule(unittest.TestCase):
         formatted_expression = rule.query.format_expression()
         self.assertIn("DATEDIFF(HOUR, event_timestamp, CURRENT_TIMESTAMP) < 10", formatted_expression)
         self.assertIn("HAVING counts >= 15", formatted_expression)
+
+    def test_schedule_period_longer_than_30_days(self):
+        with pytest.raises(ValueError, match="Period must be set between 5 mins and 30 days"):
+            Schedule(period=Period.run_every(days=31))
+        with pytest.raises(ValueError, match="Period must be set between 5 mins and 30 days"):
+            Schedule(period=Period.run_every(minutes=4))
