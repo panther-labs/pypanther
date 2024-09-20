@@ -67,7 +67,10 @@ HAVING counts >=5;
         """,
         description="Detect brute force via failed logins to Snowflake",
     )
-    schedule = Schedule(period=Period.from_hours(24))
+    schedule = Schedule(
+        period=Period.from_hours(24),
+        enabled=True,
+    )
 
     def title(self, event):
         return f"User [{event.get('user_name')}] surpassed the failed logins threshold of 5"
@@ -81,20 +84,20 @@ class SnowflakeBruteForceByUsernameParams(ScheduledRule):
     query = SQLQuery(
         description="Detect brute force failed logins to Snowflake",
         expression="""
-            SELECT
-                user_name,
-                reported_client_type,
-                ARRAY_AGG(DISTINCT error_code) as error_codes,
-                ARRAY_AGG(DISTINCT error_message) as error_messages,
-                COUNT(event_id) AS counts
-            FROM snowflake.account_usage.login_history
-            WHERE
-                DATEDIFF(HOUR, event_timestamp, CURRENT_TIMESTAMP) < {period}
-                AND event_type = 'LOGIN'
-                AND error_code IS NOT NULL
-            GROUP BY reported_client_type, user_name
-            HAVING counts >= {failed_login_count};
-            """,
+SELECT
+    user_name,
+    reported_client_type,
+    ARRAY_AGG(DISTINCT error_code) as error_codes,
+    ARRAY_AGG(DISTINCT error_message) as error_messages,
+    COUNT(event_id) AS counts
+FROM snowflake.account_usage.login_history
+WHERE
+    DATEDIFF(HOUR, event_timestamp, CURRENT_TIMESTAMP) < {period}
+    AND event_type = 'LOGIN'
+    AND error_code IS NOT NULL
+GROUP BY reported_client_type, user_name
+HAVING counts >= {failed_login_count};
+""",
         params=SQLQuery.Params(failed_login_count=12, period=24),
     )
     schedule = Schedule(
@@ -113,20 +116,21 @@ class SnowflakeExteralShare(ScheduledRule):
     query = SQLQuery(
         description="Query to detect Snowflake data transfers across cloud accounts",
         expression="""
-            SELECT
-                *
-            FROM
-                snowflake.account_usage.data_transfer_history
-            WHERE
-                DATEDIFF(HOUR, start_time, CURRENT_TIMESTAMP) < 24
-                AND start_time IS NOT NULL
-                AND source_cloud IS NOT NULL
-                AND target_cloud IS NOT NULL
-                AND bytes_transferred > 0
+SELECT
+    *
+FROM
+    snowflake.account_usage.data_transfer_history
+WHERE
+    DATEDIFF(HOUR, start_time, CURRENT_TIMESTAMP) < 24
+    AND start_time IS NOT NULL
+    AND source_cloud IS NOT NULL
+    AND target_cloud IS NOT NULL
+    AND bytes_transferred > 0
         """,
     )
     schedule = Schedule(
-        cron="@daily",
+        enabled=True,
+        cron="42 10 * * *",
         timeout_mins=2,
     )
 
