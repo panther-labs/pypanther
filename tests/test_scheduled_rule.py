@@ -111,12 +111,9 @@ HAVING counts >= {failed_login_count};
         return f"Snowflake User [{user}] had more than [{self.failed_login_count}] failed logins"
 
 
-class SnowflakeExteralShare(ScheduledRule):
-    id = "Snowflake.External.Shares"
-    enabled = True
-    query = SQLQuery(
-        description="Query to detect Snowflake data transfers across cloud accounts",
-        expression="""
+class SnowflakeExternalShareQuery(SQLQuery):
+    description = "Query to detect Snowflake data transfers across cloud accounts"
+    expression = """
 SELECT
     *
 FROM
@@ -127,13 +124,14 @@ WHERE
     AND source_cloud IS NOT NULL
     AND target_cloud IS NOT NULL
     AND bytes_transferred > 0
-        """,
-    )
-    schedule = Schedule(
-        enabled=True,
-        cron="42 10 * * *",
-        timeout_mins=2,
-    )
+"""
+
+
+class SnowflakeExteralShare(ScheduledRule):
+    id = "Snowflake.External.Shares"
+    enabled = True
+    query = SnowflakeExternalShareQuery
+    schedule = Schedule(cron="42 10 * * *", timeout_mins=5)
 
     def title(self, event):
         return (

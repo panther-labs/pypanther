@@ -2,7 +2,7 @@ from abc import ABC, abstractmethod
 from dataclasses import dataclass
 from datetime import datetime, timedelta
 from types import SimpleNamespace
-from typing import Literal, Optional
+from typing import Generic, Literal, Optional, TypeVar
 
 import pytz
 from croniter import CroniterBadCronError, croniter
@@ -215,9 +215,12 @@ class SQLQuery(Query):
         pass
 
 
-class ScheduledRule(Rule, ABC):
+Q = TypeVar("Q", bound=Query)
+
+
+class ScheduledRule(Rule, ABC, Generic[Q]):
     # _analysis_type = "SCHEDULED_RULE" # not passing mypy, not sure why
-    query: Query
+    query: Q
     schedule: Schedule
 
     def rule(self, event: PantherEvent) -> bool:
