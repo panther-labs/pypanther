@@ -251,6 +251,7 @@ class LogType(str, Enum):
     TOR_EXIT_NODE = "Tor.ExitNode"
     TRAILDISCOVER_CLOUDTRAIL = "TrailDiscover.CloudTrail"
     WINDOWS_EVENT_LOGS = "Windows.EventLogs"
+    WIZ_AUDIT = "Wiz.Audit"
     WIZ_ISSUES = "Wiz.Issues"
     WORKDAY_ACTIVITY = "Workday.Activity"
     WORKDAY_SIGN_ON_ATTEMPT = "Workday.SignOnAttempt"
