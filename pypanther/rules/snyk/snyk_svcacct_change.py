@@ -1,5 +1,4 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
-from pypanther.helpers.base import deep_get
 from pypanther.helpers.snyk import snyk_alert_context
 
 snyk_service_account_change_tests: list[RuleTest] = [
@@ -227,35 +226,35 @@ class SnykServiceAccountChange(Rule):
     ]
 
     def rule(self, event):
-        action = deep_get(event, "event", default="<NO_EVENT>")
+        action = event.deep_get("event", default="<NO_EVENT>")
         return action in self.ACTIONS
 
     def title(self, event):
         group_or_org = "<GROUP_OR_ORG>"
         crud_operation = "<NO_OPERATION>"
-        action = deep_get(event, "event", default="<NO_EVENT>")
+        action = event.deep_get("event", default="<NO_EVENT>")
         if "." in action:
             group_or_org = action.split(".")[0].title()
             crud_operation = action.split(".")[-1].title()
-        return f"Snyk: [{group_or_org}] Service Account [{crud_operation}] performed by [{deep_get(event, 'userId', default='<NO_USERID>')}]"
+        return f"Snyk: [{group_or_org}] Service Account [{crud_operation}] performed by [{event.deep_get('userId', default='<NO_USERID>')}]"
 
     def alert_context(self, event):
         a_c = snyk_alert_context(event)
-        role = deep_get(event, "content", "role", "role", default=None)
+        role = event.deep_get("content", "role", "role", default=None)
         if not role:
-            role = deep_get(event, "content", "role", default=None)
+            role = event.deep_get("content", "role", default=None)
         if role:
             a_c["role_permission"] = role
         return a_c
 
     def dedup(self, event):
-        return f"{deep_get(event, 'userId', default='<NO_USERID>')}{deep_get(event, 'orgId', default='<NO_ORGID>')}{deep_get(event, 'groupId', default='<NO_GROUPID>')}{deep_get(event, 'event', default='<NO_EVENT>')}"
+        return f"{event.deep_get('userId', default='<NO_USERID>')}{event.deep_get('orgId', default='<NO_ORGID>')}{event.deep_get('groupId', default='<NO_GROUPID>')}{event.deep_get('event', default='<NO_EVENT>')}"
 
     def severity(self, event):
-        action = deep_get(event, "event", default="<NO_EVENT>")
-        role = deep_get(event, "content", "role", "role", default=None)
+        action = event.deep_get("event", default="<NO_EVENT>")
+        role = event.deep_get("content", "role", "role", default=None)
         if not role:
-            role = deep_get(event, "content", "role", default=None)
+            role = event.deep_get("content", "role", default=None)
         if all([role == "ADMIN", action.endswith((".service_account.create", ".service_account.delete"))]):
             return "CRITICAL"
         if action.endswith((".service_account.create", ".service_account.delete")):

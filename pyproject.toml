@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "pypanther"
-version = "0.1.1a46"
+version = "0.1.1a48"
 description = ""
 authors = ["Panther Labs Inc <pypi@runpanther.io>"]
 readme = "README.md"
@@ -15,7 +15,7 @@ pydantic = "^2.7.1"
 ruamel-yaml = "^0.18.6"
 ast-comments = "^1.2.2"
 panther-detection-helpers = "^0.4.0"
-panther-core = ">= 0.10, < 1.0"
+panther-core = ">= 0.11.2, < 1.0"
 boto3 = "^1.34.99"
 policyuniverse = "^1.5.1.20231109"
 jsonpath-ng = "^1.6.1"
@@ -195,4 +195,7 @@ ignore = [
     # Helpers are converted automatically, so we don't want to fix this because it could be reverted
     # next time it is generated
     "E402", # Module level import not at top of file
+]
+"tests/*" = [
+    "D106", # Missing docstring in public nested class
 ]

@@ -97,14 +97,14 @@ def setup_parser() -> argparse.ArgumentParser:
     # Get command
     get_parser = subparsers.add_parser(
         "get",
-        help="Get the class associated with a specific id",
+        help="Get the class associated with a specific id. By default includes any registered overrides.",
         formatter_class=argparse.ArgumentDefaultsHelpFormatter,
     )
     get_parser.set_defaults(func=help_printer(get_parser))
     get_subparsers = get_parser.add_subparsers()
     get_rule_parser = get_subparsers.add_parser(
         name="rule",
-        help="Get the class associated with a specific rule by id",
+        help="Get the class associated with a specific rule by id.  By default includes any registered overrides.",
         formatter_class=argparse.ArgumentDefaultsHelpFormatter,
     )
     setup_get_rule_parser(get_rule_parser)

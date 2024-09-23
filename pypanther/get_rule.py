@@ -23,9 +23,9 @@ def run(args: argparse.Namespace) -> Tuple[int, str]:
     try:
         match args.output:
             case display.OUTPUT_TYPE_TEXT:
-                display.print_rule_as_text(rule, args.class_definition)
+                display.print_rule_as_text(rule, args.managed)
             case display.OUTPUT_TYPE_JSON:
-                display.print_rule_as_json(rule, args.class_definition)
+                display.print_rule_as_json(rule, args.managed)
             case _:
                 return 1, f"Unsupported output: {args.output}"
     except OSError as e:

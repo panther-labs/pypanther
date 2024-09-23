@@ -1,5 +1,4 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
-from pypanther.helpers.base import deep_get
 from pypanther.helpers.snyk import snyk_alert_context
 
 snyk_system_external_access_tests: list[RuleTest] = [
@@ -60,27 +59,27 @@ class SnykSystemExternalAccess(Rule):
     ACTIONS = ["group.request_access_settings.edit", "org.request_access_settings.edit"]
 
     def rule(self, event):
-        action = deep_get(event, "event", default="<NO_EVENT>")
+        action = event.deep_get("event", default="<NO_EVENT>")
         return action in self.ACTIONS
 
     def title(self, event):
-        current_setting = deep_get(event, "content", "after", "isEnabled", default=False)
-        action = deep_get(event, "event", default="<NO_EVENT>")
+        current_setting = event.deep_get("content", "after", "isEnabled", default=False)
+        action = event.deep_get("event", default="<NO_EVENT>")
         if "." in action:
             action = action.split(".")[0].title()
-        return f"Snyk: [{action}] External Access settings have been modified to PermitExternalUsers:[{current_setting}] performed by [{deep_get(event, 'userId', default='<NO_USERID>')}]"
+        return f"Snyk: [{action}] External Access settings have been modified to PermitExternalUsers:[{current_setting}] performed by [{event.deep_get('userId', default='<NO_USERID>')}]"
 
     def alert_context(self, event):
         a_c = snyk_alert_context(event)
-        current_setting = deep_get(event, "content", "after", "isEnabled", default=False)
+        current_setting = event.deep_get("content", "after", "isEnabled", default=False)
         a_c["current_setting"] = current_setting
         return a_c
 
     def dedup(self, event):
-        return f"{deep_get(event, 'userId', default='<NO_USERID>')}{deep_get(event, 'orgId', default='<NO_ORGID>')}{deep_get(event, 'groupId', default='<NO_GROUPID>')}"
+        return f"{event.deep_get('userId', default='<NO_USERID>')}{event.deep_get('orgId', default='<NO_ORGID>')}{event.deep_get('groupId', default='<NO_GROUPID>')}"
 
     def severity(self, event):
-        current_setting = deep_get(event, "content", "after", "isEnabled", default=False)
+        current_setting = event.deep_get("content", "after", "isEnabled", default=False)
         if current_setting:
             return "HIGH"
         return "INFO"
