@@ -18,10 +18,15 @@ def for_filtering(parser: argparse.ArgumentParser) -> None:
     )
     parser.add_argument(
         "--create-alert",
-        help="Filter by create alert",
-        type=bool,
+        help="Filter by items that create alerts",
         default=None,
-        required=False,
+        action="store_true",
+    )
+    parser.add_argument(
+        "--no-create-alert",
+        help="Filter by items that don't create alerts",
+        dest="create_alert",
+        action="store_false",
     )
     parser.add_argument(
         "--dedup-period-minutes",
@@ -39,10 +44,15 @@ def for_filtering(parser: argparse.ArgumentParser) -> None:
     )
     parser.add_argument(
         "--enabled",
-        help="Filter by enabled status",
-        type=bool,
+        help="Filter only on enabled items",
         default=None,
-        required=False,
+        action="store_true",
+    )
+    parser.add_argument(
+        "--disabled",
+        help="Filter only on disabled items",
+        dest="enabled",
+        action="store_false",
     )
     parser.add_argument(
         "--summary-attributes",

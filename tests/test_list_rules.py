@@ -13,10 +13,10 @@ FILTER_ARGS = [
     ""  # no filter
     "--log-types a b",
     "--id abc",
-    "--create-alert true",
+    "--create-alert",
     "--dedup-period-minutes 5",
     "--display-name 5",
-    "--enabled true",
+    "--enabled",
     "--summary-attributes a b",
     "--threshold 9",
     "--tags a b",
