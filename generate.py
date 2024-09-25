@@ -443,11 +443,27 @@ class DropGlobal(ast.NodeTransformer):
 
 
 class DropClassAttributes(ast.NodeTransformer):
+    """
+    This node transformer takes a list of attribute names and deletes all assignments to them.
+
+    A call like `DropClassAttributes(["A"]).visit(tree)` transforms this:
+    ```
+    class Foo:
+        A = 1
+        B = 2
+    ```
+    into this:
+    ```
+    class Foo:
+        B = 2
+    ```
+    """
+
     def __init__(self, attribute_names: list[str]):
         super().__init__()
         self.attribute_names = attribute_names
 
-    def visit_Assign(self, node: ast.Assign):
+    def visit_Assign(self, node: ast.Assign) -> ast.AST | None:
         if (
             len(node.targets) == 1
             and isinstance(node.targets[0], ast.Name)
