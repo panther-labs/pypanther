@@ -11,8 +11,6 @@ from pathlib import Path
 from typing import Any, Optional, Tuple
 
 from pypanther import cli_output, display, testing
-from pypanther.import_main import NoMainModuleError, import_main
-from pypanther.registry import registered_rules
 from pypanther.backend.client import (
     AsyncBulkUploadParams,
     AsyncBulkUploadStatusParams,
@@ -23,6 +21,8 @@ from pypanther.backend.client import (
 )
 from pypanther.backend.client import Client as BackendClient
 from pypanther.backend.util import convert_unicode
+from pypanther.import_main import NoMainModuleError, import_main
+from pypanther.registry import registered_rules
 
 INDENT = " " * 2
 IGNORE_FOLDERS = [
