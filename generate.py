@@ -849,16 +849,16 @@ def ast_compare(node1, node2):
     if type(node1) is not type(node2):
         return False
 
+    if isinstance(node1, list):
+        return len(node1) == len(node2) and all(ast_compare(n1, n2) for n1, n2 in zip(node1, node2))
+
     if isinstance(node1, ast.AST):
         for k, v in vars(node1).items():
-            if k in ("lineno", "col_offset", "ctx"):
+            if k in ("lineno", "col_offset"):
                 continue
             if not ast_compare(v, getattr(node2, k)):
                 return False
         return True
-
-    if isinstance(node1, list):
-        return len(node1) == len(node2) and all(ast_compare(n1, n2) for n1, n2 in zip(node1, node2))
 
     return node1 == node2
 
