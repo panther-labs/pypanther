@@ -1,7 +1,7 @@
 from importlib import import_module
 from pkgutil import walk_packages
 from types import ModuleType
-from typing import Any, List, Set, Type
+from typing import Any, Iterable, List, Set, Type
 
 from pydantic import NonNegativeInt, PositiveInt
 
@@ -91,7 +91,7 @@ def get_rules(module: Any) -> list[Type[Rule]]:
     return list(subclasses)
 
 
-def apply_overrides(module: Any, rules: list[Type[Rule]]=[]) -> list[Type[str]]:
+def apply_overrides(module: Any, rules: Iterable[Type[Rule]] = []) -> list[str]:
     """
     Applies any overrides to the given rules based on the overrides declared in the given module.
     Returns a list of the modules with apply_overrides functions that were applied.
@@ -107,8 +107,8 @@ def apply_overrides(module: Any, rules: list[Type[Rule]]=[]) -> list[Type[str]]:
     """
     if not isinstance(module, ModuleType):
         raise TypeError(f"Expected a module, got {type(module)}")
-    
-    modules = set()
+
+    modules = []
 
     for module_info in walk_packages(module.__path__, prefix=module.__name__ + "."):
         m = import_module(module_info.name)
@@ -116,9 +116,9 @@ def apply_overrides(module: Any, rules: list[Type[Rule]]=[]) -> list[Type[str]]:
         # but still explictly check for it
         if "apply_overrides" in dir(m):
             m.apply_overrides(rules)
-            modules.add(m)
+            modules.append(str(m))
 
-    return list(modules)
+    return modules
 
 
 def get_panther_data_models(**kwargs) -> list[Type[DataModel]]:

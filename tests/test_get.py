@@ -3,7 +3,7 @@ from unittest import TestCase
 
 import pytest
 
-from pypanther.get import get_panther_rules, get_rules, apply_overrides
+from pypanther.get import apply_overrides, get_panther_rules, get_rules
 
 
 class TestGetPantherRules(TestCase):
