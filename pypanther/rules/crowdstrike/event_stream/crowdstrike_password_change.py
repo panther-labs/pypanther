@@ -2,125 +2,6 @@ from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.base import key_value_list_to_dict
 from pypanther.helpers.crowdstrike_event_streams import cs_alert_context
 
-crowdstrike_user_password_change_tests: list[RuleTest] = [
-    RuleTest(
-        name="Own Password Changed",
-        expected_result=True,
-        log={
-            "event": {
-                "AuditKeyValues": [
-                    {"Key": "target_uuid", "ValueString": "e70e5306-4a83-4a9f-9b59-a78c304c438b"},
-                    {"Key": "target_cid", "ValueString": "fake_customer_id"},
-                    {"Key": "actor_cid", "ValueString": "fake_customer_id"},
-                    {"Key": "trace_id", "ValueString": "f4f8b3233619bdf49ea2a2d108ce39d8"},
-                    {"Key": "target_name", "ValueString": "peregrin.took@hobbiton.co"},
-                    {"Key": "action_target_name", "ValueString": "peregrin.took@hobbiton.co"},
-                ],
-                "OperationName": "changePassword",
-                "ServiceName": "CrowdStrike Authentication",
-                "Success": True,
-                "UTCTimestamp": "2024-07-22 16:15:36.535000000",
-                "UserId": "peregrin.took@hobbiton.co",
-                "UserIp": "1.1.1.1",
-            },
-            "metadata": {
-                "customerIDString": "fake_customer_id",
-                "eventCreationTime": "2024-07-22 16:15:36.535000000",
-                "eventType": "AuthActivityAuditEvent",
-                "offset": 341447,
-                "version": "1.0",
-            },
-        },
-    ),
-    RuleTest(
-        name="Password Changed for Different User",
-        expected_result=True,
-        log={
-            "event": {
-                "AuditKeyValues": [
-                    {"Key": "target_uuid", "ValueString": "e70e5306-4a83-4a9f-9b59-a78c304c438b"},
-                    {"Key": "target_cid", "ValueString": "fake_customer_id"},
-                    {"Key": "actor_cid", "ValueString": "fake_customer_id"},
-                    {"Key": "trace_id", "ValueString": "f4f8b3233619bdf49ea2a2d108ce39d8"},
-                    {"Key": "target_name", "ValueString": "peregrin.took@hobbiton.co"},
-                    {"Key": "action_target_name", "ValueString": "peregrin.took@hobbiton.co"},
-                ],
-                "OperationName": "changePassword",
-                "ServiceName": "CrowdStrike Authentication",
-                "Success": True,
-                "UTCTimestamp": "2024-07-22 16:15:36.535000000",
-                "UserId": "bilbo.baggins@hobbiton.co",
-                "UserIp": "1.1.1.1",
-            },
-            "metadata": {
-                "customerIDString": "fake_customer_id",
-                "eventCreationTime": "2024-07-22 16:15:36.535000000",
-                "eventType": "AuthActivityAuditEvent",
-                "offset": 341447,
-                "version": "1.0",
-            },
-        },
-    ),
-    RuleTest(
-        name="Unsuccessful Password Change Attempt",
-        expected_result=False,
-        log={
-            "event": {
-                "AuditKeyValues": [
-                    {"Key": "target_uuid", "ValueString": "e70e5306-4a83-4a9f-9b59-a78c304c438b"},
-                    {"Key": "target_cid", "ValueString": "fake_customer_id"},
-                    {"Key": "actor_cid", "ValueString": "fake_customer_id"},
-                    {"Key": "trace_id", "ValueString": "f4f8b3233619bdf49ea2a2d108ce39d8"},
-                    {"Key": "target_name", "ValueString": "peregrin.took@hobbiton.co"},
-                    {"Key": "action_target_name", "ValueString": "peregrin.took@hobbiton.co"},
-                ],
-                "OperationName": "changePassword",
-                "ServiceName": "CrowdStrike Authentication",
-                "Success": False,
-                "UTCTimestamp": "2024-07-22 16:15:36.535000000",
-                "UserId": "bilbo.baggins@hobbiton.co",
-                "UserIp": "1.1.1.1",
-            },
-            "metadata": {
-                "customerIDString": "fake_customer_id",
-                "eventCreationTime": "2024-07-22 16:15:36.535000000",
-                "eventType": "AuthActivityAuditEvent",
-                "offset": 341447,
-                "version": "1.0",
-            },
-        },
-    ),
-    RuleTest(
-        name="Unrelated Event",
-        expected_result=False,
-        log={
-            "event": {
-                "AuditKeyValues": [
-                    {"Key": "target_uuid", "ValueString": "e70e5306-4a83-4a9f-9b59-a78c304c438b"},
-                    {"Key": "target_cid", "ValueString": "fake_customer_id"},
-                    {"Key": "actor_cid", "ValueString": "fake_customer_id"},
-                    {"Key": "trace_id", "ValueString": "652fc606f369ef3105925197b34f2c54"},
-                    {"Key": "target_name", "ValueString": "peregrin.took@hobbiton.co"},
-                    {"Key": "action_target_name", "ValueString": "peregrin.took@hobbiton.co"},
-                ],
-                "OperationName": "userAuthenticate",
-                "ServiceName": "CrowdStrike Authentication",
-                "Success": True,
-                "UTCTimestamp": "2024-07-22 15:50:16.923000000",
-                "UserId": "peregrin.took@hobbiton.co",
-                "UserIp": "1.1.1.1",
-            },
-            "metadata": {
-                "customerIDString": "fake_customer_id",
-                "eventCreationTime": "2024-07-22 15:50:16.923000000",
-                "eventType": "AuthActivityAuditEvent",
-                "offset": 341329,
-                "version": "1.0",
-            },
-        },
-    ),
-]
-
 
 @panther_managed
 class CrowdstrikeUserPasswordChange(Rule):
@@ -131,7 +12,6 @@ class CrowdstrikeUserPasswordChange(Rule):
     reports = {"MITRE ATT&CK": ["TA0003:T1098.001", "TA0004:T1098.001"]}
     default_description = "A user's password was changed"
     default_runbook = "Validate this action was authorized."
-    tests = crowdstrike_user_password_change_tests
 
     def rule(self, event):
         return all([event.deep_get("event", "OperationName") == "changePassword", event.deep_get("event", "Success")])
@@ -155,3 +35,122 @@ class CrowdstrikeUserPasswordChange(Rule):
 
     def alert_context(self, event):
         return cs_alert_context(event)
+
+    tests = [
+        RuleTest(
+            name="Own Password Changed",
+            expected_result=True,
+            log={
+                "event": {
+                    "AuditKeyValues": [
+                        {"Key": "target_uuid", "ValueString": "e70e5306-4a83-4a9f-9b59-a78c304c438b"},
+                        {"Key": "target_cid", "ValueString": "fake_customer_id"},
+                        {"Key": "actor_cid", "ValueString": "fake_customer_id"},
+                        {"Key": "trace_id", "ValueString": "f4f8b3233619bdf49ea2a2d108ce39d8"},
+                        {"Key": "target_name", "ValueString": "peregrin.took@hobbiton.co"},
+                        {"Key": "action_target_name", "ValueString": "peregrin.took@hobbiton.co"},
+                    ],
+                    "OperationName": "changePassword",
+                    "ServiceName": "CrowdStrike Authentication",
+                    "Success": True,
+                    "UTCTimestamp": "2024-07-22 16:15:36.535000000",
+                    "UserId": "peregrin.took@hobbiton.co",
+                    "UserIp": "1.1.1.1",
+                },
+                "metadata": {
+                    "customerIDString": "fake_customer_id",
+                    "eventCreationTime": "2024-07-22 16:15:36.535000000",
+                    "eventType": "AuthActivityAuditEvent",
+                    "offset": 341447,
+                    "version": "1.0",
+                },
+            },
+        ),
+        RuleTest(
+            name="Password Changed for Different User",
+            expected_result=True,
+            log={
+                "event": {
+                    "AuditKeyValues": [
+                        {"Key": "target_uuid", "ValueString": "e70e5306-4a83-4a9f-9b59-a78c304c438b"},
+                        {"Key": "target_cid", "ValueString": "fake_customer_id"},
+                        {"Key": "actor_cid", "ValueString": "fake_customer_id"},
+                        {"Key": "trace_id", "ValueString": "f4f8b3233619bdf49ea2a2d108ce39d8"},
+                        {"Key": "target_name", "ValueString": "peregrin.took@hobbiton.co"},
+                        {"Key": "action_target_name", "ValueString": "peregrin.took@hobbiton.co"},
+                    ],
+                    "OperationName": "changePassword",
+                    "ServiceName": "CrowdStrike Authentication",
+                    "Success": True,
+                    "UTCTimestamp": "2024-07-22 16:15:36.535000000",
+                    "UserId": "bilbo.baggins@hobbiton.co",
+                    "UserIp": "1.1.1.1",
+                },
+                "metadata": {
+                    "customerIDString": "fake_customer_id",
+                    "eventCreationTime": "2024-07-22 16:15:36.535000000",
+                    "eventType": "AuthActivityAuditEvent",
+                    "offset": 341447,
+                    "version": "1.0",
+                },
+            },
+        ),
+        RuleTest(
+            name="Unsuccessful Password Change Attempt",
+            expected_result=False,
+            log={
+                "event": {
+                    "AuditKeyValues": [
+                        {"Key": "target_uuid", "ValueString": "e70e5306-4a83-4a9f-9b59-a78c304c438b"},
+                        {"Key": "target_cid", "ValueString": "fake_customer_id"},
+                        {"Key": "actor_cid", "ValueString": "fake_customer_id"},
+                        {"Key": "trace_id", "ValueString": "f4f8b3233619bdf49ea2a2d108ce39d8"},
+                        {"Key": "target_name", "ValueString": "peregrin.took@hobbiton.co"},
+                        {"Key": "action_target_name", "ValueString": "peregrin.took@hobbiton.co"},
+                    ],
+                    "OperationName": "changePassword",
+                    "ServiceName": "CrowdStrike Authentication",
+                    "Success": False,
+                    "UTCTimestamp": "2024-07-22 16:15:36.535000000",
+                    "UserId": "bilbo.baggins@hobbiton.co",
+                    "UserIp": "1.1.1.1",
+                },
+                "metadata": {
+                    "customerIDString": "fake_customer_id",
+                    "eventCreationTime": "2024-07-22 16:15:36.535000000",
+                    "eventType": "AuthActivityAuditEvent",
+                    "offset": 341447,
+                    "version": "1.0",
+                },
+            },
+        ),
+        RuleTest(
+            name="Unrelated Event",
+            expected_result=False,
+            log={
+                "event": {
+                    "AuditKeyValues": [
+                        {"Key": "target_uuid", "ValueString": "e70e5306-4a83-4a9f-9b59-a78c304c438b"},
+                        {"Key": "target_cid", "ValueString": "fake_customer_id"},
+                        {"Key": "actor_cid", "ValueString": "fake_customer_id"},
+                        {"Key": "trace_id", "ValueString": "652fc606f369ef3105925197b34f2c54"},
+                        {"Key": "target_name", "ValueString": "peregrin.took@hobbiton.co"},
+                        {"Key": "action_target_name", "ValueString": "peregrin.took@hobbiton.co"},
+                    ],
+                    "OperationName": "userAuthenticate",
+                    "ServiceName": "CrowdStrike Authentication",
+                    "Success": True,
+                    "UTCTimestamp": "2024-07-22 15:50:16.923000000",
+                    "UserId": "peregrin.took@hobbiton.co",
+                    "UserIp": "1.1.1.1",
+                },
+                "metadata": {
+                    "customerIDString": "fake_customer_id",
+                    "eventCreationTime": "2024-07-22 15:50:16.923000000",
+                    "eventType": "AuthActivityAuditEvent",
+                    "offset": 341329,
+                    "version": "1.0",
+                },
+            },
+        ),
+    ]

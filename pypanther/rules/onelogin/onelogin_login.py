@@ -1,30 +1,5 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 
-one_login_login_tests: list[RuleTest] = [
-    RuleTest(
-        name="Successful Login Event",
-        expected_result=True,
-        log={
-            "event_type_id": "5",
-            "actor_user_id": 123456,
-            "actor_user_name": "Bob Cat",
-            "user_id": 123456,
-            "user_name": "Bob Cat",
-        },
-    ),
-    RuleTest(
-        name="Failed Login Event",
-        expected_result=False,
-        log={
-            "event_type_id": "6",
-            "actor_user_id": 123456,
-            "actor_user_name": "Bob Cat",
-            "user_id": 123456,
-            "user_name": "Bob Cat",
-        },
-    ),
-]
-
 
 @panther_managed
 class OneLoginLogin(Rule):
@@ -36,7 +11,6 @@ class OneLoginLogin(Rule):
     default_severity = Severity.INFO
     default_description = "A OneLogin user successfully logged in."
     default_reference = "https://resources.onelogin.com/OneLogin_RiskBasedAuthentication-WP-v5.pdf"
-    tests = one_login_login_tests
 
     def rule(self, event):
         if str(event.get("event_type_id")) == "5":
@@ -45,3 +19,28 @@ class OneLoginLogin(Rule):
 
     def title(self, event):
         return f"A user [{event.get('user_name', '<UNKNOWN_USER>')}] successfully logged in"
+
+    tests = [
+        RuleTest(
+            name="Successful Login Event",
+            expected_result=True,
+            log={
+                "event_type_id": "5",
+                "actor_user_id": 123456,
+                "actor_user_name": "Bob Cat",
+                "user_id": 123456,
+                "user_name": "Bob Cat",
+            },
+        ),
+        RuleTest(
+            name="Failed Login Event",
+            expected_result=False,
+            log={
+                "event_type_id": "6",
+                "actor_user_id": 123456,
+                "actor_user_name": "Bob Cat",
+                "user_id": 123456,
+                "user_name": "Bob Cat",
+            },
+        ),
+    ]

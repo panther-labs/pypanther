@@ -1,51 +1,6 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.base import deep_get
 
-duo_user_bypass_code_used_tests: list[RuleTest] = [
-    RuleTest(
-        name="bypass_code_used",
-        expected_result=True,
-        log={
-            "access_device": {"ip": "12.12.112.25", "os": "Mac OS X"},
-            "auth_device": {"ip": "12.12.12.12"},
-            "application": {"key": "D12345", "name": "Slack"},
-            "event_type": "authentication",
-            "factor": "duo_push",
-            "reason": "bypass_user",
-            "result": "success",
-            "user": {"name": "example@example.io"},
-        },
-    ),
-    RuleTest(
-        name="good_auth",
-        expected_result=False,
-        log={
-            "access_device": {"ip": "12.12.112.25", "os": "Mac OS X"},
-            "auth_device": {"ip": "12.12.12.12"},
-            "application": {"key": "D12345", "name": "Slack"},
-            "event_type": "authentication",
-            "factor": "duo_push",
-            "reason": "user_approved",
-            "result": "success",
-            "user": {"name": "example@example.io"},
-        },
-    ),
-    RuleTest(
-        name="denied_old_creds",
-        expected_result=False,
-        log={
-            "access_device": {"ip": "12.12.112.25", "os": "Mac OS X"},
-            "auth_device": {"ip": "12.12.12.12"},
-            "application": {"key": "D12345", "name": "Slack"},
-            "event_type": "authentication",
-            "factor": "duo_push",
-            "reason": "out_of_date",
-            "result": "denied",
-            "user": {"name": "example@example.io"},
-        },
-    ),
-]
-
 
 @panther_managed
 class DUOUserBypassCodeUsed(Rule):
@@ -58,7 +13,6 @@ class DUOUserBypassCodeUsed(Rule):
     default_description = "A Duo user's bypass code was used to authenticate"
     default_reference = "https://duo.com/docs/adminapi#authentication-logs"
     default_runbook = "Follow up with the user to confirm they used the bypass code themselves."
-    tests = duo_user_bypass_code_used_tests
 
     def rule(self, event):
         return event.get("reason") == "bypass_user" and event.get("result") == "success"
@@ -77,3 +31,48 @@ class DUOUserBypassCodeUsed(Rule):
             "ip_auth": deep_get(event, "auth_device", "ip", default=""),
             "application": deep_get(event, "application", "name", default=""),
         }
+
+    tests = [
+        RuleTest(
+            name="bypass_code_used",
+            expected_result=True,
+            log={
+                "access_device": {"ip": "12.12.112.25", "os": "Mac OS X"},
+                "auth_device": {"ip": "12.12.12.12"},
+                "application": {"key": "D12345", "name": "Slack"},
+                "event_type": "authentication",
+                "factor": "duo_push",
+                "reason": "bypass_user",
+                "result": "success",
+                "user": {"name": "example@example.io"},
+            },
+        ),
+        RuleTest(
+            name="good_auth",
+            expected_result=False,
+            log={
+                "access_device": {"ip": "12.12.112.25", "os": "Mac OS X"},
+                "auth_device": {"ip": "12.12.12.12"},
+                "application": {"key": "D12345", "name": "Slack"},
+                "event_type": "authentication",
+                "factor": "duo_push",
+                "reason": "user_approved",
+                "result": "success",
+                "user": {"name": "example@example.io"},
+            },
+        ),
+        RuleTest(
+            name="denied_old_creds",
+            expected_result=False,
+            log={
+                "access_device": {"ip": "12.12.112.25", "os": "Mac OS X"},
+                "auth_device": {"ip": "12.12.12.12"},
+                "application": {"key": "D12345", "name": "Slack"},
+                "event_type": "authentication",
+                "factor": "duo_push",
+                "reason": "out_of_date",
+                "result": "denied",
+                "user": {"name": "example@example.io"},
+            },
+        ),
+    ]

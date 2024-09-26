@@ -1,107 +1,6 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.base import deep_get
 
-duo_user_endpoint_failure_tests: list[RuleTest] = [
-    RuleTest(
-        name="endpoint_is_not_in_management_system",
-        expected_result=True,
-        log={
-            "access_device": {"ip": "12.12.112.25", "os": "Mac OS X"},
-            "auth_device": {"ip": "12.12.12.12"},
-            "application": {},
-            "event_type": "authentication",
-            "factor": "duo_push",
-            "reason": "endpoint_is_not_in_management_system",
-            "result": "denied",
-            "user": {"name": "example@example.io"},
-        },
-    ),
-    RuleTest(
-        name="endpoint_failed_google_verification",
-        expected_result=True,
-        log={
-            "access_device": {"ip": "12.12.112.25", "os": "Mac OS X"},
-            "auth_device": {"ip": "12.12.12.12"},
-            "application": {},
-            "event_type": "authentication",
-            "factor": "duo_push",
-            "reason": "endpoint_failed_google_verification",
-            "result": "denied",
-            "user": {"name": "example@example.io"},
-        },
-    ),
-    RuleTest(
-        name="endpoint_is_not_trusted",
-        expected_result=True,
-        log={
-            "access_device": {"ip": "12.12.112.25", "os": "Mac OS X"},
-            "auth_device": {"ip": "12.12.12.12"},
-            "application": {},
-            "event_type": "authentication",
-            "factor": "duo_push",
-            "reason": "endpoint_is_not_trusted",
-            "result": "denied",
-            "user": {"name": "example@example.io"},
-        },
-    ),
-    RuleTest(
-        name="could_not_determine_if_endpoint_was_trusted",
-        expected_result=True,
-        log={
-            "access_device": {"ip": "12.12.112.25", "os": "Mac OS X"},
-            "auth_device": {"ip": "12.12.12.12"},
-            "application": {},
-            "event_type": "authentication",
-            "factor": "duo_push",
-            "reason": "could_not_determine_if_endpoint_was_trusted",
-            "result": "denied",
-            "user": {"name": "example@example.io"},
-        },
-    ),
-    RuleTest(
-        name="invalid_device",
-        expected_result=True,
-        log={
-            "access_device": {"ip": "12.12.112.25", "os": "Mac OS X"},
-            "auth_device": {"ip": "12.12.12.12"},
-            "application": {},
-            "event_type": "authentication",
-            "factor": "duo_push",
-            "reason": "invalid_device",
-            "result": "denied",
-            "user": {"name": "example@example.io"},
-        },
-    ),
-    RuleTest(
-        name="good_auth",
-        expected_result=False,
-        log={
-            "access_device": {"ip": "12.12.112.25", "os": "Mac OS X"},
-            "auth_device": {"ip": "12.12.12.12"},
-            "application": {"key": "D12345", "name": "Slack"},
-            "event_type": "authentication",
-            "factor": "duo_push",
-            "reason": "user_approved",
-            "result": "success",
-            "user": {"name": "example@example.io"},
-        },
-    ),
-    RuleTest(
-        name="denied_old_creds",
-        expected_result=False,
-        log={
-            "access_device": {"ip": "12.12.112.25", "os": "Mac OS X"},
-            "auth_device": {"ip": "12.12.12.12"},
-            "application": {"key": "D12345", "name": "Slack"},
-            "event_type": "authentication",
-            "factor": "duo_push",
-            "reason": "out_of_date",
-            "result": "denied",
-            "user": {"name": "example@example.io"},
-        },
-    ),
-]
-
 
 @panther_managed
 class DUOUserEndpointFailure(Rule):
@@ -114,7 +13,6 @@ class DUOUserEndpointFailure(Rule):
     default_description = "A Duo user's authentication was denied due to a suspicious error on the endpoint"
     default_reference = "https://duo.com/docs/adminapi#authentication-logs"
     default_runbook = "Follow up with the endpoint owner to see status. Follow up with user to verify attempts."
-    tests = duo_user_endpoint_failure_tests
 
     def rule(self, event):
         endpoint_reasons = [
@@ -141,3 +39,104 @@ class DUOUserEndpointFailure(Rule):
             "ip_auth": deep_get(event, "auth_device", "ip", default=""),
             "application": deep_get(event, "application", "name", default=""),
         }
+
+    tests = [
+        RuleTest(
+            name="endpoint_is_not_in_management_system",
+            expected_result=True,
+            log={
+                "access_device": {"ip": "12.12.112.25", "os": "Mac OS X"},
+                "auth_device": {"ip": "12.12.12.12"},
+                "application": {},
+                "event_type": "authentication",
+                "factor": "duo_push",
+                "reason": "endpoint_is_not_in_management_system",
+                "result": "denied",
+                "user": {"name": "example@example.io"},
+            },
+        ),
+        RuleTest(
+            name="endpoint_failed_google_verification",
+            expected_result=True,
+            log={
+                "access_device": {"ip": "12.12.112.25", "os": "Mac OS X"},
+                "auth_device": {"ip": "12.12.12.12"},
+                "application": {},
+                "event_type": "authentication",
+                "factor": "duo_push",
+                "reason": "endpoint_failed_google_verification",
+                "result": "denied",
+                "user": {"name": "example@example.io"},
+            },
+        ),
+        RuleTest(
+            name="endpoint_is_not_trusted",
+            expected_result=True,
+            log={
+                "access_device": {"ip": "12.12.112.25", "os": "Mac OS X"},
+                "auth_device": {"ip": "12.12.12.12"},
+                "application": {},
+                "event_type": "authentication",
+                "factor": "duo_push",
+                "reason": "endpoint_is_not_trusted",
+                "result": "denied",
+                "user": {"name": "example@example.io"},
+            },
+        ),
+        RuleTest(
+            name="could_not_determine_if_endpoint_was_trusted",
+            expected_result=True,
+            log={
+                "access_device": {"ip": "12.12.112.25", "os": "Mac OS X"},
+                "auth_device": {"ip": "12.12.12.12"},
+                "application": {},
+                "event_type": "authentication",
+                "factor": "duo_push",
+                "reason": "could_not_determine_if_endpoint_was_trusted",
+                "result": "denied",
+                "user": {"name": "example@example.io"},
+            },
+        ),
+        RuleTest(
+            name="invalid_device",
+            expected_result=True,
+            log={
+                "access_device": {"ip": "12.12.112.25", "os": "Mac OS X"},
+                "auth_device": {"ip": "12.12.12.12"},
+                "application": {},
+                "event_type": "authentication",
+                "factor": "duo_push",
+                "reason": "invalid_device",
+                "result": "denied",
+                "user": {"name": "example@example.io"},
+            },
+        ),
+        RuleTest(
+            name="good_auth",
+            expected_result=False,
+            log={
+                "access_device": {"ip": "12.12.112.25", "os": "Mac OS X"},
+                "auth_device": {"ip": "12.12.12.12"},
+                "application": {"key": "D12345", "name": "Slack"},
+                "event_type": "authentication",
+                "factor": "duo_push",
+                "reason": "user_approved",
+                "result": "success",
+                "user": {"name": "example@example.io"},
+            },
+        ),
+        RuleTest(
+            name="denied_old_creds",
+            expected_result=False,
+            log={
+                "access_device": {"ip": "12.12.112.25", "os": "Mac OS X"},
+                "auth_device": {"ip": "12.12.12.12"},
+                "application": {"key": "D12345", "name": "Slack"},
+                "event_type": "authentication",
+                "factor": "duo_push",
+                "reason": "out_of_date",
+                "result": "denied",
+                "user": {"name": "example@example.io"},
+            },
+        ),
+    ]

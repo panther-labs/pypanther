@@ -1,46 +1,5 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 
-zendesk_new_api_token_tests: list[RuleTest] = [
-    RuleTest(
-        name="Zendesk - API Token Updated",
-        expected_result=False,
-        log={
-            "url": "https://myzendek.zendesk.com/api/v2/audit_logs/111222333444.json",
-            "id": 123456789123,
-            "action_label": "Updated",
-            "actor_id": 123,
-            "actor_name": "John Doe",
-            "source_id": 123,
-            "source_type": "api_token",
-            "source_label": "API token: a new description",
-            "action": "update",
-            "change_description": "description changed from not set to a new description",
-            "ip_address": "127.0.0.1",
-            "created_at": "2021-05-28T18:39:50Z",
-            "p_log_type": "Zendesk.Audit",
-        },
-    ),
-    RuleTest(
-        name="Zendesk - API Token Created",
-        expected_result=True,
-        log={
-            "url": "https://myzendek.zendesk.com/api/v2/audit_logs/111222333444.json",
-            "id": 123456789123,
-            "action_label": "Created",
-            "actor_id": 123,
-            "actor_name": "John Doe",
-            "source_id": 123,
-            "source_type": "api_token",
-            "source_label": "API token",
-            "action": "create",
-            "change_description": "",
-            "ip_address": "127.0.0.1",
-            "created_at": "2021-05-28T18:39:50Z",
-            "p_log_type": "Zendesk.Audit",
-        },
-    ),
-]
-
 
 @panther_managed
 class ZendeskNewAPIToken(Rule):
@@ -54,7 +13,6 @@ class ZendeskNewAPIToken(Rule):
     default_runbook = "Validate the api token was created for valid use case, otherwise delete the token immediately."
     default_reference = "https://support.zendesk.com/hc/en-us/articles/4408889192858-Managing-access-to-the-Zendesk-API#topic_bsw_lfg_mmb:~:text=enable%20token%20access.-,Generating%20API%20tokens,-To%20generate%20an"
     summary_attributes = ["p_any_ip_addresses"]
-    tests = zendesk_new_api_token_tests
     API_TOKEN_ACTIONS = {"create", "destroy"}
 
     def rule(self, event):
@@ -68,3 +26,44 @@ class ZendeskNewAPIToken(Rule):
         if event.get("action", "") == "destroy":
             return "INFO"
         return "HIGH"
+
+    tests = [
+        RuleTest(
+            name="Zendesk - API Token Updated",
+            expected_result=False,
+            log={
+                "url": "https://myzendek.zendesk.com/api/v2/audit_logs/111222333444.json",
+                "id": 123456789123,
+                "action_label": "Updated",
+                "actor_id": 123,
+                "actor_name": "John Doe",
+                "source_id": 123,
+                "source_type": "api_token",
+                "source_label": "API token: a new description",
+                "action": "update",
+                "change_description": "description changed from not set to a new description",
+                "ip_address": "127.0.0.1",
+                "created_at": "2021-05-28T18:39:50Z",
+                "p_log_type": "Zendesk.Audit",
+            },
+        ),
+        RuleTest(
+            name="Zendesk - API Token Created",
+            expected_result=True,
+            log={
+                "url": "https://myzendek.zendesk.com/api/v2/audit_logs/111222333444.json",
+                "id": 123456789123,
+                "action_label": "Created",
+                "actor_id": 123,
+                "actor_name": "John Doe",
+                "source_id": 123,
+                "source_type": "api_token",
+                "source_label": "API token",
+                "action": "create",
+                "change_description": "",
+                "ip_address": "127.0.0.1",
+                "created_at": "2021-05-28T18:39:50Z",
+                "p_log_type": "Zendesk.Audit",
+            },
+        ),
+    ]

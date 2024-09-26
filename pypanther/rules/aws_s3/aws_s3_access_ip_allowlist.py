@@ -3,19 +3,6 @@ from ipaddress import ip_network
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.base import aws_rule_context
 
-awss3_server_access_ip_whitelist_tests: list[RuleTest] = [
-    RuleTest(
-        name="Access From Approved IP",
-        expected_result=False,
-        log={"remoteip": "10.0.0.1", "bucket": "my-test-bucket"},
-    ),
-    RuleTest(
-        name="Access From Unapproved IP",
-        expected_result=True,
-        log={"remoteip": "11.0.0.1", "bucket": "my-test-bucket"},
-    ),
-]
-
 
 @panther_managed
 class AWSS3ServerAccessIPWhitelist(Rule):
@@ -35,7 +22,6 @@ class AWSS3ServerAccessIPWhitelist(Rule):
     default_runbook = "Verify whether unapproved access of S3 objects occurred, and take appropriate steps to remediate damage (for example, informing related parties of unapproved access and potentially invalidating data that was accessed). Consider updating the access policies of the S3 bucket to prevent future unapproved access.\n"
     default_reference = "https://aws.amazon.com/premiumsupport/knowledge-center/block-s3-traffic-vpc-ip/"
     summary_attributes = ["bucket", "key", "remoteip"]
-    tests = awss3_server_access_ip_whitelist_tests
     # Example bucket names to watch go here
     BUCKETS_TO_MONITOR = {}
     # IP addresses (in CIDR notation) indicating approved IP ranges for accessing S3 buckets}
@@ -55,3 +41,16 @@ class AWSS3ServerAccessIPWhitelist(Rule):
 
     def alert_context(self, event):
         return aws_rule_context(event)
+
+    tests = [
+        RuleTest(
+            name="Access From Approved IP",
+            expected_result=False,
+            log={"remoteip": "10.0.0.1", "bucket": "my-test-bucket"},
+        ),
+        RuleTest(
+            name="Access From Unapproved IP",
+            expected_result=True,
+            log={"remoteip": "11.0.0.1", "bucket": "my-test-bucket"},
+        ),
+    ]

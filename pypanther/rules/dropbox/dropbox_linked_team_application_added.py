@@ -1,123 +1,6 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.base import deep_get
 
-dropbox_linked_team_application_added_tests: list[RuleTest] = [
-    RuleTest(
-        name="App linked for team is LOW severity",
-        expected_result=True,
-        log={
-            "actor": {
-                "_tag": "user",
-                "user": {
-                    "_tag": "team_member",
-                    "account_id": "dbid:xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
-                    "display_name": "user_name",
-                    "email": "user@domain.com",
-                    "team_member_id": "dbmid:xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
-                },
-            },
-            "context": {"_tag": "team"},
-            "details": {
-                ".tag": "app_link_team_details",
-                "app_info": {
-                    ".tag": "team_linked_app",
-                    "app_id": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
-                    "display_name": "dropbox-app-name",
-                },
-            },
-            "event_category": {"_tag": "apps"},
-            "event_type": {"_tag": "app_link_team", "description": "Linked app for team"},
-            "involve_non_team_member": False,
-            "origin": {
-                "access_method": {".tag": "api", "request_id": "dbarod:xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"},
-                "geo_location": {
-                    "city": "Los Angeles",
-                    "country": "US",
-                    "ip_address": "1.2.3.4",
-                    "region": "California",
-                },
-            },
-            "timestamp": "2023-02-16 20:39:34",
-        },
-    ),
-    RuleTest(
-        name="A non-team linked event does not alert",
-        expected_result=False,
-        log={
-            "actor": {
-                "_tag": "user",
-                "user": {
-                    "_tag": "team_member",
-                    "account_id": "dbid:xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
-                    "display_name": "user_name",
-                    "email": "user@domain.com",
-                    "team_member_id": "dbmid:xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
-                },
-            },
-            "context": {"_tag": "team"},
-            "details": {
-                ".tag": "app_link_member_details",
-                "app_info": {
-                    ".tag": "member_linked_app",
-                    "app_id": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
-                    "display_name": "personal-dropbox-app-name",
-                },
-            },
-            "event_category": {"_tag": "apps"},
-            "event_type": {"_tag": "app_link_member", "description": "Linked app for member"},
-            "involve_non_team_member": False,
-            "origin": {
-                "access_method": {".tag": "api", "request_id": "dbarod:xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"},
-                "geo_location": {
-                    "city": "Los Angeles",
-                    "country": "US",
-                    "ip_address": "1.2.3.4",
-                    "region": "California",
-                },
-            },
-            "timestamp": "2023-02-16 20:39:34",
-        },
-    ),
-    RuleTest(
-        name="App linked for team involving non-team member is HIGH severity",
-        expected_result=True,
-        log={
-            "actor": {
-                "_tag": "user",
-                "user": {
-                    "_tag": "team_member",
-                    "account_id": "dbid:xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
-                    "display_name": "user_name",
-                    "email": "user@domain.com",
-                    "team_member_id": "dbmid:xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
-                },
-            },
-            "context": {"_tag": "team"},
-            "details": {
-                ".tag": "app_link_team_details",
-                "app_info": {
-                    ".tag": "team_linked_app",
-                    "app_id": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
-                    "display_name": "dropbox-app-name",
-                },
-            },
-            "event_category": {"_tag": "apps"},
-            "event_type": {"_tag": "app_link_team", "description": "Linked app for team"},
-            "involve_non_team_member": True,
-            "origin": {
-                "access_method": {".tag": "api", "request_id": "dbarod:xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"},
-                "geo_location": {
-                    "city": "Los Angeles",
-                    "country": "US",
-                    "ip_address": "1.2.3.4",
-                    "region": "California",
-                },
-            },
-            "timestamp": "2023-02-16 20:39:34",
-        },
-    ),
-]
-
 
 @panther_managed
 class DropboxLinkedTeamApplicationAdded(Rule):
@@ -129,7 +12,6 @@ class DropboxLinkedTeamApplicationAdded(Rule):
     tags = ["dropbox"]
     log_types = [LogType.DROPBOX_TEAM_EVENT]
     id = "Dropbox.Linked.Team.Application.Added-prototype"
-    tests = dropbox_linked_team_application_added_tests
 
     def rule(self, event):
         return all(
@@ -190,3 +72,120 @@ class DropboxLinkedTeamApplicationAdded(Rule):
             "ip_address": deep_get(event, "origin", "geo_location", "ip_address", default="<Unknown IP address>"),
             "request_id": deep_get(event, "origin", "access_method", "request_id", default="<Unknown request ID>"),
         }
+
+    tests = [
+        RuleTest(
+            name="App linked for team is LOW severity",
+            expected_result=True,
+            log={
+                "actor": {
+                    "_tag": "user",
+                    "user": {
+                        "_tag": "team_member",
+                        "account_id": "dbid:xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+                        "display_name": "user_name",
+                        "email": "user@domain.com",
+                        "team_member_id": "dbmid:xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+                    },
+                },
+                "context": {"_tag": "team"},
+                "details": {
+                    ".tag": "app_link_team_details",
+                    "app_info": {
+                        ".tag": "team_linked_app",
+                        "app_id": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+                        "display_name": "dropbox-app-name",
+                    },
+                },
+                "event_category": {"_tag": "apps"},
+                "event_type": {"_tag": "app_link_team", "description": "Linked app for team"},
+                "involve_non_team_member": False,
+                "origin": {
+                    "access_method": {".tag": "api", "request_id": "dbarod:xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"},
+                    "geo_location": {
+                        "city": "Los Angeles",
+                        "country": "US",
+                        "ip_address": "1.2.3.4",
+                        "region": "California",
+                    },
+                },
+                "timestamp": "2023-02-16 20:39:34",
+            },
+        ),
+        RuleTest(
+            name="A non-team linked event does not alert",
+            expected_result=False,
+            log={
+                "actor": {
+                    "_tag": "user",
+                    "user": {
+                        "_tag": "team_member",
+                        "account_id": "dbid:xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+                        "display_name": "user_name",
+                        "email": "user@domain.com",
+                        "team_member_id": "dbmid:xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+                    },
+                },
+                "context": {"_tag": "team"},
+                "details": {
+                    ".tag": "app_link_member_details",
+                    "app_info": {
+                        ".tag": "member_linked_app",
+                        "app_id": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+                        "display_name": "personal-dropbox-app-name",
+                    },
+                },
+                "event_category": {"_tag": "apps"},
+                "event_type": {"_tag": "app_link_member", "description": "Linked app for member"},
+                "involve_non_team_member": False,
+                "origin": {
+                    "access_method": {".tag": "api", "request_id": "dbarod:xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"},
+                    "geo_location": {
+                        "city": "Los Angeles",
+                        "country": "US",
+                        "ip_address": "1.2.3.4",
+                        "region": "California",
+                    },
+                },
+                "timestamp": "2023-02-16 20:39:34",
+            },
+        ),
+        RuleTest(
+            name="App linked for team involving non-team member is HIGH severity",
+            expected_result=True,
+            log={
+                "actor": {
+                    "_tag": "user",
+                    "user": {
+                        "_tag": "team_member",
+                        "account_id": "dbid:xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+                        "display_name": "user_name",
+                        "email": "user@domain.com",
+                        "team_member_id": "dbmid:xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+                    },
+                },
+                "context": {"_tag": "team"},
+                "details": {
+                    ".tag": "app_link_team_details",
+                    "app_info": {
+                        ".tag": "team_linked_app",
+                        "app_id": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+                        "display_name": "dropbox-app-name",
+                    },
+                },
+                "event_category": {"_tag": "apps"},
+                "event_type": {"_tag": "app_link_team", "description": "Linked app for team"},
+                "involve_non_team_member": True,
+                "origin": {
+                    "access_method": {".tag": "api", "request_id": "dbarod:xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"},
+                    "geo_location": {
+                        "city": "Los Angeles",
+                        "country": "US",
+                        "ip_address": "1.2.3.4",
+                        "region": "California",
+                    },
+                },
+                "timestamp": "2023-02-16 20:39:34",
+            },
+        ),
+    ]

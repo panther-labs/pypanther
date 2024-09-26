@@ -2,45 +2,6 @@ from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.base import deep_get
 from pypanther.helpers.tines import tines_alert_context
 
-tines_sso_settings_tests: list[RuleTest] = [
-    RuleTest(
-        name="Tines SsoConfigurationSamlSet",
-        expected_result=True,
-        log={
-            "created_at": "2023-05-16 23:26:46",
-            "id": 1111111,
-            "inputs": {
-                "domainId": "REDACTED",
-                "fingerprint": "REDACTED",
-                "idpCertificate": "REDACTED",
-                "targetUrl": "REDACTED",
-            },
-            "operation_name": "SsoConfigurationSamlSet",
-            "request_ip": "12.12.12.12",
-            "request_user_agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Safari/537.36",
-            "tenant_id": "8888",
-            "user_email": "user@company.com",
-            "user_id": "17171",
-            "user_name": "user at company dot com",
-        },
-    ),
-    RuleTest(
-        name="Tines Login",
-        expected_result=False,
-        log={
-            "created_at": "2023-05-17 14:45:19",
-            "id": 7888888,
-            "operation_name": "Login",
-            "request_ip": "12.12.12.12",
-            "request_user_agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Safari/537.36",
-            "tenant_id": "8888",
-            "user_email": "user@company.com",
-            "user_id": "17171",
-            "user_name": "user at company dot com",
-        },
-    ),
-]
-
 
 @panther_managed
 class TinesSSOSettings(Rule):
@@ -52,7 +13,6 @@ class TinesSSOSettings(Rule):
     default_description = "Detects when Tines SSO settings are changed\n"
     default_reference = "https://www.tines.com/docs/admin/single-sign-on"
     summary_attributes = ["user_id", "operation_name", "tenant_id", "request_ip"]
-    tests = tines_sso_settings_tests
     ACTIONS = ["SsoConfigurationDefaultSet", "SsoConfigurationOidcSet", "SsoConfigurationSamlSet"]
 
     def rule(self, event):
@@ -68,3 +28,42 @@ class TinesSSOSettings(Rule):
 
     def dedup(self, event):
         return f"{deep_get(event, 'user_id', default='<NO_USERID>')}_{deep_get(event, 'operation_name', default='<NO_OPERATION>')}"
+
+    tests = [
+        RuleTest(
+            name="Tines SsoConfigurationSamlSet",
+            expected_result=True,
+            log={
+                "created_at": "2023-05-16 23:26:46",
+                "id": 1111111,
+                "inputs": {
+                    "domainId": "REDACTED",
+                    "fingerprint": "REDACTED",
+                    "idpCertificate": "REDACTED",
+                    "targetUrl": "REDACTED",
+                },
+                "operation_name": "SsoConfigurationSamlSet",
+                "request_ip": "12.12.12.12",
+                "request_user_agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Safari/537.36",
+                "tenant_id": "8888",
+                "user_email": "user@company.com",
+                "user_id": "17171",
+                "user_name": "user at company dot com",
+            },
+        ),
+        RuleTest(
+            name="Tines Login",
+            expected_result=False,
+            log={
+                "created_at": "2023-05-17 14:45:19",
+                "id": 7888888,
+                "operation_name": "Login",
+                "request_ip": "12.12.12.12",
+                "request_user_agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Safari/537.36",
+                "tenant_id": "8888",
+                "user_email": "user@company.com",
+                "user_id": "17171",
+                "user_name": "user at company dot com",
+            },
+        ),
+    ]

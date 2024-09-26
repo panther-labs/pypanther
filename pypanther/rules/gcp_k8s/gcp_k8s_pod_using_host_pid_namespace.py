@@ -2,37 +2,6 @@ from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.base import deep_get
 from pypanther.helpers.gcp_base import gcp_alert_context
 
-gcpk8s_pod_using_host_pid_namespace_tests: list[RuleTest] = [
-    RuleTest(
-        name="triggers",
-        expected_result=True,
-        log={
-            "authorizationInfo": [
-                {
-                    "granted": True,
-                    "permission": "io.k8s.core.v1.pods.create",
-                    "resource": "core/v1/namespaces/default/pods/nginx-test",
-                },
-            ],
-            "protoPayload": {"methodName": "io.k8s.core.v1.pods.create", "request": {"spec": {"hostPID": True}}},
-        },
-    ),
-    RuleTest(
-        name="ignore",
-        expected_result=False,
-        log={
-            "authorizationInfo": [
-                {
-                    "granted": True,
-                    "permission": "io.k8s.core.v1.pods.create",
-                    "resource": "core/v1/namespaces/default/pods/nginx-test",
-                },
-            ],
-            "protoPayload": {"methodName": "io.k8s.core.v1.pods.create", "request": {"spec": {"hostPID": False}}},
-        },
-    ),
-]
-
 
 @panther_managed
 class GCPK8sPodUsingHostPIDNamespace(Rule):
@@ -45,7 +14,6 @@ class GCPK8sPodUsingHostPIDNamespace(Rule):
     default_runbook = "Investigate a reason of creating a pod using the host PID namespace. Advise that it is discouraged practice. Create ticket if appropriate."
     reports = {"MITRE ATT&CK": ["TA0004:T1611", "TA0002:T1610"]}
     default_reference = "https://medium.com/snowflake/from-logs-to-detection-using-snowflake-and-panther-to-detect-k8s-threats-d72f70a504d7"
-    tests = gcpk8s_pod_using_host_pid_namespace_tests
     METHODS_TO_CHECK = ["io.k8s.core.v1.pods.create", "io.k8s.core.v1.pods.update", "io.k8s.core.v1.pods.patch"]
 
     def rule(self, event):
@@ -63,3 +31,34 @@ class GCPK8sPodUsingHostPIDNamespace(Rule):
 
     def alert_context(self, event):
         return gcp_alert_context(event)
+
+    tests = [
+        RuleTest(
+            name="triggers",
+            expected_result=True,
+            log={
+                "authorizationInfo": [
+                    {
+                        "granted": True,
+                        "permission": "io.k8s.core.v1.pods.create",
+                        "resource": "core/v1/namespaces/default/pods/nginx-test",
+                    },
+                ],
+                "protoPayload": {"methodName": "io.k8s.core.v1.pods.create", "request": {"spec": {"hostPID": True}}},
+            },
+        ),
+        RuleTest(
+            name="ignore",
+            expected_result=False,
+            log={
+                "authorizationInfo": [
+                    {
+                        "granted": True,
+                        "permission": "io.k8s.core.v1.pods.create",
+                        "resource": "core/v1/namespaces/default/pods/nginx-test",
+                    },
+                ],
+                "protoPayload": {"methodName": "io.k8s.core.v1.pods.create", "request": {"spec": {"hostPID": False}}},
+            },
+        ),
+    ]

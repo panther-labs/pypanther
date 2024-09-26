@@ -2,61 +2,6 @@ from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.asana import asana_alert_context
 from pypanther.helpers.base import deep_get
 
-asana_workspace_new_admin_tests: list[RuleTest] = [
-    RuleTest(
-        name="Team made public",
-        expected_result=False,
-        log={
-            "actor": {
-                "actor_type": "user",
-                "email": "homer.simpson@panther.io",
-                "gid": "12345",
-                "name": "Homer Simpson",
-            },
-            "context": {
-                "client_ip_address": "12.12.12.12",
-                "context_type": "web",
-                "user_agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Safari/537.36",
-            },
-            "created_at": "2022-12-16 19:35:21.026",
-            "details": {"new_value": "public"},
-            "event_category": "access_control",
-            "event_type": "team_privacy_settings_changed",
-            "gid": "12345",
-            "resource": {"gid": "12345", "name": "Example Team Name", "resource_type": "team"},
-            "p_log_type": "Asana.Audit",
-        },
-    ),
-    RuleTest(
-        name="New Workspace Admin",
-        expected_result=True,
-        log={
-            "p_log_type": "Asana.Audit",
-            "actor": {
-                "actor_type": "user",
-                "email": "homer.simpson@example.io",
-                "gid": "1234",
-                "name": "Homer Simpson",
-            },
-            "context": {
-                "client_ip_address": "12.12.12.12",
-                "context_type": "web",
-                "user_agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Safari/537.36",
-            },
-            "created_at": "2022-12-16 19:32:22.377",
-            "details": {
-                "group": {"gid": "1234", "name": "Workspace Name", "resource_type": "workspace"},
-                "new_value": "domain_admin",
-                "old_value": "member",
-            },
-            "event_category": "roles",
-            "event_type": "user_workspace_admin_role_changed",
-            "gid": "1234",
-            "resource": {"email": "target@example.io", "gid": "1234", "name": "Bart Simpson", "resource_type": "user"},
-        },
-    ),
-]
-
 
 @panther_managed
 class AsanaWorkspaceNewAdmin(Rule):
@@ -66,7 +11,6 @@ class AsanaWorkspaceNewAdmin(Rule):
     default_severity = Severity.HIGH
     log_types = [LogType.ASANA_AUDIT]
     id = "Asana.Workspace.New.Admin-prototype"
-    tests = asana_workspace_new_admin_tests
 
     def rule(self, event):
         new = deep_get(event, "details", "new_value", default="")
@@ -82,3 +26,63 @@ class AsanaWorkspaceNewAdmin(Rule):
 
     def alert_context(self, event):
         return asana_alert_context(event)
+
+    tests = [
+        RuleTest(
+            name="Team made public",
+            expected_result=False,
+            log={
+                "actor": {
+                    "actor_type": "user",
+                    "email": "homer.simpson@panther.io",
+                    "gid": "12345",
+                    "name": "Homer Simpson",
+                },
+                "context": {
+                    "client_ip_address": "12.12.12.12",
+                    "context_type": "web",
+                    "user_agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Safari/537.36",
+                },
+                "created_at": "2022-12-16 19:35:21.026",
+                "details": {"new_value": "public"},
+                "event_category": "access_control",
+                "event_type": "team_privacy_settings_changed",
+                "gid": "12345",
+                "resource": {"gid": "12345", "name": "Example Team Name", "resource_type": "team"},
+                "p_log_type": "Asana.Audit",
+            },
+        ),
+        RuleTest(
+            name="New Workspace Admin",
+            expected_result=True,
+            log={
+                "p_log_type": "Asana.Audit",
+                "actor": {
+                    "actor_type": "user",
+                    "email": "homer.simpson@example.io",
+                    "gid": "1234",
+                    "name": "Homer Simpson",
+                },
+                "context": {
+                    "client_ip_address": "12.12.12.12",
+                    "context_type": "web",
+                    "user_agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Safari/537.36",
+                },
+                "created_at": "2022-12-16 19:32:22.377",
+                "details": {
+                    "group": {"gid": "1234", "name": "Workspace Name", "resource_type": "workspace"},
+                    "new_value": "domain_admin",
+                    "old_value": "member",
+                },
+                "event_category": "roles",
+                "event_type": "user_workspace_admin_role_changed",
+                "gid": "1234",
+                "resource": {
+                    "email": "target@example.io",
+                    "gid": "1234",
+                    "name": "Bart Simpson",
+                    "resource_type": "user",
+                },
+            },
+        ),
+    ]

@@ -1,64 +1,6 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.snyk import snyk_alert_context
 
-snyk_ou_change_tests: list[RuleTest] = [
-    RuleTest(
-        name="Snyk Org Deletion ( HIGH )",
-        expected_result=True,
-        log={
-            "groupId": "8fffffff-1555-4444-b000-b55555555555",
-            "orgId": "21111111-a222-4eee-8ddd-a99999999999",
-            "event": "org.delete",
-            "content": {"orgName": "expendable-org"},
-            "created": "2023-04-09T23:32:14.649Z",
-            "userId": "05555555-3333-4ddd-8ccc-755555555555",
-        },
-    ),
-    RuleTest(
-        name="Snyk Group Org Remove ( HIGH )",
-        expected_result=True,
-        log={
-            "groupId": "8fffffff-1555-4444-b000-b55555555555",
-            "orgId": "21111111-a222-4eee-8ddd-a99999999999",
-            "event": "group.org.remove",
-            "content": {"orgName": "expendable-org"},
-            "created": "2023-04-09T23:32:14.649Z",
-            "userId": "05555555-3333-4ddd-8ccc-755555555555",
-        },
-    ),
-    RuleTest(
-        name="Snyk Group Edit ( MEDIUM )",
-        expected_result=True,
-        log={
-            "groupId": "8fffffff-1555-4444-b000-b55555555555",
-            "event": "group.edit",
-            "content": {"updatedValues": {"projectTestFrequencySetting": "daily"}},
-            "created": "2023-04-11T23:22:57.667Z",
-        },
-    ),
-    RuleTest(
-        name="Snyk Org Create ( INFO )",
-        expected_result=True,
-        log={
-            "groupId": "8fffffff-1555-4444-b000-b55555555555",
-            "event": "org.create",
-            "content": {"newOrgPublicId": "21111111-a222-4eee-8ddd-a99999999999"},
-            "created": "2023-04-11T23:12:33.206Z",
-            "userId": "05555555-3333-4ddd-8ccc-755555555555",
-        },
-    ),
-    RuleTest(
-        name="Snyk Group SSO Membership sync",
-        expected_result=False,
-        log={
-            "content": {},
-            "created": "2023-03-15 13:13:13.133",
-            "event": "group.sso.membership.sync",
-            "groupId": "8fffffff-1555-4444-b000-b55555555555",
-        },
-    ),
-]
-
 
 @panther_managed
 class SnykOUChange(Rule):
@@ -71,7 +13,6 @@ class SnykOUChange(Rule):
     default_runbook = "These actions in the Snyk Audit logs indicate that a Organization or Group setting has changed, including Group and Org creation/deletion. Deletion events are marked with HIGH severity Creation events are marked with INFO severity Edit events are marked with MEDIUM Severity\n"
     default_reference = "https://docs.snyk.io/snyk-admin/introduction-to-snyk-administration"
     summary_attributes = ["event"]
-    tests = snyk_ou_change_tests
     ACTIONS = [
         "group.create",
         "group.delete",
@@ -111,3 +52,61 @@ class SnykOUChange(Rule):
         if action.endswith(".edit"):
             return "MEDIUM"
         return "INFO"
+
+    tests = [
+        RuleTest(
+            name="Snyk Org Deletion ( HIGH )",
+            expected_result=True,
+            log={
+                "groupId": "8fffffff-1555-4444-b000-b55555555555",
+                "orgId": "21111111-a222-4eee-8ddd-a99999999999",
+                "event": "org.delete",
+                "content": {"orgName": "expendable-org"},
+                "created": "2023-04-09T23:32:14.649Z",
+                "userId": "05555555-3333-4ddd-8ccc-755555555555",
+            },
+        ),
+        RuleTest(
+            name="Snyk Group Org Remove ( HIGH )",
+            expected_result=True,
+            log={
+                "groupId": "8fffffff-1555-4444-b000-b55555555555",
+                "orgId": "21111111-a222-4eee-8ddd-a99999999999",
+                "event": "group.org.remove",
+                "content": {"orgName": "expendable-org"},
+                "created": "2023-04-09T23:32:14.649Z",
+                "userId": "05555555-3333-4ddd-8ccc-755555555555",
+            },
+        ),
+        RuleTest(
+            name="Snyk Group Edit ( MEDIUM )",
+            expected_result=True,
+            log={
+                "groupId": "8fffffff-1555-4444-b000-b55555555555",
+                "event": "group.edit",
+                "content": {"updatedValues": {"projectTestFrequencySetting": "daily"}},
+                "created": "2023-04-11T23:22:57.667Z",
+            },
+        ),
+        RuleTest(
+            name="Snyk Org Create ( INFO )",
+            expected_result=True,
+            log={
+                "groupId": "8fffffff-1555-4444-b000-b55555555555",
+                "event": "org.create",
+                "content": {"newOrgPublicId": "21111111-a222-4eee-8ddd-a99999999999"},
+                "created": "2023-04-11T23:12:33.206Z",
+                "userId": "05555555-3333-4ddd-8ccc-755555555555",
+            },
+        ),
+        RuleTest(
+            name="Snyk Group SSO Membership sync",
+            expected_result=False,
+            log={
+                "content": {},
+                "created": "2023-03-15 13:13:13.133",
+                "event": "group.sso.membership.sync",
+                "groupId": "8fffffff-1555-4444-b000-b55555555555",
+            },
+        ),
+    ]

@@ -2,69 +2,6 @@ from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.base import deep_get
 from pypanther.helpers.notion import notion_alert_context
 
-notion_page_perms_guest_perms_changed_tests: list[RuleTest] = [
-    RuleTest(
-        name="Guest Role Added",
-        expected_result=True,
-        log={
-            "event": {
-                "actor": {
-                    "id": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
-                    "object": "user",
-                    "person": {"email": "aragorn.elessar@lotr.com"},
-                    "type": "person",
-                },
-                "details": {
-                    "entity": {
-                        "id": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
-                        "object": "user",
-                        "person": {"email": "frodo.baggins@lotr.com"},
-                        "type": "person",
-                    },
-                    "new_permission": "full_access",
-                    "old_permission": "none",
-                    "page_audience": "shared_internally",
-                    "target": {"page_id": "441356b5-557b-4053-8d2f-7932d2607d66", "type": "page_id"},
-                },
-                "id": "e18690f8-e24b-4b03-ba6f-123eb7ec0f08",
-                "timestamp": "2023-08-11 23:02:53.113000000",
-                "type": "page.permissions.guest_role_added",
-                "workspace_id": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
-            },
-        },
-    ),
-    RuleTest(
-        name="Guest Role Changed",
-        expected_result=True,
-        log={
-            "event": {
-                "actor": {
-                    "id": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
-                    "object": "user",
-                    "person": {"email": "aragorn.elessar@lotr.com"},
-                    "type": "person",
-                },
-                "details": {
-                    "entity": {
-                        "id": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
-                        "object": "user",
-                        "person": {"email": "frodo.baggins@lotr.com"},
-                        "type": "person",
-                    },
-                    "new_permission": "full_access",
-                    "old_permission": "read_only",
-                    "page_audience": "shared_internally",
-                    "target": {"page_id": "441356b5-557b-4053-8d2f-7932d2607d66", "type": "page_id"},
-                },
-                "id": "e18690f8-e24b-4b03-ba6f-123eb7ec0f08",
-                "timestamp": "2023-08-11 23:02:53.113000000",
-                "type": "page.permissions.guest_role_updated",
-                "workspace_id": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
-            },
-        },
-    ),
-]
-
 
 @panther_managed
 class NotionPagePermsGuestPermsChanged(Rule):
@@ -76,7 +13,6 @@ class NotionPagePermsGuestPermsChanged(Rule):
     default_description = "The external guest permissions for a Notion page have been altered."
     default_runbook = "Potential information exposure - review the shared page and rectify if needed."
     default_reference = "https://www.notion.so/help/sharing-and-permissions"
-    tests = notion_page_perms_guest_perms_changed_tests
     # These event types correspond to users adding or editing the default role on a public page
     event_types = ("page.permissions.guest_role_added", "page.permissions.guest_role_updated")
 
@@ -103,3 +39,66 @@ class NotionPagePermsGuestPermsChanged(Rule):
         context["new_permission"] = deep_get(details, "new_permission", default="<UNKNOWN PERMISSION>")
         context["old_permission"] = deep_get(details, "old_permission", default="<UNKNOWN PERMISSION>")
         return context
+
+    tests = [
+        RuleTest(
+            name="Guest Role Added",
+            expected_result=True,
+            log={
+                "event": {
+                    "actor": {
+                        "id": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+                        "object": "user",
+                        "person": {"email": "aragorn.elessar@lotr.com"},
+                        "type": "person",
+                    },
+                    "details": {
+                        "entity": {
+                            "id": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+                            "object": "user",
+                            "person": {"email": "frodo.baggins@lotr.com"},
+                            "type": "person",
+                        },
+                        "new_permission": "full_access",
+                        "old_permission": "none",
+                        "page_audience": "shared_internally",
+                        "target": {"page_id": "441356b5-557b-4053-8d2f-7932d2607d66", "type": "page_id"},
+                    },
+                    "id": "e18690f8-e24b-4b03-ba6f-123eb7ec0f08",
+                    "timestamp": "2023-08-11 23:02:53.113000000",
+                    "type": "page.permissions.guest_role_added",
+                    "workspace_id": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+                },
+            },
+        ),
+        RuleTest(
+            name="Guest Role Changed",
+            expected_result=True,
+            log={
+                "event": {
+                    "actor": {
+                        "id": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+                        "object": "user",
+                        "person": {"email": "aragorn.elessar@lotr.com"},
+                        "type": "person",
+                    },
+                    "details": {
+                        "entity": {
+                            "id": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+                            "object": "user",
+                            "person": {"email": "frodo.baggins@lotr.com"},
+                            "type": "person",
+                        },
+                        "new_permission": "full_access",
+                        "old_permission": "read_only",
+                        "page_audience": "shared_internally",
+                        "target": {"page_id": "441356b5-557b-4053-8d2f-7932d2607d66", "type": "page_id"},
+                    },
+                    "id": "e18690f8-e24b-4b03-ba6f-123eb7ec0f08",
+                    "timestamp": "2023-08-11 23:02:53.113000000",
+                    "type": "page.permissions.guest_role_updated",
+                    "workspace_id": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+                },
+            },
+        ),
+    ]
