@@ -3,115 +3,6 @@ import datetime
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.base import deep_get, pattern_match, pattern_match_list
 
-g_suite_drive_external_file_share_tests: list[RuleTest] = [
-    RuleTest(
-        name="Dangerous Share of Known Document with a Missing User",
-        expected_result=True,
-        log={
-            "kind": "admin#reports#activity",
-            "id": {
-                "time": "2020-09-07T15:50:49.617Z",
-                "uniqueQualifier": "1111111111111111111",
-                "applicationName": "drive",
-                "customerId": "C010qxghg",
-            },
-            "actor": {"email": "example@acme.com", "profileId": "1111111111111111111"},
-            "events": [
-                {
-                    "type": "acl_change",
-                    "name": "change_user_access",
-                    "parameters": [
-                        {"name": "primary_event", "boolValue": True},
-                        {"name": "visibility_change", "value": "external"},
-                        {"name": "target_user", "value": "outside@acme.com"},
-                        {"name": "old_visibility", "value": "private"},
-                        {"name": "doc_id", "value": "1111111111111111111"},
-                        {"name": "doc_type", "value": "document"},
-                        {"name": "doc_title", "value": "Document Title Primary"},
-                        {"name": "visibility", "value": "shared_externally"},
-                        {"name": "originating_app_id", "value": "1111111111111111111"},
-                        {"name": "owner_is_shared_drive", "boolValue": False},
-                        {"name": "owner_is_team_drive", "boolValue": False},
-                        {"name": "old_value", "multiValue": ["none"]},
-                        {"name": "new_value", "multiValue": ["can_edit"]},
-                    ],
-                },
-            ],
-        },
-    ),
-    RuleTest(
-        name="Dangerous Share of Unknown Document",
-        expected_result=True,
-        log={
-            "kind": "admin#reports#activity",
-            "id": {
-                "time": "2020-09-07T15:50:49.617Z",
-                "uniqueQualifier": "1111111111111111111",
-                "applicationName": "drive",
-                "customerId": "C010qxghg",
-            },
-            "actor": {"email": "example@acme.com", "profileId": "1111111111111111111"},
-            "events": [
-                {
-                    "type": "acl_change",
-                    "name": "change_user_access",
-                    "parameters": [
-                        {"name": "primary_event", "boolValue": True},
-                        {"name": "visibility_change", "value": "external"},
-                        {"name": "target_user", "value": "alice@external.com"},
-                        {"name": "old_visibility", "value": "private"},
-                        {"name": "doc_id", "value": "1111111111111111111"},
-                        {"name": "doc_type", "value": "document"},
-                        {"name": "doc_title", "value": "Untitled document"},
-                        {"name": "visibility", "value": "shared_externally"},
-                        {"name": "originating_app_id", "value": "1111111111111111111"},
-                        {"name": "owner_is_shared_drive", "boolValue": False},
-                        {"name": "owner_is_team_drive", "boolValue": False},
-                        {"name": "old_value", "multiValue": ["none"]},
-                        {"name": "new_value", "multiValue": ["can_edit"]},
-                    ],
-                },
-            ],
-        },
-    ),
-    RuleTest(
-        name="Share Allowed by Exception",
-        expected_result=False,
-        log={
-            "kind": "admin#reports#activity",
-            "id": {
-                "time": "2020-07-07T15:50:49.617Z",
-                "uniqueQualifier": "1111111111111111111",
-                "applicationName": "drive",
-                "customerId": "C010qxghg",
-            },
-            "actor": {"email": "alice@acme.com", "profileId": "1111111111111111111"},
-            "events": [
-                {
-                    "type": "acl_change",
-                    "name": "change_user_access",
-                    "parameters": [
-                        {"name": "primary_event", "boolValue": True},
-                        {"name": "billable", "boolValue": True},
-                        {"name": "visibility_change", "value": "external"},
-                        {"name": "target_domain", "value": "acme.com"},
-                        {"name": "old_visibility", "value": "private"},
-                        {"name": "doc_id", "value": "1111111111111111111"},
-                        {"name": "doc_type", "value": "document"},
-                        {"name": "doc_title", "value": "Document Title Pattern"},
-                        {"name": "visibility", "value": "shared_externally"},
-                        {"name": "originating_app_id", "value": "1111111111111111111"},
-                        {"name": "owner_is_shared_drive", "boolValue": False},
-                        {"name": "owner_is_team_drive", "boolValue": False},
-                        {"name": "old_value", "multiValue": ["none"]},
-                        {"name": "new_value", "multiValue": ["people_within_domain_with_link"]},
-                    ],
-                },
-            ],
-        },
-    ),
-]
-
 
 @panther_managed
 class GSuiteDriveExternalFileShare(Rule):
@@ -127,7 +18,6 @@ class GSuiteDriveExternalFileShare(Rule):
     default_reference = (
         "https://support.google.com/docs/answer/2494822?hl=en&co=GENIE.Platform%3DiOS&sjid=864417124752637253-EU"
     )
-    tests = g_suite_drive_external_file_share_tests
     COMPANY_DOMAIN = "your-company-name.com"
     # The glob pattern for the document title (lowercased)
     # All actors allowed to receive the file share
@@ -201,3 +91,112 @@ class GSuiteDriveExternalFileShare(Rule):
                 )
             return f'Dangerous file share by [{actor}]: "{doc_title}" to {target_user}'
         return "No matching events, but DangerousShares still fired"
+
+    tests = [
+        RuleTest(
+            name="Dangerous Share of Known Document with a Missing User",
+            expected_result=True,
+            log={
+                "kind": "admin#reports#activity",
+                "id": {
+                    "time": "2020-09-07T15:50:49.617Z",
+                    "uniqueQualifier": "1111111111111111111",
+                    "applicationName": "drive",
+                    "customerId": "C010qxghg",
+                },
+                "actor": {"email": "example@acme.com", "profileId": "1111111111111111111"},
+                "events": [
+                    {
+                        "type": "acl_change",
+                        "name": "change_user_access",
+                        "parameters": [
+                            {"name": "primary_event", "boolValue": True},
+                            {"name": "visibility_change", "value": "external"},
+                            {"name": "target_user", "value": "outside@acme.com"},
+                            {"name": "old_visibility", "value": "private"},
+                            {"name": "doc_id", "value": "1111111111111111111"},
+                            {"name": "doc_type", "value": "document"},
+                            {"name": "doc_title", "value": "Document Title Primary"},
+                            {"name": "visibility", "value": "shared_externally"},
+                            {"name": "originating_app_id", "value": "1111111111111111111"},
+                            {"name": "owner_is_shared_drive", "boolValue": False},
+                            {"name": "owner_is_team_drive", "boolValue": False},
+                            {"name": "old_value", "multiValue": ["none"]},
+                            {"name": "new_value", "multiValue": ["can_edit"]},
+                        ],
+                    },
+                ],
+            },
+        ),
+        RuleTest(
+            name="Dangerous Share of Unknown Document",
+            expected_result=True,
+            log={
+                "kind": "admin#reports#activity",
+                "id": {
+                    "time": "2020-09-07T15:50:49.617Z",
+                    "uniqueQualifier": "1111111111111111111",
+                    "applicationName": "drive",
+                    "customerId": "C010qxghg",
+                },
+                "actor": {"email": "example@acme.com", "profileId": "1111111111111111111"},
+                "events": [
+                    {
+                        "type": "acl_change",
+                        "name": "change_user_access",
+                        "parameters": [
+                            {"name": "primary_event", "boolValue": True},
+                            {"name": "visibility_change", "value": "external"},
+                            {"name": "target_user", "value": "alice@external.com"},
+                            {"name": "old_visibility", "value": "private"},
+                            {"name": "doc_id", "value": "1111111111111111111"},
+                            {"name": "doc_type", "value": "document"},
+                            {"name": "doc_title", "value": "Untitled document"},
+                            {"name": "visibility", "value": "shared_externally"},
+                            {"name": "originating_app_id", "value": "1111111111111111111"},
+                            {"name": "owner_is_shared_drive", "boolValue": False},
+                            {"name": "owner_is_team_drive", "boolValue": False},
+                            {"name": "old_value", "multiValue": ["none"]},
+                            {"name": "new_value", "multiValue": ["can_edit"]},
+                        ],
+                    },
+                ],
+            },
+        ),
+        RuleTest(
+            name="Share Allowed by Exception",
+            expected_result=False,
+            log={
+                "kind": "admin#reports#activity",
+                "id": {
+                    "time": "2020-07-07T15:50:49.617Z",
+                    "uniqueQualifier": "1111111111111111111",
+                    "applicationName": "drive",
+                    "customerId": "C010qxghg",
+                },
+                "actor": {"email": "alice@acme.com", "profileId": "1111111111111111111"},
+                "events": [
+                    {
+                        "type": "acl_change",
+                        "name": "change_user_access",
+                        "parameters": [
+                            {"name": "primary_event", "boolValue": True},
+                            {"name": "billable", "boolValue": True},
+                            {"name": "visibility_change", "value": "external"},
+                            {"name": "target_domain", "value": "acme.com"},
+                            {"name": "old_visibility", "value": "private"},
+                            {"name": "doc_id", "value": "1111111111111111111"},
+                            {"name": "doc_type", "value": "document"},
+                            {"name": "doc_title", "value": "Document Title Pattern"},
+                            {"name": "visibility", "value": "shared_externally"},
+                            {"name": "originating_app_id", "value": "1111111111111111111"},
+                            {"name": "owner_is_shared_drive", "boolValue": False},
+                            {"name": "owner_is_team_drive", "boolValue": False},
+                            {"name": "old_value", "multiValue": ["none"]},
+                            {"name": "new_value", "multiValue": ["people_within_domain_with_link"]},
+                        ],
+                    },
+                ],
+            },
+        ),
+    ]

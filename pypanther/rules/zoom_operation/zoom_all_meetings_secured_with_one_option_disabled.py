@@ -1,40 +1,5 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 
-zoom_all_meetings_secured_with_one_option_disabled_tests: list[RuleTest] = [
-    RuleTest(
-        name="Turn off",
-        expected_result=True,
-        log={
-            "action": "Update",
-            "category_type": "Account",
-            "operation_detail": "Security  - Require that all meetings are secured with one security option: from On to Off",
-            "operator": "example@example.io",
-            "time": "2022-12-16 18:15:38",
-        },
-    ),
-    RuleTest(
-        name="Turn on",
-        expected_result=False,
-        log={
-            "action": "Update",
-            "category_type": "Account",
-            "operation_detail": "Security  - Require that all meetings are secured with one security option: from Off to On",
-            "operator": "example@example.io",
-            "time": "2022-12-16 18:15:38",
-        },
-    ),
-    RuleTest(
-        name="Non admin user update",
-        expected_result=False,
-        log={
-            "action": "Update",
-            "category_type": "User",
-            "operation_detail": "Update User example@example.io  - Job Title: set to Contractor",
-            "operator": "homer@example.io",
-        },
-    ),
-]
-
 
 @panther_managed
 class ZoomAllMeetingsSecuredWithOneOptionDisabled(Rule):
@@ -49,7 +14,6 @@ class ZoomAllMeetingsSecuredWithOneOptionDisabled(Rule):
     default_severity = Severity.MEDIUM
     log_types = [LogType.ZOOM_OPERATION]
     id = "Zoom.All.Meetings.Secured.With.One.Option.Disabled-prototype"
-    tests = zoom_all_meetings_secured_with_one_option_disabled_tests
 
     def rule(self, event):
         operation_detail = event.get("operation_detail", "<NO_OPS_DETAIL>")
@@ -62,3 +26,38 @@ class ZoomAllMeetingsSecuredWithOneOptionDisabled(Rule):
 
     def title(self, event):
         return f"Zoom User [{event.get('operator', '<NO_OPERATOR>')}] turned off your organization's requirement to secure all meetings with one security option."
+
+    tests = [
+        RuleTest(
+            name="Turn off",
+            expected_result=True,
+            log={
+                "action": "Update",
+                "category_type": "Account",
+                "operation_detail": "Security  - Require that all meetings are secured with one security option: from On to Off",
+                "operator": "example@example.io",
+                "time": "2022-12-16 18:15:38",
+            },
+        ),
+        RuleTest(
+            name="Turn on",
+            expected_result=False,
+            log={
+                "action": "Update",
+                "category_type": "Account",
+                "operation_detail": "Security  - Require that all meetings are secured with one security option: from Off to On",
+                "operator": "example@example.io",
+                "time": "2022-12-16 18:15:38",
+            },
+        ),
+        RuleTest(
+            name="Non admin user update",
+            expected_result=False,
+            log={
+                "action": "Update",
+                "category_type": "User",
+                "operation_detail": "Update User example@example.io  - Job Title: set to Contractor",
+                "operator": "homer@example.io",
+            },
+        ),
+    ]

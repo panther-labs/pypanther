@@ -1,126 +1,6 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.base import aws_rule_context, deep_get
 
-aws_user_login_profile_modified_tests: list[RuleTest] = [
-    RuleTest(
-        name="ChangeOwnPassword",
-        expected_result=False,
-        log={
-            "awsRegion": "us-east-1",
-            "eventCategory": "Management",
-            "eventID": "1234",
-            "eventName": "UpdateLoginProfile",
-            "eventSource": "iam.amazonaws.com",
-            "eventTime": "2022-09-15 13:45:24",
-            "eventType": "AwsApiCall",
-            "eventVersion": "1.08",
-            "managementEvent": True,
-            "readOnly": False,
-            "recipientAccountId": "987654321",
-            "requestParameters": {"passwordResetRequired": False, "userName": "alice"},
-            "sessionCredentialFromConsole": True,
-            "sourceIPAddress": "AWS Internal",
-            "userAgent": "AWS Internal",
-            "userIdentity": {
-                "accessKeyId": "ABC1234",
-                "accountId": "987654321",
-                "arn": "arn:aws:sts::98765432:assumed-role/IAM/alice",
-                "principalId": "ABCDE:alice",
-                "sessionContext": {
-                    "attributes": {"creationDate": "2022-09-15T13:36:47Z", "mfaAuthenticated": "true"},
-                    "sessionIssuer": {
-                        "accountId": "987654321",
-                        "arn": "arn:aws:iam::9876432:role/IAM",
-                        "principalId": "1234ABC",
-                        "type": "Role",
-                        "userName": "IAM",
-                    },
-                    "webIdFederationData": {},
-                },
-                "type": "AssumedRole",
-            },
-        },
-    ),
-    RuleTest(
-        name="User changed password for other",
-        expected_result=True,
-        log={
-            "awsRegion": "us-east-1",
-            "eventCategory": "Management",
-            "eventID": "1234",
-            "eventName": "UpdateLoginProfile",
-            "eventSource": "iam.amazonaws.com",
-            "eventTime": "2022-09-15 13:45:24",
-            "eventType": "AwsApiCall",
-            "eventVersion": "1.08",
-            "managementEvent": True,
-            "readOnly": False,
-            "recipientAccountId": "987654321",
-            "requestParameters": {"passwordResetRequired": False, "userName": "bob"},
-            "sessionCredentialFromConsole": True,
-            "sourceIPAddress": "AWS Internal",
-            "userAgent": "AWS Internal",
-            "userIdentity": {
-                "accessKeyId": "ABC1234",
-                "accountId": "987654321",
-                "arn": "arn:aws:sts::98765432:assumed-role/IAM/alice",
-                "principalId": "ABCDE:alice",
-                "sessionContext": {
-                    "attributes": {"creationDate": "2022-09-15T13:36:47Z", "mfaAuthenticated": "true"},
-                    "sessionIssuer": {
-                        "accountId": "987654321",
-                        "arn": "arn:aws:iam::9876432:role/IAM",
-                        "principalId": "1234ABC",
-                        "type": "Role",
-                        "userName": "IAM",
-                    },
-                    "webIdFederationData": {},
-                },
-                "type": "AssumedRole",
-            },
-        },
-    ),
-    RuleTest(
-        name="User changed password for other reset required",
-        expected_result=False,
-        log={
-            "awsRegion": "us-east-1",
-            "eventCategory": "Management",
-            "eventID": "1234",
-            "eventName": "UpdateLoginProfile",
-            "eventSource": "iam.amazonaws.com",
-            "eventTime": "2022-09-15 13:45:24",
-            "eventType": "AwsApiCall",
-            "eventVersion": "1.08",
-            "managementEvent": True,
-            "readOnly": False,
-            "recipientAccountId": "987654321",
-            "requestParameters": {"passwordResetRequired": True, "userName": "bob"},
-            "sessionCredentialFromConsole": True,
-            "sourceIPAddress": "AWS Internal",
-            "userAgent": "AWS Internal",
-            "userIdentity": {
-                "accessKeyId": "ABC1234",
-                "accountId": "987654321",
-                "arn": "arn:aws:sts::98765432:assumed-role/IAM/alice",
-                "principalId": "ABCDE:alice",
-                "sessionContext": {
-                    "attributes": {"creationDate": "2022-09-15T13:36:47Z", "mfaAuthenticated": "true"},
-                    "sessionIssuer": {
-                        "accountId": "987654321",
-                        "arn": "arn:aws:iam::9876432:role/IAM",
-                        "principalId": "1234ABC",
-                        "type": "Role",
-                        "userName": "IAM",
-                    },
-                    "webIdFederationData": {},
-                },
-                "type": "AssumedRole",
-            },
-        },
-    ),
-]
-
 
 @panther_managed
 class AWSUserLoginProfileModified(Rule):
@@ -131,7 +11,6 @@ class AWSUserLoginProfileModified(Rule):
     default_severity = Severity.HIGH
     log_types = [LogType.AWS_CLOUDTRAIL]
     id = "AWS.User.Login.Profile.Modified-prototype"
-    tests = aws_user_login_profile_modified_tests
 
     def rule(self, event):
         return (
@@ -150,3 +29,123 @@ class AWSUserLoginProfileModified(Rule):
 
     def alert_context(self, event):
         return aws_rule_context(event)
+
+    tests = [
+        RuleTest(
+            name="ChangeOwnPassword",
+            expected_result=False,
+            log={
+                "awsRegion": "us-east-1",
+                "eventCategory": "Management",
+                "eventID": "1234",
+                "eventName": "UpdateLoginProfile",
+                "eventSource": "iam.amazonaws.com",
+                "eventTime": "2022-09-15 13:45:24",
+                "eventType": "AwsApiCall",
+                "eventVersion": "1.08",
+                "managementEvent": True,
+                "readOnly": False,
+                "recipientAccountId": "987654321",
+                "requestParameters": {"passwordResetRequired": False, "userName": "alice"},
+                "sessionCredentialFromConsole": True,
+                "sourceIPAddress": "AWS Internal",
+                "userAgent": "AWS Internal",
+                "userIdentity": {
+                    "accessKeyId": "ABC1234",
+                    "accountId": "987654321",
+                    "arn": "arn:aws:sts::98765432:assumed-role/IAM/alice",
+                    "principalId": "ABCDE:alice",
+                    "sessionContext": {
+                        "attributes": {"creationDate": "2022-09-15T13:36:47Z", "mfaAuthenticated": "true"},
+                        "sessionIssuer": {
+                            "accountId": "987654321",
+                            "arn": "arn:aws:iam::9876432:role/IAM",
+                            "principalId": "1234ABC",
+                            "type": "Role",
+                            "userName": "IAM",
+                        },
+                        "webIdFederationData": {},
+                    },
+                    "type": "AssumedRole",
+                },
+            },
+        ),
+        RuleTest(
+            name="User changed password for other",
+            expected_result=True,
+            log={
+                "awsRegion": "us-east-1",
+                "eventCategory": "Management",
+                "eventID": "1234",
+                "eventName": "UpdateLoginProfile",
+                "eventSource": "iam.amazonaws.com",
+                "eventTime": "2022-09-15 13:45:24",
+                "eventType": "AwsApiCall",
+                "eventVersion": "1.08",
+                "managementEvent": True,
+                "readOnly": False,
+                "recipientAccountId": "987654321",
+                "requestParameters": {"passwordResetRequired": False, "userName": "bob"},
+                "sessionCredentialFromConsole": True,
+                "sourceIPAddress": "AWS Internal",
+                "userAgent": "AWS Internal",
+                "userIdentity": {
+                    "accessKeyId": "ABC1234",
+                    "accountId": "987654321",
+                    "arn": "arn:aws:sts::98765432:assumed-role/IAM/alice",
+                    "principalId": "ABCDE:alice",
+                    "sessionContext": {
+                        "attributes": {"creationDate": "2022-09-15T13:36:47Z", "mfaAuthenticated": "true"},
+                        "sessionIssuer": {
+                            "accountId": "987654321",
+                            "arn": "arn:aws:iam::9876432:role/IAM",
+                            "principalId": "1234ABC",
+                            "type": "Role",
+                            "userName": "IAM",
+                        },
+                        "webIdFederationData": {},
+                    },
+                    "type": "AssumedRole",
+                },
+            },
+        ),
+        RuleTest(
+            name="User changed password for other reset required",
+            expected_result=False,
+            log={
+                "awsRegion": "us-east-1",
+                "eventCategory": "Management",
+                "eventID": "1234",
+                "eventName": "UpdateLoginProfile",
+                "eventSource": "iam.amazonaws.com",
+                "eventTime": "2022-09-15 13:45:24",
+                "eventType": "AwsApiCall",
+                "eventVersion": "1.08",
+                "managementEvent": True,
+                "readOnly": False,
+                "recipientAccountId": "987654321",
+                "requestParameters": {"passwordResetRequired": True, "userName": "bob"},
+                "sessionCredentialFromConsole": True,
+                "sourceIPAddress": "AWS Internal",
+                "userAgent": "AWS Internal",
+                "userIdentity": {
+                    "accessKeyId": "ABC1234",
+                    "accountId": "987654321",
+                    "arn": "arn:aws:sts::98765432:assumed-role/IAM/alice",
+                    "principalId": "ABCDE:alice",
+                    "sessionContext": {
+                        "attributes": {"creationDate": "2022-09-15T13:36:47Z", "mfaAuthenticated": "true"},
+                        "sessionIssuer": {
+                            "accountId": "987654321",
+                            "arn": "arn:aws:iam::9876432:role/IAM",
+                            "principalId": "1234ABC",
+                            "type": "Role",
+                            "userName": "IAM",
+                        },
+                        "webIdFederationData": {},
+                    },
+                    "type": "AssumedRole",
+                },
+            },
+        ),
+    ]

@@ -1,153 +1,6 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.crowdstrike_event_streams import audit_keys_dict, cs_alert_context, str_to_list
 
-crowdstrike_single_ip_allowlisted_tests: list[RuleTest] = [
-    RuleTest(
-        name="A Single IP In Created Allowlist",
-        expected_result=True,
-        log={
-            "event": {
-                "AuditKeyValues": [
-                    {"Key": "allowlist_group_id", "ValueString": "24821376-7e77-431e-9469-74846978fe64"},
-                    {"Key": "group_name", "ValueString": "example_group"},
-                    {"Key": "description", "ValueString": ""},
-                    {"Key": "cidrs", "ValueString": "[1.1.1.1]"},
-                    {"Key": "contexts", "ValueString": "[API]"},
-                    {"Key": "active", "ValueString": "false"},
-                ],
-                "OperationName": "CreateAllowlistGroup",
-                "ServiceName": "Crowdstrike Allowlist Management",
-                "Success": True,
-                "UTCTimestamp": "2024-07-26 16:13:13.000000000",
-                "UserId": "wormtongue@isengard.org",
-                "UserIp": "1.2.3.4",
-            },
-            "metadata": {
-                "customerIDString": "fake_cust_id",
-                "eventCreationTime": "2024-07-26 16:13:13.579000000",
-                "eventType": "AuthActivityAuditEvent",
-                "offset": 365164,
-                "version": "1.0",
-            },
-        },
-    ),
-    RuleTest(
-        name="Multiple Single IPs In Created Allowlist",
-        expected_result=True,
-        log={
-            "event": {
-                "AuditKeyValues": [
-                    {"Key": "allowlist_group_id", "ValueString": "24821376-7e77-431e-9469-74846978fe64"},
-                    {"Key": "group_name", "ValueString": "example_group"},
-                    {"Key": "description", "ValueString": ""},
-                    {"Key": "cidrs", "ValueString": "[1.1.1.1 2.2.2.2 3.3.3.3/32]"},
-                    {"Key": "contexts", "ValueString": "[API UI OTHER]"},
-                    {"Key": "active", "ValueString": "false"},
-                ],
-                "OperationName": "CreateAllowlistGroup",
-                "ServiceName": "Crowdstrike Allowlist Management",
-                "Success": True,
-                "UTCTimestamp": "2024-07-26 16:13:13.000000000",
-                "UserId": "wormtongue@isengard.org",
-                "UserIp": "1.2.3.4",
-            },
-            "metadata": {
-                "customerIDString": "fake_cust_id",
-                "eventCreationTime": "2024-07-26 16:13:13.579000000",
-                "eventType": "AuthActivityAuditEvent",
-                "offset": 365164,
-                "version": "1.0",
-            },
-        },
-    ),
-    RuleTest(
-        name="Single IP Added to existing Allowlist",
-        expected_result=True,
-        log={
-            "event": {
-                "AuditKeyValues": [
-                    {"Key": "old_group_name", "ValueString": "my_allowlist"},
-                    {"Key": "old_cidrs", "ValueString": "[1.2.3.4/8]"},
-                    {"Key": "allowlist_group_id", "ValueString": "24821376-7e77-431e-9469-74846978fe64"},
-                    {"Key": "group_name", "ValueString": "my_allowlist"},
-                    {"Key": "description", "ValueString": ""},
-                    {"Key": "cidrs", "ValueString": "[1.2.3.4/8 32.32.32.32]"},
-                    {"Key": "contexts", "ValueString": "[API]"},
-                    {"Key": "active", "ValueString": "false"},
-                    {"Key": "old_allowlist_group_id", "ValueString": "24821376-7e77-431e-9469-74846978fe64"},
-                    {"Key": "old_description", "ValueString": ""},
-                    {"Key": "old_contexts", "ValueString": "[API]"},
-                    {"Key": "old_active", "ValueString": "false"},
-                ],
-                "OperationName": "UpdateAllowlistGroup",
-                "ServiceName": "Crowdstrike Allowlist Management",
-                "Success": True,
-                "UTCTimestamp": "2024-07-26 19:47:16.000000000",
-                "UserId": "wormtongue@isengard.org",
-                "UserIp": "1.2.3.4",
-            },
-            "metadata": {
-                "customerIDString": "fake_customer_id",
-                "eventCreationTime": "2024-07-26 19:47:16.428000000",
-                "eventType": "AuthActivityAuditEvent",
-                "offset": 366148,
-                "version": "1.0",
-            },
-        },
-    ),
-    RuleTest(
-        name="Only CIDR Ranges In Created Allowlist",
-        expected_result=False,
-        log={
-            "event": {
-                "AuditKeyValues": [
-                    {"Key": "allowlist_group_id", "ValueString": "24821376-7e77-431e-9469-74846978fe64"},
-                    {"Key": "group_name", "ValueString": "example_group"},
-                    {"Key": "description", "ValueString": ""},
-                    {"Key": "cidrs", "ValueString": "[1.1.1.1/12 2.2.2.2/8 3.3.3.3/4]"},
-                    {"Key": "contexts", "ValueString": "[API UI OTHER]"},
-                    {"Key": "active", "ValueString": "false"},
-                ],
-                "OperationName": "CreateAllowlistGroup",
-                "ServiceName": "Crowdstrike Allowlist Management",
-                "Success": True,
-                "UTCTimestamp": "2024-07-26 16:13:13.000000000",
-                "UserId": "wormtongue@isengard.org",
-                "UserIp": "1.2.3.4",
-            },
-            "metadata": {
-                "customerIDString": "fake_cust_id",
-                "eventCreationTime": "2024-07-26 16:13:13.579000000",
-                "eventType": "AuthActivityAuditEvent",
-                "offset": 365164,
-                "version": "1.0",
-            },
-        },
-    ),
-    RuleTest(
-        name="Unrelated Event",
-        expected_result=False,
-        log={
-            "metadata": {
-                "customerIDString": "fake_customer_id",
-                "offset": 341329,
-                "eventType": "AuthActivityAuditEvent",
-                "eventCreationTime": "2024-07-22 15:50:16.923000000",
-                "version": "1.0",
-            },
-            "event": {
-                "UserId": "sharkey@hobbiton.co",
-                "UserIp": "192.0.2.100",
-                "OperationName": "deleteUser",
-                "ServiceName": "CrowdStrike Authentication",
-                "Success": True,
-                "UTCTimestamp": "2024-07-22 15:50:16.923000000",
-                "AuditKeyValues": [{"Key": "target_name", "ValueString": "frodo.baggins@hobbiton.co"}],
-            },
-        },
-    ),
-]
-
 
 @panther_managed
 class CrowdstrikeSingleIpAllowlisted(Rule):
@@ -158,7 +11,6 @@ class CrowdstrikeSingleIpAllowlisted(Rule):
     reports = {"MITRE ATT&CK": ["TA0003:T1556.009", "TA0005:T1556.009", "TA0006:T1556.009"]}
     default_description = "A single IP (instead of a CIDR range) was allowlisted. This could indicate a bad actor permitting access from another machine."
     default_runbook = "Validate this action was authorized, and determine the client to which the IP belongs to."
-    tests = crowdstrike_single_ip_allowlisted_tests
 
     def get_single_ips(self, event, fieldname="cidrs") -> list[str]:
         """
@@ -210,3 +62,150 @@ class CrowdstrikeSingleIpAllowlisted(Rule):
         context = cs_alert_context(event)
         context.update({"single_ips": self.get_single_ips(event)})
         return context
+
+    tests = [
+        RuleTest(
+            name="A Single IP In Created Allowlist",
+            expected_result=True,
+            log={
+                "event": {
+                    "AuditKeyValues": [
+                        {"Key": "allowlist_group_id", "ValueString": "24821376-7e77-431e-9469-74846978fe64"},
+                        {"Key": "group_name", "ValueString": "example_group"},
+                        {"Key": "description", "ValueString": ""},
+                        {"Key": "cidrs", "ValueString": "[1.1.1.1]"},
+                        {"Key": "contexts", "ValueString": "[API]"},
+                        {"Key": "active", "ValueString": "false"},
+                    ],
+                    "OperationName": "CreateAllowlistGroup",
+                    "ServiceName": "Crowdstrike Allowlist Management",
+                    "Success": True,
+                    "UTCTimestamp": "2024-07-26 16:13:13.000000000",
+                    "UserId": "wormtongue@isengard.org",
+                    "UserIp": "1.2.3.4",
+                },
+                "metadata": {
+                    "customerIDString": "fake_cust_id",
+                    "eventCreationTime": "2024-07-26 16:13:13.579000000",
+                    "eventType": "AuthActivityAuditEvent",
+                    "offset": 365164,
+                    "version": "1.0",
+                },
+            },
+        ),
+        RuleTest(
+            name="Multiple Single IPs In Created Allowlist",
+            expected_result=True,
+            log={
+                "event": {
+                    "AuditKeyValues": [
+                        {"Key": "allowlist_group_id", "ValueString": "24821376-7e77-431e-9469-74846978fe64"},
+                        {"Key": "group_name", "ValueString": "example_group"},
+                        {"Key": "description", "ValueString": ""},
+                        {"Key": "cidrs", "ValueString": "[1.1.1.1 2.2.2.2 3.3.3.3/32]"},
+                        {"Key": "contexts", "ValueString": "[API UI OTHER]"},
+                        {"Key": "active", "ValueString": "false"},
+                    ],
+                    "OperationName": "CreateAllowlistGroup",
+                    "ServiceName": "Crowdstrike Allowlist Management",
+                    "Success": True,
+                    "UTCTimestamp": "2024-07-26 16:13:13.000000000",
+                    "UserId": "wormtongue@isengard.org",
+                    "UserIp": "1.2.3.4",
+                },
+                "metadata": {
+                    "customerIDString": "fake_cust_id",
+                    "eventCreationTime": "2024-07-26 16:13:13.579000000",
+                    "eventType": "AuthActivityAuditEvent",
+                    "offset": 365164,
+                    "version": "1.0",
+                },
+            },
+        ),
+        RuleTest(
+            name="Single IP Added to existing Allowlist",
+            expected_result=True,
+            log={
+                "event": {
+                    "AuditKeyValues": [
+                        {"Key": "old_group_name", "ValueString": "my_allowlist"},
+                        {"Key": "old_cidrs", "ValueString": "[1.2.3.4/8]"},
+                        {"Key": "allowlist_group_id", "ValueString": "24821376-7e77-431e-9469-74846978fe64"},
+                        {"Key": "group_name", "ValueString": "my_allowlist"},
+                        {"Key": "description", "ValueString": ""},
+                        {"Key": "cidrs", "ValueString": "[1.2.3.4/8 32.32.32.32]"},
+                        {"Key": "contexts", "ValueString": "[API]"},
+                        {"Key": "active", "ValueString": "false"},
+                        {"Key": "old_allowlist_group_id", "ValueString": "24821376-7e77-431e-9469-74846978fe64"},
+                        {"Key": "old_description", "ValueString": ""},
+                        {"Key": "old_contexts", "ValueString": "[API]"},
+                        {"Key": "old_active", "ValueString": "false"},
+                    ],
+                    "OperationName": "UpdateAllowlistGroup",
+                    "ServiceName": "Crowdstrike Allowlist Management",
+                    "Success": True,
+                    "UTCTimestamp": "2024-07-26 19:47:16.000000000",
+                    "UserId": "wormtongue@isengard.org",
+                    "UserIp": "1.2.3.4",
+                },
+                "metadata": {
+                    "customerIDString": "fake_customer_id",
+                    "eventCreationTime": "2024-07-26 19:47:16.428000000",
+                    "eventType": "AuthActivityAuditEvent",
+                    "offset": 366148,
+                    "version": "1.0",
+                },
+            },
+        ),
+        RuleTest(
+            name="Only CIDR Ranges In Created Allowlist",
+            expected_result=False,
+            log={
+                "event": {
+                    "AuditKeyValues": [
+                        {"Key": "allowlist_group_id", "ValueString": "24821376-7e77-431e-9469-74846978fe64"},
+                        {"Key": "group_name", "ValueString": "example_group"},
+                        {"Key": "description", "ValueString": ""},
+                        {"Key": "cidrs", "ValueString": "[1.1.1.1/12 2.2.2.2/8 3.3.3.3/4]"},
+                        {"Key": "contexts", "ValueString": "[API UI OTHER]"},
+                        {"Key": "active", "ValueString": "false"},
+                    ],
+                    "OperationName": "CreateAllowlistGroup",
+                    "ServiceName": "Crowdstrike Allowlist Management",
+                    "Success": True,
+                    "UTCTimestamp": "2024-07-26 16:13:13.000000000",
+                    "UserId": "wormtongue@isengard.org",
+                    "UserIp": "1.2.3.4",
+                },
+                "metadata": {
+                    "customerIDString": "fake_cust_id",
+                    "eventCreationTime": "2024-07-26 16:13:13.579000000",
+                    "eventType": "AuthActivityAuditEvent",
+                    "offset": 365164,
+                    "version": "1.0",
+                },
+            },
+        ),
+        RuleTest(
+            name="Unrelated Event",
+            expected_result=False,
+            log={
+                "metadata": {
+                    "customerIDString": "fake_customer_id",
+                    "offset": 341329,
+                    "eventType": "AuthActivityAuditEvent",
+                    "eventCreationTime": "2024-07-22 15:50:16.923000000",
+                    "version": "1.0",
+                },
+                "event": {
+                    "UserId": "sharkey@hobbiton.co",
+                    "UserIp": "192.0.2.100",
+                    "OperationName": "deleteUser",
+                    "ServiceName": "CrowdStrike Authentication",
+                    "Success": True,
+                    "UTCTimestamp": "2024-07-22 15:50:16.923000000",
+                    "AuditKeyValues": [{"Key": "target_name", "ValueString": "frodo.baggins@hobbiton.co"}],
+                },
+            },
+        ),
+    ]

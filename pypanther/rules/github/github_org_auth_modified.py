@@ -1,32 +1,5 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 
-git_hub_org_auth_change_tests: list[RuleTest] = [
-    RuleTest(
-        name="GitHub - Authentication Method Changed",
-        expected_result=True,
-        log={
-            "actor": "cat",
-            "action": "org.saml_disabled",
-            "created_at": 1621305118553,
-            "p_log_type": "GitHub.Audit",
-            "org": "my-org",
-            "repo": "my-org/my-repo",
-        },
-    ),
-    RuleTest(
-        name="GitHub - Non Auth Related Org Change",
-        expected_result=False,
-        log={
-            "actor": "cat",
-            "action": "invite_member",
-            "created_at": 1621305118553,
-            "org": "my-org",
-            "p_log_type": "GitHub.Audit",
-            "repo": "my-org/my-repo",
-        },
-    ),
-]
-
 
 @panther_managed
 class GitHubOrgAuthChange(Rule):
@@ -42,7 +15,6 @@ class GitHubOrgAuthChange(Rule):
     default_reference = (
         "https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/about-authentication-to-github"
     )
-    tests = git_hub_org_auth_change_tests
     AUTH_CHANGE_EVENTS = [
         "org.saml_disabled",
         "org.saml_enabled",
@@ -60,3 +32,30 @@ class GitHubOrgAuthChange(Rule):
 
     def title(self, event):
         return f"GitHub auth configuration was changed by {event.get('actor', '<UNKNOWN USER>')}"
+
+    tests = [
+        RuleTest(
+            name="GitHub - Authentication Method Changed",
+            expected_result=True,
+            log={
+                "actor": "cat",
+                "action": "org.saml_disabled",
+                "created_at": 1621305118553,
+                "p_log_type": "GitHub.Audit",
+                "org": "my-org",
+                "repo": "my-org/my-repo",
+            },
+        ),
+        RuleTest(
+            name="GitHub - Non Auth Related Org Change",
+            expected_result=False,
+            log={
+                "actor": "cat",
+                "action": "invite_member",
+                "created_at": 1621305118553,
+                "org": "my-org",
+                "p_log_type": "GitHub.Audit",
+                "repo": "my-org/my-repo",
+            },
+        ),
+    ]

@@ -1,84 +1,6 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.snyk import snyk_alert_context
 
-snyk_project_settings_tests: list[RuleTest] = [
-    RuleTest(
-        name="Snyk Org Project Stop Monitor",
-        expected_result=True,
-        log={
-            "content": {
-                "origin": "github",
-                "target": {"branch": "some-branch", "id": 222222222, "name": "repo-name", "owner": "github-org"},
-                "targetFile": "go.mod",
-                "type": "gomodules",
-            },
-            "created": "2023-03-30 15:38:18.58",
-            "event": "org.project.stop_monitor",
-            "groupId": "8fffffff-1555-4444-b000-b55555555555",
-            "orgId": "21111111-a222-4eee-8ddd-a99999999999",
-            "projectId": "05555555-8555-2333-5aaa-600000000000",
-            "userId": "05555555-3333-4ddd-8ccc-75555555555",
-        },
-    ),
-    RuleTest(
-        name="Project Ignore Create",
-        expected_result=True,
-        log={
-            "content": {
-                "created": "2023-03-20T12:23:06.356Z",
-                "ignorePath": "*",
-                "ignoredBy": {"id": "05555555-3333-4ddd-8ccc-75555555555"},
-                "issueId": "SNYK-JS-UNDICI-3323845",
-                "reason": "dev dependency",
-                "reasonType": "wont-fix",
-            },
-            "created": "2023-03-20 12:23:08.363",
-            "event": "org.project.ignore.create",
-            "groupId": "8fffffff-1555-4444-b000-b55555555555",
-            "orgId": "21111111-a222-4eee-8ddd-a99999999999",
-            "projectId": "05555555-8555-2333-5aaa-600000000000",
-            "userId": "05555555-3333-4ddd-8ccc-75555555555",
-        },
-    ),
-    RuleTest(
-        name="Snyk Group SSO Membership sync",
-        expected_result=False,
-        log={
-            "content": {},
-            "created": "2023-03-15 13:13:13.133",
-            "event": "group.sso.membership.sync",
-            "groupId": "8fffffff-1555-4444-b000-b55555555555",
-        },
-    ),
-    RuleTest(
-        name="Snyk Org Project Edit",
-        expected_result=False,
-        log={
-            "content": {"snapshotId": "69af7170-87cc-4939-bbaf-1fd99f80cde4"},
-            "created": "2024-09-02 23:49:37.552000000",
-            "event": "org.project.edit",
-            "orgId": "69af7170-87cc-4939-bbaf-1fd99f80cde4",
-            "projectId": "69af7170-87cc-4939-bbaf-1fd99f80cde4",
-        },
-    ),
-    RuleTest(
-        name="Snyk No New Code Issues Found",
-        expected_result=False,
-        log={
-            "content": {
-                "after": {"description": "No new Code Analysis issues found", "state": "success"},
-                "before": {"state": "processing"},
-                "prCheckPublicId": "69af7170-87cc-4939-bbaf-1fd99f80cde4",
-                "prChecksGroupPublicId": "69af7170-87cc-4939-bbaf-1fd99f80cde4",
-            },
-            "created": "2024-08-27 14:02:48.823000000",
-            "event": "org.project.pr_check.edit",
-            "orgId": "69af7170-87cc-4939-bbaf-1fd99f80cde4",
-            "projectId": "69af7170-87cc-4939-bbaf-1fd99f80cde4",
-        },
-    ),
-]
-
 
 @panther_managed
 class SnykProjectSettings(Rule):
@@ -90,7 +12,6 @@ class SnykProjectSettings(Rule):
     default_severity = Severity.MEDIUM
     default_description = "Detects when Snyk Project settings are changed\n"
     summary_attributes = ["event"]
-    tests = snyk_project_settings_tests
     # The bodies of these actions are quite diverse.
     # When projects are added, the logged detail is the sourceOrgId.
     # org.project.stop_monitor is logged for individual files
@@ -145,3 +66,81 @@ class SnykProjectSettings(Rule):
         if action == "org.project.fix_pr.manual_open":
             return "INFO"
         return "LOW"
+
+    tests = [
+        RuleTest(
+            name="Snyk Org Project Stop Monitor",
+            expected_result=True,
+            log={
+                "content": {
+                    "origin": "github",
+                    "target": {"branch": "some-branch", "id": 222222222, "name": "repo-name", "owner": "github-org"},
+                    "targetFile": "go.mod",
+                    "type": "gomodules",
+                },
+                "created": "2023-03-30 15:38:18.58",
+                "event": "org.project.stop_monitor",
+                "groupId": "8fffffff-1555-4444-b000-b55555555555",
+                "orgId": "21111111-a222-4eee-8ddd-a99999999999",
+                "projectId": "05555555-8555-2333-5aaa-600000000000",
+                "userId": "05555555-3333-4ddd-8ccc-75555555555",
+            },
+        ),
+        RuleTest(
+            name="Project Ignore Create",
+            expected_result=True,
+            log={
+                "content": {
+                    "created": "2023-03-20T12:23:06.356Z",
+                    "ignorePath": "*",
+                    "ignoredBy": {"id": "05555555-3333-4ddd-8ccc-75555555555"},
+                    "issueId": "SNYK-JS-UNDICI-3323845",
+                    "reason": "dev dependency",
+                    "reasonType": "wont-fix",
+                },
+                "created": "2023-03-20 12:23:08.363",
+                "event": "org.project.ignore.create",
+                "groupId": "8fffffff-1555-4444-b000-b55555555555",
+                "orgId": "21111111-a222-4eee-8ddd-a99999999999",
+                "projectId": "05555555-8555-2333-5aaa-600000000000",
+                "userId": "05555555-3333-4ddd-8ccc-75555555555",
+            },
+        ),
+        RuleTest(
+            name="Snyk Group SSO Membership sync",
+            expected_result=False,
+            log={
+                "content": {},
+                "created": "2023-03-15 13:13:13.133",
+                "event": "group.sso.membership.sync",
+                "groupId": "8fffffff-1555-4444-b000-b55555555555",
+            },
+        ),
+        RuleTest(
+            name="Snyk Org Project Edit",
+            expected_result=False,
+            log={
+                "content": {"snapshotId": "69af7170-87cc-4939-bbaf-1fd99f80cde4"},
+                "created": "2024-09-02 23:49:37.552000000",
+                "event": "org.project.edit",
+                "orgId": "69af7170-87cc-4939-bbaf-1fd99f80cde4",
+                "projectId": "69af7170-87cc-4939-bbaf-1fd99f80cde4",
+            },
+        ),
+        RuleTest(
+            name="Snyk No New Code Issues Found",
+            expected_result=False,
+            log={
+                "content": {
+                    "after": {"description": "No new Code Analysis issues found", "state": "success"},
+                    "before": {"state": "processing"},
+                    "prCheckPublicId": "69af7170-87cc-4939-bbaf-1fd99f80cde4",
+                    "prChecksGroupPublicId": "69af7170-87cc-4939-bbaf-1fd99f80cde4",
+                },
+                "created": "2024-08-27 14:02:48.823000000",
+                "event": "org.project.pr_check.edit",
+                "orgId": "69af7170-87cc-4939-bbaf-1fd99f80cde4",
+                "projectId": "69af7170-87cc-4939-bbaf-1fd99f80cde4",
+            },
+        ),
+    ]

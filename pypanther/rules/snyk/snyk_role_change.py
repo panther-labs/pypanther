@@ -1,67 +1,6 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.snyk import snyk_alert_context
 
-snyk_role_change_tests: list[RuleTest] = [
-    RuleTest(
-        name="Snyk Group Role Edit -  ADMIN role ( CRIT )",
-        expected_result=True,
-        log={
-            "content": {
-                "after": {"role": "ADMIN", "rolePublicId": "8ddddddd-fbbb-4fff-8111-5eeeeeeeeeee"},
-                "before": {"role": "MEMBER", "rolePublicId": "6aaaaaaa-c000-4ddd-9ddd-c55555555555"},
-                "userPublicId": "05555555-3333-4ddd-8ccc-755555555555",
-            },
-            "created": "1999-04-04 18:38:19.843",
-            "event": "group.user.role.edit",
-            "groupId": "8fffffff-1555-4444-b000-b55555555555",
-            "userId": "05555555-3333-4ddd-8ccc-755555555555",
-        },
-    ),
-    RuleTest(
-        name="Snyk Org Role Edit -  ADMIN role ( CRIT )",
-        expected_result=True,
-        log={
-            "content": {
-                "afterRoleName": "ADMIN",
-                "afterRolePublicId": "d8999999-aaaa-4999-9f0b-9bbbbbbbbbbb",
-                "beforeRoleName": "Org Collaborator",
-                "beforeRolePublicId": "b0000000-dbbb-4000-addd-1ddddddddddd",
-                "userPublicId": "05555555-3333-4ddd-8ccc-755555555555",
-            },
-            "created": "1999-03-08 16:24:02.616",
-            "event": "org.user.role.edit",
-            "groupId": "8fffffff-1555-4444-b000-b55555555555",
-            "userId": "05555555-3333-4ddd-8ccc-755555555555",
-            "orgId": "21111111-a222-4eee-8ddd-a99999999999",
-        },
-    ),
-    RuleTest(
-        name="Snyk Group Role Edit -  MEMBER role ( MEDIUM )",
-        expected_result=True,
-        log={
-            "content": {
-                "before": {"role": "ADMIN", "rolePublicId": "8ddddddd-fbbb-4fff-8111-5eeeeeeeeeee"},
-                "after": {"role": "MEMBER", "rolePublicId": "6aaaaaaa-c000-4ddd-9ddd-c55555555555"},
-                "userPublicId": "05555555-3333-4ddd-8ccc-755555555555",
-            },
-            "created": "1999-04-04 18:38:19.843",
-            "event": "group.user.role.edit",
-            "groupId": "8fffffff-1555-4444-b000-b55555555555",
-            "userId": "05555555-3333-4ddd-8ccc-755555555555",
-        },
-    ),
-    RuleTest(
-        name="Snyk Group SSO Membership sync",
-        expected_result=False,
-        log={
-            "content": {},
-            "created": "2023-03-15 13:13:13.133",
-            "event": "group.sso.membership.sync",
-            "groupId": "8fffffff-1555-4444-b000-b55555555555",
-        },
-    ),
-]
-
 
 @panther_managed
 class SnykRoleChange(Rule):
@@ -74,7 +13,6 @@ class SnykRoleChange(Rule):
     default_runbook = "These actions in the Snyk Audit logs indicate that a ServiceAccount has been created/deleted/modified.\nAll events where the Role is marked as ADMIN have CRITICAL severity Other events are marked with MEDIUM severity\n"
     default_reference = "https://docs.snyk.io/snyk-admin/manage-users-and-permissions/member-roles"
     summary_attributes = ["event"]
-    tests = snyk_role_change_tests
     ACTIONS = [
         "group.role.create",
         "group.role.edit",
@@ -120,3 +58,64 @@ class SnykRoleChange(Rule):
         if role == "ADMIN":
             return "CRITICAL"
         return "MEDIUM"
+
+    tests = [
+        RuleTest(
+            name="Snyk Group Role Edit -  ADMIN role ( CRIT )",
+            expected_result=True,
+            log={
+                "content": {
+                    "after": {"role": "ADMIN", "rolePublicId": "8ddddddd-fbbb-4fff-8111-5eeeeeeeeeee"},
+                    "before": {"role": "MEMBER", "rolePublicId": "6aaaaaaa-c000-4ddd-9ddd-c55555555555"},
+                    "userPublicId": "05555555-3333-4ddd-8ccc-755555555555",
+                },
+                "created": "1999-04-04 18:38:19.843",
+                "event": "group.user.role.edit",
+                "groupId": "8fffffff-1555-4444-b000-b55555555555",
+                "userId": "05555555-3333-4ddd-8ccc-755555555555",
+            },
+        ),
+        RuleTest(
+            name="Snyk Org Role Edit -  ADMIN role ( CRIT )",
+            expected_result=True,
+            log={
+                "content": {
+                    "afterRoleName": "ADMIN",
+                    "afterRolePublicId": "d8999999-aaaa-4999-9f0b-9bbbbbbbbbbb",
+                    "beforeRoleName": "Org Collaborator",
+                    "beforeRolePublicId": "b0000000-dbbb-4000-addd-1ddddddddddd",
+                    "userPublicId": "05555555-3333-4ddd-8ccc-755555555555",
+                },
+                "created": "1999-03-08 16:24:02.616",
+                "event": "org.user.role.edit",
+                "groupId": "8fffffff-1555-4444-b000-b55555555555",
+                "userId": "05555555-3333-4ddd-8ccc-755555555555",
+                "orgId": "21111111-a222-4eee-8ddd-a99999999999",
+            },
+        ),
+        RuleTest(
+            name="Snyk Group Role Edit -  MEMBER role ( MEDIUM )",
+            expected_result=True,
+            log={
+                "content": {
+                    "before": {"role": "ADMIN", "rolePublicId": "8ddddddd-fbbb-4fff-8111-5eeeeeeeeeee"},
+                    "after": {"role": "MEMBER", "rolePublicId": "6aaaaaaa-c000-4ddd-9ddd-c55555555555"},
+                    "userPublicId": "05555555-3333-4ddd-8ccc-755555555555",
+                },
+                "created": "1999-04-04 18:38:19.843",
+                "event": "group.user.role.edit",
+                "groupId": "8fffffff-1555-4444-b000-b55555555555",
+                "userId": "05555555-3333-4ddd-8ccc-755555555555",
+            },
+        ),
+        RuleTest(
+            name="Snyk Group SSO Membership sync",
+            expected_result=False,
+            log={
+                "content": {},
+                "created": "2023-03-15 13:13:13.133",
+                "event": "group.sso.membership.sync",
+                "groupId": "8fffffff-1555-4444-b000-b55555555555",
+            },
+        ),
+    ]

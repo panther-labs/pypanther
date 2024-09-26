@@ -1,75 +1,6 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.base import deep_get
 
-panther_detection_deleted_tests: list[RuleTest] = [
-    RuleTest(
-        name="Delete 1 Detection",
-        expected_result=True,
-        log={
-            "actionName": "DELETE_DETECTION",
-            "actionParams": {"dynamic": {"input": {"detections": [{"id": "GitHub.Team.Modified"}]}}},
-            "actionResult": "SUCCEEDED",
-            "actor": {
-                "attributes": {"email": "homer@springfield.gov", "emailVerified": True, "roleId": "11111111"},
-                "id": "1111111",
-                "name": "Homer Simpson",
-                "type": "USER",
-            },
-            "errors": None,
-            "p_log_type": "Panther.Audit",
-            "sourceIP": "1.2.3.4",
-            "timestamp": "2022-04-28 15:30:22.42",
-        },
-    ),
-    RuleTest(
-        name="Delete Many Detections",
-        expected_result=True,
-        log={
-            "actionName": "DELETE_DETECTION",
-            "actionParams": {
-                "dynamic": {
-                    "input": {
-                        "detections": [
-                            {"id": "Github.Repo.Created"},
-                            {"id": "Okta.Global.MFA.Disabled"},
-                            {"id": "Okta.AdminRoleAssigned"},
-                            {"id": "Okta.BruteForceLogins"},
-                        ],
-                    },
-                },
-            },
-            "actionResult": "SUCCEEDED",
-            "actor": {
-                "attributes": {"email": "homer@springfield.gov", "emailVerified": True, "roleId": "111111"},
-                "id": "1111111",
-                "name": "Homer Simpson",
-                "type": "USER",
-            },
-            "errors": None,
-            "p_log_type": "Panther.Audit",
-            "sourceIP": "1.2.3.4.",
-            "timestamp": "2022-04-28 15:34:43.067",
-        },
-    ),
-    RuleTest(
-        name="Non-Delete event",
-        expected_result=False,
-        log={
-            "actionName": "GET_GENERAL_SETTINGS",
-            "actionParams": {},
-            "actionResult": "SUCCEEDED",
-            "actor": {
-                "attributes": {"email": "homer@springfield.gov", "emailVerified": True, "roleId": "111111"},
-                "id": "111111",
-                "name": "Homer Simpson",
-                "type": "USER",
-            },
-            "errors": None,
-            "p_log_type": "Panther.Audit",
-        },
-    ),
-]
-
 
 @panther_managed
 class PantherDetectionDeleted(Rule):
@@ -83,7 +14,6 @@ class PantherDetectionDeleted(Rule):
     default_runbook = "Ensure this change was approved and appropriate."
     default_reference = "https://docs.panther.com/system-configuration/panther-audit-logs/querying-and-writing-detections-for-panther-audit-logs"
     summary_attributes = ["p_any_ip_addresses"]
-    tests = panther_detection_deleted_tests
     PANTHER_DETECTION_DELETE_ACTIONS = [
         "DELETE_DATA_MODEL",
         "DELETE_DETECTION",
@@ -111,3 +41,72 @@ class PantherDetectionDeleted(Rule):
             "user": event.udm("actor_user"),
             "ip": event.udm("source_ip"),
         }
+
+    tests = [
+        RuleTest(
+            name="Delete 1 Detection",
+            expected_result=True,
+            log={
+                "actionName": "DELETE_DETECTION",
+                "actionParams": {"dynamic": {"input": {"detections": [{"id": "GitHub.Team.Modified"}]}}},
+                "actionResult": "SUCCEEDED",
+                "actor": {
+                    "attributes": {"email": "homer@springfield.gov", "emailVerified": True, "roleId": "11111111"},
+                    "id": "1111111",
+                    "name": "Homer Simpson",
+                    "type": "USER",
+                },
+                "errors": None,
+                "p_log_type": "Panther.Audit",
+                "sourceIP": "1.2.3.4",
+                "timestamp": "2022-04-28 15:30:22.42",
+            },
+        ),
+        RuleTest(
+            name="Delete Many Detections",
+            expected_result=True,
+            log={
+                "actionName": "DELETE_DETECTION",
+                "actionParams": {
+                    "dynamic": {
+                        "input": {
+                            "detections": [
+                                {"id": "Github.Repo.Created"},
+                                {"id": "Okta.Global.MFA.Disabled"},
+                                {"id": "Okta.AdminRoleAssigned"},
+                                {"id": "Okta.BruteForceLogins"},
+                            ],
+                        },
+                    },
+                },
+                "actionResult": "SUCCEEDED",
+                "actor": {
+                    "attributes": {"email": "homer@springfield.gov", "emailVerified": True, "roleId": "111111"},
+                    "id": "1111111",
+                    "name": "Homer Simpson",
+                    "type": "USER",
+                },
+                "errors": None,
+                "p_log_type": "Panther.Audit",
+                "sourceIP": "1.2.3.4.",
+                "timestamp": "2022-04-28 15:34:43.067",
+            },
+        ),
+        RuleTest(
+            name="Non-Delete event",
+            expected_result=False,
+            log={
+                "actionName": "GET_GENERAL_SETTINGS",
+                "actionParams": {},
+                "actionResult": "SUCCEEDED",
+                "actor": {
+                    "attributes": {"email": "homer@springfield.gov", "emailVerified": True, "roleId": "111111"},
+                    "id": "111111",
+                    "name": "Homer Simpson",
+                    "type": "USER",
+                },
+                "errors": None,
+                "p_log_type": "Panther.Audit",
+            },
+        ),
+    ]
