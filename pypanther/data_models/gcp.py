@@ -110,13 +110,20 @@ def get_verb(event):
     return deep_get(event, "protoPayload", "methodName", default="").split(".")[-1]
 
 
+def get_actor_user(event):
+    authentication_info = deep_get(event, "protoPayload", "authenticationInfo", default={})
+    if principal_email := authentication_info.get("principalEmail"):
+        return principal_email
+    return authentication_info.get("principalSubject", "<UNKNOWN ACTOR USER>")
+
+
 class StandardGCPAuditLog(DataModel):
     id: str = "Standard.GCP.AuditLog"
     display_name: str = "GCP Audit Log"
     enabled: bool = True
     log_types: list[str] = [LogType.GCP_AUDIT_LOG]
     mappings: list[DataModelMapping] = [
-        DataModelMapping(name="actor_user", path="$.protoPayload.authenticationInfo.principalEmail"),
+        DataModelMapping(name="actor_user", method=get_actor_user),
         DataModelMapping(name="assigned_admin_role", method=get_iam_roles),
         DataModelMapping(name="event_type", method=get_event_type),
         DataModelMapping(name="source_ip", path="$.protoPayload.requestMetadata.callerIP"),
@@ -130,7 +137,7 @@ class StandardGCPAuditLog(DataModel):
         DataModelMapping(name="requestURI", method=get_request_uri),
         DataModelMapping(name="responseStatus", path="$.protoPayload.status"),
         DataModelMapping(name="sourceIPs", method=get_source_ips),
-        DataModelMapping(name="username", path="$.protoPayload.authenticationInfo.principalEmail"),
+        DataModelMapping(name="username", method=get_actor_user),
         DataModelMapping(name="userAgent", path="$.protoPayload.requestMetadata.callerSuppliedUserAgent"),
         DataModelMapping(name="verb", method=get_verb),
         DataModelMapping(name="requestObject", path="$.protoPayload.request"),

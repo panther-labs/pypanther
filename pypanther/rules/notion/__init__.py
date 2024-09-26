@@ -1,6 +1,5 @@
-from pypanther.rules.notion.notion_account_changed_after_login import (
-    NotionAccountChangedAfterLogin as NotionAccountChangedAfterLogin,
-)
+from pypanther.rules.notion.notion_account_changed import NotionAccountChange as NotionAccountChange
+from pypanther.rules.notion.notion_login import NotionLogin as NotionLogin
 from pypanther.rules.notion.notion_login_from_blocked_ip import NotionLoginFromBlockedIP as NotionLoginFromBlockedIP
 from pypanther.rules.notion.notion_login_from_new_location import (
     NotionLoginFromNewLocation as NotionLoginFromNewLocation,

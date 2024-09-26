@@ -20,6 +20,9 @@ class AWSSuspiciousSAMLActivity(Rule):
         # Allow AWSSSO to manage
         if deep_get(event, "userIdentity", "arn", default="").endswith(":assumed-role/AWSServiceRoleForSSO/AWS-SSO"):
             return False
+        # Don't alert on errors such as EntityAlreadyExistsException and NoSuchEntity
+        if event.get("errorCode"):
+            return False
         return event.get("eventSource") == "iam.amazonaws.com" and event.get("eventName") in self.SAML_ACTIONS
 
     def title(self, event):
