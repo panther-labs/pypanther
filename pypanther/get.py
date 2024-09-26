@@ -91,6 +91,36 @@ def get_rules(module: Any) -> list[Type[Rule]]:
     return list(subclasses)
 
 
+def apply_overrides(module: Any, rules: list[Type[Rule]]=[]) -> list[Type[str]]:
+    """
+    Applies any overrides to the given rules based on the overrides declared in the given module.
+    Returns a list of the modules with apply_overrides functions that were applied.
+
+    For example: if all your PantherRule overrides are inside an "overrides" folder, you would do
+    ```
+    import overrides
+    from pypanther import apply_overrides, get_panther_rules
+
+    rules = get_panther_rules()
+    apply_overrides(overrides, rules)
+    ```
+    """
+    if not isinstance(module, ModuleType):
+        raise TypeError(f"Expected a module, got {type(module)}")
+    
+    modules = set()
+
+    for module_info in walk_packages(module.__path__, prefix=module.__name__ + "."):
+        m = import_module(module_info.name)
+        # each module should have an apply_overrides function,
+        # but still explictly check for it
+        if "apply_overrides" in dir(m):
+            m.apply_overrides(rules)
+            modules.add(m)
+
+    return list(modules)
+
+
 def get_panther_data_models(**kwargs) -> list[Type[DataModel]]:
     """
     Return an iterator of all PantherDataModels in the pypanther.rules based on the provided filters.
