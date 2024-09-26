@@ -221,7 +221,7 @@ Q = TypeVar("Q", bound=Query)
 class ScheduledRule(Rule, ABC, Generic[Q]):
     # _analysis_type = "SCHEDULED_RULE" # not passing mypy, not sure why
     query: Q
-    schedule: Schedule
+    schedule: Schedule = Schedule(period=Period.run_every(hours=1))  # Default to run every hour
 
     def rule(self, event: PantherEvent) -> bool:
         """Optional method to further filter the results of the query. Defaults to True to avoid redundant code."""

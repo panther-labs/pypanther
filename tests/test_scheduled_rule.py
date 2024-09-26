@@ -127,11 +127,14 @@ WHERE
 """
 
 
+ten_fourty_two_am = Schedule(cron="42 10 * * *", timeout_mins=5)
+
+
 class SnowflakeExteralShare(ScheduledRule):
     id = "Snowflake.External.Shares"
     enabled = True
     query = SnowflakeExternalShareQuery
-    schedule = Schedule(cron="42 10 * * *", timeout_mins=5)
+    schedule = ten_fourty_two_am
 
     def title(self, event):
         return (
@@ -262,3 +265,14 @@ class TestScheduledRule(unittest.TestCase):
             Schedule(period=Period.run_every(days=31))
         with pytest.raises(ValueError, match="Period must be set between 5 mins and 30 days"):
             Schedule(period=Period.run_every(minutes=4))
+
+    # def test_query_initialization(self):
+    #     rule = SnowflakeExteralShare()
+    #     self.assertIsInstance(rule.query, SQLQuery)
+    #     self.assertIn("snowflake.account_usage.data_transfer_history", rule.query.expression)
+
+    # def test_schedule_initialization(self):
+    #     rule = SnowflakeExteralShare()
+    #     self.assertIsInstance(rule.schedule, Schedule)
+    #     self.assertEqual(rule.schedule.cron, "42 10 * * *")
+    #     self.assertEqual(rule.schedule.timeout_mins, 5)
