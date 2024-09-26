@@ -251,7 +251,7 @@ class LogType(str, Enum):
     TAILSCALE_AUDIT = "Tailscale.Audit"
     TAILSCALE_NETWORK = "Tailscale.Network"
     TENABLE_VULNERABILITY = "Tenable.Vulnerability"
-    THINKST_CANARY_ALERT = "ThinkstCanary.Alert"
+    THINKSTCANARY_ALERT = "ThinkstCanary.Alert"
     TINES_AUDIT = "Tines.Audit"
     TOR_EXIT_NODE = "Tor.ExitNode"
     TRAILDISCOVER_CLOUDTRAIL = "TrailDiscover.CloudTrail"
