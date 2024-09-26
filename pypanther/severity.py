@@ -17,11 +17,13 @@ class Severity(str, Enum):
 
     def _increment(self, amt: int = 1) -> Severity:
         """Increase or decrease the severity level by a given amount."""
-        levels = [Severity.INFO, Severity.LOW, Severity.MEDIUM, Severity.HIGH, Severity.CRITICAL]
-        current_idx = levels.index(self)
+        # __members__ returns the severities an OrderedDict in the same ordering as the severities
+        #    are defined in the class
+        severities = list(Severity.__members__.keys())
+        current_idx = severities.index(self.name)
         # Change index by ammount, clamping between 0 and 4
-        new_idx = min(max(0, current_idx + amt), len(levels) - 1)
-        return levels[new_idx]
+        new_idx = min(max(0, current_idx + amt), len(severities) - 1)
+        return Severity(severities[new_idx])
 
     def upgrade(self):
         """
