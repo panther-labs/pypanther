@@ -133,6 +133,7 @@ class LogType(str, Enum):
     LACEWORK_USER_DETAILS = "Lacework.UserDetails"
     LACEWORK_USER_LOGIN = "Lacework.UserLogin"
     LINUX_AUDITD = "Linux.Auditd"
+    MATERIAL_CASE_CREATED = "Material.CaseCreated"
     MICROSOFT365_AUDIT_AZURE_ACTIVE_DIRECTORY = "Microsoft365.Audit.AzureActiveDirectory"
     MICROSOFT365_AUDIT_EXCHANGE = "Microsoft365.Audit.Exchange"
     MICROSOFT365_AUDIT_GENERAL = "Microsoft365.Audit.General"
@@ -232,6 +233,9 @@ class LogType(str, Enum):
     SNYK_GROUP_AUDIT = "Snyk.GroupAudit"
     SNYK_ORG_AUDIT = "Snyk.OrgAudit"
     SOPHOS_CENTRAL = "Sophos.Central"
+    SUBLIME_AUDIT = "Sublime.Audit"
+    SUBLIME_MDM = "Sublime.MDM"
+    SUBLIME_MESSAGE_EVENT = "Sublime.MessageEvent"
     SURICATA_ALERT = "Suricata.Alert"
     SURICATA_ANOMALY = "Suricata.Anomaly"
     SURICATA_DHCP = "Suricata.DHCP"
@@ -247,6 +251,7 @@ class LogType(str, Enum):
     TAILSCALE_AUDIT = "Tailscale.Audit"
     TAILSCALE_NETWORK = "Tailscale.Network"
     TENABLE_VULNERABILITY = "Tenable.Vulnerability"
+    THINKST_CANARY_ALERT = "ThinkstCanary.Alert"
     TINES_AUDIT = "Tines.Audit"
     TOR_EXIT_NODE = "Tor.ExitNode"
     TRAILDISCOVER_CLOUDTRAIL = "TrailDiscover.CloudTrail"
@@ -277,6 +282,7 @@ class LogType(str, Enum):
     ZENDESK_AUDIT = "Zendesk.Audit"
     ZOOM_ACTIVITY = "Zoom.Activity"
     ZOOM_OPERATION = "Zoom.Operation"
+    ZSCALER_ZIA_AUDIT_LOG = "Zscaler.ZIAAuditLog"
 
     def __str__(self) -> str:
         """Returns a string representation of the class' value."""
