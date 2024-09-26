@@ -3,42 +3,6 @@ from ipaddress import ip_network
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.base import aws_rule_context
 
-awsvpc_inbound_port_whitelist_tests: list[RuleTest] = [
-    RuleTest(
-        name="Public to Private IP on Restricted Port",
-        expected_result=True,
-        log={"dstPort": 22, "dstAddr": "10.0.0.1", "srcAddr": "1.1.1.1", "p_log_type": "AWS.VPCFlow"},
-    ),
-    RuleTest(
-        name="Public to Private IP on Allowed Port",
-        expected_result=False,
-        log={"dstPort": 443, "dstAddr": "10.0.0.1", "srcAddr": "1.1.1.1", "p_log_type": "AWS.VPCFlow"},
-    ),
-    RuleTest(
-        name="Private to Private IP on Restricted Port",
-        expected_result=False,
-        log={"dstPort": 22, "dstAddr": "10.0.0.1", "srcAddr": "10.10.10.1", "p_log_type": "AWS.VPCFlow"},
-    ),
-    RuleTest(
-        name="Public to Private IP on Restricted Port - OCSF",
-        expected_result=True,
-        log={
-            "dst_endpoint": {"ip": "10.0.0.1", "port": 22},
-            "src_endpoint": {"ip": "1.1.1.1"},
-            "p_log_type": "OCSF.NetworkActivity",
-        },
-    ),
-    RuleTest(
-        name="Public to Private IP on Allowed Port - OCSF",
-        expected_result=False,
-        log={
-            "dst_endpoint": {"ip": "10.0.0.1", "port": 443},
-            "src_endpoint": {"ip": "1.1.1.1"},
-            "p_log_type": "OCSF.NetworkActivity",
-        },
-    ),
-]
-
 
 @panther_managed
 class AWSVPCInboundPortWhitelist(Rule):
@@ -53,7 +17,6 @@ class AWSVPCInboundPortWhitelist(Rule):
     default_description = "VPC Flow Logs observed inbound traffic violating the port allowlist.\n"
     default_runbook = "Block the unapproved traffic, or update the approved ports list.\n"
     summary_attributes = ["srcaddr", "dstaddr", "dstport"]
-    tests = awsvpc_inbound_port_whitelist_tests
     APPROVED_PORTS = {80, 443}
 
     def rule(self, event):
@@ -77,3 +40,39 @@ class AWSVPCInboundPortWhitelist(Rule):
 
     def alert_context(self, event):
         return aws_rule_context(event)
+
+    tests = [
+        RuleTest(
+            name="Public to Private IP on Restricted Port",
+            expected_result=True,
+            log={"dstPort": 22, "dstAddr": "10.0.0.1", "srcAddr": "1.1.1.1", "p_log_type": "AWS.VPCFlow"},
+        ),
+        RuleTest(
+            name="Public to Private IP on Allowed Port",
+            expected_result=False,
+            log={"dstPort": 443, "dstAddr": "10.0.0.1", "srcAddr": "1.1.1.1", "p_log_type": "AWS.VPCFlow"},
+        ),
+        RuleTest(
+            name="Private to Private IP on Restricted Port",
+            expected_result=False,
+            log={"dstPort": 22, "dstAddr": "10.0.0.1", "srcAddr": "10.10.10.1", "p_log_type": "AWS.VPCFlow"},
+        ),
+        RuleTest(
+            name="Public to Private IP on Restricted Port - OCSF",
+            expected_result=True,
+            log={
+                "dst_endpoint": {"ip": "10.0.0.1", "port": 22},
+                "src_endpoint": {"ip": "1.1.1.1"},
+                "p_log_type": "OCSF.NetworkActivity",
+            },
+        ),
+        RuleTest(
+            name="Public to Private IP on Allowed Port - OCSF",
+            expected_result=False,
+            log={
+                "dst_endpoint": {"ip": "10.0.0.1", "port": 443},
+                "src_endpoint": {"ip": "1.1.1.1"},
+                "p_log_type": "OCSF.NetworkActivity",
+            },
+        ),
+    ]

@@ -2,72 +2,6 @@ from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.base import deep_get
 from pypanther.helpers.notion import notion_alert_context
 
-notion_samlsso_configuration_changed_tests: list[RuleTest] = [
-    RuleTest(
-        name="Other Event",
-        expected_result=False,
-        log={
-            "event": {
-                "id": "...",
-                "timestamp": "2023-05-15T19:14:21.031Z",
-                "workspace_id": "..",
-                "actor": {
-                    "id": "..",
-                    "object": "user",
-                    "type": "person",
-                    "person": {"email": "homer.simpson@yourcompany.io"},
-                },
-                "ip_address": "...",
-                "platform": "web",
-                "type": "workspace.content_exported",
-                "workspace.content_exported": {},
-            },
-        },
-    ),
-    RuleTest(
-        name="SAML SSO Enabled",
-        expected_result=True,
-        log={
-            "event": {
-                "id": "...",
-                "timestamp": "2023-05-15T19:14:21.031Z",
-                "workspace_id": "..",
-                "actor": {
-                    "id": "..",
-                    "object": "user",
-                    "type": "person",
-                    "person": {"email": "homer.simpson@yourcompany.io"},
-                },
-                "ip_address": "...",
-                "platform": "web",
-                "type": "workspace.settings.enforce_saml_sso_config_updated",
-                "workspace.settings.enforce_saml_sso_config_updated": {"state": "enabled"},
-            },
-        },
-    ),
-    RuleTest(
-        name="SAML SSO Disabled",
-        expected_result=True,
-        log={
-            "event": {
-                "id": "...",
-                "timestamp": "2023-05-15T19:14:21.031Z",
-                "workspace_id": "..",
-                "actor": {
-                    "id": "..",
-                    "object": "user",
-                    "type": "person",
-                    "person": {"email": "homer.simpson@yourcompany.io"},
-                },
-                "ip_address": "...",
-                "platform": "web",
-                "type": "workspace.settings.enforce_saml_sso_config_updated",
-                "workspace.settings.enforce_saml_sso_config_updated": {"state": "disabled"},
-            },
-        },
-    ),
-]
-
 
 @panther_managed
 class NotionSAMLSSOConfigurationChanged(Rule):
@@ -79,7 +13,6 @@ class NotionSAMLSSOConfigurationChanged(Rule):
     default_description = "A Notion User changed settings to enforce SAML SSO configurations for your organization."
     default_runbook = "Follow up with the Notion User to determine if this was done for a valid business reason and to ensure these settings get re-enabled quickly for best security practices."
     default_reference = "https://www.notion.so/help/saml-sso-configuration"
-    tests = notion_samlsso_configuration_changed_tests
 
     def rule(self, event):
         return (
@@ -115,3 +48,69 @@ class NotionSAMLSSOConfigurationChanged(Rule):
 
     def alert_context(self, event):
         return notion_alert_context(event)
+
+    tests = [
+        RuleTest(
+            name="Other Event",
+            expected_result=False,
+            log={
+                "event": {
+                    "id": "...",
+                    "timestamp": "2023-05-15T19:14:21.031Z",
+                    "workspace_id": "..",
+                    "actor": {
+                        "id": "..",
+                        "object": "user",
+                        "type": "person",
+                        "person": {"email": "homer.simpson@yourcompany.io"},
+                    },
+                    "ip_address": "...",
+                    "platform": "web",
+                    "type": "workspace.content_exported",
+                    "workspace.content_exported": {},
+                },
+            },
+        ),
+        RuleTest(
+            name="SAML SSO Enabled",
+            expected_result=True,
+            log={
+                "event": {
+                    "id": "...",
+                    "timestamp": "2023-05-15T19:14:21.031Z",
+                    "workspace_id": "..",
+                    "actor": {
+                        "id": "..",
+                        "object": "user",
+                        "type": "person",
+                        "person": {"email": "homer.simpson@yourcompany.io"},
+                    },
+                    "ip_address": "...",
+                    "platform": "web",
+                    "type": "workspace.settings.enforce_saml_sso_config_updated",
+                    "workspace.settings.enforce_saml_sso_config_updated": {"state": "enabled"},
+                },
+            },
+        ),
+        RuleTest(
+            name="SAML SSO Disabled",
+            expected_result=True,
+            log={
+                "event": {
+                    "id": "...",
+                    "timestamp": "2023-05-15T19:14:21.031Z",
+                    "workspace_id": "..",
+                    "actor": {
+                        "id": "..",
+                        "object": "user",
+                        "type": "person",
+                        "person": {"email": "homer.simpson@yourcompany.io"},
+                    },
+                    "ip_address": "...",
+                    "platform": "web",
+                    "type": "workspace.settings.enforce_saml_sso_config_updated",
+                    "workspace.settings.enforce_saml_sso_config_updated": {"state": "disabled"},
+                },
+            },
+        ),
+    ]

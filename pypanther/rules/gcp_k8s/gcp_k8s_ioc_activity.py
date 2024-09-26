@@ -2,19 +2,6 @@ from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.base import deep_get
 from pypanther.helpers.gcp_base import gcp_alert_context
 
-gcpk8s_ioc_activity_tests: list[RuleTest] = [
-    RuleTest(
-        name="triggers",
-        expected_result=True,
-        log={"operation": {"producer": "k8s.io"}, "p_enrichment": {"tor_exit_nodes": ["1.1.1.1"]}},
-    ),
-    RuleTest(
-        name="ignore",
-        expected_result=False,
-        log={"operation": {"producer": "chrome"}, "p_enrichment": {"tor_exit_nodes": ["1.1.1.1"]}},
-    ),
-]
-
 
 @panther_managed
 class GCPK8sIOCActivity(Rule):
@@ -29,7 +16,6 @@ class GCPK8sIOCActivity(Rule):
     reports = {"MITRE ATT&CK": ["TA0011:T1573.002"]}
     default_runbook = "Add IP address the request is originated from to banned addresses."
     default_reference = "https://medium.com/snowflake/from-logs-to-detection-using-snowflake-and-panther-to-detect-k8s-threats-d72f70a504d7"
-    tests = gcpk8s_ioc_activity_tests
 
     def rule(self, event):
         if deep_get(event, "operation", "producer") == "k8s.io" and deep_get(event, "p_enrichment", "tor_exit_nodes"):
@@ -46,3 +32,16 @@ class GCPK8sIOCActivity(Rule):
         context = gcp_alert_context(event)
         context["tor_exit_nodes"] = deep_get(event, "p_enrichment", "tor_exit_nodes")
         return context
+
+    tests = [
+        RuleTest(
+            name="triggers",
+            expected_result=True,
+            log={"operation": {"producer": "k8s.io"}, "p_enrichment": {"tor_exit_nodes": ["1.1.1.1"]}},
+        ),
+        RuleTest(
+            name="ignore",
+            expected_result=False,
+            log={"operation": {"producer": "chrome"}, "p_enrichment": {"tor_exit_nodes": ["1.1.1.1"]}},
+        ),
+    ]

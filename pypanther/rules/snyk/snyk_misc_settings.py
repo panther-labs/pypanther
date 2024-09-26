@@ -1,32 +1,6 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.snyk import snyk_alert_context
 
-snyk_misc_settings_tests: list[RuleTest] = [
-    RuleTest(
-        name="Snyk Feature Flags changed",
-        expected_result=True,
-        log={
-            "created": "2023-04-11 23:32:14.173",
-            "event": "group.feature_flags.edit",
-            "groupId": "8fffffff-1555-4444-b000-b55555555555",
-            "orgId": "21111111-a222-4eee-8ddd-a99999999999",
-            "userId": "05555555-3333-4ddd-8ccc-755555555555",
-        },
-    ),
-    RuleTest(
-        name="Snyk User Invite Revoke",
-        expected_result=False,
-        log={
-            "content": {},
-            "created": "2023-04-11 23:32:13.248",
-            "event": "org.user.invite.revoke",
-            "groupId": "8fffffff-1555-4444-b000-b55555555555",
-            "orgId": "21111111-a222-4eee-8ddd-a99999999999",
-            "userId": "05555555-3333-4ddd-8ccc-755555555555",
-        },
-    ),
-]
-
 
 @panther_managed
 class SnykMiscSettings(Rule):
@@ -38,7 +12,6 @@ class SnykMiscSettings(Rule):
     default_severity = Severity.LOW
     default_description = "Detects when Snyk settings that lack a clear security impact are changed\n"
     summary_attributes = ["event"]
-    tests = snyk_misc_settings_tests
     ACTIONS = ["group.cloud_config.settings.edit", "group.feature_flags.edit"]
 
     def rule(self, event):
@@ -59,3 +32,29 @@ class SnykMiscSettings(Rule):
 
     def dedup(self, event):
         return f"{event.deep_get('userId', default='<NO_USERID>')}{event.deep_get('orgId', default='<NO_ORGID>')}{event.deep_get('groupId', default='<NO_GROUPID>')}{event.deep_get('event', default='<NO_EVENT>')}"
+
+    tests = [
+        RuleTest(
+            name="Snyk Feature Flags changed",
+            expected_result=True,
+            log={
+                "created": "2023-04-11 23:32:14.173",
+                "event": "group.feature_flags.edit",
+                "groupId": "8fffffff-1555-4444-b000-b55555555555",
+                "orgId": "21111111-a222-4eee-8ddd-a99999999999",
+                "userId": "05555555-3333-4ddd-8ccc-755555555555",
+            },
+        ),
+        RuleTest(
+            name="Snyk User Invite Revoke",
+            expected_result=False,
+            log={
+                "content": {},
+                "created": "2023-04-11 23:32:13.248",
+                "event": "org.user.invite.revoke",
+                "groupId": "8fffffff-1555-4444-b000-b55555555555",
+                "orgId": "21111111-a222-4eee-8ddd-a99999999999",
+                "userId": "05555555-3333-4ddd-8ccc-755555555555",
+            },
+        ),
+    ]

@@ -3,60 +3,6 @@ from fnmatch import fnmatch
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.base import deep_get
 
-osquery_mac_osx_attacks_keyboard_events_tests: list[RuleTest] = [
-    RuleTest(
-        name="App running on Desktop that is watching keyboard events",
-        expected_result=True,
-        log={
-            "name": "pack_osx-attacks_Keyboard_Event_Taps",
-            "action": "added",
-            "hostIdentifier": "test-host",
-            "columns": {"path": "/Users/johnny/Desktop/Siri.app/Contents/MacOS/Siri", "pid": 100, "name": "Siri"},
-        },
-    ),
-    RuleTest(
-        name="App is running from approved path",
-        expected_result=False,
-        log={
-            "name": "pack_osx-attacks_Keyboard_Event_Taps",
-            "action": "added",
-            "hostIdentifier": "test-host",
-            "columns": {
-                "path": "/System/Library/CoreServices/Siri.app/Contents/MacOS/Siri",
-                "pid": 100,
-                "name": "Siri",
-            },
-        },
-    ),
-    RuleTest(
-        name="Unrelated query does not alert",
-        expected_result=False,
-        log={
-            "action": "added",
-            "calendarTime": "2020-04-10 23:26:11.000000000",
-            "columns": {
-                "blocks_size": "4096",
-                "inodes": "2448101320",
-                "path": "/",
-                "blocks": "61202533",
-                "blocks_available": "22755926",
-                "blocks_free": "58479522",
-                "device": "/dev/disk1s5",
-                "device_alias": "/dev/disk1s5",
-                "flags": "75550721",
-                "inodes_free": "2447613763",
-                "type": "apfs",
-            },
-            "counter": 28,
-            "decorations": {"host_uuid": "0ec3540f-1dd9-4462-bd28-0f63b2611621", "hostname": "MacBook-Pro.local"},
-            "epoch": 0,
-            "hostIdentifier": "MacBook-Pro.local",
-            "name": "pack/incident-response/mounts",
-            "unixTime": 1586561171,
-        },
-    ),
-]
-
 
 @panther_managed
 class OsqueryMacOSXAttacksKeyboardEvents(Rule):
@@ -70,7 +16,6 @@ class OsqueryMacOSXAttacksKeyboardEvents(Rule):
     default_runbook = "Verify the Application monitoring the keyboard taps"
     default_reference = "https://support.apple.com/en-us/HT204899"
     summary_attributes = ["name", "hostIdentifier", "action"]
-    tests = osquery_mac_osx_attacks_keyboard_events_tests
     # sip protects against writing malware into the paths below.
     # additional apps can be added to this list based on your environments.
     #
@@ -94,3 +39,57 @@ class OsqueryMacOSXAttacksKeyboardEvents(Rule):
 
     def title(self, event):
         return f"Keylogger malware detected on [{event.get('hostIdentifier')}]"
+
+    tests = [
+        RuleTest(
+            name="App running on Desktop that is watching keyboard events",
+            expected_result=True,
+            log={
+                "name": "pack_osx-attacks_Keyboard_Event_Taps",
+                "action": "added",
+                "hostIdentifier": "test-host",
+                "columns": {"path": "/Users/johnny/Desktop/Siri.app/Contents/MacOS/Siri", "pid": 100, "name": "Siri"},
+            },
+        ),
+        RuleTest(
+            name="App is running from approved path",
+            expected_result=False,
+            log={
+                "name": "pack_osx-attacks_Keyboard_Event_Taps",
+                "action": "added",
+                "hostIdentifier": "test-host",
+                "columns": {
+                    "path": "/System/Library/CoreServices/Siri.app/Contents/MacOS/Siri",
+                    "pid": 100,
+                    "name": "Siri",
+                },
+            },
+        ),
+        RuleTest(
+            name="Unrelated query does not alert",
+            expected_result=False,
+            log={
+                "action": "added",
+                "calendarTime": "2020-04-10 23:26:11.000000000",
+                "columns": {
+                    "blocks_size": "4096",
+                    "inodes": "2448101320",
+                    "path": "/",
+                    "blocks": "61202533",
+                    "blocks_available": "22755926",
+                    "blocks_free": "58479522",
+                    "device": "/dev/disk1s5",
+                    "device_alias": "/dev/disk1s5",
+                    "flags": "75550721",
+                    "inodes_free": "2447613763",
+                    "type": "apfs",
+                },
+                "counter": 28,
+                "decorations": {"host_uuid": "0ec3540f-1dd9-4462-bd28-0f63b2611621", "hostname": "MacBook-Pro.local"},
+                "epoch": 0,
+                "hostIdentifier": "MacBook-Pro.local",
+                "name": "pack/incident-response/mounts",
+                "unixTime": 1586561171,
+            },
+        ),
+    ]

@@ -1,36 +1,5 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 
-carbon_black_audit_user_added_outside_org_tests: list[RuleTest] = [
-    RuleTest(
-        name="Outside org",
-        expected_result=True,
-        log={
-            "clientIp": "12.34.56.78",
-            "description": "Added user badguy@acme.io to org 12345 (Email Invitation)",
-            "eventId": "d109e568832111ee8ab2057b240e65f8",
-            "eventTime": "2023-11-14 19:12:55.917000000",
-            "flagged": False,
-            "loginName": "bob.ross@acme.com",
-            "orgName": "acme.com",
-            "verbose": False,
-        },
-    ),
-    RuleTest(
-        name="Inside org",
-        expected_result=False,
-        log={
-            "clientIp": "12.34.56.78",
-            "description": "Added user goodguy@acme.com to org 12345 (Email Invitation)",
-            "eventId": "d109e568832111ee8ab2057b240e65f8",
-            "eventTime": "2023-11-14 19:12:55.917000000",
-            "flagged": False,
-            "loginName": "bob.ross@acme.com",
-            "orgName": "acme.com",
-            "verbose": False,
-        },
-    ),
-]
-
 
 @panther_managed
 class CarbonBlackAuditUserAddedOutsideOrg(Rule):
@@ -42,7 +11,6 @@ class CarbonBlackAuditUserAddedOutsideOrg(Rule):
     tags = ["Persistence", "Create Account"]
     reports = {"MITRE ATT&CK": ["TA0003:T1136"]}
     default_reference = "https://docs.vmware.com/en/VMware-Carbon-Black-Cloud/services/carbon-black-cloud-user-guide/GUID-516BAF8C-A13D-4FC7-AA92-923159C13083.html"
-    tests = carbon_black_audit_user_added_outside_org_tests
     PATTERNS = ("Added user ",)
 
     def rule(self, event):
@@ -62,3 +30,34 @@ class CarbonBlackAuditUserAddedOutsideOrg(Rule):
         ip_addr = event.get("clientIp", "<NO_IP_FOUND>")
         desc = event.get("description", "<NO_DESCRIPTION_FOUND>")
         return f"{user} [{ip_addr}] {desc}"
+
+    tests = [
+        RuleTest(
+            name="Outside org",
+            expected_result=True,
+            log={
+                "clientIp": "12.34.56.78",
+                "description": "Added user badguy@acme.io to org 12345 (Email Invitation)",
+                "eventId": "d109e568832111ee8ab2057b240e65f8",
+                "eventTime": "2023-11-14 19:12:55.917000000",
+                "flagged": False,
+                "loginName": "bob.ross@acme.com",
+                "orgName": "acme.com",
+                "verbose": False,
+            },
+        ),
+        RuleTest(
+            name="Inside org",
+            expected_result=False,
+            log={
+                "clientIp": "12.34.56.78",
+                "description": "Added user goodguy@acme.com to org 12345 (Email Invitation)",
+                "eventId": "d109e568832111ee8ab2057b240e65f8",
+                "eventTime": "2023-11-14 19:12:55.917000000",
+                "flagged": False,
+                "loginName": "bob.ross@acme.com",
+                "orgName": "acme.com",
+                "verbose": False,
+            },
+        ),
+    ]

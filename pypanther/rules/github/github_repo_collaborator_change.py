@@ -1,47 +1,5 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 
-github_repo_collaborator_change_tests: list[RuleTest] = [
-    RuleTest(
-        name="GitHub - Collaborator Added",
-        expected_result=True,
-        log={
-            "actor": "bob",
-            "action": "repo.add_member",
-            "created_at": 1621305118553,
-            "org": "my-org",
-            "p_log_type": "GitHub.Audit",
-            "repo": "my-org/my-repo",
-            "user": "cat",
-        },
-    ),
-    RuleTest(
-        name="GitHub - Collaborator Removed",
-        expected_result=True,
-        log={
-            "actor": "bob",
-            "action": "repo.remove_member",
-            "created_at": 1621305118553,
-            "org": "my-org",
-            "p_log_type": "GitHub.Audit",
-            "repo": "my-org/my-repo",
-            "user": "cat",
-        },
-    ),
-    RuleTest(
-        name="GitHub - Non member action",
-        expected_result=False,
-        log={
-            "actor": "bob",
-            "action": "repo.enable",
-            "created_at": 1621305118553,
-            "org": "my-org",
-            "p_log_type": "GitHub.Audit",
-            "repo": "my-org/my-repo",
-            "user": "cat",
-        },
-    ),
-]
-
 
 @panther_managed
 class GithubRepoCollaboratorChange(Rule):
@@ -54,7 +12,6 @@ class GithubRepoCollaboratorChange(Rule):
     default_description = "Detects when a repository collaborator is added or removed."
     default_runbook = "Determine if the new collaborator is authorized to access the repository."
     default_reference = "https://docs.github.com/en/organizations/managing-user-access-to-your-organizations-repositories/managing-repository-roles/managing-an-individuals-access-to-an-organization-repository"
-    tests = github_repo_collaborator_change_tests
 
     def rule(self, event):
         return event.get("action") in ("repo.add_member", "repo.remove_member")
@@ -70,3 +27,45 @@ class GithubRepoCollaboratorChange(Rule):
         if event.get("action") == "repo.remove_member":
             return "INFO"
         return "MEDIUM"
+
+    tests = [
+        RuleTest(
+            name="GitHub - Collaborator Added",
+            expected_result=True,
+            log={
+                "actor": "bob",
+                "action": "repo.add_member",
+                "created_at": 1621305118553,
+                "org": "my-org",
+                "p_log_type": "GitHub.Audit",
+                "repo": "my-org/my-repo",
+                "user": "cat",
+            },
+        ),
+        RuleTest(
+            name="GitHub - Collaborator Removed",
+            expected_result=True,
+            log={
+                "actor": "bob",
+                "action": "repo.remove_member",
+                "created_at": 1621305118553,
+                "org": "my-org",
+                "p_log_type": "GitHub.Audit",
+                "repo": "my-org/my-repo",
+                "user": "cat",
+            },
+        ),
+        RuleTest(
+            name="GitHub - Non member action",
+            expected_result=False,
+            log={
+                "actor": "bob",
+                "action": "repo.enable",
+                "created_at": 1621305118553,
+                "org": "my-org",
+                "p_log_type": "GitHub.Audit",
+                "repo": "my-org/my-repo",
+                "user": "cat",
+            },
+        ),
+    ]

@@ -1,32 +1,5 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 
-one_login_auth_factor_removed_tests: list[RuleTest] = [
-    RuleTest(
-        name="User removed an auth factor",
-        expected_result=True,
-        log={
-            "event_type_id": "172",
-            "actor_user_id": 123456,
-            "actor_user_name": "Bob Cat",
-            "user_id": 123456,
-            "user_name": "Bob Cat",
-            "authentication_factor_description": "2FA Name",
-        },
-    ),
-    RuleTest(
-        name="User deactivated an otp deice",
-        expected_result=True,
-        log={
-            "event_type_id": "24",
-            "actor_user_id": 123456,
-            "actor_user_name": "Bob Cat",
-            "user_id": 123456,
-            "user_name": "Bob Cat",
-            "otp_device_name": "2FA Name",
-        },
-    ),
-]
-
 
 @panther_managed
 class OneLoginAuthFactorRemoved(Rule):
@@ -47,7 +20,6 @@ class OneLoginAuthFactorRemoved(Rule):
         "authentication_factor_description",
         "otp_device_name",
     ]
-    tests = one_login_auth_factor_removed_tests
 
     def rule(self, event):
         # verify this is a auth factor being removed
@@ -62,3 +34,30 @@ class OneLoginAuthFactorRemoved(Rule):
         if str(event.get("event_type_id")) == "172":
             return f"A user [{event.get('user_name', '<UNKNOWN_USER>')}] removed an authentication factor [{event.get('authentication_factor_description', '<UNKNOWN_AUTH_FACTOR>')}]"
         return f"A user [{event.get('user_name', '<UNKNOWN_USER>')}] deactivated an otp device [{(event.get('otp_device_name', '<UNKNOWN_OTP_DEVICE>'),)}]"
+
+    tests = [
+        RuleTest(
+            name="User removed an auth factor",
+            expected_result=True,
+            log={
+                "event_type_id": "172",
+                "actor_user_id": 123456,
+                "actor_user_name": "Bob Cat",
+                "user_id": 123456,
+                "user_name": "Bob Cat",
+                "authentication_factor_description": "2FA Name",
+            },
+        ),
+        RuleTest(
+            name="User deactivated an otp deice",
+            expected_result=True,
+            log={
+                "event_type_id": "24",
+                "actor_user_id": 123456,
+                "actor_user_name": "Bob Cat",
+                "user_id": 123456,
+                "user_name": "Bob Cat",
+                "otp_device_name": "2FA Name",
+            },
+        ),
+    ]

@@ -1,53 +1,5 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 
-osquery_linux_mac_vulnerable_x_zliblzma_tests: list[RuleTest] = [
-    RuleTest(
-        name="Vulnerable liblzma",
-        expected_result=True,
-        log={
-            "name": "pack_vuln-management_rpm_packages",
-            "action": "added",
-            "hostIdentifier": "test-host",
-            "columns": {
-                "source": "test-host",
-                "name": "liblzma.so",
-                "version": "5.6.1.000",
-                "status": "Potentially vulnerable",
-            },
-        },
-    ),
-    RuleTest(
-        name="Vulnerable xz",
-        expected_result=True,
-        log={
-            "name": "pack_vuln-management_deb_packages",
-            "action": "added",
-            "hostIdentifier": "test-host",
-            "columns": {
-                "source": "test-host",
-                "name": "xz",
-                "version": "5.6.0.000",
-                "status": "Potentially vulnerable",
-            },
-        },
-    ),
-    RuleTest(
-        name="Not vulnerable",
-        expected_result=False,
-        log={
-            "name": "pack_vuln-management_rpm_packages",
-            "action": "added",
-            "hostIdentifier": "test-host",
-            "columns": {
-                "source": "test-host",
-                "name": "liblzma.so",
-                "version": "5.4.6.000",
-                "status": "Most likely not vulnerable",
-            },
-        },
-    ),
-]
-
 
 @panther_managed
 class OsqueryLinuxMacVulnerableXZliblzma(Rule):
@@ -61,7 +13,6 @@ class OsqueryLinuxMacVulnerableXZliblzma(Rule):
     default_runbook = "Upgrade/downgrade xz and liblzma to non-vulnerable versions"
     default_reference = "https://gist.github.com/jamesspi/ee8319f55d49b4f44345c626f80c430f"
     summary_attributes = ["name", "hostIdentifier", "action"]
-    tests = osquery_linux_mac_vulnerable_x_zliblzma_tests
     QUERY_NAMES = {
         "pack_vuln-management_homebrew_packages",
         "pack_vuln-management_deb_packages",
@@ -86,3 +37,51 @@ class OsqueryLinuxMacVulnerableXZliblzma(Rule):
         name = event.deep_get("columns", "name", default="")
         version = event.deep_get("columns", "version", default="")
         return f"[CVE-2024-3094] {name} {version} Potentially vulnerable on {host}"
+
+    tests = [
+        RuleTest(
+            name="Vulnerable liblzma",
+            expected_result=True,
+            log={
+                "name": "pack_vuln-management_rpm_packages",
+                "action": "added",
+                "hostIdentifier": "test-host",
+                "columns": {
+                    "source": "test-host",
+                    "name": "liblzma.so",
+                    "version": "5.6.1.000",
+                    "status": "Potentially vulnerable",
+                },
+            },
+        ),
+        RuleTest(
+            name="Vulnerable xz",
+            expected_result=True,
+            log={
+                "name": "pack_vuln-management_deb_packages",
+                "action": "added",
+                "hostIdentifier": "test-host",
+                "columns": {
+                    "source": "test-host",
+                    "name": "xz",
+                    "version": "5.6.0.000",
+                    "status": "Potentially vulnerable",
+                },
+            },
+        ),
+        RuleTest(
+            name="Not vulnerable",
+            expected_result=False,
+            log={
+                "name": "pack_vuln-management_rpm_packages",
+                "action": "added",
+                "hostIdentifier": "test-host",
+                "columns": {
+                    "source": "test-host",
+                    "name": "liblzma.so",
+                    "version": "5.4.6.000",
+                    "status": "Most likely not vulnerable",
+                },
+            },
+        ),
+    ]

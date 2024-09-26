@@ -2,86 +2,6 @@ import re
 
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 
-zoom_user_promotedto_privileged_role_tests: list[RuleTest] = [
-    RuleTest(
-        name="Admin Promotion Event",
-        expected_result=True,
-        log={
-            "action": "Batch Update",
-            "category_type": "User",
-            "operation_detail": "Change Role  - homer.simpson@duff.io: from User to Co-Owner",
-            "operator": "admin@duff.io",
-            "time": "2022-07-05 20:28:48",
-        },
-    ),
-    RuleTest(
-        name="Admin to Admin",
-        expected_result=False,
-        log={
-            "action": "Batch Update",
-            "category_type": "User",
-            "operation_detail": "Change Role  - homer.simpson@duff.io: from Admin to Co-Owner",
-            "operator": "admin@duff.io",
-            "time": "2022-07-05 20:28:48",
-        },
-    ),
-    RuleTest(
-        name="Admin to Billing Admin",
-        expected_result=False,
-        log={
-            "action": "Batch Update",
-            "category_type": "User",
-            "operation_detail": "Change Role  - homer.simpson@duff.io: from Admin to Billing Admin",
-            "operator": "admin@duff.io",
-            "time": "2022-07-05 20:28:48",
-        },
-    ),
-    RuleTest(
-        name="Member to Billing Admin Event",
-        expected_result=True,
-        log={
-            "action": "Batch Update",
-            "category_type": "User",
-            "operation_detail": "Change Role  - homer.simpson@duff.io: from Member to Billing Admin",
-            "operator": "admin@duff.io",
-            "time": "2022-07-05 20:28:48",
-        },
-    ),
-    RuleTest(
-        name="Admin to User",
-        expected_result=False,
-        log={
-            "action": "Batch Update",
-            "category_type": "User",
-            "operation_detail": "Change Role  - homer.simpson@duff.io: from Co-Owner to User",
-            "operator": "admin@duff.io",
-            "time": "2022-07-05 20:28:48",
-        },
-    ),
-    RuleTest(
-        name="CoOwner to Admin",
-        expected_result=False,
-        log={
-            "action": "Batch Update",
-            "category_type": "User",
-            "operation_detail": "Change Role  - homer.simpson@duff.io: from Co-Owner to Admin",
-            "operator": "admin@duff.io",
-            "time": "2022-07-05 20:28:48",
-        },
-    ),
-    RuleTest(
-        name="Other Event",
-        expected_result=False,
-        log={
-            "action": "SCIM API - Update",
-            "category_type": "User",
-            "operation_detail": "Edit User homer.simpson@duff.co  - Change Type: from Basic to Licensed",
-            "operator": "admin@duff.co",
-            "time": "2022-07-01 22:05:22",
-        },
-    ),
-]
-
 
 @panther_managed
 class ZoomUserPromotedtoPrivilegedRole(Rule):
@@ -91,7 +11,6 @@ class ZoomUserPromotedtoPrivilegedRole(Rule):
     default_severity = Severity.MEDIUM
     log_types = [LogType.ZOOM_OPERATION]
     id = "Zoom.User.Promoted.to.Privileged.Role-prototype"
-    tests = zoom_user_promotedto_privileged_role_tests
     PRIVILEGED_ROLES = ("Admin", "Co-Owner", "Owner", "Billing Admin")
 
     def extract_values(self, event):
@@ -117,3 +36,83 @@ class ZoomUserPromotedtoPrivilegedRole(Rule):
     def title(self, event):
         operator, email, from_role, to_role = self.extract_values(event)
         return f"Zoom: [{email}]'s role was changed from [{from_role}] to [{to_role}] by [{operator}]."
+
+    tests = [
+        RuleTest(
+            name="Admin Promotion Event",
+            expected_result=True,
+            log={
+                "action": "Batch Update",
+                "category_type": "User",
+                "operation_detail": "Change Role  - homer.simpson@duff.io: from User to Co-Owner",
+                "operator": "admin@duff.io",
+                "time": "2022-07-05 20:28:48",
+            },
+        ),
+        RuleTest(
+            name="Admin to Admin",
+            expected_result=False,
+            log={
+                "action": "Batch Update",
+                "category_type": "User",
+                "operation_detail": "Change Role  - homer.simpson@duff.io: from Admin to Co-Owner",
+                "operator": "admin@duff.io",
+                "time": "2022-07-05 20:28:48",
+            },
+        ),
+        RuleTest(
+            name="Admin to Billing Admin",
+            expected_result=False,
+            log={
+                "action": "Batch Update",
+                "category_type": "User",
+                "operation_detail": "Change Role  - homer.simpson@duff.io: from Admin to Billing Admin",
+                "operator": "admin@duff.io",
+                "time": "2022-07-05 20:28:48",
+            },
+        ),
+        RuleTest(
+            name="Member to Billing Admin Event",
+            expected_result=True,
+            log={
+                "action": "Batch Update",
+                "category_type": "User",
+                "operation_detail": "Change Role  - homer.simpson@duff.io: from Member to Billing Admin",
+                "operator": "admin@duff.io",
+                "time": "2022-07-05 20:28:48",
+            },
+        ),
+        RuleTest(
+            name="Admin to User",
+            expected_result=False,
+            log={
+                "action": "Batch Update",
+                "category_type": "User",
+                "operation_detail": "Change Role  - homer.simpson@duff.io: from Co-Owner to User",
+                "operator": "admin@duff.io",
+                "time": "2022-07-05 20:28:48",
+            },
+        ),
+        RuleTest(
+            name="CoOwner to Admin",
+            expected_result=False,
+            log={
+                "action": "Batch Update",
+                "category_type": "User",
+                "operation_detail": "Change Role  - homer.simpson@duff.io: from Co-Owner to Admin",
+                "operator": "admin@duff.io",
+                "time": "2022-07-05 20:28:48",
+            },
+        ),
+        RuleTest(
+            name="Other Event",
+            expected_result=False,
+            log={
+                "action": "SCIM API - Update",
+                "category_type": "User",
+                "operation_detail": "Edit User homer.simpson@duff.co  - Change Type: from Basic to Licensed",
+                "operator": "admin@duff.co",
+                "time": "2022-07-01 22:05:22",
+            },
+        ),
+    ]

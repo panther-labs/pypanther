@@ -1,66 +1,6 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.base import ZENDESK_CHANGE_DESCRIPTION
 
-zendesk_mobile_app_access_updated_tests: list[RuleTest] = [
-    RuleTest(
-        name="Zendesk - Mobile App Access Off",
-        expected_result=True,
-        log={
-            "url": "https://myzendek.zendesk.com/api/v2/audit_logs/111222333444.json",
-            "id": 123456789123,
-            "action_label": "Updated",
-            "actor_id": 123,
-            "actor_name": "John Doe",
-            "source_id": 123,
-            "source_type": "account_setting",
-            "source_label": "Zendesk Support Mobile App Access",
-            "action": "create",
-            "change_description": "Disabled",
-            "ip_address": "127.0.0.1",
-            "created_at": "2021-05-28T18:39:50Z",
-            "p_log_type": "Zendesk.Audit",
-        },
-    ),
-    RuleTest(
-        name="Zendesk - Mobile App Access On",
-        expected_result=True,
-        log={
-            "url": "https://myzendek.zendesk.com/api/v2/audit_logs/111222333444.json",
-            "id": 123456789123,
-            "action_label": "Updated",
-            "actor_id": 123,
-            "actor_name": "John Doe",
-            "source_id": 123,
-            "source_type": "account_setting",
-            "source_label": "Zendesk Support Mobile App Access",
-            "action": "create",
-            "change_description": "Enabled",
-            "ip_address": "127.0.0.1",
-            "created_at": "2021-05-28T18:39:50Z",
-            "p_log_type": "Zendesk.Audit",
-        },
-    ),
-    RuleTest(
-        name="Zendesk - Credit Card Redaction",
-        expected_result=False,
-        log={
-            "url": "https://myzendek.zendesk.com/api/v2/audit_logs/111222333444.json",
-            "id": 123456789123,
-            "action_label": "Updated",
-            "actor_id": 123,
-            "actor_name": "John Doe",
-            "source_id": 123,
-            "source_type": "account_setting",
-            "source_label": "Credit Card Redaction",
-            "action": "create",
-            "change_description": "Enabled",
-            "ip_address": "127.0.0.1",
-            "created_at": "2021-05-28T18:39:50Z",
-            "p_log_type": "Zendesk.Audit",
-        },
-    ),
-]
-
 
 @panther_managed
 class ZendeskMobileAppAccessUpdated(Rule):
@@ -73,7 +13,6 @@ class ZendeskMobileAppAccessUpdated(Rule):
     default_description = "A user updated account setting that enabled or disabled mobile app access."
     default_reference = "https://support.zendesk.com/hc/en-us/articles/4408846407066-About-the-Zendesk-Support-mobile-app#:~:text=More%20settings.-,Configuring%20the%20mobile%20app,-Activate%20the%20new"
     summary_attributes = ["p_any_ip_addresses"]
-    tests = zendesk_mobile_app_access_updated_tests
     MOBILE_APP_ACTIONS = {"create", "update"}
 
     def rule(self, event):
@@ -91,3 +30,63 @@ class ZendeskMobileAppAccessUpdated(Rule):
         if event.get(ZENDESK_CHANGE_DESCRIPTION, "").lower() == "disabled":
             return "INFO"
         return "MEDIUM"
+
+    tests = [
+        RuleTest(
+            name="Zendesk - Mobile App Access Off",
+            expected_result=True,
+            log={
+                "url": "https://myzendek.zendesk.com/api/v2/audit_logs/111222333444.json",
+                "id": 123456789123,
+                "action_label": "Updated",
+                "actor_id": 123,
+                "actor_name": "John Doe",
+                "source_id": 123,
+                "source_type": "account_setting",
+                "source_label": "Zendesk Support Mobile App Access",
+                "action": "create",
+                "change_description": "Disabled",
+                "ip_address": "127.0.0.1",
+                "created_at": "2021-05-28T18:39:50Z",
+                "p_log_type": "Zendesk.Audit",
+            },
+        ),
+        RuleTest(
+            name="Zendesk - Mobile App Access On",
+            expected_result=True,
+            log={
+                "url": "https://myzendek.zendesk.com/api/v2/audit_logs/111222333444.json",
+                "id": 123456789123,
+                "action_label": "Updated",
+                "actor_id": 123,
+                "actor_name": "John Doe",
+                "source_id": 123,
+                "source_type": "account_setting",
+                "source_label": "Zendesk Support Mobile App Access",
+                "action": "create",
+                "change_description": "Enabled",
+                "ip_address": "127.0.0.1",
+                "created_at": "2021-05-28T18:39:50Z",
+                "p_log_type": "Zendesk.Audit",
+            },
+        ),
+        RuleTest(
+            name="Zendesk - Credit Card Redaction",
+            expected_result=False,
+            log={
+                "url": "https://myzendek.zendesk.com/api/v2/audit_logs/111222333444.json",
+                "id": 123456789123,
+                "action_label": "Updated",
+                "actor_id": 123,
+                "actor_name": "John Doe",
+                "source_id": 123,
+                "source_type": "account_setting",
+                "source_label": "Credit Card Redaction",
+                "action": "create",
+                "change_description": "Enabled",
+                "ip_address": "127.0.0.1",
+                "created_at": "2021-05-28T18:39:50Z",
+                "p_log_type": "Zendesk.Audit",
+            },
+        ),
+    ]
