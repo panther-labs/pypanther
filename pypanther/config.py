@@ -1,7 +1,7 @@
 import argparse
 from typing import Any, Dict
 
-from pypanther.vendor.panther_analysis_tool.constants import CONFIG_FILE
+from pypanther.constants import CONFIG_FILE
 
 
 def setup_dynaconf() -> Dict[str, Any]:

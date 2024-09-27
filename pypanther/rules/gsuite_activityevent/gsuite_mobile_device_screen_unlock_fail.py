@@ -1,53 +1,6 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.base import deep_get
 
-g_suite_device_unlock_failure_tests: list[RuleTest] = [
-    RuleTest(
-        name="Normal Mobile Event",
-        expected_result=False,
-        log={
-            "id": {"applicationName": "mobile"},
-            "actor": {"callerType": "USER", "email": "homer.simpson@example.io"},
-            "type": "device_updates",
-            "name": "DEVICE_SYNC_EVENT",
-            "parameters": {"USER_EMAIL": "homer.simpson@example.io"},
-        },
-    ),
-    RuleTest(
-        name="Small Number of Failed Logins",
-        expected_result=False,
-        log={
-            "id": {"applicationName": "mobile"},
-            "actor": {"callerType": "USER", "email": "homer.simpson@example.io"},
-            "type": "device_updates",
-            "name": "FAILED_PASSWORD_ATTEMPTS_EVENT",
-            "parameters": {"USER_EMAIL": "homer.simpson@example.io", "FAILED_PASSWD_ATTEMPTS": 2},
-        },
-    ),
-    RuleTest(
-        name="Multiple Failed Login Attempts with int Type",
-        expected_result=True,
-        log={
-            "id": {"applicationName": "mobile"},
-            "actor": {"callerType": "USER", "email": "homer.simpson@example.io"},
-            "type": "device_updates",
-            "name": "FAILED_PASSWORD_ATTEMPTS_EVENT",
-            "parameters": {"USER_EMAIL": "homer.simpson@example.io", "FAILED_PASSWD_ATTEMPTS": 100},
-        },
-    ),
-    RuleTest(
-        name="Multiple Failed Login Attempts with String Type",
-        expected_result=True,
-        log={
-            "id": {"applicationName": "mobile"},
-            "actor": {"callerType": "USER", "email": "homer.simpson@example.io"},
-            "type": "device_updates",
-            "name": "FAILED_PASSWORD_ATTEMPTS_EVENT",
-            "parameters": {"USER_EMAIL": "homer.simpson@example.io", "FAILED_PASSWD_ATTEMPTS": "100"},
-        },
-    ),
-]
-
 
 @panther_managed
 class GSuiteDeviceUnlockFailure(Rule):
@@ -61,7 +14,6 @@ class GSuiteDeviceUnlockFailure(Rule):
     default_reference = "https://support.google.com/a/answer/6350074?hl=en"
     default_runbook = "Verify that these unlock attempts came from the user, and not a malicious actor which has acquired the user's device.\n"
     summary_attributes = ["actor:email"]
-    tests = g_suite_device_unlock_failure_tests
     MAX_UNLOCK_ATTEMPTS = 10
 
     def rule(self, event):
@@ -74,3 +26,50 @@ class GSuiteDeviceUnlockFailure(Rule):
 
     def title(self, event):
         return f"User [{deep_get(event, 'actor', 'email', default='<UNKNOWN_USER>')}]'s device had multiple failed unlock attempts"
+
+    tests = [
+        RuleTest(
+            name="Normal Mobile Event",
+            expected_result=False,
+            log={
+                "id": {"applicationName": "mobile"},
+                "actor": {"callerType": "USER", "email": "homer.simpson@example.io"},
+                "type": "device_updates",
+                "name": "DEVICE_SYNC_EVENT",
+                "parameters": {"USER_EMAIL": "homer.simpson@example.io"},
+            },
+        ),
+        RuleTest(
+            name="Small Number of Failed Logins",
+            expected_result=False,
+            log={
+                "id": {"applicationName": "mobile"},
+                "actor": {"callerType": "USER", "email": "homer.simpson@example.io"},
+                "type": "device_updates",
+                "name": "FAILED_PASSWORD_ATTEMPTS_EVENT",
+                "parameters": {"USER_EMAIL": "homer.simpson@example.io", "FAILED_PASSWD_ATTEMPTS": 2},
+            },
+        ),
+        RuleTest(
+            name="Multiple Failed Login Attempts with int Type",
+            expected_result=True,
+            log={
+                "id": {"applicationName": "mobile"},
+                "actor": {"callerType": "USER", "email": "homer.simpson@example.io"},
+                "type": "device_updates",
+                "name": "FAILED_PASSWORD_ATTEMPTS_EVENT",
+                "parameters": {"USER_EMAIL": "homer.simpson@example.io", "FAILED_PASSWD_ATTEMPTS": 100},
+            },
+        ),
+        RuleTest(
+            name="Multiple Failed Login Attempts with String Type",
+            expected_result=True,
+            log={
+                "id": {"applicationName": "mobile"},
+                "actor": {"callerType": "USER", "email": "homer.simpson@example.io"},
+                "type": "device_updates",
+                "name": "FAILED_PASSWORD_ATTEMPTS_EVENT",
+                "parameters": {"USER_EMAIL": "homer.simpson@example.io", "FAILED_PASSWD_ATTEMPTS": "100"},
+            },
+        ),
+    ]

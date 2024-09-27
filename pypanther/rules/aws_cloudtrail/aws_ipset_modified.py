@@ -1,63 +1,6 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.base import aws_rule_context
 
-awsip_set_modified_tests: list[RuleTest] = [
-    RuleTest(
-        name="CreateIPSet Event",
-        expected_result=True,
-        log={
-            "awsregion": "us-east-1",
-            "eventid": "abc-123",
-            "eventname": "CreateIPSet",
-            "eventsource": "guardduty.amazonaws.com",
-            "eventtime": "2022-07-17 04:50:23",
-            "eventtype": "AwsApiCall",
-            "eventversion": "1.08",
-            "p_any_aws_instance_ids": ["testinstanceid"],
-            "p_event_time": "2022-07-17 04:50:23",
-            "p_log_type": "AWS.CloudTrail",
-            "p_parse_time": "2022-07-17 04:55:11.788",
-            "recipientAccountId": "123456789012",
-        },
-    ),
-    RuleTest(
-        name="UpdateIPSet",
-        expected_result=True,
-        log={
-            "awsregion": "us-east-1",
-            "eventid": "abc-123",
-            "eventname": "CreateIPSet",
-            "eventsource": "guardduty.amazonaws.com",
-            "eventtime": "2022-07-17 04:50:23",
-            "eventtype": "AwsApiCall",
-            "eventversion": "1.08",
-            "p_any_aws_instance_ids": ["testinstanceid"],
-            "p_event_time": "2022-07-17 04:50:23",
-            "p_log_type": "AWS.CloudTrail",
-            "p_parse_time": "2022-07-17 04:55:11.788",
-            "recipientAccountId": "123456789012",
-        },
-    ),
-    RuleTest(
-        name="NotIPSet",
-        expected_result=False,
-        log={
-            "awsregion": "us-east-1",
-            "eventid": "abc-123",
-            "eventname": "ModifyInstanceAttributes",
-            "eventsource": "guardduty.amazonaws.com",
-            "eventtime": "2022-07-17 04:50:23",
-            "eventtype": "AwsApiCall",
-            "eventversion": "1.08",
-            "p_any_aws_instance_ids": ["testinstanceid"],
-            "p_event_time": "2022-07-17 04:50:23",
-            "p_log_type": "AWS.CloudTrail",
-            "p_parse_time": "2022-07-17 04:55:11.788",
-            "recipientAccountId": "123456789012",
-        },
-    ),
-]
-
 
 @panther_managed
 class AWSIPSetModified(Rule):
@@ -68,7 +11,6 @@ class AWSIPSetModified(Rule):
     default_severity = Severity.HIGH
     log_types = [LogType.AWS_CLOUDTRAIL]
     id = "AWS.IPSet.Modified-prototype"
-    tests = awsip_set_modified_tests
     IPSET_ACTIONS = ["CreateIPSet", "UpdateIPSet"]
 
     def rule(self, event):
@@ -85,3 +27,60 @@ class AWSIPSetModified(Rule):
 
     def alert_context(self, event):
         return aws_rule_context(event)
+
+    tests = [
+        RuleTest(
+            name="CreateIPSet Event",
+            expected_result=True,
+            log={
+                "awsregion": "us-east-1",
+                "eventid": "abc-123",
+                "eventname": "CreateIPSet",
+                "eventsource": "guardduty.amazonaws.com",
+                "eventtime": "2022-07-17 04:50:23",
+                "eventtype": "AwsApiCall",
+                "eventversion": "1.08",
+                "p_any_aws_instance_ids": ["testinstanceid"],
+                "p_event_time": "2022-07-17 04:50:23",
+                "p_log_type": "AWS.CloudTrail",
+                "p_parse_time": "2022-07-17 04:55:11.788",
+                "recipientAccountId": "123456789012",
+            },
+        ),
+        RuleTest(
+            name="UpdateIPSet",
+            expected_result=True,
+            log={
+                "awsregion": "us-east-1",
+                "eventid": "abc-123",
+                "eventname": "CreateIPSet",
+                "eventsource": "guardduty.amazonaws.com",
+                "eventtime": "2022-07-17 04:50:23",
+                "eventtype": "AwsApiCall",
+                "eventversion": "1.08",
+                "p_any_aws_instance_ids": ["testinstanceid"],
+                "p_event_time": "2022-07-17 04:50:23",
+                "p_log_type": "AWS.CloudTrail",
+                "p_parse_time": "2022-07-17 04:55:11.788",
+                "recipientAccountId": "123456789012",
+            },
+        ),
+        RuleTest(
+            name="NotIPSet",
+            expected_result=False,
+            log={
+                "awsregion": "us-east-1",
+                "eventid": "abc-123",
+                "eventname": "ModifyInstanceAttributes",
+                "eventsource": "guardduty.amazonaws.com",
+                "eventtime": "2022-07-17 04:50:23",
+                "eventtype": "AwsApiCall",
+                "eventversion": "1.08",
+                "p_any_aws_instance_ids": ["testinstanceid"],
+                "p_event_time": "2022-07-17 04:50:23",
+                "p_log_type": "AWS.CloudTrail",
+                "p_parse_time": "2022-07-17 04:55:11.788",
+                "recipientAccountId": "123456789012",
+            },
+        ),
+    ]

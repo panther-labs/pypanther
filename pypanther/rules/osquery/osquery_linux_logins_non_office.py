@@ -3,39 +3,6 @@ import ipaddress
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.base import deep_get
 
-osquery_linux_login_from_non_office_tests: list[RuleTest] = [
-    RuleTest(
-        name="Non-office network login (logged_in_users)",
-        expected_result=True,
-        log={
-            "name": "pack/incident_response/logged_in_users",
-            "action": "added",
-            "columns": {"host": "10.0.3.1", "type": "user", "user": "ubuntu"},
-        },
-    ),
-    RuleTest(
-        name="Non-office network login (last)",
-        expected_result=True,
-        log={
-            "name": "pack-incident_response-last",
-            "action": "added",
-            "columns": {
-                "host": "10.0.3.1",
-                "type": "8",
-                "username": "ubuntu",
-                "tty": "ttys008",
-                "pid": "648",
-                "time": "1587502574",
-            },
-        },
-    ),
-    RuleTest(
-        name="Office network login",
-        expected_result=False,
-        log={"name": "pack-logged_in_users", "action": "added", "columns": {"host": "192.168.1.200", "user": "ubuntu"}},
-    ),
-]
-
 
 @panther_managed
 class OsqueryLinuxLoginFromNonOffice(Rule):
@@ -50,7 +17,6 @@ class OsqueryLinuxLoginFromNonOffice(Rule):
     default_runbook = "Analyze the host IP, and if possible, update allowlist or fix ACL."
     default_reference = "https://attack.mitre.org/techniques/T1078/"
     summary_attributes = ["name", "action", "p_any_ip_addresses", "p_any_domain_names"]
-    tests = osquery_linux_login_from_non_office_tests
     # This is only an example network, but you can set it to whatever you'd like
     OFFICE_NETWORKS = [ipaddress.ip_network("192.168.1.100/32"), ipaddress.ip_network("192.168.1.200/32")]
 
@@ -79,3 +45,40 @@ class OsqueryLinuxLoginFromNonOffice(Rule):
     def title(self, event):
         user = deep_get(event, "columns", "user", default=deep_get(event, "columns", "username"))
         return f"User [{(user if user else '<UNKNOWN_USER>')} has logged into production from a non-office network"
+
+    tests = [
+        RuleTest(
+            name="Non-office network login (logged_in_users)",
+            expected_result=True,
+            log={
+                "name": "pack/incident_response/logged_in_users",
+                "action": "added",
+                "columns": {"host": "10.0.3.1", "type": "user", "user": "ubuntu"},
+            },
+        ),
+        RuleTest(
+            name="Non-office network login (last)",
+            expected_result=True,
+            log={
+                "name": "pack-incident_response-last",
+                "action": "added",
+                "columns": {
+                    "host": "10.0.3.1",
+                    "type": "8",
+                    "username": "ubuntu",
+                    "tty": "ttys008",
+                    "pid": "648",
+                    "time": "1587502574",
+                },
+            },
+        ),
+        RuleTest(
+            name="Office network login",
+            expected_result=False,
+            log={
+                "name": "pack-logged_in_users",
+                "action": "added",
+                "columns": {"host": "192.168.1.200", "user": "ubuntu"},
+            },
+        ),
+    ]

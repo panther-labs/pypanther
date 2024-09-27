@@ -1,30 +1,6 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.base import box_parse_additional_details, deep_get
 
-box_shield_anomalous_download_tests: list[RuleTest] = [
-    RuleTest(
-        name="Regular Event",
-        expected_result=False,
-        log={
-            "type": "event",
-            "additional_details": {'"key": "value"': None},
-            "created_by": {"id": "12345678", "type": "user", "login": "cat@example", "name": "Bob Cat"},
-            "event_type": "DELETE",
-        },
-    ),
-    RuleTest(
-        name="Anomalous Download Event",
-        expected_result=True,
-        log={
-            "type": "event",
-            "additional_details": '{"shield_alert":{"rule_category":"Anomalous Download","risk_score":77,"alert_summary":{"description":"Significant increase in download content week over week, 9999% (50.00 MB) more than last week."}}}',
-            "created_by": {"id": "12345678", "type": "user", "login": "bob@example", "name": "Bob Cat"},
-            "event_type": "SHIELD_ALERT",
-            "source": {"id": "12345678", "type": "user", "login": "bob@example", "name": "Bob Cat"},
-        },
-    ),
-]
-
 
 @panther_managed
 class BoxShieldAnomalousDownload(Rule):
@@ -38,7 +14,6 @@ class BoxShieldAnomalousDownload(Rule):
     default_reference = "https://developer.box.com/guides/events/shield-alert-events/"
     default_runbook = "Investigate whether this was triggered by expected user download activity.\n"
     summary_attributes = ["event_type", "ip_address"]
-    tests = box_shield_anomalous_download_tests
 
     def rule(self, event):
         if event.get("event_type") != "SHIELD_ALERT":
@@ -55,3 +30,27 @@ class BoxShieldAnomalousDownload(Rule):
         if description:
             return description
         return f"Anomalous download activity triggered by user [{deep_get(event, 'created_by', 'name', default='<UNKNOWN_USER>')}]."
+
+    tests = [
+        RuleTest(
+            name="Regular Event",
+            expected_result=False,
+            log={
+                "type": "event",
+                "additional_details": {'"key": "value"': None},
+                "created_by": {"id": "12345678", "type": "user", "login": "cat@example", "name": "Bob Cat"},
+                "event_type": "DELETE",
+            },
+        ),
+        RuleTest(
+            name="Anomalous Download Event",
+            expected_result=True,
+            log={
+                "type": "event",
+                "additional_details": '{"shield_alert":{"rule_category":"Anomalous Download","risk_score":77,"alert_summary":{"description":"Significant increase in download content week over week, 9999% (50.00 MB) more than last week."}}}',
+                "created_by": {"id": "12345678", "type": "user", "login": "bob@example", "name": "Bob Cat"},
+                "event_type": "SHIELD_ALERT",
+                "source": {"id": "12345678", "type": "user", "login": "bob@example", "name": "Bob Cat"},
+            },
+        ),
+    ]

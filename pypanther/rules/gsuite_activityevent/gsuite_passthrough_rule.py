@@ -1,66 +1,6 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.base import deep_get
 
-g_suite_rule_tests: list[RuleTest] = [
-    RuleTest(
-        name="Non Triggered Rule",
-        expected_result=False,
-        log={
-            "id": {"applicationName": "rules"},
-            "actor": {"email": "some.user@somedomain.com"},
-            "parameters": {"severity": "HIGH", "triggered_actions": None},
-        },
-    ),
-    RuleTest(
-        name="High Severity Rule",
-        expected_result=True,
-        log={
-            "id": {"applicationName": "rules"},
-            "actor": {"email": "some.user@somedomain.com"},
-            "parameters": {
-                "data_source": "DRIVE",
-                "severity": "HIGH",
-                "triggered_actions": [{"action_type": "DRIVE_UNFLAG_DOCUMENT"}],
-            },
-        },
-    ),
-    RuleTest(
-        name="Medium Severity Rule",
-        expected_result=True,
-        log={
-            "id": {"applicationName": "rules"},
-            "actor": {"email": "some.user@somedomain.com"},
-            "parameters": {
-                "data_source": "DRIVE",
-                "severity": "MEDIUM",
-                "triggered_actions": [{"action_type": "DRIVE_UNFLAG_DOCUMENT"}],
-            },
-        },
-    ),
-    RuleTest(
-        name="Low Severity Rule",
-        expected_result=True,
-        log={
-            "id": {"applicationName": "rules"},
-            "actor": {"email": "some.user@somedomain.com"},
-            "parameters": {"severity": "LOW", "triggered_actions": [{"action_type": "DRIVE_UNFLAG_DOCUMENT"}]},
-        },
-    ),
-    RuleTest(
-        name="High Severity Rule with Rule Name",
-        expected_result=True,
-        log={
-            "id": {"applicationName": "rules"},
-            "actor": {"email": "some.user@somedomain.com"},
-            "parameters": {
-                "severity": "HIGH",
-                "rule_name": "CEO Impersonation",
-                "triggered_actions": [{"action_type": "MAIL_MARK_AS_PHISHING"}],
-            },
-        },
-    ),
-]
-
 
 @panther_managed
 class GSuiteRule(Rule):
@@ -73,7 +13,6 @@ class GSuiteRule(Rule):
     default_reference = "https://support.google.com/a/answer/9420866"
     default_runbook = "Investigate what triggered the rule.\n"
     summary_attributes = ["actor:email"]
-    tests = g_suite_rule_tests
 
     def rule(self, event):
         if deep_get(event, "id", "applicationName") != "rules":
@@ -90,3 +29,63 @@ class GSuiteRule(Rule):
 
     def severity(self, event):
         return deep_get(event, "parameters", "severity", default="INFO")
+
+    tests = [
+        RuleTest(
+            name="Non Triggered Rule",
+            expected_result=False,
+            log={
+                "id": {"applicationName": "rules"},
+                "actor": {"email": "some.user@somedomain.com"},
+                "parameters": {"severity": "HIGH", "triggered_actions": None},
+            },
+        ),
+        RuleTest(
+            name="High Severity Rule",
+            expected_result=True,
+            log={
+                "id": {"applicationName": "rules"},
+                "actor": {"email": "some.user@somedomain.com"},
+                "parameters": {
+                    "data_source": "DRIVE",
+                    "severity": "HIGH",
+                    "triggered_actions": [{"action_type": "DRIVE_UNFLAG_DOCUMENT"}],
+                },
+            },
+        ),
+        RuleTest(
+            name="Medium Severity Rule",
+            expected_result=True,
+            log={
+                "id": {"applicationName": "rules"},
+                "actor": {"email": "some.user@somedomain.com"},
+                "parameters": {
+                    "data_source": "DRIVE",
+                    "severity": "MEDIUM",
+                    "triggered_actions": [{"action_type": "DRIVE_UNFLAG_DOCUMENT"}],
+                },
+            },
+        ),
+        RuleTest(
+            name="Low Severity Rule",
+            expected_result=True,
+            log={
+                "id": {"applicationName": "rules"},
+                "actor": {"email": "some.user@somedomain.com"},
+                "parameters": {"severity": "LOW", "triggered_actions": [{"action_type": "DRIVE_UNFLAG_DOCUMENT"}]},
+            },
+        ),
+        RuleTest(
+            name="High Severity Rule with Rule Name",
+            expected_result=True,
+            log={
+                "id": {"applicationName": "rules"},
+                "actor": {"email": "some.user@somedomain.com"},
+                "parameters": {
+                    "severity": "HIGH",
+                    "rule_name": "CEO Impersonation",
+                    "triggered_actions": [{"action_type": "MAIL_MARK_AS_PHISHING"}],
+                },
+            },
+        ),
+    ]

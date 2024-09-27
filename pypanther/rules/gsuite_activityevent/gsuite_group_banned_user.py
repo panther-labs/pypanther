@@ -1,29 +1,6 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.base import deep_get
 
-g_suite_group_banned_user_tests: list[RuleTest] = [
-    RuleTest(
-        name="User Added",
-        expected_result=False,
-        log={
-            "id": {"applicationName": "groups_enterprise"},
-            "actor": {"email": "homer.simpson@example.com"},
-            "type": "moderator_action",
-            "name": "add_member",
-        },
-    ),
-    RuleTest(
-        name="User Banned from Group",
-        expected_result=True,
-        log={
-            "id": {"applicationName": "groups_enterprise"},
-            "actor": {"email": "homer.simpson@example.com"},
-            "type": "moderator_action",
-            "name": "ban_user_with_moderation",
-        },
-    ),
-]
-
 
 @panther_managed
 class GSuiteGroupBannedUser(Rule):
@@ -36,7 +13,6 @@ class GSuiteGroupBannedUser(Rule):
     default_reference = "https://support.google.com/a/users/answer/9303224?hl=en&sjid=864417124752637253-EU"
     default_runbook = "Investigate the banned user to see if further disciplinary action needs to be taken.\n"
     summary_attributes = ["actor:email"]
-    tests = g_suite_group_banned_user_tests
 
     def rule(self, event):
         if deep_get(event, "id", "applicationName") != "groups_enterprise":
@@ -49,3 +25,26 @@ class GSuiteGroupBannedUser(Rule):
         return (
             f"User [{deep_get(event, 'actor', 'email', default='<UNKNOWN_EMAIL>')}] banned another user from a group."
         )
+
+    tests = [
+        RuleTest(
+            name="User Added",
+            expected_result=False,
+            log={
+                "id": {"applicationName": "groups_enterprise"},
+                "actor": {"email": "homer.simpson@example.com"},
+                "type": "moderator_action",
+                "name": "add_member",
+            },
+        ),
+        RuleTest(
+            name="User Banned from Group",
+            expected_result=True,
+            log={
+                "id": {"applicationName": "groups_enterprise"},
+                "actor": {"email": "homer.simpson@example.com"},
+                "type": "moderator_action",
+                "name": "ban_user_with_moderation",
+            },
+        ),
+    ]

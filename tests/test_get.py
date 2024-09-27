@@ -3,7 +3,7 @@ from unittest import TestCase
 
 import pytest
 
-from pypanther.get import get_panther_rules, get_rules
+from pypanther.get import apply_overrides, get_panther_rules, get_rules
 
 
 class TestGetPantherRules(TestCase):
@@ -50,6 +50,24 @@ class TestGetRulesFromModule(unittest.TestCase):
     def test_no_a_module(self) -> None:
         with pytest.raises(TypeError):
             get_rules(module="str")
+
+
+class TestApplyOverridesFromModule(unittest.TestCase):
+    def test_no_overrides(self) -> None:
+        from .fixtures.get_rules_test_data import no_rules
+
+        r = apply_overrides(module=no_rules)
+        assert len(r) == 0
+
+    def test_overrides(self) -> None:
+        from .fixtures.get_rules_test_data import rules
+
+        r = apply_overrides(module=rules)
+        assert len(r) == 3
+
+    def test_no_a_module(self) -> None:
+        with pytest.raises(TypeError):
+            apply_overrides(module="str")
 
 
 if __name__ == "__main__":

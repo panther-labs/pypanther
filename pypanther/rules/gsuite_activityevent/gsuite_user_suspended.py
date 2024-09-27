@@ -1,42 +1,6 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.base import deep_get
 
-g_suite_user_suspended_tests: list[RuleTest] = [
-    RuleTest(
-        name="Normal Login Event",
-        expected_result=False,
-        log={
-            "id": {"applicationName": "login"},
-            "kind": "admin#reports#activity",
-            "type": "account_warning",
-            "name": "login_success",
-            "parameters": {"affected_email_address": "bobert@ext.runpanther.io"},
-        },
-    ),
-    RuleTest(
-        name="Account Warning Not For User Suspended",
-        expected_result=False,
-        log={
-            "id": {"applicationName": "login"},
-            "kind": "admin#reports#activity",
-            "type": "account_warning",
-            "name": "suspicious_login ",
-            "parameters": {"affected_email_address": "bobert@ext.runpanther.io"},
-        },
-    ),
-    RuleTest(
-        name="Account Warning For Suspended User",
-        expected_result=True,
-        log={
-            "id": {"applicationName": "login"},
-            "kind": "admin#reports#activity",
-            "type": "account_warning",
-            "name": "account_disabled_spamming",
-            "parameters": {"affected_email_address": "bobert@ext.runpanther.io"},
-        },
-    ),
-]
-
 
 @panther_managed
 class GSuiteUserSuspended(Rule):
@@ -49,7 +13,6 @@ class GSuiteUserSuspended(Rule):
     default_reference = "https://support.google.com/drive/answer/40695?hl=en&sjid=864417124752637253-EU"
     default_runbook = "Investigate the behavior that got the account suspended. Verify with the user that this intended behavior. If not, the account may have been compromised.\n"
     summary_attributes = ["actor:email"]
-    tests = g_suite_user_suspended_tests
     USER_SUSPENDED_EVENTS = {
         "account_disabled_generic",
         "account_disabled_spamming_through_relay",
@@ -67,3 +30,39 @@ class GSuiteUserSuspended(Rule):
         if not user:
             user = "<UNKNOWN_USER>"
         return f"User [{user}]'s account was disabled"
+
+    tests = [
+        RuleTest(
+            name="Normal Login Event",
+            expected_result=False,
+            log={
+                "id": {"applicationName": "login"},
+                "kind": "admin#reports#activity",
+                "type": "account_warning",
+                "name": "login_success",
+                "parameters": {"affected_email_address": "bobert@ext.runpanther.io"},
+            },
+        ),
+        RuleTest(
+            name="Account Warning Not For User Suspended",
+            expected_result=False,
+            log={
+                "id": {"applicationName": "login"},
+                "kind": "admin#reports#activity",
+                "type": "account_warning",
+                "name": "suspicious_login ",
+                "parameters": {"affected_email_address": "bobert@ext.runpanther.io"},
+            },
+        ),
+        RuleTest(
+            name="Account Warning For Suspended User",
+            expected_result=True,
+            log={
+                "id": {"applicationName": "login"},
+                "kind": "admin#reports#activity",
+                "type": "account_warning",
+                "name": "account_disabled_spamming",
+                "parameters": {"affected_email_address": "bobert@ext.runpanther.io"},
+            },
+        ),
+    ]

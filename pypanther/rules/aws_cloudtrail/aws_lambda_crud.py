@@ -3,90 +3,6 @@ from fnmatch import fnmatch
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.base import aws_rule_context, deep_get
 
-awslambdacrud_tests: list[RuleTest] = [
-    RuleTest(
-        name="Lambda DeleteFunction Unauthorized Account",
-        expected_result=True,
-        log={
-            "eventVersion": "1.03",
-            "userIdentity": {
-                "type": "IAMUser",
-                "principalId": "A1B2C3D4E5F6G7EXAMPLE",
-                "arn": "arn:aws:iam::999999999999:user/myUserName",
-                "accountId": "999999999999",
-                "accessKeyId": "AKIAIOSFODNN7EXAMPLE",
-                "userName": "myUserName",
-            },
-            "eventTime": "2015-03-18T19:04:42Z",
-            "eventSource": "lambda.amazonaws.com",
-            "eventName": "DeleteFunction",
-            "awsRegion": "us-east-1",
-            "sourceIPAddress": "127.0.0.1",
-            "userAgent": "Python-httplib2/0.8 (gzip)",
-            "requestParameters": {"functionName": "basic-node-task"},
-            "responseElements": None,
-            "requestID": "a2198ecc-cda1-11e4-aaa2-e356da31e4ff",
-            "eventID": "20b84ce5-730f-482e-b2b2-e8fcc87ceb22",
-            "eventType": "AwsApiCall",
-            "recipientAccountId": "999999999999",
-        },
-    ),
-    RuleTest(
-        name="Lambda DeleteFunction Unauthorized User",
-        expected_result=True,
-        log={
-            "eventVersion": "1.03",
-            "userIdentity": {
-                "type": "IAMUser",
-                "principalId": "A1B2C3D4E5F6G7EXAMPLE",
-                "arn": "arn:aws:iam::123456789012:user/myUserName",
-                "accountId": "123456789012",
-                "accessKeyId": "AKIAIOSFODNN7EXAMPLE",
-                "userName": "myUserName",
-            },
-            "eventTime": "2015-03-18T19:04:42Z",
-            "eventSource": "lambda.amazonaws.com",
-            "eventName": "DeleteFunction",
-            "awsRegion": "us-east-1",
-            "sourceIPAddress": "127.0.0.1",
-            "userAgent": "Python-httplib2/0.8 (gzip)",
-            "requestParameters": {"functionName": "basic-node-task"},
-            "responseElements": None,
-            "requestID": "a2198ecc-cda1-11e4-aaa2-e356da31e4ff",
-            "eventID": "20b84ce5-730f-482e-b2b2-e8fcc87ceb22",
-            "eventType": "AwsApiCall",
-            "recipientAccountId": "123456789012",
-        },
-    ),
-    RuleTest(
-        name="Lambda DeleteFunction Authorized Account",
-        expected_result=False,
-        log={
-            "eventVersion": "1.03",
-            "userIdentity": {
-                "type": "IAMUser",
-                "principalId": "A1B2C3D4E5F6G7EXAMPLE",
-                "arn": "arn:aws:iam::123456789012:user/DeployRole",
-                "accountId": "123456789012",
-                "accessKeyId": "AKIAIOSFODNN7EXAMPLE",
-                "userName": "myUserName",
-            },
-            "eventTime": "2015-03-18T19:04:42Z",
-            "eventSource": "lambda.amazonaws.com",
-            "eventName": "DeleteFunction",
-            "awsRegion": "us-west-1",
-            "sourceIPAddress": "127.0.0.1",
-            "userAgent": "Python-httplib2/0.8 (gzip)",
-            "requestParameters": {"functionName": "basic-node-task"},
-            "responseElements": None,
-            "requestID": "a2198ecc-cda1-11e4-aaa2-e356da31e4ff",
-            "eventID": "20b84ce5-730f-482e-b2b2-e8fcc87ceb22",
-            "eventType": "AwsApiCall",
-            "recipientAccountId": "123456789012",
-        },
-    ),
-]
-
 
 @panther_managed
 class AWSLAMBDACRUD(Rule):
@@ -101,7 +17,6 @@ class AWSLAMBDACRUD(Rule):
     default_runbook = "https://docs.aws.amazon.com/lambda/latest/dg/logging-using-cloudtrail.html"
     default_reference = "https://docs.aws.amazon.com/lambda/latest/dg/logging-using-cloudtrail.html"
     summary_attributes = ["eventSource", "eventName", "recipientAccountId", "awsRegion", "p_any_aws_arns"]
-    tests = awslambdacrud_tests
     LAMBDA_CRUD_EVENTS = {
         "AddPermission",
         "CreateAlias",
@@ -135,3 +50,87 @@ class AWSLAMBDACRUD(Rule):
 
     def alert_context(self, event):
         return aws_rule_context(event)
+
+    tests = [
+        RuleTest(
+            name="Lambda DeleteFunction Unauthorized Account",
+            expected_result=True,
+            log={
+                "eventVersion": "1.03",
+                "userIdentity": {
+                    "type": "IAMUser",
+                    "principalId": "A1B2C3D4E5F6G7EXAMPLE",
+                    "arn": "arn:aws:iam::999999999999:user/myUserName",
+                    "accountId": "999999999999",
+                    "accessKeyId": "AKIAIOSFODNN7EXAMPLE",
+                    "userName": "myUserName",
+                },
+                "eventTime": "2015-03-18T19:04:42Z",
+                "eventSource": "lambda.amazonaws.com",
+                "eventName": "DeleteFunction",
+                "awsRegion": "us-east-1",
+                "sourceIPAddress": "127.0.0.1",
+                "userAgent": "Python-httplib2/0.8 (gzip)",
+                "requestParameters": {"functionName": "basic-node-task"},
+                "responseElements": None,
+                "requestID": "a2198ecc-cda1-11e4-aaa2-e356da31e4ff",
+                "eventID": "20b84ce5-730f-482e-b2b2-e8fcc87ceb22",
+                "eventType": "AwsApiCall",
+                "recipientAccountId": "999999999999",
+            },
+        ),
+        RuleTest(
+            name="Lambda DeleteFunction Unauthorized User",
+            expected_result=True,
+            log={
+                "eventVersion": "1.03",
+                "userIdentity": {
+                    "type": "IAMUser",
+                    "principalId": "A1B2C3D4E5F6G7EXAMPLE",
+                    "arn": "arn:aws:iam::123456789012:user/myUserName",
+                    "accountId": "123456789012",
+                    "accessKeyId": "AKIAIOSFODNN7EXAMPLE",
+                    "userName": "myUserName",
+                },
+                "eventTime": "2015-03-18T19:04:42Z",
+                "eventSource": "lambda.amazonaws.com",
+                "eventName": "DeleteFunction",
+                "awsRegion": "us-east-1",
+                "sourceIPAddress": "127.0.0.1",
+                "userAgent": "Python-httplib2/0.8 (gzip)",
+                "requestParameters": {"functionName": "basic-node-task"},
+                "responseElements": None,
+                "requestID": "a2198ecc-cda1-11e4-aaa2-e356da31e4ff",
+                "eventID": "20b84ce5-730f-482e-b2b2-e8fcc87ceb22",
+                "eventType": "AwsApiCall",
+                "recipientAccountId": "123456789012",
+            },
+        ),
+        RuleTest(
+            name="Lambda DeleteFunction Authorized Account",
+            expected_result=False,
+            log={
+                "eventVersion": "1.03",
+                "userIdentity": {
+                    "type": "IAMUser",
+                    "principalId": "A1B2C3D4E5F6G7EXAMPLE",
+                    "arn": "arn:aws:iam::123456789012:user/DeployRole",
+                    "accountId": "123456789012",
+                    "accessKeyId": "AKIAIOSFODNN7EXAMPLE",
+                    "userName": "myUserName",
+                },
+                "eventTime": "2015-03-18T19:04:42Z",
+                "eventSource": "lambda.amazonaws.com",
+                "eventName": "DeleteFunction",
+                "awsRegion": "us-west-1",
+                "sourceIPAddress": "127.0.0.1",
+                "userAgent": "Python-httplib2/0.8 (gzip)",
+                "requestParameters": {"functionName": "basic-node-task"},
+                "responseElements": None,
+                "requestID": "a2198ecc-cda1-11e4-aaa2-e356da31e4ff",
+                "eventID": "20b84ce5-730f-482e-b2b2-e8fcc87ceb22",
+                "eventType": "AwsApiCall",
+                "recipientAccountId": "123456789012",
+            },
+        ),
+    ]

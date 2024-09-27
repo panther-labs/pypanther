@@ -1,57 +1,6 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.duo import deserialize_administrator_log_event_description, duo_alert_context
 
-duo_admin_user_mfa_bypass_enabled_tests: list[RuleTest] = [
-    RuleTest(
-        name="Account Active",
-        expected_result=False,
-        log={
-            "action": "user_update",
-            "description": '{"status": "Active"}',
-            "isotimestamp": "2021-10-05 22:45:33",
-            "object": "bart.simpson@simpsons.com",
-            "timestamp": "2021-10-05 22:45:33",
-            "username": "Homer Simpson",
-        },
-    ),
-    RuleTest(
-        name="Account Disabled",
-        expected_result=False,
-        log={
-            "action": "user_update",
-            "description": '{"status": "Disabled"}',
-            "isotimestamp": "2021-10-05 22:45:33",
-            "object": "bart.simpson@simpsons.com",
-            "timestamp": "2021-10-05 22:45:33",
-            "username": "Homer Simpson",
-        },
-    ),
-    RuleTest(
-        name="Bypass Enabled",
-        expected_result=True,
-        log={
-            "action": "user_update",
-            "description": '{"status": "Bypass"}',
-            "isotimestamp": "2021-10-05 22:45:33",
-            "object": "bart.simpson@simpsons.com",
-            "timestamp": "2021-10-05 22:45:33",
-            "username": "Homer Simpson",
-        },
-    ),
-    RuleTest(
-        name="Phones Update",
-        expected_result=False,
-        log={
-            "action": "user_update",
-            "description": '{"phones": ""}',
-            "isotimestamp": "2021-07-02 19:06:40",
-            "object": "homer.simpson@simpsons.com",
-            "timestamp": "2021-07-02 19:06:40",
-            "username": "Homer Simpson",
-        },
-    ),
-]
-
 
 @panther_managed
 class DuoAdminUserMFABypassEnabled(Rule):
@@ -61,7 +10,6 @@ class DuoAdminUserMFABypassEnabled(Rule):
     default_severity = Severity.MEDIUM
     log_types = [LogType.DUO_ADMINISTRATOR]
     id = "Duo.Admin.User.MFA.Bypass.Enabled-prototype"
-    tests = duo_admin_user_mfa_bypass_enabled_tests
 
     def rule(self, event):
         if event.get("action") == "user_update":
@@ -75,3 +23,54 @@ class DuoAdminUserMFABypassEnabled(Rule):
 
     def alert_context(self, event):
         return duo_alert_context(event)
+
+    tests = [
+        RuleTest(
+            name="Account Active",
+            expected_result=False,
+            log={
+                "action": "user_update",
+                "description": '{"status": "Active"}',
+                "isotimestamp": "2021-10-05 22:45:33",
+                "object": "bart.simpson@simpsons.com",
+                "timestamp": "2021-10-05 22:45:33",
+                "username": "Homer Simpson",
+            },
+        ),
+        RuleTest(
+            name="Account Disabled",
+            expected_result=False,
+            log={
+                "action": "user_update",
+                "description": '{"status": "Disabled"}',
+                "isotimestamp": "2021-10-05 22:45:33",
+                "object": "bart.simpson@simpsons.com",
+                "timestamp": "2021-10-05 22:45:33",
+                "username": "Homer Simpson",
+            },
+        ),
+        RuleTest(
+            name="Bypass Enabled",
+            expected_result=True,
+            log={
+                "action": "user_update",
+                "description": '{"status": "Bypass"}',
+                "isotimestamp": "2021-10-05 22:45:33",
+                "object": "bart.simpson@simpsons.com",
+                "timestamp": "2021-10-05 22:45:33",
+                "username": "Homer Simpson",
+            },
+        ),
+        RuleTest(
+            name="Phones Update",
+            expected_result=False,
+            log={
+                "action": "user_update",
+                "description": '{"phones": ""}',
+                "isotimestamp": "2021-07-02 19:06:40",
+                "object": "homer.simpson@simpsons.com",
+                "timestamp": "2021-07-02 19:06:40",
+                "username": "Homer Simpson",
+            },
+        ),
+    ]

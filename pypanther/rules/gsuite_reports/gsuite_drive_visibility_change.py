@@ -5,362 +5,6 @@ from pypanther import LogType, Rule, RuleMock, RuleTest, Severity, panther_manag
 from pypanther.helpers.base import deep_get
 from pypanther.helpers.base import gsuite_parameter_lookup as param_lookup
 
-g_suite_drive_visibility_changed_tests: list[RuleTest] = [
-    RuleTest(
-        name="Access Event",
-        expected_result=False,
-        log={
-            "p_row_id": "111222",
-            "actor": {"email": "bobert@example.com"},
-            "id": {"applicationName": "drive"},
-            "events": [{"type": "access", "name": "upload"}],
-        },
-    ),
-    RuleTest(
-        name="ACL Change without Visibility Change",
-        expected_result=False,
-        log={
-            "p_row_id": "111222",
-            "actor": {"email": "bobert@example.com"},
-            "id": {"applicationName": "drive"},
-            "events": [{"type": "acl_change", "name": "shared_drive_settings_change"}],
-        },
-    ),
-    RuleTest(
-        name="Doc Became Public - Link (Unrestricted)",
-        expected_result=True,
-        log={
-            "actor": {"email": "bobert@gmail.com"},
-            "events": [
-                {
-                    "parameters": [
-                        {"name": "visibility_change", "value": "external"},
-                        {"name": "doc_title", "value": "my shared document"},
-                        {"name": "target_domain", "value": "all"},
-                        {"name": "visibility", "value": "people_with_link"},
-                        {"name": "new_value", "multiValue": ["people_with_link"]},
-                    ],
-                    "name": "change_document_visibility",
-                    "type": "acl_change",
-                },
-                {
-                    "parameters": [{"name": "new_value", "multiValue": ["can_view"]}],
-                    "name": "change_document_access_scope",
-                    "type": "acl_change",
-                },
-            ],
-            "id": {"applicationName": "drive"},
-            "p_row_id": "111222",
-        },
-    ),
-    RuleTest(
-        name="Doc Became Public - Link (Allowlisted Domain Not Configured)",
-        expected_result=True,
-        log={
-            "actor": {"email": "bobert@example.com"},
-            "events": [
-                {
-                    "parameters": [
-                        {"name": "visibility_change", "value": "external"},
-                        {"name": "doc_title", "value": "my shared document"},
-                        {"name": "target_domain", "value": "example.com"},
-                        {"name": "visibility", "value": "people_within_domain_with_link"},
-                        {"name": "new_value", "multiValue": ["people_with_link"]},
-                    ],
-                    "name": "change_document_visibility",
-                    "type": "acl_change",
-                },
-                {
-                    "parameters": [{"name": "new_value", "multiValue": ["can_view"]}],
-                    "name": "change_document_access_scope",
-                    "type": "acl_change",
-                },
-            ],
-            "id": {"applicationName": "drive"},
-            "p_row_id": "111222",
-        },
-    ),
-    RuleTest(
-        name="Doc Became Public - Link (Allowlisted Domain Is Configured)",
-        expected_result=False,
-        mocks=[RuleMock(object_name="ALLOWED_DOMAINS", return_value='[\n  "example.com"\n]')],
-        log={
-            "actor": {"email": "bobert@example.com"},
-            "events": [
-                {
-                    "parameters": [
-                        {"name": "visibility_change", "value": "external"},
-                        {"name": "doc_title", "value": "my shared document"},
-                        {"name": "target_domain", "value": "example.com"},
-                        {"name": "visibility", "value": "people_within_domain_with_link"},
-                        {"name": "new_value", "multiValue": ["people_with_link"]},
-                    ],
-                    "name": "change_document_visibility",
-                    "type": "acl_change",
-                },
-                {
-                    "parameters": [{"name": "new_value", "multiValue": ["can_view"]}],
-                    "name": "change_document_access_scope",
-                    "type": "acl_change",
-                },
-            ],
-            "id": {"applicationName": "drive"},
-            "p_row_id": "111222",
-        },
-    ),
-    RuleTest(
-        name="Doc Became Private - Link",
-        expected_result=False,
-        log={
-            "actor": {"email": "bobert@example.com"},
-            "events": [
-                {
-                    "parameters": [
-                        {"name": "visibility_change", "value": "external"},
-                        {"name": "doc_title", "value": "my shared document"},
-                        {"name": "target_domain", "value": "all"},
-                        {"name": "visibility", "value": "people_with_link"},
-                        {"name": "new_value", "multiValue": ["private"]},
-                    ],
-                    "name": "change_document_visibility",
-                    "type": "acl_change",
-                },
-            ],
-            "id": {"applicationName": "drive"},
-            "p_row_id": "111222",
-        },
-    ),
-    RuleTest(
-        name="Doc Became Public - User",
-        expected_result=True,
-        log={
-            "id": {"applicationName": "drive"},
-            "actor": {"email": "bobert@example.com"},
-            "kind": "admin#reports#activity",
-            "ipAddress": "1.1.1.1",
-            "events": [
-                {
-                    "type": "access",
-                    "name": "edit",
-                    "parameters": [
-                        {"name": "primary_event"},
-                        {"name": "doc_title", "value": "Hosted Accounts"},
-                        {"name": "visibility", "value": "shared_externally"},
-                    ],
-                },
-                {
-                    "type": "acl_change",
-                    "name": "change_user_access",
-                    "parameters": [
-                        {"name": "primary_event", "boolValue": True},
-                        {"name": "visibility_change", "value": "external"},
-                        {"name": "target_user", "value": "someone@random.com"},
-                        {"name": "old_value", "multiValue": ["none"]},
-                        {"name": "new_value", "multiValue": ["can_view"]},
-                        {"name": "old_visibility", "value": "people_within_domain_with_link"},
-                        {"name": "doc_title", "value": "Hosted Accounts"},
-                        {"name": "visibility", "value": "shared_externally"},
-                    ],
-                },
-            ],
-        },
-    ),
-    RuleTest(
-        name="Doc Became Public - User (Multiple)",
-        expected_result=True,
-        log={
-            "id": {"applicationName": "drive"},
-            "actor": {"email": "bobert@example.com"},
-            "kind": "admin#reports#activity",
-            "ipAddress": "1.1.1.1",
-            "events": [
-                {
-                    "type": "access",
-                    "name": "edit",
-                    "parameters": [
-                        {"name": "primary_event"},
-                        {"name": "doc_title", "value": "Hosted Accounts"},
-                        {"name": "visibility", "value": "shared_externally"},
-                    ],
-                },
-                {
-                    "type": "acl_change",
-                    "name": "change_user_access",
-                    "parameters": [
-                        {"name": "primary_event", "boolValue": True},
-                        {"name": "visibility_change", "value": "external"},
-                        {"name": "target_user", "value": "someone@random.com"},
-                        {"name": "old_value", "multiValue": ["none"]},
-                        {"name": "new_value", "multiValue": ["can_view"]},
-                        {"name": "old_visibility", "value": "people_within_domain_with_link"},
-                        {"name": "doc_title", "value": "Hosted Accounts"},
-                        {"name": "visibility", "value": "shared_externally"},
-                    ],
-                },
-                {
-                    "type": "acl_change",
-                    "name": "change_user_access",
-                    "parameters": [
-                        {"name": "primary_event", "boolValue": True},
-                        {"name": "visibility_change", "value": "external"},
-                        {"name": "target_user", "value": "someoneelse@random.com"},
-                        {"name": "old_value", "multiValue": ["none"]},
-                        {"name": "new_value", "multiValue": ["can_view"]},
-                        {"name": "old_visibility", "value": "people_within_domain_with_link"},
-                        {"name": "doc_title", "value": "Hosted Accounts"},
-                        {"name": "visibility", "value": "shared_externally"},
-                    ],
-                },
-                {
-                    "type": "acl_change",
-                    "name": "change_user_access",
-                    "parameters": [
-                        {"name": "primary_event", "boolValue": True},
-                        {"name": "visibility_change", "value": "external"},
-                        {"name": "target_user", "value": "notbobert@example.com"},
-                        {"name": "old_value", "multiValue": ["none"]},
-                        {"name": "new_value", "multiValue": ["can_view"]},
-                        {"name": "old_visibility", "value": "people_within_domain_with_link"},
-                        {"name": "doc_title", "value": "Hosted Accounts"},
-                        {"name": "visibility", "value": "shared_externally"},
-                    ],
-                },
-            ],
-        },
-    ),
-    RuleTest(
-        name="Doc Inherits Folder Permissions",
-        expected_result=False,
-        log={
-            "p_row_id": "111222",
-            "actor": {"email": "bobert@example.com"},
-            "id": {"applicationName": "drive"},
-            "events": [
-                {
-                    "name": "change_user_access_hierarchy_reconciled",
-                    "type": "acl_change",
-                    "parameters": [{"name": "visibility_change", "value": "internal"}],
-                },
-            ],
-        },
-    ),
-    RuleTest(
-        name="Doc Inherits Folder Permissions - Sharing Link",
-        expected_result=False,
-        log={
-            "p_row_id": "111222",
-            "actor": {"email": "bobert@example.com"},
-            "id": {"applicationName": "drive"},
-            "events": [
-                {
-                    "name": "change_document_access_scope_hierarchy_reconciled",
-                    "type": "acl_change",
-                    "parameters": [{"name": "visibility_change", "value": "internal"}],
-                },
-            ],
-        },
-    ),
-    RuleTest(
-        name="Doc Became Public - Public email provider",
-        expected_result=True,
-        log={
-            "id": {"applicationName": "drive"},
-            "actor": {"email": "bobert@example.com"},
-            "kind": "admin#reports#activity",
-            "ipAddress": "1.1.1.1",
-            "events": [
-                {
-                    "type": "access",
-                    "name": "edit",
-                    "parameters": [
-                        {"name": "primary_event"},
-                        {"name": "doc_title", "value": "Hosted Accounts"},
-                        {"name": "visibility", "value": "shared_externally"},
-                    ],
-                },
-                {
-                    "type": "acl_change",
-                    "name": "change_user_access",
-                    "parameters": [
-                        {"name": "primary_event", "boolValue": True},
-                        {"name": "visibility_change", "value": "external"},
-                        {"name": "target_user", "value": "someone@yandex.com"},
-                        {"name": "old_value", "multiValue": ["none"]},
-                        {"name": "new_value", "multiValue": ["can_view"]},
-                        {"name": "old_visibility", "value": "people_within_domain_with_link"},
-                        {"name": "doc_title", "value": "Hosted Accounts"},
-                        {"name": "visibility", "value": "shared_externally"},
-                    ],
-                },
-            ],
-        },
-    ),
-    RuleTest(
-        name="Doc Shared With Multiple Users All From ALLOWED_DOMAINS",
-        expected_result=False,
-        mocks=[RuleMock(object_name="ALLOWED_DOMAINS", return_value='[\n  "example.com", "notexample.com"\n]')],
-        log={
-            "id": {"applicationName": "drive"},
-            "actor": {"email": "bobert@example.com"},
-            "kind": "admin#reports#activity",
-            "ipAddress": "1.1.1.1",
-            "events": [
-                {
-                    "type": "access",
-                    "name": "edit",
-                    "parameters": [
-                        {"name": "primary_event"},
-                        {"name": "doc_title", "value": "Hosted Accounts"},
-                        {"name": "visibility", "value": "shared_externally"},
-                    ],
-                },
-                {
-                    "type": "acl_change",
-                    "name": "change_user_access",
-                    "parameters": [
-                        {"name": "primary_event", "boolValue": True},
-                        {"name": "visibility_change", "value": "external"},
-                        {"name": "target_user", "value": "someone@notexample.com"},
-                        {"name": "old_value", "multiValue": ["none"]},
-                        {"name": "new_value", "multiValue": ["can_view"]},
-                        {"name": "old_visibility", "value": "people_within_domain_with_link"},
-                        {"name": "doc_title", "value": "Hosted Accounts"},
-                        {"name": "visibility", "value": "shared_externally"},
-                    ],
-                },
-                {
-                    "type": "acl_change",
-                    "name": "change_user_access",
-                    "parameters": [
-                        {"name": "primary_event", "boolValue": True},
-                        {"name": "visibility_change", "value": "external"},
-                        {"name": "target_user", "value": "someoneelse@example.com"},
-                        {"name": "old_value", "multiValue": ["none"]},
-                        {"name": "new_value", "multiValue": ["can_view"]},
-                        {"name": "old_visibility", "value": "people_within_domain_with_link"},
-                        {"name": "doc_title", "value": "Hosted Accounts"},
-                        {"name": "visibility", "value": "shared_externally"},
-                    ],
-                },
-                {
-                    "type": "acl_change",
-                    "name": "change_user_access",
-                    "parameters": [
-                        {"name": "primary_event", "boolValue": True},
-                        {"name": "visibility_change", "value": "external"},
-                        {"name": "target_user", "value": "notbobert@example.com"},
-                        {"name": "old_value", "multiValue": ["none"]},
-                        {"name": "new_value", "multiValue": ["can_view"]},
-                        {"name": "old_visibility", "value": "people_within_domain_with_link"},
-                        {"name": "doc_title", "value": "Hosted Accounts"},
-                        {"name": "visibility", "value": "shared_externally"},
-                    ],
-                },
-            ],
-        },
-    ),
-]
-
 
 @panther_managed
 class GSuiteDriveVisibilityChanged(Rule):
@@ -376,7 +20,6 @@ class GSuiteDriveVisibilityChanged(Rule):
     default_runbook = "Investigate whether the drive document is appropriate to be publicly accessible.\n"
     summary_attributes = ["actor:email"]
     dedup_period_minutes = 360
-    tests = g_suite_drive_visibility_changed_tests
     # Add any domain name(s) that you expect to share documents with in the ALLOWED_DOMAINS set
     ALLOWED_DOMAINS = set()
     PUBLIC_PROVIDERS = {
@@ -539,3 +182,359 @@ class GSuiteDriveVisibilityChanged(Rule):
                 if domain in self.PUBLIC_PROVIDERS:
                     return "LOW"
         return "INFO"
+
+    tests = [
+        RuleTest(
+            name="Access Event",
+            expected_result=False,
+            log={
+                "p_row_id": "111222",
+                "actor": {"email": "bobert@example.com"},
+                "id": {"applicationName": "drive"},
+                "events": [{"type": "access", "name": "upload"}],
+            },
+        ),
+        RuleTest(
+            name="ACL Change without Visibility Change",
+            expected_result=False,
+            log={
+                "p_row_id": "111222",
+                "actor": {"email": "bobert@example.com"},
+                "id": {"applicationName": "drive"},
+                "events": [{"type": "acl_change", "name": "shared_drive_settings_change"}],
+            },
+        ),
+        RuleTest(
+            name="Doc Became Public - Link (Unrestricted)",
+            expected_result=True,
+            log={
+                "actor": {"email": "bobert@gmail.com"},
+                "events": [
+                    {
+                        "parameters": [
+                            {"name": "visibility_change", "value": "external"},
+                            {"name": "doc_title", "value": "my shared document"},
+                            {"name": "target_domain", "value": "all"},
+                            {"name": "visibility", "value": "people_with_link"},
+                            {"name": "new_value", "multiValue": ["people_with_link"]},
+                        ],
+                        "name": "change_document_visibility",
+                        "type": "acl_change",
+                    },
+                    {
+                        "parameters": [{"name": "new_value", "multiValue": ["can_view"]}],
+                        "name": "change_document_access_scope",
+                        "type": "acl_change",
+                    },
+                ],
+                "id": {"applicationName": "drive"},
+                "p_row_id": "111222",
+            },
+        ),
+        RuleTest(
+            name="Doc Became Public - Link (Allowlisted Domain Not Configured)",
+            expected_result=True,
+            log={
+                "actor": {"email": "bobert@example.com"},
+                "events": [
+                    {
+                        "parameters": [
+                            {"name": "visibility_change", "value": "external"},
+                            {"name": "doc_title", "value": "my shared document"},
+                            {"name": "target_domain", "value": "example.com"},
+                            {"name": "visibility", "value": "people_within_domain_with_link"},
+                            {"name": "new_value", "multiValue": ["people_with_link"]},
+                        ],
+                        "name": "change_document_visibility",
+                        "type": "acl_change",
+                    },
+                    {
+                        "parameters": [{"name": "new_value", "multiValue": ["can_view"]}],
+                        "name": "change_document_access_scope",
+                        "type": "acl_change",
+                    },
+                ],
+                "id": {"applicationName": "drive"},
+                "p_row_id": "111222",
+            },
+        ),
+        RuleTest(
+            name="Doc Became Public - Link (Allowlisted Domain Is Configured)",
+            expected_result=False,
+            mocks=[RuleMock(object_name="ALLOWED_DOMAINS", return_value='[\n  "example.com"\n]')],
+            log={
+                "actor": {"email": "bobert@example.com"},
+                "events": [
+                    {
+                        "parameters": [
+                            {"name": "visibility_change", "value": "external"},
+                            {"name": "doc_title", "value": "my shared document"},
+                            {"name": "target_domain", "value": "example.com"},
+                            {"name": "visibility", "value": "people_within_domain_with_link"},
+                            {"name": "new_value", "multiValue": ["people_with_link"]},
+                        ],
+                        "name": "change_document_visibility",
+                        "type": "acl_change",
+                    },
+                    {
+                        "parameters": [{"name": "new_value", "multiValue": ["can_view"]}],
+                        "name": "change_document_access_scope",
+                        "type": "acl_change",
+                    },
+                ],
+                "id": {"applicationName": "drive"},
+                "p_row_id": "111222",
+            },
+        ),
+        RuleTest(
+            name="Doc Became Private - Link",
+            expected_result=False,
+            log={
+                "actor": {"email": "bobert@example.com"},
+                "events": [
+                    {
+                        "parameters": [
+                            {"name": "visibility_change", "value": "external"},
+                            {"name": "doc_title", "value": "my shared document"},
+                            {"name": "target_domain", "value": "all"},
+                            {"name": "visibility", "value": "people_with_link"},
+                            {"name": "new_value", "multiValue": ["private"]},
+                        ],
+                        "name": "change_document_visibility",
+                        "type": "acl_change",
+                    },
+                ],
+                "id": {"applicationName": "drive"},
+                "p_row_id": "111222",
+            },
+        ),
+        RuleTest(
+            name="Doc Became Public - User",
+            expected_result=True,
+            log={
+                "id": {"applicationName": "drive"},
+                "actor": {"email": "bobert@example.com"},
+                "kind": "admin#reports#activity",
+                "ipAddress": "1.1.1.1",
+                "events": [
+                    {
+                        "type": "access",
+                        "name": "edit",
+                        "parameters": [
+                            {"name": "primary_event"},
+                            {"name": "doc_title", "value": "Hosted Accounts"},
+                            {"name": "visibility", "value": "shared_externally"},
+                        ],
+                    },
+                    {
+                        "type": "acl_change",
+                        "name": "change_user_access",
+                        "parameters": [
+                            {"name": "primary_event", "boolValue": True},
+                            {"name": "visibility_change", "value": "external"},
+                            {"name": "target_user", "value": "someone@random.com"},
+                            {"name": "old_value", "multiValue": ["none"]},
+                            {"name": "new_value", "multiValue": ["can_view"]},
+                            {"name": "old_visibility", "value": "people_within_domain_with_link"},
+                            {"name": "doc_title", "value": "Hosted Accounts"},
+                            {"name": "visibility", "value": "shared_externally"},
+                        ],
+                    },
+                ],
+            },
+        ),
+        RuleTest(
+            name="Doc Became Public - User (Multiple)",
+            expected_result=True,
+            log={
+                "id": {"applicationName": "drive"},
+                "actor": {"email": "bobert@example.com"},
+                "kind": "admin#reports#activity",
+                "ipAddress": "1.1.1.1",
+                "events": [
+                    {
+                        "type": "access",
+                        "name": "edit",
+                        "parameters": [
+                            {"name": "primary_event"},
+                            {"name": "doc_title", "value": "Hosted Accounts"},
+                            {"name": "visibility", "value": "shared_externally"},
+                        ],
+                    },
+                    {
+                        "type": "acl_change",
+                        "name": "change_user_access",
+                        "parameters": [
+                            {"name": "primary_event", "boolValue": True},
+                            {"name": "visibility_change", "value": "external"},
+                            {"name": "target_user", "value": "someone@random.com"},
+                            {"name": "old_value", "multiValue": ["none"]},
+                            {"name": "new_value", "multiValue": ["can_view"]},
+                            {"name": "old_visibility", "value": "people_within_domain_with_link"},
+                            {"name": "doc_title", "value": "Hosted Accounts"},
+                            {"name": "visibility", "value": "shared_externally"},
+                        ],
+                    },
+                    {
+                        "type": "acl_change",
+                        "name": "change_user_access",
+                        "parameters": [
+                            {"name": "primary_event", "boolValue": True},
+                            {"name": "visibility_change", "value": "external"},
+                            {"name": "target_user", "value": "someoneelse@random.com"},
+                            {"name": "old_value", "multiValue": ["none"]},
+                            {"name": "new_value", "multiValue": ["can_view"]},
+                            {"name": "old_visibility", "value": "people_within_domain_with_link"},
+                            {"name": "doc_title", "value": "Hosted Accounts"},
+                            {"name": "visibility", "value": "shared_externally"},
+                        ],
+                    },
+                    {
+                        "type": "acl_change",
+                        "name": "change_user_access",
+                        "parameters": [
+                            {"name": "primary_event", "boolValue": True},
+                            {"name": "visibility_change", "value": "external"},
+                            {"name": "target_user", "value": "notbobert@example.com"},
+                            {"name": "old_value", "multiValue": ["none"]},
+                            {"name": "new_value", "multiValue": ["can_view"]},
+                            {"name": "old_visibility", "value": "people_within_domain_with_link"},
+                            {"name": "doc_title", "value": "Hosted Accounts"},
+                            {"name": "visibility", "value": "shared_externally"},
+                        ],
+                    },
+                ],
+            },
+        ),
+        RuleTest(
+            name="Doc Inherits Folder Permissions",
+            expected_result=False,
+            log={
+                "p_row_id": "111222",
+                "actor": {"email": "bobert@example.com"},
+                "id": {"applicationName": "drive"},
+                "events": [
+                    {
+                        "name": "change_user_access_hierarchy_reconciled",
+                        "type": "acl_change",
+                        "parameters": [{"name": "visibility_change", "value": "internal"}],
+                    },
+                ],
+            },
+        ),
+        RuleTest(
+            name="Doc Inherits Folder Permissions - Sharing Link",
+            expected_result=False,
+            log={
+                "p_row_id": "111222",
+                "actor": {"email": "bobert@example.com"},
+                "id": {"applicationName": "drive"},
+                "events": [
+                    {
+                        "name": "change_document_access_scope_hierarchy_reconciled",
+                        "type": "acl_change",
+                        "parameters": [{"name": "visibility_change", "value": "internal"}],
+                    },
+                ],
+            },
+        ),
+        RuleTest(
+            name="Doc Became Public - Public email provider",
+            expected_result=True,
+            log={
+                "id": {"applicationName": "drive"},
+                "actor": {"email": "bobert@example.com"},
+                "kind": "admin#reports#activity",
+                "ipAddress": "1.1.1.1",
+                "events": [
+                    {
+                        "type": "access",
+                        "name": "edit",
+                        "parameters": [
+                            {"name": "primary_event"},
+                            {"name": "doc_title", "value": "Hosted Accounts"},
+                            {"name": "visibility", "value": "shared_externally"},
+                        ],
+                    },
+                    {
+                        "type": "acl_change",
+                        "name": "change_user_access",
+                        "parameters": [
+                            {"name": "primary_event", "boolValue": True},
+                            {"name": "visibility_change", "value": "external"},
+                            {"name": "target_user", "value": "someone@yandex.com"},
+                            {"name": "old_value", "multiValue": ["none"]},
+                            {"name": "new_value", "multiValue": ["can_view"]},
+                            {"name": "old_visibility", "value": "people_within_domain_with_link"},
+                            {"name": "doc_title", "value": "Hosted Accounts"},
+                            {"name": "visibility", "value": "shared_externally"},
+                        ],
+                    },
+                ],
+            },
+        ),
+        RuleTest(
+            name="Doc Shared With Multiple Users All From ALLOWED_DOMAINS",
+            expected_result=False,
+            mocks=[RuleMock(object_name="ALLOWED_DOMAINS", return_value='[\n  "example.com", "notexample.com"\n]')],
+            log={
+                "id": {"applicationName": "drive"},
+                "actor": {"email": "bobert@example.com"},
+                "kind": "admin#reports#activity",
+                "ipAddress": "1.1.1.1",
+                "events": [
+                    {
+                        "type": "access",
+                        "name": "edit",
+                        "parameters": [
+                            {"name": "primary_event"},
+                            {"name": "doc_title", "value": "Hosted Accounts"},
+                            {"name": "visibility", "value": "shared_externally"},
+                        ],
+                    },
+                    {
+                        "type": "acl_change",
+                        "name": "change_user_access",
+                        "parameters": [
+                            {"name": "primary_event", "boolValue": True},
+                            {"name": "visibility_change", "value": "external"},
+                            {"name": "target_user", "value": "someone@notexample.com"},
+                            {"name": "old_value", "multiValue": ["none"]},
+                            {"name": "new_value", "multiValue": ["can_view"]},
+                            {"name": "old_visibility", "value": "people_within_domain_with_link"},
+                            {"name": "doc_title", "value": "Hosted Accounts"},
+                            {"name": "visibility", "value": "shared_externally"},
+                        ],
+                    },
+                    {
+                        "type": "acl_change",
+                        "name": "change_user_access",
+                        "parameters": [
+                            {"name": "primary_event", "boolValue": True},
+                            {"name": "visibility_change", "value": "external"},
+                            {"name": "target_user", "value": "someoneelse@example.com"},
+                            {"name": "old_value", "multiValue": ["none"]},
+                            {"name": "new_value", "multiValue": ["can_view"]},
+                            {"name": "old_visibility", "value": "people_within_domain_with_link"},
+                            {"name": "doc_title", "value": "Hosted Accounts"},
+                            {"name": "visibility", "value": "shared_externally"},
+                        ],
+                    },
+                    {
+                        "type": "acl_change",
+                        "name": "change_user_access",
+                        "parameters": [
+                            {"name": "primary_event", "boolValue": True},
+                            {"name": "visibility_change", "value": "external"},
+                            {"name": "target_user", "value": "notbobert@example.com"},
+                            {"name": "old_value", "multiValue": ["none"]},
+                            {"name": "new_value", "multiValue": ["can_view"]},
+                            {"name": "old_visibility", "value": "people_within_domain_with_link"},
+                            {"name": "doc_title", "value": "Hosted Accounts"},
+                            {"name": "visibility", "value": "shared_externally"},
+                        ],
+                    },
+                ],
+            },
+        ),
+    ]

@@ -1,41 +1,5 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 
-git_hub_org_ip_allowlist_tests: list[RuleTest] = [
-    RuleTest(
-        name="GitHub - IP Allow list modified",
-        expected_result=True,
-        log={
-            "actor": "cat",
-            "action": "ip_allow_list_entry.create",
-            "created_at": 1621305118553,
-            "p_log_type": "GitHub.Audit",
-            "org": "my-org",
-        },
-    ),
-    RuleTest(
-        name="GitHub - IP Allow list disabled",
-        expected_result=True,
-        log={
-            "actor": "cat",
-            "action": "ip_allow_list.disable",
-            "created_at": 1621305118553,
-            "org": "my-org",
-            "p_log_type": "GitHub.Audit",
-        },
-    ),
-    RuleTest(
-        name="GitHub - Non IP Allow list action",
-        expected_result=False,
-        log={
-            "actor": "cat",
-            "action": "org.invite_user",
-            "created_at": 1621305118553,
-            "org": "my-org",
-            "p_log_type": "GitHub.Audit",
-        },
-    ),
-]
-
 
 @panther_managed
 class GitHubOrgIpAllowlist(Rule):
@@ -51,7 +15,6 @@ class GitHubOrgIpAllowlist(Rule):
     default_reference = (
         "https://docs.github.com/en/apps/maintaining-github-apps/managing-allowed-ip-addresses-for-a-github-app"
     )
-    tests = git_hub_org_ip_allowlist_tests
     ALLOWLIST_ACTIONS = [
         "ip_allow_list.enable",
         "ip_allow_list.disable",
@@ -67,3 +30,39 @@ class GitHubOrgIpAllowlist(Rule):
 
     def title(self, event):
         return f"GitHub Org IP Allow list modified by {event.get('actor')}."
+
+    tests = [
+        RuleTest(
+            name="GitHub - IP Allow list modified",
+            expected_result=True,
+            log={
+                "actor": "cat",
+                "action": "ip_allow_list_entry.create",
+                "created_at": 1621305118553,
+                "p_log_type": "GitHub.Audit",
+                "org": "my-org",
+            },
+        ),
+        RuleTest(
+            name="GitHub - IP Allow list disabled",
+            expected_result=True,
+            log={
+                "actor": "cat",
+                "action": "ip_allow_list.disable",
+                "created_at": 1621305118553,
+                "org": "my-org",
+                "p_log_type": "GitHub.Audit",
+            },
+        ),
+        RuleTest(
+            name="GitHub - Non IP Allow list action",
+            expected_result=False,
+            log={
+                "actor": "cat",
+                "action": "org.invite_user",
+                "created_at": 1621305118553,
+                "org": "my-org",
+                "p_log_type": "GitHub.Audit",
+            },
+        ),
+    ]

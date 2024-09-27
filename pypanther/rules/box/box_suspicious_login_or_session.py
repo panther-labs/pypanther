@@ -1,52 +1,6 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.base import box_parse_additional_details, deep_get
 
-box_shield_suspicious_alert_tests: list[RuleTest] = [
-    RuleTest(
-        name="Regular Event",
-        expected_result=False,
-        log={
-            "type": "event",
-            "additional_details": '{"key": "value"}',
-            "created_by": {"id": "12345678", "type": "user", "login": "ceo@example", "name": "Bob Cat"},
-            "event_type": "DELETE",
-        },
-    ),
-    RuleTest(
-        name="Suspicious Login Event",
-        expected_result=True,
-        log={
-            "type": "event",
-            "additional_details": '{"shield_alert":{"rule_category":"Suspicious Locations","risk_score":60,"user":{"email":"bob@example"}}}',
-            "created_by": {"id": "12345678", "type": "user", "login": "bob@example", "name": "Bob Cat"},
-            "event_type": "SHIELD_ALERT",
-            "source": {"id": "12345678", "type": "user"},
-        },
-    ),
-    RuleTest(
-        name="Suspicious Session Event",
-        expected_result=True,
-        log={
-            "type": "event",
-            "additional_details": '{"shield_alert":{"rule_category":"Suspicious Sessions","risk_score":70,"alert_summary":{"description":"First time in prior month user connected from ip 1.2.3.4."},"user":{"email":"bob@example"}}}',
-            "created_by": {"id": "12345678", "type": "user", "login": "bob@example", "name": "Bob Cat"},
-            "event_type": "SHIELD_ALERT",
-            "source": {"id": "12345678", "type": "user"},
-        },
-    ),
-    RuleTest(
-        name="Suspicious Session Event - Low Risk",
-        expected_result=False,
-        log={
-            "type": "event",
-            "additional_details": '{"shield_alert":{"rule_category":"Suspicious Sessions","risk_score":10,"alert_summary":{"description":"First time in prior month user connected from ip 1.2.3.4."},"user":{"email":"bob@example"}}}',
-            "created_by": {"id": "12345678", "type": "user", "login": "bob@example", "name": "Bob Cat"},
-            "event_type": "SHIELD_ALERT",
-            "source": {"id": "12345678", "type": "user"},
-        },
-    ),
-]
-
 
 @panther_managed
 class BoxShieldSuspiciousAlert(Rule):
@@ -60,7 +14,6 @@ class BoxShieldSuspiciousAlert(Rule):
     default_reference = "https://developer.box.com/guides/events/shield-alert-events/"
     default_runbook = "Investigate whether this was triggered by an expected user event.\n"
     summary_attributes = ["event_type", "ip_address"]
-    tests = box_shield_suspicious_alert_tests
     SUSPICIOUS_EVENT_TYPES = {"Suspicious Locations", "Suspicious Sessions"}
 
     def rule(self, event):
@@ -78,3 +31,49 @@ class BoxShieldSuspiciousAlert(Rule):
         if description:
             return description
         return f"Shield medium to high risk, suspicious event alert triggered for user [{deep_get(details, 'shield_alert', 'user', 'email', default='<UNKNOWN_USER>')}]"
+
+    tests = [
+        RuleTest(
+            name="Regular Event",
+            expected_result=False,
+            log={
+                "type": "event",
+                "additional_details": '{"key": "value"}',
+                "created_by": {"id": "12345678", "type": "user", "login": "ceo@example", "name": "Bob Cat"},
+                "event_type": "DELETE",
+            },
+        ),
+        RuleTest(
+            name="Suspicious Login Event",
+            expected_result=True,
+            log={
+                "type": "event",
+                "additional_details": '{"shield_alert":{"rule_category":"Suspicious Locations","risk_score":60,"user":{"email":"bob@example"}}}',
+                "created_by": {"id": "12345678", "type": "user", "login": "bob@example", "name": "Bob Cat"},
+                "event_type": "SHIELD_ALERT",
+                "source": {"id": "12345678", "type": "user"},
+            },
+        ),
+        RuleTest(
+            name="Suspicious Session Event",
+            expected_result=True,
+            log={
+                "type": "event",
+                "additional_details": '{"shield_alert":{"rule_category":"Suspicious Sessions","risk_score":70,"alert_summary":{"description":"First time in prior month user connected from ip 1.2.3.4."},"user":{"email":"bob@example"}}}',
+                "created_by": {"id": "12345678", "type": "user", "login": "bob@example", "name": "Bob Cat"},
+                "event_type": "SHIELD_ALERT",
+                "source": {"id": "12345678", "type": "user"},
+            },
+        ),
+        RuleTest(
+            name="Suspicious Session Event - Low Risk",
+            expected_result=False,
+            log={
+                "type": "event",
+                "additional_details": '{"shield_alert":{"rule_category":"Suspicious Sessions","risk_score":10,"alert_summary":{"description":"First time in prior month user connected from ip 1.2.3.4."},"user":{"email":"bob@example"}}}',
+                "created_by": {"id": "12345678", "type": "user", "login": "bob@example", "name": "Bob Cat"},
+                "event_type": "SHIELD_ALERT",
+                "source": {"id": "12345678", "type": "user"},
+            },
+        ),
+    ]

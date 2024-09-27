@@ -1,81 +1,6 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.snyk import snyk_alert_context
 
-snyk_user_management_tests: list[RuleTest] = [
-    RuleTest(
-        name="Snyk User Removed",
-        expected_result=True,
-        log={
-            "content": {
-                "email": "user@example.com",
-                "force": True,
-                "name": "user@example.com",
-                "userPublicId": "cccccccc-3333-4ddd-8ccc-755555555555",
-                "username": "user@example.com",
-            },
-            "created": "2023-04-11 23:32:14.173",
-            "event": "org.user.remove",
-            "groupId": "8fffffff-1555-4444-b000-b55555555555",
-            "orgId": "21111111-a222-4eee-8ddd-a99999999999",
-            "userId": "05555555-3333-4ddd-8ccc-755555555555",
-        },
-    ),
-    RuleTest(
-        name="Snyk User Invite Revoke",
-        expected_result=True,
-        log={
-            "content": {},
-            "created": "2023-04-11 23:32:13.248",
-            "event": "org.user.invite.revoke",
-            "groupId": "8fffffff-1555-4444-b000-b55555555555",
-            "orgId": "21111111-a222-4eee-8ddd-a99999999999",
-            "userId": "05555555-3333-4ddd-8ccc-755555555555",
-        },
-    ),
-    RuleTest(
-        name="Snyk Group User add",
-        expected_result=True,
-        log={
-            "content": {
-                "role": "Group Member",
-                "rolePublicId": "65555555-c000-4ddd-2222-cfffffffffff",
-                "userPublicId": "cccccccc-3333-4ddd-8ccc-755555555555",
-            },
-            "created": "2023-04-11 23:14:55.572",
-            "event": "group.user.add",
-            "groupId": "8fffffff-1555-4444-b000-b55555555555",
-            "userId": "05555555-3333-4ddd-8ccc-755555555555",
-        },
-    ),
-    RuleTest(
-        name="Snyk System SSO Setting event happened",
-        expected_result=False,
-        log={
-            "userId": "05555555-3333-4ddd-8ccc-755555555555",
-            "event": "group.sso.edit",
-            "groupId": "8fffffff-1555-4444-b000-b55555555555",
-            "orgId": "21111111-a222-4eee-8ddd-a99999999999",
-            "content": {"unknown": "contents"},
-        },
-    ),
-    RuleTest(
-        name="SAML User Added",
-        expected_result=False,
-        log={
-            "content": {
-                "role": "Org Collaborator",
-                "rolePublicId": "beeeeeee-dddd-4444-aaaa-133333333333",
-                "userPublicId": "05555555-3333-4ddd-8ccc-755555555555",
-            },
-            "created": "2023-06-01 03:14:42.776",
-            "event": "org.user.add",
-            "groupId": "8fffffff-1555-4444-b000-b55555555555",
-            "orgId": "21111111-a222-4eee-8ddd-a99999999999",
-            "userId": "05555555-3333-4ddd-8ccc-755555555555",
-        },
-    ),
-]
-
 
 @panther_managed
 class SnykUserManagement(Rule):
@@ -88,7 +13,6 @@ class SnykUserManagement(Rule):
     default_runbook = "These actions in the Snyk Audit logs indicate that a User has been created/deleted/modified.\n"
     default_reference = "https://docs.snyk.io/snyk-admin/manage-users-and-permissions/member-roles"
     summary_attributes = ["event"]
-    tests = snyk_user_management_tests
     ACTIONS = [
         "group.user.add",
         "group.user.provision.accept",
@@ -143,3 +67,78 @@ class SnykUserManagement(Rule):
         if role == "ADMIN":
             return "CRITICAL"
         return "MEDIUM"
+
+    tests = [
+        RuleTest(
+            name="Snyk User Removed",
+            expected_result=True,
+            log={
+                "content": {
+                    "email": "user@example.com",
+                    "force": True,
+                    "name": "user@example.com",
+                    "userPublicId": "cccccccc-3333-4ddd-8ccc-755555555555",
+                    "username": "user@example.com",
+                },
+                "created": "2023-04-11 23:32:14.173",
+                "event": "org.user.remove",
+                "groupId": "8fffffff-1555-4444-b000-b55555555555",
+                "orgId": "21111111-a222-4eee-8ddd-a99999999999",
+                "userId": "05555555-3333-4ddd-8ccc-755555555555",
+            },
+        ),
+        RuleTest(
+            name="Snyk User Invite Revoke",
+            expected_result=True,
+            log={
+                "content": {},
+                "created": "2023-04-11 23:32:13.248",
+                "event": "org.user.invite.revoke",
+                "groupId": "8fffffff-1555-4444-b000-b55555555555",
+                "orgId": "21111111-a222-4eee-8ddd-a99999999999",
+                "userId": "05555555-3333-4ddd-8ccc-755555555555",
+            },
+        ),
+        RuleTest(
+            name="Snyk Group User add",
+            expected_result=True,
+            log={
+                "content": {
+                    "role": "Group Member",
+                    "rolePublicId": "65555555-c000-4ddd-2222-cfffffffffff",
+                    "userPublicId": "cccccccc-3333-4ddd-8ccc-755555555555",
+                },
+                "created": "2023-04-11 23:14:55.572",
+                "event": "group.user.add",
+                "groupId": "8fffffff-1555-4444-b000-b55555555555",
+                "userId": "05555555-3333-4ddd-8ccc-755555555555",
+            },
+        ),
+        RuleTest(
+            name="Snyk System SSO Setting event happened",
+            expected_result=False,
+            log={
+                "userId": "05555555-3333-4ddd-8ccc-755555555555",
+                "event": "group.sso.edit",
+                "groupId": "8fffffff-1555-4444-b000-b55555555555",
+                "orgId": "21111111-a222-4eee-8ddd-a99999999999",
+                "content": {"unknown": "contents"},
+            },
+        ),
+        RuleTest(
+            name="SAML User Added",
+            expected_result=False,
+            log={
+                "content": {
+                    "role": "Org Collaborator",
+                    "rolePublicId": "beeeeeee-dddd-4444-aaaa-133333333333",
+                    "userPublicId": "05555555-3333-4ddd-8ccc-755555555555",
+                },
+                "created": "2023-06-01 03:14:42.776",
+                "event": "org.user.add",
+                "groupId": "8fffffff-1555-4444-b000-b55555555555",
+                "orgId": "21111111-a222-4eee-8ddd-a99999999999",
+                "userId": "05555555-3333-4ddd-8ccc-755555555555",
+            },
+        ),
+    ]

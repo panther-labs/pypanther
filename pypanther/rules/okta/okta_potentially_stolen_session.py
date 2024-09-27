@@ -7,319 +7,6 @@ from panther_detection_helpers.caching import get_string_set, put_string_set
 from pypanther import LogType, Rule, RuleMock, RuleTest, Severity, panther_managed
 from pypanther.helpers.base import deep_get, okta_alert_context
 
-okta_potentially_stolen_session_tests: list[RuleTest] = [
-    RuleTest(
-        name="Same device and OS",
-        expected_result=False,
-        mocks=[
-            RuleMock(
-                object_name="get_string_set",
-                return_value='[\n    "263297",\n    "1.2.3.4",\n    "user_agent:Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/84.0.4147.135 Safari/537.36",\n    "CHROME",\n    "Linux"\n]\n',
-            ),
-        ],
-        log={
-            "actor": {"alternateId": "admin", "displayName": "unknown", "id": "unknown", "type": "User"},
-            "authenticationContext": {"authenticationStep": 0, "externalSessionId": "123456789"},
-            "client": {
-                "device": "Computer",
-                "geographicalContext": {
-                    "city": "Dois Irmaos",
-                    "country": "Brazil",
-                    "geolocation": {"lat": -29.6116, "lon": -51.0933},
-                    "postalCode": "93950",
-                    "state": "Rio Grande do Sul",
-                },
-                "ipAddress": "1.2.3.4",
-                "userAgent": {
-                    "browser": "CHROME",
-                    "os": "Linux",
-                    "rawUserAgent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/84.0.4147.135 Safari/537.36",
-                },
-                "zone": "null",
-            },
-            "debugContext": {
-                "debugData": {
-                    "loginResult": "VERIFICATION_ERROR",
-                    "requestId": "redacted",
-                    "requestUri": "redacted",
-                    "threatSuspected": "false",
-                    "url": "redacted",
-                    "dtHash": "kzpx58a99d2oam082rlu588wgy1mb0zfi1e1l63f9cjx4uxc455k4t6xdiwbxian",
-                },
-            },
-            "displayMessage": "User login to Okta",
-            "eventType": "user.session.start",
-            "legacyEventType": "core.user_auth.login_failed",
-            "outcome": {"reason": "VERIFICATION_ERROR", "result": "FAILURE"},
-            "p_any_domain_names": ["rnvtelecom.com.br"],
-            "p_any_ip_addresses": ["redacted"],
-            "p_event_time": "redacted",
-            "p_log_type": "Okta.SystemLog",
-            "p_parse_time": "redacted",
-            "p_row_id": "redacted",
-            "p_source_id": "redacted",
-            "p_source_label": "Okta",
-            "published": "redacted",
-            "request": {
-                "ipChain": [
-                    {
-                        "geographicalContext": {
-                            "city": "Dois Irmaos",
-                            "country": "Brazil",
-                            "geolocation": {"lat": -29.6116, "lon": -51.0933},
-                            "postalCode": "93950",
-                            "state": "Rio Grande do Sul",
-                        },
-                        "ip": "redacted",
-                        "version": "V4",
-                    },
-                ],
-            },
-            "securityContext": {
-                "asNumber": 263297,
-                "asOrg": "renovare telecom",
-                "domain": "rnvtelecom.com.br",
-                "isProxy": False,
-                "isp": "renovare telecom",
-            },
-            "severity": "INFO",
-            "transaction": {"detail": {}, "id": "redacted", "type": "WEB"},
-            "uuid": "redacted",
-            "version": "0",
-        },
-    ),
-    RuleTest(
-        name="Different device & ASN",
-        expected_result=True,
-        mocks=[
-            RuleMock(
-                object_name="get_string_set",
-                return_value='[\n    "123456",\n    "4.3.2.1",\n    "user_agent:Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/105.0.0.0 Safari/537.36",\n    "CHROME",\n    "MacOS"\n]\n',
-            ),
-        ],
-        log={
-            "actor": {"alternateId": "admin", "displayName": "Bobert", "id": "unknown", "type": "User"},
-            "authenticationContext": {"authenticationStep": 0, "externalSessionId": "123456789"},
-            "client": {
-                "device": "Computer",
-                "geographicalContext": {
-                    "city": "Dois Irmaos",
-                    "country": "Brazil",
-                    "geolocation": {"lat": -29.6116, "lon": -51.0933},
-                    "postalCode": "93950",
-                    "state": "Rio Grande do Sul",
-                },
-                "ipAddress": "1.2.3.4",
-                "userAgent": {
-                    "browser": "CHROME",
-                    "os": "Linux",
-                    "rawUserAgent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/84.0.4147.135 Safari/537.36",
-                },
-                "zone": "null",
-            },
-            "debugContext": {
-                "debugData": {
-                    "dtHash": "kzpx58a99d2oam082rlu588wgy1mb0zfi1e1l63f9cjx4uxc455k4t6xdiwbxian",
-                    "loginResult": "VERIFICATION_ERROR",
-                    "requestId": "redacted",
-                    "requestUri": "redacted",
-                    "threatSuspected": "false",
-                    "url": "redacted",
-                },
-            },
-            "displayMessage": "User login to Okta",
-            "eventType": "user.session.start",
-            "legacyEventType": "core.user_auth.login_failed",
-            "outcome": {"reason": "VERIFICATION_ERROR", "result": "FAILURE"},
-            "p_any_domain_names": ["rnvtelecom.com.br"],
-            "p_any_ip_addresses": ["redacted"],
-            "p_event_time": "redacted",
-            "p_log_type": "Okta.SystemLog",
-            "p_parse_time": "redacted",
-            "p_row_id": "redacted",
-            "p_source_id": "redacted",
-            "p_source_label": "Okta",
-            "published": "redacted",
-            "request": {
-                "ipChain": [
-                    {
-                        "geographicalContext": {
-                            "city": "Dois Irmaos",
-                            "country": "Brazil",
-                            "geolocation": {"lat": -29.6116, "lon": -51.0933},
-                            "postalCode": "93950",
-                            "state": "Rio Grande do Sul",
-                        },
-                        "ip": "redacted",
-                        "version": "V4",
-                    },
-                ],
-            },
-            "securityContext": {
-                "asNumber": 263297,
-                "asOrg": "renovare telecom",
-                "domain": "rnvtelecom.com.br",
-                "isProxy": False,
-                "isp": "renovare telecom",
-            },
-            "severity": "INFO",
-            "transaction": {"detail": {}, "id": "redacted", "type": "WEB"},
-            "uuid": "redacted",
-            "version": "0",
-        },
-    ),
-    RuleTest(
-        name="Different ASN & same device",
-        expected_result=False,
-        mocks=[
-            RuleMock(
-                object_name="get_string_set",
-                return_value='[\n    "654321",\n    "1.2.3.4",\n    "user_agent:Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/84.0.4147.135 Safari/537.36",\n    "CHROME",\n    "Linux"\n]\n',
-            ),
-        ],
-        log={
-            "actor": {"alternateId": "admin", "displayName": "Bobert", "id": "unknown", "type": "User"},
-            "authenticationContext": {"authenticationStep": 0, "externalSessionId": "123456789"},
-            "client": {
-                "device": "Computer",
-                "geographicalContext": {
-                    "city": "Dois Irmaos",
-                    "country": "Brazil",
-                    "geolocation": {"lat": -29.6116, "lon": -51.0933},
-                    "postalCode": "93950",
-                    "state": "Rio Grande do Sul",
-                },
-                "ipAddress": "1.2.3.4",
-                "userAgent": {
-                    "browser": "CHROME",
-                    "os": "Linux",
-                    "rawUserAgent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/84.0.4147.135 Safari/537.36",
-                },
-                "zone": "null",
-            },
-            "debugContext": {
-                "debugData": {
-                    "loginResult": "VERIFICATION_ERROR",
-                    "requestId": "redacted",
-                    "requestUri": "redacted",
-                    "threatSuspected": "false",
-                    "url": "redacted",
-                    "dtHash": "kzpx58a99d2oam082rlu588wgy1mb0zfi1e1l63f9cjx4uxc455k4t6xdiwbxian",
-                },
-            },
-            "displayMessage": "User login to Okta",
-            "eventType": "user.session.start",
-            "legacyEventType": "core.user_auth.login_failed",
-            "outcome": {"reason": "VERIFICATION_ERROR", "result": "FAILURE"},
-            "p_any_domain_names": ["rnvtelecom.com.br"],
-            "p_any_ip_addresses": ["redacted"],
-            "p_event_time": "redacted",
-            "p_log_type": "Okta.SystemLog",
-            "p_parse_time": "redacted",
-            "p_row_id": "redacted",
-            "p_source_id": "redacted",
-            "p_source_label": "Okta",
-            "published": "redacted",
-            "request": {
-                "ipChain": [
-                    {
-                        "geographicalContext": {
-                            "city": "Dois Irmaos",
-                            "country": "Brazil",
-                            "geolocation": {"lat": -29.6116, "lon": -51.0933},
-                            "postalCode": "93950",
-                            "state": "Rio Grande do Sul",
-                        },
-                        "ip": "redacted",
-                        "version": "V4",
-                    },
-                ],
-            },
-            "securityContext": {
-                "asNumber": 263297,
-                "asOrg": "renovare telecom",
-                "domain": "rnvtelecom.com.br",
-                "isProxy": False,
-                "isp": "renovare telecom",
-            },
-            "severity": "INFO",
-            "transaction": {"detail": {}, "id": "redacted", "type": "WEB"},
-            "uuid": "redacted",
-            "version": "0",
-        },
-    ),
-    RuleTest(
-        name="Okta internal event should be ignored",
-        expected_result=False,
-        mocks=[
-            RuleMock(
-                object_name="get_string_set",
-                return_value='[\n    "123456",\n    "4.3.2.1",\n    "user_agent:Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/105.0.0.0 Safari/537.36",\n    "CHROME",\n    "MacOS"\n]\n',
-            ),
-        ],
-        log={
-            "actor": {"alternateId": "admin", "displayName": "Bobert", "id": "unknown", "type": "User"},
-            "authenticationContext": {"authenticationStep": 0, "externalSessionId": "123456789"},
-            "client": {
-                "device": "Unknown",
-                "geographicalContext": {
-                    "city": "Boardman",
-                    "country": "United States",
-                    "geolocation": {"lat": 45.8234, "lon": -119.7257},
-                    "postalCode": "97818",
-                    "state": "Oregon",
-                },
-                "id": "okta.b58d5b75-07d4-5f25-bf59-368a1261a405",
-                "ipAddress": "44.238.82.114",
-                "userAgent": {"browser": "UNKNOWN", "os": "Unknown", "rawUserAgent": "Okta-Integrations"},
-                "zone": "null",
-            },
-            "debugContext": {
-                "debugData": {
-                    "loginResult": "VERIFICATION_ERROR",
-                    "requestId": "redacted",
-                    "requestUri": "redacted",
-                    "threatSuspected": "false",
-                    "url": "redacted",
-                },
-            },
-            "displayMessage": "User login to Okta",
-            "eventType": "user.session.start",
-            "legacyEventType": "core.user_auth.login_failed",
-            "outcome": {"reason": "VERIFICATION_ERROR", "result": "FAILURE"},
-            "p_any_domain_names": ["rnvtelecom.com.br"],
-            "p_any_ip_addresses": ["redacted"],
-            "p_event_time": "redacted",
-            "p_log_type": "Okta.SystemLog",
-            "p_parse_time": "redacted",
-            "p_row_id": "redacted",
-            "p_source_id": "redacted",
-            "p_source_label": "Okta",
-            "published": "redacted",
-            "request": {
-                "ipChain": [
-                    {
-                        "geographicalContext": {
-                            "city": "Boardman",
-                            "country": "United States",
-                            "geolocation": {"lat": 45.8234, "lon": -119.7257},
-                            "postalCode": "97818",
-                            "state": "Oregon",
-                        },
-                        "ip": "44.238.82.114",
-                        "version": "V4",
-                    },
-                ],
-            },
-            "securityContext": {},
-            "severity": "INFO",
-            "transaction": {"detail": {}, "id": "redacted", "type": "WEB"},
-            "uuid": "redacted",
-            "version": "0",
-        },
-    ),
-]
-
 
 @panther_managed
 class OktaPotentiallyStolenSession(Rule):
@@ -335,7 +22,6 @@ class OktaPotentiallyStolenSession(Rule):
     default_runbook = "Confirm the session is used on two devices, one of which is unknown. Lock the users Okta account and clear the users sessions in down stream apps."
     default_reference = "https://sec.okta.com/sessioncookietheft"
     summary_attributes = ["eventType", "severity", "p_any_ip_addresses", "p_any_domain_names"]
-    tests = okta_potentially_stolen_session_tests
     FUZZ_RATIO_MIN = 0.95
     PREVIOUS_SESSION = {}
     # the number of days an Okta session is valid for (configured in Okta)
@@ -410,3 +96,316 @@ class OktaPotentiallyStolenSession(Rule):
         context = okta_alert_context(event)
         context["previous_session"] = str(self.PREVIOUS_SESSION)
         return context
+
+    tests = [
+        RuleTest(
+            name="Same device and OS",
+            expected_result=False,
+            mocks=[
+                RuleMock(
+                    object_name="get_string_set",
+                    return_value='[\n    "263297",\n    "1.2.3.4",\n    "user_agent:Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/84.0.4147.135 Safari/537.36",\n    "CHROME",\n    "Linux"\n]\n',
+                ),
+            ],
+            log={
+                "actor": {"alternateId": "admin", "displayName": "unknown", "id": "unknown", "type": "User"},
+                "authenticationContext": {"authenticationStep": 0, "externalSessionId": "123456789"},
+                "client": {
+                    "device": "Computer",
+                    "geographicalContext": {
+                        "city": "Dois Irmaos",
+                        "country": "Brazil",
+                        "geolocation": {"lat": -29.6116, "lon": -51.0933},
+                        "postalCode": "93950",
+                        "state": "Rio Grande do Sul",
+                    },
+                    "ipAddress": "1.2.3.4",
+                    "userAgent": {
+                        "browser": "CHROME",
+                        "os": "Linux",
+                        "rawUserAgent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/84.0.4147.135 Safari/537.36",
+                    },
+                    "zone": "null",
+                },
+                "debugContext": {
+                    "debugData": {
+                        "loginResult": "VERIFICATION_ERROR",
+                        "requestId": "redacted",
+                        "requestUri": "redacted",
+                        "threatSuspected": "false",
+                        "url": "redacted",
+                        "dtHash": "kzpx58a99d2oam082rlu588wgy1mb0zfi1e1l63f9cjx4uxc455k4t6xdiwbxian",
+                    },
+                },
+                "displayMessage": "User login to Okta",
+                "eventType": "user.session.start",
+                "legacyEventType": "core.user_auth.login_failed",
+                "outcome": {"reason": "VERIFICATION_ERROR", "result": "FAILURE"},
+                "p_any_domain_names": ["rnvtelecom.com.br"],
+                "p_any_ip_addresses": ["redacted"],
+                "p_event_time": "redacted",
+                "p_log_type": "Okta.SystemLog",
+                "p_parse_time": "redacted",
+                "p_row_id": "redacted",
+                "p_source_id": "redacted",
+                "p_source_label": "Okta",
+                "published": "redacted",
+                "request": {
+                    "ipChain": [
+                        {
+                            "geographicalContext": {
+                                "city": "Dois Irmaos",
+                                "country": "Brazil",
+                                "geolocation": {"lat": -29.6116, "lon": -51.0933},
+                                "postalCode": "93950",
+                                "state": "Rio Grande do Sul",
+                            },
+                            "ip": "redacted",
+                            "version": "V4",
+                        },
+                    ],
+                },
+                "securityContext": {
+                    "asNumber": 263297,
+                    "asOrg": "renovare telecom",
+                    "domain": "rnvtelecom.com.br",
+                    "isProxy": False,
+                    "isp": "renovare telecom",
+                },
+                "severity": "INFO",
+                "transaction": {"detail": {}, "id": "redacted", "type": "WEB"},
+                "uuid": "redacted",
+                "version": "0",
+            },
+        ),
+        RuleTest(
+            name="Different device & ASN",
+            expected_result=True,
+            mocks=[
+                RuleMock(
+                    object_name="get_string_set",
+                    return_value='[\n    "123456",\n    "4.3.2.1",\n    "user_agent:Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/105.0.0.0 Safari/537.36",\n    "CHROME",\n    "MacOS"\n]\n',
+                ),
+            ],
+            log={
+                "actor": {"alternateId": "admin", "displayName": "Bobert", "id": "unknown", "type": "User"},
+                "authenticationContext": {"authenticationStep": 0, "externalSessionId": "123456789"},
+                "client": {
+                    "device": "Computer",
+                    "geographicalContext": {
+                        "city": "Dois Irmaos",
+                        "country": "Brazil",
+                        "geolocation": {"lat": -29.6116, "lon": -51.0933},
+                        "postalCode": "93950",
+                        "state": "Rio Grande do Sul",
+                    },
+                    "ipAddress": "1.2.3.4",
+                    "userAgent": {
+                        "browser": "CHROME",
+                        "os": "Linux",
+                        "rawUserAgent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/84.0.4147.135 Safari/537.36",
+                    },
+                    "zone": "null",
+                },
+                "debugContext": {
+                    "debugData": {
+                        "dtHash": "kzpx58a99d2oam082rlu588wgy1mb0zfi1e1l63f9cjx4uxc455k4t6xdiwbxian",
+                        "loginResult": "VERIFICATION_ERROR",
+                        "requestId": "redacted",
+                        "requestUri": "redacted",
+                        "threatSuspected": "false",
+                        "url": "redacted",
+                    },
+                },
+                "displayMessage": "User login to Okta",
+                "eventType": "user.session.start",
+                "legacyEventType": "core.user_auth.login_failed",
+                "outcome": {"reason": "VERIFICATION_ERROR", "result": "FAILURE"},
+                "p_any_domain_names": ["rnvtelecom.com.br"],
+                "p_any_ip_addresses": ["redacted"],
+                "p_event_time": "redacted",
+                "p_log_type": "Okta.SystemLog",
+                "p_parse_time": "redacted",
+                "p_row_id": "redacted",
+                "p_source_id": "redacted",
+                "p_source_label": "Okta",
+                "published": "redacted",
+                "request": {
+                    "ipChain": [
+                        {
+                            "geographicalContext": {
+                                "city": "Dois Irmaos",
+                                "country": "Brazil",
+                                "geolocation": {"lat": -29.6116, "lon": -51.0933},
+                                "postalCode": "93950",
+                                "state": "Rio Grande do Sul",
+                            },
+                            "ip": "redacted",
+                            "version": "V4",
+                        },
+                    ],
+                },
+                "securityContext": {
+                    "asNumber": 263297,
+                    "asOrg": "renovare telecom",
+                    "domain": "rnvtelecom.com.br",
+                    "isProxy": False,
+                    "isp": "renovare telecom",
+                },
+                "severity": "INFO",
+                "transaction": {"detail": {}, "id": "redacted", "type": "WEB"},
+                "uuid": "redacted",
+                "version": "0",
+            },
+        ),
+        RuleTest(
+            name="Different ASN & same device",
+            expected_result=False,
+            mocks=[
+                RuleMock(
+                    object_name="get_string_set",
+                    return_value='[\n    "654321",\n    "1.2.3.4",\n    "user_agent:Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/84.0.4147.135 Safari/537.36",\n    "CHROME",\n    "Linux"\n]\n',
+                ),
+            ],
+            log={
+                "actor": {"alternateId": "admin", "displayName": "Bobert", "id": "unknown", "type": "User"},
+                "authenticationContext": {"authenticationStep": 0, "externalSessionId": "123456789"},
+                "client": {
+                    "device": "Computer",
+                    "geographicalContext": {
+                        "city": "Dois Irmaos",
+                        "country": "Brazil",
+                        "geolocation": {"lat": -29.6116, "lon": -51.0933},
+                        "postalCode": "93950",
+                        "state": "Rio Grande do Sul",
+                    },
+                    "ipAddress": "1.2.3.4",
+                    "userAgent": {
+                        "browser": "CHROME",
+                        "os": "Linux",
+                        "rawUserAgent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/84.0.4147.135 Safari/537.36",
+                    },
+                    "zone": "null",
+                },
+                "debugContext": {
+                    "debugData": {
+                        "loginResult": "VERIFICATION_ERROR",
+                        "requestId": "redacted",
+                        "requestUri": "redacted",
+                        "threatSuspected": "false",
+                        "url": "redacted",
+                        "dtHash": "kzpx58a99d2oam082rlu588wgy1mb0zfi1e1l63f9cjx4uxc455k4t6xdiwbxian",
+                    },
+                },
+                "displayMessage": "User login to Okta",
+                "eventType": "user.session.start",
+                "legacyEventType": "core.user_auth.login_failed",
+                "outcome": {"reason": "VERIFICATION_ERROR", "result": "FAILURE"},
+                "p_any_domain_names": ["rnvtelecom.com.br"],
+                "p_any_ip_addresses": ["redacted"],
+                "p_event_time": "redacted",
+                "p_log_type": "Okta.SystemLog",
+                "p_parse_time": "redacted",
+                "p_row_id": "redacted",
+                "p_source_id": "redacted",
+                "p_source_label": "Okta",
+                "published": "redacted",
+                "request": {
+                    "ipChain": [
+                        {
+                            "geographicalContext": {
+                                "city": "Dois Irmaos",
+                                "country": "Brazil",
+                                "geolocation": {"lat": -29.6116, "lon": -51.0933},
+                                "postalCode": "93950",
+                                "state": "Rio Grande do Sul",
+                            },
+                            "ip": "redacted",
+                            "version": "V4",
+                        },
+                    ],
+                },
+                "securityContext": {
+                    "asNumber": 263297,
+                    "asOrg": "renovare telecom",
+                    "domain": "rnvtelecom.com.br",
+                    "isProxy": False,
+                    "isp": "renovare telecom",
+                },
+                "severity": "INFO",
+                "transaction": {"detail": {}, "id": "redacted", "type": "WEB"},
+                "uuid": "redacted",
+                "version": "0",
+            },
+        ),
+        RuleTest(
+            name="Okta internal event should be ignored",
+            expected_result=False,
+            mocks=[
+                RuleMock(
+                    object_name="get_string_set",
+                    return_value='[\n    "123456",\n    "4.3.2.1",\n    "user_agent:Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/105.0.0.0 Safari/537.36",\n    "CHROME",\n    "MacOS"\n]\n',
+                ),
+            ],
+            log={
+                "actor": {"alternateId": "admin", "displayName": "Bobert", "id": "unknown", "type": "User"},
+                "authenticationContext": {"authenticationStep": 0, "externalSessionId": "123456789"},
+                "client": {
+                    "device": "Unknown",
+                    "geographicalContext": {
+                        "city": "Boardman",
+                        "country": "United States",
+                        "geolocation": {"lat": 45.8234, "lon": -119.7257},
+                        "postalCode": "97818",
+                        "state": "Oregon",
+                    },
+                    "id": "okta.b58d5b75-07d4-5f25-bf59-368a1261a405",
+                    "ipAddress": "44.238.82.114",
+                    "userAgent": {"browser": "UNKNOWN", "os": "Unknown", "rawUserAgent": "Okta-Integrations"},
+                    "zone": "null",
+                },
+                "debugContext": {
+                    "debugData": {
+                        "loginResult": "VERIFICATION_ERROR",
+                        "requestId": "redacted",
+                        "requestUri": "redacted",
+                        "threatSuspected": "false",
+                        "url": "redacted",
+                    },
+                },
+                "displayMessage": "User login to Okta",
+                "eventType": "user.session.start",
+                "legacyEventType": "core.user_auth.login_failed",
+                "outcome": {"reason": "VERIFICATION_ERROR", "result": "FAILURE"},
+                "p_any_domain_names": ["rnvtelecom.com.br"],
+                "p_any_ip_addresses": ["redacted"],
+                "p_event_time": "redacted",
+                "p_log_type": "Okta.SystemLog",
+                "p_parse_time": "redacted",
+                "p_row_id": "redacted",
+                "p_source_id": "redacted",
+                "p_source_label": "Okta",
+                "published": "redacted",
+                "request": {
+                    "ipChain": [
+                        {
+                            "geographicalContext": {
+                                "city": "Boardman",
+                                "country": "United States",
+                                "geolocation": {"lat": 45.8234, "lon": -119.7257},
+                                "postalCode": "97818",
+                                "state": "Oregon",
+                            },
+                            "ip": "44.238.82.114",
+                            "version": "V4",
+                        },
+                    ],
+                },
+                "securityContext": {},
+                "severity": "INFO",
+                "transaction": {"detail": {}, "id": "redacted", "type": "WEB"},
+                "uuid": "redacted",
+                "version": "0",
+            },
+        ),
+    ]

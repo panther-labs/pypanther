@@ -2,45 +2,6 @@ from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.base import deep_get, deep_walk
 from pypanther.helpers.gcp_base import gcp_alert_context
 
-gcpk8s_new_daemonset_deployed_tests: list[RuleTest] = [
-    RuleTest(
-        name="privilege-escalation",
-        expected_result=True,
-        log={
-            "protoPayload": {
-                "authorizationInfo": [{"granted": True, "permission": "io.k8s.apps.v1.daemonsets.create"}],
-                "methodName": "v2.deploymentmanager.deployments.insert",
-                "serviceName": "deploymentmanager.googleapis.com",
-            },
-            "receiveTimestamp": "2024-01-19 13:47:19.465856238",
-            "resource": {
-                "labels": {"name": "test-vm-deployment", "project_id": "panther-threat-research"},
-                "type": "deployment",
-            },
-            "severity": "NOTICE",
-            "timestamp": "2024-01-19 13:47:18.279921000",
-        },
-    ),
-    RuleTest(
-        name="fail",
-        expected_result=False,
-        log={
-            "protoPayload": {
-                "authorizationInfo": [{"granted": False, "permission": "io.k8s.apps.v1.daemonsets.create"}],
-                "methodName": "v2.deploymentmanager.deployments.insert",
-                "serviceName": "deploymentmanager.googleapis.com",
-            },
-            "receiveTimestamp": "2024-01-19 13:47:19.465856238",
-            "resource": {
-                "labels": {"name": "test-vm-deployment", "project_id": "panther-threat-research"},
-                "type": "deployment",
-            },
-            "severity": "NOTICE",
-            "timestamp": "2024-01-19 13:47:18.279921000",
-        },
-    ),
-]
-
 
 @panther_managed
 class GCPK8sNewDaemonsetDeployed(Rule):
@@ -52,7 +13,6 @@ class GCPK8sNewDaemonsetDeployed(Rule):
     default_reference = "https://medium.com/snowflake/from-logs-to-detection-using-snowflake-and-panther-to-detect-k8s-threats-d72f70a504d7"
     default_runbook = "Investigate a reason of creating Daemonset. Create ticket if appropriate."
     reports = {"MITRE ATT&CK": ["TA0002:T1610"]}
-    tests = gcpk8s_new_daemonset_deployed_tests
 
     def rule(self, event):
         authorization_info = deep_walk(event, "protoPayload", "authorizationInfo")
@@ -71,3 +31,42 @@ class GCPK8sNewDaemonsetDeployed(Rule):
 
     def alert_context(self, event):
         return gcp_alert_context(event)
+
+    tests = [
+        RuleTest(
+            name="privilege-escalation",
+            expected_result=True,
+            log={
+                "protoPayload": {
+                    "authorizationInfo": [{"granted": True, "permission": "io.k8s.apps.v1.daemonsets.create"}],
+                    "methodName": "v2.deploymentmanager.deployments.insert",
+                    "serviceName": "deploymentmanager.googleapis.com",
+                },
+                "receiveTimestamp": "2024-01-19 13:47:19.465856238",
+                "resource": {
+                    "labels": {"name": "test-vm-deployment", "project_id": "panther-threat-research"},
+                    "type": "deployment",
+                },
+                "severity": "NOTICE",
+                "timestamp": "2024-01-19 13:47:18.279921000",
+            },
+        ),
+        RuleTest(
+            name="fail",
+            expected_result=False,
+            log={
+                "protoPayload": {
+                    "authorizationInfo": [{"granted": False, "permission": "io.k8s.apps.v1.daemonsets.create"}],
+                    "methodName": "v2.deploymentmanager.deployments.insert",
+                    "serviceName": "deploymentmanager.googleapis.com",
+                },
+                "receiveTimestamp": "2024-01-19 13:47:19.465856238",
+                "resource": {
+                    "labels": {"name": "test-vm-deployment", "project_id": "panther-threat-research"},
+                    "type": "deployment",
+                },
+                "severity": "NOTICE",
+                "timestamp": "2024-01-19 13:47:18.279921000",
+            },
+        ),
+    ]

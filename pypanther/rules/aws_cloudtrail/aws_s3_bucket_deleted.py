@@ -2,89 +2,6 @@ from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.base import aws_rule_context, deep_get
 from pypanther.helpers.default import aws_cloudtrail_success
 
-awss3_bucket_deleted_tests: list[RuleTest] = [
-    RuleTest(
-        name="An S3 Bucket was deleted",
-        expected_result=True,
-        log={
-            "eventVersion": "1.05",
-            "errorCode": "",
-            "userIdentity": {
-                "type": "AssumedRole",
-                "principalId": "AAAAAAAAAAAAAAAAAAAAA:user_name",
-                "arn": "arn:aws:sts::123456789012:assumed-role/BucketAdministrator/user_name",
-                "accountId": "123456789012",
-                "accessKeyId": "AAAAAAAAAAAAAAAAAAAAA",
-                "sessionContext": {
-                    "attributes": {"mfaAuthenticated": "true", "creationDate": "2020-02-14T00:11:28Z"},
-                    "sessionIssuer": {
-                        "type": "Role",
-                        "principalId": "AAAAAAAAAAAAAAAAAAAAA",
-                        "arn": "arn:aws:iam::123456789012:role/BucketAdministrator",
-                        "accountId": "123456789012",
-                        "userName": "BucketAdministrator",
-                    },
-                },
-            },
-            "eventTime": "2020-02-14T00:43:54Z",
-            "eventSource": "s3.amazonaws.com",
-            "eventName": "DeleteBucket",
-            "awsRegion": "us-east-2",
-            "sourceIPAddress": "157.130.196.214",
-            "userAgent": "[S3Console/0.4, aws-internal/3 aws-sdk-java/1.11.666 Linux/4.9.184-0.1.ac.235.83.329.metal1.x86_64 OpenJDK_64-Bit_Server_VM/25.232-b09 java/1.8.0_232 vendor/Oracle_Corporation]",
-            "requestParameters": {"host": ["s3-us-east-2.amazonaws.com"], "bucketName": "secrets"},
-            "responseElements": None,
-            "additionalEventData": {
-                "SignatureVersion": "SigV4",
-                "CipherSuite": "ECDHE-RSA-AES128-SHA",
-                "AuthenticationMethod": "AuthHeader",
-                "vpcEndpointId": "vpce-aaa333c9",
-            },
-            "requestID": "EEEE5AAAAAA44444",
-            "eventID": "6795ef5c-7777-4444-8888-cabb7f252bd3",
-            "eventType": "AwsApiCall",
-            "recipientAccountId": "123456789012",
-            "vpcEndpointId": "vpce-aaa333c9",
-        },
-    ),
-    RuleTest(
-        name="S3 Bucket Deletion Failed",
-        expected_result=False,
-        log={
-            "eventName": "DeleteBucket",
-            "errorCode": "BucketNotEmpty",
-            "errorMessage": "The bucket you tried to delete is not empty",
-            "awsRegion": "us-east-2",
-            "sourceIPAddress": "157.130.196.214",
-            "userAgent": "[S3Console/0.4, aws-internal/3 aws-sdk-java/1.11.666 Linux/4.9.184-0.1.ac.235.83.329.metal1.x86_64 OpenJDK_64-Bit_Server_VM/25.232-b09 java/1.8.0_232 vendor/Oracle_Corporation]",
-            "responseElements": None,
-            "requestID": "EEEE5AAAAAA44444",
-            "userIdentity": {},
-            "eventID": "6795ef5c-7777-4444-8888-cabb7f252bd3",
-            "eventType": "AwsApiCall",
-            "recipientAccountId": "123456789012",
-            "vpcEndpointId": "vpce-aaa333c9",
-        },
-    ),
-    RuleTest(
-        name="An S3 Object Deleted",
-        expected_result=False,
-        log={
-            "eventName": "DeleteObject",
-            "awsRegion": "us-east-2",
-            "sourceIPAddress": "157.130.196.214",
-            "userAgent": "[S3Console/0.4, aws-internal/3 aws-sdk-java/1.11.666 Linux/4.9.184-0.1.ac.235.83.329.metal1.x86_64 OpenJDK_64-Bit_Server_VM/25.232-b09 java/1.8.0_232 vendor/Oracle_Corporation]",
-            "responseElements": None,
-            "requestID": "EEEE5AAAAAA44444",
-            "eventID": "6795ef5c-7777-4444-8888-cabb7f252bd3",
-            "userIdentity": {},
-            "eventType": "AwsApiCall",
-            "recipientAccountId": "123456789012",
-            "vpcEndpointId": "vpce-aaa333c9",
-        },
-    ),
-]
-
 
 @panther_managed
 class AWSS3BucketDeleted(Rule):
@@ -98,7 +15,6 @@ class AWSS3BucketDeleted(Rule):
     default_runbook = "Explore if this bucket deletion was potentially destructive"
     default_reference = "https://docs.aws.amazon.com/AmazonS3/latest/userguide/DeletingObjects.html"
     summary_attributes = ["sourceIpAddress", "userAgent", "recipientAccountId", "vpcEndpointId"]
-    tests = awss3_bucket_deleted_tests
 
     def rule(self, event):
         # Capture DeleteBucket, DeleteBucketPolicy, DeleteBucketWebsite
@@ -122,3 +38,86 @@ class AWSS3BucketDeleted(Rule):
 
     def alert_context(self, event):
         return aws_rule_context(event)
+
+    tests = [
+        RuleTest(
+            name="An S3 Bucket was deleted",
+            expected_result=True,
+            log={
+                "eventVersion": "1.05",
+                "errorCode": "",
+                "userIdentity": {
+                    "type": "AssumedRole",
+                    "principalId": "AAAAAAAAAAAAAAAAAAAAA:user_name",
+                    "arn": "arn:aws:sts::123456789012:assumed-role/BucketAdministrator/user_name",
+                    "accountId": "123456789012",
+                    "accessKeyId": "AAAAAAAAAAAAAAAAAAAAA",
+                    "sessionContext": {
+                        "attributes": {"mfaAuthenticated": "true", "creationDate": "2020-02-14T00:11:28Z"},
+                        "sessionIssuer": {
+                            "type": "Role",
+                            "principalId": "AAAAAAAAAAAAAAAAAAAAA",
+                            "arn": "arn:aws:iam::123456789012:role/BucketAdministrator",
+                            "accountId": "123456789012",
+                            "userName": "BucketAdministrator",
+                        },
+                    },
+                },
+                "eventTime": "2020-02-14T00:43:54Z",
+                "eventSource": "s3.amazonaws.com",
+                "eventName": "DeleteBucket",
+                "awsRegion": "us-east-2",
+                "sourceIPAddress": "157.130.196.214",
+                "userAgent": "[S3Console/0.4, aws-internal/3 aws-sdk-java/1.11.666 Linux/4.9.184-0.1.ac.235.83.329.metal1.x86_64 OpenJDK_64-Bit_Server_VM/25.232-b09 java/1.8.0_232 vendor/Oracle_Corporation]",
+                "requestParameters": {"host": ["s3-us-east-2.amazonaws.com"], "bucketName": "secrets"},
+                "responseElements": None,
+                "additionalEventData": {
+                    "SignatureVersion": "SigV4",
+                    "CipherSuite": "ECDHE-RSA-AES128-SHA",
+                    "AuthenticationMethod": "AuthHeader",
+                    "vpcEndpointId": "vpce-aaa333c9",
+                },
+                "requestID": "EEEE5AAAAAA44444",
+                "eventID": "6795ef5c-7777-4444-8888-cabb7f252bd3",
+                "eventType": "AwsApiCall",
+                "recipientAccountId": "123456789012",
+                "vpcEndpointId": "vpce-aaa333c9",
+            },
+        ),
+        RuleTest(
+            name="S3 Bucket Deletion Failed",
+            expected_result=False,
+            log={
+                "eventName": "DeleteBucket",
+                "errorCode": "BucketNotEmpty",
+                "errorMessage": "The bucket you tried to delete is not empty",
+                "awsRegion": "us-east-2",
+                "sourceIPAddress": "157.130.196.214",
+                "userAgent": "[S3Console/0.4, aws-internal/3 aws-sdk-java/1.11.666 Linux/4.9.184-0.1.ac.235.83.329.metal1.x86_64 OpenJDK_64-Bit_Server_VM/25.232-b09 java/1.8.0_232 vendor/Oracle_Corporation]",
+                "responseElements": None,
+                "requestID": "EEEE5AAAAAA44444",
+                "userIdentity": {},
+                "eventID": "6795ef5c-7777-4444-8888-cabb7f252bd3",
+                "eventType": "AwsApiCall",
+                "recipientAccountId": "123456789012",
+                "vpcEndpointId": "vpce-aaa333c9",
+            },
+        ),
+        RuleTest(
+            name="An S3 Object Deleted",
+            expected_result=False,
+            log={
+                "eventName": "DeleteObject",
+                "awsRegion": "us-east-2",
+                "sourceIPAddress": "157.130.196.214",
+                "userAgent": "[S3Console/0.4, aws-internal/3 aws-sdk-java/1.11.666 Linux/4.9.184-0.1.ac.235.83.329.metal1.x86_64 OpenJDK_64-Bit_Server_VM/25.232-b09 java/1.8.0_232 vendor/Oracle_Corporation]",
+                "responseElements": None,
+                "requestID": "EEEE5AAAAAA44444",
+                "eventID": "6795ef5c-7777-4444-8888-cabb7f252bd3",
+                "userIdentity": {},
+                "eventType": "AwsApiCall",
+                "recipientAccountId": "123456789012",
+                "vpcEndpointId": "vpce-aaa333c9",
+            },
+        ),
+    ]

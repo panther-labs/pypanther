@@ -1,109 +1,6 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.base import deep_get
 
-wiz_alert_passthrough_tests: list[RuleTest] = [
-    RuleTest(
-        name="Open Alert",
-        expected_result=True,
-        log={
-            "createdAt": "2024-06-04 02:28:06.763277000",
-            "entitySnapshot": {
-                "cloudProviderURL": "",
-                "externalId": "someExternalId",
-                "id": "12345",
-                "name": "someName",
-                "nativeType": "",
-                "providerId": "someProviderId",
-                "region": "",
-                "resourceGroupExternalId": "",
-                "subscriptionExternalId": "",
-                "subscriptionName": "",
-                "tags": {},
-                "type": "DATA_FINDING",
-            },
-            "id": "54321",
-            "notes": [],
-            "projects": [
-                {
-                    "businessUnit": "",
-                    "id": "45678",
-                    "name": "Project 2",
-                    "riskProfile": {"businessImpact": "MBI"},
-                    "slug": "project-2",
-                },
-            ],
-            "serviceTickets": [],
-            "severity": "HIGH",
-            "sourceRule": {
-                "__typename": "Control",
-                "controlDescription": "Alert Description",
-                "id": "12345",
-                "name": "Alert Name",
-                "resolutionRecommendation": "Alert Resolution Recommendation",
-                "securitySubCategories": [
-                    {
-                        "category": {"framework": {"name": "Wiz for Risk Assessment"}, "name": "High Profile Threats"},
-                        "title": "High-profile vulnerability exploited in the wild",
-                    },
-                    {
-                        "category": {"framework": {"name": "MITRE ATT&CK Matrix"}, "name": "TA0001 Initial Access"},
-                        "title": "T1190 Exploit Public-Facing Application",
-                    },
-                ],
-            },
-            "status": "OPEN",
-            "statusChangedAt": "2024-06-04 02:28:06.597355000",
-            "type": "TOXIC_COMBINATION",
-            "updatedAt": "2024-06-04 02:28:06.763277000",
-        },
-    ),
-    RuleTest(
-        name="Resolved Alert",
-        expected_result=False,
-        log={
-            "createdAt": "2024-06-04 02:28:06.763277000",
-            "entitySnapshot": {
-                "cloudProviderURL": "",
-                "externalId": "someExternalId",
-                "id": "12345",
-                "name": "someName",
-                "nativeType": "",
-                "providerId": "someProviderId",
-                "region": "",
-                "resourceGroupExternalId": "",
-                "subscriptionExternalId": "",
-                "subscriptionName": "",
-                "tags": {},
-                "type": "DATA_FINDING",
-            },
-            "id": "54321",
-            "notes": [],
-            "projects": [
-                {
-                    "businessUnit": "",
-                    "id": "45678",
-                    "name": "Project 2",
-                    "riskProfile": {"businessImpact": "MBI"},
-                    "slug": "project-2",
-                },
-            ],
-            "serviceTickets": [],
-            "severity": "HIGH",
-            "sourceRule": {
-                "__typename": "Control",
-                "controlDescription": "Alert Description",
-                "id": "12345",
-                "name": "Alert Name",
-                "resolutionRecommendation": "Alert Resolution Recommendation",
-            },
-            "status": "RESOLVED",
-            "statusChangedAt": "2024-06-04 02:28:06.597355000",
-            "type": "TOXIC_COMBINATION",
-            "updatedAt": "2024-06-04 02:28:06.763277000",
-        },
-    ),
-]
-
 
 @panther_managed
 class WizAlertPassthrough(Rule):
@@ -115,7 +12,6 @@ class WizAlertPassthrough(Rule):
     default_severity = Severity.MEDIUM
     log_types = [LogType.WIZ_ISSUES]
     dedup_period_minutes = 720
-    tests = wiz_alert_passthrough_tests
 
     def rule(self, event):
         return event.get("status") == "OPEN" and event.get("severity") != "INFORMATIONAL"
@@ -152,3 +48,109 @@ class WizAlertPassthrough(Rule):
                 if deep_get(subcategory, "category", "framework", "name") == "MITRE ATT&CK Matrix"
             ],
         }
+
+    tests = [
+        RuleTest(
+            name="Open Alert",
+            expected_result=True,
+            log={
+                "createdAt": "2024-06-04 02:28:06.763277000",
+                "entitySnapshot": {
+                    "cloudProviderURL": "",
+                    "externalId": "someExternalId",
+                    "id": "12345",
+                    "name": "someName",
+                    "nativeType": "",
+                    "providerId": "someProviderId",
+                    "region": "",
+                    "resourceGroupExternalId": "",
+                    "subscriptionExternalId": "",
+                    "subscriptionName": "",
+                    "tags": {},
+                    "type": "DATA_FINDING",
+                },
+                "id": "54321",
+                "notes": [],
+                "projects": [
+                    {
+                        "businessUnit": "",
+                        "id": "45678",
+                        "name": "Project 2",
+                        "riskProfile": {"businessImpact": "MBI"},
+                        "slug": "project-2",
+                    },
+                ],
+                "serviceTickets": [],
+                "severity": "HIGH",
+                "sourceRule": {
+                    "__typename": "Control",
+                    "controlDescription": "Alert Description",
+                    "id": "12345",
+                    "name": "Alert Name",
+                    "resolutionRecommendation": "Alert Resolution Recommendation",
+                    "securitySubCategories": [
+                        {
+                            "category": {
+                                "framework": {"name": "Wiz for Risk Assessment"},
+                                "name": "High Profile Threats",
+                            },
+                            "title": "High-profile vulnerability exploited in the wild",
+                        },
+                        {
+                            "category": {"framework": {"name": "MITRE ATT&CK Matrix"}, "name": "TA0001 Initial Access"},
+                            "title": "T1190 Exploit Public-Facing Application",
+                        },
+                    ],
+                },
+                "status": "OPEN",
+                "statusChangedAt": "2024-06-04 02:28:06.597355000",
+                "type": "TOXIC_COMBINATION",
+                "updatedAt": "2024-06-04 02:28:06.763277000",
+            },
+        ),
+        RuleTest(
+            name="Resolved Alert",
+            expected_result=False,
+            log={
+                "createdAt": "2024-06-04 02:28:06.763277000",
+                "entitySnapshot": {
+                    "cloudProviderURL": "",
+                    "externalId": "someExternalId",
+                    "id": "12345",
+                    "name": "someName",
+                    "nativeType": "",
+                    "providerId": "someProviderId",
+                    "region": "",
+                    "resourceGroupExternalId": "",
+                    "subscriptionExternalId": "",
+                    "subscriptionName": "",
+                    "tags": {},
+                    "type": "DATA_FINDING",
+                },
+                "id": "54321",
+                "notes": [],
+                "projects": [
+                    {
+                        "businessUnit": "",
+                        "id": "45678",
+                        "name": "Project 2",
+                        "riskProfile": {"businessImpact": "MBI"},
+                        "slug": "project-2",
+                    },
+                ],
+                "serviceTickets": [],
+                "severity": "HIGH",
+                "sourceRule": {
+                    "__typename": "Control",
+                    "controlDescription": "Alert Description",
+                    "id": "12345",
+                    "name": "Alert Name",
+                    "resolutionRecommendation": "Alert Resolution Recommendation",
+                },
+                "status": "RESOLVED",
+                "statusChangedAt": "2024-06-04 02:28:06.597355000",
+                "type": "TOXIC_COMBINATION",
+                "updatedAt": "2024-06-04 02:28:06.763277000",
+            },
+        ),
+    ]

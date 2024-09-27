@@ -1,35 +1,6 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.base import aws_rule_context
 
-awsec2_ebs_encryption_disabled_tests: list[RuleTest] = [
-    RuleTest(
-        name="DisableEbsEncryptionByDefault Event",
-        expected_result=True,
-        log={
-            "awsRegion": "us-east-1",
-            "eventName": "DisableEbsEncryptionByDefault",
-            "eventSource": "ec2.amazonaws.com",
-            "recipientAccountId": "123456789",
-            "sourceIPAddress": "1.2.3.4",
-            "userAgent": "Chrome Browser",
-        },
-    ),
-    RuleTest(
-        name="Non Matching Event",
-        expected_result=False,
-        log={
-            "awsRegion": "ap-northeast-1",
-            "eventName": "DescribeInstanceStatus",
-            "eventSource": "ec2.amazonaws.com",
-            "eventTime": "2022-09-25 16:16:37",
-            "eventType": "AwsApiCall",
-            "readOnly": True,
-            "sourceIPAddress": "1.2.3.4",
-            "userAgent": "Datadog",
-        },
-    ),
-]
-
 
 @panther_managed
 class AWSEC2EBSEncryptionDisabled(Rule):
@@ -41,7 +12,6 @@ class AWSEC2EBSEncryptionDisabled(Rule):
     default_severity = Severity.MEDIUM
     log_types = [LogType.AWS_CLOUDTRAIL]
     id = "AWS.EC2.EBS.Encryption.Disabled-prototype"
-    tests = awsec2_ebs_encryption_disabled_tests
 
     def rule(self, event):
         return (
@@ -54,3 +24,32 @@ class AWSEC2EBSEncryptionDisabled(Rule):
 
     def alert_context(self, event):
         return aws_rule_context(event)
+
+    tests = [
+        RuleTest(
+            name="DisableEbsEncryptionByDefault Event",
+            expected_result=True,
+            log={
+                "awsRegion": "us-east-1",
+                "eventName": "DisableEbsEncryptionByDefault",
+                "eventSource": "ec2.amazonaws.com",
+                "recipientAccountId": "123456789",
+                "sourceIPAddress": "1.2.3.4",
+                "userAgent": "Chrome Browser",
+            },
+        ),
+        RuleTest(
+            name="Non Matching Event",
+            expected_result=False,
+            log={
+                "awsRegion": "ap-northeast-1",
+                "eventName": "DescribeInstanceStatus",
+                "eventSource": "ec2.amazonaws.com",
+                "eventTime": "2022-09-25 16:16:37",
+                "eventType": "AwsApiCall",
+                "readOnly": True,
+                "sourceIPAddress": "1.2.3.4",
+                "userAgent": "Datadog",
+            },
+        ),
+    ]

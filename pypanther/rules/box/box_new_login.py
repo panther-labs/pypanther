@@ -1,30 +1,6 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.base import deep_get
 
-box_new_login_tests: list[RuleTest] = [
-    RuleTest(
-        name="Regular Event",
-        expected_result=False,
-        log={
-            "type": "event",
-            "additional_details": '{"key": "value"}',
-            "created_by": {"id": "12345678", "type": "user", "login": "cat@example", "name": "Bob Cat"},
-            "event_type": "DELETE",
-        },
-    ),
-    RuleTest(
-        name="New Login Event",
-        expected_result=True,
-        log={
-            "type": "event",
-            "additional_details": '{"key": "value"}',
-            "created_by": {"id": "12345678", "type": "user", "login": "cat@example", "name": "Bob Cat"},
-            "event_type": "ADD_LOGIN_ACTIVITY_DEVICE",
-            "source": {"id": "12345678", "type": "user", "login": "user@example"},
-        },
-    ),
-]
-
 
 @panther_managed
 class BoxNewLogin(Rule):
@@ -39,7 +15,6 @@ class BoxNewLogin(Rule):
     default_reference = "https://support.box.com/hc/en-us/articles/360043691914-Controlling-Devices-Used-to-Access-Box"
     default_runbook = "Investigate whether this is a valid user login.\n"
     summary_attributes = ["ip_address"]
-    tests = box_new_login_tests
 
     def rule(self, event):
         # ADD_LOGIN_ACTIVITY_DEVICE
@@ -48,3 +23,27 @@ class BoxNewLogin(Rule):
 
     def title(self, event):
         return f"User [{deep_get(event, 'created_by', 'name', default='<UNKNOWN_USER>')}] logged in from a new device."
+
+    tests = [
+        RuleTest(
+            name="Regular Event",
+            expected_result=False,
+            log={
+                "type": "event",
+                "additional_details": '{"key": "value"}',
+                "created_by": {"id": "12345678", "type": "user", "login": "cat@example", "name": "Bob Cat"},
+                "event_type": "DELETE",
+            },
+        ),
+        RuleTest(
+            name="New Login Event",
+            expected_result=True,
+            log={
+                "type": "event",
+                "additional_details": '{"key": "value"}',
+                "created_by": {"id": "12345678", "type": "user", "login": "cat@example", "name": "Bob Cat"},
+                "event_type": "ADD_LOGIN_ACTIVITY_DEVICE",
+                "source": {"id": "12345678", "type": "user", "login": "user@example"},
+            },
+        ),
+    ]

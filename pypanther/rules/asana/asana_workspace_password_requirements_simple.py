@@ -1,55 +1,6 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.base import deep_get
 
-asana_workspace_password_requirements_simple_tests: list[RuleTest] = [
-    RuleTest(
-        name="Simple",
-        expected_result=True,
-        log={
-            "actor": {
-                "actor_type": "user",
-                "email": "homer.simpson@example.io",
-                "gid": "12345",
-                "name": "Homer Simpson",
-            },
-            "context": {
-                "client_ip_address": "12.12.12.12",
-                "context_type": "web",
-                "user_agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Safari/537.36",
-            },
-            "created_at": "2022-12-16 19:31:03.667",
-            "details": {"new_value": "simple", "old_value": "strong"},
-            "event_category": "admin_settings",
-            "event_type": "workspace_password_requirements_changed",
-            "gid": "12345",
-            "resource": {"gid": "12345", "name": "Company Example IO", "resource_type": "workspace"},
-        },
-    ),
-    RuleTest(
-        name="web app approvals on",
-        expected_result=False,
-        log={
-            "actor": {
-                "actor_type": "user",
-                "email": "homer.simpson@example.io",
-                "gid": "1234",
-                "name": "Homer Simpson",
-            },
-            "context": {
-                "client_ip_address": "12.12.12.12",
-                "context_type": "web",
-                "user_agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Safari/537.36",
-            },
-            "created_at": "2022-12-16 19:29:34.968",
-            "details": {"new_value": "all_apps", "old_value": "off"},
-            "event_category": "admin_settings",
-            "event_type": "workspace_require_app_approvals_of_type_changed",
-            "gid": "1234",
-            "resource": {"gid": "1234", "name": "Panther Labs", "resource_type": "workspace"},
-        },
-    ),
-]
-
 
 @panther_managed
 class AsanaWorkspacePasswordRequirementsSimple(Rule):
@@ -62,7 +13,6 @@ class AsanaWorkspacePasswordRequirementsSimple(Rule):
     default_severity = Severity.MEDIUM
     log_types = [LogType.ASANA_AUDIT]
     id = "Asana.Workspace.Password.Requirements.Simple-prototype"
-    tests = asana_workspace_password_requirements_simple_tests
 
     def rule(self, event):
         new_val = deep_get(event, "details", "new_value", default="<NEW_VAL_NOT_FOUND>")
@@ -78,3 +28,52 @@ class AsanaWorkspacePasswordRequirementsSimple(Rule):
         new_value = deep_get(event, "details", "new_value", default="<NEW_VAL_NOT_FOUND>")
         old_value = deep_get(event, "details", "old_value", default="<OLD_VAL_NOT_FOUND>")
         return f"Asana user [{actor_email}] changed your organization's password requirements from [{old_value}] to [{new_value}]."
+
+    tests = [
+        RuleTest(
+            name="Simple",
+            expected_result=True,
+            log={
+                "actor": {
+                    "actor_type": "user",
+                    "email": "homer.simpson@example.io",
+                    "gid": "12345",
+                    "name": "Homer Simpson",
+                },
+                "context": {
+                    "client_ip_address": "12.12.12.12",
+                    "context_type": "web",
+                    "user_agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Safari/537.36",
+                },
+                "created_at": "2022-12-16 19:31:03.667",
+                "details": {"new_value": "simple", "old_value": "strong"},
+                "event_category": "admin_settings",
+                "event_type": "workspace_password_requirements_changed",
+                "gid": "12345",
+                "resource": {"gid": "12345", "name": "Company Example IO", "resource_type": "workspace"},
+            },
+        ),
+        RuleTest(
+            name="web app approvals on",
+            expected_result=False,
+            log={
+                "actor": {
+                    "actor_type": "user",
+                    "email": "homer.simpson@example.io",
+                    "gid": "1234",
+                    "name": "Homer Simpson",
+                },
+                "context": {
+                    "client_ip_address": "12.12.12.12",
+                    "context_type": "web",
+                    "user_agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Safari/537.36",
+                },
+                "created_at": "2022-12-16 19:29:34.968",
+                "details": {"new_value": "all_apps", "old_value": "off"},
+                "event_category": "admin_settings",
+                "event_type": "workspace_require_app_approvals_of_type_changed",
+                "gid": "1234",
+                "resource": {"gid": "1234", "name": "Panther Labs", "resource_type": "workspace"},
+            },
+        ),
+    ]

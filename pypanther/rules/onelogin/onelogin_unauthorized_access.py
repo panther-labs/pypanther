@@ -1,18 +1,5 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 
-one_login_unauthorized_access_tests: list[RuleTest] = [
-    RuleTest(
-        name="Normal Event",
-        expected_result=False,
-        log={"event_type_id": "8", "user_id": 123456, "user_name": "Bob Cat", "app_name": "confluence"},
-    ),
-    RuleTest(
-        name="User Unauthorized Access Event",
-        expected_result=True,
-        log={"event_type_id": "90", "user_id": 123456, "user_name": "Bob Cat", "app_name": "confluence"},
-    ),
-]
-
 
 @panther_managed
 class OneLoginUnauthorizedAccess(Rule):
@@ -28,7 +15,6 @@ class OneLoginUnauthorizedAccess(Rule):
     default_reference = "https://onelogin.service-now.com/kb_view_customer.do?sysparm_article=KB0010420"
     default_runbook = "Analyze the user activity and actions."
     summary_attributes = ["account_id", "user_name", "user_id", "app_name"]
-    tests = one_login_unauthorized_access_tests
 
     def rule(self, event):
         # filter events; event type 90 is an unauthorized application access event id
@@ -36,3 +22,16 @@ class OneLoginUnauthorizedAccess(Rule):
 
     def title(self, event):
         return f"User [{event.get('user_name', '<UNKNOWN_USER>')}] has exceeded the unauthorized application access attempt threshold"
+
+    tests = [
+        RuleTest(
+            name="Normal Event",
+            expected_result=False,
+            log={"event_type_id": "8", "user_id": 123456, "user_name": "Bob Cat", "app_name": "confluence"},
+        ),
+        RuleTest(
+            name="User Unauthorized Access Event",
+            expected_result=True,
+            log={"event_type_id": "90", "user_id": 123456, "user_name": "Bob Cat", "app_name": "confluence"},
+        ),
+    ]

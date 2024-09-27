@@ -1,20 +1,6 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.mongodb import mongodb_alert_context
 
-mongo_db_identity_provider_activity_tests: list[RuleTest] = [
-    RuleTest(name="Random event", expected_result=False, log={"eventTypeName": "cat_jumped"}),
-    RuleTest(
-        name="FEDERATION_SETTINGS_CREATED",
-        expected_result=True,
-        log={"eventTypeName": "FEDERATION_SETTINGS_CREATED"},
-    ),
-    RuleTest(
-        name="IDENTITY_PROVIDER_CREATED",
-        expected_result=True,
-        log={"eventTypeName": "IDENTITY_PROVIDER_CREATED"},
-    ),
-]
-
 
 @panther_managed
 class MongoDBIdentityProviderActivity(Rule):
@@ -24,7 +10,6 @@ class MongoDBIdentityProviderActivity(Rule):
     default_reference = "https://attack.mitre.org/techniques/T1556/007/"
     log_types = [LogType.MONGODB_ORGANIZATION_EVENT]
     id = "MongoDB.Identity.Provider.Activity-prototype"
-    tests = mongo_db_identity_provider_activity_tests
 
     def rule(self, event):
         important_event_types = {
@@ -50,3 +35,17 @@ class MongoDBIdentityProviderActivity(Rule):
 
     def alert_context(self, event):
         return mongodb_alert_context(event)
+
+    tests = [
+        RuleTest(name="Random event", expected_result=False, log={"eventTypeName": "cat_jumped"}),
+        RuleTest(
+            name="FEDERATION_SETTINGS_CREATED",
+            expected_result=True,
+            log={"eventTypeName": "FEDERATION_SETTINGS_CREATED"},
+        ),
+        RuleTest(
+            name="IDENTITY_PROVIDER_CREATED",
+            expected_result=True,
+            log={"eventTypeName": "IDENTITY_PROVIDER_CREATED"},
+        ),
+    ]
