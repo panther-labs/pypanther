@@ -5,32 +5,6 @@ from panther_detection_helpers.caching import add_to_string_set, get_string_set,
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.base import is_ip_in_network
 
-one_login_active_login_activity_tests: list[RuleTest] = [
-    RuleTest(
-        name="Normal Login Event",
-        expected_result=False,
-        log={
-            "event_type_id": "6",
-            "actor_user_id": 123456,
-            "actor_user_name": "Bob Cat",
-            "user_id": 123456,
-            "user_name": "Bob Cat",
-        },
-    ),
-    RuleTest(
-        name="Shared IP Login Event",
-        expected_result=False,
-        log={
-            "event_type_id": "5",
-            "actor_user_id": 123456,
-            "actor_user_name": "Bob Cat",
-            "user_id": 123456,
-            "user_name": "Bob Cat",
-            "ipaddr": "192.168.1.1",
-        },
-    ),
-]
-
 
 @panther_managed
 class OneLoginActiveLoginActivity(Rule):
@@ -44,7 +18,6 @@ class OneLoginActiveLoginActivity(Rule):
     default_reference = "https://support.onelogin.com/kb/4271392/user-policies"
     default_runbook = "Investigate whether multiple user's logging in from the same ip address is expected. Determine if this ip address should be added to the SHARED_IP_SPACE array."
     summary_attributes = ["account_id", "user_name", "user_id"]
-    tests = one_login_active_login_activity_tests
     THRESH = 2
     THRESH_TTL = timedelta(hours=12).total_seconds()
     # Safelist for IP Subnets to ignore in this ruleset
@@ -82,3 +55,29 @@ class OneLoginActiveLoginActivity(Rule):
 
     def title(self, event):
         return f"Unusual logins in OneLogin for multiple users from ip [{event.get('ipaddr', '<UNKNOWN_IP>')}]"
+
+    tests = [
+        RuleTest(
+            name="Normal Login Event",
+            expected_result=False,
+            log={
+                "event_type_id": "6",
+                "actor_user_id": 123456,
+                "actor_user_name": "Bob Cat",
+                "user_id": 123456,
+                "user_name": "Bob Cat",
+            },
+        ),
+        RuleTest(
+            name="Shared IP Login Event",
+            expected_result=False,
+            log={
+                "event_type_id": "5",
+                "actor_user_id": 123456,
+                "actor_user_name": "Bob Cat",
+                "user_id": 123456,
+                "user_name": "Bob Cat",
+                "ipaddr": "192.168.1.1",
+            },
+        ),
+    ]

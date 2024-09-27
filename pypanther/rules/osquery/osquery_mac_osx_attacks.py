@@ -1,32 +1,5 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 
-osquery_mac_osx_attacks_tests: list[RuleTest] = [
-    RuleTest(
-        name="Valid malware discovered",
-        expected_result=True,
-        log={
-            "name": "pack_osx-attacks_Leverage-A_1",
-            "action": "added",
-            "hostIdentifier": "test-host",
-            "columns": {"path": "/Users/johnny/Desktop/Siri.app/Contents/MacOS/Siri", "pid": 100, "name": "Siri"},
-        },
-    ),
-    RuleTest(
-        name="Keyboard event taps query is ignored",
-        expected_result=False,
-        log={
-            "name": "pack_osx-attacks_Keyboard_Event_Taps",
-            "action": "added",
-            "hostIdentifier": "test-host",
-            "columns": {
-                "path": "/System/Library/CoreServices/Siri.app/Contents/MacOS/Siri",
-                "pid": 100,
-                "name": "Siri",
-            },
-        },
-    ),
-]
-
 
 @panther_managed
 class OsqueryMacOSXAttacks(Rule):
@@ -40,7 +13,6 @@ class OsqueryMacOSXAttacks(Rule):
     default_runbook = "Check the executable against VirusTotal"
     default_reference = "https://github.com/osquery/osquery/blob/master/packs/osx-attacks.conf"
     summary_attributes = ["name", "hostIdentifier", "action"]
-    tests = osquery_mac_osx_attacks_tests
 
     def rule(self, event):
         if "osx-attacks" not in event.get("name", ""):
@@ -54,3 +26,30 @@ class OsqueryMacOSXAttacks(Rule):
 
     def title(self, event):
         return f"MacOS malware detected on [{event.get('hostIdentifier')}]"
+
+    tests = [
+        RuleTest(
+            name="Valid malware discovered",
+            expected_result=True,
+            log={
+                "name": "pack_osx-attacks_Leverage-A_1",
+                "action": "added",
+                "hostIdentifier": "test-host",
+                "columns": {"path": "/Users/johnny/Desktop/Siri.app/Contents/MacOS/Siri", "pid": 100, "name": "Siri"},
+            },
+        ),
+        RuleTest(
+            name="Keyboard event taps query is ignored",
+            expected_result=False,
+            log={
+                "name": "pack_osx-attacks_Keyboard_Event_Taps",
+                "action": "added",
+                "hostIdentifier": "test-host",
+                "columns": {
+                    "path": "/System/Library/CoreServices/Siri.app/Contents/MacOS/Siri",
+                    "pid": 100,
+                    "name": "Siri",
+                },
+            },
+        ),
+    ]

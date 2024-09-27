@@ -1,56 +1,6 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.mongodb import mongodb_alert_context
 
-mongo_d_borg_membership_restriction_disabled_tests: list[RuleTest] = [
-    RuleTest(
-        name="Restriction disabled",
-        expected_result=True,
-        log={
-            "created": "2024-04-03 15:03:51.000000000",
-            "currentValue": {},
-            "eventTypeName": "ORG_PUBLIC_API_ACCESS_LIST_NOT_REQUIRED",
-            "id": "alert_id",
-            "isGlobalAdmin": False,
-            "orgId": "some_org_id",
-            "remoteAddress": "1.2.3.4",
-            "userId": "user_id",
-            "username": "some_user@company.com",
-        },
-    ),
-    RuleTest(
-        name="Restriction enabled",
-        expected_result=False,
-        log={
-            "created": "2024-04-03 15:03:51.000000000",
-            "currentValue": {},
-            "eventTypeName": "ORG_PUBLIC_API_ACCESS_LIST_REQUIRED",
-            "id": "alert_id",
-            "isGlobalAdmin": False,
-            "orgId": "some_org_id",
-            "remoteAddress": "1.2.3.4",
-            "userId": "user_id",
-            "username": "some_user@company.com",
-        },
-    ),
-    RuleTest(
-        name="Other activity",
-        expected_result=False,
-        log={
-            "alertConfigId": "alert_id",
-            "created": "2024-04-01 11:58:52.000000000",
-            "currentValue": {},
-            "eventTypeName": "ALERT_CONFIG_DELETED_AUDIT",
-            "id": "alert_id",
-            "isGlobalAdmin": False,
-            "links": [],
-            "orgId": "some_org_id",
-            "remoteAddress": "1.2.3.4",
-            "userId": "user_id",
-            "username": "some_user@company.com",
-        },
-    ),
-]
-
 
 @panther_managed
 class MongoDBorgMembershipRestrictionDisabled(Rule):
@@ -65,7 +15,6 @@ class MongoDBorgMembershipRestrictionDisabled(Rule):
     default_runbook = (
         "Check if this activity is legitimate. If not, re-enable IP access list for the Atlas Administration API"
     )
-    tests = mongo_d_borg_membership_restriction_disabled_tests
 
     def rule(self, event):
         return event.deep_get("eventTypeName", default="") == "ORG_PUBLIC_API_ACCESS_LIST_NOT_REQUIRED"
@@ -76,3 +25,53 @@ class MongoDBorgMembershipRestrictionDisabled(Rule):
 
     def alert_context(self, event):
         return mongodb_alert_context(event)
+
+    tests = [
+        RuleTest(
+            name="Restriction disabled",
+            expected_result=True,
+            log={
+                "created": "2024-04-03 15:03:51.000000000",
+                "currentValue": {},
+                "eventTypeName": "ORG_PUBLIC_API_ACCESS_LIST_NOT_REQUIRED",
+                "id": "alert_id",
+                "isGlobalAdmin": False,
+                "orgId": "some_org_id",
+                "remoteAddress": "1.2.3.4",
+                "userId": "user_id",
+                "username": "some_user@company.com",
+            },
+        ),
+        RuleTest(
+            name="Restriction enabled",
+            expected_result=False,
+            log={
+                "created": "2024-04-03 15:03:51.000000000",
+                "currentValue": {},
+                "eventTypeName": "ORG_PUBLIC_API_ACCESS_LIST_REQUIRED",
+                "id": "alert_id",
+                "isGlobalAdmin": False,
+                "orgId": "some_org_id",
+                "remoteAddress": "1.2.3.4",
+                "userId": "user_id",
+                "username": "some_user@company.com",
+            },
+        ),
+        RuleTest(
+            name="Other activity",
+            expected_result=False,
+            log={
+                "alertConfigId": "alert_id",
+                "created": "2024-04-01 11:58:52.000000000",
+                "currentValue": {},
+                "eventTypeName": "ALERT_CONFIG_DELETED_AUDIT",
+                "id": "alert_id",
+                "isGlobalAdmin": False,
+                "links": [],
+                "orgId": "some_org_id",
+                "remoteAddress": "1.2.3.4",
+                "userId": "user_id",
+                "username": "some_user@company.com",
+            },
+        ),
+    ]

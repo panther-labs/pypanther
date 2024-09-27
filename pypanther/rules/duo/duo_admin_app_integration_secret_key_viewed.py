@@ -1,30 +1,5 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 
-duo_admin_app_integration_secret_key_viewed_tests: list[RuleTest] = [
-    RuleTest(
-        name="Generic Skey View",
-        expected_result=True,
-        log={
-            "action": "integration_skey_view",
-            "isotimestamp": "2022-12-14 20:09:57",
-            "object": "Example Integration Name",
-            "timestamp": "2022-12-14 20:09:57",
-            "username": "Homer Simpson",
-        },
-    ),
-    RuleTest(
-        name="Duo app install ",
-        expected_result=False,
-        log={
-            "action": "application_install",
-            "isotimestamp": "2022-12-14 20:09:57",
-            "object": "Example Integration Name",
-            "timestamp": "2022-12-14 20:09:57",
-            "username": "Homer Simpson",
-        },
-    ),
-]
-
 
 @panther_managed
 class DuoAdminAppIntegrationSecretKeyViewed(Rule):
@@ -35,7 +10,6 @@ class DuoAdminAppIntegrationSecretKeyViewed(Rule):
     default_severity = Severity.MEDIUM
     log_types = [LogType.DUO_ADMINISTRATOR]
     id = "Duo.Admin.App.Integration.Secret.Key.Viewed-prototype"
-    tests = duo_admin_app_integration_secret_key_viewed_tests
 
     def rule(self, event):
         # Return True to match the log event and trigger an alert.
@@ -45,3 +19,28 @@ class DuoAdminAppIntegrationSecretKeyViewed(Rule):
         # If no 'dedup' function is defined, the return value of
         # this method will act as deduplication string.
         return f"'Duo: [{event.get('username', '<NO_USER_FOUND>')}] viewed the Secret Key for Application [{event.get('object', '<NO_OBJECT_FOUND>')}]"
+
+    tests = [
+        RuleTest(
+            name="Generic Skey View",
+            expected_result=True,
+            log={
+                "action": "integration_skey_view",
+                "isotimestamp": "2022-12-14 20:09:57",
+                "object": "Example Integration Name",
+                "timestamp": "2022-12-14 20:09:57",
+                "username": "Homer Simpson",
+            },
+        ),
+        RuleTest(
+            name="Duo app install ",
+            expected_result=False,
+            log={
+                "action": "application_install",
+                "isotimestamp": "2022-12-14 20:09:57",
+                "object": "Example Integration Name",
+                "timestamp": "2022-12-14 20:09:57",
+                "username": "Homer Simpson",
+            },
+        ),
+    ]

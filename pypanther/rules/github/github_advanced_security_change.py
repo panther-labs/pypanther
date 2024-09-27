@@ -1,153 +1,6 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.base import github_alert_context
 
-git_hub_advanced_security_change_tests: list[RuleTest] = [
-    RuleTest(
-        name="Secret Scanning Disabled on a Repo",
-        expected_result=True,
-        log={
-            "action": "repository_secret_scanning_push_protection.disable",
-            "actor": "bobert",
-            "actor_location": {"country_code": "US"},
-            "at_sign_timestamp": "2022-08-16 16:56:49.309",
-            "created_at": "2022-08-16 16:56:49.309",
-            "org": "an-org",
-            "repo": "an-org/a-repo",
-            "user": "bobert",
-        },
-    ),
-    RuleTest(
-        name="Secret Scanning Disabled Org Wide",
-        expected_result=True,
-        log={
-            "action": "secret_scanning.disable",
-            "actor": "bobert",
-            "actor_location": {"country_code": "US"},
-            "at_sign_timestamp": "2022-08-16 16:56:49.309",
-            "created_at": "2022-08-16 16:56:49.309",
-            "org": "an-org",
-            "repo": "an-org/a-repo",
-            "user": "bobert",
-        },
-    ),
-    RuleTest(
-        name="Secret Scanning Disabled for New Repos",
-        expected_result=True,
-        log={
-            "action": "secret_scanning_new_repos.disable",
-            "actor": "bobert",
-            "actor_location": {"country_code": "US"},
-            "at_sign_timestamp": "2022-08-16 16:56:49.309",
-            "created_at": "2022-08-16 16:56:49.309",
-            "org": "an-org",
-            "repo": "an-org/a-repo",
-            "user": "bobert",
-        },
-    ),
-    RuleTest(
-        name="Dependabot Alerts Disabled Org Wide",
-        expected_result=True,
-        log={
-            "action": "dependabot_alerts.disable",
-            "actor": "bobert",
-            "actor_location": {"country_code": "US"},
-            "at_sign_timestamp": "2022-08-16 16:56:49.309",
-            "created_at": "2022-08-16 16:56:49.309",
-            "org": "an-org",
-            "repo": "an-org/a-repo",
-            "user": "bobert",
-        },
-    ),
-    RuleTest(
-        name="Dependabot Alerts Disabled on New Repos",
-        expected_result=True,
-        log={
-            "action": "dependabot_alerts_new_repos.disable",
-            "actor": "bobert",
-            "actor_location": {"country_code": "US"},
-            "at_sign_timestamp": "2022-08-16 16:56:49.309",
-            "created_at": "2022-08-16 16:56:49.309",
-            "org": "an-org",
-            "repo": "an-org/a-repo",
-            "user": "bobert",
-        },
-    ),
-    RuleTest(
-        name="Dependabot Disabled Org Wide",
-        expected_result=True,
-        log={
-            "action": "dependabot_security_updates.disable",
-            "actor": "bobert",
-            "actor_location": {"country_code": "US"},
-            "at_sign_timestamp": "2022-08-16 16:56:49.309",
-            "created_at": "2022-08-16 16:56:49.309",
-            "org": "an-org",
-            "repo": "an-org/a-repo",
-            "user": "bobert",
-        },
-    ),
-    RuleTest(
-        name="Dependabot Disabled on New Repos",
-        expected_result=True,
-        log={
-            "action": "dependabot_security_updates_new_repos.disable",
-            "actor": "bobert",
-            "actor_location": {"country_code": "US"},
-            "at_sign_timestamp": "2022-08-16 16:56:49.309",
-            "created_at": "2022-08-16 16:56:49.309",
-            "org": "an-org",
-            "repo": "an-org/a-repo",
-            "user": "bobert",
-        },
-    ),
-    RuleTest(
-        name="Non-GitHub Adv Sec Action",
-        expected_result=False,
-        log={
-            "action": "enterprise.config.disable_anonymous_git_access",
-            "actor": "bobert",
-            "actor_location": {"country_code": "US"},
-            "at_sign_timestamp": "2022-08-16 16:56:49.309",
-            "created_at": "2022-08-16 16:56:49.309",
-            "org": "an-org",
-            "repo": "an-org/a-repo",
-            "user": "bobert",
-        },
-    ),
-    RuleTest(
-        name="Enterprise Log - business_advanced_security.enabled",
-        expected_result=False,
-        log={
-            "@timestamp": 1671111111111,
-            "_document_id": "gAcccccccccccccccccccc",
-            "action": "business_advanced_security.enabled",
-            "actor": "bobert",
-            "actor_ip": "12.12.12.12",
-            "actor_location": {"country_code": "US"},
-            "business": "example-enterprise",
-            "created_at": 1671111111111,
-            "operation_type": "modify",
-            "user": "bobert",
-        },
-    ),
-    RuleTest(
-        name="Enterprise Log - business_advanced_security.disabled",
-        expected_result=True,
-        log={
-            "@timestamp": 1671111111111,
-            "_document_id": "gAcccccccccccccccccccc",
-            "action": "business_advanced_security.disabled",
-            "actor": "bobert",
-            "actor_ip": "12.12.12.12",
-            "actor_location": {"country_code": "US"},
-            "business": "example-enterprise",
-            "created_at": 1671111111111,
-            "operation_type": "modify",
-            "user": "bobert",
-        },
-    ),
-]
-
 
 @panther_managed
 class GitHubAdvancedSecurityChange(Rule):
@@ -161,7 +14,6 @@ class GitHubAdvancedSecurityChange(Rule):
     default_description = "The rule alerts when GitHub Security tools (Dependabot, Secret Scanner, etc) are disabled."
     default_runbook = "Confirm with GitHub administrators and re-enable the tools as applicable."
     default_reference = "https://docs.github.com/en/code-security/getting-started/auditing-security-alerts"
-    tests = git_hub_advanced_security_change_tests
     # List of actions in markdown format
     # pylint: disable=line-too-long
     # https://github.com/github/docs/blob/main/content/admin/monitoring-activity-in-your-enterprise/reviewing-audit-logs-for-your-enterprise/audit-log-events-for-your-enterprise.md
@@ -257,3 +109,150 @@ class GitHubAdvancedSecurityChange(Rule):
         actor = event.get("actor", "<NO_ACTOR>")
         action = event.get("action", "<NO_ACTION>")
         return "_".join([actor, action])
+
+    tests = [
+        RuleTest(
+            name="Secret Scanning Disabled on a Repo",
+            expected_result=True,
+            log={
+                "action": "repository_secret_scanning_push_protection.disable",
+                "actor": "bobert",
+                "actor_location": {"country_code": "US"},
+                "at_sign_timestamp": "2022-08-16 16:56:49.309",
+                "created_at": "2022-08-16 16:56:49.309",
+                "org": "an-org",
+                "repo": "an-org/a-repo",
+                "user": "bobert",
+            },
+        ),
+        RuleTest(
+            name="Secret Scanning Disabled Org Wide",
+            expected_result=True,
+            log={
+                "action": "secret_scanning.disable",
+                "actor": "bobert",
+                "actor_location": {"country_code": "US"},
+                "at_sign_timestamp": "2022-08-16 16:56:49.309",
+                "created_at": "2022-08-16 16:56:49.309",
+                "org": "an-org",
+                "repo": "an-org/a-repo",
+                "user": "bobert",
+            },
+        ),
+        RuleTest(
+            name="Secret Scanning Disabled for New Repos",
+            expected_result=True,
+            log={
+                "action": "secret_scanning_new_repos.disable",
+                "actor": "bobert",
+                "actor_location": {"country_code": "US"},
+                "at_sign_timestamp": "2022-08-16 16:56:49.309",
+                "created_at": "2022-08-16 16:56:49.309",
+                "org": "an-org",
+                "repo": "an-org/a-repo",
+                "user": "bobert",
+            },
+        ),
+        RuleTest(
+            name="Dependabot Alerts Disabled Org Wide",
+            expected_result=True,
+            log={
+                "action": "dependabot_alerts.disable",
+                "actor": "bobert",
+                "actor_location": {"country_code": "US"},
+                "at_sign_timestamp": "2022-08-16 16:56:49.309",
+                "created_at": "2022-08-16 16:56:49.309",
+                "org": "an-org",
+                "repo": "an-org/a-repo",
+                "user": "bobert",
+            },
+        ),
+        RuleTest(
+            name="Dependabot Alerts Disabled on New Repos",
+            expected_result=True,
+            log={
+                "action": "dependabot_alerts_new_repos.disable",
+                "actor": "bobert",
+                "actor_location": {"country_code": "US"},
+                "at_sign_timestamp": "2022-08-16 16:56:49.309",
+                "created_at": "2022-08-16 16:56:49.309",
+                "org": "an-org",
+                "repo": "an-org/a-repo",
+                "user": "bobert",
+            },
+        ),
+        RuleTest(
+            name="Dependabot Disabled Org Wide",
+            expected_result=True,
+            log={
+                "action": "dependabot_security_updates.disable",
+                "actor": "bobert",
+                "actor_location": {"country_code": "US"},
+                "at_sign_timestamp": "2022-08-16 16:56:49.309",
+                "created_at": "2022-08-16 16:56:49.309",
+                "org": "an-org",
+                "repo": "an-org/a-repo",
+                "user": "bobert",
+            },
+        ),
+        RuleTest(
+            name="Dependabot Disabled on New Repos",
+            expected_result=True,
+            log={
+                "action": "dependabot_security_updates_new_repos.disable",
+                "actor": "bobert",
+                "actor_location": {"country_code": "US"},
+                "at_sign_timestamp": "2022-08-16 16:56:49.309",
+                "created_at": "2022-08-16 16:56:49.309",
+                "org": "an-org",
+                "repo": "an-org/a-repo",
+                "user": "bobert",
+            },
+        ),
+        RuleTest(
+            name="Non-GitHub Adv Sec Action",
+            expected_result=False,
+            log={
+                "action": "enterprise.config.disable_anonymous_git_access",
+                "actor": "bobert",
+                "actor_location": {"country_code": "US"},
+                "at_sign_timestamp": "2022-08-16 16:56:49.309",
+                "created_at": "2022-08-16 16:56:49.309",
+                "org": "an-org",
+                "repo": "an-org/a-repo",
+                "user": "bobert",
+            },
+        ),
+        RuleTest(
+            name="Enterprise Log - business_advanced_security.enabled",
+            expected_result=False,
+            log={
+                "@timestamp": 1671111111111,
+                "_document_id": "gAcccccccccccccccccccc",
+                "action": "business_advanced_security.enabled",
+                "actor": "bobert",
+                "actor_ip": "12.12.12.12",
+                "actor_location": {"country_code": "US"},
+                "business": "example-enterprise",
+                "created_at": 1671111111111,
+                "operation_type": "modify",
+                "user": "bobert",
+            },
+        ),
+        RuleTest(
+            name="Enterprise Log - business_advanced_security.disabled",
+            expected_result=True,
+            log={
+                "@timestamp": 1671111111111,
+                "_document_id": "gAcccccccccccccccccccc",
+                "action": "business_advanced_security.disabled",
+                "actor": "bobert",
+                "actor_ip": "12.12.12.12",
+                "actor_location": {"country_code": "US"},
+                "business": "example-enterprise",
+                "created_at": 1671111111111,
+                "operation_type": "modify",
+                "user": "bobert",
+            },
+        ),
+    ]

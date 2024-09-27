@@ -1,39 +1,6 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.base import deep_get
 
-g_suite_leaked_password_tests: list[RuleTest] = [
-    RuleTest(
-        name="Normal Login Event",
-        expected_result=False,
-        log={
-            "id": {"applicationName": "login"},
-            "type": "login",
-            "name": "logout",
-            "parameters": {"login_type": "saml"},
-        },
-    ),
-    RuleTest(
-        name="Account Warning Not For Password Leaked",
-        expected_result=False,
-        log={
-            "id": {"applicationName": "login"},
-            "type": "account_warning",
-            "name": "account_disabled_spamming",
-            "parameters": {"affected_email_address": "homer.simpson@example.com"},
-        },
-    ),
-    RuleTest(
-        name="Account Warning For Password Leaked",
-        expected_result=True,
-        log={
-            "id": {"applicationName": "login"},
-            "type": "account_warning",
-            "name": "account_disabled_password_leak",
-            "parameters": {"affected_email_address": "homer.simpson@example.com"},
-        },
-    ),
-]
-
 
 @panther_managed
 class GSuiteLeakedPassword(Rule):
@@ -47,7 +14,6 @@ class GSuiteLeakedPassword(Rule):
     default_reference = "https://support.google.com/a/answer/2984349?hl=en#zippy=%2Cstep-temporarily-suspend-the-suspected-compromised-user-account%2Cstep-investigate-the-account-for-unauthorized-activity%2Cstep-revoke-access-to-the-affected-account%2Cstep-return-access-to-the-user-again%2Cstep-enroll-in--step-verification-with-security-keys%2Cstep-add-secure-or-update-recovery-options%2Cstep-enable-account-activity-alerts"
     default_runbook = "GSuite has already disabled the compromised user's account. Consider investigating how the user's account was compromised, and reset their account and password. Advise the user to change any other passwords in use that are the sae as the compromised password.\n"
     summary_attributes = ["actor:email"]
-    tests = g_suite_leaked_password_tests
     PASSWORD_LEAKED_EVENTS = {"account_disabled_password_leak"}
 
     def rule(self, event):
@@ -62,3 +28,36 @@ class GSuiteLeakedPassword(Rule):
         if not user:
             user = "<UNKNOWN_USER>"
         return f"User [{user}]'s account was disabled due to a password leak"
+
+    tests = [
+        RuleTest(
+            name="Normal Login Event",
+            expected_result=False,
+            log={
+                "id": {"applicationName": "login"},
+                "type": "login",
+                "name": "logout",
+                "parameters": {"login_type": "saml"},
+            },
+        ),
+        RuleTest(
+            name="Account Warning Not For Password Leaked",
+            expected_result=False,
+            log={
+                "id": {"applicationName": "login"},
+                "type": "account_warning",
+                "name": "account_disabled_spamming",
+                "parameters": {"affected_email_address": "homer.simpson@example.com"},
+            },
+        ),
+        RuleTest(
+            name="Account Warning For Password Leaked",
+            expected_result=True,
+            log={
+                "id": {"applicationName": "login"},
+                "type": "account_warning",
+                "name": "account_disabled_password_leak",
+                "parameters": {"affected_email_address": "homer.simpson@example.com"},
+            },
+        ),
+    ]

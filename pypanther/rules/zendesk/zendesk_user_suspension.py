@@ -1,66 +1,6 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.base import ZENDESK_CHANGE_DESCRIPTION
 
-zendesk_user_suspension_tests: list[RuleTest] = [
-    RuleTest(
-        name="Zendesk - Suspension Enabled",
-        expected_result=True,
-        log={
-            "url": "https://myzendek.zendesk.com/api/v2/audit_logs/111222333444.json",
-            "id": 123456789123,
-            "action_label": "Updated",
-            "actor_id": 123,
-            "actor_name": "John Doe",
-            "source_id": 123,
-            "source_type": "user_setting",
-            "source_label": "Suspension state: Bob Cat",
-            "action": "create",
-            "change_description": "Suspended",
-            "ip_address": "127.0.0.1",
-            "created_at": "2021-05-28T18:39:50Z",
-            "p_log_type": "Zendesk.Audit",
-        },
-    ),
-    RuleTest(
-        name="Zendesk - Suspension Disabled",
-        expected_result=True,
-        log={
-            "url": "https://myzendek.zendesk.com/api/v2/audit_logs/111222333444.json",
-            "id": 123456789123,
-            "action_label": "Updated",
-            "actor_id": 123,
-            "actor_name": "John Doe",
-            "source_id": 123,
-            "source_type": "user_setting",
-            "source_label": "Suspension state: Bob Cat",
-            "action": "update",
-            "change_description": "Unsuspended",
-            "ip_address": "127.0.0.1",
-            "created_at": "2021-05-28T18:39:50Z",
-            "p_log_type": "Zendesk.Audit",
-        },
-    ),
-    RuleTest(
-        name="Zendesk - Admin Role Assigned",
-        expected_result=False,
-        log={
-            "url": "https://myzendek.zendesk.com/api/v2/audit_logs/111222333444.json",
-            "id": 123456789123,
-            "action_label": "Updated",
-            "actor_id": 123,
-            "actor_name": "John Doe",
-            "source_id": 123,
-            "source_type": "user",
-            "source_label": "Bob Cat",
-            "action": "update",
-            "change_description": "Role changed from End User to Administrator",
-            "ip_address": "127.0.0.1",
-            "created_at": "2021-05-28T18:39:50Z",
-            "p_log_type": "Zendesk.Audit",
-        },
-    ),
-]
-
 
 @panther_managed
 class ZendeskUserSuspension(Rule):
@@ -74,7 +14,6 @@ class ZendeskUserSuspension(Rule):
     default_runbook = "Ensure the user's suspension status is appropriate."
     default_reference = "https://support.zendesk.com/hc/en-us/articles/4408889293978-Suspending-a-user#:~:text=select%20Unsuspend%20access.-,Identifying%20suspended%20users,name%20on%20the%20Customers%20page"
     summary_attributes = ["p_any_ip_addresses"]
-    tests = zendesk_user_suspension_tests
     USER_SUSPENSION_ACTIONS = {"create", "update"}
 
     def rule(self, event):
@@ -95,3 +34,63 @@ class ZendeskUserSuspension(Rule):
         if event.get(ZENDESK_CHANGE_DESCRIPTION, "").lower() == "suspended":
             return "INFO"
         return "HIGH"
+
+    tests = [
+        RuleTest(
+            name="Zendesk - Suspension Enabled",
+            expected_result=True,
+            log={
+                "url": "https://myzendek.zendesk.com/api/v2/audit_logs/111222333444.json",
+                "id": 123456789123,
+                "action_label": "Updated",
+                "actor_id": 123,
+                "actor_name": "John Doe",
+                "source_id": 123,
+                "source_type": "user_setting",
+                "source_label": "Suspension state: Bob Cat",
+                "action": "create",
+                "change_description": "Suspended",
+                "ip_address": "127.0.0.1",
+                "created_at": "2021-05-28T18:39:50Z",
+                "p_log_type": "Zendesk.Audit",
+            },
+        ),
+        RuleTest(
+            name="Zendesk - Suspension Disabled",
+            expected_result=True,
+            log={
+                "url": "https://myzendek.zendesk.com/api/v2/audit_logs/111222333444.json",
+                "id": 123456789123,
+                "action_label": "Updated",
+                "actor_id": 123,
+                "actor_name": "John Doe",
+                "source_id": 123,
+                "source_type": "user_setting",
+                "source_label": "Suspension state: Bob Cat",
+                "action": "update",
+                "change_description": "Unsuspended",
+                "ip_address": "127.0.0.1",
+                "created_at": "2021-05-28T18:39:50Z",
+                "p_log_type": "Zendesk.Audit",
+            },
+        ),
+        RuleTest(
+            name="Zendesk - Admin Role Assigned",
+            expected_result=False,
+            log={
+                "url": "https://myzendek.zendesk.com/api/v2/audit_logs/111222333444.json",
+                "id": 123456789123,
+                "action_label": "Updated",
+                "actor_id": 123,
+                "actor_name": "John Doe",
+                "source_id": 123,
+                "source_type": "user",
+                "source_label": "Bob Cat",
+                "action": "update",
+                "change_description": "Role changed from End User to Administrator",
+                "ip_address": "127.0.0.1",
+                "created_at": "2021-05-28T18:39:50Z",
+                "p_log_type": "Zendesk.Audit",
+            },
+        ),
+    ]

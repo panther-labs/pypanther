@@ -1,67 +1,6 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.base import deep_get, github_alert_context
 
-git_hub_webhook_modified_tests: list[RuleTest] = [
-    RuleTest(
-        name="GitHub - Webhook Created",
-        expected_result=True,
-        log={
-            "actor": "cat",
-            "action": "hook.create",
-            "data": {"hook_id": 111222333444555, "events": ["fork", "public", "pull_request", "push", "repository"]},
-            "config": {"url": "https://fake.url"},
-            "org": "my-org",
-            "p_log_type": "GitHub.Audit",
-            "repo": "my-org/my-repo",
-            "public_repo": False,
-        },
-    ),
-    RuleTest(
-        name="GitHub - Webhook Deleted",
-        expected_result=True,
-        log={
-            "actor": "cat",
-            "action": "hook.destroy",
-            "data": {"hook_id": 111222333444555, "events": ["fork", "public", "pull_request", "push", "repository"]},
-            "org": "my-org",
-            "p_log_type": "GitHub.Audit",
-            "repo": "my-org/my-repo",
-            "public_repo": False,
-        },
-    ),
-    RuleTest(
-        name="GitHub - Non Webhook Event",
-        expected_result=False,
-        log={
-            "actor": "cat",
-            "action": "org.invite_member",
-            "org": "my-org",
-            "p_log_type": "GitHub.Audit",
-            "repo": "my-org/my-repo",
-        },
-    ),
-    RuleTest(
-        name="Github - App Webhook Created",
-        expected_result=True,
-        log={
-            "action": "hook.create",
-            "actor": "dog",
-            "actor_id": "11112222",
-            "actor_location": {"country_code": "US"},
-            "business": "my-biz",
-            "business_id": "9999999",
-            "config": {"content_type": "json", "insecure_ssl": "0", "url": "https://fake.url/"},
-            "hook_id": "111222333444555",
-            "integration": "My Cool Github Integration",
-            "name": "webhook",
-            "operation_type": "create",
-            "org": "my-org",
-            "org_id": 9999999,
-            "p_log_type": "GitHub.Audit",
-        },
-    ),
-]
-
 
 @panther_managed
 class GitHubWebhookModified(Rule):
@@ -73,7 +12,6 @@ class GitHubWebhookModified(Rule):
     default_reference = "https://docs.github.com/en/webhooks/about-webhooks"
     default_severity = Severity.INFO
     default_description = "Detects when a webhook is added, modified, or deleted"
-    tests = git_hub_webhook_modified_tests
 
     def rule(self, event):
         return event.get("action").startswith("hook.")
@@ -103,3 +41,70 @@ class GitHubWebhookModified(Rule):
         ctx["operation_type"] = event.get("operation_type", "")
         ctx["url"] = deep_get(event, "config", "url", default="<UNKNOWN_URL>")
         return ctx
+
+    tests = [
+        RuleTest(
+            name="GitHub - Webhook Created",
+            expected_result=True,
+            log={
+                "actor": "cat",
+                "action": "hook.create",
+                "data": {
+                    "hook_id": 111222333444555,
+                    "events": ["fork", "public", "pull_request", "push", "repository"],
+                },
+                "config": {"url": "https://fake.url"},
+                "org": "my-org",
+                "p_log_type": "GitHub.Audit",
+                "repo": "my-org/my-repo",
+                "public_repo": False,
+            },
+        ),
+        RuleTest(
+            name="GitHub - Webhook Deleted",
+            expected_result=True,
+            log={
+                "actor": "cat",
+                "action": "hook.destroy",
+                "data": {
+                    "hook_id": 111222333444555,
+                    "events": ["fork", "public", "pull_request", "push", "repository"],
+                },
+                "org": "my-org",
+                "p_log_type": "GitHub.Audit",
+                "repo": "my-org/my-repo",
+                "public_repo": False,
+            },
+        ),
+        RuleTest(
+            name="GitHub - Non Webhook Event",
+            expected_result=False,
+            log={
+                "actor": "cat",
+                "action": "org.invite_member",
+                "org": "my-org",
+                "p_log_type": "GitHub.Audit",
+                "repo": "my-org/my-repo",
+            },
+        ),
+        RuleTest(
+            name="Github - App Webhook Created",
+            expected_result=True,
+            log={
+                "action": "hook.create",
+                "actor": "dog",
+                "actor_id": "11112222",
+                "actor_location": {"country_code": "US"},
+                "business": "my-biz",
+                "business_id": "9999999",
+                "config": {"content_type": "json", "insecure_ssl": "0", "url": "https://fake.url/"},
+                "hook_id": "111222333444555",
+                "integration": "My Cool Github Integration",
+                "name": "webhook",
+                "operation_type": "create",
+                "org": "my-org",
+                "org_id": 9999999,
+                "p_log_type": "GitHub.Audit",
+            },
+        ),
+    ]

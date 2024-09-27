@@ -1,41 +1,5 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 
-zoom_new_meeting_passcode_required_disabled_tests: list[RuleTest] = [
-    RuleTest(
-        name="Setting Turn Off",
-        expected_result=True,
-        log={
-            "action": "Update",
-            "category_type": "Account",
-            "operation_detail": "Security  - Require a passcode when scheduling new meetings: from On to Off",
-            "operator": "example@example.io",
-            "time": "2022-12-16 18:22:17",
-        },
-    ),
-    RuleTest(
-        name="Setting Turn On",
-        expected_result=False,
-        log={
-            "action": "Update",
-            "category_type": "Account",
-            "operation_detail": "Security  - Require a passcode when scheduling new meetings: from Off to On",
-            "operator": "example@example.io",
-            "time": "2022-12-16 18:22:17",
-        },
-    ),
-    RuleTest(
-        name="Automatic Sign Out Setting Disabled ",
-        expected_result=False,
-        log={
-            "action": "Update",
-            "category_type": "Account",
-            "operation_detail": "Security  - Automatically sign users out after a specified time: from On to Off",
-            "operator": "example@example.io",
-            "time": "2022-12-16 18:20:42",
-        },
-    ),
-]
-
 
 @panther_managed
 class ZoomNewMeetingPasscodeRequiredDisabled(Rule):
@@ -48,7 +12,6 @@ class ZoomNewMeetingPasscodeRequiredDisabled(Rule):
     default_severity = Severity.MEDIUM
     log_types = [LogType.ZOOM_OPERATION]
     id = "Zoom.New.Meeting.Passcode.Required.Disabled-prototype"
-    tests = zoom_new_meeting_passcode_required_disabled_tests
 
     def rule(self, event):
         operation_detail = event.get("operation_detail", "<NO_OPS_DETAIL>")
@@ -63,3 +26,39 @@ class ZoomNewMeetingPasscodeRequiredDisabled(Rule):
 
     def title(self, event):
         return f"Zoom User [{event.get('operator', '<NO_OPERATOR>')}] turned off your organization's setting to require passcodes for new meetings."
+
+    tests = [
+        RuleTest(
+            name="Setting Turn Off",
+            expected_result=True,
+            log={
+                "action": "Update",
+                "category_type": "Account",
+                "operation_detail": "Security  - Require a passcode when scheduling new meetings: from On to Off",
+                "operator": "example@example.io",
+                "time": "2022-12-16 18:22:17",
+            },
+        ),
+        RuleTest(
+            name="Setting Turn On",
+            expected_result=False,
+            log={
+                "action": "Update",
+                "category_type": "Account",
+                "operation_detail": "Security  - Require a passcode when scheduling new meetings: from Off to On",
+                "operator": "example@example.io",
+                "time": "2022-12-16 18:22:17",
+            },
+        ),
+        RuleTest(
+            name="Automatic Sign Out Setting Disabled ",
+            expected_result=False,
+            log={
+                "action": "Update",
+                "category_type": "Account",
+                "operation_detail": "Security  - Automatically sign users out after a specified time: from On to Off",
+                "operator": "example@example.io",
+                "time": "2022-12-16 18:20:42",
+            },
+        ),
+    ]

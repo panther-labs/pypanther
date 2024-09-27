@@ -3,42 +3,6 @@ from ipaddress import ip_network
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.base import aws_rule_context
 
-awsvpc_unapproved_outbound_dns_tests: list[RuleTest] = [
-    RuleTest(
-        name="Approved Outbound DNS Traffic",
-        expected_result=False,
-        log={"dstPort": 53, "dstAddr": "1.1.1.1", "srcAddr": "10.0.0.1", "p_log_type": "AWS.VPCFlow"},
-    ),
-    RuleTest(
-        name="Unapproved Outbound DNS Traffic",
-        expected_result=True,
-        log={"dstPort": 53, "dstAddr": "100.100.100.100", "srcAddr": "10.0.0.1", "p_log_type": "AWS.VPCFlow"},
-    ),
-    RuleTest(
-        name="Outbound Non-DNS Traffic",
-        expected_result=False,
-        log={"dstPort": 80, "dstAddr": "100.100.100.100", "srcAddr": "10.0.0.1", "p_log_type": "AWS.VPCFlow"},
-    ),
-    RuleTest(
-        name="Approved Outbound DNS Traffic - OCSF",
-        expected_result=False,
-        log={
-            "dst_endpoint": {"ip": "1.1.1.1", "port": 53},
-            "src_endpoint": {"ip": "10.0.0.1"},
-            "p_log_type": "OCSF.NetworkActivity",
-        },
-    ),
-    RuleTest(
-        name="Unapproved Outbound DNS Traffic - OCSF",
-        expected_result=True,
-        log={
-            "dst_endpoint": {"ip": "100.100.100.100", "port": 53},
-            "src_endpoint": {"ip": "10.0.0.1"},
-            "p_log_type": "OCSF.NetworkActivity",
-        },
-    ),
-]
-
 
 @panther_managed
 class AWSVPCUnapprovedOutboundDNS(Rule):
@@ -58,8 +22,7 @@ class AWSVPCUnapprovedOutboundDNS(Rule):
     default_severity = Severity.MEDIUM
     default_description = "Alerts if outbound DNS traffic is detected to a non-approved DNS server. DNS is often used as a means to exfiltrate data or perform command and control for compromised hosts. All DNS traffic should be routed through internal DNS servers or trusted 3rd parties.\n"
     default_runbook = "Investigate the host sending unapproved DNS activity for signs of compromise or other malicious activity. Update network configurations appropriately to ensure all DNS traffic is routed to approved DNS servers.\n"
-    summary_attributes = ["srcaddr", "dstaddr", "dstport"]
-    tests = awsvpc_unapproved_outbound_dns_tests  # CloudFlare DNS
+    summary_attributes = ["srcaddr", "dstaddr", "dstport"]  # CloudFlare DNS
     # Google DNS
     # '10.0.0.1', # Internal DNS
     APPROVED_DNS_SERVERS = {"1.1.1.1", "8.8.8.8"}
@@ -81,3 +44,39 @@ class AWSVPCUnapprovedOutboundDNS(Rule):
 
     def alert_context(self, event):
         return aws_rule_context(event)
+
+    tests = [
+        RuleTest(
+            name="Approved Outbound DNS Traffic",
+            expected_result=False,
+            log={"dstPort": 53, "dstAddr": "1.1.1.1", "srcAddr": "10.0.0.1", "p_log_type": "AWS.VPCFlow"},
+        ),
+        RuleTest(
+            name="Unapproved Outbound DNS Traffic",
+            expected_result=True,
+            log={"dstPort": 53, "dstAddr": "100.100.100.100", "srcAddr": "10.0.0.1", "p_log_type": "AWS.VPCFlow"},
+        ),
+        RuleTest(
+            name="Outbound Non-DNS Traffic",
+            expected_result=False,
+            log={"dstPort": 80, "dstAddr": "100.100.100.100", "srcAddr": "10.0.0.1", "p_log_type": "AWS.VPCFlow"},
+        ),
+        RuleTest(
+            name="Approved Outbound DNS Traffic - OCSF",
+            expected_result=False,
+            log={
+                "dst_endpoint": {"ip": "1.1.1.1", "port": 53},
+                "src_endpoint": {"ip": "10.0.0.1"},
+                "p_log_type": "OCSF.NetworkActivity",
+            },
+        ),
+        RuleTest(
+            name="Unapproved Outbound DNS Traffic - OCSF",
+            expected_result=True,
+            log={
+                "dst_endpoint": {"ip": "100.100.100.100", "port": 53},
+                "src_endpoint": {"ip": "10.0.0.1"},
+                "p_log_type": "OCSF.NetworkActivity",
+            },
+        ),
+    ]

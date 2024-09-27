@@ -2,27 +2,6 @@ from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.base import deep_get
 from pypanther.helpers.config import config
 
-g_suite_doc_ownership_transfer_tests: list[RuleTest] = [
-    RuleTest(
-        name="Ownership Transferred Within Organization",
-        expected_result=False,
-        log={
-            "id": {"applicationName": "admin"},
-            "name": "TRANSFER_DOCUMENT_OWNERSHIP",
-            "parameters": {"NEW_VALUE": "homer.simpson@example.com"},
-        },
-    ),
-    RuleTest(
-        name="Document Transferred to External User",
-        expected_result=True,
-        log={
-            "id": {"applicationName": "admin"},
-            "name": "TRANSFER_DOCUMENT_OWNERSHIP",
-            "parameters": {"NEW_VALUE": "monty.burns@badguy.com"},
-        },
-    ),
-]
-
 
 @panther_managed
 class GSuiteDocOwnershipTransfer(Rule):
@@ -39,7 +18,6 @@ class GSuiteDocOwnershipTransfer(Rule):
     )
     default_runbook = "Verify that this document did not contain sensitive or private company information.\n"
     summary_attributes = ["actor:email"]
-    tests = g_suite_doc_ownership_transfer_tests
     GSUITE_TRUSTED_OWNERSHIP_DOMAINS = {"@" + domain for domain in config.GSUITE_TRUSTED_OWNERSHIP_DOMAINS}
 
     def rule(self, event):
@@ -49,3 +27,24 @@ class GSuiteDocOwnershipTransfer(Rule):
             new_owner = deep_get(event, "parameters", "NEW_VALUE", default="<UNKNOWN USER>")
             return bool(new_owner) and (not any(new_owner.endswith(x) for x in self.GSUITE_TRUSTED_OWNERSHIP_DOMAINS))
         return False
+
+    tests = [
+        RuleTest(
+            name="Ownership Transferred Within Organization",
+            expected_result=False,
+            log={
+                "id": {"applicationName": "admin"},
+                "name": "TRANSFER_DOCUMENT_OWNERSHIP",
+                "parameters": {"NEW_VALUE": "homer.simpson@example.com"},
+            },
+        ),
+        RuleTest(
+            name="Document Transferred to External User",
+            expected_result=True,
+            log={
+                "id": {"applicationName": "admin"},
+                "name": "TRANSFER_DOCUMENT_OWNERSHIP",
+                "parameters": {"NEW_VALUE": "monty.burns@badguy.com"},
+            },
+        ),
+    ]

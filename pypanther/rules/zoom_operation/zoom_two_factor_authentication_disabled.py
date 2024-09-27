@@ -1,41 +1,5 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 
-zoom_two_factor_authentication_disabled_tests: list[RuleTest] = [
-    RuleTest(
-        name="2FA Disabled",
-        expected_result=True,
-        log={
-            "action": "Update",
-            "category_type": "Account",
-            "operation_detail": "Security  - Sign in with Two-Factor Authentication: from On to Off",
-            "operator": "example@example.io",
-            "time": "2022-12-16 18:20:35",
-        },
-    ),
-    RuleTest(
-        name="2FA Enabled",
-        expected_result=False,
-        log={
-            "action": "Update",
-            "category_type": "Account",
-            "operation_detail": "Security  - Sign in with Two-Factor Authentication: from Off to On",
-            "operator": "example@example.io",
-            "time": "2022-12-16 18:20:35",
-        },
-    ),
-    RuleTest(
-        name="Sign In Apple ID ",
-        expected_result=False,
-        log={
-            "action": "Update",
-            "category_type": "Account",
-            "operation_detail": "Sign-in Methods  - Allow users to sign in with Apple ID: from Off to On",
-            "operator": "example@example.io",
-            "time": "2022-12-16 18:19:57",
-        },
-    ),
-]
-
 
 @panther_managed
 class ZoomTwoFactorAuthenticationDisabled(Rule):
@@ -48,7 +12,6 @@ class ZoomTwoFactorAuthenticationDisabled(Rule):
     default_severity = Severity.MEDIUM
     log_types = [LogType.ZOOM_OPERATION]
     id = "Zoom.Two.Factor.Authentication.Disabled-prototype"
-    tests = zoom_two_factor_authentication_disabled_tests
 
     def rule(self, event):
         operation_detail = event.get("operation_detail", "<NO_OPS_DETAIL>")
@@ -63,3 +26,39 @@ class ZoomTwoFactorAuthenticationDisabled(Rule):
 
     def title(self, event):
         return f"Zoom User [{event.get('operator', '<NO_OPERATOR>')}] disabled your organization's setting to sign in with Two-Factor Authentication."
+
+    tests = [
+        RuleTest(
+            name="2FA Disabled",
+            expected_result=True,
+            log={
+                "action": "Update",
+                "category_type": "Account",
+                "operation_detail": "Security  - Sign in with Two-Factor Authentication: from On to Off",
+                "operator": "example@example.io",
+                "time": "2022-12-16 18:20:35",
+            },
+        ),
+        RuleTest(
+            name="2FA Enabled",
+            expected_result=False,
+            log={
+                "action": "Update",
+                "category_type": "Account",
+                "operation_detail": "Security  - Sign in with Two-Factor Authentication: from Off to On",
+                "operator": "example@example.io",
+                "time": "2022-12-16 18:20:35",
+            },
+        ),
+        RuleTest(
+            name="Sign In Apple ID ",
+            expected_result=False,
+            log={
+                "action": "Update",
+                "category_type": "Account",
+                "operation_detail": "Sign-in Methods  - Allow users to sign in with Apple ID: from Off to On",
+                "operator": "example@example.io",
+                "time": "2022-12-16 18:19:57",
+            },
+        ),
+    ]

@@ -1,45 +1,6 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.base import deep_get
 
-osquery_mac_application_firewall_settings_tests: list[RuleTest] = [
-    RuleTest(
-        name="ALF Disabled",
-        expected_result=True,
-        log={
-            "name": "pack_incident-response_alf",
-            "action": "added",
-            "hostIdentifier": "test-host",
-            "columns": {
-                "logging_enabled": "0",
-                "stealth_enabled": "0",
-                "firewall_unload": "0",
-                "allow_signed_enabled": "0",
-                "global_state": "0",
-                "logging_option": "0",
-                "version": "1.6",
-            },
-        },
-    ),
-    RuleTest(
-        name="ALF Enabled",
-        expected_result=False,
-        log={
-            "name": "pack_incident-response_alf",
-            "action": "added",
-            "hostIdentifier": "test-host",
-            "columns": {
-                "logging_enabled": "1",
-                "stealth_enabled": "1",
-                "firewall_unload": "0",
-                "allow_signed_enabled": "1",
-                "global_state": "1",
-                "logging_option": "0",
-                "version": "1.6",
-            },
-        },
-    ),
-]
-
 
 @panther_managed
 class OsqueryMacApplicationFirewallSettings(Rule):
@@ -53,7 +14,6 @@ class OsqueryMacApplicationFirewallSettings(Rule):
     default_runbook = "Re-enable the firewall manually or with configuration management"
     default_reference = "https://support.apple.com/en-us/HT201642"
     summary_attributes = ["name", "hostIdentifier", "action"]
-    tests = osquery_mac_application_firewall_settings_tests
     QUERIES = {"pack_incident-response_alf", "pack/mac-cis/ApplicationFirewall"}
 
     def rule(self, event):
@@ -72,3 +32,42 @@ class OsqueryMacApplicationFirewallSettings(Rule):
 
     def title(self, event):
         return f"MacOS firewall disabled on [{event.get('hostIdentifier')}]"
+
+    tests = [
+        RuleTest(
+            name="ALF Disabled",
+            expected_result=True,
+            log={
+                "name": "pack_incident-response_alf",
+                "action": "added",
+                "hostIdentifier": "test-host",
+                "columns": {
+                    "logging_enabled": "0",
+                    "stealth_enabled": "0",
+                    "firewall_unload": "0",
+                    "allow_signed_enabled": "0",
+                    "global_state": "0",
+                    "logging_option": "0",
+                    "version": "1.6",
+                },
+            },
+        ),
+        RuleTest(
+            name="ALF Enabled",
+            expected_result=False,
+            log={
+                "name": "pack_incident-response_alf",
+                "action": "added",
+                "hostIdentifier": "test-host",
+                "columns": {
+                    "logging_enabled": "1",
+                    "stealth_enabled": "1",
+                    "firewall_unload": "0",
+                    "allow_signed_enabled": "1",
+                    "global_state": "1",
+                    "logging_option": "0",
+                    "version": "1.6",
+                },
+            },
+        ),
+    ]

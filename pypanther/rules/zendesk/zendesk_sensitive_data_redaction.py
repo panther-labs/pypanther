@@ -1,65 +1,6 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.base import ZENDESK_CHANGE_DESCRIPTION
 
-zendesk_sensitive_data_redaction_off_tests: list[RuleTest] = [
-    RuleTest(
-        name="Zendesk - Credit Card Redaction Off",
-        expected_result=True,
-        log={
-            "url": "https://myzendek.zendesk.com/api/v2/audit_logs/111222333444.json",
-            "id": 123456789123,
-            "action_label": "Updated",
-            "actor_id": 123,
-            "actor_name": "John Doe",
-            "source_id": 123,
-            "source_type": "account_setting",
-            "source_label": "Credit Card Redaction",
-            "action": "create",
-            "change_description": "Disabled",
-            "ip_address": "127.0.0.1",
-            "created_at": "2021-05-28T18:39:50Z",
-            "p_log_type": "Zendesk.Audit",
-        },
-    ),
-    RuleTest(
-        name="Zendesk - Credit Card Redaction On",
-        expected_result=True,
-        log={
-            "url": "https://myzendek.zendesk.com/api/v2/audit_logs/111222333444.json",
-            "id": 123456789123,
-            "action_label": "Updated",
-            "actor_id": 123,
-            "actor_name": "John Doe",
-            "source_id": 123,
-            "source_type": "account_setting",
-            "source_label": "Credit Card Redaction",
-            "action": "create",
-            "change_description": "Enabled",
-            "ip_address": "127.0.0.1",
-            "created_at": "2021-05-28T18:39:50Z",
-            "p_log_type": "Zendesk.Audit",
-        },
-    ),
-    RuleTest(
-        name="User assumption settings changed",
-        expected_result=False,
-        log={
-            "url": "https://myzendek.zendesk.com/api/v2/audit_logs/111222333444.json",
-            "id": 123456789123,
-            "action_label": "Updated",
-            "actor_id": 123,
-            "source_id": 123,
-            "source_type": "account_setting",
-            "source_label": "Account Assumption",
-            "action": "update",
-            "change_description": "Changed",
-            "ip_address": "127.0.0.1",
-            "created_at": "2021-05-28T18:39:50Z",
-            "p_log_type": "Zendesk.Audit",
-        },
-    ),
-]
-
 
 @panther_managed
 class ZendeskSensitiveDataRedactionOff(Rule):
@@ -73,7 +14,6 @@ class ZendeskSensitiveDataRedactionOff(Rule):
     default_runbook = "Re-enable credit card redaction."
     default_reference = "https://support.zendesk.com/hc/en-us/articles/4408822124314-Automatically-redacting-credit-card-numbers-from-tickets"
     summary_attributes = ["p_any_ip_addresses"]
-    tests = zendesk_sensitive_data_redaction_off_tests
     REDACTION_ACTIONS = {"create", "destroy"}
 
     def rule(self, event):
@@ -91,3 +31,62 @@ class ZendeskSensitiveDataRedactionOff(Rule):
         if event.get(ZENDESK_CHANGE_DESCRIPTION, "").lower() != "disabled":
             return "INFO"
         return "HIGH"
+
+    tests = [
+        RuleTest(
+            name="Zendesk - Credit Card Redaction Off",
+            expected_result=True,
+            log={
+                "url": "https://myzendek.zendesk.com/api/v2/audit_logs/111222333444.json",
+                "id": 123456789123,
+                "action_label": "Updated",
+                "actor_id": 123,
+                "actor_name": "John Doe",
+                "source_id": 123,
+                "source_type": "account_setting",
+                "source_label": "Credit Card Redaction",
+                "action": "create",
+                "change_description": "Disabled",
+                "ip_address": "127.0.0.1",
+                "created_at": "2021-05-28T18:39:50Z",
+                "p_log_type": "Zendesk.Audit",
+            },
+        ),
+        RuleTest(
+            name="Zendesk - Credit Card Redaction On",
+            expected_result=True,
+            log={
+                "url": "https://myzendek.zendesk.com/api/v2/audit_logs/111222333444.json",
+                "id": 123456789123,
+                "action_label": "Updated",
+                "actor_id": 123,
+                "actor_name": "John Doe",
+                "source_id": 123,
+                "source_type": "account_setting",
+                "source_label": "Credit Card Redaction",
+                "action": "create",
+                "change_description": "Enabled",
+                "ip_address": "127.0.0.1",
+                "created_at": "2021-05-28T18:39:50Z",
+                "p_log_type": "Zendesk.Audit",
+            },
+        ),
+        RuleTest(
+            name="User assumption settings changed",
+            expected_result=False,
+            log={
+                "url": "https://myzendek.zendesk.com/api/v2/audit_logs/111222333444.json",
+                "id": 123456789123,
+                "action_label": "Updated",
+                "actor_id": 123,
+                "source_id": 123,
+                "source_type": "account_setting",
+                "source_label": "Account Assumption",
+                "action": "update",
+                "change_description": "Changed",
+                "ip_address": "127.0.0.1",
+                "created_at": "2021-05-28T18:39:50Z",
+                "p_log_type": "Zendesk.Audit",
+            },
+        ),
+    ]

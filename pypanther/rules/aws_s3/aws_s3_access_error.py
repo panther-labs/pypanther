@@ -1,79 +1,6 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.base import aws_rule_context, pattern_match
 
-awss3_server_access_error_tests: list[RuleTest] = [
-    RuleTest(
-        name="Amazon Access Error",
-        expected_result=False,
-        log={
-            "authenticationtype": "AuthHeader",
-            "bucket": "cloudtrail",
-            "bucketowner": "2c8e3610de4102c8e3610de4102c8e3610de410",
-            "bytessent": 9438,
-            "ciphersuite": "ECDHE-RSA-AES128-SHA",
-            "errorcode": "SignatureDoesNotMatch",
-            "hostheader": "cloudtrail.s3.us-west-2.amazonaws.com",
-            "hostid": "2c8e3610de4102c8e3610de4102c8e3610de410",
-            "httpstatus": 403,
-            "key": "AWSLogs/o-3h3h3h3h3h/123456789012/CloudTrail/us-east-1/2020/06/21/123456789012_CloudTrail_us-east-1_20200621T2035Z_ZqQWc4WNXOQUiIic.json.gz",
-            "operation": "REST.PUT.OBJECT",
-            "remoteip": "54.159.198.108",
-            "requestid": "8EFD962F22F2A510",
-            "requesturi": "PUT /AWSLogs/o-wyibehgf3h/123456789012/CloudTrail/us-east-1/2020/06/21/123456789012_CloudTrail_us-east-1_20200621T2035Z_ZqQWc4WNXOQUiIic.json.gz HTTP/1.1",
-            "signatureversion": "SigV4",
-            "time": "2020-06-21 20:41:25.000000000",
-            "tlsVersion": "TLSv1.2",
-            "totaltime": 9,
-            "useragent": "aws-internal/3",
-        },
-    ),
-    RuleTest(
-        name="Access Error",
-        expected_result=True,
-        log={
-            "bucket": "panther-auditlogs",
-            "time": "2020-04-22 07:48:45.000",
-            "remoteip": "10.106.38.245",
-            "requester": "arn:aws:iam::162777425019:user/awslogsdelivery",
-            "requestid": "5CDAB4038253B0E4",
-            "operation": "REST.GET.OBJECT",
-            "httpstatus": 403,
-            "errorcode": "AccessDenied",
-            "tlsversion": "TLSv1.2",
-        },
-    ),
-    RuleTest(
-        name="403 on HEAD.BUCKET",
-        expected_result=False,
-        log={
-            "bucket": "panther-auditlogs",
-            "time": "2020-04-22 07:48:45.000",
-            "remoteip": "10.106.38.245",
-            "requester": "arn:aws:iam::162777425019:user/awslogsdelivery",
-            "requestid": "5CDAB4038253B0E4",
-            "operation": "REST.HEAD.BUCKET",
-            "httpstatus": 403,
-            "errorcode": "InternalServerError",
-            "tlsversion": "TLSv1.2",
-        },
-    ),
-    RuleTest(
-        name="Internal Server Error",
-        expected_result=False,
-        log={
-            "bucket": "panther-auditlogs",
-            "time": "2020-04-22 07:48:45.000",
-            "remoteip": "10.106.38.245",
-            "requester": "arn:aws:iam::162777425019:user/awslogsdelivery",
-            "requestid": "5CDAB4038253B0E4",
-            "operation": "REST.HEAD.BUCKET",
-            "httpstatus": 500,
-            "errorcode": "InternalServerError",
-            "tlsversion": "TLSv1.2",
-        },
-    ),
-]
-
 
 @panther_managed
 class AWSS3ServerAccessError(Rule):
@@ -89,7 +16,6 @@ class AWSS3ServerAccessError(Rule):
     default_runbook = "Investigate the specific error and determine if it is an ongoing issue that needs to be addressed or a one off or transient error that can be ignored.\n"
     default_reference = "https://docs.aws.amazon.com/AmazonS3/latest/dev/ErrorCode.html"
     summary_attributes = ["bucket", "key", "requester", "remoteip", "operation", "errorCode"]
-    tests = awss3_server_access_error_tests
     # https://docs.aws.amazon.com/AmazonS3/latest/API/ErrorResponses.html
     # Forbidden
     # Method Not Allowed
@@ -108,3 +34,76 @@ class AWSS3ServerAccessError(Rule):
 
     def alert_context(self, event):
         return aws_rule_context(event)
+
+    tests = [
+        RuleTest(
+            name="Amazon Access Error",
+            expected_result=False,
+            log={
+                "authenticationtype": "AuthHeader",
+                "bucket": "cloudtrail",
+                "bucketowner": "2c8e3610de4102c8e3610de4102c8e3610de410",
+                "bytessent": 9438,
+                "ciphersuite": "ECDHE-RSA-AES128-SHA",
+                "errorcode": "SignatureDoesNotMatch",
+                "hostheader": "cloudtrail.s3.us-west-2.amazonaws.com",
+                "hostid": "2c8e3610de4102c8e3610de4102c8e3610de410",
+                "httpstatus": 403,
+                "key": "AWSLogs/o-3h3h3h3h3h/123456789012/CloudTrail/us-east-1/2020/06/21/123456789012_CloudTrail_us-east-1_20200621T2035Z_ZqQWc4WNXOQUiIic.json.gz",
+                "operation": "REST.PUT.OBJECT",
+                "remoteip": "54.159.198.108",
+                "requestid": "8EFD962F22F2A510",
+                "requesturi": "PUT /AWSLogs/o-wyibehgf3h/123456789012/CloudTrail/us-east-1/2020/06/21/123456789012_CloudTrail_us-east-1_20200621T2035Z_ZqQWc4WNXOQUiIic.json.gz HTTP/1.1",
+                "signatureversion": "SigV4",
+                "time": "2020-06-21 20:41:25.000000000",
+                "tlsVersion": "TLSv1.2",
+                "totaltime": 9,
+                "useragent": "aws-internal/3",
+            },
+        ),
+        RuleTest(
+            name="Access Error",
+            expected_result=True,
+            log={
+                "bucket": "panther-auditlogs",
+                "time": "2020-04-22 07:48:45.000",
+                "remoteip": "10.106.38.245",
+                "requester": "arn:aws:iam::162777425019:user/awslogsdelivery",
+                "requestid": "5CDAB4038253B0E4",
+                "operation": "REST.GET.OBJECT",
+                "httpstatus": 403,
+                "errorcode": "AccessDenied",
+                "tlsversion": "TLSv1.2",
+            },
+        ),
+        RuleTest(
+            name="403 on HEAD.BUCKET",
+            expected_result=False,
+            log={
+                "bucket": "panther-auditlogs",
+                "time": "2020-04-22 07:48:45.000",
+                "remoteip": "10.106.38.245",
+                "requester": "arn:aws:iam::162777425019:user/awslogsdelivery",
+                "requestid": "5CDAB4038253B0E4",
+                "operation": "REST.HEAD.BUCKET",
+                "httpstatus": 403,
+                "errorcode": "InternalServerError",
+                "tlsversion": "TLSv1.2",
+            },
+        ),
+        RuleTest(
+            name="Internal Server Error",
+            expected_result=False,
+            log={
+                "bucket": "panther-auditlogs",
+                "time": "2020-04-22 07:48:45.000",
+                "remoteip": "10.106.38.245",
+                "requester": "arn:aws:iam::162777425019:user/awslogsdelivery",
+                "requestid": "5CDAB4038253B0E4",
+                "operation": "REST.HEAD.BUCKET",
+                "httpstatus": 500,
+                "errorcode": "InternalServerError",
+                "tlsversion": "TLSv1.2",
+            },
+        ),
+    ]

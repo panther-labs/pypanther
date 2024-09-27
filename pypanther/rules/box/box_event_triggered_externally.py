@@ -2,34 +2,6 @@ from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.base import deep_get
 from pypanther.helpers.config import config
 
-box_event_triggered_externally_tests: list[RuleTest] = [
-    RuleTest(
-        name="Regular Event",
-        expected_result=False,
-        log={
-            "type": "event",
-            "additional_details": '{"key": "value"}',
-            "created_by": {"id": "12345678", "type": "user", "login": "cat@example.com", "name": "Bob Cat"},
-            "event_type": "DELETE",
-        },
-    ),
-    RuleTest(
-        name="Previewed Anonymously",
-        expected_result=True,
-        log={
-            "created_by": {"id": "2", "type": "user", "name": "Unknown User"},
-            "event_type": "PREVIEW",
-            "type": "event",
-            "ip_address": "1.2.3.4",
-        },
-    ),
-    RuleTest(
-        name="Missing Created By",
-        expected_result=False,
-        log={"event_type": "PREVIEW", "type": "event", "ip_address": "1.2.3.4"},
-    ),
-]
-
 
 @panther_managed
 class BoxEventTriggeredExternally(Rule):
@@ -45,7 +17,6 @@ class BoxEventTriggeredExternally(Rule):
     default_runbook = "Investigate whether this user's activity is expected.\n"
     summary_attributes = ["ip_address"]
     threshold = 10
-    tests = box_event_triggered_externally_tests
     DOMAINS = {"@" + domain for domain in config.ORGANIZATION_DOMAINS}
 
     def rule(self, event):
@@ -62,3 +33,31 @@ class BoxEventTriggeredExternally(Rule):
         return (
             f"External user [{deep_get(event, 'created_by', 'login', default='<UNKNOWN_USER>')}] triggered a box event."
         )
+
+    tests = [
+        RuleTest(
+            name="Regular Event",
+            expected_result=False,
+            log={
+                "type": "event",
+                "additional_details": '{"key": "value"}',
+                "created_by": {"id": "12345678", "type": "user", "login": "cat@example.com", "name": "Bob Cat"},
+                "event_type": "DELETE",
+            },
+        ),
+        RuleTest(
+            name="Previewed Anonymously",
+            expected_result=True,
+            log={
+                "created_by": {"id": "2", "type": "user", "name": "Unknown User"},
+                "event_type": "PREVIEW",
+                "type": "event",
+                "ip_address": "1.2.3.4",
+            },
+        ),
+        RuleTest(
+            name="Missing Created By",
+            expected_result=False,
+            log={"event_type": "PREVIEW", "type": "event", "ip_address": "1.2.3.4"},
+        ),
+    ]
