@@ -473,6 +473,85 @@ class DropClassAttributes(ast.NodeTransformer):
         return node
 
 
+class RewriteClassDefinition(ast.NodeTransformer):
+    """
+    This node transformer refactors a class definition by changing its name and base names with the ones provided.
+
+    A call like `RewriteClassDefinition("Bar", ["Baz"]).visit(tree)` transforms this:
+    ```
+    class Foo:
+        A = 1
+    ```
+    into this:
+    ```
+    class Bar(Baz):
+        A = 1
+    ```
+    """
+
+    def __init__(self, class_name: str, new_class_name: str, base_names: list[str]):
+        super().__init__()
+        self.class_name = class_name
+        self.new_class_name = new_class_name
+        self.base_names = base_names
+
+    def visit_ClassDef(self, node: ast.ClassDef) -> ast.AST | None:
+        if node.name != self.class_name:
+            return node
+
+        return ast.ClassDef(
+            name=self.new_class_name,
+            bases=[ast.Name(id=x) for x in self.base_names],
+            keywords=node.keywords,
+            decorator_list=node.decorator_list,
+            body=node.body,
+        )
+
+
+class AddImportFrom(ast.NodeTransformer):
+    """
+    This node transformer refactors a module by adding an import from statement based on the arguments.
+
+    A call like `AddImportFrom("foo.bar", ["baz"]).visit(tree)` transforms this:
+    ```
+    import a
+    from b import c
+
+    class Foo:
+        A = 1
+    ```
+    into this:
+    ```
+    from foo.bar import baz
+    import a
+    from b import c
+
+    class Foo:
+        A = 1
+    ```
+    """
+
+    def __init__(self, from_module: str, names: list[str]):
+        super().__init__()
+        self.from_module = from_module
+        self.names = names
+
+    def visit_Module(self, node: ast.Module) -> ast.AST | None:
+        return ast.Module(
+            type_ignores=node.type_ignores,
+            body=[
+                ast.ImportFrom(
+                    module=self.from_module,
+                    names=[
+                        ast.alias(x)
+                        for x in self.names
+                    ],
+                ),
+                *node.body,
+            ],
+        )
+
+
 def convert_global_helpers(panther_analysis: Path) -> Set[str]:
     # walk the rules folder
     global_helpers_path = panther_analysis / "global_helpers"
@@ -1056,7 +1135,16 @@ def refactor_python_modified_rules(rules_path: Path, diff: list[tuple[list[str],
                 and x.targets[0].id not in set(to_snake_case(y) for y in yaml_keys)
             )
         ]
-        DropClassAttributes(attributes_to_drop).visit(code)
+        code = DropClassAttributes(attributes_to_drop).visit(code)
+        code = RewriteClassDefinition(
+            class_definition.name,
+            class_definition.name + "Custom",
+            [class_definition.name],
+        ).visit(code)
+        code = AddImportFrom(
+            "pypanther.rules." + module,
+            [class_definition.name],
+        ).visit(code)
 
         with rule_path.open(mode="w") as fp:
             fp.write(ast.unparse(code))
