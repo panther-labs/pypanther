@@ -13,9 +13,9 @@ from pypanther.setup_subparsers import (
     setup_test_parser,
     setup_upload_parser,
 )
-from pypanther.vendor.panther_analysis_tool import util
-from pypanther.vendor.panther_analysis_tool.command import standard_args
-from pypanther.vendor.panther_analysis_tool.config import dynaconf_argparse_merge, setup_dynaconf
+from pypanther.backend import util
+from pypanther.command import standard_args
+from pypanther.config import dynaconf_argparse_merge, setup_dynaconf
 
 
 def run():
