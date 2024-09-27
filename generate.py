@@ -880,7 +880,7 @@ def clone_panther_analysis_release(output_dir: Path) -> None:
         print(f"An error occurred while cloning the repository: {exc}")
 
 
-def diff_with_release(panther_analysis: Path) -> tuple[list[tuple[list[str], str]], list[tuple[list[str], str]]]:
+def diff_with_release(panther_analysis: Path) -> tuple[list[tuple[list[str], str, str]], list[tuple[list[str], str, str]]]:
     yaml_diff = []
     python_diff = []
 
@@ -904,7 +904,7 @@ def diff_with_release(panther_analysis: Path) -> tuple[list[tuple[list[str], str
         with local_yaml_path.open(mode="rb") as fy, local_python_path.open(mode="rb") as fp:
             local_yaml = YAML(typ="safe").load(fy)
             local_python_code = ast.parse(fp.read())
-        local_rules[local_yaml["RuleID"]] = (local_yaml, local_python_code)
+        local_rules[local_yaml["RuleID"]] = (local_yaml, local_python_code, local_python_path.parent.stem)
 
     for id_, local_rule in local_rules.items():
         yaml, python = [], False
@@ -920,9 +920,9 @@ def diff_with_release(panther_analysis: Path) -> tuple[list[tuple[list[str], str
             python = True
 
         if python:
-            python_diff.append((yaml, local_rule[0]["Filename"]))
+            python_diff.append((yaml, local_rule[0]["Filename"], local_rule[2]))
         elif yaml:
-            yaml_diff.append((yaml, local_rule[0]["Filename"]))
+            yaml_diff.append((yaml, local_rule[0]["Filename"], local_rule[2]))
 
     return yaml_diff, python_diff
 
@@ -935,12 +935,12 @@ class Overrides(TypedDict):
 def refactor_yaml_only_modified_rules(
     rules_path: Path,
     overrides_path: Path,
-    diff: list[tuple[list[str], str]],
+    diff: list[tuple[list[str], str, str]],
 ) -> None:
     # yaml changed but python didn't, will need to delete the file, keep CHANGED class attributes and create override later
     overrides: dict[str, Overrides] = {}
-    for yaml_keys, filename in diff:
-        module = filename.split("_")[0]
+    for yaml_keys, filename, rules_dir in diff:
+        module = rules_dir.removesuffix("_rules")
         rule_path = rules_path / module / filename
 
         with rule_path.open(mode="rb") as fp:
@@ -1033,11 +1033,11 @@ def refactor_yaml_only_modified_rules(
             f.write(ast.unparse(ast.fix_missing_locations(overrides_module)))
 
 
-def refactor_python_modified_rules(rules_path: Path, diff: list[tuple[list[str], str]]) -> list[Path]:
+def refactor_python_modified_rules(rules_path: Path, diff: list[tuple[list[str], str, str]]) -> list[Path]:
     # at least python changed, will need to keep the file but delete the UNCHANGED class attributes
     to_keep = []
-    for yaml_keys, filename in diff:
-        module = filename.split("_")[0]
+    for yaml_keys, filename, rules_dir in diff:
+        module = rules_dir.removesuffix("_rules")
         rule_path = rules_path / module / filename
 
         with rule_path.open(mode="rb") as fp:
