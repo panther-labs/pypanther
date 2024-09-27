@@ -1015,7 +1015,7 @@ def refactor_yaml_only_modified_rules(
     overrides_path: Path,
     diff: list[tuple[list[str], str, str]],
 ) -> None:
-    # yaml changed but python didn't, will need to delete the file, keep CHANGED class attributes and create override later
+    # yaml changed but python didn't, keep CHANGED class attributes in an override
     overrides: dict[str, Overrides] = {}
     for yaml_keys, filename, rules_dir in diff:
         module = rules_dir.removesuffix("_rules")
