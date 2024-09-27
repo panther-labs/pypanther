@@ -1,7 +1,7 @@
 import argparse
 
 from pypanther import display, get_rule, list_log_types, list_rules, shared_args, upload
-from pypanther.vendor.panther_analysis_tool import util
+from pypanther.backend import util
 
 
 def setup_list_rules_parser(list_rules_parser: argparse.ArgumentParser):

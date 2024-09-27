@@ -11,9 +11,7 @@ from pathlib import Path
 from typing import Any, Optional, Tuple
 
 from pypanther import cli_output, display, testing
-from pypanther.import_main import NoMainModuleError, import_main
-from pypanther.registry import registered_rules
-from pypanther.vendor.panther_analysis_tool.backend.client import (
+from pypanther.backend.client import (
     AsyncBulkUploadParams,
     AsyncBulkUploadStatusParams,
     AsyncBulkUploadStatusResponse,
@@ -21,8 +19,10 @@ from pypanther.vendor.panther_analysis_tool.backend.client import (
     BackendResponse,
     BulkUploadMultipartError,
 )
-from pypanther.vendor.panther_analysis_tool.backend.client import Client as BackendClient
-from pypanther.vendor.panther_analysis_tool.util import convert_unicode
+from pypanther.backend.client import Client as BackendClient
+from pypanther.backend.util import convert_unicode
+from pypanther.import_main import NoMainModuleError, import_main
+from pypanther.registry import registered_rules
 
 INDENT = " " * 2
 IGNORE_FOLDERS = [
