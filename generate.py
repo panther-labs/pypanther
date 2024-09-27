@@ -542,10 +542,7 @@ class AddImportFrom(ast.NodeTransformer):
             body=[
                 ast.ImportFrom(
                     module=self.from_module,
-                    names=[
-                        ast.alias(x)
-                        for x in self.names
-                    ],
+                    names=[ast.alias(x) for x in self.names],
                 ),
                 *node.body,
             ],
@@ -959,7 +956,9 @@ def clone_panther_analysis_release(output_dir: Path) -> None:
         print(f"An error occurred while cloning the repository: {exc}")
 
 
-def diff_with_release(panther_analysis: Path) -> tuple[list[tuple[list[str], str, str]], list[tuple[list[str], str, str]]]:
+def diff_with_release(
+    panther_analysis: Path,
+) -> tuple[list[tuple[list[str], str, str]], list[tuple[list[str], str, str]]]:
     yaml_diff = []
     python_diff = []
 
