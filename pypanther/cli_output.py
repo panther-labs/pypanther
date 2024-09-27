@@ -1,4 +1,4 @@
-from pypanther.vendor.panther_analysis_tool.backend.client import BackendMultipartError
+from pypanther.backend.client import BackendMultipartError
 
 
 class BColors:
