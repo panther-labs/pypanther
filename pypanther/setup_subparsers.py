@@ -117,6 +117,27 @@ def setup_upload_parser(upload_parser: argparse.ArgumentParser):
         choices=display.COMMON_CLI_OUTPUT_TYPES,
         default=display.DEFAULT_CLI_OUTPUT_TYPE,
     )
+    upload_parser.add_argument(
+        "--skip-confirmation",
+        help="Skip asking for confirmation before upload",
+        default=False,
+        required=False,
+        action="store_true",
+    )
+    upload_parser.add_argument(
+        "--skip-summary",
+        help="Omit changes summary in output",
+        default=False,
+        required=False,
+        action="store_true",
+    )
+    upload_parser.add_argument(
+        "--dry-run",
+        help="Avoid actually uploading",
+        default=False,
+        required=False,
+        action="store_true",
+    )
 
 
 def setup_list_log_types_parser(list_log_types_parser: argparse.ArgumentParser):

@@ -63,6 +63,7 @@ class BackendCheckResponse:
 @dataclass(frozen=True)
 class AsyncBulkUploadParams:
     zip_bytes: bytes
+    dry_run: bool
 
     def encoded_bytes(self) -> str:
         return base64.b64encode(self.zip_bytes).decode("utf-8")

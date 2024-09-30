@@ -48,7 +48,11 @@ UPLOAD_SIZE_LIMIT_BYTES = UPLOAD_SIZE_LIMIT_MB * 1024 * 1024
 
 def run(backend: BackendClient, args: argparse.Namespace) -> Tuple[int, str]:
     if not args.confirm:
-        err = confirm()
+        err = confirm(
+            "WARNING: pypanther upload is under active development and not recommended for use"
+            " without guidance from the Panther team. Would you like to proceed? [y/n]: ",
+        )
+
         if err is not None:
             return 0, ""
 
@@ -70,6 +74,7 @@ def run(backend: BackendClient, args: argparse.Namespace) -> Tuple[int, str]:
                     args.verbose,
                     args.skip_tests,
                     UPLOAD_RESULT_TESTS_FAILED,
+                    None,
                 )
                 print(json.dumps(output, indent=display.JSON_INDENT_LEVEL))
             return 1, ""
@@ -94,6 +99,34 @@ def run(backend: BackendClient, args: argparse.Namespace) -> Tuple[int, str]:
             print_included_files(zip_info)
 
         try:
+            changes_summary = None
+            if not args.skip_summary:
+                # if the user skips calculating the summary of the changes, "--dry-run"
+                # and "--skip-confirmation" have no effect, as there's no info to act upon
+                changes_summary = dry_run_upload(backend, Path(tmp.name).read_bytes(), args.verbose, args.output)
+
+                if args.output == display.OUTPUT_TYPE_JSON:
+                    output = get_upload_output_as_dict(
+                        None,
+                        test_results,
+                        [],
+                        args.verbose,
+                        args.skip_tests,
+                        UPLOAD_RESULT_TESTS_FAILED,
+                        changes_summary,
+                    )
+                    print(json.dumps(output, indent=display.JSON_INDENT_LEVEL))
+                else:
+                    print_changes_summary(changes_summary)
+
+                if args.dry_run:
+                    return 0, ""
+
+                if not args.skip_confirmation:
+                    err = confirm("Would you like to make this change? [y/n]: ")
+                    if err is not None:
+                        return 0, ""
+
             upload_stats = upload_zip(
                 backend,
                 archive=tmp.name,
@@ -110,6 +143,7 @@ def run(backend: BackendClient, args: argparse.Namespace) -> Tuple[int, str]:
                     args.verbose,
                     args.skip_tests,
                     UPLOAD_RESULT_SUCCESS,
+                    changes_summary,
                 )
                 print(json.dumps(output, indent=display.JSON_INDENT_LEVEL))
 
@@ -130,6 +164,29 @@ def run(backend: BackendClient, args: argparse.Namespace) -> Tuple[int, str]:
             return 1, ""
 
     return 0, ""
+
+
+def dry_run_upload(backend: BackendClient, data: bytes, verbose, output_type) -> tuple[str, int, int, int]:
+    if verbose and output_type == display.OUTPUT_TYPE_TEXT:
+        print(cli_output.header("Calculating changes"))
+    elif output_type == display.OUTPUT_TYPE_TEXT:
+        print("Calculating changes")
+        print()  # new line
+
+    params = AsyncBulkUploadParams(zip_bytes=data, dry_run=True)
+    start_upload_response = backend.async_bulk_upload(params)
+    while True:
+        time.sleep(2)
+        status_response = backend.async_bulk_upload_status(
+            AsyncBulkUploadStatusParams(receipt_id=start_upload_response.data.receipt_id),
+        )
+        if status_response:
+            break
+    upload_stats = status_response.data
+    to_create, to_delete, total = upload_stats.rules.new, upload_stats.rules.deleted, upload_stats.rules.total
+    message = f"pypanther will add {to_create} new rules and delete {to_delete} rules (total {total} rules)"
+    changes_summary = (message, to_create, to_delete, total)
+    return changes_summary
 
 
 def zip_contents(named_temp_file: Any) -> list[zipfile.ZipInfo]:
@@ -175,7 +232,7 @@ def upload_zip(
             print("Uploading to Panther")
             print()  # new line
 
-        upload_params = AsyncBulkUploadParams(zip_bytes=analysis_zip.read())
+        upload_params = AsyncBulkUploadParams(zip_bytes=analysis_zip.read(), dry_run=False)
         retry_count = 0
 
     while True:
@@ -231,11 +288,8 @@ def upload_zip(
             raise err
 
 
-def confirm() -> Optional[str]:
-    warning_text = cli_output.warning(
-        "WARNING: pypanther upload is under active development and not recommended for use"
-        " without guidance from the Panther team. Would you like to proceed? [y/n]: ",
-    )
+def confirm(warning_text: str) -> Optional[str]:
+    warning_text = cli_output.warning(warning_text)
     choice = input(warning_text).lower()
     if choice != "y":
         print(cli_output.warning(f'Exiting upload due to entered response "{choice}" which is not "y"'))
@@ -252,6 +306,7 @@ def get_upload_output_as_dict(
     verbose: bool,
     skip_tests: bool,
     upload_result: str,
+    changes_summary: Tuple[str, int, int, int] | None,
 ) -> dict:
     output: dict[str, Any] = {"result": upload_result}
     if upload_stats is not None:
@@ -262,6 +317,13 @@ def get_upload_output_as_dict(
         output["registered_rules"] = [rule.id for rule in registered_rules()]
         if len(zip_infos) > 0:
             output["included_files"] = [info.filename for info in zip_infos]
+    if changes_summary:
+        output["summary"] = {
+            "message": changes_summary[0],
+            "create": changes_summary[1],
+            "delete": changes_summary[2],
+            "total": changes_summary[3],
+        }
 
     return output
 
@@ -323,3 +385,17 @@ def print_backend_issues(err: BulkUploadMultipartError) -> None:
         for issue in err.get_issues():
             print(INDENT, f"- Error: {cli_output.failed(issue.error_message)}")
             print(INDENT, f"  Path:  {cli_output.failed(issue.path)}")
+
+
+def print_changes_summary(changes_summary: tuple[str, int, int, int]) -> None:
+    message = changes_summary[0]
+    to_create = changes_summary[1]
+    to_delete = changes_summary[2]
+    total = changes_summary[3]
+    print(message)
+    print()  # new line
+    print(cli_output.header("Changes summary") + ":")
+    print(INDENT, f"Create: {to_create:>3}")
+    print(INDENT, f"Delete:  {to_delete:>3}")
+    print(INDENT, f"Total:   {total:>3}")
+    print()  # new line
