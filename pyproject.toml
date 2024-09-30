@@ -24,6 +24,7 @@ aiohttp = "^3.9.5, < 3.10.2"
 dynaconf = "^3.2.5"
 colorama = "^0.4.6"
 prettytable = "^3.10.0"
+gitpython = "^3.1.43"
 
 [tool.poetry.scripts]
 pypanther = 'pypanther.main:run'
