@@ -36,6 +36,16 @@ def to_snake_case(name: str) -> str:
     return "".join(res)
 
 
+def to_id(class_name: str) -> str:
+    # split on capital letters: "FooBarBaz" -> ["", "Foo", "", "Bar", "", "Baz", ""]
+    splits = re.split(r"([A-Z][^A-Z]+)", class_name)
+    # filter out empty splits: ["", "Foo", "", "Bar", "", "Baz", ""] -> ["Foo", "Bar", "Baz"]
+    components = filter(len, splits)
+    # join components with dots: ["Foo", "Bar", "Baz"] -> "Foo.Bar.Baz"
+    id_ = ".".join(components)
+    return id_
+
+
 def convert_rule_attribute_name(name: str) -> str:
     match name:
         case "RuleID":
@@ -505,6 +515,48 @@ class RewriteClassDefinition(ast.NodeTransformer):
             keywords=node.keywords,
             decorator_list=node.decorator_list,
             body=node.body,
+        )
+
+
+class AddClassAttributes(ast.NodeTransformer):
+    """
+    This node transformer refactors a class definition by adding new attributes that correspond to its arguments.
+
+    A call like `AddClassAttributes("Foo", {"bar": "baz", "foobar": 42}).visit(tree)` transforms this:
+    ```
+    class Foo:
+        A = 1
+    ```
+    into this:
+    ```
+    class Foo:
+        bar = "baz"
+        foobar = 42
+        A = 1
+    ```
+    """
+
+    def __init__(self, class_name: str, attributes: dict[str, str | int | float | bool]):
+        super().__init__()
+        self.class_name = class_name
+        self.attributes = attributes
+
+    def visit_ClassDef(self, node: ast.ClassDef) -> ast.AST | None:
+        if node.name != self.class_name:
+            return node
+
+        return ast.ClassDef(
+            name=self.class_name,
+            bases=node.bases,
+            keywords=node.keywords,
+            decorator_list=node.decorator_list,
+            body=[
+                *[
+                    ast.Assign(targets=[ast.Name(id=k)], value=ast.Constant(value=v))
+                    for k, v in self.attributes.items()
+                ],
+                *node.body,
+            ],
         )
 
 
@@ -1123,6 +1175,8 @@ def refactor_python_modified_rules(rules_path: Path, diff: list[tuple[list[str],
 
         # get class name
         class_definition = [x for x in code.body if isinstance(x, ast.ClassDef)][0]
+        new_class_definition_name = class_definition.name + "Custom"
+        new_class_definition_id = to_id(new_class_definition_name)
 
         attributes_to_drop = [
             x.targets[0].id
@@ -1137,16 +1191,17 @@ def refactor_python_modified_rules(rules_path: Path, diff: list[tuple[list[str],
         code = DropClassAttributes(attributes_to_drop).visit(code)
         code = RewriteClassDefinition(
             class_definition.name,
-            class_definition.name + "Custom",
+            new_class_definition_name,
             [class_definition.name],
         ).visit(code)
+        code = AddClassAttributes(new_class_definition_name, {"id": new_class_definition_id}).visit(code)
         code = AddImportFrom(
             "pypanther.rules." + module,
             [class_definition.name],
         ).visit(code)
 
         with rule_path.open(mode="w") as fp:
-            fp.write(ast.unparse(code))
+            fp.write(ast.unparse(ast.fix_missing_locations(code)))
 
         to_keep.append(rule_path)
 
