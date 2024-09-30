@@ -1,3 +1,4 @@
+import argparse
 import ast
 import functools
 import os
@@ -5,11 +6,13 @@ import re
 import shutil
 import subprocess
 import sys
+import tempfile
 from multiprocessing import Pool
 from pathlib import Path
-from typing import List, Optional, Set
+from typing import List, Optional, Set, TypedDict
 
 from ast_comments import Comment, parse, unparse
+from git import Repo
 from ruamel.yaml import YAML
 
 from pypanther import DataModel, DataModelMapping, LogType, Rule, RuleMock, RuleTest, Severity, panther_managed
@@ -31,6 +34,16 @@ def to_snake_case(name: str) -> str:
             res.append(c)
 
     return "".join(res)
+
+
+def to_id(class_name: str) -> str:
+    # split on capital letters: "FooBarBaz" -> ["", "Foo", "", "Bar", "", "Baz", ""]
+    splits = re.split(r"([A-Z][^A-Z]+)", class_name)
+    # filter out empty splits: ["", "Foo", "", "Bar", "", "Baz", ""] -> ["Foo", "Bar", "Baz"]
+    components = filter(len, splits)
+    # join components with dots: ["Foo", "Bar", "Baz"] -> "Foo.Bar.Baz"
+    id_ = ".".join(components)
+    return id_
 
 
 def convert_rule_attribute_name(name: str) -> str:
@@ -184,6 +197,7 @@ def convert_rule(filepath: Path, helpers: Set[str]) -> Optional[str]:
 
 
 def run_ruff(paths: List[Path]):
+    subprocess.run(["ruff", "check", "--fix", "--ignore", "E402"] + list(paths), check=True)
     subprocess.run(["ruff", "format"] + list(paths), check=True)
 
 
@@ -436,6 +450,155 @@ class Drop(ast.NodeTransformer):
 class DropGlobal(ast.NodeTransformer):
     def visit_Global(self, _: ast.Global) -> Optional[ast.AST]:
         return None
+
+
+class DropClassAttributes(ast.NodeTransformer):
+    """
+    This node transformer takes a list of attribute names and deletes all assignments to them.
+
+    A call like `DropClassAttributes(["A"]).visit(tree)` transforms this:
+    ```
+    class Foo:
+        A = 1
+        B = 2
+    ```
+    into this:
+    ```
+    class Foo:
+        B = 2
+    ```
+    """
+
+    def __init__(self, attribute_names: list[str]):
+        super().__init__()
+        self.attribute_names = attribute_names
+
+    def visit_Assign(self, node: ast.Assign) -> ast.AST | None:
+        if (
+            len(node.targets) == 1
+            and isinstance(node.targets[0], ast.Name)
+            and node.targets[0].id in self.attribute_names
+        ):
+            return None
+        return node
+
+
+class RewriteClassDefinition(ast.NodeTransformer):
+    """
+    This node transformer refactors a class definition by changing its name and base names with the ones provided.
+
+    A call like `RewriteClassDefinition("Bar", ["Baz"]).visit(tree)` transforms this:
+    ```
+    class Foo:
+        A = 1
+    ```
+    into this:
+    ```
+    class Bar(Baz):
+        A = 1
+    ```
+    """
+
+    def __init__(self, class_name: str, new_class_name: str, base_names: list[str]):
+        super().__init__()
+        self.class_name = class_name
+        self.new_class_name = new_class_name
+        self.base_names = base_names
+
+    def visit_ClassDef(self, node: ast.ClassDef) -> ast.AST | None:
+        if node.name != self.class_name:
+            return node
+
+        return ast.ClassDef(
+            name=self.new_class_name,
+            bases=[ast.Name(id=x) for x in self.base_names],
+            keywords=node.keywords,
+            decorator_list=node.decorator_list,
+            body=node.body,
+        )
+
+
+class AddClassAttributes(ast.NodeTransformer):
+    """
+    This node transformer refactors a class definition by adding new attributes that correspond to its arguments.
+
+    A call like `AddClassAttributes("Foo", {"bar": "baz", "foobar": 42}).visit(tree)` transforms this:
+    ```
+    class Foo:
+        A = 1
+    ```
+    into this:
+    ```
+    class Foo:
+        bar = "baz"
+        foobar = 42
+        A = 1
+    ```
+    """
+
+    def __init__(self, class_name: str, attributes: dict[str, str | int | float | bool]):
+        super().__init__()
+        self.class_name = class_name
+        self.attributes = attributes
+
+    def visit_ClassDef(self, node: ast.ClassDef) -> ast.AST | None:
+        if node.name != self.class_name:
+            return node
+
+        return ast.ClassDef(
+            name=self.class_name,
+            bases=node.bases,
+            keywords=node.keywords,
+            decorator_list=node.decorator_list,
+            body=[
+                *[
+                    ast.Assign(targets=[ast.Name(id=k)], value=ast.Constant(value=v))
+                    for k, v in self.attributes.items()
+                ],
+                *node.body,
+            ],
+        )
+
+
+class AddImportFrom(ast.NodeTransformer):
+    """
+    This node transformer refactors a module by adding an import from statement based on the arguments.
+
+    A call like `AddImportFrom("foo.bar", ["baz"]).visit(tree)` transforms this:
+    ```
+    import a
+    from b import c
+
+    class Foo:
+        A = 1
+    ```
+    into this:
+    ```
+    from foo.bar import baz
+    import a
+    from b import c
+
+    class Foo:
+        A = 1
+    ```
+    """
+
+    def __init__(self, from_module: str, names: list[str]):
+        super().__init__()
+        self.from_module = from_module
+        self.names = names
+
+    def visit_Module(self, node: ast.Module) -> ast.AST | None:
+        return ast.Module(
+            type_ignores=node.type_ignores,
+            body=[
+                ast.ImportFrom(
+                    module=self.from_module,
+                    names=[ast.alias(x) for x in self.names],
+                ),
+                *node.body,
+            ],
+        )
 
 
 def convert_global_helpers(panther_analysis: Path) -> Set[str]:
@@ -810,19 +973,287 @@ def strip_global_filters():
         p.unlink()
 
 
-def main():
-    if len(sys.argv) != 2:
-        perror("Usage: generate.py <panther_analysis>")
-        sys.exit(1)
+def ast_compare(node1, node2):
+    if type(node1) is not type(node2):
+        return False
 
-    panther_analysis = Path(sys.argv[1])
+    if isinstance(node1, list):
+        return len(node1) == len(node2) and all(ast_compare(n1, n2) for n1, n2 in zip(node1, node2))
+
+    if isinstance(node1, ast.AST):
+        for k, v in vars(node1).items():
+            if k in ("lineno", "col_offset"):
+                continue
+            if not ast_compare(v, getattr(node2, k)):
+                return False
+        return True
+
+    return node1 == node2
+
+
+def clone_panther_analysis_release(output_dir: Path) -> None:
+    if not output_dir.is_dir() or not output_dir.exists():
+        raise ValueError(f"{output_dir} is not a directory")
+
+    try:
+        # git clone --depth 1 --branch release --single-branch https://github.com/panther-labs/panther-analysis.git output_dir
+        _repo = Repo.clone_from(
+            url="https://github.com/panther-labs/panther-analysis.git",
+            to_path=output_dir,
+            branch="release",
+            depth=1,
+            no_single_branch=False,
+        )
+    except Exception as exc:
+        print(f"An error occurred while cloning the repository: {exc}")
+
+
+def diff_with_release(
+    panther_analysis: Path,
+) -> tuple[list[tuple[list[str], str, str]], list[tuple[list[str], str, str]]]:
+    yaml_diff = []
+    python_diff = []
+
+    release_rules = {}
+    with tempfile.TemporaryDirectory() as temp_dir:
+        output_dir = Path(temp_dir)
+        clone_panther_analysis_release(output_dir)
+
+        release_rules_path = output_dir / "rules"
+        for release_python_path in release_rules_path.glob("**/[A-Za-z]*.py"):
+            release_yaml_path = release_python_path.with_suffix(".yml")
+            with release_yaml_path.open(mode="rb") as fy, release_python_path.open(mode="rb") as fp:
+                release_yaml = YAML(typ="safe").load(fy)
+                release_python_code = ast.parse(fp.read())
+            release_rules[release_yaml["RuleID"]] = (release_yaml, release_python_code)
+
+    local_rules = {}
+    local_rules_path = panther_analysis / "rules"
+    for local_python_path in local_rules_path.glob("**/[A-Za-z]*.py"):
+        local_yaml_path = local_python_path.with_suffix(".yml")
+        with local_yaml_path.open(mode="rb") as fy, local_python_path.open(mode="rb") as fp:
+            local_yaml = YAML(typ="safe").load(fy)
+            local_python_code = ast.parse(fp.read())
+        local_rules[local_yaml["RuleID"]] = (local_yaml, local_python_code, local_python_path.parent.stem)
+
+    for id_, local_rule in local_rules.items():
+        yaml, python = [], False
+        release_rule = release_rules[id_]
+
+        # compare YAML
+        for k, v in local_rule[0].items():
+            if v != release_rule[0][k]:
+                yaml.append(k)
+
+        # compare Python
+        if not ast_compare(local_rule[1], release_rule[1]):
+            python = True
+
+        if python:
+            python_diff.append((yaml, local_rule[0]["Filename"], local_rule[2]))
+        elif yaml:
+            yaml_diff.append((yaml, local_rule[0]["Filename"], local_rule[2]))
+
+    return yaml_diff, python_diff
+
+
+class Overrides(TypedDict):
+    imports: list[ast.ImportFrom]
+    keywords: dict[str, list[ast.keyword]]
+
+
+def refactor_yaml_only_modified_rules(
+    rules_path: Path,
+    overrides_path: Path,
+    diff: list[tuple[list[str], str, str]],
+) -> None:
+    # yaml changed but python didn't, keep CHANGED class attributes in an override
+    overrides: dict[str, Overrides] = {}
+    for yaml_keys, filename, rules_dir in diff:
+        module = rules_dir.removesuffix("_rules")
+        rule_path = rules_path / module / filename
+
+        with rule_path.open(mode="rb") as fp:
+            code = ast.parse(fp.read())
+
+        # get class name
+        class_definition = [x for x in code.body if isinstance(x, ast.ClassDef)][0]
+
+        if module not in overrides:
+            overrides[module] = {"imports": [], "keywords": {}}
+
+        if "imports" not in overrides[module]:
+            overrides[module]["imports"] = []
+
+        overrides[module]["imports"].append(
+            ast.ImportFrom(module=f"pypanther.rules.{module}", names=[ast.alias(class_definition.name)]),
+        )
+
+        if "keywords" not in overrides[module]:
+            overrides[module]["keywords"] = {}
+
+        if class_definition.name not in overrides[module]["keywords"]:
+            overrides[module]["keywords"][class_definition.name] = []
+
+        for k in yaml_keys:
+            value = [
+                x
+                for x in class_definition.body
+                if (
+                    isinstance(x, ast.Assign)
+                    and len(x.targets) == 1
+                    and isinstance(x.targets[0], ast.Name)
+                    and x.targets[0].id == to_snake_case(k)
+                )
+            ][0].value
+            overrides[module]["keywords"][class_definition.name].append(ast.keyword(value=value, arg=to_snake_case(k)))
+
+    if not overrides:
+        return
+
+    overrides_path.mkdir(exist_ok=True)
+
+    for module, v in overrides.items():
+        imports = v["imports"]
+        keywords = v["keywords"]
+
+        overrides_module = ast.Module(
+            body=[
+                ast.ImportFrom(
+                    module="pypanther",
+                    names=[
+                        ast.alias("Rule"),
+                        ast.alias("RuleTest"),
+                        ast.alias("Severity"),
+                        ast.alias("LogType"),
+                        ast.alias("RuleMock"),
+                        ast.alias("panther_managed"),
+                    ],
+                ),
+                *imports,
+                ast.FunctionDef(
+                    name="apply_overrides",
+                    decorator_list=[],
+                    args=ast.arguments(
+                        posonlyargs=[],
+                        args=[],
+                        vararg=None,
+                        kwonlyargs=[],
+                        kw_defaults=[],
+                        kwarg=None,
+                        defaults=[],
+                    ),
+                    returns=None,
+                    body=[
+                        ast.Expr(
+                            value=ast.Call(
+                                func=ast.Attribute(value=ast.Name(id=cdef_name), attr="override"),
+                                keywords=[*keywords],
+                                args=[],
+                            ),
+                        )
+                        for cdef_name, keywords in keywords.items()
+                    ],
+                ),
+            ],
+            type_ignores=[],
+        )
+
+        with (overrides_path / Path(module).with_suffix(".py")).open(mode="w") as f:
+            f.write(ast.unparse(ast.fix_missing_locations(overrides_module)))
+
+
+def refactor_python_modified_rules(rules_path: Path, diff: list[tuple[list[str], str, str]]) -> list[Path]:
+    # at least python changed, will need to keep the file but delete the UNCHANGED class attributes
+    to_keep = []
+    for yaml_keys, filename, rules_dir in diff:
+        module = rules_dir.removesuffix("_rules")
+        rule_path = rules_path / module / filename
+
+        with rule_path.open(mode="rb") as fp:
+            code = ast.parse(fp.read())
+
+        # get class name
+        class_definition = [x for x in code.body if isinstance(x, ast.ClassDef)][0]
+        new_class_definition_name = class_definition.name + "Custom"
+        new_class_definition_id = to_id(new_class_definition_name)
+
+        attributes_to_drop = [
+            x.targets[0].id
+            for x in class_definition.body
+            if (
+                isinstance(x, ast.Assign)
+                and len(x.targets) == 1
+                and isinstance(x.targets[0], ast.Name)
+                and x.targets[0].id not in set(to_snake_case(y) for y in yaml_keys)
+            )
+        ]
+        code = DropClassAttributes(attributes_to_drop).visit(code)
+        code = RewriteClassDefinition(
+            class_definition.name,
+            new_class_definition_name,
+            [class_definition.name],
+        ).visit(code)
+        code = AddClassAttributes(new_class_definition_name, {"id": new_class_definition_id}).visit(code)
+        code = AddImportFrom(
+            "pypanther.rules." + module,
+            [class_definition.name],
+        ).visit(code)
+
+        with rule_path.open(mode="w") as fp:
+            fp.write(ast.unparse(ast.fix_missing_locations(code)))
+
+        to_keep.append(rule_path)
+
+    return to_keep
+
+
+def delete_rules(rules_path: Path, to_keep: list[Path]) -> None:
+    to_delete = [x for x in rules_path.glob("**/[A-Za-z]*.py") if x not in set(to_keep)]
+    for path in to_delete:
+        path.unlink()
+        if not any(path.parent.iterdir()):
+            path.parent.rmdir()
+
+    # delete empty directories or directories that contain only __init__.py files
+    for root, dirs, files in os.walk(str(rules_path), topdown=False):
+        if len(files) == 1 and files[0] == "__init__.py":
+            Path(os.path.join(root, files[0])).unlink()
+        for name in dirs:
+            directory = Path(os.path.join(root, name))
+            if not any(directory.iterdir()):
+                # directory is empty
+                directory.rmdir()
+
+
+def create_argument_parser() -> argparse.ArgumentParser:
+    parser = argparse.ArgumentParser()
+    parser.add_argument("panther_analysis_path", type=Path)
+    parser.add_argument("--keep-all-rules", default=False, action="store_true")
+    return parser
+
+
+def main():
+    parser = create_argument_parser()
+    args = parser.parse_args()
+
+    panther_analysis = args.panther_analysis_path
+    keep_only_modified_rules = not args.keep_all_rules
 
     helpers = convert_global_helpers(panther_analysis)
     convert_data_models(panther_analysis, helpers)
     convert_rules(panther_analysis, helpers)
     strip_global_filters()
-
     # convert_queries(Path(panther_analysis))
+
+    if keep_only_modified_rules:
+        rules_path = Path("./pypanther/rules/")
+        overrides_path = Path("./pypanther/overrides")
+        yaml_diff, python_diff = diff_with_release(panther_analysis)
+        refactor_yaml_only_modified_rules(rules_path, overrides_path, yaml_diff)
+        to_keep = refactor_python_modified_rules(rules_path, python_diff)
+        delete_rules(Path("./pypanther/rules/"), to_keep)
+
     run_ruff([Path(".")])  # noqa: PTH201
 
 
