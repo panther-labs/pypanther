@@ -394,7 +394,7 @@ def print_changes_summary(changes_summary: tuple[str, int, int, int]) -> None:
     total = changes_summary[3]
     print(message)
     print()  # new line
-    print(cli_output.header("Changes summary") + ":")
+    print(cli_output.header("Changes summary"))
     print(INDENT, f"Create: {to_create:>3}")
     print(INDENT, f"Delete:  {to_delete:>3}")
     print(INDENT, f"Total:   {total:>3}")
