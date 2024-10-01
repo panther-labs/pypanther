@@ -183,7 +183,7 @@ def dry_run_upload(backend: BackendClient, data: bytes, verbose, output_type) ->
             break
     upload_stats = status_response.data
     to_create, to_delete, total = upload_stats.rules.new, upload_stats.rules.deleted, upload_stats.rules.total
-    message = f"pypanther will add {to_create} new rules and delete {to_delete} rules (total {total} rules)"
+    message = f"Will add {to_create} new rules and delete {to_delete} rules (total {total} rules)"
     changes_summary = (message, to_create, to_delete, total)
     return changes_summary
 
@@ -365,14 +365,10 @@ def print_included_files(zip_info: list[zipfile.ZipInfo]) -> None:
 
 def print_upload_statistics(status_response: BackendResponse[AsyncBulkUploadStatusResponse]) -> None:
     print(cli_output.header("Upload Statistics"))
-    for category, stats in asdict(status_response.data).items():
-        print(INDENT, cli_output.bold(f"{str(category).title()}:"))
-        for k, stat in stats.items():
-            print(
-                INDENT * 2,
-                "{:<9} {}".format(str(k).title() + ":", stat),
-            )
-
+    print(INDENT, cli_output.bold("Rules:"))
+    print(INDENT * 2, "{:<9} {}".format("New:     ", status_response.data.rules.new))
+    print(INDENT * 2, "{:<9} {}".format("Deleted: ", status_response.data.rules.deleted))
+    print(INDENT * 2, "{:<9} {}".format("Total:   ", status_response.data.rules.total))
     print()  # new line
 
 
@@ -393,8 +389,8 @@ def print_changes_summary(changes_summary: tuple[str, int, int, int]) -> None:
     total = changes_summary[3]
     print(message)
     print()  # new line
-    print(cli_output.header("Changes summary"))
-    print(INDENT, f"Create:  {to_create:>3}")
+    print(cli_output.header("Changes Summary"))
+    print(INDENT, f"New:     {to_create:>3}")
     print(INDENT, f"Delete:  {to_delete:>3}")
     print(INDENT, f"Total:   {total:>3}")
     print()  # new line
