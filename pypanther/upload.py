@@ -52,7 +52,6 @@ def run(backend: BackendClient, args: argparse.Namespace) -> Tuple[int, str]:
             "WARNING: pypanther upload is under active development and not recommended for use"
             " without guidance from the Panther team. Would you like to proceed? [y/n]: ",
         )
-
         if err is not None:
             return 0, ""
 
@@ -101,8 +100,6 @@ def run(backend: BackendClient, args: argparse.Namespace) -> Tuple[int, str]:
         try:
             changes_summary = None
             if not args.skip_summary:
-                # if the user skips calculating the summary of the changes, "--dry-run"
-                # and "--skip-confirmation" have no effect, as there's no info to act upon
                 changes_summary = dry_run_upload(backend, Path(tmp.name).read_bytes(), args.verbose, args.output)
 
                 if args.output == display.OUTPUT_TYPE_JSON:
@@ -122,10 +119,12 @@ def run(backend: BackendClient, args: argparse.Namespace) -> Tuple[int, str]:
                 if args.dry_run:
                     return 0, ""
 
-                if not args.skip_confirmation:
-                    err = confirm("Would you like to make this change? [y/n]: ")
-                    if err is not None:
-                        return 0, ""
+            if not args.skip_summary and not args.confirm:
+                # if the user skips calculating the summary of the changes,
+                # "--confirm" has no effect, as there's no info to act upon
+                err = confirm("Would you like to make this change? [y/n]: ")
+                if err is not None:
+                    return 0, ""
 
             upload_stats = upload_zip(
                 backend,
@@ -395,7 +394,7 @@ def print_changes_summary(changes_summary: tuple[str, int, int, int]) -> None:
     print(message)
     print()  # new line
     print(cli_output.header("Changes summary"))
-    print(INDENT, f"Create: {to_create:>3}")
+    print(INDENT, f"Create:  {to_create:>3}")
     print(INDENT, f"Delete:  {to_delete:>3}")
     print(INDENT, f"Total:   {total:>3}")
     print()  # new line
