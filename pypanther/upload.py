@@ -116,8 +116,8 @@ def run(backend: BackendClient, args: argparse.Namespace) -> Tuple[int, str]:
                 else:
                     print_changes_summary(changes_summary)
 
-                if args.dry_run:
-                    return 0, ""
+            if args.dry_run:
+                return 0, ""
 
             if not args.skip_summary and not args.confirm:
                 # if the user skips calculating the summary of the changes,
