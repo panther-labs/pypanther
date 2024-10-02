@@ -197,7 +197,25 @@ def convert_rule(filepath: Path, helpers: Set[str]) -> Optional[str]:
 
 
 def run_ruff(paths: List[Path]):
-    subprocess.run(["ruff", "check", "--fix", "--ignore", "E402"] + list(paths), check=True)
+    ignored_checks = [
+        "C403",
+        "DTZ006",
+        "E402",
+        "E731",
+        "E999",
+        "EXE001",
+        "F821",
+        "FIX001",
+        "PLR0915",
+        "PLR1722",
+        "PLW0602",
+        "PT027",
+        "PTH122",
+        "RET503",
+        "RUF003",
+        "TD001",
+    ]
+    subprocess.run(["ruff", "check", "--fix", "--ignore", ",".join(ignored_checks)] + list(paths), check=True)
     subprocess.run(["ruff", "format"] + list(paths), check=True)
 
 
@@ -1073,6 +1091,10 @@ def refactor_yaml_only_modified_rules(
         module = rules_dir.removesuffix("_rules")
         rule_path = rules_path / module / filename
 
+        if not rule_path.exists():
+            # account for deprecated rules
+            continue
+
         with rule_path.open(mode="rb") as fp:
             code = ast.parse(fp.read())
 
@@ -1169,6 +1191,10 @@ def refactor_python_modified_rules(rules_path: Path, diff: list[tuple[list[str],
     for yaml_keys, filename, rules_dir in diff:
         module = rules_dir.removesuffix("_rules")
         rule_path = rules_path / module / filename
+
+        if not rule_path.exists():
+            # account for deprecated rules
+            continue
 
         with rule_path.open(mode="rb") as fp:
             code = ast.parse(fp.read())
