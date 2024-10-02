@@ -22,6 +22,7 @@ class StandardImpossibleTravelLogin(Rule):
     default_runbook = "Reach out to the user if needed to validate the activity, then lock the account.\nIf the user responds that the geolocation on the new location is incorrect, you can directly report the inaccuracy via  https://ipinfo.io/corrections\n"
     default_reference = "https://expertinsights.com/insights/what-are-impossible-travel-logins/#:~:text=An%20impossible%20travel%20login%20is,of%20the%20logins%20is%20fraudulent"
     summary_attributes = ["p_any_usernames", "p_any_ip_addresses", "p_any_domain_names"]
+    SATELLITE_NETWORK_ASNS = ["AS22351"]
 
     def gen_key(self, event):
         """
@@ -38,11 +39,12 @@ class StandardImpossibleTravelLogin(Rule):
 
     def rule(self, event):
         # too-many-return-statements due to error checking
-        # pylint: disable=global-statement,too-many-return-statements,too-complex
+        # pylint: disable=global-statement,too-many-return-statements,too-complex,too-many-statements
         self.EVENT_CITY_TRACKING = {}
         self.CACHE_KEY = ""
         self.IS_VPN = False
         self.IS_PRIVATE_RELAY = False
+        self.IS_SATELLITE_NETWORK = False
         # Only evaluate successful logins
         if event.udm("event_type") != event_type.SUCCESSFUL_LOGIN:
             return False
@@ -82,11 +84,17 @@ class StandardImpossibleTravelLogin(Rule):
             self.IS_VPN = all(
                 [deep_get(ipinfo_privacy, "vpn", default=False), deep_get(ipinfo_privacy, "service", default="") != ""],
             )
-        if self.IS_VPN or self.IS_PRIVATE_RELAY:
+        # Some satellite networks used during plane travel don't always
+        #   register properly as VPN's, so we have a separate check here.
+        self.IS_SATELLITE_NETWORK = (
+            deep_get(src_ip_enrichments, "ipinfo_asn", "asn", default="") in self.SATELLITE_NETWORK_ASNS
+        )
+        if any((self.IS_VPN, self.IS_PRIVATE_RELAY, self.IS_SATELLITE_NETWORK)):
             new_login_stats.update(
                 {
                     "is_vpn": f"{self.IS_VPN}",
                     "is_apple_priv_relay": f"{self.IS_PRIVATE_RELAY}",
+                    "is_satellite_network": f"{self.IS_SATELLITE_NETWORK}",
                     "service_name": f"{deep_get(ipinfo_privacy, 'service', default='<NO_SERVICE>')}",
                     "NOTE": "APPLE PRIVATE RELAY AND VPN LOGINS ARE NOT CACHED FOR COMPARISON",
                 },
@@ -101,7 +109,7 @@ class StandardImpossibleTravelLogin(Rule):
         # If we haven't seen this user login in the past 1 day,
         # store this login for future use and don't alert
         if not last_login:
-            if not (self.IS_PRIVATE_RELAY or self.IS_VPN):
+            if not any((self.IS_VPN, self.IS_PRIVATE_RELAY, self.IS_SATELLITE_NETWORK)):
                 put_string_set(
                     key=self.CACHE_KEY,
                     val=[dumps(new_login_stats)],
@@ -158,7 +166,7 @@ class StandardImpossibleTravelLogin(Rule):
         return context
 
     def severity(self, _):
-        if self.IS_VPN or self.IS_PRIVATE_RELAY:
+        if any((self.IS_VPN, self.IS_PRIVATE_RELAY, self.IS_SATELLITE_NETWORK)):
             return "INFO"
         # time = distance/speed
         distance = deep_get(self.EVENT_CITY_TRACKING, "distance", default=None)
@@ -796,6 +804,89 @@ class StandardImpossibleTravelLogin(Rule):
                             "proxy": False,
                             "relay": True,
                             "service": "Apple Private Relay",
+                            "tor": False,
+                            "vpn": False,
+                        },
+                    },
+                },
+                "p_log_type": "Okta.SystemLog",
+                "p_source_label": "Okta Logs",
+                "p_parse_time": "2023-05-26 20:22:51.888",
+                "published": "2023-05-26 20:18:51.888",
+                "request": {"ipChain": []},
+                "securityContext": {},
+                "severity": "INFO",
+                "target": [],
+                "transaction": {},
+                "uuid": "79999999-ffff-eeee-bbbb-222222222222",
+                "version": "0",
+            },
+        ),
+        RuleTest(
+            name="Okta sign-in with history and impossible travel, no VPN, Intelsat ASN",
+            expected_result=True,
+            mocks=[
+                RuleMock(object_name="put_string_set", return_value=""),
+                RuleMock(
+                    object_name="get_string_set",
+                    return_value='[\n {\n  "p_event_time": "2023-05-26 18:14:51",\n  "city": "Los Angeles",\n  "country": "US",\n  "lat": "4.05223",\n  "lng": "-118.24368",\n  "postal_code": "90009",\n  "region": "California",\n  "region_code": "CA",\n  "timezone": "America/Los_Angeles"\n }\n]',
+                ),
+            ],
+            log={
+                "actor": {
+                    "alternateId": "homer.simpson@company.com",
+                    "displayName": "Homer Simpson",
+                    "id": "00uwuwuwuwuwuwuwuwuw",
+                    "type": "User",
+                },
+                "authenticationContext": {"authenticationStep": 0, "externalSessionId": "idx1234"},
+                "client": {
+                    "device": "Computer",
+                    "ipAddress": "164.86.38.26",
+                    "userAgent": {
+                        "browser": "CHROME",
+                        "os": "Mac OS X",
+                        "rawUserAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Safari/537.36",
+                    },
+                    "zone": "null",
+                },
+                "debugContext": {"debugData": {}},
+                "device": {},
+                "displayMessage": "User login to Okta",
+                "eventType": "user.session.start",
+                "legacyEventType": "core.user_auth.login_success",
+                "outcome": {"result": "SUCCESS"},
+                "p_event_time": "2023-05-26 20:18:51",
+                "p_enrichment": {
+                    "ipinfo_asn": {
+                        "client.ipAddress": {
+                            "asn": "AS22351",
+                            "domain": "intelsat.com",
+                            "name": "INTELSAT GLOBAL SERVICE CORPORATION",
+                            "p_match": "164.86.38.26",
+                            "route": "164.86.38.0/23",
+                            "type": "isp",
+                        },
+                    },
+                    "ipinfo_location": {
+                        "client.ipAddress": {
+                            "city": "Tysons Corner",
+                            "country": "US",
+                            "lat": "38.953",
+                            "lng": "-77.2295",
+                            "p_match": "164.86.38.26",
+                            "postal_code": "22102",
+                            "region": "Virginia",
+                            "region_code": "VA",
+                            "timezone": "America/America/New_York",
+                        },
+                    },
+                    "ipinfo_privacy": {
+                        "client.ipAddress": {
+                            "hosting": False,
+                            "proxy": False,
+                            "relay": False,
+                            "service": "",
                             "tor": False,
                             "vpn": False,
                         },

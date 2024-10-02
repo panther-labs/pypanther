@@ -7,7 +7,15 @@ from pypanther.helpers.base import deep_get
 
 def auth0_alert_context(event) -> dict:
     a_c = {}
-    a_c["actor"] = deep_get(event, "data", "details", "request", "auth", "user", default="<NO_ACTOR_FOUND>")
+    a_c["actor"] = deep_get(
+        event,
+        "data",
+        "details",
+        "request",
+        "auth",
+        "user",
+        default="<NO_ACTOR_FOUND>",
+    )
     a_c["action"] = deep_get(event, "data", "description", default="<NO_ACTION_FOUND>")
     return a_c
 

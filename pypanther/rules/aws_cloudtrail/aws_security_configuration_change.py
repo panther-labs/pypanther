@@ -1,6 +1,8 @@
+import json
 from fnmatch import fnmatch
+from unittest.mock import MagicMock
 
-from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity, panther_managed
 from pypanther.helpers.base import aws_rule_context, deep_get
 from pypanther.helpers.default import aws_cloudtrail_success
 
@@ -32,9 +34,12 @@ class AWSCloudTrailSecurityConfigurationChange(Rule):
         "StopLogging",
     }
     # Add expected events and users here to suppress alerts
-    ALLOW_LIST = [{"userName": "ExampleUser", "eventName": "ExampleEvent"}]
+    # {"userName": "ExampleUser", "eventName": "DeleteRule"},
+    ALLOW_LIST = []
 
     def rule(self, event):
+        if isinstance(self.ALLOW_LIST, MagicMock):
+            self.ALLOW_LIST = json.loads(self.ALLOW_LIST())  # pylint: disable=not-callable
         if not aws_cloudtrail_success(event):
             return False
         for entry in self.ALLOW_LIST:
@@ -222,10 +227,16 @@ class AWSCloudTrailSecurityConfigurationChange(Rule):
         RuleTest(
             name="Security Configuration Changed - Allowlisted User",
             expected_result=False,
+            mocks=[
+                RuleMock(
+                    object_name="ALLOW_LIST",
+                    return_value='[{"userName": "ExampleUser", "eventName": "DeleteRule"}]',
+                ),
+            ],
             log={
                 "awsRegion": "us-west-2",
                 "eventID": "1111",
-                "eventName": "ExampleEvent",
+                "eventName": "DeleteRule",
                 "eventSource": "cloudtrail.amazonaws.com",
                 "eventTime": "2019-01-01T00:00:00Z",
                 "eventType": "AwsApiCall",
