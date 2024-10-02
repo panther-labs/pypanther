@@ -32,7 +32,13 @@ class AWSCloudTrailLoginProfileCreatedOrModified(Rule):
         return f"[{deep_get(event, 'userIdentity', 'arn')}] changed the password for [{deep_get(event, 'requestParameters', 'userName')}]"
 
     def alert_context(self, event):
-        return aws_rule_context(event)
+        context = aws_rule_context(event)
+        context["ip_and_username"] = event.get("sourceIPAddress", "<MISSING_SOURCE_IP>") + event.deep_get(
+            "requestParameters",
+            "userName",
+            default="<MISSING_USER_NAME>",
+        )
+        return context
 
     tests = [
         RuleTest(

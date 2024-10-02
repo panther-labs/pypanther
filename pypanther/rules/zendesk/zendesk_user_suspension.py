@@ -33,7 +33,7 @@ class ZendeskUserSuspension(Rule):
     def severity(self, event):
         if event.get(ZENDESK_CHANGE_DESCRIPTION, "").lower() == "suspended":
             return "INFO"
-        return "HIGH"
+        return "DEFAULT"
 
     tests = [
         RuleTest(
