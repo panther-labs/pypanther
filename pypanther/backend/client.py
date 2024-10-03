@@ -117,6 +117,9 @@ class BulkUploadStatistics:
     total: int
     modified: int
     deleted: int
+    new_ids: list[str] | None
+    total_ids: list[str] | None
+    deleted_ids: list[str] | None
 
 
 @dataclass(frozen=True)
@@ -607,21 +610,37 @@ def backend_response_failed(resp: BackendResponse) -> bool:
 
 
 def to_bulk_upload_statistics(data: Any) -> BackendResponse[AsyncBulkUploadStatusResponse]:
-    default_stats = {"total": 0, "new": 0, "modified": 0, "deleted": 0}
+    rules = data.get("rules", {})
     return BackendResponse(
         status_code=200,
         data=AsyncBulkUploadStatusResponse(
-            rules=BulkUploadStatistics(**data.get("rules", default_stats)),
+            rules=BulkUploadStatistics(
+                new=rules.get("new", 0),
+                total=rules.get("total", 0),
+                modified=rules.get("modified", 0),
+                deleted=rules.get("deleted", 0),
+                new_ids=rules.get("newIds", None),
+                total_ids=rules.get("totalIds", None),
+                deleted_ids=rules.get("deletedIds", None),
+            ),
         ),
     )
 
 
 def to_bulk_upload_response(data: Any) -> BackendResponse[BulkUploadResponse]:
-    default_stats = {"total": 0, "new": 0, "modified": 0, "deleted": 0}
+    rules = data.get("rules", {})
     return BackendResponse(
         status_code=200,
         data=BulkUploadResponse(
-            rules=BulkUploadStatistics(**data.get("rules", default_stats)),
+            rules=BulkUploadStatistics(
+                new=rules.get("new", 0),
+                total=rules.get("total", 0),
+                modified=rules.get("modified", 0),
+                deleted=rules.get("deleted", 0),
+                new_ids=rules.get("newIds", None),
+                total_ids=rules.get("totalIds", None),
+                deleted_ids=rules.get("deletedIds", None),
+            ),
         ),
     )
 

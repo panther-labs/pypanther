@@ -8,7 +8,7 @@ import zipfile
 from dataclasses import asdict
 from fnmatch import fnmatch
 from pathlib import Path
-from typing import Any, Optional, Tuple
+from typing import Any, Optional, Tuple, TypedDict
 
 from pypanther import cli_output, display, testing
 from pypanther.backend.client import (
@@ -44,6 +44,16 @@ UPLOAD_RESULT_TESTS_FAILED = "TESTS_FAILED"
 # The graphql client requires it to be a limit of 4MB (not an exact number).
 UPLOAD_SIZE_LIMIT_MB = 4
 UPLOAD_SIZE_LIMIT_BYTES = UPLOAD_SIZE_LIMIT_MB * 1024 * 1024
+
+
+class ChangesSummary(TypedDict):
+    message: str
+    new: int
+    delete: int
+    total: int
+    new_ids: list[str] | None
+    delete_ids: list[str] | None
+    total_ids: list[str] | None
 
 
 def run(backend: BackendClient, args: argparse.Namespace) -> Tuple[int, str]:
@@ -165,7 +175,7 @@ def run(backend: BackendClient, args: argparse.Namespace) -> Tuple[int, str]:
     return 0, ""
 
 
-def dry_run_upload(backend: BackendClient, data: bytes, verbose, output_type) -> tuple[str, int, int, int]:
+def dry_run_upload(backend: BackendClient, data: bytes, verbose, output_type) -> ChangesSummary:
     if verbose and output_type == display.OUTPUT_TYPE_TEXT:
         print(cli_output.header("Calculating changes"))
     elif output_type == display.OUTPUT_TYPE_TEXT:
@@ -182,9 +192,15 @@ def dry_run_upload(backend: BackendClient, data: bytes, verbose, output_type) ->
         if status_response:
             break
     upload_stats = status_response.data
-    to_create, to_delete, total = upload_stats.rules.new, upload_stats.rules.deleted, upload_stats.rules.total
-    message = f"Will add {to_create} new rules and delete {to_delete} rules (total {total} rules)"
-    changes_summary = (message, to_create, to_delete, total)
+    changes_summary = ChangesSummary(
+        message=f"Will add {upload_stats.rules.new} new rules and delete {upload_stats.rules.deleted} rules (total {upload_stats.rules.total} rules)",
+        new=upload_stats.rules.new,
+        delete=upload_stats.rules.deleted,
+        total=upload_stats.rules.total,
+        new_ids=upload_stats.rules.new_ids,
+        delete_ids=upload_stats.rules.deleted_ids,
+        total_ids=upload_stats.rules.total_ids,
+    )
     return changes_summary
 
 
@@ -305,7 +321,7 @@ def get_upload_output_as_dict(
     verbose: bool,
     skip_tests: bool,
     upload_result: str,
-    changes_summary: Tuple[str, int, int, int] | None,
+    changes_summary: ChangesSummary | None,
 ) -> dict:
     output: dict[str, Any] = {"result": upload_result}
     if upload_stats is not None:
@@ -318,10 +334,10 @@ def get_upload_output_as_dict(
             output["included_files"] = [info.filename for info in zip_infos]
     if changes_summary:
         output["summary"] = {
-            "message": changes_summary[0],
-            "create": changes_summary[1],
-            "delete": changes_summary[2],
-            "total": changes_summary[3],
+            "message": changes_summary["message"],
+            "new": changes_summary["new"],
+            "delete": changes_summary["delete"],
+            "total": changes_summary["total"],
         }
 
     return output
@@ -383,15 +399,21 @@ def print_backend_issues(err: BulkUploadMultipartError) -> None:
             print(INDENT, f"  Path:  {cli_output.failed(issue.path)}")
 
 
-def print_changes_summary(changes_summary: tuple[str, int, int, int]) -> None:
-    message = changes_summary[0]
-    to_create = changes_summary[1]
-    to_delete = changes_summary[2]
-    total = changes_summary[3]
-    print(message)
+def print_changes_summary(changes_summary: ChangesSummary) -> None:
+    print(changes_summary["message"])
+    print()  # new line
+    if changes_summary["new_ids"]:
+        print(f"New [{changes_summary['new']}]:")
+        for id_ in changes_summary["new_ids"]:
+            print(f"+ {id_}")
+    print()  # new line
+    if changes_summary["delete_ids"]:
+        print(f"Delete [{changes_summary['delete']}]:")
+        for id_ in changes_summary["delete_ids"]:
+            print(f"- {id_}")
     print()  # new line
     print(cli_output.header("Changes Summary"))
-    print(INDENT, f"New:     {to_create:>3}")
-    print(INDENT, f"Delete:  {to_delete:>3}")
-    print(INDENT, f"Total:   {total:>3}")
+    print(INDENT, f"New:     {changes_summary['new']:>3}")
+    print(INDENT, f"Delete:  {changes_summary['delete']:>3}")
+    print(INDENT, f"Total:   {changes_summary['total']:>3}")
     print()  # new line
