@@ -366,9 +366,10 @@ def print_included_files(zip_info: list[zipfile.ZipInfo]) -> None:
 def print_upload_statistics(status_response: BackendResponse[AsyncBulkUploadStatusResponse]) -> None:
     print(cli_output.header("Upload Statistics"))
     print(INDENT, cli_output.bold("Rules:"))
-    print(INDENT * 2, "{:<9} {}".format("New:     ", status_response.data.rules.new))
-    print(INDENT * 2, "{:<9} {}".format("Deleted: ", status_response.data.rules.deleted))
-    print(INDENT * 2, "{:<9} {}".format("Total:   ", status_response.data.rules.total))
+    print(INDENT * 2, "{:<9} {}".format("New:      ", status_response.data.rules.new))
+    print(INDENT * 2, "{:<9} {}".format("Modified: ", status_response.data.rules.modified))
+    print(INDENT * 2, "{:<9} {}".format("Deleted:  ", status_response.data.rules.deleted))
+    print(INDENT * 2, "{:<9} {}".format("Total:    ", status_response.data.rules.total))
     print()  # new line
 
 
