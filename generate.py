@@ -1125,10 +1125,12 @@ def refactor_yaml_only_modified_rules(
                     isinstance(x, ast.Assign)
                     and len(x.targets) == 1
                     and isinstance(x.targets[0], ast.Name)
-                    and x.targets[0].id == to_snake_case(k)
+                    and x.targets[0].id == convert_rule_attribute_name(k)
                 )
             ][0].value
-            overrides[module]["keywords"][class_definition.name].append(ast.keyword(value=value, arg=to_snake_case(k)))
+            overrides[module]["keywords"][class_definition.name].append(
+                ast.keyword(value=value, arg=convert_rule_attribute_name(k)),
+            )
 
     if not overrides:
         return
@@ -1211,7 +1213,7 @@ def refactor_python_modified_rules(rules_path: Path, diff: list[tuple[list[str],
                 isinstance(x, ast.Assign)
                 and len(x.targets) == 1
                 and isinstance(x.targets[0], ast.Name)
-                and x.targets[0].id not in set(to_snake_case(y) for y in yaml_keys)
+                and x.targets[0].id not in set(convert_rule_attribute_name(y) for y in yaml_keys)
             )
         ]
         code = DropClassAttributes(attributes_to_drop).visit(code)
