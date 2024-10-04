@@ -216,7 +216,7 @@ def run_ruff(paths: List[Path]):
         "TD001",
     ]
     subprocess.run(["ruff", "check", "--fix", "--ignore", ",".join(ignored_checks)] + list(paths), check=True)
-    subprocess.run(["ruff", "format"] + list(paths), check=True)
+    subprocess.run(["ruff", "format", "--silent"] + list(paths), check=True)
 
 
 def to_ascii(s):
