@@ -1300,7 +1300,7 @@ def convert(args: argparse.Namespace) -> tuple[int, str]:
     keep_only_modified_rules = not args.keep_all_rules
 
     if hasattr(args, "cwd_must_be_empty") and args.cwd_must_be_empty and any(Path("./").iterdir()):
-        return 1, "cwd must be empty"
+        return 1, "current working directory must be empty"
 
     try:
         helpers = convert_global_helpers(panther_analysis)
