@@ -250,19 +250,19 @@ def print_rule_test_results(verbose: bool, rule_id: str, results: list[RuleTestR
         if result.passed and verbose:
             print(INDENT, cli_output.success("PASS") + ":", result.test.name)
             if result.test.expected_severity:
-                print(INDENT * 2, "-", f"Expected severity: {result.test.expected_severity}")
+                print(INDENT * 2, "-", f"Severity: {result.test.expected_severity}")
             if result.test.expected_title:
-                print(INDENT * 2, "-", f"Expected title: {result.test.expected_title}")
+                print(INDENT * 2, "-", f"Title: {result.test.expected_title}")
             if result.test.expected_dedup:
-                print(INDENT * 2, "-", f"Expected dedup: {result.test.expected_dedup}")
+                print(INDENT * 2, "-", f"Dedup: {result.test.expected_dedup}")
             if result.test.expected_runbook:
-                print(INDENT * 2, "-", f"Expected runbook: {result.test.expected_runbook}")
+                print(INDENT * 2, "-", f"Runbook: {result.test.expected_runbook}")
             if result.test.expected_reference:
-                print(INDENT * 2, "-", f"Expected reference: {result.test.expected_reference}")
+                print(INDENT * 2, "-", f"Reference: {result.test.expected_reference}")
             if result.test.expected_description:
-                print(INDENT * 2, "-", f"Expected description: {result.test.expected_description}")
+                print(INDENT * 2, "-", f"Description: {result.test.expected_description}")
             if result.test.expected_alert_context:
-                print(INDENT * 2, "-", f"Expected alert context: {result.test.expected_alert_context}")
+                print(INDENT * 2, "-", f"Alert context: {result.test.expected_alert_context}")
 
 
         elif not result.passed:
