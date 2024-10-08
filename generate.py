@@ -491,14 +491,24 @@ class DropClassAttributes(ast.NodeTransformer):
         super().__init__()
         self.attribute_names = attribute_names
 
-    def visit_Assign(self, node: ast.Assign) -> ast.AST | None:
-        if (
-            len(node.targets) == 1
-            and isinstance(node.targets[0], ast.Name)
-            and node.targets[0].id in self.attribute_names
-        ):
-            return None
-        return node
+    def visit_ClassDef(self, node: ast.ClassDef) -> ast.AST | None:
+        new_body = [
+            x
+            for x in node.body
+            if not (
+                isinstance(x, ast.Assign)
+                and len(x.targets) == 1
+                and isinstance(x.targets[0], ast.Name)
+                and x.targets[0].id in self.attribute_names
+            )
+        ]
+        return ast.ClassDef(
+            name=node.name,
+            bases=[ast.Name(id=x) for x in node.bases],
+            keywords=node.keywords,
+            decorator_list=node.decorator_list,
+            body=new_body,
+        )
 
 
 class RewriteClassDefinition(ast.NodeTransformer):
@@ -1028,10 +1038,10 @@ def clone_panther_analysis_release(output_dir: Path) -> None:
 
 def diff_with_release(
     panther_analysis: Path,
-) -> tuple[list[tuple[list[str], str, str]], list[tuple[list[str], str, str]], list[tuple[str, str]]]:
+) -> tuple[list[tuple[list[str], str, str]], list[tuple[list[str], str, str]], list[str]]:
     yaml_diff = []
     python_diff = []
-    identical = []
+    to_delete = []
 
     release_rules = {}
     with tempfile.TemporaryDirectory() as temp_dir:
@@ -1063,23 +1073,31 @@ def diff_with_release(
 
         release_rule = release_rules[id_]
 
+        local_yaml, local_python_code, local_parent_dir = local_rule
+        release_yaml, release_python_code = release_rule
+
         # compare YAML
-        for k, v in local_rule[0].items():
-            if v != release_rule[0][k]:
+        for k, v in local_yaml.items():
+            if v != release_yaml[k]:
                 yaml.append(k)
 
         # compare Python
-        if not ast_compare(local_rule[1], release_rule[1]):
+        if not ast_compare(local_python_code, release_python_code):
             python = True
 
         if python:
-            python_diff.append((yaml, local_rule[0]["Filename"], local_rule[2]))
+            python_diff.append((yaml, local_yaml["Filename"], local_parent_dir))
         elif yaml:
-            yaml_diff.append((yaml, local_rule[0]["Filename"], local_rule[2]))
-        else:
-            identical.append((local_rule[0]["Filename"], local_rule[2]))
+            yaml_diff.append((yaml, local_yaml["Filename"], local_parent_dir))
 
-    return yaml_diff, python_diff, identical
+        if not python:
+            # we only want to keep those for which we detected changes in python code
+            # files for which we detected only yaml changes must be deleted as we create
+            # overrides for them
+            # files for which we haven't detected any changes at all must be deleted anyway
+            to_delete.append(local_yaml["Filename"])
+
+    return yaml_diff, python_diff, to_delete
 
 
 class Overrides(TypedDict):
@@ -1238,8 +1256,13 @@ def refactor_python_modified_rules(rules_path: Path, diff: list[tuple[list[str],
             fp.write(ast.unparse(ast.fix_missing_locations(code)))
 
 
-def delete_rules(rules_path: Path, to_delete: list[tuple[str, str]]) -> None:
-    for filename, _ in to_delete:
+def delete_rules(rules_path: Path, to_delete: list[str]) -> None:
+    for filename in to_delete:
+        if filename.startswith("sublime_rules_deleted_or_deactivated"):
+            # for this case, when converting to pypanther we have decided to turn
+            # sublime_rules_deleted_or_deactivated.py to sublime_deleted_or_deactivated.py
+            filename = filename.replace("_rules", "")
+
         possible_paths = list(rules_path.rglob(f"**/{filename}"))
 
         if len(possible_paths) > 1:
@@ -1272,28 +1295,42 @@ def create_argument_parser() -> argparse.ArgumentParser:
     return parser
 
 
+def convert(args: argparse.Namespace) -> tuple[int, str]:
+    panther_analysis = args.panther_analysis_path
+    keep_only_modified_rules = not args.keep_all_rules
+
+    if hasattr(args, "cwd_must_be_empty") and args.cwd_must_be_empty and any(Path("./").iterdir()):
+        return 1, "cwd must be empty"
+
+    try:
+        helpers = convert_global_helpers(panther_analysis)
+        convert_data_models(panther_analysis, helpers)
+        convert_rules(panther_analysis, helpers)
+        strip_global_filters()
+        # convert_queries(Path(panther_analysis))
+
+        if keep_only_modified_rules:
+            rules_path = Path("./pypanther/rules/")
+            overrides_path = Path("./pypanther/overrides")
+            yaml_diff, python_diff, to_delete = diff_with_release(panther_analysis)
+            refactor_yaml_only_modified_rules(rules_path, overrides_path, yaml_diff)
+            refactor_python_modified_rules(rules_path, python_diff)
+            delete_rules(Path("./pypanther/rules/"), to_delete)
+
+        run_ruff([Path(".")])  # noqa: PTH201
+    except Exception as exc:
+        if hasattr(args, "verbose") and args.verbose:
+            print(exc)
+        return 1, "conversion failed"
+
+    return 0, ""
+
+
 def main():
     parser = create_argument_parser()
     args = parser.parse_args()
 
-    panther_analysis = args.panther_analysis_path
-    keep_only_modified_rules = not args.keep_all_rules
-
-    helpers = convert_global_helpers(panther_analysis)
-    convert_data_models(panther_analysis, helpers)
-    convert_rules(panther_analysis, helpers)
-    strip_global_filters()
-    # convert_queries(Path(panther_analysis))
-
-    if keep_only_modified_rules:
-        rules_path = Path("./pypanther/rules/")
-        overrides_path = Path("./pypanther/overrides")
-        yaml_diff, python_diff, identical = diff_with_release(panther_analysis)
-        refactor_yaml_only_modified_rules(rules_path, overrides_path, yaml_diff)
-        refactor_python_modified_rules(rules_path, python_diff)
-        delete_rules(Path("./pypanther/rules/"), identical)
-
-    run_ruff([Path(".")])  # noqa: PTH201
+    _, _ = convert(args)
 
 
 if __name__ == "__main__":
