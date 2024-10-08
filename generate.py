@@ -1028,9 +1028,10 @@ def clone_panther_analysis_release(output_dir: Path) -> None:
 
 def diff_with_release(
     panther_analysis: Path,
-) -> tuple[list[tuple[list[str], str, str]], list[tuple[list[str], str, str]]]:
+) -> tuple[list[tuple[list[str], str, str]], list[tuple[list[str], str, str]], list[tuple[str, str]]]:
     yaml_diff = []
     python_diff = []
+    identical = []
 
     release_rules = {}
     with tempfile.TemporaryDirectory() as temp_dir:
@@ -1056,6 +1057,10 @@ def diff_with_release(
 
     for id_, local_rule in local_rules.items():
         yaml, python = [], False
+
+        if id_ not in release_rules:
+            continue
+
         release_rule = release_rules[id_]
 
         # compare YAML
@@ -1071,8 +1076,10 @@ def diff_with_release(
             python_diff.append((yaml, local_rule[0]["Filename"], local_rule[2]))
         elif yaml:
             yaml_diff.append((yaml, local_rule[0]["Filename"], local_rule[2]))
+        else:
+            identical.append((local_rule[0]["Filename"], local_rule[2]))
 
-    return yaml_diff, python_diff
+    return yaml_diff, python_diff, identical
 
 
 class Overrides(TypedDict):
@@ -1187,9 +1194,8 @@ def refactor_yaml_only_modified_rules(
             f.write(ast.unparse(ast.fix_missing_locations(overrides_module)))
 
 
-def refactor_python_modified_rules(rules_path: Path, diff: list[tuple[list[str], str, str]]) -> list[Path]:
+def refactor_python_modified_rules(rules_path: Path, diff: list[tuple[list[str], str, str]]) -> None:
     # at least python changed, will need to keep the file but delete the UNCHANGED class attributes
-    to_keep = []
     for yaml_keys, filename, rules_dir in diff:
         module = rules_dir.removesuffix("_rules")
         rule_path = rules_path / module / filename
@@ -1231,14 +1237,19 @@ def refactor_python_modified_rules(rules_path: Path, diff: list[tuple[list[str],
         with rule_path.open(mode="w") as fp:
             fp.write(ast.unparse(ast.fix_missing_locations(code)))
 
-        to_keep.append(rule_path)
 
-    return to_keep
+def delete_rules(rules_path: Path, to_delete: list[tuple[str, str]]) -> None:
+    for filename, _ in to_delete:
+        possible_paths = list(rules_path.rglob(f"**/{filename}"))
 
+        if len(possible_paths) > 1:
+            raise Exception(f"multiple paths for {filename}")
 
-def delete_rules(rules_path: Path, to_keep: list[Path]) -> None:
-    to_delete = [x for x in rules_path.glob("**/[A-Za-z]*.py") if x not in set(to_keep)]
-    for path in to_delete:
+        if len(possible_paths) == 0:
+            # possibly deprecated rule
+            continue
+
+        path = possible_paths[0]
         path.unlink()
         if not any(path.parent.iterdir()):
             path.parent.rmdir()
@@ -1277,10 +1288,10 @@ def main():
     if keep_only_modified_rules:
         rules_path = Path("./pypanther/rules/")
         overrides_path = Path("./pypanther/overrides")
-        yaml_diff, python_diff = diff_with_release(panther_analysis)
+        yaml_diff, python_diff, identical = diff_with_release(panther_analysis)
         refactor_yaml_only_modified_rules(rules_path, overrides_path, yaml_diff)
-        to_keep = refactor_python_modified_rules(rules_path, python_diff)
-        delete_rules(Path("./pypanther/rules/"), to_keep)
+        refactor_python_modified_rules(rules_path, python_diff)
+        delete_rules(Path("./pypanther/rules/"), identical)
 
     run_ruff([Path(".")])  # noqa: PTH201
 
