@@ -292,7 +292,7 @@ class LogType(str, Enum):
     ZENDESK_AUDIT = "Zendesk.Audit"
     ZOOM_ACTIVITY = "Zoom.Activity"
     ZOOM_OPERATION = "Zoom.Operation"
-    ZSCALER_ZIA_AUDIT_LOG = "Zscaler.ZIA.AdminAuditLog"
+    ZSCALER_ZIA_ADMIN_AUDIT_LOG = "Zscaler.ZIA.AdminAuditLog"
     ZSCALAR_ZPA_APP_CONNECTOR_METRICS = "Zscalar.ZPA.AppConnectorMetrics"
     ZSCALAR_ZPA_APP_CONNECTOR_STATUS = "Zscalar.ZPA.AppConnectorStatus"
     ZSCALAR_ZPA_AUDIT_LOG = "Zscalar.ZPA.AuditLog"
