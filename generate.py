@@ -1019,16 +1019,16 @@ def ast_compare(node1, node2):
     return node1 == node2
 
 
-def clone_panther_analysis_release(output_dir: Path) -> None:
+def clone_panther_analysis_main(output_dir: Path) -> None:
     if not output_dir.is_dir() or not output_dir.exists():
         raise ValueError(f"{output_dir} is not a directory")
 
     try:
-        # git clone --depth 1 --branch release --single-branch https://github.com/panther-labs/panther-analysis.git output_dir
+        # git clone --depth 1 --branch main --single-branch https://github.com/panther-labs/panther-analysis.git output_dir
         _repo = Repo.clone_from(
             url="https://github.com/panther-labs/panther-analysis.git",
             to_path=output_dir,
-            branch="release",
+            branch="main",
             depth=1,
             no_single_branch=False,
         )
@@ -1036,25 +1036,25 @@ def clone_panther_analysis_release(output_dir: Path) -> None:
         print(f"An error occurred while cloning the repository: {exc}")
 
 
-def diff_with_release(
+def diff_with_panther_analysis_main(
     panther_analysis: Path,
 ) -> tuple[list[tuple[list[str], str, str]], list[tuple[list[str], str, str]], list[str]]:
     yaml_diff = []
     python_diff = []
     to_delete = []
 
-    release_rules = {}
+    pa_main_rules = {}
     with tempfile.TemporaryDirectory() as temp_dir:
         output_dir = Path(temp_dir)
-        clone_panther_analysis_release(output_dir)
+        clone_panther_analysis_main(output_dir)
 
-        release_rules_path = output_dir / "rules"
-        for release_python_path in release_rules_path.glob("**/[A-Za-z]*.py"):
-            release_yaml_path = release_python_path.with_suffix(".yml")
-            with release_yaml_path.open(mode="rb") as fy, release_python_path.open(mode="rb") as fp:
-                release_yaml = YAML(typ="safe").load(fy)
-                release_python_code = ast.parse(fp.read())
-            release_rules[release_yaml["RuleID"]] = (release_yaml, release_python_code)
+        pa_main_rules_path = output_dir / "rules"
+        for pa_main_python_path in pa_main_rules_path.glob("**/[A-Za-z]*.py"):
+            pa_main_yaml_path = pa_main_python_path.with_suffix(".yml")
+            with pa_main_yaml_path.open(mode="rb") as fy, pa_main_python_path.open(mode="rb") as fp:
+                pa_main_yaml = YAML(typ="safe").load(fy)
+                pa_main_python_code = ast.parse(fp.read())
+            pa_main_rules[pa_main_yaml["RuleID"]] = (pa_main_yaml, pa_main_python_code)
 
     local_rules = {}
     local_rules_path = panther_analysis / "rules"
@@ -1068,21 +1068,21 @@ def diff_with_release(
     for id_, local_rule in local_rules.items():
         yaml, python = [], False
 
-        if id_ not in release_rules:
+        if id_ not in pa_main_rules:
             continue
 
-        release_rule = release_rules[id_]
+        pa_main_rule = pa_main_rules[id_]
 
         local_yaml, local_python_code, local_parent_dir = local_rule
-        release_yaml, release_python_code = release_rule
+        pa_main_yaml, pa_main_python_code = pa_main_rule
 
         # compare YAML
         for k, v in local_yaml.items():
-            if v != release_yaml[k]:
+            if v != pa_main_yaml[k]:
                 yaml.append(k)
 
         # compare Python
-        if not ast_compare(local_python_code, release_python_code):
+        if not ast_compare(local_python_code, pa_main_python_code):
             python = True
 
         if python:
@@ -1312,7 +1312,7 @@ def convert(args: argparse.Namespace) -> tuple[int, str]:
         if keep_only_modified_rules:
             rules_path = Path("./pypanther/rules/")
             overrides_path = Path("./pypanther/overrides")
-            yaml_diff, python_diff, to_delete = diff_with_release(panther_analysis)
+            yaml_diff, python_diff, to_delete = diff_with_panther_analysis_main(panther_analysis)
             refactor_yaml_only_modified_rules(rules_path, overrides_path, yaml_diff)
             refactor_python_modified_rules(rules_path, python_diff)
             delete_rules(Path("./pypanther/rules/"), to_delete)
