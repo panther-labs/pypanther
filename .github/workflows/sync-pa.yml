@@ -34,7 +34,7 @@ jobs:
         git clone --branch ${{ github.event.inputs.pa_branch }} https://github.com/panther-labs/panther-analysis.git 
     - name: Run generate against panther-analysis
       run: |
-        poetry run python ./generate.py panther-analysis --keep-all-rules
+        poetry run python ./pypanther/generate.py panther-analysis --keep-all-rules
     - name: Cleanup
       run: |
         rm -rf panther-analysis
