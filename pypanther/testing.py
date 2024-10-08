@@ -264,7 +264,6 @@ def print_rule_test_results(verbose: bool, rule_id: str, results: list[RuleTestR
             if result.test.expected_alert_context:
                 print(INDENT * 2, "-", f"Alert context: {result.test.expected_alert_context}")
 
-
         elif not result.passed:
             print(INDENT, cli_output.bold(cli_output.failed("FAIL")) + ":", result.test.name)
 
