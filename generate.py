@@ -487,11 +487,15 @@ class DropClassAttributes(ast.NodeTransformer):
     ```
     """
 
-    def __init__(self, attribute_names: list[str]):
+    def __init__(self, class_name: str, attribute_names: list[str]):
         super().__init__()
+        self.class_name = class_name
         self.attribute_names = attribute_names
 
-    def visit_ClassDef(self, node: ast.ClassDef) -> ast.AST | None:
+    def visit_ClassDef(self, node: ast.ClassDef) -> ast.AST:
+        if node.name != self.class_name:
+            return node
+
         new_body = [
             x
             for x in node.body
@@ -541,7 +545,11 @@ class RewriteClassDefinition(ast.NodeTransformer):
             name=self.new_class_name,
             bases=[ast.Name(id=x) for x in self.base_names],
             keywords=node.keywords,
-            decorator_list=node.decorator_list,
+            decorator_list=[
+                x
+                for x in node.decorator_list
+                if not (isinstance(x, ast.Name) and x.id == "panther_managed")  # exclude @panther_managed decorator
+            ],
             body=node.body,
         )
 
@@ -569,7 +577,7 @@ class AddClassAttributes(ast.NodeTransformer):
         self.class_name = class_name
         self.attributes = attributes
 
-    def visit_ClassDef(self, node: ast.ClassDef) -> ast.AST | None:
+    def visit_ClassDef(self, node: ast.ClassDef) -> ast.AST:
         if node.name != self.class_name:
             return node
 
@@ -626,6 +634,46 @@ class AddImportFrom(ast.NodeTransformer):
                 ),
                 *node.body,
             ],
+        )
+
+
+class DropClassMethods(ast.NodeTransformer):
+    """
+    This node transformer removes class methods from a specific class
+
+    A call like `DropClassMethods("Foo", ["baz"]).visit(tree)` transforms this:
+    ```
+    class Foo:
+        def baz():
+            print("baz")
+
+        def bar():
+            print("bar")
+    ```
+    into this:
+    ```
+    class Foo:
+        def bar():
+            print("bar")
+    ```
+    """
+
+    def __init__(self, class_name: str, names: list[str]):
+        super().__init__()
+        self.class_name = class_name
+        self.names = names
+
+    def visit_ClassDef(self, node: ast.ClassDef) -> ast.AST:
+        if node.name != self.class_name:
+            return node
+
+        new_body = [x for x in node.body if not (isinstance(x, ast.FunctionDef) and x.name in self.names)]
+        return ast.ClassDef(
+            name=self.class_name,
+            bases=node.bases,
+            keywords=node.keywords,
+            decorator_list=node.decorator_list,
+            body=new_body,
         )
 
 
@@ -1038,7 +1086,7 @@ def clone_panther_analysis_main(output_dir: Path) -> None:
 
 def diff_with_panther_analysis_main(
     panther_analysis: Path,
-) -> tuple[list[tuple[list[str], str, str]], list[tuple[list[str], str, str]], list[str]]:
+) -> tuple[list[tuple[list[str], str, str]], list[tuple[list[str], str, str, list[str]]], list[str]]:
     yaml_diff = []
     python_diff = []
     to_delete = []
@@ -1082,11 +1130,21 @@ def diff_with_panther_analysis_main(
                 yaml.append(k)
 
         # compare Python
+        identical_function_names = []
         if not ast_compare(local_python_code, pa_main_python_code):
             python = True
 
+            # identify identical functions; best effort
+            if not isinstance(local_python_code, ast.Module) or not isinstance(pa_main_python_code, ast.Module):
+                break
+            local_functions = {x.name: x for x in local_python_code.body if isinstance(x, ast.FunctionDef)}
+            pa_main_functions = {x.name: x for x in pa_main_python_code.body if isinstance(x, ast.FunctionDef)}
+            for function_name in local_functions.keys():
+                if ast_compare(local_functions[function_name], pa_main_functions[function_name]):
+                    identical_function_names.append(function_name)
+
         if python:
-            python_diff.append((yaml, local_yaml["Filename"], local_parent_dir))
+            python_diff.append((yaml, local_yaml["Filename"], local_parent_dir, identical_function_names))
         elif yaml:
             yaml_diff.append((yaml, local_yaml["Filename"], local_parent_dir))
 
@@ -1161,6 +1219,7 @@ def refactor_yaml_only_modified_rules(
         return
 
     overrides_path.mkdir(exist_ok=True)
+    overrides_path.joinpath("__init__.py").touch()
 
     for module, v in overrides.items():
         imports = v["imports"]
@@ -1212,9 +1271,9 @@ def refactor_yaml_only_modified_rules(
             f.write(ast.unparse(ast.fix_missing_locations(overrides_module)))
 
 
-def refactor_python_modified_rules(rules_path: Path, diff: list[tuple[list[str], str, str]]) -> None:
+def refactor_python_modified_rules(rules_path: Path, diff: list[tuple[list[str], str, str, list[str]]]) -> None:
     # at least python changed, will need to keep the file but delete the UNCHANGED class attributes
-    for yaml_keys, filename, rules_dir in diff:
+    for yaml_keys, filename, rules_dir, identical_function_names in diff:
         module = rules_dir.removesuffix("_rules")
         rule_path = rules_path / module / filename
 
@@ -1240,7 +1299,7 @@ def refactor_python_modified_rules(rules_path: Path, diff: list[tuple[list[str],
                 and x.targets[0].id not in set(convert_rule_attribute_name(y) for y in yaml_keys)
             )
         ]
-        code = DropClassAttributes(attributes_to_drop).visit(code)
+        code = DropClassAttributes(class_definition.name, attributes_to_drop).visit(code)
         code = RewriteClassDefinition(
             class_definition.name,
             new_class_definition_name,
@@ -1251,6 +1310,7 @@ def refactor_python_modified_rules(rules_path: Path, diff: list[tuple[list[str],
             "pypanther.rules." + module,
             [class_definition.name],
         ).visit(code)
+        code = DropClassMethods(new_class_definition_name, identical_function_names).visit(code)
 
         with rule_path.open(mode="w") as fp:
             fp.write(ast.unparse(ast.fix_missing_locations(code)))
