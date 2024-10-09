@@ -2,39 +2,49 @@ import os
 from abc import ABC, abstractmethod
 
 
-class Refresh:
-    def __init__(self, aws_role_arn: str, s3_object_path: str, period_minutes: int):
-        self.aws_role_arn = aws_role_arn
-        self.s3_object_path = s3_object_path
-        self.period_minutes = period_minutes  # Use the new Period class
-        self.validate()
-
-    def validate(self):
-        if not isinstance(self.aws_role_arn, str):
-            raise TypeError("RoleARN must be a string.")
-        if not isinstance(self.s3_object_path, str):
-            raise TypeError("ObjectPath must be a string.")
-        if self.period_minutes not in [15, 30, 60, 180, 720, 1440]:
-            raise ValueError("PeriodMinutes must be one of the following values: 15, 30, 60, 180, 720, 1440.")
-
-    def to_dict(self) -> dict:
-        return {
-            "role_arn": self.aws_role_arn,
-            "object_path": self.s3_object_path,
-            "period_minutes": self.period_minutes,
-        }
-
-
 class Lookup:
+    """
+    A Lookup table base configuration.
+
+    Attributes
+    ----------
+    _analysis_type : str
+        The type of analysis, default is "LOOKUP_TABLE".
+    lookup_type : str
+        The type of lookup.
+    enabled : bool
+        Indicates if the lookup is enabled/active, default is True.
+    lookup_id : str
+        The unique identifier for the lookup which will be used in rules/queries.
+    schema_id : str
+        The schema identifier associated with the lookup data.
+    log_type_map : dict
+        A mapping of log types to use when the schema does not contain indicator fields.
+    description : str
+        A description of what the lookup does.
+    reference : str
+        A URL reference for the lookup.
+    tags : list
+        A list of tags associated with the lookup to help with organization.
+
+    Methods
+    -------
+    to_dict() -> dict:
+        Converts the Lookup instance to a dictionary representation.
+    validate_log_type_map(log_type_map: dict) -> None:
+        Validates the structure of the log_type_map dictionary.
+
+    """
+
     _analysis_type: str = "LOOKUP_TABLE"
     lookup_type: str = ""
     enabled: bool = True
     lookup_id: str = ""
     schema_id: str = ""
-    log_type_map: dict = None  # Use the data model v2 FieldMapping class
+    log_type_map: dict = {}  # Use the data model v2 FieldMapping class
     description: str = ""
     reference: str = ""
-    tags: list = None
+    tags: list = []
 
     def to_dict(self) -> dict:
         return {
@@ -67,7 +77,7 @@ class Lookup:
 
 class FileLookup(Lookup):
     lookup_type = "FILE"
-    filename: str = None
+    filename: str = ""
 
     def validate(self):
         if not self.filename:
@@ -82,13 +92,67 @@ class FileLookup(Lookup):
 
 class S3Lookup(Lookup):
     lookup_type = "S3"
-    refresh: Refresh = None
+    refresh: "S3Lookup.Refresh"
+
+    class Refresh:
+        """
+        The data refresh configuration for AWS S3 lookups.
+
+        Attributes
+        ----------
+        aws_role_arn : str
+            The Amazon Resource Name (ARN) of the AWS role.
+        s3_object_path : str
+            The S3 object path.
+        period_minutes : int
+            The refresh period in minutes. Must be one of the following values: 15, 30, 60, 180, 720, 1440.
+
+        Methods
+        -------
+        validate():
+            Validates the attributes of the Refresh instance.
+        to_dict() -> dict:
+            Converts the Refresh instance to a dictionary.
+
+        """
+
+        def __init__(self, aws_role_arn: str, s3_object_path: str, period_minutes: int):
+            self.aws_role_arn = aws_role_arn
+            self.s3_object_path = s3_object_path
+            self.period_minutes = period_minutes  # Use the new Period class
+            self.validate()
+
+        def validate(self):
+            if not isinstance(self.aws_role_arn, str):
+                raise TypeError("RoleARN must be a string.")
+            if not isinstance(self.s3_object_path, str):
+                raise TypeError("ObjectPath must be a string.")
+            if self.period_minutes not in [15, 30, 60, 180, 720, 1440]:
+                raise ValueError("PeriodMinutes must be one of the following values: 15, 30, 60, 180, 720, 1440.")
+
+        def to_dict(self) -> dict:
+            return {
+                "role_arn": self.aws_role_arn,
+                "object_path": self.s3_object_path,
+                "period_minutes": self.period_minutes,
+            }
 
 
 class ScheduledQueryLookup(Lookup):
+    """
+    A lookup that runs a query on a schedule to populate the lookup data.
+
+    Attributes
+    ----------
+        lookup_type (str): A constant string representing the type of lookup, which is "SCHEDULED_QUERY".
+        schedule (str or None): The schedule for the query. Default is None.
+        query (str or None): The query to be executed. Default is None.
+
+    """
+
     lookup_type = "SCHEDULED_QUERY"
-    schedule = None
-    query = None
+    schedule = None  # Use the upcoming Schedule class
+    query = None  # Use the upcoming Query class
 
 
 class APILookup(Lookup, ABC):
@@ -126,7 +190,7 @@ class InlineLookup(Lookup):
     """
 
     lookup_type = "INLINE"
-    data: list[dict] = None
+    data: list[dict]
 
     def validate(self):
         if not self.data:
