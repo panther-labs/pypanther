@@ -5,7 +5,7 @@ import pathlib
 import sys
 from typing import Callable, Tuple
 
-from pypanther import testing, generate
+from pypanther import testing
 from pypanther.custom_logging import setup_logging
 from pypanther.setup_subparsers import (
     setup_get_rule_parser,
@@ -13,6 +13,7 @@ from pypanther.setup_subparsers import (
     setup_list_rules_parser,
     setup_test_parser,
     setup_upload_parser,
+    setup_convert_parser,
 )
 from pypanther.backend import util
 from pypanther.command import standard_args
@@ -138,23 +139,7 @@ def setup_parser() -> argparse.ArgumentParser:
         help="Convert Panther Analysis rules",
         formatter_class=argparse.ArgumentDefaultsHelpFormatter,
     )
-    convert_parser.set_defaults(
-        func=generate.convert,
-        keep_all_rules=False,
-        cwd_must_be_empty=True,
-    )
-    convert_parser.add_argument(
-        "--verbose",
-        help="Verbose output",
-        default=False,
-        required=False,
-        action="store_true",
-    )
-    convert_parser.add_argument(
-        "panther_analysis_path",
-        help="Path to the Panther Analysis directory",
-        type=pathlib.Path,
-    )
+    setup_convert_parser(convert_parser)
 
     return parser
 
