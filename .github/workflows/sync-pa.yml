@@ -33,6 +33,9 @@ jobs:
       run: |
         git clone --branch ${{ github.event.inputs.pa_branch }} https://github.com/panther-labs/panther-analysis.git 
     - name: Run generate against panther-analysis
+      # keeping this generate.py invocation as is for now in order to avoid possible complications with local
+      # pypanther installation and versioning
+      # this way we can also override the cwd_must_be_empty coarse safeguard we impose for external users
       run: |
         poetry run python ./pypanther/generate.py panther-analysis --keep-all-rules
     - name: Cleanup
