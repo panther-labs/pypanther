@@ -36,7 +36,7 @@ def get_panther_rules(
     """
     Return an iterator of all PantherRules in the pypanther.rules based on the provided filters.
     If the filter argument is not provided, all rules are returned. If a filter value is a list, any value in the
-    list will match. If a filter value is a string, the value must match exactly.
+    list will match. If a filter value is a string, the value matching is case-insensitive.
     """
     filters = locals()
 
