@@ -165,6 +165,12 @@ def setup_convert_parser(convert_parser: argparse.ArgumentParser):
         action="store_true",
     )
     convert_parser.add_argument(
+        "--pypanther-directory-name",
+        help="Name of the top level directory where converted artifacts are placed",
+        default="content",
+        required=False,
+    )
+    convert_parser.add_argument(
         "panther_analysis_path",
         help="Path to the Panther Analysis directory",
         type=pathlib.Path,
