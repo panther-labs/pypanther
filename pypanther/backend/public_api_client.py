@@ -211,6 +211,7 @@ class PublicAPIClient(Client):  # pylint: disable=too-many-public-methods
                 "data": params.encoded_bytes(),
                 "pypantherVersion": importlib.metadata.version("pypanther"),
                 "mode": BULK_UPLOAD_MODE_V2_ZIP,
+                "dryRun": params.dry_run,
             },
         }
         res = self._safe_execute(query, variable_values=upload_params)

@@ -491,14 +491,24 @@ class DropClassAttributes(ast.NodeTransformer):
         super().__init__()
         self.attribute_names = attribute_names
 
-    def visit_Assign(self, node: ast.Assign) -> ast.AST | None:
-        if (
-            len(node.targets) == 1
-            and isinstance(node.targets[0], ast.Name)
-            and node.targets[0].id in self.attribute_names
-        ):
-            return None
-        return node
+    def visit_ClassDef(self, node: ast.ClassDef) -> ast.AST | None:
+        new_body = [
+            x
+            for x in node.body
+            if not (
+                isinstance(x, ast.Assign)
+                and len(x.targets) == 1
+                and isinstance(x.targets[0], ast.Name)
+                and x.targets[0].id in self.attribute_names
+            )
+        ]
+        return ast.ClassDef(
+            name=node.name,
+            bases=[ast.Name(id=x) for x in node.bases],
+            keywords=node.keywords,
+            decorator_list=node.decorator_list,
+            body=new_body,
+        )
 
 
 class RewriteClassDefinition(ast.NodeTransformer):
@@ -1009,16 +1019,16 @@ def ast_compare(node1, node2):
     return node1 == node2
 
 
-def clone_panther_analysis_release(output_dir: Path) -> None:
+def clone_panther_analysis_main(output_dir: Path) -> None:
     if not output_dir.is_dir() or not output_dir.exists():
         raise ValueError(f"{output_dir} is not a directory")
 
     try:
-        # git clone --depth 1 --branch release --single-branch https://github.com/panther-labs/panther-analysis.git output_dir
+        # git clone --depth 1 --branch main --single-branch https://github.com/panther-labs/panther-analysis.git output_dir
         _repo = Repo.clone_from(
             url="https://github.com/panther-labs/panther-analysis.git",
             to_path=output_dir,
-            branch="release",
+            branch="main",
             depth=1,
             no_single_branch=False,
         )
@@ -1026,24 +1036,25 @@ def clone_panther_analysis_release(output_dir: Path) -> None:
         print(f"An error occurred while cloning the repository: {exc}")
 
 
-def diff_with_release(
+def diff_with_panther_analysis_main(
     panther_analysis: Path,
-) -> tuple[list[tuple[list[str], str, str]], list[tuple[list[str], str, str]]]:
+) -> tuple[list[tuple[list[str], str, str]], list[tuple[list[str], str, str]], list[str]]:
     yaml_diff = []
     python_diff = []
+    to_delete = []
 
-    release_rules = {}
+    pa_main_rules = {}
     with tempfile.TemporaryDirectory() as temp_dir:
         output_dir = Path(temp_dir)
-        clone_panther_analysis_release(output_dir)
+        clone_panther_analysis_main(output_dir)
 
-        release_rules_path = output_dir / "rules"
-        for release_python_path in release_rules_path.glob("**/[A-Za-z]*.py"):
-            release_yaml_path = release_python_path.with_suffix(".yml")
-            with release_yaml_path.open(mode="rb") as fy, release_python_path.open(mode="rb") as fp:
-                release_yaml = YAML(typ="safe").load(fy)
-                release_python_code = ast.parse(fp.read())
-            release_rules[release_yaml["RuleID"]] = (release_yaml, release_python_code)
+        pa_main_rules_path = output_dir / "rules"
+        for pa_main_python_path in pa_main_rules_path.glob("**/[A-Za-z]*.py"):
+            pa_main_yaml_path = pa_main_python_path.with_suffix(".yml")
+            with pa_main_yaml_path.open(mode="rb") as fy, pa_main_python_path.open(mode="rb") as fp:
+                pa_main_yaml = YAML(typ="safe").load(fy)
+                pa_main_python_code = ast.parse(fp.read())
+            pa_main_rules[pa_main_yaml["RuleID"]] = (pa_main_yaml, pa_main_python_code)
 
     local_rules = {}
     local_rules_path = panther_analysis / "rules"
@@ -1056,23 +1067,37 @@ def diff_with_release(
 
     for id_, local_rule in local_rules.items():
         yaml, python = [], False
-        release_rule = release_rules[id_]
+
+        if id_ not in pa_main_rules:
+            continue
+
+        pa_main_rule = pa_main_rules[id_]
+
+        local_yaml, local_python_code, local_parent_dir = local_rule
+        pa_main_yaml, pa_main_python_code = pa_main_rule
 
         # compare YAML
-        for k, v in local_rule[0].items():
-            if v != release_rule[0][k]:
+        for k, v in local_yaml.items():
+            if v != pa_main_yaml[k]:
                 yaml.append(k)
 
         # compare Python
-        if not ast_compare(local_rule[1], release_rule[1]):
+        if not ast_compare(local_python_code, pa_main_python_code):
             python = True
 
         if python:
-            python_diff.append((yaml, local_rule[0]["Filename"], local_rule[2]))
+            python_diff.append((yaml, local_yaml["Filename"], local_parent_dir))
         elif yaml:
-            yaml_diff.append((yaml, local_rule[0]["Filename"], local_rule[2]))
+            yaml_diff.append((yaml, local_yaml["Filename"], local_parent_dir))
 
-    return yaml_diff, python_diff
+        if not python:
+            # we only want to keep those for which we detected changes in python code
+            # files for which we detected only yaml changes must be deleted as we create
+            # overrides for them
+            # files for which we haven't detected any changes at all must be deleted anyway
+            to_delete.append(local_yaml["Filename"])
+
+    return yaml_diff, python_diff, to_delete
 
 
 class Overrides(TypedDict):
@@ -1187,9 +1212,8 @@ def refactor_yaml_only_modified_rules(
             f.write(ast.unparse(ast.fix_missing_locations(overrides_module)))
 
 
-def refactor_python_modified_rules(rules_path: Path, diff: list[tuple[list[str], str, str]]) -> list[Path]:
+def refactor_python_modified_rules(rules_path: Path, diff: list[tuple[list[str], str, str]]) -> None:
     # at least python changed, will need to keep the file but delete the UNCHANGED class attributes
-    to_keep = []
     for yaml_keys, filename, rules_dir in diff:
         module = rules_dir.removesuffix("_rules")
         rule_path = rules_path / module / filename
@@ -1231,14 +1255,24 @@ def refactor_python_modified_rules(rules_path: Path, diff: list[tuple[list[str],
         with rule_path.open(mode="w") as fp:
             fp.write(ast.unparse(ast.fix_missing_locations(code)))
 
-        to_keep.append(rule_path)
 
-    return to_keep
+def delete_rules(rules_path: Path, to_delete: list[str]) -> None:
+    for filename in to_delete:
+        if filename.startswith("sublime_rules_deleted_or_deactivated"):
+            # for this case, when converting to pypanther we have decided to turn
+            # sublime_rules_deleted_or_deactivated.py to sublime_deleted_or_deactivated.py
+            filename = filename.replace("_rules", "")
 
+        possible_paths = list(rules_path.rglob(f"**/{filename}"))
 
-def delete_rules(rules_path: Path, to_keep: list[Path]) -> None:
-    to_delete = [x for x in rules_path.glob("**/[A-Za-z]*.py") if x not in set(to_keep)]
-    for path in to_delete:
+        if len(possible_paths) > 1:
+            raise Exception(f"multiple paths for {filename}")
+
+        if len(possible_paths) == 0:
+            # possibly deprecated rule
+            continue
+
+        path = possible_paths[0]
         path.unlink()
         if not any(path.parent.iterdir()):
             path.parent.rmdir()
@@ -1261,28 +1295,42 @@ def create_argument_parser() -> argparse.ArgumentParser:
     return parser
 
 
+def convert(args: argparse.Namespace) -> tuple[int, str]:
+    panther_analysis = args.panther_analysis_path
+    keep_only_modified_rules = not args.keep_all_rules
+
+    if hasattr(args, "cwd_must_be_empty") and args.cwd_must_be_empty and any(Path("./").iterdir()):
+        return 1, "current working directory must be empty"
+
+    try:
+        helpers = convert_global_helpers(panther_analysis)
+        convert_data_models(panther_analysis, helpers)
+        convert_rules(panther_analysis, helpers)
+        strip_global_filters()
+        # convert_queries(Path(panther_analysis))
+
+        if keep_only_modified_rules:
+            rules_path = Path("./pypanther/rules/")
+            overrides_path = Path("./pypanther/overrides")
+            yaml_diff, python_diff, to_delete = diff_with_panther_analysis_main(panther_analysis)
+            refactor_yaml_only_modified_rules(rules_path, overrides_path, yaml_diff)
+            refactor_python_modified_rules(rules_path, python_diff)
+            delete_rules(Path("./pypanther/rules/"), to_delete)
+
+        run_ruff([Path(".")])  # noqa: PTH201
+    except Exception as exc:
+        if hasattr(args, "verbose") and args.verbose:
+            print(exc)
+        return 1, "conversion failed"
+
+    return 0, ""
+
+
 def main():
     parser = create_argument_parser()
     args = parser.parse_args()
 
-    panther_analysis = args.panther_analysis_path
-    keep_only_modified_rules = not args.keep_all_rules
-
-    helpers = convert_global_helpers(panther_analysis)
-    convert_data_models(panther_analysis, helpers)
-    convert_rules(panther_analysis, helpers)
-    strip_global_filters()
-    # convert_queries(Path(panther_analysis))
-
-    if keep_only_modified_rules:
-        rules_path = Path("./pypanther/rules/")
-        overrides_path = Path("./pypanther/overrides")
-        yaml_diff, python_diff = diff_with_release(panther_analysis)
-        refactor_yaml_only_modified_rules(rules_path, overrides_path, yaml_diff)
-        to_keep = refactor_python_modified_rules(rules_path, python_diff)
-        delete_rules(Path("./pypanther/rules/"), to_keep)
-
-    run_ruff([Path(".")])  # noqa: PTH201
+    _, _ = convert(args)
 
 
 if __name__ == "__main__":

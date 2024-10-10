@@ -33,4 +33,8 @@ fragment UploadStatisticDetails on UploadStatistics {
     new
     total
     deleted
+    newIds
+    totalIds
+    deletedIds
+    modifiedIds
 }
