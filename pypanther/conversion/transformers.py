@@ -6,9 +6,9 @@ class RewritePantherHelperImports(ast.NodeTransformer):
     def __init__(self: Self, helper_module_names: set[str]) -> None:
         self.helper_module_names = helper_module_names
 
-    # disabling N802 as the method name should be exactly like this to override parent method
-    def visit_Import(self: Self, node: ast.Import) -> ast.AST:  # noqa: N802
-        """Rewriting `import ..., ... as ..., ...` statements.
+    def visit_Import(self: Self, node: ast.Import) -> ast.AST:
+        """
+        Rewriting `import ..., ... as ..., ...` statements.
 
         Transforms this:
         ```
@@ -24,8 +24,8 @@ class RewritePantherHelperImports(ast.NodeTransformer):
             modified_alias = alias
             module_name = alias.name.split(".")[0]
             if module_name in self.helper_module_names:
-                modified_module_name = (
-                    f"pypanther.helpers.{module_name}".replace("panther_", "").replace("_helpers", "")
+                modified_module_name = f"pypanther.helpers.{module_name}".replace("panther_", "").replace(
+                    "_helpers", ""
                 )
 
                 modified_asname = None
@@ -38,9 +38,9 @@ class RewritePantherHelperImports(ast.NodeTransformer):
 
         return node
 
-    # disabling N802 as the method name should be exactly like this to override parent method
-    def visit_ImportFrom(self: Self, node: ast.ImportFrom) -> ast.AST:  # noqa: N802
-        """Rewriting `from ... import ...` statements.
+    def visit_ImportFrom(self: Self, node: ast.ImportFrom) -> ast.AST:
+        """
+        Rewriting `from ... import ...` statements.
 
         Transforms this:
         ```

@@ -1,10 +1,11 @@
 import ast
 import logging
 import pathlib
+import tempfile
 
 from ruamel.yaml import YAML
 
-from pypanther.conversion import models, transformers
+from pypanther.conversion import models, transformers, util
 
 logger = logging.getLogger(__name__)
 
@@ -13,7 +14,7 @@ def convert_panther_analysis(panther_analysis_path: pathlib.Path, output_path: p
     # known conventions
     v1_helpers_path = panther_analysis_path / "global_helpers"
     v1_data_models_path = panther_analysis_path / "data_models"
-    v1_rules_path = panther_analysis_path / "rules"
+    _v1_rules_path = panther_analysis_path / "rules"
 
     v1_helpers = _read_v1_helpers(v1_helpers_path)
     v1_data_models = _read_v1_data_models(v1_data_models_path)
@@ -33,6 +34,39 @@ def convert_panther_analysis(panther_analysis_path: pathlib.Path, output_path: p
         subpackages=[_helpers_package, _data_models_package],
     )
     _write_python_package(_pypanther_package, output_path)
+
+
+def convert_rules(panther_analysis_path: pathlib.Path, output_path: pathlib.Path) -> None:
+    breakpoint()
+    # read local rules
+    v1_rules_path = panther_analysis_path / "rules"
+    local_rules = read_v1_rules(v1_rules_path)
+
+    # fetch panther-analysis main
+    with tempfile.TemporaryDirectory() as temp_dir:
+        panther_analysis_main_path = pathlib.Path(temp_dir)
+        util.clone_panther_analysis_main(panther_analysis_main_path)
+        panther_analysis_main_rules = read_v1_rules(panther_analysis_main_path)
+
+        for id_ in local_rules:
+            # compare metadata
+            local_rule_metadata_dict = local_rules[id_].metadata.model_dump()
+            panther_analysis_main_rule_metadata_dict = panther_analysis_main_rules[id_].metadata.model_dump()
+            yaml_diff = set()
+            for k, v in local_rule_metadata_dict.items():
+                if (
+                    k not in panther_analysis_main_rule_metadata_dict
+                    or v != panther_analysis_main_rule_metadata_dict[k]
+                ):
+                    yaml_diff.add(k)
+            # compare module
+
+    # compare local with panther-analysis main
+    # properly convert:
+    # - if only yaml, create overrides
+    # - if python changed, create new python class
+    # write stuff
+    raise NotImplementedError
 
 
 def _read_v1_helpers(v1_helpers_path: pathlib.Path) -> list[models.V1Helper]:
@@ -77,7 +111,39 @@ def _read_v1_data_models(v1_data_models_path: pathlib.Path) -> list[models.V1Dat
     return v1_data_models
 
 
-def _convert_v1_helpers(v1_helper_module_names: set[str], v1_helpers: list[models.V1Helper]) -> list[models.PythonModule]:
+def read_v1_rules(v1_rules_path: pathlib.Path) -> dict[str, models.V1Rule]:
+    v1_rules: dict[str, models.V1Rule] = {}
+    for path in v1_rules_path.rglob("*.y*ml"):
+        print(path)
+        yaml = YAML(typ="safe").load(path)
+
+        if "Filename" not in yaml:
+            logger.warning("missing code file for rule path=%s", path)
+            continue
+
+        metadata = models.V1RuleMetadata(**yaml)
+
+        code_path = path.parent / metadata.filename
+        code = ast.parse(code_path.read_text())
+        module = models.PythonModule(name=metadata.filename.removesuffix(".py"), code=code)
+
+        v1_rule = models.V1Rule(metadata=metadata, module=module)
+
+        if v1_rule.metadata.analysis_type not in {models.AnalysisType.RULE, models.AnalysisType.SCHEDULED_RULE}:
+            logger.error(
+                "AnalysisType must be 'rule' or 'scheduled_rule' analysis_type=%s",
+                v1_rule.metadata.analysis_type,
+            )
+            continue
+
+        v1_rules[v1_rule.metadata.rule_id] = v1_rule
+
+    return v1_rules
+
+
+def _convert_v1_helpers(
+    v1_helper_module_names: set[str], v1_helpers: list[models.V1Helper],
+) -> list[models.PythonModule]:
     helpers = []
     for v1_helper in v1_helpers:
         helper_module_name = v1_helper.module.name.replace("_helpers", "").replace("panther_", "")
@@ -89,7 +155,8 @@ def _convert_v1_helpers(v1_helper_module_names: set[str], v1_helpers: list[model
 
 
 def _convert_v1_data_models(
-    v1_helper_module_names: set[str], v1_data_models: list[models.V1DataModel],
+    v1_helper_module_names: set[str],
+    v1_data_models: list[models.V1DataModel],
 ) -> list[models.PythonModule]:
     data_models = []
     for v1_data_model in v1_data_models:
