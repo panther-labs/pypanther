@@ -1339,7 +1339,7 @@ def delete_rules(rules_path: Path, to_delete: list[str]) -> None:
 
     # delete empty directories or directories that contain only __init__.py files
     for root, dirs, files in os.walk(str(rules_path), topdown=False):
-        if len(files) == 1 and files[0] == "__init__.py":
+        if len(dirs) == 0 and len(files) == 1 and files[0] == "__init__.py":
             Path(os.path.join(root, files[0])).unlink()
         for name in dirs:
             directory = Path(os.path.join(root, name))
