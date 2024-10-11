@@ -31,8 +31,6 @@ def _to_lowercase_set(value):
     """
     Returns a set of the given value. If the value is a string, it will be lowercased. If the value is a list, each
     item will be lowercased if it is a string. If the value is not a string or list, it will be returned as a set.
-    :param value:
-    :return:
     """
     if isinstance(value, str):
         return {value.lower()}

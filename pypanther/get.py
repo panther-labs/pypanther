@@ -36,7 +36,7 @@ def get_panther_rules(
     """
     Return an iterator of all PantherRules in the pypanther.rules based on the provided filters.
     If the filter argument is not provided, all rules are returned. If a filter value is a list, any value in the
-    list will match. If a filter value is a string, the value matching is case-insensitive.
+    list will be matched in a case-insensitive manner. If a filter value is a string, the value matching is case-insensitive.
     """
     filters = locals()
 
@@ -125,7 +125,7 @@ def get_panther_data_models(**kwargs) -> list[Type[DataModel]]:
     """
     Return an iterator of all PantherDataModels in the pypanther.rules based on the provided filters.
     If the filter argument is not provided, all data models are returned. If a filter value is a list, any value in the
-    list will match. If a filter value is a string, the value must match exactly.
+    list will be matched in a case-insensitive manner. If a filter value is a string, the value matching is case-insensitive.
     """
     if not __DATA_MODELS:
         p_a_d = import_module("pypanther.data_models")
