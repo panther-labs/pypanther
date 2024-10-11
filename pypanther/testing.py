@@ -249,6 +249,20 @@ def print_rule_test_results(verbose: bool, rule_id: str, results: list[RuleTestR
     for result in results:
         if result.passed and verbose:
             print(INDENT, cli_output.success("PASS") + ":", result.test.name)
+            if result.test.expected_severity:
+                print(INDENT * 2, "-", f"Severity: {result.test.expected_severity}")
+            if result.test.expected_title:
+                print(INDENT * 2, "-", f"Title: {result.test.expected_title}")
+            if result.test.expected_dedup:
+                print(INDENT * 2, "-", f"Dedup: {result.test.expected_dedup}")
+            if result.test.expected_runbook:
+                print(INDENT * 2, "-", f"Runbook: {result.test.expected_runbook}")
+            if result.test.expected_reference:
+                print(INDENT * 2, "-", f"Reference: {result.test.expected_reference}")
+            if result.test.expected_description:
+                print(INDENT * 2, "-", f"Description: {result.test.expected_description}")
+            if result.test.expected_alert_context:
+                print(INDENT * 2, "-", f"Alert context: {result.test.expected_alert_context}")
 
         elif not result.passed:
             print(INDENT, cli_output.bold(cli_output.failed("FAIL")) + ":", result.test.name)
