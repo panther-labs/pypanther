@@ -1,6 +1,7 @@
 import argparse
+import pathlib
 
-from pypanther import display, get_rule, list_log_types, list_rules, shared_args, upload
+from pypanther import display, generate, get_rule, list_log_types, list_rules, shared_args, upload
 from pypanther.backend import util
 
 
@@ -147,4 +148,30 @@ def setup_list_log_types_parser(list_log_types_parser: argparse.ArgumentParser):
         required=False,
         choices=display.COMMON_CLI_OUTPUT_TYPES,
         default=display.DEFAULT_CLI_OUTPUT_TYPE,
+    )
+
+
+def setup_convert_parser(convert_parser: argparse.ArgumentParser):
+    convert_parser.set_defaults(
+        func=generate.convert,
+        keep_all_rules=False,
+        cwd_must_be_empty=True,
+    )
+    convert_parser.add_argument(
+        "--verbose",
+        help="Verbose output",
+        default=False,
+        required=False,
+        action="store_true",
+    )
+    convert_parser.add_argument(
+        "--pypanther-directory-name",
+        help="Name of the top level directory where converted artifacts are placed",
+        default="content",
+        required=False,
+    )
+    convert_parser.add_argument(
+        "panther_analysis_path",
+        help="Path to the Panther Analysis directory",
+        type=pathlib.Path,
     )
