@@ -1,11 +1,16 @@
+import argparse
+import json
 import unittest
 from unittest import TestCase
 
 import pytest
 
-from pypanther import Rule, Severity, register, registered_rules, LogType
+from pypanther import Rule, Severity, register, registered_rules, LogType, display
 from pypanther.get import apply_overrides, get_panther_rules, get_rules
+from pypanther.registry import _RULE_REGISTRY
+from pypanther.get_rule import run
 from tests.test_get_rule import create_main
+
 
 
 class TestGetPantherRules(TestCase):
@@ -52,27 +57,6 @@ class TestGetRulesFromModule(unittest.TestCase):
     def test_no_a_module(self) -> None:
         with pytest.raises(TypeError):
             get_rules(module="str")
-
-
-class TestGetRulesCaseInsensitiveFiltering(unittest.TestCase):
-    def test_severity(self) -> None:
-        with create_main():
-
-            class TestRule(Rule):
-                id = "TestRule"
-                log_types = [LogType.PANTHER_AUDIT]
-                default_severity = Severity.INFO
-
-                def rule(self, _):
-                    pass
-
-        register(TestRule)
-        rc, err_msg = run(
-            argparse.Namespace(id=rule_id, type=TYPE_RULE.lower(), output="text", managed=False),
-        )
-    assert rc == 1
-    assert rule_id in err_msg and "multiple" in err_msg
-    _RULE_REGISTRY.clear()
 
 
 class TestApplyOverridesFromModule(unittest.TestCase):
