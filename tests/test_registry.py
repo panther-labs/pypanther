@@ -213,7 +213,7 @@ class TestGetRulesCaseInsensitiveFiltering(unittest.TestCase):
         register(TestRule)
         out = registered_rules(id="testrule")
         assert len(out) == 1
-        assert list(out)[0].id == "TestRule"
+        assert out == {TestRule}
 
     def test_find_by_log_type(self) -> None:
         class TestRule(Rule):
@@ -227,4 +227,4 @@ class TestGetRulesCaseInsensitiveFiltering(unittest.TestCase):
         register(TestRule)
         out = registered_rules(log_types=["LoGtYpE.tEsT"])
         assert len(out) == 1
-        assert list(out)[0].id == "TestRule"
+        assert out == {TestRule}
