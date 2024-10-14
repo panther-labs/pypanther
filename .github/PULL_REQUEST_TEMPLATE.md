@@ -5,7 +5,7 @@
 ### References: <!-- related links -->
 
 <!-- relates to: JIRA Ticket # automation will link this PR to the JIRA -->
-<!-- closes: JIRA Ticket # automation will link this PR to the JIRA and close it -->
+<!-- closes: JIRA Ticket # automation will link this PR to JIRA and close it -->
 
 ### Confidence: <!-- what testing was done to ensure the change does what it is intended to do? -->
 
