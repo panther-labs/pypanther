@@ -1,16 +1,9 @@
-import argparse
-import json
 import unittest
 from unittest import TestCase
 
 import pytest
 
-from pypanther import Rule, Severity, register, registered_rules, LogType, display
 from pypanther.get import apply_overrides, get_panther_rules, get_rules
-from pypanther.registry import _RULE_REGISTRY
-from pypanther.get_rule import run
-from tests.test_get_rule import create_main
-
 
 
 class TestGetPantherRules(TestCase):

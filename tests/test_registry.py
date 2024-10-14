@@ -213,18 +213,18 @@ class TestGetRulesCaseInsensitiveFiltering(unittest.TestCase):
         register(TestRule)
         out = registered_rules(id="testrule")
         assert len(out) == 1
-        assert out[0].id == "TestRule"
+        assert list(out)[0].id == "TestRule"
 
-    def test_find_by_severity(self) -> None:
+    def test_find_by_log_type(self) -> None:
         class TestRule(Rule):
             id = "TestRule"
-            log_types = [LogType.PANTHER_AUDIT]
+            log_types = ["LogType.Test"]
             default_severity = Severity.INFO
 
             def rule(self, _):
                 pass
 
         register(TestRule)
-        out = registered_rules(default_severity="info")
+        out = registered_rules(log_types=["LoGtYpE.tEsT"])
         assert len(out) == 1
-        assert out[0].id == "TestRule"
+        assert list(out)[0].id == "TestRule"

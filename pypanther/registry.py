@@ -73,10 +73,9 @@ def registered_rules(
 ) -> Set[Type[Rule]]:
     filters = locals()
     return filter_iterable_by_kwargs(
-            _RULE_REGISTRY,
-            **filters,
-        )
-
+        _RULE_REGISTRY,
+        **filters,
+    )
 
 
 def registered_data_models() -> Set[Type[DataModel]]:
