@@ -72,10 +72,12 @@ def registered_rules(
     default_destinations: List[str] | None = None,
 ) -> Set[Type[Rule]]:
     filters = locals()
-    return set(filter_iterable_by_kwargs(
-        _RULE_REGISTRY,
-        **filters,
-    ))
+    return set(
+        filter_iterable_by_kwargs(
+            _RULE_REGISTRY,
+            **filters,
+        ),
+    )
 
 
 def registered_data_models() -> Set[Type[DataModel]]:
