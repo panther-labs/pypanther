@@ -50,9 +50,11 @@ class ChangesSummary(TypedDict):
     message: str
     new: int
     delete: int
+    modify: int
     total: int
     new_ids: list[str] | None
     delete_ids: list[str] | None
+    modify_ids: list[str] | None
     total_ids: list[str] | None
 
 
@@ -196,9 +198,11 @@ def dry_run_upload(backend: BackendClient, data: bytes, verbose, output_type) ->
         message=f"Will add {upload_stats.rules.new} new rules and delete {upload_stats.rules.deleted} rules (total {upload_stats.rules.total} rules)",
         new=upload_stats.rules.new,
         delete=upload_stats.rules.deleted,
+        modify=upload_stats.rules.modified,
         total=upload_stats.rules.total,
         new_ids=upload_stats.rules.new_ids,
         delete_ids=upload_stats.rules.deleted_ids,
+        modify_ids=upload_stats.rules.modified_ids,
         total_ids=upload_stats.rules.total_ids,
     )
     return changes_summary
@@ -337,7 +341,7 @@ def get_upload_output_as_dict(
             "message": changes_summary["message"],
             "new": changes_summary["new"],
             "delete": changes_summary["delete"],
-            "total": changes_summary["total"],
+            "modify": changes_summary["modify"],
         }
 
     return output
@@ -406,14 +410,19 @@ def print_changes_summary(changes_summary: ChangesSummary) -> None:
         print(f"New [{changes_summary['new']}]:")
         for id_ in changes_summary["new_ids"]:
             print(f"+ {id_}")
-    print()  # new line
+        print()  # new line
     if changes_summary["delete_ids"]:
         print(f"Delete [{changes_summary['delete']}]:")
         for id_ in changes_summary["delete_ids"]:
             print(f"- {id_}")
-    print()  # new line
+        print()  # new line
+    if changes_summary["modify_ids"]:
+        print(f"Modify [{changes_summary['modify']}]:")
+        for id_ in changes_summary["modify_ids"]:
+            print(f"~ {id_}")
+        print()  # new line
     print(cli_output.header("Changes Summary"))
     print(INDENT, f"New:     {changes_summary['new']:>3}")
     print(INDENT, f"Delete:  {changes_summary['delete']:>3}")
-    print(INDENT, f"Total:   {changes_summary['total']:>3}")
+    print(INDENT, f"Modify:  {changes_summary['modify']:>3}")
     print()  # new line

@@ -120,6 +120,7 @@ class BulkUploadStatistics:
     new_ids: list[str] | None
     total_ids: list[str] | None
     deleted_ids: list[str] | None
+    modified_ids: list[str] | None
 
 
 @dataclass(frozen=True)
@@ -622,6 +623,7 @@ def to_bulk_upload_statistics(data: Any) -> BackendResponse[AsyncBulkUploadStatu
                 new_ids=rules.get("newIds", None),
                 total_ids=rules.get("totalIds", None),
                 deleted_ids=rules.get("deletedIds", None),
+                modified_ids=rules.get("modifiedIds", None),
             ),
         ),
     )
@@ -640,6 +642,7 @@ def to_bulk_upload_response(data: Any) -> BackendResponse[BulkUploadResponse]:
                 new_ids=rules.get("newIds", None),
                 total_ids=rules.get("totalIds", None),
                 deleted_ids=rules.get("deletedIds", None),
+                modified_ids=rules.get("modifiedIds", None),
             ),
         ),
     )
