@@ -35,7 +35,7 @@ def _to_lowercase_set(value):
     if isinstance(value, str):
         return {value.lower()}
     try:
-        return set({v.lower() if isinstance(v, str) else v for v in value})
+        return {v.lower() if isinstance(v, str) else v for v in value}
     except TypeError:
         return {value}
 
