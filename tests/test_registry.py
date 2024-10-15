@@ -192,3 +192,39 @@ class TestRegisteredRules:
         register(to_register)
         registered = registered_rules(**kwarg_a)
         assert {RuleA} == registered
+
+
+class TestGetRulesCaseInsensitiveFiltering(unittest.TestCase):
+    def setUp(self):
+        _RULE_REGISTRY.clear()
+
+    def tearDown(self):
+        _RULE_REGISTRY.clear()
+
+    def test_find_by_id(self) -> None:
+        class TestRule(Rule):
+            id = "TestRule"
+            log_types = [LogType.PANTHER_AUDIT]
+            default_severity = Severity.INFO
+
+            def rule(self, _):
+                pass
+
+        register(TestRule)
+        out = registered_rules(id="testrule")
+        assert len(out) == 1
+        assert out == {TestRule}
+
+    def test_find_by_log_type(self) -> None:
+        class TestRule(Rule):
+            id = "TestRule"
+            log_types = ["LogType.Test"]
+            default_severity = Severity.INFO
+
+            def rule(self, _):
+                pass
+
+        register(TestRule)
+        out = registered_rules(log_types=["LoGtYpE.tEsT"])
+        assert len(out) == 1
+        assert out == {TestRule}
