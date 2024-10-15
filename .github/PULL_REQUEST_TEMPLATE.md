@@ -9,8 +9,9 @@
 
 ### Confidence: <!-- what testing was done to ensure the change does what it is intended to do? -->
 
-<!-- were relevant tests performed? unit tests, integration tests, e2e, mage deploys, etc -->
-<!-- were there lambda, database, or message queue interface changes? -->
+<!-- were relevant tests performed? Unit tests, E2E tests, etc
+     Include steps you followed to test the changes as well as output of the tests
+-->
 <!-- reviewers should be able to understand how it was tested and have confidence in the change -->
 
 <!-- pr guide: https://www.notion.so/pantherlabs/Github-Pull-Requests-PR-02af4e80f53844f985889d5c36874c6d#6a36878f77fb43a0b3539d93ee3c3da1 -->
