@@ -1,5 +1,4 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
-from pypanther.helpers.base import deep_get
 
 
 @panther_managed
@@ -23,12 +22,12 @@ class GCPIAMCustomRoleChanges(Rule):
 
     def rule(self, event):
         return (
-            deep_get(event, "resource", "type") == "iam_role"
-            and deep_get(event, "protoPayload", "methodName") in self.ROLE_METHODS
+            event.deep_get("resource", "type") == "iam_role"
+            and event.deep_get("protoPayload", "methodName") in self.ROLE_METHODS
         )
 
     def dedup(self, event):
-        return deep_get(event, "resource", "labels", "project_id", default="<UNKNOWN_PROJECT>")
+        return event.deep_get("resource", "labels", "project_id", default="<UNKNOWN_PROJECT>")
 
     tests = [
         RuleTest(

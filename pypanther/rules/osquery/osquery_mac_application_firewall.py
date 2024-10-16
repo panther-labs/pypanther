@@ -1,5 +1,4 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
-from pypanther.helpers.base import deep_get
 
 
 @panther_managed
@@ -26,8 +25,8 @@ class OsqueryMacApplicationFirewallSettings(Rule):
         # 2 If the firewall is configured to block all incoming connections
         # Stealth mode is a best practice to avoid responding to unsolicited probes
         return (
-            int(deep_get(event, "columns", "global_state")) == 0
-            or int(deep_get(event, "columns", "stealth_enabled")) == 0
+            int(event.deep_get("columns", "global_state")) == 0
+            or int(event.deep_get("columns", "stealth_enabled")) == 0
         )
 
     def title(self, event):

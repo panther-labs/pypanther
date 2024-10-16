@@ -1,5 +1,5 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
-from pypanther.helpers.base import aws_guardduty_context, deep_get
+from pypanther.helpers.base import aws_guardduty_context
 
 
 @panther_managed
@@ -17,7 +17,7 @@ class AWSGuardDutyHighSeverityFinding(Rule):
     summary_attributes = ["severity", "type", "title", "p_any_domain_names", "p_any_aws_arns", "p_any_aws_account_ids"]
 
     def rule(self, event):
-        if deep_get(event, "service", "additionalInfo", "sample"):
+        if event.deep_get("service", "additionalInfo", "sample"):
             # in case of sample data
             # https://docs.aws.amazon.com/guardduty/latest/ug/sample_findings.html
             return False

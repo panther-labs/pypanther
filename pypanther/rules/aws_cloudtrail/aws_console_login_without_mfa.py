@@ -3,7 +3,7 @@ import logging
 from panther_detection_helpers.caching import check_account_age
 
 from pypanther import LogType, Rule, RuleMock, RuleTest, Severity, panther_managed
-from pypanther.helpers.base import aws_rule_context, deep_get
+from pypanther.helpers.base import aws_rule_context
 from pypanther.helpers.default import lookup_aws_account_name
 
 
@@ -29,7 +29,7 @@ class AWSConsoleLoginWithoutMFA(Rule):
         # Extract some nested JSON structure
         additional_event_data = event.get("additionalEventData", {})
         response_elements = event.get("responseElements", {})
-        user_identity_type = deep_get(event, "userIdentity", "type", default="")
+        user_identity_type = event.deep_get("userIdentity", "type", default="")
         # When there is an external IdP setup and users directly assume roles
         # the additionalData.MFAUsed attribute will be set to "no"
         #  AND the userIdentity.sessionContext.mfaAuthenticated attribute will be "false"
@@ -43,7 +43,7 @@ class AWSConsoleLoginWithoutMFA(Rule):
             return False
         # If using AWS SSOv2 or other SAML provider return False
         if (
-            "AWSReservedSSO" in deep_get(event, "userIdentity", "arn", default=" ")
+            "AWSReservedSSO" in event.deep_get("userIdentity", "arn", default=" ")
             or additional_event_data.get("SamlProviderArn") is not None
         ):
             return False
@@ -51,9 +51,9 @@ class AWSConsoleLoginWithoutMFA(Rule):
         # This functionality is not enabled by default, in order to start logging new user creations
         # Enable indicator_creation_rules/new_account_logging to start logging new users
         new_user_string = (
-            deep_get(event, "userIdentity", "userName", default="<MISSING_USER_NAME>")
+            event.deep_get("userIdentity", "userName", default="<MISSING_USER_NAME>")
             + "-"
-            + deep_get(event, "userIdentity", "principalId", default="<MISSING_ID>")
+            + event.deep_get("userIdentity", "principalId", default="<MISSING_ID>")
         )
         is_new_user = check_account_age(new_user_string)
         if isinstance(is_new_user, str):
@@ -79,23 +79,22 @@ class AWSConsoleLoginWithoutMFA(Rule):
             # It is not recommended to remove this 'double negative"
             if (
                 additional_event_data.get("MFAUsed") != "Yes"
-                and deep_get(event, "userIdentity", "sessionContext", "attributes", "mfaAuthenticated") != "true"
+                and event.deep_get("userIdentity", "sessionContext", "attributes", "mfaAuthenticated") != "true"
             ):
                 return True
         return False
 
     def title(self, event):
-        if deep_get(event, "userIdentity", "type") == "Root":
+        if event.deep_get("userIdentity", "type") == "Root":
             user_string = "the root user"
         else:
-            user = deep_get(event, "userIdentity", "userName") or deep_get(
-                event,
+            user = event.deep_get("userIdentity", "userName") or event.deep_get(
                 "userIdentity",
                 "sessionContext",
                 "sessionIssuer",
                 "userName",
             )
-            type_ = deep_get(event, "userIdentity", "sessionContext", "sessionIssuer", "type", default="user").lower()
+            type_ = event.deep_get("userIdentity", "sessionContext", "sessionIssuer", "type", default="user").lower()
             user_string = f"{type_} {user}"
         account_id = event.get("recipientAccountId")
         account_name = lookup_aws_account_name(account_id)

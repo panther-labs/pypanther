@@ -17,10 +17,10 @@ class MongoDBorgMembershipRestrictionDisabled(Rule):
     )
 
     def rule(self, event):
-        return event.deep_get("eventTypeName", default="") == "ORG_PUBLIC_API_ACCESS_LIST_NOT_REQUIRED"
+        return event.get("eventTypeName", "") == "ORG_PUBLIC_API_ACCESS_LIST_NOT_REQUIRED"
 
     def title(self, event):
-        user = event.deep_get("username", default="<USER_NOT_FOUND>")
+        user = event.get("username", "<USER_NOT_FOUND>")
         return f"MongoDB: [{user}] has disabled IP access list for the Atlas Administration API"
 
     def alert_context(self, event):

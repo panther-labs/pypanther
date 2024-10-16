@@ -19,9 +19,9 @@ class GCPGCSPublic(Rule):
     GLOBAL_USERS = {"allUsers", "allAuthenticatedUsers"}
 
     def rule(self, event):
-        if deep_get(event, "protoPayload", "methodName") != "storage.setIamPermissions":
+        if event.deep_get("protoPayload", "methodName") != "storage.setIamPermissions":
             return False
-        service_data = deep_get(event, "protoPayload", "serviceData")
+        service_data = event.deep_get("protoPayload", "serviceData")
         if not service_data:
             return False
         # Reference: https://cloud.google.com/iam/docs/policies
@@ -36,7 +36,7 @@ class GCPGCSPublic(Rule):
         return False
 
     def title(self, event):
-        return f"GCS bucket [{deep_get(event, 'resource', 'labels', 'bucket_name', default='<UNKNOWN_BUCKET>')}] made public"
+        return f"GCS bucket [{event.deep_get('resource', 'labels', 'bucket_name', default='<UNKNOWN_BUCKET>')}] made public"
 
     tests = [
         RuleTest(

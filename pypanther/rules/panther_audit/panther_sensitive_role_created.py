@@ -1,6 +1,5 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers import event_type
-from pypanther.helpers.base import deep_get
 
 
 @panther_managed
@@ -26,9 +25,9 @@ class PantherSensitiveRole(Rule):
     def rule(self, event):
         if event.udm("event_type") not in self.PANTHER_ROLE_ACTIONS:
             return False
-        permissions = deep_get(event, "actionParams", "dynamic", "input", "permissions")
+        permissions = event.deep_get("actionParams", "dynamic", "input", "permissions")
         if permissions is None:
-            deep_get(event, "actionParams", "input", "permissions", default="")
+            event.deep_get("actionParams", "input", "permissions", default="")
         role_permissions = set(permissions)
         return (
             len(set(self.PANTHER_ADMIN_PERMISSIONS).intersection(role_permissions)) > 0
@@ -36,15 +35,15 @@ class PantherSensitiveRole(Rule):
         )
 
     def title(self, event):
-        role_name = deep_get(event, "actionParams", "dynamic", "input", "name")
+        role_name = event.deep_get("actionParams", "dynamic", "input", "name")
         if role_name is None:
-            role_name = deep_get(event, "actionParams", "input", "name", default="<UNKNWON ROLE>")
+            role_name = event.deep_get("actionParams", "input", "name", default="<UNKNWON ROLE>")
         return f"Role with Admin Permissions created by {event.udm('actor_user')}Role Name: {role_name}"
 
     def alert_context(self, event):
         return {
             "user": event.udm("actor_user"),
-            "role_name": deep_get(event, "actionParams", "name"),
+            "role_name": event.deep_get("actionParams", "name"),
             "ip": event.udm("source_ip"),
         }
 
@@ -174,7 +173,7 @@ class PantherSensitiveRole(Rule):
                 "p_log_type": "Panther.Audit",
                 "p_parse_time": "2023-02-09 21:46:53.858602089",
                 "p_row_id": "b29dff36ad73cb77a5d7a3a816c39c2a",
-                "p_rule_error": '\'NoneType\' object is not iterable: Panther.Sensitive.Role.py, line 20, in rule    role_permissions = set(deep_get(event, "actionParams", "input", "permissions"))',
+                "p_rule_error": '\'NoneType\' object is not iterable: Panther.Sensitive.Role.py, line 20, in rule    role_permissions = set(event.deep_get("actionParams", "input", "permissions"))',
                 "p_rule_id": "Panther.Sensitive.Role",
                 "p_rule_reports": {"MITRE ATT&CK": ["TA0003:T1098"]},
                 "p_rule_severity": "HIGH",

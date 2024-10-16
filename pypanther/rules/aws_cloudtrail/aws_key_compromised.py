@@ -1,5 +1,5 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
-from pypanther.helpers.base import aws_rule_context, deep_get
+from pypanther.helpers.base import aws_rule_context
 
 
 @panther_managed
@@ -25,10 +25,10 @@ class AWSIAMAccessKeyCompromised(Rule):
         return False
 
     def dedup(self, event):
-        return deep_get(event, "userIdentity", "userName")
+        return event.deep_get("userIdentity", "userName")
 
     def title(self, event):
-        return f"{self.dedup(event)}'s access key ID [{deep_get(event, 'userIdentity', 'accessKeyId')}] was uploaded to a public GitHub repo"
+        return f"{self.dedup(event)}'s access key ID [{event.deep_get('userIdentity', 'accessKeyId')}] was uploaded to a public GitHub repo"
 
     def alert_context(self, event):
         return aws_rule_context(event)

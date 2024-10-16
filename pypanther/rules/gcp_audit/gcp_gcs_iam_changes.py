@@ -1,5 +1,4 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
-from pypanther.helpers.base import deep_get
 
 
 @panther_managed
@@ -17,12 +16,12 @@ class GCPGCSIAMChanges(Rule):
 
     def rule(self, event):
         return (
-            deep_get(event, "resource", "type") == "gcs_bucket"
-            and deep_get(event, "protoPayload", "methodName") == "storage.setIamPermissions"
+            event.deep_get("resource", "type") == "gcs_bucket"
+            and event.deep_get("protoPayload", "methodName") == "storage.setIamPermissions"
         )
 
     def dedup(self, event):
-        return deep_get(event, "resource", "labels", "project_id", default="<UNKNOWN_PROJECT>")
+        return event.deep_get("resource", "labels", "project_id", default="<UNKNOWN_PROJECT>")
 
     tests = [
         RuleTest(

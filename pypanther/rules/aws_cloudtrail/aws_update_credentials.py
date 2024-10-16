@@ -1,5 +1,5 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
-from pypanther.helpers.base import aws_rule_context, deep_get
+from pypanther.helpers.base import aws_rule_context
 from pypanther.helpers.default import aws_cloudtrail_success
 
 
@@ -21,10 +21,10 @@ class AWSIAMCredentialsUpdated(Rule):
         return event.get("eventName") in self.UPDATE_EVENTS and aws_cloudtrail_success(event)
 
     def dedup(self, event):
-        return deep_get(event, "userIdentity", "userName", default="<UNKNOWN_USER>")
+        return event.deep_get("userIdentity", "userName", default="<UNKNOWN_USER>")
 
     def title(self, event):
-        return f"{deep_get(event, 'userIdentity', 'type')} [{deep_get(event, 'userIdentity', 'arn')}] has updated their IAM credentials"
+        return f"{event.deep_get('userIdentity', 'type')} [{event.deep_get('userIdentity', 'arn')}] has updated their IAM credentials"
 
     def alert_context(self, event):
         return aws_rule_context(event)

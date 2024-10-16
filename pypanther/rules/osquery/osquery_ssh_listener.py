@@ -1,5 +1,4 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
-from pypanther.helpers.base import deep_get
 
 
 @panther_managed
@@ -18,7 +17,7 @@ class OsquerySSHListener(Rule):
     def rule(self, event):
         return (
             event.get("name") == "pack_incident-response_listening_ports"
-            and deep_get(event, "columns", "port") == "22"
+            and event.deep_get("columns", "port") == "22"
             and (event.get("action") == "added")
         )
 

@@ -12,10 +12,10 @@ class MongoDBLoggingToggled(Rule):
     id = "MongoDB.Logging.Toggled-prototype"
 
     def rule(self, event):
-        return event.deep_get("eventTypeName", default="") == "AUDIT_LOG_CONFIGURATION_UPDATED"
+        return event.get("eventTypeName", "") == "AUDIT_LOG_CONFIGURATION_UPDATED"
 
     def title(self, event):
-        user = event.deep_get("username", default="<USER_NOT_FOUND>")
+        user = event.get("username", "<USER_NOT_FOUND>")
         return f"MongoDB: [{user}] has changed logging configuration."
 
     def alert_context(self, event):

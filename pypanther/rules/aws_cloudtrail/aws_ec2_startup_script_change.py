@@ -1,5 +1,5 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
-from pypanther.helpers.base import aws_rule_context, deep_get
+from pypanther.helpers.base import aws_rule_context
 
 
 @panther_managed
@@ -13,19 +13,19 @@ class AWSEC2StartupScriptChange(Rule):
     id = "AWS.EC2.Startup.Script.Change-prototype"
 
     def rule(self, event):
-        if event.get("eventName") == "ModifyInstanceAttribute" and deep_get(event, "requestParameters", "userData"):
+        if event.get("eventName") == "ModifyInstanceAttribute" and event.deep_get("requestParameters", "userData"):
             return True
         return False
 
     def title(self, event):
-        return f"[{deep_get(event, 'userIdentity', 'arn')}] modified the startup script for  [{deep_get(event, 'requestParameters', 'instanceId')}] in [{event.get('recipientAccountId')}] - [{event.get('awsRegion')}]"
+        return f"[{event.deep_get('userIdentity', 'arn')}] modified the startup script for  [{event.deep_get('requestParameters', 'instanceId')}] in [{event.get('recipientAccountId')}] - [{event.get('awsRegion')}]"
 
     def dedup(self, event):
-        return deep_get(event, "requestParameters", "instanceId")
+        return event.deep_get("requestParameters", "instanceId")
 
     def alert_context(self, event):
         context = aws_rule_context(event)
-        context["instance_ids"] = [deep_get(event, "requestParameters", "instanceId"), "no_instance_id"]
+        context["instance_ids"] = [event.deep_get("requestParameters", "instanceId"), "no_instance_id"]
         return context
 
     tests = [

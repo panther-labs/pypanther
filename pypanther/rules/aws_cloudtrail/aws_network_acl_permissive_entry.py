@@ -1,5 +1,5 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
-from pypanther.helpers.base import aws_rule_context, deep_get
+from pypanther.helpers.base import aws_rule_context
 from pypanther.helpers.default import aws_cloudtrail_success
 
 
@@ -24,9 +24,9 @@ class AWSCloudTrailNetworkACLPermissiveEntry(Rule):
             return False
         # Check if this new NACL entry is allowing traffic from anywhere
         return (
-            deep_get(event, "requestParameters", "cidrBlock") == "0.0.0.0/0"
-            and deep_get(event, "requestParameters", "ruleAction") == "allow"
-            and (deep_get(event, "requestParameters", "egress") is False)
+            event.deep_get("requestParameters", "cidrBlock") == "0.0.0.0/0"
+            and event.deep_get("requestParameters", "ruleAction") == "allow"
+            and (event.deep_get("requestParameters", "egress") is False)
         )
 
     def alert_context(self, event):

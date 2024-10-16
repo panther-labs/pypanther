@@ -1,5 +1,4 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
-from pypanther.helpers.base import deep_get
 
 
 @panther_managed
@@ -20,7 +19,7 @@ class GSuiteWorkspaceGmailDefaultRoutingRuleModified(Rule):
             [
                 event.get("type", "") == "EMAIL_SETTINGS",
                 event.get("name", "").endswith("_GMAIL_SETTING"),
-                deep_get(event, "parameters", "SETTING_NAME", default="") == "MESSAGE_SECURITY_RULE",
+                event.deep_get("parameters", "SETTING_NAME", default="") == "MESSAGE_SECURITY_RULE",
             ],
         ):
             return True
@@ -31,7 +30,7 @@ class GSuiteWorkspaceGmailDefaultRoutingRuleModified(Rule):
         # We shouldn't be able to enter title() unless event[name] ends with
         #  _GMAIL_SETTING, and as such change_type assumes the happy path.
         change_type = f"{event.get('name', '').split('_')[0].lower()}d"
-        return f"GSuite Gmail Default Routing Rule Was [{change_type}] by [{deep_get(event, 'actor', 'email', default='<UNKNOWN_EMAIL>')}]"
+        return f"GSuite Gmail Default Routing Rule Was [{change_type}] by [{event.deep_get('actor', 'email', default='<UNKNOWN_EMAIL>')}]"
 
     tests = [
         RuleTest(

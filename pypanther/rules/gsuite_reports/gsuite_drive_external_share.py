@@ -1,7 +1,7 @@
 import datetime
 
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
-from pypanther.helpers.base import deep_get, pattern_match, pattern_match_list
+from pypanther.helpers.base import pattern_match, pattern_match_list
 
 
 @panther_managed
@@ -62,9 +62,9 @@ class GSuiteDriveExternalFileShare(Rule):
         return False
 
     def rule(self, event):
-        application_name = deep_get(event, "id", "applicationName")
+        application_name = event.deep_get("id", "applicationName")
         events = event.get("events")
-        actor_email = deep_get(event, "actor", "email", default="EMAIL_UNKNOWN")
+        actor_email = event.deep_get("actor", "email", default="EMAIL_UNKNOWN")
         if application_name == "drive" and events and ("acl_change" in set(e["type"] for e in events)):
             # If any of the events in this record are a dangerous file share, alert:
             return any(self._check_acl_change_event(actor_email, acl_change_event) for acl_change_event in events)
@@ -72,7 +72,7 @@ class GSuiteDriveExternalFileShare(Rule):
 
     def title(self, event):
         events = event.get("events", [])
-        actor_email = deep_get(event, "actor", "email", default="EMAIL_UNKNOWN")
+        actor_email = event.deep_get("actor", "email", default="EMAIL_UNKNOWN")
         matching_events = [
             self._check_acl_change_event(actor_email, acl_change_event)
             for acl_change_event in events

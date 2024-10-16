@@ -68,8 +68,7 @@ class AWSCloudTrailResourceMadePublic(Rule):
 
     def title(self, event):
         # TODO(): Update this rule to use data models
-        user = deep_get(event, "userIdentity", "userName") or deep_get(
-            event,
+        user = event.deep_get("userIdentity", "userName") or event.deep_get(
             "userIdentity",
             "sessionContext",
             "sessionIssuer",

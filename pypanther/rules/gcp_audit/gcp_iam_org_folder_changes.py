@@ -1,5 +1,4 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
-from pypanther.helpers.base import deep_get
 
 
 @panther_managed
@@ -23,9 +22,9 @@ class GCPIAMOrgFolderIAMChanges(Rule):
 
     def rule(self, event):
         # Return True to match the log event and trigger an alert.
-        logname = deep_get(event, "logName")
+        logname = event.get("logName")
         return (
-            deep_get(event, "protoPayload", "methodName") == "SetIamPolicy"
+            event.deep_get("protoPayload", "methodName") == "SetIamPolicy"
             and (logname.startswith("organizations") or logname.startswith("folder"))
             and logname.endswith("/logs/cloudaudit.googleapis.com%2Factivity")
         )
@@ -37,16 +36,13 @@ class GCPIAMOrgFolderIAMChanges(Rule):
     def alert_context(self, event):
         return {
             "actor": event.udm("actor_user"),
-            "policy_change": deep_get(event, "protoPayload", "serviceData", "policyDelta"),
-            "caller_ip": deep_get(event, "protoPayload", "requestMetadata", "callerIP"),
-            "user_agent": deep_get(event, "protoPayload", "requestMetadata", "callerSuppliedUserAgent"),
+            "policy_change": event.deep_get("protoPayload", "serviceData", "policyDelta"),
+            "caller_ip": event.deep_get("protoPayload", "requestMetadata", "callerIP"),
+            "user_agent": event.deep_get("protoPayload", "requestMetadata", "callerSuppliedUserAgent"),
         }
 
     def severity(self, event):
-        if (
-            deep_get(event, "protoPayload", "requestMetadata", "callerSuppliedUserAgent").lower().find("terraform")
-            != -1
-        ):
+        if event.deep_get("protoPayload", "requestMetadata", "callerSuppliedUserAgent").lower().find("terraform") != -1:
             return "INFO"
         return "HIGH"
 

@@ -1,5 +1,4 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
-from pypanther.helpers.base import deep_get
 
 
 @panther_managed
@@ -14,7 +13,7 @@ class GoogleWorkspaceAdvancedProtectionProgram(Rule):
 
     def rule(self, event):
         # Return True to match the log event and trigger an alert.
-        setting_name = deep_get(event, "parameters", "SETTING_NAME", default="NO_SETTING_NAME").split("-")[0].strip()
+        setting_name = event.deep_get("parameters", "SETTING_NAME", default="NO_SETTING_NAME").split("-")[0].strip()
         setting_alert_flag = "Advanced Protection Program Settings"
         return event.get("name") == "CREATE_APPLICATION_SETTING" and setting_name == setting_alert_flag
 

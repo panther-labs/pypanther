@@ -5,7 +5,7 @@ from difflib import SequenceMatcher
 from panther_detection_helpers.caching import get_string_set, put_string_set
 
 from pypanther import LogType, Rule, RuleMock, RuleTest, Severity, panther_managed
-from pypanther.helpers.base import deep_get, okta_alert_context
+from pypanther.helpers.base import okta_alert_context
 
 
 @panther_managed
@@ -30,14 +30,14 @@ class OktaPotentiallyStolenSession(Rule):
 
     def rule(self, event):
         # ensure previous session info is avaialable in the alert_context for investigation
-        session_id = deep_get(event, "authenticationContext", "externalSessionId", default="unknown")
-        dt_hash = deep_get(event, "debugContext", "debugData", "dtHash", default="unknown")
+        session_id = event.deep_get("authenticationContext", "externalSessionId", default="unknown")
+        dt_hash = event.deep_get("debugContext", "debugData", "dtHash", default="unknown")
         # Some events by Okta admins may appear to have changed IPs
         # and user agents due to internal Okta behavior:
         # https://support.okta.com/help/s/article/okta-integrations-showing-as-rawuseragent-with-okta-ips
         # As such, we ignore certain client ids known to originate from Okta:
         # https://developer.okta.com/docs/api/openapi/okta-myaccount/myaccount/tag/OktaApplications/
-        if deep_get(event, "client", "id") in ["okta.b58d5b75-07d4-5f25-bf59-368a1261a405"]:  # Admin Console
+        if event.deep_get("client", "id") in ["okta.b58d5b75-07d4-5f25-bf59-368a1261a405"]:  # Admin Console
             return False
         # Filter only on app access and session start events
         if event.get("eventType") not in self.EVENT_TYPES or (session_id == "unknown" or dt_hash == "unknown"):
@@ -54,15 +54,15 @@ class OktaPotentiallyStolenSession(Rule):
             put_string_set(
                 key,
                 [
-                    str(deep_get(event, "securityContext", "asNumber")),
-                    deep_get(event, "client", "ipAddress"),
-                    "user_agent:" + deep_get(event, "client", "userAgent", "rawUserAgent"),
-                    deep_get(event, "client", "userAgent", "browser"),
-                    deep_get(event, "client", "userAgent", "os"),
+                    str(event.deep_get("securityContext", "asNumber")),
+                    event.deep_get("client", "ipAddress"),
+                    "user_agent:" + event.deep_get("client", "userAgent", "rawUserAgent"),
+                    event.deep_get("client", "userAgent", "browser"),
+                    event.deep_get("client", "userAgent", "os"),
                     event.get("p_event_time"),
-                    "sign_on_mode:" + deep_get(event, "debugContext", "debugData", "signOnMode", default="unknown"),
+                    "sign_on_mode:" + event.deep_get("debugContext", "debugData", "signOnMode", default="unknown"),
                     "threat_suspected:"
-                    + deep_get(event, "debugContext", "debugData", "threat_suspected", default="unknown"),
+                    + event.deep_get("debugContext", "debugData", "threat_suspected", default="unknown"),
                 ],
                 epoch_seconds=event.event_time_epoch() + self.SESSION_TIMEOUT,
             )
@@ -76,12 +76,12 @@ class OktaPotentiallyStolenSession(Rule):
             prev_ua = prev_ua.split("_agent:")[1]
             diff_ratio = SequenceMatcher(
                 None,
-                deep_get(event, "client", "userAgent", "rawUserAgent", default="ua_not_found"),
+                event.deep_get("client", "userAgent", "rawUserAgent", default="ua_not_found"),
                 prev_ua,
             ).ratio()
             # is this session being used from a new IP and a different browser
             if (
-                str(deep_get(event, "client", "ipAddress", default="ip_not_found")) not in self.PREVIOUS_SESSION
+                str(event.deep_get("client", "ipAddress", default="ip_not_found")) not in self.PREVIOUS_SESSION
                 and diff_ratio < self.FUZZ_RATIO_MIN
             ):
                 # make the fuzz ratio available in the alert context
@@ -90,7 +90,7 @@ class OktaPotentiallyStolenSession(Rule):
         return False
 
     def title(self, event):
-        return f"Potentially Stolen Okta Session - {deep_get(event, 'actor', 'displayName', default='Unknown_user')}"
+        return f"Potentially Stolen Okta Session - {event.deep_get('actor', 'displayName', default='Unknown_user')}"
 
     def alert_context(self, event):
         context = okta_alert_context(event)

@@ -1,5 +1,5 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
-from pypanther.helpers.base import aws_rule_context, deep_get
+from pypanther.helpers.base import aws_rule_context
 from pypanther.helpers.default import aws_cloudtrail_success
 
 
@@ -33,7 +33,7 @@ class AWSS3BucketPolicyModified(Rule):
         return event.get("eventName") in self.S3_POLICY_CHANGE_EVENTS and aws_cloudtrail_success(event)
 
     def title(self, event):
-        return f"S3 bucket modified by [{deep_get(event, 'userIdentity', 'arn')}]"
+        return f"S3 bucket modified by [{event.deep_get('userIdentity', 'arn')}]"
 
     def alert_context(self, event):
         return aws_rule_context(event)

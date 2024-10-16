@@ -1,5 +1,4 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
-from pypanther.helpers.base import deep_get
 
 
 @panther_managed
@@ -15,12 +14,12 @@ class GSuiteGovernmentBackedAttack(Rule):
     summary_attributes = ["actor:email"]
 
     def rule(self, event):
-        if deep_get(event, "id", "applicationName") != "login":
+        if event.deep_get("id", "applicationName") != "login":
             return False
         return bool(event.get("name") == "gov_attack_warning")
 
     def title(self, event):
-        return f"User [{deep_get(event, 'actor', 'email', default='<UNKNOWN_EMAIL>')}] may have been targeted by a government attack"
+        return f"User [{event.deep_get('actor', 'email', default='<UNKNOWN_EMAIL>')}] may have been targeted by a government attack"
 
     tests = [
         RuleTest(

@@ -1,5 +1,4 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
-from pypanther.helpers.base import deep_get
 
 
 @panther_managed
@@ -18,7 +17,7 @@ class GSuiteWorkspaceDataExportCreated(Rule):
         return event.get("name", "").startswith("CUSTOMER_TAKEOUT_")
 
     def title(self, event):
-        return f"GSuite Workspace Data Export [{event.get('name', '<NO_EVENT_NAME>')}] performed by [{deep_get(event, 'actor', 'email', default='<NO_ACTOR_FOUND>')}]"
+        return f"GSuite Workspace Data Export [{event.get('name', '<NO_EVENT_NAME>')}] performed by [{event.deep_get('actor', 'email', default='<NO_ACTOR_FOUND>')}]"
 
     tests = [
         RuleTest(

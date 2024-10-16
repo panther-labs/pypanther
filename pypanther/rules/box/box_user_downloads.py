@@ -1,5 +1,4 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
-from pypanther.helpers.base import deep_get
 
 
 @panther_managed
@@ -20,7 +19,7 @@ class BoxLargeNumberDownloads(Rule):
         return event.get("event_type") == "DOWNLOAD"
 
     def title(self, event):
-        return f"User [{deep_get(event, 'created_by', 'login', default='<UNKNOWN_USER>')}] exceeded threshold for number of downloads in the configured time frame."
+        return f"User [{event.deep_get('created_by', 'login', default='<UNKNOWN_USER>')}] exceeded threshold for number of downloads in the configured time frame."
 
     tests = [
         RuleTest(

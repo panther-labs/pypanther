@@ -1,5 +1,4 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
-from pypanther.helpers.base import deep_get
 from pypanther.helpers.tines import tines_alert_context
 
 
@@ -16,12 +15,12 @@ class TinesActionsDisabledChanges(Rule):
     ACTIONS = ["ActionsDisabledChange"]
 
     def rule(self, event):
-        action = deep_get(event, "operation_name", default="<NO_OPERATION_NAME>")
+        action = event.get("operation_name", "<NO_OPERATION_NAME>")
         return action in self.ACTIONS
 
     def title(self, event):
-        action = deep_get(event, "operation_name", default="<NO_OPERATION_NAME>")
-        actor = deep_get(event, "user_email", default="<NO_USERNAME>")
+        action = event.get("operation_name", "<NO_OPERATION_NAME>")
+        actor = event.get("user_email", "<NO_USERNAME>")
         return f"Tines: {action} by {actor}"
 
     def alert_context(self, event):

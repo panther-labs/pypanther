@@ -29,7 +29,7 @@ class BoxShieldAnomalousDownload(Rule):
         description = deep_get(details, "shield_alert", "alert_summary", "description")
         if description:
             return description
-        return f"Anomalous download activity triggered by user [{deep_get(event, 'created_by', 'name', default='<UNKNOWN_USER>')}]."
+        return f"Anomalous download activity triggered by user [{event.deep_get('created_by', 'name', default='<UNKNOWN_USER>')}]."
 
     tests = [
         RuleTest(

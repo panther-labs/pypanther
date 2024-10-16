@@ -12,7 +12,7 @@ class MongoDBUserCreatedOrDeleted(Rule):
     id = "MongoDB.User.Created.Or.Deleted-prototype"
 
     def rule(self, event):
-        return event.deep_get("eventTypeName", default="") in ("JOINED_ORG", "REMOVED_FROM_ORG")
+        return event.get("eventTypeName", "") in ("JOINED_ORG", "REMOVED_FROM_ORG")
 
     def title(self, event):
         event_name = event.get("eventTypeName")

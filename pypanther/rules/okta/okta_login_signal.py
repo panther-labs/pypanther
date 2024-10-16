@@ -11,7 +11,7 @@ class OktaLoginSuccess(Rule):
     default_severity = Severity.INFO
 
     def rule(self, event):
-        return event.deep_get("eventType") == "user.session.start" and event.deep_get("outcome", "result") == "SUCCESS"
+        return event.get("eventType") == "user.session.start" and event.deep_get("outcome", "result") == "SUCCESS"
 
     def title(self, event):
         return f"{event.deep_get('actor', 'displayName')} logged in to Okta"

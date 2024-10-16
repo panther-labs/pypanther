@@ -1,5 +1,4 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
-from pypanther.helpers.base import deep_get
 
 
 @panther_managed
@@ -15,8 +14,8 @@ class AsanaWorkspaceSAMLOptional(Rule):
     id = "Asana.Workspace.SAML.Optional-prototype"
 
     def rule(self, event):
-        old_val = deep_get(event, "details", "old_value", default="<OLD_VAL_NOT_FOUND>")
-        new_val = deep_get(event, "details", "new_value", default="<NEW_VAL_NOT_FOUND>")
+        old_val = event.deep_get("details", "old_value", default="<OLD_VAL_NOT_FOUND>")
+        new_val = event.deep_get("details", "new_value", default="<NEW_VAL_NOT_FOUND>")
         return all(
             [
                 event.get("event_type", "<NO_EVENT_TYPE_FOUND>") == "workspace_saml_settings_changed",
@@ -26,7 +25,7 @@ class AsanaWorkspaceSAMLOptional(Rule):
         )
 
     def title(self, event):
-        actor_email = deep_get(event, "actor", "email", default="<ACTOR_NOT_FOUND>")
+        actor_email = event.deep_get("actor", "email", default="<ACTOR_NOT_FOUND>")
         return f"Asana user [{actor_email}] made SAML optional for your organization."
 
     tests = [

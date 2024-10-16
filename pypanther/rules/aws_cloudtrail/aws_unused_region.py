@@ -1,5 +1,5 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
-from pypanther.helpers.base import aws_rule_context, deep_get
+from pypanther.helpers.base import aws_rule_context
 
 
 @panther_managed
@@ -27,7 +27,7 @@ class AWSUnusedRegion(Rule):
         return False
 
     def title(self, event):
-        aws_username = deep_get(event, "userIdentity", "sessionContext", "sessionIssuer", "userName")
+        aws_username = event.deep_get("userIdentity", "sessionContext", "sessionIssuer", "userName")
         return f"Non-read-only API call in unused region {event.get('awsRegion', '<UNKNOWN_AWS_REGION>')} by user {aws_username}"
 
     def alert_context(self, event):

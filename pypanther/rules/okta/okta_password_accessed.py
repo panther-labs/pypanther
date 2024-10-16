@@ -1,5 +1,5 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
-from pypanther.helpers.base import deep_get, get_val_from_list
+from pypanther.helpers.base import get_val_from_list
 
 
 @panther_managed
@@ -20,12 +20,12 @@ class OktaPasswordAccess(Rule):
         # event['target'] = [{...}, {...}, {...}]
         self.TARGET_USERS = get_val_from_list(event.get("target", [{}]), "alternateId", "type", "User")
         self.TARGET_APP_NAMES = get_val_from_list(event.get("target", [{}]), "alternateId", "type", "AppInstance")
-        if deep_get(event, "actor", "alternateId") not in self.TARGET_USERS:
+        if event.deep_get("actor", "alternateId") not in self.TARGET_USERS:
             return True
         return False
 
     def dedup(self, event):
-        dedup_str = deep_get(event, "actor", "alternateId")
+        dedup_str = event.deep_get("actor", "alternateId")
         if self.TARGET_USERS:
             dedup_str += ":" + str(self.TARGET_USERS)
         if self.TARGET_APP_NAMES:
@@ -33,7 +33,7 @@ class OktaPasswordAccess(Rule):
         return dedup_str or ""
 
     def title(self, event):
-        return f"A user {deep_get(event, 'actor', 'alternateId')} accessed another user's {self.TARGET_USERS} {self.TARGET_APP_NAMES} password"
+        return f"A user {event.deep_get('actor', 'alternateId')} accessed another user's {self.TARGET_USERS} {self.TARGET_APP_NAMES} password"
 
     tests = [
         RuleTest(

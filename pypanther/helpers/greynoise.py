@@ -7,7 +7,6 @@ from typing import Union
 
 from dateutil import parser
 
-from pypanther.helpers.base import deep_get
 from pypanther.helpers.lookuptable import LookupTableMatches
 
 
@@ -282,13 +281,13 @@ class GreyNoiseRIOTAdvanced(GreyNoiseRIOTBasic):
 
 # pylint: disable=invalid-name
 def GetGreyNoiseObject(event):
-    if deep_get(event, "p_enrichment", "greynoise_noise_advanced"):
+    if event.deep_get("p_enrichment", "greynoise_noise_advanced"):
         return GreyNoiseAdvanced(event)
     return GreyNoiseBasic(event)
 
 
 def GetGreyNoiseRiotObject(event):
-    if deep_get(event, "p_enrichment", "greynoise_riot_advanced"):
+    if event.deep_get("p_enrichment", "greynoise_riot_advanced"):
         return GreyNoiseRIOTAdvanced(event)
     return GreyNoiseRIOTBasic(event)
 

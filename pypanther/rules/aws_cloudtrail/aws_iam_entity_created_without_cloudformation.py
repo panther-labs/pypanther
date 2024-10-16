@@ -1,7 +1,7 @@
 import re
 
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
-from pypanther.helpers.base import aws_rule_context, deep_get
+from pypanther.helpers.base import aws_rule_context
 from pypanther.helpers.default import aws_cloudtrail_success
 
 
@@ -39,7 +39,7 @@ class AWSCloudTrailIAMEntityCreatedWithoutCloudFormation(Rule):
         if not aws_cloudtrail_success(event) or event.get("eventName") not in self.IAM_ENTITY_CREATION_EVENTS:
             return False
         # All IAM changes MUST go through CloudFormation
-        if deep_get(event, "userIdentity", "invokedBy") != "cloudformation.amazonaws.com":
+        if event.deep_get("userIdentity", "invokedBy") != "cloudformation.amazonaws.com":
             return True
         # Only approved IAM Roles can make IAM Changes
         for admin_role_pattern in self.IAM_ADMIN_ROLE_PATTERNS:
@@ -48,13 +48,13 @@ class AWSCloudTrailIAMEntityCreatedWithoutCloudFormation(Rule):
                 len(
                     re.findall(
                         admin_role_pattern,
-                        deep_get(event, "userIdentity", "sessionContext", "sessionIssuer", "arn"),
+                        event.deep_get("userIdentity", "sessionContext", "sessionIssuer", "arn"),
                     ),
                 )
                 > 0
             ):
                 return False
-        return deep_get(event, "userIdentity", "sessionContext", "sessionIssuer", "arn") not in self.IAM_ADMIN_ROLES
+        return event.deep_get("userIdentity", "sessionContext", "sessionIssuer", "arn") not in self.IAM_ADMIN_ROLES
 
     def alert_context(self, event):
         return aws_rule_context(event)

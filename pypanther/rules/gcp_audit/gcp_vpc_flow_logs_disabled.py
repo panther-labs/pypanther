@@ -1,5 +1,4 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
-from pypanther.helpers.base import deep_get
 
 
 @panther_managed
@@ -15,14 +14,14 @@ class GCPVPCFlowLogsDisabled(Rule):
         return all(
             [
                 event.get("protoPayload"),
-                deep_get(event, "protoPayload", "methodName", default="") == "v1.compute.subnetworks.patch",
-                deep_get(event, "protoPayload", "request", "enableFlowLogs") is False,
+                event.deep_get("protoPayload", "methodName", default="") == "v1.compute.subnetworks.patch",
+                event.deep_get("protoPayload", "request", "enableFlowLogs") is False,
             ],
         )
 
     def title(self, event):
-        actor = deep_get(event, "protoPayload", "authenticationInfo", "principalEmail", default="<ACTOR_NOT_FOUND>")
-        resource = deep_get(event, "protoPayload", "resourceName", default="<RESOURCE_NOT_FOUND>")
+        actor = event.deep_get("protoPayload", "authenticationInfo", "principalEmail", default="<ACTOR_NOT_FOUND>")
+        resource = event.deep_get("protoPayload", "resourceName", default="<RESOURCE_NOT_FOUND>")
         return f"GCP: [{actor}] disabled VPC Flow Logs for [{resource}]"
 
     tests = [

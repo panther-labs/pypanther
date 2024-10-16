@@ -14,19 +14,16 @@ class MongoDBAlertingDisabledOrDeleted(Rule):
     default_runbook = "Re-enable security alerts"
 
     def rule(self, event):
-        return event.deep_get("eventTypeName", default="") in [
-            "ALERT_CONFIG_DISABLED_AUDIT",
-            "ALERT_CONFIG_DELETED_AUDIT",
-        ]
+        return event.get("eventTypeName", "") in ["ALERT_CONFIG_DISABLED_AUDIT", "ALERT_CONFIG_DELETED_AUDIT"]
 
     def title(self, event):
-        user = event.deep_get("username", default="<USER_NOT_FOUND>")
-        alert_id = event.deep_get("alertConfigId", default="<ALERT_NOT_FOUND>")
+        user = event.get("username", "<USER_NOT_FOUND>")
+        alert_id = event.get("alertConfigId", "<ALERT_NOT_FOUND>")
         return f"MongoDB: [{user}] has disabled or deleted security alert [{alert_id}]"
 
     def alert_context(self, event):
         context = mongodb_alert_context(event)
-        context["alertConfigId"] = event.deep_get("alertConfigId", default="<ALERT_NOT_FOUND>")
+        context["alertConfigId"] = event.get("alertConfigId", "<ALERT_NOT_FOUND>")
         return context
 
     tests = [

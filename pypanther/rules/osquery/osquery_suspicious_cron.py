@@ -2,7 +2,6 @@ import shlex
 from fnmatch import fnmatch
 
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
-from pypanther.helpers.base import deep_get
 
 
 @panther_managed
@@ -37,7 +36,7 @@ class OsquerySuspiciousCron(Rule):
     def rule(self, event):
         if "crontab" not in event.get("name"):
             return False
-        command = deep_get(event, "columns", "command")
+        command = event.deep_get("columns", "command")
         if not command:
             return False
         return any([self.suspicious_cmd_args(command), self.suspicious_cmd_pairs(command)])

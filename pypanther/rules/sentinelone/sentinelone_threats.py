@@ -1,5 +1,4 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
-from pypanther.helpers.base import deep_get
 
 
 @panther_managed
@@ -19,13 +18,13 @@ class SentinelOneThreats(Rule):
         return event.get("activitytype") in self.NEW_THREAT_ACTIVITYTYPES
 
     def title(self, event):
-        return f"SentinelOne - [{deep_get(event, 'data', 'confidencelevel', default='')}] level [{deep_get(event, 'data', 'threatclassification', default='')}] threat detected from [{deep_get(event, 'data', 'threatclassificationsource', default='')}]."
+        return f"SentinelOne - [{event.deep_get('data', 'confidencelevel', default='')}] level [{event.deep_get('data', 'threatclassification', default='')}] threat detected from [{event.deep_get('data', 'threatclassificationsource', default='')}]."
 
     def dedup(self, event):
         return f"s1threat:{event.get('id', '')}"
 
     def severity(self, event):
-        if deep_get(event, "data", "confidencelevel", default="") == "malicious":
+        if event.deep_get("data", "confidencelevel", default="") == "malicious":
             return "CRITICAL"
         return "HIGH"
 

@@ -12,10 +12,10 @@ class MongoDB2FADisabled(Rule):
     id = "MongoDB.2FA.Disabled-prototype"
 
     def rule(self, event):
-        return event.deep_get("eventTypeName", default="") == "ORG_TWO_FACTOR_AUTH_OPTIONAL"
+        return event.get("eventTypeName", "") == "ORG_TWO_FACTOR_AUTH_OPTIONAL"
 
     def title(self, event):
-        user = event.deep_get("username", default="<USER_NOT_FOUND>")
+        user = event.get("username", "<USER_NOT_FOUND>")
         return f"MongoDB Atlas: [{user}] has disabled 2FA"
 
     def alert_context(self, event):

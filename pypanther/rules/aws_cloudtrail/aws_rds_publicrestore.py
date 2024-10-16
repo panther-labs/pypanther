@@ -1,5 +1,5 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
-from pypanther.helpers.base import aws_rule_context, deep_get
+from pypanther.helpers.base import aws_rule_context
 
 
 @panther_managed
@@ -19,7 +19,7 @@ class AWSRDSPublicRestore(Rule):
             event.get("eventSource", "") == "rds.amazonaws.com"
             and event.get("eventName", "") == "RestoreDBInstanceFromDBSnapshot"
         ):
-            if deep_get(event, "responseElements", "publiclyAccessible"):
+            if event.deep_get("responseElements", "publiclyAccessible"):
                 return True
         return False
 

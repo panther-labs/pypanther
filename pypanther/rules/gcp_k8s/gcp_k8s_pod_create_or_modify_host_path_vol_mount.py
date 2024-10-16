@@ -1,5 +1,4 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
-from pypanther.helpers.base import deep_get, deep_walk
 from pypanther.helpers.gcp_base import gcp_alert_context
 
 
@@ -27,21 +26,21 @@ class GCPK8SPotCreateOrModifyHostPathVolumeMount(Rule):
     ]
 
     def rule(self, event):
-        if deep_get(event, "protoPayload", "response", "status") == "Failure":
+        if event.deep_get("protoPayload", "response", "status") == "Failure":
             return False
-        if deep_get(event, "protoPayload", "methodName") not in (
+        if event.deep_get("protoPayload", "methodName") not in (
             "io.k8s.core.v1.pods.create",
             "io.k8s.core.v1.pods.update",
             "io.k8s.core.v1.pods.patch",
         ):
             return False
-        volume_mount_path = deep_walk(event, "protoPayload", "request", "spec", "volumes", "hostPath", "path")
+        volume_mount_path = event.deep_walk("protoPayload", "request", "spec", "volumes", "hostPath", "path")
         if not volume_mount_path or (
             volume_mount_path not in self.SUSPICIOUS_PATHS
             and (not any(path in self.SUSPICIOUS_PATHS for path in volume_mount_path))
         ):
             return False
-        authorization_info = deep_walk(event, "protoPayload", "authorizationInfo")
+        authorization_info = event.deep_walk("protoPayload", "authorizationInfo")
         if not authorization_info:
             return False
         for auth in authorization_info:
@@ -54,17 +53,17 @@ class GCPK8SPotCreateOrModifyHostPathVolumeMount(Rule):
         return False
 
     def title(self, event):
-        actor = deep_get(event, "protoPayload", "authenticationInfo", "principalEmail", default="<ACTOR_NOT_FOUND>")
-        pod_name = deep_get(event, "protoPayload", "resourceName", default="<RESOURCE_NOT_FOUND>")
-        project_id = deep_get(event, "resource", "labels", "project_id", default="<PROJECT_NOT_FOUND>")
+        actor = event.deep_get("protoPayload", "authenticationInfo", "principalEmail", default="<ACTOR_NOT_FOUND>")
+        pod_name = event.deep_get("protoPayload", "resourceName", default="<RESOURCE_NOT_FOUND>")
+        project_id = event.deep_get("resource", "labels", "project_id", default="<PROJECT_NOT_FOUND>")
         return f"[GCP]: [{actor}] created k8s pod [{pod_name}] with a hostPath volume mount in project [{project_id}]"
 
     def dedup(self, event):
-        return deep_get(event, "protoPayload", "authenticationInfo", "principalEmail", default="<ACTOR_NOT_FOUND>")
+        return event.deep_get("protoPayload", "authenticationInfo", "principalEmail", default="<ACTOR_NOT_FOUND>")
 
     def alert_context(self, event):
         context = gcp_alert_context(event)
-        volume_mount_path = deep_walk(event, "protoPayload", "request", "spec", "volumes", "hostPath", "path")
+        volume_mount_path = event.deep_walk("protoPayload", "request", "spec", "volumes", "hostPath", "path")
         context["volume_mount_path"] = volume_mount_path
         return context
 

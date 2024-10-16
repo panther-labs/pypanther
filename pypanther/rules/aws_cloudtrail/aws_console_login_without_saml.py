@@ -1,5 +1,5 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
-from pypanther.helpers.base import aws_rule_context, deep_get
+from pypanther.helpers.base import aws_rule_context
 from pypanther.helpers.default import lookup_aws_account_name
 
 
@@ -27,7 +27,7 @@ class AWSConsoleLoginWithoutSAML(Rule):
         additional_event_data = event.get("additionalEventData", {})
         return (
             event.get("eventName") == "ConsoleLogin"
-            and deep_get(event, "userIdentity", "type") != "AssumedRole"
+            and event.deep_get("userIdentity", "type") != "AssumedRole"
             and (not additional_event_data.get("SamlProviderArn"))
         )
 

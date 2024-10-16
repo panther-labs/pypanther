@@ -1,5 +1,4 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
-from pypanther.helpers.base import deep_get, deep_walk
 from pypanther.helpers.mongodb import mongodb_alert_context
 
 
@@ -13,20 +12,20 @@ class MongoDBAtlasApiKeyCreated(Rule):
     id = "MongoDB.Atlas.ApiKeyCreated-prototype"
 
     def rule(self, event):
-        return deep_get(event, "eventTypeName", default="") == "API_KEY_ACCESS_LIST_ENTRY_ADDED"
+        return event.get("eventTypeName", "") == "API_KEY_ACCESS_LIST_ENTRY_ADDED"
 
     def title(self, event):
-        user = deep_get(event, "username", default="<USER_NOT_FOUND>")
-        public_key = deep_get(event, "targetPublicKey", default="<PUBLIC_KEY_NOT_FOUND>")
+        user = event.get("username", "<USER_NOT_FOUND>")
+        public_key = event.get("targetPublicKey", "<PUBLIC_KEY_NOT_FOUND>")
         return f"MongoDB Atlas: [{user}] updated the allowed access list for API Key [{public_key}]"
 
     def alert_context(self, event):
         context = mongodb_alert_context(event)
-        links = deep_walk(event, "links", "href", return_val="first", default="<LINKS_NOT_FOUND>")
+        links = event.deep_walk("links", "href", return_val="first", default="<LINKS_NOT_FOUND>")
         extra_context = {
             "links": links,
-            "event_type_name": deep_get(event, "eventTypeName", default="<EVENT_TYPE_NOT_FOUND>"),
-            "target_public_key": deep_get(event, "targetPublicKey", default="<PUBLIC_KEY_NOT_FOUND>"),
+            "event_type_name": event.get("eventTypeName", "<EVENT_TYPE_NOT_FOUND>"),
+            "target_public_key": event.get("targetPublicKey", "<PUBLIC_KEY_NOT_FOUND>"),
         }
         context.update(extra_context)
         return context

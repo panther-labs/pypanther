@@ -12,7 +12,7 @@ class MongoDBUserRolesChanged(Rule):
     id = "MongoDB.User.Roles.Changed-prototype"
 
     def rule(self, event):
-        return event.deep_get("eventTypeName") == "USER_ROLES_CHANGED_AUDIT"
+        return event.get("eventTypeName") == "USER_ROLES_CHANGED_AUDIT"
 
     def title(self, event):
         target_username = event.get("targetUsername", "<USER_NOT_FOUND>")

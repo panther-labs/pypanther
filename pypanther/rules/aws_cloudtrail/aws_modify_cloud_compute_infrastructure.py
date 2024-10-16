@@ -1,5 +1,4 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
-from pypanther.helpers.base import deep_get
 
 
 @panther_managed
@@ -57,9 +56,9 @@ class AWSModifyCloudComputeInfrastructure(Rule):
         # Disqualify AWS Service-Service operations, which can appear in a variety of forms
         if (
             event.get("sourceIPAddress", "").endswith(".amazonaws.com")
-            or deep_get(event, "userIdentity", "type", default="") == "AWSService"
-            or deep_get(event, "userIdentity", "invokedBy", default="") == "AWS Internal"
-            or deep_get(event, "userIdentity", "invokedBy", default="").endswith(".amazonaws.com")
+            or event.deep_get("userIdentity", "type", default="") == "AWSService"
+            or event.deep_get("userIdentity", "invokedBy", default="") == "AWS Internal"
+            or event.deep_get("userIdentity", "invokedBy", default="").endswith(".amazonaws.com")
         ):
             # FYI there is a weird quirk in the sourceIPAddress field of CloudTrail
             #  events with ec2.amazonaws.com as the source name where users of the
@@ -78,11 +77,11 @@ class AWSModifyCloudComputeInfrastructure(Rule):
         return False
 
     def title(self, event):
-        items = deep_get(event, "requestParameters", "instancesSet", "items", default=[{"instanceId": "none"}])
+        items = event.deep_get("requestParameters", "instancesSet", "items", default=[{"instanceId": "none"}])
         return f"AWS Event [{event.get('eventName')}] Instance ID [{items[0].get('instanceId')}] AWS Account ID [{event.get('recipientAccountId')}]"
 
     def alert_context(self, event):
-        items = deep_get(event, "requestParameters", "instancesSet", "items", default=[{"instanceId": "none"}])
+        items = event.deep_get("requestParameters", "instancesSet", "items", default=[{"instanceId": "none"}])
         return {
             "awsRegion": event.get("awsRegion"),
             "eventName": event.get("eventName"),

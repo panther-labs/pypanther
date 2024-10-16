@@ -1,5 +1,4 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
-from pypanther.helpers.base import deep_get
 
 
 @panther_managed
@@ -16,22 +15,21 @@ class GCPServiceAccountorKeysCreated(Rule):
     def rule(self, event):
         return all(
             [
-                deep_get(event, "resource", "type", default="") == "service_account",
-                "CreateServiceAccount" in deep_get(event, "protoPayload", "methodName", default=""),
-                not deep_get(event, "protoPayload", "authenticationInfo", "principalEmail", default="").endswith(
+                event.deep_get("resource", "type", default="") == "service_account",
+                "CreateServiceAccount" in event.deep_get("protoPayload", "methodName", default=""),
+                not event.deep_get("protoPayload", "authenticationInfo", "principalEmail", default="").endswith(
                     ".gserviceaccount.com",
                 ),
             ],
         )
 
     def title(self, event):
-        actor = deep_get(event, "protoPayload", "authenticationInfo", "principalEmail", default="<ACTOR_NOT_FOUND>")
-        target = deep_get(event, "resource", "labels", "email_id")
-        project = deep_get(event, "resource", "labels", "project_id")
+        actor = event.deep_get("protoPayload", "authenticationInfo", "principalEmail", default="<ACTOR_NOT_FOUND>")
+        target = event.deep_get("resource", "labels", "email_id")
+        project = event.deep_get("resource", "labels", "project_id")
         resource = (
             "Service Account Key for"
-            if deep_get(event, "protoPayload", "methodName", default="")
-            == "google.iam.admin.v1.CreateServiceAccountKey"
+            if event.deep_get("protoPayload", "methodName", default="") == "google.iam.admin.v1.CreateServiceAccountKey"
             else "Service Account"
         )
         return f"GCP: [{actor}] created {resource} [{target}] in project [{project}]"

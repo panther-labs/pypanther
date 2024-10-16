@@ -1,5 +1,4 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
-from pypanther.helpers.base import deep_get
 
 
 @panther_managed
@@ -24,7 +23,7 @@ class AWSCloudTrailAccountDiscovery(Rule):
         return event.get("eventName") in self.DISCOVERY_EVENTS
 
     def title(self, event):
-        return f"User [{deep_get(event, 'userIdentity', 'arn')}]performed a [{event.get('eventName')}] action in AWS account [{event.get('recipientAccountId')}]."
+        return f"User [{event.deep_get('userIdentity', 'arn')}]performed a [{event.get('eventName')}] action in AWS account [{event.get('recipientAccountId')}]."
 
     tests = [
         RuleTest(

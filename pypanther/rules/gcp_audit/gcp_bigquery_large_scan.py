@@ -1,5 +1,4 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
-from pypanther.helpers.base import deep_get
 
 
 @panther_managed
@@ -16,11 +15,10 @@ class GCPBigQueryLargeScan(Rule):
     def rule(self, event):
         return all(
             [
-                deep_get(event, "resource", "type", default="<type not found>").startswith("bigquery"),
-                deep_get(event, "operation", "last") is True,
-                deep_get(event, "protoPayload", "metadata", "jobChange", "job", "jobConfig", "type") == "QUERY",
-                deep_get(
-                    event,
+                event.deep_get("resource", "type", default="<type not found>").startswith("bigquery"),
+                event.deep_get("operation", "last") is True,
+                event.deep_get("protoPayload", "metadata", "jobChange", "job", "jobConfig", "type") == "QUERY",
+                event.deep_get(
                     "protoPayload",
                     "metadata",
                     "jobChange",
@@ -31,8 +29,7 @@ class GCPBigQueryLargeScan(Rule):
                 )
                 == "SELECT",
                 int(
-                    deep_get(
-                        event,
+                    event.deep_get(
                         "protoPayload",
                         "metadata",
                         "jobChange",
@@ -48,9 +45,8 @@ class GCPBigQueryLargeScan(Rule):
         )
 
     def title(self, event):
-        actor = deep_get(event, "protoPayload", "authenticationInfo", "principalEmail", default="<ACTOR_NOT_FOUND>")
-        query_size = deep_get(
-            event,
+        actor = event.deep_get("protoPayload", "authenticationInfo", "principalEmail", default="<ACTOR_NOT_FOUND>")
+        query_size = event.deep_get(
             "protoPayload",
             "metadata",
             "jobChange",
@@ -64,8 +60,7 @@ class GCPBigQueryLargeScan(Rule):
 
     def alert_context(self, event):
         return {
-            "query": deep_get(
-                event,
+            "query": event.deep_get(
                 "protoPayload",
                 "metadata",
                 "jobChange",
@@ -75,15 +70,13 @@ class GCPBigQueryLargeScan(Rule):
                 "query",
                 default="<QUERY_NOT_FOUND>",
             ),
-            "actor": deep_get(
-                event,
+            "actor": event.deep_get(
                 "protoPayload",
                 "authenticationInfo",
                 "principalEmail",
                 default="<ACTOR_NOT_FOUND>",
             ),
-            "query_size": deep_get(
-                event,
+            "query_size": event.deep_get(
                 "protoPayload",
                 "metadata",
                 "jobChange",

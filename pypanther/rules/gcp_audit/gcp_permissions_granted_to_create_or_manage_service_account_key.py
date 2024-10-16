@@ -1,5 +1,4 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
-from pypanther.helpers.base import deep_get, deep_walk
 
 
 @panther_managed
@@ -13,10 +12,9 @@ class GCPPermissionsGrantedtoCreateorManageServiceAccountKey(Rule):
     SERVICE_ACCOUNT_MANAGE_ROLES = ["roles/iam.serviceAccountTokenCreator", "roles/iam.serviceAccountUser"]
 
     def rule(self, event):
-        if "SetIAMPolicy" in deep_get(event, "protoPayload", "methodName", default=""):
-            role = deep_walk(
-                event,
-                "ProtoPayload",
+        if "SetIAMPolicy" in event.deep_get("protoPayload", "methodName", default=""):
+            role = event.deep_walk(
+                "protoPayload",
                 "serviceData",
                 "policyDelta",
                 "bindingDeltas",
@@ -24,9 +22,8 @@ class GCPPermissionsGrantedtoCreateorManageServiceAccountKey(Rule):
                 default="",
                 return_val="last",
             )
-            action = deep_walk(
-                event,
-                "ProtoPayload",
+            action = event.deep_walk(
+                "protoPayload",
                 "serviceData",
                 "policyDelta",
                 "bindingDeltas",
@@ -38,9 +35,8 @@ class GCPPermissionsGrantedtoCreateorManageServiceAccountKey(Rule):
         return False
 
     def title(self, event):
-        actor = deep_get(event, "protoPayload", "authenticationInfo", "principalEmail", default="<ACTOR_NOT_FOUND>")
-        target = deep_get(event, "resource", "labels", "email_id") or deep_get(
-            event,
+        actor = event.deep_get("protoPayload", "authenticationInfo", "principalEmail", default="<ACTOR_NOT_FOUND>")
+        target = event.deep_get("resource", "labels", "email_id") or event.deep_get(
             "resource",
             "labels",
             "project_id",
@@ -49,7 +45,7 @@ class GCPPermissionsGrantedtoCreateorManageServiceAccountKey(Rule):
         return f"GCP: [{actor}] granted permissions to create or manage service account keys to [{target}]"
 
     def alert_context(self, event):
-        return {"resource": deep_get(event, "resource"), "serviceData": deep_get(event, "protoPayload", "serviceData")}
+        return {"resource": event.get("resource"), "serviceData": event.deep_get("protoPayload", "serviceData")}
 
     tests = [
         RuleTest(

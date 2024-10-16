@@ -27,13 +27,13 @@ class SnykRoleChange(Rule):
     ]
 
     def rule(self, event):
-        action = event.deep_get("event", default="<NO_EVENT>")
+        action = event.get("event", "<NO_EVENT>")
         return action in self.ACTIONS
 
     def title(self, event):
         group_or_org = "<GROUP_OR_ORG>"
         crud_operation = "<NO_OPERATION>"
-        action = event.deep_get("event", default="<NO_EVENT>")
+        action = event.get("event", "<NO_EVENT>")
         if "." in action:
             group_or_org = action.split(".")[0].title()
             crud_operation = action.split(".")[-1].title()
@@ -42,7 +42,7 @@ class SnykRoleChange(Rule):
     def alert_context(self, event):
         a_c = snyk_alert_context(event)
         role = event.deep_get("content", "after", "role", default=None)
-        if not role and "afterRoleName" in event.deep_get("content", default={}):
+        if not role and "afterRoleName" in event.get("content", {}):
             role = event.deep_get("content", "afterRoleName", default=None)
         if role:
             a_c["role_permission"] = role
@@ -53,7 +53,7 @@ class SnykRoleChange(Rule):
 
     def severity(self, event):
         role = event.deep_get("content", "after", "role", default=None)
-        if not role and "afterRoleName" in event.deep_get("content", default={}):
+        if not role and "afterRoleName" in event.get("content", {}):
             role = event.deep_get("content", "afterRoleName", default=None)
         if role == "ADMIN":
             return "CRITICAL"

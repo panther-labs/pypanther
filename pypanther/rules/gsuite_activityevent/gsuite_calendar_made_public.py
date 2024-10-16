@@ -1,5 +1,4 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
-from pypanther.helpers.base import deep_get
 
 
 @panther_managed
@@ -22,13 +21,13 @@ class GSuiteCalendarMadePublic(Rule):
         )
 
     def title(self, event):
-        return f"GSuite calendar [{deep_get(event, 'parameters', 'calendar_id', default='<NO_CALENDAR_ID>')}] made {self.public_or_private(event)} by [{deep_get(event, 'actor', 'email', default='<NO_ACTOR_FOUND>')}]"
+        return f"GSuite calendar [{event.deep_get('parameters', 'calendar_id', default='<NO_CALENDAR_ID>')}] made {self.public_or_private(event)} by [{event.deep_get('actor', 'email', default='<NO_ACTOR_FOUND>')}]"
 
     def severity(self, event):
         return "LOW" if self.public_or_private(event) == "private" else "MEDIUM"
 
     def public_or_private(self, event):
-        return "private" if deep_get(event, "parameters", "access_level") == "none" else "public"
+        return "private" if event.deep_get("parameters", "access_level") == "none" else "public"
 
     tests = [
         RuleTest(
