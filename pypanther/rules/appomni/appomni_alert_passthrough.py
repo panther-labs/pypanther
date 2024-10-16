@@ -78,7 +78,7 @@ class AppOmniAlertPassthrough(Rule):
 
     def alert_context(self, event):
         # 'Threat' and 'related' data to be included in the alert sent to the alert destination
-        return {"threat": event.deep_get("rule", "threat"), "related": event.deep_get("related")}
+        return {"threat": event.deep_get("rule", "threat"), "related": event.get("related")}
 
     tests = [
         RuleTest(

@@ -1,7 +1,6 @@
 from fnmatch import fnmatch
 
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
-from pypanther.helpers.base import deep_get
 
 
 @panther_managed
@@ -28,10 +27,10 @@ class OsqueryMacOSXAttacksKeyboardEvents(Rule):
             return False
         if event.get("action") != "added":
             return False
-        process_path = deep_get(event, "columns", "path", default="")
+        process_path = event.deep_get("columns", "path", default="")
         if process_path == "":
             return False
-        if deep_get(event, "columns", "name") in self.APPROVED_APPLICATION_NAMES:
+        if event.deep_get("columns", "name") in self.APPROVED_APPLICATION_NAMES:
             return False
         # Alert if the process is running outside any of the approved paths
         # TODO: Convert this fnmatch pattern below to a helper

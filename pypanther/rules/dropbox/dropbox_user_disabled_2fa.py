@@ -1,5 +1,4 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
-from pypanther.helpers.base import deep_get
 
 
 @panther_managed
@@ -14,14 +13,14 @@ class DropboxUserDisabled2FA(Rule):
     def rule(self, event):
         return all(
             [
-                deep_get(event, "details", ".tag", default="") == "tfa_change_status_details",
-                deep_get(event, "details", "new_value", ".tag") == "disabled",
+                event.deep_get("details", ".tag", default="") == "tfa_change_status_details",
+                event.deep_get("details", "new_value", ".tag") == "disabled",
             ],
         )
 
     def title(self, event):
-        actor = deep_get(event, "actor", "user", "email", default="<EMAIL_NOT_FOUND>")
-        target = deep_get(event, "context", "email", default="<TARGET_NOT_FOUND>")
+        actor = event.deep_get("actor", "user", "email", default="<EMAIL_NOT_FOUND>")
+        target = event.deep_get("context", "email", default="<TARGET_NOT_FOUND>")
         return f"Dropbox: [{actor}] disabled 2FA for [{target}]."
 
     tests = [

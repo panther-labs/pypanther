@@ -24,7 +24,7 @@ class AWSCloudTrailUserAccessKeyAuth(Rule):
 
     def alert_context(self, event):
         return {
-            "ip_accessKeyId": event.get("sourceIpAddress", default="{not found}")
+            "ip_accessKeyId": event.get("sourceIpAddress", "{not found}")
             + ":"
             + event.deep_get("userIdentity", "accessKeyId", default="{not found}"),
         }

@@ -1,5 +1,4 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
-from pypanther.helpers.base import deep_get
 
 
 @panther_managed
@@ -18,8 +17,8 @@ class AsanaWorkspaceOrgExport(Rule):
         return event.get("event_type", "<NO_EVENT_TYPE_FOUND>") == "workspace_export_started"
 
     def title(self, event):
-        actor_email = deep_get(event, "actor", "email", default="<ACTOR_NOT_FOUND>")
-        context_type = deep_get(event, "context", "context_type", default="<CONTEXT_TYPE_NOT_FOUND>")
+        actor_email = event.deep_get("actor", "email", default="<ACTOR_NOT_FOUND>")
+        context_type = event.deep_get("context", "context_type", default="<CONTEXT_TYPE_NOT_FOUND>")
         return f"Asana user [{actor_email}] started a [{context_type}] export for your organization."
 
     tests = [

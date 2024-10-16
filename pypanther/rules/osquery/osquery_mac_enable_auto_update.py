@@ -1,5 +1,4 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
-from pypanther.helpers.base import deep_get
 
 
 @panther_managed
@@ -21,9 +20,9 @@ class OsqueryMacAutoUpdateEnabled(Rule):
         return (
             "SoftwareUpdate" in event.get("name", [])
             and event.get("action") == "added"
-            and (deep_get(event, "columns", "domain") == "com.apple.SoftwareUpdate")
-            and (deep_get(event, "columns", "key") == "AutomaticCheckEnabled")
-            and (deep_get(event, "columns", "value") == "false")
+            and (event.deep_get("columns", "domain") == "com.apple.SoftwareUpdate")
+            and (event.deep_get("columns", "key") == "AutomaticCheckEnabled")
+            and (event.deep_get("columns", "value") == "false")
         )
 
     tests = [

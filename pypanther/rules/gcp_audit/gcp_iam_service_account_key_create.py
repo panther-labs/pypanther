@@ -1,5 +1,4 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
-from pypanther.helpers.base import deep_get, deep_walk
 from pypanther.helpers.gcp_base import gcp_alert_context
 
 
@@ -15,7 +14,7 @@ class GCPiamserviceAccountKeyscreate(Rule):
     reports = {"MITRE ATT&CK": ["TA0004:T1548"]}
 
     def rule(self, event):
-        authorization_info = deep_walk(event, "protoPayload", "authorizationInfo")
+        authorization_info = event.deep_walk("protoPayload", "authorizationInfo")
         if not authorization_info:
             return False
         for auth in authorization_info:
@@ -24,9 +23,9 @@ class GCPiamserviceAccountKeyscreate(Rule):
         return False
 
     def title(self, event):
-        actor = deep_get(event, "protoPayload", "authenticationInfo", "principalEmail", default="<ACTOR_NOT_FOUND>")
-        operation = deep_get(event, "protoPayload", "methodName", default="<OPERATION_NOT_FOUND>")
-        project_id = deep_get(event, "resource", "labels", "project_id", default="<PROJECT_NOT_FOUND>")
+        actor = event.deep_get("protoPayload", "authenticationInfo", "principalEmail", default="<ACTOR_NOT_FOUND>")
+        operation = event.deep_get("protoPayload", "methodName", default="<OPERATION_NOT_FOUND>")
+        project_id = event.deep_get("resource", "labels", "project_id", default="<PROJECT_NOT_FOUND>")
         return f"[GCP]: [{actor}] performed [{operation}] on project [{project_id}]"
 
     def alert_context(self, event):

@@ -1,5 +1,5 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
-from pypanther.helpers.base import deep_get, deep_walk, okta_alert_context
+from pypanther.helpers.base import okta_alert_context
 
 
 @panther_managed
@@ -16,18 +16,18 @@ class OktaNewBehaviorAccessingAdminConsole(Rule):
     def rule(self, event):
         if event.get("eventtype") != "policy.evaluate_sign_on":
             return False
-        if "Okta Admin Console" not in deep_walk(event, "target", "displayName", default=""):
+        if "Okta Admin Console" not in event.deep_walk("target", "displayName", default=""):
             return False
-        behaviors = deep_get(event, "debugContext", "debugData", "behaviors")
+        behaviors = event.deep_get("debugContext", "debugData", "behaviors")
         if behaviors:
             return "New Device=POSITIVE" in behaviors and "New IP=POSITIVE" in behaviors
         return (
-            deep_get(event, "debugContext", "debugData", "logOnlySecurityData", "behaviors", "New Device") == "POSITIVE"
-            and deep_get(event, "debugContext", "debugData", "logOnlySecurityData", "behaviors", "New IP") == "POSITIVE"
+            event.deep_get("debugContext", "debugData", "logOnlySecurityData", "behaviors", "New Device") == "POSITIVE"
+            and event.deep_get("debugContext", "debugData", "logOnlySecurityData", "behaviors", "New IP") == "POSITIVE"
         )
 
     def title(self, event):
-        return f"{deep_get(event, 'actor', 'displayName', default='<displayName-not-found>')} <{deep_get(event, 'actor', 'alternateId', default='alternateId-not-found')}> accessed Okta Admin Console using new behaviors: New IP: {deep_get(event, 'client', 'ipAddress', default='<ipAddress-not-found>')} New Device: {deep_get(event, 'device', 'name', default='<deviceName-not-found>')}"
+        return f"{event.deep_get('actor', 'displayName', default='<displayName-not-found>')} <{event.deep_get('actor', 'alternateId', default='alternateId-not-found')}> accessed Okta Admin Console using new behaviors: New IP: {event.deep_get('client', 'ipAddress', default='<ipAddress-not-found>')} New Device: {event.deep_get('device', 'name', default='<deviceName-not-found>')}"
 
     def alert_context(self, event):
         return okta_alert_context(event)

@@ -1,5 +1,4 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
-from pypanther.helpers.base import deep_get
 
 
 @panther_managed
@@ -16,14 +15,14 @@ class GSuiteWorkspacePasswordReuseEnabled(Rule):
     summary_attributes = ["actor:email"]
 
     def rule(self, event):
-        if deep_get(event, "id", "applicationName", default="").lower() != "admin":
+        if event.deep_get("id", "applicationName", default="").lower() != "admin":
             return False
         if all(
             [
                 event.get("name", "") == "CHANGE_APPLICATION_SETTING",
                 event.get("type", "") == "APPLICATION_SETTINGS",
-                deep_get(event, "parameters", "NEW_VALUE", default="").lower() == "true",
-                deep_get(event, "parameters", "SETTING_NAME", default="")
+                event.deep_get("parameters", "NEW_VALUE", default="").lower() == "true",
+                event.deep_get("parameters", "SETTING_NAME", default="")
                 == "Password Management - Enable password reuse",
             ],
         ):
@@ -31,7 +30,7 @@ class GSuiteWorkspacePasswordReuseEnabled(Rule):
         return False
 
     def title(self, event):
-        return f"GSuite Workspace Password Reuse Has Been Enabled By [{deep_get(event, 'actor', 'email', default='<NO_ACTOR_FOUND>')}]"
+        return f"GSuite Workspace Password Reuse Has Been Enabled By [{event.deep_get('actor', 'email', default='<NO_ACTOR_FOUND>')}]"
 
     tests = [
         RuleTest(

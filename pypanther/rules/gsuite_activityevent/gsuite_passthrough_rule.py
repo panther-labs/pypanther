@@ -1,5 +1,4 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
-from pypanther.helpers.base import deep_get
 
 
 @panther_managed
@@ -15,20 +14,20 @@ class GSuiteRule(Rule):
     summary_attributes = ["actor:email"]
 
     def rule(self, event):
-        if deep_get(event, "id", "applicationName") != "rules":
+        if event.deep_get("id", "applicationName") != "rules":
             return False
-        if not deep_get(event, "parameters", "triggered_actions"):
+        if not event.deep_get("parameters", "triggered_actions"):
             return False
         return True
 
     def title(self, event):
-        rule_severity = deep_get(event, "parameters", "severity")
-        if deep_get(event, "parameters", "rule_name"):
-            return "GSuite " + rule_severity + " Severity Rule Triggered: " + deep_get(event, "parameters", "rule_name")
+        rule_severity = event.deep_get("parameters", "severity")
+        if event.deep_get("parameters", "rule_name"):
+            return "GSuite " + rule_severity + " Severity Rule Triggered: " + event.deep_get("parameters", "rule_name")
         return "GSuite " + rule_severity + " Severity Rule Triggered"
 
     def severity(self, event):
-        return deep_get(event, "parameters", "severity", default="INFO")
+        return event.deep_get("parameters", "severity", default="INFO")
 
     tests = [
         RuleTest(

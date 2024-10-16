@@ -1,5 +1,4 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
-from pypanther.helpers.base import deep_get
 
 
 @panther_managed
@@ -20,8 +19,8 @@ class OsqueryUnsupportedMacOS(Rule):
     def rule(self, event):
         return (
             event.get("name") == "pack_vuln-management_os_version"
-            and deep_get(event, "columns", "platform") == "darwin"
-            and (deep_get(event, "columns", "version") not in self.SUPPORTED_VERSIONS)
+            and event.deep_get("columns", "platform") == "darwin"
+            and (event.deep_get("columns", "version") not in self.SUPPORTED_VERSIONS)
             and (event.get("action") == "added")
         )
 

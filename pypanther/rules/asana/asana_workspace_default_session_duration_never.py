@@ -1,5 +1,4 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
-from pypanther.helpers.base import deep_get
 
 
 @panther_managed
@@ -14,12 +13,12 @@ class AsanaWorkspaceDefaultSessionDurationNever(Rule):
     def rule(self, event):
         return (
             event.get("event_type") == "workspace_default_session_duration_changed"
-            and deep_get(event, "details", "new_value") == "never"
+            and event.deep_get("details", "new_value") == "never"
         )
 
     def title(self, event):
-        workspace = deep_get(event, "resource", "name", default="<WORKSPACE_NOT_FOUND>")
-        actor = deep_get(event, "actor", "email", default="<ACTOR_NOT_FOUND>")
+        workspace = event.deep_get("resource", "name", default="<WORKSPACE_NOT_FOUND>")
+        actor = event.deep_get("actor", "email", default="<ACTOR_NOT_FOUND>")
         return f"Asana workspace [{workspace}]'s default session duration has been set to never expire by [{actor}]."
 
     tests = [

@@ -1,5 +1,5 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
-from pypanther.helpers.base import deep_get, okta_alert_context
+from pypanther.helpers.base import okta_alert_context
 
 
 @panther_managed
@@ -36,7 +36,7 @@ class OktaThreatInsightSecurityThreatDetected(Rule):
         return f"Okta: ThreatInsight identified potentially malicious behavior for [{event.get('actor', {}).get('displayName', '<display-name-not-found>')}]"
 
     def severity(self, event):
-        outcome = deep_get(event, "outcome", "result", default="<OUTCOME_NOT_FOUND>")
+        outcome = event.deep_get("outcome", "result", default="<OUTCOME_NOT_FOUND>")
         if outcome == "DENY":
             return "INFO"
         threat_detection = (

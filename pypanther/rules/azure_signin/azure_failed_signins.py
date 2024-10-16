@@ -1,6 +1,5 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.azuresignin import actor_user, azure_signin_alert_context, is_sign_in_event
-from pypanther.helpers.base import deep_get
 
 
 @panther_managed
@@ -22,7 +21,7 @@ class AzureAuditManyFailedSignIns(Rule):
     def rule(self, event):
         if not is_sign_in_event(event):
             return False
-        error_code = deep_get(event, "properties", "status", "errorCode", default=0)
+        error_code = event.deep_get("properties", "status", "errorCode", default=0)
         return error_code > 0
 
     def title(self, event):

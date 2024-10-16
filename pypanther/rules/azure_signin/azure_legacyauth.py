@@ -3,7 +3,6 @@ from unittest.mock import MagicMock
 
 from pypanther import LogType, Rule, RuleMock, RuleTest, Severity, panther_managed
 from pypanther.helpers.azuresignin import actor_user, azure_signin_alert_context, is_sign_in_event
-from pypanther.helpers.base import deep_get
 
 
 @panther_managed
@@ -31,8 +30,8 @@ class AzureAuditLegacyAuth(Rule):
             self.KNOWN_EXCEPTIONS = json.loads(self.KNOWN_EXCEPTIONS())  # pylint: disable=not-callable
         if actor_user(event) in self.KNOWN_EXCEPTIONS:
             return False
-        user_agent = deep_get(event, "properties", "userAgent", default="")
-        error_code = deep_get(event, "properties", "status", "errorCode", default=0)
+        user_agent = event.deep_get("properties", "userAgent", default="")
+        error_code = event.deep_get("properties", "status", "errorCode", default=0)
         return all([user_agent in self.LEGACY_AUTH_USERAGENTS, error_code == 0])
 
     def title(self, event):
@@ -49,7 +48,7 @@ class AzureAuditLegacyAuth(Rule):
 
     def alert_context(self, event):
         a_c = azure_signin_alert_context(event)
-        a_c["userAgent"] = deep_get(event, "properties", "userAgent", "<NO_USERAGENT>")
+        a_c["userAgent"] = event.deep_get("properties", "userAgent", "<NO_USERAGENT>")
         return a_c
 
     tests = [

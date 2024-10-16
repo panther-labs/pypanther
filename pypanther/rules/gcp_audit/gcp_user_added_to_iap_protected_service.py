@@ -1,5 +1,4 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
-from pypanther.helpers.base import deep_get
 
 
 @panther_managed
@@ -14,17 +13,17 @@ class GCPUserAddedtoIAPProtectedService(Rule):
 
     def rule(self, event):
         return (
-            deep_get(event, "protoPayload", "methodName", default="")
+            event.deep_get("protoPayload", "methodName", default="")
             == "google.cloud.iap.v1.IdentityAwareProxyAdminService.SetIamPolicy"
         )
 
     def title(self, event):
-        actor = deep_get(event, "protoPayload", "authenticationInfo", "principalEmail", default="<ACTOR_NOT_FOUND>")
-        service = deep_get(event, "protoPayload", "request", "resource", default="<RESOURCE_NOT_FOUND>")
+        actor = event.deep_get("protoPayload", "authenticationInfo", "principalEmail", default="<ACTOR_NOT_FOUND>")
+        service = event.deep_get("protoPayload", "request", "resource", default="<RESOURCE_NOT_FOUND>")
         return f"GCP: [{actor}] modified user access to IAP Protected Service [{service}]"
 
     def alert_context(self, event):
-        bindings = deep_get(event, "protoPayload", "request", "policy", "bindings", default=[{}])
+        bindings = event.deep_get("protoPayload", "request", "policy", "bindings", default=[{}])
         return {"bindings": bindings}
 
     tests = [

@@ -1,5 +1,5 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
-from pypanther.helpers.base import deep_get, okta_alert_context
+from pypanther.helpers.base import okta_alert_context
 
 
 @panther_managed
@@ -17,13 +17,13 @@ class OktaAPIKeyRevoked(Rule):
     def rule(self, event):
         return (
             event.get("eventType", None) == "system.api_token.revoke"
-            and deep_get(event, "outcome", "result") == "SUCCESS"
+            and event.deep_get("outcome", "result") == "SUCCESS"
         )
 
     def title(self, event):
         target = event.get("target", [{}])
         key_name = target[0].get("displayName", "MISSING DISPLAY NAME") if target else "MISSING TARGET"
-        return f"{deep_get(event, 'actor', 'displayName')} <{deep_get(event, 'actor', 'alternateId')}>revoked API key - <{key_name}>"
+        return f"{event.deep_get('actor', 'displayName')} <{event.deep_get('actor', 'alternateId')}>revoked API key - <{key_name}>"
 
     def alert_context(self, event):
         return okta_alert_context(event)

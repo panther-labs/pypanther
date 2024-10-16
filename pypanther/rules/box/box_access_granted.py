@@ -1,5 +1,4 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
-from pypanther.helpers.base import deep_get
 
 
 @panther_managed
@@ -21,7 +20,7 @@ class BoxAccessGranted(Rule):
 
     def title(self, event):
         return (
-            f"User [{deep_get(event, 'created_by', 'name', default='<UNKNOWN_USER>')}] granted access to their account"
+            f"User [{event.deep_get('created_by', 'name', default='<UNKNOWN_USER>')}] granted access to their account"
         )
 
     tests = [

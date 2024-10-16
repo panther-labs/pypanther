@@ -1,7 +1,7 @@
 import re
 
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
-from pypanther.helpers.base import deep_get, okta_alert_context
+from pypanther.helpers.base import okta_alert_context
 
 
 @panther_managed
@@ -22,27 +22,27 @@ class OktaAdminRoleAssigned(Rule):
     def rule(self, event):
         return (
             event.get("eventType", None) == "user.account.privilege.grant"
-            and deep_get(event, "outcome", "result") == "SUCCESS"
+            and event.deep_get("outcome", "result") == "SUCCESS"
             and bool(
-                self.ADMIN_PATTERN.search(deep_get(event, "debugContext", "debugData", "privilegeGranted", default="")),
+                self.ADMIN_PATTERN.search(event.deep_get("debugContext", "debugData", "privilegeGranted", default="")),
             )
         )
 
     def dedup(self, event):
-        return deep_get(event, "debugContext", "debugData", "requestId", default="<UNKNOWN_REQUEST_ID>")
+        return event.deep_get("debugContext", "debugData", "requestId", default="<UNKNOWN_REQUEST_ID>")
 
     def title(self, event):
         target = event.get("target", [{}])
         display_name = target[0].get("displayName", "MISSING DISPLAY NAME") if target else ""
         alternate_id = target[0].get("alternateId", "MISSING ALTERNATE ID") if target else ""
-        privilege = deep_get(event, "debugContext", "debugData", "privilegeGranted", default="<UNKNOWN_PRIVILEGE>")
-        return f"{deep_get(event, 'actor', 'displayName')} <{deep_get(event, 'actor', 'alternateId')}> granted [{privilege}] privileges to {display_name} <{alternate_id}>"
+        privilege = event.deep_get("debugContext", "debugData", "privilegeGranted", default="<UNKNOWN_PRIVILEGE>")
+        return f"{event.deep_get('actor', 'displayName')} <{event.deep_get('actor', 'alternateId')}> granted [{privilege}] privileges to {display_name} <{alternate_id}>"
 
     def alert_context(self, event):
         return okta_alert_context(event)
 
     def severity(self, event):
-        if "Super administrator" in deep_get(event, "debugContext", "debugData", "privilegeGranted", default=""):
+        if "Super administrator" in event.deep_get("debugContext", "debugData", "privilegeGranted", default=""):
             return "HIGH"
         return "INFO"
 

@@ -1,5 +1,4 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
-from pypanther.helpers.base import deep_get
 
 
 @panther_managed
@@ -16,8 +15,8 @@ class DropboxLinkedTeamApplicationAdded(Rule):
     def rule(self, event):
         return all(
             [
-                deep_get(event, "event_type", "_tag", default="") == "app_link_team",
-                deep_get(event, "event_type", "description", default="") == "Linked app for team",
+                event.deep_get("event_type", "_tag", default="") == "app_link_team",
+                event.deep_get("event_type", "description", default="") == "Linked app for team",
             ],
         )
 
@@ -41,7 +40,7 @@ class DropboxLinkedTeamApplicationAdded(Rule):
         # find the intersection and use that for the key
         actor_key = set(tuple(event.get("actor", {}).keys())).intersection(self.get_actor_type())
         if len(actor_key) == 1:
-            display_name = deep_get(event, "actor", tuple(actor_key)[0], "display_name", default="<Unknown>")
+            display_name = event.deep_get("actor", tuple(actor_key)[0], "display_name", default="<Unknown>")
         else:
             # Explicitly use "<Unknown>" if we find any length of keys != 1
             display_name = "<Unknown>"
@@ -62,15 +61,14 @@ class DropboxLinkedTeamApplicationAdded(Rule):
         additional_user_details = self.user_details(event)
         return {
             "additional_user_details": additional_user_details,
-            "app_display_name": deep_get(
-                event,
+            "app_display_name": event.deep_get(
                 "details",
                 "app_info",
                 "display_name",
                 default="<Unknown app display name>",
             ),
-            "ip_address": deep_get(event, "origin", "geo_location", "ip_address", default="<Unknown IP address>"),
-            "request_id": deep_get(event, "origin", "access_method", "request_id", default="<Unknown request ID>"),
+            "ip_address": event.deep_get("origin", "geo_location", "ip_address", default="<Unknown IP address>"),
+            "request_id": event.deep_get("origin", "access_method", "request_id", default="<Unknown request ID>"),
         }
 
     tests = [

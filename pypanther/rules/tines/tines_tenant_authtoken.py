@@ -1,5 +1,4 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
-from pypanther.helpers.base import deep_get
 from pypanther.helpers.tines import tines_alert_context
 
 
@@ -20,21 +19,21 @@ class TinesTenantAuthToken(Rule):
     ACTIONS = ["AuthenticationTokenCreation"]
 
     def rule(self, event):
-        action = deep_get(event, "operation_name", default="<NO_OPERATION_NAME>")
-        is_tenant_token = deep_get(event, "inputs", "inputs", "isServiceToken", default=False)
+        action = event.get("operation_name", "<NO_OPERATION_NAME>")
+        is_tenant_token = event.deep_get("inputs", "inputs", "isServiceToken", default=False)
         return all([action in self.ACTIONS, is_tenant_token])
 
     def title(self, event):
-        action = deep_get(event, "operation_name", default="<NO_OPERATION_NAME>")
-        return f"Tines: Tenant [{action}] by [{deep_get(event, 'user_email', default='<NO_USEREMAIL>')}]"
+        action = event.get("operation_name", "<NO_OPERATION_NAME>")
+        return f"Tines: Tenant [{action}] by [{event.deep_get('user_email', default='<NO_USEREMAIL>')}]"
 
     def alert_context(self, event):
         a_c = tines_alert_context(event)
-        a_c["token_name"] = deep_get(event, "inputs", "inputs", "name", default="<NO_TOKENNAME>")
+        a_c["token_name"] = event.deep_get("inputs", "inputs", "name", default="<NO_TOKENNAME>")
         return a_c
 
     def dedup(self, event):
-        return f"{deep_get(event, 'user_id', default='<NO_USERID>')}_{deep_get(event, 'operation_name', default='<NO_OPERATION>')}_{deep_get(event, 'inputs', 'inputs', 'name', default='<NO_TOKENNAME>')}"
+        return f"{event.deep_get('user_id', default='<NO_USERID>')}_{event.deep_get('operation_name', default='<NO_OPERATION>')}_{event.deep_get('inputs', 'inputs', 'name', default='<NO_TOKENNAME>')}"
 
     tests = [
         RuleTest(

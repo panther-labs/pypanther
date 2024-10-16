@@ -12,8 +12,8 @@ class CrowdstrikeMacosAddTrustedCert(Rule):
     log_types = [LogType.CROWDSTRIKE_FDR_EVENT]
 
     def rule(self, event):
-        event_platform = event.deep_get("event_platform", default="<UNKNOWN_PLATFORM>")
-        fdr_event_type = event.deep_get("fdr_event_type", default="<UNKNOWN_FDR_EVENT_TYPE>")
+        event_platform = event.get("event_platform", "<UNKNOWN_PLATFORM>")
+        fdr_event_type = event.get("fdr_event_type", "<UNKNOWN_FDR_EVENT_TYPE>")
         image_filename = event.deep_get("event", "ImageFileName", default="<UNKNOWN_IMAGE_FILE_NAME>")
         command_line = event.deep_get("event", "CommandLine", default="<UNKNOWN_COMMAND_LINE>")
         return all(

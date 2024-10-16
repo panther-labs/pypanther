@@ -16,12 +16,12 @@ class SnykSystemExternalAccess(Rule):
     ACTIONS = ["group.request_access_settings.edit", "org.request_access_settings.edit"]
 
     def rule(self, event):
-        action = event.deep_get("event", default="<NO_EVENT>")
+        action = event.get("event", "<NO_EVENT>")
         return action in self.ACTIONS
 
     def title(self, event):
         current_setting = event.deep_get("content", "after", "isEnabled", default=False)
-        action = event.deep_get("event", default="<NO_EVENT>")
+        action = event.get("event", "<NO_EVENT>")
         if "." in action:
             action = action.split(".")[0].title()
         return f"Snyk: [{action}] External Access settings have been modified to PermitExternalUsers:[{current_setting}] performed by [{event.deep_get('userId', default='<NO_USERID>')}]"

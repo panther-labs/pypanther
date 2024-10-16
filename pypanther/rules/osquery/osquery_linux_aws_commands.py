@@ -1,7 +1,6 @@
 import shlex
 
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
-from pypanther.helpers.base import deep_get
 
 
 @panther_managed
@@ -23,10 +22,10 @@ class OsqueryLinuxAWSCommandExecuted(Rule):
         if (
             event.get("action") != "added"
             or "shell_history" not in event.get("name")
-            or deep_get(event, "decorations", "platform") in self.PLATFORM_IGNORE_LIST
+            or event.deep_get("decorations", "platform") in self.PLATFORM_IGNORE_LIST
         ):
             return False
-        command = deep_get(event, "columns", "command")
+        command = event.deep_get("columns", "command")
         if not command:
             return False
         try:
@@ -39,7 +38,7 @@ class OsqueryLinuxAWSCommandExecuted(Rule):
         return False
 
     def title(self, event):
-        return f"User [{deep_get(event, 'columns', 'username', default='<UNKNOWN_USER>')}] issued an aws-cli command on [{event.get('hostIdentifier', '<UNKNOWN_HOST>')}]"
+        return f"User [{event.deep_get('columns', 'username', default='<UNKNOWN_USER>')}] issued an aws-cli command on [{event.get('hostIdentifier', '<UNKNOWN_HOST>')}]"
 
     tests = [
         RuleTest(

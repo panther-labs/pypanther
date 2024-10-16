@@ -1,5 +1,4 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
-from pypanther.helpers.base import deep_get
 from pypanther.helpers.tines import tines_alert_context
 
 
@@ -16,18 +15,18 @@ class TinesSSOSettings(Rule):
     ACTIONS = ["SsoConfigurationDefaultSet", "SsoConfigurationOidcSet", "SsoConfigurationSamlSet"]
 
     def rule(self, event):
-        action = deep_get(event, "operation_name", default="<NO_OPERATION_NAME>")
+        action = event.get("operation_name", "<NO_OPERATION_NAME>")
         return action in self.ACTIONS
 
     def title(self, event):
-        action = deep_get(event, "operation_name", default="<NO_OPERATION_NAME>")
-        return f"Tines: [{action}] Setting changed by [{deep_get(event, 'user_email', default='<NO_USEREMAIL>')}]"
+        action = event.get("operation_name", "<NO_OPERATION_NAME>")
+        return f"Tines: [{action}] Setting changed by [{event.deep_get('user_email', default='<NO_USEREMAIL>')}]"
 
     def alert_context(self, event):
         return tines_alert_context(event)
 
     def dedup(self, event):
-        return f"{deep_get(event, 'user_id', default='<NO_USERID>')}_{deep_get(event, 'operation_name', default='<NO_OPERATION>')}"
+        return f"{event.deep_get('user_id', default='<NO_USERID>')}_{event.deep_get('operation_name', default='<NO_OPERATION>')}"
 
     tests = [
         RuleTest(

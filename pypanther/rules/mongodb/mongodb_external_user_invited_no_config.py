@@ -12,10 +12,10 @@ class MongoDBExternalUserInvitedNoConfig(Rule):
     id = "MongoDB.External.UserInvited.NoConfig-prototype"
 
     def rule(self, event):
-        if event.deep_get("eventTypeName", default="") != "INVITED_TO_ORG":
+        if event.get("eventTypeName", "") != "INVITED_TO_ORG":
             return False
-        user_who_sent_an_invitation = event.deep_get("username", default="")
-        user_who_was_invited = event.deep_get("targetUsername", default="")
+        user_who_sent_an_invitation = event.get("username", "")
+        user_who_was_invited = event.get("targetUsername", "")
         domain = user_who_sent_an_invitation.split("@")[-1]
         email_domains_are_different = not user_who_was_invited.endswith(domain)
         return email_domains_are_different

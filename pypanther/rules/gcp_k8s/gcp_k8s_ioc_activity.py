@@ -1,5 +1,4 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
-from pypanther.helpers.base import deep_get
 from pypanther.helpers.gcp_base import gcp_alert_context
 
 
@@ -18,19 +17,19 @@ class GCPK8sIOCActivity(Rule):
     default_reference = "https://medium.com/snowflake/from-logs-to-detection-using-snowflake-and-panther-to-detect-k8s-threats-d72f70a504d7"
 
     def rule(self, event):
-        if deep_get(event, "operation", "producer") == "k8s.io" and deep_get(event, "p_enrichment", "tor_exit_nodes"):
+        if event.deep_get("operation", "producer") == "k8s.io" and event.deep_get("p_enrichment", "tor_exit_nodes"):
             return True
         return False
 
     def title(self, event):
-        actor = deep_get(event, "protoPayload", "authenticationInfo", "principalEmail", default="<ACTOR_NOT_FOUND>")
-        operation = deep_get(event, "protoPayload", "methodName", default="<OPERATION_NOT_FOUND>")
-        project_id = deep_get(event, "resource", "labels", "project_id", default="<PROJECT_NOT_FOUND>")
+        actor = event.deep_get("protoPayload", "authenticationInfo", "principalEmail", default="<ACTOR_NOT_FOUND>")
+        operation = event.deep_get("protoPayload", "methodName", default="<OPERATION_NOT_FOUND>")
+        project_id = event.deep_get("resource", "labels", "project_id", default="<PROJECT_NOT_FOUND>")
         return f"[GCP]: [{actor}] performed [{operation}] on project [{project_id}]"
 
     def alert_context(self, event):
         context = gcp_alert_context(event)
-        context["tor_exit_nodes"] = deep_get(event, "p_enrichment", "tor_exit_nodes")
+        context["tor_exit_nodes"] = event.deep_get("p_enrichment", "tor_exit_nodes")
         return context
 
     tests = [

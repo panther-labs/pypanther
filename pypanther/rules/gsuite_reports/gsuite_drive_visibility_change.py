@@ -2,7 +2,6 @@ import json
 from unittest.mock import MagicMock
 
 from pypanther import LogType, Rule, RuleMock, RuleTest, Severity, panther_managed
-from pypanther.helpers.base import deep_get
 from pypanther.helpers.base import gsuite_parameter_lookup as param_lookup
 
 
@@ -73,14 +72,14 @@ class GSuiteDriveVisibilityChanged(Rule):
 
     def rule(self, event):
         # pylint: disable=too-complex
-        if deep_get(event, "id", "applicationName") != "drive":
+        if event.deep_get("id", "applicationName") != "drive":
             return False
         # Events that have the types in INHERITANCE_EVENTS are
         # changes to documents and folders that occur due to
         # a change in the parent folder's permission. We ignore
         # these events to prevent every folder change from
         # generating multiple alerts.
-        if deep_get(event, "events", "name") in self.INHERITANCE_EVENTS:
+        if event.deep_get("events", "name") in self.INHERITANCE_EVENTS:
             return False
         log = event.get("p_row_id")
         self.init_alert_details(log)
@@ -148,7 +147,7 @@ class GSuiteDriveVisibilityChanged(Rule):
         return {}
 
     def dedup(self, event):
-        return deep_get(event, "actor", "email", default="<UNKNOWN_USER>")
+        return event.deep_get("actor", "email", default="<UNKNOWN_USER>")
 
     def title(self, event):
         log = event.get("p_row_id")
@@ -172,7 +171,7 @@ class GSuiteDriveVisibilityChanged(Rule):
             elif self.ALERT_DETAILS[log]["NEW_VISIBILITY"] == "public_in_the_domain":
                 sharing_scope += f" (anyone in {self.ALERT_DETAILS[log]['TARGET_DOMAIN']})"
         # alert_access_scope = ALERT_DETAILS[log]["ACCESS_SCOPE"][0].replace("can_", "")
-        return f"User [{deep_get(event, 'actor', 'email', default='<UNKNOWN_USER>')}] made documents externally visible"
+        return f"User [{event.deep_get('actor', 'email', default='<UNKNOWN_USER>')}] made documents externally visible"
 
     def severity(self, event):
         log = event.get("p_row_id")

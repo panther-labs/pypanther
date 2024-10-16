@@ -1,5 +1,4 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
-from pypanther.helpers.base import deep_get
 
 
 @panther_managed
@@ -14,12 +13,12 @@ class AsanaWorkspaceGuestInvitePermissionsAnyone(Rule):
     def rule(self, event):
         return (
             event.get("event_type") == "workspace_guest_invite_permissions_changed"
-            and deep_get(event, "details", "new_value") == "anyone"
+            and event.deep_get("details", "new_value") == "anyone"
         )
 
     def title(self, event):
-        workspace = deep_get(event, "resource", "name", default="<WORKSPACE_NOT_FOUND>")
-        actor = deep_get(event, "actor", "email", default="<ACTOR_NOT_FOUND>")
+        workspace = event.deep_get("resource", "name", default="<WORKSPACE_NOT_FOUND>")
+        actor = event.deep_get("actor", "email", default="<ACTOR_NOT_FOUND>")
         return f"Asana Workspace [{workspace}] guest invite permissions changed to anyone by [{actor}]."
 
     tests = [

@@ -1,5 +1,5 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
-from pypanther.helpers.base import aws_rule_context, deep_get
+from pypanther.helpers.base import aws_rule_context
 from pypanther.helpers.default import aws_cloudtrail_success
 
 
@@ -29,9 +29,9 @@ class AWSCloudTrailIAMAssumeRoleBlacklistIgnored(Rule):
         if not aws_cloudtrail_success(event) or event.get("eventName") != "AssumeRole":
             return False
         # Only considering user actions
-        if deep_get(event, "userIdentity", "type") not in ["IAMUser", "FederatedUser"]:
+        if event.deep_get("userIdentity", "type") not in ["IAMUser", "FederatedUser"]:
             return False
-        return deep_get(event, "requestParameters", "roleArn") in self.ASSUME_ROLE_BLOCKLIST
+        return event.deep_get("requestParameters", "roleArn") in self.ASSUME_ROLE_BLOCKLIST
 
     def alert_context(self, event):
         return aws_rule_context(event)

@@ -1,5 +1,4 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
-from pypanther.helpers.base import deep_get
 
 
 @panther_managed
@@ -26,14 +25,14 @@ class GSuiteLoginType(Rule):
         if event.get("name") == "logout":
             return False
         if (
-            deep_get(event, "parameters", "login_type") in self.APPROVED_LOGIN_TYPES
-            or deep_get(event, "id", "applicationName") in self.APPROVED_APPLICATION_NAMES
+            event.deep_get("parameters", "login_type") in self.APPROVED_LOGIN_TYPES
+            or event.deep_get("id", "applicationName") in self.APPROVED_APPLICATION_NAMES
         ):
             return False
         return True
 
     def title(self, event):
-        return f"A login attempt of a non-approved type was detected for user [{deep_get(event, 'actor', 'email', default='<UNKNOWN_USER>')}]"
+        return f"A login attempt of a non-approved type was detected for user [{event.deep_get('actor', 'email', default='<UNKNOWN_USER>')}]"
 
     tests = [
         RuleTest(

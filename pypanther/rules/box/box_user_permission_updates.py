@@ -1,5 +1,4 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
-from pypanther.helpers.base import deep_get
 
 
 @panther_managed
@@ -23,7 +22,7 @@ class BoxLargeNumberPermissionUpdates(Rule):
         return event.get("event_type") in self.PERMISSION_UPDATE_EVENT_TYPES
 
     def title(self, event):
-        return f"User [{deep_get(event, 'created_by', 'login', default='<UNKNOWN_USER>')}] exceeded threshold for number of permission changes in the configured time frame."
+        return f"User [{event.deep_get('created_by', 'login', default='<UNKNOWN_USER>')}] exceeded threshold for number of permission changes in the configured time frame."
 
     tests = [
         RuleTest(

@@ -1,6 +1,5 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.auth0 import auth0_alert_context, is_auth0_config_event
-from pypanther.helpers.base import deep_get
 
 
 @panther_managed
@@ -14,13 +13,12 @@ class Auth0CustomRoleCreated(Rule):
     id = "Auth0.Custom.Role.Created-prototype"
 
     def rule(self, event):
-        data_description = deep_get(event, "data", "description", default="<NO_DATA_DESCRIPTION_FOUND>")
+        data_description = event.deep_get("data", "description", default="<NO_DATA_DESCRIPTION_FOUND>")
         return all([data_description == "Create a role", is_auth0_config_event(event)])
 
     def title(self, event):
-        user = deep_get(event, "data", "details", "request", "auth", "user", "email", default="<NO_USER_FOUND>")
-        request_body_name = deep_get(
-            event,
+        user = event.deep_get("data", "details", "request", "auth", "user", "email", default="<NO_USER_FOUND>")
+        request_body_name = event.deep_get(
             "data",
             "details",
             "request",
@@ -28,8 +26,7 @@ class Auth0CustomRoleCreated(Rule):
             "name",
             default="<NO_REQUEST_NAME_FOUND>",
         )
-        request_body_description = deep_get(
-            event,
+        request_body_description = event.deep_get(
             "data",
             "details",
             "request",
@@ -40,12 +37,11 @@ class Auth0CustomRoleCreated(Rule):
             role_type = "admin"
         else:
             role_type = "custom"
-        p_source_label = deep_get(event, "p_source_label", default="<NO_P_SOURCE_LABEL_FOUND>")
+        p_source_label = event.get("p_source_label", "<NO_P_SOURCE_LABEL_FOUND>")
         return f"Auth0 User [{user}] created a role [{request_body_name}] with [{role_type}] permissions in your tenant [{p_source_label}]."
 
     def severity(self, event):
-        request_body_name = deep_get(
-            event,
+        request_body_name = event.deep_get(
             "data",
             "details",
             "request",
@@ -53,7 +49,7 @@ class Auth0CustomRoleCreated(Rule):
             "name",
             default="<NO_REQUEST_NAME_FOUND>",
         )
-        request_body_description = deep_get(event, "data", "details", "request", "body", "description", default="")
+        request_body_description = event.deep_get("data", "details", "request", "body", "description", default="")
         if "admin" in request_body_description or "admin" in request_body_name:
             return "MEDIUM"
         return "LOW"

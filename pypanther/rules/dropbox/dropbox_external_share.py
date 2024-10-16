@@ -2,7 +2,6 @@ import json
 from unittest.mock import MagicMock
 
 from pypanther import LogType, Rule, RuleMock, RuleTest, Severity, panther_managed
-from pypanther.helpers.base import deep_get
 from pypanther.helpers.config import config
 
 
@@ -19,7 +18,7 @@ class DropboxExternalShare(Rule):
     def rule(self, event):
         if isinstance(self.DROPBOX_ALLOWED_SHARE_DOMAINS, MagicMock):
             self.DROPBOX_ALLOWED_SHARE_DOMAINS = set(json.loads(self.DROPBOX_ALLOWED_SHARE_DOMAINS()))  # pylint: disable=not-callable
-        if deep_get(event, "event_type", "_tag", default="") == "shared_content_add_member":
+        if event.deep_get("event_type", "_tag", default="") == "shared_content_add_member":
             participants = event.get("participants", [{}])
             for participant in participants:
                 email = participant.get("user", {}).get("email", "")
@@ -28,7 +27,7 @@ class DropboxExternalShare(Rule):
         return False
 
     def title(self, event):
-        actor = deep_get(event, "actor", "user", "email", default="<ACTOR_NOT_FOUND>")
+        actor = event.deep_get("actor", "user", "email", default="<ACTOR_NOT_FOUND>")
         assets = [e.get("display_name", "") for e in event.get("assets", [{}])]
         participants = event.get("participants", [{}])
         external_participants = []

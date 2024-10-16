@@ -1,5 +1,4 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
-from pypanther.helpers.base import deep_get
 
 
 @panther_managed
@@ -16,12 +15,14 @@ class GSuiteAdvancedProtection(Rule):
     summary_attributes = ["actor:email"]
 
     def rule(self, event):
-        if deep_get(event, "id", "applicationName") != "user_accounts":
+        if event.deep_get("id", "applicationName") != "user_accounts":
             return False
         return bool(event.get("name") == "titanium_unenroll")
 
     def title(self, event):
-        return f"Advanced protection was disabled for user [{deep_get(event, 'actor', 'email', default='<UNKNOWN_EMAIL>')}]"
+        return (
+            f"Advanced protection was disabled for user [{event.deep_get('actor', 'email', default='<UNKNOWN_EMAIL>')}]"
+        )
 
     tests = [
         RuleTest(

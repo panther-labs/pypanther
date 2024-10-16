@@ -1,5 +1,5 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
-from pypanther.helpers.base import deep_get, slack_alert_context
+from pypanther.helpers.base import slack_alert_context
 
 
 @panther_managed
@@ -19,7 +19,7 @@ class SlackAuditLogsAppRemoved(Rule):
         return event.get("action") in self.APP_REMOVED_ACTIONS
 
     def title(self, event):
-        return f"Slack App [{deep_get(event, 'entity', 'app', 'name')}] Removed by [{deep_get(event, 'actor', 'user', 'name')}]"
+        return f"Slack App [{event.deep_get('entity', 'app', 'name')}] Removed by [{event.deep_get('actor', 'user', 'name')}]"
 
     def alert_context(self, event):
         return slack_alert_context(event)

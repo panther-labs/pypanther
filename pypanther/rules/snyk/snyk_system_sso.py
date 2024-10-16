@@ -20,7 +20,7 @@ class SnykSystemSSO(Rule):
     ]
 
     def rule(self, event):
-        action = event.deep_get("event", default="<NO_EVENT>")
+        action = event.get("event", "<NO_EVENT>")
         return action in self.ACTIONS
 
     def title(self, event):

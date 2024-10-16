@@ -1,5 +1,5 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
-from pypanther.helpers.base import deep_get, slack_alert_context
+from pypanther.helpers.base import slack_alert_context
 
 
 @panther_managed
@@ -28,7 +28,7 @@ class SlackAuditLogsApplicationDoS(Rule):
         return True
 
     def dedup(self, event):
-        return f"Slack.AuditLogs.ApplicationDoS{deep_get(event, 'entity', 'user', 'name')}"
+        return f"Slack.AuditLogs.ApplicationDoS{event.deep_get('entity', 'user', 'name')}"
 
     def alert_context(self, event):
         return slack_alert_context(event)

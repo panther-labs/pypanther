@@ -1,5 +1,5 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
-from pypanther.helpers.base import aws_rule_context, deep_get
+from pypanther.helpers.base import aws_rule_context
 from pypanther.helpers.default import aws_cloudtrail_success, lookup_aws_account_name
 
 
@@ -25,7 +25,7 @@ class AWSCloudTrailStopped(Rule):
 
     def dedup(self, event):
         # Merge on the CloudTrail ARN
-        return deep_get(event, "requestParameters", "name", default="<UNKNOWN_NAME>")
+        return event.deep_get("requestParameters", "name", default="<UNKNOWN_NAME>")
 
     def title(self, event):
         return f"CloudTrail [{self.dedup(event)}] in account [{lookup_aws_account_name(event.get('recipientAccountId'))}] was stopped/deleted"

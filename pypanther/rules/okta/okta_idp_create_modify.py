@@ -1,5 +1,5 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
-from pypanther.helpers.base import deep_get, deep_walk, okta_alert_context
+from pypanther.helpers.base import okta_alert_context
 
 
 @panther_managed
@@ -19,8 +19,8 @@ class OktaIdentityProviderCreatedModified(Rule):
 
     def title(self, event):
         action = event.get("eventType").split(".")[-1]
-        target = deep_walk(event, "target", "displayName", default="<displayName-not-found>", return_val="first")
-        return f"{deep_get(event, 'actor', 'displayName', default='<displayName-not-found>')} <{deep_get(event, 'actor', 'alternateId', default='alternateId-not-found')}> {action}d Identity Provider [{target}]"
+        target = event.deep_walk("target", "displayName", default="<displayName-not-found>", return_val="first")
+        return f"{event.deep_get('actor', 'displayName', default='<displayName-not-found>')} <{event.deep_get('actor', 'alternateId', default='alternateId-not-found')}> {action}d Identity Provider [{target}]"
 
     def severity(self, event):
         if "create" in event.get("eventType"):

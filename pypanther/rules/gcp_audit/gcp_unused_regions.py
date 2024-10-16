@@ -45,13 +45,13 @@ class GCPUnusedRegions(Rule):
         return False
 
     def rule(self, event):
-        method_name = deep_get(event, "protoPayload", "methodName", default="<UNKNOWN_METHOD>")
+        method_name = event.deep_get("protoPayload", "methodName", default="<UNKNOWN_METHOD>")
         if not method_name.endswith(("insert", "create")):
             return False
         return self._resource_in_active_region(self._get_location_or_zone(event))
 
     def title(self, event):
-        return f"GCP resource(s) created in unused region/zone in project {deep_get(event, 'resource', 'labels', 'project_id', default='<UNKNOWN_PROJECT>')}"
+        return f"GCP resource(s) created in unused region/zone in project {event.deep_get('resource', 'labels', 'project_id', default='<UNKNOWN_PROJECT>')}"
 
     tests = [
         RuleTest(

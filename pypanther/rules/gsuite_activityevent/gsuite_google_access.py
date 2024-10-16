@@ -1,5 +1,4 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
-from pypanther.helpers.base import deep_get
 
 
 @panther_managed
@@ -17,7 +16,7 @@ class GSuiteGoogleAccess(Rule):
     summary_attributes = ["actor:email"]
 
     def rule(self, event):
-        if deep_get(event, "id", "applicationName") != "access_transparency":
+        if event.deep_get("id", "applicationName") != "access_transparency":
             return False
         return bool(event.get("type") == "GSUITE_RESOURCE")
 

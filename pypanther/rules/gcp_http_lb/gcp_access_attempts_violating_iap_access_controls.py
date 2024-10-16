@@ -1,5 +1,4 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
-from pypanther.helpers.base import deep_get
 
 
 @panther_managed
@@ -14,20 +13,20 @@ class GCPAccessAttemptsViolatingIAPAccessControls(Rule):
     def rule(self, event):
         return all(
             [
-                deep_get(event, "resource", "type", default="") == "http_load_balancer",
-                deep_get(event, "jsonPayload", "statusDetails", default="") == "handled_by_identity_aware_proxy",
+                event.deep_get("resource", "type", default="") == "http_load_balancer",
+                event.deep_get("jsonPayload", "statusDetails", default="") == "handled_by_identity_aware_proxy",
                 not any(
                     [
-                        str(deep_get(event, "httprequest", "status", default=0)).startswith("2"),
-                        str(deep_get(event, "httprequest", "status", default=0)).startswith("3"),
+                        str(event.deep_get("httprequest", "status", default=0)).startswith("2"),
+                        str(event.deep_get("httprequest", "status", default=0)).startswith("3"),
                     ],
                 ),
             ],
         )
 
     def title(self, event):
-        source = deep_get(event, "jsonPayload", "remoteIp", default="<SRC_IP_NOT_FOUND>")
-        request_url = deep_get(event, "httprequest", "requestUrl", default="<REQUEST_URL_NOT_FOUND>")
+        source = event.deep_get("jsonPayload", "remoteIp", default="<SRC_IP_NOT_FOUND>")
+        request_url = event.deep_get("httprequest", "requestUrl", default="<REQUEST_URL_NOT_FOUND>")
         return f"GCP: Request Violating IAP controls from [{source}] to [{request_url}]"
 
     tests = [

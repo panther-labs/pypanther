@@ -2,7 +2,6 @@ import re
 
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.auth0 import auth0_alert_context, is_auth0_config_event
-from pypanther.helpers.base import deep_get
 
 
 @panther_managed
@@ -24,19 +23,19 @@ class Auth0UserInvitationCreated(Rule):
         inv_type = self.invitation_type(event)
         if inv_type == "tenant":
             try:
-                invitee = deep_get(event, "data", "details", "request", "body", "owners", default=[])[0]
+                invitee = event.deep_get("data", "details", "request", "body", "owners", default=[])[0]
             except IndexError:
                 invitee = "<NO_INVITEE>"
         elif inv_type == "organization":
-            invitee = deep_get(event, "data", "details", "request", "body", "invitee", "email")
+            invitee = event.deep_get("data", "details", "request", "body", "invitee", "email")
         else:
             invitee = "<NO_INVITEE>"
-        inviter = deep_get(event, "data", "details", "request", "auth", "user", "email", default="<NO_INVITER>")
-        source = deep_get(event, "p_source_label", default="<NO_PSOURCE>")
+        inviter = event.deep_get("data", "details", "request", "auth", "user", "email", default="<NO_INVITER>")
+        source = event.get("p_source_label", "<NO_PSOURCE>")
         return f"Auth0 User [{inviter}] invited [{invitee}] to {inv_type} [{source}]]"
 
     def invitation_type(self, event):
-        path = deep_get(event, "data", "details", "request", "path", default="")
+        path = event.deep_get("data", "details", "request", "path", default="")
         if path == "/api/v2/tenants/invitations":
             return "tenant"
         if self.org_re.match(path):

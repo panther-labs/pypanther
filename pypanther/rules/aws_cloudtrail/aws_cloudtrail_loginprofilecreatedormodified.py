@@ -1,5 +1,5 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
-from pypanther.helpers.base import aws_rule_context, deep_get
+from pypanther.helpers.base import aws_rule_context
 
 
 @panther_managed
@@ -22,14 +22,14 @@ class AWSCloudTrailLoginProfileCreatedOrModified(Rule):
             event.get("eventSource", "") == "iam.amazonaws.com"
             and event.get("eventName", "") in self.PROFILE_EVENTS
             and (
-                not deep_get(event, "userIdentity", "arn", default="").endswith(
-                    f"/{deep_get(event, 'requestParameters', 'userName', default='')}",
+                not event.deep_get("userIdentity", "arn", default="").endswith(
+                    f"/{event.deep_get('requestParameters', 'userName', default='')}",
                 )
             )
         )
 
     def title(self, event):
-        return f"[{deep_get(event, 'userIdentity', 'arn')}] changed the password for [{deep_get(event, 'requestParameters', 'userName')}]"
+        return f"[{event.deep_get('userIdentity', 'arn')}] changed the password for [{event.deep_get('requestParameters', 'userName')}]"
 
     def alert_context(self, event):
         context = aws_rule_context(event)

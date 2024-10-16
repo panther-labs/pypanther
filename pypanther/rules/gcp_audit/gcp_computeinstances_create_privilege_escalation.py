@@ -1,5 +1,4 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
-from pypanther.helpers.base import deep_get
 from pypanther.helpers.gcp_base import gcp_alert_context
 
 
@@ -23,12 +22,12 @@ class GCPcomputeinstancescreatePrivilegeEscalation(Rule):
     ]
 
     def rule(self, event):
-        if deep_get(event, "protoPayload", "response", "error"):
+        if event.deep_get("protoPayload", "response", "error"):
             return False
-        method = deep_get(event, "protoPayload", "methodName", default="METHOD_NOT_FOUND")
+        method = event.deep_get("protoPayload", "methodName", default="METHOD_NOT_FOUND")
         if not method.endswith("compute.instances.insert"):
             return False
-        authorization_info = deep_get(event, "protoPayload", "authorizationInfo")
+        authorization_info = event.deep_get("protoPayload", "authorizationInfo")
         if not authorization_info:
             return False
         granted_permissions = {}
@@ -40,18 +39,18 @@ class GCPcomputeinstancescreatePrivilegeEscalation(Rule):
         return True
 
     def title(self, event):
-        actor = deep_get(event, "protoPayload", "authenticationInfo", "principalEmail", default="<ACTOR_NOT_FOUND>")
-        service_accounts = deep_get(event, "protoPayload", "request", "serviceAccounts")
+        actor = event.deep_get("protoPayload", "authenticationInfo", "principalEmail", default="<ACTOR_NOT_FOUND>")
+        service_accounts = event.deep_get("protoPayload", "request", "serviceAccounts")
         if not service_accounts:
             service_account_emails = "<SERVICE_ACCOUNT_EMAILS_NOT_FOUND>"
         else:
             service_account_emails = [service_acc["email"] for service_acc in service_accounts]
-        project = deep_get(event, "resource", "labels", "project_id", default="<PROJECT_NOT_FOUND>")
+        project = event.deep_get("resource", "labels", "project_id", default="<PROJECT_NOT_FOUND>")
         return f"[GCP]: [{actor}] created a new Compute Engine instance with [{service_account_emails}] Service Account on project [{project}]"
 
     def alert_context(self, event):
         context = gcp_alert_context(event)
-        service_accounts = deep_get(event, "protoPayload", "request", "serviceAccounts")
+        service_accounts = event.deep_get("protoPayload", "request", "serviceAccounts")
         if not service_accounts:
             service_account_emails = "<SERVICE_ACCOUNT_EMAILS_NOT_FOUND>"
         else:
