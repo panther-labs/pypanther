@@ -1484,7 +1484,8 @@ def convert(args: argparse.Namespace) -> tuple[int, str]:
             delete_helpers(Path("./pypanther/helpers/"), helpers_to_delete)
             delete_data_models(Path("./pypanther/data_models/"))
 
-        run_ruff([Path(".")])  # noqa: PTH201
+        # "pypanther" is the default output directory; we only to run ruff on those
+        run_ruff([Path("./pypanther/")])
     except Exception as exc:
         if hasattr(args, "verbose") and args.verbose:
             print(exc)
