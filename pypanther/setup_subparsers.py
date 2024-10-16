@@ -25,6 +25,13 @@ def setup_list_rules_parser(list_rules_parser: argparse.ArgumentParser):
         choices=display.VALID_RULE_TABLE_ATTRS + [display.ALL_TABLE_ATTR],
     )
     list_rules_parser.add_argument(
+        "--sort-by",
+        help="Choose a field to sort the output by.",
+        default=display.DEFAULT_RULE_TABLE_SORT_BY,
+        required=False,
+        choices=display.VALID_RULE_TABLE_ATTRS,
+    )
+    list_rules_parser.add_argument(
         "--output",
         help="The format to use for the output.",
         required=False,

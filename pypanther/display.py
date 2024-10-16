@@ -15,6 +15,8 @@ DEFAULT_RULE_TABLE_ATTRS = [
     "enabled",
 ]
 
+DEFAULT_RULE_TABLE_SORT_BY = "id"
+
 ALL_TABLE_ATTR = "all"
 VALID_RULE_TABLE_ATTRS = [
     *DEFAULT_RULE_TABLE_ATTRS,
@@ -42,7 +44,12 @@ COMMON_CLI_OUTPUT_TYPES = [
 JSON_INDENT_LEVEL = 2
 
 
-def print_rule_table(rules: list[Type[Rule]], attributes: list[str] | None = None, print_total: bool = True) -> None:
+def print_rule_table(
+    rules: list[Type[Rule]],
+    attributes: list[str] | None = None,
+    print_total: bool = True,
+    sort_by: str | None = None,
+) -> None:
     """
     Prints rules in a table format for easy viewing.
 
@@ -56,56 +63,45 @@ def print_rule_table(rules: list[Type[Rule]], attributes: list[str] | None = Non
     attributes = utils.dedup_list_preserving_order(attributes or [])
     check_rule_attributes(attributes)
 
-    if len(attributes) == 0:
+    if not attributes:
         attributes = DEFAULT_RULE_TABLE_ATTRS
 
-    table = PrettyTable()
-    table.field_names = attributes
+    if not sort_by or sort_by not in attributes:
+        sort_by = "id" if "id" in attributes else attributes[0]
 
-    for rule in rules:
-        table.add_row(
-            [rule_table_row_attr(rule, attr) for attr in attributes],
-        )
+    rule_dicts = sorted(
+        [{attr: getattr(rule, attr) for attr in attributes} for rule in rules],
+        key=lambda d: d[sort_by],
+    )
 
-    # sort the table by the first attr given or the ID
-    # sortby must be set before setting sort_key
-    table.sortby = "id" if "id" in attributes else (attributes or [])[0]
-
-    # sort all columns in alphanumeric order by joining them
-    def key(row: list[Any]) -> list[Any]:
-        # row[0] is the sortby attr, row[1:] are all attrs in the row
-        # for example: [id, id, log_type, enabled]
-        # by replacing the [0] item we replace what it sorts by
-        row[0] = "".join(str(val) for val in row[1:])
-        return row
-
-    table.sort_key = key
+    table = PrettyTable(field_names=attributes)
+    table.add_rows(
+        [[pretty_format_text(value) for value in rule_dict.values()] for rule_dict in rule_dicts],
+    )
 
     print(table)
     if print_total:
         print(f"Total rules: {len(rules)}")
 
 
-def rule_table_row_attr(rule: Type[Rule], attr: str) -> str:
-    val = getattr(rule, attr)
-
-    if val == "" or val is None or val == []:
+def pretty_format_text(val) -> str:
+    if not val:
         return "-"
 
     if isinstance(val, list):
-        return fmt_list_attr(val)
+        if len(val) > 2:
+            val = val[:2] + [f"+{len(val) - 2}"]
+
+        return ", ".join([str(s) for s in val])
 
     return val
 
 
-def fmt_list_attr(val: list) -> str:
-    if len(val) > 2:
-        val = val[:2] + [f"+{len(val) - 2}"]
-
-    return ", ".join([str(s) for s in val])
-
-
-def print_rules_as_json(rules: list[Type[Rule]], attributes: list[str] | None = None) -> None:
+def print_rules_as_json(
+    rules: list[Type[Rule]],
+    attributes: list[str] | None = None,
+    sort_by: str | None = None,
+) -> None:
     """
     Prints rules in JSON format for easy viewing.
 
@@ -119,14 +115,25 @@ def print_rules_as_json(rules: list[Type[Rule]], attributes: list[str] | None = 
     attributes = utils.dedup_list_preserving_order(attributes or [])
     check_rule_attributes(attributes)
 
-    if len(attributes) == 0:
+    if not attributes:
         attributes = DEFAULT_RULE_TABLE_ATTRS
 
-    rule_dicts = [{attr: getattr(rule, attr) for attr in attributes} for rule in rules]
+    if not sort_by or sort_by not in attributes:
+        sort_by = "id" if "id" in attributes else attributes[0]
+
+    rule_dicts = sorted(
+        [{attr: getattr(rule, attr) for attr in attributes} for rule in rules],
+        key=lambda d: d[sort_by],
+    )
+
     print(json.dumps({"rules": rule_dicts, "total_rules": len(rule_dicts)}, indent=JSON_INDENT_LEVEL))
 
 
-def print_rules_as_csv(rules: list[Type[Rule]], attributes: list[str] | None = None) -> None:
+def print_rules_as_csv(
+    rules: list[Type[Rule]],
+    attributes: list[str] | None = None,
+    sort_by: str | None = None,
+) -> None:
     """
     Prints rules in CSV format for easy viewing and parsing.
 
@@ -140,31 +147,36 @@ def print_rules_as_csv(rules: list[Type[Rule]], attributes: list[str] | None = N
     attributes = utils.dedup_list_preserving_order(attributes or [])
     check_rule_attributes(attributes)
 
-    if len(attributes) == 0:
+    if not attributes:
         attributes = DEFAULT_RULE_TABLE_ATTRS
 
-    rule_dicts = [{attr: getattr(rule, attr) for attr in attributes} for rule in rules]
+    if not sort_by or sort_by not in attributes:
+        sort_by = "id" if "id" in attributes else attributes[0]
+
+    rule_dicts = sorted(
+        [{attr: getattr(rule, attr) for attr in attributes} for rule in rules],
+        key=lambda d: d[sort_by],
+    )
 
     # print the column labels as the header row
     print(",".join(attributes))
 
     # print the data rows
     for rule_dict in rule_dicts:
-        print(",".join([attr_to_csv_fmt(rule_dict[k]) for k in rule_dict]))
+        print(",".join([pretty_format_csv(rule_dict[k]) for k in rule_dict]))
 
 
-def attr_to_csv_fmt(attr: Any) -> str:
+def pretty_format_csv(value: Any) -> str:
     # take care of lists by quoting them
-    if isinstance(attr, list):
-        return f'"{",".join([str(val) for val in attr])}"'
+    if isinstance(value, list):
+        return f'"{",".join([str(val) for val in value])}"'
 
-    return str(attr)
+    return str(value)
 
 
 def check_rule_attributes(attributes: list[str]) -> None:
-    for attr in attributes or []:
-        if attr not in VALID_RULE_TABLE_ATTRS:
-            raise AttributeError(f"Attribute '{attr}' is not allowed.")
+    if diff := set(attributes) - set(VALID_RULE_TABLE_ATTRS):
+        raise AttributeError(f"Attributes '{list(diff)}' is not allowed.")
 
 
 def _get_rule_dict_base(rule: Type[Rule]) -> Dict[str, Any]:

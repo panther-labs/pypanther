@@ -1,120 +1,319 @@
-import json
 import textwrap
 
 import pytest
 
-from pypanther.base import Rule
+from pypanther.base import LogType, Rule, Severity
 from pypanther.display import print_rule_table, print_rules_as_csv, print_rules_as_json
 
 
-class TestEDRRule(Rule):
-    id = "EDR"
-    log_types = ["CrowdStrike", "SentinelOne", "AWS"]
-    display_name = "EDR Rule"
-    default_severity = "High"
-    enabled = True
-    create_alert = False
-
-    def rule(self, event):
-        return True
-
-
-class TestPaloAltoRule(Rule):
-    id = "Firewall"
-    log_types = ["PaloAlto"]
-    display_name = "Firewall Rule"
-    default_severity = "Medium"
-    enabled = True
-    create_alert = True
-
-    def rule(self, event):
-        return True
-
-
 def test_print_rule_table(capsys):
-    rules = [TestEDRRule, TestPaloAltoRule]
-    print_rule_table(rules)
-    std = capsys.readouterr()
-
-    pytest.maxDiff = None
+    # arrange
+    rules = [
+        type(
+            "FRule",
+            (Rule,),
+            {
+                "id": "FRule",
+                "log_types": [LogType.AWS_ALB],
+                "display_name": "Array Rule",
+                "default_severity": Severity.INFO,
+                "enabled": True,
+                "create_alert": True,
+                "rule": lambda self, event: True,
+            },
+        ),
+        type(
+            "ARule",
+            (Rule,),
+            {
+                "id": "ARule",
+                "log_types": [LogType.AWS_ALB],
+                "display_name": "Zoo Rule",
+                "default_severity": Severity.INFO,
+                "enabled": True,
+                "create_alert": True,
+                "rule": lambda self, event: True,
+            },
+        ),
+        type(
+            "ZRule",
+            (Rule,),
+            {
+                "id": "ZRule",
+                "log_types": [LogType.AWS_ALB],
+                "display_name": "Fandom Rule",
+                "default_severity": Severity.INFO,
+                "enabled": True,
+                "create_alert": True,
+                "rule": lambda self, event: True,
+            },
+        ),
+    ]
     exp = textwrap.dedent(
         """
-        +----------+------------------------------+------------------+---------+
-        |    id    |          log_types           | default_severity | enabled |
-        +----------+------------------------------+------------------+---------+
-        |   EDR    | CrowdStrike, SentinelOne, +1 |       High       |   True  |
-        | Firewall |           PaloAlto           |      Medium      |   True  |
-        +----------+------------------------------+------------------+---------+
-        Total rules: 2
+        +-------+--------------+------------------+
+        |   id  | display_name | default_severity |
+        +-------+--------------+------------------+
+        | FRule |  Array Rule  |       INFO       |
+        | ZRule | Fandom Rule  |       INFO       |
+        | ARule |   Zoo Rule   |       INFO       |
+        +-------+--------------+------------------+
+        Total rules: 3
+        +-------+--------------+------------------+
+        |   id  | display_name | default_severity |
+        +-------+--------------+------------------+
+        | ARule |   Zoo Rule   |       INFO       |
+        | FRule |  Array Rule  |       INFO       |
+        | ZRule | Fandom Rule  |       INFO       |
+        +-------+--------------+------------------+
+        Total rules: 3
+        +-------+------------------+
+        |   id  | default_severity |
+        +-------+------------------+
+        | ARule |       INFO       |
+        | FRule |       INFO       |
+        | ZRule |       INFO       |
+        +-------+------------------+
+        Total rules: 3
+        +--------------+------------------+
+        | display_name | default_severity |
+        +--------------+------------------+
+        |  Array Rule  |       INFO       |
+        | Fandom Rule  |       INFO       |
+        |   Zoo Rule   |       INFO       |
+        +--------------+------------------+
+        Total rules: 3
+        +-------+-----------+------------------+---------+
+        |   id  | log_types | default_severity | enabled |
+        +-------+-----------+------------------+---------+
+        | ARule |  AWS.ALB  |       INFO       |   True  |
+        | FRule |  AWS.ALB  |       INFO       |   True  |
+        | ZRule |  AWS.ALB  |       INFO       |   True  |
+        +-------+-----------+------------------+---------+
     """,
     ).lstrip()
 
-    assert std.out == exp
-    assert std.err == ""
-
-
-def test_print_rule_table_no_total(capsys):
-    rules = [TestEDRRule, TestPaloAltoRule]
+    # act
+    print_rule_table(rules, attributes=["id", "display_name", "default_severity"], sort_by="display_name")
+    print_rule_table(rules, attributes=["id", "display_name", "default_severity"], sort_by="id")
+    print_rule_table(rules, attributes=["id", "default_severity"], sort_by="display_name")
+    print_rule_table(rules, attributes=["display_name", "default_severity"])
     print_rule_table(rules, print_total=False)
     std = capsys.readouterr()
-
     pytest.maxDiff = None
-    exp = textwrap.dedent(
-        """
-        +----------+------------------------------+------------------+---------+
-        |    id    |          log_types           | default_severity | enabled |
-        +----------+------------------------------+------------------+---------+
-        |   EDR    | CrowdStrike, SentinelOne, +1 |       High       |   True  |
-        | Firewall |           PaloAlto           |      Medium      |   True  |
-        +----------+------------------------------+------------------+---------+
-    """,
-    ).lstrip()
 
+    # assert
     assert std.out == exp
     assert std.err == ""
 
 
 def test_print_rules_as_json(capsys):
-    rules = [TestEDRRule, TestPaloAltoRule]
-    print_rules_as_json(rules)
+    # arrange
+    rules = [
+        type(
+            "FRule",
+            (Rule,),
+            {
+                "id": "FRule",
+                "log_types": [LogType.AWS_ALB],
+                "display_name": "Array Rule",
+                "default_severity": Severity.INFO,
+                "enabled": True,
+                "create_alert": True,
+                "rule": lambda self, event: True,
+            },
+        ),
+        type(
+            "ARule",
+            (Rule,),
+            {
+                "id": "ARule",
+                "log_types": [LogType.AWS_ALB],
+                "display_name": "Zoo Rule",
+                "default_severity": Severity.INFO,
+                "enabled": True,
+                "create_alert": True,
+                "rule": lambda self, event: True,
+            },
+        ),
+        type(
+            "ZRule",
+            (Rule,),
+            {
+                "id": "ZRule",
+                "log_types": [LogType.AWS_ALB],
+                "display_name": "Fandom Rule",
+                "default_severity": Severity.INFO,
+                "enabled": True,
+                "create_alert": True,
+                "rule": lambda self, event: True,
+            },
+        ),
+    ]
+    exp = textwrap.dedent(
+        """
+        {
+          "rules": [
+            {
+              "id": "FRule",
+              "display_name": "Array Rule",
+              "default_severity": "INFO"
+            },
+            {
+              "id": "ZRule",
+              "display_name": "Fandom Rule",
+              "default_severity": "INFO"
+            },
+            {
+              "id": "ARule",
+              "display_name": "Zoo Rule",
+              "default_severity": "INFO"
+            }
+          ],
+          "total_rules": 3
+        }
+        {
+          "rules": [
+            {
+              "id": "ARule",
+              "display_name": "Zoo Rule",
+              "default_severity": "INFO"
+            },
+            {
+              "id": "FRule",
+              "display_name": "Array Rule",
+              "default_severity": "INFO"
+            },
+            {
+              "id": "ZRule",
+              "display_name": "Fandom Rule",
+              "default_severity": "INFO"
+            }
+          ],
+          "total_rules": 3
+        }
+        {
+          "rules": [
+            {
+              "id": "ARule",
+              "default_severity": "INFO"
+            },
+            {
+              "id": "FRule",
+              "default_severity": "INFO"
+            },
+            {
+              "id": "ZRule",
+              "default_severity": "INFO"
+            }
+          ],
+          "total_rules": 3
+        }
+        {
+          "rules": [
+            {
+              "display_name": "Array Rule",
+              "default_severity": "INFO"
+            },
+            {
+              "display_name": "Fandom Rule",
+              "default_severity": "INFO"
+            },
+            {
+              "display_name": "Zoo Rule",
+              "default_severity": "INFO"
+            }
+          ],
+          "total_rules": 3
+        }
+    """,
+    ).lstrip()
+
+    # act
+    print_rules_as_json(rules, attributes=["id", "display_name", "default_severity"], sort_by="display_name")
+    print_rules_as_json(rules, attributes=["id", "display_name", "default_severity"], sort_by="id")
+    print_rules_as_json(rules, attributes=["id", "default_severity"], sort_by="display_name")
+    print_rules_as_json(rules, attributes=["display_name", "default_severity"])
     std = capsys.readouterr()
-
     pytest.maxDiff = None
-    exp = {
-        "rules": [
-            {
-                "log_types": ["CrowdStrike", "SentinelOne", "AWS"],
-                "id": "EDR",
-                "default_severity": "High",
-                "enabled": True,
-            },
-            {
-                "log_types": ["PaloAlto"],
-                "id": "Firewall",
-                "default_severity": "Medium",
-                "enabled": True,
-            },
-        ],
-        "total_rules": 2,
-    }
 
-    assert json.loads(std.out) == exp
+    # assert
+    assert std.out == exp
     assert std.err == ""
 
 
 def test_print_rules_as_csv(capsys):
-    rules = [TestEDRRule, TestPaloAltoRule]
-    print_rules_as_csv(rules)
-    std = capsys.readouterr()
-
-    pytest.maxDiff = None
+    # arrange
+    rules = [
+        type(
+            "FRule",
+            (Rule,),
+            {
+                "id": "FRule",
+                "log_types": [LogType.AWS_ALB],
+                "display_name": "Array Rule",
+                "default_severity": Severity.INFO,
+                "enabled": True,
+                "create_alert": True,
+                "rule": lambda self, event: True,
+            },
+        ),
+        type(
+            "ARule",
+            (Rule,),
+            {
+                "id": "ARule",
+                "log_types": [LogType.AWS_ALB],
+                "display_name": "Zoo Rule",
+                "default_severity": Severity.INFO,
+                "enabled": True,
+                "create_alert": True,
+                "rule": lambda self, event: True,
+            },
+        ),
+        type(
+            "ZRule",
+            (Rule,),
+            {
+                "id": "ZRule",
+                "log_types": [LogType.AWS_ALB],
+                "display_name": "Fandom Rule",
+                "default_severity": Severity.INFO,
+                "enabled": True,
+                "create_alert": True,
+                "rule": lambda self, event: True,
+            },
+        ),
+    ]
     exp = textwrap.dedent(
         """
-        id,log_types,default_severity,enabled
-        EDR,"CrowdStrike,SentinelOne,AWS",High,True
-        Firewall,"PaloAlto",Medium,True
+        id,display_name,default_severity
+        FRule,Array Rule,INFO
+        ZRule,Fandom Rule,INFO
+        ARule,Zoo Rule,INFO
+        id,display_name,default_severity
+        ARule,Zoo Rule,INFO
+        FRule,Array Rule,INFO
+        ZRule,Fandom Rule,INFO
+        id,default_severity
+        ARule,INFO
+        FRule,INFO
+        ZRule,INFO
+        display_name,default_severity
+        Array Rule,INFO
+        Fandom Rule,INFO
+        Zoo Rule,INFO
     """,
     ).lstrip()
 
+    # act
+    print_rules_as_csv(rules, attributes=["id", "display_name", "default_severity"], sort_by="display_name")
+    print_rules_as_csv(rules, attributes=["id", "display_name", "default_severity"], sort_by="id")
+    print_rules_as_csv(rules, attributes=["id", "default_severity"], sort_by="display_name")
+    print_rules_as_csv(rules, attributes=["display_name", "default_severity"])
+    std = capsys.readouterr()
+    pytest.maxDiff = None
+
+    # assert
     assert std.out == exp
     assert std.err == ""
