@@ -1,7 +1,7 @@
 import json
 
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
-from pypanther.helpers.base import m365_alert_context
+from pypanther.helpers.msft import m365_alert_context
 
 
 @panther_managed

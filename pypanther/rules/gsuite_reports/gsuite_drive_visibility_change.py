@@ -2,7 +2,7 @@ import json
 from unittest.mock import MagicMock
 
 from pypanther import LogType, Rule, RuleMock, RuleTest, Severity, panther_managed
-from pypanther.helpers.base import gsuite_parameter_lookup as param_lookup
+from pypanther.helpers.gsuite import gsuite_parameter_lookup as param_lookup
 
 
 @panther_managed

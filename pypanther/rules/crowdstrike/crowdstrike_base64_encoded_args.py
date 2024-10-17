@@ -1,5 +1,6 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
-from pypanther.helpers.base import crowdstrike_process_alert_context, is_base64
+from pypanther.helpers.base import is_base64
+from pypanther.helpers.crowdstrike_fdr import crowdstrike_process_alert_context
 
 
 @panther_managed

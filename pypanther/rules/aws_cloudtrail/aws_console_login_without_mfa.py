@@ -3,8 +3,7 @@ import logging
 from panther_detection_helpers.caching import check_account_age
 
 from pypanther import LogType, Rule, RuleMock, RuleTest, Severity, panther_managed
-from pypanther.helpers.base import aws_rule_context
-from pypanther.helpers.default import lookup_aws_account_name
+from pypanther.helpers.aws import aws_rule_context, lookup_aws_account_name
 
 
 @panther_managed

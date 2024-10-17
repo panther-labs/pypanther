@@ -1,5 +1,5 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
-from pypanther.helpers.base import filter_crowdstrike_fdr_event_type
+from pypanther.helpers.crowdstrike_fdr import filter_crowdstrike_fdr_event_type
 
 
 @panther_managed

@@ -1,5 +1,5 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
-from pypanther.helpers.default import aws_cloudtrail_success, lookup_aws_account_name
+from pypanther.helpers.aws import aws_cloudtrail_success, lookup_aws_account_name
 
 
 @panther_managed
