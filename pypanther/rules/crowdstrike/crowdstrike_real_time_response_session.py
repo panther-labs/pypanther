@@ -1,5 +1,5 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
-from pypanther.helpers.base import get_crowdstrike_field
+from pypanther.helpers.crowdstrike_fdr import get_crowdstrike_field
 
 
 @panther_managed

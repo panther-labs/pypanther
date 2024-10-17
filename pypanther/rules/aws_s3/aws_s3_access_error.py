@@ -1,5 +1,6 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
-from pypanther.helpers.base import aws_rule_context, pattern_match
+from pypanther.helpers.aws import aws_rule_context
+from pypanther.helpers.base import pattern_match
 
 
 @panther_managed

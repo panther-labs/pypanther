@@ -1,6 +1,6 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers import event_type
-from pypanther.helpers.base import zendesk_get_roles
+from pypanther.helpers.zendesk import zendesk_get_roles
 
 
 @panther_managed

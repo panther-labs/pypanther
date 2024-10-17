@@ -5,7 +5,7 @@ from difflib import SequenceMatcher
 from panther_detection_helpers.caching import get_string_set, put_string_set
 
 from pypanther import LogType, Rule, RuleMock, RuleTest, Severity, panther_managed
-from pypanther.helpers.base import okta_alert_context
+from pypanther.helpers.okta import okta_alert_context
 
 
 @panther_managed

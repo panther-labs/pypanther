@@ -1,6 +1,6 @@
 from pypanther import LogType, Rule, RuleMock, RuleTest, Severity, panther_managed
-from pypanther.helpers.default import lookup_aws_account_name
-from pypanther.helpers.oss import geoinfo_from_ip_formatted
+from pypanther.helpers.aws import lookup_aws_account_name
+from pypanther.helpers.ipinfo import geoinfo_from_ip_formatted
 
 
 @panther_managed
@@ -31,8 +31,7 @@ class AWSConsoleRootLogin(Rule):
         )
 
     def title(self, event):
-        ip_address = event.get("sourceIPAddress")
-        return f"AWS root login detected from [{ip_address}] ({geoinfo_from_ip_formatted(ip_address)}) in account [{lookup_aws_account_name(event.get('recipientAccountId'))}]"
+        return f"AWS root login detected from ({geoinfo_from_ip_formatted(event, 'sourceIPAddress')}) in account [{lookup_aws_account_name(event.get('recipientAccountId'))}]"
 
     def dedup(self, event):
         # Each Root login should generate a unique alert

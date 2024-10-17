@@ -2,9 +2,9 @@ from json import loads
 
 from pypanther import LogType, Rule, RuleMock, RuleTest, Severity, panther_managed
 from pypanther.helpers import event_type
-from pypanther.helpers.default import lookup_aws_account_name
+from pypanther.helpers.aws import lookup_aws_account_name
+from pypanther.helpers.base import add_parse_delay
 from pypanther.helpers.ipinfo import PantherIPInfoException, geoinfo_from_ip
-from pypanther.helpers.oss import add_parse_delay
 
 
 @panther_managed

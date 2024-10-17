@@ -1,7 +1,7 @@
 from ipaddress import ip_address
 
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
-from pypanther.helpers.base import eks_panther_obj_ref
+from pypanther.helpers.aws import eks_panther_obj_ref
 
 
 @panther_managed

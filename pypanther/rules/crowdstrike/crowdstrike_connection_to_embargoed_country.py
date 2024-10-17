@@ -1,5 +1,5 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
-from pypanther.helpers.base import crowdstrike_network_detection_alert_context
+from pypanther.helpers.crowdstrike_fdr import crowdstrike_network_detection_alert_context
 
 
 @panther_managed

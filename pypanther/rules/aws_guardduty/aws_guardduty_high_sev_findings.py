@@ -1,5 +1,5 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
-from pypanther.helpers.base import aws_guardduty_context
+from pypanther.helpers.aws import aws_guardduty_context
 
 
 @panther_managed

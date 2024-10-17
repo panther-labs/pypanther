@@ -1,5 +1,5 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
-from pypanther.helpers.base import ZENDESK_CHANGE_DESCRIPTION
+from pypanther.helpers.zendesk import ZENDESK_CHANGE_DESCRIPTION
 
 
 @panther_managed

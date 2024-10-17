@@ -1,8 +1,7 @@
 import re
 
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
-from pypanther.helpers.base import aws_rule_context
-from pypanther.helpers.default import aws_cloudtrail_success
+from pypanther.helpers.aws import aws_cloudtrail_success, aws_rule_context
 
 
 @panther_managed

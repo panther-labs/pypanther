@@ -1,5 +1,5 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
-from pypanther.helpers.base import crowdstrike_detection_alert_context, get_crowdstrike_field
+from pypanther.helpers.crowdstrike_fdr import crowdstrike_detection_alert_context, get_crowdstrike_field
 
 
 @panther_managed

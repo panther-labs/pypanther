@@ -1,5 +1,6 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
-from pypanther.helpers.base import box_parse_additional_details, deep_get
+from pypanther.helpers.base import deep_get
+from pypanther.helpers.box import box_parse_additional_details
 
 
 @panther_managed

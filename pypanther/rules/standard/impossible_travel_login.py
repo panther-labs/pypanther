@@ -5,9 +5,9 @@ from panther_detection_helpers.caching import get_string_set, put_string_set
 
 from pypanther import LogType, Rule, RuleMock, RuleTest, Severity, panther_managed
 from pypanther.helpers import event_type
-from pypanther.helpers.base import deep_get
+from pypanther.helpers.base import deep_get, resolve_timestamp_string
+from pypanther.helpers.ipinfo import km_between_ipinfo_loc
 from pypanther.helpers.lookuptable import LookupTableMatches
-from pypanther.helpers.oss import km_between_ipinfo_loc, resolve_timestamp_string
 
 
 @panther_managed

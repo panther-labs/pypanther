@@ -1,8 +1,7 @@
 from ipaddress import ip_address
 
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
-from pypanther.helpers.base import aws_rule_context
-from pypanther.helpers.default import lookup_aws_account_name
+from pypanther.helpers.aws import aws_rule_context, lookup_aws_account_name
 
 
 @panther_managed
