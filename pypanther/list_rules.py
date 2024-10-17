@@ -62,11 +62,11 @@ def run(args: argparse.Namespace) -> Tuple[int, str]:
     try:
         match args.output:
             case "text":
-                display.print_rule_table(list(rules), args.attributes, args.sort_by)
+                display.print_rule_table(list(rules), attributes=args.attributes, sort_by=args.sort_by)
             case "json":
-                display.print_rules_as_json(list(rules), args.attributes, args.sort_by)
+                display.print_rules_as_json(list(rules), attributes=args.attributes, sort_by=args.sort_by)
             case "csv":
-                display.print_rules_as_csv(list(rules), args.attributes, args.sort_by)
+                display.print_rules_as_csv(list(rules), attributes=args.attributes, sort_by=args.sort_by)
             case _:
                 return 1, f"Unsupported output: {args.output}"
     except AttributeError as err:
