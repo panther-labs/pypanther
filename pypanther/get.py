@@ -21,7 +21,6 @@ def get_panther_rules(
     dedup_period_minutes: NonNegativeInt | None = None,
     display_name: List[str] | str | None = None,
     enabled: bool | None = None,
-    scheduled_queries: List[str] | None = None,
     summary_attributes: List[str] | None = None,
     tests: List[RuleTest] | None = None,
     threshold: PositiveInt | None = None,

@@ -1771,7 +1771,6 @@ class TestRuleExtendFunc(TestCase):
         Test.extend(
             log_types=["hi"],
             tests=[RuleTest(name="test", expected_result=True, log={})],
-            scheduled_queries=["hi"],
             summary_attributes=["hi"],
             tags=["hi"],
             reports={"foo": ["bar"]},
@@ -1781,7 +1780,6 @@ class TestRuleExtendFunc(TestCase):
         )
 
         assert Test.log_types == ["hi"]  # type: ignore
-        assert Test.scheduled_queries == ["hi"]  # type: ignore
         assert Test.summary_attributes == ["hi"]  # type: ignore
         assert len(Test.tests) == 1  # type: ignore
         assert Test.tags == ["hi"]  # type: ignore

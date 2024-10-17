@@ -150,7 +150,6 @@ class TestRegisteredRules:
             dedup_period_minutes=None,
             display_name=None,
             enabled=None,
-            scheduled_queries=None,
             summary_attributes=None,
             tests=None,
             threshold=None,

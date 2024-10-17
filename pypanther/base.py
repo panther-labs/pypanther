@@ -89,7 +89,6 @@ RULE_ALL_ATTRS = [
     "enabled",
     "log_types",
     "id",
-    "scheduled_queries",
     "summary_attributes",
     "tests",
     "threshold",
@@ -141,7 +140,6 @@ class RuleModel(BaseModel):
     enabled: bool
     log_types: NonEmptyUniqueList[str]
     id: str
-    scheduled_queries: UniqueList[str]
     summary_attributes: UniqueList[str]
     tests: List[RuleTest]
     threshold: PositiveInt
@@ -290,7 +288,6 @@ class Rule(metaclass=abc.ABCMeta):
         dedup_period_minutes: Optional[NonNegativeInt] = None,
         display_name: Optional[str] = None,
         enabled: Optional[bool] = None,
-        scheduled_queries: Optional[List[str]] = None,
         summary_attributes: Optional[List[str]] = None,
         tests: Optional[List[RuleTest]] = None,
         threshold: Optional[PositiveInt] = None,
@@ -315,7 +312,6 @@ class Rule(metaclass=abc.ABCMeta):
     def extend(
         cls,
         log_types: Optional[List[str]] = None,
-        scheduled_queries: Optional[List[str]] = None,
         summary_attributes: Optional[List[str]] = None,
         tests: Optional[List[RuleTest]] = None,
         tags: Optional[List[str]] = None,
