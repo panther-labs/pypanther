@@ -1741,7 +1741,6 @@ class TestRuleExtendFunc(TestCase):
         Test.extend()
 
         assert Test.log_types == [LogType.PANTHER_AUDIT]
-        assert Test.scheduled_queries == []
         assert Test.summary_attributes == []
         assert len(Test.tests) == 1
         assert Test.tags == []
@@ -1759,7 +1758,6 @@ class TestRuleExtendFunc(TestCase):
             log_types = None  # type: ignore
             default_severity = Severity.CRITICAL
             tests = None  # type: ignore
-            scheduled_queries = None  # type: ignore
             summary_attributes = None  # type: ignore
             tags = None  # type: ignore
             reports = None  # type: ignore
@@ -1799,7 +1797,6 @@ class TestRuleExtendFunc(TestCase):
         class Test(Rule):
             log_types = ["hi"]
             tests = [RuleTest(name="test", expected_result=True, log={})]
-            scheduled_queries = ["hi"]
             summary_attributes = ["hi"]
             tags = ["hi"]
             reports = {"foo": ["bar"], "dup": ["dup"]}
@@ -1813,7 +1810,6 @@ class TestRuleExtendFunc(TestCase):
         Test.extend(
             log_types=["hi"],
             tests=[RuleTest(name="test", expected_result=True, log={})],
-            scheduled_queries=["hi"],
             summary_attributes=["hi"],
             tags=["hi"],
             reports={"bax": ["baz"], "dup": ["new"]},
@@ -1823,7 +1819,6 @@ class TestRuleExtendFunc(TestCase):
         )
 
         assert Test.log_types == ["hi", "hi"]
-        assert Test.scheduled_queries == ["hi", "hi"]
         assert Test.summary_attributes == ["hi", "hi"]
         assert len(Test.tests) == 2
         assert Test.tags == ["hi", "hi"]
