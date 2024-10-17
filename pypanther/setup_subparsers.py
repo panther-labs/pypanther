@@ -166,7 +166,7 @@ def setup_convert_parser(convert_parser: argparse.ArgumentParser):
     )
     convert_parser.add_argument(
         "--pypanther-directory-name",
-        help="Name of the top level directory where converted artifacts are placed",
+        help="The name that will be used for the top level directory where the converted artifacts will be placed",
         default="content",
         required=False,
     )
