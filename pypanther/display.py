@@ -85,7 +85,7 @@ def print_rule_table(
 
 
 def pretty_format_text(val) -> str:
-    if not val:
+    if val == "" or val is None or val == []:
         return "-"
 
     if isinstance(val, list):
