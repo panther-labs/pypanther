@@ -89,7 +89,6 @@ RULE_ALL_ATTRS = [
     "enabled",
     "log_types",
     "id",
-    "scheduled_queries",
     "summary_attributes",
     "tests",
     "threshold",
@@ -141,7 +140,6 @@ class RuleModel(BaseModel):
     enabled: bool
     log_types: NonEmptyUniqueList[str]
     id: str
-    scheduled_queries: UniqueList[str]
     summary_attributes: UniqueList[str]
     tests: List[RuleTest]
     threshold: PositiveInt
@@ -167,7 +165,6 @@ DEFAULT_OUTPUT_IDS: List[str] = []
 DEFAULT_REFERENCE = ""
 DEFAULT_REPORTS: Dict[str, List[str]] = {}
 DEFAULT_RUNBOOK = ""
-DEFAULT_SCHEDULED_QUERIES: List[str] = []
 DEFAULT_SUMMARY_ATTRIBUTES: List[str] = []
 DEFAULT_TAGS: List[str] = []
 DEFAULT_TESTS: List[RuleTest] = []
@@ -187,7 +184,6 @@ class Rule(metaclass=abc.ABCMeta):
     dedup_period_minutes: NonNegativeInt = DEFAULT_DEDUP_PERIOD_MINUTES
     display_name: str = DEFAULT_DISPLAY_NAME
     enabled: bool = DEFAULT_ENABLED
-    scheduled_queries: List[str] = DEFAULT_SCHEDULED_QUERIES
     summary_attributes: List[str] = DEFAULT_SUMMARY_ATTRIBUTES
     tests: List[RuleTest] = DEFAULT_TESTS
     threshold: PositiveInt = DEFAULT_THRESHOLD
@@ -292,7 +288,6 @@ class Rule(metaclass=abc.ABCMeta):
         dedup_period_minutes: Optional[NonNegativeInt] = None,
         display_name: Optional[str] = None,
         enabled: Optional[bool] = None,
-        scheduled_queries: Optional[List[str]] = None,
         summary_attributes: Optional[List[str]] = None,
         tests: Optional[List[RuleTest]] = None,
         threshold: Optional[PositiveInt] = None,
@@ -317,7 +312,6 @@ class Rule(metaclass=abc.ABCMeta):
     def extend(
         cls,
         log_types: Optional[List[str]] = None,
-        scheduled_queries: Optional[List[str]] = None,
         summary_attributes: Optional[List[str]] = None,
         tests: Optional[List[RuleTest]] = None,
         tags: Optional[List[str]] = None,
