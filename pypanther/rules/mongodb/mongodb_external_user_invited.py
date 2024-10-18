@@ -2,7 +2,6 @@ import json
 from unittest.mock import MagicMock
 
 from pypanther import LogType, Rule, RuleMock, RuleTest, Severity, panther_managed
-from pypanther.helpers.base import deep_get
 from pypanther.helpers.mongodb import mongodb_alert_context
 
 
@@ -21,8 +20,8 @@ class MongoDBExternalUserInvited(Rule):
     def rule(self, event):
         if isinstance(self.ALLOWED_DOMAINS, MagicMock):
             self.ALLOWED_DOMAINS = json.loads(self.ALLOWED_DOMAINS())  # pylint: disable=not-callable
-        if deep_get(event, "eventTypeName", default="") == "INVITED_TO_ORG":
-            target_user = deep_get(event, "targetUsername", default="")
+        if event.get("eventTypeName", "") == "INVITED_TO_ORG":
+            target_user = event.get("targetUsername", "")
             target_domain = target_user.split("@")[-1]
             return target_domain not in self.ALLOWED_DOMAINS
         return False

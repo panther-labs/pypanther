@@ -1,5 +1,4 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
-from pypanther.helpers.base import deep_get
 from pypanther.helpers.config import config
 
 
@@ -31,7 +30,7 @@ class BoxEventTriggeredExternally(Rule):
 
     def title(self, event):
         return (
-            f"External user [{deep_get(event, 'created_by', 'login', default='<UNKNOWN_USER>')}] triggered a box event."
+            f"External user [{event.deep_get('created_by', 'login', default='<UNKNOWN_USER>')}] triggered a box event."
         )
 
     tests = [

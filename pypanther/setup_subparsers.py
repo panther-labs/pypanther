@@ -1,6 +1,7 @@
 import argparse
+import pathlib
 
-from pypanther import display, get_rule, list_log_types, list_rules, shared_args, upload
+from pypanther import display, generate, get_rule, list_log_types, list_rules, shared_args, upload
 from pypanther.backend import util
 
 
@@ -22,6 +23,13 @@ def setup_list_rules_parser(list_rules_parser: argparse.ArgumentParser):
         default=display.DEFAULT_RULE_TABLE_ATTRS,
         required=False,
         choices=display.VALID_RULE_TABLE_ATTRS + [display.ALL_TABLE_ATTR],
+    )
+    list_rules_parser.add_argument(
+        "--sort-by",
+        help="Choose a field to sort the output by.",
+        default=display.DEFAULT_RULE_TABLE_SORT_BY,
+        required=False,
+        choices=display.VALID_RULE_TABLE_ATTRS,
     )
     list_rules_parser.add_argument(
         "--output",
@@ -117,6 +125,21 @@ def setup_upload_parser(upload_parser: argparse.ArgumentParser):
         choices=display.COMMON_CLI_OUTPUT_TYPES,
         default=display.DEFAULT_CLI_OUTPUT_TYPE,
     )
+    dry_run_group = upload_parser.add_mutually_exclusive_group()
+    dry_run_group.add_argument(
+        "--skip-summary",
+        help="Omit changes summary in output",
+        default=False,
+        required=False,
+        action="store_true",
+    )
+    dry_run_group.add_argument(
+        "--dry-run",
+        help="Avoid actually uploading",
+        default=False,
+        required=False,
+        action="store_true",
+    )
 
 
 def setup_list_log_types_parser(list_log_types_parser: argparse.ArgumentParser):
@@ -132,4 +155,30 @@ def setup_list_log_types_parser(list_log_types_parser: argparse.ArgumentParser):
         required=False,
         choices=display.COMMON_CLI_OUTPUT_TYPES,
         default=display.DEFAULT_CLI_OUTPUT_TYPE,
+    )
+
+
+def setup_convert_parser(convert_parser: argparse.ArgumentParser):
+    convert_parser.set_defaults(
+        func=generate.convert,
+        keep_all_rules=False,
+        cwd_must_be_empty=True,
+    )
+    convert_parser.add_argument(
+        "--verbose",
+        help="Verbose output",
+        default=False,
+        required=False,
+        action="store_true",
+    )
+    convert_parser.add_argument(
+        "--pypanther-directory-name",
+        help="The name that will be used for the top level directory where the converted artifacts will be placed",
+        default="content",
+        required=False,
+    )
+    convert_parser.add_argument(
+        "panther_analysis_path",
+        help="Path to the Panther Analysis directory",
+        type=pathlib.Path,
     )

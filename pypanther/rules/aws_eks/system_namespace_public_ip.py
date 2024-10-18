@@ -1,7 +1,7 @@
 from ipaddress import ip_address
 
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
-from pypanther.helpers.base import deep_get, eks_panther_obj_ref
+from pypanther.helpers.aws import eks_panther_obj_ref
 
 
 @panther_managed
@@ -37,7 +37,7 @@ class AmazonEKSAuditSystemNamespaceFromPublicIP(Rule):
         if (
             p_eks.get("actor") in self.AMZ_PUBLICS
             and ":assumed-role/AWSWesleyClusterManagerLambda"
-            in deep_get(event, "user", "extra", "arn", default=["not found"])[0]
+            in event.deep_get("user", "extra", "arn", default=["not found"])[0]
         ):
             return False
         if (p_eks.get("actor").startswith("system:") or p_eks.get("actor").startswith("eks:")) and ip_address(

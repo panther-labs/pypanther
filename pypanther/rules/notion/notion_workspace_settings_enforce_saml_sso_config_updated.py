@@ -1,5 +1,4 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
-from pypanther.helpers.base import deep_get
 from pypanther.helpers.notion import notion_alert_context
 
 
@@ -23,8 +22,7 @@ class NotionSAMLSSOConfigurationChanged(Rule):
     def title(self, event):
         user = event.deep_get("event", "actor", "person", "email", default="<NO_USER_FOUND>")
         workspace_id = event.deep_get("event", "workspace_id", default="<NO_WORKSPACE_ID_FOUND>")
-        state = deep_get(
-            event,
+        state = event.deep_get(
             "event",
             "workspace.settings.enforce_saml_sso_config_updated",
             "state",
@@ -35,8 +33,7 @@ class NotionSAMLSSOConfigurationChanged(Rule):
         return f"Notion User [{user}] updated settings to disable SAML SSO config from workspace id {workspace_id}"
 
     def severity(self, event):
-        state = deep_get(
-            event,
+        state = event.deep_get(
             "event",
             "workspace.settings.enforce_saml_sso_config_updated",
             "state",

@@ -1,5 +1,4 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
-from pypanther.helpers.base import deep_get
 
 
 @panther_managed
@@ -21,12 +20,12 @@ class GSuiteUserSuspended(Rule):
     }
 
     def rule(self, event):
-        if deep_get(event, "id", "applicationName") != "login":
+        if event.deep_get("id", "applicationName") != "login":
             return False
         return bool(event.get("name") in self.USER_SUSPENDED_EVENTS)
 
     def title(self, event):
-        user = deep_get(event, "parameters", "affected_email_address")
+        user = event.deep_get("parameters", "affected_email_address")
         if not user:
             user = "<UNKNOWN_USER>"
         return f"User [{user}]'s account was disabled"

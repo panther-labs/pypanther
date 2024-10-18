@@ -1,5 +1,5 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
-from pypanther.helpers.base import deep_get, deep_walk, okta_alert_context
+from pypanther.helpers.okta import okta_alert_context
 
 
 @panther_managed
@@ -22,12 +22,12 @@ class OktaOrg2orgCreationModification(Rule):
     def rule(self, event):
         if event.get("eventType") not in self.APP_LIFECYCLE_EVENTS:
             return False
-        return "Org2Org" in deep_walk(event, "target", "displayName", default="", return_val="first")
+        return "Org2Org" in event.deep_walk("target", "displayName", default="", return_val="first")
 
     def title(self, event):
         action = event.get("eventType").split(".")[-1]
-        target = deep_walk(event, "target", "alternateId", default="<alternateId-not-found>", return_val="first")
-        return f"{deep_get(event, 'actor', 'displayName', default='<displayName-not-found>')} <{deep_get(event, 'actor', 'alternateId', default='alternateId-not-found')}> {action}d Org2Org app [{target}]"
+        target = event.deep_walk("target", "alternateId", default="<alternateId-not-found>", return_val="first")
+        return f"{event.deep_get('actor', 'displayName', default='<displayName-not-found>')} <{event.deep_get('actor', 'alternateId', default='alternateId-not-found')}> {action}d Org2Org app [{target}]"
 
     def severity(self, event):
         if "create" in event.get("eventType"):

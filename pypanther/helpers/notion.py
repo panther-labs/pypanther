@@ -2,11 +2,9 @@
 Global helpers for Notion detections
 """
 
-from pypanther.helpers.base import deep_get
-
 
 def notion_alert_context(event) -> dict:
     a_c = {}
-    a_c["actor"] = deep_get(event, "event", "actor", default="<NO_ACTOR_FOUND>")
-    a_c["action"] = deep_get(event, "event", "type", default="<NO_ACTION_FOUND>")
+    a_c["actor"] = event.deep_get("event", "actor", default="<NO_ACTOR_FOUND>")
+    a_c["action"] = event.deep_get("event", "type", default="<NO_ACTION_FOUND>")
     return a_c

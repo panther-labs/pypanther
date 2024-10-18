@@ -1,5 +1,4 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
-from pypanther.helpers.base import deep_walk
 
 
 @panther_managed
@@ -18,7 +17,7 @@ class NetskopeUnauthorizedAPICalls(Rule):
     )
 
     def rule(self, event):
-        data_values = deep_walk(event, "supporting_data", "data_values")
+        data_values = event.deep_walk("supporting_data", "data_values")
         if data_values and data_values[0] == 403:
             return True
         return False

@@ -1,8 +1,7 @@
 import re
 
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
-from pypanther.helpers.base import deep_get, deep_walk
-from pypanther.helpers.gcp_base import gcp_alert_context
+from pypanther.helpers.gcp import gcp_alert_context
 
 
 @panther_managed
@@ -19,14 +18,14 @@ class GCPLogBucketOrSinkDeleted(Rule):
     default_reference = "https://cloud.google.com/logging/docs"
 
     def rule(self, event):
-        authenticated = deep_walk(event, "protoPayload", "authorizationInfo", "granted", default=False)
+        authenticated = event.deep_walk("protoPayload", "authorizationInfo", "granted", default=False)
         method_pattern = "(?:\\w+\\.)*v\\d\\.(?:ConfigServiceV\\d\\.(?:Delete(Bucket|Sink)))"
-        match = re.search(method_pattern, deep_get(event, "protoPayload", "methodName", default=""))
+        match = re.search(method_pattern, event.deep_get("protoPayload", "methodName", default=""))
         return authenticated and match is not None
 
     def title(self, event):
-        actor = deep_get(event, "protoPayload", "authenticationInfo", "principalEmail", default="<ACTOR_NOT_FOUND>")
-        resource = deep_get(event, "protoPayload", "resourceName", default="<RESOURCE_NOT_FOUND>")
+        actor = event.deep_get("protoPayload", "authenticationInfo", "principalEmail", default="<ACTOR_NOT_FOUND>")
+        resource = event.deep_get("protoPayload", "resourceName", default="<RESOURCE_NOT_FOUND>")
         return f"[GCP]: [{actor}] deleted logging bucket or sink [{resource}]"
 
     def alert_context(self, event):

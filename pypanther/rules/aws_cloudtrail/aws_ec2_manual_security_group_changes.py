@@ -1,6 +1,6 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
-from pypanther.helpers.base import aws_rule_context, deep_get, pattern_match_list
-from pypanther.helpers.default import aws_cloudtrail_success
+from pypanther.helpers.aws import aws_cloudtrail_success, aws_rule_context
+from pypanther.helpers.base import pattern_match_list
 
 
 @panther_managed
@@ -44,23 +44,23 @@ class AWSEC2ManualSecurityGroupChange(Rule):
             and (
                 not (
                     pattern_match_list(event.get("userAgent"), self.ALLOWED_USER_AGENTS)
-                    and any(role in deep_get(event, "userIdentity", "arn") for role in self.ALLOWED_ROLE_NAMES)
+                    and any(role in event.deep_get("userIdentity", "arn") for role in self.ALLOWED_ROLE_NAMES)
                 )
             )
         )
 
     def dedup(self, event):
         return ":".join(
-            deep_get(event, "requestParameters", field, default="<UNKNOWN_FIELD>")
+            event.deep_get("requestParameters", field, default="<UNKNOWN_FIELD>")
             for field in self.SG_CHANGE_EVENTS[event.get("eventName")]["fields"]
         )
 
     def title(self, event):
         title_fields = {
-            field: deep_get(event, "requestParameters", field, default="<UNKNOWN_FIELD>")
+            field: event.deep_get("requestParameters", field, default="<UNKNOWN_FIELD>")
             for field in self.SG_CHANGE_EVENTS[event.get("eventName")]["fields"]
         }
-        user = deep_get(event, "userIdentity", "arn", default="<UNKNOWN_USER>").split("/")[-1]
+        user = event.deep_get("userIdentity", "arn", default="<UNKNOWN_USER>").split("/")[-1]
         title_template = self.SG_CHANGE_EVENTS[event.get("eventName")]["title"]
         title_fields["actor"] = user
         return title_template.format(**title_fields)

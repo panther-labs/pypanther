@@ -1,8 +1,7 @@
 import re
 
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
-from pypanther.helpers.base import deep_get
-from pypanther.helpers.gcp_base import gcp_alert_context
+from pypanther.helpers.gcp import gcp_alert_context
 
 
 @panther_managed
@@ -18,13 +17,13 @@ class GCPFirewallRuleDeleted(Rule):
 
     def rule(self, event):
         method_pattern = "(?:\\w+\\.)*v\\d\\.(?:Firewall\\.Delete)|(compute\\.firewalls\\.delete)"
-        match = re.search(method_pattern, deep_get(event, "protoPayload", "methodName", default=""))
+        match = re.search(method_pattern, event.deep_get("protoPayload", "methodName", default=""))
         return match is not None
 
     def title(self, event):
-        actor = deep_get(event, "protoPayload", "authenticationInfo", "principalEmail", default="<ACTOR_NOT_FOUND>")
-        resource = deep_get(event, "protoPayload", "resourceName", default="<RESOURCE_NOT_FOUND>")
-        resource_id = deep_get(event, "resource", "labels", "firewall_rule_id", default="<RESOURCE_ID_NOT_FOUND>")
+        actor = event.deep_get("protoPayload", "authenticationInfo", "principalEmail", default="<ACTOR_NOT_FOUND>")
+        resource = event.deep_get("protoPayload", "resourceName", default="<RESOURCE_NOT_FOUND>")
+        resource_id = event.deep_get("resource", "labels", "firewall_rule_id", default="<RESOURCE_ID_NOT_FOUND>")
         if resource_id != "<RESOURCE_ID_NOT_FOUND>":
             return f"[GCP]: [{actor}] deleted firewall rule with resource ID [{resource_id}]"
         return f"[GCP]: [{actor}] deleted firewall rule for resource [{resource}]"

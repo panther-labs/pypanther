@@ -1,5 +1,4 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
-from pypanther.helpers.base import deep_get
 
 
 @panther_managed
@@ -16,7 +15,7 @@ class AWSWAFDisassociation(Rule):
         return event.get("eventName") == "DisassociateWebACL"
 
     def title(self, event):
-        return f"AWS Account ID [{event.get('recipientAccountId')}] disassociated WebACL [{deep_get(event, 'requestParameters', 'resourceArn')}]"
+        return f"AWS Account ID [{event.get('recipientAccountId')}] disassociated WebACL [{event.deep_get('requestParameters', 'resourceArn')}]"
 
     def alert_context(self, event):
         return {
@@ -24,8 +23,8 @@ class AWSWAFDisassociation(Rule):
             "eventName": event.get("eventName"),
             "recipientAccountId": event.get("recipientAccountId"),
             "requestID": event.get("requestID"),
-            "requestParameters": deep_get(event, "requestParameters", "resourceArn"),
-            "userIdentity": deep_get(event, "userIdentity", "principalId"),
+            "requestParameters": event.deep_get("requestParameters", "resourceArn"),
+            "userIdentity": event.deep_get("userIdentity", "principalId"),
         }
 
     tests = [

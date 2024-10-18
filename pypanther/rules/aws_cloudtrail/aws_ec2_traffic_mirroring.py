@@ -1,5 +1,5 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
-from pypanther.helpers.base import aws_rule_context, deep_get
+from pypanther.helpers.aws import aws_rule_context
 
 
 @panther_managed
@@ -33,7 +33,7 @@ class AWSEC2TrafficMirroring(Rule):
             "ModifyTrafficMirrorFilterRule",
             "ModifyTrafficMirrorSession",
         ]
-        if deep_get(event, "userIdentity", "invokedBy", default="").endswith(".amazonaws.com"):
+        if event.deep_get("userIdentity", "invokedBy", default="").endswith(".amazonaws.com"):
             return False
         return event.get("eventSource", "") == "ec2.amazonaws.com" and event.get("eventName", "") in event_names
 

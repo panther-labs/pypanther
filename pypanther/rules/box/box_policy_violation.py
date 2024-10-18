@@ -1,5 +1,4 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
-from pypanther.helpers.base import deep_get
 
 
 @panther_managed
@@ -19,7 +18,7 @@ class BoxContentWorkflowPolicyViolation(Rule):
         return event.get("event_type") in self.POLICY_VIOLATIONS
 
     def title(self, event):
-        return f"User [{deep_get(event, 'created_by', 'name', default='<UNKNOWN_USER>')}] violated a content workflow policy."
+        return f"User [{event.deep_get('created_by', 'name', default='<UNKNOWN_USER>')}] violated a content workflow policy."
 
     tests = [
         RuleTest(

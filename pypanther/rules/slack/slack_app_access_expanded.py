@@ -1,5 +1,5 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
-from pypanther.helpers.base import deep_get, slack_alert_context
+from pypanther.helpers.slack import slack_alert_context
 
 
 @panther_managed
@@ -24,13 +24,13 @@ class SlackAuditLogsAppAccessExpanded(Rule):
         return event.get("action") in self.ACCESS_EXPANDED_ACTIONS
 
     def title(self, event):
-        return f"Slack App [{deep_get(event, 'entity', 'app', 'name')}] Access Expanded by [{deep_get(event, 'actor', 'user', 'name')}]"
+        return f"Slack App [{event.deep_get('entity', 'app', 'name')}] Access Expanded by [{event.deep_get('actor', 'user', 'name')}]"
 
     def alert_context(self, event):
         context = slack_alert_context(event)
         # Diff previous and new scopes
-        new_scopes = deep_get(event, "details", "new_scopes", default=[])
-        prv_scopes = deep_get(event, "details", "previous_scopes", default=[])
+        new_scopes = event.deep_get("details", "new_scopes", default=[])
+        prv_scopes = event.deep_get("details", "previous_scopes", default=[])
         context["scopes_added"] = [x for x in new_scopes if x not in prv_scopes]
         context["scoped_removed"] = [x for x in prv_scopes if x not in new_scopes]
         return context
@@ -38,12 +38,12 @@ class SlackAuditLogsAppAccessExpanded(Rule):
     def severity(self, event):
         # Used to escalate to High/Critical if the app is granted admin privileges
         # May want to escalate to "Critical" depending on security posture
-        if "admin" in deep_get(event, "entity", "app", "scopes", default=[]):
+        if "admin" in event.deep_get("entity", "app", "scopes", default=[]):
             return "High"
         # Fallback method in case the admin scope is not directly mentioned in entity for whatever
-        if "admin" in deep_get(event, "details", "new_scope", default=[]):
+        if "admin" in event.deep_get("details", "new_scope", default=[]):
             return "High"
-        if "admin" in deep_get(event, "details", "bot_scopes", default=[]):
+        if "admin" in event.deep_get("details", "bot_scopes", default=[]):
             return "High"
         return "Medium"
 

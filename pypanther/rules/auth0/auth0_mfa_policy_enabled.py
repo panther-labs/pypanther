@@ -1,6 +1,5 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.auth0 import auth0_alert_context, is_auth0_config_event
-from pypanther.helpers.base import deep_get
 
 
 @panther_managed
@@ -14,8 +13,8 @@ class Auth0MFAPolicyEnabled(Rule):
     id = "Auth0.MFA.Policy.Enabled-prototype"
 
     def rule(self, event):
-        data_description = deep_get(event, "data", "description", default="<NO_DATA_DESCRIPTION_FOUND>")
-        request_path = deep_get(event, "data", "details", "request", "path", default="<NO_REQUEST_PATH_FOUND>")
+        data_description = event.deep_get("data", "description", default="<NO_DATA_DESCRIPTION_FOUND>")
+        request_path = event.deep_get("data", "details", "request", "path", default="<NO_REQUEST_PATH_FOUND>")
         return all(
             [
                 data_description == "Set the Multi-factor Authentication policies",
@@ -25,8 +24,8 @@ class Auth0MFAPolicyEnabled(Rule):
         )
 
     def title(self, event):
-        user_email = deep_get(event, "data", "details", "request", "auth", "user", "email", default="<NO_USER_FOUND>")
-        request_body = deep_get(event, "data", "details", "request", "body", default=[])
+        user_email = event.deep_get("data", "details", "request", "auth", "user", "email", default="<NO_USER_FOUND>")
+        request_body = event.deep_get("data", "details", "request", "body", default=[])
         if "all-applications" in request_body:
             setting_change = "Always Require"
         if "confidence-score" in request_body:

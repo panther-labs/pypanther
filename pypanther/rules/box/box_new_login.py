@@ -1,5 +1,4 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
-from pypanther.helpers.base import deep_get
 
 
 @panther_managed
@@ -22,7 +21,7 @@ class BoxNewLogin(Rule):
         return event.get("event_type") == "ADD_LOGIN_ACTIVITY_DEVICE"
 
     def title(self, event):
-        return f"User [{deep_get(event, 'created_by', 'name', default='<UNKNOWN_USER>')}] logged in from a new device."
+        return f"User [{event.deep_get('created_by', 'name', default='<UNKNOWN_USER>')}] logged in from a new device."
 
     tests = [
         RuleTest(

@@ -1,6 +1,5 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
-from pypanther.helpers.base import aws_rule_context, deep_get
-from pypanther.helpers.default import aws_cloudtrail_success
+from pypanther.helpers.aws import aws_cloudtrail_success, aws_rule_context
 
 
 @panther_managed
@@ -20,7 +19,7 @@ class AWSCloudTrailAMIModifiedForPublicAccess(Rule):
         # Only check successful ModiyImageAttribute events
         if not aws_cloudtrail_success(event) or event.get("eventName") != "ModifyImageAttribute":
             return False
-        added_perms = deep_get(event, "requestParameters", "launchPermission", "add", "items", default=[])
+        added_perms = event.deep_get("requestParameters", "launchPermission", "add", "items", default=[])
         for item in added_perms:
             if item.get("group") == "all":
                 return True

@@ -5,7 +5,7 @@ from panther_detection_helpers.caching import put_string_set
 
 from pypanther import LogType, Rule, RuleMock, RuleTest, Severity, panther_managed
 from pypanther.helpers import event_type
-from pypanther.helpers.oss import resolve_timestamp_string
+from pypanther.helpers.base import resolve_timestamp_string
 
 
 @panther_managed

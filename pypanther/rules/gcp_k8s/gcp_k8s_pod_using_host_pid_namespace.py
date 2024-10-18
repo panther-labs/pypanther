@@ -1,6 +1,5 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
-from pypanther.helpers.base import deep_get
-from pypanther.helpers.gcp_base import gcp_alert_context
+from pypanther.helpers.gcp import gcp_alert_context
 
 
 @panther_managed
@@ -17,16 +16,16 @@ class GCPK8sPodUsingHostPIDNamespace(Rule):
     METHODS_TO_CHECK = ["io.k8s.core.v1.pods.create", "io.k8s.core.v1.pods.update", "io.k8s.core.v1.pods.patch"]
 
     def rule(self, event):
-        method = deep_get(event, "protoPayload", "methodName")
-        request_host_pid = deep_get(event, "protoPayload", "request", "spec", "hostPID")
-        response_host_pid = deep_get(event, "protoPayload", "responce", "spec", "hostPID")
+        method = event.deep_get("protoPayload", "methodName")
+        request_host_pid = event.deep_get("protoPayload", "request", "spec", "hostPID")
+        response_host_pid = event.deep_get("protoPayload", "responce", "spec", "hostPID")
         if (request_host_pid is True or response_host_pid is True) and method in self.METHODS_TO_CHECK:
             return True
         return False
 
     def title(self, event):
-        actor = deep_get(event, "protoPayload", "authenticationInfo", "principalEmail", default="<ACTOR_NOT_FOUND>")
-        project_id = deep_get(event, "resource", "labels", "project_id", default="<PROJECT_NOT_FOUND>")
+        actor = event.deep_get("protoPayload", "authenticationInfo", "principalEmail", default="<ACTOR_NOT_FOUND>")
+        project_id = event.deep_get("resource", "labels", "project_id", default="<PROJECT_NOT_FOUND>")
         return f"[GCP]: [{actor}] created or modified pod using the host PID namespace in project [{project_id}]"
 
     def alert_context(self, event):

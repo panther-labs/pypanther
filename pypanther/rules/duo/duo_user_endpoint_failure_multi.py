@@ -1,5 +1,4 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
-from pypanther.helpers.base import deep_get
 
 
 @panther_managed
@@ -25,7 +24,7 @@ class DUOUserEndpointFailure(Rule):
         return event.get("reason", "") in endpoint_reasons
 
     def title(self, event):
-        user = deep_get(event, "user", "name", default="Unknown")
+        user = event.deep_get("user", "name", default="Unknown")
         reason = event.get("reason", "Unknown")
         return f"Duo User [{user}] encountered suspicious endpoint issue [{reason}]"
 
@@ -33,11 +32,11 @@ class DUOUserEndpointFailure(Rule):
         return {
             "factor": event.get("factor"),
             "reason": event.get("reason"),
-            "user": deep_get(event, "user", "name", default=""),
-            "os": deep_get(event, "access_device", "os", default=""),
-            "ip_access": deep_get(event, "access_device", "ip", default=""),
-            "ip_auth": deep_get(event, "auth_device", "ip", default=""),
-            "application": deep_get(event, "application", "name", default=""),
+            "user": event.deep_get("user", "name", default=""),
+            "os": event.deep_get("access_device", "os", default=""),
+            "ip_access": event.deep_get("access_device", "ip", default=""),
+            "ip_auth": event.deep_get("auth_device", "ip", default=""),
+            "application": event.deep_get("application", "name", default=""),
         }
 
     tests = [

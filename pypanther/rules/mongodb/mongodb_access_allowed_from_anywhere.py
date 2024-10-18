@@ -16,20 +16,20 @@ class MongoDBAccessAllowedFromAnywhere(Rule):
 
     def rule(self, event):
         if (
-            event.deep_get("eventTypeName", default="") == "NETWORK_PERMISSION_ENTRY_ADDED"
-            and event.deep_get("whitelistEntry", default="") == "0.0.0.0/0"
+            event.get("eventTypeName", "") == "NETWORK_PERMISSION_ENTRY_ADDED"
+            and event.get("whitelistEntry", "") == "0.0.0.0/0"
         ):
             return True
         return False
 
     def title(self, event):
-        user = event.deep_get("username", default="<USER_NOT_FOUND>")
-        group_id = event.deep_get("groupId", default="<GROUP_NOT_FOUND>")
+        user = event.get("username", "<USER_NOT_FOUND>")
+        group_id = event.get("groupId", "<GROUP_NOT_FOUND>")
         return f"MongoDB: [{user}] has allowed access to group [{group_id}] from anywhere"
 
     def alert_context(self, event):
         context = mongodb_alert_context(event)
-        context["groupId"] = event.deep_get("groupId", default="<GROUP_NOT_FOUND>")
+        context["groupId"] = event.get("groupId", "<GROUP_NOT_FOUND>")
         return context
 
     tests = [

@@ -1,7 +1,7 @@
 from pypanther.base import DataModel, DataModelMapping, LogType
 from pypanther.helpers import event_type
 from pypanther.helpers.base import deep_get
-from pypanther.helpers.base import gsuite_details_lookup as details_lookup
+from pypanther.helpers.gsuite import gsuite_details_lookup as details_lookup
 
 
 def get_event_type(event):

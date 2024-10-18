@@ -1,5 +1,4 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
-from pypanther.helpers.base import deep_get
 from pypanther.helpers.notion import notion_alert_context
 
 
@@ -21,8 +20,7 @@ class NotionWorkspacePublicPageAdded(Rule):
     def title(self, event):
         actor = event.deep_get("event", "actor", "person", "email", default="<NO_EMAIL_FOUND>")
         wkspc_id = event.deep_get("event", "workspace_id", default="<NO_WORKSPACE_ID_FOUND>")
-        db_id = deep_get(
-            event,
+        db_id = event.deep_get(
             "event",
             "workspace.settings.public_homepage_added",
             "new_public_page",
@@ -34,8 +32,7 @@ class NotionWorkspacePublicPageAdded(Rule):
     def alert_context(self, event):
         context = notion_alert_context(event)
         workspace_id = event.deep_get("event", "workspace_id", default="<NO_WORKSPACE_ID_FOUND>")
-        db_id = deep_get(
-            event,
+        db_id = event.deep_get(
             "event",
             "workspace.settings.public_homepage_added",
             "new_public_page",

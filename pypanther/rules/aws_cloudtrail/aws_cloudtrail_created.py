@@ -1,6 +1,5 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
-from pypanther.helpers.base import aws_rule_context, deep_get
-from pypanther.helpers.default import aws_cloudtrail_success
+from pypanther.helpers.aws import aws_cloudtrail_success, aws_rule_context
 
 
 @panther_managed
@@ -24,7 +23,7 @@ class AWSCloudTrailCreated(Rule):
         return aws_cloudtrail_success(event) and event.get("eventName") in self.CLOUDTRAIL_CREATE_UPDATE
 
     def title(self, event):
-        return f"CloudTrail [{deep_get(event, 'requestParameters', 'name')}] was created/updated"
+        return f"CloudTrail [{event.deep_get('requestParameters', 'name')}] was created/updated"
 
     def alert_context(self, event):
         return aws_rule_context(event)

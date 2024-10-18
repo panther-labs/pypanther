@@ -1,5 +1,4 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
-from pypanther.helpers.base import deep_get
 
 
 @panther_managed
@@ -24,7 +23,7 @@ class BoxUntrustedDevice(Rule):
         return event.get("event_type") == "DEVICE_TRUST_CHECK_FAILED"
 
     def title(self, event):
-        return f"User [{deep_get(event, 'created_by', 'name', default='<UNKNOWN_USER>')}] attempted to login from an untrusted device."
+        return f"User [{event.deep_get('created_by', 'name', default='<UNKNOWN_USER>')}] attempted to login from an untrusted device."
 
     tests = [
         RuleTest(

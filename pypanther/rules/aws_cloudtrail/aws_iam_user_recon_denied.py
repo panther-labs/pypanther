@@ -1,8 +1,7 @@
 from ipaddress import ip_address
 
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
-from pypanther.helpers.base import aws_rule_context, deep_get
-from pypanther.helpers.default import lookup_aws_account_name
+from pypanther.helpers.aws import aws_rule_context, lookup_aws_account_name
 
 
 @panther_managed
@@ -39,7 +38,7 @@ class AWSIAMUserReconAccessDenied(Rule):
         # Filter events
         if event.get("errorCode") != "AccessDenied":
             return False
-        if deep_get(event, "userIdentity", "type") != "IAMUser":
+        if event.deep_get("userIdentity", "type") != "IAMUser":
             return False
         # Console Activity can easily result in false positives as some pages contain a mix of
         # items that a user may or may not have access to.
@@ -59,12 +58,12 @@ class AWSIAMUserReconAccessDenied(Rule):
         return False
 
     def dedup(self, event):
-        return deep_get(event, "userIdentity", "arn")
+        return event.deep_get("userIdentity", "arn")
 
     def title(self, event):
-        user_type = deep_get(event, "userIdentity", "type")
+        user_type = event.deep_get("userIdentity", "type")
         if user_type == "IAMUser":
-            user = deep_get(event, "userIdentity", "userName")
+            user = event.deep_get("userIdentity", "userName")
         # root user
         elif user_type == "Root":
             user = user_type

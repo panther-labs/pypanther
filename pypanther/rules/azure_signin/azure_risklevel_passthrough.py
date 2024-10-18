@@ -1,6 +1,5 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.azuresignin import actor_user, azure_signin_alert_context, is_sign_in_event
-from pypanther.helpers.base import deep_get
 
 
 @panther_managed
@@ -29,12 +28,12 @@ class AzureAuditRiskLevelPassthrough(Rule):
             return False
         self.IDENTIFIED_RISK_LEVEL = ""
         # Do not pass through risks marked as dismissed or remediated in AD
-        if deep_get(event, "properties", "riskState", default="").lower() in ["dismissed", "remediated"]:
+        if event.deep_get("properties", "riskState", default="").lower() in ["dismissed", "remediated"]:
             return False
         # check riskLevelAggregated
         for risk_type in ["riskLevelAggregated", "riskLevelDuringSignIn"]:
-            if deep_get(event, "properties", risk_type, default="").lower() in self.PASSTHROUGH_SEVERITIES:
-                self.IDENTIFIED_RISK_LEVEL = deep_get(event, "properties", risk_type).lower()
+            if event.deep_get("properties", risk_type, default="").lower() in self.PASSTHROUGH_SEVERITIES:
+                self.IDENTIFIED_RISK_LEVEL = event.deep_get("properties", risk_type).lower()
                 return True
         return False
 

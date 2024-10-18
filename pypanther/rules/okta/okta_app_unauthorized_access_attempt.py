@@ -1,5 +1,5 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
-from pypanther.helpers.base import deep_get, okta_alert_context
+from pypanther.helpers.okta import okta_alert_context
 
 
 @panther_managed
@@ -16,7 +16,7 @@ class OktaAppUnauthorizedAccessAttempt(Rule):
         return event.get("eventtype", "") == "app.generic.unauth_app_access_attempt"
 
     def title(self, event):
-        return f"[{deep_get(event, 'actor', 'alternateId', default='<id-not-found>')}] attempted unauthorized access to [{event.get('target', [{}])[0].get('alternateId', '<id-not-found>')}]"
+        return f"[{event.deep_get('actor', 'alternateId', default='<id-not-found>')}] attempted unauthorized access to [{event.get('target', [{}])[0].get('alternateId', '<id-not-found>')}]"
 
     def alert_context(self, event):
         return okta_alert_context(event)

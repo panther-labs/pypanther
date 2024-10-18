@@ -1,5 +1,4 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
-from pypanther.helpers.base import deep_get
 
 
 @panther_managed
@@ -19,7 +18,7 @@ class GSuiteWorkspaceTrustedDomainsAllowlist(Rule):
         return event.get("type") == "DOMAIN_SETTINGS" and event.get("name", "").endswith("_TRUSTED_DOMAINS")
 
     def title(self, event):
-        return f"GSuite Workspace Trusted Domains Modified [{event.get('name', '<NO_EVENT_NAME>')}] with [{deep_get(event, 'parameters', 'DOMAIN_NAME', default='<NO_DOMAIN_NAME>')}] performed by [{deep_get(event, 'actor', 'email', default='<NO_ACTOR_FOUND>')}]"
+        return f"GSuite Workspace Trusted Domains Modified [{event.get('name', '<NO_EVENT_NAME>')}] with [{event.deep_get('parameters', 'DOMAIN_NAME', default='<NO_DOMAIN_NAME>')}] performed by [{event.deep_get('actor', 'email', default='<NO_ACTOR_FOUND>')}]"
 
     tests = [
         RuleTest(

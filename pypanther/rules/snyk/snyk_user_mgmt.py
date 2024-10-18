@@ -34,13 +34,13 @@ class SnykUserManagement(Rule):
     ]
 
     def rule(self, event):
-        action = event.deep_get("event", default="<NO_EVENT>")
+        action = event.get("event", "<NO_EVENT>")
         # for org.user.add/group.user.add via SAML/SCIM
         # the attributes .userId and .content.publicUserId
         # have the same value
         if action.endswith(".user.add"):
             target_user = event.deep_get("content", "userPublicId", default="<NO_CONTENT_UID>")
-            actor = event.deep_get("userId", default="<NO_USERID>")
+            actor = event.get("userId", "<NO_USERID>")
             if target_user == actor:
                 return False
         return action in self.ACTIONS
@@ -48,7 +48,7 @@ class SnykUserManagement(Rule):
     def title(self, event):
         group_or_org = "<GROUP_OR_ORG>"
         operation = "<NO_OPERATION>"
-        action = event.deep_get("event", default="<NO_EVENT>")
+        action = event.get("event", "<NO_EVENT>")
         if "." in action:
             group_or_org = action.split(".")[0].title()
             operation = ".".join(action.split(".")[2:]).title()
@@ -62,7 +62,7 @@ class SnykUserManagement(Rule):
 
     def severity(self, event):
         role = event.deep_get("content", "after", "role", default=None)
-        if not role and "afterRoleName" in event.deep_get("content", default={}):
+        if not role and "afterRoleName" in event.get("content", {}):
             role = event.deep_get("content", "afterRoleName", default=None)
         if role == "ADMIN":
             return "CRITICAL"

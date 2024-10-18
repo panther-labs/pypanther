@@ -1,6 +1,5 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers import event_type
-from pypanther.helpers.base import deep_get
 
 
 @panther_managed
@@ -25,17 +24,17 @@ class PantherUserModified(Rule):
         return event.get("actionResult") == "SUCCEEDED"
 
     def title(self, event):
-        change_target = deep_get(event, "actionParams", "dynamic", "input", "email")
+        change_target = event.deep_get("actionParams", "dynamic", "input", "email")
         if change_target is None:
-            change_target = deep_get(event, "actionParams", "input", "email")
+            change_target = event.deep_get("actionParams", "input", "email")
         if change_target is None:
-            change_target = deep_get(event, "actionParams", "email", default="<UNKNOWN_USER>")
+            change_target = event.deep_get("actionParams", "email", default="<UNKNOWN_USER>")
         return f"The user account {change_target} was modified by {event.udm('actor_user')}"
 
     def alert_context(self, event):
-        change_target = deep_get(event, "actionParams", "dynamic", "input", "email")
+        change_target = event.deep_get("actionParams", "dynamic", "input", "email")
         if change_target is None:
-            change_target = deep_get(event, "actionParams", "input", "email", default="<UNKNOWN_USER>")
+            change_target = event.deep_get("actionParams", "input", "email", default="<UNKNOWN_USER>")
         return {"user": event.udm("actor_user"), "change_target": change_target, "ip": event.udm("source_ip")}
 
     def severity(self, event):

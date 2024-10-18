@@ -1,5 +1,5 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
-from pypanther.helpers.base import deep_get, okta_alert_context
+from pypanther.helpers.okta import okta_alert_context
 
 
 @panther_managed
@@ -19,12 +19,12 @@ class OktaPhishingAttemptBlockedFastPass(Rule):
     def rule(self, event):
         return (
             event.get("eventType") == "user.authentication.auth_via_mfa"
-            and deep_get(event, "outcome", "result") == "FAILURE"
-            and (deep_get(event, "outcome", "reason") == "FastPass declined phishing attempt")
+            and event.deep_get("outcome", "result") == "FAILURE"
+            and (event.deep_get("outcome", "reason") == "FastPass declined phishing attempt")
         )
 
     def title(self, event):
-        return f"{deep_get(event, 'actor', 'displayName', default='<displayName-not-found>')} <{deep_get(event, 'actor', 'alternateId', default='alternateId-not-found')}> FastPass declined phishing attempt"
+        return f"{event.deep_get('actor', 'displayName', default='<displayName-not-found>')} <{event.deep_get('actor', 'alternateId', default='alternateId-not-found')}> FastPass declined phishing attempt"
 
     def alert_context(self, event):
         return okta_alert_context(event)

@@ -1,7 +1,7 @@
 from ipaddress import ip_address
 
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
-from pypanther.helpers.base import aws_rule_context, deep_get
+from pypanther.helpers.aws import aws_rule_context
 
 
 @panther_managed
@@ -35,10 +35,10 @@ class AWSCloudTrailUnauthorizedAPICall(Rule):
         return event.get("errorCode") == "AccessDenied" and event.get("eventName") not in self.EVENT_EXCEPTIONS
 
     def dedup(self, event):
-        return deep_get(event, "userIdentity", "principalId", default="<UNKNOWN_PRINCIPAL>")
+        return event.deep_get("userIdentity", "principalId", default="<UNKNOWN_PRINCIPAL>")
 
     def title(self, event):
-        return f"Access denied to {deep_get(event, 'userIdentity', 'type')} [{self.dedup(event)}]"
+        return f"Access denied to {event.deep_get('userIdentity', 'type')} [{self.dedup(event)}]"
 
     def alert_context(self, event):
         return aws_rule_context(event)

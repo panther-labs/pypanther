@@ -1,5 +1,5 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
-from pypanther.helpers.base import aws_rule_context, deep_get
+from pypanther.helpers.aws import aws_rule_context
 
 
 @panther_managed
@@ -44,10 +44,10 @@ class AWSSoftwareDiscovery(Rule):
         return event.get("eventName") in self.DISCOVERY_EVENTS
 
     def title(self, event):
-        return f"User [{deep_get(event, 'userIdentity', 'principalId')}] performed a [{event.get('eventName')}] action in AWS account [{event.get('recipientAccountId')}]."
+        return f"User [{event.deep_get('userIdentity', 'principalId')}] performed a [{event.get('eventName')}] action in AWS account [{event.get('recipientAccountId')}]."
 
     def dedup(self, event):
-        return deep_get(event, "userIdentity", "principalId", default="NO_PRINCIPAL_ID_FOUND")
+        return event.deep_get("userIdentity", "principalId", default="NO_PRINCIPAL_ID_FOUND")
 
     def alert_context(self, event):
         return aws_rule_context(event)

@@ -1,5 +1,4 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
-from pypanther.helpers.base import deep_get, deep_walk
 
 
 @panther_managed
@@ -12,16 +11,16 @@ class GCPAccessAttemptsViolatingVPCServiceControls(Rule):
     id = "GCP.Access.Attempts.Violating.VPC.Service.Controls-prototype"
 
     def rule(self, event):
-        severity = deep_get(event, "severity", default="")
-        status_code = deep_get(event, "protoPayload", "status", "code", default="")
-        violation_types = deep_walk(event, "protoPayload", "status", "details", "violations", "type", default=[])
+        severity = event.get("severity", "")
+        status_code = event.deep_get("protoPayload", "status", "code", default="")
+        violation_types = event.deep_walk("protoPayload", "status", "details", "violations", "type", default=[])
         if all([severity == "ERROR", status_code == 7, "VPC_SERVICE_CONTROLS" in violation_types]):
             return True
         return False
 
     def title(self, event):
-        actor = deep_get(event, "protoPayload", "authenticationInfo", "principalEmail", default="<ACTOR_NOT_FOUND>")
-        method = deep_get(event, "protoPayload", "methodName", default="<METHOD_NOT_FOUND>")
+        actor = event.deep_get("protoPayload", "authenticationInfo", "principalEmail", default="<ACTOR_NOT_FOUND>")
+        method = event.deep_get("protoPayload", "methodName", default="<METHOD_NOT_FOUND>")
         return f"GCP: [{actor}] performed a [{method}] request that violates VPC Service Controls"
 
     tests = [

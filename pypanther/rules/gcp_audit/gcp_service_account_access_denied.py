@@ -1,6 +1,5 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
-from pypanther.helpers.base import deep_walk
-from pypanther.helpers.gcp_base import gcp_alert_context
+from pypanther.helpers.gcp import gcp_alert_context
 
 
 @panther_managed
@@ -19,11 +18,11 @@ class GCPServiceAccountAccessDenied(Rule):
     default_reference = "https://cloud.google.com/iam/docs/service-account-overview"
 
     def rule(self, event):
-        reason = deep_walk(event, "protoPayload", "status", "details", "reason", default="")
+        reason = event.deep_walk("protoPayload", "status", "details", "reason", default="")
         return reason == "IAM_PERMISSION_DENIED"
 
     def title(self, event):
-        actor = deep_walk(event, "protoPayload", "authenticationInfo", "principalEmail", default="<ACTOR_NOT_FOUND>")
+        actor = event.deep_walk("protoPayload", "authenticationInfo", "principalEmail", default="<ACTOR_NOT_FOUND>")
         return f"[GCP]: [{actor}] performed multiple requests resulting in [IAM_PERMISSION_DENIED]"
 
     def alert_context(self, event):

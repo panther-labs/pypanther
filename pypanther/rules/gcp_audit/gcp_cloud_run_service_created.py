@@ -1,6 +1,5 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
-from pypanther.helpers.base import deep_get, deep_walk
-from pypanther.helpers.gcp_base import gcp_alert_context
+from pypanther.helpers.gcp import gcp_alert_context
 
 
 @panther_managed
@@ -15,12 +14,12 @@ class GCPCloudRunServiceCreated(Rule):
     default_severity = Severity.LOW
 
     def rule(self, event):
-        if deep_get(event, "severity") == "ERROR":
+        if event.get("severity") == "ERROR":
             return False
-        method_name = deep_get(event, "protoPayload", "methodName", default="")
+        method_name = event.deep_get("protoPayload", "methodName", default="")
         if not method_name.endswith("Services.CreateService"):
             return False
-        authorization_info = deep_walk(event, "protoPayload", "authorizationInfo")
+        authorization_info = event.deep_walk("protoPayload", "authorizationInfo")
         if not authorization_info:
             return False
         for auth in authorization_info:
@@ -29,14 +28,13 @@ class GCPCloudRunServiceCreated(Rule):
         return False
 
     def title(self, event):
-        actor = deep_get(event, "protoPayload", "authenticationInfo", "principalEmail", default="<ACTOR_NOT_FOUND>")
-        project_id = deep_get(event, "resource", "labels", "project_id", default="<PROJECT_NOT_FOUND>")
+        actor = event.deep_get("protoPayload", "authenticationInfo", "principalEmail", default="<ACTOR_NOT_FOUND>")
+        project_id = event.deep_get("resource", "labels", "project_id", default="<PROJECT_NOT_FOUND>")
         return f"[GCP]: [{actor}] created new Run Service in project [{project_id}]"
 
     def alert_context(self, event):
         context = gcp_alert_context(event)
-        context["service_account"] = deep_get(
-            event,
+        context["service_account"] = event.deep_get(
             "protoPayload",
             "request",
             "service",

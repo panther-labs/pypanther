@@ -1,5 +1,5 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
-from pypanther.helpers.base import deep_get, okta_alert_context
+from pypanther.helpers.okta import okta_alert_context
 
 
 @panther_managed
@@ -15,15 +15,14 @@ class OktaAnonymizingVPNLogin(Rule):
     dedup_period_minutes = 360
 
     def rule(self, event):
-        return event.get("eventType") == "user.session.start" and deep_get(
-            event,
+        return event.get("eventType") == "user.session.start" and event.deep_get(
             "securityContext",
             "isProxy",
             default=False,
         )
 
     def title(self, event):
-        return f"{deep_get(event, 'actor', 'displayName', default='<displayName-not-found>')} <{deep_get(event, 'actor', 'alternateId', default='alternateId-not-found')}> attempted to sign-in from anonymizing VPN with domain [{deep_get(event, 'securityContext', 'domain', default='<domain-not-found>')}]"
+        return f"{event.deep_get('actor', 'displayName', default='<displayName-not-found>')} <{event.deep_get('actor', 'alternateId', default='alternateId-not-found')}> attempted to sign-in from anonymizing VPN with domain [{event.deep_get('securityContext', 'domain', default='<domain-not-found>')}]"
 
     def alert_context(self, event):
         return okta_alert_context(event)

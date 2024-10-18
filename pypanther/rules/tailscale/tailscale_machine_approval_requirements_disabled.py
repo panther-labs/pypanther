@@ -1,5 +1,4 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
-from pypanther.helpers.base import deep_get
 from pypanther.helpers.tailscale import is_tailscale_admin_console_event, tailscale_alert_context
 
 
@@ -14,8 +13,8 @@ class TailscaleMachineApprovalRequirementsDisabled(Rule):
     id = "Tailscale.Machine.Approval.Requirements.Disabled-prototype"
 
     def rule(self, event):
-        action = deep_get(event, "event", "action", default="<NO_ACTION_FOUND>")
-        target_property = deep_get(event, "event", "target", "property", default="<NO_TARGET_PROPERTY_FOUND>")
+        action = event.deep_get("event", "action", default="<NO_ACTION_FOUND>")
+        target_property = event.deep_get("event", "target", "property", default="<NO_TARGET_PROPERTY_FOUND>")
         return all(
             [
                 action == "DISABLE",
@@ -25,7 +24,7 @@ class TailscaleMachineApprovalRequirementsDisabled(Rule):
         )
 
     def title(self, event):
-        user = deep_get(event, "event", "actor", "loginName", default="<NO_USER_FOUND>")
+        user = event.deep_get("event", "actor", "loginName", default="<NO_USER_FOUND>")
         return f"Tailscale user [{user}] disabled device approval requirements for new devices accessing your organization’s network."
 
     def alert_context(self, event):

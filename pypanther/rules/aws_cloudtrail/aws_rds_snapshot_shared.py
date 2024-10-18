@@ -1,5 +1,5 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
-from pypanther.helpers.base import aws_rule_context
+from pypanther.helpers.aws import aws_rule_context
 
 
 @panther_managed
@@ -34,7 +34,7 @@ class AWSRDSSnapshotShared(Rule):
         return False
 
     def title(self, event):
-        account_id = event.get("recipientAccountId", default="<ACCOUNT_ID_NOT_FOUND>")
+        account_id = event.get("recipientAccountId", "<ACCOUNT_ID_NOT_FOUND>")
         rds_instance_id = event.deep_get(
             "responseElements",
             "dBInstanceIdentifier",

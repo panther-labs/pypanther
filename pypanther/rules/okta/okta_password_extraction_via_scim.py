@@ -1,5 +1,5 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
-from pypanther.helpers.base import deep_get, deep_walk, okta_alert_context
+from pypanther.helpers.okta import okta_alert_context
 
 
 @panther_managed
@@ -16,16 +16,15 @@ class OktaPasswordExtractionviaSCIM(Rule):
     dedup_period_minutes = 30
 
     def rule(self, event):
-        return event.get("eventType") == "application.lifecycle.update" and "Pushing user passwords" in deep_get(
-            event,
+        return event.get("eventType") == "application.lifecycle.update" and "Pushing user passwords" in event.deep_get(
             "outcome",
             "reason",
             default="",
         )
 
     def title(self, event):
-        target = deep_walk(event, "target", "alternateId", default="<alternateId-not-found>", return_val="first")
-        return f"{deep_get(event, 'actor', 'displayName', default='<displayName-not-found>')} <{deep_get(event, 'actor', 'alternateId', default='alternateId-not-found')}> extracted cleartext user passwords via SCIM app [{target}]"
+        target = event.deep_walk("target", "alternateId", default="<alternateId-not-found>", return_val="first")
+        return f"{event.deep_get('actor', 'displayName', default='<displayName-not-found>')} <{event.deep_get('actor', 'alternateId', default='alternateId-not-found')}> extracted cleartext user passwords via SCIM app [{target}]"
 
     def alert_context(self, event):
         return okta_alert_context(event)

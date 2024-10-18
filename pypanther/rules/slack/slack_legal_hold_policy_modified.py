@@ -1,5 +1,5 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
-from pypanther.helpers.base import deep_get, slack_alert_context
+from pypanther.helpers.slack import slack_alert_context
 
 
 @panther_managed
@@ -26,7 +26,7 @@ class SlackAuditLogsLegalHoldPolicyModified(Rule):
     def title(self, event):
         # Only the `legal_hold_policy_updated` event includes relevant data to deduplicate
         if event.get("action") == "legal_hold_policy_updated":
-            return f"Slack Legal Hold Updated [{deep_get(event, 'details', 'old_legal_hold_policy', 'name')}]"
+            return f"Slack Legal Hold Updated [{event.deep_get('details', 'old_legal_hold_policy', 'name')}]"
         if event.get("action") in self.LEGAL_HOLD_POLICY_ACTIONS:
             return self.LEGAL_HOLD_POLICY_ACTIONS.get(event.get("action"))
         return "Slack Legal Hold Policy Modified"

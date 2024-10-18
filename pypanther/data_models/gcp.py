@@ -3,7 +3,8 @@ from fnmatch import fnmatch
 
 from pypanther.base import DataModel, DataModelMapping, LogType
 from pypanther.helpers import event_type
-from pypanther.helpers.base import deep_get, get_binding_deltas
+from pypanther.helpers.base import deep_get
+from pypanther.helpers.gcp import get_binding_deltas
 
 ADMIN_ROLES = {
     # Primitive Rolesx

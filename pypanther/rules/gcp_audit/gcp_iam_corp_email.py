@@ -17,9 +17,9 @@ class GCPIAMCorporateEmail(Rule):
     summary_attributes = ["severity", "p_any_ip_addresses", "p_any_domain_names"]
 
     def rule(self, event):
-        if deep_get(event, "protoPayload", "methodName") != "SetIamPolicy":
+        if event.deep_get("protoPayload", "methodName") != "SetIamPolicy":
             return False
-        service_data = deep_get(event, "protoPayload", "serviceData")
+        service_data = event.deep_get("protoPayload", "serviceData")
         if not service_data:
             return False
         # Reference: bit.ly/2WsJdZS
@@ -34,7 +34,7 @@ class GCPIAMCorporateEmail(Rule):
         return False
 
     def title(self, event):
-        return f"A GCP IAM account has been created with a Gmail email in {deep_get(event, 'resource', 'labels', 'project_id', default='<UNKNOWN_PROJECT>')}"
+        return f"A GCP IAM account has been created with a Gmail email in {event.deep_get('resource', 'labels', 'project_id', default='<UNKNOWN_PROJECT>')}"
 
     tests = [
         RuleTest(

@@ -1,7 +1,10 @@
-from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
+import json
+from unittest.mock import MagicMock
+
+from pypanther import LogType, Rule, RuleMock, RuleTest, Severity, panther_managed
 from pypanther.helpers.base import deep_walk
-from pypanther.helpers.gcp_base import get_k8s_info
-from pypanther.helpers.gcp_environment import PRODUCTION_PROJECT_IDS, rule_exceptions
+from pypanther.helpers.config import config
+from pypanther.helpers.gcp import get_k8s_info
 
 
 @panther_managed
@@ -15,13 +18,30 @@ class GCPK8sExecIntoPod(Rule):
     default_description = "Alerts when users exec into pod. Possible to specify specific projects and allowed users.\n"
     default_runbook = "Investigate the user and determine why. Advise that it is discouraged practice. Create ticket if appropriate.\n"
     default_reference = "https://cloud.google.com/migrate/containers/docs/troubleshooting/executing-shell-commands"
+    GCP_PRODUCTION_PROJECT_IDS = config.GCP_PRODUCTION_PROJECT_IDS
+    # This is a list of principals that are allowed to exec into pods
+    # in various namespaces and projects.
+    # If empty, then no principals
+    # "system:serviceaccount:example-namespace:example-namespace-service-account",
+    # If empty, then all namespaces
+    # If projects empty then all projects
+    # Add more allowed principals here
+    # {
+    #     "principals": [],
+    #     "namespaces": [],
+    #     "projects": [],
+    # },
+    ALLOW_LIST = [{"principals": [], "namespaces": [], "projects": []}]
 
     def rule(self, event):
+        # pylint: disable=not-callable
+        if isinstance(self.ALLOW_LIST, MagicMock):
+            self.ALLOW_LIST = json.loads(self.ALLOW_LIST())
         # Defaults to False (no alert) unless method is exec and principal not allowed
         if not all(
             [
-                deep_walk(event, "protoPayload", "methodName") == "io.k8s.core.v1.pods.exec.create",
-                deep_walk(event, "resource", "type") == "k8s_cluster",
+                event.deep_walk("protoPayload", "methodName") == "io.k8s.core.v1.pods.exec.create",
+                event.deep_walk("resource", "type") == "k8s_cluster",
             ],
         ):
             return False
@@ -31,7 +51,7 @@ class GCPK8sExecIntoPod(Rule):
         project_id = deep_walk(k8s_info, "project_id", default="<NO PROJECT_ID>")
         # rule_exceptions that are allowed temporarily are defined in gcp_environment.py
         # Some execs have principal which is long numerical UUID, appears to be k8s internals
-        for allowed_principal in deep_walk(rule_exceptions, "gcp_k8s_exec_into_pod", "allowed_principals", default=[]):
+        for allowed_principal in self.ALLOW_LIST:
             allowed_principals = deep_walk(allowed_principal, "principals", default=[])
             allowed_namespaces = deep_walk(allowed_principal, "namespaces", default=[])
             allowed_project_ids = deep_walk(allowed_principal, "projects", default=[])
@@ -46,7 +66,7 @@ class GCPK8sExecIntoPod(Rule):
 
     def severity(self, event):
         project_id = deep_walk(get_k8s_info(event), "project_id", default="<NO PROJECT_ID>")
-        if project_id in PRODUCTION_PROJECT_IDS:
+        if project_id in self.GCP_PRODUCTION_PROJECT_IDS:
             return "high"
         return "info"
 
@@ -66,6 +86,12 @@ class GCPK8sExecIntoPod(Rule):
         RuleTest(
             name="Allowed User",
             expected_result=False,
+            mocks=[
+                RuleMock(
+                    object_name="ALLOW_LIST",
+                    return_value='[\n  {\n    "principals": ["system:serviceaccount:example-namespace:example-namespace-service-account"],\n    "namespaces": [],\n    "projects": []\n  }\n]',
+                ),
+            ],
             log={
                 "protoPayload": {
                     "authenticationInfo": {

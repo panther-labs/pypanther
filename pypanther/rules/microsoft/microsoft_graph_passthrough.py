@@ -1,5 +1,5 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
-from pypanther.helpers.base import msft_graph_alert_context
+from pypanther.helpers.msft import msft_graph_alert_context
 
 
 @panther_managed

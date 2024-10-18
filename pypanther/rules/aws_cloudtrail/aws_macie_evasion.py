@@ -1,5 +1,5 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
-from pypanther.helpers.base import deep_get, pattern_match
+from pypanther.helpers.base import pattern_match
 
 
 @panther_managed
@@ -43,7 +43,7 @@ class AWSMacieEvasion(Rule):
 
     def title(self, event):
         account = event.get("recipientAccountId")
-        user_arn = deep_get(event, "userIdentity", "arn")
+        user_arn = event.deep_get("userIdentity", "arn")
         return f"AWS Macie in AWS Account [{account}] Disabled/Updated by [{user_arn}]"
 
     tests = [

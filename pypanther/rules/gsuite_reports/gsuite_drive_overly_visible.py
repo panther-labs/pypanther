@@ -1,7 +1,6 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
-from pypanther.helpers.base import deep_get
-from pypanther.helpers.base import gsuite_details_lookup as details_lookup
-from pypanther.helpers.base import gsuite_parameter_lookup as param_lookup
+from pypanther.helpers.gsuite import gsuite_details_lookup as details_lookup
+from pypanther.helpers.gsuite import gsuite_parameter_lookup as param_lookup
 
 
 @panther_managed
@@ -23,24 +22,24 @@ class GSuiteDriveOverlyVisible(Rule):
     PERMISSIVE_VISIBILITY = {"people_with_link", "public_on_the_web"}
 
     def rule(self, event):
-        if deep_get(event, "id", "applicationName") != "drive":
+        if event.deep_get("id", "applicationName") != "drive":
             return False
         details = details_lookup("access", self.RESOURCE_CHANGE_EVENTS, event)
         return bool(details) and param_lookup(details.get("parameters", {}), "visibility") in self.PERMISSIVE_VISIBILITY
 
     def dedup(self, event):
-        user = deep_get(event, "actor", "email")
+        user = event.deep_get("actor", "email")
         if user is None:
-            user = deep_get(event, "actor", "profileId", default="<UNKNOWN_PROFILEID>")
+            user = event.deep_get("actor", "profileId", default="<UNKNOWN_PROFILEID>")
         return user
 
     def title(self, event):
         details = details_lookup("access", self.RESOURCE_CHANGE_EVENTS, event)
         doc_title = param_lookup(details.get("parameters", {}), "doc_title")
         share_settings = param_lookup(details.get("parameters", {}), "visibility")
-        user = deep_get(event, "actor", "email")
+        user = event.deep_get("actor", "email")
         if user is None:
-            user = deep_get(event, "actor", "profileId", default="<UNKNOWN_PROFILEID>")
+            user = event.deep_get("actor", "profileId", default="<UNKNOWN_PROFILEID>")
         return f"User [{user}] modified a document [{doc_title}] that has overly permissive share settings [{share_settings}]"
 
     tests = [

@@ -1,6 +1,5 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
-from pypanther.helpers.base import aws_rule_context, deep_get
-from pypanther.helpers.default import lookup_aws_account_name
+from pypanther.helpers.aws import aws_rule_context, lookup_aws_account_name
 
 
 @panther_managed
@@ -19,11 +18,11 @@ class AWSCloudTrailCodebuildProjectMadePublic(Rule):
     def rule(self, event):
         return (
             event["eventName"] == "UpdateProjectVisibility"
-            and deep_get(event, "requestParameters", "projectVisibility") == "PUBLIC_READ"
+            and event.deep_get("requestParameters", "projectVisibility") == "PUBLIC_READ"
         )
 
     def title(self, event):
-        return f"AWS CodeBuild Project made Public by {deep_get(event, 'userIdentity', 'arn')} in account {lookup_aws_account_name(deep_get(event, 'recipientAccountId'))}"
+        return f"AWS CodeBuild Project made Public by {event.deep_get('userIdentity', 'arn')} in account {lookup_aws_account_name(event.deep_get('recipientAccountId'))}"
 
     def alert_context(self, event):
         return aws_rule_context(event)

@@ -1,5 +1,4 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
-from pypanther.helpers.base import deep_get
 
 
 @panther_managed
@@ -18,12 +17,12 @@ class OsqueryOutdatedAgent(Rule):
     def rule(self, event):
         return (
             event.get("name") == "pack_it-compliance_osquery_info"
-            and deep_get(event, "columns", "version") != self.LATEST_VERSION
+            and event.deep_get("columns", "version") != self.LATEST_VERSION
             and (event.get("action") == "added")
         )
 
     def title(self, event):
-        return f"Osquery Version {deep_get(event, 'columns', 'version')} is Outdated"
+        return f"Osquery Version {event.deep_get('columns', 'version')} is Outdated"
 
     tests = [
         RuleTest(

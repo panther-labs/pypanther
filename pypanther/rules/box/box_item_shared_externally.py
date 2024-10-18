@@ -34,17 +34,17 @@ class BoxItemSharedExternally(Rule):
         return False
 
     def get_item(self, event):
-        item_id = deep_get(event, "source", "item_id", default="")
-        user_id = deep_get(event, "source", "owned_by", "id", default="")
+        item_id = event.deep_get("source", "item_id", default="")
+        user_id = event.deep_get("source", "owned_by", "id", default="")
         item = {}
-        if deep_get(event, "source", "item_type") == "folder":
+        if event.deep_get("source", "item_type") == "folder":
             item = lookup_box_folder(user_id, item_id)
-        elif deep_get(event, "source", "item_type") == "file":
+        elif event.deep_get("source", "item_type") == "file":
             item = lookup_box_file(user_id, item_id)
         return item
 
     def title(self, event):
-        return f"User [{deep_get(event, 'created_by', 'login', default='<UNKNOWN_USER>')}] shared an item [{deep_get(event, 'source', 'item_name', default='<UNKNOWN_NAME>')}] externally."
+        return f"User [{event.deep_get('created_by', 'login', default='<UNKNOWN_USER>')}] shared an item [{event.deep_get('source', 'item_name', default='<UNKNOWN_NAME>')}] externally."
 
     tests = [
         RuleTest(

@@ -1,5 +1,4 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
-from pypanther.helpers.base import deep_get
 
 
 @panther_managed
@@ -15,16 +14,14 @@ class GSuiteGroupBannedUser(Rule):
     summary_attributes = ["actor:email"]
 
     def rule(self, event):
-        if deep_get(event, "id", "applicationName") != "groups_enterprise":
+        if event.deep_get("id", "applicationName") != "groups_enterprise":
             return False
         if event.get("type") == "moderator_action":
             return bool(event.get("name") == "ban_user_with_moderation")
         return False
 
     def title(self, event):
-        return (
-            f"User [{deep_get(event, 'actor', 'email', default='<UNKNOWN_EMAIL>')}] banned another user from a group."
-        )
+        return f"User [{event.deep_get('actor', 'email', default='<UNKNOWN_EMAIL>')}] banned another user from a group."
 
     tests = [
         RuleTest(

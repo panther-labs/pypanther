@@ -1,5 +1,6 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
-from pypanther.helpers.base import box_parse_additional_details, deep_get
+from pypanther.helpers.base import deep_get
+from pypanther.helpers.box import box_parse_additional_details
 
 
 @panther_managed
@@ -29,7 +30,7 @@ class BoxShieldAnomalousDownload(Rule):
         description = deep_get(details, "shield_alert", "alert_summary", "description")
         if description:
             return description
-        return f"Anomalous download activity triggered by user [{deep_get(event, 'created_by', 'name', default='<UNKNOWN_USER>')}]."
+        return f"Anomalous download activity triggered by user [{event.deep_get('created_by', 'name', default='<UNKNOWN_USER>')}]."
 
     tests = [
         RuleTest(

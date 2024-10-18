@@ -1,6 +1,5 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
-from pypanther.helpers.base import aws_rule_context, deep_get
-from pypanther.helpers.default import lookup_aws_account_name
+from pypanther.helpers.aws import aws_rule_context, lookup_aws_account_name
 
 
 @panther_managed
@@ -27,8 +26,8 @@ class AWSConsoleRootLoginFailed(Rule):
     def rule(self, event):
         return (
             event.get("eventName") == "ConsoleLogin"
-            and deep_get(event, "userIdentity", "type") == "Root"
-            and (deep_get(event, "responseElements", "ConsoleLogin") == "Failure")
+            and event.deep_get("userIdentity", "type") == "Root"
+            and (event.deep_get("responseElements", "ConsoleLogin") == "Failure")
         )
 
     def title(self, event):

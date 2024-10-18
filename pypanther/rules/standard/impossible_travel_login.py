@@ -5,9 +5,9 @@ from panther_detection_helpers.caching import get_string_set, put_string_set
 
 from pypanther import LogType, Rule, RuleMock, RuleTest, Severity, panther_managed
 from pypanther.helpers import event_type
-from pypanther.helpers.base import deep_get
+from pypanther.helpers.base import deep_get, resolve_timestamp_string
+from pypanther.helpers.ipinfo import km_between_ipinfo_loc
 from pypanther.helpers.lookuptable import LookupTableMatches
-from pypanther.helpers.oss import km_between_ipinfo_loc, resolve_timestamp_string
 
 
 @panther_managed
@@ -31,7 +31,7 @@ class StandardImpossibleTravelLogin(Rule):
 
         The data_model needs to answer to "actor_user"
         """
-        rule_name = deep_get(event, "p_source_label")
+        rule_name = event.get("p_source_label")
         actor = event.udm("actor_user")
         if None in [rule_name, actor]:
             return None
@@ -48,7 +48,7 @@ class StandardImpossibleTravelLogin(Rule):
         # Only evaluate successful logins
         if event.udm("event_type") != event_type.SUCCESSFUL_LOGIN:
             return False
-        p_event_datetime = resolve_timestamp_string(deep_get(event, "p_event_time"))
+        p_event_datetime = resolve_timestamp_string(event.get("p_event_time"))
         if p_event_datetime is None:
             # we couldn't go from p_event_time to a datetime object
             # we need to do this in order to make later time comparisons generic
@@ -150,7 +150,7 @@ class StandardImpossibleTravelLogin(Rule):
 
     def title(self, event):
         #
-        log_source = deep_get(event, "p_source_label", default="<NO_SOURCE_LABEL>")
+        log_source = event.get("p_source_label", "<NO_SOURCE_LABEL>")
         old_city = deep_get(self.EVENT_CITY_TRACKING, "previous", "city", default="<NO_PREV_CITY>")
         new_city = deep_get(self.EVENT_CITY_TRACKING, "current", "city", default="<NO_PREV_CITY>")
         speed = deep_get(self.EVENT_CITY_TRACKING, "speed", default="<NO_SPEED>")

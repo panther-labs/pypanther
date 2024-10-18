@@ -1,6 +1,5 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
-from pypanther.helpers.base import aws_rule_context, deep_get
-from pypanther.helpers.default import aws_cloudtrail_success
+from pypanther.helpers.aws import aws_cloudtrail_success, aws_rule_context
 
 
 @panther_managed
@@ -19,17 +18,17 @@ class AWSIAMBackdoorUserKeys(Rule):
             and event.get("eventSource") == "iam.amazonaws.com"
             and (event.get("eventName") == "CreateAccessKey")
             and (
-                not deep_get(event, "userIdentity", "arn", default="").endswith(
-                    f"user/{deep_get(event, 'responseElements', 'accessKey', 'userName', default='')}",
+                not event.deep_get("userIdentity", "arn", default="").endswith(
+                    f"user/{event.deep_get('responseElements', 'accessKey', 'userName', default='')}",
                 )
             )
         )
 
     def title(self, event):
-        return f"[{deep_get(event, 'userIdentity', 'arn')}] created API keys for [{deep_get(event, 'responseElements', 'accessKey', 'userName', default='')}]"
+        return f"[{event.deep_get('userIdentity', 'arn')}] created API keys for [{event.deep_get('responseElements', 'accessKey', 'userName', default='')}]"
 
     def dedup(self, event):
-        return f"{deep_get(event, 'userIdentity', 'arn')}"
+        return f"{event.deep_get('userIdentity', 'arn')}"
 
     def alert_context(self, event):
         base = aws_rule_context(event)

@@ -1,5 +1,4 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
-from pypanther.helpers.base import deep_get
 
 
 @panther_managed
@@ -17,10 +16,9 @@ class GCPDestructiveQueries(Rule):
     def rule(self, event):
         if all(
             [
-                deep_get(event, "resource", "type", default="<RESOURCE_NOT_FOUND>").startswith("bigquery"),
-                deep_get(event, "protoPayload", "metadata", "jobChange", "job", "jobConfig", "type") == "QUERY",
-                deep_get(
-                    event,
+                event.deep_get("resource", "type", default="<RESOURCE_NOT_FOUND>").startswith("bigquery"),
+                event.deep_get("protoPayload", "metadata", "jobChange", "job", "jobConfig", "type") == "QUERY",
+                event.deep_get(
                     "protoPayload",
                     "metadata",
                     "jobChange",
@@ -34,16 +32,15 @@ class GCPDestructiveQueries(Rule):
             ],
         ):
             return True
-        if deep_get(event, "protoPayload", "metadata", "tableDeletion"):
+        if event.deep_get("protoPayload", "metadata", "tableDeletion"):
             return True
-        if deep_get(event, "protoPayload", "metadata", "datasetDeletion"):
+        if event.deep_get("protoPayload", "metadata", "datasetDeletion"):
             return True
         return False
 
     def title(self, event):
-        actor = deep_get(event, "protoPayload", "authenticationInfo", "principalEmail", default="<ACTOR_NOT_FOUND>")
-        statement = deep_get(
-            event,
+        actor = event.deep_get("protoPayload", "authenticationInfo", "principalEmail", default="<ACTOR_NOT_FOUND>")
+        statement = event.deep_get(
             "protoPayload",
             "metadata",
             "jobChange",
@@ -53,8 +50,7 @@ class GCPDestructiveQueries(Rule):
             "statementType",
             default="<STATEMENT_NOT_FOUND>",
         )
-        table = deep_get(
-            event,
+        table = event.deep_get(
             "protoPayload",
             "metadata",
             "jobChange",
@@ -62,13 +58,12 @@ class GCPDestructiveQueries(Rule):
             "jobConfig",
             "queryConfig",
             "destinationTable",
-        ) or deep_get(event, "protoPayload", "metadata", "resourceName", default="<TABLE_NOT_FOUND>")
+        ) or event.deep_get("protoPayload", "metadata", "resourceName", default="<TABLE_NOT_FOUND>")
         return f"GCP: [{actor}] performed a destructive BigQuery [{statement}] query on [{table}]."
 
     def alert_context(self, event):
         return {
-            "query": deep_get(
-                event,
+            "query": event.deep_get(
                 "protoPayload",
                 "metadata",
                 "jobChange",
@@ -78,15 +73,13 @@ class GCPDestructiveQueries(Rule):
                 "query",
                 default="<QUERY_NOT_FOUND>",
             ),
-            "actor": deep_get(
-                event,
+            "actor": event.deep_get(
                 "protoPayload",
                 "authenticationInfo",
                 "principalEmail",
                 default="<ACTOR_NOT_FOUND>",
             ),
-            "statement": deep_get(
-                event,
+            "statement": event.deep_get(
                 "protoPayload",
                 "metadata",
                 "jobChange",
@@ -96,8 +89,7 @@ class GCPDestructiveQueries(Rule):
                 "statementType",
                 default="<STATEMENT_NOT_FOUND>",
             ),
-            "table": deep_get(
-                event,
+            "table": event.deep_get(
                 "protoPayload",
                 "metadata",
                 "jobChange",
@@ -106,7 +98,7 @@ class GCPDestructiveQueries(Rule):
                 "queryConfig",
                 "destinationTable",
             )
-            or deep_get(event, "protoPayload", "metadata", "resourceName", default="<TABLE_NOT_FOUND>"),
+            or event.deep_get("protoPayload", "metadata", "resourceName", default="<TABLE_NOT_FOUND>"),
         }
 
     tests = [

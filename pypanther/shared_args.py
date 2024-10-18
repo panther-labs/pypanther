@@ -58,6 +58,7 @@ def for_filtering(parser: argparse.ArgumentParser) -> None:
         "--disabled",
         help="Filter only on disabled items",
         dest="enabled",
+        default=None,
         action="store_false",
     )
     parser.add_argument(

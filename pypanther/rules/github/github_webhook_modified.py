@@ -1,5 +1,5 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
-from pypanther.helpers.base import deep_get, github_alert_context
+from pypanther.helpers.github import github_alert_context
 
 
 @panther_managed
@@ -23,7 +23,7 @@ class GitHubWebhookModified(Rule):
             action = "deleted"
         elif event.get("action").endswith("create"):
             action = "created"
-        title_str = f"Github webhook [{deep_get(event, 'config', 'url', default='<UNKNOWN_URL>')}] {action} by [{event.get('actor', '<UNKNOWN_ACTOR>')}]"
+        title_str = f"Github webhook [{event.deep_get('config', 'url', default='<UNKNOWN_URL>')}] {action} by [{event.get('actor', '<UNKNOWN_ACTOR>')}]"
         if repo != "<UNKNOWN_REPO>":
             title_str += f" in repository [{repo}]"
         return title_str
@@ -39,7 +39,7 @@ class GitHubWebhookModified(Rule):
         ctx["hook_id"] = event.get("hook_id", "")
         ctx["integration"] = event.get("integration", "")
         ctx["operation_type"] = event.get("operation_type", "")
-        ctx["url"] = deep_get(event, "config", "url", default="<UNKNOWN_URL>")
+        ctx["url"] = event.deep_get("config", "url", default="<UNKNOWN_URL>")
         return ctx
 
     tests = [

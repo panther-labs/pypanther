@@ -1,7 +1,7 @@
 from fnmatch import fnmatch
 
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
-from pypanther.helpers.base import aws_rule_context, deep_get
+from pypanther.helpers.aws import aws_rule_context
 
 
 @panther_managed
@@ -41,16 +41,16 @@ class AWSECRCRUD(Rule):
     def rule(self, event):
         if event.get("eventSource") == "ecr.amazonaws.com" and event.get("eventName") in self.ECR_CRUD_EVENTS:
             for role in self.ALLOWED_ROLES:
-                if fnmatch(deep_get(event, "userIdentity", "arn", default="unknown-arn"), role):
+                if fnmatch(event.deep_get("userIdentity", "arn", default="unknown-arn"), role):
                     return False
             return True
         return False
 
     def title(self, event):
-        return f"[{deep_get(event, 'userIdentity', 'arn', default='unknown-arn')}] performed ECR {event.get('eventName')} in [{event.get('recipientAccountId')} {event.get('awsRegion')}]."
+        return f"[{event.deep_get('userIdentity', 'arn', default='unknown-arn')}] performed ECR {event.get('eventName')} in [{event.get('recipientAccountId')} {event.get('awsRegion')}]."
 
     def dedup(self, event):
-        return f"{deep_get(event, 'userIdentity', 'arn', default='unknown-arn')}"
+        return f"{event.deep_get('userIdentity', 'arn', default='unknown-arn')}"
 
     def alert_context(self, event):
         return aws_rule_context(event)

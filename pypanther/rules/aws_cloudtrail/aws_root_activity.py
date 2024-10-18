@@ -1,6 +1,5 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
-from pypanther.helpers.base import deep_get
-from pypanther.helpers.default import aws_cloudtrail_success, lookup_aws_account_name
+from pypanther.helpers.aws import aws_cloudtrail_success, lookup_aws_account_name
 
 
 @panther_managed
@@ -27,9 +26,9 @@ class AWSRootActivity(Rule):
 
     def rule(self, event):
         return (
-            deep_get(event, "userIdentity", "type") == "Root"
+            event.deep_get("userIdentity", "type") == "Root"
             and aws_cloudtrail_success(event)
-            and (deep_get(event, "userIdentity", "invokedBy") is None)
+            and (event.deep_get("userIdentity", "invokedBy") is None)
             and (event.get("eventType") != "AwsServiceEvent")
             and (event.get("eventName") not in self.EVENT_ALLOW_LIST)
         )
@@ -49,10 +48,10 @@ class AWSRootActivity(Rule):
     def alert_context(self, event):
         return {
             "sourceIPAddress": event.get("sourceIPAddress"),
-            "userIdentityAccountId": deep_get(event, "userIdentity", "accountId"),
-            "userIdentityArn": deep_get(event, "userIdentity", "arn"),
+            "userIdentityAccountId": event.deep_get("userIdentity", "accountId"),
+            "userIdentityArn": event.deep_get("userIdentity", "arn"),
             "eventTime": event.get("eventTime"),
-            "mfaUsed": deep_get(event, "additionalEventData", "MFAUsed"),
+            "mfaUsed": event.deep_get("additionalEventData", "MFAUsed"),
         }
 
     def severity(self, event):

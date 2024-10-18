@@ -1,5 +1,5 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
-from pypanther.helpers.base import aws_rule_context, deep_get
+from pypanther.helpers.aws import aws_rule_context
 
 
 @panther_managed
@@ -20,7 +20,7 @@ class AWSCloudTrailRootAccessKeyCreated(Rule):
         if event.get("eventName") != "CreateAccessKey":
             return False
         # Only root can create root access keys
-        if deep_get(event, "userIdentity", "type") != "Root":
+        if event.deep_get("userIdentity", "type") != "Root":
             return False
         # Only alert if the root user is creating an access key for itself
         return event.get("requestParameters") is None

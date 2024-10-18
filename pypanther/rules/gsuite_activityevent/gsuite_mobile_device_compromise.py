@@ -1,5 +1,4 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
-from pypanther.helpers.base import deep_get
 
 
 @panther_managed
@@ -15,16 +14,14 @@ class GSuiteDeviceCompromise(Rule):
     summary_attributes = ["actor:email"]
 
     def rule(self, event):
-        if deep_get(event, "id", "applicationName") != "mobile":
+        if event.deep_get("id", "applicationName") != "mobile":
             return False
         if event.get("name") == "DEVICE_COMPROMISED_EVENT":
-            return bool(deep_get(event, "parameters", "DEVICE_COMPROMISED_STATE") == "COMPROMISED")
+            return bool(event.deep_get("parameters", "DEVICE_COMPROMISED_STATE") == "COMPROMISED")
         return False
 
     def title(self, event):
-        return (
-            f"User [{deep_get(event, 'parameters', 'USER_EMAIL', default='<UNKNOWN_USER>')}]'s device was compromised"
-        )
+        return f"User [{event.deep_get('parameters', 'USER_EMAIL', default='<UNKNOWN_USER>')}]'s device was compromised"
 
     tests = [
         RuleTest(

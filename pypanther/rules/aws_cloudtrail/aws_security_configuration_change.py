@@ -3,8 +3,7 @@ from fnmatch import fnmatch
 from unittest.mock import MagicMock
 
 from pypanther import LogType, Rule, RuleMock, RuleTest, Severity, panther_managed
-from pypanther.helpers.base import aws_rule_context, deep_get
-from pypanther.helpers.default import aws_cloudtrail_success
+from pypanther.helpers.aws import aws_cloudtrail_success, aws_rule_context
 
 
 @panther_managed
@@ -44,18 +43,17 @@ class AWSCloudTrailSecurityConfigurationChange(Rule):
             return False
         for entry in self.ALLOW_LIST:
             if fnmatch(
-                deep_get(event, "userIdentity", "sessionContext", "sessionIssuer", "userName", default=""),
+                event.deep_get("userIdentity", "sessionContext", "sessionIssuer", "userName", default=""),
                 entry["userName"],
             ):
                 if fnmatch(event.get("eventName"), entry["eventName"]):
                     return False
         if event.get("eventName") == "UpdateDetector":
-            return not deep_get(event, "requestParameters", "enable", default=True)
+            return not event.deep_get("requestParameters", "enable", default=True)
         return event.get("eventName") in self.SECURITY_CONFIG_ACTIONS
 
     def title(self, event):
-        user = deep_get(event, "userIdentity", "userName") or deep_get(
-            event,
+        user = event.deep_get("userIdentity", "userName") or event.deep_get(
             "userIdentity",
             "sessionContext",
             "sessionIssuer",

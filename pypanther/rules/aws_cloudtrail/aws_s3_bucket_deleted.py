@@ -1,6 +1,5 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
-from pypanther.helpers.base import aws_rule_context, deep_get
-from pypanther.helpers.default import aws_cloudtrail_success
+from pypanther.helpers.aws import aws_cloudtrail_success, aws_rule_context
 
 
 @panther_managed
@@ -34,7 +33,7 @@ class AWSS3BucketDeleted(Rule):
         return user_identity.get("arn", "<NO_ARN_FOUND>")
 
     def title(self, event):
-        return f"{deep_get(event, 'userIdentity', 'type')} [{self.dedup(event)}] destroyed a bucket"
+        return f"{event.deep_get('userIdentity', 'type')} [{self.dedup(event)}] destroyed a bucket"
 
     def alert_context(self, event):
         return aws_rule_context(event)

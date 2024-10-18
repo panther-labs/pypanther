@@ -1,5 +1,4 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
-from pypanther.helpers.base import deep_get
 
 
 @panther_managed
@@ -17,13 +16,13 @@ class SentinelOneAlertPassthrough(Rule):
         return event.get("activitytype") == 3608
 
     def title(self, event):
-        return f"SentinelOne [{self.SENTINELONE_SEVERITY.get(deep_get(event, 'data', 'severity', default=''))}] Alert - [{deep_get(event, 'data', 'rulename')}]"
+        return f"SentinelOne [{self.SENTINELONE_SEVERITY.get(event.deep_get('data', 'severity', default=''))}] Alert - [{event.deep_get('data', 'rulename')}]"
 
     def dedup(self, event):
         return f"s1alerts:{event.get('id')}"
 
     def severity(self, event):
-        return self.SENTINELONE_SEVERITY.get(deep_get(event, "data", "severity", default=""), "MEDIUM")
+        return self.SENTINELONE_SEVERITY.get(event.deep_get("data", "severity", default=""), "MEDIUM")
 
     def alert_context(self, event):
         data_cleaned = {k: v for k, v in event.get("data", {}).items() if v != ""}

@@ -1,6 +1,5 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
-from pypanther.helpers.base import deep_get, deep_walk
-from pypanther.helpers.gcp_base import gcp_alert_context
+from pypanther.helpers.gcp import gcp_alert_context
 
 
 @panther_managed
@@ -15,11 +14,11 @@ class GCPCloudBuildPotentialPrivilegeEscalation(Rule):
     default_severity = Severity.HIGH
 
     def rule(self, event):
-        if not deep_get(event, "protoPayload", "methodName", default="METHOD_NOT_FOUND").endswith(
+        if not event.deep_get("protoPayload", "methodName", default="METHOD_NOT_FOUND").endswith(
             "CloudBuild.CreateBuild",
         ):
             return False
-        authorization_info = deep_walk(event, "protoPayload", "authorizationInfo")
+        authorization_info = event.deep_walk("protoPayload", "authorizationInfo")
         if not authorization_info:
             return False
         for auth in authorization_info:
@@ -28,9 +27,9 @@ class GCPCloudBuildPotentialPrivilegeEscalation(Rule):
         return False
 
     def title(self, event):
-        actor = deep_get(event, "protoPayload", "authenticationInfo", "principalEmail", default="<ACTOR_NOT_FOUND>")
-        operation = deep_get(event, "protoPayload", "methodName", default="<OPERATION_NOT_FOUND>")
-        project_id = deep_get(event, "resource", "labels", "project_id", default="<PROJECT_NOT_FOUND>")
+        actor = event.deep_get("protoPayload", "authenticationInfo", "principalEmail", default="<ACTOR_NOT_FOUND>")
+        operation = event.deep_get("protoPayload", "methodName", default="<OPERATION_NOT_FOUND>")
+        project_id = event.deep_get("resource", "labels", "project_id", default="<PROJECT_NOT_FOUND>")
         return f"[GCP]: [{actor}] performed [{operation}] on project [{project_id}]"
 
     def alert_context(self, event):

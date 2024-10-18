@@ -1,5 +1,4 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
-from pypanther.helpers.base import deep_get
 
 
 @panther_managed
@@ -17,15 +16,15 @@ class GSuiteDeviceUnlockFailure(Rule):
     MAX_UNLOCK_ATTEMPTS = 10
 
     def rule(self, event):
-        if deep_get(event, "id", "applicationName") != "mobile":
+        if event.deep_get("id", "applicationName") != "mobile":
             return False
         if event.get("name") == "FAILED_PASSWORD_ATTEMPTS_EVENT":
-            attempts = deep_get(event, "parameters", "FAILED_PASSWD_ATTEMPTS")
+            attempts = event.deep_get("parameters", "FAILED_PASSWD_ATTEMPTS")
             return int(attempts if attempts else 0) > self.MAX_UNLOCK_ATTEMPTS
         return False
 
     def title(self, event):
-        return f"User [{deep_get(event, 'actor', 'email', default='<UNKNOWN_USER>')}]'s device had multiple failed unlock attempts"
+        return f"User [{event.deep_get('actor', 'email', default='<UNKNOWN_USER>')}]'s device had multiple failed unlock attempts"
 
     tests = [
         RuleTest(

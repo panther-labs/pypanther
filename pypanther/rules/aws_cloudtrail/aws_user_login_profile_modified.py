@@ -1,5 +1,5 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
-from pypanther.helpers.base import aws_rule_context, deep_get
+from pypanther.helpers.aws import aws_rule_context
 
 
 @panther_managed
@@ -16,16 +16,16 @@ class AWSUserLoginProfileModified(Rule):
         return (
             event.get("eventSource", "") == "iam.amazonaws.com"
             and event.get("eventName", "") == "UpdateLoginProfile"
-            and (not deep_get(event, "requestParameters", "passwordResetRequired", default=False))
+            and (not event.deep_get("requestParameters", "passwordResetRequired", default=False))
             and (
-                not deep_get(event, "userIdentity", "arn", default="").endswith(
-                    f"/{deep_get(event, 'requestParameters', 'userName', default='')}",
+                not event.deep_get("userIdentity", "arn", default="").endswith(
+                    f"/{event.deep_get('requestParameters', 'userName', default='')}",
                 )
             )
         )
 
     def title(self, event):
-        return f"User [{deep_get(event, 'userIdentity', 'arn').split('/')[-1]}] changed the password for [{deep_get(event, 'requestParameters', 'userName')}]"
+        return f"User [{event.deep_get('userIdentity', 'arn').split('/')[-1]}] changed the password for [{event.deep_get('requestParameters', 'userName')}]"
 
     def alert_context(self, event):
         return aws_rule_context(event)

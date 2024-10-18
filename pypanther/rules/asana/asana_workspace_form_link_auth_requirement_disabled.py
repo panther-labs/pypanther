@@ -1,5 +1,4 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
-from pypanther.helpers.base import deep_get
 
 
 @panther_managed
@@ -15,8 +14,8 @@ class AsanaWorkspaceFormLinkAuthRequirementDisabled(Rule):
         return event.get("event_type") == "workspace_form_link_authentication_required_disabled"
 
     def title(self, event):
-        workspace = deep_get(event, "resource", "name", default="<WORKSPACE_NOT_FOUND>")
-        actor = deep_get(event, "actor", "email", default="<ACTOR_NOT_FOUND>")
+        workspace = event.deep_get("resource", "name", default="<WORKSPACE_NOT_FOUND>")
+        actor = event.deep_get("actor", "email", default="<ACTOR_NOT_FOUND>")
         return f"Asana Workspace [{workspace}] Form Link Auth Requirement  was disabled by [{actor}]."
 
     tests = [

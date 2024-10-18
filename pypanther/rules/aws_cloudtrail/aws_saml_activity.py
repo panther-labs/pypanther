@@ -1,5 +1,5 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
-from pypanther.helpers.base import aws_rule_context, deep_get
+from pypanther.helpers.aws import aws_rule_context
 
 
 @panther_managed
@@ -18,7 +18,7 @@ class AWSSuspiciousSAMLActivity(Rule):
 
     def rule(self, event):
         # Allow AWSSSO to manage
-        if deep_get(event, "userIdentity", "arn", default="").endswith(":assumed-role/AWSServiceRoleForSSO/AWS-SSO"):
+        if event.deep_get("userIdentity", "arn", default="").endswith(":assumed-role/AWSServiceRoleForSSO/AWS-SSO"):
             return False
         # Don't alert on errors such as EntityAlreadyExistsException and NoSuchEntity
         if event.get("errorCode"):
@@ -26,7 +26,7 @@ class AWSSuspiciousSAMLActivity(Rule):
         return event.get("eventSource") == "iam.amazonaws.com" and event.get("eventName") in self.SAML_ACTIONS
 
     def title(self, event):
-        return f"[{deep_get(event, 'userIdentity', 'arn')}] performed [{event.get('eventName')}] in account [{event.get('recipientAccountId')}]"
+        return f"[{event.deep_get('userIdentity', 'arn')}] performed [{event.get('eventName')}] in account [{event.get('recipientAccountId')}]"
 
     def alert_context(self, event):
         return aws_rule_context(event)

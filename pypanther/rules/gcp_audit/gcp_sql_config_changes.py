@@ -1,5 +1,4 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
-from pypanther.helpers.base import deep_get
 
 
 @panther_managed
@@ -17,10 +16,10 @@ class GCPSQLConfigChanges(Rule):
     summary_attributes = ["severity", "p_any_ip_addresses", "p_any_domain_names"]
 
     def rule(self, event):
-        return deep_get(event, "protoPayload", "methodName") == "cloudsql.instances.update"
+        return event.deep_get("protoPayload", "methodName") == "cloudsql.instances.update"
 
     def dedup(self, event):
-        return deep_get(event, "resource", "labels", "project_id", default="<UNKNOWN_PROJECT>")
+        return event.deep_get("resource", "labels", "project_id", default="<UNKNOWN_PROJECT>")
 
     tests = [
         RuleTest(

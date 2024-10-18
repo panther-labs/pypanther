@@ -1,5 +1,5 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
-from pypanther.helpers.base import aws_rule_context, deep_get
+from pypanther.helpers.aws import aws_rule_context
 
 
 @panther_managed
@@ -23,7 +23,7 @@ class AWSECREVENTS(Rule):
 
     def rule(self, event):
         if event.get("eventSource") == "ecr.amazonaws.com":
-            aws_account_id = deep_get(event, "userIdentity", "accountId")
+            aws_account_id = event.deep_get("userIdentity", "accountId")
             if aws_account_id in self.AWS_ACCOUNTS_AND_REGIONS:
                 if event.get("awsRegion") not in self.AWS_ACCOUNTS_AND_REGIONS[aws_account_id]:
                     return True

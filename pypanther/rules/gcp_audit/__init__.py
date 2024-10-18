@@ -79,6 +79,9 @@ from pypanther.rules.gcp_audit.gcp_unused_regions import GCPUnusedRegions as GCP
 from pypanther.rules.gcp_audit.gcp_user_added_to_iap_protected_service import (
     GCPUserAddedtoIAPProtectedService as GCPUserAddedtoIAPProtectedService,
 )
+from pypanther.rules.gcp_audit.gcp_user_added_to_privileged_group import (
+    GCPUserAddedToPrivilegedGroup as GCPUserAddedToPrivilegedGroup,
+)
 from pypanther.rules.gcp_audit.gcp_vpc_flow_logs_disabled import GCPVPCFlowLogsDisabled as GCPVPCFlowLogsDisabled
 from pypanther.rules.gcp_audit.gcp_workforce_pool_created_or_updated import (
     GCPWorkforcePoolCreatedorUpdated as GCPWorkforcePoolCreatedorUpdated,

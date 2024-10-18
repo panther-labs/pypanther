@@ -1,8 +1,7 @@
 import re
 
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
-from pypanther.helpers.base import deep_get
-from pypanther.helpers.gcp_base import gcp_alert_context
+from pypanther.helpers.gcp import gcp_alert_context
 
 
 @panther_managed
@@ -19,12 +18,12 @@ class GCPLoggingSinkModified(Rule):
 
     def rule(self, event):
         method_pattern = "(?:\\w+\\.)*v\\d\\.(?:ConfigServiceV\\d\\.(?:UpdateSink))"
-        match = re.search(method_pattern, deep_get(event, "protoPayload", "methodName", default=""))
+        match = re.search(method_pattern, event.deep_get("protoPayload", "methodName", default=""))
         return match is not None
 
     def title(self, event):
-        actor = deep_get(event, "protoPayload", "authenticationInfo", "principalEmail", default="<ACTOR_NOT_FOUND>")
-        resource = deep_get(event, "protoPayload", "resourceName", default="<RESOURCE_NOT_FOUND>")
+        actor = event.deep_get("protoPayload", "authenticationInfo", "principalEmail", default="<ACTOR_NOT_FOUND>")
+        resource = event.deep_get("protoPayload", "resourceName", default="<RESOURCE_NOT_FOUND>")
         return f"[GCP]: [{actor}] updated logging sink [{resource}]"
 
     def alert_context(self, event):

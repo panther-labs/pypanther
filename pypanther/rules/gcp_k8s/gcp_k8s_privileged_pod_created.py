@@ -1,6 +1,6 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
-from pypanther.helpers.base import deep_get, deep_walk
-from pypanther.helpers.gcp_base import gcp_alert_context
+from pypanther.helpers.base import deep_get
+from pypanther.helpers.gcp import gcp_alert_context
 
 
 @panther_managed
@@ -16,14 +16,14 @@ class GCPK8SPrivilegedPodCreated(Rule):
     dedup_period_minutes = 360
 
     def rule(self, event):
-        if deep_get(event, "protoPayload", "response", "status") == "Failure":
+        if event.deep_get("protoPayload", "response", "status") == "Failure":
             return False
-        if deep_get(event, "protoPayload", "methodName") != "io.k8s.core.v1.pods.create":
+        if event.deep_get("protoPayload", "methodName") != "io.k8s.core.v1.pods.create":
             return False
-        authorization_info = deep_walk(event, "protoPayload", "authorizationInfo")
+        authorization_info = event.deep_walk("protoPayload", "authorizationInfo")
         if not authorization_info:
             return False
-        containers_info = deep_walk(event, "protoPayload", "response", "spec", "containers")
+        containers_info = event.deep_walk("protoPayload", "response", "spec", "containers")
         for auth in authorization_info:
             if auth.get("permission") == "io.k8s.core.v1.pods.create" and auth.get("granted") is True:
                 for security_context in containers_info:
@@ -35,17 +35,17 @@ class GCPK8SPrivilegedPodCreated(Rule):
         return False
 
     def title(self, event):
-        actor = deep_get(event, "protoPayload", "authenticationInfo", "principalEmail", default="<ACTOR_NOT_FOUND>")
-        pod_name = deep_get(event, "protoPayload", "resourceName", default="<RESOURCE_NOT_FOUND>")
-        project_id = deep_get(event, "resource", "labels", "project_id", default="<PROJECT_NOT_FOUND>")
+        actor = event.deep_get("protoPayload", "authenticationInfo", "principalEmail", default="<ACTOR_NOT_FOUND>")
+        pod_name = event.deep_get("protoPayload", "resourceName", default="<RESOURCE_NOT_FOUND>")
+        project_id = event.deep_get("resource", "labels", "project_id", default="<PROJECT_NOT_FOUND>")
         return f"[GCP]: [{actor}] created a privileged pod [{pod_name}] in project [{project_id}]"
 
     def dedup(self, event):
-        return deep_get(event, "protoPayload", "authenticationInfo", "principalEmail", default="<ACTOR_NOT_FOUND>")
+        return event.deep_get("protoPayload", "authenticationInfo", "principalEmail", default="<ACTOR_NOT_FOUND>")
 
     def alert_context(self, event):
         context = gcp_alert_context(event)
-        containers_info = deep_walk(event, "protoPayload", "response", "spec", "containers", default=[])
+        containers_info = event.deep_walk("protoPayload", "response", "spec", "containers", default=[])
         context["pod_security_context"] = [i.get("securityContext") for i in containers_info]
         return context
 

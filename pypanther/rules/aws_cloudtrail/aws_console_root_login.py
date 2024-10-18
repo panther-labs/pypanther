@@ -1,7 +1,6 @@
 from pypanther import LogType, Rule, RuleMock, RuleTest, Severity, panther_managed
-from pypanther.helpers.base import deep_get
-from pypanther.helpers.default import lookup_aws_account_name
-from pypanther.helpers.oss import geoinfo_from_ip_formatted
+from pypanther.helpers.aws import lookup_aws_account_name
+from pypanther.helpers.ipinfo import geoinfo_from_ip_formatted
 
 
 @panther_managed
@@ -27,13 +26,12 @@ class AWSConsoleRootLogin(Rule):
     def rule(self, event):
         return (
             event.get("eventName") == "ConsoleLogin"
-            and deep_get(event, "userIdentity", "type") == "Root"
-            and (deep_get(event, "responseElements", "ConsoleLogin") == "Success")
+            and event.deep_get("userIdentity", "type") == "Root"
+            and (event.deep_get("responseElements", "ConsoleLogin") == "Success")
         )
 
     def title(self, event):
-        ip_address = event.get("sourceIPAddress")
-        return f"AWS root login detected from [{ip_address}] ({geoinfo_from_ip_formatted(ip_address)}) in account [{lookup_aws_account_name(event.get('recipientAccountId'))}]"
+        return f"AWS root login detected from ({geoinfo_from_ip_formatted(event, 'sourceIPAddress')}) in account [{lookup_aws_account_name(event.get('recipientAccountId'))}]"
 
     def dedup(self, event):
         # Each Root login should generate a unique alert
@@ -42,10 +40,10 @@ class AWSConsoleRootLogin(Rule):
     def alert_context(self, event):
         return {
             "sourceIPAddress": event.get("sourceIPAddress"),
-            "userIdentityAccountId": deep_get(event, "userIdentity", "accountId"),
-            "userIdentityArn": deep_get(event, "userIdentity", "arn"),
+            "userIdentityAccountId": event.deep_get("userIdentity", "accountId"),
+            "userIdentityArn": event.deep_get("userIdentity", "arn"),
             "eventTime": event.get("eventTime"),
-            "mfaUsed": deep_get(event, "additionalEventData", "MFAUsed"),
+            "mfaUsed": event.deep_get("additionalEventData", "MFAUsed"),
         }
 
     tests = [

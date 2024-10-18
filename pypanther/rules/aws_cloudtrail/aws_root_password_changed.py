@@ -1,5 +1,5 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
-from pypanther.helpers.base import aws_rule_context, deep_get
+from pypanther.helpers.aws import aws_rule_context
 
 
 @panther_managed
@@ -20,10 +20,10 @@ class AWSCloudTrailRootPasswordChanged(Rule):
         if event.get("eventName") != "PasswordUpdated":
             return False
         # Only check root activity
-        if deep_get(event, "userIdentity", "type") != "Root":
+        if event.deep_get("userIdentity", "type") != "Root":
             return False
         # Only alert if the login was a success
-        return deep_get(event, "responseElements", "PasswordUpdated") == "Success"
+        return event.deep_get("responseElements", "PasswordUpdated") == "Success"
 
     def alert_context(self, event):
         return aws_rule_context(event)

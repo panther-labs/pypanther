@@ -1,5 +1,4 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
-from pypanther.helpers.base import deep_get
 
 
 @panther_managed
@@ -20,14 +19,14 @@ class GSuiteTwoStepVerification(Rule):
     summary_attributes = ["actor:email"]
 
     def rule(self, event):
-        if deep_get(event, "id", "applicationName") != "user_accounts":
+        if event.deep_get("id", "applicationName") != "user_accounts":
             return False
         if event.get("type") == "2sv_change" and event.get("name") == "2sv_disable":
             return True
         return False
 
     def title(self, event):
-        return f"Two step verification was disabled for user [{deep_get(event, 'actor', 'email', default='<UNKNOWN_USER>')}]"
+        return f"Two step verification was disabled for user [{event.deep_get('actor', 'email', default='<UNKNOWN_USER>')}]"
 
     tests = [
         RuleTest(

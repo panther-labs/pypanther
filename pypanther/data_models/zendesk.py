@@ -1,6 +1,6 @@
 from pypanther.base import DataModel, DataModelMapping, LogType
 from pypanther.helpers import event_type
-from pypanther.helpers.base import ZENDESK_CHANGE_DESCRIPTION, zendesk_get_roles
+from pypanther.helpers.zendesk import ZENDESK_CHANGE_DESCRIPTION, zendesk_get_roles
 
 ZENDESK_TWO_FACTOR_SOURCES = {
     "Two-Factor authentication for all admins and agents",
