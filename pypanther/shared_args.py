@@ -110,6 +110,6 @@ def str2bool(v):
         return v
     if v.lower() == "true":
         return True
-    elif v.lower() == "false":
+    if v.lower() == "false":
         return False
     raise argparse.ArgumentTypeError("Boolean value expected.")
