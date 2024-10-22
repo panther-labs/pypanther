@@ -20,15 +20,26 @@ class GSuiteDriveExternalFileShare(Rule):
     )
     COMPANY_DOMAIN = "your-company-name.com"
     # The glob pattern for the document title (lowercased)
-    # All actors allowed to receive the file share
+    # allow any title "all"
+    # Allow any user
+    # "all"
+    # Allow any user in a specific domain
+    # "*@acme.com"
     # Allow any user
     # "all"
     # Allow any user in a specific domain
     # "*@acme.com"
     # The time limit for how long the file share stays valid
+    # The time limit for how long the file share stays valid
     EXCEPTION_PATTERNS = {
-        "document title p*": {
-            "allowed_for": {"alice@acme.com", "samuel@acme.com", "nathan@acme.com", "barry@acme.com"},
+        "1 document title p*": {
+            "allowed_to_send": {"alice@acme.com", "samuel@acme.com", "nathan@acme.com", "barry@acme.com"},
+            "allowed_to_receive": {"alice@abc.com", "samuel@abc.com", "nathan@abc.com", "barry@abc.com"},
+            "allowed_until": datetime.datetime(year=2030, month=6, day=2),
+        },
+        "2 document title p*": {
+            "allowed_to_send": {"alice@abc.com"},
+            "allowed_to_receive": {"*@acme.com"},
             "allowed_until": datetime.datetime(year=2030, month=6, day=2),
         },
     }
@@ -38,7 +49,7 @@ class GSuiteDriveExternalFileShare(Rule):
         doc_title = parameters.get("doc_title", "TITLE_UNKNOWN")
         old_visibility = parameters.get("old_visibility", "OLD_VISIBILITY_UNKNOWN")
         new_visibility = parameters.get("visibility", "NEW_VISIBILITY_UNKNOWN")
-        target_user = parameters.get("target_user", "USER_UNKNOWN")
+        target_user = parameters.get("target_user") or parameters.get("target_domain") or "USER_UNKNOWN"
         current_time = datetime.datetime.now()
         if (
             new_visibility == "shared_externally"
@@ -47,18 +58,18 @@ class GSuiteDriveExternalFileShare(Rule):
         ):
             # This is a dangerous share, check exceptions:
             for pattern, details in self.EXCEPTION_PATTERNS.items():
-                doc_title_match = pattern_match(doc_title.lower(), pattern)
-                allowed_for_match = pattern_match_list(actor_email, details.get("allowed_for"))
-                allowed_for_all_match = details.get("allowed_for") == {"all"}
-                if (
-                    doc_title_match
-                    and (allowed_for_match or allowed_for_all_match)
-                    and (current_time < details.get("allowed_until"))
-                ):
+                proper_title = pattern_match(doc_title.lower(), pattern) or pattern == "all"
+                proper_sender = pattern_match_list(actor_email, details.get("allowed_to_send")) or details.get(
+                    "allowed_to_send",
+                ) == {"all"}
+                proper_receiver = pattern_match_list(target_user, details.get("allowed_to_receive")) or details.get(
+                    "allowed_to_receive",
+                ) == {"all"}
+                if proper_title and proper_sender and proper_receiver and (current_time < details.get("allowed_until")):
                     return False
-                # No exceptions match.
-                # Return the event summary (which is True) to alert & use in title.
-                return {"actor": actor_email, "doc_title": doc_title, "target_user": target_user}
+            # No exceptions match.
+            # Return the event summary (which is True) to alert & use in title.
+            return {"actor": actor_email, "doc_title": doc_title, "target_user": target_user}
         return False
 
     def rule(self, event):
@@ -116,7 +127,7 @@ class GSuiteDriveExternalFileShare(Rule):
                             {"name": "old_visibility", "value": "private"},
                             {"name": "doc_id", "value": "1111111111111111111"},
                             {"name": "doc_type", "value": "document"},
-                            {"name": "doc_title", "value": "Document Title Primary"},
+                            {"name": "doc_title", "value": "1 Document Title Primary"},
                             {"name": "visibility", "value": "shared_externally"},
                             {"name": "originating_app_id", "value": "1111111111111111111"},
                             {"name": "owner_is_shared_drive", "boolValue": False},
@@ -147,7 +158,7 @@ class GSuiteDriveExternalFileShare(Rule):
                         "parameters": [
                             {"name": "primary_event", "boolValue": True},
                             {"name": "visibility_change", "value": "external"},
-                            {"name": "target_user", "value": "alice@external.com"},
+                            {"name": "target_domain", "value": "external.com"},
                             {"name": "old_visibility", "value": "private"},
                             {"name": "doc_id", "value": "1111111111111111111"},
                             {"name": "doc_type", "value": "document"},
@@ -183,11 +194,47 @@ class GSuiteDriveExternalFileShare(Rule):
                             {"name": "primary_event", "boolValue": True},
                             {"name": "billable", "boolValue": True},
                             {"name": "visibility_change", "value": "external"},
-                            {"name": "target_domain", "value": "acme.com"},
+                            {"name": "target_user", "value": "samuel@abc.com"},
                             {"name": "old_visibility", "value": "private"},
                             {"name": "doc_id", "value": "1111111111111111111"},
                             {"name": "doc_type", "value": "document"},
-                            {"name": "doc_title", "value": "Document Title Pattern"},
+                            {"name": "doc_title", "value": "1 Document Title Pattern"},
+                            {"name": "visibility", "value": "shared_externally"},
+                            {"name": "originating_app_id", "value": "1111111111111111111"},
+                            {"name": "owner_is_shared_drive", "boolValue": False},
+                            {"name": "owner_is_team_drive", "boolValue": False},
+                            {"name": "old_value", "multiValue": ["none"]},
+                            {"name": "new_value", "multiValue": ["people_within_domain_with_link"]},
+                        ],
+                    },
+                ],
+            },
+        ),
+        RuleTest(
+            name="Share Allowed by Exception - 2",
+            expected_result=False,
+            log={
+                "kind": "admin#reports#activity",
+                "id": {
+                    "time": "2020-07-07T15:50:49.617Z",
+                    "uniqueQualifier": "1111111111111111111",
+                    "applicationName": "drive",
+                    "customerId": "C010qxghg",
+                },
+                "actor": {"email": "alice@abc.com", "profileId": "1111111111111111111"},
+                "events": [
+                    {
+                        "type": "acl_change",
+                        "name": "change_user_access",
+                        "parameters": [
+                            {"name": "primary_event", "boolValue": True},
+                            {"name": "billable", "boolValue": True},
+                            {"name": "visibility_change", "value": "external"},
+                            {"name": "target_user", "value": "samuel@acme.com"},
+                            {"name": "old_visibility", "value": "private"},
+                            {"name": "doc_id", "value": "1111111111111111111"},
+                            {"name": "doc_type", "value": "document"},
+                            {"name": "doc_title", "value": "2 Document Title Pattern"},
                             {"name": "visibility", "value": "shared_externally"},
                             {"name": "originating_app_id", "value": "1111111111111111111"},
                             {"name": "owner_is_shared_drive", "boolValue": False},
