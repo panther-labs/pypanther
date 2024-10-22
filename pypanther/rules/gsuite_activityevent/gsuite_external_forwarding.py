@@ -17,7 +17,7 @@ class GSuiteExternalMailForwarding(Rule):
     summary_attributes = ["p_any_emails"]
 
     def rule(self, event):
-        if event.deep_get("id", "applicationName") != "user_accounts":
+        if event.deep_get("id", "applicationName") not in ("user_accounts", "login"):
             return False
         if event.get("name") == "email_forwarding_out_of_domain":
             domain = event.deep_get("parameters", "email_forwarding_destination_address").split("@")[-1]
@@ -32,7 +32,7 @@ class GSuiteExternalMailForwarding(Rule):
 
     tests = [
         RuleTest(
-            name="Forwarding to External Address",
+            name="Forwarding to External Address - applicationName = user_accounts",
             expected_result=True,
             log={
                 "id": {"applicationName": "user_accounts", "customerId": "D12345"},
@@ -40,6 +40,17 @@ class GSuiteExternalMailForwarding(Rule):
                 "type": "email_forwarding_change",
                 "name": "email_forwarding_out_of_domain",
                 "parameters": {"email_forwarding_destination_address": "HSimpson@gmail.com"},
+            },
+        ),
+        RuleTest(
+            name="Forwarding to External Address - applicationName = login",
+            expected_result=True,
+            log={
+                "id": {"applicationName": "login", "customerId": "D12345"},
+                "actor": {"email": "homer.simpson@springfield.io"},
+                "type": "email_forwarding_change",
+                "name": "email_forwarding_out_of_domain",
+                "parameters": {"email_forwarding_destination_address": "HSimpsone@gmail.com"},
             },
         ),
         RuleTest(
