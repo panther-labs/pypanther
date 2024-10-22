@@ -20,7 +20,7 @@ def for_filtering(parser: argparse.ArgumentParser) -> None:
 
     parser.add_argument(
         "--create-alert",
-        help="Filter by items that create alerts or not",
+        help="Filter by items that create alerts or don't create alerts",
         default=None,
         type=str2bool,
         required=False,
