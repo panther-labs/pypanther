@@ -17,21 +17,15 @@ def for_filtering(parser: argparse.ArgumentParser) -> None:
         required=False,
     )
 
-    create_alert_group = parser.add_mutually_exclusive_group()
 
-    create_alert_group.add_argument(
+    parser.add_argument(
         "--create-alert",
-        help="Filter by items that create alerts",
+        help="Filter by items that create alerts or not",
         default=None,
-        action="store_true",
+        type=str2bool,
+        required=False,
     )
 
-    create_alert_group.add_argument(
-        "--no-create-alert",
-        help="Filter by items that don't create alerts",
-        dest="create_alert",
-        action="store_false",
-    )
     parser.add_argument(
         "--dedup-period-minutes",
         help="Filter by dedup period minutes",
@@ -46,20 +40,13 @@ def for_filtering(parser: argparse.ArgumentParser) -> None:
         default=None,
         required=False,
     )
-    enable_disable_group = parser.add_mutually_exclusive_group()
 
-    enable_disable_group.add_argument(
+    parser.add_argument(
         "--enabled",
-        help="Filter only on enabled items",
+        help="Filter enabled or disabled items",
         default=None,
-        action="store_true",
-    )
-    enable_disable_group.add_argument(
-        "--disabled",
-        help="Filter only on disabled items",
-        dest="enabled",
-        default=None,
-        action="store_false",
+        type=str2bool,
+        required=False,
     )
     parser.add_argument(
         "--summary-attributes",
@@ -117,3 +104,13 @@ def for_filtering(parser: argparse.ArgumentParser) -> None:
         default=None,
         required=False,
     )
+
+def str2bool(v):
+    if isinstance(v, bool):
+        return v
+    if v.lower() in ('yes', 'true', 't', 'y', '1'):
+        return True
+    elif v.lower() in ('no', 'false', 'f', 'n', '0'):
+        return False
+    else:
+        raise argparse.ArgumentTypeError('Boolean value expected.')
