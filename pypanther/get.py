@@ -31,7 +31,7 @@ def get_panther_rules(
     default_reference: str | None = None,
     default_runbook: str | None = None,
     default_destinations: List[str] | None = None,
-) -> list[Type[Rule]]:
+) -> set[Type[Rule]]:
     """
     Return an iterator of all PantherRules in the pypanther.rules based on the provided filters.
     If the filter argument is not provided, all rules are returned. If a filter value is a list, any value in the
@@ -51,13 +51,13 @@ def get_panther_rules(
                             continue
                         __RULES.add(attr)
 
-    return filter_iterable_by_kwargs(
+    return set(filter_iterable_by_kwargs(
         __RULES,
         **filters,
-    )
+    ))
 
 
-def get_rules(module: Any) -> list[Type[Rule]]:
+def get_rules(module: Any) -> set[Type[Rule]]:
     """
     Returns a list of PantherRule subclasses that are declared within the given module, recursively.
     All sub-packages of the given module must have an __init__.py declared for PantherRule subclasses
@@ -87,10 +87,10 @@ def get_rules(module: Any) -> list[Type[Rule]]:
                     continue
                 subclasses.add(attr)
 
-    return list(subclasses)
+    return subclasses
 
 
-def apply_overrides(module: Any, rules: Iterable[Type[Rule]] = []) -> list[str]:
+def apply_overrides(module: Any, rules: Iterable[Type[Rule]] = []) -> Iterable[str]:
     """
     Applies any overrides to the given rules based on the overrides declared in the given module.
     Returns a list of the modules with apply_overrides functions that were applied.
