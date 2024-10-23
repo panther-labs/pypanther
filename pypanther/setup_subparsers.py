@@ -3,6 +3,7 @@ import pathlib
 
 from pypanther import display, generate, get_rule, list_log_types, list_rules, shared_args, upload
 from pypanther.backend import util
+from pypanther.shared_args import str2bool
 
 
 def setup_list_rules_parser(list_rules_parser: argparse.ArgumentParser):
@@ -10,10 +11,10 @@ def setup_list_rules_parser(list_rules_parser: argparse.ArgumentParser):
     shared_args.for_filtering(list_rules_parser)
     list_rules_parser.add_argument(
         "--managed",
-        help="List panther managed rules instead of registered rules to view available rules",
-        default=False,
+        help="Filter by Panther managed or non-Panther managed rules",
+        default=None,
         required=False,
-        action="store_true",
+        type=str2bool,
     )
     list_rules_parser.add_argument(
         "--attributes",
