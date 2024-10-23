@@ -143,7 +143,6 @@ def run(backend: BackendClient, args: argparse.Namespace) -> Tuple[int, str]:
                 archive=tmp.name,
                 verbose=args.verbose,
                 output_type=args.output,
-                max_retries=args.max_retries,
             )
 
             if args.output == display.OUTPUT_TYPE_JSON:
@@ -234,16 +233,7 @@ def upload_zip(
     archive: str,
     verbose: bool,
     output_type: str,
-    max_retries: int = 10,
 ) -> AsyncBulkUploadStatusResponse:
-    # extract max retries we should handle
-    if max_retries > 10:
-        logging.warning("max_retries cannot be greater than 10, defaulting to 10")
-        max_retries = 10
-    elif max_retries < 0:
-        logging.warning("max_retries cannot be negative, defaulting to 0")
-        max_retries = 0
-
     with open(archive, "rb") as analysis_zip:
         if verbose and output_type == display.OUTPUT_TYPE_TEXT:
             print(cli_output.header("Uploading to Panther"))
@@ -254,6 +244,8 @@ def upload_zip(
         upload_params = AsyncBulkUploadParams(zip_bytes=analysis_zip.read(), dry_run=False)
         retry_count = 0
 
+    # We should retry failures for up to 10 times
+    max_retries = 10
     while True:
         try:
             start_upload_response = backend.async_bulk_upload(upload_params)
