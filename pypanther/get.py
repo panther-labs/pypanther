@@ -90,10 +90,10 @@ def get_rules(module: Any) -> list[Type[Rule]]:
     return list(subclasses)
 
 
-def apply_overrides(module: Any, rules: Iterable[Type[Rule]] = []) -> Iterable[str]:
+def apply_overrides(module: Any, rules: Iterable[Type[Rule]] = []) -> list[str]:
     """
     Applies any overrides to the given rules based on the overrides declared in the given module.
-    Returns an Iterable of the modules with apply_overrides functions that were applied.
+    Returns a list of the modules with apply_overrides functions that were applied.
 
     For example: if all your PantherRule overrides are inside an "overrides" folder, you would do
     ```

@@ -43,21 +43,23 @@ def run(args: argparse.Namespace) -> Tuple[int, str]:
         )
     elif args.managed:
         # if managed is True, we will list only Panther managed rules
-        rules = get_panther_rules(
-            log_types=getattr(args, "log_types", None),
-            id=getattr(args, "id", None),
-            create_alert=getattr(args, "create_alert", None),
-            dedup_period_minutes=getattr(args, "dedup_period_minutes", None),
-            display_name=getattr(args, "display_name", None),
-            enabled=getattr(args, "enabled", None),
-            summary_attributes=getattr(args, "summary_attributes", None),
-            threshold=getattr(args, "threshold", None),
-            tags=getattr(args, "tags", None),
-            default_severity=getattr(args, "default_severity", None),
-            default_description=getattr(args, "default_description", None),
-            default_reference=getattr(args, "default_reference", None),
-            default_runbook=getattr(args, "default_runbook", None),
-            default_destinations=getattr(args, "default_destinations", None),
+        rules = set(
+            get_panther_rules(
+                log_types=getattr(args, "log_types", None),
+                id=getattr(args, "id", None),
+                create_alert=getattr(args, "create_alert", None),
+                dedup_period_minutes=getattr(args, "dedup_period_minutes", None),
+                display_name=getattr(args, "display_name", None),
+                enabled=getattr(args, "enabled", None),
+                summary_attributes=getattr(args, "summary_attributes", None),
+                threshold=getattr(args, "threshold", None),
+                tags=getattr(args, "tags", None),
+                default_severity=getattr(args, "default_severity", None),
+                default_description=getattr(args, "default_description", None),
+                default_reference=getattr(args, "default_reference", None),
+                default_runbook=getattr(args, "default_runbook", None),
+                default_destinations=getattr(args, "default_destinations", None),
+            ),
         )
     else:
         # if managed is False, we will list only non-Panther managed rules
