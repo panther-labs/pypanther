@@ -55,7 +55,7 @@ def setup_get_rule_parser(get_rules_parser: argparse.ArgumentParser):
         default=display.DEFAULT_CLI_OUTPUT_TYPE,
     )
     get_rules_parser.add_argument(
-        "--managed",
+        "--original",
         help="Return the original class definition instead of the final versions of the attributes",
         required=False,
         default=False,

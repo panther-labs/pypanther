@@ -211,9 +211,8 @@ def print_rule_as_json(rule: Type[Rule], managed: bool) -> None:
     print(rule_json)
 
 
-def print_rule_as_text(rule: Type[Rule], managed: bool) -> None:
-    rule_text = ""
-    if managed:
+def print_rule_as_text(rule: Type[Rule], original: bool) -> None:
+    if original:
         rule_text = inspect.getsource(rule)
     else:
         rule_text = f"class {rule.__name__}:\n"
