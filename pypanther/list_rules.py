@@ -94,7 +94,7 @@ def run(args: argparse.Namespace) -> Tuple[int, str]:
             default_destinations=getattr(args, "default_destinations", None),
         )
         # Get the difference between all rules and panther managed rules
-        rules = all_rules - panther_rules
+        rules = all_rules - set(panther_rules)
     try:
         match args.output:
             case "text":
