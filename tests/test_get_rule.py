@@ -59,7 +59,7 @@ class TestRun:
     def test_happy_path_managed_text(self, rule: Type[Rule]) -> None:
         with create_main():
             rc, err_msg = run(
-                argparse.Namespace(id=rule.id, type=TYPE_RULE.lower(), output="text", managed=False),
+                argparse.Namespace(id=rule.id, type=TYPE_RULE.lower(), output="text", original=False),
             )
             assert rc == 0
             assert err_msg == ""
@@ -68,7 +68,7 @@ class TestRun:
     def test_happy_path_managed_json(self, rule: Type[Rule]) -> None:
         with create_main():
             rc, err_msg = run(
-                argparse.Namespace(id=rule.id, type=TYPE_RULE.lower(), output="json", managed=False),
+                argparse.Namespace(id=rule.id, type=TYPE_RULE.lower(), output="json", original=False),
             )
             assert rc == 0
             assert err_msg == ""
@@ -77,7 +77,7 @@ class TestRun:
     def test_happy_path_managed_text_managed(self, rule: Type[Rule]) -> None:
         with create_main():
             rc, err_msg = run(
-                argparse.Namespace(id=rule.id, type=TYPE_RULE.lower(), output="text", managed=True),
+                argparse.Namespace(id=rule.id, type=TYPE_RULE.lower(), output="text", original=True),
             )
             assert rc == 0
             assert err_msg == ""
@@ -86,7 +86,7 @@ class TestRun:
     def test_happy_path_managed_json_managed(self, rule: Type[Rule]) -> None:
         with create_main():
             rc, err_msg = run(
-                argparse.Namespace(id=rule.id, type=TYPE_RULE.lower(), output="json", managed=True),
+                argparse.Namespace(id=rule.id, type=TYPE_RULE.lower(), output="json", original=True),
             )
             assert rc == 0
             assert err_msg == ""
@@ -106,7 +106,7 @@ class TestRun:
 
             register(CustomRule)
             rc, err_msg = run(
-                argparse.Namespace(id=rule_id, type=TYPE_RULE.lower(), output=output, managed=False),
+                argparse.Namespace(id=rule_id, type=TYPE_RULE.lower(), output=output, original=False),
             )
             assert rc == 0
             assert err_msg == ""
