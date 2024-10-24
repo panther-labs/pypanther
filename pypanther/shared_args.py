@@ -1,5 +1,7 @@
 import argparse
 
+from pypanther.utils import parse_bool_input
+
 
 def for_filtering(parser: argparse.ArgumentParser) -> None:
     parser.add_argument(
@@ -21,7 +23,7 @@ def for_filtering(parser: argparse.ArgumentParser) -> None:
         "--create-alert",
         help="Filter by items that create alerts or don't create alerts",
         default=None,
-        type=str2bool,
+        type=parse_bool_input,
         required=False,
     )
 
@@ -44,7 +46,7 @@ def for_filtering(parser: argparse.ArgumentParser) -> None:
         "--enabled",
         help="Filter enabled or disabled items",
         default=None,
-        type=str2bool,
+        type=parse_bool_input,
         required=False,
     )
     parser.add_argument(
@@ -103,13 +105,3 @@ def for_filtering(parser: argparse.ArgumentParser) -> None:
         default=None,
         required=False,
     )
-
-
-def str2bool(v):
-    if isinstance(v, bool):
-        return v
-    if v.lower() in ("yes", "true", "t", "y", "1"):
-        return True
-    if v.lower() in ("no", "false", "f", "n", "0"):
-        return False
-    raise argparse.ArgumentTypeError("Boolean value expected.")

@@ -1,7 +1,19 @@
+from argparse import ArgumentTypeError
 from enum import Enum
 from typing import Any
 
 TRUNCATED_STRING_SUFFIX = "... (truncated)"
+
+
+def parse_bool_input(v) -> bool:
+    """Parses input from the user as a boolean value."""
+    if isinstance(v, bool):
+        return v
+    if v.lower() in ("yes", "true", "t", "y", "1"):
+        return True
+    if v.lower() in ("no", "false", "f", "n", "0"):
+        return False
+    raise ArgumentTypeError("Boolean value expected.")
 
 
 def try_asdict(item: Any) -> Any:

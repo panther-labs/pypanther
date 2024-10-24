@@ -3,7 +3,7 @@ import pathlib
 
 from pypanther import display, generate, get_rule, list_log_types, list_rules, shared_args, upload
 from pypanther.backend import util
-from pypanther.shared_args import str2bool
+from pypanther.utils import parse_bool_input
 
 
 def setup_list_rules_parser(list_rules_parser: argparse.ArgumentParser):
@@ -14,7 +14,7 @@ def setup_list_rules_parser(list_rules_parser: argparse.ArgumentParser):
         help="Filter by Panther managed or non-Panther managed rules",
         default=None,
         required=False,
-        type=str2bool,
+        type=parse_bool_input,
     )
     list_rules_parser.add_argument(
         "--attributes",
