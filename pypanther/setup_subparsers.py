@@ -56,7 +56,7 @@ def setup_get_rule_parser(get_rules_parser: argparse.ArgumentParser):
         default=display.DEFAULT_CLI_OUTPUT_TYPE,
     )
     get_rules_parser.add_argument(
-        "--managed",
+        "--original",
         help="Return the original class definition instead of the final versions of the attributes",
         required=False,
         default=False,
@@ -91,13 +91,6 @@ def setup_test_parser(test_parser: argparse.ArgumentParser):
 
 def setup_upload_parser(upload_parser: argparse.ArgumentParser):
     upload_parser.set_defaults(func=util.func_with_backend(upload.run))
-    upload_parser.add_argument(
-        "--max-retries",
-        help="Retry to upload on a failure for a maximum number of times",
-        default=10,
-        type=int,
-        required=False,
-    )
     upload_parser.add_argument(
         "--skip-tests",
         help="Skip running tests and go directly to upload",
