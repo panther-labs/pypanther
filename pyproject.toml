@@ -200,3 +200,16 @@ ignore = [
 "tests/*" = [
     "D106", # Missing docstring in public nested class
 ]
+
+[tool.poetry.plugins."pypanther.apiv0"]
+registered_rules = "pypanther.registry:registered_rules"
+data_model_cache = "pypanther.cache:data_model_cache"
+Rule = "pypanther.base:Rule"
+get_panther_data_models = "pypanther.get:get_panther_data_models"
+RuleTestResult = "pypanther.unit_tests:RuleTestResult"
+RuleMock = "pypanther.unit_tests:RuleMock"
+RuleTest = "pypanther.unit_tests:RuleTest"
+Severity = "pypanther.severity:Severity"
+LogType = "pypanther.log_types:LogType"
+AUXILIARY_METHODS = "pypanther.base:AUXILIARY_METHODS"
+pypanther_version = "0.1.1a51"
