@@ -1,7 +1,7 @@
 import argparse
 import pathlib
 
-from pypanther import display, generate, get_rule, list_log_types, list_rules, shared_args, upload
+from pypanther import display, generate, get_rule, list_log_types, list_rules, shared_args, upload, schemas
 from pypanther.backend import util
 
 
@@ -174,4 +174,13 @@ def setup_convert_parser(convert_parser: argparse.ArgumentParser):
         "panther_analysis_path",
         help="Path to the Panther Analysis directory",
         type=pathlib.Path,
+    )
+
+
+def setup_schemas_upload(schemas_upload: argparse.ArgumentParser):
+    schemas_upload.set_defaults(func=schemas.run)
+    schemas_upload.add_argument(
+        "--path",
+        help="The location of the custom schemas.",
+        required=True,
     )
