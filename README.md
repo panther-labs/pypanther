@@ -1,4 +1,4 @@
-# pypanther
+# PyPanther
 
 **pypanther** is a Python library for building Panther analysis content for the Panther cybersecurity product.
 It provides a simple and intuitive interface for creating, managing, and deploying detections to enhance your security posture.
@@ -55,7 +55,7 @@ register(MyRule)
 
 Check out the [pypanther-starter-kit](https://github.com/panther-labs/pypanther-starter-kit) for more examples on how to use `pypanther`.
 
-You can view detailed docs on the package and CLI tool on the [panther docs]().
+You can view detailed docs on the package and CLI tool on the [panther docs](https://docs.panther.com/detections/pypanther/cli).
 
 ## Local Development
 
