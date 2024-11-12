@@ -178,9 +178,9 @@ def run(backend: BackendClient, args: argparse.Namespace) -> Tuple[int, str]:
 
 def dry_run_upload(backend: BackendClient, data: bytes, verbose, output_type) -> ChangesSummary:
     if verbose and output_type == display.OUTPUT_TYPE_TEXT:
-        print(cli_output.header("Calculating changes"))
+        print(cli_output.header("Calculating changes..."))
     elif output_type == display.OUTPUT_TYPE_TEXT:
-        print("Calculating changes")
+        print("Calculating changes...")
         print()  # new line
 
     params = AsyncBulkUploadParams(zip_bytes=data, dry_run=True)
@@ -303,7 +303,7 @@ def confirm(warning_text: str) -> Optional[str]:
     warning_text = cli_output.warning(warning_text)
     choice = input(warning_text).lower()
     if choice != "y":
-        print(cli_output.warning(f'Exiting upload due to entered response "{choice}" which is not "y"'))
+        print(cli_output.warning(f'Exiting upload due to entered response "{choice}"'))
         return "User did not confirm"
 
     print()  # new line
