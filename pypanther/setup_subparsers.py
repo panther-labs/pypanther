@@ -178,7 +178,7 @@ def setup_convert_parser(convert_parser: argparse.ArgumentParser):
 
 
 def setup_schemas_upload(schemas_upload: argparse.ArgumentParser):
-    schemas_upload.set_defaults(func=schemas.run)
+    schemas_upload.set_defaults(func=util.func_with_backend(schemas.run))
     schemas_upload.add_argument(
         "--path",
         help="The location of the custom schemas.",

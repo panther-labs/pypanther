@@ -1,7 +1,6 @@
 import argparse
 import importlib
 import logging
-import pathlib
 import sys
 from typing import Callable, Tuple
 
@@ -156,6 +155,7 @@ def setup_parser() -> argparse.ArgumentParser:
         help="Upload custom schemas",
         formatter_class=argparse.ArgumentDefaultsHelpFormatter,
     )
+    standard_args.for_public_api(schemas_upload_parser, required=False)
     setup_schemas_upload(schemas_upload_parser)
 
     return parser
