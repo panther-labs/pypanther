@@ -10,7 +10,7 @@ from pypanther.rules.gcp_k8s.gcp_k8s_pod_attached_to_node_host_network import (
     GCPK8sPodAttachedToNodeHostNetwork as GCPK8sPodAttachedToNodeHostNetwork,
 )
 from pypanther.rules.gcp_k8s.gcp_k8s_pod_create_or_modify_host_path_vol_mount import (
-    GCPK8SPotCreateOrModifyHostPathVolumeMount as GCPK8SPotCreateOrModifyHostPathVolumeMount,
+    GCPK8SPodCreateOrModifyHostPathVolumeMount as GCPK8SPodCreateOrModifyHostPathVolumeMount,
 )
 from pypanther.rules.gcp_k8s.gcp_k8s_pod_using_host_pid_namespace import (
     GCPK8sPodUsingHostPIDNamespace as GCPK8sPodUsingHostPIDNamespace,
