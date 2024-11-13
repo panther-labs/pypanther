@@ -28,6 +28,7 @@ class TestUtilities(unittest.TestCase):
                     name=None,
                 ),
             ],
+            False,
         )
         self.assertListEqual(
             summary,

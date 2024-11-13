@@ -26,7 +26,7 @@ def run(backend: BackendClient, args: argparse.Namespace) -> Tuple[int, str]:
     results = uploader.process()
 
     has_errors = False
-    for failed, summary in report_summary(absolute_path, results):
+    for failed, summary in report_summary(absolute_path, results, args.dry_run):
         if failed:
             has_errors = True
             print(cli_output.failed("Error: " + summary))
@@ -66,7 +66,7 @@ class Uploader:
     _SCHEMA_NAME_PREFIX = "Custom."
     _SCHEMA_FILE_GLOB_PATTERNS = ("*.yml", "*.yaml")
 
-    def __init__(self, path: str, backend: BackendClient, dry_run=False):
+    def __init__(self, path: str, backend: BackendClient, dry_run: bool = False):
         self._path = path
         self._files: Optional[List[str]] = None
         self._existing_schemas: Optional[List[Schema]] = None
@@ -350,7 +350,7 @@ def normalize_path(path: str) -> Optional[str]:
     return str(absolute_path)
 
 
-def report_summary(base_path: str, results: List[UploaderResult]) -> List[Tuple[bool, str]]:
+def report_summary(base_path: str, results: List[UploaderResult], dry_run: bool) -> List[Tuple[bool, str]]:
     """
     Translate uploader results to descriptive status messages.
 
@@ -363,6 +363,15 @@ def report_summary(base_path: str, results: List[UploaderResult]) -> List[Tuple[
     summary = []
     for result in sorted(results, key=lambda r: r.filename):
         filename = result.filename.split(base_path)[-1].strip(os.path.sep)
+        if dry_run:
+            summary.append(
+                (
+                    False,
+                    f"DRY-RUN: Would have updated schema " f"from definition in file '{filename}'",
+                ),
+            )
+            continue
+
         if result.error:
             summary.append(
                 (
