@@ -10,7 +10,7 @@ from fnmatch import fnmatch
 from pathlib import Path
 from typing import Any, Optional, Tuple, TypedDict
 
-from pypanther import cli_output, display, testing
+from pypanther import cli_output, display, testing, schemas
 from pypanther.backend.client import (
     AsyncBulkUploadParams,
     AsyncBulkUploadStatusParams,
@@ -72,6 +72,11 @@ def run(backend: BackendClient, args: argparse.Namespace) -> Tuple[int, str]:
     except NoMainModuleError:
         logging.error("No main.py found")  # noqa: TRY400
         return 1, ""
+
+    # upload schemas first
+    ret = schemas.run(backend, args)
+    if args.schemas_only:
+        return ret
 
     test_results = testing.TestResults()  # default to something, so it can be used below in output
     if not args.skip_tests:

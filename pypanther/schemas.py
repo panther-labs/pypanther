@@ -17,11 +17,11 @@ from pypanther.backend.client import Client as BackendClient, BackendResponse, B
 
 
 def run(backend: BackendClient, args: argparse.Namespace) -> Tuple[int, str]:
-    absolute_path = normalize_path(args.path)
+    absolute_path = normalize_path(args.schemas_path)
     if not absolute_path:
-        return 1, f"path not found: {args.path}"
+        return 1, f"path not found: {args.schemas_path}"
 
-    uploader = Uploader(absolute_path, backend)
+    uploader = Uploader(absolute_path, backend, args.dry_run)
     results = uploader.process()
 
     has_errors = False
@@ -30,7 +30,8 @@ def run(backend: BackendClient, args: argparse.Namespace) -> Tuple[int, str]:
             has_errors = True
             print(cli_output.failed("Error: " + summary))
         else:
-            print(summary)
+            if not args.skip_summary:
+                print(cli_output.cyan(summary))
 
     return int(has_errors), ""
 
@@ -65,11 +66,12 @@ class Uploader:
     _SCHEMA_NAME_PREFIX = "Custom."
     _SCHEMA_FILE_GLOB_PATTERNS = ("*.yml", "*.yaml")
 
-    def __init__(self, path: str, backend: BackendClient):
+    def __init__(self, path: str, backend: BackendClient, dry_run=False):
         self._path = path
         self._files: Optional[List[str]] = None
         self._existing_schemas: Optional[List[Schema]] = None
         self._backend = backend
+        self._dry_run = dry_run
 
     @property
     def files(self) -> List[str]:
@@ -148,13 +150,13 @@ class Uploader:
             if processed_file.error is not None:
                 continue
 
-            logging.info("Processing file %s", filename)
+            logging.debug("Processing file %s", filename)
 
             name, error = self._extract_schema_name(processed_file.yaml)
             result = UploaderResult(filename=filename, name=name, error=error)
-            logging.info("uploader result is '%s'", result)
+            logging.debug("uploader result is '%s'", result)
             # Don't attempt to perform an update, if we could not extract the name from the file
-            if not result.error:
+            if not self._dry_run and not result.error:
                 try:
                     existed, response = self._update_or_create_schema(name, processed_file)
                     result.existed = existed
@@ -170,7 +172,7 @@ class Uploader:
 
         processed_files = {}
         for filename in files:
-            logging.info("Loading schema from file %s", filename)
+            logging.debug("Loading schema from file %s", filename)
             processed_file = ProcessedFile()
             processed_files[filename] = processed_file
             try:

@@ -1,7 +1,7 @@
 import argparse
 import pathlib
 
-from pypanther import display, generate, get_rule, list_log_types, list_rules, shared_args, upload, schemas
+from pypanther import display, generate, get_rule, list_log_types, list_rules, shared_args, upload
 from pypanther.backend import util
 
 
@@ -118,6 +118,19 @@ def setup_upload_parser(upload_parser: argparse.ArgumentParser):
         choices=display.COMMON_CLI_OUTPUT_TYPES,
         default=display.DEFAULT_CLI_OUTPUT_TYPE,
     )
+    upload_parser.add_argument(
+        "--schemas-path",
+        help="Path to the schemas directory",
+        default="schemas/",
+        required=False,
+    )
+    upload_parser.add_argument(
+        "--schemas-only",
+        help="Upload schemas only to Panther",
+        default=False,
+        required=False,
+        action="store_true",
+    )
     dry_run_group = upload_parser.add_mutually_exclusive_group()
     dry_run_group.add_argument(
         "--skip-summary",
@@ -174,13 +187,4 @@ def setup_convert_parser(convert_parser: argparse.ArgumentParser):
         "panther_analysis_path",
         help="Path to the Panther Analysis directory",
         type=pathlib.Path,
-    )
-
-
-def setup_schemas_upload(schemas_upload: argparse.ArgumentParser):
-    schemas_upload.set_defaults(func=util.func_with_backend(schemas.run))
-    schemas_upload.add_argument(
-        "--path",
-        help="The location of the custom schemas.",
-        required=True,
     )

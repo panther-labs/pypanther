@@ -12,8 +12,7 @@ from pypanther.setup_subparsers import (
     setup_list_rules_parser,
     setup_test_parser,
     setup_upload_parser,
-    setup_convert_parser,
-    setup_schemas_upload,
+    setup_convert_parser
 )
 from pypanther.backend import util
 from pypanther.command import standard_args
@@ -141,22 +140,6 @@ def setup_parser() -> argparse.ArgumentParser:
         formatter_class=argparse.ArgumentDefaultsHelpFormatter,
     )
     setup_convert_parser(convert_parser)
-
-    # schemas command
-    schemas_parser = subparsers.add_parser(
-        name="schemas",
-        help="Manage custom schemas",
-        formatter_class=argparse.ArgumentDefaultsHelpFormatter,
-    )
-    schemas_parser.set_defaults(func=help_printer(schemas_parser))
-    schemas_sub_parsers = schemas_parser.add_subparsers()
-    schemas_upload_parser = schemas_sub_parsers.add_parser(
-        name="upload",
-        help="Upload custom schemas",
-        formatter_class=argparse.ArgumentDefaultsHelpFormatter,
-    )
-    standard_args.for_public_api(schemas_upload_parser, required=False)
-    setup_schemas_upload(schemas_upload_parser)
 
     return parser
 
