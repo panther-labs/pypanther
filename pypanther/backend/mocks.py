@@ -38,7 +38,8 @@ class MockBackend(BackendClient):
         pass
 
     def async_bulk_upload_status(
-        self, params: AsyncBulkUploadStatusParams
+        self,
+        params: AsyncBulkUploadStatusParams,
     ) -> BackendResponse[AsyncBulkUploadStatusResponse] | None:  # type: ignore
         pass
 
@@ -67,17 +68,20 @@ class MockBackend(BackendClient):
         pass
 
     def transpile_simple_detection_to_python(  # type: ignore
-        self, params: TranspileToPythonParams
+        self,
+        params: TranspileToPythonParams,
     ) -> BackendResponse[Any]:
         pass
 
     def test_correlation_rule(  # type: ignore
-        self, params: TestCorrelationRuleParams
+        self,
+        params: TestCorrelationRuleParams,
     ) -> BackendResponse[TestCorrelationRuleResponse]:
         pass
 
     def transpile_filters(  # type: ignore
-        self, params: TranspileFiltersParams
+        self,
+        params: TranspileFiltersParams,
     ) -> BackendResponse[TranspileFiltersResponse]:
         pass
 
@@ -100,7 +104,8 @@ class MockBackend(BackendClient):
         pass
 
     def generate_enriched_event_input(  # type: ignore
-        self, params: GenerateEnrichedEventParams
+        self,
+        params: GenerateEnrichedEventParams,
     ) -> BackendResponse[GenerateEnrichedEventResponse]:
         pass
 

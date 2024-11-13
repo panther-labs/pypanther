@@ -4,6 +4,7 @@ import os
 from dataclasses import dataclass
 from fnmatch import fnmatch
 from itertools import filterfalse
+from pathlib import Path
 from typing import Any, Dict, List, Optional, Tuple, cast
 
 from ruamel.yaml import YAML
@@ -29,9 +30,8 @@ def run(backend: BackendClient, args: argparse.Namespace) -> Tuple[int, str]:
         if failed:
             has_errors = True
             print(cli_output.failed("Error: " + summary))
-        else:
-            if not args.skip_summary:
-                print(cli_output.cyan(summary))
+        elif not args.skip_summary:
+            print(cli_output.cyan(summary))
 
     return int(has_errors), ""
 
@@ -77,8 +77,11 @@ class Uploader:
     def files(self) -> List[str]:
         """
         Resolves the list of schema definition files.
-        Returns:
+
+        Returns
+        -------
             A list of absolute paths to the schema files.
+
         """
         if self._files is None:
             matching_filenames = discover_files(self._path, self._SCHEMA_FILE_GLOB_PATTERNS)
@@ -91,8 +94,10 @@ class Uploader:
         Retrieves and caches in the instance state the list
         of available user-defined schemas.
 
-        Returns:
+        Returns
+        -------
              List of user-defined schema records.
+
         """
         if self._existing_schemas is None:
             resp = self._backend.list_schemas(ListSchemasParams(is_managed=False))
@@ -105,8 +110,10 @@ class Uploader:
         """
         Find schema by name.
 
-        Returns:
+        Returns
+        -------
              The decoded YAML schema or None if no matching name is found.
+
         """
         for schema in self.existing_schemas:
             if schema.name == name:
@@ -123,9 +130,11 @@ class Uploader:
         - A matching revision number must be provided when making update requests,
           otherwise validation fails.
 
-        Returns:
+        Returns
+        -------
              A list of UploaderResult records that can be used
              for reporting the applied changes and errors.
+
         """
         if not self.files:
             logging.warning("No files found in path '%s'", self._path)
@@ -141,7 +150,7 @@ class Uploader:
                         name=None,
                         filename=filename,
                         error=processed_file.error,
-                    )
+                    ),
                 )
 
         for filename, processed_file in processed_files.items():
@@ -176,7 +185,7 @@ class Uploader:
             processed_file = ProcessedFile()
             processed_files[filename] = processed_file
             try:
-                with open(filename, "r", encoding="utf-8") as schema_file:
+                with open(filename, encoding="utf-8") as schema_file:
                     processed_file.raw = schema_file.read()
                 processed_file.yaml = yaml_parser.load(processed_file.raw)
             except (ParserError, ScannerError, ComposerError) as exc:
@@ -237,7 +246,7 @@ class Uploader:
                 reference_url=reference_url,
                 description=description,
                 field_discovery_enabled=field_discovery_enabled,
-            )
+            ),
         )
         return existed, response
 
@@ -247,11 +256,14 @@ def discover_files(base_path: str, patterns: Tuple[str, ...]) -> List[str]:
     Recursively locates files that match the given glob patterns.
 
     Args:
+    ----
          base_path: the base directory for recursively searching for files
          patterns: a list of glob patterns that the filenames should match
 
     Returns:
+    -------
         A sorted list of absolute paths.
+
     """
     files = []
     for directory, _, filenames in os.walk(base_path):
@@ -267,10 +279,13 @@ def ignore_schema_test_files(paths: List[str]) -> List[str]:
     Detect and ignore files that contain schema tests.
 
     Args:
+    ----
         paths: the list of file paths from which schema test files will be excluded
 
     Returns:
+    -------
         The list of absolute paths of files that possibly contain custom schema definitions.
+
     """
     return list(filterfalse(_contains_schema_tests, paths))
 
@@ -281,11 +296,14 @@ def _contains_schema_tests(filename: str) -> bool:
     Note that a test case file may contain multiple YAML documents.
 
     Args:
+    ----
         filename: the full path for the file to be checked
 
     Returns:
+    -------
         True if the fields match the test case definition structure
         and the filename suffix & extension match the constraints imposed by pantherlog.
+
     """
     # pantherlog requires that files containing test cases have a specific suffix and extension:
     # https://github.com/panther-labs/panther-enterprise/blob/75dd7ac2be67d3388edabb914b87f514ea9bd2cf/internal/log_analysis/log_processor/logtypes/logtesting/logtesting.go#L302
@@ -294,7 +312,7 @@ def _contains_schema_tests(filename: str) -> bool:
 
     yaml_parser = YAML(typ="safe")
 
-    with open(filename, "r", encoding="utf-8") as stream:
+    with open(filename, encoding="utf-8") as stream:
         try:
             yaml_documents: List[Dict[str, Any]] = yaml_parser.load_all(stream)
         except (ParserError, ScannerError, ComposerError):
@@ -317,24 +335,30 @@ def _contains_schema_tests(filename: str) -> bool:
 
 
 def normalize_path(path: str) -> Optional[str]:
-    """Resolve the given path to its absolute form, taking into
-    account user home prefix notation.
-    Returns:
-        The absolute path or None if the path does not exist.
     """
-    absolute_path = os.path.abspath(os.path.expanduser(path))
+    Resolve the given path to its absolute form, taking into
+    account user home prefix notation.
+
+    Returns
+    -------
+        The absolute path or None if the path does not exist.
+
+    """
+    absolute_path = Path.resolve(Path.expanduser(Path(path)))
     if not os.path.exists(absolute_path):
         return None
-    return absolute_path
+    return str(absolute_path)
 
 
 def report_summary(base_path: str, results: List[UploaderResult]) -> List[Tuple[bool, str]]:
     """
     Translate uploader results to descriptive status messages.
 
-    Returns:
+    Returns
+    -------
          A list of status messages along with the corresponding status flag for each message.
          Failure messages are flagged with True.
+
     """
     summary = []
     for result in sorted(results, key=lambda r: r.filename):
@@ -344,7 +368,7 @@ def report_summary(base_path: str, results: List[UploaderResult]) -> List[Tuple[
                 (
                     True,
                     f"Failed to update schema from definition" f" in file '{filename}': {result.error}",
-                )
+                ),
             )
         else:
             if result.existed:
@@ -355,6 +379,6 @@ def report_summary(base_path: str, results: List[UploaderResult]) -> List[Tuple[
                 (
                     False,
                     f"Successfully {operation} schema '{result.name}' " f"from definition in file '{filename}'",
-                )
+                ),
             )
     return summary

@@ -1,5 +1,6 @@
 import os
 import unittest
+from pathlib import Path
 from unittest import mock
 
 from pypanther import schemas
@@ -12,7 +13,8 @@ from pypanther.backend.client import (
 )
 from pypanther.backend.mocks import MockBackend
 
-FIXTURES_PATH = os.path.abspath(os.path.join(os.path.dirname(__file__), "fixtures"))
+fixtures_dir = Path(__file__).parent / Path("fixtures")
+FIXTURES_PATH = fixtures_dir.absolute()
 
 
 class TestUtilities(unittest.TestCase):
@@ -24,7 +26,7 @@ class TestUtilities(unittest.TestCase):
                     error="yaml.scanner.ScannerError: mapping values are not allowed here",
                     filename="/a/b/schemas/s1.yml",
                     name=None,
-                )
+                ),
             ],
         )
         self.assertListEqual(
@@ -34,7 +36,7 @@ class TestUtilities(unittest.TestCase):
                     True,
                     "Failed to update schema from definition in file 's1.yml': "
                     "yaml.scanner.ScannerError: mapping values are not allowed here",
-                )
+                ),
             ],
         )
 
@@ -63,7 +65,7 @@ class TestUtilities(unittest.TestCase):
     def test_normalize_path(self):
         # If path does not exist
         self.assertIsNone(schemas.normalize_path("some-random-path"))
-        self.assertTrue(schemas.normalize_path(".").endswith(os.path.abspath(".")))
+        self.assertTrue(schemas.normalize_path(".").endswith(str(Path.resolve(Path()))))
 
 
 class TestUploader(unittest.TestCase):
@@ -130,7 +132,7 @@ class TestUploader(unittest.TestCase):
                         updated_at="2021-05-14T12:05:13.928862479Z",
                         field_discovery_enabled=True,
                     ),
-                ]
+                ],
             ),
         )
         self.put_schema_response = lambda: Schema(
@@ -138,6 +140,7 @@ class TestUploader(unittest.TestCase):
             revision=0,
             updated_at="2021-05-17T10:34:18.192993496Z",
             created_at="2021-05-17T10:15:38.18907328Z",
+            description="",
             is_managed=False,
             reference_url="https://github.com/random",
             spec="",
@@ -156,7 +159,7 @@ class TestUploader(unittest.TestCase):
                 "active": False,
                 "native": False,
                 "fieldDiscoveryEnabled": False,
-            }
+            },
         }
 
     def test_existing_schemas(self):
@@ -169,7 +172,7 @@ class TestUploader(unittest.TestCase):
     def test_existing_schemas_empty_results_from_backend(self):
         backend = MockBackend()
         backend.list_schemas = mock.MagicMock(
-            return_value=BackendResponse(status_code=200, data=ListSchemasResponse(schemas=[]))
+            return_value=BackendResponse(status_code=200, data=ListSchemasResponse(schemas=[])),
         )
 
         uploader = schemas.Uploader(self.valid_schema_path, backend)
@@ -214,8 +217,8 @@ class TestUploader(unittest.TestCase):
                         spec="",
                         description="",
                         field_discovery_enabled=response.field_discovery_enabled,
-                    )
-                )
+                    ),
+                ),
             )
 
         backend.update_schema = mock.MagicMock(side_effect=put_schema_responses)
@@ -247,9 +250,9 @@ class TestUploader(unittest.TestCase):
                         reference_url="https://runpanther.io",
                         revision=17,
                         field_discovery_enabled=False,
-                    )
-                )
-            ]
+                    ),
+                ),
+            ],
         )
 
         backend.update_schema.assert_has_calls(
@@ -262,7 +265,7 @@ class TestUploader(unittest.TestCase):
                         reference_url="https://runpanther.io",
                         revision=17,
                         field_discovery_enabled=True,
-                    )
-                )
-            ]
+                    ),
+                ),
+            ],
         )
