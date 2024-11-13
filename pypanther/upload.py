@@ -10,7 +10,7 @@ from fnmatch import fnmatch
 from pathlib import Path
 from typing import Any, Optional, Tuple, TypedDict
 
-from pypanther import cli_output, display, testing, schemas
+from pypanther import cli_output, display, schemas, testing
 from pypanther.backend.client import (
     AsyncBulkUploadParams,
     AsyncBulkUploadStatusParams,

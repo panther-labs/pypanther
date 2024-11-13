@@ -1,10 +1,10 @@
 import argparse
 import logging
 import os
-from fnmatch import fnmatch
 from dataclasses import dataclass
+from fnmatch import fnmatch
 from itertools import filterfalse
-from typing import Tuple, List, Optional, Dict, Any, cast
+from typing import Any, Dict, List, Optional, Tuple, cast
 
 from ruamel.yaml import YAML
 from ruamel.yaml.composer import ComposerError
@@ -12,8 +12,8 @@ from ruamel.yaml.parser import ParserError
 from ruamel.yaml.scanner import ScannerError
 
 from pypanther import cli_output
-from pypanther.backend.client import Client as BackendClient, BackendResponse, BackendError, Schema, \
-    ListSchemasParams, UpdateSchemaParams
+from pypanther.backend.client import BackendError, BackendResponse, ListSchemasParams, Schema, UpdateSchemaParams
+from pypanther.backend.client import Client as BackendClient
 
 
 def run(backend: BackendClient, args: argparse.Namespace) -> Tuple[int, str]:
@@ -183,9 +183,7 @@ class Uploader:
                 processed_file.error = f"invalid YAML: {exc}"
         return processed_files
 
-    def _extract_schema_name(
-            self, definition: Optional[Dict[str, Any]]
-    ) -> Tuple[str, Optional[str]]:
+    def _extract_schema_name(self, definition: Optional[Dict[str, Any]]) -> Tuple[str, Optional[str]]:
         if definition is None:
             raise ValueError("definition cannot be None")
 
@@ -197,8 +195,7 @@ class Uploader:
         if not name.startswith(self._SCHEMA_NAME_PREFIX):
             return (
                 "",
-                f"'schema' field: value must start"
-                f" with the prefix '{self._SCHEMA_NAME_PREFIX}'",
+                f"'schema' field: value must start" f" with the prefix '{self._SCHEMA_NAME_PREFIX}'",
             )
 
         if len(name) > 255:
@@ -206,9 +203,7 @@ class Uploader:
 
         return name, None
 
-    def _update_or_create_schema(
-            self, name: str, processed_file: ProcessedFile
-    ) -> Tuple[bool, BackendResponse]:
+    def _update_or_create_schema(self, name: str, processed_file: ProcessedFile) -> Tuple[bool, BackendResponse]:
         existing_schema = self.find_schema(name)
         current_reference_url = ""
         current_description = ""
@@ -348,8 +343,7 @@ def report_summary(base_path: str, results: List[UploaderResult]) -> List[Tuple[
             summary.append(
                 (
                     True,
-                    f"Failed to update schema from definition"
-                    f" in file '{filename}': {result.error}",
+                    f"Failed to update schema from definition" f" in file '{filename}': {result.error}",
                 )
             )
         else:
@@ -360,8 +354,7 @@ def report_summary(base_path: str, results: List[UploaderResult]) -> List[Tuple[
             summary.append(
                 (
                     False,
-                    f"Successfully {operation} schema '{result.name}' "
-                    f"from definition in file '{filename}'",
+                    f"Successfully {operation} schema '{result.name}' " f"from definition in file '{filename}'",
                 )
             )
     return summary
