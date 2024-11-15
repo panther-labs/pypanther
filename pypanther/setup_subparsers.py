@@ -124,13 +124,6 @@ def setup_upload_parser(upload_parser: argparse.ArgumentParser):
         default="schemas/",
         required=False,
     )
-    upload_parser.add_argument(
-        "--schemas-only",
-        help="Upload schemas only to Panther",
-        default=False,
-        required=False,
-        action="store_true",
-    )
     dry_run_group = upload_parser.add_mutually_exclusive_group()
     dry_run_group.add_argument(
         "--skip-summary",

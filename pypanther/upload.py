@@ -74,9 +74,9 @@ def run(backend: BackendClient, args: argparse.Namespace) -> Tuple[int, str]:
         return 1, ""
 
     # upload schemas first
-    ret = schemas.run(backend, args)
-    if args.schemas_only:
-        return ret
+    ret_value, err_msg = schemas.run(backend, args)
+    if ret_value != 0:
+        return ret_value, err_msg
 
     test_results = testing.TestResults()  # default to something, so it can be used below in output
     if not args.skip_tests:
