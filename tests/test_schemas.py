@@ -11,7 +11,7 @@ from pypanther.backend.client import (
     UpdateSchemaParams,
     UpdateSchemaResponse,
 )
-from pypanther.backend.mocks import MockBackend
+from tests.mocks import MockBackend
 
 fixtures_dir = Path(__file__).parent / Path("fixtures")
 FIXTURES_PATH = fixtures_dir.absolute()
