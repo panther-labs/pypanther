@@ -7,7 +7,6 @@ from itertools import filterfalse
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Tuple, cast
 
-from gql.transport.exceptions import TransportQueryError
 from ruamel.yaml import YAML
 from ruamel.yaml.composer import ComposerError
 from ruamel.yaml.parser import ParserError

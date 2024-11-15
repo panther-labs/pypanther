@@ -28,8 +28,6 @@ from pathlib import Path
 from typing import TYPE_CHECKING, Any, Dict, List, Optional
 from urllib.parse import urlparse
 
-from gql.transport.exceptions import TransportQueryError
-
 if TYPE_CHECKING:
     # defer loading to improve performance
     from gql import Client as GraphQLClient
@@ -441,6 +439,8 @@ class PublicAPIClient(Client):  # pylint: disable=too-many-public-methods
         return BackendResponse(status_code=200, data=ListSchemasResponse(schemas=schemas))
 
     def update_schema(self, params: UpdateSchemaParams) -> BackendResponse:
+        from gql.transport.exceptions import TransportQueryError
+
         gql_params = {
             "input": {
                 "description": params.description,
