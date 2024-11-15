@@ -118,6 +118,12 @@ def setup_upload_parser(upload_parser: argparse.ArgumentParser):
         choices=display.COMMON_CLI_OUTPUT_TYPES,
         default=display.DEFAULT_CLI_OUTPUT_TYPE,
     )
+    upload_parser.add_argument(
+        "--schemas-path",
+        help="Path to the schemas directory",
+        default="schemas/",
+        required=False,
+    )
     dry_run_group = upload_parser.add_mutually_exclusive_group()
     dry_run_group.add_argument(
         "--skip-summary",

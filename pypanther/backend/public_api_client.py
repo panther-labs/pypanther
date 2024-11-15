@@ -439,6 +439,8 @@ class PublicAPIClient(Client):  # pylint: disable=too-many-public-methods
         return BackendResponse(status_code=200, data=ListSchemasResponse(schemas=schemas))
 
     def update_schema(self, params: UpdateSchemaParams) -> BackendResponse:
+        from gql.transport.exceptions import TransportQueryError
+
         gql_params = {
             "input": {
                 "description": params.description,
@@ -449,11 +451,14 @@ class PublicAPIClient(Client):  # pylint: disable=too-many-public-methods
                 "isFieldDiscoveryEnabled": params.field_discovery_enabled,
             },
         }
-        res = self._execute(self._requests.update_schema_mutation(), gql_params)
-        if res.errors:
-            for err in res.errors:
-                logging.error(err.message)
-            raise BackendError(res.errors)
+        try:
+            res = self._execute(self._requests.update_schema_mutation(), gql_params)
+            if res.errors:
+                for err in res.errors:
+                    logging.error(err.message)
+                raise BackendError(res.errors)
+        except TransportQueryError as exc:
+            raise BackendError(exc)
 
         if res.data is None:
             raise BackendError("empty data")
