@@ -12,7 +12,8 @@ from pypanther.setup_subparsers import (
     setup_list_rules_parser,
     setup_test_parser,
     setup_upload_parser,
-    setup_convert_parser
+    setup_convert_parser,
+    setup_infer_parser
 )
 from pypanther.backend import util
 from pypanther.command import standard_args
@@ -140,6 +141,14 @@ def setup_parser() -> argparse.ArgumentParser:
         formatter_class=argparse.ArgumentDefaultsHelpFormatter,
     )
     setup_convert_parser(convert_parser)
+
+    # infer command
+    infer_parser = subparsers.add_parser(
+        name="infer",
+        help="Infer schemas based on payloads",
+        formatter_class=argparse.ArgumentDefaultsHelpFormatter,
+    )
+    setup_infer_parser(infer_parser)
 
     return parser
 

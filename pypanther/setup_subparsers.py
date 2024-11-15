@@ -1,7 +1,7 @@
 import argparse
 import pathlib
 
-from pypanther import display, generate, get_rule, list_log_types, list_rules, shared_args, upload
+from pypanther import display, generate, get_rule, list_log_types, list_rules, shared_args, upload, infer
 from pypanther.backend import util
 
 
@@ -180,4 +180,12 @@ def setup_convert_parser(convert_parser: argparse.ArgumentParser):
         "panther_analysis_path",
         help="Path to the Panther Analysis directory",
         type=pathlib.Path,
+    )
+
+
+def setup_infer_parser(convert_parser: argparse.ArgumentParser):
+    convert_parser.set_defaults(
+        func=infer.run,
+        keep_all_rules=False,
+        cwd_must_be_empty=True,
     )
