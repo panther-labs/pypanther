@@ -30,7 +30,7 @@ def run(backend: BackendClient, args: argparse.Namespace) -> Tuple[int, str]:
         if failed:
             has_errors = True
             print(cli_output.failed("Error: " + summary))
-        elif not args.skip_summary:
+        elif args.verbose:
             print(cli_output.cyan(summary))
 
     return int(has_errors), ""
