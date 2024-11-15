@@ -173,8 +173,6 @@ class Uploader:
                     result.backend_response = response
                 except BackendError as exc:
                     result.error = f"failure to update schema {name}: " f"message={exc}"
-                except TransportQueryError as exc:
-                    result.error = f"failure to update schema {name}: " f"message={exc}"
             results.append(result)
         return results
 

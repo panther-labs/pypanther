@@ -28,6 +28,8 @@ from pathlib import Path
 from typing import TYPE_CHECKING, Any, Dict, List, Optional
 from urllib.parse import urlparse
 
+from gql.transport.exceptions import TransportQueryError
+
 if TYPE_CHECKING:
     # defer loading to improve performance
     from gql import Client as GraphQLClient
@@ -449,11 +451,14 @@ class PublicAPIClient(Client):  # pylint: disable=too-many-public-methods
                 "isFieldDiscoveryEnabled": params.field_discovery_enabled,
             },
         }
-        res = self._execute(self._requests.update_schema_mutation(), gql_params)
-        if res.errors:
-            for err in res.errors:
-                logging.error(err.message)
-            raise BackendError(res.errors)
+        try:
+            res = self._execute(self._requests.update_schema_mutation(), gql_params)
+            if res.errors:
+                for err in res.errors:
+                    logging.error(err.message)
+                raise BackendError(res.errors)
+        except TransportQueryError as exc:
+            raise BackendError(exc)
 
         if res.data is None:
             raise BackendError("empty data")
