@@ -9,6 +9,7 @@ from dataclasses import asdict
 from fnmatch import fnmatch
 from pathlib import Path
 from typing import Any, Optional, Tuple, TypedDict
+from requests import put
 
 from pypanther import cli_output, display, schemas, testing
 from pypanther.backend.client import (
@@ -239,6 +240,9 @@ def upload_zip(
     verbose: bool,
     output_type: str,
 ) -> AsyncBulkUploadStatusResponse:
+
+    response = backend.detections_upload_presigned_url()
+
     with open(archive, "rb") as analysis_zip:
         if verbose and output_type == display.OUTPUT_TYPE_TEXT:
             print(cli_output.header("Uploading to Panther"))
@@ -246,6 +250,10 @@ def upload_zip(
             print("Uploading to Panther")
             print()  # new line
 
+        print("making PUT to presigned URL")
+        put(response.data.detections_url, data=analysis_zip.read())
+        print("finished making PUT to presigned URL")
+        analysis_zip.seek(0)
         upload_params = AsyncBulkUploadParams(zip_bytes=analysis_zip.read(), dry_run=False)
         retry_count = 0
 

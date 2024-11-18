@@ -78,7 +78,7 @@ from .client import (
     UpdateSchemaParams,
     UpdateSchemaResponse,
     to_bulk_upload_response,
-    to_bulk_upload_statistics,
+    to_bulk_upload_statistics, UploadDetectionsPresignedURLResponse,
 )
 from .errors import is_retryable_error, is_retryable_error_str
 
@@ -105,6 +105,9 @@ class PublicAPIRequests:  # pylint: disable=too-many-public-methods
 
     def delete_detections_query(self) -> "DocumentNode":
         return self._load("delete_detections")
+
+    def detections_upload_presigned_url_query(self) -> "DocumentNode":
+        return self._load("bulk_upload_presigned_url")
 
     def async_bulk_upload_mutation(self) -> "DocumentNode":
         return self._load("async_bulk_upload")
@@ -203,6 +206,17 @@ class PublicAPIClient(Client):  # pylint: disable=too-many-public-methods
             )
 
         return BackendCheckResponse(success=True, message=f"connected to Panther backend on version: {panther_version}")
+
+    def detections_upload_presigned_url(self) -> BackendResponse[UploadDetectionsPresignedURLResponse]:
+        query = self._requests.detections_upload_presigned_url_query()
+        res = self._safe_execute(query)
+        url = res.data.get("bulkUploadPresignedUrl", {}).get("detectionsURL")
+        session_id = res.data.get("bulkUploadPresignedUrl", {}).get("sessionId")
+        return BackendResponse(
+            status_code=200,
+            data=UploadDetectionsPresignedURLResponse(detections_url=url, session_id=session_id),
+        )
+
 
     def async_bulk_upload(self, params: AsyncBulkUploadParams) -> BackendResponse[AsyncBulkUploadResponse]:
         query = self._requests.async_bulk_upload_mutation()

@@ -268,6 +268,11 @@ class AsyncBulkUploadStatusResponse:
 class BulkUploadResponse:
     rules: BulkUploadStatistics
 
+@dataclass(frozen=True)
+class UploadDetectionsPresignedURLResponse:
+    detections_url: str
+    session_id: str
+
 
 @dataclass(frozen=True)
 class AsyncBulkUploadResponse:
@@ -518,6 +523,10 @@ class Client(ABC):
 
     @abstractmethod
     def async_bulk_upload(self, params: AsyncBulkUploadParams) -> BackendResponse[AsyncBulkUploadResponse]:
+        pass
+
+    @abstractmethod
+    def detections_upload_presigned_url(self) -> BackendResponse[UploadDetectionsPresignedURLResponse]:
         pass
 
     @abstractmethod

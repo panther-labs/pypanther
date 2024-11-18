@@ -1,0 +1,6 @@
+query bulkUploadPresignedUrl {
+    bulkUploadPresignedUrl {
+        detectionsURL
+        sessionId
+    }
+}
