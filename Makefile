@@ -1,6 +1,5 @@
 publish:
 	rm -rf dist
-	mkdir dist
 	git checkout main
 	git pull
 	./pantherlogfetch.sh

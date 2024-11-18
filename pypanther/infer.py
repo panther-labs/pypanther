@@ -2,20 +2,27 @@ import argparse
 import subprocess
 from typing import Tuple
 
-from pypanther import cli_output
 from pkg_resources import resource_filename
 
 
-def get_binary_path():
+def get_binary_path() -> str:
     return resource_filename("pypanther", "pantherlog")
 
 
 def run(args: argparse.Namespace) -> Tuple[int, str]:
-    binary_path = get_binary_path()
+    cmd = [get_binary_path(), "infer"]
 
-    if args is None:
-        args = []
+    if args.name:
+        cmd.extend(["--name", args.name])
+    if args.out:
+        cmd.extend(["--out", args.out])
+    if args.stream:
+        cmd.extend(["--stream", args.stream])
+    if args.skip_tests:
+        cmd.append("--skip-tests")
 
-    # Run the binary and forward everything (letting the binary print to stdout)
-    result = subprocess.run([str(binary_path), *args])
+    if args.extra_args:
+        cmd.extend(args.extra_args)
+
+    result = subprocess.run(cmd, check=False)
     return result.returncode, ""

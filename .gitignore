@@ -13,3 +13,6 @@ main.py
 
 # Schemas folder for uploading
 schemas/
+
+# Pantherlog artifact
+pypanther/pantherlog

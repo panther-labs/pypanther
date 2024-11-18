@@ -7,7 +7,7 @@ readme = "README.md"
 keywords = ["Security", "CLI"]
 classifiers = ["Operating System :: OS Independent"]
 license = "AGPL-3.0-only"
-include = ["pypanther/py.typed", "dist/pantherlog"]
+include = ["pypanther/py.typed", "pypanther/pantherlog"]
 
 [tool.poetry.dependencies]
 python = "3.11.*"

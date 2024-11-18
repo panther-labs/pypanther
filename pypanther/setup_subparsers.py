@@ -1,7 +1,7 @@
 import argparse
 import pathlib
 
-from pypanther import display, generate, get_rule, list_log_types, list_rules, shared_args, upload, infer
+from pypanther import display, generate, get_rule, infer, list_log_types, list_rules, shared_args, upload
 from pypanther.backend import util
 
 
@@ -186,6 +186,35 @@ def setup_convert_parser(convert_parser: argparse.ArgumentParser):
 def setup_infer_parser(convert_parser: argparse.ArgumentParser):
     convert_parser.set_defaults(
         func=infer.run,
-        keep_all_rules=False,
-        cwd_must_be_empty=True,
+    )
+    convert_parser.add_argument(
+        "--name",
+        "-n",
+        help="The name of the inferred Custom Schema",
+        required=False,
+    )
+    convert_parser.add_argument(
+        "--out",
+        "-o",
+        help="Write inferred schema to OUTPUT_FILE (default: stdout)",
+        required=False,
+    )
+    convert_parser.add_argument(
+        "--stream",
+        help="The log stream type to use when reading files (default: auto)",
+        required=False,
+        choices=["auto", "lines", "json", "jsonarray", "cloudwatchlogs"],
+        default="auto",
+    )
+    convert_parser.add_argument(
+        "--skip-tests",
+        help="Skip testing the inferred schema against the input files (default: False)",
+        required=False,
+        default=False,
+        action="store_true",
+    )
+    convert_parser.add_argument(
+        "extra_args",
+        nargs=argparse.REMAINDER,
+        help="Additional arguments to pass directly to the subprocess.",
     )
