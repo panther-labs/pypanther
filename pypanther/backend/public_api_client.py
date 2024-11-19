@@ -80,7 +80,7 @@ from .client import (
     to_bulk_upload_response,
     to_bulk_upload_statistics, UploadDetectionsPresignedURLResponse,
     BulkUploadDetectionsParams, BulkUploadDetectionsResponse, BulkUploadDetectionsStatusParams,
-    BulkUploadDetectionsStatusResponse,
+    BulkUploadDetectionsStatusResponse, BulkUploadDetectionsResults,
 )
 from .errors import is_retryable_error, is_retryable_error_str
 
@@ -246,12 +246,23 @@ class PublicAPIClient(Client):  # pylint: disable=too-many-public-methods
             "input": params.job_id
         }
         res = self._safe_execute(query, variable_values=upload_params).data.get("bulkUploadDetectionsStatus", {})
+
+        if res.get("results"):
+            results = BulkUploadDetectionsResults(
+                new_rule_ids=res.get("results").get("newRuleIds"),
+                modified_rule_ids=res.get("results").get("modifiedRuleIds"),
+                deleted_rule_ids=res.get("results").get("deletedRuleIds"),
+                total_rule_ids=res.get("results").get("totalRuleIds"),
+            )
+        else:
+            results = None
+
         return BackendResponse(
             status_code=200,
             data=BulkUploadDetectionsStatusResponse(
                 status=res.get("status"),
                 message=res.get("message"),
-                results=res.get("results"),
+                results=results,
             ),
         )
 

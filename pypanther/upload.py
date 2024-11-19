@@ -270,7 +270,12 @@ def upload_zip(
                 return None
             if status_response.data.status == "Succeeded":
                 print("status is succeeded")
-                print("status response: ", status_response.data.results)
+                print("status response: ", {
+                    "newRules": len(status_response.data.results.new_rule_ids) if status_response.data.results.new_rule_ids else 0,
+                    "modifiedRules": len(status_response.data.results.modified_rule_ids) if status_response.data.results.modified_rule_ids else 0,
+                    "deletedRules": len(status_response.data.results.deleted_rule_ids) if status_response.data.results.deleted_rule_ids else 0,
+                    "totalRules": len(status_response.data.results.total_rule_ids) if status_response.data.results.total_rule_ids else 0,
+                })
                 return None
 
         analysis_zip.seek(0)
