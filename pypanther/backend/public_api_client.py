@@ -242,17 +242,17 @@ class PublicAPIClient(Client):  # pylint: disable=too-many-public-methods
 
     def bulk_upload_detections_status(self, params: BulkUploadDetectionsStatusParams) -> BackendResponse[BulkUploadDetectionsStatusResponse]:
         query = self._requests.async_bulk_upload_detections_status_query()
-        print ("bulk upload detections status params are ", params)
         upload_params = {
             "input": params.job_id
         }
-        res = self._safe_execute(query, variable_values=upload_params)
-        print("executed bulk upload detections status and got ", res)
-        url = res.data.get("uploadDetectionEntitiesAsync", {}).get("detectionsURL")
-        session_id = res.data.get("uploadDetectionEntitiesAsync", {}).get("sessionId")
+        res = self._safe_execute(query, variable_values=upload_params).data.get("bulkUploadDetectionsStatus", {})
         return BackendResponse(
             status_code=200,
-            data=UploadDetectionsPresignedURLResponse(detections_url=url, session_id=session_id),
+            data=BulkUploadDetectionsStatusResponse(
+                status=res.get("status"),
+                message=res.get("message"),
+                results=res.get("results"),
+            ),
         )
 
 

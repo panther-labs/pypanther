@@ -1,4 +1,5 @@
 import argparse
+import base64
 import json
 import logging
 import os
@@ -251,23 +252,26 @@ def upload_zip(
             print()  # new line
 
         print("making PUT to presigned URL")
-        put(response.data.detections_url, data=analysis_zip.read())
+        data = base64.b64encode(analysis_zip.read()).decode("utf-8")
+        put(response.data.detections_url, data=data)
         print("finished making PUT to presigned URL")
 
-        print("calling bulk upload")
+        print("calling bulk upload for sessionID ", response.data.session_id)
         resp = backend.bulk_upload_detections(BulkUploadDetectionsParams(session_id=response.data.session_id, dry_run=False))
-        print("finished bulk upload and got response", resp)
 
         while True:
-            time.sleep(2)
+            time.sleep(1)
             status_response = backend.bulk_upload_detections_status(
                 BulkUploadDetectionsStatusParams(job_id=resp.data.job_id),
             )
-            print("status response: ", status_response)
-            if status_response.data.status == "COMPLETED":
-                print ("status is completed")
-                break
-            print ("status is not completed")
+            print("status response: ", status_response.data.status)
+            if status_response.data.status == "Failed":
+                print("status is failed with error ", status_response.data.message)
+                return None
+            if status_response.data.status == "Succeeded":
+                print("status is succeeded")
+                print("status response: ", status_response.data.results)
+                return None
 
         analysis_zip.seek(0)
         upload_params = AsyncBulkUploadParams(zip_bytes=analysis_zip.read(), dry_run=False)
