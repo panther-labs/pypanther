@@ -1,4 +1,4 @@
-query asyncBulkUploadDetectionsStatus($input: jobId!) {
+query asyncBulkUploadDetectionsStatus($input: ID!) {
     bulkUploadDetectionsStatus(jobId: $input) {
         message
         status

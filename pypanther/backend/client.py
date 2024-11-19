@@ -23,7 +23,7 @@ import datetime
 import json
 from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
-from typing import Any, Dict, Generic, List, Optional, TypeVar
+from typing import Any, Dict, Generic, List, Optional, TypeVar, TypedDict
 
 import dateutil.parser
 
@@ -59,6 +59,14 @@ class BackendCheckResponse:
     success: bool
     message: str
 
+@dataclass(frozen=True)
+class BulkUploadDetectionsParams:
+    session_id: str
+    dry_run: bool
+
+@dataclass(frozen=True)
+class BulkUploadDetectionsStatusParams:
+    job_id: str
 
 @dataclass(frozen=True)
 class AsyncBulkUploadParams:
@@ -272,6 +280,23 @@ class BulkUploadResponse:
 class UploadDetectionsPresignedURLResponse:
     detections_url: str
     session_id: str
+
+@dataclass(frozen=True)
+class BulkUploadDetectionsResponse:
+    job_id: str
+
+@dataclass(frozen=True)
+class BulkUploadDetectionsResults:
+    new_rule_ids: list[str]
+    modified_rule_ids: list[str]
+    deleted_rule_ids: list[str]
+    total_rule_ids: list[str]
+
+@dataclass(frozen=True)
+class BulkUploadDetectionsStatusResponse:
+    message: str
+    status: str
+    results: BulkUploadDetectionsResults
 
 
 @dataclass(frozen=True)
@@ -527,6 +552,14 @@ class Client(ABC):
 
     @abstractmethod
     def detections_upload_presigned_url(self) -> BackendResponse[UploadDetectionsPresignedURLResponse]:
+        pass
+
+    @abstractmethod
+    def bulk_upload_detections(self, params: BulkUploadDetectionsParams) -> BackendResponse[BulkUploadDetectionsResponse]:
+        pass
+
+    @abstractmethod
+    def bulk_upload_detections_status(self, params: BulkUploadDetectionsStatusParams) -> BackendResponse[BulkUploadDetectionsStatusResponse]:
         pass
 
     @abstractmethod

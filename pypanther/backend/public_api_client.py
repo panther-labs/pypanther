@@ -79,6 +79,8 @@ from .client import (
     UpdateSchemaResponse,
     to_bulk_upload_response,
     to_bulk_upload_statistics, UploadDetectionsPresignedURLResponse,
+    BulkUploadDetectionsParams, BulkUploadDetectionsResponse, BulkUploadDetectionsStatusParams,
+    BulkUploadDetectionsStatusResponse,
 )
 from .errors import is_retryable_error, is_retryable_error_str
 
@@ -108,6 +110,12 @@ class PublicAPIRequests:  # pylint: disable=too-many-public-methods
 
     def detections_upload_presigned_url_query(self) -> "DocumentNode":
         return self._load("bulk_upload_presigned_url")
+
+    def async_bulk_upload_detections_mutation(self) -> "DocumentNode":
+        return self._load("async_bulk_upload_detections")
+
+    def async_bulk_upload_detections_status_query(self) -> "DocumentNode":
+            return self._load("async_bulk_upload_detections_status")
 
     def async_bulk_upload_mutation(self) -> "DocumentNode":
         return self._load("async_bulk_upload")
@@ -212,6 +220,36 @@ class PublicAPIClient(Client):  # pylint: disable=too-many-public-methods
         res = self._safe_execute(query)
         url = res.data.get("bulkUploadPresignedUrl", {}).get("detectionsURL")
         session_id = res.data.get("bulkUploadPresignedUrl", {}).get("sessionId")
+        return BackendResponse(
+            status_code=200,
+            data=UploadDetectionsPresignedURLResponse(detections_url=url, session_id=session_id),
+        )
+
+    def bulk_upload_detections(self, params: BulkUploadDetectionsParams) -> BackendResponse[BulkUploadDetectionsResponse]:
+        query = self._requests.async_bulk_upload_detections_mutation()
+        upload_params = {
+            "input": {
+                "dryRun": params.dry_run,
+                "sessionId": params.session_id,
+            },
+        }
+        res = self._safe_execute(query, variable_values=upload_params)
+        job_id = res.data.get("bulkUploadDetections", {}).get("id")
+        return BackendResponse(
+            status_code=200,
+            data=BulkUploadDetectionsResponse(job_id=job_id),
+        )
+
+    def bulk_upload_detections_status(self, params: BulkUploadDetectionsStatusParams) -> BackendResponse[BulkUploadDetectionsStatusResponse]:
+        query = self._requests.async_bulk_upload_detections_status_query()
+        print ("bulk upload detections status params are ", params)
+        upload_params = {
+                "jobId": params.job_id,
+        }
+        res = self._safe_execute(query, variable_values=upload_params)
+        print("executed bulk upload detections status and got ", res)
+        url = res.data.get("uploadDetectionEntitiesAsync", {}).get("detectionsURL")
+        session_id = res.data.get("uploadDetectionEntitiesAsync", {}).get("sessionId")
         return BackendResponse(
             status_code=200,
             data=UploadDetectionsPresignedURLResponse(detections_url=url, session_id=session_id),

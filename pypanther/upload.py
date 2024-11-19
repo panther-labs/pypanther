@@ -18,7 +18,7 @@ from pypanther.backend.client import (
     AsyncBulkUploadStatusResponse,
     BackendError,
     BackendResponse,
-    BulkUploadMultipartError,
+    BulkUploadMultipartError, BulkUploadDetectionsParams, BulkUploadDetectionsStatusParams,
 )
 from pypanther.backend.client import Client as BackendClient
 from pypanther.backend.util import convert_unicode
@@ -253,6 +253,22 @@ def upload_zip(
         print("making PUT to presigned URL")
         put(response.data.detections_url, data=analysis_zip.read())
         print("finished making PUT to presigned URL")
+
+        print("calling bulk upload")
+        resp = backend.bulk_upload_detections(BulkUploadDetectionsParams(session_id=response.data.session_id, dry_run=False))
+        print("finished bulk upload and got response", resp)
+
+        while True:
+            time.sleep(2)
+            status_response = backend.bulk_upload_detections_status(
+                BulkUploadDetectionsStatusParams(job_id=resp.data.job_id),
+            )
+            print("status response: ", status_response)
+            if status_response.data.status == "COMPLETED":
+                print ("status is completed")
+                break
+            print ("status is not completed")
+
         analysis_zip.seek(0)
         upload_params = AsyncBulkUploadParams(zip_bytes=analysis_zip.read(), dry_run=False)
         retry_count = 0
