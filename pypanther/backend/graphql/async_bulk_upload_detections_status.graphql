@@ -1,4 +1,4 @@
-query asyncBulkUploadDetectionsStatus($input: ID!) {
+query bulkUploadDetectionsStatus($input: ID!) {
     bulkUploadDetectionsStatus(jobId: $input) {
         message
         status
@@ -10,3 +10,7 @@ query asyncBulkUploadDetectionsStatus($input: ID!) {
         }
     }
 }
+
+#bulkUploadDetectionsStatus(jobId: ID!): BulkUploadJob!
+#@auth(permissions: [BulkUpload])
+#@audit(name: "GET_BULK_UPLOAD_DETECTIONS_STATUS")
