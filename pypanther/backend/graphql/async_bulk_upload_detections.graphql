@@ -1,0 +1,5 @@
+mutation asyncBulkUploadDetections($input: BulkUploadDetectionsInput!) {
+    bulkUploadDetections(input: $input) {
+        id
+    }
+}
