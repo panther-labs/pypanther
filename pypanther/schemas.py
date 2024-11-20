@@ -21,7 +21,7 @@ def run(backend: BackendClient, args: argparse.Namespace) -> Tuple[int, str]:
     absolute_path = normalize_path(args.schemas_path)
     if not absolute_path:
         if args.verbose:
-            print(cli_output.cyan("Schemas directory not found. Skipping schemas upload."))
+            print(cli_output.warning("Schemas directory not found. Skipping schemas upload."))
         return 0, ""
 
     uploader = Uploader(absolute_path, backend, args.dry_run)
