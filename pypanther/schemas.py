@@ -20,7 +20,9 @@ from pypanther.backend.client import Client as BackendClient
 def run(backend: BackendClient, args: argparse.Namespace) -> Tuple[int, str]:
     absolute_path = normalize_path(args.schemas_path)
     if not absolute_path:
-        return 1, f"path not found: {args.schemas_path}"
+        if args.verbose:
+            print(cli_output.warning("Schemas directory not found. Skipping schemas upload."))
+        return 0, ""
 
     uploader = Uploader(absolute_path, backend, args.dry_run)
     results = uploader.process()
@@ -137,7 +139,7 @@ class Uploader:
 
         """
         if not self.files:
-            logging.warning("No files found in path '%s'", self._path)
+            logging.debug("No files found in path '%s'", self._path)
             return []
 
         processed_files = self._load_from_yaml(self.files)
