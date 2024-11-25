@@ -1,6 +1,8 @@
 import os
 from abc import ABC, abstractmethod
 
+from pypanther.log_types import LogType
+
 
 class Lookup:
     """
@@ -16,7 +18,7 @@ class Lookup:
         Indicates if the lookup is enabled/active, default is True.
     lookup_id : str
         The unique identifier for the lookup which will be used in rules/queries.
-    schema_id : str
+    log_type : str
         The schema identifier associated with the lookup data.
     log_type_map : dict
         A mapping of log types to use when the schema does not contain indicator fields.
@@ -40,7 +42,7 @@ class Lookup:
     lookup_type: str = ""
     enabled: bool = True
     lookup_id: str = ""
-    schema_id: str = ""
+    log_type: str = ""
     log_type_map: dict = {}  # Use the data model v2 FieldMapping class
     description: str = ""
     reference: str = ""
@@ -51,7 +53,7 @@ class Lookup:
             "analysis_type": self._analysis_type,
             "enabled": self.enabled,
             "lookup_name": self.lookup_id,
-            "schema": self.schema_id,
+            "schema": self.log_type,
             "log_type_map": self.log_type_map,
             "description": self.description,
             "reference": self.reference,
