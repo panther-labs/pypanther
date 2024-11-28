@@ -3,7 +3,8 @@ import unittest
 import pytest
 
 from pypanther import LogType, register
-from pypanther.base import Rule, Severity
+from pypanther.base import Rule, Severity, ScheduledRule
+from pypanther.saved_query import SavedQuery
 from pypanther.data_models_v2 import DataModel
 from pypanther.registry import _DATA_MODEL_REGISTRY, _RULE_REGISTRY, registered_data_models, registered_rules
 
@@ -47,6 +48,19 @@ class RuleB(Rule):
     def rule(self, _):
         pass
 
+
+class ASavedQuery(SavedQuery):
+    id = "saved_query"
+    def query(self) -> str:
+        return "SELECT * FROM table"
+
+class RuleScheduledA(ScheduledRule):
+    id = "rule_scheduled"
+    query_id = "saved_query"
+    default_severity = Severity.LOW
+
+    def rule(self, _):
+        pass
 
 class TestRegister(unittest.TestCase):
     def setUp(self):
@@ -137,6 +151,13 @@ class TestRegister(unittest.TestCase):
                 id = "a"
 
             register([A, 42])
+
+    def test_register_rule_scheduled(self):
+        register(RuleA)
+        register(SavedQuery)
+        register(RuleScheduledA)
+        assert len(registered_rules()) == 2
+        assert RuleA in registered_rules()
 
 
 class TestRegisteredRules:

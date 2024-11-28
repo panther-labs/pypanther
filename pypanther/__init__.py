@@ -1,7 +1,9 @@
 from pypanther.base import DataModel as DataModel
 from pypanther.base import DataModelMapping as DataModelMapping
-from pypanther.base import Rule as Rule
 from pypanther.base import panther_managed as panther_managed
+from pypanther.base import Rule as Rule
+from pypanther.base import ScheduledRule as ScheduledRule
+from pypanther.saved_query import SavedQuery as SavedQuery
 from pypanther.get import get_panther_rules as get_panther_rules
 from pypanther.get import get_rules as get_rules
 from pypanther.log_types import LogType as LogType

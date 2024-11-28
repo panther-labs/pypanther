@@ -6,8 +6,9 @@ import logging
 import os
 import sys
 from dataclasses import dataclass
-from typing import Any, Callable, Dict, List, Literal, Mapping, Optional, Tuple, Type, Union
+from typing import Any, Callable, Dict, List, Literal, Mapping, Optional, Tuple, Type, Union, Self
 from unittest.mock import MagicMock, patch
+from pydantic import BaseModel, NonNegativeInt, PositiveInt, TypeAdapter, model_validator
 
 from jsonpath_ng import Fields
 from jsonpath_ng.ext import parse
@@ -15,7 +16,6 @@ from panther_core.detection import DetectionResult
 from panther_core.enriched_event import PantherEvent
 from panther_core.exceptions import FunctionReturnTypeError, UnknownDestinationError
 from panther_core.util import get_bool_env_var
-from pydantic import BaseModel, NonNegativeInt, PositiveInt, TypeAdapter
 
 from pypanther.log_types import LogType
 from pypanther.severity import SEVERITY_DEFAULT, SEVERITY_TYPES, Severity
@@ -88,6 +88,7 @@ RULE_ALL_ATTRS = [
     "display_name",
     "enabled",
     "log_types",
+    "query_id",
     "id",
     "summary_attributes",
     "tests",
@@ -138,7 +139,8 @@ class RuleModel(BaseModel):
     dedup_period_minutes: NonNegativeInt
     display_name: str
     enabled: bool
-    log_types: NonEmptyUniqueList[str]
+    log_types: Optional[NonEmptyUniqueList[str]] = None
+    query_id: Optional[str] = None  # it's either log_types or query
     id: str
     summary_attributes: UniqueList[str]
     tests: List[RuleTest]
@@ -152,6 +154,12 @@ class RuleModel(BaseModel):
     default_runbook: str
     default_reference: str
     default_severity: Severity
+
+    @model_validator(mode="after")
+    def verify_log_types_or_query(self) -> Self:
+        if (self.log_types and self.query_id) or (not self.log_types and not self.query_id):
+            raise ValueError("Expected log_types or query but not both.")
+        return self
 
 
 RuleAdapter = TypeAdapter(RuleModel)
@@ -175,10 +183,9 @@ DEFAULT_EXCLUDE_FILTERS: list[Callable[[PantherEvent], bool]] = []
 SeverityType = Union[Severity | Literal["DEFAULT"] | str]
 
 
-class Rule(metaclass=abc.ABCMeta):
+class BaseRule(metaclass=abc.ABCMeta):
     """A Panther rule class. This class should be subclassed to create a new rule."""
 
-    log_types: List[LogType | str]
     id: str
     create_alert: bool = DEFAULT_CREATE_ALERT
     dedup_period_minutes: NonNegativeInt = DEFAULT_DEDUP_PERIOD_MINUTES
@@ -347,7 +354,7 @@ class Rule(metaclass=abc.ABCMeta):
         test_names: Optional[List[str]] = None,
     ) -> list[RuleTestResult]:
         """
-        Runs all RuleTests in this Rules' Test attribute over this Rule.
+        Runs all RuleTests in these Rules' Test attribute over this Rule.
 
         Parameters
         ----------
@@ -535,7 +542,7 @@ class Rule(metaclass=abc.ABCMeta):
 
         if batch_mode:
             # batch mode ignores errors
-            # in the panther backend, we check if any error occured during running and if we get one,
+            # in the panther backend, we check if any error occurred during running and if we get one,
             # we return a detection error instead of an alert. To make sure alerts are still returned,
             # we need to set these to None.
             result.title_exception = None
@@ -732,6 +739,15 @@ class Rule(metaclass=abc.ABCMeta):
             )
 
 
+# Streaming Rule
+class Rule(BaseRule, metaclass=abc.ABCMeta):
+    log_types: list[LogType | str]
+
+
+class ScheduledRule(BaseRule, metaclass=abc.ABCMeta):
+    query_id: str
+
+
 @contextlib.contextmanager
 def suppress_output():
     original_stdout = sys.stdout
@@ -751,7 +767,7 @@ def noop():
     yield
 
 
-def panther_managed(cls: Type[Rule]) -> Type[Rule]:
+def panther_managed(cls: Type[BaseRule]) -> Type[BaseRule]:
     """Decorator to apply to OOTB rules written by Panther."""
     cls._tests = cls.tests  # type: ignore
     cls.tests = []
