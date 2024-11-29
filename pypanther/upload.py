@@ -1,5 +1,6 @@
 import argparse
 import base64
+import importlib
 import json
 import logging
 import os
@@ -20,6 +21,7 @@ from pypanther.backend.client import (
     BackendError,
     BackendResponse,
     BulkUploadMultipartError, BulkUploadDetectionsParams, BulkUploadDetectionsStatusParams,
+    UploadDetectionsPresignedURLParams,
 )
 from pypanther.backend.client import Client as BackendClient
 from pypanther.backend.util import convert_unicode
@@ -241,8 +243,8 @@ def upload_zip(
     verbose: bool,
     output_type: str,
 ) -> AsyncBulkUploadStatusResponse:
-
-    response = backend.detections_upload_presigned_url()
+    pyPantherVersion =  importlib.metadata.version("pypanther")
+    response = backend.detections_upload_presigned_url(params=UploadDetectionsPresignedURLParams(pypanther_version=pyPantherVersion))
 
     with open(archive, "rb") as analysis_zip:
         if verbose and output_type == display.OUTPUT_TYPE_TEXT:
@@ -253,7 +255,10 @@ def upload_zip(
 
         print("making PUT to presigned URL")
         data = base64.b64encode(analysis_zip.read()).decode("utf-8")
-        put(response.data.detections_url, data=data)
+        headers = {
+            "x-amz-meta-pypantherversion": pyPantherVersion
+        }
+        put(response.data.detections_url, data=data, headers=headers)
         print("finished making PUT to presigned URL")
 
         print("calling bulk upload for sessionID ", response.data.session_id)

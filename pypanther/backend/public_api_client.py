@@ -80,7 +80,7 @@ from .client import (
     to_bulk_upload_response,
     to_bulk_upload_statistics, UploadDetectionsPresignedURLResponse,
     BulkUploadDetectionsParams, BulkUploadDetectionsResponse, BulkUploadDetectionsStatusParams,
-    BulkUploadDetectionsStatusResponse, BulkUploadDetectionsResults,
+    BulkUploadDetectionsStatusResponse, BulkUploadDetectionsResults, UploadDetectionsPresignedURLParams,
 )
 from .errors import is_retryable_error, is_retryable_error_str
 
@@ -215,9 +215,14 @@ class PublicAPIClient(Client):  # pylint: disable=too-many-public-methods
 
         return BackendCheckResponse(success=True, message=f"connected to Panther backend on version: {panther_version}")
 
-    def detections_upload_presigned_url(self) -> BackendResponse[UploadDetectionsPresignedURLResponse]:
+    def detections_upload_presigned_url(self, params: UploadDetectionsPresignedURLParams) -> BackendResponse[UploadDetectionsPresignedURLResponse]:
         query = self._requests.detections_upload_presigned_url_query()
-        res = self._safe_execute(query)
+        request_pararms = {
+            "input": {
+                "pypantherVersion": params.pypanther_version,
+            },
+        }
+        res = self._safe_execute(query, variable_values=request_pararms)
         url = res.data.get("bulkUploadPresignedUrl", {}).get("detectionsURL")
         session_id = res.data.get("bulkUploadPresignedUrl", {}).get("sessionId")
         return BackendResponse(

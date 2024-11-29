@@ -23,7 +23,7 @@ import datetime
 import json
 from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
-from typing import Any, Dict, Generic, List, Optional, TypeVar, TypedDict
+from typing import Any, Dict, Generic, List, Optional, TypeVar
 
 import dateutil.parser
 
@@ -58,6 +58,10 @@ class BackendResponse(Generic[ResponseData]):
 class BackendCheckResponse:
     success: bool
     message: str
+
+@dataclass(frozen=True)
+class UploadDetectionsPresignedURLParams:
+    pypanther_version: str
 
 @dataclass(frozen=True)
 class BulkUploadDetectionsParams:
@@ -551,7 +555,7 @@ class Client(ABC):
         pass
 
     @abstractmethod
-    def detections_upload_presigned_url(self) -> BackendResponse[UploadDetectionsPresignedURLResponse]:
+    def detections_upload_presigned_url(self, params: UploadDetectionsPresignedURLParams) -> BackendResponse[UploadDetectionsPresignedURLResponse]:
         pass
 
     @abstractmethod
