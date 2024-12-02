@@ -82,30 +82,8 @@ class AsyncBulkUploadParams:
 
 
 @dataclass(frozen=True)
-class BulkUploadParams:
-    zip_bytes: bytes
-
-    def encoded_bytes(self) -> str:
-        return base64.b64encode(self.zip_bytes).decode("utf-8")
-
-
-@dataclass(frozen=True)
 class AsyncBulkUploadStatusParams:
     receipt_id: str
-
-
-@dataclass(frozen=True)
-class DeleteSavedQueriesParams:
-    names: List[str]
-    dry_run: bool
-    include_detections: bool
-
-
-@dataclass(frozen=True)
-class DeleteDetectionsParams:
-    ids: List[str]
-    dry_run: bool
-    include_saved_queries: bool
 
 
 @dataclass(frozen=True)
@@ -216,68 +194,7 @@ class BulkUploadMultipartError(BackendMultipartError):
 
 
 @dataclass(frozen=True)
-class BulkUploadValidateResult:
-    issues: List[BulkUploadIssue] = field(default_factory=list)
-
-    @classmethod
-    def from_json(cls, data: Optional[Dict[str, Any]]) -> Optional["BulkUploadValidateResult"]:
-        if not data:
-            return None
-
-        raw_issues = data.get("issues", []) or []
-        issues: List[BulkUploadIssue] = []
-        for issue in raw_issues:
-            issues.append(BulkUploadIssue.from_json(issue))  # type: ignore
-
-        return cls(issues=issues)
-
-
-@dataclass(frozen=True)
-class BulkUploadValidateStatusResponse(BackendMultipartError):
-    status: str
-    error: str
-    result: Optional[BulkUploadValidateResult] = None
-
-    @classmethod
-    def from_json(cls, data: Dict[str, Any]) -> "BulkUploadValidateStatusResponse":
-        result = BulkUploadValidateResult.from_json(data.get("result"))
-        status = data.get("status") or ""
-        err = data.get("error") or ""
-        err = parse_graphql_error(err)
-        return cls(result=result, status=status, error=err)
-
-    def has_error(self) -> bool:
-        return self.error is not None and len(self.error) > 0
-
-    def get_error(self) -> Optional[str]:
-        return self.error
-
-    def has_issues(self) -> bool:
-        return self.result is not None and len(self.result.issues) > 0
-
-    def get_issues(self) -> List[BulkUploadIssue]:
-        if not self.has_issues():
-            return []
-
-        return self.result.issues or []  # type: ignore
-
-    def is_valid(self) -> bool:
-        if self.has_error():
-            return False
-
-        if self.has_issues():
-            return False
-
-        return True
-
-
-@dataclass(frozen=True)
 class AsyncBulkUploadStatusResponse:
-    rules: BulkUploadStatistics
-
-
-@dataclass(frozen=True)
-class BulkUploadResponse:
     rules: BulkUploadStatistics
 
 @dataclass(frozen=True)
@@ -308,18 +225,6 @@ class AsyncBulkUploadResponse:
     receipt_id: str
 
 
-@dataclass(frozen=True)
-class DeleteSavedQueriesResponse:
-    names: List[str]
-    detection_ids: List[str]
-
-
-@dataclass(frozen=True)
-class DeleteDetectionsResponse:
-    ids: List[str]
-    saved_query_names: List[str]
-
-
 # pylint: disable=too-many-instance-attributes
 @dataclass(frozen=True)
 class Schema:
@@ -342,207 +247,6 @@ class ListSchemasResponse:
 @dataclass(frozen=True)
 class UpdateSchemaResponse:
     schema: Schema
-
-
-@dataclass(frozen=True)
-class TranspileToPythonParams:
-    data: List[str]
-
-
-@dataclass(frozen=True)
-class TranspileToPythonResponse:
-    transpiled_python: List[str]
-
-
-@dataclass(frozen=True)
-class GetRuleBodyParams:
-    id: str  # pylint: disable=invalid-name
-
-
-@dataclass(frozen=True)
-class TestCorrelationRuleParams:
-    yaml: str
-
-
-@dataclass(frozen=True)
-class TestCorrelationRuleResponse:
-    results: List[Dict[str, Any]]
-
-
-@dataclass(frozen=True)
-class GetRuleBodyResponse:
-    body: str
-    tests: List[Dict[str, Any]]
-
-
-@dataclass(frozen=True)
-class TranspileFiltersParams:
-    data: List[str]
-    pat_version: str
-
-
-@dataclass(frozen=True)
-class TranspileFiltersResponse:
-    transpiled_filters: List[str]
-
-
-@dataclass(frozen=True)
-class MetricsParams:
-    from_date: datetime.datetime
-    to_date: datetime.datetime
-    interval_in_minutes: int
-
-
-@dataclass(frozen=True)
-class SeriesWithBreakdown:
-    breakdown: Dict[str, Any]
-    label: str
-    value: float
-
-
-@dataclass(frozen=True)
-class MetricsResponse:
-    bytes_processed_per_source: List[SeriesWithBreakdown]
-
-
-@dataclass(frozen=True)
-class PerfTestParams(BulkUploadParams):
-    hour: datetime.datetime
-    log_type: str
-    timeout: datetime.datetime
-
-
-@dataclass(frozen=True)
-class TimeWindow:
-    starts_at: datetime.datetime
-    ends_at: datetime.datetime
-
-
-@dataclass(frozen=True)
-class SizeWindow:
-    max_size_in_gb: int
-
-
-@dataclass(frozen=True)
-class DataWindow:
-    size_window: Optional[SizeWindow]
-    time_window: Optional[TimeWindow]
-
-
-@dataclass(frozen=True)
-class ReplayScope:
-    log_types: List[str]
-    data_window: DataWindow
-
-
-@dataclass(frozen=True)
-class ReplaySummary:
-    total_alerts: int
-    completed_at: Optional[datetime.datetime]
-    rule_error_count: int
-    rule_match_count: int
-    evaluation_progress: int
-    computation_progress: int
-    log_data_size_estimate: int
-    matches_processed_count: int
-    events_processed_count: int
-    events_matched_count: int
-    read_time_nanos: int
-    processing_time_nanos: int
-
-
-@dataclass(frozen=True)
-class ReplayResponse:
-    replay_id: str
-    state: str
-    created_at: datetime.datetime
-    updated_at: datetime.datetime
-    completed_at: Optional[datetime.datetime]
-    detection_id: str
-    replay_type: str
-    replay_scope: ReplayScope
-    replay_summary: ReplaySummary
-
-    @classmethod
-    def from_json(cls, data: Dict[str, Any], replay_id: str, status: str) -> "ReplayResponse":
-        scope = data.get("scope", {})
-        data_window = scope.get("dataWindow", {})
-        retrieved_size_window = data_window.get("size_window")
-        size_window = (
-            None
-            if retrieved_size_window is None
-            else SizeWindow(max_size_in_gb=retrieved_size_window.get("maxSizeInGB"))
-        )
-        retrieved_time_window = data_window.get("time_window")
-        time_window = (
-            None
-            if retrieved_time_window is None
-            else TimeWindow(
-                starts_at=dateutil.parser.parse(retrieved_time_window.get("startsAt")),
-                ends_at=dateutil.parser.parse(retrieved_time_window.get("endsAt")),
-            )
-        )
-        summary = data.get("summary", {})
-
-        return ReplayResponse(
-            replay_id=replay_id,
-            state=status,
-            created_at=dateutil.parser.parse(data.get("createdAt")),  # type: ignore
-            updated_at=dateutil.parser.parse(data.get("updatedAt")),  # type: ignore
-            completed_at=parse_optional_time(data.get("completedAt")),
-            detection_id=data.get("detectionId"),  # type: ignore
-            replay_type=data.get("replayType"),  # type: ignore
-            replay_scope=ReplayScope(
-                log_types=scope.get("logTypes"),
-                data_window=DataWindow(size_window=size_window, time_window=time_window),
-            ),
-            replay_summary=ReplaySummary(
-                total_alerts=summary.get("totalAlerts"),
-                completed_at=parse_optional_time(summary.get("completedAt")),
-                rule_error_count=summary.get("ruleErrorCount"),
-                rule_match_count=summary.get("ruleMatchCount"),
-                evaluation_progress=summary.get("evaluationProgress"),
-                computation_progress=summary.get("computationProgress"),
-                log_data_size_estimate=summary.get("logDataSizeEstimate"),
-                matches_processed_count=summary.get("matchesProcessedCount"),
-                events_processed_count=summary.get("eventsProcessedCount"),
-                events_matched_count=summary.get("eventsMatchedCount"),
-                read_time_nanos=summary.get("readTimeNanos"),
-                processing_time_nanos=summary.get("processingTimeNanos"),
-            ),
-        )
-
-
-@dataclass(frozen=True)
-class GenerateEnrichedEventParams:
-    event: Dict[str, Any]  # json
-
-
-@dataclass(frozen=True)
-class GenerateEnrichedEventResponse:
-    enriched_event: Dict[str, Any]  # json
-
-
-@dataclass(frozen=True)
-class FeatureFlagWithDefault:
-    flag: str
-    default_treatment: Optional[bool] = None
-
-
-@dataclass(frozen=True)
-class FeatureFlagTreatment:
-    flag: str
-    treatment: bool
-
-
-@dataclass(frozen=True)
-class FeatureFlagsParams:
-    flags: List[FeatureFlagWithDefault]
-
-
-@dataclass(frozen=True)
-class FeatureFlagsResponse:
-    flags: List[FeatureFlagTreatment]
 
 
 class Client(ABC):
@@ -574,81 +278,11 @@ class Client(ABC):
         pass
 
     @abstractmethod
-    def bulk_upload(self, params: BulkUploadParams) -> BackendResponse[BulkUploadResponse]:
-        pass
-
-    @abstractmethod
-    def bulk_validate(self, params: BulkUploadParams) -> BulkUploadValidateStatusResponse:
-        pass
-
-    @abstractmethod
-    def get_rule_body(self, params: GetRuleBodyParams) -> BackendResponse[GetRuleBodyResponse]:
-        pass
-
-    @abstractmethod
-    def test_correlation_rule(self, params: TestCorrelationRuleParams) -> BackendResponse[TestCorrelationRuleResponse]:
-        pass
-
-    @abstractmethod
-    def transpile_simple_detection_to_python(
-        self,
-        params: TranspileToPythonParams,
-    ) -> BackendResponse[TranspileToPythonResponse]:
-        pass
-
-    @abstractmethod
-    def transpile_filters(self, params: TranspileFiltersParams) -> BackendResponse[TranspileFiltersResponse]:
-        pass
-
-    @abstractmethod
-    def delete_saved_queries(self, params: DeleteSavedQueriesParams) -> BackendResponse[DeleteSavedQueriesResponse]:
-        pass
-
-    @abstractmethod
-    def delete_detections(self, params: DeleteDetectionsParams) -> BackendResponse[DeleteDetectionsResponse]:
-        pass
-
-    @abstractmethod
     def list_schemas(self, params: ListSchemasParams) -> BackendResponse[ListSchemasResponse]:
         pass
 
     @abstractmethod
     def update_schema(self, params: UpdateSchemaParams) -> BackendResponse[Any]:
-        pass
-
-    @abstractmethod
-    def supports_async_uploads(self) -> bool:
-        pass
-
-    @abstractmethod
-    def supports_bulk_validate(self) -> bool:
-        pass
-
-    @abstractmethod
-    def supports_perf_test(self) -> bool:
-        pass
-
-    @abstractmethod
-    def get_metrics(self, params: MetricsParams) -> BackendResponse[MetricsResponse]:
-        pass
-
-    @abstractmethod
-    def run_perf_test(self, params: PerfTestParams) -> BackendResponse[ReplayResponse]:
-        pass
-
-    @abstractmethod
-    def supports_enrich_test_data(self) -> bool:
-        pass
-
-    @abstractmethod
-    def generate_enriched_event_input(
-        self,
-        params: GenerateEnrichedEventParams,
-    ) -> BackendResponse[GenerateEnrichedEventResponse]:
-        pass
-
-    @abstractmethod
-    def feature_flags(self, params: FeatureFlagsParams) -> BackendResponse[FeatureFlagsResponse]:
         pass
 
 
@@ -661,25 +295,6 @@ def to_bulk_upload_statistics(data: Any) -> BackendResponse[AsyncBulkUploadStatu
     return BackendResponse(
         status_code=200,
         data=AsyncBulkUploadStatusResponse(
-            rules=BulkUploadStatistics(
-                new=rules.get("new", 0),
-                total=rules.get("total", 0),
-                modified=rules.get("modified", 0),
-                deleted=rules.get("deleted", 0),
-                new_ids=rules.get("newIds", None),
-                total_ids=rules.get("totalIds", None),
-                deleted_ids=rules.get("deletedIds", None),
-                modified_ids=rules.get("modifiedIds", None),
-            ),
-        ),
-    )
-
-
-def to_bulk_upload_response(data: Any) -> BackendResponse[BulkUploadResponse]:
-    rules = data.get("rules", {})
-    return BackendResponse(
-        status_code=200,
-        data=BulkUploadResponse(
             rules=BulkUploadStatistics(
                 new=rules.get("new", 0),
                 total=rules.get("total", 0),
