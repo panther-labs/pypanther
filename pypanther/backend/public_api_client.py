@@ -17,15 +17,12 @@ You should have received a copy of the GNU Affero General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
 
-import datetime
 import importlib
-import json
 import logging
 import os
-import time
 from dataclasses import dataclass
 from pathlib import Path
-from typing import TYPE_CHECKING, Any, Dict, List, Optional
+from typing import TYPE_CHECKING, Any, Dict, Optional
 from urllib.parse import urlparse
 
 if TYPE_CHECKING:
@@ -35,7 +32,6 @@ if TYPE_CHECKING:
 
 from pypanther import display
 
-from ..constants import VERSION_STRING, ReplayStatus
 from .client import (
     AsyncBulkUploadParams,
     AsyncBulkUploadResponse,
@@ -44,40 +40,14 @@ from .client import (
     BackendCheckResponse,
     BackendError,
     BackendResponse,
-    BulkUploadParams,
-    BulkUploadResponse,
-    BulkUploadValidateStatusResponse,
     Client,
-    DeleteDetectionsParams,
-    DeleteDetectionsResponse,
-    DeleteSavedQueriesParams,
-    DeleteSavedQueriesResponse,
-    FeatureFlagsParams,
-    FeatureFlagsResponse,
-    FeatureFlagTreatment,
-    GenerateEnrichedEventParams,
-    GenerateEnrichedEventResponse,
-    GetRuleBodyParams,
-    GetRuleBodyResponse,
     ListSchemasParams,
     ListSchemasResponse,
-    MetricsParams,
-    MetricsResponse,
-    PerfTestParams,
     PermanentBackendError,
-    ReplayResponse,
     Schema,
-    SeriesWithBreakdown,
-    TestCorrelationRuleParams,
-    TestCorrelationRuleResponse,
-    TranspileFiltersParams,
-    TranspileFiltersResponse,
-    TranspileToPythonParams,
-    TranspileToPythonResponse,
     UnsupportedEndpointError,
     UpdateSchemaParams,
     UpdateSchemaResponse,
-    to_bulk_upload_response,
     to_bulk_upload_statistics,
 )
 from .errors import is_retryable_error, is_retryable_error_str
@@ -249,162 +219,6 @@ class PublicAPIClient(Client):  # pylint: disable=too-many-public-methods
 
         return None
 
-    def bulk_upload(self, params: BulkUploadParams) -> BackendResponse[BulkUploadResponse]:
-        query = self._requests.bulk_upload_mutation()
-        upload_params = {"input": {"data": params.encoded_bytes()}}
-        res = self._safe_execute(query, variable_values=upload_params)
-        data = res.data.get("uploadDetectionEntities", {})  # type: ignore
-
-        return to_bulk_upload_response(data)
-
-    def bulk_validate(self, params: BulkUploadParams) -> BulkUploadValidateStatusResponse:
-        mutation = self._requests.validate_bulk_upload_mutation()
-        upload_params = {"input": {"data": params.encoded_bytes(), "patVersion": VERSION_STRING}}
-        res = self._potentially_supported_execute(mutation, variable_values=upload_params)
-        receipt_id = res.data.get("validateBulkUpload", {}).get("receiptId")  # type: ignore
-        if not receipt_id:
-            raise BackendError("empty data")
-
-        while True:
-            time.sleep(2)
-            query = self._requests.validate_bulk_upload_status_query()
-            params = {"input": receipt_id}  # type: ignore
-            res = self._potentially_supported_execute(query, variable_values=params)  # type: ignore
-            result = res.data.get("validateBulkUploadStatus", {})  # type: ignore
-            status = result.get("status")
-
-            if status in ["FAILED", "COMPLETED"]:
-                return BulkUploadValidateStatusResponse.from_json(data=result)
-
-            if status not in ["NOT_PROCESSED"]:
-                raise BackendError(f"unexpected status: {status}")
-
-    # This function was generated in whole or in part by GitHub Copilot.
-    def get_rule_body(self, params: GetRuleBodyParams) -> BackendResponse[GetRuleBodyResponse]:
-        query: DocumentNode = self._requests.get_rule_body()
-        params = {"input": params.id}  # type: ignore
-        res = self._safe_execute(query, variable_values=params)  # type: ignore
-        data = res.data.get("rulePythonBody", {})  # type: ignore
-        tests = data.get("tests", [])
-        out_tests = []
-        for test in tests:
-            out_mocks = []
-            for mock in test.get("mocks") or []:
-                out_mock = {}
-                out_mock["ObjectName"] = mock["objectName"]
-                out_mock["ReturnValue"] = mock["returnValue"]
-                out_mocks.append(out_mock)
-            out_test = {}
-            out_test["ExpectedResult"] = test["expectedResult"]
-            out_test["Name"] = test["name"]
-            out_test["Log"] = json.loads(test["resource"])
-            out_tests.append(out_test)
-
-        return BackendResponse(
-            status_code=200,
-            data=GetRuleBodyResponse(
-                body=data.get("pythonBody") or "",
-                tests=out_tests,
-            ),
-        )
-
-    # This function was generated in whole or in part by GitHub Copilot.
-    def transpile_simple_detection_to_python(
-        self,
-        params: TranspileToPythonParams,
-    ) -> BackendResponse[TranspileToPythonResponse]:
-        query = self._requests.transpile_simple_detection_to_python()
-        transpile_input = {"input": {"data": params.data}}
-        res = self._safe_execute(query, variable_values=transpile_input)
-        data = res.data.get("transpileSimpleDetectionsToPython", {})  # type: ignore
-
-        return BackendResponse(
-            status_code=200,
-            data=TranspileToPythonResponse(
-                transpiled_python=data.get("transpiledPython") or [],
-            ),
-        )
-
-    def test_correlation_rule(self, params: TestCorrelationRuleParams) -> BackendResponse[TestCorrelationRuleResponse]:
-        query = self._requests.test_correlation_rule()
-        test_cr_input = {"input": {"yaml": params.yaml}}
-        res = self._safe_execute(query, variable_values=test_cr_input)
-        data = res.data.get("testCorrelationRuleYAML", {})  # type: ignore
-        return BackendResponse(
-            status_code=200,
-            data=TestCorrelationRuleResponse(
-                results=data.get("results", []),
-            ),
-        )
-
-    def transpile_filters(self, params: TranspileFiltersParams) -> BackendResponse[TranspileFiltersResponse]:
-        query = self._requests.transpile_filters()
-        transpile_input = {"input": {"data": params.data, "patVersion": params.pat_version}}
-        res = self._safe_execute(query, variable_values=transpile_input)
-        data = res.data.get("transpileFilters", {})  # type: ignore
-
-        return BackendResponse(
-            status_code=200,
-            data=TranspileFiltersResponse(
-                transpiled_filters=data.get("transpiledFilters") or [],
-            ),
-        )
-
-    def delete_saved_queries(self, params: DeleteSavedQueriesParams) -> BackendResponse[DeleteSavedQueriesResponse]:
-        query = self._requests.delete_saved_queries()
-        delete_params = {
-            "input": {
-                "dryRun": params.dry_run,
-                "includeDetections": params.include_detections,
-                "names": params.names,
-            },
-        }
-        res = self._execute(query, variable_values=delete_params)
-
-        if res.errors:
-            raise BackendError(res.errors)
-
-        if res.data is None:
-            raise BackendError("empty data")
-
-        data = res.data.get("deleteSavedQueriesByName", {})
-
-        return BackendResponse(
-            status_code=200,
-            data=DeleteSavedQueriesResponse(
-                names=data.get("names") or [],
-                detection_ids=data.get("detectionIDs") or [],
-            ),
-        )
-
-    def delete_detections(self, params: DeleteDetectionsParams) -> BackendResponse[DeleteDetectionsResponse]:
-        gql_params = {
-            "input": {
-                "dryRun": params.dry_run,
-                "includeSavedQueries": params.include_saved_queries,
-                "ids": params.ids,
-            },
-        }
-        res = self._execute(self._requests.delete_detections_query(), gql_params)
-        if res.errors:
-            for err in res.errors:
-                logging.error(err.message)
-
-            raise BackendError(res.errors)
-
-        if res.data is None:
-            raise BackendError("empty data")
-
-        data = res.data.get("deleteDetections", {})
-
-        return BackendResponse(
-            status_code=200,
-            data=DeleteDetectionsResponse(
-                ids=data.get("ids") or [],
-                saved_query_names=data.get("savedQueryNames") or [],
-            ),
-        )
-
     def list_schemas(self, params: ListSchemasParams) -> BackendResponse[ListSchemasResponse]:
         gql_params = {
             "input": {
@@ -478,149 +292,6 @@ class PublicAPIClient(Client):  # pylint: disable=too-many-public-methods
                     updated_at=schema.get("updatedAt", ""),
                     field_discovery_enabled=schema.get("fieldDiscoveryEnabled", False),
                 ),
-            ),
-        )
-
-    def has_graphql_endpoints(self, endpoints: List[str]) -> bool:
-        res = self._execute(self._requests.introspection_query())
-        if res.errors:
-            return False
-
-        expected = len(endpoints)
-        seen = 0
-        for graphql_type in res.data.get("__schema", {}).get("types", []):  # type: ignore
-            if (graphql_type["name"] in ["Mutation", "Query"]) and graphql_type["kind"] == "OBJECT":
-                for endpoint in graphql_type["fields"]:
-                    if endpoint["name"] in endpoints:
-                        seen += 1
-                        if seen == expected:
-                            return True
-
-        return False
-
-    def supports_async_uploads(self) -> bool:
-        return self.has_graphql_endpoints(["uploadDetectionEntitiesAsync", "detectionEntitiesUploadStatus"])
-
-    def supports_bulk_validate(self) -> bool:
-        return True
-
-    def supports_perf_test(self) -> bool:
-        return True
-
-    def get_metrics(self, params: MetricsParams) -> BackendResponse[MetricsResponse]:
-        gql_params = {
-            "input": {
-                "fromDate": params.from_date.astimezone().isoformat(),
-                "toDate": params.to_date.astimezone().isoformat(),
-                "intervalInMinutes": params.interval_in_minutes,
-            },
-        }
-        res = self._execute(self._requests.metrics_query(), gql_params)
-        if res.errors:
-            for err in res.errors:
-                logging.error(err.message)
-            raise BackendError(res.errors)
-
-        if res.data is None:
-            raise BackendError("empty data")
-
-        all_metrics = res.data.get("metrics", {})
-        bytes_processed_per_source_list = all_metrics.get("bytesProcessedPerSource", [])
-
-        return BackendResponse(
-            status_code=200,
-            data=MetricsResponse(
-                bytes_processed_per_source=[
-                    SeriesWithBreakdown(
-                        breakdown=x["breakdown"],
-                        label=x["label"],
-                        value=x["value"],
-                    )
-                    for x in bytes_processed_per_source_list
-                ],
-            ),
-        )
-
-    def run_perf_test(self, params: PerfTestParams) -> BackendResponse[ReplayResponse]:
-        query = self._requests.create_perf_test_mutation()
-        create_params = {
-            "input": {
-                "detection": params.encoded_bytes(),
-                "hour": params.hour.astimezone().isoformat(),
-                "logType": params.log_type,
-            },
-        }
-        res = self._potentially_supported_execute(query, variable_values=create_params)
-        replay_id = res.data.get("createPerfTest", {}).get("replay", {}).get("id")  # type: ignore
-        if not replay_id:
-            raise BackendError("empty data")
-        stopped = False
-        terminal_statuses = [
-            ReplayStatus.DONE,
-            ReplayStatus.CANCELED,
-            ReplayStatus.ERROR_EVALUATION,
-            ReplayStatus.ERROR_COMPUTATION,
-        ]
-
-        while True:
-            if not stopped and params.timeout < datetime.datetime.now().astimezone():
-                stop_params = {"input": {"id": replay_id}}
-                query = self._requests.stop_replay_mutation()
-                self._potentially_supported_execute(query, variable_values=stop_params)
-                stopped = True
-
-            time.sleep(0.25)
-            query = self._requests.replay_query()
-            get_params = {"input": replay_id}
-            res = self._potentially_supported_execute(query, variable_values=get_params)
-            result = res.data.get("replay", {})  # type: ignore
-            status = result.get("state", "")
-            if status in terminal_statuses:
-                replay_response = ReplayResponse.from_json(result, replay_id, status)
-                return BackendResponse(status_code=200, data=replay_response)
-
-            if status not in terminal_statuses + (
-                [ReplayStatus.EVALUATION_IN_PROGRESS, ReplayStatus.COMPUTATION_IN_PROGRESS]
-            ):
-                raise BackendError(f"unexpected status: {status}")
-
-    def supports_enrich_test_data(self) -> bool:
-        return True
-
-    def generate_enriched_event_input(
-        self,
-        params: GenerateEnrichedEventParams,
-    ) -> BackendResponse[GenerateEnrichedEventResponse]:
-        query = self._requests.generate_enriched_event_query()
-        query_input = {"input": {"event": params.event}}
-        res = self._safe_execute(query, variable_values=query_input)
-        data = res.data.get("generateEnrichedEvent", {})  # type: ignore
-        enriched_event = data.get("enrichedEvent", {})
-
-        return BackendResponse(
-            status_code=200,
-            data=GenerateEnrichedEventResponse(
-                enriched_event=enriched_event,
-            ),
-        )
-
-    def feature_flags(self, params: FeatureFlagsParams) -> BackendResponse[FeatureFlagsResponse]:
-        query = self._requests.feature_flags_query()
-        query_input = {
-            "input": {
-                "flags": [{"flag": flag.flag, "defaultTreatment": flag.default_treatment} for flag in params.flags],
-            },
-        }
-        res = self._safe_execute(query, variable_values=query_input)
-        data = res.data.get("featureFlags", {})  # type: ignore
-
-        return BackendResponse(
-            status_code=200,
-            data=FeatureFlagsResponse(
-                flags=[
-                    FeatureFlagTreatment(flag=flag.get("flag"), treatment=flag.get("treatment"))
-                    for flag in data.get("flags") or []
-                ],
             ),
         )
 
