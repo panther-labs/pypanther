@@ -11,17 +11,15 @@ from dataclasses import asdict
 from fnmatch import fnmatch
 from pathlib import Path
 from typing import Any, Optional, Tuple, TypedDict
+
 from requests import put
 
 from pypanther import cli_output, display, schemas, testing
 from pypanther.backend.client import (
-    AsyncBulkUploadParams,
-    AsyncBulkUploadStatusParams,
-    AsyncBulkUploadStatusResponse,
     BackendError,
     BackendResponse,
-    BulkUploadMultipartError, BulkUploadDetectionsParams, BulkUploadDetectionsStatusParams,
-    UploadDetectionsPresignedURLParams,
+    BulkUploadDetectionsParams,
+    BulkUploadDetectionsStatusParams,
 )
 from pypanther.backend.client import Client as BackendClient
 from pypanther.backend.util import convert_unicode
@@ -243,8 +241,10 @@ def upload_zip(
     verbose: bool,
     output_type: str,
 ) -> AsyncBulkUploadStatusResponse:
-    pyPantherVersion =  importlib.metadata.version("pypanther")
-    response = backend.detections_upload_presigned_url(params=UploadDetectionsPresignedURLParams(pypanther_version=pyPantherVersion))
+    pyPantherVersion = importlib.metadata.version("pypanther")
+    response = backend.detections_upload_presigned_url(
+        params=UploadDetectionsPresignedURLParams(pypanther_version=pyPantherVersion),
+    )
 
     with open(archive, "rb") as analysis_zip:
         if verbose and output_type == display.OUTPUT_TYPE_TEXT:
@@ -255,14 +255,14 @@ def upload_zip(
 
         print("making PUT to presigned URL")
         data = base64.b64encode(analysis_zip.read()).decode("utf-8")
-        headers = {
-            "x-amz-meta-pypantherversion": pyPantherVersion
-        }
+        headers = {"x-amz-meta-pypantherversion": pyPantherVersion}
         put(response.data.detections_url, data=data, headers=headers)
         print("finished making PUT to presigned URL")
 
         print("calling bulk upload for sessionID ", response.data.session_id)
-        resp = backend.bulk_upload_detections(BulkUploadDetectionsParams(session_id=response.data.session_id, dry_run=False))
+        resp = backend.bulk_upload_detections(
+            BulkUploadDetectionsParams(session_id=response.data.session_id, dry_run=False),
+        )
 
         while True:
             time.sleep(1)
@@ -275,12 +275,23 @@ def upload_zip(
                 return None
             if status_response.data.status == "Succeeded":
                 print("status is succeeded")
-                print("status response: ", {
-                    "newRules": len(status_response.data.results.new_rule_ids) if status_response.data.results.new_rule_ids else 0,
-                    "modifiedRules": len(status_response.data.results.modified_rule_ids) if status_response.data.results.modified_rule_ids else 0,
-                    "deletedRules": len(status_response.data.results.deleted_rule_ids) if status_response.data.results.deleted_rule_ids else 0,
-                    "totalRules": len(status_response.data.results.total_rule_ids) if status_response.data.results.total_rule_ids else 0,
-                })
+                print(
+                    "status response: ",
+                    {
+                        "newRules": len(status_response.data.results.new_rule_ids)
+                        if status_response.data.results.new_rule_ids
+                        else 0,
+                        "modifiedRules": len(status_response.data.results.modified_rule_ids)
+                        if status_response.data.results.modified_rule_ids
+                        else 0,
+                        "deletedRules": len(status_response.data.results.deleted_rule_ids)
+                        if status_response.data.results.deleted_rule_ids
+                        else 0,
+                        "totalRules": len(status_response.data.results.total_rule_ids)
+                        if status_response.data.results.total_rule_ids
+                        else 0,
+                    },
+                )
                 return None
 
         analysis_zip.seek(0)

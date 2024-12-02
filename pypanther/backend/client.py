@@ -18,12 +18,10 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
 
 import ast
-import base64
 import datetime
-import json
 from abc import ABC, abstractmethod
-from dataclasses import dataclass, field
-from typing import Any, Dict, Generic, List, Optional, TypeVar
+from dataclasses import dataclass
+from typing import Any, Generic, List, Optional, TypeVar
 
 import dateutil.parser
 
@@ -43,12 +41,6 @@ class UnsupportedEndpointError(Exception):
 
 
 @dataclass(frozen=True)
-class BulkUploadPayload:
-    data: bytes
-    user_id: str
-
-
-@dataclass(frozen=True)
 class BackendResponse(Generic[ResponseData]):
     data: ResponseData
     status_code: int
@@ -59,31 +51,47 @@ class BackendCheckResponse:
     success: bool
     message: str
 
+
 @dataclass(frozen=True)
-class UploadDetectionsPresignedURLParams:
+class UploadPresignedURLParams:
     pypanther_version: str
+
+
+@dataclass(frozen=True)
+class UploadPresignedURLResponse:
+    detections_url: str
+    session_id: str
+
 
 @dataclass(frozen=True)
 class BulkUploadDetectionsParams:
     session_id: str
     dry_run: bool
 
+
+@dataclass(frozen=True)
+class BulkUploadDetectionsResponse:
+    job_id: str
+
+
 @dataclass(frozen=True)
 class BulkUploadDetectionsStatusParams:
     job_id: str
 
-@dataclass(frozen=True)
-class AsyncBulkUploadParams:
-    zip_bytes: bytes
-    dry_run: bool
-
-    def encoded_bytes(self) -> str:
-        return base64.b64encode(self.zip_bytes).decode("utf-8")
-
 
 @dataclass(frozen=True)
-class AsyncBulkUploadStatusParams:
-    receipt_id: str
+class BulkUploadDetectionsResults:
+    new_rule_ids: list[str]
+    modified_rule_ids: list[str]
+    deleted_rule_ids: list[str]
+    total_rule_ids: list[str]
+
+
+@dataclass(frozen=True)
+class BulkUploadDetectionsStatusResponse:
+    message: str
+    status: str
+    results: Optional[BulkUploadDetectionsResults]
 
 
 @dataclass(frozen=True)
@@ -101,31 +109,6 @@ class UpdateSchemaParams:
     field_discovery_enabled: bool
 
 
-@dataclass(frozen=True)
-class BulkUploadStatistics:
-    new: int
-    total: int
-    modified: int
-    deleted: int
-    new_ids: list[str] | None
-    total_ids: list[str] | None
-    deleted_ids: list[str] | None
-    modified_ids: list[str] | None
-
-
-@dataclass(frozen=True)
-class BulkUploadIssue:
-    path: str
-    error_message: str
-
-    @classmethod
-    def from_json(cls, data: Optional[Dict[str, Any]]) -> Optional["BulkUploadIssue"]:
-        if not data:
-            return None
-
-        return cls(path=data.get("path", ""), error_message=data.get("errorMessage", ""))
-
-
 class BackendMultipartError(ABC):
     @abstractmethod
     def has_error(self) -> bool:
@@ -134,95 +117,6 @@ class BackendMultipartError(ABC):
     @abstractmethod
     def get_error(self) -> Optional[str]:
         pass
-
-    @abstractmethod
-    def has_issues(self) -> bool:
-        pass
-
-    @abstractmethod
-    def get_issues(self) -> List[BulkUploadIssue]:
-        pass
-
-
-@dataclass
-class BulkUploadMultipartError(BackendMultipartError):
-    error: str
-    issues: List[BulkUploadIssue] = field(default_factory=list)
-
-    @classmethod
-    def from_jsons(cls, data: str) -> "BulkUploadMultipartError":
-        try:
-            return BulkUploadMultipartError.from_dict(json.loads(data))
-        except json.decoder.JSONDecodeError:
-            return BulkUploadMultipartError.from_dict({"error": data})
-
-    @classmethod
-    def from_dict(cls, data: Optional[Dict[str, Any]]) -> "BulkUploadMultipartError":
-        if not data:
-            return cls(error="")
-
-        raw_issues = data.get("issues", []) or []
-        issues: List[BulkUploadIssue] = []
-        for issue in raw_issues:
-            issues.append(BulkUploadIssue.from_json(issue))  # type: ignore
-
-        err = data.get("error") or ""
-        err = parse_graphql_error(err)
-
-        return cls(issues=issues, error=err)
-
-    def has_error(self) -> bool:
-        return self.error is not None and len(self.error) > 0
-
-    def get_error(self) -> str:
-        return self.error
-
-    def has_issues(self) -> bool:
-        return self.issues is not None and len(self.issues) > 0
-
-    def get_issues(self) -> List[BulkUploadIssue]:
-        if not self.has_issues():
-            return []
-
-        return self.issues or []
-
-    def asdict(self) -> dict[str, Any]:
-        return {
-            "error": self.get_error(),
-            "issues": [{"path": issue.path, "error_message": issue.error_message} for issue in self.get_issues()],
-        }
-
-
-@dataclass(frozen=True)
-class AsyncBulkUploadStatusResponse:
-    rules: BulkUploadStatistics
-
-@dataclass(frozen=True)
-class UploadDetectionsPresignedURLResponse:
-    detections_url: str
-    session_id: str
-
-@dataclass(frozen=True)
-class BulkUploadDetectionsResponse:
-    job_id: str
-
-@dataclass(frozen=True)
-class BulkUploadDetectionsResults:
-    new_rule_ids: list[str]
-    modified_rule_ids: list[str]
-    deleted_rule_ids: list[str]
-    total_rule_ids: list[str]
-
-@dataclass(frozen=True)
-class BulkUploadDetectionsStatusResponse:
-    message: str
-    status: str
-    results: Optional[BulkUploadDetectionsResults]
-
-
-@dataclass(frozen=True)
-class AsyncBulkUploadResponse:
-    receipt_id: str
 
 
 # pylint: disable=too-many-instance-attributes
@@ -255,26 +149,19 @@ class Client(ABC):
         pass
 
     @abstractmethod
-    def async_bulk_upload(self, params: AsyncBulkUploadParams) -> BackendResponse[AsyncBulkUploadResponse]:
+    def upload_presigned_url(self, params: UploadPresignedURLParams) -> BackendResponse[UploadPresignedURLResponse]:
         pass
 
     @abstractmethod
-    def detections_upload_presigned_url(self, params: UploadDetectionsPresignedURLParams) -> BackendResponse[UploadDetectionsPresignedURLResponse]:
+    def bulk_upload_detections(
+        self, params: BulkUploadDetectionsParams,
+    ) -> BackendResponse[BulkUploadDetectionsResponse]:
         pass
 
     @abstractmethod
-    def bulk_upload_detections(self, params: BulkUploadDetectionsParams) -> BackendResponse[BulkUploadDetectionsResponse]:
-        pass
-
-    @abstractmethod
-    def bulk_upload_detections_status(self, params: BulkUploadDetectionsStatusParams) -> BackendResponse[BulkUploadDetectionsStatusResponse]:
-        pass
-
-    @abstractmethod
-    def async_bulk_upload_status(
-        self,
-        params: AsyncBulkUploadStatusParams,
-    ) -> BackendResponse[AsyncBulkUploadStatusResponse] | None:
+    def bulk_upload_detections_status(
+        self, params: BulkUploadDetectionsStatusParams,
+    ) -> BackendResponse[BulkUploadDetectionsStatusResponse]:
         pass
 
     @abstractmethod
@@ -288,25 +175,6 @@ class Client(ABC):
 
 def backend_response_failed(resp: BackendResponse) -> bool:
     return resp.status_code >= 400 or resp.data.get("statusCode", 0) >= 400
-
-
-def to_bulk_upload_statistics(data: Any) -> BackendResponse[AsyncBulkUploadStatusResponse]:
-    rules = data.get("rules", {})
-    return BackendResponse(
-        status_code=200,
-        data=AsyncBulkUploadStatusResponse(
-            rules=BulkUploadStatistics(
-                new=rules.get("new", 0),
-                total=rules.get("total", 0),
-                modified=rules.get("modified", 0),
-                deleted=rules.get("deleted", 0),
-                new_ids=rules.get("newIds", None),
-                total_ids=rules.get("totalIds", None),
-                deleted_ids=rules.get("deletedIds", None),
-                modified_ids=rules.get("modifiedIds", None),
-            ),
-        ),
-    )
 
 
 def parse_optional_time(time: Optional[str]) -> Optional[datetime.datetime]:
