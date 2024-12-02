@@ -73,65 +73,17 @@ class PublicAPIRequests:  # pylint: disable=too-many-public-methods
     def version_query(self) -> "DocumentNode":
         return self._load("get_version")
 
-    def delete_detections_query(self) -> "DocumentNode":
-        return self._load("delete_detections")
-
     def async_bulk_upload_mutation(self) -> "DocumentNode":
         return self._load("async_bulk_upload")
 
     def async_bulk_upload_status_query(self) -> "DocumentNode":
         return self._load("async_bulk_upload_status")
 
-    def bulk_upload_mutation(self) -> "DocumentNode":
-        return self._load("bulk_upload")
-
-    def validate_bulk_upload_mutation(self) -> "DocumentNode":
-        return self._load("validate_bulk_upload")
-
-    def validate_bulk_upload_status_query(self) -> "DocumentNode":
-        return self._load("validate_bulk_upload_status")
-
     def list_schemas_query(self) -> "DocumentNode":
         return self._load("list_schemas")
 
     def update_schema_mutation(self) -> "DocumentNode":
         return self._load("create_or_update_schema")
-
-    def delete_saved_queries(self) -> "DocumentNode":
-        return self._load("delete_saved_queries")
-
-    def get_rule_body(self) -> "DocumentNode":
-        return self._load("get_rule_body")
-
-    def transpile_simple_detection_to_python(self) -> "DocumentNode":
-        return self._load("transpile_sdl")
-
-    def transpile_filters(self) -> "DocumentNode":
-        return self._load("transpile_filters")
-
-    def test_correlation_rule(self) -> "DocumentNode":
-        return self._load("test_correlation_rule")
-
-    def introspection_query(self) -> "DocumentNode":
-        return self._load("introspection_query")
-
-    def metrics_query(self) -> "DocumentNode":
-        return self._load("metrics")
-
-    def create_perf_test_mutation(self) -> "DocumentNode":
-        return self._load("create_perf_test")
-
-    def replay_query(self) -> "DocumentNode":
-        return self._load("replay")
-
-    def stop_replay_mutation(self) -> "DocumentNode":
-        return self._load("stop_replay")
-
-    def generate_enriched_event_query(self) -> "DocumentNode":
-        return self._load("generate_enriched_event")
-
-    def feature_flags_query(self) -> "DocumentNode":
-        return self._load("feature_flags")
 
     def _load(self, name: str) -> "DocumentNode":
         # defer loading to improve performance
