@@ -11,5 +11,4 @@ def is_retryable_error(err: Optional[Dict[str, Any]]) -> bool:
 def is_retryable_error_str(err: str) -> bool:
     if not err:
         return False
-
-    return "another upload" in err or "unknown error occurred" in err
+    return "another upload" in err
