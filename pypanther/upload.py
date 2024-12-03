@@ -21,7 +21,7 @@ from pypanther.backend.client import (
     BulkUploadDetectionsParams,
     BulkUploadDetectionsResults,
     BulkUploadDetectionsStatusParams,
-    UploadPresignedURLParams,
+    BulkUploadPresignedURLParams,
 )
 from pypanther.backend.client import Client as BackendClient
 from pypanther.backend.util import convert_unicode
@@ -215,7 +215,8 @@ def dry_run_upload(backend: BackendClient, session_id: str, verbose: bool, outpu
                 new_ids=upload_stats.new_rule_ids,
                 delete_ids=upload_stats.deleted_rule_ids,
                 modify_ids=upload_stats.modified_rule_ids,
-                total_ids=upload_stats.total_rule_ids)
+                total_ids=upload_stats.total_rule_ids,
+            )
             return changes_summary
 
 
@@ -277,8 +278,8 @@ def upload_zip(
         print()
 
     pypanther_version = importlib.metadata.version("pypanther")
-    response = backend.upload_presigned_url(
-        params=UploadPresignedURLParams(pypanther_version=pypanther_version),
+    response = backend.bulk_upload_presigned_url(
+        params=BulkUploadPresignedURLParams(pypanther_version=pypanther_version),
     )
 
     with open(archive, "rb") as analysis_zip:

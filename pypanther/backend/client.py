@@ -21,7 +21,7 @@ import ast
 import datetime
 import json
 from abc import ABC, abstractmethod
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 from typing import Any, Dict, Generic, List, Optional, TypeVar
 
 import dateutil.parser
@@ -54,12 +54,12 @@ class BackendCheckResponse:
 
 
 @dataclass(frozen=True)
-class UploadPresignedURLParams:
+class BulkUploadPresignedURLParams:
     pypanther_version: str
 
 
 @dataclass(frozen=True)
-class UploadPresignedURLResponse:
+class BulkUploadPresignedURLResponse:
     detections_url: str
     session_id: str
 
@@ -162,7 +162,9 @@ class Client(ABC):
         pass
 
     @abstractmethod
-    def upload_presigned_url(self, params: UploadPresignedURLParams) -> BackendResponse[UploadPresignedURLResponse]:
+    def bulk_upload_presigned_url(
+        self, params: BulkUploadPresignedURLParams,
+    ) -> BackendResponse[BulkUploadPresignedURLResponse]:
         pass
 
     @abstractmethod

@@ -42,6 +42,8 @@ from .client import (
     BulkUploadDetectionsResults,
     BulkUploadDetectionsStatusParams,
     BulkUploadDetectionsStatusResponse,
+    BulkUploadPresignedURLParams,
+    BulkUploadPresignedURLResponse,
     Client,
     ListSchemasParams,
     ListSchemasResponse,
@@ -50,8 +52,6 @@ from .client import (
     UnsupportedEndpointError,
     UpdateSchemaParams,
     UpdateSchemaResponse,
-    UploadPresignedURLParams,
-    UploadPresignedURLResponse,
 )
 
 
@@ -73,14 +73,14 @@ class PublicAPIRequests:  # pylint: disable=too-many-public-methods
     def version_query(self) -> "DocumentNode":
         return self._load("get_version")
 
-    def detections_upload_presigned_url_query(self) -> "DocumentNode":
+    def bulk_upload_presigned_url_query(self) -> "DocumentNode":
         return self._load("bulk_upload_presigned_url")
 
-    def async_bulk_upload_detections_mutation(self) -> "DocumentNode":
-        return self._load("async_bulk_upload_detections")
+    def bulk_upload_detections_mutation(self) -> "DocumentNode":
+        return self._load("bulk_upload_detections")
 
-    def async_bulk_upload_detections_status_query(self) -> "DocumentNode":
-        return self._load("async_bulk_upload_detections_status")
+    def bulk_upload_detections_status_query(self) -> "DocumentNode":
+        return self._load("bulk_upload_detections_status")
 
     def list_schemas_query(self) -> "DocumentNode":
         return self._load("list_schemas")
@@ -129,8 +129,10 @@ class PublicAPIClient(Client):  # pylint: disable=too-many-public-methods
 
         return BackendCheckResponse(success=True, message=f"connected to Panther backend on version: {panther_version}")
 
-    def upload_presigned_url(self, params: UploadPresignedURLParams) -> BackendResponse[UploadPresignedURLResponse]:
-        query = self._requests.detections_upload_presigned_url_query()
+    def bulk_upload_presigned_url(
+        self, params: BulkUploadPresignedURLParams,
+    ) -> BackendResponse[BulkUploadPresignedURLResponse]:
+        query = self._requests.bulk_upload_presigned_url_query()
         request_pararms = {
             "input": {
                 "pypantherVersion": params.pypanther_version,
@@ -141,14 +143,14 @@ class PublicAPIClient(Client):  # pylint: disable=too-many-public-methods
         session_id = res.data.get("bulkUploadPresignedUrl", {}).get("sessionId")
         return BackendResponse(
             status_code=200,
-            data=UploadPresignedURLResponse(detections_url=url, session_id=session_id),
+            data=BulkUploadPresignedURLResponse(detections_url=url, session_id=session_id),
         )
 
     def bulk_upload_detections(
         self,
         params: BulkUploadDetectionsParams,
     ) -> BackendResponse[BulkUploadDetectionsResponse]:
-        query = self._requests.async_bulk_upload_detections_mutation()
+        query = self._requests.bulk_upload_detections_mutation()
         upload_params = {
             "input": {
                 "dryRun": params.dry_run,
@@ -166,7 +168,7 @@ class PublicAPIClient(Client):  # pylint: disable=too-many-public-methods
         self,
         params: BulkUploadDetectionsStatusParams,
     ) -> BackendResponse[BulkUploadDetectionsStatusResponse]:
-        query = self._requests.async_bulk_upload_detections_status_query()
+        query = self._requests.bulk_upload_detections_status_query()
         upload_params = {"input": params.job_id}
         response = self._safe_execute(query, variable_values=upload_params).data.get("bulkUploadDetectionsStatus", {})
         results = None
@@ -174,7 +176,7 @@ class PublicAPIClient(Client):  # pylint: disable=too-many-public-methods
             results = BulkUploadDetectionsResults(
                 new_rule_ids=resp_results.get("newRuleIds") or [],
                 modified_rule_ids=resp_results.get("modifiedRuleIds") or [],
-                deleted_rule_ids=resp_results.get("deletedRuleIds") or  [],
+                deleted_rule_ids=resp_results.get("deletedRuleIds") or [],
                 total_rule_ids=resp_results.get("totalRuleIds") or [],
             )
 
