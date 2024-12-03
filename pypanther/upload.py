@@ -382,10 +382,10 @@ def print_included_files(zip_info: list[zipfile.ZipInfo]) -> None:
 def print_upload_statistics(results: BulkUploadDetectionsResults) -> None:
     print(cli_output.header("Upload Statistics"))
     print(INDENT, cli_output.bold("Rules:"))
-    print(INDENT * 2, "{:<9} {}".format("New:      ", len(results.new_rule_ids)))
-    print(INDENT * 2, "{:<9} {}".format("Modified: ", len(results.modified_rule_ids)))
-    print(INDENT * 2, "{:<9} {}".format("Deleted:  ", len(results.deleted_rule_ids)))
-    print(INDENT * 2, "{:<9} {}".format("Total:    ", len(results.total_rule_ids)))
+    print(INDENT * 2, "{:<9} {:>4}".format("New:      ", len(results.new_rule_ids)))
+    print(INDENT * 2, "{:<9} {:>4}".format("Modified: ", len(results.modified_rule_ids)))
+    print(INDENT * 2, "{:<9} {:>4}".format("Deleted:  ", len(results.deleted_rule_ids)))
+    print(INDENT * 2, "{:<9} {:>4}".format("Total:    ", len(results.total_rule_ids)))
     print()  # new line
 
 
