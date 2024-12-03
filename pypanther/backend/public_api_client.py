@@ -49,7 +49,6 @@ from .client import (
     ListSchemasResponse,
     PermanentBackendError,
     Schema,
-    UnsupportedEndpointError,
     UpdateSchemaParams,
     UpdateSchemaResponse,
 )
