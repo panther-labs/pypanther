@@ -1,12 +1,14 @@
 from typing import Any
 
 from pypanther.backend.client import (
-    AsyncBulkUploadParams,
-    AsyncBulkUploadResponse,
-    AsyncBulkUploadStatusParams,
-    AsyncBulkUploadStatusResponse,
     BackendCheckResponse,
     BackendResponse,
+    BulkUploadDetectionsParams,
+    BulkUploadDetectionsResponse,
+    BulkUploadDetectionsStatusParams,
+    BulkUploadDetectionsStatusResponse,
+    BulkUploadPresignedURLParams,
+    BulkUploadPresignedURLResponse,
     ListSchemasParams,
     UpdateSchemaParams,
 )
@@ -16,13 +18,22 @@ from pypanther.backend.client import (
 
 
 class MockBackend(BackendClient):
-    def async_bulk_upload(self, params: AsyncBulkUploadParams) -> BackendResponse[AsyncBulkUploadResponse]:  # type: ignore
+    def bulk_upload_presigned_url(
+        self,
+        params: BulkUploadPresignedURLParams,
+    ) -> BackendResponse[BulkUploadPresignedURLResponse] | None:  # type: ignore
         pass
 
-    def async_bulk_upload_status(
+    def bulk_upload_detections(
         self,
-        params: AsyncBulkUploadStatusParams,
-    ) -> BackendResponse[AsyncBulkUploadStatusResponse] | None:  # type: ignore
+        params: BulkUploadDetectionsParams,
+    ) -> BackendResponse[BulkUploadDetectionsResponse] | None:  # type: ignore
+        pass
+
+    def bulk_upload_detections_status(
+        self,
+        params: BulkUploadDetectionsStatusParams,
+    ) -> BackendResponse[BulkUploadDetectionsStatusResponse] | None:  # type: ignore
         pass
 
     def check(self) -> BackendCheckResponse:  # type: ignore

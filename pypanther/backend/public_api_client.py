@@ -130,20 +130,24 @@ class PublicAPIClient(Client):  # pylint: disable=too-many-public-methods
         return BackendCheckResponse(success=True, message=f"connected to Panther backend on version: {panther_version}")
 
     def bulk_upload_presigned_url(
-        self, params: BulkUploadPresignedURLParams,
+        self,
+        params: BulkUploadPresignedURLParams,
     ) -> BackendResponse[BulkUploadPresignedURLResponse]:
         query = self._requests.bulk_upload_presigned_url_query()
-        request_pararms = {
+        request_params = {
             "input": {
                 "pypantherVersion": params.pypanther_version,
             },
         }
-        res = self._safe_execute(query, variable_values=request_pararms)
-        url = res.data.get("bulkUploadPresignedUrl", {}).get("detectionsURL")
-        session_id = res.data.get("bulkUploadPresignedUrl", {}).get("sessionId")
+        response = self._safe_execute(query, variable_values=request_params)
+        url = response.data.get("bulkUploadPresignedUrl", {}).get("detectionsURL")  # type: ignore
+        session_id = response.data.get("bulkUploadPresignedUrl", {}).get("sessionId")  # type: ignore
         return BackendResponse(
             status_code=200,
-            data=BulkUploadPresignedURLResponse(detections_url=url, session_id=session_id),
+            data=BulkUploadPresignedURLResponse(
+                detections_url=url,
+                session_id=session_id,
+            ),
         )
 
     def bulk_upload_detections(
@@ -158,7 +162,7 @@ class PublicAPIClient(Client):  # pylint: disable=too-many-public-methods
             },
         }
         res = self._safe_execute(query, variable_values=upload_params)
-        job_id = res.data.get("bulkUploadDetections", {}).get("id")
+        job_id = res.data.get("bulkUploadDetections", {}).get("id")  # type: ignore
         return BackendResponse(
             status_code=200,
             data=BulkUploadDetectionsResponse(job_id=job_id),
@@ -170,21 +174,21 @@ class PublicAPIClient(Client):  # pylint: disable=too-many-public-methods
     ) -> BackendResponse[BulkUploadDetectionsStatusResponse]:
         query = self._requests.bulk_upload_detections_status_query()
         upload_params = {"input": params.job_id}
-        response = self._safe_execute(query, variable_values=upload_params).data.get("bulkUploadDetectionsStatus", {})
+        res = self._safe_execute(query, variable_values=upload_params).data.get("bulkUploadDetectionsStatus", {})  # type: ignore
         results = None
-        if resp_results := response.get("results"):
+        if res_results := res.get("results"):
             results = BulkUploadDetectionsResults(
-                new_rule_ids=resp_results.get("newRuleIds") or [],
-                modified_rule_ids=resp_results.get("modifiedRuleIds") or [],
-                deleted_rule_ids=resp_results.get("deletedRuleIds") or [],
-                total_rule_ids=resp_results.get("totalRuleIds") or [],
+                new_rule_ids=res_results.get("newRuleIds") or [],
+                modified_rule_ids=res_results.get("modifiedRuleIds") or [],
+                deleted_rule_ids=res_results.get("deletedRuleIds") or [],
+                total_rule_ids=res_results.get("totalRuleIds") or [],
             )
 
         return BackendResponse(
             status_code=200,
             data=BulkUploadDetectionsStatusResponse(
-                status=response.get("status"),
-                message=response.get("message"),
+                status=res.get("status"),
+                message=res.get("message"),
                 results=results,
             ),
         )

@@ -56,7 +56,7 @@ class ChangesSummary(TypedDict):
     total_ids: list[str]
 
 
-def run(backend: BackendClient, args: argparse.Namespace) -> Tuple[int, str]:
+def run(backend: BackendClient, args: argparse.Namespace) -> Tuple[int, str]:  # noqa: PLR0915
     if not args.confirm:
         err = confirm(
             "WARNING: pypanther upload is under active development and not recommended for use"
@@ -117,7 +117,7 @@ def run(backend: BackendClient, args: argparse.Namespace) -> Tuple[int, str]:
         except BackendError as be_err:
             multi_err = BulkUploadDetectionsError.from_json(convert_unicode(be_err))
             if args.output == display.OUTPUT_TYPE_TEXT:
-                print_upload_detection_issues(multi_err)
+                print_upload_detection_error(multi_err)
             elif args.output == display.OUTPUT_TYPE_JSON:
                 output = get_failed_upload_as_dict(
                     multi_err,
@@ -131,7 +131,7 @@ def run(backend: BackendClient, args: argparse.Namespace) -> Tuple[int, str]:
             return 1, ""
 
     changes_summary = None
-    if not args.skip_summary:
+    if not args.skip_summary or args.dry_run:
         changes_summary = dry_run_upload(
             backend=backend,
             session_id=session_id,
@@ -387,7 +387,7 @@ def print_upload_statistics(results: BulkUploadDetectionsResults) -> None:
     print()  # new line
 
 
-def print_upload_detection_issues(err: BulkUploadDetectionsError) -> None:
+def print_upload_detection_error(err: BulkUploadDetectionsError) -> None:
     print(cli_output.failed("Upload Failed"))
     if err.error != "":
         print(INDENT, f"- {cli_output.failed(err.error)}")

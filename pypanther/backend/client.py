@@ -163,7 +163,8 @@ class Client(ABC):
 
     @abstractmethod
     def bulk_upload_presigned_url(
-        self, params: BulkUploadPresignedURLParams,
+        self,
+        params: BulkUploadPresignedURLParams,
     ) -> BackendResponse[BulkUploadPresignedURLResponse]:
         pass
 
