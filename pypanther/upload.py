@@ -17,9 +17,11 @@ from requests import put
 from pypanther import cli_output, display, schemas, testing
 from pypanther.backend.client import (
     BackendError,
-    BackendResponse,
+    BulkUploadDetectionsError,
     BulkUploadDetectionsParams,
+    BulkUploadDetectionsResults,
     BulkUploadDetectionsStatusParams,
+    UploadPresignedURLParams,
 )
 from pypanther.backend.client import Client as BackendClient
 from pypanther.backend.util import convert_unicode
@@ -41,23 +43,17 @@ UPLOAD_RESULT_SUCCESS = "UPLOAD_SUCCEEDED"
 UPLOAD_RESULT_FAILURE = "UPLOAD_FAILED"
 UPLOAD_RESULT_TESTS_FAILED = "TESTS_FAILED"
 
-# There are a couple backend limitations that require the size to be this low.
-# Lambda has a payload size limit of 6MB.
-# The graphql client requires it to be a limit of 4MB (not an exact number).
-UPLOAD_SIZE_LIMIT_MB = 4
+# There is no hard limit on the BE size, but setting this to 10MB for now to avoid customers uploading by mistake large files
+UPLOAD_SIZE_LIMIT_MB = 10
 UPLOAD_SIZE_LIMIT_BYTES = UPLOAD_SIZE_LIMIT_MB * 1024 * 1024
 
 
 class ChangesSummary(TypedDict):
     message: str
-    new: int
-    delete: int
-    modify: int
-    total: int
-    new_ids: list[str] | None
-    delete_ids: list[str] | None
-    modify_ids: list[str] | None
-    total_ids: list[str] | None
+    new_ids: list[str]
+    delete_ids: list[str]
+    modify_ids: list[str]
+    total_ids: list[str]
 
 
 def run(backend: BackendClient, args: argparse.Namespace) -> Tuple[int, str]:
@@ -117,57 +113,11 @@ def run(backend: BackendClient, args: argparse.Namespace) -> Tuple[int, str]:
             print_included_files(zip_info)
 
         try:
-            changes_summary = None
-            if not args.skip_summary:
-                changes_summary = dry_run_upload(backend, Path(tmp.name).read_bytes(), args.verbose, args.output)
-
-                if args.output == display.OUTPUT_TYPE_JSON:
-                    output = get_upload_output_as_dict(
-                        None,
-                        test_results,
-                        [],
-                        args.verbose,
-                        args.skip_tests,
-                        UPLOAD_RESULT_TESTS_FAILED,
-                        changes_summary,
-                    )
-                    print(json.dumps(output, indent=display.JSON_INDENT_LEVEL))
-                else:
-                    print_changes_summary(changes_summary)
-
-            if args.dry_run:
-                return 0, ""
-
-            if not args.skip_summary and not args.confirm:
-                # if the user skips calculating the summary of the changes,
-                # "--confirm" has no effect, as there's no info to act upon
-                err = confirm("Would you like to make this change? [y/n]: ")
-                if err is not None:
-                    return 0, ""
-
-            upload_stats = upload_zip(
-                backend,
-                archive=tmp.name,
-                verbose=args.verbose,
-                output_type=args.output,
-            )
-
-            if args.output == display.OUTPUT_TYPE_JSON:
-                output = get_upload_output_as_dict(
-                    upload_stats,
-                    test_results,
-                    zip_info,
-                    args.verbose,
-                    args.skip_tests,
-                    UPLOAD_RESULT_SUCCESS,
-                    changes_summary,
-                )
-                print(json.dumps(output, indent=display.JSON_INDENT_LEVEL))
-
+            session_id = upload_zip(backend=backend, archive=tmp.name, verbose=args.verbose, output_type=args.output)
         except BackendError as be_err:
-            multi_err = BulkUploadMultipartError.from_jsons(convert_unicode(be_err))
+            multi_err = BulkUploadDetectionsError.from_json(convert_unicode(be_err))
             if args.output == display.OUTPUT_TYPE_TEXT:
-                print_backend_issues(multi_err)
+                print_upload_detection_issues(multi_err)
             elif args.output == display.OUTPUT_TYPE_JSON:
                 output = get_failed_upload_as_dict(
                     multi_err,
@@ -180,38 +130,118 @@ def run(backend: BackendClient, args: argparse.Namespace) -> Tuple[int, str]:
                 print(json.dumps(output, indent=display.JSON_INDENT_LEVEL))
             return 1, ""
 
+    changes_summary = None
+    if not args.skip_summary:
+        changes_summary = dry_run_upload(
+            backend=backend,
+            session_id=session_id,
+            verbose=args.verbose,
+            output_type=args.output,
+        )
+
+        if args.output == display.OUTPUT_TYPE_JSON:
+            output = get_upload_output_as_dict(
+                None,
+                test_results,
+                [],
+                args.verbose,
+                args.skip_tests,
+                UPLOAD_RESULT_TESTS_FAILED,
+                changes_summary,
+            )
+            print(json.dumps(output, indent=display.JSON_INDENT_LEVEL))
+        else:
+            print_changes_summary(changes_summary)
+
+    if args.dry_run:
+        return 0, ""
+
+    if not args.skip_summary and not args.confirm:
+        # if the user skips calculating the summary of the changes,
+        # "--confirm" has no effect, as there's no info to act upon
+        err = confirm("Would you like to make this change? [y/n]: ")
+        if err is not None:
+            print("entered here")
+            return 0, ""
+
+    upload_stats = run_upload(
+        backend=backend,
+        session_id=session_id,
+        verbose=args.verbose,
+        output_type=args.output,
+    )
+
+    if args.output == display.OUTPUT_TYPE_JSON:
+        output = get_upload_output_as_dict(
+            upload_stats,
+            test_results,
+            zip_info,
+            args.verbose,
+            args.skip_tests,
+            UPLOAD_RESULT_SUCCESS,
+            changes_summary,
+        )
+        print(json.dumps(output, indent=display.JSON_INDENT_LEVEL))
+    else:
+        print_upload_statistics(upload_stats)
+
     return 0, ""
 
 
-def dry_run_upload(backend: BackendClient, data: bytes, verbose, output_type) -> ChangesSummary:
+def dry_run_upload(backend: BackendClient, session_id: str, verbose: bool, output_type: str) -> ChangesSummary | None:
     if verbose and output_type == display.OUTPUT_TYPE_TEXT:
         print(cli_output.header("Calculating changes..."))
     elif output_type == display.OUTPUT_TYPE_TEXT:
         print("Calculating changes...")
         print()  # new line
 
-    params = AsyncBulkUploadParams(zip_bytes=data, dry_run=True)
-    start_upload_response = backend.async_bulk_upload(params)
-    while True:
-        time.sleep(2)
-        status_response = backend.async_bulk_upload_status(
-            AsyncBulkUploadStatusParams(receipt_id=start_upload_response.data.receipt_id),
-        )
-        if status_response:
-            break
-    upload_stats = status_response.data
-    changes_summary = ChangesSummary(
-        message=f"Will add {upload_stats.rules.new} new rules and delete {upload_stats.rules.deleted} rules (total {upload_stats.rules.total} rules)",
-        new=upload_stats.rules.new,
-        delete=upload_stats.rules.deleted,
-        modify=upload_stats.rules.modified,
-        total=upload_stats.rules.total,
-        new_ids=upload_stats.rules.new_ids,
-        delete_ids=upload_stats.rules.deleted_ids,
-        modify_ids=upload_stats.rules.modified_ids,
-        total_ids=upload_stats.rules.total_ids,
+    start_upload_response = backend.bulk_upload_detections(
+        BulkUploadDetectionsParams(session_id=session_id, dry_run=True),
     )
-    return changes_summary
+    while True:
+        time.sleep(1)
+        status_response = backend.bulk_upload_detections_status(
+            BulkUploadDetectionsStatusParams(job_id=start_upload_response.data.job_id),
+        )
+        if verbose and output_type == display.OUTPUT_TYPE_TEXT:
+            print(f"Got status response {status_response.data.status}")
+        if status_response.data.status == "Failed":
+            print("status is failed with error ", status_response.data.message)
+            return None
+        if status_response.data.status == "Succeeded":
+            upload_stats = status_response.data.results
+            changes_summary = ChangesSummary(
+                message=f"Will add {len(upload_stats.new_rule_ids)} new rules and delete {len(upload_stats.deleted_rule_ids)} rules (total {len(upload_stats.total_rule_ids)} rules)",
+                new_ids=upload_stats.new_rule_ids,
+                delete_ids=upload_stats.deleted_rule_ids,
+                modify_ids=upload_stats.modified_rule_ids,
+                total_ids=upload_stats.total_rule_ids)
+            return changes_summary
+
+
+def run_upload(
+    backend: BackendClient,
+    session_id: str,
+    verbose: bool,
+    output_type: str,
+) -> BulkUploadDetectionsResults | None:
+    resp = backend.bulk_upload_detections(
+        BulkUploadDetectionsParams(session_id=session_id, dry_run=False),
+    )
+
+    while True:
+        time.sleep(1)
+        status_response = backend.bulk_upload_detections_status(
+            BulkUploadDetectionsStatusParams(job_id=resp.data.job_id),
+        )
+        if verbose and output_type == display.OUTPUT_TYPE_TEXT:
+            print(f"Got status response {status_response.data.status}")
+        if status_response.data.status == "Failed":
+            if output_type == display.OUTPUT_TYPE_TEXT:
+                print("status is failed with error ", status_response.data.message)
+            return None
+        if status_response.data.status == "Succeeded":
+            return status_response.data.results
 
 
 def zip_contents(named_temp_file: Any) -> list[zipfile.ZipInfo]:
@@ -235,122 +265,39 @@ def zip_contents(named_temp_file: Any) -> list[zipfile.ZipInfo]:
         return zip_out.infolist()
 
 
+# Uploads the zip file and returns the session_id
 def upload_zip(
     backend: BackendClient,
     archive: str,
     verbose: bool,
     output_type: str,
-) -> AsyncBulkUploadStatusResponse:
-    pyPantherVersion = importlib.metadata.version("pypanther")
-    response = backend.detections_upload_presigned_url(
-        params=UploadDetectionsPresignedURLParams(pypanther_version=pyPantherVersion),
+) -> str:
+    if verbose and output_type == display.OUTPUT_TYPE_TEXT:
+        print("requesting presigned URL for upload")
+        print()
+
+    pypanther_version = importlib.metadata.version("pypanther")
+    response = backend.upload_presigned_url(
+        params=UploadPresignedURLParams(pypanther_version=pypanther_version),
     )
 
     with open(archive, "rb") as analysis_zip:
-        if verbose and output_type == display.OUTPUT_TYPE_TEXT:
-            print(cli_output.header("Uploading to Panther"))
-        elif output_type == display.OUTPUT_TYPE_TEXT:
-            print("Uploading to Panther")
-            print()  # new line
-
-        print("making PUT to presigned URL")
-        data = base64.b64encode(analysis_zip.read()).decode("utf-8")
-        headers = {"x-amz-meta-pypantherversion": pyPantherVersion}
-        put(response.data.detections_url, data=data, headers=headers)
-        print("finished making PUT to presigned URL")
-
-        print("calling bulk upload for sessionID ", response.data.session_id)
-        resp = backend.bulk_upload_detections(
-            BulkUploadDetectionsParams(session_id=response.data.session_id, dry_run=False),
-        )
-
-        while True:
-            time.sleep(1)
-            status_response = backend.bulk_upload_detections_status(
-                BulkUploadDetectionsStatusParams(job_id=resp.data.job_id),
-            )
-            print("status response: ", status_response.data.status)
-            if status_response.data.status == "Failed":
-                print("status is failed with error ", status_response.data.message)
-                return None
-            if status_response.data.status == "Succeeded":
-                print("status is succeeded")
+        if output_type == display.OUTPUT_TYPE_TEXT:
+            if verbose:
                 print(
-                    "status response: ",
-                    {
-                        "newRules": len(status_response.data.results.new_rule_ids)
-                        if status_response.data.results.new_rule_ids
-                        else 0,
-                        "modifiedRules": len(status_response.data.results.modified_rule_ids)
-                        if status_response.data.results.modified_rule_ids
-                        else 0,
-                        "deletedRules": len(status_response.data.results.deleted_rule_ids)
-                        if status_response.data.results.deleted_rule_ids
-                        else 0,
-                        "totalRules": len(status_response.data.results.total_rule_ids)
-                        if status_response.data.results.total_rule_ids
-                        else 0,
-                    },
+                    f"Uploading detections zip file to URL: {response.data.detections_url} with pypanther version {pypanther_version}",
                 )
-                return None
-
-        analysis_zip.seek(0)
-        upload_params = AsyncBulkUploadParams(zip_bytes=analysis_zip.read(), dry_run=False)
-        retry_count = 0
-
-    # We should retry failures for up to 10 times
-    max_retries = 10
-    while True:
-        try:
-            start_upload_response = backend.async_bulk_upload(upload_params)
-            if verbose and output_type == display.OUTPUT_TYPE_TEXT:
-                print(INDENT, "- Upload started")
-
-            while True:
-                time.sleep(2)
-
-                status_response = backend.async_bulk_upload_status(
-                    AsyncBulkUploadStatusParams(receipt_id=start_upload_response.data.receipt_id),
-                )
-                if status_response is not None:
-                    if output_type == display.OUTPUT_TYPE_TEXT:
-                        if verbose:
-                            print(INDENT, "- Upload finished")
-                            print()  # new line
-
-                        print_upload_statistics(status_response)
-
-                    if output_type == display.OUTPUT_TYPE_TEXT:
-                        print(cli_output.success("Upload succeeded"))
-
-                    return status_response.data
-
-                if verbose and output_type == display.OUTPUT_TYPE_TEXT:
-                    print(INDENT, "- Upload still in progress")
-
-        except BackendError as be_err:
-            if verbose and output_type == display.OUTPUT_TYPE_TEXT:
-                print()  # new line for after upload statuses
-
-            if be_err.permanent is True:
-                raise be_err
-
-            if max_retries - retry_count > 0:
-                retry_count += 1
-
-                if verbose and output_type == display.OUTPUT_TYPE_TEXT:
-                    print(INDENT, "- Upload failed")
-                    print(INDENT, f"- Will retry in 30 seconds ({max_retries - retry_count} retries remaining)")
-
-                time.sleep(30)
-
             else:
-                logging.warning("Exhausted retries attempting to perform bulk upload.")
-                raise be_err
+                print("Uploading detections...")
 
-        # PEP8 guide states it is OK to catch BaseException if you log it.
-        except BaseException as err:  # pylint: disable=broad-except
-            raise err
+        headers = {"x-amz-meta-pypantherversion": pypanther_version}
+        data = base64.b64encode(analysis_zip.read()).decode("utf-8")
+        # The timeout is set to 300 seconds to allow for larger files to be uploaded
+        put(response.data.detections_url, data=data, headers=headers, timeout=300)
+        if verbose and output_type == display.OUTPUT_TYPE_TEXT:
+            print("finished uploading detections zip file")
+
+        return response.data.session_id
 
 
 def confirm(warning_text: str) -> Optional[str]:
@@ -365,7 +312,7 @@ def confirm(warning_text: str) -> Optional[str]:
 
 
 def get_upload_output_as_dict(
-    upload_stats: AsyncBulkUploadStatusResponse | None,
+    upload_stats: BulkUploadDetectionsResults | None,
     test_results: testing.TestResults,
     zip_infos: list[zipfile.ZipInfo],
     verbose: bool,
@@ -374,7 +321,7 @@ def get_upload_output_as_dict(
     changes_summary: ChangesSummary | None,
 ) -> dict:
     output: dict[str, Any] = {"result": upload_result}
-    if upload_stats is not None:
+    if upload_stats:
         output["upload_statistics"] = asdict(upload_stats)
     if not skip_tests:
         output["tests"] = testing.test_output_dict(test_results, verbose)
@@ -385,16 +332,16 @@ def get_upload_output_as_dict(
     if changes_summary:
         output["summary"] = {
             "message": changes_summary["message"],
-            "new": changes_summary["new"],
-            "delete": changes_summary["delete"],
-            "modify": changes_summary["modify"],
+            "new": len(changes_summary["new_ids"]),
+            "delete": len(changes_summary["delete_ids"]),
+            "modify": len(changes_summary["modify_ids"]),
         }
 
     return output
 
 
 def get_failed_upload_as_dict(
-    err: BulkUploadMultipartError,
+    err: BulkUploadDetectionsError,
     test_results: testing.TestResults,
     zip_infos: list[zipfile.ZipInfo],
     verbose: bool,
@@ -429,46 +376,42 @@ def print_included_files(zip_info: list[zipfile.ZipInfo]) -> None:
     print()  # new line
 
 
-def print_upload_statistics(status_response: BackendResponse[AsyncBulkUploadStatusResponse]) -> None:
+def print_upload_statistics(results: BulkUploadDetectionsResults) -> None:
     print(cli_output.header("Upload Statistics"))
     print(INDENT, cli_output.bold("Rules:"))
-    print(INDENT * 2, "{:<9} {}".format("New:      ", status_response.data.rules.new))
-    print(INDENT * 2, "{:<9} {}".format("Modified: ", status_response.data.rules.modified))
-    print(INDENT * 2, "{:<9} {}".format("Deleted:  ", status_response.data.rules.deleted))
-    print(INDENT * 2, "{:<9} {}".format("Total:    ", status_response.data.rules.total))
+    print(INDENT * 2, "{:<9} {}".format("New:      ", len(results.new_rule_ids)))
+    print(INDENT * 2, "{:<9} {}".format("Modified: ", len(results.modified_rule_ids)))
+    print(INDENT * 2, "{:<9} {}".format("Deleted:  ", len(results.deleted_rule_ids)))
+    print(INDENT * 2, "{:<9} {}".format("Total:    ", len(results.total_rule_ids)))
     print()  # new line
 
 
-def print_backend_issues(err: BulkUploadMultipartError) -> None:
+def print_upload_detection_issues(err: BulkUploadDetectionsError) -> None:
     print(cli_output.failed("Upload Failed"))
-    if err.get_error() != "":
-        print(INDENT, f"- {cli_output.failed(err.get_error())}")
-    if len(err.get_issues()) > 0:
-        for issue in err.get_issues():
-            print(INDENT, f"- Error: {cli_output.failed(issue.error_message)}")
-            print(INDENT, f"  Path:  {cli_output.failed(issue.path)}")
+    if err.error != "":
+        print(INDENT, f"- {cli_output.failed(err.error)}")
 
 
 def print_changes_summary(changes_summary: ChangesSummary) -> None:
     print(changes_summary["message"])
     print()  # new line
     if changes_summary["new_ids"]:
-        print(f"New [{changes_summary['new']}]:")
+        print(f"New [{len(changes_summary['new_ids'])}]:")
         for id_ in changes_summary["new_ids"]:
             print(f"+ {id_}")
         print()  # new line
     if changes_summary["delete_ids"]:
-        print(f"Delete [{changes_summary['delete']}]:")
+        print(f"Delete [{len(changes_summary['delete_ids'])}]:")
         for id_ in changes_summary["delete_ids"]:
             print(f"- {id_}")
         print()  # new line
     if changes_summary["modify_ids"]:
-        print(f"Modify [{changes_summary['modify']}]:")
+        print(f"Modify [{len(changes_summary['modify_ids'])}]:")
         for id_ in changes_summary["modify_ids"]:
             print(f"~ {id_}")
         print()  # new line
     print(cli_output.header("Changes Summary"))
-    print(INDENT, f"New:     {changes_summary['new']:>3}")
-    print(INDENT, f"Delete:  {changes_summary['delete']:>3}")
-    print(INDENT, f"Modify:  {changes_summary['modify']:>3}")
+    print(INDENT, f"New:     {len(changes_summary['new_ids']):>3}")
+    print(INDENT, f"Delete:  {len(changes_summary['delete_ids']):>3}")
+    print(INDENT, f"Modify:  {len(changes_summary['modify_ids']):>3}")
     print()  # new line

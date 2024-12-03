@@ -1,6 +1,3 @@
-from pypanther.backend.client import BackendMultipartError
-
-
 class BColors:
     HEADER = "\033[95m"
     OKBLUE = "\033[94m"
@@ -47,21 +44,3 @@ def underline(text: str) -> str:
 
 def failed(text: str) -> str:
     return BColors.wrap(BColors.FAIL, text)
-
-
-def multipart_error_msg(result: BackendMultipartError, msg: str) -> str:
-    return_str = "\n-----\n"
-
-    if result.has_error():
-        return_str += f"{bold('Error')}: {result.get_error()}\n-----\n"
-
-    for issue in result.get_issues():
-        if issue.path and issue.path != "":
-            return_str += f"{bold('Path')}: {issue.path}\n"
-
-        if issue.error_message and issue.error_message != "":
-            return_str += f"{bold('Error')}: {issue.error_message}\n"
-
-        return_str += "-----\n"
-
-    return f"{return_str}\n{failed(msg)}"

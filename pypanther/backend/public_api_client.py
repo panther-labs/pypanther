@@ -145,7 +145,8 @@ class PublicAPIClient(Client):  # pylint: disable=too-many-public-methods
         )
 
     def bulk_upload_detections(
-        self, params: BulkUploadDetectionsParams,
+        self,
+        params: BulkUploadDetectionsParams,
     ) -> BackendResponse[BulkUploadDetectionsResponse]:
         query = self._requests.async_bulk_upload_detections_mutation()
         upload_params = {
@@ -162,27 +163,26 @@ class PublicAPIClient(Client):  # pylint: disable=too-many-public-methods
         )
 
     def bulk_upload_detections_status(
-        self, params: BulkUploadDetectionsStatusParams,
+        self,
+        params: BulkUploadDetectionsStatusParams,
     ) -> BackendResponse[BulkUploadDetectionsStatusResponse]:
         query = self._requests.async_bulk_upload_detections_status_query()
         upload_params = {"input": params.job_id}
-        res = self._safe_execute(query, variable_values=upload_params).data.get("bulkUploadDetectionsStatus", {})
-
-        if res.get("results"):
+        response = self._safe_execute(query, variable_values=upload_params).data.get("bulkUploadDetectionsStatus", {})
+        results = None
+        if resp_results := response.get("results"):
             results = BulkUploadDetectionsResults(
-                new_rule_ids=res.get("results").get("newRuleIds"),
-                modified_rule_ids=res.get("results").get("modifiedRuleIds"),
-                deleted_rule_ids=res.get("results").get("deletedRuleIds"),
-                total_rule_ids=res.get("results").get("totalRuleIds"),
+                new_rule_ids=resp_results.get("newRuleIds") or [],
+                modified_rule_ids=resp_results.get("modifiedRuleIds") or [],
+                deleted_rule_ids=resp_results.get("deletedRuleIds") or  [],
+                total_rule_ids=resp_results.get("totalRuleIds") or [],
             )
-        else:
-            results = None
 
         return BackendResponse(
             status_code=200,
             data=BulkUploadDetectionsStatusResponse(
-                status=res.get("status"),
-                message=res.get("message"),
+                status=response.get("status"),
+                message=response.get("message"),
                 results=results,
             ),
         )

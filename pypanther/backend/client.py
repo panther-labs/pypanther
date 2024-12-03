@@ -19,9 +19,10 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 import ast
 import datetime
+import json
 from abc import ABC, abstractmethod
-from dataclasses import dataclass
-from typing import Any, Generic, List, Optional, TypeVar
+from dataclasses import dataclass, field
+from typing import Any, Dict, Generic, List, Optional, TypeVar
 
 import dateutil.parser
 
@@ -79,6 +80,28 @@ class BulkUploadDetectionsStatusParams:
     job_id: str
 
 
+@dataclass
+class BulkUploadDetectionsError:
+    error: str
+
+    @classmethod
+    def from_json(cls, data: str) -> "BulkUploadDetectionsError":
+        return BulkUploadDetectionsError.from_dict(json.loads(data))
+
+    @classmethod
+    def from_dict(cls, data: Optional[Dict[str, Any]]) -> "BulkUploadDetectionsError":
+        if not data:
+            return cls(error="")
+        err = data.get("error") or ""
+        err = parse_graphql_error(err)
+        return cls(error=err)
+
+    def asdict(self) -> dict[str, Any]:
+        return {
+            "error": self.error,
+        }
+
+
 @dataclass(frozen=True)
 class BulkUploadDetectionsResults:
     new_rule_ids: list[str]
@@ -107,16 +130,6 @@ class UpdateSchemaParams:
     revision: int
     spec: str
     field_discovery_enabled: bool
-
-
-class BackendMultipartError(ABC):
-    @abstractmethod
-    def has_error(self) -> bool:
-        pass
-
-    @abstractmethod
-    def get_error(self) -> Optional[str]:
-        pass
 
 
 # pylint: disable=too-many-instance-attributes
@@ -154,13 +167,15 @@ class Client(ABC):
 
     @abstractmethod
     def bulk_upload_detections(
-        self, params: BulkUploadDetectionsParams,
+        self,
+        params: BulkUploadDetectionsParams,
     ) -> BackendResponse[BulkUploadDetectionsResponse]:
         pass
 
     @abstractmethod
     def bulk_upload_detections_status(
-        self, params: BulkUploadDetectionsStatusParams,
+        self,
+        params: BulkUploadDetectionsStatusParams,
     ) -> BackendResponse[BulkUploadDetectionsStatusResponse]:
         pass
 
