@@ -188,7 +188,7 @@ def run(backend: BackendClient, args: argparse.Namespace) -> Tuple[int, str]:  #
     return 0, ""
 
 
-def dry_run_upload(backend: BackendClient, session_id: str, verbose: bool, output_type: str) -> ChangesSummary | None:
+def dry_run_upload(backend: BackendClient, session_id: str, verbose: bool, output_type: str) -> ChangesSummary:
     if verbose and output_type == display.OUTPUT_TYPE_TEXT:
         print(cli_output.header("Calculating changes..."))
     elif output_type == display.OUTPUT_TYPE_TEXT:
@@ -206,10 +206,11 @@ def dry_run_upload(backend: BackendClient, session_id: str, verbose: bool, outpu
         if verbose and output_type == display.OUTPUT_TYPE_TEXT:
             print(f"Got status response {status_response.data.status}")
         if status_response.data.status == "Failed":
-            print("status is failed with error ", status_response.data.message)
-            return None
+            raise BackendError(status_response.data.message)
         if status_response.data.status == "Succeeded":
             upload_stats = status_response.data.results
+            if not upload_stats:
+                raise BackendError("No results found in status response")
             changes_summary = ChangesSummary(
                 message=f"Will add {len(upload_stats.new_rule_ids)} new rules and delete {len(upload_stats.deleted_rule_ids)} rules (total {len(upload_stats.total_rule_ids)} rules)",
                 new_ids=upload_stats.new_rule_ids,
@@ -225,7 +226,7 @@ def run_upload(
     session_id: str,
     verbose: bool,
     output_type: str,
-) -> BulkUploadDetectionsResults | None:
+) -> BulkUploadDetectionsResults:
     resp = backend.bulk_upload_detections(
         BulkUploadDetectionsParams(session_id=session_id, dry_run=False),
     )
@@ -238,11 +239,12 @@ def run_upload(
         if verbose and output_type == display.OUTPUT_TYPE_TEXT:
             print(f"Got status response {status_response.data.status}")
         if status_response.data.status == "Failed":
-            if output_type == display.OUTPUT_TYPE_TEXT:
-                print("status is failed with error ", status_response.data.message)
-            return None
+            raise BackendError(status_response.data.message)
         if status_response.data.status == "Succeeded":
-            return status_response.data.results
+            results = status_response.data.results
+            if not results:
+                raise BackendError("No results found in status response")
+            return results
 
 
 def zip_contents(named_temp_file: Any) -> list[zipfile.ZipInfo]:

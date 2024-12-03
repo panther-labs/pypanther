@@ -114,7 +114,7 @@ class BulkUploadDetectionsResults:
 class BulkUploadDetectionsStatusResponse:
     message: str
     status: str
-    results: Optional[BulkUploadDetectionsResults]
+    results: BulkUploadDetectionsResults | None
 
 
 @dataclass(frozen=True)

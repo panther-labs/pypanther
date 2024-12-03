@@ -18,22 +18,22 @@ from pypanther.backend.client import (
 
 
 class MockBackend(BackendClient):
-    def bulk_upload_presigned_url(
+    def bulk_upload_presigned_url(  # type: ignore
         self,
         params: BulkUploadPresignedURLParams,
-    ) -> BackendResponse[BulkUploadPresignedURLResponse] | None:  # type: ignore
+    ) -> BackendResponse[BulkUploadPresignedURLResponse]:  # type: ignore
         pass
 
-    def bulk_upload_detections(
+    def bulk_upload_detections(  # type: ignore
         self,
         params: BulkUploadDetectionsParams,
-    ) -> BackendResponse[BulkUploadDetectionsResponse] | None:  # type: ignore
+    ) -> BackendResponse[BulkUploadDetectionsResponse]:
         pass
 
-    def bulk_upload_detections_status(
+    def bulk_upload_detections_status(  # type: ignore
         self,
         params: BulkUploadDetectionsStatusParams,
-    ) -> BackendResponse[BulkUploadDetectionsStatusResponse] | None:  # type: ignore
+    ) -> BackendResponse[BulkUploadDetectionsStatusResponse]:
         pass
 
     def check(self) -> BackendCheckResponse:  # type: ignore
