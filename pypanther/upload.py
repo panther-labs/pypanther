@@ -415,7 +415,7 @@ def print_changes_summary(changes_summary: ChangesSummary) -> None:
         print()  # new line
     print(cli_output.header("Changes Summary"))
     print(INDENT, f"New:     {len(changes_summary['new_ids']):>4}")
-    print(INDENT, f"Delete:  {len(changes_summary['delete_ids']):>4}")
     print(INDENT, f"Modify:  {len(changes_summary['modify_ids']):>4}")
+    print(INDENT, f"Delete:  {len(changes_summary['delete_ids']):>4}")
     print(INDENT, f"Total:   {len(changes_summary['total_ids']):>4}")
     print()  # new line
