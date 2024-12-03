@@ -301,6 +301,7 @@ class PublicAPIClient(Client):  # pylint: disable=too-many-public-methods
 
         return res
 
+
 _API_URL_PATH = "public/graphql"
 _API_DOMAIN_PREFIX = "api"
 _API_TOKEN_HEADER = "X-API-Key"  # nosec

@@ -146,7 +146,7 @@ def run(backend: BackendClient, args: argparse.Namespace) -> Tuple[int, str]:  #
                 [],
                 args.verbose,
                 args.skip_tests,
-                UPLOAD_RESULT_TESTS_FAILED,
+                UPLOAD_RESULT_SUCCESS,
                 changes_summary,
             )
             print(json.dumps(output, indent=display.JSON_INDENT_LEVEL))
@@ -414,7 +414,8 @@ def print_changes_summary(changes_summary: ChangesSummary) -> None:
             print(f"~ {id_}")
         print()  # new line
     print(cli_output.header("Changes Summary"))
-    print(INDENT, f"New:     {len(changes_summary['new_ids']):>3}")
-    print(INDENT, f"Delete:  {len(changes_summary['delete_ids']):>3}")
-    print(INDENT, f"Modify:  {len(changes_summary['modify_ids']):>3}")
+    print(INDENT, f"New:     {len(changes_summary['new_ids']):>4}")
+    print(INDENT, f"Delete:  {len(changes_summary['delete_ids']):>4}")
+    print(INDENT, f"Modify:  {len(changes_summary['modify_ids']):>4}")
+    print(INDENT, f"Total:   {len(changes_summary['total_ids']):>4}")
     print()  # new line
