@@ -301,33 +301,6 @@ class PublicAPIClient(Client):  # pylint: disable=too-many-public-methods
 
         return res
 
-    def _potentially_supported_execute(
-        self,
-        request: "DocumentNode",
-        variable_values: Optional[Dict[str, Any]] = None,
-    ) -> "ExecutionResult":
-        """
-        Same behavior as _safe_execute but throws an UnSupportedEndpointError
-        whenever a graphql validation error is detected
-        """
-        try:
-            return self._safe_execute(request, variable_values)
-        except BaseException as err:
-            not_supported = False
-            try:
-                not_supported = (
-                    err.args[0]["extensions"]["code"]  # pylint: disable=invalid-sequence-index
-                    == "GRAPHQL_VALIDATION_FAILED"
-                )
-            except BaseException:  # pylint: disable=broad-except
-                pass
-
-            if not_supported:
-                raise UnsupportedEndpointError(err) from err
-
-            raise err
-
-
 _API_URL_PATH = "public/graphql"
 _API_DOMAIN_PREFIX = "api"
 _API_TOKEN_HEADER = "X-API-Key"  # nosec
