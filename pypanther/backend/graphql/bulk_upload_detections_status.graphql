@@ -1,0 +1,12 @@
+query bulkUploadDetectionsStatus($input: ID!) {
+    bulkUploadDetectionsStatus(jobId: $input) {
+        message
+        status
+        results {
+            deletedRuleIds
+            modifiedRuleIds
+            newRuleIds
+            totalRuleIds
+        }
+    }
+}
