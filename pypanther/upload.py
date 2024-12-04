@@ -12,7 +12,7 @@ from fnmatch import fnmatch
 from pathlib import Path
 from typing import Any, Optional, Tuple, TypedDict
 
-from requests import put
+import requests
 
 from pypanther import cli_output, display, schemas, testing
 from pypanther.backend.client import (
@@ -296,7 +296,7 @@ def upload_zip(
         headers = {"x-amz-meta-pypantherversion": pypanther_version}
         data = base64.b64encode(analysis_zip.read()).decode("utf-8")
         # The timeout is set to 300 seconds to allow for larger files to be uploaded
-        put(response.data.detections_url, data=data, headers=headers, timeout=300)
+        requests.put(response.data.detections_url, data=data, headers=headers, timeout=300)
         if verbose and output_type == display.OUTPUT_TYPE_TEXT:
             print("finished uploading detections zip file")
 
