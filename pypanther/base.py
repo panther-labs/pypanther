@@ -161,7 +161,7 @@ DEFAULT_DEDUP_PERIOD_MINUTES = 60
 DEFAULT_DESCRIPTION = ""
 DEFAULT_DISPLAY_NAME = ""
 DEFAULT_ENABLED = True
-DEFAULT_OUTPUT_IDS: List[str] = []
+DEFAULT_DESTINATIONS: List[str] = []
 DEFAULT_REFERENCE = ""
 DEFAULT_REPORTS: Dict[str, List[str]] = {}
 DEFAULT_RUNBOOK = ""
@@ -193,7 +193,7 @@ class Rule(metaclass=abc.ABCMeta):
     exclude_filters: list[Callable[[PantherEvent], bool]] = DEFAULT_EXCLUDE_FILTERS
 
     default_severity: Severity | str
-    default_destinations: List[str] = DEFAULT_OUTPUT_IDS
+    default_destinations: List[str] = DEFAULT_DESTINATIONS
     default_runbook: str = DEFAULT_RUNBOOK
     default_reference: str = DEFAULT_REFERENCE
     default_description: str = DEFAULT_DESCRIPTION
