@@ -92,8 +92,7 @@ class BulkUploadDetectionsError:
     def from_dict(cls, data: Optional[Dict[str, Any]]) -> "BulkUploadDetectionsError":
         if not data:
             return cls(error="")
-        err = data.get("error") or ""
-        err = parse_graphql_error(err)
+        err = data.get("errorMessage") or ""
         return cls(error=err)
 
     def asdict(self) -> dict[str, Any]:

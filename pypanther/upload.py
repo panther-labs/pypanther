@@ -130,46 +130,62 @@ def run(backend: BackendClient, args: argparse.Namespace) -> Tuple[int, str]:  #
                 print(json.dumps(output, indent=display.JSON_INDENT_LEVEL))
             return 1, ""
 
-    changes_summary = None
-    if not args.skip_summary or args.dry_run:
-        changes_summary = dry_run_upload(
+    try:
+        changes_summary = None
+        if not args.skip_summary or args.dry_run:
+            changes_summary = dry_run_upload(
+                backend=backend,
+                session_id=session_id,
+                verbose=args.verbose,
+                output_type=args.output,
+            )
+
+            if args.output == display.OUTPUT_TYPE_JSON:
+                output = get_upload_output_as_dict(
+                    None,
+                    test_results,
+                    [],
+                    args.verbose,
+                    args.skip_tests,
+                    UPLOAD_RESULT_SUCCESS,
+                    changes_summary,
+                )
+                print(json.dumps(output, indent=display.JSON_INDENT_LEVEL))
+            else:
+                print_changes_summary(changes_summary)
+
+        if args.dry_run:
+            return 0, ""
+
+        if not args.skip_summary and not args.confirm:
+            # if the user skips calculating the summary of the changes,
+            # "--confirm" has no effect, as there's no info to act upon
+            err = confirm("Would you like to make this change? [y/n]: ")
+            if err is not None:
+                print("entered here")
+                return 0, ""
+
+        upload_stats = run_upload(
             backend=backend,
             session_id=session_id,
             verbose=args.verbose,
             output_type=args.output,
         )
-
-        if args.output == display.OUTPUT_TYPE_JSON:
-            output = get_upload_output_as_dict(
-                None,
+    except BackendError as err:
+        multi_err = BulkUploadDetectionsError.from_json(convert_unicode(err))
+        if args.output == display.OUTPUT_TYPE_TEXT:
+            print_upload_detection_error(multi_err)
+        elif args.output == display.OUTPUT_TYPE_JSON:
+            output = get_failed_upload_as_dict(
+                multi_err,
                 test_results,
-                [],
+                zip_info,
                 args.verbose,
                 args.skip_tests,
-                UPLOAD_RESULT_SUCCESS,
-                changes_summary,
+                UPLOAD_RESULT_FAILURE,
             )
             print(json.dumps(output, indent=display.JSON_INDENT_LEVEL))
-        else:
-            print_changes_summary(changes_summary)
-
-    if args.dry_run:
-        return 0, ""
-
-    if not args.skip_summary and not args.confirm:
-        # if the user skips calculating the summary of the changes,
-        # "--confirm" has no effect, as there's no info to act upon
-        err = confirm("Would you like to make this change? [y/n]: ")
-        if err is not None:
-            print("entered here")
-            return 0, ""
-
-    upload_stats = run_upload(
-        backend=backend,
-        session_id=session_id,
-        verbose=args.verbose,
-        output_type=args.output,
-    )
+        return 1, ""
 
     if args.output == display.OUTPUT_TYPE_JSON:
         output = get_upload_output_as_dict(
