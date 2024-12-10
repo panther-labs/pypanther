@@ -17,7 +17,6 @@ You should have received a copy of the GNU Affero General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
 
-import ast
 import datetime
 import json
 from abc import ABC, abstractmethod
@@ -196,18 +195,3 @@ def backend_response_failed(resp: BackendResponse) -> bool:
 
 def parse_optional_time(time: Optional[str]) -> Optional[datetime.datetime]:
     return None if time is None else dateutil.parser.parse(time)
-
-
-def parse_graphql_error(err: str) -> str:
-    """
-    Attempt to take what might be a graphql error from the backend and turn it into a dict.
-    If it is not a graphql error or could not be turned into a dict, the original error is
-    returned.
-    """
-    try:
-        # if the backend returns a graphqlerror, it has single quotes which json can't
-        # handle. So we need to use literal eval here and then check if it has the
-        # message field which an error would
-        return ast.literal_eval(str(err)).get("message") or err
-    except BaseException:  # pylint: disable=broad-except
-        return err
