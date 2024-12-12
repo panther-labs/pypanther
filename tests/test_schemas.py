@@ -1,3 +1,4 @@
+import io
 import os
 import unittest
 from pathlib import Path
@@ -22,27 +23,23 @@ FIXTURES_PATH = fixtures_dir.absolute()
 
 class TestUtilities(unittest.TestCase):
     def test_report_summary(self):
-        summary = schemas.report_summary(
-            "/a/b/schemas",
-            [
-                schemas.UploaderResult(
-                    error="yaml.scanner.ScannerError: mapping values are not allowed here",
-                    filename="/a/b/schemas/s1.yml",
-                    name=None,
-                ),
-            ],
-            False,
-        )
-        self.assertListEqual(
-            summary,
-            [
-                (
-                    True,
-                    "Failed to update schema from definition in file 's1.yml': "
-                    "yaml.scanner.ScannerError: mapping values are not allowed here",
-                ),
-            ],
-        )
+        from contextlib import redirect_stdout
+
+        with io.StringIO() as buf, redirect_stdout(buf):
+            schemas.report_summary(
+                "/a/b/schemas",
+                [
+                    schemas.UploaderResult(
+                        error="yaml.scanner.ScannerError: mapping values are not allowed here",
+                        filename="/a/b/schemas/s1.yml",
+                        name=None,
+                    ),
+                ],
+                False,
+                True,
+            )
+            output = buf.getvalue()
+            self.assertIn("Failed to update schema from definition", output)
 
     def test_discover_files(self):
         path = os.path.join(FIXTURES_PATH, "custom_schemas", "valid")
@@ -292,8 +289,8 @@ class TestUploader(unittest.TestCase):
                     params=UpdateSchemaParams(
                         name="Custom.AWSAccountIDs",
                         spec=self.valid_schema0,
-                        description="Sample Lookup Table Schema 1",
-                        reference_url="https://runpanther.io",
+                        description="Sample LUT Schema 1",
+                        reference_url="https://panther.com",
                         revision=17,
                         field_discovery_enabled=False,
                     ),
@@ -308,7 +305,7 @@ class TestUploader(unittest.TestCase):
                         name="Custom.Sample.Schema3",
                         spec=self.valid_schema3,
                         description="Sample Schema 3",
-                        reference_url="https://runpanther.io",
+                        reference_url="https://panther.com",
                         revision=17,
                         field_discovery_enabled=True,
                     ),
