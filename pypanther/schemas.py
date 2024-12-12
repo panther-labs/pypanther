@@ -155,7 +155,7 @@ class Uploader:
             # them in the previous loop
             if processed_file.error is not None:
                 continue
-            processed_yaml = cast(dict[str, Any], processed_file.yaml) # type assertion. No-op in runtime
+            processed_yaml = cast(dict[str, Any], processed_file.yaml)  # type assertion. No-op in runtime
 
             logging.debug("Processing file %s", filename)
 

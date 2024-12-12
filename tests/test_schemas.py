@@ -136,7 +136,7 @@ class TestUploader(unittest.TestCase):
                 schemas=[
                     Schema(
                         created_at="2021-05-11T14:08:08.42627193Z",
-                        description="A verbose description",
+                        description="A LUT",
                         is_managed=False,
                         name="Custom.AWSAccountIDs",
                         reference_url="https://example.com",

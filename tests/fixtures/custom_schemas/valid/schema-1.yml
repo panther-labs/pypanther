@@ -1,8 +1,7 @@
 schema: Custom.SampleSchema1
 description: "Sample Schema 1"
-referenceURL: "https://runpanther.io"
+referenceURL: "https://panther.com"
 fieldDiscoveryEnabled: false
-version: 0
 fields:
   - name: time
     description: Event timestamp
