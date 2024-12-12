@@ -10,7 +10,7 @@ import zipfile
 from dataclasses import asdict, dataclass
 from fnmatch import fnmatch
 from pathlib import Path
-from typing import Any, Optional, Tuple, TypedDict
+from typing import Any, Optional, Tuple, TypedDict, cast
 
 import requests
 
@@ -107,12 +107,12 @@ def run(backend: BackendClient, args: argparse.Namespace) -> Tuple[int, str]:  #
     for res in schemas_upload_results:
         if res.error:  # stop if there's a single error. It's already been printed
             return 1, ""
-        if res.existed:
-            schemas_upload_stats.existing_schema_names.append(res.name)
-        elif res.modified:
-            schemas_upload_stats.modified_schema_names.append(res.name)
+        if res.modified:
+            schemas_upload_stats.modified_schema_names.append(cast(str, res.name))  # cast here does nothing at runtime
+        elif res.existed:
+            schemas_upload_stats.existing_schema_names.append(cast(str, res.name))
         else:
-            schemas_upload_stats.new_schema_names.append(res.name)
+            schemas_upload_stats.new_schema_names.append(cast(str, res.name))
 
     with tempfile.NamedTemporaryFile() as tmp:
         zip_info = zip_contents(tmp)
@@ -166,7 +166,7 @@ def run(backend: BackendClient, args: argparse.Namespace) -> Tuple[int, str]:  #
                     changes_summary,
                 )
                 print(json.dumps(output, indent=display.JSON_INDENT_LEVEL))
-            else:
+            elif not args.confirm:
                 print_changes_summary(changes_summary)
 
         if args.dry_run:

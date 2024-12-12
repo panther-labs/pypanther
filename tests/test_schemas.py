@@ -1,7 +1,10 @@
 import os
 import unittest
 from pathlib import Path
+from typing import Any, cast
 from unittest import mock
+
+from ruamel.yaml import YAML
 
 from pypanther import schemas
 from pypanther.backend.client import (
@@ -67,6 +70,48 @@ class TestUtilities(unittest.TestCase):
         # If path does not exist
         self.assertIsNone(schemas.normalize_path("some-random-path"))
         self.assertTrue(schemas.normalize_path(".").endswith(str(Path.resolve(Path()))))
+
+    def test_schema_has_changed(self):
+        spec1 = """
+        schema: Custom.Name
+        fields:
+          - name: field1
+            type: string
+        """
+        spec2 = """
+        schema: Custom.Name
+        fields:
+          - name: field1
+            type: int
+        """
+        spec3 = """
+        schema: Custom.Name
+        fields:
+          - name: field1
+            type: string
+          - name: field2
+            type: string
+        """
+        schema1 = Schema(
+            name="Custom.SampleSchema1",
+            revision=0,
+            updated_at="2021-05-17T10:34:18.192993496Z",
+            created_at="2021-05-17T10:15:38.18907328Z",
+            description="",
+            is_managed=False,
+            reference_url="",
+            spec=spec1,
+            field_discovery_enabled=False,
+        )
+
+        yaml_parser = YAML(typ="safe")
+        spec1_parsed = yaml_parser.load(spec1)
+        spec2_parsed = yaml_parser.load(spec2)
+        spec3_parsed = yaml_parser.load(spec3)
+
+        self.assertFalse(schemas.schema_has_changed(schema1, cast(dict[str, Any], spec1_parsed)))
+        self.assertTrue(schemas.schema_has_changed(schema1, cast(dict[str, Any], spec2_parsed)))
+        self.assertTrue(schemas.schema_has_changed(schema1, cast(dict[str, Any], spec3_parsed)))
 
 
 class TestUploader(unittest.TestCase):

@@ -5,7 +5,7 @@ from dataclasses import dataclass
 from fnmatch import fnmatch
 from itertools import filterfalse
 from pathlib import Path
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Any, Dict, List, Optional, Tuple, cast
 
 from ruamel.yaml import YAML
 from ruamel.yaml.composer import ComposerError
@@ -15,8 +15,6 @@ from ruamel.yaml.scanner import ScannerError
 from pypanther import cli_output
 from pypanther.backend.client import BackendError, BackendResponse, ListSchemasParams, Schema, UpdateSchemaParams
 from pypanther.backend.client import Client as BackendClient
-
-yaml_parser = YAML(typ="safe")
 
 
 @dataclass
@@ -28,7 +26,7 @@ class UploaderResult:
     # The Backend Client invocation response payload (PutUserSchema endpoint)
     backend_response: Optional[BackendResponse] = None
     # The schema specification in YAML form
-    definition: Optional[Dict[str, Any]] = None
+    definition: Optional[dict[str, Any]] = None
     # Any error encountered during processing will be stored here
     error: Optional[str] = None
     # Flag to signify whether the schema did exist before
@@ -40,7 +38,7 @@ class UploaderResult:
 @dataclass
 class ProcessedFile:
     # The deserialized schema
-    yaml: Optional[Dict[str, Any]] = None
+    yaml: Optional[dict[str, Any]] = None
     # The raw file contents
     raw: str = ""
     # Any error message produced during YAML parsing
@@ -157,10 +155,11 @@ class Uploader:
             # them in the previous loop
             if processed_file.error is not None:
                 continue
+            processed_yaml = cast(dict[str, Any], processed_file.yaml) # type assertion. No-op in runtime
 
             logging.debug("Processing file %s", filename)
 
-            name, error = self._extract_schema_name(processed_file.yaml)
+            name, error = self.extract_schema_name(processed_yaml, self._SCHEMA_NAME_PREFIX)
             result = UploaderResult(filename=filename, name=name, error=error)
             logging.debug("uploader result is '%s'", result)
             # Don't attempt to perform an update, if we could not extract the name from the file
@@ -178,6 +177,8 @@ class Uploader:
     @staticmethod
     def _load_from_yaml(files: List[str]) -> Dict[str, ProcessedFile]:
         processed_files = {}
+        yaml_parser = YAML(typ="safe")
+
         for filename in files:
             logging.debug("Loading schema from file %s", filename)
             processed_file = ProcessedFile()
@@ -191,16 +192,17 @@ class Uploader:
             processed_files[filename] = processed_file
         return processed_files
 
-    def _extract_schema_name(self, definition: Dict[str, Any]) -> Tuple[str, Optional[str]]:
+    @staticmethod
+    def extract_schema_name(definition: dict[str, Any], prefix: str) -> Tuple[str, Optional[str]]:
         name = definition.get("schema")
 
         if name is None:
             return "", "key 'schema' not found"
 
-        if not name.startswith(self._SCHEMA_NAME_PREFIX):
+        if not name.startswith(prefix):
             return (
                 "",
-                f"'schema' field: value must start" f" with the prefix '{self._SCHEMA_NAME_PREFIX}'",
+                f"'schema' field: value must start" f" with the prefix '{prefix}'",
             )
 
         if len(name) > 255:
@@ -208,18 +210,12 @@ class Uploader:
 
         return name, None
 
-    @staticmethod
-    def schema_has_changed(existing_schema: Schema, processed_file: ProcessedFile) -> bool:
-        """
-        Compare the schema definition in the processed file with the existing schema.
-        """
-        existing_spec = yaml_parser.load(existing_schema.spec)  # assuming this can't fail
-
-        return existing_spec.get("fields") != processed_file.yaml.get("fields")
-
     def _update_or_create_schema(self, name: str, processed_file: ProcessedFile) -> Tuple[bool, bool, BackendResponse]:
         """
         Update or create a schema based on the processed file contents.
+
+        Note: Even if the schema has not been changed, we will still do the operation to actually make sure we are
+        synced with the backend. If there has been a change we will get an error due to the revision conflict.
         """
         modified = False
         existed = False
@@ -227,19 +223,21 @@ class Uploader:
         current_description = ""
         current_revision = 0
 
-        existing_schema = self.find_schema(name)
+        processed_yaml = cast(dict[str, Any], processed_file.yaml)  # type assertion
 
-        # We will check if the schema has changed (but for now we'll keep updating it(? right?))
+        existing_schema = self.find_schema(name)
         if existing_schema is not None:
             existed = True
-            modified = self.schema_has_changed(existing_schema, processed_file)
+            modified = schema_has_changed(existing_schema, processed_yaml)
+            # even if the schema has not been changed, we will still do the operation to actually make sure we are
+            # synced with the backend. If there has been a change we will get an error due to the revision conflict.
             current_reference_url = existing_schema.reference_url
             current_description = existing_schema.description
             current_revision = existing_schema.revision
 
-        reference_url = processed_file.yaml.get("referenceURL", current_reference_url)
-        description = processed_file.yaml.get("description", current_description)
-        field_discovery_enabled = processed_file.yaml.get("fieldDiscoveryEnabled", True)
+        reference_url = processed_yaml.get("referenceURL", current_reference_url)
+        description = processed_yaml.get("description", current_description)
+        field_discovery_enabled = processed_yaml.get("fieldDiscoveryEnabled", True)
         logging.debug(
             "updating schema '%s' at revision '%d', using "
             "referenceURL=%s, "
@@ -323,6 +321,8 @@ def _contains_schema_tests(filename: str) -> bool:
     if not filename.endswith("_tests.yml"):
         return False
 
+    yaml_parser = YAML(typ="safe")
+
     with open(filename, encoding="utf-8") as stream:
         try:
             yaml_documents: List[Dict[str, Any]] = yaml_parser.load_all(stream)
@@ -379,7 +379,17 @@ def report_summary(base_path: str, results: List[UploaderResult], dry_run: bool,
                 ),
             )
         elif verbose:
-            if result.existed:
+            if result.modified:
                 print(f"Successfully updated schema '{result.name}' from definition in file '{filename}'")
             else:
                 print(f"Successfully created schema '{result.name}' from definition in file '{filename}'")
+
+
+def schema_has_changed(existing_schema: Schema, processed_yaml: dict[str, Any]) -> bool:
+    """
+    Compare the schema definition in the processed file with the existing schema.
+    """
+    yaml_parser = YAML(typ="safe")
+    existing_yaml_spec = yaml_parser.load(existing_schema.spec)  # assuming this can't fail. It's returned from BE
+
+    return existing_yaml_spec != processed_yaml
