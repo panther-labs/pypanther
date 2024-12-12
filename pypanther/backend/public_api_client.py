@@ -31,8 +31,9 @@ if TYPE_CHECKING:
     from gql import Client as GraphQLClient
     from graphql import DocumentNode, ExecutionResult
 
-from pypanther import display
 from gql.transport.exceptions import TransportQueryError
+
+from pypanther import display
 
 from .client import (
     BackendCheckResponse,
