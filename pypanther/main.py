@@ -4,7 +4,10 @@ import logging
 import sys
 from typing import Callable, Tuple
 
-from pypanther import testing
+from gql.transport.exceptions import TransportServerError, TransportQueryError
+
+import pypanther.backend.errors
+from pypanther import testing, cli_output
 from pypanther.custom_logging import setup_logging
 from pypanther.setup_subparsers import (
     setup_get_rule_parser,
@@ -40,6 +43,19 @@ def run():
         return_code, out = args.func(args)
     except util.BackendNotFoundException as err:
         logging.error('Backend not found: "%s"', err)  # noqa: TRY400
+        return 1
+    except TransportQueryError as err:
+        for e in err.errors:
+            if e.get("message", "") == "access denied":
+                print(cli_output.failed("Unauthorized. Please check your API key permissions"))
+                return 1
+        print(cli_output.failed(err))
+        return 1
+    except TransportServerError as err:
+        if err.code == 401:
+            print(cli_output.failed("Unauthorized. Please check that your API key is valid"))
+        else:
+            print(cli_output.failed(err))
         return 1
     except Exception as err:  # pylint: disable=broad-except
         # Catch arbitrary exceptions without printing help message
