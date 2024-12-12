@@ -7,10 +7,10 @@ import os
 import tempfile
 import time
 import zipfile
-from dataclasses import asdict
+from dataclasses import asdict, dataclass
 from fnmatch import fnmatch
 from pathlib import Path
-from typing import Any, Optional, Tuple, TypedDict
+from typing import Any, Optional, Tuple, TypedDict, cast
 
 import requests
 
@@ -56,6 +56,13 @@ class ChangesSummary(TypedDict):
     total_ids: list[str]
 
 
+@dataclass()
+class SchemaChangesSummary:
+    new_schema_names: list[str]
+    modified_schema_names: list[str]
+    existing_schema_names: list[str]
+
+
 def run(backend: BackendClient, args: argparse.Namespace) -> Tuple[int, str]:  # noqa: PLR0915
     if not args.confirm:
         err = confirm(
@@ -70,11 +77,6 @@ def run(backend: BackendClient, args: argparse.Namespace) -> Tuple[int, str]:  #
     except NoMainModuleError:
         logging.error("No main.py found")  # noqa: TRY400
         return 1, ""
-
-    # upload schemas first
-    ret_value, err_msg = schemas.run(backend, args)
-    if ret_value != 0:
-        return ret_value, err_msg
 
     test_results = testing.TestResults()  # default to something, so it can be used below in output
     if not args.skip_tests:
@@ -98,6 +100,19 @@ def run(backend: BackendClient, args: argparse.Namespace) -> Tuple[int, str]:  #
 
     if args.verbose and args.output == display.OUTPUT_TYPE_TEXT:
         print_registered_rules()
+
+    # upload schemas first
+    schemas_upload_results = schemas.run(backend, args)
+    schemas_upload_stats = SchemaChangesSummary(new_schema_names=[], modified_schema_names=[], existing_schema_names=[])
+    for res in schemas_upload_results:
+        if res.error:  # stop if there's a single error. It's already been printed
+            return 1, ""
+        if res.modified:
+            schemas_upload_stats.modified_schema_names.append(cast(str, res.name))  # cast here does nothing at runtime
+        elif res.existed:
+            schemas_upload_stats.existing_schema_names.append(cast(str, res.name))
+        else:
+            schemas_upload_stats.new_schema_names.append(cast(str, res.name))
 
     with tempfile.NamedTemporaryFile() as tmp:
         zip_info = zip_contents(tmp)
@@ -151,7 +166,7 @@ def run(backend: BackendClient, args: argparse.Namespace) -> Tuple[int, str]:  #
                     changes_summary,
                 )
                 print(json.dumps(output, indent=display.JSON_INDENT_LEVEL))
-            else:
+            elif not args.confirm:
                 print_changes_summary(changes_summary)
 
         if args.dry_run:
@@ -162,10 +177,9 @@ def run(backend: BackendClient, args: argparse.Namespace) -> Tuple[int, str]:  #
             # "--confirm" has no effect, as there's no info to act upon
             err = confirm("Would you like to make this change? [y/n]: ")
             if err is not None:
-                print("entered here")
                 return 0, ""
 
-        upload_stats = run_upload(
+        rule_upload_stats = run_upload(
             backend=backend,
             session_id=session_id,
             verbose=args.verbose,
@@ -189,7 +203,7 @@ def run(backend: BackendClient, args: argparse.Namespace) -> Tuple[int, str]:  #
 
     if args.output == display.OUTPUT_TYPE_JSON:
         output = get_upload_output_as_dict(
-            upload_stats,
+            rule_upload_stats,
             test_results,
             zip_info,
             args.verbose,
@@ -199,7 +213,7 @@ def run(backend: BackendClient, args: argparse.Namespace) -> Tuple[int, str]:  #
         )
         print(json.dumps(output, indent=display.JSON_INDENT_LEVEL))
     else:
-        print_upload_statistics(upload_stats)
+        print_upload_statistics(rule_upload_stats, schemas_upload_stats)
 
     return 0, ""
 
@@ -395,13 +409,18 @@ def print_included_files(zip_info: list[zipfile.ZipInfo]) -> None:
     print()  # new line
 
 
-def print_upload_statistics(results: BulkUploadDetectionsResults) -> None:
+def print_upload_statistics(rule_results: BulkUploadDetectionsResults, schema_results: SchemaChangesSummary) -> None:
     print(cli_output.header("Upload Statistics"))
     print(INDENT, cli_output.bold("Rules:"))
-    print(INDENT * 2, "{:<9} {:>4}".format("New:      ", len(results.new_rule_ids)))
-    print(INDENT * 2, "{:<9} {:>4}".format("Modified: ", len(results.modified_rule_ids)))
-    print(INDENT * 2, "{:<9} {:>4}".format("Deleted:  ", len(results.deleted_rule_ids)))
-    print(INDENT * 2, "{:<9} {:>4}".format("Total:    ", len(results.total_rule_ids)))
+    print(INDENT * 2, "{:<9} {:>4}".format("New:      ", len(rule_results.new_rule_ids)))
+    print(INDENT * 2, "{:<9} {:>4}".format("Modified: ", len(rule_results.modified_rule_ids)))
+    print(INDENT * 2, "{:<9} {:>4}".format("Deleted:  ", len(rule_results.deleted_rule_ids)))
+    print(INDENT * 2, "{:<9} {:>4}".format("Total:    ", len(rule_results.total_rule_ids)))
+    print()  # new line
+    print(INDENT, cli_output.bold("Schemas:"))
+    print(INDENT * 2, "{:<9} {:>4}".format("New:          ", len(schema_results.new_schema_names)))
+    print(INDENT * 2, "{:<9} {:>4}".format("Modified:     ", len(schema_results.modified_schema_names)))
+    print(INDENT * 2, "{:<9} {:>4}".format("Not Modified: ", len(schema_results.existing_schema_names)))
     print()  # new line
 
 

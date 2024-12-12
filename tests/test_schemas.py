@@ -1,7 +1,11 @@
+import io
 import os
 import unittest
 from pathlib import Path
+from typing import Any, cast
 from unittest import mock
+
+from ruamel.yaml import YAML
 
 from pypanther import schemas
 from pypanther.backend.client import (
@@ -19,27 +23,23 @@ FIXTURES_PATH = fixtures_dir.absolute()
 
 class TestUtilities(unittest.TestCase):
     def test_report_summary(self):
-        summary = schemas.report_summary(
-            "/a/b/schemas",
-            [
-                schemas.UploaderResult(
-                    error="yaml.scanner.ScannerError: mapping values are not allowed here",
-                    filename="/a/b/schemas/s1.yml",
-                    name=None,
-                ),
-            ],
-            False,
-        )
-        self.assertListEqual(
-            summary,
-            [
-                (
-                    True,
-                    "Failed to update schema from definition in file 's1.yml': "
-                    "yaml.scanner.ScannerError: mapping values are not allowed here",
-                ),
-            ],
-        )
+        from contextlib import redirect_stdout
+
+        with io.StringIO() as buf, redirect_stdout(buf):
+            schemas.report_summary(
+                "/a/b/schemas",
+                [
+                    schemas.UploaderResult(
+                        error="yaml.scanner.ScannerError: mapping values are not allowed here",
+                        filename="/a/b/schemas/s1.yml",
+                        name=None,
+                    ),
+                ],
+                False,
+                True,
+            )
+            output = buf.getvalue()
+            self.assertIn("Failed to update schema from definition", output)
 
     def test_discover_files(self):
         path = os.path.join(FIXTURES_PATH, "custom_schemas", "valid")
@@ -68,6 +68,48 @@ class TestUtilities(unittest.TestCase):
         self.assertIsNone(schemas.normalize_path("some-random-path"))
         self.assertTrue(schemas.normalize_path(".").endswith(str(Path.resolve(Path()))))
 
+    def test_schema_has_changed(self):
+        spec1 = """
+        schema: Custom.Name
+        fields:
+          - name: field1
+            type: string
+        """
+        spec2 = """
+        schema: Custom.Name
+        fields:
+          - name: field1
+            type: int
+        """
+        spec3 = """
+        schema: Custom.Name
+        fields:
+          - name: field1
+            type: string
+          - name: field2
+            type: string
+        """
+        schema1 = Schema(
+            name="Custom.SampleSchema1",
+            revision=0,
+            updated_at="2021-05-17T10:34:18.192993496Z",
+            created_at="2021-05-17T10:15:38.18907328Z",
+            description="",
+            is_managed=False,
+            reference_url="",
+            spec=spec1,
+            field_discovery_enabled=False,
+        )
+
+        yaml_parser = YAML(typ="safe")
+        spec1_parsed = yaml_parser.load(spec1)
+        spec2_parsed = yaml_parser.load(spec2)
+        spec3_parsed = yaml_parser.load(spec3)
+
+        self.assertFalse(schemas.schema_has_changed(schema1, cast(dict[str, Any], spec1_parsed)))
+        self.assertTrue(schemas.schema_has_changed(schema1, cast(dict[str, Any], spec2_parsed)))
+        self.assertTrue(schemas.schema_has_changed(schema1, cast(dict[str, Any], spec3_parsed)))
+
 
 class TestUploader(unittest.TestCase):
     def setUp(self) -> None:
@@ -91,7 +133,7 @@ class TestUploader(unittest.TestCase):
                 schemas=[
                     Schema(
                         created_at="2021-05-11T14:08:08.42627193Z",
-                        description="A verbose description",
+                        description="A LUT",
                         is_managed=False,
                         name="Custom.AWSAccountIDs",
                         reference_url="https://example.com",
@@ -247,8 +289,8 @@ class TestUploader(unittest.TestCase):
                     params=UpdateSchemaParams(
                         name="Custom.AWSAccountIDs",
                         spec=self.valid_schema0,
-                        description="Sample Lookup Table Schema 1",
-                        reference_url="https://runpanther.io",
+                        description="Sample LUT Schema 1",
+                        reference_url="https://panther.com",
                         revision=17,
                         field_discovery_enabled=False,
                     ),
@@ -263,7 +305,7 @@ class TestUploader(unittest.TestCase):
                         name="Custom.Sample.Schema3",
                         spec=self.valid_schema3,
                         description="Sample Schema 3",
-                        reference_url="https://runpanther.io",
+                        reference_url="https://panther.com",
                         revision=17,
                         field_discovery_enabled=True,
                     ),

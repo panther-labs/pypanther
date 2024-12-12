@@ -1,7 +1,7 @@
 schema: Custom.AWSAccountIDs
-description: "Sample Lookup Table Schema 1"
-referenceURL: "https://runpanther.io"
-version: 0
+description: "Sample LUT Schema 1"
+referenceURL: "https://panther.com"
+fieldDiscoveryEnabled: false
 parser:
     csv:
         delimiter: ','

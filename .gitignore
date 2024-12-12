@@ -12,4 +12,4 @@ dist/
 main.py
 
 # Schemas folder for uploading
-schemas/
+contents/schemas/

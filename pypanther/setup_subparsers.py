@@ -121,7 +121,7 @@ def setup_upload_parser(upload_parser: argparse.ArgumentParser):
     upload_parser.add_argument(
         "--schemas-path",
         help="Path to the schemas directory",
-        default="schemas/",
+        default="contents/schemas/",
         required=False,
     )
     dry_run_group = upload_parser.add_mutually_exclusive_group()

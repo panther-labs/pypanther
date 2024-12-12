@@ -17,27 +17,6 @@ from pypanther.backend.client import BackendError, BackendResponse, ListSchemasP
 from pypanther.backend.client import Client as BackendClient
 
 
-def run(backend: BackendClient, args: argparse.Namespace) -> Tuple[int, str]:
-    absolute_path = normalize_path(args.schemas_path)
-    if not absolute_path:
-        if args.verbose:
-            print(cli_output.warning("Schemas directory not found. Skipping schemas upload."))
-        return 0, ""
-
-    uploader = Uploader(absolute_path, backend, args.dry_run)
-    results = uploader.process()
-
-    has_errors = False
-    for failed, summary in report_summary(absolute_path, results, args.dry_run):
-        if failed:
-            has_errors = True
-            print(cli_output.failed("Error: " + summary))
-        elif args.verbose:
-            print(cli_output.cyan(summary))
-
-    return int(has_errors), ""
-
-
 @dataclass
 class UploaderResult:
     # The path of the schema definition file
@@ -47,21 +26,37 @@ class UploaderResult:
     # The Backend Client invocation response payload (PutUserSchema endpoint)
     backend_response: Optional[BackendResponse] = None
     # The schema specification in YAML form
-    definition: Optional[Dict[str, Any]] = None
+    definition: Optional[dict[str, Any]] = None
     # Any error encountered during processing will be stored here
     error: Optional[str] = None
-    # Flag to signify whether the schema was created or updated
+    # Flag to signify whether the schema did exist before
     existed: Optional[bool] = None
+    # Flag to signify whether the schema was modified
+    modified: Optional[bool] = None
 
 
 @dataclass
 class ProcessedFile:
-    # Any error message produced during YAML parsing
-    error: Optional[str] = None
+    # The deserialized schema
+    yaml: Optional[dict[str, Any]] = None
     # The raw file contents
     raw: str = ""
-    # The deserialized schema
-    yaml: Optional[Dict[str, Any]] = None
+    # Any error message produced during YAML parsing
+    error: Optional[str] = None
+
+
+def run(backend: BackendClient, args: argparse.Namespace) -> List[UploaderResult]:
+    absolute_path = normalize_path(args.schemas_path)
+    if not absolute_path:
+        if args.verbose:
+            print(cli_output.warning("Schemas directory not found. Skipping schemas upload."))
+        return []
+
+    uploader = Uploader(absolute_path, backend, args.dry_run)
+    results = uploader.process()
+
+    report_summary(absolute_path, results, args.dry_run, args.verbose)
+    return results
 
 
 class Uploader:
@@ -125,7 +120,7 @@ class Uploader:
     def process(self) -> List[UploaderResult]:
         """
         Processes all potential schema files found in the given path.
-        For updates it is required to retrieve description, revision number,
+        For update-ops it is required to retrieve description, revision number,
         and reference URL from the backend for each schema. More specifically:
         - Reference URL and description can be included in the definition, but are
           defined as additional metadata in the UI.
@@ -160,17 +155,19 @@ class Uploader:
             # them in the previous loop
             if processed_file.error is not None:
                 continue
+            processed_yaml = cast(dict[str, Any], processed_file.yaml)  # type assertion. No-op in runtime
 
             logging.debug("Processing file %s", filename)
 
-            name, error = self._extract_schema_name(processed_file.yaml)
+            name, error = self.extract_schema_name(processed_yaml, self._SCHEMA_NAME_PREFIX)
             result = UploaderResult(filename=filename, name=name, error=error)
             logging.debug("uploader result is '%s'", result)
             # Don't attempt to perform an update, if we could not extract the name from the file
             if not self._dry_run and not result.error:
                 try:
-                    existed, response = self._update_or_create_schema(name, processed_file)
+                    existed, modified, response = self._update_or_create_schema(name, processed_file)
                     result.existed = existed
+                    result.modified = modified
                     result.backend_response = response
                 except BackendError as exc:
                     result.error = f"failure to update schema {name}: " f"message={exc}"
@@ -179,34 +176,33 @@ class Uploader:
 
     @staticmethod
     def _load_from_yaml(files: List[str]) -> Dict[str, ProcessedFile]:
+        processed_files = {}
         yaml_parser = YAML(typ="safe")
 
-        processed_files = {}
         for filename in files:
             logging.debug("Loading schema from file %s", filename)
             processed_file = ProcessedFile()
-            processed_files[filename] = processed_file
             try:
                 with open(filename, encoding="utf-8") as schema_file:
-                    processed_file.raw = schema_file.read()
-                processed_file.yaml = yaml_parser.load(processed_file.raw)
+                    raw = schema_file.read()
+                processed_file.raw = raw
+                processed_file.yaml = yaml_parser.load(raw)
             except (ParserError, ScannerError, ComposerError) as exc:
                 processed_file.error = f"invalid YAML: {exc}"
+            processed_files[filename] = processed_file
         return processed_files
 
-    def _extract_schema_name(self, definition: Optional[Dict[str, Any]]) -> Tuple[str, Optional[str]]:
-        if definition is None:
-            raise ValueError("definition cannot be None")
-
+    @staticmethod
+    def extract_schema_name(definition: dict[str, Any], prefix: str) -> Tuple[str, Optional[str]]:
         name = definition.get("schema")
 
         if name is None:
             return "", "key 'schema' not found"
 
-        if not name.startswith(self._SCHEMA_NAME_PREFIX):
+        if not name.startswith(prefix):
             return (
                 "",
-                f"'schema' field: value must start" f" with the prefix '{self._SCHEMA_NAME_PREFIX}'",
+                f"'schema' field: value must start" f" with the prefix '{prefix}'",
             )
 
         if len(name) > 255:
@@ -214,21 +210,34 @@ class Uploader:
 
         return name, None
 
-    def _update_or_create_schema(self, name: str, processed_file: ProcessedFile) -> Tuple[bool, BackendResponse]:
-        existing_schema = self.find_schema(name)
+    def _update_or_create_schema(self, name: str, processed_file: ProcessedFile) -> Tuple[bool, bool, BackendResponse]:
+        """
+        Update or create a schema based on the processed file contents.
+
+        Note: Even if the schema has not been changed, we will still do the operation to actually make sure we are
+        synced with the backend. If there has been a change we will get an error due to the revision conflict.
+        """
+        modified = False
+        existed = False
         current_reference_url = ""
         current_description = ""
         current_revision = 0
-        definition = cast(Dict[str, Any], processed_file.yaml)
-        existed = False
+
+        processed_yaml = cast(dict[str, Any], processed_file.yaml)  # type assertion
+
+        existing_schema = self.find_schema(name)
         if existing_schema is not None:
             existed = True
+            modified = schema_has_changed(existing_schema, processed_yaml)
+            # even if the schema has not been changed, we will still do the operation to actually make sure we are
+            # synced with the backend. If there has been a change we will get an error due to the revision conflict.
             current_reference_url = existing_schema.reference_url
             current_description = existing_schema.description
             current_revision = existing_schema.revision
-        reference_url = definition.get("referenceURL", current_reference_url)
-        description = definition.get("description", current_description)
-        field_discovery_enabled = definition.get("fieldDiscoveryEnabled", False)
+
+        reference_url = processed_yaml.get("referenceURL", current_reference_url)
+        description = processed_yaml.get("description", current_description)
+        field_discovery_enabled = processed_yaml.get("fieldDiscoveryEnabled", True)
         logging.debug(
             "updating schema '%s' at revision '%d', using "
             "referenceURL=%s, "
@@ -250,7 +259,7 @@ class Uploader:
                 field_discovery_enabled=field_discovery_enabled,
             ),
         )
-        return existed, response
+        return existed, modified, response
 
 
 def discover_files(base_path: str, patterns: Tuple[str, ...]) -> List[str]:
@@ -352,44 +361,35 @@ def normalize_path(path: str) -> Optional[str]:
     return str(absolute_path)
 
 
-def report_summary(base_path: str, results: List[UploaderResult], dry_run: bool) -> List[Tuple[bool, str]]:
+def report_summary(base_path: str, results: List[UploaderResult], dry_run: bool, verbose: bool):
     """
-    Translate uploader results to descriptive status messages.
-
-    Returns
-    -------
-         A list of status messages along with the corresponding status flag for each message.
-         Failure messages are flagged with True.
-
+    Translate uploader results to descriptive status messages and prints them.
+    Prints only on verbose, dry-runs and on errors.
     """
-    summary = []
     for result in sorted(results, key=lambda r: r.filename):
         filename = result.filename.split(base_path)[-1].strip(os.path.sep)
         if dry_run:
-            summary.append(
-                (
-                    False,
-                    f"DRY-RUN: Would have updated schema " f"from definition in file '{filename}'",
-                ),
-            )
+            print(cli_output.cyan(f"DRY-RUN: Would have updated schema from definition in file '{filename}'"))
             continue
 
         if result.error:
-            summary.append(
-                (
-                    True,
-                    f"Failed to update schema from definition" f" in file '{filename}': {result.error}",
+            print(
+                cli_output.failed(
+                    f"Failed to update schema from definition" f" in file '{filename}':" f"{result.error}",
                 ),
             )
-        else:
-            if result.existed:
-                operation = "updated"
+        elif verbose:
+            if result.modified:
+                print(f"Successfully updated schema '{result.name}' from definition in file '{filename}'")
             else:
-                operation = "created"
-            summary.append(
-                (
-                    False,
-                    f"Successfully {operation} schema '{result.name}' " f"from definition in file '{filename}'",
-                ),
-            )
-    return summary
+                print(f"Successfully created schema '{result.name}' from definition in file '{filename}'")
+
+
+def schema_has_changed(existing_schema: Schema, processed_yaml: dict[str, Any]) -> bool:
+    """
+    Compare the schema definition in the processed file with the existing schema.
+    """
+    yaml_parser = YAML(typ="safe")
+    existing_yaml_spec = yaml_parser.load(existing_schema.spec)  # assuming this can't fail. It's returned from BE
+
+    return existing_yaml_spec != processed_yaml
