@@ -31,6 +31,8 @@ if TYPE_CHECKING:
     from gql import Client as GraphQLClient
     from graphql import DocumentNode, ExecutionResult
 
+from gql.transport.exceptions import TransportQueryError
+
 from pypanther import display
 
 from .client import (
@@ -226,8 +228,6 @@ class PublicAPIClient(Client):  # pylint: disable=too-many-public-methods
         return BackendResponse(status_code=200, data=ListSchemasResponse(schemas=schemas))
 
     def update_schema(self, params: UpdateSchemaParams) -> BackendResponse:
-        from gql.transport.exceptions import TransportQueryError
-
         gql_params = {
             "input": {
                 "description": params.description,
@@ -280,9 +280,6 @@ class PublicAPIClient(Client):  # pylint: disable=too-many-public-methods
         request: "DocumentNode",
         variable_values: Optional[Dict[str, Any]] = None,
     ) -> "ExecutionResult":
-        # defer loading to improve performance
-        from gql.transport.exceptions import TransportQueryError
-
         try:
             res = self._execute(request, variable_values=variable_values)
         except TransportQueryError as e:  # pylint: disable=C0103
