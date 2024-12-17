@@ -33,6 +33,8 @@ class UploaderResult:
     existed: Optional[bool] = None
     # Flag to signify whether the schema was modified
     modified: Optional[bool] = None
+    # Schema Object to be uploaded
+    schema: Optional[Schema] = None
 
 
 @dataclass
@@ -45,18 +47,42 @@ class ProcessedFile:
     error: Optional[str] = None
 
 
-def run(backend: BackendClient, args: argparse.Namespace) -> List[UploaderResult]:
+def prepare(backend: BackendClient, args: argparse.Namespace) -> Tuple[list[UploaderResult], str]:
     absolute_path = normalize_path(args.schemas_path)
     if not absolute_path:
         if args.verbose:
             print(cli_output.warning("Schemas directory not found. Skipping schemas upload."))
-        return []
+        return [], ""
 
     uploader = Uploader(absolute_path, backend, args.dry_run)
-    results = uploader.process()
+    schemas = uploader.prepare()
 
-    report_summary(absolute_path, results, args.dry_run, args.verbose)
-    return results
+    # we need to print errors from local files from this early on
+    report_summary(absolute_path, schemas, args.dry_run, args.verbose)
+
+    return schemas, absolute_path
+
+
+def apply(
+    backend: BackendClient,
+    schemas: list[UploaderResult],
+    path: str,
+    dry_run: bool,
+    verbose: bool,
+) -> Tuple[list[UploaderResult], bool]:
+    errored = False
+
+    for s in schemas:
+        if s.error:
+            continue
+        try:
+            s.backend_response = Uploader.update_or_create_schema(backend, cast(Schema, s.schema))
+        except BackendError as exc:
+            errored = True
+            s.error = f"failure to update schema {s.name}: " f"message={exc}"
+
+    report_summary(path, schemas, dry_run, verbose)
+    return schemas, errored
 
 
 class Uploader:
@@ -117,7 +143,7 @@ class Uploader:
                 return schema
         return None
 
-    def process(self) -> List[UploaderResult]:
+    def prepare(self) -> List[UploaderResult]:
         """
         Processes all potential schema files found in the given path.
         For update-ops it is required to retrieve description, revision number,
@@ -163,14 +189,11 @@ class Uploader:
             result = UploaderResult(filename=filename, name=name, error=error)
             logging.debug("uploader result is '%s'", result)
             # Don't attempt to perform an update, if we could not extract the name from the file
-            if not self._dry_run and not result.error:
-                try:
-                    existed, modified, response = self._update_or_create_schema(name, processed_file)
-                    result.existed = existed
-                    result.modified = modified
-                    result.backend_response = response
-                except BackendError as exc:
-                    result.error = f"failure to update schema {name}: " f"message={exc}"
+            if not result.error:
+                existed, modified, schema = self._generate_schema_object(name, processed_file)
+                result.existed = existed
+                result.modified = modified
+                result.schema = schema
             results.append(result)
         return results
 
@@ -210,7 +233,24 @@ class Uploader:
 
         return name, None
 
-    def _update_or_create_schema(self, name: str, processed_file: ProcessedFile) -> Tuple[bool, bool, BackendResponse]:
+    @staticmethod
+    def update_or_create_schema(backend: BackendClient, s: Schema) -> BackendResponse:
+        """
+        Do the request
+        """
+        logging.debug("updating schema '%s' at revision '%d', using ", s.name, s.revision)
+        return backend.update_schema(
+            params=UpdateSchemaParams(
+                name=s.name,
+                spec=s.spec,
+                revision=s.revision,
+                reference_url=s.reference_url,
+                description=s.description,
+                field_discovery_enabled=s.field_discovery_enabled,
+            ),
+        )
+
+    def _generate_schema_object(self, name: str, processed_file: ProcessedFile) -> Tuple[bool, bool, Schema]:
         """
         Update or create a schema based on the processed file contents.
 
@@ -235,31 +275,19 @@ class Uploader:
             current_description = existing_schema.description
             current_revision = existing_schema.revision
 
-        reference_url = processed_yaml.get("referenceURL", current_reference_url)
-        description = processed_yaml.get("description", current_description)
-        field_discovery_enabled = processed_yaml.get("fieldDiscoveryEnabled", True)
-        logging.debug(
-            "updating schema '%s' at revision '%d', using "
-            "referenceURL=%s, "
-            "description=%s, "
-            "fieldDiscoveryEnabled=%s",
-            name,
-            current_revision,
-            reference_url,
-            description,
-            field_discovery_enabled,
+        s = Schema(
+            name=name,
+            spec=processed_file.raw,
+            revision=current_revision,
+            reference_url=processed_yaml.get("referenceURL", current_reference_url),
+            description=processed_yaml.get("description", current_description),
+            field_discovery_enabled=processed_yaml.get("fieldDiscoveryEnabled", True),
+            # we don't care about the following at this point. We won't use them during the update
+            created_at="",
+            updated_at="",
+            is_managed=False,
         )
-        response = self._backend.update_schema(
-            params=UpdateSchemaParams(
-                name=name,
-                spec=processed_file.raw,
-                revision=current_revision,
-                reference_url=reference_url,
-                description=description,
-                field_discovery_enabled=field_discovery_enabled,
-            ),
-        )
-        return existed, modified, response
+        return existed, modified, s
 
 
 def discover_files(base_path: str, patterns: Tuple[str, ...]) -> List[str]:
@@ -306,6 +334,8 @@ def _contains_schema_tests(filename: str) -> bool:
     Check if a file contains YAML document(s) that describe test cases for custom schemas.
     Note that a test case file may contain multiple YAML documents.
 
+    We require that files containing test cases have a specific suffix and extension.
+
     Args:
     ----
         filename: the full path for the file to be checked
@@ -316,8 +346,6 @@ def _contains_schema_tests(filename: str) -> bool:
         and the filename suffix & extension match the constraints imposed by pantherlog.
 
     """
-    # pantherlog requires that files containing test cases have a specific suffix and extension:
-    # https://github.com/panther-labs/panther-enterprise/blob/75dd7ac2be67d3388edabb914b87f514ea9bd2cf/internal/log_analysis/log_processor/logtypes/logtesting/logtesting.go#L302
     if not filename.endswith("_tests.yml"):
         return False
 

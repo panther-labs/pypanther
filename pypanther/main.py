@@ -6,7 +6,6 @@ from typing import Callable, Tuple
 
 from gql.transport.exceptions import TransportServerError, TransportQueryError
 
-import pypanther.backend.errors
 from pypanther import testing, cli_output
 from pypanther.custom_logging import setup_logging
 from pypanther.setup_subparsers import (
