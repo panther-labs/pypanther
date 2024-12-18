@@ -10,7 +10,7 @@ import zipfile
 from dataclasses import asdict
 from fnmatch import fnmatch
 from pathlib import Path
-from typing import Any, Optional, Tuple, TypedDict, cast
+from typing import Any, Optional, Tuple, TypedDict
 
 import requests
 
@@ -144,13 +144,14 @@ def run(backend: BackendClient, args: argparse.Namespace) -> Tuple[int, str]:  #
     for res in schemas_to_upload:
         if res.error:  # stop if there's a single error. It's already been printed
             return 1, ""
+        if not res.name:
+            raise ValueError("Schema name is required")
         if res.modified:
-            changes_summary["modified_schema_names"].append(cast(str, res.name))
-            # Note that cast here does nothing at runtime ^
+            changes_summary["modified_schema_names"].append(res.name)
         elif res.existed:
-            changes_summary["existed_schema_names"].append(cast(str, res.name))
+            changes_summary["existed_schema_names"].append(res.name)
         else:
-            changes_summary["new_schema_names"].append(cast(str, res.name))
+            changes_summary["new_schema_names"].append(res.name)
 
     try:
         if not args.confirm:
