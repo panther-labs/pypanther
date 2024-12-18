@@ -47,14 +47,14 @@ class ProcessedFile:
     error: Optional[str] = None
 
 
-def prepare(backend: BackendClient, args: argparse.Namespace) -> Tuple[list[UploaderResult], str]:
+def prepare(backend: BackendClient, args: argparse.Namespace, check_changes: bool) -> Tuple[list[UploaderResult], str]:
     absolute_path = normalize_path(args.schemas_path)
     if not absolute_path:
         if args.verbose:
             print(cli_output.warning("Schemas directory not found. Skipping schemas upload."))
         return [], ""
 
-    uploader = Uploader(absolute_path, backend, args.dry_run)
+    uploader = Uploader(absolute_path, backend, args.dry_run, check_changes)
     schemas = uploader.prepare()
 
     # we need to print errors from local files from this early on
@@ -88,12 +88,13 @@ class Uploader:
     _SCHEMA_NAME_PREFIX = "Custom."
     _SCHEMA_FILE_GLOB_PATTERNS = ("*.yml", "*.yaml")
 
-    def __init__(self, path: str, backend: BackendClient, dry_run: bool = False):
+    def __init__(self, path: str, backend: BackendClient, dry_run: bool = False, check_changes: bool = True):
         self._path = path
         self._files: Optional[List[str]] = None
         self._existing_schemas: Optional[List[Schema]] = None
         self._backend = backend
         self._dry_run = dry_run
+        self._check_changes_with_upstream = check_changes
 
     @property
     def files(self) -> List[str]:
@@ -264,15 +265,16 @@ class Uploader:
 
         processed_yaml = cast(dict[str, Any], processed_file.yaml)  # type assertion
 
-        existing_schema = self.find_schema(name)
-        if existing_schema is not None:
-            existed = True
-            modified = schema_has_changed(existing_schema, processed_yaml)
-            # even if the schema has not been changed, we will still do the operation to actually make sure we are
-            # synced with the backend. If there has been a change we will get an error due to the revision conflict.
-            current_reference_url = existing_schema.reference_url
-            current_description = existing_schema.description
-            current_revision = existing_schema.revision
+        if self._check_changes_with_upstream:
+            existing_schema = self.find_schema(name)
+            if existing_schema is not None:
+                existed = True
+                modified = schema_has_changed(existing_schema, processed_yaml)
+                # even if the schema has not been changed, we will still do the operation to actually make sure we are
+                # synced with the backend. If there has been a change we will get an error due to the revision conflict.
+                current_reference_url = existing_schema.reference_url
+                current_description = existing_schema.description
+                current_revision = existing_schema.revision
 
         s = Schema(
             name=name,

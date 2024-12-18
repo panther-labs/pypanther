@@ -140,7 +140,7 @@ def run(backend: BackendClient, args: argparse.Namespace) -> Tuple[int, str]:
     )
 
     # Prepare schemas first
-    schemas_to_upload, schemas_path = schemas.prepare(backend, args)
+    schemas_to_upload, schemas_path = schemas.prepare(backend, args, check_changes=True)
     for res in schemas_to_upload:
         if res.error:  # stop if there's a single error. It's already been printed
             return 1, ""
