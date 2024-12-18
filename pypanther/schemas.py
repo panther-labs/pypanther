@@ -58,7 +58,7 @@ def prepare(backend: BackendClient, args: argparse.Namespace) -> Tuple[list[Uplo
     schemas = uploader.prepare()
 
     # we need to print errors from local files from this early on
-    report_summary(absolute_path, schemas, args.dry_run, args.verbose)
+    report_summary(absolute_path, schemas, args.verbose)
 
     return schemas, absolute_path
 
@@ -67,7 +67,6 @@ def apply(
     backend: BackendClient,
     schemas: list[UploaderResult],
     path: str,
-    dry_run: bool,
     verbose: bool,
 ) -> Tuple[list[UploaderResult], bool]:
     errored = False
@@ -81,7 +80,7 @@ def apply(
             errored = True
             s.error = f"failure to update schema {s.name}: " f"message={exc}"
 
-    report_summary(path, schemas, dry_run, verbose)
+    report_summary(path, schemas, verbose)
     return schemas, errored
 
 
@@ -389,17 +388,13 @@ def normalize_path(path: str) -> Optional[str]:
     return str(absolute_path)
 
 
-def report_summary(base_path: str, results: List[UploaderResult], dry_run: bool, verbose: bool):
+def report_summary(base_path: str, results: List[UploaderResult], verbose: bool):
     """
     Translate uploader results to descriptive status messages and prints them.
-    Prints only on verbose, dry-runs and on errors.
+    Prints only on verbose and on errors.
     """
     for result in sorted(results, key=lambda r: r.filename):
         filename = result.filename.split(base_path)[-1].strip(os.path.sep)
-        if dry_run:
-            print(cli_output.cyan(f"DRY-RUN: Would have updated schema from definition in file '{filename}'"))
-            continue
-
         if result.error:
             print(
                 cli_output.failed(

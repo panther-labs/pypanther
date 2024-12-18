@@ -35,7 +35,6 @@ class TestUtilities(unittest.TestCase):
                         name=None,
                     ),
                 ],
-                False,
                 True,
             )
             output = buf.getvalue()
@@ -296,7 +295,7 @@ class TestUploader(unittest.TestCase):
             ],
         )
 
-        _, errored = schemas.apply(backend, unfinished_results, self.valid_schema_path, False, False)
+        _, errored = schemas.apply(backend, unfinished_results, self.valid_schema_path, False)
         self.assertFalse(errored)
 
         my_mock_call = backend.update_schema.call_count

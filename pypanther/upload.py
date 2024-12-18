@@ -191,7 +191,7 @@ def run(backend: BackendClient, args: argparse.Namespace) -> Tuple[int, str]:  #
                     return 0, ""
 
         # actually upload schemas
-        _, errored = schemas.apply(backend, schemas_to_upload, schemas_path, args.dry_run, args.verbose)
+        _, errored = schemas.apply(backend, schemas_to_upload, schemas_path, args.verbose)
         if errored:
             return 1, ""
 
@@ -475,7 +475,6 @@ def print_changes_summary(changes_summary: ChangesSummary) -> None:
         for id_ in changes_summary["modify_rule_ids"]:
             print(f"~ {id_}")
         print()  # new line
-    print()  # new line
     if changes_summary["new_schema_names"]:
         print(f"New [{len(changes_summary['new_schema_names'])}]:")
         for id_ in changes_summary["new_schema_names"]:
