@@ -395,6 +395,9 @@ def get_upload_output_as_dict(
             "new_rule_ids": len(changes_summary["new_rule_ids"]),
             "delete_rule_ids": len(changes_summary["delete_rule_ids"]),
             "modify_rule_ids": len(changes_summary["modify_rule_ids"]),
+            "new_schema_names": len(changes_summary["new_schema_names"]),
+            "modified_schema_names": len(changes_summary["modified_schema_names"]),
+            "existed_schema_names": len(changes_summary["existed_schema_names"]),
         }
 
     return output
@@ -477,13 +480,13 @@ def print_changes_summary(changes_summary: ChangesSummary) -> None:
         print()  # new line
     if changes_summary["new_schema_names"]:
         print(f"New [{len(changes_summary['new_schema_names'])}]:")
-        for id_ in changes_summary["new_schema_names"]:
-            print(f"+ {id_}")
+        for name in changes_summary["new_schema_names"]:
+            print(f"+ {name}")
         print()  # new line
     if changes_summary["modified_schema_names"]:
         print(f"Modify [{len(changes_summary['modified_schema_names'])}]:")
-        for id_ in changes_summary["modified_schema_names"]:
-            print(f"~ {id_}")
+        for name in changes_summary["modified_schema_names"]:
+            print(f"~ {name}")
     print(cli_output.header("Changes Summary"))
     print(INDENT, f"New Rules:      {len(changes_summary['new_rule_ids']):>4}")
     print(INDENT, f"Modified Rules: {len(changes_summary['modify_rule_ids']):>4}")
