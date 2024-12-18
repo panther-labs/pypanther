@@ -35,7 +35,6 @@ class TestUtilities(unittest.TestCase):
                         name=None,
                     ),
                 ],
-                False,
                 True,
             )
             output = buf.getvalue()
@@ -242,7 +241,25 @@ class TestUploader(unittest.TestCase):
             ],
         )
 
-    def test_process(self):
+    def test_prepare(self):
+        backend = MockBackend()
+        backend.list_schemas = mock.MagicMock(return_value=self.list_schemas_response)
+
+        uploader = schemas.Uploader(self.valid_schema_path, backend)
+        results = uploader.prepare()
+
+        self.assertEqual(len(results), 4)
+        self.assertListEqual(
+            [r.name for r in results],
+            [
+                "Custom.AWSAccountIDs",
+                "Custom.SampleSchema1",
+                "Custom.SampleSchema2",
+                "Custom.Sample.Schema3",
+            ],
+        )
+
+    def test_apply(self):
         backend = MockBackend()
         backend.list_schemas = mock.MagicMock(return_value=self.list_schemas_response)
 
@@ -266,10 +283,10 @@ class TestUploader(unittest.TestCase):
 
         backend.update_schema = mock.MagicMock(side_effect=put_schema_responses)
         uploader = schemas.Uploader(self.valid_schema_path, backend)
-        results = uploader.process()
-        self.assertEqual(len(results), 4)
+        unfinished_results = uploader.prepare()
+        self.assertEqual(len(unfinished_results), 4)
         self.assertListEqual(
-            [r.name for r in results],
+            [r.name for r in unfinished_results],
             [
                 "Custom.AWSAccountIDs",
                 "Custom.SampleSchema1",
@@ -278,10 +295,13 @@ class TestUploader(unittest.TestCase):
             ],
         )
 
+        _, errored = schemas.apply(backend, unfinished_results, self.valid_schema_path, False)
+        self.assertFalse(errored)
+
         my_mock_call = backend.update_schema.call_count
         self.assertEqual(my_mock_call, 4)
 
-        self.assertListEqual([r.existed for r in results], [True, True, True, True])
+        self.assertListEqual([r.existed for r in unfinished_results], [True, True, True, True])
         self.assertEqual(backend.update_schema.call_count, 4)
         backend.update_schema.assert_has_calls(
             [
