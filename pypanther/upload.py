@@ -60,7 +60,7 @@ class ChangesSummary(TypedDict):
     existed_schema_names: list[str]
 
 
-def run(backend: BackendClient, args: argparse.Namespace) -> Tuple[int, str]:  # noqa: PLR0915
+def run(backend: BackendClient, args: argparse.Namespace) -> Tuple[int, str]:
     if not args.confirm:
         err = confirm(
             "WARNING: pypanther upload is under active development and not recommended for use"

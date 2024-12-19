@@ -207,7 +207,6 @@ def run_ruff(paths: List[Path]):
         "EXE001",
         "F821",
         "FIX001",
-        "PLR0915",
         "PLR1722",
         "PLW0602",
         "PT027",
