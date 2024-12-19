@@ -2,10 +2,7 @@ import io
 import os
 import unittest
 from pathlib import Path
-from typing import Any, cast
 from unittest import mock
-
-from ruamel.yaml import YAML
 
 from pypanther import schemas
 from pypanther.backend.client import (
