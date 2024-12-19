@@ -37,7 +37,7 @@ jobs:
       # pypanther installation and versioning
       # this way we can also override the cwd_must_be_empty coarse safeguard we impose for external users
       run: |
-        poetry run python ./pypanther/generate.py panther-analysis --keep-all-rules
+        poetry run python ./pypanther/generate.py panther-analysis --keep-all-rules --verbose
     - name: Cleanup
       run: |
         rm -rf panther-analysis

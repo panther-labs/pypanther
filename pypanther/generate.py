@@ -7,6 +7,7 @@ import shutil
 import subprocess
 import sys
 import tempfile
+import traceback
 from multiprocessing import Pool
 from pathlib import Path
 from typing import List, Optional, Set, TypedDict
@@ -1456,6 +1457,7 @@ def create_argument_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser()
     parser.add_argument("panther_analysis_path", type=Path)
     parser.add_argument("--keep-all-rules", default=False, action="store_true")
+    parser.add_argument("--verbose", default=False, action="store_true")
     return parser
 
 
@@ -1488,7 +1490,7 @@ def convert(args: argparse.Namespace) -> tuple[int, str]:
         run_ruff([Path("./pypanther/")])
     except Exception as exc:
         if hasattr(args, "verbose") and args.verbose:
-            print(exc)
+            traceback.print_exception(exc)
         return 1, "conversion failed"
 
     Path("./pypanther/__init__.py").touch()
@@ -1507,6 +1509,8 @@ def main():
     if return_code > 0:
         print(error)
 
+    return return_code
+
 
 if __name__ == "__main__":
-    main()
+    sys.exit(main())
