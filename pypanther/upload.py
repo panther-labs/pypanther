@@ -14,7 +14,7 @@ from typing import Any, Optional, Tuple, TypedDict
 
 import requests
 
-from pypanther import cli_output, display, schemas, testing
+from pypanther import cli_output, display, testing
 from pypanther.backend.client import (
     BackendError,
     BulkUploadDetectionsError,
@@ -27,6 +27,7 @@ from pypanther.backend.client import Client as BackendClient
 from pypanther.backend.util import convert_unicode
 from pypanther.import_main import NoMainModuleError, import_main
 from pypanther.registry import registered_rules
+from pypanther.schemas import Manager as SchemasManager
 
 INDENT = " " * 2
 IGNORE_FOLDERS = [
@@ -140,18 +141,20 @@ def run(backend: BackendClient, args: argparse.Namespace) -> Tuple[int, str]:
     )
 
     # Prepare schemas first
-    schemas_to_upload, schemas_path = schemas.prepare(backend, args, check_changes=True)
-    for res in schemas_to_upload:
-        if res.error:  # stop if there's a single error. It's already been printed
+    manager = SchemasManager(args)
+    manager.backend = backend
+    manager.check_upstream()
+    for schema_to_be_written in manager.schemas:
+        if schema_to_be_written.error:  # stop if there's a single error. It's already been printed
             return 1, ""
-        if not res.name:
+        if not schema_to_be_written.name:
             raise ValueError("Schema name is required")
-        if res.modified:
-            changes_summary["modified_schema_names"].append(res.name)
-        elif res.existed:
-            changes_summary["existed_schema_names"].append(res.name)
+        if schema_to_be_written.modified:
+            changes_summary["modified_schema_names"].append(schema_to_be_written.name)
+        elif schema_to_be_written.existed:
+            changes_summary["existed_schema_names"].append(schema_to_be_written.name)
         else:
-            changes_summary["new_schema_names"].append(res.name)
+            changes_summary["new_schema_names"].append(schema_to_be_written.name)
 
     try:
         if not args.confirm:
@@ -192,8 +195,8 @@ def run(backend: BackendClient, args: argparse.Namespace) -> Tuple[int, str]:
                     return 0, ""
 
         # actually upload schemas
-        _, errored = schemas.apply(backend, schemas_to_upload, schemas_path, args.verbose)
-        if errored:
+        upload_errored = manager.apply(args.verbose)
+        if upload_errored:
             return 1, ""
 
         rule_upload_stats = run_rule_upload(

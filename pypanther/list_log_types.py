@@ -1,67 +1,20 @@
 import argparse
 import json
-from typing import Any, Tuple, cast
+from typing import Tuple, cast
 
-from pypanther import display, schemas
-from pypanther.backend.client import (
-    BackendCheckResponse,
-    BackendResponse,
-    BulkUploadDetectionsParams,
-    BulkUploadDetectionsResponse,
-    BulkUploadDetectionsStatusParams,
-    BulkUploadDetectionsStatusResponse,
-    BulkUploadPresignedURLParams,
-    BulkUploadPresignedURLResponse,
-    ListSchemasParams,
-    ListSchemasResponse,
-    Schema,
-    UpdateSchemaParams,
-)
-from pypanther.backend.client import Client as BackendClient
+from pypanther import display
+from pypanther.backend.client import Schema
 from pypanther.display import JSON_INDENT_LEVEL
 from pypanther.log_types import LogType as ManagedLogType
-
-
-# oof
-class StubbedClient:
-    def check(self) -> BackendCheckResponse:
-        raise Exception("Should not be called")
-
-    def bulk_upload_presigned_url(
-        self,
-        params: BulkUploadPresignedURLParams,
-    ) -> BackendResponse[BulkUploadPresignedURLResponse]:
-        raise Exception("Should not be called")
-
-    def bulk_upload_detections(
-        self,
-        params: BulkUploadDetectionsParams,
-    ) -> BackendResponse[BulkUploadDetectionsResponse]:
-        raise Exception("Should not be called")
-
-    def bulk_upload_detections_status(
-        self,
-        params: BulkUploadDetectionsStatusParams,
-    ) -> BackendResponse[BulkUploadDetectionsStatusResponse]:
-        raise Exception("Should not be called")
-
-    def list_schemas(self, params: ListSchemasParams) -> BackendResponse[ListSchemasResponse]:
-        raise Exception("Should not be called")
-
-    def update_schema(self, params: UpdateSchemaParams) -> BackendResponse[Any]:
-        raise Exception("Should not be called")
+from pypanther.schemas import Manager as SchemaManager
 
 
 def run(args: argparse.Namespace) -> Tuple[int, str]:
     log_types = []
-    client = cast(BackendClient, StubbedClient())
 
-    # These are the default values some underlying code needs
-    args.dry_run = False
-    args.verbose = False
-
-    schema_objects, absolute_path = schemas.prepare(client, args, False)
-    for schema in schema_objects:
+    manager = SchemaManager(args)
+    local_custom_schemas = manager.schemas
+    for schema in local_custom_schemas:
         if schema.error:
             return 1, schema.error
         local_schema = cast(Schema, schema.schema)

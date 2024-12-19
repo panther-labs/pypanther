@@ -18,7 +18,7 @@ from pypanther.backend.client import Client as BackendClient
 
 
 @dataclass
-class UploaderResult:
+class SchemaModification:
     # The path of the schema definition file
     filename: str
     # The schema name / identifier, e.g. Custom.SampleSchema
@@ -47,54 +47,154 @@ class ProcessedFile:
     error: Optional[str] = None
 
 
-def prepare(backend: BackendClient, args: argparse.Namespace, check_changes: bool) -> Tuple[list[UploaderResult], str]:
-    absolute_path = normalize_path(args.schemas_path)
-    if not absolute_path:
-        if args.verbose:
-            print(cli_output.warning("Schemas directory not found. Skipping schemas upload."))
-        return [], ""
-
-    uploader = Uploader(absolute_path, backend, args.dry_run, check_changes)
-    schemas = uploader.prepare()
-
-    # we need to print errors from local files from this early on
-    report_summary(absolute_path, schemas, args.verbose)
-
-    return schemas, absolute_path
-
-
-def apply(
-    backend: BackendClient,
-    schemas: list[UploaderResult],
-    path: str,
-    verbose: bool,
-) -> Tuple[list[UploaderResult], bool]:
-    errored = False
-
-    for s in schemas:
-        if s.error:
-            continue
-        try:
-            s.backend_response = Uploader.update_or_create_schema(backend, cast(Schema, s.schema))
-        except BackendError as exc:
-            errored = True
-            s.error = f"failure to update schema {s.name}: " f"message={exc}"
-
-    report_summary(path, schemas, verbose)
-    return schemas, errored
-
-
-class Uploader:
+class Manager:
     _SCHEMA_NAME_PREFIX = "Custom."
     _SCHEMA_FILE_GLOB_PATTERNS = ("*.yml", "*.yaml")
 
-    def __init__(self, path: str, backend: BackendClient, dry_run: bool = False, check_changes: bool = True):
-        self._path = path
+    def __init__(self, args: argparse.Namespace):
+        absolute_path = normalize_path(args.schemas_path)
+        if not absolute_path:
+            if args.verbose:
+                print(cli_output.warning("Schemas directory not found. Skipping schemas upload."))
+            return
+
+        self._path = absolute_path
+        self._backend = None
+        self._dry_run = args.dry_run
         self._files: Optional[List[str]] = None
-        self._existing_schemas: Optional[List[Schema]] = None
+        self._existing_upstream_schemas: Optional[List[Schema]] = None
+
+        self._schemas_to_write = self.prepare()
+
+        # we need to print errors from local files from this early on
+        report_summary(absolute_path, self._schemas_to_write, args.verbose)
+
+    def prepare(self) -> List[SchemaModification]:
+        """
+        Processes all potential schema files found in the given path.
+        """
+        if not self.files:
+            logging.debug("No files found in path '%s'", self._path)
+            return []
+
+        processed_files = self.load_from_yaml(self.files)
+        results = []
+        for filename, processed_file in processed_files.items():
+            # Add results for files that could not be loaded first
+            # Skip any files with load errors, we have already included them in the previous loop
+            if processed_file.error is not None:
+                results.append(
+                    SchemaModification(
+                        name=None,
+                        filename=filename,
+                        error=processed_file.error,
+                    ),
+                )
+                continue
+
+            processed_yaml = cast(dict[str, Any], processed_file.yaml)  # type assertion. No-op in runtime
+            logging.debug("Processing file %s", filename)
+
+            name, error = self.extract_schema_name(processed_yaml, self._SCHEMA_NAME_PREFIX)
+            mod = SchemaModification(filename=filename, name=name, error=error)
+
+            if not mod.error:
+                mod.schema = self.generate_schema_object(name, processed_file)
+            results.append(mod)
+        return results
+
+    def check_upstream(self):
+        """
+        Check the schemas with the backend. This is in order to report changes during dry-runs and whatnot
+        """
+        for schema_mod in self._schemas_to_write:
+            schema = schema_mod.schema
+
+            existing_schema = self.find_schema(schema.name)
+            if existing_schema is None:
+                schema_mod.existed = False
+                schema_mod.modified = False
+                return
+
+            schema_mod.existed = True
+            schema_mod.modified = schema_has_changed(existing_schema, schema)
+
+            schema.revision = existing_schema.revision
+            # even if the schema has not been changed, we will still do the operation to actually make sure we are
+            # synced with the backend. If there has been a change we will get an error due to the revision conflict.
+            schema.reference_url = existing_schema.reference_url if schema.reference_url == "" else schema.reference_url
+            schema.description = existing_schema.description if schema.description == "" else schema.description
+
+    def apply(self, verbose: bool) -> bool:
+        """
+        Processes all potential schema changes
+        For update-ops it is required to retrieve description, revision number,
+        and reference URL from the backend for each schema. More specifically:
+        - A matching revision number must be provided when making update requests,
+          otherwise validation fails.
+        """
+        errored = False
+
+        for s in self.schemas:
+            if s.error:
+                continue
+            if s.schema is None:
+                raise ValueError("schema is None")
+            try:
+                s.backend_response = Manager.update_or_create_schema(self._backend, s.schema)
+                logging.debug("Schema Uploader result is '%s'", s.backend_response)
+            except BackendError as exc:
+                errored = True
+                s.error = f"failure to update schema {s.name}: " f"message={exc}"
+
+        report_summary(self._path, self.schemas, verbose)
+        return errored
+
+    @staticmethod
+    def update_or_create_schema(backend: BackendClient, s: Schema) -> BackendResponse:
+        """
+        Update or create a schema based on the processed file contents.
+
+        Note: Even if the schema has not been changed, we will still do the operation to actually make sure we are
+        synced with the backend. If there has been a change we will get an error due to the revision conflict.
+        """
+        logging.debug("updating schema '%s' at revision '%d', using ", s.name, s.revision)
+        return backend.update_schema(
+            params=UpdateSchemaParams(
+                name=s.name,
+                spec=s.spec,
+                revision=s.revision,
+                reference_url=s.reference_url,
+                description=s.description,
+                field_discovery_enabled=s.field_discovery_enabled,
+            ),
+        )
+
+    @staticmethod
+    def generate_schema_object(name: str, processed_file: ProcessedFile) -> Schema:
+        if not processed_file.yaml:
+            raise ValueError("processed_file.yaml is None")
+
+        return Schema(
+            name=name,
+            spec=processed_file.raw,
+            reference_url=processed_file.yaml.get("referenceURL", ""),
+            description=processed_file.yaml.get("description", ""),
+            field_discovery_enabled=processed_file.yaml.get("fieldDiscoveryEnabled", True),
+            # This will be filled in with the correct value later in case it exists
+            revision=0,
+            # We don't care about the following at this point. We won't use them during the update
+            created_at="",
+            updated_at="",
+            is_managed=False,
+        )
+
+    @property
+    def schemas(self) -> List[SchemaModification]:
+        return self._schemas_to_write
+
+    def backend(self, backend: BackendClient):
         self._backend = backend
-        self._dry_run = dry_run
-        self._check_changes_with_upstream = check_changes
 
     @property
     def files(self) -> List[str]:
@@ -122,12 +222,12 @@ class Uploader:
              List of user-defined schema records.
 
         """
-        if self._existing_schemas is None:
+        if self._existing_upstream_schemas is None:
             resp = self._backend.list_schemas(ListSchemasParams(is_managed=False))
             if not resp.status_code == 200:
                 raise RuntimeError("unable to retrieve custom schemas")
-            self._existing_schemas = resp.data.schemas
-        return self._existing_schemas
+            self._existing_upstream_schemas = resp.data.schemas
+        return self._existing_upstream_schemas
 
     def find_schema(self, name: str) -> Optional[Schema]:
         """
@@ -143,62 +243,8 @@ class Uploader:
                 return schema
         return None
 
-    def prepare(self) -> List[UploaderResult]:
-        """
-        Processes all potential schema files found in the given path.
-        For update-ops it is required to retrieve description, revision number,
-        and reference URL from the backend for each schema. More specifically:
-        - Reference URL and description can be included in the definition, but are
-          defined as additional metadata in the UI.
-        - A matching revision number must be provided when making update requests,
-          otherwise validation fails.
-
-        Returns
-        -------
-             A list of UploaderResult records that can be used
-             for reporting the applied changes and errors.
-
-        """
-        if not self.files:
-            logging.debug("No files found in path '%s'", self._path)
-            return []
-
-        processed_files = self._load_from_yaml(self.files)
-        results = []
-        # Add results for files that could not be loaded first
-        for filename, processed_file in processed_files.items():
-            if processed_file.error is not None:
-                results.append(
-                    UploaderResult(
-                        name=None,
-                        filename=filename,
-                        error=processed_file.error,
-                    ),
-                )
-
-        for filename, processed_file in processed_files.items():
-            # Skip any files with load errors, we have already included
-            # them in the previous loop
-            if processed_file.error is not None:
-                continue
-            processed_yaml = cast(dict[str, Any], processed_file.yaml)  # type assertion. No-op in runtime
-
-            logging.debug("Processing file %s", filename)
-
-            name, error = self.extract_schema_name(processed_yaml, self._SCHEMA_NAME_PREFIX)
-            result = UploaderResult(filename=filename, name=name, error=error)
-            logging.debug("uploader result is '%s'", result)
-            # Don't attempt to perform an update, if we could not extract the name from the file
-            if not result.error:
-                existed, modified, schema = self._generate_schema_object(name, processed_file)
-                result.existed = existed
-                result.modified = modified
-                result.schema = schema
-            results.append(result)
-        return results
-
     @staticmethod
-    def _load_from_yaml(files: List[str]) -> Dict[str, ProcessedFile]:
+    def load_from_yaml(files: List[str]) -> Dict[str, ProcessedFile]:
         processed_files = {}
         yaml_parser = YAML(typ="safe")
 
@@ -233,63 +279,6 @@ class Uploader:
 
         return name, None
 
-    @staticmethod
-    def update_or_create_schema(backend: BackendClient, s: Schema) -> BackendResponse:
-        """
-        Do the request
-        """
-        logging.debug("updating schema '%s' at revision '%d', using ", s.name, s.revision)
-        return backend.update_schema(
-            params=UpdateSchemaParams(
-                name=s.name,
-                spec=s.spec,
-                revision=s.revision,
-                reference_url=s.reference_url,
-                description=s.description,
-                field_discovery_enabled=s.field_discovery_enabled,
-            ),
-        )
-
-    def _generate_schema_object(self, name: str, processed_file: ProcessedFile) -> Tuple[bool, bool, Schema]:
-        """
-        Update or create a schema based on the processed file contents.
-
-        Note: Even if the schema has not been changed, we will still do the operation to actually make sure we are
-        synced with the backend. If there has been a change we will get an error due to the revision conflict.
-        """
-        modified = False
-        existed = False
-        current_reference_url = ""
-        current_description = ""
-        current_revision = 0
-
-        processed_yaml = cast(dict[str, Any], processed_file.yaml)  # type assertion
-
-        if self._check_changes_with_upstream:
-            existing_schema = self.find_schema(name)
-            if existing_schema is not None:
-                existed = True
-                modified = schema_has_changed(existing_schema, processed_yaml)
-                # even if the schema has not been changed, we will still do the operation to actually make sure we are
-                # synced with the backend. If there has been a change we will get an error due to the revision conflict.
-                current_reference_url = existing_schema.reference_url
-                current_description = existing_schema.description
-                current_revision = existing_schema.revision
-
-        s = Schema(
-            name=name,
-            spec=processed_file.raw,
-            revision=current_revision,
-            reference_url=processed_yaml.get("referenceURL", current_reference_url),
-            description=processed_yaml.get("description", current_description),
-            field_discovery_enabled=processed_yaml.get("fieldDiscoveryEnabled", True),
-            # we don't care about the following at this point. We won't use them during the update
-            created_at="",
-            updated_at="",
-            is_managed=False,
-        )
-        return existed, modified, s
-
 
 def discover_files(base_path: str, patterns: Tuple[str, ...]) -> List[str]:
     """
@@ -317,15 +306,6 @@ def discover_files(base_path: str, patterns: Tuple[str, ...]) -> List[str]:
 def ignore_schema_test_files(paths: List[str]) -> List[str]:
     """
     Detect and ignore files that contain schema tests.
-
-    Args:
-    ----
-        paths: the list of file paths from which schema test files will be excluded
-
-    Returns:
-    -------
-        The list of absolute paths of files that possibly contain custom schema definitions.
-
     """
     return list(filterfalse(_contains_schema_tests, paths))
 
@@ -336,16 +316,6 @@ def _contains_schema_tests(filename: str) -> bool:
     Note that a test case file may contain multiple YAML documents.
 
     We require that files containing test cases have a specific suffix and extension.
-
-    Args:
-    ----
-        filename: the full path for the file to be checked
-
-    Returns:
-    -------
-        True if the fields match the test case definition structure
-        and the filename suffix & extension match the constraints imposed by pantherlog.
-
     """
     if not filename.endswith("_tests.yml"):
         return False
@@ -378,11 +348,6 @@ def normalize_path(path: str) -> Optional[str]:
     """
     Resolve the given path to its absolute form, taking into
     account user home prefix notation.
-
-    Returns
-    -------
-        The absolute path or None if the path does not exist.
-
     """
     absolute_path = Path.resolve(Path.expanduser(Path(path)))
     if not os.path.exists(absolute_path):
@@ -390,7 +355,7 @@ def normalize_path(path: str) -> Optional[str]:
     return str(absolute_path)
 
 
-def report_summary(base_path: str, results: List[UploaderResult], verbose: bool):
+def report_summary(base_path: str, results: List[SchemaModification], verbose: bool):
     """
     Translate uploader results to descriptive status messages and prints them.
     Prints only on verbose and on errors.
@@ -410,11 +375,10 @@ def report_summary(base_path: str, results: List[UploaderResult], verbose: bool)
                 print(f"Successfully created schema '{result.name}' from definition in file '{filename}'")
 
 
-def schema_has_changed(existing_schema: Schema, processed_yaml: dict[str, Any]) -> bool:
+def schema_has_changed(existing_schema: Schema, new_schema: Schema) -> bool:
     """
     Compare the schema definition in the processed file with the existing schema.
     """
     yaml_parser = YAML(typ="safe")
-    existing_yaml_spec = yaml_parser.load(existing_schema.spec)  # assuming this can't fail. It's returned from BE
 
-    return existing_yaml_spec != processed_yaml
+    return yaml_parser.load(existing_schema.spec) != yaml_parser.load(new_schema.spec)
