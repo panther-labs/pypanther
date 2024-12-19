@@ -130,4 +130,4 @@ If you encounter any issues or have questions, please open a support ticket.
 
 ## License
 
-**pypanther** is released under the [GNU Affero General Public License](LICENSE.txt).
+**pypanther** is released under [Apache License 2.0](LICENSE.txt).
