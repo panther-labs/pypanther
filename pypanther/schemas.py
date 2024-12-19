@@ -191,7 +191,9 @@ class Manager:
 
     @property
     def schemas(self) -> List[SchemaModification]:
-        return self._schemas_to_write
+        if hasattr(self, "_schemas_to_write"):
+            return self._schemas_to_write
+        return []
 
     def set_backend(self, backend: BackendClient):
         self._backend = backend
