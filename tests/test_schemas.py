@@ -100,11 +100,6 @@ class TestUtilities(unittest.TestCase):
             field_discovery_enabled=False,
         )
 
-        yaml_parser = YAML(typ="safe")
-        spec1_parsed = yaml_parser.load(spec1)
-        spec2_parsed = yaml_parser.load(spec2)
-        spec3_parsed = yaml_parser.load(spec3)
-
         sch = Schema(
             name="Custom.Other",
             revision=0,
@@ -114,11 +109,11 @@ class TestUtilities(unittest.TestCase):
             is_managed=False,
             reference_url="",
             field_discovery_enabled=False,
-            spec=spec1_parsed,
+            spec=spec1,
         )
         self.assertFalse(schemas.schema_has_changed(schema1, sch))
 
-        for spec in [spec2_parsed, spec3_parsed]:
+        for spec in [spec2, spec3]:
             sch = Schema(
                 name="Custom.Other",
                 revision=0,
