@@ -1,9 +1,8 @@
 import argparse
 import json
-from typing import Tuple, cast
+from typing import Tuple
 
 from pypanther import display
-from pypanther.backend.client import Schema
 from pypanther.display import JSON_INDENT_LEVEL
 from pypanther.log_types import LogType as ManagedLogType
 from pypanther.schemas import Manager as SchemaManager
@@ -12,14 +11,15 @@ from pypanther.schemas import Manager as SchemaManager
 def run(args: argparse.Namespace) -> Tuple[int, str]:
     log_types = []
 
-    manager = SchemaManager(args)
+    manager = SchemaManager(args.schemas_path, False, False)
     local_custom_schemas = manager.schemas
     for schema in local_custom_schemas:
         if schema.error:
             return 1, schema.error
-        local_schema = cast(Schema, schema.schema)
-        if args.substring is None or args.substring.lower() in local_schema.name.lower():
-            log_types.append(local_schema.name)
+        if schema.schema is None:
+            raise ValueError("Schema is None")
+        if args.substring is None or args.substring.lower() in schema.schema.name.lower():
+            log_types.append(schema.schema.name)
 
     if not args.custom_only:
         for log_type in ManagedLogType:

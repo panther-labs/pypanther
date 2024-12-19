@@ -51,23 +51,23 @@ class Manager:
     _SCHEMA_NAME_PREFIX = "Custom."
     _SCHEMA_FILE_GLOB_PATTERNS = ("*.yml", "*.yaml")
 
-    def __init__(self, args: argparse.Namespace):
-        absolute_path = normalize_path(args.schemas_path)
+    def __init__(self, schemas_path: str, verbose: bool, dry_run: bool):
+        absolute_path = normalize_path(schemas_path)
         if not absolute_path:
-            if args.verbose:
+            if verbose:
                 print(cli_output.warning("Schemas directory not found. Skipping schemas upload."))
             return
 
         self._path = absolute_path
-        self._backend = None
-        self._dry_run = args.dry_run
+        self._backend: Optional[BackendClient] = None
+        self._dry_run = dry_run
         self._files: Optional[List[str]] = None
         self._existing_upstream_schemas: Optional[List[Schema]] = None
 
         self._schemas_to_write = self.prepare()
 
         # we need to print errors from local files from this early on
-        report_summary(absolute_path, self._schemas_to_write, args.verbose)
+        report_summary(absolute_path, self._schemas_to_write, verbose)
 
     def prepare(self) -> List[SchemaModification]:
         """
@@ -141,8 +141,7 @@ class Manager:
             if s.schema is None:
                 raise ValueError("schema is None")
             try:
-                s.backend_response = Manager.update_or_create_schema(self._backend, s.schema)
-                logging.debug("Schema Uploader result is '%s'", s.backend_response)
+                s.backend_response = self.do_request(s.schema)
             except BackendError as exc:
                 errored = True
                 s.error = f"failure to update schema {s.name}: " f"message={exc}"
@@ -150,16 +149,18 @@ class Manager:
         report_summary(self._path, self.schemas, verbose)
         return errored
 
-    @staticmethod
-    def update_or_create_schema(backend: BackendClient, s: Schema) -> BackendResponse:
+    def do_request(self, s: Schema) -> BackendResponse:
         """
         Update or create a schema based on the processed file contents.
 
         Note: Even if the schema has not been changed, we will still do the operation to actually make sure we are
         synced with the backend. If there has been a change we will get an error due to the revision conflict.
         """
+        if self._backend is None:
+            raise ValueError("backend is None")
         logging.debug("updating schema '%s' at revision '%d', using ", s.name, s.revision)
-        return backend.update_schema(
+
+        return self._backend.update_schema(
             params=UpdateSchemaParams(
                 name=s.name,
                 spec=s.spec,
@@ -193,7 +194,7 @@ class Manager:
     def schemas(self) -> List[SchemaModification]:
         return self._schemas_to_write
 
-    def backend(self, backend: BackendClient):
+    def set_backend(self, backend: BackendClient):
         self._backend = backend
 
     @property
@@ -212,7 +213,7 @@ class Manager:
         return self._files
 
     @property
-    def existing_schemas(self) -> List[Schema]:
+    def existing_upstream_schemas(self) -> List[Schema]:
         """
         Retrieves and caches in the instance state the list
         of available user-defined schemas.
@@ -222,6 +223,9 @@ class Manager:
              List of user-defined schema records.
 
         """
+        if self._backend is None:
+            raise ValueError("backend is None")
+
         if self._existing_upstream_schemas is None:
             resp = self._backend.list_schemas(ListSchemasParams(is_managed=False))
             if not resp.status_code == 200:
@@ -238,7 +242,7 @@ class Manager:
              The decoded YAML schema or None if no matching name is found.
 
         """
-        for schema in self.existing_schemas:
+        for schema in self.existing_upstream_schemas:
             if schema.name == name:
                 return schema
         return None

@@ -141,8 +141,8 @@ def run(backend: BackendClient, args: argparse.Namespace) -> Tuple[int, str]:
     )
 
     # Prepare schemas first
-    manager = SchemasManager(args)
-    manager.backend = backend
+    manager = SchemasManager(args.schemas_path, args.verbose, args.dry_run)
+    manager.set_backend(backend)
     manager.check_upstream()
     for schema_to_be_written in manager.schemas:
         if schema_to_be_written.error:  # stop if there's a single error. It's already been printed
