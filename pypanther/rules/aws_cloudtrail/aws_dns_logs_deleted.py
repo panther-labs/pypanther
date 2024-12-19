@@ -1,0 +1,99 @@
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
+from pypanther.helpers.aws import aws_cloudtrail_success, aws_rule_context, lookup_aws_account_name
+
+
+@panther_managed
+class AWSCloudTrailDNSLogsDeleted(Rule):
+    id = "AWS.CloudTrail.DNSLogsDeleted-prototype"
+    display_name = "AWS DNS Logs Deleted"
+    log_types = [LogType.AWS_CLOUDTRAIL]
+    default_severity = Severity.LOW
+    reports = {"MITRE ATT&CK": ["TA0005:T1562.008"]}
+    default_description = "Detects when logs for a DNS Resolver have been removed."
+    default_reference = "hhttps://stratus-red-team.cloud/attack-techniques/AWS/aws.defense-evasion.dns-delete-logs/"
+    default_runbook = "Determine if the log removal to is legitimate."
+    tags = [
+        "AWS",
+        "Cloudtrail",
+        "Defense Evasion",
+        "Impair Defenses",
+        "Disable or Modify Cloud Logs",
+        "Defense Evasion:Impair Defenses",
+        "Security Control",
+    ]
+
+    def rule(self, event):
+        return aws_cloudtrail_success(event) and event.get("eventName") == "DeleteResolverQueryLogConfig"
+
+    def title(self, event):
+        account = event.deep_get("userIdentity", "accountId", default="<UNKNOWN ACCOUNT>")
+        region = event.get("awsRegion", "<UNKNOWN REGION>")
+        return f"DNS logs have been deleted in {lookup_aws_account_name(account)} in {region}"
+
+    def alert_context(self, event):
+        log_id = event.deep_get("requestParameters", "resolverQueryLogConfigId", "<UNKNOWN LOG ID>")
+        return aws_rule_context(event) | {"logId": log_id}
+
+    tests = [
+        RuleTest(
+            name="Logs Deleted",
+            expected_result=True,
+            log={
+                "p_event_time": "2024-11-27 18:18:58.000000000",
+                "p_log_type": "AWS.CloudTrail",
+                "p_parse_time": "2024-11-27 18:25:54.213480847",
+                "awsRegion": "us-west-2",
+                "eventCategory": "Management",
+                "eventID": "27e6be30-7c86-4544-b0e0-a60b0c927887",
+                "eventName": "DeleteResolverQueryLogConfig",
+                "eventSource": "route53resolver.amazonaws.com",
+                "eventTime": "2024-11-27 18:18:58.000000000",
+                "eventType": "AwsApiCall",
+                "eventVersion": "1.08",
+                "managementEvent": True,
+                "readOnly": False,
+                "recipientAccountId": "111122223333",
+                "requestID": "a45a0f04-8911-4c95-a9d7-3fead8a9bc45",
+                "requestParameters": {"originSequenceNumber": 0, "resolverQueryLogConfigId": "rqlc-5aa596fe3bd84ec6"},
+                "responseElements": {
+                    "resolverQueryLogConfig": {
+                        "arn": "arn:aws:route53resolver:us-west-2:111122223333:resolver-query-log-config/rqlc-5aa596fe3bd84ec6",
+                        "associationCount": 0,
+                        "creationTime": "2024-11-27T18:18:56.881520365Z",
+                        "creatorRequestId": "tf-r53-resolver-query-log-config-20241127181856499800000001",
+                        "destinationArn": "arn:aws:s3:::sample-bucket-name",
+                        "id": "rqlc-5aa596fe3bd84ec6",
+                        "name": "sample-config-name",
+                        "ownerId": "111122223333",
+                        "shareStatus": "NOT_SHARED",
+                        "status": "DELETING",
+                    },
+                },
+                "sourceIPAddress": "1.2.3.4",
+                "tlsDetails": {
+                    "cipherSuite": "TLS_AES_128_GCM_SHA256",
+                    "clientProvidedHostHeader": "route53resolver.us-west-2.amazonaws.com",
+                    "tlsVersion": "TLSv1.3",
+                },
+                "userAgent": "stratus-red-team_dbac929e-ae11-4539-8753-35dbcbbc3256",
+                "userIdentity": {
+                    "accessKeyId": "SAMPLE_ACCESS_KEY",
+                    "accountId": "111122223333",
+                    "arn": "arn:aws:sts::111122223333:assumed-role/SampleRole/leroy.jenkins",
+                    "principalId": "SAMPLE_PRINCIPAL_ID:leroy.jenkins",
+                    "sessionContext": {
+                        "attributes": {"creationDate": "2024-11-27T18:17:21Z", "mfaAuthenticated": "false"},
+                        "sessionIssuer": {
+                            "accountId": "111122223333",
+                            "arn": "arn:aws:iam::111122223333:role/aws-reserved/sso.amazonaws.com/us-west-2/SampleRole",
+                            "principalId": "SAMPLE_PRINCIPAL_ID",
+                            "type": "Role",
+                            "userName": "SampleRole",
+                        },
+                        "webIdFederationData": {},
+                    },
+                    "type": "AssumedRole",
+                },
+            },
+        ),
+    ]

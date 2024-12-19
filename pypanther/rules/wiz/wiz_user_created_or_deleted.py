@@ -1,5 +1,5 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
-from pypanther.helpers.wiz import wiz_alert_context, wiz_success
+from pypanther.helpers.wiz import wiz_actor, wiz_alert_context, wiz_success
 
 
 @panther_managed
@@ -20,7 +20,8 @@ class WizUserCreatedOrDeleted(Rule):
         return event.get("action", "ACTION_NOT_FOUND") in self.SUSPICIOUS_ACTIONS
 
     def title(self, event):
-        return f"[Wiz]: [{event.get('action', 'ACTION_NOT_FOUND')}] action performed by user [{event.deep_get('user', 'name', default='USER_NAME_NOT_FOUND')}]"
+        actor = wiz_actor(event)
+        return f"[Wiz]: [{event.get('action', 'ACTION_NOT_FOUND')}] action performed by {actor.get('type')} [{actor.get('name')}]"
 
     def dedup(self, event):
         return event.get("id")

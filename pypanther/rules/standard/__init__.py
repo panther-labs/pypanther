@@ -7,4 +7,7 @@ from pypanther.rules.standard.malicious_sso_dns_lookup import (
     StandardMaliciousSSODNSLookup as StandardMaliciousSSODNSLookup,
 )
 from pypanther.rules.standard.mfa_disabled import StandardMFADisabled as StandardMFADisabled
+from pypanther.rules.standard.sign_in_from_rogue_state import (
+    StandardSignInFromRogueState as StandardSignInFromRogueState,
+)
 from pypanther.rules.standard.standard_dns_base64 import StandardDNSBase64 as StandardDNSBase64

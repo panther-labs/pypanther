@@ -5,11 +5,17 @@ from pypanther.rules.aws_cloudtrail.aws_cloudtrail_account_discovery import (
     AWSCloudTrailAccountDiscovery as AWSCloudTrailAccountDiscovery,
 )
 from pypanther.rules.aws_cloudtrail.aws_cloudtrail_created import AWSCloudTrailCreated as AWSCloudTrailCreated
+from pypanther.rules.aws_cloudtrail.aws_cloudtrail_event_selectors_disabled import (
+    AWSCloudTrailEventSelectorsDisabled as AWSCloudTrailEventSelectorsDisabled,
+)
 from pypanther.rules.aws_cloudtrail.aws_cloudtrail_loginprofilecreatedormodified import (
     AWSCloudTrailLoginProfileCreatedOrModified as AWSCloudTrailLoginProfileCreatedOrModified,
 )
 from pypanther.rules.aws_cloudtrail.aws_cloudtrail_password_policy_discovery import (
     AWSCloudTrailPasswordPolicyDiscovery as AWSCloudTrailPasswordPolicyDiscovery,
+)
+from pypanther.rules.aws_cloudtrail.aws_cloudtrail_short_lifecycle import (
+    AWSCloudTrailShortLifecycle as AWSCloudTrailShortLifecycle,
 )
 from pypanther.rules.aws_cloudtrail.aws_cloudtrail_stopped import AWSCloudTrailStopped as AWSCloudTrailStopped
 from pypanther.rules.aws_cloudtrail.aws_cloudtrail_unsuccessful_mfa_attempt import (
@@ -37,6 +43,9 @@ from pypanther.rules.aws_cloudtrail.aws_console_root_login_failed import (
     AWSConsoleRootLoginFailed as AWSConsoleRootLoginFailed,
 )
 from pypanther.rules.aws_cloudtrail.aws_console_signin import AWSConsoleSignIn as AWSConsoleSignIn
+from pypanther.rules.aws_cloudtrail.aws_dns_logs_deleted import (
+    AWSCloudTrailDNSLogsDeleted as AWSCloudTrailDNSLogsDeleted,
+)
 from pypanther.rules.aws_cloudtrail.aws_ec2_ebs_encryption_disabled import (
     AWSEC2EBSEncryptionDisabled as AWSEC2EBSEncryptionDisabled,
 )
@@ -137,6 +146,7 @@ from pypanther.rules.aws_cloudtrail.aws_update_credentials import AWSIAMCredenti
 from pypanther.rules.aws_cloudtrail.aws_user_login_profile_modified import (
     AWSUserLoginProfileModified as AWSUserLoginProfileModified,
 )
+from pypanther.rules.aws_cloudtrail.aws_vpc_flow_logs_deleted import AWSVPCFlowLogsDeleted as AWSVPCFlowLogsDeleted
 from pypanther.rules.aws_cloudtrail.aws_waf_disassociation import AWSWAFDisassociation as AWSWAFDisassociation
 from pypanther.rules.aws_cloudtrail.retrieve_sso_access_token import RetrieveSSOaccesstoken as RetrieveSSOaccesstoken
 from pypanther.rules.aws_cloudtrail.role_assumed_by_aws_service import (

@@ -9,6 +9,7 @@ from typing import Any, Dict, List
 
 import boto3
 
+from pypanther.helpers.base import pantherflow_investigation
 from pypanther.helpers.config import config
 
 
@@ -34,7 +35,7 @@ def aws_strip_role_session_id(user_identity_arn):
     return user_identity_arn
 
 
-def aws_rule_context(event: dict):
+def aws_rule_context(event):
     return {
         "eventName": event.get("eventName", "<MISSING_EVENT_NAME>"),
         "eventSource": event.get("eventSource", "<MISSING_ACCOUNT_ID>"),
@@ -43,10 +44,11 @@ def aws_rule_context(event: dict):
         "sourceIPAddress": event.get("sourceIPAddress", "<MISSING_SOURCE_IP>"),
         "userAgent": event.get("userAgent", "<MISSING_USER_AGENT>"),
         "userIdentity": event.get("userIdentity", "<MISSING_USER_IDENTITY>"),
+        "PantherFlow Investigation": pantherflow_investigation(event),
     }
 
 
-def aws_guardduty_context(event: dict):
+def aws_guardduty_context(event):
     return {
         "description": event.get("description", "<MISSING DESCRIPTION>"),
         "severity": event.get("severity", "<MISSING SEVERITY>"),
@@ -54,6 +56,7 @@ def aws_guardduty_context(event: dict):
         "type": event.get("type", "<MISSING TYPE>"),
         "resource": event.get("resource", {}),
         "service": event.get("service", {}),
+        "accountId": event.get("accountId", "<MISSING ACCOUNT ID>"),
     }
 
 

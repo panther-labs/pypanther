@@ -4,7 +4,6 @@ from pypanther.rules.notion.notion_login_from_blocked_ip import NotionLoginFromB
 from pypanther.rules.notion.notion_login_from_new_location import (
     NotionLoginFromNewLocation as NotionLoginFromNewLocation,
 )
-from pypanther.rules.notion.notion_many_pages_deleted import NotionManyPagesDeleted as NotionManyPagesDeleted
 from pypanther.rules.notion.notion_many_pages_exported import NotionManyPagesExported as NotionManyPagesExported
 from pypanther.rules.notion.notion_page_accessible_to_api import (
     NotionPagePermsAPIPermsChanged as NotionPagePermsAPIPermsChanged,
