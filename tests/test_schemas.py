@@ -222,8 +222,7 @@ class TestUploader(unittest.TestCase):
     def test_existing_schemas(self):
         backend = MockBackend()
         backend.list_schemas = mock.MagicMock(return_value=self.list_schemas_response)
-        manager = schemas.Manager(self.valid_schema_path, False, False)
-        manager.set_backend(backend)
+        manager = schemas.Manager(self.valid_schema_path, verbose=False, dry_run=False, backend_client=backend)
         self.assertListEqual(manager.existing_upstream_schemas, self.list_schemas_response.data.schemas)
         backend.list_schemas.assert_called_once()
 
@@ -232,22 +231,20 @@ class TestUploader(unittest.TestCase):
         backend.list_schemas = mock.MagicMock(
             return_value=BackendResponse(status_code=200, data=ListSchemasResponse(schemas=[])),
         )
-        manager = schemas.Manager(self.valid_schema_path, False, False)
-        manager.set_backend(backend)
+        manager = schemas.Manager(self.valid_schema_path, verbose=False, dry_run=False, backend_client=backend)
         self.assertListEqual(manager.existing_upstream_schemas, [])
         backend.list_schemas.assert_called_once()
 
     def test_find_schema(self):
         backend = MockBackend()
         backend.list_schemas = mock.MagicMock(return_value=self.list_schemas_response)
-        manager = schemas.Manager(self.valid_schema_path, False, False)
-        manager.set_backend(backend)
+        manager = schemas.Manager(self.valid_schema_path, verbose=False, dry_run=False, backend_client=backend)
         self.assertEqual(manager.find_schema("Custom.SampleSchema2"), self.list_schemas_response.data.schemas[2])
         self.assertIsNone(manager.find_schema("unknown-schema"))
         backend.list_schemas.assert_called_once()
 
     def test_files(self):
-        manager = schemas.Manager(self.valid_schema_path, False, False)
+        manager = schemas.Manager(self.valid_schema_path, verbose=False, dry_run=False)
         self.assertListEqual(
             manager.files,
             [
@@ -282,8 +279,7 @@ class TestUploader(unittest.TestCase):
         backend.update_schema = mock.MagicMock(side_effect=put_schema_responses)
 
         # do the things
-        manager = schemas.Manager(self.valid_schema_path, False, False)
-        manager.set_backend(backend)
+        manager = schemas.Manager(self.valid_schema_path, verbose=False, dry_run=False, backend_client=backend)
         manager.check_upstream()
 
         self.assertEqual(len(manager.schemas), 4)

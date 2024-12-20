@@ -50,7 +50,7 @@ class Manager:
     _SCHEMA_NAME_PREFIX = "Custom."
     _SCHEMA_FILE_GLOB_PATTERNS = ("*.yml", "*.yaml")
 
-    def __init__(self, schemas_path: str, verbose: bool, dry_run: bool):
+    def __init__(self, schemas_path: str, verbose: bool, dry_run: bool, backend_client: Optional[BackendClient] = None):
         absolute_path = normalize_path(schemas_path)
         if not absolute_path:
             if verbose:
@@ -58,7 +58,7 @@ class Manager:
             return
 
         self._path = absolute_path
-        self._backend: Optional[BackendClient] = None
+        self._backend: Optional[BackendClient] = backend_client
         self._dry_run = dry_run
         self._files: Optional[List[str]] = None
         self._existing_upstream_schemas: Optional[List[Schema]] = None
@@ -194,9 +194,6 @@ class Manager:
         if hasattr(self, "_schemas_to_write"):
             return self._schemas_to_write
         return []
-
-    def set_backend(self, backend: BackendClient):
-        self._backend = backend
 
     @property
     def files(self) -> List[str]:

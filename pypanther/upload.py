@@ -14,7 +14,7 @@ from typing import Any, Optional, Tuple, TypedDict
 
 import requests
 
-from pypanther import cli_output, display, testing
+from pypanther import cli_output, display, schemas, testing
 from pypanther.backend.client import (
     BackendError,
     BulkUploadDetectionsError,
@@ -27,7 +27,6 @@ from pypanther.backend.client import Client as BackendClient
 from pypanther.backend.util import convert_unicode
 from pypanther.import_main import NoMainModuleError, import_main
 from pypanther.registry import registered_rules
-from pypanther.schemas import Manager as SchemasManager
 
 INDENT = " " * 2
 IGNORE_FOLDERS = [
@@ -141,8 +140,7 @@ def run(backend: BackendClient, args: argparse.Namespace) -> Tuple[int, str]:
     )
 
     # Prepare schemas first
-    manager = SchemasManager(args.schemas_path, args.verbose, args.dry_run)
-    manager.set_backend(backend)
+    manager = schemas.Manager(args.schemas_path, verbose=args.verbose, dry_run=args.dry_run, backend_client=backend)
     manager.check_upstream()
     for schema_to_be_written in manager.schemas:
         if schema_to_be_written.error:  # stop if there's a single error. It's already been printed
