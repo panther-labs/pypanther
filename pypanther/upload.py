@@ -140,18 +140,19 @@ def run(backend: BackendClient, args: argparse.Namespace) -> Tuple[int, str]:
     )
 
     # Prepare schemas first
-    schemas_to_upload, schemas_path = schemas.prepare(backend, args)
-    for res in schemas_to_upload:
-        if res.error:  # stop if there's a single error. It's already been printed
+    manager = schemas.Manager(args.schemas_path, verbose=args.verbose, dry_run=args.dry_run, backend_client=backend)
+    manager.check_upstream()
+    for schema_to_be_written in manager.schemas:
+        if schema_to_be_written.error:  # stop if there's a single error. It's already been printed
             return 1, ""
-        if not res.name:
+        if not schema_to_be_written.name:
             raise ValueError("Schema name is required")
-        if res.modified:
-            changes_summary["modified_schema_names"].append(res.name)
-        elif res.existed:
-            changes_summary["existed_schema_names"].append(res.name)
+        if schema_to_be_written.modified:
+            changes_summary["modified_schema_names"].append(schema_to_be_written.name)
+        elif schema_to_be_written.existed:
+            changes_summary["existed_schema_names"].append(schema_to_be_written.name)
         else:
-            changes_summary["new_schema_names"].append(res.name)
+            changes_summary["new_schema_names"].append(schema_to_be_written.name)
 
     try:
         if not args.confirm:
@@ -192,8 +193,8 @@ def run(backend: BackendClient, args: argparse.Namespace) -> Tuple[int, str]:
                     return 0, ""
 
         # actually upload schemas
-        _, errored = schemas.apply(backend, schemas_to_upload, schemas_path, args.verbose)
-        if errored:
+        upload_errored = manager.apply(args.verbose)
+        if upload_errored:
             return 1, ""
 
         rule_upload_stats = run_rule_upload(
@@ -465,27 +466,27 @@ def print_changes_summary(changes_summary: ChangesSummary) -> None:
     print("Changes Summary:")
     print()  # new line
     if changes_summary["new_rule_ids"]:
-        print(f"New [{len(changes_summary['new_rule_ids'])}]:")
+        print(f"New Rules [{len(changes_summary['new_rule_ids'])}]:")
         for id_ in changes_summary["new_rule_ids"]:
             print(f"+ {id_}")
         print()  # new line
     if changes_summary["delete_rule_ids"]:
-        print(f"Delete [{len(changes_summary['delete_rule_ids'])}]:")
+        print(f"Delete Rules [{len(changes_summary['delete_rule_ids'])}]:")
         for id_ in changes_summary["delete_rule_ids"]:
             print(f"- {id_}")
         print()  # new line
     if changes_summary["modify_rule_ids"]:
-        print(f"Modify [{len(changes_summary['modify_rule_ids'])}]:")
+        print(f"Modify Rules [{len(changes_summary['modify_rule_ids'])}]:")
         for id_ in changes_summary["modify_rule_ids"]:
             print(f"~ {id_}")
         print()  # new line
     if changes_summary["new_schema_names"]:
-        print(f"New [{len(changes_summary['new_schema_names'])}]:")
+        print(f"New Schemas [{len(changes_summary['new_schema_names'])}]:")
         for name in changes_summary["new_schema_names"]:
             print(f"+ {name}")
         print()  # new line
     if changes_summary["modified_schema_names"]:
-        print(f"Modify [{len(changes_summary['modified_schema_names'])}]:")
+        print(f"Modify Schemas [{len(changes_summary['modified_schema_names'])}]:")
         for name in changes_summary["modified_schema_names"]:
             print(f"~ {name}")
     print(cli_output.header("Changes Summary"))

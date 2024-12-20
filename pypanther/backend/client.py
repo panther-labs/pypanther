@@ -131,7 +131,7 @@ class UpdateSchemaParams:
 
 
 # pylint: disable=too-many-instance-attributes
-@dataclass(frozen=True)
+@dataclass()
 class Schema:
     created_at: str
     description: str

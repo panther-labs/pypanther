@@ -2,10 +2,7 @@ import io
 import os
 import unittest
 from pathlib import Path
-from typing import Any, cast
 from unittest import mock
-
-from ruamel.yaml import YAML
 
 from pypanther import schemas
 from pypanther.backend.client import (
@@ -29,7 +26,7 @@ class TestUtilities(unittest.TestCase):
             schemas.report_summary(
                 "/a/b/schemas",
                 [
-                    schemas.UploaderResult(
+                    schemas.SchemaModification(
                         error="yaml.scanner.ScannerError: mapping values are not allowed here",
                         filename="/a/b/schemas/s1.yml",
                         name=None,
@@ -42,7 +39,7 @@ class TestUtilities(unittest.TestCase):
 
     def test_discover_files(self):
         path = os.path.join(FIXTURES_PATH, "custom_schemas", "valid")
-        files = schemas.discover_files(path, schemas.Uploader._SCHEMA_FILE_GLOB_PATTERNS)
+        files = schemas.discover_files(path, schemas.Manager._SCHEMA_FILE_GLOB_PATTERNS)
         self.assertListEqual(
             files,
             [
@@ -100,14 +97,32 @@ class TestUtilities(unittest.TestCase):
             field_discovery_enabled=False,
         )
 
-        yaml_parser = YAML(typ="safe")
-        spec1_parsed = yaml_parser.load(spec1)
-        spec2_parsed = yaml_parser.load(spec2)
-        spec3_parsed = yaml_parser.load(spec3)
+        sch = Schema(
+            name="Custom.Other",
+            revision=0,
+            updated_at="",
+            created_at="",
+            description="",
+            is_managed=False,
+            reference_url="",
+            field_discovery_enabled=False,
+            spec=spec1,
+        )
+        self.assertFalse(schemas.schema_has_changed(schema1, sch))
 
-        self.assertFalse(schemas.schema_has_changed(schema1, cast(dict[str, Any], spec1_parsed)))
-        self.assertTrue(schemas.schema_has_changed(schema1, cast(dict[str, Any], spec2_parsed)))
-        self.assertTrue(schemas.schema_has_changed(schema1, cast(dict[str, Any], spec3_parsed)))
+        for spec in [spec2, spec3]:
+            sch = Schema(
+                name="Custom.Other",
+                revision=0,
+                updated_at="",
+                created_at="",
+                description="",
+                is_managed=False,
+                reference_url="",
+                field_discovery_enabled=False,
+                spec=spec,
+            )
+            self.assertTrue(schemas.schema_has_changed(schema1, sch))
 
 
 class TestUploader(unittest.TestCase):
@@ -207,8 +222,8 @@ class TestUploader(unittest.TestCase):
     def test_existing_schemas(self):
         backend = MockBackend()
         backend.list_schemas = mock.MagicMock(return_value=self.list_schemas_response)
-        uploader = schemas.Uploader(self.valid_schema_path, backend)
-        self.assertListEqual(uploader.existing_schemas, self.list_schemas_response.data.schemas)
+        manager = schemas.Manager(self.valid_schema_path, verbose=False, dry_run=False, backend_client=backend)
+        self.assertListEqual(manager.existing_upstream_schemas, self.list_schemas_response.data.schemas)
         backend.list_schemas.assert_called_once()
 
     def test_existing_schemas_empty_results_from_backend(self):
@@ -216,46 +231,27 @@ class TestUploader(unittest.TestCase):
         backend.list_schemas = mock.MagicMock(
             return_value=BackendResponse(status_code=200, data=ListSchemasResponse(schemas=[])),
         )
-
-        uploader = schemas.Uploader(self.valid_schema_path, backend)
-        self.assertListEqual(uploader.existing_schemas, [])
+        manager = schemas.Manager(self.valid_schema_path, verbose=False, dry_run=False, backend_client=backend)
+        self.assertListEqual(manager.existing_upstream_schemas, [])
         backend.list_schemas.assert_called_once()
 
     def test_find_schema(self):
         backend = MockBackend()
         backend.list_schemas = mock.MagicMock(return_value=self.list_schemas_response)
-        uploader = schemas.Uploader(self.valid_schema_path, backend)
-        self.assertEqual(uploader.find_schema("Custom.SampleSchema2"), self.list_schemas_response.data.schemas[2])
-        self.assertIsNone(uploader.find_schema("unknown-schema"))
+        manager = schemas.Manager(self.valid_schema_path, verbose=False, dry_run=False, backend_client=backend)
+        self.assertEqual(manager.find_schema("Custom.SampleSchema2"), self.list_schemas_response.data.schemas[2])
+        self.assertIsNone(manager.find_schema("unknown-schema"))
         backend.list_schemas.assert_called_once()
 
     def test_files(self):
-        uploader = schemas.Uploader(self.valid_schema_path, None)
+        manager = schemas.Manager(self.valid_schema_path, verbose=False, dry_run=False)
         self.assertListEqual(
-            uploader.files,
+            manager.files,
             [
                 os.path.join(self.valid_schema_path, "lookup-table-schema-1.yml"),
                 os.path.join(self.valid_schema_path, "schema-1.yml"),
                 os.path.join(self.valid_schema_path, "schema-2.yaml"),
                 os.path.join(self.valid_schema_path, "schema-3.yml"),
-            ],
-        )
-
-    def test_prepare(self):
-        backend = MockBackend()
-        backend.list_schemas = mock.MagicMock(return_value=self.list_schemas_response)
-
-        uploader = schemas.Uploader(self.valid_schema_path, backend)
-        results = uploader.prepare()
-
-        self.assertEqual(len(results), 4)
-        self.assertListEqual(
-            [r.name for r in results],
-            [
-                "Custom.AWSAccountIDs",
-                "Custom.SampleSchema1",
-                "Custom.SampleSchema2",
-                "Custom.Sample.Schema3",
             ],
         )
 
@@ -280,13 +276,15 @@ class TestUploader(unittest.TestCase):
                     ),
                 ),
             )
-
         backend.update_schema = mock.MagicMock(side_effect=put_schema_responses)
-        uploader = schemas.Uploader(self.valid_schema_path, backend)
-        unfinished_results = uploader.prepare()
-        self.assertEqual(len(unfinished_results), 4)
+
+        # do the things
+        manager = schemas.Manager(self.valid_schema_path, verbose=False, dry_run=False, backend_client=backend)
+        manager.check_upstream()
+
+        self.assertEqual(len(manager.schemas), 4)
         self.assertListEqual(
-            [r.name for r in unfinished_results],
+            [r.name for r in manager.schemas],
             [
                 "Custom.AWSAccountIDs",
                 "Custom.SampleSchema1",
@@ -295,13 +293,14 @@ class TestUploader(unittest.TestCase):
             ],
         )
 
-        _, errored = schemas.apply(backend, unfinished_results, self.valid_schema_path, False)
+        # Modify!
+        errored = manager.apply(False)
         self.assertFalse(errored)
 
         my_mock_call = backend.update_schema.call_count
         self.assertEqual(my_mock_call, 4)
 
-        self.assertListEqual([r.existed for r in unfinished_results], [True, True, True, True])
+        self.assertListEqual([r.existed for r in manager.schemas], [True, True, True, True])
         self.assertEqual(backend.update_schema.call_count, 4)
         backend.update_schema.assert_has_calls(
             [
