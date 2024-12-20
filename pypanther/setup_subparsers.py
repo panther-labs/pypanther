@@ -4,7 +4,7 @@ import pathlib
 from pypanther import display, generate, get_rule, list_log_types, list_rules, shared_args, upload
 from pypanther.backend import util
 
-DEFAULT_SCHEMAS_PATH = "contents/schemas/"
+DEFAULT_SCHEMAS_PATH = "content/schemas/"
 
 
 def setup_list_rules_parser(list_rules_parser: argparse.ArgumentParser):
