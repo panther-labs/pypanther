@@ -466,27 +466,27 @@ def print_changes_summary(changes_summary: ChangesSummary) -> None:
     print("Changes Summary:")
     print()  # new line
     if changes_summary["new_rule_ids"]:
-        print(f"New [{len(changes_summary['new_rule_ids'])}]:")
+        print(f"New Rules [{len(changes_summary['new_rule_ids'])}]:")
         for id_ in changes_summary["new_rule_ids"]:
             print(f"+ {id_}")
         print()  # new line
     if changes_summary["delete_rule_ids"]:
-        print(f"Delete [{len(changes_summary['delete_rule_ids'])}]:")
+        print(f"Delete Rules [{len(changes_summary['delete_rule_ids'])}]:")
         for id_ in changes_summary["delete_rule_ids"]:
             print(f"- {id_}")
         print()  # new line
     if changes_summary["modify_rule_ids"]:
-        print(f"Modify [{len(changes_summary['modify_rule_ids'])}]:")
+        print(f"Modify Rules [{len(changes_summary['modify_rule_ids'])}]:")
         for id_ in changes_summary["modify_rule_ids"]:
             print(f"~ {id_}")
         print()  # new line
     if changes_summary["new_schema_names"]:
-        print(f"New [{len(changes_summary['new_schema_names'])}]:")
+        print(f"New Schemas [{len(changes_summary['new_schema_names'])}]:")
         for name in changes_summary["new_schema_names"]:
             print(f"+ {name}")
         print()  # new line
     if changes_summary["modified_schema_names"]:
-        print(f"Modify [{len(changes_summary['modified_schema_names'])}]:")
+        print(f"Modify Schemas [{len(changes_summary['modified_schema_names'])}]:")
         for name in changes_summary["modified_schema_names"]:
             print(f"~ {name}")
     print(cli_output.header("Changes Summary"))
