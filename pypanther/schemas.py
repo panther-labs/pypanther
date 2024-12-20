@@ -113,7 +113,7 @@ class Manager:
             if existing_schema is None:
                 schema_mod.existed = False
                 schema_mod.modified = False
-                return
+                continue
 
             schema_mod.existed = True
             schema_mod.modified = schema_has_changed(existing_schema, schema)
