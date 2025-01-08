@@ -448,10 +448,11 @@ def print_upload_statistics(rule_results: BulkUploadDetectionsResults, schema_re
     print(INDENT * 2, "{:<9} {:>4}".format("Deleted:  ", len(rule_results.deleted_rule_ids)))
     print(INDENT * 2, "{:<9} {:>4}".format("Total:    ", len(rule_results.total_rule_ids)))
     print()  # new line
-    if len(schema_results["new_schema_names"]) > 0 or \
-        len(schema_results["modified_schema_names"]) > 0 or \
-        len(schema_results["existed_schema_names"]) > 0:
-
+    if (
+        len(schema_results["new_schema_names"]) > 0
+        or len(schema_results["modified_schema_names"]) > 0
+        or len(schema_results["existed_schema_names"]) > 0
+    ):
         print(INDENT, cli_output.bold("Schemas:"))
         print(INDENT * 2, "{:<9} {:>4}".format("New:          ", len(schema_results["new_schema_names"])))
         print(INDENT * 2, "{:<9} {:>4}".format("Modified:     ", len(schema_results["modified_schema_names"])))
@@ -498,10 +499,11 @@ def print_changes_summary(changes_summary: ChangesSummary) -> None:
     print(INDENT, f"Deleted Rules:  {len(changes_summary['delete_rule_ids']):>4}")
     print(INDENT, f"Total Rules:    {len(changes_summary['total_rule_ids']):>4}")
     print()  # new line
-    if len(changes_summary["new_schema_names"]) > 0 or \
-        len(changes_summary["modified_schema_names"]) > 0 or \
-        len(changes_summary["existed_schema_names"]) > 0:
-
+    if (
+        len(changes_summary["new_schema_names"]) > 0
+        or len(changes_summary["modified_schema_names"]) > 0
+        or len(changes_summary["existed_schema_names"]) > 0
+    ):
         print(INDENT, f"New Schemas:          {len(changes_summary['new_schema_names']):>4}")
         print(INDENT, f"Modified Schemas:     {len(changes_summary['modified_schema_names']):>4}")
         print(INDENT, f"Not Modified Schemas: {len(changes_summary['existed_schema_names']):>4}")
