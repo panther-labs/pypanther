@@ -106,7 +106,7 @@ class Manager:
         """
         Check the schemas with the backend. This is in order to report changes during dry-runs and whatnot
         """
-        for schema_mod in self._schemas_to_write:
+        for schema_mod in self.schemas:
             schema = schema_mod.schema
 
             existing_schema = self.find_schema(schema.name)
@@ -145,7 +145,8 @@ class Manager:
                 errored = True
                 s.error = f"failure to update schema {s.name}: " f"message={exc}"
 
-        report_summary(self._path, self.schemas, verbose)
+        if len(self.schemas) > 0:
+            report_summary(self._path, self.schemas, verbose)
         return errored
 
     def do_request(self, s: Schema) -> BackendResponse:

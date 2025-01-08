@@ -255,6 +255,12 @@ class TestUploader(unittest.TestCase):
             ],
         )
 
+    def test_not_existing(self):
+        manager = schemas.Manager("non_existing_schema_path", verbose=False, dry_run=False)
+        # we test that this doesn't go boom
+        manager.check_upstream()
+        manager.apply(False)
+
     def test_apply(self):
         backend = MockBackend()
         backend.list_schemas = mock.MagicMock(return_value=self.list_schemas_response)

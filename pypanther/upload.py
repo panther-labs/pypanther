@@ -155,42 +155,41 @@ def run(backend: BackendClient, args: argparse.Namespace) -> Tuple[int, str]:
             changes_summary["new_schema_names"].append(schema_to_be_written.name)
 
     try:
-        if not args.confirm:
-            if not args.skip_summary or args.dry_run:
-                rules_changes_summary = dry_run_rule_upload(
-                    backend=backend,
-                    session_id=session_id,
-                    verbose=args.verbose,
-                    output_type=args.output,
+        if not args.skip_summary or args.dry_run:
+            rules_changes_summary = dry_run_rule_upload(
+                backend=backend,
+                session_id=session_id,
+                verbose=args.verbose,
+                output_type=args.output,
+            )
+            changes_summary["new_rule_ids"] = rules_changes_summary["new_rule_ids"]
+            changes_summary["delete_rule_ids"] = rules_changes_summary["delete_rule_ids"]
+            changes_summary["modify_rule_ids"] = rules_changes_summary["modify_rule_ids"]
+            changes_summary["total_rule_ids"] = rules_changes_summary["total_rule_ids"]
+
+            if args.output == display.OUTPUT_TYPE_JSON:
+                output = get_upload_output_as_dict(
+                    None,
+                    test_results,
+                    [],
+                    args.verbose,
+                    args.skip_tests,
+                    UPLOAD_RESULT_SUCCESS,
+                    changes_summary,
                 )
-                changes_summary["new_rule_ids"] = rules_changes_summary["new_rule_ids"]
-                changes_summary["delete_rule_ids"] = rules_changes_summary["delete_rule_ids"]
-                changes_summary["modify_rule_ids"] = rules_changes_summary["modify_rule_ids"]
-                changes_summary["total_rule_ids"] = rules_changes_summary["total_rule_ids"]
+                print(json.dumps(output, indent=display.JSON_INDENT_LEVEL))
+            else:
+                print_changes_summary(changes_summary)
 
-                if args.output == display.OUTPUT_TYPE_JSON:
-                    output = get_upload_output_as_dict(
-                        None,
-                        test_results,
-                        [],
-                        args.verbose,
-                        args.skip_tests,
-                        UPLOAD_RESULT_SUCCESS,
-                        changes_summary,
-                    )
-                    print(json.dumps(output, indent=display.JSON_INDENT_LEVEL))
-                else:
-                    print_changes_summary(changes_summary)
-
-            if args.dry_run:
+        if not args.skip_summary and not args.confirm and not args.dry_run:
+            # if the user skips calculating the summary of the changes,
+            # "--confirm" has no effect, as there's no info to act upon
+            err = confirm("Would you like to make this change? [y/n]: ")
+            if err is not None:
                 return 0, ""
 
-            if not args.skip_summary:
-                # if the user skips calculating the summary of the changes,
-                # "--confirm" has no effect, as there's no info to act upon
-                err = confirm("Would you like to make this change? [y/n]: ")
-                if err is not None:
-                    return 0, ""
+        if args.dry_run:
+            return 0, ""
 
         # actually upload schemas
         upload_errored = manager.apply(args.verbose)
@@ -449,11 +448,15 @@ def print_upload_statistics(rule_results: BulkUploadDetectionsResults, schema_re
     print(INDENT * 2, "{:<9} {:>4}".format("Deleted:  ", len(rule_results.deleted_rule_ids)))
     print(INDENT * 2, "{:<9} {:>4}".format("Total:    ", len(rule_results.total_rule_ids)))
     print()  # new line
-    print(INDENT, cli_output.bold("Schemas:"))
-    print(INDENT * 2, "{:<9} {:>4}".format("New:          ", len(schema_results["new_schema_names"])))
-    print(INDENT * 2, "{:<9} {:>4}".format("Modified:     ", len(schema_results["modified_schema_names"])))
-    print(INDENT * 2, "{:<9} {:>4}".format("Not Modified: ", len(schema_results["existed_schema_names"])))
-    print()  # new line
+    if len(schema_results["new_schema_names"]) > 0 or \
+        len(schema_results["modified_schema_names"]) > 0 or \
+        len(schema_results["existed_schema_names"]) > 0:
+
+        print(INDENT, cli_output.bold("Schemas:"))
+        print(INDENT * 2, "{:<9} {:>4}".format("New:          ", len(schema_results["new_schema_names"])))
+        print(INDENT * 2, "{:<9} {:>4}".format("Modified:     ", len(schema_results["modified_schema_names"])))
+        print(INDENT * 2, "{:<9} {:>4}".format("Not Modified: ", len(schema_results["existed_schema_names"])))
+        print()  # new line
 
 
 def print_upload_detection_error(err: BulkUploadDetectionsError) -> None:
@@ -495,7 +498,11 @@ def print_changes_summary(changes_summary: ChangesSummary) -> None:
     print(INDENT, f"Deleted Rules:  {len(changes_summary['delete_rule_ids']):>4}")
     print(INDENT, f"Total Rules:    {len(changes_summary['total_rule_ids']):>4}")
     print()  # new line
-    print(INDENT, f"New Schemas:          {len(changes_summary['new_schema_names']):>4}")
-    print(INDENT, f"Modified Schemas:     {len(changes_summary['modified_schema_names']):>4}")
-    print(INDENT, f"Not Modified Schemas: {len(changes_summary['existed_schema_names']):>4}")
-    print()  # new line
+    if len(changes_summary["new_schema_names"]) > 0 or \
+        len(changes_summary["modified_schema_names"]) > 0 or \
+        len(changes_summary["existed_schema_names"]) > 0:
+
+        print(INDENT, f"New Schemas:          {len(changes_summary['new_schema_names']):>4}")
+        print(INDENT, f"Modified Schemas:     {len(changes_summary['modified_schema_names']):>4}")
+        print(INDENT, f"Not Modified Schemas: {len(changes_summary['existed_schema_names']):>4}")
+        print()  # new line
