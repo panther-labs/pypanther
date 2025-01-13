@@ -108,7 +108,7 @@ def convert_rule(filepath: Path, helpers: Set[str]) -> Optional[str]:
         if k == "Severity":
             value = ast.Name(id=f"{Severity.__name__}.{v.upper()}", ctx=ast.Load())
         if k == "LogTypes":
-            log_type_elts = []
+            log_type_elts: list[ast.expr] = []
             for x in v:
                 if x.startswith("Custom."):
                     log_type_elts.append(ast.Constant(value=x))
