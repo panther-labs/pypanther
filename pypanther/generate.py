@@ -508,7 +508,7 @@ class DropClassAttributes(ast.NodeTransformer):
         ]
         return ast.ClassDef(
             name=node.name,
-            bases=[ast.Name(id=x) for x in node.bases],
+            bases=node.bases,
             keywords=node.keywords,
             decorator_list=node.decorator_list,
             body=new_body,
