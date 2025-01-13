@@ -892,7 +892,7 @@ def _convert_rules(p: Path, panther_analysis: Path, helpers: Set[str]):
         return
 
     # strip panther_analysis from path
-    p_str = str(p.relative_to(panther_analysis)).replace("_rules", "")
+    p_str = str(p.relative_to(panther_analysis)).replace("_rules/", "/")
     p = Path("pypanther") / Path(p_str)
 
     p.parent.mkdir(parents=True, exist_ok=True)
