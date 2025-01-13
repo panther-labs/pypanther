@@ -473,6 +473,49 @@ class DropGlobal(ast.NodeTransformer):
         return None
 
 
+class DropClassDecorators(ast.NodeTransformer):
+    """
+    This node transformer takes a list of attribute names and deletes all assignments to them.
+
+    A call like `DropClassAttributes("Foo", ["A"]).visit(tree)` transforms this:
+    ```
+    @A
+    class Foo:
+        ...
+    ```
+    into this:
+    ```
+    class Foo:
+        ...
+    ```
+    """
+
+    def __init__(self, class_name: str, decorator_names: list[str]):
+        super().__init__()
+        self.class_name = class_name
+        self.decorator_names = decorator_names
+
+    def visit_ClassDef(self, node: ast.ClassDef) -> ast.AST:
+        if node.name != self.class_name:
+            return node
+
+        new_decorator_list = [
+            x
+            for x in node.decorator_list
+            if not (
+                isinstance(x, ast.Name)
+                and x.id in self.decorator_names
+            )
+        ]
+        return ast.ClassDef(
+            name=node.name,
+            bases=node.bases,
+            keywords=node.keywords,
+            decorator_list=new_decorator_list,
+            body=node.body,
+        )
+
+
 class DropClassAttributes(ast.NodeTransformer):
     """
     This node transformer takes a list of attribute names and deletes all assignments to them.
@@ -1089,10 +1132,11 @@ def clone_panther_analysis_main(output_dir: Path) -> None:
 
 def diff_rules_with_panther_analysis_main(
     panther_analysis: Path,
-) -> tuple[list[tuple[list[str], str, str]], list[tuple[list[str], str, str, list[str]]], list[str]]:
+) -> tuple[list[tuple[list[str], str, str]], list[tuple[list[str], str, str, list[str]]], list[str], list[str]]:
     yaml_diff = []
     python_diff = []
     to_delete = []
+    custom_rules = []
 
     pa_main_rules = {}
     with tempfile.TemporaryDirectory() as temp_dir:
@@ -1120,6 +1164,7 @@ def diff_rules_with_panther_analysis_main(
         yaml, python = [], False
 
         if id_ not in pa_main_rules:
+            custom_rules.append(local_rule[0]["Filename"])
             continue
 
         pa_main_rule = pa_main_rules[id_]
@@ -1158,7 +1203,7 @@ def diff_rules_with_panther_analysis_main(
             # files for which we haven't detected any changes at all must be deleted anyway
             to_delete.append(local_yaml["Filename"])
 
-    return yaml_diff, python_diff, to_delete
+    return yaml_diff, python_diff, to_delete, custom_rules
 
 
 def diff_helpers_with_panther_analysis_main(
@@ -1459,6 +1504,27 @@ def delete_data_models(data_models_path: Path) -> None:
     shutil.rmtree(data_models_path)
 
 
+def fix_custom_rules(rules_path: Path, custom_rules: list[str]) -> None:
+    for filename in custom_rules:
+        possible_paths = list(rules_path.rglob(f"**/{filename}"))
+
+        if len(possible_paths) > 1:
+            raise Exception(f"multiple paths for {filename}")
+
+        if len(possible_paths) == 0:
+            continue
+
+        with possible_paths[0].open(mode="rb") as fp:
+            code = ast.parse(fp.read())
+
+        class_definition = [x for x in code.body if isinstance(x, ast.ClassDef)][0]
+
+        code = DropClassDecorators(class_definition.name, ["panther_managed"]).visit(code)
+
+        with possible_paths[0].open(mode="w") as fp:
+            fp.write(ast.unparse(ast.fix_missing_locations(code)))
+
+
 def create_argument_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser()
     parser.add_argument("panther_analysis_path", type=Path)
@@ -1484,10 +1550,11 @@ def convert(args: argparse.Namespace) -> tuple[int, str]:
         if keep_only_modified_rules:
             rules_path = Path("./pypanther/rules/")
             overrides_path = Path("./pypanther/overrides")
-            yaml_diff, python_diff, rules_to_delete = diff_rules_with_panther_analysis_main(panther_analysis)
+            yaml_diff, python_diff, rules_to_delete, custom_rules = diff_rules_with_panther_analysis_main(panther_analysis)
             refactor_yaml_only_modified_rules(rules_path, overrides_path, yaml_diff)
             refactor_python_modified_rules(rules_path, python_diff)
             delete_rules(Path("./pypanther/rules/"), rules_to_delete)
+            fix_custom_rules(rules_path, custom_rules)
             helpers_to_delete = diff_helpers_with_panther_analysis_main(panther_analysis)
             delete_helpers(Path("./pypanther/helpers/"), helpers_to_delete)
             delete_data_models(Path("./pypanther/data_models/"))
