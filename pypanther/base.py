@@ -221,7 +221,7 @@ class Rule(metaclass=abc.ABCMeta):
     def dedup(self, event: PantherEvent) -> str:
         return self.title(event)
 
-    def destinations(self, event: PantherEvent) -> list[str]:
+    def destinations(self, event: PantherEvent) -> list[str] | None:
         return self.default_destinations
 
     def runbook(self, event: PantherEvent) -> str:

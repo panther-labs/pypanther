@@ -857,7 +857,7 @@ class TestRule(TestCase):
             description_output="",
             reference_output="",
             severity_output="INFO",
-            runbook_output=""
+            runbook_output="",
         )
         assert expected_result == rule().run(PantherEvent({}, None), {}, {})
 
@@ -889,7 +889,7 @@ class TestRule(TestCase):
             description_output="",
             reference_output="",
             severity_output="INFO",
-            runbook_output=""
+            runbook_output="",
         )
         assert expected_result == rule().run(PantherEvent({}, None), {}, {})
 
@@ -924,7 +924,7 @@ class TestRule(TestCase):
             description_output="",
             reference_output="",
             severity_output="INFO",
-            runbook_output=""
+            runbook_output="",
         )
         assert expected_result == rule().run(PantherEvent({}, None), {}, {})
 
@@ -960,7 +960,7 @@ class TestRule(TestCase):
             description_output="",
             reference_output="",
             severity_output="INFO",
-            runbook_output=""
+            runbook_output="",
         )
         assert expected_result == rule().run(PantherEvent(event, None), {}, {})
 
@@ -1152,11 +1152,10 @@ class TestRule(TestCase):
             description_output="",
             runbook_output="",
             reference_output="",
-            destinations_output=['SKIP'],
+            destinations_output=["SKIP"],
         )
         result = rule().run(PantherEvent({}, None), {}, {}, batch_mode=False)
         assert expected_result == result
-
 
     def test_rule_with_default_severity_case_insensitive(self) -> None:
         class rule(Rule):
