@@ -500,12 +500,7 @@ class DropClassDecorators(ast.NodeTransformer):
             return node
 
         new_decorator_list = [
-            x
-            for x in node.decorator_list
-            if not (
-                isinstance(x, ast.Name)
-                and x.id in self.decorator_names
-            )
+            x for x in node.decorator_list if not (isinstance(x, ast.Name) and x.id in self.decorator_names)
         ]
         return ast.ClassDef(
             name=node.name,
@@ -1550,7 +1545,9 @@ def convert(args: argparse.Namespace) -> tuple[int, str]:
         if keep_only_modified_rules:
             rules_path = Path("./pypanther/rules/")
             overrides_path = Path("./pypanther/overrides")
-            yaml_diff, python_diff, rules_to_delete, custom_rules = diff_rules_with_panther_analysis_main(panther_analysis)
+            yaml_diff, python_diff, rules_to_delete, custom_rules = diff_rules_with_panther_analysis_main(
+                panther_analysis,
+            )
             refactor_yaml_only_modified_rules(rules_path, overrides_path, yaml_diff)
             refactor_python_modified_rules(rules_path, python_diff)
             delete_rules(Path("./pypanther/rules/"), rules_to_delete)
