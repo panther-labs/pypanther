@@ -110,13 +110,16 @@ def convert_rule(filepath: Path, helpers: Set[str]) -> Optional[str]:
         if k == "LogTypes":
             log_type_elts = []
             for x in v:
-                log_type_elts.append(
-                    ast.Attribute(
-                        value=ast.Name(id=f"{LogType.__name__}", ctx=ast.Load()),
-                        attr=LogType.get_attribute_name(x),
-                        ctx=ast.Load(),
-                    ),
-                )
+                if x.startswith("Custom."):
+                    log_type_elts.append(ast.Constant(value=x))
+                else:
+                    log_type_elts.append(
+                        ast.Attribute(
+                            value=ast.Name(id=f"{LogType.__name__}", ctx=ast.Load()),
+                            attr=LogType.get_attribute_name(x),
+                            ctx=ast.Load(),
+                        ),
+                    )
             value = ast.List(elts=log_type_elts)
         if k == "RuleID":
             value = ast.Constant(value=v + ID_POSTFIX)
