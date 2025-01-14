@@ -8,7 +8,6 @@ from pypanther import list_rules
 from pypanther.main import setup_parser
 
 LIST_RULES_CMD = "list rules"
-MANAGED_ARG = "--managed"
 FILTER_ARGS = [
     ""  # no filter
     "--log-types a b",
@@ -59,7 +58,7 @@ def test_list_with_all() -> None:
         assert err == ""
 
 
-@pytest.mark.parametrize("cmd", [f"{LIST_RULES_CMD} {MANAGED_ARG} {f}" for f in FILTER_ARGS])
+@pytest.mark.parametrize("cmd", [f"{LIST_RULES_CMD} --managed true {f}" for f in FILTER_ARGS])
 def test_list_managed_rules(cmd: str) -> None:
     args = setup_parser().parse_args(cmd.split(" "))
     code, err = list_rules.run(args)

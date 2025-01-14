@@ -56,6 +56,7 @@ class TestApplyOverridesFromModule(unittest.TestCase):
         from .fixtures.get_rules_test_data import no_rules
 
         r = apply_overrides(module=no_rules)
+
         assert len(r) == 0
 
     def test_overrides(self) -> None:
