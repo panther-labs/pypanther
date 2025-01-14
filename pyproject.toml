@@ -6,7 +6,7 @@ authors = ["Panther Labs Inc <pypi@runpanther.io>"]
 readme = "README.md"
 keywords = ["Security", "CLI"]
 classifiers = ["Operating System :: OS Independent"]
-license = "AGPL-3.0-only"
+license = "Apache-2.0"
 include = ["pypanther/py.typed"]
 
 [tool.poetry.dependencies]
