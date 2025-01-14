@@ -233,7 +233,7 @@ class LogType(str, Enum):
     SLACK_INTEGRATION_LOGS = "Slack.IntegrationLogs"
     SNOWFLAKE_ACCESS_HISTORY = "Snowflake.AccessHistory"
     SNOWFLAKE_DATA_TRANSFER_HISTORY = "Snowflake.DataTransferHistory"
-    SNOWFLAKE_GRANTS_TO_ROLES = "Snowflake.GrantToRoles"
+    SNOWFLAKE_GRANTS_TO_ROLES = "Snowflake.GrantsToRoles"
     SNOWFLAKE_GRANTS_TO_USERS = "Snowflake.GrantsToUsers"
     SNOWFLAKE_LOGIN_HISTORY = "Snowflake.LoginHistory"
     SNOWFLAKE_QUERY_HISTORY = "Snowflake.QueryHistory"

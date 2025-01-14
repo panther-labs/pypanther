@@ -1,12 +1,12 @@
 [tool.poetry]
 name = "pypanther"
-version = "0.1.1a50"
+version = "0.1.1a54"
 description = ""
 authors = ["Panther Labs Inc <pypi@runpanther.io>"]
 readme = "README.md"
 keywords = ["Security", "CLI"]
 classifiers = ["Operating System :: OS Independent"]
-license = "AGPL-3.0-only"
+license = "Apache-2.0"
 include = ["pypanther/py.typed"]
 
 [tool.poetry.dependencies]
@@ -20,12 +20,13 @@ boto3 = "^1.34.99"
 policyuniverse = "^1.5.1.20231109"
 jsonpath-ng = "^1.6.1"
 gql = "^3.5.0"
-aiohttp = "^3.10.2"
+aiohttp = ">=3.9.5,<=3.11.6"
 dynaconf = "^3.2.5"
 colorama = "^0.4.6"
 prettytable = "^3.10.0"
 gitpython = "^3.1.43"
 ruff = "^0.4.4"
+types-requests = "^2.32.0.20241016"
 
 [tool.poetry.scripts]
 pypanther = 'pypanther.main:run'
@@ -146,6 +147,7 @@ ignore = [
     "PLR0911", # Too many return statements (7 > 6)
     "PLR0912", # Too many branches (19 > 12)
     "PLR0913", # Too many arguments in function definition (6 > 5)
+    "PLR0915", # Too many statements (76 > 50) # have to disable this because of the way we use generate.py
     "PLR2004", # Magic value used in comparison, consider replacing `4` with a constant variable
     "PLW0603", # Using the global statement to update `_RESOURCE_TABLE` is discouraged
     "PLW2901", # `for` loop variable `p` overwritten by assignment target

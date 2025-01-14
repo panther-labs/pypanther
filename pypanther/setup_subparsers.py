@@ -5,6 +5,8 @@ from pypanther import display, generate, get_rule, list_log_types, list_rules, s
 from pypanther.backend import util
 from pypanther.utils import parse_bool_input
 
+DEFAULT_SCHEMAS_PATH = "content/schemas/"
+
 
 def setup_list_rules_parser(list_rules_parser: argparse.ArgumentParser):
     list_rules_parser.set_defaults(func=list_rules.run)
@@ -119,6 +121,12 @@ def setup_upload_parser(upload_parser: argparse.ArgumentParser):
         choices=display.COMMON_CLI_OUTPUT_TYPES,
         default=display.DEFAULT_CLI_OUTPUT_TYPE,
     )
+    upload_parser.add_argument(
+        "--schemas-path",
+        help="Path to the schemas directory",
+        default=DEFAULT_SCHEMAS_PATH,
+        required=False,
+    )
     dry_run_group = upload_parser.add_mutually_exclusive_group()
     dry_run_group.add_argument(
         "--skip-summary",
@@ -142,6 +150,19 @@ def setup_list_log_types_parser(list_log_types_parser: argparse.ArgumentParser):
         "substring",
         nargs="?",
         help="Filter log types by a substring. Only log types that include the substring will be printed.",
+    )
+    list_log_types_parser.add_argument(
+        "--custom-only",
+        help="Output only the custom log-types defined locally",
+        default=False,
+        required=False,
+        action="store_true",
+    )
+    list_log_types_parser.add_argument(
+        "--schemas-path",
+        help="Path to the schemas directory",
+        default=DEFAULT_SCHEMAS_PATH,
+        required=False,
     )
     list_log_types_parser.add_argument(
         "--output",

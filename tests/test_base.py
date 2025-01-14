@@ -461,7 +461,6 @@ class TestRule(TestCase):
             title_output="test_rule_matches",
             runbook_output="",
             reference_output="",
-            destinations_output=["SKIP"],
         )
         assert expected_rule == rule().run(PantherEvent({}, None), {}, {})
 
@@ -506,7 +505,6 @@ class TestRule(TestCase):
             title_output="test_rule_with_dedup",
             runbook_output="",
             reference_output="",
-            destinations_output=["SKIP"],
         )
         assert expected_rule == rule().run(PantherEvent({}, None), {}, {})
 
@@ -532,7 +530,6 @@ class TestRule(TestCase):
             title_output="test_restrict_dedup_size",
             runbook_output="",
             reference_output="",
-            destinations_output=["SKIP"],
             alert_context_output="{}",
             severity_output="INFO",
             description_output="",
@@ -568,7 +565,6 @@ class TestRule(TestCase):
             reference_output="",
             severity_output="INFO",
             runbook_output="",
-            destinations_output=["SKIP"],
             alert_context_output="{}",
         )
         assert expected_rule == rule().run(PantherEvent({}, None), {}, {})
@@ -596,7 +592,6 @@ class TestRule(TestCase):
             reference_output="",
             severity_output="INFO",
             runbook_output="",
-            destinations_output=["SKIP"],
             alert_context_output="{}",
         )
         assert expected_rule == rule().run(PantherEvent({}, None), {}, {})
@@ -655,7 +650,6 @@ class TestRule(TestCase):
             reference_output="",
             severity_output="INFO",
             runbook_output="",
-            destinations_output=["SKIP"],
             alert_context_output="{}",
         )
         assert expected_rule == rule().run(PantherEvent({}, None), {}, {})
@@ -700,7 +694,6 @@ class TestRule(TestCase):
             reference_output="",
             severity_output="INFO",
             runbook_output="",
-            destinations_output=["SKIP"],
             alert_context_output="{}",
         )
         assert expected_rule == rule().run(PantherEvent({}, None), {}, {})
@@ -728,7 +721,6 @@ class TestRule(TestCase):
             reference_output="",
             severity_output="INFO",
             runbook_output="",
-            destinations_output=["SKIP"],
             alert_context_output="{}",
         )
         assert expected_result == rule().run(PantherEvent({}, None), {}, {})
@@ -756,7 +748,6 @@ class TestRule(TestCase):
             reference_output="",
             severity_output="INFO",
             runbook_output="",
-            destinations_output=["SKIP"],
             alert_context_output="{}",
         )
         assert expected_result == rule().run(PantherEvent({}, None), {}, {})
@@ -784,7 +775,6 @@ class TestRule(TestCase):
             reference_output="",
             severity_output="INFO",
             alert_context_output="{}",
-            destinations_output=["SKIP"],
             runbook_output="",
         )
         assert expected_result == rule().run(PantherEvent({}, None), {}, {})
@@ -811,7 +801,6 @@ class TestRule(TestCase):
             description_output="",
             runbook_output="",
             reference_output="",
-            destinations_output=["SKIP"],
             severity_output="INFO",
             alert_context_output="{}",
         )
@@ -839,7 +828,6 @@ class TestRule(TestCase):
             description_output="",
             runbook_output="",
             reference_output="",
-            destinations_output=["SKIP"],
             severity_output="INFO",
             alert_context_output="{}",
         )
@@ -870,7 +858,6 @@ class TestRule(TestCase):
             reference_output="",
             severity_output="INFO",
             runbook_output="",
-            destinations_output=["SKIP"],
         )
         assert expected_result == rule().run(PantherEvent({}, None), {}, {})
 
@@ -903,7 +890,6 @@ class TestRule(TestCase):
             reference_output="",
             severity_output="INFO",
             runbook_output="",
-            destinations_output=["SKIP"],
         )
         assert expected_result == rule().run(PantherEvent({}, None), {}, {})
 
@@ -939,7 +925,6 @@ class TestRule(TestCase):
             reference_output="",
             severity_output="INFO",
             runbook_output="",
-            destinations_output=["SKIP"],
         )
         assert expected_result == rule().run(PantherEvent({}, None), {}, {})
 
@@ -976,7 +961,6 @@ class TestRule(TestCase):
             reference_output="",
             severity_output="INFO",
             runbook_output="",
-            destinations_output=["SKIP"],
         )
         assert expected_result == rule().run(PantherEvent(event, None), {}, {})
 
@@ -1007,7 +991,6 @@ class TestRule(TestCase):
             reference_output="",
             severity_output="INFO",
             runbook_output="",
-            destinations_output=["SKIP"],
         )
         assert expected_result == rule().run(PantherEvent(event, None), {}, {})
 
@@ -1051,9 +1034,9 @@ class TestRule(TestCase):
             severity_output="HIGH",
             reference_output="test reference",
             runbook_output="test runbook",
-            destinations_output=["SKIP"],
             detection_output=True,
             detection_severity="INFO",
+            destinations_output=["SKIP"],
             detection_type=TYPE_RULE,
         )
         self.maxDiff = None
@@ -1093,7 +1076,6 @@ class TestRule(TestCase):
             description_output="",
             runbook_output="",
             reference_output="",
-            destinations_output=["SKIP"],
         )
         result = rule().run(PantherEvent({}, None), {}, {}, batch_mode=False)
         self.assertDetectionResultEqual(expected_result, result, fields_as_string=("severity_exception",))
@@ -1144,6 +1126,32 @@ class TestRule(TestCase):
             description_output="",
             runbook_output="",
             reference_output="",
+        )
+        result = rule().run(PantherEvent({}, None), {}, {}, batch_mode=False)
+        assert expected_result == result
+
+    def test_rule_dont_send_to_destination(self) -> None:
+        class rule(Rule):
+            id = "test_rule_dont_send_to_destination"
+            default_severity = Severity.INFO
+            default_destinations = []
+
+            def rule(self, event):
+                return True
+
+        expected_result = DetectionResult(
+            trigger_alert=True,
+            detection_id="test_rule_dont_send_to_destination",
+            alert_context_output="{}",
+            title_output="test_rule_dont_send_to_destination",
+            dedup_output="test_rule_dont_send_to_destination",
+            severity_output="INFO",
+            detection_output=True,
+            detection_severity="INFO",
+            detection_type=TYPE_RULE,
+            description_output="",
+            runbook_output="",
+            reference_output="",
             destinations_output=["SKIP"],
         )
         result = rule().run(PantherEvent({}, None), {}, {}, batch_mode=False)
@@ -1179,7 +1187,6 @@ class TestRule(TestCase):
             description_output="",
             runbook_output="",
             reference_output="",
-            destinations_output=["SKIP"],
         )
         result = rule().run(PantherEvent({}, None), {}, {}, batch_mode=False)
         assert expected_result == result
@@ -1254,7 +1261,6 @@ class TestRule(TestCase):
             description_output="",
             reference_output="",
             runbook_output="",
-            destinations_output=["SKIP"],
             alert_context_output="{}",
         )
         result = rule().run(PantherEvent({}, None), {}, {}, batch_mode=False)
@@ -1289,7 +1295,6 @@ class TestRule(TestCase):
             description_output="",
             reference_output="",
             runbook_output="",
-            destinations_output=["SKIP"],
             alert_context_output="{}",
         )
         result = rule().run(PantherEvent({}, None), {}, {}, batch_mode=True)
@@ -1747,7 +1752,7 @@ class TestRuleExtendFunc(TestCase):
         assert Test.reports == {}
         assert Test.include_filters == []
         assert Test.exclude_filters == []
-        assert Test.default_destinations == []
+        assert not Test.default_destinations
 
     def test_extend_nones(self) -> None:
         def filt(event):

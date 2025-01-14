@@ -16,7 +16,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: step-security/harden-runner@91182cccc01eb5e619899d80e4e971d6181294a7 # v2.10.1
+    - uses: step-security/harden-runner@c95a14d0e5bab51a9f56296a4eb0e416910cd350 # v2.10.3
       with:
         egress-policy: audit
     - name: Check out this repository
@@ -37,7 +37,7 @@ jobs:
       # pypanther installation and versioning
       # this way we can also override the cwd_must_be_empty coarse safeguard we impose for external users
       run: |
-        poetry run python ./pypanther/generate.py panther-analysis --keep-all-rules
+        poetry run python ./pypanther/generate.py panther-analysis --keep-all-rules --verbose
     - name: Cleanup
       run: |
         rm -rf panther-analysis

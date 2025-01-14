@@ -1,4 +1,4 @@
-# pypanther
+# PyPanther
 
 **pypanther** is a Python library for building Panther analysis content for the Panther cybersecurity product.
 It provides a simple and intuitive interface for creating, managing, and deploying detections to enhance your security posture.
@@ -55,7 +55,7 @@ register(MyRule)
 
 Check out the [pypanther-starter-kit](https://github.com/panther-labs/pypanther-starter-kit) for more examples on how to use `pypanther`.
 
-You can view detailed docs on the package and CLI tool on the [panther docs]().
+You can view detailed docs on the package and CLI tool on the [panther docs](https://docs.panther.com/detections/pypanther/cli).
 
 ## Local Development
 
@@ -68,54 +68,54 @@ isolated development environment.
 
 2. **Clone the repository**: Clone the `pypanther` repository to your local machine.
 
-    ```bash
-    git clone git@github.com:panther-labs/pypanther.git
-    cd pypanther
-    ```
+   ```bash
+   git clone git@github.com:panther-labs/pypanther.git
+   cd pypanther
+   ```
 
 3. **Install dependencies**: Use Poetry to install the project's dependencies.
 
-    ```bash
-    poetry install
-    ```
+   ```bash
+   poetry install
+   ```
 
    This will create a virtual environment and install all necessary dependencies specified in the `pyproject.toml` file.
 
 4. **Activate the virtual environment**: You can activate the virtual environment created by Poetry using:
 
-    ```bash
-    poetry shell
-    ```
+   ```bash
+   poetry shell
+   ```
 
 5. **Testing Locally**: You can create a `main.py` file within the `pypanther` directory to test commands and functionality
    locally. This file can be used to run test commands or interact with `pypanther` features.
 
-    - **Create a `main.py` file**: Here is an example main file. Assumes you have a folder called `custom_rules` with all your test rules.
+   - **Create a `main.py` file**: Here is an example main file. Assumes you have a folder called `custom_rules` with all your test rules.
 
-        ```python
-        # pypanther/main.py
+     ```python
+     # pypanther/main.py
 
-        from pypanther import register, get_panther_rules, get_rules
-        import custom_rules
-      
-      
-        register(get_panther_rules())
-        register(get_rules(custom_rules))
-        ```
+     from pypanther import register, get_panther_rules, get_rules
+     import custom_rules
 
-    - **Running the CLI**: Use the following command to run `main.py` with Poetry:
 
-        ```bash
-        poetry run python ./pypanther/main.py <cmd>
-        ```
+     register(get_panther_rules())
+     register(get_rules(custom_rules))
+     ```
 
-      Replace `<cmd>` with any specific commands you want to test (e.g. `test` and `upload`)
+   - **Running the CLI**: Use the following command to run `main.py` with Poetry:
+
+     ```bash
+     poetry run python ./pypanther/main.py <cmd>
+     ```
+
+     Replace `<cmd>` with any specific commands you want to test (e.g. `test` and `upload`)
 
 6. **Adding Dependencies**: If you need to add new dependencies, use the following command:
 
-    ```bash
-    poetry add <package-name>
-    ```
+   ```bash
+   poetry add <package-name>
+   ```
 
    This will update the `pyproject.toml` file with the new dependency.
 
@@ -130,4 +130,4 @@ If you encounter any issues or have questions, please open a support ticket.
 
 ## License
 
-**pypanther** is released under the [GNU Affero General Public License](LICENSE.txt).
+**pypanther** is released under [Apache License 2.0](LICENSE.txt).

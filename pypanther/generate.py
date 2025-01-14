@@ -7,6 +7,7 @@ import shutil
 import subprocess
 import sys
 import tempfile
+import traceback
 from multiprocessing import Pool
 from pathlib import Path
 from typing import List, Optional, Set, TypedDict
@@ -206,7 +207,6 @@ def run_ruff(paths: List[Path]):
         "EXE001",
         "F821",
         "FIX001",
-        "PLR0915",
         "PLR1722",
         "PLW0602",
         "PT027",
@@ -508,7 +508,7 @@ class DropClassAttributes(ast.NodeTransformer):
         ]
         return ast.ClassDef(
             name=node.name,
-            bases=[ast.Name(id=x) for x in node.bases],
+            bases=node.bases,
             keywords=node.keywords,
             decorator_list=node.decorator_list,
             body=new_body,
@@ -1402,13 +1402,17 @@ def delete_rules(rules_path: Path, to_delete: list[str]) -> None:
 
     # delete empty directories or directories that contain only __init__.py files
     for root, dirs, files in os.walk(str(rules_path), topdown=False):
-        if len(dirs) == 0 and len(files) == 1 and files[0] == "__init__.py":
-            Path(os.path.join(root, files[0])).unlink()
+        # delete empty subdirectories
+        deleted_dirs = set()
         for name in dirs:
             directory = Path(os.path.join(root, name))
             if not any(directory.iterdir()):
                 # directory is empty
                 directory.rmdir()
+                deleted_dirs.add(name)
+        # if the directory contains only one __init__.py file, delete it
+        if len(set(dirs) - deleted_dirs) == 0 and len(files) == 1 and files[0] == "__init__.py":
+            Path(os.path.join(root, files[0])).unlink()
 
     # if the rules directory itself is empty, delete it
     if not any(rules_path.iterdir()):
@@ -1456,6 +1460,7 @@ def create_argument_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser()
     parser.add_argument("panther_analysis_path", type=Path)
     parser.add_argument("--keep-all-rules", default=False, action="store_true")
+    parser.add_argument("--verbose", default=False, action="store_true")
     return parser
 
 
@@ -1488,7 +1493,7 @@ def convert(args: argparse.Namespace) -> tuple[int, str]:
         run_ruff([Path("./pypanther/")])
     except Exception as exc:
         if hasattr(args, "verbose") and args.verbose:
-            print(exc)
+            traceback.print_exception(exc)
         return 1, "conversion failed"
 
     Path("./pypanther/__init__.py").touch()
@@ -1507,6 +1512,8 @@ def main():
     if return_code > 0:
         print(error)
 
+    return return_code
+
 
 if __name__ == "__main__":
-    main()
+    sys.exit(main())

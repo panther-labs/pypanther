@@ -1,0 +1,6 @@
+query bulkUploadPresignedUrl($input: GetPresignedUploadURLInput!) {
+    bulkUploadPresignedUrl(input: $input) {
+        detectionsURL
+        sessionId
+    }
+}
