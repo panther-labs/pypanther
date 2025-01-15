@@ -1041,7 +1041,6 @@ class TestRule(TestCase):
         self.maxDiff = None
         assert expected_result == rule().run(PantherEvent({}, None), {}, {}, batch_mode=False)
 
-
     # Generated Fields Tests
     def test_rule_with_all_generated_fields(self) -> None:
         class rule(Rule):
