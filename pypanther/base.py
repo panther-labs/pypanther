@@ -511,9 +511,8 @@ class Rule(metaclass=abc.ABCMeta):
 
         if isinstance(result.detection_output, bool) and result.detection_output:
             result.trigger_alert = True
-        if batch_mode and not result.trigger_alert:
-            # In batch mode (log analysis), there is no need to run the rest of the functions
-            # if the detection isn't going to trigger an alert
+        if not result.trigger_alert:
+            # There is no need to run the rest of the functions if the detection isn't going to trigger an alert
             return result
 
         self.ctx_mgr = noop
