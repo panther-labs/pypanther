@@ -10,6 +10,9 @@ from pypanther.rules.crowdstrike.event_stream.crowdstrike_api_key_created import
 from pypanther.rules.crowdstrike.event_stream.crowdstrike_api_key_deleted import (
     CrowdstrikeAPIKeyDeleted as CrowdstrikeAPIKeyDeleted,
 )
+from pypanther.rules.crowdstrike.event_stream.crowdstrike_detection_summary import (
+    CrowdstrikeEppDetectionSummary as CrowdstrikeEppDetectionSummary,
+)
 from pypanther.rules.crowdstrike.event_stream.crowdstrike_ip_allowlist_changed import (
     CrowdstrikeIpAllowlistChanged as CrowdstrikeIpAllowlistChanged,
 )

@@ -20,11 +20,16 @@ class WizAlertPassthrough(Rule):
         return f"[Wiz Alert]: {event.deep_get('sourceRule', 'name', default='ALERT_DESCRIPTION_NOT_FOUND')}"
 
     def severity(self, event):
-        # if event.get("severity") == "INFORMATIONAL":
-        #     return "INFO"
         return event.get("severity")
 
     def dedup(self, event):
+        # For lower-severity events, dedup based on specific source rule to reduce overall alert volume
+        if event.get("severity") in ("INFO", "LOW"):
+            dedup_str = str(event.deep_get("sourceRule", "id"))
+            if dedup_str:
+                return dedup_str
+        # If the severity is higher, or for some reason we couldn't generate a dedup string based on
+        #   the source rule, then use the alert severity + the resource ID itself.
         return event.deep_get("entitySnapshot", "externalId", default="<RESOURCE_NOT_FOUND>") + event.get(
             "severity",
             "<SEVERITY_NOT_FOUND>",
@@ -82,6 +87,64 @@ class WizAlertPassthrough(Rule):
                 ],
                 "serviceTickets": [],
                 "severity": "HIGH",
+                "sourceRule": {
+                    "__typename": "Control",
+                    "controlDescription": "Alert Description",
+                    "id": "12345",
+                    "name": "Alert Name",
+                    "resolutionRecommendation": "Alert Resolution Recommendation",
+                    "securitySubCategories": [
+                        {
+                            "category": {
+                                "framework": {"name": "Wiz for Risk Assessment"},
+                                "name": "High Profile Threats",
+                            },
+                            "title": "High-profile vulnerability exploited in the wild",
+                        },
+                        {
+                            "category": {"framework": {"name": "MITRE ATT&CK Matrix"}, "name": "TA0001 Initial Access"},
+                            "title": "T1190 Exploit Public-Facing Application",
+                        },
+                    ],
+                },
+                "status": "OPEN",
+                "statusChangedAt": "2024-06-04 02:28:06.597355000",
+                "type": "TOXIC_COMBINATION",
+                "updatedAt": "2024-06-04 02:28:06.763277000",
+            },
+        ),
+        RuleTest(
+            name="Low-Severity Open Alert",
+            expected_result=True,
+            log={
+                "createdAt": "2024-06-04 02:28:06.763277000",
+                "entitySnapshot": {
+                    "cloudProviderURL": "",
+                    "externalId": "someExternalId",
+                    "id": "12345",
+                    "name": "someName",
+                    "nativeType": "",
+                    "providerId": "someProviderId",
+                    "region": "",
+                    "resourceGroupExternalId": "",
+                    "subscriptionExternalId": "",
+                    "subscriptionName": "",
+                    "tags": {},
+                    "type": "DATA_FINDING",
+                },
+                "id": "54321",
+                "notes": [],
+                "projects": [
+                    {
+                        "businessUnit": "",
+                        "id": "45678",
+                        "name": "Project 2",
+                        "riskProfile": {"businessImpact": "MBI"},
+                        "slug": "project-2",
+                    },
+                ],
+                "serviceTickets": [],
+                "severity": "LOW",
                 "sourceRule": {
                     "__typename": "Control",
                     "controlDescription": "Alert Description",

@@ -29,6 +29,7 @@ from pypanther.rules.github.github_repo_visibility_change import (
 from pypanther.rules.github.github_repo_vulnerability_dismissed import (
     GithubRepoVulnerabilityDismissed as GithubRepoVulnerabilityDismissed,
 )
+from pypanther.rules.github.github_repoet_modified import GitHubRepoRulesetModified as GitHubRepoRulesetModified
 from pypanther.rules.github.github_repository_transfer import GithubRepositoryTransfer as GithubRepositoryTransfer
 from pypanther.rules.github.github_secret_scanning_alert_created import (
     GitHubSecretScanningAlertCreated as GitHubSecretScanningAlertCreated,
