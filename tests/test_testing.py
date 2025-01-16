@@ -19,9 +19,10 @@ class Test(Rule):
     id = "Test"
     log_types = [LogType.PANTHER_AUDIT]
     default_severity = Severity.LOW
+    return_value = False
 
     def rule(self, event: PantherEvent) -> bool:
-        return False
+        return self.return_value
 
     def alert_context(self, event: PantherEvent) -> dict:
         return {"hi": "bye"}
@@ -47,6 +48,7 @@ class Sub2(Test):
 
 class TestPrintRuleTestResults:
     def test_no_tests(self, capsys) -> None:
+        Test.return_value = False
         testing.print_rule_test_results(False, Test.id, Test.run_tests(get_data_model))
 
         std = capsys.readouterr()
@@ -54,6 +56,7 @@ class TestPrintRuleTestResults:
         assert std.err == ""
 
     def test_all_pass(self, capsys) -> None:
+        Test.return_value = False
         Test.tests = [RuleTest(name="test", expected_result=False, log={})]
         testing.print_rule_test_results(False, Test.id, Test.run_tests(get_data_model))
 
@@ -62,6 +65,7 @@ class TestPrintRuleTestResults:
         assert std.err == ""
 
     def test_rule_func_failure(self, capsys) -> None:
+        Test.return_value = False
         Test.tests = [RuleTest(name="test", expected_result=True, log={})]
         testing.print_rule_test_results(False, Test.id, Test.run_tests(get_data_model))
 
@@ -76,7 +80,8 @@ class TestPrintRuleTestResults:
         assert std.err == ""
 
     def test_severity_func_failure(self, capsys) -> None:
-        Test.tests = [RuleTest(name="test", expected_severity=Severity.HIGH, expected_result=False, log={})]
+        Test.return_value = True
+        Test.tests = [RuleTest(name="test", expected_severity=Severity.HIGH, expected_result=True, log={})]
         testing.print_rule_test_results(False, Test.id, Test.run_tests(get_data_model))
 
         exp = (
@@ -90,7 +95,8 @@ class TestPrintRuleTestResults:
         assert std.err == ""
 
     def test_alert_context_func_failure(self, capsys) -> None:
-        Test.tests = [RuleTest(name="test", expected_alert_context={"sad": "time"}, expected_result=False, log={})]
+        Test.return_value = True
+        Test.tests = [RuleTest(name="test", expected_alert_context={"sad": "time"}, expected_result=True, log={})]
         testing.print_rule_test_results(False, Test.id, Test.run_tests(get_data_model))
 
         exp = (
@@ -104,12 +110,13 @@ class TestPrintRuleTestResults:
         assert std.err == ""
 
     def test_many_func_failures(self, capsys) -> None:
+        Test.return_value = True
         Test.tests = [
             RuleTest(
                 name="test",
                 expected_alert_context={"sad": "time"},
                 expected_severity=Severity.HIGH,
-                expected_result=True,
+                expected_result=False,
                 log={},
             ),
         ]
@@ -118,7 +125,7 @@ class TestPrintRuleTestResults:
         exp = (
             "\x1b[95mTest\x1b[0m:\n"
             "   \x1b[1m\x1b[91mFAIL\x1b[0m\x1b[0m: test\n"
-            "     - Expected rule() to return 'True', but got 'False'\n"
+            "     - Expected rule() to return 'False', but got 'True'\n"
             "     - Expected severity() to return 'HIGH', but got 'LOW'\n"
             "     - Expected alert_context() to return '{'sad': 'time'}', but got '{\"hi\": \"bye\"}'\n"
             "\n"
@@ -128,16 +135,17 @@ class TestPrintRuleTestResults:
         assert std.err == ""
 
     def test_many_tests(self, capsys) -> None:
+        Test.return_value = True
         Test.tests = [
-            RuleTest(name="test1", expected_result=True, log={}),
-            RuleTest(name="test2", expected_result=False, expected_title="bad", log={}),
+            RuleTest(name="test1", expected_result=False, log={}),
+            RuleTest(name="test2", expected_result=True, expected_title="bad", log={}),
         ]
         testing.print_rule_test_results(False, Test.id, Test.run_tests(get_data_model))
 
         exp = (
             "\x1b[95mTest\x1b[0m:\n"
             "   \x1b[1m\x1b[91mFAIL\x1b[0m\x1b[0m: test1\n"
-            "     - Expected rule() to return 'True', but got 'False'\n"
+            "     - Expected rule() to return 'False', but got 'True'\n"
             "   \x1b[1m\x1b[91mFAIL\x1b[0m\x1b[0m: test2\n"
             "     - Expected title() to return 'bad', but got 'Test'\n"
             "\n"
@@ -147,6 +155,7 @@ class TestPrintRuleTestResults:
         assert std.err == ""
 
     def test_both_pass_and_fail(self, capsys) -> None:
+        Test.return_value = False
         Test.tests = [
             RuleTest(name="test", expected_result=True, log={}),
             RuleTest(name="test", expected_result=False, log={}),
@@ -164,6 +173,7 @@ class TestPrintRuleTestResults:
         assert std.err == ""
 
     def test_both_pass_and_fail_verbose(self, capsys) -> None:
+        Test.return_value = False
         Test.tests = [
             RuleTest(name="test", expected_result=True, log={}),
             RuleTest(name="test", expected_result=False, log={}),
@@ -182,6 +192,7 @@ class TestPrintRuleTestResults:
         assert std.err == ""
 
     def test_no_tests_verbose(self, capsys) -> None:
+        Test.return_value = False
         Test.tests = []
         testing.print_rule_test_results(True, Test.id, Test.run_tests(get_data_model))
 
@@ -191,6 +202,7 @@ class TestPrintRuleTestResults:
         assert std.err == ""
 
     def test_pass_tests_verbose(self, capsys) -> None:
+        Test.return_value = False
         Test.tests = [
             RuleTest(name="test1", expected_result=False, log={}),
             RuleTest(name="test2", expected_result=False, log={}),

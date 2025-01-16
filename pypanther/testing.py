@@ -362,7 +362,8 @@ def get_rule_results(result: RuleTestResult) -> list[Tuple[str, Any, Any, bool]]
             Rule.alert_context.__name__,
             t.expected_alert_context,
             r.alert_context_output,
-            t.expected_alert_context == json.loads(r.alert_context_output),
+            t.expected_alert_context
+            == (r.alert_context_output if r.alert_context_output is None else json.loads(r.alert_context_output)),
         ),
     ]
 

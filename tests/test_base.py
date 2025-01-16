@@ -994,6 +994,53 @@ class TestRule(TestCase):
         )
         assert expected_result == rule().run(PantherEvent(event, None), {}, {})
 
+    def test_rule_aux_functions_dont_run_if_rule_returns_false(self) -> None:
+        class rule(Rule):
+            id = "test_rule_aux_functions_dont_run_if_rule_returns_false"
+            default_severity = Severity.INFO
+
+            def rule(self, event):
+                return False
+
+            def alert_context(self, event):
+                raise Exception("should not run")
+
+            def title(self, event):
+                raise Exception("should not run")
+
+            def description(self, event):
+                raise Exception("should not run")
+
+            def severity(self, event):
+                raise Exception("should not run")
+
+            def reference(self, event):
+                raise Exception("should not run")
+
+            def runbook(self, event):
+                raise Exception("should not run")
+
+            def destinations(self, event):
+                raise Exception("should not run")
+
+        expected_result = DetectionResult(
+            detection_id="test_rule_aux_functions_dont_run_if_rule_returns_false",
+            trigger_alert=False,
+            alert_context_output=None,
+            title_output=None,
+            dedup_output=None,
+            description_output=None,
+            severity_output=None,
+            reference_output=None,
+            runbook_output=None,
+            detection_output=False,
+            detection_severity=Severity.INFO,
+            destinations_output=None,
+            detection_type=TYPE_RULE,
+        )
+        self.maxDiff = None
+        assert expected_result == rule().run(PantherEvent({}, None), {}, {}, batch_mode=False)
+
     # Generated Fields Tests
     def test_rule_with_all_generated_fields(self) -> None:
         class rule(Rule):
