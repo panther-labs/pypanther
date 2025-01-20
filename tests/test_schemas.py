@@ -160,7 +160,7 @@ class TestUploader(unittest.TestCase):
                         created_at="2021-05-11T14:08:08.42627193Z",
                         description="A verbose description",
                         is_managed=False,
-                        name="Custom.SAMPLESchema1", # Name has upper case letters deliberately
+                        name="Custom.SAMPLESchema1",  # Name has upper case letters deliberately
                         reference_url="https://example.com",
                         revision=17,
                         spec=self.valid_schema1,
@@ -193,7 +193,7 @@ class TestUploader(unittest.TestCase):
             ),
         )
         self.put_schema_response = lambda: Schema(
-            name="Custom.SAMPLESchema1", # Name has upper case letters deliberately
+            name="Custom.SAMPLESchema1",  # Name has upper case letters deliberately
             revision=18,
             updated_at="2021-05-17T10:34:18.192993496Z",
             created_at="2021-05-17T10:15:38.18907328Z",
