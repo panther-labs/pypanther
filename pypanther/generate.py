@@ -1499,6 +1499,7 @@ def delete_data_models(data_models_path: Path) -> None:
     shutil.rmtree(data_models_path)
 
 
+# currently, this function only removes the @panther_managed decorator from the class definitions of custom rules
 def fix_custom_rules(rules_path: Path, custom_rules: list[str]) -> None:
     for filename in custom_rules:
         possible_paths = list(rules_path.rglob(f"**/{filename}"))
