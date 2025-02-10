@@ -224,6 +224,7 @@ class TestRegisteredRules:
 class TestGetRulesCaseInsensitiveFiltering(unittest.TestCase):
     def setUp(self):
         _RULE_REGISTRY.clear()
+        _RULE_ID_TO_RULE_REGISTRY.clear()
 
     def tearDown(self):
         _RULE_REGISTRY.clear()
