@@ -5,7 +5,13 @@ import pytest
 from pypanther import LogType, register
 from pypanther.base import Rule, Severity
 from pypanther.data_models_v2 import DataModel
-from pypanther.registry import _DATA_MODEL_REGISTRY, _RULE_REGISTRY, registered_data_models, registered_rules
+from pypanther.registry import (
+    _DATA_MODEL_REGISTRY,
+    _RULE_ID_TO_RULE_REGISTRY,
+    _RULE_REGISTRY,
+    registered_data_models,
+    registered_rules,
+)
 
 
 class RuleA(Rule):
@@ -51,6 +57,7 @@ class RuleB(Rule):
 class TestRegister(unittest.TestCase):
     def setUp(self):
         _RULE_REGISTRY.clear()
+        _RULE_ID_TO_RULE_REGISTRY.clear()
         _DATA_MODEL_REGISTRY.clear()
 
     def test_register_rule_duplicate(self):

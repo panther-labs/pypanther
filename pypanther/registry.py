@@ -1,4 +1,4 @@
-from typing import Iterable, List, Set, Type, Dict
+from typing import Dict, Iterable, List, Set, Type
 
 from pydantic import NonNegativeInt, PositiveInt
 
@@ -9,7 +9,7 @@ from pypanther.unit_tests import RuleTest
 from pypanther.utils import filter_iterable_by_kwargs
 
 _RULE_REGISTRY: Set[Type[Rule]] = set()
-_RULE_ID_TO_RULE_REGISTRY: Dict[str, Type[Rule]] = dict()
+_RULE_ID_TO_RULE_REGISTRY: Dict[str, Type[Rule]] = {}
 _DATA_MODEL_REGISTRY: Set[Type[DataModel]] = set()
 
 
@@ -34,8 +34,10 @@ def register(arg: Type[Rule] | Type[DataModel] | Iterable[Type[Rule] | Type[Data
 
 
 def _register_rule(rule: Type[Rule]) -> bool:
-    """Register a rule with the pypanther library. Returns True if the argument was a rule False otherwise.
-    If a different rule with the same id is already registered, a ValueError is raised."""
+    """
+    Register a rule with the pypanther library. Returns True if the argument was a rule False otherwise.
+    If a different rule with the same id is already registered, a ValueError is raised.
+    """
     if isinstance(rule, type) and issubclass(rule, Rule):
         rule.validate()
         rule_with_same_id = _RULE_ID_TO_RULE_REGISTRY.get(rule.id)
