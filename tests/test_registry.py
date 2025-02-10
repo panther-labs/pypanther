@@ -60,6 +60,27 @@ class TestRegister(unittest.TestCase):
         assert len(registered_rules()) == 1
         assert RuleA in registered_rules()
 
+    def test_register_rule_duplicate_id(self):
+        class RuleA(Rule):
+            log_types = [LogType.OKTA_SYSTEM_LOG]
+            id = "rule_1"
+            default_severity = Severity.INFO
+
+            def rule(self, _):
+                pass
+
+        class RuleB(Rule):
+            log_types = [LogType.OKTA_SYSTEM_LOG]
+            id = "rule_1"
+            default_severity = Severity.INFO
+
+            def rule(self, _):
+                pass
+
+        with pytest.raises(ValueError, match="Rule with id 'rule_1' is already registered"):
+            register(RuleA)
+            register(RuleB)
+
     def test_register_rule_duplicate_in_list(self):
         register([RuleA, RuleA])
         assert len(registered_rules()) == 1
