@@ -11,7 +11,7 @@ from pypanther.display import COMMON_CLI_OUTPUT_TYPES
 from pypanther.get import get_panther_rules
 from pypanther.get_rule import run
 from pypanther.log_types import LogType
-from pypanther.registry import _RULE_REGISTRY, _RULE_ID_TO_RULE_REGISTRY, register
+from pypanther.registry import _RULE_ID_TO_RULE_REGISTRY, _RULE_REGISTRY, register
 from pypanther.severity import Severity
 
 
