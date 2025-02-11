@@ -58,13 +58,6 @@ class TestRegister(unittest.TestCase):
         _RULE_REGISTRY.clear()
         _DATA_MODEL_REGISTRY.clear()
 
-    def test_register_rule_duplicate(self):
-        register(RuleA)
-        RuleA.tags.append("test2")
-        register(RuleA)
-        assert len(registered_rules()) == 1
-        assert RuleA in registered_rules()
-
     def test_register_rule_duplicate_id(self):
         class RuleA(Rule):
             log_types = [LogType.OKTA_SYSTEM_LOG]
@@ -85,11 +78,6 @@ class TestRegister(unittest.TestCase):
         with pytest.raises(ValueError, match="Rule with id 'rule_1' is already registered"):
             register(RuleA)
             register(RuleB)
-
-    def test_register_rule_duplicate_in_list(self):
-        register([RuleA, RuleA])
-        assert len(registered_rules()) == 1
-        assert RuleA in registered_rules()
 
     def test_register_rules(self):
         register([RuleA, RuleB])
@@ -189,6 +177,7 @@ class TestRegisteredRules:
         )
 
     def test_no_args(self) -> None:
+        _RULE_REGISTRY.clear()
         to_register = {RuleA, RuleB}
         register(to_register)
         registered = registered_rules()
@@ -213,6 +202,7 @@ class TestRegisteredRules:
 
     @pytest.mark.parametrize("kwarg_a", kwargs_a, ids=lambda x: str(next(iter(x))))
     def test_filter(self, kwarg_a) -> None:
+        _RULE_REGISTRY.clear()
         to_register = {RuleA, RuleB}
         register(to_register)
         registered = registered_rules(**kwarg_a)

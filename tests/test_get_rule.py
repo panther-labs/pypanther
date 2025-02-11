@@ -93,8 +93,6 @@ class TestRun:
 
     @pytest.mark.parametrize("output", COMMON_CLI_OUTPUT_TYPES)
     def test_happy_path_registered(self, output: str) -> None:
-        _RULE_REGISTRY.clear()
-
         with create_main():
             rule_id = "Custom.Rule.ID"
 
@@ -112,6 +110,7 @@ class TestRun:
             )
             assert rc == 0
             assert err_msg == ""
+            _RULE_REGISTRY.clear()
 
 
 if __name__ == "__main__":

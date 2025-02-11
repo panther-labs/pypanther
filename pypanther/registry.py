@@ -1,14 +1,14 @@
-from typing import Dict, Iterable, List, Set, Type
+from typing import Iterable, List, Set, Type
 
 from pydantic import NonNegativeInt, PositiveInt
 
-from pypanther import utils
 from pypanther.base import Rule
 from pypanther.data_models_v2 import DataModel
 from pypanther.severity import Severity
 from pypanther.unit_tests import RuleTest
+from pypanther.utils import filter_iterable_by_kwargs
 
-_RULE_REGISTRY: Dict[str, Type[Rule]] = {}
+_RULE_REGISTRY: Set[Type[Rule]] = set()
 _DATA_MODEL_REGISTRY: Set[Type[DataModel]] = set()
 
 
@@ -35,14 +35,13 @@ def register(arg: Type[Rule] | Type[DataModel] | Iterable[Type[Rule] | Type[Data
 def _register_rule(rule: Type[Rule]) -> bool:
     """
     Register a rule with the pypanther library. Returns True if the argument was a rule False otherwise.
-    If a different rule with the same id is already registered, a ValueError is raised.
+    If a rule with the same id is already registered, a ValueError is raised.
     """
     if isinstance(rule, type) and issubclass(rule, Rule):
         rule.validate()
-        rule_with_same_id = _RULE_REGISTRY.get(rule.id)
-        if rule_with_same_id and rule_with_same_id is not rule:
+        if rule.id in set(r.id for r in _RULE_REGISTRY):
             raise ValueError(f"Rule with id '{rule.id}' is already registered")
-        _RULE_REGISTRY[rule.id] = rule
+        _RULE_REGISTRY.add(rule)
         return True
     return False
 
@@ -77,16 +76,12 @@ def registered_rules(
     default_destinations: List[str] | None = None,
 ) -> Set[Type[Rule]]:
     filters = locals()
-
-    return {
-        x
-        for x in _RULE_REGISTRY.values()
-        if all(
-            utils.to_lowercase_set(getattr(x, key, set())).intersection(utils.to_lowercase_set(values))
-            for key, values in filters.items()
-            if values is not None
-        )
-    }
+    return set(
+        filter_iterable_by_kwargs(
+            _RULE_REGISTRY,
+            **filters,
+        ),
+    )
 
 
 def registered_data_models() -> Set[Type[DataModel]]:
