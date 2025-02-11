@@ -58,6 +58,15 @@ class TestRegister(unittest.TestCase):
         _RULE_REGISTRY.clear()
         _DATA_MODEL_REGISTRY.clear()
 
+    def test_register_rule_duplicate(self):
+        register(RuleA)
+        with pytest.raises(ValueError, match="Rule with id 'rule_a' is already registered"):
+            register(RuleA)
+
+    def test_register_rule_duplicate_in_list(self):
+        with pytest.raises(ValueError, match="Rule with id 'rule_a' is already registered"):
+            register([RuleA, RuleA])
+
     def test_register_rule_duplicate_id(self):
         class RuleA(Rule):
             log_types = [LogType.OKTA_SYSTEM_LOG]
