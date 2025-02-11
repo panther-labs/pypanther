@@ -315,6 +315,7 @@ class LogType(str, Enum):
     def __str__(self) -> str:
         """Returns a string representation of the class' value."""
         return self.value
+
     @staticmethod
     def get_attribute_name(value: str) -> str:
         """Returns the attribute name of the class' value."""
