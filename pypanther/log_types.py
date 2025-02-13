@@ -9,7 +9,7 @@ class LogType(str, Enum):
     A_K_O_TEST_AUDIT = "AKOTest.Audit"
     AWS_ALB = "AWS.ALB"
     AWS_AURORA_MYSQL_AUDIT = "AWS.AuroraMySQLAudit"
-    AWS_CLOUD_FRONT_ACCESS = "AWS.CloudFrontAccess"
+    AWS_CLOUDFRONT_ACCESS = "AWS.CloudFrontAccess"
     AWS_CLOUDTRAIL = "AWS.CloudTrail"
     AWS_CLOUDTRAIL_DIGEST = "AWS.CloudTrailDigest"
     AWS_CLOUDTRAIL_INSIGHT = "AWS.CloudTrailInsight"
