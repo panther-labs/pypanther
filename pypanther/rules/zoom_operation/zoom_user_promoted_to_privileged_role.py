@@ -1,6 +1,7 @@
 import re
 
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
+from pypanther.helpers.base import EMAIL_REGEX
 
 
 @panther_managed
@@ -16,7 +17,7 @@ class ZoomUserPromotedtoPrivilegedRole(Rule):
     def extract_values(self, event):
         operator = event.get("operator", "<operator-not-found>")
         operation_detail = event.get("operation_detail", "")
-        email = re.search("[\\w.+-c]+@[\\w-]+\\.[\\w.-]+", operation_detail)[0] or "<email-not-found>"
+        email = re.search(EMAIL_REGEX, operation_detail)[0] or "<email-not-found>"
         fromto = re.findall("from ([-\\s\\w]+) to ([-\\s\\w]+)", operation_detail) or [
             ("<from-role-not-found>", "<to-role-not-found>"),
         ]
@@ -45,7 +46,7 @@ class ZoomUserPromotedtoPrivilegedRole(Rule):
                 "action": "Batch Update",
                 "category_type": "User",
                 "operation_detail": "Change Role  - homer.simpson@duff.io: from User to Co-Owner",
-                "operator": "admin@duff.io",
+                "operator": "admin-test%1223+123@duff.dev.co",
                 "time": "2022-07-05 20:28:48",
             },
         ),
@@ -111,7 +112,7 @@ class ZoomUserPromotedtoPrivilegedRole(Rule):
                 "action": "SCIM API - Update",
                 "category_type": "User",
                 "operation_detail": "Edit User homer.simpson@duff.co  - Change Type: from Basic to Licensed",
-                "operator": "admin@duff.co",
+                "operator": "admin-test%1223+123@duff.dev.co",
                 "time": "2022-07-01 22:05:22",
             },
         ),

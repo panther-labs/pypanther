@@ -1,15 +1,48 @@
+from pypanther.rules.aws_cloudtrail.aws_add_malicious_lambda_extension import (
+    AWSLambdaUpdateFunctionConfiguration as AWSLambdaUpdateFunctionConfiguration,
+)
 from pypanther.rules.aws_cloudtrail.aws_ami_modified_for_public_access import (
     AWSCloudTrailAMIModifiedForPublicAccess as AWSCloudTrailAMIModifiedForPublicAccess,
+)
+from pypanther.rules.aws_cloudtrail.aws_backdoor_lambda_function import (
+    AWSPotentialBackdoorLambda as AWSPotentialBackdoorLambda,
+)
+from pypanther.rules.aws_cloudtrail.aws_bedrock_deletemodelinvocationloggingconfiguration import (
+    AWSBedrockDeleteModelInvocationLoggingConfiguration as AWSBedrockDeleteModelInvocationLoggingConfiguration,
+)
+from pypanther.rules.aws_cloudtrail.aws_bedrock_guardrail_update_delete import (
+    AWSBedrockGuardrailUpdateDelete as AWSBedrockGuardrailUpdateDelete,
 )
 from pypanther.rules.aws_cloudtrail.aws_cloudtrail_account_discovery import (
     AWSCloudTrailAccountDiscovery as AWSCloudTrailAccountDiscovery,
 )
+from pypanther.rules.aws_cloudtrail.aws_cloudtrail_attempt_to_leave_org import (
+    AWSCloudTrailAttemptToLeaveOrg as AWSCloudTrailAttemptToLeaveOrg,
+)
 from pypanther.rules.aws_cloudtrail.aws_cloudtrail_created import AWSCloudTrailCreated as AWSCloudTrailCreated
+from pypanther.rules.aws_cloudtrail.aws_cloudtrail_event_selectors_disabled import (
+    AWSCloudTrailEventSelectorsDisabled as AWSCloudTrailEventSelectorsDisabled,
+)
 from pypanther.rules.aws_cloudtrail.aws_cloudtrail_loginprofilecreatedormodified import (
     AWSCloudTrailLoginProfileCreatedOrModified as AWSCloudTrailLoginProfileCreatedOrModified,
 )
 from pypanther.rules.aws_cloudtrail.aws_cloudtrail_password_policy_discovery import (
     AWSCloudTrailPasswordPolicyDiscovery as AWSCloudTrailPasswordPolicyDiscovery,
+)
+from pypanther.rules.aws_cloudtrail.aws_cloudtrail_ses_check_identity_verifications import (
+    AWSCloudTrailSESCheckIdentityVerifications as AWSCloudTrailSESCheckIdentityVerifications,
+)
+from pypanther.rules.aws_cloudtrail.aws_cloudtrail_ses_check_send_quota import (
+    AWSCloudTrailSESCheckSendQuota as AWSCloudTrailSESCheckSendQuota,
+)
+from pypanther.rules.aws_cloudtrail.aws_cloudtrail_ses_check_ses_sending_enabled import (
+    AWSCloudTrailSESCheckSESSendingEnabled as AWSCloudTrailSESCheckSESSendingEnabled,
+)
+from pypanther.rules.aws_cloudtrail.aws_cloudtrail_ses_list_identities import (
+    AWSCloudTrailSESListIdentities as AWSCloudTrailSESListIdentities,
+)
+from pypanther.rules.aws_cloudtrail.aws_cloudtrail_short_lifecycle import (
+    AWSCloudTrailShortLifecycle as AWSCloudTrailShortLifecycle,
 )
 from pypanther.rules.aws_cloudtrail.aws_cloudtrail_stopped import AWSCloudTrailStopped as AWSCloudTrailStopped
 from pypanther.rules.aws_cloudtrail.aws_cloudtrail_unsuccessful_mfa_attempt import (
@@ -37,14 +70,29 @@ from pypanther.rules.aws_cloudtrail.aws_console_root_login_failed import (
     AWSConsoleRootLoginFailed as AWSConsoleRootLoginFailed,
 )
 from pypanther.rules.aws_cloudtrail.aws_console_signin import AWSConsoleSignIn as AWSConsoleSignIn
+from pypanther.rules.aws_cloudtrail.aws_dns_logs_deleted import (
+    AWSCloudTrailDNSLogsDeleted as AWSCloudTrailDNSLogsDeleted,
+)
+from pypanther.rules.aws_cloudtrail.aws_ec2_download_instance_user_data import (
+    AWSEC2DownloadInstanceUserData as AWSEC2DownloadInstanceUserData,
+)
 from pypanther.rules.aws_cloudtrail.aws_ec2_ebs_encryption_disabled import (
     AWSEC2EBSEncryptionDisabled as AWSEC2EBSEncryptionDisabled,
 )
 from pypanther.rules.aws_cloudtrail.aws_ec2_gateway_modified import AWSEC2GatewayModified as AWSEC2GatewayModified
+from pypanther.rules.aws_cloudtrail.aws_ec2_launch_unusual_ec2_instances import (
+    AWSEC2LaunchUnusualEC2Instances as AWSEC2LaunchUnusualEC2Instances,
+)
 from pypanther.rules.aws_cloudtrail.aws_ec2_manual_security_group_changes import (
     AWSEC2ManualSecurityGroupChange as AWSEC2ManualSecurityGroupChange,
 )
+from pypanther.rules.aws_cloudtrail.aws_ec2_many_passwors_read_attempts import (
+    AWSEC2ManyPasswordReadAttempts as AWSEC2ManyPasswordReadAttempts,
+)
 from pypanther.rules.aws_cloudtrail.aws_ec2_monitoring import AWSEC2Monitoring as AWSEC2Monitoring
+from pypanther.rules.aws_cloudtrail.aws_ec2_multi_instance_connect import (
+    AWSEC2MultiInstanceConnect as AWSEC2MultiInstanceConnect,
+)
 from pypanther.rules.aws_cloudtrail.aws_ec2_network_acl_modified import (
     AWSEC2NetworkACLModified as AWSEC2NetworkACLModified,
 )
@@ -71,9 +119,18 @@ from pypanther.rules.aws_cloudtrail.aws_iam_anything_changed import (
 from pypanther.rules.aws_cloudtrail.aws_iam_assume_role_blocklist_ignored import (
     AWSCloudTrailIAMAssumeRoleBlacklistIgnored as AWSCloudTrailIAMAssumeRoleBlacklistIgnored,
 )
+from pypanther.rules.aws_cloudtrail.aws_iam_attach_admin_role_policy import (
+    AWSIAMAttachAdminRolePolicy as AWSIAMAttachAdminRolePolicy,
+)
+from pypanther.rules.aws_cloudtrail.aws_iam_attach_admin_user_policy import (
+    AWSIAMAttachAdminUserPolicy as AWSIAMAttachAdminUserPolicy,
+)
+from pypanther.rules.aws_cloudtrail.aws_iam_backdoor_role import AWSIAMBackdoorRole as AWSIAMBackdoorRole
 from pypanther.rules.aws_cloudtrail.aws_iam_compromised_key_quarantine import (
     AWSCloudTrailIAMCompromisedKeyQuarantine as AWSCloudTrailIAMCompromisedKeyQuarantine,
 )
+from pypanther.rules.aws_cloudtrail.aws_iam_create_role import AWSIAMCreateRole as AWSIAMCreateRole
+from pypanther.rules.aws_cloudtrail.aws_iam_create_user import AWSIAMCreateUser as AWSIAMCreateUser
 from pypanther.rules.aws_cloudtrail.aws_iam_entity_created_without_cloudformation import (
     AWSCloudTrailIAMEntityCreatedWithoutCloudFormation as AWSCloudTrailIAMEntityCreatedWithoutCloudFormation,
 )
@@ -95,6 +152,9 @@ from pypanther.rules.aws_cloudtrail.aws_modify_cloud_compute_infrastructure impo
 )
 from pypanther.rules.aws_cloudtrail.aws_network_acl_permissive_entry import (
     AWSCloudTrailNetworkACLPermissiveEntry as AWSCloudTrailNetworkACLPermissiveEntry,
+)
+from pypanther.rules.aws_cloudtrail.aws_overwrite_lambda_code import (
+    AWSLambdaUpdateFunctionCode as AWSLambdaUpdateFunctionCode,
 )
 from pypanther.rules.aws_cloudtrail.aws_rds_manual_snapshot_created import (
     AWSRDSManualSnapshotCreated as AWSRDSManualSnapshotCreated,
@@ -119,6 +179,18 @@ from pypanther.rules.aws_cloudtrail.aws_s3_bucket_policy_modified import (
     AWSS3BucketPolicyModified as AWSS3BucketPolicyModified,
 )
 from pypanther.rules.aws_cloudtrail.aws_saml_activity import AWSSuspiciousSAMLActivity as AWSSuspiciousSAMLActivity
+from pypanther.rules.aws_cloudtrail.aws_secretsmanager_retrieve_secrets import (
+    AWSSecretsManagerRetrieveSecrets as AWSSecretsManagerRetrieveSecrets,
+)
+from pypanther.rules.aws_cloudtrail.aws_secretsmanager_retrieve_secrets_batch import (
+    AWSSecretsManagerBatchRetrieveSecrets as AWSSecretsManagerBatchRetrieveSecrets,
+)
+from pypanther.rules.aws_cloudtrail.aws_secretsmanager_retrieve_secrets_catchall import (
+    AWSSecretsManagerBatchRetrieveSecretsCatchAll as AWSSecretsManagerBatchRetrieveSecretsCatchAll,
+)
+from pypanther.rules.aws_cloudtrail.aws_secretsmanager_retrieve_secrets_multiregion import (
+    AWSSecretsManagerRetrieveSecretsMultiRegion as AWSSecretsManagerRetrieveSecretsMultiRegion,
+)
 from pypanther.rules.aws_cloudtrail.aws_security_configuration_change import (
     AWSCloudTrailSecurityConfigurationChange as AWSCloudTrailSecurityConfigurationChange,
 )
@@ -134,9 +206,7 @@ from pypanther.rules.aws_cloudtrail.aws_unauthorized_api_call import (
 )
 from pypanther.rules.aws_cloudtrail.aws_unused_region import AWSUnusedRegion as AWSUnusedRegion
 from pypanther.rules.aws_cloudtrail.aws_update_credentials import AWSIAMCredentialsUpdated as AWSIAMCredentialsUpdated
-from pypanther.rules.aws_cloudtrail.aws_user_login_profile_modified import (
-    AWSUserLoginProfileModified as AWSUserLoginProfileModified,
-)
+from pypanther.rules.aws_cloudtrail.aws_vpc_flow_logs_deleted import AWSVPCFlowLogsDeleted as AWSVPCFlowLogsDeleted
 from pypanther.rules.aws_cloudtrail.aws_waf_disassociation import AWSWAFDisassociation as AWSWAFDisassociation
 from pypanther.rules.aws_cloudtrail.retrieve_sso_access_token import RetrieveSSOaccesstoken as RetrieveSSOaccesstoken
 from pypanther.rules.aws_cloudtrail.role_assumed_by_aws_service import (

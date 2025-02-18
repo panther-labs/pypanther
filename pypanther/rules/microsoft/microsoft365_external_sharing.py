@@ -2,6 +2,7 @@ import re
 from fnmatch import fnmatch
 
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
+from pypanther.helpers.base import EMAIL_REGEX
 from pypanther.helpers.msft import m365_alert_context
 
 
@@ -15,7 +16,6 @@ class Microsoft365ExternalDocumentSharing(Rule):
     default_severity = Severity.LOW
     log_types = [LogType.MICROSOFT365_AUDIT_SHAREPOINT]
     id = "Microsoft365.External.Document.Sharing-prototype"
-    email_regex = re.compile("([A-Za-z0-9]+[.-_])*[A-Za-z0-9]+@[A-Za-z0-9-]+(\\.[A-Z|a-z]{2,})+")
     ALLOWED_DOMAINS = ["mycompany.com", "alloweddomain.com"]  # should be in lowercase
     ALLOWED_USERS = ["exception@outsider.com"]  # should be in lowercase
     ALLOWED_PATHS = ["*/External/*", "External/*"]
@@ -35,7 +35,7 @@ class Microsoft365ExternalDocumentSharing(Rule):
             target = event.get("TargetUserOrGroupName", "")
             if target.lower() in self.ALLOWED_USERS:
                 return False
-            if re.fullmatch(self.email_regex, target):
+            if re.fullmatch(EMAIL_REGEX, target):
                 if target.split("@")[1].lower() not in self.ALLOWED_DOMAINS:
                     return True
         return False

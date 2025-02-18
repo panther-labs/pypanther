@@ -87,7 +87,7 @@ class AWSConsoleLoginWithoutSAML(Rule):
                 "sourceIPAddress": "111.111.111.111",
                 "userAgent": "Mozilla",
                 "requestParameters": None,
-                "responseElements": {"ConsoleLogin": "Failure"},
+                "responseElements": {"ConsoleLogin": "Success"},
                 "additionalEventData": {
                     "LoginTo": "https://console.aws.amazon.com/console/",
                     "MobileVersion": "No",

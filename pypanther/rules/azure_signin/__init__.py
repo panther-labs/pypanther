@@ -1,5 +1,11 @@
 from pypanther.rules.azure_signin.azure_failed_signins import AzureAuditManyFailedSignIns as AzureAuditManyFailedSignIns
+from pypanther.rules.azure_signin.azure_invite_external_users import (
+    AzureAuditInviteExternalUsers as AzureAuditInviteExternalUsers,
+)
 from pypanther.rules.azure_signin.azure_legacyauth import AzureAuditLegacyAuth as AzureAuditLegacyAuth
+from pypanther.rules.azure_signin.azure_mfa_disabled import AzureAuditMFADisabled as AzureAuditMFADisabled
+from pypanther.rules.azure_signin.azure_policy_changed import AzureAuditPolicyChanged as AzureAuditPolicyChanged
 from pypanther.rules.azure_signin.azure_risklevel_passthrough import (
     AzureAuditRiskLevelPassthrough as AzureAuditRiskLevelPassthrough,
 )
+from pypanther.rules.azure_signin.azure_role_changed_pim import AzureAuditRoleChangedPIM as AzureAuditRoleChangedPIM

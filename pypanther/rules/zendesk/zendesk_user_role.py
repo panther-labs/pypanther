@@ -18,7 +18,10 @@ class ZendeskUserRoleChanged(Rule):
     def rule(self, event):
         if event.get("source_type") == "user" and event.get("action") == "update":
             # admin roles have their own handling
-            if event.udm("event_type") != event_type.ADMIN_ROLE_ASSIGNED:
+            if (
+                event.udm("event_type") != event_type.ADMIN_ROLE_ASSIGNED
+                and "role changed" in event.get("change_description", "").lower()
+            ):
                 _, new_role = zendesk_get_roles(event)
                 return bool(new_role)
         return False
@@ -63,6 +66,25 @@ class ZendeskUserRoleChanged(Rule):
                 "source_label": "Bob Cat",
                 "action": "update",
                 "change_description": "Role changed from End User to Administrator",
+                "ip_address": "127.0.0.1",
+                "created_at": "2021-05-28T18:39:50Z",
+                "p_log_type": "Zendesk.Audit",
+            },
+        ),
+        RuleTest(
+            name="Zendesk - No changing roles",
+            expected_result=False,
+            log={
+                "url": "https://myzendek.zendesk.com/api/v2/audit_logs/111222333444.json",
+                "id": 123456789123,
+                "action_label": "Updated",
+                "actor_id": 123,
+                "actor_name": "John Doe",
+                "source_id": 123,
+                "source_type": "user",
+                "source_label": "Bob Cat",
+                "action": "update",
+                "change_description": "Organization: AAAA is asigned",
                 "ip_address": "127.0.0.1",
                 "created_at": "2021-05-28T18:39:50Z",
                 "p_log_type": "Zendesk.Audit",

@@ -12,5 +12,5 @@ class StandardAWSVPCFlow(DataModel):
         DataModelMapping(name="source_ip", path="srcAddr"),
         DataModelMapping(name="source_port", path="srcPort"),
         DataModelMapping(name="user_agent", path="userAgent"),
-        DataModelMapping(name="log_status", path="log-status"),
+        DataModelMapping(name="log_status", path="status"),
     ]

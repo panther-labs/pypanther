@@ -12,7 +12,6 @@ class CrowdstrikeDetectionpassthrough(Rule):
     default_description = "Crowdstrike Falcon has detected malicious activity on a host."
     default_runbook = "Follow the Falcon console link and follow the IR process as needed."
     default_reference = "https://www.crowdstrike.com/blog/tech-center/hunt-threat-activity-falcon-endpoint-protection/"
-    dedup_period_minutes = 60
     summary_attributes = ["p_any_ip_addresses"]
 
     def rule(self, event):
