@@ -242,7 +242,7 @@ class Manager:
 
         """
         for schema in self.existing_upstream_schemas:
-            if schema.name == name:
+            if schema.name.casefold() == name.casefold():
                 return schema
         return None
 
