@@ -19,7 +19,7 @@ class StandardBruteForceByIP(Rule):
         LogType.GSUITE_REPORTS,
         LogType.OKTA_SYSTEM_LOG,
         LogType.ONELOGIN_EVENTS,
-        LogType.ONEPASSWORD_SIGNIN_ATTEMPT,
+        LogType.ONEPASSWORD_SIGN_IN_ATTEMPT,
     ]
     default_severity = Severity.INFO
     tags = ["DataModel", "Credential Access:Brute Force"]
