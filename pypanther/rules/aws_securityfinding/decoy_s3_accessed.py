@@ -171,7 +171,6 @@ class DecoyS3Accessed(Rule):
                 "p_schema_version": 0,
                 "p_source_id": "e29fd64f-53d9-43ab-92ca-575a8af289e6",
                 "p_source_label": "AWS Security Hub",
-                "p_udm": {},
             },
         ),
         RuleTest(
@@ -293,7 +292,6 @@ class DecoyS3Accessed(Rule):
                 "p_schema_version": 0,
                 "p_source_id": "e29fd64f-53d9-43ab-92ca-575a8af289e6",
                 "p_source_label": "AWS Security Hub",
-                "p_udm": {},
             },
         ),
     ]

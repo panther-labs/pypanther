@@ -62,10 +62,6 @@ class AWSCloudTrailUserAccessKeyAuth(Rule):
                 },
                 "p_source_id": "d0a1e235-6548-4e7f-952a-35063b304007",
                 "p_source_label": "threat-research-trail-us-east-1",
-                "p_udm": {
-                    "source": {"address": "73.252.165.138", "ip": "73.252.165.138"},
-                    "user": {"arns": ["arn:aws:iam::187901811700:user/exposed.user"], "name": "exposed.user"},
-                },
                 "readOnly": True,
                 "recipientAccountId": "187901811700",
                 "requestID": "ea7dbdf9-6c03-421e-abf4-f201919f9f26",
@@ -75,7 +71,7 @@ class AWSCloudTrailUserAccessKeyAuth(Rule):
                     "clientProvidedHostHeader": "lambda.us-east-1.amazonaws.com",
                     "tlsVersion": "TLSv1.3",
                 },
-                "userAgent": "aws-cli/2.15.59 md/awscrt#0.19.19 ua/2.0 os/macos#22.6.0 md/arch#arm64 lang/python#3.11.9 md/pyimpl#CPython cfg/retry-mode#standard md/installer#source md/prompt#off md/command#lambda.list-functions",
+                "userAgent": "aws-cli/2.15.59 md/awscrt#0.19.19 ua/2.0 os/macos#22.6.0 md/arch#arm64 lang/python#3.11.11 md/pyimpl#CPython cfg/retry-mode#standard md/installer#source md/prompt#off md/command#lambda.list-functions",
                 "userIdentity": {
                     "accessKeyId": "AKIASXP6SDP2F3JQERZ2",
                     "accountId": "187901811700",
@@ -116,10 +112,6 @@ class AWSCloudTrailUserAccessKeyAuth(Rule):
                 },
                 "p_source_id": "d0a1e235-6548-4e7f-952a-35063b304007",
                 "p_source_label": "threat-research-trail-us-east-1",
-                "p_udm": {
-                    "source": {"address": "73.252.165.138", "ip": "73.252.165.138"},
-                    "user": {"arns": ["arn:aws:iam::187901811700:user/exposed.user"], "name": "exposed.user"},
-                },
                 "readOnly": True,
                 "recipientAccountId": "187901811700",
                 "requestID": "c77ed3ee-8480-41df-98cb-9cf52ce04a1c",
@@ -129,7 +121,7 @@ class AWSCloudTrailUserAccessKeyAuth(Rule):
                     "clientProvidedHostHeader": "sts.us-east-1.amazonaws.com",
                     "tlsVersion": "TLSv1.3",
                 },
-                "userAgent": "aws-cli/2.15.59 md/awscrt#0.19.19 ua/2.0 os/macos#22.6.0 md/arch#arm64 lang/python#3.11.9 md/pyimpl#CPython cfg/retry-mode#standard md/installer#source md/prompt#off md/command#sts.get-caller-identity",
+                "userAgent": "aws-cli/2.15.59 md/awscrt#0.19.19 ua/2.0 os/macos#22.6.0 md/arch#arm64 lang/python#3.11.11 md/pyimpl#CPython cfg/retry-mode#standard md/installer#source md/prompt#off md/command#sts.get-caller-identity",
                 "userIdentity": {
                     "accessKeyId": "AKIASXP6SDP2F3JQERZ2",
                     "accountId": "187901811700",
@@ -175,15 +167,6 @@ class AWSCloudTrailUserAccessKeyAuth(Rule):
                 },
                 "p_source_id": "469edf86-a0c6-4d13-ba48-47c4060bb804",
                 "p_source_label": "threat-research-trail-us-west-2",
-                "p_udm": {
-                    "source": {"address": "73.252.165.138", "ip": "73.252.165.138"},
-                    "user": {
-                        "arns": [
-                            "arn:aws:iam::187901811700:role/aws-reserved/sso.amazonaws.com/AWSReservedSSO_DevAdmin_635426549a280cc6",
-                            "arn:aws:sts::187901811700:assumed-role/AWSReservedSSO_DevAdmin_635426549a280cc6/nicholas.hakmiller",
-                        ],
-                    },
-                },
                 "readOnly": False,
                 "recipientAccountId": "187901811700",
                 "responseElements": {"ConsoleLogin": "Success"},
@@ -249,15 +232,6 @@ class AWSCloudTrailUserAccessKeyAuth(Rule):
                 },
                 "p_source_id": "469edf86-a0c6-4d13-ba48-47c4060bb804",
                 "p_source_label": "threat-research-trail-us-west-2",
-                "p_udm": {
-                    "source": {"address": "73.252.165.138", "ip": "73.252.165.138"},
-                    "user": {
-                        "arns": [
-                            "arn:aws:iam::187901811700:role/aws-reserved/sso.amazonaws.com/AWSReservedSSO_DevAdmin_635426549a280cc6",
-                            "arn:aws:sts::187901811700:assumed-role/AWSReservedSSO_DevAdmin_635426549a280cc6/nicholas.hakmiller",
-                        ],
-                    },
-                },
                 "readOnly": False,
                 "recipientAccountId": "187901811700",
                 "responseElements": {"ConsoleLogin": "Success"},

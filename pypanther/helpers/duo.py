@@ -6,7 +6,7 @@ import json
 from json import JSONDecodeError
 
 
-def deserialize_administrator_log_event_description(event: dict) -> dict:
+def deserialize_administrator_log_event_description(event) -> dict:
     """
     Intelligently try and decode a field that is usually stringified json into a python dict.
 

@@ -18,6 +18,9 @@ class OktaSSOtoAWS(Rule):
             ],
         )
 
+    def alert_context(self, event):
+        return {"actor": event.deep_get("actor", "alternateId", default="").split("@")[0]}
+
     tests = [
         RuleTest(
             name="AWS SSO via Okta",
