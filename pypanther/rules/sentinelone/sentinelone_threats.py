@@ -6,7 +6,7 @@ class SentinelOneThreats(Rule):
     default_description = "Passthrough SentinelOne Threats "
     display_name = "SentinelOne Threats"
     default_reference = "https://www.sentinelone.com/blog/feature-spotlight-introducing-the-new-threat-center/"
-    default_severity = Severity.HIGH
+    default_severity = Severity.MEDIUM
     log_types = [LogType.SENTINELONE_ACTIVITY]
     id = "SentinelOne.Threats-prototype"  # New Malicious Threat Not Mitigated
     # New Malicious Threat Not Mitigated
@@ -18,15 +18,15 @@ class SentinelOneThreats(Rule):
         return event.get("activitytype") in self.NEW_THREAT_ACTIVITYTYPES
 
     def title(self, event):
-        return f"SentinelOne - [{event.deep_get('data', 'confidencelevel', default='')}] level [{event.deep_get('data', 'threatclassification', default='')}] threat detected from [{event.deep_get('data', 'threatclassificationsource', default='')}]."
+        return f"SentinelOne - [{event.deep_get('data', 'confidencelevel', default='')}] level threat [{event.deep_get('data', 'filedisplayname', default='NO FILE NAME')}] detected on [{event.deep_get('data', 'computername', default='NO COMPUTER NAME')}]."
 
     def dedup(self, event):
         return f"s1threat:{event.get('id', '')}"
 
     def severity(self, event):
         if event.deep_get("data", "confidencelevel", default="") == "malicious":
-            return "CRITICAL"
-        return "HIGH"
+            return "HIGH"
+        return "DEFAULT"
 
     def alert_context(self, event):
         return {

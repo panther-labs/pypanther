@@ -6,6 +6,7 @@ from pypanther.rules.aws_vpc_flow.aws_vpc_inbound_traffic_port_allowlist import 
 from pypanther.rules.aws_vpc_flow.aws_vpc_inbound_traffic_port_blocklist import (
     AWSVPCInboundPortBlacklist as AWSVPCInboundPortBlacklist,
 )
+from pypanther.rules.aws_vpc_flow.aws_vpc_ssh_allowed_signal import AWSVPCSSHAllowedSignal as AWSVPCSSHAllowedSignal
 from pypanther.rules.aws_vpc_flow.aws_vpc_unapproved_outbound_dns import (
     AWSVPCUnapprovedOutboundDNS as AWSVPCUnapprovedOutboundDNS,
 )

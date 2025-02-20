@@ -1,5 +1,5 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
-from pypanther.helpers.aws import aws_rule_context
+from pypanther.helpers.aws import aws_cloudtrail_success, aws_rule_context
 
 
 @panther_managed
@@ -11,16 +11,18 @@ class AWSCloudTrailLoginProfileCreatedOrModified(Rule):
     reports = {"MITRE ATT&CK": ["TA0003:T1098", "TA0005:T1108", "TA0005:T1550", "TA0008:T1550"]}
     default_description = "An attacker with iam:UpdateLoginProfile permission on other users can change the password used to login to the AWS console. May be legitimate account administration."
     default_reference = "https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_examples_aws_my-sec-creds-self-manage-pass-accesskeys-ssh.html"
-    PROFILE_EVENTS = {"UpdateLoginProfile", "CreateLoginProfile"}
+    PROFILE_EVENTS = {"UpdateLoginProfile", "CreateLoginProfile", "DeleteLoginProfile"}
 
     def rule(self, event):
         # Only look for successes
-        if event.get("errorCode") or event.get("errorMessage"):
+        if not aws_cloudtrail_success(event):
             return False
         # Check when someone other than the user themselves creates or modifies a login profile
+        # with no password reset needed
         return (
             event.get("eventSource", "") == "iam.amazonaws.com"
             and event.get("eventName", "") in self.PROFILE_EVENTS
+            and (not event.deep_get("requestParameters", "passwordResetRequired", default=False))
             and (
                 not event.deep_get("userIdentity", "arn", default="").endswith(
                     f"/{event.deep_get('requestParameters', 'userName', default='')}",

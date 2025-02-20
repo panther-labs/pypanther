@@ -1,4 +1,7 @@
+import json
+
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
+from pypanther.helpers.base import deep_get
 from pypanther.helpers.okta import okta_alert_context
 
 
@@ -21,9 +24,12 @@ class OktaNewBehaviorAccessingAdminConsole(Rule):
         behaviors = event.deep_get("debugContext", "debugData", "behaviors")
         if behaviors:
             return "New Device=POSITIVE" in behaviors and "New IP=POSITIVE" in behaviors
+        log_only_security_data = event.deep_get("debugContext", "debugData", "logOnlySecurityData")
+        if isinstance(log_only_security_data, str):
+            log_only_security_data = json.loads(log_only_security_data)
         return (
-            event.deep_get("debugContext", "debugData", "logOnlySecurityData", "behaviors", "New Device") == "POSITIVE"
-            and event.deep_get("debugContext", "debugData", "logOnlySecurityData", "behaviors", "New IP") == "POSITIVE"
+            deep_get(log_only_security_data, "behaviors", "New Device") == "POSITIVE"
+            and deep_get(log_only_security_data, "behaviors", "New IP") == "POSITIVE"
         )
 
     def title(self, event):
@@ -57,7 +63,8 @@ class OktaNewBehaviorAccessingAdminConsole(Rule):
                     "userAgent": {
                         "browser": "CHROME",
                         "os": "Mac OS X",
-                        "rawUserAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/102.0.0.0 Safari/537.36",
+                        "rawUserAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML",
+                        "like Gecko) Chrome/102.0.0.0 Safari/537.36": None,
                     },
                     "zone": "null",
                 },
@@ -67,15 +74,15 @@ class OktaNewBehaviorAccessingAdminConsole(Rule):
                         "requestId": "AbCdEf12G",
                         "requestUri": "/api/v1/users/AbCdEfG/lifecycle/reset_factors",
                         "url": "/api/v1/users/AbCdEfG/lifecycle/reset_factors?",
-                        "behaviors": {
-                            "New Geo-Location=NEGATIVE": None,
-                            "New Device=POSITIVE": None,
-                            "New IP=POSITIVE": None,
-                            "New State=NEGATIVE": None,
-                            "New Country=NEGATIVE": None,
-                            "Velocity=NEGATIVE": None,
-                            "New City=NEGATIVE": None,
-                        },
+                        "behaviors": [
+                            "New Geo-Location=NEGATIVE",
+                            "New Device=POSITIVE",
+                            "New IP=POSITIVE",
+                            "New State=NEGATIVE",
+                            "New Country=NEGATIVE",
+                            "Velocity=NEGATIVE",
+                            "New City=NEGATIVE",
+                        ],
                     },
                 },
                 "displaymessage": "Evaluation of sign-on policy",
@@ -143,7 +150,8 @@ class OktaNewBehaviorAccessingAdminConsole(Rule):
                     "userAgent": {
                         "browser": "CHROME",
                         "os": "Mac OS X",
-                        "rawUserAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/102.0.0.0 Safari/537.36",
+                        "rawUserAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML",
+                        "like Gecko) Chrome/102.0.0.0 Safari/537.36": None,
                     },
                     "zone": "null",
                 },
@@ -232,7 +240,8 @@ class OktaNewBehaviorAccessingAdminConsole(Rule):
                     "userAgent": {
                         "browser": "CHROME",
                         "os": "Mac OS X",
-                        "rawUserAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/102.0.0.0 Safari/537.36",
+                        "rawUserAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML",
+                        "like Gecko) Chrome/102.0.0.0 Safari/537.36": None,
                     },
                     "zone": "null",
                 },
@@ -253,6 +262,85 @@ class OktaNewBehaviorAccessingAdminConsole(Rule):
                                 "New City": "NEGATIVE",
                             },
                         },
+                    },
+                },
+                "displaymessage": "Evaluation of sign-on policy",
+                "eventtype": "policy.evaluate_sign_on",
+                "outcome": {"reason": "Sign-on policy evaluation resulted in CHALLENGE", "result": "CHALLENGE"},
+                "published": "2022-06-22 18:18:29.015",
+                "request": {
+                    "ipChain": [
+                        {
+                            "geographicalContext": {
+                                "city": "Springfield",
+                                "country": "United States",
+                                "geolocation": {"lat": 20, "lon": -25},
+                                "postalCode": "12345",
+                                "state": "Ohio",
+                                "ip": "1.3.2.4",
+                                "version": "V4",
+                            },
+                        },
+                    ],
+                },
+                "securitycontext": {
+                    "asNumber": 701,
+                    "asOrg": "verizon",
+                    "domain": "verizon.net",
+                    "isProxy": False,
+                    "isp": "verizon",
+                },
+                "severity": "INFO",
+                "target": [
+                    {"alternateId": "Okta Admin Console", "displayName": "Okta Admin Console", "type": "AppInstance"},
+                    {
+                        "alternateId": "peter.griffin@company.com",
+                        "displayName": "Peter Griffin",
+                        "id": "0002222AAAA",
+                        "type": "User",
+                    },
+                ],
+                "transaction": {"detail": {}, "id": "ABcDeFgG", "type": "WEB"},
+                "uuid": "AbC-123-XyZ",
+                "version": "0",
+            },
+        ),
+        RuleTest(
+            name="New Behavior Accessing Admin Console (logSecurityDataOnly) - not jsonified string",
+            expected_result=True,
+            log={
+                "actor": {
+                    "alternateId": "homer.simpson@duff.com",
+                    "displayName": "Homer Simpson",
+                    "id": "00abc123",
+                    "type": "User",
+                },
+                "authenticationcontext": {"authenticationStep": 0, "externalSessionId": "100-abc-9999"},
+                "client": {
+                    "device": "Computer",
+                    "geographicalContext": {
+                        "city": "Springfield",
+                        "country": "United States",
+                        "geolocation": {"lat": 20, "lon": -25},
+                        "postalCode": "12345",
+                        "state": "Ohio",
+                    },
+                    "ipAddress": "1.3.2.4",
+                    "userAgent": {
+                        "browser": "CHROME",
+                        "os": "Mac OS X",
+                        "rawUserAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML",
+                        "like Gecko) Chrome/102.0.0.0 Safari/537.36": None,
+                    },
+                    "zone": "null",
+                },
+                "device": {"name": "Evil Computer"},
+                "debugcontext": {
+                    "debugData": {
+                        "requestId": "AbCdEf12G",
+                        "requestUri": "/api/v1/users/AbCdEfG/lifecycle/reset_factors",
+                        "url": "/api/v1/users/AbCdEfG/lifecycle/reset_factors?",
+                        "logOnlySecurityData": '{"risk":{"level":"LOW"},"behaviors":{"New Geo-Location":"NEGATIVE","New Device":"POSITIVE","New IP":"POSITIVE","New State":"NEGATIVE","New Country":"NEGATIVE","Velocity":"NEGATIVE","New City":"NEGATIVE"}}',
                     },
                 },
                 "displaymessage": "Evaluation of sign-on policy",

@@ -23,6 +23,7 @@ from pypanther.rules.github.github_repo_collaborator_change import (
 )
 from pypanther.rules.github.github_repo_created import GithubRepoCreated as GithubRepoCreated
 from pypanther.rules.github.github_repo_initial_access import GitHubRepoInitialAccess as GitHubRepoInitialAccess
+from pypanther.rules.github.github_repo_ruleset_modified import GitHubRepoRulesetModified as GitHubRepoRulesetModified
 from pypanther.rules.github.github_repo_visibility_change import (
     GithubRepoVisibilityChange as GithubRepoVisibilityChange,
 )
