@@ -1,4 +1,4 @@
-from ipaddress import ip_network
+from ipaddress import IPv4Network, IPv6Network, ip_network
 
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.aws import aws_rule_context
@@ -34,13 +34,22 @@ class AWSS3ServerAccessIPWhitelist(Rule):
         if "remoteip" not in event:
             return False
         cidr_ip = ip_network(event.get("remoteip"))
-        return not any(cidr_ip.subnet_of(approved_ip_range) for approved_ip_range in self.ALLOWLIST_NETWORKS)
+        return not any(self.is_subnet(approved_ip_range, cidr_ip) for approved_ip_range in self.ALLOWLIST_NETWORKS)
 
     def title(self, event):
         return f"Non-Approved IP access to S3 Bucket [{event.get('bucket', '<UNKNOWN_BUCKET>')}]"
 
     def alert_context(self, event):
         return aws_rule_context(event)
+
+    def is_subnet(self, supernet: IPv4Network | IPv6Network, subnet: IPv4Network | IPv6Network) -> bool:
+        """Return true if 'subnet' is a subnet of 'supernet'"""
+        # We can't do a classic subnet comparison between v4 and v6 networks, so we have to explictly
+        #   check for version mismatch first
+        if supernet.network_address.version != subnet.network_address.version:
+            return False
+        # Else, do the subnet calculation
+        return subnet.subnet_of(supernet)
 
     tests = [
         RuleTest(
@@ -52,5 +61,10 @@ class AWSS3ServerAccessIPWhitelist(Rule):
             name="Access From Unapproved IP",
             expected_result=True,
             log={"remoteip": "11.0.0.1", "bucket": "my-test-bucket"},
+        ),
+        RuleTest(
+            name="Access From IPv6",
+            expected_result=True,
+            log={"remoteip": "2600:1ffe:8140::a47:a85a", "bucket": "my-test-bucket"},
         ),
     ]

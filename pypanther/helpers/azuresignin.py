@@ -2,13 +2,17 @@
 Global helpers for Azure SignIn detections
 """
 
+from pypanther.helpers.base import deep_get
+
 
 def actor_user(event):
+    # 'event' could be a PantherEvent or an ImmutableCaseInsensitiveDict, so we have to use the
+    #   imported deep_get method.
     category = event.get("category", "")
     if category in {"ServicePrincipalSignInLogs"}:
-        return event.deep_get("properties", "servicePrincipalName")
+        return deep_get(event, "properties", "servicePrincipalName")
     if category in {"SignInLogs", "NonInteractiveUserSignInLogs"}:
-        return event.deep_get("properties", "userPrincipalName")
+        return deep_get(event, "properties", "userPrincipalName")
     return None
 
 

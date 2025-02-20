@@ -138,7 +138,6 @@ class DecoyIAMAssumed(Rule):
                 "p_schema_version": 0,
                 "p_source_id": "bb4e16c5-43dd-450c-9227-39f0d152659c",
                 "p_source_label": "AWS Security Hub",
-                "p_udm": {},
             },
         ),
         RuleTest(
@@ -247,7 +246,6 @@ class DecoyIAMAssumed(Rule):
                 "p_schema_version": 0,
                 "p_source_id": "bb4e16c5-43dd-450c-9227-39f0d152659c",
                 "p_source_label": "AWS Security Hub",
-                "p_udm": {},
             },
         ),
     ]
