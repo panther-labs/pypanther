@@ -467,32 +467,39 @@ def print_upload_detection_error(err: BulkUploadDetectionsError) -> None:
 
 
 def print_changes_summary(changes_summary: ChangesSummary) -> None:
-    print("Changes Summary:")
-    print()  # new line
-    if changes_summary["new_rule_ids"]:
-        print(f"New Rules [{len(changes_summary['new_rule_ids'])}]:")
-        for id_ in changes_summary["new_rule_ids"]:
-            print(f"+ {id_}")
+    # Check if any of the keys starting with new/delete/modify have a value greater than 0
+    if (changes_summary["new_rule_ids"] or
+        changes_summary["delete_rule_ids"] or
+        changes_summary["modify_rule_ids"] or
+        changes_summary["new_schema_names"] or
+        changes_summary["modified_schema_names"]):
+        print(cli_output.header("Changes"))
         print()  # new line
-    if changes_summary["delete_rule_ids"]:
-        print(f"Delete Rules [{len(changes_summary['delete_rule_ids'])}]:")
-        for id_ in changes_summary["delete_rule_ids"]:
-            print(f"- {id_}")
-        print()  # new line
-    if changes_summary["modify_rule_ids"]:
-        print(f"Modify Rules [{len(changes_summary['modify_rule_ids'])}]:")
-        for id_ in changes_summary["modify_rule_ids"]:
-            print(f"~ {id_}")
-        print()  # new line
-    if changes_summary["new_schema_names"]:
-        print(f"New Schemas [{len(changes_summary['new_schema_names'])}]:")
-        for name in changes_summary["new_schema_names"]:
-            print(f"+ {name}")
-        print()  # new line
-    if changes_summary["modified_schema_names"]:
-        print(f"Modify Schemas [{len(changes_summary['modified_schema_names'])}]:")
-        for name in changes_summary["modified_schema_names"]:
-            print(f"~ {name}")
+        if changes_summary["new_rule_ids"]:
+            print(f"New Rules [{len(changes_summary['new_rule_ids'])}]:")
+            for id_ in changes_summary["new_rule_ids"]:
+                print(f"+ {id_}")
+            print()  # new line
+        if changes_summary["delete_rule_ids"]:
+            print(f"Delete Rules [{len(changes_summary['delete_rule_ids'])}]:")
+            for id_ in changes_summary["delete_rule_ids"]:
+                print(f"- {id_}")
+            print()  # new line
+        if changes_summary["modify_rule_ids"]:
+            print(f"Modify Rules [{len(changes_summary['modify_rule_ids'])}]:")
+            for id_ in changes_summary["modify_rule_ids"]:
+                print(f"~ {id_}")
+            print()  # new line
+        if changes_summary["new_schema_names"]:
+            print(f"New Schemas [{len(changes_summary['new_schema_names'])}]:")
+            for name in changes_summary["new_schema_names"]:
+                print(f"+ {name}")
+            print()  # new line
+        if changes_summary["modified_schema_names"]:
+            print(f"Modify Schemas [{len(changes_summary['modified_schema_names'])}]:")
+            for name in changes_summary["modified_schema_names"]:
+                print(f"~ {name}")
+
     print(cli_output.header("Changes Summary"))
     print(INDENT, f"New Rules:      {len(changes_summary['new_rule_ids']):>4}")
     print(INDENT, f"Modified Rules: {len(changes_summary['modify_rule_ids']):>4}")
