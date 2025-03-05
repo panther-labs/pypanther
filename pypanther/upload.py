@@ -468,11 +468,13 @@ def print_upload_detection_error(err: BulkUploadDetectionsError) -> None:
 
 def print_changes_summary(changes_summary: ChangesSummary) -> None:
     # Check if any of the keys starting with new/delete/modify have a value greater than 0
-    if (changes_summary["new_rule_ids"] or
-        changes_summary["delete_rule_ids"] or
-        changes_summary["modify_rule_ids"] or
-        changes_summary["new_schema_names"] or
-        changes_summary["modified_schema_names"]):
+    if (
+        changes_summary["new_rule_ids"]
+        or changes_summary["delete_rule_ids"]
+        or changes_summary["modify_rule_ids"]
+        or changes_summary["new_schema_names"]
+        or changes_summary["modified_schema_names"]
+    ):
         print(cli_output.header("Changes"))
         print()  # new line
         if changes_summary["new_rule_ids"]:
