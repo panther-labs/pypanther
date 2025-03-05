@@ -315,7 +315,7 @@ def print_test_summary(test_results: TestResults) -> None:
     passed_mgd_rules_msg = f"({num_passed_mgd_rules} panther managed)" if num_passed_mgd_rules > 0 else ""
     failed_mgd_rules_msg = f"({num_failed_mgd_rules} panther managed)" if num_failed_mgd_rules > 0 else ""
 
-    print(cli_output.header("Test Summary") + ":")
+    print(cli_output.header("Test Summary"))
 
     print(INDENT, f"Skipped rules: {test_results.num_skipped_rules():>3}", skipped_mgd_rules_msg)
     print(INDENT, f"Passed rules:  {test_results.num_passed_rules():>3}", passed_mgd_rules_msg)
