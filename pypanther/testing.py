@@ -106,7 +106,7 @@ def run(args: argparse.Namespace) -> Tuple[int, str]:
     try:
         import_main(os.getcwd(), "main")
     except NoMainModuleError:
-        logging.error("No main.py found")  # noqa: TRY400
+        logging.error("No main.py found. Are you running this command from the root of your pypanther project?")  # noqa: TRY400
         return 1, ""
 
     test_results = run_tests(args)

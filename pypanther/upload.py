@@ -61,11 +61,11 @@ class ChangesSummary(TypedDict):
 
 
 def run(backend: BackendClient, args: argparse.Namespace) -> Tuple[int, str]:
-    cli_output.warning("WARNING: pypanther is a beta feature and is subject to breaking changes before general availability")
+    print(cli_output.warning("WARNING: pypanther is in beta and is subject to breaking changes before general availability"))
     try:
         import_main(os.getcwd(), "main")
     except NoMainModuleError:
-        logging.error("No main.py found")  # noqa: TRY400
+        logging.error("No main.py found. Are you running this command from the root of your pypanther project?")  # noqa: TRY400
         return 1, ""
 
     test_results = testing.TestResults()
