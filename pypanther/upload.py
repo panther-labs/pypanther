@@ -176,7 +176,7 @@ def run(backend: BackendClient, args: argparse.Namespace) -> Tuple[int, str]:
 
         if not args.skip_summary and not args.dry_run:
             # if the user skips calculating the summary of the changes,
-            # there's no information to act upon for confirmation
+            # we don't show a message since there's no information shared with the user to act upon
             err = confirm("Would you like to make this change? [y/n]: ")
             if err is not None:
                 return 0, ""
