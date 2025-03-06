@@ -61,7 +61,11 @@ class ChangesSummary(TypedDict):
 
 
 def run(backend: BackendClient, args: argparse.Namespace) -> Tuple[int, str]:
-    print(cli_output.warning("WARNING: pypanther is in beta and is subject to breaking changes before general availability"))
+    print(
+        cli_output.warning(
+            "WARNING: pypanther is in beta and is subject to breaking changes before general availability",
+        ),
+    )
     try:
         import_main(os.getcwd(), "main")
     except NoMainModuleError:
