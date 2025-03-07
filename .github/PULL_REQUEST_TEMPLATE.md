@@ -1,18 +1,18 @@
-### Description: <!-- why was this change made? -->
+### Description
 
-<!-- more "the why" than "the what" -->
+Context to help reviewers understand why this change is necessary.
 
-### References: <!-- related links -->
+### References
 
-<!-- relates to: JIRA Ticket # automation will link this PR to the JIRA -->
-<!-- closes: JIRA Ticket # automation will link this PR to JIRA and close it -->
+JIRA Ticket Link:
 
-### Confidence: <!-- what testing was done to ensure the change does what it is intended to do? -->
+### Checklist
 
-<!-- were relevant tests performed? Unit tests, E2E tests, etc
-     Include steps you followed to test the changes as well as output of the tests
--->
-<!-- reviewers should be able to understand how it was tested and have confidence in the change -->
+- [ ] Added unit tests
+- [ ] Tested end to end, including screenshots or videos
 
-<!-- pr guide: https://www.notion.so/pantherlabs/Github-Pull-Requests-PR-02af4e80f53844f985889d5c36874c6d#6a36878f77fb43a0b3539d93ee3c3da1 -->
-<!-- reviewing guide: https://www.notion.so/pantherlabs/Reviewing-Pull-Requests-64b9f85c4e7b47128d1b2dd160330ae6 -->
+### Notes for Reviewing
+
+Testing steps to help reviewers test code. Include any Feature Flags or Pulumi Configs needed to test.
+
+[Reviewing Guidelines](https://www.notion.so/pantherlabs/Reviewing-Pull-Requests-64b9f85c4e7b47128d1b2dd160330ae6)
