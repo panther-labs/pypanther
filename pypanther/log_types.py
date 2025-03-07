@@ -218,7 +218,6 @@ class LogType(str, Enum):
     ONEPASSWORD_AUDIT_EVENT = "OnePassword.AuditEvent"
     ONEPASSWORD_ITEM_USAGE = "OnePassword.ItemUsage"
     ONEPASSWORD_SIGN_IN_ATTEMPT = "OnePassword.SignInAttempt"
-    ORCA_ALERT = "Orca.Alert"
     OSQUERY_BATCH = "Osquery.Batch"
     OSQUERY_DIFFERENTIAL = "Osquery.Differential"
     OSQUERY_SNAPSHOT = "Osquery.Snapshot"
