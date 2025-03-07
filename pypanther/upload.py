@@ -439,6 +439,12 @@ def print_included_files(zip_info: list[zipfile.ZipInfo]) -> None:
 
 def print_upload_statistics(rule_results: BulkUploadDetectionsResults, schema_results: ChangesSummary) -> None:
     print(cli_output.header("Upload Statistics"))
+    
+    # Add pypanther version information
+    pypanther_version = importlib.metadata.version("pypanther")
+    print(INDENT, f"PyPanther Version: {pypanther_version}")
+    print()  # new line
+    
     print(INDENT, cli_output.bold("Rules:"))
     print(INDENT * 2, "{:<9} {:>4}".format("New:      ", len(rule_results.new_rule_ids)))
     print(INDENT * 2, "{:<9} {:>4}".format("Modified: ", len(rule_results.modified_rule_ids)))
