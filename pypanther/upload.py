@@ -442,7 +442,7 @@ def print_upload_statistics(rule_results: BulkUploadDetectionsResults, schema_re
     
     # Add pypanther version information
     pypanther_version = importlib.metadata.version("pypanther")
-    print(INDENT, cli_output.bold(f"PyPanther Version: {pypanther_version}"))
+    print(INDENT, f"{cli_output.bold('PyPanther Version:')} {pypanther_version}")
     print()  # new line
     
     print(INDENT, cli_output.bold("Rules:"))
