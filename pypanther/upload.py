@@ -61,18 +61,15 @@ class ChangesSummary(TypedDict):
 
 
 def run(backend: BackendClient, args: argparse.Namespace) -> Tuple[int, str]:
-    if not args.confirm:
-        err = confirm(
-            "WARNING: pypanther upload is under active development and not recommended for use"
-            " without guidance from the Panther team. Would you like to proceed? [y/n]: ",
-        )
-        if err is not None:
-            return 0, ""
-
+    print(
+        cli_output.warning(
+            "WARNING: pypanther is in beta and is subject to breaking changes before general availability",
+        ),
+    )
     try:
         import_main(os.getcwd(), "main")
     except NoMainModuleError:
-        logging.error("No main.py found")  # noqa: TRY400
+        logging.error("No main.py found. Are you running this command from the root of your pypanther project?")  # noqa: TRY400
         return 1, ""
 
     test_results = testing.TestResults()
@@ -181,9 +178,9 @@ def run(backend: BackendClient, args: argparse.Namespace) -> Tuple[int, str]:
             else:
                 print_changes_summary(changes_summary)
 
-        if not args.skip_summary and not args.confirm and not args.dry_run:
+        if not args.skip_summary and not args.dry_run:
             # if the user skips calculating the summary of the changes,
-            # "--confirm" has no effect, as there's no info to act upon
+            # we don't show a message since there's no information shared with the user to act upon
             err = confirm("Would you like to make this change? [y/n]: ")
             if err is not None:
                 return 0, ""

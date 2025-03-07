@@ -101,13 +101,6 @@ def setup_upload_parser(upload_parser: argparse.ArgumentParser):
         action="store_true",
     )
     upload_parser.add_argument(
-        "--confirm",
-        help="Proceed with the upload without requiring user input",
-        default=False,
-        required=False,
-        action="store_true",
-    )
-    upload_parser.add_argument(
         "--verbose",
         help="Verbose output",
         default=False,

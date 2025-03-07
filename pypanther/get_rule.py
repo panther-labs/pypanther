@@ -12,7 +12,7 @@ def run(args: argparse.Namespace) -> Tuple[int, str]:
     try:
         import_main(os.getcwd(), "main")
     except NoMainModuleError:
-        return 1, "No main.py found."
+        return 1, "No main.py found. Are you running this command from the root of your pypanther project?"
     found_rules = set(get_panther_rules(id=args.id)).union(registered_rules(id=args.id))
     if len(found_rules) == 0:
         return 1, f"Found no rules matching id={args.id}"
