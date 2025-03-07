@@ -61,18 +61,15 @@ class ChangesSummary(TypedDict):
 
 
 def run(backend: BackendClient, args: argparse.Namespace) -> Tuple[int, str]:
-    if not args.confirm:
-        err = confirm(
-            "WARNING: pypanther upload is under active development and not recommended for use"
-            " without guidance from the Panther team. Would you like to proceed? [y/n]: ",
-        )
-        if err is not None:
-            return 0, ""
-
+    print(
+        cli_output.warning(
+            "WARNING: pypanther is in beta and is subject to breaking changes before general availability",
+        ),
+    )
     try:
         import_main(os.getcwd(), "main")
     except NoMainModuleError:
-        logging.error("No main.py found")  # noqa: TRY400
+        logging.error("No main.py found. Are you running this command from the root of your pypanther project?")  # noqa: TRY400
         return 1, ""
 
     test_results = testing.TestResults()
@@ -181,9 +178,9 @@ def run(backend: BackendClient, args: argparse.Namespace) -> Tuple[int, str]:
             else:
                 print_changes_summary(changes_summary)
 
-        if not args.skip_summary and not args.confirm and not args.dry_run:
+        if not args.skip_summary and not args.dry_run:
             # if the user skips calculating the summary of the changes,
-            # "--confirm" has no effect, as there's no info to act upon
+            # we don't show a message since there's no information shared with the user to act upon
             err = confirm("Would you like to make this change? [y/n]: ")
             if err is not None:
                 return 0, ""
@@ -467,32 +464,41 @@ def print_upload_detection_error(err: BulkUploadDetectionsError) -> None:
 
 
 def print_changes_summary(changes_summary: ChangesSummary) -> None:
-    print("Changes Summary:")
-    print()  # new line
-    if changes_summary["new_rule_ids"]:
-        print(f"New Rules [{len(changes_summary['new_rule_ids'])}]:")
-        for id_ in changes_summary["new_rule_ids"]:
-            print(f"+ {id_}")
+    # Check if any of the keys starting with new/delete/modify have a value greater than 0
+    if (
+        changes_summary["new_rule_ids"]
+        or changes_summary["delete_rule_ids"]
+        or changes_summary["modify_rule_ids"]
+        or changes_summary["new_schema_names"]
+        or changes_summary["modified_schema_names"]
+    ):
+        print(cli_output.header("Changes"))
         print()  # new line
-    if changes_summary["delete_rule_ids"]:
-        print(f"Delete Rules [{len(changes_summary['delete_rule_ids'])}]:")
-        for id_ in changes_summary["delete_rule_ids"]:
-            print(f"- {id_}")
-        print()  # new line
-    if changes_summary["modify_rule_ids"]:
-        print(f"Modify Rules [{len(changes_summary['modify_rule_ids'])}]:")
-        for id_ in changes_summary["modify_rule_ids"]:
-            print(f"~ {id_}")
-        print()  # new line
-    if changes_summary["new_schema_names"]:
-        print(f"New Schemas [{len(changes_summary['new_schema_names'])}]:")
-        for name in changes_summary["new_schema_names"]:
-            print(f"+ {name}")
-        print()  # new line
-    if changes_summary["modified_schema_names"]:
-        print(f"Modify Schemas [{len(changes_summary['modified_schema_names'])}]:")
-        for name in changes_summary["modified_schema_names"]:
-            print(f"~ {name}")
+        if changes_summary["new_rule_ids"]:
+            print(f"New Rules [{len(changes_summary['new_rule_ids'])}]:")
+            for id_ in changes_summary["new_rule_ids"]:
+                print(f"+ {id_}")
+            print()  # new line
+        if changes_summary["delete_rule_ids"]:
+            print(f"Delete Rules [{len(changes_summary['delete_rule_ids'])}]:")
+            for id_ in changes_summary["delete_rule_ids"]:
+                print(f"- {id_}")
+            print()  # new line
+        if changes_summary["modify_rule_ids"]:
+            print(f"Modify Rules [{len(changes_summary['modify_rule_ids'])}]:")
+            for id_ in changes_summary["modify_rule_ids"]:
+                print(f"~ {id_}")
+            print()  # new line
+        if changes_summary["new_schema_names"]:
+            print(f"New Schemas [{len(changes_summary['new_schema_names'])}]:")
+            for name in changes_summary["new_schema_names"]:
+                print(f"+ {name}")
+            print()  # new line
+        if changes_summary["modified_schema_names"]:
+            print(f"Modify Schemas [{len(changes_summary['modified_schema_names'])}]:")
+            for name in changes_summary["modified_schema_names"]:
+                print(f"~ {name}")
+
     print(cli_output.header("Changes Summary"))
     print(INDENT, f"New Rules:      {len(changes_summary['new_rule_ids']):>4}")
     print(INDENT, f"Modified Rules: {len(changes_summary['modify_rule_ids']):>4}")
