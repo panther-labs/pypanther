@@ -95,6 +95,8 @@ def run(backend: BackendClient, args: argparse.Namespace) -> Tuple[int, str]:
     if args.verbose and args.output == display.OUTPUT_TYPE_TEXT:
         print_registered_rules()
 
+    pypanther_version = importlib.metadata.version("pypanther")
+
     with tempfile.NamedTemporaryFile() as tmp:
         zip_info = zip_contents(tmp)
         zip_size = Path.stat(Path(tmp.name)).st_size
@@ -109,7 +111,13 @@ def run(backend: BackendClient, args: argparse.Namespace) -> Tuple[int, str]:
             print_included_files(zip_info)
 
         try:
-            session_id = upload_zip(backend=backend, archive=tmp.name, verbose=args.verbose, output_type=args.output)
+            session_id = upload_zip(
+                backend=backend,
+                archive=tmp.name,
+                verbose=args.verbose,
+                output_type=args.output,
+                pypanther_version=pypanther_version,
+            )
         except BackendError as be_err:
             multi_err = BulkUploadDetectionsError.from_json(convert_unicode(be_err))
             if args.output == display.OUTPUT_TYPE_TEXT:
@@ -227,7 +235,7 @@ def run(backend: BackendClient, args: argparse.Namespace) -> Tuple[int, str]:
         )
         print(json.dumps(output, indent=display.JSON_INDENT_LEVEL))
     else:
-        print_upload_statistics(rule_upload_stats, changes_summary)
+        print_upload_statistics(rule_upload_stats, changes_summary, pypanther_version)
 
     return 0, ""
 
@@ -320,12 +328,12 @@ def upload_zip(
     archive: str,
     verbose: bool,
     output_type: str,
+    pypanther_version: str,
 ) -> str:
     if verbose and output_type == display.OUTPUT_TYPE_TEXT:
         print("requesting presigned URL for upload")
         print()
 
-    pypanther_version = importlib.metadata.version("pypanther")
     response = backend.bulk_upload_presigned_url(
         params=BulkUploadPresignedURLParams(pypanther_version=pypanther_version),
     )
@@ -437,8 +445,16 @@ def print_included_files(zip_info: list[zipfile.ZipInfo]) -> None:
     print()  # new line
 
 
-def print_upload_statistics(rule_results: BulkUploadDetectionsResults, schema_results: ChangesSummary) -> None:
+def print_upload_statistics(
+    rule_results: BulkUploadDetectionsResults,
+    schema_results: ChangesSummary,
+    pypanther_version: str,
+) -> None:
     print(cli_output.header("Upload Statistics"))
+
+    print(INDENT, f"{cli_output.bold('PyPanther Version:')} {pypanther_version}")
+    print()  # new line
+
     print(INDENT, cli_output.bold("Rules:"))
     print(INDENT * 2, "{:<9} {:>4}".format("New:      ", len(rule_results.new_rule_ids)))
     print(INDENT * 2, "{:<9} {:>4}".format("Modified: ", len(rule_results.modified_rule_ids)))
