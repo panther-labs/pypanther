@@ -111,7 +111,13 @@ def run(backend: BackendClient, args: argparse.Namespace) -> Tuple[int, str]:
             print_included_files(zip_info)
 
         try:
-            session_id = upload_zip(backend=backend, archive=tmp.name, verbose=args.verbose, output_type=args.output, pypanther_version=pypanther_version)
+            session_id = upload_zip(
+                backend=backend,
+                archive=tmp.name,
+                verbose=args.verbose,
+                output_type=args.output,
+                pypanther_version=pypanther_version,
+            )
         except BackendError as be_err:
             multi_err = BulkUploadDetectionsError.from_json(convert_unicode(be_err))
             if args.output == display.OUTPUT_TYPE_TEXT:
@@ -439,7 +445,11 @@ def print_included_files(zip_info: list[zipfile.ZipInfo]) -> None:
     print()  # new line
 
 
-def print_upload_statistics(rule_results: BulkUploadDetectionsResults, schema_results: ChangesSummary, pypanther_version: str) -> None:
+def print_upload_statistics(
+    rule_results: BulkUploadDetectionsResults,
+    schema_results: ChangesSummary,
+    pypanther_version: str,
+) -> None:
     print(cli_output.header("Upload Statistics"))
 
     print(INDENT, f"{cli_output.bold('PyPanther Version:')} {pypanther_version}")
