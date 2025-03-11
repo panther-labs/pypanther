@@ -66,8 +66,6 @@ def run(backend: BackendClient, args: argparse.Namespace) -> Tuple[int, str]:
             "WARNING: pypanther is in beta and is subject to breaking changes before general availability",
         ),
     )
-
-    
     try:
         import_main(os.getcwd(), "main")
     except NoMainModuleError:
@@ -374,7 +372,6 @@ def get_upload_output_as_dict(
     changes_summary: ChangesSummary | None,
 ) -> dict:
     output: dict[str, Any] = {"result": upload_result}
-    
     if upload_stats:
         schema_stats = {}
         if changes_summary:
@@ -445,7 +442,6 @@ def print_included_files(zip_info: list[zipfile.ZipInfo]) -> None:
 def print_upload_statistics(rule_results: BulkUploadDetectionsResults, schema_results: ChangesSummary, pypanther_version: str) -> None:
     print(cli_output.header("Upload Statistics"))
 
-    # Add pypanther version information
     print(INDENT, f"{cli_output.bold('PyPanther Version:')} {pypanther_version}")
     print()  # new line
 
