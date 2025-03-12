@@ -1,3 +1,6 @@
+from pypanther.rules.aws_guardduty.aws_guardduty_critical_sev_findings import (
+    AWSGuardDutyCriticalSeverityFinding as AWSGuardDutyCriticalSeverityFinding,
+)
 from pypanther.rules.aws_guardduty.aws_guardduty_high_sev_findings import (
     AWSGuardDutyHighSeverityFinding as AWSGuardDutyHighSeverityFinding,
 )
