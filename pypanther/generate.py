@@ -680,11 +680,13 @@ class DropClassMethods(ast.NodeTransformer):
         )
 
 
-def convert_global_helpers(panther_analysis: Path) -> Set[str]:
+def convert_global_helpers(panther_analysis: Path, output_path: Path) -> Set[str]:
     # walk the rules folder
     global_helpers_path = panther_analysis / "global_helpers"
+    if not global_helpers_path.exists():
+        return set()
 
-    helpers_path = Path("pypanther") / "helpers"
+    helpers_path = output_path / "helpers"
     if helpers_path.exists():
         shutil.rmtree(helpers_path)
     helpers_path.mkdir(parents=True, exist_ok=True)
@@ -736,10 +738,14 @@ def convert_global_helpers(panther_analysis: Path) -> Set[str]:
     return helpers
 
 
-def convert_data_models(panther_analysis: Path, helpers: Set[str]):
+def convert_data_models(panther_analysis: Path, output_path: Path, helpers: Set[str]):
     data_models_path = panther_analysis / "data_models"
-    if Path("pypanther/data_models").exists():
-        shutil.rmtree(Path("pypanther/data_models"))
+    if not data_models_path.exists():
+        return
+
+    output_models_path = output_path / "data_models"
+    if output_models_path.exists():
+        shutil.rmtree(output_models_path)
 
     imports = f"from pypanther.base import {DataModel.__name__}, {DataModelMapping.__name__}, {LogType.__name__}"
 
@@ -831,6 +837,7 @@ def convert_data_models(panther_analysis: Path, helpers: Set[str]):
 
         code += "\n\n" + unparse(as_class) + "\n"
 
+        # strip panther_analysis from path
         p_str = str(p.relative_to(panther_analysis)).replace("_data_model", "")
         p = Path("pypanther") / Path(p_str)
         p.parent.mkdir(parents=True, exist_ok=True)
@@ -873,7 +880,7 @@ def create_init_py(directory: Path, root_directory: Path):
             module_name = py_file.stem
             classes = get_classes_from_file(py_file)
             for cls in classes:
-                f.write(f"from pypanther.rules.{module_path}.{module_name} import {cls} as {cls}\n")
+                f.write(f"from {root_directory.name}.rules.{module_path}.{module_name} import {cls} as {cls}\n")
 
     # print(f"Created __init__.py in {directory}")
 
@@ -884,7 +891,7 @@ def process_directory(root_directory: Path):
             create_init_py(Path(dirpath), root_directory)
 
 
-def _convert_rules(p: Path, panther_analysis: Path, helpers: Set[str]):
+def _convert_rules(p: Path, panther_analysis: Path, output_path: Path, helpers: Set[str]):
     try:
         new_rule = convert_rule(p, helpers)
     except NotImplementedError as e:
@@ -896,31 +903,45 @@ def _convert_rules(p: Path, panther_analysis: Path, helpers: Set[str]):
 
     # strip panther_analysis from path
     p_str = str(p.relative_to(panther_analysis)).replace("_rules/", "/")
-    p = Path("pypanther") / Path(p_str)
+    p = output_path / Path(p_str)
 
     p.parent.mkdir(parents=True, exist_ok=True)
     with open(p.with_suffix(".py"), "w", encoding="utf-8") as f:
         f.write(new_rule)
 
 
-def convert_rules(panther_analysis: Path, helpers: Set[str]):
+def convert_rules(panther_analysis: Path, output_path: Path, helpers: Set[str]):
     rules_path = panther_analysis / "rules"
-    if Path("pypanther/rules").exists():
-        shutil.rmtree(Path("pypanther/rules"))
+    if not rules_path.exists():
+        return
 
-    _convert_rules_curry = functools.partial(_convert_rules, panther_analysis=panther_analysis, helpers=helpers)
+    output_rules_path = output_path / "rules"
+    if output_rules_path.exists():
+        shutil.rmtree(output_rules_path)
+
+    _convert_rules_curry = functools.partial(
+        _convert_rules, 
+        panther_analysis=panther_analysis,
+        output_path=output_path,
+        helpers=helpers
+    )
     with Pool() as pool:
         pool.map(_convert_rules_curry, rules_path.rglob("*.y*ml"))
 
     # __init__.py to all folders
-    add_inits(Path("pypanther") / "rules")
-    process_directory(Path("pypanther") / "rules")
+    add_inits(output_path / "rules")
+    process_directory(output_path / "rules")
 
 
-def convert_queries(
-    panther_analysis: Path,
-):
+def convert_queries(panther_analysis: Path, output_path: Path):
     queries_path = panther_analysis / "queries"
+    if not queries_path.exists():
+        return
+
+    output_queries_path = output_path / "queries"
+    if output_queries_path.exists():
+        shutil.rmtree(output_queries_path)
+
     paths = []
     for p in queries_path.rglob("*.y*ml"):
         with open(p, "rb") as f:
@@ -1024,7 +1045,8 @@ from pypanther.base import PantherDataModel, PantherQuerySchedule
         new_rule = imports + unparse(query_class)
 
         # strip panther_analysis from path
-        p = Path("pypanther") / p.relative_to(panther_analysis)
+        p_str = str(p.relative_to(panther_analysis)).replace("_data_model", "")
+        p = output_path / Path(p_str)
 
         p.parent.mkdir(parents=True, exist_ok=True)
         with open(p.with_suffix(".py"), "w", encoding="utf-8") as f:
@@ -1047,8 +1069,8 @@ def to_lines(s: str) -> ast.AST:
     )
 
 
-def strip_global_filters():
-    for p in Path("pypanther/helpers").rglob("global_filter_*.py"):
+def strip_global_filters(output_path: Path):
+    for p in (output_path / "helpers").rglob("global_filter_*.py"):
         p.unlink()
 
 
@@ -1383,6 +1405,10 @@ def refactor_python_modified_rules(rules_path: Path, diff: list[tuple[list[str],
 
 
 def delete_rules(rules_path: Path, to_delete: list[str]) -> None:
+    # If rules path doesn't exist, nothing to delete
+    if not rules_path.exists():
+        return
+
     for filename in to_delete:
         if filename.startswith("sublime_rules_deleted_or_deactivated"):
             # for this case, when converting to pypanther we have decided to turn
@@ -1418,11 +1444,15 @@ def delete_rules(rules_path: Path, to_delete: list[str]) -> None:
             Path(os.path.join(root, files[0])).unlink()
 
     # if the rules directory itself is empty, delete it
-    if not any(rules_path.iterdir()):
+    if rules_path.exists() and not any(rules_path.iterdir()):
         rules_path.rmdir()
 
 
 def delete_helpers(helpers_path: Path, to_delete: list[str]) -> None:
+    # If helpers path doesn't exist, nothing to delete
+    if not helpers_path.exists():
+        return
+
     for filename in to_delete:
         fixed_filename = filename.replace("panther_", "").replace("_helpers", "")
 
@@ -1451,58 +1481,70 @@ def delete_helpers(helpers_path: Path, to_delete: list[str]) -> None:
                 directory.rmdir()
 
     # if the helpers directory itself is empty, delete it
-    if not any(helpers_path.iterdir()):
+    if helpers_path.exists() and not any(helpers_path.iterdir()):
         helpers_path.rmdir()
 
 
 def delete_data_models(data_models_path: Path) -> None:
-    shutil.rmtree(data_models_path)
+    if data_models_path.exists():
+        shutil.rmtree(data_models_path)
+
+
+def delete_queries(queries_path: Path) -> None:
+    if queries_path.exists():
+        shutil.rmtree(queries_path)
 
 
 def create_argument_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser()
-    parser.add_argument("panther_analysis_path", type=Path)
-    parser.add_argument("--keep-all-rules", default=False, action="store_true")
-    parser.add_argument("--verbose", default=False, action="store_true")
+    parser.add_argument("--in", dest="input_path", type=Path, required=True,
+                       help="Path to the panther-analysis v1 rules directory to convert")
+    parser.add_argument("--out", dest="output_path", type=Path, required=True,
+                       help="Path where the converted pypanther rules should be written")
+    parser.add_argument("--keep-all-rules", default=False, action="store_true",
+                       help="Keep all rules instead of only modified ones")
+    parser.add_argument("--verbose", default=False, action="store_true",
+                       help="Enable verbose output")
     return parser
 
 
 def convert(args: argparse.Namespace) -> tuple[int, str]:
-    panther_analysis = args.panther_analysis_path
+    input_path = args.input_path
+    output_path = args.output_path
     keep_only_modified_rules = not args.keep_all_rules
 
-    if hasattr(args, "cwd_must_be_empty") and args.cwd_must_be_empty and any(Path("./").iterdir()):
-        return 1, "current working directory must be empty"
+    # Create output directory if it doesn't exist
+    output_path.mkdir(parents=True, exist_ok=True)
 
     try:
-        helpers = convert_global_helpers(panther_analysis)
-        convert_data_models(panther_analysis, helpers)
-        convert_rules(panther_analysis, helpers)
-        strip_global_filters()
-        # convert_queries(Path(panther_analysis))
+        # Convert using input path and write to output path
+        helpers = convert_global_helpers(input_path, output_path)
+        convert_data_models(input_path, output_path, helpers)
+        convert_rules(input_path, output_path, helpers)
+        convert_queries(input_path, output_path)
+        strip_global_filters(output_path)
 
         if keep_only_modified_rules:
-            rules_path = Path("./pypanther/rules/")
-            overrides_path = Path("./pypanther/overrides")
-            yaml_diff, python_diff, rules_to_delete = diff_rules_with_panther_analysis_main(panther_analysis)
+            rules_path = output_path / "rules"
+            overrides_path = output_path / "overrides"
+            yaml_diff, python_diff, rules_to_delete = diff_rules_with_panther_analysis_main(input_path)
             refactor_yaml_only_modified_rules(rules_path, overrides_path, yaml_diff)
             refactor_python_modified_rules(rules_path, python_diff)
-            delete_rules(Path("./pypanther/rules/"), rules_to_delete)
-            helpers_to_delete = diff_helpers_with_panther_analysis_main(panther_analysis)
-            delete_helpers(Path("./pypanther/helpers/"), helpers_to_delete)
-            delete_data_models(Path("./pypanther/data_models/"))
+            delete_rules(rules_path, rules_to_delete)
+            helpers_to_delete = diff_helpers_with_panther_analysis_main(input_path)
+            delete_helpers(output_path / "helpers", helpers_to_delete)
+            delete_data_models(output_path / "data_models")
+            delete_queries(output_path / "queries")
 
-        # "pypanther" is the default output directory; we only to run ruff on those
-        run_ruff([Path("./pypanther/")])
+        # Run ruff on the output directory
+        run_ruff([output_path])
     except Exception as exc:
         if hasattr(args, "verbose") and args.verbose:
             traceback.print_exception(exc)
         return 1, "conversion failed"
 
-    Path("./pypanther/__init__.py").touch()
-
-    if hasattr(args, "pypanther_directory_name") and args.pypanther_directory_name:
-        shutil.move(Path("./pypanther/"), Path(f"./{args.pypanther_directory_name}/"))
+    # Create __init__.py in output directory
+    (output_path / "__init__.py").touch()
 
     return 0, ""
 

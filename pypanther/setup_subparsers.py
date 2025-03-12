@@ -170,23 +170,29 @@ def setup_convert_parser(convert_parser: argparse.ArgumentParser):
     convert_parser.set_defaults(
         func=generate.convert,
         keep_all_rules=False,
-        cwd_must_be_empty=True,
     )
     convert_parser.add_argument(
-        "--verbose",
-        help="Verbose output",
+        "--in", dest="input_path",
+        help="Path to the panther-analysis v1 rules directory to convert",
+        type=pathlib.Path,
+        required=True,
+    )
+    convert_parser.add_argument(
+        "--out", dest="output_path",
+        help="Path where the converted pypanther rules should be written",
+        type=pathlib.Path,
+        required=True,
+    )
+    convert_parser.add_argument(
+        "--keep-all-rules",
+        help="Keep all rules instead of only modified ones",
         default=False,
-        required=False,
         action="store_true",
     )
     convert_parser.add_argument(
-        "--pypanther-directory-name",
-        help="The name that will be used for the top level directory where the converted artifacts will be placed",
-        default="content",
+        "--verbose",
+        help="Enable verbose output",
+        default=False,
         required=False,
-    )
-    convert_parser.add_argument(
-        "panther_analysis_path",
-        help="Path to the Panther Analysis directory",
-        type=pathlib.Path,
+        action="store_true",
     )
