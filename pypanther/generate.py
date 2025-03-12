@@ -262,7 +262,7 @@ def parse_py(
     tree = parse(lines)
 
     def is_func(x):
-        return isinstance(x, ast.FunctionDef)  # and x.name in RULE_FUNCTIONS
+        return isinstance(x, ast.FunctionDef)
 
     def is_import(x):
         return isinstance(x, (ast.Import, ast.ImportFrom))
@@ -335,7 +335,7 @@ def parse_py(
             ),
         )
 
-    # add class def to tree
+    # add class def to tree without panther_managed decorator
     c = ast.ClassDef(
         name=class_name,
         bases=[ast.Name(Rule.__name__, ctx=ast.Load())],
@@ -343,7 +343,6 @@ def parse_py(
         decorator_list=[],
         body=assignments + other + functions + test_attribute,
     )
-    c.decorator_list.append(ast.Name(id="panther_managed", ctx=ast.Load()))
     tree.body.append(c)
 
     # rewrite function calls and globals since they are now part of the class
@@ -893,44 +892,77 @@ def process_directory(root_directory: Path):
 
 def _convert_rules(p: Path, panther_analysis: Path, output_path: Path, helpers: Set[str]):
     try:
+        print(f"Processing {p}")
         new_rule = convert_rule(p, helpers)
+        if new_rule is None:
+            print(f"Skipping {p} - rule was filtered out")
+            return
+
+        # Get the relative path and convert directory name from v1 to v2 format
+        p_str = str(p.relative_to(panther_analysis))
+        # Handle both directory and file name conversions
+        p_str = p_str.replace("_rules/", "/").replace("_rules.", ".")
+        p = output_path / Path(p_str)
+
+        print(f"Writing converted rule to {p}")
+        p.parent.mkdir(parents=True, exist_ok=True)
+        with open(p.with_suffix(".py"), "w", encoding="utf-8") as f:
+            f.write(new_rule)
+
     except NotImplementedError as e:
         perror(f"Error processing {p}: {e}")
         return
-
-    if new_rule is None:
+    except Exception as e:
+        perror(f"Unexpected error processing {p}: {e}")
         return
 
-    # strip panther_analysis from path
-    p_str = str(p.relative_to(panther_analysis)).replace("_rules/", "/")
-    p = output_path / Path(p_str)
 
-    p.parent.mkdir(parents=True, exist_ok=True)
-    with open(p.with_suffix(".py"), "w", encoding="utf-8") as f:
-        f.write(new_rule)
-
-
-def convert_rules(panther_analysis: Path, output_path: Path, helpers: Set[str]):
-    rules_path = panther_analysis / "rules"
+def convert_rules(panther_analysis: Path, output_path: Path, helpers: Set[str], keep_only_modified_rules: bool = True):
+    rules_path = panther_analysis
     if not rules_path.exists():
+        print(f"Input rules path {rules_path} does not exist")
         return
 
-    output_rules_path = output_path / "rules"
-    if output_rules_path.exists():
-        shutil.rmtree(output_rules_path)
+    if output_path.exists():
+        shutil.rmtree(output_path)
+
+    print(f"Converting rules from {rules_path} to {output_path}")
+    
+    # Create the output directory
+    output_path.mkdir(parents=True, exist_ok=True)
+
+    # First, find all YAML files
+    yaml_files = list(rules_path.glob("*.y*ml"))
+    print(f"Found {len(yaml_files)} YAML files to convert")
+
+    # If we're only keeping modified rules, get the list of modified rules
+    modified_rules = set()
+    if keep_only_modified_rules:
+        _, python_diff, _ = diff_rules_with_panther_analysis_main(panther_analysis.parent)
+        modified_rules = {filename for _, filename, _, _ in python_diff}
+        print(f"Found {len(modified_rules)} modified rules")
 
     _convert_rules_curry = functools.partial(
         _convert_rules, 
-        panther_analysis=panther_analysis,
+        panther_analysis=panther_analysis.parent,  # Use parent since we're already in the rules directory
         output_path=output_path,
         helpers=helpers
     )
-    with Pool() as pool:
-        pool.map(_convert_rules_curry, rules_path.rglob("*.y*ml"))
+    
+    # Convert each YAML file
+    for yaml_file in yaml_files:
+        print(f"Converting {yaml_file}")
+        # Only convert if we're keeping all rules or if this is a modified rule
+        if not keep_only_modified_rules or yaml_file.name in modified_rules:
+            _convert_rules_curry(yaml_file)
 
-    # __init__.py to all folders
-    add_inits(output_path / "rules")
-    process_directory(output_path / "rules")
+    # Add __init__.py files only to directories containing Python files
+    for dirpath, _, filenames in os.walk(output_path):
+        dir_path = Path(dirpath)
+        if any(f.endswith('.py') for f in filenames) or any(f.endswith('.yml') for f in filenames):
+            init_file = dir_path / "__init__.py"
+            if not init_file.exists():
+                init_file.touch()
 
 
 def convert_queries(panther_analysis: Path, output_path: Path):
@@ -1116,22 +1148,29 @@ def diff_rules_with_panther_analysis_main(
     python_diff = []
     to_delete = []
 
-    pa_main_rules = {}
-    with tempfile.TemporaryDirectory() as temp_dir:
-        output_dir = Path(temp_dir)
-        clone_panther_analysis_main(output_dir)
-
-        pa_main_rules_path = output_dir / "rules"
-        for pa_main_python_path in pa_main_rules_path.glob("**/[A-Za-z]*.py"):
-            pa_main_yaml_path = pa_main_python_path.with_suffix(".yml")
-            with pa_main_yaml_path.open(mode="rb") as fy, pa_main_python_path.open(mode="rb") as fp:
-                pa_main_yaml = YAML(typ="safe").load(fy)
-                pa_main_python_code = ast.parse(fp.read())
-            pa_main_rules[pa_main_yaml["RuleID"]] = (pa_main_yaml, pa_main_python_code)
+    # Get v2 rules from pypanther/rules
+    v2_rules = {}
+    v2_rules_path = Path("pypanther/rules")
+    if v2_rules_path.exists():
+        for v2_python_path in v2_rules_path.rglob("**/[A-Za-z]*.py"):
+            if v2_python_path.name == "__init__.py":
+                continue
+            with v2_python_path.open(mode="rb") as fp:
+                v2_python_code = ast.parse(fp.read())
+                # Extract rule ID from the class definition
+                for node in ast.walk(v2_python_code):
+                    if isinstance(node, ast.ClassDef):
+                        for body_node in node.body:
+                            if isinstance(body_node, ast.Assign) and len(body_node.targets) == 1:
+                                if isinstance(body_node.targets[0], ast.Name) and body_node.targets[0].id == "id":
+                                    rule_id = ast.literal_eval(body_node.value)
+                                    v2_rules[rule_id] = (v2_python_code, v2_python_path.parent.stem)
 
     local_rules = {}
-    local_rules_path = panther_analysis / "rules"
+    local_rules_path = panther_analysis
     for local_python_path in local_rules_path.glob("**/[A-Za-z]*.py"):
+        if local_python_path.name == "__init__.py":
+            continue
         local_yaml_path = local_python_path.with_suffix(".yml")
         with local_yaml_path.open(mode="rb") as fy, local_python_path.open(mode="rb") as fp:
             local_yaml = YAML(typ="safe").load(fy)
@@ -1141,31 +1180,26 @@ def diff_rules_with_panther_analysis_main(
     for id_, local_rule in local_rules.items():
         yaml, python = [], False
 
-        if id_ not in pa_main_rules:
+        if id_ not in v2_rules:
             continue
 
-        pa_main_rule = pa_main_rules[id_]
+        v2_rule = v2_rules[id_]
 
         local_yaml, local_python_code, local_parent_dir = local_rule
-        pa_main_yaml, pa_main_python_code = pa_main_rule
-
-        # compare YAML
-        for k, v in local_yaml.items():
-            if v != pa_main_yaml[k]:
-                yaml.append(k)
+        v2_python_code, v2_parent_dir = v2_rule
 
         # compare Python
         identical_function_names = []
-        if not ast_compare(local_python_code, pa_main_python_code):
+        if not ast_compare(local_python_code, v2_python_code):
             python = True
 
             # identify identical functions; best effort
-            if not isinstance(local_python_code, ast.Module) or not isinstance(pa_main_python_code, ast.Module):
+            if not isinstance(local_python_code, ast.Module) or not isinstance(v2_python_code, ast.Module):
                 break
             local_functions = {x.name: x for x in local_python_code.body if isinstance(x, ast.FunctionDef)}
-            pa_main_functions = {x.name: x for x in pa_main_python_code.body if isinstance(x, ast.FunctionDef)}
+            v2_functions = {x.name: x for x in v2_python_code.body if isinstance(x, ast.FunctionDef)}
             for function_name in local_functions.keys():
-                if ast_compare(local_functions[function_name], pa_main_functions[function_name]):
+                if ast_compare(local_functions[function_name], v2_functions[function_name]):
                     identical_function_names.append(function_name)
 
         if python:
@@ -1374,6 +1408,7 @@ def refactor_python_modified_rules(rules_path: Path, diff: list[tuple[list[str],
 
         # get class name
         class_definition = [x for x in code.body if isinstance(x, ast.ClassDef)][0]
+
         new_class_definition_name = class_definition.name + "Custom"
         new_class_definition_id = to_id(new_class_definition_name)
 
@@ -1513,18 +1548,27 @@ def convert(args: argparse.Namespace) -> tuple[int, str]:
     output_path = args.output_path
     keep_only_modified_rules = not args.keep_all_rules
 
+    print(f"Converting from {input_path} to {output_path}")
+    print(f"Keep all rules: {not keep_only_modified_rules}")
+
     # Create output directory if it doesn't exist
     output_path.mkdir(parents=True, exist_ok=True)
 
     try:
         # Convert using input path and write to output path
+        print("Converting global helpers...")
         helpers = convert_global_helpers(input_path, output_path)
+        print("Converting data models...")
         convert_data_models(input_path, output_path, helpers)
-        convert_rules(input_path, output_path, helpers)
+        print("Converting rules...")
+        convert_rules(input_path, output_path, helpers, keep_only_modified_rules)
+        print("Converting queries...")
         convert_queries(input_path, output_path)
+        print("Stripping global filters...")
         strip_global_filters(output_path)
 
         if keep_only_modified_rules:
+            print("Processing modified rules only...")
             rules_path = output_path / "rules"
             overrides_path = output_path / "overrides"
             yaml_diff, python_diff, rules_to_delete = diff_rules_with_panther_analysis_main(input_path)
@@ -1537,6 +1581,7 @@ def convert(args: argparse.Namespace) -> tuple[int, str]:
             delete_queries(output_path / "queries")
 
         # Run ruff on the output directory
+        print("Running ruff...")
         run_ruff([output_path])
     except Exception as exc:
         if hasattr(args, "verbose") and args.verbose:
