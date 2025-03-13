@@ -13,7 +13,6 @@ from panther_core.rule import (
     TRUNCATED_STRING_SUFFIX,
     TYPE_RULE,
 )
-from pydantic import ValidationError
 
 from pypanther.base import RULE_ALL_ATTRS, Rule, RuleModel, panther_managed
 from pypanther.cache import data_model_cache
@@ -355,6 +354,7 @@ class TestRunningTests:
 class TestValidation:
     def test_rule_id_is_class_name(self):
         """Test that a rule's id is automatically set to its class name."""
+
         class TestRule(Rule):
             default_severity = Severity.INFO
             log_types = ["test"]
