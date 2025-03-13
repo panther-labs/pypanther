@@ -122,7 +122,7 @@ def convert_rule(filepath: Path, helpers: Set[str]) -> Optional[str]:
                     )
             value = ast.List(elts=log_type_elts)
         if k == "RuleID":
-            value = ast.Constant(value=v + ID_POSTFIX)
+            continue
 
         assignments.append(
             ast.Assign(
