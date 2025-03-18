@@ -18,6 +18,7 @@ from pypanther.rules.gcp_audit.gcp_cloudfunctions_functions_create import (
 from pypanther.rules.gcp_audit.gcp_cloudfunctions_functions_update import (
     GCPCloudfunctionsFunctionsUpdate as GCPCloudfunctionsFunctionsUpdate,
 )
+from pypanther.rules.gcp_audit.gcp_compute_set_iam_policy import GCPComputeIAMPolicyUpdate as GCPComputeIAMPolicyUpdate
 from pypanther.rules.gcp_audit.gcp_computeinstances_create_privilege_escalation import (
     GCPcomputeinstancescreatePrivilegeEscalation as GCPcomputeinstancescreatePrivilegeEscalation,
 )
@@ -51,6 +52,9 @@ from pypanther.rules.gcp_audit.gcp_iam_serviceaccounts_signjwt import (
 from pypanther.rules.gcp_audit.gcp_inbound_sso_profile_created_or_updated import (
     GCPInboundSSOProfileCreated as GCPInboundSSOProfileCreated,
 )
+from pypanther.rules.gcp_audit.gcp_invite_external_user_as_owner import (
+    GCPProjectExternalUserOwnershipInvite as GCPProjectExternalUserOwnershipInvite,
+)
 from pypanther.rules.gcp_audit.gcp_log_bucket_or_sink_deleted import (
     GCPLogBucketOrSinkDeleted as GCPLogBucketOrSinkDeleted,
 )
@@ -72,6 +76,9 @@ from pypanther.rules.gcp_audit.gcp_service_account_or_keys_created import (
 )
 from pypanther.rules.gcp_audit.gcp_serviceusage_apikeys_create_privilege_escalation import (
     GCPserviceusageapiKeyscreatePrivilegeEscalation as GCPserviceusageapiKeyscreatePrivilegeEscalation,
+)
+from pypanther.rules.gcp_audit.gcp_snapshot_insert import (
+    GCPComputeSnapshotUnexpectedDomain as GCPComputeSnapshotUnexpectedDomain,
 )
 from pypanther.rules.gcp_audit.gcp_sql_config_changes import GCPSQLConfigChanges as GCPSQLConfigChanges
 from pypanther.rules.gcp_audit.gcp_storage_hmac_keys_create import GCPStorageHmacKeysCreate as GCPStorageHmacKeysCreate
