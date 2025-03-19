@@ -58,6 +58,8 @@ def print_rule_table(
         rules (list[Type[Rule]]): The list of PantherRule subclasses that will be printed in table format.
         attributes (list[str] | None): The list of attributes that will appear as columns in the table.
             Supplying None or an empty list will use defaults of [id, log_types, default_severity, enabled].
+        print_total (bool): Whether to print the total number of rules at the end.
+        sort_by (str | None): The attribute to sort the rules by. If None, defaults to 'id' or first attribute.
 
     """
     attributes = utils.dedup_list_preserving_order(attributes or [])
@@ -75,6 +77,9 @@ def print_rule_table(
     )
 
     table = PrettyTable(field_names=attributes)
+    # Set max width for columns to prevent table from becoming too wide
+    for field in attributes:
+        table.max_width[field] = 50
     table.add_rows(
         [[pretty_format_text(value) for value in rule_dict.values()] for rule_dict in rule_dicts],
     )
