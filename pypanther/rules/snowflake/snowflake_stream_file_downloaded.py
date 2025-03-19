@@ -17,8 +17,8 @@ class SnowflakeStreamFileDownloaded(Rule):
         "https://cloud.google.com/blog/topics/threat-intelligence/unc5537-snowflake-data-theft-extortion/"
     )
     tags = ["Snowflake", "[MITRE] Exfiltration", "[MITRE] Exfiltration Over C2 Channel"]
-    PATH_EXPR = re.compile("'file:\\/\\/([\\/\\w\\.]+)'", flags=re.I)
-    STAGE_EXPR = re.compile("GET\\s+'(@[\\w\\.\\/\\@\\%]+)'", flags=re.I)
+    PATH_EXPR = re.compile("GET\\s+(?:\\$\\$|')?@([a-zA-Z0-9_\\./]+)(?:\\$\\$|')?\\s", flags=re.I)
+    STAGE_EXPR = re.compile("GET\\s+(?:\\$\\$|')?@([a-zA-Z0-9_\\.]+)", flags=re.I)
     PATH = ""
     STAGE = ""
 
@@ -40,7 +40,7 @@ class SnowflakeStreamFileDownloaded(Rule):
         self.STAGE = self.STAGE_EXPR.match(event.get("QUERY_TEXT", ""))
         return query_history_alert_context(event) | {
             "path": self.PATH.group(1),
-            "stage": None if not self.STAGE else self.STAGE.group(1),
+            "stage": None if not self.STAGE else self.STAGE.group(1).lower(),
         }
 
     tests = [
@@ -66,7 +66,7 @@ class SnowflakeStreamFileDownloaded(Rule):
                 "p_log_type": "Snowflake.QueryHistory",
                 "p_source_label": "SF-Ben",
                 "EXECUTION_STATUS": "SUCCESS",
-                "QUERY_TEXT": "GET '@%/secret_files' 'file:///research/superman_identity'",
+                "QUERY_TEXT": "GET @PANTHER_LOGS.PUBLIC.data_exfil/DATA.csv 'file:///Users/lex.luthor/Documents'",
                 "QUERY_TYPE": "GET_FILES",
                 "ROLE_NAME": "PUBLIC",
                 "USER_NAME": "LEX_LUTHOR",
