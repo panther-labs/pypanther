@@ -1,6 +1,6 @@
 from pypanther.base import Rule
 
-from ..some_other_module.some_other_module import SomeRule  # This is a Rule defined elsewhere
+from ..some_other_module.some_other_module import SomeRule  
 
 
 class ImportedRule(Rule):
