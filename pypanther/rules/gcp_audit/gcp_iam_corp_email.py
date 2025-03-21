@@ -11,7 +11,7 @@ class GCPIAMCorporateEmail(Rule):
     tags = ["GCP", "Identity & Access Management", "Persistence:Create Account"]
     reports = {"MITRE ATT&CK": ["TA0003:T1136"], "CIS": ["1.1"]}
     default_severity = Severity.LOW
-    default_description = "A Gmail account is being used instead of a corporate email"
+    default_description = "Unexpected domain is being used instead of a corporate email"
     default_runbook = "Remove the user"
     default_reference = "https://cloud.google.com/iam/docs/service-account-overview"
     summary_attributes = ["severity", "p_any_ip_addresses", "p_any_domain_names"]
@@ -22,19 +22,20 @@ class GCPIAMCorporateEmail(Rule):
         service_data = event.deep_get("protoPayload", "serviceData")
         if not service_data:
             return False
-        # Reference: bit.ly/2WsJdZS
+        authenticated = event.deep_get("protoPayload", "authenticationInfo", "principalEmail", default="")
+        expected_domain = authenticated.split("@")[-1]
         binding_deltas = deep_get(service_data, "policyDelta", "bindingDeltas")
         if not binding_deltas:
             return False
         for delta in binding_deltas:
             if delta.get("action") != "ADD":
                 continue
-            if delta.get("member", "").endswith("@gmail.com"):
-                return True
-        return False
+            if delta.get("member", "").endswith(f"@{expected_domain}"):
+                return False
+        return True
 
     def title(self, event):
-        return f"A GCP IAM account has been created with a Gmail email in {event.deep_get('resource', 'labels', 'project_id', default='<UNKNOWN_PROJECT>')}"
+        return f"A GCP IAM account has been created with an unexpected email domain in {event.deep_get('resource', 'labels', 'project_id', default='<UNKNOWN_PROJECT>')}"
 
     tests = [
         RuleTest(
@@ -167,7 +168,7 @@ class GCPIAMCorporateEmail(Rule):
             },
         ),
         RuleTest(
-            name="Runpanther account added",
+            name="Expected account added",
             expected_result=False,
             log={
                 "protoPayload": {
