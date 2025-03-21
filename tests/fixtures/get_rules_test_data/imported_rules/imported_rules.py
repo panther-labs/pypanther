@@ -7,3 +7,4 @@ class ImportedRule(Rule):
     """This rule is imported from another module"""
 
     id = "IMPORTED_RULE"
+    enabled = SomeRule.enabled
