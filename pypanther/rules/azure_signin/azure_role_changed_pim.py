@@ -8,7 +8,7 @@ class AzureAuditRoleChangedPIM(Rule):
     display_name = "Azure Role Changed PIM"
     log_types = [LogType.AZURE_AUDIT]
     default_severity = Severity.MEDIUM
-    dedup_period_minutes = 0
+    dedup_period_minutes = 60
     default_description = "This detection looks for a change in member's PIM roles in EntraID\n"
     reports = {"MITRE ATT&CK": ["TA0042:T1586"]}
     default_runbook = "Verify if the role change was authorized and review the affected user. If unauthorized, revert the role change, notify relevant teams,\n"
