@@ -11,7 +11,6 @@ from pypanther.base import Rule, RuleTest, Severity
 from pypanther.cache import data_model_cache
 from pypanther.log_types import LogType
 from pypanther.main import setup_parser
-from pypanther.registry import _RULE_REGISTRY
 
 get_data_model = data_model_cache().data_model_of_logtype
 
@@ -568,7 +567,6 @@ class TestRun:
 
     @pytest.mark.parametrize("cmd", [f"test {f}" for f in FILTER_ARGS])
     def test_test_filters(self, cmd: str) -> None:
-        _RULE_REGISTRY.clear()
         with create_main():
             args = setup_parser().parse_args(cmd.split(" "))
             code, result = testing.run(args)
