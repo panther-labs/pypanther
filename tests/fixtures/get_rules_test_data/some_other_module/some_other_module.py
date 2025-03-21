@@ -1,4 +1,4 @@
-from pypanther.base import Rule  # This is a Rule defined elsewhere
+from pypanther.base import Rule
 
 
 class SomeRule(Rule):
