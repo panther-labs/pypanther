@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "pypanther"
-version = "0.1.1a55"
+version = "0.1.1a56"
 description = ""
 authors = ["Panther Labs Inc <pypi@runpanther.io>"]
 readme = "README.md"
