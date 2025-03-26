@@ -246,6 +246,7 @@ class LogType(str, Enum):
     SNOWFLAKE_LOGIN_HISTORY = "Snowflake.LoginHistory"
     SNOWFLAKE_NETWORK_POLICIES = "Snowflake.NetworkPolicies"
     SNOWFLAKE_QUERY_HISTORY = "Snowflake.QueryHistory"
+    SNOWFLAKE_ROLES = "Snowflake.Roles"
     SNOWFLAKE_SESSIONS = "Snowflake.Sessions"
     SNOWFLAKE_STAGES = "Snowflake.Stages"
     SNOWFLAKE_USERS = "Snowflake.Users"
