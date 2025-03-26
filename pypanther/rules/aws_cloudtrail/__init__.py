@@ -178,6 +178,11 @@ from pypanther.rules.aws_cloudtrail.aws_s3_bucket_deleted import AWSS3BucketDele
 from pypanther.rules.aws_cloudtrail.aws_s3_bucket_policy_modified import (
     AWSS3BucketPolicyModified as AWSS3BucketPolicyModified,
 )
+from pypanther.rules.aws_cloudtrail.aws_s3_copy_object_with_client_side_encryption import (
+    AWSS3CopyObjectWithClientSideEncryption as AWSS3CopyObjectWithClientSideEncryption,
+)
+from pypanther.rules.aws_cloudtrail.aws_s3_delete_object import AWSS3DeleteObject as AWSS3DeleteObject
+from pypanther.rules.aws_cloudtrail.aws_s3_delete_objects import AWSS3DeleteObjects as AWSS3DeleteObjects
 from pypanther.rules.aws_cloudtrail.aws_saml_activity import AWSSuspiciousSAMLActivity as AWSSuspiciousSAMLActivity
 from pypanther.rules.aws_cloudtrail.aws_secretsmanager_retrieve_secrets import (
     AWSSecretsManagerRetrieveSecrets as AWSSecretsManagerRetrieveSecrets,
@@ -201,6 +206,10 @@ from pypanther.rules.aws_cloudtrail.aws_snapshot_made_public import (
     AWSCloudTrailSnapshotMadePublic as AWSCloudTrailSnapshotMadePublic,
 )
 from pypanther.rules.aws_cloudtrail.aws_software_discovery import AWSSoftwareDiscovery as AWSSoftwareDiscovery
+from pypanther.rules.aws_cloudtrail.aws_ssm_decrypt_ssm_params import AWSSSMDecryptSSMParams as AWSSSMDecryptSSMParams
+from pypanther.rules.aws_cloudtrail.aws_ssm_distributed_command import (
+    AWSSSMDistributedCommand as AWSSSMDistributedCommand,
+)
 from pypanther.rules.aws_cloudtrail.aws_unauthorized_api_call import (
     AWSCloudTrailUnauthorizedAPICall as AWSCloudTrailUnauthorizedAPICall,
 )

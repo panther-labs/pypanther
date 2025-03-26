@@ -8,7 +8,7 @@ class AzureAuditRoleChangedPIM(Rule):
     display_name = "Azure Role Changed PIM"
     log_types = [LogType.AZURE_AUDIT]
     default_severity = Severity.MEDIUM
-    dedup_period_minutes = 60
+    dedup_period_minutes = 5
     default_description = "This detection looks for a change in member's PIM roles in EntraID\n"
     reports = {"MITRE ATT&CK": ["TA0042:T1586"]}
     default_runbook = "Verify if the role change was authorized and review the affected user. If unauthorized, revert the role change, notify relevant teams,\n"
@@ -34,6 +34,10 @@ class AzureAuditRoleChangedPIM(Rule):
         )
         return f"{actor_name} added {target_name} as {role} successfully with {operation_name}"
 
+    def dedup(self, event):
+        # Ensure every event is a separate alert
+        return event.get("p_row_id", "<UNKNWON_ROW_ID>")
+
     def alert_context(self, event):
         return azure_rule_context(event)
 
@@ -42,6 +46,7 @@ class AzureAuditRoleChangedPIM(Rule):
             name="Successfully added PIM role",
             expected_result=True,
             log={
+                "p_row_id": "2316902d-b9a4-4f37-a1a5-5ed03993110f",
                 "category": "AuditLogs",
                 "correlationId": "1234155",
                 "durationMs": 0,

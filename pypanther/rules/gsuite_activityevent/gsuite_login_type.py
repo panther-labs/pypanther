@@ -15,7 +15,9 @@ class GSuiteLoginType(Rule):
     default_runbook = "Correct the user account settings so that only logins of approved types are available.\n"
     summary_attributes = ["actor:email"]
     # allow-list of approved login types
-    APPROVED_LOGIN_TYPES = {"exchange", "google_password", "reauth", "saml", "unknown"}
+    # comment or uncomment approved login types as needed
+    # "unknown",
+    APPROVED_LOGIN_TYPES = {"exchange", "google_password", "reauth", "saml"}
     # allow-list any application names here
     APPROVED_APPLICATION_NAMES = {"saml"}
 
