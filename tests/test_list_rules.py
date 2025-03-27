@@ -6,6 +6,7 @@ import pytest
 
 from pypanther import list_rules
 from pypanther.main import setup_parser
+from pypanther.registry import _RULE_REGISTRY
 
 LIST_RULES_CMD = "list rules"
 FILTER_ARGS = [
@@ -34,6 +35,7 @@ FILTER_ARGS = [
 
 
 def test_list_default() -> None:
+    _RULE_REGISTRY.clear()
     with create_main():
         args = setup_parser().parse_args(f"{LIST_RULES_CMD}".split(" "))
         assert not args.managed
@@ -43,6 +45,7 @@ def test_list_default() -> None:
 
 
 def test_list_with_more_than_all() -> None:
+    _RULE_REGISTRY.clear()
     with create_main():
         args = setup_parser().parse_args(f"{LIST_RULES_CMD} --attributes all log_types".split(" "))
         code, err = list_rules.run(args)
@@ -51,6 +54,7 @@ def test_list_with_more_than_all() -> None:
 
 
 def test_list_with_all() -> None:
+    _RULE_REGISTRY.clear()
     with create_main():
         args = setup_parser().parse_args(f"{LIST_RULES_CMD} --attributes all".split(" "))
         code, err = list_rules.run(args)
@@ -60,6 +64,7 @@ def test_list_with_all() -> None:
 
 @pytest.mark.parametrize("cmd", [f"{LIST_RULES_CMD} --managed true {f}" for f in FILTER_ARGS])
 def test_list_managed_rules(cmd: str) -> None:
+    _RULE_REGISTRY.clear()
     args = setup_parser().parse_args(cmd.split(" "))
     code, err = list_rules.run(args)
     assert code == 0

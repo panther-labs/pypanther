@@ -33,9 +33,14 @@ def register(arg: Type[Rule] | Type[DataModel] | Iterable[Type[Rule] | Type[Data
 
 
 def _register_rule(rule: Type[Rule]) -> bool:
-    """Register a rule with the pypanther library. Returns True if the rule was registered, False otherwise."""
+    """
+    Register a rule with the pypanther library. Returns True if the argument was a rule False otherwise.
+    If a rule with the same id is already registered, a ValueError is raised.
+    """
     if isinstance(rule, type) and issubclass(rule, Rule):
         rule.validate()
+        if rule.id in set(r.id for r in _RULE_REGISTRY):
+            raise ValueError(f"Rule with id '{rule.id}' is already registered")
         _RULE_REGISTRY.add(rule)
         return True
     return False
