@@ -1,133 +1,159 @@
 # PyPanther
 
-**pypanther** is a Python library for building Panther analysis content for the Panther cybersecurity product.
-It provides a simple and intuitive interface for creating, managing, and deploying detections to enhance your security posture.
-Included is a `pypanther` CLI tool to interact with your content and upload it to the Panther web app.
+[![PyPI version](https://badge.fury.io/py/pypanther.svg)](https://badge.fury.io/py/pypanther)
+[![Python Versions](https://img.shields.io/pypi/pyversions/pypanther.svg)](https://pypi.org/project/pypanther/)
+[![License](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](LICENSE.txt)
+[![Code style: ruff](https://img.shields.io/badge/code%20style-ruff-000000.svg)](https://github.com/astral-sh/ruff)
+
+**pypanther** is a Python framework for writing detection rules with Panther. It provides an intuitive interface for creating, managing, and deploying detections to enhance your security operations. Included is a `pypanther` CLI tool to interact with your content and upload it to a Panther instance.
 
 ## Features
 
-- **Rule Creation**: Easily create rules using Python classes and inheritance.
-- **Management**: Organize and manage rules efficiently with native Python.
-- **Deployment**: Upload detections and more to Panther for real-time detection.
+- **Rule Creation**: Easily create rules using Python classes and inheritance
+- **Type Safety**: Built with type hints for better IDE support and code quality
+- **Testing Framework**: Built-in testing utilities for rule validation
+- **CLI Tool**: Command-line interface for managing and deploying rules
+- **Helper Functions**: Common security detection patterns and utilities
+- **Log Type Support**: Native support for major cloud and security log types
 
 ## Installation
 
-To install **pypanther**, use pip:
+### From PyPI
+
+To install **pypanther** from PyPI, use pip:
 
 ```bash
 pip install pypanther
 ```
 
-## Prerequisites
+### From Source
 
-- Python 3.11 or higher
-- [Panther](https://panther.com) account and API access
+To install from source:
 
-## Usage
-
-1. **Import pypanther**: Start by importing pypanther into your Python script.
-2. **Create Rules**: Subclass the `Rule` class to define new rules.
-3. **Register Rules**: Register your custom rules and Panther managed rules inside your `main.py` file.
-4. **Test Rules**: Test all your registered rules using `pypanther test`.
-5. **Upload Rules**: Upload all registered rules with your Panther deployment using the CLI tool (`pypanther upload`).
-
-## Getting Started
-
-Here is a simple example to get you started:
-
-```python
-from pypanther import Rule, register, LogType, Severity
-
-
-# Create a new rule
-class MyRule(Rule):
-    id = "MyRule"
-    default_severity = Severity.HIGH
-    log_types = [LogType.OKTA_SYSTEM_LOG]
-
-    def rule(self, event):
-        return event.get("status") == "breached"
-
-
-# register the rule
-register(MyRule)
+```bash
+git clone https://github.com/panther-labs/pypanther.git
+cd pypanther
+pip install -e .
 ```
 
-Check out the [pypanther-starter-kit](https://github.com/panther-labs/pypanther-starter-kit) for more examples on how to use `pypanther`.
+### Development Setup
 
-You can view detailed docs on the package and CLI tool on the [panther docs](https://docs.panther.com/detections/pypanther/cli).
-
-## Local Development
-
-We use [Poetry](https://python-poetry.org/) for dependency management and packaging. Poetry makes it easy to set up a consistent and
-isolated development environment.
-
-### Setting Up for Local Development
+For development, we recommend using Poetry:
 
 1. **Install Poetry**: Follow the instructions on the [Poetry website](https://python-poetry.org/docs/#installation) to install Poetry.
 
-2. **Clone the repository**: Clone the `pypanther` repository to your local machine.
-
+2. **Clone and Install**:
    ```bash
    git clone git@github.com:panther-labs/pypanther.git
    cd pypanther
-   ```
-
-3. **Install dependencies**: Use Poetry to install the project's dependencies.
-
-   ```bash
    poetry install
    ```
 
-   This will create a virtual environment and install all necessary dependencies specified in the `pyproject.toml` file.
-
-4. **Activate the virtual environment**: You can activate the virtual environment created by Poetry using:
-
+3. **Activate the Environment**:
    ```bash
    poetry shell
    ```
 
-5. **Testing Locally**: You can create a `main.py` file within the `pypanther` directory to test commands and functionality
-   locally. This file can be used to run test commands or interact with `pypanther` features.
+## Prerequisites
 
-   - **Create a `main.py` file**: Here is an example main file. Assumes you have a folder called `custom_rules` with all your test rules.
+- Python 3.11 or higher
+- [Panther](https://panther.com) instance with API access
+- Poetry (for development)
 
-     ```python
-     # pypanther/main.py
+## Quick Start
 
-     from pypanther import register, get_panther_rules, get_rules
-     import custom_rules
+Here is a simple `main.py` to get you started with development. Place this in the base directory:
 
+```python
+from pypanther import get_panther_rules, register
+register(get_panther_rules())
+```
 
-     register(get_panther_rules())
-     register(get_rules(custom_rules))
-     ```
+```bash
+$ poetry run pypanther list rules --log-types Panther.Audit
++-------------------------------------+---------------+------------------+---------+
+|                  id                 |   log_types   | default_severity | enabled |
++-------------------------------------+---------------+------------------+---------+
+| Panther.Detection.Deleted-prototype | Panther.Audit |       INFO       |   True  |
+|   Panther.SAML.Modified-prototype   | Panther.Audit |       HIGH       |   True  |
+|   Panther.Sensitive.Role-prototype  | Panther.Audit |       HIGH       |   True  |
+|   Panther.User.Modified-prototype   | Panther.Audit |       HIGH       |   True  |
++-------------------------------------+---------------+------------------+---------+
+```
 
-   - **Running the CLI**: Use the following command to run `main.py` with Poetry:
+For more detailed examples and implementation patterns, check out the [pypanther-starter-kit](https://github.com/panther-labs/pypanther-starter-kit).
 
-     ```bash
-     poetry run python ./pypanther/main.py <cmd>
-     ```
+## Documentation
 
-     Replace `<cmd>` with any specific commands you want to test (e.g. `test` and `upload`)
+- [User Guide](https://docs.panther.com/detections/pypanther)
+- [Library Reference](https://docs.panther.com/detections/pypanther/library-reference)
+- [CLI Guide](https://docs.panther.com/detections/pypanther/cli)
+- [Rule Development Guide](https://docs.panther.com/detections/pypanther/creating)
 
-6. **Adding Dependencies**: If you need to add new dependencies, use the following command:
+## Development
 
-   ```bash
-   poetry add <package-name>
-   ```
+### Running Tests
 
-   This will update the `pyproject.toml` file with the new dependency.
+```bash
+poetry run pytest
+```
 
-## Contributing
+### Code Style
 
-We welcome contributions! Please fork the repository and submit a pull request for review. For major changes, please open an issue first to
-discuss what you would like to change.
+We use `ruff` for code formatting and linting, and `mypy` for type checking. To format and lint your code:
 
-## Issues
+```bash
+# Format code
+poetry run ruff format .
 
-If you encounter any issues or have questions, please open a support ticket.
+# Check and fix imports
+poetry run ruff check --select I --fix .
+
+# Run all linting checks
+poetry run ruff check --fix .
+
+# Run type checking
+poetry run mypy .
+```
+
+You can also use the provided Makefile commands:
+
+```bash
+# Format code and fix imports
+make fmt
+
+# Run all linting and type checking
+make lint
+```
+
+### Development Guidelines
+
+- Follow PEP 8 style guide
+- Use `ruff` for code formatting and linting
+- Use `mypy` for type checking
+- Add tests for new features
+- Update documentation as needed
+- Keep commits clean and well-documented
+- Add type hints to all new code
+
+### Code of Conduct
+
+This project and everyone participating in it is governed by our [Code of Conduct](CODE_OF_CONDUCT.md). By participating, you are expected to uphold this code.
+
+## Architecture
+
+PyPanther is built with the following design principles:
+
+- **Modularity**: Rules are self-contained and easily composable
+- **Type Safety**: Comprehensive type hints for better development experience
+- **Extensibility**: Easy to add new rule types and log sources
+- **Testability**: Built-in testing framework for rule validation
 
 ## License
 
 **pypanther** is released under [Apache License 2.0](LICENSE.txt).
+
+## Acknowledgments
+
+- Thanks to all our contributors
+- Built with ❤️ by Panther Labs
