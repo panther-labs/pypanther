@@ -50,6 +50,15 @@ class TestGetRulesFromModule(unittest.TestCase):
         with pytest.raises(TypeError):
             get_rules(module="str")
 
+    def test_imported_rule(self) -> None:
+        import tests.fixtures.get_rules_test_data.imported_rules as imported_rules_module
+
+        r = get_rules(module=imported_rules_module)
+        assert len(r) == 1  # Should only include rules defined in this module
+        # Verify the rule is the one defined in the module, not the imported one
+        assert r[0].__module__ == "tests.fixtures.get_rules_test_data.imported_rules.imported_rules"
+        assert r[0].id == "IMPORTED_RULE"
+
 
 class TestApplyOverridesFromModule(unittest.TestCase):
     def test_no_overrides(self) -> None:

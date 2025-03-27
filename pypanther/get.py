@@ -83,9 +83,8 @@ def get_rules(module: Any) -> list[Type[Rule]]:
         for item in dir(m):
             attr = getattr(m, item)
             if isinstance(attr, type) and issubclass(attr, Rule) and attr is not Rule:
-                if not hasattr(attr, "id"):
-                    continue
-                subclasses.add(attr)
+                if attr.__module__ == m.__name__ and hasattr(attr, "id"):
+                    subclasses.add(attr)
 
     return list(subclasses)
 
