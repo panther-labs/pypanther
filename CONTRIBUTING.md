@@ -1,6 +1,6 @@
-# Contributing to `pypanther-starter-kit`
+# Contributing to `pypanther`
 
-Thank you for your interest in contributing to the `pypanther-starter-kit`! We appreciate all types of contributions, including default configurations, feature requests, and bug reports.
+Thank you for your interest in contributing to the `pypanther`! We appreciate all types of contributions, including default configurations, feature requests, and bug reports.
 
 The purpose of this repository is to help Panther users bootstrap their new `pypanther` repository for v2 rule management, including custom rules, overrides, helper functions, and more.
 
