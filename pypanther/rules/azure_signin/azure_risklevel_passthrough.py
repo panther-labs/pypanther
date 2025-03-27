@@ -43,13 +43,6 @@ class AzureAuditRiskLevelPassthrough(Rule):
             principal = "<NO_PRINCIPALNAME>"
         return f"AzureSignIn: RiskRanked Activity for Principal [{principal}]"
 
-    def dedup(self, event):
-        principal = actor_user(event)
-        source_ip = event.udm("source_ip")
-        if principal is None:
-            principal = "<NO_PRINCIPALNAME>"
-        return principal + source_ip
-
     def alert_context(self, event):
         a_c = azure_signin_alert_context(event)
         a_c["riskLevel"] = self.IDENTIFIED_RISK_LEVEL
