@@ -25,6 +25,7 @@ class OnePasswordUnusualClient(Rule):
             "1Password for iOS",
             "1Password Browser Extension",
             "1Password for Android",
+            "1Password for Linux",
         ]
         return event.deep_get("client", "app_name") not in client_allowlist
 
