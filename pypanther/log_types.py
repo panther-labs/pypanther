@@ -113,6 +113,7 @@ class LogType(str, Enum):
     JUNIPER_MWS = "Juniper.MWS"
     JUNIPER_POSTGRES = "Juniper.Postgres"
     JUNIPER_SECURITY = "Juniper.Security"
+    KANDJI_ENDPOINT = "Kandji.Endpoint"
     LACEWORK_AGENT_MANAGEMENT = "Lacework.AgentManagement"
     LACEWORK_ALERT_DETAILS = "Lacework.AlertDetails"
     LACEWORK_ALL_FILES = "Lacework.AllFiles"
