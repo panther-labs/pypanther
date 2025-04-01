@@ -164,7 +164,7 @@ class TestPrintRuleTestResults:
 
         exp = (
             "\x1b[95mTest\x1b[0m:\n"
-            "   \x1b[1m\x1b[91mFAIL\x1b[0m\x1b[0m: test2\n"
+            "   \x1b[1m\x1b[91mFAIL\x1b[0m\x1b[0m: test1\n"
             "     - Expected rule() to return 'True', but got 'False'\n"
             "\n"
         )
@@ -182,9 +182,9 @@ class TestPrintRuleTestResults:
 
         exp = (
             "\x1b[95mTest\x1b[0m:\n"
-            "   \x1b[1m\x1b[91mFAIL\x1b[0m\x1b[0m: test2\n"
+            "   \x1b[1m\x1b[91mFAIL\x1b[0m\x1b[0m: test1\n"
             "     - Expected rule() to return 'True', but got 'False'\n"
-            "   \x1b[92mPASS\x1b[0m: test\n"
+            "   \x1b[92mPASS\x1b[0m: test2\n"
             "\n"
         )
         std = capsys.readouterr()
