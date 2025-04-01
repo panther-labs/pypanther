@@ -366,9 +366,11 @@ class TestRunningTests:
             def rule(self, event):
                 return True
 
-        with pytest.raises(ValueError) as exc_info:
+        with pytest.raises(
+            ValueError,
+            match="Rule RuleWithDuplicateTests has multiple tests with the same name: same_name",
+        ):
             RuleWithDuplicateTests.run_tests(get_data_model)
-        assert str(exc_info.value) == "Rule RuleWithDuplicateTests has multiple tests with the same name: same_name"
 
 
 class TestValidation:
