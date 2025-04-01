@@ -13,7 +13,7 @@ def test_rule(rule: Type[Rule]):
     if hasattr(rule, "_tests"):
         rule.tests = rule._tests
 
-    for result in rule.run_tests(data_model_cache().data_model_of_logtype, _validate_config=False):
+    for result in rule.run_tests(data_model_cache().data_model_of_logtype):
         assert result.passed
 
 

@@ -263,7 +263,7 @@ class Rule(metaclass=abc.ABCMeta):
         """To be defined by subclasses when an out-of-the-box rules requires configuration before use."""
 
     @classmethod
-    def validate(cls, _validate_config: bool = True) -> None:
+    def validate(cls) -> None:
         """
         Validates this PantherRule.
 
@@ -273,8 +273,14 @@ class Rule(metaclass=abc.ABCMeta):
 
         """
         RuleAdapter.validate_python(cls.asdict())
-        if _validate_config:
-            cls.validate_config()
+        cls.validate_config()
+
+        # Check for duplicate test names on the Rule before running any tests
+        test_names_seen = set()
+        for test in cls.tests:
+            if test.name in test_names_seen:
+                raise ValueError(f"Rule ({cls.id}) has multiple tests with the same name ({test.name})")
+            test_names_seen.add(test.name)
 
         # instantiation confirms that abstract methods are implemented
         cls()
@@ -343,7 +349,6 @@ class Rule(metaclass=abc.ABCMeta):
     def run_tests(
         cls,
         get_data_model: Callable[[str], Optional[DataModel]],
-        _validate_config: bool = True,
         test_names: Optional[List[str]] = None,
     ) -> list[RuleTestResult]:
         """
@@ -360,24 +365,13 @@ class Rule(metaclass=abc.ABCMeta):
             a list of RuleTestResult objects.
 
         """
-        cls.validate(_validate_config)
+        cls.validate()
+        rule = cls()
 
-        # Check for duplicate test names on the Rule before running any tests
-        test_names_seen = set()
-        for test in cls.tests:
-            if test.name in test_names_seen:
-                raise ValueError(f"Rule ({cls.id}) has multiple tests with the same name ({test.name})")
-            test_names_seen.add(test.name)
+        if test_names is not None:
+            return [rule.run_test(test, get_data_model) for test in rule.tests if test.name in test_names]
 
-        if test_names is None:
-            test_names = [test.name for test in cls.tests]
-
-        results = []
-        for test in cls.tests:
-            if test.name in test_names:
-                results.append(cls().run_test(test, get_data_model))
-
-        return results
+        return [rule.run_test(test, get_data_model) for test in rule.tests]
 
     def run_test(
         self,
