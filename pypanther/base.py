@@ -346,9 +346,21 @@ class Rule(metaclass=abc.ABCMeta):
         _validate_config: bool = True,
         test_names: Optional[List[str]] = None,
     ) -> list[RuleTestResult]:
-        """Run all tests for this rule."""
-        if _validate_config:
-            cls.validate_config()
+        """
+        Runs all RuleTests in this Rules' Test attribute over this Rule.
+
+        Parameters
+        ----------
+            get_data_model: a helper function that will return a DataModel given a log type.
+            _validate_config: true if tests are being run should validate any configuration, false otherwise. Only meant to be used by Panther.
+            test_names: if provided, the names of the tests on the rule to run, otherwise run all tests
+
+        Returns
+        -------
+            a list of RuleTestResult objects.
+
+        """
+        cls.validate(_validate_config)
 
         # Check for duplicate test names
         test_names_seen = set()
