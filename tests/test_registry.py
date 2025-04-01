@@ -5,7 +5,12 @@ import pytest
 from pypanther import LogType, register
 from pypanther.base import Rule, Severity
 from pypanther.data_models_v2 import DataModel
-from pypanther.registry import _DATA_MODEL_REGISTRY, _RULE_REGISTRY, registered_data_models, registered_rules
+from pypanther.registry import (
+    _DATA_MODEL_REGISTRY,
+    _RULE_REGISTRY,
+    registered_data_models,
+    registered_rules,
+)
 
 
 class RuleA(Rule):
@@ -55,15 +60,33 @@ class TestRegister(unittest.TestCase):
 
     def test_register_rule_duplicate(self):
         register(RuleA)
-        RuleA.tags.append("test2")
-        register(RuleA)
-        assert len(registered_rules()) == 1
-        assert RuleA in registered_rules()
+        with pytest.raises(ValueError, match="Rule with id 'rule_a' is already registered"):
+            register(RuleA)
 
     def test_register_rule_duplicate_in_list(self):
-        register([RuleA, RuleA])
-        assert len(registered_rules()) == 1
-        assert RuleA in registered_rules()
+        with pytest.raises(ValueError, match="Rule with id 'rule_a' is already registered"):
+            register([RuleA, RuleA])
+
+    def test_register_rule_duplicate_id(self):
+        class RuleA(Rule):
+            log_types = [LogType.OKTA_SYSTEM_LOG]
+            id = "rule_1"
+            default_severity = Severity.INFO
+
+            def rule(self, _):
+                pass
+
+        class RuleB(Rule):
+            log_types = [LogType.OKTA_SYSTEM_LOG]
+            id = "rule_1"
+            default_severity = Severity.INFO
+
+            def rule(self, _):
+                pass
+
+        with pytest.raises(ValueError, match="Rule with id 'rule_1' is already registered"):
+            register(RuleA)
+            register(RuleB)
 
     def test_register_rules(self):
         register([RuleA, RuleB])
@@ -163,6 +186,7 @@ class TestRegisteredRules:
         )
 
     def test_no_args(self) -> None:
+        _RULE_REGISTRY.clear()
         to_register = {RuleA, RuleB}
         register(to_register)
         registered = registered_rules()
@@ -187,6 +211,7 @@ class TestRegisteredRules:
 
     @pytest.mark.parametrize("kwarg_a", kwargs_a, ids=lambda x: str(next(iter(x))))
     def test_filter(self, kwarg_a) -> None:
+        _RULE_REGISTRY.clear()
         to_register = {RuleA, RuleB}
         register(to_register)
         registered = registered_rules(**kwarg_a)
