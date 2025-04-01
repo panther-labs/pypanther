@@ -362,7 +362,7 @@ class Rule(metaclass=abc.ABCMeta):
         """
         cls.validate(_validate_config)
 
-        # Check for duplicate test names
+        # Check for duplicate test names on the Rule before running any tests
         test_names_seen = set()
         for test in cls.tests:
             if test.name in test_names_seen:
