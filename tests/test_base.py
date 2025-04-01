@@ -351,6 +351,25 @@ class TestRunningTests:
         results = Rule1.run_tests(get_data_model, test_names=[])
         assert len(results) == 0
 
+    def test_duplicate_test_names_raise_error(self):
+        """Test that rules with duplicate test names raise a ValueError."""
+
+        class RuleWithDuplicateTests(Rule):
+            log_types = [LogType.PANTHER_AUDIT]
+            default_severity = Severity.HIGH
+            id = "RuleWithDuplicateTests"
+            tests = [
+                RuleTest(name="same_name", expected_result=True, log={}),
+                RuleTest(name="same_name", expected_result=False, log={}),
+            ]
+
+            def rule(self, event):
+                return True
+
+        with pytest.raises(ValueError) as exc_info:
+            RuleWithDuplicateTests.run_tests(get_data_model)
+        assert str(exc_info.value) == "Rule RuleWithDuplicateTests has multiple tests with the same name: same_name"
+
 
 class TestValidation:
     def test_rule_missing_id(self):
