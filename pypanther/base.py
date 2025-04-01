@@ -266,11 +266,6 @@ class Rule(metaclass=abc.ABCMeta):
     def validate(cls) -> None:
         """
         Validates this PantherRule.
-
-        Parameters
-        ----------
-            _validate_config: true if any configuration should be validated, false otherwise. Only meant to be used by Panther.
-
         """
         RuleAdapter.validate_python(cls.asdict())
         cls.validate_config()
@@ -357,7 +352,6 @@ class Rule(metaclass=abc.ABCMeta):
         Parameters
         ----------
             get_data_model: a helper function that will return a DataModel given a log type.
-            _validate_config: true if tests are being run should validate any configuration, false otherwise. Only meant to be used by Panther.
             test_names: if provided, the names of the tests on the rule to run, otherwise run all tests
 
         Returns
