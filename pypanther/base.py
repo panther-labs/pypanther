@@ -366,7 +366,7 @@ class Rule(metaclass=abc.ABCMeta):
         test_names_seen = set()
         for test in cls.tests:
             if test.name in test_names_seen:
-                raise ValueError(f"Rule {cls.id} has multiple tests with the same name: {test.name}")
+                raise ValueError(f"Rule ({cls.id}) has multiple tests with the same name ({test.name})")
             test_names_seen.add(test.name)
 
         if test_names is None:

@@ -368,7 +368,7 @@ class TestRunningTests:
 
         with pytest.raises(
             ValueError,
-            match="Rule RuleWithDuplicateTests has multiple tests with the same name: same_name",
+            match=r"Rule \(RuleWithDuplicateTests\) has multiple tests with the same name \(same_name\)",
         ):
             RuleWithDuplicateTests.run_tests(get_data_model)
 
