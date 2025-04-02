@@ -158,14 +158,14 @@ class TestPrintRuleTestResults:
     def test_both_pass_and_fail(self, capsys) -> None:
         Test.return_value = False
         Test.tests = [
-            RuleTest(name="test", expected_result=True, log={}),
-            RuleTest(name="test", expected_result=False, log={}),
+            RuleTest(name="test1", expected_result=True, log={}),
+            RuleTest(name="test2", expected_result=False, log={}),
         ]
         testing.print_rule_test_results(False, Test.id, Test.run_tests(get_data_model))
 
         exp = (
             "\x1b[95mTest\x1b[0m:\n"
-            "   \x1b[1m\x1b[91mFAIL\x1b[0m\x1b[0m: test\n"
+            "   \x1b[1m\x1b[91mFAIL\x1b[0m\x1b[0m: test1\n"
             "     - Expected rule() to return 'True', but got 'False'\n"
             "\n"
         )
@@ -176,16 +176,16 @@ class TestPrintRuleTestResults:
     def test_both_pass_and_fail_verbose(self, capsys) -> None:
         Test.return_value = False
         Test.tests = [
-            RuleTest(name="test", expected_result=True, log={}),
-            RuleTest(name="test", expected_result=False, log={}),
+            RuleTest(name="test1", expected_result=True, log={}),
+            RuleTest(name="test2", expected_result=False, log={}),
         ]
         testing.print_rule_test_results(True, Test.id, Test.run_tests(get_data_model))
 
         exp = (
             "\x1b[95mTest\x1b[0m:\n"
-            "   \x1b[1m\x1b[91mFAIL\x1b[0m\x1b[0m: test\n"
+            "   \x1b[1m\x1b[91mFAIL\x1b[0m\x1b[0m: test1\n"
             "     - Expected rule() to return 'True', but got 'False'\n"
-            "   \x1b[92mPASS\x1b[0m: test\n"
+            "   \x1b[92mPASS\x1b[0m: test2\n"
             "\n"
         )
         std = capsys.readouterr()

@@ -351,6 +351,27 @@ class TestRunningTests:
         results = Rule1.run_tests(get_data_model, test_names=[])
         assert len(results) == 0
 
+    def test_duplicate_test_names_raise_error(self):
+        """Test that rules with duplicate test names raise a ValueError."""
+
+        class RuleWithDuplicateTests(Rule):
+            log_types = [LogType.PANTHER_AUDIT]
+            default_severity = Severity.HIGH
+            id = "RuleWithDuplicateTests"
+            tests = [
+                RuleTest(name="same_name", expected_result=True, log={}),
+                RuleTest(name="same_name", expected_result=False, log={}),
+            ]
+
+            def rule(self, event):
+                return True
+
+        with pytest.raises(
+            ValueError,
+            match=r"Rule \(RuleWithDuplicateTests\) has multiple tests with the same name \(same_name\)",
+        ):
+            RuleWithDuplicateTests.validate()
+
 
 class TestValidation:
     def test_rule_missing_id(self):
@@ -1386,33 +1407,6 @@ class TestRule(TestCase):
         )
         assert result.detection_result.destinations_exception is None
         assert result.detection_result.destinations_output == []
-
-    def test_validate_internal_does_not_fail(self) -> None:
-        class MyRule(Rule):
-            id = "MyRule"
-            default_severity = Severity.INFO
-            log_types = [LogType.PANTHER_AUDIT]
-
-            allowed_domains: list[str] = []
-
-            tests = [
-                RuleTest(
-                    name="domain max",
-                    expected_result=False,
-                    log={"domain": "max.com"},
-                ),
-            ]
-
-            def rule(self, event):
-                return event.get("domain") in self.allowed_domains
-
-            @classmethod
-            def validate_config(cls):
-                assert (
-                    len(cls.allowed_domains) > 0
-                ), "The allowed_domains field on your PantherOOTBRule must be populated before using this rule"
-
-        assert MyRule().run_tests(get_data_model, _validate_config=False)[0].passed
 
     def test_validate_external_fails(self) -> None:
         class MyRule(Rule):
