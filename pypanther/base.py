@@ -263,18 +263,19 @@ class Rule(metaclass=abc.ABCMeta):
         """To be defined by subclasses when an out-of-the-box rules requires configuration before use."""
 
     @classmethod
-    def validate(cls, _validate_config: bool = True) -> None:
+    def validate(cls) -> None:
         """
         Validates this PantherRule.
-
-        Parameters
-        ----------
-            _validate_config: true if any configuration should be validated, false otherwise. Only meant to be used by Panther.
-
         """
         RuleAdapter.validate_python(cls.asdict())
-        if _validate_config:
-            cls.validate_config()
+        cls.validate_config()
+
+        # Check for duplicate test names on the Rule before running any tests
+        test_names_seen = set()
+        for test in cls.tests:
+            if test.name in test_names_seen:
+                raise ValueError(f"Rule ({cls.id}) has multiple tests with the same name ({test.name})")
+            test_names_seen.add(test.name)
 
         # instantiation confirms that abstract methods are implemented
         cls()
@@ -343,7 +344,6 @@ class Rule(metaclass=abc.ABCMeta):
     def run_tests(
         cls,
         get_data_model: Callable[[str], Optional[DataModel]],
-        _validate_config: bool = True,
         test_names: Optional[List[str]] = None,
     ) -> list[RuleTestResult]:
         """
@@ -352,7 +352,6 @@ class Rule(metaclass=abc.ABCMeta):
         Parameters
         ----------
             get_data_model: a helper function that will return a DataModel given a log type.
-            _validate_config: true if tests are being run should validate any configuration, false otherwise. Only meant to be used by Panther.
             test_names: if provided, the names of the tests on the rule to run, otherwise run all tests
 
         Returns
@@ -360,7 +359,7 @@ class Rule(metaclass=abc.ABCMeta):
             a list of RuleTestResult objects.
 
         """
-        cls.validate(_validate_config)
+        cls.validate()
         rule = cls()
 
         if test_names is not None:
