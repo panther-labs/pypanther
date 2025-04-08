@@ -148,14 +148,6 @@ def setup_parser() -> argparse.ArgumentParser:
     )
     setup_list_log_types_parser(list_log_types_parser)
 
-    # convert command
-    convert_parser = subparsers.add_parser(
-        name="convert",
-        help="Convert Panther Analysis rules",
-        formatter_class=argparse.ArgumentDefaultsHelpFormatter,
-    )
-    setup_convert_parser(convert_parser)
-
     return parser
 
 
