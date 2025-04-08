@@ -14,7 +14,6 @@ from pypanther.setup_subparsers import (
     setup_list_rules_parser,
     setup_test_parser,
     setup_upload_parser,
-    setup_convert_parser
 )
 from pypanther.backend import util
 from pypanther.command import standard_args
