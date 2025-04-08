@@ -14,7 +14,6 @@ from pypanther.setup_subparsers import (
     setup_list_rules_parser,
     setup_test_parser,
     setup_upload_parser,
-    setup_convert_parser
 )
 from pypanther.backend import util
 from pypanther.command import standard_args
@@ -147,14 +146,6 @@ def setup_parser() -> argparse.ArgumentParser:
         formatter_class=argparse.ArgumentDefaultsHelpFormatter,
     )
     setup_list_log_types_parser(list_log_types_parser)
-
-    # convert command
-    convert_parser = subparsers.add_parser(
-        name="convert",
-        help="Convert Panther Analysis rules",
-        formatter_class=argparse.ArgumentDefaultsHelpFormatter,
-    )
-    setup_convert_parser(convert_parser)
 
     return parser
 
