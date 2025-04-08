@@ -15,7 +15,7 @@ jobs:
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip poetry
-        poetry install
+        poetry -vvv install
     - name: test
       run: |
         poetry run pytest --doctest-modules --junitxml=junit/test-results.xml
