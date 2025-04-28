@@ -13,7 +13,6 @@ from panther_core.rule import (
     TRUNCATED_STRING_SUFFIX,
     TYPE_RULE,
 )
-from pydantic import ValidationError
 
 from pypanther.base import RULE_ALL_ATTRS, Rule, RuleModel, panther_managed
 from pypanther.cache import data_model_cache
@@ -374,20 +373,18 @@ class TestRunningTests:
 
 
 class TestValidation:
-    def test_rule_missing_id(self):
-        class rule(Rule):
+    def test_rule_id_is_class_name(self):
+        """Test that a rule's id is automatically set to its class name."""
+
+        class TestRule(Rule):
             default_severity = Severity.INFO
             log_types = ["test"]
 
             def rule(self, event):
                 return False
 
-        with pytest.raises(ValidationError) as e:
-            rule.validate()
-        errors = e.value.errors()
-        assert len(errors) == 1
-        assert errors[0]["loc"] == ("id",)
-        assert errors[0]["msg"] == "Field required"
+        # Verify that id is set to the class name
+        assert TestRule.id == "TestRule"
 
     def test_create_rule_missing_method(self) -> None:
         class rule(Rule):
