@@ -1,11 +1,10 @@
-import re
-
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.gcp import gcp_alert_context
 
 
 @panther_managed
 class GCPFirewallRuleModified(Rule):
+    dedup_period_minutes = 90
     display_name = "GCP Firewall Rule Modified"
     id = "GCP.Firewall.Rule.Modified-prototype"
     default_severity = Severity.LOW
@@ -14,16 +13,20 @@ class GCPFirewallRuleModified(Rule):
     default_description = "This rule detects modifications to GCP firewall rules.\n"
     default_runbook = "Ensure that the rule modification was expected. Firewall rule changes can cause service interruptions or outages.\n"
     default_reference = "https://cloud.google.com/firewall/docs/about-firewalls"
+    RULE_MODIFIED_PARTS = [".Firewall.Update", ".compute.firewalls.patch", ".compute.firewalls.update"]
 
     def rule(self, event):
-        method_pattern = "(?:\\w+\\.)*v\\d\\.(?:Firewall\\.Update)|(compute\\.firewalls\\.(patch|update))"
-        match = re.search(method_pattern, event.deep_get("protoPayload", "methodName", default=""))
-        return match is not None
+        method = event.deep_get("protoPayload", "methodName", default="")
+        return any(part in method for part in self.RULE_MODIFIED_PARTS)
 
     def title(self, event):
         actor = event.deep_get("protoPayload", "authenticationInfo", "principalEmail", default="<ACTOR_NOT_FOUND>")
         resource = event.deep_get("protoPayload", "resourceName", default="<RESOURCE_NOT_FOUND>")
         return f"[GCP]: [{actor}] modified firewall rule on [{resource}]"
+
+    def dedup(self, event):
+        actor = event.deep_get("protoPayload", "authenticationInfo", "principalEmail", default="<ACTOR_NOT_FOUND>")
+        return actor
 
     def alert_context(self, event):
         return gcp_alert_context(event)

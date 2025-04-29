@@ -35,7 +35,7 @@ class AWSCloudTrailUnauthorizedAPICall(Rule):
         return event.get("errorCode") == "AccessDenied" and event.get("eventName") not in self.EVENT_EXCEPTIONS
 
     def dedup(self, event):
-        return event.deep_get("userIdentity", "principalId", default="<UNKNOWN_PRINCIPAL>")
+        return event.udm("actor_user")
 
     def title(self, event):
         return f"Access denied to {event.deep_get('userIdentity', 'type')} [{self.dedup(event)}]"

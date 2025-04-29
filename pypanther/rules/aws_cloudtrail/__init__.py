@@ -29,6 +29,9 @@ from pypanther.rules.aws_cloudtrail.aws_cloudtrail_loginprofilecreatedormodified
 from pypanther.rules.aws_cloudtrail.aws_cloudtrail_password_policy_discovery import (
     AWSCloudTrailPasswordPolicyDiscovery as AWSCloudTrailPasswordPolicyDiscovery,
 )
+from pypanther.rules.aws_cloudtrail.aws_cloudtrail_region_enabled import (
+    AWSCloudTrailEnableRegion as AWSCloudTrailEnableRegion,
+)
 from pypanther.rules.aws_cloudtrail.aws_cloudtrail_ses_check_identity_verifications import (
     AWSCloudTrailSESCheckIdentityVerifications as AWSCloudTrailSESCheckIdentityVerifications,
 )
@@ -216,6 +219,18 @@ from pypanther.rules.aws_cloudtrail.aws_unauthorized_api_call import (
 from pypanther.rules.aws_cloudtrail.aws_unused_region import AWSUnusedRegion as AWSUnusedRegion
 from pypanther.rules.aws_cloudtrail.aws_update_credentials import AWSIAMCredentialsUpdated as AWSIAMCredentialsUpdated
 from pypanther.rules.aws_cloudtrail.aws_vpc_flow_logs_deleted import AWSVPCFlowLogsDeleted as AWSVPCFlowLogsDeleted
+from pypanther.rules.aws_cloudtrail.aws_vpce_access_denied import (
+    AWSCloudTrailVPCEAccessDenied as AWSCloudTrailVPCEAccessDenied,
+)
+from pypanther.rules.aws_cloudtrail.aws_vpce_external_principal import (
+    AWSCloudTrailVPCEExternalPrincipal as AWSCloudTrailVPCEExternalPrincipal,
+)
+from pypanther.rules.aws_cloudtrail.aws_vpce_s3_external_ip import (
+    AWSCloudTrailVPCES3ExternalIP as AWSCloudTrailVPCES3ExternalIP,
+)
+from pypanther.rules.aws_cloudtrail.aws_vpce_sensitive_api_calls import (
+    AWSCloudTrailVPCESensitiveAPICalls as AWSCloudTrailVPCESensitiveAPICalls,
+)
 from pypanther.rules.aws_cloudtrail.aws_waf_disassociation import AWSWAFDisassociation as AWSWAFDisassociation
 from pypanther.rules.aws_cloudtrail.retrieve_sso_access_token import RetrieveSSOaccesstoken as RetrieveSSOaccesstoken
 from pypanther.rules.aws_cloudtrail.role_assumed_by_aws_service import (
