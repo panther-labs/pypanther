@@ -1,34 +1,31 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
-from pypanther.helpers.aws import aws_cloudtrail_success, aws_rule_context
+from pypanther.helpers.aws import aws_rule_context
 
 
 @panther_managed
-class AWSS3DeleteObjects(Rule):
-    display_name = "AWS S3 Delete Objects Detection"
-    id = "AWS.S3.DeleteObjects-prototype"
-    default_severity = Severity.INFO
+class AWSCloudTrailEnableRegion(Rule):
+    display_name = "AWS Cloudtrail Region Enabled"
+    id = "AWS.CloudTrail.EnableRegion-prototype"
+    default_severity = Severity.MEDIUM
     log_types = [LogType.AWS_CLOUDTRAIL]
-    tags = ["AWS", "S3", "CloudTrail", "Beta"]
-    default_description = "This rule detects when multiple objects are deleted from an S3 bucket. Such actions can be indicative of unauthorized data deletion or other suspicious activities.\n"
-    default_runbook = "Investigate the user and the actions performed on the S3 bucket to ensure they were authorized. Unauthorized deletions can lead to data loss. Steps to investigate: 1. Identify the user who performed the action. 2. Verify if the action was authorized. 3. Check for any other suspicious activities performed by the same user. 4. If unauthorized, take necessary actions to secure the S3 bucket and prevent further unauthorized access.\n"
-    default_reference = "https://docs.aws.amazon.com/AmazonS3/latest/userguide/logging-with-cloudtrail.html"
+    tags = ["AWS", "CloudTrail", "Region"]
+    reports = {"MITRE ATT&CK": ["TA0005:T1535"]}
+    default_description = "Threat actors who successfully compromise a victim's AWS account, whether through stolen credentials,  exposed access keys, exploited IAM misconfigurations, vulnerabilities in third-party applications,  or the absence of Multi-Factor Authentication (MFA), can exploit unused regions as safe zones  for malicious activities. These regions are often overlooked in monitoring and security setups,  making them an attractive target for attackers to operate undetected.\n"
+    default_runbook = "Validate whether enabling the new region was authorized.   Revoke user privileges, review the newly enabled region for malicious activity, and disable the region.\n"
+    default_reference = "https://permiso.io/blog/how-threat-actors-leverage-unsupported-cloud-regions"
 
     def rule(self, event):
-        return (
-            aws_cloudtrail_success(event)
-            and event.get("eventSource") == "s3.amazonaws.com"
-            and (event.get("eventName") == "DeleteObjects")
-        )
+        return event.get("eventName") == "EnableRegion"
 
     def title(self, event):
-        return f"[AWS.CloudTrail] User [{event.udm('actor_user')}] deleted many objects on [{event.deep_get('requestParameters', 'bucketName')}] bucket"
+        return f"AWS CloudTrail region [{event.deep_get('requestParameters', 'RegionName')}] enabled by user [{event.udm('actor_user')}]"
 
     def alert_context(self, event):
         return aws_rule_context(event)
 
     tests = [
         RuleTest(
-            name="DeleteObjects",
+            name="EnableRegion",
             expected_result=True,
             log={
                 "eventVersion": "1.08",
@@ -41,12 +38,12 @@ class AWSS3DeleteObjects(Rule):
                     "userName": "Alice",
                 },
                 "eventTime": "2023-10-01T12:34:56Z",
-                "eventSource": "s3.amazonaws.com",
-                "eventName": "DeleteObjects",
+                "eventSource": "cloudtrail.amazonaws.com",
+                "eventName": "EnableRegion",
                 "awsRegion": "us-east-1",
                 "sourceIPAddress": "192.0.2.0",
                 "userAgent": "aws-sdk-go/1.15.12 (go1.12.6; linux; amd64)",
-                "requestParameters": {"bucketName": "example-bucket", "key": "example-object"},
+                "requestParameters": {"RegionName": "us-west-2"},
                 "responseElements": None,
                 "additionalEventData": {
                     "SignatureVersion": "SigV4",
@@ -57,7 +54,7 @@ class AWSS3DeleteObjects(Rule):
                 "requestID": "EXAMPLE123456789",
                 "eventID": "EXAMPLE-1234-5678-9012-EXAMPLE",
                 "readOnly": False,
-                "resources": [{"type": "AWS::S3::Object", "ARN": "arn:aws:s3:::example-bucket/example-object"}],
+                "resources": [],
                 "eventType": "AwsApiCall",
                 "managementEvent": False,
                 "recipientAccountId": "123456789012",

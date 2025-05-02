@@ -9,6 +9,7 @@ class GCPDNSZoneModifiedorDeleted(Rule):
     default_runbook = "Verify that this modification or deletion was expected. These operations are high-impact events and can result in downtimes or total outages."
     default_reference = "https://cloud.google.com/dns/docs/zones"
     default_severity = Severity.LOW
+    dedup_period_minutes = 90
     log_types = [LogType.GCP_AUDIT_LOG]
     id = "GCP.DNS.Zone.Modified.or.Deleted-prototype"
 
@@ -20,6 +21,10 @@ class GCPDNSZoneModifiedorDeleted(Rule):
         actor = event.deep_get("protoPayload", "authenticationInfo", "principalEmail", default="<ACTOR_NOT_FOUND>")
         resource = event.deep_get("protoPayload", "resourceName", default="<RESOURCE_NOT_FOUND>")
         return f"[GCP]: [{actor}] modified managed DNS zone [{resource}]"
+
+    def dedup(self, event):
+        actor = event.deep_get("protoPayload", "authenticationInfo", "principalEmail", default="<ACTOR_NOT_FOUND>")
+        return actor
 
     def alert_context(self, event):
         return gcp_alert_context(event)

@@ -19,7 +19,7 @@ class AWSSSMDecryptSSMParams(Rule):
     default_reference = "https://stratus-red-team.cloud/attack-techniques/AWS/aws.credential-access.ssm-retrieve-securestring-parameters/\n"
     default_runbook = "Determine if the secrets accessed contain sensitive information. Consider suspecing access for the user identity until their intentions are verified. If any IAM credentials or similar were compromised, rotate them.\n"
     summary_attributes = ["sourceIpAddress", "p_alert_context.accessedParams"]
-    tags = ["AWS CloudTrail", "Credential Access: Credentials from Password Stores"]
+    tags = ["AWS CloudTrail", "Credential Access: Credentials from Password Stores", "Beta"]
     # Determine how many secets must be accessed in order to trigger an alert
     PARAM_THRESHOLD = 10
     all_param_names = set()

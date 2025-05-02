@@ -31,6 +31,10 @@ class GCPK8sPodAttachedToNodeHostNetwork(Rule):
         project_id = event.deep_get("resource", "labels", "project_id", default="<PROJECT_NOT_FOUND>")
         return f"[GCP]: [{actor}] created or modified pod which is attached to the host's network in project [{project_id}]"
 
+    def dedup(self, event):
+        actor = event.deep_get("protoPayload", "authenticationInfo", "principalEmail", default="<ACTOR_NOT_FOUND>")
+        return actor
+
     def alert_context(self, event):
         return gcp_alert_context(event)
 

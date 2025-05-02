@@ -7,9 +7,9 @@ class AWSSecretsManagerRetrieveSecrets(Rule):
     id = "AWS.SecretsManager.RetrieveSecrets-prototype"
     display_name = "EC2 Secrets Manager Retrieve Secrets"
     log_types = [LogType.AWS_CLOUDTRAIL]
-    tags = ["AWS", "Credential Access", "Stratus Red Team"]
+    tags = ["AWS", "Credential Access", "Stratus Red Team", "Beta"]
     reports = {"MITRE ATT&CK": ["TA0006:T1552"]}
-    default_severity = Severity.MEDIUM
+    default_severity = Severity.INFO
     default_description = "An attacker attempted to retrieve a high number of Secrets Manager secrets, through secretsmanager:GetSecretValue."
     default_runbook = "https://permiso.io/blog/lucr-3-scattered-spider-getting-saas-y-in-the-cloud"
     default_reference = (
