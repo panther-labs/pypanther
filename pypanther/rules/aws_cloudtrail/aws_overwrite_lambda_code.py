@@ -6,9 +6,11 @@ from pypanther.helpers.aws import aws_cloudtrail_success, aws_rule_context
 class AWSLambdaUpdateFunctionCode(Rule):
     id = "AWS.Lambda.UpdateFunctionCode-prototype"
     display_name = "Lambda Update Function Code"
+    create_alert = False
     log_types = [LogType.AWS_CLOUDTRAIL]
     reports = {"MITRE ATT&CK": ["TA0007:T1078"]}
-    default_severity = Severity.MEDIUM
+    default_severity = Severity.INFO
+    tags = ["Beta"]
     default_description = (
         "Identifies when the code of a Lambda function is updated, which could indicate a potential security risk.\n"
     )

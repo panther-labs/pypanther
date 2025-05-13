@@ -10,6 +10,7 @@ class SnowflakeStreamLoginWithoutMFA(Rule):
     default_severity = Severity.MEDIUM
     reports = {"MITRE ATT&CK": ["TA0005:T1556"]}
     default_description = "Detect Snowflake logins without multifactor authentication"
+    dedup_period_minutes = 1440
     tags = ["Snowflake", "[MITRE] Defense Evasion", "[MITRE] Modify Authentication Process"]
     MFA_EXCEPTIONS = {"PANTHER_READONLY", "PANTHER_ADMIN", "PANTHERACCOUNTADMIN"}
 

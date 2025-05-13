@@ -18,8 +18,8 @@ class CloudflareFirewallL7DDoS(Rule):
     def rule(self, event):
         return event.get("Source", "") == "l7ddos"
 
-    def title(self, event):
-        return f"Cloudflare: Detected L7 DDoSfrom [{event.get('ClientIP', '<NO_CLIENTIP>')}] to [{event.get('ClientRequestHost', '<NO_REQ_HOST>')}] and took action [{event.get('Action', '<NO_ACTION>')}]"
+    def title(self, _):
+        return "Cloudflare: Detected L7 DDoS"
 
     def alert_context(self, event):
         return cloudflare_fw_alert_context(event)

@@ -8,7 +8,7 @@ class AWSCloudTrailShortLifecycle(Rule):
     id = "AWS.CloudTrail.ShortLifecycle-prototype"
     display_name = "AWS CloudTrail Retention Lifecycle Too Short"
     log_types = [LogType.AWS_CLOUDTRAIL]
-    default_severity = Severity.MEDIUM
+    default_severity = Severity.INFO
     reports = {"MITRE ATT&CK": ["TA0005:T1562.008"]}
     default_description = "Detects when an S3 bucket containing CloudTrail logs has been modified to delete data after a short period of time."
     default_reference = (
@@ -23,6 +23,7 @@ class AWSCloudTrailShortLifecycle(Rule):
         "Disable or Modify Cloud Logs",
         "Defense Evasion:Impair Defenses",
         "Security Control",
+        "Beta",
     ]
     # Use this to record the names of your S3 buckets that have cloudtrail logs
     #   If a bucket name isn't mentioned here, we still make a best guess as to whether or not it

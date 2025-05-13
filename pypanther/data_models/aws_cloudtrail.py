@@ -2,7 +2,7 @@ import ipaddress
 
 from pypanther.base import DataModel, DataModelMapping, LogType
 from pypanther.helpers import event_type
-from pypanther.helpers.aws import get_actor_user
+from pypanther.helpers.aws import get_actor_user  # pylint: disable=unused-import
 from pypanther.helpers.base import deep_get
 
 
