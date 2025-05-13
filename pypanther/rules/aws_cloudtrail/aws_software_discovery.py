@@ -44,10 +44,10 @@ class AWSSoftwareDiscovery(Rule):
         return event.get("eventName") in self.DISCOVERY_EVENTS
 
     def title(self, event):
-        return f"User [{event.deep_get('userIdentity', 'principalId')}] performed a [{event.get('eventName')}] action in AWS account [{event.get('recipientAccountId')}]."
+        return f"User [{event.udm('actor_user')}] performed a [{event.get('eventName')}] action in AWS account [{event.get('recipientAccountId')}]."
 
     def dedup(self, event):
-        return event.deep_get("userIdentity", "principalId", default="NO_PRINCIPAL_ID_FOUND")
+        return event.udm("actor_user")
 
     def alert_context(self, event):
         return aws_rule_context(event)
