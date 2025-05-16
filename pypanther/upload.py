@@ -4,6 +4,7 @@ import importlib
 import json
 import logging
 import os
+import sys
 import tempfile
 import time
 import zipfile
@@ -65,6 +66,7 @@ def run(backend: BackendClient, args: argparse.Namespace) -> Tuple[int, str]:
         cli_output.warning(
             "WARNING: pypanther is in beta and is subject to breaking changes before general availability",
         ),
+        file=sys.stderr,
     )
     try:
         import_main(os.getcwd(), "main")
