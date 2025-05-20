@@ -18,6 +18,8 @@ jobs:
     steps:
     - name: Check out this repository
       uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332
+      with:
+        token: ${{ secrets.PANTHER_BOT_AUTOMATION_TOKEN }}
     - name: Set up Python
       uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
       with:
@@ -46,12 +48,19 @@ jobs:
         poetry run ruff check --output-format=github .
         poetry run ruff format --check .
         poetry run mypy .
+    - name: Import GPG key
+      uses: crazy-max/ghaction-import-gpg@e89d40939c28e39f97cf32126055eeae86ba74ec # 6.3.0
+      with:
+        gpg_private_key: ${{ secrets.PANTHER_BOT_GPG_PRIVATE_KEY }}
+        passphrase: ${{ secrets.PANTHER_BOT_GPG_PRIVATE_KEY_PASSPHRASE }}
+        git_user_signingkey: true
+        git_commit_gpgsign: true
     - name: Create PR
       env:
         GH_TOKEN: ${{ secrets.PANTHER_BOT_AUTOMATION_TOKEN }}
       run: |
-        git config user.name "dac-bot[bot]"
-        git config user.email "dac-bot@panther.com"
+        git config --global user.email "github-service-account-automation@panther.io"
+        git config --global user.name "panther-bot-automation"  
         git add .
         git commit -a -m "sync panther-analysis release"
         git checkout -b sync-panther-analysis-release
