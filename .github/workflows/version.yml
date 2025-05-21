@@ -20,6 +20,7 @@ jobs:
         uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332
         with:
           fetch-depth: 0
+          token: ${{ secrets.PANTHER_BOT_AUTOMATION_TOKEN }}
       - name: Set up Python
         uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
         with:
@@ -32,14 +33,21 @@ jobs:
         run: echo "old_version=$(poetry version --short)" >> $GITHUB_OUTPUT
       - name: Bump version
         run: poetry version "${{ github.event.inputs.bump_type }}"
+      - name: Import GPG key
+        uses: crazy-max/ghaction-import-gpg@e89d40939c28e39f97cf32126055eeae86ba74ec # 6.3.0
+        with:
+          gpg_private_key: ${{ secrets.PANTHER_BOT_GPG_PRIVATE_KEY }}
+          passphrase: ${{ secrets.PANTHER_BOT_GPG_PRIVATE_KEY_PASSPHRASE }}
+          git_user_signingkey: true
+          git_commit_gpgsign: true
       - name: Create Branch and Pull Request
         env:
           GH_TOKEN: ${{ secrets.PANTHER_BOT_AUTOMATION_TOKEN }}
         run: |
           NEW_VERSION="$(poetry version --short)"
           OLD_VERSION="${{ steps.collect_old_version.outputs.old_version }}"
-          git config user.name "dac-bot[bot]"
-          git config user.email "dac-bot@panther.com"
+          git config --global user.email "github-service-account-automation@panther.io"
+          git config --global user.name "panther-bot-automation"  
           git checkout -b "$NEW_VERSION"
           git commit -a -m "Bump version to $NEW_VERSION"
           git push --set-upstream origin "$NEW_VERSION"
