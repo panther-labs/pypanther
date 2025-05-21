@@ -13,6 +13,9 @@ from pypanther.rules.gsuite_activityevent.google_workspace_apps_marketplace_new_
 from pypanther.rules.gsuite_activityevent.google_workspace_apps_new_mobile_app_installed import (
     GoogleWorkspaceAppsNewMobileAppInstalled as GoogleWorkspaceAppsNewMobileAppInstalled,
 )
+from pypanther.rules.gsuite_activityevent.google_workspace_many_docs_downloaded import (
+    GoogleWorkspaceManyDocsDownloaded as GoogleWorkspaceManyDocsDownloaded,
+)
 from pypanther.rules.gsuite_activityevent.gsuite_advanced_protection import (
     GSuiteAdvancedProtection as GSuiteAdvancedProtection,
 )

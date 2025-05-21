@@ -23,6 +23,7 @@ class StandardImpossibleTravelLogin(Rule):
     default_reference = "https://expertinsights.com/insights/what-are-impossible-travel-logins/#:~:text=An%20impossible%20travel%20login%20is,of%20the%20logins%20is%20fraudulent"
     summary_attributes = ["p_any_usernames", "p_any_ip_addresses", "p_any_domain_names"]
     SATELLITE_NETWORK_ASNS = ["AS22351"]
+    # a user-defined function that checks for client's whitelisted IP addresses
 
     def gen_key(self, event):
         """
@@ -37,14 +38,21 @@ class StandardImpossibleTravelLogin(Rule):
             return None
         return f"{rule_name.replace(' ', '')}..{actor}"
 
+    def is_ip_whitelisted(self, event):  # pylint: disable=unused-argument
+        return False
+
     def rule(self, event):
         # too-many-return-statements due to error checking
         # pylint: disable=global-statement,too-many-return-statements,too-complex,too-many-statements
+        # pylint: disable=too-many-branches
         self.EVENT_CITY_TRACKING = {}
         self.CACHE_KEY = ""
         self.IS_VPN = False
         self.IS_PRIVATE_RELAY = False
         self.IS_SATELLITE_NETWORK = False
+        # check if the IP address is in the client's whitelisted IP addresses
+        if self.is_ip_whitelisted(event):
+            return False
         # Only evaluate successful logins
         if event.udm("event_type") != event_type.SUCCESSFUL_LOGIN:
             return False

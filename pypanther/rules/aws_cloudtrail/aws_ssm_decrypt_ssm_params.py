@@ -1,3 +1,4 @@
+import datetime as dt
 import json
 
 from panther_core import PantherEvent
@@ -19,7 +20,7 @@ class AWSSSMDecryptSSMParams(Rule):
     default_reference = "https://stratus-red-team.cloud/attack-techniques/AWS/aws.credential-access.ssm-retrieve-securestring-parameters/\n"
     default_runbook = "Determine if the secrets accessed contain sensitive information. Consider suspecing access for the user identity until their intentions are verified. If any IAM credentials or similar were compromised, rotate them.\n"
     summary_attributes = ["sourceIpAddress", "p_alert_context.accessedParams"]
-    tags = ["AWS CloudTrail", "Credential Access: Credentials from Password Stores"]
+    tags = ["AWS CloudTrail", "Credential Access: Credentials from Password Stores", "Beta"]
     # Determine how many secets must be accessed in order to trigger an alert
     PARAM_THRESHOLD = 10
     all_param_names = set()
@@ -66,10 +67,11 @@ class AWSSSMDecryptSSMParams(Rule):
         Use the field values in the event to generate a cache key unique to this actor and
         account ID.
         """
+        offset = dt.datetime.fromisoformat(event["p_event_time"]).timestamp() // 3600 * 3600
         actor = event.udm("actor_user")
         account = event.get("recipientAccountId")
         rule_id = "AWS.SSM.DecryptSSMParams"
-        return f"{rule_id}-{account}-{actor}"
+        return f"{rule_id}-{account}-{actor}-{offset}"
 
     def get_param_names(self, event) -> set[str]:
         """Returns the accessed SSM Param names."""
@@ -102,6 +104,7 @@ class AWSSSMDecryptSSMParams(Rule):
                 RuleMock(object_name="put_string_set", return_value=""),
             ],
             log={
+                "p_event_time": "2025-02-14 19:43:09.000000000",
                 "p_log_type": "AWS.CloudTrail",
                 "awsRegion": "us-west-2",
                 "eventCategory": "Management",
@@ -156,6 +159,7 @@ class AWSSSMDecryptSSMParams(Rule):
                 RuleMock(object_name="put_string_set", return_value=""),
             ],
             log={
+                "p_event_time": "2025-02-14 19:42:57.000000000",
                 "p_log_type": "AWS.CloudTrail",
                 "awsRegion": "us-west-2",
                 "eventCategory": "Management",
@@ -261,6 +265,7 @@ class AWSSSMDecryptSSMParams(Rule):
                 RuleMock(object_name="put_string_set", return_value=""),
             ],
             log={
+                "p_event_time": "2025-02-14 19:42:57.000000000",
                 "p_log_type": "AWS.CloudTrail",
                 "awsRegion": "us-west-2",
                 "eventCategory": "Management",
@@ -360,6 +365,7 @@ class AWSSSMDecryptSSMParams(Rule):
                 RuleMock(object_name="put_string_set", return_value=""),
             ],
             log={
+                "p_event_time": "2025-02-14 19:42:57.000000000",
                 "p_log_type": "AWS.CloudTrail",
                 "awsRegion": "us-west-2",
                 "eventCategory": "Management",
