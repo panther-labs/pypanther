@@ -1,11 +1,10 @@
-import re
-
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.gcp import gcp_alert_context
 
 
 @panther_managed
 class GCPFirewallRuleCreated(Rule):
+    dedup_period_minutes = 90
     display_name = "GCP Firewall Rule Created"
     id = "GCP.Firewall.Rule.Created-prototype"
     default_severity = Severity.LOW
@@ -14,11 +13,11 @@ class GCPFirewallRuleCreated(Rule):
     default_description = "This rule detects creations of GCP firewall rules.\n"
     default_runbook = "Ensure that the rule creation was expected. Firewall rule creations can expose [vulnerable] resoures to the internet.\n"
     default_reference = "https://cloud.google.com/firewall/docs/about-firewalls"
+    RULE_CREATED_PARTS = [".Firewall.Create", ".compute.firewalls.insert"]
 
     def rule(self, event):
-        method_pattern = "(?:\\w+\\.)*v\\d\\.(?:Firewall\\.Create)|(compute\\.firewalls\\.insert)"
-        match = re.search(method_pattern, event.deep_get("protoPayload", "methodName", default=""))
-        return match is not None
+        method = event.deep_get("protoPayload", "methodName", default="")
+        return any(part in method for part in self.RULE_CREATED_PARTS)
 
     def title(self, event):
         actor = event.deep_get("protoPayload", "authenticationInfo", "principalEmail", default="<ACTOR_NOT_FOUND>")
@@ -27,6 +26,10 @@ class GCPFirewallRuleCreated(Rule):
         if resource_id != "<RESOURCE_ID_NOT_FOUND>":
             return f"[GCP]: [{actor}] created firewall rule with resource ID [{resource_id}]"
         return f"[GCP]: [{actor}] created firewall rule for resource [{resource}]"
+
+    def dedup(self, event):
+        actor = event.deep_get("protoPayload", "authenticationInfo", "principalEmail", default="<ACTOR_NOT_FOUND>")
+        return actor
 
     def alert_context(self, event):
         return gcp_alert_context(event)
