@@ -242,6 +242,10 @@ class Rule(metaclass=abc.ABCMeta):
         child.tags.append("Foo")
         parent.tags.append("Foo") # not inherited by children of parent
         """
+        # Set the id to the class name if it's not explicitly set
+        if "id" not in cls.__dict__ or not cls.__dict__["id"]:
+            cls.id = cls.__name__
+
         for attr in RULE_ALL_ATTRS:
             if attr not in cls.__dict__:
                 try:
