@@ -49,6 +49,6 @@ jobs:
           git config --global user.email "github-service-account-automation@panther.io"
           git config --global user.name "panther-bot-automation"  
           git checkout -b "$NEW_VERSION"
-          git commit -a -m "Bump version to $NEW_VERSION"
+          git commit -a -m "Bump version to $NEW_VERSION" --gpg-sign
           git push --set-upstream origin "$NEW_VERSION"
           gh pr create -t "Version bump to v$NEW_VERSION" -b "Bumping Version from v$OLD_VERSION to v$NEW_VERSION."
