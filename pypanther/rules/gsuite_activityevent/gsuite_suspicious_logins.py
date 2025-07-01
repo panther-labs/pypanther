@@ -17,10 +17,14 @@ class GSuiteSuspiciousLogins(Rule):
     def rule(self, event):
         if event.deep_get("id", "applicationName") != "login":
             return False
-        return bool(event.get("name") in self.SUSPICIOUS_LOGIN_TYPES)
+        if event.get("name") in self.SUSPICIOUS_LOGIN_TYPES:
+            return True
+        if event.deep_get("parameters", "is_suspicious") is True:
+            return True
+        return False
 
     def title(self, event):
-        user = event.deep_get("parameters", "affected_email_address")
+        user = event.deep_get("actor", "email")
         if not user:
             user = "<UNKNOWN_USER>"
         return f"A suspicious login was reported for user [{user}]"
@@ -57,6 +61,18 @@ class GSuiteSuspiciousLogins(Rule):
                 "type": "account_warning",
                 "name": "suspicious_login",
                 "parameters": {"affected_email_address": "bobert@ext.runpanther.io"},
+            },
+        ),
+        RuleTest(
+            name="Login Success But Flagged Suspicious",
+            expected_result=True,
+            log={
+                "id": {"applicationName": "login"},
+                "actor": {"email": 'bobert@ext.runpanther.io"'},
+                "kind": "admin#reports#activity",
+                "type": "login",
+                "name": "login_success",
+                "parameters": {"affected_email_address": "bobert@ext.runpanther.io", "is_suspicious": True},
             },
         ),
     ]

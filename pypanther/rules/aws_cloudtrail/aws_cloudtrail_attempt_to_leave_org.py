@@ -9,7 +9,7 @@ class AWSCloudTrailAttemptToLeaveOrg(Rule):
     id = "AWS.CloudTrail.AttemptToLeaveOrg-prototype"
     display_name = "AWS CloudTrail Attempt To Leave Org"
     log_types = [LogType.AWS_CLOUDTRAIL]
-    default_severity = Severity.CRITICAL
+    default_severity = Severity.INFO
     reports = {"MITRE ATT&CK": ["TA0005:T1562.008", "TA0005:T1666"]}
     default_description = "Detects when an actor attempts to remove an AWS account from an Organization. Security configurations are often defined at the organizational level. Leaving the organization can disrupt or totally shut down these controls.\n"
     default_reference = (
@@ -23,6 +23,7 @@ class AWSCloudTrailAttemptToLeaveOrg(Rule):
         "Impair Defenses",
         "Disable or Modify Cloud Logs",
         "Modify Cloud Resource Hierarchy",
+        "Beta",
     ]
 
     def rule(self, event: PantherEvent) -> bool:

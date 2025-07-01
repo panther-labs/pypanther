@@ -13,6 +13,7 @@ class AWSModifyCloudComputeInfrastructure(Rule):
     reports = {"MITRE ATT&CK": ["TA0005:T1578"]}
     tags = ["Configuration Required"]
     default_runbook = "This detection reports on eventSource ec2 Change events. This detection excludes Cross-Service change events.  As such, this detection will perform well in environments where changes are expected to originate only from AWS service entities.\nThis detection will emit alerts frequently in environments where users are making ec2 related changes.\n"
+    dedup_period_minutes = 120
     log_types = [LogType.AWS_CLOUDTRAIL]
     id = "AWS.Modify.Cloud.Compute.Infrastructure-prototype"
     EC2_CRUD_ACTIONS = {
@@ -53,6 +54,8 @@ class AWSModifyCloudComputeInfrastructure(Rule):
         # Disqualify any eventSource that is not ec2
         if event.get("eventSource", "") != "ec2.amazonaws.com":
             return False
+        if event.get("readOnly"):
+            return False
         # Disqualify AWS Service-Service operations, which can appear in a variety of forms
         if (
             event.get("sourceIPAddress", "").endswith(".amazonaws.com")
@@ -79,6 +82,15 @@ class AWSModifyCloudComputeInfrastructure(Rule):
     def title(self, event):
         items = event.deep_get("requestParameters", "instancesSet", "items", default=[{"instanceId": "none"}])
         return f"AWS Event [{event.get('eventName')}] Instance ID [{items[0].get('instanceId')}] AWS Account ID [{event.get('recipientAccountId')}]"
+
+    def dedup(self, event):
+        items = event.deep_get(
+            "requestParameters",
+            "instancesSet",
+            "items",
+            default=[{"instanceId": "INSTANCE_ID_NOT_FOUND"}],
+        )
+        return items[0].get("instanceId", "INSTANCE_ID_NOT_FOUND")
 
     def alert_context(self, event):
         items = event.deep_get("requestParameters", "instancesSet", "items", default=[{"instanceId": "none"}])
@@ -125,8 +137,8 @@ class AWSModifyCloudComputeInfrastructure(Rule):
                                 "previousState": {"code": 16, "name": "running"},
                             },
                         ],
+                        "requestId": "a520eeaf-c258-4260-954e-b4a976e6c72b",
                     },
-                    "requestId": "a520eeaf-c258-4260-954e-b4a976e6c72b",
                 },
                 "userIdentity": {
                     "accountId": "111222333444",

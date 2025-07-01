@@ -8,7 +8,9 @@ class AWSLambdaUpdateFunctionConfiguration(Rule):
     display_name = "Lambda Update Function Configuration with Layers"
     log_types = [LogType.AWS_CLOUDTRAIL]
     reports = {"MITRE ATT&CK": ["TA0007:T1078"]}
-    default_severity = Severity.MEDIUM
+    default_severity = Severity.INFO
+    tags = ["Beta"]
+    create_alert = False
     default_description = "Identifies when a Lambda function configuration is updated with layers, which could indicate a potential security risk.\n"
     default_runbook = "Make sure that the Lambda function configuration update is expected and authorized. If not, investigate the event further."
     default_reference = "https://stratus-red-team.cloud/attack-techniques/AWS/aws.persistence.lambda-layer-extension/"

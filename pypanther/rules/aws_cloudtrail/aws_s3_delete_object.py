@@ -7,9 +7,9 @@ class AWSS3DeleteObject(Rule):
     display_name = "AWS S3 Delete Object Detection"
     id = "AWS.S3.DeleteObject-prototype"
     threshold = 50
-    default_severity = Severity.MEDIUM
+    default_severity = Severity.INFO
     log_types = [LogType.AWS_CLOUDTRAIL]
-    tags = ["AWS", "S3", "CloudTrail"]
+    tags = ["AWS", "S3", "CloudTrail", "Beta"]
     default_description = "This rule detects when many objects are deleted from an S3 bucket. Such actions can be indicative of unauthorized data deletion or other suspicious activities.\n"
     default_runbook = "Investigate the user and the actions performed on the S3 bucket to ensure they were authorized. Unauthorized deletions can lead to data loss. Steps to investigate: 1. Identify the user who performed the action. 2. Verify if the action was authorized. 3. Check for any other suspicious activities performed by the same user. 4. If unauthorized, take necessary actions to secure the S3 bucket and prevent further unauthorized access.\n"
     default_reference = "https://docs.aws.amazon.com/AmazonS3/latest/userguide/delete-objects.html"

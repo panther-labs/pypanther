@@ -28,7 +28,7 @@ class PushSecurityPhishableMFAMethod(Rule):
         mfa_methods = ", ".join(event.deep_get("new", "mfaMethods", default="No MFA"))
         new_email = event.deep_get("new", "email")
         app_type = event.deep_get("new", "appType", default=[])
-        return f"{new_email} using phisbable MFA method with {app_type}.             MFA methods enabled: {mfa_methods}"
+        return f"{new_email} using phishable MFA method with {app_type}.             MFA methods enabled: {mfa_methods}"
 
     tests = [
         RuleTest(

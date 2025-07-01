@@ -9,7 +9,7 @@ class AWSEC2ManyPasswordReadAttempts(Rule):
     id = "AWS.EC2.ManyPasswordReadAttempts-prototype"
     display_name = "AWS EC2 Many Password Read Attempts"
     log_types = [LogType.AWS_CLOUDTRAIL]
-    default_severity = Severity.LOW
+    default_severity = Severity.INFO
     reports = {"MITRE ATT&CK": ["TA0006:T1555"]}
     default_description = "An actor in AWS has made many attempts to retrieve EC2 passwords. It is typically not necessary to retrieve EC2 passwords more than a few times an hour.\n"
     threshold = 3
@@ -24,6 +24,7 @@ class AWSEC2ManyPasswordReadAttempts(Rule):
         "Credential Access:Credentials from Password Stores",
         "Credential Access",
         "Credentials from Password Stores",
+        "Beta",
     ]
 
     def rule(self, event: PantherEvent) -> bool:
@@ -36,7 +37,7 @@ class AWSEC2ManyPasswordReadAttempts(Rule):
 
     def dedup(self, event: PantherEvent) -> str:
         # Dedup events based on the principal ID
-        return event.deep_get("userIdentity", "principalId")
+        return event.udm("actor_user")
 
     def severity(self, event: PantherEvent) -> str:
         # Return "INFO" severity if the password read attempts are unsuccessful

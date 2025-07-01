@@ -33,10 +33,13 @@ class OktaRateLimits(Rule):
         return False
 
     def title(self, event):
-        return f"Okta Rate Limit Event: [{event.get('eventtype', '')}] by [{event.deep_get('actor', 'alternateId', default='<id-not-found>')}]"
+        actor = event.deep_get("actor", "alternateId")
+        if actor == "unknown":
+            actor = event.deep_get("actor", "displayName", default="<id-not-found>")
+        return f"Okta Rate Limit Event: [{event.get('eventtype', '')}] by [{actor}/{event.deep_get('actor', 'type', default='<type-not-found>')}] "
 
     def dedup(self, event):
-        return event.deep_get("actor", "alternateId", default="<id-not-found>")
+        return event.deep_get("actor", "id")
 
     def alert_context(self, event):
         return okta_alert_context(event)
@@ -236,6 +239,47 @@ class OktaRateLimits(Rule):
                 ],
                 "transaction": {"detail": {}, "id": "aaa-bbb-123", "type": "WEB"},
                 "uuid": "aa-11-22-33-44-bb",
+                "version": "0",
+            },
+        ),
+        RuleTest(
+            name="system.operation.ratelimit.violation - unknown altid",
+            expected_result=True,
+            log={
+                "actor": {"alternateId": "unknown", "displayName": "Homer Simpson", "id": "00abc456", "type": "User"},
+                "authenticationcontext": {"authenticationStep": 0, "externalSessionId": "abc12345"},
+                "client": {
+                    "device": "Unknown",
+                    "ipAddress": "1.2.3.4",
+                    "userAgent": {"browser": "UNKNOWN", "os": "Unknown", "rawUserAgent": "Chrome"},
+                    "zone": "null",
+                },
+                "debugcontext": {
+                    "debugData": {
+                        "authnRequestId": "ABCDFDE",
+                        "dtHash": "adfalsjflasfjsdfd",
+                        "operationRateLimitScopeType": "User",
+                        "operationRateLimitSecondsToReset": "10",
+                        "operationRateLimitSubtype": "Authenticated user",
+                        "operationRateLimitThreshold": "40",
+                        "operationRateLimitTimeSpan": "10",
+                        "operationRateLimitTimeUnit": "SECONDS",
+                        "operationRateLimitType": "Web request",
+                        "requestId": "asfsagadffdaf",
+                        "requestUri": "/app/google/",
+                        "url": "/app/google/",
+                    },
+                },
+                "displaymessage": "Operation rate limit violation",
+                "eventtype": "system.operation.rate_limit.violation",
+                "outcome": {"reason": "Too many requests attempted by an individual user", "result": "DENY"},
+                "published": "2022-08-29 16:07:26.592",
+                "request": {"ipChain": [{"ip": "1.2.3.4", "version": "V4"}]},
+                "securitycontext": {},
+                "severity": "WARN",
+                "target": [{"id": "/app/{app}/{key}/", "type": "URL Pattern"}],
+                "transaction": {"detail": {}, "id": "YABCDE", "type": "WEB"},
+                "uuid": "asdfdashh",
                 "version": "0",
             },
         ),
