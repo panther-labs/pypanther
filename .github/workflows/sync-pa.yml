@@ -62,7 +62,7 @@ jobs:
         git config --global user.email "github-service-account-automation@panther.io"
         git config --global user.name "panther-bot-automation"  
         git add .
-        git commit -a -m "sync panther-analysis release"
+        git commit -a -m "sync panther-analysis release" --gpg-sign
         git checkout -b sync-panther-analysis-release
         git push --set-upstream origin sync-panther-analysis-release
         gh pr create -t "Sync latest panther-analysis release" -b "Generated files from latest panther-analysis release."
