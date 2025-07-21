@@ -12,7 +12,7 @@ class AWSCloudTrailSESListIdentities(Rule):
     default_severity = Severity.INFO
     create_alert = False
     default_reference = "https://stratus-red-team.cloud/attack-techniques/AWS/aws.discovery.ses-enumerate/\n"
-    tags = ["AWS CloudTrail", "SES"]
+    tags = ["AWS CloudTrail", "SES", "Beta"]
 
     def rule(self, event: PantherEvent) -> bool:
         return event.get("eventName") == "ListIdentities"

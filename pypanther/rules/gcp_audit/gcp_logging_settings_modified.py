@@ -23,6 +23,10 @@ class GCPLoggingSettingsModified(Rule):
         actor = event.deep_get("protoPayload", "authenticationInfo", "principalEmail", default="<ACTOR_NOT_FOUND>")
         return f"GCP [{resource}] logging settings modified by [{actor}]."
 
+    def dedup(self, event):
+        actor = event.deep_get("protoPayload", "authenticationInfo", "principalEmail", default="<ACTOR_NOT_FOUND>")
+        return actor
+
     def alert_context(self, event):
         return {
             "resource": event.deep_get("protoPayload", "resourceName", default="<RESOURCE_NOT_FOUND>"),

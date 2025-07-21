@@ -8,7 +8,8 @@ class AWSPotentialBackdoorLambda(Rule):
     display_name = "AWS Potential Backdoor Lambda Function Through Resource-Based Policy"
     log_types = [LogType.AWS_CLOUDTRAIL]
     reports = {"MITRE ATT&CK": ["TA0007:T1078"]}
-    default_severity = Severity.MEDIUM
+    default_severity = Severity.INFO
+    tags = ["Beta"]
     default_description = (
         "Identifies when a permission is added to a Lambda function, which could indicate a potential security risk.\n"
     )
@@ -24,7 +25,7 @@ class AWSPotentialBackdoorLambda(Rule):
         )
 
     def title(self, event):
-        lambda_name = event.deep_get("responseElements", "functionName", default="LAMBDA_NAME_NOT_FOUND")
+        lambda_name = event.deep_get("requestParameters", "functionName", default="LAMBDA_NAME_NOT_FOUND")
         return f"[AWS.CloudTrail] User [{event.udm('actor_user')}] added permission to Lambda function [{lambda_name}]"
 
     def alert_context(self, event):

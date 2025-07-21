@@ -6,11 +6,13 @@ from pypanther.helpers.azuresignin import actor_user, azure_signin_alert_context
 class AzureAuditRiskLevelPassthrough(Rule):
     id = "Azure.Audit.RiskLevelPassthrough-prototype"
     display_name = "Azure RiskLevel Passthrough"
-    dedup_period_minutes = 10
+    dedup_period_minutes = 40
     log_types = [LogType.AZURE_AUDIT]
     default_severity = Severity.MEDIUM
     default_description = "This detection surfaces an alert based on riskLevelAggregated, riskLevelDuringSignIn, and riskState.\nriskLevelAggregated and riskLevelDuringSignIn are only expected for Azure AD Premium P2 customers.\n"
-    default_reference = "https://learn.microsoft.com/en-us/azure/active-directory/identity-protection/howto-identity-protection-risk-feedback"
+    default_reference = (
+        "https://learn.microsoft.com/en-us/entra/id-protection/howto-identity-protection-configure-risk-policies"
+    )
     reports = {"MITRE ATT&CK": ["TA0006:T1110", "TA0001:T1078"]}
     default_runbook = "There are a variety of potential responses to these sign-in risks. MSFT has provided an in-depth reference material at https://learn.microsoft.com/en-us/azure/active-directory/identity-protection/howto-identity-protection-risk-feedback\n"
     summary_attributes = [

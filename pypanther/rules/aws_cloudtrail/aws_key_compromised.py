@@ -5,37 +5,40 @@ from pypanther.helpers.aws import aws_rule_context
 @panther_managed
 class AWSIAMAccessKeyCompromised(Rule):
     id = "AWS.IAM.AccessKeyCompromised-prototype"
-    display_name = "AWS Access Key Uploaded to Github"
+    display_name = "AWS IAM Access Key Compromise Detection"
     log_types = [LogType.AWS_CLOUDTRAIL]
     reports = {"MITRE ATT&CK": ["TA0006:T1552"]}
     tags = ["AWS", "Credential Access:Unsecured Credentials"]
     default_severity = Severity.HIGH
-    default_description = "A users static AWS API key was uploaded to a public github repo."
-    default_runbook = "Determine the key owner, disable/delete key, and delete the user to resolve the AWS case. If user needs a new IAM give them a stern talking to first."
+    default_description = "This alert occurs when AWS has detected exposed credentials. It attaches a policy to deny certain actions, effectively quarantining those credentials, and is accompanied by a support case with instructions for detaching the policy."
+    default_runbook = "Determine the IAM user who owns the key, rotate/disable/delete the key, and then investigate which actions were taken by the compromised key to determine scope and if any remediation is needed."
     default_reference = "https://docs.github.com/en/code-security/secret-scanning/about-secret-scanning"
-    EXPOSED_CRED_POLICY = "AWSExposedCredentialPolicy_DO_NOT_REMOVE"
+    EXPOSED_CRED_POLICIES = {
+        "AWSExposedCredentialPolicy_DO_NOT_REMOVE",
+        "AWSCompromisedKeyQuarantine",
+        "AWSCompromisedKeyQuarantineV2",
+        "AWSCompromisedKeyQuarantineV3",
+    }
 
     def rule(self, event):
-        request_params = event.get("requestParameters", {})
-        if request_params:
-            return (
-                event.get("eventName") == "PutUserPolicy"
-                and request_params.get("policyName") == self.EXPOSED_CRED_POLICY
-            )
-        return False
-
-    def dedup(self, event):
-        return event.deep_get("userIdentity", "userName")
+        if event.get("eventName") != "PutUserPolicy":
+            return False
+        request_params = event.get("requestParameters") or {}
+        if request_params.get("policyName") not in self.EXPOSED_CRED_POLICIES:
+            return False
+        return True
 
     def title(self, event):
-        return f"{self.dedup(event)}'s access key ID [{event.deep_get('userIdentity', 'accessKeyId')}] was uploaded to a public GitHub repo"
+        user_name = event.deep_get("userIdentity", "userName")
+        access_key_id = event.deep_get("userIdentity", "accessKeyId")
+        return f"[{user_name}]'s AWS IAM Access Key ID [{access_key_id}] was exposed and quarantined by AWS"
 
     def alert_context(self, event):
         return aws_rule_context(event)
 
     tests = [
         RuleTest(
-            name="An AWS Access Key was Uploaded to Github",
+            name="An AWS IAM Access Key was Compromised",
             expected_result=True,
             log={
                 "eventSource": "iam.amazonaws.com",
@@ -55,7 +58,7 @@ class AWSIAMAccessKeyCompromised(Rule):
                 "requestParameters": {
                     "policyDocument": '{"Version":"2012-10-17","Statement":[{"Sid":"Stmt1538161409","Effect":"Deny","Action":["lambda:CreateFunction","iam:AttachUserPolicy","iam:PutUserPolicy","organizations:InviteAccountToOrganization","ec2:RunInstances","iam:DetachUserPolicy","iam:CreateUser","lightsail:Create*","lightsail:Update*","ec2:StartInstances","ec2:RequestSpotInstances","iam:ChangePassword","iam:CreateLoginProfile","organizations:CreateOrganization","organizations:CreateAccount","lightsail:Delete*","iam:AttachGroupPolicy","iam:CreateAccessKey","iam:UpdateUser","iam:UpdateAccountPasswordPolicy","iam:DeleteUserPolicy","iam:PutUserPermissionsBoundary","iam:UpdateAccessKey","lightsail:DownloadDefaultKeyPair","iam:CreateInstanceProfile","lightsail:Start*","lightsail:GetInstanceAccessDetails","iam:CreateRole","iam:PutGroupPolicy","iam:AttachRolePolicy"],"Resource":["*"]}]}',
                     "userName": "compromised_user",
-                    "policyName": "AWSExposedCredentialPolicy_DO_NOT_REMOVE",
+                    "policyName": "AWSCompromisedKeyQuarantineV3",
                 },
                 "eventID": "1c2a53d1-58cc-41b3-85b8-bd7565370e0d",
                 "eventType": "AwsApiCall",

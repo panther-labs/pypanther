@@ -28,10 +28,7 @@ class CloudflareHttpRequestBotHighVolume(Rule):
         return all([event.get("BotScore", 100) <= 30, event.get("BotScore", 100) >= 1])
 
     def title(self, event):
-        return f"Cloudflare: High Volume of Bot Requests - from [{event.get('ClientIP', '<NO_CLIENTIP>')}] to [{event.get('ClientRequestHost', '<NO_REQ_HOST>')}]"
-
-    def dedup(self, event):
-        return f"{event.get('ClientIP', '<NO_CLIENTIP>')}:{event.get('ClientRequestHost', '<NO_REQ_HOST>')}"
+        return f"Cloudflare: High Volume of Bot Requests to [{event.get('ClientRequestHost', '<NO_REQ_HOST>')}]"
 
     def alert_context(self, event):
         return cloudflare_http_alert_context(event)

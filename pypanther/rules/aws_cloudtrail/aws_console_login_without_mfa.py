@@ -50,9 +50,7 @@ class AWSConsoleLoginWithoutMFA(Rule):
         # This functionality is not enabled by default, in order to start logging new user creations
         # Enable indicator_creation_rules/new_account_logging to start logging new users
         new_user_string = (
-            event.deep_get("userIdentity", "userName", default="<MISSING_USER_NAME>")
-            + "-"
-            + event.deep_get("userIdentity", "principalId", default="<MISSING_ID>")
+            event.deep_get("userIdentity", "userName", default="<MISSING_USER_NAME>") + "-" + event.udm("actor_user")
         )
         is_new_user = check_account_age(new_user_string)
         if isinstance(is_new_user, str):
@@ -136,6 +134,7 @@ class AWSConsoleLoginWithoutMFA(Rule):
                 "eventID": "1",
                 "eventType": "AwsConsoleSignIn",
                 "recipientAccountId": "123456789012",
+                "p_log_type": "AWS.CloudTrail",
             },
         ),
         RuleTest(
@@ -167,6 +166,7 @@ class AWSConsoleLoginWithoutMFA(Rule):
                 "eventID": "1",
                 "eventType": "AwsConsoleSignIn",
                 "recipientAccountId": "123456789013",
+                "p_log_type": "AWS.CloudTrail",
             },
         ),
         RuleTest(
@@ -198,6 +198,7 @@ class AWSConsoleLoginWithoutMFA(Rule):
                 "eventID": "1",
                 "eventType": "AwsConsoleSignIn",
                 "recipientAccountId": "123456789012",
+                "p_log_type": "AWS.CloudTrail",
             },
         ),
         RuleTest(
@@ -230,6 +231,7 @@ class AWSConsoleLoginWithoutMFA(Rule):
                 "eventID": "1",
                 "eventType": "AwsConsoleSignIn",
                 "recipientAccountId": "123456789012",
+                "p_log_type": "AWS.CloudTrail",
             },
         ),
         RuleTest(
@@ -261,6 +263,7 @@ class AWSConsoleLoginWithoutMFA(Rule):
                 "eventID": "1",
                 "eventType": "AwsConsoleSignIn",
                 "recipientAccountId": "123456789012",
+                "p_log_type": "AWS.CloudTrail",
             },
         ),
         RuleTest(
@@ -292,6 +295,7 @@ class AWSConsoleLoginWithoutMFA(Rule):
                 "eventID": "1",
                 "eventType": "AwsConsoleSignIn",
                 "recipientAccountId": "123456789012",
+                "p_log_type": "AWS.CloudTrail",
             },
         ),
         RuleTest(
@@ -319,6 +323,7 @@ class AWSConsoleLoginWithoutMFA(Rule):
                     },
                     "type": "AssumedRole",
                 },
+                "p_log_type": "AWS.CloudTrail",
             },
         ),
         RuleTest(
@@ -350,6 +355,7 @@ class AWSConsoleLoginWithoutMFA(Rule):
                 "eventID": "1",
                 "eventType": "AwsConsoleSignIn",
                 "recipientAccountId": "123456789012",
+                "p_log_type": "AWS.CloudTrail",
             },
         ),
         RuleTest(
@@ -388,6 +394,7 @@ class AWSConsoleLoginWithoutMFA(Rule):
                     },
                     "type": "AssumedRole",
                 },
+                "p_log_type": "AWS.CloudTrail",
             },
         ),
         RuleTest(
@@ -418,6 +425,7 @@ class AWSConsoleLoginWithoutMFA(Rule):
                     },
                     "type": "AssumedRole",
                 },
+                "p_log_type": "AWS.CloudTrail",
             },
         ),
         RuleTest(
