@@ -20,9 +20,13 @@ class CrowdstrikeMacosPlutilUsage(Rule):
         image_filename = event.deep_get("event", "ImageFileName", default="<UNKNOWN_IMAGE_FILE_NAME>")
         return all([event_platform == "Mac", fdr_event_type == "ProcessRollup2", image_filename == "/usr/bin/plutil"])
 
-    def title(self, event):
-        aid = event.get("aid", "<UNKNOWN_AID>")
-        return f"Crowdstrike: plutil was used to modify a plist file on device [{aid}]"
+    def dedup(self, event):
+        command_line = event.deep_get("event", "CommandLine", default="<UNKNOWN_COMMAND_LINE>")
+        file_name = command_line.split(" ")[-1]
+        return file_name
+
+    def title(self, _):
+        return "Crowdstrike: plutil was used to modify a plist file on one or more devices"
 
     def alert_context(self, event):
         return crowdstrike_process_alert_context(event)

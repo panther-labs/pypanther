@@ -19,6 +19,7 @@ from pypanther.rules.gcp_audit.gcp_cloudfunctions_functions_update import (
     GCPCloudfunctionsFunctionsUpdate as GCPCloudfunctionsFunctionsUpdate,
 )
 from pypanther.rules.gcp_audit.gcp_compute_set_iam_policy import GCPComputeIAMPolicyUpdate as GCPComputeIAMPolicyUpdate
+from pypanther.rules.gcp_audit.gcp_compute_ssh_connection import GCPComputeSSHConnection as GCPComputeSSHConnection
 from pypanther.rules.gcp_audit.gcp_computeinstances_create_privilege_escalation import (
     GCPcomputeinstancescreatePrivilegeEscalation as GCPcomputeinstancescreatePrivilegeEscalation,
 )
@@ -49,6 +50,7 @@ from pypanther.rules.gcp_audit.gcp_iam_service_accounts_sign_blob import (
 from pypanther.rules.gcp_audit.gcp_iam_serviceaccounts_signjwt import (
     GCPIAMserviceAccountssignJwtPrivilegeEscalation as GCPIAMserviceAccountssignJwtPrivilegeEscalation,
 )
+from pypanther.rules.gcp_audit.gcp_iam_tag_enumeration import GCPIAMTagEnumeration as GCPIAMTagEnumeration
 from pypanther.rules.gcp_audit.gcp_inbound_sso_profile_created_or_updated import (
     GCPInboundSSOProfileCreated as GCPInboundSSOProfileCreated,
 )
@@ -68,6 +70,7 @@ from pypanther.rules.gcp_audit.gcp_permissions_granted_to_create_or_manage_servi
 from pypanther.rules.gcp_audit.gcp_privilege_escalation_by_deployments_create import (
     GCPPrivilegeEscalationByDeploymentsCreate as GCPPrivilegeEscalationByDeploymentsCreate,
 )
+from pypanther.rules.gcp_audit.gcp_privileged_operation import GCPPrivilegedOperation as GCPPrivilegedOperation
 from pypanther.rules.gcp_audit.gcp_service_account_access_denied import (
     GCPServiceAccountAccessDenied as GCPServiceAccountAccessDenied,
 )
@@ -82,6 +85,7 @@ from pypanther.rules.gcp_audit.gcp_snapshot_insert import (
 )
 from pypanther.rules.gcp_audit.gcp_sql_config_changes import GCPSQLConfigChanges as GCPSQLConfigChanges
 from pypanther.rules.gcp_audit.gcp_storage_hmac_keys_create import GCPStorageHmacKeysCreate as GCPStorageHmacKeysCreate
+from pypanther.rules.gcp_audit.gcp_tag_binding_creation import GCPTagBindingCreation as GCPTagBindingCreation
 from pypanther.rules.gcp_audit.gcp_unused_regions import GCPUnusedRegions as GCPUnusedRegions
 from pypanther.rules.gcp_audit.gcp_user_added_to_iap_protected_service import (
     GCPUserAddedtoIAPProtectedService as GCPUserAddedtoIAPProtectedService,

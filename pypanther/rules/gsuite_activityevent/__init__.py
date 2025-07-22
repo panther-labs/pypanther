@@ -33,6 +33,7 @@ from pypanther.rules.gsuite_activityevent.gsuite_gov_attack import (
     GSuiteGovernmentBackedAttack as GSuiteGovernmentBackedAttack,
 )
 from pypanther.rules.gsuite_activityevent.gsuite_group_banned_user import GSuiteGroupBannedUser as GSuiteGroupBannedUser
+from pypanther.rules.gsuite_activityevent.gsuite_is_suspicious_tag import GSuiteIsSuspiciousTag as GSuiteIsSuspiciousTag
 from pypanther.rules.gsuite_activityevent.gsuite_leaked_password import GSuiteLeakedPassword as GSuiteLeakedPassword
 from pypanther.rules.gsuite_activityevent.gsuite_login_type import GSuiteLoginType as GSuiteLoginType
 from pypanther.rules.gsuite_activityevent.gsuite_mobile_device_compromise import (

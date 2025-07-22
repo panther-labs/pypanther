@@ -47,9 +47,6 @@ class Microsoft365ExchangeExternalForwarding(Rule):
         for param in event.get("parameters", []):
             param_name = param.get("Name", "")
             param_value = param.get("Value", "")
-            # Check for suspicious patterns
-            if param_name in self.SUSPICIOUS_PATTERNS and param_value == self.SUSPICIOUS_PATTERNS[param_name]:
-                return True
             # Check for external forwarding
             if param_name in self.FORWARDING_PARAMETERS and param_value:
                 if is_external_address(param_value, primary_domain, onmicrosoft_domain):
@@ -76,8 +73,22 @@ class Microsoft365ExchangeExternalForwarding(Rule):
         suspicious_str = f" [Suspicious: {', '.join(suspicious_configs)}]" if suspicious_configs else ""
         return f"Microsoft365: External Forwarding Created From [{event.get('userid', '')}] to [{to_emails}]{suspicious_str}"
 
+    def severity(self, event):
+        if not self.is_suspicious_pattern(event):
+            return "LOW"
+        return "DEFAULT"
+
     def alert_context(self, event):
         return m365_alert_context(event)
+
+    def is_suspicious_pattern(self, event):
+        parameters = event.get("parameters", [])
+        for param in parameters:
+            param_name = param.get("Name", "")
+            param_value = param.get("Value", "")
+            if param_name in self.SUSPICIOUS_PATTERNS and param_value == self.SUSPICIOUS_PATTERNS[param_name]:
+                return True
+        return False
 
     tests = [
         RuleTest(
@@ -316,6 +327,35 @@ class Microsoft365ExchangeExternalForwarding(Rule):
                 "resultstatus": "True",
                 "userid": "homer.simpson@simpsons.org",
                 "userkey": "12345",
+                "usertype": 2,
+                "workload": "Exchange",
+            },
+        ),
+        RuleTest(
+            name="Internal Forwarding with Suspicious Pattern",
+            expected_result=False,
+            log={
+                "clientip": "1.2.3.4:10736",
+                "creationtime": "2025-07-07 09:11:11.000000000",
+                "externalaccess": False,
+                "id": "111-22-33",
+                "objectid": "ABC001.prod.outlook.com/Microsoft Exchange Hosted Organizations/simpsons.onmicrosoft.com/444-55-66\\Move GitHub emails",
+                "operation": "New-InboxRule",
+                "organizationid": "11-aa-bb",
+                "organizationname": "simpsons.onmicrosoft.com",
+                "originatingserver": "QWERTY (1.2.3.4)",
+                "parameters": [
+                    {"Name": "AlwaysDeleteOutlookRulesBlob", "Value": "False"},
+                    {"Name": "Force", "Value": "False"},
+                    {"Name": "MoveToFolder", "Value": "MYFolder"},
+                    {"Name": "Name", "Value": "Move emails to another folder"},
+                    {"Name": "FromAddressContainsWords", "Value": "specialsender"},
+                    {"Name": "StopProcessingRules", "Value": "True"},
+                ],
+                "recordtype": 1,
+                "resultstatus": "True",
+                "userid": "homer.simpson@simpsons.onmicrosoft",
+                "userkey": "homer.simpson@simpsons.onmicrosoft",
                 "usertype": 2,
                 "workload": "Exchange",
             },
