@@ -5,7 +5,7 @@ from panther_core import PantherEvent
 from panther_detection_helpers.caching import get_string_set, put_string_set
 
 from pypanther import LogType, Rule, RuleMock, RuleTest, Severity, panther_managed
-from pypanther.helpers.aws import aws_cloudtrail_success, aws_rule_context, lookup_aws_account_name
+from pypanther.helpers.aws import aws_cloudtrail_success, aws_rule_context
 
 
 @panther_managed
@@ -43,7 +43,7 @@ class AWSEC2MultiInstanceConnect(Rule):
 
     def title(self, event: PantherEvent) -> str:
         actor = event.udm("actor_user")
-        account_name = lookup_aws_account_name(event.get("recipientAccountId"))
+        account_name = event.get("recipientAccountId")
         return f"{actor} uploaded an SSH Key to multiple instances in {account_name}"
 
     def dedup(self, event: PantherEvent) -> str:

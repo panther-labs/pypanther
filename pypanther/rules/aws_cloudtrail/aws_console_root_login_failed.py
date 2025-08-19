@@ -1,5 +1,5 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
-from pypanther.helpers.aws import aws_rule_context, lookup_aws_account_name
+from pypanther.helpers.aws import aws_rule_context
 
 
 @panther_managed
@@ -31,7 +31,7 @@ class AWSConsoleRootLoginFailed(Rule):
         )
 
     def title(self, event):
-        return f"AWS root login failed from [{event.get('sourceIPAddress')}] in account [{lookup_aws_account_name(event.get('recipientAccountId'))}]"
+        return f"AWS root login failed from [{event.get('sourceIPAddress')}] in account [{event.get('recipientAccountId')}]"
 
     def alert_context(self, event):
         return aws_rule_context(event)

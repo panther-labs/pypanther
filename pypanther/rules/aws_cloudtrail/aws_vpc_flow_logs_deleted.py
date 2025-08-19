@@ -1,5 +1,5 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
-from pypanther.helpers.aws import aws_cloudtrail_success, aws_rule_context, lookup_aws_account_name
+from pypanther.helpers.aws import aws_cloudtrail_success, aws_rule_context
 
 
 @panther_managed
@@ -29,7 +29,7 @@ class AWSVPCFlowLogsDeleted(Rule):
     def title(self, event):
         account = event.deep_get("userIdentity", "accountId", default="<UNKNOWN ACCOUNT>")
         region = event.get("awsRegion", "<UNKNOWN REGION>")
-        return f"VPC Flow logs have been deleted in {lookup_aws_account_name(account)} in {region}"
+        return f"VPC Flow logs have been deleted in {account} in {region}"
 
     def alert_context(self, event):
         return aws_rule_context(event)

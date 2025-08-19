@@ -1,7 +1,7 @@
 from ipaddress import ip_address
 
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
-from pypanther.helpers.aws import aws_rule_context, lookup_aws_account_name
+from pypanther.helpers.aws import aws_rule_context
 
 
 @panther_managed
@@ -69,7 +69,7 @@ class AWSIAMUserReconAccessDenied(Rule):
             user = user_type
         else:
             user = "<UNKNOWN_USER>"
-        return f"Reconnaissance activity denied to user [{user}] in account [{lookup_aws_account_name(event.get('recipientAccountId'))}]"
+        return f"Reconnaissance activity denied to user [{user}] in account [{event.get('recipientAccountId')}]"
 
     def alert_context(self, event):
         return aws_rule_context(event)

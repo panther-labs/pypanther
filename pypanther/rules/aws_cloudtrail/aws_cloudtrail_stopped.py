@@ -1,5 +1,5 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
-from pypanther.helpers.aws import aws_cloudtrail_success, aws_rule_context, lookup_aws_account_name
+from pypanther.helpers.aws import aws_cloudtrail_success, aws_rule_context
 
 
 @panther_managed
@@ -27,7 +27,7 @@ class AWSCloudTrailStopped(Rule):
         return event.deep_get("requestParameters", "name", default="<UNKNOWN_NAME>")
 
     def title(self, event):
-        return f"CloudTrail [{self.dedup(event)}] in account [{lookup_aws_account_name(event.get('recipientAccountId'))}] was stopped/deleted"
+        return f"CloudTrail [{self.dedup(event)}] in account [{event.get('recipientAccountId')}] was stopped/deleted"
 
     def alert_context(self, event):
         return aws_rule_context(event)

@@ -1,5 +1,5 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
-from pypanther.helpers.gcp import gcp_alert_context
+from pypanther.helpers.gcp import gcp_alert_context, is_gke_system_namespace, is_gke_system_principal
 
 
 @panther_managed
@@ -19,9 +19,17 @@ class GCPK8sPodUsingHostPIDNamespace(Rule):
         method = event.deep_get("protoPayload", "methodName")
         request_host_pid = event.deep_get("protoPayload", "request", "spec", "hostPID")
         response_host_pid = event.deep_get("protoPayload", "responce", "spec", "hostPID")
-        if (request_host_pid is True or response_host_pid is True) and method in self.METHODS_TO_CHECK:
-            return True
-        return False
+        if not ((request_host_pid is True or response_host_pid is True) and method in self.METHODS_TO_CHECK):
+            return False
+        # Check if this is a known GKE system service account
+        principal_email = event.deep_get("protoPayload", "authenticationInfo", "principalEmail", default="")
+        if is_gke_system_principal(principal_email):
+            return False
+        # Check if this is in a system namespace
+        resource_name = event.deep_get("protoPayload", "resourceName", default="")
+        if is_gke_system_namespace(resource_name):
+            return False
+        return True
 
     def title(self, event):
         actor = event.deep_get("protoPayload", "authenticationInfo", "principalEmail", default="<ACTOR_NOT_FOUND>")

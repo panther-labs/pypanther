@@ -1,7 +1,7 @@
 from panther_core import PantherEvent
 
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity, panther_managed
-from pypanther.helpers.aws import aws_cloudtrail_success, aws_regions, aws_rule_context, lookup_aws_account_name
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
+from pypanther.helpers.aws import aws_cloudtrail_success, aws_regions, aws_rule_context
 
 
 @panther_managed
@@ -39,7 +39,7 @@ class AWSEC2DownloadInstanceUserData(Rule):
         )
 
     def title(self, event: PantherEvent) -> str:
-        account_id = lookup_aws_account_name(event.get("recipientAccountId", "UNKNOWN AWS ACCOUNT"))
+        account_id = event.get("recipientAccountId", "UNKNOWN AWS ACCOUNT")
         actor_user = event.udm("actor_user")
         return f"EC2 Instance User Data accessed in bulk by [{actor_user}] in AWS Account [{account_id}]"
 
@@ -55,7 +55,6 @@ class AWSEC2DownloadInstanceUserData(Rule):
         RuleTest(
             name="Unsuccessful Attempt",
             expected_result=True,
-            mocks=[RuleMock(object_name="lookup_aws_account_name", return_value="IT Prod Account")],
             log={
                 "p_event_time": "2024-12-11 21:49:07.000000",
                 "p_log_type": "AWS.CloudTrail",

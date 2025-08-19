@@ -3,7 +3,7 @@ from collections.abc import Mapping
 from panther_core import PantherEvent
 
 from pypanther import LogType, Rule, RuleMock, RuleTest, Severity, panther_managed
-from pypanther.helpers.aws import aws_cloudtrail_success, aws_rule_context, lookup_aws_account_name
+from pypanther.helpers.aws import aws_cloudtrail_success, aws_rule_context
 
 
 @panther_managed
@@ -43,7 +43,7 @@ class AWSEC2LaunchUnusualEC2Instances(Rule):
 
     def title(self, event: PantherEvent) -> str:
         # The actor in these events is always AutoScalingService
-        account = lookup_aws_account_name(event.get("recipientAccountId"))
+        account = event.get("recipientAccountId")
         instance_type = self.get_instance_type(event)
         return f"EC2 instance with a suspicious type '{instance_type}' was launched in in {account}"
 
