@@ -15,7 +15,7 @@ class Auth0UserInvitationCreated(Rule):
     org_re = re.compile("^/api/v2/organizations/[^/\\s]+/invitations$")
 
     def rule(self, event):
-        if not any([True, is_auth0_config_event(event)]):
+        if not is_auth0_config_event(event):
             return False
         return self.invitation_type(event) is not None
 

@@ -1,5 +1,5 @@
 from pypanther import LogType, Rule, RuleMock, RuleTest, Severity, panther_managed
-from pypanther.helpers.aws import aws_cloudtrail_success, aws_rule_context, lookup_aws_account_name
+from pypanther.helpers.aws import aws_cloudtrail_success, aws_rule_context
 from pypanther.helpers.base import deep_get
 
 
@@ -60,7 +60,7 @@ class AWSCloudTrailShortLifecycle(Rule):
         duration = deep_get(lifecycle, "Expiration", "Days", default=0)
         rule_id = lifecycle.get("ID", "<UNKNOWN RULE ID>")
         account = event.deep_get("userIdentity", "accountId", default="<UNKNOWN_AWS_ACCOUNT>")
-        return f"S3 Bucket {bucket_name} in account {lookup_aws_account_name(account)} has new rule {rule_id} set to delete CloudTrail logs after {duration} day{('s' if duration != 1 else '')}"
+        return f"S3 Bucket {bucket_name} in account {account} has new rule {rule_id} set to delete CloudTrail logs after {duration} day{('s' if duration != 1 else '')}"
 
     def severity(self, event):
         # Return lower severity if we aren't positive this bucket has cloudtrail logs.

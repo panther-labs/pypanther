@@ -1,7 +1,7 @@
 from panther_core import PantherEvent
 
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
-from pypanther.helpers.aws import aws_cloudtrail_success, aws_rule_context, lookup_aws_account_name
+from pypanther.helpers.aws import aws_cloudtrail_success, aws_rule_context
 
 
 @panther_managed
@@ -30,7 +30,7 @@ class AWSCloudTrailAttemptToLeaveOrg(Rule):
         return event.get("eventName") == "LeaveOrganization"
 
     def title(self, event: PantherEvent) -> str:
-        account_name = lookup_aws_account_name(event.get("recipientAccountId"))
+        account_name = event.get("recipientAccountId")
         actor = event.udm("actor_user")
         # Return a more informative message if the attempt was unsuccessful
         if not aws_cloudtrail_success(event):

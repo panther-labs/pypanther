@@ -9,8 +9,15 @@ class AmazonEKSAuditSystemNamespaceFromPublicIP(Rule):
     id = "Amazon.EKS.Audit.SystemNamespaceFromPublicIP-prototype"
     display_name = "EKS Audit Log Reporting system Namespace is Used From A Public IP"
     log_types = [LogType.AMAZON_EKS_AUDIT]
-    tags = ["EKS"]
-    reports = {"MITRE ATT&CK": ["TA0027:T1475"]}
+    tags = [
+        "EKS",
+        "Initial Access",
+        "Lateral Movement",
+        "Exploit Public-Facing Application",
+        "Remote Services",
+        "Cloud Services",
+    ]
+    reports = {"MITRE ATT&CK": ["TA0001:T1190", "TA0008:T1201.007"]}
     default_reference = "https://docs.aws.amazon.com/eks/latest/userguide/network_reqs.html"
     default_severity = Severity.INFO
     create_alert = False

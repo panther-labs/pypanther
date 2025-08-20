@@ -2,7 +2,6 @@ from json import loads
 
 from pypanther import LogType, Rule, RuleMock, RuleTest, Severity, panther_managed
 from pypanther.helpers import event_type
-from pypanther.helpers.aws import lookup_aws_account_name
 from pypanther.helpers.base import add_parse_delay
 from pypanther.helpers.ipinfo import PantherIPInfoException, geoinfo_from_ip
 
@@ -39,7 +38,7 @@ class StandardBruteForceByUser(Rule):
         log_type = event.get("p_log_type")
         title_str = f"{log_type}: User [{event.udm('actor_user')}] has exceeded the failed logins threshold"
         if log_type == "AWS.CloudTrail":
-            title_str += f" in [{lookup_aws_account_name(event.get('recipientAccountId'))}]"
+            title_str += f" in [{event.get('recipientAccountId')}]"
         return title_str
 
     def alert_context(self, event):

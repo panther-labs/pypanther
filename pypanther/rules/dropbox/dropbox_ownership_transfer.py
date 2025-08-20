@@ -1,8 +1,4 @@
-import json
-from unittest.mock import MagicMock
-
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity, panther_managed
-from pypanther.helpers.config import config
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 
 
 @panther_managed
@@ -10,10 +6,9 @@ class DropboxOwnershipTransfer(Rule):
     default_description = "Dropbox ownership of a document or folder has been transferred."
     display_name = "Dropbox Document/Folder Ownership Transfer"
     default_reference = "https://help.dropbox.com/share/owner"
-    default_severity = Severity.HIGH
+    default_severity = Severity.MEDIUM
     log_types = [LogType.DROPBOX_TEAM_EVENT]
     id = "Dropbox.Ownership.Transfer-prototype"
-    DROPBOX_TRUSTED_OWNERSHIP_DOMAINS = config.DROPBOX_TRUSTED_OWNERSHIP_DOMAINS
 
     def rule(self, event):
         return "Transferred ownership " in event.deep_get("event_type", "description", default="")
@@ -27,11 +22,10 @@ class DropboxOwnershipTransfer(Rule):
         return f"Dropbox: [{actor}] transferred ownership of [{asset}]from [{previous_owner}] to [{new_owner}]."
 
     def severity(self, event):
-        if isinstance(self.DROPBOX_TRUSTED_OWNERSHIP_DOMAINS, MagicMock):
-            self.DROPBOX_TRUSTED_OWNERSHIP_DOMAINS = set(json.loads(self.DROPBOX_TRUSTED_OWNERSHIP_DOMAINS()))  # pylint: disable=not-callable
-        new_owner = event.deep_get("details", "new_owner_email", default="<NEW_OWNER_NOT_FOUND>")
-        if new_owner.split("@")[-1] not in self.DROPBOX_TRUSTED_OWNERSHIP_DOMAINS:
-            return "HIGH"
+        new_owner_domain = event.deep_get("details", "new_owner_email", default="@").split("@")[-1]
+        previous_owner_domain = event.deep_get("details", "previous_owner_email", default="@").split("@")[-1]
+        if new_owner_domain != previous_owner_domain:
+            return "DEFAULT"
         return "LOW"
 
     tests = [
@@ -164,7 +158,6 @@ class DropboxOwnershipTransfer(Rule):
         RuleTest(
             name="Folder Ownership Transfer to Internal",
             expected_result=True,
-            mocks=[RuleMock(object_name="DROPBOX_TRUSTED_OWNERSHIP_DOMAINS", return_value='[\n    "example.com"\n]')],
             log={
                 "actor": {
                     "_tag": "user",

@@ -1,16 +1,14 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
-from pypanther.helpers.config import config
 
 
 @panther_managed
 class GSuiteExternalMailForwarding(Rule):
     id = "GSuite.ExternalMailForwarding-prototype"
     display_name = "Gsuite Mail forwarded to external domain"
-    enabled = False
     log_types = [LogType.GSUITE_ACTIVITY_EVENT]
-    tags = ["GSuite", "Collection:Email Collection", "Configuration Required"]
+    tags = ["GSuite", "Collection:Email Collection"]
     reports = {"MITRE ATT&CK": ["TA0009:T1114"]}
-    default_severity = Severity.HIGH
+    default_severity = Severity.MEDIUM
     default_description = "A user has configured mail forwarding to an external domain\n"
     default_reference = "https://support.google.com/mail/answer/10957?hl=en&sjid=864417124752637253-EU"
     default_runbook = "Follow up with user to remove this forwarding rule if not allowed.\n"
@@ -20,8 +18,11 @@ class GSuiteExternalMailForwarding(Rule):
         if event.deep_get("id", "applicationName") not in ("user_accounts", "login"):
             return False
         if event.get("name") == "email_forwarding_out_of_domain":
-            domain = event.deep_get("parameters", "email_forwarding_destination_address").split("@")[-1]
-            if domain not in config.GSUITE_TRUSTED_FORWARDING_DESTINATION_DOMAINS:
+            actor_domain = event.deep_get("actor", "email", default="@").split("@")[-1]
+            target_domain = event.deep_get("parameters", "email_forwarding_destination_address", default="@").split(
+                "@",
+            )[-1]
+            if actor_domain != target_domain:
                 return True
         return False
 
@@ -51,17 +52,6 @@ class GSuiteExternalMailForwarding(Rule):
                 "type": "email_forwarding_change",
                 "name": "email_forwarding_out_of_domain",
                 "parameters": {"email_forwarding_destination_address": "HSimpsone@gmail.com"},
-            },
-        ),
-        RuleTest(
-            name="Forwarding to External Address - Allowed Domain",
-            expected_result=False,
-            log={
-                "id": {"applicationName": "user_accounts", "customerId": "D12345"},
-                "actor": {"email": "homer.simpson@.springfield.io"},
-                "type": "email_forwarding_change",
-                "name": "email_forwarding_out_of_domain",
-                "parameters": {"email_forwarding_destination_address": "HSimpson@example.com"},
             },
         ),
         RuleTest(

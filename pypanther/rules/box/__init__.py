@@ -3,7 +3,6 @@ from pypanther.rules.box.box_anomalous_download import BoxShieldAnomalousDownloa
 from pypanther.rules.box.box_event_triggered_externally import (
     BoxEventTriggeredExternally as BoxEventTriggeredExternally,
 )
-from pypanther.rules.box.box_item_shared_externally import BoxItemSharedExternally as BoxItemSharedExternally
 from pypanther.rules.box.box_malicious_content import BoxMaliciousContent as BoxMaliciousContent
 from pypanther.rules.box.box_new_login import BoxNewLogin as BoxNewLogin
 from pypanther.rules.box.box_policy_violation import (

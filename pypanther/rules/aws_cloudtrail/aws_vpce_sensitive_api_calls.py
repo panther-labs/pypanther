@@ -1,5 +1,5 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
-from pypanther.helpers.aws import aws_rule_context, lookup_aws_account_name
+from pypanther.helpers.aws import aws_rule_context
 
 
 @panther_managed
@@ -67,7 +67,6 @@ class AWSCloudTrailVPCESensitiveAPICalls(Rule):
         context.update(
             {
                 "account_id": account_id,
-                "account_name": lookup_aws_account_name(account_id) if account_id else "unknown",
                 "principal_id": event.deep_get("userIdentity", "principalId", default="unknown"),
                 "principal_type": event.deep_get("userIdentity", "type", default="unknown"),
                 "actor_user": event.udm("actor_user"),

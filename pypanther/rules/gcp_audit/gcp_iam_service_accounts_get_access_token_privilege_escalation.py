@@ -134,10 +134,10 @@ class GCPIAMserviceAccountsgetAccessTokenPrivilegeEscalation(Rule):
                     "first": True,
                     "id": "10172500524907939495",
                     "last": True,
-                    "producer": "\xadiamcredentials.googleapis.com",
+                    "producer": "iamcredentials.googleapis.com",
                 },
                 "protoPayload": {
-                    "at_sign_type": "\xadtype.googleapis.com/google.cloud.audit.AuditLog",
+                    "at_sign_type": "type.googleapis.com/google.cloud.audit.AuditLog",
                     "authenticationInfo": {
                         "principalSubject": "example_principal_subject",
                         "serviceAccountDelegationInfo": [{}],
@@ -150,7 +150,7 @@ class GCPIAMserviceAccountsgetAccessTokenPrivilegeEscalation(Rule):
                     },
                     "methodName": "GenerateAccessToken",
                     "request": {
-                        "@type": "\xadtype.googleapis.com/google.iam.credentials.v1.GenerateAccessTokenRequest",
+                        "@type": "type.googleapis.com/google.iam.credentials.v1.GenerateAccessTokenRequest",
                         "name": "projects/-/serviceAccounts/xxxxx.iam.gserviceaccount.com",
                     },
                     "requestMetadata": {
@@ -160,7 +160,7 @@ class GCPIAMserviceAccountsgetAccessTokenPrivilegeEscalation(Rule):
                         "requestAttributes": {"auth": {}, "time": "2024-08-29T19:30:36.353462175Z"},
                     },
                     "resourceName": "projects/-/serviceAccounts/11111222223333444455",
-                    "serviceName": "\xadiamcredentials.googleapis.com",
+                    "serviceName": "iamcredentials.googleapis.com",
                     "status": {},
                 },
                 "receiveTimestamp": "2024-08-29 19:30:36.424542070",
