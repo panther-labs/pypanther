@@ -73,6 +73,7 @@ class LogType(str, Enum):
     CROWDSTRIKE_USER_INFO = "Crowdstrike.UserInfo"
     CROWDSTRIKE_USER_LOGON_LOGOFF = "Crowdstrike.UserLogonLogoff"
     DOCKER_EVENTS = "Docker.Events"
+    DOCUSIGN_CONNECT = "Docusign.Connect"
     DROPBOX_TEAM_EVENT = "Dropbox.TeamEvent"
     DUO_ADMINISTRATOR = "Duo.Administrator"
     DUO_AUTHENTICATION = "Duo.Authentication"
