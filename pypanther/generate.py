@@ -306,15 +306,13 @@ def parse_py(
 
     for a in other:
         if isinstance(a, (ast.Assign, ast.AnnAssign)):
-            if a.value is None:
-                continue
-            for node in ast.walk(a.value):
-                if isinstance(node, ast.Name) and node.id in variable_names:
-                    node.id = "self." + node.id
-        else:
-            for node in ast.walk(a):
-                if isinstance(node, ast.Name) and node.id in variable_names:
-                    node.id = "self." + node.id
+            # For class-level assignments, do not add self. prefix to variable references
+            # as they are all class variables at the same level
+            continue
+
+        for node in ast.walk(a):
+            if isinstance(node, ast.Name) and node.id in variable_names:
+                node.id = "self." + node.id
 
     for func in functions:
         for node in ast.walk(func):
