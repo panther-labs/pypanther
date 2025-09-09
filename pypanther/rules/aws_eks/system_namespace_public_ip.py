@@ -2,6 +2,8 @@ from ipaddress import ip_address
 
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.aws import eks_panther_obj_ref
+from pypanther.helpers.ipinfo import get_ipinfo_asn
+from pypanther.helpers.misp import get_misp_warning_lists
 
 
 @panther_managed
@@ -31,7 +33,38 @@ class AmazonEKSAuditSystemNamespaceFromPublicIP(Rule):
     #   the username starts ( with system: or eks: )
     #   and
     #   sourceIPs[0] is a Public Address
+    #   but exclude legitimate EKS nodes from AWS infrastructure IPs
     # If not defined, defaults to the rule display name or rule ID.
+
+    def is_aws_infrastructure_ip(self, event):
+        """Check if the source IP is from AWS infrastructure based on enrichment data."""
+        p_eks = eks_panther_obj_ref(event)
+        source_ip = p_eks.get("sourceIPs", [None])[0]
+        if not source_ip:
+            return False
+        # Check MISP warning lists for AWS IP ranges
+        misp_data = get_misp_warning_lists(event)
+        if misp_data and misp_data.has_warning_list_id(source_ip, "amazon-aws"):
+            return True
+        # Check ipinfo ASN for Amazon using helper class
+        ipinfo_asn_data = get_ipinfo_asn(event)
+        if ipinfo_asn_data:
+            asn_value = ipinfo_asn_data.asn("sourceIPs")[0]
+            domain_value = ipinfo_asn_data.domain("sourceIPs")[0]
+            if asn_value == "AS16509" and domain_value == "amazon.com":
+                return True
+        return False
+
+    def is_legitimate_eks_node(self, event):
+        """Check if this is a legitimate EKS node based on username and user groups."""
+        p_eks = eks_panther_obj_ref(event)
+        actor = p_eks.get("actor", "")
+        # Check if it's a system node
+        if actor.startswith("system:node:"):
+            user_groups = event.deep_get("user", "groups", default=[])
+            # Legitimate EKS nodes should be in system:nodes and system:authenticated groups
+            return "system:nodes" in user_groups and "system:authenticated" in user_groups
+        return False
 
     def rule(self, event):
         if event.get("stage", "") != "ResponseComplete":
@@ -41,13 +74,18 @@ class AmazonEKSAuditSystemNamespaceFromPublicIP(Rule):
         if event.get("responseStatus", {}).get("code", 0) == 403:
             return False
         p_eks = eks_panther_obj_ref(event)
+        # Ignore AWS managed services (addon-manager, node-manager)
         if (
             p_eks.get("actor") in self.AMZ_PUBLICS
             and ":assumed-role/AWSWesleyClusterManagerLambda"
             in event.deep_get("user", "extra", "arn", default=["not found"])[0]
         ):
             return False
-        if (p_eks.get("actor").startswith("system:") or p_eks.get("actor").startswith("eks:")) and ip_address(
+        if self.is_legitimate_eks_node(event) and self.is_aws_infrastructure_ip(event):
+            return False
+        # Check if this is a system or EKS user from a public IP
+        actor = p_eks.get("actor", "")
+        if (actor.startswith("system:") or actor.startswith("eks:")) and ip_address(
             p_eks.get("sourceIPs")[0],
         ).is_global:
             return True
@@ -333,6 +371,176 @@ class AmazonEKSAuditSystemNamespaceFromPublicIP(Rule):
                 },
                 "userAgent": "Go-http-client/1.1",
                 "verb": "get",
+            },
+        ),
+        RuleTest(
+            name="legitimate EKS node from AWS IP - should not alert",
+            expected_result=False,
+            log={
+                "annotations": {
+                    "authentication.kubernetes.io/issued-credential-id": "JTI=2e6389af-b8bc-4c26-92d2-714fbe9cb4fa",
+                    "authorization.k8s.io/decision": "allow",
+                    "authorization.k8s.io/reason": "",
+                },
+                "apiVersion": "audit.k8s.io/v1",
+                "auditID": "e5ca89e7-8686-4b7c-b666-f8b863b6f21c",
+                "kind": "Event",
+                "level": "Metadata",
+                "objectRef": {
+                    "apiVersion": "v1",
+                    "name": "kube-proxy",
+                    "namespace": "kube-system",
+                    "resource": "serviceaccounts",
+                    "subresource": "token",
+                },
+                "p_any_ip_addresses": ["54.212.83.236"],
+                "p_enrichment": {
+                    "MISP Warning Lists": {
+                        "p_any_ip_addresses": [
+                            {
+                                "cidr": "54.208.0.0/13",
+                                "p_match": "54.212.83.236",
+                                "warning_lists": [
+                                    {
+                                        "description": "Amazon AWS IP address ranges (https://ip-ranges.amazonaws.com/ip-ranges.json)",
+                                        "id": "amazon-aws",
+                                        "name": "List of known Amazon AWS IP address ranges",
+                                        "version": 20250719,
+                                    },
+                                ],
+                            },
+                        ],
+                    },
+                    "ipinfo_asn": {
+                        "sourceIPs": [
+                            {
+                                "asn": "AS16509",
+                                "domain": "amazon.com",
+                                "name": "Amazon.com, Inc.",
+                                "p_match": "54.212.83.236",
+                                "route": "54.212.0.0/16",
+                                "type": "hosting",
+                            },
+                        ],
+                    },
+                },
+                "p_event_time": "2025-08-26 17:40:49.320496000",
+                "p_log_type": "Amazon.EKS.Audit",
+                "requestReceivedTimestamp": "2025-08-26 17:40:49.320496000",
+                "requestURI": "/api/v1/namespaces/kube-system/serviceaccounts/kube-proxy/token",
+                "responseStatus": {"code": 201},
+                "sourceIPs": ["54.212.83.236"],
+                "stage": "ResponseComplete",
+                "stageTimestamp": "2025-08-26 17:40:49.330617000",
+                "user": {
+                    "groups": ["system:nodes", "system:authenticated"],
+                    "username": "system:node:ip-192-168-3-178.us-west-2.compute.internal",
+                },
+                "userAgent": "kubelet/v1.32.0 (linux/arm64) kubernetes/e105b10",
+                "verb": "create",
+            },
+        ),
+        RuleTest(
+            name="system user from non-AWS public IP - should alert",
+            expected_result=True,
+            log={
+                "annotations": {"authorization.k8s.io/decision": "allow", "authorization.k8s.io/reason": ""},
+                "apiVersion": "audit.k8s.io/v1",
+                "auditID": "e2626946-90e1-4d0c-829e-ad5a78572926",
+                "kind": "Event",
+                "level": "Metadata",
+                "objectRef": {
+                    "apiVersion": "v1",
+                    "name": "kube-proxy",
+                    "namespace": "kube-system",
+                    "resource": "serviceaccounts",
+                    "subresource": "token",
+                },
+                "p_any_ip_addresses": ["1.2.3.4"],
+                "p_enrichment": {
+                    "ipinfo_asn": {
+                        "sourceIPs": [
+                            {
+                                "asn": "AS12345",
+                                "domain": "example-isp.com",
+                                "name": "Example ISP",
+                                "p_match": "1.2.3.4",
+                                "route": "1.2.3.0/24",
+                                "type": "isp",
+                            },
+                        ],
+                    },
+                },
+                "p_event_time": "2025-08-26 17:40:49.320496000",
+                "p_log_type": "Amazon.EKS.Audit",
+                "requestReceivedTimestamp": "2025-08-26 17:40:49.320496000",
+                "requestURI": "/api/v1/namespaces/kube-system/serviceaccounts/kube-proxy/token",
+                "responseStatus": {"code": 201},
+                "sourceIPs": ["1.2.3.4"],
+                "stage": "ResponseComplete",
+                "stageTimestamp": "2025-08-26 17:40:49.330617000",
+                "user": {"groups": ["system:nodes", "system:authenticated"], "username": "system:node:suspicious-node"},
+                "userAgent": "kubelet/v1.32.0 (linux/arm64) kubernetes/e105b10",
+                "verb": "create",
+            },
+        ),
+        RuleTest(
+            name="attacker from non-AWS IP targeting AWS resource - should alert despite AWS target",
+            expected_result=True,
+            log={
+                "annotations": {"authorization.k8s.io/decision": "allow", "authorization.k8s.io/reason": ""},
+                "apiVersion": "audit.k8s.io/v1",
+                "auditID": "e2626946-90e1-4d0c-829e-ad5a78572926",
+                "kind": "Event",
+                "level": "Metadata",
+                "objectRef": {
+                    "apiVersion": "v1",
+                    "name": "kube-proxy",
+                    "namespace": "kube-system",
+                    "resource": "serviceaccounts",
+                    "subresource": "token",
+                },
+                "p_any_ip_addresses": ["1.2.3.4", "54.212.83.236"],
+                "p_enrichment": {
+                    "MISP Warning Lists": {
+                        "p_any_ip_addresses": [
+                            {
+                                "cidr": "54.208.0.0/13",
+                                "p_match": "54.212.83.236",
+                                "warning_lists": [
+                                    {
+                                        "description": "Amazon AWS IP address ranges",
+                                        "id": "amazon-aws",
+                                        "name": "List of known Amazon AWS IP address ranges",
+                                    },
+                                ],
+                            },
+                        ],
+                    },
+                    "ipinfo_asn": {
+                        "sourceIPs": [
+                            {
+                                "asn": "AS12345",
+                                "domain": "example-isp.com",
+                                "name": "Example ISP",
+                                "p_match": "1.2.3.4",
+                                "route": "1.2.3.0/24",
+                                "type": "isp",
+                            },
+                        ],
+                    },
+                },
+                "p_event_time": "2025-08-26 17:40:49.320496000",
+                "p_log_type": "Amazon.EKS.Audit",
+                "requestReceivedTimestamp": "2025-08-26 17:40:49.320496000",
+                "requestURI": "/api/v1/namespaces/kube-system/serviceaccounts/kube-proxy/token",
+                "responseStatus": {"code": 201},
+                "sourceIPs": ["1.2.3.4"],
+                "stage": "ResponseComplete",
+                "stageTimestamp": "2025-08-26 17:40:49.330617000",
+                "user": {"groups": ["system:nodes", "system:authenticated"], "username": "system:node:suspicious-node"},
+                "userAgent": "kubelet/v1.32.0 (linux/arm64) kubernetes/e105b10",
+                "verb": "create",
             },
         ),
     ]

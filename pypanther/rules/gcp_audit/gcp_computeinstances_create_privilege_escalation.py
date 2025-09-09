@@ -5,13 +5,14 @@ from pypanther.helpers.gcp import gcp_alert_context
 @panther_managed
 class GCPcomputeinstancescreatePrivilegeEscalation(Rule):
     log_types = [LogType.GCP_AUDIT_LOG]
-    default_description = "Detects compute.instances.create method for privilege escalation in GCP."
+    default_description = "Detects compute.instances.create method for privilege escalation in GCP. This rule identifies when users create compute instances with service accounts that may lead to privilege escalation. Known good service accounts (GKE, Kubernetes, compute automation) are excluded to reduce false positives.\n"
     display_name = "GCP compute.instances.create Privilege Escalation"
     id = "GCP.compute.instances.create.Privilege.Escalation-prototype"
     default_reference = "https://rhinosecuritylabs.com/gcp/privilege-escalation-google-cloud-platform-part-1/"
-    default_runbook = "Confirm this was authorized and necessary behavior."
+    default_runbook = "1. Validate whether this compute instance creation with service account was authorized. 2. Check if the service account attached has excessive privileges. 3. Verify if the user creating the instance has a legitimate need for the service account permissions. 4. If unauthorized, revoke the instance access and investigate for compromise.\n"
     reports = {"MITRE ATT&CK": ["TA0004:T1548"]}
     default_severity = Severity.HIGH
+    dedup_period_minutes = 1440
     REQUIRED_PERMISSIONS = [
         "compute.disks.create",
         "compute.instances.create",
@@ -27,12 +28,13 @@ class GCPcomputeinstancescreatePrivilegeEscalation(Rule):
         method = event.deep_get("protoPayload", "methodName", default="METHOD_NOT_FOUND")
         if not method.endswith("compute.instances.insert"):
             return False
-        authorization_info = event.deep_get("protoPayload", "authorizationInfo")
-        if not authorization_info:
+        # Skip allowlisted actors
+        principal = event.deep_get("protoPayload", "authenticationInfo", "principalEmail", default="")
+        if principal.endswith("@cloudservices.gserviceaccount.com"):
             return False
         granted_permissions = {}
-        for auth in authorization_info:
-            granted_permissions[auth["permission"]] = auth["granted"]
+        for auth in event.deep_walk("protoPayload", "authorizationInfo") or []:
+            granted_permissions[auth.get("permission")] = auth.get("granted")
         for permission in self.REQUIRED_PERMISSIONS:
             if not granted_permissions.get(permission):
                 return False

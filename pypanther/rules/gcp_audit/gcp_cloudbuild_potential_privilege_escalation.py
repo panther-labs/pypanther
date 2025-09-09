@@ -21,6 +21,12 @@ class GCPCloudBuildPotentialPrivilegeEscalation(Rule):
         authorization_info = event.deep_walk("protoPayload", "authorizationInfo")
         if not authorization_info:
             return False
+        # Get the principal (actor) email
+        principal = event.deep_get("protoPayload", "authenticationInfo", "principalEmail", default="")
+        # Skip whitelisted service accounts
+        if principal.endswith("@gcf-admin-robot.iam.gserviceaccount.com"):
+            return False
+        # Check if build.create permission was granted
         for auth in authorization_info:
             if auth.get("permission") == "cloudbuild.builds.create" and auth.get("granted") is True:
                 return True
