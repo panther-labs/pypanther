@@ -1,5 +1,5 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
-from pypanther.helpers.aws import aws_cloudtrail_success, lookup_aws_account_name
+from pypanther.helpers.aws import aws_cloudtrail_success
 
 
 @panther_managed
@@ -37,13 +37,13 @@ class AWSRootActivity(Rule):
         return (
             event.get("sourceIPAddress", "<UNKNOWN_IP>")
             + ":"
-            + lookup_aws_account_name(event.get("recipientAccountId"))
+            + event.get("recipientAccountId")
             + ":"
             + str(event.get("readOnly"))
         )
 
     def title(self, event):
-        return f"AWS root user activity [{event.get('eventName')}] in account [{lookup_aws_account_name(event.get('recipientAccountId'))}]"
+        return f"AWS root user activity [{event.get('eventName')}] in account [{event.get('recipientAccountId')}]"
 
     def alert_context(self, event):
         return {

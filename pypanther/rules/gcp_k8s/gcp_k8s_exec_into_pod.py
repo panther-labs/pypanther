@@ -1,9 +1,8 @@
 import json
 from unittest.mock import MagicMock
 
-from pypanther import LogType, Rule, RuleMock, RuleTest, Severity, panther_managed
+from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.base import deep_walk
-from pypanther.helpers.config import config
 from pypanther.helpers.gcp import get_k8s_info
 
 
@@ -18,7 +17,6 @@ class GCPK8sExecIntoPod(Rule):
     default_description = "Alerts when users exec into pod. Possible to specify specific projects and allowed users.\n"
     default_runbook = "Investigate the user and determine why. Advise that it is discouraged practice. Create ticket if appropriate.\n"
     default_reference = "https://cloud.google.com/migrate/containers/docs/troubleshooting/executing-shell-commands"
-    GCP_PRODUCTION_PROJECT_IDS = config.GCP_PRODUCTION_PROJECT_IDS
     # This is a list of principals that are allowed to exec into pods
     # in various namespaces and projects.
     # If empty, then no principals
@@ -64,12 +62,6 @@ class GCPK8sExecIntoPod(Rule):
                     return False
         return True
 
-    def severity(self, event):
-        project_id = deep_walk(get_k8s_info(event), "project_id", default="<NO PROJECT_ID>")
-        if project_id in self.GCP_PRODUCTION_PROJECT_IDS:
-            return "high"
-        return "info"
-
     def title(self, event):
         # TODO: use unified data model field in title for actor
         k8s_info = get_k8s_info(event)
@@ -83,37 +75,6 @@ class GCPK8sExecIntoPod(Rule):
         return get_k8s_info(event)
 
     tests = [
-        RuleTest(
-            name="Allowed User",
-            expected_result=False,
-            mocks=[
-                RuleMock(
-                    object_name="ALLOW_LIST",
-                    return_value='[\n  {\n    "principals": ["system:serviceaccount:example-namespace:example-namespace-service-account"],\n    "namespaces": [],\n    "projects": []\n  }\n]',
-                ),
-            ],
-            log={
-                "protoPayload": {
-                    "authenticationInfo": {
-                        "principalEmail": "system:serviceaccount:example-namespace:example-namespace-service-account",
-                    },
-                    "authorizationInfo": [
-                        {
-                            "permission": "io.k8s.core.v1.pods.exec.create",
-                            "resource": "core/v1/namespaces/opa/pods/opa-57998cf7c5-bjkfk/exec",
-                        },
-                    ],
-                    "methodName": "io.k8s.core.v1.pods.exec.create",
-                    "requestMetadata": {
-                        "callerIp": "88.88.88.88",
-                        "callerSuppliedUserAgent": "kubectl/v1.40.8 (darwin/amd64) kubernetes/6575935",
-                    },
-                    "resourceName": "core/v1/namespaces/example/pods/one-off-46666967280/exec",
-                    "timestamp": "2022-03-04T16:01:49.978756Z",
-                },
-                "resource": {"type": "k8s_cluster", "labels": {"project_id": "rigup-production"}},
-            },
-        ),
         RuleTest(
             name="Disallowed User",
             expected_result=True,

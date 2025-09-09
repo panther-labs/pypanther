@@ -1,7 +1,4 @@
-import re
-
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
-from pypanther.helpers.config import config
 
 
 @panther_managed
@@ -10,19 +7,20 @@ class TeleportCompanyDomainLoginWithoutSAML(Rule):
     display_name = "A User from the company domain(s) Logged in without SAML"
     log_types = [LogType.GRAVITATIONAL_TELEPORT_AUDIT]
     tags = ["Teleport"]
-    default_severity = Severity.HIGH
+    default_severity = Severity.MEDIUM
     default_description = "A User from the company domain(s) Logged in without SAML"
     reports = {"MITRE ATT&CK": ["TA0005:T1562"]}
     default_reference = "https://goteleport.com/docs/management/admin/"
     default_runbook = "A User from the company domain(s) Logged in without SAML\n"
     summary_attributes = ["event", "code", "user", "method", "mfa_device"]
-    TELEPORT_ORGANIZATION_DOMAINS_REGEX = "@(" + "|".join(config.TELEPORT_ORGANIZATION_DOMAINS) + ")$"
 
     def rule(self, event):
+        user_domain = event.get("user", "@").split("@")[-1]
+        cluster = event.get("cluster_name", "")
         return bool(
             event.get("event") == "user.login"
             and event.get("success") is True
-            and bool(re.search(self.TELEPORT_ORGANIZATION_DOMAINS_REGEX, event.get("user")))
+            and cluster.endswith(user_domain)
             and (event.get("method") != "saml"),
         )
 

@@ -3,7 +3,7 @@ import logging
 from panther_detection_helpers.caching import check_account_age
 
 from pypanther import LogType, Rule, RuleMock, RuleTest, Severity, panther_managed
-from pypanther.helpers.aws import aws_rule_context, lookup_aws_account_name
+from pypanther.helpers.aws import aws_rule_context
 
 
 @panther_managed
@@ -94,12 +94,7 @@ class AWSConsoleLoginWithoutMFA(Rule):
             type_ = event.deep_get("userIdentity", "sessionContext", "sessionIssuer", "type", default="user").lower()
             user_string = f"{type_} {user}"
         account_id = event.get("recipientAccountId")
-        account_name = lookup_aws_account_name(account_id)
-        if account_id == account_name:
-            account_string = f"unnamed account ({account_id})"
-        else:
-            account_string = f"{account_name} account ({account_id})"
-        return f"AWS login detected without MFA for [{user_string}] in [{account_string}]"
+        return f"AWS login detected without MFA for [{user_string}] in [{account_id}]"
 
     def alert_context(self, event):
         return aws_rule_context(event)

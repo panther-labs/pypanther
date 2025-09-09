@@ -1,5 +1,4 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
-from pypanther.helpers.config import config
 
 
 @panther_managed
@@ -16,7 +15,8 @@ class BoxEventTriggeredExternally(Rule):
     default_runbook = "Investigate whether this user's activity is expected.\n"
     summary_attributes = ["ip_address"]
     threshold = 10
-    DOMAINS = {"@" + domain for domain in config.ORGANIZATION_DOMAINS}
+    # "@example.com"
+    DOMAINS = {}
 
     def rule(self, event):
         # Check that all events are triggered by internal users
@@ -25,7 +25,8 @@ class BoxEventTriggeredExternally(Rule):
             # user id 2 indicates an anonymous user
             if user.get("id", "") == "2":
                 return True
-            return bool(user.get("login") and (not any(user.get("login", "").endswith(x) for x in self.DOMAINS)))
+            if self.DOMAINS:
+                return bool(user.get("login") and (not any(user.get("login", "").endswith(x) for x in self.DOMAINS)))
         return False
 
     def title(self, event):
