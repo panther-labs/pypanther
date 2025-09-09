@@ -29,7 +29,7 @@ class GSuiteIsSuspiciousTag(Rule):
                 "kind": "admin#reports#activity",
                 "type": "account_warning",
                 "name": "login_success",
-                "parameters": {"affected_email_address": "bobert@ext.runpanther.io"},
+                "parameters": {"affected_email_address": "denethor@lotr.com"},
             },
         ),
         RuleTest(
