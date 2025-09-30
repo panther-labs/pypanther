@@ -25,9 +25,9 @@ class CrowdstrikeSystemlogTampering(Rule):
         return False
 
     def title(self, event):
-        aid = event.get("aid", "<AID_NOT_FOUND>")
+        host = event.get("ComputerName") or event.get("aid", "<AID_NOT_FOUND>")
         command = event.deep_get("event", "CommandLine", default="<COMMAND_NOT_FOUND>")
-        return f"Crowdstrike: System log tampering attempt detected on aid [{aid}] with command [{command}]"
+        return f"Crowdstrike: System log tampering attempt detected on host [{host}] with command [{command}]"
 
     def alert_context(self, event):
         return crowdstrike_detection_alert_context(event)
