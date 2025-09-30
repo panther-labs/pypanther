@@ -30,10 +30,8 @@ class CrowdstrikeDNSRequest(Rule):
         return False
 
     def title(self, event):
-        return (
-            f"A denylisted domain [{get_crowdstrike_field(event, 'DomainName')}] was "
-            + f"queried by host {event.get('aid')}"
-        )
+        host = event.get("ComputerName") or event.get("aid", "<AID_NOT_FOUND>")
+        return f"A denylisted domain [{get_crowdstrike_field(event, 'DomainName')}] was " + f"queried by host {host}"
 
     def dedup(self, event):
         #  Alert on every individual lookup of a bad domain, per machine

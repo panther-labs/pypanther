@@ -25,8 +25,8 @@ class CrowdstrikeWMIQueryDetection(Rule):
 
     def title(self, event):
         cmd = event.deep_get("event", "CommandLine", default="<COMMAND_LINE_NOT_FOUND>")
-        aid = event.get("aid", "<AID_NOT_FOUND>")
-        return f"Crowdstrike: WMIC Query [{cmd}] performed on aid [{aid}]"
+        host = event.get("ComputerName") or event.get("aid", "<AID_NOT_FOUND>")
+        return f"Crowdstrike: WMIC Query [{cmd}] performed on host [{host}]"
 
     def alert_context(self, event):
         return crowdstrike_detection_alert_context(event)

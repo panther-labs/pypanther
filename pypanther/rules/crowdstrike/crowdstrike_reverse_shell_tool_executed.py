@@ -35,8 +35,8 @@ class CrowdstrikeReverseShellToolExecuted(Rule):
 
     def title(self, event):
         tool = event.deep_get("event", "ImageFileName", default="<TOOL_NOT_FOUND>").lower().split("\\")[-1]
-        aid = event.get("aid", "<AID_NOT_FOUND>")
-        return f"Crowdstrike: Reverse shell tool [{tool}] detected on aid [{aid}]"
+        host = event.get("ComputerName") or event.get("aid", "<AID_NOT_FOUND>")
+        return f"Crowdstrike: Reverse shell tool [{tool}] detected on host [{host}]"
 
     def alert_context(self, event):
         return crowdstrike_detection_alert_context(event)
