@@ -21,7 +21,7 @@ jobs:
       with:
         token: ${{ secrets.PANTHER_BOT_AUTOMATION_TOKEN }}
     - name: Set up Python
-      uses: actions/setup-python@532b046aaf352bab5717122cc0ea52b7f12266a3
+      uses: actions/setup-python@bba65e51ff35d50c6dbaaacd8a4681db13aa7cb4
       with:
         python-version: '3.11'
     - name: Install Requirements

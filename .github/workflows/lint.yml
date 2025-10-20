@@ -9,7 +9,7 @@ jobs:
     steps:
     - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332
     - name: Set up Python
-      uses: actions/setup-python@532b046aaf352bab5717122cc0ea52b7f12266a3   #v5.6.0
+      uses: actions/setup-python@bba65e51ff35d50c6dbaaacd8a4681db13aa7cb4   #v5.6.0
       with:
         python-version: '3.11'
     - name: Install dependencies
