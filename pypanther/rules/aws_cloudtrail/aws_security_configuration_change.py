@@ -53,13 +53,7 @@ class AWSCloudTrailSecurityConfigurationChange(Rule):
         return event.get("eventName") in self.SECURITY_CONFIG_ACTIONS
 
     def title(self, event):
-        user = event.deep_get("userIdentity", "userName") or event.deep_get(
-            "userIdentity",
-            "sessionContext",
-            "sessionIssuer",
-            "userName",
-        )
-        return f"Sensitive AWS API call {event.get('eventName')} made by {user}"
+        return f"Sensitive AWS API call {event.get('eventName')} made by {event.udm('actor_user')}"
 
     def alert_context(self, event):
         return aws_rule_context(event)

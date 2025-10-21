@@ -1,4 +1,5 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
+from pypanther.helpers.gsuite import gsuite_activityevent_alert_context
 
 
 @panther_managed
@@ -31,6 +32,9 @@ class GSuiteWorkspaceGmailDefaultRoutingRuleModified(Rule):
         #  _GMAIL_SETTING, and as such change_type assumes the happy path.
         change_type = f"{event.get('name', '').split('_')[0].lower()}d"
         return f"GSuite Gmail Default Routing Rule Was [{change_type}] by [{event.deep_get('actor', 'email', default='<UNKNOWN_EMAIL>')}]"
+
+    def alert_context(self, event):
+        return gsuite_activityevent_alert_context(event)
 
     tests = [
         RuleTest(

@@ -1,4 +1,5 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
+from pypanther.helpers.gsuite import gsuite_activityevent_alert_context
 
 
 @panther_managed
@@ -34,6 +35,9 @@ class GSuiteWorkspaceCalendarExternalSharingSetting(Rule):
             + f"from [{event.deep_get('parameters', 'OLD_VALUE', default='<NO_OLD_SETTING_FOUND>')}] "
             + f"to [{event.deep_get('parameters', 'NEW_VALUE', default='<NO_NEW_SETTING_FOUND>')}]"
         )
+
+    def alert_context(self, event):
+        return gsuite_activityevent_alert_context(event)
 
     tests = [
         RuleTest(

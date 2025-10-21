@@ -1,4 +1,5 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
+from pypanther.helpers.gsuite import gsuite_activityevent_alert_context
 
 
 @panther_managed
@@ -31,6 +32,9 @@ class GSuiteWorkspacePasswordReuseEnabled(Rule):
 
     def title(self, event):
         return f"GSuite Workspace Password Reuse Has Been Enabled By [{event.deep_get('actor', 'email', default='<NO_ACTOR_FOUND>')}]"
+
+    def alert_context(self, event):
+        return gsuite_activityevent_alert_context(event)
 
     tests = [
         RuleTest(

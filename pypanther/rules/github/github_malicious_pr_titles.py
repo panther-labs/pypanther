@@ -59,7 +59,7 @@ class GitHubWebhookMaliciousPRTitles(Rule):
     COMPILED_BASH_PATTERNS = [re.compile(pattern, re.IGNORECASE | re.MULTILINE) for pattern in BASH_INJECTION_PATTERNS]
 
     def rule(self, event):
-        if not is_pull_request_event(event):
+        if not is_pull_request_event(event) or event.deep_get("action") != "opened":
             return False
         if pr_title := event.deep_get("pull_request", "title"):
             return any(pattern.search(pr_title) for pattern in self.COMPILED_BASH_PATTERNS)

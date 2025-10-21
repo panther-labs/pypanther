@@ -18,7 +18,7 @@ class GitHubWebhookPullRequestTargetUsage(Rule):
     )
 
     def rule(self, event):
-        return event.deep_get("workflow_run", "event") == "pull_request_target"
+        return event.deep_get("workflow_run", "event") == "pull_request_target" and event.get("action") == "completed"
 
     def title(self, event):
         workflow_name = event.deep_get("workflow_run", "name", default="<UNKNOWN_WORKFLOW>")
@@ -179,6 +179,44 @@ class GitHubWebhookPullRequestTargetUsage(Rule):
                     "html_url": "https://github.com/example-org/example-repo/actions/runs/22222222",
                     "head_branch": "main",
                     "pull_requests": [],
+                },
+                "repository": {"id": 243627255, "full_name": "example-org/example-repo", "private": True},
+            },
+        ),
+        RuleTest(
+            name="Pull request target workflow requested",
+            expected_result=False,
+            log={
+                "action": "requested",
+                "workflow_run": {
+                    "id": 12345678,
+                    "name": "Security Scan",
+                    "event": "pull_request_target",
+                    "status": "completed",
+                    "conclusion": "success",
+                    "html_url": "https://github.com/example-org/example-repo/actions/runs/12345678",
+                    "head_branch": "feature-branch",
+                    "pull_requests": [
+                        {
+                            "number": 123,
+                            "head": {
+                                "ref": "feature-branch",
+                                "repo": {
+                                    "id": 243627255,
+                                    "name": "example-repo",
+                                    "full_name": "example-org/example-repo",
+                                },
+                            },
+                            "base": {
+                                "ref": "main",
+                                "repo": {
+                                    "id": 243627255,
+                                    "name": "example-repo",
+                                    "full_name": "example-org/example-repo",
+                                },
+                            },
+                        },
+                    ],
                 },
                 "repository": {"id": 243627255, "full_name": "example-org/example-repo", "private": True},
             },

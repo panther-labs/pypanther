@@ -1,4 +1,5 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
+from pypanther.helpers.gsuite import gsuite_activityevent_alert_context
 
 
 @panther_managed
@@ -33,6 +34,9 @@ class GSuiteWorkspaceGmailPredeliveryScanningDisabled(Rule):
 
     def title(self, event):
         return f"GSuite Gmail Enhanced Pre-Delivery Scanning was disabled for [{event.deep_get('parameters', 'ORG_UNIT_NAME', default='<NO_ORG_UNIT_NAME>')}] by [{event.deep_get('actor', 'email', default='<UNKNOWN_EMAIL>')}]"
+
+    def alert_context(self, event):
+        return gsuite_activityevent_alert_context(event)
 
     tests = [
         RuleTest(
