@@ -9,7 +9,7 @@ class GCPTagBindingCreation(Rule):
     display_name = "GCP Tag Binding Creation"
     log_types = [LogType.GCP_AUDIT_LOG]
     create_alert = False
-    default_runbook = "Verify if the user has legitimate business need for creating this tag binding. If unauthorized, revoke the tag binding and review IAM policies.\n"
+    default_runbook = "Verify if the user has legitimate business need for creating this tag binding.\nIf unauthorized, revoke the tag binding and review IAM policies.\n"
     default_severity = Severity.INFO
     tags = ["attack.privilege_escalation", "attack.t1548", "gcp", "iam", "tagbinding"]
 

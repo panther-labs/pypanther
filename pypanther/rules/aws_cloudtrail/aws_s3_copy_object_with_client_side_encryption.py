@@ -9,9 +9,10 @@ class AWSS3CopyObjectWithClientSideEncryption(Rule):
     default_severity = Severity.MEDIUM
     threshold = 50
     log_types = [LogType.AWS_CLOUDTRAIL]
-    tags = ["AWS", "S3", "CloudTrail"]
+    tags = ["AWS", "S3", "CloudTrail", "Ransomware", "Impact:Data Destruction"]
+    reports = {"Stratus Red Team": ["aws.impact.s3-ransomware-client-side-encryption"]}
     default_description = "This rule detects when objects are copied in an S3 bucket with client-side encryption. Such actions can be indicative of unauthorized data access or other suspicious activities.\n"
-    default_runbook = "Investigate the user and the actions performed on the S3 bucket to ensure they were authorized. Unauthorized copying of encrypted objects can lead to data exposure. Steps to investigate: 1. Identify the user who performed the action. 2. Verify if the action was authorized. 3. Check for any other suspicious activities performed by the same user. 4. If unauthorized, take necessary actions to secure the S3 bucket and prevent further unauthorized access.\n"
+    default_runbook = "Investigate the user and the actions performed on the S3 bucket to ensure they were authorized. Unauthorized copying of encrypted objects can lead to data exposure.\nSteps to investigate:\n1. Identify the user who performed the action.\n2. Verify if the action was authorized.\n3. Check for any other suspicious activities performed by the same user.\n4. If unauthorized, take necessary actions to secure the S3 bucket and prevent further unauthorized access.\n"
     default_reference = "https://docs.aws.amazon.com/AmazonS3/latest/userguide/logging-with-cloudtrail.html"
 
     def rule(self, event):

@@ -181,11 +181,34 @@ from pypanther.rules.aws_cloudtrail.aws_s3_bucket_deleted import AWSS3BucketDele
 from pypanther.rules.aws_cloudtrail.aws_s3_bucket_policy_modified import (
     AWSS3BucketPolicyModified as AWSS3BucketPolicyModified,
 )
+from pypanther.rules.aws_cloudtrail.aws_s3_copy_object_cross_account_kms import (
+    AWSS3CopyObjectCrossAccountEncryptionKMS as AWSS3CopyObjectCrossAccountEncryptionKMS,
+)
+from pypanther.rules.aws_cloudtrail.aws_s3_copy_object_to_external_account_bucket import (
+    AWSS3CopyObjectToExternalAccountBucket as AWSS3CopyObjectToExternalAccountBucket,
+)
 from pypanther.rules.aws_cloudtrail.aws_s3_copy_object_with_client_side_encryption import (
     AWSS3CopyObjectWithClientSideEncryption as AWSS3CopyObjectWithClientSideEncryption,
 )
+from pypanther.rules.aws_cloudtrail.aws_s3_delete_bucket_encryption import (
+    AWSS3DeleteBucketEncryption as AWSS3DeleteBucketEncryption,
+)
+from pypanther.rules.aws_cloudtrail.aws_s3_delete_bucket_replication import (
+    AWSS3DeleteBucketReplication as AWSS3DeleteBucketReplication,
+)
 from pypanther.rules.aws_cloudtrail.aws_s3_delete_object import AWSS3DeleteObject as AWSS3DeleteObject
 from pypanther.rules.aws_cloudtrail.aws_s3_delete_objects import AWSS3DeleteObjects as AWSS3DeleteObjects
+from pypanther.rules.aws_cloudtrail.aws_s3_delete_public_access_block import (
+    AWSS3DeletePublicAccessBlock as AWSS3DeletePublicAccessBlock,
+)
+from pypanther.rules.aws_cloudtrail.aws_s3_disable_bucket_logging import (
+    AWSS3DisableBucketLogging as AWSS3DisableBucketLogging,
+)
+from pypanther.rules.aws_cloudtrail.aws_s3_disable_mfa_delete import AWSS3DisableMfaDelete as AWSS3DisableMfaDelete
+from pypanther.rules.aws_cloudtrail.aws_s3_ransomware_note_upload import (
+    AWSS3RansomwareNoteUpload as AWSS3RansomwareNoteUpload,
+)
+from pypanther.rules.aws_cloudtrail.aws_s3_suspend_versioning import AWSS3SuspendVersioning as AWSS3SuspendVersioning
 from pypanther.rules.aws_cloudtrail.aws_saml_activity import AWSSuspiciousSAMLActivity as AWSSuspiciousSAMLActivity
 from pypanther.rules.aws_cloudtrail.aws_secretsmanager_retrieve_secrets import (
     AWSSecretsManagerRetrieveSecrets as AWSSecretsManagerRetrieveSecrets,

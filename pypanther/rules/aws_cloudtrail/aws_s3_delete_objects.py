@@ -8,23 +8,26 @@ class AWSS3DeleteObjects(Rule):
     id = "AWS.S3.DeleteObjects-prototype"
     default_severity = Severity.INFO
     log_types = [LogType.AWS_CLOUDTRAIL]
-    tags = ["AWS", "S3", "CloudTrail", "Beta"]
+    tags = ["AWS", "S3", "CloudTrail"]
+    reports = {"Stratus Red Team": ["aws.impact.s3-ransomware-batch-deletion"]}
     default_description = "This rule detects when multiple objects are deleted from an S3 bucket. Such actions can be indicative of unauthorized data deletion or other suspicious activities.\n"
-    default_runbook = "Investigate the user and the actions performed on the S3 bucket to ensure they were authorized. Unauthorized deletions can lead to data loss. Steps to investigate: 1. Identify the user who performed the action. 2. Verify if the action was authorized. 3. Check for any other suspicious activities performed by the same user. 4. If unauthorized, take necessary actions to secure the S3 bucket and prevent further unauthorized access.\n"
+    default_runbook = "Investigate the user and the actions performed on the S3 bucket to ensure they were authorized. Unauthorized deletions can lead to data loss.\nSteps to investigate:\n1. Identify the user who performed the action.\n2. Verify if the action was authorized.\n3. Check for any other suspicious activities performed by the same user.\n4. If unauthorized, take necessary actions to secure the S3 bucket and prevent further unauthorized access.\n"
     default_reference = "https://docs.aws.amazon.com/AmazonS3/latest/userguide/logging-with-cloudtrail.html"
 
     def rule(self, event):
         return (
             aws_cloudtrail_success(event)
             and event.get("eventSource") == "s3.amazonaws.com"
-            and (event.get("eventName") == "DeleteObjects")
+            and (event.get("eventName") in ("DeleteObjects", "DeleteObjectVersion"))
         )
 
     def title(self, event):
         return f"[AWS.CloudTrail] User [{event.udm('actor_user')}] deleted many objects on [{event.deep_get('requestParameters', 'bucketName')}] bucket"
 
     def alert_context(self, event):
-        return aws_rule_context(event)
+        context = aws_rule_context(event)
+        context["bucketName"] = event.deep_get("requestParameters", "bucketName", default="UNKNOWN_BUCKET")
+        return context
 
     tests = [
         RuleTest(

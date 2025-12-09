@@ -1,4 +1,5 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
+from pypanther.helpers.gsuite import gsuite_activityevent_alert_context
 
 
 @panther_managed
@@ -10,7 +11,7 @@ class GSuiteWorkspaceTrustedDomainsAllowlist(Rule):
     default_severity = Severity.MEDIUM
     default_description = "A Workspace Admin Has Modified The Trusted Domains List\n"
     default_reference = "https://support.google.com/a/answer/6160020?hl=en&sjid=864417124752637253-EU"
-    default_runbook = "Verify the intent of this modification. If intent cannot be verified, then an indicator search on the actor is advised.\n"
+    default_runbook = "Verify the intent of this modification. If intent cannot be verified, then\nan indicator search on the actor is advised.\n"
     summary_attributes = ["actor:email"]
     reports = {"MITRE ATT&CK": ["TA0003:T1098"]}
 
@@ -19,6 +20,9 @@ class GSuiteWorkspaceTrustedDomainsAllowlist(Rule):
 
     def title(self, event):
         return f"GSuite Workspace Trusted Domains Modified [{event.get('name', '<NO_EVENT_NAME>')}] with [{event.deep_get('parameters', 'DOMAIN_NAME', default='<NO_DOMAIN_NAME>')}] performed by [{event.deep_get('actor', 'email', default='<NO_ACTOR_FOUND>')}]"
+
+    def alert_context(self, event):
+        return gsuite_activityevent_alert_context(event)
 
     tests = [
         RuleTest(

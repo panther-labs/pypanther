@@ -69,7 +69,7 @@ class AzureAuditMFADisabled(Rule):
                 "durationMs": 0,
                 "callerIpAddress": "1.2.3.4",
                 "correlationId": "123456789",
-                "Level": 4,
+                "Level": "4",
                 "properties": {
                     "tenantId": "123456789",
                     "resultType": "",
@@ -91,7 +91,7 @@ class AzureAuditMFADisabled(Rule):
                         "user": {
                             "id": "123456789b",
                             "displayName": None,
-                            "userPrincipalName": "Kratos@onmicrosoft.com",
+                            "userPrincipalName": "denethor@lotr.com",
                             "ipAddress": "1.2.3.4",
                             "roles": [],
                         },
@@ -129,7 +129,7 @@ class AzureAuditMFADisabled(Rule):
                 "durationMs": 0,
                 "callerIpAddress": "1.2.3.4",
                 "correlationId": "123456789",
-                "Level": 4,
+                "Level": "4",
                 "properties": {
                     "tenantId": "123456789",
                     "resultType": "",
@@ -151,7 +151,7 @@ class AzureAuditMFADisabled(Rule):
                         "user": {
                             "id": "123456789b",
                             "displayName": None,
-                            "userPrincipalName": "Kratos@onmicrosoft.com",
+                            "userPrincipalName": "denethor@lotr.com",
                             "ipAddress": "1.2.3.4",
                             "roles": [],
                         },
@@ -189,7 +189,7 @@ class AzureAuditMFADisabled(Rule):
                 "durationMs": 0,
                 "callerIpAddress": "1.2.3.4",
                 "correlationId": "123456",
-                "Level": 4,
+                "Level": "4",
                 "properties": {
                     "tenantId": "123456",
                     "resultType": "",

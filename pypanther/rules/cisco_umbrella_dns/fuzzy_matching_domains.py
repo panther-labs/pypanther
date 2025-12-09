@@ -14,7 +14,7 @@ class CiscoUmbrellaDNSFuzzyMatching(Rule):
     default_reference = "https://umbrella.cisco.com/blog/abcs-of-dns"
     default_severity = Severity.MEDIUM
     default_description = "Identify lookups to suspicious domains that could indicate a phishing attack."
-    default_runbook = "Validate if your organization owns the domain, otherwise investigate the host that made the domain resolution.\n"
+    default_runbook = "Validate if your organization owns the domain, otherwise investigate the host that made\nthe domain resolution.\n"
     DOMAIN = ""  # The domain to monitor for phishing, for example "google.com"
     # List all of your known-good domains here
     ALLOW_SET = {}

@@ -12,14 +12,14 @@ class AWSEC2LaunchUnusualEC2Instances(Rule):
     display_name = "AWS EC2 Launch Unusual EC2 Instances"
     log_types = [LogType.AWS_CLOUDTRAIL]
     default_severity = Severity.INFO
-    reports = {"MITRE ATT&CK": ["TA0002:T1610"]}
+    reports = {"MITRE ATT&CK": ["TA0002:T1610"], "Stratus Red Team": ["aws.execution.ec2-launch-unusual-instances"]}
     default_description = (
         "Detect when an actor deploys an EC2 instance with an unusual profile based on your business needs.\n"
     )
     default_reference = (
         "https://stratus-red-team.cloud/attack-techniques/AWS/aws.execution.ec2-launch-unusual-instances/\n"
     )
-    default_runbook = "Follow up with the instance to identify whether the instance has a legitimate purpose. Reach out to the actor to ensure they performed the action.\n"
+    default_runbook = "Follow up with the instance to identify whether the instance has a legitimate\npurpose. Reach out to the actor to ensure they performed the action.\n"
     summary_attributes = [
         "p_any_aws_account_ids",
         "p_any_instance_ids",
@@ -27,7 +27,8 @@ class AWSEC2LaunchUnusualEC2Instances(Rule):
         "p_any_aws_tags",
         "p_any_usernames",
     ]
-    tags = ["CloudTrail", "EC2", "Execution", "Deploy Container", "Execution:Deploy Container", "Beta"]
+    tags = ["CloudTrail", "EC2", "Execution", "Deploy Container", "Execution:Deploy Container"]
+    status = "Experimental"
     # Configuration Required
     #   Add/remove items from the set below as needed. It should contain instance types which aren't
     #   expected to be used in your environment

@@ -54,7 +54,7 @@ class AzureAuditPolicyChanged(Rule):
                 "durationMs": 0,
                 "callerIpAddress": "1.2.3.4",
                 "correlationId": "1324515",
-                "Level": 4,
+                "Level": "4",
                 "properties": {
                     "tenantId": "132455112",
                     "resultType": "",
@@ -76,7 +76,7 @@ class AzureAuditPolicyChanged(Rule):
                         "user": {
                             "id": "234526234",
                             "displayName": None,
-                            "userPrincipalName": "Kratos@mtolympus.com",
+                            "userPrincipalName": "aragorn@lotr.com",
                             "ipAddress": "1.2.3.4",
                             "roles": [],
                         },
@@ -114,7 +114,7 @@ class AzureAuditPolicyChanged(Rule):
                 "durationMs": 0,
                 "callerIpAddress": "1.2.3.4",
                 "correlationId": "124412123",
-                "Level": 4,
+                "Level": "4",
                 "properties": {
                     "tenantId": "123515-5-1235",
                     "resultType": "",
@@ -136,7 +136,7 @@ class AzureAuditPolicyChanged(Rule):
                         "user": {
                             "id": "12345123",
                             "displayName": None,
-                            "userPrincipalName": "Kratos@onmicrosoft.com",
+                            "userPrincipalName": "denethor@lotr.com",
                             "ipAddress": "1.2.3.4",
                             "roles": [],
                         },
@@ -168,7 +168,7 @@ class AzureAuditPolicyChanged(Rule):
                 "durationMs": 0,
                 "ipAddress": "1.2.3.4",
                 "correlationId": "124412123",
-                "Level": 4,
+                "Level": "4",
                 "properties": {
                     "tenantId": "123515-5-1235",
                     "resultType": "",

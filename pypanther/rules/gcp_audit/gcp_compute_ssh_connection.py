@@ -12,7 +12,8 @@ class GCPComputeSSHConnection(Rule):
     default_severity = Severity.INFO
     default_description = "Detect any SSH connections to a Compute Instance.\n"
     default_reference = "https://cloud.google.com/compute/docs/connect/ssh-best-practices/auditing\n"
-    tags = ["GCP", "GCP.AuditLog", "SSH", "Compute", "Beta"]
+    tags = ["GCP", "GCP.AuditLog", "SSH", "Compute"]
+    status = "Experimental"
 
     def rule(self, event: PantherEvent) -> bool:
         service_name = event.deep_get("protoPayload", "serviceName", default="")
@@ -93,33 +94,30 @@ class GCPComputeSSHConnection(Rule):
             name="Connect with IAP",
             expected_result=True,
             log={
-                "p_any_ip_addresses": ["192.168.1.100"],
-                "p_any_emails": ["user@example.com"],
+                "p_any_ip_addresses": ["1.1.1.1"],
+                "p_any_emails": ["denethor@lotr.com"],
                 "p_any_usernames": ["user"],
                 "p_event_time": "2025-05-27 16:46:46.485356507",
                 "p_log_type": "GCP.AuditLog",
                 "p_parse_time": "2025-05-27 19:05:21.311995228",
-                "p_row_id": "fee0f92d7864a191dfa994e326d28304",
+                "p_row_id": "00000000001029dcce464e32dded45ed",
                 "p_schema_version": 0,
                 "p_source_id": "bd7da315-647e-4eca-bcfe-083fab18f3f1",
                 "p_source_label": "gcp-logsource",
-                "p_udm": {
-                    "source": {"address": "192.168.1.100", "ip": "192.168.1.100"},
-                    "user": {"email": "user@example.com"},
-                },
+                "p_udm": {"source": {"address": "1.1.1.1", "ip": "1.1.1.1"}, "user": {"email": "denethor@lotr.com"}},
                 "insertId": "1rk2tche2xh0e",
                 "logName": "projects/example-project/logs/cloudaudit.googleapis.com%2Fdata_access",
                 "operation": {"id": "Q444-UYUD-GBRY-QFUF-AS7Q-6A6E", "producer": "iap.googleapis.com"},
                 "protoPayload": {
                     "at_sign_type": "type.googleapis.com/google.cloud.audit.AuditLog",
-                    "authenticationInfo": {"principalEmail": "user@example.com"},
+                    "authenticationInfo": {"principalEmail": "denethor@lotr.com"},
                     "authorizationInfo": [
                         {
                             "granted": True,
                             "permission": "iap.tunnelInstances.accessViaIAP",
-                            "resource": "projects/123456789012/iap_tunnel/zones/us-central1-f/instances/1234567890123456789",
+                            "resource": "projects/222222222222/iap_tunnel/zones/us-central1-f/instances/1234567890123456789",
                             "resourceAttributes": {
-                                "name": "projects/123456789012/iap_tunnel/zones/us-central1-f/instances/1234567890123456789",
+                                "name": "projects/222222222222/iap_tunnel/zones/us-central1-f/instances/1234567890123456789",
                                 "service": "iap.googleapis.com",
                                 "type": "iap.googleapis.com/TunnelInstance",
                             },
@@ -138,9 +136,9 @@ class GCPComputeSSHConnection(Rule):
                         "httpRequest": {"url": ""},
                     },
                     "requestMetadata": {
-                        "callerIP": "192.168.1.100",
+                        "callerIP": "1.1.1.1",
                         "callerSuppliedUserAgent": "(none supplied)",
-                        "destinationAttributes": {"ip": "10.128.0.9", "port": "22"},
+                        "destinationAttributes": {"ip": "1.2.3.4", "port": "22"},
                         "requestAttributes": {"auth": {}, "time": "2025-05-27T16:46:46.500915047Z"},
                     },
                     "resourceName": "1234567890123456789",

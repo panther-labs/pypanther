@@ -1,4 +1,5 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
+from pypanther.helpers.gsuite import gsuite_activityevent_alert_context
 
 
 @panther_managed
@@ -29,6 +30,9 @@ class GSuiteUserSuspended(Rule):
         if not user:
             user = "<UNKNOWN_USER>"
         return f"User [{user}]'s account was disabled"
+
+    def alert_context(self, event):
+        return gsuite_activityevent_alert_context(event)
 
     tests = [
         RuleTest(

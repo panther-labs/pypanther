@@ -10,7 +10,7 @@ class AWSLambdaUpdateFunctionCode(Rule):
     log_types = [LogType.AWS_CLOUDTRAIL]
     reports = {"MITRE ATT&CK": ["TA0007:T1078"]}
     default_severity = Severity.INFO
-    tags = ["Beta"]
+    status = "Experimental"
     default_description = (
         "Identifies when the code of a Lambda function is updated, which could indicate a potential security risk.\n"
     )

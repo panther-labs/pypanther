@@ -19,7 +19,7 @@ class AWSBedrockGuardrailUpdateDelete(Rule):
     default_severity = Severity.MEDIUM
     reports = {"MITRE ATT&CK": ["TA0005:T1562.001"]}
     default_description = "An Amazon Bedrock Guardrail was updated or deleted. Amazon Bedrock Guardrails are used to implement application-specific safeguards based on your use cases and responsible AI policies. Updating or deleting a guardrail can have security implications to your AI workloads.\n"
-    default_runbook = "Review the guardrail update or deletion to ensure that it was authorized and that it does not introduce security risks to your AI workloads. If the guardrail update or deletion was unauthorized, investigate the incident and take appropriate action. https://atlas.mitre.org/mitigations/AML.M0020\n"
+    default_runbook = "Review the guardrail update or deletion to ensure that it was authorized and that it does not introduce security risks to your AI workloads.\nIf the guardrail update or deletion was unauthorized, investigate the incident and take appropriate action.\nhttps://atlas.mitre.org/mitigations/AML.M0020\n"
     default_reference = "https://docs.aws.amazon.com/bedrock/latest/APIReference/API_DeleteGuardrail.html"
     summary_attributes = ["userAgent", "sourceIpAddress", "recipientAccountId", "p_any_aws_arns"]
     GUARDRAIL_EVENTS = {"DeleteGuardrail", "UpdateGuardrail"}

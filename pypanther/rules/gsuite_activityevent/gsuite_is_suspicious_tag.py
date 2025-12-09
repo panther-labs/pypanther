@@ -6,7 +6,8 @@ class GSuiteIsSuspiciousTag(Rule):
     id = "GSuite.IsSuspiciousTag-prototype"
     display_name = "Suspicious is_suspicious tag"
     log_types = [LogType.GSUITE_ACTIVITY_EVENT]
-    tags = ["GSuite", "Beta"]
+    tags = ["GSuite"]
+    status = "Experimental"
     default_severity = Severity.INFO
     default_description = "GSuite reported a suspicious activity for this user.\n"
     default_reference = "https://support.google.com/a/answer/7102416?hl=en"

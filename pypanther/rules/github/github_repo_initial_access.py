@@ -16,7 +16,10 @@ class GitHubRepoInitialAccess(Rule):
 
     def rule(self, event):
         # if the actor field is empty, short circuit the rule
-        if not event.udm("actor_user"):
+        # Excluding secret scanning bots
+        allowed_users = ["secret-scanning[bot]"]
+        actor = event.udm("actor_user")
+        if not actor or any(allowed_user in actor for allowed_user in allowed_users):
             return False
         if event.get("action") in self.CODE_ACCESS_ACTIONS and (not event.get("repository_public")):
             # Compute unique entry for this user + repo
@@ -108,6 +111,27 @@ class GitHubRepoInitialAccess(Rule):
                 "repository": "my-org/my-repo",
                 "repository_public": False,
                 "actor": "",
+                "user": "",
+            },
+        ),
+        RuleTest(
+            name="GitHub - Initial Access by Allowed User",
+            expected_result=False,
+            mocks=[
+                RuleMock(object_name="get_string_set", return_value=""),
+                RuleMock(object_name="put_string_set", return_value=""),
+            ],
+            log={
+                "@timestamp": 1623971719091,
+                "business": "",
+                "org": "my-org",
+                "repo": "my-org/my-repo",
+                "action": "git.push",
+                "p_log_type": "GitHub.Audit",
+                "protocol_name": "ssh",
+                "repository": "my-org/my-repo",
+                "repository_public": False,
+                "actor": "secret-scanning[bot]",
                 "user": "",
             },
         ),

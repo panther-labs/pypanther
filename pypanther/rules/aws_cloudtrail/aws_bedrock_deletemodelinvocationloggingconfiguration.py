@@ -11,7 +11,7 @@ class AWSBedrockDeleteModelInvocationLoggingConfiguration(Rule):
     default_severity = Severity.MEDIUM
     reports = {"MITRE ATT&CK": ["TA0005:T1562.003"]}
     default_description = "An Amazon Bedrock Model Invocation Logging Configuration was deleted. Use model invocation logging to collect metadata, requests, and responses for all model invocations in your account. Deleting a model invocation logging configuration can have security implications to your AI workloads.\n"
-    default_runbook = "Review the model invocation logging configuration deletion to ensure that it was authorized and that it does not introduce security risks to your AI workloads. If the model invocation logging configuration deletion was unauthorized, investigate the incident and take appropriate action.\n"
+    default_runbook = "Review the model invocation logging configuration deletion to ensure that it was authorized and that it does not introduce security risks to your AI workloads.\nIf the model invocation logging configuration deletion was unauthorized, investigate the incident and take appropriate action.\n"
     default_reference = "https://docs.aws.amazon.com/bedrock/latest/userguide/model-invocation-logging.html"
     summary_attributes = ["userAgent", "sourceIpAddress", "recipientAccountId", "p_any_aws_arns"]
 

@@ -1,6 +1,6 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.base import is_base64
-from pypanther.helpers.crowdstrike_fdr import crowdstrike_process_alert_context
+from pypanther.helpers.crowdstrike_fdr import crowdstrike_process_alert_context, get_crowdstrike_field
 
 
 @panther_managed
@@ -50,8 +50,9 @@ class CrowdstrikeBase64EncodedArgs(Rule):
     def title(self, event):
         process_name = event.udm("process_name") if event.udm("process_name") else "Unknown"
         process_name = process_name.lower()
-        command_line = event.udm("cmd")
-        return f"Crowdstrike: Execution with base64 encoded args: [{process_name}] - [{command_line}]"
+        parent_process_name = get_crowdstrike_field(event, "ParentBaseFileName", default="Unknown")
+        parent_process_name = parent_process_name.lower()
+        return "Crowdstrike: Execution with base64 encoded args: " + f"[{parent_process_name}] -> [{process_name}]"
 
     def alert_context(self, event):
         context = crowdstrike_process_alert_context(event)
@@ -932,9 +933,70 @@ class CrowdstrikeBase64EncodedArgs(Rule):
                     "ImageFileName": "\\Device\\HarddiskVolume2\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
                     "ImageSubsystem": "3",
                     "IntegrityLevel": "12288",
-                    "MD5HashData": "c031e215b8b08c752bf362f6d4c5d3ad",
+                    "MD5HashData": "0000000000e664180df54a59ceaa976d",
                     "ParentAuthenticationId": "293628",
                     "ParentBaseFileName": "pwsh.exe",
+                    "ParentProcessId": "4370948876",
+                    "ProcessCreateFlags": "1024",
+                    "ProcessEndTime": "",
+                    "ProcessParameterFlags": "24577",
+                    "ProcessStartTime": "1682368414.719",
+                    "ProcessSxsFlags": "64",
+                    "RawProcessId": "3120",
+                    "SHA1HashData": "0000000000000000000000000000000000000000",
+                    "SHA256HashData": "0000000000df01c3b8a21a5684c9f16fbc1b97049676c43262cc31c73f910da1",
+                    "SessionId": "2",
+                    "SignInfoFlags": "8683538",
+                    "SourceProcessId": "4370948876",
+                    "SourceThreadId": "111111111111",
+                    "Tags": "25, 27, 40, 151, 874, 924, 12094627905582, 12094627906234, 211106232533012, 263882790666253",
+                    "TargetProcessId": "10413665481",
+                    "TokenType": "1",
+                    "TreeId": "4295752857",
+                    "UserSid": "S-1-5-21-239183934-720705223-383019856-500",
+                    "aid": "877761efa8db44d792ddc2redacted",
+                    "aip": "1.1.1.1",
+                    "cid": "cfe698690964434083fecdredacted",
+                    "event_platform": "Win",
+                    "event_simpleName": "ProcessRollup2",
+                    "id": "b0c07877-f288-49f8-8cb3-150149a557b2",
+                    "name": "ProcessRollup2V19",
+                    "timestamp": "1682368416719",
+                },
+                "event_platform": "Win",
+                "event_simpleName": "ProcessRollup2",
+                "fdr_event_type": "ProcessRollup2",
+                "id": "b0c07877-f288-49f8-8cb3-150149a557b2",
+                "name": "ProcessRollup2V19",
+                "p_log_type": "Crowdstrike.FDREvent",
+                "timestamp": "2023-04-24 20:33:36.719",
+            },
+        ),
+        RuleTest(
+            name="PowerShell UTF-16LE Encoded Command - Get-ItemProperty (Positive)",
+            expected_result=True,
+            log={
+                "ConfigBuild": "1007.3.0016606.11",
+                "ConfigStateHash": "3645117824",
+                "Entitlements": "15",
+                "TreeId": "4295752857",
+                "aid": "877761efa8db44d792ddc2redacted",
+                "aip": "1.1.1.1",
+                "cid": "cfe698690964434083fecdredacted",
+                "event": {
+                    "AuthenticationId": "293628",
+                    "AuthenticodeHashData": "98a4762f52a",
+                    "CommandLine": "powershell.exe -NoProfile -EncodedCommand KABHAGUAdAAtAEkAdABlAG0AUAByAG8AcABlAHIAdAB5ACAALQBQAGEAdABoACAASABLAEwATQA6AFwAUwBZAFMAVABFAE0AXABDAHUAcgByAGUAbgB0AEMAbwBuAHQAcgBvAGwAUwBlAHQAXABDAG8AbgB0AHIAbwBsAFwAVABpAG0AZQBaAG8AbgBlAEkAbgBmAG8AcgBtAGEAdABpAG8AbgAgAC0ATgBhAG0AZQAgAFIAZQBhAGwAVABpAG0AZQBJAHMAVQBuAGkAdgBlAHIAcwBhAGwAKQAuAFIAZQBhAGwAVABpAG0AZQBJAHMAVQBuAGkAdgBlAHIAcwBhAGwA",
+                    "ConfigBuild": "1007.3.0016606.11",
+                    "ConfigStateHash": "3645117824",
+                    "EffectiveTransmissionClass": "2",
+                    "Entitlements": "15",
+                    "ImageFileName": "\\Device\\HarddiskVolume2\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+                    "ImageSubsystem": "3",
+                    "IntegrityLevel": "12288",
+                    "MD5HashData": "c031e215b8b08c752bf362f6d4c5d3ad",
+                    "ParentAuthenticationId": "293628",
+                    "ParentBaseFileName": "python.exe",
                     "ParentProcessId": "4370948876",
                     "ProcessCreateFlags": "1024",
                     "ProcessEndTime": "",

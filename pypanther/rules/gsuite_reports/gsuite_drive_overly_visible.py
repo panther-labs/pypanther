@@ -7,7 +7,7 @@ from pypanther.helpers.gsuite import gsuite_parameter_lookup as param_lookup
 class GSuiteDriveOverlyVisible(Rule):
     id = "GSuite.DriveOverlyVisible-prototype"
     display_name = "GSuite Overly Visible Drive Document"
-    log_types = [LogType.GSUITE_REPORTS]
+    log_types = [LogType.GSUITE_ACTIVITY_EVENT]
     tags = ["GSuite", "Collection:Data from Information Repositories"]
     reports = {"MITRE ATT&CK": ["TA0009:T1213"]}
     default_severity = Severity.INFO
@@ -47,60 +47,51 @@ class GSuiteDriveOverlyVisible(Rule):
             name="Access Event",
             expected_result=False,
             log={
+                "p_log_type": "GSuite.ActivityEvent",
                 "p_row_id": "111222",
                 "actor": {"email": "bobert@example.com"},
                 "id": {"applicationName": "drive"},
-                "events": [{"type": "access", "name": "download"}],
+                "type": "access",
+                "name": "download",
             },
         ),
         RuleTest(
             name="Modify Event Without Over Visibility",
             expected_result=False,
             log={
+                "p_log_type": "GSuite.ActivityEvent",
                 "p_row_id": "111222",
                 "actor": {"email": "bobert@example.com"},
                 "id": {"applicationName": "drive"},
-                "events": [
-                    {"type": "access", "name": "edit", "parameters": [{"name": "visibility", "value": "private"}]},
-                ],
+                "type": "access",
+                "name": "edit",
+                "parameters": {"visibility": "private"},
             },
         ),
         RuleTest(
             name="Overly Visible Doc Modified",
             expected_result=True,
             log={
+                "p_log_type": "GSuite.ActivityEvent",
                 "p_row_id": "111222",
                 "actor": {"email": "bobert@example.com"},
                 "id": {"applicationName": "drive"},
-                "events": [
-                    {
-                        "type": "access",
-                        "name": "edit",
-                        "parameters": [
-                            {"name": "visibility", "value": "people_with_link"},
-                            {"name": "doc_title", "value": "my shared document"},
-                        ],
-                    },
-                ],
+                "type": "access",
+                "name": "edit",
+                "parameters": {"visibility": "people_with_link", "doc_title": "my shared document"},
             },
         ),
         RuleTest(
             name="Overly Visible Doc Modified - no email",
             expected_result=True,
             log={
+                "p_log_type": "GSuite.ActivityEvent",
                 "p_row_id": "111222",
                 "actor": {"profileId": "1234567890123"},
                 "id": {"applicationName": "drive"},
-                "events": [
-                    {
-                        "type": "access",
-                        "name": "edit",
-                        "parameters": [
-                            {"name": "visibility", "value": "people_with_link"},
-                            {"name": "doc_title", "value": "my shared document"},
-                        ],
-                    },
-                ],
+                "type": "access",
+                "name": "edit",
+                "parameters": {"visibility": "people_with_link", "doc_title": "my shared document"},
             },
         ),
     ]

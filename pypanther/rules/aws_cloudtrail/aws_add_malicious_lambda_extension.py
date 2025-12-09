@@ -9,7 +9,7 @@ class AWSLambdaUpdateFunctionConfiguration(Rule):
     log_types = [LogType.AWS_CLOUDTRAIL]
     reports = {"MITRE ATT&CK": ["TA0007:T1078"]}
     default_severity = Severity.INFO
-    tags = ["Beta"]
+    status = "Experimental"
     create_alert = False
     default_description = "Identifies when a Lambda function configuration is updated with layers, which could indicate a potential security risk.\n"
     default_runbook = "Make sure that the Lambda function configuration update is expected and authorized. If not, investigate the event further."

@@ -11,7 +11,7 @@ class AWSCloudTrailEnableRegion(Rule):
     tags = ["AWS", "CloudTrail", "Region"]
     reports = {"MITRE ATT&CK": ["TA0005:T1535"]}
     default_description = "Threat actors who successfully compromise a victim's AWS account, whether through stolen credentials,  exposed access keys, exploited IAM misconfigurations, vulnerabilities in third-party applications,  or the absence of Multi-Factor Authentication (MFA), can exploit unused regions as safe zones  for malicious activities. These regions are often overlooked in monitoring and security setups,  making them an attractive target for attackers to operate undetected.\n"
-    default_runbook = "Validate whether enabling the new region was authorized.   Revoke user privileges, review the newly enabled region for malicious activity, and disable the region.\n"
+    default_runbook = "Validate whether enabling the new region was authorized.  \nRevoke user privileges, review the newly enabled region for malicious activity, and disable the region.\n"
     default_reference = "https://permiso.io/blog/how-threat-actors-leverage-unsupported-cloud-regions"
 
     def rule(self, event):

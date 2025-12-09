@@ -7,9 +7,9 @@ class AWSPotentialBackdoorLambda(Rule):
     id = "AWS.Potential.Backdoor.Lambda-prototype"
     display_name = "AWS Potential Backdoor Lambda Function Through Resource-Based Policy"
     log_types = [LogType.AWS_CLOUDTRAIL]
-    reports = {"MITRE ATT&CK": ["TA0007:T1078"]}
+    reports = {"MITRE ATT&CK": ["TA0007:T1078"], "Stratus Red Team": ["aws.persistence.lambda-backdoor-function"]}
     default_severity = Severity.INFO
-    tags = ["Beta"]
+    status = "Experimental"
     default_description = (
         "Identifies when a permission is added to a Lambda function, which could indicate a potential security risk.\n"
     )

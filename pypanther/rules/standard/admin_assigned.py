@@ -11,7 +11,7 @@ class StandardAdminRoleAssigned(Rule):
         LogType.ATLASSIAN_AUDIT,
         LogType.GCP_AUDIT_LOG,
         LogType.GITHUB_AUDIT,
-        LogType.GSUITE_REPORTS,
+        LogType.GSUITE_ACTIVITY_EVENT,
         LogType.ONELOGIN_EVENTS,
         LogType.ZENDESK_AUDIT,
     ]
@@ -95,8 +95,9 @@ class StandardAdminRoleAssigned(Rule):
             log={
                 "actor": {"email": "bobert@example.com"},
                 "id": {"applicationName": "admin"},
-                "events": [{"type": "DELEGATED_ADMIN_SETTINGS", "name": "RENAME_ROLE"}],
-                "p_log_type": "GSuite.Reports",
+                "type": "DELEGATED_ADMIN_SETTINGS",
+                "name": "RENAME_ROLE",
+                "p_log_type": "GSuite.ActivityEvent",
             },
         ),
         RuleTest(
@@ -105,17 +106,10 @@ class StandardAdminRoleAssigned(Rule):
             log={
                 "actor": {"email": "bobert@example.com"},
                 "id": {"applicationName": "admin"},
-                "events": [
-                    {
-                        "type": "DELEGATED_ADMIN_SETTINGS",
-                        "name": "ASSIGN_ROLE",
-                        "parameters": [
-                            {"name": "ROLE_NAME", "value": "Some Admin Role"},
-                            {"name": "USER_EMAIL", "value": "bob@example.com"},
-                        ],
-                    },
-                ],
-                "p_log_type": "GSuite.Reports",
+                "type": "DELEGATED_ADMIN_SETTINGS",
+                "name": "ASSIGN_ROLE",
+                "parameters": {"ROLE_NAME": "Some Admin Role", "USER_EMAIL": "bob@example.com"},
+                "p_log_type": "GSuite.ActivityEvent",
             },
         ),
         RuleTest(

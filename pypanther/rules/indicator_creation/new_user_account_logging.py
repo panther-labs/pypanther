@@ -14,7 +14,7 @@ class StandardNewUserAccountCreated(Rule):
     log_types = [LogType.ONELOGIN_EVENTS, LogType.AWS_CLOUDTRAIL, LogType.ZOOM_OPERATION]
     tags = ["DataModel", "Indicator Collection", "OneLogin", "Persistence:Create Account"]
     default_severity = Severity.INFO
-    reports = {"MITRE ATT&CK": ["TA0003:T1136"]}
+    reports = {"MITRE ATT&CK": ["TA0003:T1136"], "Stratus Red Team": ["aws.persistence.iam-create-admin-user"]}
     default_description = "A new account was created"
     default_runbook = (
         "A new user account was created, ensure it was created through standard practice and is for a valid purpose."

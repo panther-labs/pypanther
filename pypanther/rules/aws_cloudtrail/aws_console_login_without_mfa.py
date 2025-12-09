@@ -12,7 +12,11 @@ class AWSConsoleLoginWithoutMFA(Rule):
     display_name = "Logins Without MFA"
     log_types = [LogType.AWS_CLOUDTRAIL]
     tags = ["AWS", "Identity & Access Management", "Authentication", "Initial Access:Valid Accounts"]
-    reports = {"CIS": ["3.2"], "MITRE ATT&CK": ["TA0001:T1078"]}
+    reports = {
+        "CIS": ["3.2"],
+        "MITRE ATT&CK": ["TA0001:T1078"],
+        "Stratus Red Team": ["aws.initial-access.console-login-without-mfa"],
+    }
     default_severity = Severity.HIGH
     default_description = "A console login was made without multi-factor authentication."
     default_runbook = "https://docs.runpanther.io/alert-runbooks/built-in-rules/aws-console-login-without-mfa"

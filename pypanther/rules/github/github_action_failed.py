@@ -14,7 +14,7 @@ class GitHubActionFailed(Rule):
     tags = ["GitHub", "Configuration Required"]
     default_severity = Severity.HIGH
     default_description = "A monitored github action has failed."
-    default_runbook = "Inspect the action failure link and take appropriate response. There are no general plans of response for this activity.\n"
+    default_runbook = "Inspect the action failure link and take appropriate response.\nThere are no general plans of response for this activity.\n"
     default_reference = (
         "https://docs.github.com/en/actions/creating-actions/setting-exit-codes-for-actions#about-exit-codes"
     )

@@ -19,7 +19,7 @@ class AWSCloudTrailVPCEAccessDenied(Rule):
     ]
     reports = {"MITRE ATT&CK": ["TA0005:T1599", "TA0007:T1526"]}
     default_description = "Detects when access is denied due to VPC Endpoint policies, which could indicate attempted unauthorized access to AWS resources."
-    default_runbook = "1. Identify the principal (user/role) and source IP that was denied access 2. Determine if this is expected behavior based on your VPC endpoint policies 3. Check if there are multiple failed attempts from the same principal/IP 4. If unexpected, investigate why the principal is attempting to access resources through the VPC endpoint 5. Consider updating your VPC endpoint policies if necessary 6. Document findings and take appropriate remediation steps based on investigation\n"
+    default_runbook = "1. Identify the principal (user/role) and source IP that was denied access\n2. Determine if this is expected behavior based on your VPC endpoint policies\n3. Check if there are multiple failed attempts from the same principal/IP\n4. If unexpected, investigate why the principal is attempting to access resources through the VPC endpoint\n5. Consider updating your VPC endpoint policies if necessary\n6. Document findings and take appropriate remediation steps based on investigation\n"
     default_reference = "https://www.wiz.io/blog/aws-vpc-endpoint-cloudtrail"
     summary_attributes = [
         "errorCode",

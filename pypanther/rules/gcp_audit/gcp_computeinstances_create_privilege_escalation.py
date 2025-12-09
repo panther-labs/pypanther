@@ -9,7 +9,7 @@ class GCPcomputeinstancescreatePrivilegeEscalation(Rule):
     display_name = "GCP compute.instances.create Privilege Escalation"
     id = "GCP.compute.instances.create.Privilege.Escalation-prototype"
     default_reference = "https://rhinosecuritylabs.com/gcp/privilege-escalation-google-cloud-platform-part-1/"
-    default_runbook = "1. Validate whether this compute instance creation with service account was authorized. 2. Check if the service account attached has excessive privileges. 3. Verify if the user creating the instance has a legitimate need for the service account permissions. 4. If unauthorized, revoke the instance access and investigate for compromise.\n"
+    default_runbook = "1. Validate whether this compute instance creation with service account was authorized.\n2. Check if the service account attached has excessive privileges.\n3. Verify if the user creating the instance has a legitimate need for the service account permissions.\n4. If unauthorized, revoke the instance access and investigate for compromise.\n"
     reports = {"MITRE ATT&CK": ["TA0004:T1548"]}
     default_severity = Severity.HIGH
     dedup_period_minutes = 1440

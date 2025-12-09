@@ -10,7 +10,7 @@ class SnykSystemExternalAccess(Rule):
     tags = ["Snyk"]
     default_severity = Severity.HIGH
     default_description = "Detects when Snyk Settings that control access for external parties have been changed.\n"
-    default_runbook = "This action in the Snyk Audit logs indicate that the setting for allowing external parties to request access to your Snyk installation have changed.\n"
+    default_runbook = "This action in the Snyk Audit logs indicate that the setting for allowing external\nparties to request access to your Snyk installation have changed.\n"
     default_reference = "https://docs.snyk.io/snyk-admin/manage-users-and-permissions/organization-access-requests"
     summary_attributes = ["event"]
     ACTIONS = ["group.request_access_settings.edit", "org.request_access_settings.edit"]

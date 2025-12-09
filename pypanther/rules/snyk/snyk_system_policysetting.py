@@ -10,7 +10,7 @@ class SnykSystemPolicySetting(Rule):
     tags = ["Snyk"]
     default_severity = Severity.HIGH
     default_description = "Detects Snyk Policy Settings have been changed. Policies define Snyk's behavior when encountering security and licensing issues.\n"
-    default_runbook = "Snyk Policies can cause alerts to raise or not based on found security and license issues. Validate that that this change is expected.\n"
+    default_runbook = "Snyk Policies can cause alerts to raise or not based on found security and\nlicense issues. Validate that that this change is expected.\n"
     default_reference = "https://docs.snyk.io/manage-issues/policies/shared-policies-overview"
     summary_attributes = ["event"]
     ACTIONS = [

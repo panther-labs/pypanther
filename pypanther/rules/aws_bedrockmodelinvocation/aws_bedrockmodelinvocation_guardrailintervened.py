@@ -6,7 +6,8 @@ class AWSBedrockModelInvocationGuardRailIntervened(Rule):
     id = "AWS.BedrockModelInvocation.GuardRailIntervened-prototype"
     display_name = "AWS Bedrock Model Invocation GuardRail Intervened"
     log_types = [LogType.AWS_BEDROCK_MODEL_INVOCATION]
-    tags = ["AWS", "Bedrock", "Beta", "Persistence", "Manipulate AI Model"]
+    tags = ["AWS", "Bedrock", "Persistence", "Manipulate AI Model"]
+    status = "Experimental"
     default_severity = Severity.INFO
     reports = {"MITRE ATT&CK": ["TA0006:T0018.000"]}
     default_description = "Detects when AWS Bedrock guardrail features have intervened during AI model invocations. It specifically monitors when an AI model request was blocked by Guardrails. This helps security teams identify when users attempt to generate potentially harmful or inappropriate content through AWS Bedrock models."

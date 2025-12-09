@@ -8,6 +8,18 @@ from pypanther.rules.github.github_branch_policy_override import (
 from pypanther.rules.github.github_branch_protection_disabled import (
     GitHubBranchProtectionDisabled as GitHubBranchProtectionDisabled,
 )
+from pypanther.rules.github.github_crossfork_workflow_run import (
+    GitHubCrossForkWorkflowRun as GitHubCrossForkWorkflowRun,
+)
+from pypanther.rules.github.github_malicious_comment_content import (
+    GitHubWebhookMaliciousCommentContent as GitHubWebhookMaliciousCommentContent,
+)
+from pypanther.rules.github.github_malicious_commit_content import (
+    GitHubWebhookMaliciousCommitContent as GitHubWebhookMaliciousCommitContent,
+)
+from pypanther.rules.github.github_malicious_issue_pages import (
+    GitHubWebhookMaliciousIssuePagesContent as GitHubWebhookMaliciousIssuePagesContent,
+)
 from pypanther.rules.github.github_malicious_pr_titles import (
     GitHubWebhookMaliciousPRTitles as GitHubWebhookMaliciousPRTitles,
 )
@@ -40,6 +52,12 @@ from pypanther.rules.github.github_repository_transfer import GithubRepositoryTr
 from pypanther.rules.github.github_secret_scanning_alert_created import (
     GitHubSecretScanningAlertCreated as GitHubSecretScanningAlertCreated,
 )
+from pypanther.rules.github.github_self_hosted_runner_used import (
+    GitHubWebhookSelfHostedRunnerUsed as GitHubWebhookSelfHostedRunnerUsed,
+)
+from pypanther.rules.github.github_shai_hulud_repo_created import (
+    GitHubWebhookSha1HuludRepoCreated as GitHubWebhookSha1HuludRepoCreated,
+)
 from pypanther.rules.github.github_supply_chain_suspicious_user_agents import (
     GitHubSupplyChainSuspiciousUserAgents as GitHubSupplyChainSuspiciousUserAgents,
 )
@@ -49,6 +67,18 @@ from pypanther.rules.github.github_user_access_key_created import (
 )
 from pypanther.rules.github.github_user_role_updated import GitHubUserRoleUpdated as GitHubUserRoleUpdated
 from pypanther.rules.github.github_webhook_modified import GitHubWebhookModified as GitHubWebhookModified
+from pypanther.rules.github.github_workflow_artifact_download import (
+    GitHubWebhookWorkflowArtifactDownload as GitHubWebhookWorkflowArtifactDownload,
+)
+from pypanther.rules.github.github_workflow_contains_checkout import (
+    GitHubWebhookWorkflowContainsCheckout as GitHubWebhookWorkflowContainsCheckout,
+)
+from pypanther.rules.github.github_workflow_dispatch_by_github_bot import (
+    GitHubWorkflowDispatchByGitHubBot as GitHubWorkflowDispatchByGitHubBot,
+)
+from pypanther.rules.github.github_workflow_permission_modified import (
+    GitHubWorkflowPermissionsModified as GitHubWorkflowPermissionsModified,
+)
 from pypanther.rules.github.github_workflow_skip_commits import (
     GitHubWebhookWorkflowSkipCommits as GitHubWebhookWorkflowSkipCommits,
 )

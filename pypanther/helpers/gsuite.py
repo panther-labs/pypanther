@@ -42,13 +42,25 @@ GSUITE_PARAMETER_VALUES = [
 #   }
 # ]
 def gsuite_parameter_lookup(parameters, key):
-    for param in parameters:
-        if param["name"] != key:
-            continue
-        for value in GSUITE_PARAMETER_VALUES:
-            if value in param:
-                return param[value]
+    # Handle None or empty parameters
+    if not parameters:
         return None
+
+    # Handle GSuite.ActivityEvent format (dict/object or dict-like object with .get method)
+    # This includes both plain dicts and PantherEvent-wrapped dicts
+    if isinstance(parameters, dict) or (hasattr(parameters, "get") and not isinstance(parameters, list)):
+        return parameters.get(key)
+
+    # Handle GSuite.Reports format (list)
+    if isinstance(parameters, list):
+        for param in parameters:
+            if param.get("name") != key:
+                continue
+            for value in GSUITE_PARAMETER_VALUES:
+                if value in param:
+                    return param[value]
+            return None
+
     return None
 
 
@@ -59,8 +71,26 @@ def gsuite_parameter_lookup(parameters, key):
 #
 # This helper function handles the looping functionality that is common in many of the gsuite rules
 def gsuite_details_lookup(detail_type, detail_names, event):
-    for details in event.get("events", {}):
+    # Check if this is GSuite.ActivityEvent format (flat structure)
+    if "events" not in event:
+        if event.get("type") == detail_type and event.get("name") in detail_names:
+            return event
+        return {}
+
+    # GSuite.Reports format (with events array)
+    for details in event.get("events", []):
         if details.get("type") == detail_type and details.get("name") in detail_names:
             return details
     # not found, return empty dict
     return {}
+
+
+# Standardized alert context for GSuite activity events
+def gsuite_activityevent_alert_context(event):
+    return {
+        "actor": event.deep_get("actor", "email", ""),
+        "applicationName": event.deep_get("id", "applicationName", ""),
+        "name": event.get("name", ""),
+        "type": event.get("type", ""),
+        "parameters": event.get("parameters", {}),
+    }

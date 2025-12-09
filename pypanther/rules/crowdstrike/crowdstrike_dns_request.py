@@ -202,7 +202,7 @@ class CrowdstrikeDNSRequest(Rule):
             name="Denylisted Domain (but Non-DNS type) (FDREvent)",
             expected_result=False,
             log={
-                "event_simpleName": "Event_DetectionSummaryEvent",
+                "event_simpleName": "Event_EppDetectionSummaryEvent",
                 "name": "DnsRequestMacV1",
                 "aid": "00000000000000000000000000000001",
                 "aip": "111.111.111.111",
@@ -210,7 +210,7 @@ class CrowdstrikeDNSRequest(Rule):
                 "id": "11111111-0000-1111-0000-111111111111",
                 "event": {
                     "aid": "00000000000000000000000000000001",
-                    "event_simpleName": "Event_DetectionSummaryEvent",
+                    "event_simpleName": "Event_EppDetectionSummaryEvent",
                     "name": "DnsRequestMacV1",
                     "aip": "111.111.111.111",
                     "cid": "00000000000000000000000000000002",
@@ -228,7 +228,7 @@ class CrowdstrikeDNSRequest(Rule):
                     "RequestType": "1",
                 },
                 "event_platform": "Mac",
-                "fdr_event_type": "Event_DetectionSummaryEvent",
+                "fdr_event_type": "Event_EppDetectionSummaryEvent",
                 "timestamp": "2021-10-01 00:00:00.000Z",
                 "ConfigBuild": "1007.4.0014301.11",
                 "ConfigStateHash": "507116305",

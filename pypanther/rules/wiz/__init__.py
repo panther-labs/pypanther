@@ -8,12 +8,14 @@ from pypanther.rules.wiz.wiz_connector_updated_or_deleted import (
 from pypanther.rules.wiz.wiz_data_classifier_updated_or_deleted import (
     WizDataClassifierUpdatedOrDeleted as WizDataClassifierUpdatedOrDeleted,
 )
+from pypanther.rules.wiz.wiz_defend_passthrough import WizDefendAlertPassthrough as WizDefendAlertPassthrough
 from pypanther.rules.wiz.wiz_image_integrity_validator_updated_or_deleted import (
     WizImageIntegrityValidatorUpdatedOrDeleted as WizImageIntegrityValidatorUpdatedOrDeleted,
 )
 from pypanther.rules.wiz.wiz_integration_updated_or_deleted import (
     WizIntegrationUpdatedOrDeleted as WizIntegrationUpdatedOrDeleted,
 )
+from pypanther.rules.wiz.wiz_issue_alert_passthrough import WizIssueAlertPassthrough as WizIssueAlertPassthrough
 from pypanther.rules.wiz.wiz_revoke_user_sessions import WizRevokeUserSessions as WizRevokeUserSessions
 from pypanther.rules.wiz.wiz_rotate_service_account_secret import (
     WizRotateServiceAccountSecret as WizRotateServiceAccountSecret,

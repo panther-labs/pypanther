@@ -6,7 +6,10 @@ from pypanther.helpers.aws import aws_cloudtrail_success, aws_rule_context
 class AWSIAMBackdoorUserKeys(Rule):
     default_description = "Detects AWS API key creation for a user by another user. Backdoored users can be used to obtain persistence in the AWS environment."
     display_name = "AWS User API Key Created"
-    reports = {"MITRE ATT&CK": ["TA0003:T1098", "TA0005:T1108", "TA0005:T1550", "TA0008:T1550"]}
+    reports = {
+        "MITRE ATT&CK": ["TA0003:T1098", "TA0005:T1108", "TA0005:T1550", "TA0008:T1550"],
+        "Stratus Red Team": ["aws.persistence.iam-backdoor-user", "aws.persistence.iam-create-admin-user"],
+    }
     default_reference = "https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_access-keys.html"
     default_severity = Severity.MEDIUM
     log_types = [LogType.AWS_CLOUDTRAIL]

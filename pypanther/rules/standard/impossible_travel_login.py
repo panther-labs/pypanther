@@ -19,7 +19,7 @@ class StandardImpossibleTravelLogin(Rule):
     reports = {"MITRE ATT&CK": ["TA0001:T1078"]}
     default_severity = Severity.HIGH
     default_description = "A user has subsequent logins from two geographic locations that are very far apart"
-    default_runbook = "Reach out to the user if needed to validate the activity, then lock the account.\nIf the user responds that the geolocation on the new location is incorrect, you can directly report the inaccuracy via  https://ipinfo.io/corrections\n"
+    default_runbook = "Reach out to the user if needed to validate the activity, then lock the account.\n\nIf the user responds that the geolocation on the new location is incorrect, you can directly\nreport the inaccuracy via  https://ipinfo.io/corrections\n"
     default_reference = "https://expertinsights.com/insights/what-are-impossible-travel-logins/#:~:text=An%20impossible%20travel%20login%20is,of%20the%20logins%20is%20fraudulent"
     summary_attributes = ["p_any_usernames", "p_any_ip_addresses", "p_any_domain_names"]
     SATELLITE_NETWORK_ASNS = ["AS22351"]
@@ -154,6 +154,14 @@ class StandardImpossibleTravelLogin(Rule):
         self.EVENT_CITY_TRACKING["speed_units"] = "km/h"
         self.EVENT_CITY_TRACKING["distance"] = int(distance)
         self.EVENT_CITY_TRACKING["distance_units"] = "km"
+        if deep_get(self.EVENT_CITY_TRACKING, "previous", "source_ip", default="<NO_PREV_IP>") == deep_get(
+            self.EVENT_CITY_TRACKING,
+            "current",
+            "source_ip",
+            default="<NO_NEW_IP>",
+        ):
+            # Same IP address, no alert
+            return False
         return speed > 900  # Boeing 747 cruising speed
 
     def title(self, event):
@@ -163,7 +171,9 @@ class StandardImpossibleTravelLogin(Rule):
         new_city = deep_get(self.EVENT_CITY_TRACKING, "current", "city", default="<NO_PREV_CITY>")
         speed = deep_get(self.EVENT_CITY_TRACKING, "speed", default="<NO_SPEED>")
         distance = deep_get(self.EVENT_CITY_TRACKING, "distance", default="<NO_DISTANCE>")
-        return f"Impossible Travel: [{event.udm('actor_user')}] in [{log_source}] went [{speed}] km/h for [{distance}] km between [{old_city}] and [{new_city}]"
+        old_ip = deep_get(self.EVENT_CITY_TRACKING, "previous", "source_ip", default="<NO_PREV_IP>")
+        new_ip = deep_get(self.EVENT_CITY_TRACKING, "current", "source_ip", default="<NO_NEW_IP>")
+        return f"Impossible Travel: [{event.udm('actor_user')}] in [{log_source}] went [{speed}] km/h for [{distance}] km between [{old_city}/{old_ip}] and [{new_city}/{new_ip}]"
 
     def dedup(self, event):  # pylint: disable=W0613
         return self.CACHE_KEY
@@ -721,7 +731,7 @@ class StandardImpossibleTravelLogin(Rule):
                 RuleMock(object_name="put_string_set", return_value=""),
                 RuleMock(
                     object_name="get_string_set",
-                    return_value='[\n  {\n    "p_event_time": "2023-10-03T18:26:01.951000",\n    "source_ip": "192.168.100.100",\n    "city": "Minas Tirith",\n    "country": "Gondor",\n    "lat": "0.00000",\n    "lng": "0.00000",\n    "p_match": "192.168.100.100",\n    "postal_code": "55555",\n    "region": "Pellenor",\n    "region_code": "PL",\n    "timezone": "Middle Earth/Pellenor"\n  }\n]',
+                    return_value='[\n  {\n    "p_event_time": "2023-10-03T18:26:01.951000",\n    "source_ip": "192.168.100.101",\n    "city": "Minas Tirith",\n    "country": "Gondor",\n    "lat": "0.00000",\n    "lng": "0.00000",\n    "p_match": "192.168.100.101",\n    "postal_code": "55555",\n    "region": "Pellenor",\n    "region_code": "PL",\n    "timezone": "Middle Earth/Pellenor"\n  }\n]',
                 ),
             ],
             log={

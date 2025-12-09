@@ -10,12 +10,15 @@ class AWSCloudTrailAttemptToLeaveOrg(Rule):
     display_name = "AWS CloudTrail Attempt To Leave Org"
     log_types = [LogType.AWS_CLOUDTRAIL]
     default_severity = Severity.INFO
-    reports = {"MITRE ATT&CK": ["TA0005:T1562.008", "TA0005:T1666"]}
+    reports = {
+        "MITRE ATT&CK": ["TA0005:T1562.008", "TA0005:T1666"],
+        "Stratus Red Team": ["aws.defense-evasion.organizations-leave"],
+    }
     default_description = "Detects when an actor attempts to remove an AWS account from an Organization. Security configurations are often defined at the organizational level. Leaving the organization can disrupt or totally shut down these controls.\n"
     default_reference = (
         "https://stratus-red-team.cloud/attack-techniques/AWS/aws.defense-evasion.organizations-leave/\n"
     )
-    default_runbook = "Determine if the attempt was successful. Monitor and potentially suspect the user account which  attempted the action. Determine if the root account is compromised.\n"
+    default_runbook = "Determine if the attempt was successful. Monitor and potentially suspect the user account which \nattempted the action. Determine if the root account is compromised.\n"
     summary_attributes = ["p_any_ip_addresses", "p_any_aws_account_ids"]
     tags = [
         "AWS CloudTrail",
@@ -23,8 +26,8 @@ class AWSCloudTrailAttemptToLeaveOrg(Rule):
         "Impair Defenses",
         "Disable or Modify Cloud Logs",
         "Modify Cloud Resource Hierarchy",
-        "Beta",
     ]
+    status = "Experimental"
 
     def rule(self, event: PantherEvent) -> bool:
         return event.get("eventName") == "LeaveOrganization"

@@ -7,8 +7,12 @@ class AWSSecretsManagerBatchRetrieveSecrets(Rule):
     id = "AWS.SecretsManager.BatchRetrieveSecrets-prototype"
     display_name = "AWS Secrets Manager Batch Retrieve Secrets"
     log_types = [LogType.AWS_CLOUDTRAIL]
-    tags = ["AWS", "Credential Access", "Stratus Red Team", "Beta"]
-    reports = {"MITRE ATT&CK": ["TA0006:T1552"]}
+    tags = ["AWS", "Credential Access", "Stratus Red Team"]
+    status = "Experimental"
+    reports = {
+        "MITRE ATT&CK": ["TA0006:T1552"],
+        "Stratus Red Team": ["aws.credential-access.secretsmanager-batch-retrieve-secrets"],
+    }
     default_severity = Severity.INFO
     default_description = "An attacker attempted to retrieve a high number of Secrets Manager secrets by batch, through secretsmanager:BatchGetSecretValue (released Novemeber 2023).  An attacker may attempt to retrieve a high number of secrets by batch, to avoid detection and generate fewer calls. Note that the batch size is limited to 20 secrets.\n"
     default_runbook = "https://aws.amazon.com/blogs/security/how-to-use-the-batchgetsecretsvalue-api-to-improve-your-client-side-applications-with-aws-secrets-manager/"

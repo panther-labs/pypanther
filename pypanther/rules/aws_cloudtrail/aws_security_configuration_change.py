@@ -13,7 +13,14 @@ class AWSCloudTrailSecurityConfigurationChange(Rule):
     log_types = [LogType.AWS_CLOUDTRAIL]
     tags = ["AWS", "Defense Evasion:Impair Defenses"]
     default_severity = Severity.MEDIUM
-    reports = {"MITRE ATT&CK": ["TA0005:T1562"]}
+    reports = {
+        "MITRE ATT&CK": ["TA0005:T1562"],
+        "Stratus Red Team": [
+            "aws.defense-evasion.cloudtrail-delete",
+            "aws.defense-evasion.cloudtrail-stop",
+            "aws.defense-evasion.vpc-remove-flow-logs",
+        ],
+    }
     default_description = "An account wide security configuration was changed."
     default_runbook = "Verify that this change was planned. If not, revert the change and update the access control policies to ensure this doesn't happen again.\n"
     default_reference = (
@@ -53,13 +60,7 @@ class AWSCloudTrailSecurityConfigurationChange(Rule):
         return event.get("eventName") in self.SECURITY_CONFIG_ACTIONS
 
     def title(self, event):
-        user = event.deep_get("userIdentity", "userName") or event.deep_get(
-            "userIdentity",
-            "sessionContext",
-            "sessionIssuer",
-            "userName",
-        )
-        return f"Sensitive AWS API call {event.get('eventName')} made by {user}"
+        return f"Sensitive AWS API call {event.get('eventName')} made by {event.udm('actor_user')}"
 
     def alert_context(self, event):
         return aws_rule_context(event)

@@ -6,7 +6,8 @@ class AWSBedrockModelInvocationAbnormalTokenUsage(Rule):
     id = "AWS.BedrockModelInvocation.AbnormalTokenUsage-prototype"
     display_name = "AWS Bedrock Model Invocation Abnormal Token Usage"
     log_types = [LogType.AWS_BEDROCK_MODEL_INVOCATION]
-    tags = ["AWS", "Bedrock", "Beta", "Resource Hijacking"]
+    tags = ["AWS", "Bedrock", "Resource Hijacking"]
+    status = "Experimental"
     default_severity = Severity.INFO
     reports = {"MITRE ATT&CK": ["TA0040:T1496.004"]}
     default_description = "Monitors for potential misuse or abuse of AWS Bedrock AI models by detecting abnormal token usage patterns and alerts when the total token usage exceeds the appropriate threshold for each different type of model."

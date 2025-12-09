@@ -34,7 +34,7 @@ class SlackAuditLogsUserPrivilegeEscalation(Rule):
         if action == "owner_transferred":
             return f"{self.USER_PRIV_ESC_ACTIONS[action]} from {actor_username} ({actor_email})"
         if action == "permissions_assigned":
-            return f"{self.USER_PRIV_ESC_ACTIONS[action]} {entity_username} ({entity_email})"
+            return f"{self.USER_PRIV_ESC_ACTIONS[action]} {actor_username} ({actor_email})"
         if action == "role_change_to_admin":
             return f"{self.USER_PRIV_ESC_ACTIONS[action]} {entity_username} ({entity_email})"
         if action == "role_change_to_owner":

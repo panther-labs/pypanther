@@ -9,7 +9,7 @@ class GCPK8SPodCreateOrModifyHostPathVolumeMount(Rule):
     log_types = [LogType.GCP_AUDIT_LOG]
     default_severity = Severity.HIGH
     default_description = "This detection monitors for pod creation with a hostPath volume mount. The attachment to a node's volume can allow for privilege escalation through underlying vulnerabilities or it can open up possibilities for data exfiltration or unauthorized file access. It is very rare to see this being a pod requirement. System service accounts in the kube-system namespace are excluded to prevent false positives from legitimate system components.\n"
-    default_runbook = "Investigate the reason of adding hostPath volume mount. Advise that it is discouraged practice. Create ticket if appropriate.\n"
+    default_runbook = "Investigate the reason of adding hostPath volume mount. Advise that it is discouraged practice.\nCreate ticket if appropriate.\n"
     default_reference = "https://kubernetes.io/docs/concepts/security/pod-security-standards/#host-namespaces"
     reports = {"MITRE ATT&CK": ["TA0010:T1041", "TA0004:T1611"]}
     dedup_period_minutes = 360

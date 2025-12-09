@@ -23,8 +23,8 @@ class AWSCloudTrailShortLifecycle(Rule):
         "Disable or Modify Cloud Logs",
         "Defense Evasion:Impair Defenses",
         "Security Control",
-        "Beta",
     ]
+    status = "Experimental"
     # Use this to record the names of your S3 buckets that have cloudtrail logs
     #   If a bucket name isn't mentioned here, we still make a best guess as to whether or not it
     #   contains CloudTrail data, but the confidence rating will be lower, and so will the severity

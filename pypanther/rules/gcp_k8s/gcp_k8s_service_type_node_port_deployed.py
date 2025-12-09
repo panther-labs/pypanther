@@ -9,7 +9,7 @@ class GCPK8SServiceTypeNodePortDeployed(Rule):
     log_types = [LogType.GCP_AUDIT_LOG]
     default_severity = Severity.HIGH
     default_description = "This detection monitors for any kubernetes service deployed with type node port. A Node Port service allows an attacker to expose a set of pods hosting the service to the internet by opening their port and redirecting traffic here. This can be used to bypass network controls and intercept traffic, creating a direct line to the outside network.\n"
-    default_runbook = "Investigate the reason of creating NodePort service. Advise that it is discouraged practice. Create ticket if appropriate.\n"
+    default_runbook = "Investigate the reason of creating NodePort service. Advise that it is discouraged practice.\nCreate ticket if appropriate.\n"
     default_reference = "https://kubernetes.io/docs/tutorials/kubernetes-basics/expose/expose-intro/"
     tags = ["Exploit Public-Facing Application", "Initial Access"]
     reports = {"MITRE ATT&CK": ["TA0001:T1190"]}
