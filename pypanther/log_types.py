@@ -113,6 +113,7 @@ class LogType(str, Enum):
     IPINFO_LOCATION_RANGES = "IPInfo.LocationRanges"
     IPINFO_PRIVACY_CIDR = "IPInfo.PrivacyCIDR"
     IPINFO_PRIVACY_RANGES = "IPInfo.PrivacyRanges"
+    IRU_AUDIT = "Iru.Audit"
     JAMFPRO_COMPLIANCE_REPORTER = "Jamfpro.ComplianceReporter"
     JAMFPRO_LOGIN = "Jamfpro.Login"
     JUNIPER_ACCESS = "Juniper.Access"
