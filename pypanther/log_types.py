@@ -296,6 +296,7 @@ class LogType(str, Enum):
     TRACEBIT_ALERT = "Tracebit.Alert"
     TRACEBIT_HEALTH_CHECK = "Tracebit.HealthCheck"
     TRAILDISCOVER_CLOUDTRAIL = "TrailDiscover.CloudTrail"
+    UPWIND_DETECTIONS = "Upwind.Detections"
     VERCEL_AUDIT = "Vercel.Audit"
     WINDOWS_EVENT_LOGS = "Windows.EventLogs"
     WIZ_AUDIT = "Wiz.Audit"
