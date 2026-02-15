@@ -1,7 +1,7 @@
-import re
-
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
 from pypanther.helpers.github import (
+    contains_bash_injection_pattern,
+    get_matched_bash_patterns,
     github_reference_url,
     github_webhook_alert_context,
     is_cross_fork_pr,
@@ -12,67 +12,30 @@ from pypanther.helpers.github import (
 @panther_managed
 class GitHubWebhookMaliciousPRTitles(Rule):
     id = "GitHub.Webhook.MaliciousPRTitles-prototype"
-    display_name = "GitHub Malicious Pull Request Titles"
+    display_name = "GitHub Malicious Pull Request Content"
     log_types = [LogType.GITHUB_WEBHOOK]
     reports = {"MITRE ATT&CK": ["TA0001:T1195.002", "TA0002:T1072"]}
     tags = ["Code Injection", "Supply Chain"]
     default_severity = Severity.HIGH
-    default_description = "Detects malicious patterns in GitHub pull request titles, descriptions, and commit messages that could indicate bash injection attempts or other malicious activity. This rule is designed to catch attacks like the Nx vulnerability (GHSA-cxm3-wv7p-598c) where PR titles contained bash injection payloads that could be executed by vulnerable CI workflows. Lower severity  for PRs that are not cross-fork.\n"
-    default_runbook = "1. Immediately review the pull request content and metadata for malicious patterns 2. Check if the repository has workflows that process PR titles or descriptions unsafely 3. Verify the identity and legitimacy of the PR author, especially for cross-fork PRs 4. Review recent workflow runs for signs of code execution or compromise 5. Check for any unusual repository activity or file modifications 6. Consider temporarily disabling vulnerable workflows until they can be secured 7. Implement input sanitization and use pull_request instead of pull_request_target 8. Report suspected supply chain attacks to security team\n"
+    default_description = "Detects malicious patterns in GitHub pull request content (title, body, head ref, head label, default branch) that could indicate bash injection attempts or other malicious activity. This rule is designed to catch attacks like the Nx vulnerability (GHSA-cxm3-wv7p-598c) where PR titles contained bash injection payloads that could be executed by vulnerable CI workflows. Lower severity for PRs that are not cross-fork.\n"
+    default_runbook = "1. Immediately review the pull request content and metadata for malicious patterns\n2. Check if the repository has workflows that process PR titles or descriptions unsafely\n3. Verify the identity and legitimacy of the PR author, especially for cross-fork PRs\n4. Review recent workflow runs for signs of code execution or compromise\n5. Check for any unusual repository activity or file modifications\n6. Consider temporarily disabling vulnerable workflows until they can be secured\n7. Implement input sanitization and use pull_request instead of pull_request_target\n8. Report suspected supply chain attacks to security team\n"
     default_reference = "https://github.com/nrwl/nx/security/advisories/GHSA-cxm3-wv7p-598c"
-    # Bash injection patterns focused on command substitution attacks
-    # Based on Nx vulnerability (GHSA-cxm3-wv7p-598c): $(echo "You've been compromised")
-    # Command substitution
-    # $(command) - requires non-empty command
-    # `command` - requires non-empty command
-    # Variable expansion with command substitution
-    # ${var$(cmd)var}
-    # ${var`cmd`var}
-    # Process substitution
-    # <(command)
-    # >(command)
-    # Direct shell invocation
-    # /bin/bash -c "command"
-    # bash -c "command"
-    # Encoding/obfuscation attempts
-    # Multiple hex bytes (longer sequences)
-    # eval($(...)) patterns
-    # exec($(...)) patterns
-    # Network exfiltration patterns
-    # curl url | bash
-    # nc IP PORT
-    BASH_INJECTION_PATTERNS = [
-        "\\$\\([^)]+\\)",
-        "`[^`]+`",
-        "\\$\\{[^}]*\\$\\([^)]+\\)[^}]*\\}",
-        "\\$\\{[^}]*`[^`]+`[^}]*\\}",
-        "<\\([^)]+\\)",
-        ">\\([^)]+\\)",
-        "/bin/(?:sh|bash|dash|zsh)\\s+-c\\s+",
-        "(?:bash|sh)\\s+-c\\s+['\\\"]",
-        "\\\\x[0-9a-fA-F]{4,}",
-        "eval\\s*\\(\\s*\\$",
-        "exec\\s*\\(\\s*\\$",
-        "(?:curl|wget)\\s+[^|>]+\\|\\s*(?:sh|bash)",
-        "nc\\s+[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\s+[0-9]+",
-    ]
-    COMPILED_BASH_PATTERNS = [re.compile(pattern, re.IGNORECASE | re.MULTILINE) for pattern in BASH_INJECTION_PATTERNS]
 
     def rule(self, event):
-        if not is_pull_request_event(event):
+        if not is_pull_request_event(event) or event.deep_get("action") != "opened":
             return False
-        if pr_title := event.deep_get("pull_request", "title"):
-            return any(pattern.search(pr_title) for pattern in self.COMPILED_BASH_PATTERNS)
-        return False
-
-    def _get_matched_patterns(self, text):
-        if not text:
-            return []
-        return [
-            {"pattern": pattern.pattern, "match": pattern.findall(text)}
-            for pattern in self.COMPILED_BASH_PATTERNS
-            if pattern.search(text)
+        # Check all untrusted PR-related inputs
+        fields_to_check = [
+            event.deep_get("pull_request", "title"),
+            event.deep_get("pull_request", "body"),
+            event.deep_get("pull_request", "head", "ref"),
+            event.deep_get("pull_request", "head", "label"),
+            event.deep_get("pull_request", "head", "repo", "default_branch"),
         ]
+        for field in fields_to_check:
+            if contains_bash_injection_pattern(field):
+                return True
+        return False
 
     def title(self, event):
         pr_number = event.deep_get("pull_request", "number", default="<UNKNOWN>")
@@ -82,12 +45,19 @@ class GitHubWebhookMaliciousPRTitles(Rule):
 
     def alert_context(self, event):
         context = github_webhook_alert_context(event)
-        # Analyze patterns found in title
-        title_patterns = self._get_matched_patterns(event.deep_get("pull_request", "title"))
-        context["title_analysis"] = {
-            "contains_malicious_patterns": len(title_patterns) > 0,
-            "matched_patterns": title_patterns,
+        # Analyze patterns found in all PR fields
+        pr_fields = {
+            "title": event.deep_get("pull_request", "title"),
+            "body": event.deep_get("pull_request", "body"),
+            "head_ref": event.deep_get("pull_request", "head", "ref"),
+            "head_label": event.deep_get("pull_request", "head", "label"),
+            "head_repo_default_branch": event.deep_get("pull_request", "head", "repo", "default_branch"),
         }
+        context["field_analysis"] = {}
+        for field_name, field_value in pr_fields.items():
+            patterns = get_matched_bash_patterns(field_value)
+            if patterns:
+                context["field_analysis"][field_name] = {"value": field_value, "matched_patterns": patterns}
         return context
 
     def reference(self, event):
@@ -217,6 +187,16 @@ class GitHubWebhookMaliciousPRTitles(Rule):
             log={
                 "action": "opened",
                 "pull_request": {"number": 777, "title": "Config eval($malicious_code)", "body": "Dynamic config"},
+                "repository": {"full_name": "target/repo"},
+                "p_log_type": "GitHub.Webhook",
+            },
+        ),
+        RuleTest(
+            name="PR Body with Eval Command",
+            expected_result=True,
+            log={
+                "action": "opened",
+                "pull_request": {"number": 777, "body": "Config eval($malicious_code)", "title": "Dynamic config"},
                 "repository": {"full_name": "target/repo"},
                 "p_log_type": "GitHub.Webhook",
             },

@@ -11,7 +11,7 @@ class AmazonEKSAnonymousAPIAccess(Rule):
     reports = {"MITRE ATT&CK": ["TA0001:T1190"]}
     default_description = "This rule detects anonymous API requests made to the Kubernetes API server. In production environments, anonymous access should be disabled to prevent unauthorized access to the API server.\n"
     default_reference = "https://raesene.github.io/blog/2023/03/18/lets-talk-about-anonymous-access-to-Kubernetes/"
-    default_runbook = "Check the EKS cluster configuration and ensure that anonymous access to the Kubernetes API server is disabled. This can be done by verifying the  API server arguments and authentication webhook configuration.\n"
+    default_runbook = "Check the EKS cluster configuration and ensure that anonymous access\nto the Kubernetes API server is disabled. This can be done by verifying the  API\nserver arguments and authentication webhook configuration.\n"
     summary_attributes = ["user:username", "p_any_ip_addresses", "p_source_label"]
     tags = ["EKS", "Security Control", "API", "Initial Access:Exploit Public-Facing Application"]
 

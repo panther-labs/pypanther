@@ -19,6 +19,12 @@ from pypanther.rules.gsuite_activityevent.google_workspace_many_docs_downloaded 
 from pypanther.rules.gsuite_activityevent.gsuite_advanced_protection import (
     GSuiteAdvancedProtection as GSuiteAdvancedProtection,
 )
+from pypanther.rules.gsuite_activityevent.gsuite_attachments_downloaded_from_spam_email import (
+    GSuiteGmailSpamEmailAttachmentDownload as GSuiteGmailSpamEmailAttachmentDownload,
+)
+from pypanther.rules.gsuite_activityevent.gsuite_bypass_spam_filter_email import (
+    GSuiteGmailEmailSpamFilterBypass as GSuiteGmailEmailSpamFilterBypass,
+)
 from pypanther.rules.gsuite_activityevent.gsuite_calendar_made_public import (
     GSuiteCalendarMadePublic as GSuiteCalendarMadePublic,
 )
@@ -35,7 +41,16 @@ from pypanther.rules.gsuite_activityevent.gsuite_gov_attack import (
 from pypanther.rules.gsuite_activityevent.gsuite_group_banned_user import GSuiteGroupBannedUser as GSuiteGroupBannedUser
 from pypanther.rules.gsuite_activityevent.gsuite_is_suspicious_tag import GSuiteIsSuspiciousTag as GSuiteIsSuspiciousTag
 from pypanther.rules.gsuite_activityevent.gsuite_leaked_password import GSuiteLeakedPassword as GSuiteLeakedPassword
+from pypanther.rules.gsuite_activityevent.gsuite_links_clicked_in_spam_email import (
+    GSuiteGmailSpamEmailLinkClicked as GSuiteGmailSpamEmailLinkClicked,
+)
 from pypanther.rules.gsuite_activityevent.gsuite_login_type import GSuiteLoginType as GSuiteLoginType
+from pypanther.rules.gsuite_activityevent.gsuite_malicious_smtp_response import (
+    GSuiteGmailMaliciousSMTPResponse as GSuiteGmailMaliciousSMTPResponse,
+)
+from pypanther.rules.gsuite_activityevent.gsuite_malware_in_email import (
+    GSuiteGmailMalwareInEmail as GSuiteGmailMalwareInEmail,
+)
 from pypanther.rules.gsuite_activityevent.gsuite_mobile_device_compromise import (
     GSuiteDeviceCompromise as GSuiteDeviceCompromise,
 )
@@ -46,6 +61,12 @@ from pypanther.rules.gsuite_activityevent.gsuite_mobile_device_suspicious_activi
     GSuiteDeviceSuspiciousActivity as GSuiteDeviceSuspiciousActivity,
 )
 from pypanther.rules.gsuite_activityevent.gsuite_passthrough_rule import GSuiteRule as GSuiteRule
+from pypanther.rules.gsuite_activityevent.gsuite_potential_spoofed_email import (
+    GSuiteGmailPotentialSpoofedEmail as GSuiteGmailPotentialSpoofedEmail,
+)
+from pypanther.rules.gsuite_activityevent.gsuite_spam_email import (
+    GSuiteGmailSpamEmailSurge as GSuiteGmailSpamEmailSurge,
+)
 from pypanther.rules.gsuite_activityevent.gsuite_suspicious_logins import (
     GSuiteSuspiciousLogins as GSuiteSuspiciousLogins,
 )

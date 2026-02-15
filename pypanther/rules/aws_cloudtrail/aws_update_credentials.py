@@ -7,7 +7,14 @@ class AWSIAMCredentialsUpdated(Rule):
     id = "AWS.IAM.CredentialsUpdated-prototype"
     display_name = "New IAM Credentials Updated"
     log_types = [LogType.AWS_CLOUDTRAIL]
-    reports = {"MITRE ATT&CK": ["TA0003:T1098"]}
+    reports = {
+        "MITRE ATT&CK": ["TA0003:T1098"],
+        "Stratus Red Team": [
+            "aws.persistence.iam-backdoor-user",
+            "aws.persistence.iam-create-admin-user",
+            "aws.persistence.iam-create-user-login-profile",
+        ],
+    }
     tags = ["AWS", "Identity & Access Management", "Persistence:Account Manipulation"]
     default_severity = Severity.INFO
     default_description = "A console password, access key, or user has been created."

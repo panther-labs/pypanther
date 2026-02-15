@@ -10,12 +10,12 @@ class AWSEC2DownloadInstanceUserData(Rule):
     display_name = "AWS EC2 Download Instance User Data"
     log_types = [LogType.AWS_CLOUDTRAIL]
     default_severity = Severity.MEDIUM
-    reports = {"MITRE ATT&CK": ["TA0007:T1580"]}
+    reports = {"MITRE ATT&CK": ["TA0007:T1580"], "Stratus Red Team": ["aws.discovery.ec2-download-user-data"]}
     default_description = "An entity has accessed the user data scripts of multiple EC2 instances.\n"
     threshold = 10
     dedup_period_minutes = 1440
     default_reference = "https://hackingthe.cloud/aws/general-knowledge/introduction_user_data/\n"
-    default_runbook = "An entity has accessed the user data scripts of multiple EC2 instances. This is often an attempt to find unsecured credentials. Ensure the EC2 instances accessed do not have any sensitive information stored in the user data.\nCloud security scanning tools may trigger false positives.  Add an exclude filter for the scanning tool's service account to prevent false positives.\n"
+    default_runbook = "An entity has accessed the user data scripts of multiple EC2 instances. This is\noften an attempt to find unsecured credentials. Ensure the EC2 instances accessed\ndo not have any sensitive information stored in the user data.\n\nCloud security scanning tools may trigger false positives.  Add an exclude filter for\nthe scanning tool's service account to prevent false positives.\n"
     summary_attributes = ["userAgent", "sourceIpAddress", "recipientAccountId", "p_any_aws_instance_ids"]
     tags = [
         "AWS CloudTrail",

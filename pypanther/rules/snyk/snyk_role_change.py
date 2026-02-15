@@ -10,7 +10,7 @@ class SnykRoleChange(Rule):
     tags = ["Snyk"]
     default_severity = Severity.HIGH
     default_description = "Detects when Snyk Roles are changed\n"
-    default_runbook = "These actions in the Snyk Audit logs indicate that a ServiceAccount has been created/deleted/modified.\nAll events where the Role is marked as ADMIN have CRITICAL severity Other events are marked with MEDIUM severity\n"
+    default_runbook = "These actions in the Snyk Audit logs indicate that a ServiceAccount\nhas been created/deleted/modified.\n\nAll events where the Role is marked as ADMIN have CRITICAL severity\nOther events are marked with MEDIUM severity\n"
     default_reference = "https://docs.snyk.io/snyk-admin/manage-users-and-permissions/member-roles"
     summary_attributes = ["event"]
     ACTIONS = [

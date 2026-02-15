@@ -8,7 +8,7 @@ class AWSCloudTrailDNSLogsDeleted(Rule):
     display_name = "AWS DNS Logs Deleted"
     log_types = [LogType.AWS_CLOUDTRAIL]
     default_severity = Severity.INFO
-    reports = {"MITRE ATT&CK": ["TA0005:T1562.008"]}
+    reports = {"MITRE ATT&CK": ["TA0005:T1562.008"], "Stratus Red Team": ["aws.defense-evasion.dns-delete-logs"]}
     default_description = "Detects when logs for a DNS Resolver have been removed."
     default_reference = "https://stratus-red-team.cloud/attack-techniques/AWS/aws.defense-evasion.dns-delete-logs/"
     default_runbook = "Determine if the log removal to is legitimate."
@@ -20,8 +20,8 @@ class AWSCloudTrailDNSLogsDeleted(Rule):
         "Disable or Modify Cloud Logs",
         "Defense Evasion:Impair Defenses",
         "Security Control",
-        "Beta",
     ]
+    status = "Experimental"
 
     def rule(self, event):
         return aws_cloudtrail_success(event) and event.get("eventName") == "DeleteResolverQueryLogConfig"

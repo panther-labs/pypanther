@@ -9,7 +9,7 @@ class AWSRDSSnapshotShared(Rule):
     log_types = [LogType.AWS_CLOUDTRAIL]
     tags = ["AWS", "Exfiltration", "Transfer Data to Cloud Account"]
     default_severity = Severity.HIGH
-    reports = {"MITRE ATT&CK": ["TA0010:T1537"]}
+    reports = {"MITRE ATT&CK": ["TA0010:T1537"], "Stratus Red Team": ["aws.exfiltration.rds-share-snapshot"]}
     default_description = (
         "An RDS snapshot was shared with another account. This could be an indicator of exfiltration.\n"
     )

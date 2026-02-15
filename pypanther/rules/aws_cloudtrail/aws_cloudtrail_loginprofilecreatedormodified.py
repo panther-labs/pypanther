@@ -8,7 +8,13 @@ class AWSCloudTrailLoginProfileCreatedOrModified(Rule):
     display_name = "AWS User Login Profile Created or Modified"
     log_types = [LogType.AWS_CLOUDTRAIL]
     default_severity = Severity.LOW
-    reports = {"MITRE ATT&CK": ["TA0003:T1098", "TA0005:T1108", "TA0005:T1550", "TA0008:T1550"]}
+    reports = {
+        "MITRE ATT&CK": ["TA0003:T1098", "TA0005:T1108", "TA0005:T1550", "TA0008:T1550"],
+        "Stratus Red Team": [
+            "aws.persistence.iam-create-user-login-profile",
+            "aws.privilege-escalation.iam-update-user-login-profile",
+        ],
+    }
     default_description = "An attacker with iam:UpdateLoginProfile permission on other users can change the password used to login to the AWS console. May be legitimate account administration."
     default_reference = "https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_examples_aws_my-sec-creds-self-manage-pass-accesskeys-ssh.html"
     PROFILE_EVENTS = {"UpdateLoginProfile", "CreateLoginProfile", "DeleteLoginProfile"}

@@ -18,7 +18,8 @@ class GoogleWorkspaceManyDocsDownloaded(Rule):
     threshold = 20
     default_reference = "https://support.google.com/drive/answer/2423534?hl=en&co=GENIE.Platform%3DDesktop\n"
     summary_attributes = ["p_any_usernames", "parameters:doc_title"]
-    tags = ["GSuite ActivityEvent", "Beta"]
+    tags = ["GSuite ActivityEvent"]
+    status = "Experimental"
 
     def rule(self, event: PantherEvent) -> bool:
         return event.get("name") == "download"
@@ -34,7 +35,7 @@ class GoogleWorkspaceManyDocsDownloaded(Rule):
             name="Document Downloaded",
             expected_result=True,
             log={
-                "actor": {"email": "wiley.coyote@acme.com", "profileId": "112233445566778899001"},
+                "actor": {"email": "john@justice.org", "profileId": "112233445566778899001"},
                 "id": {
                     "applicationName": "drive",
                     "customerId": "CUSTID",

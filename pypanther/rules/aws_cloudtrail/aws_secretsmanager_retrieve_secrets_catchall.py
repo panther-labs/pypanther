@@ -7,7 +7,8 @@ class AWSSecretsManagerBatchRetrieveSecretsCatchAll(Rule):
     id = "AWS.SecretsManager.BatchRetrieveSecretsCatchAll-prototype"
     display_name = "AWS Secrets Manager Batch Retrieve Secrets Catch-All"
     log_types = [LogType.AWS_CLOUDTRAIL]
-    tags = ["AWS", "Credential Access", "Stratus Red Team", "Beta"]
+    tags = ["AWS", "Credential Access", "Stratus Red Team"]
+    status = "Experimental"
     reports = {"MITRE ATT&CK": ["TA0006:T1552"]}
     default_severity = Severity.INFO
     default_description = "An attacker attempted to retrieve a high number of Secrets Manager secrets by batch, through secretsmanager:BatchGetSecretValue (released Novemeber 2023).  An attacker may attempt to retrieve a high number of secrets by batch, to avoid detection and generate fewer calls. Note that the batch size is limited to 20 secrets. Although BatchGetSecretValue requires a list of secret IDs or a filter, an attacker may use a catch-all filter to retrieve all secrets by batch. This rule identifies BatchGetSecretValue events with a catch-all filter.\n"

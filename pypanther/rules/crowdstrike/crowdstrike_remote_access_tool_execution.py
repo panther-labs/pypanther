@@ -7,7 +7,7 @@ class CrowdstrikeRemoteAccessToolExecution(Rule):
     default_description = "Detects usage of common remote access tools."
     display_name = "Crowdstrike Remote Access Tool Execution"
     default_reference = "https://attack.mitre.org/techniques/T1219/"
-    default_severity = Severity.MEDIUM
+    default_severity = Severity.INFO
     log_types = [LogType.CROWDSTRIKE_FDR_EVENT]
     id = "Crowdstrike.Remote.Access.Tool.Execution-prototype"
     REMOTE_ACCESS_EXECUTABLES = {
@@ -39,8 +39,7 @@ class CrowdstrikeRemoteAccessToolExecution(Rule):
 
     def title(self, event):
         tool = event.deep_get("event", "ImageFileName", default="<TOOL_NOT_FOUND>").lower().split("\\")[-1]
-        host = event.get("ComputerName") or event.get("aid", "<AID_NOT_FOUND>")
-        return f"Crowdstrike: Remote access tool [{tool}] detected on host [{host}]"
+        return f"Crowdstrike: Remote access tool [{tool}] detected"
 
     def alert_context(self, event):
         return crowdstrike_detection_alert_context(event)
@@ -51,14 +50,14 @@ class CrowdstrikeRemoteAccessToolExecution(Rule):
             expected_result=True,
             log={
                 "aid": "123456789abcdefghijklmn01234567",
-                "aip": "11.10.9.8",
+                "aip": "1.2.3.4",
                 "cid": "987abcd8765ghijk5432opq21",
                 "configbuild": "1007.3.0016606.11",
                 "configstatehash": "3799024366",
                 "entitlements": "15",
                 "event": {
                     "AuthenticationId": "293628",
-                    "AuthenticodeHashData": "5540c470218d209b7c3eca3d12e190580814d566",
+                    "AuthenticodeHashData": "0000000000bc97f7a55c355f06119abc90155e8a",
                     "CommandLine": "C:\\Windows\\System32\\chrome-remote-desktop-host.exe",
                     "ConfigBuild": "1007.3.0016606.11",
                     "ConfigStateHash": "3799024366",
@@ -67,7 +66,7 @@ class CrowdstrikeRemoteAccessToolExecution(Rule):
                     "ImageFileName": "\\Device\\HarddiskVolume2\\Windows\\System32\\chrome-remote-desktop-host.exe",
                     "ImageSubsystem": "3",
                     "IntegrityLevel": "12288",
-                    "MD5HashData": "5fd22b915c232378e567160d641cc9f2",
+                    "MD5HashData": "0000000000df0bc6120d437e0a7e1281",
                     "ParentAuthenticationId": "293628",
                     "ParentBaseFileName": "pwsh.exe",
                     "ParentProcessId": "4370948876",
@@ -78,7 +77,7 @@ class CrowdstrikeRemoteAccessToolExecution(Rule):
                     "ProcessSxsFlags": "64",
                     "RawProcessId": "1468",
                     "SHA1HashData": "0000000000000000000000000000000000000000",
-                    "SHA256HashData": "488e74e2026d03f21b33f470c23b3de2f466643186c2e06ae7b4883cc2e59377",
+                    "SHA256HashData": "0000000000040627d2ab8b9f2a3b69f7054ae3bfe8fb3bbac209ef95d4fc42be",
                     "SessionId": "2",
                     "SignInfoFlags": "8683538",
                     "SourceProcessId": "4370948876",
@@ -89,7 +88,7 @@ class CrowdstrikeRemoteAccessToolExecution(Rule):
                     "TreeId": "4295752857",
                     "UserSid": "S-1-5-21-239183934-720705223-383019856-500",
                     "aid": "123456789abcdefghijklmn01234567",
-                    "aip": "11.10.9.8",
+                    "aip": "1.2.3.4",
                     "cid": "987abcd8765ghijk5432opq21",
                     "event_platform": "Win",
                     "event_simpleName": "ProcessRollup2",
@@ -102,19 +101,19 @@ class CrowdstrikeRemoteAccessToolExecution(Rule):
                 "fdr_event_type": "ProcessRollup2",
                 "id": "081d64d7-17fb-40c0-8767-48ff1e2ee2dd",
                 "name": "ProcessRollup2V19",
-                "p_any_ip_addresses": ["11.10.9.8"],
+                "p_any_ip_addresses": ["1.2.3.4"],
                 "p_any_md5_hashes": [
-                    "5fd22b915c232378e567160d641cc9f2",
+                    "0000000000df0bc6120d437e0a7e1281",
                     "123456789abcdefghijklmn01234567",
                     "987abcd8765ghijk5432opq21",
                 ],
                 "p_any_sha1_hashes": ["0000000000000000000000000000000000000000"],
-                "p_any_sha256_hashes": ["488e74e2026d03f21b33f470c23b3de2f466643186c2e06ae7b4883cc2e59377"],
+                "p_any_sha256_hashes": ["0000000000040627d2ab8b9f2a3b69f7054ae3bfe8fb3bbac209ef95d4fc42be"],
                 "p_any_trace_ids": ["4295752857", "123456789abcdefghijklmn01234567", "987abcd8765ghijk5432opq21"],
                 "p_event_time": "2023-04-21 19:52:32.722",
                 "p_log_type": "Crowdstrike.FDREvent",
                 "p_parse_time": "2023-04-21 20:05:52.94",
-                "p_row_id": "7ac82dbb43a99bfec196bdda178c8101",
+                "p_row_id": "0000000000224847bdd7fa2ef5daae32",
                 "p_schema_version": 0,
                 "p_source_id": "1f33f64c-124d-413c-a9e3-d51ccedd8e77",
                 "p_source_label": "Crowdstrike-FDR-Dev",

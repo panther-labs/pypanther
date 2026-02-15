@@ -10,7 +10,7 @@ class SnykUserManagement(Rule):
     tags = ["Snyk"]
     default_severity = Severity.MEDIUM
     default_description = "Detects when Snyk Users are changed\n"
-    default_runbook = "These actions in the Snyk Audit logs indicate that a User has been created/deleted/modified.\n"
+    default_runbook = "These actions in the Snyk Audit logs indicate that a User\nhas been created/deleted/modified.\n"
     default_reference = "https://docs.snyk.io/snyk-admin/manage-users-and-permissions/member-roles"
     summary_attributes = ["event"]
     ACTIONS = [

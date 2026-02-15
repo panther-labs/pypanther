@@ -8,7 +8,11 @@ class AWSEC2SecurityGroupModified(Rule):
     display_name = "EC2 Security Group Modified"
     log_types = [LogType.AWS_CLOUDTRAIL]
     tags = ["AWS", "Security Control", "Defense Evasion:Impair Defenses"]
-    reports = {"CIS": ["3.1"], "MITRE ATT&CK": ["TA0005:T1562"]}
+    reports = {
+        "CIS": ["3.1"],
+        "MITRE ATT&CK": ["TA0005:T1562"],
+        "Stratus Red Team": ["aws.exfiltration.ec2-security-group-open-port-22-ingress"],
+    }
     default_severity = Severity.INFO
     dedup_period_minutes = 720
     default_description = "An EC2 Security Group was modified.\n"

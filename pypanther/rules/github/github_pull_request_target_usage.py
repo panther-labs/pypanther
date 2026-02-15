@@ -12,13 +12,13 @@ class GitHubWebhookPullRequestTargetUsage(Rule):
     tags = ["CI/CD", "Workflow", "Privilege Escalation"]
     default_severity = Severity.HIGH
     default_description = "Detects usage of pull_request_target workflows, which run with elevated privileges and can access secrets even when triggered by external contributors from forks. These workflows pose security risks as they run in the context of the target repository rather than the fork, potentially allowing malicious code execution with write access and secrets. Low severity for non-cross-fork PRs.\n"
-    default_runbook = "1. Verify the pull_request_target workflow is necessary and properly secured 2. Check that the workflow doesn't build or run untrusted code from the pull request 3. Ensure the workflow follows security best practices:\n   - Uses explicit checkout with trusted refs\n   - Validates inputs and doesn't execute arbitrary code\n   - Has minimal required permissions\n4. Review the workflow file for potential security vulnerabilities 5. Monitor for unusual activity from external contributors 6. Consider if pull_request event would be sufficient instead\n"
+    default_runbook = "1. Verify the pull_request_target workflow is necessary and properly secured\n2. Check that the workflow doesn't build or run untrusted code from the pull request\n3. Ensure the workflow follows security best practices:\n   - Uses explicit checkout with trusted refs\n   - Validates inputs and doesn't execute arbitrary code\n   - Has minimal required permissions\n4. Review the workflow file for potential security vulnerabilities\n5. Monitor for unusual activity from external contributors\n6. Consider if pull_request event would be sufficient instead\n"
     default_reference = (
         "https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows#pull_request_target"
     )
 
     def rule(self, event):
-        return event.deep_get("workflow_run", "event") == "pull_request_target"
+        return event.deep_get("workflow_run", "event") == "pull_request_target" and event.get("action") == "completed"
 
     def title(self, event):
         workflow_name = event.deep_get("workflow_run", "name", default="<UNKNOWN_WORKFLOW>")
@@ -181,6 +181,64 @@ class GitHubWebhookPullRequestTargetUsage(Rule):
                     "pull_requests": [],
                 },
                 "repository": {"id": 243627255, "full_name": "example-org/example-repo", "private": True},
+            },
+        ),
+        RuleTest(
+            name="Pull request target workflow requested",
+            expected_result=False,
+            log={
+                "action": "requested",
+                "workflow_run": {
+                    "id": 12345678,
+                    "name": "Security Scan",
+                    "event": "pull_request_target",
+                    "status": "completed",
+                    "conclusion": "success",
+                    "html_url": "https://github.com/example-org/example-repo/actions/runs/12345678",
+                    "head_branch": "feature-branch",
+                    "pull_requests": [
+                        {
+                            "number": 123,
+                            "head": {
+                                "ref": "feature-branch",
+                                "repo": {
+                                    "id": 243627255,
+                                    "name": "example-repo",
+                                    "full_name": "example-org/example-repo",
+                                },
+                            },
+                            "base": {
+                                "ref": "main",
+                                "repo": {
+                                    "id": 243627255,
+                                    "name": "example-repo",
+                                    "full_name": "example-org/example-repo",
+                                },
+                            },
+                        },
+                    ],
+                },
+                "repository": {"id": 243627255, "full_name": "example-org/example-repo", "private": True},
+            },
+        ),
+        RuleTest(
+            name="Cross-fork with head_repository (empty pull_requests)",
+            expected_result=True,
+            log={
+                "action": "completed",
+                "workflow_run": {
+                    "id": 18538851870,
+                    "name": "Your Workflow",
+                    "event": "pull_request_target",
+                    "status": "completed",
+                    "conclusion": "failure",
+                    "html_url": "https://github.com/example-org/example-repo/actions/runs/18538851870",
+                    "head_branch": "deathcon",
+                    "pull_requests": [],
+                    "head_repository": {"id": 1077071328, "full_name": "attacker/example-repo", "fork": True},
+                    "repository": {"id": 1072340117, "full_name": "example-org/example-repo"},
+                },
+                "repository": {"id": 1072340117, "full_name": "example-org/example-repo", "private": True},
             },
         ),
     ]

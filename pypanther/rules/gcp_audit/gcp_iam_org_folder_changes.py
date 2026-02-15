@@ -16,7 +16,7 @@ class GCPIAMOrgFolderIAMChanges(Rule):
     reports = {"GCP_CIS_1.3": ["1.8"], "MITRE ATT&CK": ["TA0003:T1556.009"]}
     default_severity = Severity.HIGH
     default_description = "Alert if a GCP Org or Folder Policy Was Changed Manually.\n"
-    default_runbook = "Contact the party that made the change. If it was intended to be temporary, ask for a window for rollback (< 24 hours). If it must be permanent, ask for change-management doc explaining why it was needed. Direct them to make the change in Terraform to avoid automated rollback. Grep for google_org and google_folder in terraform repos for places to put your new policy bindings.\n"
+    default_runbook = "Contact the party that made the change.\nIf it was intended to be temporary, ask for a window for rollback (< 24 hours).\nIf it must be permanent, ask for change-management doc explaining why it was needed.\nDirect them to make the change in Terraform to avoid automated rollback.\nGrep for google_org and google_folder in terraform repos for places to\nput your new policy bindings.\n"
     default_reference = "https://cloud.google.com/iam/docs/granting-changing-revoking-access"
     summary_attributes = ["severity", "p_any_ip_addresses"]
 

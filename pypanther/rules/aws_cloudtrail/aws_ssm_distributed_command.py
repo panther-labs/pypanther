@@ -14,7 +14,7 @@ class AWSSSMDistributedCommand(Rule):
     display_name = "AWS SSM Distributed Command"
     log_types = [LogType.AWS_CLOUDTRAIL]
     default_severity = Severity.INFO
-    reports = {"MITRE ATT&CK": ["TA0002:T1203"]}
+    reports = {"MITRE ATT&CK": ["TA0002:T1203"], "Stratus Red Team": ["aws.execution.ssm-send-command"]}
     default_description = "Detect an attacker utilizing AWS Systems Manager (SSM) to execute commands through SendCommand on multiple EC2 instances.\n"
     default_reference = "https://stratus-red-team.cloud/attack-techniques/AWS/aws.execution.ssm-send-command/\n"
     default_runbook = "Detetmine who issued the command, the command content and arguments, and which EC2 instances were affected. Determine the risk of an attacker creating a persistent point of access within one of the instances. Review behaviour logs for the EC2 instances (and their associated IAM roles).\n"
@@ -25,7 +25,8 @@ class AWSSSMDistributedCommand(Rule):
         "p_any_ip_addresses",
         "p_any_usernames",
     ]
-    tags = ["AWS CloudTrail", "AWS SSM", "AWS EC2", "Execution: Exploitation for Client Execution", "Beta"]
+    tags = ["AWS CloudTrail", "AWS SSM", "AWS EC2", "Execution: Exploitation for Client Execution"]
+    status = "Experimental"
     # Determine how separate instances need be commanded in order to trigger an alert
     INSTANCE_THRESHOLD = 2
     all_instance_ids = set()

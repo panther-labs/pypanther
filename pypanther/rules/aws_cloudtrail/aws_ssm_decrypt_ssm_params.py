@@ -14,13 +14,17 @@ class AWSSSMDecryptSSMParams(Rule):
     display_name = "AWS Decrypt SSM Parameters"
     log_types = [LogType.AWS_CLOUDTRAIL]
     default_severity = Severity.MEDIUM
-    reports = {"MITRE ATT&CK": ["TA0006:T1555"]}
+    reports = {
+        "MITRE ATT&CK": ["TA0006:T1555"],
+        "Stratus Red Team": ["aws.credential-access.ssm-retrieve-securestring-parameters"],
+    }
     default_description = "Identify principles retrieving a high number of SSM Parameters of type 'SecretString'.\n"
     threshold = 10
     default_reference = "https://stratus-red-team.cloud/attack-techniques/AWS/aws.credential-access.ssm-retrieve-securestring-parameters/\n"
     default_runbook = "Determine if the secrets accessed contain sensitive information. Consider suspecing access for the user identity until their intentions are verified. If any IAM credentials or similar were compromised, rotate them.\n"
     summary_attributes = ["sourceIpAddress", "p_alert_context.accessedParams"]
-    tags = ["AWS CloudTrail", "Credential Access: Credentials from Password Stores", "Beta"]
+    tags = ["AWS CloudTrail", "Credential Access: Credentials from Password Stores"]
+    status = "Experimental"
     # Determine how many secets must be accessed in order to trigger an alert
     PARAM_THRESHOLD = 10
     all_param_names = set()

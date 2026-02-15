@@ -9,12 +9,12 @@ class GSuiteDriveExternalFileShare(Rule):
     id = "GSuite.Drive.ExternalFileShare-prototype"
     display_name = "External GSuite File Share"
     enabled = False
-    log_types = [LogType.GSUITE_REPORTS]
+    log_types = [LogType.GSUITE_ACTIVITY_EVENT]
     tags = ["GSuite", "Security Control", "Configuration Required", "Collection:Data from Information Repositories"]
     reports = {"MITRE ATT&CK": ["TA0009:T1213"]}
     default_severity = Severity.HIGH
     default_description = "An employee shared a sensitive file externally with another organization"
-    default_runbook = "Contact the employee who made the share and make sure they redact the access. If the share was legitimate, add to the EXCEPTION_PATTERNS in the detection.\n"
+    default_runbook = "Contact the employee who made the share and make sure they redact the access.\nIf the share was legitimate, add to the EXCEPTION_PATTERNS in the detection.\n"
     default_reference = (
         "https://support.google.com/docs/answer/2494822?hl=en&co=GENIE.Platform%3DiOS&sjid=864417124752637253-EU"
     )
@@ -44,8 +44,9 @@ class GSuiteDriveExternalFileShare(Rule):
         },
     }
 
-    def _check_acl_change_event(self, actor_email, acl_change_event):
-        parameters = {p.get("name", ""): p.get("value") or p.get("multiValue") for p in acl_change_event["parameters"]}
+    def _check_acl_change_event(self, actor_email, event):
+        # For GSuite.ActivityEvent, parameters is a dict, not an array
+        parameters = event.get("parameters", {})
         doc_title = parameters.get("doc_title", "TITLE_UNKNOWN")
         old_visibility = parameters.get("old_visibility", "OLD_VISIBILITY_UNKNOWN")
         new_visibility = parameters.get("visibility", "NEW_VISIBILITY_UNKNOWN")
@@ -74,32 +75,20 @@ class GSuiteDriveExternalFileShare(Rule):
 
     def rule(self, event):
         application_name = event.deep_get("id", "applicationName")
-        events = event.get("events")
         actor_email = event.deep_get("actor", "email", default="EMAIL_UNKNOWN")
-        if application_name == "drive" and events and ("acl_change" in set(e["type"] for e in events)):
-            # If any of the events in this record are a dangerous file share, alert:
-            return any(self._check_acl_change_event(actor_email, acl_change_event) for acl_change_event in events)
+        # For GSuite.ActivityEvent, each log is a single event (no events array)
+        if application_name == "drive" and event.get("type") == "acl_change":
+            # If this event is a dangerous file share, alert:
+            return bool(self._check_acl_change_event(actor_email, event))
         return False
 
     def title(self, event):
-        events = event.get("events", [])
         actor_email = event.deep_get("actor", "email", default="EMAIL_UNKNOWN")
-        matching_events = [
-            self._check_acl_change_event(actor_email, acl_change_event)
-            for acl_change_event in events
-            if self._check_acl_change_event(actor_email, acl_change_event)
-        ]
-        if matching_events:
-            len_events = len(matching_events)
-            first_event = matching_events[0]
-            actor = first_event.get("actor", "ACTOR_UNKNOWN")
-            doc_title = first_event.get("doc_title", "DOC_TITLE_UNKNOWN")
-            target_user = first_event.get("target_user", "USER_UNKNOWN")
-            if len(matching_events) > 1:
-                return (
-                    f"Multiple dangerous shares ({len_events}) by [{actor}], including "
-                    + f'"{doc_title}" to {target_user}'
-                )
+        matching_event = self._check_acl_change_event(actor_email, event)
+        if matching_event:
+            actor = matching_event.get("actor", "ACTOR_UNKNOWN")
+            doc_title = matching_event.get("doc_title", "DOC_TITLE_UNKNOWN")
+            target_user = matching_event.get("target_user", "USER_UNKNOWN")
             return f'Dangerous file share by [{actor}]: "{doc_title}" to {target_user}'
         return "No matching events, but DangerousShares still fired"
 
@@ -116,27 +105,24 @@ class GSuiteDriveExternalFileShare(Rule):
                     "customerId": "C010qxghg",
                 },
                 "actor": {"email": "example@acme.com", "profileId": "1111111111111111111"},
-                "events": [
-                    {
-                        "type": "acl_change",
-                        "name": "change_user_access",
-                        "parameters": [
-                            {"name": "primary_event", "boolValue": True},
-                            {"name": "visibility_change", "value": "external"},
-                            {"name": "target_user", "value": "outside@acme.com"},
-                            {"name": "old_visibility", "value": "private"},
-                            {"name": "doc_id", "value": "1111111111111111111"},
-                            {"name": "doc_type", "value": "document"},
-                            {"name": "doc_title", "value": "1 Document Title Primary"},
-                            {"name": "visibility", "value": "shared_externally"},
-                            {"name": "originating_app_id", "value": "1111111111111111111"},
-                            {"name": "owner_is_shared_drive", "boolValue": False},
-                            {"name": "owner_is_team_drive", "boolValue": False},
-                            {"name": "old_value", "multiValue": ["none"]},
-                            {"name": "new_value", "multiValue": ["can_edit"]},
-                        ],
-                    },
-                ],
+                "type": "acl_change",
+                "name": "change_user_access",
+                "parameters": {
+                    "primary_event": True,
+                    "visibility_change": "external",
+                    "target_user": "outside@acme.com",
+                    "old_visibility": "private",
+                    "doc_id": "1111111111111111111",
+                    "doc_type": "document",
+                    "doc_title": "1 Document Title Primary",
+                    "visibility": "shared_externally",
+                    "originating_app_id": "1111111111111111111",
+                    "owner_is_shared_drive": False,
+                    "owner_is_team_drive": False,
+                    "old_value": ["none"],
+                    "new_value": ["can_edit"],
+                },
+                "p_log_type": "GSuite.ActivityEvent",
             },
         ),
         RuleTest(
@@ -151,27 +137,24 @@ class GSuiteDriveExternalFileShare(Rule):
                     "customerId": "C010qxghg",
                 },
                 "actor": {"email": "example@acme.com", "profileId": "1111111111111111111"},
-                "events": [
-                    {
-                        "type": "acl_change",
-                        "name": "change_user_access",
-                        "parameters": [
-                            {"name": "primary_event", "boolValue": True},
-                            {"name": "visibility_change", "value": "external"},
-                            {"name": "target_domain", "value": "external.com"},
-                            {"name": "old_visibility", "value": "private"},
-                            {"name": "doc_id", "value": "1111111111111111111"},
-                            {"name": "doc_type", "value": "document"},
-                            {"name": "doc_title", "value": "Untitled document"},
-                            {"name": "visibility", "value": "shared_externally"},
-                            {"name": "originating_app_id", "value": "1111111111111111111"},
-                            {"name": "owner_is_shared_drive", "boolValue": False},
-                            {"name": "owner_is_team_drive", "boolValue": False},
-                            {"name": "old_value", "multiValue": ["none"]},
-                            {"name": "new_value", "multiValue": ["can_edit"]},
-                        ],
-                    },
-                ],
+                "type": "acl_change",
+                "name": "change_user_access",
+                "parameters": {
+                    "primary_event": True,
+                    "visibility_change": "external",
+                    "target_domain": "external.com",
+                    "old_visibility": "private",
+                    "doc_id": "1111111111111111111",
+                    "doc_type": "document",
+                    "doc_title": "Untitled document",
+                    "visibility": "shared_externally",
+                    "originating_app_id": "1111111111111111111",
+                    "owner_is_shared_drive": False,
+                    "owner_is_team_drive": False,
+                    "old_value": ["none"],
+                    "new_value": ["can_edit"],
+                },
+                "p_log_type": "GSuite.ActivityEvent",
             },
         ),
         RuleTest(
@@ -186,28 +169,25 @@ class GSuiteDriveExternalFileShare(Rule):
                     "customerId": "C010qxghg",
                 },
                 "actor": {"email": "alice@acme.com", "profileId": "1111111111111111111"},
-                "events": [
-                    {
-                        "type": "acl_change",
-                        "name": "change_user_access",
-                        "parameters": [
-                            {"name": "primary_event", "boolValue": True},
-                            {"name": "billable", "boolValue": True},
-                            {"name": "visibility_change", "value": "external"},
-                            {"name": "target_user", "value": "samuel@abc.com"},
-                            {"name": "old_visibility", "value": "private"},
-                            {"name": "doc_id", "value": "1111111111111111111"},
-                            {"name": "doc_type", "value": "document"},
-                            {"name": "doc_title", "value": "1 Document Title Pattern"},
-                            {"name": "visibility", "value": "shared_externally"},
-                            {"name": "originating_app_id", "value": "1111111111111111111"},
-                            {"name": "owner_is_shared_drive", "boolValue": False},
-                            {"name": "owner_is_team_drive", "boolValue": False},
-                            {"name": "old_value", "multiValue": ["none"]},
-                            {"name": "new_value", "multiValue": ["people_within_domain_with_link"]},
-                        ],
-                    },
-                ],
+                "type": "acl_change",
+                "name": "change_user_access",
+                "parameters": {
+                    "primary_event": True,
+                    "billable": True,
+                    "visibility_change": "external",
+                    "target_user": "samuel@abc.com",
+                    "old_visibility": "private",
+                    "doc_id": "1111111111111111111",
+                    "doc_type": "document",
+                    "doc_title": "1 Document Title Pattern",
+                    "visibility": "shared_externally",
+                    "originating_app_id": "1111111111111111111",
+                    "owner_is_shared_drive": False,
+                    "owner_is_team_drive": False,
+                    "old_value": ["none"],
+                    "new_value": ["people_within_domain_with_link"],
+                },
+                "p_log_type": "GSuite.ActivityEvent",
             },
         ),
         RuleTest(
@@ -222,28 +202,25 @@ class GSuiteDriveExternalFileShare(Rule):
                     "customerId": "C010qxghg",
                 },
                 "actor": {"email": "alice@abc.com", "profileId": "1111111111111111111"},
-                "events": [
-                    {
-                        "type": "acl_change",
-                        "name": "change_user_access",
-                        "parameters": [
-                            {"name": "primary_event", "boolValue": True},
-                            {"name": "billable", "boolValue": True},
-                            {"name": "visibility_change", "value": "external"},
-                            {"name": "target_user", "value": "samuel@acme.com"},
-                            {"name": "old_visibility", "value": "private"},
-                            {"name": "doc_id", "value": "1111111111111111111"},
-                            {"name": "doc_type", "value": "document"},
-                            {"name": "doc_title", "value": "2 Document Title Pattern"},
-                            {"name": "visibility", "value": "shared_externally"},
-                            {"name": "originating_app_id", "value": "1111111111111111111"},
-                            {"name": "owner_is_shared_drive", "boolValue": False},
-                            {"name": "owner_is_team_drive", "boolValue": False},
-                            {"name": "old_value", "multiValue": ["none"]},
-                            {"name": "new_value", "multiValue": ["people_within_domain_with_link"]},
-                        ],
-                    },
-                ],
+                "type": "acl_change",
+                "name": "change_user_access",
+                "parameters": {
+                    "primary_event": True,
+                    "billable": True,
+                    "visibility_change": "external",
+                    "target_user": "samuel@acme.com",
+                    "old_visibility": "private",
+                    "doc_id": "1111111111111111111",
+                    "doc_type": "document",
+                    "doc_title": "2 Document Title Pattern",
+                    "visibility": "shared_externally",
+                    "originating_app_id": "1111111111111111111",
+                    "owner_is_shared_drive": False,
+                    "owner_is_team_drive": False,
+                    "old_value": ["none"],
+                    "new_value": ["people_within_domain_with_link"],
+                },
+                "p_log_type": "GSuite.ActivityEvent",
             },
         ),
     ]

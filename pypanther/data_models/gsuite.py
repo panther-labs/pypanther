@@ -17,15 +17,15 @@ def get_event_type(event):
     return None
 
 
-class StandardGSuiteReports(DataModel):
-    id: str = "Standard.GSuite.Reports"
-    display_name: str = "GSuite Reports"
+class StandardGSuiteActivityEvent(DataModel):
+    id: str = "Standard.GSuite.ActivityEvent"
+    display_name: str = "GSuite Activity Event"
     enabled: bool = True
-    log_types: list[str] = [LogType.GSUITE_REPORTS]
+    log_types: list[str] = [LogType.GSUITE_ACTIVITY_EVENT]
     mappings: list[DataModelMapping] = [
         DataModelMapping(name="actor_user", path="$.actor.email"),
-        DataModelMapping(name="assigned_admin_role", path="$.events[*].parameters[?(@.name == 'ROLE_NAME')].value"),
+        DataModelMapping(name="assigned_admin_role", path="$.parameters.ROLE_NAME"),
         DataModelMapping(name="event_type", method=get_event_type),
         DataModelMapping(name="source_ip", path="ipAddress"),
-        DataModelMapping(name="user", path="$.events[*].parameters[?(@.name == 'USER_EMAIL')].value"),
+        DataModelMapping(name="user", path="$.parameters.USER_EMAIL"),
     ]

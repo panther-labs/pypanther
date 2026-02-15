@@ -8,7 +8,11 @@ class AWSIAMPolicyModified(Rule):
     display_name = "IAM Policy Modified"
     log_types = [LogType.AWS_CLOUDTRAIL]
     tags = ["AWS", "Identity & Access Management", "Privilege Escalation:Abuse Elevation Control Mechanism"]
-    reports = {"CIS": ["3.4"], "MITRE ATT&CK": ["TA0004:T1548"]}
+    reports = {
+        "CIS": ["3.4"],
+        "MITRE ATT&CK": ["TA0004:T1548"],
+        "Stratus Red Team": ["aws.persistence.iam-create-admin-user", "aws.persistence.iam-create-backdoor-role"],
+    }
     default_severity = Severity.INFO
     dedup_period_minutes = 720
     default_description = "An IAM Policy was changed.\n"

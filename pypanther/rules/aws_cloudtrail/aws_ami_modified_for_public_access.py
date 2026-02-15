@@ -13,7 +13,7 @@ class AWSCloudTrailAMIModifiedForPublicAccess(Rule):
     default_severity = Severity.MEDIUM
     reports = {"MITRE ATT&CK": ["TA0010:T1537"]}
     default_description = "An Amazon Machine Image (AMI) was modified to allow it to be launched by anyone. Any sensitive configuration or application data stored in the AMI's block devices is at risk.\n"
-    default_runbook = "Determine if the AMI is intended to be publicly accessible. If not, first modify the AMI to not be publicly accessible then change any sensitive data stored in the block devices associated to the AMI (as they may be compromised).\n"
+    default_runbook = "Determine if the AMI is intended to be publicly accessible.\nIf not, first modify the AMI to not be publicly accessible then change any sensitive data stored\nin the block devices associated to the AMI (as they may be compromised).\n"
     default_reference = "https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/sharingamis-intro.html"
     summary_attributes = ["userAgent", "sourceIpAddress", "recipientAccountId", "p_any_aws_arns"]
 

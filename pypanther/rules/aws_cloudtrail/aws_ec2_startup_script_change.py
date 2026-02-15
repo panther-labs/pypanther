@@ -6,7 +6,7 @@ from pypanther.helpers.aws import aws_rule_context
 class AWSEC2StartupScriptChange(Rule):
     default_description = "Detects changes to the EC2 instance startup script. The shell script will be executed as root/SYSTEM every time the specific instances are booted up."
     display_name = "AWS EC2 Startup Script Change"
-    reports = {"MITRE ATT&CK": ["TA0002:T1059"]}
+    reports = {"MITRE ATT&CK": ["TA0002:T1059"], "Stratus Red Team": ["aws.execution.ec2-user-data"]}
     default_reference = "https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/user-data.html#user-data-shell-scripts"
     default_severity = Severity.HIGH
     log_types = [LogType.AWS_CLOUDTRAIL]

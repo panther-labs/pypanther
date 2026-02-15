@@ -9,7 +9,7 @@ class GCPIAMTagEnumeration(Rule):
     display_name = "GCP IAM and Tag Enumeration"
     log_types = [LogType.GCP_AUDIT_LOG]
     create_alert = False
-    default_runbook = "Review if the user has legitimate business need for these enumeration operations. If unauthorized, review and update IAM policies.\n"
+    default_runbook = "Review if the user has legitimate business need for these enumeration operations.\nIf unauthorized, review and update IAM policies.\n"
     default_severity = Severity.INFO
     tags = ["attack.reconnaissance", "attack.t1548", "gcp", "iam", "tagbinding"]
 

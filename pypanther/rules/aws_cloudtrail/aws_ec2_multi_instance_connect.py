@@ -14,14 +14,15 @@ class AWSEC2MultiInstanceConnect(Rule):
     display_name = "AWS EC2 Multi Instance Connect"
     log_types = [LogType.AWS_CLOUDTRAIL]
     default_severity = Severity.INFO
-    reports = {"MITRE ATT&CK": ["TA0008:T1021.005"]}
+    reports = {"MITRE ATT&CK": ["TA0008:T1021.005"], "Stratus Red Team": ["aws.lateral-movement.ec2-instance-connect"]}
     default_description = "Detect when an attacker pushes an SSH public key to multiple EC2 instances.\n"
     default_reference = (
         "https://stratus-red-team.cloud/attack-techniques/AWS/aws.lateral-movement.ec2-instance-connect/\n"
     )
     default_runbook = "Followup with the actor to determine if the SSH key is genuine. Consider using a different SSH key for each instance.\n"
     summary_attributes = ["p_any_actor_ids", "p_any_aws_account_ids", "p_any_aws_instance_ids", "p_any_usernames"]
-    tags = ["AWS CloudTrail", "Lateral Movement", "Remote Services", "SSH", "Lateral Movement:Remote Services", "Beta"]
+    tags = ["AWS CloudTrail", "Lateral Movement", "Remote Services", "SSH", "Lateral Movement:Remote Services"]
+    status = "Experimental"
 
     def rule(self, event: PantherEvent) -> bool:
         if not (aws_cloudtrail_success(event) and event.get("eventName") == "SendSSHPublicKey"):

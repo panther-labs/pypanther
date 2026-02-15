@@ -15,12 +15,12 @@ class CrowdstrikeDetectionpassthrough(Rule):
     summary_attributes = ["p_any_ip_addresses"]
 
     def rule(self, event):
-        return get_crowdstrike_field(event, "ExternalApiType", default="none") == "Event_DetectionSummaryEvent"
+        return get_crowdstrike_field(event, "ExternalApiType", default="none") == "Event_EppDetectionSummaryEvent"
 
     def title(self, event):
         return (
             f"Crowdstrike Alert ({get_crowdstrike_field(event, 'Technique')}) - "
-            + f"{get_crowdstrike_field(event, 'ComputerName')}"
+            + f"{get_crowdstrike_field(event, 'Hostname')}"
             + f"({get_crowdstrike_field(event, 'UserName')})"
         )
 
@@ -31,7 +31,7 @@ class CrowdstrikeDetectionpassthrough(Rule):
         return get_crowdstrike_field(event, "SeverityName")
 
     def dedup(self, event):
-        return f"{get_crowdstrike_field(event, 'EventUUID')} " + f"- {get_crowdstrike_field(event, 'ComputerName')}"
+        return f"{get_crowdstrike_field(event, 'EventUUID')} "
 
     tests = [
         RuleTest(
@@ -42,8 +42,8 @@ class CrowdstrikeDetectionpassthrough(Rule):
                 "Technique": "PUP",
                 "ProcessId": 377077835340488700,
                 "AgentIdString": "00000000000000000000000000000000",
-                "DetectName": "NGAV",
-                "ComputerName": "macbook",
+                "Name": "NGAV",
+                "Hostname": "macbook",
                 "ProcessStartTime": "2021-09-18 20:38:51Z",
                 "GrandparentCommandLine": "/sbin/launchd",
                 "MACAddress": "aa-00-00-00-00-00",
@@ -51,9 +51,9 @@ class CrowdstrikeDetectionpassthrough(Rule):
                 "Objective": "Falcon Detection Method",
                 "Nonce": 1,
                 "SHA256String": "3333333333333333333333333333333333333333333333333333333333333333",
-                "ExternalApiType": "Event_DetectionSummaryEvent",
+                "ExternalApiType": "Event_EppDetectionSummaryEvent",
                 "PatternDispositionValue": 2176,
-                "DetectId": "ldt:00000000000000000000000000000000:222222222222222222",
+                "CompositeId": "00000000000000000000000000000000:ind:11111111111111111111111111111111:222222222222222222-33333-444444",
                 "Severity": 2,
                 "PatternDispositionDescription": "Prevention/Quarantine, process was blocked from execution and quarantine was attempted.",
                 "SeverityName": "Low",
@@ -63,7 +63,7 @@ class CrowdstrikeDetectionpassthrough(Rule):
                 "FilePath": "/Applications/app.app/Contents/MacOS/",
                 "timestamp": "2021-09-18 20:38:52Z",
                 "ParentCommandLine": "/usr/libexec/runningboardd",
-                "DetectDescription": "This file is classified as Adware/PUP based on its SHA256 hash.",
+                "Description": "This file is classified as Adware/PUP based on its SHA256 hash.",
                 "LocalIP": "192.168.1.1",
                 "ProcessEndTime": "1970-01-01 00:00:00Z",
                 "SHA1String": "0000000000000000000000000000000000000000",
@@ -89,18 +89,18 @@ class CrowdstrikeDetectionpassthrough(Rule):
             log={
                 "aid": "fa6a04a7f18d473fa06771b4961aa3d9",
                 "cid": "712bcd164963442ea43d52917cecdecc",
-                "ComputerName": "hostname.lan",
+                "Hostname": "hostname.lan",
                 "event": {
                     "AgentIdString": "fa6a04a7f18d473fa06771b4961aa3d9",
                     "CommandLine": "/bin/echo CROWDSTRIKE_SAMPLE_DETECTION",
-                    "ComputerName": "hostname.lan",
+                    "Hostname": "hostname.lan",
                     "CustomerIdString": "712bcd164963442ea43d52917cecdecc",
-                    "DetectDescription": "Non-malicious sample detection generated for evaluation purposes.",
-                    "DetectId": "ldt:fa6a04a7f18d473fa06771b4961aa3d9:346037607921826886",
-                    "DetectName": "Suspicious Activity",
+                    "Description": "Non-malicious sample detection generated for evaluation purposes.",
+                    "CompositeId": "00000000000000000000000000000000:ind:11111111111111111111111111111111:222222222222222222-33333-444444",
+                    "Name": "Suspicious Activity",
                     "EventType": "Event_ExternalApiEvent",
                     "EventUUID": "4624ba0c46c8405ea4998a0df7a5fa53",
-                    "ExternalApiType": "Event_DetectionSummaryEvent",
+                    "ExternalApiType": "Event_EppDetectionSummaryEvent",
                     "FalconHostLink": "https://falcon.us-2.crowdstrike.com/activity/detections/detail/00000000000000000000000000000000/222222222222222222?",
                     "FileName": "echo",
                     "FilePath": "/bin/",
@@ -153,7 +153,7 @@ class CrowdstrikeDetectionpassthrough(Rule):
                     "eid": 118,
                     "timestamp": "2021-03-24T18:19:49Z",
                 },
-                "fdr_event_type": "Event_DetectionSummaryEvent",
+                "fdr_event_type": "Event_EppDetectionSummaryEvent",
                 "p_any_domain_names": ["hostname.lan"],
                 "p_any_md5_hashes": [
                     "2153a89b0a91c38f152acbefafd69b99",

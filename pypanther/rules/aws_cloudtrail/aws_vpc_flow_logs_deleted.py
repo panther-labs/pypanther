@@ -8,7 +8,7 @@ class AWSVPCFlowLogsDeleted(Rule):
     display_name = "AWS VPC Flow Logs Removed"
     log_types = [LogType.AWS_CLOUDTRAIL]
     default_severity = Severity.INFO
-    reports = {"MITRE ATT&CK": ["TA0005:T1562.008"]}
+    reports = {"MITRE ATT&CK": ["TA0005:T1562.008"], "Stratus Red Team": ["aws.defense-evasion.vpc-remove-flow-logs"]}
     default_description = "Detects when logs for a VPC have been removed."
     default_reference = "https://stratus-red-team.cloud/attack-techniques/AWS/aws.defense-evasion.vpc-remove-flow-logs/"
     default_runbook = "Look for an accompanying 'DeleteVpc' event, and confirm that they are related. if there is no matching VPC Deletion event, followup with the log removal to determine if it is legitimate."
@@ -20,8 +20,8 @@ class AWSVPCFlowLogsDeleted(Rule):
         "Disable or Modify Cloud Logs",
         "Defense Evasion:Impair Defenses",
         "Security Control",
-        "Beta",
     ]
+    status = "Experimental"
 
     def rule(self, event):
         return aws_cloudtrail_success(event) and event.get("eventName") == "DeleteFlowLogs"

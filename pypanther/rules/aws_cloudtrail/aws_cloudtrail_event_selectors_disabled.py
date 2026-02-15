@@ -8,7 +8,11 @@ class AWSCloudTrailEventSelectorsDisabled(Rule):
     display_name = "CloudTrail Event Selectors Disabled"
     log_types = [LogType.AWS_CLOUDTRAIL]
     tags = ["AWS", "Security Control", "Defense Evasion:Impair Defenses"]
-    reports = {"CIS": ["3.5"], "MITRE ATT&CK": ["TA0005:T1562"]}
+    reports = {
+        "CIS": ["3.5"],
+        "MITRE ATT&CK": ["TA0005:T1562"],
+        "Stratus Red Team": ["aws.defense-evasion.cloudtrail-event-selectors"],
+    }
     default_severity = Severity.MEDIUM
     default_description = "A CloudTrail Trail was modified to exclude management events for 1 or more resource types.\n"
     default_runbook = "https://docs.runpanther.io/alert-runbooks/built-in-rules/aws-cloudtrail-modified"

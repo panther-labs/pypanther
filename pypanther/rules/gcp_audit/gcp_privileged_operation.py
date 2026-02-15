@@ -9,7 +9,7 @@ class GCPPrivilegedOperation(Rule):
     display_name = "GCP Privileged Operation"
     log_types = [LogType.GCP_AUDIT_LOG]
     create_alert = False
-    default_runbook = "Check if the user has legitimate business need for this privileged operation. If unauthorized, revoke any recently created tag bindings and review IAM policies.\n"
+    default_runbook = "Check if the user has legitimate business need for this privileged operation.\nIf unauthorized, revoke any recently created tag bindings and review IAM policies.\n"
     default_severity = Severity.INFO
     tags = ["attack.privilege_escalation", "attack.t1548", "gcp", "iam", "tagbinding"]
     PRIVILEGED_OPERATIONS = [

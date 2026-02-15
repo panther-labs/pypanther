@@ -1,4 +1,5 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
+from pypanther.helpers.gsuite import gsuite_activityevent_alert_context
 
 
 @panther_managed
@@ -11,7 +12,7 @@ class GSuiteWorkspaceGmailPredeliveryScanningDisabled(Rule):
     default_severity = Severity.MEDIUM
     default_description = "A Workspace Admin Has Disabled Pre-Delivery Scanning For Gmail.\n"
     default_reference = "https://support.google.com/a/answer/7380368"
-    default_runbook = "Pre-delivery scanning is a feature in Gmail that subjects suspicious emails to additional automated scrutiny by Google.\nIf this change was not intentional, inspect the other actions taken by this actor.\n"
+    default_runbook = "Pre-delivery scanning is a feature in Gmail that subjects suspicious emails\nto additional automated scrutiny by Google.\n\nIf this change was not intentional, inspect the other actions taken by this actor.\n"
     summary_attributes = ["actor:email"]
 
     def rule(self, event):
@@ -33,6 +34,9 @@ class GSuiteWorkspaceGmailPredeliveryScanningDisabled(Rule):
 
     def title(self, event):
         return f"GSuite Gmail Enhanced Pre-Delivery Scanning was disabled for [{event.deep_get('parameters', 'ORG_UNIT_NAME', default='<NO_ORG_UNIT_NAME>')}] by [{event.deep_get('actor', 'email', default='<UNKNOWN_EMAIL>')}]"
+
+    def alert_context(self, event):
+        return gsuite_activityevent_alert_context(event)
 
     tests = [
         RuleTest(

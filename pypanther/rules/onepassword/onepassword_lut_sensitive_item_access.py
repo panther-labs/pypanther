@@ -12,7 +12,8 @@ class OnePasswordLutSensitiveItem(Rule):
     default_severity = Severity.LOW
     default_description = "Alerts when a user defined list of sensitive items in 1Password is accessed"
     summary_attributes = ["p_any_ip_addresses", "p_any_emails"]
-    tags = ["Configuration Required", "1Password", "Lookup Table", "BETA", "Credential Access:Unsecured Credentials"]
+    tags = ["Configuration Required", "1Password", "Lookup Table", "Credential Access:Unsecured Credentials"]
+    status = "Experimental"
     reports = {"MITRE ATT&CK": ["TA0006:T1552"]}
     "\nThis rule requires the use of the Lookup Table feature currently in Beta in Panther, 1Password\nlogs reference items by their UUID without human-friendly titles. The instructions to create a\nlookup table to do this translation can be found at :\n\n https://docs.runpanther.io/guides/using-lookup-tables-1password-uuids\n\nThe steps detailed in that document are required for this rule to function as intended.\n"
     # Add the human-readable names of 1Password items you want to monitor

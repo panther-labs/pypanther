@@ -1,4 +1,5 @@
 from pypanther import LogType, Rule, RuleTest, Severity, panther_managed
+from pypanther.helpers.gsuite import gsuite_activityevent_alert_context
 
 
 @panther_managed
@@ -10,7 +11,7 @@ class GSuiteWorkspaceDataExportCreated(Rule):
     default_severity = Severity.MEDIUM
     default_description = "A Workspace Admin Has Created a Data Export\n"
     default_reference = "https://support.google.com/a/answer/100458?hl=en&sjid=864417124752637253-EU"
-    default_runbook = "Verify the intent of this Data Export. If intent cannot be verified, then a search on the actor's other activities is advised.\n"
+    default_runbook = "Verify the intent of this Data Export. If intent cannot be verified, then\na search on the actor's other activities is advised.\n"
     summary_attributes = ["actor:email"]
 
     def rule(self, event):
@@ -18,6 +19,9 @@ class GSuiteWorkspaceDataExportCreated(Rule):
 
     def title(self, event):
         return f"GSuite Workspace Data Export [{event.get('name', '<NO_EVENT_NAME>')}] performed by [{event.deep_get('actor', 'email', default='<NO_ACTOR_FOUND>')}]"
+
+    def alert_context(self, event):
+        return gsuite_activityevent_alert_context(event)
 
     tests = [
         RuleTest(

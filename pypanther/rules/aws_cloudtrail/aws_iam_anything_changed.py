@@ -8,6 +8,16 @@ class AWSCloudTrailIAMAnythingChanged(Rule):
     display_name = "IAM Change"
     log_types = [LogType.AWS_CLOUDTRAIL]
     tags = ["AWS", "Identity and Access Management"]
+    reports = {
+        "Stratus Red Team": [
+            "aws.persistence.iam-backdoor-role",
+            "aws.persistence.iam-backdoor-user",
+            "aws.persistence.iam-create-admin-user",
+            "aws.persistence.iam-create-backdoor-role",
+            "aws.persistence.iam-create-user-login-profile",
+            "aws.privilege-escalation.iam-update-user-login-profile",
+        ],
+    }
     default_severity = Severity.INFO
     dedup_period_minutes = 720
     default_description = "A change occurred in the IAM configuration. This could be a resource being created, deleted, or modified. This is a high level view of changes, helfpul to indicate how dynamic a certain IAM environment is.\n"

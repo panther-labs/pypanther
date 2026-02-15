@@ -13,7 +13,7 @@ class AWSEC2VulnerableXZImageLaunched(Rule):
     default_severity = Severity.CRITICAL
     tags = ["AWS", "Linux", "Emerging Threats", "Supply Chain Compromise"]
     reports = {"MITRE ATT&CK": ["TA0001:T1195.001"]}
-    default_runbook = "- Verify that the AMI is indeed vulnerable to CVE-2024-3094 (xz -V being 5.6.0 or 5.6.1) - If the AMI is vulnerable, terminate the instance and launch a new instance with a non-vulnerable AMI\n"
+    default_runbook = "- Verify that the AMI is indeed vulnerable to CVE-2024-3094 (xz -V being 5.6.0 or 5.6.1)\n- If the AMI is vulnerable, terminate the instance and launch a new instance with a non-vulnerable AMI\n"
     log_types = [LogType.AWS_CLOUDTRAIL]
     id = "AWS.EC2.Vulnerable.XZ.Image.Launched-prototype"
     # AMIs published by Fedora between 2024-03-26 and 2024-04-02

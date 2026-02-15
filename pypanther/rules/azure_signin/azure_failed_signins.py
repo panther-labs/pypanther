@@ -14,7 +14,7 @@ class AzureAuditManyFailedSignIns(Rule):
         "This detection looks for a number of failed sign-ins for the same ServicePrincipalName or UserPrincipalName\n"
     )
     reports = {"MITRE ATT&CK": ["TA0006:T1110", "TA0001:T1078"]}
-    default_runbook = "Querying Sign-In logs for the ServicePrincipalName or UserPrincipalName may indicate that the principal is under attack, or that a sign-in credential rolled and some user of the credential didn't get updated.\n"
+    default_runbook = "Querying Sign-In logs for the ServicePrincipalName or UserPrincipalName may indicate\nthat the principal is under attack, or that a sign-in credential rolled and some\nuser of the credential didn't get updated.\n"
     default_reference = "https://learn.microsoft.com/en-us/entra/identity/authentication/overview-authentication"
     summary_attributes = ["properties:ServicePrincipalName", "properties:UserPrincipalName", "properties:ipAddress"]
 
@@ -48,7 +48,7 @@ class AzureAuditManyFailedSignIns(Rule):
                 "category": "ServicePrincipalSignInLogs",
                 "correlationid": "e1f237ef-6548-4172-be79-03818c04c06e",
                 "durationms": 0,
-                "level": 4,
+                "Level": "4",
                 "location": "IE",
                 "operationname": "Sign-in activity",
                 "operationversion": 1,
@@ -105,7 +105,7 @@ class AzureAuditManyFailedSignIns(Rule):
                 "category": "ServicePrincipalSignInLogs",
                 "correlationid": "bf12205b-eea0-43dd-ad6d-b9030dc62a7a",
                 "durationms": 0,
-                "level": 4,
+                "Level": "4",
                 "location": "US",
                 "operationname": "Sign-in activity",
                 "operationversion": 1,
