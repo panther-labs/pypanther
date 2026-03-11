@@ -247,6 +247,7 @@ class LogType(str, Enum):
     PUSH_SECURITY_CONTROLS = "PushSecurity.Controls"
     PUSH_SECURITY_ENTITIES = "PushSecurity.Entities"
     RAPID7_AUDIT_LOG = "Rapid7.AuditLog"
+    S_O_C_RADAR_INCIDENTS = "SOCRadar.Incidents"
     SALESFORCE_LOGIN = "Salesforce.Login"
     SALESFORCE_LOGIN_AS = "Salesforce.LoginAs"
     SALESFORCE_LOGOUT = "Salesforce.Logout"
