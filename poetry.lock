@@ -422,14 +422,14 @@ files = [
 
 [[package]]
 name = "dynaconf"
-version = "3.2.6"
+version = "3.2.13"
 description = "The dynamic configurator for your Python Project"
 optional = false
 python-versions = ">=3.8"
 groups = ["main"]
 files = [
-    {file = "dynaconf-3.2.6-py2.py3-none-any.whl", hash = "sha256:3911c740d717df4576ed55f616c7cbad6e06bc8ef23ffca444b6e2a12fb1c34c"},
-    {file = "dynaconf-3.2.6.tar.gz", hash = "sha256:74cc1897396380bb957730eb341cc0976ee9c38bbcb53d3307c50caed0aedfb8"},
+    {file = "dynaconf-3.2.13-py2.py3-none-any.whl", hash = "sha256:4305527aef4834bdba3e39479b23c005186e83fb85f65bcaa4bcea58fa26759b"},
+    {file = "dynaconf-3.2.13.tar.gz", hash = "sha256:d79e0189d97b3f226b8ebb1717e2ce05d1a05cdf6ea05de66d24625fdb5a0cbd"},
 ]
 
 [package.extras]
@@ -1741,4 +1741,4 @@ propcache = ">=0.2.0"
 [metadata]
 lock-version = "2.1"
 python-versions = "3.11.*"
-content-hash = "537ecd51a419766bf0f586c8948f88dd625a77e675dacb9d11ef7b7e88daa443"
+content-hash = "79c35eb1a948bc8421fe9bf28999f5b9345bfdef6882856f2d63ca38257fa4da"
