@@ -1,0 +1,41 @@
+name: Build, Test, Publish PyPI Release
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  publish_pypi:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Check out the repository
+      uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332
+
+    - name: Set up Python
+      uses: actions/setup-python@532b046aaf352bab5717122cc0ea52b7f12266a3
+      with:
+        python-version: '3.11'
+
+    - name: Install Requirements
+      run: |
+        python -m pip install --upgrade pip poetry
+        poetry install
+
+    - name: Test
+      run: |
+        poetry run pytest
+
+    - name: Build Release
+      run: |
+        rm -rf dist
+        poetry build
+
+    - name: Publish to PyPI
+      run: |
+        poetry publish
+      env:
+        POETRY_PYPI_TOKEN_PYPI: ${{ secrets.PYPI_TOKEN }}
