@@ -9,18 +9,31 @@ on:
         default: 'prerelease'
 
 permissions:
-  contents: write
+  contents: read
 
 jobs:
   version_bump_pr:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
 
     steps:
+      - name: Bootstrap checkout
+        uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332
+        with:
+          persist-credentials: false
+      - name: Generate GitHub automation token
+        id: app-token
+        uses: ./.github/actions/github-automation-token
+        with:
+          token_url: ${{ secrets.APP_TOKEN_SERVICE_URL }}
+          permissions: '{"contents":"write","pull_requests":"write"}'
       - name: Check out the repository
         uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332
         with:
           fetch-depth: 0
-          token: ${{ secrets.PANTHER_BOT_AUTOMATION_TOKEN }}
+          token: ${{ steps.app-token.outputs.token }}
       - name: Set up Python
         uses: actions/setup-python@532b046aaf352bab5717122cc0ea52b7f12266a3
         with:
@@ -42,7 +55,7 @@ jobs:
           git_commit_gpgsign: true
       - name: Create Branch and Pull Request
         env:
-          GH_TOKEN: ${{ secrets.PANTHER_BOT_AUTOMATION_TOKEN }}
+          GH_TOKEN: ${{ steps.app-token.outputs.token }}
         run: |
           NEW_VERSION="$(poetry version --short)"
           OLD_VERSION="${{ steps.collect_old_version.outputs.old_version }}"
