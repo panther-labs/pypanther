@@ -9,17 +9,30 @@ on:
         default: 'main'
 
 permissions:
-  contents: write
+  contents: read
 
 jobs:
   sync-pa-release:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
 
     steps:
+    - name: Bootstrap checkout
+      uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332
+      with:
+        persist-credentials: false
+    - name: Generate GitHub automation token
+      id: app-token
+      uses: ./.github/actions/github-automation-token
+      with:
+        token_url: ${{ secrets.APP_TOKEN_SERVICE_URL }}
+        permissions: '{"contents":"write","pull_requests":"write"}'
     - name: Check out this repository
       uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332
       with:
-        token: ${{ secrets.PANTHER_BOT_AUTOMATION_TOKEN }}
+        token: ${{ steps.app-token.outputs.token }}
     - name: Set up Python
       uses: actions/setup-python@532b046aaf352bab5717122cc0ea52b7f12266a3
       with:
@@ -57,7 +70,7 @@ jobs:
         git_commit_gpgsign: true
     - name: Create PR
       env:
-        GH_TOKEN: ${{ secrets.PANTHER_BOT_AUTOMATION_TOKEN }}
+        GH_TOKEN: ${{ steps.app-token.outputs.token }}
       run: |
         git config --global user.email "github-service-account-automation@panther.io"
         git config --global user.name "panther-bot-automation"  
