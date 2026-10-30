@@ -20,7 +20,7 @@ jobs:
 
     steps:
       - name: Bootstrap checkout
-        uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
         with:
           persist-credentials: false
       - name: Generate GitHub automation token
@@ -30,7 +30,7 @@ jobs:
           token_url: ${{ secrets.APP_TOKEN_SERVICE_URL }}
           permissions: '{"contents":"write","pull_requests":"write"}'
       - name: Check out the repository
-        uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
         with:
           fetch-depth: 0
           token: ${{ steps.app-token.outputs.token }}
